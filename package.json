@@ -1,0 +1,29 @@
+{
+  "name": "Popcorn-Hour",
+  "main": "app://host/index.html",
+  "version": "0.1.0",
+  "window": {
+    "toolbar": false,
+    "frame": false,
+    "width": 945,
+    "height": 600,
+    "resizable": true,
+    "icon": "images/icon.png"
+  },
+  "dependencies": {
+    "request": "~2.33.0",
+    "peerflix": "~0.1.5",
+    "network-address": "0.0.4",
+    "xmlrpc": "~1.2.0",
+    "clivas": "~0.1.4",
+    "numeral": "~1.5.3",
+    "moviedb": "~0.1.1"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-node-webkit-builder": "~0.1.16",
+    "grunt-contrib-sass": "~0.7.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-compass": "~0.7.1"
+  }
+}

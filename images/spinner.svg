@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128">
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g display="none" id="_x31_6x16_Spinner.psd">
+   <defs>
+    <rect height="128" width="128" id="SVGID_1_"/>
+   </defs>
+   <clipPath id="SVGID_2_">
+    <use id="svg_1" xlink:href="#SVGID_1_"/>
+   </clipPath>
+   <g id="svg_2" clip-path="url(#SVGID_2_)" display="inline">
+    <image transform="matrix(8 0 0 8 0 0)" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAFiAAABYgFfJ9BTAAAA GXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAWVJREFUeNqM098rQ3EYx/Fzdhgh bcWW/GiKxKK2SKTcrP0PuFP+ABf+AP+Cf8OVe5dquMEVlgsZkhiFIys/3t/6HH2ds+GpV+1s5zzP s+f5HseJRsz6XMQmPOef0YMNZHW9ghslaFbCoUbVTHxgFmu6bkUN70qawrP9gGdVbsMtrrCMYwwg hx2M4RRlddMF31MXq1jCo27Oq5ttXffjBbvoxhxGcOaqgwwWMKUK60rwZnUaU+JhVHGkbn/EJBbr zCaIrCp/h+mggDQ+NawSLhokaMc44nrWb9IwUkpQ+2PnprNOtChBpNNeTOjHepHRPZE1mn1PY0br LGuI4cirgOniwXTsqlpR6zG7P9H/fMK5iiR1AktaaU7z2vKsYQaHJKl1VtCHUVyrsq8CFZ3IuyBB VV+Y6c7jFXsYRAL76FCySx24ezP48BQTmvCBthIT0+GhEqd/extdDdQeWsHaSjy85i8BBgAjbUmT DlLqrAAAAABJRU5ErkJggg==" id="Layer_1_1_" height="16" width="16"/>
+   </g>
+  </g>
+  <line id="svg_3" y2="27.762" x2="64.001" y1="8.125" x1="64.001" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" stroke="#b7b7b7" fill="none"/>
+  <line id="svg_4" y2="32.618" x2="45.88" y1="15.611" x1="36.062" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" stroke="#b7b7b7" fill="none"/>
+  <line id="svg_5" y2="45.882" x2="32.618" y1="36.062" x1="15.611" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" stroke="#a1a1a1" fill="none"/>
+  <line id="svg_6" y2="64" x2="27.764" y1="64" x1="8.126" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" stroke="#707070" fill="none"/>
+  <line id="svg_7" y2="82.117" x2="32.619" y1="91.938" x1="15.612" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" stroke="#636363" fill="none"/>
+  <line id="svg_8" y2="95.381" x2="45.883" y1="112.389" x1="36.064" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" stroke="#555555" fill="none"/>
+  <line id="svg_9" y2="100.237" x2="64.001" y1="119.873" x1="64.001" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" stroke="#363636" fill="none"/>
+  <line id="svg_10" y2="95.381" x2="82.121" y1="112.387" x1="91.939" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" stroke="#252525" fill="none"/>
+  <line id="svg_11" y2="82.116" x2="95.386" y1="91.935" x1="112.391" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" stroke="#000000" fill="none"/>
+  <line id="svg_12" y2="63.998" x2="100.241" y1="63.997" x1="119.875" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" stroke="#FFFFFF" fill="none"/>
+  <line stroke="#e1e1e1" id="svg_13" y2="45.877" x2="95.384" y1="36.06" x1="112.389" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" fill="none"/>
+  <line id="svg_14" y2="32.614" x2="82.118" y1="15.609" x1="91.937" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" stroke="#cccccc" fill="none"/>
+ </g>
+</svg>

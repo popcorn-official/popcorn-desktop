@@ -1,0 +1,5 @@
+var vendorAPIs = {
+  themoviedb: {
+    key: ''
+  }
+}
