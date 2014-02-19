@@ -49,11 +49,16 @@ Under development (only in Mac OSX? _somebody should try Linux and Windows_) - n
 
 
 ### Release Candidate 2
-- [ ] Support for Linux (Ubuntu, Fedora)
-- [ ] Play a random movie
+- [ ] Fix subtitles on windows. (When you select a subtitle and play the movie the app crash with a nasty node error page)
+- [ ] Remove the scrollbar in Windows with something like this http://jamesflorentino.github.io/nanoScrollerJS
 - [ ] Manual input torrent / subtitles files
-- [ ] Multi-language support (Spanish, English) - use of `navigator.language` (indexOf en|es) could be en-US, en-GB, es, es-AR, en, etc.
 
+
+### Release Candidate 3
+- [ ] Multi-language support (Spanish, English) - use of `navigator.language` (indexOf en|es) could be en-US, en-GB, es, es-AR, en, etc.
+- [ ] Play a random movie
+
+ 
 ### APIs
 
 **Currently used:**
