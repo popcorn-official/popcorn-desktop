@@ -996,3 +996,29 @@ a {
   pointer-events: all;
   @include transition(opacity 0.2s ease-out);
 }
+
+// The font size for the subtitles is applied to #video-container, so we have to change a few styles for it to propagate properly.
+#video_player.video-js {
+  font-size: inherit;
+
+  .vjs-text-track {
+    font-size: 1em;
+    line-height: 140%;
+    opacity: 0.90;
+    margin-bottom: 1em;
+    $subtitle-outline: 0 0 0.2em black;
+    text-shadow: $subtitle-outline, $subtitle-outline, $subtitle-outline, $subtitle-outline, $subtitle-outline, $subtitle-outline, $subtitle-outline, $subtitle-outline, $subtitle-outline, $subtitle-outline;
+  }
+  .vjs-text-track-display {
+    font-size: 1em;
+  }
+  .vjs-loading-spinner {
+    font-size: 1em;
+  }
+  .vjs-big-play-button {
+    font-size: 1em;
+  }
+  .vjs-control-bar {
+    font-size: 10px;
+  }
+}

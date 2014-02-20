@@ -1613,3 +1613,32 @@ a {
   -o-transition: opacity 0.2s ease-out;
   transition: opacity 0.2s ease-out;
 }
+
+/* line 1001, ../sass/app.scss */
+#video_player.video-js {
+  font-size: inherit;
+}
+/* line 1004, ../sass/app.scss */
+#video_player.video-js .vjs-text-track {
+  font-size: 1em;
+  line-height: 140%;
+  opacity: 0.90;
+  margin-bottom: 1em;
+  text-shadow: 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black;
+}
+/* line 1012, ../sass/app.scss */
+#video_player.video-js .vjs-text-track-display {
+  font-size: 1em;
+}
+/* line 1015, ../sass/app.scss */
+#video_player.video-js .vjs-loading-spinner {
+  font-size: 1em;
+}
+/* line 1018, ../sass/app.scss */
+#video_player.video-js .vjs-big-play-button {
+  font-size: 1em;
+}
+/* line 1021, ../sass/app.scss */
+#video_player.video-js .vjs-control-bar {
+  font-size: 10px;
+}

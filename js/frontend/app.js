@@ -79,10 +79,48 @@ window.spawnCallback = function (url, subs) {
     });
 
     video.player().on('pause', function () {  });
-    video.player().on('play', function () {  });
+    video.player().on('play', function () { 
+      // Trigger a resize so the subtitles are adjusted
+      $(window).trigger('resize'); 
+    });
 
     App.loader(false);
 };
+
+
+// Change the subtitle size on resize so it fits the screen proportionally
+jQuery(function ($) {
+  $(window).resize(function(){
+
+    // Calculate a decent font size
+    // Baseline: WindowHeight:600px -> FontSize:20px
+    var font_size = Math.ceil($(window).height() * 0.0333333);
+    var min_font_size = 18;
+    font_size = font_size < min_font_size ? min_font_size : font_size
+
+    $('#video-container').css('font-size', font_size+'px');
+
+    // And adjust the subtitle position so they always match the bottom of the video 
+    var $video = $('#video-container video');
+    var $subs = $('#video-container .vjs-text-track-display');
+    if( $video.length && $subs.length ) {
+      if( $video[0].videoWidth > 0 && $video[0].videoHeight > 0 ) {
+        var ratio = $video[0].videoWidth / $video[0].videoHeight;
+        var windowWidth = $(window).width();
+        var windowHeight = $(window).height();
+
+        var realVideoHeight = windowWidth / ratio;
+        realVideoHeight = realVideoHeight > windowHeight ? windowHeight : realVideoHeight;
+
+        var bottomOffset = (windowHeight - realVideoHeight) / 2;
+
+        $subs.css('bottom', bottomOffset+'px');
+      }
+    }
+
+  }).trigger('resize');
+});
+
 
 // On Document Ready
 jQuery(function ($) {
