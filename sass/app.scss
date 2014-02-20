@@ -677,9 +677,16 @@ sidebar {
         span.good { color: #27ae60}
         span.bad { color: #c0392b }
         span.epic { color: #8e44ad }
+        span.available-subtitles {
+          float: right;
+          margin-top: -3px;
+          > img {
+            margin-left: 5px;
+          }
+        }
     }
 
-            input {
+input {
   font-family: inherit;
   font-size: 100%;
   line-height: normal;

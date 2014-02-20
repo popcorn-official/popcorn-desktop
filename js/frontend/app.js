@@ -42,10 +42,15 @@ App.loader(true, Language.loading);
 
 // Handler for Video opening
 window.spawnCallback = function (url, subs) {
+    var subtracks = '';
+    for( lang in subs ) {
+      subtracks += '<track kind="subtitles" src="app://host/' + subs[lang] + '" srclang="es" label="' + Languages[lang] + '" />';
+    }
+
     var player =
       '<video autoplay id="video_player" width="100%" height="100%" class="video-js vjs-default-skin" controls>' +
         '<source src="' + url + '" type="video/mp4" />' +
-        (subs ? '<track kind="subtitles" src="app://host/' + subs.file + '" default srclang="es" label="' + Languages[subs.lang] + '" />' : '') +
+        subtracks +
       '</video>' +
       '<a href="javascript:;" id="video_player_close" class="btn-close"><img src="/images/close.svg" width="50" /></a>';
 

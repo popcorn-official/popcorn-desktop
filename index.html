@@ -110,19 +110,12 @@
             <% if (typeof subtitles !== 'undefined') { %>
               <li class="options">
                 Subtitles
-                <div class="dropdown">
-                  <button class="dropdown-toggle"></button>
-                    <div class="dropdown-text">
-                      <img class="lang-placeholder" src="../images/none.png" alt="None" />
-                    </div>
-                    <ul class="dropdown-content subtitles">
-                      <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
-                        <li>
-                          <button value="<%= keys[i] %>"><img src="../images/<%= keys[i] %>.png" alt="<%= Languages[keys[i]] %>" /></button>
-                        </li>
-                      <% } %>
-                    </ul>
-                </div>
+
+                <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
+                  <span class="available-subtitles">
+                    <img src="../images/<%= keys[i] %>.png" alt="<%= Languages[keys[i]] %>" />
+                  </span>
+                <% } %>
               </li>
             <% } %>
             <% if (this.model.get('quality') && this.model.get('torrents')) { %>

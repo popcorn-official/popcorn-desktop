@@ -22,7 +22,7 @@ App.View.Sidebar = Backbone.View.extend({
 
         $button
             .closest('.dropdown').removeClass('active')
-                .find('.lang-placeholder').attr('src', $button.find('img').attr('src'));
+            .find('.lang-placeholder').attr('src', $button.find('img').attr('src'));
         this.model.set('selectedSubtitle', lang);
 
     },
@@ -32,24 +32,26 @@ App.View.Sidebar = Backbone.View.extend({
 
         var file = this.model.get('torrent'),
             subs = this.model.get('subtitles'),
+            selectedSub = this.model.get('selectedSubtitle'),
+            subsFiles = [],
             subsFile,
             subtitle;
 
         if (subs) {
-            subtitle = subs[this.model.get('selectedSubtitle')];
-
-            if (subtitle) {
-                subsFile = 'tmp/' + this.model.get('title').replace(/([^a-zA-Z0-9-_])/g, '_') + ' ' + this.model.get('quality') + ' ' + this.model.get('selectedSubtitle') + '.srt';
-                App.unzip(subtitle, subsFile);
+            // Download all the subs so they are available during the video playback
+            for( lang in subs ) {
+                subsFiles[lang] = 'tmp/' + this.model.get('title').replace(/([^a-zA-Z0-9-_])/g, '_') + ' ' + this.model.get('quality') + ' ' + lang + '.srt';
+                App.unzip(subs[lang], subsFiles[lang]);
             }
         }
 
-        playTorrent(file, subsFile && {
-            file: subsFile,
-            lang: this.model.get('selectedSubtitle')
-        }, function(){}, function(percent){
-          $('.popcorn-load').find('.progress').css('width', (percent>2.0 ? percent : 2.0)+'%');
-        });
+        playTorrent(file, subsFiles, 
+            function(){}, 
+            function(percent){
+                // Loading Progress Handler
+                $('.popcorn-load').find('.progress').css('width', (percent > 2.0 ? (percent < 100.0 ? percent : 100.0) : 2.0)+'%');
+            }
+        );
         $('.popcorn-load').addClass('withProgressBar').find('progress').css('width', 2.0+'%');
         
         App.loader(true, Language.loadingVideo);
