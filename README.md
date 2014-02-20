@@ -95,6 +95,7 @@ Replace `node_modules/moviedb/node_modules/superagent/index.js` contents with:
 2. Run `npm install` in Terminal to include project dependencies.
 3. Copy the [node-webkit application binary](https://s3.amazonaws.com/node-webkit/v0.8.4/node-webkit-v0.8.4-osx-ia32.zip) for OSX 10.7+ to your `/Applications` folder.
 4. Run `/Applications/node-webkit.app/Contents/MacOS/node-webkit .` in Terminal to open up the application.
+5. Update `js/vendor/config.js` with your [themoviedb.org](http://themoviedb.org) API key.
 
 ### Development
 - Run `compass watch` in Terminal for CSS compiling and listen to future changes.
