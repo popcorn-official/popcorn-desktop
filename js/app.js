@@ -1,5 +1,3 @@
-console.log(vendorAPIs.themoviedb.key);
-
 var
 
     // Minimum percentage to open video
