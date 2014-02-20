@@ -168,7 +168,8 @@ h1 {
       .progress {
         display: block;
         height: 14px;
-        width: 6%;
+        width: 0%;
+        min-width: 5.5%; 
         background: #FFF;
         border-radius: 40px;
 
