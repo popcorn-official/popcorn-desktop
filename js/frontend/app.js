@@ -51,6 +51,7 @@ window.spawnCallback = function (url, subs) {
 
     // Move this to a separate view.
     $('#video-container').append(player).show();
+    $('body').removeClass().addClass('watching');
 
     // Init video.
     var video = videojs('video_player');
@@ -64,6 +65,7 @@ window.spawnCallback = function (url, subs) {
     $('#video_player_close').on('click', function () {
       $('#video-container').hide();
       video.dispose();
+      $('body').removeClass();
       $(document).trigger('videoExit');
     });
 

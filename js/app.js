@@ -19,9 +19,9 @@ var
     Language = require(applicationRoot + '/language/' + 'en' + '.json');
 
 // Not debugging, hide all messages!
-if (!isDebug) {
+/*if (!isDebug) {
     console.log = function () {};
-} else {
+} else {*/
     // Developer Menu building
     var menubar = new gui.Menu({ type: 'menubar' }),
         developerSubmenu = new gui.Menu(),
@@ -38,7 +38,7 @@ if (!isDebug) {
     menubar.append(developerItem);
     developerSubmenu.append(debugItem);
     win.menu = menubar;
-}
+/*}*/
 
 // Prompting before quitting
 win.on('close', function() {

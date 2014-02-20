@@ -12,6 +12,15 @@ App.View.Sidebar = Backbone.View.extend({
         'click #switch-off':       'disableHD'
     },
 
+    keyHide: function (e) {
+        if (e.which === 27 && $('body').is('.sidebar-open')) {
+            /*alert("escape pressed from sidebar");*/
+            $('body').removeClass('sidebar-open');
+            $('.movie.active').removeClass('active');
+            $('sidebar').addClass('hidden');
+        }
+    },
+
     toggleDropdown: function (evt) {
         $(evt.currentTarget).parent().toggleClass('active');
     },
@@ -50,10 +59,12 @@ App.View.Sidebar = Backbone.View.extend({
         });
         // console.log('Opening...', file);
         App.loader(true, Language.loadingVideo);
+        $('body').removeClass().addClass('loading');
     },
 
     initialize: function () {
         this.setElement($('sidebar'));
+        $('body').keyup(this.keyHide);
     },
 
     load: function (model) {
@@ -80,7 +91,7 @@ App.View.Sidebar = Backbone.View.extend({
     },
 
     show: function () {
-        $('body').addClass('sidebar-open');
+        $('body').removeClass().addClass('sidebar-open');
         this.$el.removeClass('hidden');
     },
 
