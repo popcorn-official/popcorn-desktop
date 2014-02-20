@@ -54,7 +54,7 @@ var peerflix = require('peerflix'),
     child_process = require('child_process'),
     address = require('network-address');
 
-var playTorrent = window.playTorrent = function (torrent, subs, callback) {
+var playTorrent = window.playTorrent = function (torrent, subs, callback, progressCallback) {
     peerflix(torrent, {}, function (err, flix) {
         if (err) throw err;
 
@@ -119,6 +119,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback) {
                         callback(href, subs);
                     }
                 } else {
+                    typeof progressCallback != 'undefined' ? progressCallback(percent / MIN_PERCENTAGE_LOADED * 100, now, total) : null;
                     setTimeout(loaded, 500);
                 }
             };

@@ -31,6 +31,10 @@ App.loader = function (hasToShow, copy) {
     }
 
     $el[hasToShow === false ? 'addClass' : 'removeClass']('hidden');
+    
+    if( ! hasToShow ) { 
+      $el.removeClass('withProgressBar');
+    }
 };
 
 // Show by default

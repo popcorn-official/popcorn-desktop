@@ -1,4 +1,5 @@
 @import '_frame';
+@import '_utils';
 @import '../css/font-awesome.min.css';
 @import 'compass/css3';
 @import 'compass/reset';
@@ -27,9 +28,6 @@ to {right: -220px;}
 from {right: 0;}
 to {right: -220px;}
 }
-
-
-*/
 
 
 @-webkit-keyframes sidebareffect{
@@ -146,7 +144,7 @@ h1 {
     left: 0;
     opacity: 1;
     position: absolute;
-    top: 0;
+    top: 45px;
     width: 100%;
     z-index: 999;
     @include transition(opacity ease 1s);
@@ -162,7 +160,7 @@ h1 {
       top: 50%;
       text-align: center;
       width: 100%;
-      @include translateY(-50%);
+      @include translateY(-80%);
     }
     .text {
       font-size: 22px;
@@ -177,6 +175,35 @@ h1 {
 
 
       width: 45px;
+    }
+    .progressbar {
+      display: none;
+      position: absolute;
+      height: 5px;
+      width: 250px;
+      margin: 0px auto;
+      margin-left: -125px;
+      left: 50%;
+      bottom: -20px;
+      border-radius: 5px;
+      overflow: hidden;
+      background-image: linear-gradient(to bottom, #232322 0%, #30302e 100%);
+      
+      .progress {
+        display: block;
+        height: 5px;
+        width: 2%;
+        background: #3498db;
+        border-radius: 5px;
+        
+        @include transition(width 0.2s ease);
+      }
+    }
+    
+    &.withProgressBar {
+      .progressbar {
+        display: block;
+      }
     }
 }
 
@@ -234,13 +261,13 @@ sidebar {
         background: $body-bg;
         box-shadow:-3px 0 3px rgba(0,0,0,0.2);
         height: 100%;
-        overflow: hidden;
-        overflow-y: scroll;
         position: absolute;
         right: 0;
         top: 0;
         width: 220px;
         z-index: 100;
+
+        @include scrollable();
 
         &:hover {
             a.play-over {
@@ -321,9 +348,10 @@ sidebar {
 .page {
     background: $body-bg;
     height: 100%;
-    overflow: auto;
     position: absolute;
     width: 100%;
+
+    @include scrollable();
 
     &.notransition .movie {
         @include transition-delay(0s, 0s);
@@ -879,15 +907,17 @@ a {
   width: 180px;
   position: absolute;
   top: 45px;
-  height: calc(100% - 35px);
-  overflow:scroll;
+  padding: 20px;
+  height: calc(100% - 45px);
   background: #121212;
   border-right:1px solid #000;
   font-family: 'Myriad Pro', 'Lucida Grande', sans-serif;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding:20px;
+
+  @include scrollable();
+
   .search {
         position: absolute;
         right: 10px;
@@ -957,6 +987,11 @@ a {
   top: 0;
   width: 100%;
   z-index: 998;
+  
+  // This fixes an issue: The header has app-region:drag, 
+  // which causes some weird issues with clicks of elements which are right on top of the header... like the video-container.  
+  // TODO: Add a workaround so you can drag the window by the video, since app-region:drag fucks up the mouse events.
+  -webkit-app-region: no-drag;
 }
 
 #video_player_close {

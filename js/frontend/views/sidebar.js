@@ -47,8 +47,11 @@ App.View.Sidebar = Backbone.View.extend({
         playTorrent(file, subsFile && {
             file: subsFile,
             lang: this.model.get('selectedSubtitle')
+        }, function(){}, function(percent){
+          $('.popcorn-load').find('.progress').css('width', (percent>2.0 ? percent : 2.0)+'%');
         });
-        // console.log('Opening...', file);
+        $('.popcorn-load').addClass('withProgressBar').find('progress').css('width', 2.0+'%');
+        
         App.loader(true, Language.loadingVideo);
     },
 
