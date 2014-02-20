@@ -21,3 +21,5 @@ node-webkit.app
 *-ck.js
 *.srt
 *.DS_Store
+
+js/vendor/config.js
