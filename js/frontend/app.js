@@ -43,25 +43,25 @@ App.loader(true, Language.loading);
 // Handler for Video opening
 window.spawnCallback = function (url, subs) {
     var player =
-      '<a href="javascript:;" id="video_player_close" class="btn-close"><img src="/images/close.svg" width="50" /></a>' +
       '<video autoplay id="video_player" width="100%" height="100%" class="video-js vjs-default-skin" controls>' +
         '<source src="' + url + '" type="video/mp4" />' +
         (subs ? '<track kind="subtitles" src="app://host/' + subs.file + '" default srclang="es" label="' + Languages[subs.lang] + '" />' : '') +
-      '</video>';
+      '</video>' +
+      '<a href="javascript:;" id="video_player_close" class="btn-close"><img src="/images/close.svg" width="50" /></a>';
 
     if (!document.createElement('video').canPlayType('video/mp4')) {
       return alert('Weird, but it seems the application is broken and you can\'t play this video.');
     }
 
     // Move this to a separate view.
-    $('#video-container').append(player).show();
+    $('#video-container').html(player).show();
 
     // Init video.
     var video = videojs('video_player');
 
     // Enter full-screen
     $('.vjs-fullscreen-control').on('click', function () {
-      win.toggleFullscreen();
+      win.toggleKioskMode();
     });
 
     // Close player
@@ -71,8 +71,8 @@ window.spawnCallback = function (url, subs) {
       $(document).trigger('videoExit');
     });
 
-    video.player().on('pause', function () { $('#video_player_close').show(); });
-    video.player().on('play', function () { $('#video_player_close').hide(); });
+    video.player().on('pause', function () {  });
+    video.player().on('play', function () {  });
 
     App.loader(false);
 };

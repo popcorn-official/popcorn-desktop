@@ -38,7 +38,18 @@ if (!isDebug) {
     menubar.append(developerItem);
     developerSubmenu.append(debugItem);
     win.menu = menubar;
+
+    // Developer Shortcuts
+	document.addEventListener('keydown', function(event){
+		// F12 Opens DevTools
+		if( event.keyCode == 123 ) { win.showDevTools(); }
+		// F11 Reloads
+		if( event.keyCode == 122 ) { win.reloadIgnoringCache(); }
+	});
 }
+
+// Set the app title (for Windows mostly)
+win.title = 'Popcorn Time';
 
 // Prompting before quitting
 win.on('close', function() {
