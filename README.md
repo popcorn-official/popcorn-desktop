@@ -1,4 +1,4 @@
-#Popcorn time [![Dependency Status](https://david-dm.org/popcorn-time/popcorn-time.png?theme=shields.io)](https://david-dm.org/popcorn-time/popcorn-time)
+#Popcorn time [![Dependency Status](https://david-dm.org/popcorn-time/popcorn-app.png?theme=shields.io)](https://david-dm.org/popcorn-time/popcorn-time)
 
 ## Idea
 
