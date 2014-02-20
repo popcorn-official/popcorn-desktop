@@ -5,31 +5,6 @@
 @import 'compass/reset';
 
 
-/*
-@keyframes sidebareffect
-{
-from {right: -220px;}
-to {right: 0;}
-}
-
-@-webkit-keyframes sidebareffect
-from {right: -220px;}
-to {right: 0;}
-}
-
-@keyframes sidebareffect2
-{
-from {right: 0;}
-to {right: -220px;}
-}
-
-@-webkit-keyframes sidebareffect2
-{
-from {right: 0;}
-to {right: -220px;}
-}
-
-
 @-webkit-keyframes sidebareffect{
 from {-webkit-transform: translate(220px,0);}
 to { -webkit-transform: translate(0,0); }
@@ -216,8 +191,8 @@ sidebar {
     height: 100%;
     z-index: 125;
     -webkit-transform-style: preserve-3d;
-     animation: sidebareffect .5s;
-        -webkit-animation: sidebareffect .5s; /* Safari and Chrome */
+    animation: sidebareffect .5s;
+    -webkit-animation: sidebareffect .5s; /* Safari and Chrome */
     &.hidden {
 
         animation: sidebareffect2 .5s;
