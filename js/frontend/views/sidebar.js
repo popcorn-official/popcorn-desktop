@@ -40,8 +40,25 @@ App.View.Sidebar = Backbone.View.extend({
         if (subs) {
             // Download all the subs so they are available during the video playback
             for( lang in subs ) {
+
                 subsFiles[lang] = 'tmp/' + this.model.get('title').replace(/([^a-zA-Z0-9-_])/g, '_') + ' ' + this.model.get('quality') + ' ' + lang + '.srt';
-                App.unzip(subs[lang], subsFiles[lang]);
+
+                // This downloads the subs in binary format and then converts them to UTF-8. App.unzip() doesn't support callbacks or much configuration.
+                // This fixes an encoding issue with accented characters
+                var request = require('request');
+                var fs = require('fs');
+
+                var subOutput = fs.createWriteStream(subsFiles[lang]);
+
+                subOutput.on('finish', function() {
+                    var subText = fs.readFileSync(this.path, 'binary');
+                    fs.writeFile( this.path, subText.toString('utf-8') );
+                });
+
+                request({
+                    url: subs[lang],
+                    headers: { 'Accept-Encoding': 'gzip' }
+                }).pipe(zlib.createGunzip()).pipe(subOutput);
             }
         }
 
@@ -52,7 +69,7 @@ App.View.Sidebar = Backbone.View.extend({
                 $('.popcorn-load').find('.progress').css('width', (percent > 2.0 ? (percent < 100.0 ? percent : 100.0) : 2.0)+'%');
             }
         );
-        $('.popcorn-load').addClass('withProgressBar').find('progress').css('width', 2.0+'%');
+        $('.popcorn-load').addClass('withProgressBar').find('.progress').css('width', 2.0+'%');
         
         App.loader(true, Language.loadingVideo);
     },

@@ -34,6 +34,7 @@ App.loader = function (hasToShow, copy) {
     
     if( ! hasToShow ) { 
       $el.removeClass('withProgressBar');
+      $el.find('.progress').css('width', 0.0+'%');
     }
 };
 
@@ -44,7 +45,7 @@ App.loader(true, Language.loading);
 window.spawnCallback = function (url, subs) {
     var subtracks = '';
     for( lang in subs ) {
-      subtracks += '<track kind="subtitles" src="app://host/' + subs[lang] + '" srclang="es" label="' + Languages[lang] + '" />';
+      subtracks += '<track kind="subtitles" src="app://host/' + subs[lang] + '" srclang="es" label="' + Languages[lang] + '" charset="utf-8" />';
     }
 
     var player =
@@ -71,6 +72,7 @@ window.spawnCallback = function (url, subs) {
 
     // Close player
     $('#video_player_close').on('click', function () {
+      win.leaveKioskMode();
       $('#video-container').hide();
       video.dispose();
       $(document).trigger('videoExit');
