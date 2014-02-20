@@ -154,23 +154,24 @@ h1 {
     .progressbar {
       display: none;
       position: absolute;
-      height: 5px;
+      height: 14px;
       width: 250px;
       margin: 0px auto;
       margin-left: -125px;
       left: 50%;
-      bottom: -20px;
-      border-radius: 5px;
+      bottom: -35px;
+      border-radius: 30px;
+      border: 2px solid #FFF;
       overflow: hidden;
-      background-image: linear-gradient(to bottom, #232322 0%, #30302e 100%);
+      padding: 3px;
       
       .progress {
         display: block;
-        height: 5px;
-        width: 2%;
-        background: #3498db;
-        border-radius: 5px;
-        
+        height: 14px;
+        width: 6%;
+        background: #FFF;
+        border-radius: 40px;
+
         @include transition(width 0.2s ease);
       }
     }
