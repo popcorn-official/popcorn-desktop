@@ -2,7 +2,7 @@
 
 ## Idea
 
-To allow any computer user to watch movies easily streaming from torrents, without any particular knowledge. The only requirements are an internet connection and [VLC](http://www.videolan.org/vlc/index.html) installed.
+To allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
 ![Demo Screenshot](https://f.cloud.github.com/assets/1133842/1980972/1083f360-83cd-11e3-8e08-b01de5d33f1c.png)
 
