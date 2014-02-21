@@ -65,6 +65,11 @@ window.spawnCallback = function (url, subs) {
     // Make sure you can drag the window by the video
     $('#video-container video').canDragWindow();
 
+    // Double Click to toggle Fullscreen
+    $('#video-container video').dblclick(function(event){
+      win.toggleKioskMode();
+    });
+
     // Init video.
     var video = videojs('video_player');
 
@@ -177,6 +182,8 @@ jQuery(function ($) {
 
       // TODO: This breaks under multiple screens on Windows (it won't go outside the screen it's on)
       $(element).mousedown(function(event){
+        // Only move with the left mouse button
+        if( event.button != 0 ){ return; }
         mouseIsDown = true;
         previousPos = {x: event.screenX, y: event.screenY};
       }).mouseup(function(event){
