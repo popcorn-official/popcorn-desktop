@@ -22,7 +22,6 @@ App.View.MovieList = Backbone.View.extend({
     },
 
     render: function () {
-        App.loader(false);
 
         if (this.collection.length === 0) {
             return this.empty();

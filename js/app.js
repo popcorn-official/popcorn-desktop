@@ -3,6 +3,9 @@ var
     // Minimum percentage to open video
     MIN_PERCENTAGE_LOADED = 0.5,
 
+    // Minimum bytes loaded to open video
+    MIN_SIZE_LOADED = 5 * 1024 * 1024,
+
     // Configuration variable
     applicationRoot = './',
 
@@ -65,8 +68,12 @@ var peerflix = require('peerflix'),
     child_process = require('child_process'),
     address = require('network-address');
 
+var videoPeerflix = null;
 var playTorrent = window.playTorrent = function (torrent, subs, callback, progressCallback) {
-    peerflix(torrent, {}, function (err, flix) {
+
+	videoPeerflix ? videoPeerflix.destroy() : null;
+
+    videoPeerflix = peerflix(torrent, {}, function (err, flix) {
         if (err) throw err;
 
         var peers = flix.peers,
@@ -87,6 +94,8 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
             var href = 'http://' + address() + ':' + flix.server.address().port + '/',
                 filename = storage.filename.split('/').pop().replace(/\{|\}/g, '');
 
+            debug ? clearInterval(debug) : null;
+            
             debug = isDebug && setInterval(function () {
                 var unchoked = peers.filter(active),
                     runtime = Math.floor((Date.now() - started) / 1000);
@@ -120,9 +129,16 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
             var loaded = function () {
                 var now = flix.downloaded,
                     total = flix.selected.length,
-                    percent = (now * 100 / total).toFixed(2);
+                    // There's a minimum size before we start playing the video.
+                    // Some movies need quite a few frames to play properly, or else the user gets another (shittier) loading screen on the video player.
+                    targetLoadedSize = MIN_SIZE_LOADED > total ? total : MIN_SIZE_LOADED,
+                    targetLoadedPercent = MIN_PERCENTAGE_LOADED * total / 100.0,
 
-                if (percent > MIN_PERCENTAGE_LOADED) {
+                    targetLoaded = Math.max(targetLoadedPercent, targetLoadedSize),
+
+                    percent = now / targetLoaded * 100.0;
+
+                if (now > targetLoaded) {
                     if (typeof window.spawnCallback === 'function') {
                         window.spawnCallback(href, subs);
                     }
@@ -130,7 +146,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
                         callback(href, subs);
                     }
                 } else {
-                    typeof progressCallback != 'undefined' ? progressCallback(percent / MIN_PERCENTAGE_LOADED * 100, now, total) : null;
+                    typeof progressCallback == 'function' ? progressCallback( percent, now, total) : null;
                     setTimeout(loaded, 500);
                 }
             };
@@ -146,8 +162,11 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
                 clivas.flush();
 
                 // Stop processes
+                // flix.clearCache();
                 flix.destroy();
+                videoPeerflix = null;
             });
         });
     });
+
 };

@@ -39,7 +39,7 @@ App.loader = function (hasToShow, copy) {
 };
 
 // Show by default
-App.loader(true, Language.loading);
+// App.loader(true, Language.loading);
 
 // Handler for Video opening
 window.spawnCallback = function (url, subs) {
@@ -103,6 +103,7 @@ jQuery(function ($) {
     // And adjust the subtitle position so they always match the bottom of the video 
     var $video = $('#video-container video');
     var $subs = $('#video-container .vjs-text-track-display');
+
     if( $video.length && $subs.length ) {
       if( $video[0].videoWidth > 0 && $video[0].videoHeight > 0 ) {
         var ratio = $video[0].videoWidth / $video[0].videoHeight;
