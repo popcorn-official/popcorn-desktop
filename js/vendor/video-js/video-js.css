@@ -716,7 +716,7 @@ body.vjs-full-window {
 .video-js .vjs-text-track-display {
   text-align: center;
   position: absolute;
-  bottom: 12em;
+  bottom: 6em;
   /* Leave padding on left and right */
   left: 1em;
   right: 1em;
