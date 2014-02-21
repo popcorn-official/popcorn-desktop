@@ -974,7 +974,7 @@ a {
   
   // This fixes an issue: The header has app-region:drag, 
   // which causes some weird issues with clicks of elements which are right on top of the header... like the video-container.  
-  // TODO: Add a workaround so you can drag the window by the video, since app-region:drag fucks up the mouse events.
+  // There's a JS workaround so you can drag the window by the video, since app-region:drag fucks up the mouse events.
   -webkit-app-region: no-drag;
 }
 
