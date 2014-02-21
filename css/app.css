@@ -721,17 +721,17 @@ sidebar .play::-webkit-resizer {
 }
 /* line 38, ../sass/_utils.scss */
 sidebar .play:hover::-webkit-scrollbar-thumb {
-  background: rgba(96, 96, 96, 0.3);
+  background: rgba(0, 0, 0, 0.5);
   background-clip: content-box;
   border-radius: 10px;
-  border: 2px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 /* line 44, ../sass/_utils.scss */
 sidebar .play:hover::-webkit-scrollbar-thumb:hover {
-  background: rgba(96, 96, 96, 0.4);
+  background: rgba(0, 0, 0, 0.6);
   background-clip: content-box;
   border-radius: 10px;
-  border: 2px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 /* line 250, ../sass/app.scss */
 sidebar .play:hover a.play-over {
@@ -847,17 +847,17 @@ sidebar p {
 }
 /* line 38, ../sass/_utils.scss */
 .page:hover::-webkit-scrollbar-thumb {
-  background: rgba(96, 96, 96, 0.3);
+  background: rgba(0, 0, 0, 0.5);
   background-clip: content-box;
   border-radius: 10px;
-  border: 2px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 /* line 44, ../sass/_utils.scss */
 .page:hover::-webkit-scrollbar-thumb:hover {
-  background: rgba(96, 96, 96, 0.4);
+  background: rgba(0, 0, 0, 0.6);
   background-clip: content-box;
   border-radius: 10px;
-  border: 2px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 /* line 333, ../sass/app.scss */
 .page.notransition .movie {
@@ -1500,17 +1500,17 @@ a {
 }
 /* line 38, ../sass/_utils.scss */
 #catalog-select:hover::-webkit-scrollbar-thumb {
-  background: rgba(96, 96, 96, 0.3);
+  background: rgba(0, 0, 0, 0.5);
   background-clip: content-box;
   border-radius: 10px;
-  border: 2px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 /* line 44, ../sass/_utils.scss */
 #catalog-select:hover::-webkit-scrollbar-thumb:hover {
-  background: rgba(96, 96, 96, 0.4);
+  background: rgba(0, 0, 0, 0.6);
   background-clip: content-box;
   border-radius: 10px;
-  border: 2px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 /* line 905, ../sass/app.scss */
 #catalog-select .search {
