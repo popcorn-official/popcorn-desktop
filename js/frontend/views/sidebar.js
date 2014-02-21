@@ -73,7 +73,7 @@ App.View.Sidebar = Backbone.View.extend({
                 $('.popcorn-load').find('.progress').css('width', percent+'%');
             }
         );
-        $('.popcorn-load').addClass('withProgressBar').find('.progress').css('width', 0.0+'%');
+        $('.popcorn-load').addClass('withProgressBar').addClass('cancellable').find('.progress').css('width', 0.0+'%');
         
         App.loader(true, Language.loadingVideo);
     },

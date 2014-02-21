@@ -33,8 +33,11 @@ App.loader = function (hasToShow, copy) {
     $el[hasToShow === false ? 'addClass' : 'removeClass']('hidden');
     
     if( ! hasToShow ) { 
-      $el.removeClass('withProgressBar');
+      $el.removeClass('withProgressBar').removeClass('cancellable');
       $el.find('.progress').css('width', 0.0+'%');
+
+      // If a video load is in progress, kill it
+      $(document).trigger('videoExit');
     }
 };
 
@@ -139,6 +142,11 @@ jQuery(function ($) {
 
   $('.btn-os.close').on('click', function () {
     win.close();
+  });
+
+  $('.popcorn-load .btn-close').click(function(event){
+    event.preventDefault();
+    App.loader(false);
   });
 
   $('#catalog-select ul li a').on('click', function (evt) {

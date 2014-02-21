@@ -135,15 +135,17 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
             bytes = function (num) {
                 return numeral(num).format('0.0b');
             },
-            debug;
+            debugInterval,
+            loadedTimeout;
 
         flix.server.on('listening', function () {
             var href = 'http://' + address() + ':' + flix.server.address().port + '/',
                 filename = storage.filename.split('/').pop().replace(/\{|\}/g, '');
 
-            debug ? clearInterval(debug) : null;
+            debugInterval ? clearInterval(debugInterval) : null;
+            loadedTimeout ? clearTimeout(loadedTimeout) : null;
 
-            debug = isDebug && setInterval(function () {
+            debugInterval = isDebug && setInterval(function () {
                 var unchoked = peers.filter(active),
                     runtime = Math.floor((Date.now() - started) / 1000);
 
@@ -173,7 +175,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
                 clivas.flush();
             }, 500);
 
-            var loaded = function () {
+            var checkLoadingProgress = function () {
                 var now = flix.downloaded,
                     total = flix.selected.length,
                     // There's a minimum size before we start playing the video.
@@ -194,16 +196,16 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
                     }
                 } else {
                     typeof progressCallback == 'function' ? progressCallback( percent, now, total) : null;
-                    setTimeout(loaded, 500);
+                    loadedTimeout = setTimeout(checkLoadingProgress, 500);
                 }
             };
-            loaded();
+            checkLoadingProgress();
+
 
             $(document).on('videoExit', function() {
                 // Empty clivas debugging
-                if (isDebug && debug) {
-                    clearInterval(debug);
-                }
+                if (debugInterval) { clearInterval(debugInterval); }
+                if (loadedTimeout) { clearTimeout(loadedTimeout); }
 
                 clivas.clear();
                 clivas.flush();

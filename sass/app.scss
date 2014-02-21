@@ -176,9 +176,22 @@ h1 {
         @include transition(width 0.2s ease);
       }
     }
+    .close-button {
+      display: none;
+      position: absolute;
+      z-index: 9999;
+      top: 15px;
+      left: 15px;
+      -webkit-app-region: no-drag;
+    }
     
     &.withProgressBar {
       .progressbar {
+        display: block;
+      }
+    }
+    &.cancellable {
+      .btn-close {
         display: block;
       }
     }
