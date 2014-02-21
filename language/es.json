@@ -3,5 +3,39 @@
     "loading": "Cargando...",
     "loadingVideo": "Precargando video, espere unos instantes",
     "searchLoading": "Buscando...",
-    "noResults": "No se encontraron resultados."
+    "noResults": "No se encontraron resultados.",
+
+	"search": "Buscar",
+	"movies": "Películas",
+
+    "subtitledIn": "Subtítulos",
+    "quality": "Calidad",
+    "watchItNow": "Ver Ahora",
+
+    "genres": {
+        "all": "Popular",
+        "action": "Acción",
+        "adventure": "Aventura",
+        "animation": "Animación",
+        "biography": "Biografía",
+        "comedy": "Comedia",
+        "crime": "Crimen",
+        "documentary": "Documental",
+        "drama": "Drama",
+        "family": "Familiar",
+        "fantasy": "Fantasía",
+        "film-noir": "Film-Noir",
+        "history": "Historia",
+        "horror": "Horror",
+        "music": "Música",
+        "musical": "Musical",
+        "mystery": "Misterio",
+        "romance": "Romance",
+        "sci-fi": "Sci-Fi",
+        "short": "Corto",
+        "sport": "Deportes",
+        "thriller": "Thriller",
+        "war": "Guerra",
+        "western": "Western"
+    }
 }

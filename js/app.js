@@ -19,7 +19,54 @@ var
     win = gui.Window.get(),
 
     // Localization support
-    Language = require(applicationRoot + '/language/' + 'en' + '.json');
+    Language = require('./language/' + 'en' + '.json');
+
+
+// Detect the language and update the global Language file
+var detectLanguage = function(preferred) {
+
+	var fs = require('fs');
+	var bestLanguage = navigator.language.slice(0,2);
+
+	if( fs.existsSync('./language/' + bestLanguage + '.json') ) {
+		Language = require('./language/' + bestLanguage + '.json');
+	} else {
+		Language = require('./language/' + preferred + '.json');
+	}
+
+	// This is a hack to translate non-templated UI elements. Fuck it.
+	$('[data-translate]').each(function(){
+		var $el = $(this);
+		var key = $el.data('translate');
+
+		if( $el.is('input') ) {
+			$el.attr('placeholder', Language[key]);
+		} else {
+			$el.text(Language[key]);
+		}
+	});
+
+	populateCategories();
+};
+
+
+// Populate the Category list (This should be a template, though)
+var populateCategories = function() {
+	var category_html = '';
+	var defaultCategory = 'all';
+
+	for( key in Language.genres ) {
+		category_html += '<li'+ (defaultCategory == key ? ' class="active" ' : '') +'>'+
+				           '<a href="#" data-genre="'+key+'">'+Language.genres[key]+'</a>'+
+				         '</li>';
+	}
+
+	jQuery('#catalog-select .categories').html(category_html);
+};
+
+detectLanguage('en');
+
+
 
 // Not debugging, hide all messages!
 if (!isDebug) {
@@ -95,7 +142,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
                 filename = storage.filename.split('/').pop().replace(/\{|\}/g, '');
 
             debug ? clearInterval(debug) : null;
-            
+
             debug = isDebug && setInterval(function () {
                 var unchoked = peers.filter(active),
                     runtime = Math.floor((Date.now() - started) / 1000);

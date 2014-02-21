@@ -18,83 +18,13 @@
 
     <div id="catalog-select">
       <div class="search">
-        <input type="text" placeholder="Search" />
+        <input type="text" placeholder="Search" data-translate="search" />
         <i class="fa fa-search"></i>
       </div>
-      <h4>Movies</h4>
-      <ul>
-        <li class="active">
-          <a href="#" data-genre="all">Popular</a>
-        </li>
-        <li>
-          <a href="#" data-genre="action">Action</a>
-        </li>
-        <li>
-          <a href="#" data-genre="adventure">Adventure</a>
-        </li>
-        <li>
-          <a href="#" data-genre="animation">Animation</a>
-        </li>
-        <li>
-          <a href="#" data-genre="biography">Biography</a>
-        </li>
-        <li>
-          <a href="#" data-genre="comedy">Comedy</a>
-        </li>
-        <li>
-          <a href="#" data-genre="crime">Crime</a>
-        </li>
-        <li>
-          <a href="#" data-genre="documentary">Documentary</a>
-        </li>
-        <li>
-          <a href="#" data-genre="drama">Drama</a>
-        </li>
-        <li>
-          <a href="#" data-genre="family">Family</a>
-        </li>
-        <li>
-          <a href="#" data-genre="fantasy">Fantasy</a>
-        </li>
-        <li>
-          <a href="#" data-genre="film-noir">Film-Noir</a>
-        </li>
-        <li>
-          <a href="#" data-genre="history">History</a>
-        </li>
-        <li>
-          <a href="#" data-genre="horror">Horror</a>
-        </li>
-        <li>
-          <a href="#" data-genre="music">Music</a>
-        </li>
-        <li>
-          <a href="#" data-genre="musical">Musical</a>
-        </li>
-        <li>
-          <a href="#" data-genre="mystery">Mystery</a>
-        </li>
-        <li>
-          <a href="#" data-genre="romance">Romance</a>
-        </li>
-        <li>
-          <a href="#" data-genre="sci-fi">Sci-Fi</a>
-        </li>
-        <li>
-          <a href="#" data-genre="short">Short</a>
-        </li>
-        <li>
-          <a href="#" data-genre="sport">Sport</a>
-        </li>
-        <li>
-          <a href="#" data-genre="thriller">Thriller</a>
-        </li>
-        <li>
-          <a href="#" data-genre="war">War</a>
-        </li>
-        <li>
-          <a href="#" data-genre="western">Western</a>
-        </li>
+
+      <h4 data-translate="movies">Movies</h4>
+      <ul class="categories">
+        
       </ul>
     </div>
 
@@ -109,7 +39,7 @@
           <ul class="movie-config">
             <% if (typeof subtitles !== 'undefined') { %>
               <li class="options">
-                Subtitled in
+                <%= Language['subtitledIn'] %>
 
                 <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
                   <span class="available-subtitles">
@@ -120,7 +50,7 @@
             <% } %>
             <% if (this.model.get('quality') && this.model.get('torrents')) { %>
               <li class="options">
-                Quality
+                <%= Language['quality'] %>
                 <% if (this.model.get('torrents')["720p"] && this.model.get('torrents')["1080p"]) { %>
                   <div class="quality switch white">
                     <input type="radio" name="switch" id="switch-off"<% if (this.model.get('quality') === '720p') { %> checked<% } %>>
@@ -140,7 +70,7 @@
 
         <div class="side-content">
           <% if (this.model.get('torrents')) { %>
-            <a href="" class="play-button">Watch it now</a>
+            <a href="" class="play-button"><%= Language['watchItNow'] %></a>
           <% } %>
           <div>
             <h2><%= title %></h2>
@@ -161,12 +91,12 @@
 
     <div id="video-container"></div>
 
-    <script src="js/vendor/config.js"></script>
-    <script src="js/app.js"></script>
     <script src="js/vendor/jquery-2.1.0.min.js"></script>
     <script src="js/vendor/underscore.js"></script>
     <script src="js/vendor/backbone-1.1.0.js"></script>
     <script src="js/vendor/config.js"></script>
+    <script src="js/app.js"></script>
+
     <script src="js/vendor/video-js/video.dev.js"></script>
     <script src="js/frontend/app.js"></script>
     <script src="js/frontend/providers/torrents.js"></script>
