@@ -176,6 +176,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
             }, 500);
 
             var checkLoadingProgress = function () {
+
                 var now = flix.downloaded,
                     total = flix.selected.length,
                     // There's a minimum size before we start playing the video.
@@ -214,6 +215,9 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
                 // flix.clearCache();
                 flix.destroy();
                 videoPeerflix = null;
+                
+                // Unbind the event handler
+                $(document).off('videoExit');
             });
         });
     });

@@ -46,13 +46,22 @@ App.View.Sidebar = Backbone.View.extend({
                 // This downloads the subs in binary format and then converts them to UTF-8. App.unzip() doesn't support callbacks or much configuration.
                 // This fixes an encoding issue with accented characters
                 var request = require('request');
+                var charsetDetect = require('jschardet');
+                var targetCharset = 'UTF-8';
                 var fs = require('fs');
 
                 var subOutput = fs.createWriteStream(subsFiles[lang]);
 
                 subOutput.on('finish', function() {
                     var subText = fs.readFileSync(this.path, 'binary');
-                    fs.writeFile( this.path, subText.toString('utf-8') );
+                    var charset = charsetDetect.detect(subText);
+                    if( charset.encoding != targetCharset ) {
+                        var iconv = require('iconv-lite');
+                        subText = iconv.encode( iconv.decode(subText, charset.encoding), targetCharset );
+                        console.log(charset.encoding);
+                        console.log(charsetDetect.detect(subText));
+                        fs.writeFile( this.path, subText );
+                    }
                 });
 
                 request({
