@@ -149,6 +149,7 @@ jQuery(function ($) {
   $('.popcorn-load .btn-close').click(function(event){
     event.preventDefault();
     App.loader(false);
+    $(document).trigger('videoExit');
   });
 
   $('#catalog-select ul li a').on('click', function (evt) {
