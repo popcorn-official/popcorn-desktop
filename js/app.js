@@ -131,7 +131,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
     var tmpFile = path.join(tmpFolder, tmpFilename);
 
     var numCores = (os.cpus().length > 0) ? os.cpus().length : 1;
-    var numConnections = numCores * 100;
+    var numConnections = 100;
 
     // Start Peerflix
     videoPeerflix = peerflix(torrent, {
