@@ -52,7 +52,7 @@ window.spawnCallback = function (url, subs) {
     }
 
     var player =
-      '<video autoplay id="video_player" width="100%" height="100%" class="video-js vjs-default-skin" controls>' +
+      '<video autoplay id="video_player" width="100%" height="100%" class="video-js vjs-default-skin" controls preload>' +
         '<source src="' + url + '" type="video/mp4" />' +
         subtracks +
       '</video>' +

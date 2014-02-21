@@ -108,10 +108,9 @@ win.on('close', function() {
     }
 });
 
+
 // Taken from peerflix `app.js`
-var peerflix = require('peerflix'),
-    child_process = require('child_process'),
-    address = require('network-address');
+var peerflix = require('peerflix');
 
 var videoPeerflix = null;
 var playTorrent = window.playTorrent = function (torrent, subs, callback, progressCallback) {
@@ -131,9 +130,12 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
     tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_') +'-'+ (new Date()*1) +'.mp4';
     var tmpFile = path.join(tmpFolder, tmpFilename);
 
+
+    // Start Peerflix
     videoPeerflix = peerflix(torrent, {
         // Set the custom temp file
         path: tmpFile,
+        port: 554,
         buffer: (1.5 * 1024 * 1024).toString()
     }, function (err, flix) {
         if (err) throw err;
@@ -142,7 +144,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
             loadedTimeout;
 
         flix.server.on('listening', function () {
-            var href = 'http://' + address() + ':' + flix.server.address().port + '/';
+            var href = 'http://127.0.0.1:' + flix.server.address().port + '/';
 
             loadedTimeout ? clearTimeout(loadedTimeout) : null;
 

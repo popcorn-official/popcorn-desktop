@@ -18,7 +18,6 @@
     "clivas": "~0.1.4",
     "numeral": "~1.5.3",
     "moviedb": "~0.1.1",
-    "emitter": "~0.0.1",
     "jschardet": "~1.1.0",
     "iconv-lite": "~0.2.11"
   },
