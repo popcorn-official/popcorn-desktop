@@ -73,15 +73,27 @@ App.View.Sidebar = Backbone.View.extend({
         playTorrent(file, subsFiles, 
             function(){}, 
             function(percent){
+
                 // Loading Progress Handler. Percent is 5% + Actual progress, to keep the progressbar moving even when it's at the min-width
                 var $progress = $('.popcorn-load').find('.progress');
                 var minWidth = parseFloat($progress.css('min-width'));
                 percent = minWidth + percent * ((100.0-minWidth)/100.0);
                 percent = percent > 100.0 ? 100.0 : percent;
                 $('.popcorn-load').find('.progress').css('width', percent+'%');
+
+                // Update the loader status
+                var bufferStatus = Language['connecting'];
+                if( videoPeerflix.peers.length > 0 ) {
+                    bufferStatus = Language['startingDownload'];
+                    if( videoPeerflix.downloaded > 0 ) {
+                        bufferStatus = Language['downloading'];
+                    }
+                }
+                $('.popcorn-load .progressinfo').text(bufferStatus);
             }
         );
         $('.popcorn-load').addClass('withProgressBar').addClass('cancellable').find('.progress').css('width', 0.0+'%');
+        $('.popcorn-load .progressinfo').text( Language['connecting'] );
         
         App.loader(true, Language.loadingVideo);
     },

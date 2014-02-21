@@ -12,6 +12,10 @@
     "quality": "Quality",
     "watchItNow": "Watch It Now",
 
+    "connecting": "Connecting...",
+    "startingDownload": "Starting Download...",
+    "downloading": "Downloading...",
+
     "genres": {
         "all": "Popular",
         "action": "Action",

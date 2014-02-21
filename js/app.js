@@ -133,7 +133,8 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
 
     videoPeerflix = peerflix(torrent, {
         // Set the custom temp file
-        path: tmpFile
+        path: tmpFile,
+        buffer: (1.5 * 1024 * 1024).toString()
     }, function (err, flix) {
         if (err) throw err;
 

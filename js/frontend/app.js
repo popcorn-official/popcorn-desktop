@@ -33,8 +33,11 @@ App.loader = function (hasToShow, copy) {
     $el[hasToShow === false ? 'addClass' : 'removeClass']('hidden');
     
     if( ! hasToShow ) { 
-      $el.removeClass('withProgressBar').removeClass('cancellable');
-      $el.find('.progress').css('width', 0.0+'%');
+      // Wait a second before removing the progressbar clas
+      setTimeout(function(){
+        $el.removeClass('withProgressBar').removeClass('cancellable');
+        $el.find('.progress').css('width', 0.0+'%');
+      }, 1000);
     }
 };
 

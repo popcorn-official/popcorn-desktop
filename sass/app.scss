@@ -135,7 +135,7 @@ h1 {
       top: 50%;
       text-align: center;
       width: 100%;
-      @include translateY(-80%);
+      @include translateY(-100%);
     }
     .text {
       font-size: 22px;
@@ -146,20 +146,16 @@ h1 {
       display: block;
       height: 45px;
       margin: 10px auto;
-      -webkit-animation: 1.05s spin  infinite linear  ;
-
+      -webkit-animation: 1.05s spin  infinite linear;
 
       width: 45px;
     }
     .progressbar {
       display: none;
-      position: absolute;
       height: 14px;
       width: 250px;
       margin: 0px auto;
-      margin-left: -125px;
-      left: 50%;
-      bottom: -35px;
+      margin-top: 20px;
       border-radius: 30px;
       border: 2px solid #FFF;
       overflow: hidden;
@@ -176,6 +172,18 @@ h1 {
         @include transition(width 0.2s ease);
       }
     }
+    .progressinfo {
+    	display: none;
+    	position: absolute;
+    	width: 250px;
+    	left: 50%;
+    	margin-left: -125px;
+    	color: #ffffff;
+    	font-size: 15px;
+    	font-weight: bold;
+    	opacity: 0.5;
+    	bottom: -40px;
+    }
     .btn-close {
       display: none;
       position: absolute;
@@ -188,6 +196,12 @@ h1 {
     &.withProgressBar {
       .progressbar {
         display: block;
+      }
+      .progressinfo {
+      	display: block;
+      }
+      .spinner {
+      	display: none;
       }
     }
     &.cancellable {
