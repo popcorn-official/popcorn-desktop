@@ -4,7 +4,7 @@ var
     MIN_PERCENTAGE_LOADED = 0.5,
 
     // Minimum bytes loaded to open video
-    MIN_SIZE_LOADED = 5 * 1024 * 1024,
+    MIN_SIZE_LOADED = 10 * 1024 * 1024,
 
     // Configuration variable
     applicationRoot = './',
@@ -118,9 +118,25 @@ var peerflix = require('peerflix'),
 var videoPeerflix = null;
 var playTorrent = window.playTorrent = function (torrent, subs, callback, progressCallback) {
 
-	videoPeerflix ? videoPeerflix.destroy() : null;
+    videoPeerflix ? $(document).trigger('videoExit') : null;
+    
+    var path = require('path');
+    var os = require('os');
+    var fs = require('fs');
+    
+    // We use our own temp file, so we keep control over when it's created and deleted
+    var tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time');
+    if( ! fs.existsSync(tmpFolder) ) { fs.mkdirSync(tmpFolder); }
+    
+    // Create a unique file to cache the video (with a microtimestamp) to prevent read conflicts
+    var tmpFilename = ( torrent.toLowerCase().split('/').pop().split('.torrent').shift() ).slice(0,100);
+    tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_') +'-'+ (new Date()*1) +'.mp4';
+    var tmpFile = path.join(tmpFolder, tmpFilename);
 
-    videoPeerflix = peerflix(torrent, {}, function (err, flix) {
+    videoPeerflix = peerflix(torrent, {
+        // Set the custom temp file
+        path: tmpFile
+    }, function (err, flix) {
         if (err) throw err;
 
         var peers = flix.peers,
@@ -212,12 +228,14 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
                 clivas.flush();
 
                 // Stop processes
-                // flix.clearCache();
+                flix.clearCache();
                 flix.destroy();
                 videoPeerflix = null;
                 
                 // Unbind the event handler
                 $(document).off('videoExit');
+                
+                delete flix;
             });
         });
     });

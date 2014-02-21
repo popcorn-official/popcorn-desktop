@@ -35,9 +35,6 @@ App.loader = function (hasToShow, copy) {
     if( ! hasToShow ) { 
       $el.removeClass('withProgressBar').removeClass('cancellable');
       $el.find('.progress').css('width', 0.0+'%');
-
-      // If a video load is in progress, kill it
-      $(document).trigger('videoExit');
     }
 };
 
@@ -93,6 +90,11 @@ window.spawnCallback = function (url, subs) {
     video.player().on('play', function () { 
       // Trigger a resize so the subtitles are adjusted
       $(window).trigger('resize'); 
+    });
+    
+    // There was an issue with the video
+    video.player().on('error', function (error) {
+      console.log(error);
     });
 
     App.loader(false);

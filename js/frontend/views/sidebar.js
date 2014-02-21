@@ -29,6 +29,7 @@ App.View.Sidebar = Backbone.View.extend({
 
     play: function (evt) {
         evt.preventDefault();
+        if( videoPeerflix != null ){ return; } 
 
         var file = this.model.get('torrent'),
             subs = this.model.get('subtitles'),
@@ -58,8 +59,6 @@ App.View.Sidebar = Backbone.View.extend({
                     if( charset.encoding != targetCharset ) {
                         var iconv = require('iconv-lite');
                         subText = iconv.encode( iconv.decode(subText, charset.encoding), targetCharset );
-                        console.log(charset.encoding);
-                        console.log(charsetDetect.detect(subText));
                         fs.writeFile( this.path, subText );
                     }
                 });
