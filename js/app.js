@@ -110,8 +110,6 @@ win.on('close', function() {
 
 // Taken from peerflix `app.js`
 var peerflix = require('peerflix'),
-    clivas = require('clivas'),
-    numeral = require('numeral'),
     child_process = require('child_process'),
     address = require('network-address');
 
@@ -139,57 +137,13 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
     }, function (err, flix) {
         if (err) throw err;
 
-        var peers = flix.peers,
-            server = flix.server,
-            storage = flix.storage,
-            speed = flix.speed,
-            sw = flix.swarm,
-            started = Date.now(),
-            active = function (peer) {
-                return !peer.peerChoking;
-            },
-            bytes = function (num) {
-                return numeral(num).format('0.0b');
-            },
-            debugInterval,
+        var started = Date.now(),
             loadedTimeout;
 
         flix.server.on('listening', function () {
-            var href = 'http://' + address() + ':' + flix.server.address().port + '/',
-                filename = storage.filename.split('/').pop().replace(/\{|\}/g, '');
+            var href = 'http://' + address() + ':' + flix.server.address().port + '/';
 
-            debugInterval ? clearInterval(debugInterval) : null;
             loadedTimeout ? clearTimeout(loadedTimeout) : null;
-
-            debugInterval = isDebug && setInterval(function () {
-                var unchoked = peers.filter(active),
-                    runtime = Math.floor((Date.now() - started) / 1000);
-
-                clivas.clear();
-                clivas.line('{green:open} {bold:vlc} {green:and enter} {bold:'+href+'} {green:as the network address}');
-                clivas.line('');
-                clivas.line('{yellow:info} {green:streaming} {bold:'+filename+'} {green:-} {bold:'+bytes(speed())+'/s} {green:from} {bold:'+unchoked.length +'/'+peers.length+'} {green:peers}    ');
-                clivas.line('{yellow:info} {green:downloaded} {bold:'+bytes(flix.downloaded)+'} {green:and uploaded }{bold:'+bytes(flix.uploaded)+'} {green:in }{bold:'+runtime+'s} {green:with} {bold:'+flix.resyncs+'} {green:resyncs}     ');
-                clivas.line('{yellow:info} {green:found }{bold:'+sw.peersFound+'} {green:peers and} {bold:'+sw.nodesFound+'} {green:nodes through the dht}');
-                clivas.line('{yellow:info} {green:peer queue size is} {bold:'+sw.queued+'}     ');
-                clivas.line('{yellow:info} {green:target pieces are} {50+bold:'+(storage.missing.length ? storage.missing.slice(0, 10).join(' ') : '(none)')+'}    ');
-                clivas.line('{80:}');
-
-                peers.slice(0, 30).forEach(function(peer) {
-                    var tags = [];
-                    if (peer.peerChoking) tags.push('choked');
-                    if (peer.peerPieces[storage.missing[0]]) tags.push('target');
-                    clivas.line('{25+magenta:'+peer.id+'} {10:↓'+bytes(peer.downloaded)+'} {10+cyan:↓'+bytes(peer.speed())+'/s} {15+grey:'+tags.join(', ')+'}   ');
-                });
-
-                if (peers.length > 30) {
-                    clivas.line('{80:}');
-                    clivas.line('... and '+(peers.length-30)+' more     ');
-                }
-
-                clivas.line('{80:}');
-                clivas.flush();
-            }, 500);
 
             var checkLoadingProgress = function () {
 
@@ -220,12 +174,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
 
 
             $(document).on('videoExit', function() {
-                // Empty clivas debugging
-                if (debugInterval) { clearInterval(debugInterval); }
                 if (loadedTimeout) { clearTimeout(loadedTimeout); }
-
-                clivas.clear();
-                clivas.flush();
 
                 // Stop processes
                 flix.clearCache();

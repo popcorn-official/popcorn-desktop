@@ -176,7 +176,7 @@ h1 {
         @include transition(width 0.2s ease);
       }
     }
-    .close-button {
+    .btn-close {
       display: none;
       position: absolute;
       z-index: 9999;
