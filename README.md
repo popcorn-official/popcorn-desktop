@@ -29,7 +29,7 @@ Under development (only in Mac OSX? _somebody should try Linux and Windows_) - n
 2. Run `npm install` in Terminal to include project dependencies.
 3. Copy the [node-webkit application binary](https://s3.amazonaws.com/node-webkit/v0.8.4/node-webkit-v0.8.4-osx-ia32.zip) for OSX 10.7+ to your `/Applications` folder.
 4. Run `/Applications/node-webkit.app/Contents/MacOS/node-webkit .` in Terminal to open up the application.
-5. Update `js/vendor/config.js` with your [themoviedb.org](http://themoviedb.org) API key.
+5. Update `js/vendor/config.js` with your [themoviedb.org](http://themoviedb.org) API key. Pst. if you need one contact us.
 
 ## Any problem?
 
