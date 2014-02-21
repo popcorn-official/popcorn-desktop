@@ -1023,4 +1023,11 @@ a {
   .vjs-control-bar {
     font-size: 10px;
   }
+  .vjs-menu-item {
+    color:#000;
+  }
+  .vjs-menu-item.vjs-selected {
+    font-weight:bold;
+    color:#2ecc71;
+  }
 }
