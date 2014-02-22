@@ -1627,7 +1627,43 @@ a {
   -webkit-app-region: no-drag;
 }
 
-/* line 1018, ../sass/app.scss */
+/* line 1016, ../sass/app.scss */
+.vjs-default-skin .vjs_smallersub_button.vjs-control {
+  float: right;
+  color: #ffffff;
+}
+
+/* line 1021, ../sass/app.scss */
+.vjs-default-skin .vjs_biggersub_button.vjs-control {
+  float: right;
+  color: #ffffff;
+}
+
+/* line 1026, ../sass/app.scss */
+.vjs-default-skin .vjs_biggersub_button.vjs-control:before {
+  font-family: FontAwesome;
+  content: "\f031";
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  color: #ffffff;
+  font-size: 2em;
+  vertical-align: inherit;
+}
+
+/* line 1037, ../sass/app.scss */
+.vjs-default-skin .vjs_smallersub_button.vjs-control:before {
+  font-family: FontAwesome;
+  content: "\f031";
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  color: #ffffff;
+  font-size: 1.3em;
+  line-height: 2.4em;
+}
+
+/* line 1051, ../sass/app.scss */
 #video_player.vjs-user-inactive + #video_player_close {
   opacity: 0.0;
   pointer-events: none;
@@ -1637,7 +1673,7 @@ a {
   transition: opacity 0.8s ease;
 }
 
-/* line 1023, ../sass/app.scss */
+/* line 1056, ../sass/app.scss */
 #video_player.vjs-user-active + #video_player_close {
   opacity: 1.0;
   pointer-events: all;
@@ -1647,11 +1683,31 @@ a {
   transition: opacity 0.2s ease-out;
 }
 
-/* line 1030, ../sass/app.scss */
+/* line 1063, ../sass/app.scss */
+#video_player.vjs-user-inactive + #video_player_subtitle_size_controls {
+  opacity: 0.0;
+  pointer-events: none;
+  -webkit-transition: opacity 0.8s ease;
+  -moz-transition: opacity 0.8s ease;
+  -o-transition: opacity 0.8s ease;
+  transition: opacity 0.8s ease;
+}
+
+/* line 1068, ../sass/app.scss */
+#video_player.vjs-user-active + #video_player_subtitle_size_controls {
+  opacity: 1.0;
+  pointer-events: all;
+  -webkit-transition: opacity 0.2s ease-out;
+  -moz-transition: opacity 0.2s ease-out;
+  -o-transition: opacity 0.2s ease-out;
+  transition: opacity 0.2s ease-out;
+}
+
+/* line 1075, ../sass/app.scss */
 #video_player.video-js {
   font-size: inherit;
 }
-/* line 1033, ../sass/app.scss */
+/* line 1078, ../sass/app.scss */
 #video_player.video-js .vjs-text-track {
   font-size: 1em;
   line-height: 140%;
@@ -1659,27 +1715,27 @@ a {
   margin-bottom: 1em;
   text-shadow: 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black, 0 0 0.2em black;
 }
-/* line 1041, ../sass/app.scss */
+/* line 1086, ../sass/app.scss */
 #video_player.video-js .vjs-text-track-display {
   font-size: 1em;
 }
-/* line 1044, ../sass/app.scss */
+/* line 1090, ../sass/app.scss */
 #video_player.video-js .vjs-loading-spinner {
   font-size: 1em;
 }
-/* line 1047, ../sass/app.scss */
+/* line 1093, ../sass/app.scss */
 #video_player.video-js .vjs-big-play-button {
   font-size: 1em;
 }
-/* line 1050, ../sass/app.scss */
+/* line 1096, ../sass/app.scss */
 #video_player.video-js .vjs-control-bar {
   font-size: 10px;
 }
-/* line 1053, ../sass/app.scss */
+/* line 1099, ../sass/app.scss */
 #video_player.video-js .vjs-menu-item {
   color: #000;
 }
-/* line 1056, ../sass/app.scss */
+/* line 1102, ../sass/app.scss */
 #video_player.video-js .vjs-menu-item.vjs-selected {
   font-weight: bold;
   color: #cc181e;

@@ -40,7 +40,6 @@ App.loader = function (hasToShow, copy) {
       }, 1000);
     }
 };
-
 // Show by default
 // App.loader(true, Language.loading);
 
@@ -62,6 +61,72 @@ window.spawnCallback = function (url, subs) {
       return alert('Weird, but it seems the application is broken and you can\'t play this video.');
     }
 
+    videojs.BiggerSubtitleButton = videojs.Button.extend({
+        /** @constructor */
+        init: function(player, options){
+            videojs.Button.call(this, player, options);
+            this.on('click', this.onClick);
+        }
+    });
+
+    videojs.BiggerSubtitleButton.prototype.onClick = function() {
+        var $subs = $('#video_player.video-js .vjs-text-track-display');
+        var font_size = parseInt($subs.css('font-size'));
+        font_size = font_size + 3;
+        $subs.css('font-size', font_size+'px');
+    };
+
+    var createBiggerSubtitleButton = function() {
+        var props = {
+            className: 'vjs_biggersub_button vjs-control',
+            innerHTML: '<div class="vjs-control-content"><span class="vjs-control-text">A+</span></div>',
+            role: 'button',
+            'aria-live': 'polite', // let the screen reader user know that the text of the button may change
+            tabIndex: 0
+        };
+        return videojs.Component.prototype.createEl(null, props);
+    }
+
+    var biggerSubtitle;
+    videojs.plugin('biggerSubtitle', function() {
+        var options = { 'el' : createBiggerSubtitleButton() };
+        biggerSubtitle = new videojs.BiggerSubtitleButton(this, options);
+        this.controlBar.el().appendChild(biggerSubtitle.el());
+    });
+
+    videojs.SmallerSubtitleButton = videojs.Button.extend({
+        /** @constructor */
+        init: function(player, options){
+            videojs.Button.call(this, player, options);
+            this.on('click', this.onClick);
+        }
+    });
+
+    videojs.SmallerSubtitleButton.prototype.onClick = function() {
+        var $subs = $('#video_player.video-js .vjs-text-track-display');
+        var font_size = parseInt($subs.css('font-size'));
+        font_size = font_size - 3;
+        $subs.css('font-size', font_size+'px');
+    };
+
+    var createSmallerSubtitleButton = function() {
+        var props = {
+            className: 'vjs_smallersub_button vjs-control',
+            innerHTML: '<div class="vjs-control-content"><span class="vjs-control-text">A-</span></div>',
+            role: 'button',
+            'aria-live': 'polite', // let the screen reader user know that the text of the button may change
+            tabIndex: 0
+        };
+        return videojs.Component.prototype.createEl(null, props);
+    }
+
+    var smallerSubtitle;
+    videojs.plugin('smallerSubtitle', function() {
+        var options = { 'el' : createSmallerSubtitleButton() };
+        smallerSubtitle = new videojs.SmallerSubtitleButton(this, options);
+        this.controlBar.el().appendChild(smallerSubtitle.el());
+    });
+
     // Move this to a separate view.
     $('#video-container').html(player).show();
 
@@ -74,7 +139,7 @@ window.spawnCallback = function (url, subs) {
     });
 
     // Init video.
-    var video = videojs('video_player');
+    var video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {} }});
 
     // Enter full-screen
     $('.vjs-fullscreen-control').on('click', function () {
@@ -94,7 +159,6 @@ window.spawnCallback = function (url, subs) {
       // Trigger a resize so the subtitles are adjusted
       $(window).trigger('resize'); 
     });
-    
     // There was an issue with the video
     video.player().on('error', function (error) {
       console.log(error);
