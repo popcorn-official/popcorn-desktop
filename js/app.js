@@ -196,3 +196,12 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
     });
 
 };
+
+
+/**
+ * Show 404 page on uncaughtException
+ */
+
+process.on('uncaughtException', function(err) {
+  console.log(err);
+});
