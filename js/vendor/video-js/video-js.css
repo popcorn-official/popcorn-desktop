@@ -153,6 +153,7 @@ fonts to show/hide properly.
   width: 100%;
   height: 100%;
   text-align: center;
+  color:#666;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 /* Replacement for focus outline */

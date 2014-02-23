@@ -1013,6 +1013,46 @@ a {
   -webkit-app-region: no-drag;
 }
 
+
+.vjs-default-skin .vjs_smallersub_button.vjs-control {
+  float: right;
+  line-height: 1.6em;
+  font-size: 0.8em;
+  top: 5px;
+}
+
+.vjs-default-skin .vjs_biggersub_button.vjs-control {
+  float: right;
+  line-height: 1.6em;
+  font-size: 0.7em;
+  top: 6px;
+
+}
+
+.vjs-default-skin .vjs_biggersub_button.vjs-control:before {
+  font-family: FontAwesome;
+  content: "\f031";
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  color: #666;
+  font-size: 2em;
+  vertical-align: inherit;
+}
+
+.vjs-default-skin .vjs_smallersub_button.vjs-control:before {
+  font-family: FontAwesome;
+  content: "\f031";
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  color: #666;
+  font-size: 1.3em;
+  line-height: 2.4em;
+}
+
+
+
 // Shows the close button when the video controls are active
 // VideoJS has a delay before putting the user-active/inactive class, so you can't close the video during that time if it's hidden by default
 #video_player.vjs-user-inactive + #video_player_close {
