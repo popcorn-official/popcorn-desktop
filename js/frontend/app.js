@@ -146,6 +146,15 @@ window.spawnCallback = function (url, subs) {
       win.toggleKioskMode();
     });
 
+    // Enter full-screen
+    $(document).on('keyup', function (e) {
+      if (e.keyCode == 27) { 
+        win.leaveKioskMode();
+      }
+    });
+
+
+
     // Close player
     $('#video_player_close').on('click', function () {
       win.leaveKioskMode();
@@ -244,6 +253,10 @@ jQuery(function ($) {
         }
         $('#catalog-select ul li.active').removeClass('active');
       }
+  });
+
+  $('body').on('keypress', function (evt) {
+    if (evt.keyCode === 13) {}
   });
 });
 
