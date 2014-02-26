@@ -33,6 +33,8 @@ App.loader = function (hasToShow, copy) {
     $el[hasToShow === false ? 'addClass' : 'removeClass']('hidden');
     
     if( ! hasToShow ) { 
+      window.initialLoading = false;
+
       // Wait a second before removing the progressbar clas
       setTimeout(function(){
         $el.removeClass('withProgressBar').removeClass('cancellable');
@@ -41,7 +43,9 @@ App.loader = function (hasToShow, copy) {
     }
 };
 // Show by default
-// App.loader(true, Language.loading);
+window.initialLoading = true;
+App.loader(true, Language.loading);
+
 
 // Handler for Video opening
 window.spawnCallback = function (url, subs) {
