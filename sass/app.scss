@@ -419,30 +419,6 @@ sidebar {
         i {
             opacity: 1;
         }
-        .health {
-            opacity: 0.2;
-        }
-    }
-
-    .health {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      opacity: 0;
-
-      &.bad {
-        /* background: red; */
-      }
-      &.medium {
-        /* background: yellow; */
-      }
-      &.good {
-        /* background: green; */
-      }
-
-      @include transition(all ease .3s);
     }
 
     i {
@@ -494,6 +470,28 @@ sidebar {
     }
 }
 
+.torrent-health {
+  display: inline-block;
+  padding: 3px 5px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: capitalize;
+
+  &.bad {
+    background: red;
+  }
+  &.medium {
+    background: yellow;
+  }
+  &.good {
+    background: limegreen;
+  }
+  &.excellent {
+    background: green;
+  }
+}
 
 .btn-os {
     background: #FFF;

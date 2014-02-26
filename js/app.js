@@ -111,7 +111,6 @@ win.on('close', function() {
 
 // Taken from peerflix `app.js`
 var peerflix = require('peerflix');
-
 var videoPeerflix = null;
 var playTorrent = window.playTorrent = function (torrent, subs, callback, progressCallback) {
 
@@ -127,7 +126,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
     
     // Create a unique file to cache the video (with a microtimestamp) to prevent read conflicts
     var tmpFilename = ( torrent.toLowerCase().split('/').pop().split('.torrent').shift() ).slice(0,100);
-    tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_') +'-'+ (new Date()*1) +'.mp4';
+    tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_')+'.mp4';
     var tmpFile = path.join(tmpFolder, tmpFilename);
 
     var numCores = (os.cpus().length > 0) ? os.cpus().length : 1;
@@ -137,7 +136,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
     videoPeerflix = peerflix(torrent, {
         // Set the custom temp file
         path: tmpFile,
-        port: 554,
+        //port: 554,
         buffer: (1.5 * 1024 * 1024).toString(),
         connections: numConnections
     }, function (err, flix) {

@@ -35,7 +35,8 @@ App.getTorrentsCollection = function (options) {
                     torrent:    movie.TorrentUrl,
                     torrents:   {},
                     quality:    movie.Quality,
-                    seeders:    movie.TorrentSeeds
+                    seeders:    movie.TorrentSeeds,
+                    leechers:   movie.TorrentPeers
                 };
 
                 var stored = memory[movieModel.imdb];

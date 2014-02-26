@@ -3,7 +3,7 @@ App.Model.Movie = Backbone.Model.extend({
         var model = this;
 
         App.findMovieInfo(model.get('imdb'), function (data) {
-            // console.log('Query title: ' + query.title + ' - Result title: ' + data.title);
+
             model.set('image',    data.image);
             model.set('bigImage', data.image);
             model.set('title',    data.title);
@@ -30,14 +30,32 @@ App.Model.Movie = Backbone.Model.extend({
 
     initialize: function () {
         // Movie Health
-        var seeds = this.get('seeders');
+        var seeders = this.get('seeders');
+        var leechers = this.get('leechers');
+        var ratio = leechers > 0 ? (seeders / leechers) : seeders;
 
-        if (seeds < 100) {
+        if (seeders < 100) {
             this.set('health', 'bad');
-        } else if (seeds > 100 && seeds < 200) {
-            this.set('health', 'medium');
-        } else if (seeds > 200) {
-            this.set('health', 'good');
+        }
+        else if (seeders > 100 && seeders < 200) {
+            if( ratio > 5 ) {
+                this.set('health', 'good');
+            } else if( ratio > 3 ) {
+                this.set('health', 'medium');
+            } else {
+                this.set('health', 'bad');
+            }
+        }
+        else if (seeders > 200) {
+            if( ratio > 5 ) {
+                this.set('health', 'excellent');
+            } else if( ratio > 3 ) {
+                this.set('health', 'good');
+            } else if( ratio > 2 ) {
+                this.set('health', 'medium');
+            } else {
+                this.set('health', 'bad');
+            }
         }
 
         this.setRottenInfo();
