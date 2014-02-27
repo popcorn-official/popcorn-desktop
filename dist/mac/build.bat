@@ -11,6 +11,8 @@ xcopy /s "%CD%\..\..\node-webkit\mac\node-webkit.app" "%CD%\Popcorn Time.app"
 set packageDir=%CD%\Popcorn Time.app\Contents\Resources\app.nw
 mkdir "%packageDir%"
 
+copy "%CD%\..\..\index.html" "%packageDir%"
+copy "%CD%\..\..\package.json" "%packageDir%"
 xcopy /s/i "%CD%\..\..\css" "%packageDir%\css"
 xcopy /s/i "%CD%\..\..\js" "%packageDir%\js"
 xcopy /s/i "%CD%\..\..\fonts" "%packageDir%\fonts"
