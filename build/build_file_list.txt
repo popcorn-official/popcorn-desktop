@@ -1,0 +1,8 @@
+..\index.html
+..\package.json
+..\css\
+..\fonts\
+..\images\
+..\js\
+..\language\
+..\node_modules\
