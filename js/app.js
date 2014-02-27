@@ -17,9 +17,24 @@ var
 
     // browser window object
     win = gui.Window.get(),
+    
+    // os object
+    os = require('os'),
+    
+    // path object
+    path = require('path'),
+    
+    // fs object    
+    fs = require('fs'),
 
     // Localization support
-    Language = require('./language/' + 'en' + '.json');
+    Language = require('./language/' + 'en' + '.json'),
+    
+    tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time');
+
+
+// Create the Temp Folder    
+if( ! fs.existsSync(tmpFolder) ) { fs.mkdirSync(tmpFolder); }
 
 
 // Detect the language and update the global Language file
@@ -116,17 +131,9 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
 
     videoPeerflix ? $(document).trigger('videoExit') : null;
     
-    var path = require('path');
-    var os = require('os');
-    var fs = require('fs');
-    
-    // We use our own temp file, so we keep control over when it's created and deleted
-    var tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time');
-    if( ! fs.existsSync(tmpFolder) ) { fs.mkdirSync(tmpFolder); }
-    
     // Create a unique file to cache the video (with a microtimestamp) to prevent read conflicts
     var tmpFilename = ( torrent.toLowerCase().split('/').pop().split('.torrent').shift() ).slice(0,100);
-    tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_')+'.mp4';
+    tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_')+'-'+ (new Date()*1) +'.mp4';
     var tmpFile = path.join(tmpFolder, tmpFilename);
 
     var numCores = (os.cpus().length > 0) ? os.cpus().length : 1;

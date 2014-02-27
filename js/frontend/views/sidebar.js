@@ -42,7 +42,7 @@ App.View.Sidebar = Backbone.View.extend({
             // Download all the subs so they are available during the video playback
             for( lang in subs ) {
 
-                subsFiles[lang] = 'tmp/' + this.model.get('title').replace(/([^a-zA-Z0-9-_])/g, '_') + ' ' + this.model.get('quality') + ' ' + lang + '.srt';
+                subsFiles[lang] = 'tmp/' + this.model.get('title').replace(/([^a-zA-Z0-9-_])/g, '_') + '-' + this.model.get('quality') + '-' + lang + '.srt';
 
                 // This downloads the subs in binary format and then converts them to UTF-8. App.unzip() doesn't support callbacks or much configuration.
                 // This fixes an encoding issue with accented characters
