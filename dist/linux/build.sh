@@ -32,4 +32,5 @@ cat $BUILDPATH/nw/nw popcorn-app.nw > $BUILDPATH/popcorn-app.run
 cd $BUILDPATH
 chmod +x $BUILDPATH/popcorn-app.run
 cp $BUILDPATH/nw/nw.pak $BUILDPATH/nw.pak
-zip popcorn-app_linux64.zip nw.pak popcorn-app.run
+cp $BUILDPATH/nw/libffmpegsumo.so $BUILDPATH/libffmpegsumo.so
+zip popcorn-app_linux64.zip nw.pak libffmpegsumo.so popcorn-app.run
