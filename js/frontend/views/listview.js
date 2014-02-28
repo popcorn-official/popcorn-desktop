@@ -40,7 +40,12 @@ App.View.MovieList = Backbone.View.extend({
             var $el = this.view.$el;
             var $currentEl = that.$el.find('#movie-'+ this.get('imdb') );
             if ( ! $currentEl.length ) {
+                $el.find('img').addClass('hidden').load(function(){
+                    $(this).removeClass('hidden');
+                });
+            
                 that.$el.append($el);
+                
                 setTimeout(function () {
                     $el.addClass('loaded');
                 }, 50);
@@ -48,10 +53,19 @@ App.View.MovieList = Backbone.View.extend({
             
             // Check for IMDB id and also image loaded (required for view)
             if (this.get('loaded') && ! $el.hasClass('fullyLoaded')) {
-                var $newCover = $('<img src="' + this.get('image') + '" class="loading" alt="' + this.get('title') + '" />');
+            
+                $el.addClass('fullyLoaded');
                 
-                $currentEl.find('img').replaceWith( $newCover );
-                $currentEl.parent().addClass('fullyLoaded');
+                var $newCover = $('<img src="' + this.get('image') + '" class="real hidden" alt="' + this.get('title') + '" />');
+                
+                $newCover.load(function(){
+                  $currentEl.find('.cover img.placeholder').addClass('hidden');
+                  $currentEl.find('.cover').append( $newCover );
+                  
+                  setTimeout(function(){
+                    $newCover.removeClass('hidden');
+                  }, 50);
+                });
             }
             
         });
