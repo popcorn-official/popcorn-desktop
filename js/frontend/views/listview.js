@@ -34,18 +34,26 @@ App.View.MovieList = Backbone.View.extend({
         var that = this;
 
         $.each(this.collection.models, function () {
-            // Check for IMDB id and also image loaded (required for view)
-            if (this.get('image') && this.get('imdb')) {
-                var $el = this.view.$el;
-
-                // Only append not yet appended elements
-                if (!that.$el.find($el).length) {
-                    that.$el.append($el);
-                    setTimeout(function () {
-                        $el.addClass('loaded');
-                    }, 50);
-                }
+        
+            // Only append not yet appended elements
+            this.view.render();
+            var $el = this.view.$el;
+            var $currentEl = that.$el.find('#movie-'+ this.get('imdb') );
+            if ( ! $currentEl.length ) {
+                that.$el.append($el);
+                setTimeout(function () {
+                    $el.addClass('loaded');
+                }, 50);
             }
+            
+            // Check for IMDB id and also image loaded (required for view)
+            if (this.get('loaded') && ! $el.hasClass('fullyLoaded')) {
+                var $newCover = $('<img src="' + this.get('image') + '" class="loading" alt="' + this.get('title') + '" />');
+                
+                $currentEl.find('img').replaceWith( $newCover );
+                $currentEl.parent().addClass('fullyLoaded');
+            }
+            
         });
     }
 });

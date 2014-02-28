@@ -32,9 +32,9 @@ App.View.MovieListItem = Backbone.View.extend({
           var title = this.model.get('title');
         }
         this.$el.html(
-            '<a href="javascript:;">'+
+            '<a href="javascript:;" id="movie-' + this.model.get('imdb') + '">'+
                 '<i class="fa fa-eye fa-3"></i>'+
-                '<img src="' + this.model.get('image') + '" alt="' + this.model.get('title') + '" />'+
+                '<span class="cover"><img src="' + this.model.get('image') + '" alt="' + this.model.get('title') + '" /></span>'+
                 '<strong>' + title + '</strong>'+
                 '<small>' + this.model.get('year') + '</small>'+
             '</a>');

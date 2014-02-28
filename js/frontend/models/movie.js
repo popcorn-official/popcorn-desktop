@@ -1,9 +1,26 @@
 App.Model.Movie = Backbone.Model.extend({
+
+    buildBasicView: function () {
+    
+      var model = this;
+    
+      model.set('loaded',   false);
+      model.set('image',    model.get('coverImage'));
+      model.set('bigImage', model.get('coverImage'));
+      model.set('title',    model.get('title'));
+      model.set('synopsis', '');
+
+      model.view = new App.View.MovieListItem({
+          model: model
+      });
+    },
+
     setRottenInfo: function () {
         var model = this;
 
         App.findMovieInfo(model.get('imdb'), function (data) {
 
+            model.set('loaded',   true);
             model.set('image',    data.image);
             model.set('bigImage', data.image);
             model.set('title',    data.title);
@@ -58,6 +75,7 @@ App.Model.Movie = Backbone.Model.extend({
             }
         }
 
+        this.buildBasicView();
         this.setRottenInfo();
         this.setSubtitles();
     }

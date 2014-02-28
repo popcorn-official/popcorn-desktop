@@ -406,13 +406,13 @@ sidebar {
 .movie-list li, .movie-cover {
 
     height: 195px;
-    width:132px;
+    width: 132px;
     padding: 0;
-    display:inline-block;
-    margin:10px;
-    border-radius:3px;
-    position:relative;
-    background:#000;
+    display: inline-block;
+    margin: 10px;
+    border-radius: 3px;
+    position: relative;
+    background: #000;
 
 
     &:hover {
@@ -439,13 +439,37 @@ sidebar {
         z-index: 10;
         @include transition(all ease .3s);
     }
+    
+    .cover {
+        width: 133px;
+        height: 196px;
+        overflow: hidden;
+        display: block;
+        margin: 0 0 10px 0;
+        border-radius: 3px;
+        background: #000;
+    }
 
     img {
         height: 100%;
-        width:100%;
-        margin: 0 0 10px 0;
+        width: 100%;
+        margin: 0;
         display: block;
-        border-radius:3px;
+        -webkit-transform: scale(1.15) translateY(-5px);
+        opacity: 0.2;
+        
+        &::after {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: blue;
+        }
+    }
+    
+    &.fullyLoaded img {
+        -webkit-transform: none;
+        opacity: 1.0;
     }
 
     a {
