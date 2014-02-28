@@ -80,6 +80,29 @@
             <span><%= year %></span>
             <!-- <span>Health: <span class="torrent-health <%= health %>"><%= health %></span></span> -->
             <p><%= synopsis %></p>
+            <p class="duration"><i class="fa fa-clock-o"></i> <%= runtime %> <%= Language['durationUnit'] %></p>
+            <% var p_rating = (this.model.get('vote_average') / 10) * 5 %>
+            <div class="rating" data-rating="<%= vote_average %>">
+              <ul class="votes">
+              <% for (var i = 0; i < 5; i++) { %>
+                <% if(p_rating > 0 + i && p_rating < 0.5 + i){ %>
+                  <i class="fa fa-star-o"></i> 
+                <% }else if (p_rating >= 0.5 + i && p_rating < 1 + i){ %>
+                  <i class="fa fa-star-half"></i> 
+                <% }else if(p_rating >= 1 + i ){ %>
+                  <i class="fa fa-star"></i> 
+                <% } %>
+
+              <% }; %>
+              </ul>
+              <ul class="empty_votes">
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i> 
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

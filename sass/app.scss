@@ -350,6 +350,31 @@ sidebar {
         font-size:13px;
         line-height: 1.3em;
     }
+
+    .duration{
+      color: #999;
+    }
+    .duration i{
+      font-size: 14px;
+      color: #a9a9a9;
+    }
+
+    .rating{
+      position: relative;
+      font-size: 18px;
+      height: 1.28571428571429em;
+      margin: 0.55555555555556em 0;
+      padding: 0!important;
+      
+    }
+    .rating ul{
+      position: absolute;
+      color: #ad840e;
+    }
+    .rating .star{
+      display: inline-block;
+    }
+    
 }
 .page {
     background: $body-bg;
