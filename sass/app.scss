@@ -32,6 +32,10 @@ $borders-color: #e5eced;
 $text-color: #000;
  */
 
+
+$header_height: 45px;
+$notification_height: 45px;
+
 html, body {
     height: 100%;
     overflow: hidden;
@@ -113,11 +117,11 @@ h1 {
 .popcorn-load {
     background: rgba(0, 0, 0, .8);
     color: #fff;
-    height: calc(100% - 45px);
+    height: calc(100% - #{$header_height});
     left: 0;
     opacity: 1;
     position: absolute;
-    top: 45px;
+    top: $header_height;
     width: 100%;
     z-index: 999;
     @include transition(opacity ease 1s);
@@ -360,10 +364,11 @@ sidebar {
     }
 }
 
+
 #header {
     @include box-sizing(border-box);
     border: 1px solid #000;
-    height: 45px;
+    height: $header_height;
     left: 0;
     padding: 15px;
     position: absolute;
@@ -372,18 +377,76 @@ sidebar {
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
     width: 100%;
     background-image: linear-gradient(to bottom, #30302e 0%, #232322 100%);
+}
 
+#notification {
+  @include box-sizing(border-box);
 
+  position: absolute;
+  top: $header_height;
+  height: $notification_height;
+  left: 0px;
+  right: 0px;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 27px;
+  padding: 9px 15px;
+  background: #303030;
+  color: #fff;
+  border: 1px solid #000;
+  border-top: none;
+  display: none;
 
+  .btn {
+    position: absolute;
+    top: 6px;
+    right: 15px;
 
+    background-image: linear-gradient(to bottom, #9ABE26 0%, #87B318 100%);
+  }
 }
 
 .container {
-    height: calc(100% - 45px);
+    height: calc(100% - #{$header_height});
     overflow: hidden;
-    margin: 45px 0 0 180px;
+    margin: #{$header_height} 0 0 180px;
     position: relative;
 }
+
+
+.btn {
+  color: #999999;
+  display: inline-block;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 18px;
+  padding: 7px 12px;
+  background: #286dc4;
+  cursor: pointer;
+  background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
+  color: #FFF;
+  font-weight: bold;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+
+  @include transition(background-color ease .3s);
+}
+
+
+// Notifications displace the UI a bit
+body.has-notification {
+  .container {
+    height: calc(100% - #{$header_height} - #{$notification_height});
+    margin: $header_height + $notification_height 0 0 180px;
+  }
+  #catalog-select {
+    top: $header_height + $notification_height;
+    height: calc(100% - #{$header_height} - #{$notification_height});
+  }
+  #notification {
+    display: block;
+  }
+}
+
 
 .movie-list {
   margin-bottom:15px;
@@ -947,9 +1010,9 @@ a {
 #catalog-select {
   width: 180px;
   position: absolute;
-  top: 45px;
+  top: $header_height;
   padding: 20px;
-  height: calc(100% - 45px);
+  height: calc(100% - #{$header_height});
   background: #121212;
   border-right:1px solid #000;
   font-family: 'Myriad Pro', 'Lucida Grande', sans-serif;
