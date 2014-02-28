@@ -22,7 +22,10 @@ App.findMovieInfo = function (imdbId, callback) {
                     var info = {
                         image:    POSTER_PREFIX + data.poster_path,
                         overview: data.overview,
-                        title:    data.title
+                        title:    data.title,
+                        vote_average:    data.vote_average,
+                        runtime:    data.runtime
+
                     };
 
                     console.log('Fetched info for', imdbId, ':', info);
@@ -46,7 +49,7 @@ App.findMovieInfo = function (imdbId, callback) {
             }
         });
     };
-
+    
     App.Cache.getItem('tmdb', imdbId, function (cachedItem) {
         if (cachedItem) {
             callback(cachedItem);
