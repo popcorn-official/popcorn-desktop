@@ -1001,13 +1001,13 @@ a {
 
 
       &.active {
-
-        a {
+        a, a:hover {
           background: #286dc4;
           background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
           color:#FFF;
           font-weight:bold;
           text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+          cursor: default;
         }
       }
       a {
