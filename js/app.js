@@ -127,10 +127,19 @@ win.on('close', function() {
 
 
 // Cancel all new windows (Middle clicks / New Tab)
-gui.Window.get().on('new-win-policy', function (frame, url, policy) {
+win.on('new-win-policy', function (frame, url, policy) {
     policy.ignore();
 });
 
+// Prevent dropping files into the window
+window.addEventListener("dragover",function(e){
+  	e = e || event;
+  	e.preventDefault();
+},false);
+window.addEventListener("drop",function(e){
+  	e = e || event;
+  	e.preventDefault();
+},false);
 
 
 // Taken from peerflix `app.js`
