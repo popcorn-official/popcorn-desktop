@@ -17,12 +17,6 @@ to { -webkit-transform: translate(220px,0); }
 }
 
 
-
-
-
-
-
-
 /* Dark Theme */
 $body-bg: #181817;
 $app-width: 100%;
@@ -401,6 +395,7 @@ sidebar {
     box-shadow:inset 0px 1px 0px rgba(255,255,255,0.15), 0 2px 3px rgba(0,0,0,0.3);
     border-radius:3px;
     border:1px solid #000;
+    z-index: 3;
 }
 
 .movie-list li, .movie-cover {
@@ -448,7 +443,6 @@ sidebar {
         margin: 0 0 10px 0;
         border-radius: 3px;
         background: url(../images/posterholder.png) no-repeat 50% 50%;
-        
         -webkit-transform: translateZ(0);
     }
 
@@ -460,7 +454,7 @@ sidebar {
         top: 0;
         left: 0;
         display: block;
-        
+        border-radius: 3px;
         @include transition(all ease 1.0s);
         -webkit-transform: translateZ(0);
         
@@ -468,14 +462,17 @@ sidebar {
             -webkit-filter: grayscale(1.0);
             -webkit-transform: scale(1.15) translateY(-5px);
             z-index: 1;
+            border-radius: 3px;
         }
         &.real {
             opacity: 1.0;
             z-index: 2;
+            border-radius: 3px;
         }
         &.hidden {
             opacity: 0.0;
             visibility: hidden;
+            border-radius: 3px;
         }
     }
 
