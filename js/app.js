@@ -113,8 +113,10 @@ if (!isDebug) {
 	});
 }
 
+
 // Set the app title (for Windows mostly)
 win.title = 'Popcorn Time';
+
 
 // Prompting before quitting
 win.on('close', function() {
@@ -122,6 +124,13 @@ win.on('close', function() {
         this.close(true);
     }
 });
+
+
+// Cancel all new windows (Middle clicks / New Tab)
+gui.Window.get().on('new-win-policy', function (frame, url, policy) {
+    policy.ignore();
+});
+
 
 
 // Taken from peerflix `app.js`
