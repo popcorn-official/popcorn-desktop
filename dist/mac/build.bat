@@ -18,8 +18,18 @@ xcopy /s/i "%CD%\..\..\js" "%packageDir%\js"
 xcopy /s/i "%CD%\..\..\fonts" "%packageDir%\fonts"
 xcopy /s/i "%CD%\..\..\images" "%packageDir%\images"
 xcopy /s/i "%CD%\..\..\language" "%packageDir%\language"
-xcopy /s/i "%CD%\..\..\node_modules" "%packageDir%\node_modules"
 xcopy /s/i "%CD%\..\..\tmp" "%packageDir%\tmp"
+
+:: Doesn't work
+:: xcopy /s/i "%CD%\..\..\node_modules" "%packageDir%\node_modules"
+
+:: Node Modules are a bit more fiddly (paths are longer than 255 chars, which makes xcopy fuck up)
+:: This is a very shitty hack.
+:: Zip them first to get around this restriction
+del "node_modules.zip"
+"%ProgramFiles%\7-Zip\7z.exe" a -tzip -mx0 "node_modules.zip" "..\..\node_modules"
+:: And then unzip them in the correct place
+"%ProgramFiles%\7-Zip\7z.exe" x "node_modules.zip" -o"%packageDir%"
 
 :: Put our custom icons in place
 del "%CD%\Popcorn Time.app\Contents\Resources\nw.icns"
