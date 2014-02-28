@@ -80,6 +80,10 @@ h1 {
         a {
             box-shadow: 0 0 0 3px #3498db;
             border-radius: 3px;
+            
+            i {
+              opacity: 0.0 !important;
+            }
         }
     }
 }
@@ -993,13 +997,13 @@ a {
 
 
       &.active {
-
-        a {
+        a, a:hover {
           background: #286dc4;
           background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
           color:#FFF;
           font-weight:bold;
           text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+          cursor: default;
         }
       }
       a {
@@ -1024,7 +1028,6 @@ a {
   top: 0;
   width: 100%;
   z-index: 998;
-  
   // This fixes an issue: The header has app-region:drag, 
   // which causes some weird issues with clicks of elements which are right on top of the header... like the video-container.  
   // There's a JS workaround so you can drag the window by the video, since app-region:drag fucks up the mouse events.

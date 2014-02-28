@@ -40,7 +40,7 @@ App.View.MovieList = Backbone.View.extend({
             var $el = this.view.$el;
             var $currentEl = that.$el.find('#movie-'+ this.get('imdb') );
             if ( ! $currentEl.length ) {
-                $el.find('img').addClass('hidden').load(function(){
+                $el.find('img.placeholder').addClass('hidden').load(function(){
                     $(this).removeClass('hidden');
                 });
             

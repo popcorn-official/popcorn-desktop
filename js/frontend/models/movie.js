@@ -19,7 +19,7 @@ App.Model.Movie = Backbone.Model.extend({
         var model = this;
 
         App.findMovieInfo(model.get('imdb'), function (data) {
-
+        
             model.set('loaded',   true);
             model.set('image',    data.image);
             model.set('bigImage', data.image);
