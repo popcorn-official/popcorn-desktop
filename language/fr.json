@@ -1,0 +1,45 @@
+{
+    "beforeQuit": "Êtes-vous sûr(e) de vouloir quitter ?",
+    "loading": "Patientez...",
+    "loadingVideo": "Chargement de la vidéo, merci de patienter...",
+    "searchLoading": "Recherche...",
+    "noResults": "Aucun résultat trouvé pour votre recherche.",
+
+    "search": "Recherche",
+    "movies": "Films",
+
+    "subtitledIn": "Sous-titres",
+    "quality": "Qualité",
+    "watchItNow": "Regarder",
+
+    "connecting": "Connexion...",
+    "startingDownload": "Démarrage du téléchargement...",
+    "downloading": "Téléchargement...",
+
+    "genres": {
+        "all": "Populaire",
+        "action": "Action",
+        "adventure": "Aventure",
+        "animation": "Animation",
+        "biography": "Biographie",
+        "comedy": "Comédie",
+        "crime": "Crime",
+        "documentary": "Documentaire",
+        "drama": "Drame",
+        "family": "Famille",
+        "fantasy": "Fantastique",
+        "film-noir": "Film Noir",
+        "history": "Histoire",
+        "horror": "Horreur",
+        "music": "Musique",
+        "musical": "Musical",
+        "mystery": "Mystère",
+        "romance": "Romance",
+        "sci-fi": "Sci-Fi",
+        "short": "Court métrage",
+        "sport": "Sport",
+        "thriller": "Thriller",
+        "war": "Guerre",
+        "western": "Western"
+    }
+}
