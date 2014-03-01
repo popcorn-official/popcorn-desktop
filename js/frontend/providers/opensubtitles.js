@@ -87,14 +87,6 @@ App.findSubtitle = function (model, cb, isFallback) {
     };
 
     App.Cache.getItem('subtitle', model, function (cachedItem) {
-        /*
-         if (cachedItem) {
-         cb(cachedItem);
-         } else {
-         doRequest();
-         }
-         */
-        doRequest();
         if (cachedItem) {
             cb(cachedItem);
         } else {

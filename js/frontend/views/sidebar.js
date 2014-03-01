@@ -38,48 +38,68 @@ App.View.Sidebar = Backbone.View.extend({
             subsFile,
             subtitle;
 
+        function getSubtitle ( subUrl, subOutputFile ) {
+            console.log("Getting subtitle from: "+subUrl);
+            console.log("To: "+subOutputFile);
+
+            var request = require('request');
+            var fs = require('fs');
+            var AdmZip = require('adm-zip');
+            var http = require('http');
+            var url = require('url');
+            var charsetDetect = require('jschardet');
+            var targetCharset = 'UTF-8';
+
+
+            var options = {
+                host: url.parse(subUrl).host,
+                port: 80,
+                path: url.parse(subUrl).pathname
+            };
+
+            http.get(options, function(res) {
+                var data = [], dataLen = 0;
+                res.on('data', function(chunk) {
+                    data.push(chunk);
+                    dataLen += chunk.length;
+                }).on('end', function() {
+                        var buf = new Buffer(dataLen);
+
+                        for (var i=0, len = data.length, pos = 0; i < len; i++) {
+                            data[i].copy(buf, pos);
+                            pos += data[i].length;
+                        }
+
+                        var zip = new AdmZip(buf);
+                        var zipEntries = zip.getEntries();
+                        console.log("There are " + zipEntries.length + " files inside zip");
+                        zipEntries.forEach(function(zipEntry, key) {
+                            console.log("Processing file inside zip: "+zipEntry.entryName);
+                            if (zipEntry.entryName.indexOf('.srt') != -1) {
+                                console.log('Its a subtitle file.');
+                                var subText = zip.readAsText(zipEntries[key]);
+                                var charset = charsetDetect.detect(subText);
+                                console.log('I have text and Charset encoding is: '+charset.encoding);
+                                if( charset.encoding != targetCharset ) {
+                                    console.log('Converting to utf');
+                                    var iconv = require('iconv-lite');
+                                    subText = iconv.encode( iconv.decode(subText, charset.encoding), targetCharset );
+                                    console.log("Saving to srt file: "+subOutputFile);
+                                    fs.writeFile( subOutputFile, subText);
+                                    console.log('The file '+subOutputFile+ ' was written');
+                                }
+                                return true;
+                            }
+                        });
+                    });
+            });
+        }
+
         if (subs) {
             // Download all the subs so they are available during the video playback
             for( lang in subs ) {
-
                 subsFiles[lang] = 'tmp/' + this.model.get('title').replace(/([^a-zA-Z0-9-_])/g, '_') + '-' + this.model.get('quality') + '-' + lang + '.srt';
-                var tmpFile = 'tmpSub.zip';
-
-                // This downloads the subs in binary format and then converts them to UTF-8. App.unzip() doesn't support callbacks or much configuration.
-                // This fixes an encoding issue with accented characters
-                var request = require('request');
-                var AdmZip = require('adm-zip');
-                var fs = require('fs');
-                var tmpOut = fs.createWriteStream(tmpFile);
-                var charsetDetect = require('jschardet');
-                var targetCharset = 'UTF-8';
-
-                var subOutput = fs.createWriteStream(subsFiles[lang]);
-
-                subOutput.on('finish', function() {
-                    var subText = fs.readFileSync(this.path, 'binary');
-                    var charset = charsetDetect.detect(subText);
-                    if( charset.encoding != targetCharset ) {
-                        var iconv = require('iconv-lite');
-                        subText = iconv.encode( iconv.decode(subText, charset.encoding), targetCharset );
-                        fs.writeFile( this.path, subText );
-                    }
-                });
-
-               var zreq = request({
-                    url: subs[lang],
-                    headers: { 'Accept-Encoding': 'gzip,deflate' }
-                });
-                zreq.pipe(tmpOut);
-                zreq.on('finish', function() {
-                    var zip = new AdmZip(tmpFile);
-                    var zipEntries = zip.getEntries(); // an array of ZipEntry records
-
-                    zipEntries.forEach(function(zipEntry) {
-                        console.log(zipEntry.toString()); // outputs zip entries information
-                        zipEntry.data.toString.pipe(subOutput);
-                    });
-                });
+                getSubtitle(subs[lang], subsFiles[lang]);
             }
         }
 
