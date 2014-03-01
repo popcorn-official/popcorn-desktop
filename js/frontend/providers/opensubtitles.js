@@ -11,11 +11,11 @@ var xmlrpc = require('xmlrpc'),
             'User-Agent': appUserAgent
         }
     }),
-
     Languages = window.Languages = {
         'spa': 'Spanish',
-        'eng': 'English'
-        'pob': 'Portuguese(Brazil)'
+        'eng': 'English',
+        'pob': 'Portuguese(Brazil)',
+        'fre': 'French'
     },
 
     token;
