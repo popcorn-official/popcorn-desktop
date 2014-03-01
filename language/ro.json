@@ -1,0 +1,45 @@
+{
+    "beforeQuit": "Ești sigur că vrei să închizi?",
+    "loading": "Așteaptă te rog...",
+    "loadingVideo": "Video-ul se încarcă, te rog așteaptă",
+    "searchLoading": "Se caută...",
+    "noResults": "Nu sa găsit niciun rezultat.",
+
+	"search": "Caută",
+    "movies": "Filme",
+
+    "subtitledIn": "Subtitrat în",
+    "quality": "Calitate",
+    "watchItNow": "Vizionează acum",
+
+    "connecting": "Se conectează...",
+    "startingDownload": "Începe descărcarea...",
+    "downloading": "Se descarcă...",
+
+    "genres": {
+        "all": "Popular",
+        "action": "Acțiune",
+        "adventure": "Aventură",
+        "animation": "Animație",
+        "biography": "Biografic",
+        "comedy": "Comedie",
+        "crime": "Crimă",
+        "documentary": "Documentar",
+        "drama": "Dramă",
+        "family": "De familie",
+        "fantasy": "Fantezie",
+        "film-noir": "Film-Noir",
+        "history": "Istoric",
+        "horror": "Horror",
+        "music": "Muzică",
+        "musical": "Muzical",
+        "mystery": "Mister",
+        "romance": "Romantic",
+        "sci-fi": "SF",
+        "short": "Scurt-metraj",
+        "sport": "Sport",
+        "thriller": "Thriller",
+        "war": "Razboi",
+        "western": "Western"
+    }
+}
