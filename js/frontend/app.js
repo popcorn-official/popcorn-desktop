@@ -232,6 +232,11 @@ jQuery(function ($) {
     $(document).trigger('videoExit');
   });
 
+
+  //Pagination html
+  var pagination = '<nav class="pagination hidden"><ul><li class="active"><a data-page="1" href="#">1</a></li><li><a data-page="2" class="inactive" href="#">2</a></li><li><a data-page="3" class="inactive" href="#">3</a></li><li><a data-page="4" class="inactive" href="#">4</a></li><li><a data-page="5" class="inactive" href="#">5</a></li></ul></nav>';
+
+  //Catalog switch
   $('#catalog-select ul li a').on('click', function (evt) {
     $('#catalog-select ul li.active').removeClass('active');
     $(this).parent('li').addClass('active');
@@ -243,7 +248,22 @@ jQuery(function ($) {
     } else {
       App.Router.navigate('filter/' + genre, { trigger: true });
     }
+    
+    $("#category-list").append(pagination);
+    evt.preventDefault();
   });
+
+  //Pagination buttons
+  $( document ).on( "click", ".pagination a", function(event) {
+    var page = $(this).attr('data-page');
+    var genre = $("#catalog-select ul li.active a").attr("data-genre");;
+    App.Router.navigate('filter/' + genre + '/' + page, { trigger: true });
+    $("#category-list").append(pagination);
+    $(".pagination li").removeClass('active');
+    $(".pagination li").eq(page-1).addClass('active');
+    event.preventDefault();
+  });
+
 
   $('.search input').on('keypress', function (evt) {
     var term = $.trim($(this).val());
