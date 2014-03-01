@@ -1583,15 +1583,15 @@ body.has-notification #notification {
   overflow: hidden;
 }
 /* line 884, ../sass/app.scss */
-.flag.flag-eng {
+.flag.flag-english {
   background-image: url(../images/english.png);
 }
 /* line 885, ../sass/app.scss */
-.flag.flag-fre {
+.flag.flag-french {
   background-image: url(../images/french.png);
 }
 /* line 886, ../sass/app.scss */
-.flag.flag-hol {
+.flag.flag-dutch {
   background-image: url(../images/dutch.png);
 }
 /* line 887, ../sass/app.scss */
@@ -1599,19 +1599,19 @@ body.has-notification #notification {
   background-image: url(../images/pob.png);
 }
 /* line 888, ../sass/app.scss */
-.flag.flag-por {
+.flag.flag-portuguese {
   background-image: url(../images/portuguese.png);
 }
 /* line 889, ../sass/app.scss */
-.flag.flag-rum {
+.flag.flag-rumanian {
   background-image: url(../images/rumanian.png);
 }
 /* line 890, ../sass/app.scss */
-.flag.flag-spa {
+.flag.flag-spanish {
   background-image: url(../images/spanish.png);
 }
 /* line 891, ../sass/app.scss */
-.flag.flag-tur {
+.flag.flag-turkish {
   background-image: url(../images/turkish.png);
 }
 
