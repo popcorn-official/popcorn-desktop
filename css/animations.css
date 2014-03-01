@@ -1,0 +1,35 @@
+@-webkit-keyframes sidebareffect {
+  /* line 2, ../sass/animations.scss */
+  from {
+    -webkit-transform: translate(220px, 0);
+  }
+
+  /* line 3, ../sass/animations.scss */
+  to {
+    -webkit-transform: translate(0, 0);
+  }
+}
+
+@-webkit-keyframes sidebareffect2 {
+  /* line 7, ../sass/animations.scss */
+  from {
+    -webkit-transform: translate(0, 0);
+  }
+
+  /* line 8, ../sass/animations.scss */
+  to {
+    -webkit-transform: translate(220px, 0);
+  }
+}
+
+@-webkit-keyframes spin {
+  /* line 12, ../sass/animations.scss */
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+
+  /* line 13, ../sass/animations.scss */
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
