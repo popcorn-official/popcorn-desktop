@@ -39,9 +39,6 @@ App.View.Sidebar = Backbone.View.extend({
             subtitle;
 
         function getSubtitle ( subUrl, subOutputFile ) {
-            console.log("Getting subtitle from: "+subUrl);
-            console.log("To: "+subOutputFile);
-
             var request = require('request');
             var fs = require('fs');
             var AdmZip = require('adm-zip');
@@ -50,7 +47,6 @@ App.View.Sidebar = Backbone.View.extend({
             var charsetDetect = require('jschardet');
             var targetCharset = 'UTF-8';
             var targetEncodingCharset = 'utf8';
-
 
             var options = {
                 host: url.parse(subUrl).host,
@@ -72,46 +68,19 @@ App.View.Sidebar = Backbone.View.extend({
                         }
                         var zip = new AdmZip(buf);
                         var zipEntries = zip.getEntries();
-                        console.log("There are " + zipEntries.length + " files inside zip");
                         zipEntries.forEach(function(zipEntry, key) {
-                            console.log("Processing file inside zip: "+zipEntry.entryName);
                             if (zipEntry.entryName.indexOf('.srt') != -1) {
-                                console.log('Its a subtitle file.');
                                 var decompressedData = zip.readFile(zipEntry); // decompressed buffer of the entry
                                 var charset = charsetDetect.detect(decompressedData);
-                                console.log('I have text and Charset encoding is: '+charset.encoding);
-                                //console.log(zip.readFile(zipEntries[key]));
-                                var iconv = require('iconv-lite');
-
-                                decompressedData = iconv.encode( iconv.decode(decompressedData, charset.encoding), targetEncodingCharset);
-                                fs.writeFile( subOutputFile, decompressedData);
-return;
-                                if( charset.encoding == 'ascii' ){
-                                    console.log('Its Ascii so we write it as is');
+                                if (charset == targetEncodingCharset || charset == targetCharset) {
                                     fs.writeFile( subOutputFile, decompressedData);
                                     return;
-                                } // ASCII is pretty much UTF-8
-                                if( charset.encoding != targetCharset && iconv.encodingExists(charset.encoding) ) {
-                                    console.log('Its not utf8');
-                                    // Windows-1251/2 works fine when read from a file (like it's UTF-8), but if you try to convert it you'll ruin the encoding.
-                                    // Just save it again, and it'll be stored as UTF-8. At least on Windows.
-                                    if( charset.encoding != 'windows-1251' && charset.encoding != 'windows-1252' ) {
-                                        console.log('Encoding is windows-1251');
-                                        decompressedData = iconv.encode( iconv.decode(decompressedData, charset.encoding), targetCharset );
-                                    }
-                                }
-                                fs.writeFile( subOutputFile, decompressedData);
-
-/*
-                                if( charset.encoding != targetCharset ) {
-                                    console.log('Converting to utf');
+                                } else {
                                     var iconv = require('iconv-lite');
-                                    subText = iconv.encode( iconv.decode(subText, charset.encoding), targetCharset );
-                                    console.log("Saving to srt file: "+subOutputFile);
-                                    fs.writeFile( subOutputFile, subText);
-                                    console.log('The file '+subOutputFile+ ' was written');
+                                    decompressedData = iconv.encode( iconv.decode(decompressedData, charset.encoding), targetEncodingCharset);
+                                    fs.writeFile( subOutputFile, decompressedData);
+                                    return;
                                 }
-*/
                             }
                         });
                     });
