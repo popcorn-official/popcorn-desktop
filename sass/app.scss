@@ -48,7 +48,7 @@ body {
     border-radius: 5px;
     color: #333;
     cursor: default;
-    font-family: 'Helvetica Neue', sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     color:$text-color;
 }
@@ -62,7 +62,6 @@ button {
 }
 
 h1 {
-    font-family: 'Lucida Grande', 'Myriad Pro', sans-serif;
     font-size: 13px;
 }
 
@@ -774,7 +773,7 @@ body.has-notification {
     border-radius: 5px;
     color: #FFF;
     display: block;
-    font-family: Helvetica, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-weight: 700;
     margin-top: 10px;
@@ -808,7 +807,7 @@ body.has-notification {
 
         &.description {
             color: #777;
-            font-family: 'Helvetica Neue', sans-serif;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: 18px;
             margin-bottom:20px;
         }
@@ -930,6 +929,7 @@ body.has-notification {
         }
     }
 
+   
 input {
   font-family: inherit;
   font-size: 100%;
@@ -1137,7 +1137,6 @@ a {
   height: calc(100% - #{$header_height});
   background: #121212;
   border-right:1px solid #000;
-  font-family: 'Myriad Pro', 'Lucida Grande', sans-serif;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
