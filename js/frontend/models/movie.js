@@ -9,6 +9,8 @@ App.Model.Movie = Backbone.Model.extend({
       model.set('bigImage', model.get('coverImage'));
       model.set('title',    model.get('title'));
       model.set('synopsis', '');
+      model.set('voteAverage', null);
+      model.set('runtime', null);
 
       model.view = new App.View.MovieListItem({
           model: model
@@ -19,12 +21,14 @@ App.Model.Movie = Backbone.Model.extend({
         var model = this;
 
         App.findMovieInfo(model.get('imdb'), function (data) {
-        
+            
             model.set('loaded',   true);
             model.set('image',    data.image);
             model.set('bigImage', data.image);
             model.set('title',    data.title);
             model.set('synopsis', data.overview);
+            model.set('voteAverage', data.voteAverage);
+            model.set('runtime', data.runtime);
 
             model.view = new App.View.MovieListItem({
                 model: model

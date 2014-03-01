@@ -1,6 +1,7 @@
 @import '_frame';
 @import '_utils';
 @import '../css/font-awesome.min.css';
+@import 'tooltip.scss';
 @import 'compass/css3';
 @import 'compass/reset';
 
@@ -32,6 +33,10 @@ $borders-color: #e5eced;
 $text-color: #000;
  */
 
+
+$header_height: 45px;
+$notification_height: 45px;
+
 html, body {
     height: 100%;
     overflow: hidden;
@@ -43,7 +48,7 @@ body {
     border-radius: 5px;
     color: #333;
     cursor: default;
-    font-family: 'Helvetica Neue', sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     color:$text-color;
 }
@@ -57,7 +62,6 @@ button {
 }
 
 h1 {
-    font-family: 'Lucida Grande', 'Myriad Pro', sans-serif;
     font-size: 13px;
 }
 
@@ -113,11 +117,11 @@ h1 {
 .popcorn-load {
     background: rgba(0, 0, 0, .8);
     color: #fff;
-    height: calc(100% - 45px);
+    height: calc(100% - #{$header_height});
     left: 0;
     opacity: 1;
     position: absolute;
-    top: 45px;
+    top: $header_height;
     width: 100%;
     z-index: 999;
     @include transition(opacity ease 1s);
@@ -346,6 +350,31 @@ sidebar {
         font-size:13px;
         line-height: 1.3em;
     }
+
+    .duration{
+      color: #999;
+    }
+    .duration i{
+      font-size: 14px;
+      color: #a9a9a9;
+    }
+
+    .rating{
+      position: relative;
+      font-size: 18px;
+      height: 1.28571428571429em;
+      margin: 0.55555555555556em 0;
+      padding: 0!important;
+      
+    }
+    .rating ul{
+      position: absolute;
+      color: #ad840e;
+    }
+    .rating .star{
+      display: inline-block;
+    }
+
 }
 .page {
     background: $body-bg;
@@ -360,10 +389,11 @@ sidebar {
     }
 }
 
+
 #header {
     @include box-sizing(border-box);
     border: 1px solid #000;
-    height: 45px;
+    height: $header_height;
     left: 0;
     padding: 15px;
     position: absolute;
@@ -372,18 +402,77 @@ sidebar {
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
     width: 100%;
     background-image: linear-gradient(to bottom, #30302e 0%, #232322 100%);
+}
 
+#notification {
+  @include box-sizing(border-box);
 
+  position: absolute;
+  top: $header_height;
+  height: $notification_height;
+  left: 0px;
+  right: 0px;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 27px;
+  padding: 9px 15px;
+  background: #e20f3c;
+  color: #fff;
+  border: 1px solid #000;
+  border-top: none;
+  display: none;
 
+  .btn {
+    position: absolute;
+    top: 6px;
+    right: 15px;
 
+    background-image: none;
+    background: rgba(0,0,0,0.4)
+  }
 }
 
 .container {
-    height: calc(100% - 45px);
+    height: calc(100% - #{$header_height});
     overflow: hidden;
-    margin: 45px 0 0 180px;
+    margin: #{$header_height} 0 0 180px;
     position: relative;
 }
+
+
+.btn {
+  color: #999999;
+  display: inline-block;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 18px;
+  padding: 7px 12px;
+  background: #286dc4;
+  cursor: pointer;
+  background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
+  color: #FFF;
+  font-weight: bold;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+
+  @include transition(background-color ease .3s);
+}
+
+
+// Notifications displace the UI a bit
+body.has-notification {
+  .container {
+    height: calc(100% - #{$header_height} - #{$notification_height});
+    margin: $header_height + $notification_height 0 0 180px;
+  }
+  #catalog-select {
+    top: $header_height + $notification_height;
+    height: calc(100% - #{$header_height} - #{$notification_height});
+  }
+  #notification {
+    display: block;
+  }
+}
+
 
 .movie-list {
   margin-bottom:15px;
@@ -502,6 +591,54 @@ sidebar {
     }
 }
 
+
+.pagination {
+    border-radius: 4px;
+    display: block;
+    margin: 40px 0;
+    padding-left: 0;
+    text-align: center;
+}
+.pagination ul li{
+  display: inline-block;
+}
+.pagination li:first-child > a, .pagination li:first-child > span {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    margin-left: 0;
+    
+}
+.pagination li:last-child > a, .pagination li:last-child > span {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.pagination li > a, .pagination li > span {
+    border: 1px solid rgba(255,255,255, 0.2);
+    color: #999999;
+    float: left;
+    line-height: 1.42857;
+    margin-left: -1px;
+    padding: 6px 12px;
+    position: relative;
+    text-decoration: none;
+    @include box-sizing(border-box);
+    border: 1px solid #000;
+    text-align: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 1px rgba(0,0,0, 0.6);
+    background-image: linear-gradient(to bottom, #2a2a2a 0%, #1b1b1b 100%);
+}
+.pagination li > a:hover{
+  opacity: 0.8;
+}
+
+.pagination ul li.active a, .pagination li > a:active{
+    background-image: linear-gradient(to bottom, #121212 0%, #191919 100%);
+    box-shadow: 0 1px 0px rgba(255,255,255, 0.1), inset 0 1px 1px rgba(0,0,0, 0.5);
+    color: #fff;
+}
+
+
+
 .torrent-health {
   display: inline-block;
   padding: 3px 5px;
@@ -522,6 +659,37 @@ sidebar {
   }
   &.excellent {
     background: green;
+  }
+}
+
+.health {
+  font-size: 14px;
+  border: 2px solid green;
+  border-radius: 20px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  cursor: pointer;
+  position: absolute;
+  right: 12px;
+  bottom: 24px;
+
+  &.bad {
+    color: red;
+    border-color: red;
+  }
+  &.medium {
+    color: yellow;
+    border-color: yellow;
+  }
+  &.good {
+    color: limegreen;
+    border-color: limegreen;
+  }
+  &.excellent {
+    color: green;
+    border-color: green;
   }
 }
 
@@ -605,7 +773,7 @@ sidebar {
     border-radius: 5px;
     color: #FFF;
     display: block;
-    font-family: Helvetica, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-weight: 700;
     margin-top: 10px;
@@ -639,7 +807,7 @@ sidebar {
 
         &.description {
             color: #777;
-            font-family: 'Helvetica Neue', sans-serif;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: 18px;
             margin-bottom:20px;
         }
@@ -707,12 +875,28 @@ sidebar {
   padding: 0;
 }
 
+.flag {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  
+  &.flag-eng { background-image: url(../images/eng.png); }
+  &.flag-fre { background-image: url(../images/fre.png); }
+  &.flag-hol { background-image: url(../images/hol.png); }
+  &.flag-pob { background-image: url(../images/pob.png); }
+  &.flag-por { background-image: url(../images/por.png); }
+  &.flag-rum { background-image: url(../images/rum.png); }
+  &.flag-spa { background-image: url(../images/spa.png); }
+  &.flag-tur { background-image: url(../images/tur.png); }
+}
+
 .movie-config {
-        -webkit-transition: all .25s ease;
-      -moz-transition: all .25s ease;
-      -ms-transition: all .25s ease;
-      -o-transition: all .25s ease;
-      transition: all .25s ease;
+    -webkit-transition: all .25s ease;
+    -moz-transition: all .25s ease;
+    -ms-transition: all .25s ease;
+    -o-transition: all .25s ease;
+    transition: all .25s ease;
 
     position:absolute;
     bottom:-90px;
@@ -739,12 +923,13 @@ sidebar {
         span.available-subtitles {
           float: right;
           margin-top: -3px;
-          > img {
+          > .flag {
             margin-left: 5px;
           }
         }
     }
 
+   
 input {
   font-family: inherit;
   font-size: 100%;
@@ -947,12 +1132,11 @@ a {
 #catalog-select {
   width: 180px;
   position: absolute;
-  top: 45px;
+  top: $header_height;
   padding: 20px;
-  height: calc(100% - 45px);
+  height: calc(100% - #{$header_height});
   background: #121212;
   border-right:1px solid #000;
-  font-family: 'Myriad Pro', 'Lucida Grande', sans-serif;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -1093,6 +1277,12 @@ a {
   opacity: 1.0;
   pointer-events: all;
   @include transition(opacity 0.2s ease-out);
+}
+#video_player.vjs-user-inactive {
+  video {
+    // Disable the cursor when playing the video
+    cursor: none;
+  }
 }
 
 // The font size for the subtitles is applied to #video-container, so we have to change a few styles for it to propagate properly.

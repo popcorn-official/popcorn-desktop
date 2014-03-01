@@ -11,10 +11,14 @@
       <nav class="btn-set">
         <button class="btn-os close"></button>
         <button class="btn-os min"></button>
+        <button class="btn-os max"></button>
       </nav>
       <h1>Popcorn Time</h1>
 
     </header>
+  
+    <div id="notification"></div>
+
 
     <div id="catalog-select">
       <div class="search">
@@ -30,6 +34,8 @@
 
     <section class="container">
       <sidebar class="hidden"></sidebar>
+
+      
     </section>
 
     <script id="sidebar-tpl" type="text/x-template">
@@ -43,7 +49,7 @@
 
                 <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
                   <span class="available-subtitles">
-                    <img src="../images/<%= keys[i] %>.png" alt="<%= Languages[keys[i]] %>" />
+                    <span class="flag flag-<%= keys[i] %>" title="<%= Languages[keys[i]] %>"></span>
                   </span>
                 <% } %>
               </li>
@@ -70,13 +76,40 @@
 
         <div class="side-content">
           <% if (this.model.get('torrents')) { %>
-            <a href="" class="play-button"><%= Language['watchItNow'] %></a>
+            <a href="" class="p_tooltip play-button"><%= Language['watchItNow'] %></a>
           <% } %>
           <div>
             <h2><%= title %></h2>
             <span><%= year %></span>
-            <!-- <span>Health: <span class="torrent-health <%= health %>"><%= health %></span></span> -->
             <p><%= synopsis %></p>
+
+            <p class="duration"><i class="fa fa-clock-o"></i> <%= runtime %> <%= Language['durationUnit'] %></p>
+
+            <% var p_rating = (this.model.get('voteAverage') / 10) * 5 %>
+            <div class="rating" data-rating="<%= voteAverage %>">
+              <ul class="votes">
+              <% for (var i = 0; i < 5; i++) { %>
+                <% if(p_rating > 0 + i && p_rating < 0.5 + i){ %>
+                  <i class="fa fa-star-o"></i> 
+                <% }else if (p_rating >= 0.5 + i && p_rating < 1 + i){ %>
+                  <i class="fa fa-star-half"></i> 
+                <% }else if(p_rating >= 1 + i ){ %>
+                  <i class="fa fa-star"></i> 
+                <% } %>
+
+              <% }; %>
+              </ul>
+              <ul class="empty_votes">
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i> 
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o"></i>
+              </ul>
+            </div>
+
+            <i data-placement="left" data-toggle="tooltip" title="<%= health %> health"  class="health <%= health %> fa fa-flash"></i>
+
           </div>
         </div>
       </div>
@@ -97,6 +130,7 @@
     <script src="js/vendor/jquery-2.1.0.min.js"></script>
     <script src="js/vendor/underscore.js"></script>
     <script src="js/vendor/backbone-1.1.0.js"></script>
+    <script src="js/vendor/bootstrap-tooltip.min.js"></script>
     <script src="js/vendor/config.js"></script>
     <script src="js/app.js"></script>
 

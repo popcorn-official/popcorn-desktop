@@ -20,9 +20,11 @@ App.findMovieInfo = function (imdbId, callback) {
             }, function (err, data) {
                 if (!err && data) {
                     var info = {
-                        image:    POSTER_PREFIX + data.poster_path,
-                        overview: data.overview,
-                        title:    data.title
+                        image:      POSTER_PREFIX + data.poster_path,
+                        overview:   data.overview,
+                        title:      data.title,
+                        voteAverage:data.vote_average,
+                        runtime:    data.runtime
                     };
 
                     console.log('Fetched info for', imdbId, ':', info);
@@ -46,7 +48,7 @@ App.findMovieInfo = function (imdbId, callback) {
             }
         });
     };
-
+    
     App.Cache.getItem('tmdb', imdbId, function (cachedItem) {
         if (cachedItem) {
             callback(cachedItem);

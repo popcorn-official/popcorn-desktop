@@ -30,7 +30,21 @@ var
     // Localization support
     Language = require('./language/' + 'en' + '.json'),
     
+    // TMP Folder
     tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time');
+
+
+var config = {
+    "version": "0.1.0",
+    // Used to check for the latest version
+    "updateNotificationUrl": "http://getpopcornti.me/update.json",
+    // Used to check if there's an internet connection
+    "connectionCheckUrl": "http://www.google.com",
+    // YIFY Endpoint
+    "yifyApiEndpoint": "http://yify-torrents.com/api/",
+    // A mirror for YIFY (for users in the UK -Yify is blocked there-)
+    "yifyApiEndpointMirrors": ["http://yify.unlocktorrent.com/api/"]
+};
 
 
 // Create the Temp Folder    
@@ -118,6 +132,10 @@ if (!isDebug) {
 win.title = 'Popcorn Time';
 
 
+// Focus the window when the app opens
+win.focus();
+
+
 // Prompting before quitting
 win.on('close', function() {
     if (confirm(Language.beforeQuit)) {
@@ -131,6 +149,7 @@ win.on('new-win-policy', function (frame, url, policy) {
     policy.ignore();
 });
 
+
 // Prevent dropping files into the window
 window.addEventListener("dragover",function(e){
   	e = e || event;
@@ -140,6 +159,74 @@ window.addEventListener("drop",function(e){
   	e = e || event;
   	e.preventDefault();
 },false);
+
+
+// Check if the user has a working internet connection (uses Google as reference)
+var checkInternetConnection = function(callback) {
+    var http = require('http');
+
+    http.get(config.connectionCheckUrl, function(res){
+        if( res.statusCode == 200 || res.statusCode == 302 || res.statusCode == 301 ) {
+            config.hasInternetConnection = true;
+        } else {
+            config.hasInternetConnection = false;
+        }
+        typeof callback == 'function' ? callback(config.hasInternetConnection) : null;
+    });
+};
+
+
+// Detect the operating system of the user
+var getOperatingSystem = function() {
+    var os = require('os');
+    var platform = os.platform();
+
+    if( platform == 'win32' || platform == 'win64' ) {
+        return 'windows';
+    }
+    if( platform == 'darwin' ) {
+        return 'mac';
+    }
+    if( platform == 'linux' ) {
+        return 'linux';
+    }
+    return null;
+};
+
+
+// Check if there's a newer version and shows a prompt if that's the case
+var checkForUpdates = function() {
+    var http = require('http');
+
+    var currentOs = getOperatingSystem();
+    // We may want to change this in case the detection fails
+    if( ! currentOs ){ return; }
+
+    http.get(config.updateNotificationUrl, function(res){
+        var data = '';
+        res.on('data', function(chunk){ data += chunk; });
+
+        res.on('end', function(){
+            try {
+                var updateInfo = JSON.parse(data);
+            } catch(e){ return; }
+
+            if( ! updateInfo ){ return; }
+
+            if( updateInfo[currentOs].version > config.version ) {
+                // Check if there's a newer version and show the update notification
+                $('#notification').html(
+                    'Popcorn Time '+ updateInfo[currentOs].versionName +' was just released. You should get it now!'+
+                    '<a class="btn" href="#" onclick="gui.Shell.openExternal(\'' + updateInfo[currentOs].downloadUrl + '\');">Update Popcorn Time</a>'
+                );
+                $('body').addClass('has-notification');
+            }
+        });
+
+    })
+};
+
+checkForUpdates();
 
 
 // Taken from peerflix `app.js`
@@ -220,6 +307,11 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
     });
 
 };
+
+// Enable tooltips
+$('body').tooltip({
+    selector: "*[data-toggle^='tooltip']"
+});
 
 
 /**

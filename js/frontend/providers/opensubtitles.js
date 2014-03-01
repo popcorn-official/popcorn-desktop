@@ -11,10 +11,15 @@ var xmlrpc = require('xmlrpc'),
             'User-Agent': appUserAgent
         }
     }),
-
+    
     Languages = window.Languages = {
         'spa': 'Spanish',
-        'eng': 'English'
+        'eng': 'English',
+        'pob': 'Portuguese(Brazil)',
+        'rum': 'Romanian',
+        'tur': 'Turkish',
+        'dut': 'Dutch',
+        'fre': 'French'
     },
 
     token;
