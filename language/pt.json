@@ -5,12 +5,15 @@
     "searchLoading": "Procurando...",
     "noResults": "Nenhum resultado encontrado.",
 
-	"search": "Procurar",
+	
+"search": "Procurar",
     "movies": "Filmes",
 
     "subtitledIn": "Legendas em",
     "quality": "Qualidade",
     "watchItNow": "Assistir Agora",
+	"durationUnit": "min",
+
 
     "connecting": "Conectando...",
     "startingDownload": "Começando Download...",
