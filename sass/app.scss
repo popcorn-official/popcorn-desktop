@@ -1278,6 +1278,12 @@ a {
   pointer-events: all;
   @include transition(opacity 0.2s ease-out);
 }
+#video_player.vjs-user-inactive {
+  video {
+    // Disable the cursor when playing the video
+    cursor: none;
+  }
+}
 
 // The font size for the subtitles is applied to #video-container, so we have to change a few styles for it to propagate properly.
 #video_player.video-js {
