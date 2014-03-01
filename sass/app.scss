@@ -417,7 +417,7 @@ sidebar {
   font-weight: bold;
   line-height: 27px;
   padding: 9px 15px;
-  background: #303030;
+  background: #e20f3c;
   color: #fff;
   border: 1px solid #000;
   border-top: none;
@@ -428,7 +428,8 @@ sidebar {
     top: 6px;
     right: 15px;
 
-    background-image: linear-gradient(to bottom, #9ABE26 0%, #87B318 100%);
+    background-image: none;
+    background: rgba(0,0,0,0.4)
   }
 }
 
