@@ -43,13 +43,16 @@ App.View.Sidebar = Backbone.View.extend({
             for( lang in subs ) {
 
                 subsFiles[lang] = 'tmp/' + this.model.get('title').replace(/([^a-zA-Z0-9-_])/g, '_') + '-' + this.model.get('quality') + '-' + lang + '.srt';
+                var tmpFile = 'tmpSub.zip';
 
                 // This downloads the subs in binary format and then converts them to UTF-8. App.unzip() doesn't support callbacks or much configuration.
                 // This fixes an encoding issue with accented characters
                 var request = require('request');
+                var AdmZip = require('adm-zip');
+                var fs = require('fs');
+                var tmpOut = fs.createWriteStream(tmpFile);
                 var charsetDetect = require('jschardet');
                 var targetCharset = 'UTF-8';
-                var fs = require('fs');
 
                 var subOutput = fs.createWriteStream(subsFiles[lang]);
 
@@ -63,10 +66,20 @@ App.View.Sidebar = Backbone.View.extend({
                     }
                 });
 
-                request({
+               var zreq = request({
                     url: subs[lang],
-                    headers: { 'Accept-Encoding': 'gzip' }
-                }).pipe(zlib.createGunzip()).pipe(subOutput);
+                    headers: { 'Accept-Encoding': 'gzip,deflate' }
+                });
+                zreq.pipe(tmpOut);
+                zreq.on('finish', function() {
+                    var zip = new AdmZip(tmpFile);
+                    var zipEntries = zip.getEntries(); // an array of ZipEntry records
+
+                    zipEntries.forEach(function(zipEntry) {
+                        console.log(zipEntry.toString()); // outputs zip entries information
+                        zipEntry.data.toString.pipe(subOutput);
+                    });
+                });
             }
         }
 
@@ -150,5 +163,5 @@ App.View.Sidebar = Backbone.View.extend({
             this.model.set('torrent', torrents['720p']);
             this.model.set('quality', '720p');
         }
-    },
+    }
 });
