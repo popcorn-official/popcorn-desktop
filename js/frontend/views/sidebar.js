@@ -49,6 +49,7 @@ App.View.Sidebar = Backbone.View.extend({
             var url = require('url');
             var charsetDetect = require('jschardet');
             var targetCharset = 'UTF-8';
+            var targetEncodingCharset = 'utf8';
 
 
             var options = {
@@ -77,24 +78,19 @@ App.View.Sidebar = Backbone.View.extend({
                             if (zipEntry.entryName.indexOf('.srt') != -1) {
                                 console.log('Its a subtitle file.');
                                 var decompressedData = zip.readFile(zipEntry); // decompressed buffer of the entry
-                                //fs.writeFile( subOutputFile, decompressedData);
-                                //return;
-                                //console.log(zip.readAsText(zipEntry)); // outputs the decompressed content of the entry
-                                //var subText = zip.readAsText(zipEntries[key]);
-                                //var subText = zip.readFile(zipEntries[key]);
-                                //console.log(zipEntry.data);
-                                //console.log("after data");
                                 var charset = charsetDetect.detect(decompressedData);
                                 console.log('I have text and Charset encoding is: '+charset.encoding);
                                 //console.log(zip.readFile(zipEntries[key]));
+                                var iconv = require('iconv-lite');
 
-
+                                decompressedData = iconv.encode( iconv.decode(decompressedData, charset.encoding), targetEncodingCharset);
+                                fs.writeFile( subOutputFile, decompressedData);
+return;
                                 if( charset.encoding == 'ascii' ){
                                     console.log('Its Ascii so we write it as is');
                                     fs.writeFile( subOutputFile, decompressedData);
                                     return;
                                 } // ASCII is pretty much UTF-8
-                                var iconv = require('iconv-lite');
                                 if( charset.encoding != targetCharset && iconv.encodingExists(charset.encoding) ) {
                                     console.log('Its not utf8');
                                     // Windows-1251/2 works fine when read from a file (like it's UTF-8), but if you try to convert it you'll ruin the encoding.
