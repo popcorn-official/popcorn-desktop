@@ -1,6 +1,7 @@
 @import '_frame';
 @import '_utils';
 @import '../css/font-awesome.min.css';
+@import 'tooltip.scss';
 @import 'compass/css3';
 @import 'compass/reset';
 
@@ -370,7 +371,7 @@ sidebar {
     .rating .star{
       display: inline-block;
     }
-    
+
 }
 .page {
     background: $body-bg;
@@ -547,6 +548,37 @@ sidebar {
   }
   &.excellent {
     background: green;
+  }
+}
+
+.health {
+  font-size: 14px;
+  border: 2px solid green;
+  border-radius: 20px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  cursor: pointer;
+  position: absolute;
+  right: 12px;
+  bottom: 24px;
+
+  &.bad {
+    color: red;
+    border-color: red;
+  }
+  &.medium {
+    color: yellow;
+    border-color: yellow;
+  }
+  &.good {
+    color: limegreen;
+    border-color: limegreen;
+  }
+  &.excellent {
+    color: green;
+    border-color: green;
   }
 }
 
