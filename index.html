@@ -82,8 +82,8 @@
 
             <p class="duration"><i class="fa fa-clock-o"></i> <%= runtime %> <%= Language['durationUnit'] %></p>
 
-            <% var p_rating = (this.model.get('vote_average') / 10) * 5 %>
-            <div class="rating" data-rating="<%= vote_average %>">
+            <% var p_rating = (this.model.get('voteAverage') / 10) * 5 %>
+            <div class="rating" data-rating="<%= voteAverage %>">
               <ul class="votes">
               <% for (var i = 0; i < 5; i++) { %>
                 <% if(p_rating > 0 + i && p_rating < 0.5 + i){ %>
