@@ -14,7 +14,8 @@ var xmlrpc = require('xmlrpc'),
 
     Languages = window.Languages = {
         'spa': 'Spanish',
-        'eng': 'English'
+        'eng': 'English',
+        'tur': 'Turkish'
     },
 
     token;
