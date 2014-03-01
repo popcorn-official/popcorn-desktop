@@ -218,6 +218,10 @@ jQuery(function ($) {
 
 // On Document Ready
 jQuery(function ($) {
+  $('.btn-os.max').on('click', function () {
+    win.maximize();
+  });
+
   $('.btn-os.min').on('click', function () {
     win.minimize();
   });
