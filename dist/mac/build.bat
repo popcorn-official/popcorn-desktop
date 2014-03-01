@@ -30,10 +30,15 @@ del "node_modules.zip"
 "%ProgramFiles%\7-Zip\7z.exe" a -tzip -mx0 "node_modules.zip" "..\..\node_modules"
 :: And then unzip them in the correct place
 "%ProgramFiles%\7-Zip\7z.exe" x "node_modules.zip" -o"%packageDir%"
+del "node_modules.zip"
 
 :: Put our custom icons in place
 del "%CD%\Popcorn Time.app\Contents\Resources\nw.icns"
 copy "%CD%\popcorntime.icns" "%CD%\Popcorn Time.app\Contents\Resources\nw.icns"
+
+:: And the custom .plist
+del "%CD%\Popcorn Time.app\Contents\Info.plist"
+copy "%CD%\Info.plist" "%CD%\Popcorn Time.app\Contents\Info.plist"
 
 :: Zip the file (Requires 7zip)
 del "Popcorn Time.zip"
