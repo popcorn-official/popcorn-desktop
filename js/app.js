@@ -132,6 +132,10 @@ if (!isDebug) {
 win.title = 'Popcorn Time';
 
 
+// Focus the window when the app opens
+win.focus();
+
+
 // Prompting before quitting
 win.on('close', function() {
     if (confirm(Language.beforeQuit)) {

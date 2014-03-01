@@ -56,9 +56,17 @@ App.View.Sidebar = Backbone.View.extend({
                 subOutput.on('finish', function() {
                     var subText = fs.readFileSync(this.path, 'binary');
                     var charset = charsetDetect.detect(subText);
-                    if( charset.encoding != targetCharset ) {
-                        var iconv = require('iconv-lite');
-                        subText = iconv.encode( iconv.decode(subText, charset.encoding), targetCharset );
+                    
+                    if( charset.encoding == 'ascii' ){ return; } // ASCII is pretty much UTF-8
+                    
+                    var iconv = require('iconv-lite');
+                    
+                    if( charset.encoding != targetCharset && iconv.encodingExists(charset.encoding) ) {
+                        // Windows-1251/2 works fine when read from a file (like it's UTF-8), but if you try to convert it you'll ruin the encoding.
+                        // Just save it again, and it'll be stored as UTF-8. At least on Windows.
+                        if( charset.encoding != 'windows-1251' && charset.encoding != 'windows-1252' ) {
+                            subText = iconv.encode( iconv.decode(subText, charset.encoding), targetCharset );
+                        }
                         fs.writeFile( this.path, subText );
                     }
                 });
