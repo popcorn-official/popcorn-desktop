@@ -48,7 +48,7 @@
 
                 <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
                   <span class="available-subtitles">
-                    <img src="../images/<%= keys[i] %>.png" alt="<%= Languages[keys[i]] %>" />
+                    <span class="flag flag-<%= keys[i] %>" title="<%= Languages[keys[i]] %>"></span>
                   </span>
                 <% } %>
               </li>

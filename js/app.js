@@ -215,7 +215,7 @@ var checkForUpdates = function() {
 
             if( updateInfo[currentOs].version > config.version ) {
                 // Check if there's a newer version and show the update notification
-                $('#notification').show().html(
+                $('#notification').html(
                     'Popcorn Time '+ updateInfo[currentOs].versionName +' was just released. You should get it now!'+
                     '<a class="btn" href="#" onclick="gui.Shell.openExternal(\'' + updateInfo[currentOs].downloadUrl + '\');">Update Popcorn Time</a>'
                 );

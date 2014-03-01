@@ -876,12 +876,28 @@ body.has-notification {
   padding: 0;
 }
 
+.flag {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  
+  &.flag-eng { background-image: url(../images/eng.png); }
+  &.flag-fre { background-image: url(../images/fre.png); }
+  &.flag-hol { background-image: url(../images/hol.png); }
+  &.flag-pob { background-image: url(../images/pob.png); }
+  &.flag-por { background-image: url(../images/por.png); }
+  &.flag-rum { background-image: url(../images/rum.png); }
+  &.flag-spa { background-image: url(../images/spa.png); }
+  &.flag-tur { background-image: url(../images/tur.png); }
+}
+
 .movie-config {
-        -webkit-transition: all .25s ease;
-      -moz-transition: all .25s ease;
-      -ms-transition: all .25s ease;
-      -o-transition: all .25s ease;
-      transition: all .25s ease;
+    -webkit-transition: all .25s ease;
+    -moz-transition: all .25s ease;
+    -ms-transition: all .25s ease;
+    -o-transition: all .25s ease;
+    transition: all .25s ease;
 
     position:absolute;
     bottom:-90px;
@@ -908,7 +924,7 @@ body.has-notification {
         span.available-subtitles {
           float: right;
           margin-top: -3px;
-          > img {
+          > .flag {
             margin-left: 5px;
           }
         }
