@@ -304,6 +304,11 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
 
 };
 
+// Enable tooltips
+$('body').tooltip({
+    selector: "*[data-toggle^='tooltip']"
+});
+
 
 /**
  * Show 404 page on uncaughtException
