@@ -1,6 +1,6 @@
 {
-    "quit": "Quit",
-    "cancel": "Cancel",
+    "quit": "Beenden",
+    "cancel": "Abbrechen",
     "beforeQuit": "Sind Sie sicher, dass Sie beenden wollen?",
     "loading": "Bitte warten...",
     "loadingVideo": "Das Video wird geladen, bitte warten...",
@@ -13,10 +13,14 @@
     "subtitledIn": "Untertitel",
     "quality": "Qualität",
     "watchItNow": "Jetzt anschauen",
+    "durationUnit": "min",
 
     "connecting": "Verbinden...",
     "startingDownload": "Download starten...",
     "downloading": "Downloaden...",
+
+    "UpgradeVersion": "Popcorn Time aktualisieren",
+    "UpgradeVersionDescription": " wurde gerade veröffentlicht. Hol es dir jetzt!",
 
     "genres": {
         "all": "Beliebt",
