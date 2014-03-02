@@ -1,4 +1,6 @@
 {
+    "quit": "Quit",
+    "cancel": "Cancel",
     "beforeQuit": "Are you sure you want to quit?",
     "loading": "Please wait...",
     "loadingVideo": "Buffering video, please wait",
