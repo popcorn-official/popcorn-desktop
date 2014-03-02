@@ -376,3 +376,49 @@ body.has-notification {
     .btn-close { display: block; }
   }
 }
+
+.popcorn-quit {
+  @include transition(opacity ease .3s);
+  background: rgba(0, 0, 0, .8);
+  color: #fff;
+  height: calc(100% - #{$header_height});
+  left: 0;
+  opacity: 1;
+  position: absolute;
+  top: $header_height;
+  width: 100%;
+  z-index: 999;
+
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .wrapper {
+    @include translateY(-100%);
+    font-size: 30px;
+    position: absolute;
+    top: 50%;
+    text-align: center;
+    width: 100%;
+  }
+
+  .text {
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .btn {
+    &.cancel {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &.quit {
+      background: #e20f3c;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+}
