@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" type="text/css" href="css/app.css" />
-    <link rel="stylesheet" type="text/css" href="js/vendor/video-js/video-js.css" />
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <link rel="stylesheet" type="text/css" href="js/vendor/video-js/video-js.css">
   </head>
   <body>
 
@@ -11,13 +11,12 @@
       <nav class="btn-set">
         <button class="btn-os close"></button>
         <button class="btn-os min"></button>
+        <button class="btn-os max"></button>
       </nav>
       <h1>Popcorn Time</h1>
-
     </header>
   
     <div id="notification"></div>
-
 
     <div id="catalog-select">
       <div class="search">
@@ -48,7 +47,7 @@
 
                 <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
                   <span class="available-subtitles">
-                    <img src="../images/<%= keys[i] %>.png" alt="<%= Languages[keys[i]] %>" />
+                    <span class="flag flag-<%= keys[i] %>" title="<%= Languages[keys[i]] %>"></span>
                   </span>
                 <% } %>
               </li>
@@ -126,6 +125,13 @@
 
     <div id="video-container"></div>
 
+    <div class="popcorn-quit hidden">
+      <div class="wrapper">
+        <span class="text"></span>
+        <a class="btn cancel confirmation"></a><a class="btn quit confirmation"></a>
+      </div>
+    </div>
+
     <script src="js/vendor/jquery-2.1.0.min.js"></script>
     <script src="js/vendor/underscore.js"></script>
     <script src="js/vendor/backbone-1.1.0.js"></script>
@@ -138,7 +144,8 @@
     <script src="js/frontend/providers/torrents.js"></script>
     <script src="js/frontend/providers/cache.js"></script>
     <script src="js/frontend/providers/themoviedb.js"></script>
-    <script src="js/frontend/providers/opensubtitles.js"></script>
+    <script src="js/frontend/providers/yifysubtitles.js"></script>
+    <!-- <script src="js/frontend/providers/opensubtitles.js"></script> -->
     <script src="js/frontend/models/movie.js"></script>
     <script src="js/frontend/views/page.js"></script>
     <script src="js/frontend/views/listview.js"></script>

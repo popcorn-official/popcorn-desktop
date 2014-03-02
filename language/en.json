@@ -1,4 +1,6 @@
 {
+    "quit": "Quit",
+    "cancel": "Cancel",
     "beforeQuit": "Are you sure you want to quit?",
     "loading": "Please wait...",
     "loadingVideo": "Buffering video, please wait",
@@ -16,6 +18,9 @@
     "connecting": "Connecting...",
     "startingDownload": "Starting Download...",
     "downloading": "Downloading...",
+
+    "UpgradeVersion": "Update Popcorn Time",
+    "UpgradeVersionDescription": " was just released. You should get it now!",
 
     "genres": {
         "all": "Popular",

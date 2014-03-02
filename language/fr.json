@@ -1,4 +1,6 @@
 {
+    "quit": "Quitter",
+    "cancel": "Annuler",
     "beforeQuit": "Êtes-vous sûr de vouloir quitter ?",
     "loading": "Patientez...",
     "loadingVideo": "Chargement de la vidéo, merci de patienter...",
@@ -15,6 +17,9 @@
     "connecting": "Connexion...",
     "startingDownload": "Démarrage du téléchargement...",
     "downloading": "Téléchargement...",
+
+    "UpgradeVersion": "Mettre à jour Popcorn Time",
+    "UpgradeVersionDescription": " a été mis à jour. Vous devez le télécharger maintenant !",
 
     "genres": {
         "all": "Populaire",

@@ -1,4 +1,6 @@
 {
+    "quit": "Quit",
+    "cancel": "Cancel",
     "beforeQuit": "Applicatie afsluiten?",
     "loading": "Een ogenblik geduld...",
     "loadingVideo": "Video wordt geladen, een ogenblik geduld",

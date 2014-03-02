@@ -218,6 +218,10 @@ jQuery(function ($) {
 
 // On Document Ready
 jQuery(function ($) {
+  $('.btn-os.max').on('click', function () {
+    win.maximize();
+  });
+
   $('.btn-os.min').on('click', function () {
     win.minimize();
   });
@@ -232,6 +236,13 @@ jQuery(function ($) {
     $(document).trigger('videoExit');
   });
 
+  $('.popcorn-quit .quit').click(function(event){
+    win.close(true);
+  });
+
+  $('.popcorn-quit .cancel').click(function(event){
+    $('.popcorn-quit').addClass('hidden');
+  });
 
   //Pagination html
   var pagination = '<nav class="pagination hidden"><ul><li class="active"><a data-page="1" href="#">1</a></li><li><a data-page="2" class="inactive" href="#">2</a></li><li><a data-page="3" class="inactive" href="#">3</a></li><li><a data-page="4" class="inactive" href="#">4</a></li><li><a data-page="5" class="inactive" href="#">5</a></li></ul></nav>';

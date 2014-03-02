@@ -1,16 +1,21 @@
 {
+    "quit": "Sair",
+    "cancel": "Cancelar",
     "beforeQuit": "Você tem certeza que deseja sair?",
     "loading": "Por Favor Aguarde...",
     "loadingVideo": "Bufferizando vídeo, por favor aguarde",
     "searchLoading": "Procurando...",
     "noResults": "Nenhum resultado encontrado.",
 
-	"search": "Procurar",
+	
+"search": "Procurar",
     "movies": "Filmes",
 
     "subtitledIn": "Legendas em",
     "quality": "Qualidade",
     "watchItNow": "Assistir Agora",
+	"durationUnit": "min",
+
 
     "connecting": "Conectando...",
     "startingDownload": "Começando Download...",

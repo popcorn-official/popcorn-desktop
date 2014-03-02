@@ -8,8 +8,7 @@ To allow any computer user to watch movies easily streaming from torrents, witho
 
 ### Status
 
-Under development (only in Mac OSX? _somebody should try Linux and Windows_) - no alpha candidate yet.
-
+Under development (RC1) for Mac OSX - Windows - Linux.
  
 ### APIs
 

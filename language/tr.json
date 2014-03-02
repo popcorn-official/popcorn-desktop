@@ -1,4 +1,6 @@
 {
+    "quit": "Quit",
+    "cancel": "Cancel",
     "beforeQuit": "Çıkmak istediğinden emin misin?",
     "loading": "Lütfen bekleyin...",
     "loadingVideo": "Video Yükleniyor, Lütfen bekleyin..",
