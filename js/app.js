@@ -139,12 +139,23 @@ win.focus();
 // Prompting before quitting
 win.on('close', function() {
     var $el = $('.popcorn-quit');
-    $el.find('.text').html(Language.beforeQuit);
-    $el.find('.btn.quit').html(Language.quit);
-    $el.find('.btn.cancel').html(Language.cancel);
-    $el.removeClass('hidden')
+    if($el.hasClass('hidden')) {
+        $el.find('.text').html(Language.beforeQuit);
+        $el.find('.btn.quit').html(Language.quit);
+        $el.find('.btn.cancel').html(Language.cancel);
+        $el.removeClass('hidden');
+    }
 });
 
+document.addEventListener('keydown', function(event){
+    var $el = $('.popcorn-quit');
+    if(!$el.hasClass('hidden')) {  
+        // Enter
+        if( event.keyCode == 13 ) { win.close(true); }
+        // Esc
+        if( event.keyCode == 27 ) { $el.addClass('hidden'); }
+    }
+});
 
 // Cancel all new windows (Middle clicks / New Tab)
 win.on('new-win-policy', function (frame, url, policy) {
