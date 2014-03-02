@@ -409,15 +409,16 @@ body.has-notification {
   }
 
   .btn {
+    &.confirmation {
+      padding:12px 24px;
+      margin: 0 5px;
+      font-size:18px;
+    }
     &.cancel {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
     }
 
     &.quit {
       background: #e20f3c;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
     }
   }
 
