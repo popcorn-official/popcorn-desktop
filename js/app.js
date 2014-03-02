@@ -138,9 +138,11 @@ win.focus();
 
 // Prompting before quitting
 win.on('close', function() {
-    if (confirm(Language.beforeQuit)) {
-        this.close(true);
-    }
+    var $el = $('.popcorn-quit');
+    $el.find('.text').html(Language.beforeQuit);
+    $el.find('.btn.quit').html(Language.quit);
+    $el.find('.btn.cancel').html(Language.cancel);
+    $el.removeClass('hidden')
 });
 
 

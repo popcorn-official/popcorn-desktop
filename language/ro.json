@@ -1,4 +1,6 @@
 {
+    "quit": "Quit",
+    "cancel": "Cancel",
     "beforeQuit": "Ești sigur că vrei să închizi?",
     "loading": "Așteaptă te rog...",
     "loadingVideo": "Video-ul se încarcă, te rog așteaptă",

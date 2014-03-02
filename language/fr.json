@@ -1,4 +1,6 @@
 {
+    "quit": "Quitter",
+    "cancel": "Annuler",
     "beforeQuit": "Êtes-vous sûr de vouloir quitter ?",
     "loading": "Patientez...",
     "loadingVideo": "Chargement de la vidéo, merci de patienter...",
