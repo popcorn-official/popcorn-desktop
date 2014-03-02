@@ -57,6 +57,12 @@ OutputDir=.\
 [Languages]
 Name: "en"; MessagesFile: ".\languages\English.isl"
 Name: "es"; MessagesFile: ".\languages\Spanish.isl"
+Name: "tk"; MessagesFile: ".\languages\Turkish.isl"
+Name: "fr"; MessagesFile: ".\languages\French.isl"
+Name: "ptbr"; MessagesFile: ".\languages\BrazilianPortuguese.isl"
+Name: "nl"; MessagesFile: ".\languages\Dutch.isl"
+Name: "ge"; MessagesFile: ".\languages\German.isl"
+Name: "pt"; MessagesFile: ".\languages\Portuguese.isl"
 
 
 [Files]
