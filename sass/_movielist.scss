@@ -1,0 +1,178 @@
+
+// Movie list
+.movie-list {
+  margin-bottom: 15px;
+
+  li {
+    height: 195px;
+    width: 132px;
+    padding: 0;
+    display: inline-block;
+    margin: 10px;
+    border-radius: 3px;
+    position: relative;
+    background: #000;
+
+    &:hover i { opacity: 1; }
+
+    i {
+      @include transition(all ease .3s);
+      background: rgba(0, 0, 0, .4);
+      color: #FFF;
+      display: block;
+      position: absolute;
+      bottom: 0;
+      line-height: 195px;
+      right: 0;
+      top: 0;
+      left: 0;
+      text-align: center;
+      font-size: 60px;
+      opacity: 0;
+      width: 101%; // "fixes" 1px line on hover
+      height: 101%; // "fixes" 1px line on hover
+      z-index: 10;
+    }
+    
+    .cover {
+      width: 133px;
+      height: 196px;
+      overflow: hidden;
+      display: block;
+      margin: 0 0 10px 0;
+      border-radius: 3px;
+      background: url(../images/posterholder.png) no-repeat 50% 50%;
+      -webkit-transform: translateZ(0);
+    }
+
+    img {
+      @include transition(all ease 1.0s);
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      border-radius: 3px;
+      -webkit-transform: translateZ(0);
+      
+      &.placeholder {
+        -webkit-filter: grayscale(1.0);
+        -webkit-transform: scale(1.15) translateY(-5px);
+        z-index: 1;
+        border-radius: 3px;
+      }
+
+      &.real {
+        opacity: 1;
+        z-index: 2;
+        border-radius: 3px;
+      }
+
+      &.hidden {
+        opacity: 0;
+        visibility: hidden;
+        border-radius: 3px;
+      }
+    }
+
+    a {
+      display: block;
+      height: 196px;
+      width: 133px;
+    }
+
+    strong {
+      color: #FFF;
+      display: block;
+      font-weight: bold;
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    small {
+      font-size: 12px;
+      color: #666;
+    }
+
+    &::before {
+      display: block;
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      box-shadow: inset 0px 1px 0px rgba(255,255,255,0.15), 0 2px 3px rgba(0,0,0,0.3);
+      border-radius: 3px;
+      border: 1px solid #000;
+      z-index: 3;
+    }
+  }
+}
+
+
+// Animate the movies as they load
+.movie {
+  @include scale(0);
+  @include transition(opacity .3s ease, transform .3s ease);
+  opacity: 0;
+
+  @for $i from 1 through 50 {
+    &:nth-child(#{$i}) {
+      @include transition-delay(0s, 0.1s * ($i - 1));
+    }
+  }
+
+  &.loaded {
+    opacity: 1;
+    @include scale(1);
+  }
+}
+
+
+// Pagination
+.pagination {
+  border-radius: 4px;
+  display: block;
+  margin: 40px 0;
+  padding-left: 0;
+  text-align: center;
+}
+.pagination ul li{
+  display: inline-block;
+}
+.pagination li:first-child > a, .pagination li:first-child > span {
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+  margin-left: 0;
+}
+.pagination li:last-child > a, .pagination li:last-child > span {
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.pagination li > a, .pagination li > span {
+  border: 1px solid rgba(255,255,255, 0.2);
+  color: #999999;
+  float: left;
+  line-height: 1.42857;
+  margin-left: -1px;
+  padding: 6px 12px;
+  position: relative;
+  text-decoration: none;
+  @include box-sizing(border-box);
+  border: 1px solid #000;
+  text-align: center;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 1px rgba(0,0,0, 0.6);
+  background-image: linear-gradient(to bottom, #2a2a2a 0%, #1b1b1b 100%);
+}
+.pagination li > a:hover{
+  opacity: 0.8;
+}
+
+.pagination ul li.active a, .pagination li > a:active{
+  background-image: linear-gradient(to bottom, #121212 0%, #191919 100%);
+  box-shadow: 0 1px 0px rgba(255,255,255, 0.1), inset 0 1px 1px rgba(0,0,0, 0.5);
+  color: #fff;
+}
