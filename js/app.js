@@ -34,22 +34,8 @@ var
     tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time');
 
 
-var config = {
-    "version": "0.1.0",
-    // Used to check for the latest version
-    "updateNotificationUrl": "http://getpopcornti.me/update.json",
-    // Used to check if there's an internet connection
-    "connectionCheckUrl": "http://www.google.com",
-    // YIFY Endpoint
-    "yifyApiEndpoint": "http://yify-torrents.com/api/",
-    // A mirror for YIFY (for users in the UK -Yify is blocked there-)
-    "yifyApiEndpointMirrors": ["http://yify.unlocktorrent.com/api/"]
-};
-
-
 // Create the Temp Folder
 if( ! fs.existsSync(tmpFolder) ) { fs.mkdirSync(tmpFolder); }
-
 
 // Detect the language and update the global Language file
 var detectLanguage = function(preferred) {
@@ -139,8 +125,6 @@ win.focus();
 document.addEventListener('keydown', function(event){
     var $el = $('.popcorn-quit');
     if(!$el.hasClass('hidden')) {  
-        // Enter
-        if( event.keyCode == 13 ) { win.close(true); }
         // Esc
         if( event.keyCode == 27 ) { $el.addClass('hidden'); }
     }
@@ -166,14 +150,13 @@ window.addEventListener("drop",function(e){
 // Check if the user has a working internet connection (uses Google as reference)
 var checkInternetConnection = function(callback) {
     var http = require('http');
+    var hasInternetConnection = false;
 
-    http.get(config.connectionCheckUrl, function(res){
+    http.get(Settings.get('connectionCheckUrl'), function(res){
         if( res.statusCode == 200 || res.statusCode == 302 || res.statusCode == 301 ) {
-            config.hasInternetConnection = true;
-        } else {
-            config.hasInternetConnection = false;
+            hasInternetConnection = true;
         }
-        typeof callback == 'function' ? callback(config.hasInternetConnection) : null;
+        typeof callback == 'function' ? callback(hasInternetConnection) : null;
     });
 };
 
@@ -204,7 +187,7 @@ var checkForUpdates = function() {
     // We may want to change this in case the detection fails
     if( ! currentOs ){ return; }
 
-    http.get(config.updateNotificationUrl, function(res){
+    http.get(Settings.get('updateNotificationUrl'), function(res){
         var data = '';
         res.on('data', function(chunk){ data += chunk; });
 
@@ -215,7 +198,7 @@ var checkForUpdates = function() {
 
             if( ! updateInfo ){ return; }
 
-            if( updateInfo[currentOs].version > config.version ) {
+            if( updateInfo[currentOs].version > Settings.get('version') ) {
                 // Check if there's a newer version and show the update notification
                 $('#notification').html(
                     'Popcorn Time '+ updateInfo[currentOs].versionName + Language.UpgradeVersionDescription +

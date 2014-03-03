@@ -116,7 +116,13 @@ a { text-decoration: none; }
     position: absolute;
     left: 15px;
     top: 17px;
-    width: 80px;
+
+    &.right {
+      right: 7px;
+      left: initial;
+      top: 5px;
+
+    }
 
     &:hover .btn-os { color: rgba(0, 0, 0, 0.8); }
 
@@ -138,6 +144,7 @@ a { text-decoration: none; }
         width: 12px;
       }
 
+
       &.debug {
         background: #fff;
         content: 'D';
@@ -151,6 +158,18 @@ a { text-decoration: none; }
       &.close:hover { background: #e74c3c; }
       &.max:hover { background: #27ae60; }
       &.min:hover { background: #f1c40f; }
+      &.fullscreen { color:#000; background:transparent; margin:0; width:32px;height:32px; border-radius:0; display:block;}
+      &.fullscreen::before {
+          content: "\e000";
+          font-family: VideoJS;
+          font-size: 1.85em;
+          line-height: 0.2em;
+          background: none;
+          display:block;
+          text-shadow: 0 1px 0 rgba(255,255,255,0.1)
+      }
+     
+
     }
   }
 }
@@ -234,7 +253,7 @@ a { text-decoration: none; }
 
   .search {
     position: absolute;
-    right: 10px;
+    right: 20px;
     top: 12px;
 
     input {
@@ -244,7 +263,7 @@ a { text-decoration: none; }
       font-size: 12px;
       height: 15px;
       padding: 8px 10px;
-      width: 135px;
+      width: 115px;
       background: transparent;
       font-weight: bold;
     }
