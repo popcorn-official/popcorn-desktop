@@ -20,7 +20,7 @@
     "downloading": "Downloaden...",
 
     "UpgradeVersion": "Popcorn Time aktualisieren",
-    "UpgradeVersionDescription": " wurde gerade veröffentlicht. Hol es dir jetzt!",
+    "UpgradeVersionDescription": "Popcorn Time %s wurde gerade veröffentlicht. Hol es dir jetzt!",
 
     "genres": {
         "all": "Beliebt",
