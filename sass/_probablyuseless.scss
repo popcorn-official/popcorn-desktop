@@ -1,3 +1,18 @@
+// Torrent infos
+.torrent-health {
+  display: inline-block;
+  padding: 3px 5px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: capitalize;
+
+  &.bad { background: red; }
+  &.medium { background: yellow; }
+  &.good { background: limegreen; }
+  &.excellent { background: green; }
+}
 
 .content {
   float: left;

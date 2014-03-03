@@ -11,7 +11,7 @@ sidebar {
   &.hidden {
     animation: sidebareffect2 .5s;
     -webkit-animation: sidebareffect2 .5s;
-    -webkit-transform: translate(220px, 0);
+    -webkit-transform: translate(250px, 0);
   }
 
   .closer {
@@ -43,7 +43,7 @@ sidebar {
     position: absolute;
     right: 0;
     top: 0;
-    width: 220px;
+    width: 250px;
     z-index: 100;
 
     &:hover {
@@ -72,13 +72,13 @@ sidebar {
     position: relative;
     background: $body-bg;
 
-    div { padding: 0 12px 12px 12px; }
+    > div { padding: 15px; }
   }
 
   img.big-poster {
     background: #000;
-    height: 326px;
-    width: 220px;
+    height: 100%;
+    width: 250px;
   }
 
   a.play-button {
@@ -95,103 +95,85 @@ sidebar {
     &:hover { background: #2980B9; }
   }
 
-  h2 {
-    font-weight: bold;
-    font-size: 18px;
-    padding: 10px 0 0 0;
-  }
+  .title {
+    position: relative;
+    padding: 0;
 
-  span {
-    color: #999;
-    font-size: 12px;
-  }
+    h2 {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
 
-  p {
-    margin-top: 10px;
-    color: #666;
-    font-size: 13px;
-    line-height: 1.3em;
-  }
+    span {
+      color: #999;
+      font-size: 12px;
 
-  .duration {
-    color: #999;
-  
-    i {
+      i {
+        color: #a9a9a9;
+        font-size: 12px;
+        margin-right: 4px;
+      }
+    }
+
+    .duration { margin-left: 10px; }
+
+    .health {
       font-size: 14px;
-      color: #a9a9a9;
+      border: 2px solid green;
+      border-radius: 20px;
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      line-height: 20px;
+      cursor: pointer;
+      position: absolute;
+      top: 4px;
+      right: 0;
+
+      &.bad {
+        color: red;
+        border-color: red;
+      }
+
+      &.medium {
+        color: yellow;
+        border-color: yellow;
+      }
+
+      &.good {
+        color: limegreen;
+        border-color: limegreen;
+      }
+
+      &.excellent {
+        color: green;
+        border-color: green;
+      }
     }
   }
 
   .rating {
+    display: block;
     position: relative;
     font-size: 18px;
-    height: 1.28571428571429em;
-    margin: 0.55555555555556em 0;
-    padding: 0 !important;
+    margin: 12px 0 6px 0;
 
-    ul {
-      position: absolute;
-      color: #ad840e;
-    }
-
-    .star { display: inline-block; }
-  }
-  
-  // Torrent infos
-  .torrent-health {
-    display: inline-block;
-    padding: 3px 5px;
-    border-radius: 3px;
-    color: #fff;
-    font-size: 10px;
-    font-weight: bold;
-    text-transform: capitalize;
-
-    &.bad { background: red; }
-    &.medium { background: yellow; }
-    &.good { background: limegreen; }
-    &.excellent { background: green; }
+    ul { color: #ad840e; }
   }
 
-  .health {
-    font-size: 14px;
-    border: 2px solid green;
-    border-radius: 20px;
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    line-height: 20px;
-    cursor: pointer;
-    position: absolute;
-    right: 12px;
-    bottom: 24px;
-
-    &.bad {
-      color: red;
-      border-color: red;
-    }
-
-    &.medium {
-      color: yellow;
-      border-color: yellow;
-    }
-
-    &.good {
-      color: limegreen;
-      border-color: limegreen;
-    }
-
-    &.excellent {
-      color: green;
-      border-color: green;
-    }
+  p {
+    margin-top: 10px;
+    color: #999;
+    font-size: 13px;
+    line-height: 18px;
   }
 }
 
 // Applied to the body when the sidebar is open
 .sidebar-open {
   li.movie {
-    opacity: 0.6;
+    opacity: 0.25;
 
     &.active {
       opacity: 1;
@@ -206,9 +188,7 @@ sidebar {
   }
 }
 
-
 // Other Sidebar-related stuff
-
 .poster-cont {
   position: relative;
 

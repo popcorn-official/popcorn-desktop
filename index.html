@@ -80,37 +80,40 @@
             <a href="" class="p_tooltip play-button"><%= Language['watchItNow'] %></a>
           <% } %>
           <div>
-            <h2><%= title %></h2>
-            <span><%= year %></span>
-            <p><%= synopsis %></p>
-
-            <p class="duration"><i class="fa fa-clock-o"></i> <%= runtime %> <%= Language['durationUnit'] %></p>
+            <div class="title">
+              <h2><%= title %></h2>
+              <span><i class="fa fa-calendar-o"></i> <%= year %></span>
+              <% if (this.model.get('runtime')) { %>
+                <span class="duration"><i class="fa fa-clock-o"></i> <%= runtime %> <%= Language['durationUnit'] %></span>
+              <% } %>
+              <i data-placement="left" data-toggle="tooltip" title="<%= health %> health" class="health <%= health %> fa fa-flash"></i>
+            </div>
 
             <% var p_rating = (this.model.get('voteAverage') / 10) * 5 %>
             <div class="rating" data-rating="<%= voteAverage %>">
               <ul class="votes">
-              <% for (var i = 0; i < 5; i++) { %>
-                <% if(p_rating > 0 + i && p_rating < 0.5 + i){ %>
+                <% for (var i = 0; i < 5; i++) { %>
+                  <% if(p_rating > 0 + i && p_rating < 0.5 + i) { %>
+                    <i class="fa fa-star-o"></i> 
+                  <% } else if (p_rating >= 0.5 + i && p_rating < 1 + i) { %>
+                    <i class="fa fa-star-half"></i> 
+                  <% } else if(p_rating >= 1 + i) { %>
+                    <i class="fa fa-star"></i> 
+                  <% } %>
+                <% }; %>
+              </ul>
+              <% if (!this.model.get('voteAverage')) { %>
+                <ul class="empty_votes">
+                  <i class="fa fa-star-o"></i>
                   <i class="fa fa-star-o"></i> 
-                <% }else if (p_rating >= 0.5 + i && p_rating < 1 + i){ %>
-                  <i class="fa fa-star-half"></i> 
-                <% }else if(p_rating >= 1 + i ){ %>
-                  <i class="fa fa-star"></i> 
-                <% } %>
-
-              <% }; %>
-              </ul>
-              <ul class="empty_votes">
-                <i class="fa fa-star-o"></i>
-                <i class="fa fa-star-o"></i> 
-                <i class="fa fa-star-o"></i>
-                <i class="fa fa-star-o"></i>
-                <i class="fa fa-star-o"></i>
-              </ul>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                  <i class="fa fa-star-o"></i>
+                </ul>
+              <% } %>
             </div>
 
-            <i data-placement="left" data-toggle="tooltip" title="<%= health %> health"  class="health <%= health %> fa fa-flash"></i>
-
+            <p><%= synopsis %></p>
           </div>
         </div>
       </div>
