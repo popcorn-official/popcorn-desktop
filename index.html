@@ -46,18 +46,18 @@
           <ul class="movie-config">
             <% if (typeof subtitles !== 'undefined') { %>
               <li class="options">
-                <%= Language['subtitledIn'] %>
+                <%= i18n.__('subtitledIn') %>
 
                 <span class="available-subtitles">
                 <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
-                  <span class="flag flag-<%= keys[i] %>" title="<%= Languages[keys[i]] %>"></span>
+                  <span class="flag flag-<%= keys[i] %>" title="<%= i18n.__(keys[i]) %>"></span>
                 <% } %>
                 </span>
               </li>
             <% } %>
             <% if (this.model.get('quality') && this.model.get('torrents')) { %>
               <li class="options">
-                <%= Language['quality'] %>
+                <%= i18n.__('quality') %>
                 <% if (this.model.get('torrents')["720p"] && this.model.get('torrents')["1080p"]) { %>
                   <div class="quality switch white">
                     <input type="radio" name="switch" id="switch-off"<% if (this.model.get('quality') === '720p') { %> checked<% } %>>
@@ -77,14 +77,14 @@
 
         <div class="side-content">
           <% if (this.model.get('torrents')) { %>
-            <a href="" class="p_tooltip play-button"><%= Language['watchItNow'] %></a>
+            <a href="" class="p_tooltip play-button"><%= i18n.__('watchItNow') %></a>
           <% } %>
           <div>
             <h2><%= title %></h2>
             <span><%= year %></span>
             <p><%= synopsis %></p>
 
-            <p class="duration"><i class="fa fa-clock-o"></i> <%= runtime %> <%= Language['durationUnit'] %></p>
+            <p class="duration"><i class="fa fa-clock-o"></i> <%= runtime %> <%= i18n.__('durationUnit') %></p>
 
             <% var p_rating = (this.model.get('voteAverage') / 10) * 5 %>
             <div class="rating" data-rating="<%= voteAverage %>">

@@ -107,20 +107,20 @@ App.View.Sidebar = Backbone.View.extend({
                 $('.popcorn-load').find('.progress').css('width', percent+'%');
 
                 // Update the loader status
-                var bufferStatus = Language['connecting'];
+                var bufferStatus = i18n.__('connecting');
                 if( videoPeerflix.peers.length > 0 ) {
-                    bufferStatus = Language['startingDownload'];
+                    bufferStatus = i18n.__('startingDownload');
                     if( videoPeerflix.downloaded > 0 ) {
-                        bufferStatus = Language['downloading'];
+                        bufferStatus = i18n.__('downloading');
                     }
                 }
                 $('.popcorn-load .progressinfo').text(bufferStatus);
             }
         );
         $('.popcorn-load').addClass('withProgressBar').addClass('cancellable').find('.progress').css('width', 0.0+'%');
-        $('.popcorn-load .progressinfo').text( Language['connecting'] );
-        
-        App.loader(true, Language.loadingVideo);
+        $('.popcorn-load .progressinfo').text( i18n.__('connecting') );
+
+        App.loader(true, i18n.__('loadingVideo'));
     },
 
     initialize: function () {

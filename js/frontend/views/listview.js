@@ -16,7 +16,7 @@ App.View.MovieList = Backbone.View.extend({
     },
 
     empty: function () {
-        alert(Language.noResults);
+        alert(i18n.__('noResults'));
         App.Page.Home.show();
         return false;
     },

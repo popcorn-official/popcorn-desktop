@@ -70,9 +70,9 @@ var detectLanguage = function(preferred) {
 		var key = $el.data('translate');
 
 		if( $el.is('input') ) {
-			$el.attr('placeholder', Language[key]);
+			$el.attr('placeholder', i18n.__(key));
 		} else {
-			$el.text(Language[key]);
+			$el.text(i18n.__(key));
 		}
 	});
 
@@ -85,9 +85,9 @@ var populateCategories = function() {
 	var category_html = '';
 	var defaultCategory = 'all';
 
-	for( key in Language.genres ) {
+	for( key in i18n.__("genres") ) {
 		category_html += '<li'+ (defaultCategory == key ? ' class="active" ' : '') +'>'+
-				           '<a href="#" data-genre="'+key+'">'+Language.genres[key]+'</a>'+
+				           '<a href="#" data-genre="'+key+'">'+ i18n.__("genres")[key] +'</a>'+
 				         '</li>';
 	}
 
@@ -139,7 +139,7 @@ win.focus();
 
 document.addEventListener('keydown', function(event){
     var $el = $('.popcorn-quit');
-    if(!$el.hasClass('hidden')) {  
+    if(!$el.hasClass('hidden')) {
         // Esc
         if( event.keyCode == 27 ) { $el.addClass('hidden'); }
     }
@@ -216,8 +216,8 @@ var checkForUpdates = function() {
             if( updateInfo[currentOs].version > Settings.get('version') ) {
                 // Check if there's a newer version and show the update notification
                 $('#notification').html(
-                    'Popcorn Time '+ updateInfo[currentOs].versionName + Language.UpgradeVersionDescription +
-                    '<a class="btn" href="#" onclick="gui.Shell.openExternal(\'' + updateInfo[currentOs].downloadUrl + '\');"> '+ Language.UpgradeVersion + '</a>'
+                    i18n.__('UpgradeVersionDescription', updateInfo[currentOs].versionName) +
+                    '<a class="btn" href="#" onclick="gui.Shell.openExternal(\'' + updateInfo[currentOs].downloadUrl + '\');"> '+ i18n.__('UpgradeVersion') + '</a>'
                 );
                 $('body').addClass('has-notification');
             }
