@@ -139,8 +139,6 @@ win.focus();
 document.addEventListener('keydown', function(event){
     var $el = $('.popcorn-quit');
     if(!$el.hasClass('hidden')) {  
-        // Enter
-        if( event.keyCode == 13 ) { win.close(true); }
         // Esc
         if( event.keyCode == 27 ) { $el.addClass('hidden'); }
     }
