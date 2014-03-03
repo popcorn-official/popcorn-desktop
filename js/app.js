@@ -136,17 +136,6 @@ win.title = 'Popcorn Time';
 win.focus();
 
 
-// Prompting before quitting
-win.on('close', function() {
-    var $el = $('.popcorn-quit');
-    if($el.hasClass('hidden')) {
-        $el.find('.text').html(Language.beforeQuit);
-        $el.find('.btn.quit').html(Language.quit);
-        $el.find('.btn.cancel').html(Language.cancel);
-        $el.removeClass('hidden');
-    }
-});
-
 document.addEventListener('keydown', function(event){
     var $el = $('.popcorn-quit');
     if(!$el.hasClass('hidden')) {  
