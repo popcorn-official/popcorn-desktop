@@ -13,13 +13,14 @@
     "subtitledIn": "Sous-titres",
     "quality": "Qualité",
     "watchItNow": "Regarder",
+    "durationUnit": "min",
 
     "connecting": "Connexion...",
     "startingDownload": "Démarrage du téléchargement...",
     "downloading": "Téléchargement...",
 
     "UpgradeVersion": "Mettre à jour Popcorn Time",
-    "UpgradeVersionDescription": " a été mis à jour. Vous devez le télécharger maintenant !",
+    "UpgradeVersionDescription": " a été mis à jour. Vous devriez le télécharger maintenant !",
 
     "genres": {
         "all": "Populaire",
