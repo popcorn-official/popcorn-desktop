@@ -543,7 +543,7 @@ border-top-color: #FFF;
   bottom: 1em;
   /* Same bottom as vjs-menu border-top */
 
-  max-height: 15em;
+  max-height: 45em;
   overflow: auto;
   left: -5em;
   /* Width of menu - width of button / 2 */
