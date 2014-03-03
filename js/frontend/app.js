@@ -229,6 +229,10 @@ jQuery(function ($) {
   $('.btn-os.close').on('click', function () {
     win.close();
   });
+  
+  $('.btn-os.fullscreen').on('click', function () {
+    win.toggleKioskMode();
+  });
 
   $('.popcorn-load .btn-close').click(function(event){
     event.preventDefault();
