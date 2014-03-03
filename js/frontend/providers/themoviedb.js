@@ -14,11 +14,20 @@ App.findMovieInfo = function (imdbId, callback) {
 
         last = +new Date();
 
-        var findInfo = function (id) {
+        var findInfo = function (id, language) {
             mdb.movieInfo({
-                id: id
+                id: id, language: language || i18n.getLocale()
             }, function (err, data) {
                 if (!err && data) {
+                    if (data.overview === null || data.runtime === null) {
+                        default_movie = findInfo(id, "en")
+                        ["overview", "runtime"].each(function(key){
+                            if (data[key] === null) {
+                                data[key] = default_movie[key]
+                            }
+                        });
+                    }
+
                     var info = {
                         image:      POSTER_PREFIX + data.poster_path,
                         overview:   data.overview,
@@ -41,14 +50,14 @@ App.findMovieInfo = function (imdbId, callback) {
         // Find internal tMDB ID
         mdb.find({
             id: 'tt' + imdbId,
-            external_source: 'imdb_id'
+            external_source: 'imdb_id', language: i18n.getLocale()
         }, function (err, data) {
             if (data && data.movie_results && data.movie_results.length) {
                 findInfo(data.movie_results[0].id);
             }
         });
     };
-    
+
     App.Cache.getItem('tmdb', imdbId, function (cachedItem) {
         if (cachedItem) {
             callback(cachedItem);
