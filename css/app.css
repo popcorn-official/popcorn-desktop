@@ -647,7 +647,7 @@ a {
 /* line 235, ../sass/_layout.scss */
 #catalog-select .search {
   position: absolute;
-  right: 10px;
+  right: 20px;
   top: 12px;
 }
 /* line 240, ../sass/_layout.scss */
@@ -658,7 +658,7 @@ a {
   font-size: 12px;
   height: 15px;
   padding: 8px 10px;
-  width: 135px;
+  width: 115px;
   background: transparent;
   font-weight: bold;
 }
