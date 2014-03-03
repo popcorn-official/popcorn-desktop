@@ -406,11 +406,11 @@ a {
   overflow: hidden;
 }
 /* line 82, ../sass/_layout.scss */
-.flag.flag-eng {
+.flag.flag-english {
   background-image: url(../images/english.png);
 }
 /* line 83, ../sass/_layout.scss */
-.flag.flag-fre {
+.flag.flag-french {
   background-image: url(../images/french.png);
 }
 /* line 84, ../sass/_layout.scss */
@@ -418,23 +418,23 @@ a {
   background-image: url(../images/dutch.png);
 }
 /* line 85, ../sass/_layout.scss */
-.flag.flag-pob {
-  background-image: url(../images/pob.png);
+.flag.flag-portuguese {
+  background-image: url(../images/brazilian.png);
 }
 /* line 86, ../sass/_layout.scss */
 .flag.flag-por {
   background-image: url(../images/portuguese.png);
 }
 /* line 87, ../sass/_layout.scss */
-.flag.flag-rum {
-  background-image: url(../images/rumanian.png);
+.flag.flag-romanian {
+  background-image: url(../images/romanian.png);
 }
 /* line 88, ../sass/_layout.scss */
-.flag.flag-spa {
+.flag.flag-spanish {
   background-image: url(../images/spanish.png);
 }
 /* line 89, ../sass/_layout.scss */
-.flag.flag-tur {
+.flag.flag-turkish {
   background-image: url(../images/turkish.png);
 }
 
