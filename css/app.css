@@ -1656,7 +1656,7 @@ sidebar .health.excellent {
   -o-transition: all 0.25s ease;
   transition: all 0.25s ease;
   position: absolute;
-  bottom: -90px;
+  bottom: -130px;
   background: rgba(0, 0, 0, 0.6);
   width: 100%;
   color: #FFF;
