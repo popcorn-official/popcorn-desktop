@@ -84,7 +84,9 @@
             <span><%= year %></span>
             <p><%= synopsis %></p>
 
-            <p class="duration"><i class="fa fa-clock-o"></i> <%= runtime %> <%= Language['durationUnit'] %></p>
+            <% if (this.model.get('runtime')) { %>
+              <p class="duration"><i class="fa fa-clock-o"></i> <%= runtime %> <%= Language['durationUnit'] %></p>
+            <% } %>
 
             <% var p_rating = (this.model.get('voteAverage') / 10) * 5 %>
             <div class="rating" data-rating="<%= voteAverage %>">
