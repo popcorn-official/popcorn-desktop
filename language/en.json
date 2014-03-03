@@ -47,5 +47,11 @@
         "thriller": "Thriller",
         "war": "War",
         "western": "Western"
-    }
+    },
+    "french": "French",
+    "english": "English",
+    "spanish": "Spanish",
+    "portuguese": "Portuguese",
+    "romanian": "Romanian",
+    "turkish": "Turkish"
 }
