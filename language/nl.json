@@ -7,7 +7,7 @@
     "searchLoading": "Zoeken...",
     "noResults": "Geen resultaten gevonden.",
 
-	"search": "Zoeken",
+    "search": "Zoeken",
     "movies": "Films",
 
     "subtitledIn": "Ondertiteld in",
@@ -19,6 +19,9 @@
     "startingDownload": "Start Download...",
     "downloading": "Downloaden...",
 
+    "UpgradeVersion": "Update Popcorn Time",
+    "UpgradeVersionDescription": " was just released. You should get it now!",
+    
     "genres": {
         "all": "Populair",
         "action": "Actie",

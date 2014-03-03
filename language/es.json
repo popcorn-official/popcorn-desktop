@@ -7,8 +7,8 @@
     "searchLoading": "Buscando...",
     "noResults": "No se encontraron resultados.",
 
-	"search": "Buscar",
-	"movies": "Películas",
+    "search": "Buscar",
+    "movies": "Películas",
 
     "subtitledIn": "Subtítulos",
     "quality": "Calidad",
@@ -19,6 +19,9 @@
     "startingDownload": "Comenzando Descarga...",
     "downloading": "Descargando...",
 
+    "UpgradeVersion": "Actualiza Popcorn Time",
+    "UpgradeVersionDescription": " acaba de ser lanzado. Descargalo ahora!",
+    
     "genres": {
         "all": "Popular",
         "action": "Acción",
