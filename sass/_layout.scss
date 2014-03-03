@@ -116,7 +116,11 @@ a { text-decoration: none; }
     position: absolute;
     left: 15px;
     top: 17px;
-    width: 80px;
+
+    &.right {
+      right: 15px;
+      left: initial;
+    }
 
     &:hover .btn-os { color: rgba(0, 0, 0, 0.8); }
 
@@ -151,6 +155,8 @@ a { text-decoration: none; }
       &.close:hover { background: #e74c3c; }
       &.max:hover { background: #27ae60; }
       &.min:hover { background: #f1c40f; }
+      &.fullscreen:hover { background: #286dc4; }
+
     }
   }
 }
