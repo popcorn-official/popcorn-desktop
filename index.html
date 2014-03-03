@@ -45,11 +45,11 @@
               <li class="options">
                 <%= Language['subtitledIn'] %>
 
+                <span class="available-subtitles">
                 <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
-                  <span class="available-subtitles">
-                    <span class="flag flag-<%= keys[i] %>" title="<%= Languages[keys[i]] %>"></span>
-                  </span>
+                  <span class="flag flag-<%= keys[i] %>" title="<%= Languages[keys[i]] %>"></span>
                 <% } %>
+                </span>
               </li>
             <% } %>
             <% if (this.model.get('quality') && this.model.get('torrents')) { %>

@@ -79,14 +79,15 @@ a { text-decoration: none; }
   height: 24px;
   overflow: hidden;
   
-  &.flag-eng { background-image: url(../images/english.png); }
-  &.flag-fre { background-image: url(../images/french.png); }
-  &.flag-hol { background-image: url(../images/dutch.png); }
+  &.flag-english { background-image: url(../images/english.png); }
+  &.flag-french { background-image: url(../images/french.png); }
+  &.flag-dutch { background-image: url(../images/dutch.png); }
+  &.flag-portuguese { background-image: url(../images/portuguese.png); }
+  &.flag-romanian { background-image: url(../images/rumanian.png); }
+  &.flag-spanish { background-image: url(../images/spanish.png); }
+  &.flag-turkish { background-image: url(../images/turkish.png); }
+  
   &.flag-pob { background-image: url(../images/pob.png); }
-  &.flag-por { background-image: url(../images/portuguese.png); }
-  &.flag-rum { background-image: url(../images/rumanian.png); }
-  &.flag-spa { background-image: url(../images/spanish.png); }
-  &.flag-tur { background-image: url(../images/turkish.png); }
 }
 
 
