@@ -242,6 +242,8 @@ jQuery(function ($) {
   
   $('.btn-os.fullscreen').on('click', function () {
     win.toggleFullscreen();
+    $('.btn-os.fullscreen').toggleClass('active');
+
   });
 
   $('.popcorn-load .btn-close').click(function(event){
