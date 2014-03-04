@@ -40,43 +40,43 @@ if( ! fs.existsSync(tmpFolder) ) { fs.mkdirSync(tmpFolder); }
 // Detect the language and update the global Language file
 var detectLanguage = function(preferred) {
 
-	var fs = require('fs');
-	var bestLanguage = navigator.language.slice(0,2);
+    var fs = require('fs');
+    var bestLanguage = navigator.language.slice(0,2);
 
-	if( fs.existsSync('./language/' + bestLanguage + '.json') ) {
-		Language = require('./language/' + bestLanguage + '.json');
-	} else {
-		Language = require('./language/' + preferred + '.json');
-	}
+    if( fs.existsSync('./language/' + bestLanguage + '.json') ) {
+        Language = require('./language/' + bestLanguage + '.json');
+    } else {
+        Language = require('./language/' + preferred + '.json');
+    }
 
-	// This is a hack to translate non-templated UI elements. Fuck it.
-	$('[data-translate]').each(function(){
-		var $el = $(this);
-		var key = $el.data('translate');
+    // This is a hack to translate non-templated UI elements. Fuck it.
+    $('[data-translate]').each(function(){
+        var $el = $(this);
+        var key = $el.data('translate');
 
-		if( $el.is('input') ) {
-			$el.attr('placeholder', Language[key]);
-		} else {
-			$el.text(Language[key]);
-		}
-	});
+        if( $el.is('input') ) {
+            $el.attr('placeholder', Language[key]);
+        } else {
+            $el.text(Language[key]);
+        }
+    });
 
-	populateCategories();
+    populateCategories();
 };
 
 
 // Populate the Category list (This should be a template, though)
 var populateCategories = function() {
-	var category_html = '';
-	var defaultCategory = 'all';
+    var category_html = '';
+    var defaultCategory = 'all';
 
-	for( key in Language.genres ) {
-		category_html += '<li'+ (defaultCategory == key ? ' class="active" ' : '') +'>'+
-				           '<a href="#" data-genre="'+key+'">'+Language.genres[key]+'</a>'+
-				         '</li>';
-	}
+    for( key in Language.genres ) {
+        category_html += '<li'+ (defaultCategory == key ? ' class="active" ' : '') +'>'+
+                           '<a href="#" data-genre="'+key+'">'+Language.genres[key]+'</a>'+
+                         '</li>';
+    }
 
-	jQuery('#catalog-select .categories').html(category_html);
+    jQuery('#catalog-select .categories').html(category_html);
 };
 
 detectLanguage('en');
@@ -105,12 +105,12 @@ if (!isDebug) {
     win.menu = menubar;
 
     // Developer Shortcuts
-	document.addEventListener('keydown', function(event){
-		// F12 Opens DevTools
-		if( event.keyCode == 123 ) { win.showDevTools(); }
-		// F11 Reloads
-		if( event.keyCode == 122 ) { win.reloadIgnoringCache(); }
-	});
+    document.addEventListener('keydown', function(event){
+        // F12 Opens DevTools
+        if( event.keyCode == 123 ) { win.showDevTools(); }
+        // F11 Reloads
+        if( event.keyCode == 122 ) { win.reloadIgnoringCache(); }
+    });
 }
 
 
@@ -128,6 +128,17 @@ document.addEventListener('keydown', function(event){
         // Esc
         if( event.keyCode == 27 ) { $el.addClass('hidden'); }
     }
+    if (event.keyCode === 27 && $('body').is('.loading')) {
+        /*alert("escape pressed from sidebar");*/
+        App.loader(false);
+        $(document).trigger('videoExit');
+    }
+    if (event.keyCode == 32 && $("#video_player").is(".vjs-playing")) {
+        $("#video_player")[0].player.pause();
+    }
+    if (event.keyCode == 32 && $("#video_player").is(".vjs-paused")) {
+        $("#video_player")[0].player.play();
+    }
 });
 
 // Cancel all new windows (Middle clicks / New Tab)
@@ -138,12 +149,12 @@ win.on('new-win-policy', function (frame, url, policy) {
 
 // Prevent dropping files into the window
 window.addEventListener("dragover",function(e){
-  	e = e || event;
-  	e.preventDefault();
+    e = e || event;
+    e.preventDefault();
 },false);
 window.addEventListener("drop",function(e){
-  	e = e || event;
-  	e.preventDefault();
+    e = e || event;
+    e.preventDefault();
 },false);
 
 
@@ -278,6 +289,9 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
             $(document).on('videoExit', function() {
                 if (loadedTimeout) { clearTimeout(loadedTimeout); }
 
+                // Keep the sidebar open
+                $("body").addClass("sidebar-open").removeClass("loading");
+
                 // Stop processes
                 flix.clearCache();
                 flix.destroy();
@@ -304,5 +318,5 @@ $('body').tooltip({
  */
 
 process.on('uncaughtException', function(err) {
-  console.log(err);
+    console.log(err);
 });

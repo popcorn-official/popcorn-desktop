@@ -73,7 +73,7 @@ $text-color: #000;
 @-webkit-keyframes sidebareffect {
   /* line 2, ../sass/_animations.scss */
   from {
-    -webkit-transform: translate(220px, 0);
+    -webkit-transform: translate(100%, 0);
   }
 
   /* line 3, ../sass/_animations.scss */
@@ -90,7 +90,7 @@ $text-color: #000;
 
   /* line 8, ../sass/_animations.scss */
   to {
-    -webkit-transform: translate(220px, 0);
+    -webkit-transform: translate(100%, 0);
   }
 }
 
@@ -1390,18 +1390,19 @@ sidebar {
   right: 0;
   position: absolute;
   height: 100%;
+  width: 100%;
   z-index: 125;
   -webkit-transform-style: preserve-3d;
   animation: sidebareffect .5s;
   -webkit-animation: sidebareffect .5s;
 }
-/* line 11, ../sass/_moviedetails.scss */
+/* line 12, ../sass/_moviedetails.scss */
 sidebar.hidden {
   animation: sidebareffect2 .5s;
   -webkit-animation: sidebareffect2 .5s;
-  -webkit-transform: translate(220px, 0);
+  -webkit-transform: translate(100%, 0);
 }
-/* line 17, ../sass/_moviedetails.scss */
+/* line 18, ../sass/_moviedetails.scss */
 sidebar .closer {
   position: absolute;
   top: 0;
@@ -1411,11 +1412,11 @@ sidebar .closer {
   z-index: 300;
   cursor: pointer;
 }
-/* line 26, ../sass/_moviedetails.scss */
+/* line 27, ../sass/_moviedetails.scss */
 sidebar .closer:hover i {
   opacity: 1;
 }
-/* line 28, ../sass/_moviedetails.scss */
+/* line 29, ../sass/_moviedetails.scss */
 sidebar .closer i {
   color: #fff;
   position: absolute;
@@ -1425,18 +1426,34 @@ sidebar .closer i {
   text-shadow: 0 0 5px #000;
 }
 /* line 38, ../sass/_moviedetails.scss */
+sidebar .backdrop-image {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0.2;
+  height: 100%;
+  background-size: cover;
+  z-index: -1;
+  -webkit-filter: grayscale(1);
+  background-position: center;
+}
+/* line 52, ../sass/_moviedetails.scss */
 sidebar .play {
   overflow-x: hidden;
   overflow-y: overlay;
   -webkit-overflow-scrolling: touch;
-  background: #181817;
+  background: #000;
   box-shadow: -3px 0 3px rgba(0, 0, 0, 0.2);
   height: 100%;
   position: absolute;
-  right: 0;
+  left: 0;
   top: 0;
-  width: 220px;
+  width: 100%;
   z-index: 100;
+  background-size: cover;
 }
 /* line 11, ../sass/_utils.scss */
 sidebar .play::-webkit-scrollbar {
@@ -1484,11 +1501,11 @@ sidebar .play:hover::-webkit-scrollbar-thumb:hover {
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
-/* line 50, ../sass/_moviedetails.scss */
+/* line 65, ../sass/_moviedetails.scss */
 sidebar .play:hover a.play-over {
   display: block;
 }
-/* line 54, ../sass/_moviedetails.scss */
+/* line 69, ../sass/_moviedetails.scss */
 sidebar .play a.play-over {
   position: absolute;
   top: 40%;
@@ -1502,244 +1519,212 @@ sidebar .play a.play-over {
   display: none;
   z-index: 10;
 }
-/* line 69, ../sass/_moviedetails.scss */
+/* line 84, ../sass/_moviedetails.scss */
 sidebar .side-content {
   padding: 0;
   z-index: 500;
+  float: left;
+  width: 70%;
   position: relative;
-  background: #181817;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.7);
 }
-/* line 75, ../sass/_moviedetails.scss */
-sidebar .side-content div {
-  padding: 0 12px 12px 12px;
+/* line 92, ../sass/_moviedetails.scss */
+sidebar .side-content > div {
+  padding: 10%;
 }
-/* line 78, ../sass/_moviedetails.scss */
+/* line 95, ../sass/_moviedetails.scss */
 sidebar img.big-poster {
   background: #000;
-  height: 326px;
-  width: 220px;
+  width: 80%;
+  margin: 10% 10% 2% 10%;
+  border: 1px solid #000;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
 }
-/* line 84, ../sass/_moviedetails.scss */
+/* line 104, ../sass/_moviedetails.scss */
 sidebar a.play-button {
-  background: #3498db;
   text-align: center;
   color: #FFF;
   font-weight: bold;
-  padding: 16px 0;
+  padding: 16px 32px;
   text-decoration: none;
+  display: inline-block;
   text-transform: uppercase;
-  display: block;
-  margin-top: -3px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+  margin-top: 20px;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  background: #cc181e;
 }
-/* line 95, ../sass/_moviedetails.scss */
+/* line 117, ../sass/_moviedetails.scss */
 sidebar a.play-button:hover {
-  background: #2980B9;
+  background: #eb282e;
 }
-/* line 98, ../sass/_moviedetails.scss */
-sidebar h2 {
-  font-weight: bold;
-  font-size: 18px;
-  padding: 10px 0 0 0;
-}
-/* line 104, ../sass/_moviedetails.scss */
-sidebar span {
-  color: #999;
-  font-size: 12px;
-}
-/* line 109, ../sass/_moviedetails.scss */
-sidebar p {
-  margin-top: 10px;
-  color: #666;
-  font-size: 13px;
-  line-height: 1.3em;
-}
-/* line 116, ../sass/_moviedetails.scss */
-sidebar .duration {
-  color: #999;
-}
-/* line 119, ../sass/_moviedetails.scss */
-sidebar .duration i {
-  font-size: 14px;
-  color: #a9a9a9;
-}
-/* line 125, ../sass/_moviedetails.scss */
-sidebar .rating {
+/* line 120, ../sass/_moviedetails.scss */
+sidebar .title {
   position: relative;
-  font-size: 18px;
-  height: 1.28571428571429em;
-  margin: 0.55555555555556em 0;
-  padding: 0 !important;
+  padding: 0;
 }
-/* line 132, ../sass/_moviedetails.scss */
-sidebar .rating ul {
-  position: absolute;
-  color: #ad840e;
-}
-/* line 137, ../sass/_moviedetails.scss */
-sidebar .rating .star {
-  display: inline-block;
-}
-/* line 141, ../sass/_moviedetails.scss */
-sidebar .torrent-health {
-  display: inline-block;
-  padding: 3px 5px;
-  border-radius: 3px;
-  color: #fff;
-  font-size: 10px;
+/* line 124, ../sass/_moviedetails.scss */
+sidebar .title h2 {
   font-weight: bold;
-  text-transform: capitalize;
+  font-size: 42px;
+  margin-bottom: 5px;
 }
-/* line 150, ../sass/_moviedetails.scss */
-sidebar .torrent-health.bad {
-  background: red;
+/* line 130, ../sass/_moviedetails.scss */
+sidebar .title span {
+  color: #999;
+  font-size: 18px;
 }
-/* line 151, ../sass/_moviedetails.scss */
-sidebar .torrent-health.medium {
-  background: yellow;
+/* line 134, ../sass/_moviedetails.scss */
+sidebar .title span i {
+  color: #a9a9a9;
+  margin-right: 4px;
 }
-/* line 152, ../sass/_moviedetails.scss */
-sidebar .torrent-health.good {
-  background: limegreen;
+/* line 140, ../sass/_moviedetails.scss */
+sidebar .title .duration {
+  margin-left: 10px;
 }
-/* line 153, ../sass/_moviedetails.scss */
-sidebar .torrent-health.excellent {
-  background: green;
-}
-/* line 156, ../sass/_moviedetails.scss */
-sidebar .health {
-  font-size: 14px;
-  border: 2px solid green;
-  border-radius: 20px;
+/* line 142, ../sass/_moviedetails.scss */
+sidebar .title .health {
+  font-size: 24px;
   width: 20px;
   height: 20px;
   text-align: center;
   line-height: 20px;
   cursor: pointer;
   position: absolute;
-  right: 12px;
-  bottom: 24px;
+  top: 4px;
+  right: 0;
 }
-/* line 169, ../sass/_moviedetails.scss */
-sidebar .health.bad {
+/* line 153, ../sass/_moviedetails.scss */
+sidebar .title .health.bad {
   color: red;
   border-color: red;
 }
-/* line 174, ../sass/_moviedetails.scss */
-sidebar .health.medium {
+/* line 158, ../sass/_moviedetails.scss */
+sidebar .title .health.medium {
   color: yellow;
   border-color: yellow;
 }
-/* line 179, ../sass/_moviedetails.scss */
-sidebar .health.good {
+/* line 163, ../sass/_moviedetails.scss */
+sidebar .title .health.good {
   color: limegreen;
   border-color: limegreen;
 }
-/* line 184, ../sass/_moviedetails.scss */
-sidebar .health.excellent {
+/* line 168, ../sass/_moviedetails.scss */
+sidebar .title .health.excellent {
   color: green;
   border-color: green;
 }
-
-/* line 193, ../sass/_moviedetails.scss */
-.sidebar-open li.movie {
-  opacity: 0.6;
+/* line 175, ../sass/_moviedetails.scss */
+sidebar .rating {
+  display: inline-block;
+  position: relative;
+  font-size: 18px;
+  margin: 0 10px 0 0;
 }
-/* line 196, ../sass/_moviedetails.scss */
+/* line 181, ../sass/_moviedetails.scss */
+sidebar .rating ul {
+  color: #f1c40f;
+}
+/* line 184, ../sass/_moviedetails.scss */
+sidebar p {
+  margin-top: 10px;
+  color: #999;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* line 194, ../sass/_moviedetails.scss */
+.sidebar-open li.movie {
+  opacity: 0.25;
+}
+/* line 197, ../sass/_moviedetails.scss */
 .sidebar-open li.movie.active {
   opacity: 1;
 }
-/* line 199, ../sass/_moviedetails.scss */
+/* line 200, ../sass/_moviedetails.scss */
 .sidebar-open li.movie.active a {
   box-shadow: 0 0 0 3px #3498db;
   border-radius: 3px;
 }
-/* line 203, ../sass/_moviedetails.scss */
+/* line 204, ../sass/_moviedetails.scss */
 .sidebar-open li.movie.active a i {
   opacity: 0 !important;
 }
 
-/* line 212, ../sass/_moviedetails.scss */
+/* line 211, ../sass/_moviedetails.scss */
 .poster-cont {
   position: relative;
+  width: 30%;
+  float: left;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
 }
-/* line 215, ../sass/_moviedetails.scss */
+/* line 217, ../sass/_moviedetails.scss */
 .poster-cont:hover .movie-config {
   bottom: 2px;
 }
 
-/* line 218, ../sass/_moviedetails.scss */
+/* line 220, ../sass/_moviedetails.scss */
 .subtitles button {
   background: transparent;
   border: 0;
   padding: 0;
 }
 
-/* line 224, ../sass/_moviedetails.scss */
+/* line 226, ../sass/_moviedetails.scss */
 .movie-config {
-  -webkit-transition: all 0.25s ease;
-  -moz-transition: all 0.25s ease;
-  -o-transition: all 0.25s ease;
-  transition: all 0.25s ease;
-  position: absolute;
-  bottom: -130px;
-  background: rgba(0, 0, 0, 0.6);
-  width: 100%;
+  width: 80%;
   color: #FFF;
+  padding: 0 10%;
 }
-/* line 232, ../sass/_moviedetails.scss */
-.movie-config:hover .dropdown {
-  z-index: 600;
+/* line 230, ../sass/_moviedetails.scss */
+.movie-config h4 {
+  font-weight: bold;
+  margin: 12px 0;
 }
-/* line 234, ../sass/_moviedetails.scss */
+/* line 238, ../sass/_moviedetails.scss */
 .movie-config li.options {
-  padding: 15px;
   position: relative;
-  overflow: hidden;
 }
-/* line 239, ../sass/_moviedetails.scss */
+/* line 242, ../sass/_moviedetails.scss */
 .movie-config li.options span.extra-data {
   font-weight: bold;
   color: #FFF;
   float: right;
   font-size: 15px;
 }
-/* line 246, ../sass/_moviedetails.scss */
+/* line 249, ../sass/_moviedetails.scss */
 .movie-config li.options span.good {
   color: #27ae60;
 }
-/* line 247, ../sass/_moviedetails.scss */
+/* line 250, ../sass/_moviedetails.scss */
 .movie-config li.options span.bad {
   color: #c0392b;
 }
-/* line 248, ../sass/_moviedetails.scss */
+/* line 251, ../sass/_moviedetails.scss */
 .movie-config li.options span.epic {
   color: #8e44ad;
 }
-/* line 250, ../sass/_moviedetails.scss */
-.movie-config li.options span.available-subtitles {
-  float: right;
-  margin-top: -3px;
-  margin-bottom: -15px;
-  max-width: 100px;
-  text-align: right;
-}
-/* line 257, ../sass/_moviedetails.scss */
+/* line 255, ../sass/_moviedetails.scss */
 .movie-config li.options span.available-subtitles > .flag {
   margin-left: 5px;
 }
-/* line 261, ../sass/_moviedetails.scss */
+/* line 259, ../sass/_moviedetails.scss */
 .movie-config input {
   font-family: inherit;
   font-size: 100%;
   line-height: normal;
   margin: 0;
 }
-/* line 267, ../sass/_moviedetails.scss */
+/* line 265, ../sass/_moviedetails.scss */
 .movie-config input[type="radio"] {
   box-sizing: border-box;
   padding: 0;
 }
-/* line 273, ../sass/_moviedetails.scss */
+/* line 271, ../sass/_moviedetails.scss */
 .movie-config .switch {
   background: transparent;
   border-radius: 32px;
@@ -1748,11 +1733,11 @@ sidebar .health.excellent {
   position: absolute;
   width: 25px;
   border: 2px solid #FFF;
-  right: 52px;
-  top: 14px;
+  left: 40px;
+  top: 28px;
   cursor: pointer;
 }
-/* line 285, ../sass/_moviedetails.scss */
+/* line 283, ../sass/_moviedetails.scss */
 .movie-config .switch label {
   -webkit-transition: color 0.2s ease;
   -moz-transition: color 0.2s ease;
@@ -1765,19 +1750,19 @@ sidebar .health.excellent {
   width: 20px;
   cursor: pointer;
 }
-/* line 294, ../sass/_moviedetails.scss */
+/* line 292, ../sass/_moviedetails.scss */
 .movie-config .switch label:nth-of-type(1) {
   left: -38px;
   position: absolute;
   text-align: right;
 }
-/* line 300, ../sass/_moviedetails.scss */
+/* line 298, ../sass/_moviedetails.scss */
 .movie-config .switch label:nth-of-type(2) {
   position: absolute;
   right: -30px;
   text-align: left;
 }
-/* line 307, ../sass/_moviedetails.scss */
+/* line 305, ../sass/_moviedetails.scss */
 .movie-config .switch input {
   height: 64px;
   left: 0;
@@ -1788,35 +1773,35 @@ sidebar .health.excellent {
   z-index: 2;
   cursor: pointer;
 }
-/* line 317, ../sass/_moviedetails.scss */
+/* line 315, ../sass/_moviedetails.scss */
 .movie-config .switch input:checked {
   z-index: 0;
 }
-/* line 321, ../sass/_moviedetails.scss */
+/* line 319, ../sass/_moviedetails.scss */
 .movie-config .switch input:checked ~ label:nth-of-type(1) {
   color: #0cff00;
 }
-/* line 322, ../sass/_moviedetails.scss */
+/* line 320, ../sass/_moviedetails.scss */
 .movie-config .switch input:checked ~ label:nth-of-type(2) {
   color: #FFF;
 }
-/* line 325, ../sass/_moviedetails.scss */
+/* line 323, ../sass/_moviedetails.scss */
 .movie-config .switch input:checked ~ .toggle {
   left: 2px;
 }
-/* line 329, ../sass/_moviedetails.scss */
+/* line 327, ../sass/_moviedetails.scss */
 .movie-config .switch input ~ :checked ~ label:nth-of-type(1) {
   color: #FFF;
 }
-/* line 330, ../sass/_moviedetails.scss */
+/* line 328, ../sass/_moviedetails.scss */
 .movie-config .switch input ~ :checked ~ label:nth-of-type(2) {
   color: #0cff00;
 }
-/* line 333, ../sass/_moviedetails.scss */
+/* line 331, ../sass/_moviedetails.scss */
 .movie-config .switch input ~ :checked ~ .toggle {
   left: 13px;
 }
-/* line 337, ../sass/_moviedetails.scss */
+/* line 335, ../sass/_moviedetails.scss */
 .movie-config .toggle {
   -webkit-transition: left 0.2s ease;
   -moz-transition: left 0.2s ease;
@@ -1832,7 +1817,7 @@ sidebar .health.excellent {
   z-index: 1;
 }
 
-/* line 351, ../sass/_moviedetails.scss */
+/* line 349, ../sass/_moviedetails.scss */
 .dropdown {
   position: relative;
   display: inline-block;
@@ -1842,19 +1827,19 @@ sidebar .health.excellent {
   margin-right: 20px;
   margin-top: -8px;
 }
-/* line 361, ../sass/_moviedetails.scss */
+/* line 359, ../sass/_moviedetails.scss */
 .dropdown.active .dropdown-text {
   background-color: white;
   z-index: 2;
   border-radius: 3px 3px 0 0;
 }
-/* line 367, ../sass/_moviedetails.scss */
+/* line 365, ../sass/_moviedetails.scss */
 .dropdown.active .dropdown-content {
   opacity: 1;
   visibility: visible;
 }
 
-/* line 374, ../sass/_moviedetails.scss */
+/* line 372, ../sass/_moviedetails.scss */
 .dropdown-text {
   cursor: pointer;
   position: absolute;
@@ -1864,7 +1849,7 @@ sidebar .health.excellent {
   color: #333;
   text-shadow: 0 1px #fff;
 }
-/* line 383, ../sass/_moviedetails.scss */
+/* line 381, ../sass/_moviedetails.scss */
 .dropdown-text:after {
   position: absolute;
   right: -10px;
@@ -1877,7 +1862,7 @@ sidebar .health.excellent {
   border-color: #FFF transparent transparent transparent;
 }
 
-/* line 396, ../sass/_moviedetails.scss */
+/* line 394, ../sass/_moviedetails.scss */
 .dropdown-toggle {
   font-size: 0;
   z-index: 1;
@@ -1892,12 +1877,12 @@ sidebar .health.excellent {
   height: 37px;
   width: 60px;
 }
-/* line 410, ../sass/_moviedetails.scss */
+/* line 408, ../sass/_moviedetails.scss */
 .dropdown-toggle:focus {
   outline: 0;
 }
 
-/* line 413, ../sass/_moviedetails.scss */
+/* line 411, ../sass/_moviedetails.scss */
 .dropdown-content {
   list-style-type: none;
   position: absolute;
@@ -1911,14 +1896,14 @@ sidebar .health.excellent {
   width: 40px;
   text-align: center;
 }
-/* line 426, ../sass/_moviedetails.scss */
+/* line 424, ../sass/_moviedetails.scss */
 .dropdown-content a {
   display: block;
   padding: 4px;
   color: #333;
   text-shadow: 0 1px #fff;
 }
-/* line 432, ../sass/_moviedetails.scss */
+/* line 430, ../sass/_moviedetails.scss */
 .dropdown-content a:hover {
   background: #E1E1E1;
 }
@@ -2048,26 +2033,53 @@ sidebar .health.excellent {
 }
 
 /* line 2, ../sass/_probablyuseless.scss */
+.torrent-health {
+  display: inline-block;
+  padding: 3px 5px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+/* line 11, ../sass/_probablyuseless.scss */
+.torrent-health.bad {
+  background: red;
+}
+/* line 12, ../sass/_probablyuseless.scss */
+.torrent-health.medium {
+  background: yellow;
+}
+/* line 13, ../sass/_probablyuseless.scss */
+.torrent-health.good {
+  background: limegreen;
+}
+/* line 14, ../sass/_probablyuseless.scss */
+.torrent-health.excellent {
+  background: green;
+}
+
+/* line 17, ../sass/_probablyuseless.scss */
 .content {
   float: left;
   margin-left: 30px;
   text-shadow: 0 -1px 0 #000;
   width: 660px;
 }
-/* line 8, ../sass/_probablyuseless.scss */
+/* line 23, ../sass/_probablyuseless.scss */
 .content h2 {
   font-size: 32px;
   margin: 0;
   font-weight: bold;
 }
-/* line 15, ../sass/_probablyuseless.scss */
+/* line 30, ../sass/_probablyuseless.scss */
 .content p.metadata {
   color: #196cb2;
   font-size: 14px;
   font-weight: 700;
   margin: 10px 0;
 }
-/* line 22, ../sass/_probablyuseless.scss */
+/* line 37, ../sass/_probablyuseless.scss */
 .content p.description {
   color: #777;
   font-family: 'Helvetica Neue', sans-serif;
@@ -2077,11 +2089,11 @@ sidebar .health.excellent {
 
 /*
 -- Don't find any of this properties anywhere in the popcorn-app */
-/* line 36, ../sass/_probablyuseless.scss */
+/* line 51, ../sass/_probablyuseless.scss */
 .tabs {
   border-bottom: 1px solid #272727;
 }
-/* line 39, ../sass/_probablyuseless.scss */
+/* line 54, ../sass/_probablyuseless.scss */
 .tabs li {
   bottom: -1px;
   color: #333;
@@ -2089,11 +2101,11 @@ sidebar .health.excellent {
   padding: 10px 20px;
   position: relative;
 }
-/* line 46, ../sass/_probablyuseless.scss */
+/* line 61, ../sass/_probablyuseless.scss */
 .tabs li:hover {
   color: #FFF;
 }
-/* line 48, ../sass/_probablyuseless.scss */
+/* line 63, ../sass/_probablyuseless.scss */
 .tabs li.active {
   border-bottom: 3px solid #FFF;
   color: #FFF;
@@ -2101,23 +2113,23 @@ sidebar .health.excellent {
   font-weight: 700;
 }
 
-/* line 57, ../sass/_probablyuseless.scss */
+/* line 72, ../sass/_probablyuseless.scss */
 .tab-content {
   margin: 20px 0;
 }
 
-/* line 59, ../sass/_probablyuseless.scss */
+/* line 74, ../sass/_probablyuseless.scss */
 .cast ul li {
   font-size: 15px;
   font-weight: 700;
   padding: 10px;
   position: relative;
 }
-/* line 65, ../sass/_probablyuseless.scss */
+/* line 80, ../sass/_probablyuseless.scss */
 .cast ul li:hover {
   background: #222;
 }
-/* line 67, ../sass/_probablyuseless.scss */
+/* line 82, ../sass/_probablyuseless.scss */
 .cast ul li span {
   color: #444;
   font-weight: 400;

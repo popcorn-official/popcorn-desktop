@@ -23,7 +23,7 @@ Settings = {
     
         for( var key in Settings._defaultSettings ) {
             // Create new settings if necessary
-            if( typeof Settings.get('key') == 'undefined' || (forceReset === true) ) {
+            if( typeof Settings.get(key) == 'undefined' || (forceReset === true) ) {
                 Settings.set(key, Settings._defaultSettings[key]);
             }
         }

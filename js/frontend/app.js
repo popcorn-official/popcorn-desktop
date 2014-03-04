@@ -133,6 +133,7 @@ window.spawnCallback = function (url, subs) {
 
     // Move this to a separate view.
     $('#video-container').html(player).show();
+    $('body').removeClass().addClass('watching');
 
     // Make sure you can drag the window by the video
     $('#video-container video').canDragWindow();
@@ -150,8 +151,9 @@ window.spawnCallback = function (url, subs) {
       win.toggleKioskMode();
     });
 
-    // Enter full-screen
-    $(document).on('keyup', function (e) {
+    // Exit full-screen
+    // BUG: window loses focus so can't use ESC unless the window is clicked first
+    $(document).on('keydown', function (e) {
       if (e.keyCode == 27) { 
         win.leaveKioskMode();
       }
@@ -164,6 +166,7 @@ window.spawnCallback = function (url, subs) {
       win.leaveKioskMode();
       $('#video-container').hide();
       video.dispose();
+      $('body').removeClass();
       $(document).trigger('videoExit');
     });
 
@@ -219,7 +222,17 @@ jQuery(function ($) {
 // On Document Ready
 jQuery(function ($) {
   $('.btn-os.max').on('click', function () {
-    win.maximize();
+    if(win.isFullscreen){
+      win.toggleFullscreen();
+    }else{
+      if (screen.availHeight <= win.height) {
+        win.unmaximize();
+      }
+      else {
+          win.maximize();
+      }
+    }
+    
   });
 
   $('.btn-os.min').on('click', function () {
@@ -231,7 +244,9 @@ jQuery(function ($) {
   });
   
   $('.btn-os.fullscreen').on('click', function () {
-    win.toggleKioskMode();
+    win.toggleFullscreen();
+    $('.btn-os.fullscreen').toggleClass('active');
+
   });
 
   $('.popcorn-load .btn-close').click(function(event){
@@ -265,6 +280,8 @@ jQuery(function ($) {
     }
     
     $("#category-list").append(pagination);
+
+    App.sidebar.hide();
     evt.preventDefault();
   });
 
@@ -291,6 +308,7 @@ jQuery(function ($) {
           App.Router.navigate('index.html', { trigger: true });
         }
         $('#catalog-select ul li.active').removeClass('active');
+        App.sidebar.hide();
       }
   });
 

@@ -7,6 +7,7 @@ App.Model.Movie = Backbone.Model.extend({
       model.set('loaded',   false);
       model.set('image',    model.get('coverImage'));
       model.set('bigImage', model.get('coverImage'));
+      model.set('backdrop', null);
       model.set('title',    model.get('title'));
       model.set('synopsis', '');
       model.set('voteAverage', null);
@@ -25,6 +26,7 @@ App.Model.Movie = Backbone.Model.extend({
             model.set('loaded',   true);
             model.set('image',    data.image);
             model.set('bigImage', data.image);
+            model.set('backdrop', data.backdrop);
             model.set('title',    data.title);
             model.set('synopsis', data.overview);
             model.set('voteAverage', data.voteAverage);
