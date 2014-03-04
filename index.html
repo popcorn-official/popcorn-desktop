@@ -80,17 +80,14 @@
 
             <div class="title">
               <h2><%= title %></h2>
-              <% var p_rating = (this.model.get('voteAverage') / 10) * 5 %>
+              <% var p_rating = (this.model.get('voteAverage') / 10) * 5 * 1.2 %>
               <div class="rating" data-rating="<%= voteAverage %>">
                 <ul class="votes">
-                  <% for (var i = 0; i < 5; i++) { %>
-                    <% if(p_rating > 0 + i && p_rating < 0.5 + i) { %>
-                      <i class="fa fa-star-o"></i> 
-                    <% } else if (p_rating >= 0.5 + i && p_rating < 1 + i) { %>
-                      <i class="fa fa-star-half"></i> 
-                    <% } else if(p_rating >= 1 + i) { %>
-                      <i class="fa fa-star"></i> 
-                    <% } %>
+                  <% for (var i = 1; i <= Math.round(p_rating, 0); i++) { %>
+                    <i class="fa fa-star"></i>
+                  <% }; %>
+                  <% for (var i = Math.round(p_rating, 0); i < 5; i++) { %>
+                    <i class="fa fa-star-o"></i>
                   <% }; %>
                 </ul>
                 <% if (!this.model.get('voteAverage')) { %>
