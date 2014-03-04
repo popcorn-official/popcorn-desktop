@@ -1,0 +1,51 @@
+{
+    "quit": "Avsluta",
+    "cancel": "Avbryt",
+    "beforeQuit": "Är du säker på att du vill avsluta?",
+    "loading": "Var vänligen vänta...",
+    "loadingVideo": "Var vänligen vänta, video buffras.",
+    "searchLoading": "Söker...",
+    "noResults": "Inga resultat hittades för din sökning.",
+
+    "search": "Sök",
+    "movies": "Filmer",
+
+    "subtitledIn": "Undertexter finns på",
+    "quality": "Kvalitet",
+    "watchItNow": "Spela",
+    "durationUnit": "min",
+
+    "connecting": "Ansluter...",
+    "startingDownload": "Börjar hämtning...",
+    "downloading": "Laddar ner...",
+
+    "UpgradeVersion": "Uppdatera Popcorn Time",
+    "UpgradeVersionDescription": " är precis släppt. Uppdatera direkt!",
+
+    "genres": {
+        "all": "Populärt",
+        "action": "Action",
+        "adventure": "Äventyr",
+        "animation": "Animation",
+        "biography": "Biografi",
+        "comedy": "Komedi",
+        "crime": "Brott",
+        "documentary": "Dokumentär",
+        "drama": "Drama",
+        "family": "Familj",
+        "fantasy": "Fantasy",
+        "film-noir": "Film-Noir",
+        "history": "Historia",
+        "horror": "Skräck",
+        "music": "Musik",
+        "musical": "Musikal",
+        "mystery": "Mystik",
+        "romance": "Romans",
+        "sci-fi": "Sci-Fi",
+        "short": "Kortfilm",
+        "sport": "Sport",
+        "thriller": "Thriller",
+        "war": "Krig",
+        "western": "Western"
+    }
+}
