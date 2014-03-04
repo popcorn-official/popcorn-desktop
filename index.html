@@ -41,13 +41,14 @@
 
     <script id="sidebar-tpl" type="text/x-template">
       <div class="play">
+        <div class="backdrop-image" style="background-image:url(http://www.moviedeskback.com/wp-content/uploads/2013/10/Frozen-movie-wallpapers-18.jpg);"></div>
         <div class="closer"><i class="fa fa-times"></i></div>
         <div class="poster-cont">
+          <img class="big-poster" src="<%= bigImage %>" alt="<%= title %>" />
           <ul class="movie-config">
             <% if (typeof subtitles !== 'undefined') { %>
               <li class="options">
-                <%= Language['subtitledIn'] %>
-
+                <h4><%= Language['subtitledIn'] %></h4>
                 <span class="available-subtitles">
                 <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
                   <span class="flag flag-<%= keys[i] %>" title="<%= Languages[keys[i]] %>"></span>
@@ -57,7 +58,7 @@
             <% } %>
             <% if (this.model.get('quality') && this.model.get('torrents')) { %>
               <li class="options">
-                <%= Language['quality'] %>
+                <h4><%= Language['quality'] %></h4>
                 <% if (this.model.get('torrents')["720p"] && this.model.get('torrents')["1080p"]) { %>
                   <div class="quality switch white">
                     <input type="radio" name="switch" id="switch-off"<% if (this.model.get('quality') === '720p') { %> checked<% } %>>
@@ -72,48 +73,46 @@
               </li>
             <% } %>
           </ul>
-          <img class="big-poster" src="<%= bigImage %>" alt="<%= title %>" />
         </div>
 
         <div class="side-content">
-          <% if (this.model.get('torrents')) { %>
-            <a href="" class="p_tooltip play-button"><%= Language['watchItNow'] %></a>
-          <% } %>
           <div>
+
             <div class="title">
               <h2><%= title %></h2>
+              <% var p_rating = (this.model.get('voteAverage') / 10) * 5 %>
+              <div class="rating" data-rating="<%= voteAverage %>">
+                <ul class="votes">
+                  <% for (var i = 0; i < 5; i++) { %>
+                    <% if(p_rating > 0 + i && p_rating < 0.5 + i) { %>
+                      <i class="fa fa-star-o"></i> 
+                    <% } else if (p_rating >= 0.5 + i && p_rating < 1 + i) { %>
+                      <i class="fa fa-star-half"></i> 
+                    <% } else if(p_rating >= 1 + i) { %>
+                      <i class="fa fa-star"></i> 
+                    <% } %>
+                  <% }; %>
+                </ul>
+                <% if (!this.model.get('voteAverage')) { %>
+                  <ul class="empty_votes">
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i> 
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                  </ul>
+                <% } %>
+              </div>
               <span><i class="fa fa-calendar-o"></i> <%= year %></span>
               <% if (this.model.get('runtime')) { %>
                 <span class="duration"><i class="fa fa-clock-o"></i> <%= runtime %> <%= Language['durationUnit'] %></span>
               <% } %>
               <i data-placement="left" data-toggle="tooltip" title="<%= health %> health" class="health <%= health %> fa fa-flash"></i>
             </div>
-
-            <% var p_rating = (this.model.get('voteAverage') / 10) * 5 %>
-            <div class="rating" data-rating="<%= voteAverage %>">
-              <ul class="votes">
-                <% for (var i = 0; i < 5; i++) { %>
-                  <% if(p_rating > 0 + i && p_rating < 0.5 + i) { %>
-                    <i class="fa fa-star-o"></i> 
-                  <% } else if (p_rating >= 0.5 + i && p_rating < 1 + i) { %>
-                    <i class="fa fa-star-half"></i> 
-                  <% } else if(p_rating >= 1 + i) { %>
-                    <i class="fa fa-star"></i> 
-                  <% } %>
-                <% }; %>
-              </ul>
-              <% if (!this.model.get('voteAverage')) { %>
-                <ul class="empty_votes">
-                  <i class="fa fa-star-o"></i>
-                  <i class="fa fa-star-o"></i> 
-                  <i class="fa fa-star-o"></i>
-                  <i class="fa fa-star-o"></i>
-                  <i class="fa fa-star-o"></i>
-                </ul>
-              <% } %>
-            </div>
-
             <p><%= synopsis %></p>
+            <% if (this.model.get('torrents')) { %>
+              <a href="" class="p_tooltip play-button"><%= Language['watchItNow'] %></a>
+            <% } %>
           </div>
         </div>
       </div>
