@@ -62,8 +62,8 @@ App.findSubtitle = function (model, cb, isFallback) {
                             if (!error && response.statusCode == 200) {
                                 var $c = cheerio.load(html);
                                 var subDownloadLink = $c('a.download-subtitle').attr('href');
-                                subs[language] = subDownloadLink;
-                                if (key == (Object.keys(Languages).length - 1)) {
+                                if (!(language in subs)) {
+                                    subs[language] = subDownloadLink;
                                     App.Cache.setItem('subtitle', model, subs);
                                     // Callback
                                     cb(subs);
