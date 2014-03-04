@@ -275,6 +275,8 @@ jQuery(function ($) {
     }
     
     $("#category-list").append(pagination);
+
+    App.sidebar.hide();
     evt.preventDefault();
   });
 
@@ -302,6 +304,7 @@ jQuery(function ($) {
         }
         $('#catalog-select ul li.active').removeClass('active');
       }
+      App.sidebar.hide();
   });
 
   $('body').on('keypress', function (evt) {
