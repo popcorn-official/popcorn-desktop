@@ -1,0 +1,432 @@
+// Sidebar
+sidebar {
+  right: 0;
+  position: absolute;
+  height: 100%;
+  width:100%;
+  z-index: 125;
+  -webkit-transform-style: preserve-3d;
+  animation: sidebareffect .5s;
+  -webkit-animation: sidebareffect .5s;
+
+  &.hidden {
+    animation: sidebareffect2 .5s;
+    -webkit-animation: sidebareffect2 .5s;
+    -webkit-transform: translate(100%, 0);
+  }
+
+  .closer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 30px;
+    width: 30px;
+    z-index: 300;
+    cursor: pointer;
+
+    &:hover i { opacity: 1; }
+    
+    i {
+      color: #fff;
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      opacity:0.5;
+      text-shadow: 0 0 5px #000;
+    }
+  }
+   .backdrop-image {
+          content : "";
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          opacity : 0.2;
+          height:100%;
+          background-size: cover;
+          z-index: -1;
+          -webkit-filter: grayscale(1) /* blur(10px) */;
+          background-position: center;
+    }
+  .play {
+    @include scrollable();
+    background: #000;
+    box-shadow:-3px 0 3px rgba(0,0,0,0.2);
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    background-size:cover;
+
+    &:hover {
+      a.play-over { display:block; }
+      // .big-poster { opacity: 0.5; }
+    }
+
+    a.play-over {
+      position: absolute;
+      top: 40%;
+      padding: 10px 20px;
+      border: 2px solid #FFF;
+      text-transform: uppercase;
+      left: 30%;
+      color: #FFF;
+      font-weight: bold;
+      text-decoration: none;
+      display: none;
+      z-index: 10;
+    }
+  }
+
+  .side-content {
+    padding:0;
+    z-index: 500;
+    float:left;
+    width:70%;
+    position: relative;
+    text-shadow: 0 2px 3px rgba(0,0,0,0.7);
+
+    > div { padding: 10%; }
+  }
+
+  img.big-poster {
+    background: #000;
+    width: 80%;
+    margin: 10% 10% 2% 10%;
+    border:1px solid #000;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.4);
+    border-radius: 4px;
+  }
+
+  a.play-button {
+    text-align: center;
+    color: #FFF;
+    font-weight: bold;
+    padding: 16px 32px;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.3);
+    margin-top: 20px;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+    background:#cc181e;
+    &:hover { background: #eb282e; }
+  }
+
+  .title {
+    position: relative;
+    padding: 0;
+
+    h2 {
+      font-weight: bold;
+      font-size: 42px;
+      margin-bottom: 5px;
+    }
+
+    span {
+      color: #999;
+      font-size: 18px;
+
+      i {
+        color: #a9a9a9;
+        margin-right: 4px;
+      }
+    }
+
+    .duration { margin-left: 10px; }
+
+    .health {
+      font-size: 24px;
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      line-height: 20px;
+      cursor: pointer;
+      position: absolute;
+      top: 4px;
+      right: 0;
+
+      &.bad {
+        color: red;
+        border-color: red;
+      }
+
+      &.medium {
+        color: yellow;
+        border-color: yellow;
+      }
+
+      &.good {
+        color: limegreen;
+        border-color: limegreen;
+      }
+
+      &.excellent {
+        color: green;
+        border-color: green;
+      }
+    }
+  }
+
+  .rating {
+    display: inline-block;
+    position: relative;
+    font-size: 18px;
+    margin: 0 10px 0 0;
+
+    ul { color: #f1c40f; }
+  }
+
+  p {
+    margin-top: 10px;
+    color: #999;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+// Applied to the body when the sidebar is open
+.sidebar-open {
+  li.movie {
+    opacity: 0.25;
+
+    &.active {
+      opacity: 1;
+
+      a {
+        box-shadow: 0 0 0 3px #3498db;
+        border-radius: 3px;
+
+        i { opacity: 0 !important; }
+      }
+    }
+  }
+}
+
+// Other Sidebar-related stuff
+.poster-cont {
+  position: relative;
+  width:30%;
+  float:left;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  &:hover .movie-config { bottom: 2px; }
+}
+
+.subtitles button {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.movie-config {
+  width: 80%;
+  color: #FFF;
+  padding: 0 10%;
+  h4 {
+    font-weight: bold;
+    margin: 12px 0;
+
+  }
+  ul {
+
+  }
+  li.options {
+   
+    position: relative;
+
+    span.extra-data {
+      font-weight: bold;
+      color: #FFF;
+      float: right;
+      font-size: 15px;
+    }
+
+    span.good { color: #27ae60; }
+    span.bad { color: #c0392b; }
+    span.epic { color: #8e44ad; }
+
+    span.available-subtitles {
+
+      > .flag { margin-left: 5px; }
+    }
+  }
+
+  input {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: normal;
+    margin: 0;
+
+    &[type="radio"] {
+      box-sizing: border-box;
+      padding: 0;
+    }
+  }
+
+  .switch {
+    background: transparent;
+    border-radius: 32px;
+    display: block;
+    height: 12px;
+    position: absolute;
+    width: 25px;
+    border: 2px solid #FFF;
+    left: 40px;
+    top: 28px;
+    cursor: pointer;
+
+    label {
+      @include transition(color .2s ease);
+      color: #fff;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      width: 20px;
+      cursor: pointer;
+
+      &:nth-of-type(1) {
+        left: -38px;
+        position: absolute;
+        text-align: right;
+      }
+
+      &:nth-of-type(2) {
+        position: absolute;
+        right: -30px;
+        text-align: left;
+      }
+    }
+
+    input {
+      height: 64px;
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      width: 60px;
+      z-index: 2;
+      cursor: pointer;
+
+      &:checked {
+        z-index: 0;
+
+        ~ label {
+          &:nth-of-type(1) { color: #0cff00; }
+          &:nth-of-type(2) { color: #FFF; }
+        }
+
+        ~ .toggle { left: 2px; }
+      }
+
+      ~ :checked ~ label {
+        &:nth-of-type(1) { color: #FFF; }
+        &:nth-of-type(2) { color: #0cff00; }
+      }
+
+      ~ :checked ~ .toggle { left: 13px; }
+    }
+  }
+
+  .toggle {
+    @include transition(left .2s ease);
+    background: #0cff00;
+    border-radius: 50%;
+    height: 10px;
+    left: 0;
+    position: absolute;
+    top: 1px;
+    width: 10px;
+    z-index: 1;
+  }
+}
+
+// Dropdown (will probably be deprecated)
+.dropdown {
+  position: relative;
+  display: inline-block;
+  text-align: left;
+  width: 30px;
+  float: right;
+  margin-right: 20px;
+  margin-top: -8px;
+
+  &.active {
+    .dropdown-text {
+      background-color: white;
+      z-index: 2;
+      border-radius: 3px 3px 0 0;
+    }
+    
+    .dropdown-content {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.dropdown-text {
+  cursor: pointer;
+  position: absolute;
+  width: 100%;
+  padding: 5px;
+  text-align: center;
+  color: #333;
+  text-shadow: 0 1px #fff;
+
+  &:after {
+    position: absolute;
+    right: -10px;
+    top: 15px;
+    content: '';
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 4px 3px 0 3px;
+    border-color: #FFF transparent transparent transparent;
+  }
+}
+
+.dropdown-toggle {
+  font-size: 0;
+  z-index: 1;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  border: none;
+  padding: 0;
+  margin: 0 0 0 1px;
+  background: transparent;
+  text-indent: -10px;
+  height: 37px;
+  width: 60px;
+
+  &:focus { outline: 0; }
+}
+
+.dropdown-content {
+  list-style-type: none;
+  position: absolute;
+  top: 34px;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  visibility: hidden;
+  border-radius: 0 0 3px 3px;
+  background-color: white;
+  width: 40px;
+  text-align: center;
+
+  a {
+    display: block;
+    padding: 4px;
+    color: #333;
+    text-shadow: 0 1px #fff;
+
+    &:hover { background:#E1E1E1; }
+  }
+}

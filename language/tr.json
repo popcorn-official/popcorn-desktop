@@ -1,0 +1,51 @@
+{
+    "quit": "Quit",
+    "cancel": "Cancel",
+    "beforeQuit": "Çıkmak istediğinden emin misin?",
+    "loading": "Lütfen bekleyin...",
+    "loadingVideo": "Video Yükleniyor, Lütfen bekleyin..",
+    "searchLoading": "Aranıyor...",
+    "noResults": "Hiçbir sonuç bulunamadı, başka bir kelime deneyin..",
+
+    "search": "Ara",
+    "movies": "Filmler",
+
+    "subtitledIn": "Altyazılı",
+    "quality": "Kalite",
+    "watchItNow": "Hemen izle",
+    "durationUnit": "min",
+
+    "connecting": "Bağlanılıyor...",
+    "startingDownload": "Yükleme başlıyor...",
+    "downloading": "Yükleniyor...",
+
+    "UpgradeVersion": "Update Popcorn Time",
+    "UpgradeVersionDescription": " was just released. You should get it now!",
+    
+    "genres": {
+        "all": "Popüler",
+        "action": "Aksiyon",
+        "adventure": "Macera",
+        "animation": "Animasyon",
+        "biography": "Biyografi",
+        "comedy": "Komedi",
+        "crime": "Suç",
+        "documentary": "Belgesel",
+        "drama": "Drama",
+        "family": "Aile",
+        "fantasy": "Fantastik",
+        "film-noir": "Kara Film",
+        "history": "Tarihi",
+        "horror": "Korku",
+        "music": "Müzik",
+        "musical": "Müzikal",
+        "mystery": "Gizem",
+        "romance": "Romantik",
+        "sci-fi": "Bilim Kurgu",
+        "short": "Kısa",
+        "sport": "Spor",
+        "thriller": "Gerilim",
+        "war": "Savaş",
+        "western": "Batı"
+    }
+}

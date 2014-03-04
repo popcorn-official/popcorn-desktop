@@ -27,15 +27,20 @@ App.getTorrentsCollection = function (options) {
             }
 
             data.MovieList.forEach(function (movie) {
+                // No imdb, no movie.
+                if( typeof movie.ImdbCode != 'string' || movie.ImdbCode.replace('tt', '') == '' ){ return; }
+                
                 // Temporary object
                 var movieModel = {
                     imdb:       movie.ImdbCode.replace('tt', ''),
+                    coverImage: movie.CoverImage,
                     year:       movie.MovieYear,
                     title:      movie.MovieTitleClean,
                     torrent:    movie.TorrentUrl,
                     torrents:   {},
                     quality:    movie.Quality,
-                    seeders:    movie.TorrentSeeds
+                    seeders:    movie.TorrentSeeds,
+                    leechers:   movie.TorrentPeers
                 };
 
                 var stored = memory[movieModel.imdb];

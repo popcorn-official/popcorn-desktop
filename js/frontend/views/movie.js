@@ -31,6 +31,12 @@ App.View.MovieListItem = Backbone.View.extend({
         } else {
           var title = this.model.get('title');
         }
-        this.$el.append('<a href="javascript:;"><i class="fa fa-eye fa-3"></i><span class="health ' + this.model.get('health') + '"></span><img src="' + this.model.get('image') + '" alt="' + this.model.get('title') + '" /><strong>' + title + '</strong><small>' + this.model.get('year') + '</small></a>');
+        this.$el.html(
+            '<a href="javascript:;" id="movie-' + this.model.get('imdb') + '">'+
+                '<i class="fa fa-eye fa-3"></i>'+
+                '<span class="cover"><img src="' + this.model.get('image') + '" class="placeholder" alt="' + this.model.get('title') + '" /></span>'+
+                '<strong>' + title + '</strong>'+
+                '<small>' + this.model.get('year') + '</small>'+
+            '</a>');
     }
 });

@@ -1,0 +1,88 @@
+// Torrent infos
+.torrent-health {
+  display: inline-block;
+  padding: 3px 5px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: capitalize;
+
+  &.bad { background: red; }
+  &.medium { background: yellow; }
+  &.good { background: limegreen; }
+  &.excellent { background: green; }
+}
+
+.content {
+  float: left;
+  margin-left: 30px;
+  text-shadow: 0 -1px 0 #000;
+  width: 660px;
+
+  h2 {
+    font-size: 32px;
+    margin: 0;
+    font-weight: bold;
+  }
+
+  p {
+    &.metadata {
+      color: #196cb2;
+      font-size: 14px;
+      font-weight: 700;
+      margin: 10px 0;
+    }
+
+    &.description {
+      color: #777;
+      font-family: 'Helvetica Neue', sans-serif;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+
+
+/*
+-- Don't find any of this properties anywhere in the popcorn-app */
+
+.tabs {
+  border-bottom: 1px solid #272727;
+
+  li {
+    bottom: -1px;
+    color: #333;
+    display: inline-block;
+    padding: 10px 20px;
+    position: relative;
+
+    &:hover { color: #FFF; }
+
+    &.active {
+      border-bottom: 3px solid #FFF;
+      color: #FFF;
+      display: inline-block;
+      font-weight: 700;
+    }
+  }
+}
+
+.tab-content { margin: 20px 0; }
+
+.cast ul li {
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px;
+  position: relative;
+
+  &:hover { background: #222; }
+
+  span {
+    color: #444;
+    font-weight: 400;
+    position: absolute;
+    right: 10px;
+  }
+}

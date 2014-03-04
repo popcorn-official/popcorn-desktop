@@ -1,0 +1,53 @@
+// Gives nicer scrollbars to an element
+@mixin scrollable() {
+
+  overflow-x: hidden;
+  // Overflow: overlay is an undocumented webkit feature. It places the scrollbar *on top* of the content instead of eating some 16px.
+  // It's buggy as shit, though (it paints the scrollbar *over* the content and composites badly, so it will crop the content anyway )
+  overflow-y: overlay;
+  // Inertial scrolling for touch devices (mostly useless here)
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    background: none;
+    width: 9px;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+  &::-webkit-scrollbar-track {
+    display: none;
+  }
+  &::-webkit-scrollbar-track-piece {
+    display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.0);
+    background-clip: content-box;
+    border-radius: 10px;
+    border: 2px solid transparent;
+  }
+  &::-webkit-scrollbar-corner {
+    display: none;
+  }
+  &::-webkit-resizer {
+    display: none;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background: transparentize(#000000, 0.5);
+      background-clip: content-box;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+
+      &:hover {
+        background: transparentize(#000000, 0.4);
+        background-clip: content-box;
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,0.2);
+      }
+    }
+  }
+
+}

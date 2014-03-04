@@ -1,7 +1,51 @@
 {
+    "quit": "Quit",
+    "cancel": "Cancel",
     "beforeQuit": "Are you sure you want to quit?",
     "loading": "Please wait...",
     "loadingVideo": "Buffering video, please wait",
     "searchLoading": "Searching...",
-    "noResults": "No results found for your query."
+    "noResults": "No results found for your query.",
+
+    "search": "Search",
+    "movies": "Movies",
+
+    "subtitledIn": "Subtitled in",
+    "quality": "Quality",
+    "watchItNow": "Watch It Now",
+    "durationUnit": "min",
+
+    "connecting": "Connecting...",
+    "startingDownload": "Starting Download...",
+    "downloading": "Downloading...",
+
+    "UpgradeVersion": "Update Popcorn Time",
+    "UpgradeVersionDescription": " was just released. You should get it now!",
+
+    "genres": {
+        "all": "Popular",
+        "action": "Action",
+        "adventure": "Adventure",
+        "animation": "Animation",
+        "biography": "Biography",
+        "comedy": "Comedy",
+        "crime": "Crime",
+        "documentary": "Documentary",
+        "drama": "Drama",
+        "family": "Family",
+        "fantasy": "Fantasy",
+        "film-noir": "Film-Noir",
+        "history": "History",
+        "horror": "Horror",
+        "music": "Music",
+        "musical": "Musical",
+        "mystery": "Mystery",
+        "romance": "Romance",
+        "sci-fi": "Sci-Fi",
+        "short": "Short",
+        "sport": "Sport",
+        "thriller": "Thriller",
+        "war": "War",
+        "western": "Western"
+    }
 }

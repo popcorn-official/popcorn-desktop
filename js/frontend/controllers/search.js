@@ -2,6 +2,7 @@ App.Controller.Search = function (searchTerm) {
     console.log('Searching for ' + searchTerm);
 
     App.loader(true, Language.searchLoading);
+    window.initialLoading = true;
 
     var movieList = new App.View.MovieList({
         keywords: searchTerm,

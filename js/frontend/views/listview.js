@@ -22,7 +22,10 @@ App.View.MovieList = Backbone.View.extend({
     },
 
     render: function () {
-        App.loader(false);
+
+        if( window.initialLoading ) {
+            App.loader(false);
+        }
 
         if (this.collection.length === 0) {
             return this.empty();
@@ -31,18 +34,40 @@ App.View.MovieList = Backbone.View.extend({
         var that = this;
 
         $.each(this.collection.models, function () {
-            // Check for IMDB id and also image loaded (required for view)
-            if (this.get('image') && this.get('imdb')) {
-                var $el = this.view.$el;
-
-                // Only append not yet appended elements
-                if (!that.$el.find($el).length) {
-                    that.$el.append($el);
-                    setTimeout(function () {
-                        $el.addClass('loaded');
-                    }, 50);
-                }
+        
+            // Only append not yet appended elements
+            this.view.render();
+            var $el = this.view.$el;
+            var $currentEl = that.$el.find('#movie-'+ this.get('imdb') );
+            if ( ! $currentEl.length ) {
+                $el.find('img.placeholder').addClass('hidden').load(function(){
+                    $(this).removeClass('hidden');
+                });
+            
+                that.$el.append($el);
+                
+                setTimeout(function () {
+                    $el.addClass('loaded');
+                }, 50);
             }
+            
+            // Check for IMDB id and also image loaded (required for view)
+            if (this.get('loaded') && ! $el.hasClass('fullyLoaded')) {
+            
+                $el.addClass('fullyLoaded');
+                
+                var $newCover = $('<img src="' + this.get('image') + '" class="real hidden" alt="' + this.get('title') + '" />');
+                
+                $newCover.load(function(){
+                  $currentEl.find('.cover img.placeholder').addClass('hidden');
+                  $currentEl.find('.cover').append( $newCover );
+                  
+                  setTimeout(function(){
+                    $newCover.removeClass('hidden');
+                  }, 50);
+                });
+            }
+            
         });
     }
 });

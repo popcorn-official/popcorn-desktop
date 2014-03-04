@@ -1,0 +1,14 @@
+@-webkit-keyframes sidebareffect {
+  from { -webkit-transform: translate(100%, 0); }
+  to { -webkit-transform: translate(0, 0); }
+}
+
+@-webkit-keyframes sidebareffect2 {
+  from { -webkit-transform: translate(0, 0); }
+  to { -webkit-transform: translate(100%, 0); }
+}
+
+@-webkit-keyframes spin {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg); }
+}

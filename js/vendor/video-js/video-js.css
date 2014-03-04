@@ -12,6 +12,9 @@ e.g. <video class="video-js my-skin-name">
 */
 .vjs-default-skin {
   color: #cccccc;
+    /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 /* Custom Icon Font
 --------------------------------------------------------------------------------
@@ -52,10 +55,10 @@ The control icons are from a custom font. Each icon corresponds to a character
   top: 0;
 }
 .vjs-default-skin .vjs-slider-handle:before {
-  content: "\e009";
+  content: "\e60a";
   font-family: VideoJS;
-  font-size: 1em;
-  line-height: 1;
+  font-size: 3em;
+  line-height: 0.2em;
 
   text-shadow: 0em 0em 1em #000;
   position: absolute;
@@ -142,20 +145,21 @@ fonts to show/hide properly.
 /* FontAwsome button icons */
 .vjs-default-skin .vjs-control:before {
   font-family: VideoJS;
-  font-size: 1.5em;
-  line-height: 2;
+  font-size: 2em;
+  line-height: 1.4em;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   text-align: center;
+  color:#666;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 /* Replacement for focus outline */
 .vjs-default-skin .vjs-control:focus:before,
 .vjs-default-skin .vjs-control:hover:before {
-  color: #2ecc71;
+  color: #cc181e;
 }
 .vjs-default-skin .vjs-control:focus {
   /*  outline: 0; */
@@ -183,10 +187,10 @@ fonts to show/hide properly.
   cursor: pointer;
 }
 .vjs-default-skin .vjs-play-control:before {
-  content: "\e001";
+  content: "\e60b";
 }
 .vjs-default-skin.vjs-playing .vjs-play-control:before {
-  content: "\e002";
+  content: "\e60e";
 }
 /* Volume/Mute
 -------------------------------------------------------------------------------- */
@@ -197,19 +201,19 @@ fonts to show/hide properly.
 }
 .vjs-default-skin .vjs-mute-control:before,
 .vjs-default-skin .vjs-volume-menu-button:before {
-  content: "\e006";
+  content: "\e617";
 }
 .vjs-default-skin .vjs-mute-control.vjs-vol-0:before,
 .vjs-default-skin .vjs-volume-menu-button.vjs-vol-0:before {
-  content: "\e003";
+  content: "\e618";
 }
 .vjs-default-skin .vjs-mute-control.vjs-vol-1:before,
 .vjs-default-skin .vjs-volume-menu-button.vjs-vol-1:before {
-  content: "\e004";
+  content: "\e616";
 }
 .vjs-default-skin .vjs-mute-control.vjs-vol-2:before,
 .vjs-default-skin .vjs-volume-menu-button.vjs-vol-2:before {
-  content: "\e005";
+  content: "\e619";
 }
 .vjs-default-skin .vjs-volume-control {
   width: 5em;
@@ -228,11 +232,12 @@ fonts to show/hide properly.
   top: 0;
   left: 0;
   height: 0.5em;
-  background: #2ecc71; 
+  background: #cc181e; 
 }
 .vjs-default-skin .vjs-volume-bar .vjs-volume-handle {
-  width: 0.5em;
-  height: 0.5em;
+  font-size: 2.2em;
+  top: 3px;
+
 }
 .vjs-default-skin .vjs-volume-handle:before {
   font-size: 0.9em;
@@ -296,7 +301,7 @@ fonts to show/hide properly.
 }
 .vjs-default-skin .vjs-play-progress {
 
-  background: #2ecc71;
+  background: #cc181e;
 }
 .vjs-default-skin .vjs-load-progress {
   background: rgba(255,255,255,0.5);
@@ -304,6 +309,7 @@ fonts to show/hide properly.
 .vjs-default-skin .vjs-seek-handle {
   width: 1.5em;
   height: 100%;
+  margin-left: -2px;
 }
 .vjs-default-skin .vjs-seek-handle:before {
   padding-top: 0.1em /* Minor adjustment */;
@@ -340,11 +346,11 @@ fonts to show/hide properly.
   float: right;
 }
 .vjs-default-skin .vjs-fullscreen-control:before {
-  content: "\e000";
+  content: "\e61d";
 }
 /* Switch to the exit icon when the player is in fullscreen */
 .vjs-default-skin.vjs-fullscreen .vjs-fullscreen-control:before {
-  content: "\e00b";
+  content: "\e61e";
 }
 /* Big Play Button (play button at start)
 --------------------------------------------------------------------------------
@@ -423,7 +429,7 @@ easily in the skin designer. http://designer.videojs.com/
   transition: all 0s;
 }
 .vjs-default-skin .vjs-big-play-button:before {
-  content: "\e001";
+  content: "\e60b";
   font-family: VideoJS;
   /* In order to center the play icon vertically we need to set the line height
      to the same as the button height */
@@ -537,7 +543,7 @@ border-top-color: #FFF;
   bottom: 1em;
   /* Same bottom as vjs-menu border-top */
 
-  max-height: 15em;
+  max-height: 45em;
   overflow: auto;
   left: -5em;
   /* Width of menu - width of button / 2 */
@@ -557,10 +563,10 @@ border-top-color: #FFF;
   font-size: 1.2em;
   text-align: center;
   text-transform: uppercase;
-  border-top: 1px solid #EEE;
+  border-top: 1px solid #EEE
 }
 .vjs-default-skin .vjs-menu-button ul li.vjs-selected,.vjs-default-skin .vjs-menu-button ul li.vjs-selected:hover,.vjs-default-skin .vjs-menu-button ul li.vjs-selected:focus {
-  color:#2ecc71;
+  color:#cc181e;
 }
 
 .vjs-default-skin .vjs-menu-button ul li:focus,
@@ -589,11 +595,11 @@ border-top-color: #FFF;
 }
 /* Subtitles Button */
 .vjs-default-skin .vjs-subtitles-button:before {
-  content: "\e00c";
+  content: "\e61c";
 }
 /* Captions Button */
 .vjs-default-skin .vjs-captions-button:before {
-  content: "\e008";
+  content: "\e61c";
 }
 /* Replacement for focus outline */
 .vjs-default-skin .vjs-captions-button:focus .vjs-control-content:before,
@@ -716,7 +722,7 @@ body.vjs-full-window {
 .video-js .vjs-text-track-display {
   text-align: center;
   position: absolute;
-  bottom: 12em;
+  bottom: 6em;
   /* Leave padding on left and right */
   left: 1em;
   right: 1em;
