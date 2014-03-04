@@ -278,24 +278,26 @@ jQuery(function ($) {
     } else {
       App.Router.navigate('filter/' + genre, { trigger: true });
     }
-    
-    $("#category-list").append(pagination);
-
-    App.sidebar.hide();
     evt.preventDefault();
   });
 
   //Pagination buttons
   $( document ).on( "click", ".pagination a", function(event) {
     var page = $(this).attr('data-page');
-    var genre = $("#catalog-select ul li.active a").attr("data-genre");;
+    var genre = $("#catalog-select ul li.active a").attr("data-genre");
     App.Router.navigate('filter/' + genre + '/' + page, { trigger: true });
-    $("#category-list").append(pagination);
     $(".pagination li").removeClass('active');
     $(".pagination li").eq(page-1).addClass('active');
     event.preventDefault();
   });
 
+  // Add route callback to router
+  App.Router.on('route', function () {
+    // Append pagination HTML
+    $("#category-list").append(pagination);
+    // Ensure sidebar is hidden
+    App.sidebar.hide();
+  });
 
   $('.search input').on('keypress', function (evt) {
     var term = $.trim($(this).val());
@@ -308,7 +310,6 @@ jQuery(function ($) {
           App.Router.navigate('index.html', { trigger: true });
         }
         $('#catalog-select ul li.active').removeClass('active');
-        App.sidebar.hide();
       }
   });
 
