@@ -219,7 +219,12 @@ jQuery(function ($) {
 // On Document Ready
 jQuery(function ($) {
   $('.btn-os.max').on('click', function () {
-    win.maximize();
+    if (screen.availHeight <= win.height) {
+        win.unmaximize();
+    }
+    else {
+        win.maximize();
+    }
   });
 
   $('.btn-os.min').on('click', function () {
