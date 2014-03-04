@@ -26,10 +26,10 @@
         "all": "Populärt",
         "action": "Action",
         "adventure": "Äventyr",
-        "animation": "Animation",
+        "animation": "Animerad",
         "biography": "Biografi",
         "comedy": "Komedi",
-        "crime": "Brott",
+        "crime": "Kriminalare",
         "documentary": "Dokumentär",
         "drama": "Drama",
         "family": "Familj",
@@ -39,13 +39,13 @@
         "horror": "Skräck",
         "music": "Musik",
         "musical": "Musikal",
-        "mystery": "Mystik",
-        "romance": "Romans",
+        "mystery": "Mysterium",
+        "romance": "Romantik",
         "sci-fi": "Sci-Fi",
         "short": "Kortfilm",
         "sport": "Sport",
         "thriller": "Thriller",
-        "war": "Krig",
-        "western": "Western"
+        "war": "Krigsfilm",
+        "western": "Vilda Västern"
     }
 }
