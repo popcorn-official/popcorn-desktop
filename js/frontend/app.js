@@ -303,8 +303,8 @@ jQuery(function ($) {
           App.Router.navigate('index.html', { trigger: true });
         }
         $('#catalog-select ul li.active').removeClass('active');
+        App.sidebar.hide();
       }
-      App.sidebar.hide();
   });
 
   $('body').on('keypress', function (evt) {
