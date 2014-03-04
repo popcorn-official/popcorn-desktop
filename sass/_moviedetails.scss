@@ -3,6 +3,7 @@ sidebar {
   right: 0;
   position: absolute;
   height: 100%;
+  width:100%;
   z-index: 125;
   -webkit-transform-style: preserve-3d;
   animation: sidebareffect .5s;
@@ -11,7 +12,7 @@ sidebar {
   &.hidden {
     animation: sidebareffect2 .5s;
     -webkit-animation: sidebareffect2 .5s;
-    -webkit-transform: translate(250px, 0);
+    -webkit-transform: translate(100%, 0);
   }
 
   .closer {
@@ -34,17 +35,31 @@ sidebar {
       text-shadow: 0 0 5px #000;
     }
   }
-
+   .backdrop-image {
+          content : "";
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          opacity : 0.2;
+          height:100%;
+          background-size: cover;
+          z-index: -1;
+          -webkit-filter: grayscale(1) /* blur(10px) */;
+          background-position: center;
+    }
   .play {
     @include scrollable();
-    background: $body-bg;
+    background: #000;
     box-shadow:-3px 0 3px rgba(0,0,0,0.2);
     height: 100%;
     position: absolute;
-    right: 0;
+    left: 0;
     top: 0;
-    width: 250px;
+    width: 100%;
     z-index: 100;
+    background-size:cover;
 
     &:hover {
       a.play-over { display:block; }
@@ -69,30 +84,36 @@ sidebar {
   .side-content {
     padding:0;
     z-index: 500;
+    float:left;
+    width:70%;
     position: relative;
-    background: $body-bg;
 
-    > div { padding: 15px; }
+    > div { padding: 10%; }
   }
 
   img.big-poster {
     background: #000;
-    height: 100%;
-    width: 250px;
+    width: 80%;
+    margin: 10% 10% 2% 10%;
+    border:1px solid #000;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.4);
+    border-radius: 4px;
   }
 
   a.play-button {
-    background: #3498db;
     text-align: center;
     color: #FFF;
     font-weight: bold;
-    padding: 16px 0;
+    padding: 16px 32px;
     text-decoration: none;
+    display: inline-block;
     text-transform: uppercase;
-    display: block;
-    margin-top: -3px;
-
-    &:hover { background: #2980B9; }
+    box-shadow: 0 2px 3px rgba(0,0,0,0.3);
+    margin-top: 20px;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+    background:#cc181e;
+    &:hover { background: #eb282e; }
   }
 
   .title {
@@ -101,17 +122,16 @@ sidebar {
 
     h2 {
       font-weight: bold;
-      font-size: 18px;
+      font-size: 42px;
       margin-bottom: 5px;
     }
 
     span {
       color: #999;
-      font-size: 12px;
+      font-size: 18px;
 
       i {
         color: #a9a9a9;
-        font-size: 12px;
         margin-right: 4px;
       }
     }
@@ -119,9 +139,7 @@ sidebar {
     .duration { margin-left: 10px; }
 
     .health {
-      font-size: 14px;
-      border: 2px solid green;
-      border-radius: 20px;
+      font-size: 24px;
       width: 20px;
       height: 20px;
       text-align: center;
@@ -154,19 +172,19 @@ sidebar {
   }
 
   .rating {
-    display: block;
+    display: inline-block;
     position: relative;
     font-size: 18px;
-    margin: 12px 0 6px 0;
+    margin: 0 10px 0 0;
 
-    ul { color: #ad840e; }
+    ul { color: #f1c40f; }
   }
 
   p {
     margin-top: 10px;
     color: #999;
-    font-size: 13px;
-    line-height: 18px;
+    font-size: 16px;
+    line-height: 24px;
   }
 }
 
@@ -191,7 +209,10 @@ sidebar {
 // Other Sidebar-related stuff
 .poster-cont {
   position: relative;
-
+  width:30%;
+  float:left;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
   &:hover .movie-config { bottom: 2px; }
 }
 
@@ -202,19 +223,20 @@ sidebar {
 }
 
 .movie-config {
-  @include transition(all .25s ease);
-  position: absolute;
-  bottom: -130px;
-  background: rgba(0, 0, 0, 0.6);
-  width: 100%;
+  width: 80%;
   color: #FFF;
+  padding: 0 10%;
+  h4 {
+    font-weight: bold;
+    margin: 12px 0;
 
-  &:hover .dropdown { z-index: 600; }
+  }
+  ul {
 
+  }
   li.options {
-    padding: 15px;
+   
     position: relative;
-    overflow: hidden;
 
     span.extra-data {
       font-weight: bold;
@@ -228,11 +250,6 @@ sidebar {
     span.epic { color: #8e44ad; }
 
     span.available-subtitles {
-      float: right;
-      margin-top: -3px;
-      margin-bottom: -15px;
-      max-width: 100px;
-      text-align: right;
 
       > .flag { margin-left: 5px; }
     }
@@ -258,8 +275,8 @@ sidebar {
     position: absolute;
     width: 25px;
     border: 2px solid #FFF;
-    right: 52px;
-    top: 14px;
+    left: 40px;
+    top: 28px;
     cursor: pointer;
 
     label {

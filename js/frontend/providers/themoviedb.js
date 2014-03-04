@@ -1,6 +1,7 @@
 // Fix for https://github.com/visionmedia/superagent/issues/95
 var mdb = require('moviedb')(vendorAPIs.themoviedb.key),
     POSTER_PREFIX = 'http://image.tmdb.org/t/p/w342/',
+    BACKDROP_PREFIX = 'http://image.tmdb.org/t/p/original/',
     last = +new Date();
 
 App.findMovieInfo = function (imdbId, callback) {
@@ -20,11 +21,12 @@ App.findMovieInfo = function (imdbId, callback) {
             }, function (err, data) {
                 if (!err && data) {
                     var info = {
-                        image:      POSTER_PREFIX + data.poster_path,
-                        overview:   data.overview,
-                        title:      data.title,
-                        voteAverage:data.vote_average,
-                        runtime:    data.runtime
+                        image:       POSTER_PREFIX + data.poster_path,
+                        backdrop:    BACKDROP_PREFIX + data.backdrop_path,
+                        overview:    data.overview,
+                        title:       data.title,
+                        voteAverage: data.vote_average,
+                        runtime:     data.runtime
                     };
 
                     console.log('Fetched info for', imdbId, ':', info);
