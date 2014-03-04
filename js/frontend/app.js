@@ -219,12 +219,17 @@ jQuery(function ($) {
 // On Document Ready
 jQuery(function ($) {
   $('.btn-os.max').on('click', function () {
-    if (screen.availHeight <= win.height) {
+    if(win.isFullscreen){
+      win.toggleFullscreen();
+    }else{
+      if (screen.availHeight <= win.height) {
         win.unmaximize();
+      }
+      else {
+          win.maximize();
+      }
     }
-    else {
-        win.maximize();
-    }
+    
   });
 
   $('.btn-os.min').on('click', function () {
@@ -236,7 +241,7 @@ jQuery(function ($) {
   });
   
   $('.btn-os.fullscreen').on('click', function () {
-    win.toggleKioskMode();
+    win.toggleFullscreen();
   });
 
   $('.popcorn-load .btn-close').click(function(event){
