@@ -168,7 +168,9 @@ a { text-decoration: none; }
           display:block;
           text-shadow: 0 1px 0 rgba(255,255,255,0.1)
       }
-     
+      &.fullscreen.active::before {
+          content: "\e00B";
+      }
 
     }
   }
