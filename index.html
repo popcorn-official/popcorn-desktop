@@ -41,7 +41,7 @@
 
     <script id="sidebar-tpl" type="text/x-template">
       <div class="play">
-        <div class="backdrop-image" style="background-image:url(http://www.moviedeskback.com/wp-content/uploads/2013/10/Frozen-movie-wallpapers-18.jpg);"></div>
+        <div class="backdrop-image" style="background-image:url(<%= this.model.get('backdrop') %>);"></div>
         <div class="closer"><i class="fa fa-times"></i></div>
         <div class="poster-cont">
           <img class="big-poster" src="<%= bigImage %>" alt="<%= title %>" />
