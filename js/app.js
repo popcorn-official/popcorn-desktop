@@ -236,9 +236,24 @@ var checkForUpdates = function() {
 
 checkForUpdates();
 
+// Show the disclaimer if the user hasn't accepted it yet.
+if( ! Settings.get('disclaimerAccepted') ) {
+    $('.popcorn-disclaimer').removeClass('hidden');
+    
+    $('.popcorn-disclaimer .btn.confirmation.continue').click(function(event){
+        event.preventDefault();
+        Settings.set('disclaimerAccepted', 1);
+        $('.popcorn-disclaimer').addClass('hidden');
+    });
+    $('.popcorn-disclaimer .btn.confirmation.quit').click(function(event){
+        event.preventDefault();
+        gui.App.quit();
+    });
+}
+
+
 
 // Taken from peerflix `app.js`
-var peerflix = require('peerflix');
 var videoPeerflix = null;
 var playTorrent = window.playTorrent = function (torrent, subs, callback, progressCallback) {
 
@@ -253,6 +268,8 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
     var numConnections = 100;
 
     // Start Peerflix
+    var peerflix = require('peerflix');
+    
     videoPeerflix = peerflix(torrent, {
         // Set the custom temp file
         path: tmpFile,

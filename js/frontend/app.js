@@ -140,7 +140,7 @@ window.spawnCallback = function (url, subs) {
 
     // Double Click to toggle Fullscreen
     $('#video-container video').dblclick(function(event){
-      win.toggleKioskMode();
+      $('.vjs-fullscreen-control').trigger('click');
     });
 
     // Init video.
@@ -148,7 +148,12 @@ window.spawnCallback = function (url, subs) {
 
     // Enter full-screen
     $('.vjs-fullscreen-control').on('click', function () {
-      win.toggleKioskMode();
+      if( win.isKioskMode ) {
+        win.leaveKioskMode();
+      } else {
+        win.enterKioskMode();
+        win.focus();
+      }
     });
 
     // Exit full-screen

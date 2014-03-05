@@ -1,5 +1,5 @@
 @import url(../css/font-awesome.min.css);
-/* line 17, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 17, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -21,45 +21,45 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block;
 }
@@ -537,8 +537,12 @@ a {
   display: block;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
 }
+/* line 171, ../sass/_layout.scss */
+#header .btn-set button.fullscreen.active::before {
+  content: "\e00B";
+}
 
-/* line 178, ../sass/_layout.scss */
+/* line 180, ../sass/_layout.scss */
 #notification {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -558,7 +562,7 @@ a {
   border-top: none;
   display: none;
 }
-/* line 195, ../sass/_layout.scss */
+/* line 197, ../sass/_layout.scss */
 #notification .btn {
   position: absolute;
   top: 6px;
@@ -567,7 +571,7 @@ a {
   background: rgba(0, 0, 0, 0.4);
 }
 
-/* line 205, ../sass/_layout.scss */
+/* line 207, ../sass/_layout.scss */
 #catalog-select {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -630,20 +634,20 @@ a {
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
-/* line 217, ../sass/_layout.scss */
+/* line 219, ../sass/_layout.scss */
 #catalog-select h4 {
   margin-top: 40px;
   color: #404040;
   font-weight: bold;
   margin-bottom: 10px;
 }
-/* line 225, ../sass/_layout.scss */
+/* line 227, ../sass/_layout.scss */
 #catalog-select ul li {
   display: block;
   font-weight: bold;
   font-size: 13px;
 }
-/* line 230, ../sass/_layout.scss */
+/* line 232, ../sass/_layout.scss */
 #catalog-select ul li a {
   -webkit-transition: background-color ease;
   -webkit-transition-delay: 0.3s;
@@ -655,11 +659,11 @@ a {
   border-radius: 3px;
   padding: 8px;
 }
-/* line 237, ../sass/_layout.scss */
+/* line 239, ../sass/_layout.scss */
 #catalog-select ul li a:hover {
   background: #010101;
 }
-/* line 242, ../sass/_layout.scss */
+/* line 244, ../sass/_layout.scss */
 #catalog-select ul li.active a,
 #catalog-select ul li.active a:hover {
   background: #286dc4;
@@ -669,13 +673,13 @@ a {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
   cursor: default;
 }
-/* line 254, ../sass/_layout.scss */
+/* line 256, ../sass/_layout.scss */
 #catalog-select .search {
   position: absolute;
   right: 20px;
   top: 12px;
 }
-/* line 259, ../sass/_layout.scss */
+/* line 261, ../sass/_layout.scss */
 #catalog-select .search input {
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: 5px;
@@ -687,7 +691,7 @@ a {
   background: transparent;
   font-weight: bold;
 }
-/* line 271, ../sass/_layout.scss */
+/* line 273, ../sass/_layout.scss */
 #catalog-select .search i {
   position: absolute;
   top: 10px;
@@ -695,7 +699,7 @@ a {
   color: rgba(255, 255, 255, 0.4);
 }
 
-/* line 282, ../sass/_layout.scss */
+/* line 284, ../sass/_layout.scss */
 .container {
   height: calc(100% - 45px);
   overflow: hidden;
@@ -703,22 +707,22 @@ a {
   position: relative;
 }
 
-/* line 292, ../sass/_layout.scss */
+/* line 294, ../sass/_layout.scss */
 body.has-notification .container {
   height: calc(100% - 45px - 45px);
   margin: 90px 0 0 180px;
 }
-/* line 297, ../sass/_layout.scss */
+/* line 299, ../sass/_layout.scss */
 body.has-notification #catalog-select {
   top: 90px;
   height: calc(100% - 45px - 45px);
 }
-/* line 302, ../sass/_layout.scss */
+/* line 304, ../sass/_layout.scss */
 body.has-notification #notification {
   display: block;
 }
 
-/* line 307, ../sass/_layout.scss */
+/* line 309, ../sass/_layout.scss */
 .popcorn-load {
   -webkit-transition: opacity ease;
   -webkit-transition-delay: 1s;
@@ -735,12 +739,12 @@ body.has-notification #notification {
   width: 100%;
   z-index: 999;
 }
-/* line 319, ../sass/_layout.scss */
+/* line 321, ../sass/_layout.scss */
 .popcorn-load.hidden {
   opacity: 0;
   pointer-events: none;
 }
-/* line 324, ../sass/_layout.scss */
+/* line 326, ../sass/_layout.scss */
 .popcorn-load .wrapper {
   -webkit-transform: translateY(-100%);
   -moz-transform: translateY(-100%);
@@ -753,11 +757,11 @@ body.has-notification #notification {
   text-align: center;
   width: 100%;
 }
-/* line 333, ../sass/_layout.scss */
+/* line 335, ../sass/_layout.scss */
 .popcorn-load .text {
   font-size: 22px;
 }
-/* line 335, ../sass/_layout.scss */
+/* line 337, ../sass/_layout.scss */
 .popcorn-load .spinner {
   background: url(../images/spinner.svg) no-repeat 0 0;
   background-size: cover;
@@ -767,7 +771,7 @@ body.has-notification #notification {
   -webkit-animation: 1.05s spin  infinite linear;
   width: 45px;
 }
-/* line 345, ../sass/_layout.scss */
+/* line 347, ../sass/_layout.scss */
 .popcorn-load .progressbar {
   display: none;
   height: 14px;
@@ -779,7 +783,7 @@ body.has-notification #notification {
   overflow: hidden;
   padding: 3px;
 }
-/* line 356, ../sass/_layout.scss */
+/* line 358, ../sass/_layout.scss */
 .popcorn-load .progressbar .progress {
   -webkit-transition: width 0.2s ease;
   -moz-transition: width 0.2s ease;
@@ -792,7 +796,7 @@ body.has-notification #notification {
   background: #FFF;
   border-radius: 40px;
 }
-/* line 367, ../sass/_layout.scss */
+/* line 369, ../sass/_layout.scss */
 .popcorn-load .progressinfo {
   display: none;
   position: absolute;
@@ -805,7 +809,7 @@ body.has-notification #notification {
   opacity: 0.5;
   bottom: -40px;
 }
-/* line 380, ../sass/_layout.scss */
+/* line 382, ../sass/_layout.scss */
 .popcorn-load .btn-close {
   display: none;
   position: absolute;
@@ -814,21 +818,84 @@ body.has-notification #notification {
   left: 15px;
   -webkit-app-region: no-drag;
 }
-/* line 390, ../sass/_layout.scss */
+/* line 392, ../sass/_layout.scss */
 .popcorn-load.withProgressBar .progressbar {
   display: block;
 }
-/* line 391, ../sass/_layout.scss */
+/* line 393, ../sass/_layout.scss */
 .popcorn-load.withProgressBar .progressinfo {
   display: block;
 }
-/* line 392, ../sass/_layout.scss */
+/* line 394, ../sass/_layout.scss */
 .popcorn-load.withProgressBar .spinner {
   display: none;
 }
-/* line 396, ../sass/_layout.scss */
+/* line 398, ../sass/_layout.scss */
 .popcorn-load.cancellable .btn-close {
   display: block;
+}
+
+/* line 402, ../sass/_layout.scss */
+.popcorn-disclaimer {
+  -webkit-transition: opacity ease;
+  -webkit-transition-delay: 0.3s;
+  -moz-transition: opacity ease 0.3s;
+  -o-transition: opacity ease 0.3s;
+  transition: opacity ease 0.3s;
+  background: #000000;
+  color: #fff;
+  height: calc(100% - 45px);
+  left: 0;
+  opacity: 1;
+  position: absolute;
+  top: 45px;
+  width: 100%;
+  z-index: 999;
+}
+/* line 414, ../sass/_layout.scss */
+.popcorn-disclaimer.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+/* line 419, ../sass/_layout.scss */
+.popcorn-disclaimer .wrapper {
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  font-size: 30px;
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  width: 100%;
+}
+/* line 428, ../sass/_layout.scss */
+.popcorn-disclaimer .text {
+  display: block;
+  font-size: 22px;
+  line-height: 150%;
+  width: 30em;
+  margin: 0px auto;
+  margin-bottom: 15px;
+}
+/* line 437, ../sass/_layout.scss */
+.popcorn-disclaimer .btn {
+  padding: 0.6em 0.9em;
+}
+/* line 440, ../sass/_layout.scss */
+.popcorn-disclaimer .btn.continue {
+  font-size: 18px;
+  font-weight: normal;
+  background: #53A93F;
+  background-image: linear-gradient(to bottom, #78ba31 0%, #5c9f15 100%);
+  margin-bottom: 25px;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+}
+/* line 449, ../sass/_layout.scss */
+.popcorn-disclaimer .btn.quit {
+  font-size: 13px;
+  background: #e20f3c;
 }
 
 /* line 3, ../sass/_movielist.scss */
