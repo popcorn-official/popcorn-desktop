@@ -1,9 +1,9 @@
 {
-    "quit": "Quit",
-    "cancel": "Cancel",
-    "beforeQuit": "¿Seguro que desea salir?",
+    "quit": "Salir",
+    "cancel": "Cancelar",
+    "beforeQuit": "¿Está seguro que desea salir?",
     "loading": "Cargando...",
-    "loadingVideo": "Precargando video, espere unos instantes",
+    "loadingVideo": "Cargando video, espere unos instantes",
     "searchLoading": "Buscando...",
     "noResults": "No se encontraron resultados.",
 
@@ -28,7 +28,7 @@
     "legalDisclaimerCancel": "Salir de Popcorn Time",
     
     "genres": {
-        "all": "Popular",
+        "all": "Todos",
         "action": "Acción",
         "adventure": "Aventura",
         "animation": "Animación",
@@ -49,7 +49,7 @@
         "sci-fi": "Sci-Fi",
         "short": "Corto",
         "sport": "Deportes",
-        "thriller": "Thriller",
+        "thriller": "Suspenso",
         "war": "Guerra",
         "western": "Western"
     }
