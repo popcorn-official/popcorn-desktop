@@ -124,7 +124,7 @@ win.focus();
 
 document.addEventListener('keydown', function(event){
     var $el = $('.popcorn-quit');
-    if(!$el.hasClass('hidden')) {  
+    if(!$el.hasClass('hidden')) {
         // Esc
         if( event.keyCode == 27 ) { $el.addClass('hidden'); }
     }
@@ -156,7 +156,11 @@ window.addEventListener("drop",function(e){
     e = e || event;
     e.preventDefault();
 },false);
-
+// Prevent dragging files outside the window
+window.addEventListener("dragstart",function(e){
+    e = e || event;
+    e.preventDefault();
+},false);
 
 // Check if the user has a working internet connection (uses Google as reference)
 var checkInternetConnection = function(callback) {
