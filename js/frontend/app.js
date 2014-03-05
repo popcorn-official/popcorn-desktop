@@ -27,7 +27,7 @@ App.loader = function (hasToShow, copy) {
     }
 
     if (hasToShow === true) {
-        $el.find('.text').html(copy ? copy : Language.loading);
+        $el.find('.text').html(copy ? copy : i18n.__('loading'));
     }
 
     $el[hasToShow === false ? 'addClass' : 'removeClass']('hidden');
@@ -44,14 +44,14 @@ App.loader = function (hasToShow, copy) {
 };
 // Show by default
 window.initialLoading = true;
-App.loader(true, Language.loading);
+App.loader(true, i18n.__('loading'));
 
 
 // Handler for Video opening
 window.spawnCallback = function (url, subs) {
     var subtracks = '';
     for( lang in subs ) {
-      subtracks += '<track kind="subtitles" src="app://host/' + subs[lang] + '" srclang="es" label="' + Languages[lang] + '" charset="utf-8" />';
+      subtracks += '<track kind="subtitles" src="app://host/' + subs[lang] + '" srclang="es" label="' + i18n.__(lang) + '" charset="utf-8" />';
     }
 
     var player =
@@ -140,7 +140,7 @@ window.spawnCallback = function (url, subs) {
 
     // Double Click to toggle Fullscreen
     $('#video-container video').dblclick(function(event){
-      win.toggleKioskMode();
+      $('.vjs-fullscreen-control').trigger('click');
     });
 
     // Init video.
@@ -148,7 +148,12 @@ window.spawnCallback = function (url, subs) {
 
     // Enter full-screen
     $('.vjs-fullscreen-control').on('click', function () {
-      win.toggleKioskMode();
+      if( win.isKioskMode ) {
+        win.leaveKioskMode();
+      } else {
+        win.enterKioskMode();
+        win.focus();
+      }
     });
 
     // Exit full-screen

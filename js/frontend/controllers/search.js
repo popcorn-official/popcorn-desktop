@@ -1,7 +1,7 @@
 App.Controller.Search = function (searchTerm) {
     console.log('Searching for ' + searchTerm);
 
-    App.loader(true, Language.searchLoading);
+    App.loader(true, i18n.__('searchLoading'));
     window.initialLoading = true;
 
     var movieList = new App.View.MovieList({

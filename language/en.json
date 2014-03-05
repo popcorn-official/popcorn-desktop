@@ -20,7 +20,12 @@
     "downloading": "Downloading...",
 
     "UpgradeVersion": "Update Popcorn Time",
-    "UpgradeVersionDescription": " was just released. You should get it now!",
+    "UpgradeVersionDescription": "Popcorn Time %s was just released. You should get it now!",
+    
+    "legalDisclaimer": "Popcorn Time downloads and seeds movies using torrents, which may not be legal in your country.",
+    "legalDisclaimerResponsible": "We are not responsible for any problems that may arise, so make sure you understand our Terms and Conditions before using the app.",
+    "legalDisclaimerAccept": "I understand and want to use Popcorn Time",
+    "legalDisclaimerCancel": "Close Popcorn Time",
 
     "genres": {
         "all": "Popular",
@@ -47,5 +52,11 @@
         "thriller": "Thriller",
         "war": "War",
         "western": "Western"
-    }
+    },
+    "french": "French",
+    "english": "English",
+    "spanish": "Spanish",
+    "portuguese": "Portuguese",
+    "romanian": "Romanian",
+    "turkish": "Turkish"
 }

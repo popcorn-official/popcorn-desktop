@@ -48,17 +48,17 @@
           <ul class="movie-config">
             <% if (typeof subtitles !== 'undefined') { %>
               <li class="options">
-                <h4><%= Language['subtitledIn'] %></h4>
+                <h4><%= i18n.__('subtitledIn') %></h4>
                 <span class="available-subtitles">
                 <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
-                  <span class="flag flag-<%= keys[i] %>" title="<%= Languages[keys[i]] %>"></span>
+                  <span class="flag flag-<%= keys[i] %>" title="<%= i18n.__(keys[i]) %>"></span>
                 <% } %>
                 </span>
               </li>
             <% } %>
             <% if (this.model.get('quality') && this.model.get('torrents')) { %>
               <li class="options">
-                <h4><%= Language['quality'] %></h4>
+                <h4><%= i18n.__('quality') %></h4>
                 <% if (this.model.get('torrents')["720p"] && this.model.get('torrents')["1080p"]) { %>
                   <div class="quality switch white">
                     <input type="radio" name="switch" id="switch-off"<% if (this.model.get('quality') === '720p') { %> checked<% } %>>
@@ -102,13 +102,13 @@
               </div>
               <span><i class="fa fa-calendar-o"></i> <%= year %></span>
               <% if (this.model.get('runtime')) { %>
-                <span class="duration"><i class="fa fa-clock-o"></i> <%= runtime %> <%= Language['durationUnit'] %></span>
+                <span class="duration"><i class="fa fa-clock-o"></i> <%= runtime %> <%= i18n.__('durationUnit') %></span>
               <% } %>
               <i data-placement="left" data-toggle="tooltip" title="<%= health %> health" class="health <%= health %> fa fa-flash"></i>
             </div>
             <p><%= synopsis %></p>
             <% if (this.model.get('torrents')) { %>
-              <a href="" class="p_tooltip play-button"><%= Language['watchItNow'] %></a>
+              <a href="" class="p_tooltip play-button"><%= i18n.__('watchItNow') %></a>
             <% } %>
           </div>
         </div>
@@ -127,6 +127,17 @@
 
     <div id="video-container"></div>
     
+    <div class="popcorn-disclaimer hidden">
+      <div class="wrapper">
+        <span class="text" data-translate="legalDisclaimer"></span>
+        <span class="text" data-translate="legalDisclaimerResponsible"></span>
+        <br/>
+        <a class="btn confirmation continue" data-translate="legalDisclaimerAccept"></a>
+        <br/>
+        <a class="btn confirmation quit" data-translate="legalDisclaimerCancel"></a>
+      </div>
+    </div>
+    
 
     <script src="js/vendor/jquery-2.1.0.min.js"></script>
     <script src="js/vendor/underscore.js"></script>
@@ -142,7 +153,6 @@
     <script src="js/frontend/providers/cache.js"></script>
     <script src="js/frontend/providers/themoviedb.js"></script>
     <script src="js/frontend/providers/yifysubtitles.js"></script>
-    <!-- <script src="js/frontend/providers/opensubtitles.js"></script> -->
     <script src="js/frontend/models/movie.js"></script>
     <script src="js/frontend/views/page.js"></script>
     <script src="js/frontend/views/listview.js"></script>

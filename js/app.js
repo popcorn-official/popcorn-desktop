@@ -27,18 +27,20 @@ var
     // fs object
     fs = require('fs'),
 
-    // Localization support
-    Language = require('./language/' + 'en' + '.json'),
-
     // TMP Folder
     tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time');
 
-
+var i18n = require("i18n");
+i18n.configure({
+  defaultLocale: 'en',
+  locales: ['en', 'de', 'es', 'fr', 'ja', 'nl', 'pt-br', 'pt', 'ro', 'sv', 'tr'],
+  directory: './language'
+});
 // Create the Temp Folder
 if( ! fs.existsSync(tmpFolder) ) { fs.mkdirSync(tmpFolder); }
 
 // Detect the language and update the global Language file
-var detectLanguage = function(preferred) {
+var detectLanguage = function(preferredLanguage) {
 
     var fs = require('fs');
     // The full OS language (with localization, like "en-uk")
@@ -47,12 +49,12 @@ var detectLanguage = function(preferred) {
     var baseLanguage = navigator.language.toLowerCase().slice(0,2);
 
     if( fs.existsSync('./language/' + pureLanguage + '.json') ) {
-        Language = require('./language/' + pureLanguage + '.json');
+        i18n.setLocale(pureLanguage);
     }
     else if( fs.existsSync('./language/' + baseLanguage + '.json') ) {
-        Language = require('./language/' + baseLanguage + '.json');
+        i18n.setLocale(baseLanguage);
     } else {
-        Language = require('./language/' + preferred + '.json');
+        i18n.setLocale(preferredLanguage);
     }
 
     // This is a hack to translate non-templated UI elements. Fuck it.
@@ -60,12 +62,12 @@ var detectLanguage = function(preferred) {
         var $el = $(this);
         var key = $el.data('translate');
 
-        if( $el.is('input') ) {
-            $el.attr('placeholder', Language[key]);
-        } else {
-            $el.text(Language[key]);
-        }
-    });
+		if( $el.is('input') ) {
+			$el.attr('placeholder', i18n.__(key));
+		} else {
+			$el.text(i18n.__(key));
+		}
+	});
 
     populateCategories();
 };
@@ -76,11 +78,11 @@ var populateCategories = function() {
     var category_html = '';
     var defaultCategory = 'all';
 
-    for( key in Language.genres ) {
-        category_html += '<li'+ (defaultCategory == key ? ' class="active" ' : '') +'>'+
-                           '<a href="#" data-genre="'+key+'">'+Language.genres[key]+'</a>'+
-                         '</li>';
-    }
+	for( key in i18n.__("genres") ) {
+		category_html += '<li'+ (defaultCategory == key ? ' class="active" ' : '') +'>'+
+				           '<a href="#" data-genre="'+key+'">'+ i18n.__("genres")[key] +'</a>'+
+				         '</li>';
+	}
 
     jQuery('#catalog-select .categories').html(category_html);
 };
@@ -222,8 +224,8 @@ var checkForUpdates = function() {
             if( updateInfo[currentOs].version > Settings.get('version') ) {
                 // Check if there's a newer version and show the update notification
                 $('#notification').html(
-                    'Popcorn Time '+ updateInfo[currentOs].versionName + Language.UpgradeVersionDescription +
-                    '<a class="btn" href="#" onclick="gui.Shell.openExternal(\'' + updateInfo[currentOs].downloadUrl + '\');"> '+ Language.UpgradeVersion + '</a>'
+                    i18n.__('UpgradeVersionDescription', updateInfo[currentOs].versionName) +
+                    '<a class="btn" href="#" onclick="gui.Shell.openExternal(\'' + updateInfo[currentOs].downloadUrl + '\');"> '+ i18n.__('UpgradeVersion') + '</a>'
                 );
                 $('body').addClass('has-notification');
             }
@@ -234,9 +236,24 @@ var checkForUpdates = function() {
 
 checkForUpdates();
 
+// Show the disclaimer if the user hasn't accepted it yet.
+if( ! Settings.get('disclaimerAccepted') ) {
+    $('.popcorn-disclaimer').removeClass('hidden');
+    
+    $('.popcorn-disclaimer .btn.confirmation.continue').click(function(event){
+        event.preventDefault();
+        Settings.set('disclaimerAccepted', 1);
+        $('.popcorn-disclaimer').addClass('hidden');
+    });
+    $('.popcorn-disclaimer .btn.confirmation.quit').click(function(event){
+        event.preventDefault();
+        gui.App.quit();
+    });
+}
+
+
 
 // Taken from peerflix `app.js`
-var peerflix = require('peerflix');
 var videoPeerflix = null;
 var playTorrent = window.playTorrent = function (torrent, subs, callback, progressCallback) {
 
@@ -251,6 +268,8 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
     var numConnections = 100;
 
     // Start Peerflix
+    var peerflix = require('peerflix');
+    
     videoPeerflix = peerflix(torrent, {
         // Set the custom temp file
         path: tmpFile,
