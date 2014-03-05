@@ -435,20 +435,18 @@ body.has-notification {
   }
 
   .btn {
-    padding: 0.6em 0.9em;
+    padding: 1.1em 3em;
+    font-size:18px;
     
     &.continue {
       font-size: 18px;
-      font-weight: normal;
-      background: #53A93F;
-      background-image: linear-gradient(to bottom, #78BA31 0%, #5C9F15 100%);
-      margin-bottom: 25px;
-      text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
-    }
+      font-weight: bold;
+      background: #53A93F;    }
 
     &.quit {
-      font-size: 13px;
+      font-size: 18px;
       background: #e20f3c;
+      font-weight:normal;
     }
   }
 
