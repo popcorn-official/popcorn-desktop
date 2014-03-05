@@ -1,4 +1,3 @@
-App.Cache.clear();
 var request = require('request'),
     cheerio = require('cheerio'),
     zlib = require('zlib'),
