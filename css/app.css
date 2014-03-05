@@ -430,14 +430,14 @@ a {
 .flag.flag-turkish {
   background-image: url(../images/turkish.png);
 }
-/* line 89, _layout.scss */
+/* line 90, _layout.scss */
 .flag.flag-brazilian {
   background-image: url(../images/brazilian.png);
 }
 
 /*
 -- App */
-/* line 97, _layout.scss */
+/* line 98, _layout.scss */
 #header {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -453,34 +453,34 @@ a {
   width: 100%;
   background-image: linear-gradient(to bottom, #30302e 0%, #232322 100%);
 }
-/* line 110, _layout.scss */
+/* line 111, _layout.scss */
 #header h1 {
   font-size: 13px;
 }
-/* line 114, _layout.scss */
+/* line 115, _layout.scss */
 #header .btn-set {
   position: absolute;
   left: 15px;
   top: 17px;
 }
-/* line 119, _layout.scss */
+/* line 120, _layout.scss */
 #header .btn-set.right {
   right: 7px;
   left: initial;
   top: 5px;
 }
-/* line 126, _layout.scss */
+/* line 127, _layout.scss */
 #header .btn-set:hover .btn-os {
   color: rgba(0, 0, 0, 0.8);
 }
-/* line 128, _layout.scss */
+/* line 129, _layout.scss */
 #header .btn-set button {
   display: block;
   float: left;
   margin: 0 6px 0 0;
   background: #141414;
 }
-/* line 134, _layout.scss */
+/* line 135, _layout.scss */
 #header .btn-set button.btn-os {
   border-radius: 30px;
   border: 0;
@@ -492,7 +492,7 @@ a {
   text-align: center;
   width: 12px;
 }
-/* line 147, _layout.scss */
+/* line 148, _layout.scss */
 #header .btn-set button.debug {
   background: #fff;
   content: 'D';
@@ -502,19 +502,19 @@ a {
   text-transform: uppercase;
   width: auto;
 }
-/* line 157, _layout.scss */
+/* line 158, _layout.scss */
 #header .btn-set button.close:hover {
   background: #e74c3c;
 }
-/* line 158, _layout.scss */
+/* line 159, _layout.scss */
 #header .btn-set button.max:hover {
   background: #27ae60;
 }
-/* line 159, _layout.scss */
+/* line 160, _layout.scss */
 #header .btn-set button.min:hover {
   background: #f1c40f;
 }
-/* line 160, _layout.scss */
+/* line 161, _layout.scss */
 #header .btn-set button.fullscreen {
   color: #000;
   background: transparent;
@@ -524,7 +524,7 @@ a {
   border-radius: 0;
   display: block;
 }
-/* line 161, _layout.scss */
+/* line 162, _layout.scss */
 #header .btn-set button.fullscreen::before {
   content: "\e000";
   font-family: VideoJS;
@@ -534,12 +534,12 @@ a {
   display: block;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
 }
-/* line 170, _layout.scss */
+/* line 171, _layout.scss */
 #header .btn-set button.fullscreen.active::before {
   content: "\e00B";
 }
 
-/* line 179, _layout.scss */
+/* line 180, _layout.scss */
 #notification {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -559,7 +559,7 @@ a {
   border-top: none;
   display: none;
 }
-/* line 196, _layout.scss */
+/* line 197, _layout.scss */
 #notification .btn {
   position: absolute;
   top: 6px;
@@ -568,7 +568,7 @@ a {
   background: rgba(0, 0, 0, 0.4);
 }
 
-/* line 206, _layout.scss */
+/* line 207, _layout.scss */
 #catalog-select {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -631,20 +631,20 @@ a {
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
-/* line 218, _layout.scss */
+/* line 219, _layout.scss */
 #catalog-select h4 {
   margin-top: 40px;
   color: #404040;
   font-weight: bold;
   margin-bottom: 10px;
 }
-/* line 226, _layout.scss */
+/* line 227, _layout.scss */
 #catalog-select ul li {
   display: block;
   font-weight: bold;
   font-size: 13px;
 }
-/* line 231, _layout.scss */
+/* line 232, _layout.scss */
 #catalog-select ul li a {
   -moz-transition: background-color ease 0.3s;
   -o-transition: background-color ease 0.3s;
@@ -656,11 +656,11 @@ a {
   border-radius: 3px;
   padding: 8px;
 }
-/* line 238, _layout.scss */
+/* line 239, _layout.scss */
 #catalog-select ul li a:hover {
   background: #010101;
 }
-/* line 242, _layout.scss */
+/* line 243, _layout.scss */
 #catalog-select ul li.active a,
 #catalog-select ul li.active a:hover {
   background: #286dc4;
@@ -670,13 +670,13 @@ a {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
   cursor: default;
 }
-/* line 255, _layout.scss */
+/* line 256, _layout.scss */
 #catalog-select .search {
   position: absolute;
   right: 20px;
   top: 12px;
 }
-/* line 260, _layout.scss */
+/* line 261, _layout.scss */
 #catalog-select .search input {
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: 5px;
@@ -688,7 +688,7 @@ a {
   background: transparent;
   font-weight: bold;
 }
-/* line 272, _layout.scss */
+/* line 273, _layout.scss */
 #catalog-select .search i {
   position: absolute;
   top: 10px;
@@ -696,7 +696,7 @@ a {
   color: rgba(255, 255, 255, 0.4);
 }
 
-/* line 283, _layout.scss */
+/* line 284, _layout.scss */
 .container {
   height: calc(100% - 45px);
   overflow: hidden;
@@ -704,22 +704,22 @@ a {
   position: relative;
 }
 
-/* line 293, _layout.scss */
+/* line 294, _layout.scss */
 body.has-notification .container {
   height: calc(100% - 45px - 45px);
   margin: 90px 0 0 180px;
 }
-/* line 298, _layout.scss */
+/* line 299, _layout.scss */
 body.has-notification #catalog-select {
   top: 90px;
   height: calc(100% - 45px - 45px);
 }
-/* line 303, _layout.scss */
+/* line 304, _layout.scss */
 body.has-notification #notification {
   display: block;
 }
 
-/* line 308, _layout.scss */
+/* line 309, _layout.scss */
 .popcorn-load {
   -moz-transition: opacity ease 1s;
   -o-transition: opacity ease 1s;
@@ -736,12 +736,12 @@ body.has-notification #notification {
   width: 100%;
   z-index: 999;
 }
-/* line 320, _layout.scss */
+/* line 321, _layout.scss */
 .popcorn-load.hidden {
   opacity: 0;
   pointer-events: none;
 }
-/* line 325, _layout.scss */
+/* line 326, _layout.scss */
 .popcorn-load .wrapper {
   -moz-transform: translateY(-100%);
   -ms-transform: translateY(-100%);
@@ -754,11 +754,11 @@ body.has-notification #notification {
   text-align: center;
   width: 100%;
 }
-/* line 334, _layout.scss */
+/* line 335, _layout.scss */
 .popcorn-load .text {
   font-size: 22px;
 }
-/* line 336, _layout.scss */
+/* line 337, _layout.scss */
 .popcorn-load .spinner {
   background: url(../images/spinner.svg) no-repeat 0 0;
   background-size: cover;
@@ -768,7 +768,7 @@ body.has-notification #notification {
   -webkit-animation: 1.05s spin  infinite linear;
   width: 45px;
 }
-/* line 346, _layout.scss */
+/* line 347, _layout.scss */
 .popcorn-load .progressbar {
   display: none;
   height: 14px;
@@ -780,7 +780,7 @@ body.has-notification #notification {
   overflow: hidden;
   padding: 3px;
 }
-/* line 357, _layout.scss */
+/* line 358, _layout.scss */
 .popcorn-load .progressbar .progress {
   -moz-transition: width 0.2s ease;
   -o-transition: width 0.2s ease;
@@ -793,7 +793,7 @@ body.has-notification #notification {
   background: #FFF;
   border-radius: 40px;
 }
-/* line 368, _layout.scss */
+/* line 369, _layout.scss */
 .popcorn-load .progressinfo {
   display: none;
   position: absolute;
@@ -806,7 +806,7 @@ body.has-notification #notification {
   opacity: 0.5;
   bottom: -40px;
 }
-/* line 381, _layout.scss */
+/* line 382, _layout.scss */
 .popcorn-load .btn-close {
   display: none;
   position: absolute;
@@ -815,24 +815,24 @@ body.has-notification #notification {
   left: 15px;
   -webkit-app-region: no-drag;
 }
-/* line 391, _layout.scss */
+/* line 392, _layout.scss */
 .popcorn-load.withProgressBar .progressbar {
   display: block;
 }
-/* line 392, _layout.scss */
+/* line 393, _layout.scss */
 .popcorn-load.withProgressBar .progressinfo {
   display: block;
 }
-/* line 393, _layout.scss */
+/* line 394, _layout.scss */
 .popcorn-load.withProgressBar .spinner {
   display: none;
 }
-/* line 397, _layout.scss */
+/* line 398, _layout.scss */
 .popcorn-load.cancellable .btn-close {
   display: block;
 }
 
-/* line 401, _layout.scss */
+/* line 402, _layout.scss */
 .popcorn-disclaimer {
   -moz-transition: opacity ease 0.3s;
   -o-transition: opacity ease 0.3s;
@@ -849,12 +849,12 @@ body.has-notification #notification {
   width: 100%;
   z-index: 999;
 }
-/* line 413, _layout.scss */
+/* line 414, _layout.scss */
 .popcorn-disclaimer.hidden {
   opacity: 0;
   pointer-events: none;
 }
-/* line 418, _layout.scss */
+/* line 419, _layout.scss */
 .popcorn-disclaimer .wrapper {
   -moz-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
@@ -867,7 +867,7 @@ body.has-notification #notification {
   text-align: center;
   width: 100%;
 }
-/* line 427, _layout.scss */
+/* line 428, _layout.scss */
 .popcorn-disclaimer .text {
   display: block;
   font-size: 22px;
@@ -876,11 +876,11 @@ body.has-notification #notification {
   margin: 0px auto;
   margin-bottom: 15px;
 }
-/* line 436, _layout.scss */
+/* line 437, _layout.scss */
 .popcorn-disclaimer .btn {
   padding: 0.6em 0.9em;
 }
-/* line 439, _layout.scss */
+/* line 440, _layout.scss */
 .popcorn-disclaimer .btn.continue {
   font-size: 18px;
   font-weight: normal;
@@ -889,7 +889,7 @@ body.has-notification #notification {
   margin-bottom: 25px;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
 }
-/* line 448, _layout.scss */
+/* line 449, _layout.scss */
 .popcorn-disclaimer .btn.quit {
   font-size: 13px;
   background: #e20f3c;
