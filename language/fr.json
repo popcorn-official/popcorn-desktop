@@ -22,6 +22,11 @@
     "UpgradeVersion": "Mettre à jour Popcorn Time",
     "UpgradeVersionDescription": "Popcorn Time %s a été mis à jour. Vous devriez le télécharger maintenant !",
 
+    "legalDisclaimer": "Popcorn Time télécharge les films en utilisant des torrents, qui peuvent ne pas être légal dans votre pays.",
+    "legalDisclaimerResponsible": "Nous ne sommes pas responsable des problèmes qui peuvent survenir, assurez-vous de bien comprendre nos conditions générales avant d'utiliser l'application.",
+    "legalDisclaimerAccept": "Je comprends et je veux utiliser Popcorn Time",
+    "legalDisclaimerCancel": "Fermer Popcorn Time",
+
     "genres": {
         "all": "Populaire",
         "action": "Action",
