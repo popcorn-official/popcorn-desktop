@@ -19,16 +19,16 @@
     "startingDownload": "Comenzando Descarga...",
     "downloading": "Descargando...",
 
-    "UpgradeVersion": "Actualiza Popcorn Time",
-    "UpgradeVersionDescription": " acaba de ser lanzado. Descargalo ahora!",
+    "UpgradeVersion": "¡Hay una nueva versión de Popcorn Time!",
+    "UpgradeVersionDescription": "Popcorn Time %s acaba de salir. ¿Desea descargarla ahora?",
     
-    "legalDisclaimer": "Popcorn Time descarga y comparte películas utilizando torrents, que pueden no ser legales en tu país.",
-    "legalDisclaimerResponsible": "No somos responsables de ningún problema que pueda suceder, así que asegurate de comprender nuestros Términos y Condiciones antes de usar la app.",
+    "legalDisclaimer": "Popcorn Time descarga y comparte películas utilizando torrents, los que pueden ser ilegales en tu país.",
+    "legalDisclaimerResponsible": "No nos hacemos responsables de los problemas que esto te pueda causar, asegurate de comprender nuestros Términos y Condiciones primero, antes de usar Popcorn Time.",
     "legalDisclaimerAccept": "Comprendo y quiero usar Popcorn Time",
     "legalDisclaimerCancel": "Salir de Popcorn Time",
     
     "genres": {
-        "all": "Todos",
+        "all": "Popular",
         "action": "Acción",
         "adventure": "Aventura",
         "animation": "Animación",
@@ -49,7 +49,7 @@
         "sci-fi": "Sci-Fi",
         "short": "Corto",
         "sport": "Deportes",
-        "thriller": "Suspenso",
+        "thriller": "Thriller",
         "war": "Guerra",
         "western": "Western"
     }
