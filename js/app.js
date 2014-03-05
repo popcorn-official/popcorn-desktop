@@ -28,14 +28,18 @@ var
     fs = require('fs'),
 
     // TMP Folder
-    tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time');
+    tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time'),
 
-var i18n = require("i18n");
+    // i18n module (translations)
+    i18n = require("i18n");
+
+
 i18n.configure({
-  defaultLocale: 'en',
-  locales: ['en', 'de', 'es', 'fr', 'ja', 'nl', 'pt-br', 'pt', 'ro', 'sv', 'tr'],
-  directory: './language'
+    defaultLocale: 'en',
+    locales: ['en', 'de', 'es', 'fr', 'ja', 'nl', 'pt-br', 'pt', 'ro', 'sv', 'tr'],
+    directory: './language'
 });
+
 // Create the Temp Folder
 if( ! fs.existsSync(tmpFolder) ) { fs.mkdirSync(tmpFolder); }
 
@@ -137,7 +141,7 @@ document.addEventListener('keydown', function(event){
         if( event.keyCode == 27 ) { $el.addClass('hidden'); }
     }
     if (event.keyCode === 27 && $('body').is('.loading')) {
-        /*alert("escape pressed from sidebar");*/
+        // Escape pressed from sidebar
         App.loader(false);
         $(document).trigger('videoExit');
     }
