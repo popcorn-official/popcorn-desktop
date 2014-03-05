@@ -22,6 +22,11 @@
     "UpgradeVersion": "Update Popcorn Time",
     "UpgradeVersionDescription": " is net uitgekomen. Download hem nu!",
     
+    "legalDisclaimer": "Popcorn Time downloadt en uploadt film met behulp van torrents, dit kan illegaal zijn in jouw land.",
+    "legalDisclaimerResponsible": "Wij zijn niet verantwoordelijk voor mogelijk problemen, dus lees de voorwaarden goed.",
+    "legalDisclaimerAccept": "Ik begrijp dit en wil Popcorn Time gebruiken",
+    "legalDisclaimerCancel": "Sluit Popcorn Time",
+    
     "genres": {
         "all": "Populair",
         "action": "Actie",
