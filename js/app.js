@@ -41,10 +41,16 @@ if( ! fs.existsSync(tmpFolder) ) { fs.mkdirSync(tmpFolder); }
 var detectLanguage = function(preferred) {
 
     var fs = require('fs');
-    var bestLanguage = navigator.language.slice(0,2);
+    // The full OS language (with localization, like "en-uk")
+    var pureLanguage = navigator.language.toLowerCase();
+    // The global language name (without localization, like "en")
+    var baseLanguage = navigator.language.toLowerCase().slice(0,2);
 
-    if( fs.existsSync('./language/' + bestLanguage + '.json') ) {
-        Language = require('./language/' + bestLanguage + '.json');
+    if( fs.existsSync('./language/' + pureLanguage + '.json') ) {
+        Language = require('./language/' + pureLanguage + '.json');
+    }
+    else if( fs.existsSync('./language/' + baseLanguage + '.json') ) {
+        Language = require('./language/' + baseLanguage + '.json');
     } else {
         Language = require('./language/' + preferred + '.json');
     }
