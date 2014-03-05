@@ -1,3 +1,4 @@
+App.Cache.clear();
 var request = require('request'),
     cheerio = require('cheerio'),
     zlib = require('zlib'),
@@ -13,7 +14,8 @@ var request = require('request'),
         'french'    : 'Français',
         'turkish'   : 'Türkçe',
         'romanian'  : 'Română',
-        'portuguese': 'Português'
+        'portuguese': 'Português',
+        'brazilian' : 'Português-Br'
     };
 
 App.findSubtitle = function (model, cb, isFallback) {
@@ -38,6 +40,12 @@ App.findSubtitle = function (model, cb, isFallback) {
                         var link = a.attr("href");
                         var linkData = (link.substr(link.lastIndexOf('/') + 1)).split('-');
                         var language = linkData[linkData.length-3];
+
+                        //This verification sets the subtitle to portuguese of Brazil or European(regionalization)
+                        if(language == 'portuguese' && linkData[linkData.length-4] == 'brazilian'){
+                            language = linkData[linkData.length-4];
+                        }
+                        
                         // TODO: we can get more info from the site (like rating, hear-impaired)
                         if ($.isEmptyObject(queries[language])
                             && !($.isEmptyObject(Languages[language]))) {
