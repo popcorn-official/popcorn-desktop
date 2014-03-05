@@ -148,10 +148,10 @@ window.spawnCallback = function (url, subs) {
 
     // Enter full-screen
     $('.vjs-fullscreen-control').on('click', function () {
-      if( win.isKioskMode ) {
-        win.leaveKioskMode();
+      if(win.isFullscreen) {
+        win.leaveFullscreen();
       } else {
-        win.enterKioskMode();
+        win.enterFullscreen();
         win.focus();
       }
     });
