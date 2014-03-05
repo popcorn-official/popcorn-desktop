@@ -33,7 +33,7 @@ var
 var i18n = require("i18n");
 i18n.configure({
   defaultLocale: 'en',
-  locales: ['en', 'de', 'es', 'fr', 'nl', 'pt', 'ro', 'tr'],
+  locales: ['en', 'de', 'es', 'fr', 'ja', 'nl', 'pt-br', 'pt', 'ro', 'sv', 'tr'],
   directory: './language'
 });
 // Create the Temp Folder
