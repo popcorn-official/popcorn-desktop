@@ -20,7 +20,7 @@
     "downloading": "Téléchargement...",
 
     "UpgradeVersion": "Mettre à jour Popcorn Time",
-    "UpgradeVersionDescription": " a été mis à jour. Vous devriez le télécharger maintenant !",
+    "UpgradeVersionDescription": "Popcorn Time %s a été mis à jour. Vous devriez le télécharger maintenant !",
 
     "genres": {
         "all": "Populaire",
@@ -47,5 +47,11 @@
         "thriller": "Thriller",
         "war": "Guerre",
         "western": "Western"
-    }
+    },
+    "french": "Français",
+    "english": "Anglais",
+    "spanish": "Espagnol",
+    "portuguese": "Portugais",
+    "romanian": "Roumain",
+    "turkish": "Turc"
 }
