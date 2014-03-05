@@ -22,6 +22,11 @@
     "UpgradeVersion": "Actualiza Popcorn Time",
     "UpgradeVersionDescription": " acaba de ser lanzado. Descargalo ahora!",
     
+    "legalDisclaimer": "Popcorn Time descarga y comparte películas utilizando torrents, que pueden no ser legales en tu país.",
+    "legalDisclaimerResponsible": "No somos responsables de ningún problema que pueda suceder, así que asegurate de comprender nuestros Términos y Condiciones antes de usar la app.",
+    "legalDisclaimerAccept": "Comprendo y quiero usar Popcorn Time",
+    "legalDisclaimerCancel": "Salir de Popcorn Time",
+    
     "genres": {
         "all": "Popular",
         "action": "Acción",
