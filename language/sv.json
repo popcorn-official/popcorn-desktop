@@ -20,7 +20,12 @@
     "downloading": "Laddar ner...",
 
     "UpgradeVersion": "Uppdatera Popcorn Time",
-    "UpgradeVersionDescription": " är precis släppt. Uppdatera direkt!",
+    "UpgradeVersionDescription": "Popcorn Time %s släpptes precis. Uppdatera direkt!",
+    
+    "legalDisclaimer": "Popcorn Time laddar ner och delar med sig filmer med hjälp av torrents. Vilket kan vara olagligt i ditt land.",
+    "legalDisclaimerResponsible": "Popcorn Time ansvarar inte för problem som kan uppstå. Var vänligen läs igenom Terms & Conditions innan du använder Popcorn Time.",
+    "legalDisclaimerAccept": "Jag förstår vilkoren och will använda Popcorn Time",
+    "legalDisclaimerCancel": "Avsluta Popcorn Time",
 
     "genres": {
         "all": "Populärt",
@@ -47,5 +52,11 @@
         "thriller": "Thriller",
         "war": "Krigsfilm",
         "western": "Vilda Västern"
-    }
+    },
+    "french": "Franska",
+    "english": "Engelska",
+    "spanish": "Spanska",
+    "portuguese": "Portugisiska",
+    "romanian": "Rumänska",
+    "turkish": "Turkiska"
 }
