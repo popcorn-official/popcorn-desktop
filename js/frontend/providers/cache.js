@@ -63,7 +63,21 @@ App.Cache = {
         db.transaction(function (tx) {
             tx.executeSql('CREATE TABLE IF NOT EXISTS ' + provider + ' (key TEXT, data TEXT)');
 
-            tx.executeSql('INSERT INTO ' + provider + ' VALUES (?, ?)', [key, data]);
+            //Implementation to check if exist registration in db and update instead of insert
+            //Does a SELECT on Provider
+            tx.executeSql('SELECT data FROM ' + provider + ' WHERE key = ?', [key], function (tx, results) {
+                try {
+                    if (results.rows.length) {
+                        tx.executeSql('UPDATE ' + provider + ' SET data = ? WHERE key = ?', [data, key]);
+                    } else {
+                        tx.executeSql('INSERT INTO ' + provider + ' VALUES (?, ?)', [key, data]);
+                    }
+                } catch (e) {
+                    if (isDebug) {
+                        throw e;
+                    }
+                }
+            });
         });
     }
 };
