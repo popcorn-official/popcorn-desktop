@@ -24,8 +24,8 @@
 
     "legalDisclaimer": "Popcorn Time télécharge les films en utilisant des torrents, qui peuvent ne pas être légal dans votre pays.",
     "legalDisclaimerResponsible": "Nous ne sommes pas responsable des problèmes qui peuvent survenir, assurez-vous de bien comprendre nos conditions générales avant d'utiliser l'application.",
-    "legalDisclaimerAccept": "Je comprends et je veux utiliser Popcorn Time",
-    "legalDisclaimerCancel": "Fermer Popcorn Time",
+    "legalDisclaimerAccept": "Je comprends",
+    "legalDisclaimerCancel": "Quitter",
 
     "genres": {
         "all": "Populaire",
