@@ -72,11 +72,7 @@ App.Cache = {
                     } else {
                         tx.executeSql('INSERT INTO ' + provider + ' VALUES (?, ?)', [key, data]);
                     }
-                } catch (e) {
-                    if (isDebug) {
-                        throw e;
-                    }
-                }
+                } 
             });
         });
     }
