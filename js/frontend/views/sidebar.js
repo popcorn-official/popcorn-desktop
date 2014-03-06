@@ -12,6 +12,15 @@ App.View.Sidebar = Backbone.View.extend({
         'click #switch-off':       'disableHD'
     },
 
+    keyHide: function (e) {
+        if (e.which === 27 && $('body').is('.sidebar-open')) {
+            /*alert("escape pressed from sidebar");*/
+            $('body').removeClass('sidebar-open');
+            $('.movie.active').removeClass('active');
+            $('sidebar').addClass('hidden');
+        }
+    },
+
     toggleDropdown: function (evt) {
         $(evt.currentTarget).parent().toggleClass('active');
     },
@@ -45,7 +54,7 @@ App.View.Sidebar = Backbone.View.extend({
             var http = require('http');
             var url = require('url');
             var charsetDetect = require('jschardet');
-            var targetCharset = 'UTF-8';
+            var targetCharset = 'utf-8';
             var targetEncodingCharset = 'utf8';
 
             var options = {
@@ -72,14 +81,33 @@ App.View.Sidebar = Backbone.View.extend({
                             if (zipEntry.entryName.indexOf('.srt') != -1) {
                                 var decompressedData = zip.readFile(zipEntry); // decompressed buffer of the entry
                                 var charset = charsetDetect.detect(decompressedData);
-                                if (charset == targetEncodingCharset || charset == targetCharset) {
+                                if (charset.encoding == targetEncodingCharset || charset.encoding == targetCharset) {
                                     fs.writeFile( subOutputFile, decompressedData);
-                                    return;
-                                } else {
+                                }
+                                else {
                                     var iconv = require('iconv-lite');
-                                    decompressedData = iconv.encode( iconv.decode(decompressedData, charset.encoding), targetEncodingCharset);
+                                    // Windows-1251/2/IBM855 works fine when read from a file (like it's UTF-8), but if you try to convert it you'll ruin the encoding.
+                                    // Just save it again, and it'll be stored as UTF-8. At least on Windows.
+
+                                    if( charset.encoding == 'IBM855' ) {
+                                        // If you're wondering "What the fuck is this shit?", there's a bug with the charset detector when using portuguese or romanian. It's actually ISO-8859-1.
+                                        decompressedData = iconv.encode( iconv.decode(decompressedData, 'iso-8859-1'), targetEncodingCharset );
+                                    } 
+                                    else if( charset.encoding == 'windows-1251' || charset.encoding == 'windows-1252' ) {
+                                        // It's the charset detector fucking up again, now with Spanish, Portuguese and Romanian
+                                        if( subOutputFile.indexOf('romanian.srt') > 0 ) {
+                                            // And if it's romanian, it's iso-8859-2
+                                            decompressedData = iconv.encode( iconv.decode(decompressedData, 'iso-8859-2'), targetEncodingCharset );
+                                        } 
+                                        else {
+                                            decompressedData = iconv.encode( iconv.decode(decompressedData, 'iso-8859-1'), targetEncodingCharset );
+                                        }
+                                    }
+                                    else {
+                                        decompressedData = iconv.encode( iconv.decode(decompressedData, charset.encoding), targetEncodingCharset );
+                                    }
+                                    
                                     fs.writeFile( subOutputFile, decompressedData);
-                                    return;
                                 }
                             }
                         });
@@ -107,24 +135,26 @@ App.View.Sidebar = Backbone.View.extend({
                 $('.popcorn-load').find('.progress').css('width', percent+'%');
 
                 // Update the loader status
-                var bufferStatus = Language['connecting'];
+                var bufferStatus = i18n.__('connecting');
                 if( videoPeerflix.peers.length > 0 ) {
-                    bufferStatus = Language['startingDownload'];
+                    bufferStatus = i18n.__('startingDownload');
                     if( videoPeerflix.downloaded > 0 ) {
-                        bufferStatus = Language['downloading'];
+                        bufferStatus = i18n.__('downloading');
                     }
                 }
                 $('.popcorn-load .progressinfo').text(bufferStatus);
             }
         );
         $('.popcorn-load').addClass('withProgressBar').addClass('cancellable').find('.progress').css('width', 0.0+'%');
-        $('.popcorn-load .progressinfo').text( Language['connecting'] );
-        
-        App.loader(true, Language.loadingVideo);
+        $('.popcorn-load .progressinfo').text( i18n.__('connecting') );
+
+        App.loader(true, i18n.__('loadingVideo'));
+        $('body').removeClass().addClass('loading');
     },
 
     initialize: function () {
         this.setElement($('sidebar'));
+        $('body').keydown(this.keyHide);
     },
 
     load: function (model) {
@@ -151,7 +181,7 @@ App.View.Sidebar = Backbone.View.extend({
     },
 
     show: function () {
-        $('body').addClass('sidebar-open');
+        $('body').removeClass().addClass('sidebar-open');
         this.$el.removeClass('hidden');
     },
 

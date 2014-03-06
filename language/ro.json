@@ -7,17 +7,26 @@
     "searchLoading": "Se caută...",
     "noResults": "Nu sa găsit niciun rezultat.",
 
-	"search": "Caută",
+    "search": "Caută",
     "movies": "Filme",
 
     "subtitledIn": "Subtitrat în",
     "quality": "Calitate",
     "watchItNow": "Vizionează acum",
+    "durationUnit": "min",
 
     "connecting": "Se conectează...",
     "startingDownload": "Începe descărcarea...",
     "downloading": "Se descarcă...",
 
+    "UpgradeVersion": "Update Popcorn Time",
+    "UpgradeVersionDescription": " was just released. You should get it now!",
+    
+    "legalDisclaimer": "Popcorn Time downloads and seeds movies using torrents, which may not be legal in your country.",
+    "legalDisclaimerResponsible": "We are not responsible for any problems that may arise, so make sure you understand our Terms and Conditions before using the app.",
+    "legalDisclaimerAccept": "I understand and want to use Popcorn Time",
+    "legalDisclaimerCancel": "Close Popcorn Time",
+    
     "genres": {
         "all": "Popular",
         "action": "Acțiune",

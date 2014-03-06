@@ -16,7 +16,7 @@ App.View.MovieList = Backbone.View.extend({
     },
 
     empty: function () {
-        alert(Language.noResults);
+        alert(i18n.__('noResults'));
         App.Page.Home.show();
         return false;
     },
@@ -31,40 +31,35 @@ App.View.MovieList = Backbone.View.extend({
             return this.empty();
         }
 
-        var that = this;
+
+        var movieList = this;
 
         $.each(this.collection.models, function () {
         
             // Only append not yet appended elements
             this.view.render();
-            var $el = this.view.$el;
-            var $currentEl = that.$el.find('#movie-'+ this.get('imdb') );
-            if ( ! $currentEl.length ) {
-                $el.find('img.placeholder').addClass('hidden').load(function(){
-                    $(this).removeClass('hidden');
-                });
-            
-                that.$el.append($el);
+            var $movie = this.view.$el;
+            var $currentEl = movieList.$el.find('#movie-'+ this.get('imdb') );
+
+            if ( ! $currentEl.length ) {            
+                movieList.$el.append($movie);
                 
                 setTimeout(function () {
-                    $el.addClass('loaded');
+                    $movie.addClass('loaded');
                 }, 50);
             }
             
             // Check for IMDB id and also image loaded (required for view)
-            if (this.get('loaded') && ! $el.hasClass('fullyLoaded')) {
+            // We can also check if the subtitles loaded with this.get('subtitlesLoaded')
+            if (this.get('infoLoaded') && ! $movie.hasClass('fullyLoaded')) {
             
-                $el.addClass('fullyLoaded');
+                $movie.addClass('fullyLoaded');
                 
                 var $newCover = $('<img src="' + this.get('image') + '" class="real hidden" alt="' + this.get('title') + '" />');
+                $currentEl.find('.cover').append( $newCover );
                 
                 $newCover.load(function(){
-                  $currentEl.find('.cover img.placeholder').addClass('hidden');
-                  $currentEl.find('.cover').append( $newCover );
-                  
-                  setTimeout(function(){
-                    $newCover.removeClass('hidden');
-                  }, 50);
+                    $(this).removeClass('hidden');
                 });
             }
             

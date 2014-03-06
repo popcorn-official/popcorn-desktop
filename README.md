@@ -4,7 +4,7 @@
 
 To allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
-![Demo Screenshot](https://f.cloud.github.com/assets/1133842/1980972/1083f360-83cd-11e3-8e08-b01de5d33f1c.png)
+![Demo Screenshot](http://getpopcornti.me/images/how-ui.png)
 
 ### Status
 

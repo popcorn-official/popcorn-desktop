@@ -1,7 +1,7 @@
 {
   "name": "Popcorn-Time",
   "main": "app://host/index.html",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "window": {
     "title": "Popcorn Time",
     "icon": "images/icon.png",
@@ -22,7 +22,9 @@
     "numeral": "~1.5.3",
     "moviedb": "~0.1.1",
     "jschardet": "~1.1.0",
-    "iconv-lite": "~0.2.11"
+    "iconv-lite": "~0.2.11",
+    "adm-zip": "~0.4.4",
+    "i18n": "~0.4.1"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

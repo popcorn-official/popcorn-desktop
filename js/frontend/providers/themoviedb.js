@@ -1,6 +1,7 @@
 // Fix for https://github.com/visionmedia/superagent/issues/95
 var mdb = require('moviedb')(vendorAPIs.themoviedb.key),
     POSTER_PREFIX = 'http://image.tmdb.org/t/p/w342/',
+    BACKDROP_PREFIX = 'http://image.tmdb.org/t/p/original/',
     last = +new Date();
 
 App.findMovieInfo = function (imdbId, callback) {
@@ -14,17 +15,27 @@ App.findMovieInfo = function (imdbId, callback) {
 
         last = +new Date();
 
-        var findInfo = function (id) {
+        var findInfo = function (id, language) {
             mdb.movieInfo({
-                id: id
+                id: id, language: language || i18n.getLocale()
             }, function (err, data) {
                 if (!err && data) {
+                    if (data.overview === null || data.runtime === null) {
+                        default_movie = findInfo(id, "en")
+                        ["overview", "runtime"].each(function(key){
+                            if (data[key] === null) {
+                                data[key] = default_movie[key]
+                            }
+                        });
+                    }
+
                     var info = {
-                        image:      POSTER_PREFIX + data.poster_path,
-                        overview:   data.overview,
-                        title:      data.title,
-                        voteAverage:data.vote_average,
-                        runtime:    data.runtime
+                        image:       POSTER_PREFIX + data.poster_path,
+                        backdrop:    BACKDROP_PREFIX + data.backdrop_path,
+                        overview:    data.overview,
+                        title:       data.title,
+                        voteAverage: data.vote_average,
+                        runtime:     data.runtime
                     };
 
                     console.log('Fetched info for', imdbId, ':', info);
@@ -41,14 +52,14 @@ App.findMovieInfo = function (imdbId, callback) {
         // Find internal tMDB ID
         mdb.find({
             id: 'tt' + imdbId,
-            external_source: 'imdb_id'
+            external_source: 'imdb_id', language: i18n.getLocale()
         }, function (err, data) {
             if (data && data.movie_results && data.movie_results.length) {
                 findInfo(data.movie_results[0].id);
             }
         });
     };
-    
+
     App.Cache.getItem('tmdb', imdbId, function (cachedItem) {
         if (cachedItem) {
             callback(cachedItem);

@@ -3,6 +3,7 @@ sidebar {
   right: 0;
   position: absolute;
   height: 100%;
+  width:100%;
   z-index: 125;
   -webkit-transform-style: preserve-3d;
   animation: sidebareffect .5s;
@@ -11,7 +12,7 @@ sidebar {
   &.hidden {
     animation: sidebareffect2 .5s;
     -webkit-animation: sidebareffect2 .5s;
-    -webkit-transform: translate(220px, 0);
+    -webkit-transform: translate(100%, 0);
   }
 
   .closer {
@@ -34,17 +35,31 @@ sidebar {
       text-shadow: 0 0 5px #000;
     }
   }
-
+   .backdrop-image {
+          content : "";
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          opacity : 0.2;
+          height:100%;
+          background-size: cover;
+          z-index: -1;
+          -webkit-filter: grayscale(1) /* blur(10px) */;
+          background-position: center;
+    }
   .play {
     @include scrollable();
-    background: $body-bg;
+    background: #000;
     box-shadow:-3px 0 3px rgba(0,0,0,0.2);
     height: 100%;
     position: absolute;
-    right: 0;
+    left: 0;
     top: 0;
-    width: 220px;
+    width: 100%;
     z-index: 100;
+    background-size:cover;
 
     &:hover {
       a.play-over { display:block; }
@@ -69,129 +84,115 @@ sidebar {
   .side-content {
     padding:0;
     z-index: 500;
+    float:left;
+    width:70%;
     position: relative;
-    background: $body-bg;
+    text-shadow: 0 2px 3px rgba(0,0,0,0.7);
 
-    div { padding: 0 12px 12px 12px; }
+    > div { padding: 10%; }
   }
 
   img.big-poster {
     background: #000;
-    height: 326px;
-    width: 220px;
+    width: 80%;
+    margin: 10% 10% 2% 10%;
+    border:1px solid #000;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.4);
+    border-radius: 4px;
   }
 
   a.play-button {
-    background: #3498db;
     text-align: center;
     color: #FFF;
     font-weight: bold;
-    padding: 16px 0;
+    padding: 16px 32px;
     text-decoration: none;
+    display: inline-block;
     text-transform: uppercase;
-    display: block;
-    margin-top: -3px;
-
-    &:hover { background: #2980B9; }
+    box-shadow: 0 2px 3px rgba(0,0,0,0.3);
+    margin-top: 20px;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+    background:#cc181e;
+    &:hover { background: #eb282e; }
   }
 
-  h2 {
-    font-weight: bold;
-    font-size: 18px;
-    padding: 10px 0 0 0;
-  }
+  .title {
+    position: relative;
+    padding: 0;
 
-  span {
-    color: #999;
-    font-size: 12px;
-  }
+    h2 {
+      font-weight: bold;
+      font-size: 42px;
+      margin-bottom: 5px;
+    }
 
-  p {
-    margin-top: 10px;
-    color: #666;
-    font-size: 13px;
-    line-height: 1.3em;
-  }
+    span {
+      color: #999;
+      font-size: 18px;
 
-  .duration {
-    color: #999;
-  
-    i {
-      font-size: 14px;
-      color: #a9a9a9;
+      i {
+        color: #a9a9a9;
+        margin-right: 4px;
+      }
+    }
+
+    .duration { margin-left: 10px; }
+
+    .health {
+      font-size: 24px;
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      line-height: 20px;
+      cursor: pointer;
+      position: absolute;
+      top: 4px;
+      right: 0;
+
+      &.bad {
+        color: red;
+        border-color: red;
+      }
+
+      &.medium {
+        color: yellow;
+        border-color: yellow;
+      }
+
+      &.good {
+        color: limegreen;
+        border-color: limegreen;
+      }
+
+      &.excellent {
+        color: green;
+        border-color: green;
+      }
     }
   }
 
   .rating {
+    display: inline-block;
     position: relative;
     font-size: 18px;
-    height: 1.28571428571429em;
-    margin: 0.55555555555556em 0;
-    padding: 0 !important;
+    margin: 0 10px 0 0;
 
-    ul {
-      position: absolute;
-      color: #ad840e;
-    }
-
-    .star { display: inline-block; }
-  }
-  
-  // Torrent infos
-  .torrent-health {
-    display: inline-block;
-    padding: 3px 5px;
-    border-radius: 3px;
-    color: #fff;
-    font-size: 10px;
-    font-weight: bold;
-    text-transform: capitalize;
-
-    &.bad { background: red; }
-    &.medium { background: yellow; }
-    &.good { background: limegreen; }
-    &.excellent { background: green; }
+    ul { color: #f1c40f; }
   }
 
-  .health {
-    font-size: 14px;
-    border: 2px solid green;
-    border-radius: 20px;
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    line-height: 20px;
-    cursor: pointer;
-    position: absolute;
-    right: 12px;
-    bottom: 24px;
-
-    &.bad {
-      color: red;
-      border-color: red;
-    }
-
-    &.medium {
-      color: yellow;
-      border-color: yellow;
-    }
-
-    &.good {
-      color: limegreen;
-      border-color: limegreen;
-    }
-
-    &.excellent {
-      color: green;
-      border-color: green;
-    }
+  p {
+    margin-top: 10px;
+    color: #999;
+    font-size: 16px;
+    line-height: 24px;
   }
 }
 
 // Applied to the body when the sidebar is open
 .sidebar-open {
   li.movie {
-    opacity: 0.6;
+    opacity: 0.25;
 
     &.active {
       opacity: 1;
@@ -206,12 +207,13 @@ sidebar {
   }
 }
 
-
 // Other Sidebar-related stuff
-
 .poster-cont {
   position: relative;
-
+  width:30%;
+  float:left;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
   &:hover .movie-config { bottom: 2px; }
 }
 
@@ -222,17 +224,19 @@ sidebar {
 }
 
 .movie-config {
-  @include transition(all .25s ease);
-  position: absolute;
-  bottom: -90px;
-  background: rgba(0, 0, 0, 0.6);
-  width: 100%;
+  width: 80%;
   color: #FFF;
+  padding: 0 10%;
+  h4 {
+    font-weight: bold;
+    margin: 12px 0;
 
-  &:hover .dropdown { z-index: 600; }
+  }
+  ul {
 
+  }
   li.options {
-    padding: 15px;
+   
     position: relative;
 
     span.extra-data {
@@ -247,8 +251,6 @@ sidebar {
     span.epic { color: #8e44ad; }
 
     span.available-subtitles {
-      float: right;
-      margin-top: -3px;
 
       > .flag { margin-left: 5px; }
     }
@@ -274,8 +276,8 @@ sidebar {
     position: absolute;
     width: 25px;
     border: 2px solid #FFF;
-    right: 52px;
-    top: 14px;
+    left: 40px;
+    top: 28px;
     cursor: pointer;
 
     label {

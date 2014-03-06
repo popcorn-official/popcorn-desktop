@@ -1,0 +1,62 @@
+{
+    "quit": "Avsluta",
+    "cancel": "Avbryt",
+    "beforeQuit": "Är du säker på att du vill avsluta?",
+    "loading": "Var vänligen vänta...",
+    "loadingVideo": "Var vänligen vänta, video buffras.",
+    "searchLoading": "Söker...",
+    "noResults": "Inga resultat hittades för din sökning.",
+
+    "search": "Sök",
+    "movies": "Filmer",
+
+    "subtitledIn": "Undertexter finns på",
+    "quality": "Kvalitet",
+    "watchItNow": "Spela",
+    "durationUnit": "min",
+
+    "connecting": "Ansluter...",
+    "startingDownload": "Börjar hämtning...",
+    "downloading": "Laddar ner...",
+
+    "UpgradeVersion": "Uppdatera Popcorn Time",
+    "UpgradeVersionDescription": "Popcorn Time %s släpptes precis. Uppdatera direkt!",
+    
+    "legalDisclaimer": "Popcorn Time laddar ner och delar med sig av filmer med hjälp av torrents. Vilket kan vara olagligt i ditt land.",
+    "legalDisclaimerResponsible": "Popcorn Time ansvarar inte för problem som kan uppstå. Var vänligen läs igenom Terms & Conditions innan du använder Popcorn Time.",
+    "legalDisclaimerAccept": "Jag förstår villkoren och vill använda Popcorn Time",
+    "legalDisclaimerCancel": "Avsluta Popcorn Time",
+
+    "genres": {
+        "all": "Populärt",
+        "action": "Action",
+        "adventure": "Äventyr",
+        "animation": "Animerad",
+        "biography": "Biografi",
+        "comedy": "Komedi",
+        "crime": "Kriminalare",
+        "documentary": "Dokumentär",
+        "drama": "Drama",
+        "family": "Familj",
+        "fantasy": "Fantasy",
+        "film-noir": "Film-Noir",
+        "history": "Historia",
+        "horror": "Skräck",
+        "music": "Musik",
+        "musical": "Musikal",
+        "mystery": "Mysterium",
+        "romance": "Romantik",
+        "sci-fi": "Sci-Fi",
+        "short": "Kortfilm",
+        "sport": "Sport",
+        "thriller": "Thriller",
+        "war": "Krigsfilm",
+        "western": "Vilda Västern"
+    },
+    "french": "Franska",
+    "english": "Engelska",
+    "spanish": "Spanska",
+    "portuguese": "Portugisiska",
+    "romanian": "Rumänska",
+    "turkish": "Turkiska"
+}

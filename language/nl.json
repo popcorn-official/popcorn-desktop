@@ -1,13 +1,13 @@
 {
-    "quit": "Quit",
-    "cancel": "Cancel",
+    "quit": "Stop",
+    "cancel": "Annuleer",
     "beforeQuit": "Applicatie afsluiten?",
     "loading": "Een ogenblik geduld...",
     "loadingVideo": "Video wordt geladen, een ogenblik geduld",
     "searchLoading": "Zoeken...",
     "noResults": "Geen resultaten gevonden.",
 
-	"search": "Zoeken",
+    "search": "Zoeken",
     "movies": "Films",
 
     "subtitledIn": "Ondertiteld in",
@@ -19,6 +19,14 @@
     "startingDownload": "Start Download...",
     "downloading": "Downloaden...",
 
+    "UpgradeVersion": "Update Popcorn Time",
+    "UpgradeVersionDescription": " is net uitgekomen. Download hem nu!",
+    
+    "legalDisclaimer": "Popcorn Time downloadt en uploadt film met behulp van torrents, dit kan illegaal zijn in jouw land.",
+    "legalDisclaimerResponsible": "Wij zijn niet verantwoordelijk voor mogelijke wettelijke problemen, dus lees de voorwaarden goed alvorens de applicatie te gebruiken.",
+    "legalDisclaimerAccept": "Ik begrijp dit en wil Popcorn Time gebruiken",
+    "legalDisclaimerCancel": "Sluit Popcorn Time",
+    
     "genres": {
         "all": "Populair",
         "action": "Actie",

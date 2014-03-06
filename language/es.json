@@ -1,14 +1,14 @@
 {
-    "quit": "Quit",
-    "cancel": "Cancel",
-    "beforeQuit": "¿Seguro que desea salir?",
+    "quit": "Salir",
+    "cancel": "Cancelar",
+    "beforeQuit": "¿Está seguro que desea salir?",
     "loading": "Cargando...",
-    "loadingVideo": "Precargando video, espere unos instantes",
+    "loadingVideo": "Cargando video, espere unos instantes",
     "searchLoading": "Buscando...",
     "noResults": "No se encontraron resultados.",
 
-	"search": "Buscar",
-	"movies": "Películas",
+    "search": "Buscar",
+    "movies": "Películas",
 
     "subtitledIn": "Subtítulos",
     "quality": "Calidad",
@@ -19,6 +19,14 @@
     "startingDownload": "Comenzando Descarga...",
     "downloading": "Descargando...",
 
+    "UpgradeVersion": "¡Hay una nueva versión de Popcorn Time!",
+    "UpgradeVersionDescription": "Popcorn Time %s acaba de salir. ¿Desea descargarla ahora?",
+    
+    "legalDisclaimer": "Popcorn Time descarga y comparte películas utilizando torrents, los que pueden ser ilegales en tu país.",
+    "legalDisclaimerResponsible": "No nos hacemos responsables de los problemas que esto te pueda causar, asegurate de comprender nuestros Términos y Condiciones primero, antes de usar Popcorn Time.",
+    "legalDisclaimerAccept": "Comprendo y quiero usar Popcorn Time",
+    "legalDisclaimerCancel": "Salir de Popcorn Time",
+    
     "genres": {
         "all": "Popular",
         "action": "Acción",

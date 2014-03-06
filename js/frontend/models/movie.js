@@ -4,9 +4,11 @@ App.Model.Movie = Backbone.Model.extend({
     
       var model = this;
     
-      model.set('loaded',   false);
+      model.set('infoLoaded', false);
+      model.set('subtitlesLoaded', false);
       model.set('image',    model.get('coverImage'));
       model.set('bigImage', model.get('coverImage'));
+      model.set('backdrop', null);
       model.set('title',    model.get('title'));
       model.set('synopsis', '');
       model.set('voteAverage', null);
@@ -22,9 +24,10 @@ App.Model.Movie = Backbone.Model.extend({
 
         App.findMovieInfo(model.get('imdb'), function (data) {
             
-            model.set('loaded',   true);
+            model.set('infoLoaded', true);
             model.set('image',    data.image);
             model.set('bigImage', data.image);
+            model.set('backdrop', data.backdrop);
             model.set('title',    data.title);
             model.set('synopsis', data.overview);
             model.set('voteAverage', data.voteAverage);
@@ -45,7 +48,10 @@ App.Model.Movie = Backbone.Model.extend({
             imdb: model.get('imdb'),
             title: model.get('title')
         }, function (info) {
+            model.set('subbtitlesLoaded', true);
             model.set('subtitles', info);
+
+            model.trigger('rottenloaded');
         });
     },
 

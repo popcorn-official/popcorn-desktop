@@ -27,70 +27,68 @@ var
     // fs object
     fs = require('fs'),
 
-    // Localization support
-    Language = require('./language/' + 'en' + '.json'),
-
     // TMP Folder
-    tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time');
+    tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time'),
+
+    // i18n module (translations)
+    i18n = require("i18n");
 
 
-var config = {
-    "version": "0.1.0",
-    // Used to check for the latest version
-    "updateNotificationUrl": "http://getpopcornti.me/update.json",
-    // Used to check if there's an internet connection
-    "connectionCheckUrl": "http://www.google.com",
-    // YIFY Endpoint
-    "yifyApiEndpoint": "http://yify-torrents.com/api/",
-    // A mirror for YIFY (for users in the UK -Yify is blocked there-)
-    "yifyApiEndpointMirrors": ["http://yify.unlocktorrent.com/api/"]
-};
-
+i18n.configure({
+    defaultLocale: 'en',
+    locales: ['en', 'de', 'es', 'fr', 'ja', 'nl', 'pt-br', 'pt', 'ro', 'sv', 'tr','it'],
+    directory: './language'
+});
 
 // Create the Temp Folder
 if( ! fs.existsSync(tmpFolder) ) { fs.mkdirSync(tmpFolder); }
 
-
 // Detect the language and update the global Language file
-var detectLanguage = function(preferred) {
+var detectLanguage = function(preferredLanguage) {
 
-	var fs = require('fs');
-	var bestLanguage = navigator.language.slice(0,2);
+    var fs = require('fs');
+    // The full OS language (with localization, like "en-uk")
+    var pureLanguage = navigator.language.toLowerCase();
+    // The global language name (without localization, like "en")
+    var baseLanguage = navigator.language.toLowerCase().slice(0,2);
 
-	if( fs.existsSync('./language/' + bestLanguage + '.json') ) {
-		Language = require('./language/' + bestLanguage + '.json');
-	} else {
-		Language = require('./language/' + preferred + '.json');
-	}
+    if( fs.existsSync('./language/' + pureLanguage + '.json') ) {
+        i18n.setLocale(pureLanguage);
+    }
+    else if( fs.existsSync('./language/' + baseLanguage + '.json') ) {
+        i18n.setLocale(baseLanguage);
+    } else {
+        i18n.setLocale(preferredLanguage);
+    }
 
-	// This is a hack to translate non-templated UI elements. Fuck it.
-	$('[data-translate]').each(function(){
-		var $el = $(this);
-		var key = $el.data('translate');
+    // This is a hack to translate non-templated UI elements. Fuck it.
+    $('[data-translate]').each(function(){
+        var $el = $(this);
+        var key = $el.data('translate');
 
 		if( $el.is('input') ) {
-			$el.attr('placeholder', Language[key]);
+			$el.attr('placeholder', i18n.__(key));
 		} else {
-			$el.text(Language[key]);
+			$el.text(i18n.__(key));
 		}
 	});
 
-	populateCategories();
+    populateCategories();
 };
 
 
 // Populate the Category list (This should be a template, though)
 var populateCategories = function() {
-	var category_html = '';
-	var defaultCategory = 'all';
+    var category_html = '';
+    var defaultCategory = 'all';
 
-	for( key in Language.genres ) {
+	for( key in i18n.__("genres") ) {
 		category_html += '<li'+ (defaultCategory == key ? ' class="active" ' : '') +'>'+
-				           '<a href="#" data-genre="'+key+'">'+Language.genres[key]+'</a>'+
+				           '<a href="#" data-genre="'+key+'">'+ i18n.__("genres")[key] +'</a>'+
 				         '</li>';
 	}
 
-	jQuery('#catalog-select .categories').html(category_html);
+    jQuery('#catalog-select .categories').html(category_html);
 };
 
 detectLanguage('en');
@@ -119,12 +117,12 @@ if (!isDebug) {
     win.menu = menubar;
 
     // Developer Shortcuts
-	document.addEventListener('keydown', function(event){
-		// F12 Opens DevTools
-		if( event.keyCode == 123 ) { win.showDevTools(); }
-		// F11 Reloads
-		if( event.keyCode == 122 ) { win.reloadIgnoringCache(); }
-	});
+    document.addEventListener('keydown', function(event){
+        // F12 Opens DevTools
+        if( event.keyCode == 123 ) { win.showDevTools(); }
+        // F11 Reloads
+        if( event.keyCode == 122 ) { win.reloadIgnoringCache(); }
+    });
 }
 
 
@@ -136,24 +134,22 @@ win.title = 'Popcorn Time';
 win.focus();
 
 
-// Prompting before quitting
-win.on('close', function() {
-    var $el = $('.popcorn-quit');
-    if($el.hasClass('hidden')) {
-        $el.find('.text').html(Language.beforeQuit);
-        $el.find('.btn.quit').html(Language.quit);
-        $el.find('.btn.cancel').html(Language.cancel);
-        $el.removeClass('hidden');
-    }
-});
-
 document.addEventListener('keydown', function(event){
     var $el = $('.popcorn-quit');
-    if(!$el.hasClass('hidden')) {  
-        // Enter
-        if( event.keyCode == 13 ) { win.close(true); }
+    if(!$el.hasClass('hidden')) {
         // Esc
         if( event.keyCode == 27 ) { $el.addClass('hidden'); }
+    }
+    if (event.keyCode === 27 && $('body').is('.loading')) {
+        // Escape pressed from sidebar
+        App.loader(false);
+        $(document).trigger('videoExit');
+    }
+    if (event.keyCode == 32 && $("#video_player").is(".vjs-playing")) {
+        $("#video_player")[0].player.pause();
+    }
+    if (event.keyCode == 32 && $("#video_player").is(".vjs-paused")) {
+        $("#video_player")[0].player.play();
     }
 });
 
@@ -165,26 +161,29 @@ win.on('new-win-policy', function (frame, url, policy) {
 
 // Prevent dropping files into the window
 window.addEventListener("dragover",function(e){
-  	e = e || event;
-  	e.preventDefault();
+    e = e || event;
+    e.preventDefault();
 },false);
 window.addEventListener("drop",function(e){
-  	e = e || event;
-  	e.preventDefault();
+    e = e || event;
+    e.preventDefault();
 },false);
-
+// Prevent dragging files outside the window
+window.addEventListener("dragstart",function(e){
+    e = e || event;
+    e.preventDefault();
+},false);
 
 // Check if the user has a working internet connection (uses Google as reference)
 var checkInternetConnection = function(callback) {
     var http = require('http');
+    var hasInternetConnection = false;
 
-    http.get(config.connectionCheckUrl, function(res){
+    http.get(Settings.get('connectionCheckUrl'), function(res){
         if( res.statusCode == 200 || res.statusCode == 302 || res.statusCode == 301 ) {
-            config.hasInternetConnection = true;
-        } else {
-            config.hasInternetConnection = false;
+            hasInternetConnection = true;
         }
-        typeof callback == 'function' ? callback(config.hasInternetConnection) : null;
+        typeof callback == 'function' ? callback(hasInternetConnection) : null;
     });
 };
 
@@ -215,7 +214,7 @@ var checkForUpdates = function() {
     // We may want to change this in case the detection fails
     if( ! currentOs ){ return; }
 
-    http.get(config.updateNotificationUrl, function(res){
+    http.get(Settings.get('updateNotificationUrl'), function(res){
         var data = '';
         res.on('data', function(chunk){ data += chunk; });
 
@@ -226,11 +225,11 @@ var checkForUpdates = function() {
 
             if( ! updateInfo ){ return; }
 
-            if( updateInfo[currentOs].version > config.version ) {
+            if( updateInfo[currentOs].version > Settings.get('version') ) {
                 // Check if there's a newer version and show the update notification
                 $('#notification').html(
-                    'Popcorn Time '+ updateInfo[currentOs].versionName + Language.UpgradeVersionDescription +
-                    '<a class="btn" href="#" onclick="gui.Shell.openExternal(\'' + updateInfo[currentOs].downloadUrl + '\');"> '+ Language.UpgradeVersion + '</a>'
+                    i18n.__('UpgradeVersionDescription', updateInfo[currentOs].versionName) +
+                    '<a class="btn" href="#" onclick="gui.Shell.openExternal(\'' + updateInfo[currentOs].downloadUrl + '\');"> '+ i18n.__('UpgradeVersion') + '</a>'
                 );
                 $('body').addClass('has-notification');
             }
@@ -241,9 +240,24 @@ var checkForUpdates = function() {
 
 checkForUpdates();
 
+// Show the disclaimer if the user hasn't accepted it yet.
+if( ! Settings.get('disclaimerAccepted') ) {
+    $('.popcorn-disclaimer').removeClass('hidden');
+    
+    $('.popcorn-disclaimer .btn.confirmation.continue').click(function(event){
+        event.preventDefault();
+        Settings.set('disclaimerAccepted', 1);
+        $('.popcorn-disclaimer').addClass('hidden');
+    });
+    $('.popcorn-disclaimer .btn.confirmation.quit').click(function(event){
+        event.preventDefault();
+        gui.App.quit();
+    });
+}
+
+
 
 // Taken from peerflix `app.js`
-var peerflix = require('peerflix');
 var videoPeerflix = null;
 var playTorrent = window.playTorrent = function (torrent, subs, callback, progressCallback) {
 
@@ -258,6 +272,8 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
     var numConnections = 100;
 
     // Start Peerflix
+    var peerflix = require('peerflix');
+    
     videoPeerflix = peerflix(torrent, {
         // Set the custom temp file
         path: tmpFile,
@@ -306,6 +322,9 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
             $(document).on('videoExit', function() {
                 if (loadedTimeout) { clearTimeout(loadedTimeout); }
 
+                // Keep the sidebar open
+                $("body").addClass("sidebar-open").removeClass("loading");
+
                 // Stop processes
                 flix.clearCache();
                 flix.destroy();
@@ -332,5 +351,5 @@ $('body').tooltip({
  */
 
 process.on('uncaughtException', function(err) {
-  console.log(err);
+    console.log(err);
 });

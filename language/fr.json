@@ -13,13 +13,19 @@
     "subtitledIn": "Sous-titres",
     "quality": "Qualité",
     "watchItNow": "Regarder",
+    "durationUnit": "min",
 
     "connecting": "Connexion...",
     "startingDownload": "Démarrage du téléchargement...",
     "downloading": "Téléchargement...",
 
     "UpgradeVersion": "Mettre à jour Popcorn Time",
-    "UpgradeVersionDescription": " a été mis à jour. Vous devez le télécharger maintenant !",
+    "UpgradeVersionDescription": "Popcorn Time %s a été mis à jour. Vous devriez le télécharger maintenant !",
+
+    "legalDisclaimer": "Popcorn Time télécharge les films en utilisant des torrents, qui peuvent ne pas être légal dans votre pays.",
+    "legalDisclaimerResponsible": "Nous ne sommes pas responsable des problèmes qui peuvent survenir, assurez-vous de bien comprendre nos conditions générales avant d'utiliser l'application.",
+    "legalDisclaimerAccept": "Je comprends",
+    "legalDisclaimerCancel": "Quitter",
 
     "genres": {
         "all": "Populaire",
@@ -46,5 +52,11 @@
         "thriller": "Thriller",
         "war": "Guerre",
         "western": "Western"
-    }
+    },
+    "french": "Français",
+    "english": "Anglais",
+    "spanish": "Espagnol",
+    "portuguese": "Portugais",
+    "romanian": "Roumain",
+    "turkish": "Turc"
 }
