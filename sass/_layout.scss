@@ -72,25 +72,6 @@ a { text-decoration: none; }
   width: 155px;
 }
 
-
-.flag {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  overflow: hidden;
-  
-  &.flag-english { background-image: url(../images/english.png); }
-  &.flag-french { background-image: url(../images/french.png); }
-  &.flag-dutch { background-image: url(../images/dutch.png); }
-  &.flag-portuguese { background-image: url(../images/portuguese.png); }
-  &.flag-romanian { background-image: url(../images/romanian.png); }
-  &.flag-spanish { background-image: url(../images/spanish.png); }
-  &.flag-turkish { background-image: url(../images/turkish.png); }
-  
-  &.flag-brazilian { background-image: url(../images/brazilian.png); }
-}
-
-
 /*
 -- App */
 
