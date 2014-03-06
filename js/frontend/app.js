@@ -160,7 +160,7 @@ window.spawnCallback = function (url, subs) {
     // BUG: window loses focus so can't use ESC unless the window is clicked first
     $(document).on('keydown', function (e) {
       if (e.keyCode == 27) { 
-        win.leaveKioskMode();
+        win.leaveFullscreen();
       }
     });
 
@@ -168,7 +168,7 @@ window.spawnCallback = function (url, subs) {
 
     // Close player
     $('#video_player_close').on('click', function () {
-      win.leaveKioskMode();
+      win.leaveFullscreen();
       $('#video-container').hide();
       video.dispose();
       $('body').removeClass();
@@ -251,7 +251,6 @@ jQuery(function ($) {
   $('.btn-os.fullscreen').on('click', function () {
     win.toggleFullscreen();
     $('.btn-os.fullscreen').toggleClass('active');
-
   });
 
   $('.popcorn-load .btn-close').click(function(event){
@@ -348,7 +347,7 @@ jQuery(function ($) {
         var distance = {x: thisPos.x - previousPos.x, y: thisPos.y - previousPos.y};
         previousPos = thisPos;
 
-        if( mouseIsDown && ! win.isKioskMode ){
+        if( mouseIsDown && ! win.isFullscreen ){
           window.moveBy(distance.x, distance.y);
         }
       });
