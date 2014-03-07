@@ -42,7 +42,8 @@ App.View.MovieList = Backbone.View.extend({
             var $currentEl = movieList.$el.find('#movie-'+ this.get('imdb') );
 
             if ( ! $currentEl.length ) {            
-                movieList.$el.append($movie);
+                $movie.appendTo(movieList.$el);
+                $currentEl = $movie;
                 
                 setTimeout(function () {
                     $movie.addClass('loaded');

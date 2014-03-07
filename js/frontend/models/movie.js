@@ -4,21 +4,25 @@ App.Model.Movie = Backbone.Model.extend({
     
       var model = this;
     
-      model.set('infoLoaded', false);
-      model.set('subtitlesLoaded', false);
+      model.set('infoLoaded', true);
+      model.set('subtitlesLoaded', true);
       model.set('image',    model.get('coverImage'));
       model.set('bigImage', model.get('coverImage'));
-      model.set('backdrop', null);
+      model.set('backdrop', model.get('backdropImage'));
       model.set('title',    model.get('title'));
-      model.set('synopsis', '');
-      model.set('voteAverage', null);
+      model.set('synopsis', model.get('synopsis'));
+      model.set('voteAverage', model.get('voteAverage'));
       model.set('runtime', null);
+      model.set('subtitles', model.get('subtitles'));
 
       model.view = new App.View.MovieListItem({
           model: model
       });
+      
+      model.trigger('rottenloaded');
     },
 
+    // DEPRECATED
     setRottenInfo: function () {
         var model = this;
 
@@ -41,6 +45,7 @@ App.Model.Movie = Backbone.Model.extend({
         });
     },
 
+    // DEPRECATED
     setSubtitles: function () {
         var model = this;
 
@@ -86,7 +91,7 @@ App.Model.Movie = Backbone.Model.extend({
         }
 
         this.buildBasicView();
-        this.setRottenInfo();
-        this.setSubtitles();
+        //this.setRottenInfo();
+        //this.setSubtitles();
     }
 });

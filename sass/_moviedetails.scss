@@ -92,13 +92,33 @@ sidebar {
     > div { padding: 10%; }
   }
 
-  img.big-poster {
-    background: #000;
-    width: 80%;
+  .poster {
+    display: block;
     margin: 10% 10% 2% 10%;
+
+    // This is a hack to keep the poster holder in the same ratio as the poster (1,4973)
+    // By using padding-bottom with a fixed width we can create a container that always keeps that ratio.
+    width: 80%;
+    padding-bottom: 80% * 1.4973;
+
+    overflow: hidden;
+    border-radius: 4px;
+    background: #000;
     border:1px solid #000;
     box-shadow: 0 2px 3px rgba(0,0,0,0.4);
-    border-radius: 4px;
+    background: url(../images/posterholder.png) no-repeat 50% 50%;
+    background-size: cover;
+    -webkit-transform: translateZ(0);
+
+    img.big-poster {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+    }
   }
 
   a.play-button {

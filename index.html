@@ -44,7 +44,9 @@
         <div class="backdrop-image" style="background-image:url(<%= this.model.get('backdrop') %>);"></div>
         <div class="closer"><i class="fa fa-times"></i></div>
         <div class="poster-cont">
-          <img class="big-poster" src="<%= bigImage %>" alt="<%= title %>" />
+          <div class="poster">
+            <img class="big-poster" src="<%= bigImage %>" alt="<%= title %>" />
+          </div>
           <ul class="movie-config">
             <% if (typeof subtitles !== 'undefined') { %>
               <li class="options">
@@ -80,9 +82,9 @@
 
             <div class="title">
               <h2><%= title %></h2>
-              <% var p_rating = (this.model.get('voteAverage') / 10) * 5 * 1.2 %>
+              <% var p_rating = (this.model.get('voteAverage') / 9) * 5 %>
               <div class="rating" data-rating="<%= voteAverage %>">
-                <ul class="votes">
+                <ul class="votes" title="<%= this.model.get('voteAverage').toFixed(1) %> / 10">
                   <% for (var i = 1; i <= Math.round(p_rating, 0); i++) { %>
                     <i class="fa fa-star"></i>
                   <% }; %>
