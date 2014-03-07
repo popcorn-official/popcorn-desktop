@@ -35,51 +35,56 @@
 
     <section class="container">
       <sidebar class="hidden"></sidebar>
-
-      
     </section>
 
     <script id="sidebar-tpl" type="text/x-template">
       <div class="play">
         <div class="backdrop-image" style="background-image:url(<%= this.model.get('backdrop') %>);"></div>
-        <div class="closer"><i class="fa fa-times"></i></div>
-        <div class="poster-cont">
-          <img class="big-poster" src="<%= bigImage %>" alt="<%= title %>" />
-          <ul class="movie-config">
-            <% if (typeof subtitles !== 'undefined') { %>
-              <li class="options">
-                <h4><%= i18n.__('subtitledIn') %></h4>
-                <span class="available-subtitles">
-                <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
-                  <span class="flag flag-<%= keys[i] %>" title="<%= i18n.__(keys[i]) %>"></span>
-                <% } %>
-                </span>
-              </li>
-            <% } %>
-            <% if (this.model.get('quality') && this.model.get('torrents')) { %>
-              <li class="options">
-                <h4><%= i18n.__('quality') %></h4>
-                <% if (this.model.get('torrents')["720p"] && this.model.get('torrents')["1080p"]) { %>
-                  <div class="quality switch white">
-                    <input type="radio" name="switch" id="switch-off"<% if (this.model.get('quality') === '720p') { %> checked<% } %>>
-                    <input type="radio" name="switch" id="switch-on"<% if (this.model.get('quality') === '1080p') { %> checked<% } %>>
-                    <label for="switch-off">720p</label>
-                    <label for="switch-on">1080p</label>
-                    <span class="toggle"></span>
-                  </div>
-                <% } else { %>
-                  <span class="quality"><%= quality %></span>
-                <% } %>
-              </li>
-            <% } %>
-          </ul>
-        </div>
 
-        <div class="side-content">
-          <div>
+        <div class="movie-detail">
+          <div class="closer"><i class="fa fa-times"></i></div>
+          <div class="poster-cont">
+            <div class="poster-inner">
+              <img class="big-poster" src="<%= bigImage %>" alt="<%= title %>" />
 
+              <ul class="movie-config">
+              <% if (this.model.get('quality') && this.model.get('torrents')) { %>
+                <li class="options quality-cont">
+                  <h4><%= i18n.__('quality') %></h4>
+                  <% if (this.model.get('torrents')["720p"] && this.model.get('torrents')["1080p"]) { %>
+                    <div class="quality switch white">
+                      <input type="radio" name="switch" id="switch-off"<% if (this.model.get('quality') === '720p') { %> checked<% } %>>
+                      <input type="radio" name="switch" id="switch-on"<% if (this.model.get('quality') === '1080p') { %> checked<% } %>>
+                      <label for="switch-off">720p</label>
+                      <label for="switch-on">1080p</label>
+                      <span class="toggle"></span>
+                    </div>
+                  <% } else { %>
+                    <span class="quality-off"><%= quality %></span>
+                  <% } %>
+                </li>
+              <% } %>
+              </ul>
+            </div>
+          </div>
+
+          <div class="side-content">
             <div class="title">
               <h2><%= title %></h2>
+
+              <ul class="movie-quick-info">
+                <li>
+                  <%= year %>
+                </li>
+                <li>
+                  <% if (this.model.get('runtime')) { %>
+                    <span class="duration"><%= runtime %> <%= i18n.__('durationUnit') %></span>
+                  <% } %>
+                </li>
+              </ul>
+                              
+              <i data-placement="left" data-toggle="tooltip" title="<%= health %> health" class="health <%= health %> fa fa-flash"></i>
+
               <% var p_rating = (this.model.get('voteAverage') / 10) * 5 * 1.2 %>
               <div class="rating" data-rating="<%= voteAverage %>">
                 <ul class="votes">
@@ -100,13 +105,24 @@
                   </ul>
                 <% } %>
               </div>
-              <span><i class="fa fa-calendar-o"></i> <%= year %></span>
-              <% if (this.model.get('runtime')) { %>
-                <span class="duration"><i class="fa fa-clock-o"></i> <%= runtime %> <%= i18n.__('durationUnit') %></span>
-              <% } %>
-              <i data-placement="left" data-toggle="tooltip" title="<%= health %> health" class="health <%= health %> fa fa-flash"></i>
             </div>
+
             <p><%= synopsis %></p>
+
+            <div class="subtitles-list">
+              <h4><%= i18n.__('subtitledIn') %></h4>
+
+              <ul>
+                <% if (typeof subtitles !== 'undefined') { %>
+                  <li>
+                    <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
+                      <span class="flag flag-<%= keys[i] %>" title="<%= i18n.__(keys[i]) %>"></span>
+                    <% } %>
+                  </li>
+                <% } %>
+              </ul>
+            </div>
+
             <% if (this.model.get('torrents')) { %>
               <a href="" class="p_tooltip play-button"><%= i18n.__('watchItNow') %></a>
             <% } %>
