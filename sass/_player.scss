@@ -100,3 +100,11 @@
   .vjs-control-bar { font-size: 10px; }
   .vjs-menu-item { color: #000; }
 }
+
+
+// Hide other UI elements while watching the movie
+body.watching {
+  #header, #notification, #catalog-select, .container {
+    visibility: hidden;
+  }
+}

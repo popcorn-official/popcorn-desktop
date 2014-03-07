@@ -1229,6 +1229,7 @@ sidebar {
   -webkit-transform-style: preserve-3d;
   animation: sidebareffect .5s;
   -webkit-animation: sidebareffect .5s;
+  -webkit-transform: translateZ(0);
 }
 sidebar.hidden {
   right: -10px;
@@ -1292,8 +1293,8 @@ sidebar .play:hover a.play-over {
   display: block;
 }
 sidebar .play .backdrop-image {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
-  opacity: 0.4;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
+  opacity: 0.2;
   display: block;
   position: absolute;
   top: 0;
@@ -1302,7 +1303,6 @@ sidebar .play .backdrop-image {
   height: 100%;
   background-size: cover;
   z-index: -1;
-  -webkit-filter: blur(10px);
   background-position: center;
 }
 sidebar .play a.play-over {
@@ -1885,6 +1885,10 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
 }
 #video_player.video-js .vjs-menu-item {
   color: #000;
+}
+
+body.watching #header, body.watching #notification, body.watching #catalog-select, body.watching .container {
+  visibility: hidden;
 }
 
 .torrent-health {

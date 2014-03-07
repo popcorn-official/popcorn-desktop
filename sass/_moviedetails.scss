@@ -8,6 +8,7 @@ sidebar {
   -webkit-transform-style: preserve-3d;
   animation: sidebareffect .5s;
   -webkit-animation: sidebareffect .5s;
+  -webkit-transform: translateZ(0);
 
   &.hidden {
   	right: -10px;
@@ -34,7 +35,7 @@ sidebar {
     }
 
     .backdrop-image {
-      @include opacity(0.4);
+      @include opacity(0.2);
       display: block;
       position: absolute;
       top: 0;
@@ -43,7 +44,8 @@ sidebar {
       height:100%;
       background-size: cover;
       z-index: -1;
-      -webkit-filter: /* grayscale(1) */ blur(10px);
+      // Blur is unbearably slow
+      // -webkit-filter: /* grayscale(1) */ blur(10px);
       background-position: center;
     }
 
