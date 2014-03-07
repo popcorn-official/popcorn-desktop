@@ -55,12 +55,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: block;
 }
 
-/*
-$body-bg: #FFF;
-$app-width: 100%;
-$borders-color: #e5eced;
-$text-color: #000;
-*/
 @-webkit-keyframes sidebareffect {
   from {
     -webkit-transform: translate(100%, 0);
@@ -219,8 +213,7 @@ button {
   border-bottom-color: #000000;
 }
 
-/*
--- Global elements */
+/* Global elements */
 html,
 body {
   height: 100%;
@@ -381,7 +374,7 @@ a {
   display: block;
   float: left;
   margin: 0 6px 0 0;
-  background: #141414;
+  background: #000;
 }
 #header .btn-set button.btn-os {
   border-radius: 30px;
@@ -1238,6 +1231,7 @@ sidebar {
   -webkit-animation: sidebareffect .5s;
 }
 sidebar.hidden {
+  right: -10px;
   animation: sidebareffect2 .5s;
   -webkit-animation: sidebareffect2 .5s;
   -webkit-transform: translate(100%, 0);
@@ -1566,7 +1560,8 @@ sidebar .play .movie-detail .side-content .title .movie-quick-info li {
   display: inline-block;
   vertical-align: top;
   font-size: 12px;
-  color: #7aa3d6;
+  color: #286dc4;
+  font-weight: bold;
 }
 sidebar .play .movie-detail .side-content .title .movie-quick-info li::after {
   content: '\b7\a0';
