@@ -317,7 +317,7 @@ sidebar {
               color: #7aa3d6;
 
               &::after {
-                content: '•';
+                content: '\b7\a0';
                 margin-left: 2px;
               }
 
@@ -397,7 +397,7 @@ sidebar {
               span {
                 width: 22px;
                 height: 16px;
-                display: block
+                display: inline-block;
               }
 
               .flag {
