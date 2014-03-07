@@ -1,7 +1,7 @@
 {
     "quit": "Salir",
     "cancel": "Cancelar",
-    "beforeQuit": "¿Está seguro que desea salir?",
+    "beforeQuit": "¿Está seguro de que desea salir?",
     "loading": "Cargando...",
     "loadingVideo": "Cargando video, espere unos instantes",
     "searchLoading": "Buscando...",
@@ -16,15 +16,15 @@
     "durationUnit": "min",
 
     "connecting": "Conectando...",
-    "startingDownload": "Comenzando Descarga...",
+    "startingDownload": "Iniciando la descarga...",
     "downloading": "Descargando...",
 
     "UpgradeVersion": "¡Hay una nueva versión de Popcorn Time!",
     "UpgradeVersionDescription": "Popcorn Time %s acaba de salir. ¿Desea descargarla ahora?",
     
-    "legalDisclaimer": "Popcorn Time descarga y comparte películas utilizando torrents, los que pueden ser ilegales en tu país.",
-    "legalDisclaimerResponsible": "No nos hacemos responsables de los problemas que esto te pueda causar, asegurate de comprender nuestros Términos y Condiciones primero, antes de usar Popcorn Time.",
-    "legalDisclaimerAccept": "Comprendo y quiero usar Popcorn Time",
+    "legalDisclaimer": "Popcorn Time descarga y comparte películas utilizando torrents, algo que puede ser ilegal en tu país.",
+    "legalDisclaimerResponsible": "No nos hacemos responsables de los problemas que esto te pueda causar, asegúrate de comprender nuestros Términos y Condiciones antes de usar Popcorn Time.",
+    "legalDisclaimerAccept": "Comprendo, quiero usar Popcorn Time",
     "legalDisclaimerCancel": "Salir de Popcorn Time",
     
     "genres": {
@@ -39,7 +39,7 @@
         "drama": "Drama",
         "family": "Familiar",
         "fantasy": "Fantasía",
-        "film-noir": "Film-Noir",
+        "film-noir": "Cine negro",
         "history": "Historia",
         "horror": "Horror",
         "music": "Música",
@@ -50,7 +50,7 @@
         "short": "Corto",
         "sport": "Deportes",
         "thriller": "Thriller",
-        "war": "Guerra",
+        "war": "Bélica",
         "western": "Western"
     }
 }
