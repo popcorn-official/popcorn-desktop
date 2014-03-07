@@ -28,6 +28,7 @@ App.getTorrentsCollection = function (options) {
             data.movies.forEach(function (movie) {
 
 				var torrents = {};
+				torrent = '';
 
 				for( var k in movie.torrents ) {
 					if( typeof torrents[movie.torrents[k].quality] == 'undefined' ) {
@@ -36,27 +37,28 @@ App.getTorrentsCollection = function (options) {
 				}
 
 				// Pick the worst quality by default
-				if( typeof torrents['1080p'] != 'undefined' ){ quality = '1080p'; }
-				if( typeof torrents['720p'] != 'undefined' ){ quality = '720p'; }
+				if( typeof torrents['1080p'] != 'undefined' ){ quality = '1080p'; torrent = torrents['1080p']; }
+				if( typeof torrents['720p'] != 'undefined' ){ quality = '720p'; torrent = torrents['720p']; }
 
                 movies.push({
                     imdb:       movie.imdb_id,
                     title:      movie.title,
                     year:       movie.year,
+                    runtime:    movie.runtime,
+                    synopsis:   movie.synopsis,
                     voteAverage:movie.vote_average,
 
                     coverImage: movie.poster,
                     backdropImage: movie.backdrop,
 
 					quality:    quality,
+					torrent:    torrent,
                     torrents:   torrents,
                     subtitles:  movie.subtitles,
                     seeders:    movie.seeders,
                     leechers:   movie.leechers
                 });
             });
-            
-console.log(movies);
 
             return movies;
         }
