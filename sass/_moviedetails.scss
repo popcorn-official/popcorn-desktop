@@ -172,6 +172,8 @@ sidebar {
             left: 0;
             height: 50px;
             width: 100%;
+            margin-left:1px;
+            text-shadow: 0 0 2px #000;
             background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.85) 100%);
 
             .quality-off {
