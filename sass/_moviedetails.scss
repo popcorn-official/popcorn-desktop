@@ -256,7 +256,7 @@ sidebar {
                 z-index: 0;
 
                 ~ label {
-                  &:nth-of-type(1) { color: #3EED8D; }
+                  &:nth-of-type(1) { color: #286dc4; }
                   &:nth-of-type(2) { color: #FFF; }
                 }
 
@@ -265,7 +265,7 @@ sidebar {
 
               ~ :checked ~ label {
                 &:nth-of-type(1) { color: #FFF; }
-                &:nth-of-type(2) { color: #3EED8D; }
+                &:nth-of-type(2) { color: #286dc4; }
               }
 
               ~ :checked ~ .toggle { left: 13px; }
@@ -274,7 +274,7 @@ sidebar {
 
           .toggle {
             @include transition(left .2s ease);
-            background: #3EED8D;
+            background: #286dc4;
             border-radius: 50%;
             height: 10px;
             left: 0;
