@@ -10,6 +10,7 @@ sidebar {
   -webkit-animation: sidebareffect .5s;
 
   &.hidden {
+  	right: -10px;
     animation: sidebareffect2 .5s;
     -webkit-animation: sidebareffect2 .5s;
     -webkit-transform: translate(100%, 0);
@@ -256,7 +257,7 @@ sidebar {
                 z-index: 0;
 
                 ~ label {
-                  &:nth-of-type(1) { color: #286dc4; }
+                  &:nth-of-type(1) { color: $popcorn-blue; }
                   &:nth-of-type(2) { color: #FFF; }
                 }
 
@@ -265,7 +266,7 @@ sidebar {
 
               ~ :checked ~ label {
                 &:nth-of-type(1) { color: #FFF; }
-                &:nth-of-type(2) { color: #286dc4; }
+                &:nth-of-type(2) { color: $popcorn-blue; }
               }
 
               ~ :checked ~ .toggle { left: 13px; }
@@ -274,7 +275,7 @@ sidebar {
 
           .toggle {
             @include transition(left .2s ease);
-            background: #286dc4;
+            background: $popcorn-blue;
             border-radius: 50%;
             height: 10px;
             left: 0;
@@ -316,7 +317,8 @@ sidebar {
               display: inline-block;
               vertical-align: top;
               font-size: 12px;
-              color: #7aa3d6;
+              color: $popcorn-blue;
+              font-weight: bold;
 
               &::after {
                 content: '\b7\a0';
@@ -418,7 +420,7 @@ sidebar {
         }
 
         a.play-button {
-          background: #286dc4;
+          background: $popcorn-blue;
           background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
           color: #FFF;
           font-weight: bold;

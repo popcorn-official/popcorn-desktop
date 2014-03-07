@@ -1,6 +1,4 @@
-/*
--- Global elements */
-  
+/* Global elements */
 html,
 body {
   height: 100%;
@@ -46,7 +44,7 @@ a { text-decoration: none; }
   font-size: 13px;
   line-height: 18px;
   padding: 7px 12px;
-  background: #286dc4;
+  background: $popcorn-blue;
   cursor: pointer;
   background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
   color: #FFF;
@@ -110,7 +108,7 @@ a { text-decoration: none; }
       display: block;
       float: left;
       margin: 0 6px 0 0;
-      background: $borders-color;
+      background: #000;
 
       &.btn-os {
         border-radius: 30px;
@@ -222,7 +220,7 @@ a { text-decoration: none; }
       &.active {
         a,
         a:hover {
-          background: #286dc4;
+          background: $popcorn-blue;
           background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
           color: #FFF;
           font-weight: bold;
