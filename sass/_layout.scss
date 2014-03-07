@@ -1,7 +1,6 @@
 /*
 -- Global elements */
-
-
+  
 html,
 body {
   height: 100%;
@@ -26,6 +25,7 @@ body {
 button:hover { cursor: pointer; }
 :focus { outline: 0; }
 a { text-decoration: none; }
+
 // Useful Stuff
 .page {
   @include scrollable();

@@ -7,9 +7,9 @@
     "icon": "images/icon.png",
     "toolbar": false,
     "frame": false,
-    "width": 945,
+    "width": 962,
     "height": 600,
-    "min_width": 945,
+    "min_width": 962,
     "min_height": 600,
     "resizable": true
   },
