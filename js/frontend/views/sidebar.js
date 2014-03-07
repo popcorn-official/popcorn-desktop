@@ -93,8 +93,8 @@ App.View.Sidebar = Backbone.View.extend({
                                         // If you're wondering "What the fuck is this shit?", there's a bug with the charset detector when using portuguese or romanian. It's actually ISO-8859-1.
                                         decompressedData = iconv.encode( iconv.decode(decompressedData, 'iso-8859-1'), targetEncodingCharset );
                                     } 
-                                    else if( charset.encoding == 'windows-1251' || charset.encoding == 'windows-1252' ) {
-                                        // It's the charset detector fucking up again, now with Spanish, Portuguese and Romanian
+                                    else if( charset.encoding == 'windows-1251' || charset.encoding == 'windows-1252' || charset.encoding == 'windows-1255' ) {
+                                        // It's the charset detector fucking up again, now with Spanish, Portuguese, French (1255) and Romanian
                                         if( subOutputFile.indexOf('romanian.srt') > 0 ) {
                                             // And if it's romanian, it's iso-8859-2
                                             decompressedData = iconv.encode( iconv.decode(decompressedData, 'iso-8859-2'), targetEncodingCharset );
