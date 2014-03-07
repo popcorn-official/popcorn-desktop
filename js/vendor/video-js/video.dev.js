@@ -5101,9 +5101,11 @@ vjs.Html5 = vjs.MediaTechController.extend({
     // Our goal should be to get the custom controls on mobile solid everywhere
     // so we can remove this all together. Right now this will block custom
     // controls on touch enabled laptops like the Chrome Pixel
-    if (vjs.TOUCH_ENABLED && player.options()['nativeControlsForTouch'] !== false) {
-      this.useNativeControls();
-    }
+    
+    // Disable touch control support and do not use the native controls.
+    // if (vjs.TOUCH_ENABLED && player.options()['nativeControlsForTouch'] !== false) {
+    //  this.useNativeControls();
+    // }
 
     // Chrome and Safari both have issues with autoplay.
     // In Safari (5.1.1), when we move the video element into the container div, autoplay doesn't work.
