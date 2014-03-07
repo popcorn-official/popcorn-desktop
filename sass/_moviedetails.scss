@@ -63,12 +63,11 @@ sidebar {
 
   .poster {
     display: block;
-    margin: 10% 10% 2% 10%;
 
     // This is a hack to keep the poster holder in the same ratio as the poster (1,4973)
     // By using padding-bottom with a fixed width we can create a container that always keeps that ratio.
-    width: 80%;
-    padding-bottom: 80% * 1.4973;
+    width: 100%;
+    padding-bottom: 100% * 1.5;
 
     overflow: hidden;
     border-radius: 4px;

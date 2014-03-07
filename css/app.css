@@ -1,5 +1,5 @@
 @import url(../css/font-awesome.min.css);
-/* line 17, C:/Ruby200/lib/ruby/gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 17, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -21,45 +21,45 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, C:/Ruby200/lib/ruby/gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, C:/Ruby200/lib/ruby/gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, C:/Ruby200/lib/ruby/gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, C:/Ruby200/lib/ruby/gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, C:/Ruby200/lib/ruby/gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, C:/Ruby200/lib/ruby/gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, C:/Ruby200/lib/ruby/gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, C:/Ruby200/lib/ruby/gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../Ruby187/lib/ruby/gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block;
 }
@@ -1525,9 +1525,8 @@ sidebar .play a.play-over {
 /* line 64, ../sass/_moviedetails.scss */
 sidebar .play .poster {
   display: block;
-  margin: 10% 10% 2% 10%;
-  width: 80%;
-  padding-bottom: 119.784%;
+  width: 100%;
+  padding-bottom: 150%;
   overflow: hidden;
   border-radius: 4px;
   background: #000;
@@ -1537,7 +1536,7 @@ sidebar .play .poster {
   background-size: cover;
   -webkit-transform: translateZ(0);
 }
-/* line 82, ../sass/_moviedetails.scss */
+/* line 81, ../sass/_moviedetails.scss */
 sidebar .play .poster img.big-poster {
   display: block;
   position: absolute;
@@ -1547,7 +1546,7 @@ sidebar .play .poster img.big-poster {
   height: 100%;
   border-radius: 4px;
 }
-/* line 93, ../sass/_moviedetails.scss */
+/* line 92, ../sass/_moviedetails.scss */
 sidebar .play a.play-button {
   text-align: center;
   color: #FFF;
@@ -1562,16 +1561,16 @@ sidebar .play a.play-button {
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
   background: #cc181e;
 }
-/* line 106, ../sass/_moviedetails.scss */
+/* line 105, ../sass/_moviedetails.scss */
 sidebar .play a.play-button:hover {
   background: #eb282e;
 }
-/* line 109, ../sass/_moviedetails.scss */
+/* line 108, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail {
   height: 100%;
   display: table;
 }
-/* line 114, ../sass/_moviedetails.scss */
+/* line 113, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .closer {
   position: absolute;
   top: 0;
@@ -1581,11 +1580,11 @@ sidebar .play .movie-detail .closer {
   z-index: 300;
   cursor: pointer;
 }
-/* line 123, ../sass/_moviedetails.scss */
+/* line 122, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .closer:hover i {
   opacity: 1;
 }
-/* line 125, ../sass/_moviedetails.scss */
+/* line 124, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .closer i {
   color: #fff;
   position: absolute;
@@ -1594,13 +1593,13 @@ sidebar .play .movie-detail .closer i {
   opacity: 0.5;
   text-shadow: 0 0 5px #000;
 }
-/* line 136, ../sass/_moviedetails.scss */
+/* line 135, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont,
 sidebar .play .movie-detail .side-content {
   display: table-cell;
   vertical-align: middle;
 }
-/* line 142, ../sass/_moviedetails.scss */
+/* line 141, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont {
   position: relative;
   width: 40%;
@@ -1610,15 +1609,15 @@ sidebar .play .movie-detail .poster-cont {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 151, ../sass/_moviedetails.scss */
+/* line 150, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont:hover .movie-config {
   bottom: 2px;
 }
-/* line 152, ../sass/_moviedetails.scss */
+/* line 151, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .poster-inner {
   position: relative;
 }
-/* line 154, ../sass/_moviedetails.scss */
+/* line 153, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont img.big-poster {
   background: #000;
   width: 100%;
@@ -1626,14 +1625,14 @@ sidebar .play .movie-detail .poster-cont img.big-poster {
   border-radius: 4px;
   vertical-align: bottom;
 }
-/* line 163, ../sass/_moviedetails.scss */
+/* line 162, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config h4 {
   font-weight: bold;
   font-size: 14px;
   margin-left: 10px;
   margin-top: 8px;
 }
-/* line 170, ../sass/_moviedetails.scss */
+/* line 169, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .quality-cont {
   position: absolute;
   bottom: 0;
@@ -1642,43 +1641,43 @@ sidebar .play .movie-detail .poster-cont .movie-config .quality-cont {
   width: 100%;
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.85) 100%);
 }
-/* line 178, ../sass/_moviedetails.scss */
+/* line 177, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .quality-cont .quality-off {
   margin-left: 10px;
   font-size: 12px;
 }
-/* line 186, ../sass/_moviedetails.scss */
+/* line 185, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config li.options span.extra-data {
   font-weight: bold;
   color: #FFF;
   float: right;
   font-size: 15px;
 }
-/* line 193, ../sass/_moviedetails.scss */
+/* line 192, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config li.options span.good {
   color: #27ae60;
 }
-/* line 194, ../sass/_moviedetails.scss */
+/* line 193, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config li.options span.bad {
   color: #c0392b;
 }
-/* line 195, ../sass/_moviedetails.scss */
+/* line 194, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config li.options span.epic {
   color: #8e44ad;
 }
-/* line 198, ../sass/_moviedetails.scss */
+/* line 197, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config input {
   font-family: inherit;
   font-size: 100%;
   line-height: normal;
   margin: 0;
 }
-/* line 204, ../sass/_moviedetails.scss */
+/* line 203, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config input[type="radio"] {
   box-sizing: border-box;
   padding: 0;
 }
-/* line 210, ../sass/_moviedetails.scss */
+/* line 209, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .switch {
   background: transparent;
   border-radius: 32px;
@@ -1691,7 +1690,7 @@ sidebar .play .movie-detail .poster-cont .movie-config .switch {
   top: 28px;
   cursor: pointer;
 }
-/* line 222, ../sass/_moviedetails.scss */
+/* line 221, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .switch label {
   -webkit-transition: color 0.2s ease;
   -moz-transition: color 0.2s ease;
@@ -1704,19 +1703,19 @@ sidebar .play .movie-detail .poster-cont .movie-config .switch label {
   width: 20px;
   cursor: pointer;
 }
-/* line 231, ../sass/_moviedetails.scss */
+/* line 230, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .switch label:nth-of-type(1) {
   left: -38px;
   position: absolute;
   text-align: right;
 }
-/* line 237, ../sass/_moviedetails.scss */
+/* line 236, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .switch label:nth-of-type(2) {
   position: absolute;
   right: -30px;
   text-align: left;
 }
-/* line 244, ../sass/_moviedetails.scss */
+/* line 243, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .switch input {
   height: 12px;
   left: 0;
@@ -1727,35 +1726,35 @@ sidebar .play .movie-detail .poster-cont .movie-config .switch input {
   z-index: 2;
   cursor: pointer;
 }
-/* line 254, ../sass/_moviedetails.scss */
+/* line 253, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .switch input:checked {
   z-index: 0;
 }
-/* line 258, ../sass/_moviedetails.scss */
+/* line 257, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .switch input:checked ~ label:nth-of-type(1) {
   color: #3EED8D;
 }
-/* line 259, ../sass/_moviedetails.scss */
+/* line 258, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .switch input:checked ~ label:nth-of-type(2) {
   color: #FFF;
 }
-/* line 262, ../sass/_moviedetails.scss */
+/* line 261, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .switch input:checked ~ .toggle {
   left: 2px;
 }
-/* line 266, ../sass/_moviedetails.scss */
+/* line 265, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .switch input ~ :checked ~ label:nth-of-type(1) {
   color: #FFF;
 }
-/* line 267, ../sass/_moviedetails.scss */
+/* line 266, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .switch input ~ :checked ~ label:nth-of-type(2) {
   color: #3EED8D;
 }
-/* line 270, ../sass/_moviedetails.scss */
+/* line 269, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .switch input ~ :checked ~ .toggle {
   left: 13px;
 }
-/* line 274, ../sass/_moviedetails.scss */
+/* line 273, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .poster-cont .movie-config .toggle {
   -webkit-transition: left 0.2s ease;
   -moz-transition: left 0.2s ease;
@@ -1770,7 +1769,7 @@ sidebar .play .movie-detail .poster-cont .movie-config .toggle {
   width: 10px;
   z-index: 1;
 }
-/* line 289, ../sass/_moviedetails.scss */
+/* line 288, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content {
   z-index: 500;
   width: 60%;
@@ -1781,39 +1780,39 @@ sidebar .play .movie-detail .side-content {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 299, ../sass/_moviedetails.scss */
+/* line 298, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .title {
   position: relative;
   padding: 0;
 }
-/* line 303, ../sass/_moviedetails.scss */
+/* line 302, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .title h2 {
   font-weight: 200;
   font-size: 34px;
   margin-bottom: 10px;
   color: #f5f7fa;
 }
-/* line 310, ../sass/_moviedetails.scss */
+/* line 309, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .title .movie-quick-info {
   margin-bottom: 5px;
 }
-/* line 313, ../sass/_moviedetails.scss */
+/* line 312, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .title .movie-quick-info li {
   display: inline-block;
   vertical-align: top;
   font-size: 12px;
   color: #7aa3d6;
 }
-/* line 319, ../sass/_moviedetails.scss */
+/* line 318, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .title .movie-quick-info li::after {
   content: '\b7\a0';
   margin-left: 2px;
 }
-/* line 324, ../sass/_moviedetails.scss */
+/* line 323, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .title .movie-quick-info li:last-child::after {
   display: none;
 }
-/* line 328, ../sass/_moviedetails.scss */
+/* line 327, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .title .health {
   font-size: 24px;
   width: 20px;
@@ -1825,50 +1824,50 @@ sidebar .play .movie-detail .side-content .title .health {
   top: 10px;
   right: 0;
 }
-/* line 339, ../sass/_moviedetails.scss */
+/* line 338, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .title .health.bad {
   color: red;
   border-color: red;
 }
-/* line 344, ../sass/_moviedetails.scss */
+/* line 343, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .title .health.medium {
   color: yellow;
   border-color: yellow;
 }
-/* line 349, ../sass/_moviedetails.scss */
+/* line 348, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .title .health.good {
   color: limegreen;
   border-color: limegreen;
 }
-/* line 354, ../sass/_moviedetails.scss */
+/* line 353, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .title .health.excellent {
   color: green;
   border-color: green;
 }
-/* line 361, ../sass/_moviedetails.scss */
+/* line 360, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .rating {
   display: inline-block;
   position: relative;
   font-size: 14px;
   margin: 0 10px 0 0;
 }
-/* line 367, ../sass/_moviedetails.scss */
+/* line 366, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .rating ul {
   color: #f5f7fa;
 }
-/* line 370, ../sass/_moviedetails.scss */
+/* line 369, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content p {
   margin-top: 10px;
   color: #babdc2;
   font-size: 14px;
   line-height: 24px;
 }
-/* line 377, ../sass/_moviedetails.scss */
+/* line 376, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .subtitles-list {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/* line 381, ../sass/_moviedetails.scss */
+/* line 380, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .subtitles-list h4 {
   font-size: 12px;
   color: #f5f7fa;
@@ -1876,55 +1875,55 @@ sidebar .play .movie-detail .side-content .subtitles-list h4 {
   vertical-align: middle;
   margin-right: 5px;
 }
-/* line 389, ../sass/_moviedetails.scss */
+/* line 388, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .subtitles-list ul {
   display: inline-block;
   vertical-align: middle;
 }
-/* line 393, ../sass/_moviedetails.scss */
+/* line 392, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .subtitles-list ul li {
   display: inline-block;
   vertical-align: top;
 }
-/* line 397, ../sass/_moviedetails.scss */
+/* line 396, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .subtitles-list ul li span {
   width: 22px;
   height: 16px;
   display: inline-block;
 }
-/* line 404, ../sass/_moviedetails.scss */
+/* line 403, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-english {
   background-image: url(../images/english.png);
 }
-/* line 405, ../sass/_moviedetails.scss */
+/* line 404, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-french {
   background-image: url(../images/french.png);
 }
-/* line 406, ../sass/_moviedetails.scss */
+/* line 405, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-dutch {
   background-image: url(../images/dutch.png);
 }
-/* line 407, ../sass/_moviedetails.scss */
+/* line 406, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-portuguese {
   background-image: url(../images/portuguese.png);
 }
-/* line 408, ../sass/_moviedetails.scss */
+/* line 407, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-romanian {
   background-image: url(../images/romanian.png);
 }
-/* line 409, ../sass/_moviedetails.scss */
+/* line 408, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-spanish {
   background-image: url(../images/spanish.png);
 }
-/* line 410, ../sass/_moviedetails.scss */
+/* line 409, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-turkish {
   background-image: url(../images/turkish.png);
 }
-/* line 411, ../sass/_moviedetails.scss */
+/* line 410, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-brazilian {
   background-image: url(../images/brazilian.png);
 }
-/* line 417, ../sass/_moviedetails.scss */
+/* line 416, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content a.play-button {
   background: #286dc4;
   background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
@@ -1937,37 +1936,37 @@ sidebar .play .movie-detail .side-content a.play-button {
   margin-top: 10px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
-/* line 429, ../sass/_moviedetails.scss */
+/* line 428, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content a.play-button:hover {
   background-image: linear-gradient(to bottom, #4387de 0%, #175ab0 100%);
 }
 
-/* line 438, ../sass/_moviedetails.scss */
+/* line 437, ../sass/_moviedetails.scss */
 .sidebar-open li.movie {
   opacity: 0.25;
 }
-/* line 441, ../sass/_moviedetails.scss */
+/* line 440, ../sass/_moviedetails.scss */
 .sidebar-open li.movie.active {
   opacity: 1;
 }
-/* line 444, ../sass/_moviedetails.scss */
+/* line 443, ../sass/_moviedetails.scss */
 .sidebar-open li.movie.active a {
   box-shadow: 0 0 0 3px #3498db;
   border-radius: 3px;
 }
-/* line 448, ../sass/_moviedetails.scss */
+/* line 447, ../sass/_moviedetails.scss */
 .sidebar-open li.movie.active a i {
   opacity: 0 !important;
 }
 
-/* line 454, ../sass/_moviedetails.scss */
+/* line 453, ../sass/_moviedetails.scss */
 .subtitles button {
   background: transparent;
   border: 0;
   padding: 0;
 }
 
-/* line 461, ../sass/_moviedetails.scss */
+/* line 460, ../sass/_moviedetails.scss */
 .dropdown {
   position: relative;
   display: inline-block;
@@ -1977,19 +1976,19 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
   margin-right: 20px;
   margin-top: -8px;
 }
-/* line 471, ../sass/_moviedetails.scss */
+/* line 470, ../sass/_moviedetails.scss */
 .dropdown.active .dropdown-text {
   background-color: white;
   z-index: 2;
   border-radius: 3px 3px 0 0;
 }
-/* line 477, ../sass/_moviedetails.scss */
+/* line 476, ../sass/_moviedetails.scss */
 .dropdown.active .dropdown-content {
   opacity: 1;
   visibility: visible;
 }
 
-/* line 484, ../sass/_moviedetails.scss */
+/* line 483, ../sass/_moviedetails.scss */
 .dropdown-text {
   cursor: pointer;
   position: absolute;
@@ -1999,7 +1998,7 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
   color: #333;
   text-shadow: 0 1px #fff;
 }
-/* line 493, ../sass/_moviedetails.scss */
+/* line 492, ../sass/_moviedetails.scss */
 .dropdown-text:after {
   position: absolute;
   right: -10px;
@@ -2012,7 +2011,7 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
   border-color: #FFF transparent transparent transparent;
 }
 
-/* line 506, ../sass/_moviedetails.scss */
+/* line 505, ../sass/_moviedetails.scss */
 .dropdown-toggle {
   font-size: 0;
   z-index: 1;
@@ -2027,12 +2026,12 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
   height: 37px;
   width: 60px;
 }
-/* line 520, ../sass/_moviedetails.scss */
+/* line 519, ../sass/_moviedetails.scss */
 .dropdown-toggle:focus {
   outline: 0;
 }
 
-/* line 523, ../sass/_moviedetails.scss */
+/* line 522, ../sass/_moviedetails.scss */
 .dropdown-content {
   list-style-type: none;
   position: absolute;
@@ -2046,14 +2045,14 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
   width: 40px;
   text-align: center;
 }
-/* line 536, ../sass/_moviedetails.scss */
+/* line 535, ../sass/_moviedetails.scss */
 .dropdown-content a {
   display: block;
   padding: 4px;
   color: #333;
   text-shadow: 0 1px #fff;
 }
-/* line 542, ../sass/_moviedetails.scss */
+/* line 541, ../sass/_moviedetails.scss */
 .dropdown-content a:hover {
   background: #E1E1E1;
 }
