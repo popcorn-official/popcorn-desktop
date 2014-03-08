@@ -1169,57 +1169,6 @@ body.has-notification #notification {
   transform: scale(1, 1);
 }
 
-.pagination {
-  border-radius: 4px;
-  display: block;
-  margin: 40px 0;
-  padding-left: 0;
-  text-align: center;
-}
-
-.pagination ul li {
-  display: inline-block;
-}
-
-.pagination li:first-child > a, .pagination li:first-child > span {
-  border-bottom-left-radius: 4px;
-  border-top-left-radius: 4px;
-  margin-left: 0;
-}
-
-.pagination li:last-child > a, .pagination li:last-child > span {
-  border-bottom-right-radius: 4px;
-  border-top-right-radius: 4px;
-}
-
-.pagination li > a, .pagination li > span {
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #999999;
-  float: left;
-  line-height: 1.42857;
-  margin-left: -1px;
-  padding: 6px 12px;
-  position: relative;
-  text-decoration: none;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #000;
-  text-align: center;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 1px rgba(0, 0, 0, 0.6);
-  background-image: linear-gradient(to bottom, #2a2a2a 0%, #1b1b1b 100%);
-}
-
-.pagination li > a:hover {
-  opacity: 0.8;
-}
-
-.pagination ul li.active a, .pagination li > a:active {
-  background-image: linear-gradient(to bottom, #121212 0%, #191919 100%);
-  box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1), inset 0 1px 1px rgba(0, 0, 0, 0.5);
-  color: #fff;
-}
-
 sidebar {
   right: 0;
   position: absolute;
