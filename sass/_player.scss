@@ -94,7 +94,10 @@
     color: $popcorn-blue;
   }
 
-  .vjs-text-track-display { font-size: 1em; }
+  .vjs-text-track-display { 
+    font-size: 1em; 
+    pointer-events: none;
+  }
   .vjs-loading-spinner { font-size: 1em; }
   .vjs-big-play-button { font-size: 1em; }
   .vjs-control-bar { font-size: 10px; }

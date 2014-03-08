@@ -326,16 +326,22 @@ if( ! Settings.get('disclaimerAccepted') ) {
     
     $('.popcorn-disclaimer .btn.confirmation.continue').click(function(event){
         event.preventDefault();
-        userTracking.event('App Disclaimer', 'Accepted' ).send();
+        userTracking.event('App Disclaimer', 'Accepted', navigator.language.toLowerCase() ).send();
         Settings.set('disclaimerAccepted', 1);
         $('.popcorn-disclaimer').addClass('hidden');
     });
     $('.popcorn-disclaimer .btn.confirmation.quit').click(function(event){
         event.preventDefault();
-        userTracking.event('App Disclaimer', 'Quit' ).send();
+
+        // We need to give the tracker some time to send the event
+        // Also, prevent multiple clicks
+        if( $('.popcorn-disclaimer').hasClass('quitting') ){ return; }
+        $('.popcorn-disclaimer').addClass('quitting');
+
+        userTracking.event('App Disclaimer', 'Quit', navigator.language.toLowerCase() ).send();
         setTimeout(function(){
             gui.App.quit();
-        }, 500);
+        }, 2000);
     });
 }
 

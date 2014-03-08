@@ -703,6 +703,16 @@ body.has-notification #notification {
   opacity: 0;
   pointer-events: none;
 }
+.popcorn-disclaimer.quitting .text, .popcorn-disclaimer.quitting .btn {
+  opacity: 0.0;
+  pointer-events: none;
+}
+.popcorn-disclaimer .text, .popcorn-disclaimer .btn {
+  -webkit-transition: opacity 2s ease-out;
+  -moz-transition: opacity 2s ease-out;
+  -o-transition: opacity 2s ease-out;
+  transition: opacity 2s ease-out;
+}
 .popcorn-disclaimer .wrapper {
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
@@ -1886,6 +1896,7 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
 }
 #video_player.video-js .vjs-text-track-display {
   font-size: 1em;
+  pointer-events: none;
 }
 #video_player.video-js .vjs-loading-spinner {
   font-size: 1em;

@@ -394,6 +394,16 @@ body.has-notification {
     pointer-events: none;
   }
 
+  &.quitting {
+    .text, .btn {
+      opacity: 0.0;
+      pointer-events: none;
+    }
+  }
+  .text, .btn {
+    @include transition(opacity 2.0s ease-out);
+  }
+
   .wrapper {
     @include translateY(-50%);
     font-size: 30px;
