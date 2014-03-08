@@ -74,8 +74,11 @@ App.View.MovieList = Backbone.View.extend({
             $scrollElement.scroll(function(){
                 if (!movieList.constructor.busy){
                     var totalSize       = $scrollElement.prop('scrollHeight');
-                    var currentPosition = $scrollElement.scrollTop() + $scrollElement.height();
+                    var currentPosition = $scrollElement.scrollTop();
                     var scrollBuffer    = (15 / 100) * totalSize;
+                    if (currentPosition > 0){
+                        currentPosition += $scrollElement.height();
+                    }
                     if (currentPosition >= (totalSize - scrollBuffer)){
                         movieList.constructor.busy = true;
                         page++;
