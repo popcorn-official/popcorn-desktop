@@ -156,7 +156,7 @@ App.View.Sidebar = Backbone.View.extend({
                 }
                 
                 if( bufferStatus != previousStatus ) {
-                    userTracking.event('Video Preloading', bufferStatus, movieModel.get('title')).send();
+                    userTracking.event('Video Preloading', bufferStatus, movieModel.get('niceTitle')).send();
                     previousStatus = bufferStatus;
                 }
                 
@@ -164,7 +164,7 @@ App.View.Sidebar = Backbone.View.extend({
             }
         );
         
-        userTracking.event('Movie Quality', 'Watch on '+this.model.get('quality')+' - '+this.model.get('health').capitalize(), this.model.get('title') ).send();
+        userTracking.event('Movie Quality', 'Watch on '+this.model.get('quality')+' - '+this.model.get('health').capitalize(), this.model.get('niceTitle') ).send();
     },
 
     initialize: function () {
@@ -191,9 +191,10 @@ App.View.Sidebar = Backbone.View.extend({
 
     hide: function () {
       $('body').removeClass('sidebar-open');
+
       // A user was going to watch a movie, but he cancelled, maybe because no sub in user locale
       // Maybe we can move this to a better place
-      if($('.movie.active').size() > 0){
+      if( $('.movie.active').size() > 0 ) {
         var userLocale = window.navigator.language.substr(0,2);
         var avaliableSubs = this.model.get('subtitles');
         var languageLookup = {
@@ -206,6 +207,7 @@ App.View.Sidebar = Backbone.View.extend({
           "spanish": "es",
           "turkish": "tr"
         }
+
         var noSubForUser = true;
         for (as in avaliableSubs) {
           var subLocale = languageLookup[as];
@@ -213,12 +215,12 @@ App.View.Sidebar = Backbone.View.extend({
             noSubForUser = false;
           }
         }
-        if (noSubForUser) {
-          userTracking.event('Movie Sidebar', 'Watch Canceled', this.model.get('slug')+'-noSubForLocale' ).send();
-        } else {
-          userTracking.event('Movie Sidebar', 'Watch Canceled', this.model.get('slug')+'-hasSubForLocale' ).send();
-        }
+
+
+        userTracking.event( 'Movie Closed', this.model.get('niceTitle'), 
+                            (noSubForUser ? 'No Local Subtitles' : 'With Local Subtitles') +' - '+ this.model.get('health').capitalize() ).send();
       }
+
       $('.movie.active').removeClass('active');
       this.$el.addClass('hidden');
     },
@@ -227,7 +229,7 @@ App.View.Sidebar = Backbone.View.extend({
         $('body').removeClass().addClass('sidebar-open');
         this.$el.removeClass('hidden');
 
-        userTracking.pageview('/movies/view/'+this.model.get('slug'), this.model.get('title') +' ('+this.model.get('year')+')' ).send();
+        userTracking.pageview('/movies/view/'+this.model.get('slug'), this.model.get('niceTitle') ).send();
     },
 
     enableHD: function (evt) {

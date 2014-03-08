@@ -10,11 +10,14 @@ App.Model.Movie = Backbone.Model.extend({
       model.set('bigImage', model.get('coverImage'));
       model.set('backdrop', model.get('backdropImage'));
       model.set('title',    model.get('title'));
-      model.set('slug',     model.get('title').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-') +'-'+ model.get('imdb').slice(2) );
       model.set('synopsis', model.get('synopsis'));
       model.set('voteAverage', model.get('voteAverage'));
       model.set('runtime', model.get('runtime'));
       model.set('subtitles', model.get('subtitles'));
+
+      // This is mostly used for reporting
+      model.set('slug',       model.get('title').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-') +'-'+ model.get('imdb').slice(2) );
+      model.set('niceTitle',  model.get('title') +' ('+model.get('year')+')' );
 
       model.view = new App.View.MovieListItem({
           model: model
