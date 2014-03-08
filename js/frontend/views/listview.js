@@ -35,35 +35,35 @@ App.View.MovieList = Backbone.View.extend({
         var movieList = this;
 
         $.each(this.collection.models, function () {
-        
+
             // Only append not yet appended elements
             this.view.render();
             var $movie = this.view.$el;
             var $currentEl = movieList.$el.find('#movie-'+ this.get('imdb') );
 
-            if ( ! $currentEl.length ) {            
+            if ( ! $currentEl.length ) {
                 $movie.appendTo(movieList.$el);
                 $currentEl = $movie;
-                
+
                 setTimeout(function () {
                     $movie.addClass('loaded');
                 }, 50);
             }
-            
+
             // Check for IMDB id and also image loaded (required for view)
             // We can also check if the subtitles loaded with this.get('subtitlesLoaded')
             if (this.get('infoLoaded') && ! $movie.hasClass('fullyLoaded')) {
-            
+
                 $movie.addClass('fullyLoaded');
-                
+
                 var $newCover = $('<img src="' + this.get('image') + '" class="real hidden" alt="' + this.get('title') + '" />');
                 $currentEl.find('.cover').append( $newCover );
-                
+
                 $newCover.load(function(){
                     $(this).removeClass('hidden');
                 });
             }
-            
+
 
         });
 
