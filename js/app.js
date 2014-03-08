@@ -73,7 +73,7 @@ var detectLanguage = function(preferredLanguage) {
 		}
 	});
 
-    populateCategories();
+  populateCategories();
 };
 
 
@@ -256,17 +256,33 @@ else if( typeof __isUpgradeInstall != 'undefined' && __isUpgradeInstall == true 
   userTracking.event('App Upgrade', getOperatingSystem().capitalize(), Settings.get('version')).send();
 }
 
+
 // Todo: Remove Upgrade in the next version to prevent double counting of device stats (we'd send stats once per version)
 if( (typeof __isNewInstall != 'undefined' && __isNewInstall == true) || 
     (typeof __isUpgradeInstall != 'undefined' && __isUpgradeInstall == true) )  {
     
   // General Device Stats
-  userTracking.event('Start', 'Version', Settings.get('version') + (isDebug ? '-debug' : '') ).send();
-  userTracking.event('Start', 'Type', getOperatingSystem().capitalize()).send();
-  userTracking.event('Start', 'Operating System', os.type() + os.release()).send();
-  userTracking.event('Start', 'CPU', os.cpus()[0].model +' @ '+ (os.cpus()[0].speed/1000).toFixed(1) +'GHz' +' x '+ os.cpus().length ).send();
-  userTracking.event('Start', 'RAM', Math.round(os.totalmem() / 1024 / 1024 / 1024)+'GB' ).send();
-  userTracking.event('Start', 'Uptime', Math.round(os.uptime() / 60 / 60)+'hs' ).send();
+  userTracking.event('Device Stats', 'Version', Settings.get('version') + (isDebug ? '-debug' : '') ).send();
+  userTracking.event('Device Stats', 'Type', getOperatingSystem().capitalize()).send();
+  userTracking.event('Device Stats', 'Operating System', os.type() + os.release()).send();
+  userTracking.event('Device Stats', 'CPU', os.cpus()[0].model +' @ '+ (os.cpus()[0].speed/1000).toFixed(1) +'GHz' +' x '+ os.cpus().length ).send();
+  userTracking.event('Device Stats', 'RAM', Math.round(os.totalmem() / 1024 / 1024 / 1024)+'GB' ).send();
+  userTracking.event('Device Stats', 'Uptime', Math.round(os.uptime() / 60 / 60)+'hs' ).send();
+
+  // Screen resolution, depth and pixel ratio (retina displays)
+  if( typeof screen.width == 'number' && typeof screen.height == 'number' ) {
+    var resolution = (screen.width).toString() +'x'+ (screen.height.toString());
+    if( typeof screen.pixelDepth == 'number' ) {
+      resolution += '@'+ (screen.pixelDepth).toString();
+    }
+    if( typeof window.devicePixelRatio == 'number' ) {
+      resolution += '#'+ (window.devicePixelRatio).toString();
+    }
+    userTracking.event('Device Stats', 'Resolution', resolution).send();
+  }
+
+  // User Language
+  userTracking.event('Device Stats', 'Language', navigator.language.toLowerCase() ).send();
 }
 
 
@@ -328,7 +344,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, movieModel, call
 
     // Create a unique file to cache the video (with a microtimestamp) to prevent read conflicts
     var tmpFilename = ( torrent.toLowerCase().split('/').pop().split('.torrent').shift() ).slice(0,100);
-    tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_')+'-'+ (new Date()*1) +'.mp4';
+    tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_') + '.mp4';
     var tmpFile = path.join(tmpFolder, tmpFilename);
 
     var numCores = (os.cpus().length > 0) ? os.cpus().length : 1;
