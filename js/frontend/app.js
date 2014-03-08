@@ -208,7 +208,7 @@ window.spawnCallback = function (url, subs, movieModel) {
       
       userTracking.event('Video Playing', movieModel.get('title'), getTimeLabel(), Math.round(video.currentTime()/60) ).send();
       
-    }, 1000*60*5);
+    }, 1000*60*10);
     
 
     // Close player
