@@ -93,7 +93,13 @@ App.View.MovieList = Backbone.View.extend({
                     if (currentPosition >= (totalSize - scrollBuffer)){
                         movieList.constructor.busy = true;
                         page++;
-                        App.Router.navigate('filter/' + movieList.options.genre + '/' + page, { trigger: true });
+                        if (movieList.options.genre){
+                            App.Router.navigate('filter/' + movieList.options.genre + '/' + page, { trigger: true });
+                        }
+                        else {
+                            // uncomment this line when the API start accepting the page param to paginate ;)
+                            //App.Router.navigate('search/' + movieList.options.keywords + '/' + page, { trigger: true });
+                        }
                     }
                 }
             });
