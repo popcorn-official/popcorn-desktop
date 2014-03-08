@@ -249,8 +249,14 @@ var getOperatingSystem = function() {
 };
 
 
-userTracking.event('Start', getOperatingSystem().capitalize(), Settings.get('version')).send();
+if( typeof __isNewInstall != 'undefined' && __isNewInstall == true )  {
+  userTracking.event('App Install', getOperatingSystem().capitalize(), Settings.get('version')).send();
+}
+if( typeof __isUpgradeInstall != 'undefined' && __isUpgradeInstall == true )  {
+  userTracking.event('App Upgrade', getOperatingSystem().capitalize(), Settings.get('version')).send();
+}
 
+userTracking.event('Start', getOperatingSystem().capitalize(), Settings.get('version')).send();
 
 
 // Check if there's a newer version and shows a prompt if that's the case

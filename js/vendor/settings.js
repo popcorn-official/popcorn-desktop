@@ -21,6 +21,11 @@ Settings = {
     
     "setup": function(forceReset) {
     
+        // If there's no version, assume it's a new install (this also includes people in Beta 1, which didn't have settings)
+        if( typeof Settings.get('version') == 'undefined' ) {
+            window.__isNewInstall = true;
+        }
+    
         for( var key in Settings._defaultSettings ) {
             // Create new settings if necessary
             if( typeof Settings.get(key) == 'undefined' || (forceReset === true) ) {
@@ -45,6 +50,9 @@ Settings = {
                 tx.executeSql('DELETE FROM subtitle');
                 tx.executeSql('DELETE FROM tmdb');
             });
+            
+            // Add an upgrade flag
+            window.__isUpgradeInstall = true;
         }
         
         Settings.set('version', currentVersion);
