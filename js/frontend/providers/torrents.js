@@ -16,7 +16,8 @@ App.getTorrentsCollection = function (options) {
     }
 
     if (options.page && options.page.match(/\d+/)) {
-        url += '?page=' + options.page;
+        var str = url.match(/\?/) ? '&' : '?';
+        url += str + 'page=' + options.page;
     }
 
     var MovieTorrentCollection = Backbone.Collection.extend({
