@@ -3,6 +3,18 @@ App.View.MovieList = Backbone.View.extend({
 
     className: 'movie-list',
 
+    constructor: function (options) {
+        this.configure(options || {});
+        Backbone.View.prototype.constructor.apply(this, arguments);
+    },
+
+    configure: function (options) {
+        if (this.options) {
+            options = _.extend({}, _.result(this, 'options'), options);
+        }
+        this.options = options;
+    },
+
     initialize: function (options) {
         // Delete old items
         this.$el.children().detach();
@@ -68,9 +80,8 @@ App.View.MovieList = Backbone.View.extend({
         });
 
         var page           = 1;
-        var genre          = $('#catalog-select ul li.active a').attr('data-genre');
         var $scrollElement = movieList.$el.parent();
-        if (genre != 'all'){
+        if (!this.options.paginationDisabled){
             $scrollElement.scroll(function(){
                 if (!movieList.constructor.busy){
                     var totalSize       = $scrollElement.prop('scrollHeight');
@@ -82,7 +93,7 @@ App.View.MovieList = Backbone.View.extend({
                     if (currentPosition >= (totalSize - scrollBuffer)){
                         movieList.constructor.busy = true;
                         page++;
-                        App.Router.navigate('filter/' + genre + '/' + page, { trigger: true });
+                        App.Router.navigate('filter/' + movieList.options.genre + '/' + page, { trigger: true });
                     }
                 }
             });
