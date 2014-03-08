@@ -190,9 +190,37 @@ App.View.Sidebar = Backbone.View.extend({
     },
 
     hide: function () {
-        $('body').removeClass('sidebar-open');
-        $('.movie.active').removeClass('active');
-        this.$el.addClass('hidden');
+      $('body').removeClass('sidebar-open');
+      // A user was going to watch a movie, but he cancelled, maybe because no sub in user locale
+      // Maybe we can move this to a better place
+      if($('.movie.active').size() > 0){
+        var userLocale = window.navigator.language.substr(0,2);
+        var avaliableSubs = this.model.get('subtitles');
+        var languageLookup = {
+          "brazilian": "pt",
+          "dutch": "nl",
+          "english": "en",
+          "french": "fr",
+          "portuguese": "pt",
+          "romanian": "ro",
+          "spanish": "es",
+          "turkish": "tr"
+        }
+        var noSubForUser = true;
+        for (as in avaliableSubs) {
+          var subLocale = languageLookup[as];
+          if (subLocale == userLocale) {
+            noSubForUser = false;
+          }
+        }
+        if (noSubForUser) {
+          userTracking.event('Movie Sidebar', 'Watch Canceled', this.model.get('slug')+'-noSubForLocale' ).send();
+        } else {
+          userTracking.event('Movie Sidebar', 'Watch Canceled', this.model.get('slug')+'-hasSubForLocale' ).send();
+        }
+      }
+      $('.movie.active').removeClass('active');
+      this.$el.addClass('hidden');
     },
 
     show: function () {
