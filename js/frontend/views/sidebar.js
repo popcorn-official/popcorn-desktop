@@ -153,6 +153,9 @@ App.View.Sidebar = Backbone.View.extend({
                 $('.popcorn-load .progressinfo').text(bufferStatus);
             }
         );
+
+        userTracking.pageview('/movies/watch/'+ this.model.get('imdb'), 'Buffering '+this.model.get('title') +' ('+this.model.get('year')+')' ).send();
+        
     },
 
     initialize: function () {
