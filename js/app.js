@@ -99,7 +99,12 @@ var getTrackingId = function(){
 };
 
 var ua = require('universal-analytics');
-var userTracking = window.userTracking = ua('UA-48795238-1', getTrackingId());
+var userTracking = window.userTracking = ua('UA-48789649-1', getTrackingId());
+
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
 
 
 // Populate the Category list (This should be a template, though)
@@ -229,6 +234,10 @@ var getOperatingSystem = function() {
     }
     return null;
 };
+
+
+userTracking.event('Start', getOperatingSystem().capitalize(), Settings.get('version')).send();
+
 
 
 // Check if there's a newer version and shows a prompt if that's the case

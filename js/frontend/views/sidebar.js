@@ -186,6 +186,8 @@ App.View.Sidebar = Backbone.View.extend({
     show: function () {
         $('body').removeClass().addClass('sidebar-open');
         this.$el.removeClass('hidden');
+
+        userTracking.pageview('/movies/view/'+this.model.get('imdb'), this.model.get('title') +' ('+this.model.get('year')+')' ).send();
     },
 
     enableHD: function (evt) {
