@@ -130,8 +130,12 @@ App.View.Sidebar = Backbone.View.extend({
         App.loader(true, i18n.__('loadingVideo'));
         $('body').removeClass().addClass('loading');
         
+        
+        // Used to keep track of loading status changes
+        var previousStatus = '';
+        var movieModel = this.model;
 
-        playTorrent(file, subsFiles, 
+        playTorrent(file, subsFiles, movieModel,
             function(){}, 
             function(percent){
 
@@ -143,20 +147,24 @@ App.View.Sidebar = Backbone.View.extend({
                 $('.popcorn-load').find('.progress').css('width', percent+'%');
 
                 // Update the loader status
-                var bufferStatus = i18n.__('connecting');
+                var bufferStatus = 'connecting';
                 if( videoPeerflix.peers.length > 0 ) {
-                    bufferStatus = i18n.__('startingDownload');
+                    bufferStatus = 'startingDownload';
                     if( videoPeerflix.downloaded > 0 ) {
-                        bufferStatus = i18n.__('downloading');
+                        bufferStatus = 'downloading';
                     }
                 }
-                $('.popcorn-load .progressinfo').text(bufferStatus);
+                
+                if( bufferStatus != previousStatus ) {
+                    userTracking.event('Video Preloading', bufferStatus, movieModel.get('title')).send();
+                    previousStatus = bufferStatus;
+                }
+                
+                $('.popcorn-load .progressinfo').text( i18n.__(bufferStatus) );
             }
         );
-
-        userTracking.pageview('/movies/watch/'+ this.model.get('slug'), 'Buffering '+this.model.get('title') +' ('+this.model.get('year')+')' ).send();
         
-        userTracking.event('Video', 'Started Buffering', '720p').send();
+        userTracking.event('Movie Quality', 'Watch on '+this.model.get('quality'), this.model.get('title') ).send();
     },
 
     initialize: function () {

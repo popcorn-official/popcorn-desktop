@@ -48,10 +48,10 @@ App.loader(true, i18n.__('loading'));
 
 
 // Handler for Video opening
-window.spawnCallback = function (url, subs) {
+window.spawnCallback = function (url, subs, movieModel) {
     var subtracks = '';
     for( lang in subs ) {
-      subtracks += '<track kind="subtitles" src="app://host/' + subs[lang] + '" srclang="es" label="' + i18n.__(lang) + '" charset="utf-8" />';
+      subtracks += '<track kind="subtitles" src="app://host/' + subs[lang] + '" srclang="'+ lang +'" label="' + i18n.__(lang) + '" charset="utf-8" />';
     }
 
     var player =
@@ -78,6 +78,8 @@ window.spawnCallback = function (url, subs) {
         var font_size = parseInt($subs.css('font-size'));
         font_size = font_size + 3;
         $subs.css('font-size', font_size+'px');
+        
+        userTracking.event('Video Subtitle Size', 'Make Bigger', font_size+'px', font_size).send();
     };
 
     var createBiggerSubtitleButton = function() {
@@ -111,6 +113,8 @@ window.spawnCallback = function (url, subs) {
         var font_size = parseInt($subs.css('font-size'));
         font_size = font_size - 3;
         $subs.css('font-size', font_size+'px');
+        
+        userTracking.event('Video Subtitle Size', 'Make Smaller', font_size+'px', font_size).send();
     };
 
     var createSmallerSubtitleButton = function() {
@@ -146,40 +150,105 @@ window.spawnCallback = function (url, subs) {
     // Init video.
     var video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {} }});
 
+    
+    userTracking.pageview('/movies/watch/'+movieModel.get('slug'), movieModel.get('title') +' ('+movieModel.get('year')+')' ).send();
+
+    
     // Enter full-screen
     $('.vjs-fullscreen-control').on('click', function () {
       if(win.isFullscreen) {
         win.leaveFullscreen();
+        userTracking.event('Video Size', 'Normal', movieModel.get('title')).send();
+        win.focus();
       } else {
         win.enterFullscreen();
+        userTracking.event('Video Size', 'Fullscreen', movieModel.get('title')).send();
         win.focus();
       }
     });
 
     // Exit full-screen
-    // BUG: window loses focus so can't use ESC unless the window is clicked first
     $(document).on('keydown', function (e) {
       if (e.keyCode == 27) { 
-        win.leaveFullscreen();
+        if(win.isFullscreen) {
+          win.leaveFullscreen();
+          userTracking.event('Video Size', 'Normal', movieModel.get('title')).send();
+          win.focus();
+        }
       }
     });
 
+    
+    tracks = video.textTracks();
+    for( var i in tracks ) {
+      tracks[i].on('loaded', function(){
+        userTracking.event('Video Subtitles', 'Select '+ this.language_, movieModel.get('title')).send();
+      });
+    }
+    
 
+    var getTimeLabel = function() {
+      // Give the time in 1 minute increments up to 5min, from then on report every 5m up to half an hour, and then in 15' increments
+      var timeLabel = ''
+      if( video.currentTime() <= 5*60 ) {
+        timeLabel = Math.round(video.currentTime()/60)+'min';
+      } else if( video.currentTime() <= 30*60 ) {
+        timeLabel = Math.round(video.currentTime()/60/5)*5+'min';
+      } else {
+        timeLabel = Math.round(video.currentTime()/60/15)*15+'min';
+      }
+      
+      return timeLabel;
+    };
+    
+    // Report the movie playback status once every 10 minutes
+    var statusReportInterval = setInterval(function(){
+      
+      if( typeof video == 'undefined' || video == null ){ clearInterval(statusReportInterval); return; }
+      
+      userTracking.event('Video Playing', movieModel.get('title'), getTimeLabel(), Math.round(video.currentTime()/60) ).send();
+      
+    }, 1000*60*5);
+    
 
     // Close player
     $('#video_player_close').on('click', function () {
+      
+      // Determine if the user quit because he watched the entire movie
+      // Give 15 minutes or 15% of the movie for credits (everyone quits there)
+      if( video.duration() > 0 && video.currentTime() >= Math.min(video.duration() * 0.85, video.duration() - 15*60) ) {
+        userTracking.event('Video Finished', movieModel.get('title'), getTimeLabel(), Math.round(video.currentTime()/60) ).send();
+      }
+      else {
+        userTracking.event('Video Quit', movieModel.get('title'), getTimeLabel(), Math.round(video.currentTime()/60) ).send();
+      }
+      
+      // Clear the status report interval so it doesn't leak
+      clearInterval(statusReportInterval);
+      
+      
       win.leaveFullscreen();
       $('#video-container').hide();
       video.dispose();
       $('body').removeClass();
       $(document).trigger('videoExit');
+      
     });
 
-    video.player().on('pause', function () {  });
+    
+    // Todo: delay these tracking events so we don't send two on double click
+    video.player().on('pause', function () {
+    
+      //userTracking.event('Video Control', 'Pause Button', getTimeLabel(), Math.round(video.currentTime()/60) ).send();
+    });
+    
     video.player().on('play', function () { 
       // Trigger a resize so the subtitles are adjusted
       $(window).trigger('resize'); 
+      
+      //userTracking.event('Video Control', 'Play Button', getTimeLabel(), Math.round(video.currentTime()/60) ).send();
     });
+    
     // There was an issue with the video
     video.player().on('error', function (error) {
       console.log(error);
