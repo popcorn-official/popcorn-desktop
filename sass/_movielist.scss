@@ -131,6 +131,19 @@
 }
 
 
+.no-results {
+  text-align: center;
+  font-size: 24px;
+  opacity: 0.6;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  left: 0;
+  right: 0;
+  -webkit-transform: translateY(-50%);
+}
+
+
 // Pagination
 .pagination {
   border-radius: 4px;
