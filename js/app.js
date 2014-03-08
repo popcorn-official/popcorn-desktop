@@ -84,14 +84,20 @@ var getTrackingId = function(){
 
     if( typeof clientId == 'undefined' || clientId == null || clientId == '' ) {
 
-        // A UUID v4 is the recommended format for Google Analytics
+        // A UUID v4 (random) is the recommended format for Google Analytics
         var uuid = require('node-uuid');
 
         Settings.set('trackingId', uuid.v4() );
-        var clientId = Settings.get('trackingId');
+        clientId = Settings.get('trackingId');
 
+        // Try a time-based UUID (v1) if the proper one fails
         if( typeof clientId == 'undefined' || clientId == null || clientId == '' ) {
-            return null;
+            Settings.set('trackingId', uuid.v1() );
+            clientId = Settings.get('trackingId');
+
+            if( typeof clientId == 'undefined' || clientId == null || clientId == '' ) {
+                clientId = null;
+            }
         }
     }
 
@@ -99,7 +105,14 @@ var getTrackingId = function(){
 };
 
 var ua = require('universal-analytics');
-var userTracking = window.userTracking = ua('UA-48789649-1', getTrackingId());
+
+if( getTrackingId() == null ) {
+    // Don't report anything if we don't have a trackingId
+    var dummyMethod = function(){ return {send:function(){}}; };
+    var userTracking = window.userTracking = {event:dummyMethod, pageview:dummyMethod, timing:dummyMethod, exception:dummyMethod, transaction:dummyMethod};
+} else {
+    var userTracking = window.userTracking = ua('UA-48789649-1', getTrackingId());
+}
 
 
 String.prototype.capitalize = function() {
