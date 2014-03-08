@@ -77,6 +77,31 @@ var detectLanguage = function(preferredLanguage) {
 };
 
 
+// Tracking
+var getTrackingId = function(){
+
+    var clientId = Settings.get('trackingId');
+
+    if( typeof clientId == 'undefined' || clientId == null || clientId == '' ) {
+
+        // A UUID v4 is the recommended format for Google Analytics
+        var uuid = require('node-uuid');
+
+        Settings.set('trackingId', uuid.v4() );
+        var clientId = Settings.get('trackingId');
+
+        if( typeof clientId == 'undefined' || clientId == null || clientId == '' ) {
+            return null;
+        }
+    }
+
+    return clientId;
+};
+
+var ua = require('universal-analytics');
+var userTracking = window.userTracking = ua('UA-48795238-1', getTrackingId());
+
+
 // Populate the Category list (This should be a template, though)
 var populateCategories = function() {
     var category_html = '';
@@ -254,7 +279,6 @@ if( ! Settings.get('disclaimerAccepted') ) {
         gui.App.quit();
     });
 }
-
 
 
 // Taken from peerflix `app.js`

@@ -123,6 +123,14 @@ App.View.Sidebar = Backbone.View.extend({
             }
         }
 
+
+        $('.popcorn-load').addClass('withProgressBar').addClass('cancellable').find('.progress').css('width', 0.0+'%');
+        $('.popcorn-load .progressinfo').text( i18n.__('connecting') );
+
+        App.loader(true, i18n.__('loadingVideo'));
+        $('body').removeClass().addClass('loading');
+        
+
         playTorrent(file, subsFiles, 
             function(){}, 
             function(percent){
@@ -145,11 +153,6 @@ App.View.Sidebar = Backbone.View.extend({
                 $('.popcorn-load .progressinfo').text(bufferStatus);
             }
         );
-        $('.popcorn-load').addClass('withProgressBar').addClass('cancellable').find('.progress').css('width', 0.0+'%');
-        $('.popcorn-load .progressinfo').text( i18n.__('connecting') );
-
-        App.loader(true, i18n.__('loadingVideo'));
-        $('body').removeClass().addClass('loading');
     },
 
     initialize: function () {
