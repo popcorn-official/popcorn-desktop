@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+    <script>window.__startTime = (new Date()*1);</script>
     <link rel="stylesheet" type="text/css" href="css/app.css">
     <link rel="stylesheet" type="text/css" href="js/vendor/video-js/video-js.css">
   </head>
@@ -179,5 +180,7 @@
     <script src="js/frontend/controllers/search.js"></script>
     <script src="js/frontend/controllers/filter.js"></script>
     <script src="js/frontend/router.js"></script>
+
+    <script>userTracking.timing('Initial Load', 'Ready', ((new Date()*1) - __startTime), Settings.get('version') ).send();</script>
   </body>
 </html>

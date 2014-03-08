@@ -91,7 +91,7 @@
 
   .vjs-menu-item.vjs-selected {
     font-weight: bold;
-    color: #cc181e;
+    color: $popcorn-blue;
   }
 
   .vjs-text-track-display { font-size: 1em; }
@@ -99,4 +99,12 @@
   .vjs-big-play-button { font-size: 1em; }
   .vjs-control-bar { font-size: 10px; }
   .vjs-menu-item { color: #000; }
+}
+
+
+// Hide other UI elements while watching the movie
+body.watching {
+  #header, #notification, #catalog-select, .container {
+    visibility: hidden;
+  }
 }

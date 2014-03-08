@@ -18,4 +18,6 @@ App.Controller.Home = function () {
     }
 
     App.Page.Home.show();
+
+    userTracking.pageview('/movies/popular', 'Popular Movies').send();
 };

@@ -20,4 +20,6 @@ App.Controller.Search = function (searchTerm) {
     App.Page.Search.$el.append(movieList.$el);
 
     App.Page.Search.show();
+
+    userTracking.pageview('/movies/search?q='+encodeURIComponent(searchTerm)).send();
 };

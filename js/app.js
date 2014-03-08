@@ -77,6 +77,49 @@ var detectLanguage = function(preferredLanguage) {
 };
 
 
+// Tracking
+var getTrackingId = function(){
+
+    var clientId = Settings.get('trackingId');
+
+    if( typeof clientId == 'undefined' || clientId == null || clientId == '' ) {
+
+        // A UUID v4 (random) is the recommended format for Google Analytics
+        var uuid = require('node-uuid');
+
+        Settings.set('trackingId', uuid.v4() );
+        clientId = Settings.get('trackingId');
+
+        // Try a time-based UUID (v1) if the proper one fails
+        if( typeof clientId == 'undefined' || clientId == null || clientId == '' ) {
+            Settings.set('trackingId', uuid.v1() );
+            clientId = Settings.get('trackingId');
+
+            if( typeof clientId == 'undefined' || clientId == null || clientId == '' ) {
+                clientId = null;
+            }
+        }
+    }
+
+    return clientId;
+};
+
+var ua = require('universal-analytics');
+
+if( getTrackingId() == null ) {
+    // Don't report anything if we don't have a trackingId
+    var dummyMethod = function(){ return {send:function(){}}; };
+    var userTracking = window.userTracking = {event:dummyMethod, pageview:dummyMethod, timing:dummyMethod, exception:dummyMethod, transaction:dummyMethod};
+} else {
+    var userTracking = window.userTracking = ua('UA-48789649-1', getTrackingId());
+}
+
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+
 // Populate the Category list (This should be a template, though)
 var populateCategories = function() {
     var category_html = '';
@@ -206,6 +249,27 @@ var getOperatingSystem = function() {
 };
 
 
+if( typeof __isNewInstall != 'undefined' && __isNewInstall == true )  {
+  userTracking.event('App Install', getOperatingSystem().capitalize(), Settings.get('version')).send();
+}
+else if( typeof __isUpgradeInstall != 'undefined' && __isUpgradeInstall == true )  {
+  userTracking.event('App Upgrade', getOperatingSystem().capitalize(), Settings.get('version')).send();
+}
+
+// Todo: Remove Upgrade in the next version to prevent double counting of device stats (we'd send stats once per version)
+if( (typeof __isNewInstall != 'undefined' && __isNewInstall == true) || 
+    (typeof __isUpgradeInstall != 'undefined' && __isUpgradeInstall == true) )  {
+    
+  // General Device Stats
+  userTracking.event('Start', 'Version', Settings.get('version') + (isDebug ? '-debug' : '') ).send();
+  userTracking.event('Start', 'Type', getOperatingSystem().capitalize()).send();
+  userTracking.event('Start', 'Operating System', os.type() + os.release()).send();
+  userTracking.event('Start', 'CPU', os.cpus()[0].model +' @ '+ (os.cpus()[0].speed/1000).toFixed(1) +'GHz' +' x '+ os.cpus().length ).send();
+  userTracking.event('Start', 'RAM', Math.round(os.totalmem() / 1024 / 1024 / 1024)+'GB' ).send();
+  userTracking.event('Start', 'Uptime', Math.round(os.uptime() / 60 / 60)+'hs' ).send();
+}
+
+
 // Check if there's a newer version and shows a prompt if that's the case
 var checkForUpdates = function() {
     var http = require('http');
@@ -256,10 +320,9 @@ if( ! Settings.get('disclaimerAccepted') ) {
 }
 
 
-
 // Taken from peerflix `app.js`
 var videoPeerflix = null;
-var playTorrent = window.playTorrent = function (torrent, subs, callback, progressCallback) {
+var playTorrent = window.playTorrent = function (torrent, subs, movieModel, callback, progressCallback) {
 
     videoPeerflix ? $(document).trigger('videoExit') : null;
 
@@ -306,10 +369,10 @@ var playTorrent = window.playTorrent = function (torrent, subs, callback, progre
 
                 if (now > targetLoaded) {
                     if (typeof window.spawnCallback === 'function') {
-                        window.spawnCallback(href, subs);
+                        window.spawnCallback(href, subs, movieModel);
                     }
                     if (typeof callback === 'function') {
-                        callback(href, subs);
+                        callback(href, subs, movieModel);
                     }
                 } else {
                     typeof progressCallback == 'function' ? progressCallback( percent, now, total) : null;

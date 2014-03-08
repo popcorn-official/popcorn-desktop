@@ -16,4 +16,6 @@ App.Controller.FilterGenre = function (genre, page) {
     App.Page.FilterGenre.$el.append(movieList.$el);
 
     App.Page.FilterGenre.show();
+
+    userTracking.pageview('/movies/'+genre + ((page && page > 1) ? '?page='+page : ''), genre.capitalize() + ' Movies').send();
 };
