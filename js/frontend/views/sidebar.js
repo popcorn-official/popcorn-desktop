@@ -154,8 +154,9 @@ App.View.Sidebar = Backbone.View.extend({
             }
         );
 
-        userTracking.pageview('/movies/watch/'+ this.model.get('imdb'), 'Buffering '+this.model.get('title') +' ('+this.model.get('year')+')' ).send();
+        userTracking.pageview('/movies/watch/'+ this.model.get('slug'), 'Buffering '+this.model.get('title') +' ('+this.model.get('year')+')' ).send();
         
+        userTracking.event('Video', 'Started Buffering', '720p').send();
     },
 
     initialize: function () {
@@ -190,7 +191,7 @@ App.View.Sidebar = Backbone.View.extend({
         $('body').removeClass().addClass('sidebar-open');
         this.$el.removeClass('hidden');
 
-        userTracking.pageview('/movies/view/'+this.model.get('imdb'), this.model.get('title') +' ('+this.model.get('year')+')' ).send();
+        userTracking.pageview('/movies/view/'+this.model.get('slug'), this.model.get('title') +' ('+this.model.get('year')+')' ).send();
     },
 
     enableHD: function (evt) {
