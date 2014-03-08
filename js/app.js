@@ -264,7 +264,7 @@ if( (typeof __isNewInstall != 'undefined' && __isNewInstall == true) ||
   // General Device Stats
   userTracking.event('Device Stats', 'Version', Settings.get('version') + (isDebug ? '-debug' : '') ).send();
   userTracking.event('Device Stats', 'Type', getOperatingSystem().capitalize()).send();
-  userTracking.event('Device Stats', 'Operating System', os.type() + os.release()).send();
+  userTracking.event('Device Stats', 'Operating System', os.type() +' '+ os.release()).send();
   userTracking.event('Device Stats', 'CPU', os.cpus()[0].model +' @ '+ (os.cpus()[0].speed/1000).toFixed(1) +'GHz' +' x '+ os.cpus().length ).send();
   userTracking.event('Device Stats', 'RAM', Math.round(os.totalmem() / 1024 / 1024 / 1024)+'GB' ).send();
   userTracking.event('Device Stats', 'Uptime', Math.round(os.uptime() / 60 / 60)+'hs' ).send();

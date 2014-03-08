@@ -1,6 +1,6 @@
 ; Installer Variables
 #define AppName "Popcorn Time"
-#define AppVersion "Beta 2"
+#define AppVersion "Beta 2.5"
 #define AppPublisher "Popcorn Time Team"
 #define AppURL "https://github.com/popcorn-time/popcorn-app"
 #define AppExeName "run.bat"
