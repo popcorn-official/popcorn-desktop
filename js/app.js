@@ -326,12 +326,16 @@ if( ! Settings.get('disclaimerAccepted') ) {
     
     $('.popcorn-disclaimer .btn.confirmation.continue').click(function(event){
         event.preventDefault();
+        userTracking.event('App Disclaimer', 'Accepted' ).send();
         Settings.set('disclaimerAccepted', 1);
         $('.popcorn-disclaimer').addClass('hidden');
     });
     $('.popcorn-disclaimer .btn.confirmation.quit').click(function(event){
         event.preventDefault();
-        gui.App.quit();
+        userTracking.event('App Disclaimer', 'Quit' ).send();
+        setTimeout(function(){
+            gui.App.quit();
+        }, 500);
     });
 }
 
