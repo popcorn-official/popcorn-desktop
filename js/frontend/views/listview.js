@@ -16,8 +16,7 @@ App.View.MovieList = Backbone.View.extend({
     },
 
     empty: function () {
-        alert(i18n.__('noResults'));
-        App.Page.Home.show();
+        this.$el.append('<p style="padding: 10px;">' + i18n.__('noResults') + '</p>');
         return false;
     },
 
