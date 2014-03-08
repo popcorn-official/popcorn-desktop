@@ -67,17 +67,22 @@ App.View.MovieList = Backbone.View.extend({
 
         });
 
-        var currentPage = 1;
+        var page           = 1;
+        var genre          = $('#catalog-select ul li.active a').attr('data-genre');
         var $scrollElement = movieList.$el.parent();
         $scrollElement.scroll(function(){
-          var totalSize       = $scrollElement.prop('scrollHeight');
-          var currentPosition = $scrollElement.scrollTop() + $scrollElement.height();
-          var scrollBuffer    = 200;
-          if (currentPosition == (totalSize - scrollBuffer)){
-            currentPage++;
-            var genre = $("#catalog-select ul li.active a").attr("data-genre");
-            App.Router.navigate('filter/' + genre + '/' + currentPage, { trigger: true });
-          }
+            if (!movieList.constructor.busy){
+                var totalSize       = $scrollElement.prop('scrollHeight');
+                var currentPosition = $scrollElement.scrollTop() + $scrollElement.height();
+                var scrollBuffer    = 200;
+                if (currentPosition >= (totalSize - scrollBuffer)){
+                    movieList.constructor.busy = true;
+                    page++;
+                    App.Router.navigate('filter/' + genre + '/' + page, { trigger: true });
+                }
+            }
         });
     }
+},{
+  busy: false
 });
