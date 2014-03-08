@@ -164,7 +164,7 @@ App.View.Sidebar = Backbone.View.extend({
             }
         );
         
-        userTracking.event('Movie Quality', 'Watch on '+this.model.get('quality'), this.model.get('title') ).send();
+        userTracking.event('Movie Quality', 'Watch on '+this.model.get('quality')+' - '+this.model.get('health').capitalize(), this.model.get('title') ).send();
     },
 
     initialize: function () {
