@@ -47,12 +47,12 @@
 		"war": "Bélica",
 		"western": "Western"
 	},
-	"english": "english",
-	"portuguese": "portuguese",
-	"dutch": "dutch",
-	"french": "french",
-	"italian": "italian",
-	"romanian": "romanian",
-	"spanish": "spanish",
-	"turkish": "turkish"
+	"english": "Inglés",
+	"portuguese": "Portugués",
+	"dutch": "Holandés",
+	"french": "Francés",
+	"italian": "Italiano",
+	"romanian": "Romano",
+	"spanish": "Español",
+	"turkish": "Turco"
 }
