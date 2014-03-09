@@ -190,8 +190,7 @@ document.addEventListener('keydown', function(event){
     }
     if (event.keyCode == 32 && $("#video_player").is(".vjs-playing")) {
         $("#video_player")[0].player.pause();
-    }
-    if (event.keyCode == 32 && $("#video_player").is(".vjs-paused")) {
+    } else if (event.keyCode == 32 && $("#video_player").is(".vjs-paused")) {
         $("#video_player")[0].player.play();
     }
 });
