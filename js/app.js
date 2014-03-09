@@ -26,6 +26,9 @@ var
 
     // fs object
     fs = require('fs'),
+    
+    // url object
+    url = require('url'),
 
     // TMP Folder
     tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time'),
@@ -190,8 +193,7 @@ document.addEventListener('keydown', function(event){
     }
     if (event.keyCode == 32 && $("#video_player").is(".vjs-playing")) {
         $("#video_player")[0].player.pause();
-    }
-    if (event.keyCode == 32 && $("#video_player").is(".vjs-paused")) {
+    } else if (event.keyCode == 32 && $("#video_player").is(".vjs-paused")) {
         $("#video_player")[0].player.play();
     }
 });
@@ -202,27 +204,23 @@ win.on('new-win-policy', function (frame, url, policy) {
 });
 
 
+var preventDefault = function(e) {
+    e.preventDefault();
+}
 // Prevent dropping files into the window
-window.addEventListener("dragover",function(e){
-    e = e || event;
-    e.preventDefault();
-},false);
-window.addEventListener("drop",function(e){
-    e = e || event;
-    e.preventDefault();
-},false);
+window.addEventListener("dragover", preventDefault, false);
+window.addEventListener("drop", preventDefault, false);
 // Prevent dragging files outside the window
-window.addEventListener("dragstart",function(e){
-    e = e || event;
-    e.preventDefault();
-},false);
+window.addEventListener("dragstart", preventDefault, false);
 
 // Check if the user has a working internet connection (uses Google as reference)
 var checkInternetConnection = function(callback) {
     var http = require('http');
     var hasInternetConnection = false;
 
-    http.get(Settings.get('connectionCheckUrl'), function(res){
+    var opts = url.parse(Settings.get('connectionCheckUrl'));
+    opts.method = 'HEAD';
+    http.get(opts, function(res){
         if( res.statusCode == 200 || res.statusCode == 302 || res.statusCode == 301 ) {
             hasInternetConnection = true;
         }
