@@ -372,6 +372,17 @@ jQuery(function ($) {
         $('#catalog-select ul li.active').removeClass('active');
       }
   });
+  
+  $('.search i').on('click', function (evt) {
+    var term = $.trim($('.search input').val());
+
+    if (term) {
+      App.Router.navigate('search/' + term, { trigger: true });
+    } else {
+      App.Router.navigate('index.html', { trigger: true });
+    }
+    $('#catalog-select ul li.active').removeClass('active');
+  });
 
   $('body').on('keypress', function (evt) {
     if (evt.keyCode === 13) {}
