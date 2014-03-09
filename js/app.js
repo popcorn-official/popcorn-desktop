@@ -26,6 +26,9 @@ var
 
     // fs object
     fs = require('fs'),
+    
+    // url object
+    url = require('url'),
 
     // TMP Folder
     tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time'),
@@ -215,7 +218,9 @@ var checkInternetConnection = function(callback) {
     var http = require('http');
     var hasInternetConnection = false;
 
-    http.get(Settings.get('connectionCheckUrl'), function(res){
+    var opts = url.parse(Settings.get('connectionCheckUrl'));
+    opts.method = 'HEAD';
+    http.get(opts, function(res){
         if( res.statusCode == 200 || res.statusCode == 302 || res.statusCode == 301 ) {
             hasInternetConnection = true;
         }
