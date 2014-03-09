@@ -182,6 +182,8 @@ window.spawnCallback = function (url, subs, movieModel) {
     tracks = video.textTracks();
     for( var i in tracks ) {
       tracks[i].on('loaded', function(){
+        // Trigger a resize to get the subtitles position right
+        $(window).trigger('resize'); 
         userTracking.event('Video Subtitles', 'Select '+ this.language_, movieModel.get('niceTitle') ).send();
       });
     }
