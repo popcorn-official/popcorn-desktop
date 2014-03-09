@@ -336,9 +336,6 @@ jQuery(function ($) {
     $('.popcorn-quit').addClass('hidden');
   });
 
-  //Pagination html
-  var pagination = '<nav class="pagination hidden"><ul><li class="active"><a data-page="1" href="#">1</a></li><li><a data-page="2" class="inactive" href="#">2</a></li><li><a data-page="3" class="inactive" href="#">3</a></li><li><a data-page="4" class="inactive" href="#">4</a></li><li><a data-page="5" class="inactive" href="#">5</a></li></ul></nav>';
-
   //Catalog switch
   $('#catalog-select ul li a').on('click', function (evt) {
     $('#catalog-select ul li.active').removeClass('active');
@@ -354,20 +351,8 @@ jQuery(function ($) {
     evt.preventDefault();
   });
 
-  //Pagination buttons
-  $( document ).on( "click", ".pagination a", function(event) {
-    var page = $(this).attr('data-page');
-    var genre = $("#catalog-select ul li.active a").attr("data-genre");
-    App.Router.navigate('filter/' + genre + '/' + page, { trigger: true });
-    $(".pagination li").removeClass('active');
-    $(".pagination li").eq(page-1).addClass('active');
-    event.preventDefault();
-  });
-
   // Add route callback to router
   App.Router.on('route', function () {
-    // Append pagination HTML
-    $("#category-list").append(pagination);
     // Ensure sidebar is hidden
     App.sidebar.hide();
   });
