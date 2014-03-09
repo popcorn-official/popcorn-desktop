@@ -6,27 +6,21 @@
     "loadingVideo": "Video Yükleniyor, Lütfen bekleyin..",
     "searchLoading": "Aranıyor...",
     "noResults": "Hiçbir sonuç bulunamadı, başka bir kelime deneyin..",
-
     "search": "Ara",
     "movies": "Filmler",
-
     "subtitledIn": "Altyazılı",
     "quality": "Kalite",
     "watchItNow": "Hemen izle",
-    "durationUnit": "min",
-
+    "durationUnit": "dakika",
     "connecting": "Bağlanılıyor...",
     "startingDownload": "Yükleme başlıyor...",
     "downloading": "Yükleniyor...",
-
     "UpgradeVersion": "Popcorn Time'ı Güncelle",
     "UpgradeVersionDescription": " yeni sürüm gedi. Şimdi sahip olmalısın!",
-    
     "legalDisclaimer": "Popcorn Time ülkende yasal olmayan dosyaları torrentden indirebilir ve paylaşabilir.",
     "legalDisclaimerResponsible": "Herhangi bir problemde sorumluluk kullanıcıdadır, bu yüzden uygulamayı kullanmadan önce Terms and Conditions'ı okuduğunuzdan emin olunuz",
     "legalDisclaimerAccept": "Anladım ve Popcorn Time'ı kullanmak istiyorum.",
-    "legalDisclaimerCancel": "Popcorn Time'ı Kapat",
-    
+    "legalDisclaimerCancel": "Popcorn Time'ı Kapat", 
     "genres": {
         "all": "Popüler",
         "action": "Aksiyon",
@@ -52,5 +46,14 @@
         "thriller": "Gerilim",
         "war": "Savaş",
         "western": "Batı"
-    }
+    },
+    "french": "Fransızca",
+    "english": "İngilizce",
+    "spanish": "İspanyolca",
+    "swedish": "İsveççe",
+    "portuguese": "Portekizce",
+    "romanian": "Romanca",
+    "turkish": "Türkçe",
+    "dutch": "Hollandaca",
+    "italian": "italyanca"
 }
