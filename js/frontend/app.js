@@ -27,7 +27,7 @@ App.loader = function (hasToShow, copy) {
     }
 
     if (hasToShow === true) {
-        $el.find('.text').html(copy ? copy : Language.loading);
+        $el.find('.text').html(copy ? copy : i18n.__('loading'));
     }
 
     $el[hasToShow === false ? 'addClass' : 'removeClass']('hidden');
@@ -44,11 +44,11 @@ App.loader = function (hasToShow, copy) {
 };
 // Show by default
 window.initialLoading = true;
-App.loader(true, Language.loading);
+App.loader(true, i18n.__('loading'));
 
 
 // Handler for Video opening
-window.spawnCallback = function (url, subs) {
+window.spawnCallback = function (url, subs, movieModel) {
 
     // Sort sub according lang translation
     var subArray = [];
@@ -91,6 +91,8 @@ window.spawnCallback = function (url, subs) {
         var font_size = parseInt($subs.css('font-size'));
         font_size = font_size + 3;
         $subs.css('font-size', font_size+'px');
+        
+        userTracking.event('Video Subtitle Size', 'Make Bigger', font_size+'px', font_size).send();
     };
 
     var createBiggerSubtitleButton = function() {
@@ -124,6 +126,8 @@ window.spawnCallback = function (url, subs) {
         var font_size = parseInt($subs.css('font-size'));
         font_size = font_size - 3;
         $subs.css('font-size', font_size+'px');
+        
+        userTracking.event('Video Subtitle Size', 'Make Smaller', font_size+'px', font_size).send();
     };
 
     var createSmallerSubtitleButton = function() {
@@ -153,41 +157,113 @@ window.spawnCallback = function (url, subs) {
 
     // Double Click to toggle Fullscreen
     $('#video-container video').dblclick(function(event){
-      win.toggleKioskMode();
+      $('.vjs-fullscreen-control').trigger('click');
     });
 
     // Init video.
     var video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {} }});
 
+    
+    userTracking.pageview('/movies/watch/'+movieModel.get('slug'), movieModel.get('niceTitle') ).send();
+
+    
     // Enter full-screen
     $('.vjs-fullscreen-control').on('click', function () {
-      win.toggleKioskMode();
-    });
-
-    // Exit full-screen
-    // BUG: window loses focus so can't use ESC unless the window is clicked first
-    $(document).on('keydown', function (e) {
-      if (e.keyCode == 27) { 
-        win.leaveKioskMode();
+      if(win.isFullscreen) {
+        win.leaveFullscreen();
+        userTracking.event('Video Size', 'Normal', movieModel.get('niceTitle') ).send();
+        win.focus();
+      } else {
+        win.enterFullscreen();
+        userTracking.event('Video Size', 'Fullscreen', movieModel.get('niceTitle') ).send();
+        win.focus();
       }
     });
 
+    // Exit full-screen
+    $(document).on('keydown', function (e) {
+      if (e.keyCode == 27) { 
+        if(win.isFullscreen) {
+          win.leaveFullscreen();
+          userTracking.event('Video Size', 'Normal', movieModel.get('niceTitle') ).send();
+          win.focus();
+        }
+      }
+    });
 
+    
+    tracks = video.textTracks();
+    for( var i in tracks ) {
+      tracks[i].on('loaded', function(){
+        // Trigger a resize to get the subtitles position right
+        $(window).trigger('resize'); 
+        userTracking.event('Video Subtitles', 'Select '+ this.language_, movieModel.get('niceTitle') ).send();
+      });
+    }
+    
+
+    var getTimeLabel = function() {
+      // Give the time in 1 minute increments up to 5min, from then on report every 5m up to half an hour, and then in 15' increments
+      var timeLabel = ''
+      if( video.currentTime() <= 5*60 ) {
+        timeLabel = Math.round(video.currentTime()/60)+'min';
+      } else if( video.currentTime() <= 30*60 ) {
+        timeLabel = Math.round(video.currentTime()/60/5)*5+'min';
+      } else {
+        timeLabel = Math.round(video.currentTime()/60/15)*15+'min';
+      }
+      
+      return timeLabel;
+    };
+    
+    // Report the movie playback status once every 10 minutes
+    var statusReportInterval = setInterval(function(){
+      
+      if( typeof video == 'undefined' || video == null ){ clearInterval(statusReportInterval); return; }
+      
+      userTracking.event('Video Playing', movieModel.get('niceTitle'), getTimeLabel(), Math.round(video.currentTime()/60) ).send();
+      
+    }, 1000*60*10);
+    
 
     // Close player
     $('#video_player_close').on('click', function () {
-      win.leaveKioskMode();
+      
+      // Determine if the user quit because he watched the entire movie
+      // Give 15 minutes or 15% of the movie for credits (everyone quits there)
+      if( video.duration() > 0 && video.currentTime() >= Math.min(video.duration() * 0.85, video.duration() - 15*60) ) {
+        userTracking.event('Video Finished', movieModel.get('niceTitle'), getTimeLabel(), Math.round(video.currentTime()/60) ).send();
+      }
+      else {
+        userTracking.event('Video Quit', movieModel.get('niceTitle'), getTimeLabel(), Math.round(video.currentTime()/60) ).send();
+      }
+      
+      // Clear the status report interval so it doesn't leak
+      clearInterval(statusReportInterval);
+      
+      
+      win.leaveFullscreen();
       $('#video-container').hide();
       video.dispose();
       $('body').removeClass();
       $(document).trigger('videoExit');
+      
     });
 
-    video.player().on('pause', function () {  });
+    
+    // Todo: delay these tracking events so we don't send two on double click
+    video.player().on('pause', function () {
+    
+      //userTracking.event('Video Control', 'Pause Button', getTimeLabel(), Math.round(video.currentTime()/60) ).send();
+    });
+    
     video.player().on('play', function () { 
       // Trigger a resize so the subtitles are adjusted
       $(window).trigger('resize'); 
+      
+      //userTracking.event('Video Control', 'Play Button', getTimeLabel(), Math.round(video.currentTime()/60) ).send();
     });
+    
     // There was an issue with the video
     video.player().on('error', function (error) {
       console.log(error);
@@ -259,7 +335,6 @@ jQuery(function ($) {
   $('.btn-os.fullscreen').on('click', function () {
     win.toggleFullscreen();
     $('.btn-os.fullscreen').toggleClass('active');
-
   });
 
   $('.popcorn-load .btn-close').click(function(event){
@@ -276,9 +351,6 @@ jQuery(function ($) {
     $('.popcorn-quit').addClass('hidden');
   });
 
-  //Pagination html
-  var pagination = '<nav class="pagination hidden"><ul><li class="active"><a data-page="1" href="#">1</a></li><li><a data-page="2" class="inactive" href="#">2</a></li><li><a data-page="3" class="inactive" href="#">3</a></li><li><a data-page="4" class="inactive" href="#">4</a></li><li><a data-page="5" class="inactive" href="#">5</a></li></ul></nav>';
-
   //Catalog switch
   $('#catalog-select ul li a').on('click', function (evt) {
     $('#catalog-select ul li.active').removeClass('active');
@@ -294,20 +366,8 @@ jQuery(function ($) {
     evt.preventDefault();
   });
 
-  //Pagination buttons
-  $( document ).on( "click", ".pagination a", function(event) {
-    var page = $(this).attr('data-page');
-    var genre = $("#catalog-select ul li.active a").attr("data-genre");
-    App.Router.navigate('filter/' + genre + '/' + page, { trigger: true });
-    $(".pagination li").removeClass('active');
-    $(".pagination li").eq(page-1).addClass('active');
-    event.preventDefault();
-  });
-
   // Add route callback to router
   App.Router.on('route', function () {
-    // Append pagination HTML
-    $("#category-list").append(pagination);
     // Ensure sidebar is hidden
     App.sidebar.hide();
   });
@@ -356,7 +416,7 @@ jQuery(function ($) {
         var distance = {x: thisPos.x - previousPos.x, y: thisPos.y - previousPos.y};
         previousPos = thisPos;
 
-        if( mouseIsDown && ! win.isKioskMode ){
+        if( mouseIsDown && ! win.isFullscreen ){
           window.moveBy(distance.x, distance.y);
         }
       });

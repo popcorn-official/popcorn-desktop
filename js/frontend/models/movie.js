@@ -4,26 +4,35 @@ App.Model.Movie = Backbone.Model.extend({
     
       var model = this;
     
-      model.set('loaded',   false);
+      model.set('infoLoaded', true);
+      model.set('subtitlesLoaded', true);
       model.set('image',    model.get('coverImage'));
       model.set('bigImage', model.get('coverImage'));
-      model.set('backdrop', null);
+      model.set('backdrop', model.get('backdropImage'));
       model.set('title',    model.get('title'));
-      model.set('synopsis', '');
-      model.set('voteAverage', null);
-      model.set('runtime', null);
+      model.set('synopsis', model.get('synopsis'));
+      model.set('voteAverage', model.get('voteAverage'));
+      model.set('runtime', model.get('runtime'));
+      model.set('subtitles', model.get('subtitles'));
+
+      // This is mostly used for reporting
+      model.set('slug',       model.get('title').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'_') +'.'+ model.get('imdb').slice(2) );
+      model.set('niceTitle',  model.get('title') +' ('+model.get('year')+')' );
 
       model.view = new App.View.MovieListItem({
           model: model
       });
+      
+      model.trigger('rottenloaded');
     },
 
+    // DEPRECATED
     setRottenInfo: function () {
         var model = this;
 
         App.findMovieInfo(model.get('imdb'), function (data) {
             
-            model.set('loaded',   true);
+            model.set('infoLoaded', true);
             model.set('image',    data.image);
             model.set('bigImage', data.image);
             model.set('backdrop', data.backdrop);
@@ -40,6 +49,7 @@ App.Model.Movie = Backbone.Model.extend({
         });
     },
 
+    // DEPRECATED
     setSubtitles: function () {
         var model = this;
 
@@ -47,7 +57,10 @@ App.Model.Movie = Backbone.Model.extend({
             imdb: model.get('imdb'),
             title: model.get('title')
         }, function (info) {
+            model.set('subbtitlesLoaded', true);
             model.set('subtitles', info);
+
+            model.trigger('rottenloaded');
         });
     },
 
@@ -82,7 +95,7 @@ App.Model.Movie = Backbone.Model.extend({
         }
 
         this.buildBasicView();
-        this.setRottenInfo();
-        this.setSubtitles();
+        //this.setRottenInfo();
+        //this.setSubtitles();
     }
 });

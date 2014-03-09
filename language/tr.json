@@ -19,8 +19,13 @@
     "startingDownload": "Yükleme başlıyor...",
     "downloading": "Yükleniyor...",
 
-    "UpgradeVersion": "Update Popcorn Time",
-    "UpgradeVersionDescription": " was just released. You should get it now!",
+    "UpgradeVersion": "Popcorn Time'ı Güncelle",
+    "UpgradeVersionDescription": " yeni sürüm gedi. Şimdi sahip olmalısın!",
+    
+    "legalDisclaimer": "Popcorn Time ülkende yasal olmayan dosyaları torrentden indirebilir ve paylaşabilir.",
+    "legalDisclaimerResponsible": "Herhangi bir problemde sorumluluk kullanıcıdadır, bu yüzden uygulamayı kullanmadan önce Terms and Conditions'ı okuduğunuzdan emin olunuz",
+    "legalDisclaimerAccept": "Anladım ve Popcorn Time'ı kullanmak istiyorum.",
+    "legalDisclaimerCancel": "Popcorn Time'ı Kapat",
     
     "genres": {
         "all": "Popüler",

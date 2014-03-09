@@ -1,6 +1,6 @@
 ; Installer Variables
 #define AppName "Popcorn Time"
-#define AppVersion "Beta 2"
+#define AppVersion "Beta 2.5"
 #define AppPublisher "Popcorn Time Team"
 #define AppURL "https://github.com/popcorn-time/popcorn-app"
 #define AppExeName "run.bat"
@@ -74,19 +74,22 @@ Source: "..\..\js\*"; DestDir: "{app}\app\js\"; Flags: ignoreversion recursesubd
 Source: "..\..\fonts\*"; DestDir: "{app}\app\fonts\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\..\images\*"; DestDir: "{app}\app\images\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\..\language\*"; DestDir: "{app}\app\language\"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\..\tmp\*"; DestDir: "{app}\app\tmp\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\tmp\empty"; DestDir: "{app}\app\tmp\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\..\node_modules\*"; DestDir: "{app}\app\node_modules\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\..\node-webkit\windows\*"; DestDir: "{app}\node-webkit\"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 
 [Icons]
-Name: "{app}\{#AppName}"; WorkingDir: "{app}"; Filename: "{app}\{#AppExeName}"; IconFilename: "{app}\app\images\popcorntime.ico"; Flags: runminimized preventpinning
-Name: "{group}\{#AppName}"; WorkingDir: "{app}"; Filename: "{app}\{#AppExeName}"; IconFilename: "{app}\app\images\popcorntime.ico"; Flags: runminimized
-Name: "{commondesktop}\{#AppName}"; WorkingDir: "{app}"; Filename: "{app}\{#AppExeName}"; IconFilename: "{app}\app\images\popcorntime.ico"; Flags: runminimized preventpinning
+; Add an Icon in the app folder as a reference
+Name: "{app}\{#AppName}"; WorkingDir: "{app}"; Filename: "{app}\node-webkit\nw.exe"; Parameters:"""{app}\app"""; IconFilename: "{app}\app\images\popcorntime.ico"; Flags: runminimized preventpinning
+; Another in the group (this one can be featured)
+Name: "{group}\{#AppName}"; WorkingDir: "{app}"; Filename: "{app}\node-webkit\nw.exe"; Parameters:"""{app}\app"""; IconFilename: "{app}\app\images\popcorntime.ico"; Flags: runminimized
+; Another in the desktop
+Name: "{commondesktop}\{#AppName}"; WorkingDir: "{app}"; Filename: "{app}\node-webkit\nw.exe"; Parameters:"""{app}\app"""; IconFilename: "{app}\app\images\popcorntime.ico"; Flags: runminimized preventpinning
 
 
 [Run]
 ; Run the app after installing
-Filename: "{app}\{#AppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent runminimized
+Filename: "{app}\node-webkit\nw.exe"; Parameters: """{app}\app"""; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent runminimized
 

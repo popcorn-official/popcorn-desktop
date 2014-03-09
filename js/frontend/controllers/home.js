@@ -4,7 +4,8 @@ App.Controller.Home = function () {
     if (!App.Page.Home) {
         var movieList = new App.View.MovieList({
             searchTerm: null,
-            genre: null
+            genre: null,
+            paginationDisabled: true
         });
         App.Page.Home = new App.View.Page({
             id: 'movie-list'
@@ -18,4 +19,6 @@ App.Controller.Home = function () {
     }
 
     App.Page.Home.show();
+
+    userTracking.pageview('/movies/popular', 'Popular Movies').send();
 };

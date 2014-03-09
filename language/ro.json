@@ -1,11 +1,11 @@
 {
-    "quit": "Quit",
-    "cancel": "Cancel",
+    "quit": "Închide",
+    "cancel": "Anulează",
     "beforeQuit": "Ești sigur că vrei să închizi?",
-    "loading": "Așteaptă te rog...",
-    "loadingVideo": "Video-ul se încarcă, te rog așteaptă",
+    "loading": "Te rugăm să aștepți...",
+    "loadingVideo": "Filmul se încarcă, te rugăm să așteapți",
     "searchLoading": "Se caută...",
-    "noResults": "Nu sa găsit niciun rezultat.",
+    "noResults": "Nu s-a găsit niciun rezultat.",
 
     "search": "Caută",
     "movies": "Filme",
@@ -19,8 +19,13 @@
     "startingDownload": "Începe descărcarea...",
     "downloading": "Se descarcă...",
 
-    "UpgradeVersion": "Update Popcorn Time",
-    "UpgradeVersionDescription": " was just released. You should get it now!",
+    "UpgradeVersion": "Actualizează Popcorn Time",
+    "UpgradeVersionDescription": " a fost lansat. Îți sugerăm să treci la noua versiune!",
+    
+    "legalDisclaimer": "Popcorn Time descarcă și partajează filme folosind torrente, ceea ce ar putea să nu fie legal în țara ta.",
+    "legalDisclaimerResponsible": "Nu suntem responsabili pentru orice probleme ar putea apărea, așa că te rugam să citești cu atenție Termenii și Condițiile de utilizare înainte de a folosi aplicația.",
+    "legalDisclaimerAccept": "Înțeleg și doresc să folosesc Popcorn Time",
+    "legalDisclaimerCancel": "Închide Popcorn Time",
     
     "genres": {
         "all": "Popular",
@@ -45,7 +50,7 @@
         "short": "Scurt-metraj",
         "sport": "Sport",
         "thriller": "Thriller",
-        "war": "Razboi",
+        "war": "Război",
         "western": "Western"
     }
 }

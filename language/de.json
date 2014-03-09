@@ -18,9 +18,14 @@
     "connecting": "Verbinden...",
     "startingDownload": "Download starten...",
     "downloading": "Downloaden...",
-
+    
     "UpgradeVersion": "Popcorn Time aktualisieren",
-    "UpgradeVersionDescription": " wurde gerade veröffentlicht. Hol es dir jetzt!",
+    "UpgradeVersionDescription": "Popcorn Time %s wurde gerade veröffentlicht. Hol es dir jetzt!",
+    
+    "legalDisclaimer": "Popcorn Time lädt Filme über sogenannte Torrents hoch und runter. Dies kann in einigen Ländern illegal sein.",
+    "legalDisclaimerResponsible": "Wir sind für keinerlei Probleme verantwortlich, die hierbei auftreten können. Bitte vergewissern Sie sich also, dass Sie unsere Geschäftsbedingungen gelesen haben bevor Sie diese Software benutzen.",
+    "legalDisclaimerAccept": "Ich verstehe und möchte Popcorn Time benutzen",
+    "legalDisclaimerCancel": "Popcorn Time schließen",
 
     "genres": {
         "all": "Beliebt",
@@ -47,5 +52,12 @@
         "thriller": "Thriller",
         "war": "Krieg",
         "western": "Western"
-    }
+    },
+    "french": "Französisch",
+    "english": "Englisch",
+    "spanish": "Spanisch",
+    "swedish": "Schwedisch",
+    "portuguese": "Portugiesisch",
+    "romanian": "Rumänisch",
+    "turkish": "Türkisch"
 }
