@@ -49,9 +49,22 @@ App.loader(true, i18n.__('loading'));
 
 // Handler for Video opening
 window.spawnCallback = function (url, subs, movieModel) {
+
+    // Sort sub according lang translation
+    var subArray = [];
+    for (lang in subs) {
+        subArray.push({
+            'language': Languages[lang],
+            'sub': subs[lang]
+        });
+    }
+    subArray.sort(function (sub1, sub2) {
+        return sub1.language.localeCompare(sub2.language);
+    });
+
     var subtracks = '';
-    for( lang in subs ) {
-      subtracks += '<track kind="subtitles" src="app://host/' + subs[lang] + '" srclang="'+ lang +'" label="' + i18n.__(lang) + '" charset="utf-8" />';
+    for( index in subArray ) {
+      subtracks += '<track kind="subtitles" src="app://host/' + subArray[index].sub + '" srclang="es" label="' + subArray[index].language + '" charset="utf-8" />';
     }
 
     var player =
