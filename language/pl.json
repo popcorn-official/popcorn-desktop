@@ -47,13 +47,14 @@
 		"war": "Wojenny",
 		"western": "Western"
 	},
-	"french": "francuski",
-	"english": "angielski",
-	"spanish": "hiszpański",
-	"swedish": "szwedzki",
-	"portuguese": "portugalski",
-	"romanian": "rumuński",
-	"turkish": "turecki",
-	"dutch": "holenderski",
-	"italian": "włoski"
+	"french": "francusku",
+	"english": "angielsku",
+	"spanish": "hiszpańsku",
+	"swedish": "szwedzku",
+	"portuguese": "portugalsku",
+	"romanian": "rumuńsku",
+	"turkish": "turecku",
+	"dutch": "holendersku",
+	"italian": "włosku",
+	"polish": "polsku"
 }
