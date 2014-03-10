@@ -31,7 +31,7 @@
         "all": "Populärt",
         "action": "Action",
         "adventure": "Äventyr",
-        "animation": "Animerad",
+        "animation": "Animerat",
         "biography": "Biografi",
         "comedy": "Komedi",
         "crime": "Kriminalare",
@@ -44,14 +44,14 @@
         "horror": "Skräck",
         "music": "Musik",
         "musical": "Musikal",
-        "mystery": "Mysterium",
+        "mystery": "Mysterier",
         "romance": "Romantik",
         "sci-fi": "Sci-Fi",
         "short": "Kortfilm",
         "sport": "Sport",
         "thriller": "Thriller",
-        "war": "Krigsfilm",
-        "western": "Vilda Västern"
+        "war": "Krig",
+        "western": "Vilda Västern",
     },
     "french": "Franska",
     "english": "Engelska",
@@ -61,5 +61,5 @@
     "romanian": "Rumänska",
     "turkish": "Turkiska",
     "dutch": "Nederländska",
-    "italian": "Italienska"
+    "italian": "Italienska",
 }
