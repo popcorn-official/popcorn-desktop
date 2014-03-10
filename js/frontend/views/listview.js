@@ -78,6 +78,9 @@ App.View.MovieList = Backbone.View.extend({
 
         });
 
+        // Release scroll busy flag
+        movieList.constructor.busy = false;
+
         var page           = 1;
         var $scrollElement = movieList.$el.parent();
         if (!this.options.paginationDisabled){
