@@ -23,12 +23,11 @@ App.Controller.Search = function (searchTerm, page) {
 
     if (!page || page == '1'){
         App.Page.Search.show();
-        
-        userTracking.pageview('/movies/search?q='+encodeURIComponent(searchTerm)).send();
     }
-    else {
-        setTimeout(function(){
-            movieList.constructor.busy = false;
-        }, 1000);
-    }
+    
+    userTracking.pageview('/movies/search?q='+encodeURIComponent(searchTerm)).send();
+
+    setTimeout(function(){
+        movieList.constructor.busy = false;
+    }, 1000);
 };
