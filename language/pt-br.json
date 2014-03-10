@@ -2,7 +2,7 @@
     "quit": "Sair",
     "cancel": "Cancelar",
     "beforeQuit": "Você tem certeza que deseja sair?",
-    "loading": "Por Favor Aguarde...",
+    "loading": "Por favor, aguarde...",
     "loadingVideo": "Carregando vídeo, por favor aguarde.",
     "searchLoading": "Procurando...",
     "noResults": "Nenhum resultado encontrado.",
@@ -12,11 +12,11 @@
 
     "subtitledIn": "Legendas em",
     "quality": "Qualidade",
-    "watchItNow": "Assistir Agora",
+    "watchItNow": "Assistir agora",
     "durationUnit": "min",
 
     "connecting": "Conectando...",
-    "startingDownload": "Começando Download...",
+    "startingDownload": "Começando o download...",
     "downloading": "Baixando...",
 
     "UpgradeVersion": "Atualizar Popcorn Time",
