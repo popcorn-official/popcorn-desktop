@@ -1,8 +1,4 @@
 App.View.MovieList = Backbone.View.extend({
-    tagName: 'ul',
-
-    className: 'movie-list',
-
     constructor: function (options) {
         this.configure(options || {});
         Backbone.View.prototype.constructor.apply(this, arguments);
@@ -16,8 +12,8 @@ App.View.MovieList = Backbone.View.extend({
     },
 
     initialize: function (options) {
-        // Delete old items
-        this.$el.children().detach();
+        // Bind element on existing list
+        this.$el = $('.movie-list').first();
 
         this.collection = App.getTorrentsCollection(options);
 
