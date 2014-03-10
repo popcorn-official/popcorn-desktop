@@ -25,7 +25,7 @@ App.Controller.Search = function (searchTerm, page) {
         App.Page.Search.show();
     }
     
-    userTracking.pageview('/movies/search?q='+encodeURIComponent(searchTerm)).send();
+    userTracking.pageview('/movies/search?q='+encodeURIComponent(searchTerm)+((page && page > 1) ? '&page='+page : '')).send();
 
     setTimeout(function(){
         movieList.constructor.busy = false;
