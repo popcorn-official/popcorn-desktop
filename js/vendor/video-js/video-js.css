@@ -159,7 +159,7 @@ fonts to show/hide properly.
 /* Replacement for focus outline */
 .vjs-default-skin .vjs-control:focus:before,
 .vjs-default-skin .vjs-control:hover:before {
-  color: #cc181e;
+  color: #2874cd;
 }
 .vjs-default-skin .vjs-control:focus {
   /*  outline: 0; */
@@ -232,7 +232,7 @@ fonts to show/hide properly.
   top: 0;
   left: 0;
   height: 0.5em;
-  background: #cc181e; 
+  background: #2874cd; 
 }
 .vjs-default-skin .vjs-volume-bar .vjs-volume-handle {
   font-size: 2.2em;
@@ -301,7 +301,7 @@ fonts to show/hide properly.
 }
 .vjs-default-skin .vjs-play-progress {
 
-  background: #cc181e;
+  background: #2874cd;
 }
 .vjs-default-skin .vjs-load-progress {
   background: rgba(255,255,255,0.5);
@@ -566,7 +566,7 @@ border-top-color: #FFF;
   border-top: 1px solid #EEE
 }
 .vjs-default-skin .vjs-menu-button ul li.vjs-selected,.vjs-default-skin .vjs-menu-button ul li.vjs-selected:hover,.vjs-default-skin .vjs-menu-button ul li.vjs-selected:focus {
-  color:#cc181e;
+  color:#2874cd;
 }
 
 .vjs-default-skin .vjs-menu-button ul li:focus,

@@ -3912,13 +3912,22 @@ vjs.Player.prototype.userActive = function(bool){
 };
 
 vjs.Player.prototype.listenForUserActivity = function(){
-  var onMouseActivity, onMouseDown, mouseInProgress, onMouseUp,
-      activityCheck, inactivityTimeout;
+  var onActivity, onMouseMove, onMouseDown, mouseInProgress, onMouseUp,
+      activityCheck, inactivityTimeout, lastMoveX, lastMoveY;
 
-  onMouseActivity = this.reportUserActivity;
+  onActivity = vjs.bind(this, this.reportUserActivity);
+
+  onMouseMove = function(e) {
+    // Prevent mousemove spamming
+    if(e.screenX != lastMoveX || e.screenY != lastMoveY) {
+      lastMoveX = e.screenX;
+      lastMoveY = e.screenY;
+      onActivity();
+    }
+  };
 
   onMouseDown = function() {
-    onMouseActivity();
+    onActivity();
     // For as long as the they are touching the device or have their mouse down,
     // we consider them active even if they're not moving their finger or mouse.
     // So we want to continue to update that they are active
@@ -3926,30 +3935,30 @@ vjs.Player.prototype.listenForUserActivity = function(){
     // Setting userActivity=true now and setting the interval to the same time
     // as the activityCheck interval (250) should ensure we never miss the
     // next activityCheck
-    mouseInProgress = setInterval(vjs.bind(this, onMouseActivity), 250);
+    mouseInProgress = setInterval(vjs.bind(this, onActivity), 250);
   };
 
   onMouseUp = function(event) {
-    onMouseActivity();
+    onActivity();
     // Stop the interval that maintains activity if the mouse/touch is down
     clearInterval(mouseInProgress);
   };
 
   // Any mouse movement will be considered user activity
   this.on('mousedown', onMouseDown);
-  this.on('mousemove', onMouseActivity);
+  this.on('mousemove', onMouseMove);
   this.on('mouseup', onMouseUp);
 
   // Listen for keyboard navigation
   // Shouldn't need to use inProgress interval because of key repeat
-  this.on('keydown', onMouseActivity);
-  this.on('keyup', onMouseActivity);
+  this.on('keydown', onActivity);
+  this.on('keyup', onActivity);
 
   // Consider any touch events that bubble up to be activity
   // Certain touches on the tech will be blocked from bubbling because they
   // toggle controls
   this.on('touchstart', onMouseDown);
-  this.on('touchmove', onMouseActivity);
+  this.on('touchmove', onActivity);
   this.on('touchend', onMouseUp);
   this.on('touchcancel', onMouseUp);
 
@@ -5101,9 +5110,11 @@ vjs.Html5 = vjs.MediaTechController.extend({
     // Our goal should be to get the custom controls on mobile solid everywhere
     // so we can remove this all together. Right now this will block custom
     // controls on touch enabled laptops like the Chrome Pixel
-    if (vjs.TOUCH_ENABLED && player.options()['nativeControlsForTouch'] !== false) {
-      this.useNativeControls();
-    }
+    
+    // Disable touch control support and do not use the native controls.
+    // if (vjs.TOUCH_ENABLED && player.options()['nativeControlsForTouch'] !== false) {
+    //  this.useNativeControls();
+    // }
 
     // Chrome and Safari both have issues with autoplay.
     // In Safari (5.1.1), when we move the video element into the container div, autoplay doesn't work.

@@ -1,7 +1,4 @@
-/*
--- Global elements */
-
-
+/* Global elements */
 html,
 body {
   height: 100%;
@@ -26,6 +23,7 @@ body {
 button:hover { cursor: pointer; }
 :focus { outline: 0; }
 a { text-decoration: none; }
+
 // Useful Stuff
 .page {
   @include scrollable();
@@ -46,7 +44,7 @@ a { text-decoration: none; }
   font-size: 13px;
   line-height: 18px;
   padding: 7px 12px;
-  background: #286dc4;
+  background: $popcorn-blue;
   cursor: pointer;
   background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
   color: #FFF;
@@ -71,25 +69,6 @@ a { text-decoration: none; }
   text-transform: uppercase;
   width: 155px;
 }
-
-
-.flag {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  overflow: hidden;
-  
-  &.flag-english { background-image: url(../images/english.png); }
-  &.flag-french { background-image: url(../images/french.png); }
-  &.flag-dutch { background-image: url(../images/dutch.png); }
-  &.flag-portuguese { background-image: url(../images/portuguese.png); }
-  &.flag-romanian { background-image: url(../images/romanian.png); }
-  &.flag-spanish { background-image: url(../images/spanish.png); }
-  &.flag-turkish { background-image: url(../images/turkish.png); }
-  
-  &.flag-brazilian { background-image: url(../images/brazilian.png); }
-}
-
 
 /*
 -- App */
@@ -129,7 +108,7 @@ a { text-decoration: none; }
       display: block;
       float: left;
       margin: 0 6px 0 0;
-      background: $borders-color;
+      background: #000;
 
       &.btn-os {
         border-radius: 30px;
@@ -241,7 +220,7 @@ a { text-decoration: none; }
       &.active {
         a,
         a:hover {
-          background: #286dc4;
+          background: $popcorn-blue;
           background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
           color: #FFF;
           font-weight: bold;
@@ -413,6 +392,16 @@ body.has-notification {
   &.hidden {
     opacity: 0;
     pointer-events: none;
+  }
+
+  &.quitting {
+    .text, .btn {
+      opacity: 0.0;
+      pointer-events: none;
+    }
+  }
+  .text, .btn {
+    @include transition(opacity 2.0s ease-out);
   }
 
   .wrapper {

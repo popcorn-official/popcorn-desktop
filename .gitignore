@@ -9,6 +9,8 @@ lib-cov
 
 .idea/
 
+node_modules/
+
 pids
 logs
 results

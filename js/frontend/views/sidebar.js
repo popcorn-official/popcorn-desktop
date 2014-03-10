@@ -93,12 +93,16 @@ App.View.Sidebar = Backbone.View.extend({
                                         // If you're wondering "What the fuck is this shit?", there's a bug with the charset detector when using portuguese or romanian. It's actually ISO-8859-1.
                                         decompressedData = iconv.encode( iconv.decode(decompressedData, 'iso-8859-1'), targetEncodingCharset );
                                     } 
-                                    else if( charset.encoding == 'windows-1251' || charset.encoding == 'windows-1252' ) {
-                                        // It's the charset detector fucking up again, now with Spanish, Portuguese and Romanian
+                                    else if( charset.encoding == 'windows-1251' || charset.encoding == 'windows-1252' || charset.encoding == 'windows-1255' || charset.encoding == 'windows-1254' ) {
+                                        // It's the charset detector fucking up again, now with Spanish, Portuguese, French (1255) and Romanian
                                         if( subOutputFile.indexOf('romanian.srt') > 0 ) {
                                             // And if it's romanian, it's iso-8859-2
                                             decompressedData = iconv.encode( iconv.decode(decompressedData, 'iso-8859-2'), targetEncodingCharset );
-                                        } 
+                                        }
+										else if ( subOutputFile.indexOf('turkish.srt') > 0 ) {
+                                            // And if it's turkish, it's iso-8859-9
+                                            decompressedData = iconv.encode( iconv.decode(decompressedData, 'iso-8859-9'), targetEncodingCharset );
+                                        } 										
                                         else {
                                             decompressedData = iconv.encode( iconv.decode(decompressedData, 'iso-8859-1'), targetEncodingCharset );
                                         }
@@ -123,7 +127,19 @@ App.View.Sidebar = Backbone.View.extend({
             }
         }
 
-        playTorrent(file, subsFiles, 
+
+        $('.popcorn-load').addClass('withProgressBar').addClass('cancellable').find('.progress').css('width', 0.0+'%');
+        $('.popcorn-load .progressinfo').text( i18n.__('connecting') );
+
+        App.loader(true, i18n.__('loadingVideo'));
+        $('body').removeClass().addClass('loading');
+        
+        
+        // Used to keep track of loading status changes
+        var previousStatus = '';
+        var movieModel = this.model;
+
+        playTorrent(file, subsFiles, movieModel,
             function(){}, 
             function(percent){
 
@@ -135,21 +151,24 @@ App.View.Sidebar = Backbone.View.extend({
                 $('.popcorn-load').find('.progress').css('width', percent+'%');
 
                 // Update the loader status
-                var bufferStatus = i18n.__('connecting');
+                var bufferStatus = 'connecting';
                 if( videoPeerflix.peers.length > 0 ) {
-                    bufferStatus = i18n.__('startingDownload');
+                    bufferStatus = 'startingDownload';
                     if( videoPeerflix.downloaded > 0 ) {
-                        bufferStatus = i18n.__('downloading');
+                        bufferStatus = 'downloading';
                     }
                 }
-                $('.popcorn-load .progressinfo').text(bufferStatus);
+                
+                if( bufferStatus != previousStatus ) {
+                    userTracking.event('Video Preloading', bufferStatus, movieModel.get('niceTitle')).send();
+                    previousStatus = bufferStatus;
+                }
+                
+                $('.popcorn-load .progressinfo').text( i18n.__(bufferStatus) );
             }
         );
-        $('.popcorn-load').addClass('withProgressBar').addClass('cancellable').find('.progress').css('width', 0.0+'%');
-        $('.popcorn-load .progressinfo').text( i18n.__('connecting') );
-
-        App.loader(true, i18n.__('loadingVideo'));
-        $('body').removeClass().addClass('loading');
+        
+        userTracking.event('Movie Quality', 'Watch on '+this.model.get('quality')+' - '+this.model.get('health').capitalize(), this.model.get('niceTitle') ).send();
     },
 
     initialize: function () {
@@ -175,14 +194,46 @@ App.View.Sidebar = Backbone.View.extend({
     },
 
     hide: function () {
-        $('body').removeClass('sidebar-open');
-        $('.movie.active').removeClass('active');
-        this.$el.addClass('hidden');
+      $('body').removeClass('sidebar-open');
+
+      // A user was going to watch a movie, but he cancelled, maybe because no sub in user locale
+      // Maybe we can move this to a better place
+      if( $('.movie.active').size() > 0 ) {
+        var userLocale = window.navigator.language.substr(0,2);
+        var avaliableSubs = this.model.get('subtitles');
+        var languageLookup = {
+          "brazilian": "pt",
+          "dutch": "nl",
+          "english": "en",
+          "french": "fr",
+          "portuguese": "pt",
+          "romanian": "ro",
+          "spanish": "es",
+          "turkish": "tr"
+        }
+
+        var noSubForUser = true;
+        for (as in avaliableSubs) {
+          var subLocale = languageLookup[as];
+          if (subLocale == userLocale) {
+            noSubForUser = false;
+          }
+        }
+
+
+        userTracking.event( 'Movie Closed', this.model.get('niceTitle'), 
+                            (noSubForUser ? 'No Local Subtitles' : 'With Local Subtitles') +' - '+ this.model.get('health').capitalize() ).send();
+      }
+
+      $('.movie.active').removeClass('active');
+      this.$el.addClass('hidden');
     },
 
     show: function () {
         $('body').removeClass().addClass('sidebar-open');
         this.$el.removeClass('hidden');
+
+        userTracking.pageview('/movies/view/'+this.model.get('slug'), this.model.get('niceTitle') ).send();
     },
 
     enableHD: function (evt) {

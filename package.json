@@ -1,15 +1,15 @@
 {
   "name": "Popcorn-Time",
   "main": "app://host/index.html",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "window": {
     "title": "Popcorn Time",
     "icon": "images/icon.png",
     "toolbar": false,
     "frame": false,
-    "width": 945,
+    "width": 962,
     "height": 600,
-    "min_width": 945,
+    "min_width": 962,
     "min_height": 600,
     "resizable": true
   },
@@ -24,7 +24,12 @@
     "jschardet": "~1.1.0",
     "iconv-lite": "~0.2.11",
     "adm-zip": "~0.4.4",
-    "i18n": "~0.4.1"
+    "i18n": "~0.4.1",
+    "universal-analytics": "~0.3.4",
+    "node-uuid": "~1.4.1",
+    "socket.io": "^0.9.16",
+    "express": "^3.5.0",
+    "ip": "^0.3.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
