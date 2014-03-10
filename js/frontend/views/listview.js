@@ -78,9 +78,6 @@ App.View.MovieList = Backbone.View.extend({
 
         });
 
-        // Release scroll busy flag
-        movieList.constructor.busy = false;
-
         var page           = 1;
         var $scrollElement = movieList.$el.parent();
         if (!this.options.paginationDisabled){
@@ -95,12 +92,16 @@ App.View.MovieList = Backbone.View.extend({
                     if (currentPosition >= (totalSize - scrollBuffer)){
                         movieList.constructor.busy = true;
                         page++;
+                        
                         if (movieList.options.genre){
                             App.Router.navigate('filter/' + movieList.options.genre + '/' + page, { trigger: true });
                         }
-                        else {
+                        else if (movieList.options.keywords) {
                             // uncomment this line when the API start accepting the page param to paginate ;)
                             //App.Router.navigate('search/' + movieList.options.keywords + '/' + page, { trigger: true });
+                        }
+                        else {
+                            App.Router.navigate('index'+page+'.html', { trigger: true});
                         }
                     }
                 }

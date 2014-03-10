@@ -19,11 +19,11 @@ App.Controller.FilterGenre = function (genre, page) {
 
     if (!page || page == '1'){
         App.Page.FilterGenre.show();
-
-        userTracking.pageview('/movies/'+genre + ((page && page > 1) ? '?page='+page : ''), genre.capitalize() + ' Movies').send();
-        
-        setTimeout(function(){
-            movieList.constructor.busy = false;
-        }, 1000);
     }
+    
+    userTracking.pageview('/movies/'+genre + ((page && page > 1) ? '?page='+page : ''), genre.capitalize() + ' Movies').send();
+    
+    setTimeout(function(){
+        movieList.constructor.busy = false;
+    }, 1000);
 };
