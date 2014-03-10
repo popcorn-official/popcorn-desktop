@@ -192,11 +192,47 @@ document.addEventListener('keydown', function(event){
         $(document).trigger('videoExit');
     }
     if (event.keyCode == 32 && $("#video_player").is(".vjs-playing")) {
+        // Space: pause
         $("#video_player")[0].player.pause();
     } else if (event.keyCode == 32 && $("#video_player").is(".vjs-paused")) {
+        // Space: play
         $("#video_player")[0].player.play();
     }
+    if (event.keyCode == 37) {
+        // Left arrow: jump backward
+        var currentTime = $("#video_player")[0].player.currentTime();
+        $("#video_player")[0].player.currentTime(currentTime - 10);
+    }
+    if (event.keyCode == 38) {
+        // Up arrow: increase volume (1.0 is all the way up)
+        var currentVolume = $("#video_player")[0].player.volume();
+        $("#video_player")[0].player.volume(currentVolume + 0.1);
+    }
+    if (event.keyCode == 39) {
+        // Right arrow: jump forward
+        var currentTime = $("#video_player")[0].player.currentTime();
+        $("#video_player")[0].player.currentTime(currentTime + 10);
+    }
+    if (event.keyCode == 40) {
+        // Down arrow: decrease volume (0 is off, muted)
+        var currentVolume = $("#video_player")[0].player.volume();
+        $("#video_player")[0].player.volume(currentVolume - 0.1);
+    }
 });
+
+
+document.addEventListener('mousewheel', function(event){
+    if (event.wheelDelta > 0) {
+        // Wheel up: increase volume (1.0 is all the way up)
+        var currentVolume = $("#video_player")[0].player.volume();
+        $("#video_player")[0].player.volume(currentVolume + 0.1);
+    } else {
+        // Wheel down: decrease volume (0 is off, muted)
+        var currentVolume = $("#video_player")[0].player.volume();
+        $("#video_player")[0].player.volume(currentVolume - 0.1);
+    }
+});
+
 
 // Cancel all new windows (Middle clicks / New Tab)
 win.on('new-win-policy', function (frame, url, policy) {
