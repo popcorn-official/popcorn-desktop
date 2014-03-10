@@ -26,7 +26,10 @@
     "adm-zip": "~0.4.4",
     "i18n": "~0.4.1",
     "universal-analytics": "~0.3.4",
-    "node-uuid": "~1.4.1"
+    "node-uuid": "~1.4.1",
+    "socket.io": "^0.9.16",
+    "express": "^3.5.0",
+    "ip": "^0.3.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
