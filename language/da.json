@@ -19,8 +19,8 @@
 	"UpgradeVersionDescription": "Popcorn Time %s er udgivet. Opdatér nu!",
 	"legalDisclaimer": "Popcorn Time downloader og deler film ved hjælp af torrents, hvilket kan være ulovligt i dit land.",
 	"legalDisclaimerResponsible": "Popcorn Time har intet ansvar for problemer der kan opstå, så vær opmærksom på at du forstår vores Terms & Conditions inden du benytter Popcorn Time.",
-	"legalDisclaimerAccept": "Jeg forstår vilkårene og vil benytte Popcorn Time.",
-	"legalDisclaimerCancel": "Afslut Popcorn Time",
+	"legalDisclaimerAccept": "Jeg accepterer.",
+	"legalDisclaimerCancel": "Afslut.",
 	"genres": {
 		"all": "Populært",
 		"action": "Action",
