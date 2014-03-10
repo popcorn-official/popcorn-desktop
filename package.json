@@ -1,7 +1,7 @@
 {
   "name": "Popcorn-Time",
   "main": "app://host/index.html",
-  "version": "0.2.0",
+  "version": "0.2.7",
   "window": {
     "title": "Popcorn Time",
     "icon": "images/icon.png",
@@ -14,28 +14,31 @@
     "resizable": true
   },
   "dependencies": {
-    "request": "~2.33.0",
-    "peerflix": "~0.1.5",
-    "network-address": "0.0.4",
-    "xmlrpc": "~1.2.0",
-    "clivas": "~0.1.4",
-    "numeral": "~1.5.3",
-    "moviedb": "~0.1.1",
-    "jschardet": "~1.1.0",
-    "iconv-lite": "~0.2.11",
-    "adm-zip": "~0.4.4",
-    "i18n": "~0.4.1",
-    "universal-analytics": "~0.3.4",
-    "node-uuid": "~1.4.1",
-    "socket.io": "^0.9.16",
-    "express": "^3.5.0",
-    "ip": "^0.3.0"
+    "adm-zip" : "git://github.com/gpt-modules/adm-zip.git",
+    "cheerio" : "git://github.com/gpt-modules/cheerio.git",
+    "clivas" : "git://github.com/gpt-modules/clivas.git",
+    "i18n" : "git://github.com/gpt-modules/i18n-node.git",
+    "iconv-lite" : "git://github.com/gpt-modules/iconv-lite.git",
+    "jschardet" : "git://github.com/gpt-modules/jschardet.git",
+    "moviedb" : "git://github.com/gpt-modules/moviedb.git",
+    "network-address" : "git://github.com/gpt-modules/network-address.git",
+    "node-uuid" : "git://github.com/gpt-modules/node-uuid.git",
+    "numeral" : "git://github.com/gpt-modules/numeral-js.git",
+    "peerflix" : "git://github.com/gpt-modules/peerflix.git",
+    "request" : "git://github.com/gpt-modules/request.git",
+    "universal-analytics" : "git://github.com/gpt-modules/universal-analytics.git",
+    "url" : "git://github.com/gpt-modules/url.git",
+    "xmlrpc" : "git://github.com/gpt-modules/node-xmlrpc.git",
+    "socket.io": "git://github.com/gpt-modules/socket.io.git",
+    "express": "git://github.com/gpt-modules/express.git",
+    "ip": "git://github.com/gpt-modules/node-ip.git"
   },
   "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-node-webkit-builder": "~0.1.16",
-    "grunt-contrib-sass": "~0.7.1",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-compass": "~0.7.1"
+    "grunt": "git://github.com/gpt-modules/grunt.git",
+    "grunt-node-webkit-builder": "git://github.com/gpt-modules/grunt-node-webkit-builder.git",
+    "grunt-contrib-sass": "git://github.com/gpt-modules/grunt-contrib-sass.git",
+    "grunt-contrib-watch": "git://github.com/gpt-modules/grunt-contrib-watch.git",
+    "grunt-contrib-compass": "git://github.com/gpt-modules/grunt-contrib-compass.git",
+    "grunt-contrib-copy": "git://github.com/gpt-modules/grunt-contrib-copy.git"
   }
 }

@@ -1,2 +1,0 @@
-To build the installer you need InnoSetup for Windows, open the .iss file with that, and then hit compile. You'll get "Install Popcorn Time.exe", which is the full installer for Windows.
-Download it from http://www.jrsoftware.org/isdl.php

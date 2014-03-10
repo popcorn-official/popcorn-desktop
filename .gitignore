@@ -11,6 +11,8 @@ lib-cov
 
 node_modules/
 
+build/
+
 pids
 logs
 results
