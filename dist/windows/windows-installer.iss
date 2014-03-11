@@ -74,7 +74,6 @@ Source: "..\..\js\*"; DestDir: "{app}\app\js\"; Flags: ignoreversion recursesubd
 Source: "..\..\fonts\*"; DestDir: "{app}\app\fonts\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\..\images\*"; DestDir: "{app}\app\images\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\..\language\*"; DestDir: "{app}\app\language\"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\..\tmp\empty"; DestDir: "{app}\app\tmp\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\..\node_modules\*"; DestDir: "{app}\app\node_modules\"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\..\node-webkit\windows\*"; DestDir: "{app}\node-webkit\"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files

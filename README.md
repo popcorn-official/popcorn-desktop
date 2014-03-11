@@ -23,12 +23,39 @@ Under development (RC1) for Mac OSX - Windows - Linux.
 - [SubtitleSeeker](http://www.api.subtitleseeker.com/About/Api-Search/) for subtitles.
 
 
-## Testing it out
-1. Open a Terminal with this project folder.
-2. Run `npm install` in Terminal to include project dependencies.
-3. Copy the [node-webkit application binary](https://s3.amazonaws.com/node-webkit/v0.8.4/node-webkit-v0.8.4-osx-ia32.zip) for OSX 10.7+ to your `/Applications` folder.
-4. Run `/Applications/node-webkit.app/Contents/MacOS/node-webkit .` in Terminal to open up the application.
-5. Update `js/vendor/config.js` with your [themoviedb.org](http://themoviedb.org) API key. Pst. if you need one contact us.
+## Building
+
+### Dependencies
+
+You will need nodejs and grunt:
+
+    $ npm install -g grunt-cli
+
+### Select your OS
+
+Enable your Operating System in `Gruntfile.js` and disable all the others:
+
+    …
+    nodewebkit: {
+      options: {
+        …
+        mac: false,
+        win: false,
+        linux32: false,
+        linux64: true
+      },
+    …
+
+### Build
+
+Install the node modules:
+
+    $ npm install
+
+Built with:
+
+    $ grunt nodewkbuild
+
 
 ## Any problem?
 
@@ -47,7 +74,7 @@ Replace `node_modules/moviedb/node_modules/superagent/index.js` contents with:
 
 ### Regarding Video, MP4 H264 Playback
 - Info: https://github.com/rogerwang/node-webkit/wiki/Support-mp3-and-h264-in-video-and-audio-tag
-- Needed to build a custom build of node-webkit that adds h264 support (or you can download redy-to-go builds from https://file.ac/s4Lt3Vo6rls/)
+- Needed to build a custom build of node-webkit that adds h264 support (or you can download ready-to-go builds from https://file.ac/s4Lt3Vo6rls/)
 - Alternatively, we can replace a .so and .dll file from the correspondent Chrome build to node-webkit and node-webkit.exe
 
 

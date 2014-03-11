@@ -1,5 +1,4 @@
 var
-
     // Minimum percentage to open video
     MIN_PERCENTAGE_LOADED = 0.5,
 
@@ -37,108 +36,39 @@ var
     i18n = require("i18n");
 
 
-i18n.configure({
-    defaultLocale: 'en',
-    locales: ['en', 'de', 'es', 'fr', 'ja', 'nl', 'pt-br', 'pt', 'ro', 'sv', 'tr','it', 'ar'],
-    directory: './language'
-});
+// Global App skeleton for backbone
+var App = {
+  Controller: {},
+  View: {},
+  Model: {},
+  Page: {}
+};
 
-// Create the Temp Folder
-if( ! fs.existsSync(tmpFolder) ) { fs.mkdirSync(tmpFolder); }
 
-// Detect the language and update the global Language file
-var detectLanguage = function(preferredLanguage) {
 
-    var fs = require('fs');
-    // The full OS language (with localization, like "en-uk")
-    var pureLanguage = navigator.language.toLowerCase();
-    // The global language name (without localization, like "en")
-    var baseLanguage = navigator.language.toLowerCase().slice(0,2);
+// Create the System Temp Folder. This is used to store temporary data like movie files.
+if( ! fs.existsSync(tmpFolder) ) { fs.mkdir(tmpFolder); }
 
-    if( fs.existsSync('./language/' + pureLanguage + '.json') ) {
-        i18n.setLocale(pureLanguage);
-    }
-    else if( fs.existsSync('./language/' + baseLanguage + '.json') ) {
-        i18n.setLocale(baseLanguage);
-    } else {
-        i18n.setLocale(preferredLanguage);
-    }
-
-    // This is a hack to translate non-templated UI elements. Fuck it.
-    $('[data-translate]').each(function(){
-        var $el = $(this);
-        var key = $el.data('translate');
-
-        if( $el.is('input') ) {
-            $el.attr('placeholder', i18n.__(key));
-        } else {
-            $el.text(i18n.__(key));
+var wipeTmpFolder = function() {
+    if( typeof tmpFolder != 'string' ){ return; }
+    fs.readdir(tmpFolder, function(err, files){
+        for( var i in files ) {
+            fs.unlink(tmpFolder+'/'+files[i]);
         }
     });
-
-  populateCategories();
-};
-
-
-// Tracking
-var getTrackingId = function(){
-
-    var clientId = Settings.get('trackingId');
-
-    if( typeof clientId == 'undefined' || clientId == null || clientId == '' ) {
-
-        // A UUID v4 (random) is the recommended format for Google Analytics
-        var uuid = require('node-uuid');
-
-        Settings.set('trackingId', uuid.v4() );
-        clientId = Settings.get('trackingId');
-
-        // Try a time-based UUID (v1) if the proper one fails
-        if( typeof clientId == 'undefined' || clientId == null || clientId == '' ) {
-            Settings.set('trackingId', uuid.v1() );
-            clientId = Settings.get('trackingId');
-
-            if( typeof clientId == 'undefined' || clientId == null || clientId == '' ) {
-                clientId = null;
-            }
-        }
-    }
-
-    return clientId;
-};
-
-var ua = require('universal-analytics');
-
-if( getTrackingId() == null ) {
-    // Don't report anything if we don't have a trackingId
-    var dummyMethod = function(){ return {send:function(){}}; };
-    var userTracking = window.userTracking = {event:dummyMethod, pageview:dummyMethod, timing:dummyMethod, exception:dummyMethod, transaction:dummyMethod};
-} else {
-    var userTracking = window.userTracking = ua('UA-48789649-1', getTrackingId());
 }
+
+// Wipe the tmpFolder when closing the app (this frees up disk space)
+win.on('close', function(){
+    wipeTmpFolder();
+    win.close(true);
+});
+
 
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
-
-
-// Populate the Category list (This should be a template, though)
-var populateCategories = function() {
-    var category_html = '';
-    var defaultCategory = 'all';
-
-    for( key in i18n.__("genres") ) {
-        category_html += '<li'+ (defaultCategory == key ? ' class="active" ' : '') +'>'+
-                           '<a href="#" data-genre="'+key+'">'+ i18n.__("genres")[key] +'</a>'+
-                         '</li>';
-    }
-
-    jQuery('#catalog-select .categories').html(category_html);
-};
-
-detectLanguage('en');
-
 
 
 // Not debugging, hide all messages!
@@ -180,71 +110,6 @@ win.title = 'Popcorn Time';
 win.focus();
 
 
-document.addEventListener('keydown', function(event){
-    var $el = $('.popcorn-quit');
-    if(!$el.hasClass('hidden')) {
-        // Esc
-        if( event.keyCode == 27 ) { $el.addClass('hidden'); }
-    }
-    if (event.keyCode === 27 && $('body').is('.loading')) {
-        // Escape pressed from sidebar
-        App.loader(false);
-        $(document).trigger('videoExit');
-    }
-    // Get video player
-    var videoPlayer = $("#video_player");
-    if (videoPlayer.length > 0) {
-        videoPlayer = videoPlayer[0].player;
-        if (event.keyCode == 32 && $("#video_player").is(".vjs-playing")) {
-            // Space: pause
-            videoPlayer.pause();
-        } else if (event.keyCode == 32 && $("#video_player").is(".vjs-paused")) {
-            // Space: play
-            videoPlayer.play();
-        }
-        if (event.keyCode == 37) {
-            // Left arrow: jump backward
-            var currentTime = videoPlayer.currentTime();
-            videoPlayer.currentTime(currentTime - 10);
-        }
-        if (event.keyCode == 38) {
-            // Up arrow: increase volume (1.0 is all the way up)
-            var currentVolume = videoPlayer.volume();
-            videoPlayer.volume(currentVolume + 0.1);
-        }
-        if (event.keyCode == 39) {
-            // Right arrow: jump forward
-            var currentTime = videoPlayer.currentTime();
-            videoPlayer.currentTime(currentTime + 10);
-        }
-        if (event.keyCode == 40) {
-            // Down arrow: decrease volume (0 is off, muted)
-            var currentVolume = videoPlayer.volume();
-            videoPlayer.volume(currentVolume - 0.1);
-        }
-    }
-});
-
-
-document.addEventListener('mousewheel', function(event){
-    // Get video player
-    var videoPlayer = $("#video_player");
-    if (videoPlayer.length === 0)
-        return;
-    videoPlayer = videoPlayer[0].player;
-    // Get current volume
-    var currentVolume = videoPlayer.volume();
-    // Check wheel direction
-    if (event.wheelDelta > 0) {
-        // Wheel up: increase volume (1.0 is all the way up)
-        videoPlayer.volume(currentVolume + 0.1);
-    } else {
-        // Wheel down: decrease volume (0 is off, muted)
-        videoPlayer.volume(currentVolume - 0.1);
-    }
-});
-
-
 // Cancel all new windows (Middle clicks / New Tab)
 win.on('new-win-policy', function (frame, url, policy) {
     policy.ignore();
@@ -260,110 +125,7 @@ window.addEventListener("drop", preventDefault, false);
 // Prevent dragging files outside the window
 window.addEventListener("dragstart", preventDefault, false);
 
-// Check if the user has a working internet connection (uses Google as reference)
-var checkInternetConnection = function(callback) {
-    var http = require('http');
-    var hasInternetConnection = false;
 
-    var opts = url.parse(Settings.get('connectionCheckUrl'));
-    opts.method = 'HEAD';
-    http.get(opts, function(res){
-        if( res.statusCode == 200 || res.statusCode == 302 || res.statusCode == 301 ) {
-            hasInternetConnection = true;
-        }
-        typeof callback == 'function' ? callback(hasInternetConnection) : null;
-    });
-};
-
-
-// Detect the operating system of the user
-var getOperatingSystem = function() {
-    var os = require('os');
-    var platform = os.platform();
-
-    if( platform == 'win32' || platform == 'win64' ) {
-        return 'windows';
-    }
-    if( platform == 'darwin' ) {
-        return 'mac';
-    }
-    if( platform == 'linux' ) {
-        return 'linux';
-    }
-    return null;
-};
-
-
-if( typeof __isNewInstall != 'undefined' && __isNewInstall == true )  {
-  userTracking.event('App Install', getOperatingSystem().capitalize(), Settings.get('version')).send();
-}
-else if( typeof __isUpgradeInstall != 'undefined' && __isUpgradeInstall == true )  {
-  userTracking.event('App Upgrade', getOperatingSystem().capitalize(), Settings.get('version')).send();
-}
-
-
-// Todo: Remove Upgrade in the next version to prevent double counting of device stats (we'd send stats once per version)
-if( (typeof __isNewInstall != 'undefined' && __isNewInstall == true) || 
-    (typeof __isUpgradeInstall != 'undefined' && __isUpgradeInstall == true) )  {
-    
-  // General Device Stats
-  userTracking.event('Device Stats', 'Version', Settings.get('version') + (isDebug ? '-debug' : '') ).send();
-  userTracking.event('Device Stats', 'Type', getOperatingSystem().capitalize()).send();
-  userTracking.event('Device Stats', 'Operating System', os.type() +' '+ os.release()).send();
-  userTracking.event('Device Stats', 'CPU', os.cpus()[0].model +' @ '+ (os.cpus()[0].speed/1000).toFixed(1) +'GHz' +' x '+ os.cpus().length ).send();
-  userTracking.event('Device Stats', 'RAM', Math.round(os.totalmem() / 1024 / 1024 / 1024)+'GB' ).send();
-  userTracking.event('Device Stats', 'Uptime', Math.round(os.uptime() / 60 / 60)+'hs' ).send();
-
-  // Screen resolution, depth and pixel ratio (retina displays)
-  if( typeof screen.width == 'number' && typeof screen.height == 'number' ) {
-    var resolution = (screen.width).toString() +'x'+ (screen.height.toString());
-    if( typeof screen.pixelDepth == 'number' ) {
-      resolution += '@'+ (screen.pixelDepth).toString();
-    }
-    if( typeof window.devicePixelRatio == 'number' ) {
-      resolution += '#'+ (window.devicePixelRatio).toString();
-    }
-    userTracking.event('Device Stats', 'Resolution', resolution).send();
-  }
-
-  // User Language
-  userTracking.event('Device Stats', 'Language', navigator.language.toLowerCase() ).send();
-}
-
-
-// Check if there's a newer version and shows a prompt if that's the case
-var checkForUpdates = function() {
-    var http = require('http');
-
-    var currentOs = getOperatingSystem();
-    // We may want to change this in case the detection fails
-    if( ! currentOs ){ return; }
-
-    http.get(Settings.get('updateNotificationUrl'), function(res){
-        var data = '';
-        res.on('data', function(chunk){ data += chunk; });
-
-        res.on('end', function(){
-            try {
-                var updateInfo = JSON.parse(data);
-            } catch(e){ return; }
-
-            if( ! updateInfo ){ return; }
-
-            if( updateInfo[currentOs].version > Settings.get('version') ) {
-                // Check if there's a newer version and show the update notification
-                $('#notification').html(
-                    i18n.__('UpgradeVersionDescription', updateInfo[currentOs].versionName) +
-                    '<a class="btn" href="#" onclick="gui.Shell.openExternal(\'' + updateInfo[currentOs].downloadUrl + '\');"> '+ i18n.__('UpgradeVersion') + '</a>'
-                );
-                $('body').addClass('has-notification');
-            }
-        });
-
-    })
-};
-
-checkForUpdates();
 
 // Show the disclaimer if the user hasn't accepted it yet.
 if( ! Settings.get('disclaimerAccepted') ) {
@@ -391,99 +153,25 @@ if( ! Settings.get('disclaimerAccepted') ) {
 }
 
 
-// Taken from peerflix `app.js`
-var videoPeerflix = null;
-var playTorrent = window.playTorrent = function (torrent, subs, movieModel, callback, progressCallback) {
-
-    videoPeerflix ? $(document).trigger('videoExit') : null;
-
-    // Create a unique file to cache the video (with a microtimestamp) to prevent read conflicts
-    var tmpFilename = ( torrent.toLowerCase().split('/').pop().split('.torrent').shift() ).slice(0,100);
-    tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_') + '.mp4';
-    var tmpFile = path.join(tmpFolder, tmpFilename);
-
-    var numCores = (os.cpus().length > 0) ? os.cpus().length : 1;
-    var numConnections = 100;
-
-    // Start Peerflix
-    var peerflix = require('peerflix');
-    
-    videoPeerflix = peerflix(torrent, {
-        // Set the custom temp file
-        path: tmpFile,
-        //port: 554,
-        buffer: (1.5 * 1024 * 1024).toString(),
-        connections: numConnections
-    }, function (err, flix) {
-        if (err) throw err;
-
-        var started = Date.now(),
-            loadedTimeout;
-
-        flix.server.on('listening', function () {
-            var href = 'http://127.0.0.1:' + flix.server.address().port + '/';
-
-            loadedTimeout ? clearTimeout(loadedTimeout) : null;
-
-            var checkLoadingProgress = function () {
-
-                var now = flix.downloaded,
-                    total = flix.selected.length,
-                    // There's a minimum size before we start playing the video.
-                    // Some movies need quite a few frames to play properly, or else the user gets another (shittier) loading screen on the video player.
-                    targetLoadedSize = MIN_SIZE_LOADED > total ? total : MIN_SIZE_LOADED,
-                    targetLoadedPercent = MIN_PERCENTAGE_LOADED * total / 100.0,
-
-                    targetLoaded = Math.max(targetLoadedPercent, targetLoadedSize),
-
-                    percent = now / targetLoaded * 100.0;
-
-                if (now > targetLoaded) {
-                    if (typeof window.spawnCallback === 'function') {
-                        window.spawnCallback(href, subs, movieModel);
-                    }
-                    if (typeof callback === 'function') {
-                        callback(href, subs, movieModel);
-                    }
-                } else {
-                    typeof progressCallback == 'function' ? progressCallback( percent, now, total) : null;
-                    loadedTimeout = setTimeout(checkLoadingProgress, 500);
-                }
-            };
-            checkLoadingProgress();
-
-
-            $(document).on('videoExit', function() {
-                if (loadedTimeout) { clearTimeout(loadedTimeout); }
-
-                // Keep the sidebar open
-                $("body").addClass("sidebar-open").removeClass("loading");
-
-                // Stop processes
-                flix.clearCache();
-                flix.destroy();
-                videoPeerflix = null;
-
-                // Unbind the event handler
-                $(document).off('videoExit');
-
-                delete flix;
-            });
-        });
-    });
-
-};
-
-// Enable tooltips
-$('body').tooltip({
-    selector: "*[data-toggle^='tooltip']"
-});
-
-
 /**
  * Show 404 page on uncaughtException
  */
-
 process.on('uncaughtException', function(err) {
     console.log(err);
 });
+
+
+
+// TODO: I have no idea what this is
+App.throttle = function(handler, time) {
+  var throttle;
+  time = time || 300;
+  return function() {
+    var args = arguments,
+      context = this;
+    clearTimeout(throttle);
+    throttle = setTimeout(function() {
+      handler.apply(context, args);
+    }, time);
+  };
+};

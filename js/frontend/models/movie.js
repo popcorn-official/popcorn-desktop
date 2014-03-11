@@ -3,17 +3,6 @@ App.Model.Movie = Backbone.Model.extend({
     buildBasicView: function () {
     
       var model = this;
-    
-      model.set('infoLoaded', true);
-      model.set('subtitlesLoaded', true);
-      model.set('image',    model.get('coverImage'));
-      model.set('bigImage', model.get('coverImage'));
-      model.set('backdrop', model.get('backdropImage'));
-      model.set('title',    model.get('title'));
-      model.set('synopsis', model.get('synopsis'));
-      model.set('voteAverage', model.get('voteAverage'));
-      model.set('runtime', model.get('runtime'));
-      model.set('subtitles', model.get('subtitles'));
 
       // This is mostly used for reporting
       model.set('slug',       model.get('title').toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'_') +'.'+ model.get('imdb').slice(2) );
@@ -65,37 +54,41 @@ App.Model.Movie = Backbone.Model.extend({
     },
 
     initialize: function () {
-        // Movie Health
-        var seeders = this.get('seeders');
-        var leechers = this.get('leechers');
-        var ratio = leechers > 0 ? (seeders / leechers) : seeders;
-
-        if (seeders < 100) {
-            this.set('health', 'bad');
-        }
-        else if (seeders > 100 && seeders < 200) {
-            if( ratio > 5 ) {
-                this.set('health', 'good');
-            } else if( ratio > 3 ) {
-                this.set('health', 'medium');
-            } else {
-                this.set('health', 'bad');
-            }
-        }
-        else if (seeders > 200) {
-            if( ratio > 5 ) {
-                this.set('health', 'excellent');
-            } else if( ratio > 3 ) {
-                this.set('health', 'good');
-            } else if( ratio > 2 ) {
-                this.set('health', 'medium');
-            } else {
-                this.set('health', 'bad');
-            }
-        }
-
         this.buildBasicView();
         //this.setRottenInfo();
         //this.setSubtitles();
+        this.calculateTorrentHealth();
+    },
+
+    calculateTorrentHealth: function () {
+      // Calculates the "health" of the torrent (how easy it is to stream)
+      var seeders = this.get('seeders');
+      var leechers = this.get('leechers');
+      var ratio = leechers > 0 ? (seeders / leechers) : seeders;
+
+      if (seeders < 100) {
+        this.set('health', 'bad');
+      }
+      else if (seeders > 100 && seeders < 200) {
+        if( ratio > 5 ) {
+          this.set('health', 'good');
+        } else if( ratio > 3 ) {
+          this.set('health', 'medium');
+        } else {
+          this.set('health', 'bad');
+        }
+      }
+      else if (seeders > 200) {
+        if( ratio > 5 ) {
+          this.set('health', 'excellent');
+        } else if( ratio > 3 ) {
+          this.set('health', 'good');
+        } else if( ratio > 2 ) {
+          this.set('health', 'medium');
+        } else {
+          this.set('health', 'bad');
+        }
+      }
     }
+
 });
