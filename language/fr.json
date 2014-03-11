@@ -52,11 +52,16 @@
         "thriller": "Thriller",
         "war": "Guerre",
         "western": "Western"
-    },
-    "french": "Français",
-    "english": "Anglais",
-    "spanish": "Espagnol",
-    "portuguese": "Portugais",
-    "romanian": "Roumain",
-    "turkish": "Turc"
-}
+	},
+ 	"french": "Français",
+ 	"english": "Anglais",
+ 	"spanish": "Espagnol",
+ 	"swedish": "Suédois",
+ 	"portuguese": "Portugais",
+ 	"romanian": "Roumain",
+ 	"turkish": "Turque",
+ 	"dutch": "Allemand",
+ 	"italian": "Italien",
+ 	"danish": "Danois",
+ 	"arabic": "Arabe"
+  }
