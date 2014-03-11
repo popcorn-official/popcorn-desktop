@@ -21,10 +21,10 @@ module.exports = function(grunt) {
         version: '0.9.2',
         build_dir: './build', // Where the build version of my node-webkit app is saved
         mac_icns: './images/popcorntime.icns', // Path to the Mac icon file
-        mac: buildPlatforms.mac, // We want to build it for mac
-        win: buildPlatforms.win, // We want to build it for win
+        mac: buildPlatforms.mac,
+        win: buildPlatforms.win,
         linux32: false, // We don't need linux32
-        linux64: buildPlatforms.linux64 // We don't need linux64
+        linux64: buildPlatforms.linux64
       },
       src: ['./css/**', './fonts/**', './images/**', './js/**', './language/**', './node_modules/**', '!./node_modules/grunt*/**', './rc/**', './Config.rb', './index.html', './package.json', './README.md' ] // Your node-webkit app './**/*'
     },
