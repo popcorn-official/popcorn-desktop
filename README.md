@@ -39,10 +39,10 @@ Enable your Operating System in `Gruntfile.js` and disable all the others:
     nodewebkit: {
       options: {
         …
-        mac: false, // We want to build it for mac
-        win: false, // We want to build it for win
-        linux32: false, // We don't need linux32
-        linux64: true // We don't need linux64
+        mac: false,
+        win: false,
+        linux32: false,
+        linux64: true
       },
     …
 
