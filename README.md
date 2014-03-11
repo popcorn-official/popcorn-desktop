@@ -47,7 +47,7 @@ Replace `node_modules/moviedb/node_modules/superagent/index.js` contents with:
 
 ### Regarding Video, MP4 H264 Playback
 - Info: https://github.com/rogerwang/node-webkit/wiki/Support-mp3-and-h264-in-video-and-audio-tag
-- Needed to build a custom build of node-webkit that adds h264 support (or you can download redy-to-go builds from https://file.ac/s4Lt3Vo6rls/)
+- Needed to build a custom build of node-webkit that adds h264 support (or you can download ready-to-go builds from https://file.ac/s4Lt3Vo6rls/)
 - Alternatively, we can replace a .so and .dll file from the correspondent Chrome build to node-webkit and node-webkit.exe
 
 
