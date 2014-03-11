@@ -20,7 +20,8 @@ var xmlrpc = require('xmlrpc'),
         'tur': 'Turkish',
         'dut': 'Dutch',
         'fre': 'French',
-        'ger': 'German'
+        'ger': 'German',
+        'hun': 'Hungarian'
     },
 
     token;

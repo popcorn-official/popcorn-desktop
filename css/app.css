@@ -1686,6 +1686,9 @@ sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-brazi
 sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-italian {
   background-image: url(../images/italian.png);
 }
+sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-hungarian {
+  background-image: url(../images/hungarian.png);
+}
 sidebar .play .movie-detail .side-content a.play-button {
   background: #286dc4;
   background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
