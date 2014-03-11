@@ -113,6 +113,7 @@
 
             <p><%= synopsis %></p>
 
+            <% if ( ! _.isEmpty(subtitles) ) { %>
             <div class="subtitles-list">
               <h4><%= i18n.__('subtitledIn') %></h4>
 
@@ -126,6 +127,7 @@
                 <% } %>
               </ul>
             </div>
+            <% } %>
 
             <% if (this.model.get('torrents')) { %>
               <a href="" class="p_tooltip play-button"><%= i18n.__('watchItNow') %></a>

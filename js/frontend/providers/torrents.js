@@ -58,7 +58,7 @@ App.getTorrentsCollection = function (options) {
                     }
                 }
 
-                if( movie.subtitles.length == 0 && movie.videos.length == 0 ){ return; }
+                if( (typeof movie.subtitles == 'undefined' || movie.subtitles.length == 0) && (typeof movie.videos == 'undefined' || movie.videos.length == 0) ){ return; }
                 
                 movies.push({
                     imdb:       movie.imdb_id,
