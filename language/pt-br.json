@@ -3,7 +3,7 @@
     "cancel": "Cancelar",
     "beforeQuit": "Você tem certeza que deseja sair?",
     "loading": "Por favor, aguarde...",
-    "loadingVideo": "Carregando vídeo, por favor aguarde.",
+    "loadingVideo": "Carregando o vídeo, por favor aguarde.",
     "searchLoading": "Procurando...",
     "noResults": "Nenhum resultado encontrado.",
 
@@ -20,15 +20,15 @@
     "downloading": "Baixando...",
 
     "UpgradeVersion": "Atualizar Popcorn Time",
-    "UpgradeVersionDescription": " acaba de ser lançado. Atualize agora!",
+    "UpgradeVersionDescription": "Popcorn Time %s acaba de ser lançado. Atualize agora!",
     
     "legalDisclaimer": "Popcorn Time baixa e compartilha arquivos usando torrents, isso pode não ser legal em seu país.",
-    "legalDisclaimerResponsible": "Não nos responsabilizamos por eventuais problemas, então esteja ciente de nossos Termos e Condições antes de utilizar o app.",
+    "legalDisclaimerResponsible": "Não nos responsabilizamos por eventuais problemas, então esteja ciente de nossos Termos e Condições antes de utilizar o aplicativo.",
     "legalDisclaimerAccept": "Eu compreendo",
     "legalDisclaimerCancel": "Sair",
     
     "genres": {
-        "all": "Todos",
+        "all": "Popular",
         "action": "Ação",
         "adventure": "Aventura",
         "animation": "Animação",
@@ -52,5 +52,14 @@
         "thriller": "Suspense",
         "war": "Guerra",
         "western": "Faroeste"
-    }
+    },
+    "french": "Francês",
+    "english": "Inglês",
+    "spanish": "Espanhol",
+    "swedish": "Sueco",
+    "portuguese": "Português",
+    "romanian": "Romeno",
+    "turkish": "Turco",
+    "dutch": "Holandês",
+    "italian": "Italiano"
 }

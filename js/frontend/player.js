@@ -93,7 +93,8 @@ window.SubtitleLanguages = {
   'romanian'  : 'Română',
   'portuguese': 'Português',
   'brazilian' : 'Português-Br',
-  'dutch'     : 'Nederlands'
+  'dutch'     : 'Nederlands',
+  'german'    : 'Deutsch'
 };
 
 

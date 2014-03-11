@@ -51,7 +51,7 @@
         "sport": "Sport",
         "thriller": "Thriller",
         "war": "Krig",
-        "western": "Vilda Västern",
+        "western": "Vilda Västern"
     },
     "french": "Franska",
     "english": "Engelska",
@@ -62,4 +62,5 @@
     "turkish": "Turkiska",
     "dutch": "Nederländska",
     "italian": "Italienska",
+    "arabic": "Arabiska"
 }
