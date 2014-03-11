@@ -71,7 +71,7 @@ videojs.plugin('smallerSubtitle', function() {
 });
 
 
-// Custom Subtitles
+// Custom Subtitles Button/Menu
 videojs.plugin('customSubtitles', function() {
 
   // Find subtitlesButton
@@ -92,11 +92,12 @@ videojs.plugin('customSubtitles', function() {
         mode: function(){ return false; }
       };
 
-      this.fileInput_ = $('<input type="file" style="display: none;">');
+      this.fileInput_ = $('<input type="file" accept=".srt" style="display: none;">');
       $(this.el()).append(this.fileInput_);
 
       var that = this;
       this.fileInput_.on('change', function() {
+        if (this.value == '') return;
         that.loadSubtitle(this.value);
       });
 
@@ -109,15 +110,10 @@ videojs.plugin('customSubtitles', function() {
   }
 
   CustomTrackMenuItem.prototype.loadSubtitle = function(filePath) {
-    // Copy file to tmp
-    var fs = require('fs');
-    fs.writeFileSync('tmp/custom.srt', fs.readFileSync(filePath), { enconding: 'utf8' });
-    // TODO Handle copy errors, validation, etc
-    // TODO Fix UTF8 issue
     // TODO Delete old track
-    this.track = this.player_.addTextTrack('subtitles', 'Custom...', '00', { src: './tmp/custom.srt' });
+    this.track = this.player_.addTextTrack('subtitles', 'Custom...', '00', { src: filePath });
     vjs.TextTrackMenuItem.prototype.onClick.call(this); // redirect to TextTrackMenuItem.onClick
-  }
+  } 
 
   subtitlesButton.menu.addItem(new CustomTrackMenuItem(this));
   subtitlesButton.show(); // Always show subtitles button
@@ -134,82 +130,119 @@ vjs.TextTrack.prototype.load = function(){
     this.readyState_ = 1;
 
 
-    // Fetches a subtitle and then does horrible things to make it work properly
-    function getSubtitle ( subUrl, language, callback ) {
+    // Fetches a raw subtitle, locally or remotely
+    function getSub (subUrl, callback) {
+      
+      var fs  = require('fs');
+      var http    = require('http');
+      var url     = require('url');
 
-      var request = require('request');
-      var fs = require('fs');
-      var AdmZip = require('adm-zip');
-      var http = require('http');
-      var url = require('url');
-      var charsetDetect = require('jschardet');
-      var targetCharset = 'utf-8';
-      var targetEncodingCharset = 'utf8';
+      // Fetches Locally
+      if (fs.existsSync(subUrl)) {
+        fs.readFile(subUrl, function(err, data) {
+          // TODO: Error handling --- if (err) throw err;
+          callback(data);
+        })
 
-      var options = {
-        host: url.parse(subUrl).host,
-        port: 80,
-        path: url.parse(subUrl).pathname
-      };
-
-      http.get(options, function(res) {
-        var data = [], dataLen = 0;
-        res.on('data', function(chunk) {
-          data.push(chunk);
-          dataLen += chunk.length;
-        }).on('end', function() {
+      // Fetches remotely
+      // TODO: Lots of Error Handling
+      } else {
+        var options = {
+          host: url.parse(subUrl).host,
+          port: 80,
+          path: url.parse(subUrl).pathname
+        };
+        http.get(options, function(res) {
+          var data = [], dataLen = 0;
+          res.on('data', function(chunk) {
+            data.push(chunk);
+            dataLen += chunk.length;
+          }).on('end', function() {
             var buf = new Buffer(dataLen);
-
             for (var i=0, len = data.length, pos = 0; i < len; i++) {
               data[i].copy(buf, pos);
               pos += data[i].length;
             }
-            var zip = new AdmZip(buf);
-            var zipEntries = zip.getEntries();
-            zipEntries.forEach(function(zipEntry, key) {
-              if (zipEntry.entryName.indexOf('.srt') != -1) {
-
-                var decompressedData = zip.readFile(zipEntry); // decompressed buffer of the entry
-                var charset = charsetDetect.detect(decompressedData);
-                if (charset.encoding == targetEncodingCharset || charset.encoding == targetCharset) {
-                  callback(decompressedData.toString('utf-8'));
-                }
-                else {
-                  var iconv = require('iconv-lite');
-                  // Windows-1251/2/IBM855 works fine when read from a file (like it's UTF-8), but if you try to convert it you'll ruin the encoding.
-                  // Just save it again, and it'll be stored as UTF-8. At least on Windows.
-
-                  if( charset.encoding == 'IBM855' ) {
-                    // If you're wondering "What the fuck is this shit?", there's a bug with the charset detector when using portuguese or romanian. It's actually ISO-8859-1.
-                    decompressedData = iconv.encode( iconv.decode(decompressedData, 'iso-8859-1'), targetEncodingCharset );
-                  }
-                  else if( charset.encoding == 'windows-1251' || charset.encoding == 'windows-1252' || charset.encoding == 'windows-1255' || charset.encoding == 'windows-1254' ) {
-                    // It's the charset detector fucking up again, now with Spanish, Portuguese, French (1255) and Romanian
-                    if( language == 'romanian' ) {
-                      // And if it's romanian, it's iso-8859-2
-                      decompressedData = iconv.encode( iconv.decode(decompressedData, 'iso-8859-2'), targetEncodingCharset );
-                    }
-                    else if ( language == 'turkish' ) {
-                      // And if it's turkish, it's iso-8859-9
-                      decompressedData = iconv.encode( iconv.decode(decompressedData, 'iso-8859-9'), targetEncodingCharset );
-                    }
-                    else {
-                      decompressedData = iconv.encode( iconv.decode(decompressedData, 'iso-8859-1'), targetEncodingCharset );
-                    }
-                  }
-                  else {
-                    decompressedData = iconv.encode( iconv.decode(decompressedData, charset.encoding), targetEncodingCharset );
-                  }
-
-                  callback(decompressedData.toString('utf-8'));
-                }
-              }
-            });
+            callback(buf);
           });
+        });
+      }
+    }
+
+    // Decompress zip
+    function decompress(dataBuff, callback) {
+      // TODO: Error handling, exceptions, etc
+      var AdmZip  = require('adm-zip');
+      var zip = new AdmZip(dataBuff);
+      var zipEntries = zip.getEntries();
+      // TODO: Shouldn't we look for only 1 file ???
+      zipEntries.forEach(function(zipEntry, key) {
+        if (zipEntry.entryName.indexOf('.srt') != -1) {
+          var decompressedData = zip.readFile(zipEntry); // decompressed buffer of the entry
+          callback(decompressedData);
+        }
       });
     }
 
-    getSubtitle(this.src_, this.language_, vjs.bind(this, this.parseCues));
+    // Handles charaset encoding
+    function decode(dataBuff, language, callback) {
+      var charsetDetect = require('jschardet');
+      var targetCharset = 'utf-8';
+      var targetEncodingCharset = 'utf8';
+
+      var charset = charsetDetect.detect(dataBuff);
+
+      // Do we need decoding?
+      if (charset.encoding == targetEncodingCharset || charset.encoding == targetCharset) {
+        callback(dataBuff.toString('utf-8'));
+
+      // We do
+      } else {
+        var iconv = require('iconv-lite');
+        // Windows-1251/2/IBM855 works fine when read from a file (like it's UTF-8), but if you try to convert it you'll ruin the encoding.
+        // Just save it again, and it'll be stored as UTF-8. At least on Windows.
+
+        if( charset.encoding == 'IBM855' ) {
+          // If you're wondering "What the fuck is this shit?", there's a bug with the charset detector when using portuguese or romanian. It's actually ISO-8859-1.
+          dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-1'), targetEncodingCharset );
+        }
+        else if( charset.encoding == 'windows-1251' || charset.encoding == 'windows-1252' || charset.encoding == 'windows-1255' || charset.encoding == 'windows-1254' ) {
+          // It's the charset detector fucking up again, now with Spanish, Portuguese, French (1255) and Romanian
+          if( language == 'romanian' ) {
+            // And if it's romanian, it's iso-8859-2
+            dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-2'), targetEncodingCharset );
+          }
+          else if ( language == 'turkish' ) {
+            // And if it's turkish, it's iso-8859-9
+            dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-9'), targetEncodingCharset );
+          }
+          else {
+            dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-1'), targetEncodingCharset );
+          }
+        }
+        else {
+          dataBuff = iconv.encode( iconv.decode(dataBuff, charset.encoding), targetEncodingCharset );
+        }
+
+        callback(dataBuff.toString('utf-8'));
+      }
+    }
+
+    // Get it, Unzip it, Decode it, Send it
+    var this_ = this;
+    getSub(this.src_, function(dataBuf) {
+      var path = require('path');
+      if (path.extname(this_.src) === '.zip') {
+        decompress(dataBuf, function(dataBuf) {
+          decode(dataBuf, this_.language, vjs.bind(this_, this_.parseCues));
+        });
+      } else {
+        decode(dataBuf, this_.language, vjs.bind(this_, this_.parseCues));
+      }
+    });
+
+    // TODO: Error Handling when an invalid .srt file is loaded.
+
   }
 
 };
