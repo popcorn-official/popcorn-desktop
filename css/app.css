@@ -85,6 +85,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   }
 }
 
+@-webkit-keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.2;
+  }
+}
+
 body {
   -webkit-user-select: none;
 }
@@ -1315,8 +1325,8 @@ sidebar .play:hover a.play-over {
   display: block;
 }
 sidebar .play .backdrop-image {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
-  opacity: 0.2;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
   display: block;
   position: absolute;
   top: 0;
@@ -1326,6 +1336,9 @@ sidebar .play .backdrop-image {
   background-size: cover;
   z-index: -1;
   background-position: center;
+}
+sidebar .play .loaded {
+  -webkit-animation: backdropFadeIn .5s ease-in forwards;
 }
 sidebar .play a.play-over {
   position: absolute;
