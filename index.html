@@ -89,25 +89,20 @@
                               
               <i data-placement="left" data-toggle="tooltip" title="<%= health %> health" class="health <%= health %> fa fa-flash"></i>
 
-              <% var p_rating = (this.model.get('voteAverage') / 9) * 5 %>
-              <div class="rating" data-rating="<%= voteAverage %>">
-                <ul class="votes" title="<%= this.model.get('voteAverage').toFixed(1) %> / 10">
-                  <% for (var i = 1; i <= Math.round(p_rating, 0); i++) { %>
+              <% var p_rating = this.model.get('voteAverage') ? this.model.get('voteAverage').toFixed(1) : 0.0 %>
+              <div class="rating">
+                <ul class="votes" title="<%= p_rating %> / 10">
+                  <% p_rating = Math.round(p_rating) / 2; // Roundoff number to nearest 0.5 %>
+                  <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
                     <i class="fa fa-star"></i>
                   <% }; %>
-                  <% for (var i = Math.round(p_rating, 0); i < 5; i++) { %>
+                  <% if (p_rating % 1 > 0) { %>
+                    <i class="fa fa-star-half-o"></i>
+                  <% }; %>
+                  <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
                     <i class="fa fa-star-o"></i>
                   <% }; %>
                 </ul>
-                <% if (!this.model.get('voteAverage')) { %>
-                  <ul class="empty_votes">
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i> 
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                  </ul>
-                <% } %>
               </div>
             </div>
 
