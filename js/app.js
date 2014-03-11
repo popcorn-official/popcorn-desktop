@@ -39,7 +39,7 @@ var
 
 i18n.configure({
     defaultLocale: 'en',
-    locales: ['en', 'de', 'es', 'fr', 'ja', 'nl', 'pt-br', 'pt', 'ro', 'sv', 'tr','it'],
+    locales: ['en', 'de', 'es', 'fr', 'ja', 'nl', 'pt-br', 'pt', 'ro', 'sv', 'tr','it', 'ar'],
     directory: './language'
 });
 
@@ -69,12 +69,12 @@ var detectLanguage = function(preferredLanguage) {
         var $el = $(this);
         var key = $el.data('translate');
 
-		if( $el.is('input') ) {
-			$el.attr('placeholder', i18n.__(key));
-		} else {
-			$el.text(i18n.__(key));
-		}
-	});
+        if( $el.is('input') ) {
+            $el.attr('placeholder', i18n.__(key));
+        } else {
+            $el.text(i18n.__(key));
+        }
+    });
 
   populateCategories();
 };
@@ -128,11 +128,11 @@ var populateCategories = function() {
     var category_html = '';
     var defaultCategory = 'all';
 
-	for( key in i18n.__("genres") ) {
-		category_html += '<li'+ (defaultCategory == key ? ' class="active" ' : '') +'>'+
-				           '<a href="#" data-genre="'+key+'">'+ i18n.__("genres")[key] +'</a>'+
-				         '</li>';
-	}
+    for( key in i18n.__("genres") ) {
+        category_html += '<li'+ (defaultCategory == key ? ' class="active" ' : '') +'>'+
+                           '<a href="#" data-genre="'+key+'">'+ i18n.__("genres")[key] +'</a>'+
+                         '</li>';
+    }
 
     jQuery('#catalog-select .categories').html(category_html);
 };
@@ -191,45 +191,56 @@ document.addEventListener('keydown', function(event){
         App.loader(false);
         $(document).trigger('videoExit');
     }
-    if (event.keyCode == 32 && $("#video_player").is(".vjs-playing")) {
-        // Space: pause
-        $("#video_player")[0].player.pause();
-    } else if (event.keyCode == 32 && $("#video_player").is(".vjs-paused")) {
-        // Space: play
-        $("#video_player")[0].player.play();
-    }
-    if (event.keyCode == 37) {
-        // Left arrow: jump backward
-        var currentTime = $("#video_player")[0].player.currentTime();
-        $("#video_player")[0].player.currentTime(currentTime - 10);
-    }
-    if (event.keyCode == 38) {
-        // Up arrow: increase volume (1.0 is all the way up)
-        var currentVolume = $("#video_player")[0].player.volume();
-        $("#video_player")[0].player.volume(currentVolume + 0.1);
-    }
-    if (event.keyCode == 39) {
-        // Right arrow: jump forward
-        var currentTime = $("#video_player")[0].player.currentTime();
-        $("#video_player")[0].player.currentTime(currentTime + 10);
-    }
-    if (event.keyCode == 40) {
-        // Down arrow: decrease volume (0 is off, muted)
-        var currentVolume = $("#video_player")[0].player.volume();
-        $("#video_player")[0].player.volume(currentVolume - 0.1);
+    // Get video player
+    var videoPlayer = $("#video_player");
+    if (videoPlayer.length > 0) {
+        videoPlayer = videoPlayer[0].player;
+        if (event.keyCode == 32 && $("#video_player").is(".vjs-playing")) {
+            // Space: pause
+            videoPlayer.pause();
+        } else if (event.keyCode == 32 && $("#video_player").is(".vjs-paused")) {
+            // Space: play
+            videoPlayer.play();
+        }
+        if (event.keyCode == 37) {
+            // Left arrow: jump backward
+            var currentTime = videoPlayer.currentTime();
+            videoPlayer.currentTime(currentTime - 10);
+        }
+        if (event.keyCode == 38) {
+            // Up arrow: increase volume (1.0 is all the way up)
+            var currentVolume = videoPlayer.volume();
+            videoPlayer.volume(currentVolume + 0.1);
+        }
+        if (event.keyCode == 39) {
+            // Right arrow: jump forward
+            var currentTime = videoPlayer.currentTime();
+            videoPlayer.currentTime(currentTime + 10);
+        }
+        if (event.keyCode == 40) {
+            // Down arrow: decrease volume (0 is off, muted)
+            var currentVolume = videoPlayer.volume();
+            videoPlayer.volume(currentVolume - 0.1);
+        }
     }
 });
 
 
 document.addEventListener('mousewheel', function(event){
+    // Get video player
+    var videoPlayer = $("#video_player");
+    if (videoPlayer.length === 0)
+        return;
+    videoPlayer = videoPlayer[0].player;
+    // Get current volume
+    var currentVolume = videoPlayer.volume();
+    // Check wheel direction
     if (event.wheelDelta > 0) {
         // Wheel up: increase volume (1.0 is all the way up)
-        var currentVolume = $("#video_player")[0].player.volume();
-        $("#video_player")[0].player.volume(currentVolume + 0.1);
+        videoPlayer.volume(currentVolume + 0.1);
     } else {
         // Wheel down: decrease volume (0 is off, muted)
-        var currentVolume = $("#video_player")[0].player.volume();
-        $("#video_player")[0].player.volume(currentVolume - 0.1);
+        videoPlayer.volume(currentVolume - 0.1);
     }
 });
 
