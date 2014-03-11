@@ -1,4 +1,5 @@
-  module.exports = function(grunt) {
+module.exports = function(grunt) {
+  var buildPlatforms = parseBuildPlatforms(grunt.option('platforms'));
 
   grunt.initConfig({
     compass: {
@@ -20,10 +21,10 @@
         version: '0.9.2',
         build_dir: './build', // Where the build version of my node-webkit app is saved
         mac_icns: './images/popcorntime.icns', // Path to the Mac icon file
-        mac: true, // We want to build it for mac
-        win: true, // We want to build it for win
+        mac: buildPlatforms.mac, // We want to build it for mac
+        win: buildPlatforms.win, // We want to build it for win
         linux32: false, // We don't need linux32
-        linux64: true // We don't need linux64
+        linux64: buildPlatforms.linux64 // We don't need linux64
       },
       src: ['./css/**', './fonts/**', './images/**', './js/**', './language/**', './node_modules/**', '!./node_modules/grunt*/**', './rc/**', './Config.rb', './index.html', './package.json', './README.md' ] // Your node-webkit app './**/*'
     },
@@ -61,3 +62,17 @@
 
 
 };
+
+var parseBuildPlatforms = function(argumentPlatform) {
+  // this will make it build no platform when the platform option is specified
+  // without a value which makes argumentPlatform into a boolean
+  var inputPlatforms = argumentPlatform || process.platform;
+
+  var buildPlatforms = {
+    mac: /darwin|mac/.test(inputPlatforms),
+    win: /win/.test(inputPlatforms),
+    linux64: /linux/.test(inputPlatforms)
+  };
+
+  return buildPlatforms;
+}

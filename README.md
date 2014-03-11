@@ -31,21 +31,6 @@ You will need nodejs and grunt:
 
     $ npm install -g grunt-cli
 
-### Select your OS
-
-Enable your Operating System in `Gruntfile.js` and disable all the others:
-
-    …
-    nodewebkit: {
-      options: {
-        …
-        mac: false,
-        win: false,
-        linux32: false,
-        linux64: true
-      },
-    …
-
 ### Build
 
 Install the node modules:
@@ -56,6 +41,11 @@ Built with:
 
     $ grunt nodewkbuild
 
+By default it will build for your current platform however you can control that
+by specifying a comma separated list of platforms in the `platforms` option to
+grunt:
+
+    $ grunt nodewkbuild --platforms=linux,mac,win
 
 ## Any problem?
 
