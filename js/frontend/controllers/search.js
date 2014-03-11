@@ -26,5 +26,5 @@ App.Controller.Search = function (searchTerm, page) {
 
     setTimeout(function(){
         movieList.constructor.busy = false;
-    }, 1000);
+    }, 5000);
 };
