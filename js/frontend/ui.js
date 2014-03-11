@@ -108,7 +108,7 @@ jQuery(function ($) {
     // ENTER KEY
     if (evt.keyCode === 13) {
        if (term) {
-          App.Router.navigate('search/' + term, { trigger: true });
+          App.Router.navigate('search/' + encodeURIComponent(term), { trigger: true });
         } else {
           App.Router.navigate('index.html', { trigger: true });
         }

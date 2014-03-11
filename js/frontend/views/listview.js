@@ -94,7 +94,7 @@ App.View.MovieList = Backbone.View.extend({
                         }
                         else if (movieList.options.keywords) {
                             // uncomment this line when the API start accepting the page param to paginate ;)
-                            //App.Router.navigate('search/' + movieList.options.keywords + '/' + page, { trigger: true });
+                            //App.Router.navigate('search/' + encodeURIComponent(movieList.options.keywords) + '/' + page, { trigger: true });
                         }
                         else {
                             App.Router.navigate('index'+page+'.html', { trigger: true});
