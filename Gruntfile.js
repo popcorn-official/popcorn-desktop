@@ -17,7 +17,7 @@
     },
     nodewebkit: {
       options: {
-        version: '0.9.1',
+        version: '0.9.2',
         build_dir: './build', // Where the build version of my node-webkit app is saved
         mac_icns: './images/popcorntime.icns', // Path to the Mac icon file
         mac: true, // We want to build it for mac
@@ -25,7 +25,7 @@
         linux32: false, // We don't need linux32
         linux64: true // We don't need linux64
       },
-      src: ['./css/**', './fonts/**', './images/**', './js/**', './language/**', './node_modules/**', './rc/**', './tmp/**', './Config.rb', './index.html', './package.json', './README.md' ] // Your node-webkit app './**/*'
+      src: ['./css/**', './fonts/**', './images/**', './js/**', './language/**', './node_modules/**', '!./node_modules/grunt*/**', './rc/**', './tmp/empty', './Config.rb', './index.html', './package.json', './README.md' ] // Your node-webkit app './**/*'
     },
     copy: {
       main: {

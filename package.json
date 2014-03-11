@@ -1,7 +1,7 @@
 {
   "name": "Popcorn-Time",
   "main": "app://host/index.html",
-  "version": "0.2.7",
+  "version": "0.2.0",
   "window": {
     "title": "Popcorn Time",
     "icon": "images/icon.png",
