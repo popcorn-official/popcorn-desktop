@@ -22,6 +22,7 @@ var xmlrpc = require('xmlrpc'),
         'fre': 'French',
         'ger': 'German',
         'lit': 'Lithuanian'
+        'fin': 'Finnish'
     },
 
     token;
