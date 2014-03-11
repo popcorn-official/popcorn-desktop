@@ -147,6 +147,14 @@ App.View.Sidebar = Backbone.View.extend({
         $('body').removeClass().addClass('sidebar-open');
         this.$el.removeClass('hidden');
 
+        var backdropCache = new Image();
+        backdropCache.src = this.model.get('backdrop');
+        console.log("preloading image " + backdropCache.src);
+        backdropCache.onload = function () {
+            console.log("image loaded");
+            $(".backdrop-image").addClass("loaded")
+        };
+
         userTracking.pageview('/movies/view/'+this.model.get('slug'), this.model.get('niceTitle') ).send();
     },
 

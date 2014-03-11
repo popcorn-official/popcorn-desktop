@@ -12,3 +12,8 @@
   from { -webkit-transform: rotate(0deg); }
   to { -webkit-transform: rotate(360deg); }
 }
+
+@-webkit-keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to { opacity: 0.2; }
+}
