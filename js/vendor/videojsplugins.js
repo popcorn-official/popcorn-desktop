@@ -71,6 +71,60 @@ videojs.plugin('smallerSubtitle', function() {
 });
 
 
+// Custom Subtitles
+videojs.plugin('customSubtitles', function() {
+
+  // Find subtitlesButton
+  var subtitlesButton;
+  this.controlBar.children().forEach(function(el) { if (el.name() == 'subtitlesButton') subtitlesButton = el; });
+
+  var CustomTrackMenuItem = vjs.TextTrackMenuItem.extend({
+
+    /*@ Constructor */
+    init: function(player, options) {
+      options = options || {};
+      // fake 'empty' track
+      options['track'] = {
+        kind: function() { return 'subtitles'; },
+        player: player,
+        label: function(){ return 'Custom...' },
+        dflt: function(){ return false; },
+        mode: function(){ return false; }
+      };
+
+      this.fileInput_ = $('<input type="file" style="display: none;">');
+      $(this.el()).append(this.fileInput_);
+
+      var that = this;
+      this.fileInput_.on('change', function() {
+        that.loadSubtitle(this.value);
+      });
+
+      vjs.TextTrackMenuItem.call(this, player, options);
+    }
+  });
+
+  CustomTrackMenuItem.prototype.onClick = function() {
+    this.fileInput_.trigger('click'); // redirect to fileInput click
+  }
+
+  CustomTrackMenuItem.prototype.loadSubtitle = function(filePath) {
+    // Copy file to tmp
+    var fs = require('fs');
+    fs.writeFileSync('tmp/custom.srt', fs.readFileSync(filePath), { enconding: 'utf8' });
+    // TODO Handle copy errors, validation, etc
+    // TODO Fix UTF8 issue
+    // TODO Delete old track
+    this.track = this.player_.addTextTrack('subtitles', 'Custom...', '00', { src: './tmp/custom.srt' });
+    vjs.TextTrackMenuItem.prototype.onClick.call(this); // redirect to TextTrackMenuItem.onClick
+  }
+
+  subtitlesButton.menu.addItem(new CustomTrackMenuItem(this));
+  subtitlesButton.show(); // Always show subtitles button
+
+})
+
+
 // This is a custom way of loading subtitles, since we can't use src (CORS blocks it and we can't disable it)
 // We fetch them when requested, process them and finally throw a parseCues their way
 vjs.TextTrack.prototype.load = function(){
