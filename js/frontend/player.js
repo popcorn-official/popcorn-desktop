@@ -1,65 +1,117 @@
-var App = {
-  Controller: {},
-  View: {},
-  Model: {},
-  Page: {}
+// Opens a streaming torrent client
+
+var videoPeerflix = null;
+var playTorrent = window.playTorrent = function (torrent, subs, movieModel, callback, progressCallback) {
+
+  videoPeerflix ? $(document).trigger('videoExit') : null;
+
+  // Create a unique file to cache the video (with a microtimestamp) to prevent read conflicts
+  var tmpFilename = ( torrent.toLowerCase().split('/').pop().split('.torrent').shift() ).slice(0,100);
+  tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_') + '.mp4';
+  var tmpFile = path.join(tmpFolder, tmpFilename);
+
+  var numCores = (os.cpus().length > 0) ? os.cpus().length : 1;
+  var numConnections = 100;
+
+  // Start Peerflix
+  var peerflix = require('peerflix');
+
+  videoPeerflix = peerflix(torrent, {
+    // Set the custom temp file
+    path: tmpFile,
+    //port: 554,
+    buffer: (1.5 * 1024 * 1024).toString(),
+    connections: numConnections
+  }, function (err, flix) {
+    if (err) throw err;
+
+    var started = Date.now(),
+      loadedTimeout;
+
+    flix.server.on('listening', function () {
+      var href = 'http://127.0.0.1:' + flix.server.address().port + '/';
+
+      loadedTimeout ? clearTimeout(loadedTimeout) : null;
+
+      var checkLoadingProgress = function () {
+
+        var now = flix.downloaded,
+          total = flix.selected.length,
+        // There's a minimum size before we start playing the video.
+        // Some movies need quite a few frames to play properly, or else the user gets another (shittier) loading screen on the video player.
+          targetLoadedSize = MIN_SIZE_LOADED > total ? total : MIN_SIZE_LOADED,
+          targetLoadedPercent = MIN_PERCENTAGE_LOADED * total / 100.0,
+
+          targetLoaded = Math.max(targetLoadedPercent, targetLoadedSize),
+
+          percent = now / targetLoaded * 100.0;
+
+        if (now > targetLoaded) {
+          if (typeof window.spawnVideoPlayer === 'function') {
+            window.spawnVideoPlayer(href, subs, movieModel);
+          }
+          if (typeof callback === 'function') {
+            callback(href, subs, movieModel);
+          }
+        } else {
+          typeof progressCallback == 'function' ? progressCallback( percent, now, total) : null;
+          loadedTimeout = setTimeout(checkLoadingProgress, 500);
+        }
+      };
+      checkLoadingProgress();
+
+
+      $(document).on('videoExit', function() {
+        if (loadedTimeout) { clearTimeout(loadedTimeout); }
+
+        // Keep the sidebar open
+        $("body").addClass("sidebar-open").removeClass("loading");
+
+        // Stop processes
+        flix.clearCache();
+        flix.destroy();
+        videoPeerflix = null;
+
+        // Unbind the event handler
+        $(document).off('videoExit');
+
+        delete flix;
+      });
+    });
+  });
+
 };
 
-App.throttle = function(handler, time) {
-  var throttle;
-  time = time || 300;
-  return function() {
-    var args = arguments,
-     context = this;
-    clearTimeout(throttle);
-    throttle = setTimeout(function() {
-      handler.apply(context, args);
-    }, time);
-  };
+
+// Supported Languages for Subtitles
+
+window.SubtitleLanguages = {
+  'spanish'   : 'Español',
+  'english'   : 'English',
+  'french'    : 'Français',
+  'turkish'   : 'Türkçe',
+  'romanian'  : 'Română',
+  'portuguese': 'Português',
+  'brazilian' : 'Português-Br',
+  'dutch'     : 'Nederlands'
 };
 
-App.loader = function (hasToShow, copy) {
-    var $el = $('.popcorn-load');
 
-    if (hasToShow === true && !$el.hasClass('hidden') ||
-        hasToShow === false && $el.hasClass('hidden')) {
-        return false;
-    }
+// Handles the opening of the video player
 
-    if (hasToShow === true) {
-        $el.find('.text').html(copy ? copy : i18n.__('loading'));
-    }
-
-    $el[hasToShow === false ? 'addClass' : 'removeClass']('hidden');
-    
-    if( ! hasToShow ) { 
-      window.initialLoading = false;
-
-      // Wait a second before removing the progressbar clas
-      setTimeout(function(){
-        $el.removeClass('withProgressBar').removeClass('cancellable');
-        $el.find('.progress').css('width', 0.0+'%');
-      }, 1000);
-    }
-};
-// Show by default
-window.initialLoading = true;
-App.loader(true, i18n.__('loading'));
-
-
-// Handler for Video opening
-window.spawnCallback = function (url, subs, movieModel) {
+window.spawnVideoPlayer = function (url, subs, movieModel) {
 
     // Sort sub according lang translation
     var subArray = [];
     for (lang in subs) {
+        if( typeof SubtitleLanguages[lang] == 'undefined' ){ continue; }
         subArray.push({
-            'language': Languages[lang],
+            'language': SubtitleLanguages[lang],
             'sub': subs[lang]
         });
     }
     subArray.sort(function (sub1, sub2) {
-        return sub1.language.localeCompare(sub2.language);
+        return sub1.language > sub2.language;
     });
 
     var subtracks = '';
@@ -306,134 +358,3 @@ jQuery(function ($) {
 
   }).trigger('resize');
 });
-
-
-// On Document Ready
-jQuery(function ($) {
-  $('.btn-os.max').on('click', function () {
-    if(win.isFullscreen){
-      win.toggleFullscreen();
-    }else{
-      if (screen.availHeight <= win.height) {
-        win.unmaximize();
-      }
-      else {
-          win.maximize();
-      }
-    }
-    
-  });
-
-  $('.btn-os.min').on('click', function () {
-    win.minimize();
-  });
-
-  $('.btn-os.close').on('click', function () {
-    win.close();
-  });
-  
-  $('.btn-os.fullscreen').on('click', function () {
-    win.toggleFullscreen();
-    $('.btn-os.fullscreen').toggleClass('active');
-  });
-
-  $('.popcorn-load .btn-close').click(function(event){
-    event.preventDefault();
-    App.loader(false);
-    $(document).trigger('videoExit');
-  });
-
-  $('.popcorn-quit .quit').click(function(event){
-    win.close(true);
-  });
-
-  $('.popcorn-quit .cancel').click(function(event){
-    $('.popcorn-quit').addClass('hidden');
-  });
-
-  //Catalog switch
-  $('#catalog-select ul li a').on('click', function (evt) {
-    $('#catalog-select ul li.active').removeClass('active');
-    $(this).parent('li').addClass('active');
-
-    var genre = $(this).data('genre');
-
-    if (genre == 'all') {
-      App.Router.navigate('index.html', { trigger: true });
-    } else {
-      App.Router.navigate('filter/' + genre, { trigger: true });
-    }
-    evt.preventDefault();
-  });
-
-  // Add route callback to router
-  App.Router.on('route', function () {
-    // Ensure sidebar is hidden
-    App.sidebar.hide();
-  });
-
-  $('.search input').on('keypress', function (evt) {
-    var term = $.trim($(this).val());
-
-    // ENTER KEY
-    if (evt.keyCode === 13) {
-       if (term) {
-          App.Router.navigate('search/' + term, { trigger: true });
-        } else {
-          App.Router.navigate('index.html', { trigger: true });
-        }
-        $('#catalog-select ul li.active').removeClass('active');
-      }
-  });
-  
-  $('.search i').on('click', function (evt) {
-    var term = $.trim($('.search input').val());
-
-    if (term) {
-      App.Router.navigate('search/' + term, { trigger: true });
-    } else {
-      App.Router.navigate('index.html', { trigger: true });
-    }
-    $('#catalog-select ul li.active').removeClass('active');
-  });
-
-  $('body').on('keypress', function (evt) {
-    if (evt.keyCode === 13) {}
-  });
-});
-
-// Drag the window by a specific element
-(function( $ ){
-
-  $.fn.canDragWindow = function() {
-
-    return this.each(function(ix, element){
-
-      // Since the -drag CSS property fucks up the touch events, this is a hack so we can drag the window by the video anyway.
-      var mouseIsDown = false;
-      var previousPos = {};
-
-      // TODO: This breaks under multiple screens on Windows (it won't go outside the screen it's on)
-      $(element).mousedown(function(event){
-        // Only move with the left mouse button
-        if( event.button != 0 ){ return; }
-        mouseIsDown = true;
-        previousPos = {x: event.screenX, y: event.screenY};
-      }).mouseup(function(event){
-        mouseIsDown = false;
-      }).mousemove(function(event){
-
-        var thisPos = {x: event.screenX, y: event.screenY};
-        var distance = {x: thisPos.x - previousPos.x, y: thisPos.y - previousPos.y};
-        previousPos = thisPos;
-
-        if( mouseIsDown && ! win.isFullscreen ){
-          window.moveBy(distance.x, distance.y);
-        }
-      });
-
-    });
-
-  };
-
-})( jQuery );
