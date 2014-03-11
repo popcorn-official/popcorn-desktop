@@ -1,7 +1,6 @@
 App.getTorrentsCollection = function (options) {
 
-    var start = +new Date(),
-        url = 'http://subapi.com/';
+    var url = 'http://subapi.com/';
 
     var supportedLanguages = ['english', 'french', 'dutch', 'portuguese', 'romanian', 'spanish', 'turkish', 'brazilian', 'italian'];
 
@@ -29,19 +28,28 @@ App.getTorrentsCollection = function (options) {
 
             data.movies.forEach(function (movie) {
 
+                var videos = {};
                 var torrents = {};
                 torrent = '';
+                quality = '';
                 var subtitles = {};
 
-                for( var k in movie.torrents ) {
-                    if( typeof torrents[movie.torrents[k].quality] == 'undefined' ) {
-                        torrents[movie.torrents[k].quality] = movie.torrents[k].url;
+                // Put the video and torrent list into a {quality: url} format
+                for( var k in movie.videos ) {
+                    if( typeof videos[movie.videos[k].quality] == 'undefined' ) {
+                      videos[movie.videos[k].quality] = movie.videos[k].url;
                     }
                 }
 
+                for( var k in movie.torrents ) {
+                  if( typeof torrents[movie.torrents[k].quality] == 'undefined' ) {
+                    torrents[movie.torrents[k].quality] = movie.torrents[k].url;
+                  }
+                }
+
                 // Pick the worst quality by default
-                if( typeof torrents['1080p'] != 'undefined' ){ quality = '1080p'; torrent = torrents['1080p']; }
                 if( typeof torrents['720p'] != 'undefined' ){ quality = '720p'; torrent = torrents['720p']; }
+                else if( typeof torrents['1080p'] != 'undefined' ){ quality = '1080p'; torrent = torrents['1080p']; }
 
                 for( var k in movie.subtitles ) {
                     if( supportedLanguages.indexOf(movie.subtitles[k].language) < 0 ){ continue; }
@@ -49,6 +57,8 @@ App.getTorrentsCollection = function (options) {
                         subtitles[movie.subtitles[k].language] = movie.subtitles[k].url;
                     }
                 }
+
+                if( movie.subtitles.length == 0 && movie.videos.length == 0 ){ return; }
                 
                 movies.push({
                     imdb:       movie.imdb_id,
@@ -58,12 +68,14 @@ App.getTorrentsCollection = function (options) {
                     synopsis:   movie.synopsis,
                     voteAverage:movie.vote_average,
 
-                    coverImage: movie.poster,
-                    backdropImage: movie.backdrop,
+                    image:      movie.poster,
+                    bigImage:   movie.poster,
+                    backdrop:   movie.backdrop,
 
                     quality:    quality,
                     torrent:    torrent,
                     torrents:   torrents,
+                    videos:     videos,
                     subtitles:  subtitles,
                     seeders:    movie.seeders,
                     leechers:   movie.leechers

@@ -63,7 +63,7 @@ App.View.MovieList = Backbone.View.extend({
 
             // Check for IMDB id and also image loaded (required for view)
             // We can also check if the subtitles loaded with this.get('subtitlesLoaded')
-            if (this.get('infoLoaded') && ! $movie.hasClass('fullyLoaded')) {
+            if (! $movie.hasClass('fullyLoaded')) {
 
                 $movie.addClass('fullyLoaded');
 

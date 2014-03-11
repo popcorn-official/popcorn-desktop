@@ -25,7 +25,7 @@
         linux32: false, // We don't need linux32
         linux64: true // We don't need linux64
       },
-      src: ['./css/**', './fonts/**', './images/**', './js/**', './language/**', './node_modules/**', '!./node_modules/grunt*/**', './rc/**', './tmp/empty', './Config.rb', './index.html', './package.json', './README.md' ] // Your node-webkit app './**/*'
+      src: ['./css/**', './fonts/**', './images/**', './js/**', './language/**', './node_modules/**', '!./node_modules/grunt*/**', './rc/**', './Config.rb', './index.html', './package.json', './README.md' ] // Your node-webkit app './**/*'
     },
     copy: {
       main: {

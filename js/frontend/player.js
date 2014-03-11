@@ -106,7 +106,8 @@ window.spawnVideoPlayer = function (url, subs, movieModel) {
     for (lang in subs) {
         if( typeof SubtitleLanguages[lang] == 'undefined' ){ continue; }
         subArray.push({
-            'language': SubtitleLanguages[lang],
+            'language': lang,
+            'languageName': SubtitleLanguages[lang],
             'sub': subs[lang]
         });
     }
@@ -116,7 +117,7 @@ window.spawnVideoPlayer = function (url, subs, movieModel) {
 
     var subtracks = '';
     for( index in subArray ) {
-      subtracks += '<track kind="subtitles" src="app://host/' + subArray[index].sub + '" srclang="es" label="' + subArray[index].language + '" charset="utf-8" />';
+      subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" />';
     }
 
     var player =
@@ -129,76 +130,6 @@ window.spawnVideoPlayer = function (url, subs, movieModel) {
     if (!document.createElement('video').canPlayType('video/mp4')) {
       return alert('Weird, but it seems the application is broken and you can\'t play this video.');
     }
-
-    videojs.BiggerSubtitleButton = videojs.Button.extend({
-        /** @constructor */
-        init: function(player, options){
-            videojs.Button.call(this, player, options);
-            this.on('click', this.onClick);
-        }
-    });
-
-    videojs.BiggerSubtitleButton.prototype.onClick = function() {
-        var $subs = $('#video_player.video-js .vjs-text-track-display');
-        var font_size = parseInt($subs.css('font-size'));
-        font_size = font_size + 3;
-        $subs.css('font-size', font_size+'px');
-        
-        userTracking.event('Video Subtitle Size', 'Make Bigger', font_size+'px', font_size).send();
-    };
-
-    var createBiggerSubtitleButton = function() {
-        var props = {
-            className: 'vjs_biggersub_button vjs-control',
-            innerHTML: '<div class="vjs-control-content"><span class="vjs-control-text">A+</span></div>',
-            role: 'button',
-            'aria-live': 'polite', // let the screen reader user know that the text of the button may change
-            tabIndex: 0
-        };
-        return videojs.Component.prototype.createEl(null, props);
-    }
-
-    var biggerSubtitle;
-    videojs.plugin('biggerSubtitle', function() {
-        var options = { 'el' : createBiggerSubtitleButton() };
-        biggerSubtitle = new videojs.BiggerSubtitleButton(this, options);
-        this.controlBar.el().appendChild(biggerSubtitle.el());
-    });
-
-    videojs.SmallerSubtitleButton = videojs.Button.extend({
-        /** @constructor */
-        init: function(player, options){
-            videojs.Button.call(this, player, options);
-            this.on('click', this.onClick);
-        }
-    });
-
-    videojs.SmallerSubtitleButton.prototype.onClick = function() {
-        var $subs = $('#video_player.video-js .vjs-text-track-display');
-        var font_size = parseInt($subs.css('font-size'));
-        font_size = font_size - 3;
-        $subs.css('font-size', font_size+'px');
-        
-        userTracking.event('Video Subtitle Size', 'Make Smaller', font_size+'px', font_size).send();
-    };
-
-    var createSmallerSubtitleButton = function() {
-        var props = {
-            className: 'vjs_smallersub_button vjs-control',
-            innerHTML: '<div class="vjs-control-content"><span class="vjs-control-text">A-</span></div>',
-            role: 'button',
-            'aria-live': 'polite', // let the screen reader user know that the text of the button may change
-            tabIndex: 0
-        };
-        return videojs.Component.prototype.createEl(null, props);
-    }
-
-    var smallerSubtitle;
-    videojs.plugin('smallerSubtitle', function() {
-        var options = { 'el' : createSmallerSubtitleButton() };
-        smallerSubtitle = new videojs.SmallerSubtitleButton(this, options);
-        this.controlBar.el().appendChild(smallerSubtitle.el());
-    });
 
     // Move this to a separate view.
     $('#video-container').html(player).show();
@@ -213,7 +144,7 @@ window.spawnVideoPlayer = function (url, subs, movieModel) {
     });
 
     // Init video.
-    var video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {} }});
+    var video = window.videoPlaying = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {} }});
 
     
     userTracking.pageview('/movies/watch/'+movieModel.get('slug'), movieModel.get('niceTitle') ).send();
