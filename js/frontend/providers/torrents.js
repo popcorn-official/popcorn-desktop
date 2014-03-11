@@ -2,7 +2,7 @@ App.getTorrentsCollection = function (options) {
 
     var url = 'http://subapi.com/';
 
-    var supportedLanguages = ['english', 'french', 'dutch', 'portuguese', 'romanian', 'spanish', 'turkish', 'brazilian', 'italian'];
+    var supportedLanguages = ['english', 'french', 'dutch', 'portuguese', 'romanian', 'spanish', 'turkish', 'brazilian', 'italian', 'german'];
 
     if (options.genre) {
         url += options.genre.toLowerCase() + '.json';
