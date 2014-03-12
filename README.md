@@ -45,7 +45,7 @@ By default it will build for your current platform however you can control that
 by specifying a comma separated list of platforms in the `platforms` option to
 grunt:
 
-    $ grunt nodewkbuild --platforms=linux,mac,win
+    $ grunt nodewkbuild --platforms=linux32,linux64,mac,win
 
 ## Any problem?
 
