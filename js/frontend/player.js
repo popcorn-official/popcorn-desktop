@@ -145,7 +145,7 @@ window.spawnVideoPlayer = function (url, subs, movieModel) {
     });
 
     // Init video.
-    var video = window.videoPlaying = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {} }});
+    var video = window.videoPlaying = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {} }});
 
     
     userTracking.pageview('/movies/watch/'+movieModel.get('slug'), movieModel.get('niceTitle') ).send();
