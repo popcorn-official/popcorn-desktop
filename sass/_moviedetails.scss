@@ -35,7 +35,7 @@ sidebar {
     }
 
     .backdrop-image {
-      @include opacity(0.2);
+      @include opacity(0);
       display: block;
       position: absolute;
       top: 0;
@@ -47,6 +47,10 @@ sidebar {
       // Blur is unbearably slow
       // -webkit-filter: /* grayscale(1) */ blur(10px);
       background-position: center;
+    }
+
+    .loaded {
+        -webkit-animation: backdropFadeIn .5s ease-in forwards;
     }
 
     // Don't know if it's used
