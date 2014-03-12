@@ -30,3 +30,7 @@ js/vendor/config.js
 dist/windows/Install Popcorn Time.exe
 dist/mac/Popcorn Time.app/
 dist/mac/Popcorn Time.zip
+
+
+# vim swap files
+*.swp
