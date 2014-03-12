@@ -1,8 +1,4 @@
 App.View.MovieList = Backbone.View.extend({
-    tagName: 'ul',
-
-    className: 'movie-list',
-
     constructor: function (options) {
         this.configure(options || {});
         Backbone.View.prototype.constructor.apply(this, arguments);
@@ -16,8 +12,8 @@ App.View.MovieList = Backbone.View.extend({
     },
 
     initialize: function (options) {
-        // Delete old items
-        this.$el.children().detach();
+        // Bind element on existing list
+        this.$el = $('.movie-list').first();
 
         this.collection = App.getTorrentsCollection(options);
 
@@ -98,7 +94,7 @@ App.View.MovieList = Backbone.View.extend({
                         }
                         else if (movieList.options.keywords) {
                             // uncomment this line when the API start accepting the page param to paginate ;)
-                            //App.Router.navigate('search/' + movieList.options.keywords + '/' + page, { trigger: true });
+                            //App.Router.navigate('search/' + encodeURIComponent(movieList.options.keywords) + '/' + page, { trigger: true });
                         }
                         else {
                             App.Router.navigate('index'+page+'.html', { trigger: true});

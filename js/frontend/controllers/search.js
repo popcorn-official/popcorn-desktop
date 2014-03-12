@@ -1,27 +1,24 @@
 App.Controller.Search = function (searchTerm, page) {
+    // Check if page exists
+    if (App.Page.Search) {
+        // Create page
+        App.Page.Search = new App.View.Page({
+            id: 'search-list'
+        });    
+    }
+    // Create movie list
     var movieList = new App.View.MovieList({
         keywords: searchTerm,
         genre: null,
         page: page
     });
-
-    if (App.Page.Search) {
-        if (!page || page == '1'){
-            console.log('Searching for ' + searchTerm);
-
-            App.loader(true, i18n.__('searchLoading'));
-            window.initialLoading = true;
-            App.Page.Search.$el.empty();
-        }
-    } else {
-        App.Page.Search = new App.View.Page({
-            id: 'search-list'
-        });
-    }
-
-    App.Page.Search.$el.append(movieList.$el);
-
+    
+    // Clean up if first page
     if (!page || page == '1'){
+        console.log('Searching for ' + searchTerm);
+        $('.movie-list').first().empty();
+        App.loader(true, i18n.__('searchLoading'));
+        window.initialLoading = true;
         App.Page.Search.show();
     }
     

@@ -1,23 +1,20 @@
 App.Controller.FilterGenre = function (genre, page) {
+    // Check if page exists
+    if (!App.Page.FilterGenre) {
+        // Create page
+        App.Page.FilterGenre = new App.View.Page({
+            id: 'category-list'
+        });
+    }
+	// Create movie list
     var movieList = new App.View.MovieList({
         searchTerm: null,
         genre: genre,
         page: page
     });
-
-    if (App.Page.FilterGenre) {
-        if (!page || page == '1'){
-            App.Page.FilterGenre.$el.empty();
-        }
-    } else {
-        App.Page.FilterGenre = new App.View.Page({
-            id: 'category-list'
-        });
-    }
-
-    App.Page.FilterGenre.$el.append(movieList.$el);
-
+	// Clean up if first page
     if (!page || page == '1'){
+        $('.movie-list').first().empty();
         App.Page.FilterGenre.show();
     }
     
