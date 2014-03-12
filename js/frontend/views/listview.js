@@ -49,11 +49,6 @@ App.View.MovieList = Backbone.View.extend({
             var $currentEl = movieList.$el.find('#movie-'+ this.get('imdb') );
 
             if ( ! $currentEl.length ) {
-				var delay = index/10;
-				$movie.css('-webkit-transition-delay', delay+'s, '+delay+'s');
-				$movie.css('-moz-transition-delay', delay+'s, '+delay+'s');
-				$movie.css('-o-transition-delay', delay+'s, '+delay+'s');
-				$movie.css('transition-delay', delay+'s, '+delay+'s');
                 $movie.appendTo(movieList.$el);
                 $currentEl = $movie;
 
