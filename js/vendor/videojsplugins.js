@@ -234,7 +234,7 @@ vjs.TextTrack.prototype.load = function(){
     var this_ = this;
     getSub(this.src_, function(dataBuf) {
       var path = require('path');
-      if (path.extname(this_.src) === '.zip') {
+      if (path.extname(this_.src_) === '.zip') {
         decompress(dataBuf, function(dataBuf) {
           decode(dataBuf, this_.language, vjs.bind(this_, this_.parseCues));
         });

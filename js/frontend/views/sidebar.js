@@ -37,7 +37,7 @@ App.View.Sidebar = Backbone.View.extend({
 
     play: function (evt) {
         evt.preventDefault();
-        if( videoPeerflix != null ){ return; } 
+        if( videoStreamer != null ){ return; } 
 
         var file = this.model.get('torrent'),
             subs = this.model.get('subtitles');
@@ -66,9 +66,9 @@ App.View.Sidebar = Backbone.View.extend({
 
                 // Update the loader status
                 var bufferStatus = 'connecting';
-                if( videoPeerflix.peers.length > 0 ) {
+                if( videoStreamer.peers.length > 0 ) {
                     bufferStatus = 'startingDownload';
-                    if( videoPeerflix.downloaded > 0 ) {
+                    if( videoStreamer.downloaded > 0 ) {
                         bufferStatus = 'downloading';
                     }
                 }

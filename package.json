@@ -24,7 +24,7 @@
     "network-address" : "https://github.com/gpt-modules/network-address.git",
     "node-uuid" : "https://github.com/gpt-modules/node-uuid.git",
     "numeral" : "https://github.com/gpt-modules/numeral-js.git",
-    "peerflix" : "https://github.com/gpt-modules/peerflix.git",
+    "popcornflix" : "https://github.com/popcorn-time/popcornflix.git",
     "request" : "https://github.com/gpt-modules/request.git",
     "universal-analytics" : "https://github.com/gpt-modules/universal-analytics.git",
     "url" : "https://github.com/gpt-modules/url.git",

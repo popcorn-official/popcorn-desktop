@@ -1,9 +1,9 @@
 // Opens a streaming torrent client
 
-var videoPeerflix = null;
+var videoStreamer = null;
 var playTorrent = window.playTorrent = function (torrent, subs, movieModel, callback, progressCallback) {
 
-  videoPeerflix ? $(document).trigger('videoExit') : null;
+  videoStreamer ? $(document).trigger('videoExit') : null;
 
   // Create a unique file to cache the video (with a microtimestamp) to prevent read conflicts
   var tmpFilename = ( torrent.toLowerCase().split('/').pop().split('.torrent').shift() ).slice(0,100);
@@ -13,10 +13,10 @@ var playTorrent = window.playTorrent = function (torrent, subs, movieModel, call
   var numCores = (os.cpus().length > 0) ? os.cpus().length : 1;
   var numConnections = 100;
 
-  // Start Peerflix
-  var peerflix = require('peerflix');
+  // Start Popcornflix (Peerflix)
+  var popcornflix = require('popcornflix');
 
-  videoPeerflix = peerflix(torrent, {
+  videoStreamer = popcornflix(torrent, {
     // Set the custom temp file
     path: tmpFile,
     //port: 554,
@@ -70,7 +70,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, movieModel, call
         // Stop processes
         flix.clearCache();
         flix.destroy();
-        videoPeerflix = null;
+        videoStreamer = null;
 
         // Unbind the event handler
         $(document).off('videoExit');
