@@ -25,7 +25,7 @@ var
 
     // fs object
     fs = require('fs'),
-    
+
     // url object
     url = require('url'),
 
@@ -35,6 +35,15 @@ var
     // i18n module (translations)
     i18n = require("i18n");
 
+    isWin = (process.platform === 'win32');
+    isLinux = (process.platform === 'linux');
+    isOSX = (process.platform === 'darwin');
+
+    BUTTON_ORDER = ['close', 'min', 'max'];
+
+    if (isWin)   { BUTTON_ORDER = ['min', 'max', 'close']; };
+    if (isLinux) { BUTTON_ORDER = ['min', 'max', 'close']; };
+    if (isOSX)   { BUTTON_ORDER = ['close', 'min', 'max']; };
 
 // Global App skeleton for backbone
 var App = {
@@ -44,6 +53,9 @@ var App = {
   Page: {}
 };
 
+
+// render header buttons
+$("#header").html(_.template($('#header-tpl').html(), {buttons: BUTTON_ORDER}));
 
 
 // Create the System Temp Folder. This is used to store temporary data like movie files.
@@ -130,7 +142,7 @@ window.addEventListener("dragstart", preventDefault, false);
 // Show the disclaimer if the user hasn't accepted it yet.
 if( ! Settings.get('disclaimerAccepted') ) {
     $('.popcorn-disclaimer').removeClass('hidden');
-    
+
     $('.popcorn-disclaimer .btn.confirmation.continue').click(function(event){
         event.preventDefault();
         userTracking.event('App Disclaimer', 'Accepted', navigator.language.toLowerCase() ).send();

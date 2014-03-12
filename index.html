@@ -5,22 +5,26 @@
     <script>window.__startTime = (new Date()*1);</script>
     <link rel="stylesheet" type="text/css" href="css/app.css">
     <link rel="stylesheet" type="text/css" href="js/vendor/video-js/video-js.css">
-    
+
   </head>
   <body>
 
-    <header id="header">
-      <nav class="btn-set">
-        <button class="btn-os close"></button>
-        <button class="btn-os min"></button>
-        <button class="btn-os max"></button>
-      </nav>
-      <nav class="btn-set right">
-        <button class="btn-os fullscreen"></button>
-      </nav>
-      <h1>Popcorn Time</h1>
-    </header>
-  
+    <header id="header"></header>
+
+    <script id="header-tpl" type="text/x-template">
+        <nav class="btn-set <%= process.platform %>">
+
+          <% _.each(buttons, function(button) { %>
+            <button class="btn-os <%= button %>"></button>
+          <% }); %>
+        </nav>
+
+        <nav class="btn-set fs-<%= process.platform %>">
+          <button class="btn-os fullscreen"></button>
+        </nav>
+        <h1>Popcorn Time</h1>
+    </script>
+
     <div id="notification"></div>
 
     <div id="catalog-select">
@@ -31,7 +35,7 @@
 
       <h4 data-translate="movies">Movies</h4>
       <ul class="categories">
-        
+
       </ul>
     </div>
 
@@ -86,7 +90,7 @@
                   <% } %>
                 </li>
               </ul>
-                              
+
               <i data-placement="left" data-toggle="tooltip" title="<%= health %> health" class="health <%= health %> fa fa-flash"></i>
 
               <% var p_rating = this.model.get('voteAverage') ? this.model.get('voteAverage').toFixed(1) : 0.0 %>
@@ -143,7 +147,7 @@
     </div>
 
     <div id="video-container"></div>
-    
+
     <div class="popcorn-disclaimer hidden">
       <div class="wrapper">
         <span class="text" data-translate="legalDisclaimer"></span>
@@ -153,7 +157,7 @@
         <a class="btn confirmation continue" data-translate="legalDisclaimerAccept"></a>
       </div>
     </div>
-    
+
 
     <!-- Basic Dependencies -->
     <script src="js/vendor/jquery-2.1.0.min.js"></script>
