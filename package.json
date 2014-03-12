@@ -2,6 +2,10 @@
   "name": "Popcorn-Time",
   "main": "app://host/index.html",
   "version": "0.2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/popcorn-time/popcorn-app"
+  },
   "window": {
     "title": "Popcorn Time",
     "icon": "images/icon.png",
