@@ -26,5 +26,5 @@ App.Controller.Home = function (page) {
     
     setTimeout(function(){
         movieList.constructor.busy = false;
-    }, 1000);
+    }, 5000);
 };
