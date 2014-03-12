@@ -141,7 +141,9 @@ App.View.Sidebar = Backbone.View.extend({
 
       $('.movie.active').removeClass('active');
       this.$el.addClass('hidden');
-      this.backdropCache.src = null;
+      if( typeof this.backdropCache != 'undefined' ) {
+        this.backdropCache.src = null;
+      }
     },
 
     show: function () {
