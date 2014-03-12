@@ -23,7 +23,7 @@ module.exports = function(grunt) {
         mac_icns: './images/popcorntime.icns', // Path to the Mac icon file
         mac: buildPlatforms.mac,
         win: buildPlatforms.win,
-        linux32: false, // We don't need linux32
+        linux32: buildPlatforms.linux32,
         linux64: buildPlatforms.linux64
       },
       src: ['./css/**', './fonts/**', './images/**', './js/**', './language/**', './node_modules/**', '!./node_modules/grunt*/**', './rc/**', './Config.rb', './index.html', './package.json', './README.md' ] // Your node-webkit app './**/*'
@@ -66,12 +66,17 @@ module.exports = function(grunt) {
 var parseBuildPlatforms = function(argumentPlatform) {
   // this will make it build no platform when the platform option is specified
   // without a value which makes argumentPlatform into a boolean
-  var inputPlatforms = argumentPlatform || process.platform;
+  var inputPlatforms = argumentPlatform || process.platform + ";" + process.arch;
+
+  // Do some scrubbing to make it easier to match in the regexes bellow
+  inputPlatforms = inputPlatforms.replace("darwin", "mac");
+  inputPlatforms = inputPlatforms.replace(/;ia|;x|;arm/, "");
 
   var buildPlatforms = {
-    mac: /darwin|mac/.test(inputPlatforms),
+    mac: /mac/.test(inputPlatforms),
     win: /win/.test(inputPlatforms),
-    linux64: /linux/.test(inputPlatforms)
+    linux32: /linux32/.test(inputPlatforms),
+    linux64: /linux64/.test(inputPlatforms)
   };
 
   return buildPlatforms;
