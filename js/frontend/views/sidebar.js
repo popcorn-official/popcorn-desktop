@@ -141,15 +141,16 @@ App.View.Sidebar = Backbone.View.extend({
 
       $('.movie.active').removeClass('active');
       this.$el.addClass('hidden');
+      this.backdropCache.src = null;
     },
 
     show: function () {
         $('body').removeClass().addClass('sidebar-open');
         this.$el.removeClass('hidden');
 
-        var backdropCache = new Image();
-        backdropCache.src = this.model.get('backdrop');
-        backdropCache.onload = function () {
+        this.backdropCache = new Image();
+        this.backdropCache.src = this.model.get('backdrop');
+        this.backdropCache.onload = function () {
             $(".backdrop-image").addClass("loaded")
         };
 
