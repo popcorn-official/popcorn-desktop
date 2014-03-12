@@ -47,6 +47,7 @@
     "war": "Krigsfilm",
     "western": "Western"
   },
+  "arabic": "Arabisk",
   "french": "Fransk",
   "english": "Engelsk",
   "spanish": "Spansk",
@@ -55,5 +56,8 @@
   "turkish": "Tyrkisk",
   "dutch": "Hollandsk",
   "italian": "Italiensk",
-  "danish": "Dansk"
+  "danish": "Dansk",
+  "german": "Tysk",
+  "swedish": "Svensk"
+  
 }
