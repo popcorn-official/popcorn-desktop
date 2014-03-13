@@ -1,5 +1,9 @@
 {
   "name": "Popcorn-Time",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/popcorn-time/popcorn-app.git"
+  },
   "main": "app://host/index.html",
   "version": "0.2.0",
   "repository": {
