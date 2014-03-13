@@ -63,7 +63,7 @@ Name: "ptbr"; MessagesFile: ".\languages\BrazilianPortuguese.isl"
 Name: "nl"; MessagesFile: ".\languages\Dutch.isl"
 Name: "ge"; MessagesFile: ".\languages\German.isl"
 Name: "pt"; MessagesFile: ".\languages\Portuguese.isl"
-Name: "zh-tw"; MessagesFile: ".\languages\ChineseTraditonal.isl"
+Name: "zh-tw"; MessagesFile: ".\languages\TraditonalChinese.isl"
 
 
 [Files]
