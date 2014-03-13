@@ -3,7 +3,7 @@ App.getTorrentsCollection = function (options) {
     var url = 'http://subapi.com/';
 
     var supportedLanguages = ['english', 'french', 'dutch', 'portuguese', 'romanian', 'spanish', 'turkish', 'brazilian', 
-                              'italian', 'german', 'hungarian', 'russian', 'ukrainian', 'finnish', 'bulgarian'];
+                              'italian', 'german', 'hungarian', 'russian', 'ukrainian', 'finnish', 'bulgarian', 'latvian'];
     if (options.genre) {
         url += options.genre.toLowerCase() + '.json';
     } else {
