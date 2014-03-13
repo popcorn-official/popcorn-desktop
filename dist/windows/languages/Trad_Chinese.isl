@@ -161,7 +161,7 @@ DiskSpaceWarningTitle=磁碟機空間不足
 DiskSpaceWarning=安裝程式至少需要 %1 KB 的可用空間, 但所選擇的磁碟機上只有 %2 KB 的可用空間 %n%n您是否仍要繼續?
 DirNameTooLong=資料夾的名稱或是路徑太長
 InvalidDirName=資料夾名稱不合法
-BadDirName32=資料夾名稱不可有以下字:%n%n%1
+BadDirName32=資料夾名稱不可有以下字元:%n%n%1
 DirExistsTitle=資料夾已存在
 DirExists=資料夾:%n%n%1%n%n已經存在 您是否仍要安裝至該資料夾?
 DirDoesntExistTitle=資料夾不存在
@@ -182,166 +182,166 @@ ComponentSize2=%1 MB
 ComponentsDiskSpaceMBLabel=目前所需至少 [mb] MB 的磁碟機空間
 
 ; *** "Select Additional Tasks" wizard page
-WizardSelectTasks=Select Additional Tasks
-SelectTasksDesc=Which additional tasks should be performed?
-SelectTasksLabel2=Select the additional tasks you would like Setup to perform while installing [name], then click Next.
+WizardSelectTasks=選擇其他工作
+SelectTasksDesc=您想執行什麼額外工作
+SelectTasksLabel2=選擇你於安裝 [name] 時想執行的額外工作 然後點選"下一步"
 
 ; *** "Select Start Menu Folder" wizard page
-WizardSelectProgramGroup=Select Start Menu Folder
-SelectStartMenuFolderDesc=Where should Setup place the program's shortcuts?
-SelectStartMenuFolderLabel3=Setup will create the program's shortcuts in the following Start Menu folder.
-SelectStartMenuFolderBrowseLabel=To continue, click Next. If you would like to select a different folder, click Browse.
-MustEnterGroupName=You must enter a folder name.
-GroupNameTooLong=The folder name or path is too long.
-InvalidGroupName=The folder name is not valid.
-BadGroupName=The folder name cannot include any of the following characters:%n%n%1
-NoProgramGroupCheck2=&Don't create a Start Menu folder
+WizardSelectProgramGroup=選擇開始功能表選單資料夾
+SelectStartMenuFolderDesc=您想把捷徑放在哪裡?
+SelectStartMenuFolderLabel3=安裝程式將把捷徑建立在以下開始按鈕選單資料夾下
+SelectStartMenuFolderBrowseLabel=請點選"下一步"繼續, 如想選擇其他資料夾請點選"瀏覽" 
+MustEnterGroupName=您必須輸入一個資料夾名稱
+GroupNameTooLong=資料夾名稱或是路徑太長
+InvalidGroupName=資料夾名稱不合法
+BadGroupName=資料夾名稱不可有以下字元:%n%n%1
+NoProgramGroupCheck2=不建立開始按鈕選單資料夾(&D)
 
 ; *** "Ready to Install" wizard page
-WizardReady=Ready to Install
-ReadyLabel1=Setup is now ready to begin installing [name] on your computer.
-ReadyLabel2a=Click Install to continue with the installation, or click Back if you want to review or change any settings.
-ReadyLabel2b=Click Install to continue with the installation.
-ReadyMemoUserInfo=User information:
-ReadyMemoDir=Destination location:
-ReadyMemoType=Setup type:
-ReadyMemoComponents=Selected components:
-ReadyMemoGroup=Start Menu folder:
-ReadyMemoTasks=Additional tasks:
+WizardReady=準備安裝
+ReadyLabel1=安裝程式現在已經準備好安裝 [name] 至您的電腦
+ReadyLabel2a=點選"安裝"以繼續安裝, 如果想更改或是確定各項設定請點選"上一步"
+ReadyLabel2b=點選"安裝"以繼續安裝
+ReadyMemoUserInfo=使用者資料:
+ReadyMemoDir=目的地位址:
+ReadyMemoType=安裝方式:
+ReadyMemoComponents=已選擇的元件:
+ReadyMemoGroup=開始功能表選單資料夾:
+ReadyMemoTasks=額外工作:
 
 ; *** "Preparing to Install" wizard page
-WizardPreparing=Preparing to Install
-PreparingDesc=Setup is preparing to install [name] on your computer.
-PreviousInstallNotCompleted=The installation/removal of a previous program was not completed. You will need to restart your computer to complete that installation.%n%nAfter restarting your computer, run Setup again to complete the installation of [name].
-CannotContinue=Setup cannot continue. Please click Cancel to exit.
-ApplicationsFound=The following applications are using files that need to be updated by Setup. It is recommended that you allow Setup to automatically close these applications.
-ApplicationsFound2=The following applications are using files that need to be updated by Setup. It is recommended that you allow Setup to automatically close these applications. After the installation has completed, Setup will attempt to restart the applications.
-CloseApplications=&Automatically close the applications
-DontCloseApplications=&Do not close the applications
-ErrorCloseApplications=Setup was unable to automatically close all applications. It is recommended that you close all applications using files that need to be updated by Setup before continuing.
+WizardPreparing=正準備安裝
+PreparingDesc=安裝程式現在正準備安裝 [name] 至您的電腦
+PreviousInstallNotCompleted=上一次的安裝/解除安裝未完成, 您必須重新開機以完成安裝%n%n重新開機後, 再次執行安裝程式以完成 [name] 的安裝
+CannotContinue=安裝無法繼續, 請點選"取消"離開安裝程式
+ApplicationsFound=以下應用程式正在使用安裝程式需更新的檔案, 建議您讓安裝程式自動關閉這些應用程式
+ApplicationsFound2=以下應用程式正在使用安裝程式需更新的檔案, 建議您讓安裝程式自動關閉這些應用程式, 在安裝完成後本安裝程式將嘗試重新啟動這些應用程式
+CloseApplications=自動關閉應用程式(&A)
+DontCloseApplications=不要自動關閉應用程式(&D)
+ErrorCloseApplications=安裝程式無法自動關閉全部的應用程式, 建議您在繼續安裝前, 手動關閉這些應用程式
 
 ; *** "Installing" wizard page
-WizardInstalling=Installing
-InstallingLabel=Please wait while Setup installs [name] on your computer.
+WizardInstalling=安裝中
+InstallingLabel=請稍待, 安裝程式正在把 [name] 安裝至您的電腦上
 
 ; *** "Setup Completed" wizard page
-FinishedHeadingLabel=Completing the [name] Setup Wizard
-FinishedLabelNoIcons=Setup has finished installing [name] on your computer.
-FinishedLabel=Setup has finished installing [name] on your computer. The application may be launched by selecting the installed icons.
-ClickFinish=Click Finish to exit Setup.
-FinishedRestartLabel=To complete the installation of [name], Setup must restart your computer. Would you like to restart now?
-FinishedRestartMessage=To complete the installation of [name], Setup must restart your computer.%n%nWould you like to restart now?
-ShowReadmeCheck=Yes, I would like to view the README file
-YesRadio=&Yes, restart the computer now
-NoRadio=&No, I will restart the computer later
+FinishedHeadingLabel=完成 [name] 安裝精靈
+FinishedLabelNoIcons=安裝程式已將 [name] 安裝至您的電腦上
+FinishedLabel=安裝程式已將 [name] 安裝至您的電腦上, 可選擇該捷徑來執行此應用程式
+ClickFinish=請點選"結束"來離開安裝程式
+FinishedRestartLabel=要完成 [name] 的安裝, 安裝程式必須重新啟動電腦, 您是否想要立刻重新啟動電腦?
+FinishedRestartMessage=要完成 [name] 的安裝, 安裝程式必須重新啟動電腦 %n%n您是否想要立刻重新啟動電腦?
+ShowReadmeCheck=是, 我想現在查看讀我(README)檔案
+YesRadio=是, 立刻重新啟動電腦(&Y)
+NoRadio=否, 我等下會自行重新啟動電腦(&N)
 ; used for example as 'Run MyProg.exe'
 RunEntryExec=Run %1
 ; used for example as 'View Readme.txt'
 RunEntryShellExec=View %1
 
 ; *** "Setup Needs the Next Disk" stuff
-ChangeDiskTitle=Setup Needs the Next Disk
-SelectDiskLabel2=Please insert Disk %1 and click OK.%n%nIf the files on this disk can be found in a folder other than the one displayed below, enter the correct path or click Browse.
-PathLabel=&Path:
-FileNotInDir2=The file "%1" could not be located in "%2". Please insert the correct disk or select another folder.
-SelectDirectoryLabel=Please specify the location of the next disk.
+ChangeDiskTitle=安裝程式需要更換下一片磁片
+SelectDiskLabel2=請插入磁片%1然後點選"確定"%n%n若該檔案放在另一個資料夾, 請輸入正確的路徑或點選"瀏覽"
+PathLabel=路徑(&P)h:
+FileNotInDir2=檔案"%1"不在"%2"中. 請插入正確的磁片或是選擇另一個資料夾
+SelectDirectoryLabel=請選擇下一片磁片所在的位置
 
 ; *** Installation phase messages
-SetupAborted=Setup was not completed.%n%nPlease correct the problem and run Setup again.
-EntryAbortRetryIgnore=Click Retry to try again, Ignore to proceed anyway, or Abort to cancel installation.
+SetupAborted=安裝程式未安裝完成%n%n請修正問題後再一次執行安裝程式
+EntryAbortRetryIgnore=請點選"重試"再試一次, 或"忽略"繼續執行, 或"中止"來取消安裝
 
 ; *** Installation status messages
-StatusClosingApplications=Closing applications...
-StatusCreateDirs=Creating directories...
-StatusExtractFiles=Extracting files...
-StatusCreateIcons=Creating shortcuts...
-StatusCreateIniEntries=Creating INI entries...
-StatusCreateRegistryEntries=Creating registry entries...
-StatusRegisterFiles=Registering files...
-StatusSavingUninstall=Saving uninstall information...
-StatusRunProgram=Finishing installation...
-StatusRestartingApplications=Restarting applications...
-StatusRollback=Rolling back changes...
+StatusClosingApplications=關閉應用程式中...
+StatusCreateDirs=建立資料夾中...
+StatusExtractFiles=解壓縮檔案中...
+StatusCreateIcons=建立捷徑中...
+StatusCreateIniEntries=建立INI資料中...
+StatusCreateRegistryEntries=建立註冊表資料中...
+StatusRegisterFiles=註冊檔案中...
+StatusSavingUninstall=儲存移除安裝資訊中...
+StatusRunProgram=完成安裝中...
+StatusRestartingApplications=重新啟動應用程式中...
+StatusRollback=取消修改中...
 
 ; *** Misc. errors
-ErrorInternal2=Internal error: %1
-ErrorFunctionFailedNoCode=%1 failed
-ErrorFunctionFailed=%1 failed; code %2
-ErrorFunctionFailedWithMessage=%1 failed; code %2.%n%3
-ErrorExecutingProgram=Unable to execute file:%n%1
+ErrorInternal2=內部錯誤: %1
+ErrorFunctionFailedNoCode=%1 失敗
+ErrorFunctionFailed=%1 失敗; 代碼 %2
+ErrorFunctionFailedWithMessage=%1 失敗;  代碼%2.%n%3
+ErrorExecutingProgram=無法執行檔案:%n%1
 
 ; *** Registry errors
-ErrorRegOpenKey=Error opening registry key:%n%1\%2
-ErrorRegCreateKey=Error creating registry key:%n%1\%2
-ErrorRegWriteKey=Error writing to registry key:%n%1\%2
+ErrorRegOpenKey=註冊表key開啟錯誤:%n%1\%2
+ErrorRegCreateKey=註冊表key建立錯誤:%n%1\%2
+ErrorRegWriteKey=註冊表key寫入錯誤:%n%1\%2
 
 ; *** INI errors
-ErrorIniEntry=Error creating INI entry in file "%1".
+ErrorIniEntry=在檔案"%1"建立INI資訊時發生錯誤
 
 ; *** File copying errors
-FileAbortRetryIgnore=Click Retry to try again, Ignore to skip this file (not recommended), or Abort to cancel installation.
-FileAbortRetryIgnore2=Click Retry to try again, Ignore to proceed anyway (not recommended), or Abort to cancel installation.
-SourceIsCorrupted=The source file is corrupted
-SourceDoesntExist=The source file "%1" does not exist
-ExistingFileReadOnly=The existing file is marked as read-only.%n%nClick Retry to remove the read-only attribute and try again, Ignore to skip this file, or Abort to cancel installation.
-ErrorReadingExistingDest=An error occurred while trying to read the existing file:
-FileExists=The file already exists.%n%nWould you like Setup to overwrite it?
-ExistingFileNewer=The existing file is newer than the one Setup is trying to install. It is recommended that you keep the existing file.%n%nDo you want to keep the existing file?
-ErrorChangingAttr=An error occurred while trying to change the attributes of the existing file:
-ErrorCreatingTemp=An error occurred while trying to create a file in the destination directory:
-ErrorReadingSource=An error occurred while trying to read the source file:
-ErrorCopying=An error occurred while trying to copy a file:
-ErrorReplacingExistingFile=An error occurred while trying to replace the existing file:
-ErrorRestartReplace=RestartReplace failed:
-ErrorRenamingTemp=An error occurred while trying to rename a file in the destination directory:
-ErrorRegisterServer=Unable to register the DLL/OCX: %1
+FileAbortRetryIgnore=請點選"重試"再試一次, 或"忽略"跳過此檔案(不建議), 或"中止"來取消安裝
+FileAbortRetryIgnore2=請點選"重試"再試一次, 或"忽略"繼續執行(不建議), 或"中止"來取消安裝
+SourceIsCorrupted=原始檔已損毀
+SourceDoesntExist=原始檔"%1"不存在
+ExistingFileReadOnly=該檔案被標示為"唯讀"%n%n請點選"重試"取消唯讀屬性, 或"忽略"跳過此檔案, 或"中止"來取消安裝
+ErrorReadingExistingDest=當讀取此檔案時發生錯誤:
+FileExists=此檔案已存在%n%n您是否要安裝程式複寫該檔案?
+ExistingFileNewer=此檔案版本比安裝程式安裝的還要新, 建議您保留此檔案 %n%n您是否要保留此檔案?
+ErrorChangingAttr=當嘗試改變此檔案屬性時發生錯誤:
+ErrorCreatingTemp=當嘗試建立檔案於此目標資料夾時發生錯誤:
+ErrorReadingSource=當嘗試讀取此原始檔時發生錯誤:
+ErrorCopying=當嘗試複製此檔案時發生錯誤:
+ErrorReplacingExistingFile=當嘗試取代此檔案時發生錯誤:
+ErrorRestartReplace=重新取代時錯誤:
+ErrorRenamingTemp=當嘗試重新命名此檔案時發生錯誤:
+ErrorRegisterServer=無法註冊DLL/OCX: %1
 ErrorRegSvr32Failed=RegSvr32 failed with exit code %1
 ErrorRegisterTypeLib=Unable to register the type library: %1
 
 ; *** Post-installation errors
-ErrorOpeningReadme=An error occurred while trying to open the README file.
-ErrorRestartingComputer=Setup was unable to restart the computer. Please do this manually.
+ErrorOpeningReadme=開啟讀我(README)檔案時發生錯誤
+ErrorRestartingComputer=安裝程式無法自動重新啟動電腦, 請手動重新啟動電腦
 
 ; *** Uninstaller messages
-UninstallNotFound=File "%1" does not exist. Cannot uninstall.
-UninstallOpenError=File "%1" could not be opened. Cannot uninstall
-UninstallUnsupportedVer=The uninstall log file "%1" is in a format not recognized by this version of the uninstaller. Cannot uninstall
+UninstallNotFound=檔案"%1"不存在, 無法解除安裝
+UninstallOpenError=無法開啟檔案"%1", 無法解除安裝
+UninstallUnsupportedVer=此版本的解除安裝程式無法辨識紀錄檔"%1", 無法解除安裝
 UninstallUnknownEntry=An unknown entry (%1) was encountered in the uninstall log
-ConfirmUninstall=Are you sure you want to completely remove %1 and all of its components?
-UninstallOnlyOnWin64=This installation can only be uninstalled on 64-bit Windows.
-OnlyAdminCanUninstall=This installation can only be uninstalled by a user with administrative privileges.
-UninstallStatusLabel=Please wait while %1 is removed from your computer.
-UninstalledAll=%1 was successfully removed from your computer.
-UninstalledMost=%1 uninstall complete.%n%nSome elements could not be removed. These can be removed manually.
-UninstalledAndNeedsRestart=To complete the uninstallation of %1, your computer must be restarted.%n%nWould you like to restart now?
-UninstallDataCorrupted="%1" file is corrupted. Cannot uninstall
+ConfirmUninstall=您是否確定要完全移除 %1 和他的所有元件
+UninstallOnlyOnWin64=此程式僅能由64位元的Windows移除
+OnlyAdminCanUninstall=此程式僅能由擁有管理者權限的使用者移除
+UninstallStatusLabel=請稍待, 正在從您的電腦中移除 %1 
+UninstalledAll=%1 已由您的電腦內成功移除
+UninstalledMost=%1 解除安裝已完成%n%n但某些元素並未被移除, 請以手動方式移除
+UninstalledAndNeedsRestart=要完成 %1 的安裝, 安裝程式必須重新啟動電腦 %n%n您是否想要立刻重新啟動電腦?
+UninstallDataCorrupted=檔案"%1"已毀損, 無法解除安裝
 
 ; *** Uninstallation phase messages
-ConfirmDeleteSharedFileTitle=Remove Shared File?
-ConfirmDeleteSharedFile2=The system indicates that the following shared file is no longer in use by any programs. Would you like for Uninstall to remove this shared file?%n%nIf any programs are still using this file and it is removed, those programs may not function properly. If you are unsure, choose No. Leaving the file on your system will not cause any harm.
-SharedFileNameLabel=File name:
-SharedFileLocationLabel=Location:
-WizardUninstalling=Uninstall Status
-StatusUninstalling=Uninstalling %1...
+ConfirmDeleteSharedFileTitle=移除共享檔案?
+ConfirmDeleteSharedFile2=系統偵測到以下共享檔案已不被任何程式使用, 您是否要移除這些檔案?%n%n若有其他程式仍會使用這些檔案, 則可能造成該程式無法執行, 若你無法確定, 請選擇"否", 保留該檔案並不會對系統造成損害
+SharedFileNameLabel=檔案名稱:
+SharedFileLocationLabel=位址:
+WizardUninstalling=解除安裝程式狀態
+StatusUninstalling=%1 解除安裝中...
 
 ; *** Shutdown block reasons
-ShutdownBlockReasonInstallingApp=Installing %1.
-ShutdownBlockReasonUninstallingApp=Uninstalling %1.
+ShutdownBlockReasonInstallingApp=%1 安裝中.
+ShutdownBlockReasonUninstallingApp=%1 解除安裝中
 
 ; The custom messages below aren't used by Setup itself, but if you make
 ; use of them in your scripts, you'll want to translate them.
 
 [CustomMessages]
 
-NameAndVersion=%1 version %2
-AdditionalIcons=Additional icons:
-CreateDesktopIcon=Create a &desktop icon
-CreateQuickLaunchIcon=Create a &Quick Launch icon
+NameAndVersion=%1 版本 %2
+AdditionalIcons=額外捷徑:
+CreateDesktopIcon=建立桌面捷徑(&d)
+CreateQuickLaunchIcon=建立快速啟動捷徑(&Q)
 ProgramOnTheWeb=%1 on the Web
-UninstallProgram=Uninstall %1
-LaunchProgram=Launch %1
+UninstallProgram=解除安裝 %1
+LaunchProgram=執行 %1
 AssocFileExtension=&Associate %1 with the %2 file extension
 AssocingFileExtension=Associating %1 with the %2 file extension...
 AutoStartProgramGroupDescription=Startup:
-AutoStartProgram=Automatically start %1
-AddonHostProgramNotFound=%1 could not be located in the folder you selected.%n%nDo you want to continue anyway?
+AutoStartProgram=自動開啟 %1
+AddonHostProgramNotFound=您所選擇的資料夾內找不到 %1 %n%n您是否仍要繼續?
