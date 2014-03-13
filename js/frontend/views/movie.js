@@ -1,14 +1,30 @@
-App.View.MovieListItem = Backbone.View.extend({
+App.View.MovieListItem = Marionette.ItemView.extend({
     tagName: 'li',
     className: 'movie',
     model: App.Model.Movie,
+    id: function() {
+        return 'movie-'+this.model.get('imdb')
+    },
 
     events: {
-        'click a': 'select',
+        'click a': 'select'
     },
 
     initialize: function () {
         this.render();
+    },
+
+    template: _.template('<a href="javascript:;">'+
+            '<i class="fa fa-eye fa-3"></i>'+
+            '<span class="cover"></span>'+
+            '<strong><%- title %></strong>'+
+            '<small><%- year %></small>'+
+        '</a>'),
+
+    serializeData: function() {
+        return _.extend({}, this.model.attributes, {
+            title: this.model.getShortTitle()
+        });
     },
 
     select: function (evt) {
@@ -23,20 +39,5 @@ App.View.MovieListItem = Backbone.View.extend({
             this.$el.addClass('active');
             App.sidebar.load(this.model);
         }
-    },
-
-    render: function () {
-        if (this.model.get('title').length > 19) {
-          var title = this.model.get('title').substring(0, 13) + "...";
-        } else {
-          var title = this.model.get('title');
-        }
-        this.$el.attr('id', 'movie-' + this.model.get('imdb')).html(
-            '<a href="javascript:;">'+
-                '<i class="fa fa-eye fa-3"></i>'+
-                '<span class="cover"></span>'+
-                '<strong>' + title + '</strong>'+
-                '<small>' + this.model.get('year') + '</small>'+
-            '</a>');
     }
 });
