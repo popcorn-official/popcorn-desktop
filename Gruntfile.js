@@ -72,11 +72,13 @@ var parseBuildPlatforms = function(argumentPlatform) {
   inputPlatforms = inputPlatforms.replace("darwin", "mac");
   inputPlatforms = inputPlatforms.replace(/;ia|;x|;arm/, "");
 
+  var buildAll = /^all$/.test(inputPlatforms);
+
   var buildPlatforms = {
-    mac: /mac/.test(inputPlatforms),
-    win: /win/.test(inputPlatforms),
-    linux32: /linux32/.test(inputPlatforms),
-    linux64: /linux64/.test(inputPlatforms)
+    mac: /mac/.test(inputPlatforms) || buildAll,
+    win: /win/.test(inputPlatforms) || buildAll,
+    linux32: /linux32/.test(inputPlatforms) || buildAll,
+    linux64: /linux64/.test(inputPlatforms) || buildAll
   };
 
   return buildPlatforms;

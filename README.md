@@ -37,7 +37,7 @@ Install the node modules:
 
     $ npm install
 
-Built with:
+Build with:
 
     $ grunt nodewkbuild
 
@@ -46,6 +46,10 @@ by specifying a comma separated list of platforms in the `platforms` option to
 grunt:
 
     $ grunt nodewkbuild --platforms=linux32,linux64,mac,win
+
+You can also build for all platforms with:
+
+    $ grunt nodewkbuild --platforms=all
 
 ## Any problem?
 
