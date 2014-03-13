@@ -19,7 +19,8 @@ var request = require('request'),
         'german'    : 'Deutsch',
         'hungarian' : 'Magyar',
         'russian'   : 'Русский',
-        'ukrainian' : 'Українська'
+        'ukrainian' : 'Українська',
+        'finnish'   : 'Suomi'
     };
 
 App.findSubtitle = function (model, cb, isFallback) {

@@ -95,7 +95,8 @@ window.SubtitleLanguages = {
   'brazilian' : 'Português-Br',
   'dutch'     : 'Nederlands',
   'german'    : 'Deutsch',
-  'hungarian' : 'Magyar'
+  'hungarian' : 'Magyar',
+  'finnish'   : 'Suomi'
 };
 
 
