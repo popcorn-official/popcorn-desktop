@@ -12,7 +12,7 @@
   "quality": "화질",
   "watchItNow": "바로보기",
   "durationUnit": "분",
-  "connecting": "연결중...",
+  "connecting": "연결 중...",
   "startingDownload": "다운로드 시작...",
   "downloading": "다운로드 중...",
   "UpgradeVersion": "Popcorn Time 업데이트",
@@ -55,5 +55,6 @@
   "romanian": "루마니아어",
   "turkish": "터키어",
   "dutch": "네덜란드어",
-  "italian": "이탈리아어"
+  "italian": "이탈리아어",
+  "korean": "한국어"
 }
