@@ -5,7 +5,7 @@
 ; ***                                                                          ***
 ; ***    Author: Jackmoo (enepgoo@gmail.com)                                   ***
 ; ***                                                                          ***        
-; ***    **UNDER TESTING SINCE CHINESE IS DOUBLE BYTE CHARACTER**              ***
+; ***                                                                          ***
 ; ***                                                                          ***  
 ; *** Note: When translating this text, do not add periods (.) to the end of   ***
 ; *** messages that didn't have them already, because on those messages Inno   ***
@@ -15,15 +15,16 @@
 
 
 
+
 [LangOptions]
 ; The following three entries are very important. Be sure to read and 
 ; understand the '[LangOptions] section' topic in the help file.
+
+; ****Not test yet****
 LanguageName=Traditional Chinese
 LanguageID=$7C04
-
-; *Not test yet
 LanguageCodePage=950
-; ****
+; ********************
 
 ; If the language you are translating to requires special font faces or
 ; sizes, uncomment any of the following entries and change them accordingly.
