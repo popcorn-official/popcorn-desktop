@@ -298,7 +298,12 @@ body.has-notification {
 
   &.hidden {
     opacity: 0;
+    z-index: 0;
     pointer-events: none;
+  }
+
+  &.hidden .spinner {
+    -webkit-animation: none;
   }
 
   .wrapper {

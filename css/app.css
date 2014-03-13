@@ -611,7 +611,11 @@ body.has-notification #notification {
 }
 .popcorn-load.hidden {
   opacity: 0;
+  z-index: 0;
   pointer-events: none;
+}
+.popcorn-load.hidden .spinner {
+  -webkit-animation: none;
 }
 .popcorn-load .wrapper {
   -webkit-transform: translateY(-100%);
