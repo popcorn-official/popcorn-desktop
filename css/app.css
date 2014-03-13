@@ -645,6 +645,9 @@ body.has-notification #notification {
   margin-left: 100%;
   pointer-events: none;
 }
+.popcorn-load.hidden .spinner {
+  -webkit-animation: none;
+}
 .popcorn-load .wrapper {
   -webkit-transform: translateY(-100%);
   -moz-transform: translateY(-100%);

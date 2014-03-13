@@ -337,6 +337,10 @@ body.has-notification {
     pointer-events: none;
   }
 
+  &.hidden .spinner {
+    -webkit-animation: none;
+  }
+
   .wrapper {
     @include translateY(-100%);
     font-size: 40px;
