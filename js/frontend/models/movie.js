@@ -15,6 +15,14 @@ App.Model.Movie = Backbone.Model.extend({
       model.trigger('rottenloaded');
     },
 
+    getShortTitle: function() {
+      if (this.get('title').length > 19) {
+        return this.get('title').substring(0, 13) + "...";
+      }
+
+      return this.get('title');
+    },
+
     // DEPRECATED
     setRottenInfo: function () {
         var model = this;
