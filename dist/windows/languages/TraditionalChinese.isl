@@ -22,7 +22,7 @@
 
 ; ****Not test yet****
 LanguageName=Traditional Chinese
-LanguageID=$7C04
+LanguageID=$0404
 LanguageCodePage=950
 ; ********************
 
