@@ -377,7 +377,6 @@ a {
   left: initial;
   top: 5px;
 }
-
 #header .btn-set.darwin {
   position: absolute;
   left: 15px;
@@ -388,19 +387,12 @@ a {
   left: initial;
   top: 5px;
 }
-
-#header .btn-set.fs-linux {
-  position: absolute;
-  left: 15px;
-  top: 5px;
-}
 #header .btn-set.linux {
   right: 7px;
   left: initial;
   top: 15px;
 }
-
-#header .btn-set.fs-win32 {
+#header .btn-set.fs-linux {
   position: absolute;
   left: 15px;
   top: 5px;
@@ -410,7 +402,11 @@ a {
   left: initial;
   top: 15px;
 }
-
+#header .btn-set.fs-win32 {
+  position: absolute;
+  left: 15px;
+  top: 5px;
+}
 #header .btn-set:hover .btn-os {
   color: rgba(0, 0, 0, 0.8);
 }
@@ -1737,6 +1733,9 @@ sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-itali
 }
 sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-hungarian {
   background-image: url(../images/hungarian.png);
+}
+sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-bulgarian {
+  background-image: url(../images/bulgarian.png);
 }
 sidebar .play .movie-detail .side-content a.play-button {
   background: #286dc4;

@@ -102,6 +102,40 @@ a { text-decoration: none; }
 
     }
 
+    // Changes the min/max/close button position depending on OS
+    &.darwin {
+      position: absolute;
+      left: 15px;
+      top: 17px;
+    }
+    &.fs-darwin {
+      right: 7px;
+      left: initial;
+      top: 5px;
+    }
+
+    &.linux {
+      right: 7px;
+      left: initial;
+      top: 15px;
+    }
+    &.fs-linux {
+      position: absolute;
+      left: 15px;
+      top: 5px;
+    }
+
+    &.win32 {
+      right: 7px;
+      left: initial;
+      top: 15px;
+    }
+    &.fs-win32 {
+      position: absolute;
+      left: 15px;
+      top: 5px;
+    }
+    
     &:hover .btn-os { color: rgba(0, 0, 0, 0.8); }
 
     button {
