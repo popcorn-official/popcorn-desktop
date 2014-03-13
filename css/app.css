@@ -377,6 +377,40 @@ a {
   left: initial;
   top: 5px;
 }
+
+#header .btn-set.darwin {
+  position: absolute;
+  left: 15px;
+  top: 17px;
+}
+#header .btn-set.fs-darwin {
+  right: 7px;
+  left: initial;
+  top: 5px;
+}
+
+#header .btn-set.fs-linux {
+  position: absolute;
+  left: 15px;
+  top: 5px;
+}
+#header .btn-set.linux {
+  right: 7px;
+  left: initial;
+  top: 15px;
+}
+
+#header .btn-set.fs-win32 {
+  position: absolute;
+  left: 15px;
+  top: 5px;
+}
+#header .btn-set.win32 {
+  right: 7px;
+  left: initial;
+  top: 15px;
+}
+
 #header .btn-set:hover .btn-os {
   color: rgba(0, 0, 0, 0.8);
 }
