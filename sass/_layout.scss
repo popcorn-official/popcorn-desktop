@@ -298,6 +298,8 @@ body.has-notification {
 
   &.hidden {
     opacity: 0;
+    z-index: 0;
+    margin-left: 100%;
     pointer-events: none;
   }
 
