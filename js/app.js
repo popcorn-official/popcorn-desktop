@@ -41,9 +41,9 @@ var
 
     BUTTON_ORDER = ['close', 'min', 'max'];
 
-    if (isWin)   { BUTTON_ORDER = ['min', 'max', 'close']; };
-    if (isLinux) { BUTTON_ORDER = ['min', 'max', 'close']; };
-    if (isOSX)   { BUTTON_ORDER = ['close', 'min', 'max']; };
+    if (isWin)   { BUTTON_ORDER = ['min', 'max', 'close']; }
+    if (isLinux) { BUTTON_ORDER = ['min', 'max', 'close']; }
+    if (isOSX)   { BUTTON_ORDER = ['close', 'min', 'max']; }
 
 // Global App skeleton for backbone
 var App = {
