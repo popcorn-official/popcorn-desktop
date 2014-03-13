@@ -1964,6 +1964,9 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
 #video_player.video-js .vjs-menu-item {
   color: #000;
 }
+#video_player.video-js .vjs-seek-handle {
+  display: none;
+}
 
 body.watching #header, body.watching #notification, body.watching #catalog-select, body.watching .container {
   visibility: hidden;
