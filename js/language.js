@@ -46,7 +46,7 @@ var populateCategories = function() {
     var category_html = '';
     var defaultCategory = 'all';
 
-    for( key in i18n.__("genres") ) {
+    for(var key in i18n.__("genres") ) {
         category_html += '<li'+ (defaultCategory == key ? ' class="active" ' : '') +'>'+
                            '<a href="#" data-genre="'+key+'">'+ i18n.__("genres")[key] +'</a>'+
                          '</li>';

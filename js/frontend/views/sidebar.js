@@ -37,7 +37,7 @@ App.View.Sidebar = Backbone.View.extend({
 
     play: function (evt) {
         evt.preventDefault();
-        if( videoStreamer != null ){ return; } 
+        if( videoStreamer != null ){ return; }
 
         var file = this.model.get('torrent'),
             subs = this.model.get('subtitles');
@@ -47,14 +47,14 @@ App.View.Sidebar = Backbone.View.extend({
 
         App.loader(true, i18n.__('loadingVideo'));
         $('body').removeClass().addClass('loading');
-        
-        
+
+
         // Used to keep track of loading status changes
         var previousStatus = '';
         var movieModel = this.model;
 
         playTorrent(file, subs, movieModel,
-            function(){}, 
+            function(){},
             function(percent){
 
                 // Loading Progress Handler. Percent is 5% + Actual progress, to keep the progressbar moving even when it's at the min-width
@@ -72,16 +72,16 @@ App.View.Sidebar = Backbone.View.extend({
                         bufferStatus = 'downloading';
                     }
                 }
-                
+
                 if( bufferStatus != previousStatus ) {
                     userTracking.event('Video Preloading', bufferStatus, movieModel.get('niceTitle')).send();
                     previousStatus = bufferStatus;
                 }
-                
+
                 $('.popcorn-load .progressinfo').text( i18n.__(bufferStatus) );
             }
         );
-        
+
         userTracking.event('Movie Quality', 'Watch on '+this.model.get('quality')+' - '+this.model.get('health').capitalize(), this.model.get('niceTitle') ).send();
     },
 
@@ -114,7 +114,7 @@ App.View.Sidebar = Backbone.View.extend({
       // Maybe we can move this to a better place
       if( $('.movie.active').size() > 0 ) {
         var userLocale = window.navigator.language.substr(0,2);
-        var avaliableSubs = this.model.get('subtitles');
+        var availableSubs = this.model.get('subtitles');
         var languageLookup = {
           "brazilian": "pt",
           "dutch": "nl",
@@ -130,14 +130,14 @@ App.View.Sidebar = Backbone.View.extend({
           "bulgarian": "bg"        }
 
         var noSubForUser = true;
-        for (as in avaliableSubs) {
+        for (var as in availableSubs) {
           var subLocale = languageLookup[as];
           if (subLocale == userLocale) {
             noSubForUser = false;
           }
         }
 
-        userTracking.event( 'Movie Closed', this.model.get('niceTitle'), 
+        userTracking.event( 'Movie Closed', this.model.get('niceTitle'),
                             (noSubForUser ? 'No Local Subtitles' : 'With Local Subtitles') +' - '+ this.model.get('health').capitalize() ).send();
       }
 
