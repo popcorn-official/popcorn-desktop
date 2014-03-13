@@ -157,7 +157,9 @@ if( ! Settings.get('disclaimerAccepted') ) {
  * Show 404 page on uncaughtException
  */
 process.on('uncaughtException', function(err) {
-    console.log(err);
+    if (console) {
+        console.log(err);
+    }
 });
 
 
