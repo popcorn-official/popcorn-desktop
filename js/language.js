@@ -2,7 +2,7 @@
 i18n.configure({
     defaultLocale: 'en',
     locales: ['ar', 'bg', 'ca', 'da', 'de', 'el', 'en', 'es', 'eu', 'fr', 'he', 'hu', 'it', 'ja', 'kr',
-              'lt', 'nl', 'no', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'sk', 'sv', 'tr', 'uk', 'zh-cn', 'zh-tw'],
+              'lt', 'lv', 'nl', 'no', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'sk', 'sv', 'tr', 'uk', 'zh-cn', 'zh-tw'],
     directory: './language'
 });
 
