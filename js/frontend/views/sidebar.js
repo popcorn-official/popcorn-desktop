@@ -114,7 +114,7 @@ App.View.Sidebar = Backbone.View.extend({
       // Maybe we can move this to a better place
       if( $('.movie.active').size() > 0 ) {
         var userLocale = window.navigator.language.substr(0,2);
-        var avaliableSubs = this.model.get('subtitles');
+        var availableSubs = this.model.get('subtitles');
         var languageLookup = {
           "brazilian": "pt",
           "dutch": "nl",
@@ -130,7 +130,7 @@ App.View.Sidebar = Backbone.View.extend({
           "bulgarian": "bg"        }
 
         var noSubForUser = true;
-        for (var as in avaliableSubs) {
+        for (var as in availableSubs) {
           var subLocale = languageLookup[as];
           if (subLocale == userLocale) {
             noSubForUser = false;
