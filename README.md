@@ -73,7 +73,7 @@ Replace `node_modules/moviedb/node_modules/superagent/index.js` contents with:
 
 
 ## Development
-- Run `compass watch` in Terminal for CSS compiling and listen to future changes.
+- Run `compass watch --css-dir css` in Terminal for CSS compiling and listen to future changes.
 - [How to build with SublimeText](https://github.com/rogerwang/node-webkit/wiki/Debugging-with-Sublime-Text-2-and-3)
 - Currently Gaze to watch all files and reload the app is disabled due to memory leaks and unstability.
 - Run node-webkit from the root directory with --debug to enable debugging mode like so ```node-webkit . --debug```
