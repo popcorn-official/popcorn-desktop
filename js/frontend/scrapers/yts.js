@@ -43,7 +43,7 @@ var Yts = Backbone.Collection.extend({
                 voteAverage:parseInt(movie.MovieRating, 10),
 
                 image:      movie.CoverImage,
-                bigImage:   movie.CoverImage,
+                bigImage:   movie.CoverImage.replace(/_med\./, '_large.'),
                 backdrop:   "",
 
                 quality:    movie.Quality,

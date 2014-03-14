@@ -10,7 +10,7 @@ App.Controller.Search = function (searchTerm, page) {
     var Scrapper = App.currentScrapper;
 
     var movieCollection = new Scrapper([], {
-        searchTerm: searchTerm,
+        keywords: searchTerm,
         genre: null,
         page: page
     });
