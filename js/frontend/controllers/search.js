@@ -3,8 +3,8 @@ App.Controller.Search = function (searchTerm, page) {
     if (App.Page.Search) {
         // Create page
         App.Page.Search = new App.View.Page({
-            id: 'search-list'
-        });    
+            id: 'movie-list'
+        });
     }
     // Create movie list
     var movieList = new App.View.MovieList({
@@ -12,7 +12,7 @@ App.Controller.Search = function (searchTerm, page) {
         genre: null,
         page: page
     });
-    
+
     // Clean up if first page
     if (!page || page == '1'){
         console.log('Searching for ' + searchTerm);
@@ -21,7 +21,7 @@ App.Controller.Search = function (searchTerm, page) {
         window.initialLoading = true;
         App.Page.Search.show();
     }
-    
+
     userTracking.pageview('/movies/search?q='+encodeURIComponent(searchTerm)+((page && page > 1) ? '&page='+page : '')).send();
 
     setTimeout(function(){
