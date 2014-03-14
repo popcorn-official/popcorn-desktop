@@ -6,12 +6,22 @@ App.Controller.Home = function (page) {
             id: 'movie-list'
         });
     }
-    // Create movie list
-    var movieList = new App.View.MovieList({
+
+    var Scrapper = App.currentScrapper;
+
+    var movieCollection = new Scrapper([], {
         searchTerm: null,
         genre: null,
         page: page
     });
+
+    movieCollection.fetch();
+
+    // Create movie list
+    var movieList = new App.View.MovieList({
+        model: movieCollection
+    });
+
     // Clean up if first page
     if (!page || page == '1'){
         $('.movie-list').first().empty();
@@ -23,7 +33,7 @@ App.Controller.Home = function (page) {
     }
 
     userTracking.pageview('/movies/popular'+((page && page > 1) ? '?page='+page : ''), 'Popular Movies').send();
-    
+
     setTimeout(function(){
         movieList.constructor.busy = false;
     }, 5000);
