@@ -13,10 +13,10 @@ var playTorrent = window.playTorrent = function (torrent, subs, movieModel, call
   var numCores = (os.cpus().length > 0) ? os.cpus().length : 1;
   var numConnections = 100;
 
-  // Start Popcornflix (Peerflix)
-  var popcornflix = require('peerflix');
+  // Start Peerflix
+  var peerflix = require('peerflix');
 
-  videoStreamer = popcornflix(torrent, {
+  videoStreamer = peerflix(torrent, {
     // Set the custom temp file
     path: tmpFile,
     //port: 554,

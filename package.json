@@ -2,13 +2,13 @@
   "name": "Popcorn-Time",
   "repository": {
     "type": "git",
-    "url": "https://github.com/popcorn-time/popcorn-app.git"
+    "url": "https://github.com/isra17/popcorn-app.git"
   },
   "main": "app://host/index.html",
   "version": "0.2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/popcorn-time/popcorn-app"
+    "url": "https://github.com/isra17/popcorn-app"
   },
   "window": {
     "title": "Popcorn Time",
@@ -32,7 +32,7 @@
     "network-address" : "git+https://github.com/gpt-modules/network-address.git",
     "node-uuid" : "git+https://github.com/gpt-modules/node-uuid.git",
     "numeral" : "git+https://github.com/gpt-modules/numeral-js.git",
-    "popcornflix" : "git+https://github.com/popcorn-time/popcornflix.git",
+    "peerflix" : "git+https://github.com/mafintosh/peerflix.git",
     "request" : "git+https://github.com/gpt-modules/request.git",
     "universal-analytics" : "git+https://github.com/gpt-modules/universal-analytics.git",
     "url" : "git+https://github.com/gpt-modules/url.git",
