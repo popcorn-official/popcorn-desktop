@@ -146,7 +146,6 @@ if( ! Settings.get('disclaimerAccepted') ) {
 
     $('.popcorn-disclaimer .btn.confirmation.continue').click(function(event){
         event.preventDefault();
-        userTracking.event('App Disclaimer', 'Accepted', navigator.language.toLowerCase() ).send();
         Settings.set('disclaimerAccepted', 1);
         $('.popcorn-disclaimer').addClass('hidden');
     });
@@ -158,7 +157,6 @@ if( ! Settings.get('disclaimerAccepted') ) {
         if( $('.popcorn-disclaimer').hasClass('quitting') ){ return; }
         $('.popcorn-disclaimer').addClass('quitting');
 
-        userTracking.event('App Disclaimer', 'Quit', navigator.language.toLowerCase() ).send();
         setTimeout(function(){
             gui.App.quit();
         }, 2000);
