@@ -34,6 +34,7 @@ App.loader(true, i18n.__('loading'));
 // Handles general UI buttons, like maximization, etc
 
 jQuery(function ($) {
+  App.settingsPage = new App.View.Settings();
 
   // Maximize, minimize
   $('.btn-os.max').on('click', function () {
@@ -56,12 +57,20 @@ jQuery(function ($) {
   $('.btn-os.close').on('click', function () {
     win.close();
   });
-  
+
   $('.btn-os.fullscreen').on('click', function () {
     win.toggleFullscreen();
     $('.btn-os.fullscreen').toggleClass('active');
   });
 
+  $('.btn-os.settings').on('click', function () {
+    if( App.sidebar.isVisible() ) {
+      App.sidebar.hide();
+    }
+    if( !App.settingsPage.isVisible() ) {
+      App.settingsPage.show();
+    }
+  });
 
   // The app loading close button
   $('.popcorn-load .btn-close').click(function(event){
@@ -98,6 +107,7 @@ jQuery(function ($) {
   App.Router.on('route', function () {
     // Ensure sidebar is hidden
     App.sidebar.hide();
+    App.settingsPage.hide();
   });
 
 
@@ -115,7 +125,7 @@ jQuery(function ($) {
         $('#catalog-select ul li.active').removeClass('active');
       }
   });
-  
+
   $('.search i').on('click', function (evt) {
     var term = $.trim($('.search input').val());
 

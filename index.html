@@ -21,6 +21,7 @@
 
         <nav class="btn-set fs-<%= process.platform %>">
           <button class="btn-os fullscreen"></button>
+          <button class="btn-os settings"></button>
         </nav>
         <h1>Popcorn Time</h1>
     </script>
@@ -40,8 +41,29 @@
     </div>
 
     <section class="container">
+      <section id="settings" class="hidden"></section>
       <sidebar class="hidden"></sidebar>
     </section>
+
+    <script id="settings-tpl" type="text/x-template">
+      <div class="closer"><img src="/images/close.svg" width="50"></div>
+      <form id="settings-form">
+        <h1><%= i18n.__('Settings') %></h1>
+        <h2><%= i18n.__('Cache')%></h2>
+        <div class="option">
+          <label for="settings-cacheLocation-browse"><%= i18n.__('Cache location')%>:</label>
+          <a id="settings-cacheLocation-browse" class="small-button"><%= i18n.__('Browse...') %></a>
+          <input id="settings-cacheLocation-input" name="cacheLocation" type="file" nwdirectory not_empty />
+          <span id="settings-cacheLocation-value"><%= cacheLocation %></span>
+        </div>
+        <div class="option">
+          <input type="checkbox" name="autoClearCache" id="settings-autoclearcache" <%=autoClearCache?'checked="checked"':''%>></input>
+          <label for="settings-autoclearcache"><%= i18n.__('Auto clear cache')%></label>
+        </div>
+
+        <div><a class="save medium-button"><%= i18n.__('Save') %></a></div>
+      </form>
+    </script>
 
     <script id="sidebar-tpl" type="text/x-template">
       <div class="play">
@@ -174,9 +196,9 @@
     <script src="js/app.js"></script>
     <script src="js/language.js"></script>
     <script src="js/tracking.js"></script>
-    <script src="js/updater.js"></script>
 
     <!-- UI and UI-related Initialization -->
+    <script src="js/frontend/settings.js"></script>
     <script src="js/frontend/ui.js"></script>
     <script src="js/frontend/player.js"></script>
 
@@ -189,6 +211,8 @@
     <script src="js/frontend/scrapers/scrapers.js"></script>
 
     <!-- Backbone Views and Controllers -->
+    <script src="js/frontend/models/movie.js"></script>
+    <script src="js/frontend/views/settings.js"></script>
     <script src="js/frontend/views/page.js"></script>
     <script src="js/frontend/views/listview.js"></script>
     <script src="js/frontend/views/movie.js"></script>

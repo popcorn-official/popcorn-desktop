@@ -1,6 +1,7 @@
 // Tracking
 var getTrackingId = function(){
-
+    // Disable tracking TODO: Remove all tracking code
+    return null;
     var clientId = Settings.get('trackingId');
 
     if( typeof clientId == 'undefined' || clientId == null || clientId == '' ) {
@@ -82,9 +83,9 @@ else if( typeof __isUpgradeInstall != 'undefined' && __isUpgradeInstall == true 
 
 
 // Todo: Remove Upgrade in the next version to prevent double counting of device stats (we'd send stats once per version)
-if( (typeof __isNewInstall != 'undefined' && __isNewInstall == true) || 
+if( (typeof __isNewInstall != 'undefined' && __isNewInstall == true) ||
     (typeof __isUpgradeInstall != 'undefined' && __isUpgradeInstall == true) )  {
-    
+
   // General Device Stats
   userTracking.event('Device Stats', 'Version', Settings.get('version') + (isDebug ? '-debug' : '') ).send();
   userTracking.event('Device Stats', 'Type', getOperatingSystem().capitalize()).send();

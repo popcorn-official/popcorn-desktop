@@ -3,7 +3,7 @@ App.Controller.FilterGenre = function (genre, page) {
     if (!App.Page.FilterGenre) {
         // Create page
         App.Page.FilterGenre = new App.View.Page({
-            id: 'category-list'
+            id: 'movie-list'
         });
     }
 

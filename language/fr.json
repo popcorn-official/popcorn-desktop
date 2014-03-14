@@ -66,5 +66,12 @@
    "arabic": "Arabe",
    "korean": "Coréen",
    "hungarian": "Hongrois",
-   "bulgarian": "Bulgare"
+   "bulgarian": "Bulgare",
+
+  "Settings": "Paramètres",
+  "Cache": "Cache",
+  "Cache location": "Répertoire de téléchargement",
+  "Browse...": "Parcourir...",
+  "Save": "Enregistrer",
+  "Auto clear cache": "Vider automatiquement la cache"
 }
