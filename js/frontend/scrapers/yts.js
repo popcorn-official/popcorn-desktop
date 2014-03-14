@@ -30,15 +30,27 @@ var Yts = Backbone.Collection.extend({
             // No imdb, no movie.
             if( typeof movie.ImdbCode != 'string' || movie.ImdbCode.replace('tt', '') == '' ){ return; }
 
+            var torrents = {};
+            torrents[movie.Quality] = movie.TorrentUrl;
+
             // Temporary object
             var movieModel = {
                 imdb:       movie.ImdbCode.replace('tt', ''),
-                coverImage: movie.CoverImage,
-                year:       movie.MovieYear,
                 title:      movie.MovieTitleClean,
-                torrent:    movie.TorrentUrl,
-                torrents:   {},
+                year:       movie.MovieYear,
+                runtime:    0,
+                synopsis:   "",
+                voteAverage:parseInt(movie.MovieRating, 10),
+
+                image:      movie.CoverImage,
+                bigImage:   movie.CoverImage,
+                backdrop:   "",
+
                 quality:    movie.Quality,
+                torrent:    movie.TorrentUrl,
+                torrents:   torrents,
+                videos:     {},
+                subtitles:  {},
                 seeders:    movie.TorrentSeeds,
                 leechers:   movie.TorrentPeers
             };
