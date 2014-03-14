@@ -48,13 +48,13 @@
     <script id="settings-tpl" type="text/x-template">
       <div class="closer"><img src="/images/close.svg" width="50"></div>
       <form id="settings-form">
-        <h1>Settings</h1>
-        <label for="settings-download-location">Download location:</label>
-        <a id="settings-download-location-browse" class="small-button">Browse...</a>
+        <h1><%= i18n.__('Settings') %></h1>
+        <label for="settings-download-location"><%= i18n.__('Download location')%>:</label>
+        <a id="settings-download-location-browse" class="small-button"><%= i18n.__('Browse...') %></a>
         <input id="settings-download-location-input" name="downloadLocation" type="file" nwdirectory />
         <span id="settings-download-location-value"><%= downloadLocation %></span>
 
-        <div><a class="save medium-button">Save</a></div>
+        <div><a class="save medium-button"><%= i18n.__('Save') %></a></div>
       </form>
     </script>
 

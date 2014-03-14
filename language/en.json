@@ -60,4 +60,10 @@
   "arabic": "Arabic",
   "korean": "Korean",
   "hungarian": "Hungarian",
-  "bulgarian": "Bulgarian"}
+  "bulgarian": "Bulgarian",
+
+  "Settings": "Settings",
+  "Download location": "Download location",
+  "Browse...": "Browse...",
+  "Save": "Save"
+}

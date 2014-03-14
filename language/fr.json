@@ -66,5 +66,10 @@
    "arabic": "Arabe",
    "korean": "Coréen",
    "hungarian": "Hongrois",
-   "bulgarian": "Bulgare"
+   "bulgarian": "Bulgare",
+
+  "Settings": "Paramètres",
+  "Download location": "Répertoire de téléchargement",
+  "Browse...": "Parcourir...",
+  "Save": "Enregistrer"
 }
