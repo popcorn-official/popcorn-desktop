@@ -26,9 +26,6 @@ var getTrackingId = function(){
     return clientId;
 };
 
-var ua = require('universal-analytics');
-
-
 if( getTrackingId() == null ) {
     // Don't report anything if we don't have a trackingId
     var dummyMethod = function(){ return {send:function(){}}; };
