@@ -591,18 +591,21 @@ a {
 #header .btn-set button.settings {
   background: transparent;
   background-image: url(../images/settings.png);
-  margin: 4px;
-  width: 24px;
-  height: 24px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin: 0;
+  margin-top: 3px;
+  width: 32px;
+  height: 29px;
   border-radius: 0;
   display: block;
 }
-/* line 197, ../sass/_layout.scss */
+/* line 200, ../sass/_layout.scss */
 #header .btn-set button.settings:hover {
   background-image: url(../images/settings_over.png);
 }
 
-/* line 206, ../sass/_layout.scss */
+/* line 209, ../sass/_layout.scss */
 #notification {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -622,7 +625,7 @@ a {
   border-top: none;
   display: none;
 }
-/* line 223, ../sass/_layout.scss */
+/* line 226, ../sass/_layout.scss */
 #notification .btn {
   position: absolute;
   top: 6px;
@@ -631,7 +634,7 @@ a {
   background: rgba(0, 0, 0, 0.4);
 }
 
-/* line 233, ../sass/_layout.scss */
+/* line 236, ../sass/_layout.scss */
 #catalog-select {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -694,20 +697,20 @@ a {
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
-/* line 245, ../sass/_layout.scss */
+/* line 248, ../sass/_layout.scss */
 #catalog-select h4 {
   margin-top: 40px;
   color: #404040;
   font-weight: bold;
   margin-bottom: 10px;
 }
-/* line 253, ../sass/_layout.scss */
+/* line 256, ../sass/_layout.scss */
 #catalog-select ul li {
   display: block;
   font-weight: bold;
   font-size: 13px;
 }
-/* line 258, ../sass/_layout.scss */
+/* line 261, ../sass/_layout.scss */
 #catalog-select ul li a {
   -webkit-transition: background-color ease;
   -webkit-transition-delay: 0.3s;
@@ -719,11 +722,11 @@ a {
   border-radius: 3px;
   padding: 8px;
 }
-/* line 265, ../sass/_layout.scss */
+/* line 268, ../sass/_layout.scss */
 #catalog-select ul li a:hover {
   background: #010101;
 }
-/* line 270, ../sass/_layout.scss */
+/* line 273, ../sass/_layout.scss */
 #catalog-select ul li.active a,
 #catalog-select ul li.active a:hover {
   background: #286dc4;
@@ -733,13 +736,13 @@ a {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
   cursor: default;
 }
-/* line 282, ../sass/_layout.scss */
+/* line 285, ../sass/_layout.scss */
 #catalog-select .search {
   position: absolute;
   right: 20px;
   top: 12px;
 }
-/* line 287, ../sass/_layout.scss */
+/* line 290, ../sass/_layout.scss */
 #catalog-select .search input {
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: 5px;
@@ -751,7 +754,7 @@ a {
   background: transparent;
   font-weight: bold;
 }
-/* line 299, ../sass/_layout.scss */
+/* line 302, ../sass/_layout.scss */
 #catalog-select .search i {
   position: absolute;
   top: 10px;
@@ -759,7 +762,7 @@ a {
   color: rgba(255, 255, 255, 0.4);
 }
 
-/* line 310, ../sass/_layout.scss */
+/* line 313, ../sass/_layout.scss */
 .container {
   height: calc(100% - 45px);
   overflow: hidden;
@@ -767,22 +770,22 @@ a {
   position: relative;
 }
 
-/* line 320, ../sass/_layout.scss */
+/* line 323, ../sass/_layout.scss */
 body.has-notification .container {
   height: calc(100% - 45px - 45px);
   margin: 90px 0 0 180px;
 }
-/* line 325, ../sass/_layout.scss */
+/* line 328, ../sass/_layout.scss */
 body.has-notification #catalog-select {
   top: 90px;
   height: calc(100% - 45px - 45px);
 }
-/* line 330, ../sass/_layout.scss */
+/* line 333, ../sass/_layout.scss */
 body.has-notification #notification {
   display: block;
 }
 
-/* line 335, ../sass/_layout.scss */
+/* line 338, ../sass/_layout.scss */
 .popcorn-load {
   -webkit-transition: opacity ease;
   -webkit-transition-delay: 1s;
@@ -799,18 +802,18 @@ body.has-notification #notification {
   width: 100%;
   z-index: 999;
 }
-/* line 347, ../sass/_layout.scss */
+/* line 350, ../sass/_layout.scss */
 .popcorn-load.hidden {
   opacity: 0;
   z-index: 0;
   margin-left: 100%;
   pointer-events: none;
 }
-/* line 354, ../sass/_layout.scss */
+/* line 357, ../sass/_layout.scss */
 .popcorn-load.hidden .spinner {
   -webkit-animation: none;
 }
-/* line 358, ../sass/_layout.scss */
+/* line 361, ../sass/_layout.scss */
 .popcorn-load .wrapper {
   -webkit-transform: translateY(-100%);
   -moz-transform: translateY(-100%);
@@ -823,11 +826,11 @@ body.has-notification #notification {
   text-align: center;
   width: 100%;
 }
-/* line 367, ../sass/_layout.scss */
+/* line 370, ../sass/_layout.scss */
 .popcorn-load .text {
   font-size: 22px;
 }
-/* line 369, ../sass/_layout.scss */
+/* line 372, ../sass/_layout.scss */
 .popcorn-load .spinner {
   background: url(../images/spinner.svg) no-repeat 0 0;
   background-size: cover;
@@ -837,7 +840,7 @@ body.has-notification #notification {
   -webkit-animation: 1.05s spin  infinite linear;
   width: 45px;
 }
-/* line 379, ../sass/_layout.scss */
+/* line 382, ../sass/_layout.scss */
 .popcorn-load .progressbar {
   display: none;
   height: 14px;
@@ -849,7 +852,7 @@ body.has-notification #notification {
   overflow: hidden;
   padding: 3px;
 }
-/* line 390, ../sass/_layout.scss */
+/* line 393, ../sass/_layout.scss */
 .popcorn-load .progressbar .progress {
   -webkit-transition: width 0.2s ease;
   -moz-transition: width 0.2s ease;
@@ -862,7 +865,7 @@ body.has-notification #notification {
   background: #FFF;
   border-radius: 40px;
 }
-/* line 401, ../sass/_layout.scss */
+/* line 404, ../sass/_layout.scss */
 .popcorn-load .progressinfo {
   display: none;
   position: absolute;
@@ -875,7 +878,7 @@ body.has-notification #notification {
   opacity: 0.5;
   bottom: -40px;
 }
-/* line 414, ../sass/_layout.scss */
+/* line 417, ../sass/_layout.scss */
 .popcorn-load .btn-close {
   display: none;
   position: absolute;
@@ -884,24 +887,24 @@ body.has-notification #notification {
   left: 15px;
   -webkit-app-region: no-drag;
 }
-/* line 424, ../sass/_layout.scss */
+/* line 427, ../sass/_layout.scss */
 .popcorn-load.withProgressBar .progressbar {
   display: block;
 }
-/* line 425, ../sass/_layout.scss */
+/* line 428, ../sass/_layout.scss */
 .popcorn-load.withProgressBar .progressinfo {
   display: block;
 }
-/* line 426, ../sass/_layout.scss */
+/* line 429, ../sass/_layout.scss */
 .popcorn-load.withProgressBar .spinner {
   display: none;
 }
-/* line 430, ../sass/_layout.scss */
+/* line 433, ../sass/_layout.scss */
 .popcorn-load.cancellable .btn-close {
   display: block;
 }
 
-/* line 434, ../sass/_layout.scss */
+/* line 437, ../sass/_layout.scss */
 .popcorn-disclaimer {
   -webkit-transition: opacity ease;
   -webkit-transition-delay: 0.3s;
@@ -918,24 +921,24 @@ body.has-notification #notification {
   width: 100%;
   z-index: 999;
 }
-/* line 446, ../sass/_layout.scss */
+/* line 449, ../sass/_layout.scss */
 .popcorn-disclaimer.hidden {
   opacity: 0;
   pointer-events: none;
 }
-/* line 452, ../sass/_layout.scss */
+/* line 455, ../sass/_layout.scss */
 .popcorn-disclaimer.quitting .text, .popcorn-disclaimer.quitting .btn {
   opacity: 0.0;
   pointer-events: none;
 }
-/* line 457, ../sass/_layout.scss */
+/* line 460, ../sass/_layout.scss */
 .popcorn-disclaimer .text, .popcorn-disclaimer .btn {
   -webkit-transition: opacity 2s ease-out;
   -moz-transition: opacity 2s ease-out;
   -o-transition: opacity 2s ease-out;
   transition: opacity 2s ease-out;
 }
-/* line 461, ../sass/_layout.scss */
+/* line 464, ../sass/_layout.scss */
 .popcorn-disclaimer .wrapper {
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
@@ -948,7 +951,7 @@ body.has-notification #notification {
   text-align: center;
   width: 100%;
 }
-/* line 470, ../sass/_layout.scss */
+/* line 473, ../sass/_layout.scss */
 .popcorn-disclaimer .text {
   display: block;
   font-size: 22px;
@@ -957,18 +960,18 @@ body.has-notification #notification {
   margin: 0px auto;
   margin-bottom: 15px;
 }
-/* line 479, ../sass/_layout.scss */
+/* line 482, ../sass/_layout.scss */
 .popcorn-disclaimer .btn {
   padding: 1.1em 3em;
   font-size: 18px;
 }
-/* line 483, ../sass/_layout.scss */
+/* line 486, ../sass/_layout.scss */
 .popcorn-disclaimer .btn.continue {
   font-size: 18px;
   font-weight: bold;
   background: #53A93F;
 }
-/* line 488, ../sass/_layout.scss */
+/* line 491, ../sass/_layout.scss */
 .popcorn-disclaimer .btn.quit {
   font-size: 18px;
   background: #e20f3c;
