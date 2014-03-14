@@ -1,0 +1,1 @@
+App.currentScrapper = App.Scrapers.Yts;

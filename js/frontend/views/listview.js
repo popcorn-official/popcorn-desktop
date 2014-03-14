@@ -15,12 +15,8 @@ App.View.MovieList = Backbone.View.extend({
         // Bind element on existing list
         this.$el = $('.movie-list').first();
 
-        this.collection = App.getTorrentsCollection(options);
-
-        this.collection.fetch();
-
-        this.listenTo(this.collection, 'sync', this.render);
-        this.listenTo(this.collection, 'rottenloaded', this.render);
+        this.listenTo(this.model, 'sync', this.render);
+        this.listenTo(this.model, 'rottenloaded', this.render);
     },
 
     empty: function () {
@@ -34,14 +30,14 @@ App.View.MovieList = Backbone.View.extend({
             App.loader(false);
         }
 
-        if (this.collection.length === 0) {
+        if (this.model.length === 0) {
             return this.empty();
         }
 
 
         var movieList = this;
 
-        $.each(this.collection.models, function (index) {
+        $.each(this.model.models, function (index) {
 
             // Only append not yet appended elements
             this.view.render();

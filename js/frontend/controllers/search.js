@@ -6,11 +6,20 @@ App.Controller.Search = function (searchTerm, page) {
             id: 'movie-list'
         });
     }
-    // Create movie list
-    var movieList = new App.View.MovieList({
-        keywords: searchTerm,
+
+    var Scrapper = App.currentScrapper;
+
+    var movieCollection = new Scrapper([], {
+        searchTerm: searchTerm,
         genre: null,
         page: page
+    });
+
+    movieCollection.fetch();
+
+    // Create movie list
+    var movieList = new App.View.MovieList({
+        model: movieCollection
     });
 
     // Clean up if first page

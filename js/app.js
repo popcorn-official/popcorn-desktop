@@ -50,9 +50,9 @@ var App = {
   Controller: {},
   View: {},
   Model: {},
-  Page: {}
+  Page: {},
+  Scrapers: {}
 };
-
 
 // render header buttons
 $("#header").html(_.template($('#header-tpl').html(), {buttons: BUTTON_ORDER}));
