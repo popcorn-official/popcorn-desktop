@@ -112,6 +112,48 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   }
 }
 
+/* line 54, ../sass/_utils.scss */
+.medium-button {
+  background: #286dc4;
+  background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
+  color: #FFF;
+  font-weight: bold;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+  padding: 14px 26px;
+  border-radius: 2px;
+  display: inline-block;
+  margin-top: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+/* line 66, ../sass/_utils.scss */
+.medium-button:hover {
+  background-image: linear-gradient(to bottom, #4387de 0%, #175ab0 100%);
+}
+/* line 70, ../sass/_utils.scss */
+.medium-button[disabled] {
+  background-image: linear-gradient(to bottom, #cccccc 0%, #777777 100%);
+}
+
+/* line 75, ../sass/_utils.scss */
+.small-button {
+  background: #286dc4;
+  background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
+  color: #FFF;
+  font-weight: bold;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+  padding: 4px 10px;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+/* line 85, ../sass/_utils.scss */
+.small-button:hover {
+  background-image: linear-gradient(to bottom, #4387de 0%, #175ab0 100%);
+}
+/* line 89, ../sass/_utils.scss */
+.small-button[disabled] {
+  background-image: linear-gradient(to bottom, #cccccc 0%, #777777 100%);
+}
+
 /* line 1, ../sass/_frame.scss */
 body {
   -webkit-user-select: none;
@@ -2175,14 +2217,28 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
   background-color: #181817;
 }
 /* line 3, ../sass/_settings.scss */
-#settings > form {
+#settings form {
   margin: 10px 50px 0 50px;
+  label-margin-right: 20px;
 }
 /* line 6, ../sass/_settings.scss */
-#settings > form h1 {
+#settings form h1 {
   font-weight: 200;
   font-size: 34px;
   color: #f5f7fa;
+  margin-bottom: 10px;
+}
+/* line 17, ../sass/_settings.scss */
+#settings form #settings-download-location-input {
+  display: none;
+}
+/* line 21, ../sass/_settings.scss */
+#settings form #settings-download-location-value {
+  display: inline-block;
+  min-width: 200px;
+  background-color: #282828;
+  border-radius: 2px;
+  padding: 3px;
 }
 
 /* line 2, ../sass/_player.scss */

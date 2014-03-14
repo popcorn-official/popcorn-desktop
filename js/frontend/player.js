@@ -8,7 +8,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, movieModel, call
   // Create a unique file to cache the video (with a microtimestamp) to prevent read conflicts
   var tmpFilename = ( torrent.toLowerCase().split('/').pop().split('.torrent').shift() ).slice(0,100);
   tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_') + '.mp4';
-  var tmpFile = path.join(tmpFolder, tmpFilename);
+  var tmpFile = path.join(App.settings.downloadLocation, tmpFilename);
 
   var numCores = (os.cpus().length > 0) ? os.cpus().length : 1;
   var numConnections = 100;

@@ -1,12 +1,29 @@
 #settings {
   background-color: #181817;
-  & > form {
+  form {
     margin: 10px 50px 0 50px;
 
     h1 {
       font-weight: 200;
       font-size: 34px;
       color: #f5f7fa;
+      margin-bottom: 10px;
+    }
+
+    label: {
+        margin-right: 20px;
+    }
+
+    #settings-download-location-input {
+        display: none;
+    }
+
+    #settings-download-location-value {
+        display: inline-block;
+        min-width: 200px;
+        background-color: #282828;
+        border-radius: 2px;
+        padding: 3px;
     }
   }
 }

@@ -34,6 +34,7 @@ App.loader(true, i18n.__('loading'));
 // Handles general UI buttons, like maximization, etc
 
 jQuery(function ($) {
+  App.settingsPage = new App.View.Settings();
 
   // Maximize, minimize
   $('.btn-os.max').on('click', function () {
@@ -63,10 +64,12 @@ jQuery(function ($) {
   });
 
   $('.btn-os.settings').on('click', function () {
-    if(App.sidebar.isVisible()) {
+    if( App.sidebar.isVisible() ) {
       App.sidebar.hide();
     }
-    new App.View.Settings();
+    if( !App.settingsPage.isVisible() ) {
+      App.settingsPage.show();
+    }
   });
 
   // The app loading close button
@@ -104,6 +107,7 @@ jQuery(function ($) {
   App.Router.on('route', function () {
     // Ensure sidebar is hidden
     App.sidebar.hide();
+    App.settingsPage.hide();
   });
 
 

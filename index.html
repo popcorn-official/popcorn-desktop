@@ -49,6 +49,12 @@
       <div class="closer"><img src="/images/close.svg" width="50"></div>
       <form id="settings-form">
         <h1>Settings</h1>
+        <label for="settings-download-location">Download location:</label>
+        <a id="settings-download-location-browse" class="small-button">Browse...</a>
+        <input id="settings-download-location-input" name="downloadLocation" type="file" nwdirectory />
+        <span id="settings-download-location-value"><%= downloadLocation %></span>
+
+        <div><a class="save medium-button">Save</a></div>
       </form>
     </script>
 
@@ -186,6 +192,7 @@
     <script src="js/updater.js"></script>
 
     <!-- UI and UI-related Initialization -->
+    <script src="js/frontend/settings.js"></script>
     <script src="js/frontend/ui.js"></script>
     <script src="js/frontend/player.js"></script>
 
