@@ -56,12 +56,18 @@ jQuery(function ($) {
   $('.btn-os.close').on('click', function () {
     win.close();
   });
-  
+
   $('.btn-os.fullscreen').on('click', function () {
     win.toggleFullscreen();
     $('.btn-os.fullscreen').toggleClass('active');
   });
 
+  $('.btn-os.settings').on('click', function () {
+    if(App.sidebar.isVisible()) {
+      App.sidebar.hide();
+    }
+    new App.View.Settings();
+  });
 
   // The app loading close button
   $('.popcorn-load .btn-close').click(function(event){
@@ -115,7 +121,7 @@ jQuery(function ($) {
         $('#catalog-select ul li.active').removeClass('active');
       }
   });
-  
+
   $('.search i').on('click', function (evt) {
     var term = $.trim($('.search input').val());
 

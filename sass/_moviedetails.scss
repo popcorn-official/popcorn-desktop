@@ -1,5 +1,5 @@
-// Sidebar
-sidebar {
+// Page loaded on the left
+sidebar, #settings {
   right: 0;
   position: absolute;
   height: 100%;
@@ -17,6 +17,30 @@ sidebar {
     -webkit-transform: translate(100%, 0);
   }
 
+  // To close sidebar - .movie-detail
+  .closer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 30px;
+    width: 30px;
+    z-index: 300;
+    cursor: pointer;
+
+    &:hover i { opacity: 1; }
+
+    i {
+      color: #fff;
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      opacity: 0.5;
+      text-shadow: 0 0 5px #000;
+    }
+  }
+}
+
+sidebar {
   .play {
     @include scrollable();
     background: #000;
@@ -75,7 +99,7 @@ sidebar {
     // By using padding-bottom with a fixed width we can create a container that always keeps that ratio.
     width: 100%;
     padding-bottom: 100% * 1.5;
-    
+
     overflow: hidden;
     border-radius: 4px;
     background: #000;
@@ -115,28 +139,6 @@ sidebar {
     .movie-detail {
       height: 100%;
       display: table;
-
-      // To close sidebar - .movie-detail
-      .closer {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 30px;
-        width: 30px;
-        z-index: 300;
-        cursor: pointer;
-
-        &:hover i { opacity: 1; }
-        
-        i {
-          color: #fff;
-          position: absolute;
-          left: 8px;
-          top: 8px;
-          opacity: 0.5;
-          text-shadow: 0 0 5px #000;
-        }
-      }
 
       .poster-cont,
       .side-content {
@@ -487,7 +489,7 @@ sidebar {
       z-index: 2;
       border-radius: 3px 3px 0 0;
     }
-    
+
     .dropdown-content {
       opacity: 1;
       visibility: visible;

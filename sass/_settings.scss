@@ -1,0 +1,12 @@
+#settings {
+  background-color: #181817;
+  & > form {
+    margin: 10px 50px 0 50px;
+
+    h1 {
+      font-weight: 200;
+      font-size: 34px;
+      color: #f5f7fa;
+    }
+  }
+}

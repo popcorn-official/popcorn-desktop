@@ -41,8 +41,16 @@
     </div>
 
     <section class="container">
+      <section id="settings" class="hidden"></section>
       <sidebar class="hidden"></sidebar>
     </section>
+
+    <script id="settings-tpl" type="text/x-template">
+      <div class="closer"><img src="/images/close.svg" width="50"></div>
+      <form id="settings-form">
+        <h1>Settings</h1>
+      </form>
+    </script>
 
     <script id="sidebar-tpl" type="text/x-template">
       <div class="play">
@@ -186,6 +194,7 @@
 
     <!-- Backbone Models, Views and Controllers -->
     <script src="js/frontend/models/movie.js"></script>
+    <script src="js/frontend/views/settings.js"></script>
     <script src="js/frontend/views/page.js"></script>
     <script src="js/frontend/views/listview.js"></script>
     <script src="js/frontend/views/movie.js"></script>
