@@ -206,7 +206,8 @@
     <script src="js/frontend/models/movie.js"></script>
 
     <!-- Data Sources -->
-    <script src="js/frontend/scrapers/subapi.js"></script>
+    <script src="js/frontend/providers/cache.js"></script>
+    <script src="js/frontend/providers/themoviedb.js"></script>
     <script src="js/frontend/scrapers/yts.js"></script>
     <script src="js/frontend/scrapers/scrapers.js"></script>
 
@@ -229,7 +230,5 @@
     <script src="js/vendor/video-js/video.dev.js"></script>
     <script src="js/vendor/videojsplugins.js"></script>
     <script src="js/vendor/dragwindow.js"></script>
-
-    <script>userTracking.event('App Start', 'Ready - '+Settings.get('version'),  (Math.round(((new Date()*1) - __startTime) / 100) * 100) +'ms' ).send();</script>
   </body>
 </html>

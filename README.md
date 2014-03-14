@@ -1,3 +1,5 @@
+#Warning this is a experimental fork!
+
 #Popcorn time [![Dependency Status](https://david-dm.org/popcorn-time/popcorn-app.png?theme=shields.io)](https://david-dm.org/popcorn-time/popcorn-time)
 
 ## Idea
@@ -9,7 +11,7 @@ To allow any computer user to watch movies easily streaming from torrents, witho
 ### Status
 
 Under development (RC1) for Mac OSX - Windows - Linux.
- 
+
 ### APIs
 
 **Currently used:**
@@ -33,9 +35,10 @@ You will need nodejs and grunt:
 
 ### Build
 
-Install the node modules:
+Install the node modules and fix dependancies issue:
 
     $ npm install
+    $ patch -p1 node_modules/moviedb/node_modules/superagent/index.js superagent-fix-node-webkit.patch
 
 Build with:
 
@@ -53,18 +56,6 @@ You can also build for all platforms with:
 
 ## Any problem?
 
-### Regarding superagent dependency
-Due to [wrong browser verification](https://github.com/visionmedia/superagent/issues/95) on a dependency, this hard fix must be applied.
-Replace `node_modules/moviedb/node_modules/superagent/index.js` contents with:
-```javascript
-// if (typeof window != 'undefined') {
-//   module.exports = require('./lib/superagent');
-// } else if (process.env.SUPERAGENT_COV) {
-//   module.exports = require('./lib-cov/node');
-// } else {
-  module.exports = require('./lib/node');
-// }
-```
 
 ### Regarding Video, MP4 H264 Playback
 - Info: https://github.com/rogerwang/node-webkit/wiki/Support-mp3-and-h264-in-video-and-audio-tag

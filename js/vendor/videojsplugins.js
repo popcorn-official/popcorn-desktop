@@ -13,8 +13,6 @@ videojs.BiggerSubtitleButton.prototype.onClick = function() {
   var font_size = parseInt($subs.css('font-size'));
   font_size = font_size + 3;
   $subs.css('font-size', font_size+'px');
-
-  userTracking.event('Video Subtitle Size', 'Make Bigger', font_size+'px', font_size).send();
 };
 
 var createBiggerSubtitleButton = function() {
@@ -48,8 +46,6 @@ videojs.SmallerSubtitleButton.prototype.onClick = function() {
   var font_size = parseInt($subs.css('font-size'));
   font_size = font_size - 3;
   $subs.css('font-size', font_size+'px');
-
-  userTracking.event('Video Subtitle Size', 'Make Smaller', font_size+'px', font_size).send();
 };
 
 var createSmallerSubtitleButton = function() {

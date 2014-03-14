@@ -32,8 +32,6 @@ App.Controller.Home = function (page) {
         App.Page.Home.show();
     }
 
-    userTracking.pageview('/movies/popular'+((page && page > 1) ? '?page='+page : ''), 'Popular Movies').send();
-
     setTimeout(function(){
         movieList.constructor.busy = false;
     }, 5000);

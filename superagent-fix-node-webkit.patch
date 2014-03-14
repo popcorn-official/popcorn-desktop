@@ -1,0 +1,8 @@
+--- node_modules/moviedb/node_modules/superagent/index.js	2012-10-09 11:48:42.000000000 -0400
++++ node_modules-mod/moviedb/node_modules/superagent/index.js	2014-03-14 18:55:42.794616590 -0400
+@@ -1,4 +1,4 @@
+-if (typeof window != 'undefined') {
++if (typeof window != 'undefined' && !(typeof process != 'undefined' && process.versions['node-webkit'])) {
+   module.exports = require('./lib/superagent');
+ } else if (process.env.SUPERAGENT_COV) {
+   module.exports = require('./lib-cov/node');
