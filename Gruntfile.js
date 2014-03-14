@@ -47,6 +47,16 @@ module.exports = function(grunt) {
             flatten: true
           }
         ]
+      },
+      superagent_fix: {
+        src: '/dev/null',
+        dest: 'node_modules/moviedb/node_modules/superagent/index.js',
+        options: {
+          process: function(content) {
+            console.info(content);
+            return "module.exports = require('./lib/node');";
+          }
+        }
       }
     }
   });
@@ -59,7 +69,7 @@ module.exports = function(grunt) {
   grunt.registerTask('css', ['compass']);
   grunt.registerTask('default', ['compass']);
   grunt.registerTask('nodewkbuild', ['nodewebkit', 'copy']);
-
+  grunt.registerTask('build', ['nodewkbuild', 'copy:superagent_fix']);
 
 };
 
