@@ -3,7 +3,7 @@ App.Controller.FilterGenre = function (genre, page) {
     if (!App.Page.FilterGenre) {
         // Create page
         App.Page.FilterGenre = new App.View.Page({
-            id: 'category-list'
+            id: 'movie-list'
         });
     }
 	// Create movie list
@@ -17,9 +17,9 @@ App.Controller.FilterGenre = function (genre, page) {
         $('.movie-list').first().empty();
         App.Page.FilterGenre.show();
     }
-    
+
     userTracking.pageview('/movies/'+genre + ((page && page > 1) ? '?page='+page : ''), genre.capitalize() + ' Movies').send();
-    
+
     setTimeout(function(){
         movieList.constructor.busy = false;
     }, 5000);
