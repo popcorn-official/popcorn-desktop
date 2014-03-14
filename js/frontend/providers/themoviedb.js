@@ -1,15 +1,16 @@
 // Fix for https://github.com/visionmedia/superagent/issues/95
+var windowBak = window;
 var mdb = require('moviedb')(vendorAPIs.themoviedb.key),
     POSTER_PREFIX = 'http://image.tmdb.org/t/p/w342/',
     BACKDROP_PREFIX = 'http://image.tmdb.org/t/p/original/',
     last = +new Date();
 
-App.findMovieInfo = function (imdbId, callback) {
+var findMovieInfo = function (imdbId, callback) {
     var doRequest = function () {
         // 1 sec because limit is 3 calls every second, and we need to use 2.
         if (last > +new Date() - 1000) {
             return setTimeout(function () {
-                App.findMovieInfo(imdbId, callback);
+                findMovieInfo(imdbId, callback);
             }, new Date() - last + 1000);
         }
 
@@ -68,3 +69,23 @@ App.findMovieInfo = function (imdbId, callback) {
         }
     });
 };
+
+var MdbProvider = {
+    fetch: function(model) {
+        var imdbId = model.get('imdb');
+        findMovieInfo(imdbId, function(info){
+            model.set({
+                title:      info.title,
+                voteAverage:info.voteAverage,
+                synopsis:   info.overview,
+                runtime:    info.runtime,
+
+                image:      info.image,
+                bigImage:   info.image,
+                backdrop:   info.backdrop
+            });
+        });
+    }
+};
+
+App.Providers.metadata = MdbProvider;

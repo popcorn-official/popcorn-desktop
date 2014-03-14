@@ -1,7 +1,7 @@
 App.Model.Movie = Backbone.Model.extend({
 
     buildBasicView: function () {
-    
+
       var model = this;
 
       // This is mostly used for reporting
@@ -11,7 +11,7 @@ App.Model.Movie = Backbone.Model.extend({
       model.view = new App.View.MovieListItem({
           model: model
       });
-      
+
       model.trigger('rottenloaded');
     },
 
@@ -21,29 +21,6 @@ App.Model.Movie = Backbone.Model.extend({
       }
 
       return this.get('title');
-    },
-
-    // DEPRECATED
-    setRottenInfo: function () {
-        var model = this;
-
-        App.findMovieInfo(model.get('imdb'), function (data) {
-            
-            model.set('infoLoaded', true);
-            model.set('image',    data.image);
-            model.set('bigImage', data.image);
-            model.set('backdrop', data.backdrop);
-            model.set('title',    data.title);
-            model.set('synopsis', data.overview);
-            model.set('voteAverage', data.voteAverage);
-            model.set('runtime', data.runtime);
-
-            model.view = new App.View.MovieListItem({
-                model: model
-            });
-
-            model.trigger('rottenloaded');
-        });
     },
 
     // DEPRECATED
@@ -61,10 +38,17 @@ App.Model.Movie = Backbone.Model.extend({
         });
     },
 
+    fetchMissingData: function() {
+        if ( !this.get('hasMetadata') ) {
+            App.Providers.metadata.fetch(this);
+        }
+        if ( !this.get('hasSubtitle') ) {
+            App.Providers.subtitle.fetch(this);
+        }
+    },
+
     initialize: function () {
         this.buildBasicView();
-        //this.setRottenInfo();
-        //this.setSubtitles();
         this.calculateTorrentHealth();
     },
 

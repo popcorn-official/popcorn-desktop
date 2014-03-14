@@ -51,7 +51,8 @@ var App = {
   View: {},
   Model: {},
   Page: {},
-  Scrapers: {}
+  Scrapers: {},
+  Providers: {}
 };
 
 // render header buttons

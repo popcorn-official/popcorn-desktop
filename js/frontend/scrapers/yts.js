@@ -52,7 +52,11 @@ var Yts = Backbone.Collection.extend({
                 videos:     {},
                 subtitles:  {},
                 seeders:    movie.TorrentSeeds,
-                leechers:   movie.TorrentPeers
+                leechers:   movie.TorrentPeers,
+
+                // YTS do not provide metadata and subtitle
+                hasMetadata:false,
+                hasSubtitle:true
             };
 
             var stored = memory[movieModel.imdb];
