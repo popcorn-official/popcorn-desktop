@@ -2,8 +2,10 @@
 
 var localStorageKey = "user_settings";
 
+// Default settings
 var defaultSettings = {
-    downloadLocation: path.join(os.tmpDir(), 'Popcorn-Time')
+    cacheLocation: path.join(os.tmpDir(), 'Popcorn-Time'),
+    autoClearCache: true
 };
 
 if( !localStorage[localStorageKey] ) {

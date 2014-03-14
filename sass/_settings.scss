@@ -7,23 +7,33 @@
       font-weight: 200;
       font-size: 34px;
       color: #f5f7fa;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
 
-    label: {
-        margin-right: 20px;
+    h2 {
+      font-size: 20px;
+      color: #286dc4;
+      margin-bottom: 15px;
     }
 
-    #settings-download-location-input {
+    .folder-input {
+      margin-top: 10px;
+    }
+
+    #settings-cacheLocation-input {
         display: none;
     }
 
-    #settings-download-location-value {
+    #settings-cacheLocation-value {
         display: inline-block;
         min-width: 200px;
         background-color: #282828;
         border-radius: 2px;
         padding: 3px;
+    }
+
+    .option {
+      margin: 10px 0 10px 20px;
     }
   }
 }

@@ -1,5 +1,9 @@
 var SettingsTemplate = $('#settings-tpl').html();
 
+var checkboxToBool = function (val) {
+    return val === 'on'?true:false;
+};
+
 App.View.Settings = Backbone.View.extend({
     el: '#settings',
     template: _.template(SettingsTemplate),
@@ -7,18 +11,32 @@ App.View.Settings = Backbone.View.extend({
     events: {
         'click .closer':           'hide',
         'click .save':             'save',
-        'click #settings-download-location-browse': 'browseLocation',
-        'click #settings-download-location-value': 'browseLocation',
-        'change #settings-download-location-input': 'locationChanged',
+        'click #settings-cacheLocation-browse': 'browseLocation',
+        'click #settings-cacheLocation-value': 'browseLocation',
+        'change #settings-cacheLocation-input': 'locationChanged',
         'change input':             'makeDirty'
     },
 
     getSettingsValue: function () {
         var data = {};
-        this.$el.find('input').each(function(i, input) {
+
+        var checked = this.$el.find('input[type=checkbox]').each(function(i, input){
+            input = $(input);
+            data[input.attr('name')] = input.is(':checked');
+        });
+
+        this.$el.find('input').not(checked).each(function(i, input) {
             input = $(input);
             data[input.attr('name')] = input.val();
         });
+
+        this.$el.find('input[not_empty]').each(function(i, input) {
+            input = $(input);
+            if(_.isEmpty(input.val())) {
+                delete data[input.attr('name')];
+            }
+        });
+
         return data;
     },
 
@@ -60,13 +78,13 @@ App.View.Settings = Backbone.View.extend({
 
     browseLocation: function (evt) {
         evt.preventDefault();
-        $('#settings-download-location-input').click();
+        $('#settings-cacheLocation-input').click();
     },
 
     locationChanged: function (evt) {
-        var newLoc = $('#settings-download-location-input').val();
+        var newLoc = $('#settings-cacheLocation-input').val();
         if(newLoc) {
-            $('#settings-download-location-value').text(newLoc);
+            $('#settings-cacheLocation-value').text(newLoc);
         }
     }
 });

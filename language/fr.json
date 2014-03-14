@@ -69,7 +69,9 @@
    "bulgarian": "Bulgare",
 
   "Settings": "Paramètres",
-  "Download location": "Répertoire de téléchargement",
+  "Cache": "Cache",
+  "Cache location": "Répertoire de téléchargement",
   "Browse...": "Parcourir...",
-  "Save": "Enregistrer"
+  "Save": "Enregistrer",
+  "Auto clear cache": "Vider automatiquement la cache"
 }

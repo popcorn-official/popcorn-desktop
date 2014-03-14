@@ -2222,26 +2222,39 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
 /* line 3, ../sass/_settings.scss */
 #settings form {
   margin: 10px 50px 0 50px;
-  label-margin-right: 20px;
 }
 /* line 6, ../sass/_settings.scss */
 #settings form h1 {
   font-weight: 200;
   font-size: 34px;
   color: #f5f7fa;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
-/* line 17, ../sass/_settings.scss */
-#settings form #settings-download-location-input {
+/* line 13, ../sass/_settings.scss */
+#settings form h2 {
+  font-size: 20px;
+  color: #286dc4;
+  margin-bottom: 15px;
+}
+/* line 19, ../sass/_settings.scss */
+#settings form .folder-input {
+  margin-top: 10px;
+}
+/* line 23, ../sass/_settings.scss */
+#settings form #settings-cacheLocation-input {
   display: none;
 }
-/* line 21, ../sass/_settings.scss */
-#settings form #settings-download-location-value {
+/* line 27, ../sass/_settings.scss */
+#settings form #settings-cacheLocation-value {
   display: inline-block;
   min-width: 200px;
   background-color: #282828;
   border-radius: 2px;
   padding: 3px;
+}
+/* line 35, ../sass/_settings.scss */
+#settings form .option {
+  margin: 10px 0 10px 20px;
 }
 
 /* line 2, ../sass/_player.scss */
