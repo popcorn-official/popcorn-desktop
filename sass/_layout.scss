@@ -135,7 +135,7 @@ a { text-decoration: none; }
       left: 15px;
       top: 5px;
     }
-    
+
     &:hover .btn-os { color: rgba(0, 0, 0, 0.8); }
 
     button {
@@ -183,7 +183,24 @@ a { text-decoration: none; }
       &.fullscreen.active::before {
           content: "\e00B";
       }
+      &.fullscreen:hover{color:#b2b2b2;}
 
+      &.settings {
+        background: transparent;
+        background-image: url(../images/settings.png);
+        background-repeat: no-repeat;
+        background-position: center center;
+        margin: 0;
+        margin-top: 3px;
+        width: 32px;
+        height: 29px;
+        border-radius: 0;
+        display:block;
+
+        &:hover {
+          background-image: url(../images/settings_over.png);
+        }
+      }
     }
   }
 }
@@ -372,13 +389,13 @@ body.has-notification {
     border: 2px solid #FFF;
     overflow: hidden;
     padding: 3px;
-    
+
     .progress {
       @include transition(width 0.2s ease);
       display: block;
       height: 14px;
       width: 0%;
-      min-width: 5.5%; 
+      min-width: 5.5%;
       background: #FFF;
       border-radius: 40px;
     }
@@ -405,7 +422,7 @@ body.has-notification {
     left: 15px;
     -webkit-app-region: no-drag;
   }
-  
+
   &.withProgressBar {
     .progressbar { display: block; }
     .progressinfo { display: block; }
@@ -465,7 +482,7 @@ body.has-notification {
   .btn {
     padding: 1.1em 3em;
     font-size:18px;
-    
+
     &.continue {
       font-size: 18px;
       font-weight: bold;
