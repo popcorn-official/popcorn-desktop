@@ -56,7 +56,7 @@ var Yts = Backbone.Collection.extend({
 
                 // YTS do not provide metadata and subtitle
                 hasMetadata:false,
-                hasSubtitle:true
+                hasSubtitle:false
             };
 
             var stored = memory[movieModel.imdb];

@@ -3,7 +3,7 @@ var request = require('request'),
     zlib = require('zlib'),
     fs = require('fs'),
 
-    appUserAgent = 'PopcornHour v1',
+    appUserAgent = 'PopcornTime',
 
     baseUrl = 'http://www.yifysubtitles.com',
 
@@ -24,10 +24,10 @@ var request = require('request'),
         'latvian'	: 'Latviski',
         'bulgarian' : 'Български'    };
 
-App.findSubtitle = function (model, cb, isFallback) {
+var findSubtitle = function (imdbId, cb) {
     var doRequest = function () {
         var requestOptions = {
-            url: baseUrl + '/movie-imdb/tt' + model.imdb,
+            url: baseUrl + '/movie-imdb/tt' + imdbId,
             headers: {
                 'User-Agent': appUserAgent
             }
@@ -51,7 +51,7 @@ App.findSubtitle = function (model, cb, isFallback) {
                         if(language == 'portuguese' && linkData[linkData.length-4] == 'brazilian'){
                             language = linkData[linkData.length-4];
                         }
-                        
+
                         // TODO: we can get more info from the site (like rating, hear-impaired)
                         if ($.isEmptyObject(queries[language])
                             && !($.isEmptyObject(Languages[language]))) {
@@ -78,10 +78,15 @@ App.findSubtitle = function (model, cb, isFallback) {
                                 var subDownloadLink = $c('a.download-subtitle').attr('href');
                                 if (!(language in subs)) {
                                     subs[language] = subDownloadLink;
-                                    App.Cache.setItem('subtitle', model, subs);
+                                    App.Cache.setItem('subtitle', imdbId, subs);
+
                                     // Callback
-                                    cb(subs);
+                                    if(_.keys(subs).length === _.keys(queries).length) {
+                                        cb(subs);
+                                    }
                                 }
+                            } else {
+                                console.error('Error on subtitle request:', error);
                             }
                         });
                     }
@@ -90,7 +95,7 @@ App.findSubtitle = function (model, cb, isFallback) {
         });
     };
 
-    App.Cache.getItem('subtitle', model, function (cachedItem) {
+    App.Cache.getItem('subtitle', imdbId, function (cachedItem) {
         if (cachedItem) {
             cb(cachedItem);
         } else {
@@ -98,3 +103,16 @@ App.findSubtitle = function (model, cb, isFallback) {
         }
     });
 };
+
+var YifyProvider = {
+    fetch: function(model) {
+        var imdbId = model.get('imdb');
+        findSubtitle(imdbId, function(subtitles) {
+            console.log('subtitles found for', _.keys(subtitles));
+            model.set('subtitles', subtitles);
+            model.set('hasSubtitle', true);
+        });
+    }
+};
+
+App.Providers.subtitle = YifyProvider;

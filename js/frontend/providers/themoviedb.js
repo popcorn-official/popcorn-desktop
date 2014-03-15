@@ -1,5 +1,4 @@
 // Fix for https://github.com/visionmedia/superagent/issues/95
-var windowBak = window;
 var mdb = require('moviedb')(vendorAPIs.themoviedb.key),
     POSTER_PREFIX = 'http://image.tmdb.org/t/p/w342/',
     BACKDROP_PREFIX = 'http://image.tmdb.org/t/p/original/',
@@ -84,6 +83,7 @@ var MdbProvider = {
                 bigImage:   info.image,
                 backdrop:   info.backdrop
             });
+            model.set('hasMetadata', true);
         });
     }
 };
