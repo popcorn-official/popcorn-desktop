@@ -1,4 +1,4 @@
-#Warning this is a experimental fork!
+#Warning the repo was cleaned to shrink its size from over 100 Mo to less than 5 Mo. Please re-clone your project or use `git rebase`. Thanks
 
 #Popcorn time [![Dependency Status](https://david-dm.org/isra17/popcorn-app.svg?theme=shields.io)](https://david-dm.org/isra17/popcorn-app)
 
