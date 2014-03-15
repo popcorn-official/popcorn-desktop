@@ -83,6 +83,7 @@ var MdbProvider = {
                 bigImage:   info.image,
                 backdrop:   info.backdrop
             });
+            model.set('hasMetadata', true);
         });
     }
 };

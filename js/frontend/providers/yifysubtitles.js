@@ -3,7 +3,7 @@ var request = require('request'),
     zlib = require('zlib'),
     fs = require('fs'),
 
-    appUserAgent = 'PopcornHour v1',
+    appUserAgent = 'PopcornTime',
 
     baseUrl = 'http://www.yifysubtitles.com',
 
@@ -79,9 +79,14 @@ var findSubtitle = function (imdbId, cb) {
                                 if (!(language in subs)) {
                                     subs[language] = subDownloadLink;
                                     App.Cache.setItem('subtitle', imdbId, subs);
+
                                     // Callback
-                                    cb(subs);
+                                    if(_.keys(subs).length === _.keys(queries).length) {
+                                        cb(subs);
+                                    }
                                 }
+                            } else {
+                                console.error('Error on subtitle request:', error);
                             }
                         });
                     }
@@ -103,8 +108,9 @@ var YifyProvider = {
     fetch: function(model) {
         var imdbId = model.get('imdb');
         findSubtitle(imdbId, function(subtitles) {
-            console.log('subtitles', subtitles);
+            console.log('subtitles found for', _.keys(subtitles));
             model.set('subtitles', subtitles);
+            model.set('hasSubtitle', true);
         });
     }
 };

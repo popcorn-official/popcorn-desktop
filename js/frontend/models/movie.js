@@ -23,21 +23,6 @@ App.Model.Movie = Backbone.Model.extend({
       return this.get('title');
     },
 
-    // DEPRECATED
-    setSubtitles: function () {
-        var model = this;
-
-        App.findSubtitle({
-            imdb: model.get('imdb'),
-            title: model.get('title')
-        }, function (info) {
-            model.set('subbtitlesLoaded', true);
-            model.set('subtitles', info);
-
-            model.trigger('rottenloaded');
-        });
-    },
-
     fetchMissingData: function() {
         if ( !this.get('hasMetadata') ) {
             App.Providers.metadata.fetch(this);
