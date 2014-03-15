@@ -87,6 +87,7 @@ var findSubtitle = function (imdbId, cb) {
                                 }
                             } else {
                                 console.error('Error on subtitle request:', error);
+                                cb(subs);
                             }
                         });
                     }

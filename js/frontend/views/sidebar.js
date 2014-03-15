@@ -37,7 +37,7 @@ App.View.Sidebar = Backbone.View.extend({
 
     play: function (evt) {
         evt.preventDefault();
-        if( videoStreamer != null ){ return; }
+        if( videoStreamer !== null || !this.isReadyToPlay() ){ return; }
 
         var file = this.model.get('torrent'),
             subs = this.model.get('subtitles');
@@ -99,6 +99,9 @@ App.View.Sidebar = Backbone.View.extend({
 
     render: function () {
         this.$el.html(this.template(this.model.attributes));
+        if ( this.isReadyToPlay() ) {
+            this.$el.find('.play-button').removeAttr('disabled');
+        }
         this.show();
     },
 
@@ -176,5 +179,9 @@ App.View.Sidebar = Backbone.View.extend({
             this.model.set('torrent', torrents['720p']);
             this.model.set('quality', '720p');
         }
+    },
+
+    isReadyToPlay: function() {
+        return this.model.get('hasSubtitle');
     }
 });
