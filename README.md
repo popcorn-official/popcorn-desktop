@@ -47,11 +47,11 @@ By default it will build for your current platform however you can control that
 by specifying a comma separated list of platforms in the `platforms` option to
 grunt:
 
-    $ grunt nodewkbuild --platforms=linux32,linux64,mac,win
+    $ grunt build --platforms=linux32,linux64,mac,win
 
 You can also build for all platforms with:
 
-    $ grunt nodewkbuild --platforms=all
+    $ grunt build --platforms=all
 
 ## Any problem?
 
@@ -63,6 +63,7 @@ You can also build for all platforms with:
 
 
 ## Development
+- Run `grunt build` at least once after running `npm install`. This should fix a dependancy.
 - Run `compass watch --css-dir css` in Terminal for CSS compiling and listen to future changes.
 - [How to build with SublimeText](https://github.com/rogerwang/node-webkit/wiki/Debugging-with-Sublime-Text-2-and-3)
 - Currently Gaze to watch all files and reload the app is disabled due to memory leaks and unstability.
