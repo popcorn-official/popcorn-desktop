@@ -35,14 +35,13 @@ You will need nodejs and grunt:
 
 ### Build
 
-Install the node modules and fix dependancies issue:
+Install the node modules:
 
     $ npm install
-    $ patch -p1 node_modules/moviedb/node_modules/superagent/index.js superagent-fix-node-webkit.patch
 
 Build with:
 
-    $ grunt nodewkbuild
+    $ grunt build
 
 By default it will build for your current platform however you can control that
 by specifying a comma separated list of platforms in the `platforms` option to

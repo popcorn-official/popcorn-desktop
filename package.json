@@ -2,14 +2,10 @@
   "name": "Popcorn-Time",
   "repository": {
     "type": "git",
-    "url": "https://github.com/isra17/popcorn-app.git"
+    "url": "https://github.com/isra17/popcorn-app"
   },
   "main": "app://host/index.html",
   "version": "0.2.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/isra17/popcorn-app"
-  },
   "window": {
     "title": "Popcorn Time",
     "icon": "images/icon.png",
@@ -22,31 +18,30 @@
     "resizable": true
   },
   "dependencies": {
-    "adm-zip" : "git+https://github.com/gpt-modules/adm-zip.git",
-    "cheerio" : "git+https://github.com/gpt-modules/cheerio.git",
-    "clivas" : "git+https://github.com/gpt-modules/clivas.git",
-    "i18n" : "git+https://github.com/gpt-modules/i18n-node.git",
-    "iconv-lite" : "git+https://github.com/gpt-modules/iconv-lite.git",
-    "jschardet" : "git+https://github.com/gpt-modules/jschardet.git",
-    "moviedb" : "git+https://github.com/gpt-modules/moviedb.git",
-    "network-address" : "git+https://github.com/gpt-modules/network-address.git",
-    "node-uuid" : "git+https://github.com/gpt-modules/node-uuid.git",
-    "numeral" : "git+https://github.com/gpt-modules/numeral-js.git",
-    "peerflix" : "git+https://github.com/mafintosh/peerflix.git",
-    "request" : "git+https://github.com/gpt-modules/request.git",
-    "universal-analytics" : "git+https://github.com/gpt-modules/universal-analytics.git",
-    "url" : "git+https://github.com/gpt-modules/url.git",
-    "xmlrpc" : "git+https://github.com/gpt-modules/node-xmlrpc.git",
-    "socket.io": "git+https://github.com/gpt-modules/socket.io.git",
-    "express": "git+https://github.com/gpt-modules/express.git",
-    "ip": "git+https://github.com/gpt-modules/node-ip.git"
+    "clivas": "0.1.4",
+    "network-address": "0.0.4",
+    "ip": "0.3.0",
+    "node-uuid": "1.4.1",
+    "adm-zip": "0.4.4",
+    "numeral": "1.5.3",
+    "jschardet": "1.1.0",
+    "iconv-lite": "0.2.11",
+    "i18n": "0.4.1",
+    "moviedb": "0.1.1",
+    "xmlrpc": "1.2.0",
+    "request": "2.34.0",
+    "peerflix": "0.1.6",
+    "cheerio": "0.13.1",
+    "express": "3.4.8",
+    "url": "0.7.9",
+    "socket.io": "0.9.16"
   },
   "devDependencies": {
-    "grunt": "git+https://github.com/gpt-modules/grunt.git",
-    "grunt-node-webkit-builder": "git+https://github.com/gpt-modules/grunt-node-webkit-builder.git",
-    "grunt-contrib-sass": "git+https://github.com/gpt-modules/grunt-contrib-sass.git",
-    "grunt-contrib-watch": "git+https://github.com/gpt-modules/grunt-contrib-watch.git",
-    "grunt-contrib-compass": "git+https://github.com/gpt-modules/grunt-contrib-compass.git",
-    "grunt-contrib-copy": "git+https://github.com/gpt-modules/grunt-contrib-copy.git"
+    "grunt-contrib-copy": "0.5.0",
+    "grunt-contrib-compass": "0.7.2",
+    "grunt-contrib-sass": "0.7.3",
+    "grunt-contrib-watch": "0.6.0",
+    "grunt": "0.4.4",
+    "grunt-node-webkit-builder": "0.1.17"
   }
 }
