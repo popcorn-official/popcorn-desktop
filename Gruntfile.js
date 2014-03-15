@@ -69,7 +69,7 @@ module.exports = function(grunt) {
   grunt.registerTask('css', ['compass']);
   grunt.registerTask('default', ['compass']);
   grunt.registerTask('nodewkbuild', ['nodewebkit', 'copy']);
-  grunt.registerTask('build', ['nodewkbuild', 'copy:superagent_fix']);
+  grunt.registerTask('build', ['copy:superagent_fix', 'nodewkbuild']);
 
 };
 
