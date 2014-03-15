@@ -2081,7 +2081,11 @@ sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-hunga
 sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-bulgarian {
   background-image: url(../images/bulgarian.png);
 }
-/* line 433, ../sass/_moviedetails.scss */
+/* line 428, ../sass/_moviedetails.scss */
+sidebar .play .movie-detail .side-content .subtitles-list ul li .flag.flag-finnish {
+  background-image: url(../images/finnish.png);
+}
+/* line 434, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content a.play-button {
   background: #286dc4;
   background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
@@ -2094,37 +2098,37 @@ sidebar .play .movie-detail .side-content a.play-button {
   margin-top: 10px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
-/* line 445, ../sass/_moviedetails.scss */
+/* line 446, ../sass/_moviedetails.scss */
 sidebar .play .movie-detail .side-content a.play-button:hover {
   background-image: linear-gradient(to bottom, #4387de 0%, #175ab0 100%);
 }
 
-/* line 454, ../sass/_moviedetails.scss */
+/* line 455, ../sass/_moviedetails.scss */
 .sidebar-open li.movie {
   opacity: 0.25;
 }
-/* line 457, ../sass/_moviedetails.scss */
+/* line 458, ../sass/_moviedetails.scss */
 .sidebar-open li.movie.active {
   opacity: 1;
 }
-/* line 460, ../sass/_moviedetails.scss */
+/* line 461, ../sass/_moviedetails.scss */
 .sidebar-open li.movie.active a {
   box-shadow: 0 0 0 3px #3498db;
   border-radius: 3px;
 }
-/* line 464, ../sass/_moviedetails.scss */
+/* line 465, ../sass/_moviedetails.scss */
 .sidebar-open li.movie.active a i {
   opacity: 0 !important;
 }
 
-/* line 470, ../sass/_moviedetails.scss */
+/* line 471, ../sass/_moviedetails.scss */
 .subtitles button {
   background: transparent;
   border: 0;
   padding: 0;
 }
 
-/* line 477, ../sass/_moviedetails.scss */
+/* line 478, ../sass/_moviedetails.scss */
 .dropdown {
   position: relative;
   display: inline-block;
@@ -2134,19 +2138,19 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
   margin-right: 20px;
   margin-top: -8px;
 }
-/* line 487, ../sass/_moviedetails.scss */
+/* line 488, ../sass/_moviedetails.scss */
 .dropdown.active .dropdown-text {
   background-color: white;
   z-index: 2;
   border-radius: 3px 3px 0 0;
 }
-/* line 493, ../sass/_moviedetails.scss */
+/* line 494, ../sass/_moviedetails.scss */
 .dropdown.active .dropdown-content {
   opacity: 1;
   visibility: visible;
 }
 
-/* line 500, ../sass/_moviedetails.scss */
+/* line 501, ../sass/_moviedetails.scss */
 .dropdown-text {
   cursor: pointer;
   position: absolute;
@@ -2156,7 +2160,7 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
   color: #333;
   text-shadow: 0 1px #fff;
 }
-/* line 509, ../sass/_moviedetails.scss */
+/* line 510, ../sass/_moviedetails.scss */
 .dropdown-text:after {
   position: absolute;
   right: -10px;
@@ -2169,7 +2173,7 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
   border-color: #FFF transparent transparent transparent;
 }
 
-/* line 522, ../sass/_moviedetails.scss */
+/* line 523, ../sass/_moviedetails.scss */
 .dropdown-toggle {
   font-size: 0;
   z-index: 1;
@@ -2184,12 +2188,12 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
   height: 37px;
   width: 60px;
 }
-/* line 536, ../sass/_moviedetails.scss */
+/* line 537, ../sass/_moviedetails.scss */
 .dropdown-toggle:focus {
   outline: 0;
 }
 
-/* line 539, ../sass/_moviedetails.scss */
+/* line 540, ../sass/_moviedetails.scss */
 .dropdown-content {
   list-style-type: none;
   position: absolute;
@@ -2203,14 +2207,14 @@ sidebar .play .movie-detail .side-content a.play-button:hover {
   width: 40px;
   text-align: center;
 }
-/* line 552, ../sass/_moviedetails.scss */
+/* line 553, ../sass/_moviedetails.scss */
 .dropdown-content a {
   display: block;
   padding: 4px;
   color: #333;
   text-shadow: 0 1px #fff;
 }
-/* line 558, ../sass/_moviedetails.scss */
+/* line 559, ../sass/_moviedetails.scss */
 .dropdown-content a:hover {
   background: #E1E1E1;
 }
