@@ -16,6 +16,9 @@ var Yts = Backbone.Collection.extend({
         if (options.page && options.page.match(/\d+/)) {
             this.url += '&set=' + options.page;
         }
+
+        this.options = options;
+        Yts.__super__.initialize.apply(this, arguments);
     },
 
     parse: function (data) {

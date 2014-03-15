@@ -22,6 +22,9 @@ var SubApi = Backbone.Collection.extend({
             var str = this.url.match(/\?/) ? '&' : '?';
             this.url += str + 'page=' + options.page;
         }
+
+        this.options = options;
+        Yts.__super__.initialize.apply(this, arguments);
     },
 
     parse: function (data) {

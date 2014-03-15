@@ -71,9 +71,9 @@ App.View.MovieList = Backbone.View.extend({
         });
 
         var $scrollElement = movieList.$el.parent();
-        if (!$scrollElement.data('page') || $scrollElement.data('section') != movieList.options.genre){
+        if (!$scrollElement.data('page') || $scrollElement.data('section') != movieList.model.options.genre){
             $scrollElement.data('page', 1);
-            $scrollElement.data('section', movieList.options.genre);
+            $scrollElement.data('section', movieList.model.options.genre);
         }
         if (!this.options.paginationDisabled){
             $scrollElement.scroll(function(){
@@ -94,10 +94,10 @@ App.View.MovieList = Backbone.View.extend({
                         if (section){
                             App.Router.navigate('filter/' + section + '/' + page, { trigger: true });
                         }
-                        else if (movieList.options.keywords) {
+                        else if (movieList.model.options.keywords) {
                             section = 'search';
                             // uncomment this line when the API start accepting the page param to paginate ;)
-                            //App.Router.navigate('search/' + encodeURIComponent(movieList.options.keywords) + '/' + page, { trigger: true });
+                            //App.Router.navigate('search/' + encodeURIComponent(movieList.model.options.keywords) + '/' + page, { trigger: true });
                         }
                         else {
                             section = 'index';

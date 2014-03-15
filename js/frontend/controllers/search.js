@@ -1,6 +1,6 @@
 App.Controller.Search = function (searchTerm, page) {
     // Check if page exists
-    if (App.Page.Search) {
+    if (!App.Page.Search) {
         // Create page
         App.Page.Search = new App.View.Page({
             id: 'movie-list'

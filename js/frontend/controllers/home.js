@@ -10,7 +10,7 @@ App.Controller.Home = function (page) {
     var Scrapper = App.currentScrapper;
 
     var movieCollection = new Scrapper([], {
-        searchTerm: null,
+        keywords: null,
         genre: null,
         page: page
     });
