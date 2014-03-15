@@ -1,4 +1,8 @@
-#Popcorn time [![Dependency Status](https://david-dm.org/isra17/popcorn-app.svg?theme=shields.io)](https://david-dm.org/isra17/popcorn-app)
+#Popcorn time
+
+![Dependency Status](https://david-dm.org/isra17/popcorn-app.svg?theme=shields.io)](https://david-dm.org/isra17/popcorn-app)
+
+[![Build Status](https://travis-ci.org/isra17/popcorn-app.png?branch=master)](https://travis-ci.org/isra17/popcorn-app)
 
 To allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
@@ -53,6 +57,13 @@ grunt:
 You can also build for all platforms with:
 
     $ grunt build --platforms=all
+
+### How to contribute
+
+First, building, testing and reporting bug is highly appreciated. Please include console's output and reproduction step in your bug report.
+If you want to develop, you can look at the issues, especialy the bug and fix them.
+
+Join us on IRC at #popcorntime on freenode, most active developpers hang in there.
 
 ## Any problem?
 
