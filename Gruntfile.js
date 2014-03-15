@@ -40,13 +40,28 @@ module.exports = function(grunt) {
             flatten: true
           },
           {
+            src: 'libraries/win/ffmpegsumo.dll',
+            dest: 'build/cache/win/<%= nodewebkit.options.version %>/ffmpegsumo.dll',
+            flatten: true
+          },
+          {
             src: 'libraries/mac/ffmpegsumo.so',
             dest: 'build/releases/Popcorn-Time/mac/Popcorn-Time.app/Contents/Frameworks/node-webkit Framework.framework/Libraries/ffmpegsumo.so',
             flatten: true
           },
           {
+            src: 'libraries/mac/ffmpegsumo.so',
+            dest: 'build/cache/mac/<%= nodewebkit.options.version %>/node-webkit.app/Contents/Frameworks/node-webkit Framework.framework/Libraries/ffmpegsumo.so',
+            flatten: true
+          },
+          {
             src: 'libraries/linux64/libffmpegsumo.so',
             dest: 'build/releases/Popcorn-Time/linux64/Popcorn-Time/libffmpegsumo.so',
+            flatten: true
+          },
+          {
+            src: 'libraries/linux64/libffmpegsumo.so',
+            dest: 'build/cache/linux64/<%= nodewebkit.options.version %>/libffmpegsumo.so',
             flatten: true
           }
         ]
