@@ -16,8 +16,8 @@
   "durationUnit": "min",
 
   "connecting": "Connessione...",
-  "startingDownload": "Inizio Download...",
-  "downloading": "Downloading...",
+  "startingDownload": "Inizio scaricamento...",
+  "downloading": "Sto scaricando...",
 
   "UpgradeVersion": "Aggiorna Popcorn Time",
   "UpgradeVersionDescription": "Popcorn Time %s é stato rilasciato. Dovresti scaricarlo ora!",
