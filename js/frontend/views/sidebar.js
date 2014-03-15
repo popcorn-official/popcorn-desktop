@@ -37,7 +37,7 @@ App.View.Sidebar = Backbone.View.extend({
 
     play: function (evt) {
         evt.preventDefault();
-        if( videoStreamer !== null || !this.isReadyToPlay() ){ return; }
+        if( videoStreamer !== null ){ return; }
 
         var file = this.model.get('torrent'),
             subs = this.model.get('subtitles');
