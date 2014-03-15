@@ -1,6 +1,6 @@
 #Warning this is a experimental fork!
 
-#Popcorn time [![Dependency Status](https://david-dm.org/isra17/popcorn-app.png?theme=shields.io)](https://david-dm.org/isra17/popcorn-app)
+#Popcorn time [![Dependency Status](https://david-dm.org/isra17/popcorn-app.svg?theme=shields.io)](https://david-dm.org/isra17/popcorn-app)
 
 ## Idea
 
