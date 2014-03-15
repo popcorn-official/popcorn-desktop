@@ -7,6 +7,6 @@ install:
 
 script:
   - npm install
-  - grunt build --platforms=linux64
+  - grunt build --platforms=all
 
 
