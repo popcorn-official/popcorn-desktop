@@ -33,6 +33,8 @@ You will need nodejs and grunt:
 
     $ npm install -g grunt-cli
 
+And ruby with compass to build the stylesheets. Read [this](http://thesassway.com/beginner/getting-started-with-sass-and-compass) for more information.
+
 ### Build
 
 Install the node modules:
