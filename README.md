@@ -1,6 +1,6 @@
 #Popcorn time
 
-![Dependency Status](https://david-dm.org/isra17/popcorn-app.svg?theme=shields.io)](https://david-dm.org/isra17/popcorn-app)
+[![Dependency Status](https://david-dm.org/isra17/popcorn-app.svg?theme=shields.io)](https://david-dm.org/isra17/popcorn-app)
 
 [![Build Status](https://travis-ci.org/isra17/popcorn-app.png?branch=master)](https://travis-ci.org/isra17/popcorn-app)
 
