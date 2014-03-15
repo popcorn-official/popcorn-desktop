@@ -4,6 +4,9 @@ module.exports = function(grunt) {
   grunt.initConfig({
     compass: {
       dist: {
+        options: {
+          cssDir: 'css'
+        },
         files: {
           'css/app.css': 'sass/app.scss'
         }
@@ -67,9 +70,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-node-webkit-builder');
 
   grunt.registerTask('css', ['compass']);
-  grunt.registerTask('default', ['compass']);
+  grunt.registerTask('default', ['compass', 'copy:superagent_fix']);
   grunt.registerTask('nodewkbuild', ['nodewebkit', 'copy']);
-  grunt.registerTask('build', ['copy:superagent_fix', 'nodewkbuild']);
+  grunt.registerTask('build', ['default', 'nodewkbuild']);
 
 };
 
