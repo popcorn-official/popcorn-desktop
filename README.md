@@ -72,7 +72,7 @@ You can also build for all platforms with:
 First, building, testing and reporting bug is highly appreciated. Please include console's output and reproduction step in your bug report.
 If you want to develop, you can look at the issues, especialy the bug and fix them.
 
-Join us on IRC at #popcorntime on freenode, most active developpers hang in there.
+Join us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime)), most active developpers hang in there.
 
 ## Any problem?
 
