@@ -344,7 +344,6 @@ sidebar {
             height: 20px;
             text-align: center;
             line-height: 20px;
-            cursor: pointer;
             position: absolute;
             top: 10px;
             right: 0;
@@ -429,6 +428,7 @@ sidebar {
                 &.flag-finnish { background-image: url(../images/finnish.png); }
                 &.flag-russian { background-image: url(../images/russian.png); }
                 &.flag-maltese { background-image: url(../images/maltese.png); }
+                &.flag-moroccan { background-image: url(../images/moroccan.png); }
               }
             }
           }
