@@ -15,12 +15,8 @@ App.View.MovieList = Backbone.View.extend({
         // Bind element on existing list
         this.$el = $('.movie-list').first();
 
-        this.collection = App.getTorrentsCollection(options);
-
-        this.collection.fetch();
-
-        this.listenTo(this.collection, 'sync', this.render);
-        this.listenTo(this.collection, 'rottenloaded', this.render);
+        this.listenTo(this.model, 'sync', this.render);
+        this.listenTo(this.model, 'rottenloaded', this.render);
     },
 
     empty: function () {
@@ -34,14 +30,14 @@ App.View.MovieList = Backbone.View.extend({
             App.loader(false);
         }
 
-        if (this.collection.length === 0) {
+        if (this.model.length === 0) {
             return this.empty();
         }
 
 
         var movieList = this;
 
-        $.each(this.collection.models, function (index) {
+        $.each(this.model.models, function (index) {
 
             // Only append not yet appended elements
             this.view.render();
@@ -75,9 +71,9 @@ App.View.MovieList = Backbone.View.extend({
         });
 
         var $scrollElement = movieList.$el.parent();
-        if (!$scrollElement.data('page') || $scrollElement.data('section') != movieList.options.genre){
+        if (!$scrollElement.data('page') || $scrollElement.data('section') != movieList.model.options.genre){
             $scrollElement.data('page', 1);
-            $scrollElement.data('section', movieList.options.genre);
+            $scrollElement.data('section', movieList.model.options.genre);
         }
         if (!this.options.paginationDisabled){
             $scrollElement.scroll(function(){
@@ -98,10 +94,10 @@ App.View.MovieList = Backbone.View.extend({
                         if (section){
                             App.Router.navigate('filter/' + section + '/' + page, { trigger: true });
                         }
-                        else if (movieList.options.keywords) {
+                        else if (movieList.model.options.keywords) {
                             section = 'search';
                             // uncomment this line when the API start accepting the page param to paginate ;)
-                            //App.Router.navigate('search/' + encodeURIComponent(movieList.options.keywords) + '/' + page, { trigger: true });
+                            //App.Router.navigate('search/' + encodeURIComponent(movieList.model.options.keywords) + '/' + page, { trigger: true });
                         }
                         else {
                             section = 'index';

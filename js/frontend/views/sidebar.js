@@ -37,7 +37,7 @@ App.View.Sidebar = Backbone.View.extend({
 
     play: function (evt) {
         evt.preventDefault();
-        if( videoStreamer != null ){ return; }
+        if( videoStreamer !== null ){ return; }
 
         var file = this.model.get('torrent'),
             subs = this.model.get('subtitles');
@@ -74,7 +74,6 @@ App.View.Sidebar = Backbone.View.extend({
                 }
 
                 if( bufferStatus != previousStatus ) {
-                    userTracking.event('Video Preloading', bufferStatus, movieModel.get('niceTitle')).send();
                     previousStatus = bufferStatus;
                 }
 
@@ -82,7 +81,6 @@ App.View.Sidebar = Backbone.View.extend({
             }
         );
 
-        userTracking.event('Movie Quality', 'Watch on '+this.model.get('quality')+' - '+this.model.get('health').capitalize(), this.model.get('niceTitle') ).send();
     },
 
     initialize: function () {
@@ -92,7 +90,8 @@ App.View.Sidebar = Backbone.View.extend({
 
     load: function (model) {
         // TODO: QUEUE PLAY BUTTON
-        this.listenTo(model, 'change:subtitles', this.render);
+        this.listenTo(model, 'change', this.render);
+        model.fetchMissingData();
 
         this.model = model;
         this.render();
@@ -100,6 +99,9 @@ App.View.Sidebar = Backbone.View.extend({
 
     render: function () {
         this.$el.html(this.template(this.model.attributes));
+        if ( this.isReadyToPlay() ) {
+            this.$el.find('.play-button').removeAttr('disabled');
+        }
         this.show();
     },
 
@@ -137,8 +139,6 @@ App.View.Sidebar = Backbone.View.extend({
           }
         }
 
-        userTracking.event( 'Movie Closed', this.model.get('niceTitle'),
-                            (noSubForUser ? 'No Local Subtitles' : 'With Local Subtitles') +' - '+ this.model.get('health').capitalize() ).send();
       }
 
       $('.movie.active').removeClass('active');
@@ -157,8 +157,6 @@ App.View.Sidebar = Backbone.View.extend({
         this.backdropCache.onload = function () {
             $(".backdrop-image").addClass("loaded")
         };
-
-        userTracking.pageview('/movies/view/'+this.model.get('slug'), this.model.get('niceTitle') ).send();
     },
 
     enableHD: function (evt) {
@@ -181,5 +179,9 @@ App.View.Sidebar = Backbone.View.extend({
             this.model.set('torrent', torrents['720p']);
             this.model.set('quality', '720p');
         }
+    },
+
+    isReadyToPlay: function() {
+        return this.model.get('hasSubtitle');
     }
 });
