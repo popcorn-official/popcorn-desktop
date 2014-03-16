@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "0.11"
+install:
+  - gem install compass
+  - npm install -g grunt-cli 
+
+script:
+  - npm install
+  - grunt build --platforms=all
+
+

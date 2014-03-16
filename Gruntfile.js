@@ -4,6 +4,9 @@ module.exports = function(grunt) {
   grunt.initConfig({
     compass: {
       dist: {
+        options: {
+          cssDir: 'css'
+        },
         files: {
           'css/app.css': 'sass/app.scss'
         }
@@ -37,16 +40,41 @@ module.exports = function(grunt) {
             flatten: true
           },
           {
+            src: 'libraries/win/ffmpegsumo.dll',
+            dest: 'build/cache/win/<%= nodewebkit.options.version %>/ffmpegsumo.dll',
+            flatten: true
+          },
+          {
             src: 'libraries/mac/ffmpegsumo.so',
             dest: 'build/releases/Popcorn-Time/mac/Popcorn-Time.app/Contents/Frameworks/node-webkit Framework.framework/Libraries/ffmpegsumo.so',
+            flatten: true
+          },
+          {
+            src: 'libraries/mac/ffmpegsumo.so',
+            dest: 'build/cache/mac/<%= nodewebkit.options.version %>/node-webkit.app/Contents/Frameworks/node-webkit Framework.framework/Libraries/ffmpegsumo.so',
             flatten: true
           },
           {
             src: 'libraries/linux64/libffmpegsumo.so',
             dest: 'build/releases/Popcorn-Time/linux64/Popcorn-Time/libffmpegsumo.so',
             flatten: true
+          },
+          {
+            src: 'libraries/linux64/libffmpegsumo.so',
+            dest: 'build/cache/linux64/<%= nodewebkit.options.version %>/libffmpegsumo.so',
+            flatten: true
           }
         ]
+      },
+      superagent_fix: {
+        src: '/dev/null',
+        dest: 'node_modules/moviedb/node_modules/superagent/index.js',
+        options: {
+          process: function(content) {
+            console.info(content);
+            return "module.exports = require('./lib/node');";
+          }
+        }
       }
     }
   });
@@ -57,9 +85,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-node-webkit-builder');
 
   grunt.registerTask('css', ['compass']);
-  grunt.registerTask('default', ['compass']);
-  grunt.registerTask('nodewkbuild', ['nodewebkit', 'copy']);
-
+  grunt.registerTask('default', ['compass', 'copy:superagent_fix']);
+  grunt.registerTask('nodewkbuild', ['nodewebkit', 'copy:main']);
+  grunt.registerTask('build', ['default', 'nodewkbuild']);
 
 };
 

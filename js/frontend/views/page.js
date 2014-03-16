@@ -14,8 +14,8 @@ App.View.Page = Backbone.View.extend({
     show: function () {
         // Fuck you UI.
         var $el = this.$el.hide(),
-            $pages = $('.page').addClass('notransition'),
-            $movies = $('.movie').removeClass('loaded');
+            $pages = $el.find('.page').addClass('notransition'),
+            $movies = $el.find('.movie').removeClass('loaded');
 
         // ontransitionend could be buggy here.
         setTimeout(function () {

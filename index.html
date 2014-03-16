@@ -129,7 +129,7 @@
             <% } %>
 
             <% if (this.model.get('torrents')) { %>
-              <a href="" class="p_tooltip play-button"><%= i18n.__('watchItNow') %></a>
+              <a href="" class="p_tooltip play-button" disabled="disabled"><%= i18n.__('watchItNow') %></a>
             <% } %>
           </div>
         </div>
@@ -173,17 +173,22 @@
     <!-- App Initialization -->
     <script src="js/app.js"></script>
     <script src="js/language.js"></script>
-    <script src="js/tracking.js"></script>
-    <script src="js/updater.js"></script>
 
     <!-- UI and UI-related Initialization -->
     <script src="js/frontend/ui.js"></script>
     <script src="js/frontend/player.js"></script>
 
-    <!-- Data Sources -->
-    <script src="js/frontend/providers/torrents.js"></script>
+    <!-- Backbone Models -->
+    <script src="js/frontend/models/movie.js"></script>
 
-    <!-- Backbone Models, Views and Controllers -->
+    <!-- Data Sources -->
+    <script src="js/frontend/providers/cache.js"></script>
+    <script src="js/frontend/providers/themoviedb.js"></script>
+    <script src="js/frontend/providers/yifysubtitles.js"></script>
+    <script src="js/frontend/scrapers/yts.js"></script>
+    <script src="js/frontend/scrapers/scrapers.js"></script>
+
+    <!-- Backbone Views and Controllers -->
     <script src="js/frontend/models/movie.js"></script>
     <script src="js/frontend/views/page.js"></script>
     <script src="js/frontend/views/listview.js"></script>
@@ -194,14 +199,9 @@
     <script src="js/frontend/controllers/filter.js"></script>
     <script src="js/frontend/router.js"></script>
 
-    <!-- Remote Control -->
-    <script src="rc/index.js"></script>
-
     <!-- Other Dependencies -->
     <script src="js/vendor/video-js/video.dev.js"></script>
     <script src="js/vendor/videojsplugins.js"></script>
     <script src="js/vendor/dragwindow.js"></script>
-
-    <script>userTracking.event('App Start', 'Ready - '+Settings.get('version'),  (Math.round(((new Date()*1) - __startTime) / 100) * 100) +'ms' ).send();</script>
   </body>
 </html>
