@@ -31,6 +31,7 @@ var Yts = Backbone.Collection.extend({
 
             if (ytsData.error || typeof ytsData.MovieList === 'undefined') {
                 collection.set(movies);
+                collection.trigger('loaded');
                 return;
             }
 
@@ -57,8 +58,8 @@ var Yts = Backbone.Collection.extend({
                         synopsis:   traktInfo.overview || "",
                         voteAverage:parseFloat(movie.MovieRating),
 
-                        image:      traktInfo.images.posterSmall || movie.CoverImage.replace(/_med\./, '_large.'),
-                        bigImage:   traktInfo.images.poster || movie.CoverImage.replace(/_med\./, '_large.'),
+                        image:      traktInfo.images.poster ? trakt.resizeImage(traktInfo.images.poster, '138') : movie.CoverImage.replace(/_med\./, '_large.'),
+                        bigImage:   traktInfo.images.poster ? trakt.resizeImage(traktInfo.images.poster, '300') : movie.CoverImage.replace(/_med\./, '_large.'),
                         backdrop:   traktInfo.images.fanart,
 
                         quality:    movie.Quality,
@@ -96,7 +97,7 @@ var Yts = Backbone.Collection.extend({
                 });
 
                 collection.set(movies);
-                collection.trigger('change');
+                collection.trigger('loaded');
                 console.log(movies);
                 return;
             })

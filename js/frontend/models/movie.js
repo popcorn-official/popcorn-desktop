@@ -10,7 +10,6 @@ App.Model.Movie = Backbone.Model.extend({
           model: model
       });
 
-      model.trigger('rottenloaded');
     },
 
     getShortTitle: function() {
