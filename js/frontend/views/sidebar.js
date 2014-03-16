@@ -131,8 +131,9 @@ App.View.Sidebar = Backbone.View.extend({
           "hungarian": "hu",
           "finnish": "fi",
           "czech": "cs",
-          "bulgarian": "bg"
-        }
+          "bulgarian": "bg",
+          "croatian": "hr"
+        };
 
         var noSubForUser = true;
         for (var as in availableSubs) {

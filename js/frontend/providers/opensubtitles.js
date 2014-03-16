@@ -11,7 +11,7 @@ var xmlrpc = require('xmlrpc'),
             'User-Agent': appUserAgent
         }
     }),
-    
+
     Languages = window.Languages = {
         'spa': 'Spanish',
         'eng': 'English',
@@ -29,7 +29,8 @@ var xmlrpc = require('xmlrpc'),
         'ukr': 'Ukrainian',
         'fin': 'Finnish',
         'cze': 'Czech',
-        'bul': 'Bulgarian'
+        'bul': 'Bulgarian',
+        'cro': 'Croatian'
     },
 
     token;
