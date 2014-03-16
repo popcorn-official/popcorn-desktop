@@ -135,6 +135,8 @@ App.View.Sidebar = Backbone.View.extend({
           "bulgarian": "bg",
           "croatian": "hr",
           "estonian": "et",
+          "bosnian": "ba",
+          "serbian": "rs",
           "danish": "da"
         };
 

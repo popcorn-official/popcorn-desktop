@@ -89,6 +89,9 @@ var playTorrent = window.playTorrent = function (torrent, subs, movieModel, call
 window.SubtitleLanguages = {
   'spanish'   : 'Español',
   'english'   : 'English',
+  'croatian'  : 'Hrvatski',
+  'bosnian'   : 'Bosanski',
+  'serbian'   : 'Srpski',
   'french'    : 'Français',
   'hebrew'    : 'Hebrew',
   'turkish'   : 'Türkçe',
@@ -102,7 +105,6 @@ window.SubtitleLanguages = {
   'czech'     : 'Česky',
   'bulgarian' : 'Български',
   'polish'    : 'Polish',
-  'croatian' : 'Hrvatski',
   'estonian'  : 'Eesti',
   'danish'    : 'Dansk'
 };

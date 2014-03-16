@@ -109,7 +109,7 @@ videojs.plugin('customSubtitles', function() {
     // TODO Delete old track
     this.track = this.player_.addTextTrack('subtitles', 'Custom...', '00', { src: filePath });
     vjs.TextTrackMenuItem.prototype.onClick.call(this); // redirect to TextTrackMenuItem.onClick
-  } 
+  }
 
   subtitlesButton.menu.addItem(new CustomTrackMenuItem(this));
   subtitlesButton.show(); // Always show subtitles button
@@ -132,7 +132,10 @@ var expectedEncodings = {
   'russian':    ['windows-1251', 'iso-8859-5'],
   'spanish':    ['iso-8859-1'],
   'turkish':    ['iso-8859-9'],
-  'ukrainian':  ['windows-1251', 'iso-8859-5']
+  'ukrainian':  ['windows-1251', 'iso-8859-5'],
+  'croatian':   ['windows-1250'],
+  'bosnian':    ['windows-1250'],
+  'serbian':    ['windows-1250']
 }
 
 // This is a custom way of loading subtitles, since we can't use src (CORS blocks it and we can't disable it)
@@ -146,7 +149,7 @@ vjs.TextTrack.prototype.load = function(){
 
     // Fetches a raw subtitle, locally or remotely
     function getSub (subUrl, callback) {
-      
+
       var fs  = require('fs');
       var http    = require('http');
       var url     = require('url');
@@ -217,8 +220,8 @@ vjs.TextTrack.prototype.load = function(){
         // Windows-1251/2/IBM855 works fine when read from a file (like it's UTF-8), but if you try to convert it you'll ruin the encoding.
         // Just save it again, and it'll be stored as UTF-8. At least on Windows.
 
-        if ( detectedEncoding == 'IBM855' || detectedEncoding == 'windows-1251' || detectedEncoding == 'windows-1252' || detectedEncoding == 'windows-1255' || detectedEncoding == 'windows-1254' ) {
-          // It's the charset detector fucking up again, now with Spanish, Portuguese, French (1255) and Romanian          
+        if ( detectedEncoding == 'IBM855' || detectedEncoding == 'windows-1250' || detectedEncoding == 'windows-1251' || detectedEncoding == 'windows-1252' || detectedEncoding == 'windows-1255' || detectedEncoding == 'windows-1254' ) {
+          // It's the charset detector fucking up again, now with Spanish, Portuguese, French (1255) and Romanian
           var expected = expectedEncodings[language];
           if ((typeof(expected) !== 'undefined' || expected !== null) && expected.indexOf(detectedEncoding) < 0) {
             // The detected encoding was unexepected to the language, so we'll use the most common
