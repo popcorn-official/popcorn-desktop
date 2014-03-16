@@ -102,6 +102,24 @@ window.SubtitleLanguages = {
   'bulgarian' : 'Български'};
 
 
+function playbackFailed(e) {
+  // video playback failed - show a message saying why
+  // TODO: localize
+  switch (e.error.code) {
+    case e.error.MEDIA_ERR_ABORTED:
+      return 'The video playback was aborted.';
+    case e.error.MEDIA_ERR_NETWORK:
+      return 'A network error caused the video download to fail part-way.';
+    case e.error.MEDIA_ERR_DECODE:
+      return 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.';
+    case e.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+      return 'The video could not be loaded, either because the server or network failed or because the format is not supported.';
+    default:
+      return 'An unknown error occurred.';
+   }
+}
+
+
 // Handles the opening of the video player
 
 window.spawnVideoPlayer = function (url, subs, movieModel) {
@@ -220,7 +238,7 @@ window.spawnVideoPlayer = function (url, subs, movieModel) {
 
     // There was an issue with the video
     video.player().on('error', function (error) {
-      console.log(error);
+      alert('Error: ' + videoError(document.getElementById('video_player').error));
     });
 
     App.loader(false);
