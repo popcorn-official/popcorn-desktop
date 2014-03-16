@@ -46,7 +46,7 @@ or
 
 Press F12 to display the dev tools. Enjoy!
 
-- Currently Gaze to watch all files and reload the app is disabled due to memory leaks and unstability.
+- Currently Gaze to watch all files and reload the app is disabled due to memory leaks and instability.
 
 ## Build
 
