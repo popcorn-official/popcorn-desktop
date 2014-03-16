@@ -17,6 +17,14 @@ Under development (RC1) for Mac OSX - Windows - Linux.
 - [OpenSubtitles](http://trac.opensubtitles.org/projects/opensubtitles/wiki/XMLRPC) for subtitles
 - [TheMovieDB](http://www.themoviedb.org/) for movies metadata.
 
+## Dependencies
+
+You will need nodejs and grunt:
+
+    $ npm install -g grunt-cli
+
+And ruby with compass to build the stylesheets. Read [this](http://thesassway.com/beginner/getting-started-with-sass-and-compass) for more information.
+
 ## Running and debugging
 
 Run at least once to install dependencies and generate css files.
