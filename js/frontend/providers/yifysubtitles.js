@@ -27,6 +27,7 @@ var request = require('request'),
         'polish'    : 'Polish',
         'bulgarian' : 'Български',
         'croatian'  : 'Hrvatski',
+        'estonian'  : 'Eesti',
         'danish'    : 'Dansk'
     };
 

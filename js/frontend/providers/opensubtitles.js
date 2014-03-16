@@ -32,6 +32,7 @@ var xmlrpc = require('xmlrpc'),
         'pol': 'Polish',
         'bul': 'Bulgarian',
         'cro': 'Croatian',
+        'est': 'Estonian',
         'dan': 'Danish'
     },
 
