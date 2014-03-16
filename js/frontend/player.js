@@ -101,9 +101,9 @@ window.SubtitleLanguages = {
   'finnish'   : 'Suomi',
   'czech'     : 'Česky',
   'bulgarian' : 'Български',
+  'polish'    : 'Polish',
   'croatian' : 'Hrvatski'
 };
-
 
 function videoError(e) {
   // video playback failed - show a message saying why

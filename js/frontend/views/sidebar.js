@@ -128,6 +128,7 @@ App.View.Sidebar = Backbone.View.extend({
           "spanish": "es",
           "turkish": "tr",
           "german": "de",
+          "polish": "pl",
           "hungarian": "hu",
           "finnish": "fi",
           "czech": "cs",

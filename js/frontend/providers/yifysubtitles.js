@@ -24,6 +24,7 @@ var request = require('request'),
         'finnish'   : 'Suomi',
         'latvian'   : 'Latviski',
         'maltese'   : 'maltese',
+        'polish'    : 'Polish',
         'bulgarian' : 'Български',
         'croatian' : 'Hrvatski'
     };
