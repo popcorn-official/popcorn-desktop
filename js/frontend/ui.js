@@ -179,7 +179,7 @@ jQuery(function ($) {
   document.addEventListener('mousewheel', function(event){
     // Get video player
     var videoPlayer = $("#video_player");
-    if (videoPlayer.length === 0)
+    if (videoPlayer.length === 0 || $(event.target).parents(".vjs-subtitles-button").length)
       return;
     videoPlayer = videoPlayer[0].player;
     // Get current volume
