@@ -30,7 +30,8 @@ var request = require('request'),
         'estonian'  : 'Eesti',
         'danish'    : 'Dansk',
         'bosnian'   : 'Bosanski',
-        'serbian'   : 'Srpski'
+        'serbian'   : 'Srpski',
+        'italian'   : 'Italiano'
     };
 
 var findSubtitle = function (imdbId, cb) {
