@@ -1,7 +1,5 @@
 App.Model.Movie = Backbone.Model.extend({
-
     buildBasicView: function () {
-
       var model = this;
 
       // This is mostly used for reporting
@@ -12,7 +10,6 @@ App.Model.Movie = Backbone.Model.extend({
           model: model
       });
 
-      model.trigger('rottenloaded');
     },
 
     getShortTitle: function() {
