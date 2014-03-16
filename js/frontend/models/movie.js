@@ -46,7 +46,7 @@ App.Model.Movie = Backbone.Model.extend({
       if (seeders < 100) {
         this.set('health', 'bad');
       }
-      else if (seeders > 100 && seeders < 200) {
+      else if (seeders >= 100 && seeders < 200) {
         if( ratio > 5 ) {
           this.set('health', 'good');
         } else if( ratio > 3 ) {
@@ -55,7 +55,7 @@ App.Model.Movie = Backbone.Model.extend({
           this.set('health', 'bad');
         }
       }
-      else if (seeders > 200) {
+      else if (seeders >= 200) {
         if( ratio > 5 ) {
           this.set('health', 'excellent');
         } else if( ratio > 3 ) {
