@@ -113,7 +113,7 @@ function videoError(e) {
     case e.MEDIA_ERR_DECODE:
       return 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.';
     case e.MEDIA_ERR_SRC_NOT_SUPPORTED:
-      return 'The video could not be loaded, either because the server or network failed or because the format is not supported.';
+      return 'The video format is not supported.';
     default:
       return 'An unknown error occurred.';
    }

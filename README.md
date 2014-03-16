@@ -68,8 +68,11 @@ Join us on IRC at #popcorntime on freenode, most active developpers hang in ther
 ## Any problem?
 
 
-### Regarding Video, MP4 H264 Playback
-- Info: https://github.com/rogerwang/node-webkit/wiki/Support-mp3-and-h264-in-video-and-audio-tag
-- Needed to build a custom build of node-webkit that adds h264 support (or you can download ready-to-go builds from https://file.ac/s4Lt3Vo6rls/)
-- Alternatively, we can replace a .so and .dll file from the correspondent Chrome build to node-webkit and node-webkit.exe
+### Error about missing libudev.so.0
+Search for libudev.0 on your distribution. Most of the time it can be easily fixed by creating a symbolic link from libudev.so to libudev.so.0
 
+### Error "Gtk-WARNING **: cannot open display:"
+Try running `export DISPLAY=:0.0`
+
+### Error "The video format is not supported"
+See: https://github.com/rogerwang/node-webkit/wiki/Support-mp3-and-h264-in-video-and-audio-tag
