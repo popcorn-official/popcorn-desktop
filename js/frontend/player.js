@@ -102,7 +102,8 @@ window.SubtitleLanguages = {
   'czech'     : 'Česky',
   'bulgarian' : 'Български',
   'polish'    : 'Polish',
-  'croatian' : 'Hrvatski'
+  'croatian' : 'Hrvatski',
+  'danish'    : 'Dansk'
 };
 
 function videoError(e) {

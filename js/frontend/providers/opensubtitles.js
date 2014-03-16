@@ -31,7 +31,8 @@ var xmlrpc = require('xmlrpc'),
         'cze': 'Czech',
         'pol': 'Polish',
         'bul': 'Bulgarian',
-        'cro': 'Croatian'
+        'cro': 'Croatian',
+        'dan': 'Danish'
     },
 
     token;
