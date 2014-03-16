@@ -116,6 +116,24 @@ videojs.plugin('customSubtitles', function() {
 
 })
 
+var expectedEncodings = {
+  'arabic':     ['windows-1256'],
+  'bulgarian':  ['windows-1251', 'iso-8859-5'],
+  'brazilian':  ['iso-8859-1'],
+  'dutch':      ['iso-8859-1'],
+  'finnish':    ['iso-8859-1'],
+  'french':     ['iso-8859-1'],
+  'german':     ['iso-8859-1'],
+  'greek':      ['iso-8859-7'],
+  'hebrew':     ['windows-1255'],
+  'hungarian':  ['iso-8859-2'],
+  'portuguese': ['iso-8859-1'],
+  'romanian':   ['iso-8859-16'],
+  'russian':    ['windows-1251', 'iso-8859-5'],
+  'spanish':    ['iso-8859-1'],
+  'turkish':    ['iso-8859-9'],
+  'ukrainian':  ['windows-1251', 'iso-8859-5']
+}
 
 // This is a custom way of loading subtitles, since we can't use src (CORS blocks it and we can't disable it)
 // We fetch them when requested, process them and finally throw a parseCues their way
@@ -187,9 +205,10 @@ vjs.TextTrack.prototype.load = function(){
       var targetEncodingCharset = 'utf8';
 
       var charset = charsetDetect.detect(dataBuff);
+      var detectedEncoding = charset.encoding;
 
       // Do we need decoding?
-      if (charset.encoding == targetEncodingCharset || charset.encoding == targetCharset) {
+      if (detectedEncoding == targetEncodingCharset || detectedEncoding == targetCharset) {
         callback(dataBuff.toString('utf-8'));
 
       // We do
@@ -198,38 +217,17 @@ vjs.TextTrack.prototype.load = function(){
         // Windows-1251/2/IBM855 works fine when read from a file (like it's UTF-8), but if you try to convert it you'll ruin the encoding.
         // Just save it again, and it'll be stored as UTF-8. At least on Windows.
 
-        if( charset.encoding == 'IBM855' ) {
-          // If you're wondering "What the fuck is this shit?", there's a bug with the charset detector when using portuguese or romanian. It's actually ISO-8859-1.
-          dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-1'), targetEncodingCharset );
-        }
-        else if( charset.encoding == 'windows-1251' || charset.encoding == 'windows-1252' || charset.encoding == 'windows-1255' || charset.encoding == 'windows-1254' ) {
-          // It's the charset detector fucking up again, now with Spanish, Portuguese, French (1255) and Romanian
-          if( language == 'romanian' ) {
-            // And if it's romanian, it's iso-8859-2
-            dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-2'), targetEncodingCharset );
+        if ( detectedEncoding == 'IBM855' || detectedEncoding == 'windows-1251' || detectedEncoding == 'windows-1252' || detectedEncoding == 'windows-1255' || detectedEncoding == 'windows-1254' ) {
+          // It's the charset detector fucking up again, now with Spanish, Portuguese, French (1255) and Romanian          
+          var expected = expectedEncodings[language];
+          if ((typeof(expected) !== 'undefined' || expected !== null) && expected.indexOf(detectedEncoding) < 0) {
+            // The detected encoding was unexepected to the language, so we'll use the most common
+            // encoding for that language instead.
+            detectedEncoding = expected[0];
           }
-          else if ( language == 'turkish' ) {
-            // And if it's turkish, it's iso-8859-9
-            dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-9'), targetEncodingCharset );
-          }
-          else if ( language == 'hebrew' ) {
-            // Hebrew *is* Windows-1255
-            dataBuff = iconv.encode( iconv.decode(dataBuff, 'windows-1255'), targetEncodingCharset );
-          }
-          else if ( language == 'russian' || language == 'ukrainian' || language == 'bulgarian' ) {
-            // Cyrillic *is* Windows-1251
-            dataBuff = iconv.encode( iconv.decode(dataBuff, 'windows-1251'), targetEncodingCharset );
-          }
-          else {
-            // Or else, it's ISO-8859-1 by default
-            dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-1'), targetEncodingCharset );
-          }
-        }
-        else {
-          // If it's not any of those cases, we should be able to do a decent conversion.
-          dataBuff = iconv.encode( iconv.decode(dataBuff, charset.encoding), targetEncodingCharset );
         }
 
+        dataBuff = iconv.encode( iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset );
         callback(dataBuff.toString('utf-8'));
       }
     }
