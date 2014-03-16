@@ -1,7 +1,5 @@
 App.Model.Movie = Backbone.Model.extend({
-
     buildBasicView: function () {
-
       var model = this;
 
       // This is mostly used for reporting

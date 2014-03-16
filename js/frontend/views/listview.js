@@ -15,7 +15,7 @@ App.View.MovieList = Backbone.View.extend({
         // Bind element on existing list
         this.$el = $('.movie-list').first();
 
-        this.listenTo(this.model, 'sync', this.render);
+        this.listenTo(this.model, 'change', this.render);
         this.listenTo(this.model, 'rottenloaded', this.render);
     },
 
