@@ -44,6 +44,6 @@
     "grunt-contrib-sass": "0.7.3",
     "grunt-contrib-watch": "0.6.0",
     "grunt": "0.4.4",
-    "grunt-node-webkit-builder": "0.1.17"
+    "grunt-node-webkit-builder": "0.1.18"
   }
 }
