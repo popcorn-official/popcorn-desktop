@@ -1,4 +1,4 @@
-#Popcorn time [![Dependency Status](https://david-dm.org/yify/popcorn-app.svg?theme=shields.io)](https://david-dm.org/yify/popcorn-app)
+#Popcorn time [![Dependency Status](https://david-dm.org/popcorn-team/popcorn-app.svg?theme=shields.io)](https://david-dm.org/popcorn-team/popcorn-app)
 
 ## Idea
 
@@ -71,6 +71,9 @@ You can also build for all platforms with:
 
 First, building, testing and reporting bug is highly appreciated. Please include console's output and reproduction step in your bug report.
 If you want to develop, you can look at the issues, especialy the bug and fix them.
+Here's a [list of feature](https://github.com/popcorn-team/popcorn-app/wiki/Feature-Proposal) requested by the community so far.
+
+Please follow the [contributions guidelines](https://github.com/popcorn-team/popcorn-app/wiki/Contribution-Guidelines).
 
 Join us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime)), most active developpers hang in there.
 
