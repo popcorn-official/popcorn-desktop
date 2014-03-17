@@ -38,6 +38,10 @@
     "socket.io": "0.9.16",
     "URIjs": "1.12.1"
   },
+  "repository" : { 
+    "type" : "git",
+    "url" : "https://github.com/popcorn-team/popcorn-app.git"
+  },
   "devDependencies": {
     "grunt": "0.4.4",
     "grunt-contrib-copy": "0.5.0",
