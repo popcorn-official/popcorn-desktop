@@ -12,6 +12,20 @@ App.View.Sidebar = Backbone.View.extend({
         'click #switch-off':       'disableHD'
     },
 
+    initialize: function () {
+        this.setElement($('sidebar'));
+        $('body').keydown(this.keyHide);
+    },
+
+    load: function (model) {
+        this.listenTo(model, 'change:subtitles', this.renderSubtitles);
+        this.listenTo(model, 'change:hasSubtitle', this.readyToPlay);
+        model.fetchMissingData();
+
+        this.model = model;
+        this.render();
+    },
+
     keyHide: function (e) {
         if (e.which === 27 && $('body').is('.sidebar-open')) {
             /*alert("escape pressed from sidebar");*/
@@ -83,26 +97,20 @@ App.View.Sidebar = Backbone.View.extend({
 
     },
 
-    initialize: function () {
-        this.setElement($('sidebar'));
-        $('body').keydown(this.keyHide);
-    },
-
-    load: function (model) {
-        // TODO: QUEUE PLAY BUTTON
-        this.listenTo(model, 'change', this.render);
-        model.fetchMissingData();
-
-        this.model = model;
-        this.render();
-    },
-
     render: function () {
         this.$el.html(this.template(this.model.attributes));
-        if ( this.isReadyToPlay() ) {
+        this.show();
+    },
+
+    renderSubtitles: function() {
+        var temp = $(this.template(this.model.attributes));
+        this.$el.find('.subtitles-list').replaceWith(temp.find('.subtitles-list'));
+    },
+
+    readyToPlay: function() {
+        if(this.model.get('hasSubtitle')) {
             this.$el.find('.play-button').removeAttr('disabled');
         }
-        this.show();
     },
 
     isVisible: function () {
@@ -179,9 +187,5 @@ App.View.Sidebar = Backbone.View.extend({
             this.model.set('torrent', torrents['720p']);
             this.model.set('quality', '720p');
         }
-    },
-
-    isReadyToPlay: function() {
-        return this.model.get('hasSubtitle');
     }
 });
