@@ -99,6 +99,7 @@ App.View.Sidebar = Backbone.View.extend({
 
     render: function () {
         this.$el.html(this.template(this.model.attributes));
+        this.readyToPlay();
         this.show();
     },
 
