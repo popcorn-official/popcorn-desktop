@@ -80,7 +80,7 @@ Join us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freeno
 ## Any problem?
 
 ### Error about missing libudev.so.0
-Search for libudev.0 on your distribution. Most of the time it can be easily fixed by creating a symbolic link from libudev.so to libudev.so.0
+Search for libudev.so.0 on your distribution. Most of the time it can be easily fixed by creating a symbolic link from libudev.so to libudev.so.0
 
 ### Error "Gtk-WARNING **: cannot open display:"
 Try running `export DISPLAY=:0.0`
