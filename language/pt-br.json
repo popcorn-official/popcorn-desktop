@@ -16,10 +16,10 @@
   "durationUnit": "min",
 
   "connecting": "Conectando...",
-  "startingDownload": "Começando o download...",
+  "startingDownload": "Iniciando o download...",
   "downloading": "Baixando...",
 
-  "UpgradeVersion": "Atualizar Popcorn Time",
+  "UpgradeVersion": "Atualizar o Popcorn Time",
   "UpgradeVersionDescription": "Popcorn Time %s acaba de ser lançado. Atualize agora!",
   
   "legalDisclaimer": "Popcorn Time baixa e compartilha arquivos usando torrents, isso pode não ser legal em seu país.",
