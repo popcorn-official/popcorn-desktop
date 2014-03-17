@@ -47,7 +47,7 @@
                 "war": "Oorlog",
                 "western": "Western"
         },
-  	    "french": "Frans",
+  	"french": "Frans",
         "english": "Engels",
         "spanish": "Spaans",
         "swedish": "Zweeds",
@@ -64,8 +64,8 @@
         "finnish": "Fins",
         "brazilian": "Braziliaans"
         "hebrew": "Hebreeuws",
-	      "russian": "Russisch",
+	"russian": "Russisch",
       	"croatian": "Kroatisch",
-	      "serbian": "Servisch",
-	      "bosnian": "Bosnisch"
+	"serbian": "Servisch",
+	"bosnian": "Bosnisch"
 }
