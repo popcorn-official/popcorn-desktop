@@ -206,7 +206,7 @@ vjs.TextTrack.prototype.load = function(){
           // It's the charset detector fucking up again, now with Spanish, Portuguese, French (1255) and Romanian
           if( language == 'romanian' ) {
             // And if it's romanian, it's iso-8859-2
-            dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-2'), targetEncodingCharset );
+            dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-16'), targetEncodingCharset );
           }
           else if ( language == 'turkish' ) {
             // And if it's turkish, it's iso-8859-9
