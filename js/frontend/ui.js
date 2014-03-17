@@ -17,7 +17,7 @@ App.loader = function (hasToShow, copy) {
   if( ! hasToShow ) {
     window.initialLoading = false;
 
-    // Wait a second before removing the progressbar clas
+    // Wait a second before removing the progressbar class
     setTimeout(function(){
       $el.removeClass('withProgressBar').removeClass('cancellable');
       $el.find('.progress').css('width', 0.0+'%');
