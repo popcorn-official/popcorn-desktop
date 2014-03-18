@@ -3,7 +3,7 @@ var request = require('request')
 
 var API_ENDPOINT = URI('http://api.trakt.tv/'),
 	MOVIE_PATH = 'movie',
-	API_KEY = '7ea3b12cee84204217c3c06ad264d6bc';
+	API_KEY = '7b7b93f7f00f8e4b488dcb3c5baa81e1619bb074';
 
 function MovieCollection(imdbIDs) {
 	this.ids = imdbIDs;
