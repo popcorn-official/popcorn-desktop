@@ -85,7 +85,9 @@
                   <%= year %>
                 </li>
                 <li>
-                  <% if (this.model.get('runtime')) { %>
+                  <% if(this.model.has('resumetime')) { %>
+                    <span class="duration"><%= runtime - (resumetime/60|0) %>m left</span>
+                  <% } else if (this.model.get('runtime')) { %>
                     <span class="duration"><%= runtime %> <%= i18n.__('durationUnit') %></span>
                   <% } %>
                 </li>
