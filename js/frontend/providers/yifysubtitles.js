@@ -68,18 +68,13 @@ var findSubtitle = function (imdbId, cb) {
                         var subtitleLink = queries[language]["link"];
                          // Replacing every request with link of the download of the sub
                         var subDownloadLinkzip = subtitleLink.replace("\/subtitles\/","/subtitle/") + ".zip";
-
-                        if (!(language in subs)) {
-                                    subs[language] = subDownloadLinkzip;
-                                    App.Cache.setItem('subtitle', imdbId, subs);
-
-                                    // Callback
-                                    if(_.keys(subs).length === _.keys(queries).length) {
-                                        cb(subs);
-                                    }
-                        } else {
-                                console.error('Error on subtitle request:', error);
-                                cb(subs);
+                       
+                        subs[language] = subDownloadLinkzip;
+                        App.Cache.setItem('subtitle', imdbId, subs);
+                                   
+                        // Callback
+                        if(_.keys(subs).length === _.keys(queries).length) {
+                            cb(subs);
                         }
                     }
                 });
@@ -101,8 +96,8 @@ var YifyProvider = {
         var imdbId = model.get('imdb');
         findSubtitle(imdbId, function(subtitles) {
             console.log('subtitles found for', _.keys(subtitles));
-            console.log(subtitles);
-            
+            console.log("lkjf",subtitles);
+
             model.set('subtitles', subtitles);
             model.set('hasSubtitle', true);
         });
