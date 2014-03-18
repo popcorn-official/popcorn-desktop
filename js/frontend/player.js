@@ -168,6 +168,10 @@ window.spawnVideoPlayer = function (url, subs, movieModel) {
     // Init video.
     var video = window.videoPlaying = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {} }});
 
+    if(movieModel.has('resumetime')) {
+      video.currentTime(movieModel.get('resumetime'));
+    }
+
     // Enter full-screen
     $('.vjs-fullscreen-control').on('click', function () {
       if(win.isFullscreen) {
@@ -217,11 +221,12 @@ window.spawnVideoPlayer = function (url, subs, movieModel) {
     // Close player
     $('#video_player_close').on('click', function () {
       win.leaveFullscreen();
+      if(video.duration() - video.currentTime() > 300) // 5 mins
+        movieModel.set('resumetime', video.currentTime());
       $('#video-container').hide();
       video.dispose();
       $('body').removeClass();
       $(document).trigger('videoExit');
-
     });
 
 

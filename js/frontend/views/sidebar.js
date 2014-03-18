@@ -19,6 +19,7 @@ App.View.Sidebar = Backbone.View.extend({
 
     load: function (model) {
         this.listenTo(model, 'change:subtitles', this.renderSubtitles);
+        this.listenTo(model, 'change:resumetime', this.renderRuntime);
         this.listenTo(model, 'change:hasSubtitle', this.readyToPlay);
         model.fetchMissingData();
 
@@ -106,6 +107,12 @@ App.View.Sidebar = Backbone.View.extend({
     renderSubtitles: function() {
         var temp = $(this.template(this.model.attributes));
         this.$el.find('.subtitles-list').replaceWith(temp.find('.subtitles-list'));
+    },
+
+    renderRuntime: function() {
+        if(this.model.has('resumetime')) {
+            $('.duration', this.$el).text((this.model.get('runtime') - (this.model.get('resumetime')/60|0)) + 'm left');
+        }
     },
 
     readyToPlay: function() {
