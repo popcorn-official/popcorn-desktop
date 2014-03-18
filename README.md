@@ -77,7 +77,7 @@ Here's a [list of feature](https://github.com/popcorn-team/popcorn-app/wiki/Feat
 
 Please follow the [contributions guidelines](https://github.com/popcorn-team/popcorn-app/wiki/Contribution-Guidelines).
 
-Join us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime)), most active developpers hang in there.
+Join us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime)), most active developers hang in there.
 
 ## Any problem?
 
