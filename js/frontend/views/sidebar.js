@@ -6,8 +6,6 @@ App.View.Sidebar = Backbone.View.extend({
     events: {
         'click .closer':           'hide',
         'click .play-button':      'play',
-        'click .subtitles button': 'selectSubtitle',
-        'click .dropdown-toggle':  'toggleDropdown',
         'click #switch-on':        'enableHD',
         'click #switch-off':       'disableHD'
     },
@@ -34,20 +32,6 @@ App.View.Sidebar = Backbone.View.extend({
             $('.movie.active').removeClass('active');
             $('sidebar').addClass('hidden');
         }
-    },
-
-    toggleDropdown: function (evt) {
-        $(evt.currentTarget).parent().toggleClass('active');
-    },
-
-    selectSubtitle: function (evt) {
-        var $button = $(evt.currentTarget),
-            lang = $button.val();
-
-        $button
-            .closest('.dropdown').removeClass('active')
-            .find('.lang-placeholder').attr('src', $button.find('img').attr('src'));
-        this.model.set('selectedSubtitle', lang);
     },
 
     play: function (evt) {
