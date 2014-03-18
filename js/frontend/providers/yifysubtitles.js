@@ -66,30 +66,21 @@ var findSubtitle = function (imdbId, cb) {
                 Object.keys(Languages).forEach(function (language, key) {
                     if (!($.isEmptyObject(queries[language]))) {
                         var subtitleLink = queries[language]["link"];
-                        var subRequestOptions = {
-                            url: subtitleLink,
-                            headers: {
-                                'User-Agent': appUserAgent
-                            }
-                        };
-                        request(subRequestOptions, function (error, response, html) {
-                            if (!error && response.statusCode == 200) {
-                                var $c = cheerio.load(html);
-                                var subDownloadLink = $c('a.download-subtitle').attr('href');
-                                if (!(language in subs)) {
-                                    subs[language] = subDownloadLink;
+                         // Replacing every request with link of the download of the sub
+                        var subDownloadLinkzip = subtitleLink.replace("\/subtitles\/","/subtitle/") + ".zip";
+
+                        if (!(language in subs)) {
+                                    subs[language] = subDownloadLinkzip;
                                     App.Cache.setItem('subtitle', imdbId, subs);
 
                                     // Callback
                                     if(_.keys(subs).length === _.keys(queries).length) {
                                         cb(subs);
                                     }
-                                }
-                            } else {
+                        } else {
                                 console.error('Error on subtitle request:', error);
                                 cb(subs);
-                            }
-                        });
+                        }
                     }
                 });
             }
@@ -110,6 +101,8 @@ var YifyProvider = {
         var imdbId = model.get('imdb');
         findSubtitle(imdbId, function(subtitles) {
             console.log('subtitles found for', _.keys(subtitles));
+            console.log(subtitles);
+            
             model.set('subtitles', subtitles);
             model.set('hasSubtitle', true);
         });
