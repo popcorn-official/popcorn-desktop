@@ -12,7 +12,11 @@ var Yts = Backbone.Collection.extend({
         }
 
         if (options.genre) {
-            this.apiUrl += '&genre=' + options.genre;
+            if (options.genre == 'date') {
+              this.apiUrl += '&genre=all&sort=date';
+            } else {
+              this.apiUrl += '&genre=' + options.genre;
+            }
         }
 
         if (options.page && options.page.match(/\d+/)) {
