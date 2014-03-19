@@ -1,7 +1,7 @@
 {
-    "quit": "Stop",
+    "quit": "Afsluiten",
     "cancel": "Annuleer",
-    "beforeQuit": "Applicatie afsluiten?",
+    "beforeQuit": "Popcorn Time afsluiten?",
     "loading": "Een ogenblik geduld...",
     "loadingVideo": "Video wordt geladen, een ogenblik geduld",
     "searchLoading": "Zoeken...",
@@ -12,11 +12,11 @@
 
     "subtitledIn": "Ondertiteld in",
     "quality": "Kwaliteit",
-    "watchItNow": "Kijk nu",
+    "watchItNow": "Nu kijken",
     "durationUnit": "min",
 
     "connecting": "Verbinden...",
-    "startingDownload": "Downloaden gestart...",
+    "startingDownload": "Starten met downloaden...",
     "downloading": "Downloaden...",
 
     "UpgradeVersion": "Update Popcorn Time",
@@ -47,7 +47,7 @@
         "mystery": "Mystery",
         "romance": "Romantiek",
         "sci-fi": "Sci-Fi",
-        "short": "Kort",
+        "short": "Korte film",
         "sport": "Sport",
         "thriller": "Thriller",
         "war": "Oorlog",
