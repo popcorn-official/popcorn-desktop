@@ -66,30 +66,16 @@ var findSubtitle = function (imdbId, cb) {
                 Object.keys(Languages).forEach(function (language, key) {
                     if (!($.isEmptyObject(queries[language]))) {
                         var subtitleLink = queries[language]["link"];
-                        var subRequestOptions = {
-                            url: subtitleLink,
-                            headers: {
-                                'User-Agent': appUserAgent
-                            }
-                        };
-                        request(subRequestOptions, function (error, response, html) {
-                            if (!error && response.statusCode == 200) {
-                                var $c = cheerio.load(html);
-                                var subDownloadLink = $c('a.download-subtitle').attr('href');
-                                if (!(language in subs)) {
-                                    subs[language] = subDownloadLink;
-                                    App.Cache.setItem('subtitle', imdbId, subs);
-
-                                    // Callback
-                                    if(_.keys(subs).length === _.keys(queries).length) {
-                                        cb(subs);
-                                    }
-                                }
-                            } else {
-                                console.error('Error on subtitle request:', error);
-                                cb(subs);
-                            }
-                        });
+                         // Replacing every request with link of the download of the sub
+                        var subDownloadLinkzip = subtitleLink.replace("\/subtitles\/","/subtitle/") + ".zip";
+                       
+                        subs[language] = subDownloadLinkzip;
+                        App.Cache.setItem('subtitle', imdbId, subs);
+                                   
+                        // Callback
+                        if(_.keys(subs).length === _.keys(queries).length) {
+                            cb(subs);
+                        }
                     }
                 });
             }
