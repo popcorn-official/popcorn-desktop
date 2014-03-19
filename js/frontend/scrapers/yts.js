@@ -49,7 +49,11 @@ var Yts = Backbone.Collection.extend({
                 return;
             }
 
-            var imdbCodes = _.pluck(ytsData.MovieList, 'ImdbCode');
+            var imdbCodes = _.chain(ytsData.MovieList).pluck('ImdbCode').filter(function(imdbCode) {
+                App.Cache.getItem('trakttv', imdbCode, function(traktData) {
+                    return traktData != undefined;
+                })
+            }).value();
             var traktMovieCollection = new trakt.MovieCollection(imdbCodes);
             traktMovieCollection.getSummaries(function(trakData) {
                 ytsData.MovieList.forEach(function (movie) {
@@ -57,11 +61,6 @@ var Yts = Backbone.Collection.extend({
                     if( typeof movie.ImdbCode != 'string' || movie.ImdbCode.replace('tt', '') == '' ){ return; }
 
                     var traktInfo = _.find(trakData, function(trakMovie) { return trakMovie.imdb_id == movie.ImdbCode });
-                    if(traktInfo) {
-                        traktInfo.images.posterSmall = trakt.resizeImage(traktInfo.images.poster, '138');
-                    } else {
-                        traktInfo = {images:{}};
-                    }
 
                     var torrents = {};
                     torrents[movie.Quality] = movie.TorrentUrl;
@@ -97,6 +96,17 @@ var Yts = Backbone.Collection.extend({
                         movieModel.backdrop = traktInfo.images.fanart;
                         movieModel.synopsis = traktInfo.overview;
                         movieModel.runtime = +traktInfo.runtime;
+                        App.Cache.setItem('trakttv', traktInfo.imdb_id, traktInfo);
+                    } else {
+                        App.Cache.getItem('trakttv', imdbCode, function(traktInfo) {
+                            if(traktInfo) {
+                                movieModel.image = trakt.resizeImage(traktInfo.images.poster, '138');
+                                movieModel.bigImage = trakt.resizeImage(traktInfo.images.poster, '300');
+                                movieModel.backdrop = traktInfo.images.fanart;
+                                movieModel.synopsis = traktInfo.overview;
+                                movieModel.runtime = +traktInfo.runtime;
+                            }
+                        });
                     }
 
                     var stored = memory[movieModel.imdb];
