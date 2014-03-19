@@ -105,10 +105,6 @@ App.View.Sidebar = Backbone.View.extend({
         }
     },
 
-    render: function () {
-        this.$el.html(this.template(this.model.attributes));
-        if ( this.isReadyToPlay() ) {
-
     isVisible: function () {
         return !this.$el.is('.hidden');
     },
