@@ -19,9 +19,9 @@ App.View.Sidebar = Backbone.View.extend({
         this.listenTo(model, 'change:subtitles', this.renderSubtitles);
         this.listenTo(model, 'change:resumetime', this.renderRuntime);
         this.listenTo(model, 'change:hasSubtitle', this.readyToPlay);
+        this.model = model;
         model.fetchMissingData();
 
-        this.model = model;
         this.render();
     },
 
@@ -104,6 +104,10 @@ App.View.Sidebar = Backbone.View.extend({
             this.$el.find('.play-button').removeAttr('disabled');
         }
     },
+
+    render: function () {
+        this.$el.html(this.template(this.model.attributes));
+        if ( this.isReadyToPlay() ) {
 
     isVisible: function () {
         return !this.$el.is('.hidden');

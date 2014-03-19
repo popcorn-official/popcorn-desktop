@@ -17,7 +17,7 @@ App.View.MovieListItem = Marionette.ItemView.extend({
     template: _.template('<a href="javascript:;">'+
             '<i class="fa fa-eye fa-3"></i>'+
             '<span class="cover"></span>'+
-            '<strong><%- title %></strong>'+
+            '<strong><%= title %></strong>'+
             '<small><%- year %></small>'+
         '</a>'),
 
