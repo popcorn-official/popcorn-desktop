@@ -1,5 +1,27 @@
 module.exports = function(grunt) {
+  "use strict";
+
   var buildPlatforms = parseBuildPlatforms(grunt.option('platforms'));
+
+  require('load-grunt-tasks')(grunt);
+
+  grunt.registerTask('default', [
+    'compass'
+  ]);
+
+  grunt.registerTask('css', [
+    'compass'
+  ]);
+
+  grunt.registerTask('nodewkbuild', [
+    'nodewebkit',
+    'copy:main'
+  ]);
+
+  grunt.registerTask('build', [
+    'default',
+    'nodewkbuild'
+  ]);
 
   grunt.initConfig({
     compass: {
@@ -12,13 +34,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    watch: {
-      files: ['sass/**/*.scss'],
-      tasks: ['sass'],
-      options: {
-        livereload: true
-      }
-    },
+
     nodewebkit: {
       options: {
         version: '0.9.2',
@@ -31,6 +47,7 @@ module.exports = function(grunt) {
       },
       src: ['./css/**', './fonts/**', './images/**', './js/**', './language/**', './node_modules/**', '!./node_modules/grunt*/**', './rc/**', './Config.rb', './index.html', './package.json', './README.md' ] // Your node-webkit app './**/*'
     },
+
     copy: {
       main: {
         files: [
@@ -68,17 +85,6 @@ module.exports = function(grunt) {
       }
     }
   });
-
-  grunt.loadNpmTasks('grunt-contrib-compass');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-node-webkit-builder');
-
-  grunt.registerTask('css', ['compass']);
-  grunt.registerTask('default', ['compass']);
-  grunt.registerTask('nodewkbuild', ['nodewebkit', 'copy:main']);
-  grunt.registerTask('build', ['default', 'nodewkbuild']);
-
 };
 
 var parseBuildPlatforms = function(argumentPlatform) {
