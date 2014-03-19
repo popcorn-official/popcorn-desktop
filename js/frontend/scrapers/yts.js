@@ -73,7 +73,6 @@ var Yts = Backbone.Collection.extend({
                         leechers:   movie.TorrentPeers,
 
                         // YTS do not provide metadata and subtitle
-                        hasMetadata:false,
                         hasSubtitle:false
                     };
 
