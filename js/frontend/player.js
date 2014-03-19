@@ -76,7 +76,7 @@ var playTorrent = window.playTorrent = function (torrent, subs, movieModel, call
         // Unbind the event handler
         $(document).off('videoExit');
 
-        delete flix;
+        flix = null;
       });
     });
   });
