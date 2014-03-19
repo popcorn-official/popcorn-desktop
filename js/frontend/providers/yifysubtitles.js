@@ -34,10 +34,8 @@ var findSubtitle = function (imdbId, cb) {
         };
 
         request(requestOptions, function(error, response, html) {
+            var subs = {};
             if (!error && response.statusCode == 200) {
-                var queries = {},
-                    subs = {};
-
                 var $c = cheerio.load(html);
 
                 $c('ul.other-subs>li').each(function(i, element){
@@ -53,32 +51,20 @@ var findSubtitle = function (imdbId, cb) {
                         }
 
                         // TODO: we can get more info from the site (like rating, hear-impaired)
-                        if ($.isEmptyObject(queries[language])
+                        if ($.isEmptyObject(subs[language])
                             && !($.isEmptyObject(Languages[language]))) {
-                            var subtitleData = {
-                                'link' : baseUrl+link
-                            };
-                            queries[language] = subtitleData;
+
+                            var subtitleLink = baseUrl+link;
+                            var subDownloadLinkzip = subtitleLink.replace("\/subtitles\/","/subtitle/") + ".zip";
+                            subs[language] = subDownloadLinkzip;
                         }
                     }
                 });
 
-                Object.keys(Languages).forEach(function (language, key) {
-                    if (!($.isEmptyObject(queries[language]))) {
-                        var subtitleLink = queries[language]["link"];
-                         // Replacing every request with link of the download of the sub
-                        var subDownloadLinkzip = subtitleLink.replace("\/subtitles\/","/subtitle/") + ".zip";
-                       
-                        subs[language] = subDownloadLinkzip;
-                        App.Cache.setItem('subtitle', imdbId, subs);
-                                   
-                        // Callback
-                        if(_.keys(subs).length === _.keys(queries).length) {
-                            cb(subs);
-                        }
-                    }
-                });
+                App.Cache.setItem('subtitle', imdbId, subs);
             }
+
+            cb(subs);
         });
     };
 
