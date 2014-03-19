@@ -12,10 +12,6 @@ var Yts = Backbone.Collection.extend({
     model: App.Model.Movie,
 
     initialize: function(models, options) {
-        if(currentRequest) {
-            currentRequest.abort();
-        }
-
         if (options.keywords) {
             this.apiUrl += '&keywords=' + options.keywords;
         }
@@ -38,6 +34,11 @@ var Yts = Backbone.Collection.extend({
 
     fetch: function() {
         var collection = this;
+
+        if(currentRequest) {
+            currentRequest.abort();
+        }
+
         currentRequest = request(this.apiUrl, {json: true}, function(err, res, ytsData) {
             var movies = [],
             memory = {};
