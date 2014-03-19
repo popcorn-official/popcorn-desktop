@@ -122,7 +122,6 @@ var Yts = Backbone.Collection.extend({
 
                 collection.set(movies);
                 collection.trigger('loaded');
-                console.log(movies);
                 return;
             })
         })
