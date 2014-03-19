@@ -60,4 +60,4 @@ Console output:
 
 ## Feature suggestions
 
-Feature suggestions should go to the [the wiki page](https://github.com/popcorn-team/popcorn-app/wiki/Feature-Proposal). Please open an issue if you plan to develop it or want to go through design discussion and review before making progress. **Issues such as `It would be nice to support XXX` are usefull to no one, use the wiki page.**
+Feature suggestions should go to the [UserVoice portal](http://popcorntime.uservoice.com/forums/245422-general). Please open an issue if you plan to develop it or want to go through design discussion and review before making progress. **Issues such as `It would be nice to support XXX` are usefull to no one, use the wiki page.**
