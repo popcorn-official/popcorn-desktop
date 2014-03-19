@@ -1,12 +1,21 @@
+
+
 var trakt = require('./js/frontend/providers/trakttv');
 
 var url = 'http://yts.re/api/list.json?sort=seeds&limit=50';
+
+// Hack to keep to cancel the request in case of new request
+var currentRequest = null;
 
 var Yts = Backbone.Collection.extend({
     apiUrl: url,
     model: App.Model.Movie,
 
     initialize: function(models, options) {
+        if(currentRequest) {
+            currentRequest.abort();
+        }
+
         if (options.keywords) {
             this.apiUrl += '&keywords=' + options.keywords;
         }
@@ -25,7 +34,7 @@ var Yts = Backbone.Collection.extend({
 
     fetch: function() {
         var collection = this;
-        request(this.apiUrl, {json: true}, function(err, res, ytsData) {
+        currentRequest = request(this.apiUrl, {json: true}, function(err, res, ytsData) {
             var movies = [],
             memory = {};
 
@@ -43,8 +52,11 @@ var Yts = Backbone.Collection.extend({
                     if( typeof movie.ImdbCode != 'string' || movie.ImdbCode.replace('tt', '') == '' ){ return; }
 
                     var traktInfo = _.find(trakData, function(trakMovie) { return trakMovie.imdb_id == movie.ImdbCode });
-                    if(traktInfo)
+                    if(traktInfo) {
                         traktInfo.images.posterSmall = trakt.resizeImage(traktInfo.images.poster, '138');
+                    } else {
+                        traktInfo = {images:{}};
+                    }
 
                     var torrents = {};
                     torrents[movie.Quality] = movie.TorrentUrl;
