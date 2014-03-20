@@ -1,4 +1,5 @@
 var db = openDatabase('cachedb', '1.0', 'Cache database', 50 * 1024 * 1024);
+var Q = require('q');
 
 App.Cache = {
     clear: function () {
@@ -8,6 +9,25 @@ App.Cache = {
             tx.executeSql('DELETE FROM tmdb');
         });
     },
+    getItems: function (provider, keys) {
+        var deferred = Q.defer();
+        db.transaction(function (tx) {
+            var query = 'SELECT key, data FROM ' + provider + ' WHERE key IN ('+ _.map(keys, function(){return'?';}).join(',') +')';
+            tx.executeSql(query, keys, function (tx, results) {
+                var mappedData = {};
+                for(var i=0; i < results.rows.length; i++) {
+                    var row = results.rows.item(i);
+                    mappedData[row.key] = JSON.parse(row.data);
+                }
+
+                deferred.resolve(mappedData);
+            }, function(){
+                deferred.resolve([]);
+            });
+        });
+        return deferred.promise;
+    },
+
     getItem: function (provider, key, cb) {
         if (typeof key !== 'string') {
             key = JSON.stringify(key);
