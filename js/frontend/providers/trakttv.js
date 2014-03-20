@@ -11,7 +11,7 @@ function MovieCollection(imdbIDs) {
 }
 
 MovieCollection.prototype.getSummaries = function(callback) {
-	if(_.isEmpty(this.ids)) {
+	if(this.ids.length == 0) {
 		callback([]);
 		return;
 	}
