@@ -11,6 +11,11 @@ function MovieCollection(imdbIDs) {
 }
 
 MovieCollection.prototype.getSummaries = function(callback) {
+	if(this.ids.length == 0) {
+		callback([]);
+		return;
+	}
+
 	var uri = API_ENDPOINT.clone()
 				.segment([
 					MOVIE_PATH, 

@@ -3,6 +3,7 @@ var db = openDatabase('cachedb', '1.0', 'Cache database', 50 * 1024 * 1024);
 App.Cache = {
     clear: function () {
         db.transaction(function (tx) {
+            tx.executeSql('DELETE FROM trakttv');
             tx.executeSql('DELETE FROM subtitle');
             tx.executeSql('DELETE FROM tmdb');
         });
