@@ -13,9 +13,9 @@ Settings = {
         // Used to check if there's an internet connection
         "connectionCheckUrl": "http://www.google.com",
         // YIFY Endpoint
-        "yifyApiEndpoint": "http://yts.re/api/",
+        "yifyApiEndpoint": "https://yts.re/api/",
         // A mirror for YIFY (for users in the UK -Yify is blocked there-)
-        "yifyApiEndpointMirror": "http://yts.im/api/"
+        "yifyApiEndpointMirror": "https://yts.im/api/"
     },
     
     
@@ -31,6 +31,10 @@ Settings = {
             if( typeof Settings.get(key) == 'undefined' || (forceReset === true) ) {
                 Settings.set(key, Settings._defaultSettings[key]);
             }
+        }
+
+        if(Settings.get('checkedApiEndpoint') != 'true' || forceReset) {
+            Settings.checkApiEndpoint();
         }
     
         Settings.performUpgrade();
@@ -65,6 +69,43 @@ Settings = {
     
     "set": function(variable, newValue) {
         localStorage.setItem('settings_'+variable, newValue);
+    },
+
+    "checkApiEndpoint": function() {
+        var tls = require('tls')
+          , URI = require('URIjs');
+
+        var hostname = URI(Settings.get('yifyApiEndpoint')).hostname();
+
+        tls.connect(443, hostname, { 
+            servername: hostname,
+            rejectUnauthorized: false
+        }, function() {
+            if(this.authorized && !this.authorizationError) {
+                var cert = this.getPeerCertificate();
+                if(cert.fingerprint != 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C') {
+                    // "These are not the certificates you're looking for..."
+                    // Seems like they even got a certificate signed for us :O
+                    Settings.set('yifyApiEndpoint', Settings.get('yifyApiEndpointMirror'));
+                    Settings.set('checkedApiEndpoint', true);
+                    this.end();
+                } else {
+                    // Valid Certificate! YAY - Not blocked!
+                    Settings.set('checkedApiEndpoint', true);
+                    this.end();
+                }
+            } else {
+                // Not a valid SSL certificate... mhmmm right, this is totz yts.re!
+                Settings.set('yifyApiEndpoint', Settings.get('yifyApiEndpointMirror'));
+                Settings.set('checkedApiEndpoint', true);
+                this.end();
+            }
+        }).on('error', function() {
+            // No SSL support. That's convincing >.<
+            Settings.set('yifyApiEndpoint', Settings.get('yifyApiEndpointMirror'));
+            Settings.set('checkedApiEndpoint', true);
+            this.end();
+        });
     }
     
 };
