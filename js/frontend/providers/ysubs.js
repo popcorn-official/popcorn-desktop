@@ -36,10 +36,11 @@
             // Iterate each language
             _.each(langs, function(subs, lang) {
                 // Pick highest rated
-                movieSubs[lang] = prefix + _.max(subs, function(s){return s.rating;}).url;
+                var langCode = App.Localization.languageMapping[lang];
+                movieSubs[langCode] = prefix + _.max(subs, function(s){return s.rating;}).url;
             });
 
-            allSubs[imdbId.replace('tt','')] = movieSubs;
+            allSubs[imdbId.replace('tt','')] = App.Localization.filterSubtitle(movieSubs);
         });
 
         return allSubs;

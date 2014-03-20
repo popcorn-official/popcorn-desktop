@@ -7,6 +7,7 @@ App.Cache = {
             tx.executeSql('DELETE FROM trakttv');
             tx.executeSql('DELETE FROM subtitle');
             tx.executeSql('DELETE FROM tmdb');
+            tx.executeSql('DELETE FROM ysubs');
         });
     },
     getItems: function (provider, keys) {

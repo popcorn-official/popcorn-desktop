@@ -83,24 +83,6 @@ var playTorrent = window.playTorrent = function (torrent, subs, movieModel, call
 
 };
 
-
-// Supported Languages for Subtitles
-
-window.SubtitleLanguages = {
-  'spanish'   : 'Español',
-  'english'   : 'English',
-  'french'    : 'Français',
-  'turkish'   : 'Türkçe',
-  'romanian'  : 'Română',
-  'portuguese': 'Português',
-  'brazilian' : 'Português-Br',
-  'dutch'     : 'Nederlands',
-  'german'    : 'Deutsch',
-  'hungarian' : 'Magyar',
-  'finnish'   : 'Suomi',
-  'bulgarian' : 'Български'};
-
-
 function videoError(e) {
   // video playback failed - show a message saying why
   // TODO: localize
@@ -126,10 +108,10 @@ window.spawnVideoPlayer = function (url, subs, movieModel) {
     // Sort sub according lang translation
     var subArray = [];
     for (var lang in subs) {
-        if( typeof SubtitleLanguages[lang] == 'undefined' ){ continue; }
+        if( !App.Localization.languages[lang].subtitle ){ continue; }
         subArray.push({
             'language': lang,
-            'languageName': SubtitleLanguages[lang],
+            'languageName': App.Localization.languages[lang].display,
             'sub': subs[lang]
         });
     }
