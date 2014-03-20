@@ -11,6 +11,7 @@ var currentRequest = null;
 var Yts = Backbone.Collection.extend({
     apiUrl: url,
     model: App.Model.Movie,
+    movies: [],
 
     initialize: function(models, options) {
         if (options.keywords) {
@@ -33,31 +34,53 @@ var Yts = Backbone.Collection.extend({
         Yts.__super__.initialize.apply(this, arguments);
     },
 
+    addMovie: function(model) {
+        var stored = _.find(this.movies, function(movie) { movie.imdb == model.imdb });
+
+        // Create it on memory map if it doesn't exist.
+        if (typeof stored === 'undefined') {
+            stored = model;
+        }
+
+        if (stored.quality !== model.quality && model.quality === '720p') {
+            stored.torrent = model.torrent;
+            stored.quality = '720p';
+        }
+
+        // Set it's correspondent quality torrent URL.
+        stored.torrents[model.quality] = model.torrent;
+
+        // Push it if not currently on array.
+        if (this.movies.indexOf(stored) === -1) {
+            this.movies.push(stored);
+        }
+    },
+
     fetch: function() {
         var collection = this;
+
+        this.movies = [];
 
         if(currentRequest) {
             currentRequest.abort();
         }
 
         currentRequest = request(this.apiUrl, {json: true}, function(err, res, ytsData) {
-            var movies = [],
-            memory = {};
+            var i = 0;
 
             if (ytsData.error || typeof ytsData.MovieList === 'undefined') {
                 collection.set(movies);
                 collection.trigger('loaded');
                 return;
             }
-            console.log(_);
+
             async.filter(
               _.pluck(ytsData.MovieList, 'ImdbCode'), 
               function(cd, cb) { App.Cache.getItem('trakttv', cd, function(d) { cb(d == undefined) }) }, 
               function(imdbCodes) {
-                console.log(_);
                 var traktMovieCollection = new trakt.MovieCollection(imdbCodes);
                 traktMovieCollection.getSummaries(function(trakData) {
-                    console.log(_);
+                    i = ytsData.MovieList.length;
                     ytsData.MovieList.forEach(function (movie) {
                         // No imdb, no movie.
                         if( typeof movie.ImdbCode != 'string' || movie.ImdbCode.replace('tt', '') == '' ){ return; }
@@ -99,42 +122,28 @@ var Yts = Backbone.Collection.extend({
                             movieModel.synopsis = traktInfo.overview;
                             movieModel.runtime = +traktInfo.runtime;
                             App.Cache.setItem('trakttv', traktInfo.imdb_id, traktInfo);
+                            collection.addMovie(movieModel);
+                            if(--i == 0) {
+                                collection.set(collection.movies);
+                                collection.trigger('loaded');
+                            }
                         } else {
                             App.Cache.getItem('trakttv', movie.ImdbCode, function(traktInfo) {
                                 if(traktInfo) {
                                     movieModel.image = trakt.resizeImage(traktInfo.images.poster, '138');
                                     movieModel.bigImage = trakt.resizeImage(traktInfo.images.poster, '300');
-                                    movieModel.backdrop = traktInfo.images.fanart;
+                                    movieModel.backdrop = trakt.resizeImage(traktInfo.images.fanart, '940');
                                     movieModel.synopsis = traktInfo.overview;
                                     movieModel.runtime = +traktInfo.runtime;
                                 }
+                                collection.addMovie(movieModel);
+                                if(--i == 0) {
+                                    collection.set(collection.movies);
+                                    collection.trigger('loaded');
+                                }
                             });
                         }
-
-                        var stored = memory[movieModel.imdb];
-
-                        // Create it on memory map if it doesn't exist.
-                        if (typeof stored === 'undefined') {
-                            stored = memory[movieModel.imdb] = movieModel;
-                        }
-
-                        if (stored.quality !== movieModel.quality && movieModel.quality === '720p') {
-                            stored.torrent = movieModel.torrent;
-                            stored.quality = '720p';
-                        }
-
-                        // Set it's correspondent quality torrent URL.
-                        stored.torrents[movie.Quality] = movie.TorrentUrl;
-
-                        // Push it if not currently on array.
-                        if (movies.indexOf(stored) === -1) {
-                            movies.push(stored);
-                        }
                     });
-
-                    collection.set(movies);
-                    collection.trigger('loaded');
-                    return;
                 })
             })
         })
