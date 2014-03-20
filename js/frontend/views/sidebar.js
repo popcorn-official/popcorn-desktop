@@ -39,6 +39,9 @@ App.View.Sidebar = Backbone.View.extend({
         evt.preventDefault();
         if( videoStreamer !== null ){ return; }
 
+        //Unfocus "Watch now" button
+        this.$el.find('.play-button').blur();
+
         var file = this.model.get('torrent'),
             subs = this.model.get('subtitles');
 
