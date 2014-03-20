@@ -13,6 +13,7 @@ App.View.MovieList = Backbone.View.extend({
 
     initialize: function (options) {
         // Bind element on existing list
+        $('.load-more').remove();
         this.$el = $('.movie-list').first();
 
         this.listenTo(this.model, 'loaded', this.render);
@@ -29,7 +30,7 @@ App.View.MovieList = Backbone.View.extend({
             App.loader(false);
         }
 
-        if (this.model.length === 0) {
+        if (this.model.length === 0 && $('.movie-list').children().length === 0) {
             return this.empty();
         }
 
@@ -92,14 +93,17 @@ App.View.MovieList = Backbone.View.extend({
             console.log(section + ' page ' + page);
         };
 
-        if($('.load-more').length === 0 && !movieList.model.options.keywords) {
-            var $getMoreEl = $('<a class="load-more">'+ i18n.__('Get more...') +'</a>');
-            $getMoreEl.click(function(){
-                if (!movieList.constructor.busy){
-                    loadNextPage();
-                }
-            });
-            $getMoreEl.appendTo($scrollElement);
+        var isScrollable = $scrollElement[0].scrollHeight > $scrollElement[0].clientHeight;
+        if(!movieList.model.options.keywords && !isScrollable && this.model.length) {
+            if($('.load-more').length === 0) {
+                var $getMoreEl = $('<a class="load-more">'+ i18n.__('Get more...') +'</a>');
+                $getMoreEl.click(function(){
+                    if (!movieList.constructor.busy){
+                        loadNextPage();
+                    }
+                });
+                $getMoreEl.appendTo($scrollElement);
+            }
         }
 
         if (!$scrollElement.data('page') || $scrollElement.data('section') != movieList.model.options.genre){
