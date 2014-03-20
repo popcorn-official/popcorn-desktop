@@ -65,49 +65,61 @@ App.View.MovieList = Backbone.View.extend({
                     $(this).removeClass('hidden');
                 });
             }
-
-
         });
 
         var $scrollElement = movieList.$el.parent();
+
+        var loadNextPage = function(){
+            movieList.constructor.busy = true;
+            var page    = parseInt($scrollElement.data('page'));
+            var section = $scrollElement.data('section');
+            page++;
+            $scrollElement.data('page', page);
+
+            if (section){
+                App.Router.navigate('filter/' + section + '/' + page, { trigger: true });
+            }
+            else if (movieList.model.options.keywords) {
+                section = 'search';
+                // uncomment this line when the API start accepting the page param to paginate ;)
+                //App.Router.navigate('search/' + encodeURIComponent(movieList.model.options.keywords) + '/' + page, { trigger: true });
+            }
+            else {
+                section = 'index';
+                App.Router.navigate(section + page + '.html', { trigger: true });
+            }
+
+            console.log(section + ' page ' + page);
+        };
+
+        if($('.load-more').length === 0 && !movieList.model.options.keywords) {
+            var $getMoreEl = $('<a class="load-more">'+ i18n.__('Get more...') +'</a>');
+            $getMoreEl.click(function(){
+                if (!movieList.constructor.busy){
+                    loadNextPage();
+                }
+            });
+            $getMoreEl.appendTo($scrollElement);
+        }
+
         if (!$scrollElement.data('page') || $scrollElement.data('section') != movieList.model.options.genre){
             $scrollElement.data('page', 1);
             $scrollElement.data('section', movieList.model.options.genre);
         }
-        if (!this.options.paginationDisabled){
-            $scrollElement.scroll(function(){
-                if (!movieList.constructor.busy){
-                    var totalSize       = $scrollElement.prop('scrollHeight');
-                    var currentPosition = $scrollElement.scrollTop();
-                    var scrollBuffer    = (15 / 100) * totalSize;
-                    if (currentPosition > 0){
-                        currentPosition += $scrollElement.height();
-                    }
-                    if (currentPosition >= (totalSize - scrollBuffer)){
-                        movieList.constructor.busy = true;
-                        var page    = parseInt($scrollElement.data('page'));
-                        var section = $scrollElement.data('section');
-                        page++;
-                        $scrollElement.data('page', page);
 
-                        if (section){
-                            App.Router.navigate('filter/' + section + '/' + page, { trigger: true });
-                        }
-                        else if (movieList.model.options.keywords) {
-                            section = 'search';
-                            // uncomment this line when the API start accepting the page param to paginate ;)
-                            //App.Router.navigate('search/' + encodeURIComponent(movieList.model.options.keywords) + '/' + page, { trigger: true });
-                        }
-                        else {
-                            section = 'index';
-                            App.Router.navigate(section + page + '.html', { trigger: true });
-                        }
-
-                        console.log(section + ' page ' + page);
-                    }
+        $scrollElement.scroll(function(){
+            if (!movieList.constructor.busy){
+                var totalSize       = $scrollElement.prop('scrollHeight');
+                var currentPosition = $scrollElement.scrollTop();
+                var scrollBuffer    = (15 / 100) * totalSize;
+                if (currentPosition > 0){
+                    currentPosition += $scrollElement.height();
                 }
-            });
-        }
+                if (currentPosition >= (totalSize - scrollBuffer)){
+                    loadNextPage();
+                }
+            }
+        });
     }
 },{
     busy: false
