@@ -75,78 +75,84 @@
                     return;
                 }
 
-                async.filter(
-                  _.pluck(ytsData.MovieList, 'ImdbCode'),
-                  function(cd, cb) { App.Cache.getItem('trakttv', cd, function(d) { cb(d == undefined) }) },
-                  function(imdbCodes) {
-                    var traktMovieCollection = new trakt.MovieCollection(imdbCodes);
-                    traktMovieCollection.getSummaries(function(trakData) {
-                        i = ytsData.MovieList.length;
-                        ytsData.MovieList.forEach(function (movie) {
-                            // No imdb, no movie.
-                            if( typeof movie.ImdbCode != 'string' || movie.ImdbCode.replace('tt', '') == '' ){ return; }
+                var imdbIds = _.pluck(ytsData.MovieList, 'ImdbCode');
 
-                            var traktInfo = _.find(trakData, function(trakMovie) { return trakMovie.imdb_id == movie.ImdbCode });
+                App.Providers.YSubs.fetch(_.map(imdbIds, function(id){return id.replace('tt','');}))
+                .then(function(subtitles) {
+                    async.filter(
+                      imdbIds,
+                      function(cd, cb) { App.Cache.getItem('trakttv', cd, function(d) { cb(d == undefined) }) },
+                      function(imdbCodes) {
+                        var traktMovieCollection = new trakt.MovieCollection(imdbCodes);
+                        traktMovieCollection.getSummaries(function(trakData) {
+                            i = ytsData.MovieList.length;
+                            ytsData.MovieList.forEach(function (movie) {
+                                // No imdb, no movie.
+                                if( typeof movie.ImdbCode != 'string' || movie.ImdbCode.replace('tt', '') == '' ){ return; }
 
-                            var torrents = {};
-                            torrents[movie.Quality] = movie.TorrentUrl;
+                                var traktInfo = _.find(trakData, function(trakMovie) { return trakMovie.imdb_id == movie.ImdbCode });
 
-                            // Temporary object
-                            var movieModel = {
-                                imdb:       movie.ImdbCode.replace('tt', ''),
-                                title:      movie.MovieTitleClean,
-                                year:       movie.MovieYear,
-                                runtime:    0,
-                                synopsis:   '',
-                                voteAverage:parseFloat(movie.MovieRating),
+                                var torrents = {};
+                                torrents[movie.Quality] = movie.TorrentUrl;
 
-                                image:      movie.CoverImage.replace(/_med\./, '_large.'),
-                                bigImage:   movie.CoverImage.replace(/_med\./, '_large.'),
-                                backdrop:   '',
+                                var imdbId = movie.ImdbCode.replace('tt', '');
+                                // Temporary object
+                                var movieModel = {
+                                    imdb:       imdbId,
+                                    title:      movie.MovieTitleClean,
+                                    year:       movie.MovieYear,
+                                    runtime:    0,
+                                    synopsis:   '',
+                                    voteAverage:parseFloat(movie.MovieRating),
 
-                                quality:    movie.Quality,
-                                torrent:    movie.TorrentUrl,
-                                torrents:   torrents,
-                                videos:     {},
-                                subtitles:  {},
-                                seeders:    movie.TorrentSeeds,
-                                leechers:   movie.TorrentPeers,
+                                    image:      movie.CoverImage.replace(/_med\./, '_large.'),
+                                    bigImage:   movie.CoverImage.replace(/_med\./, '_large.'),
+                                    backdrop:   '',
 
-                                // YTS do not provide metadata and subtitle
-                                hasSubtitle:false
-                            };
+                                    quality:    movie.Quality,
+                                    torrent:    movie.TorrentUrl,
+                                    torrents:   torrents,
+                                    videos:     {},
+                                    subtitles:  subtitles[imdbId],
+                                    seeders:    movie.TorrentSeeds,
+                                    leechers:   movie.TorrentPeers,
 
-                            if(traktInfo) {
-                                movieModel.image = trakt.resizeImage(traktInfo.images.poster, '138');
-                                movieModel.bigImage = trakt.resizeImage(traktInfo.images.poster, '300');
-                                movieModel.backdrop = traktInfo.images.fanart;
-                                movieModel.synopsis = traktInfo.overview;
-                                movieModel.runtime = +traktInfo.runtime;
-                                App.Cache.setItem('trakttv', traktInfo.imdb_id, traktInfo);
-                                collection.addMovie(movieModel);
-                                if(--i == 0) {
-                                    collection.set(collection.movies);
-                                    collection.trigger('loaded');
-                                }
-                            } else {
-                                App.Cache.getItem('trakttv', movie.ImdbCode, function(traktInfo) {
-                                    if(traktInfo) {
-                                        movieModel.image = trakt.resizeImage(traktInfo.images.poster, '138');
-                                        movieModel.bigImage = trakt.resizeImage(traktInfo.images.poster, '300');
-                                        movieModel.backdrop = trakt.resizeImage(traktInfo.images.fanart, '940');
-                                        movieModel.synopsis = traktInfo.overview;
-                                        movieModel.runtime = +traktInfo.runtime;
-                                    }
+                                    // YTS do not provide metadata and subtitle
+                                    hasSubtitle:true
+                                };
+
+                                if(traktInfo) {
+                                    movieModel.image = trakt.resizeImage(traktInfo.images.poster, '138');
+                                    movieModel.bigImage = trakt.resizeImage(traktInfo.images.poster, '300');
+                                    movieModel.backdrop = traktInfo.images.fanart;
+                                    movieModel.synopsis = traktInfo.overview;
+                                    movieModel.runtime = +traktInfo.runtime;
+                                    App.Cache.setItem('trakttv', traktInfo.imdb_id, traktInfo);
                                     collection.addMovie(movieModel);
                                     if(--i == 0) {
                                         collection.set(collection.movies);
                                         collection.trigger('loaded');
                                     }
-                                });
-                            }
-                        });
+                                } else {
+                                    App.Cache.getItem('trakttv', movie.ImdbCode, function(traktInfo) {
+                                        if(traktInfo) {
+                                            movieModel.image = trakt.resizeImage(traktInfo.images.poster, '138');
+                                            movieModel.bigImage = trakt.resizeImage(traktInfo.images.poster, '300');
+                                            movieModel.backdrop = trakt.resizeImage(traktInfo.images.fanart, '940');
+                                            movieModel.synopsis = traktInfo.overview;
+                                            movieModel.runtime = +traktInfo.runtime;
+                                        }
+                                        collection.addMovie(movieModel);
+                                        if(--i == 0) {
+                                            collection.set(collection.movies);
+                                            collection.trigger('loaded');
+                                        }
+                                    });
+                                }
+                            });
+                        })
                     })
-                })
+                });
             })
         }
     });

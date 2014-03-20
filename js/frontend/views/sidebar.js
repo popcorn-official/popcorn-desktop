@@ -20,7 +20,7 @@ App.View.Sidebar = Backbone.View.extend({
         this.listenTo(model, 'change:resumetime', this.renderRuntime);
         this.listenTo(model, 'change:hasSubtitle', this.readyToPlay);
         this.model = model;
-        model.fetchMissingData();
+
         console.log('loading model', this.model);
 
         this.render();
