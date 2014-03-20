@@ -9,6 +9,8 @@
     var prefix = 'http://www.ysubs.com';
     var cacheNamespace = 'ysubs';
 
+    var TTL = 1000 * 60 * 60 * 4; // 4 hours
+
     var YSubs = {};
 
     YSubs.querySubtitles = function(imdbIds) {
@@ -30,6 +32,7 @@
 
     YSubs.formatForPopcorn = function(data) {
         var allSubs = {};
+
         // Iterate each movie
         _.each(data.subs, function(langs, imdbId) {
             var movieSubs = {};
@@ -40,7 +43,12 @@
                 movieSubs[langCode] = prefix + _.max(subs, function(s){return s.rating;}).url;
             });
 
-            allSubs[imdbId.replace('tt','')] = App.Localization.filterSubtitle(movieSubs);
+            // Remove unsupported subtitles
+            var filteredSubtitle = App.Localization.filterSubtitle(movieSubs);
+            // Add TTL so it get invalidated after a timespan
+            filteredSubtitle._TTL = TTL;
+
+            allSubs[imdbId.replace('tt','')] = filteredSubtitle;
         });
 
         return allSubs;

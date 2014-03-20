@@ -10,15 +10,37 @@ App.Cache = {
             tx.executeSql('DELETE FROM ysubs');
         });
     },
+
+    deleteItems: function(provider, keys) {
+        db.transaction(function (tx) {
+            var query = 'DELETE FROM ' + provider + ' WHERE key IN ('+ _.map(keys, function(){return'?';}).join(',') +')';
+            tx.executeSql(query, keys, function () {});
+        });
+    },
+
     getItems: function (provider, keys) {
         var deferred = Q.defer();
         db.transaction(function (tx) {
-            var query = 'SELECT key, data FROM ' + provider + ' WHERE key IN ('+ _.map(keys, function(){return'?';}).join(',') +')';
+            var query = 'SELECT * FROM ' + provider + ' WHERE key IN ('+ _.map(keys, function(){return'?';}).join(',') +')';
             tx.executeSql(query, keys, function (tx, results) {
                 var mappedData = {};
+                var expiredData = [];
+                var now = +new Date();
+
                 for(var i=0; i < results.rows.length; i++) {
                     var row = results.rows.item(i);
-                    mappedData[row.key] = JSON.parse(row.data);
+                    var data = JSON.parse(row.data);
+
+                    if(data._TTL && data._TTL < now - data._saved) {
+                        expiredData.push(row.key);
+                    } else {
+                        mappedData[row.key] = data;
+                    }
+                }
+
+                // Clear expired data
+                if(!_.isEmpty(expiredData)) {
+                    App.Cache.deleteItems(provider, expiredData);
                 }
 
                 deferred.resolve(mappedData);
@@ -44,7 +66,7 @@ App.Cache = {
                             result = JSON.parse(result);
                         }
 
-                        if (result.hasOwnProperty('_TTL') && result._TTL * 1000 < +new Date() - result.saved) {
+                        if (result.hasOwnProperty('_TTL') && result._TTL < +new Date() - result._saved) {
                             result = false;
                             db.transaction(function (tx) {
                                 tx.executeSql('DELETE FROM ' + provider + ' WHERE key = ?', [key]);
@@ -70,16 +92,16 @@ App.Cache = {
         });
     },
     setItem: function (provider, key, data) {
+        if (data._TTL) {
+            data._saved = +new Date();
+        }
+
         if (typeof key !== 'string') {
             key = JSON.stringify(key);
         }
 
         if (typeof data !== 'string') {
             data = JSON.stringify(data);
-        }
-
-        if (data.hasOwnProperty('_TTL')) {
-            data.saved = +new Date();
         }
 
         db.transaction(function (tx) {
