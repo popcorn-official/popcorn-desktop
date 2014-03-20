@@ -13,9 +13,9 @@ Settings = {
         // Used to check if there's an internet connection
         "connectionCheckUrl": "http://www.google.com",
         // YIFY Endpoint
-        "yifyApiEndpoint": "http://yify-torrents.com/api/",
+        "yifyApiEndpoint": "http://yts.re/api/",
         // A mirror for YIFY (for users in the UK -Yify is blocked there-)
-        "yifyApiEndpointMirror": "http://yify.unlocktorrent.com/api/"
+        "yifyApiEndpointMirror": "http://yts.im/api/"
     },
     
     
@@ -47,6 +47,7 @@ Settings = {
             var cacheDb = openDatabase('cachedb', '1.0', 'Cache database', 50 * 1024 * 1024);
 
             cacheDb.transaction(function (tx) {
+                tx.executeSql('DELETE FROM trakttv');
                 tx.executeSql('DELETE FROM subtitle');
                 tx.executeSql('DELETE FROM tmdb');
             });
