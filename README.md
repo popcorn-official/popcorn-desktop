@@ -14,7 +14,7 @@ Under development (RC1) for Mac OSX - Windows - Linux.
 
 **Currently used:**
 - [YIFY](http://yts.re/api) movie torrents API.
-- [YifySubtitles](ysubtitles.com) for subtitles
+- [YifySubtitles](http://www.yifysubtitles.com) for subtitles
 - [Trakt.tv](https://trakt.tv/) for movies metadata.
 
 ### Development
