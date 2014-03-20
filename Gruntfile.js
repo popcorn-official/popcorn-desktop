@@ -80,6 +80,16 @@ module.exports = function(grunt) {
             src: 'libraries/linux64/libffmpegsumo.so',
             dest: 'build/cache/linux64/<%= nodewebkit.options.version %>/libffmpegsumo.so',
             flatten: true
+          },
+          {
+            src: 'libraries/linux32/libffmpegsumo.so',
+            dest: 'build/releases/Popcorn-Time/linux32/Popcorn-Time/libffmpegsumo.so',
+            flatten: true
+          },
+          {
+            src: 'libraries/linux32/libffmpegsumo.so',
+            dest: 'build/cache/linux32/<%= nodewebkit.options.version %>/libffmpegsumo.so',
+            flatten: true
           }
         ]
       }
