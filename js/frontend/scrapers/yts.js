@@ -65,7 +65,7 @@ var Yts = Backbone.Collection.extend({
             currentRequest.abort();
         }
 
-        currentRequest = request(this.apiUrl, {json: true}, function(err, res, ytsData) {
+        var thisRequest = currentRequest = request(this.apiUrl, {json: true}, function(err, res, ytsData) {
             var i = 0;
 
             if (ytsData.error || typeof ytsData.MovieList === 'undefined') {
@@ -75,11 +75,14 @@ var Yts = Backbone.Collection.extend({
             }
 
             async.filter(
-              _.pluck(ytsData.MovieList, 'ImdbCode'), 
-              function(cd, cb) { App.Cache.getItem('trakttv', cd, function(d) { cb(d == undefined) }) }, 
+              _.pluck(ytsData.MovieList, 'ImdbCode'),
+              function(cd, cb) { App.Cache.getItem('trakttv', cd, function(d) { cb(d == undefined) }) },
               function(imdbCodes) {
                 var traktMovieCollection = new trakt.MovieCollection(imdbCodes);
                 traktMovieCollection.getSummaries(function(trakData) {
+                    // Check if new request was started
+                    if(thisRequest !== currentRequest) return;
+
                     i = ytsData.MovieList.length;
                     ytsData.MovieList.forEach(function (movie) {
                         // No imdb, no movie.
