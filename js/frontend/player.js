@@ -107,6 +107,7 @@ window.SubtitleLanguages = {
   'polish'    : 'Polish',
   'estonian'  : 'Eesti',
   'italian'   : 'Italiano',
+  'lithuanian': 'Lietuvių',
   'danish'    : 'Dansk'
 };
 
