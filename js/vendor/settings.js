@@ -33,11 +33,12 @@ Settings = {
             }
         }
 
+        Settings.performUpgrade();
+        Settings.getHardwareInfo();
+
         if(Settings.get('checkedApiEndpoint') != 'true' || forceReset) {
             Settings.checkApiEndpoint();
         }
-    
-        Settings.performUpgrade();
     },
     
     "performUpgrade": function() {
@@ -106,8 +107,29 @@ Settings = {
             Settings.set('checkedApiEndpoint', true);
             this.end();
         });
+    },
+
+    "getHardwareInfo": function() {
+        if(/64/.test(process.arch))
+            Settings.set('arch', 'x64');
+        else
+            Settings.set('arch', 'x86');
+
+        switch(process.platform) {
+            case 'darwin':
+                Settings.set('os', 'mac');
+                break;
+            case 'win32':
+                Settings.set('os', 'windows');
+                break;
+            case 'linux':
+                Settings.set('os', 'linux');
+                break;
+            default:
+                Settings.set('os', 'unknown');
+                break;
+        }
     }
-    
 };
 
 Settings.setup();
