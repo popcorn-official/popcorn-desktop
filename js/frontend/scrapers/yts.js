@@ -96,7 +96,7 @@ var Yts = Backbone.Collection.extend({
                         // Temporary object
                         var movieModel = {
                             imdb:       movie.ImdbCode.replace('tt', ''),
-                            title:      movie.MovieTitleClean,
+                            title:      movie.MovieTitleClean.replace(/\([^)]*\)|1080p|DIRECTORS CUT|EXTENDED|UNRATED|3D|[()]/g, ''),
                             year:       movie.MovieYear,
                             runtime:    0,
                             synopsis:   '',
