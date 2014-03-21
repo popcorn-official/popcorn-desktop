@@ -2,7 +2,8 @@ var url = 'http://subapi.com/';
 
 var supportedLanguages = ['english', 'french', 'dutch', 'portuguese', 'romanian', 'spanish', 'turkish', 'brazilian',
                           'italian', 'german', 'hungarian', 'russian', 'ukrainian', 'finnish', 'bulgarian', 'latvian',
-                          'polish', 'danish', 'estonian', 'croatian', 'bosnian', 'serbian', 'lithuanian'];
+                          'polish', 'danish', 'estonian', 'croatian', 'bosnian', 'serbian', 'czech', 'lithuanian'];
+
 
 var SubApi = Backbone.Collection.extend({
     url: url,
