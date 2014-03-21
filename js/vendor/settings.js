@@ -55,6 +55,11 @@ Settings = {
                 tx.executeSql('DELETE FROM subtitle');
                 tx.executeSql('DELETE FROM tmdb');
             });
+
+            if(Settings.get('yifyApiEndpoint') == 'http://yify-torrents.com/api/')
+                Settings.set('yifyApiEndpoint', Settings._defaultSettings['yifyApiEndpoint']);
+            if(Settings.get('yifyApiEndpointMirror') == 'http://yify.unlocktorrent.com/api/')
+                Settings.set('yifyApiEndpointMirror', Settings._defaultSettings['yifyApiEndpointMirror']);
             
             // Add an upgrade flag
             window.__isUpgradeInstall = true;
