@@ -69,7 +69,7 @@ var Yts = Backbone.Collection.extend({
             var i = 0;
 
             if (ytsData.error || typeof ytsData.MovieList === 'undefined') {
-                collection.set(movies);
+                collection.set(collection.movies);
                 collection.trigger('loaded');
                 return;
             }
