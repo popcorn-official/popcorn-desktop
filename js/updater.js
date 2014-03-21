@@ -46,7 +46,7 @@
     }
 
     request(updateUrl, {json: true}, function(err, res, data) {
-        if(!_.contains(data, Settings.get('os'))) {
+        if(!_.contains(Object.keys(data), Settings.get('os'))) {
             // No update for this OS, FreeBSD or SunOS.
             // Must not be an official binary
             return;
