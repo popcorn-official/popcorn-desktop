@@ -63,15 +63,15 @@
             var outputFile = path.join(path.dirname(process.execPath), 'nw.pak.new');
             var downloadRequest = request(updateData.updateUrl).pipe(fs.createWriteStream(outputFile));
             downloadRequest.on('complete', function() {
-                var hash = crypto.createHash('sha1'),
-                    verify = crypto.createVerify('DSA');
+                var hash = crypto.createHash('SHA1'),
+                    verify = crypto.createVerify('DSA-SHA1');
                 fs.createReadStream(outputFile)
                     .on('data', function(chunk) {
                         hash.update(chunk);
+                        verify.update(chunk);
                     })
                     .on('end', function() {
                         var checksum = hash.digest('hex');
-                        verify.update(checksum);
                         if(updateData.checksum !== checksum || verify.verify(VERIFY_PUBKEY, updateData.signature, 'base64') === false) {
                             // Corrupt download or tampered update
                             // Wait until next start to attempt the update again
