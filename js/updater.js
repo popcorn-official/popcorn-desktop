@@ -18,8 +18,8 @@
         // returns `-` when ver2 less than
         // returns `0` when ver2 equal
         // returns `+` when ver2 greater than
-        ver1 = u.map(ver1.replace(/^[0-9]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
-        ver2 = u.map(ver2.replace(/^[0-9]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
+        ver1 = _.map(ver1.replace(/^[0-9]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
+        ver2 = _.map(ver2.replace(/^[0-9]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
 
         var count = Math.max(ver1.length, ver2.length);
 
