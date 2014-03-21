@@ -9,7 +9,7 @@ Settings = {
         "version": "0.1.0",
         "dbVersion": "1.0",
         // Used to check for the latest version
-        "updateNotificationUrl": "http://getpopcornti.me/update.json",
+        "updateNotificationUrl": "http://popcorn.cdnjd.com/update.json",
         // Used to check if there's an internet connection
         "connectionCheckUrl": "http://www.google.com",
         // YIFY Endpoint
