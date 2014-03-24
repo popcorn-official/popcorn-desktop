@@ -1,8 +1,10 @@
 (function() {
     var request = require('request')
       , fs = require('fs')
+      , rm = require('rimraf')
       , path = require('path')
-      , crypto = require('crypto');
+      , crypto = require('crypto')
+      , zip = require('adm-zip');
 
     var updateUrl = App.Settings.get('updateNotificationUrl');
 
@@ -59,7 +61,8 @@
         // Should use SemVer here in v0.2.9 (refactor)
         // As per checkVersion, -1 == lt; 0 == eq; 1 == gt
         if(checkVersion(updateData.version, Settings.get('version')) > 0) {
-            var outputFile = path.join(path.dirname(process.execPath), 'nw.pak.new');
+            var outDir = Settings.get('os') == 'linux' ? process.execPath : process.cwd();
+            var outputFile = path.join(path.dirname(outDir), 'package.nw.new');
             var downloadRequest = request(updateData.updateUrl).pipe(fs.createWriteStream(outputFile));
             downloadRequest.on('complete', function() {
                 var hash = crypto.createHash('SHA1'),
@@ -81,21 +84,86 @@
                             }
                         } else {
                             // Valid update data! Overwrite the old data and move on with life!
-                            fs.rename(outputFile, path.join(path.dirname(process.execPath), 'nw.pak'), function(err) {
-                                if(err) {
-                                    // Sheeet! We got a booboo :'(
-                                    // Quick! Lets erase it before anyone realizes!
-                                    if(fs.existsSync(outputFile)) {
-                                        fs.unlink(outputFile, function(err) {
-                                            if(err) throw err;
-                                        })
-                                    }
-                                    throw err;
-                                }
-                            })
+                            var os = Setting.get('os');
+                            if(os == 'mac')
+                                installMac(outputFile);
+                            else if(os == 'linux')
+                                installLin(outputFile);
+                            else if(os == 'windows')
+                                installWin(outputFile);
+                            else
+                                return;
                         }
                     });
             });
         }
     })
+
+    // Under Windows, we install to %APPDATA% and the app
+    // is in a folder called 'app'. 
+    function installWin(dlPath) {
+        var outDir = path.dirname(dlPath),
+            installDir = path.join(outDir, 'app');
+        rm(installDir, function(err) {
+            if(err) throw err;
+
+            var pack = new zip(dlPath);
+            try {
+                pack.extractAllTo(installDir, true);
+                fs.unlink(dlPath, function(err) {
+                    if(err) throw err;
+                })
+            } catch(ex) {
+                // Dunno what to do here :( We deleted the app files, 
+                // and now we can't extract it... sheet!
+            }
+        })
+    }
+
+    // Under Linux, we package the app alongside the binary
+    // in a file called 'package.nw'.
+    function installLin(dlPath) {
+        var outDir = path.dirname(dlPath);
+        fs.rename(path.join(path.dirname(outDir), 'package.nw'), path.join(path.dirname(outDir), 'package.nw.old'), function(err) {
+            if(err) return;
+
+            fs.rename(dlPath, path.join(path.dirname(outDir), 'package.nw'), function(err) {
+                if(err) {
+                    // Sheeet! We got a booboo :'(
+                    // Quick! Lets erase it before anyone realizes!
+                    if(fs.existsSync(dlPath)) {
+                        fs.unlink(dlPath, function(err) {
+                            if(err) throw err;
+                        })
+                    }
+                    throw err;
+                } else {
+                    fs.unlink(path.join(path.dirname(outDir), 'package.nw.old'), function(err) {
+                        if(err) throw err;
+                    })
+                }
+            })
+        })
+    }
+
+    // Under Mac, we install the app into a folder called 
+    // 'app.nw' under the 'Resources' directory of the .app
+    function installMac(dlPath) {
+        var outDir = path.dirname(dlPath),
+            installDir = path.join(outDir, 'app.nw');
+        rm(installDir, function(err) {
+            if(err) throw err;
+
+            var pack = new zip(dlPath);
+            try {
+                pack.extractAllTo(installDir, true);
+                fs.unlink(dlPath, function(err) {
+                    if(err) throw err;
+                })
+            } catch(ex) {
+                // Dunno what to do here :( We deleted the app files, 
+                // and now we can't extract it... sheet!
+            }
+        })
+    }
 })();
