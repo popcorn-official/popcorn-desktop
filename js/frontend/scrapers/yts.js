@@ -68,6 +68,11 @@ var Yts = Backbone.Collection.extend({
         var thisRequest = currentRequest = request(this.apiUrl, {json: true}, function(err, res, ytsData) {
             var i = 0;
 
+            if(err) {
+                collection.trigger('error');
+                return;
+            }
+
             if (ytsData.error || typeof ytsData.MovieList === 'undefined') {
                 collection.set(collection.movies);
                 collection.trigger('loaded');

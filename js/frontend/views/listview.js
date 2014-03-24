@@ -17,6 +17,16 @@ App.View.MovieList = Backbone.View.extend({
         this.$el = $('.movie-list').first();
 
         this.listenTo(this.model, 'loaded', this.render);
+        this.listenTo(this.model, 'error', this.error);
+    },
+
+    error: function() {
+        if( window.initialLoading ) {
+            App.loader(false);
+        }
+        // Todo: Translate `Error`
+        this.$el.append('<div class="no-results">Error loading data from YTS, try again later</div>');
+        return false;
     },
 
     empty: function () {
