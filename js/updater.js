@@ -1,21 +1,21 @@
-function testInstalled() {
-    return (!_.contains(require('fs').readdirSync('.'), '.git') || // Test Development
-            (   // Test Windows
-                Settings.get('os') == 'windows' && 
-                process.cwd().indexOf(process.env.APPDATA) != -1
-            ) ||
-            (   // Test Linux
-                Settings.get('os') == 'linux' &&
-                _.contains(require('fs').readdirSync('.'), 'package.nw')
-            ) ||
-            (   // Test Mac OS X
-                Settings.get('os') == 'mac' &&
-                process.cwd().indexOf('Resources/app.nw') != -1
-            ));
-}
+(function() {
+    function testInstalled() {
+        return (!_.contains(require('fs').readdirSync('.'), '.git') || // Test Development
+                (   // Test Windows
+                    Settings.get('os') == 'windows' && 
+                    process.cwd().indexOf(process.env.APPDATA) != -1
+                ) ||
+                (   // Test Linux
+                    Settings.get('os') == 'linux' &&
+                    _.contains(require('fs').readdirSync('.'), 'package.nw')
+                ) ||
+                (   // Test Mac OS X
+                    Settings.get('os') == 'mac' &&
+                    process.cwd().indexOf('Resources/app.nw') != -1
+                ));
+    }
 
-if(testInstalled()) {
-    (function() {
+    if(testInstalled()) {
         var request = require('request')
           , fs = require('fs')
           , rm = require('rimraf')
@@ -23,7 +23,7 @@ if(testInstalled()) {
           , crypto = require('crypto')
           , zip = require('adm-zip');
 
-        var updateUrl = App.Settings.get('updateNotificationUrl');
+        var updateUrl = Settings.get('updateNotificationUrl');
 
         /* HARDCODED DSA PUBLIC KEY... DO NOT MODIFY, CHANGE, OR OTHERWISE MESS WITH THIS
          * IF I SEE A PULL REQUEST CHANGING THIS LINE, I WILL, REPEAT.. I WILL COME AFTER YOU
@@ -80,7 +80,8 @@ if(testInstalled()) {
             if(checkVersion(updateData.version, Settings.get('version')) > 0) {
                 var outDir = Settings.get('os') == 'linux' ? process.execPath : process.cwd();
                 var outputFile = path.join(path.dirname(outDir), 'package.nw.new');
-                var downloadRequest = request(updateData.updateUrl).pipe(fs.createWriteStream(outputFile));
+                var downloadRequest = request(updateData.updateUrl);
+                downloadRequest.pipe(fs.createWriteStream(outputFile));
                 downloadRequest.on('complete', function() {
                     var hash = crypto.createHash('SHA1'),
                         verify = crypto.createVerify('DSA-SHA1');
@@ -101,7 +102,7 @@ if(testInstalled()) {
                                 }
                             } else {
                                 // Valid update data! Overwrite the old data and move on with life!
-                                var os = Setting.get('os');
+                                var os = Settings.get('os');
                                 if(os == 'mac')
                                     installMac(outputFile);
                                 else if(os == 'linux')
@@ -121,20 +122,17 @@ if(testInstalled()) {
         function installWin(dlPath) {
             var outDir = path.dirname(dlPath),
                 installDir = path.join(outDir, 'app');
-            rm(installDir, function(err) {
-                if(err) throw err;
 
-                var pack = new zip(dlPath);
-                try {
-                    pack.extractAllTo(installDir, true);
-                    fs.unlink(dlPath, function(err) {
-                        if(err) throw err;
-                    })
-                } catch(ex) {
-                    // Dunno what to do here :( We deleted the app files, 
-                    // and now we can't extract it... sheet!
-                }
-            })
+            var pack = new zip(dlPath);
+            try {
+                pack.extractAllTo(installDir, true);
+                fs.unlink(dlPath, function(err) {
+                    if(err) throw err;
+                })
+            } catch(ex) {
+                // It's cool, worst comes to worst, we have a 17mb
+                // .nw file lying around :P
+            }
         }
 
         // Under Linux, we package the app alongside the binary
@@ -183,5 +181,5 @@ if(testInstalled()) {
                 }
             })
         }
-    })();
-}
+    }
+})();
