@@ -95,9 +95,10 @@ jQuery(function ($) {
 
 
   // Add route callback to router
-  App.Router.on('route', function () {
+  App.Router.on('route', function (something, data) {
     // Ensure sidebar is hidden
-    App.loader(true, i18n.__('loading'));
+    if(data[0] === null || data[1] === null)
+      App.loader(true, i18n.__('loading'));
     App.sidebar.hide();
   });
 
