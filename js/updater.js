@@ -27,6 +27,8 @@
 
         var updateUrl = Settings.get('updateNotificationUrl');
 
+        var CWD = process.cwd();
+
         /* HARDCODED DSA PUBLIC KEY... DO NOT MODIFY, CHANGE, OR OTHERWISE MESS WITH THIS
          * IF I SEE A PULL REQUEST CHANGING THIS LINE, I WILL, REPEAT.. I WILL COME AFTER YOU
          * AND KILL YOU! You have been warned -jduncanator
@@ -80,7 +82,7 @@
             // Should use SemVer here in v0.2.9 (refactor)
             // As per checkVersion, -1 == lt; 0 == eq; 1 == gt
             if(checkVersion(updateData.version, Settings.get('version')) > 0) {
-                var outDir = Settings.get('os') == 'linux' ? process.execPath : process.cwd();
+                var outDir = Settings.get('os') == 'linux' ? process.execPath : CWD;
                 var outputFile = path.join(path.dirname(outDir), 'package.nw.new');
                 var downloadRequest = request(updateData.updateUrl);
                 downloadRequest.pipe(fs.createWriteStream(outputFile));
@@ -204,8 +206,8 @@
             $restart.on('click', function() {
                 var spawn = require('child_process').spawn,
                     argv = gui.App.fullArgv;
-                argv.push(process.cwd());
-                spawn(process.execPath, argv, { cwd: process.cwd(), detached: true, stdio: [ 'ignore', 'ignore', 'ignore' ] }).unref();
+                argv.push(CWD);
+                spawn(process.execPath, argv, { cwd: CWD, detached: true, stdio: [ 'ignore', 'ignore', 'ignore' ] }).unref();
                 gui.App.quit();
             })
                 
