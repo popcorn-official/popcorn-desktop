@@ -6,10 +6,22 @@ App.View.Sidebar = Backbone.View.extend({
     events: {
         'click .closer':           'hide',
         'click .play-button':      'play',
-        'click .subtitles button': 'selectSubtitle',
-        'click .dropdown-toggle':  'toggleDropdown',
         'click #switch-on':        'enableHD',
         'click #switch-off':       'disableHD'
+    },
+
+    initialize: function () {
+        this.setElement($('sidebar'));
+        $('body').keydown(this.keyHide);
+    },
+
+    load: function (model) {
+        this.listenTo(model, 'change:subtitles', this.renderSubtitles);
+        this.listenTo(model, 'change:resumetime', this.renderRuntime);
+        this.listenTo(model, 'change:hasSubtitle', this.readyToPlay);
+        this.model = model;
+
+        this.render();
     },
 
     keyHide: function (e) {
@@ -21,23 +33,12 @@ App.View.Sidebar = Backbone.View.extend({
         }
     },
 
-    toggleDropdown: function (evt) {
-        $(evt.currentTarget).parent().toggleClass('active');
-    },
-
-    selectSubtitle: function (evt) {
-        var $button = $(evt.currentTarget),
-            lang = $button.val();
-
-        $button
-            .closest('.dropdown').removeClass('active')
-            .find('.lang-placeholder').attr('src', $button.find('img').attr('src'));
-        this.model.set('selectedSubtitle', lang);
-    },
-
     play: function (evt) {
         evt.preventDefault();
         if( videoStreamer !== null ){ return; }
+
+        //Unfocus "Watch now" button
+        this.$el.find('.play-button').blur();
 
         var file = this.model.get('torrent'),
             subs = this.model.get('subtitles');
@@ -83,26 +84,27 @@ App.View.Sidebar = Backbone.View.extend({
 
     },
 
-    initialize: function () {
-        this.setElement($('sidebar'));
-        $('body').keydown(this.keyHide);
-    },
-
-    load: function (model) {
-        // TODO: QUEUE PLAY BUTTON
-        this.listenTo(model, 'change', this.render);
-        model.fetchMissingData();
-
-        this.model = model;
-        this.render();
-    },
-
     render: function () {
         this.$el.html(this.template(this.model.attributes));
-        if ( this.isReadyToPlay() ) {
+        this.readyToPlay();
+        this.show();
+    },
+
+    renderSubtitles: function() {
+        var temp = $(this.template(this.model.attributes));
+        this.$el.find('.subtitles-list').replaceWith(temp.find('.subtitles-list'));
+    },
+
+    renderRuntime: function() {
+        if(this.model.has('resumetime')) {
+            $('.duration', this.$el).text((this.model.get('runtime') - (this.model.get('resumetime')/60|0)) + 'm left');
+        }
+    },
+
+    readyToPlay: function() {
+        if(this.model.get('hasSubtitle')) {
             this.$el.find('.play-button').removeAttr('disabled');
         }
-        this.show();
     },
 
     isVisible: function () {
@@ -111,45 +113,6 @@ App.View.Sidebar = Backbone.View.extend({
 
     hide: function () {
       $('body').removeClass('sidebar-open');
-
-      // A user was going to watch a movie, but he cancelled, maybe because no sub in user locale
-      // Maybe we can move this to a better place
-      if( $('.movie.active').size() > 0 ) {
-        var userLocale = window.navigator.language.substr(0,2);
-        var availableSubs = this.model.get('subtitles');
-        var languageLookup = {
-          "brazilian": "pt",
-          "dutch": "nl",
-          "english": "en",
-          "french": "fr",
-          "hebrew": "he",
-          "portuguese": "pt",
-          "romanian": "ro",
-          "spanish": "es",
-          "turkish": "tr",
-          "german": "de",
-          "polish": "pl",
-          "hungarian": "hu",
-          "finnish": "fi",
-          "czech": "cs",
-          "bulgarian": "bg",
-          "croatian": "hr",
-          "estonian": "et",
-          "bosnian": "ba",
-          "serbian": "rs",
-          "danish": "da",
-          "italian": "it"
-        };
-
-        var noSubForUser = true;
-        for (var as in availableSubs) {
-          var subLocale = languageLookup[as];
-          if (subLocale == userLocale) {
-            noSubForUser = false;
-          }
-        }
-
-      }
 
       $('.movie.active').removeClass('active');
       this.$el.addClass('hidden');
@@ -165,14 +128,14 @@ App.View.Sidebar = Backbone.View.extend({
         this.backdropCache = new Image();
         this.backdropCache.src = this.model.get('backdrop');
         this.backdropCache.onload = function () {
-            $(".backdrop-image").addClass("loaded")
+            $(".backdrop-image").addClass("loaded");
         };
     },
 
     enableHD: function (evt) {
 
         var torrents = this.model.get('torrents');
-        console.log('HD Enabled');
+        console.logger.debug('HD Enabled');
 
         if(torrents['1080p'] !== undefined) {
             this.model.set('torrent', torrents['1080p']);
@@ -183,15 +146,11 @@ App.View.Sidebar = Backbone.View.extend({
     disableHD: function (evt) {
 
         var torrents = this.model.get('torrents');
-        console.log('HD Disabled');
+        console.logger.debug('HD Disabled');
 
         if(torrents['720p'] !== undefined) {
             this.model.set('torrent', torrents['720p']);
             this.model.set('quality', '720p');
         }
-    },
-
-    isReadyToPlay: function() {
-        return this.model.get('hasSubtitle');
     }
 });

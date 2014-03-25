@@ -20,15 +20,6 @@ App.Model.Movie = Backbone.Model.extend({
       return this.get('title');
     },
 
-    fetchMissingData: function() {
-        if ( !this.get('hasMetadata') ) {
-            App.Providers.metadata.fetch(this);
-        }
-        if ( !this.get('hasSubtitle') ) {
-            App.Providers.subtitle.fetch(this);
-        }
-    },
-
     initialize: function () {
         this.buildBasicView();
         this.calculateTorrentHealth();

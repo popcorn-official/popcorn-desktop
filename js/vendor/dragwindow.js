@@ -4,6 +4,9 @@
 // Since the -drag CSS property fucks up the touch events, this is a hack so we can drag the window by the video anyway.
 (function( $ ){
 
+  // Require native api to drag window accross mutliple monitors
+  var nativeWindow = require('nw.gui').Window.get();
+
   $.fn.canDragWindow = function() {
 
     return this.each(function(ix, element){
@@ -26,7 +29,7 @@
           previousPos = thisPos;
 
           if( mouseIsDown && ! win.isFullscreen ){
-            window.moveBy(distance.x, distance.y);
+            nativeWindow.moveBy(distance.x, distance.y);
           }
         });
 

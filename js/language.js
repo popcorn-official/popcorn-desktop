@@ -1,12 +1,3 @@
-// Handles language detection and internationalization
-i18n.configure({
-    defaultLocale: 'en',
-    locales: ['ar', 'ary', 'bg', 'ca',  'cs', 'da', 'de', 'el', 'en', 'es', 'eu', 'fr', 'hr', 'he', 'hu', 'it', 'is', 'ja', 'kr',
-              'lt', 'lv', 'mt', 'nl', 'no', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'sk', 'sv', 'tr', 'uk', 'zh-cn', 'zh-tw'],
-    directory: './language'
-});
-
-
 // Detect the language and update the global Language file
 var detectLanguage = function(preferredLanguage) {
 
@@ -54,6 +45,204 @@ var populateCategories = function() {
 
     jQuery('#catalog-select .categories').html(category_html);
 };
+
+// Remove unsupported subtitle language from object
+App.Localization.filterSubtitle = function(langs) {
+    var filteredLang = {};
+    _.each(langs, function(data, lang){
+        if(App.Localization.languages[lang].subtitle) {
+            filteredLang[lang] = data;
+        }
+    });
+
+    return filteredLang;
+};
+
+// Simple mapping to translate some API language to ISO 639 code
+App.Localization.languageMapping = {
+    "albanian": "sq",
+    "arabic": "ar",
+    "bengali": "bn",
+    "brazilian-portuguese": "pt-br",
+    "bulgarian": "bg",
+    "bosnian": "bs",
+    "chinese": "zh",
+    "croatian": "hr",
+    "czech": "cs",
+    "danish": "da",
+    "dutch": "nl",
+    "english": "en",
+    "estonian": "et",
+    "farsi-persian": "fa",
+    "finnish": "fi",
+    "french": "fr",
+    "german": "de",
+    "greek": "el",
+    "hebrew": "he",
+    "hungarian": "hu",
+    "indonesian": "id",
+    "italian": "it",
+    "japanese": "ja",
+    "korean": "ko",
+    "lithuanian": "lt",
+    "macedonian": "mk",
+    "malay": "ms",
+    "norwegian": "no",
+    "polish": "pl",
+    "portuguese": "pt",
+    "romanian": "ro",
+    "russian": "ru",
+    "serbian": "sr",
+    "slovenian": "sl",
+    "spanish": "es",
+    "swedish": "sv",
+    "thai": "th",
+    "turkish": "tr",
+    "urdu": "ur",
+    "ukrainian": "uk",
+    "vietnamese": "vi"
+};
+
+// Language used in the system, edit to add subtitle support
+App.Localization.languages = {
+    "ar": {
+        encoding: ['windows-1256']
+    },
+    "bg": {
+        display: "Български",
+        subtitle: true,
+        encoding: ['windows-1251', 'iso-8859-5']
+    },
+    "bn": {},
+    "bs": {
+        display: "Bosanski",
+        subtitle: true,
+        encoding: ['windows-1250']
+    },
+    "cs": {
+        display: "Česky",
+        subtitle: true
+    },
+    "da": {
+        display: "Dansk",
+        subtitle: true
+    },
+    "de": {
+        display: "Deutsch",
+        subtitle: true,
+        encoding: ['iso-8859-1']
+    },
+    "el": {
+        encoding: ['iso-8859-7']
+    },
+    "en": {
+        display: "English",
+        subtitle: true
+    },
+    "es": {
+        display: "Español",
+        subtitle: true,
+        encoding: ['iso-8859-1']
+    },
+    "et": {
+        display: "Eesti",
+        subtitle: true
+    },
+    "fa": {},
+    "fi": {
+        display: "Suomi",
+        subtitle: true,
+        encoding: ['iso-8859-1']
+    },
+    "fr": {
+        display: "Français",
+        subtitle: true,
+        encoding: ['iso-8859-1']
+    },
+    "he": {
+        display: "Hebrew",
+        subtitle: true,
+        encoding: ['windows-1255']
+    },
+    "hr": {
+        display: "Hrvatski",
+        subtitle: true,
+        encoding: ['windows-1250']
+    },
+    "hu": {
+        display: "Magyar",
+        subtitle: true,
+        encoding: ['iso-8859-2']
+    },
+    "id": {},
+    "it": {
+        display: "Italiano",
+        subtitle: true
+    },
+    "ja": {},
+    "ko": {},
+    "lt": {
+        display: "Lietuvių",
+        subtitle: true
+    },
+    "mk": {},
+    "ms": {},
+    "nl": {
+        display: "Nederlands",
+        subtitle: true,
+        encoding: ['iso-8859-1']
+    },
+    "no": {},
+    "pl": {
+        display: "Polish",
+        subtitle: true
+    },
+    "pt": {
+        display: "Português",
+        subtitle: true,
+        encoding: ['iso-8859-1']
+    },
+    "pt-br": {
+        display: "Português-Br",
+        subtitle: true,
+        encoding: ['iso-8859-1']
+    },
+    "ro": {
+        display: "Română",
+        subtitle: true,
+        encoding: ['iso-8859-16']
+    },
+    "ru": {
+        encoding: ['windows-1251', 'iso-8859-5']
+    },
+    "sl": {},
+    "sq": {},
+    "sr": {
+        display: "Srpski",
+        subtitle: true,
+        encoding: ['windows-1250']
+    },
+    "sv": {},
+    "th": {},
+    "tr": {
+        display: "Türkçe",
+        subtitle: true,
+        encoding: ['iso-8859-9']
+    },
+    "ur": {},
+    "uk": {
+        encoding: ['windows-1251', 'iso-8859-5']
+    },
+    "vi": {},
+    "zh": {}
+};
+
+// Handles language detection and internationalization
+i18n.configure({
+    defaultLocale: 'en',
+    locales: _.keys(App.Localization.languages),
+    directory: './language'
+});
 
 // Detect the language. The default is english
 detectLanguage('en');

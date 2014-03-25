@@ -85,7 +85,9 @@
                   <%= year %>
                 </li>
                 <li>
-                  <% if (this.model.get('runtime')) { %>
+                  <% if(this.model.has('resumetime')) { %>
+                    <span class="duration"><%= runtime - (resumetime/60|0) %>m left</span>
+                  <% } else if (this.model.get('runtime')) { %>
                     <span class="duration"><%= runtime %> <%= i18n.__('durationUnit') %></span>
                   <% } %>
                 </li>
@@ -112,21 +114,21 @@
 
             <p><%= synopsis %></p>
 
-            <% if ( ! _.isEmpty(subtitles) ) { %>
             <div class="subtitles-list">
+            <% if ( ! _.isEmpty(subtitles) ) { %>
               <h4><%= i18n.__('subtitledIn') %></h4>
 
               <ul>
                 <% if (typeof subtitles !== 'undefined') { %>
                   <li>
                     <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
-                      <span class="flag flag-<%= keys[i] %>" title="<%= i18n.__(keys[i]) %>"></span>
+                      <span class="flag flag-<%= keys[i] %>" title="<%= App.Localization.languages[keys[i]].display %>"></span>
                     <% } %>
                   </li>
                 <% } %>
               </ul>
-            </div>
             <% } %>
+            </div>
 
             <% if (this.model.get('torrents')) { %>
               <a href="" class="p_tooltip play-button" disabled="disabled"><%= i18n.__('watchItNow') %></a>
@@ -168,7 +170,6 @@
 
     <!-- Settings Module and API Keys -->
     <script src="js/vendor/settings.js"></script>
-    <script src="js/vendor/config.js"></script>
 
     <!-- App Initialization -->
     <script src="js/app.js"></script>
@@ -183,8 +184,7 @@
 
     <!-- Data Sources -->
     <script src="js/frontend/providers/cache.js"></script>
-    <script src="js/frontend/providers/themoviedb.js"></script>
-    <script src="js/frontend/providers/yifysubtitles.js"></script>
+    <script src="js/frontend/providers/ysubs.js"></script>
     <script src="js/frontend/scrapers/yts.js"></script>
     <script src="js/frontend/scrapers/scrapers.js"></script>
 

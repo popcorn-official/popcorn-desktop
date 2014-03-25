@@ -116,28 +116,6 @@ videojs.plugin('customSubtitles', function() {
 
 })
 
-var expectedEncodings = {
-  'arabic':     ['windows-1256'],
-  'bulgarian':  ['windows-1251', 'iso-8859-5'],
-  'brazilian':  ['iso-8859-1'],
-  'dutch':      ['iso-8859-1'],
-  'finnish':    ['iso-8859-1'],
-  'french':     ['iso-8859-1'],
-  'german':     ['iso-8859-1'],
-  'greek':      ['iso-8859-7'],
-  'hebrew':     ['windows-1255'],
-  'hungarian':  ['iso-8859-2'],
-  'portuguese': ['iso-8859-1'],
-  'romanian':   ['iso-8859-16'],
-  'russian':    ['windows-1251', 'iso-8859-5'],
-  'spanish':    ['iso-8859-1'],
-  'turkish':    ['iso-8859-9'],
-  'ukrainian':  ['windows-1251', 'iso-8859-5'],
-  'croatian':   ['windows-1250'],
-  'bosnian':    ['windows-1250'],
-  'serbian':    ['windows-1250']
-}
-
 // This is a custom way of loading subtitles, since we can't use src (CORS blocks it and we can't disable it)
 // We fetch them when requested, process them and finally throw a parseCues their way
 vjs.TextTrack.prototype.load = function(){
@@ -221,9 +199,10 @@ vjs.TextTrack.prototype.load = function(){
         // Just save it again, and it'll be stored as UTF-8. At least on Windows.
 
         if ( detectedEncoding == 'IBM855' || detectedEncoding == 'windows-1250' || detectedEncoding == 'windows-1251' || detectedEncoding == 'windows-1252' || detectedEncoding == 'windows-1255' || detectedEncoding == 'windows-1254' ) {
-          // It's the charset detector fucking up again, now with Spanish, Portuguese, French (1255) and Romanian
-          var expected = expectedEncodings[language];
-          if ((typeof(expected) !== 'undefined' || expected !== null) && expected.indexOf(detectedEncoding) < 0) {
+          // It's the charset detector fucking up again
+          var langInfo = App.Localization.languages[language] || {};
+          var expected = langInfo.encoding;
+          if (expected && expected.indexOf(detectedEncoding) < 0) {
             // The detected encoding was unexepected to the language, so we'll use the most common
             // encoding for that language instead.
             detectedEncoding = expected[0];

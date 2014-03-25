@@ -1,5 +1,27 @@
 module.exports = function(grunt) {
+  "use strict";
+
   var buildPlatforms = parseBuildPlatforms(grunt.option('platforms'));
+
+  require('load-grunt-tasks')(grunt);
+
+  grunt.registerTask('default', [
+    'compass'
+  ]);
+
+  grunt.registerTask('css', [
+    'compass'
+  ]);
+
+  grunt.registerTask('nodewkbuild', [
+    'nodewebkit',
+    'copy:main'
+  ]);
+
+  grunt.registerTask('build', [
+    'default',
+    'nodewkbuild'
+  ]);
 
   grunt.initConfig({
     compass: {
@@ -12,13 +34,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    watch: {
-      files: ['sass/**/*.scss'],
-      tasks: ['sass'],
-      options: {
-        livereload: true
-      }
-    },
+
     nodewebkit: {
       options: {
         version: '0.9.2',
@@ -31,6 +47,7 @@ module.exports = function(grunt) {
       },
       src: ['./css/**', './fonts/**', './images/**', './js/**', './language/**', './node_modules/**', '!./node_modules/grunt*/**', './rc/**', './Config.rb', './index.html', './package.json', './README.md' ] // Your node-webkit app './**/*'
     },
+
     copy: {
       main: {
         files: [
@@ -63,32 +80,21 @@ module.exports = function(grunt) {
             src: 'libraries/linux64/libffmpegsumo.so',
             dest: 'build/cache/linux64/<%= nodewebkit.options.version %>/libffmpegsumo.so',
             flatten: true
+          },
+          {
+            src: 'libraries/linux32/libffmpegsumo.so',
+            dest: 'build/releases/Popcorn-Time/linux32/Popcorn-Time/libffmpegsumo.so',
+            flatten: true
+          },
+          {
+            src: 'libraries/linux32/libffmpegsumo.so',
+            dest: 'build/cache/linux32/<%= nodewebkit.options.version %>/libffmpegsumo.so',
+            flatten: true
           }
         ]
-      },
-      superagent_fix: {
-        src: '/dev/null',
-        dest: 'node_modules/moviedb/node_modules/superagent/index.js',
-        options: {
-          process: function(content) {
-            console.info(content);
-            return "module.exports = require('./lib/node');";
-          }
-        }
       }
     }
   });
-
-  grunt.loadNpmTasks('grunt-contrib-compass');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-node-webkit-builder');
-
-  grunt.registerTask('css', ['compass']);
-  grunt.registerTask('default', ['compass', 'copy:superagent_fix']);
-  grunt.registerTask('nodewkbuild', ['nodewebkit', 'copy:main']);
-  grunt.registerTask('build', ['default', 'nodewkbuild']);
-
 };
 
 var parseBuildPlatforms = function(argumentPlatform) {

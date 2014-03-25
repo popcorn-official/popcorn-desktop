@@ -55,7 +55,7 @@ OutputDir=.\
 
 
 [Languages]
-Name: "ar"; MessagesFile: ".\languages\Arabic.isl"
+;Name: "ar"; MessagesFile: ".\languages\Arabic.isl"
 Name: "eu"; MessagesFile: ".\languages\Basque.isl"
 Name: "ptbr"; MessagesFile: ".\languages\BrazilianPortuguese.isl"
 Name: "ca"; MessagesFile: ".\languages\Catalan.isl"
@@ -83,7 +83,7 @@ Name: "sk"; MessagesFile: ".\languages\Slovak.isl"
 ; Name: ""; MessagesFile: ".\languages\Slovenian.isl"
 Name: "es"; MessagesFile: ".\languages\Spanish.isl"
 Name: "sv"; MessagesFile: ".\languages\Swedish.isl"
-Name: "zh-tw"; MessagesFile: ".\languages\TraditonalChinese.isl"
+;Name: "zh-tw"; MessagesFile: ".\languages\TraditonalChinese.isl"
 Name: "tk"; MessagesFile: ".\languages\Turkish.isl"
 ; Name: ""; MessagesFile: ".\languages\Ukrainian.isl"
 

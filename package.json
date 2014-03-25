@@ -1,11 +1,14 @@
 {
   "name": "Popcorn-Time",
+  "homepage": "http://popcorn.cdnjd.com",
+  "bugs": "https://github.com/popcorn-team/popcorn-app/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yify/popcorn-app"
+    "url": "https://github.com/popcorn-team/popcorn-app.git"
   },
+  "license": "GPL-3.0",
   "main": "app://host/index.html",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "window": {
     "title": "Popcorn Time",
     "icon": "images/icon.png",
@@ -18,32 +21,27 @@
     "resizable": true
   },
   "dependencies": {
-    "clivas": "0.1.4",
-    "network-address": "0.0.4",
-    "ip": "0.3.0",
     "node-uuid": "1.4.1",
     "adm-zip": "0.4.4",
-    "numeral": "1.5.3",
     "jschardet": "1.1.0",
     "iconv-lite": "0.2.11",
     "i18n": "0.4.1",
-    "moviedb": "0.1.1",
-    "emitter": "0.0.1",
     "xmlrpc": "1.2.0",
     "request": "2.34.0",
     "peerflix": "0.1.6",
     "cheerio": "0.13.1",
     "express": "3.4.8",
-    "url": "0.7.9",
     "socket.io": "0.9.16",
-    "URIjs": "1.12.1"
+    "URIjs": "1.12.1",
+    "async": "0.2.x",
+    "underscore": "1.6.x",
+    "q": "2.0.x"
   },
   "devDependencies": {
+    "grunt": "0.4.4",
     "grunt-contrib-copy": "0.5.0",
     "grunt-contrib-compass": "0.7.2",
-    "grunt-contrib-sass": "0.7.3",
-    "grunt-contrib-watch": "0.6.0",
-    "grunt": "0.4.4",
-    "grunt-node-webkit-builder": "0.1.17"
+    "grunt-node-webkit-builder": "0.1.18",
+    "load-grunt-tasks": "0.4.0"
   }
 }
