@@ -1,0 +1,56 @@
+{
+  "quit": "「終了」",
+  "cancel": "キャンセル",
+  "beforeQuit": "あなたが終了してもよろしいですか",
+  "loading": "読み込み中...",
+  "loadingVideo": "私はビデオのプリロード、待って」",
+  "searchLoading": "検索中...",
+  "noResults": "該当する結果が見つかりませんでした。",
+
+  "search": "「検索」",
+  "movies": "「ムービー」",
+
+  "subtitledIn": "字幕",
+  "quality": "「品質」",
+  "watchItNow": "今すぐ見る",
+  "durationUnit": "分",
+
+  "connecting": "「接続中...",
+  "startingDownload": "ダウンロードを開始する...",
+  "downloading": "ダウンロード中...",
+
+  "UpgradeVersion": "ポップコーン時間のアップグレード」",
+  "UpgradeVersionDescription": " ちょうど今ダウンロードをリリースされました。",
+  
+  "legalDisclaimer": "Popcorn Time downloads and seeds movies using torrents, which may not be legal in your country.",
+  "legalDisclaimerResponsible": "We are not responsible for any problems that may arise, so make sure you understand our Terms and Conditions before using the app.",
+  "legalDisclaimerAccept": "I understand and want to use Popcorn Time",
+  "legalDisclaimerCancel": "Close Popcorn Time",
+  
+  "genres": {
+    "all": "人気",
+    "action": "「アクション」",
+    "adventure": "冒険",
+    "animation": "「エンターテインメント」",
+    "biography": "伝記",
+    "comedy": "コメディー",
+    "crime": "「犯罪」",
+    "documentary": "ドキュメンタリー",
+    "drama": "「ドラマ」",
+    "family": "「家族」",
+    "fantasy": "ファンタジー",
+    "film-noir": "「フィルム·ノワール」",
+    "history": "「歴史」",
+    "horror": "ホラー",
+    "music": "「ミュージック」",
+    "musical": "「音楽」",
+    "mystery": "ミステリー",
+    "romance": "「ロマンス」",
+    "sci-fi": "「サイファイ」",
+    "short": "「短い」",
+    "sport": "「スポーツ」",
+    "thriller": "スリラー",
+    "war": "戦争",
+    "western": "西洋"
+  }
+}

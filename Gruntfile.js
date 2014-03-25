@@ -23,7 +23,7 @@ module.exports = function(grunt) {
     'nodewebkit:build',
     'copy:ffmpeg'
   ]);
-  
+
   grunt.registerTask('dist', [
     'default',
     'nodewebkit:dist',
@@ -35,7 +35,9 @@ module.exports = function(grunt) {
     compass: {
       dist: {
         options: {
-          cssDir: 'css'
+          basePath: 'src/app',
+          cssDir: 'css',
+          relativeAssets: true
         },
         files: {
           'css/app.css': 'sass/app.scss'
@@ -68,7 +70,7 @@ module.exports = function(grunt) {
           linux32: buildPlatforms.linux32,
           linux64: buildPlatforms.linux64
         },
-        src: ['./css/**', './fonts/**', './images/**', './js/**', './language/**', './node_modules/**', '!./node_modules/grunt*/**', './rc/**', './Config.rb', './index.html', './package.json', './README.md' ] // Your node-webkit app './**/*'
+        src: ['./src/**', './node_modules/**', '!./node_modules/grunt*/**', './package.json', './README.md', './LICENSE.txt' ]
       }
     },
 

@@ -4,26 +4,13 @@
     <meta charset="UTF-8">
     <script>window.__startTime = (new Date()*1);</script>
     <link rel="stylesheet" type="text/css" href="css/app.css">
-    <link rel="stylesheet" type="text/css" href="js/vendor/video-js/video-js.css">
-
+    <link rel="stylesheet" type="text/css" href="vendor/video-js/video-js.css">
   </head>
   <body>
 
     <header id="header"></header>
 
-    <script id="header-tpl" type="text/x-template">
-        <nav class="btn-set <%= process.platform %>">
 
-          <% _.each(buttons, function(button) { %>
-            <button class="btn-os <%= button %>"></button>
-          <% }); %>
-        </nav>
-
-        <nav class="btn-set fs-<%= process.platform %>">
-          <button class="btn-os fullscreen"></button>
-        </nav>
-        <h1>Popcorn Time</h1>
-    </script>
 
     <div id="notification"></div>
 
@@ -56,12 +43,48 @@
       <sidebar class="hidden"></sidebar>
     </section>
 
+    <div class="popcorn-load hidden">
+      <div class="wrapper">
+        <span class="spinner"></span>
+        <span class="text"></span>
+        <div class="progressbar"><div class="progress"></div></div>
+        <div class="progressinfo"></div>
+      </div>
+      <a href="javascript:;" class="btn-close"><img src="images/close.svg" width="50" /></a>
+    </div>
+
+    <div id="video-container"></div>
+
+    <div class="popcorn-disclaimer hidden">
+      <div class="wrapper">
+        <span class="text" data-translate="legalDisclaimer"></span>
+        <span class="text" data-translate="legalDisclaimerResponsible"></span>
+        <br/>
+        <a class="btn confirmation quit" data-translate="legalDisclaimerCancel"></a>
+        <a class="btn confirmation continue" data-translate="legalDisclaimerAccept"></a>
+      </div>
+    </div>
+
+    <script id="header-tpl" type="text/x-template">
+        <nav class="btn-set <%= process.platform %>">
+
+          <% _.each(buttons, function(button) { %>
+            <button class="btn-os <%= button %>"></button>
+          <% }); %>
+        </nav>
+
+        <nav class="btn-set fs-<%= process.platform %>">
+          <button class="btn-os fullscreen"></button>
+        </nav>
+        <h1>Popcorn Time</h1>
+    </script>
+
     <script id="sidebar-tpl" type="text/x-template">
       <div class="play">
         <div class="backdrop-image" style="background-image:url(<%= this.model.get('backdrop') %>);"></div>
 
         <div class="movie-detail">
-          <div class="closer"><img src="/images/close.svg" width="50"></div>
+          <div class="closer"><img src="images/close.svg" width="50"></div>
           <div class="poster-cont">
             <div class="poster-inner">
               <div class="poster">
@@ -151,70 +174,51 @@
       </div>
     </script>
 
-    <div class="popcorn-load hidden">
-      <div class="wrapper">
-        <span class="spinner"></span>
-        <span class="text"></span>
-        <div class="progressbar"><div class="progress"></div></div>
-        <div class="progressinfo"></div>
-      </div>
-      <a href="javascript:;" class="btn-close"><img src="/images/close.svg" width="50" /></a>
-    </div>
-
-    <div id="video-container"></div>
-
-    <div class="popcorn-disclaimer hidden">
-      <div class="wrapper">
-        <span class="text" data-translate="legalDisclaimer"></span>
-        <span class="text" data-translate="legalDisclaimerResponsible"></span>
-        <br/>
-        <a class="btn confirmation quit" data-translate="legalDisclaimerCancel"></a>
-        <a class="btn confirmation continue" data-translate="legalDisclaimerAccept"></a>
-      </div>
-    </div>
-
 
     <!-- Basic Dependencies -->
-    <script src="js/vendor/jquery-2.1.0.min.js"></script>
-    <script src="js/vendor/underscore.js"></script>
-    <script src="js/vendor/backbone-1.1.0.js"></script>
-    <script src="js/vendor/marionette.1.6.4.js"></script>
-    <script src="js/vendor/bootstrap-tooltip.min.js"></script>
+    <script src="vendor/jquery-2.1.0.min.js"></script>
+    <script src="vendor/underscore.js"></script>
+    <script src="vendor/backbone-1.1.0.js"></script>
+    <script src="vendor/marionette.1.6.4.js"></script>
+    <script src="vendor/bootstrap-tooltip.min.js"></script>
 
     <!-- Settings Module and API Keys -->
-    <script src="js/vendor/settings.js"></script>
+    <script src="vendor/settings.js"></script>
+    <script src="lib/config.js"></script>
 
     <!-- App Initialization -->
-    <script src="js/app.js"></script>
-    <script src="js/updater.js"></script>
-    <script src="js/language.js"></script>
+    <script src="app.js"></script>
+    <script src="updater.js"></script>
+    <script src="language.js"></script>
 
     <!-- UI and UI-related Initialization -->
-    <script src="js/frontend/ui.js"></script>
-    <script src="js/frontend/player.js"></script>
+    <script src="frontend/ui.js"></script>
+    <script src="frontend/player.js"></script>
 
     <!-- Backbone Models -->
-    <script src="js/frontend/models/movie.js"></script>
+    <script src="frontend/models/movie.js"></script>
 
     <!-- Data Sources -->
-    <script src="js/frontend/providers/cache.js"></script>
-    <script src="js/frontend/providers/ysubs.js"></script>
-    <script src="js/frontend/scrapers/yts.js"></script>
-    <script src="js/frontend/scrapers/scrapers.js"></script>
+    <script src="frontend/providers/cache.js"></script>
+    <script src="frontend/providers/ysubs.js"></script>
+    <script src="frontend/scrapers/yts.js"></script>
+    <script src="frontend/scrapers/scrapers.js"></script>
 
     <!-- Backbone Views and Controllers -->
-    <script src="js/frontend/views/page.js"></script>
-    <script src="js/frontend/views/listview.js"></script>
-    <script src="js/frontend/views/movie.js"></script>
-    <script src="js/frontend/views/sidebar.js"></script>
-    <script src="js/frontend/controllers/home.js"></script>
-    <script src="js/frontend/controllers/search.js"></script>
-    <script src="js/frontend/controllers/filter.js"></script>
-    <script src="js/frontend/router.js"></script>
+    <script src="lib/views/title_bar.js"></script>
+    <script src="lib/views/main_window.js"></script>
+    <script src="frontend/views/page.js"></script>
+    <script src="frontend/views/listview.js"></script>
+    <script src="frontend/views/movie.js"></script>
+    <script src="frontend/views/sidebar.js"></script>
+    <script src="frontend/controllers/home.js"></script>
+    <script src="frontend/controllers/search.js"></script>
+    <script src="frontend/controllers/filter.js"></script>
+    <script src="frontend/router.js"></script>
 
     <!-- Other Dependencies -->
-    <script src="js/vendor/video-js/video.dev.js"></script>
-    <script src="js/vendor/videojsplugins.js"></script>
-    <script src="js/vendor/dragwindow.js"></script>
+    <script src="vendor/video-js/video.dev.js"></script>
+    <script src="vendor/videojsplugins.js"></script>
+    <script src="vendor/dragwindow.js"></script>
   </body>
 </html>

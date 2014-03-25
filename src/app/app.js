@@ -46,7 +46,8 @@ var
     if (isOSX)   { BUTTON_ORDER = ['close', 'min', 'max']; }
 
 // Global App skeleton for backbone
-var App = {
+var App = App || {};
+var App = _.defaults(App, {
   Controller: {},
   View: {},
   Model: {},
@@ -54,12 +55,7 @@ var App = {
   Scrapers: {},
   Providers: {},
   Localization: {}
-};
-
-
-// render header buttons
-$("#header").html(_.template($('#header-tpl').html(), {buttons: BUTTON_ORDER}));
-
+});
 
 // Create the System Temp Folder. This is used to store temporary data like movie files.
 if( ! fs.existsSync(tmpFolder) ) { fs.mkdir(tmpFolder); }
@@ -195,28 +191,20 @@ if( ! Settings.get('disclaimerAccepted') ) {
     });
 }
 
+$(window).load(function(){
+    App.mainWindow = new App.View.MainWindow({
+        el: $('body')
+    });
+    App.mainWindow.render();
+});
+
 
 /**
  * Show 404 page on uncaughtException
  */
 process.on('uncaughtException', function(err) {
     if (console && console.logger) {
-        console.logger.error(err);
+        console.logger.error(err, err.stack);
     }
 });
 
-
-
-// TODO: I have no idea what this is
-App.throttle = function(handler, time) {
-  var throttle;
-  time = time || 300;
-  return function() {
-    var args = arguments,
-      context = this;
-    clearTimeout(throttle);
-    throttle = setTimeout(function() {
-      handler.apply(context, args);
-    }, time);
-  };
-};

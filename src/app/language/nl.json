@@ -1,0 +1,56 @@
+{
+  "quit": "Stop",
+  "cancel": "Annuleer",
+  "beforeQuit": "Applicatie afsluiten?",
+  "loading": "Een ogenblik geduld...",
+  "loadingVideo": "Video wordt geladen, een ogenblik geduld",
+  "searchLoading": "Zoeken...",
+  "noResults": "Geen resultaten gevonden.",
+
+  "search": "Zoeken",
+  "movies": "Films",
+
+  "subtitledIn": "Ondertiteld in",
+  "quality": "Kwaliteit",
+  "watchItNow": "Kijk nu",
+  "durationUnit": "min",
+
+  "connecting": "Verbinden...",
+  "startingDownload": "Start Download...",
+  "downloading": "Downloaden...",
+
+  "UpgradeVersion": "Update Popcorn Time",
+  "UpgradeVersionDescription": " is net uitgekomen. Download hem nu!",
+  
+  "legalDisclaimer": "Popcorn Time downloadt en uploadt films met behulp van torrents, dit kan illegaal zijn in jouw land.",
+  "legalDisclaimerResponsible": "Wij zijn niet verantwoordelijk voor mogelijke wettelijke problemen, dus lees de voorwaarden goed alvorens de applicatie te gebruiken.",
+  "legalDisclaimerAccept": "Ik begrijp dit en wil Popcorn Time gebruiken",
+  "legalDisclaimerCancel": "Sluit Popcorn Time",
+  
+  "genres": {
+    "all": "Populair",
+    "action": "Actie",
+    "adventure": "Avontuur",
+    "animation": "Animatie",
+    "biography": "Biografie",
+    "comedy": "Comedy",
+    "crime": "Misdaad",
+    "documentary": "Documentaire",
+    "drama": "Drama",
+    "family": "Familie",
+    "fantasy": "Fantasie",
+    "film-noir": "Film-Noir",
+    "history": "Geschiedenis",
+    "horror": "Horror",
+    "music": "Muziek",
+    "musical": "Musical",
+    "mystery": "Mystery",
+    "romance": "Romantiek",
+    "sci-fi": "Sci-Fi",
+    "short": "Kort",
+    "sport": "Sport",
+    "thriller": "Thriller",
+    "war": "Oorlog",
+    "western": "Western"
+  }
+}

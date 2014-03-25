@@ -1,6 +1,6 @@
 (function() {
 
-    var trakt = require('./js/frontend/providers/trakttv');
+    var trakt = require('./frontend/providers/trakttv');
     var async = require('async');
     var request = require('request');
 

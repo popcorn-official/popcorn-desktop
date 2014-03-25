@@ -1,0 +1,56 @@
+{
+  "quit": "Închide",
+  "cancel": "Anulează",
+  "beforeQuit": "Ești sigur că vrei să închizi?",
+  "loading": "Te rugăm să aștepți...",
+  "loadingVideo": "Filmul se încarcă, te rugăm să așteapți",
+  "searchLoading": "Se caută...",
+  "noResults": "Nu s-a găsit niciun rezultat.",
+
+  "search": "Caută",
+  "movies": "Filme",
+
+  "subtitledIn": "Subtitrat în",
+  "quality": "Calitate",
+  "watchItNow": "Vizionează acum",
+  "durationUnit": "min",
+
+  "connecting": "Se conectează...",
+  "startingDownload": "Începe descărcarea...",
+  "downloading": "Se descarcă...",
+
+  "UpgradeVersion": "Actualizează Popcorn Time",
+  "UpgradeVersionDescription": " a fost lansat. Îți sugerăm să treci la noua versiune!",
+  
+  "legalDisclaimer": "Popcorn Time descarcă și partajează filme folosind torrente, ceea ce ar putea să nu fie legal în țara ta.",
+  "legalDisclaimerResponsible": "Nu suntem responsabili pentru orice probleme ar putea apărea, așa că te rugam să citești cu atenție Termenii și Condițiile de utilizare înainte de a folosi aplicația.",
+  "legalDisclaimerAccept": "Înțeleg și doresc să folosesc Popcorn Time",
+  "legalDisclaimerCancel": "Închide Popcorn Time",
+  
+  "genres": {
+    "all": "Popular",
+    "action": "Acțiune",
+    "adventure": "Aventură",
+    "animation": "Animație",
+    "biography": "Biografic",
+    "comedy": "Comedie",
+    "crime": "Crimă",
+    "documentary": "Documentar",
+    "drama": "Dramă",
+    "family": "De familie",
+    "fantasy": "Fantezie",
+    "film-noir": "Film-Noir",
+    "history": "Istoric",
+    "horror": "Horror",
+    "music": "Muzică",
+    "musical": "Muzical",
+    "mystery": "Mister",
+    "romance": "Romantic",
+    "sci-fi": "SF",
+    "short": "Scurt-metraj",
+    "sport": "Sport",
+    "thriller": "Thriller",
+    "war": "Război",
+    "western": "Western"
+  }
+}
