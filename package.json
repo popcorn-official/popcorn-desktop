@@ -33,7 +33,9 @@
     "express": "3.4.8",
     "socket.io": "0.9.16",
     "URIjs": "1.12.1",
-    "async": "0.2.10"
+    "async": "0.2.x",
+    "underscore": "1.6.x",
+    "q": "2.0.x"
   },
   "devDependencies": {
     "grunt": "0.4.4",

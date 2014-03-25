@@ -413,19 +413,19 @@ sidebar {
               }
 
               .flag {
-                &.flag-english { background-image: url(../images/english.png); }
-                &.flag-french { background-image: url(../images/french.png); }
-                &.flag-dutch { background-image: url(../images/dutch.png); }
-                &.flag-portuguese { background-image: url(../images/portuguese.png); }
-                &.flag-romanian { background-image: url(../images/romanian.png); }
-                &.flag-spanish { background-image: url(../images/spanish.png); }
-                &.flag-turkish { background-image: url(../images/turkish.png); }
-                &.flag-brazilian { background-image: url(../images/brazilian.png); }
-                &.flag-italian { background-image: url(../images/italian.png); }
-                &.flag-hungarian { background-image: url(../images/hungarian.png); }
-                &.flag-bulgarian { background-image: url(../images/bulgarian.png); }
-                &.flag-finnish { background-image: url(../images/finnish.png); }
-                &.flag-russian { background-image: url(../images/russian.png); }
+                &.flag-en { background-image: url(../images/english.png); }
+                &.flag-fr { background-image: url(../images/french.png); }
+                &.flag-nl { background-image: url(../images/dutch.png); }
+                &.flag-pt { background-image: url(../images/portuguese.png); }
+                &.flag-ro { background-image: url(../images/romanian.png); }
+                &.flag-es { background-image: url(../images/spanish.png); }
+                &.flag-tr { background-image: url(../images/turkish.png); }
+                &.flag-pt-br { background-image: url(../images/brazilian.png); }
+                &.flag-it { background-image: url(../images/italian.png); }
+                &.flag-hu { background-image: url(../images/hungarian.png); }
+                &.flag-bu { background-image: url(../images/bulgarian.png); }
+                &.flag-fi { background-image: url(../images/finnish.png); }
+                &.flag-ru { background-image: url(../images/russian.png); }
               }
             }
           }

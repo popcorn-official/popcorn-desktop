@@ -52,7 +52,8 @@ var App = {
   Model: {},
   Page: {},
   Scrapers: {},
-  Providers: {}
+  Providers: {},
+  Localization: {}
 };
 
 

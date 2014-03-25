@@ -55,5 +55,137 @@ var populateCategories = function() {
     jQuery('#catalog-select .categories').html(category_html);
 };
 
+// Remove unsupported subtitle language from object
+App.Localization.filterSubtitle = function(langs) {
+    var filteredLang = {};
+    _.each(langs, function(data, lang){
+        if(App.Localization.languages[lang].subtitle) {
+            filteredLang[lang] = data;
+        }
+    });
+
+    return filteredLang;
+};
+
+// Simple mapping to translate some API language to ISO 639 code
+App.Localization.languageMapping = {
+    "albanian": "sq",
+    "arabic": "ar",
+    "bengali": "bn",
+    "brazilian-portuguese": "pt-br",
+    "bulgarian": "bg",
+    "chinese": "zh",
+    "croatian": "hr",
+    "czech": "cs",
+    "danish": "da",
+    "dutch": "nl",
+    "english": "en",
+    "farsi-persian": "fa",
+    "finnish": "fi",
+    "french": "fr",
+    "german": "de",
+    "greek": "el",
+    "hebrew": "he",
+    "hungarian": "hu",
+    "indonesian": "id",
+    "italian": "it",
+    "japanese": "ja",
+    "korean": "ko",
+    "lithuanian": "lt",
+    "macedonian": "mk",
+    "malay": "ms",
+    "norwegian": "no",
+    "polish": "pl",
+    "portuguese": "pt",
+    "romanian": "ro",
+    "russian": "ru",
+    "serbian": "sr",
+    "slovenian": "sl",
+    "spanish": "es",
+    "swedish": "sv",
+    "thai": "th",
+    "turkish": "tr",
+    "urdu": "ur",
+    "vietnamese": "vi"
+};
+
+// Language used in the system, edit to add subtitle support
+App.Localization.languages = {
+    "sq": {},
+    "ar": {},
+    "bn": {},
+    "pt-br": {
+        display: "Português-Br",
+        subtitle: true
+    },
+    "bg": {
+        display: "Български",
+        subtitle: true
+    },
+    "zh": {},
+    "hr": {},
+    "cs": {},
+    "da": {},
+    "nl": {
+        display: "Nederlands",
+        subtitle: true
+    },
+    "en": {
+        display: "English",
+        subtitle: true
+    },
+    "fa": {},
+    "fi": {
+        display: "Suomi",
+        subtitle: true
+    },
+    "fr": {
+        display: "Français",
+        subtitle: true
+    },
+    "de": {
+        display: "Deutsch",
+        subtitle: true
+    },
+    "el": {},
+    "he": {},
+    "hu": {
+        display: "Magyar",
+        subtitle: true
+    },
+    "id": {},
+    "it": {},
+    "ja": {},
+    "ko": {},
+    "lt": {},
+    "mk": {},
+    "ms": {},
+    "no": {},
+    "pl": {},
+    "pt": {
+        display: "Português",
+        subtitle: true
+    },
+    "ro": {
+        display: "Română",
+        subtitle: true
+    },
+    "ru": {},
+    "sr": {},
+    "sl": {},
+    "es": {
+        display: "Español",
+        subtitle: true
+    },
+    "sv": {},
+    "th": {},
+    "tr": {
+        display: "Türkçe",
+        subtitle: true
+    },
+    "ur": {},
+    "vi": {}
+};
+
 // Detect the language. The default is english
 detectLanguage('en');

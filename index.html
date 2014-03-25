@@ -122,7 +122,7 @@
                 <% if (typeof subtitles !== 'undefined') { %>
                   <li>
                     <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
-                      <span class="flag flag-<%= keys[i] %>" title="<%= i18n.__(keys[i]) %>"></span>
+                      <span class="flag flag-<%= keys[i] %>" title="<%= App.Localization.languages[keys[i]].display %>"></span>
                     <% } %>
                   </li>
                 <% } %>
@@ -184,7 +184,7 @@
 
     <!-- Data Sources -->
     <script src="js/frontend/providers/cache.js"></script>
-    <script src="js/frontend/providers/yifysubtitles.js"></script>
+    <script src="js/frontend/providers/ysubs.js"></script>
     <script src="js/frontend/scrapers/yts.js"></script>
     <script src="js/frontend/scrapers/scrapers.js"></script>
 
