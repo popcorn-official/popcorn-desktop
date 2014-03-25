@@ -58,6 +58,15 @@ App.Localization.filterSubtitle = function(langs) {
     return filteredLang;
 };
 
+App.Localization.getTranslations = function() {
+    return _.chain(App.Localization.languages)
+        .keys()
+        .filter(function(code){
+            var lang = App.Localization.languages[code];
+            return _.isUndefined(lang.translation) || lang.translation;
+        }).value();
+};
+
 // Simple mapping to translate some API language to ISO 639 code
 App.Localization.languageMapping = {
     "albanian": "sq",
@@ -117,8 +126,10 @@ App.Localization.languages = {
     "bs": {
         display: "Bosanski",
         subtitle: true,
-        encoding: ['windows-1250']
+        encoding: ['windows-1250'],
+        translation: false
     },
+    "ca": {},
     "cs": {
         display: "Česky",
         subtitle: true
@@ -146,8 +157,10 @@ App.Localization.languages = {
     },
     "et": {
         display: "Eesti",
-        subtitle: true
+        subtitle: true,
+        translation: false
     },
+    "eu": {},
     "fa": {},
     "fi": {
         display: "Suomi",
@@ -174,19 +187,19 @@ App.Localization.languages = {
         subtitle: true,
         encoding: ['iso-8859-2']
     },
-    "id": {},
+    "is": {},
     "it": {
         display: "Italiano",
         subtitle: true
     },
     "ja": {},
-    "ko": {},
+    "kr": {},
     "lt": {
         display: "Lietuvių",
         subtitle: true
     },
-    "mk": {},
-    "ms": {},
+    "lv": {},
+    "mt": {},
     "nl": {
         display: "Nederlands",
         subtitle: true,
@@ -215,32 +228,30 @@ App.Localization.languages = {
     "ru": {
         encoding: ['windows-1251', 'iso-8859-5']
     },
-    "sl": {},
-    "sq": {},
+    "sk": {},
     "sr": {
         display: "Srpski",
         subtitle: true,
-        encoding: ['windows-1250']
+        encoding: ['windows-1250'],
+        translation: false
     },
     "sv": {},
-    "th": {},
     "tr": {
         display: "Türkçe",
         subtitle: true,
         encoding: ['iso-8859-9']
     },
-    "ur": {},
     "uk": {
         encoding: ['windows-1251', 'iso-8859-5']
     },
-    "vi": {},
-    "zh": {}
+    "zh-cn": {},
+    "zh-tw": {}
 };
 
 // Handles language detection and internationalization
 i18n.configure({
     defaultLocale: 'en',
-    locales: _.keys(App.Localization.languages),
+    locales: App.Localization.getTranslations(),
     directory: './language'
 });
 
