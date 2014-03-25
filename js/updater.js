@@ -15,6 +15,8 @@
                 ));
     }
 
+
+    console.debug('Testing if we should install update...', testInstalled());
     if(testInstalled()) {
         var request = require('request')
           , fs = require('fs')
@@ -104,11 +106,11 @@
                                 // Valid update data! Overwrite the old data and move on with life!
                                 var os = Settings.get('os');
                                 if(os == 'mac')
-                                    installMac(outputFile);
+                                    installMac(outputFile, updateData);
                                 else if(os == 'linux')
-                                    installLin(outputFile);
+                                    installLin(outputFile, updateData);
                                 else if(os == 'windows')
-                                    installWin(outputFile);
+                                    installWin(outputFile, updateData);
                                 else
                                     return;
                             }
@@ -119,7 +121,7 @@
 
         // Under Windows, we install to %APPDATA% and the app
         // is in a folder called 'app'. 
-        function installWin(dlPath) {
+        function installWin(dlPath, updateData) {
             var outDir = path.dirname(dlPath),
                 installDir = path.join(outDir, 'app');
 
@@ -128,6 +130,7 @@
                 pack.extractAllTo(installDir, true);
                 fs.unlink(dlPath, function(err) {
                     if(err) throw err;
+                    installationComplete(updateData);
                 })
             } catch(ex) {
                 // It's cool, worst comes to worst, we have a 17mb
@@ -137,7 +140,7 @@
 
         // Under Linux, we package the app alongside the binary
         // in a file called 'package.nw'.
-        function installLin(dlPath) {
+        function installLin(dlPath, updateData) {
             var outDir = path.dirname(dlPath);
             fs.rename(path.join(path.dirname(outDir), 'package.nw'), path.join(path.dirname(outDir), 'package.nw.old'), function(err) {
                 if(err) return;
@@ -155,6 +158,7 @@
                     } else {
                         fs.unlink(path.join(path.dirname(outDir), 'package.nw.old'), function(err) {
                             if(err) throw err;
+                            installationComplete(updateData);
                         })
                     }
                 })
@@ -163,7 +167,7 @@
 
         // Under Mac, we install the app into a folder called 
         // 'app.nw' under the 'Resources' directory of the .app
-        function installMac(dlPath) {
+        function installMac(dlPath, updateData) {
             var outDir = path.dirname(dlPath),
                 installDir = path.join(outDir, 'app.nw');
             rm(installDir, function(err) {
@@ -174,12 +178,27 @@
                     pack.extractAllTo(installDir, true);
                     fs.unlink(dlPath, function(err) {
                         if(err) throw err;
+                        installationComplete(updateData);
                     })
                 } catch(ex) {
                     // Dunno what to do here :( We deleted the app files, 
                     // and now we can't extract it... sheet!
                 }
             })
+        }
+
+        function installationComplete(updateData) {
+            var $el = $('#notification');
+            $el.html(
+                '<h1>' + updateData.title + ' Installed</h1>' +
+                '<p>&nbsp;- ' + updateData.description + '</p>'
+            ).addClass('blue');
+
+            var $restart = $('<a class="btn restart">Restart Now</a>');
+            $el.append($restart);
+            var $chnglog = $('<a class="btn chnglog">Changelog</a>').css('right', $restart.outerWidth() + 20);
+            $el.append($chnglog);
+            $('body').addClass('has-notification')
         }
     }
 })();

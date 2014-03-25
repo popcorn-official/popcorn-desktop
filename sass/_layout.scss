@@ -200,11 +200,15 @@ a { text-decoration: none; }
   font-weight: bold;
   line-height: 27px;
   padding: 9px 15px;
-  background: #e20f3c;
+  background: #dbb756;
   color: #fff;
   border: 1px solid #000;
   border-top: none;
   display: none;
+
+  h1 {
+    float: left;
+  }
 
   .btn {
     position: absolute;
@@ -213,6 +217,26 @@ a { text-decoration: none; }
     background-image: none;
     background: rgba(0, 0, 0, 0.4)
   }
+}
+
+#notification.blue {
+  background: #4ec0b6;
+}
+
+#notification.green {
+  background: #6abe9a;
+}
+
+#notification.yellow {
+  background: #dbb756;
+}
+
+#notification.orange {
+  background: #f07f53;
+}
+
+#notification.red {
+  background: #f15153;
 }
 
 // Catalog select
