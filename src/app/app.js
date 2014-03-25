@@ -35,16 +35,6 @@ var
     // i18n module (translations)
     i18n = require("i18n");
 
-    isWin = (process.platform === 'win32');
-    isLinux = (process.platform === 'linux');
-    isOSX = (process.platform === 'darwin');
-
-    BUTTON_ORDER = ['close', 'min', 'max'];
-
-    if (isWin)   { BUTTON_ORDER = ['min', 'max', 'close']; }
-    if (isLinux) { BUTTON_ORDER = ['min', 'max', 'close']; }
-    if (isOSX)   { BUTTON_ORDER = ['close', 'min', 'max']; }
-
 // Global App skeleton for backbone
 var App = App || {};
 var App = _.defaults(App, {
@@ -79,36 +69,10 @@ win.on('close', function(){
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};
 
 
-// Not debugging, hide all messages!
-if (!isDebug) {
-    console.log = function () {};
-    console.logger = {};
-    console.logger.log = function() {};
-    console.logger.debug = console.logger.log;
-    console.logger.info = console.logger.log;
-    console.logger.warn = console.logger.log;
-    console.logger.error = console.logger.log;
-} else {
-    // Developer Menu building
-    var menubar = new gui.Menu({ type: 'menubar' }),
-        developerSubmenu = new gui.Menu(),
-        developerItem = new gui.MenuItem({
-           label: 'Developer',
-           submenu: developerSubmenu
-        }),
-        debugItem = new gui.MenuItem({
-            label: 'Show developer tools',
-            click: function () {
-                win.showDevTools();
-            }
-        });
-    menubar.append(developerItem);
-    developerSubmenu.append(debugItem);
-    win.menu = menubar;
-
+if (isDebug) {
     // Developer Shortcuts
     document.addEventListener('keydown', function(event){
         // F12 Opens DevTools
@@ -116,57 +80,7 @@ if (!isDebug) {
         // F11 Reloads
         if( event.keyCode == 122 ) { win.reloadIgnoringCache(); }
     });
-
-    // Special Debug Console Calls!
-    console.logger = {};
-    console.logger.log = console.log.bind(console);
-    console.logger.debug = function() {
-        var params = Array.prototype.slice.call(arguments, 1);
-        params.unshift('%c[%cDEBUG%c] ' + arguments[0], 'color: black;', 'color: #00eb76;', 'color: black;');
-        console.debug.apply(console, params);
-    }
-    console.logger.info = function() {
-        var params = Array.prototype.slice.call(arguments, 1);
-        params.unshift('[%cINFO%c] ' + arguments[0], 'color: blue;', 'color: black;');
-        console.info.apply(console, params);
-    }
-    console.logger.warn = function() {
-        var params = Array.prototype.slice.call(arguments, 1);
-        params.unshift('[%cWARNING%c] ' + arguments[0], 'color: #ffc000;', 'color: black;');
-        console.warn.apply(console, params);
-    }
-    console.logger.error = function() {
-        var params = Array.prototype.slice.call(arguments, 1);
-        params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: #ff1500;', 'color: black;');
-        console.error.apply(console, params);
-    }
 }
-
-
-// Set the app title (for Windows mostly)
-win.title = 'Popcorn Time';
-
-
-// Focus the window when the app opens
-win.focus();
-
-
-// Cancel all new windows (Middle clicks / New Tab)
-win.on('new-win-policy', function (frame, url, policy) {
-    policy.ignore();
-});
-
-
-var preventDefault = function(e) {
-    e.preventDefault();
-}
-// Prevent dropping files into the window
-window.addEventListener("dragover", preventDefault, false);
-window.addEventListener("drop", preventDefault, false);
-// Prevent dragging files outside the window
-window.addEventListener("dragstart", preventDefault, false);
-
-
 
 // Show the disclaimer if the user hasn't accepted it yet.
 if( ! Settings.get('disclaimerAccepted') ) {
