@@ -142,10 +142,10 @@
         // in a file called 'package.nw'.
         function installLin(dlPath, updateData) {
             var outDir = path.dirname(dlPath);
-            fs.rename(path.join(path.dirname(outDir), 'package.nw'), path.join(path.dirname(outDir), 'package.nw.old'), function(err) {
-                if(err) return;
+            fs.rename(path.join(outDir, 'package.nw'), path.join(outDir, 'package.nw.old'), function(err) {
+                if(err) throw err;
 
-                fs.rename(dlPath, path.join(path.dirname(outDir), 'package.nw'), function(err) {
+                fs.rename(dlPath, path.join(outDir, 'package.nw'), function(err) {
                     if(err) {
                         // Sheeet! We got a booboo :'(
                         // Quick! Lets erase it before anyone realizes!
@@ -156,7 +156,7 @@
                         }
                         throw err;
                     } else {
-                        fs.unlink(path.join(path.dirname(outDir), 'package.nw.old'), function(err) {
+                        fs.unlink(path.join(outDir, 'package.nw.old'), function(err) {
                             if(err) throw err;
                             installationComplete(updateData);
                         })
