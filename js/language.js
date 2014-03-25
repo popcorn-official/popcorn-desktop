@@ -50,7 +50,8 @@ var populateCategories = function() {
 App.Localization.filterSubtitle = function(langs) {
     var filteredLang = {};
     _.each(langs, function(data, lang){
-        if(App.Localization.languages[lang].subtitle) {
+        var langInfo = App.Localization.languages[lang];
+        if(langInfo && langInfo.subtitle) {
             filteredLang[lang] = data;
         }
     });
