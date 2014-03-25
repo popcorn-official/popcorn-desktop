@@ -190,14 +190,14 @@
         function installationComplete(updateData) {
             var $el = $('#notification');
             $el.html(
-                '<h1>' + updateData.title + ' Installed</h1>' +
-                '<p>&nbsp;- ' + updateData.description + '</p>'
+                '<h1>' + updateData.title + ' Installed</h1>'   +
+                '<p>&nbsp;- ' + updateData.description + '</p>' +
+                '<span class="btn-grp">'                        +
+                    '<a class="btn chnglog">Changelog</a>'      +
+                    '<a class="btn restart">Restart Now</a>'    +
+                '</span>'
             ).addClass('blue');
 
-            var $restart = $('<a class="btn restart">Restart Now</a>');
-            $el.append($restart);
-            var $chnglog = $('<a class="btn chnglog">Changelog</a>').css('right', $restart.outerWidth() + 20);
-            $el.append($chnglog);
             $('body').addClass('has-notification')
         }
     }

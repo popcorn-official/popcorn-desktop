@@ -210,12 +210,19 @@ a { text-decoration: none; }
     float: left;
   }
 
-  .btn {
+  .btn-grp {
     position: absolute;
     top: 6px;
     right: 15px;
+  }
+
+  .btn {
     background-image: none;
     background: rgba(0, 0, 0, 0.4)
+  }
+
+  .btn.chnglog {
+    margin-right: 5px;
   }
 }
 
