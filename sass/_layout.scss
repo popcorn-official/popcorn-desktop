@@ -246,6 +246,51 @@ a { text-decoration: none; }
   background: #f15153;
 }
 
+#changelog-container {
+  position: absolute;
+  left: 0; top: $header_height + $notification_height;
+  height: 100%;
+  width: calc(100% - 90px);
+  padding: 30px;
+  padding-left: 70px;
+  z-index: 997;
+  background: rgba(0, 0, 0, 0.93);
+  display: none;
+
+  .btn-close {
+    position: absolute;
+    z-index: 9999;
+    top: 19px;
+    left: 15px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  h1 {
+    font-weight: bold;
+    font-size: 30px;
+  }
+
+  h3 {
+    font-style: italic;
+    font-size: 15px;
+  }
+
+  ul {
+    margin-top: 10px;
+    padding-left: 20px;
+    list-style-type: square;
+
+    li {
+      margin: 10px 0;
+      line-height: 20px;
+    }
+  }
+}
+
 // Catalog select
 #catalog-select {
   @include box-sizing(border-box);

@@ -198,6 +198,25 @@
                 '</span>'
             ).addClass('blue');
 
+            var $restart = $('.btn.restart'),
+                $chnglog = $('.btn.chnglog');
+
+            $restart.on('click', function() {
+                var spawn = require('child_process').spawn,
+                    argv = gui.App.fullArgv;
+                argv.push(process.cwd());
+                spawn(process.execPath, argv, { cwd: process.cwd(), detached: true, stdio: [ 'ignore', 'ignore', 'ignore' ] }).unref();
+                gui.App.quit();
+            })
+                
+            $chnglog.on('click', function() {
+                var $changelog = $('#changelog-container').html(_.template($('#changelog-tpl').html())(updateData));
+                $changelog.find('.btn-close').on('click', function() {
+                    $changelog.hide();
+                });
+                $changelog.show();
+            })
+
             $('body').addClass('has-notification')
         }
     }
