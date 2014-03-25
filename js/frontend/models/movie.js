@@ -23,7 +23,7 @@ App.Model.Movie = Backbone.Model.extend({
     fetchMissingData: function() {
         if ( !this.get('hasSubtitle') ) {
             App.Providers.subtitle.fetch(this);
-            console.log('Fetched missing data', this);
+            console.logger.info('Fetched missing data %O', this);
         }
     },
 

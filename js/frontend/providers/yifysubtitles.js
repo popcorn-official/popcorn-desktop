@@ -81,7 +81,7 @@ var YifyProvider = {
     fetch: function(model) {
         var imdbId = model.get('imdb');
         findSubtitle(imdbId, function(subtitles) {
-            console.log('subtitles found for', _.keys(subtitles));
+            console.logger.info('Subtitles found for %O', _.keys(subtitles));
             model.set('subtitles', subtitles);
             model.set('hasSubtitle', true);
         });

@@ -27,7 +27,7 @@ App.Cache = {
                             result = false;
                             db.transaction(function (tx) {
                                 tx.executeSql('DELETE FROM ' + provider + ' WHERE key = ?', [key]);
-                                console.log('One expired!');
+                                console.logger.debug('One expired!');
                             });
                         }
 

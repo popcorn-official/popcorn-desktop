@@ -21,7 +21,7 @@ App.View.Sidebar = Backbone.View.extend({
         this.listenTo(model, 'change:hasSubtitle', this.readyToPlay);
         this.model = model;
         model.fetchMissingData();
-        console.log('loading model', this.model);
+        console.logger.info('Loading model %O', this.model);
 
         this.render();
     },
@@ -137,7 +137,7 @@ App.View.Sidebar = Backbone.View.extend({
     enableHD: function (evt) {
 
         var torrents = this.model.get('torrents');
-        console.log('HD Enabled');
+        console.logger.debug('HD Enabled');
 
         if(torrents['1080p'] !== undefined) {
             this.model.set('torrent', torrents['1080p']);
@@ -148,7 +148,7 @@ App.View.Sidebar = Backbone.View.extend({
     disableHD: function (evt) {
 
         var torrents = this.model.get('torrents');
-        console.log('HD Disabled');
+        console.logger.debug('HD Disabled');
 
         if(torrents['720p'] !== undefined) {
             this.model.set('torrent', torrents['720p']);
