@@ -60,80 +60,6 @@
         fetch: function() {
             var collection = this;
 
-<<<<<<< HEAD
-        var thisRequest = currentRequest = request(this.apiUrl, {json: true}, function(err, res, ytsData) {
-            var i = 0;
-
-            if(err) {
-                collection.trigger('error');
-                return;
-            }
-
-            if (ytsData.error || typeof ytsData.MovieList === 'undefined') {
-                collection.set(collection.movies);
-                collection.trigger('loaded');
-                return;
-            }
-
-            async.filter(
-              _.pluck(ytsData.MovieList, 'ImdbCode'),
-              function(cd, cb) { App.Cache.getItem('trakttv', cd, function(d) { cb(d == undefined) }) },
-              function(imdbCodes) {
-                var traktMovieCollection = new trakt.MovieCollection(imdbCodes);
-                traktMovieCollection.getSummaries(function(trakData) {
-                    // Check if new request was started
-                    if(thisRequest !== currentRequest) return;
-
-                    i = ytsData.MovieList.length;
-                    ytsData.MovieList.forEach(function (movie) {
-                        // No imdb, no movie.
-                        if( typeof movie.ImdbCode != 'string' || movie.ImdbCode.replace('tt', '') == '' ){ return; }
-
-                        var traktInfo = _.find(trakData, function(trakMovie) { return trakMovie.imdb_id == movie.ImdbCode });
-
-                        var torrents = {};
-                        torrents[movie.Quality] = movie.TorrentUrl;
-
-                        // Temporary object
-                        var movieModel = {
-                            imdb:       movie.ImdbCode.replace('tt', ''),
-                            title:      movie.MovieTitleClean.replace(/\([^)]*\)|1080p|DIRECTORS CUT|EXTENDED|UNRATED|3D|[()]/g, ''),
-                            year:       movie.MovieYear,
-                            runtime:    0,
-                            synopsis:   '',
-                            voteAverage:parseFloat(movie.MovieRating),
-
-                            image:      movie.CoverImage.replace(/_med\./, '_large.'),
-                            bigImage:   movie.CoverImage.replace(/_med\./, '_large.'),
-                            backdrop:   '',
-
-                            quality:    movie.Quality,
-                            torrent:    movie.TorrentUrl,
-                            torrents:   torrents,
-                            videos:     {},
-                            subtitles:  {},
-                            seeders:    movie.TorrentSeeds,
-                            leechers:   movie.TorrentPeers,
-
-                            // YTS do not provide metadata and subtitle
-                            hasSubtitle:false
-                        };
-
-                        if(traktInfo) {
-                            movieModel.image = trakt.resizeImage(traktInfo.images.poster, '138');
-                            movieModel.bigImage = trakt.resizeImage(traktInfo.images.poster, '300');
-                            movieModel.backdrop = traktInfo.images.fanart;
-                            movieModel.synopsis = traktInfo.overview;
-                            movieModel.runtime = +traktInfo.runtime;
-                            App.Cache.setItem('trakttv', traktInfo.imdb_id, traktInfo);
-                            collection.addMovie(movieModel);
-                            if(--i == 0) {
-                                collection.set(collection.movies);
-                                collection.trigger('loaded');
-                            }
-                        } else {
-                            App.Cache.getItem('trakttv', movie.ImdbCode, function(traktInfo) {
-=======
             this.movies = [];
 
             if(currentRequest) {
@@ -203,7 +129,6 @@
                                     hasSubtitle:true
                                 };
 
->>>>>>> 499-ysubs
                                 if(traktInfo) {
                                     movieModel.image = trakt.resizeImage(traktInfo.images.poster, '138');
                                     movieModel.bigImage = trakt.resizeImage(traktInfo.images.poster, '300');

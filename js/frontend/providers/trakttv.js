@@ -18,10 +18,10 @@ MovieCollection.prototype.getSummaries = function(callback) {
 
 	var uri = API_ENDPOINT.clone()
 				.segment([
-					MOVIE_PATH, 
-					'summaries.json', 
-					API_KEY, 
-					this.ids.join(','),
+					MOVIE_PATH,
+					'summaries.json',
+					API_KEY,
+					this.ids.sort().join(','),
 					'full'
 				]);
 

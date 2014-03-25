@@ -14,7 +14,7 @@
     var YSubs = {};
 
     YSubs.querySubtitles = function(imdbIds) {
-        var url = baseUrl + _.map(imdbIds, function(id){return 'tt'+id;}).join('-');
+        var url = baseUrl + _.map(imdbIds.sort(), function(id){return 'tt'+id;}).join('-');
 
         var deferred = Q.defer();
         request({url:url, json: true}, function(error, response, data){
@@ -45,8 +45,6 @@
 
             // Remove unsupported subtitles
             var filteredSubtitle = App.Localization.filterSubtitle(movieSubs);
-            // Add TTL so it get invalidated after a timespan
-            filteredSubtitle._TTL = TTL;
 
             allSubs[imdbId.replace('tt','')] = filteredSubtitle;
         });
@@ -60,7 +58,7 @@
         var ysubsPromise = cachePromise.then(function(cachedSubs){
                 // Filter out cached subtitles
                 var cachedIds = _.keys(cachedSubs);
-                console.log('Cached subtitles', cachedIds);
+                console.log(cachedIds.length + ' cached subtitles');
                 var filteredId = _.difference(imdbIds, cachedIds);
                 return filteredId;
             })
@@ -69,9 +67,9 @@
 
         // Cache ysubs subtitles
         ysubsPromise.then(function(moviesSubs) {
-                console.log('Cache subtitles', _.keys(moviesSubs));
+                console.log('Cache ' + _.keys(moviesSubs).length + ' subtitles');
                 _.each(moviesSubs, function(movieSubs, imdbId) {
-                    context.App.Cache.setItem(cacheNamespace, imdbId, movieSubs);
+                    context.App.Cache.setItem(cacheNamespace, imdbId, movieSubs, TTL);
                 });
             });
 

@@ -36,6 +36,9 @@ App.Cache = {
                     } else {
                         mappedData[row.key] = data;
                     }
+
+                    delete data._TTL;
+                    delete data._saved;
                 }
 
                 // Clear expired data
@@ -91,9 +94,9 @@ App.Cache = {
             });
         });
     },
-    setItem: function (provider, key, data) {
-        if (data._TTL) {
-            data._saved = +new Date();
+    setItem: function (provider, key, data, ttl) {
+        if (ttl) {
+            data = _.extend({_saved: +new Date(), _TTL: ttl}, data);
         }
 
         if (typeof key !== 'string') {
