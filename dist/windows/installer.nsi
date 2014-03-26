@@ -96,6 +96,9 @@ RequestExecutionLevel user
 
 Section ; Node Webkit Files
 
+	;Delete existing install
+	RMDir /r "$INSTDIR"
+
 	;Set output path to InstallDir
 	SetOutPath "$INSTDIR\node-webkit"
 
@@ -131,10 +134,12 @@ Section ; Shortcuts
 	SetOutPath "$INSTDIR"
 
 	;Start Menu Shortcut
+	RMDir /r "$SMPROGRAMS\Popcorn Time"
 	CreateDirectory "$SMPROGRAMS\Popcorn Time"
 	CreateShortCut "$SMPROGRAMS\Popcorn Time\Popcorn Time.lnk" "$INSTDIR\node-webkit\Popcorn-Time.exe" "app" "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
 
 	;Desktop Shortcut
+	Delete "$DESKTOP\Popcorn Time.lnk"
 	CreateShortCut "$DESKTOP\Popcorn Time.lnk" "$INSTDIR\node-webkit\Popcorn-Time.exe" "app" "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
 
 SectionEnd
