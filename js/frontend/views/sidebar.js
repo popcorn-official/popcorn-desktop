@@ -128,7 +128,7 @@ App.View.Sidebar = Backbone.View.extend({
         this.backdropCache = new Image();
         this.backdropCache.src = this.model.get('backdrop');
         this.backdropCache.onload = function () {
-            $(".backdrop-image").addClass("loaded")
+            $(".backdrop-image").addClass("loaded");
         };
     },
 

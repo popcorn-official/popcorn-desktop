@@ -3,7 +3,7 @@
   "cancel": "Cancelar",
   "beforeQuit": "¿Está seguro de que desea salir?",
   "loading": "Cargando...",
-  "loadingVideo": "Cargando video, espere unos instantes",
+  "loadingVideo": "Cargando vídeo, espere unos instantes",
   "searchLoading": "Buscando...",
   "noResults": "No se encontraron resultados.",
   "search": "Buscar",
@@ -16,7 +16,7 @@
   "startingDownload": "Iniciando la descarga...",
   "downloading": "Descargando...",
   "UpgradeVersion": "Actualizar Popcorn Time",
-  "UpgradeVersionDescription": "Popcorn Time %s acaba de salir. ¡Descargala ahora!",
+  "UpgradeVersionDescription": "Popcorn Time %s acaba de salir. ¡Descárgala ahora!",
   "legalDisclaimer": "Popcorn Time descarga y comparte películas utilizando torrents, algo que puede ser ilegal en tu país.",
   "legalDisclaimerResponsible": "No nos hacemos responsables de los problemas que esto te pueda causar, asegúrate de comprender nuestros Términos y Condiciones antes de usar Popcorn Time.",
   "legalDisclaimerAccept": "Comprendo, quiero usar Popcorn Time",
@@ -52,7 +52,8 @@
   "dutch": "Holandés",
   "french": "Francés",
   "italian": "Italiano",
-  "romanian": "Romano",
+  "romanian": "Rumano",
   "spanish": "Español",
-  "turkish": "Turco"
+  "turkish": "Turco",
+  "basque": "Vasco"
 }

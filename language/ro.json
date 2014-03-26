@@ -19,6 +19,13 @@
   "startingDownload": "Începe descărcarea...",
   "downloading": "Se descarcă...",
 
+  "Settings": "Setări",
+  "Cache": "Cache",
+  "Cache location": "Locație Cache",
+  "Browse...": "Navigează...",
+  "Save": "Salvează",
+  "Auto clear cache": "Șterge automat cache-ul",
+  
   "UpgradeVersion": "Actualizează Popcorn Time",
   "UpgradeVersionDescription": " a fost lansat. Îți sugerăm să treci la noua versiune!",
   
@@ -52,5 +59,24 @@
     "thriller": "Thriller",
     "war": "Război",
     "western": "Western"
-  }
+  },
+ 
+  "french": "Franceză",
+  "english": "Engleză",
+  "spanish": "Spaniolă",
+  "swedish": "Suedeză",
+  "portuguese": "Portugheză",
+  "romanian": "Română",
+  "turkish": "Turcă",
+  "dutch": "Olandeză",
+  "italian": "Italiană",
+  "danish": "Daneză",
+  "arabic": "Arabă",
+  "korean": "Coreană",
+  "hungarian": "Ungară",
+  "bulgarian": "Bulgară",
+  "finnish": "Finlandeză",
+  "brazilian": "Braziliană",
+  "russian": "Rusă",
+  "german": "Germană"
 }
