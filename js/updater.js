@@ -16,7 +16,7 @@
     }
 
 
-    console.debug('Testing if we should install update...', testInstalled());
+    console.debug('Testing if we should check for update...', testInstalled());
     if(testInstalled()) {
         var request = require('request')
           , fs = require('fs')
@@ -80,6 +80,8 @@
 
             if(Settings.get('os') == 'linux')
                 updateData = updateData[Settings.get('arch')];
+
+            console.debug('Testing if we should install update...', checkVersion(updateData.version, Settings.get('version')) > 0);
 
             // Should use SemVer here in v0.2.9 (refactor)
             // As per checkVersion, -1 == lt; 0 == eq; 1 == gt

@@ -136,6 +136,7 @@
                                     movieModel.synopsis = traktInfo.overview;
                                     movieModel.runtime = +traktInfo.runtime;
                                     App.Cache.setItem('trakttv', traktInfo.imdb_id, traktInfo);
+                                    console.logger.warn('Trakt.tv Cache Miss %O', traktInfo);
                                     collection.addMovie(movieModel);
                                     if(--i == 0) {
                                         collection.set(collection.movies);
@@ -150,6 +151,7 @@
                                             movieModel.synopsis = traktInfo.overview;
                                             movieModel.runtime = +traktInfo.runtime;
                                         }
+                                        console.logger.debug('Trakt.tv Cache Hit %O', traktInfo);
                                         collection.addMovie(movieModel);
                                         if(--i == 0) {
                                             collection.set(collection.movies);
