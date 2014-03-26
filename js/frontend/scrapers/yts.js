@@ -132,7 +132,7 @@
                                 if(traktInfo) {
                                     movieModel.image = trakt.resizeImage(traktInfo.images.poster, '138');
                                     movieModel.bigImage = trakt.resizeImage(traktInfo.images.poster, '300');
-                                    movieModel.backdrop = traktInfo.images.fanart;
+                                    movieModel.backdrop = trakt.resizeImage(traktInfo.images.fanart, '940');
                                     movieModel.synopsis = traktInfo.overview;
                                     movieModel.runtime = +traktInfo.runtime;
                                     App.Cache.setItem('trakttv', traktInfo.imdb_id, traktInfo);
