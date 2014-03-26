@@ -24,8 +24,6 @@
             this.$el.html(this.template({
                 buttons: ButtonOrder[App.Config.platform]
             }));
-
-            this.delegateEvents(this.events);
         },
 
         maximize: function() {

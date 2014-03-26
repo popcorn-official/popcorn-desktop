@@ -27,24 +27,8 @@ var detectLanguage = function(preferredLanguage) {
             $el.text(i18n.__(key));
         }
     });
-
-    populateCategories();
 };
 
-
-// Populate the Category list (This should be a template, though)
-var populateCategories = function() {
-    var category_html = '';
-    var defaultCategory = 'all';
-
-    for(var key in i18n.__("genres") ) {
-        category_html += '<li'+ (defaultCategory == key ? ' class="active" ' : '') +'>'+
-                           '<a href="#" data-genre="'+key+'">'+ i18n.__("genres")[key] +'</a>'+
-                         '</li>';
-    }
-
-    jQuery('#catalog-select .categories').html(category_html);
-};
 
 // Remove unsupported subtitle language from object
 App.Localization.filterSubtitle = function(langs) {

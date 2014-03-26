@@ -20,11 +20,16 @@
                 el: this.$el.find('#header')
             });
 
+            this.movieBrowser = new App.View.MovieBrowser({
+                el: this.$el.find('#movie-browser')
+            });
+
             this.nativeWindow = require('nw.gui').Window.get();
         },
 
         render: function() {
             this.titleBar.render();
+            this.movieBrowser.render();
 
             // Set the app title (for Windows mostly)
             this.nativeWindow.title = App.Config.title;

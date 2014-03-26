@@ -16,32 +16,21 @@
 
     <div id="changelog-container"></div>
 
-    <script id="changelog-tpl" type="text/x-template">
-        <a class="btn-close"><img src="/images/close.svg" width="50" /></a>
-        <h1><%= title %></h1>
-        <h3><%= description %></h3>
-        <ul>
-        <% for(var i = 0; i < changeLog.length; i++) { %>
-          <li><%= changeLog[i] %></li>
-        <% } %>
-        </ul>
-    </script>
+    <div id="movie-browser">
+        <div id="catalog-select">
+          <div class="search">
+            <input type="text" placeholder="Search" data-translate="search" />
+            <i class="fa fa-search"></i>
+          </div>
 
-    <div id="catalog-select">
-      <div class="search">
-        <input type="text" placeholder="Search" data-translate="search" />
-        <i class="fa fa-search"></i>
-      </div>
+            <div class="category-list">
+            </div>
+        </div>
 
-      <h4 data-translate="movies">Movies</h4>
-      <ul class="categories">
-
-      </ul>
+        <section class="container">
+          <sidebar class="hidden"></sidebar>
+        </section>
     </div>
-
-    <section class="container">
-      <sidebar class="hidden"></sidebar>
-    </section>
 
     <div class="popcorn-load hidden">
       <div class="wrapper">
@@ -64,6 +53,26 @@
         <a class="btn confirmation continue" data-translate="legalDisclaimerAccept"></a>
       </div>
     </div>
+
+    <script id="changelog-tpl" type="text/x-template">
+        <a class="btn-close"><img src="/images/close.svg" width="50" /></a>
+        <h1><%= title %></h1>
+        <h3><%= description %></h3>
+        <ul>
+        <% for(var i = 0; i < changeLog.length; i++) { %>
+          <li><%= changeLog[i] %></li>
+        <% } %>
+        </ul>
+    </script>
+
+    <script id="category-list-tpl" type="text/x-template">
+        <h4><%= i18n.__("movies") %></h4>
+        <ul class="categories">
+            <% _.each(categories, function(c) { %>
+                <li><a href="#" data-genre="<%= c %>"><%= i18n.__("genre-" + c) %></a></li>
+            <% }); %>
+        </ul>
+    </script>
 
     <script id="header-tpl" type="text/x-template">
         <nav class="btn-set <%= process.platform %>">
@@ -207,6 +216,8 @@
     <!-- Backbone Views and Controllers -->
     <script src="lib/views/title_bar.js"></script>
     <script src="lib/views/main_window.js"></script>
+    <script src="lib/views/movie_browser/movie_browser.js"></script>
+    <script src="lib/views/movie_browser/category_list.js"></script>
     <script src="frontend/views/page.js"></script>
     <script src="frontend/views/listview.js"></script>
     <script src="frontend/views/movie.js"></script>
