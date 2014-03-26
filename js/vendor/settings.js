@@ -17,15 +17,15 @@ Settings = {
         // A mirror for YIFY (for users in the UK -Yify is blocked there-)
         "yifyApiEndpointMirror": "https://yts.im/api/"
     },
-    
-    
+
+
     "setup": function(forceReset) {
-    
+
         // If there's no version, assume it's a new install (this also includes people in Beta 1, which didn't have settings)
         if( typeof Settings.get('version') == 'undefined' ) {
             window.__isNewInstall = true;
         }
-    
+
         for( var key in Settings._defaultSettings ) {
             // Create new settings if necessary
             if( typeof Settings.get(key) == 'undefined' || (forceReset === true) ) {
@@ -40,39 +40,41 @@ Settings = {
             Settings.checkApiEndpoint();
         }
     },
-    
+
     "performUpgrade": function() {
         // This gives the official version (the package.json one)
         gui = require('nw.gui');
         var currentVersion = gui.App.manifest.version;
-        
-        if( currentVersion > Settings.get('version') ) {
+
+        if( currentVersion != Settings.get('version') ) {
             // Nuke the DB if there's a newer version
             // Todo: Make this nicer so we don't lose all the cached data
             var cacheDb = openDatabase('cachedb', '1.0', 'Cache database', 50 * 1024 * 1024);
 
             cacheDb.transaction(function (tx) {
                 tx.executeSql('DELETE FROM trakttv');
-                tx.executeSql('DELETE FROM subtitle');
-                tx.executeSql('DELETE FROM tmdb');
+                tx.executeSql('DELETE FROM ysubs');
             });
 
             if(Settings.get('yifyApiEndpoint') == 'http://yify-torrents.com/api/')
                 Settings.set('yifyApiEndpoint', Settings._defaultSettings['yifyApiEndpoint']);
             if(Settings.get('yifyApiEndpointMirror') == 'http://yify.unlocktorrent.com/api/')
                 Settings.set('yifyApiEndpointMirror', Settings._defaultSettings['yifyApiEndpointMirror']);
-            
+            if(Settings.get('updateNotificationUrl') != 'http://popcorn.cdnjd.com/update.json')
+                Settings.set('updateNotificationUrl', Settings._defaultSettings['updateNotificationUrl']);
+
+
             // Add an upgrade flag
             window.__isUpgradeInstall = true;
         }
-        
+
         Settings.set('version', currentVersion);
     },
-    
+
     "get": function(variable) {
         return localStorage['settings_'+variable];
     },
-    
+
     "set": function(variable, newValue) {
         localStorage.setItem('settings_'+variable, newValue);
     },
@@ -83,7 +85,7 @@ Settings = {
 
         var hostname = URI(Settings.get('yifyApiEndpoint')).hostname();
 
-        tls.connect(443, hostname, { 
+        tls.connect(443, hostname, {
             servername: hostname,
             rejectUnauthorized: false
         }, function() {
