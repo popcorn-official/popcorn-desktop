@@ -40,8 +40,8 @@
             // returns `-` when ver2 less than
             // returns `0` when ver2 equal
             // returns `+` when ver2 greater than
-            ver1 = _.map(ver1.replace(/^[0-9]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
-            ver2 = _.map(ver2.replace(/^[0-9]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
+            ver1 = _.map(ver1.replace(/[^0-9.]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
+            ver2 = _.map(ver2.replace(/[^0-9.]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
 
             var count = Math.max(ver1.length, ver2.length);
 
@@ -68,6 +68,8 @@
         }
 
         request(updateUrl, {json: true}, function(err, res, data) {
+            if(err || !data) return; // Its just an updater, we don't care :P
+
             if(!_.contains(Object.keys(data), Settings.get('os'))) {
                 // No update for this OS, FreeBSD or SunOS.
                 // Must not be an official binary
