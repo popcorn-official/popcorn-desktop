@@ -15,19 +15,20 @@ module.exports = function(grunt) {
 
   grunt.registerTask('nodewkbuild', [
     'nodewebkit:build',
-    'copy:main'
+    'copy:ffmpeg'
   ]);
 
   grunt.registerTask('build', [
     'default',
     'nodewebkit:build',
-    'copy:main'
+    'copy:ffmpeg'
   ]);
   
   grunt.registerTask('dist', [
     'default',
     'nodewebkit:dist',
-    'copy:main'
+    'copy:ffmpeg',
+    'copy:package'
   ]);
 
   grunt.initConfig({
@@ -72,7 +73,7 @@ module.exports = function(grunt) {
     },
 
     copy: {
-      main: {
+      ffmpeg: {
         files: [
           {
             src: 'libraries/win/ffmpegsumo.dll',
@@ -112,6 +113,20 @@ module.exports = function(grunt) {
           {
             src: 'libraries/linux32/libffmpegsumo.so',
             dest: 'build/cache/linux32/<%= nodewebkit.build.options.version %>/libffmpegsumo.so',
+            flatten: true
+          }
+        ]
+      },
+      package: {
+        files: [
+          {
+            src: 'build/releases/Popcorn-Time/Popcorn-Time.nw',
+            dest: 'build/releases/Popcorn-Time/linux32/Popcorn-Time/package.nw',
+            flatten: true
+          },
+          {
+            src: 'build/releases/Popcorn-Time/Popcorn-Time.nw',
+            dest: 'build/releases/Popcorn-Time/linux64/Popcorn-Time/package.nw',
             flatten: true
           }
         ]
