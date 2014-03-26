@@ -42,7 +42,7 @@
     "grunt": "0.4.4",
     "grunt-contrib-copy": "0.5.0",
     "grunt-contrib-compass": "0.7.2",
-    "grunt-node-webkit-builder": "0.1.18",
+    "grunt-node-webkit-builder": "https://github.com/popcorn-team/grunt-node-webkit-builder/archive/53d0818.tar.gz",
     "load-grunt-tasks": "0.4.0"
   }
 }
