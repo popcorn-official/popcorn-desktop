@@ -5,9 +5,6 @@ var
     // Minimum bytes loaded to open video
     MIN_SIZE_LOADED = 10 * 1024 * 1024,
 
-    // Configuration variable
-    applicationRoot = './',
-
     // Load native UI library
     gui = require('nw.gui'),
 

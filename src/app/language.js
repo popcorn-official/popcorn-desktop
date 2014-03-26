@@ -7,10 +7,10 @@ var detectLanguage = function(preferredLanguage) {
     // The global language name (without localization, like "en")
     var baseLanguage = navigator.language.toLowerCase().slice(0,2);
 
-    if( fs.existsSync('./language/' + pureLanguage + '.json') ) {
+    if( fs.existsSync('./src/app/language/' + pureLanguage + '.json') ) {
         i18n.setLocale(pureLanguage);
     }
-    else if( fs.existsSync('./language/' + baseLanguage + '.json') ) {
+    else if( fs.existsSync('./src/app/language/' + baseLanguage + '.json') ) {
         i18n.setLocale(baseLanguage);
     } else {
         i18n.setLocale(preferredLanguage);
@@ -237,7 +237,7 @@ App.Localization.languages = {
 i18n.configure({
     defaultLocale: 'en',
     locales: App.Localization.getTranslations(),
-    directory: './language'
+    directory: './src/app/language'
 });
 
 // Detect the language. The default is english
