@@ -35,7 +35,8 @@
     "URIjs": "1.12.1",
     "async": "0.2.x",
     "underscore": "1.6.x",
-    "q": "2.0.x"
+    "q": "2.0.x",
+    "rimraf": "^2.2.6"
   },
   "devDependencies": {
     "grunt": "0.4.4",
