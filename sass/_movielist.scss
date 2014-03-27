@@ -1,4 +1,19 @@
 // Movie list
+#movie-list .load-more {
+  transition: background-color ease 0.3s;
+  color: #999999;
+  cursor: pointer;
+  display: inline-block;
+  margin: 12px;
+  font-size: 30px;
+  border-radius: 3px;
+  padding: 4px;
+
+  &:hover {
+    background: #010101;
+  }
+}
+
 .movie-list {
   margin-bottom: 15px;
 
@@ -32,7 +47,7 @@
       height: 101%; // "fixes" 1px line on hover
       z-index: 10;
     }
-    
+
     .cover {
       width: 133px;
       height: 196px;
@@ -55,7 +70,7 @@
       display: block;
       border-radius: 3px;
       -webkit-transform: translateZ(0);
-      
+
       &.placeholder {
         -webkit-filter: grayscale(1.0);
         -webkit-transform: scale(1.15) translateY(-5px);

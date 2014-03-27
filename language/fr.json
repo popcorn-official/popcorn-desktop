@@ -2,9 +2,9 @@
   "quit": "Quitter",
   "cancel": "Annuler",
   "beforeQuit": "Êtes-vous sûr de vouloir quitter ?",
-  "loading": "Patientez...",
-  "loadingVideo": "Chargement de la vidéo, merci de patienter...",
-  "searchLoading": "Recherche...",
+  "loading": "Patientez…",
+  "loadingVideo": "Chargement de la vidéo, merci de patienter…",
+  "searchLoading": "Recherche…",
   "noResults": "Aucun résultat trouvé pour votre recherche.",
 
   "search": "Recherche",
@@ -15,12 +15,12 @@
   "watchItNow": "Regarder",
   "durationUnit": "min",
 
-  "connecting": "Connexion...",
-  "startingDownload": "Démarrage du téléchargement...",
-  "downloading": "Téléchargement...",
+  "connecting": "Connexion…",
+  "startingDownload": "Démarrage du téléchargement…",
+  "downloading": "Téléchargement…",
 
   "UpgradeVersion": "Mettre à jour Popcorn Time",
-  "UpgradeVersionDescription": "Popcorn Time %s a été mis à jour. Vous devriez le télécharger maintenant !",
+  "UpgradeVersionDescription": "Une mise à jour de Popcorn Time %s est disponible. Vous devriez le télécharger maintenant !",
 
   "legalDisclaimer": "Popcorn Time télécharge les films en utilisant des torrents, qui peuvent ne pas être légaux dans votre pays.",
   "legalDisclaimerResponsible": "Nous ne sommes pas responsable des problèmes qui peuvent survenir, assurez-vous de bien comprendre nos conditions générales avant d'utiliser l'application.",
@@ -66,5 +66,6 @@
    "arabic": "Arabe",
    "korean": "Coréen",
    "hungarian": "Hongrois",
-   "bulgarian": "Bulgare"
+   "bulgarian": "Bulgare",
+   "basque": "Basque"
 }

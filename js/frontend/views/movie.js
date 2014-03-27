@@ -37,6 +37,7 @@ App.View.MovieListItem = Marionette.ItemView.extend({
         } else {
             this.$el.parent().find('.active').removeClass('active');
             this.$el.addClass('active');
+            console.logger.info('Loading model %O', this.model);
             App.sidebar.load(this.model);
         }
     }

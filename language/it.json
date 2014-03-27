@@ -16,8 +16,8 @@
   "durationUnit": "min",
 
   "connecting": "Connessione...",
-  "startingDownload": "Inizio Download...",
-  "downloading": "Downloading...",
+  "startingDownload": "Inizio scaricamento...",
+  "downloading": "Sto scaricando...",
 
   "UpgradeVersion": "Aggiorna Popcorn Time",
   "UpgradeVersionDescription": "Popcorn Time %s é stato rilasciato. Dovresti scaricarlo ora!",
@@ -58,7 +58,20 @@
   "spanish": "Spagnolo",
   "swedish": "Svedese",
   "portuguese": "Portoghese",
-  "romanian": "Rumeno",
+  "romanian": "Romeno",
   "turkish": "Turco",
-  "italian":"Italiano"
+  "dutch": "Olandese",
+  "italian": "Italiano",
+  "danish": "Danese",
+  "arabic": "Arabo",
+  "korean": "Coreano",
+  "hungarian": "Ungherese",
+  "bulgarian": "Bulgaro",
+  "finnish": "Finlandese",
+  "brazilian": "Brasiliano",
+  "hebrew": "Ebraico",
+  "russian": "Russo",
+  "croatian": "Croato",
+  "serbian": "Serbo",
+  "bosnian": "Bosniaco"
 }

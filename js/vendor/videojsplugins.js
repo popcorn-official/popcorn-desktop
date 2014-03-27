@@ -109,13 +109,12 @@ videojs.plugin('customSubtitles', function() {
     // TODO Delete old track
     this.track = this.player_.addTextTrack('subtitles', 'Custom...', '00', { src: filePath });
     vjs.TextTrackMenuItem.prototype.onClick.call(this); // redirect to TextTrackMenuItem.onClick
-  } 
+  }
 
   subtitlesButton.menu.addItem(new CustomTrackMenuItem(this));
   subtitlesButton.show(); // Always show subtitles button
 
 })
-
 
 // This is a custom way of loading subtitles, since we can't use src (CORS blocks it and we can't disable it)
 // We fetch them when requested, process them and finally throw a parseCues their way
@@ -128,7 +127,7 @@ vjs.TextTrack.prototype.load = function(){
 
     // Fetches a raw subtitle, locally or remotely
     function getSub (subUrl, callback) {
-      
+
       var fs  = require('fs');
       var http    = require('http');
       var url     = require('url');
@@ -187,9 +186,10 @@ vjs.TextTrack.prototype.load = function(){
       var targetEncodingCharset = 'utf8';
 
       var charset = charsetDetect.detect(dataBuff);
+      var detectedEncoding = charset.encoding;
 
       // Do we need decoding?
-      if (charset.encoding == targetEncodingCharset || charset.encoding == targetCharset) {
+      if (detectedEncoding == targetEncodingCharset || detectedEncoding == targetCharset) {
         callback(dataBuff.toString('utf-8'));
 
       // We do
@@ -198,30 +198,18 @@ vjs.TextTrack.prototype.load = function(){
         // Windows-1251/2/IBM855 works fine when read from a file (like it's UTF-8), but if you try to convert it you'll ruin the encoding.
         // Just save it again, and it'll be stored as UTF-8. At least on Windows.
 
-        if( charset.encoding == 'IBM855' ) {
-          // If you're wondering "What the fuck is this shit?", there's a bug with the charset detector when using portuguese or romanian. It's actually ISO-8859-1.
-          dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-1'), targetEncodingCharset );
-        }
-        else if( charset.encoding == 'windows-1251' || charset.encoding == 'windows-1252' || charset.encoding == 'windows-1255' || charset.encoding == 'windows-1254' ) {
-          // It's the charset detector fucking up again, now with Spanish, Portuguese, French (1255) and Romanian
-          if( language == 'romanian' ) {
-            // And if it's romanian, it's iso-8859-2
-            dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-16'), targetEncodingCharset );
+        if ( detectedEncoding == 'IBM855' || detectedEncoding == 'windows-1250' || detectedEncoding == 'windows-1251' || detectedEncoding == 'windows-1252' || detectedEncoding == 'windows-1255' || detectedEncoding == 'windows-1254' ) {
+          // It's the charset detector fucking up again
+          var langInfo = App.Localization.languages[language] || {};
+          var expected = langInfo.encoding;
+          if (expected && expected.indexOf(detectedEncoding) < 0) {
+            // The detected encoding was unexepected to the language, so we'll use the most common
+            // encoding for that language instead.
+            detectedEncoding = expected[0];
           }
-          else if ( language == 'turkish' ) {
-            // And if it's turkish, it's iso-8859-9
-            dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-9'), targetEncodingCharset );
-          }
-          else {
-            // Or else, it's ISO-8859-1 by default
-            dataBuff = iconv.encode( iconv.decode(dataBuff, 'iso-8859-1'), targetEncodingCharset );
-          }
-        }
-        else {
-          // If it's not any of those cases, we should be able to do a decent conversion.
-          dataBuff = iconv.encode( iconv.decode(dataBuff, charset.encoding), targetEncodingCharset );
         }
 
+        dataBuff = iconv.encode( iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset );
         callback(dataBuff.toString('utf-8'));
       }
     }
@@ -232,10 +220,10 @@ vjs.TextTrack.prototype.load = function(){
       var path = require('path');
       if (path.extname(this_.src_) === '.zip') {
         decompress(dataBuf, function(dataBuf) {
-          decode(dataBuf, this_.language, vjs.bind(this_, this_.parseCues));
+          decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
         });
       } else {
-        decode(dataBuf, this_.language, vjs.bind(this_, this_.parseCues));
+        decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
       }
     });
 

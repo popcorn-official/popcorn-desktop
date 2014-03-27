@@ -76,30 +76,12 @@ var playTorrent = window.playTorrent = function (torrent, subs, movieModel, call
         // Unbind the event handler
         $(document).off('videoExit');
 
-        delete flix;
+        flix = null;
       });
     });
   });
 
 };
-
-
-// Supported Languages for Subtitles
-
-window.SubtitleLanguages = {
-  'spanish'   : 'Español',
-  'english'   : 'English',
-  'french'    : 'Français',
-  'turkish'   : 'Türkçe',
-  'romanian'  : 'Română',
-  'portuguese': 'Português',
-  'brazilian' : 'Português-Br',
-  'dutch'     : 'Nederlands',
-  'german'    : 'Deutsch',
-  'hungarian' : 'Magyar',
-  'finnish'   : 'Suomi',
-  'bulgarian' : 'Български'};
-
 
 function videoError(e) {
   // video playback failed - show a message saying why
@@ -126,10 +108,10 @@ window.spawnVideoPlayer = function (url, subs, movieModel) {
     // Sort sub according lang translation
     var subArray = [];
     for (var lang in subs) {
-        if( typeof SubtitleLanguages[lang] == 'undefined' ){ continue; }
+        if( !App.Localization.languages[lang].subtitle ){ continue; }
         subArray.push({
             'language': lang,
-            'languageName': SubtitleLanguages[lang],
+            'languageName': App.Localization.languages[lang].display,
             'sub': subs[lang]
         });
     }
@@ -167,6 +149,10 @@ window.spawnVideoPlayer = function (url, subs, movieModel) {
 
     // Init video.
     var video = window.videoPlaying = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {} }});
+
+    if(movieModel.has('resumetime')) {
+      video.currentTime(movieModel.get('resumetime'));
+    }
 
     // Enter full-screen
     $('.vjs-fullscreen-control').on('click', function () {
@@ -217,11 +203,12 @@ window.spawnVideoPlayer = function (url, subs, movieModel) {
     // Close player
     $('#video_player_close').on('click', function () {
       win.leaveFullscreen();
+      if(video.duration() - video.currentTime() > 300) // 5 mins
+        movieModel.set('resumetime', video.currentTime());
       $('#video-container').hide();
       video.dispose();
       $('body').removeClass();
       $(document).trigger('videoExit');
-
     });
 
 
