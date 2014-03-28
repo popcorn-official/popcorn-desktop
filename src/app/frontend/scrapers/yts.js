@@ -14,27 +14,6 @@
         model: App.Model.Movie,
         movies: [],
 
-        initialize: function(models, options) {
-            if (options.keywords) {
-                this.apiUrl += '&keywords=' + options.keywords;
-            }
-
-            if (options.genre) {
-                if (options.genre == 'date') {
-                  this.apiUrl += '&genre=all&sort=date';
-                } else {
-                  this.apiUrl += '&genre=' + options.genre;
-                }
-            }
-
-            if (options.page && options.page.match(/\d+/)) {
-                this.apiUrl += '&set=' + options.page;
-            }
-
-            this.options = options;
-            Yts.__super__.initialize.apply(this, arguments);
-        },
-
         addMovie: function(model) {
             var stored = _.find(this.movies, function(movie) { movie.imdb == model.imdb });
 
@@ -57,8 +36,26 @@
             }
         },
 
-        fetch: function() {
+        fetch: function(options) {
+            if (options.keywords) {
+                this.apiUrl += '&keywords=' + options.keywords;
+            }
+
+            if (options.genre) {
+                if (options.genre == 'date') {
+                  this.apiUrl += '&genre=all&sort=date';
+                } else {
+                  this.apiUrl += '&genre=' + options.genre;
+                }
+            }
+
+            if (options.page && options.page.match(/\d+/)) {
+                this.apiUrl += '&set=' + options.page;
+            }
+
             var collection = this;
+            this.state = 'loading';
+            collection.trigger('loading');
 
             this.movies = [];
 
@@ -77,6 +74,7 @@
                 if (ytsData.error || typeof ytsData.MovieList === 'undefined') {
                     collection.set(collection.movies);
                     collection.trigger('loaded');
+                    this.state = 'loaded';
                     return;
                 }
 
@@ -136,10 +134,11 @@
                                     movieModel.synopsis = traktInfo.overview;
                                     movieModel.runtime = +traktInfo.runtime;
                                     App.Cache.setItem('trakttv', traktInfo.imdb_id, traktInfo);
-                                    console.logger.warn('Trakt.tv Cache Miss %O', traktInfo);
+                                    console.warn('Trakt.tv Cache Miss %O', traktInfo);
                                     collection.addMovie(movieModel);
                                     if(--i == 0) {
                                         collection.set(collection.movies);
+                                        this.state = 'loaded';
                                         collection.trigger('loaded');
                                     }
                                 } else {
@@ -151,11 +150,11 @@
                                             movieModel.synopsis = traktInfo.overview;
                                             movieModel.runtime = +traktInfo.runtime;
                                         }
-                                        console.logger.debug('Trakt.tv Cache Hit %O', traktInfo);
                                         collection.addMovie(movieModel);
                                         if(--i == 0) {
                                             collection.set(collection.movies);
                                             collection.trigger('loaded');
+                                            this.state = 'loaded';
                                         }
                                     });
                                 }

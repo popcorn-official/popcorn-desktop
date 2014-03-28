@@ -135,7 +135,7 @@ App.View.Sidebar = Backbone.View.extend({
     enableHD: function (evt) {
 
         var torrents = this.model.get('torrents');
-        console.logger.debug('HD Enabled');
+        console.debug('HD Enabled');
 
         if(torrents['1080p'] !== undefined) {
             this.model.set('torrent', torrents['1080p']);
@@ -146,7 +146,7 @@ App.View.Sidebar = Backbone.View.extend({
     disableHD: function (evt) {
 
         var torrents = this.model.get('torrents');
-        console.logger.debug('HD Disabled');
+        console.debug('HD Disabled');
 
         if(torrents['720p'] !== undefined) {
             this.model.set('torrent', torrents['720p']);

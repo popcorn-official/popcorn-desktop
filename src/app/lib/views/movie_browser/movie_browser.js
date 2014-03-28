@@ -11,29 +11,30 @@
      */
     var MovieBrowser = Backbone.Marionette.Layout.extend({
         template: '#movie-browser-tpl',
+        className: 'movie-browser',
 
         regions: {
-            CategoryList: '.category-list',
+            FilterBar: '.filter-bar',
             MovieList: '.movie-list'
         },
 
         initialize: function() {
-            /*this.movieCollection = new App.Config.Provider.Movies();
+            this.movieCollection = new App.currentScrapper();
 
             // Fetch default category movie:
             this.movieCollection.fetch({
                 category: App.Config.categories[0]
-            });*/
+            });
         },
 
         onShow: function() {
-            this.CategoryList.show(new App.View.CategoryList({
-                model: App.Config.categories
+            this.FilterBar.show(new App.View.FilterBar({
+                categories: App.Config.categories
             }));
 
-            /*this.CategoryList.show(new App.View.MovieList({
-                model: movieCollection
-            }));*/
+            this.MovieList.show(new App.View.MovieList({
+                model: this.movieCollection
+            }));
         }
     });
 

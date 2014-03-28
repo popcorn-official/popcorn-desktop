@@ -1,4 +1,4 @@
-App.View.MovieList = Backbone.View.extend({
+Backbone.View.extend({
     constructor: function (options) {
         this.configure(options || {});
         Backbone.View.prototype.constructor.apply(this, arguments);
@@ -96,7 +96,7 @@ App.View.MovieList = Backbone.View.extend({
                 App.Router.navigate(section + page + '.html', { trigger: true });
             }
 
-            console.logger.info(section + ' page ' + page);
+            console.info(section + ' page ' + page);
         };
 
         var isScrollable = $scrollElement[0].scrollHeight > $scrollElement[0].clientHeight;

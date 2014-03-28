@@ -414,76 +414,75 @@ a {
   height: 45px;
   left: 0;
   padding: 15px;
-  position: absolute;
   top: 0;
   text-align: center;
   width: 100%;
   background-image: linear-gradient(to bottom, #282828 0%, #1e1e1e 100%);
 }
-/* line 89, ../sass/_layout.scss */
+/* line 88, ../sass/_layout.scss */
 #header h1 {
   font-size: 13px;
 }
-/* line 93, ../sass/_layout.scss */
+/* line 92, ../sass/_layout.scss */
 #header .btn-set {
   position: absolute;
   left: 15px;
   top: 17px;
 }
-/* line 98, ../sass/_layout.scss */
+/* line 97, ../sass/_layout.scss */
 #header .btn-set.right {
   right: 7px;
   left: initial;
   top: 5px;
 }
-/* line 106, ../sass/_layout.scss */
+/* line 105, ../sass/_layout.scss */
 #header .btn-set.darwin {
   position: absolute;
   left: 15px;
   top: 17px;
 }
-/* line 111, ../sass/_layout.scss */
+/* line 110, ../sass/_layout.scss */
 #header .btn-set.fs-darwin {
   right: 7px;
   left: initial;
   top: 5px;
 }
-/* line 117, ../sass/_layout.scss */
+/* line 116, ../sass/_layout.scss */
 #header .btn-set.linux {
   right: 7px;
   left: initial;
   top: 15px;
 }
-/* line 122, ../sass/_layout.scss */
+/* line 121, ../sass/_layout.scss */
 #header .btn-set.fs-linux {
   position: absolute;
   left: 15px;
   top: 5px;
 }
-/* line 128, ../sass/_layout.scss */
+/* line 127, ../sass/_layout.scss */
 #header .btn-set.win32 {
   right: 7px;
   left: initial;
   top: 15px;
 }
-/* line 133, ../sass/_layout.scss */
+/* line 132, ../sass/_layout.scss */
 #header .btn-set.fs-win32 {
   position: absolute;
   left: 15px;
   top: 5px;
 }
-/* line 139, ../sass/_layout.scss */
+/* line 138, ../sass/_layout.scss */
 #header .btn-set:hover .btn-os {
   color: rgba(0, 0, 0, 0.8);
 }
-/* line 141, ../sass/_layout.scss */
+/* line 140, ../sass/_layout.scss */
 #header .btn-set button {
   display: block;
   float: left;
   margin: 0 6px 0 0;
   background: #000;
 }
-/* line 147, ../sass/_layout.scss */
+/* line 146, ../sass/_layout.scss */
 #header .btn-set button.btn-os {
   border-radius: 30px;
   border: 0;
@@ -495,7 +494,7 @@ a {
   text-align: center;
   width: 12px;
 }
-/* line 160, ../sass/_layout.scss */
+/* line 159, ../sass/_layout.scss */
 #header .btn-set button.debug {
   background: #fff;
   content: 'D';
@@ -505,19 +504,19 @@ a {
   text-transform: uppercase;
   width: auto;
 }
-/* line 170, ../sass/_layout.scss */
+/* line 169, ../sass/_layout.scss */
 #header .btn-set button.close:hover {
   background: #e74c3c;
 }
-/* line 171, ../sass/_layout.scss */
+/* line 170, ../sass/_layout.scss */
 #header .btn-set button.max:hover {
   background: #27ae60;
 }
-/* line 172, ../sass/_layout.scss */
+/* line 171, ../sass/_layout.scss */
 #header .btn-set button.min:hover {
   background: #f1c40f;
 }
-/* line 173, ../sass/_layout.scss */
+/* line 172, ../sass/_layout.scss */
 #header .btn-set button.fullscreen {
   color: #000;
   background: transparent;
@@ -527,7 +526,7 @@ a {
   border-radius: 0;
   display: block;
 }
-/* line 174, ../sass/_layout.scss */
+/* line 173, ../sass/_layout.scss */
 #header .btn-set button.fullscreen::before {
   content: "\e000";
   font-family: VideoJS;
@@ -537,16 +536,16 @@ a {
   display: block;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
 }
-/* line 183, ../sass/_layout.scss */
+/* line 182, ../sass/_layout.scss */
 #header .btn-set button.fullscreen.active::before {
   content: "\e00B";
 }
-/* line 186, ../sass/_layout.scss */
+/* line 185, ../sass/_layout.scss */
 #header .btn-set button.fullscreen:hover {
   color: #b2b2b2;
 }
 
-/* line 192, ../sass/_layout.scss */
+/* line 191, ../sass/_layout.scss */
 #notification {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -566,52 +565,52 @@ a {
   border-top: none;
   display: none;
 }
-/* line 209, ../sass/_layout.scss */
+/* line 208, ../sass/_layout.scss */
 #notification h1 {
   float: left;
 }
-/* line 213, ../sass/_layout.scss */
+/* line 212, ../sass/_layout.scss */
 #notification .btn-grp {
   position: absolute;
   top: 6px;
   right: 15px;
 }
-/* line 219, ../sass/_layout.scss */
+/* line 218, ../sass/_layout.scss */
 #notification .btn {
   background-image: none;
   background: rgba(0, 0, 0, 0.4);
 }
-/* line 224, ../sass/_layout.scss */
+/* line 223, ../sass/_layout.scss */
 #notification .btn.chnglog {
   margin-right: 5px;
 }
 
-/* line 229, ../sass/_layout.scss */
+/* line 228, ../sass/_layout.scss */
 #notification.blue {
   background: #4ec0b6;
 }
 
-/* line 233, ../sass/_layout.scss */
+/* line 232, ../sass/_layout.scss */
 #notification.green {
   background: #6abe9a;
 }
 
-/* line 237, ../sass/_layout.scss */
+/* line 236, ../sass/_layout.scss */
 #notification.yellow {
   background: #dbb756;
 }
 
-/* line 241, ../sass/_layout.scss */
+/* line 240, ../sass/_layout.scss */
 #notification.orange {
   background: #f07f53;
 }
 
-/* line 245, ../sass/_layout.scss */
+/* line 244, ../sass/_layout.scss */
 #notification.red {
   background: #f15153;
 }
 
-/* line 249, ../sass/_layout.scss */
+/* line 248, ../sass/_layout.scss */
 #changelog-container {
   position: absolute;
   left: 0;
@@ -624,7 +623,7 @@ a {
   background: rgba(0, 0, 0, 0.93);
   display: none;
 }
-/* line 260, ../sass/_layout.scss */
+/* line 259, ../sass/_layout.scss */
 #changelog-container .btn-close {
   position: absolute;
   z-index: 9999;
@@ -632,33 +631,33 @@ a {
   left: 15px;
   cursor: pointer;
 }
-/* line 267, ../sass/_layout.scss */
+/* line 266, ../sass/_layout.scss */
 #changelog-container .btn-close:hover {
   opacity: 0.8;
 }
-/* line 272, ../sass/_layout.scss */
+/* line 271, ../sass/_layout.scss */
 #changelog-container h1 {
   font-weight: bold;
   font-size: 30px;
 }
-/* line 277, ../sass/_layout.scss */
+/* line 276, ../sass/_layout.scss */
 #changelog-container h3 {
   font-style: italic;
   font-size: 15px;
 }
-/* line 282, ../sass/_layout.scss */
+/* line 281, ../sass/_layout.scss */
 #changelog-container ul {
   margin-top: 10px;
   padding-left: 20px;
   list-style-type: square;
 }
-/* line 287, ../sass/_layout.scss */
+/* line 286, ../sass/_layout.scss */
 #changelog-container ul li {
   margin: 10px 0;
   line-height: 20px;
 }
 
-/* line 295, ../sass/_layout.scss */
+/* line 294, ../sass/_layout.scss */
 .filters-column {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -721,20 +720,20 @@ a {
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
-/* line 307, ../sass/_layout.scss */
+/* line 306, ../sass/_layout.scss */
 .filters-column h4 {
   margin-top: 40px;
   color: #404040;
   font-weight: bold;
   margin-bottom: 10px;
 }
-/* line 315, ../sass/_layout.scss */
+/* line 314, ../sass/_layout.scss */
 .filters-column ul li {
   display: block;
   font-weight: bold;
   font-size: 13px;
 }
-/* line 320, ../sass/_layout.scss */
+/* line 319, ../sass/_layout.scss */
 .filters-column ul li a {
   -webkit-transition: background-color ease;
   -webkit-transition-delay: 0.3s;
@@ -746,11 +745,11 @@ a {
   border-radius: 3px;
   padding: 8px;
 }
-/* line 327, ../sass/_layout.scss */
+/* line 326, ../sass/_layout.scss */
 .filters-column ul li a:hover {
   background: #010101;
 }
-/* line 332, ../sass/_layout.scss */
+/* line 331, ../sass/_layout.scss */
 .filters-column ul li.active a,
 .filters-column ul li.active a:hover {
   background: #286dc4;
@@ -760,33 +759,8 @@ a {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
   cursor: default;
 }
-/* line 344, ../sass/_layout.scss */
-.filters-column .search {
-  position: absolute;
-  right: 20px;
-  top: 12px;
-}
-/* line 349, ../sass/_layout.scss */
-.filters-column .search input {
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  border-radius: 5px;
-  color: #FFF;
-  font-size: 12px;
-  height: 15px;
-  padding: 8px 10px;
-  width: 115px;
-  background: transparent;
-  font-weight: bold;
-}
-/* line 361, ../sass/_layout.scss */
-.filters-column .search i {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: rgba(255, 255, 255, 0.4);
-}
 
-/* line 372, ../sass/_layout.scss */
+/* line 348, ../sass/_layout.scss */
 .container {
   height: calc(100% - 45px);
   overflow: hidden;
@@ -794,22 +768,22 @@ a {
   position: relative;
 }
 
-/* line 382, ../sass/_layout.scss */
+/* line 358, ../sass/_layout.scss */
 body.has-notification .container {
   height: calc(100% - 45px - 45px);
   margin: 90px 0 0 180px;
 }
-/* line 387, ../sass/_layout.scss */
+/* line 363, ../sass/_layout.scss */
 body.has-notification #catalog-select {
   top: 90px;
   height: calc(100% - 45px - 45px);
 }
-/* line 392, ../sass/_layout.scss */
+/* line 368, ../sass/_layout.scss */
 body.has-notification #notification {
   display: block;
 }
 
-/* line 397, ../sass/_layout.scss */
+/* line 373, ../sass/_layout.scss */
 .popcorn-load {
   -webkit-transition: opacity ease;
   -webkit-transition-delay: 1s;
@@ -826,18 +800,18 @@ body.has-notification #notification {
   width: 100%;
   z-index: 999;
 }
-/* line 409, ../sass/_layout.scss */
+/* line 385, ../sass/_layout.scss */
 .popcorn-load.hidden {
   opacity: 0;
   z-index: 0;
   margin-left: 100%;
   pointer-events: none;
 }
-/* line 416, ../sass/_layout.scss */
+/* line 392, ../sass/_layout.scss */
 .popcorn-load.hidden .spinner {
   -webkit-animation: none;
 }
-/* line 420, ../sass/_layout.scss */
+/* line 396, ../sass/_layout.scss */
 .popcorn-load .wrapper {
   -webkit-transform: translateY(-100%);
   -moz-transform: translateY(-100%);
@@ -850,21 +824,11 @@ body.has-notification #notification {
   text-align: center;
   width: 100%;
 }
-/* line 429, ../sass/_layout.scss */
+/* line 405, ../sass/_layout.scss */
 .popcorn-load .text {
   font-size: 22px;
 }
-/* line 431, ../sass/_layout.scss */
-.popcorn-load .spinner {
-  background: url(../images/spinner.svg) no-repeat 0 0;
-  background-size: cover;
-  display: block;
-  height: 45px;
-  margin: 10px auto;
-  -webkit-animation: 1.05s spin  infinite linear;
-  width: 45px;
-}
-/* line 441, ../sass/_layout.scss */
+/* line 407, ../sass/_layout.scss */
 .popcorn-load .progressbar {
   display: none;
   height: 14px;
@@ -876,7 +840,7 @@ body.has-notification #notification {
   overflow: hidden;
   padding: 3px;
 }
-/* line 452, ../sass/_layout.scss */
+/* line 418, ../sass/_layout.scss */
 .popcorn-load .progressbar .progress {
   -webkit-transition: width 0.2s ease;
   -moz-transition: width 0.2s ease;
@@ -889,7 +853,7 @@ body.has-notification #notification {
   background: #FFF;
   border-radius: 40px;
 }
-/* line 463, ../sass/_layout.scss */
+/* line 429, ../sass/_layout.scss */
 .popcorn-load .progressinfo {
   display: none;
   position: absolute;
@@ -902,7 +866,7 @@ body.has-notification #notification {
   opacity: 0.5;
   bottom: -40px;
 }
-/* line 476, ../sass/_layout.scss */
+/* line 442, ../sass/_layout.scss */
 .popcorn-load .btn-close {
   display: none;
   position: absolute;
@@ -911,24 +875,24 @@ body.has-notification #notification {
   left: 15px;
   -webkit-app-region: no-drag;
 }
-/* line 486, ../sass/_layout.scss */
+/* line 452, ../sass/_layout.scss */
 .popcorn-load.withProgressBar .progressbar {
   display: block;
 }
-/* line 487, ../sass/_layout.scss */
+/* line 453, ../sass/_layout.scss */
 .popcorn-load.withProgressBar .progressinfo {
   display: block;
 }
-/* line 488, ../sass/_layout.scss */
+/* line 454, ../sass/_layout.scss */
 .popcorn-load.withProgressBar .spinner {
   display: none;
 }
-/* line 492, ../sass/_layout.scss */
+/* line 458, ../sass/_layout.scss */
 .popcorn-load.cancellable .btn-close {
   display: block;
 }
 
-/* line 496, ../sass/_layout.scss */
+/* line 464, ../sass/_layout.scss */
 .popcorn-disclaimer {
   -webkit-transition: opacity ease;
   -webkit-transition-delay: 0.3s;
@@ -945,24 +909,24 @@ body.has-notification #notification {
   width: 100%;
   z-index: 999;
 }
-/* line 508, ../sass/_layout.scss */
+/* line 476, ../sass/_layout.scss */
 .popcorn-disclaimer.hidden {
   opacity: 0;
   pointer-events: none;
 }
-/* line 514, ../sass/_layout.scss */
+/* line 482, ../sass/_layout.scss */
 .popcorn-disclaimer.quitting .text, .popcorn-disclaimer.quitting .btn {
   opacity: 0.0;
   pointer-events: none;
 }
-/* line 519, ../sass/_layout.scss */
+/* line 487, ../sass/_layout.scss */
 .popcorn-disclaimer .text, .popcorn-disclaimer .btn {
   -webkit-transition: opacity 2s ease-out;
   -moz-transition: opacity 2s ease-out;
   -o-transition: opacity 2s ease-out;
   transition: opacity 2s ease-out;
 }
-/* line 523, ../sass/_layout.scss */
+/* line 491, ../sass/_layout.scss */
 .popcorn-disclaimer .wrapper {
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
@@ -975,7 +939,7 @@ body.has-notification #notification {
   text-align: center;
   width: 100%;
 }
-/* line 532, ../sass/_layout.scss */
+/* line 500, ../sass/_layout.scss */
 .popcorn-disclaimer .text {
   display: block;
   font-size: 22px;
@@ -984,22 +948,88 @@ body.has-notification #notification {
   margin: 0px auto;
   margin-bottom: 15px;
 }
-/* line 541, ../sass/_layout.scss */
+/* line 509, ../sass/_layout.scss */
 .popcorn-disclaimer .btn {
   padding: 1.1em 3em;
   font-size: 18px;
 }
-/* line 545, ../sass/_layout.scss */
+/* line 513, ../sass/_layout.scss */
 .popcorn-disclaimer .btn.continue {
   font-size: 18px;
   font-weight: bold;
   background: #53A93F;
 }
-/* line 550, ../sass/_layout.scss */
+/* line 518, ../sass/_layout.scss */
 .popcorn-disclaimer .btn.quit {
   font-size: 18px;
   background: #e20f3c;
   font-weight: normal;
+}
+
+/* line 529, ../sass/_layout.scss */
+.hidden {
+  display: none;
+}
+
+/* line 534, ../sass/_layout.scss */
+.movie-browser .filter-bar {
+  height: 46px;
+  width: 100%;
+  background: #121212;
+}
+/* line 539, ../sass/_layout.scss */
+.movie-browser .filter-bar .search {
+  padding: 5px 10px;
+}
+/* line 542, ../sass/_layout.scss */
+.movie-browser .filter-bar .search input {
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 5px;
+  color: #FFF;
+  font-size: 12px;
+  height: 15px;
+  padding: 8px 10px;
+  width: 115px;
+  background: transparent;
+  font-weight: bold;
+}
+/* line 554, ../sass/_layout.scss */
+.movie-browser .filter-bar .search i {
+  top: 10px;
+  right: 10px;
+  color: rgba(255, 255, 255, 0.4);
+}
+/* line 561, ../sass/_layout.scss */
+.movie-browser .filter-bar h4 {
+  padding: 15px;
+  color: #727272;
+  font-weight: bold;
+}
+/* line 567, ../sass/_layout.scss */
+.movie-browser .filter-bar .right {
+  float: right;
+}
+/* line 571, ../sass/_layout.scss */
+.movie-browser .filter-bar .left {
+  float: left;
+}
+/* line 577, ../sass/_layout.scss */
+.movie-browser .movie-list .spinner {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: black center center no-repeat;
+  opacity: .5;
+}
+/* line 584, ../sass/_layout.scss */
+.movie-browser .movie-list .spinner .spinner-image {
+  margin: 180px auto 0px;
+  background: url(../images/spinner.svg) no-repeat 0 0;
+  background-size: cover;
+  display: block;
+  height: 45px;
+  -webkit-animation: 1.05s spin  infinite linear;
+  width: 45px;
 }
 
 /* line 2, ../sass/_movielist.scss */
@@ -1018,11 +1048,7 @@ body.has-notification #notification {
   background: #010101;
 }
 
-/* line 17, ../sass/_movielist.scss */
-.movie-list {
-  margin-bottom: 15px;
-}
-/* line 20, ../sass/_movielist.scss */
+/* line 18, ../sass/_movielist.scss */
 .movie-list li {
   height: 195px;
   width: 132px;
@@ -1033,11 +1059,11 @@ body.has-notification #notification {
   position: relative;
   background: #000;
 }
-/* line 30, ../sass/_movielist.scss */
+/* line 28, ../sass/_movielist.scss */
 .movie-list li:hover i {
   opacity: 1;
 }
-/* line 32, ../sass/_movielist.scss */
+/* line 30, ../sass/_movielist.scss */
 .movie-list li i {
   -webkit-transition: all ease;
   -webkit-transition-delay: 0.3s;
@@ -1060,7 +1086,7 @@ body.has-notification #notification {
   height: 101%;
   z-index: 10;
 }
-/* line 51, ../sass/_movielist.scss */
+/* line 49, ../sass/_movielist.scss */
 .movie-list li .cover {
   width: 133px;
   height: 196px;
@@ -1071,7 +1097,7 @@ body.has-notification #notification {
   background: url(../images/posterholder.png) no-repeat 50% 50%;
   -webkit-transform: translateZ(0);
 }
-/* line 62, ../sass/_movielist.scss */
+/* line 60, ../sass/_movielist.scss */
 .movie-list li img {
   -webkit-transition: all ease;
   -webkit-transition-delay: 1s;
@@ -1088,32 +1114,32 @@ body.has-notification #notification {
   border-radius: 3px;
   -webkit-transform: translateZ(0);
 }
-/* line 74, ../sass/_movielist.scss */
+/* line 72, ../sass/_movielist.scss */
 .movie-list li img.placeholder {
   -webkit-filter: grayscale(1);
   -webkit-transform: scale(1.15) translateY(-5px);
   z-index: 1;
   border-radius: 3px;
 }
-/* line 81, ../sass/_movielist.scss */
+/* line 79, ../sass/_movielist.scss */
 .movie-list li img.real {
   opacity: 1;
   z-index: 2;
   border-radius: 3px;
 }
-/* line 87, ../sass/_movielist.scss */
+/* line 85, ../sass/_movielist.scss */
 .movie-list li img.hidden {
   opacity: 0;
   visibility: hidden;
   border-radius: 3px;
 }
-/* line 94, ../sass/_movielist.scss */
+/* line 92, ../sass/_movielist.scss */
 .movie-list li a {
   display: block;
   height: 196px;
   width: 133px;
 }
-/* line 100, ../sass/_movielist.scss */
+/* line 98, ../sass/_movielist.scss */
 .movie-list li strong {
   color: #FFF;
   display: block;
@@ -1123,12 +1149,12 @@ body.has-notification #notification {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 110, ../sass/_movielist.scss */
+/* line 108, ../sass/_movielist.scss */
 .movie-list li small {
   font-size: 12px;
   color: #666;
 }
-/* line 115, ../sass/_movielist.scss */
+/* line 113, ../sass/_movielist.scss */
 .movie-list li::before {
   display: block;
   content: '';
@@ -1141,7 +1167,7 @@ body.has-notification #notification {
   z-index: 3;
 }
 
-/* line 131, ../sass/_movielist.scss */
+/* line 129, ../sass/_movielist.scss */
 .movie {
   -webkit-transform: scale(0, 0);
   -moz-transform: scale(0, 0);
@@ -1154,357 +1180,357 @@ body.has-notification #notification {
   transition: opacity 0.3s ease, transform 0.3s ease;
   opacity: 0;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(1) {
   -webkit-transition-delay: 0s, 0s;
   -moz-transition-delay: 0s, 0s;
   -o-transition-delay: 0s, 0s;
   transition-delay: 0s, 0s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(2) {
   -webkit-transition-delay: 0s, 0.1s;
   -moz-transition-delay: 0s, 0.1s;
   -o-transition-delay: 0s, 0.1s;
   transition-delay: 0s, 0.1s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(3) {
   -webkit-transition-delay: 0s, 0.2s;
   -moz-transition-delay: 0s, 0.2s;
   -o-transition-delay: 0s, 0.2s;
   transition-delay: 0s, 0.2s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(4) {
   -webkit-transition-delay: 0s, 0.3s;
   -moz-transition-delay: 0s, 0.3s;
   -o-transition-delay: 0s, 0.3s;
   transition-delay: 0s, 0.3s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(5) {
   -webkit-transition-delay: 0s, 0.4s;
   -moz-transition-delay: 0s, 0.4s;
   -o-transition-delay: 0s, 0.4s;
   transition-delay: 0s, 0.4s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(6) {
   -webkit-transition-delay: 0s, 0.5s;
   -moz-transition-delay: 0s, 0.5s;
   -o-transition-delay: 0s, 0.5s;
   transition-delay: 0s, 0.5s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(7) {
   -webkit-transition-delay: 0s, 0.6s;
   -moz-transition-delay: 0s, 0.6s;
   -o-transition-delay: 0s, 0.6s;
   transition-delay: 0s, 0.6s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(8) {
   -webkit-transition-delay: 0s, 0.7s;
   -moz-transition-delay: 0s, 0.7s;
   -o-transition-delay: 0s, 0.7s;
   transition-delay: 0s, 0.7s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(9) {
   -webkit-transition-delay: 0s, 0.8s;
   -moz-transition-delay: 0s, 0.8s;
   -o-transition-delay: 0s, 0.8s;
   transition-delay: 0s, 0.8s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(10) {
   -webkit-transition-delay: 0s, 0.9s;
   -moz-transition-delay: 0s, 0.9s;
   -o-transition-delay: 0s, 0.9s;
   transition-delay: 0s, 0.9s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(11) {
   -webkit-transition-delay: 0s, 1s;
   -moz-transition-delay: 0s, 1s;
   -o-transition-delay: 0s, 1s;
   transition-delay: 0s, 1s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(12) {
   -webkit-transition-delay: 0s, 1.1s;
   -moz-transition-delay: 0s, 1.1s;
   -o-transition-delay: 0s, 1.1s;
   transition-delay: 0s, 1.1s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(13) {
   -webkit-transition-delay: 0s, 1.2s;
   -moz-transition-delay: 0s, 1.2s;
   -o-transition-delay: 0s, 1.2s;
   transition-delay: 0s, 1.2s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(14) {
   -webkit-transition-delay: 0s, 1.3s;
   -moz-transition-delay: 0s, 1.3s;
   -o-transition-delay: 0s, 1.3s;
   transition-delay: 0s, 1.3s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(15) {
   -webkit-transition-delay: 0s, 1.4s;
   -moz-transition-delay: 0s, 1.4s;
   -o-transition-delay: 0s, 1.4s;
   transition-delay: 0s, 1.4s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(16) {
   -webkit-transition-delay: 0s, 1.5s;
   -moz-transition-delay: 0s, 1.5s;
   -o-transition-delay: 0s, 1.5s;
   transition-delay: 0s, 1.5s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(17) {
   -webkit-transition-delay: 0s, 1.6s;
   -moz-transition-delay: 0s, 1.6s;
   -o-transition-delay: 0s, 1.6s;
   transition-delay: 0s, 1.6s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(18) {
   -webkit-transition-delay: 0s, 1.7s;
   -moz-transition-delay: 0s, 1.7s;
   -o-transition-delay: 0s, 1.7s;
   transition-delay: 0s, 1.7s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(19) {
   -webkit-transition-delay: 0s, 1.8s;
   -moz-transition-delay: 0s, 1.8s;
   -o-transition-delay: 0s, 1.8s;
   transition-delay: 0s, 1.8s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(20) {
   -webkit-transition-delay: 0s, 1.9s;
   -moz-transition-delay: 0s, 1.9s;
   -o-transition-delay: 0s, 1.9s;
   transition-delay: 0s, 1.9s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(21) {
   -webkit-transition-delay: 0s, 2s;
   -moz-transition-delay: 0s, 2s;
   -o-transition-delay: 0s, 2s;
   transition-delay: 0s, 2s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(22) {
   -webkit-transition-delay: 0s, 2.1s;
   -moz-transition-delay: 0s, 2.1s;
   -o-transition-delay: 0s, 2.1s;
   transition-delay: 0s, 2.1s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(23) {
   -webkit-transition-delay: 0s, 2.2s;
   -moz-transition-delay: 0s, 2.2s;
   -o-transition-delay: 0s, 2.2s;
   transition-delay: 0s, 2.2s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(24) {
   -webkit-transition-delay: 0s, 2.3s;
   -moz-transition-delay: 0s, 2.3s;
   -o-transition-delay: 0s, 2.3s;
   transition-delay: 0s, 2.3s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(25) {
   -webkit-transition-delay: 0s, 2.4s;
   -moz-transition-delay: 0s, 2.4s;
   -o-transition-delay: 0s, 2.4s;
   transition-delay: 0s, 2.4s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(26) {
   -webkit-transition-delay: 0s, 2.5s;
   -moz-transition-delay: 0s, 2.5s;
   -o-transition-delay: 0s, 2.5s;
   transition-delay: 0s, 2.5s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(27) {
   -webkit-transition-delay: 0s, 2.6s;
   -moz-transition-delay: 0s, 2.6s;
   -o-transition-delay: 0s, 2.6s;
   transition-delay: 0s, 2.6s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(28) {
   -webkit-transition-delay: 0s, 2.7s;
   -moz-transition-delay: 0s, 2.7s;
   -o-transition-delay: 0s, 2.7s;
   transition-delay: 0s, 2.7s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(29) {
   -webkit-transition-delay: 0s, 2.8s;
   -moz-transition-delay: 0s, 2.8s;
   -o-transition-delay: 0s, 2.8s;
   transition-delay: 0s, 2.8s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(30) {
   -webkit-transition-delay: 0s, 2.9s;
   -moz-transition-delay: 0s, 2.9s;
   -o-transition-delay: 0s, 2.9s;
   transition-delay: 0s, 2.9s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(31) {
   -webkit-transition-delay: 0s, 3s;
   -moz-transition-delay: 0s, 3s;
   -o-transition-delay: 0s, 3s;
   transition-delay: 0s, 3s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(32) {
   -webkit-transition-delay: 0s, 3.1s;
   -moz-transition-delay: 0s, 3.1s;
   -o-transition-delay: 0s, 3.1s;
   transition-delay: 0s, 3.1s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(33) {
   -webkit-transition-delay: 0s, 3.2s;
   -moz-transition-delay: 0s, 3.2s;
   -o-transition-delay: 0s, 3.2s;
   transition-delay: 0s, 3.2s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(34) {
   -webkit-transition-delay: 0s, 3.3s;
   -moz-transition-delay: 0s, 3.3s;
   -o-transition-delay: 0s, 3.3s;
   transition-delay: 0s, 3.3s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(35) {
   -webkit-transition-delay: 0s, 3.4s;
   -moz-transition-delay: 0s, 3.4s;
   -o-transition-delay: 0s, 3.4s;
   transition-delay: 0s, 3.4s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(36) {
   -webkit-transition-delay: 0s, 3.5s;
   -moz-transition-delay: 0s, 3.5s;
   -o-transition-delay: 0s, 3.5s;
   transition-delay: 0s, 3.5s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(37) {
   -webkit-transition-delay: 0s, 3.6s;
   -moz-transition-delay: 0s, 3.6s;
   -o-transition-delay: 0s, 3.6s;
   transition-delay: 0s, 3.6s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(38) {
   -webkit-transition-delay: 0s, 3.7s;
   -moz-transition-delay: 0s, 3.7s;
   -o-transition-delay: 0s, 3.7s;
   transition-delay: 0s, 3.7s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(39) {
   -webkit-transition-delay: 0s, 3.8s;
   -moz-transition-delay: 0s, 3.8s;
   -o-transition-delay: 0s, 3.8s;
   transition-delay: 0s, 3.8s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(40) {
   -webkit-transition-delay: 0s, 3.9s;
   -moz-transition-delay: 0s, 3.9s;
   -o-transition-delay: 0s, 3.9s;
   transition-delay: 0s, 3.9s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(41) {
   -webkit-transition-delay: 0s, 4s;
   -moz-transition-delay: 0s, 4s;
   -o-transition-delay: 0s, 4s;
   transition-delay: 0s, 4s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(42) {
   -webkit-transition-delay: 0s, 4.1s;
   -moz-transition-delay: 0s, 4.1s;
   -o-transition-delay: 0s, 4.1s;
   transition-delay: 0s, 4.1s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(43) {
   -webkit-transition-delay: 0s, 4.2s;
   -moz-transition-delay: 0s, 4.2s;
   -o-transition-delay: 0s, 4.2s;
   transition-delay: 0s, 4.2s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(44) {
   -webkit-transition-delay: 0s, 4.3s;
   -moz-transition-delay: 0s, 4.3s;
   -o-transition-delay: 0s, 4.3s;
   transition-delay: 0s, 4.3s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(45) {
   -webkit-transition-delay: 0s, 4.4s;
   -moz-transition-delay: 0s, 4.4s;
   -o-transition-delay: 0s, 4.4s;
   transition-delay: 0s, 4.4s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(46) {
   -webkit-transition-delay: 0s, 4.5s;
   -moz-transition-delay: 0s, 4.5s;
   -o-transition-delay: 0s, 4.5s;
   transition-delay: 0s, 4.5s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(47) {
   -webkit-transition-delay: 0s, 4.6s;
   -moz-transition-delay: 0s, 4.6s;
   -o-transition-delay: 0s, 4.6s;
   transition-delay: 0s, 4.6s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(48) {
   -webkit-transition-delay: 0s, 4.7s;
   -moz-transition-delay: 0s, 4.7s;
   -o-transition-delay: 0s, 4.7s;
   transition-delay: 0s, 4.7s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(49) {
   -webkit-transition-delay: 0s, 4.8s;
   -moz-transition-delay: 0s, 4.8s;
   -o-transition-delay: 0s, 4.8s;
   transition-delay: 0s, 4.8s;
 }
-/* line 137, ../sass/_movielist.scss */
+/* line 135, ../sass/_movielist.scss */
 .movie:nth-child(50) {
   -webkit-transition-delay: 0s, 4.9s;
   -moz-transition-delay: 0s, 4.9s;
   -o-transition-delay: 0s, 4.9s;
   transition-delay: 0s, 4.9s;
 }
-/* line 142, ../sass/_movielist.scss */
+/* line 140, ../sass/_movielist.scss */
 .movie.loaded {
   opacity: 1;
   -webkit-transform: scale(1, 1);
@@ -1514,7 +1540,7 @@ body.has-notification #notification {
   transform: scale(1, 1);
 }
 
-/* line 149, ../sass/_movielist.scss */
+/* line 147, ../sass/_movielist.scss */
 .no-results {
   text-align: center;
   font-size: 24px;
@@ -1527,7 +1553,7 @@ body.has-notification #notification {
   -webkit-transform: translateY(-50%);
 }
 
-/* line 163, ../sass/_movielist.scss */
+/* line 161, ../sass/_movielist.scss */
 .pagination {
   border-radius: 4px;
   display: block;
@@ -1536,25 +1562,25 @@ body.has-notification #notification {
   text-align: center;
 }
 
-/* line 170, ../sass/_movielist.scss */
+/* line 168, ../sass/_movielist.scss */
 .pagination ul li {
   display: inline-block;
 }
 
-/* line 173, ../sass/_movielist.scss */
+/* line 171, ../sass/_movielist.scss */
 .pagination li:first-child > a, .pagination li:first-child > span {
   border-bottom-left-radius: 4px;
   border-top-left-radius: 4px;
   margin-left: 0;
 }
 
-/* line 178, ../sass/_movielist.scss */
+/* line 176, ../sass/_movielist.scss */
 .pagination li:last-child > a, .pagination li:last-child > span {
   border-bottom-right-radius: 4px;
   border-top-right-radius: 4px;
 }
 
-/* line 182, ../sass/_movielist.scss */
+/* line 180, ../sass/_movielist.scss */
 .pagination li > a, .pagination li > span {
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #999999;
@@ -1573,12 +1599,12 @@ body.has-notification #notification {
   background-image: linear-gradient(to bottom, #2a2a2a 0%, #1b1b1b 100%);
 }
 
-/* line 197, ../sass/_movielist.scss */
+/* line 195, ../sass/_movielist.scss */
 .pagination li > a:hover {
   opacity: 0.8;
 }
 
-/* line 201, ../sass/_movielist.scss */
+/* line 199, ../sass/_movielist.scss */
 .pagination ul li.active a, .pagination li > a:active {
   background-image: linear-gradient(to bottom, #121212 0%, #191919 100%);
   box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1), inset 0 1px 1px rgba(0, 0, 0, 0.5);

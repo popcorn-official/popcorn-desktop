@@ -80,7 +80,6 @@ a { text-decoration: none; }
   height: $header_height;
   left: 0;
   padding: 15px;
-  position: absolute;
   top: 0;
   text-align: center;
   width: 100%;
@@ -341,30 +340,7 @@ a { text-decoration: none; }
     }
   }
 
-  .search {
-    position: absolute;
-    right: 20px;
-    top: 12px;
 
-    input {
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      border-radius: 5px;
-      color: #FFF;
-      font-size: 12px;
-      height: 15px;
-      padding: 8px 10px;
-      width: 115px;
-      background: transparent;
-      font-weight: bold;
-    }
-
-    i {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      color: rgba(255, 255, 255, 0.4);
-    }
-  }
 }
 
 
@@ -428,16 +404,6 @@ body.has-notification {
 
   .text { font-size: 22px; }
 
-  .spinner {
-    background: url(../images/spinner.svg) no-repeat 0 0;
-    background-size: cover;
-    display: block;
-    height: 45px;
-    margin: 10px auto;
-    -webkit-animation: 1.05s spin  infinite linear;
-    width: 45px;
-  }
-
   .progressbar {
     display: none;
     height: 14px;
@@ -492,6 +458,8 @@ body.has-notification {
     .btn-close { display: block; }
   }
 }
+
+
 
 .popcorn-disclaimer {
   @include transition(opacity ease .3s);
@@ -554,4 +522,74 @@ body.has-notification {
     }
   }
 
+}
+
+
+
+.hidden {
+  display: none;
+}
+
+.movie-browser {
+  .filter-bar {
+    height: 46px;
+    width: 100%;
+    background: #121212;
+
+    .search {
+      padding: 5px 10px;
+
+      input {
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        border-radius: 5px;
+        color: #FFF;
+        font-size: 12px;
+        height: 15px;
+        padding: 8px 10px;
+        width: 115px;
+        background: transparent;
+        font-weight: bold;
+      }
+
+      i {
+        top: 10px;
+        right: 10px;
+        color: rgba(255, 255, 255, 0.4);
+      }
+    }
+
+    h4 {
+      padding: 15px;
+      color: #727272;
+      font-weight: bold;
+    }
+
+    .right {
+      float: right;
+    }
+
+    .left {
+      float: left;
+    }
+  }
+
+  .movie-list {
+    .spinner {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: black center center no-repeat;
+      opacity: .5;
+
+      .spinner-image {
+        margin: 180px auto 0px;
+        background: url(../images/spinner.svg) no-repeat 0 0;
+        background-size: cover;
+        display: block;
+        height: 45px;
+        -webkit-animation: 1.05s spin  infinite linear;
+        width: 45px;
+      }
+    }
+  }
 }

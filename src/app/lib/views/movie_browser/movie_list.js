@@ -1,12 +1,30 @@
 (function(App) {
     "use strict";
 
-    var MovieList = Backbone.View.extend({
-        render: function() {
+    var MovieList = Backbone.Marionette.CompositeView.extend({
+        template: '#movie-list-tpl',
+
+        ui: {
+            spinner: '.spinner'
         },
 
-        load: function(filter) {
+        initialize: function() {
+            this.listenTo(this.model, 'loading', this.onLoading);
+            this.listenTo(this.model, 'loaded', this.onLoaded);
+        },
 
+        onShow: function() {
+            if(this.model.state === 'loading') {
+                this.onLoading();
+            }
+        },
+
+        onLoading: function() {
+            this.ui.spinner.show();
+        },
+
+        onLoaded: function() {
+            this.ui.spinner.hide();
         }
     });
 

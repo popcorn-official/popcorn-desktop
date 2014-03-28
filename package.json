@@ -36,7 +36,8 @@
     "async": "0.2.x",
     "underscore": "1.6.x",
     "q": "2.0.x",
-    "rimraf": "^2.2.6"
+    "rimraf": "^2.2.6",
+    "stylus": "0.42.x"
   },
   "devDependencies": {
     "grunt": "0.4.4",
