@@ -292,7 +292,7 @@ a { text-decoration: none; }
 }
 
 // Catalog select
-#catalog-select {
+.filters-column {
   @include box-sizing(border-box);
   @include scrollable();
   width: 180px;

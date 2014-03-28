@@ -1,7 +1,5 @@
-(function(context) {
+(function(App) {
     "use strict";
-
-    context.App = context.App || {};
 
     var Config = {
         title: 'Popcorn Time',
@@ -34,5 +32,5 @@
         ]
     };
 
-    context.App.Config = Config;
-})(window);
+    App.Config = Config;
+})(window.App);

@@ -9,29 +9,31 @@
      *  * Show movie detail
      *  * Start playing a movie
      */
-    var MovieBrowser = Backbone.View.extend({
-        className: 'movie-browser',
+    var MovieBrowser = Backbone.Marionette.Layout.extend({
+        template: '#movie-browser-tpl',
+
+        regions: {
+            CategoryList: '.category-list',
+            MovieList: '.movie-list'
+        },
 
         initialize: function() {
-            this.categoryList = new App.View.CategoryList({
-                el: this.$('.category-list'),
-                model: App.Config.categories
-            });
-
-            this.movieCollection = new App.Config.Provider.Movies();
-            this.movieList = new App.View.MovieList({
-                el: this.$('.movie-list'),
-                model: this.movieCollection
-            });
+            /*this.movieCollection = new App.Config.Provider.Movies();
 
             // Fetch default category movie:
             this.movieCollection.fetch({
                 category: App.Config.categories[0]
-            });
+            });*/
         },
 
-        render: function() {
-            this.categoryList.render();
+        onShow: function() {
+            this.CategoryList.show(new App.View.CategoryList({
+                model: App.Config.categories
+            }));
+
+            /*this.CategoryList.show(new App.View.MovieList({
+                model: movieCollection
+            }));*/
         }
     });
 

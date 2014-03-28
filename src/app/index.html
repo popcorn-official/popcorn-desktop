@@ -7,31 +7,7 @@
     <link rel="stylesheet" type="text/css" href="vendor/video-js/video-js.css">
   </head>
   <body>
-
-    <header id="header"></header>
-
-
-
-    <div id="notification"></div>
-
-    <div id="changelog-container"></div>
-
-    <div id="movie-browser">
-        <div id="catalog-select">
-          <div class="search">
-            <input type="text" placeholder="Search" data-translate="search" />
-            <i class="fa fa-search"></i>
-          </div>
-
-            <div class="category-list">
-            </div>
-        </div>
-
-        <section class="container">
-          <sidebar class="hidden"></sidebar>
-        </section>
-    </div>
-
+    <div id="main-window"></div>
     <div class="popcorn-load hidden">
       <div class="wrapper">
         <span class="spinner"></span>
@@ -53,6 +29,24 @@
         <a class="btn confirmation continue" data-translate="legalDisclaimerAccept"></a>
       </div>
     </div>
+
+    <script id="main-window-tpl" type="text/x-template">
+        <header id="header"></header>
+        <div id="notification"></div>
+        <div id="changelog-container"></div>
+        <div id="content"></div>
+    </script>
+
+    <script id="movie-browser-tpl" type="text/x-template">
+        <div class="filters-column">
+            <div class="search">
+                <input type="text" placeholder="Search" data-translate="search" />
+                <i class="fa fa-search"></i>
+            </div>
+            <div class="category-list"></div>
+        </div>
+        <div class="movie-list"></div>
+    </script>
 
     <script id="changelog-tpl" type="text/x-template">
         <a class="btn-close"><img src="/images/close.svg" width="50" /></a>
@@ -77,13 +71,13 @@
     <script id="header-tpl" type="text/x-template">
         <nav class="btn-set <%= process.platform %>">
 
-          <% _.each(buttons, function(button) { %>
-            <button class="btn-os <%= button %>"></button>
-          <% }); %>
+            <% _.each(getButtons(), function(button) { %>
+                <button class="btn-os <%= button %>"></button>
+            <% }); %>
         </nav>
 
         <nav class="btn-set fs-<%= process.platform %>">
-          <button class="btn-os fullscreen"></button>
+            <button class="btn-os fullscreen"></button>
         </nav>
         <h1>Popcorn Time</h1>
     </script>
@@ -193,10 +187,10 @@
 
     <!-- Settings Module and API Keys -->
     <script src="vendor/settings.js"></script>
-    <script src="lib/config.js"></script>
 
     <!-- App Initialization -->
     <script src="app.js"></script>
+    <script src="lib/config.js"></script>
     <script src="updater.js"></script>
     <script src="language.js"></script>
 
@@ -231,5 +225,7 @@
     <script src="vendor/video-js/video.dev.js"></script>
     <script src="vendor/videojsplugins.js"></script>
     <script src="vendor/dragwindow.js"></script>
+
+    <script src="bootstrap.js"></script>
   </body>
 </html>

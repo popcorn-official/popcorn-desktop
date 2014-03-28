@@ -33,15 +33,26 @@ var
     i18n = require("i18n");
 
 // Global App skeleton for backbone
-var App = App || {};
-var App = _.defaults(App, {
-  Controller: {},
-  View: {},
-  Model: {},
-  Page: {},
-  Scrapers: {},
-  Providers: {},
-  Localization: {}
+var App = new Backbone.Marionette.Application();
+_.extend(App, {
+    Controller: {},
+    View: {},
+    Model: {},
+    Page: {},
+    Scrapers: {},
+    Providers: {},
+    Localization: {}
+});
+
+App.addRegions({ Window: "#main-window" });
+
+App.addInitializer(function(options){
+    var mainWindow = new App.View.MainWindow();
+    try{
+        App.Window.show(mainWindow);
+    } catch(e) {
+        console.error("Couldn't start app: ", e, e.stack);
+    }
 });
 
 // Create the System Temp Folder. This is used to store temporary data like movie files.
@@ -102,20 +113,13 @@ if( ! Settings.get('disclaimerAccepted') ) {
     });
 }
 
-$(window).load(function(){
-    App.mainWindow = new App.View.MainWindow({
-        el: $('body')
-    });
-    App.mainWindow.render();
-});
-
 
 /**
  * Show 404 page on uncaughtException
  */
-process.on('uncaughtException', function(err) {
+/*process.on('uncaughtException', function(err) {
     if (console && console.logger) {
         console.logger.error(err, err.stack);
     }
-});
+});*/
 

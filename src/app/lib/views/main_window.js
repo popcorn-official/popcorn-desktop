@@ -1,8 +1,13 @@
 (function(App) {
     "use strict";
 
-    var MainWindow = Backbone.View.extend({
-        id: "main-window",
+    var MainWindow = Backbone.Marionette.Layout.extend({
+        template: "#main-window-tpl",
+
+        regions: {
+            Header: '#header',
+            Content: '#content'
+        },
 
         events: {
             '.btn-os.max click': 'maximize',
@@ -16,20 +21,12 @@
         },
 
         initialize: function() {
-            this.titleBar = new App.View.TitleBar({
-                el: this.$el.find('#header')
-            });
-
-            this.movieBrowser = new App.View.MovieBrowser({
-                el: this.$el.find('#movie-browser')
-            });
-
             this.nativeWindow = require('nw.gui').Window.get();
         },
 
-        render: function() {
-            this.titleBar.render();
-            this.movieBrowser.render();
+        onShow: function() {
+            this.Header.show(new App.View.TitleBar());
+            this.Content.show(new App.View.MovieBrowser());
 
             // Set the app title (for Windows mostly)
             this.nativeWindow.title = App.Config.title;

@@ -7,12 +7,13 @@
         'linux': ['min', 'max', 'close']
     };
 
-    var TitleBar = Backbone.View.extend({
-        template: _.template($('#header-tpl').text()),
+    var TitleBar = Backbone.Marionette.ItemView.extend({
+        template: '#header-tpl',
+
         events: {
             'click .btn-os.max': 'maximize',
             'click .btn-os.min': 'minimize',
-            'click .btn-os.close': 'close',
+            'click .btn-os.close': 'closeWindow',
             'click .btn-os.fullscreen': 'toggleFullscreen'
         },
 
@@ -20,10 +21,10 @@
             this.nativeWindow = require('nw.gui').Window.get();
         },
 
-        render: function() {
-            this.$el.html(this.template({
-                buttons: ButtonOrder[App.Config.platform]
-            }));
+        templateHelpers: {
+            getButtons: function(){
+                return ButtonOrder[App.Config.platform];
+            }
         },
 
         maximize: function() {
@@ -42,13 +43,13 @@
             this.nativeWindow.minimize();
         },
 
-        close: function() {
+        closeWindow: function() {
             this.nativeWindow.close();
         },
 
         toggleFullscreen: function() {
             win.toggleFullscreen();
-            $el.find('.btn-os.fullscreen').toggleClass('active');
+            this.$el.find('.btn-os.fullscreen').toggleClass('active');
         }
     });
 
