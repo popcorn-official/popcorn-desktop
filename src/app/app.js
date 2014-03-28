@@ -44,7 +44,7 @@ _.extend(App, {
     Localization: {}
 });
 
-App.addRegions({ Window: "#main-window" });
+App.addRegions({ Window: ".main-window-region" });
 
 App.addInitializer(function(options){
     var mainWindow = new App.View.MainWindow();

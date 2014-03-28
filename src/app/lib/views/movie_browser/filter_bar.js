@@ -3,6 +3,7 @@
 
     var FilterBar = Backbone.Marionette.ItemView.extend({
         template: '#filter-bar-tpl',
+        className: 'filter-bar',
 
         templateHelpers: {
             getCategories: function() {

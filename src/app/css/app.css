@@ -966,22 +966,36 @@ body.has-notification #notification {
   font-weight: normal;
 }
 
-/* line 529, ../sass/_layout.scss */
+/* line 528, ../sass/_layout.scss */
+.main-window-region, #main-window {
+  height: 100%;
+}
+
+/* line 532, ../sass/_layout.scss */
+#content {
+  height: calc(100% - 45px);
+}
+
+/* line 536, ../sass/_layout.scss */
 .hidden {
   display: none;
 }
 
-/* line 534, ../sass/_layout.scss */
+/* line 540, ../sass/_layout.scss */
+.movie-browser {
+  height: 100%;
+}
+/* line 543, ../sass/_layout.scss */
 .movie-browser .filter-bar {
   height: 46px;
   width: 100%;
   background: #121212;
 }
-/* line 539, ../sass/_layout.scss */
+/* line 548, ../sass/_layout.scss */
 .movie-browser .filter-bar .search {
   padding: 5px 10px;
 }
-/* line 542, ../sass/_layout.scss */
+/* line 551, ../sass/_layout.scss */
 .movie-browser .filter-bar .search input {
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: 5px;
@@ -993,27 +1007,84 @@ body.has-notification #notification {
   background: transparent;
   font-weight: bold;
 }
-/* line 554, ../sass/_layout.scss */
+/* line 563, ../sass/_layout.scss */
 .movie-browser .filter-bar .search i {
   top: 10px;
   right: 10px;
   color: rgba(255, 255, 255, 0.4);
 }
-/* line 561, ../sass/_layout.scss */
+/* line 570, ../sass/_layout.scss */
 .movie-browser .filter-bar h4 {
   padding: 15px;
   color: #727272;
   font-weight: bold;
 }
-/* line 567, ../sass/_layout.scss */
+/* line 576, ../sass/_layout.scss */
 .movie-browser .filter-bar .right {
   float: right;
 }
-/* line 571, ../sass/_layout.scss */
+/* line 580, ../sass/_layout.scss */
 .movie-browser .filter-bar .left {
   float: left;
 }
-/* line 577, ../sass/_layout.scss */
+/* line 585, ../sass/_layout.scss */
+.movie-browser .movie-list-region {
+  height: calc(100% - 46px);
+}
+/* line 589, ../sass/_layout.scss */
+.movie-browser .movie-list {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: overlay;
+  -webkit-overflow-scrolling: touch;
+}
+/* line 11, ../sass/_utils.scss */
+.movie-browser .movie-list::-webkit-scrollbar {
+  background: none;
+  width: 9px;
+}
+/* line 15, ../sass/_utils.scss */
+.movie-browser .movie-list::-webkit-scrollbar-button {
+  display: none;
+}
+/* line 18, ../sass/_utils.scss */
+.movie-browser .movie-list::-webkit-scrollbar-track {
+  display: none;
+}
+/* line 21, ../sass/_utils.scss */
+.movie-browser .movie-list::-webkit-scrollbar-track-piece {
+  display: none;
+}
+/* line 24, ../sass/_utils.scss */
+.movie-browser .movie-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0);
+  background-clip: content-box;
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+/* line 30, ../sass/_utils.scss */
+.movie-browser .movie-list::-webkit-scrollbar-corner {
+  display: none;
+}
+/* line 33, ../sass/_utils.scss */
+.movie-browser .movie-list::-webkit-resizer {
+  display: none;
+}
+/* line 38, ../sass/_utils.scss */
+.movie-browser .movie-list:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.5);
+  background-clip: content-box;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+/* line 44, ../sass/_utils.scss */
+.movie-browser .movie-list:hover::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.6);
+  background-clip: content-box;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+/* line 592, ../sass/_layout.scss */
 .movie-browser .movie-list .spinner {
   position: fixed;
   width: 100%;
@@ -1021,7 +1092,7 @@ body.has-notification #notification {
   background: black center center no-repeat;
   opacity: .5;
 }
-/* line 584, ../sass/_layout.scss */
+/* line 599, ../sass/_layout.scss */
 .movie-browser .movie-list .spinner .spinner-image {
   margin: 180px auto 0px;
   background: url(../images/spinner.svg) no-repeat 0 0;

@@ -525,12 +525,21 @@ body.has-notification {
 }
 
 
+.main-window-region, #main-window {
+  height: 100%
+}
+
+#content {
+  height: calc(100% - 45px)
+}
 
 .hidden {
   display: none;
 }
 
 .movie-browser {
+  height: 100%;
+
   .filter-bar {
     height: 46px;
     width: 100%;
@@ -573,7 +582,13 @@ body.has-notification {
     }
   }
 
+  .movie-list-region {
+    height: calc(100% - 46px)
+  }
+
   .movie-list {
+    height: 100%;
+    @include scrollable();
     .spinner {
       position: fixed;
       width: 100%;

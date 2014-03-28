@@ -4,6 +4,8 @@
     var MainWindow = Backbone.Marionette.Layout.extend({
         template: "#main-window-tpl",
 
+        id: 'main-window',
+
         regions: {
             Header: '#header',
             Content: '#content'

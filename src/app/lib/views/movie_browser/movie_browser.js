@@ -14,8 +14,8 @@
         className: 'movie-browser',
 
         regions: {
-            FilterBar: '.filter-bar',
-            MovieList: '.movie-list'
+            FilterBar: '.filter-bar-region',
+            MovieList: '.movie-list-region'
         },
 
         initialize: function() {
