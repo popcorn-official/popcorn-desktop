@@ -1,4 +1,4 @@
-var db = openDatabase('cachedb', '1.0', 'Cache database', 50 * 1024 * 1024);
+var db = openDatabase('cachedb', '', 'Cache database', 50 * 1024 * 1024);
 var Q = require('q');
 
 App.Cache = {

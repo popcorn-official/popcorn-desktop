@@ -29,7 +29,26 @@
             "thriller",
             "war",
             "western"
-        ]
+        ],
+
+
+        cache: {
+            name: 'cachedb',
+            version: '1.5',
+            desc: 'Cache database',
+            size: 10*1024*1024,
+            tables: ['subtitle', 'metadata']
+        },
+
+        providers: {
+            torrent: 'Yts',
+            subtitle: 'YSubs',
+            metadata: 'Trakttv'
+        },
+
+        getProviders: function(type) {
+            return App.Providers[App.Config.providers[type]];
+        }
     };
 
     App.Config = Config;
