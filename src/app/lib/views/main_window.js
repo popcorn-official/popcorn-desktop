@@ -12,11 +12,6 @@
         },
 
         events: {
-            '.btn-os.max click': 'maximize',
-            '.btn-os.min click': 'minimize',
-            '.btn-os.close click': 'close',
-            '.btn-os.fullscreen click': 'toggleFullscreen',
-
             'dragover': 'preventDefault',
             'drop': 'preventDefault',
             'dragstart': 'preventDefault',
