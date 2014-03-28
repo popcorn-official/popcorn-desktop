@@ -4,17 +4,23 @@
     var MovieList = Backbone.Marionette.CompositeView.extend({
         template: '#movie-list-tpl',
 
+        tagName: 'ul',
+        className: 'movie-list',
+
+        itemView: App.View.MovieItem,
+        itemViewContainer: '.movies',
+
         ui: {
             spinner: '.spinner'
         },
 
         initialize: function() {
-            this.listenTo(this.model, 'loading', this.onLoading);
-            this.listenTo(this.model, 'loaded', this.onLoaded);
+            this.listenTo(this.collection, 'loading', this.onLoading);
+            this.listenTo(this.collection, 'loaded', this.onLoaded);
         },
 
         onShow: function() {
-            if(this.model.state === 'loading') {
+            if(this.collection.state === 'loading') {
                 this.onLoading();
             }
         },

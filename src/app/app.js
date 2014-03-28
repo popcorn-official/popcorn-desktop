@@ -117,9 +117,7 @@ if( ! Settings.get('disclaimerAccepted') ) {
 /**
  * Show 404 page on uncaughtException
  */
-/*process.on('uncaughtException', function(err) {
-    if (console && console.logger) {
-        console.logger.error(err, err.stack);
-    }
-});*/
+process.on('uncaughtException', function(err) {
+    window.console.error(err, err.stack);
+});
 

@@ -9,11 +9,22 @@
   <body>
     <div id="main-window"></div>
 
+    <script id="movie-item-tpl" type="text/x-template">
+        <a href="#">
+            <i class="fa fa-eye fa-3"></i>
+            <span class="cover">
+                <img src="<%= image %>" class="real hidden" alt="<%= title %>" />
+            </span>
+            <strong><%= title %></strong>
+            <small><%= year %></small>
+        </a>
+    </script>
+
     <script id="movie-list-tpl" type="text/x-template">
         <div class="spinner hidden">
           <div class="spinner-image"></div>
         </div>
-        <div class="movies">Some movies...</div>
+        <div class="movies"></div>
     </script>
 
     <script id="main-window-tpl" type="text/x-template">
@@ -200,6 +211,7 @@
     <script src="lib/views/main_window.js"></script>
     <script src="lib/views/movie_browser/movie_browser.js"></script>
     <script src="lib/views/movie_browser/filter_bar.js"></script>
+    <script src="lib/views/movie_browser/movie_item.js"></script>
     <script src="lib/views/movie_browser/movie_list.js"></script>
     <script src="frontend/views/page.js"></script>
     <script src="frontend/views/listview.js"></script>

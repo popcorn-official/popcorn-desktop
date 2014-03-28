@@ -33,7 +33,7 @@
             }));
 
             this.MovieList.show(new App.View.MovieList({
-                model: this.movieCollection
+                collection: this.movieCollection
             }));
         }
     });
