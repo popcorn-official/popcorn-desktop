@@ -36,7 +36,7 @@
         },
 
         addMovie: function(model) {
-            var stored = _.find(this.movies, function(movie) { movie.imdb == model.imdb });
+            var stored = _.find(this.movies, function(movie) { return movie.imdb == model.imdb });
 
             // Create it on memory map if it doesn't exist.
             if (typeof stored === 'undefined') {
