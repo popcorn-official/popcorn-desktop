@@ -88,7 +88,8 @@ String.prototype.capitalize = function() {
 
 // Not debugging, hide all messages!
 if (!isDebug) {
-    console.log = function () {};
+    console.log = function() {};
+    console.time = console.timeEnd = function() {};
     console.logger = {};
     console.logger.log = function() {};
     console.logger.debug = console.logger.log;

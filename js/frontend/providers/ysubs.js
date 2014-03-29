@@ -17,7 +17,16 @@
         var url = baseUrl + _.map(imdbIds.sort(), function(id){return 'tt'+id;}).join('-');
 
         var deferred = Q.defer();
+
+        if(imdbIds.length == 0) {
+            deferred.resolve({subs:[]});
+            return deferred.promise;
+        }
+
+        console.logger.debug('Requesting from YSubs: %s', url);
+        console.time('YSubs Request Took');
         request({url:url, json: true}, function(error, response, data){
+            console.timeEnd('YSubs Request Took');
             if(error) {
                 deferred.reject(error);
             } else if (!data.success) {

@@ -25,7 +25,10 @@ MovieCollection.prototype.getSummaries = function(callback) {
 					'full'
 				]);
 
+	console.logger.debug('Requesting from Trakt.tv: %s', uri.toString());
+	console.time('Trakt.tv Request Took');
 	request(uri.toString(), {json: true}, function(err, res, body) {
+		console.timeEnd('Trakt.tv Request Took');
 		callback(body);
 	});
 }

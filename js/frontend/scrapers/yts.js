@@ -66,7 +66,10 @@
                 currentRequest.abort();
             }
 
+            console.logger.debug('Requesting from YTS: %s', this.apiUrl);
+            console.time('YTS Request Took');
             var thisRequest = currentRequest = request(this.apiUrl, {json: true}, function(err, res, ytsData) {
+                console.timeEnd('YTS Request Took');
                 var i = 0;
 
                 if(err) {
