@@ -1,4 +1,6 @@
 (function(App) {
+    "use strict";
+
     var Q = require('q');
 
     var cache = App.Config.cache;
@@ -115,6 +117,6 @@
         }
     });
 
-    App.Providers.Cache = Cache;
+    App.Cache = Cache;
 
 })(window.App);

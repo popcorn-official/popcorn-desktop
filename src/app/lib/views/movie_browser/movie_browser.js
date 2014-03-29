@@ -19,7 +19,7 @@
         },
 
         initialize: function() {
-            this.movieCollection = new App.currentScrapper();
+            this.movieCollection = new App.Model.MovieCollection();
 
             // Fetch default category movie:
             this.movieCollection.fetch({

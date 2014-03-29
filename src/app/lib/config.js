@@ -46,7 +46,7 @@
             metadata: 'Trakttv'
         },
 
-        getProviders: function(type) {
+        getProvider: function(type) {
             return App.Providers[App.Config.providers[type]];
         }
     };
