@@ -4,6 +4,7 @@
     var Q = require('q');
 
     var MovieCollection = Backbone.Collection.extend({
+        model: App.Model.Movie,
 
         initialize: function() {
             this.providers = {
@@ -27,8 +28,12 @@
             var subtitlePromise = idsPromise.then(_.bind(subtitle.fetch, subtitle));
             var metadataPromise = idsPromise.then(_.bind(metadata.fetch, metadata));
 
+            this.currentRequest = idsPromise;
             return Q.all([torrentPromise, subtitlePromise, metadataPromise])
                 .spread(function(movies, subtitles, metadatas) {
+                    // If a new request was started...
+                    if(self.currentRequest !== idsPromise) return;
+
                     _.each(movies, function(movie){
                         var id = movie.imdb;
                         var info = metadatas[id];
@@ -43,8 +48,9 @@
                     self.set(movies);
                     self.trigger('sync', self);
                     self.trigger('loaded', self);
-                    this.state = 'loaded';
-                }, function(err) {
+                    self.state = 'loaded';
+                })
+                .catch(function(err) {
                     console.error(err, err.stack);
                 });
         }
