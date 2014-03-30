@@ -2,7 +2,42 @@
     "use strict";
 
     var _ = require('underscore');
-    var request = require('request');
+    //var request = require('request');
+    function request (uri, options, callback) {
+        if (typeof uri === 'undefined') throw new Error('undefined is not a valid uri or options object.');
+        if ((typeof options === 'function') && !callback) callback = options;
+        if (options && typeof options === 'object') {
+            options.uri = uri;
+        } else if (typeof uri === 'string') {
+            options = {uri:uri};
+        } else {
+            options = uri;
+        }
+
+        var jqueryOptions = {
+            url: options.uri || options.url
+        }
+        if(options.json)
+            jqueryOptions.dataType = 'json';
+        if(options.headers)
+            jqueryOptions.headers = options.headers;
+        if(options.method)
+            jqueryOptions.type = options.method;
+        if(options.body)
+            jqueryOptions.data = options.body.toString();
+        if(options.timeout)
+            jqueryOptions.timeout = options.timeout;
+
+        $.ajax(jqueryOptions)
+            .done(function(data, status, xhr) {
+                console.logger.debug("%O", data);
+                callback(undefined, xhr, data);
+            })
+            .fail(function(xhr, status, err) {
+                console.logger.error("%O", data);
+                callback(err, xhr, undefined);
+            });
+    }
     var Q = require('q');
 
     var baseUrl = 'http://api.ysubs.com/subs/';

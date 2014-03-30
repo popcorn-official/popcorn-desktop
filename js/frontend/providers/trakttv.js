@@ -1,5 +1,40 @@
-var request = require('request')
-  , URI = require('URIjs');
+/*var request = require('request')
+  ,*/ var URI = require('URIjs');
+
+// Tempoary wrapper around $.get for request
+function request (uri, options, callback) {
+	if (typeof uri === 'undefined') throw new Error('undefined is not a valid uri or options object.');
+	if ((typeof options === 'function') && !callback) callback = options;
+	if (options && typeof options === 'object') {
+		options.uri = uri;
+	} else if (typeof uri === 'string') {
+		options = {uri:uri};
+	} else {
+		options = uri;
+	}
+
+	var jqueryOptions = {
+		url: options.uri || options.url
+	}
+	if(options.json)
+		jqueryOptions.dataType = 'json';
+	if(options.headers)
+		jqueryOptions.headers = options.headers;
+	if(options.method)
+		jqueryOptions.type = options.method;
+	if(options.body)
+		jqueryOptions.data = options.body.toString();
+	if(options.timeout)
+		jqueryOptions.timeout = options.timeout;
+
+	window.$.ajax(jqueryOptions)
+		.done(function(data, status, xhr) {
+			callback(undefined, xhr, data);
+		})
+		.fail(function(xhr, status, err) {
+			callback(err, xhr, undefined);
+		});
+}
 
 var API_ENDPOINT = URI('http://api.trakt.tv/'),
 	MOVIE_PATH = 'movie',

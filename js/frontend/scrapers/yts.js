@@ -2,7 +2,42 @@
 
     var trakt = require('./js/frontend/providers/trakttv');
     var async = require('async');
-    var request = require('request');
+    //var request = require('request');
+    function request (uri, options, callback) {
+        if (typeof uri === 'undefined') throw new Error('undefined is not a valid uri or options object.');
+        if ((typeof options === 'function') && !callback) callback = options;
+        if (options && typeof options === 'object') {
+            options.uri = uri;
+        } else if (typeof uri === 'string') {
+            options = {uri:uri};
+        } else {
+            options = uri;
+        }
+
+        var jqueryOptions = {
+            url: options.uri || options.url
+        }
+        if(options.json)
+            jqueryOptions.dataType = 'json';
+        if(options.headers)
+            jqueryOptions.headers = options.headers;
+        if(options.method)
+            jqueryOptions.type = options.method;
+        if(options.body)
+            jqueryOptions.data = options.body.toString();
+        if(options.timeout)
+            jqueryOptions.timeout = options.timeout;
+
+        $.ajax(jqueryOptions)
+            .done(function(data, status, xhr) {
+                console.logger.debug("%O", data);
+                callback(undefined, xhr, data);
+            })
+            .fail(function(xhr, status, err) {
+                console.logger.error("%O", data);
+                callback(err, xhr, undefined);
+            });
+    }
 
     var url = Settings.get('yifyApiEndpoint') + 'list.json?sort=seeds&limit=50';
 
@@ -83,11 +118,11 @@
                     return;
                 }
 
-                var imdbIds = _.pluck(ytsData.MovieList, 'ImdbCode');
+                var imdbIds = _.unique(_.pluck(ytsData.MovieList, 'ImdbCode'));
 
                 App.Providers.YSubs.fetch(_.map(imdbIds, function(id){return id.replace('tt','');}))
                 .then(function(subtitles) {
-                    async.filter(
+                    async.filterSeries(
                       imdbIds,
                       function(cd, cb) { App.Cache.getItem('trakttv', cd, function(d) { cb(d == undefined) }) },
                       function(imdbCodes) {
