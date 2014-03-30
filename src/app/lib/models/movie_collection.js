@@ -36,7 +36,7 @@
                         ]));
                     });
 
-                    console.log('Movies data: ', movies, subtitles, metadatas);
+                    // TODO: Do something with movies
                 }, function(err) {
                     console.error(err, err.stack);
                 });

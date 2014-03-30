@@ -62,7 +62,7 @@
     };
 
     YSubs.prototype.query = function(ids) {
-        return querySubtitles(ids)
+        return Q.when(querySubtitles(ids))
             .then(formatForPopcorn);
     };
 

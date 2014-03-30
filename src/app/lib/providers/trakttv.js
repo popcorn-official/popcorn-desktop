@@ -1,6 +1,7 @@
 (function(App) {
     "use strict";
     var request = require('request');
+
     var Q = require('q');
     var URI = require('URIjs');
 

@@ -89,18 +89,16 @@
             self.getItems(_.keys(items))
                 .then(function(cachedData) {
                     db.transaction(function (tx) {
-                        _.each(items, function(item) {
-                            _.each(cachedData, function(item, id){
-                                var data = JSON.stringify(item);
-                                tx.executeSql('UPDATE ' + self.table + ' SET data = ?, ttl = ?, date_saved = ? WHERE id = ?', [data, ttl, now, id]);
-                            });
+                        _.each(cachedData, function(item, id){
+                            var data = JSON.stringify(item);
+                            tx.executeSql('UPDATE ' + self.table + ' SET data = ?, ttl = ?, date_saved = ? WHERE id = ?', [data, ttl, now, id]);
+                        });
 
-                            var missedData = _.difference(_.keys(items), _.keys(cachedData));
-                            _.each(missedData, function(id){
-                                var data = JSON.stringify(items[id]);
-                                var query = 'INSERT INTO ' + self.table + ' VALUES (?, ?, ?, ?)';
-                                tx.executeSql(query, [id, data, ttl, now]);
-                            });
+                        var missedData = _.difference(_.keys(items), _.keys(cachedData));
+                        _.each(missedData, function(id){
+                            var data = JSON.stringify(items[id]);
+                            var query = 'INSERT INTO ' + self.table + ' VALUES (?, ?, ?, ?)';
+                            tx.executeSql(query, [id, data, ttl, now]);
                         });
                     }, function(err) {
                         console.error(err);
