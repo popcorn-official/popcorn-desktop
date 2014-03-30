@@ -49,11 +49,11 @@ Settings = {
         if( currentVersion != Settings.get('version') ) {
             // Nuke the DB if there's a newer version
             // Todo: Make this nicer so we don't lose all the cached data
-            var cacheDb = openDatabase('cachedb', '1.0', 'Cache database', 50 * 1024 * 1024);
+            var cacheDb = openDatabase('cachedb', '', 'Cache database', 50 * 1024 * 1024);
 
             cacheDb.transaction(function (tx) {
-                tx.executeSql('DELETE FROM trakttv');
-                tx.executeSql('DELETE FROM ysubs');
+                tx.executeSql('DELETE FROM subtitle');
+                tx.executeSql('DELETE FROM metadata');
             });
 
             if(Settings.get('yifyApiEndpoint') == 'http://yify-torrents.com/api/')

@@ -13,8 +13,12 @@
             };
         },
 
-        // TODO: Consolidate data
         fetch: function(filter) {
+            var self = this;
+
+            this.state = 'loading';
+            self.trigger('loading', self);
+
             var subtitle = this.providers.subtitle;
             var metadata = this.providers.metadata;
             var torrent = this.providers.torrent;
@@ -36,7 +40,10 @@
                         ]));
                     });
 
-                    // TODO: Do something with movies
+                    self.set(movies);
+                    self.trigger('sync', self);
+                    self.trigger('loaded', self);
+                    this.state = 'loaded';
                 }, function(err) {
                     console.error(err, err.stack);
                 });
