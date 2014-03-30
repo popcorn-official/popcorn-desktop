@@ -28,7 +28,7 @@ First, building, testing and reporting bug is highly appreciated. Please include
 Right now we are doing a lot of refactoring to clean the codebase so if you work on a new feature based on 0.2.x, it probably won't merge into 0.3.0. This is why we recommend you to hold all pull request other than bug fixes until we release 0.3.0 and stabilize the new codebase. From that point, we plan to add a lot of new features asked by the community and merge pull request.
 
 If you want to develop, you can look at the issues, especialy the bug and fix them.
-Here's a [list of feature](https://github.com/popcorn-team/popcorn-app/wiki/Feature-Proposal) requested by the community so far.
+Here's a [list of feature](https://popcorntime.uservoice.com/forums/245422-general) requested by the community so far.
 
 Please follow the [contributions guidelines](https://github.com/popcorn-team/popcorn-app/wiki/Contribution-Guidelines).
 
