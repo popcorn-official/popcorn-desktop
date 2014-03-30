@@ -115,10 +115,8 @@
                                     bigImage:   movie.CoverImage.replace(/_med\./, '_large.'),
                                     backdrop:   '',
 
-                                    quality:    movie.Quality,
-                                    torrent:    movie.TorrentUrl,
                                     torrents:   torrents,
-                                    videos:     {},
+
                                     subtitles:  subtitles[imdbId],
                                     seeders:    movie.TorrentSeeds,
                                     leechers:   movie.TorrentPeers,

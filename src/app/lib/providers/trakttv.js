@@ -52,13 +52,21 @@
         return uri.filename(file + '-' + width + '.' + ext).toString();
     };
 
-    // TODO: Format items
     var formatForPopcorn = function(items) {
-        return items;
+        var movies = {};
+        _.each(items, function(movie){
+            var imdb = movie.imdb_id.replace('tt','');
+            movie.image = resizeImage(movie.images.poster, '138');
+            movie.bigImage = resizeImage(movie.images.poster, '300');
+            movie.backdrop = resizeImage(movie.images.fanart, '940');
+            movie.synopsis = movie.overview;
+            movies[imdb] = movie;
+        });
+        return movies;
     };
 
     Trakttv.prototype.query = function(ids) {
-        return querySummaries(ids)
+        return Q.when(querySummaries(ids))
             .then(formatForPopcorn);
     };
 

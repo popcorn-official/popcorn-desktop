@@ -24,8 +24,21 @@
             var metadataPromise = idsPromise.then(_.bind(metadata.fetch, metadata));
 
             return Q.all([torrentPromise, subtitlePromise, metadataPromise])
-                .spread(function(torrents, subtitles, metadatas) {
-                    console.log('Movies data: ', torrents, subtitles, metadatas);
+                .spread(function(movies, subtitles, metadatas) {
+                    _.each(movies, function(movie){
+                        var id = movie.imdb;
+                        var info = metadatas[id];
+                        movie.subtitle = subtitles[id];
+                        _.extend(movie, _.pick(info, [
+                            'image','bigImage','backdrop',
+                            'synopsis','genres','certification','runtime',
+                            'tagline','title','trailer','year'
+                        ]));
+                    });
+
+                    console.log('Movies data: ', movies, subtitles, metadatas);
+                }, function(err) {
+                    console.error(err, err.stack);
                 });
         }
     });
