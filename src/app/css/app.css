@@ -1085,6 +1085,14 @@ body.has-notification #notification {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 /* line 592, ../sass/_layout.scss */
+.movie-browser .movie-list .error {
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: 180px;
+  color: #727272;
+  font-weight: bold;
+}
+/* line 599, ../sass/_layout.scss */
 .movie-browser .movie-list .spinner {
   position: fixed;
   width: 100%;
@@ -1092,7 +1100,7 @@ body.has-notification #notification {
   background: black center center no-repeat;
   opacity: .5;
 }
-/* line 599, ../sass/_layout.scss */
+/* line 606, ../sass/_layout.scss */
 .movie-browser .movie-list .spinner .spinner-image {
   margin: 180px auto 0px;
   background: url(../images/spinner.svg) no-repeat 0 0;

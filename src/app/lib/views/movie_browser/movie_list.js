@@ -1,6 +1,13 @@
 (function(App) {
     "use strict";
 
+    var ErrorView = Backbone.Marionette.ItemView.extend({
+        template: '#movie-error-tpl',
+        onBeforeRender: function() {
+            this.model.set('error', this.error);
+        }
+    });
+
     var MovieList = Backbone.Marionette.CompositeView.extend({
         template: '#movie-list-tpl',
 
@@ -9,6 +16,18 @@
 
         itemView: App.View.MovieItem,
         itemViewContainer: '.movies',
+
+        isEmpty: function() {
+            return !this.collection.length && this.collection.state !== 'loading';
+        },
+
+        getEmptyView: function() {
+            if(this.collection.state === 'error') {
+                return ErrorView.extend({error: i18n.__('Cannot request data...')});
+            } else {
+                return ErrorView.extend({error: i18n.__('No movies found...')});
+            }
+        },
 
         ui: {
             spinner: '.spinner'
@@ -30,6 +49,7 @@
         },
 
         onLoaded: function() {
+            this.checkEmpty();
             this.ui.spinner.hide();
         }
     });

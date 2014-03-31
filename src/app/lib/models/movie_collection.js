@@ -45,12 +45,14 @@
                         ]));
                     });
 
+                    self.state = 'loaded';
                     self.set(movies);
                     self.trigger('sync', self);
-                    self.trigger('loaded', self);
-                    self.state = 'loaded';
+                    self.trigger('loaded', self, self.state);
                 })
                 .catch(function(err) {
+                    self.state = 'error';
+                    self.trigger('loaded', self, self.state);
                     console.error(err, err.stack);
                 });
         }

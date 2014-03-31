@@ -589,6 +589,13 @@ body.has-notification {
   .movie-list {
     height: 100%;
     @include scrollable();
+    .error {
+      font-size: 1.5em;
+      text-align: center;
+      margin-top: 180px;
+      color: #727272;
+      font-weight: bold;
+    }
     .spinner {
       position: fixed;
       width: 100%;
