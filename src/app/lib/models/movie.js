@@ -13,6 +13,8 @@
             'change:torrents': 'updateHealth',
         },
 
+        idAttribute: 'imdb',
+
         initialize: function() {
             this.updateHealth();
         },

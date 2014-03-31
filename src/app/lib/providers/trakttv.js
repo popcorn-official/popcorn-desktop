@@ -35,7 +35,7 @@
             ]);
 
         request({url: uri.toString(), json: true}, function(error, response, data) {
-            if(error) {
+            if(error || !data) {
                 deferred.reject(error);
             } else {
                 deferred.resolve(data);

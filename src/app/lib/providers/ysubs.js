@@ -29,7 +29,7 @@
         request({url:url, json: true}, function(error, response, data){
             if(error) {
                 deferred.reject(error);
-            } else if (!data.success) {
+            } else if (!data || !data.success) {
                 deferred.reject(error);
             } else {
                 deferred.resolve(data);

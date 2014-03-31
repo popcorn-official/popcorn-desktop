@@ -1,6 +1,8 @@
 (function(App) {
     "use strict";
 
+    var SCROLL_MORE = 200;
+
     var ErrorView = Backbone.Marionette.ItemView.extend({
         template: '#movie-error-tpl',
         onBeforeRender: function() {
@@ -17,13 +19,17 @@
         itemView: App.View.MovieItem,
         itemViewContainer: '.movies',
 
+        events: {
+            'scroll': 'onScroll'
+        },
+
         isEmpty: function() {
             return !this.collection.length && this.collection.state !== 'loading';
         },
 
         getEmptyView: function() {
             if(this.collection.state === 'error') {
-                return ErrorView.extend({error: i18n.__('Cannot request data...')});
+                return ErrorView.extend({error: i18n.__('Error loading data, try again later...')});
             } else {
                 return ErrorView.extend({error: i18n.__('No movies found...')});
             }
@@ -34,7 +40,6 @@
         },
 
         initialize: function() {
-            this.listenTo(this.collection, 'loading', this.onLoading);
             this.listenTo(this.collection, 'loaded', this.onLoaded);
         },
 
@@ -51,6 +56,17 @@
         onLoaded: function() {
             this.checkEmpty();
             this.ui.spinner.hide();
+        },
+
+        onScroll: function() {
+            var totalHeight       = this.$el.prop('scrollHeight');
+            var currentPosition = this.$el.scrollTop() + this.$el.height();
+
+            if(this.collection.state === 'loaded' &&
+                totalHeight - currentPosition < SCROLL_MORE) {
+
+                this.collection.fetchMore();
+            }
         }
     });
 

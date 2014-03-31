@@ -6,15 +6,20 @@
     var MovieCollection = Backbone.Collection.extend({
         model: App.Model.Movie,
 
-        initialize: function() {
+        initialize: function(models, options) {
             this.providers = {
                 torrent: new (App.Config.getProvider('torrent'))(),
                 subtitle: new (App.Config.getProvider('subtitle'))(),
                 metadata: new (App.Config.getProvider('metadata'))()
             };
+
+            options = options || {};
+            this.filter = _.defaults(options.filter || {}, {page: 1});
+
+            Backbone.Collection.prototype.initialize.apply(this, arguments);
         },
 
-        fetch: function(filter) {
+        fetch: function() {
             var self = this;
 
             this.state = 'loading';
@@ -23,7 +28,7 @@
             var subtitle = this.providers.subtitle;
             var metadata = this.providers.metadata;
             var torrent = this.providers.torrent;
-            var torrentPromise = torrent.fetch(filter);
+            var torrentPromise = torrent.fetch(this.filter);
             var idsPromise = torrentPromise.then(_.bind(torrent.extractIds, torrent));
             var subtitlePromise = idsPromise.then(_.bind(subtitle.fetch, subtitle));
             var metadataPromise = idsPromise.then(_.bind(metadata.fetch, metadata));
@@ -36,7 +41,7 @@
 
                     _.each(movies, function(movie){
                         var id = movie.imdb;
-                        var info = metadatas[id];
+                        var info = metadatas[id] || {};
                         movie.subtitle = subtitles[id];
                         _.extend(movie, _.pick(info, [
                             'image','bigImage','backdrop',
@@ -46,7 +51,7 @@
                     });
 
                     self.state = 'loaded';
-                    self.set(movies);
+                    self.add(movies);
                     self.trigger('sync', self);
                     self.trigger('loaded', self, self.state);
                 })
@@ -55,6 +60,12 @@
                     self.trigger('loaded', self, self.state);
                     console.error(err, err.stack);
                 });
+        },
+
+        fetchMore: function() {
+            console.log('fetchMore');
+            this.filter.page += 1;
+            this.fetch();
         }
     });
 

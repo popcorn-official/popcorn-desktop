@@ -19,12 +19,12 @@
         },
 
         initialize: function() {
-            this.movieCollection = new App.Model.MovieCollection();
-
-            // Fetch default category movie:
-            this.movieCollection.fetch({
+            this.movieCollection = new App.Model.MovieCollection([], {
                 category: App.Config.categories[0]
             });
+
+            // Fetch default category movie:
+            this.movieCollection.fetch();
         },
 
         onShow: function() {
