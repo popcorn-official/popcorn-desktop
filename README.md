@@ -1,4 +1,4 @@
-#Popcorn time [![Dependency Status](https://david-dm.org/isra17/popcorn-app.svg?theme=shields.io)](https://david-dm.org/popcorn-team/popcorn-app)
+#Popcorn time [![Dependency Status](https://david-dm.org/popcorn-org/popcorn-app.svg?theme=shields.io)](https://david-dm.org/popcorn-org/popcorn-app)
 
 ### Idea
 
@@ -19,7 +19,7 @@ Under development (RC1) for Mac OSX - Windows - Linux.
 
 ### Development
 
-See [Development's page](https://github.com/popcorn-team/popcorn-app/wiki/Development)
+See [Development's page](https://github.com/popcorn-org/popcorn-app/wiki/Development)
 
 ### How to contribute
 
@@ -30,7 +30,7 @@ Right now we are doing a lot of refactoring to clean the codebase so if you work
 If you want to develop, you can look at the issues, especialy the bug and fix them.
 Here's a [list of feature](https://popcorntime.uservoice.com/forums/245422-general) requested by the community so far.
 
-Please follow the [contributions guidelines](https://github.com/popcorn-team/popcorn-app/wiki/Contribution-Guidelines).
+Please follow the [contributions guidelines](https://github.com/popcorn-org/popcorn-app/blob/master/CONTRIBUTING.md).
 
 Join us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime)), most active developers hang in there.
 
