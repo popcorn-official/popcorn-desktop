@@ -1,10 +1,10 @@
 {
   "name": "Popcorn-Time",
-  "homepage": "http://popcorn.cdnjd.com",
-  "bugs": "https://github.com/popcorn-team/popcorn-app/issues",
+  "homepage": "http://popcorn-time",
+  "bugs": "https://github.com/popcorn-org/popcorn-app/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/popcorn-team/popcorn-app.git"
+    "url": "https://github.com/popcorn-org/popcorn-app.git"
   },
   "license": "GPL-3.0",
   "main": "app://host/src/app/index.html",
@@ -43,7 +43,7 @@
     "grunt": "0.4.4",
     "grunt-contrib-copy": "0.5.0",
     "grunt-contrib-compass": "0.7.2",
-    "grunt-node-webkit-builder": "https://github.com/popcorn-team/grunt-node-webkit-builder/archive/53d0818.tar.gz",
+    "grunt-node-webkit-builder": "0.1.x",
     "load-grunt-tasks": "0.4.0"
   }
 }
