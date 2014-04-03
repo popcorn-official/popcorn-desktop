@@ -2,7 +2,7 @@
     function testInstalled() {
         return (!_.contains(require('fs').readdirSync('.'), '.git') || // Test Development
                 (   // Test Windows
-                    Settings.get('os') == 'windows' && 
+                    Settings.get('os') == 'windows' &&
                     process.cwd().indexOf(process.env.APPDATA) != -1
                 ) ||
                 (   // Test Linux
@@ -32,9 +32,19 @@
         /* HARDCODED DSA PUBLIC KEY... DO NOT MODIFY, CHANGE, OR OTHERWISE MESS WITH THIS
          * IF I SEE A PULL REQUEST CHANGING THIS LINE, I WILL, REPEAT.. I WILL COME AFTER YOU
          * AND KILL YOU! You have been warned -jduncanator
-         * On a side note, this is here as its easier for an attacker to modify localStorage 
+         * On a side note, this is here as its easier for an attacker to modify localStorage
          * than source code!                                                                */
-        var VERIFY_PUBKEY = '-----BEGIN PUBLIC KEY-----\nMIIDRjCCAjkGByqGSM44BAEwggIsAoIBAQDRuynMmlY768GtsgneDjCPjWVoIjQq\ng0QBIG/V9oO8TITGC0I/9+9jl603mxHf5N3/0u+AzQWjphbaxZEIQHM5/BJtBilt\n1SK4BJf+aEscUr34fOFK6yPpYRGYoOAvIHn93dFSaznA58L3CizQfQsrQHpE+bLQ\n7Yj0ZFJdilo4cYZ9keaU39I3su3szDh7nQGw7ma1AIgHPej8EY28Eem+Mi4FBncR\n8M6jsX2Nz1LVruuyGBGvvQXY1jf2LoPE53Xp5RdCw6iNinqBWO8EyF9o4/NHR5uq\nW/rZ528MyEIVzDFYCaVB6HLpXbm3d58EaTZ+TL4/jrvnL0NH3HRQLaiPAiEAzVB6\nCrTHmH7ejvwJkOLLKNtIjsXoBZNO9l/6zX9K0LsCggEAFGpQ24CBaSOCUc6w63y6\nClbPKjzvG8PjpB8erFXy1Yftef5vy3ES2k2A9FR5+kzZAq3mRX8Gbel4fvXkKga5\nSfECtRU9atnRpK2Tm7pMk4FVBGSbmJEG9SPYfDhx3FCLM8EGiID/8wKesWgtHTTc\n8KvDFvowupljI278e5P5DjTICdK9pWJlkqtepBbLFnrMipNPHrStQkIqRNx05DxA\nf2d99GZlDOxVxdJ6an+xCUhhx06+icOb5fQVP2zwYAMGqHdyhSvrrHNDpB862oF2\nkfXmhDx/4n/WTe0HwmuaPNpNZ7NccsT/zMJlxDLBCAXYkZ/R++U4yYju/rEp7D0n\ncAOCAQUAAoIBABID86dLyxUrf25Na+AtpfbTHG04O9VeKklPtKaLC4cf6CqFfHmd\nh/UPrvoMihDy0GgFCMyDb9EMO+eZZg1n3qoqa+oKkZqlf8dTXgXJE3sDMj3gkfFB\nXW2UaP9rNJvPrklHGUCy4yngeDtn1hRsK4jiLjgxCcK0b3UFNEu88/qvEWAF8Puy\n6qXhtNCjXWHpEDwdO9ZKYl9gStMc4cZDLKGaULY16sGVtrs0LWxoNuuf8FC4n87z\nyvDZMfROTVSL/xACx5EBROpDFHtFeh6oM7subxbIo9ZXutNxE9LT77g4W2t1AC7k\n+hSb+Q3Nq+tl2vHS6UEXzW0Kmsd2ulV6xP4=\n-----END PUBLIC KEY-----\n';
+        var VERIFY_PUBKEY =
+            '-----BEGIN PUBLIC KEY-----\n' +
+            'AAAAB3NzaC1kc3MAAACBAPJ04ITBTO4WLtGxWb2VTZTbRY297MsAg3+dvOjCp+LuNbncZJbv\n' +
+            '2aq+XADYkrsOgUcXxNte93POth0FtosySTSA683dNmOmy2GlglVgYMJyR8ZuEPti1CKzfLWN8hl318zl\n' +
+            'IrGggHKk2fkBm6SOQj9vGAzk0VoAcVXG2dCrD5Z1AAAAFQDOczyBZVTpvXtxNpnzFDIbTCZt4QAAAIEA\n' +
+            '0fAceqI+DjQ5LB156v4SVU4laCL8kt02uHh4rx8AwsVD41Rp1HCeljR8Kj+u4oPRWKPiilE+CvBDal/z\n' +
+            'vZ/mZZYrA7eX715EO80Uw2+6EPoMsvvzg//oHccnI3dWNjhbMZxDtKJTWsOUzd5faX88RobVdtKFjZDo\n' +
+            '0RYqqpDG5LEAAACBALMhusYLoEI4KxufL9aohoaKrzgsk16v0frr3PLr599Cb/G4PFM0NX0tJgQTKKSm\n' +
+            'AOESHmu+lTeI8JtyZBOnYQQQ+KPY5pXdZ+lu9hlmmcXkSeYXV1FO6vnAbmw49rZ+8+R7zbwSLh7IjqDi\n' +
+            'dsRb3iakUGgo0l3VMCpMpB49MLRv\n'+
+            '-----END PUBLIC KEY-----\n';
 
         var checkVersion = function(ver1, ver2) {
             // returns `-` when ver2 less than
@@ -126,7 +136,7 @@
         })
 
         // Under Windows, we install to %APPDATA% and the app
-        // is in a folder called 'app'. 
+        // is in a folder called 'app'.
         function installWin(dlPath, updateData) {
             var outDir = path.dirname(dlPath),
                 installDir = path.join(outDir, 'app');
@@ -171,7 +181,7 @@
             })
         }
 
-        // Under Mac, we install the app into a folder called 
+        // Under Mac, we install the app into a folder called
         // 'app.nw' under the 'Resources' directory of the .app
         function installMac(dlPath, updateData) {
             var outDir = path.dirname(dlPath),
@@ -187,7 +197,7 @@
                         installationComplete(updateData);
                     })
                 } catch(ex) {
-                    // Dunno what to do here :( We deleted the app files, 
+                    // Dunno what to do here :( We deleted the app files,
                     // and now we can't extract it... sheet!
                 }
             })
@@ -214,7 +224,7 @@
                 spawn(process.execPath, argv, { cwd: CWD, detached: true, stdio: [ 'ignore', 'ignore', 'ignore' ] }).unref();
                 gui.App.quit();
             })
-                
+
             $chnglog.on('click', function() {
                 var $changelog = $('#changelog-container').html(_.template($('#changelog-tpl').html())(updateData));
                 $changelog.find('.btn-close').on('click', function() {

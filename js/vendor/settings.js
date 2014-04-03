@@ -9,7 +9,7 @@ Settings = {
         "version": "0.1.0",
         "dbVersion": "1.0",
         // Used to check for the latest version
-        "updateNotificationUrl": "http://popcorn.cdnjd.com/update.json",
+        "updateNotificationUrl": "http://popcorn-time.tv/update.json",
         // Used to check if there's an internet connection
         "connectionCheckUrl": "http://www.google.com",
         // YIFY Endpoint
@@ -60,7 +60,7 @@ Settings = {
                 Settings.set('yifyApiEndpoint', Settings._defaultSettings['yifyApiEndpoint']);
             if(Settings.get('yifyApiEndpointMirror') == 'http://yify.unlocktorrent.com/api/')
                 Settings.set('yifyApiEndpointMirror', Settings._defaultSettings['yifyApiEndpointMirror']);
-            if(Settings.get('updateNotificationUrl') != 'http://popcorn.cdnjd.com/update.json')
+            if(Settings.get('updateNotificationUrl') != 'http://popcorn-time.tv/update.json')
                 Settings.set('updateNotificationUrl', Settings._defaultSettings['updateNotificationUrl']);
 
 
