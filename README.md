@@ -4,11 +4,13 @@
 
 To allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
-![Demo Screenshot](http://static.cdnjd.com/imgs/how-ui.png)
+![Demo Screenshot](http://popcorn-time.tv/images/how-ui.png)
 
-### Status
+### Donations
 
-Under development (RC1) for Mac OSX - Windows - Linux.
+Hosting and domains names are not free, any donation are more than helpful. Also, if you appreciate the work done, feel free to tip a beer to the developers!
+
+Bitcoin donation wallet: `1FbdjxxpHcamJYHU3afy9nX4C1P4dLSCJh`
 
 ### APIs
 
