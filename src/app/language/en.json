@@ -21,7 +21,7 @@
 	"legalDisclaimerResponsible": "We are not responsible for any problems that may arise, so make sure you understand our Terms and Conditions before using the app.",
 	"legalDisclaimerAccept": "I understand",
 	"legalDisclaimerCancel": "Leave",
-	"genre-all": "Popular",
+	"genre-all": "All",
 	"genre-action": "Action",
 	"genre-adventure": "Adventure",
 	"genre-animation": "Animation",
@@ -45,5 +45,10 @@
 	"genre-thriller": "Thriller",
 	"genre-war": "War",
 	"genre-western": "Western",
-	"genre-film": "genre-film"
+	"genre-film": "genre-film",
+	"Movies": "Movies",
+	"TV Series": "TV Series",
+	"Genre": "Genre",
+	"Sort by": "Sort by",
+	"Popularity": "Popularity"
 }

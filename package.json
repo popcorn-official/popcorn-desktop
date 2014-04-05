@@ -42,7 +42,7 @@
   "devDependencies": {
     "grunt": "0.4.4",
     "grunt-contrib-copy": "0.5.0",
-    "grunt-contrib-compass": "0.7.2",
+    "grunt-contrib-stylus": "0.13.x",
     "grunt-node-webkit-builder": "0.1.x",
     "load-grunt-tasks": "0.4.0"
   }

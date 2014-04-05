@@ -1,0 +1,46 @@
+.filter-bar
+    position: absolute
+    top: FilterBarTop
+    height: 45px
+    box-shadow: 0px 6px 8px -4px rgba(0, 0, 0, .9);
+
+
+
+    .source,
+    .filter
+        color: #c3c5c7
+        font-size: 15px
+        text-align: center
+        cursor: pointer
+        float: left
+        width: 80px
+        height: 20px
+        padding: 10px 0
+
+    .source.active
+            border-bottom: 4px solid #2d75df
+
+    .filter
+        width: initial
+        margin-left: 15px
+        padding-right: 20px;
+
+        .value
+            color: #2d75df
+            padding-left: 10px
+
+            &:after
+                margin-left: 5px;
+                position: absolute;
+                top: 17px;
+                content: "";
+
+                border-left-color: rgba(0, 0, 0, 0);
+                border-left-style: solid;
+                border-left-width: 5px;
+                border-right-color: rgba(0, 0, 0, 0);
+                border-right-style: solid;
+                border-right-width: 5px;
+                border-top-color: rgb(89, 91, 93);
+                border-top-style: solid;
+                border-top-width: 5px;

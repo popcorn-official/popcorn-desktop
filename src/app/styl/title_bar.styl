@@ -1,0 +1,97 @@
+.filter-bar,
+#header
+    width: 100%
+    opacity: .95
+    background-color: #1b232f
+    filter: blur(2px)
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+
+#header
+    position: absolute
+    top: 0
+    height: HeaderSize
+    padding: 15px
+    text-align: center
+
+    h1
+        color: rgb(255, 255, 255);
+        font-size: 14px;
+
+    .btn-set
+        position: absolute;
+        left: 15px;
+        top: 17px;
+
+    // Changes the min/max/close button position depending on OS
+    nav
+        &.darwin
+          position: absolute;
+          left: 15px;
+          top: 17px;
+
+        &.fs-darwin
+          right: 7px;
+          left: initial;
+          top: 5px;
+
+        &.win32,
+        &.linux
+          right: 7px;
+          left: initial;
+          top: 15px;
+
+        &.fs-win32,
+        &.fs-linux
+          position: absolute;
+          left: 15px;
+          top: 5px;
+
+    .btn-os
+        display: block;
+        float: left;
+        margin: 0 6px 0 0;
+        background: #000;
+
+        border-radius: 30px;
+        border: 0;
+        color: transparent;
+        display: inline-block;
+        font-size: 10px;
+        height: 12px;
+        padding: 0;
+        text-align: center;
+        width: 12px;
+
+        cursor: pointer
+
+        &.close:hover
+            background: #e74c3c
+        &.max:hover
+            background: #27ae60
+        &.min:hover
+            background: #f1c40f
+
+        &.fullscreen
+            color:#000;
+            background: transparent;
+            margin:0;
+            width:32px;
+            height:32px;
+            border-radius:0;
+            display:block;
+
+        &.fullscreen::before
+            content: "\e000";
+            font-family: VideoJS;
+            font-size: 1.85em;
+            line-height: 0.2em;
+            background: none;
+            display:block;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.1)
+
+        &.fullscreen.active::before
+            content: "\e00B";
+
+        &.fullscreen:hover
+            color:#b2b2b2;
