@@ -1,14 +1,14 @@
 .movie-list
-    height: 100%
+    height: calc(100% - 90px)
     width: 100%
 
+    margin-top: HeaderHeight
     fixed: top left
 
     scrollable()
 
     .movies
         -webkit-user-select: none;
-        padding-top: HeaderHeight
 
     .error
         font-size: 1.5em;

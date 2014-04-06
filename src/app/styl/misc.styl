@@ -14,26 +14,20 @@ scrollable()
     -webkit-overflow-scrolling: touch;
 
     &::-webkit-scrollbar
-        background: none;
-        width: 10px;
+        width: 5px;
+
+    &::-webkit-scrollbar-track
+        background-color: #30333c
 
     &::-webkit-scrollbar-thumb
-        background: rgba(0,0,0,0.0);
-        background-clip: content-box;
-        border-radius: 10px;
-        border: 2px solid transparent;
-        transition: background 1s;
-
-    &:hover::-webkit-scrollbar-thumb
-        background: #11171f;
-        border: 1px solid rgba(255,255,255,0.15);
+        background-color: #83888c
+        border-radius: 2px
 
         &:hover
-            border: 1px solid rgba(255,255,255,0.2);
+            background-color: #93989c
 
     &::-webkit-resizer,
     &::-webkit-scrollbar-corner,
     &::-webkit-scrollbar-button,
-    &::-webkit-scrollbar-track,
     &::-webkit-scrollbar-track-piece
         display: none;
