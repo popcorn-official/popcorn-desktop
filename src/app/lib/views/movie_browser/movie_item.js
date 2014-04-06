@@ -8,7 +8,7 @@
         className: 'movie-item',
 
         ui: {
-            cover: '.cover img'
+            cover: '.cover'
         },
 
         onShow: function() {

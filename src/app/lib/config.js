@@ -31,6 +31,10 @@
             "western"
         ],
 
+        sortBy: [
+            'popularity',
+            'date'
+        ],
 
         cache: {
             name: 'cachedb',

@@ -35,6 +35,7 @@ module.exports = function(grunt) {
     stylus: {
       compile: {
         options: {
+          compress: false,
           'resolve url': true,
           use: ['nib'],
           paths: ['src/app/styl']

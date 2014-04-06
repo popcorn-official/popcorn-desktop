@@ -16,7 +16,11 @@
 
         templateHelpers: {
             getCategories: function() {
-                return this.categories;
+                return App.Config.categories;
+            },
+
+            getSortBy: function() {
+                return App.Config.sortBy;
             }
         },
 

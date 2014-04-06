@@ -45,11 +45,14 @@
 	"genre-thriller": "Thriller",
 	"genre-war": "War",
 	"genre-western": "Western",
-	"genre-film": "genre-film",
+	"genre-film": "Film",
+	"sort-popularity": "Popularity",
+	"sort-date": "Date added",
 	"Movies": "Movies",
 	"TV Series": "TV Series",
 	"Genre": "Genre",
 	"Sort by": "Sort by",
 	"Popularity": "Popularity",
-	"Search": "Search"
+	"Search": "Search",
+	"Error loading data, try again later...": "Error loading data, try again later..."
 }
