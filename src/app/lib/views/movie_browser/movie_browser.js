@@ -19,36 +19,35 @@
         },
 
         initialize: function() {
+            this.filter = new App.Model.Filter({
+                genres: App.Config.genres,
+                sorters: App.Config.sorters
+            });
+
             this.movieCollection = new App.Model.MovieCollection([], {
-                filter: {
-                    category: App.Config.categories[0]
-                }
+                filter: this.filter
             });
 
             // Fetch default category movie:
             this.movieCollection.fetch();
+
+            this.listenTo(this.filter, 'change', this.onFilterChange);
         },
 
         onShow: function() {
-            var filterView = new App.View.FilterBar({
-                categories: App.Config.categories
-            });
-            this.listenTo(filterView, 'search', this.onSearch);
-            this.FilterBar.show(filterView);
+            this.FilterBar.show(new App.View.FilterBar({
+                model: this.filter
+            }));
 
             this.MovieList.show(new App.View.MovieList({
                 collection: this.movieCollection
             }));
         },
 
-        onSearch: function(keywords) {
-            this.updateMovieList({
-                keywords: keywords
+        onFilterChange: function() {
+            this.movieCollection = new App.Model.MovieCollection([], {
+                filter: this.filter
             });
-        },
-
-        updateMovieList: function(filter) {
-            this.movieCollection = new App.Model.MovieCollection([], {filter:filter});
 
             // Fetch default category movie:
             this.movieCollection.fetch();
