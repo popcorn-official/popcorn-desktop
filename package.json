@@ -15,9 +15,9 @@
     "toolbar": false,
     "frame": false,
     "width": 930,
-    "height": 600,
+    "height": 500,
     "min_width": 930,
-    "min_height": 600,
+    "min_height": 580,
     "resizable": true
   },
   "dependencies": {
