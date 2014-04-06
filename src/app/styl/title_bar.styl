@@ -12,31 +12,30 @@
     .btn-set
         position: absolute;
         left: 15px;
-        top: 17px;
 
     // Changes the min/max/close button position depending on OS
     nav
         -webkit-app-region: no-drag
 
         &.darwin
-          position: absolute;
-          left: 15px;
+            position: absolute;
+            left: 15px;
 
         &.fs-darwin
-          right: 7px;
-          left: initial;
-          top: 5px;
+            top: 0px;
+            right: 7px;
+            left: initial;
 
         &.win32,
         &.linux
-          right: 7px;
-          left: initial;
+            right: 7px;
+            left: initial;
 
         &.fs-win32,
         &.fs-linux
-          position: absolute;
-          left: 15px;
-          top: 5px;
+            position: absolute;
+            left: 10px;
+            top: 0px;
 
     .btn-os
         display: block;
