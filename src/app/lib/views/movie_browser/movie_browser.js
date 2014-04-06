@@ -20,7 +20,9 @@
 
         initialize: function() {
             this.movieCollection = new App.Model.MovieCollection([], {
-                category: App.Config.categories[0]
+                filter: {
+                    category: App.Config.categories[0]
+                }
             });
 
             // Fetch default category movie:
@@ -28,9 +30,28 @@
         },
 
         onShow: function() {
-            this.FilterBar.show(new App.View.FilterBar({
+            var filterView = new App.View.FilterBar({
                 categories: App.Config.categories
+            });
+            this.listenTo(filterView, 'search', this.onSearch);
+            this.FilterBar.show(filterView);
+
+            this.MovieList.show(new App.View.MovieList({
+                collection: this.movieCollection
             }));
+        },
+
+        onSearch: function(keywords) {
+            this.updateMovieList({
+                keywords: keywords
+            });
+        },
+
+        updateMovieList: function(filter) {
+            this.movieCollection = new App.Model.MovieCollection([], {filter:filter});
+
+            // Fetch default category movie:
+            this.movieCollection.fetch();
 
             this.MovieList.show(new App.View.MovieList({
                 collection: this.movieCollection
