@@ -14,14 +14,9 @@
     </script>
 
     <script id="movie-item-tpl" type="text/x-template">
-        <a href="#">
-            <i class="fa fa-eye fa-3"></i>
-            <span class="cover">
-                <img src="<%= image %>" class="real hidden" alt="<%= title %>" />
-            </span>
-            <strong><%= title %></strong>
-            <small><%= year %></small>
-        </a>
+        <img src="<%= image %>" class="real hidden cover" alt="<%= title %>" />
+        <p class="title"><%= title %></p>
+        <p class="year"><%= year %></p>
     </script>
 
     <script id="movie-list-tpl" type="text/x-template">
@@ -39,6 +34,7 @@
     </script>
 
     <script id="movie-browser-tpl" type="text/x-template">
+        <div class="blur-header"></div>
         <div class="filter-bar-region"></div>
         <div class="movie-list-region"></div>
     </script>
@@ -66,11 +62,13 @@
             <% }); %>
         </ul>
         -->
-        <div class="search right">
-                <input type="text" placeholder="Search" data-translate="search" />
-                <i class="fa fa-search"></i>
-            </div>
-        <div class="category-list"></div>
+
+        <button class="right settings"></button>
+        <button class="right queue"></button>
+        <button class="right favorites"></button>
+        <div class="right search">
+          <input type="text" placeholder="<%= i18n.__('Search') %>"></input>
+        </div>
     </script>
 
     <script id="header-tpl" type="text/x-template">

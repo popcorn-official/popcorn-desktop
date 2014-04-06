@@ -1,17 +1,8 @@
-.filter-bar,
-#header
-    width: 100%
-    opacity: .95
-    background-color: #1b232f
-    filter: blur(2px)
-    -webkit-user-select: none;
-    -webkit-app-region: drag;
-
 #header
     position: absolute
     top: 0
     height: HeaderSize
-    padding: 15px
+    padding: 15px 0
     text-align: center
 
     h1
@@ -25,6 +16,8 @@
 
     // Changes the min/max/close button position depending on OS
     nav
+        -webkit-app-region: no-drag
+
         &.darwin
           position: absolute;
           left: 15px;

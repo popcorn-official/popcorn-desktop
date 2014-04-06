@@ -1,18 +1,25 @@
+.filter-bar,
+#header
+    z-index: 1
+    width: 100%
+    opacity: .97
+    background-color: #1b232f
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+
 .filter-bar
     position: absolute
     top: FilterBarTop
     height: 45px
     box-shadow: 0px 6px 8px -4px rgba(0, 0, 0, .9);
 
-
-
     .source,
     .filter
+        -webkit-app-region: no-drag
         color: #c3c5c7
         font-size: 15px
         text-align: center
         cursor: pointer
-        float: left
         width: 80px
         height: 20px
         padding: 10px 0
@@ -44,3 +51,69 @@
                 border-top-color: rgb(89, 91, 93);
                 border-top-style: solid;
                 border-top-width: 5px;
+
+    button
+        -webkit-app-region: no-drag
+        background: center no-repeat
+        transition: background-image 0.5s;
+        width: 18px;
+        height: 18px;
+        margin: 5px
+
+        &.settings
+            margin-right: 10px
+            background-image: url(../../images/icons/settings.png);
+
+            &:hover
+                background-image: url(../../images/icons/settings_hover.png);
+
+        &.queue
+            background-image: url(../../images/icons/queue.png);
+
+            &:hover
+                background-image: url(../../images/icons/queue_hover.png);
+
+        &.favorites
+            background-image: url(../../images/icons/favorites.png);
+
+            &:hover
+                background-image: url(../../images/icons/favorites_hover.png);
+
+    .search input
+            -webkit-app-region: no-drag
+            outline: none
+            color: transparent;
+            font-size: 13px;
+            background-color: transparent;
+            cursor: pointer;
+            width: 0px;
+            height: 18px;
+            position: relative;
+
+
+            background: url('../images/icons/search.png') no-repeat 5px center;
+            border: solid 0px;
+            padding: 5px;
+            padding-left: 28px;
+            border-radius: 10em;
+            transition: all .5s;
+
+            -webkit-appearance: textfield;
+            -webkit-box-sizing: content-box;
+
+            &:hover
+                background: url('../images/icons/search_hover.png') no-repeat 5px center;
+
+            &:focus
+                background: #ededed url('../images/icons/search_hover.png') no-repeat 5px center;
+                width: 130px;
+                color: #c4c6c8;
+                background-color: #121820;
+                cursor: auto;
+
+            &::-moz-placeholder,
+            &::-webkit-input-placeholder
+                color: transparent;
+
+            &:focus::-webkit-input-placeholder
+                color: #c4c6c8;
