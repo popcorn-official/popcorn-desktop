@@ -33,7 +33,9 @@
 
         sorters: [
             'popularity',
-            'date'
+            'date',
+            'year',
+            'rating'
         ],
 
         cache: {
