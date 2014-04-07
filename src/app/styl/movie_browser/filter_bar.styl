@@ -9,20 +9,19 @@
 
 .filter-bar
     position: absolute
-    top: FilterBarTop
-    height: 45px
+    top: TitleHeight
+    height: FilterBarHeight
     box-shadow: 0px 6px 8px -4px rgba(0, 0, 0, .9);
 
     .source
         box-sizing: content-box
         -webkit-app-region: no-drag
         color: #c3c5c7
-        font-size: 15px
         text-align: center
         cursor: pointer
         width: 80px
         height: 20px
-        padding: 10px 0
+        padding: 10px 0 0
 
         &:hover
             color: white
@@ -35,8 +34,8 @@
         margin-left: 10px
 
     .filter
-        padding: 10px 0
-        margin-left: 30px
+        padding: 10px 0 0
+        margin-left: 20px
 
         & > a
             -webkit-app-region: no-drag
@@ -52,10 +51,11 @@
             padding-left: 10px
 
         .dropdown-menu
+            font-size: 0.9em
             -webkit-app-region: no-drag
             scrollable()
             max-height: 500px
-            margin-top: 8px
+            margin-top: 11px
             border-top-left-radius: 0
             border-top-right-radius: 0
 
@@ -65,7 +65,7 @@
         transition: background-image 0.5s;
         width: 18px;
         height: 18px;
-        margin: 10px 5px
+        margin: 10px 5px 0;
 
         &.settings
             margin-right: 10px
@@ -91,7 +91,6 @@
             -webkit-app-region: no-drag
             outline: none
             color: transparent;
-            font-size: 14px;
             background-color: transparent;
             cursor: pointer;
             width: 0px;
@@ -100,7 +99,7 @@
 
             background: url('../images/icons/search.png') no-repeat 5px center;
             border: solid 0px;
-            margin: 8px 3px
+            margin: 8px 3px 0
             padding: 2px
             padding-left: 28px;
             border-radius: 10em;

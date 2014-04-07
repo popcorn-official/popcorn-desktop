@@ -19,6 +19,11 @@
             'click .genres .dropdown-menu a': 'changeGenre'
         },
 
+        onShow: function() {
+            this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
+            this.$('.genres .dropdown-menu a:nth(0)').addClass('active');
+        },
+
         search: function(e) {
             e.preventDefault();
             this.model.set('keyword', this.ui.search.val());
@@ -27,6 +32,9 @@
         },
 
         sortBy: function(e) {
+            this.$('.sorters .active').removeClass('active');
+            $(e.target).addClass('active');
+
             var sorter = $(e.target).attr('data-value');
             this.ui.sorterValue.text(i18n.__('sort-' + sorter));
 
@@ -37,6 +45,9 @@
         },
 
         changeGenre: function(e) {
+            this.$('.genres .active').removeClass('active');
+            $(e.target).addClass('active');
+
             var genre = $(e.target).attr('data-value');
             this.ui.genreValue.text(i18n.__('genre-' + genre));
 

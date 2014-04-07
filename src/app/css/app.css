@@ -101,11 +101,20 @@ a img {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Open Sans Semibold';
+  src: url("../fonts/OpenSans-Semibold-webfont.woff");
+  font-weight: normal;
+  font-style: normal;
+}
 .left {
   float: left;
 }
 .right {
   float: right;
+}
+.nav {
+  font-size: 0.8em;
 }
 ul.nav-hor > li {
   float: left;
@@ -121,11 +130,18 @@ ul.nav-hor > li {
   transition: all 0.2s;
   color: #c3c5c7;
 }
+.dropdown-menu > li > a.active {
+  color: #fff;
+  background-color: #0b131f;
+  background-image: none;
+  border-left: 4px solid #83888c;
+}
 .dropdown-menu > li > a:focus,
 .dropdown-menu > li > a:hover {
   color: #fff;
   background-color: #0b131f;
   background-image: none;
+  border-left: 4px solid #2d75df;
 }
 html,
 body,
@@ -140,7 +156,7 @@ body,
   box-shadow: 0 0 40px rgba(0,0,0,0.75);
   margin-left: auto;
   margin-right: auto;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Open Sans Semibold", "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   cursor: default;
 }
@@ -154,12 +170,12 @@ body,
   position: absolute;
   top: 0;
   height: 30px;
-  padding: 8px 0;
+  padding: 13px 0 0;
   text-align: center;
 }
 #header h1 {
   color: #fff;
-  font-size: 14px;
+  font-size: 0.9em;
 }
 #header .btn-set {
   position: absolute;
@@ -253,7 +269,7 @@ body,
 .filter-bar {
   position: absolute;
   top: 30px;
-  height: 45px;
+  height: 35px;
   -webkit-box-shadow: 0px 6px 8px -4px rgba(0,0,0,0.9);
   box-shadow: 0px 6px 8px -4px rgba(0,0,0,0.9);
 }
@@ -263,12 +279,11 @@ body,
   box-sizing: content-box;
   -webkit-app-region: no-drag;
   color: #c3c5c7;
-  font-size: 15px;
   text-align: center;
   cursor: pointer;
   width: 80px;
   height: 20px;
-  padding: 10px 0;
+  padding: 10px 0 0;
 }
 .filter-bar .source:hover {
   color: #fff;
@@ -281,8 +296,8 @@ body,
   margin-left: 10px;
 }
 .filter-bar .filter {
-  padding: 10px 0;
-  margin-left: 30px;
+  padding: 10px 0 0;
+  margin-left: 20px;
 }
 .filter-bar .filter > a {
   -webkit-app-region: no-drag;
@@ -299,12 +314,13 @@ body,
   padding-left: 10px;
 }
 .filter-bar .filter .dropdown-menu {
+  font-size: 0.9em;
   -webkit-app-region: no-drag;
   overflow-x: hidden;
   overflow-y: overlay;
   -webkit-overflow-scrolling: touch;
   max-height: 500px;
-  margin-top: 8px;
+  margin-top: 11px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
@@ -340,7 +356,7 @@ body,
   transition: background-image 0.5s;
   width: 18px;
   height: 18px;
-  margin: 10px 5px;
+  margin: 10px 5px 0;
 }
 .filter-bar button.settings {
   margin-right: 10px;
@@ -366,7 +382,6 @@ body,
   -webkit-app-region: no-drag;
   outline: none;
   color: transparent;
-  font-size: 14px;
   background-color: transparent;
   cursor: pointer;
   width: 0px;
@@ -374,7 +389,7 @@ body,
   position: relative;
   background: url("../images/icons/search.png") no-repeat 5px center;
   border: solid 0px;
-  margin: 8px 3px;
+  margin: 8px 3px 0;
   padding: 2px;
   padding-left: 28px;
   -webkit-border-radius: 10em;
@@ -437,10 +452,10 @@ body,
   display: none;
 }
 .movie-list::-webkit-scrollbar-track {
-  margin-top: 75px;
+  margin-top: 65px;
 }
 .movie-list .movies {
-  padding-top: 75px;
+  padding-top: 65px;
   -webkit-user-select: none;
 }
 .movie-list .error {
@@ -473,6 +488,7 @@ body,
 .movie-item {
   margin: 10px;
   float: left;
+  font-size: 0.8em;
 }
 .movie-item .cover {
   -webkit-background-size: 134px 196px;
@@ -489,7 +505,6 @@ body,
 .movie-item .title {
   margin-top: 10px;
   color: #fff;
-  font-size: 13px;
   max-width: 134px;
   overflow: hidden;
   -o-text-overflow: ellipsis;
@@ -498,5 +513,4 @@ body,
 }
 .movie-item .year {
   color: #5b5b5b;
-  font-size: 11px;
 }
