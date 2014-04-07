@@ -1,0 +1,87 @@
+#header
+    position: absolute
+    top: 0
+    height: TitleHeight
+    padding: 13px 0 0
+    text-align: center
+
+    h1
+        color: rgb(255, 255, 255);
+        font-size: 0.9em;
+
+    .btn-set
+        position: absolute;
+        left: 15px;
+
+    // Changes the min/max/close button position depending on OS
+    nav
+        -webkit-app-region: no-drag
+
+        &.darwin
+            position: absolute;
+            left: 15px;
+
+        &.fs-darwin
+            top: 0px;
+            right: 7px;
+            left: initial;
+
+        &.win32,
+        &.linux
+            right: 7px;
+            left: initial;
+
+        &.fs-win32,
+        &.fs-linux
+            position: absolute;
+            left: 10px;
+            top: 0px;
+
+    .btn-os
+        display: block;
+        float: left;
+        margin: 0 6px 0 0;
+        background: #000;
+
+        border-radius: 30px;
+        border: 0;
+        color: transparent;
+        display: inline-block;
+        font-size: 10px;
+        height: 12px;
+        padding: 0;
+        text-align: center;
+        width: 12px;
+
+        cursor: pointer
+
+        &.os-close:hover
+            background: #e74c3c
+        &.os-max:hover
+            background: #27ae60
+        &.os-min:hover
+            background: #f1c40f
+
+        &.fullscreen
+            color:#000;
+            background: transparent;
+            margin:0;
+            width:32px;
+            height:32px;
+            border-radius:0;
+            display:block;
+
+        &.fullscreen::before
+            content: "\e000";
+            font-family: VideoJS;
+            font-size: 1.85em;
+            line-height: 0.2em;
+            background: none;
+            display:block;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.1)
+
+        &.fullscreen.active::before
+            content: "\e00B";
+
+        &.fullscreen:hover
+            color:#b2b2b2;

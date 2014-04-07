@@ -6,11 +6,11 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
 
   grunt.registerTask('default', [
-    'compass'
+    'stylus'
   ]);
 
   grunt.registerTask('css', [
-    'compass'
+    'stylus'
   ]);
 
   grunt.registerTask('nodewkbuild', [
@@ -32,15 +32,16 @@ module.exports = function(grunt) {
   ]);
 
   grunt.initConfig({
-    compass: {
-      dist: {
+    stylus: {
+      compile: {
         options: {
-          basePath: 'src/app',
-          cssDir: 'css',
-          relativeAssets: true
+          compress: false,
+          'resolve url': true,
+          use: ['nib'],
+          paths: ['src/app/styl']
         },
         files: {
-          'css/app.css': 'sass/app.scss'
+          'src/app/css/app.css' : 'src/app/styl/app.styl'
         }
       }
     },

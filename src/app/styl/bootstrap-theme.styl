@@ -1,0 +1,27 @@
+.nav
+    font-size: 0.8em
+
+ul.nav-hor > li
+    float: left
+
+.dropdown-menu
+    background-color: BackgroundColor
+
+    & > li > a
+        transition: all 0.2s
+        color: TextColor
+
+        &.active
+            color: HoverTextColor
+            background-color: HoverBackgroundColor
+            background-image: none
+            border-left: 4px solid #83888c
+
+        &:focus,
+        &:hover
+            color: HoverTextColor
+            background-color: HoverBackgroundColor
+            background-image: none
+            border-left: 4px solid #2d75df
+
+

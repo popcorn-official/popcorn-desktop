@@ -14,7 +14,9 @@
             };
 
             options = options || {};
-            this.filter = _.defaults(options.filter || {}, {page: 1});
+            options.filter = options.filter || new App.Model.Filter();
+
+            this.filter = _.defaults(_.clone(options.filter.attributes), {page: 1});
 
             Backbone.Collection.prototype.initialize.apply(this, arguments);
         },

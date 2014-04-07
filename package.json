@@ -14,10 +14,10 @@
     "icon": "images/icon.png",
     "toolbar": false,
     "frame": false,
-    "width": 962,
-    "height": 600,
-    "min_width": 962,
-    "min_height": 600,
+    "width": 930,
+    "height": 570,
+    "min_width": 930,
+    "min_height": 570,
     "resizable": true
   },
   "dependencies": {
@@ -42,7 +42,7 @@
   "devDependencies": {
     "grunt": "0.4.4",
     "grunt-contrib-copy": "0.5.0",
-    "grunt-contrib-compass": "0.7.2",
+    "grunt-contrib-stylus": "0.13.x",
     "grunt-node-webkit-builder": "0.1.x",
     "load-grunt-tasks": "0.4.0"
   }

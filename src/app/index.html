@@ -2,9 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <script>window.__startTime = (new Date()*1);</script>
-    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap-theme.css">
     <link rel="stylesheet" type="text/css" href="vendor/video-js/video-js.css">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
   </head>
   <body>
     <div class="main-window-region"></div>
@@ -14,18 +15,13 @@
     </script>
 
     <script id="movie-item-tpl" type="text/x-template">
-        <a href="#">
-            <i class="fa fa-eye fa-3"></i>
-            <span class="cover">
-                <img src="<%= image %>" class="real hidden" alt="<%= title %>" />
-            </span>
-            <strong><%= title %></strong>
-            <small><%= year %></small>
-        </a>
+        <img src="<%= image %>" class="real hidden cover" alt="<%= title %>" />
+        <p class="title"><%= title %></p>
+        <p class="year"><%= year %></p>
     </script>
 
     <script id="movie-list-tpl" type="text/x-template">
-        <div class="spinner hidden">
+        <div class="spinner">
           <div class="spinner-image"></div>
         </div>
         <div class="movies"></div>
@@ -39,6 +35,7 @@
     </script>
 
     <script id="movie-browser-tpl" type="text/x-template">
+        <div class="blur-header"></div>
         <div class="filter-bar-region"></div>
         <div class="movie-list-region"></div>
     </script>
@@ -55,27 +52,51 @@
     </script>
 
     <script id="filter-bar-tpl" type="text/x-template">
-        <h4 class="left"><%= i18n.__("movies") %></h4>
-        <h4 class="left"><%= i18n.__("genre-all") %></h4>
-        <!--
-        <ul class="categories">
-            <% _.each(getCategories(), function(c) { %>
-                <li><a href="#" data-genre="<%= c %>"><%= i18n.__("genre-" + c) %></a></li>
-            <% }); %>
+        <ul class="nav nav-hor left">
+          <li class="source active"><%= i18n.__("Movies") %></li>
+          <li class="source"><%= i18n.__("TV Series") %></li>
         </ul>
-        -->
-        <div class="search right">
-                <input type="text" placeholder="Search" data-translate="search" />
-                <i class="fa fa-search"></i>
+        <ul class="nav nav-hor filters">
+          <li class="dropdown filter genres">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <%= i18n.__("Genre") %><span class="value"><%= i18n.__("genre-" + genre) %></span>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <% _.each(genres, function(c) { %>
+                    <li><a href="#" data-value="<%= c %>"><%= i18n.__("genre-" + c) %></a></li>
+                <% }); %>
+            </ul>
+          </li>
+          <li class="dropdown filter sorters">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <%= i18n.__("Sort by") %><span class="value"><%= i18n.__("sort-" + sorter) %></span>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <% _.each(sorters, function(c) { %>
+                    <li><a href="#" data-value="<%= c %>"><%= i18n.__("sort-" + c) %></a></li>
+                <% }); %>
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav nav-hor right">
+          <li>
+            <div class="right search">
+              <form><input type="text" placeholder="<%= i18n.__('Search') %>"></input></form>
             </div>
-        <div class="category-list"></div>
+          </li>
+          <li><button class="favorites"></button></li>
+          <li><button class="queue"></button></li>
+          <li><button class="settings"></button></li>
+        </ul>
     </script>
 
     <script id="header-tpl" type="text/x-template">
         <nav class="btn-set <%= process.platform %>">
 
             <% _.each(getButtons(), function(button) { %>
-                <button class="btn-os <%= button %>"></button>
+                <button class="btn-os os-<%= button %>"></button>
             <% }); %>
         </nav>
 
@@ -202,6 +223,7 @@
     <script src="frontend/player.js"></script>
 
     <!-- Backbone Models -->
+    <script src="lib/models/filter.js"></script>
     <script src="lib/models/movie.js"></script>
     <script src="lib/models/movie_collection.js"></script>
 
@@ -229,6 +251,7 @@
     <script src="frontend/router.js"></script>
 
     <!-- Other Dependencies -->
+    <script src="vendor/bootstrap/js/bootstrap.js"></script>
     <script src="vendor/video-js/video.dev.js"></script>
     <script src="vendor/videojsplugins.js"></script>
     <script src="vendor/dragwindow.js"></script>

@@ -4,7 +4,7 @@
     var Config = {
         title: 'Popcorn Time',
         platform: process.platform,
-        categories: [
+        genres: [
             "all",
             "action",
             "adventure",
@@ -31,6 +31,12 @@
             "western"
         ],
 
+        sorters: [
+            'popularity',
+            'date',
+            'year',
+            'rating'
+        ],
 
         cache: {
             name: 'cachedb',

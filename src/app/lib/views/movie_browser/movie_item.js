@@ -5,9 +5,10 @@
         template: '#movie-item-tpl',
 
         tagName: 'li',
+        className: 'movie-item',
 
         ui: {
-            cover: '.cover img'
+            cover: '.cover'
         },
 
         onShow: function() {
