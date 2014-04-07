@@ -15,8 +15,18 @@
     </script>
 
     <script id="movie-item-tpl" type="text/x-template">
-        <img src="<%= image %>" class="real hidden cover" alt="<%= title %>" />
-        <p class="title"><%= title %></p>
+        <img class="cover-image" src="<%= image %>" style="display: none" />
+        <div class="cover">
+            <div class="cover-overlay">
+                <div class="actions">
+                    <div class="favorites"></div>
+                    <div class="detail"></div>
+                    <div class="queue"></div>
+                </div>
+            </div>
+        </div>
+
+        <p class="title" title="<%= title %>"><%= title %></p>
         <p class="year"><%= year %></p>
     </script>
 
@@ -245,9 +255,6 @@
     <script src="frontend/views/listview.js"></script>
     <script src="frontend/views/movie.js"></script>
     <script src="frontend/views/sidebar.js"></script>
-    <script src="frontend/controllers/home.js"></script>
-    <script src="frontend/controllers/search.js"></script>
-    <script src="frontend/controllers/filter.js"></script>
     <script src="frontend/router.js"></script>
 
     <!-- Other Dependencies -->

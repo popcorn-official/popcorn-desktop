@@ -8,19 +8,21 @@
         className: 'movie-item',
 
         ui: {
+            coverIamge: '.cover-image',
             cover: '.cover'
         },
 
         onShow: function() {
-            this.ui.cover.on('load', _.bind(this.showCover, this));
+            this.ui.coverIamge.on('load', _.bind(this.showCover, this));
         },
 
         onClose: function() {
-            this.ui.cover.off('load');
+            this.ui.coverIamge.off('load');
         },
 
         showCover: function() {
-            this.ui.cover.removeClass('hidden');
+            this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')');
+            this.ui.coverIamge.remove();
         }
     });
 
