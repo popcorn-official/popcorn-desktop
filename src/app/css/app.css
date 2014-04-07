@@ -503,7 +503,8 @@ body,
   cursor: pointer;
 }
 .movie-item .title {
-  margin-top: 10px;
+  height: 14px;
+  margin: 6px 0 4px;
   color: #fff;
   max-width: 134px;
   overflow: hidden;
@@ -512,5 +513,6 @@ body,
   white-space: nowrap;
 }
 .movie-item .year {
+  font-size: 0.85em;
   color: #5b5b5b;
 }
