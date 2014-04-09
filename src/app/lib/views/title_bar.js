@@ -1,9 +1,10 @@
 (function(App) {
     "use strict";
 
+    // use of darwin string in stead of mac (mac os x returns darwin as platform)
     var ButtonOrder = {
         'win32': ['min', 'max', 'close'],
-        'mac': ['close', 'min', 'max'],
+        'darwin': ['close', 'min', 'max'],
         'linux': ['min', 'max', 'close']
     };
 
@@ -11,9 +12,9 @@
         template: '#header-tpl',
 
         events: {
-            'click .btn-os.max': 'maximize',
-            'click .btn-os.min': 'minimize',
-            'click .btn-os.close': 'closeWindow',
+            'click .btn-os.os-max': 'maximize',
+            'click .btn-os.os-min': 'minimize',
+            'click .btn-os.os-close': 'closeWindow',
             'click .btn-os.fullscreen': 'toggleFullscreen'
         },
 
