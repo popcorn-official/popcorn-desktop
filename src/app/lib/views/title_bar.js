@@ -1,7 +1,7 @@
 (function(App) {
     "use strict";
 
-    // use of darwin string in stead of mac (mac os x returns darwin as platform)
+    // use of darwin string instead of mac (mac os x returns darwin as platform)
     var ButtonOrder = {
         'win32': ['min', 'max', 'close'],
         'darwin': ['close', 'min', 'max'],
