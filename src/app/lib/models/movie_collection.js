@@ -17,12 +17,15 @@
             options.filter = options.filter || new App.Model.Filter();
 
             this.filter = _.defaults(_.clone(options.filter.attributes), {page: 1});
+            this.hasMore = true;
 
             Backbone.Collection.prototype.initialize.apply(this, arguments);
         },
 
         fetch: function() {
             var self = this;
+
+            if(this.state == 'loading' && !this.hasMore) return;
 
             this.state = 'loading';
             self.trigger('loading', self);
@@ -35,12 +38,9 @@
             var subtitlePromise = idsPromise.then(_.bind(subtitle.fetch, subtitle));
             var metadataPromise = idsPromise.then(_.bind(metadata.fetch, metadata));
 
-            this.currentRequest = idsPromise;
             return Q.all([torrentPromise, subtitlePromise, metadataPromise])
                 .spread(function(movies, subtitles, metadatas) {
                     // If a new request was started...
-                    if(self.currentRequest !== idsPromise) return;
-
                     _.each(movies, function(movie){
                         var id = movie.imdb;
                         var info = metadatas[id] || {};
@@ -56,6 +56,11 @@
                     self.add(movies);
                     self.trigger('sync', self);
                     self.trigger('loaded', self, self.state);
+
+                    if(_.isEmpty(movies)) {
+                        console.log('hasMore = false');
+                        self.hasMore = false;
+                    }
                 })
                 .catch(function(err) {
                     self.state = 'error';

@@ -26,7 +26,10 @@
 
         search: function(e) {
             e.preventDefault();
-            this.model.set('keyword', this.ui.search.val());
+            this.model.set({
+                keywords: this.ui.search.val(),
+                genre: ''
+            });
             this.ui.search.val('');
             this.ui.search.blur();
         },

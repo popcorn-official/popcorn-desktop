@@ -20,7 +20,7 @@
         itemViewContainer: '.movies',
 
         events: {
-            'scroll': 'onScroll'
+            'mousewheel': 'onScroll'
         },
 
         isEmpty: function() {
@@ -59,6 +59,8 @@
         },
 
         onScroll: function() {
+            if(!this.collection.hasMore) return;
+
             var totalHeight       = this.$el.prop('scrollHeight');
             var currentPosition = this.$el.scrollTop() + this.$el.height();
 

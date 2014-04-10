@@ -56,5 +56,6 @@
 	"Sort by": "Sort by",
 	"Popularity": "Popularity",
 	"Search": "Search",
-	"Error loading data, try again later...": "Error loading data, try again later..."
+	"Error loading data, try again later...": "Error loading data, try again later...",
+	"No movies found...": "No movies found..."
 }
