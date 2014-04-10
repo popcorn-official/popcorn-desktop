@@ -43,6 +43,7 @@
         <div id="changelog-container"></div>
         <div id="content"></div>
         <div id="movie-detail"></div>
+        <div id="player"></div>
     </script>
 
     <script id="movie-browser-tpl" type="text/x-template">
@@ -122,6 +123,10 @@
       </div>
     </script>
 
+    <script id="player-tpl" type="text/x-template">
+      <video src="<%= src %>" autoplay></video>
+    </script>
+
 
     <!-- Basic Dependencies -->
     <script src="vendor/jquery-2.1.0.min.js"></script>
@@ -138,6 +143,7 @@
     <script src="lib/config.js"></script>
     <script src="updater.js"></script>
     <script src="language.js"></script>
+    <script src="lib/streamer.js"></script>
 
     <!-- UI and UI-related Initialization -->
     <script src="frontend/ui.js"></script>
@@ -147,6 +153,7 @@
     <script src="lib/models/filter.js"></script>
     <script src="lib/models/movie.js"></script>
     <script src="lib/models/movie_collection.js"></script>
+    <script src="lib/models/stream_info.js"></script>
 
     <!-- Data Sources -->
     <script src="lib/cache.js"></script>
@@ -159,6 +166,7 @@
     <script src="lib/views/title_bar.js"></script>
     <script src="lib/views/main_window.js"></script>
     <script src="lib/views/movie_detail.js"></script>
+    <script src="lib/views/player.js"></script>
     <script src="lib/views/movie_browser/movie_browser.js"></script>
     <script src="lib/views/movie_browser/filter_bar.js"></script>
     <script src="lib/views/movie_browser/movie_item.js"></script>

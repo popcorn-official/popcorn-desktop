@@ -9,7 +9,8 @@
         regions: {
             Header: '#header',
             Content: '#content',
-            MovieDetail: '#movie-detail'
+            MovieDetail: '#movie-detail',
+            Player: '#player'
         },
 
         events: {
@@ -24,6 +25,9 @@
             // Application events
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
             App.vent.on('movie:closeDetail', _.bind(this.MovieDetail.close, this.MovieDetail));
+
+            App.vent.on('stream:ready', _.bind(this.showPlayer, this));
+            App.vent.on('player:close', _.bind(this.Player.close, this.Player));
         },
 
         onShow: function() {
@@ -49,6 +53,12 @@
         showMovieDetail: function(movieModel) {
             this.MovieDetail.show(new App.View.MovieDetail({
                 model: movieModel
+            }));
+        },
+
+        showPlayer: function(streamInfo) {
+            this.Player.show(new App.View.Player({
+                model: streamInfo
             }));
         }
     });

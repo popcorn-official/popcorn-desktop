@@ -55,6 +55,10 @@ App.addInitializer(function(options){
     }
 });
 
+App.vent.on('error', function(err) {
+    window.alert('Error: ' + err);
+});
+
 // Create the System Temp Folder. This is used to store temporary data like movie files.
 if( ! fs.existsSync(tmpFolder) ) { fs.mkdir(tmpFolder); }
 

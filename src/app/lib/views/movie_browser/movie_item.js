@@ -30,7 +30,10 @@
         },
 
         showDetail: function() {
-            App.vent.trigger('movie:showDetail', this.model);
+            // Small hack to play the video until we have a detail window
+            var torrents = this.model.get('torrents');
+            var torrentUrl = torrents['720p'].url;
+            App.vent.trigger('stream:start', torrentUrl);
         }
     });
 
