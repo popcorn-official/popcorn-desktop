@@ -42,6 +42,7 @@
         <div id="notification"></div>
         <div id="changelog-container"></div>
         <div id="content"></div>
+        <div id="movie-detail"></div>
     </script>
 
     <script id="movie-browser-tpl" type="text/x-template">
@@ -116,98 +117,8 @@
         <h1>Popcorn Time</h1>
     </script>
 
-    <script id="sidebar-tpl" type="text/x-template">
-      <div class="play">
-        <div class="backdrop-image" style="background-image:url(<%= this.model.get('backdrop') %>);"></div>
-
-        <div class="movie-detail">
-          <div class="closer"><img src="images/close.svg" width="50"></div>
-          <div class="poster-cont">
-            <div class="poster-inner">
-              <div class="poster">
-            <img class="big-poster" src="<%= bigImage %>" alt="<%= title %>" />
-          </div>
-
-              <ul class="movie-config">
-              <% if (this.model.get('quality') && this.model.get('torrents')) { %>
-                <li class="options quality-cont">
-                  <h4><%= i18n.__('quality') %></h4>
-                  <% if (this.model.get('torrents')["720p"] && this.model.get('torrents')["1080p"]) { %>
-                    <div class="quality switch white">
-                      <input type="radio" name="switch" id="switch-off"<% if (this.model.get('quality') === '720p') { %> checked<% } %>>
-                      <input type="radio" name="switch" id="switch-on"<% if (this.model.get('quality') === '1080p') { %> checked<% } %>>
-                      <label for="switch-off">720p</label>
-                      <label for="switch-on">1080p</label>
-                      <span class="toggle"></span>
-                    </div>
-                  <% } else { %>
-                    <span class="quality-off"><%= quality %></span>
-                  <% } %>
-                </li>
-              <% } %>
-              </ul>
-            </div>
-          </div>
-
-          <div class="side-content">
-            <div class="title">
-              <h2><%= title %></h2>
-
-              <ul class="movie-quick-info">
-                <li>
-                  <%= year %>
-                </li>
-                <li>
-                  <% if(this.model.has('resumetime')) { %>
-                    <span class="duration"><%= runtime - (resumetime/60|0) %>m left</span>
-                  <% } else if (this.model.get('runtime')) { %>
-                    <span class="duration"><%= runtime %> <%= i18n.__('durationUnit') %></span>
-                  <% } %>
-                </li>
-              </ul>
-
-              <i data-placement="left" data-toggle="tooltip" title="<%= health %> health" class="health <%= health %> fa fa-flash"></i>
-
-              <% var p_rating = this.model.get('voteAverage') ? this.model.get('voteAverage').toFixed(1) : 0.0 %>
-              <div class="rating">
-                <ul class="votes" title="<%= p_rating %> / 10">
-                  <% p_rating = Math.round(p_rating) / 2; // Roundoff number to nearest 0.5 %>
-                  <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
-                    <i class="fa fa-star"></i>
-                  <% }; %>
-                  <% if (p_rating % 1 > 0) { %>
-                    <i class="fa fa-star-half-o"></i>
-                  <% }; %>
-                  <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
-                    <i class="fa fa-star-o"></i>
-                  <% }; %>
-                </ul>
-              </div>
-            </div>
-
-            <p><%= synopsis %></p>
-
-            <div class="subtitles-list">
-            <% if ( ! _.isEmpty(subtitles) ) { %>
-              <h4><%= i18n.__('subtitledIn') %></h4>
-
-              <ul>
-                <% if (typeof subtitles !== 'undefined') { %>
-                  <li>
-                    <% for (var i = 0, keys = _.keys(subtitles), l = keys.length; i < l; ++i) { %>
-                      <span class="flag flag-<%= keys[i] %>" title="<%= App.Localization.languages[keys[i]].display %>"></span>
-                    <% } %>
-                  </li>
-                <% } %>
-              </ul>
-            <% } %>
-            </div>
-
-            <% if (this.model.get('torrents')) { %>
-              <a href="" class="p_tooltip play-button" disabled="disabled"><%= i18n.__('watchItNow') %></a>
-            <% } %>
-          </div>
-        </div>
+    <script id="movie-detail-tpl" type="text/x-template">
+      <div class="detail-window">
       </div>
     </script>
 
@@ -216,7 +127,7 @@
     <script src="vendor/jquery-2.1.0.min.js"></script>
     <script src="vendor/underscore.js"></script>
     <script src="vendor/backbone-1.1.0.js"></script>
-    <script src="vendor/marionette.1.6.4.js"></script>
+    <script src="vendor/backbone.marionette.min.js"></script>
     <script src="vendor/bootstrap-tooltip.min.js"></script>
 
     <!-- Settings Module and API Keys -->
@@ -247,15 +158,11 @@
     <!-- Backbone Views and Controllers -->
     <script src="lib/views/title_bar.js"></script>
     <script src="lib/views/main_window.js"></script>
+    <script src="lib/views/movie_detail.js"></script>
     <script src="lib/views/movie_browser/movie_browser.js"></script>
     <script src="lib/views/movie_browser/filter_bar.js"></script>
     <script src="lib/views/movie_browser/movie_item.js"></script>
     <script src="lib/views/movie_browser/movie_list.js"></script>
-    <script src="frontend/views/page.js"></script>
-    <script src="frontend/views/listview.js"></script>
-    <script src="frontend/views/movie.js"></script>
-    <script src="frontend/views/sidebar.js"></script>
-    <script src="frontend/router.js"></script>
 
     <!-- Other Dependencies -->
     <script src="vendor/bootstrap/js/bootstrap.js"></script>

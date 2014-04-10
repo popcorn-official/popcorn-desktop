@@ -51,30 +51,6 @@ jQuery(function ($) {
     $('.popcorn-quit').addClass('hidden');
   });
 
-  // Catalog switch
-  $('#catalog-select ul li a').on('click', function (evt) {
-    $('#catalog-select ul li.active').removeClass('active');
-    $(this).parent('li').addClass('active');
-
-    var genre = $(this).data('genre');
-
-    if (genre == 'all') {
-      App.Router.navigate('index.html', { trigger: true });
-    } else {
-      App.Router.navigate('filter/' + genre, { trigger: true });
-    }
-    evt.preventDefault();
-  });
-
-
-  // Add route callback to router
-  App.Router.on('route', function (something, data) {
-    // Ensure sidebar is hidden
-    if(data[0] === null || data[1] === null)
-      App.loader(true, i18n.__('loading'));
-    App.sidebar.hide();
-  });
-
 
   // Search
   $('.search input').on('keypress', function (evt) {
