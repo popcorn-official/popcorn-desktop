@@ -2,12 +2,10 @@
     "use strict";
 
     var StreamInfo = Backbone.Model.extend({
-
-        initialize: function(attributes, options) {
-            var engine = options.engine;
-            this.set('src', 'http://127.0.0.1:' + engine.server.address().port + '/');
+        updateStats: function() {
+            var swarm = this.get('engine').swarm;
+            this.set('downloaded', swarm.downloaded);
         }
-
     });
 
     App.Model.StreamInfo = StreamInfo;

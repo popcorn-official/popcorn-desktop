@@ -59,5 +59,6 @@
 	"Error loading data, try again later...": "Error loading data, try again later...",
 	"No movies found...": "No movies found...",
 	"Initializing...": "Initializing...",
-	"Connecting...": "Connecting..."
+	"Connecting...": "Connecting...",
+	"ready": "ready"
 }

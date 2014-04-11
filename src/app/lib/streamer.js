@@ -2,19 +2,30 @@
     "use strict";
 
     var STREAM_PORT = 21584; // 'PT'!
+    var BUFFERING_SIZE = 10 * 1024 * 1024;
 
     var readTorrent = require('read-torrent');
     var peerflix = require('peerflix');
 
     var engine = null;
+    var statsUpdater = null;
 
-    var onStreamReady = function() {
-        console.log('Peerflix started');
+    var watchState = function(stateModel) {
+        var swarm = engine.swarm;
+        var state = 'connecting';
+        if(swarm.downloaded > BUFFERING_SIZE) {
+            state = 'ready';
+        } else if(swarm.downloaded) {
+            state = 'downloading';
+        } else if(swarm.wires.length) {
+            state = 'startingDownload';
+        }
 
-        var streamInfo = new App.Model.StreamInfo({}, {
-            engine: engine
-        });
-        App.vent.trigger('stream:ready', streamInfo);
+        stateModel.set('state', state);
+
+        if(state != 'ready') {
+            _.delay(watchState, 100, stateModel);
+        }
     };
 
     var handleTorrent = function(torrent, stateModel) {
@@ -22,7 +33,23 @@
 
         });
 
-        engine.server.on('listening', onStreamReady);
+        var streamInfo = new App.Model.StreamInfo({engine: engine});
+        statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 1000);
+        stateModel.set('streamInfo', streamInfo);
+        watchState(stateModel);
+
+        var checkReady = function() {
+            if(stateModel.get('state') === 'ready') {
+                App.vent.trigger('stream:ready', streamInfo);
+                stateModel.destroy();
+            }
+        };
+
+        engine.server.on('listening', function(){
+            streamInfo.set('src', 'http://127.0.0.1:' + engine.server.address().port + '/');
+            stateModel.on('change:state', checkReady);
+            checkReady();
+        });
 
         engine.on('ready', function() {
             engine.server.listen(STREAM_PORT);
@@ -31,7 +58,7 @@
 
     var Streamer = {
         start: function(torrentUrl) {
-            var stateModel = new Backbone.Model({state: 'Connecting...'});
+            var stateModel = new Backbone.Model({state: 'connecting'});
             App.vent.trigger('stream:started', stateModel);
 
             if(engine) {
