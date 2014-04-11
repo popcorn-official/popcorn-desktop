@@ -151,12 +151,16 @@ ul.nav-hor > li {
   -webkit-user-select: none;
 }
 .loading .state {
-  color: #fff;
+  color: #c3c5c7;
   font-size: 1.1em;
   text-align: center;
   width: 100%;
   position: absolute;
   top: 50%;
+}
+.loading .state .value {
+  color: #a3a5a7;
+  font-size: 0.8em;
 }
 #player,
 .player {
