@@ -26,6 +26,7 @@
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
             App.vent.on('movie:closeDetail', _.bind(this.MovieDetail.close, this.MovieDetail));
 
+            App.vent.on('stream:started', _.bind(this.streamStarted, this));
             App.vent.on('stream:ready', _.bind(this.showPlayer, this));
             App.vent.on('player:close', _.bind(this.Player.close, this.Player));
         },
@@ -56,9 +57,17 @@
             }));
         },
 
-        showPlayer: function(streamInfo) {
+        streamStarted: function(stateModel) {
+            this.MovieDetail.close();
+            this.Content.show(new App.View.Loading({
+                model: stateModel
+            }));
+        },
+
+        showPlayer: function(streamModel) {
+            this.Content.close();
             this.Player.show(new App.View.Player({
-                model: streamInfo
+                model: streamModel
             }));
         }
     });

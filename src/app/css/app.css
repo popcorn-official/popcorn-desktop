@@ -143,6 +143,36 @@ ul.nav-hor > li {
   background-image: none;
   border-left: 4px solid #2d75df;
 }
+.loading {
+  width: 100%;
+  height: 100%;
+  margin-top: 40px;
+  background-color: rgba(0,0,0,0.5);
+  -webkit-user-select: none;
+}
+.loading .state {
+  color: #fff;
+  font-size: 1.1em;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+}
+#player,
+.player {
+  width: 100%;
+  height: 100%;
+}
+.player {
+  z-index: 10;
+  position: absolute;
+  overflow: hidden;
+  background-color: #000;
+}
+.player video {
+  width: 100%;
+  height: 100%;
+}
 html,
 body,
 .main-window-region {
@@ -165,6 +195,12 @@ body,
   border: none;
   cursor: pointer;
   outline: none;
+}
+#main-window #content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 #header {
   position: absolute;

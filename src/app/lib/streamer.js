@@ -17,7 +17,7 @@
         App.vent.trigger('stream:ready', streamInfo);
     };
 
-    var handleTorrent = function(torrent) {
+    var handleTorrent = function(torrent, stateModel) {
         engine = peerflix(torrent, {
 
         });
@@ -31,19 +31,22 @@
 
     var Streamer = {
         start: function(torrentUrl) {
+            var stateModel = new Backbone.Model({state: 'Connecting...'});
+            App.vent.trigger('stream:started', stateModel);
+
             if(engine) {
                 Streamer.stop();
             }
 
             if (/^magnet:/.test(torrentUrl)) {
-                handleTorrent(Streamer);
+                handleTorrent(torrentUrl, stateModel);
             } else {
                 readTorrent(torrentUrl, function(err, torrent) {
                     if(err) {
                         App.vent.trigger('error', err);
                         App.vent.trigger('stream:stop');
                     } else {
-                        handleTorrent(torrent);
+                        handleTorrent(torrent, stateModel);
                     }
                 });
             }

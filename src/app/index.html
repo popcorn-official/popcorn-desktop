@@ -124,9 +124,12 @@
     </script>
 
     <script id="player-tpl" type="text/x-template">
-      <video src="<%= src %>" autoplay></video>
+      <video src="<%= src %>" autoplay controls></video>
     </script>
 
+    <script id="loading-tpl" type="text/x-template">
+      <div class="state"><%= i18n.__(state) %></div>
+    </script>
 
     <!-- Basic Dependencies -->
     <script src="vendor/jquery-2.1.0.min.js"></script>
@@ -166,7 +169,8 @@
     <script src="lib/views/title_bar.js"></script>
     <script src="lib/views/main_window.js"></script>
     <script src="lib/views/movie_detail.js"></script>
-    <script src="lib/views/player.js"></script>
+    <script src="lib/views/player/loading.js"></script>
+    <script src="lib/views/player/player.js"></script>
     <script src="lib/views/movie_browser/movie_browser.js"></script>
     <script src="lib/views/movie_browser/filter_bar.js"></script>
     <script src="lib/views/movie_browser/movie_item.js"></script>
