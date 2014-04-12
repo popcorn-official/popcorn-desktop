@@ -8,7 +8,7 @@
   },
   "license": "GPL-3.0",
   "main": "app://host/index.html",
-  "version": "0.2.8.2",
+  "version": "0.2.82",
   "window": {
     "title": "Popcorn Time",
     "icon": "images/icon.png",
