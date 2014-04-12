@@ -9,7 +9,7 @@ Settings = {
         "version": "0.1.0",
         "dbVersion": "1.0",
         // Used to check for the latest version
-        "updateNotificationUrl": "http://popcorn-time.tv/update.json",
+        "updateNotificationUrl": "http://get-popcorn.com/update.json",
         // Used to check if there's an internet connection
         "connectionCheckUrl": "http://www.google.com",
         // YIFY Endpoint
