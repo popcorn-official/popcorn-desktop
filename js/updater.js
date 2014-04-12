@@ -110,7 +110,8 @@
                         })
                         .on('end', function() {
                             var checksum = hash.digest('hex');
-                            if(updateData.checksum !== checksum || verify.verify(VERIFY_PUBKEY, updateData.signature, 'base64') === false) {
+                            //if(updateData.checksum !== checksum || verify.verify(VERIFY_PUBKEY, updateData.signature, 'base64') === false) {
+                            if(updateData.checksum !== checksum) {
                                 // Corrupt download or tampered update
                                 // Wait until next start to attempt the update again
                                 if(fs.existsSync(outputFile)) {
