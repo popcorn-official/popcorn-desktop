@@ -14,11 +14,7 @@ Pull Request for new features, bugs or translations are often appreciated. Howev
 
 ### Translation
 
-Most of the pull requests are translation requests. Following not only save hours of work for the maintainers, it will make your pull request merged without any question asked and everyone are going to be happy about this.
-
-- Fetch translation branch with `git fetch origin translations` and `git checkout translations`.
-- Run `git pull` often since there's frequent translation changes.
-- When you create your pull request, make sure it is __from__ and __to__ the `translations` branch of both repositories.
+For translations please go to: http://www.getlocalization.com/PopcornTime/
 
 ### UI changes
 
@@ -42,7 +38,10 @@ Here is what a great bug report would look like:
 Movie not playing
 
 Version: Release 0.2.7 for Windows
-OS: Windows 7
+Downloaded from: get-popcorn.com
+OS: Windows 7 64bits
+Connection: 10mbps
+
 How to reproduce:
  - Open Popcorn-Time
  - Click on the `Frozen` movie in `popular` category
