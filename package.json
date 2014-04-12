@@ -1,14 +1,14 @@
 {
   "name": "Popcorn-Time",
-  "homepage": "http://popcorn-time.tv",
-  "bugs": "https://github.com/popcorn-org/popcorn-app/issues",
+  "homepage": "http://get-popcorn.com",
+  "bugs": "https://github.com/popcorn-official/popcorn-app/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/popcorn-org/popcorn-app.git"
+    "url": "https://github.com/popcorn-official/popcorn-app.git"
   },
   "license": "GPL-3.0",
   "main": "app://host/index.html",
-  "version": "0.2.8",
+  "version": "0.2.8.2",
   "window": {
     "title": "Popcorn Time",
     "icon": "images/icon.png",
