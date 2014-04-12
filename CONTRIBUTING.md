@@ -42,7 +42,10 @@ Here is what a great bug report would look like:
 Movie not playing
 
 Version: Release 0.2.7 for Windows
-OS: Windows 7
+Downloaded from: get-popcorn.com
+OS: Windows 7 64bits
+Connection: 10mbps
+
 How to reproduce:
  - Open Popcorn-Time
  - Click on the `Frozen` movie in `popular` category

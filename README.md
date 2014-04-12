@@ -1,16 +1,10 @@
-#Popcorn time
+#Popcorn Time [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-app.svg)](https://david-dm.org/popcorn-official/popcorn-app)
 
 ### Idea
 
 To allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
 ![Demo Screenshot](http://get-popcorn.com/images/how-ui.png)
-
-### Donations
-
-Hosting and domains names are not free, any donation are more than helpful. Also, if you appreciate the work done, feel free to tip a beer to the developers!
-
-Bitcoin donation wallet: `1FbdjxxpHcamJYHU3afy9nX4C1P4dLSCJh`
 
 ### APIs
 
@@ -37,6 +31,8 @@ Please follow the [contributions guidelines](https://github.com/popcorn-official
 It is recommended to join us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime)), most active developers hang in there. You can ask `phnz` or  `Sharkiller` for high priority task.
 
 ## Any problem?
+
+### Need to report a bug? [Read the report guideline](https://github.com/popcorn-official/popcorn-app/blob/master/CONTRIBUTING.md#report-a-bug)
 
 ### Error about missing libudev.so.0
 Search for libudev.so.0 on your distribution. Most of the time it can be easily fixed by creating a symbolic link from libudev.so to libudev.so.0
