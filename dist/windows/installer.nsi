@@ -23,11 +23,23 @@ RequestExecutionLevel user
 !define MUI_LICENSEPAGE_BGCOLOR /GRAY
 !define MUI_UI_HEADERIMAGE_RIGHT "..\..\images\icon.png"
 !define MUI_ICON "..\..\images\popcorntime.ico"
+!define MUI_UNICON "..\..\images\popcorntime.ico"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
+!define MUI_ABORTWARNING
+!define MUI_FINISHPAGE_LINK "Popcorn Time Official Homepage"
+!define MUI_FINISHPAGE_LINK_LOCATION http://get-popcorn.com/
 
 ;Define the pages
+!insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "LICENSE.txt"
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
+
+!insertmacro MUI_UNPAGE_WELCOME
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+!insertmacro MUI_UNPAGE_FINISH
 
 ;Load Language Files
 !insertmacro MUI_LANGUAGE "English"
@@ -51,7 +63,6 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Finnish"
 !insertmacro MUI_LANGUAGE "French"
 !insertmacro MUI_LANGUAGE "Galician"
-;!insertmacro MUI_LANGUAGE "Georgian"
 !insertmacro MUI_LANGUAGE "German"
 !insertmacro MUI_LANGUAGE "Greek"
 !insertmacro MUI_LANGUAGE "Hebrew"
@@ -77,7 +88,6 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "PortugueseBR"
 !insertmacro MUI_LANGUAGE "Romanian"
 !insertmacro MUI_LANGUAGE "Russian"
-;!insertmacro MUI_LANGUAGE "ScotsGaelic"
 !insertmacro MUI_LANGUAGE "Serbian"
 !insertmacro MUI_LANGUAGE "SerbianLatin"
 !insertmacro MUI_LANGUAGE "SimpChinese"
@@ -94,34 +104,22 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Vietnamese"
 !insertmacro MUI_LANGUAGE "Welsh"
 
-Section ; Node Webkit Files
+AutoCloseWindow false
+ShowInstDetails show
+ShowUninstDetails show
 
-	;Delete existing install
+Section ; App Files
+	
 	RMDir /r "$INSTDIR"
-
+	
 	;Set output path to InstallDir
-	SetOutPath "$INSTDIR\node-webkit"
+	SetOutPath "$INSTDIR"
 
 	;Add the files
 	File "..\..\build\releases\Popcorn-Time\win\Popcorn-Time\*"
-
-SectionEnd
-
-Section ; App Files
-
-	;Set output path to InstallDir
-	SetOutPath "$INSTDIR\app"
-
-	;Add the files
-	File /r "..\..\css"
-	File /r "..\..\fonts"
-	File /r "..\..\images"
-	File /r "..\..\js"
-	File /r "..\..\language"
-	File /r "..\..\rc"
-	File /r /x "..\..\node_modules\grunt*" /x "..\..\node_modules\grunt" "..\..\node_modules"
-	File "..\..\index.html"
-	File "..\..\package.json"
+	
+	;Create uninstaller
+	WriteUninstaller "$INSTDIR\Uninstall.exe"
 
 SectionEnd
 
@@ -136,10 +134,19 @@ Section ; Shortcuts
 	;Start Menu Shortcut
 	RMDir /r "$SMPROGRAMS\Popcorn Time"
 	CreateDirectory "$SMPROGRAMS\Popcorn Time"
-	CreateShortCut "$SMPROGRAMS\Popcorn Time\Popcorn Time.lnk" "$INSTDIR\node-webkit\Popcorn-Time.exe" "app" "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
+	CreateShortCut "$SMPROGRAMS\Popcorn Time\Popcorn Time.lnk" "$INSTDIR\Popcorn-Time.exe" "." "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
+	CreateShortCut "$SMPROGRAMS\Popcorn Time\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
 
 	;Desktop Shortcut
 	Delete "$DESKTOP\Popcorn Time.lnk"
-	CreateShortCut "$DESKTOP\Popcorn Time.lnk" "$INSTDIR\node-webkit\Popcorn-Time.exe" "app" "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
+	CreateShortCut "$DESKTOP\Popcorn Time.lnk" "$INSTDIR\Popcorn-Time.exe" "." "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
 
+SectionEnd
+
+Section "uninstall" ; Uninstaller
+
+	RMDir /r "$INSTDIR"
+	RMDir /r "$SMPROGRAMS\Popcorn Time"
+	Delete "$DESKTOP\Popcorn Time.lnk"
+	
 SectionEnd
