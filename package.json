@@ -45,6 +45,7 @@
     "grunt-contrib-copy": "0.5.0",
     "grunt-contrib-stylus": "0.13.x",
     "grunt-node-webkit-builder": "0.1.x",
+    "grunt-exec": "0.4.x",
     "load-grunt-tasks": "0.4.0"
   }
 }
