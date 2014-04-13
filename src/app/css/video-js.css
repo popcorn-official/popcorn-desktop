@@ -23,8 +23,8 @@ The control icons are from a custom font. Each icon corresponds to a character
 */
 @font-face {
   font-family: 'VideoJS';
-  src: url('font/vjs.eot');
-  src: url('font/vjs.eot?#iefix') format('embedded-opentype'), url('font/vjs.woff') format('woff'), url('font/vjs.ttf') format('truetype');
+  src: url('../fonts/vjs.eot');
+  src: url('../fonts/vjs.eot?#iefix') format('embedded-opentype'), url('../fonts/vjs.woff') format('woff'), url('../fonts/vjs.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -232,7 +232,7 @@ fonts to show/hide properly.
   top: 0;
   left: 0;
   height: 0.5em;
-  background: #2874cd; 
+  background: #2874cd;
 }
 .vjs-default-skin .vjs-volume-bar .vjs-volume-handle {
   font-size: 2.2em;

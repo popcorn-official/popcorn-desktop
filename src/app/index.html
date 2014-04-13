@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap-theme.css">
-    <link rel="stylesheet" type="text/css" href="vendor/video-js/video-js.css">
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap-theme.css">
+    <link rel="stylesheet" type="text/css" href="css/video-js.css">
     <link rel="stylesheet" type="text/css" href="css/app.css">
   </head>
   <body>
@@ -131,15 +131,22 @@
       <div class="state"><div class="text"><%= i18n.__(state) %></div><div class="value"></div></div>
     </script>
 
-    <!-- Basic Dependencies -->
-    <script src="vendor/jquery-2.1.0.min.js"></script>
-    <script src="vendor/underscore.js"></script>
-    <script src="vendor/backbone-1.1.0.js"></script>
-    <script src="vendor/backbone.marionette.min.js"></script>
-    <script src="vendor/bootstrap-tooltip.min.js"></script>
+    <!-- 3rd party Dependencies -->
+    <script src="vendor/jquery/dist/jquery.js"></script>
+    <script src="vendor/underscore/underscore.js"></script>
+    <script src="vendor/backbone/backbone.js"></script>
+    <script src="vendor/backbone.wreqr/lib/backbone.wreqr.js"></script>
+    <script src="vendor/backbone.babysitter/lib/backbone.babysitter.js"></script>
+    <script src="vendor/marionette/lib/backbone.marionette.js"></script>
+    <script src="vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="vendor/videojs/dist/video-js/video.dev.js"></script>
+
+    <!-- Other dependencies -->
+    <script src="vendor/videojsplugins.js"></script>
+    <script src="vendor/dragwindow.js"></script>
 
     <!-- Settings Module and API Keys -->
-    <script src="vendor/settings.js"></script>
+    <script src="settings.js"></script>
 
     <!-- App Initialization -->
     <script src="app.js"></script>
@@ -175,12 +182,6 @@
     <script src="lib/views/movie_browser/filter_bar.js"></script>
     <script src="lib/views/movie_browser/movie_item.js"></script>
     <script src="lib/views/movie_browser/movie_list.js"></script>
-
-    <!-- Other Dependencies -->
-    <script src="vendor/bootstrap/js/bootstrap.js"></script>
-    <script src="vendor/video-js/video.dev.js"></script>
-    <script src="vendor/videojsplugins.js"></script>
-    <script src="vendor/dragwindow.js"></script>
 
     <script src="bootstrap.js"></script>
   </body>
