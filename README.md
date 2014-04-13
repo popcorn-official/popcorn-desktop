@@ -2,7 +2,7 @@
 
 ### Idea
 
-To allow any computer user an esay method of streaming movies from torrents, without any particular knowledge.
+To allow any computer user an easy method of streaming movies from torrents, without any particular knowledge.
 
 ![Demo Screenshot](http://get-popcorn.com/images/how-ui.png)
 
