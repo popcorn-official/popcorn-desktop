@@ -10,6 +10,7 @@ lib-cov
 .idea/
 
 node_modules/
+src/app/vendor
 
 build/
 
