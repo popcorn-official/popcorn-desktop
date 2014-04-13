@@ -32,3 +32,4 @@ app.nw
 
 app.css
 *.sublime-*
+dist/windows/PopcornTimeSetup.exe
