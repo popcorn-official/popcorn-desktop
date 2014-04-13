@@ -4,6 +4,8 @@ module.exports = function(grunt) {
   var buildPlatforms = parseBuildPlatforms(grunt.option('platforms'));
 
   require('load-grunt-tasks')(grunt);
+  
+  grunt.loadNpmTasks('grunt-exec');
 
   grunt.registerTask('default', [
     'stylus'
@@ -57,7 +59,7 @@ module.exports = function(grunt) {
           linux32: buildPlatforms.linux32,
           linux64: buildPlatforms.linux64
         },
-        src: ['./css/**', './fonts/**', './images/**', './js/**', './language/**', './node_modules/**', '!./node_modules/grunt*/**', './rc/**', './Config.rb', './index.html', './package.json', './README.md' ] // Your node-webkit app './**/*'
+        src: ['./src/**', './node_modules/**', '!./node_modules/grunt*/**', './package.json', './README.md', './LICENSE.txt' ] // Your node-webkit app './**/*'
       },
       dist: {
         options: {
@@ -120,6 +122,7 @@ module.exports = function(grunt) {
           }
         ]
       },
+	  
       package: {
         files: [
           {
@@ -134,7 +137,27 @@ module.exports = function(grunt) {
           }
         ]
       }
-    }
+	  
+	  
+    },
+	exec: {
+	   win: {
+	      cwd: 'build/releases/Popcorn-Time/win/Popcorn-Time/',
+	      cmd: 'Popcorn-Time.exe . --debug'
+	   },
+	   mac: {
+	      cwd: 'build/releases/Popcorn-Time/mac/',
+	      cmd: 'Popcorn-Time.app . --debug'
+	   },
+	   linux32: {
+	      cwd: 'build/releases/Popcorn-Time/linux32/Popcorn-Time/',
+	      cmd: 'Popcorn-Time . --debug'
+	   },
+	   linux64: {
+	      cwd: 'build/releases/Popcorn-Time/linux64/Popcorn-Time/',
+	      cmd: 'Popcorn-Time . --debug'
+	   }
+	}
   });
 };
 
