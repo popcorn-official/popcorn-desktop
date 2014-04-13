@@ -15,6 +15,14 @@ To allow any computer user to watch movies easily streaming from torrents, witho
 
 ### Development
 
+The dev-0.3 branch include latest version.
+
+You'll need bower.
+```sudo npm install -g bower```
+
+Once bower installed, you need to import the right packages.
+```bower install```
+
 See [Development's page](https://github.com/popcorn-official/popcorn-app/wiki/Development)
 
 ### How to contribute
