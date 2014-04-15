@@ -40,10 +40,11 @@
   },
   "devDependencies": {
     "grunt": "0.4.4",
-    "grunt-contrib-copy": "0.5.0",
+    "grunt-bump": "0.0.13 ",
     "grunt-contrib-compass": "0.7.2",
+    "grunt-contrib-copy": "0.5.0",
+    "grunt-conventional-changelog": "^1.1.0",
     "grunt-node-webkit-builder": "0.1.x",
-    "load-grunt-tasks": "0.4.0",
-    "grunt-bump": "0.0.13 "
+    "load-grunt-tasks": "0.4.0"
   }
 }

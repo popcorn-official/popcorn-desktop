@@ -33,7 +33,8 @@ module.exports = function(grunt) {
 
   // https://github.com/vojtajina/grunt-bump
   grunt.loadNpmTasks('grunt-bump');
-
+  grunt.loadNpmTasks('grunt-conventional-changelog');
+  
   grunt.initConfig({
 
     bump: {
