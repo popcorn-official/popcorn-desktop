@@ -31,7 +31,18 @@ module.exports = function(grunt) {
     'copy:package'
   ]);
 
+  // https://github.com/vojtajina/grunt-bump
+  grunt.loadNpmTasks('grunt-bump');
+
   grunt.initConfig({
+
+    bump: {
+      options: {
+        files: ['package.json'],
+        pushTo: 'origin'
+      }
+    },
+
     compass: {
       dist: {
         options: {
@@ -117,6 +128,7 @@ module.exports = function(grunt) {
           }
         ]
       },
+
       package: {
         files: [
           {
