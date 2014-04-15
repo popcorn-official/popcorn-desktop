@@ -36,14 +36,16 @@
          * than source code!                                                                */
         var VERIFY_PUBKEY =
             '-----BEGIN PUBLIC KEY-----\n' +
-            'AAAAB3NzaC1kc3MAAACBAPJ04ITBTO4WLtGxWb2VTZTbRY297MsAg3+dvOjCp+LuNbncZJbv\n' +
-            '2aq+XADYkrsOgUcXxNte93POth0FtosySTSA683dNmOmy2GlglVgYMJyR8ZuEPti1CKzfLWN8hl318zl\n' +
-            'IrGggHKk2fkBm6SOQj9vGAzk0VoAcVXG2dCrD5Z1AAAAFQDOczyBZVTpvXtxNpnzFDIbTCZt4QAAAIEA\n' +
-            '0fAceqI+DjQ5LB156v4SVU4laCL8kt02uHh4rx8AwsVD41Rp1HCeljR8Kj+u4oPRWKPiilE+CvBDal/z\n' +
-            'vZ/mZZYrA7eX715EO80Uw2+6EPoMsvvzg//oHccnI3dWNjhbMZxDtKJTWsOUzd5faX88RobVdtKFjZDo\n' +
-            '0RYqqpDG5LEAAACBALMhusYLoEI4KxufL9aohoaKrzgsk16v0frr3PLr599Cb/G4PFM0NX0tJgQTKKSm\n' +
-            'AOESHmu+lTeI8JtyZBOnYQQQ+KPY5pXdZ+lu9hlmmcXkSeYXV1FO6vnAbmw49rZ+8+R7zbwSLh7IjqDi\n' +
-            'dsRb3iakUGgo0l3VMCpMpB49MLRv\n'+
+            'MIIBtjCCASsGByqGSM44BAEwggEeAoGBAPNM5SX+yR8MJNrX9uCQIiy0t3IsyNHs\n' +
+            'HWA180wDDd3S+DzQgIzDXBqlYVmcovclX+1wafshVDw3xFTJGuKuva7JS3yKnjds\n' +
+            'NXbvM9CrJ2Jngfd0yQPmSh41qmJXHHSwZfPZBxQnspKjbcC5qypM5DqX9oDSJm2l\n' +
+            'fM/weiUGnIf7AhUAgokTdF7G0USfpkUUOaBOmzx2RRkCgYAyy5WJDESLoU8vHbQc\n' +
+            'rAMnPZrImUwjFD6Pa3CxhkZrulsAOUb/gmc7B0K9I6p+UlJoAvVPXOBMVG/MYeBJ\n' +
+            '19/BH5UNeI1sGT5/Kg2k2rHVpuqzcvlS/qctIENgCNMo49l3LrkHbJPXKJ6bf+T2\n' +
+            '8lFWRP2kVlrx/cHdqSi6aHoGTAOBhAACgYBTNeXBHbWDOxzSJcD6q4UDGTnHaHHP\n' +
+            'JgeCrPkH6GBa9azUsZ+3MA98b46yhWO2QuRwmFQwPiME+Brim3tHlSuXbL1e5qKf\n' +
+            'GOm3OxA3zKXG4cjy6TyEKajYlT45Q+tgt1L1HuGAJjWFRSA0PP9ctC6nH+2N3HmW\n' +
+            'RTcms0CPio56gg==\n' +
             '-----END PUBLIC KEY-----\n';
 
         var checkVersion = function(ver1, ver2) {
@@ -110,8 +112,8 @@
                         })
                         .on('end', function() {
                             var checksum = hash.digest('hex');
-                            //if(updateData.checksum !== checksum || verify.verify(VERIFY_PUBKEY, updateData.signature, 'base64') === false) {
-                            if(updateData.checksum !== checksum) {
+                            if(updateData.checksum !== checksum || verify.verify(VERIFY_PUBKEY, updateData.signature, 'base64') === false) {
+                            
                                 // Corrupt download or tampered update
                                 // Wait until next start to attempt the update again
                                 if(fs.existsSync(outputFile)) {
