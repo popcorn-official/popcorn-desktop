@@ -6,8 +6,8 @@
         className: 'movie-detail',
 
         events: {
-            'click .play_button': 'startStreaming',
-            'click .close_button': 'closeDetails'
+            'click .movie-btn-watch': 'startStreaming',
+            'click .movie-detail-close': 'closeDetails'
         },
 
         onShow: function() {

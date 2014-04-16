@@ -16,8 +16,7 @@
         events: {
             'submit @ui.searchForm': 'search',
             'click .sorters .dropdown-menu a': 'sortBy',
-            'click .genres .dropdown-menu a': 'changeGenre',
-            'click .settings': 'settings'
+            'click .genres .dropdown-menu a': 'changeGenre'
         },
 
         onShow: function() {
@@ -59,11 +58,6 @@
                 keyword: '',
                 genre: genre
             });
-        },
-
-        settings: function(e) {
-            e.preventDefault();
-            App.vent.trigger('settings:show'); 
         }
     });
 
