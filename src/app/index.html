@@ -42,6 +42,7 @@
         <div id="notification"></div>
         <div id="changelog-container"></div>
         <div id="content"></div>
+        <div id="settings-container"></div>
         <div id="movie-detail"></div>
         <div id="player"></div>
     </script>
@@ -163,6 +164,16 @@
       </div>
     </script>
 
+    <script id="settings-container-tpl" type="text/x-template">
+        <div class="detail-window">
+        <h2>settings</h2>
+            <p>
+                content
+                <button class="close_button">Close</button>                
+            </p>
+        </div>
+    </script>
+
     <script id="player-tpl" type="text/x-template">
       <video src="<%= src %>" autoplay controls></video>
     </script>
@@ -216,6 +227,7 @@
     <script src="lib/views/title_bar.js"></script>
     <script src="lib/views/main_window.js"></script>
     <script src="lib/views/movie_detail.js"></script>
+    <script src="lib/views/settings.js"></script>
     <script src="lib/views/player/loading.js"></script>
     <script src="lib/views/player/player.js"></script>
     <script src="lib/views/movie_browser/movie_browser.js"></script>
