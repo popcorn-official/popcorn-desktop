@@ -18,7 +18,7 @@
 	    	color: #fff
 
   .movie-meta-details
-    margin-left 4px
+    margin-left 4px  
     margin-top 20px
     position relative
     float left
@@ -32,7 +32,7 @@
   .movie-dot
     margin-left 15px
     margin-right 15px
-    margin-top 26px
+    margin-top 25px
     position relative
     float left
     width 3px
@@ -110,7 +110,23 @@
       background-image url('../../images/icons/HealthGood.png')
     &.Excellent
       background-image url('../../images/icons/HealthExcellent.png')
+.rating-star
+    z-index 2
+    margin-right 3px
+    margin-top 20px
+    position relative
+    float left
+    width 11px
+    height 11px
+    background-repeat no-repeat
+    &.null
+      background-image url('../../images/icons/StarGray.png')
+    &.half
+      background-image url('../../images/icons/StarGray.png')
+    &.full
+      background-image url('../../images/icons/star.png')
 
+      
 .movie-btn-watch
     z-index 2
     margin-left 285px
@@ -143,7 +159,7 @@
     z-index 0
     background-repeat no-repeat
     background-position center
-    -webkit-filter blur(10px)
+    -webkit-filter blur(3px)
     overflow hidden
 
 .movie-backdrop-overlay

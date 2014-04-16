@@ -119,7 +119,7 @@
     </script>
 
     <script  id="movie-detail-tpl" type="text/x-template">
-      <div   class="detail-window">
+      <div class="detail-window">
             <div style="background-image:url( <%= backdrop %> )" class="movie-backdrop"></div>
             <div class="movie-backdrop-overlay"></div>
             <img class="movie-cover-image" src="<%= image %>" />
@@ -133,8 +133,21 @@
                     <div class="movie-dot"></div>
                     <div class="movie-meta-details"><%= runtime %> min</div>
                     <div class="movie-dot"></div>
-                     <% var p_rating = 0.0 %>
-                    <div class="movie-meta-details"><%= p_rating %></div>
+                     <% var p_rating = 5.8 %>
+                    
+
+                  <% p_rating = Math.round(p_rating) / 2; // Roundoff number to nearest 0.5 %>
+                  <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
+                    <div class="rating-star full"></div>
+                  <% }; %>
+                  <% if (p_rating % 1 > 0) { %>
+                    <div class="rating-star full"></div>
+                  <% }; %>
+                  <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
+                    <div class="rating-star null"></div>
+                  <% }; %>
+
+
 
                 </ul>
 
