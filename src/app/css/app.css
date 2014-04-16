@@ -609,3 +609,42 @@ body,
   font-size: 0.85em;
   color: #5b5b5b;
 }
+.movie-detail {
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #000;
+  -webkit-user-select: none;
+  margin-top: 40px;
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  overflow: hidden;
+}
+.movie-detail .detail-window {
+  margin-top: 50px;
+  margin-left: 20px;
+}
+.movie-detail .detail-window h2,
+.movie-detail .detail-window p,
+.movie-detail .detail-window button {
+  color: #fff;
+}
+.movie-detail .detail-window p {
+  font-size: 15px;
+}
+.movie-detail .detail-window h2 {
+  font-size: 25px;
+}
+.movie-detail .detail-window .cover-image {
+  float: left;
+  margin-right: 20px;
+}
+.movie-detail .detail-window button {
+  margin-top: 20px;
+}
+.movie-detail .detail-window .movie-quick-info {
+  margin-bottom: 5px;
+  color: #fff;
+}
