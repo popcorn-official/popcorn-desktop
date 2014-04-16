@@ -15,7 +15,7 @@ To allow any computer user to watch movies easily streaming from torrents, witho
 
 ### Development
 
-See [Development's 0.3 page](https://github.com/popcorn-official/popcorn-app/wiki/Developer---0.3)
+See [Development's 0.3 page](https://github.com/popcorn-official/popcorn-app/wiki/Build-and-Debug-dev-0.3)
 
 ### How to contribute
 
