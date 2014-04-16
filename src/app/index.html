@@ -42,7 +42,6 @@
         <div id="notification"></div>
         <div id="changelog-container"></div>
         <div id="content"></div>
-        <div id="settings-container"></div>        
         <div id="movie-detail"></div>
         <div id="player"></div>
     </script>
@@ -76,13 +75,9 @@
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="#" data-value="all"><%= i18n.__('genre-all') %></a></li>
-              <% var _i18nGenres = [] %>
-              <% _.each(genres, function(c) { _i18nGenres.push(i18n.__("genre-" + c)); }) %>
-              <% var _invGenres = _.invert(_.omit(_.object(genres, _i18nGenres), 'all')) %>
-              <% _.keys(_invGenres).sort().forEach(function(i18nGenre) { %>
-              <li><a href="#" data-value="<%= _invGenres[i18nGenre] %>"><%= i18nGenre %></a></li>
-              <% }); %>
+                <% _.each(genres, function(c) { %>
+                    <li><a href="#" data-value="<%= c %>"><%= i18n.__("genre-" + c) %></a></li>
+                <% }); %>
             </ul>
           </li>
           <li class="dropdown filter sorters">
@@ -123,46 +118,36 @@
         <h1>Popcorn Time</h1>
     </script>
 
-    <script id="movie-detail-tpl" type="text/x-template">
-      <div class="detail-window">
-
-            <img class="cover-image" src="<%= image %>" />
+    <script  id="movie-detail-tpl" type="text/x-template">
+      <div   class="detail-window">
+            <div style="background-image:url( <%= backdrop %> )" class="movie-backdrop"></div>
+            <div class="movie-backdrop-overlay"></div>
+            <img class="movie-cover-image" src="<%= image %>" />
             <p class="temp-content">
 
-                <h2><%= title %></h2>
 
+                <div class="movie-meta-title"><%= title %></div>
                 <ul class="movie-quick-info">
-                    <li>
-                      <%= year %>
-                    </li>
-                    <li>
-                      <%= runtime %> minutes
-                    </li>
+   
+                    <div class="movie-meta-details"><%= year %></div>
+                    <div class="movie-dot"></div>
+                    <div class="movie-meta-details"><%= runtime %> min</div>
+                    <div class="movie-dot"></div>
+                     <% var p_rating = 0.0 %>
+                    <div class="movie-meta-details"><%= p_rating %></div>
+
                 </ul>
 
-                <% var p_rating = 0.0 %>
+                    <div class="movie-meta-overview"><%= synopsis %></div>
 
-                <p><%= p_rating %></p>
-                <p><%= synopsis %></p>
+               <!-- <p>720p health: <%= (torrents['720p']) ? torrents['720p'].health : 'na' %></p>
+                <p>1080p health: <%= (torrents['1080p']) ? torrents['1080p'].health : 'na' %></p> -->
 
-                <p>720p health: <%= (torrents['720p']) ? torrents['720p'].health : 'na' %></p>
-                <p>1080p health: <%= (torrents['1080p']) ? torrents['1080p'].health : 'na' %></p>
-
-                <button class="play_button">Play</button>
-                <button class="close_button">Close</button>
+                <div class="movie-btn-watch"><div class="movie-watch-now">Watch Now</div></div>
+                <div class="movie-detail-close"></div>
 
             </p>
       </div>
-    </script>
-
-    <script id="settings-container-tpl" type="text/x-template">
-        <div class="detail-window">
-            <h2>settings</h2>
-            <p>
-                content
-                <button class="close_button">Close</button>                
-            </p>
-        </div>
     </script>
 
     <script id="player-tpl" type="text/x-template">
@@ -218,7 +203,6 @@
     <script src="lib/views/title_bar.js"></script>
     <script src="lib/views/main_window.js"></script>
     <script src="lib/views/movie_detail.js"></script>
-    <script src="lib/views/settings.js"></script>
     <script src="lib/views/player/loading.js"></script>
     <script src="lib/views/player/player.js"></script>
     <script src="lib/views/movie_browser/movie_browser.js"></script>

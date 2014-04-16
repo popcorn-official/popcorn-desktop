@@ -40,7 +40,8 @@
                     runtime: this.model.get('runtime'),
                     year: this.model.get('year'),
                     health: this.model.get('health'),
-                    subtitle: this.model.get('subtitle')
+                    subtitle: this.model.get('subtitle'),
+                    backdrop: this.model.get('backdrop')
                 }
             );
             App.vent.trigger('movie:showDetail', SelectedMovie);

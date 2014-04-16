@@ -10,8 +10,7 @@
             Header: '#header',
             Content: '#content',
             MovieDetail: '#movie-detail',
-            Player: '#player',
-            Settings: '#settings-container'
+            Player: '#player'
         },
 
         events: {
@@ -26,10 +25,6 @@
             // Application events
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
             App.vent.on('movie:closeDetail', _.bind(this.MovieDetail.close, this.MovieDetail));
-
-            // Settings events
-            App.vent.on('settings:show', _.bind(this.showSettings, this));
-            App.vent.on('settings:close', _.bind(this.Settings.close, this.Settings));
 
             // Stream events
             App.vent.on('stream:started', _.bind(this.streamStarted, this));
@@ -60,12 +55,6 @@
         showMovieDetail: function(movieModel) {
             this.MovieDetail.show(new App.View.MovieDetail({
                 model: movieModel
-            }));
-        },
-
-        showSettings: function(settingsModel) {
-            this.Settings.show(new App.View.Settings({
-                model: settingsModel
             }));
         },
 
