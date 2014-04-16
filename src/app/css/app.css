@@ -120,7 +120,7 @@ ul.nav-hor > li {
   float: left;
 }
 .dropdown-menu {
-  background-color: #1b232f;
+  background-color: #17181b;
 }
 .dropdown-menu > li > a {
   -webkit-transition: all 0.2s;
@@ -185,7 +185,7 @@ body,
 #main-window {
   width: 100%;
   height: 100%;
-  background-color: #1b232f;
+  background-color: #17181b;
   -webkit-box-shadow: 0 0 40px rgba(0,0,0,0.75);
   box-shadow: 0 0 40px rgba(0,0,0,0.75);
   margin-left: auto;
@@ -302,7 +302,7 @@ body,
   opacity: 0.97;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=97)";
   filter: alpha(opacity=97);
-  background-color: #1b232f;
+  background-color: #17181b;
   -webkit-user-select: none;
   -webkit-app-region: drag;
 }
@@ -643,7 +643,7 @@ body,
 .movie-dot {
   margin-left: 15px;
   margin-right: 15px;
-  margin-top: 26px;
+  margin-top: 25px;
   position: relative;
   float: left;
   width: 3px;
@@ -729,6 +729,25 @@ body,
 .health-icon.Excellent {
   background-image: url("../images/icons/HealthExcellent.png");
 }
+.rating-star {
+  z-index: 2;
+  margin-right: 3px;
+  margin-top: 20px;
+  position: relative;
+  float: left;
+  width: 11px;
+  height: 11px;
+  background-repeat: no-repeat;
+}
+.rating-star.null {
+  background-image: url("../images/icons/StarGray.png");
+}
+.rating-star.half {
+  background-image: url("../images/icons/StarGray.png");
+}
+.rating-star.full {
+  background-image: url("../images/icons/star.png");
+}
 .movie-btn-watch {
   z-index: 2;
   margin-left: 285px;
@@ -765,7 +784,7 @@ body,
   z-index: 0;
   background-repeat: no-repeat;
   background-position: center;
-  -webkit-filter: blur(10px);
+  -webkit-filter: blur(3px);
   overflow: hidden;
 }
 .movie-backdrop-overlay {
