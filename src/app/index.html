@@ -120,6 +120,33 @@
 
     <script id="movie-detail-tpl" type="text/x-template">
       <div class="detail-window">
+
+            <img class="cover-image" src="<%= image %>" />
+            <p class="temp-content">
+
+                <h2><%= title %></h2>
+
+                <ul class="movie-quick-info">
+                    <li>
+                      <%= year %>
+                    </li>
+                    <li>
+                      <%= runtime %> minutes
+                    </li>
+                </ul>
+
+                <% var p_rating = 0.0 %>
+
+                <p><%= p_rating %></p>
+                <p><%= synopsis %></p>
+
+                <p>720p health: <%= (torrents['720p']) ? torrents['720p'].health : 'na' %></p>
+                <p>1080p health: <%= (torrents['1080p']) ? torrents['1080p'].health : 'na' %></p>
+
+                <button class="play_button">Play</button>
+                <button class="close_button">Close</button>
+
+            </p>
       </div>
     </script>
 

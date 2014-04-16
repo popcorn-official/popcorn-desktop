@@ -26,6 +26,7 @@
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
             App.vent.on('movie:closeDetail', _.bind(this.MovieDetail.close, this.MovieDetail));
 
+            // Stream events
             App.vent.on('stream:started', _.bind(this.streamStarted, this));
             App.vent.on('stream:ready', _.bind(this.showPlayer, this));
             App.vent.on('player:close', _.bind(this.Player.close, this.Player));

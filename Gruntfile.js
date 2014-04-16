@@ -7,6 +7,10 @@ module.exports = function(grunt) {
   
   grunt.loadNpmTasks('grunt-exec');
 
+  // https://github.com/vojtajina/grunt-bump
+  grunt.loadNpmTasks('grunt-bump');
+  grunt.loadNpmTasks('grunt-conventional-changelog');
+  
   grunt.registerTask('default', [
     'stylus'
   ]);
@@ -34,6 +38,14 @@ module.exports = function(grunt) {
   ]);
 
   grunt.initConfig({
+
+    bump: {
+      options: {
+        files: ['package.json'],
+        pushTo: 'origin'
+      }
+    },
+
     stylus: {
       compile: {
         options: {
@@ -122,7 +134,7 @@ module.exports = function(grunt) {
           }
         ]
       },
-	  
+    
       package: {
         files: [
           {
@@ -137,27 +149,27 @@ module.exports = function(grunt) {
           }
         ]
       }
-	  
-	  
+    
+    
     },
-	exec: {
-	   win: {
-	      cwd: 'build/releases/Popcorn-Time/win/Popcorn-Time/',
-	      cmd: 'Popcorn-Time.exe . --debug'
-	   },
-	   mac: {
-	      cwd: 'build/releases/Popcorn-Time/mac/',
-	      cmd: 'Popcorn-Time.app . --debug'
-	   },
-	   linux32: {
-	      cwd: 'build/releases/Popcorn-Time/linux32/Popcorn-Time/',
-	      cmd: 'Popcorn-Time . --debug'
-	   },
-	   linux64: {
-	      cwd: 'build/releases/Popcorn-Time/linux64/Popcorn-Time/',
-	      cmd: 'Popcorn-Time . --debug'
-	   }
-	}
+  exec: {
+     win: {
+        cwd: 'build/releases/Popcorn-Time/win/Popcorn-Time/',
+        cmd: 'Popcorn-Time.exe . --debug'
+     },
+     mac: {
+        cwd: 'build/releases/Popcorn-Time/mac/',
+        cmd: 'Popcorn-Time.app . --debug'
+     },
+     linux32: {
+        cwd: 'build/releases/Popcorn-Time/linux32/Popcorn-Time/',
+        cmd: 'Popcorn-Time . --debug'
+     },
+     linux64: {
+        cwd: 'build/releases/Popcorn-Time/linux64/Popcorn-Time/',
+        cmd: 'Popcorn-Time . --debug'
+     }
+  }
   });
 };
 
