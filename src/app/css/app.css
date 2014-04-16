@@ -648,3 +648,31 @@ body,
   margin-bottom: 5px;
   color: #fff;
 }
+.settings-container {
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #000;
+  -webkit-user-select: none;
+  margin-top: 40px;
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  overflow: hidden;
+}
+.settings-container .detail-window {
+  margin-top: 50px;
+  margin-left: 20px;
+}
+.settings-container .detail-window h2,
+.settings-container .detail-window p,
+.settings-container .detail-window button {
+  color: #fff;
+}
+.settings-container .detail-window p {
+  font-size: 15px;
+}
+.settings-container .detail-window h2 {
+  font-size: 25px;
+}
