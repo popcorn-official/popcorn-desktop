@@ -76,9 +76,13 @@
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <% _.each(genres, function(c) { %>
-                    <li><a href="#" data-value="<%= c %>"><%= i18n.__("genre-" + c) %></a></li>
-                <% }); %>
+              <li><a href="#" data-value="all"><%= i18n.__('genre-all') %></a></li>
+              <% var _i18nGenres = [] %>
+              <% _.each(genres, function(c) { _i18nGenres.push(i18n.__("genre-" + c)); }) %>
+              <% var _invGenres = _.invert(_.omit(_.object(genres, _i18nGenres), 'all')) %>
+              <% _.keys(_invGenres).sort().forEach(function(i18nGenre) { %>
+              <li><a href="#" data-value="<%= _invGenres[i18nGenre] %>"><%= i18nGenre %></a></li>
+              <% }); %>
             </ul>
           </li>
           <li class="dropdown filter sorters">
