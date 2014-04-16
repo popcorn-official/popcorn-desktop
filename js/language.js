@@ -34,14 +34,12 @@ var detectLanguage = function(preferredLanguage) {
 
 // Populate the Category list (This should be a template, though)
 var populateCategories = function() {
-    var category_html = '';
-    var defaultCategory = 'all';
+    var category_html = '<li class="active"><a href="#" data-genre="all">' + i18n.__("genres")['all'] + '</a></li>';
 
-    for(var key in i18n.__("genres") ) {
-        category_html += '<li'+ (defaultCategory == key ? ' class="active" ' : '') +'>'+
-                           '<a href="#" data-genre="'+key+'">'+ i18n.__("genres")[key] +'</a>'+
-                         '</li>';
-    }
+    var genres_i = _.invert(_.omit(i18n.__("genres"), 'all'));
+    _.keys(genres_i).sort().forEach(function(entry) {
+        category_html += '<li><a href="#" data-genre="' + genres_i[entry] + '">' + entry + '</a></li>';
+    });
 
     jQuery('#catalog-select .categories').html(category_html);
 };
