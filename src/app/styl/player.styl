@@ -1,27 +1,119 @@
 .loading
-    z-index: 10
-    width: 100%
-    height: 100%
     position: absolute
     background-color: #000
     -webkit-user-select: none
-    margin-top: 40px   
-    opacity: 1
-    overflow: hidden
+    width 90%
+    height 74.5%
+    position absolute
+    -webkit-user-select none   
+    opacity 1
+    overflow hidden
+    margin auto
+    left 0
+    right 0
+    top 16%
+    max-width 931px
+    max-height 479px
 
 
     .state
-        color: TextColor
-        font-size: 1.1em
-        text-align: center
-        width: 100%
+        color #fff
+        font-family 'Open Sans Semibold'
+        -webkit-font-smoothing antialiased
+        text-align center
+        width 40%
+        z-index 11
+        margin auto
+        left 0
+        right 0
 
-        position: absolute
-        top: 50%
+
+        position: relative
+        top: 35%
 
         .value
-            color: SecondaryTextColor
-            font-size: 0.8em
+            color #fff
+            font-family 'Open Sans Semibold'
+            -webkit-font-smoothing antialiased
+
+.text_peers
+    position relative
+    color #fff
+    font-family 'Open Sans Semibold'
+    -webkit-font-smoothing antialiased  
+    float left
+    font-size 12px
+    margin-left 5px
+
+.value_peers
+    position relative
+    color #fff
+    font-size 12px
+    font-family 'Open Sans Semibold'
+    -webkit-font-smoothing antialiased  
+    float left
+    margin-left 10px
+
+.value_download
+    position relative
+    color #fff
+    font-size 12px
+    font-family 'Open Sans Semibold'
+    -webkit-font-smoothing antialiased  
+    float left
+    margin-left 10px
+
+.loading-backround
+    position: absolute
+    width: 100%
+    height: 100%
+    background-repeat no-repeat
+    background-position center
+    -webkit-filter blur(3px)
+    background-size 100% 100%
+
+.loading-backround-overlay
+    width 100%
+    height 100%
+    position absolute
+    opacity .7
+    background-color #000
+
+.download_percent
+    position relative
+    color #fff
+    font-size 12px
+    font-family 'Open Sans Semibold'
+    -webkit-font-smoothing antialiased  
+    float right
+    margin-right 10px
+
+.loading-cancel
+    top 40px
+    z-index 2
+    position relative
+    cursor pointer
+    width 87px
+    height 35px
+    margin auto
+    left 0
+    right 0
+    -moz-border-radius 3px
+    -webkit-border-radius 3px
+    border-radius 3px
+    -moz-background-clip padding
+    -webkit-background-clip padding-box
+    background-clip padding-box
+    background-color #458de3
+
+    .loading-cancel-text
+        position relative
+        color #fff
+        font-family "Open Sans Semibold", "Open Sans", sans-serif
+        -webkit-font-smoothing antialiased
+        text-align center
+        top 12px
+        font-size 12px
 
 #player,
 .player

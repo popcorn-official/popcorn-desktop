@@ -191,27 +191,35 @@
     </script>
 
     <script id="loading-tpl" type="text/x-template">
-      <div style="background-image:url( <%= backdrop %> )" class="state">
+
+          <div style="background-image:url( <%= backdrop %> )" class="loading-backround"></div>
+          <div class="loading-backround-overlay"></div>
+           
+      <div class="state">
 
         <!-- download -->
         <div class="text_download"><%= i18n.__(state) %></div>
-        <div class="value_download"></div>
+        
 
         <div class="seed_status" style="display:none">
             <!-- Active Peers -->
-            <div class="text_peers">Peers</div>
+
             <div class="value_peers"></div>
-
-            <!-- Total Seeds -->
+            <div class="text_peers">Peers - </div>
+            
+            <!-- Total Seeds 
             <div class="text_seeds">Seeds</div>
-            <div class="value_seeds"></div>
+            <div class="value_seeds"></div> -->
 
+            <div class="value_download"></div>
             <!-- percent for progress bar -->
             <div class="download_percent"></div>
-        </div>
 
-        <button class="close_button">Close</button>   
-
+            <!-- download speeed -->
+            <div class="download_speed"></div>
+            
+        </div>  
+       <div class="loading-cancel"><div class="loading-cancel-text">Cancel</div></div>
         </div>
     </div>
     </script>

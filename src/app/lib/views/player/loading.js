@@ -16,11 +16,13 @@
             progressTextSeeds: '.value_seeds',
 
             seedStatus: '.seed_status',
-            downloadPercent: '.download_percent'
+            downloadPercent: '.download_percent',
+
+            downloadSpeed: '.download_speed'
         },
 
         events: {
-            'click .close_button': 'cancelStreaming'
+            'click .loading-cancel': 'cancelStreaming'
         },        
 
         initialize: function() {
@@ -50,7 +52,10 @@
 
             this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
             this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
-            this.ui.downloadPercent.text(streamInfo.get('percent'));
+            this.ui.downloadPercent.text(streamInfo.get('percent').toFixed());
+
+            this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed') + '/ s');
+
         },
 
         cancelStreaming: function() {
