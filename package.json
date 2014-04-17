@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "grunt": "0.4.4",
-    "grunt-bump": "0.0.13 ",
+    "grunt-bump": "0.0.13",
     "grunt-conventional-changelog": "^1.1.0",
     "grunt-contrib-copy": "0.5.0",
     "grunt-contrib-stylus": "0.13.x",
