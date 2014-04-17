@@ -15,7 +15,8 @@
             stateTextSeeds: '.text_seeds',
             progressTextSeeds: '.value_seeds',
 
-            seedStatus: '.seed_status'
+            seedStatus: '.seed_status',
+            downloadPercent: '.download_percent'
         },
 
         events: {
@@ -49,6 +50,7 @@
 
             this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
             this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
+            this.ui.downloadPercent.text(streamInfo.get('percent'));
         },
 
         cancelStreaming: function() {

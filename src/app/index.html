@@ -191,7 +191,7 @@
     </script>
 
     <script id="loading-tpl" type="text/x-template">
-      <div class="state">
+      <div style="background-image:url( <%= backdrop %> )" class="state">
 
         <!-- download -->
         <div class="text_download"><%= i18n.__(state) %></div>
@@ -205,6 +205,9 @@
             <!-- Total Seeds -->
             <div class="text_seeds">Seeds</div>
             <div class="value_seeds"></div>
+
+            <!-- percent for progress bar -->
+            <div class="download_percent"></div>
         </div>
 
         <button class="close_button">Close</button>   

@@ -94,6 +94,7 @@ if (isDebug) {
     });
 }
 
+
 // Show the disclaimer if the user hasn't accepted it yet.
 if( ! Settings.get('disclaimerAccepted') ) {
     $('.popcorn-disclaimer').removeClass('hidden');

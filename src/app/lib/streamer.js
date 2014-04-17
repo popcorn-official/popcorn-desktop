@@ -17,7 +17,7 @@
     var watchState = function(stateModel) {
 
         if (engine != null) {
-            
+
             var swarm = engine.swarm;
             var state = 'connecting';
 
@@ -81,8 +81,11 @@
     };
 
     var Streamer = {
-        start: function(torrentUrl) {
-            var stateModel = new Backbone.Model({state: 'connecting'});
+        start: function(model) {
+
+            var torrentUrl  = model.get('torrent');
+            
+            var stateModel = new Backbone.Model({state: 'connecting', backdrop: model.get('backdrop')});
             App.vent.trigger('stream:started', stateModel);
 
             if(engine) {
