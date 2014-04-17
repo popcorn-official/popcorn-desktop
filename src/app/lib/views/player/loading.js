@@ -45,7 +45,7 @@
 
             var streamInfo = this.model.get('streamInfo');
             var downloaded = streamInfo.get('downloaded')/(1024 * 1024);
-            this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mo');
+            this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
 
             this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
             this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
