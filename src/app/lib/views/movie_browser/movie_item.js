@@ -1,6 +1,6 @@
 (function(App) {
     "use strict";
-
+     
     var MovieItem = Backbone.Marionette.ItemView.extend({
         template: '#movie-item-tpl',
 
@@ -28,7 +28,6 @@
             this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')');
             this.ui.coverIamge.remove();
         },
-
         showDetail: function() {
 
             var SelectedMovie = new Backbone.Model(
@@ -42,6 +41,7 @@
                     health: this.model.get('health'),
                     subtitle: this.model.get('subtitle'),
                     backdrop: this.model.get('backdrop')
+                    //title: this.model.getShortTitle()
                 }
             );
             App.vent.trigger('movie:showDetail', SelectedMovie);

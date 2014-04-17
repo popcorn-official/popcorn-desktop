@@ -1,15 +1,24 @@
 .movie-detail
-    z-index: 10
-    width: 819px
-    height: 420px
-    position: absolute
-    -webkit-user-select: none   
-    opacity: 1
-    overflow: hidden
-    margin: auto
-    left: 0
-    right: 0
-    top: 16%
+    z-index 10
+    //width 819px
+    width 90%
+    //height 420px
+    height 74.5%
+    position absolute
+    -webkit-user-select none   
+    opacity 1
+    overflow hidden
+    margin auto
+    left 0
+    right 0
+    top 16%
+    max-width 931px
+    max-height 479px
+
+.sperator-movie
+    height 5.5%
+    width 100%
+    position relative
 
     .detail-window
 
@@ -58,18 +67,18 @@
     margin-left 66px
     z-index 2
 
+
 .movie-meta-overview
+    position relative
     margin-left 285px
     margin-top 45px
-    position fixed
     color #fff
     font-family: 'Open Sans Semibold'
     -webkit-font-smoothing: antialiased;
     font-size 12px
     line-height 22px
-    width 442px
-    max-width 442px
-    height 144px
+    width 55%
+    height 55%
     z-index 2
 
 .movie-detail-close
@@ -84,8 +93,8 @@
     z-index 2
 
 .movie-meta-title
+    margin-top 5.5%
     margin-left 285px
-    margin-top 50px
     color #fff
     font-family: 'Open Sans Semibold'
     -webkit-font-smoothing: antialiased;
@@ -97,7 +106,7 @@
 .health-icon
     z-index 2
     margin-right 89px
-    margin-top 113px
+    margin-top 18px
     position relative
     float right
     width 12px
@@ -122,17 +131,16 @@
     &.null
       background-image url('../../images/icons/StarGray.png')
     &.half
-      background-image url('../../images/icons/StarGray.png')
+      background-image url('../../images/icons/StarHalf.png')
     &.full
       background-image url('../../images/icons/star.png')
 
       
 .movie-btn-watch
     z-index 2
-    margin-left 285px
-    margin-top 214px
-    position fixed
-    float left
+    left 285px
+    top 300px
+    position absolute
     cursor pointer
     width 87px
     height 35px
@@ -152,19 +160,19 @@
       font-size 12px
 
 .movie-backdrop
-    width 819px
-    height 420px
+    width 100%
+    height 100%
     position absolute
     top -34px
     z-index 0
     background-repeat no-repeat
     background-position center
     -webkit-filter blur(3px)
-    overflow hidden
+
 
 .movie-backdrop-overlay
-    width 819px
-    height 420px
+    width 100%
+    height 100%
     position absolute
     top -34px
     z-index 1
