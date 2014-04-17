@@ -121,46 +121,56 @@
 
     <script  id="movie-detail-tpl" type="text/x-template">
       <div class="detail-window">
-            <div style="background-image:url( <%= backdrop %> )" class="movie-backdrop"></div>
+
+
+
+            <div id="movie-backdrop" style="background-image:url( <%= backdrop %> )" class="movie-backdrop"></div>
+
+
+
+
             <div class="movie-backdrop-overlay"></div>
             <img class="movie-cover-image" src="<%= image %>" />
-            <p class="temp-content">
+            
 
+
+
+
+                <div class="sperator-movie"></div>
 
                 <div class="movie-meta-title"><%= title %></div>
                 <ul class="movie-quick-info">
    
                     <div class="movie-meta-details"><%= year %></div>
                     <div class="movie-dot"></div>
+                    <% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
                     <div class="movie-meta-details"><%= runtime %> min</div>
                     <div class="movie-dot"></div>
-                     <% var p_rating = 5.8 %>
-                    
+                     <% var p_rating = 1 + 4.5 %>
+                    <div class="health-icon Excellent"></div>  
 
                   <% p_rating = Math.round(p_rating) / 2; // Roundoff number to nearest 0.5 %>
                   <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
                     <div class="rating-star full"></div>
                   <% }; %>
                   <% if (p_rating % 1 > 0) { %>
-                    <div class="rating-star full"></div>
+                    <div class="rating-star half"></div>
                   <% }; %>
                   <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
                     <div class="rating-star null"></div>
                   <% }; %>
 
-
+                <div class="movie-btn-watch"><div class="movie-watch-now">Watch Now</div></div>
 
                 </ul>
 
                     <div class="movie-meta-overview"><%= synopsis %></div>
 
-               <!-- <p>720p health: <%= (torrents['720p']) ? torrents['720p'].health : 'na' %></p>
-                <p>1080p health: <%= (torrents['1080p']) ? torrents['1080p'].health : 'na' %></p> -->
 
-                <div class="movie-btn-watch"><div class="movie-watch-now">Watch Now</div></div>
+
                 <div class="movie-detail-close"></div>
 
-            </p>
+
       </div>
     </script>
 
