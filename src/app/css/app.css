@@ -196,9 +196,9 @@ ul.nav-hor > li {
   font-family: 'Open Sans Semibold';
   -webkit-font-smoothing: antialiased;
   float: left;
-  margin-left: 10px;
 }
 .value_download {
+  display: none;
   position: relative;
   color: #fff;
   font-size: 12px;
@@ -206,6 +206,15 @@ ul.nav-hor > li {
   -webkit-font-smoothing: antialiased;
   float: left;
   margin-left: 10px;
+}
+.download_speed {
+  position: relative;
+  color: #fff;
+  font-size: 12px;
+  font-family: 'Open Sans Semibold';
+  -webkit-font-smoothing: antialiased;
+  float: left;
+  margin-left: 5px;
 }
 .loading-backround {
   position: absolute;
@@ -234,7 +243,6 @@ ul.nav-hor > li {
   font-family: 'Open Sans Semibold';
   -webkit-font-smoothing: antialiased;
   float: right;
-  margin-right: 10px;
 }
 .loading-cancel {
   top: 40px;
@@ -258,13 +266,30 @@ ul.nav-hor > li {
   background-color: #458de3;
 }
 .loading-cancel .loading-cancel-text {
-  position: relative;
+  position: absolute;
   color: #fff;
   font-family: "Open Sans Semibold", "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   text-align: center;
   top: 12px;
   font-size: 12px;
+  margin-left: 23px;
+}
+.loading-progressbar {
+  position: relative;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  background-color: #bababa;
+  -webkit-border-radius: 13px;
+  border-radius: 13px;
+  padding: 3px;
+}
+.loading-progressbar > div {
+  background-color: #2d75df;
+  width: 0%;
+  height: 5px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
 }
 #player,
 .player {
