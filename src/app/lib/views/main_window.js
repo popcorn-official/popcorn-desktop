@@ -56,7 +56,7 @@
         preventDefault: function(e) {
             e.preventDefault();
         },
-
+   
         showMovieDetail: function(movieModel) {
             this.MovieDetail.show(new App.View.MovieDetail({
                 model: movieModel
@@ -71,13 +71,12 @@
 
         streamStarted: function(stateModel) {
             this.MovieDetail.close();
-            this.Content.show(new App.View.Loading({
+            this.Player.show(new App.View.Loading({
                 model: stateModel
             }));
         },
 
         showPlayer: function(streamModel) {
-            this.Content.close();
             this.Player.show(new App.View.Player({
                 model: streamModel
             }));
