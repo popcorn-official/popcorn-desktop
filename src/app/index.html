@@ -121,17 +121,29 @@
 
     <script  id="movie-detail-tpl" type="text/x-template">
       <div class="detail-window">
-            <div style="background-image:url( <%= backdrop %> )" class="movie-backdrop"></div>
+
+
+
+            <div id="movie-backdrop" style="background-image:url( <%= backdrop %> )" class="movie-backdrop"></div>
+
+
+
+
             <div class="movie-backdrop-overlay"></div>
             <img class="movie-cover-image" src="<%= image %>" />
             
-<div class="sperator-movie"></div>
+
+
+
+
+                <div class="sperator-movie"></div>
 
                 <div class="movie-meta-title"><%= title %></div>
                 <ul class="movie-quick-info">
    
                     <div class="movie-meta-details"><%= year %></div>
                     <div class="movie-dot"></div>
+                    <% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
                     <div class="movie-meta-details"><%= runtime %> min</div>
                     <div class="movie-dot"></div>
                      <% var p_rating = 1 + 4.5 %>
@@ -158,7 +170,7 @@
 
                 <div class="movie-detail-close"></div>
 
-            </p>
+
       </div>
     </script>
 
