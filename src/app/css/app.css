@@ -745,6 +745,19 @@ body,
   font-size: 0.85em;
   color: #5b5b5b;
 }
+.app-overlay {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  opacity: 0.75;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+  filter: alpha(opacity=75);
+  background-color: #090d12;
+  display: none;
+  left: 0;
+  right: 0;
+}
 .movie-detail {
   z-index: 10;
   width: 90%;
@@ -952,9 +965,35 @@ body,
   -moz-background-clip: padding;
   background-clip: padding-box;
   background-color: #458de3;
-  opacity: 1;
-  -ms-filter: none;
-  filter: none;
+}
+.movie-btn-watch:hover {
+  background: #2d82ff;
+  background-image: -webkit--webkit-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -webkit--moz-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -webkit--o-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -webkit--ms-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -webkit-linear-gradient(to bottom, #2d82ff, #2d82ff);
+  background-image: -moz--webkit-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -moz--moz-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -moz--o-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -moz--ms-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -moz-linear-gradient(to bottom, #2d82ff, #2d82ff);
+  background-image: -ms--webkit-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -ms--moz-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -ms--o-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -ms--ms-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -ms-linear-gradient(to bottom, #2d82ff, #2d82ff);
+  background-image: -o--webkit-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -o--moz-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -o--o-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -o--ms-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -o-linear-gradient(to bottom, #2d82ff, #2d82ff);
+  background-image: -webkit-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -moz-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -o-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -ms-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: linear-gradient(to bottom, #2d82ff, #2d82ff);
+  text-decoration: none;
 }
 .movie-btn-watch .movie-watch-now {
   color: #fff;
@@ -982,6 +1021,35 @@ body,
   -moz-background-clip: padding;
   background-clip: padding-box;
   background-color: #458de3;
+}
+.movie-btn-watch-trailer:hover {
+  background: #2d82ff;
+  background-image: -webkit--webkit-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -webkit--moz-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -webkit--o-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -webkit--ms-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -webkit-linear-gradient(to bottom, #2d82ff, #2d82ff);
+  background-image: -moz--webkit-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -moz--moz-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -moz--o-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -moz--ms-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -moz-linear-gradient(to bottom, #2d82ff, #2d82ff);
+  background-image: -ms--webkit-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -ms--moz-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -ms--o-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -ms--ms-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -ms-linear-gradient(to bottom, #2d82ff, #2d82ff);
+  background-image: -o--webkit-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -o--moz-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -o--o-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -o--ms-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -o-linear-gradient(to bottom, #2d82ff, #2d82ff);
+  background-image: -webkit-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -moz-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -o-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: -ms-linear-gradient(top, #2d82ff, #2d82ff);
+  background-image: linear-gradient(to bottom, #2d82ff, #2d82ff);
+  text-decoration: none;
 }
 .movie-btn-watch-trailer .movie-watch-now {
   color: #fff;
@@ -1086,13 +1154,13 @@ body,
 }
 .switch input {
   height: 7px;
-  left: -2px;
+  left: -27px;
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
   position: absolute;
   top: -4px;
-  width: 26px;
+  width: 79px;
   z-index: 2;
   cursor: pointer;
 }

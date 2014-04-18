@@ -1,3 +1,16 @@
+.app-overlay
+  position absolute
+  z-index 2
+  width 100%
+  height 100%
+  opacity .75
+  background-color #090d12
+  display none
+  left 0
+  right 0
+
+
+
 .movie-detail
     z-index 10
     //width 819px
@@ -159,7 +172,6 @@
     &.full
       background-image url('../../images/icons/star.png')
 
-      
 .movie-btn-watch
     z-index 2
     left 285px
@@ -175,7 +187,17 @@
     -webkit-background-clip padding-box
     background-clip padding-box
     background-color #458de3
-    opacity 1
+    &:hover
+      background #2d82ff
+      background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
+      text-decoration none
+
+
+
     .movie-watch-now
       color #fff
       font-family: "Open Sans Semibold", "Open Sans", sans-serif;
@@ -199,6 +221,14 @@
     -webkit-background-clip padding-box
     background-clip padding-box
     background-color #458de3
+    &:hover
+      background #2d82ff
+      background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
+      text-decoration none
     .movie-watch-now
       color #fff
       font-family "Open Sans Semibold", "Open Sans", sans-serif
@@ -289,11 +319,11 @@
       text-align left
   input
     height 7px
-    left -2px
+    left -27px
     opacity 0
     position absolute
     top -4px
-    width 26px
+    width 79px
     z-index 2
     cursor pointer
     &:checked
