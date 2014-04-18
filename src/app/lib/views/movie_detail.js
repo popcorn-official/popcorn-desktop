@@ -5,6 +5,7 @@
         template: '#movie-detail-tpl',
         className: 'movie-detail',
 
+
         events: {
             'click .movie-btn-watch': 'startStreaming',
             'click .movie-detail-close': 'closeDetails'

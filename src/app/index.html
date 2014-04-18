@@ -120,6 +120,7 @@
     </script>
 
     <script  id="movie-detail-tpl" type="text/x-template">
+
       <div class="detail-window">
 
 
@@ -139,12 +140,17 @@
                 <div class="sperator-movie"></div>
 
                 <div class="movie-meta-title"><%= title %></div>
+
+
                 <ul class="movie-quick-info">
    
                     <div class="movie-meta-details"><%= year %></div>
                     <div class="movie-dot"></div>
                     <% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
                     <div class="movie-meta-details"><%= runtime %> min</div>
+
+
+
                     <div class="movie-dot"></div>
                      <% var p_rating = 1 + 4.5 %>
                     <div class="health-icon Excellent"></div>  
@@ -163,6 +169,18 @@
                 <div class="movie-btn-watch"><div class="movie-watch-now">Watch Now</div></div>
 
                 <div class="movie-btn-watch-trailer"><div class="movie-watch-now">Watch Trailer</div></div>
+<div class="sub-dropdown">Subtitles</div>
+
+
+                <div class="q720">720</div>
+                <div class="q1080">1080</div>
+                <div class="quality switch white">
+                    <input type="radio" name="switch" id="switch-off" checked>
+                    <input type="radio" name="switch" id="switch-on">
+
+                    <span class="toggle"></span>
+                </div> 
+            
 
                 </ul>
 

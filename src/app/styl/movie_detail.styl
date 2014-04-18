@@ -1,3 +1,16 @@
+.app-overlay
+  position absolute
+  z-index 2
+  width 100%
+  height 100%
+  opacity .75
+  background-color #090d12
+  display none
+  left 0
+  right 0
+
+
+
 .movie-detail
     z-index 10
     //width 819px
@@ -12,16 +25,19 @@
     left 0
     right 0
     top 16%
-    max-width 931px
-    max-height 479px
+    max-width 940px
+    max-height 430px
     background-image: url('../../images/Item-detail-backround.png')
     background-repeat no-repeat
-    background-size 100% 92%
+    background-size 100% 91.7%
+    -webkit-backface-visibility hidden
 
 .sperator-movie
+    opacity 1
     height 5.5%
     width 100%
     position relative
+    -webkit-backface-visibility hidden
 
     .detail-window
 
@@ -30,16 +46,18 @@
 	    	color: #fff
 
   .movie-meta-details
+    opacity 1
     margin-left 4px  
     margin-top 20px
     position relative
     float left
     color #fff
     font-family: 'Open Sans Bold'
-    -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased
     font-size 11px
     cursor default
     z-index 2
+    -webkit-backface-visibility hidden
 
   .movie-dot
     margin-left 15px
@@ -58,6 +76,8 @@
     background-color #dbdbdd
     cursor default
     z-index 2
+    opacity 1
+    -webkit-backface-visibility hidden
 
 
   .movie-cover-image
@@ -69,6 +89,8 @@
     margin-right 20px
     margin-left 66px
     z-index 2
+    opacity 1
+    -webkit-backface-visibility hidden
 
 
 .movie-meta-overview
@@ -76,14 +98,16 @@
     margin-left 285px
     margin-top 45px
     color #fff
-    font-family: 'Open Sans Semibold'
-    -webkit-font-smoothing: antialiased;
+    font-family 'Open Sans Semibold'
+    -webkit-font-smoothing: antialiased
     font-size 12px
     line-height 22px
     width 60%
     max-width 60%
     height 55%
     z-index 2
+    opacity 1
+    -webkit-backface-visibility hidden
 
 .movie-detail-close
     top 13px
@@ -95,6 +119,8 @@
     background-image: url(../../images/icons/Close.png);
     cursor pointer
     z-index 2
+    opacity 1
+    -webkit-backface-visibility hidden
 
 .movie-meta-title
     margin-top 5.5%
@@ -106,6 +132,9 @@
     position relative
     cursor default
     z-index 2
+    max-width 60%
+    opacity 1
+    -webkit-backface-visibility hidden
 
 .health-icon
     z-index 2
@@ -115,6 +144,8 @@
     float right
     width 12px
     height 17px
+    opacity 1
+    -webkit-backface-visibility hidden
     &.Bad
       background-image url('../../images/icons/HealthBad.png')
     &.Medium
@@ -131,7 +162,9 @@
     float left
     width 11px
     height 11px
+    opacity 1
     background-repeat no-repeat
+    -webkit-backface-visibility hidden
     &.null
       background-image url('../../images/icons/StarGray.png')
     &.half
@@ -139,7 +172,6 @@
     &.full
       background-image url('../../images/icons/star.png')
 
-      
 .movie-btn-watch
     z-index 2
     left 285px
@@ -155,10 +187,21 @@
     -webkit-background-clip padding-box
     background-clip padding-box
     background-color #458de3
+    &:hover
+      background #2d82ff
+      background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
+      text-decoration none
+
+
+
     .movie-watch-now
       color #fff
       font-family: "Open Sans Semibold", "Open Sans", sans-serif;
-      -webkit-font-smoothing: antialiased;
+      -webkit-font-smoothing antialiased
       text-align center
       margin-top 12px
       font-size 12px
@@ -169,7 +212,7 @@
     top 300px
     position absolute
     cursor pointer
-    width 87px
+    width 97px
     height 35px
     -moz-border-radius 3px
     -webkit-border-radius 3px
@@ -178,10 +221,18 @@
     -webkit-background-clip padding-box
     background-clip padding-box
     background-color #458de3
+    &:hover
+      background #2d82ff
+      background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
+      background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
+      text-decoration none
     .movie-watch-now
       color #fff
-      font-family: "Open Sans Semibold", "Open Sans", sans-serif;
-      -webkit-font-smoothing: antialiased;
+      font-family "Open Sans Semibold", "Open Sans", sans-serif
+      -webkit-font-smoothing antialiased
       text-align center
       margin-top 12px
       font-size 12px
@@ -196,6 +247,9 @@
     background-repeat no-repeat
     background-position center
     -webkit-filter blur(3px)
+    overflow hidden
+    opacity 1
+    -webkit-backface-visibility hidden
 
 
 .movie-backdrop-overlay
@@ -209,3 +263,110 @@
     background-color #000
     /* layer fill content */
     z-index: 2
+
+
+
+.q720
+  z-index 2
+  font-family "Open Sans Bold", "Open Sans", sans-serif
+  -webkit-font-smoothing antialiased
+  font-size 11px
+  color #fff
+  font-weight normal
+  margin-left 525px
+  top 312px
+  position absolute
+
+.q1080
+  font-family "Open Sans Bold", "Open Sans", sans-serif
+  -webkit-font-smoothing antialiased
+  font-size 11px
+  color #fff
+  font-weight normal
+  margin-left 580px
+  top 312px
+  position absolute
+  z-index 2
+
+.switch
+  background transparent
+  border-radius 32px
+  display block
+  height 12px
+  position absolute
+  margin-left 550px
+  top 312px
+  width 25px
+  border 2px solid #FFF
+  cursor pointer
+  z-index 2
+  label
+    font-family "Open Sans", sans-serif
+    font-size 11px
+    color #fff
+    font-weight bold
+    transition color 0.2s ease
+    transition color 0.2s ease
+    width 20px
+    cursor pointer
+    &:nth-of-type(1)
+      left -38px
+      position absolute
+      text-align right
+    &:nth-of-type(2)
+      position absolute
+      right -30px
+      text-align left
+  input
+    height 7px
+    left -27px
+    opacity 0
+    position absolute
+    top -4px
+    width 79px
+    z-index 2
+    cursor pointer
+    &:checked
+      z-index 0
+      & ~ label
+        &:nth-of-type(1)
+          color #286dc4
+        &:nth-of-type(2)
+          color #FFF
+      & ~ .toggle
+        left 0px
+    & ~ :checked
+      & ~ label
+        &:nth-of-type(1)
+          color #FFF
+        &:nth-of-type(2)
+          color #286dc4
+      & ~ .toggle
+        left 11px
+
+.toggle
+  transition left 0.2s ease
+  transition left 0.2s ease
+  background #286dc4
+  border-radius 50%
+  height 10px
+  left -0px
+  position absolute
+  top -1px
+  width 10px
+  z-index 1
+
+.sub-dropdown
+    z-index 2
+    margin-left 740px
+    top 312px
+    position absolute
+    float right
+    width 12px
+    height 17px
+    opacity 1
+    -webkit-backface-visibility hidden
+    color #fff
+    font-family 'Open Sans Semibold'
+    -webkit-font-smoothing: antialiased
+    font-size 12px
