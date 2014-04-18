@@ -289,10 +289,8 @@ ul.nav-hor > li {
   background-color: #bababa;
   -webkit-border-radius: 13px;
   border-radius: 13px;
-  z-index: 2;
 }
 .loading-progressbar > div {
-  z-index: 3;
   background-color: #2d75df;
   height: 5px;
   -webkit-border-radius: 13px;
@@ -1010,7 +1008,7 @@ body,
   top: 300px;
   position: absolute;
   cursor: pointer;
-  width: 87px;
+  width: 97px;
   height: 35px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -1206,6 +1204,23 @@ body,
   top: -1px;
   width: 10px;
   z-index: 1;
+}
+.sub-dropdown {
+  z-index: 2;
+  margin-left: 580px;
+  top: 312px;
+  position: absolute;
+  float: right;
+  width: 12px;
+  height: 17px;
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  -webkit-backface-visibility: hidden;
+  color: #fff;
+  font-family: 'Open Sans Semibold';
+  -webkit-font-smoothing: antialiased;
+  font-size: 12px;
 }
 .settings-container {
   z-index: 10;
