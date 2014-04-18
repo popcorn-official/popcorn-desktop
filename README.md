@@ -4,7 +4,8 @@
 
 To allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
-![Demo Screenshot](https://camo.githubusercontent.com/ff308f43509d80fc896904597febdf35c276a4f1/687474703a2f2f692e696d67736e61702e746b2f696d6167652e7068703f693d633439383461326361663331666438343238323861383936666132366665363232326663303164393139336138663337653135666364313463663866333765)
+![Demo Screenshot](http://i.imgsnap.tk/image.php?i=43a6b78991fd842828a896fa26fe6222fc01d9193a08c828bf92e4d508c82)
+![](http://i.imgsnap.tk/image.php?i=54d0fd842828a896fa26fe6222fc01d9193a320d982b1b462e320d9)
 
 ### APIs
 
