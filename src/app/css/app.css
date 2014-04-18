@@ -289,14 +289,15 @@ ul.nav-hor > li {
   background-color: #bababa;
   -webkit-border-radius: 13px;
   border-radius: 13px;
-  padding: 3px;
+  z-index: 2;
 }
 .loading-progressbar > div {
+  z-index: 3;
   background-color: #2d75df;
-  width: 0%;
   height: 5px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 13px;
+  border-radius: 13px;
+  left: 0px;
 }
 #player,
 .player {
