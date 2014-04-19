@@ -1,24 +1,84 @@
+.settings-container-contain
+    background-color #17181b
+    height 100%
+    width 100%
+    position fixed
+    scrollable()
+    margin-top: HeaderHeight
+
+
 .settings-container
-    z-index: 10
-    width: 100%
-    height: 100%
-    position: absolute
-    background-color: #000
-    -webkit-user-select: none
-    margin-top: 40px   
-    opacity: 1
-    overflow: hidden
+    z-index 1
+    width 100%
+    height 850px
+    position absolute
+    background-color #17181b
+    -webkit-user-select none
+    opacity 1
 
-    .detail-window
-    	margin-top: 50px
-    	margin-left: 20px
 
-    	h2, p, button
-    		color: #fff
 
-    	p
-    		font-size: 15px
 
-    	h2
-    		font-size: 25px
+.settings-container-close
+    top 80px
+    right 20px
+    position fixed
+    float right
+    width 14px
+    height 14px
+    background-image url('../../images/icons/Close.png')
+    cursor pointer
+    z-index 2
+    opacity 1
+    -webkit-backface-visibility hidden
+
+
+.settings-container-title
+  position relative
+  float right
+  color #fff
+  font-family "Open Sans", sans-serif
+  font-size 22px
+
+.settings-container-sidebar
+  float left
+  position relative
+  margin-left 47px
+  padding-right 30px
+  width 171px
+  top 14px
+  bottom 14px
+  border-right solid #3a3b3e 1px
+
+.settings-container-sidebar-download-options
+  position relative
+  float right
+  margin-top 40px
+  color #2d75df
+  font-family "Open Sans", sans-serif
+  font-size 18px
+
+.settings-container-sidebar-subtitles-options
+  position relative
+  float right
+  margin-top 184px
+  color #2d75df
+  font-family "Open Sans", sans-serif
+  font-size 18px
+
+.settings-container-sidebar-UI-options
+  position relative
+  float right
+  margin-top 170px
+  color #2d75df
+  font-family "Open Sans", sans-serif
+  font-size 18px
+
+.settings-container-sidebar-more-options
+  position relative
+  float right
+  margin-top 162px
+  color #2d75df
+  font-family "Open Sans", sans-serif
+  font-size 18px
 

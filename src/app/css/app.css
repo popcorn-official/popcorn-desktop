@@ -342,6 +342,7 @@ body,
   overflow: hidden;
 }
 #header {
+  z-index: 10;
   position: absolute;
   top: 0;
   height: 30px;
@@ -432,7 +433,7 @@ body,
 }
 .filter-bar,
 #header {
-  z-index: 1;
+  z-index: 10;
   width: 100%;
   opacity: 0.97;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=97)";
@@ -1207,7 +1208,7 @@ body,
 }
 .sub-dropdown {
   z-index: 2;
-  margin-left: 580px;
+  margin-left: 760px;
   top: 312px;
   position: absolute;
   float: right;
@@ -1222,31 +1223,110 @@ body,
   -webkit-font-smoothing: antialiased;
   font-size: 12px;
 }
-.settings-container {
-  z-index: 10;
-  width: 100%;
+.settings-container-contain {
+  background-color: #17181b;
   height: 100%;
+  width: 100%;
+  position: fixed;
+  overflow-x: hidden;
+  overflow-y: overlay;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 65px;
+}
+.settings-container-contain::-webkit-scrollbar {
+  width: 5px;
+}
+.settings-container-contain::-webkit-scrollbar-track {
+  background-color: #30333c;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.settings-container-contain::-webkit-scrollbar-thumb {
+  background-color: #83888c;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.settings-container-contain::-webkit-scrollbar-thumb:hover {
+  background-color: #93989c;
+}
+.settings-container-contain::-webkit-resizer,
+.settings-container-contain::-webkit-scrollbar-corner,
+.settings-container-contain::-webkit-scrollbar-button,
+.settings-container-contain::-webkit-scrollbar-track-piece {
+  display: none;
+}
+.settings-container {
+  z-index: 1;
+  width: 100%;
+  height: 850px;
   position: absolute;
-  background-color: #000;
+  background-color: #17181b;
   -webkit-user-select: none;
-  margin-top: 40px;
   opacity: 1;
   -ms-filter: none;
   filter: none;
-  overflow: hidden;
 }
-.settings-container .detail-window {
-  margin-top: 50px;
-  margin-left: 20px;
+.settings-container-close {
+  top: 80px;
+  right: 20px;
+  position: fixed;
+  float: right;
+  width: 14px;
+  height: 14px;
+  background-image: url("../images/icons/Close.png");
+  cursor: pointer;
+  z-index: 2;
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  -webkit-backface-visibility: hidden;
 }
-.settings-container .detail-window h2,
-.settings-container .detail-window p,
-.settings-container .detail-window button {
+.settings-container-title {
+  position: relative;
+  float: right;
   color: #fff;
+  font-family: "Open Sans", sans-serif;
+  font-size: 22px;
 }
-.settings-container .detail-window p {
-  font-size: 15px;
+.settings-container-sidebar {
+  float: left;
+  position: relative;
+  margin-left: 47px;
+  padding-right: 30px;
+  width: 171px;
+  top: 14px;
+  bottom: 14px;
+  border-right: solid #3a3b3e 1px;
 }
-.settings-container .detail-window h2 {
-  font-size: 25px;
+.settings-container-sidebar-download-options {
+  position: relative;
+  float: right;
+  margin-top: 40px;
+  color: #2d75df;
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+}
+.settings-container-sidebar-subtitles-options {
+  position: relative;
+  float: right;
+  margin-top: 184px;
+  color: #2d75df;
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+}
+.settings-container-sidebar-UI-options {
+  position: relative;
+  float: right;
+  margin-top: 170px;
+  color: #2d75df;
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+}
+.settings-container-sidebar-more-options {
+  position: relative;
+  float: right;
+  margin-top: 162px;
+  color: #2d75df;
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
 }

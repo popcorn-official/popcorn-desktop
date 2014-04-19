@@ -3,10 +3,10 @@
 
     var Settings = Backbone.Marionette.ItemView.extend({
         template: '#settings-container-tpl',
-        className: 'settings-container',
+        className: 'settings-container-contain',
 
         events: {
-            'click .close_button': 'closeSettings'
+            'click .settings-container-close': 'closeSettings'
         },
 
         onShow: function() {
