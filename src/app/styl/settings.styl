@@ -4,8 +4,9 @@
     width 100%
     position fixed
     scrollable()
-    margin-top: HeaderHeight
-
+    padding-top: HeaderHeight
+    &::-webkit-scrollbar-track
+        margin-top: HeaderHeight
 
 .settings-container
     z-index 1
@@ -55,8 +56,10 @@
   float right
   margin-top 40px
   color #2d75df
-  font-family "Open Sans", sans-serif
-  font-size 18px
+  font-weight: Semibold
+  -webkit-font-smoothing antialiased
+  font-family "Open Sans Semibold", "Open Sans", sans-serif
+  font-size 17px
 
 .settings-container-sidebar-subtitles-options
   position relative
@@ -64,7 +67,7 @@
   margin-top 184px
   color #2d75df
   font-family "Open Sans", sans-serif
-  font-size 18px
+  font-size 17px
 
 .settings-container-sidebar-UI-options
   position relative
@@ -72,7 +75,7 @@
   margin-top 170px
   color #2d75df
   font-family "Open Sans", sans-serif
-  font-size 18px
+  font-size 17px
 
 .settings-container-sidebar-more-options
   position relative
@@ -80,7 +83,7 @@
   margin-top 162px
   color #2d75df
   font-family "Open Sans", sans-serif
-  font-size 18px
+  font-size 17px
 
 .settings-container-download-location-text
   position relative
@@ -197,3 +200,74 @@ input[type=checkbox]
   font-size 13px
   margin-left 20px
   width 400px
+
+
+.dropdown
+  select
+    margin-left 5px
+    position relative
+    padding-left 5px
+    border 0 !important
+    -webkit-appearance none
+    width 87px
+    height 30px
+    background-color #393b3d
+    cursor pointer
+    color #c3c5c7
+    font-family "Open Sans", sans-serif
+    font-size 13px
+    float left
+    outline 0
+
+  option
+    background #393b3d
+    border 0 !important
+    outline 0
+  p
+    color #c3c5c7
+    font-family "Open Sans", sans-serif
+    font-size 13px
+    float left
+    margin-top 9px
+  &.download-limit
+    top 24px
+  &.upload-limit
+    top 24px
+    left 31px
+  &.local-port
+    top 24px
+    left 65px
+    float left
+
+
+
+
+.dropdown-arrow
+  width 0
+  height 0
+  border-left 4px solid transparent
+  border-right 4px solid transparent
+  border-top 5px solid #c4c6c8
+  top 13px
+  margin-left -13px
+  position relative
+  float left
+  cursor pointer
+
+.port-text
+  top 1px
+  left 5px
+  position relative
+  width 56px
+  height 29px
+  border 0px solid #393b3d
+  background-color #393b3d
+  resize none
+  color #c3c5c7
+  font-family "Open Sans", sans-serif
+  font-size 13px
+  line-height 25px
+  padding-left 13px
+  cursor text
+  outline 0
+
