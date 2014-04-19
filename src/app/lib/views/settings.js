@@ -11,9 +11,15 @@
 
         onShow: function() {
             console.log('Show settings', this.model);
+            $("#nav-filters").hide();
+            $("#movie-detail").hide();
+            
         },
 
-        onClose: function() {},
+        onClose: function() {
+            $("#nav-filters").show();
+            $("#movie-detail").show();
+        },
         showCover: function() {},
 
         closeSettings: function() {
