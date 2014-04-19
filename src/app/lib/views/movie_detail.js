@@ -3,7 +3,7 @@
 
     var MovieDetail = Backbone.Marionette.ItemView.extend({
         template: '#movie-detail-tpl',
-        className: 'movie-detail',
+        className: 'app-overlay',
 
 
         events: {
