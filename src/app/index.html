@@ -120,7 +120,7 @@
     </script>
 
     <script  id="movie-detail-tpl" type="text/x-template">
-
+      <div class="movie-detail">
       <div class="detail-window">
 
 
@@ -169,7 +169,7 @@
                 <div class="movie-btn-watch"><div class="movie-watch-now">Watch Now</div></div>
 
                 <div class="movie-btn-watch-trailer"><div class="movie-watch-now">Watch Trailer</div></div>
-<div class="sub-dropdown">Subtitles</div>
+                <div class="sub-dropdown">Subtitles</div>
 
 
                 <div class="q720">720</div>
@@ -192,6 +192,7 @@
 
 
       </div>
+            </div>
     </script>
 
     <script id="settings-container-tpl" type="text/x-template">
@@ -217,9 +218,38 @@
                 <div class="settings-container-check-settings">
                     <input type="checkbox" value="None" id="check-settings" name="check" />
                     <label for="check-settings"><div class="checkbox-text">Auto-Erase&nbsp;Cache</div></label>
+
                 </div>
 
 
+                <div class="dropdown download-limit">
+                    <p>Download&nbsp;Limit:</p>
+
+                    <select>
+                        <option>Unlimited</option>
+                        <option>100 mb/s</option>
+                        <option>200 mb/s</option>
+
+                    </select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+
+                <div class="dropdown upload-limit">
+                    <p>Upload&nbsp;Limit:</p>
+
+                    <select>
+                        <option>Unlimited</option>
+                        <option>100 mb/s</option>
+                        <option>200 mb/s</option>
+
+                    </select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+                <div class="dropdown local-port">
+                    <p>Local Port:</p>
+                    <textarea name="port-text" maxlength="4" class="port-text">9999</textarea>
+
+                </div>
 
 
 </div>
