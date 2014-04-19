@@ -82,3 +82,118 @@
   font-family "Open Sans", sans-serif
   font-size 18px
 
+.settings-container-download-location-text
+  position relative
+  margin-top 64px
+  color #c3c5c7
+  font-family "Open Sans", sans-serif
+  font-size 16px
+
+.settings-container-download-location
+  margin-top 13px
+  float left
+  position relative
+  width 330px
+  height 29px
+  border 0px solid #393b3d
+  background-color #393b3d
+  resize none
+  color #c3c5c7
+  font-family "Open Sans", sans-serif
+  font-size 13px
+  line-height 25px
+  padding-left 10px
+  cursor text
+  outline 0
+
+.settings-container-settings-content
+  float left
+  position relative
+  margin-left 32px
+  top 14px
+  height calc(100% - 13px)
+  width calc(100% - 283px)
+
+.settings-container-download-btn
+  position relative
+  margin-top 13px
+  margin-left 8px
+  float left
+  width 70px
+  height 29px
+  background-color #2d75df
+  text-align center
+  color #c3c5c7
+  font-family "Open Sans", sans-serif
+  font-size 13px
+  line-height 28px
+  cursor pointer
+  &:hover
+    background #2d82ff
+    background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
+    text-decoration none
+
+
+.settings-container-checkbox-label
+  color #c3c5c7
+  position relative
+  font-family "Open Sans", sans-serif
+  font-size 13px
+  margin-top 0px
+  margin-left 0px
+  float left
+
+input[type=checkbox]
+  visibility hidden
+
+.settings-container-check-settings
+  width 14px
+  height 14px
+  margin-top 59px
+  position relative
+  label
+    cursor pointer
+    position absolute
+    top 0
+    width 14px
+    height 14px
+    -moz-border-radius 3px
+    -webkit-border-radius 3px
+    border-radius 3px
+    -moz-background-clip padding
+    -webkit-background-clip padding-box
+    background-clip padding-box
+    background-color #393b3d
+
+    &:after
+      opacity 0
+      content ''
+      position absolute
+      width 10px
+      height 6px
+      background transparent
+      top 2px
+      left 2px
+      border 3px solid #2d75df
+      border-top none
+      border-right none
+      -webkit-transform rotate(-45deg)
+      -moz-transform rotate(-45deg)
+      -o-transform rotate(-45deg)
+      -ms-transform rotate(-45deg)
+      transform rotate(-45deg)
+  input[type=checkbox]:checked
+    & + label
+      &:after
+        opacity 1
+
+.checkbox-text
+  font-family "Open Sans", sans-serif
+  color #c3c5c7
+  font-size 13px
+  margin-left 20px
+  width 400px
