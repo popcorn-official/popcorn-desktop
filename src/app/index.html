@@ -69,7 +69,7 @@
           <li class="source active"><%= i18n.__("Movies") %></li>
           <li class="source"><%= i18n.__("TV Series") %></li>
         </ul>
-        <ul class="nav nav-hor filters">
+        <ul id="nav-filters" class="nav nav-hor filters">
           <li class="dropdown filter genres">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
               <%= i18n.__("Genre") %><span class="value"><%= i18n.__("genre-" + genre) %></span>
@@ -195,13 +195,43 @@
     </script>
 
     <script id="settings-container-tpl" type="text/x-template">
-        <div class="detail-window">
-        <h2>settings</h2>
-            <p>
-                content
-                <button class="close_button">Close</button>                
-            </p>
-        </div>
+<div class="settings-container">
+    <div class="settings-container-close"></div>
+
+
+<div class="settings-container-sidebar">
+        <div class="settings-container-title">Settings</div>
+        <div class="settings-container-sidebar-download-options">Download&nbsp;Options</div>
+        <div class="settings-container-sidebar-subtitles-options">Subtitles</div>
+        <div class="settings-container-sidebar-UI-options">User&nbsp;Interface</div>
+        <div class="settings-container-sidebar-more-options">More&nbsp;Options</div>
+</div>
+
+
+<div class="settings-container-settings-content">
+
+<div class="settings-container-download-location-text">Download Location:</div>
+                <textarea name="download-location" class="settings-container-download-location">C:\Users\UserX\Downloads</textarea>
+                <div class="settings-container-download-btn">Browse</div>
+
+                <div class="settings-container-check-settings">
+                    <input type="checkbox" value="None" id="check-settings" name="check" />
+                    <label for="check-settings"><div class="checkbox-text">Auto-Erase&nbsp;Cache</div></label>
+                </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
     </script>
 
     <script id="player-tpl" type="text/x-template">
