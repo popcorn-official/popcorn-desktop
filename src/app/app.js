@@ -126,3 +126,4 @@ process.on('uncaughtException', function(err) {
     window.console.error(err, err.stack);
 });
 
+    console.log(tmpFolder);
