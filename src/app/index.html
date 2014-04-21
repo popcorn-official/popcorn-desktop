@@ -281,7 +281,20 @@
     </script>
 
     <script id="player-tpl" type="text/x-template">
-      <video src="<%= src %>" class="video-js vjs-default-skin" autoplay controls></video>
+        <div class="header">
+            <div class="details-player">
+                <span class="close-info-player"></span>
+                <div class="download-info-player">
+                    <div class="eye-info-player"></div>
+                    <div class="details-info-player">
+                        <div class="arrow-up"></div>
+                        <span class="speed-info-player">Download: </span><span class="download_speed"></span>
+                        <span class="speed-info-player">Upload: </span><span class="upload_speed"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <video src="<%= src %>" class="video-js vjs-default-skin" autoplay controls></video>        
     </script>
 
     <script id="loading-tpl" type="text/x-template">

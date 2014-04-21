@@ -5,14 +5,39 @@
         template: '#player-tpl',
         className: 'player',
 
+        ui: {
+            downloadSpeed: '.download_speed',
+            uploadSpeed: '.upload_speed'
+        },
+
+        events: {
+            'click .close-info-player': 'closePlayer'
+        },        
+
         initialize: function() {
-            console.log('Start player');
+            console.log('Show player');
+            this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
+            this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
+        },
+
+        updateDownloadSpeed: function() {
+            this.ui.downloadSpeed.text(this.model.get('downloadSpeed') + '/ s');
+        },
+
+        updateUploadSpeed: function() {
+            this.ui.uploadSpeed.text(this.model.get('uploadSpeed') + '/ s');
+        },
+
+        closePlayer: function() {
+            console.log('Close player');
+            App.vent.trigger('player:close');  
         },
 
         onShow: function() {
         },
 
         onClose: function() {
+            App.vent.trigger('stream:stop');            
         }
     });
 
