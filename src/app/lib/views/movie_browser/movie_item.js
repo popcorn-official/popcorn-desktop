@@ -40,8 +40,8 @@
                     year: this.model.get('year'),
                     health: this.model.get('health'),
                     subtitle: this.model.get('subtitle'),
-                    backdrop: this.model.get('backdrop')
-                    //title: this.model.getShortTitle()
+                    backdrop: this.model.get('backdrop'),
+                    rating: this.model.get('MovieRating')
                 }
             );
             App.vent.trigger('movie:showDetail', SelectedMovie);
