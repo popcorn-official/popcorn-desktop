@@ -307,6 +307,7 @@ ul.nav-hor > li {
   position: absolute;
   overflow: hidden;
   background-color: #000;
+  -webkit-app-region: no-drag;
 }
 .player video {
   width: 100%;
@@ -348,6 +349,7 @@ body,
   height: 30px;
   padding: 13px 0 0;
   text-align: center;
+  -webkit-app-region: drag;
 }
 #header h1 {
   color: #fff;
