@@ -326,7 +326,7 @@ ul.nav-hor > li {
   right: 30px;
   top: 1px;
 }
-.player .eye-info-player:hover {
+.player .close-info-player:hover {
   cursor: pointer;
 }
 .player .eye-info-player {
