@@ -218,7 +218,6 @@ ul.nav-hor > li {
   font-size: 12px;
   font-family: 'Open Sans Semibold';
   -webkit-font-smoothing: antialiased;
-  float: left;
   margin-left: 5px;
 }
 .loading-backround {
@@ -342,7 +341,7 @@ ul.nav-hor > li {
 }
 .player .details-info-player {
   display: none;
-  width: 140px;
+  width: 160px;
   background: rgba(31,31,31,0.74);
   color: #fff;
   padding: 10px;
