@@ -45,7 +45,7 @@
         startStreaming: function() {
             //var torrents = this.model.get('torrents');
             //var torrentUrl = torrents['720p'].url;
-            console.logger.log(torrentUrl);
+            console.logger.log(this.model.get('quality'));
             var torrentStart = new Backbone.Model({torrent: this.model.get('quality'), backdrop: this.model.get('backdrop')});
 
             App.vent.trigger('stream:start', torrentStart);
