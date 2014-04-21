@@ -119,6 +119,18 @@
         <h1>Popcorn Time</h1>
     </script>
 
+
+
+    <script id="error-message-tpl" type="text/x-template">
+       
+    </script>
+
+
+
+
+
+
+
     <script  id="movie-detail-tpl" type="text/x-template">
       <div class="movie-detail">
       <div class="detail-window">
@@ -171,16 +183,20 @@
                 <div class="movie-btn-watch-trailer"><div class="movie-watch-now">Watch Trailer</div></div>
                 <div class="sub-dropdown">Subtitles</div>
 
+                <% if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {  %>
 
                 <div class="q720">720</div>
                 <div class="q1080">1080</div>
                 <div class="quality switch white">
-                    <input type="radio" name="switch" id="switch-off" checked>
-                    <input type="radio" name="switch" id="switch-on">
+                    <input type="radio" name="switch" id="switch-hd-off" >
+                    <input type="radio" name="switch" id="switch-hd-on" checked >
+
 
                     <span class="toggle"></span>
                 </div> 
-            
+                <% } else { %>
+                   <div class="q720"><% if (torrents['720p'] !== undefined) { %>720p<% }else { %><% if (torrents['1080p'] !== undefined) { %>1080p<% }} %> </div>
+                  <% } %>
 
                 </ul>
 

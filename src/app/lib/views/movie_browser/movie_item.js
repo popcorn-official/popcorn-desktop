@@ -41,7 +41,6 @@
                     health: this.model.get('health'),
                     subtitle: this.model.get('subtitle'),
                     backdrop: this.model.get('backdrop')
-                    //title: this.model.getShortTitle()
                 }
             );
             App.vent.trigger('movie:showDetail', SelectedMovie);
