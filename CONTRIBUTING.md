@@ -18,6 +18,8 @@ For translations please go to: http://www.getlocalization.com/PopcornTime/
 
 ### UI changes
 
+Right now, design suggestions are beeing posted here: http://discuss.get-popcorn.com/t/lets-talk-ui-final-fase/13
+
 If your pull request made some changes on the UI, your pull request must contains the following:
 - In the case of major new feature, a link to the issue where the design was discussed.
 - In every case, a screenshot of the new UI that shows your changes.
