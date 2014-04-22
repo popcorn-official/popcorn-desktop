@@ -9,29 +9,37 @@
 
     var engine = null;
     var statsUpdater = null;
+    var active = function(wire) {
+        return !wire.peerChoking;
+    };
+
 
     var watchState = function(stateModel) {
-        var swarm = engine.swarm;
-        var state = 'connecting';
-        if(swarm.downloaded > BUFFERING_SIZE) {
-            state = 'ready';
-        } else if(swarm.downloaded) {
-            state = 'downloading';
-        } else if(swarm.wires.length) {
-            state = 'startingDownload';
-        }
 
-        stateModel.set('state', state);
+        if (engine != null) {
 
-        if(state != 'ready') {
-            _.delay(watchState, 100, stateModel);
+            var swarm = engine.swarm;
+            var state = 'connecting';
+
+            if(swarm.downloaded > BUFFERING_SIZE) {
+                state = 'ready';
+            } else if(swarm.downloaded) {
+                state = 'downloading';
+            } else if(swarm.wires.length) {
+                state = 'startingDownload';
+            }
+
+            stateModel.set('state', state);
+
+            if(state != 'ready') {
+                _.delay(watchState, 100, stateModel);
+            }
         }
     };
 
     var handleTorrent = function(torrent, stateModel) {
-        engine = peerflix(torrent, {
 
-        });
+        engine = peerflix(torrent, {});
 
         var streamInfo = new App.Model.StreamInfo({engine: engine});
         statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 1000);
@@ -52,13 +60,32 @@
         });
 
         engine.on('ready', function() {
-            engine.server.listen(STREAM_PORT);
+            if (engine) {
+                engine.server.listen();
+            }
         });
+
+        engine.on('uninterested', function() {
+            if (engine) {
+                engine.swarm.pause();
+            }
+            
+        });
+
+        engine.on('interested', function() {
+            if (engine) {
+                engine.swarm.resume();
+            }            
+        });
+
     };
 
     var Streamer = {
-        start: function(torrentUrl) {
-            var stateModel = new Backbone.Model({state: 'connecting'});
+        start: function(model) {
+
+            var torrentUrl  = model.get('torrent');
+            
+            var stateModel = new Backbone.Model({state: 'connecting', backdrop: model.get('backdrop')});
             App.vent.trigger('stream:started', stateModel);
 
             if(engine) {
@@ -80,7 +107,11 @@
         },
 
         stop: function() {
+            if (engine) {
+                engine.destroy();
+            }
             engine = null;
+            console.log("Streaming cancelled");
         }
     };
 

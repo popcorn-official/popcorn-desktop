@@ -30,6 +30,22 @@
         <p class="year"><%= year %></p>
     </script>
 
+    <script id="show-item-tpl" type="text/x-template">
+        <img class="cover-image" src="<%= image %>" style="display: none" />
+        <div class="cover">
+            <div class="cover-overlay">
+                <div class="actions">
+                    <div class="favorites"></div>
+                    <div class="detail"></div>
+                    <div class="queue"></div>
+                </div>
+            </div>
+        </div>
+
+        <p class="title" title="<%= title %>"><%= title %></p>
+        <p class="year"><%= year %> - <%= seasonsCount %> Season(s) </p>
+    </script>
+
     <script id="movie-list-tpl" type="text/x-template">
         <div class="spinner">
           <div class="spinner-image"></div>
@@ -37,11 +53,19 @@
         <div class="movies"></div>
     </script>
 
+    <script id="show-list-tpl" type="text/x-template">
+        <div class="spinner">
+          <div class="spinner-image"></div>
+        </div>
+        <div class="shows"></div>
+    </script>    
+
     <script id="main-window-tpl" type="text/x-template">
         <header id="header"></header>
         <div id="notification"></div>
         <div id="changelog-container"></div>
         <div id="content"></div>
+        <div id="settings-container"></div>
         <div id="movie-detail"></div>
         <div id="player"></div>
     </script>
@@ -51,6 +75,12 @@
         <div class="filter-bar-region"></div>
         <div class="movie-list-region"></div>
     </script>
+
+    <script id="show-browser-tpl" type="text/x-template">
+        <div class="blur-header"></div>
+        <div class="filter-bar-region"></div>
+        <div class="show-list-region"></div>
+    </script>    
 
     <script id="changelog-tpl" type="text/x-template">
         <a class="btn-close"><img src="/images/close.svg" width="50" /></a>
@@ -63,12 +93,12 @@
         </ul>
     </script>
 
-    <script id="filter-bar-tpl" type="text/x-template">
+    <script id="filter-bar-movie-tpl" type="text/x-template">
         <ul class="nav nav-hor left">
-          <li class="source active"><%= i18n.__("Movies") %></li>
-          <li class="source"><%= i18n.__("TV Series") %></li>
+          <li class="source active showMovies"><%= i18n.__("Movies") %></li>
+          <li class="source showShows"><%= i18n.__("TV Series") %></li>
         </ul>
-        <ul class="nav nav-hor filters">
+        <ul id="nav-filters" class="nav nav-hor filters">
           <li class="dropdown filter genres">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
               <%= i18n.__("Genre") %><span class="value"><%= i18n.__("genre-" + genre) %></span>
@@ -104,6 +134,24 @@
         </ul>
     </script>
 
+    <script id="filter-bar-show-tpl" type="text/x-template">
+        <ul class="nav nav-hor left">
+          <li class="source showMovies"><%= i18n.__("Movies") %></li>
+          <li class="source active showShows"><%= i18n.__("TV Series") %></li>
+        </ul>
+        
+        <ul class="nav nav-hor right">
+          <li>
+            <div class="right search">
+              <form><input type="text" placeholder="<%= i18n.__('Search') %>"></input></form>
+            </div>
+          </li>
+          <li><button class="favorites"></button></li>
+          <li><button class="queue"></button></li>
+          <li><button class="settings"></button></li>
+        </ul>
+    </script>
+
     <script id="header-tpl" type="text/x-template">
         <nav class="btn-set <%= process.platform %>">
 
@@ -118,17 +166,238 @@
         <h1>Popcorn Time</h1>
     </script>
 
-    <script id="movie-detail-tpl" type="text/x-template">
-      <div class="detail-window">
-      </div>
+
+
+    <script id="error-message-tpl" type="text/x-template">
+       
+    </script>
+
+    <script  id="movie-detail-tpl" type="text/x-template">
+        <div class="movie-detail">
+            <div class="detail-window">
+                <div id="movie-backdrop" style="background-image:url( <%= backdrop %> )" class="movie-backdrop"></div>
+                <div class="movie-backdrop-overlay"></div>
+                <img class="movie-cover-image" src="<%= image %>" />
+                <div class="sperator-movie"></div>
+                <div class="movie-meta-title"><%= title %></div>
+                <ul class="movie-quick-info">
+           
+                    <div class="movie-meta-details"><%= year %></div>
+                    <div class="movie-dot"></div>
+                    <% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
+                    <div class="movie-meta-details"><%= runtime %> min</div>
+
+
+
+                    <div class="movie-dot"></div>
+                        <% var p_rating = rating %>
+                    <div class="health-icon Excellent"></div>  
+
+                    <% p_rating = Math.round(p_rating) / 2; // Roundoff number to nearest 0.5 %>
+                    <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
+                        <div class="rating-star full"></div>
+                    <% }; %>
+                    <% if (p_rating % 1 > 0) { %>
+                        <div class="rating-star half"></div>
+                    <% }; %>
+                    <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
+                        <div class="rating-star null"></div>
+                    <% }; %>
+
+                    <div class="movie-btn-watch"><div class="movie-watch-now">Watch Now</div></div>
+
+                    <div class="movie-btn-watch-trailer"><div class="movie-watch-now">Watch Trailer</div></div>
+                    <div class="sub-dropdown">Subtitles</div>
+
+                    <% if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {  %>
+
+                        <div class="q720">720</div>
+                        <div class="q1080">1080</div>
+                        <div class="quality switch white">
+                            <input type="radio" name="switch" id="switch-hd-off" >
+                            <input type="radio" name="switch" id="switch-hd-on" checked >
+
+
+                            <span class="toggle"></span>
+                        </div> 
+                    <% } else { %>
+                           <div class="q720"><% if (torrents['720p'] !== undefined) { %>720p<% }else { %><% if (torrents['1080p'] !== undefined) { %>1080p<% }} %> </div>
+                    <% } %>
+
+                </ul>
+
+                <div class="movie-meta-overview"><%= synopsis %></div>
+                <div class="movie-detail-close"></div>
+
+
+            </div>
+        </div>
+    </script>
+
+    <script  id="show-detail-tpl" type="text/x-template">
+        <div class="show-detail">
+            <div class="detail-window">
+                <div id="movie-backdrop" style="background-image:url( <%= backdrop %> )" class="movie-backdrop"></div>
+                <div class="movie-backdrop-overlay"></div>
+                <img class="movie-cover-image" src="<%= image %>" />
+                <div class="sperator-movie"></div>
+                <div class="movie-meta-title"><%= title %></div>
+                <ul class="movie-quick-info">
+           
+                    <div class="movie-meta-details"><%= year %></div>
+                    <div class="movie-dot"></div>
+                    <% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
+                    <div class="movie-meta-details"><%= runtime %> min</div>
+
+
+
+                    <div class="movie-dot"></div>
+                        <% var p_rating = rating %>
+                    <div class="health-icon Excellent"></div>  
+
+                    <% p_rating = Math.round(p_rating) / 2; // Roundoff number to nearest 0.5 %>
+                    <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
+                        <div class="rating-star full"></div>
+                    <% }; %>
+                    <% if (p_rating % 1 > 0) { %>
+                        <div class="rating-star half"></div>
+                    <% }; %>
+                    <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
+                        <div class="rating-star null"></div>
+                    <% }; %>
+
+                </ul>
+
+                <div class="movie-meta-overview"><%= synopsis %></div>
+                <div class="movie-detail-close"></div>
+                <ul class="seasons">
+                    <% _.each(torrents, function(value, season) { %>
+                        <li>
+                            Season <%=season %>
+                            <ul>
+                                <% _.each(value, function(torrentLink, episode) { %>
+                                    <li>
+                                        Episode <%=episode%> 
+                                        <a href="#" data-torrent='<%=torrentLink.url %>' class='startStreaming'>Watch</a>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        </li>
+                  
+                    <% }); %>
+                </ul>
+
+            </div>
+        </div>
+    </script>
+
+    <script id="settings-container-tpl" type="text/x-template">
+        <div class="settings-container">
+            <div class="settings-container-close"></div>
+            <div class="settings-container-sidebar">
+                    <div class="settings-container-title">Settings</div>
+                    <div class="settings-container-sidebar-download-options">Download&nbsp;Options</div>
+                    <div class="settings-container-sidebar-subtitles-options">Subtitles</div>
+                    <div class="settings-container-sidebar-UI-options">User&nbsp;Interface</div>
+                    <div class="settings-container-sidebar-more-options">More&nbsp;Options</div>
+            </div>
+            <div class="settings-container-settings-content">
+
+                <div class="settings-container-download-location-text">Download Location:</div>
+                <textarea name="download-location" class="settings-container-download-location"><%= tmpFolder %></textarea>
+                <div class="settings-container-download-btn">Browse</div>
+
+                <div class="settings-container-check-settings">
+                    <input type="checkbox" value="None" id="check-settings" name="check" />
+                    <label for="check-settings"><div class="checkbox-text">Auto-Erase&nbsp;Cache</div></label>
+
+                </div>
+
+                <div class="dropdown download-limit">
+                    <p>Download&nbsp;Limit:</p>
+
+                    <select>
+                        <option>Unlimited</option>
+                        <option>100 mb/s</option>
+                        <option>200 mb/s</option>
+
+                    </select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+
+                <div class="dropdown upload-limit">
+                    <p>Upload&nbsp;Limit:</p>
+
+                    <select>
+                        <option>Unlimited</option>
+                        <option>100 mb/s</option>
+                        <option>200 mb/s</option>
+
+                    </select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+
+                <div class="dropdown local-port">
+                    <p>Local Port:</p>
+                    <textarea name="port-text" maxlength="4" class="port-text">9999</textarea>
+                </div>
+            </div>
+        </div>
+
     </script>
 
     <script id="player-tpl" type="text/x-template">
-      <video src="<%= src %>" autoplay controls></video>
+        <div class="header">
+            <div class="details-player">
+                <span class="close-info-player"></span>
+                <div class="download-info-player">
+                    <div class="eye-info-player"></div>
+                    <div class="details-info-player">
+                        <div class="arrow-up"></div>
+                        <span class="speed-info-player">Download: </span><span class="download_speed"></span>
+                        <span class="speed-info-player">Upload: </span><span class="upload_speed"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <video src="<%= src %>" class="video-js vjs-default-skin" autoplay controls></video>        
     </script>
 
     <script id="loading-tpl" type="text/x-template">
-      <div class="state"><div class="text"><%= i18n.__(state) %></div><div class="value"></div></div>
+
+        <div style="background-image:url( <%= backdrop %> )" class="loading-backround"></div>
+        <div class="loading-backround-overlay"></div>
+           
+        <div class="state">
+
+            <!-- download -->
+            <div class="text_download"><%= i18n.__(state) %></div>
+            
+
+            <div class="seed_status" style="display:none">
+
+                <!-- loading bar -->
+                <div class="loading-progressbar">
+                  <div id="loadingbar-contents"></div>
+                </div>
+
+                <!-- Active Peers -->
+                <div class="value_peers"></div>
+                <div class="text_peers">Peers - </div>
+                
+                <!-- Total Seeds 
+                <div class="text_seeds">Seeds</div>
+                <div class="value_seeds"></div> 
+                -->
+
+                <div class="download_speed"></div>
+                <div class="value_download"></div>
+                <div class="download_percent"></div>
+                
+            </div>  
+           <div class="loading-cancel"><div class="loading-cancel-text">Cancel</div></div>
+            </div>
+        </div>
     </script>
 
     <!-- 3rd party Dependencies -->
@@ -165,23 +434,36 @@
     <script src="lib/models/movie_collection.js"></script>
     <script src="lib/models/stream_info.js"></script>
 
+    <script src="lib/models/show_collection.js"></script>
+
     <!-- Data Sources -->
     <script src="lib/cache.js"></script>
     <script src="lib/providers/cache_provider.js"></script>
     <script src="lib/providers/ysubs.js"></script>
     <script src="lib/providers/trakttv.js"></script>
     <script src="lib/providers/yts.js"></script>
+    <script src="lib/providers/eztv.js"></script>
 
     <!-- Backbone Views and Controllers -->
     <script src="lib/views/title_bar.js"></script>
     <script src="lib/views/main_window.js"></script>
+
     <script src="lib/views/movie_detail.js"></script>
+    <script src="lib/views/show_detail.js"></script>
+
+    <script src="lib/views/settings.js"></script>
     <script src="lib/views/player/loading.js"></script>
     <script src="lib/views/player/player.js"></script>
+
     <script src="lib/views/movie_browser/movie_browser.js"></script>
     <script src="lib/views/movie_browser/filter_bar.js"></script>
     <script src="lib/views/movie_browser/movie_item.js"></script>
     <script src="lib/views/movie_browser/movie_list.js"></script>
+
+    <script src="lib/views/show_browser/filter_bar.js"></script>
+    <script src="lib/views/show_browser/show_browser.js"></script>
+    <script src="lib/views/show_browser/show_item.js"></script>
+    <script src="lib/views/show_browser/show_list.js"></script>
 
     <script src="bootstrap.js"></script>
   </body>

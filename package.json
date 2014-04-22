@@ -14,9 +14,9 @@
     "icon": "images/icon.png",
     "toolbar": false,
     "frame": false,
-    "width": 930,
+    "width": 1082,
     "height": 570,
-    "min_width": 930,
+    "min_width": 975,
     "min_height": 570,
     "resizable": true
   },
@@ -42,6 +42,8 @@
   },
   "devDependencies": {
     "grunt": "0.4.4",
+    "grunt-bump": "0.0.13",
+    "grunt-conventional-changelog": "^1.1.0",
     "grunt-contrib-copy": "0.5.0",
     "grunt-contrib-stylus": "0.13.x",
     "grunt-node-webkit-builder": "0.1.x",

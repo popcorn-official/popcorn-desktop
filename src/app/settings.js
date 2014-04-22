@@ -15,7 +15,11 @@ Settings = {
         // YIFY Endpoint
         "yifyApiEndpoint": "https://yts.re/api/",
         // A mirror for YIFY (for users in the UK -Yify is blocked there-)
-        "yifyApiEndpointMirror": "https://yts.im/api/"
+        "yifyApiEndpointMirror": "https://yts.im/api/",
+
+        // EZTV test Endpoint
+        "eztvApiEndpoint": "http://limitless-hollows-3849.herokuapp.com/",
+
     },
 
 
@@ -58,10 +62,14 @@ Settings = {
 
             if(Settings.get('yifyApiEndpoint') == 'http://yify-torrents.com/api/')
                 Settings.set('yifyApiEndpoint', Settings._defaultSettings['yifyApiEndpoint']);
+            
             if(Settings.get('yifyApiEndpointMirror') == 'http://yify.unlocktorrent.com/api/')
                 Settings.set('yifyApiEndpointMirror', Settings._defaultSettings['yifyApiEndpointMirror']);
+
             if(Settings.get('updateNotificationUrl') != 'http://popcorn.cdnjd.com/update.json')
                 Settings.set('updateNotificationUrl', Settings._defaultSettings['updateNotificationUrl']);
+            
+            Settings.set('eztvApiEndpoint', Settings._defaultSettings['eztvApiEndpoint']);
 
 
             // Add an upgrade flag

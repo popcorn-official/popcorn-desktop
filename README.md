@@ -4,7 +4,8 @@
 
 To allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
-![Demo Screenshot](http://get-popcorn.com/images/how-ui.png)
+![Demo Screenshot](http://i.imgsnap.tk/image.php?i=43a6b78991fd842828a896fa26fe6222fc01d9193a08c828bf92e4d508c82)
+![](http://i.imgsnap.tk/image.php?i=e5e2b4fd842828a896fa26fe6222fc01d9193af4e5495b4dc8a6f4e54)
 
 ### APIs
 
@@ -15,7 +16,7 @@ To allow any computer user to watch movies easily streaming from torrents, witho
 
 ### Development
 
-See [Development's 0.3 page](https://github.com/popcorn-official/popcorn-app/wiki/Developer---0.3)
+See [Development's 0.3 page](https://github.com/popcorn-official/popcorn-app/wiki/Build-and-Debug-dev-0.3)
 
 ### How to contribute
 

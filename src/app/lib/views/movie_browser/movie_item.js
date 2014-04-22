@@ -1,6 +1,6 @@
 (function(App) {
     "use strict";
-
+     
     var MovieItem = Backbone.Marionette.ItemView.extend({
         template: '#movie-item-tpl',
 
@@ -28,12 +28,23 @@
             this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')');
             this.ui.coverIamge.remove();
         },
-
         showDetail: function() {
-            // Small hack to play the video until we have a detail window
-            var torrents = this.model.get('torrents');
-            var torrentUrl = torrents['720p'].url;
-            App.vent.trigger('stream:start', torrentUrl);
+
+            var SelectedMovie = new Backbone.Model(
+                {
+                    image: this.model.get('image'),
+                    torrents: this.model.get('torrents'),
+                    title: this.model.get('title'),
+                    synopsis: this.model.get('synopsis'),
+                    runtime: this.model.get('runtime'),
+                    year: this.model.get('year'),
+                    health: this.model.get('health'),
+                    subtitle: this.model.get('subtitle'),
+                    backdrop: this.model.get('backdrop'),
+                    rating: this.model.get('MovieRating')
+                }
+            );
+            App.vent.trigger('movie:showDetail', SelectedMovie);
         }
     });
 

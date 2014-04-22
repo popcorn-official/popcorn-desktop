@@ -49,7 +49,8 @@
         providers: {
             torrent: 'Yts',
             subtitle: 'YSubs',
-            metadata: 'Trakttv'
+            metadata: 'Trakttv',
+            tvshow: 'Eztv'
         },
 
         getProvider: function(type) {

@@ -1,24 +1,144 @@
 .loading
-    width: 100%
-    height: 100%
-    margin-top: 40px
-
-    background-color: rgba(0,0,0,0.5)
+    position: absolute
+    background-color: #000
     -webkit-user-select: none
+    width 90%
+    height 74.5%
+    position absolute
+    -webkit-user-select none   
+    opacity 1
+    overflow hidden
+    margin auto
+    left 0
+    right 0
+    top 16%
+    max-width 931px
+    max-height 479px
+    opacity 1
+    -webkit-backface-visibility hidden
 
 
     .state
-        color: TextColor
-        font-size: 1.1em
-        text-align: center
-        width: 100%
+        color #fff
+        font-family 'Open Sans Semibold'
+        -webkit-font-smoothing antialiased
+        text-align center
+        width 40%
+        z-index 11
+        margin auto
+        left 0
+        right 0
+        -webkit-backface-visibility hidden
 
-        position: absolute
-        top: 50%
+        position: relative
+        top: 35%
 
         .value
-            color: SecondaryTextColor
-            font-size: 0.8em
+            color #fff
+            font-family 'Open Sans Semibold'
+            -webkit-font-smoothing antialiased
+
+.text_peers
+    position relative
+    color #fff
+    font-family 'Open Sans Semibold'
+    -webkit-font-smoothing antialiased  
+    float left
+    font-size 12px
+    margin-left 5px
+
+.value_peers
+    position relative
+    color #fff
+    font-size 12px
+    font-family 'Open Sans Semibold'
+    -webkit-font-smoothing antialiased  
+    float left
+
+
+.value_download
+    display none
+    position relative
+    color #fff
+    font-size 12px
+    font-family 'Open Sans Semibold'
+    -webkit-font-smoothing antialiased  
+    float left
+    margin-left 10px
+
+.download_speed
+    position relative
+    color #fff
+    font-size 12px
+    font-family 'Open Sans Semibold'
+    -webkit-font-smoothing antialiased  
+    margin-left 5px
+.loading-backround
+    position: absolute
+    width: 100%
+    height: 100%
+    background-repeat no-repeat
+    background-position center
+    -webkit-filter blur(3px)
+    background-size 100% 100%
+
+.loading-backround-overlay
+    width 100%
+    height 100%
+    position absolute
+    opacity .7
+    background-color #000
+
+.download_percent
+    position relative
+    color #fff
+    font-size 12px
+    font-family 'Open Sans Semibold'
+    -webkit-font-smoothing antialiased  
+    float right
+
+.loading-cancel
+    top 40px
+    z-index 2
+    position relative
+    cursor pointer
+    width 87px
+    height 35px
+    margin auto
+    left 0
+    right 0
+    -moz-border-radius 3px
+    -webkit-border-radius 3px
+    border-radius 3px
+    -moz-background-clip padding
+    -webkit-background-clip padding-box
+    background-clip padding-box
+    background-color #458de3
+    -webkit-backface-visibility hidden
+
+    .loading-cancel-text
+        -webkit-backface-visibility hidden
+        position absolute
+        color #fff
+        font-family "Open Sans Semibold", "Open Sans", sans-serif
+        -webkit-font-smoothing antialiased
+        text-align center
+        top 12px
+        font-size 12px
+        margin-left 23px
+
+.loading-progressbar
+  position relative
+  margin-bottom 10px
+  margin-top 10px
+  background-color #bababa
+  border-radius 13px
+  //padding 3px
+  & > div
+    background-color #2d75df
+    height 5px
+    border-radius 13px
+    left 0px
 
 #player,
 .player
@@ -30,7 +150,64 @@
     position: absolute;
     overflow: hidden;
     background-color: black
+    -webkit-app-region: no-drag
 
     video
         width: 100%
         height: 100%
+
+    .details-player
+        right: 10px
+        position: absolute
+        top: 20px
+        z-index: 20
+
+    .close-info-player
+        background: url(../images/Close.png)
+        width: 16px
+        height: 16px
+        position: absolute
+        right: 30px
+        top:1px
+
+    .close-info-player:hover
+        cursor: pointer
+
+    .eye-info-player
+        background: url(../images/ViewMoreInfo.png)
+        width: 23px
+        height: 17px
+        position: absolute
+        right: 70px
+
+    .eye-info-player:hover + .details-info-player
+        display: block
+
+    .details-info-player
+        display: none
+        width: 160px
+        background: rgba(31, 31, 31, 0.74)
+        color: #FFF
+        padding: 10px
+        font-family: sans-serif
+        font-size: 14px
+        top: 32px
+        position: absolute
+        right: 60px
+        border-radius: 2px
+
+
+    .details-info-player > span
+        margin-bottom: 5px
+        display: -webkit-inline-box
+        margin-right: 3px
+    
+    .arrow-up 
+        width: 0
+        height: 0
+        border-left: 6px solid rgba(0, 0, 0, 0)
+        border-right: 6px solid rgba(0, 0, 0, 0)
+        border-bottom: 6px solid rgba(31, 31, 31, 0.74)
+        top: -6px
+        right: 15px
+        position: absolute
