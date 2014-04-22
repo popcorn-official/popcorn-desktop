@@ -4,8 +4,12 @@
     var FilterBarShow = Backbone.Marionette.ItemView.extend({
         template: '#filter-bar-show-tpl',
         className: 'filter-bar',
-
+        ui: {
+            searchForm: '.search form',
+            search: '.search input',
+        },
         events: {
+            'submit @ui.searchForm': 'search',
             'click .showMovies': 'showMovies',
             'click .showShows': 'showShows',
             'click .settings': 'settings'
@@ -26,6 +30,15 @@
             App.vent.trigger('movies:list', []);
         },
 
+        search: function(e) {
+            e.preventDefault();
+            this.model.set({
+                keywords: this.ui.search.val()
+            });
+            
+            this.ui.search.val('');
+            this.ui.search.blur();
+        },
                
     });
 

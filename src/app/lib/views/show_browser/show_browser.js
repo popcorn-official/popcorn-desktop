@@ -19,9 +19,19 @@
         },
 
         initialize: function() {
+            this.filter = new App.Model.Filter({
+                genres: App.Config.genres,
+                sorters: App.Config.sorters
+            });
 
-            this.showCollection = new App.Model.ShowCollection([], []);
+            this.showCollection = new App.Model.ShowCollection([], {
+                filter: this.filter
+            });
+
             this.showCollection.fetch();
+
+            this.listenTo(this.filter, 'change', this.onFilterChange);
+
         },
 
         onShow: function() {
@@ -33,6 +43,18 @@
                 collection: this.showCollection
             }));
         },
+        onFilterChange: function() {
+
+            this.showCollection = new App.Model.ShowCollection([], {
+                filter: this.filter
+            });
+
+            this.showCollection.fetch();
+
+            this.ShowList.show(new App.View.ShowList({
+                collection: this.showCollection
+            }));
+        }
 
     });
 

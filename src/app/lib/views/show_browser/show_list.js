@@ -4,7 +4,7 @@
     var SCROLL_MORE = 200;
 
     var ErrorView = Backbone.Marionette.ItemView.extend({
-        template: '#show-error-tpl',
+        template: '#movie-error-tpl',
         onBeforeRender: function() {
             this.model.set('error', this.error);
         }
@@ -31,7 +31,7 @@
             if(this.collection.state === 'error') {
                 return ErrorView.extend({error: i18n.__('Error loading data, try again later...')});
             } else {
-                return ErrorView.extend({error: i18n.__('No movies found...')});
+                return ErrorView.extend({error: i18n.__('No shows found...')});
             }
         },
 
