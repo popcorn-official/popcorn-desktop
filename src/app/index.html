@@ -278,7 +278,7 @@
                                 <% _.each(value, function(torrentLink, episode) { %>
                                     <li>
                                         Episode <%=episode%> 
-                                        <a href="#" data-torrent='<%=torrentLink %>' class='startStreaming'>Watch</a>
+                                        <a href="#" data-torrent='<%=torrentLink.url %>' class='startStreaming'>Watch</a>
                                     </li>
                                 <% }); %>
                             </ul>
