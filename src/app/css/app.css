@@ -1510,8 +1510,13 @@ ul.seasons ul {
   margin-left: 10px;
 }
 ul.seasons li {
+  vertical-align: top;
+  display: inline-block;
   margin: 0;
   padding: 0 12px;
+}
+ul.seasons ul li {
+  display: block;
 }
 .app-overlay {
   position: absolute;
