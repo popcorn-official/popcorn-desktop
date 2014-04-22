@@ -27,8 +27,13 @@
             App.vent.on('movies:list', _.bind(this.showMovies, this));
             App.vent.on('shows:list', _.bind(this.showShows, this));
             
+            // Movies
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
             App.vent.on('movie:closeDetail', _.bind(this.MovieDetail.close, this.MovieDetail));
+
+            // Tv Shows
+            App.vent.on('show:showDetail', _.bind(this.showShowDetail, this));
+            App.vent.on('show:closeDetail', _.bind(this.MovieDetail.close, this.MovieDetail));
 
             // Settings events
             App.vent.on('settings:show', _.bind(this.showSettings, this));
@@ -75,6 +80,12 @@
                 model: movieModel
             }));
         },
+
+        showShowDetail: function(showModel) {
+            this.MovieDetail.show(new App.View.ShowDetail({
+                model: showModel
+            }));
+        },  
 
         showSettings: function(settingsModel) {
             this.Settings.show(new App.View.Settings({

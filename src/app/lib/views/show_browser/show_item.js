@@ -2,7 +2,7 @@
     "use strict";
      
     var ShowItem = Backbone.Marionette.ItemView.extend({
-        template: '#movie-item-tpl',
+        template: '#show-item-tpl',
 
         tagName: 'li',
         className: 'movie-item',
@@ -30,7 +30,8 @@
         },
         showDetail: function() {
 
-            var SelectedMovie = new Backbone.Model(
+
+            var SelectedShow = new Backbone.Model(
                 {
                     image: this.model.get('image'),
                     torrents: this.model.get('torrents'),
@@ -41,11 +42,12 @@
                     health: this.model.get('health'),
                     subtitle: this.model.get('subtitle'),
                     backdrop: this.model.get('backdrop'),
-                    rating: this.model.get('MovieRating')
+                    rating: this.model.get('MovieRating'),
+                    seasonsCount: this.model.get('seasonsCount')
                 }
             );
 
-            App.vent.trigger('movie:showDetail', SelectedMovie);
+            App.vent.trigger('show:showDetail', SelectedShow);
             
         }
     });

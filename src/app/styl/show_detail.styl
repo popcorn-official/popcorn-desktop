@@ -1,3 +1,21 @@
+ul.seasons
+  z-index: 2
+  opacity 1
+  color: #fff
+  position relative
+
+ul.seasons, ul.seasons ul 
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+   
+ul.seasons ul 
+  margin-left: 10px;
+
+ul.seasons li 
+  margin: 0;
+  padding: 0 12px;
+   
 .app-overlay
   position absolute
   z-index 2
@@ -5,7 +23,7 @@
   height 100%
   background-color rgba(9, 13, 18, 0.75)
 
-.movie-detail
+.show-detail
     z-index 10
     //width 819px
     width 90%
@@ -14,7 +32,7 @@
     position absolute
     -webkit-user-select none   
     opacity 1
-    overflow hidden
+    overflow auto
     margin auto
     left 0
     right 0
@@ -36,9 +54,9 @@
     .detail-window
       opacity 1
 
-	    .movie-quick-info
-	    	margin-bottom: 5px
-	    	color: #fff
+      .movie-quick-info
+        margin-bottom: 5px
+        color: #fff
 
   .movie-meta-details
     opacity 1
