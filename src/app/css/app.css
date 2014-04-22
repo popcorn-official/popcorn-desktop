@@ -1278,6 +1278,72 @@ body,
   -webkit-font-smoothing: antialiased;
   font-size: 12px;
 }
+.show-list {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  overflow-y: overlay;
+  -webkit-overflow-scrolling: touch;
+}
+.show-list::-webkit-scrollbar {
+  width: 5px;
+}
+.show-list::-webkit-scrollbar-track {
+  background-color: #30333c;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.show-list::-webkit-scrollbar-thumb {
+  background-color: #83888c;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.show-list::-webkit-scrollbar-thumb:hover {
+  background-color: #93989c;
+}
+.show-list::-webkit-resizer,
+.show-list::-webkit-scrollbar-corner,
+.show-list::-webkit-scrollbar-button,
+.show-list::-webkit-scrollbar-track-piece {
+  display: none;
+}
+.show-list::-webkit-scrollbar-track {
+  margin-top: 65px;
+}
+.show-list .shows {
+  padding-top: 65px;
+  -webkit-user-select: none;
+}
+.show-list .error {
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: 180px;
+  color: #727272;
+  font-weight: bold;
+}
+.show-list .spinner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #000 center center no-repeat;
+  opacity: 0.5;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+}
+.show-list .spinner .spinner-image {
+  margin: 180px auto 0px;
+  background: url("../images/spinner.svg") no-repeat 0 0;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  display: block;
+  height: 45px;
+  -webkit-animation: 1.05s spin infinite linear;
+  width: 45px;
+}
 .settings-container-contain {
   background-color: #17181b;
   height: 100%;

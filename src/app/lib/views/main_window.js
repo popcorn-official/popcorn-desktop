@@ -24,6 +24,9 @@
             this.nativeWindow = require('nw.gui').Window.get();
 
             // Application events
+            App.vent.on('movies:list', _.bind(this.showMovies, this));
+            App.vent.on('shows:list', _.bind(this.showShows, this));
+            
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
             App.vent.on('movie:closeDetail', _.bind(this.MovieDetail.close, this.MovieDetail));
 
@@ -39,7 +42,9 @@
 
         onShow: function() {
             this.Header.show(new App.View.TitleBar());
-            this.Content.show(new App.View.MovieBrowser());
+
+            // load movies by default
+            this.showMovies();
 
             // Set the app title (for Windows mostly)
             this.nativeWindow.title = App.Config.title;
@@ -51,6 +56,14 @@
             this.nativeWindow.on('new-win-policy', function (frame, url, policy) {
                 policy.ignore();
             });
+        },
+
+        showMovies: function(e) {
+             this.Content.show(new App.View.MovieBrowser());
+        },
+
+        showShows: function(e) {
+             this.Content.show(new App.View.ShowBrowser());
         },
 
         preventDefault: function(e) {
