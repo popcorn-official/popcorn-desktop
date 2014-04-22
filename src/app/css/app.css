@@ -641,7 +641,7 @@ body,
   background: #ededed url("../images/icons/search_hover.png") no-repeat 5px center;
   width: 130px;
   color: #c4c6c8;
-  background-color: #121820;
+  background-color: #0e0e0f;
   cursor: auto;
 }
 .filter-bar .search input::-moz-placeholder,
