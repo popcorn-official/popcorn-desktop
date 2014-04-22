@@ -159,15 +159,15 @@ module.exports = function(grunt) {
      },
      mac: {
         cwd: 'build/releases/Popcorn-Time/mac/',
-        cmd: 'Popcorn-Time.app . --debug'
+        cmd: './Popcorn-Time.app . --debug'
      },
      linux32: {
         cwd: 'build/releases/Popcorn-Time/linux32/Popcorn-Time/',
-        cmd: 'Popcorn-Time . --debug'
+        cmd: './Popcorn-Time . --debug'
      },
      linux64: {
         cwd: 'build/releases/Popcorn-Time/linux64/Popcorn-Time/',
-        cmd: 'Popcorn-Time . --debug'
+        cmd: './Popcorn-Time . --debug'
      }
   }
   });
