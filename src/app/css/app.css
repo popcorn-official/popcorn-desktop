@@ -404,6 +404,7 @@ body,
   height: 30px;
   padding: 13px 0 0;
   text-align: center;
+  -webkit-app-region: drag;
 }
 #header h1 {
   color: #fff;
@@ -496,7 +497,6 @@ body,
   filter: alpha(opacity=97);
   background-color: #17181b;
   -webkit-user-select: none;
-  -webkit-app-region: drag;
 }
 .filter-bar {
   position: absolute;
