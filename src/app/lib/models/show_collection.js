@@ -15,6 +15,7 @@
 
             options = options || {};
             this.hasMore = true;
+            this.filter.page = 1; 
 
             Backbone.Collection.prototype.initialize.apply(this, arguments);
         },
@@ -29,7 +30,7 @@
 
             var subtitle = this.providers.subtitle;
             var torrent = this.providers.torrent;
-            var torrentPromise = torrent.fetch();
+            var torrentPromise = torrent.fetch(this.filter);
 
             var idsPromise = torrentPromise.then(_.bind(torrent.extractIds, torrent));
             var subtitlePromise = idsPromise.then(_.bind(subtitle.fetch, subtitle));
@@ -62,7 +63,11 @@
                 });
         },
 
- 
+         fetchMore: function() {
+            console.log('fetchMore');
+            this.filter.page += 1;
+            this.fetch();
+        }
 
     });
 

@@ -58,7 +58,19 @@
             this.ui.spinner.hide();
         },
 
+        onScroll: function() {
+            if(!this.collection.hasMore) return;
 
+            var totalHeight       = this.$el.prop('scrollHeight');
+            var currentPosition = this.$el.scrollTop() + this.$el.height();
+
+            if(this.collection.state === 'loaded' &&
+                totalHeight - currentPosition < SCROLL_MORE) {
+
+                this.collection.fetchMore();
+            }
+        }
+        
     });
 
     App.View.ShowList = ShowList;
