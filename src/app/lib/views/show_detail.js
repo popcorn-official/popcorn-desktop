@@ -4,11 +4,11 @@
 
     var ShowDetail = Backbone.Marionette.ItemView.extend({
         template: '#show-detail-tpl',
-        className: 'app-overlay',
+        className: 'shows-container-contain',
 
         events: {
             'click .startStreaming': 'startStreaming',
-            'click .movie-detail-close': 'closeDetails'
+            'click .tv-container-close': 'closeDetails'
         },
 
         onShow: function() {

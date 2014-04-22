@@ -64,11 +64,17 @@
         },
 
         showMovies: function(e) {
-             this.Content.show(new App.View.MovieBrowser());
+            this.Settings.close();
+            this.MovieDetail.close();
+
+            this.Content.show(new App.View.MovieBrowser());
         },
 
         showShows: function(e) {
-             this.Content.show(new App.View.ShowBrowser());
+            this.Settings.close();
+            this.MovieDetail.close();
+
+            this.Content.show(new App.View.ShowBrowser());
         },
 
         preventDefault: function(e) {

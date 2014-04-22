@@ -235,6 +235,34 @@
     </script>
 
     <script  id="show-detail-tpl" type="text/x-template">
+        <div  class="tv-poster"></div>
+        <div class="tv-poster-overlay"></div>
+        <div style="background-image:url(<%= backdrop %>);" class="tv-poster-backround"></div>
+        <div style="background-image:url(<%= image %>);" class="tv-cover"></div>
+        <div class="tv-title"><%= title %></div>
+        <div class="tv-duration"><%= runtime %> min</div>
+        <div class="tv-dot"></div>
+        <div class="tv-genre">Drama</div>
+        <div class="tv-dot"></div>
+        <div class="tv-num-episodes"><%= seasonsCount %> Seasons</div>
+        <div class="dot"></div>
+        
+        <% p_rating = Math.round(p_rating) / 2; // Roundoff number to nearest 0.5 %>
+        <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
+            <div class="tv-rating-star full"></div>
+        <% }; %>
+        <% if (p_rating % 1 > 0) { %>
+            <div class="tv-rating-star half"></div>
+        <% }; %>
+        <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
+            <div class="tv-rating-star null"></div>
+        <% }; %>
+        <% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
+            <div class="tv-overview"><%= synopsis %></div>
+        </div>
+        <div class="tv-container-close"></div>
+
+    <!--
         <div class="show-detail">
             <div class="detail-window">
                 <div id="movie-backdrop" style="background-image:url( <%= backdrop %> )" class="movie-backdrop"></div>
@@ -288,7 +316,7 @@
                 </ul>
 
             </div>
-        </div>
+        </div> -->
     </script>
 
     <script id="settings-container-tpl" type="text/x-template">

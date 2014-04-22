@@ -1,3 +1,190 @@
+.shows-container-contain
+    background-color #17181b
+    height 100%
+    width 100%
+    position fixed
+    scrollable()
+    padding-top: HeaderHeight
+    &::-webkit-scrollbar-track
+        margin-top: HeaderHeight
+
+.shows-container
+    z-index 1
+    width 100%
+    height 850px
+    position absolute
+    background-color #17181b
+    -webkit-user-select none
+    opacity 1
+
+.tv-container-close
+    top 80px
+    right 20px
+    position fixed
+    float right
+    width 14px
+    height 14px
+    background-image url('../../images/icons/Close.png')
+    cursor pointer
+    z-index 2
+    opacity 1
+    -webkit-backface-visibility hidden
+
+.tv-poster
+  position absolute
+  width 100%
+  height 237px
+  z-index 1
+
+.tv-poster-backround
+  position absolute
+  width 100%
+  height 237px
+  z-index 1
+  background-repeat no-repeat
+  background-attachment fixed
+  background-position center
+  -webkit-filter blur(10px)
+  overflow hidden
+
+.tv-poster-overlay
+  position absolute
+  width 100%
+  height 100%
+  opacity .4
+  background-color #000
+  z-index 2
+
+.tv-cover
+  position relative
+  float left
+  margin-left 28px
+  margin-top 22px
+  width 135px
+  height 197px
+  -moz-box-shadow 0 0 10px rgba(0, 0, 0, .4)
+  -webkit-box-shadow 0 0 10px rgba(0, 0, 0, .4)
+  box-shadow 0 0 10px rgba(0, 0, 0, .4)
+  z-index 3
+  background-size 134px 197px
+  border-radius 4px
+  box-shadow 0px 0px 10px
+
+.tv-title
+  top 21px
+  left 36px
+  position relative
+  z-index 3
+  color #fff
+  width 452px
+  font-family: 'Open Sans Bold'
+  -webkit-font-smoothing: antialiased
+  font-size 22px
+
+.tv-overview
+  margin-top 60px
+  margin-left 198px
+  z-index 3
+  position relative
+  color #fff
+  font-family: 'Open Sans Semibold'
+  -webkit-font-smoothing: antialiased
+  font-size 12px
+  line-height 22px
+  max-width 78%
+  height 110px
+
+
+.tv-num-episodes
+  margin-top 35px
+  position relative
+  z-index 3
+  float left
+  color #fff
+  font-family: 'Open Sans Bold'
+  -webkit-font-smoothing: antialiased
+  font-size 11px
+  cursor default
+
+.tv-genre
+  margin-top 35px
+  z-index 3
+  position relative
+  float left
+  color #fff
+  font-family: 'Open Sans Bold'
+  -webkit-font-smoothing: antialiased
+  font-size 11px
+  cursor default
+
+.tv-duration
+  margin-top 35px
+  position relative
+  z-index 3
+  margin-left 37px
+  float left
+  color #fff
+  width auto
+  height auto
+  font-family: 'Open Sans Bold'
+  -webkit-font-smoothing: antialiased
+  font-size 11px
+  cursor default
+  z-index 3
+
+.tv-dot
+  margin-top 38.5px
+  position relative
+  z-index 3
+  margin-left 15px
+  margin-right 15px
+  position relative
+  float left
+  width 3px
+  height 3px
+  -moz-border-radius 2px
+  -webkit-border-radius 2px
+  border-radius 2px
+  -moz-background-clip padding
+  -webkit-background-clip padding-box
+  background-clip padding-box
+  background-color #dbdbdd
+  cursor default
+
+.tv-rating-star
+    z-index 2
+    margin-right 3px
+    margin-top 20px
+    position relative
+    float left
+    width 11px
+    height 11px
+    opacity 1
+    background-repeat no-repeat
+    -webkit-backface-visibility hidden
+    &.null
+      background-image url('../../images/icons/StarGray.png')
+    &.half
+      background-image url('../../images/icons/StarHalf.png')
+    &.full
+      background-image url('../../images/icons/star.png')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ul.seasons
   z-index: 2
   opacity 1
@@ -26,9 +213,9 @@ ul.seasons li
 .show-detail
     z-index 10
     //width 819px
-    width 90%
+    width 100%
     //height 420px
-    height 74.5%
+    height 100%
     position absolute
     -webkit-user-select none   
     opacity 1
