@@ -30,7 +30,22 @@
         },
         showDetail: function() {
 
-            alert("click");
+            var SelectedMovie = new Backbone.Model(
+                {
+                    image: this.model.get('image'),
+                    torrents: this.model.get('torrents'),
+                    title: this.model.get('title'),
+                    synopsis: this.model.get('synopsis'),
+                    runtime: this.model.get('runtime'),
+                    year: this.model.get('year'),
+                    health: this.model.get('health'),
+                    subtitle: this.model.get('subtitle'),
+                    backdrop: this.model.get('backdrop'),
+                    rating: this.model.get('MovieRating')
+                }
+            );
+
+            App.vent.trigger('movie:showDetail', SelectedMovie);
             
         }
     });
