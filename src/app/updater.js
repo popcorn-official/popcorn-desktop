@@ -34,8 +34,20 @@
          * AND KILL YOU! You have been warned -jduncanator
          * On a side note, this is here as its easier for an attacker to modify localStorage 
          * than source code!                                                                */
-        var VERIFY_PUBKEY = '-----BEGIN PUBLIC KEY-----\nMIIDRjCCAjkGByqGSM44BAEwggIsAoIBAQDRuynMmlY768GtsgneDjCPjWVoIjQq\ng0QBIG/V9oO8TITGC0I/9+9jl603mxHf5N3/0u+AzQWjphbaxZEIQHM5/BJtBilt\n1SK4BJf+aEscUr34fOFK6yPpYRGYoOAvIHn93dFSaznA58L3CizQfQsrQHpE+bLQ\n7Yj0ZFJdilo4cYZ9keaU39I3su3szDh7nQGw7ma1AIgHPej8EY28Eem+Mi4FBncR\n8M6jsX2Nz1LVruuyGBGvvQXY1jf2LoPE53Xp5RdCw6iNinqBWO8EyF9o4/NHR5uq\nW/rZ528MyEIVzDFYCaVB6HLpXbm3d58EaTZ+TL4/jrvnL0NH3HRQLaiPAiEAzVB6\nCrTHmH7ejvwJkOLLKNtIjsXoBZNO9l/6zX9K0LsCggEAFGpQ24CBaSOCUc6w63y6\nClbPKjzvG8PjpB8erFXy1Yftef5vy3ES2k2A9FR5+kzZAq3mRX8Gbel4fvXkKga5\nSfECtRU9atnRpK2Tm7pMk4FVBGSbmJEG9SPYfDhx3FCLM8EGiID/8wKesWgtHTTc\n8KvDFvowupljI278e5P5DjTICdK9pWJlkqtepBbLFnrMipNPHrStQkIqRNx05DxA\nf2d99GZlDOxVxdJ6an+xCUhhx06+icOb5fQVP2zwYAMGqHdyhSvrrHNDpB862oF2\nkfXmhDx/4n/WTe0HwmuaPNpNZ7NccsT/zMJlxDLBCAXYkZ/R++U4yYju/rEp7D0n\ncAOCAQUAAoIBABID86dLyxUrf25Na+AtpfbTHG04O9VeKklPtKaLC4cf6CqFfHmd\nh/UPrvoMihDy0GgFCMyDb9EMO+eZZg1n3qoqa+oKkZqlf8dTXgXJE3sDMj3gkfFB\nXW2UaP9rNJvPrklHGUCy4yngeDtn1hRsK4jiLjgxCcK0b3UFNEu88/qvEWAF8Puy\n6qXhtNCjXWHpEDwdO9ZKYl9gStMc4cZDLKGaULY16sGVtrs0LWxoNuuf8FC4n87z\nyvDZMfROTVSL/xACx5EBROpDFHtFeh6oM7subxbIo9ZXutNxE9LT77g4W2t1AC7k\n+hSb+Q3Nq+tl2vHS6UEXzW0Kmsd2ulV6xP4=\n-----END PUBLIC KEY-----\n';
-
+        var VERIFY_PUBKEY =
+            '-----BEGIN PUBLIC KEY-----\n' +
+            'MIIBtjCCASsGByqGSM44BAEwggEeAoGBAPNM5SX+yR8MJNrX9uCQIiy0t3IsyNHs\n' +
+            'HWA180wDDd3S+DzQgIzDXBqlYVmcovclX+1wafshVDw3xFTJGuKuva7JS3yKnjds\n' +
+            'NXbvM9CrJ2Jngfd0yQPmSh41qmJXHHSwZfPZBxQnspKjbcC5qypM5DqX9oDSJm2l\n' +
+            'fM/weiUGnIf7AhUAgokTdF7G0USfpkUUOaBOmzx2RRkCgYAyy5WJDESLoU8vHbQc\n' +
+            'rAMnPZrImUwjFD6Pa3CxhkZrulsAOUb/gmc7B0K9I6p+UlJoAvVPXOBMVG/MYeBJ\n' +
+            '19/BH5UNeI1sGT5/Kg2k2rHVpuqzcvlS/qctIENgCNMo49l3LrkHbJPXKJ6bf+T2\n' +
+            '8lFWRP2kVlrx/cHdqSi6aHoGTAOBhAACgYBTNeXBHbWDOxzSJcD6q4UDGTnHaHHP\n' +
+            'JgeCrPkH6GBa9azUsZ+3MA98b46yhWO2QuRwmFQwPiME+Brim3tHlSuXbL1e5qKf\n' +
+            'GOm3OxA3zKXG4cjy6TyEKajYlT45Q+tgt1L1HuGAJjWFRSA0PP9ctC6nH+2N3HmW\n' +
+            'RTcms0CPio56gg==\n' +
+            '-----END PUBLIC KEY-----\n';
+            
         var checkVersion = function(ver1, ver2) {
             // returns `-` when ver2 less than
             // returns `0` when ver2 equal
