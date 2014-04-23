@@ -6,8 +6,8 @@
         className: 'player',
 
         ui: {
-            downloadSpeed: '.download_speed',
-            uploadSpeed: '.upload_speed'
+            downloadSpeed: '.download_speed_player',
+            uploadSpeed: '.upload_speed_player'
         },
 
         events: {
