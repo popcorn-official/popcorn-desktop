@@ -30,6 +30,6 @@ app.nw
 # vim swap files
 *.swp
 
-src/css/app.css
+src/app/css/app.css
 *.sublime-*
 dist/windows/PopcornTimeSetup.exe
