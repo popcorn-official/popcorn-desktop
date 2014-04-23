@@ -18,6 +18,7 @@
         initialize: function() {
             this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
             this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
+            this.video = false;
         },
 
         updateDownloadSpeed: function() {
@@ -30,24 +31,25 @@
 
         closePlayer: function() {
             console.log('Close player');
+            this.video.dispose();
             App.vent.trigger('player:close');  
         },
 
         onShow: function() {
-            var video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {} }});
+            this.video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {} }});
 
             // Had only tracking in, leave it here if we want to do something else when paused.
-            video.player().on('pause', function () {
+            this.video.player().on('pause', function () {
 
             });
 
-            video.player().on('play', function () {
+            this.video.player().on('play', function () {
               // Trigger a resize so the subtitles are adjusted
               $(window).trigger('resize');
             });
 
             // There was an issue with the video
-            video.player().on('error', function (error) {
+            this.video.player().on('error', function (error) {
               // TODO: what about some more elegant error tracking
               alert('Error: ' + videoError(document.getElementById('video_player').player.error()));
             });
