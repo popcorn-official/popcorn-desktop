@@ -327,6 +327,9 @@ ul.nav-hor > li {
   background: rgba(0, 0, 0, 0.23);
   z-index: 4;
 }
+.header-hide{
+  display:none;
+}
 .player {
   z-index: 10;
   position: absolute;
