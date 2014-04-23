@@ -263,24 +263,33 @@
         <div class="tv-container-close"></div>
 
 
-                <ul class="seasons">
-                    <% _.each(torrents, function(value, season) { %>
-                        <li>
-                            Season <%=season %>
-                            <ul>
-                                <% _.each(value, function(torrentLink, episode) { %>
-                                    <li>
-                                        Episode <%=episode%>
-                                        <a href="#" data-torrent='<%=torrentLink.url %>' class='startStreaming'>Watch</a>
-                                    </li>
-                                <% }); %>
-                            </ul>
-                        </li>
-                  
-                    <% }); %>
-                </ul>
+        <div id="tabs_season">
+            <ul>
+                <% _.each(torrents, function(value, season) { %>
+                    <li class="saisonSwitch">
+                        <a href="#tabs-<%=season %>" title="">Season <%=season %></a>
+                    </li>
+                <% }); %>
+            </ul>
+            <div id="tabs_container">
+                <% _.each(torrents, function(value, season) { %>
+                   <div id="tabs-<%=season %>">
+                        <ul>
+                            <% _.each(value, function(torrentLink, episode) { %>
+                                <li>
+                                    Episode <%=episode%>
+                                    <a href="#" data-torrent='<%=torrentLink.url %>' class='startStreaming'>Watch</a>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    </li>
+                    <!--tab content-->
+                </div>
+                <% }); %>
+            </div><!--End tabs container-->
+        </div><!--End tabs-->
 
-              
+
     </script>
 
     <script id="settings-container-tpl" type="text/x-template">

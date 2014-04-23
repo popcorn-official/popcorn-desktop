@@ -573,3 +573,93 @@ ul.seasons ul li
     font-family 'Open Sans Semibold'
     -webkit-font-smoothing: antialiased
     font-size 12px
+
+.tv-poster-backround 
+  position: absolute
+  width: 100%
+  height: 237px
+  z-index: 1
+  background-repeat: no-repeat
+  background-attachment: fixed
+  background-position: 50% 0
+  -webkit-filter: blur(4px)
+  overflow: hidden
+
+#tabs_season 
+    overflow: hidden
+    width: 100%
+    margin: 0
+    padding: 0
+    list-style: none
+    font: 12px Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif
+    z-index: 3
+    float: left
+    position: relative
+    height: 100%
+
+    ul 
+      position: absolute
+      margin: 80px 0 0 60px
+      list-style: none
+
+      li 
+        margin: 10px .5em 17px 0
+        font-size: 13px
+
+    a 
+      padding: 1em 1em
+      text-decoration: none
+      color: #707070
+      font-size: 20px
+      font-weight: 600
+      margin: 10px 0px
+
+    a:hover, a:hover::after, a:focus, a:focus::after 
+      color: #3173E9
+    
+    a:focus 
+      outline: 0
+
+    a::after 
+      content: ''
+      position: absolute
+      z-index: 1
+      top: 0
+      right: -.5em
+      bottom: 0
+      width: 1em
+
+    #current_season a
+      z-index: 3
+      color: #4370BE
+
+    #current_season a::after 
+      z-index: 3
+
+#tabs_container 
+    padding: 0px
+    position: relative
+    z-index: 2
+    border-left: 1px solid rgba(255, 255, 255, 0.15)
+    height: 100%
+    margin: 30px 200px
+    color: #FFF
+
+    a 
+      padding: 1em 1em
+      text-decoration: none
+      color: #707070
+      font-size: 13px
+      font-weight: bold
+      margin: 10px 0px
+
+    ul 
+        position: absolute
+        margin: 10px 20px
+        list-style: none
+
+      li 
+        margin: 10px .5em 0 0
+        font-size: 13px
+
+
