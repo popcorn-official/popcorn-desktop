@@ -235,7 +235,8 @@
     </script>
 
     <script  id="show-detail-tpl" type="text/x-template">
-        <div  class="tv-poster"></div>
+<div class="tv-container-close"></div>
+        <div  class="tv-poster">
         <div class="tv-poster-overlay"></div>
         <div style="background-image:url(<%= backdrop %>);" class="tv-poster-backround"></div>
         <div style="background-image:url(<%= image %>);" class="tv-cover"></div>
@@ -259,8 +260,9 @@
         <% }; %>
         <% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
             <div class="tv-overview"><%= synopsis %></div>
+            
         </div>
-        <div class="tv-container-close"></div>
+        
 
 
         <div id="tabs_season">
