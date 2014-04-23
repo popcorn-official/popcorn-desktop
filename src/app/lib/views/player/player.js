@@ -62,7 +62,16 @@
                   this.nativeWindow.leaveFullscreen();
                   this.nativeWindow.focus();
                 }
+              } else if ((e.keyCode == 102) || (e.keyCode == 70)) {
+
+                this.nativeWindow = require('nw.gui').Window.get();
+
+                if(!this.nativeWindow.isFullscreen) {
+                  this.nativeWindow.enterFullscreen();
+                  this.nativeWindow.focus();
+                }
               }
+              
             });            
         },
 
