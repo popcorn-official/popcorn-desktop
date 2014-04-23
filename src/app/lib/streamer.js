@@ -37,7 +37,7 @@
         }
     };
 
-    var handleTorrent = function(torrent, stateModel) {
+    var handleTorrent = function(torrent, subtitles, stateModel) {
 
         engine = peerflix(torrent, {});
 
@@ -48,6 +48,10 @@
 
         var checkReady = function() {
             if(stateModel.get('state') === 'ready') {
+
+                // we need subtitle in the player
+                streamInfo.set('subtitle', subtitles);
+
                 App.vent.trigger('stream:ready', streamInfo);
                 stateModel.destroy();
             }
@@ -93,14 +97,14 @@
             }
 
             if (/^magnet:/.test(torrentUrl)) {
-                handleTorrent(torrentUrl, stateModel);
+                handleTorrent(torrentUrl, model.get('subtitle'), stateModel);
             } else {
                 readTorrent(torrentUrl, function(err, torrent) {
                     if(err) {
                         App.vent.trigger('error', err);
                         App.vent.trigger('stream:stop');
                     } else {
-                        handleTorrent(torrent, stateModel);
+                        handleTorrent(torrent, model.get('subtitle'), stateModel);
                     }
                 });
             }

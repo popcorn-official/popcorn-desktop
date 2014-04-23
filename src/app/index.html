@@ -352,7 +352,28 @@
                 </div>
             </div>
         </div>
-        <video src="<%= src %>" class="video-js vjs-default-skin" autoplay controls></video>        
+
+        <%
+            var subArray = [];
+            for (var lang in subtitle) {
+                subArray.push({
+                    'language': lang,
+                    'languageName': lang,
+                    'sub': subtitle[lang]
+                });
+            }
+            subArray.sort(function (sub1, sub2) {
+                return sub1.language > sub2.language;
+            });        
+            var subtracks = '';
+            for(var index in subArray ) {
+              subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" />';
+            }
+        %>      
+        <video id="video_player" width="100%" height="100%" class="video-js vjs-default-skin" controls preload autoplay>
+            <source src="<%= src %>" type="video/mp4" />
+            <%=subtracks%>
+        </video>
     </script>
 
     <script id="loading-tpl" type="text/x-template">

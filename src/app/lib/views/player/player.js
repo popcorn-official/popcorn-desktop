@@ -7,15 +7,15 @@
 
         ui: {
             downloadSpeed: '.download_speed_player',
-            uploadSpeed: '.upload_speed_player'
+            uploadSpeed: '.upload_speed_player',
         },
 
         events: {
-            'click .close-info-player': 'closePlayer'
+            'click .close-info-player': 'closePlayer',
+            'click .vjs-fullscreen-control': 'toggleFullscreen'
         },        
 
         initialize: function() {
-            console.log('Show player');
             this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
             this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
         },
@@ -34,6 +34,49 @@
         },
 
         onShow: function() {
+            var video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {} }});
+
+            // Had only tracking in, leave it here if we want to do something else when paused.
+            video.player().on('pause', function () {
+
+            });
+
+            video.player().on('play', function () {
+              // Trigger a resize so the subtitles are adjusted
+              $(window).trigger('resize');
+            });
+
+            // There was an issue with the video
+            video.player().on('error', function (error) {
+              // TODO: what about some more elegant error tracking
+              alert('Error: ' + videoError(document.getElementById('video_player').player.error()));
+            });
+
+            // add ESC toggle when full screen
+            $(document).on('keydown', function (e) {
+              if (e.keyCode == 27) {
+                
+                this.nativeWindow = require('nw.gui').Window.get();
+
+                if(this.nativeWindow.isFullscreen) {
+                  this.nativeWindow.leaveFullscreen();
+                  this.nativeWindow.focus();
+                }
+              }
+            });            
+        },
+
+        toggleFullscreen: function() {
+            
+            this.nativeWindow = require('nw.gui').Window.get();
+
+            if(this.nativeWindow.isFullscreen) {
+                this.nativeWindow.leaveFullscreen();
+                this.nativeWindow.focus();
+            } else {
+                this.nativeWindow.enterFullscreen();
+                this.nativeWindow.focus();
+            }
         },
 
         onClose: function() {
