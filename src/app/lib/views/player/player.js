@@ -36,6 +36,15 @@
         },
 
         onShow: function() {
+
+            var _this = this;
+
+            $('#video_player').canDragWindow();
+            // Double Click to toggle Fullscreen
+            $('#video_player').dblclick(function(event){
+              _this.toggleFullscreen();
+            });
+
             this.video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {} }});
 
             // Had only tracking in, leave it here if we want to do something else when paused.
