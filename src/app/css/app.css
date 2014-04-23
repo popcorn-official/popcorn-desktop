@@ -219,6 +219,7 @@ ul.nav-hor > li {
   font-family: 'Open Sans Semibold';
   -webkit-font-smoothing: antialiased;
   margin-left: 5px;
+  float: left;
 }
 .loading-backround {
   position: absolute;
@@ -247,6 +248,22 @@ ul.nav-hor > li {
   font-family: 'Open Sans Semibold';
   -webkit-font-smoothing: antialiased;
   float: right;
+}
+.download_speed_plyer {
+  position: relative;
+  color: #fff;
+  font-size: 12px;
+  font-family: 'Open Sans Semibold';
+  -webkit-font-smoothing: antialiased;
+  margin-left: 5px;
+}
+.upload_speed_plyer {
+  position: relative;
+  color: #fff;
+  font-size: 12px;
+  font-family: 'Open Sans Semibold';
+  -webkit-font-smoothing: antialiased;
+  margin-left: 5px;
 }
 .loading-cancel {
   top: 40px;
@@ -1448,7 +1465,7 @@ body,
   z-index: 3;
 }
 .tv-dot {
-  margin-top: 38.5px;
+  margin-top: 39.5px;
   position: relative;
   z-index: 3;
   margin-left: 15px;
@@ -1472,7 +1489,7 @@ body,
 .tv-rating-star {
   z-index: 2;
   margin-right: 3px;
-  margin-top: 20px;
+  margin-top: 35px;
   position: relative;
   float: left;
   width: 11px;

@@ -245,9 +245,9 @@
         <div class="tv-genre">Drama</div>
         <div class="tv-dot"></div>
         <div class="tv-num-episodes"><%= seasonsCount %> Seasons</div>
-        <div class="dot"></div>
+        <div class="tv-dot"></div>
         
-        <% p_rating = Math.round(p_rating) / 2; // Roundoff number to nearest 0.5 %>
+        <%  p_rating = Math.round(rating) / 2; // Roundoff number to nearest 0.5 %>
         <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
             <div class="tv-rating-star full"></div>
         <% }; %>
@@ -262,50 +262,15 @@
         </div>
         <div class="tv-container-close"></div>
 
-    <!--
-        <div class="show-detail">
-            <div class="detail-window">
-                <div id="movie-backdrop" style="background-image:url( <%= backdrop %> )" class="movie-backdrop"></div>
-                <div class="movie-backdrop-overlay"></div>
-                <img class="movie-cover-image" src="<%= image %>" />
-                <div class="sperator-movie"></div>
-                <div class="movie-meta-title"><%= title %></div>
-                <ul class="movie-quick-info">
-           
-                    <div class="movie-meta-details"><%= year %></div>
-                    <div class="movie-dot"></div>
-                    <% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
-                    <div class="movie-meta-details"><%= runtime %> min</div>
 
-
-
-                    <div class="movie-dot"></div>
-                        <% var p_rating = rating %>
-                    <div class="health-icon Excellent"></div>  
-
-                    <% p_rating = Math.round(p_rating) / 2; // Roundoff number to nearest 0.5 %>
-                    <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
-                        <div class="rating-star full"></div>
-                    <% }; %>
-                    <% if (p_rating % 1 > 0) { %>
-                        <div class="rating-star half"></div>
-                    <% }; %>
-                    <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
-                        <div class="rating-star null"></div>
-                    <% }; %>
-
-                </ul>
-
-                <div class="movie-meta-overview"><%= synopsis %></div>
-                <div class="movie-detail-close"></div>
-                <ul class="seasons">
+<ul class="seasons">
                     <% _.each(torrents, function(value, season) { %>
                         <li>
                             Season <%=season %>
                             <ul>
                                 <% _.each(value, function(torrentLink, episode) { %>
                                     <li>
-                                        Episode <%=episode%> 
+                                        Episode <%=episode%>
                                         <a href="#" data-torrent='<%=torrentLink.url %>' class='startStreaming'>Watch</a>
                                     </li>
                                 <% }); %>
@@ -315,8 +280,7 @@
                     <% }); %>
                 </ul>
 
-            </div>
-        </div> -->
+              
     </script>
 
     <script id="settings-container-tpl" type="text/x-template">
@@ -382,8 +346,8 @@
                     <div class="eye-info-player"></div>
                     <div class="details-info-player">
                         <div class="arrow-up"></div>
-                        <span class="speed-info-player">Download: </span><span class="download_speed"></span>
-                        <span class="speed-info-player">Upload: </span><span class="upload_speed"></span>
+                        <span class="speed-info-player">Download: </span><span class="download_speed_player"></span>
+                        <span class="speed-info-player">Upload: </span><span class="upload_speed_player"></span>
                     </div>
                 </div>
             </div>
