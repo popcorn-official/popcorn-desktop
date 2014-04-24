@@ -236,10 +236,12 @@
 
     <script  id="show-detail-tpl" type="text/x-template">
 <div class="tv-container-close"></div>
-        <div  class="tv-poster">
+        <div class="tv-poster">
         <div class="tv-poster-overlay"></div>
         <div style="background-image:url(<%= backdrop %>);" class="tv-poster-background"></div>
         <div style="background-image:url(<%= image %>);" class="tv-cover"></div>
+        
+        <div class="tv-meta-data">
         <div class="tv-title"><%= title %></div>
         <div class="tv-duration"><%= year %></div>
         <div class="tv-dot"></div>
@@ -261,6 +263,7 @@
         <% if (synopsis.length > 776) { var synopsis = synopsis.substring(0, 776) + "..."; } %>
             <div class="tv-overview"><%= synopsis %></div>
             
+        </div>
         </div>
         <div class="episode-list-text">Episode List</div>
         <div class="season-episode-container">
