@@ -49,7 +49,7 @@ The control icons are from a custom font. Each icon corresponds to a character
     height: 11px;
 }
 .vjs-default-skin .vjs-slider-handle:before {
-    content: url('images/Marker.png');
+    content: url('../images/icons/Player/Marker.png');
 }
 /* Control Bar
 --------------------------------------------------------------------------------
@@ -160,10 +160,10 @@ fonts to show/hide properly.
 }
 .vjs-default-skin .vjs-play-control:before {
     position: relative;
-    content: url('images/Play.png');
+    content: url('../images/icons/Player/Play.png');
 }
 .vjs-default-skin.vjs-playing .vjs-play-control:before {
-    content: url('images/Pause.png');
+    content: url('../images/icons/Player/Pause.png');
 }
 /* Volume/Mute
 -------------------------------------------------------------------------------- */
@@ -183,19 +183,19 @@ fonts to show/hide properly.
 .vjs-default-skin .vjs-mute-control:before,
 .vjs-default-skin .vjs-volume-menu-button:before {
     position: relative;
-    content: url('images/Sound3.png');
+    content: url('../images/icons/Player/Sound3.png');
 }
 .vjs-default-skin .vjs-mute-control.vjs-vol-2:before,
 .vjs-default-skin .vjs-volume-menu-button.vjs-vol-2:before {
-    content: url('images/Sound2.png');
+    content: url('../images/icons/Player/Sound2.png');
 }
 .vjs-default-skin .vjs-mute-control.vjs-vol-1:before,
 .vjs-default-skin .vjs-volume-menu-button.vjs-vol-1:before {
-    content: url('images/Sound1.png');
+    content: url('../images/icons/Player/Sound1.png');
 }
 .vjs-default-skin .vjs-mute-control.vjs-vol-0:before,
 .vjs-default-skin .vjs-volume-menu-button.vjs-vol-0:before {
-    content: url('images/Sound0.png');
+    content: url('../images/icons/Player/Sound0.png');
 }
 .vjs-default-skin .vjs-volume-control {
     top: 17px;
@@ -230,10 +230,10 @@ fonts to show/hide properly.
     /* layer fill content */
 }
 .vjs-default-skin .vjs-volume-bar .vjs-volume-handle {
-    content: url('images/Marker.png');
+    content: url('../images/icons/Player/Marker.png');
 }
 .vjs-default-skin .vjs-volume-handle:before {
-    content: url('images/Marker.png');
+    content: url('../images/icons/Player/Marker.png');
 }
 .vjs-default-skin .vjs-volume-menu-button .vjs-menu .vjs-menu-content {}
 /* Progress
@@ -244,7 +244,7 @@ fonts to show/hide properly.
     position: relative;
     /* Set above the rest of the controls. */
     top: 17px;
-    width: calc(100% - 320px);
+    width: calc(100% - 340px);
     height: 5px;
     float: left;
     -moz-border-radius: 3px / 2px;
@@ -387,12 +387,12 @@ fonts to show/hide properly.
     height: 16px;
 }
 .vjs-default-skin .vjs-fullscreen-control:before {
-    content: url('images/Fullscreen.png');
+    content: url('../images/icons/Player/Fullscreen.png');
 }
 /* Switch to the exit icon when the player is in fullscreen */
 
 .vjs-default-skin.vjs-fullscreen .vjs-fullscreen-control:before {
-    content: url('images/Normalscreen.png');
+    content: url('../images/icons/Player/Normalscreen.png');
 }
 /* Big Play Button (play button at start)
 --------------------------------------------------------------------------------
@@ -643,7 +643,7 @@ easily in the skin designer. http://designer.videojs.com/
 /* Subtitles Button */
 
 .vjs-default-skin .vjs-subtitles-button:before {
-    content: url('images/Subtitles.png');
+    content: url('../images/icons/Player/Subtitles.png');
 }
 /* Captions Button */
 

@@ -235,60 +235,63 @@
     </script>
 
     <script  id="show-detail-tpl" type="text/x-template">
-        <div class="show-detail">
-            <div class="detail-window">
-                <div id="movie-backdrop" style="background-image:url( <%= backdrop %> )" class="movie-backdrop"></div>
-                <div class="movie-backdrop-overlay"></div>
-                <img class="movie-cover-image" src="<%= image %>" />
-                <div class="sperator-movie"></div>
-                <div class="movie-meta-title"><%= title %></div>
-                <ul class="movie-quick-info">
-           
-                    <div class="movie-meta-details"><%= year %></div>
-                    <div class="movie-dot"></div>
-                    <% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
-                    <div class="movie-meta-details"><%= runtime %> min</div>
-
-
-
-                    <div class="movie-dot"></div>
-                        <% var p_rating = rating %>
-                    <div class="health-icon Excellent"></div>  
-
-                    <% p_rating = Math.round(p_rating) / 2; // Roundoff number to nearest 0.5 %>
-                    <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
-                        <div class="rating-star full"></div>
-                    <% }; %>
-                    <% if (p_rating % 1 > 0) { %>
-                        <div class="rating-star half"></div>
-                    <% }; %>
-                    <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
-                        <div class="rating-star null"></div>
-                    <% }; %>
-
-                </ul>
-
-                <div class="movie-meta-overview"><%= synopsis %></div>
-                <div class="movie-detail-close"></div>
-                <ul class="seasons">
-                    <% _.each(torrents, function(value, season) { %>
-                        <li>
-                            Season <%=season %>
-                            <ul>
-                                <% _.each(value, function(torrentLink, episode) { %>
-                                    <li>
-                                        Episode <%=episode%> 
-                                        <a href="#" data-torrent='<%=torrentLink.url %>' class='startStreaming'>Watch</a>
-                                    </li>
-                                <% }); %>
-                            </ul>
-                        </li>
-                  
-                    <% }); %>
-                </ul>
-
-            </div>
+<div class="tv-container-close"></div>
+        <div  class="tv-poster">
+        <div class="tv-poster-overlay"></div>
+        <div style="background-image:url(<%= backdrop %>);" class="tv-poster-background"></div>
+        <div style="background-image:url(<%= image %>);" class="tv-cover"></div>
+        <div class="tv-title"><%= title %></div>
+        <div class="tv-duration"><%= runtime %> min</div>
+        <div class="tv-dot"></div>
+        <div class="tv-genre">Drama</div>
+        <div class="tv-dot"></div>
+        <div class="tv-num-episodes"><%= seasonsCount %> Seasons</div>
+        <div class="tv-dot"></div>
+        
+        <%  p_rating = Math.round(rating) / 2; // Roundoff number to nearest 0.5 %>
+        <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
+            <div class="tv-rating-star full"></div>
+        <% }; %>
+        <% if (p_rating % 1 > 0) { %>
+            <div class="tv-rating-star half"></div>
+        <% }; %>
+        <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
+            <div class="tv-rating-star null"></div>
+        <% }; %>
+        <% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
+            <div class="tv-overview"><%= synopsis %></div>
+            
         </div>
+        
+
+
+        <div id="tabs_season">
+            <ul>
+                <% _.each(torrents, function(value, season) { %>
+                    <li class="saisonSwitch">
+                        <a href="#tabs-<%=season %>" title="">Season <%=season %></a>
+                    </li>
+                <% }); %>
+            </ul>
+            <div id="tabs_container">
+                <% _.each(torrents, function(value, season) { %>
+                   <div id="tabs-<%=season %>">
+                        <ul>
+                            <% _.each(value, function(torrentLink, episode) { %>
+                                <li>
+                                    Episode <%=episode%>
+                                    <a href="#" data-torrent='<%=torrentLink.url %>' class='startStreaming'>Watch</a>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    </li>
+                    <!--tab content-->
+                </div>
+                <% }); %>
+            </div><!--End tabs container-->
+        </div><!--End tabs-->
+
+
     </script>
 
     <script id="settings-container-tpl" type="text/x-template">
@@ -354,19 +357,40 @@
                     <div class="eye-info-player"></div>
                     <div class="details-info-player">
                         <div class="arrow-up"></div>
-                        <span class="speed-info-player">Download: </span><span class="download_speed"></span>
-                        <span class="speed-info-player">Upload: </span><span class="upload_speed"></span>
+                        <span class="speed-info-player">Download: </span><span class="download_speed_player"></span>
+                        <span class="speed-info-player">Upload: </span><span class="upload_speed_player"></span>
                     </div>
                 </div>
             </div>
         </div>
-        <video src="<%= src %>" class="video-js vjs-default-skin" autoplay controls></video>        
+
+        <%
+            var subArray = [];
+            for (var lang in subtitle) {
+                subArray.push({
+                    'language': lang,
+                    'languageName': lang,
+                    'sub': subtitle[lang]
+                });
+            }
+            subArray.sort(function (sub1, sub2) {
+                return sub1.language > sub2.language;
+            });        
+            var subtracks = '';
+            for(var index in subArray ) {
+              subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" />';
+            }
+        %>      
+        <video id="video_player" width="100%" height="100%" class="video-js vjs-default-skin" controls preload autoplay>
+            <source src="<%= src %>" type="video/mp4" />
+            <%=subtracks%>
+        </video>
     </script>
 
     <script id="loading-tpl" type="text/x-template">
 
-        <div style="background-image:url( <%= backdrop %> )" class="loading-backround"></div>
-        <div class="loading-backround-overlay"></div>
+        <div style="background-image:url( <%= backdrop %> )" class="loading-background"></div>
+        <div class="loading-background-overlay"></div>
            
         <div class="state">
 

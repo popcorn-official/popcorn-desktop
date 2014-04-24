@@ -1,176 +1,157 @@
-ul.seasons
-  z-index: 2
-  opacity 1
-  color: #fff
-  position relative
-
-ul.seasons, ul.seasons ul 
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-   
-ul.seasons ul 
-  margin-left: 10px;
-
-ul.seasons li 
-  margin: 0;
-  padding: 0 12px;
-   
-.app-overlay
-  position absolute
-  z-index 2
-  width 100%
-  height 100%
-  background-color rgba(9, 13, 18, 0.75)
-
-.show-detail
-    z-index 10
-    //width 819px
-    width 90%
-    //height 420px
-    height 74.5%
-    position absolute
-    -webkit-user-select none   
-    opacity 1
-    overflow auto
-    margin auto
-    left 0
-    right 0
-    top 16%
-    max-width 940px
-    max-height 430px
-    background-image: url('../../images/Item-detail-backround.png')
-    background-repeat no-repeat
-    background-size 100% 91.7%
-    -webkit-backface-visibility hidden
-
-.sperator-movie
-    opacity 1
-    height 5.5%
+.shows-container-contain
+    background-color #17181b
+    height 100%
     width 100%
-    position relative
-    -webkit-backface-visibility hidden
-
-    .detail-window
-      opacity 1
-
-      .movie-quick-info
-        margin-bottom: 5px
-        color: #fff
-
-  .movie-meta-details
-    opacity 1
-    margin-left 4px  
-    margin-top 20px
-    position relative
-    float left
-    color #fff
-    font-family: 'Open Sans Bold'
-    -webkit-font-smoothing: antialiased
-    font-size 11px
-    cursor default
-    z-index 2
-    -webkit-backface-visibility hidden
-
-  .movie-dot
-    margin-left 15px
-    margin-right 15px
-    margin-top 25px
-    position relative
-    float left
-    width 3px
-    height 3px
-    -moz-border-radius 2px
-    -webkit-border-radius 2px
-    border-radius 2px
-    -moz-background-clip padding
-    -webkit-background-clip padding-box
-    background-clip padding-box
-    background-color #dbdbdd
-    cursor default
-    z-index 2
-    opacity 1
-    -webkit-backface-visibility hidden
+    position fixed
+    scrollable()
+    padding-top: HeaderHeight
+    &::-webkit-scrollbar-track
+        margin-top: HeaderHeight
 
 
-  .movie-cover-image
-    position relative
-    width 196px
-    height 292px
-    border-radius 4px
-    float left
-    margin-right 20px
-    margin-left 66px
-    z-index 2
-    opacity 1
-    -webkit-backface-visibility hidden
-
-
-.movie-meta-overview
-    position relative
-    margin-left 285px
-    margin-top 45px
-    color #fff
-    font-family 'Open Sans Semibold'
-    -webkit-font-smoothing: antialiased
-    font-size 12px
-    line-height 22px
-    width 60%
-    max-width 60%
-    height 55%
-    z-index 2
-    opacity 1
-    -webkit-backface-visibility hidden
-
-.movie-detail-close
-    top 13px
-    right 13px
-    position absolute
+.tv-container-close
+    top 80px
+    right 20px
+    position fixed
     float right
     width 14px
     height 14px
-    background-image: url(../../images/icons/Close.png);
+    background-image url('../../images/icons/Close.png')
     cursor pointer
     z-index 2
     opacity 1
     -webkit-backface-visibility hidden
+    z-index 4
 
-.movie-meta-title
-    margin-top 5.5%
-    margin-left 285px
-    color #fff
-    font-family: 'Open Sans Semibold'
-    -webkit-font-smoothing: antialiased;
-    font-size 38px
-    position relative
-    cursor default
-    z-index 2
-    max-width 60%
-    opacity 1
-    -webkit-backface-visibility hidden
+.tv-poster
+  position fixed
+  width 100%
+  height 233px
+  z-index 3
+  overflow: hidden
 
-.health-icon
-    z-index 2
-    margin-right 89px
-    margin-top 18px
-    position relative
-    float right
-    width 12px
-    height 17px
-    opacity 1
-    -webkit-backface-visibility hidden
-    &.Bad
-      background-image url('../../images/icons/HealthBad.png')
-    &.Medium
-      background-image url('../../images/icons/HealthMedium.png')
-    &.Good
-      background-image url('../../images/icons/HealthGood.png')
-    &.Excellent
-      background-image url('../../images/icons/HealthExcellent.png')
-.rating-star
+.tv-poster-background 
+  position: absolute
+  width: 100%
+  height: 237px
+  z-index: 1
+  background-repeat: no-repeat
+  background-attachment: fixed
+  background-position: 50% 0
+  -webkit-filter: blur(4px)
+  -webkit-background-size: cover
+  -moz-background-size: cover
+  background-size: cover
+  margin: -1px
+
+.tv-poster-overlay
+  position absolute
+  width 100%
+  height 100%
+  opacity .4
+  background-color #000
+  z-index 2
+
+.tv-cover
+  position relative
+  float left
+  margin-left 28px
+  margin-top 22px
+  width 135px
+  height 197px
+  -moz-box-shadow 0 0 10px rgba(0, 0, 0, .4)
+  -webkit-box-shadow 0 0 10px rgba(0, 0, 0, .4)
+  box-shadow 0 0 10px rgba(0, 0, 0, .4)
+  z-index 3
+  background-size 134px 197px
+  border-radius 4px
+  box-shadow 0px 0px 10px
+
+.tv-title
+  top 21px
+  left 36px
+  position relative
+  z-index 3
+  color #fff
+  width 452px
+  font-family: 'Open Sans Bold'
+  -webkit-font-smoothing: antialiased
+  font-size 22px
+
+.tv-overview
+  margin-top 60px
+  margin-left 198px
+  z-index 3
+  position relative
+  color #fff
+  font-family: 'Open Sans Semibold'
+  -webkit-font-smoothing: antialiased
+  font-size 12px
+  line-height 22px
+  max-width 78%
+  height 110px
+
+
+.tv-num-episodes
+  margin-top 35px
+  position relative
+  z-index 3
+  float left
+  color #fff
+  font-family: 'Open Sans Bold'
+  -webkit-font-smoothing: antialiased
+  font-size 11px
+  cursor default
+
+.tv-genre
+  margin-top 35px
+  z-index 3
+  position relative
+  float left
+  color #fff
+  font-family: 'Open Sans Bold'
+  -webkit-font-smoothing: antialiased
+  font-size 11px
+  cursor default
+
+.tv-duration
+  margin-top 35px
+  position relative
+  z-index 3
+  margin-left 37px
+  float left
+  color #fff
+  width auto
+  height auto
+  font-family: 'Open Sans Bold'
+  -webkit-font-smoothing: antialiased
+  font-size 11px
+  cursor default
+  z-index 3
+
+.tv-dot
+  margin-top 39.5px
+  position relative
+  z-index 3
+  margin-left 15px
+  margin-right 15px
+  position relative
+  float left
+  width 3px
+  height 3px
+  -moz-border-radius 2px
+  -webkit-border-radius 2px
+  border-radius 2px
+  -moz-background-clip padding
+  -webkit-background-clip padding-box
+  background-clip padding-box
+  background-color #dbdbdd
+  cursor default
+
+.tv-rating-star
     z-index 2
     margin-right 3px
-    margin-top 20px
+    margin-top 35px
     position relative
     float left
     width 11px
@@ -185,201 +166,118 @@ ul.seasons li
     &.full
       background-image url('../../images/icons/star.png')
 
-.movie-btn-watch
-    z-index 2
-    left 285px
-    top 300px
-    position absolute
-    cursor pointer
-    width 87px
-    height 35px
-    -moz-border-radius 3px
-    -webkit-border-radius 3px
-    border-radius 3px
-    -moz-background-clip padding
-    -webkit-background-clip padding-box
-    background-clip padding-box
-    background-color #458de3
-    &:hover
-      background #2d82ff
-      background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
-      text-decoration none
 
 
 
-    .movie-watch-now
-      color #fff
-      font-family "Open Sans Semibold", "Open Sans", sans-serif
-      -webkit-font-smoothing antialiased
-      text-align center
-      margin-top 12px
-      font-size 12px
-
-.movie-btn-watch-trailer
-    z-index 2
-    left 390px
-    top 300px
-    position absolute
-    cursor pointer
-    width 97px
-    height 35px
-    -moz-border-radius 3px
-    -webkit-border-radius 3px
-    border-radius 3px
-    -moz-background-clip padding
-    -webkit-background-clip padding-box
-    background-clip padding-box
-    background-color #458de3
-    &:hover
-      background #2d82ff
-      background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
-      text-decoration none
-    .movie-watch-now
-      color #fff
-      font-family "Open Sans Semibold", "Open Sans", sans-serif
-      -webkit-font-smoothing antialiased
-      text-align center
-      margin-top 12px
-      font-size 12px
 
 
-.movie-backdrop
-    width 100%
-    height 100%
-    position absolute
-    top -34px
-    z-index 0
-    background-repeat no-repeat
-    background-position center
-    -webkit-filter blur(3px)
-    overflow hidden
-    opacity 1
-    -webkit-backface-visibility hidden
 
 
-.movie-backdrop-overlay
-    width 100%
-    height 100%
-    position absolute
-    top -34px
-    z-index 1
-    opacity .55
-    /* layer alpha */
-    background-color #000
-    /* layer fill content */
+
+
+
+
+
+
+
+
+
+ul.seasons
+  z-index: 2
+  opacity 1
+  color: #fff
+  position relative
+
+ul.seasons, ul.seasons ul 
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+ul.seasons li
+  vertical-align: top;
+  display: inline-block;
+  margin: 0;
+  padding: 0 12px;
+
+ul.seasons ul li
+  display: block;
+  padding: 0;
+
+#tabs_season 
+    width: 100%
+    margin: 0
+    padding: 0
+    list-style: none
+    font: 12px Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif
     z-index: 2
+    float: left
+    position: relative
+    height: auto;
+    top 238px
+
+    ul 
+      position: absolute
+      margin: 0 0 0 60px
+      list-style: none
+
+      li 
+        margin: 10px .5em 17px 0
+        font-size: 13px
+
+    a 
+      padding: 1em 1em
+      text-decoration: none
+      color: #707070
+      font-size: 20px
+      font-weight: 600
+      margin: 10px 0px
+
+    a:hover, a:hover::after, a:focus, a:focus::after 
+      color: #3173E9
+    
+    a:focus 
+      outline: 0
+
+    a::after 
+      content: ''
+      position: absolute
+      z-index: 1
+      top: 0
+      right: -.5em
+      bottom: 0
+      width: 1em
+
+    #current_season a
+      z-index: 3
+      color: #4370BE
+
+    #current_season a::after 
+      z-index: 3
 
 
+#tabs_container 
+    padding: 0px
+    position: relative
+    z-index: 2
+    height: 100%
+    margin: 0 200px
+    color: #FFF
 
-.q720
-  z-index 2
-  font-family "Open Sans Bold", "Open Sans", sans-serif
-  -webkit-font-smoothing antialiased
-  font-size 11px
-  color #fff
-  font-weight normal
-  margin-left 525px
-  top 312px
-  position absolute
+    a 
+      padding: 1em 1em
+      text-decoration: none
+      color: #707070
+      font-size: 13px
+      font-weight: bold
+      margin: 10px 0px
 
-.q1080
-  font-family "Open Sans Bold", "Open Sans", sans-serif
-  -webkit-font-smoothing antialiased
-  font-size 11px
-  color #fff
-  font-weight normal
-  margin-left 580px
-  top 312px
-  position absolute
-  z-index 2
+    ul 
+        position: absolute
+        margin: 10px 20px
+        list-style: none
 
-.switch
-  background transparent
-  border-radius 32px
-  display block
-  height 12px
-  position absolute
-  margin-left 550px
-  top 312px
-  width 25px
-  border 2px solid #FFF
-  cursor pointer
-  z-index 2
-  label
-    font-family "Open Sans", sans-serif
-    font-size 11px
-    color #fff
-    font-weight bold
-    transition color 0.2s ease
-    transition color 0.2s ease
-    width 20px
-    cursor pointer
-    &:nth-of-type(1)
-      left -38px
-      position absolute
-      text-align right
-    &:nth-of-type(2)
-      position absolute
-      right -30px
-      text-align left
-  input
-    height 7px
-    left -27px
-    opacity 0
-    position absolute
-    top -4px
-    width 79px
-    z-index 2
-    cursor pointer
-    &:checked
-      z-index 0
-      & ~ label
-        &:nth-of-type(1)
-          color #286dc4
-        &:nth-of-type(2)
-          color #FFF
-      & ~ .toggle
-        left 0px
-    & ~ :checked
-      & ~ label
-        &:nth-of-type(1)
-          color #FFF
-        &:nth-of-type(2)
-          color #286dc4
-      & ~ .toggle
-        left 11px
+      li 
+        margin: 10px .5em 0 0
+        font-size: 13px
 
-.toggle
-  transition left 0.2s ease
-  transition left 0.2s ease
-  background #286dc4
-  border-radius 50%
-  height 10px
-  left -0px
-  position absolute
-  top -1px
-  width 10px
-  z-index 1
 
-.sub-dropdown
-    z-index 2
-    margin-left 760px
-    top 312px
-    position absolute
-    float right
-    width 12px
-    height 17px
-    opacity 1
-    -webkit-backface-visibility hidden
-    color #fff
-    font-family 'Open Sans Semibold'
-    -webkit-font-smoothing: antialiased
-    font-size 12px
