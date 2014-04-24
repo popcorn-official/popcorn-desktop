@@ -241,11 +241,11 @@
         <div style="background-image:url(<%= backdrop %>);" class="tv-poster-background"></div>
         <div style="background-image:url(<%= image %>);" class="tv-cover"></div>
         <div class="tv-title"><%= title %></div>
-        <div class="tv-duration"><%= runtime %> min</div>
+        <div class="tv-duration"><%= year %></div>
         <div class="tv-dot"></div>
-        <div class="tv-genre">Drama</div>
+        <div class="tv-genre"><%= runtime %> min</div>
         <div class="tv-dot"></div>
-        <div class="tv-num-episodes"><%= seasonsCount %> Seasons</div>
+        <div class="tv-num-episodes">genre placeholder</div>
         <div class="tv-dot"></div>
         
         <%  p_rating = Math.round(rating) / 2; // Roundoff number to nearest 0.5 %>
@@ -262,25 +262,53 @@
             <div class="tv-overview"><%= synopsis %></div>
             
         </div>
-        
+        <div class="episode-list-text">Episode List</div>
+        <div class="season-episode-container">
 
 
         <div id="tabs_season">
             <ul>
                 <% _.each(torrents, function(value, season) { %>
+                	   <% var season0 = season.substring(0, 1); 
+
+						if (season0 == '0'){
+							newseason =season.substr(1);
+							console.log('Setting Season: ' + season + ' To: ' + newseason );
+							season = season.substr(1);						
+						}
+
+                        %>
                     <li class="saisonSwitch">
+
                         <a href="#tabs-<%=season %>" title="">Season <%=season %></a>
+
+
                     </li>
                 <% }); %>
             </ul>
             <div id="tabs_container">
                 <% _.each(torrents, function(value, season) { %>
+                	   <% var season0 = season.substring(0, 1); 
+
+						if (season0 == '0'){
+							newseason =season.substr(1);
+							season = season.substr(1);						
+						}
+
+						var season0 = episode.substring(0, 1); 
+
+						if (episode0 == '0'){
+							newepisode =episode.substr(1);
+							episode = episode.substr(1);						
+						}
+
+                        %>
+
                    <div id="tabs-<%=season %>">
                         <ul>
                             <% _.each(value, function(torrentLink, episode) { %>
                                 <li>
-                                    Episode <%=episode%>
-                                    <a href="#" data-torrent='<%=torrentLink.url %>' class='startStreaming'>Watch</a>
+                                    <a href="#" data-torrent='<%=torrentLink.url %>' class='startStreaming'>Season <%=season %>, Episode <%=episode%> - Episode Name</a>
                                 </li>
                             <% }); %>
                         </ul>
@@ -290,7 +318,7 @@
                 <% }); %>
             </div><!--End tabs container-->
         </div><!--End tabs-->
-
+</div>
 
     </script>
 
