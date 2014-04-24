@@ -269,14 +269,11 @@
         <div id="tabs_season">
             <ul>
                 <% _.each(torrents, function(value, season) { %>
-                	   <% var season0 = season.substring(0, 1); 
+                	   <% 
 
-						if (season0 == '0'){
-							newseason =season.substr(1);
-							console.log('Setting Season: ' + season + ' To: ' + newseason );
-							season = season.substr(1);						
-						}
-
+						if (season.substring(0, 1) == '0')
+						  season = season.substr(1);						
+	
                         %>
                     <li class="saisonSwitch">
 
@@ -288,25 +285,18 @@
             </ul>
             <div id="tabs_container">
                 <% _.each(torrents, function(value, season) { %>
-                	   <% var season0 = season.substring(0, 1); 
-
-						if (season0 == '0'){
-							newseason =season.substr(1);
+                	   <% 
+						if (season.substring(0, 1) == '0')
 							season = season.substr(1);						
-						}
-
-						var season0 = episode.substring(0, 1); 
-
-						if (episode0 == '0'){
-							newepisode =episode.substr(1);
-							episode = episode.substr(1);						
-						}
-
                         %>
 
                    <div id="tabs-<%=season %>">
                         <ul>
-                            <% _.each(value, function(torrentLink, episode) { %>
+                            <% _.each(value, function(torrentLink, episode) {
+
+                                if (episode.substring(0, 1) == '0')
+                                    episode = episode.substr(1);                        
+                             %>
                                 <li>
                                     <a href="#" data-torrent='<%=torrentLink.url %>' class='startStreaming'>Season <%=season %>, Episode <%=episode%> - Episode Name</a>
                                 </li>
