@@ -560,6 +560,7 @@ easily in the skin designer. http://designer.videojs.com/
 */
 
 .vjs-default-skin .vjs-menu-button {
+    outline: 0;
     position: relative;
     top: 12px;
     float: right;
@@ -577,6 +578,7 @@ easily in the skin designer. http://designer.videojs.com/
     width: 20px;
     height: 30px;
     margin-bottom: 10px;
+     outline: 0;
 }
 /* Button Pop-up Menu */
 
@@ -584,25 +586,50 @@ easily in the skin designer. http://designer.videojs.com/
     display: block;
     padding: 0;
     margin: 0;
+     outline: 0;
     position: absolute;
     width: 10em;
     bottom: 26px;
-    
+    color: #fff;
     /* Same bottom as vjs-menu border-top */
     max-height: 15em;
     overflow: auto;
     left: -40px;
     /* Width of menu - width of button / 2 */
     /* background-color-with-alpha */
-    background-color: #07141e;
-    background-color: rgba(7, 20, 30, 0.7);
+    background-color: #151517;
+    opacity: .8;
+    //background-color: rgba(7, 20, 30, 0.7);
     /* box-shadow */
-    -webkit-box-shadow: -0.2em -0.2em 0.3em rgba(255, 255, 255, 0.2);
-    -moz-box-shadow: -0.2em -0.2em 0.3em rgba(255, 255, 255, 0.2);
-    box-shadow: -0.2em -0.2em 0.3em rgba(255, 255, 255, 0.2);
+    //-webkit-box-shadow: -0.2em -0.2em 0.3em rgba(255, 255, 255, 0.2);
+    //-moz-box-shadow: -0.2em -0.2em 0.3em rgba(255, 255, 255, 0.2);
+    //box-shadow: -0.2em -0.2em 0.3em rgba(255, 255, 255, 0.2);
+}
+.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar {
+  width: 5px;
+}
+.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-track {
+  background-color: #30333c;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-thumb {
+  background-color: #83888c;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-thumb:hover {
+  background-color: #93989c;
+}
+.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-resizer,
+.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-corner,
+.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-button,
+.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-track-piece {
+  display: none;
 }
 .vjs-default-skin .vjs-menu-button:hover .vjs-menu {
     display: block;
+     outline: 0;
 }
 .vjs-default-skin .vjs-menu-button ul li {
     list-style: none;
@@ -612,23 +639,19 @@ easily in the skin designer. http://designer.videojs.com/
     font-size: 1.2em;
     text-align: center;
     text-transform: lowercase;
+     outline: 0;
 }
+
 .vjs-default-skin .vjs-menu-button ul li.vjs-selected {
-    background-color: #000;
+    color: #2d75df;
+     background-color: #151517;
+     outline: 0;
 }
 .vjs-default-skin .vjs-menu-button ul li:focus,
 .vjs-default-skin .vjs-menu-button ul li:hover,
 .vjs-default-skin .vjs-menu-button ul li.vjs-selected:focus,
 .vjs-default-skin .vjs-menu-button ul li.vjs-selected:hover {
-    outline: 0;
-    color: #111;
-    /* background-color-with-alpha */
-    background-color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.75);
-    /* box-shadow */
-    -webkit-box-shadow: 0 0 1em #ffffff;
-    -moz-box-shadow: 0 0 1em #ffffff;
-    box-shadow: 0 0 1em #ffffff;
+color: #2d75df;
 }
 .vjs-default-skin .vjs-menu-button ul li.vjs-menu-title {
     text-align: center;
