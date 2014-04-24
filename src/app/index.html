@@ -230,13 +230,17 @@
                 <div class="movie-detail-close"></div>
 
 
-                    <div class="sub-dropdown">Subtitles</div>                <div class="flag first NA"></div>
-                <div class="flag italian"></div>
-                <div class="flag dutch"></div>
-                <div class="flag english"></div>
-                <div class="flag romanian"></div>
-                <div class="flag turkish"></div>
-                <div class="flag bosnian"></div>
+
+                    <div class="sub-dropdown">Subtitles</div>    
+           
+                    <div class="flag first NA"></div>
+
+                    <% var subs = [];
+                    for(var k in subtitle){ %>
+                    <div class="flag <%= k %>"></div>
+
+                    <% subs.push(k); }  %> 
+
 
 
             </div>
