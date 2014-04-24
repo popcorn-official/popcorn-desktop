@@ -46,3 +46,4 @@ Try running `export DISPLAY=:0.0`
 
 ### Error "The video format is not supported"
 See: https://github.com/rogerwang/node-webkit/wiki/Support-mp3-and-h264-in-video-and-audio-tag
+
