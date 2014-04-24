@@ -74,7 +74,7 @@
   z-index 3
   color #fff
   width 452px
-  font-family: 'Open Sans Bold'
+  font-family: 'Open Sans'
   -webkit-font-smoothing: antialiased
   font-size 22px
 
@@ -169,39 +169,30 @@
 
 
 
+.episode-list-text
+  color #fff
+  font-family "Open Sans", sans-serif
+  font-size 22px
+  font-weight bold
+  position: relative
+  top: 260px
+  z-index: 3
+  left 232px
 
 
 
 
+.season-episode-container
+    background-color #17181b
+    height 80%
+    width 99.99%
+    position fixed
+    scrollable()
+    padding-top: 290px
+    &::-webkit-scrollbar-track
+        margin-top: 290px
 
 
-
-
-
-
-
-
-
-ul.seasons
-  z-index: 2
-  opacity 1
-  color: #fff
-  position relative
-
-ul.seasons, ul.seasons ul 
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-
-ul.seasons li
-  vertical-align: top;
-  display: inline-block;
-  margin: 0;
-  padding: 0 12px;
-
-ul.seasons ul li
-  display: block;
-  padding: 0;
 
 #tabs_season 
     width: 100%
@@ -213,7 +204,7 @@ ul.seasons ul li
     float: left
     position: relative
     height: auto;
-    top 238px
+    top 0px
 
     ul 
       position: absolute
@@ -222,6 +213,7 @@ ul.seasons ul li
 
       li 
         margin: 10px .5em 17px 0
+        font-family 'Open Sans Semibold'
         font-size: 13px
 
     a 
@@ -229,7 +221,7 @@ ul.seasons ul li
       text-decoration: none
       color: #707070
       font-size: 20px
-      font-weight: 600
+      font-weight: normal
       margin: 10px 0px
 
     a:hover, a:hover::after, a:focus, a:focus::after 
@@ -266,11 +258,26 @@ ul.seasons ul li
     a 
       padding: 1em 1em
       text-decoration: none
-      color: #707070
+      color: #fff
       font-size: 13px
-      font-weight: bold
+      font-weight: normal
+      font-family 'Open Sans Semibold'
       margin: 10px 0px
 
+    a:hover, a:hover::after, a:focus, a:focus::after 
+      color: #3173E9
+    
+    a:focus 
+      outline: 0
+
+    a::after 
+      content: ''
+      position: absolute
+      z-index: 1
+      top: 0
+      right: -.5em
+      bottom: 0
+      width: 1em
     ul 
         position: absolute
         margin: 10px 20px

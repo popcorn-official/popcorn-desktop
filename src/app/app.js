@@ -121,7 +121,7 @@ if (isDebug) {
 else
 {
 
-     console.log = function() {};
+    console.log = function() {};
     console.time = console.timeEnd = function() {};
     console.logger = {};
     console.logger.log = function() {};
