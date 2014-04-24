@@ -21,7 +21,7 @@
     top 16%
     max-width 940px
     max-height 430px
-    background-image: url('../../images/Item-detail-background.png')
+    background-image: url('../images/Item-detail-background.png')
     background-repeat no-repeat
     background-size 100% 91.7%
     -webkit-backface-visibility hidden
@@ -353,7 +353,7 @@
 
 .sub-dropdown
     z-index 2
-    margin-left 760px
+    margin-left 660px
     top 312px
     position absolute
     float right
@@ -365,3 +365,37 @@
     font-family 'Open Sans Semibold'
     -webkit-font-smoothing: antialiased
     font-size 12px
+
+
+.flag
+  z-index 2
+  margin-top 110px
+  margin-left 6px
+  background-size 18px 12px
+  position relative
+  float left
+  cursor pointer
+  background-image url('../images/none.png')
+  width 18px
+  height 12px
+  -moz-border-radius 1px
+  -webkit-border-radius 1px
+  border-radius 1px
+  -moz-background-clip padding
+  -webkit-background-clip padding-box
+  &.NA
+    background-image url('../images/none.png')
+  &.first
+    margin-left 444px
+  &.italian
+    background-image url('../images/italian.png')
+  &.dutch
+    background-image url('../images/dutch.png')
+  &.english
+    background-image url('../images/english.png')
+  &.romanian
+    background-image url('../images/romanian.png')
+  &.turkish
+    background-image url('../images/turkish.png')
+  &.bosnian
+    background-image url('../images/bosnian.png')
