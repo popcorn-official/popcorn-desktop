@@ -27,15 +27,18 @@
     // ok we check if we already initialized
     var initialize = function(){
 
-        Database.prototype.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
+        Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
+
+            // TODO: Show modal saying we are extracting data from endpoint
+
 
             if (setting.length == 0 ) {
 
                 // we need to do a complete update
                 // this is our first launch
-                Database.prototype.initDB(function(err, setting) {
+                Database.initDB(function(err, setting) {
                     // we write our new update time
-                    Database.prototype.writeSetting({key: "tvshow_last_sync", value: +new Date()},function() {});
+                    Database.writeSetting({key: "tvshow_last_sync", value: +new Date()},function() {});
                 });
 
             } else {
@@ -48,11 +51,7 @@
 
     };
     
-    var Database = function() {
-        this.db = db;
-    };
-
-    _.extend(Database.prototype, {
+    var Database = {
 
         addMovie: function(data, cb) {
             if(!data.movie.watched) data.movie.watched = {};
@@ -157,7 +156,7 @@
         },
 
         getSetting: function(data, cb) {
-            db.tvshows.find({key : data.key}, cb);
+            db.settings.find({key : data.key}, cb);
         },
 
         // todo make sure to overwrite
@@ -167,7 +166,15 @@
             db.settings.insert(data, cb);
         },
 
-    });
+        getShows: function(data, cb) {
+            var page = data.page-1;    
+            var byPage = 30;
+            var offset = page*byPage;
+            db.tvshows.find({}).sort({ year: -1 }).skip(offset).limit(byPage).exec(cb);         
+               
+        }
+
+    };
 
     initialize();
     App.db = Database;
