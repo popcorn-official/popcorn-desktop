@@ -6,6 +6,7 @@
         className: 'player',
 
         ui: {
+            eyeInfo: '.eye-info-player',
             downloadSpeed: '.download_speed_player',
             uploadSpeed: '.upload_speed_player',
         },
@@ -45,7 +46,12 @@
               _this.toggleFullscreen();
             });
 
-            this.video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {} }});
+            if(this.model.get('type') == 'video/youtube') {
+                this.video = videojs('video_player', { techOrder: ["youtube"], forceSSL: true, ytcontrols: false, quality: '720p' });
+                this.ui.eyeInfo.hide();
+            }
+            else
+                this.video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {} }});
 
             // Had only tracking in, leave it here if we want to do something else when paused.
             this.video.player().on('pause', function () {
