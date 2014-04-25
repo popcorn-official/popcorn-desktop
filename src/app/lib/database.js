@@ -22,34 +22,6 @@
     // settings key uniqueness
     db.settings.ensureIndex({fieldName: 'key' , unique: true });
 
-    console.log("Database initialized");
-
-    // ok we check if we already initialized
-    var initialize = function(){
-
-        Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
-
-            // TODO: Show modal saying we are extracting data from endpoint
-
-
-            if (setting.length == 0 ) {
-
-                // we need to do a complete update
-                // this is our first launch
-                Database.initDB(function(err, setting) {
-                    // we write our new update time
-                    Database.writeSetting({key: "tvshow_last_sync", value: +new Date()},function() {});
-                });
-
-            } else {
-
-                // we need to do a partial update
-
-            }
-
-        })
-
-    };
     
     var Database = {
 
@@ -122,7 +94,7 @@
                         if(a.season < b.season) return 1;
                         if(a.season > b.season) return -1;
                     })
-                    numSeasons = episodes[0].season;
+                    var numSeasons = episodes[0].season;
                     cb(null, numSeasons);
                 }
             })
@@ -136,7 +108,7 @@
             console.log("Extracting data from remote api");
             db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
                 db.tvshows.loadDatabase(function (err) {
-                    request.get("http://localhost:5000/shows/all", function(err, res, body) {
+                    request.get("http://popcorn-api.com/shows/all", function(err, res, body) {
                         if(!err) {
                             db.tvshows.insert(JSON.parse(body), function (err, newDocs){
                                 if(err) return cb(err, null);
@@ -172,11 +144,25 @@
             var offset = page*byPage;
             db.tvshows.find({}).sort({ year: -1 }).skip(offset).limit(byPage).exec(cb);         
                
+        },
+
+        initialize : function(callback){
+
+            Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
+                if (setting.length == 0 ) {
+
+                    // we need to do a complete update
+                    // this is our first launch
+                    Database.initDB(function(err, setting) {
+                        // we write our new update time
+                        Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
+                    });
+                } else {
+                    callback();
+                }
+            })
         }
-
-    };
-
-    initialize();
+    }
     App.db = Database;
 
 })(window.App);

@@ -422,7 +422,6 @@
     </script>
 
     <script id="loading-tpl" type="text/x-template">
-
         <div style="background-image:url( <%= backdrop %> )" class="loading-background"></div>
         <div class="loading-background-overlay"></div>
            
@@ -455,6 +454,16 @@
             </div>  
            <div class="loading-cancel"><div class="loading-cancel-text">Cancel</div></div>
             </div>
+        </div>
+    </script>
+
+    <script id="initializing-tpl" type="text/x-template">
+
+        <div class="loading-background"></div>
+        <div class="loading-background-overlay"></div>
+
+        <div class="state">
+            Initializing PopcornTime. Please Wait...
         </div>
     </script>
 
@@ -511,6 +520,7 @@
     <script src="lib/views/show_detail.js"></script>
 
     <script src="lib/views/settings.js"></script>
+    <script src="lib/views/init_modal.js"></script>
     <script src="lib/views/player/loading.js"></script>
     <script src="lib/views/player/player.js"></script>
 
