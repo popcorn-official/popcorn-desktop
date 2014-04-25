@@ -25,31 +25,20 @@
         },
 
         showCover: function() {
-            this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')');
+            this.ui.cover.css('background-image', 'url(' + this.model.get('images').poster + ')');
             this.ui.coverIamge.remove();
         },
+
+        // triggered on click only
         showDetail: function() {
 
-
-            var SelectedShow = new Backbone.Model(
-                {
-                    image: this.model.get('image'),
-                    torrents: this.model.get('torrents'),
-                    title: this.model.get('title'),
-                    synopsis: this.model.get('synopsis'),
-                    runtime: this.model.get('runtime'),
-                    year: this.model.get('year'),
-                    health: this.model.get('health'),
-                    subtitle: this.model.get('subtitle'),
-                    backdrop: this.model.get('backdrop'),
-                    rating: this.model.get('MovieRating'),
-                    seasonsCount: this.model.get('seasonsCount')
-                }
-            );
-
-            App.vent.trigger('show:showDetail', SelectedShow);
+            App.db.getTVShow({show_id: this.model.get("_id")}, function(err, data) {
+                // we send our DB data to our view
+                App.vent.trigger('show:showDetail', new Backbone.Model(data[0]));
+            });
             
         }
+
     });
 
     App.View.ShowItem = ShowItem;

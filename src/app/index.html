@@ -31,7 +31,7 @@
     </script>
 
     <script id="show-item-tpl" type="text/x-template">
-        <img class="cover-image" src="<%= image %>" style="display: none" />
+        <img class="cover-image" src="<%= images.poster %>" style="display: none" />
         <div class="cover">
             <div class="cover-overlay">
                 <div class="actions">
@@ -43,7 +43,7 @@
         </div>
 
         <p class="title" title="<%= title %>"><%= title %></p>
-        <p class="year"><%= year %> - <%= seasonsCount %> Season(s) </p>
+        <p class="year"><%= year %></p>
     </script>
 
     <script id="movie-list-tpl" type="text/x-template">
@@ -251,8 +251,8 @@
 <div class="tv-container-close"></div>
         <div class="tv-poster">
         <div class="tv-poster-overlay"></div>
-        <div style="background-image:url(<%= backdrop %>);" class="tv-poster-background"></div>
-        <div style="background-image:url(<%= image %>);" class="tv-cover"></div>
+        <div style="background-image:url(<%= images.fanart %>);" class="tv-poster-background"></div>
+        <div style="background-image:url(<%= images.poster %>);" class="tv-cover"></div>
         
         <div class="tv-meta-data">
         <div class="tv-title"><%= title %></div>
@@ -284,13 +284,20 @@
             <div class="season-ep-bar"></div>
         <div id="tabs_season">
             <ul>
-                <% _.each(torrents, function(value, season) { %>
-                	   <% 
+                <%
 
-						if (season.substring(0, 1) == '0')
-						  season = season.substr(1);						
-	
-                        %>
+                // to be updated i dont find it really elegant
+                // i'll build a compatible torrent array with our episodes content
+                var torrents = {};
+                _.each(episodes, function(value, currentEpisode) {
+
+                    if (!torrents[value.season]) torrents[value.season] = {};
+                    torrents[value.season][value.episode] = value;
+                });
+                %>
+
+                <% _.each(torrents, function(value, season) { %>
+
                     <li class="saisonSwitch">
 
                         <a href="#tabs-<%=season %>" title="">Season <%=season %></a>
@@ -301,20 +308,14 @@
             </ul>
             <div id="tabs_container">
                 <% _.each(torrents, function(value, season) { %>
-                	   <% 
-						if (season.substring(0, 1) == '0')
-							season = season.substr(1);						
-                        %>
 
                    <div id="tabs-<%=season %>">
                         <ul>
-                            <% _.each(value, function(torrentLink, episode) {
-
-                                if (episode.substring(0, 1) == '0')
-                                    episode = episode.substr(1);                        
+                            <% _.each(value, function(episodeData, episode) {
+                
                              %>
                                 <li>
-                                    <a href="#" data-torrent='<%=torrentLink.url %>' class='startStreaming'>Season <%=season %>, Episode <%=episode%> - Episode Name</a>
+                                    <a href="#" data-torrent='<%=episodeData.torrents[0].url %>' class='startStreaming'>Season <%=episodeData.season %>, Episode <%=episodeData.episode %> - <%=episodeData.title %></a>
                                 </li>
                             <% }); %>
                         </ul>

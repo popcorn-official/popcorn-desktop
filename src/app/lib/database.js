@@ -138,11 +138,19 @@
             db.settings.insert(data, cb);
         },
 
+        // format: {page: page, keywords: title}
         getShows: function(data, cb) {
             var page = data.page-1;    
             var byPage = 30;
             var offset = page*byPage;
-            db.tvshows.find({}).sort({ year: -1 }).skip(offset).limit(byPage).exec(cb);         
+
+            if (data.keywords) 
+                // SUGGESTION : Paging for search result. Actually we clear the filter when we have a search result
+                // so this should change and add a paging on result 
+                db.tvshows.find({title: new RegExp(data.keywords.toLowerCase(),"gi")}).sort({ year: -1 }).exec(cb);  
+            
+            else 
+                db.tvshows.find({}).sort({ year: -1 }).skip(offset).limit(byPage).exec(cb);  
                
         },
 
