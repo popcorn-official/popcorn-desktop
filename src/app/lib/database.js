@@ -147,10 +147,10 @@
             if (data.keywords) 
                 // SUGGESTION : Paging for search result. Actually we clear the filter when we have a search result
                 // so this should change and add a paging on result 
-                db.tvshows.find({title: new RegExp(data.keywords.toLowerCase(),"gi")}).sort({ year: -1 }).exec(cb);  
+                db.tvshows.find({title: new RegExp(data.keywords.toLowerCase(),"gi")}).sort({"rating.votes": -1, "rating.percentage": -1}).exec(cb);
             
             else 
-                db.tvshows.find({}).sort({ year: -1 }).skip(offset).limit(byPage).exec(cb);  
+                db.tvshows.find({}).sort({"rating.votes": -1, "rating.percentage": -1}).skip(offset).limit(byPage).exec(cb);
                
         },
 
