@@ -35,7 +35,6 @@
             App.db.getTVShow({show_id: this.model.get("_id")}, function(err, data) {
                 // we send our DB data to our view
                 App.vent.trigger('show:showDetail', new Backbone.Model(data[0]));
-                console.log(data[0]);
             });
             
         }
