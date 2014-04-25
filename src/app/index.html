@@ -263,7 +263,7 @@
         <div class="tv-num-episodes"><%= genres.join(', ') %></div>
         <div class="tv-dot"></div>
         
-        <%  p_rating = Math.round(rating) / 2; // Roundoff number to nearest 0.5 %>
+        <%  p_rating = Math.round(rating.percentage) / 20; // Roundoff number to nearest 0.5 %>
         <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
             <div class="tv-rating-star full"></div>
         <% }; %>
