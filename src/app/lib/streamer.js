@@ -59,6 +59,7 @@
 
         engine.server.on('listening', function(){
             streamInfo.set('src', 'http://127.0.0.1:' + engine.server.address().port + '/');
+            streamInfo.set('type', 'video/mp4');
             stateModel.on('change:state', checkReady);
             checkReady();
         });
