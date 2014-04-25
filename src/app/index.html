@@ -411,14 +411,15 @@
             }
             subArray.sort(function (sub1, sub2) {
                 return sub1.language > sub2.language;
-            });        
+            });
             var subtracks = '';
             for(var index in subArray ) {
               subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" />';
             }
-        %>      
-        <video id="video_player" width="100%" height="100%" class="video-js vjs-default-skin" controls preload autoplay>
-            <source src="<%= src %>" type="video/mp4" />
+
+        %>
+        <video id="video_player" width="100%" height="100%" class="video-js vjs-default-skin" controls preload autoplay >
+            <source src="<%= src %>" type="<%= type %>" />
             <%=subtracks%>
         </video>
     </script>
@@ -482,6 +483,7 @@
     <!-- Other dependencies -->
     <script src="vendor/videojsplugins.js"></script>
     <script src="vendor/dragwindow.js"></script>
+    <script src="vendor/videojs-youtube/src/youtube.js"></script>
 
     <!-- Settings Module and API Keys -->
     <script src="settings.js"></script>
