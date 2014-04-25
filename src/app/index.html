@@ -260,7 +260,7 @@
         <div class="tv-dot"></div>
         <div class="tv-genre"><%= runtime %> min</div>
         <div class="tv-dot"></div>
-        <div class="tv-num-episodes">genre placeholder</div>
+        <div class="tv-num-episodes"><%= genres.join(', ') %></div>
         <div class="tv-dot"></div>
         
         <%  p_rating = Math.round(rating.percentage) / 20; // Roundoff number to nearest 0.5 %>
