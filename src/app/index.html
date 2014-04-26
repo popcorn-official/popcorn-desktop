@@ -44,6 +44,7 @@
 
         <p class="title" title="<%= title %>"><%= title %></p>
         <p class="year"><%= year %></p>
+        <p class="seasons"><%= num_seasons %> <%= num_seasons == 1 ? "Season" : "Seasons" %></p>
     </script>
 
     <script id="movie-list-tpl" type="text/x-template">
@@ -260,7 +261,7 @@
         <div class="tv-dot"></div>
         <div class="tv-genre"><%= runtime %> min</div>
         <div class="tv-dot"></div>
-        <div class="tv-num-episodes"> <% for(var key in genres) { var value = genres[key]; %> <%= value %> <% break; }  %></div>
+        <div class="tv-num-episodes"> <%= genres[0]  %></div>
     
         <div class="tv-dot"></div>
         
