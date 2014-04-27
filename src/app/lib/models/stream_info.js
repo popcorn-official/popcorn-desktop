@@ -14,7 +14,8 @@
 			
 			var speed = swarm.downloadSpeed(); // download speed
 			speed = (isNaN(speed) || speed === undefined) ? 0 : speed;
-			var converted_speed = Math.floor( Math.log(speed) / Math.log(1024) );
+                        //Math.log(speed) makes no sense if speed equals 0
+                        var converted_speed = speed !== 0 ? Math.floor( Math.log(speed) / Math.log(1024) ) : 0;
 			var final_speed = ( speed / Math.pow(1024, converted_speed) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][converted_speed];
 			    
 			this.set('downloaded', swarm.downloaded);
