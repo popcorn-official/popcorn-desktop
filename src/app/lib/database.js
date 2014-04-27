@@ -155,8 +155,17 @@
         },
 
         initialize : function(callback){
-
             Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
+
+                Database.initDB(function(err, setting) {
+                        // we write our new update time
+                    Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
+                });
+
+                // TODO: Check in settigns andadd a button in settings to force a refresh
+                // also we need to compare the TTL
+                // actually we'll hit a each load
+                /*
                 if (setting.length == 0 ) {
 
                     // we need to do a complete update
@@ -168,6 +177,7 @@
                 } else {
                     callback();
                 }
+                */
             })
         }
     }
