@@ -57,7 +57,7 @@
         var movies = {};
         _.each(items, function(movie){
             var imdb = movie.imdb_id.replace('tt','');
-            movie.image = resizeImage(movie.images.poster, '138');
+            movie.image = resizeImage(movie.images.poster, '300');
             movie.bigImage = resizeImage(movie.images.poster, '300');
             movie.backdrop = resizeImage(movie.images.fanart, '940');
             movie.synopsis = movie.overview;
