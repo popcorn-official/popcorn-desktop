@@ -809,7 +809,7 @@ body.vjs-full-window {
 
 .video-js .vjs-text-track {
     display: none;
-    font-size: 1.4em;
+    font-size: 14px;
     text-align: center;
     margin-bottom: 0.1em;
     /* Transparent black background, or fallback to all black (oldIE) */
