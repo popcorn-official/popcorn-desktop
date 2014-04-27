@@ -35,12 +35,27 @@
             }
         },
 
+        onResize: function() {
+            var movieItemAmount = $('.movie-list').width() / ($('.movie-item').width() + 20);
+            movieItemAmount = Math.floor(movieItemAmount);
+
+            var newWidth = movieItemAmount * ($('.movie-item').width() + 20);
+            $('.movies').width(newWidth);
+        },
+
         ui: {
             spinner: '.spinner'
         },
 
         initialize: function() {
             this.listenTo(this.collection, 'loaded', this.onLoaded);
+            $(window).on('resize', this.onResize)
+
+            this.onResize();
+        },
+
+        remove: function() {
+            $(window).off('resize', this.onResize);
         },
 
         onShow: function() {
