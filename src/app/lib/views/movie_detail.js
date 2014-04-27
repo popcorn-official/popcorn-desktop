@@ -9,6 +9,7 @@
 
         events: {
             'click .movie-btn-watch': 'startStreaming',
+            'click .movie-btn-watch-trailer': 'playTrailer',
             'click .movie-detail-close': 'closeDetails',
             'click #switch-hd-on': 'enableHD',
             'click #switch-hd-off': 'disableHD'
@@ -45,6 +46,11 @@
         startStreaming: function() {
             var torrentStart = new Backbone.Model({torrent: this.model.get('quality'), backdrop: this.model.get('backdrop'), subtitle: this.model.get('subtitle')});
             App.vent.trigger('stream:start', torrentStart);
+        },
+
+        playTrailer: function() {
+            var trailer = new Backbone.Model({src: this.model.get('trailer'), type: 'video/youtube', subtitle: null });
+            App.vent.trigger('stream:ready', trailer);
         },
 
         closeDetails: function() {

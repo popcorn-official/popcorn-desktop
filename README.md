@@ -4,9 +4,10 @@
 
 To allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
-![Demo Screenshot](http://i.imgsnap.tk/image.php?i=43a6b78991fd842828a896fa26fe6222fc01d9193a08c828bf92e4d508c82)
+![Demo Screenshot](http://i.imgsnap.tk/image.php?i=2090fd842828a896fa26fe6222fc01d9193ac21fe7eeba06f4c21fe)
 ![](http://i.imgsnap.tk/image.php?i=e5e2b4fd842828a896fa26fe6222fc01d9193af4e5495b4dc8a6f4e54)
-
+![](http://i.imgsnap.tk/image.php?i=5db77d08d60fd842828a896fa26fe6222fc01d9193af555678c6ad7f3f5556)
+![](http://i.imgsnap.tk/image.php?i=53838f0fd842828a896fa26fe6222fc01d9193a329355bc47cc4e32935)
 ### APIs
 
 **Currently used:**
@@ -45,3 +46,4 @@ Try running `export DISPLAY=:0.0`
 
 ### Error "The video format is not supported"
 See: https://github.com/rogerwang/node-webkit/wiki/Support-mp3-and-h264-in-video-and-audio-tag
+

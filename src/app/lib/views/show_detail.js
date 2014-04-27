@@ -17,7 +17,6 @@
         },
 
         onShow: function() {
-            console.log('Show serie detail', this.model);
             this.ui.seasonsList.first().attr("id","current_season"); // Activate first tab
             this.ui.tabsContainer.fadeOut(); // hide all tabs tabs_container
             this.ui.tabsContainer.first().fadeIn(); // Show first tab tabs_container            
@@ -25,7 +24,7 @@
 
         startStreaming: function(e) {
             e.preventDefault();
-            var torrentStart = new Backbone.Model({torrent: $(e.currentTarget).attr('data-torrent'), backdrop: this.model.get('backdrop')});
+            var torrentStart = new Backbone.Model({torrent: $(e.currentTarget).attr('data-torrent'), backdrop: this.model.get('images').fanart});
             App.vent.trigger('stream:start', torrentStart);
         },
 

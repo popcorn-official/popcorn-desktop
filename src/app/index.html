@@ -31,7 +31,7 @@
     </script>
 
     <script id="show-item-tpl" type="text/x-template">
-        <img class="cover-image" src="<%= image %>" style="display: none" />
+        <img class="cover-image" src="<%= images.poster %>" style="display: none" />
         <div class="cover">
             <div class="cover-overlay">
                 <div class="actions">
@@ -43,7 +43,8 @@
         </div>
 
         <p class="title" title="<%= title %>"><%= title %></p>
-        <p class="year"><%= year %> - <%= seasonsCount %> Season(s) </p>
+        <p class="year"><%= year %></p>
+        <p class="seasons"><%= num_seasons %> <%= num_seasons == 1 ? "Season" : "Seasons" %></p>
     </script>
 
     <script id="movie-list-tpl" type="text/x-template">
@@ -207,7 +208,7 @@
                     <div class="movie-btn-watch"><div class="movie-watch-now">Watch Now</div></div>
 
                     <div class="movie-btn-watch-trailer"><div class="movie-watch-now">Watch Trailer</div></div>
-                    <div class="sub-dropdown">Subtitles</div>
+
 
                     <% if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {  %>
 
@@ -230,25 +231,41 @@
                 <div class="movie-detail-close"></div>
 
 
+
+                    <div class="sub-dropdown">Subtitles<div class="flag toggle NA">   </div></div> 
+           
+                    <div class="flag-container">
+
+                    <% var subs = [];
+                    for(var k in subtitle){ %>
+                    <div class="flag <%= k %>"></div>
+
+                    <% subs.push(k); }  %> 
+
+                    </div>
+
             </div>
         </div>
     </script>
 
     <script  id="show-detail-tpl" type="text/x-template">
 <div class="tv-container-close"></div>
-        <div  class="tv-poster">
+        <div class="tv-poster">
         <div class="tv-poster-overlay"></div>
-        <div style="background-image:url(<%= backdrop %>);" class="tv-poster-background"></div>
-        <div style="background-image:url(<%= image %>);" class="tv-cover"></div>
+        <div style="background-image:url(<%= images.fanart %>);" class="tv-poster-background"></div>
+        <div style="background-image:url(<%= images.poster %>);" class="tv-cover"></div>
+        
+        <div class="tv-meta-data">
         <div class="tv-title"><%= title %></div>
-        <div class="tv-duration"><%= runtime %> min</div>
+        <div class="tv-duration"><%= year %></div>
         <div class="tv-dot"></div>
-        <div class="tv-genre">Drama</div>
+        <div class="tv-genre"><%= runtime %> min</div>
         <div class="tv-dot"></div>
-        <div class="tv-num-episodes"><%= seasonsCount %> Seasons</div>
+        <div class="tv-num-episodes"> <%= genres[0]  %></div>
+    
         <div class="tv-dot"></div>
         
-        <%  p_rating = Math.round(rating) / 2; // Roundoff number to nearest 0.5 %>
+        <%  p_rating = Math.round(rating.percentage) / 20; // Roundoff number to nearest 0.5 %>
         <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
             <div class="tv-rating-star full"></div>
         <% }; %>
@@ -258,29 +275,49 @@
         <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
             <div class="tv-rating-star null"></div>
         <% }; %>
-        <% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
+        <% if (synopsis.length > 776) { var synopsis = synopsis.substring(0, 776) + "..."; } %>
             <div class="tv-overview"><%= synopsis %></div>
             
         </div>
-        
-
-
+        </div>
+        <div class="episode-list-text">Episode List</div>
+        <div class="season-container-space"></div>
+        <div class="season-episode-container">
+            <div class="season-ep-bar"></div>
         <div id="tabs_season">
             <ul>
+                <%
+
+                // to be updated i dont find it really elegant
+                // i'll build a compatible torrent array with our episodes content
+                var torrents = {};
+                _.each(episodes, function(value, currentEpisode) {
+
+                    if (!torrents[value.season]) torrents[value.season] = {};
+                    torrents[value.season][value.episode] = value;
+                });
+                %>
+
                 <% _.each(torrents, function(value, season) { %>
+
                     <li class="saisonSwitch">
+
                         <a href="#tabs-<%=season %>" title="">Season <%=season %></a>
+
+
                     </li>
                 <% }); %>
             </ul>
             <div id="tabs_container">
                 <% _.each(torrents, function(value, season) { %>
+
                    <div id="tabs-<%=season %>">
                         <ul>
-                            <% _.each(value, function(torrentLink, episode) { %>
+                            <% _.each(value, function(episodeData, episode) {
+                
+                             %>
                                 <li>
-                                    Episode <%=episode%>
-                                    <a href="#" data-torrent='<%=torrentLink.url %>' class='startStreaming'>Watch</a>
+                                    <a href="#" data-torrent='<%=episodeData.torrents[0].url %>' class='startStreaming'><%=episodeData.episode %> - <%=episodeData.title %></a>
                                 </li>
                             <% }); %>
                         </ul>
@@ -290,7 +327,7 @@
                 <% }); %>
             </div><!--End tabs container-->
         </div><!--End tabs-->
-
+</div>
 
     </script>
 
@@ -363,7 +400,8 @@
                 </div>
             </div>
         </div>
-
+<div class="player-header-backround">
+</div>
         <%
             var subArray = [];
             for (var lang in subtitle) {
@@ -375,20 +413,20 @@
             }
             subArray.sort(function (sub1, sub2) {
                 return sub1.language > sub2.language;
-            });        
+            });
             var subtracks = '';
             for(var index in subArray ) {
               subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" />';
             }
-        %>      
-        <video id="video_player" width="100%" height="100%" class="video-js vjs-default-skin" controls preload autoplay>
-            <source src="<%= src %>" type="video/mp4" />
+
+        %>
+        <video id="video_player" width="100%" height="100%" class="video-js vjs-default-skin" controls preload autoplay >
+            <source src="<%= src %>" type="<%= type %>" />
             <%=subtracks%>
         </video>
     </script>
 
     <script id="loading-tpl" type="text/x-template">
-
         <div style="background-image:url( <%= backdrop %> )" class="loading-background"></div>
         <div class="loading-background-overlay"></div>
            
@@ -424,6 +462,16 @@
         </div>
     </script>
 
+    <script id="initializing-tpl" type="text/x-template">
+
+        <div class="loading-background"></div>
+        <div class="loading-background-overlay"></div>
+
+        <div class="state">
+            Initializing PopcornTime. Please Wait...
+        </div>
+    </script>
+
     <!-- 3rd party Dependencies -->
     <script src="vendor/jquery/dist/jquery.js"></script>
     <script src="vendor/underscore/underscore.js"></script>
@@ -437,6 +485,7 @@
     <!-- Other dependencies -->
     <script src="vendor/videojsplugins.js"></script>
     <script src="vendor/dragwindow.js"></script>
+    <script src="vendor/videojs-youtube/src/youtube.js"></script>
 
     <!-- Settings Module and API Keys -->
     <script src="settings.js"></script>
@@ -448,10 +497,6 @@
     <script src="language.js"></script>
     <script src="lib/streamer.js"></script>
 
-    <!-- UI and UI-related Initialization -->
-    <script src="frontend/ui.js"></script>
-    <script src="frontend/player.js"></script>
-
     <!-- Backbone Models -->
     <script src="lib/models/filter.js"></script>
     <script src="lib/models/movie.js"></script>
@@ -462,6 +507,7 @@
 
     <!-- Data Sources -->
     <script src="lib/cache.js"></script>
+    <script src="lib/database.js"></script>
     <script src="lib/providers/cache_provider.js"></script>
     <script src="lib/providers/ysubs.js"></script>
     <script src="lib/providers/trakttv.js"></script>
@@ -476,6 +522,7 @@
     <script src="lib/views/show_detail.js"></script>
 
     <script src="lib/views/settings.js"></script>
+    <script src="lib/views/init_modal.js"></script>
     <script src="lib/views/player/loading.js"></script>
     <script src="lib/views/player/player.js"></script>
 

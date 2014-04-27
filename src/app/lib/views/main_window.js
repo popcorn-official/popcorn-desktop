@@ -11,7 +11,8 @@
             Content: '#content',
             MovieDetail: '#movie-detail',
             Player: '#player',
-            Settings: '#settings-container'
+            Settings: '#settings-container',
+            InitModal: '#initializing'
         },
 
         events: {
@@ -27,6 +28,7 @@
             App.vent.on('movies:list', _.bind(this.showMovies, this));
             App.vent.on('shows:list', _.bind(this.showShows, this));
             
+
             // Movies
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
             App.vent.on('movie:closeDetail', _.bind(this.MovieDetail.close, this.MovieDetail));
@@ -47,15 +49,18 @@
 
         onShow: function() {
             this.Header.show(new App.View.TitleBar());
-
-            // load movies by default
-            this.showMovies();
-
             // Set the app title (for Windows mostly)
             this.nativeWindow.title = App.Config.title;
 
-            // Focus the window when the app opens
-            this.nativeWindow.focus();
+            // Show loading modal on startup
+            var that = this;
+            this.Content.show(new App.View.InitModal());
+            App.db.initialize(function() {
+                that.InitModal.close();
+                that.showMovies();
+                // Focus the window when the app opens
+                that.nativeWindow.focus();
+            });
 
             // Cancel all new windows (Middle clicks / New Tab)
             this.nativeWindow.on('new-win-policy', function (frame, url, policy) {

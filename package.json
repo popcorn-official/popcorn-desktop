@@ -20,7 +20,7 @@
     "frame": false,
     "width": 1082,
     "height": 570,
-    "min_width": 975,
+    "min_width": 994,
     "min_height": 570,
     "resizable": true
   },
@@ -42,7 +42,8 @@
     "q": "2.0.x",
     "rimraf": "^2.2.6",
     "stylus": "0.42.x",
-    "read-torrent": "0.2.x"
+    "read-torrent": "0.2.x",
+    "nedb": "~0.10.5"
   },
   "devDependencies": {
     "grunt": "0.4.4",
