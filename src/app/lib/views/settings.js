@@ -14,18 +14,10 @@
             'change select,input': 'saveSetting',
         },
 
-        onBeforeRender: function() {
-            var that = this;
-            
-        },
-
         onShow: function() {
             console.log('Show settings', this.model);
             $("#nav-filters").hide();
             $("#movie-detail").hide();
-            
-
-    
         },
 
         onClose: function() {
