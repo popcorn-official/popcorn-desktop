@@ -16,8 +16,15 @@
         },
 
         settings: function(e) {
-            e.preventDefault();
-            App.vent.trigger('settings:show'); 
+            App.db.getSettings(function(err, data) {
+                if (data != null) {
+                    var dataSet = {};
+                    for(var key in data) {
+                        dataSet[data[key].key] = data[key].value;
+                    }
+                    App.vent.trigger('settings:show', new Backbone.Model(dataSet));
+                }
+            });           
         },
 
         showShows: function(e) {

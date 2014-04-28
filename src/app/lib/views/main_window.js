@@ -98,7 +98,7 @@
             }));
         },  
 
-        showSettings: function(settingsModel) {
+        showSettings: function(settingsModel) {            
             this.Settings.show(new App.View.Settings({
                 model: settingsModel
             }));

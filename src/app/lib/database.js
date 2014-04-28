@@ -155,11 +155,21 @@
             db.settings.findOne({key : data.key}, cb);
         },
 
+        getSettings: function(cb) {
+            db.settings.find({}).exec(cb);
+        },
+
         // todo make sure to overwrite
         // format: {key: key_name, value: settings_value}
         
         writeSetting: function(data, cb) {
-            db.settings.insert(data, cb);
+            Database.getSetting({key: data.key}, function(err, setting) {
+                if (setting == null) {
+                    db.settings.insert(data, cb);
+                } else {
+                    db.settings.update({"key": data.key}, {$set : {"value": data.value}}, {}, cb);
+                }
+            })
         },
 
         // format: {page: page, keywords: title}

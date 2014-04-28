@@ -335,76 +335,53 @@
             <div class="settings-container-close"></div>
             <div class="settings-container-sidebar">
                     <div class="settings-container-title">Settings</div>
-                    <div class="settings-container-sidebar-download-options">Download&nbsp;Options</div>
                     <div class="settings-container-sidebar-subtitles-options">Subtitles</div>
                     <div class="settings-container-sidebar-UI-options">User&nbsp;Interface</div>
                     <div class="settings-container-sidebar-more-options">More&nbsp;Options</div>
             </div>
             <div class="settings-container-settings-content">
 
-                <div class="settings-container-download-location-text">Download Location:</div>
-                <textarea name="download-location" class="settings-container-download-location"><%= tmpFolder %></textarea>
-                <div class="settings-container-download-btn">Browse</div>
-
-                <div class="settings-container-check-settings">
-                    <input type="checkbox" value="None" id="check-settings" name="check" />
-                    <label for="check-settings"><div class="checkbox-text">Auto-Erase&nbsp;Cache</div></label>
-
+                <div class="success_alert" style="display:none">
+                    <p style="color:green">Saves changed successfully</p>
                 </div>
 
-                <div class="dropdown download-limit">
-                    <p>Download&nbsp;Limit:</p>
-
-                    <select>
-                        <option>Unlimited</option>
-                        <option>100 mb/s</option>
-                        <option>200 mb/s</option>
-
-                    </select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-
-                <div class="dropdown upload-limit">
-                    <p>Upload&nbsp;Limit:</p>
-
-                    <select>
-                        <option>Unlimited</option>
-                        <option>100 mb/s</option>
-                        <option>200 mb/s</option>
-
-                    </select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-
-                <div class="dropdown local-port">
-                    <p>Local Port:</p>
-                    <textarea name="port-text" maxlength="4" class="port-text">9999</textarea>
-                </div>
-
-
-            <div class="settings-seperater subtitles"> </div>
 
                 <div class="dropdown subtitles-language">
                     <p>Defualt&nbsp;Language:</p>
+                    <%
+                        // to change (only test)
+                        var Langs = {
+                            fr: 'French',
+                            en: 'English'
+                        };
+                        var langs = '';
+                        for(var key in Langs) {
+                            if (language == key) langs += "<option selected='selected' value='"+key+"'>"+Langs[key]+"</option>";
+                            else langs += "<option value='"+key+"'>"+Langs[key]+"</option>";
+                        }
+                            
+                    %>
+                    <select name="language"><%=langs%></select>
 
-                    <select>
-                        <option>English</option>
-                        <option>French/option>
-                        <option>Etc...</option>
-
-                    </select>
                     <div class="dropdown-arrow"></div>
                 </div>
 
                 <div class="dropdown subtitles-font">
                     <p>Font:</p>
-
-                    <select>
-                        <option>Ariel</option>
-                        <option>Times New Roman</option>
-                        <option>Sans serif</option>
-                        <option>Trebuchet MS</option>
-                    </select>
+                    <%
+                        // to change (only test)
+                        var Fonts = {
+                            arial: 'Arial',
+                            tahoma: 'Tahoma'
+                        };
+                        var fonts = '';
+                        for(var key in Fonts) {
+                            if (font == key) fonts += "<option selected='selected' value='"+key+"'>"+Fonts[key]+"</option>";
+                            else fonts += "<option value='"+key+"'>"+Fonts[key]+"</option>";
+                        }
+                            
+                    %>
+                    <select name="font"><%=fonts%></select>
                     <div class="dropdown-arrow"></div>
                 </div>
                  <div class="dropdown subtitles-style">
