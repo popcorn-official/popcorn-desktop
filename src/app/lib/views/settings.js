@@ -16,12 +16,12 @@
 
         onShow: function() {
             console.log('Show settings', this.model);
-            $("#nav-filters").hide();
+            $(".filter-bar").hide();    
             $("#movie-detail").hide();
         },
 
         onClose: function() {
-            $("#nav-filters").show();
+            $(".filter-bar").show();    
             $("#movie-detail").show();
         },
         showCover: function() {},
