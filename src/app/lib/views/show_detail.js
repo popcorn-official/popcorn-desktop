@@ -19,7 +19,8 @@
         onShow: function() {
             this.ui.seasonsList.first().attr("id","current_season"); // Activate first tab
             this.ui.tabsContainer.fadeOut(); // hide all tabs tabs_container
-            this.ui.tabsContainer.first().fadeIn(); // Show first tab tabs_container            
+            this.ui.tabsContainer.first().fadeIn(); // Show first tab tabs_container   
+            $(".filter-bar").hide();         
         },
 
         startStreaming: function(e) {
@@ -30,7 +31,8 @@
 
         closeDetails: function(e) {
             e.preventDefault();
-			App.vent.trigger('show:closeDetail'); 	
+			App.vent.trigger('show:closeDetail'); 
+            $(".filter-bar").show(); 	
         },
 
         clickTab: function(e) {
