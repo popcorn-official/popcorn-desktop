@@ -5,14 +5,16 @@
     var path = require('path');
     var db = {};
 
+    var data_path = require('nw.gui').App.dataPath;;
+
     // TTL for popcorn-api DB sync
     var TTL = 1000 * 60 * 60 * 24;
 
-    db.bookmarks = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/bookmarks.db'), autoload: true });
-    db.settings = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/settings.db'), autoload: true });
-    db.tvshows = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/shows.db'), autoload: true });
-    db.movies = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/movies.db'), autoload: true });
-    db.queue = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/queue.db'), autoload: true });
+    db.bookmarks = new Datastore({ filename: path.join(data_path, 'data/bookmarks.db'), autoload: true });
+    db.settings = new Datastore({ filename: path.join(data_path, 'data/settings.db'), autoload: true });
+    db.tvshows = new Datastore({ filename: path.join(data_path, 'data/shows.db'), autoload: true });
+    db.movies = new Datastore({ filename: path.join(data_path, 'data/movies.db'), autoload: true });
+    db.queue = new Datastore({ filename: path.join(data_path, 'data/queue.db'), autoload: true });
 
     // Create unique indexes for the various id's for shows and movies
     db.tvshows.ensureIndex({fieldName: 'imdb_id' , unique: true });
