@@ -5,14 +5,19 @@
     var path = require('path');
     var db = {};
 
+    var data_path = require('nw.gui').App.dataPath;;
+    var API_ENDPOINT = process.env.POPCORN_API || "http://popcorn-api.com";
+
+    console.log ('Database using API_ENDPOINT: ' + API_ENDPOINT);
+
     // TTL for popcorn-api DB sync
     var TTL = 1000 * 60 * 60 * 24;
 
-    db.bookmarks = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/bookmarks.db'), autoload: true });
-    db.settings = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/settings.db'), autoload: true });
-    db.tvshows = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/shows.db'), autoload: true });
-    db.movies = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/movies.db'), autoload: true });
-    db.queue = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/queue.db'), autoload: true });
+    db.bookmarks = new Datastore({ filename: path.join(data_path, 'data/bookmarks.db'), autoload: true });
+    db.settings = new Datastore({ filename: path.join(data_path, 'data/settings.db'), autoload: true });
+    db.tvshows = new Datastore({ filename: path.join(data_path, 'data/shows.db'), autoload: true });
+    db.movies = new Datastore({ filename: path.join(data_path, 'data/movies.db'), autoload: true });
+    db.queue = new Datastore({ filename: path.join(data_path, 'data/queue.db'), autoload: true });
 
     // Create unique indexes for the various id's for shows and movies
     db.tvshows.ensureIndex({fieldName: 'imdb_id' , unique: true });
@@ -112,7 +117,7 @@
             console.log("Extracting data from remote api");
             db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
                 db.tvshows.loadDatabase(function (err) {
-                    request.get("http://popcorn-api.com/shows/all", function(err, res, body) {
+                    request.get(API_ENDPOINT + "/shows/all", function(err, res, body) {
                         if(!err) {
                             db.tvshows.insert(JSON.parse(body), function (err, newDocs){
                                 if(err) return cb(err, null);
@@ -130,7 +135,7 @@
         // sync with updated/:since
         syncDB: function(last_update, cb) {
             console.log("Updating data from remote api since " + last_update);
-            request.get("http://popcorn-api.com/shows/updated/"+last_update, function(err, res, body) {
+            request.get(API_ENDPOINT + "/shows/updated/" + last_update, function(err, res, body) {
                 if(!err) {
                     var toUpdate  = JSON.parse(body);
                     db.tvshows.remove({ imdb_id: { $in: extractIds(toUpdate) }}, { multi: true }, function (err, numRemoved) {
