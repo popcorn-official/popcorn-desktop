@@ -4,7 +4,7 @@
 
 To allow any computer user an easy method of streaming movies from torrents, without any particular knowledge.
 
-![Demo Screenshot](http://get-popcorn.com/images/how-ui.png)
+![Demo Screenshot](http://get-popcorn.com/images/header-ui.jpg)
 
 ### APIs
 
