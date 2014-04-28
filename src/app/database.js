@@ -1,10 +1,8 @@
-(function(App) {
-    "use strict";
     var async = require('async');
     var request = require('request');
 
     var Datastore = require('nedb');
-
+    var path = require('path');
     var db = {};
 
     // TTL for popcorn-api DB sync
@@ -214,6 +212,3 @@
             })
         }   
     }
-    App.db = Database;
-
-})(window.App);

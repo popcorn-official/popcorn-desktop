@@ -44,6 +44,13 @@ _.extend(App, {
     Localization: {}
 });
 
+// set database
+App.db = Database;
+
+// Set settings
+App.advsettings = AdvSettings;
+App.settings = Settings;  
+
 App.addRegions({ Window: ".main-window-region" });
 
 App.addInitializer(function(options){
@@ -131,14 +138,15 @@ else
     console.logger.error = console.logger.log;
 }
 
-
 // Show the disclaimer if the user hasn't accepted it yet.
-if( ! Settings.get('disclaimerAccepted') ) {
+// TODO: Not sure this works ? I think we dont have the template
+
+if( ! AdvSettings.get('disclaimerAccepted1') ) {
     $('.popcorn-disclaimer').removeClass('hidden');
 
     $('.popcorn-disclaimer .btn.confirmation.continue').click(function(event){
         event.preventDefault();
-        Settings.set('disclaimerAccepted', 1);
+        AdvSettings.set('disclaimerAccepted', 1);
         $('.popcorn-disclaimer').addClass('hidden');
     });
     $('.popcorn-disclaimer .btn.confirmation.quit').click(function(event){
@@ -154,7 +162,6 @@ if( ! Settings.get('disclaimerAccepted') ) {
         }, 2000);
     });
 }
-
 
 /**
  * Show 404 page on uncaughtException
