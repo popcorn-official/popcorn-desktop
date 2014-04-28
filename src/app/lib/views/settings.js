@@ -30,7 +30,6 @@
             App.vent.trigger('settings:close');     
         },
 
-
         saveSetting: function(e){
             var that = this;
             var value = false;
@@ -45,9 +44,8 @@
             else 
                 value = $("option:selected", field).val();
 
-            // update active model
-            data[field.attr('name')] = value;
-            this.model.set(data);
+            // update active session
+            App.settings[field.attr('name')] = value;
 
             //save to db
             App.db.writeSetting({key: field.attr('name'), value: value}, function() {

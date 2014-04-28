@@ -16,15 +16,7 @@
         },
 
         settings: function(e) {
-            App.db.getSettings(function(err, data) {
-                if (data != null) {
-                    var dataSet = {};
-                    for(var key in data) {
-                        dataSet[data[key].key] = data[key].value;
-                    }
-                    App.vent.trigger('settings:show', new Backbone.Model(dataSet));
-                }
-            });           
+            App.vent.trigger('settings:show');          
         },
 
         showShows: function(e) {
