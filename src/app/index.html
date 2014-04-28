@@ -205,11 +205,21 @@
                         <div class="rating-star null"></div>
                     <% }; %>
 
+
+
+
+
+                </ul>
+
+                <div class="movie-meta-overview"><%= synopsis %></div>
+                <div class="movie-detail-close"></div>
+
+<div class="movie-controlls-container">
+
                     <div class="movie-btn-watch"><div class="movie-watch-now">Watch Now</div></div>
 
                     <div class="movie-btn-watch-trailer"><div class="movie-watch-now">Watch Trailer</div></div>
-
-
+<div class="movie-quality-container">
                     <% if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {  %>
 
                         <div class="q720">720</div>
@@ -224,14 +234,7 @@
                     <% } else { %>
                            <div class="q720"><% if (torrents['720p'] !== undefined) { %>720p<% }else { %><% if (torrents['1080p'] !== undefined) { %>1080p<% }} %> </div>
                     <% } %>
-
-                </ul>
-
-                <div class="movie-meta-overview"><%= synopsis %></div>
-                <div class="movie-detail-close"></div>
-
-
-
+</div>
                     <div class="sub-dropdown">Subtitles<div class="flag toggle NA">   </div></div> 
            
                     <div class="flag-container">
@@ -243,7 +246,7 @@
                     <% subs.push(k); }  %> 
 
                     </div>
-
+</div>
             </div>
         </div>
     </script>
