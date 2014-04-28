@@ -112,16 +112,23 @@
         },
 
         increaseFont: function() {
+            // Set default fontsize to 14 pixels (fail-safe)
+            var s=14;
             var max=164;
             var t = document.getElementsByClassName('vjs-subtitles vjs-text-track');
-            for(i=0;i<t.length;i++) { 
-                // Check if fontSize is set
+            for(i=0;i<t.length;i++) {
+                // Check if fontSize is set inline
                 if(t[i].style.fontSize) {
-                    var s = parseInt(t[i].style.fontSize.replace("px",""));
-                }
-                // If no default fontsize, make it 14 pixels (fail-safe)
-                else {
-                    var s = 14;
+                    s = parseInt(t[i].style.fontSize.replace("px",""));
+                // Else check if fontSize is set in css
+                } else {
+                    var styles = getComputedStyle(t[i], null);
+                    for(var j=0;j<styles.length;j++) {
+                        if(styles[j] == 'font-size') {
+                            s = parseInt(styles.getPropertyValue(styles[j]));
+                            break;
+                        }
+                    }
                 }
                 // If subtitle size does not go over max, add 2 pixels
                 if (s!=max) {
@@ -133,16 +140,23 @@
         },
 
         decreaseFont: function() {
+            // Set default fontsize to 14 pixels (fail-safe)
+            var s=14;
             var min=2;
             var t = document.getElementsByClassName('vjs-subtitles vjs-text-track');
-            for(i=0;i<t.length;i++) {   
-                // Check if fontSize is set                
+            for(i=0;i<t.length;i++) {
+                // Check if fontSize is set inline              
                 if(t[i].style.fontSize) {
-                    var s = parseInt(t[i].style.fontSize.replace("px",""));
-                }
-                // If no default fontsize, make it 14 pixels (fail-safe)
-                else {
-                    var s = 14;
+                    s = parseInt(t[i].style.fontSize.replace("px",""));
+                // Else check if fontSize is set in css
+                } else {
+                    var styles = getComputedStyle(t[i], null);
+                    for(var j=0;j<styles.length;j++) {
+                        if(styles[j] == 'font-size') {
+                            s = parseInt(styles.getPropertyValue(styles[j]));
+                            break;
+                        }
+                    }
                 }
                 // If subtitle size does not go over min, subtract 2 pixels
                 if (s!=min) {
