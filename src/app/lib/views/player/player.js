@@ -44,6 +44,7 @@
 
             var _this = this;
 
+            $('.player-header-backround').canDragWindow();
             $('#video_player').canDragWindow();
             // Double Click to toggle Fullscreen
             $('#video_player').dblclick(function(event){
