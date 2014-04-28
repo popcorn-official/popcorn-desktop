@@ -39,7 +39,7 @@
             }
             console.logger.debug(this.model.get('quality'));
 
-$('.health-icon').tooltip('hover focus');
+	$('.health-icon').tooltip();
             
         },
 
