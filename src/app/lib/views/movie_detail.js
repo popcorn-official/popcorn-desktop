@@ -38,6 +38,9 @@
 
             }
             console.logger.debug(this.model.get('quality'));
+
+$('.health-icon').tooltip('hover focus');
+            
         },
 
         onClose: function() {},
@@ -86,6 +89,7 @@
         }
 
     });
+
 
     App.View.MovieDetail = MovieDetail;
 })(window.App);
