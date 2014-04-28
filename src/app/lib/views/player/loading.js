@@ -3,7 +3,7 @@
 
     var Loading = Backbone.Marionette.ItemView.extend({
         template: '#loading-tpl',
-        className: 'loading',
+        className: 'app-overlay',
 
         ui: {
             stateTextDownload: '.text_download',
