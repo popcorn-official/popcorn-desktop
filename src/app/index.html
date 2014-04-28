@@ -192,7 +192,8 @@
 
                     <div class="movie-dot"></div>
                         <% var p_rating = rating %>
-                    <div class="health-icon Excellent"></div>  
+                    <div data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="health-icon Excellent"></div>
+
 
                     <% p_rating = Math.round(p_rating) / 2; // Roundoff number to nearest 0.5 %>
                     <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
