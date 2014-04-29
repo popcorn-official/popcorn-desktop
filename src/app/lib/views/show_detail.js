@@ -27,6 +27,7 @@
             e.preventDefault();
             var torrentStart = new Backbone.Model({torrent: $(e.currentTarget).attr('data-torrent'), backdrop: this.model.get('images').fanart});
             App.vent.trigger('stream:start', torrentStart);
+            $(".filter-bar").show(); 
         },
 
         closeDetails: function(e) {
@@ -43,6 +44,7 @@
                 $(e.currentTarget).parent().attr("id","current_season"); // Activate this
                 $( $(e.currentTarget).attr('href')).fadeIn(); // Show tabs_container for current tab
             }
+            $(".filter-bar").show(); 
         },
 
 
