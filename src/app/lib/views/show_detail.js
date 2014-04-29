@@ -44,7 +44,6 @@
                 $(e.currentTarget).parent().attr("id","current_season"); // Activate this
                 $( $(e.currentTarget).attr('href')).fadeIn(); // Show tabs_container for current tab
             }
-            $(".filter-bar").show(); 
         },
 
 
