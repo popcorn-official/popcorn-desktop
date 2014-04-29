@@ -50,6 +50,14 @@
             //save to db
             App.db.writeSetting({key: field.attr('name'), value: value}, function() {
                 that.ui.success_alert.show();
+
+                // if field is language, set ne language
+                // on active session
+                if (field.attr('name') == 'language') {
+                    console.log("New lang: " + value);
+                    i18n.setLocale(value);
+                }
+                
             });
         }
 

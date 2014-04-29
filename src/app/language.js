@@ -7,14 +7,25 @@ var detectLanguage = function(preferredLanguage) {
     // The global language name (without localization, like "en")
     var baseLanguage = navigator.language.toLowerCase().slice(0,2);
 
-    if( fs.existsSync('./src/app/language/' + pureLanguage + '.json') ) {
-        i18n.setLocale(pureLanguage);
-    }
-    else if( fs.existsSync('./src/app/language/' + baseLanguage + '.json') ) {
-        i18n.setLocale(baseLanguage);
+    if (!preferredLanguage) {
+        // we are stillon default
+        if( fs.existsSync('./src/app/language/' + pureLanguage + '.json') ) {
+            i18n.setLocale(pureLanguage);
+            AdvSettings.set('language', pureLanguage);
+        }
+        else if( fs.existsSync('./src/app/language/' + baseLanguage + '.json') ) {
+            i18n.setLocale(baseLanguage);
+            AdvSettings.set('language', baseLanguage);
+        } else {
+            // fallback to en
+            i18n.setLocale('en');
+            AdvSettings.set('language', 'en');
+        }
     } else {
         i18n.setLocale(preferredLanguage);
     }
+
+
 
     // This is a hack to translate non-templated UI elements. Fuck it.
     $('[data-translate]').each(function(){
@@ -241,4 +252,4 @@ i18n.configure({
 });
 
 // Detect the language. The default is english
-detectLanguage('en');
+detectLanguage(Settings.language);

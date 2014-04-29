@@ -11,8 +11,10 @@
     // app settings
     Settings['version'] = false;
     Settings['dbversion'] = '0.1.0';
-    Settings['language'] = 'en';
+    Settings['language'] = false;
+    Settings['subtitle_language'] = 'none'; // none by default
     Settings['font'] = 'tahoma';
+
 
     var AdvSettings = {
 

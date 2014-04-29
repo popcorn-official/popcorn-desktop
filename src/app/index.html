@@ -389,17 +389,18 @@
 
 <div class="settings-seperater subtitles"> </div>
                 <div class="dropdown subtitles-language">
-                    <p>Defualt&nbsp;Language:</p>
+                    <p>Default Language:</p>
                     <%
-                        // to change (only test)
-                        var Langs = {
-                            fr: 'French',
-                            en: 'English'
-                        };
+
                         var langs = '';
-                        for(var key in Langs) {
-                            if (App.settings.language == key) langs += "<option selected='selected' value='"+key+"'>"+Langs[key]+"</option>";
-                            else langs += "<option value='"+key+"'>"+Langs[key]+"</option>";
+                        for(var key in App.Localization.languages) {
+                            
+                            if (typeof App.Localization.languages[key].display != 'undefined') {
+                                if (App.settings.language == key) 
+                                    langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
+                                else 
+                                    langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
+                            }
                         }
                             
                     %>
@@ -407,6 +408,35 @@
 
                     <div class="dropdown-arrow"></div>
                 </div>
+
+                <div class="dropdown subtitles-language">
+                    <p>Default Subtitle</p>
+                    <%
+
+                        var sub_langs = '';
+                        if (App.settings.subtitle_language == 'none') 
+                            sub_langs += "<option selected='selected' value='none'>" + i18n.__('Disabled') + "</option>";
+                        else 
+                            sub_langs += "<option value='none'>" + i18n.__('Disabled') + "</option>";
+
+                        for(var key in App.Localization.languages) {
+                            
+                            if (typeof App.Localization.languages[key].subtitle != 'undefined' && App.Localization.languages[key].subtitle == true) {
+
+                                if (App.settings.subtitle_language == key) 
+                                    sub_langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
+                                else 
+                                    sub_langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
+                            }
+                        }
+                            
+                    %>
+                    <select name="subtitle_language"><%=sub_langs%></select>
+
+                    <div class="dropdown-arrow"></div>
+                </div>
+
+
 
                 <div class="dropdown subtitles-font">
                     <p>Font:</p>
