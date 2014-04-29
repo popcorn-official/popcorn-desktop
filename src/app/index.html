@@ -192,7 +192,8 @@
 
                     <div class="movie-dot"></div>
                         <% var p_rating = rating %>
-                    <div class="health-icon Excellent"></div>  
+                    <div data-toggle="tooltip" data-placement="left" title="Health <%= health %>" class="health-icon Excellent"></div>
+
 
                     <% p_rating = Math.round(p_rating) / 2; // Roundoff number to nearest 0.5 %>
                     <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
@@ -205,11 +206,18 @@
                         <div class="rating-star null"></div>
                     <% }; %>
 
+
+                </ul>
+<div class="movie-overview-container">
+                <div class="movie-meta-overview"><%= synopsis %></div> </div>
+                <div class="movie-detail-close"></div>
+
+<div class="movie-controlls-container">
+
                     <div class="movie-btn-watch"><div class="movie-watch-now">Watch Now</div></div>
 
                     <div class="movie-btn-watch-trailer"><div class="movie-watch-now">Watch Trailer</div></div>
-
-
+<div class="movie-quality-container">
                     <% if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {  %>
 
                         <div class="q720">720</div>
@@ -224,14 +232,7 @@
                     <% } else { %>
                            <div class="q720"><% if (torrents['720p'] !== undefined) { %>720p<% }else { %><% if (torrents['1080p'] !== undefined) { %>1080p<% }} %> </div>
                     <% } %>
-
-                </ul>
-
-                <div class="movie-meta-overview"><%= synopsis %></div>
-                <div class="movie-detail-close"></div>
-
-
-
+</div>
                     <div class="sub-dropdown">Subtitles<div class="flag toggle NA">   </div></div> 
            
                     <div class="flag-container">
@@ -243,7 +244,7 @@
                     <% subs.push(k); }  %> 
 
                     </div>
-
+</div>
             </div>
         </div>
     </script>
@@ -281,9 +282,8 @@
         </div>
         </div>
         <div class="episode-list-text">Episode List</div>
-        <div class="season-container-space"></div>
         <div class="season-episode-container">
-            <div class="season-ep-bar"></div>
+         <!-- <div class="season-ep-bar"></div> -->
         <div id="tabs_season">
             <ul>
                 <%
@@ -331,63 +331,10 @@
 
     </script>
 
-    <script id="settings-container-tpl" type="text/x-template">
-        <div class="settings-container">
-            <div class="settings-container-close"></div>
-            <div class="settings-container-sidebar">
-                    <div class="settings-container-title">Settings</div>
-                    <div class="settings-container-sidebar-download-options">Download&nbsp;Options</div>
-                    <div class="settings-container-sidebar-subtitles-options">Subtitles</div>
-                    <div class="settings-container-sidebar-UI-options">User&nbsp;Interface</div>
-                    <div class="settings-container-sidebar-more-options">More&nbsp;Options</div>
-            </div>
-            <div class="settings-container-settings-content">
-
-                <div class="settings-container-download-location-text">Download Location:</div>
-                <textarea name="download-location" class="settings-container-download-location"><%= tmpFolder %></textarea>
-                <div class="settings-container-download-btn">Browse</div>
-
-                <div class="settings-container-check-settings">
-                    <input type="checkbox" value="None" id="check-settings" name="check" />
-                    <label for="check-settings"><div class="checkbox-text">Auto-Erase&nbsp;Cache</div></label>
-
-                </div>
-
-                <div class="dropdown download-limit">
-                    <p>Download&nbsp;Limit:</p>
-
-                    <select>
-                        <option>Unlimited</option>
-                        <option>100 mb/s</option>
-                        <option>200 mb/s</option>
-
-                    </select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-
-                <div class="dropdown upload-limit">
-                    <p>Upload&nbsp;Limit:</p>
-
-                    <select>
-                        <option>Unlimited</option>
-                        <option>100 mb/s</option>
-                        <option>200 mb/s</option>
-
-                    </select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-
-                <div class="dropdown local-port">
-                    <p>Local Port:</p>
-                    <textarea name="port-text" maxlength="4" class="port-text">9999</textarea>
-                </div>
-            </div>
-        </div>
-
-    </script>
-
     <script id="player-tpl" type="text/x-template">
         <div class="header">
+
+        <div class="player-title"> </div> <!-- throw the title in here! -->
             <div class="details-player">
                 <span class="close-info-player"></span>
                 <div class="download-info-player">
@@ -398,10 +345,11 @@
                         <span class="speed-info-player">Upload: </span><span class="upload_speed_player"></span>
                     </div>
                 </div>
+                <div id="fontresize" class="fontdown"></div>
+                <div id="fontresize" class="fontup"></div>
             </div>
         </div>
-<div class="player-header-backround">
-</div>
+        <div class="player-header-backround"></div>
         <%
             var subArray = [];
             for (var lang in subtitle) {
@@ -426,7 +374,112 @@
         </video>
     </script>
 
+    <script id="settings-container-tpl" type="text/x-template">
+        <div class="settings-container">
+            <div class="settings-container-close"></div>
+            <div class="settings-container-sidebar">
+                    <div class="settings-container-title">Settings</div>
+                    <div class="settings-container-sidebar-subtitles-options">Subtitles</div>
+                    <div class="settings-container-sidebar-UI-options">User&nbsp;Interface</div>
+                    <div class="settings-container-sidebar-more-options">More&nbsp;Options</div>
+            </div>
+            <div class="settings-container-settings-content">
+
+                <div class="success_alert" style="display:none">Saved&nbsp;<span id="checkmark-notify"><div id="stem-notify"></div><div id="kick-notify"></div></span></div>
+
+<div class="settings-seperater subtitles"> </div>
+                <div class="dropdown subtitles-language">
+                    <p>Defualt&nbsp;Language:</p>
+                    <%
+                        // to change (only test)
+                        var Langs = {
+                            fr: 'French',
+                            en: 'English'
+                        };
+                        var langs = '';
+                        for(var key in Langs) {
+                            if (App.settings.language == key) langs += "<option selected='selected' value='"+key+"'>"+Langs[key]+"</option>";
+                            else langs += "<option value='"+key+"'>"+Langs[key]+"</option>";
+                        }
+                            
+                    %>
+                    <select name="language"><%=langs%></select>
+
+                    <div class="dropdown-arrow"></div>
+                </div>
+
+                <div class="dropdown subtitles-font">
+                    <p>Font:</p>
+                    <%
+                        // to change (only test)
+                        var Fonts = {
+                            arial: 'Arial',
+                            tahoma: 'Tahoma'
+                        };
+                        var fonts = '';
+                        for(var key in Fonts) {
+                            if (App.settings.font == key) fonts += "<option selected='selected' value='"+key+"'>"+Fonts[key]+"</option>";
+                            else fonts += "<option value='"+key+"'>"+Fonts[key]+"</option>";
+                        }
+                            
+                    %>
+                    <select name="font"><%=fonts%></select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+                 <div class="dropdown subtitles-style">
+                    <p>Style:</p>
+
+                    <select>
+                        <option>Normal</option>
+                        <option>Bold</option>
+                        <option>Italic</option>
+
+                    </select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+                <div class="dropdown subtitles-size">
+                    <p>Size:</p>
+
+                    <select>
+                        <option>13px</option>
+                        <option>14px</option>
+                        <option>15px</option>
+                        <option>16px</option>
+                        <option>17px</option>
+                        <option>18px</option>
+                        <option>19px</option>
+                        <option>20px</option>
+                        <option>21px</option>
+                        <option>22px</option>
+                        <option>23px</option>
+                        <option>24px</option>
+                        <option>25px</option>
+                        <option>26px</option>
+
+
+                    </select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+                 <div class="dropdown subtitles-color">
+                    <p>Color:</p>
+
+                    <select>
+                        <option>White</option>
+                        <option>Orange</option>
+                        <option>Yellow</option>
+
+                    </select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </div>
+        </div>
+
+    </script>
+
+
+
     <script id="loading-tpl" type="text/x-template">
+    <div class="loading">
         <div style="background-image:url( <%= backdrop %> )" class="loading-background"></div>
         <div class="loading-background-overlay"></div>
            
@@ -460,6 +513,7 @@
            <div class="loading-cancel"><div class="loading-cancel-text">Cancel</div></div>
             </div>
         </div>
+        </div>
     </script>
 
     <script id="initializing-tpl" type="text/x-template">
@@ -487,12 +541,14 @@
     <script src="vendor/dragwindow.js"></script>
     <script src="vendor/videojs-youtube/src/youtube.js"></script>
 
-    <!-- Settings Module and API Keys -->
-    <script src="settings.js"></script>
 
     <!-- App Initialization -->
+    <script src="database.js"></script>
+    <script src="settings.js"></script>
+
     <script src="app.js"></script>
     <script src="lib/config.js"></script>
+
     <script src="updater.js"></script>
     <script src="language.js"></script>
     <script src="lib/streamer.js"></script>
@@ -507,12 +563,11 @@
 
     <!-- Data Sources -->
     <script src="lib/cache.js"></script>
-    <script src="lib/database.js"></script>
     <script src="lib/providers/cache_provider.js"></script>
     <script src="lib/providers/ysubs.js"></script>
     <script src="lib/providers/trakttv.js"></script>
     <script src="lib/providers/yts.js"></script>
-    <script src="lib/providers/eztv.js"></script>
+    <script src="lib/providers/tvshows.js"></script>
 
     <!-- Backbone Views and Controllers -->
     <script src="lib/views/title_bar.js"></script>

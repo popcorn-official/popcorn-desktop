@@ -8,7 +8,7 @@
 
         initialize: function(models, options) {
             this.providers = {
-                torrent: new (App.Config.getProvider('tvshow'))(),
+                torrent: new (App.Providers['Tvshows'])(),
                 subtitle: new (App.Config.getProvider('subtitle'))(),
                 metadata: new (App.Config.getProvider('metadata'))()
             };

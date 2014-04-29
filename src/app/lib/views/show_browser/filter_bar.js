@@ -16,8 +16,7 @@
         },
 
         settings: function(e) {
-            e.preventDefault();
-            App.vent.trigger('settings:show'); 
+            App.vent.trigger('settings:show');          
         },
 
         showShows: function(e) {

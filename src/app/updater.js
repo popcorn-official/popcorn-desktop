@@ -2,15 +2,15 @@
     function testInstalled() {
         return (!_.contains(require('fs').readdirSync('.'), '.git') || // Test Development
                 (   // Test Windows
-                    Settings.get('os') == 'windows' && 
+                    App.settings.os == 'windows' && 
                     process.cwd().indexOf(process.env.APPDATA) != -1
                 ) ||
                 (   // Test Linux
-                    Settings.get('os') == 'linux' &&
+                    App.settings.os == 'linux' &&
                     _.contains(require('fs').readdirSync('.'), 'package.nw')
                 ) ||
                 (   // Test Mac OS X
-                    Settings.get('os') == 'mac' &&
+                    App.settings.os == 'mac' &&
                     process.cwd().indexOf('Resources/app.nw') != -1
                 ));
     }
@@ -25,7 +25,7 @@
           , crypto = require('crypto')
           , zip = require('adm-zip');
 
-        var updateUrl = Settings.get('updateNotificationUrl');
+        var updateUrl = App.settings.updateNotificationUrl;
 
         var CWD = process.cwd();
 
@@ -82,23 +82,23 @@
         request(updateUrl, {json: true}, function(err, res, data) {
             if(err || !data) return; // Its just an updater, we don't care :P
 
-            if(!_.contains(Object.keys(data), Settings.get('os'))) {
+            if(!_.contains(Object.keys(data), App.settings.os)) {
                 // No update for this OS, FreeBSD or SunOS.
                 // Must not be an official binary
                 return;
             }
 
-            var updateData = data[Settings.get('os')];
+            var updateData = data[App.settings.os];
 
-            if(Settings.get('os') == 'linux')
-                updateData = updateData[Settings.get('arch')];
+            if(App.settings.os == 'linux')
+                updateData = updateData[App.settings.arch];
 
-            console.debug('Testing if we should install update...', checkVersion(updateData.version, Settings.get('version')) > 0);
+            console.debug('Testing if we should install update...', checkVersion(updateData.version, App.settings.version) > 0);
 
             // Should use SemVer here in v0.2.9 (refactor)
             // As per checkVersion, -1 == lt; 0 == eq; 1 == gt
-            if(checkVersion(updateData.version, Settings.get('version')) > 0) {
-                var outDir = Settings.get('os') == 'linux' ? process.execPath : CWD;
+            if(checkVersion(updateData.version, App.settings.version) > 0) {
+                var outDir = App.settings.os == 'linux' ? process.execPath : CWD;
                 var outputFile = path.join(path.dirname(outDir), 'package.nw.new');
                 var downloadRequest = request(updateData.updateUrl);
                 downloadRequest.pipe(fs.createWriteStream(outputFile));
@@ -122,7 +122,7 @@
                                 }
                             } else {
                                 // Valid update data! Overwrite the old data and move on with life!
-                                var os = Settings.get('os');
+                                var os = App.settings.os;
                                 if(os == 'mac')
                                     installMac(outputFile, updateData);
                                 else if(os == 'linux')

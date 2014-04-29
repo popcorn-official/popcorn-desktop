@@ -4,6 +4,16 @@
   width 100%
   height 100%
   background-color rgba(9, 13, 18, 0.75)
+  
+.tooltip-inner
+  max-width 200px
+  padding 3px 8px
+  color #fff
+  text-align center
+  text-decoration none
+  background-color rgba(9, 13, 18, 0.75)
+  border-radius 4px
+
 
 .movie-detail
     z-index 10
@@ -19,11 +29,11 @@
     left 0
     right 0
     top 16%
-    max-width 940px
-    max-height 430px
+    //max-width 940px
+    //max-height 430px
     background-image: url('../images/Item-detail-background.png')
     background-repeat no-repeat
-    background-size 100% 91.7%
+    background-size cover
     -webkit-backface-visibility hidden
 
 .sperator-movie
@@ -77,16 +87,20 @@
 
   .movie-cover-image
     position relative
-    width 196px
-    height 292px
+    width 20%
     border-radius 4px
+    max-height 70%
     float left
     margin-right 20px
-    margin-left 66px
+    margin-left 7.1%
     z-index 2
     opacity 1
     -webkit-backface-visibility hidden
 
+.movie-overview-container
+  top: 22%
+  z-index: 2
+  width: 90%
 
 .movie-meta-overview
     position relative
@@ -97,9 +111,9 @@
     -webkit-font-smoothing: antialiased
     font-size 12px
     line-height 22px
-    width 60%
-    max-width 60%
-    height 55%
+    //width 60%
+    //max-width 60%
+    //height 55%
     z-index 2
     opacity 1
     -webkit-backface-visibility hidden
@@ -109,8 +123,8 @@
     right 13px
     position absolute
     float right
-    width 14px
-    height 14px
+    width 16px
+    height 16px
     background-image: url(../../images/icons/Close.png);
     cursor pointer
     z-index 2
@@ -133,7 +147,7 @@
 
 .health-icon
     z-index 2
-    margin-right 89px
+    margin-right 9%
     margin-top 18px
     position relative
     float right
@@ -167,11 +181,31 @@
     &.full
       background-image url('../../images/icons/star.png')
 
+.movie-quality-container
+  padding-left: 10%
+  top: 13px
+  z-index: 2
+  float: left
+  width: 10px
+  height: 10px
+  position: relative
+
+.movie-controlls-container
+  margin-left: 29%
+  top: 72%
+  z-index: 2
+  width: 70%
+  height: 10px
+  position: absolute
+
+
+
 .movie-btn-watch
+    float left
     z-index 2
-    left 285px
-    top 300px
-    position absolute
+    //left 29%
+    //top 72%
+    position relative
     cursor pointer
     width 87px
     height 35px
@@ -198,15 +232,16 @@
       font-family "Open Sans Semibold", "Open Sans", sans-serif
       -webkit-font-smoothing antialiased
       text-align center
-      margin-top 12px
+      padding-top 12px
       font-size 12px
 
 .movie-btn-watch-trailer
     z-index 2
-    left 390px
-    top 300px
-    position absolute
+    margin-left 15px
+    //top 300px
+    position relative
     cursor pointer
+    float left
     width 97px
     height 35px
     -moz-border-radius 3px
@@ -229,7 +264,7 @@
       font-family "Open Sans Semibold", "Open Sans", sans-serif
       -webkit-font-smoothing antialiased
       text-align center
-      margin-top 12px
+      padding-top 12px
       font-size 12px
 
 
@@ -241,6 +276,7 @@
     z-index 0
     background-repeat no-repeat
     background-position center
+    background-size cover
     -webkit-filter blur(3px)
     overflow hidden
     opacity 1
@@ -268,8 +304,8 @@
   font-size 11px
   color #fff
   font-weight normal
-  margin-left 525px
-  top 312px
+  //margin-left 525px
+  //top 312px
   position absolute
 
 .q1080
@@ -278,8 +314,8 @@
   font-size 11px
   color #fff
   font-weight normal
-  margin-left 580px
-  top 312px
+  margin-left 50px
+  //top 312px
   position absolute
   z-index 2
 
@@ -289,8 +325,8 @@
   display block
   height 12px
   position absolute
-  margin-left 550px
-  top 312px
+  margin-left 21px
+  //top 312px
   width 25px
   border 2px solid #FFF
   cursor pointer
@@ -354,7 +390,7 @@
 .sub-dropdown
     z-index 2
     right 90px
-    top 312px
+    //top 312px
     position absolute
     float right
     width 712x
@@ -370,7 +406,7 @@
     opasity
     z-index 2
     right: 84px
-    top 325px
+    top 10px
     position absolute
     float right
     max-width: 36%

@@ -9,14 +9,16 @@
 			//algorithm for translate the speed
 			var speed_upload = swarm.uploadSpeed(); //upload speed
 			speed_upload = (isNaN(speed_upload) || speed_upload === undefined) ? 0 : speed_upload;
-			var converted_upload_speed = Math.floor( Math.log(speed_upload) / Math.log(1024) );
+			//Math.log(speed_upload) makes no sense if speed_upload equals 0
+			var converted_upload_speed = speed_upload !== 0 ? Math.floor( Math.log(speed_upload) / Math.log(1024) ) : 0;
 			var final_upload_speed = ( speed_upload / Math.pow(1024, converted_upload_speed) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][converted_upload_speed];
 			
 			var speed = swarm.downloadSpeed(); // download speed
 			speed = (isNaN(speed) || speed === undefined) ? 0 : speed;
-			var converted_speed = Math.floor( Math.log(speed) / Math.log(1024) );
+                        //Math.log(speed) makes no sense if speed equals 0
+                        var converted_speed = speed !== 0 ? Math.floor( Math.log(speed) / Math.log(1024) ) : 0;
 			var final_speed = ( speed / Math.pow(1024, converted_speed) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][converted_speed];
-			    
+
 			this.set('downloaded', swarm.downloaded);
 			this.set('active_peers', swarm.wires.filter(active).length);
 			this.set('total_peers', swarm.wires.length);

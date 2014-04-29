@@ -1,17 +1,23 @@
-(function(App) {
-    "use strict";
     var async = require('async');
     var request = require('request');
 
     var Datastore = require('nedb');
-
+    var path = require('path');
     var db = {};
 
-    db.bookmarks = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/bookmarks.db'), autoload: true });
-    db.settings = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/settings.db'), autoload: true });
-    db.tvshows = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/shows.db'), autoload: true });
-    db.movies = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/movies.db'), autoload: true });
-    db.queue = new Datastore({ filename: path.join(require('nw.gui').App.dataPath, 'data/queue.db'), autoload: true });
+    var data_path = require('nw.gui').App.dataPath;;
+    var API_ENDPOINT = process.env.POPCORN_API || "http://popcorn-api.com";
+
+    console.log ('Database using API_ENDPOINT: ' + API_ENDPOINT);
+
+    // TTL for popcorn-api DB sync
+    var TTL = 1000 * 60 * 60 * 24;
+
+    db.bookmarks = new Datastore({ filename: path.join(data_path, 'data/bookmarks.db'), autoload: true });
+    db.settings = new Datastore({ filename: path.join(data_path, 'data/settings.db'), autoload: true });
+    db.tvshows = new Datastore({ filename: path.join(data_path, 'data/shows.db'), autoload: true });
+    db.movies = new Datastore({ filename: path.join(data_path, 'data/movies.db'), autoload: true });
+    db.queue = new Datastore({ filename: path.join(data_path, 'data/queue.db'), autoload: true });
 
     // Create unique indexes for the various id's for shows and movies
     db.tvshows.ensureIndex({fieldName: 'imdb_id' , unique: true });
@@ -22,7 +28,10 @@
     // settings key uniqueness
     db.settings.ensureIndex({fieldName: 'key' , unique: true });
 
-    
+    var extractIds = function(items) {
+        return _.pluck(items, 'imdb_id');
+    };
+
     var Database = {
 
         addMovie: function(data, cb) {
@@ -108,7 +117,7 @@
             console.log("Extracting data from remote api");
             db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
                 db.tvshows.loadDatabase(function (err) {
-                    request.get("http://popcorn-api.com/shows/all", function(err, res, body) {
+                    request.get(API_ENDPOINT + "/shows/all", function(err, res, body) {
                         if(!err) {
                             db.tvshows.insert(JSON.parse(body), function (err, newDocs){
                                 if(err) return cb(err, null);
@@ -123,19 +132,46 @@
             });
         },
 
+        // sync with updated/:since
+        syncDB: function(last_update, cb) {
+            console.log("Updating data from remote api since " + last_update);
+            request.get(API_ENDPOINT + "/shows/updated/" + last_update, function(err, res, body) {
+                if(!err) {
+                    var toUpdate  = JSON.parse(body);
+                    db.tvshows.remove({ imdb_id: { $in: extractIds(toUpdate) }}, { multi: true }, function (err, numRemoved) {
+                        db.tvshows.insert(toUpdate, function (err, newDocs){
+                            if(err) return cb(err, null);
+                            else return cb(null, newDocs);
+                        });
+                    });
+                } else {
+                    return cb(err, null);
+                }
+            });
+        },        
+
         getShowsByRating: function(cb) {
             db.tvshows.find({}).sort({"rating.votes": -1, "rating.percentage": -1}).limit(10).exec(cb);
         },
 
         getSetting: function(data, cb) {
-            db.settings.find({key : data.key}, cb);
+            db.settings.findOne({key : data.key}, cb);
+        },      
+
+        getSettings: function(cb) {
+            db.settings.find({}).exec(cb);
         },
 
         // todo make sure to overwrite
         // format: {key: key_name, value: settings_value}
-        
         writeSetting: function(data, cb) {
-            db.settings.insert(data, cb);
+            Database.getSetting({key: data.key}, function(err, setting) {
+                if (setting == null) {
+                    db.settings.insert(data, cb);
+                } else {
+                    db.settings.update({"key": data.key}, {$set : {"value": data.value}}, {}, cb);
+                }
+            })
         },
 
         // format: {page: page, keywords: title}
@@ -155,10 +191,8 @@
         },
 
         initialize : function(callback){
-
             Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
-                if (setting.length == 0 ) {
-
+                if (setting == null ) {
                     // we need to do a complete update
                     // this is our first launch
                     Database.initDB(function(err, setting) {
@@ -166,11 +200,20 @@
                         Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
                     });
                 } else {
-                    callback();
-                }
-            })
-        }
-    }
-    App.db = Database;
 
-})(window.App);
+                    // we set a TTL of 24 hours for the DB
+                    if ( (+new Date() - setting.value) > TTL ) {
+                        Database.syncDB(setting.value,function(err, setting) {
+                            // we write our new update time
+                            Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
+                        });
+                    } else {
+                        console.log("skiping synchronization TTL not meet");
+                        callback();
+                    }
+
+                }
+   
+            })
+        }   
+    }

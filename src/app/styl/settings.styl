@@ -4,9 +4,9 @@
     width 100%
     position fixed
     scrollable()
-    padding-top: HeaderHeight
+    padding-top: 40px
     &::-webkit-scrollbar-track
-        margin-top: HeaderHeight
+        margin-top: 40px
 
 .settings-container
     z-index 1
@@ -20,13 +20,14 @@
 
 
 
+
 .settings-container-close
-    top 80px
+    top 55px
     right 20px
     position fixed
     float right
-    width 14px
-    height 14px
+    width 16px
+    height 16px
     background-image url('../../images/icons/Close.png')
     cursor pointer
     z-index 2
@@ -51,14 +52,39 @@
   bottom 14px
   border-right solid #3a3b3e 1px
 
+.settings-container-sidebar-subtitles-options
+  position relative
+  float right
+  margin-top 40px
+  color #2d75df
+  -webkit-font-smoothing antialiased
+  font-family "Open Sans", sans-serif
+  font-size 17px
+
+.settings-container-sidebar-UI-options
+  position relative
+  float right
+  margin-top 184px
+  color #2d75df
+  font-family "Open Sans", sans-serif
+  font-size 17px
+
+.settings-container-sidebar-more-options
+  position relative
+  float right
+  margin-top 170px
+  color #2d75df
+  font-family "Open Sans", sans-serif
+  font-size 17px
+
+/*
 .settings-container-sidebar-download-options
   position relative
   float right
   margin-top 40px
   color #2d75df
-  font-weight: Semibold
   -webkit-font-smoothing antialiased
-  font-family "Open Sans Semibold", "Open Sans", sans-serif
+  font-family "Open Sans", sans-serif
   font-size 17px
 
 .settings-container-sidebar-subtitles-options
@@ -84,6 +110,7 @@
   color #2d75df
   font-family "Open Sans", sans-serif
   font-size 17px
+*/
 
 .settings-container-download-location-text
   position relative
@@ -237,8 +264,29 @@ input[type=checkbox]
     top 24px
     left 65px
     float left
+  &.subtitles-language
+    top 0px
+  &.subtitles-font
+    top 50px
+    left -198px
 
+  &.subtitles-style
+    top 50px
+    left -168px
 
+  &.subtitles-size
+    top 50px
+    left -138px
+
+  &.subtitles-color
+    top 50px
+    left -108px
+
+.settings-seperater
+  position relative
+
+  &.subtitles
+    margin-top 60px
 
 
 .dropdown-arrow
@@ -269,4 +317,36 @@ input[type=checkbox]
   padding-left 13px
   cursor text
   outline 0
+
+.success_alert
+  position fixed
+  top 75px
+  right 50px
+  color #fff
+  font-family "Open Sans Semibold", sans-serif
+  font-size 16px
+
+#checkmark-notify
+  display inline-block
+  width 20px
+  height 20px
+  -ms-transform rotate(45deg)
+  -webkit-transform rotate(45deg)
+  transform rotate(45deg)
+
+#stem-notify
+  position absolute
+  width 3px
+  height 12px
+  background-color #ccc
+  left 11px
+  top 6px
+
+#kick-notify
+  position absolute
+  width 6px
+  height 3px
+  background-color #ccc
+  left 6px
+  top 15px
 

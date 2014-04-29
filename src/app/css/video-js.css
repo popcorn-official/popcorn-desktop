@@ -562,7 +562,6 @@ easily in the skin designer. http://designer.videojs.com/
 .vjs-default-skin .vjs-menu-button {
     outline: 0;
     position: relative;
-    top: 12px;
     float: right;
     cursor: pointer;
     margin-right: 12px;
@@ -809,13 +808,12 @@ body.vjs-full-window {
 
 .video-js .vjs-text-track {
     display: none;
-    font-size: 1.4em;
+    font-size: 28px;
     text-align: center;
     margin-bottom: 0.1em;
-    /* Transparent black background, or fallback to all black (oldIE) */
-    /* background-color-with-alpha */
-    background-color: #000000;
-    background-color: rgba(0, 0, 0, 0.5);
+    /* Transparent background */
+    background-color: transparent;
+	text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px  1px 0 #000, 1px  1px 0 #000;
 }
 .video-js .vjs-subtitles {
     color: #ffffff

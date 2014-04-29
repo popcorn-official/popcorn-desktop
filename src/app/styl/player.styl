@@ -17,7 +17,6 @@
     opacity 1
     -webkit-backface-visibility hidden
 
-
     .state
         color #fff
         font-family 'Open Sans Semibold'
@@ -230,6 +229,17 @@
         right: 15px
         position: absolute
 
+.player-title
+  position absolute
+  top 18px
+  left 16px
+  color #fff
+  font-family "Open Sans", sans-serif
+  font-size 17px
+  width 533px
+  z-index 3
+
+
 .vjs-quality-button
     color #fff
     right 15px
@@ -240,8 +250,22 @@
 
 .player-header-backround
   position absolute
-  -webkit-app-region: drag
-  width 90%
+  -webkit-app-region: no-drag
+  width 84%
   height 75px
- 
   z-index 3
+
+.fontdown
+  background: url(../images/fontdown.png)
+  width: 23px
+  height: 17px
+  position: absolute
+  right: 135px
+
+.fontup
+  background: url(../images/fontup.png)
+  width: 23px
+  height: 17px
+  position: absolute
+  right: 95px
+
