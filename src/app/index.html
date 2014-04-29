@@ -44,7 +44,7 @@
 
         <p class="title" title="<%= title %>"><%= title %></p>
         <p class="year"><%= year %></p>
-        <p class="seasons"><%= num_seasons %> <%= num_seasons == 1 ? "Season" : "Seasons" %></p>
+        <p class="seasons"><%= num_seasons %> <%= num_seasons == 1 ? i18n.__("Season") : i18n.__("Seasons") %></p>
     </script>
 
     <script id="movie-list-tpl" type="text/x-template">
@@ -126,7 +126,7 @@
         <ul class="nav nav-hor right">
           <li>
             <div class="right search">
-              <form><input type="text" placeholder="<%= i18n.__('Search') %>"></input></form>
+              <form><input type="text" placeholder="<%= i18n.__("Search") %>"></input></form>
             </div>
           </li>
           <li><button class="favorites"></button></li>
@@ -144,7 +144,7 @@
         <ul class="nav nav-hor right">
           <li>
             <div class="right search">
-              <form><input type="text" placeholder="<%= i18n.__('Search') %>"></input></form>
+              <form><input type="text" placeholder="<%= i18n.__("Search") %>"></input></form>
             </div>
           </li>
           <li><button class="favorites"></button></li>
@@ -214,9 +214,9 @@
 
 <div class="movie-controlls-container">
 
-                    <div class="movie-btn-watch"><div class="movie-watch-now">Watch Now</div></div>
+                    <div class="movie-btn-watch"><div class="movie-watch-now"><%= i18n.__("Watch Now") %></div></div>
 
-                    <div class="movie-btn-watch-trailer"><div class="movie-watch-now">Watch Trailer</div></div>
+                    <div class="movie-btn-watch-trailer"><div class="movie-watch-now"><%= i18n.__("Watch Trailer") %></div></div>
 <div class="movie-quality-container">
                     <% if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {  %>
 
@@ -233,7 +233,7 @@
                            <div class="q720"><% if (torrents['720p'] !== undefined) { %>720p<% }else { %><% if (torrents['1080p'] !== undefined) { %>1080p<% }} %> </div>
                     <% } %>
 </div>
-                    <div class="sub-dropdown">Subtitles<div class="flag toggle NA">   </div></div> 
+                    <div class="sub-dropdown"><%= i18n.__("Subtitles") %><div class="flag toggle NA">   </div></div> 
            
                     <div class="flag-container">
 
@@ -281,7 +281,7 @@
             
         </div>
         </div>
-        <div class="episode-list-text">Episode List</div>
+        <div class="episode-list-text"><%= i18n.__("Episode List") %></div>
         <div class="season-episode-container">
          <!-- <div class="season-ep-bar"></div> -->
         <div id="tabs_season">
@@ -300,9 +300,9 @@
 
                 <% _.each(torrents, function(value, season) { %>
 
-                    <li class="saisonSwitch">
+                    <li class="seasonSwitch">
 
-                        <a href="#tabs-<%=season %>" title="">Season <%=season %></a>
+                        <a href="#tabs-<%=season %>" title=""><%= i18n.__("Season") %>&nbsp;<%=season %></a>
 
 
                     </li>
@@ -341,8 +341,8 @@
                     <div class="eye-info-player"></div>
                     <div class="details-info-player">
                         <div class="arrow-up"></div>
-                        <span class="speed-info-player">Download: </span><span class="download_speed_player"></span>
-                        <span class="speed-info-player">Upload: </span><span class="upload_speed_player"></span>
+                        <span class="speed-info-player"><%= i18n.__("Download") %>:&nbsp;</span><span class="download_speed_player"></span>
+                        <span class="speed-info-player"><%= i18n.__("Upload") %>:&nbsp;</span><span class="upload_speed_player"></span>
                     </div>
                 </div>
                 <div id="fontresize" class="fontdown"></div>
@@ -378,18 +378,18 @@
         <div class="settings-container">
             <div class="settings-container-close"></div>
             <div class="settings-container-sidebar">
-                    <div class="settings-container-title">Settings</div>
-                    <div class="settings-container-sidebar-subtitles-options">Subtitles</div>
-                    <div class="settings-container-sidebar-UI-options">User&nbsp;Interface</div>
-                    <div class="settings-container-sidebar-more-options">More&nbsp;Options</div>
+                    <div class="settings-container-title"><%= i18n.__("Settings") %></div>
+                    <div class="settings-container-sidebar-subtitles-options"><%= i18n.__("Subtitles") %></div>
+                    <div class="settings-container-sidebar-UI-options"><%= i18n.__("User Interface") %></div>
+                    <div class="settings-container-sidebar-more-options"><%= i18n.__("More Options") %></div>
             </div>
             <div class="settings-container-settings-content">
 
-                <div class="success_alert" style="display:none">Saved&nbsp;<span id="checkmark-notify"><div id="stem-notify"></div><div id="kick-notify"></div></span></div>
+                <div class="success_alert" style="display:none"><%= i18n.__("Saved") %><span id="checkmark-notify"><div id="stem-notify"></div><div id="kick-notify"></div></span></div>
 
 <div class="settings-seperater subtitles"> </div>
                 <div class="dropdown subtitles-language">
-                    <p>Default Language:</p>
+                    <p><%= i18n.__("Default Language") %>:</p>
                     <%
 
                         var langs = '';
@@ -410,7 +410,7 @@
                 </div>
 
                 <div class="dropdown subtitles-language">
-                    <p>Default Subtitle</p>
+                    <p><%= i18n.__("Default Subtitle") %>:</p>
                     <%
 
                         var sub_langs = '';
@@ -439,7 +439,7 @@
 
 
                 <div class="dropdown subtitles-font">
-                    <p>Font:</p>
+                    <p><%= i18n.__("Font") %>:</p>
                     <%
                         // to change (only test)
                         var Fonts = {
@@ -457,18 +457,18 @@
                     <div class="dropdown-arrow"></div>
                 </div>
                  <div class="dropdown subtitles-style">
-                    <p>Style:</p>
+                    <p><%= i18n.__("Style") %>:</p>
 
                     <select>
-                        <option>Normal</option>
-                        <option>Bold</option>
-                        <option>Italic</option>
+                        <option><%= i18n.__("Normal") %></option>
+                        <option><%= i18n.__("Bold") %></option>
+                        <option><%= i18n.__("Italic") %></option>
 
                     </select>
                     <div class="dropdown-arrow"></div>
                 </div>
                 <div class="dropdown subtitles-size">
-                    <p>Size:</p>
+                    <p><%= i18n.__("Size") %>:</p>
 
                     <select>
                         <option>13px</option>
@@ -491,12 +491,12 @@
                     <div class="dropdown-arrow"></div>
                 </div>
                  <div class="dropdown subtitles-color">
-                    <p>Color:</p>
+                    <p><%= i18n.__("Color") %>:</p>
 
                     <select>
-                        <option>White</option>
-                        <option>Orange</option>
-                        <option>Yellow</option>
+                        <option><%= i18n.__("White") %></option>
+                        <option><%= i18n.__("Orange") %></option>
+                        <option><%= i18n.__("Yellow") %></option>
 
                     </select>
                     <div class="dropdown-arrow"></div>
@@ -528,10 +528,10 @@
 
                 <!-- Active Peers -->
                 <div class="value_peers"></div>
-                <div class="text_peers">Peers - </div>
+                <div class="text_peers"><%= i18n.__("Peers") %> - </div>
                 
                 <!-- Total Seeds 
-                <div class="text_seeds">Seeds</div>
+                <div class="text_seeds"><%= i18n.__("Seeds") %></div>
                 <div class="value_seeds"></div> 
                 -->
 
@@ -540,7 +540,7 @@
                 <div class="download_percent"></div>
                 
             </div>  
-           <div class="loading-cancel"><div class="loading-cancel-text">Cancel</div></div>
+           <div class="loading-cancel"><div class="loading-cancel-text"><%= i18n.__("Cancel") %></div></div>
             </div>
         </div>
         </div>
@@ -552,7 +552,7 @@
         <div class="loading-background-overlay"></div>
 
         <div class="state">
-            Initializing PopcornTime. Please Wait...
+            <%= i18n.__("Initializing PopcornTime. Please Wait...") %>
         </div>
     </script>
 
