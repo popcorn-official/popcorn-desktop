@@ -39,7 +39,10 @@
 
     var handleTorrent = function(torrent, subtitles, stateModel) {
 
-        engine = peerflix(torrent, {});
+        engine = peerflix(torrent, {
+            connections: 100, // Max amount of peers to be connected to.
+            path: tmpFolder
+        });
 
         var streamInfo = new App.Model.StreamInfo({engine: engine});
         statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 1000);
