@@ -20,7 +20,14 @@
             this.ui.seasonsList.first().attr("id","current_season"); // Activate first tab
             this.ui.tabsContainer.fadeOut(); // hide all tabs tabs_container
             this.ui.tabsContainer.first().fadeIn(); // Show first tab tabs_container   
-            $(".filter-bar").hide();         
+            $(".filter-bar").hide();    
+
+             var background = $(".tv-poster-background").attr("data-bgr");
+  $('<img/>').attr('src', background).load(function() {
+    $(this).remove();
+    $(".tv-poster-background").css('background-image', "url(" + background + ")");
+    $(".tv-poster-background").fadeIn( 300 );
+  });     
         },
 
         startStreaming: function(e) {
