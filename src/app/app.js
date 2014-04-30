@@ -209,12 +209,12 @@ holder.onpaste = function(e) {
 */
 var last_arg = gui.App.argv.pop();
 if(last_arg && last_arg.substring(0,8) == "magnet:?") {
-        setTimeout(function() {
+        App.vent.on('main:ready', function() {
                 console.log ('running');
                 var torrentStart = new Backbone.Model({torrent: last_arg});
                 App.vent.trigger('stream:start', torrentStart);
-        }, 2000); // XXX(xaiki): hackish, we need to prevent loading instead
-}
+        });
+};
 
 /**
  * Show 404 page on uncaughtException
