@@ -48,6 +48,12 @@
     $(".movie-backdrop").fadeIn( 300 );
   });
   
+
+$("#toggle-sub-dropdown").on('click', function() {
+   $(".flag-container").fadeIn();
+});
+
+
         },
 
         onClose: function() {},
