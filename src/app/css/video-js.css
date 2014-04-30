@@ -582,7 +582,7 @@ easily in the skin designer. http://designer.videojs.com/
 
 .vjs-default-skin .vjs_smallersub_button.vjs-control {
     background: url(../images/icons/Player/fontdown.png);
-	background-repeat: no-repeat;
+    background-repeat: no-repeat;
     outline: 0;
     position: relative;
     float: right;
@@ -594,7 +594,7 @@ easily in the skin designer. http://designer.videojs.com/
 
 .vjs-default-skin .vjs_biggersub_button.vjs-control {
     background: url(../images/icons/Player/fontup.png);
-	background-repeat: no-repeat;
+    background-repeat: no-repeat;
     outline: 0;
     position: relative;
     float: right;

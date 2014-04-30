@@ -46,7 +46,7 @@
 
             var _this = this;
 
-            $('.player-header-backround').canDragWindow();
+            $('.player-header-background').canDragWindow();
             $('#video_player').canDragWindow();
             // Double Click to toggle Fullscreen
             $('#video_player').dblclick(function(event){
@@ -95,19 +95,19 @@
 
             });
 
-			// Function to fade out top bar, first implementation, feel free to rewrite
-			var timer;
-			$(document).mousemove(function() {
-				if (timer) {
-					clearTimeout(timer);
-					timer = 0;
-				}
+            // Function to fade out top bar, first implementation, feel free to rewrite
+            var timer;
+            $(document).mousemove(function() {
+                if (timer) {
+                    clearTimeout(timer);
+                    timer = 0;
+                }
 
-				$('.details-player').fadeIn('slow');
-				timer = setTimeout(function() {
-					$('.details-player').fadeOut('slow')
-				}, 2000) // roughly the time that the player's bottom bar fades out
-			})
+                $('.details-player').fadeIn('slow');
+                timer = setTimeout(function() {
+                    $('.details-player').fadeOut('slow')
+                }, 2000) // roughly the time that the player's bottom bar fades out
+            })
         },
 
         toggleFullscreen: function() {
