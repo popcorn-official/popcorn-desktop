@@ -391,7 +391,7 @@
                 <div class="settings-seperater subtitles"> </div>
 
                 <!-- TODO: give some love -->
-                <button style="color:#fff" class="rebuild-tvshows-database">Rebuild TV Shows Database</button>
+                
 
                 <div class="dropdown subtitles-language">
                     <p><%= i18n.__("Default Language") %>:</p>
@@ -414,7 +414,7 @@
                     <div class="dropdown-arrow"></div>
                 </div>
 
-                <div class="dropdown subtitles-language">
+                <div class="dropdown subtitles-language-defualt">
                     <p><%= i18n.__("Default Subtitle") %>:</p>
                     <%
 
@@ -475,8 +475,8 @@
                 <div class="dropdown subtitles-size">
                     <p><%= i18n.__("Size") %>:</p>
 
-                    <select>
-                        <option>13px</option>
+                    <select class="subtitles-size">
+                        <option>13px&nbsp;</option>
                         <option>14px</option>
                         <option>15px</option>
                         <option>16px</option>
@@ -498,7 +498,7 @@
                  <div class="dropdown subtitles-color">
                     <p><%= i18n.__("Color") %>:</p>
 
-                    <select>
+                    <select class="subtitles-color">
                         <option><%= i18n.__("White") %></option>
                         <option><%= i18n.__("Orange") %></option>
                         <option><%= i18n.__("Yellow") %></option>
@@ -506,6 +506,10 @@
                     </select>
                     <div class="dropdown-arrow"></div>
                 </div>
+
+<button style="color:#fff" class="rebuild-tvshows-database">Rebuild TV Shows Database</button>
+
+                
             </div>
         </div>
 

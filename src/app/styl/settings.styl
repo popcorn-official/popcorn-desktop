@@ -142,7 +142,7 @@
   margin-left 32px
   top 14px
   height calc(100% - 13px)
-  width calc(100% - 283px)
+  width calc(100% - 253px)
 
 .settings-container-download-btn
   position relative
@@ -235,7 +235,7 @@ input[type=checkbox]
     padding-left 5px
     border 0 !important
     -webkit-appearance none
-    width 87px
+    //width 87px
     height 30px
     background-color #393b3d
     cursor pointer
@@ -244,6 +244,10 @@ input[type=checkbox]
     font-size 13px
     float left
     outline 0
+    //padding-right 10px
+
+    &.subtitles-size
+      padding-right 10px
 
   option
     background #393b3d
@@ -266,21 +270,24 @@ input[type=checkbox]
     float left
   &.subtitles-language
     top 0px
+  &.subtitles-language-defualt
+    top 0px
+    left 30px
   &.subtitles-font
     top 50px
-    left -198px
+    left -386px
 
   &.subtitles-style
     top 50px
-    left -168px
+    left -356px
 
   &.subtitles-size
     top 50px
-    left -138px
+    left -326px
 
   &.subtitles-color
     top 50px
-    left -108px
+    left -296px
 
 .settings-seperater
   position relative
