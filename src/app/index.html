@@ -314,9 +314,12 @@
                    <div id="tabs-<%=season %>">
                         <ul>
                             <% _.each(value, function(episodeData, episode) {
-                
+                                    
+                                    if (typeof episodeData.watched == 'undefined')
+                                        watched = false;
+                                    else watched = episodeData.watched.watched;
                              %>
-                                <li class="watched-<%=episodeData.watched.watched %>">
+                                <li class="watched-<%=watched %>">
                                     <a href="#" data-torrent='<%=episodeData.torrents[0].url %>' data-episodeid='<%=episodeData._id %>' class='startStreaming'><%=episodeData.episode %> - <%=episodeData.title %></a>
                                 </li>
                             <% }); %>
@@ -385,7 +388,11 @@
 
                 <div class="success_alert" style="display:none"><%= i18n.__("Saved") %><span id="checkmark-notify"><div id="stem-notify"></div><div id="kick-notify"></div></span></div>
 
-<div class="settings-seperater subtitles"> </div>
+                <div class="settings-seperater subtitles"> </div>
+
+                <!-- TODO: give some love -->
+                <button style="color:#fff" class="rebuild-tvshows-database">Rebuild TV Shows Database</button>
+
                 <div class="dropdown subtitles-language">
                     <p><%= i18n.__("Default Language") %>:</p>
                     <%

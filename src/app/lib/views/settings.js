@@ -12,6 +12,7 @@
         events: {
             'click .settings-container-close': 'closeSettings',
             'change select,input': 'saveSetting',
+            'click .rebuild-tvshows-database': 'rebuildTvShows'
         },
 
         onShow: function() {
@@ -58,6 +59,16 @@
                     i18n.setLocale(value);
                 }
                 
+            });
+        },
+
+        rebuildTvShows: function() {
+            // TODO: Add pending screen ?
+            Database.initDB(function(err, setting) {
+
+                // we write our new update time
+                console.log("Tv SHow Done");
+                AdvSettings.set("tvshow_last_sync",+new Date());
             });
         }
 

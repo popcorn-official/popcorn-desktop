@@ -117,7 +117,7 @@
             console.log("Extracting data from remote api");
             db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
                 db.tvshows.loadDatabase(function (err) {
-                    request.get(API_ENDPOINT + "/shows/all", function(err, res, body) {
+                    request.get(API_ENDPOINT + "/shows/all", function(err, res, body) {                        
                         if(!err) {
                             db.tvshows.insert(JSON.parse(body), function (err, newDocs){
                                 if(err) return cb(err, null);

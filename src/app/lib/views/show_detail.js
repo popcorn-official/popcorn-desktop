@@ -13,7 +13,7 @@
         events: {
             'click .startStreaming': 'startStreaming',
             'click .tv-container-close': 'closeDetails',
-            'click #tabs_season li.saisonSwitch a': 'clickTab'
+            'click #tabs_season li.seasonSwitch a': 'clickTab'
         },
 
         onShow: function() {
@@ -23,11 +23,11 @@
             $(".filter-bar").hide();    
 
              var background = $(".tv-poster-background").attr("data-bgr");
-  $('<img/>').attr('src', background).load(function() {
-    $(this).remove();
-    $(".tv-poster-background").css('background-image', "url(" + background + ")");
-    $(".tv-poster-background").fadeIn( 300 );
-  });     
+              $('<img/>').attr('src', background).load(function() {
+                $(this).remove();
+                $(".tv-poster-background").css('background-image', "url(" + background + ")");
+                $(".tv-poster-background").fadeIn( 300 );
+              });     
         },
 
         startStreaming: function(e) {
