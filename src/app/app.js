@@ -208,7 +208,7 @@ holder.onpaste = function(e) {
 * Pass magnet link as last argument to start stream
 */
 var last_arg = gui.App.argv.pop();
-if(last_arg.substring(0,8) == "magnet:?") {
+if(last_arg && last_arg.substring(0,8) == "magnet:?") {
         setTimeout(function() {
                 console.log ('running');
                 var torrentStart = new Backbone.Model({torrent: last_arg});
