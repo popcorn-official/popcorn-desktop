@@ -191,6 +191,18 @@ holder.ondrop = function (e) {
 
   return false;
 };
+
+/**
+* Paste Magnet Link to start stream
+*/
+holder.onpaste = function(e) {
+    var data = e.clipboardData.getData('text/plain');
+    if(data.substring(0,8) == "magnet:?") {
+        var torrentStart = new Backbone.Model({torrent: data});
+        App.vent.trigger('stream:start', torrentStart);
+    }
+    return true;
+}
 /**
  * Show 404 page on uncaughtException
  */
