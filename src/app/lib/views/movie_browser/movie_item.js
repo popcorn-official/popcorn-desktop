@@ -25,7 +25,9 @@
         },
 
         showCover: function() {
-            this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')');
+
+
+           this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')');
             this.ui.coverIamge.remove();
         },
         showDetail: function() {
