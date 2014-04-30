@@ -140,7 +140,9 @@ App.Localization.languages = {
         encoding: ['iso-8859-1']
     },
     "el": {
-        encoding: ['iso-8859-7']
+        display: "Greek",
+        subtitle: true,
+        encoding: ['windows-1253', 'iso-8859-7']
     },
     "en": {
         display: "English",
