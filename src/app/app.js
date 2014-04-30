@@ -167,7 +167,7 @@ if( ! AdvSettings.get('disclaimerAccepted1') ) {
 */
 window.ondragover = function(e) { e.preventDefault(); return false };
 window.ondrop = function(e) { e.preventDefault(); return false };
-var holder = $('.main-window-region')[0];
+var holder = $('body')[0];
 holder.ondragover = function () { this.classList.add('dragging'); return false; };
 holder.ondragend = function () { this.classList.remove('dragging'); return false; };
 holder.ondrop = function (e) {
