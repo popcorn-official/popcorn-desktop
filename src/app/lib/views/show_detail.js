@@ -32,7 +32,7 @@
 
         startStreaming: function(e) {
             e.preventDefault();
-            var torrentStart = new Backbone.Model({torrent: $(e.currentTarget).attr('data-torrent'), backdrop: this.model.get('images').fanart});
+            var torrentStart = new Backbone.Model({torrent: $(e.currentTarget).attr('data-torrent'), backdrop: this.model.get('images').fanart, type: "episode", id: $(e.currentTarget).attr('data-episodeid')});
             App.vent.trigger('stream:start', torrentStart);
             $(".filter-bar").show(); 
         },

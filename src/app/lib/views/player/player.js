@@ -36,6 +36,12 @@
 
         closePlayer: function() {
             console.log('Close player');
+            // Check if >80% is watched to mark as watched by user  (maybe add value to settings)
+            if(this.model.get('type') == 'episode') {
+                if(this.video.currentTime() / this.video.duration() >= 0.8){
+                    App.db.markEpisodeAsWatched({episode_id: this.model.get("id")}, function(){});
+                }
+            }
             this.video.dispose();
             App.vent.trigger('player:close');  
         },
