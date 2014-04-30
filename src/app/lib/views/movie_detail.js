@@ -14,8 +14,9 @@
             'click #switch-hd-on': 'enableHD',
             'click #switch-hd-off': 'disableHD',
             'click #toggle-sub-dropdown': 'toggledropdown',
-            'click #toggle-sub-dropdown-arrow': 'toggledropdown',
-            'click #sub-flag-icon': 'closedropdown'
+            'click .sub-dropdown-arrow-down': 'toggledropdown',
+            'click #sub-flag-icon': 'closedropdown',
+            'click .sub-dropdown-arrow-up': 'closedropdown'
         },
 
         onShow: function() {
@@ -50,7 +51,7 @@
                 $(".movie-backdrop").css('background-image', "url(" + background + ")");
              $(".movie-backdrop").fadeIn( 300 );
              });
-  
+        $(".sub-dropdown-arrow-down").show();
 
 
 
@@ -61,13 +62,14 @@
         toggledropdown: function() {
 
         $(".flag-container").fadeIn();
-
+        $(".sub-dropdown-arrow-down").hide();
+        $(".sub-dropdown-arrow-up").show();
 
         },
         closedropdown: function() {
-
         $(".flag-container").fadeOut();
-
+        $(".sub-dropdown-arrow-down").show();
+        $(".sub-dropdown-arrow-up").hide();
 
         },
 
