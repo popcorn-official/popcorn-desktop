@@ -12,7 +12,9 @@
             'click .movie-btn-watch-trailer': 'playTrailer',
             'click .movie-detail-close': 'closeDetails',
             'click #switch-hd-on': 'enableHD',
-            'click #switch-hd-off': 'disableHD'
+            'click #switch-hd-off': 'disableHD',
+            'click #toggle-sub-dropdown': 'toggledropdown',
+            'click #toggle-sub-dropdown-arrow': 'toggledropdown'
         },
 
         onShow: function() {
@@ -39,25 +41,28 @@
             }
             console.logger.debug(this.model.get('quality'));
 
-	$('.health-icon').tooltip();
+	       $('.health-icon').tooltip();
 
-  var background = $(".movie-backdrop").attr("data-bgr");
-  $('<img/>').attr('src', background).load(function() {
-    $(this).remove();
-    $(".movie-backdrop").css('background-image', "url(" + background + ")");
-    $(".movie-backdrop").fadeIn( 300 );
-  });
+             var background = $(".movie-backdrop").attr("data-bgr");
+            $('<img/>').attr('src', background).load(function() {
+             $(this).remove();
+                $(".movie-backdrop").css('background-image', "url(" + background + ")");
+             $(".movie-backdrop").fadeIn( 300 );
+             });
   
 
-$("#toggle-sub-dropdown").on('click', function() {
-   $(".flag-container").fadeIn();
-});
 
 
         },
 
         onClose: function() {},
         showCover: function() {},
+        toggledropdown: function() {
+
+        $(".flag-container").fadeIn();
+
+
+        },
 
         startStreaming: function() {
             var torrentStart = new Backbone.Model({torrent: this.model.get('quality'), backdrop: this.model.get('backdrop'), subtitle: this.model.get('subtitle')});
