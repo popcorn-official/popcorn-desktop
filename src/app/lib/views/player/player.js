@@ -98,14 +98,19 @@
             // Function to fade out top bar, first implementation, feel free to rewrite
             var timer;
             $(document).mousemove(function() {
+                var playerid = document.getElementById("player");
                 if (timer) {
                     clearTimeout(timer);
                     timer = 0;
                 }
 
                 $('.details-player').fadeIn('slow');
+
+                    playerid.style.cursor = "auto";
                 timer = setTimeout(function() {
                     $('.details-player').fadeOut('slow')
+                     
+                    playerid.style.cursor = "none";
                 }, 2000) // roughly the time that the player's bottom bar fades out
             })
         },
