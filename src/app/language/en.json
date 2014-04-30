@@ -64,5 +64,16 @@
 	"Download": "Download",
 	"Upload": "Upload",
 	"Watch Now": "Watch Now",
-	"Watch Trailer": "Watch Trailer"
+	"Watch Trailer": "Watch Trailer",
+	"quit": "Quit",
+	"cancel": "Cancel",
+	"beforeQuit": "Are you sure you want to quit?",
+	"loading": "Loading, please wait...",
+	"loadingVideo": "Loading content, please wait...",
+	"searchLoading": "Searching...",
+	"noResults": "No result found.",
+	"errorLoadingData": "Error loading data, try again later...",
+	"connecting": "Connecting...",
+	"startingDownload": "Starting download...",
+	"downloading": "Downloading..."
 }
