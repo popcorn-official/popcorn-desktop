@@ -14,7 +14,8 @@
             'click #switch-hd-on': 'enableHD',
             'click #switch-hd-off': 'disableHD',
             'click #toggle-sub-dropdown': 'toggledropdown',
-            'click #toggle-sub-dropdown-arrow': 'toggledropdown'
+            'click #toggle-sub-dropdown-arrow': 'toggledropdown',
+            'click #sub-flag-icon': 'closedropdown'
         },
 
         onShow: function() {
@@ -60,6 +61,12 @@
         toggledropdown: function() {
 
         $(".flag-container").fadeIn();
+
+
+        },
+        closedropdown: function() {
+
+        $(".flag-container").fadeOut();
 
 
         },
