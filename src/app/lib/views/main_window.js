@@ -66,6 +66,8 @@
             this.nativeWindow.on('new-win-policy', function (frame, url, policy) {
                 policy.ignore();
             });
+
+            App.vent.trigger('main:ready');
         },
 
         showMovies: function(e) {
