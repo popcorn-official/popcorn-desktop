@@ -6,6 +6,9 @@
         template: '#movie-detail-tpl',
         className: 'app-overlay',
 
+        ui: {
+            selected_lang: '.selected-lang' 
+        },
 
         events: {
             'click .movie-btn-watch': 'startStreaming',
@@ -19,6 +22,10 @@
         },
 
         onShow: function() {
+
+            // TODO: use the default in settings
+            this.subtitle_selected = false;
+
             console.log('Show movie detail', this.model);
 
             var torrents = this.model.get('torrents');
@@ -64,9 +71,12 @@
 
 
         },
-        closedropdown: function() {
+        closedropdown: function(e) {
 
-        $(".flag-container").fadeOut();
+            e.preventDefault();
+            this.subtitle_selected = $(e.currentTarget).attr("data-lang");
+            this.ui.selected_lang.removeClass().addClass("flag").addClass("toggle").addClass("selected-lang").addClass(this.subtitle_selected);
+            $(".flag-container").fadeOut();
 
 
         },
