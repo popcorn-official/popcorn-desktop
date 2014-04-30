@@ -162,7 +162,35 @@ if( ! AdvSettings.get('disclaimerAccepted1') ) {
         }, 2000);
     });
 }
+/**
+* Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
+*/
+window.ondragover = function(e) { e.preventDefault(); return false };
+window.ondrop = function(e) { e.preventDefault(); return false };
+var holder = $('.main-window-region')[0];
+holder.ondragover = function () { this.classList.add('dragging'); return false; };
+holder.ondragend = function () { this.classList.remove('dragging'); return false; };
+holder.ondrop = function (e) {
+  e.preventDefault();
 
+  var file = e.dataTransfer.files[0];
+  if(file.name.indexOf(".torrent") != -1) {
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        var content = reader.result;
+        fs.writeFile(gui.App.dataPath + "/" + file.name, content, function(err) {
+            if(err) window.alert("Error Loading Torrent: " + err);
+            else {
+                var torrentStart = new Backbone.Model({torrent: gui.App.dataPath + "/" + file.name});
+                App.vent.trigger('stream:start', torrentStart);
+            }
+        });
+      };
+     reader.readAsBinaryString(file);
+  }
+
+  return false;
+};
 /**
  * Show 404 page on uncaughtException
  */
