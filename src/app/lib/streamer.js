@@ -109,7 +109,7 @@
                 // and use all available function with the right imdb id
 
                 var torrentInfo = {
-                    url: torrent,
+                    url: torrentUrl,
                     subtitle: model.get('subtitle'),
                     title: model.get('title')
                 };
