@@ -40,7 +40,14 @@
             console.logger.debug(this.model.get('quality'));
 
 	$('.health-icon').tooltip();
-            
+
+  var background = $(".movie-backdrop").attr("data-bgr");
+  $('<img/>').attr('src', background).load(function() {
+    $(this).remove();
+    $(".movie-backdrop").css('background-image', "url(" + background + ")");
+    $(".movie-backdrop").fadeIn( "slow" );
+  });
+  
         },
 
         onClose: function() {},
