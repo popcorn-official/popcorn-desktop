@@ -44,6 +44,9 @@
 
         onShow: function() {
 
+            // Test to make sure we have title
+            console.log("Watching: " + this.model.get("title"));
+
             var _this = this;
 
             $('.player-header-background').canDragWindow();

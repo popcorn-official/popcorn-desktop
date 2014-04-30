@@ -37,9 +37,9 @@
         }
     };
 
-    var handleTorrent = function(torrent, subtitles, stateModel) {
+    var handleTorrent = function(torrent, stateModel) {
 
-        engine = peerflix(torrent, {
+        engine = peerflix(torrent.url, {
             connections: 100, // Max amount of peers to be connected to.
             path: tmpFolder
         });
@@ -53,7 +53,8 @@
             if(stateModel.get('state') === 'ready') {
 
                 // we need subtitle in the player
-                streamInfo.set('subtitle', subtitles);
+                streamInfo.set('subtitle', torrent.subtitles);
+                streamInfo.set('title', torrent.title);
 
                 App.vent.trigger('stream:ready', streamInfo);
                 stateModel.destroy();
@@ -101,14 +102,35 @@
             }
 
             if (/^magnet:/.test(torrentUrl)) {
-                handleTorrent(torrentUrl, model.get('subtitle'), stateModel);
+
+                // TODO: We should passe the movie / tvshow id instead
+                // and read from the player
+                // so from there we can use the previous next etc
+                // and use all available function with the right imdb id
+
+                var torrentInfo = {
+                    url: torrent,
+                    subtitle: model.get('subtitle'),
+                    title: model.get('title')
+                };
+
+                handleTorrent(torrentInfo, stateModel);
             } else {
                 readTorrent(torrentUrl, function(err, torrent) {
+                    
                     if(err) {
                         App.vent.trigger('error', err);
                         App.vent.trigger('stream:stop');
                     } else {
-                        handleTorrent(torrent, model.get('subtitle'), stateModel);
+
+                        // Same as above
+                        var torrentInfo = {
+                            url: torrent,
+                            subtitle: model.get('subtitle'),
+                            title: model.get('title')
+                        };
+
+                        handleTorrent(torrentInfo, stateModel);
                     }
                 });
             }
