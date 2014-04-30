@@ -203,6 +203,19 @@ holder.onpaste = function(e) {
     }
     return true;
 }
+
+/**
+* Pass magnet link as last argument to start stream
+*/
+var last_arg = gui.App.argv.pop();
+if(last_arg.substring(0,8) == "magnet:?") {
+        setTimeout(function() {
+                console.log ('running');
+                var torrentStart = new Backbone.Model({torrent: last_arg});
+                App.vent.trigger('stream:start', torrentStart);
+        }, 2000); // XXX(xaiki): hackish, we need to prevent loading instead
+}
+
 /**
  * Show 404 page on uncaughtException
  */
