@@ -87,7 +87,7 @@
         },
 
         startStreaming: function() {
-            var torrentStart = new Backbone.Model({torrent: this.model.get('quality'), backdrop: this.model.get('backdrop'), subtitle: this.model.get('subtitle')});
+            var torrentStart = new Backbone.Model({torrent: this.model.get('quality'), backdrop: this.model.get('backdrop'), subtitle: this.model.get('subtitle'), title: this.model.get('title')});
             App.vent.trigger('stream:start', torrentStart);
         },
 
