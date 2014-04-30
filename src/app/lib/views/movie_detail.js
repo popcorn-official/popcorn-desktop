@@ -61,7 +61,6 @@
         $(".sub-dropdown-arrow-down").show();
 
 
-
         },
 
         onClose: function() {},
