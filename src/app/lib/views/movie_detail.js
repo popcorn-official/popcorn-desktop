@@ -45,7 +45,7 @@
   $('<img/>').attr('src', background).load(function() {
     $(this).remove();
     $(".movie-backdrop").css('background-image', "url(" + background + ")");
-    $(".movie-backdrop").fadeIn( "slow" );
+    $(".movie-backdrop").fadeIn( 500 );
   });
   
         },
