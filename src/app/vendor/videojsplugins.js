@@ -9,7 +9,7 @@ videojs.BiggerSubtitleButton = videojs.Button.extend({
 });
 
 videojs.BiggerSubtitleButton.prototype.onClick = function() {
-  var $subs = $('#video_player.video-js .vjs-text-track-display');
+  var $subs = $('#video_player.video-js .vjs-text-track');
   var font_size = parseInt($subs.css('font-size'));
   font_size = font_size + 3;
   $subs.css('font-size', font_size+'px');
@@ -42,7 +42,7 @@ videojs.SmallerSubtitleButton = videojs.Button.extend({
 });
 
 videojs.SmallerSubtitleButton.prototype.onClick = function() {
-  var $subs = $('#video_player.video-js .vjs-text-track-display');
+  var $subs = $('#video_player.video-js .vjs-text-track');
   var font_size = parseInt($subs.css('font-size'));
   font_size = font_size - 3;
   $subs.css('font-size', font_size+'px');

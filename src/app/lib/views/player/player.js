@@ -9,15 +9,11 @@
             eyeInfo: '.eye-info-player',
             downloadSpeed: '.download_speed_player',
             uploadSpeed: '.upload_speed_player',
-            fontdown: '.fontdown',
-            fontup: '.fontup'
         },
 
         events: {
             'click .close-info-player': 'closePlayer',
             'click .vjs-fullscreen-control': 'toggleFullscreen',
-            'click .fontdown' : 'decreaseFont',
-            'click .fontup' : 'increaseFont'
         },        
 
         initialize: function() {
@@ -96,8 +92,22 @@
 
                 this.toggleFullscreen();
               }
-              
-            });            
+
+            });
+
+			// Function to fade out top bar, first implementation, feel free to rewrite
+			var timer;
+			$(document).mousemove(function() {
+				if (timer) {
+					clearTimeout(timer);
+					timer = 0;
+				}
+
+				$('.details-player').fadeIn('slow');
+				timer = setTimeout(function() {
+					$('.details-player').fadeOut('slow')
+				}, 2000) // roughly the time that the player's bottom bar fades out
+			})
         },
 
         toggleFullscreen: function() {
@@ -115,65 +125,8 @@
 
         onClose: function() {
             App.vent.trigger('stream:stop');            
-        },
-
-        increaseFont: function() {
-            // Set default fontsize to 14 pixels (fail-safe)
-            var s=14;
-            var max=164;
-            var t = document.getElementsByClassName('vjs-subtitles vjs-text-track');
-            for(i=0;i<t.length;i++) {
-                // Check if fontSize is set inline
-                if(t[i].style.fontSize) {
-                    s = parseInt(t[i].style.fontSize.replace("px",""));
-                // Else check if fontSize is set in css
-                } else {
-                    var styles = getComputedStyle(t[i], null);
-                    for(var j=0;j<styles.length;j++) {
-                        if(styles[j] == 'font-size') {
-                            s = parseInt(styles.getPropertyValue(styles[j]));
-                            break;
-                        }
-                    }
-                }
-                // If subtitle size does not go over max, add 2 pixels
-                if (s!=max) {
-                    s += 2;
-                }
-                // Change the fontSize to the new value
-                t[i].style.fontSize = s+"px"
-            }           
-        },
-
-        decreaseFont: function() {
-            // Set default fontsize to 14 pixels (fail-safe)
-            var s=14;
-            var min=2;
-            var t = document.getElementsByClassName('vjs-subtitles vjs-text-track');
-            for(i=0;i<t.length;i++) {
-                // Check if fontSize is set inline              
-                if(t[i].style.fontSize) {
-                    s = parseInt(t[i].style.fontSize.replace("px",""));
-                // Else check if fontSize is set in css
-                } else {
-                    var styles = getComputedStyle(t[i], null);
-                    for(var j=0;j<styles.length;j++) {
-                        if(styles[j] == 'font-size') {
-                            s = parseInt(styles.getPropertyValue(styles[j]));
-                            break;
-                        }
-                    }
-                }
-                // If subtitle size does not go over min, subtract 2 pixels
-                if (s!=min) {
-                    s -= 2;
-                }
-                // Change the fontSize to the new value
-                t[i].style.fontSize = s+"px";     
-            }           
         }
 
     });
-
     App.View.Player = Player;
 })(window.App);

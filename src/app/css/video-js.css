@@ -244,7 +244,7 @@ fonts to show/hide properly.
     position: relative;
     /* Set above the rest of the controls. */
     top: 17px;
-    width: calc(100% - 340px);
+    width: calc(100% - 390px);
     height: 5px;
     float: left;
     -moz-border-radius: 3px / 2px;
@@ -577,7 +577,31 @@ easily in the skin designer. http://designer.videojs.com/
     width: 20px;
     height: 30px;
     margin-bottom: 10px;
-     outline: 0;
+    outline: 0;
+}
+
+.vjs-default-skin .vjs_smallersub_button.vjs-control {
+    background: url(../images/icons/Player/fontdown.png);
+	background-repeat: no-repeat;
+    outline: 0;
+    position: relative;
+    float: right;
+    cursor: pointer;
+    margin-right: 12px;
+    height: 11px;
+    width: 12px;
+}
+
+.vjs-default-skin .vjs_biggersub_button.vjs-control {
+    background: url(../images/icons/Player/fontup.png);
+	background-repeat: no-repeat;
+    outline: 0;
+    position: relative;
+    float: right;
+    cursor: pointer;
+    margin-right: 12px;
+    height: 11px;
+    width: 12px;
 }
 /* Button Pop-up Menu */
 
