@@ -179,14 +179,15 @@
             var page = data.page-1;    
             var byPage = 30;
             var offset = page*byPage;
+            var query = {};
+            var sort = {"rating.votes": -1, "rating.percentage": -1}
 
             if (data.keywords) 
-                // SUGGESTION : Paging for search result. Actually we clear the filter when we have a search result
-                // so this should change and add a paging on result 
-                db.tvshows.find({title: new RegExp(data.keywords.toLowerCase(),"gi")}).sort({"rating.votes": -1, "rating.percentage": -1}).exec(cb);
-            
-            else 
-                db.tvshows.find({}).sort({"rating.votes": -1, "rating.percentage": -1}).skip(offset).limit(byPage).exec(cb);
+                query = {title: new RegExp(data.keywords.toLowerCase(),"gi")};
+            if (data.sort)
+                sort = data.sort;
+                
+            db.tvshows.find(query).sort(sort).skip(offset).limit(byPage).exec(cb);
                
         },
 
