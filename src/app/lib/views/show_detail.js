@@ -46,12 +46,6 @@
 
         clickTab: function(e) {
             e.preventDefault();
-            if ($(e.currentTarget).attr("id") != "current_season"){           
-                this.ui.tabsContainer.hide(); //Hide all tabs_container
-                this.ui.seasonsList.attr("id",""); //Reset id's
-                $(e.currentTarget).parent().attr("id","current_season"); // Activate this
-                $( $(e.currentTarget).attr('href')).fadeIn(); // Show tabs_container for current tab
-            }
             var tab_id = $(this).attr('data-tab');
 
             $('#tabs_season li').removeClass('active');
