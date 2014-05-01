@@ -257,7 +257,23 @@
 .tabs-episode
     display none
 
-.active
+#tabs_season .active
+    position relative
+
+    &:after
+        content ""
+        position absolute
+        top 0px
+        right -12px
+        width 0
+        height 0
+        border-color transparent transparent transparent #1b2d4c
+        border-style solid
+        border-width 13px 8px 13px 4px
+    
+    span 
+        right 11px
+#tabs_episode_base .active
     position relative
 
     &:after
@@ -273,7 +289,6 @@
     
     span 
         right 11px
-
 .display-base-title
     width 100%
     color #FFF
