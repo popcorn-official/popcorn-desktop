@@ -183,126 +183,159 @@
 
 
 
-.episode-list-text
-  color #fff
-  font-family "Open Sans", sans-serif
-  font-size 22px
-  font-weight bold
-  position relative
-  top 220px
-  z-index 2
-  left 0
-  padding 40px 230px 20px
-  background #17181b
-  box-shadow 0 1px 3px #17181b
+#tabs_season
+    position absolute
+    list-style none
+    margin-top 10px
+    color white 
 
-
-
-.season-episode-container
-    background-color #17181b
-    height 74%
-    width 99.99%
-    position fixed
-    scrollable()
-    padding-top: 230px
-    &::-webkit-scrollbar-track
-        margin-top: 230px
-
-
-
-#tabs_season 
-    width: 100%
-    margin: 0
-    padding: 0
-    list-style: none
-    font: 12px Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif
-    z-index: 2
-    float: left
-    position: relative
-    height: auto;
-    top 0px
-
-    ul 
-      position: absolute
-      margin: 0 0 0 60px
-      list-style: none
-
-      li 
-        margin: 10px .5em 17px 0
-        font-family 'Open Sans Semibold'
-        font-size: 13px
-
-    a 
-      padding: 1em 1em
-      text-decoration: none
-      color: #707070
-      font-size: 20px
-      font-weight: normal
-      margin: 10px 0px
-
-    a:hover, a:hover::after, a:focus, a:focus::after 
-      color: #3173E9
+    a
+        text-decoration none
+        color #707070
+        font-size 16px
+        font-weight normal
+        margin 10px 0px
     
-    a:focus 
-      outline: 0
+    #current_season a 
+        z-index 3
+        color #4370be
 
-    a::after 
-      content: ''
-      position: absolute
-      z-index: 1
-      top: 0
-      right: -.5em
-      bottom: 0
-      width: 1em
+    li
+        padding 8px 15px 9px
+        font-family sans-serif
+        font-size 16px
+        margin-left -10px
+        border-left 1px solid #17181B
+        margin 1px
 
-    #current_season a
-      z-index: 3
-      color: #4370BE
+        a
+            color #fff
+            cursor pointer
 
-    #current_season a::after 
-      z-index: 3
+    li:nth-child(odd)
+        background-color #1F2025
 
+    li.active
+        background-color #1b2d4c
 
 #tabs_container 
-    padding: 0px
-    position: relative
-    z-index: 2
-    height: 100%
-    margin: 0 200px
-    color: #FFF
+    padding 0px
+    position relative
+    z-index 2
+    height 100%
+    margin 0 150px
+    color #fff
 
-    a 
-      padding: 1em 1em
-      text-decoration: none
-      color: #fff
-      font-size: 13px
-      font-weight: normal
-      font-family 'Open Sans Semibold'
-      margin: 10px 0px
-
-    a:hover, a:hover::after, a:focus, a:focus::after 
-      color: #3173E9
-    
-    a:focus 
-      outline: 0
-
-    a::after 
-      content: ''
-      position: absolute
-      z-index: 1
-      top: 0
-      right: -.5em
-      bottom: 0
-      width: 1em
-    ul 
+    a
+        text-decoration none
+        color #fff
+        font-size 15px
+        font-weight normal
+        font-family sans-serif
+        margin 10px 0px
+    ul
         position absolute
         margin 0
         padding 10px 20px
         list-style none
-        border-left 1px solid #3a3b3e
+        min-width 29%
 
-      li 
-        margin: 10px .5em 0 0
-        font-size: 13px
+        li
+            padding 0
+            font 15px sans-serif
+            min-width 360px
+            margin 1px
 
+        li:nth-child(odd)
+            background-color #1F2025
 
+        li.active
+            background-color #1b2d4c
+
+    .current
+        display block
+
+.tabs-episode
+    display none
+
+active
+    position relative
+
+    &:after
+        content ""
+        position absolute
+        top 0px
+        right -12px
+        width 0
+        height 0
+        border-color transparent transparent transparent #1b2d4c
+        border-style solid
+        border-width 17px 6px 18px 6px
+    
+    span 
+        right 11px
+
+.display-base-title
+    width 100%
+    color #FFF
+    height 30px
+    font-family sans-serif
+    font-size 23px
+    line-height 12px
+
+.EpisodeData span
+    padding 9px 20px
+    font-weight 800
+
+    &:first-child
+        width 40px
+        display inline-block
+        border-right 1px solid #17181B
+        text-align right
+    
+    &:last-child
+        color #8d9296
+        font-weight 600
+
+.episode-list-text
+    display inline-block
+    margin 10px 30px 0 40px
+
+.watched-false
+    position absolute
+    right 30px
+    opacity 0.1
+    padding 10px 0
+    
+    img
+        width: 20px;
+
+.watched-true
+    position absolute
+    right 30px
+    opacity 1
+    padding 10px 0
+
+    img
+        width 20px
+
+.episode-info
+    background-color #1f2025
+    float right
+    width 30%
+    color #FFF
+    padding 30px
+    height 100%
+
+    p
+        font-size 22px
+        font-family sans-serif
+        margin -22px 0 10px
+
+@media all and (min-width: 1300px)
+    .episode-info
+        width 40%
+
+@media all and (min-width: 700px) and (max-width: 1100px)
+    .episode-info
+        width 36%
