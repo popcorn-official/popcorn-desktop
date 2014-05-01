@@ -32,7 +32,7 @@
     "i18n": "0.4.1",
     "xmlrpc": "1.2.0",
     "request": "2.34.0",
-    "peerflix": "0.5.x",
+    "peerflix": "0.8.x",
     "cheerio": "0.13.1",
     "express": "3.4.8",
     "socket.io": "0.9.16",
@@ -42,7 +42,7 @@
     "q": "2.0.x",
     "rimraf": "^2.2.6",
     "stylus": "0.42.x",
-    "read-torrent": "0.2.x",
+    "read-torrent": "1.x.x",
     "nedb": "~0.10.5"
   },
   "devDependencies": {
