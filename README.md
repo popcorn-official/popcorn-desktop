@@ -4,10 +4,11 @@
 
 To allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
-![Demo Screenshot](http://i.imgsnap.tk/image.php?i=2090fd842828a896fa26fe6222fc01d9193ac21fe7eeba06f4c21fe)
-![](http://i.imgsnap.tk/image.php?i=e5e2b4fd842828a896fa26fe6222fc01d9193af4e5495b4dc8a6f4e54)
-![](http://i.imgsnap.tk/image.php?i=5db77d08d60fd842828a896fa26fe6222fc01d9193af555678c6ad7f3f5556)
-![](http://i.imgsnap.tk/image.php?i=53838f0fd842828a896fa26fe6222fc01d9193a329355bc47cc4e32935)
+![Demo Screenshot](http://i.imgsnap.tk/image.php?i=4f31ffd842828a896fa26fe6222fc01d9193a10d5f770a5930e10d5f)
+![](http://i.imgsnap.tk/image.php?i=36313fd842828a896fa26fe6222fc01d9193aa157b7481b3e95a157b)
+![](https://photos-6.dropbox.com/t/0/AADzD3xqTr81MhS-F3xHWP8FFb0mVSQQyF0JxpOwU80kPQ/12/176835404/png/1024x768/3/1398931200/0/2/Screenshot%202014-04-30%2023.14.26.png/vNfW4EqtO8bqFk5QaEVS6pBTzLE-rfCUA-edcljLMDU)
+![](http://i.imgsnap.tk/image.php?i=7530fd842828a896fa26fe6222fc01d9193a25fcf3b674b9b525fcf)
+![](http://i.imgsnap.tk/image.php?i=e7d5957fafd842828a896fa26fe6222fc01d9193ae5a8d9f0c46878e5a8d)
 ### APIs
 
 **Currently used:**
