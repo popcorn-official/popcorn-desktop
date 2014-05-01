@@ -208,12 +208,21 @@ holder.onpaste = function(e) {
 * Pass magnet link as last argument to start stream
 */
 var last_arg = gui.App.argv.pop();
-if(last_arg && last_arg.substring(0,8) == "magnet:?") {
-        App.vent.on('main:ready', function() {
-                console.log ('running');
-                var torrentStart = new Backbone.Model({torrent: last_arg});
-                App.vent.trigger('stream:start', torrentStart);
-        });
+if(last_arg) {
+        if (last_arg.substring(0,8) == "magnet:?") {
+                App.vent.on('main:ready', function() {
+                        var torrentStart = new Backbone.Model({torrent: last_arg});
+                        App.vent.trigger('stream:start', torrentStart);
+                });
+        } else if (last_arg.substring(0,7) == "http://") {
+                App.vent.on('main:ready', function() {
+                        var si = new App.Model.StreamInfo({});
+                        si.set('subtitle', {});
+                        si.set('type', 'video/mp4');
+                        si.set('src', last_arg);
+                        App.vent.trigger('stream:ready', si);
+                });
+        }
 };
 
 /**
