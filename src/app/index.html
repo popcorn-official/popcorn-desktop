@@ -281,13 +281,21 @@
             
         </div>
         </div>
-        <div class="episode-list-text"><%= i18n.__("Episode List") %></div>
-        <div class="season-episode-container">
-         <!-- <div class="season-ep-bar"></div> -->
-        <div id="tabs_season">
-            <ul>
-                <%
-
+<div class="episode-base">
+    <div class="episode-info">
+        <p></p>
+        <div></div>
+    </div>
+    <div class="display-base-title">
+        <div class="episode-list-text">Seasons</div>
+        <div class="episode-list-text">Episodes</div>
+        
+    </div>
+    <div class="season-episode-container">
+        <!-- <div class="season-ep-bar"></div> -->
+        <div>
+            <ul id="tabs_season">
+                 <%
                 // to be updated i dont find it really elegant
                 // i'll build a compatible torrent array with our episodes content
                 var torrents = {};
@@ -299,37 +307,43 @@
                 %>
 
                 <% _.each(torrents, function(value, season) { %>
-
-                    <li class="seasonSwitch">
-
-                        <a href="#tabs-<%=season %>" title=""><%= i18n.__("Season") %>&nbsp;<%=season %></a>
-
-
+                    <li data-tab="season-<%=season %>">
+                        <a><%= i18n.__("Season") %>&nbsp;<%=season %></a>
                     </li>
                 <% }); %>
             </ul>
             <div id="tabs_container">
+                <div id="season-4" class="tabs-episode">
+                    <ul>
+                        <li class="epidoseSummary">
+                            <a href="#" class="EpisodeData" data-id="12"><span>1r8. </span><span> The Werewolf Transformation</span></a>
+                            <span class="unwatched-episode"><img src="images/Player/ViewMoreInfo.png" alt=""></span>
+                        </li>
+                    </ul>
+                <!--tab content-->
+                </div>
+
                 <% _.each(torrents, function(value, season) { %>
 
-                   <div id="tabs-<%=season %>">
+                    <div id="season-<%=season %>"  class="tabs-episode">
                         <ul>
-                            <% _.each(value, function(episodeData, episode) {
-                                    
-                                    if (typeof episodeData.watched == 'undefined')
-                                        watched = false;
-                                    else watched = episodeData.watched.watched;
-                             %>
-                                <li class="watched-<%=watched %>">
-                                    <a href="#" data-torrent='<%=episodeData.torrents[0].url %>' data-episodeid='<%=episodeData._id %>' class='startStreaming'><%=episodeData.episode %> - <%=episodeData.title %></a>
-                                </li>
-                            <% }); %>
-                        </ul>
-                    </li>
+                                <% _.each(value, function(episodeData, episode) {
+                                        
+                                        if (typeof episodeData.watched == 'undefined')
+                                            watched = false;
+                                        else watched = episodeData.watched.watched;
+                                 %>
+                                    <li class="epidoseSummary">
+                                        <a href="#" class="EpisodeData" data-id="12" data-torrent='<%=episodeData.torrents[0].url %>'><span><%=episodeData.episode %></span><span> <%=episodeData.title %></span></a>
+                                        <span class="watched-<%=watched %>"><img src="images/Player/ViewMoreInfo.png" alt=""></span>
+                                    </li>
+                                <% }); %>
                     <!--tab content-->
-                </div>
+                    </div>
                 <% }); %>
             </div><!--End tabs container-->
         </div><!--End tabs-->
+    </div>
 </div>
 
     </script>
