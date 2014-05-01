@@ -69,9 +69,6 @@
         });
 
         engine.on('ready', function() {
-            if (engine) {
-                engine.server.listen();
-            }
         });
 
         engine.on('uninterested', function() {
