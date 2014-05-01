@@ -46,12 +46,12 @@
 
         clickTab: function(e) {
             e.preventDefault();
-            var tab_id = $(this).attr('data-tab');
+            var tab_id = $(e.currentTarget).attr('data-tab');
 
             $('#tabs_season li').removeClass('active');
             $('.tabs-episode').removeClass('current');
             $('.epidoseSummary').removeClass('active');
-            $(this).addClass('active');
+            $(e.currentTarget).addClass('active');
             $("#"+tab_id).addClass('current');
         },
 
@@ -60,9 +60,9 @@
             
             $('.epidoseSummary').removeClass('active');
             
-            $(this).parent().addClass('active');
-            $(".episode-info p").text('Episode '+$(this).attr('data-id'));
-            $(".episode-info div").text('Resume of Episode '+$(this).children().val());
+            $(e.currentTarget).parent().addClass('active');
+            $(".episode-info p").text('Episode '+$(e.currentTarget).attr('data-id'));
+            $(".episode-info div").text('Resume of Episode '+$(e.currentTarget).children().val());
 
          },
 
