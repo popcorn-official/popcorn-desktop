@@ -9,6 +9,7 @@
     var API_ENDPOINT = process.env.POPCORN_API || "http://popcorn-api.com";
 
     console.log ('Database using API_ENDPOINT: ' + API_ENDPOINT);
+    console.log('DATA path: '+ data_path);
 
     // TTL for popcorn-api DB sync
     var TTL = 1000 * 60 * 60 * 24;
@@ -192,29 +193,63 @@
         },
 
         initialize : function(callback){
-            Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
-                if (setting == null ) {
-                    // we need to do a complete update
-                    // this is our first launch
-                    Database.initDB(function(err, setting) {
-                        // we write our new update time
-                        Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
-                    });
-                } else {
 
-                    // we set a TTL of 24 hours for the DB
-                    if ( (+new Date() - setting.value) > TTL ) {
-                        Database.syncDB(setting.value,function(err, setting) {
-                            // we write our new update time
-                            Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
-                        });
-                    } else {
-                        console.log("skiping synchronization TTL not meet");
-                        callback();
+            // we'll intiatlize our settings and our API SSL Validation
+            // we build our settings array
+            Database.getSettings(function(err, data) {
+                
+                if (data != null) {
+                    for(var key in data) {
+                        Settings[data[key].key] = data[key].value;
                     }
-
                 }
-   
-            })
-        }   
+
+                // new install?    
+                if( Settings.version == false ) {
+                    window.__isNewInstall = true;
+                };
+
+                AdvSettings.checkApiEndpoint(
+                    [
+                        {
+                            original: 'yifyApiEndpoint',
+                            mirror: 'yifyApiEndpointMirror', 
+                            fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C'
+                        }
+                        // TODO: Add popcorn-api.com SSL fingerprint
+                    ]
+                    , function() {
+
+                    AdvSettings.setup();
+                    Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
+                        if (setting == null ) {
+                            // we need to do a complete update
+                            // this is our first launch
+                            Database.initDB(function(err, setting) {
+                                // we write our new update time
+                                Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
+                            });
+                        } else {
+
+                            // we set a TTL of 24 hours for the DB
+                            if ( (+new Date() - setting.value) > TTL ) {
+                                Database.syncDB(setting.value,function(err, setting) {
+                                    // we write our new update time
+                                    Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
+                                });
+                            } else {
+                                console.log("skiping synchronization TTL not meet");
+                                callback();
+                            }
+
+                        }
+           
+                    })                       
+
+                });
+
+            });             
+        }
+
+
     }
