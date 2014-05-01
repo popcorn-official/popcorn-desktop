@@ -39,9 +39,14 @@
 
     var handleTorrent = function(torrent, stateModel) {
 
-        engine = peerflix(torrent.url, {
+        var tmpFilename = torrent.info.infoHash;
+        tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_') +'-'+ (new Date()*1);
+        var tmpFile = path.join(tmpFolder, tmpFilename);
+
+        engine = peerflix(torrent.info, {
             connections: 100, // Max amount of peers to be connected to.
-            path: tmpFolder
+            path: tmpFile, // we'll have a different file name for each stream also if it's same torrent in same session
+            buffer: (1.5 * 1024 * 1024).toString() // create a buffer on torrent-stream
         });
 
         var streamInfo = new App.Model.StreamInfo({engine: engine});
@@ -68,8 +73,8 @@
             checkReady();
         });
 
-        engine.on('ready', function() {
-        });
+        // not used anymore
+        engine.on('ready', function() {});
 
         engine.on('uninterested', function() {
             if (engine) {
@@ -98,39 +103,26 @@
                 Streamer.stop();
             }
 
-            if (/^magnet:/.test(torrentUrl)) {
+            readTorrent(torrentUrl, function(err, torrent) {
+                if(err) {
+                    App.vent.trigger('error', err);
+                    App.vent.trigger('stream:stop');
+                } else {
 
-                // TODO: We should passe the movie / tvshow id instead
-                // and read from the player
-                // so from there we can use the previous next etc
-                // and use all available function with the right imdb id
+                    // TODO: We should passe the movie / tvshow imdbid instead
+                    // and read from the player
+                    // so from there we can use the previous next etc
+                    // and use all available function with the right imdb id
 
-                var torrentInfo = {
-                    url: torrentUrl,
-                    subtitle: model.get('subtitle'),
-                    title: model.get('title')
-                };
+                    var torrentInfo = {
+                        info: torrent,
+                        subtitle: model.get('subtitle'),
+                        title: model.get('title')
+                    };
 
-                handleTorrent(torrentInfo, stateModel);
-            } else {
-                readTorrent(torrentUrl, function(err, torrent) {
-                    
-                    if(err) {
-                        App.vent.trigger('error', err);
-                        App.vent.trigger('stream:stop');
-                    } else {
-
-                        // Same as above
-                        var torrentInfo = {
-                            url: torrent,
-                            subtitle: model.get('subtitle'),
-                            title: model.get('title')
-                        };
-
-                        handleTorrent(torrentInfo, stateModel);
-                    }
-                });
-            }
+                    handleTorrent(torrentInfo, stateModel);
+                }
+            });
         },
 
         stop: function() {
