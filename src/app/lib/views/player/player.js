@@ -78,7 +78,7 @@
             // There was an issue with the video
             this.video.player().on('error', function (error) {
               // TODO: what about some more elegant error tracking
-              alert('Error: ' + videoError(document.getElementById('video_player').player.error()));
+                    console.error('Error: ',document.getElementById('video_player').player.error());
             });
 
             // add ESC toggle when full screen
