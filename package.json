@@ -43,7 +43,8 @@
     "rimraf": "^2.2.6",
     "stylus": "0.42.x",
     "read-torrent": "1.x.x",
-    "nedb": "~0.10.5"
+    "nedb": "~0.10.5",
+    "opensrt_js" : ">=0.0.4"
   },
   "devDependencies": {
     "grunt": "0.4.4",
