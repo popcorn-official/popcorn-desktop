@@ -1,39 +1,57 @@
 .settings-container-contain
-    background-color #17181b
-    height 100%
-    width 100%
-    position fixed
-    scrollable()
-    padding-top: 40px
-    &::-webkit-scrollbar-track
-        margin-top: 40px
+  background-color #17181b
+  height 100%
+  width 100%
+  position fixed
+  overflow-x hidden
+  overflow-y overlay
+  -webkit-overflow-scrolling touch
+  padding-top 40px
+  &::-webkit-scrollbar
+    width 5px
+  &::-webkit-scrollbar-track
+    background-color #30333c
+    -webkit-border-radius 2px
+    border-radius 2px
+    margin-top 40px
+  &::-webkit-scrollbar-thumb
+    background-color #83888c
+    -webkit-border-radius 2px
+    border-radius 2px
+    &:hover
+      background-color #93989c
+
+.settings-container-contain::-webkit-resizer,
+.settings-container-contain::-webkit-scrollbar-corner,
+.settings-container-contain::-webkit-scrollbar-button,
+.settings-container-contain::-webkit-scrollbar-track-piece
+  display none
 
 .settings-container
-    z-index 1
-    width 100%
-    height 850px
-    position absolute
-    background-color #17181b
-    -webkit-user-select none
-    opacity 1
-
-
-
-
+  z-index 1
+  width 100%
+  height 850px
+  position absolute
+  background-color #17181b
+  -webkit-user-select none
+  opacity 1
+  -ms-filter none
+  filter none
 
 .settings-container-close
-    top 55px
-    right 20px
-    position fixed
-    float right
-    width 16px
-    height 16px
-    background-image url('../../images/icons/Close.png')
-    cursor pointer
-    z-index 2
-    opacity 1
-    -webkit-backface-visibility hidden
-
+  top 55px
+  right 20px
+  position fixed
+  float right
+  width 16px
+  height 16px
+  background-image url("../images/icons/Close.png")
+  cursor pointer
+  z-index 2
+  opacity 1
+  -ms-filter none
+  filter none
+  -webkit-backface-visibility hidden
 
 .settings-container-title
   position relative
@@ -76,41 +94,6 @@
   color #2d75df
   font-family "Open Sans", sans-serif
   font-size 17px
-
-/*
-.settings-container-sidebar-download-options
-  position relative
-  float right
-  margin-top 40px
-  color #2d75df
-  -webkit-font-smoothing antialiased
-  font-family "Open Sans", sans-serif
-  font-size 17px
-
-.settings-container-sidebar-subtitles-options
-  position relative
-  float right
-  margin-top 184px
-  color #2d75df
-  font-family "Open Sans", sans-serif
-  font-size 17px
-
-.settings-container-sidebar-UI-options
-  position relative
-  float right
-  margin-top 170px
-  color #2d75df
-  font-family "Open Sans", sans-serif
-  font-size 17px
-
-.settings-container-sidebar-more-options
-  position relative
-  float right
-  margin-top 162px
-  color #2d75df
-  font-family "Open Sans", sans-serif
-  font-size 17px
-*/
 
 .settings-container-download-location-text
   position relative
@@ -159,13 +142,32 @@
   cursor pointer
   &:hover
     background #2d82ff
+    background-image -webkit--webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -webkit--moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -webkit--o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -webkit--ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -webkit-linear-gradient(to bottom, #2d82ff, #2d82ff)
+    background-image -moz--webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz--moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz--o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz--ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz-linear-gradient(to bottom, #2d82ff, #2d82ff)
+    background-image -ms--webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms--moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms--o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms--ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms-linear-gradient(to bottom, #2d82ff, #2d82ff)
+    background-image -o--webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o--moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o--o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o--ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o-linear-gradient(to bottom, #2d82ff, #2d82ff)
     background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
     background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
     background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
     background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
     text-decoration none
-
 
 .settings-container-checkbox-label
   color #c3c5c7
@@ -192,14 +194,18 @@ input[type=checkbox]
     height 14px
     -moz-border-radius 3px
     -webkit-border-radius 3px
+    -webkit-border-radius 3px
     border-radius 3px
     -moz-background-clip padding
     -webkit-background-clip padding-box
+    -webkit-background-clip padding
+    -moz-background-clip padding
     background-clip padding-box
     background-color #393b3d
-
     &:after
       opacity 0
+      -ms-filter "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"
+      filter alpha(opacity=0)
       content ''
       position absolute
       width 10px
@@ -214,11 +220,17 @@ input[type=checkbox]
       -moz-transform rotate(-45deg)
       -o-transform rotate(-45deg)
       -ms-transform rotate(-45deg)
+      -webkit-transform rotate(-45deg)
+      -moz-transform rotate(-45deg)
+      -o-transform rotate(-45deg)
+      -ms-transform rotate(-45deg)
       transform rotate(-45deg)
   input[type=checkbox]:checked
     & + label
       &:after
         opacity 1
+        -ms-filter none
+        filter none
 
 .checkbox-text
   font-family "Open Sans", sans-serif
@@ -227,7 +239,6 @@ input[type=checkbox]
   margin-left 20px
   width 400px
 
-
 .dropdown
   select
     margin-left 5px
@@ -235,7 +246,6 @@ input[type=checkbox]
     padding-left 5px
     border 0 !important
     -webkit-appearance none
-    //width 87px
     height 30px
     background-color #393b3d
     cursor pointer
@@ -244,11 +254,8 @@ input[type=checkbox]
     font-size 13px
     float left
     outline 0
-    //padding-right 10px
-
     &.subtitles-size
       padding-right 10px
-
   option
     background #393b3d
     border 0 !important
@@ -276,25 +283,20 @@ input[type=checkbox]
   &.subtitles-font
     top 50px
     left -386px
-
   &.subtitles-style
     top 50px
     left -356px
-
   &.subtitles-size
     top 50px
     left -326px
-
   &.subtitles-color
     top 50px
     left -296px
 
 .settings-seperater
   position relative
-
   &.subtitles
     margin-top 60px
-
 
 .dropdown-arrow
   width 0
@@ -339,6 +341,10 @@ input[type=checkbox]
   height 20px
   -ms-transform rotate(45deg)
   -webkit-transform rotate(45deg)
+  -webkit-transform rotate(45deg)
+  -moz-transform rotate(45deg)
+  -o-transform rotate(45deg)
+  -ms-transform rotate(45deg)
   transform rotate(45deg)
 
 #stem-notify

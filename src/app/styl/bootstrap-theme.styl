@@ -1,27 +1,31 @@
 .nav
-    font-size: 0.8em
+  font-size 0.8em
 
-ul.nav-hor > li
-    float: left
+ul
+  &.nav-hor
+    & > li
+      float left
 
 .dropdown-menu
-    background-color: BackgroundColor
+  background-color #17181b
+  & > li
+    & > a
+      -webkit-transition all 0.2s
+      -moz-transition all 0.2s
+      -o-transition all 0.2s
+      -ms-transition all 0.2s
+      transition all 0.2s
+      color #c3c5c7
+      &.active
+        color #fff
+        background-color #0b131f
+        background-image none
+        border-left 4px solid #83888c
 
-    & > li > a
-        transition: all 0.2s
-        color: TextColor
-
-        &.active
-            color: HoverTextColor
-            background-color: HoverBackgroundColor
-            background-image: none
-            border-left: 4px solid #83888c
-
-        &:focus,
-        &:hover
-            color: HoverTextColor
-            background-color: HoverBackgroundColor
-            background-image: none
-            border-left: 4px solid #2d75df
-
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover
+  color #fff
+  background-color #0b131f
+  background-image none
+  border-left 4px solid #2d75df
 

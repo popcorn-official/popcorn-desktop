@@ -1,34 +1,35 @@
 .left
-    float: left
+  float: left
 
 .right
-    float right
+  float right
 
     // Gives nicer scrollbars to an element
 scrollable()
-    overflow-x: hidden;
-    // Overflow: overlay is an undocumented webkit feature. It places the scrollbar *on top* of the content instead of eating some 16px.
-    // It's buggy as shit, though (it paints the scrollbar *over* the content and composites badly, so it will crop the content anyway )
-    overflow-y: overlay;
-    // Inertial scrolling for touch devices (mostly useless here)
-    -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  // Overflow: overlay is an undocumented webkit feature. It places the scrollbar *on top* of the content instead of eating some 16px.
+  // It's buggy as shit, though (it paints the scrollbar *over* the content and composites badly, so it will crop the content anyway )
+  overflow-y: overlay;
+  // Inertial scrolling for touch devices (mostly useless here)
+  -webkit-overflow-scrolling: touch;
 
-    &::-webkit-scrollbar
-        width: 5px;
+  &::-webkit-scrollbar
+    width: 5px;
 
-    &::-webkit-scrollbar-track
-        background-color: #30333c
-        border-radius: 2px
+  &::-webkit-scrollbar-track
+    background-color: #30333c
+    border-radius: 2px
 
-    &::-webkit-scrollbar-thumb
-        background-color: #83888c
-        border-radius: 2px
+  &::-webkit-scrollbar-thumb
+    background-color: #83888c
+    border-radius: 2px
 
-        &:hover
-            background-color: #93989c
+    &:hover
+      background-color: #93989c
 
-    &::-webkit-resizer,
-    &::-webkit-scrollbar-corner,
-    &::-webkit-scrollbar-button,
-    &::-webkit-scrollbar-track-piece
-        display: none;
+  &::-webkit-resizer,
+  &::-webkit-scrollbar-corner,
+  &::-webkit-scrollbar-button,
+  &::-webkit-scrollbar-track-piece
+    display: none;
+

@@ -1,102 +1,91 @@
 #header
-    z-index: 10
-    position: absolute
-    top: 0
-    height: TitleHeight
-    padding: 13px 0 0
-    text-align: center
-    -webkit-app-region: drag
+  z-index 10
+  position absolute
+  top 0
+  height 30px
+  padding 13px 0 0
+  text-align center
+  -webkit-app-region drag
+  h1
+    color #fff
+    font-size 0.9em
+  .btn-set
+    position absolute
+    left 15px
+  nav
+    -webkit-app-region no-drag
+    &.darwin
+      position absolute
+      left 15px
+    &.fs-darwin
+      top 0px
+      right 7px
+      left initial
+  .btn-os
+    display block
+    float left
+    margin 0 6px 0 0
+    background #000
+    -webkit-border-radius 30px
+    border-radius 30px
+    border 0
+    color transparent
+    display inline-block
+    font-size 10px
+    height 12px
+    padding 0
+    text-align center
+    width 12px
+    cursor pointer
+    &.os-close
+      background-image url("../images/icons/quit.png")
+      background-position center
+      &:hover
+        background-image url("../images/icons/quitcolor.png")
+        background-position center
+    &.os-max
+      background-image url("../images/icons/max.png")
+      background-position center
+      &:hover
+        background-image url("../images/icons/maxcolor.png")
+        background-position center
+    &.os-min
+      background-image url("../images/icons/min.png")
+      background-position center
+      &:hover
+        background-image url("../images/icons/mincolor.png")
+        background-position center
+    &.fullscreen
+      color #000
+      background transparent
+      margin 0
+      width 32px
+      height 32px
+      -webkit-border-radius 0
+      border-radius 0
+      display block
+      &::before
+        content "\e000"
+        font-family VideoJS
+        font-size 1.85em
+        line-height 0.2em
+        background none
+        display block
+        text-shadow 0 1px 0 rgba(255,255,255,0.1)
+      &.active
+        &::before
+          content "\e00B"
+      &:hover
+        color #b2b2b2
 
-    h1
-        color: rgb(255, 255, 255);
-        font-size: 0.9em;
+#header nav.win32,
+#header nav.linux
+  right 7px
+  left initial
 
-    .btn-set
-        position: absolute;
-        left: 15px;
+#header nav.fs-win32,
+#header nav.fs-linux
+  position absolute
+  left 10px
+  top 0px
 
-    // Changes the min/max/close button position depending on OS
-    nav
-        -webkit-app-region: no-drag
-
-        &.darwin
-            position: absolute;
-            left: 15px;
-
-        &.fs-darwin
-            top: 0px;
-            right: 7px;
-            left: initial;
-
-        &.win32,
-        &.linux
-            right: 7px;
-            left: initial;
-
-        &.fs-win32,
-        &.fs-linux
-            position: absolute;
-            left: 10px;
-            top: 0px;
-
-    .btn-os
-        display: block;
-        float: left;
-        margin: 0 6px 0 0;
-        background: #000;
-
-        border-radius: 30px;
-        border: 0;
-        color: transparent;
-        display: inline-block;
-        font-size: 10px;
-        height: 12px;
-        padding: 0;
-        text-align: center;
-        width: 12px;
-
-        cursor: pointer
-
-        &.os-close
-            background-image: url('../images/icons/quit.png')
-            background-position: center
-        &.os-max
-            background-image: url('../images/icons/max.png')
-            background-position: center
-        &.os-min
-            background-image: url('../images/icons/min.png')
-            background-position: center
-
-        &.os-close:hover
-            background-image: url('../images/icons/quitcolor.png')
-            background-position: center
-        &.os-max:hover
-            background-image: url('../images/icons/maxcolor.png')
-            background-position: center
-        &.os-min:hover
-            background-image: url('../images/icons/mincolor.png')
-            background-position: center
-
-        &.fullscreen
-            color:#000;
-            background: transparent;
-            margin:0;
-            width:32px;
-            height:32px;
-            border-radius:0;
-            display:block;
-
-        &.fullscreen::before
-            content: "\e000";
-            font-family: VideoJS;
-            font-size: 1.85em;
-            line-height: 0.2em;
-            background: none;
-            display:block;
-            text-shadow: 0 1px 0 rgba(255,255,255,0.1)
-
-        &.fullscreen.active::before
-            content: "\e00B";
-
-        &.fullscreen:hover
-            color:#b2b2b2;
