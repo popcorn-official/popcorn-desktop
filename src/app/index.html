@@ -401,7 +401,7 @@
                         for(var key in App.Localization.languages) {
                             
                             if (typeof App.Localization.languages[key].display != 'undefined') {
-                                if (App.settings.language == key) 
+                                if (Settings.language == key) 
                                     langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
                                 else 
                                     langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
@@ -419,7 +419,7 @@
                     <%
 
                         var sub_langs = '';
-                        if (App.settings.subtitle_language == 'none') 
+                        if (Settings.subtitle_language == 'none') 
                             sub_langs += "<option selected='selected' value='none'>" + i18n.__('Disabled') + "</option>";
                         else 
                             sub_langs += "<option value='none'>" + i18n.__('Disabled') + "</option>";
@@ -428,7 +428,7 @@
                             
                             if (typeof App.Localization.languages[key].subtitle != 'undefined' && App.Localization.languages[key].subtitle == true) {
 
-                                if (App.settings.subtitle_language == key) 
+                                if (Settings.subtitle_language == key) 
                                     sub_langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
                                 else 
                                     sub_langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
@@ -441,75 +441,18 @@
                     <div class="dropdown-arrow"></div>
                 </div>
 
+                <br/><br/>                 
+                 <div>
+                    <p><%= i18n.__("TV Show API Endpoint") %>:</p>
+                    <input type="text" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
+                 </div>
+                 <br/><br/>
 
+                <button style="color:#fff" class="rebuild-tvshows-database">Rebuild TV Shows Database</button>
 
-                <div class="dropdown subtitles-font">
-                    <p><%= i18n.__("Font") %>:</p>
-                    <%
-                        // to change (only test)
-                        var Fonts = {
-                            arial: 'Arial',
-                            tahoma: 'Tahoma'
-                        };
-                        var fonts = '';
-                        for(var key in Fonts) {
-                            if (App.settings.font == key) fonts += "<option selected='selected' value='"+key+"'>"+Fonts[key]+"</option>";
-                            else fonts += "<option value='"+key+"'>"+Fonts[key]+"</option>";
-                        }
-                            
-                    %>
-                    <select name="font"><%=fonts%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-                 <div class="dropdown subtitles-style">
-                    <p><%= i18n.__("Style") %>:</p>
-
-                    <select>
-                        <option><%= i18n.__("Normal") %></option>
-                        <option><%= i18n.__("Bold") %></option>
-                        <option><%= i18n.__("Italic") %></option>
-
-                    </select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-                <div class="dropdown subtitles-size">
-                    <p><%= i18n.__("Size") %>:</p>
-
-                    <select class="subtitles-size">
-                        <option>13px&nbsp;</option>
-                        <option>14px</option>
-                        <option>15px</option>
-                        <option>16px</option>
-                        <option>17px</option>
-                        <option>18px</option>
-                        <option>19px</option>
-                        <option>20px</option>
-                        <option>21px</option>
-                        <option>22px</option>
-                        <option>23px</option>
-                        <option>24px</option>
-                        <option>25px</option>
-                        <option>26px</option>
-
-
-                    </select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-                 <div class="dropdown subtitles-color">
-                    <p><%= i18n.__("Color") %>:</p>
-
-                    <select class="subtitles-color">
-                        <option><%= i18n.__("White") %></option>
-                        <option><%= i18n.__("Orange") %></option>
-                        <option><%= i18n.__("Yellow") %></option>
-
-                    </select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-
-<button style="color:#fff" class="rebuild-tvshows-database">Rebuild TV Shows Database</button>
-
+                <br/><br/>
                 
+
             </div>
         </div>
 

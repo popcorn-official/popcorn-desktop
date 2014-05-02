@@ -6,10 +6,6 @@
     var db = {};
 
     var data_path = require('nw.gui').App.dataPath;;
-    var API_ENDPOINT = process.env.POPCORN_API || "http://popcorn-api.com";
-
-    console.log ('Database using API_ENDPOINT: ' + API_ENDPOINT);
-    console.log('DATA path: '+ data_path);
 
     // TTL for popcorn-api DB sync
     var TTL = 1000 * 60 * 60 * 24;
@@ -122,10 +118,10 @@
         },
 
         initDB: function(cb) {
-            console.log("Extracting data from remote api");
+            console.log("Extracting data from remote api " + Settings.tvshowApiEndpoint);
             db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
                 db.tvshows.loadDatabase(function (err) {
-                    request.get(API_ENDPOINT + "/shows/all", function(err, res, body) {                        
+                    request.get(Settings.tvshowApiEndpoint + "shows/all", function(err, res, body) {                        
                         if(!err) {
                             db.tvshows.insert(JSON.parse(body), function (err, newDocs){
                                 if(err) return cb(err, null);
@@ -143,7 +139,7 @@
         // sync with updated/:since
         syncDB: function(last_update, cb) {
             console.log("Updating data from remote api since " + last_update);
-            request.get(API_ENDPOINT + "/shows/updated/" + last_update, function(err, res, body) {
+            request.get(Settings.tvshowApiEndpoint + "shows/updated/" + last_update, function(err, res, body) {
                 if(!err) {
                     var toUpdate  = JSON.parse(body);
                     db.tvshows.remove({ imdb_id: { $in: extractIds(toUpdate) }}, { multi: true }, function (err, numRemoved) {
@@ -156,7 +152,7 @@
                     return cb(err, null);
                 }
             });
-        },        
+        },
 
         getShowsByRating: function(cb) {
             db.tvshows.find({}).sort({"rating.votes": -1, "rating.percentage": -1}).limit(10).exec(cb);
@@ -223,7 +219,11 @@
                             mirror: 'yifyApiEndpointMirror', 
                             fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C'
                         }
-                        // TODO: Add popcorn-api.com SSL fingerprint
+                        // TODO: If Settings.tvshowApiEndpoint == popcorn-api.com make a fallback to check if
+                        // its not blocked
+                        
+                        // TODO: Add get-popcorn.com SSL fingerprint (for update)
+                        // with fallback with DHT
                     ]
                     , function() {
 
