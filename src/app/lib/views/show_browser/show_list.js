@@ -64,13 +64,26 @@
         },
 
         onLoading: function() {
+            $("#load_more_item .status").html("Loading...");           
             this.ui.spinner.show();
         },
 
         onLoaded: function() {
             this.checkEmpty();
-
+            var that = this;
             $(window).on('resize', this.onResize);
+
+            $("#load_more_item").remove();
+            // we add a load more
+            if(that.collection.hasMore) {
+                
+                $(".shows").append('<li id="load_more_item" class="movie-item" style="background-color:#fff"><span class="status">load more</span></li>').click( function(){
+                    that.onLoading();
+                    that.collection.fetchMore();
+                });
+                $("#load_more_item .status").html("Load More");
+            }
+
             this.onResize();
 
             this.ui.spinner.hide();
@@ -84,7 +97,7 @@
 
             if(this.collection.state === 'loaded' &&
                 totalHeight - currentPosition < SCROLL_MORE) {
-
+                this.onLoading();
                 this.collection.fetchMore();
             }
         }

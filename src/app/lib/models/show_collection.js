@@ -56,6 +56,7 @@
                     if(_.isEmpty(movies)) {
                         console.log('hasMore = false');
                         self.hasMore = false;
+                        $("#load_more_item").remove();
                     }
                 })
                 .catch(function(err) {
