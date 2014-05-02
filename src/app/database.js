@@ -19,6 +19,7 @@
     db.tvshows = new Datastore({ filename: path.join(data_path, 'data/shows.db'), autoload: true });
     db.movies = new Datastore({ filename: path.join(data_path, 'data/movies.db'), autoload: true });
     db.queue = new Datastore({ filename: path.join(data_path, 'data/queue.db'), autoload: true });
+    db.watched = new Datastore({ filename: path.join(data_path, 'data/watched.db'), autoload: true });
 
     // Create unique indexes for the various id's for shows and movies
     db.tvshows.ensureIndex({fieldName: 'imdb_id' , unique: true });
@@ -83,7 +84,13 @@
         },
 
         markEpisodeAsWatched: function(data, cb) {
-            db.tvshows.update({"episodes._id": data.episode_id}, {$set : {"watched.watched": true, "watched.date": new Date()}}, {}, cb);
+            db.watched.insert({show_id: data.show_id, season: data.season, episode: data.episode, date: new Date()}, cb);
+        },
+
+        checkEpisodeWatched: function(data, cb) {
+            db.watched.find({show_id: data.show_id, season: data.season, episode: data.episode}, function(err, data){
+                return cb(null, (data!=null && data.length > 0));
+            });
         },
 
         getEpisodesPerSeason: function(data, cb) {

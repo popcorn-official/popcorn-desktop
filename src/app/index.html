@@ -314,13 +314,13 @@
                    <div id="tabs-<%=season %>">
                         <ul>
                             <% _.each(value, function(episodeData, episode) {
-                                    
-                                    if (!episodeData.watched)
-                                        watched = false;
-                                    else watched = episodeData.watched.watched;
+                                    watched = false;
+                                    App.db.checkEpisodeWatched({show_id: _id, episode: episodeData.episode, season: episodeData.season}, function(err, isWatched){
+                                        watched = isWatched;
+                                    })
                              %>
-                                <li class="watched-<%=watched %>">
-                                    <a href="#" data-torrent='<%=episodeData.torrents[0].url %>' data-episodeid='<%=episodeData._id %>' class='startStreaming'><%=episodeData.episode %> - <%=episodeData.title %></a>
+                                <li class="watched-<%=watched%>">
+                                    <a href="#" data-torrent='<%=episodeData.torrents[0].url %>' data-episode='<%=episodeData.episode %>' data-season='<%=episodeData.season %>' class='startStreaming'><%=episodeData.episode %> - <%=episodeData.title %></a>
                                 </li>
                             <% }); %>
                         </ul>
