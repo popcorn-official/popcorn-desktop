@@ -315,7 +315,7 @@
                         <ul>
                             <% _.each(value, function(episodeData, episode) {
                                     
-                                    if (typeof episodeData.watched == 'undefined')
+                                    if (!episodeData.watched)
                                         watched = false;
                                     else watched = episodeData.watched.watched;
                              %>
