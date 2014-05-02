@@ -220,7 +220,13 @@
                     ]
                     , function() {
 
+                    // set app language
+                    detectLanguage(Settings['language']);
+
+                    // set hardware settings and usefull stuff
                     AdvSettings.setup();
+
+                    // db sync with remote endpoint
                     Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
                         if (setting == null ) {
                             // we need to do a complete update
@@ -238,7 +244,7 @@
                                     Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
                                 });
                             } else {
-                                console.log("skiping synchronization TTL not meet");
+                                console.log("Skiping synchronization TTL not meet");
                                 callback();
                             }
 
