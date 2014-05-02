@@ -7,20 +7,21 @@
         className: 'shows-container-contain',
 
         ui: {
-            tabsContainer: "#tabs_container div",
-            seasonsList: "#tabs_season li"
+            tabsContainer: "#tabs_episode_base div",
+            seasonsList: "#tabs_season li",
+            startStreaming: ".startStreaming"
         },
         events: {
             'click .startStreaming': 'startStreaming',
             'click .tv-container-close': 'closeDetails',
             'click #tabs_season li': 'clickTab',
-            'click .EpisodeData': 'clickEpisode',
+            'click .episodeData': 'clickEpisode',
         },
 
         onShow: function() {
-            this.ui.seasonsList.first().attr("id","current_season"); // Activate first tab
-            this.ui.tabsContainer.fadeOut(); // hide all tabs tabs_container
+            this.ui.seasonsList.first().addClass('active'); // Activate first tab
             this.ui.tabsContainer.first().fadeIn(); // Show first tab tabs_container   
+            
             $(".filter-bar").hide();    
 
              var background = $(".tv-poster-background").attr("data-bgr");
@@ -46,24 +47,21 @@
 
         clickTab: function(e) {
             e.preventDefault();
-            var tab_id = $(e.currentTarget).attr('data-tab');
-
             $('#tabs_season li').removeClass('active');
             $('.tabs-episode').removeClass('current');
             $('.epidoseSummary').removeClass('active');
             $(e.currentTarget).addClass('active');
-            $("#"+tab_id).addClass('current');
+            $("#"+$(e.currentTarget).attr('data-tab')).addClass('current');
         },
 
          clickEpisode: function(e) {
             e.preventDefault();
-            
+            var tvdbid = $(e.currentTarget).attr('data-id')
             $('.epidoseSummary').removeClass('active');
-            
             $(e.currentTarget).parent().addClass('active');
-            $(".episode-info p").text('Episode '+$(e.currentTarget).attr('data-id'));
-            $(".episode-info div").text('Resume of Episode '+$(e.currentTarget).children().val());
-
+            $(".episode-info p").text($('.template-'+tvdbid+' .title').html());
+            $(".episode-info div").text($('.template-'+tvdbid+' .overview').html());
+            this.ui.startStreaming.show();
          },
 
 
