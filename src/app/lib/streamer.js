@@ -59,6 +59,7 @@
 
                 // we need subtitle in the player
                 streamInfo.set('subtitle', torrent.subtitle);
+                streamInfo.set('defaultSubtitle', torrent.defaultSubtitle);
                 streamInfo.set('title', torrent.title);
 
                 App.vent.trigger('stream:ready', streamInfo);
@@ -117,6 +118,7 @@
                     var torrentInfo = {
                         info: torrent,
                         subtitle: model.get('subtitle'),
+                        defaultSubtitle: model.get('defaultSubtitle'),
                         title: model.get('title')
                     };
 

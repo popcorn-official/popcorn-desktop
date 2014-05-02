@@ -237,8 +237,7 @@
                     <div class="sub-dropdown"><%= i18n.__("Subtitles") %><div id="toggle-sub-dropdown" class="flag toggle NA selected-lang"></div>
                     <div id="toggle-sub-dropdown-arrow" class="sub-dropdown-arrow-down"></div> <div class="sub-dropdown-arrow-up"></div> </div> 
            
-                    <div class="flag-container">
-
+                    <div class="flag-container"> 
                         <% for(var k in subtitle){ %>
                         <div id="sub-flag-icon" class="flag <%= k %>" data-lang="<%= k %>"></div>
                         <% } %> 
@@ -364,8 +363,18 @@
                 return sub1.language > sub2.language;
             });
             var subtracks = '';
+
+            var defaultSub = 'none';
+            if (typeof defaultSubtitle != 'undefined') {
+                defaultSub = defaultSubtitle;
+            }
             for(var index in subArray ) {
-              subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" />';
+                var imDefault = '';
+                
+                if(defaultSub == subArray[index].language) 
+                    imDefault = 'default';
+                
+                subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" '+  imDefault +' />';
             }
 
         %>
