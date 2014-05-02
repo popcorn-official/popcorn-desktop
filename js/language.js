@@ -174,7 +174,7 @@ App.Localization.languages = {
         encoding: ['iso-8859-1']
     },
     "he": {
-        display: "Hebrew",
+        display: "עברית",
         subtitle: true,
         encoding: ['windows-1255']
     },
