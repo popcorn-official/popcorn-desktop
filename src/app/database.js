@@ -3,6 +3,7 @@
 
     var Datastore = require('nedb');
     var path = require('path');
+    var openSRT = require('opensrt_js');
     var db = {};
 
     var data_path = require('nw.gui').App.dataPath;;
@@ -91,6 +92,18 @@
 
         getEpisodesPerSeason: function(data, cb) {
             db.tvshows.find({_id : data.show_id, "episodes.season": data.season}, cb);
+        },
+
+        getSubtitles : function(data, cb) {
+            openSRT.searchEpisode(data, function(err, subs) {
+                if(subs) {
+                    for(var lang in subs) {
+                        subs[lang] = subs[lang].url;
+                    }
+                    return cb(null, subs);
+                }
+                else return cb(null, {});
+            });
         },
 
         getTVShow: function(data, cb) {
