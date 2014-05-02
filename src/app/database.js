@@ -98,7 +98,7 @@
         },
 
         getTVShow: function(data, cb) {
-            db.tvshows.find({_id : data.show_id}, cb);
+            db.tvshows.findOne({_id : data.show_id}, cb);
         },
 
         getNumSeasons: function(data, cb) {
