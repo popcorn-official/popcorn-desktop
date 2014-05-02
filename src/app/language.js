@@ -252,6 +252,3 @@ i18n.configure({
     locales: App.Localization.getTranslations(),
     directory: './src/app/language'
 });
-
-// Detect the language. The default is english
-detectLanguage(Settings.language);

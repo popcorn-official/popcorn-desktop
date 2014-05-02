@@ -237,8 +237,7 @@
                     <div class="sub-dropdown"><%= i18n.__("Subtitles") %><div id="toggle-sub-dropdown" class="flag toggle NA selected-lang"></div>
                     <div id="toggle-sub-dropdown-arrow" class="sub-dropdown-arrow-down"></div> <div class="sub-dropdown-arrow-up"></div> </div> 
            
-                    <div class="flag-container">
-
+                    <div class="flag-container"> 
                         <% for(var k in subtitle){ %>
                         <div id="sub-flag-icon" class="flag <%= k %>" data-lang="<%= k %>"></div>
                         <% } %> 
@@ -314,13 +313,13 @@
                    <div id="tabs-<%=season %>">
                         <ul>
                             <% _.each(value, function(episodeData, episode) {
-                                    
-                                    if (typeof episodeData.watched == 'undefined')
-                                        watched = false;
-                                    else watched = episodeData.watched.watched;
+                                    watched = false;
+                                    App.db.checkEpisodeWatched({show_id: _id, episode: episodeData.episode, season: episodeData.season}, function(err, isWatched){
+                                        watched = isWatched;
+                                    })
                              %>
-                                <li class="watched-<%=watched %>">
-                                    <a href="#" data-torrent='<%=episodeData.torrents[0].url %>' data-episodeid='<%=episodeData._id %>' class='startStreaming'><%=episodeData.episode %> - <%=episodeData.title %></a>
+                                <li class="watched-<%=watched%>">
+                                    <a href="#" data-torrent='<%=episodeData.torrents[0].url %>' data-episode='<%=episodeData.episode %>' data-season='<%=episodeData.season %>' class='startStreaming'><%=episodeData.episode %> - <%=episodeData.title %></a>
                                 </li>
                             <% }); %>
                         </ul>
@@ -364,8 +363,18 @@
                 return sub1.language > sub2.language;
             });
             var subtracks = '';
+
+            var defaultSub = 'none';
+            if (typeof defaultSubtitle != 'undefined') {
+                defaultSub = defaultSubtitle;
+            }
             for(var index in subArray ) {
-              subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" />';
+                var imDefault = '';
+
+                if(defaultSub == subArray[index].language) 
+                    imDefault = 'default';
+                
+                subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" '+  imDefault +' />';
             }
 
         %>
@@ -401,7 +410,7 @@
                         for(var key in App.Localization.languages) {
                             
                             if (typeof App.Localization.languages[key].display != 'undefined') {
-                                if (App.settings.language == key) 
+                                if (Settings.language == key) 
                                     langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
                                 else 
                                     langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
@@ -419,7 +428,7 @@
                     <%
 
                         var sub_langs = '';
-                        if (App.settings.subtitle_language == 'none') 
+                        if (Settings.subtitle_language == 'none') 
                             sub_langs += "<option selected='selected' value='none'>" + i18n.__('Disabled') + "</option>";
                         else 
                             sub_langs += "<option value='none'>" + i18n.__('Disabled') + "</option>";
@@ -428,7 +437,7 @@
                             
                             if (typeof App.Localization.languages[key].subtitle != 'undefined' && App.Localization.languages[key].subtitle == true) {
 
-                                if (App.settings.subtitle_language == key) 
+                                if (Settings.subtitle_language == key) 
                                     sub_langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
                                 else 
                                     sub_langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
@@ -441,75 +450,18 @@
                     <div class="dropdown-arrow"></div>
                 </div>
 
+                <br/><br/>                 
+                 <div>
+                    <p><%= i18n.__("TV Show API Endpoint") %>:</p>
+                    <input type="text" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
+                 </div>
+                 <br/><br/>
 
+                <button style="color:#fff" class="rebuild-tvshows-database">Rebuild TV Shows Database</button>
 
-                <div class="dropdown subtitles-font">
-                    <p><%= i18n.__("Font") %>:</p>
-                    <%
-                        // to change (only test)
-                        var Fonts = {
-                            arial: 'Arial',
-                            tahoma: 'Tahoma'
-                        };
-                        var fonts = '';
-                        for(var key in Fonts) {
-                            if (App.settings.font == key) fonts += "<option selected='selected' value='"+key+"'>"+Fonts[key]+"</option>";
-                            else fonts += "<option value='"+key+"'>"+Fonts[key]+"</option>";
-                        }
-                            
-                    %>
-                    <select name="font"><%=fonts%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-                 <div class="dropdown subtitles-style">
-                    <p><%= i18n.__("Style") %>:</p>
-
-                    <select>
-                        <option><%= i18n.__("Normal") %></option>
-                        <option><%= i18n.__("Bold") %></option>
-                        <option><%= i18n.__("Italic") %></option>
-
-                    </select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-                <div class="dropdown subtitles-size">
-                    <p><%= i18n.__("Size") %>:</p>
-
-                    <select class="subtitles-size">
-                        <option>13px&nbsp;</option>
-                        <option>14px</option>
-                        <option>15px</option>
-                        <option>16px</option>
-                        <option>17px</option>
-                        <option>18px</option>
-                        <option>19px</option>
-                        <option>20px</option>
-                        <option>21px</option>
-                        <option>22px</option>
-                        <option>23px</option>
-                        <option>24px</option>
-                        <option>25px</option>
-                        <option>26px</option>
-
-
-                    </select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-                 <div class="dropdown subtitles-color">
-                    <p><%= i18n.__("Color") %>:</p>
-
-                    <select class="subtitles-color">
-                        <option><%= i18n.__("White") %></option>
-                        <option><%= i18n.__("Orange") %></option>
-                        <option><%= i18n.__("Yellow") %></option>
-
-                    </select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-
-<button style="color:#fff" class="rebuild-tvshows-database">Rebuild TV Shows Database</button>
-
+                <br/><br/>
                 
+
             </div>
         </div>
 
@@ -573,13 +525,12 @@
     <script src="vendor/backbone.babysitter/lib/backbone.babysitter.js"></script>
     <script src="vendor/marionette/lib/backbone.marionette.js"></script>
     <script src="vendor/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="vendor/videojs/dist/video-js/video.dev.js"></script>
+    <script src="vendor/video.js-popcorn/dist/video-js/video.dev.js"></script>
 
     <!-- Other dependencies -->
     <script src="vendor/videojsplugins.js"></script>
     <script src="vendor/dragwindow.js"></script>
     <script src="vendor/videojs-youtube/src/youtube.js"></script>
-
 
     <!-- App Initialization -->
     <script src="database.js"></script>

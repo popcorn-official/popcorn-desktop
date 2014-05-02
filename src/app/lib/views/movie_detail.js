@@ -33,60 +33,54 @@
 
             if(torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
             
-            var torrentUrl = torrents['1080p'].url;
-            this.model.set('quality', torrents['1080p'].url);
+                var torrentUrl = torrents['1080p'].url;
+                this.model.set('quality', torrents['1080p'].url);
+
+            } else if(torrents['1080p'] !== undefined ) {
+            
+                var torrentUrl = torrents['1080p'].url;
+                this.model.set('quality', torrents['1080p'].url);
+
+            } else if(torrents['720p'] !== undefined ) {
+                
+                var torrentUrl = torrents['720p'].url;
+                this.model.set('quality', torrents['720p'].url);
 
             }
-            else if(torrents['1080p'] !== undefined ) {
+ 
+	        $('.health-icon').tooltip();
+            var background = $(".movie-backdrop").attr("data-bgr");
             
-            var torrentUrl = torrents['1080p'].url;
-            this.model.set('quality', torrents['1080p'].url);
-
-            }   else if(torrents['720p'] !== undefined ) {
-            
-            var torrentUrl = torrents['720p'].url;
-            this.model.set('quality', torrents['720p'].url);
-
-            }
-            console.logger.debug(this.model.get('quality'));
-
-	       $('.health-icon').tooltip();
-
-             var background = $(".movie-backdrop").attr("data-bgr");
             $('<img/>').attr('src', background).load(function() {
-             $(this).remove();
+                $(this).remove();
                 $(".movie-backdrop").css('background-image', "url(" + background + ")");
-             $(".movie-backdrop").fadeIn( 300 );
-             });
-        $(".sub-dropdown-arrow-down").show();
+                $(".movie-backdrop").fadeIn( 300 );
+            });
+            
+            $(".sub-dropdown-arrow-down").show();
 
-
+            // switch to default subtitle
+            this.switchSubtitle(Settings.subtitle_language);
         },
 
         onClose: function() {},
         showCover: function() {},
         toggledropdown: function() {
 
-        $(".flag-container").fadeIn();
-        $(".sub-dropdown-arrow-down").hide();
-        $(".sub-dropdown-arrow-up").show();
+            $(".flag-container").fadeIn();
+            $(".sub-dropdown-arrow-down").hide();
+            $(".sub-dropdown-arrow-up").show();
 
         },
 
         closedropdown: function(e) {
-
             e.preventDefault();
-            this.subtitle_selected = $(e.currentTarget).attr("data-lang");
-            console.log(this.subtitle_selected);
-            this.ui.selected_lang.removeClass().addClass("flag").addClass("toggle").addClass("selected-lang").addClass(this.subtitle_selected);
-            $(".flag-container").fadeOut();
-            $(".sub-dropdown-arrow-down").show();
-            $(".sub-dropdown-arrow-up").hide();
-
+            var value = ($(e.currentTarget).attr("data-lang") == null) ? 'none' : $(e.currentTarget).attr("data-lang");      
+            this.switchSubtitle(value);
         },
 
         startStreaming: function() {
-            var torrentStart = new Backbone.Model({torrent: this.model.get('quality'), backdrop: this.model.get('backdrop'), subtitle: this.model.get('subtitle'), title: this.model.get('title')});
+            var torrentStart = new Backbone.Model({torrent: this.model.get('quality'), backdrop: this.model.get('backdrop'), subtitle: this.model.get('subtitle'), defaultSubtitle: this.subtitle_selected, title: this.model.get('title')});
             App.vent.trigger('stream:start', torrentStart);
         },
 
@@ -101,30 +95,51 @@
 
         enableHD: function () {
 
-        var torrents = this.model.get('torrents');
-        console.logger.debug('HD Enabled');
-
-
-        if(torrents['1080p'] !== undefined) {
             var torrents = this.model.get('torrents');
-            var torrentUrl = torrents['1080p'].url;
-            this.model.set('quality', torrents['1080p'].url);
-            console.logger.debug(this.model.get('quality'));
-        }
+            console.logger.debug('HD Enabled');
+
+
+            if(torrents['1080p'] !== undefined) {
+                var torrents = this.model.get('torrents');
+                var torrentUrl = torrents['1080p'].url;
+                this.model.set('quality', torrents['1080p'].url);
+                console.logger.debug(this.model.get('quality'));
+            }
         },
 
         disableHD: function () {
 
-        var torrents = this.model.get('torrents');
-        console.logger.debug('HD Disabled');
-        console.logger.log(torrents['720p']);
-
-        if(torrents['720p'] !== undefined) {
             var torrents = this.model.get('torrents');
-             this.model.set('quality', torrents['720p'].url);
-             console.logger.debug(this.model.get('quality'));
-        }
+            console.logger.debug('HD Disabled');
+            console.logger.log(torrents['720p']);
 
+            if(torrents['720p'] !== undefined) {
+                var torrents = this.model.get('torrents');
+                 this.model.set('quality', torrents['720p'].url);
+                 console.logger.debug(this.model.get('quality'));
+            }
+
+        },
+
+        // helper function to switch subtitle
+        switchSubtitle: function(lang) {
+
+            // did this lang exist ?
+            var subtitles = this.model.get("subtitle");
+
+            // make sure we have an existing lang
+            if (typeof subtitles[lang] == 'undefined') 
+                lang = 'none';
+
+            // here we go...
+            this.subtitle_selected = lang;
+            this.ui.selected_lang.removeClass().addClass("flag").addClass("toggle").addClass("selected-lang").addClass(this.subtitle_selected);
+            $(".flag-container").fadeOut();
+            $(".sub-dropdown-arrow-down").show();
+            $(".sub-dropdown-arrow-up").hide();
+            
+
+            console.log("Subtitle: " + this.subtitle_selected);
         }
 
     });

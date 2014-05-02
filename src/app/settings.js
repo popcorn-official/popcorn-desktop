@@ -1,11 +1,17 @@
     var Settings = [];
 
-    // customer settings
-    Settings['popcornApiEndpoint'] = ["popcorn-api.com"];
-    Settings['popcornApiEndpointMirror'] = ["popcorn-api.net"];
+    // default settings
+    // TODO: Buy SSL for main domain + buy domain get-popcorn.re for fallback
+    Settings['updateApiEndpoint'] = 'https://get-popcorn.com/';
+    Settings['updateApiEndpointMirror'] = 'https://get-popcorn.re/';
+
     Settings['yifyApiEndpoint'] = 'https://yts.re/api/';
     Settings['yifyApiEndpointMirror'] = 'https://yts.im/api/';
-    Settings['updateNotificationUrl'] = '/update.json';
+
+    // default tvshow api endpoint
+    Settings['tvshowApiEndpoint'] = "http://popcorn-api.com/";
+    Settings['tvshowApiEndpointMirror'] = "http://popcorn-api.net/";
+
     Settings['connectionCheckUrl'] = 'http://google.com/';
 
     // app Settings

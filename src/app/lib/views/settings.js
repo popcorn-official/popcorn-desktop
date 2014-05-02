@@ -45,19 +45,25 @@
             else 
                 value = $("option:selected", field).val();
 
+            // TODO Perhaps add check to make sure its a valid API?
+            // Also we should do a full resync
+            if (field.attr('name') == 'tvshowApiEndpoint') 
+                // add trailing slash
+                if (value.substr(-1) != '/') value += '/';
+            
             // update active session
             App.settings[field.attr('name')] = value;
 
             //save to db
             App.db.writeSetting({key: field.attr('name'), value: value}, function() {
-                that.ui.success_alert.show();
+                that.ui.success_alert.show().delay(3000).fadeOut(400);
 
-                // if field is language, set ne language
-                // on active session
-                if (field.attr('name') == 'language') {
-                    console.log("New lang: " + value);
+                // TODO : We need to reload all view
+                // or ask user to restart app
+                if (field.attr('name') == 'language') 
+                    // if field is language, set new language
+                    // on active session
                     i18n.setLocale(value);
-                }
                 
             });
         },

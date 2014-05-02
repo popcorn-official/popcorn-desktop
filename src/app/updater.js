@@ -25,7 +25,7 @@
           , crypto = require('crypto')
           , zip = require('adm-zip');
 
-        var updateUrl = App.settings.updateNotificationUrl;
+        var updateUrl = Settings.updateApiEndpoint + "update.json";
 
         var CWD = process.cwd();
 
