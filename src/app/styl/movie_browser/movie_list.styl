@@ -1,37 +1,39 @@
 .movie-list
-  height 100%
-  width 100%
-  position fixed
-  top 0
-  left 0
-  text-align center
+    height: 100%
+    width: 100%
+    fixed: top left
+    text-align: center
 
-  scrollable()
-  &::-webkit-scrollbar-track
-    margin-top: HeaderHeight
-  .movies
-    padding-top: HeaderHeight
-    -webkit-user-select: none;
-    text-align: left
-    display: inline-block
-  .error
-    font-size: 1.5em;
-    text-align: center;
-    margin-top: 180px;
-    color: #727272;
-    font-weight: bold;
-  .spinner
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: black center center no-repeat;
-    opacity: .5;
-    .spinner-image
-      margin: 180px auto 0px;
-      background: url(../images/spinner.svg) no-repeat 0 0;
-      background-size: cover;
-      display: block;
-      height: 45px;
-      -webkit-animation: 1.05s spin  infinite linear;
-      width: 45px;
+    scrollable()
 
+    &::-webkit-scrollbar-track
+        margin-top: HeaderHeight
+
+    .movies
+        padding-top: HeaderHeight
+        -webkit-user-select: none;
+        text-align: left
+        display: inline-block
+
+    .error
+        font-size: 1.5em;
+        text-align: center;
+        margin-top: 180px;
+        color: #727272;
+        font-weight: bold;
+
+    .spinner
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: black center center no-repeat;
+        opacity: .5;
+
+        .spinner-image
+            margin: 180px auto 0px;
+            background: url(../images/spinner.svg) no-repeat 0 0;
+            background-size: cover;
+            display: block;
+            height: 45px;
+            -webkit-animation: 1.05s spin  infinite linear;
+            width: 45px;

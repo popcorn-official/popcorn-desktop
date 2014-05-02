@@ -1,60 +1,39 @@
 .shows-container-contain
-  background-color #17181b
-  height 100%
-  width 100%
-  position fixed
-  overflow-x hidden
-  overflow-y overlay
-  -webkit-overflow-scrolling touch
-  padding-top 40px
-  &::-webkit-scrollbar
-    width 5px
-  &::-webkit-scrollbar-track
-    background-color #30333c
-    -webkit-border-radius 2px
-    border-radius 2px
-    margin-top 40px
-  &::-webkit-scrollbar-thumb
-    background-color #83888c
-    -webkit-border-radius 2px
-    border-radius 2px
-    &:hover
-      background-color #93989c
-
-.shows-container-contain::-webkit-resizer,
-.shows-container-contain::-webkit-scrollbar-corner,
-.shows-container-contain::-webkit-scrollbar-button,
-.shows-container-contain::-webkit-scrollbar-track-piece
-  display none
+    background-color #17181b
+    height 100%
+    width 100%
+    position fixed
+    scrollable()
+    padding-top: 40px
+    &::-webkit-scrollbar-track
+        margin-top: 40px
 
 .season-ep-bar
-  width 1px
-  height 100%
-  position absolute
-  background-color #3a3b3e
-  z-index 4
-  left 200px
+    width 1px
+    height 100%
+    position absolute
+    background-color #3a3b3e
+    z-index 4
+    left 200px
 
 .tv-meta-data
-  height 100%
-  width 100%
-  position absolute
+    height 100%
+    width 100%
+    position absolute
 
 .tv-container-close
-  top 55px
-  right 20px
-  position fixed
-  float right
-  width 16px
-  height 16px
-  background-image url("../images/icons/Close.png")
-  cursor pointer
-  z-index 2
-  opacity 1
-  -ms-filter none
-  filter none
-  -webkit-backface-visibility hidden
-  z-index 4
+    top 55px
+    right 20px
+    position fixed
+    float right
+    width 16px
+    height 16px
+    background-image url('../../images/icons/Close.png')
+    cursor pointer
+    z-index 2
+    opacity 1
+    -webkit-backface-visibility hidden
+    z-index 4
 
 .tv-poster
   position fixed
@@ -64,30 +43,26 @@
   overflow hidden
   background #17181b
 
-.tv-poster-background
-  position absolute
-  width 100%
-  height 237px
-  z-index 1
-  background-repeat no-repeat
-  background-attachment fixed
-  background-position 50% 0
-  -webkit-filter blur(4px)
-  -webkit-background-size cover
-  -moz-background-size cover
-  -webkit-background-size cover
-  -moz-background-size cover
-  background-size cover
-  margin -1px
+.tv-poster-background 
+  position: absolute
+  width: 100%
+  height: 237px
+  z-index: 1
+  background-repeat: no-repeat
+  background-attachment: fixed
+  background-position: 50% 0
+  -webkit-filter: blur(4px)
+  -webkit-background-size: cover
+  -moz-background-size: cover
+  background-size: cover
+  margin: -1px
   display none
 
 .tv-poster-overlay
   position absolute
   width 100%
   height 100%
-  opacity 0.4
-  -ms-filter "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)"
-  filter alpha(opacity=40)
+  opacity .4
   background-color #000
   z-index 2
 
@@ -98,17 +73,12 @@
   margin-top 22px
   width 135px
   height 197px
-  -moz-box-shadow 0 0 10px rgba(0,0,0,0.4)
-  -webkit-box-shadow 0 0 10px rgba(0,0,0,0.4)
-  -webkit-box-shadow 0 0 10px rgba(0,0,0,0.4)
-  box-shadow 0 0 10px rgba(0,0,0,0.4)
+  -moz-box-shadow 0 0 10px rgba(0, 0, 0, .4)
+  -webkit-box-shadow 0 0 10px rgba(0, 0, 0, .4)
+  box-shadow 0 0 10px rgba(0, 0, 0, .4)
   z-index 3
-  -webkit-background-size 134px 197px
-  -moz-background-size 134px 197px
   background-size 134px 197px
-  -webkit-border-radius 4px
   border-radius 4px
-  -webkit-box-shadow 0px 0px 10px
   box-shadow 0px 0px 10px
 
 .tv-title
@@ -118,8 +88,8 @@
   z-index 3
   color #fff
   width 452px
-  font-family 'Open Sans'
-  -webkit-font-smoothing antialiased
+  font-family: 'Open Sans'
+  -webkit-font-smoothing: antialiased
   font-size 22px
 
 .tv-overview
@@ -128,11 +98,13 @@
   z-index 3
   position relative
   color #fff
-  font-family 'Open Sans Semibold'
-  -webkit-font-smoothing antialiased
+  font-family: 'Open Sans Semibold'
+  -webkit-font-smoothing: antialiased
   font-size 12px
   line-height 22px
   max-width 78%
+  //height 110px
+
 
 .tv-num-episodes
   margin-top 35px
@@ -140,8 +112,8 @@
   z-index 3
   float left
   color #fff
-  font-family 'Open Sans Bold'
-  -webkit-font-smoothing antialiased
+  font-family: 'Open Sans Bold'
+  -webkit-font-smoothing: antialiased
   font-size 11px
   cursor default
 
@@ -151,8 +123,8 @@
   position relative
   float left
   color #fff
-  font-family 'Open Sans Bold'
-  -webkit-font-smoothing antialiased
+  font-family: 'Open Sans Bold'
+  -webkit-font-smoothing: antialiased
   font-size 11px
   cursor default
 
@@ -165,8 +137,8 @@
   color #fff
   width auto
   height auto
-  font-family 'Open Sans Bold'
-  -webkit-font-smoothing antialiased
+  font-family: 'Open Sans Bold'
+  -webkit-font-smoothing: antialiased
   font-size 11px
   cursor default
   z-index 3
@@ -183,35 +155,33 @@
   height 3px
   -moz-border-radius 2px
   -webkit-border-radius 2px
-  -webkit-border-radius 2px
   border-radius 2px
   -moz-background-clip padding
   -webkit-background-clip padding-box
-  -webkit-background-clip padding
-  -moz-background-clip padding
   background-clip padding-box
   background-color #dbdbdd
   cursor default
 
 .tv-rating-star
-  z-index 2
-  margin-right 3px
-  margin-top 35px
-  position relative
-  float left
-  width 11px
-  height 11px
-  opacity 1
-  -ms-filter none
-  filter none
-  background-repeat no-repeat
-  -webkit-backface-visibility hidden
-  &.null
-    background-image url("../images/icons/StarGray.png")
-  &.half
-    background-image url("../images/icons/StarHalf.png")
-  &.full
-    background-image url("../images/icons/star.png")
+    z-index 2
+    margin-right 3px
+    margin-top 35px
+    position relative
+    float left
+    width 11px
+    height 11px
+    opacity 1
+    background-repeat no-repeat
+    -webkit-backface-visibility hidden
+    &.null
+      background-image url('../../images/icons/StarGray.png')
+    &.half
+      background-image url('../../images/icons/StarHalf.png')
+    &.full
+      background-image url('../../images/icons/star.png')
+
+
+
 
 .episode-list-text
   color #fff
@@ -224,125 +194,115 @@
   left 0
   padding 40px 230px 20px
   background #17181b
-  -webkit-box-shadow 0 1px 3px #17181b
   box-shadow 0 1px 3px #17181b
 
+
+
 .season-episode-container
-  background-color #17181b
-  height 74%
-  width 99.99%
-  position fixed
-  overflow-x hidden
-  overflow-y overlay
-  -webkit-overflow-scrolling touch
-  padding-top 230px
-  &::-webkit-scrollbar
-    width 5px
-  &::-webkit-scrollbar-track
-    background-color #30333c
-    -webkit-border-radius 2px
-    border-radius 2px
-    margin-top 230px
-  &::-webkit-scrollbar-thumb
-    background-color #83888c
-    -webkit-border-radius 2px
-    border-radius 2px
-    &:hover
-      background-color #93989c
+    background-color #17181b
+    height 74%
+    width 99.99%
+    position fixed
+    scrollable()
+    padding-top: 230px
+    &::-webkit-scrollbar-track
+        margin-top: 230px
 
-.season-episode-container::-webkit-resizer,
-.season-episode-container::-webkit-scrollbar-corner,
-.season-episode-container::-webkit-scrollbar-button,
-.season-episode-container::-webkit-scrollbar-track-piece
-  display none
 
-#tabs_season
-  width 100%
-  margin 0
-  padding 0
-  list-style none
-  font 12px Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif
-  z-index 2
-  float left
-  position relative
-  height auto
-  top 0px
-  ul
-    position absolute
-    margin 0 0 0 60px
-    list-style none
-    li
-      margin 10px 0.5em 17px 0
+
+#tabs_season 
+    width: 100%
+    margin: 0
+    padding: 0
+    list-style: none
+    font: 12px Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif
+    z-index: 2
+    float: left
+    position: relative
+    height: auto;
+    top 0px
+
+    ul 
+      position: absolute
+      margin: 0 0 0 60px
+      list-style: none
+
+      li 
+        margin: 10px .5em 17px 0
+        font-family 'Open Sans Semibold'
+        font-size: 13px
+
+    a 
+      padding: 1em 1em
+      text-decoration: none
+      color: #707070
+      font-size: 20px
+      font-weight: normal
+      margin: 10px 0px
+
+    a:hover, a:hover::after, a:focus, a:focus::after 
+      color: #3173E9
+    
+    a:focus 
+      outline: 0
+
+    a::after 
+      content: ''
+      position: absolute
+      z-index: 1
+      top: 0
+      right: -.5em
+      bottom: 0
+      width: 1em
+
+    #current_season a
+      z-index: 3
+      color: #4370BE
+
+    #current_season a::after 
+      z-index: 3
+
+
+#tabs_container 
+    padding: 0px
+    position: relative
+    z-index: 2
+    height: 100%
+    margin: 0 200px
+    color: #FFF
+
+    a 
+      padding: 1em 1em
+      text-decoration: none
+      color: #fff
+      font-size: 13px
+      font-weight: normal
       font-family 'Open Sans Semibold'
-      font-size 13px
-  a
-    padding 1em 1em
-    text-decoration none
-    color #707070
-    font-size 20px
-    font-weight normal
-    margin 10px 0px
-    &:focus
-      outline 0
-    &::after
-      content ''
-      position absolute
-      z-index 1
-      top 0
-      right -0.5em
-      bottom 0
-      width 1em
-  #current_season
-    a
-      z-index 3
-      color #4370be
-      &::after
-        z-index 3
+      margin: 10px 0px
 
-#tabs_season a:hover,
-#tabs_season a:hover::after,
-#tabs_season a:focus,
-#tabs_season a:focus::after
-  color #3173e9
+    a:hover, a:hover::after, a:focus, a:focus::after 
+      color: #3173E9
+    
+    a:focus 
+      outline: 0
 
-#tabs_container
-  padding 0px
-  position relative
-  z-index 2
-  height 100%
-  margin 0 200px
-  color #fff
-  a
-    padding 1em 1em
-    text-decoration none
-    color #fff
-    font-size 13px
-    font-weight normal
-    font-family 'Open Sans Semibold'
-    margin 10px 0px
-    &:focus
-      outline 0
-    &::after
-      content ''
-      position absolute
-      z-index 1
-      top 0
-      right -0.5em
-      bottom 0
-      width 1em
-  ul
-    position absolute
-    margin 0
-    padding 10px 20px
-    list-style none
-    border-left 1px solid #3a3b3e
-  li
-    margin 10px 0.5em 0 0
-    font-size 13px
+    a::after 
+      content: ''
+      position: absolute
+      z-index: 1
+      top: 0
+      right: -.5em
+      bottom: 0
+      width: 1em
+    ul 
+        position absolute
+        margin 0
+        padding 10px 20px
+        list-style none
+        border-left 1px solid #3a3b3e
 
-#tabs_container a:hover,
-#tabs_container a:hover::after,
-#tabs_container a:focus,
-#tabs_container a:focus::after
-  color #3173e9
+      li 
+        margin: 10px .5em 0 0
+        font-size: 13px
+
 

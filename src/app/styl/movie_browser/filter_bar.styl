@@ -1,141 +1,125 @@
 .filter-bar,
 #header
-  z-index 10
-  width 100%
-  opacity 0.97
-  -ms-filter "progid:DXImageTransform.Microsoft.Alpha(Opacity=97)"
-  filter alpha(opacity=97)
-  background-color #17181b
-  -webkit-user-select none
+    z-index: 10
+    width: 100%
+    opacity: .97
+    background-color: #17181b
+    -webkit-user-select: none;
 
 .filter-bar
-  position absolute
-  top 30px
-  height 35px
-  -webkit-box-shadow 0px 6px 8px -4px rgba(0,0,0,0.9)
-  box-shadow 0px 6px 8px -4px rgba(0,0,0,0.9)
-  .source
-    -webkit-box-sizing content-box
-    -moz-box-sizing content-box
-    box-sizing content-box
-    -webkit-app-region no-drag
-    color #c3c5c7
-    text-align center
-    cursor pointer
-    width 80px
-    height 20px
-    padding 10px 0 0
-    &:hover
-      color #fff
-    &.active
-      border-bottom 4px solid #2d75df
-  .nav
-    &.filters
-      float left
-      margin-left 10px
-  .filter
-    padding 10px 0 0
-    margin-left 20px
-    & > a
-      -webkit-app-region no-drag
-      display inline-block
-      padding 0
-      color #c3c5c7
-      background-color transparent !important
-      &:hover
-        color #fff
-    .value
-      color #2d75df
-      padding-left 10px
-    .dropdown-menu
-      font-size 0.9em
-      -webkit-app-region no-drag
-      overflow-x hidden
-      overflow-y overlay
-      -webkit-overflow-scrolling touch
-      max-height 500px
-      margin-top 11px
-      border-top-left-radius 0
-      border-top-right-radius 0
-      &::-webkit-scrollbar
-        width 5px
-      &::-webkit-scrollbar-track
-        background-color #30333c
-        -webkit-border-radius 2px
-        border-radius 2px
-      &::-webkit-scrollbar-thumb
-        background-color #83888c
-        -webkit-border-radius 2px
-        border-radius 2px
+    position: absolute
+    top: TitleHeight
+    height: FilterBarHeight
+    box-shadow: 0px 6px 8px -4px rgba(0, 0, 0, .9);
+
+    .source
+        box-sizing: content-box
+        -webkit-app-region: no-drag
+        color: #c3c5c7
+        text-align: center
+        cursor: pointer
+        width: 80px
+        height: 20px
+        padding: 10px 0 0
+
         &:hover
-          background-color #93989c
-  button
-    -webkit-app-region no-drag
-    background center no-repeat
-    -webkit-transition background-image 0.5s
-    -moz-transition background-image 0.5s
-    -o-transition background-image 0.5s
-    -ms-transition background-image 0.5s
-    transition background-image 0.5s
-    width 18px
-    height 18px
-    margin 10px 5px 0
-    &.settings
-      margin-right 10px
-      background-image url("../images/icons/settings.png")
-      &:hover
-        background-image url("../images/icons/settings_hover.png")
-    &.queue
-      background-image url("../images/icons/queue.png")
-      &:hover
-        background-image url("../images/icons/queue_hover.png")
-    &.favorites
-      background-image url("../images/icons/favorites.png")
-      &:hover
-        background-image url("../images/icons/favorites_hover.png")
-  .search
-    input
-      line-height normal
-      -webkit-app-region no-drag
-      outline none
-      color transparent
-      background-color transparent
-      cursor pointer
-      width 0px
-      height 18px
-      position relative
-      background url("../images/icons/search.png") no-repeat 5px center
-      border solid 0px
-      margin 8px 3px 0
-      padding 2px
-      padding-left 28px
-      -webkit-border-radius 10em
-      border-radius 10em
-      -webkit-transition all 0.5s
-      -moz-transition all 0.5s
-      -o-transition all 0.5s
-      -ms-transition all 0.5s
-      transition all 0.5s
-      -webkit-appearance textfield
-      -webkit-box-sizing content-box
-      &:hover
-        background url("../images/icons/search_hover.png") no-repeat 5px center
-      &:focus
-        background #ededed url("../images/icons/search_hover.png") no-repeat 5px center
-        width 130px
-        color #c4c6c8
-        background-color #0e0e0f
-        cursor auto
-        &::-webkit-input-placeholder
-          color #c4c6c8
+            color: white
 
-.filter-bar .filter .dropdown-menu::-webkit-resizer,
-.filter-bar .filter .dropdown-menu::-webkit-scrollbar-corner,
-.filter-bar .filter .dropdown-menu::-webkit-scrollbar-button,
-.filter-bar .filter .dropdown-menu::-webkit-scrollbar-track-piece
-  display none
+    .source.active
+            border-bottom: 4px solid #2d75df
 
-.filter-bar .search input::-moz-placeholder,
-.filter-bar .search input::-webkit-input-placeholder
-  color transparent
+    .nav.filters
+        float: left
+        margin-left: 10px
 
+    .filter
+        padding: 10px 0 0
+        margin-left: 20px
+
+        & > a
+            -webkit-app-region: no-drag
+            display: inline-block
+            padding: 0
+            color: #c3c5c7
+            background-color: transparent !important
+
+            &:hover
+                color: white
+        .value
+            color: #2d75df
+            padding-left: 10px
+
+        .dropdown-menu
+            font-size: 0.9em
+            -webkit-app-region: no-drag
+            scrollable()
+            max-height: 500px
+            margin-top: 11px
+            border-top-left-radius: 0
+            border-top-right-radius: 0
+
+    button
+        -webkit-app-region: no-drag
+        background: center no-repeat
+        transition: background-image 0.5s;
+        width: 18px;
+        height: 18px;
+        margin: 10px 5px 0;
+
+        &.settings
+            margin-right: 10px
+            background-image: url(../../images/icons/settings.png);
+
+            &:hover
+                background-image: url(../../images/icons/settings_hover.png);
+
+        &.queue
+            background-image: url(../../images/icons/queue.png);
+
+            &:hover
+                background-image: url(../../images/icons/queue_hover.png);
+
+        &.favorites
+            background-image: url(../../images/icons/favorites.png);
+
+            &:hover
+                background-image: url(../../images/icons/favorites_hover.png);
+
+    .search input
+            line-height: normal;
+            -webkit-app-region: no-drag
+            outline: none
+            color: transparent;
+            background-color: transparent;
+            cursor: pointer;
+            width: 0px;
+            height: 18px;
+            position: relative;
+
+            background: url('../images/icons/search.png') no-repeat 5px center;
+            border: solid 0px;
+            margin: 8px 3px 0
+            padding: 2px
+            padding-left: 28px;
+            border-radius: 10em;
+            transition: all .5s;
+
+            -webkit-appearance: textfield;
+            -webkit-box-sizing: content-box;
+
+            &:hover
+                background: url('../images/icons/search_hover.png') no-repeat 5px center;
+
+            &:focus
+                background: #ededed url('../images/icons/search_hover.png') no-repeat 5px center;
+                width: 130px;
+                color: #c4c6c8;
+                background-color: #0e0e0f;
+                cursor: auto;
+
+            &::-moz-placeholder,
+            &::-webkit-input-placeholder
+                color: transparent;
+
+            &:focus::-webkit-input-placeholder
+                color: #c4c6c8;
