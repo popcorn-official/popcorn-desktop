@@ -58,7 +58,7 @@
             if(stateModel.get('state') === 'ready') {
 
                 // we need subtitle in the player
-                streamInfo.set('subtitle', torrent.subtitles);
+                streamInfo.set('subtitle', torrent.subtitle);
                 streamInfo.set('title', torrent.title);
 
                 App.vent.trigger('stream:ready', streamInfo);

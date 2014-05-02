@@ -1,25 +1,24 @@
-
     var Settings = [];
 
     // customer settings
-    Settings['popcornApiEndpoint'] = ["popcorn-api.com","popcorn-api.net"];
-    Settings['updateNotificationUrl'] = '/update.json';
-    Settings['connectionCheckUrl'] = 'http://google.com/';
+    Settings['popcornApiEndpoint'] = ["popcorn-api.com"];
+    Settings['popcornApiEndpointMirror'] = ["popcorn-api.net"];
     Settings['yifyApiEndpoint'] = 'https://yts.re/api/';
     Settings['yifyApiEndpointMirror'] = 'https://yts.im/api/';
+    Settings['updateNotificationUrl'] = '/update.json';
+    Settings['connectionCheckUrl'] = 'http://google.com/';
 
-    // app settings
+    // app Settings
     Settings['version'] = false;
     Settings['dbversion'] = '0.1.0';
     Settings['language'] = false;
     Settings['subtitle_language'] = 'none'; // none by default
     Settings['font'] = 'tahoma';
 
-
     var AdvSettings = {
 
             get: function(variable) {
-                if (typeof Settings[variable] != 'undefine')
+                if (typeof Settings[variable] != 'undefined')
                     return Settings[variable];
                 else return false;
             },
@@ -58,41 +57,52 @@
                 }
             },
 
-            checkApiEndpoint: function() {
+            checkApiEndpoint: function(allApis, callback) {
                 var tls = require('tls')
                   , URI = require('URIjs');
 
-                var hostname = URI(AdvSettings.get('yifyApiEndpoint')).hostname();
 
-                tls.connect(443, hostname, {
-                    servername: hostname,
-                    rejectUnauthorized: false
-                }, function() {
-                    if(this.authorized && !this.authorizationError) {
-                        var cert = this.getPeerCertificate();
-                        if(cert.fingerprint != 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C') {
-                            // "These are not the certificates you're looking for..."
-                            // Seems like they even got a certificate signed for us :O
-                            AdvSettings.set('yifyApiEndpoint', AdvSettings.get('yifyApiEndpointMirror'));
-                            AdvSettings.set('checkedApiEndpoint', true);
-                            this.end();
+                // TODO: Did we want to check api SSL at EACH load ?
+                // Default timeout of 120 ms
+
+                numCompletedCalls = 0
+                for(var apiCheck in allApis) {
+                    
+                    numCompletedCalls++;
+                    apiCheck = allApis[apiCheck];
+                    
+                    var hostname = URI(AdvSettings.get(apiCheck.original)).hostname();
+
+                    tls.connect(443, hostname, {
+                        servername: hostname,
+                        rejectUnauthorized: false
+                    }, function() {
+                        if(this.authorized && !this.authorizationError) {
+                            var cert = this.getPeerCertificate();
+                            if(cert.fingerprint != apiCheck.fingerprint) {
+                                // "These are not the certificates you're looking for..."
+                                // Seems like they even got a certificate signed for us :O
+                                Settings[apiCheck.original] = Settings[apiCheck.mirror];
+                                this.end();
+                                if (numCompletedCalls == allApis.length) callback();
+                            } else {
+                                // Valid Certificate! YAY - Not blocked!
+                                this.end();
+                                if (numCompletedCalls == allApis.length) callback();
+                            }
                         } else {
-                            // Valid Certificate! YAY - Not blocked!
-                            AdvSettings.set('checkedApiEndpoint', true);
+                            // Not a valid SSL certificate... mhmmm right, this is not it, use a mirror
+                            Settings[apiCheck.original] = Settings[apiCheck.mirror];
                             this.end();
+                            if (numCompletedCalls == allApis.length) callback();
                         }
-                    } else {
-                        // Not a valid SSL certificate... mhmmm right, this is totz yts.re!
-                        AdvSettings.set('yifyApiEndpoint', AdvSettings.get('yifyApiEndpointMirror'));
-                        AdvSettings.set('checkedApiEndpoint', true);
+                    }).on('error', function() {
+                        // No SSL support. That's convincing >.<
+                        Settings[apiCheck.original] = Settings[apiCheck.mirror];
                         this.end();
-                    }
-                }).on('error', function() {
-                    // No SSL support. That's convincing >.<
-                    AdvSettings.set('yifyApiEndpoint', AdvSettings.get('yifyApiEndpointMirror'));
-                    AdvSettings.set('checkedApiEndpoint', true);
-                    this.end();
-                });
+                        if (numCompletedCalls == allApis.length) callback();
+                    });
+                };
             },
 
             performUpgrade: function() {
@@ -117,29 +127,5 @@
 
                 AdvSettings.set('version', currentVersion);
             },
-    };    
-
-    // we build our settings array
-    Database.getSettings(function(err, data) {
-        
-        if (data != null) {
-            for(var key in data) {
-                Settings[data[key].key] = data[key].value;
-            }
-        }
-
-        // new install?    
-        if( typeof Settings.version == false ) {
-            window.__isNewInstall = true;
-        };
-
-        if(AdvSettings.get('checkedApiEndpoint') != 'true') {
-            AdvSettings.checkApiEndpoint();
-        }
-
-        // we set it if we want to use it in our app later
-        // we have some cool function who can be used
-        AdvSettings.setup();
-
-    }); 
+    };
 
