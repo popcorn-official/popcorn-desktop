@@ -3,309 +3,366 @@
   z-index 2
   width 100%
   height 100%
-  background-color rgba(9, 13, 18, 0.75)
-  
+  background-color rgba(9,13,18,0.75)
+
 .tooltip-inner
   max-width 200px
   padding 3px 8px
   color #fff
   text-align center
   text-decoration none
-  background-color rgba(9, 13, 18, 0.75)
+  background-color rgba(9,13,18,0.75)
+  -webkit-border-radius 4px
   border-radius 4px
 
-
 .movie-detail
-    z-index 10
-    //width 819px
-    width 90%
-    //height 420px
-    height 74.5%
-    position absolute
-    -webkit-user-select none   
-    opacity 1
-    overflow hidden
-    margin auto
-    left 0
-    right 0
-    top 16%
-    //max-width 940px
-    //max-height 430px
-    -webkit-backface-visibility hidden
+  z-index 10
+  width 90%
+  height 74.5%
+  position absolute
+  -webkit-user-select none
+  opacity 1
+  -ms-filter none
+  filter none
+  overflow hidden
+  margin auto
+  left 0
+  right 0
+  top 16%
+  -webkit-backface-visibility hidden
 
 .sperator-movie
+  opacity 1
+  -ms-filter none
+  filter none
+  height 5.5%
+  width 100%
+  position relative
+  -webkit-backface-visibility hidden
+  .detail-window
     opacity 1
-    height 5.5%
-    width 100%
-    position relative
-    -webkit-backface-visibility hidden
-
-    .detail-window
-      opacity 1
-
-	    .movie-quick-info
-	    	margin-bottom: 5px
-	    	color: #fff
-
-  .movie-meta-details
-    opacity 1
-    margin-left 4px  
-    margin-top 20px
-    position relative
-    float left
+    -ms-filter none
+    filter none
+  .movie-quick-info
+    margin-bottom 5px
     color #fff
-    font-family: 'Open Sans Bold'
-    -webkit-font-smoothing: antialiased
-    font-size 11px
-    cursor default
-    z-index 2
-    -webkit-backface-visibility hidden
 
-  .movie-dot
-    margin-left 15px
-    margin-right 15px
-    margin-top 25px
-    position relative
-    float left
-    width 3px
-    height 3px
-    -moz-border-radius 2px
-    -webkit-border-radius 2px
-    border-radius 2px
-    -moz-background-clip padding
-    -webkit-background-clip padding-box
-    background-clip padding-box
-    background-color #dbdbdd
-    cursor default
-    z-index 2
-    opacity 1
-    -webkit-backface-visibility hidden
+.movie-meta-details
+  opacity 1
+  -ms-filter none
+  filter none
+  margin-left 4px
+  margin-top 20px
+  position relative
+  float left
+  color #fff
+  font-family 'Open Sans Bold'
+  -webkit-font-smoothing antialiased
+  font-size 11px
+  cursor default
+  z-index 2
+  -webkit-backface-visibility hidden
 
+.movie-dot
+  margin-left 15px
+  margin-right 15px
+  margin-top 25px
+  position relative
+  float left
+  width 3px
+  height 3px
+  -moz-border-radius 2px
+  -webkit-border-radius 2px
+  -webkit-border-radius 2px
+  border-radius 2px
+  -moz-background-clip padding
+  -webkit-background-clip padding-box
+  -webkit-background-clip padding
+  -moz-background-clip padding
+  background-clip padding-box
+  background-color #dbdbdd
+  cursor default
+  z-index 2
+  opacity 1
+  -ms-filter none
+  filter none
+  -webkit-backface-visibility hidden
 
-  .movie-cover-image
-    position relative
-    width 20%
-    border-radius 4px
-    max-height 70%
-    float left
-    margin-right 20px
-    margin-left 7.1%
-    z-index 2
-    opacity 1
-    -webkit-backface-visibility hidden
+.movie-cover-image
+  position relative
+  width 20%
+  -webkit-border-radius 4px
+  border-radius 4px
+  max-height 70%
+  float left
+  margin-right 20px
+  margin-left 7.1%
+  z-index 2
+  opacity 1
+  -ms-filter none
+  filter none
+  -webkit-backface-visibility hidden
 
 .movie-overview-container
-  top: 22%
-  z-index: 2
-  width: 90%
+  top 22%
+  z-index 2
+  width 90%
 
 .movie-meta-overview
-    position relative
-    margin-left 285px
-    margin-top 45px
-    color #fff
-    font-family 'Open Sans Semibold'
-    -webkit-font-smoothing: antialiased
-    font-size 12px
-    line-height 22px
-    //width 60%
-    //max-width 60%
-    //height 55%
-    z-index 2
-    opacity 1
-    -webkit-backface-visibility hidden
+  position relative
+  margin-left 285px
+  margin-top 45px
+  color #fff
+  font-family 'Open Sans Semibold'
+  -webkit-font-smoothing antialiased
+  font-size 12px
+  line-height 22px
+  z-index 2
+  opacity 1
+  -ms-filter none
+  filter none
+  -webkit-backface-visibility hidden
 
 .movie-detail-close
-    top 13px
-    right 13px
-    position absolute
-    float right
-    width 16px
-    height 16px
-    background-image: url(../../images/icons/Close.png);
-    cursor pointer
-    z-index 2
-    opacity 1
-    -webkit-backface-visibility hidden
+  top 13px
+  right 13px
+  position absolute
+  float right
+  width 16px
+  height 16px
+  background-image url("../images/icons/Close.png")
+  cursor pointer
+  z-index 2
+  opacity 1
+  -ms-filter none
+  filter none
+  -webkit-backface-visibility hidden
 
 .movie-meta-title
-    margin-top 5.5%
-    margin-left 285px
-    color #fff
-    font-family: 'Open Sans Semibold'
-    -webkit-font-smoothing: antialiased;
-    font-size 38px
-    position relative
-    cursor default
-    z-index 2
-    max-width 60%
-    opacity 1
-    -webkit-backface-visibility hidden
+  margin-top 5.5%
+  margin-left 285px
+  color #fff
+  font-family 'Open Sans Semibold'
+  -webkit-font-smoothing antialiased
+  font-size 38px
+  position relative
+  cursor default
+  z-index 2
+  max-width 60%
+  opacity 1
+  -ms-filter none
+  filter none
+  -webkit-backface-visibility hidden
 
 .health-icon
-    z-index 2
-    margin-right 9%
-    margin-top 18px
-    position relative
-    float right
-    width 12px
-    height 17px
-    opacity 1
-    -webkit-backface-visibility hidden
-    &.Bad
-      background-image url('../../images/icons/HealthBad.png')
-    &.Medium
-      background-image url('../../images/icons/HealthMedium.png')
-    &.Good
-      background-image url('../../images/icons/HealthGood.png')
-    &.Excellent
-      background-image url('../../images/icons/HealthExcellent.png')
+  z-index 2
+  margin-right 9%
+  margin-top 18px
+  position relative
+  float right
+  width 12px
+  height 17px
+  opacity 1
+  -ms-filter none
+  filter none
+  -webkit-backface-visibility hidden
+  &.Bad
+    background-image url("../images/icons/HealthBad.png")
+  &.Medium
+    background-image url("../images/icons/HealthMedium.png")
+  &.Good
+    background-image url("../images/icons/HealthGood.png")
+  &.Excellent
+    background-image url("../images/icons/HealthExcellent.png")
+
 .rating-star
-    z-index 2
-    margin-right 3px
-    margin-top 20px
-    position relative
-    float left
-    width 11px
-    height 11px
-    opacity 1
-    background-repeat no-repeat
-    -webkit-backface-visibility hidden
-    &.null
-      background-image url('../../images/icons/StarGray.png')
-    &.half
-      background-image url('../../images/icons/StarHalf.png')
-    &.full
-      background-image url('../../images/icons/star.png')
+  z-index 2
+  margin-right 3px
+  margin-top 20px
+  position relative
+  float left
+  width 11px
+  height 11px
+  opacity 1
+  -ms-filter none
+  filter none
+  background-repeat no-repeat
+  -webkit-backface-visibility hidden
+  &.null
+    background-image url("../images/icons/StarGray.png")
+  &.half
+    background-image url("../images/icons/StarHalf.png")
+  &.full
+    background-image url("../images/icons/star.png")
 
 .movie-quality-container
-  padding-left: 10%
-  top: 13px
-  z-index: 2
-  float: left
-  width: 10px
-  height: 10px
-  position: relative
+  padding-left 10%
+  top 13px
+  z-index 2
+  float left
+  width 10px
+  height 10px
+  position relative
 
 .movie-controlls-container
-  margin-left: 29%
-  top: 72%
-  z-index: 2
-  width: 70%
-  height: 10px
-  position: absolute
-
-
+  margin-left 29%
+  top 72%
+  z-index 2
+  width 70%
+  height 10px
+  position absolute
 
 .movie-btn-watch
-    float left
-    z-index 2
-    //left 29%
-    //top 72%
-    position relative
-    cursor pointer
-    width 87px
-    height 35px
-    -moz-border-radius 3px
-    -webkit-border-radius 3px
-    border-radius 3px
-    -moz-background-clip padding
-    -webkit-background-clip padding-box
-    background-clip padding-box
-    background-color #458de3
-    &:hover
-      background #2d82ff
-      background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
-      text-decoration none
-
-    &:active
-      -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6)
-      -moz-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6)
-      box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6)
-      background: #2875e5
-      border: solid 1px #2468cc
-
-    .movie-watch-now
-      color #fff
-      font-family "Open Sans Semibold", "Open Sans", sans-serif
-      -webkit-font-smoothing antialiased
-      text-align center
-      padding-top 12px
-      font-size 12px
+  float left
+  z-index 2
+  position relative
+  cursor pointer
+  width 87px
+  height 35px
+  -moz-border-radius 3px
+  -webkit-border-radius 3px
+  -webkit-border-radius 3px
+  border-radius 3px
+  -moz-background-clip padding
+  -webkit-background-clip padding-box
+  -webkit-background-clip padding
+  -moz-background-clip padding
+  background-clip padding-box
+  background-color #458de3
+  &:hover
+    background #2d82ff
+    background-image -webkit--webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -webkit--moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -webkit--o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -webkit--ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -webkit-linear-gradient(to bottom, #2d82ff, #2d82ff)
+    background-image -moz--webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz--moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz--o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz--ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz-linear-gradient(to bottom, #2d82ff, #2d82ff)
+    background-image -ms--webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms--moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms--o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms--ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms-linear-gradient(to bottom, #2d82ff, #2d82ff)
+    background-image -o--webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o--moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o--o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o--ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o-linear-gradient(to bottom, #2d82ff, #2d82ff)
+    background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
+    text-decoration none
+  &:active
+    -webkit-box-shadow inset 0 1px 4px rgba(0,0,0,0.6)
+    -moz-box-shadow inset 0 1px 4px rgba(0,0,0,0.6)
+    -webkit-box-shadow inset 0 1px 4px rgba(0,0,0,0.6)
+    box-shadow inset 0 1px 4px rgba(0,0,0,0.6)
+    background #2875e5
+    border solid 1px #2468cc
+  .movie-watch-now
+    color #fff
+    font-family "Open Sans Semibold", "Open Sans", sans-serif
+    -webkit-font-smoothing antialiased
+    text-align center
+    padding-top 12px
+    font-size 12px
 
 .movie-btn-watch-trailer
-    z-index 2
-    margin-left 15px
-    //top 300px
-    position relative
-    cursor pointer
-    float left
-    width 97px
-    height 35px
-    -moz-border-radius 3px
-    -webkit-border-radius 3px
-    border-radius 3px
-    -moz-background-clip padding
-    -webkit-background-clip padding-box
-    background-clip padding-box
-    background-color #458de3
-    &:hover
-      background #2d82ff
-      background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
-      background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
-      text-decoration none
-
-    &:active
-      -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6)
-      -moz-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6)
-      box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6)
-      background: #2875e5
-      border: solid 1px #2468cc
-
-    .movie-watch-now
-      color #fff
-      font-family "Open Sans Semibold", "Open Sans", sans-serif
-      -webkit-font-smoothing antialiased
-      text-align center
-      padding-top 12px
-      font-size 12px
-
+  z-index 2
+  margin-left 15px
+  position relative
+  cursor pointer
+  float left
+  width 97px
+  height 35px
+  -moz-border-radius 3px
+  -webkit-border-radius 3px
+  -webkit-border-radius 3px
+  border-radius 3px
+  -moz-background-clip padding
+  -webkit-background-clip padding-box
+  -webkit-background-clip padding
+  -moz-background-clip padding
+  background-clip padding-box
+  background-color #458de3
+  &:hover
+    background #2d82ff
+    background-image -webkit--webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -webkit--moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -webkit--o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -webkit--ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -webkit-linear-gradient(to bottom, #2d82ff, #2d82ff)
+    background-image -moz--webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz--moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz--o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz--ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz-linear-gradient(to bottom, #2d82ff, #2d82ff)
+    background-image -ms--webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms--moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms--o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms--ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms-linear-gradient(to bottom, #2d82ff, #2d82ff)
+    background-image -o--webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o--moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o--o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o--ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o-linear-gradient(to bottom, #2d82ff, #2d82ff)
+    background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
+    background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
+    text-decoration none
+  &:active
+    -webkit-box-shadow inset 0 1px 4px rgba(0,0,0,0.6)
+    -moz-box-shadow inset 0 1px 4px rgba(0,0,0,0.6)
+    -webkit-box-shadow inset 0 1px 4px rgba(0,0,0,0.6)
+    box-shadow inset 0 1px 4px rgba(0,0,0,0.6)
+    background #2875e5
+    border solid 1px #2468cc
+  .movie-watch-now
+    color #fff
+    font-family "Open Sans Semibold", "Open Sans", sans-serif
+    -webkit-font-smoothing antialiased
+    text-align center
+    padding-top 12px
+    font-size 12px
 
 .movie-backdrop
-    width 100%
-    height 100%
-    position absolute
-    top -34px
-    z-index 0
-    background-repeat no-repeat
-    background-position center
-    background-size cover
-    -webkit-filter blur(3px)
-    overflow hidden
-    opacity 1
-    -webkit-backface-visibility hidden
-    display none
+  width 100%
+  height 100%
+  position absolute
+  top -34px
+  z-index 0
+  background-repeat no-repeat
+  background-position center
+  -webkit-background-size cover
+  -moz-background-size cover
+  background-size cover
+  -webkit-filter blur(3px)
+  overflow hidden
+  opacity 1
+  -ms-filter none
+  filter none
+  -webkit-backface-visibility hidden
+  display none
 
 .movie-backdrop-overlay
-    width 100%
-    height 100%
-    position absolute
-    top -34px
-    z-index 1
-    opacity .55
-    /* layer alpha */
-    background-color #000
-    /* layer fill content */
-    z-index: 2
-
-
+  width 100%
+  height 100%
+  position absolute
+  top -34px
+  z-index 1
+  opacity 0.55
+  -ms-filter "progid:DXImageTransform.Microsoft.Alpha(Opacity=55)"
+  filter alpha(opacity=55)
+  background-color #000
+  z-index 2
 
 .q720
   z-index 2
@@ -314,8 +371,6 @@
   font-size 11px
   color #fff
   font-weight normal
-  //margin-left 525px
-  //top 312px
   position absolute
 
 .q1080
@@ -325,20 +380,19 @@
   color #fff
   font-weight normal
   margin-left 50px
-  //top 312px
   position absolute
   z-index 2
 
 .switch
   background transparent
+  -webkit-border-radius 32px
   border-radius 32px
   display block
   height 12px
   position absolute
   margin-left 21px
-  //top 312px
   width 25px
-  border 2px solid #FFF
+  border 2px solid #fff
   cursor pointer
   z-index 2
   label
@@ -346,7 +400,15 @@
     font-size 11px
     color #fff
     font-weight bold
+    -webkit-transition color 0.2s ease
+    -moz-transition color 0.2s ease
+    -o-transition color 0.2s ease
+    -ms-transition color 0.2s ease
     transition color 0.2s ease
+    -webkit-transition color 0.2s ease
+    -moz-transition color 0.2s ease
+    -o-transition color 0.2s ease
+    -ms-transition color 0.2s ease
     transition color 0.2s ease
     width 20px
     cursor pointer
@@ -362,6 +424,8 @@
     height 7px
     left -27px
     opacity 0
+    -ms-filter "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"
+    filter alpha(opacity=0)
     position absolute
     top -4px
     width 79px
@@ -373,43 +437,54 @@
         &:nth-of-type(1)
           color #286dc4
         &:nth-of-type(2)
-          color #FFF
+          color #fff
       & ~ .toggle
         left 0px
     & ~ :checked
       & ~ label
         &:nth-of-type(1)
-          color #FFF
+          color #fff
         &:nth-of-type(2)
           color #286dc4
       & ~ .toggle
         left 11px
 
 .toggle
+  -webkit-transition left 0.2s ease
+  -moz-transition left 0.2s ease
+  -o-transition left 0.2s ease
+  -ms-transition left 0.2s ease
   transition left 0.2s ease
+  -webkit-transition left 0.2s ease
+  -moz-transition left 0.2s ease
+  -o-transition left 0.2s ease
+  -ms-transition left 0.2s ease
   transition left 0.2s ease
   background #286dc4
+  -webkit-border-radius 50%
   border-radius 50%
   height 10px
-  left -0px
+  left 0px
   position absolute
   top -1px
   width 10px
   z-index 1
 
 .sub-dropdown
-    z-index 2
-    right 90px
-    top 10px
-    position absolute
-    float right
-    height 17px
-    opacity 1
-    -webkit-backface-visibility hidden
-    color #fff
-    font-family 'Open Sans Semibold'
-    -webkit-font-smoothing: antialiased
-    font-size 12px
+  z-index 2
+  right 90px
+  top 10px
+  position absolute
+  float right
+  height 17px
+  opacity 1
+  -ms-filter none
+  filter none
+  -webkit-backface-visibility hidden
+  color #fff
+  font-family 'Open Sans Semibold'
+  -webkit-font-smoothing antialiased
+  font-size 12px
 
 .sub-dropdown-arrow-down
   width 0
@@ -417,9 +492,9 @@
   border-left 4px solid transparent
   border-right 4px solid transparent
   border-top 5px solid #c4c6c8
-  top: 3px
-  margin-left: 80px
-  position: absolute
+  top 3px
+  margin-left 80px
+  position absolute
   float left
   cursor pointer
   display none
@@ -430,109 +505,114 @@
   border-left 4px solid transparent
   border-right 4px solid transparent
   border-bottom 5px solid #c4c6c8
-  top: 3px
-  margin-left: 80px
-  position: absolute
+  top 3px
+  margin-left 80px
+  position absolute
   float left
   cursor pointer
   display none
 
 .flag-container
-    opasity
-    z-index 2
-    right: 84px
-    top 20px
-    position absolute
-    float right
-    max-width: 36%
-    opacity 1
-    -webkit-backface-visibility hidden
-    padding-bottom: 6px
-    padding-right: 6px
-    display none
+  opasity
+  z-index 2
+  right 84px
+  top 20px
+  position absolute
+  float right
+  max-width 36%
+  opacity 1
+  -ms-filter none
+  filter none
+  -webkit-backface-visibility hidden
+  padding-bottom 6px
+  padding-right 6px
+  display none
 
 .flag
   z-index 2
   margin-top 6px
   margin-left 6px
+  -webkit-background-size 18px 12px
+  -moz-background-size 18px 12px
   background-size 18px 12px
   position relative
   float right
   cursor pointer
-  background-image url('../images/none.png')
+  background-image url("../images/none.png")
   width 18px
   height 12px
   -moz-border-radius 1px
+  -webkit-border-radius 1px
   -webkit-border-radius 1px
   border-radius 1px
   -moz-background-clip padding
   -webkit-background-clip padding-box
   &.NA
-    background-image url('../images/none.png')
+    background-image url("../images/none.png")
   &.toggle
-    top: -7px
+    top -7px
   &.bn
-    background-image url('../images/bengali.png')
+    background-image url("../images/bengali.png")
   &.bs
-    background-image url('../images/bosnian.png')
+    background-image url("../images/bosnian.png")
   &.pt-br
-    background-image url('../images/brazilian.png')
+    background-image url("../images/brazilian.png")
   &.bg
-    background-image url('../images/bulgarian.png')
+    background-image url("../images/bulgarian.png")
   &.hr
-    background-image url('../images/croatian.png')
+    background-image url("../images/croatian.png")
   &.cs
-    background-image url('../images/czech.png')
+    background-image url("../images/czech.png")
   &.da
-    background-image url('../images/danish.png')
+    background-image url("../images/danish.png")
   &.nl
-    background-image url('../images/dutch.png')
+    background-image url("../images/dutch.png")
   &.en
-    background-image url('../images/english.png')
+    background-image url("../images/english.png")
   &.et
-    background-image url('../images/estonian.png')
+    background-image url("../images/estonian.png")
   &.fa
-    background-image url('../images/farsi.png')
+    background-image url("../images/farsi.png")
   &.fi
-    background-image url('../images/finnish.png')
+    background-image url("../images/finnish.png")
   &.fr
-    background-image url('../images/french.png')
+    background-image url("../images/french.png")
   &.de
-    background-image url('../images/german.png')
+    background-image url("../images/german.png")
   &.he
-    background-image url('../images/hebrew.png')
+    background-image url("../images/hebrew.png")
   &.hy
-    background-image url('../images/hungarian.png')
+    background-image url("../images/hungarian.png")
   &.it
-    background-image url('../images/italian.png')
+    background-image url("../images/italian.png")
   &.lv
-    background-image url('../images/latvian.png')
+    background-image url("../images/latvian.png")
   &.lt
-    background-image url('../images/lithuanian.png')
+    background-image url("../images/lithuanian.png")
   &.mt
-    background-image url('../images/maltese.png')
+    background-image url("../images/maltese.png")
   &.ar
-    background-image url('../images/moroccan.png')
+    background-image url("../images/moroccan.png")
   &.pl
-    background-image url('../images/polish.png')
+    background-image url("../images/polish.png")
   &.pt
-    background-image url('../images/portuguese.png')
+    background-image url("../images/portuguese.png")
   &.ro
-    background-image url('../images/romanian.png')
+    background-image url("../images/romanian.png")
   &.ru
-    background-image url('../images/russian.png')
+    background-image url("../images/russian.png")
   &.sr
-    background-image url('../images/serbian.png')
+    background-image url("../images/serbian.png")
   &.sl
-    background-image url('../images/slovak.png')
+    background-image url("../images/slovak.png")
   &.es
-    background-image url('../images/spanish.png')
+    background-image url("../images/spanish.png")
   &.tr
-    background-image url('../images/turkish.png')
+    background-image url("../images/turkish.png")
   &.uk
-    background-image url('../images/ukrainian.png')
+    background-image url("../images/ukrainian.png")
   &.el
-    background-image url('../images/greek.png')
+    background-image url("../images/greek.png")
   &.hu
-    background-image url('../images/hungarian.png')
+    background-image url("../images/hungarian.png")
 
