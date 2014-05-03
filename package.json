@@ -15,13 +15,13 @@
   },
   "window": {
     "title": "Popcorn Time",
-    "icon": "images/icon.png",
+    "icon": "src/app/images/icon.png",
     "toolbar": false,
     "frame": false,
-    "width": 1082,
-    "height": 570,
-    "min_width": 994,
-    "min_height": 570,
+    "width": 1100,
+    "height": 618,
+    "min_width": 990,
+    "min_height": 556,
     "resizable": true
   },
   "dependencies": {
