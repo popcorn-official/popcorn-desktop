@@ -35,7 +35,7 @@
             var that = this;
             var title = that.model.get('title');
             var episode =  $(e.currentTarget).attr('data-episode');
-            var season: $(e.currentTarget).attr('data-season');
+            var season = $(e.currentTarget).attr('data-season');
             var name = $(e.currentTarget).attr('data-title');
 
             title += " - Season "+ season + ", Episode "+ episode +" - "+ name;
