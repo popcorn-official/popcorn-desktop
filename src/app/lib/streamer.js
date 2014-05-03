@@ -109,7 +109,10 @@
                     App.vent.trigger('error', err);
                     App.vent.trigger('stream:stop');
                 } else {
-
+                    var title = model.get('title');
+                    if(!title) { //From ctrl+v magnet or drag torrent
+                        title = torrent.name;
+                    }
                     // TODO: We should passe the movie / tvshow imdbid instead
                     // and read from the player
                     // so from there we can use the previous next etc
@@ -119,7 +122,10 @@
                         info: torrent,
                         subtitle: model.get('subtitle'),
                         defaultSubtitle: model.get('defaultSubtitle'),
-                        title: model.get('title')
+                        title: title,
+                        show_id: model.get('show_id'),
+                        episode: model.get('episode'),
+                        season: model.get('season')
                     };
 
                     handleTorrent(torrentInfo, stateModel);
