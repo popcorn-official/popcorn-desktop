@@ -201,8 +201,11 @@
 
             if (data.keywords) 
                 query = {title: new RegExp(data.keywords.toLowerCase(),"gi")};
-            if (data.sort)
-                sort = data.sort;
+            if (data.sorter) {
+                if(data.sorter == "year") sort = {year: -1};
+                if(data.sorter == "updated") sort = {last_updated: -1};
+                if(data.sorter == "name") sort = {title: 1};
+            }
                 
             db.tvshows.find(query).sort(sort).skip(offset).limit(byPage).exec(cb);
                

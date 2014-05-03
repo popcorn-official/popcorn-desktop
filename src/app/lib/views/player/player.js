@@ -96,7 +96,7 @@
                 }
               } else if ((e.keyCode == 102) || (e.keyCode == 70)) {
 
-                this.toggleFullscreen();
+                _this.toggleFullscreen();
               }
 
             });

@@ -21,7 +21,7 @@
         initialize: function() {
             this.filter = new App.Model.Filter({
                 genres: App.Config.genres,
-                sorters: App.Config.sorters
+                sorters: App.Config.sorters_tv
             });
 
             this.showCollection = new App.Model.ShowCollection([], {

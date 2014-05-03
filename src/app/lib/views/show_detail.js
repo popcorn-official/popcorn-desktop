@@ -33,12 +33,19 @@
         startStreaming: function(e) {
             e.preventDefault();
             var that = this;
+            var title = that.model.get('title');
+            var episode =  $(e.currentTarget).attr('data-episode');
+            var season = $(e.currentTarget).attr('data-season');
+            var name = $(e.currentTarget).attr('data-title');
+
+            title += " - Season "+ season + ", Episode "+ episode +" - "+ name;
             var epInfo = {
                 imdbid: that.model.get('imdb_id'), 
-                season : $(e.currentTarget).attr('data-season'),
-                episode : $(e.currentTarget).attr('data-episode')
+                season : season,
+                episode : episode
             };
-            console.log(epInfo);
+            
+
             App.db.getSubtitles(epInfo, function(err, subs) {
                 if(err) console.error("OpenSRT Error: "+ err);
                 var torrentStart = new Backbone.Model({
@@ -46,10 +53,10 @@
                     backdrop: that.model.get('images').fanart, 
                     type: "episode", 
                     show_id: that.model.get("_id"),
-                    episode: $(e.currentTarget).attr('data-episode'),
-                    season: $(e.currentTarget).attr('data-season'),
+                    episode: episode,
+                    season: season,
                     subtitle: subs,
-                    title: that.model.get('title')});
+                    title: title});
 
 
                     App.vent.trigger('stream:start', torrentStart);

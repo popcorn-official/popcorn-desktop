@@ -7,9 +7,13 @@
         ui: {
             searchForm: '.search form',
             search: '.search input',
+
+            sorterValue: '.sorters .value',
+            genreValue: '.genres .value'
         },
         events: {
-            'submit @ui.searchForm': 'search',
+            'submit @ui.searchForm': 'search',            
+            'click .sorters .dropdown-menu a': 'sortBy',
             'click .showMovies': 'showMovies',
             'click .showShows': 'showShows',
             'click .settings': 'settings'
@@ -37,6 +41,19 @@
             
             this.ui.search.val('');
             this.ui.search.blur();
+        },
+
+        sortBy: function(e) {
+            this.$('.sorters .active').removeClass('active');
+            $(e.target).addClass('active');
+
+            var sorter = $(e.target).attr('data-value');
+            this.ui.sorterValue.text(i18n.__('sort-' + sorter));
+
+            this.model.set({
+                keyword: '',
+                sorter: sorter
+            });
         },
                
     });
