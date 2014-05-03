@@ -12,6 +12,7 @@ BrandingText "Popcorn Time"
 OutFile "PopcornTimeSetup.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
+!define NW_VER "0.9.2"
 
 ;Default installation folder
 InstallDir "$APPDATA\Popcorn Time"
@@ -27,8 +28,11 @@ RequestExecutionLevel user
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_ABORTWARNING
+!define MUI_FINISHPAGE_RUN
+!define MUI_FINISHPAGE_RUN_TEXT "Start Popcorn Time"
+!define MUI_FINISHPAGE_RUN_FUNCTION "LaunchPopcornTime"
 !define MUI_FINISHPAGE_LINK "Popcorn Time Official Homepage"
-!define MUI_FINISHPAGE_LINK_LOCATION http://get-popcorn.com/
+!define MUI_FINISHPAGE_LINK_LOCATION "http://get-popcorn.com/"
 
 ;Define the pages
 !insertmacro MUI_PAGE_WELCOME
@@ -116,7 +120,12 @@ Section ; App Files
 	SetOutPath "$INSTDIR"
 
 	;Add the files
-	File "..\..\build\releases\Popcorn-Time\win\Popcorn-Time\*"
+	File "..\..\package.json" "..\..\README.md" "..\..\LICENSE.txt"
+	File "..\..\build\cache\win\${NW_VER}\*.dll" "..\..\build\cache\win\${NW_VER}\nw.pak"
+	File "/oname=Popcorn-Time.exe" "..\..\build\cache\win\${NW_VER}\nw.exe"
+	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test" /x "bin" /x ".*" "..\..\node_modules"
+	SetOutPath "$INSTDIR\src"
+	File /r "..\..\src\*.*"
 	
 	;Create uninstaller
 	WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -126,20 +135,20 @@ SectionEnd
 Section ; Shortcuts
 
 	SetOutPath "$INSTDIR"
-	File /oname=app.ico "..\..\images\popcorntime.ico"
+	File /oname=Popcorn-Time.ico "..\..\images\popcorntime.ico"
 
-	;Working Directory
-	SetOutPath "$INSTDIR"
+	;Working Directory Shortcut
+	CreateShortCut "$INSTDIR\Start Popcorn Time.lnk" "$INSTDIR\Popcorn-Time.exe" "--debug" "$INSTDIR\Popcorn-Time.ico" "" "" "" "Start Popcorn Time"
 
 	;Start Menu Shortcut
 	RMDir /r "$SMPROGRAMS\Popcorn Time"
 	CreateDirectory "$SMPROGRAMS\Popcorn Time"
-	CreateShortCut "$SMPROGRAMS\Popcorn Time\Popcorn Time.lnk" "$INSTDIR\Popcorn-Time.exe" "." "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
+	CreateShortCut "$SMPROGRAMS\Popcorn Time\Popcorn Time.lnk" "$INSTDIR\Popcorn-Time.exe" "--debug" "$INSTDIR\Popcorn-Time.ico" "" "" "" "Start Popcorn Time"
 	CreateShortCut "$SMPROGRAMS\Popcorn Time\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
 
 	;Desktop Shortcut
 	Delete "$DESKTOP\Popcorn Time.lnk"
-	CreateShortCut "$DESKTOP\Popcorn Time.lnk" "$INSTDIR\Popcorn-Time.exe" "." "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
+	CreateShortCut "$DESKTOP\Popcorn Time.lnk" "$INSTDIR\Popcorn-Time.exe" "--debug" "$INSTDIR\Popcorn-Time.ico" "" "" "" "Start Popcorn Time"
 
 SectionEnd
 
@@ -150,3 +159,7 @@ Section "uninstall" ; Uninstaller
 	Delete "$DESKTOP\Popcorn Time.lnk"
 	
 SectionEnd
+
+Function LaunchPopcornTime
+  ExecShell "" "$INSTDIR\Start Popcorn Time.lnk"
+FunctionEnd
