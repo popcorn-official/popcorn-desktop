@@ -38,6 +38,13 @@
             'rating'
         ],
 
+        sorters_tv: [
+            'popularity',
+            'updated',
+            'year',
+            'name'
+        ],
+
         cache: {
             name: 'cachedb',
             version: '1.5',
