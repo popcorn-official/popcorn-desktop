@@ -8,7 +8,7 @@
         className: 'movie-item',
 
         ui: {
-            coverIamge: '.cover-image',
+            coverImage: '.cover-image',
             cover: '.cover'
         },
 
@@ -17,16 +17,16 @@
         },
 
         onShow: function() {
-            this.ui.coverIamge.on('load', _.bind(this.showCover, this));
+            this.ui.coverImage.on('load', _.bind(this.showCover, this));
         },
 
         onClose: function() {
-            this.ui.coverIamge.off('load');
+            this.ui.coverImage.off('load');
         },
 
         showCover: function() {
             this.ui.cover.css('background-image', 'url(' + this.model.get('images').poster + ')');
-            this.ui.coverIamge.remove();
+            this.ui.coverImage.remove();
         },
 
         // triggered on click only
