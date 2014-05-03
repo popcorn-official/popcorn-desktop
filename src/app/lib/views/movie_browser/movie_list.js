@@ -64,7 +64,7 @@
         },
 
         onLoading: function() {
-            $("#load_more_item .status").html("Loading...");
+            $("#load_more_item .status-loadmore").html("Loading...");
             this.ui.spinner.show();
         },
 
@@ -76,11 +76,11 @@
             // we add a load more
             if(this.collection.hasMore) {
                 
-                $(".movies").append('<li id="load_more_item" class="movie-item" style="background-color:#fff"><span class="status">load more</span></li>').click( function(){
+                $(".movies").append('<div id="load_more_item" class="load-more"><span class="status-loadmore">load more</span></div>').click( function(){
                     that.onLoading();
                     that.collection.fetchMore();
                 });
-                $("#load_more_item .status").html("Load More");
+                $("#load_more_item .status-loadmore").html("Load More");
             }
 
             this.onResize();
