@@ -48,3 +48,20 @@ Try running `export DISPLAY=:0.0`
 ### Error "The video format is not supported"
 See: https://github.com/rogerwang/node-webkit/wiki/Support-mp3-and-h264-in-video-and-audio-tag
 
+***
+
+If you distribute a copy or make a fork of the project, you have to credit this project as source.
+	
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ 
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ 
+You should have received a copy of the GNU General Public License along with this program.  If not, see http://www.gnu.org/licenses/ .
+
+***
+
+If you want to contact us : hello@get-popcorn.com
+ 
+Copyright © 2014 - Popcorn Time and the contributors (get-popcorn.com)
+
+Popcorn Time is released under the GPL
