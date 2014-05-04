@@ -50,6 +50,7 @@
         },
 
         initialize: function() {
+            this.listenTo(this.collection, 'loading', this.onLoading);
             this.listenTo(this.collection, 'loaded', this.onLoaded);
         },
 
@@ -64,28 +65,28 @@
         },
 
         onLoading: function() {
-            $("#load_more_item .status").html("Loading...");           
-            this.ui.spinner.show();
+            $(".status-loadmore").hide();
+            $("#loading-more-animi").show();
         },
 
         onLoaded: function() {
+            var self = this;
             this.checkEmpty();
-            var that = this;
-            $(window).on('resize', this.onResize);
 
             $("#load_more_item").remove();
+
             // we add a load more
-            if(that.collection.hasMore) {
-                
-                $(".shows").append('<li id="load_more_item" class="movie-item" style="background-color:#fff"><span class="status">load more</span></li>').click( function(){
-                    that.onLoading();
-                    that.collection.fetchMore();
+            if(this.collection.hasMore) {
+                $(".shows").append('<div id="load_more_item" class="load-more"><span class="status-loadmore">Load More</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>').click(function(){
+                    self.collection.fetchMore();
                 });
-                $("#load_more_item .status").html("Load More");
+
+                $("#loading-more-animi").hide();
+                $(".status-loadmore").show();
             }
 
+            $(window).on('resize', this.onResize);
             this.onResize();
-
             this.ui.spinner.hide();
         },
 
@@ -97,7 +98,6 @@
 
             if(this.collection.state === 'loaded' &&
                 totalHeight - currentPosition < SCROLL_MORE) {
-                this.onLoading();
                 this.collection.fetchMore();
             }
         }
