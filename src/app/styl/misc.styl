@@ -32,3 +32,66 @@ scrollable()
     &::-webkit-scrollbar-button,
     &::-webkit-scrollbar-track-piece
         display: none;
+
+
+.tooltip-arrow
+  position absolute
+  width 0
+  height 0
+  border-color transparent
+  border-style solid
+
+.tooltip
+  &.top
+    .tooltip-arrow
+      bottom 0
+      left 50%
+      margin-left -5px
+      border-width 5px 5px 0
+      border-top-color rgba(9, 13, 18, 0.75)
+  &.top-left
+    .tooltip-arrow
+      bottom 0
+      left 5px
+      border-width 5px 5px 0
+      border-top-color rgba(9, 13, 18, 0.75)
+  &.top-right
+    .tooltip-arrow
+      right 5px
+      bottom 0
+      border-width 5px 5px 0
+      border-top-color rgba(9, 13, 18, 0.75)
+  &.right
+    .tooltip-arrow
+      top 50%
+      left 0
+      margin-top -5px
+      border-width 5px 5px 5px 0
+      border-right-color rgba(9, 13, 18, 0.75)
+  &.left
+    .tooltip-arrow
+      top 50%
+      right 0
+      margin-top -5px
+      border-width 5px 0 5px 5px
+      border-left-color rgba(9, 13, 18, 0.75)
+  &.bottom
+    .tooltip-arrow
+      top 0
+      left 50%
+      margin-left -5px
+      border-width 0 5px 5px
+      border-bottom-color rgba(9, 13, 18, 0.75)
+  &.bottom-left
+    .tooltip-arrow
+      top 0
+      left 5px
+      border-width 0 5px 5px
+      border-bottom-color rgba(9, 13, 18, 0.75)
+  &.bottom-right
+    .tooltip-arrow
+      top 0
+      right 5px
+      border-width 0 5px 5px
+      border-bottom-color rgba(9, 13, 18, 0.75)
+
