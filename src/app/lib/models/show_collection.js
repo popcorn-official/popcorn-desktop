@@ -48,16 +48,15 @@
 
                     });
 
-                    self.state = 'loaded';
-                    self.add(movies);
-                    self.trigger('sync', self);
-                    self.trigger('loaded', self, self.state);
-
                     if(_.isEmpty(movies)) {
                         console.log('hasMore = false');
                         self.hasMore = false;
-                        $("#load_more_item").remove();
                     }
+
+                    self.add(movies);
+                    self.trigger('sync', self);
+                    self.state = 'loaded';
+                    self.trigger('loaded', self, self.state);
                 })
                 .catch(function(err) {
                     self.state = 'error';

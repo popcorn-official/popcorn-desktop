@@ -50,6 +50,7 @@
         },
 
         initialize: function() {
+            this.listenTo(this.collection, 'loading', this.onLoading);
             this.listenTo(this.collection, 'loaded', this.onLoaded);
         },
 
@@ -66,26 +67,25 @@
         onLoading: function() {
             $(".status-loadmore").hide();
             $("#loading-more-animi").show();
-            //$("#load_more_item .status-loadmore").html("Loading...");
-            //this.ui.spinner.show();
         },
 
         onLoaded: function() {
+            var self = this;
             this.checkEmpty();
-            var that = this;
-            $(window).on('resize', this.onResize);
+
             $("#load_more_item").remove();
+
             // we add a load more
             if(this.collection.hasMore) {
+                $(".movies").append('<div id="load_more_item" class="load-more"><span class="status-loadmore">Load More</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>').click(function(){
+                    self.collection.fetchMore();
+                });
+
                 $("#loading-more-animi").hide();
                 $(".status-loadmore").show();
-                $(".movies").append('<div id="load_more_item" class="load-more"><span class="status-loadmore">load more</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>').click( function(){
-                    that.onLoading();
-                    that.collection.fetchMore();
-                });
-                $("#load_more_item .status-loadmore").html("Load More");
             }
 
+            $(window).on('resize', this.onResize);
             this.onResize();
             this.ui.spinner.hide();
         },
@@ -98,7 +98,6 @@
 
             if(this.collection.state === 'loaded' &&
                 totalHeight - currentPosition < SCROLL_MORE) {
-                this.onLoading();
                 this.collection.fetchMore();
             }
         }
