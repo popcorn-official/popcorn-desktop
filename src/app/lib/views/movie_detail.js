@@ -49,6 +49,8 @@
             }
  
 	        $('.health-icon').tooltip();
+            $('.star-container').tooltip();
+
             var background = $(".movie-backdrop").attr("data-bgr");
             
             $('<img/>').attr('src', background).load(function() {
