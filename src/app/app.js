@@ -93,11 +93,11 @@ String.prototype.capitalize = function() {
 
 if (isDebug) {
     // Developer Shortcuts
-    document.addEventListener('keydown', function(event){
-        // F12 Opens DevTools
-        if( event.keyCode == 123 ) { win.showDevTools(); }
-        // F11 Reloads
-        if( event.keyCode == 122 ) { win.reloadIgnoringCache(); }
+    Mousetrap.bind('f12', function(e) {
+        win.showDevTools(); 
+    })
+    Mousetrap.bind('f11', function(e) { 
+        win.reloadIgnoringCache(); 
     });
 
     // Special Debug Console Calls!

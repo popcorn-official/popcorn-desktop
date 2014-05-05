@@ -91,7 +91,7 @@
                 _this.toggleFullscreen();
             });
 
-            Mousetrap.bind('space', function(e) {
+            Mousetrap.bind(['space', 'p'], function(e) {
                 $(".vjs-play-control").click();
             });
 
