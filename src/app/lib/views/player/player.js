@@ -62,8 +62,6 @@
             if(this.model.get('type') == 'video/youtube') {
                 this.video = videojs('video_player', { techOrder: ["youtube"], forceSSL: true, ytcontrols: false, quality: '720p' });
                 this.ui.eyeInfo.hide();
-                this.ui.fontdown.hide();
-                this.ui.fontup.hide();
             }
             else
                 this.video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {} }});
