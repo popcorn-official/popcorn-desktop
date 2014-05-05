@@ -14,7 +14,7 @@
 
         events: {
             'click .favorites': 'toggleFavorite',            
-            'click .detail': 'showDetail'
+            'click .cover': 'showDetail'
         },
 
         onShow: function() {
