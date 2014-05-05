@@ -60,5 +60,6 @@
 	"sort-name": "Name",
 	"No movies found...": "No movies found...",
 	"Error loading data, try again later...": "Error loading data, try again later...",
-	"No bookmarks found...": "No bookmarks found..."
+	"No bookmarks found...": "No bookmarks found...",
+	"Load More": "Load More"
 }

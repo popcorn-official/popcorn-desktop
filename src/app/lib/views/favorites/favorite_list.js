@@ -17,7 +17,7 @@
         className: 'favorite-list',
 
         itemView: App.View.FavoriteItem,
-        itemViewContainer: '.favorites',
+        itemViewContainer: '.bookmarks',
 
         events: {
             'mousewheel': 'onScroll'
@@ -38,11 +38,11 @@
         onResize: function() {
             var movieItem = $('.movie-item');
             var movieItemFullWidth = movieItem.width() + parseInt(movieItem.css('marginLeft')) + parseInt(movieItem.css('marginRight'));
-            var movieItemAmount = $('.movie-list').width() / movieItemFullWidth;
+            var movieItemAmount = $('.favorite-list').width() / movieItemFullWidth;
             movieItemAmount = Math.floor(movieItemAmount);
 
             var newWidth = movieItemAmount * movieItemFullWidth;
-            $('.movies').width(newWidth);
+            $('.bookmarks').width(newWidth);
         },
 
         ui: {
@@ -77,7 +77,7 @@
 
             // we add a load more
             if(this.collection.hasMore) {
-                $(".movies").append('<div id="load-more-item" class="load-more"><span class="status-loadmore">Load More</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
+                $(".bookmarks").append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
                 $("#load-more-item").click(function(){
                     $("#load-more-item").off('click');
                     self.collection.fetchMore();
