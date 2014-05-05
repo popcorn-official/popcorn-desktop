@@ -9,7 +9,8 @@
 
         ui: {
             coverImage: '.cover-image',
-            cover: '.cover'
+            cover: '.cover',
+            favoritesIcon: '#favorites_icon'
         },
 
         events: {
@@ -26,6 +27,8 @@
                     that.model.set('bookmarked', value);
 
                     if (value == true) {
+                         $("#favorites_icon").attr("class", "actions-favorites-selected");
+                        
                         console.log("Bookmarked");
                     }
                 } else 

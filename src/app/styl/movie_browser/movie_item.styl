@@ -13,7 +13,8 @@
         cursor: pointer
 
         .cover-overlay
-            background: rgba(45, 117, 223, 0.61);
+            //background: rgba(45, 117, 223, 0.61);
+            background: rgba(23, 24, 27, 0.6);
             text-align: center;
             padding: 88px 0;
             width: 100%;
@@ -37,6 +38,20 @@
 
                 &:hover
                 	background-image: url(../../images/icons/favorites_hover.png)
+
+            .actions-favorites-selected
+                height: 20px
+                width: 25px
+                float: right
+                background-repeat: no-repeat
+                background-position: center
+                margin-top: -80px
+                margin-right: 7px
+                background-image: url(../../images/icons/FavoritesBlue.png)
+
+                &:hover
+                	background-image: url(../../images/icons/AddToFavorites.png)
+
 
 
     .title
