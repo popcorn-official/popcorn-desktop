@@ -9,12 +9,11 @@
 
         ui: {
             coverImage: '.cover-image',
-            cover: '.cover',
-            favoritesIcon: '#favorites_icon'
+            cover: '.cover'
         },
 
         events: {
-            'click .favorites': 'toggleFavorite',
+            'click #favorites_icon': 'toggleFavorite',
             'click .cover': 'showDetail'
         },
 

@@ -13,7 +13,7 @@
         },
 
         events: {
-            'click .favorites': 'toggleFavorite',
+            'click #favorites_icon': 'toggleFavorite',
             'click .cover': 'showDetail'
         },
 
