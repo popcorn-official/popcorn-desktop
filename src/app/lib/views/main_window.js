@@ -27,8 +27,8 @@
             // Application events
             App.vent.on('movies:list', _.bind(this.showMovies, this));
             App.vent.on('shows:list', _.bind(this.showShows, this));
+            App.vent.on('favorites:list', _.bind(this.showFavorites, this));
             
-
             // Movies
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
             App.vent.on('movie:closeDetail', _.bind(this.MovieDetail.close, this.MovieDetail));
@@ -83,6 +83,13 @@
 
             this.Content.show(new App.View.ShowBrowser());
         },
+
+        showFavorites: function(e) {
+            this.Settings.close();
+            this.MovieDetail.close();
+
+            this.Content.show(new App.View.FavoriteBrowser());
+        },        
 
         preventDefault: function(e) {
             e.preventDefault();

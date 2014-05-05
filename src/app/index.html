@@ -48,6 +48,22 @@
         <p class="seasons"><%= num_seasons %> <%= num_seasons == 1 ? i18n.__("Season") : i18n.__("Seasons") %></p>
     </script>
 
+    <script id="favorite-item-tpl" type="text/x-template">
+        <img class="cover-image" src="<%= image %>" style="display: none" />
+        <div class="cover">
+            <div class="cover-overlay">
+                <div class="actions">
+                    <!-- TODO: SWITCH FOR A DELETE FROM FAV -->
+                    <div class="favorites"></div>
+                    <div class="detail"></div>
+                </div>
+            </div>
+        </div>
+
+        <p class="title" title="<%= title %>"><%= title %></p>
+        <p class="year"><%= year %></p>
+    </script>    
+
     <script id="movie-list-tpl" type="text/x-template">
         <div class="spinner">
           <div class="spinner-image"></div>
@@ -60,7 +76,15 @@
           <div class="spinner-image"></div>
         </div>
         <div class="shows"></div>
-    </script>    
+    </script>   
+
+
+    <script id="favorite-list-tpl" type="text/x-template">
+        <div class="spinner">
+          <div class="spinner-image"></div>
+        </div>
+        <div class="favorites"></div>
+    </script>        
 
     <script id="main-window-tpl" type="text/x-template">
         <header id="header"></header>
@@ -82,7 +106,13 @@
         <div class="blur-header"></div>
         <div class="filter-bar-region"></div>
         <div class="show-list-region"></div>
-    </script>    
+    </script>   
+
+    <script id="favorite-browser-tpl" type="text/x-template">
+        <div class="blur-header"></div>
+        <div class="filter-bar-region"></div>
+        <div class="favorite-list-region"></div>
+    </script>        
 
     <script id="changelog-tpl" type="text/x-template">
         <a class="btn-close"><img src="/images/close.svg" width="50" /></a>
@@ -166,6 +196,20 @@
           <li><button class="settings"></button></li>
         </ul>
     </script>
+
+    <script id="filter-bar-favorite-tpl" type="text/x-template">
+        <ul class="nav nav-hor left">
+          <li class="source showMovies"><%= i18n.__("Movies") %></li>
+          <li class="source showShows"><%= i18n.__("TV Series") %></li>
+        </ul>
+        
+        <ul class="nav nav-hor right">
+          <!-- TODO: Add active class -->
+          <li><button class="favorites active"></button></li>
+          <li><button class="queue"></button></li>
+          <li><button class="settings"></button></li>
+        </ul>
+    </script>    
 
     <script id="header-tpl" type="text/x-template">
         <nav class="btn-set <%= process.platform %>">
@@ -562,8 +606,8 @@
     <script src="lib/models/movie.js"></script>
     <script src="lib/models/movie_collection.js"></script>
     <script src="lib/models/stream_info.js"></script>
-
     <script src="lib/models/show_collection.js"></script>
+    <script src="lib/models/favorite_collection.js"></script>
 
     <!-- Data Sources -->
     <script src="lib/cache.js"></script>
@@ -572,6 +616,7 @@
     <script src="lib/providers/trakttv.js"></script>
     <script src="lib/providers/yts.js"></script>
     <script src="lib/providers/tvshows.js"></script>
+    <script src="lib/providers/favorites.js"></script>
 
     <!-- Backbone Views and Controllers -->
     <script src="lib/views/title_bar.js"></script>
@@ -594,6 +639,11 @@
     <script src="lib/views/show_browser/show_browser.js"></script>
     <script src="lib/views/show_browser/show_item.js"></script>
     <script src="lib/views/show_browser/show_list.js"></script>
+
+    <script src="lib/views/favorites/favorite_browser.js"></script>
+    <script src="lib/views/favorites/filter_bar.js"></script>
+    <script src="lib/views/favorites/favorite_item.js"></script>
+    <script src="lib/views/favorites/favorite_list.js"></script>    
 
     <script src="bootstrap.js"></script>
   </body>

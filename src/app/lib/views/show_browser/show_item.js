@@ -13,7 +13,8 @@
         },
 
         events: {
-            'click .cover': 'showDetail'
+            'click .favorites': 'toggleFavorite',            
+            'click .detail': 'showDetail'
         },
 
         onShow: function() {
@@ -37,6 +38,23 @@
                 App.vent.trigger('show:showDetail', new Backbone.Model(data));
             });
             
+        },
+
+        toggleFavorite: function(e) {
+            console.log(this.model.get('imdb_id'));
+            e.preventDefault();
+            var that = this;
+            if (this.model.get('bookmarked') == true) {
+                Database.deleteBookmark(this.model.get('imdb_id'), function(err, data) {
+                    that.model.set('bookmarked', false);
+                })
+            } else {
+
+                Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function(err, data) {
+                    that.model.set('bookmarked', true);
+                })
+
+            }
         }
 
     });

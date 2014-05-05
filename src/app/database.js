@@ -7,6 +7,7 @@
     var db = {};
 
     var data_path = require('nw.gui').App.dataPath;;
+    console.log("Database path: " + data_path);
 
     // TTL for popcorn-api DB sync
     var TTL = 1000 * 60 * 60 * 24;
@@ -21,8 +22,8 @@
     // Create unique indexes for the various id's for shows and movies
     db.tvshows.ensureIndex({fieldName: 'imdb_id' , unique: true });
     db.tvshows.ensureIndex({fieldName: 'tvdb_id' , unique: true });
-    db.movies.ensureIndex({fieldName: 'imdb_id' , unique: true });
-    db.movies.ensureIndex({fieldName: 'tmdb_id' , unique: true });
+    db.movies.ensureIndex({fieldName: 'imdb' , unique: true });
+    db.bookmarks.ensureIndex({fieldName: 'imdb_id' , unique: true });
 
     // settings key uniqueness
     db.settings.ensureIndex({fieldName: 'key' , unique: true });
@@ -34,9 +35,45 @@
     var Database = {
 
         addMovie: function(data, cb) {
-            if(!data.movie.watched) data.movie.watched = {};
-            db.movies.insert(data.movie, cb);
+            db.movies.insert(data, cb);
         },
+
+        deleteMovie: function(imdb_id, cb) {
+            db.movies.remove({imdb: imdb_id}, cb);
+        },
+
+        getMovie: function(imdb_id, cb) {
+            db.movies.findOne({imdb : imdb_id}, cb);
+        }, 
+
+        addBookmark: function(imdb_id, type, cb) {
+            db.bookmarks.insert({imdb_id: imdb_id, type: type}, cb);
+        },
+
+        deleteBookmark: function(imdb_id, cb) {
+            db.bookmarks.remove({imdb_id: imdb_id}, cb);
+        },
+
+        getBookmark: function(imdb_id, cb) {
+            db.bookmarks.findOne({imdb_id : imdb_id}, function(err,data) {
+                if (err) cb(true,false);
+                if (data != null) {
+                    return cb(false,true);
+                } else {
+                    return cb(false,false);
+                }
+            });
+        },
+
+        // format: {page: page, keywords: title}
+        getBookmarks: function(data, cb) {
+            var page = data.page-1;
+            var byPage = 30;
+            var offset = page*byPage;
+            var query = {};
+                
+            db.bookmarks.find(query).skip(offset).limit(byPage).exec(cb);
+        },        
 
         addMovies: function(data, cb) {
             async.each(data.movies,
@@ -109,6 +146,10 @@
         getTVShow: function(data, cb) {
             db.tvshows.findOne({_id : data.show_id}, cb);
         },
+
+        getTVShowByImdb: function(imdb_id, cb) {
+            db.tvshows.findOne({imdb_id : imdb_id}, cb);
+        },        
 
         getNumSeasons: function(data, cb) {
             db.tvshows.findOne({_id : data.show_id}).sort({"episodes.season": -1}).exec(function(err, doc) {

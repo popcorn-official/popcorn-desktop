@@ -16,7 +16,8 @@
             'click .sorters .dropdown-menu a': 'sortBy',
             'click .showMovies': 'showMovies',
             'click .showShows': 'showShows',
-            'click .settings': 'settings'
+            'click .settings': 'settings',
+            'click .favorites': 'showFavorites'
         },
 
         settings: function(e) {
@@ -54,6 +55,11 @@
                 keyword: '',
                 sorter: sorter
             });
+        },
+
+        showFavorites: function(e) {
+            e.preventDefault();
+            App.vent.trigger('favorites:list', []);
         },
                
     });

@@ -58,5 +58,7 @@
 	"Watch Trailer": "Watch Trailer",
 	"sort-updated": "Last Updated",
 	"sort-name": "Name",
-	"No movies found...": "No movies found..."
+	"No movies found...": "No movies found...",
+	"Error loading data, try again later...": "Error loading data, try again later...",
+	"No bookmarks found...": "No bookmarks found..."
 }

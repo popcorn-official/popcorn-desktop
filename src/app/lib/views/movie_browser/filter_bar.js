@@ -19,7 +19,8 @@
             'click .genres .dropdown-menu a': 'changeGenre',
             'click .settings': 'settings',
             'click .showMovies': 'showMovies',
-            'click .showShows': 'showShows'
+            'click .showShows': 'showShows',
+            'click .favorites': 'showFavorites'
         },
 
         onShow: function() {
@@ -75,7 +76,13 @@
         showMovies: function(e) {
             e.preventDefault();
             App.vent.trigger('movies:list', []);
-        }
+        },
+
+        showFavorites: function(e) {
+            e.preventDefault();
+            App.vent.trigger('favorites:list', []);
+        },
+
     });
 
     App.View.FilterBarMovie = FilterBarMovie;
