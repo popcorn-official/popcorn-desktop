@@ -98,6 +98,10 @@
 
                 _this.toggleFullscreen();
               }
+                else if ((e.keyCode == 32) || (e.keyCode == 80)) {
+
+                $(".vjs-play-control").click();
+              }
 
             });
 
