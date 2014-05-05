@@ -201,12 +201,16 @@
         margin 10px 0px
 
     li
-        padding 8% 30px 5px 15px
+        padding 9px 30px 8px 15px
         font-family sans-serif
         font-size 15px
         margin-left -10px
         border-left 1px solid #17181B
         margin 1px
+    
+        &:hover
+            background #26272d
+            color #dfdcdc
 
         a
             color #fff
@@ -217,7 +221,7 @@
 
     li.active
         background-color #1b2d4c
-
+    
 #tabs_episode_base
     padding 0px
     position relative
@@ -241,9 +245,13 @@
         background #17181b
         
         li
-            padding 2.5%
+            padding 0
             min-width 360px
             margin 1px
+
+            &:hover
+                background #26272d
+                color #dfdcdc
 
         li:nth-child(odd)
             background-color #1F2025
@@ -285,17 +293,21 @@
         height 0
         border-color transparent transparent transparent #1b2d4c
         border-style solid
-        border-width 17px 6px 18px 6px
+        border-width 13px 8px 13px 4px
     
     span 
         right 11px
 .display-base-title
     width 100%
-    color #FFF
-    height 30px
+    color #fff
+    height 60px
     font-size 23px
     line-height 12px
     padding 20px 0
+    position fixed
+    top 273px
+    z-index 3
+    background #17181b
     
 .season-episode-container
     margin-top 19px
@@ -312,20 +324,20 @@
     
     &:last-child
         color #8d9296
-        font-weight 600
+        font-weight 100
 
 .episode-list-text
     display inline-block
-    margin 10px 30px 0 40px
+    margin 10px 0px 0 37px
 
 .watched-false
     position absolute
     right 30px
     opacity 0.1
-    padding 0 0
+    padding 10px 0
     
     img
-        width: 20px;
+        width 20px
 
 .watched-true
     position absolute
@@ -344,10 +356,11 @@
     padding 30px
     height 100%
     line-height initial
-    position absolute
+    position fixed
     margin-left auto
     margin-right auto
     right 0
+    z-index 4
 
     p
         font-size 22px
