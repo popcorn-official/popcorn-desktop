@@ -40,28 +40,25 @@
 
             title += " - Season "+ season + ", Episode "+ episode +" - "+ name;
             var epInfo = {
+                type: 'tvshow',
                 imdbid: that.model.get('imdb_id'), 
                 season : season,
                 episode : episode
             };
-            
-
-            App.db.getSubtitles(epInfo, function(err, subs) {
-                if(err) console.error("OpenSRT Error: "+ err);
-                var torrentStart = new Backbone.Model({
+               
+            var torrentStart = new Backbone.Model({
                     torrent: $(e.currentTarget).attr('data-torrent'), 
                     backdrop: that.model.get('images').fanart, 
                     type: "episode", 
                     show_id: that.model.get("_id"),
                     episode: episode,
                     season: season,
-                    subtitle: subs,
-                    title: title});
-
-
-                    App.vent.trigger('stream:start', torrentStart);
-                    $(".filter-bar").show(); 
+                    title: title,
+                    extract_subtitle: epInfo
             });
+
+            App.vent.trigger('stream:start', torrentStart);
+   
         },
 
         closeDetails: function(e) {

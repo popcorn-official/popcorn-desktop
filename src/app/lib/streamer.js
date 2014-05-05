@@ -12,6 +12,7 @@
     var active = function(wire) {
         return !wire.peerChoking;
     };
+    var subtitles = null;
 
 
     var watchState = function(stateModel) {
@@ -58,7 +59,7 @@
             if(stateModel.get('state') === 'ready') {
 
                 // we need subtitle in the player
-                streamInfo.set('subtitle', torrent.subtitle);
+                streamInfo.set('subtitle', subtitles != null ? subtitles : torrent.subtitle);
                 streamInfo.set('defaultSubtitle', torrent.defaultSubtitle);
                 streamInfo.set('title', torrent.title);
 
@@ -99,6 +100,17 @@
             
             var stateModel = new Backbone.Model({state: 'connecting', backdrop: model.get('backdrop')});
             App.vent.trigger('stream:started', stateModel);
+
+            // did we need to etxract subtitle ?
+            var extractSubtitle = model.get('extract_subtitle');
+            if (typeof extractSubtitle == 'object') {
+
+                App.db.getSubtitles(extractSubtitle, function(err, subs) {
+                    if (!err) {
+                        subtitles = subs;
+                    }
+                });
+            }
 
             if(engine) {
                 Streamer.stop();
