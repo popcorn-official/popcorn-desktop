@@ -16,7 +16,6 @@
     db.settings = new Datastore({ filename: path.join(data_path, 'data/settings.db'), autoload: true });
     db.tvshows = new Datastore({ filename: path.join(data_path, 'data/shows.db'), autoload: true });
     db.movies = new Datastore({ filename: path.join(data_path, 'data/movies.db'), autoload: true });
-    db.queue = new Datastore({ filename: path.join(data_path, 'data/queue.db'), autoload: true });
     db.watched = new Datastore({ filename: path.join(data_path, 'data/watched.db'), autoload: true });
 
     // Create unique indexes for the various id's for shows and movies
