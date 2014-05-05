@@ -44,7 +44,7 @@
     "stylus": "0.42.x",
     "read-torrent": "1.x.x",
     "nedb": "~0.10.5",
-    "opensrt_js" : ">=0.0.4"
+    "opensrt_js" : ">=0.0.5"
   },
   "devDependencies": {
     "grunt": "0.4.4",
