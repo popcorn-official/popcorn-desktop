@@ -324,11 +324,14 @@ fonts to show/hide properly.
     -moz-background-clip: padding;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
-    /* prevents bg color from leaking outside the border */
-    background-color: #2d75df;
+    /* prevents bg color from leaking outside the border 
+    background-color: #2d75df; */
     /* layer fill content */
 }
-.vjs-default-skin .vjs-play-progress {} .vjs-default-skin .vjs-load-progress {
+.vjs-default-skin .vjs-play-progress {
+	background-color: #2d75df;
+} 
+.vjs-default-skin .vjs-load-progress {
     -moz-border-radius: 3px / 2px;
     -webkit-border-radius: 3px / 2px;
     border-radius: 3px / 2px;
@@ -337,8 +340,9 @@ fonts to show/hide properly.
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
     /* prevents bg color from leaking outside the border */
-    background-color: #2d75df;
-    /* layer fill content */
+    background-image: url(data:image/gif;base64,R0lGODlhNgAKALMAALW1tayytKSuvJyqvIyixHyaxGySzFSK1ESC1Dx+3DR63Cx23P4BAgAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCQAMACwAAAAANgAKAAAEkXDJRYAdk1qAZ73Zx4VbJ4mmsQXJpFqsu7bSC8T1LMM0sgGHiW8TlAwtxcURKPwll0WFYFOYSKnWqaUquW6z2K4WwNWAPCXS+ZRGr82jHEyxAwhoC9u9vpfb8Xp4Tk1EEwmDEoeFiYgLikiGYQteZGBfYpKUZZqWJnAEdGxvKGpxoqZmOHkbfasWrYF8gKyzABEAIfkEBQkADAAsAAAAADYACgAABI5wKQFqWXhWcDO1mPRxoQZ6W7cQ2xCu7ctWbjgDNXbnMB0am0DitxEMMcCKkag8LpKAJbLo3AAOIYQVi9FuuAtvBSy+ZrfnkyhVGqlMJJQa/v7wdrKYTa/j93B5AEJMUU5QUk9UhIiHhl9pYyEJaBiTj5WUC5aRmHNubWxycWueoaQAgQAEqXd+eHs+sDgRACH5BAUJAAwALAAAAAA2AAoAAASNEEhwlkWT2oVnvdnHhVsniWaxJcKkWkorvUvsbvaMywCdD5sFYQLcDCVFyxGQFBKDy+YxkNgYJoKq5SrJWrHaBRfg3YK/pxIJ5FG32Wm4Bu7j1W8w+w5f0+cnUE9GEwSBSIZMiFKCYmdmXQkKj2RhY2WNkGiUciIJayNvoHGic6QfOT17On+rfXyod6sRACH5BAUJAAwALAAAAAA2AAoAAASYEIS0qgF41nUztZj0caEGelsHHBsSru3LVm44LzV25zAdFhuF4BccYoAVITFpBCAXymMxtFkQQoPqFZPdbAHdyjdsxWrNJ4BgpFqnQu50nISZtz+8nWyTkCkqfTZ/C4E6g4Urf1FOQQNLUE1PCo5Hg5M/lpROg2NnXJ5goGSdXmh0EoOndnBsrG91rbAbe4C0hLaIN7l8uBEAOw==);
+	background-size: 30px 5px;
+	/* layer fill content */
 }
 .vjs-default-skin .vjs-seek-handle {
     width: 11px;
@@ -358,9 +362,9 @@ fonts to show/hide properly.
     color: #fff;
     /* text color */
     font-family: "Open Sans", sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     /* Align vertically by making the line height the same as the control bar */
-    top: 12px;
+    top: 13px;
 }
 .vjs-default-skin .vjs-current-time {
     position: relative;
@@ -382,10 +386,10 @@ fonts to show/hide properly.
     color: #fff;
     /* text color */
     font-family: "Open Sans", sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     position: relative;
     float: left;
-    top: 12px;
+    top: 13px;
     margin-left: 3px;
     margin-right: 3px
 }
@@ -395,7 +399,7 @@ fonts to show/hide properly.
 
 .vjs-default-skin .vjs-fullscreen-control {
     position: relative;
-    top: 10px;
+    top: 12px;
     margin-right: 15px;
     margin-left: 15px;
     cursor: pointer;
