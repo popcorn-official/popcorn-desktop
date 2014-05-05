@@ -35,7 +35,6 @@
                 // its a tv show
                 Database.getTVShowByImdb(movie.imdb_id, function(err,data) {
                     if (data != null) {
-                        console.log(data);
                         data.type = 'tvshow';
 
                         // little tweak

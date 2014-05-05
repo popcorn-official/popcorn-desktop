@@ -17,7 +17,21 @@
             'click .cover': 'showDetail'
         },
 
+
         onShow: function() {
+            // is boorkmarked or not ?
+            var that = this;
+            Database.getBookmark(this.model.get('imdb_id'), function(err, value) {
+                if (!err) {
+
+                    that.model.set('bookmarked', value);
+
+                    if (value == true) {
+                        console.log("Bookmarked");
+                    }
+                } else 
+                    that.model.set('bookmarked', false);
+            })            
             this.ui.coverImage.on('load', _.bind(this.showCover, this));
         },
 
