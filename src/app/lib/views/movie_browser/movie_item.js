@@ -39,6 +39,12 @@
         showCover: function() {
             this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')');
             this.ui.coverImage.remove();
+
+            // Temp for SAM!
+            if (this.model.get('bookmarked') == true) {
+                    console.log("Bookmarked");
+            }
+
         },
         showDetail: function(e) {
             e.preventDefault();
