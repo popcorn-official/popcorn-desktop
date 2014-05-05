@@ -83,24 +83,16 @@
             });
 
             // add ESC toggle when full screen
-            $(document).on('keydown', function (e) {
-              if (e.keyCode == 27) {
-                
-                this.nativeWindow = require('nw.gui').Window.get();
+            Mousetrap.bind('esc', function(e) {
+                _this.leaveFullscreen();
+            });
 
-                if(this.nativeWindow.isFullscreen) {
-                  this.nativeWindow.leaveFullscreen();
-                  this.nativeWindow.focus();
-                }
-              } else if ((e.keyCode == 102) || (e.keyCode == 70)) {
-
+            Mousetrap.bind(['f', 'F'], function(e) {
                 _this.toggleFullscreen();
-              }
-                else if ((e.keyCode == 32) || (e.keyCode == 80)) {
+            });
 
+            Mousetrap.bind('space', function(e) {
                 $(".vjs-play-control").click();
-              }
-
             });
 
             // Function to fade out top bar, first implementation, feel free to rewrite
@@ -132,6 +124,15 @@
                 this.nativeWindow.focus();
             } else {
                 this.nativeWindow.enterFullscreen();
+                this.nativeWindow.focus();
+            }
+        },
+
+        leaveFullscreen: function() {
+            this.nativeWindow = require('nw.gui').Window.get();
+
+            if(this.nativeWindow.isFullscreen) {
+                this.nativeWindow.leaveFullscreen();
                 this.nativeWindow.focus();
             }
         },
