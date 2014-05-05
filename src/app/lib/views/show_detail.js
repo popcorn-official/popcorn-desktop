@@ -56,16 +56,21 @@
 
          clickEpisode: function(e) {
             e.preventDefault();
-            var tvdbid = $(e.currentTarget).attr('data-id')
+            var tvdbid = $(e.currentTarget).attr('data-id');
+            var tvdbtorrent = $(e.currentTarget).attr('data-torrent');
+            
             $('.epidoseSummary').removeClass('active');
             $(e.currentTarget).parent().addClass('active');
-            $(".episode-info p").text($('.template-'+tvdbid+' .title').html());
-            $(".episode-info div").text($('.template-'+tvdbid+' .overview').html());
+            $(".episode-info-number").text($('.template-'+tvdbid+' .title').html());
+            $(".episode-info-title").text($('.template-'+tvdbid+' .title').html());
+            $(".episode-info-date").text($('.template-'+tvdbid+' .title').html());
+            $(".episode-info-description").text($('.template-'+tvdbid+' .overview').html());
+            //info for the button
+            $(".movie-btn-watch-episode").attr("data-torrent", tvdbtorrent);
+            $(".movie-btn-watch-episode").attr("data-episodeid", tvdbid);
+
             this.ui.startStreaming.show();
          },
-
-
-
 
     });
 
