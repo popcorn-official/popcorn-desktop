@@ -84,8 +84,6 @@ win.on('close', function(){
     win.close(true);
 });
 
-
-
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -138,30 +136,7 @@ else
     console.logger.error = console.logger.log;
 }
 
-// Show the disclaimer if the user hasn't accepted it yet.
-// TODO: Not sure this works ? I think we dont have the template
 
-if( ! AdvSettings.get('disclaimerAccepted1') ) {
-    $('.popcorn-disclaimer').removeClass('hidden');
-
-    $('.popcorn-disclaimer .btn.confirmation.continue').click(function(event){
-        event.preventDefault();
-        AdvSettings.set('disclaimerAccepted', 1);
-        $('.popcorn-disclaimer').addClass('hidden');
-    });
-    $('.popcorn-disclaimer .btn.confirmation.quit').click(function(event){
-        event.preventDefault();
-
-        // We need to give the tracker some time to send the event
-        // Also, prevent multiple clicks
-        if( $('.popcorn-disclaimer').hasClass('quitting') ){ return; }
-        $('.popcorn-disclaimer').addClass('quitting');
-
-        setTimeout(function(){
-            gui.App.quit();
-        }, 2000);
-    });
-}
 /**
 * Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
 */

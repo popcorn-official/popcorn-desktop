@@ -79,6 +79,7 @@
         <header id="header"></header>
         <div id="notification"></div>
         <div id="changelog-container"></div>
+        <div id="disclaimer-container"></div>
         <div id="content"></div>
         <div id="settings-container"></div>
         <div id="movie-detail"></div>
@@ -113,6 +114,19 @@
         <% } %>
         </ul>
     </script>
+
+    <script id="disclaimer-tpl" type="text/x-template">
+        <div class="loading-background"></div>
+        <div class="loading-background-overlay"></div>
+
+        <div class="state">
+            <h1>PUT DISCLAIMER HERE</h1>
+
+            <a class="btn-accept">I accept</a>
+             - 
+            <a class="btn-close">I refuse</a>
+        </div>        
+    </script>    
 
     <script id="filter-bar-movie-tpl" type="text/x-template">
         <ul class="nav nav-hor left">
@@ -614,6 +628,7 @@
 
     <script src="lib/views/settings.js"></script>
     <script src="lib/views/init_modal.js"></script>
+    <script src="lib/views/disclaimer.js"></script>
     <script src="lib/views/player/loading.js"></script>
     <script src="lib/views/player/player.js"></script>
 

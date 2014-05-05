@@ -28,6 +28,9 @@
             App.vent.on('movies:list', _.bind(this.showMovies, this));
             App.vent.on('shows:list', _.bind(this.showShows, this));
             App.vent.on('favorites:list', _.bind(this.showFavorites, this));
+
+            // Add event to show disclaimer
+            App.vent.on('show:disclaimer', _.bind(this.showDisclaimer, this));
             
             // Movies
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
@@ -56,10 +59,20 @@
             var that = this;
             this.Content.show(new App.View.InitModal());
             App.db.initialize(function() {
-                that.InitModal.close();
-                that.showMovies();
-                // Focus the window when the app opens
-                that.nativeWindow.focus();
+
+                // we check if the disclaimer is accepted
+                
+                if( ! AdvSettings.get('disclaimerAccepted') ) {
+                    
+                    that.showDisclaimer();
+
+                } else {
+                    that.InitModal.close();
+                    that.showMovies();
+                    // Focus the window when the app opens
+                    that.nativeWindow.focus();
+                }
+
             });
 
             // Cancel all new windows (Middle clicks / New Tab)
@@ -89,8 +102,12 @@
             this.MovieDetail.close();
 
             this.Content.show(new App.View.FavoriteBrowser());
-        },        
+        },  
 
+        showDisclaimer: function(e) {
+            this.Content.show(new App.View.DisclaimerModal());
+        }, 
+        
         preventDefault: function(e) {
             e.preventDefault();
         },
