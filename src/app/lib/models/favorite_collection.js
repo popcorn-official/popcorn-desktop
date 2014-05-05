@@ -36,8 +36,6 @@
             return Q.all([torrentPromise])
                 .spread(function(movies) {
 
-                    console.log(movies);
-                    
                     // If a new request was started...
                     _.each(movies, function(movie){
                         var id = movie.imdb_id;
