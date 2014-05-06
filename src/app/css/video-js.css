@@ -630,15 +630,15 @@ easily in the skin designer. http://designer.videojs.com/
     display: block;
     padding: 0;
     margin: 0;
-     outline: 0;
+    outline: 0;
     position: absolute;
-    width: 10em;
+    width: 125px;
     bottom: 26px;
     color: #fff;
     /* Same bottom as vjs-menu border-top */
-    max-height: 15em;
+    max-height: 255px;
     overflow: auto;
-    left: -40px;
+    left: -50px;
     /* Width of menu - width of button / 2 */
     /* background-color-with-alpha */
     background-color: #151517;
@@ -682,7 +682,6 @@ easily in the skin designer. http://designer.videojs.com/
     line-height: 1.4em;
     font-size: 1.2em;
     text-align: center;
-    text-transform: lowercase;
      outline: 0;
 }
 

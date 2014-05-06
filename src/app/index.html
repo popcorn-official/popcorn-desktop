@@ -425,7 +425,7 @@
             for (var lang in subtitle) {
                 subArray.push({
                     'language': lang,
-                    'languageName': lang,
+                    'languageName': App.Localization.langcodes[lang].nativeName,
                     'sub': subtitle[lang]
                 });
             }
