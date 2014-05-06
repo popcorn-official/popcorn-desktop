@@ -12,7 +12,9 @@
         events: {
             'click .settings-container-close': 'closeSettings',
             'change select,input': 'saveSetting',
-            'click .rebuild-tvshows-database': 'rebuildTvShows'
+            'click .rebuild-tvshows-database': 'rebuildTvShows',
+            'click .flush-bookmarks': 'flushBookmarks',
+            'click .flush-databases': 'flushAllDatabase'
         },
 
         onShow: function() {
@@ -90,6 +92,72 @@
                 // ask user to restart (to be sure)
                 $el.html(
                     '<h1>' + i18n.__('Success') + '</h1>'   +
+                    '<p>' + i18n.__('Please restart your application') + '.</p>' +
+                    '<span class="btn-grp">'                        +
+                        '<a class="btn restart">' + i18n.__('Restart') + '</a>'    +
+                    '</span>'
+                ).removeClass().addClass('green');
+
+                // add restart button function
+                var $restart = $('.btn.restart');
+                $restart.on('click', function() {
+                    that.restartApplication();
+                });
+
+            });
+        },
+
+        flushBookmarks: function() {
+            var that = this;
+
+            // we build our notification
+            var $el = $('#notification');
+            $el.html(
+                '<h1>' + i18n.__('Please wait') + '...</h1>'   +
+                '<p>' + i18n.__('We are flushing your database.') + '.</p>'
+            ).addClass('red');
+
+            // enable the notification on current view
+            $('body').addClass('has-notification')
+
+            Database.deleteBookmarks(function(err, setting) {
+
+                // ask user to restart (to be sure)
+                $el.html(
+                    '<h1>' + i18n.__('Success') + '</h1>'   +
+                    '<p>' + i18n.__('Please restart your application') + '.</p>' +
+                    '<span class="btn-grp">'                        +
+                        '<a class="btn restart">' + i18n.__('Restart') + '</a>'    +
+                    '</span>'
+                ).removeClass().addClass('green');
+
+                // add restart button function
+                var $restart = $('.btn.restart');
+                $restart.on('click', function() {
+                    that.restartApplication();
+                });
+
+            });
+        },
+
+        flushAllDatabase: function() {
+            var that = this;
+
+            // we build our notification
+            var $el = $('#notification');
+            $el.html(
+                '<h1>' + i18n.__('Please wait') + '...</h1>'   +
+                '<p>' + i18n.__('We are flushing your databases') + '.</p>'
+            ).addClass('red');
+
+            // enable the notification on current view
+            $('body').addClass('has-notification')
+
+            Database.deleteDatabases(function(err, setting) {
+
+                // ask user to restart (to be sure)
+                $el.html(
+                    '<h1>' + i18n.__('Success') + '</h1>'   +
                     '<p>' + i18n.__('Please restart your application.') + '.</p>' +
                     '<span class="btn-grp">'                        +
                         '<a class="btn restart">' + i18n.__('Restart') + '</a>'    +
@@ -99,16 +167,20 @@
                 // add restart button function
                 var $restart = $('.btn.restart');
                 $restart.on('click', function() {
-                    var spawn = require('child_process').spawn,
-                        argv = gui.App.fullArgv,
-                        CWD = process.cwd();
-                    
-                    argv.push(CWD);
-                    spawn(process.execPath, argv, { cwd: CWD, detached: true, stdio: [ 'ignore', 'ignore', 'ignore' ] }).unref();
-                    gui.App.quit();
+                    that.restartApplication();
                 });
 
             });
+        },
+
+        restartApplication: function() {
+            var spawn = require('child_process').spawn,
+                argv = gui.App.fullArgv,
+                CWD = process.cwd();
+                    
+            argv.push(CWD);
+            spawn(process.execPath, argv, { cwd: CWD, detached: true, stdio: [ 'ignore', 'ignore', 'ignore' ] }).unref();
+            gui.App.quit();            
         }
 
 

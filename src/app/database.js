@@ -64,6 +64,12 @@
             });
         },
 
+        deleteBookmarks: function(cb) {
+            db.bookmarks.remove({ }, { multi: true }, function (err, numRemoved) {
+                return cb(false,true);
+            });
+        },
+
         // format: {page: page, keywords: title}
         getBookmarks: function(data, cb) {
             var page = data.page-1;
@@ -257,6 +263,20 @@
                 
             db.tvshows.find(query).sort(sort).skip(offset).limit(byPage).exec(cb);
                
+        },
+
+        deleteDatabases: function(cb) {
+            db.bookmarks.remove({ }, { multi: true }, function (err, numRemoved) {
+                db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
+                    db.movies.remove({ }, { multi: true }, function (err, numRemoved) {
+                        db.settings.remove({ }, { multi: true }, function (err, numRemoved) {
+                            db.watched.remove({ }, { multi: true }, function (err, numRemoved) {
+                                return cb(false,true);
+                            });
+                        });
+                    });
+                });
+            });
         },
 
         initialize : function(callback){

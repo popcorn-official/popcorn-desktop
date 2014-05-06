@@ -64,28 +64,11 @@
             }
         },
 
-        onLoading: function() {
-            $(".status-loadmore").hide();
-            $("#loading-more-animi").show();
-        },
+        onLoading: function() {},
 
         onLoaded: function() {
             var self = this;
             this.checkEmpty();
-
-            $("#load-more-item").remove();
-
-            // we add a load more
-            if(this.collection.hasMore) {
-                $(".bookmarks").append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
-                $("#load-more-item").click(function(){
-                    $("#load-more-item").off('click');
-                    self.collection.fetchMore();
-                });
-
-                $("#loading-more-animi").hide();
-                $(".status-loadmore").show();
-            }
 
             $(window).on('resize', this.onResize);
             this.onResize();

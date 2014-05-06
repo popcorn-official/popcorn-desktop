@@ -61,5 +61,11 @@
 	"No movies found...": "No movies found...",
 	"Error loading data, try again later...": "Error loading data, try again later...",
 	"No bookmarks found...": "No bookmarks found...",
-	"Load More": "Load More"
+	"Load More": "Load More",
+	"Please wait": "Please wait",
+	"Success": "Success",
+	"Restart": "Restart",
+	"We are flushing your databases": "We are flushing your databases",
+	"Please restart your application": "Please restart your application",
+	"We are rebuilding the TV Show Database. Do not close the application.": "We are rebuilding the TV Show Database. Do not close the application."
 }
