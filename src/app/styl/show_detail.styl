@@ -201,7 +201,7 @@
         margin 10px 0px
 
     li
-        padding 9px 30px 8px 15px
+        padding 9px 30px 9px 15px
         font-family sans-serif
         font-size 15px
         margin-left -10px
@@ -239,9 +239,10 @@
     ul
         position absolute
         margin 0
-        padding 10px 20px
+        padding 10px 18px 10px 0
+        margin-left 10px
         list-style none
-        min-width 29%
+        min-width 60%
         background #17181b
         
         li
@@ -310,7 +311,7 @@
     background #17181b
     
 .season-episode-container
-    margin-top 19px
+    padding-top 50px
 
 .episodeData span
     padding 9px 20px
@@ -351,7 +352,7 @@
 .episode-info
     background-color #1f2025
     float right
-    width 60%
+    width 44%
     color #FFF
     padding 30px
     height 100%
@@ -366,10 +367,63 @@
         font-size 22px
         margin -22px 0 10px
 
+.episode-info-number
+    display inline-block
+    font-size 21px
+
+.episode-info-date
+    font-weight 100
+    font-size 12px
+    color gray
+    margin-top 16px
+    margin-bottom 7px
+
+.episode-info-title
+    font-weight 100
+    font-size 12px
+    color gray
+    display inline-block
+    margin-left 12px
+    
+.episode-info-description
+    font-size 14px
+    font-weight 100
+    line-height 20px
+    margin-top 10px
+
+.movie-btn-watch 
+    right 20px
+    bottom 290px
+    z-index 2
+    position absolute
+    cursor pointer
+    width 120px
+    padding 7px 15px
+    height 35px
+    font-weight 100
+    font-size 15px
+    -webkit-border-radius 3px
+    -webkit-border-radius 3px
+    border-radius 3px
+    -webkit-background-clip padding-box
+    -webkit-background-clip padding
+    background-clip padding-box
+    background-color #458de3
+
 @media all and (min-width: 1300px)
     .episode-info
-        width 60%
+        width 50%
+    
+    #tabs_episode_base ul
+        min-width 40%
 
-@media all and (min-width: 700px) and (max-width: 1100px)
+@media all and (min-width: 700px) and (max-width: 1300px)
     .episode-info
         width 44%
+
+    #tabs_episode_base ul
+        min-width 50%
+        
+@media all and (min-width: 700px) and (max-width: 1150px)
+    #tabs_episode_base ul
+        min-width 50%
