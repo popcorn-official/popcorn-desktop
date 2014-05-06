@@ -387,10 +387,14 @@
     margin-left 12px
     
 .episode-info-description
-    font-size 14px
+    font-size 13px
     font-weight 100
     line-height 20px
     margin-top 10px
+    max-height 30%
+    overflow-y auto
+    background rgba(255, 255, 255, 0.02)
+    padding 10px
 
 .movie-btn-watch-episode
     right 20px
@@ -428,3 +432,15 @@
 @media all and (min-width: 700px) and (max-width: 1150px)
     #tabs_episode_base ul
         min-width 60%
+
+@media all and (min-height: 700px) 
+    .episode-info-description
+         max-height 45%
+
+@media all and (min-height: 900px) 
+    .episode-info-description
+         max-height 55%
+         
+@media all and (min-height: 1040px) 
+    .episode-info-description
+         max-height 65%
