@@ -359,6 +359,7 @@
             <div class="season-episode-container">
                 <!-- <div class="season-ep-bar"></div> -->
                 <div>
+
                     <ul id="tabs_season">
                          <%
                         // to be updated i dont find it really elegant
@@ -381,16 +382,13 @@
 
                             <div id="season-<%=season %>"  class="tabs-episode">
                                 <ul>
-                                        <% _.each(value, function(episodeData, episode) {
-                                                if (typeof episodeData.watched == 'undefined')
-                                                    watched = false;
-                                                else watched = episodeData.watched.watched;
-                                        %>
 
+                                        <% _.each(value, function(episodeData, episode) {
+                                        %>                                
                                             <li class="epidoseSummary">
                                                 <a href="#" class="episodeData" data-id="<%=episodeData.tvdb_id %>" data-torrent='<%=episodeData.torrents[0].url %>'>
                                                 <span><%=episodeData.episode %></span> <span><%=episodeData.title %></span></a>
-                                                <span class="watched-<%=watched %>"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
+                                                <span id="watched-<%=episodeData.season %>-<%=episodeData.episode %>" class="watched-false"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
 
                                                 <!-- hidden template so we can save a DB query -->
                                                 <div class="template-<%=episodeData.tvdb_id %>" style="display:none">

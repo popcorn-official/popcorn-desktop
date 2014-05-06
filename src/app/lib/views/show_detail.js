@@ -17,6 +17,7 @@
             'click .episodeData': 'clickEpisode',
         },
 
+
         onShow: function() {
 
             this.selectSeason($("#tabs_season li").first("li"));
@@ -34,7 +35,15 @@
             Mousetrap.bind('esc', function(e) {
                 App.vent.trigger('show:closeDetail'); 
                 $(".filter-bar").show();   
-            });              
+            });
+
+            // we'll mark episode already watched
+            Database.getEpisodesWatched( this.model.get('tvdb_id') ,function(err, data) {
+                _.each(data, function(value) {
+                    $('#watched-'+value.season+'-'+value.episode).removeClass().addClass("watched-true");
+                });
+            });
+
         },
 
         startStreaming: function(e) {
@@ -57,7 +66,7 @@
                     torrent: $(e.currentTarget).attr('data-torrent'), 
                     backdrop: that.model.get('images').fanart, 
                     type: "episode", 
-                    show_id: that.model.get("_id"),
+                    show_id: that.model.get("tvdb_id"),
                     episode: episode,
                     season: season,
                     title: title,

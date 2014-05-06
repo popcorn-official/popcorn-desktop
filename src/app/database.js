@@ -126,6 +126,14 @@
             });
         },
 
+        // return an array of watched episode for this 
+        // tvshow
+        getEpisodesWatched: function(show_id, cb) {
+            db.watched.find({show_id: show_id}, function(err, data){
+                return cb(null, data);
+            });
+        },        
+
         getEpisodesPerSeason: function(data, cb) {
             db.tvshows.find({_id : data.show_id, "episodes.season": data.season}, cb);
         },
