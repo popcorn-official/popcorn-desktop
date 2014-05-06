@@ -30,7 +30,6 @@
             e.preventDefault();
             App.vent.trigger('favorites:list', []);
         },
-
     });
 
     App.View.FilterBarFavorite = FilterBarFavorite;

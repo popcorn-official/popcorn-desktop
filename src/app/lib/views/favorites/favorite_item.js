@@ -17,17 +17,6 @@
             'click .cover': 'showDetail'
         },
 
-        initialize: function() {
-            // is boorkmarked or not ?
-            var that = this;
-            Database.getBookmark(this.model.get('imdb'), function(err, value) {
-                if (!err)
-                    that.model.set('bookmarked', value);
-                else 
-                    that.model.set('bookmarked', false);
-            })
-        },
-
         onShow: function() {
             this.ui.coverImage.on('load', _.bind(this.showCover, this));
         },
@@ -58,7 +47,7 @@
                         backdrop: this.model.get('backdrop'),
                         rating: this.model.get('MovieRating'),
                         trailer: this.model.get('trailer'),
-                        bookmarked: this.model.get('bookmarked'),
+                        bookmarked: true,
                     }
                 );
 
@@ -78,7 +67,6 @@
             var that = this;
          
             Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
-                that.model.set('bookmarked', false);
 
                 if (that.model.get('type') == 'movie')
                     // we'll make sure we dont have a cached movie
