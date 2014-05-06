@@ -101,7 +101,7 @@
             var tvdbtorrent = $elem.attr('data-torrent');
             $('.epidoseSummary').removeClass('active');
             $elem.parent().addClass('active');
-            $(".episode-info-number").text($('.template-'+tvdbid+' .episode').html());
+            $(".episode-info-number").text('Episode '+$('.template-'+tvdbid+' .episode').html());
             $(".episode-info-title").text($('.template-'+tvdbid+' .title').html());
             $(".episode-info-date").text($('.template-'+tvdbid+' .date').html());
             $(".episode-info-description").text($('.template-'+tvdbid+' .overview').html());
