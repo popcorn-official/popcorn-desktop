@@ -770,7 +770,7 @@ App.Localization.langcodes = {
 		"name":"Portuguese",
 		"nativeName":"Português"
 	},
-	"pt-br":{
+	"pb":{
 		"name":"Portuguese (Brazil)",
 		"nativeName":"Português (Brasil)"
 	},
