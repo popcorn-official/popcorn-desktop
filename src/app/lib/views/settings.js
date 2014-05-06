@@ -114,7 +114,7 @@
             var $el = $('#notification');
             $el.html(
                 '<h1>' + i18n.__('Please wait') + '...</h1>'   +
-                '<p>' + i18n.__('We are flushing your database.') + '.</p>'
+                '<p>' + i18n.__('We are flushing your database') + '.</p>'
             ).addClass('red');
 
             // enable the notification on current view

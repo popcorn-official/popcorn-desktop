@@ -67,5 +67,6 @@
 	"Restart": "Restart",
 	"We are flushing your databases": "We are flushing your databases",
 	"Please restart your application": "Please restart your application",
-	"We are rebuilding the TV Show Database. Do not close the application.": "We are rebuilding the TV Show Database. Do not close the application."
+	"We are rebuilding the TV Show Database. Do not close the application.": "We are rebuilding the TV Show Database. Do not close the application.",
+	"We are flushing your database": "We are flushing your database"
 }
