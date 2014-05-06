@@ -381,20 +381,22 @@
 
 .episode-info-title
     font-weight 100
-    font-size 12px
+    font-size 10px
     color gray
-    display inline-block
-    margin-left 12px
+    display inline
+    margin-left 3%
     
 .episode-info-description
     font-size 13px
     font-weight 100
     line-height 20px
     margin-top 10px
-    max-height 30%
+    max-height 23%
     overflow-y auto
     background rgba(255, 255, 255, 0.02)
     padding 10px
+    
+    scrollable()
 
 .movie-btn-watch-episode
     right 20px
@@ -427,7 +429,10 @@
         width 36%
 
     #tabs_episode_base ul
-        min-width 68%
+        min-width 68.4%
+    
+    .episode-info-title
+        font-size 12px
         
 @media all and (min-width: 700px) and (max-width: 1150px)
     #tabs_episode_base ul
@@ -435,12 +440,12 @@
 
 @media all and (min-height: 700px) 
     .episode-info-description
-         max-height 45%
+         max-height 42%
 
 @media all and (min-height: 900px) 
     .episode-info-description
-         max-height 55%
+         max-height 52%
          
 @media all and (min-height: 1040px) 
     .episode-info-description
-         max-height 65%
+         max-height 62%
