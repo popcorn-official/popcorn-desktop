@@ -261,7 +261,7 @@ fonts to show/hide properly.
     position: relative;
     /* Set above the rest of the controls. */
     top: 17px;
-    width: calc(100% - 390px);
+    width: calc(100% - 415px);
     height: 5px;
     float: left;
     -moz-border-radius: 3px / 2px;
