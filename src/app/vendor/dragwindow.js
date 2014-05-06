@@ -1,7 +1,7 @@
 // jQuery plugin
 // Drag the app window by a specific element
 
-// Since the -drag CSS property fucks up the touch events, this is a hack so we can drag the window by the video anyway.
+// Since the -drag CSS property screws up the touch events, this is a hack so we can drag the window by the video anyway.
 (function( $ ){
 
   // Require native api to drag window accross mutliple monitors
