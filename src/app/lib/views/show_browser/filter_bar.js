@@ -50,7 +50,7 @@
             $(e.target).addClass('active');
 
             var sorter = $(e.target).attr('data-value');
-            this.ui.sorterValue.text(i18n.__(capitaliseFirstLetter(sorter)));
+            this.ui.sorterValue.text(i18n.__(sorter.capitalizeEach()));
 
             this.model.set({
                 keyword: '',
