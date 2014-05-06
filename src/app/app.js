@@ -193,7 +193,7 @@ if(last_arg) {
                 App.vent.on('main:ready', function() {
                         var si = new App.Model.StreamInfo({});
                         si.set('subtitle', {});
-                        si.set('type', 'video/mp4');
+                        si.set('type', mime.lookup(last_arg));
                         si.set('src', last_arg);
                         App.vent.trigger('stream:ready', si);
                 });
