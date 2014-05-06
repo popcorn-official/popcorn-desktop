@@ -29,6 +29,12 @@
                 $(".tv-poster-background").css('background-image', "url(" + background + ")");
                 $(".tv-poster-background").fadeIn( 300 );
               });     
+
+            // add ESC to close this popup
+            Mousetrap.bind('esc', function(e) {
+                App.vent.trigger('show:closeDetail'); 
+                $(".filter-bar").show();   
+            });              
         },
 
         startStreaming: function(e) {

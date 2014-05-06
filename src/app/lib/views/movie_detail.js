@@ -63,6 +63,11 @@
 
             // switch to default subtitle
             this.switchSubtitle(Settings.subtitle_language);
+
+            // add ESC to close this popup
+            Mousetrap.bind('esc', function(e) {
+                App.vent.trigger('movie:closeDetail');  
+            });               
         },
 
         onClose: function() {},
