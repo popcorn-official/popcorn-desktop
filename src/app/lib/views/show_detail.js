@@ -109,7 +109,7 @@
             var tvdbid = $elem.attr('data-id');
             var tvdbtorrent = $elem.attr('data-torrent');
             $('.epidoseSummary').removeClass('active');
-            $elem.parent().addClass('active');
+            $elem.addClass('active');
             $(".episode-info-number").text(i18n.__('Episode') + ' '+$('.template-'+tvdbid+' .episode').html());
             $(".episode-info-title").text($('.template-'+tvdbid+' .title').html());
             $(".episode-info-date").text($('.template-'+tvdbid+' .date').html());

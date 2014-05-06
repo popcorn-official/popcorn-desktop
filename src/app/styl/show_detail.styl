@@ -9,8 +9,8 @@
         margin-top: 40px
 
 .epidoseSummary
-  cursor: pointer;
-  
+    cursor pointer
+
 .season-ep-bar
     width 1px
     height 100%
@@ -228,7 +228,7 @@
     position relative
     z-index 2
     height 100%
-    margin 0 150px
+    margin-left 150px
     color #fff
 
     a
@@ -244,7 +244,6 @@
         padding 10px 18px 10px 0
         margin-left 10px
         list-style none
-        min-width 60%
         background #17181b
         
         li
@@ -328,10 +327,15 @@
         border-right 1px solid #17181B
         text-align right
     
-    &:last-child
+.episodeData div:last-child
         color #8d9296
         font-weight 100
         padding-left 34px
+        display inline-block
+        max-width 80%
+        overflow hidden
+        white-space nowrap
+        text-overflow ellipsis
 
 .episode-list-text
     display inline-block
@@ -376,6 +380,10 @@
 .episode-info-title
     display inline-block
     font-size 21px
+    max-width 75%
+    overflow hidden
+    white-space nowrap
+    text-overflow ellipsis
 
 .episode-info-number
     font-weight 100
@@ -423,24 +431,20 @@
 
 @media all and (min-width: 1300px)
     .episode-info
-        width 50%
+        width 46%
     
     #tabs_episode_base ul
-        min-width 47%
+        width 46%
 
 @media all and (min-width: 700px) and (max-width: 1300px)
     .episode-info
-        width 36%
+        width 35%
 
     #tabs_episode_base ul
-        min-width 68.4%
+        width 56%
     
     .episode-info-title
         font-size 12px
-        
-@media all and (min-width: 700px) and (max-width: 1150px)
-    #tabs_episode_base ul
-        min-width 60%
 
 @media all and (min-height: 700px) 
     .episode-info-description
