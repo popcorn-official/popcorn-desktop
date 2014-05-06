@@ -7,10 +7,9 @@
         className: 'shows-container-contain',
 
         ui: {
-            tabsContainer: "#tabs_episode_base div",
-            seasonsList: "#tabs_season li",
             startStreaming: ".startStreaming"
         },
+
         events: {
             'click .startStreaming': 'startStreaming',
             'click .tv-container-close': 'closeDetails',
@@ -19,8 +18,8 @@
         },
 
         onShow: function() {
-            this.ui.seasonsList.first().addClass('active'); // Activate first tab
-            this.ui.tabsContainer.first().fadeIn(); // Show first tab tabs_container   
+
+            this.selectSeason($("#tabs_season li").first("li"));
             
             $(".filter-bar").hide();    
 
@@ -41,38 +40,49 @@
 
         closeDetails: function(e) {
             e.preventDefault();
-			App.vent.trigger('show:closeDetail'); 
-            $(".filter-bar").show(); 	
+            App.vent.trigger('show:closeDetail'); 
+            $(".filter-bar").show();    
         },
 
         clickTab: function(e) {
             e.preventDefault();
-            $('#tabs_season li').removeClass('active');
-            $('.tabs-episode').removeClass('current');
-            $('.epidoseSummary').removeClass('active');
-            $(e.currentTarget).addClass('active');
-            $("#"+$(e.currentTarget).attr('data-tab')).addClass('current');
+            this.selectSeason($(e.currentTarget));
         },
 
          clickEpisode: function(e) {
             e.preventDefault();
-            var tvdbid = $(e.currentTarget).attr('data-id');
-            var tvdbtorrent = $(e.currentTarget).attr('data-torrent');
-            
+            this.selectEpisode($(e.currentTarget));
+         },
+
+         // Helper Function
+         selectSeason: function($elem) {
+            $('.tabs-episode').hide();
+            $('.tabs-episode').removeClass('current');
+            $('#tabs_season li').removeClass('active');
             $('.epidoseSummary').removeClass('active');
-            $(e.currentTarget).parent().addClass('active');
-            $(".episode-info-number").text($('.template-'+tvdbid+' .title').html());
+            $elem.addClass('active');
+            $("#"+$elem.attr('data-tab')).addClass('current').show();
+
+            this.selectEpisode($("#"+$elem.attr('data-tab')).find($( ".episodeData")).first());           
+         },
+
+         selectEpisode: function($elem) {
+            var tvdbid = $elem.attr('data-id');
+            var tvdbtorrent = $elem.attr('data-torrent');
+            $('.epidoseSummary').removeClass('active');
+            $elem.parent().addClass('active');
+            $(".episode-info-number").text($('.template-'+tvdbid+' .episode').html());
             $(".episode-info-title").text($('.template-'+tvdbid+' .title').html());
-            $(".episode-info-date").text($('.template-'+tvdbid+' .title').html());
+            $(".episode-info-date").text($('.template-'+tvdbid+' .date').html());
             $(".episode-info-description").text($('.template-'+tvdbid+' .overview').html());
-            //info for the button
             $(".movie-btn-watch-episode").attr("data-torrent", tvdbtorrent);
             $(".movie-btn-watch-episode").attr("data-episodeid", tvdbid);
 
-            this.ui.startStreaming.show();
-         },
+            this.ui.startStreaming.show();            
+         }
 
     });
 
     App.View.ShowDetail = ShowDetail;
 })(window.App);
+    

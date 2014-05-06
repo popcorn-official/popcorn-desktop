@@ -287,7 +287,7 @@
                 <div class="episode-info-title"></div>
                 <div class="episode-info-date"></div>
                 <div class="episode-info-description"></div>
-                <div class="movie-btn-watch-episode" data-torrent='' data-episodeid='' class='startStreaming'>
+                <div class="movie-btn-watch-episode startStreaming" data-torrent='' data-episodeid=''>
                     <div class="movie-watch-now"><%= i18n.__("Watch Now") %></div>
                 </div>
             </div>
@@ -325,7 +325,7 @@
                                                 if (typeof episodeData.watched == 'undefined')
                                                     watched = false;
                                                 else watched = episodeData.watched.watched;
-                                         %>
+                                        %>
 
                                             <li class="epidoseSummary">
                                                 <a href="#" class="episodeData" data-id="<%=episodeData.tvdb_id %>" data-torrent='<%=episodeData.torrents[0].url %>'>
@@ -334,7 +334,9 @@
 
                                                 <!-- hidden template so we can save a DB query -->
                                                 <div class="template-<%=episodeData.tvdb_id %>" style="display:none">
+                                                    <span class="date"></span>
                                                     <span class="title"><%=episodeData.title %></span>
+                                                    <span class="episode"><%=episodeData.episode %></span>
                                                     <div class="overview"><%=episodeData.overview %></div>
                                                 </div>
                                             </li>
