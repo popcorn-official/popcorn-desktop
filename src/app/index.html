@@ -383,8 +383,7 @@
                             <div id="season-<%=season %>"  class="tabs-episode">
                                 <ul>
 
-                                        <% _.each(value, function(episodeData, episode) {
-                                        %>                                
+                                        <% _.each(value, function(episodeData, episode) { %>                                
                                             <li class="epidoseSummary">
                                                 <a href="#" class="episodeData" data-id="<%=episodeData.tvdb_id %>" data-torrent='<%=episodeData.torrents[0].url %>'>
                                                 <span><%=episodeData.episode %></span> <span><%=episodeData.title %></span></a>

@@ -131,7 +131,15 @@
         },
 
         streamStarted: function(stateModel) {
-            this.MovieDetail.close();
+
+            // People wanted to keep the active 
+            // modal (tvshow/movie) detail open when
+            // the streaming start.
+            // 
+            // this.MovieDetail.close();
+            // 
+            // uncomment previous line to close it
+
             this.Player.show(new App.View.Loading({
                 model: stateModel
             }));
