@@ -5,12 +5,6 @@ module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
   
-  grunt.loadNpmTasks('grunt-exec');
-
-  // https://github.com/vojtajina/grunt-bump
-  grunt.loadNpmTasks('grunt-bump');
-  grunt.loadNpmTasks('grunt-conventional-changelog');
-  
   grunt.registerTask('default', [
     'stylus'
   ]);
