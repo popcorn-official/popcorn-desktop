@@ -158,7 +158,7 @@
                 // ask user to restart (to be sure)
                 $el.html(
                     '<h1>' + i18n.__('Success') + '</h1>'   +
-                    '<p>' + i18n.__('Please restart your application.') + '.</p>' +
+                    '<p>' + i18n.__('Please restart your application') + '.</p>' +
                     '<span class="btn-grp">'                        +
                         '<a class="btn restart">' + i18n.__('Restart') + '</a>'    +
                     '</span>'

@@ -1,4 +1,7 @@
 // Detect the language and update the global Language file
+
+var capitaliseFirstLetter = function(string) { return string.charAt(0).toUpperCase() + string.slice(1); };
+
 var detectLanguage = function(preferredLanguage) {
 
     var fs = require('fs');
