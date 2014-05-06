@@ -74,7 +74,6 @@
             });
 
             App.vent.trigger('stream:start', torrentStart);
-            $(".filter-bar").show(); 
         },
 
         closeDetails: function(e) {
