@@ -11,7 +11,7 @@
   "version": "0.3.0",
   "scripts": {
     "postinstall": "node_modules/.bin/bower install",
-    "postupdate":  "node_modules/.bin/bower update"
+    "postupdate": "node_modules/.bin/bower update"
   },
   "window": {
     "title": "Popcorn Time",
@@ -44,7 +44,8 @@
     "stylus": "0.44.0",
     "read-torrent": "1.0.x",
     "nedb": "~0.10.5",
-    "opensrt_js" : ">=0.0.5"
+    "opensrt_js": ">=0.0.5",
+    "mime": "^1.2.11"
   },
   "devDependencies": {
     "grunt": "0.4.4",

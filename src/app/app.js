@@ -30,7 +30,10 @@ var
     tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time'),
 
     // i18n module (translations)
-    i18n = require("i18n");
+    i18n = require("i18n"),
+
+    // Mime type parsing
+    mime = require('mime');
 
 // Global App skeleton for backbone
 var App = new Backbone.Marionette.Application();
@@ -193,7 +196,7 @@ if(last_arg) {
                 App.vent.on('main:ready', function() {
                         var si = new App.Model.StreamInfo({});
                         si.set('subtitle', {});
-                        si.set('type', 'video/mp4');
+                        si.set('type', mime.lookup(last_arg));
                         si.set('src', last_arg);
                         App.vent.trigger('stream:ready', si);
                 });

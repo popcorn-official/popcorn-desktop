@@ -6,6 +6,7 @@
 
     var readTorrent = require('read-torrent');
     var peerflix = require('peerflix');
+    var mime = require('mime');
 
     var engine = null;
     var statsUpdater = null;
@@ -70,7 +71,7 @@
 
         engine.server.on('listening', function(){
             streamInfo.set('src', 'http://127.0.0.1:' + engine.server.address().port + '/');
-            streamInfo.set('type', 'video/mp4');
+            streamInfo.set('type', mime.lookup(engine.server.index.name));
             stateModel.on('change:state', checkReady);
             checkReady();
         });
