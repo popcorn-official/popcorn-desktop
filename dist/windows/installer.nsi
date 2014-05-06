@@ -6,10 +6,19 @@
 !include "MUI2.nsh"
 
 ;General Settings
+!searchparse /file "..\..\package.json" `  "version": "` PT_VERSION `",`
 Name "Popcorn Time"
-Caption "Popcorn Time"
-BrandingText "Popcorn Time"
-OutFile "PopcornTimeSetup.exe"
+Caption "Popcorn Time v${PT_VERSION}"
+BrandingText "Popcorn Time v${PT_VERSION}"
+VIAddVersionKey "ProductName" "Popcorn Time"
+VIAddVersionKey "ProductVersion" "v${PT_VERSION}"
+VIAddVersionKey "FileDescription" "Popcorn Time"
+VIAddVersionKey "FileVersion" "v${PT_VERSION}"
+VIAddVersionKey "CompanyName" "Popcorn Official"
+VIAddVersionKey "LegalCopyright" "http://get-popcorn.com"
+VIAddVersionKey "OriginalFilename" "Popcorn-Time-${PT_VERSION}-Win-32.exe"
+VIProductVersion "${PT_VERSION}.0"
+OutFile "Popcorn-Time-${PT_VERSION}-Win-32.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 !define NW_VER "0.9.2"
