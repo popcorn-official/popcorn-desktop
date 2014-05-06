@@ -22,9 +22,9 @@ RequestExecutionLevel user
 
 ;Define UI settings
 !define MUI_LICENSEPAGE_BGCOLOR /GRAY
-!define MUI_UI_HEADERIMAGE_RIGHT "..\..\images\icon.png"
-!define MUI_ICON "..\..\images\popcorntime.ico"
-!define MUI_UNICON "..\..\images\popcorntime.ico"
+!define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
+!define MUI_ICON "..\..\src\app\images\popcorntime.ico"
+!define MUI_UNICON "..\..\src\app\images\popcorntime.ico"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_ABORTWARNING
@@ -135,7 +135,7 @@ SectionEnd
 Section ; Shortcuts
 
 	SetOutPath "$INSTDIR"
-	File /oname=Popcorn-Time.ico "..\..\images\popcorntime.ico"
+	File /oname=Popcorn-Time.ico "..\..\src\app\images\popcorntime.ico"
 
 	;Working Directory Shortcut
 	CreateShortCut "$INSTDIR\Start Popcorn Time.lnk" "$INSTDIR\Popcorn-Time.exe" "--debug" "$INSTDIR\Popcorn-Time.ico" "" "" "" "Start Popcorn Time"
