@@ -397,7 +397,7 @@
                                                 
                                                 var first_aired = '';
                                                 if (typeof episodeData.first_aired != 'undefined')
-                                                    first_aired = moment.unix(episodeData.first_aired).lang(Settings.language).format("LLLL");
+                                                    first_aired = moment.unix(episodeData.first_aired).lang(Settings.language).format("LLLL").capitalizeEach();
 
                                             %>                                
                                             <li class="epidoseSummary">
