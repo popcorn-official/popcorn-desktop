@@ -25,6 +25,29 @@
             opacity: 0
             &:hover
                 opacity: 1
+                
+		.actions
+			margin: auto
+			width: 105px
+			
+			div
+				float left
+				background-position center
+				background-repeat no-repeat
+				margin 0 5px
+				width 25px
+				height 20px
+				transition opacity .25s ease
+
+				&.favorites
+					background-image url(../../images/icons/add_favorites.png)
+				&.detail
+					background-image url(../../images/icons/detail.png)
+				&.queue
+					background-image url(../../images/icons/add_queue.png)
+					
+				&:hover
+					opacity 0.5
 
             .actions-favorites
                 height: 20px
