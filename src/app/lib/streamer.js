@@ -64,6 +64,11 @@
                 streamInfo.set('defaultSubtitle', torrent.defaultSubtitle);
                 streamInfo.set('title', torrent.title);
 
+                // add few info
+                streamInfo.set('show_id', torrent.show_id);
+                streamInfo.set('episode', torrent.episode);
+                streamInfo.set('season', torrent.season);
+
                 App.vent.trigger('stream:ready', streamInfo);
                 stateModel.destroy();
             }
