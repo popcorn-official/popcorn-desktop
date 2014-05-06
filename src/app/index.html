@@ -390,7 +390,16 @@
                             <div id="season-<%=season %>"  class="tabs-episode">
                                 <ul>
 
-                                        <% _.each(value, function(episodeData, episode) { %>                                
+                                        <% _.each(value, function(episodeData, episode) { 
+
+                                                // TODO: Give some love to the date format
+                                                // Perhaps use moment.js ?
+                                                
+                                                var first_aired = '';
+                                                if (typeof episodeData.first_aired != 'undefined')
+                                                    first_aired = new Date(episodeData.first_aired * 1000);
+
+                                            %>                                
                                             <li class="epidoseSummary">
                                                 <a href="#" class="episodeData" data-id="<%=episodeData.tvdb_id %>" data-torrent='<%=episodeData.torrents[0].url %>'>
                                                 <span><%=episodeData.episode %></span> <span><%=episodeData.title %></span></a>
@@ -398,8 +407,8 @@
 
                                                 <!-- hidden template so we can save a DB query -->
                                                 <div class="template-<%=episodeData.tvdb_id %>" style="display:none">
-                                                    <span class="date"></span>
                                                     <span class="title"><%=episodeData.title %></span>
+                                                    <span class="date"><%=first_aired %></span>
                                                     <span class="season"><%=episodeData.season %></span>
                                                     <span class="episode"><%=episodeData.episode %></span>
                                                     <div class="overview"><%=episodeData.overview %></div>
