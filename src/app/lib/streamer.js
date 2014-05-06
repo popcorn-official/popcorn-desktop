@@ -71,7 +71,10 @@
 
         engine.server.on('listening', function(){
             streamInfo.set('src', 'http://127.0.0.1:' + engine.server.address().port + '/');
-            streamInfo.set('type', mime.lookup(engine.server.index.name));
+            streamInfo.set('type', 'video/mp4');
+
+            // TEST for custom NW
+            //streamInfo.set('type', mime.lookup(engine.server.index.name));
             stateModel.on('change:state', checkReady);
             checkReady();
         });

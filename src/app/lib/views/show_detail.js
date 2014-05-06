@@ -45,7 +45,7 @@
             var season = $(e.currentTarget).attr('data-season');
             var name = $(e.currentTarget).attr('data-title');
 
-            title += " - Season "+ season + ", Episode "+ episode +" - "+ name;
+            title += " - " + i18n.__('Season') + " "+ season + ", " + i18n.__('Episode') + " "+ episode +" - "+ name;
             var epInfo = {
                 type: 'tvshow',
                 imdbid: that.model.get('imdb_id'), 
@@ -79,13 +79,13 @@
             this.selectSeason($(e.currentTarget));
         },
 
-         clickEpisode: function(e) {
+        clickEpisode: function(e) {
             e.preventDefault();
             this.selectEpisode($(e.currentTarget));
-         },
+        },
 
          // Helper Function
-         selectSeason: function($elem) {
+        selectSeason: function($elem) {
             $('.tabs-episode').hide();
             $('.tabs-episode').removeClass('current');
             $('#tabs_season li').removeClass('active');
@@ -94,9 +94,9 @@
             $("#"+$elem.attr('data-tab')).addClass('current').show();
 
             this.selectEpisode($("#"+$elem.attr('data-tab')).find($( ".episodeData")).first());           
-         },
+        },
 
-         selectEpisode: function($elem) {
+        selectEpisode: function($elem) {
             var tvdbid = $elem.attr('data-id');
             var tvdbtorrent = $elem.attr('data-torrent');
             $('.epidoseSummary').removeClass('active');
@@ -108,8 +108,15 @@
             $(".movie-btn-watch-episode").attr("data-torrent", tvdbtorrent);
             $(".movie-btn-watch-episode").attr("data-episodeid", tvdbid);
 
+            // set var for player
+            $(".movie-btn-watch-episode").attr("data-episode", $('.template-'+tvdbid+' .episode').html());
+            $(".movie-btn-watch-episode").attr("data-season", $('.template-'+tvdbid+' .season').html());
+            $(".movie-btn-watch-episode").attr("data-title", $('.template-'+tvdbid+' .title').html());
+
+            
+
             this.ui.startStreaming.show();            
-         }
+        }
 
     });
 
