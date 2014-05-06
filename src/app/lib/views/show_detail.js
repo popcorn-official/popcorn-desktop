@@ -14,7 +14,7 @@
             'click .startStreaming': 'startStreaming',
             'click .tv-container-close': 'closeDetails',
             'click #tabs_season li': 'clickTab',
-            'click .episodeData': 'clickEpisode',
+            'click .epidoseSummary': 'clickEpisode',
         },
 
 
@@ -102,7 +102,7 @@
             $elem.addClass('active');
             $("#"+$elem.attr('data-tab')).addClass('current').show();
 
-            this.selectEpisode($("#"+$elem.attr('data-tab')).find($( ".episodeData")).first());           
+            this.selectEpisode($("#"+$elem.attr('data-tab')).find($( ".epidoseSummary")).first());           
         },
 
         selectEpisode: function($elem) {
