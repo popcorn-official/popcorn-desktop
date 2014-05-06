@@ -199,7 +199,7 @@ vjs.TextTrack.prototype.load = function(){
         // Just save it again, and it'll be stored as UTF-8. At least on Windows.
 
         if ( detectedEncoding == 'IBM855' || detectedEncoding == 'windows-1250' || detectedEncoding == 'windows-1251' || detectedEncoding == 'windows-1252' || detectedEncoding == 'windows-1255' || detectedEncoding == 'windows-1254' ) {
-          // It's the charset detector fucking up again
+          // It's the charset detector screwing up again
           var langInfo = App.Localization.languages[language] || {};
           var expected = langInfo.encoding;
           if (expected && expected.indexOf(detectedEncoding) < 0) {
