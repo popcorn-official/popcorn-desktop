@@ -307,7 +307,7 @@
     </script>
 
     <script  id="show-detail-tpl" type="text/x-template">
-<div class="tv-container-close"></div>
+        <div class="tv-container-close"></div>
         <div class="tv-poster">
         <div class="tv-poster-overlay"></div>
         <div data-bgr="<%= images.fanart %>" class="tv-poster-background"></div>
@@ -338,56 +338,74 @@
             
         </div>
         </div>
-        <div class="episode-list-text"><%= i18n.__("Episode List") %></div>
-        <div class="season-episode-container">
-         <!-- <div class="season-ep-bar"></div> -->
-        <div id="tabs_season">
-            <ul>
-                <%
-
-                // to be updated i dont find it really elegant
-                // i'll build a compatible torrent array with our episodes content
-                var torrents = {};
-                _.each(episodes, function(value, currentEpisode) {
-
-                    if (!torrents[value.season]) torrents[value.season] = {};
-                    torrents[value.season][value.episode] = value;
-                });
-                %>
-
-                <% _.each(torrents, function(value, season) { %>
-
-                    <li class="seasonSwitch">
-
-                        <a href="#tabs-<%=season %>" title=""><%= i18n.__("Season") %>&nbsp;<%=season %></a>
-
-
-                    </li>
-                <% }); %>
-            </ul>
-            <div id="tabs_container">
-                <% _.each(torrents, function(value, season) { %>
-
-                   <div id="tabs-<%=season %>">
-                        <ul>
-                            <% _.each(value, function(episodeData, episode) {
-                                    watched = false;
-                                    App.db.checkEpisodeWatched({show_id: _id, episode: episodeData.episode, season: episodeData.season}, function(err, isWatched){
-                                        watched = isWatched;
-                                    })
-                             %>
-                                <li class="watched-<%=watched%>">
-                                    <a href="#" data-torrent='<%=episodeData.torrents[0].url %>' data-episode='<%=episodeData.episode %>' data-season='<%=episodeData.season %>' data-title='<%=episodeData.title %>'class='startStreaming'><%=episodeData.episode %> - <%=episodeData.title %></a>
-                                </li>
-                            <% }); %>
-                        </ul>
-                    </li>
-                    <!--tab content-->
+        
+        <div class="episode-base">
+            <div class="episode-info">
+                <div class="episode-info-number"></div>
+                <div class="episode-info-title"></div>
+                <div class="episode-info-date"></div>
+                <div class="episode-info-description"></div>
+                <div class="movie-btn-watch-episode startStreaming" data-torrent='' data-episodeid=''>
+                    <div class="movie-watch-now"><%= i18n.__("Watch Now") %></div>
                 </div>
-                <% }); %>
-            </div><!--End tabs container-->
-        </div><!--End tabs-->
-</div>
+            </div>
+            <div class="display-base-title">
+                <div class="episode-list-text">Seasons</div>
+                <div class="episode-list-text">Episodes</div>
+                
+            </div>
+            <div class="season-episode-container">
+                <!-- <div class="season-ep-bar"></div> -->
+                <div>
+                    <ul id="tabs_season">
+                         <%
+                        // to be updated i dont find it really elegant
+                        // i'll build a compatible torrent array with our episodes content
+                        var torrents = {};
+                        _.each(episodes, function(value, currentEpisode) {
+                            if (!torrents[value.season]) torrents[value.season] = {};
+                            torrents[value.season][value.episode] = value;
+                        });
+                        %>
+
+                        <% _.each(torrents, function(value, season) { %>
+                            <li data-tab="season-<%=season %>">
+                                <a><%= i18n.__("Season") %>&nbsp;<%=season %></a>
+                            </li>
+                        <% }); %>
+                    </ul>
+                    <div id="tabs_episode_base">
+                        <% _.each(torrents, function(value, season) { %>
+
+                            <div id="season-<%=season %>"  class="tabs-episode">
+                                <ul>
+                                        <% _.each(value, function(episodeData, episode) {
+                                                if (typeof episodeData.watched == 'undefined')
+                                                    watched = false;
+                                                else watched = episodeData.watched.watched;
+                                        %>
+
+                                            <li class="epidoseSummary">
+                                                <a href="#" class="episodeData" data-id="<%=episodeData.tvdb_id %>" data-torrent='<%=episodeData.torrents[0].url %>'>
+                                                <span><%=episodeData.episode %></span> <span><%=episodeData.title %></span></a>
+                                                <span class="watched-<%=watched %>"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
+
+                                                <!-- hidden template so we can save a DB query -->
+                                                <div class="template-<%=episodeData.tvdb_id %>" style="display:none">
+                                                    <span class="date"></span>
+                                                    <span class="title"><%=episodeData.title %></span>
+                                                    <span class="episode"><%=episodeData.episode %></span>
+                                                    <div class="overview"><%=episodeData.overview %></div>
+                                                </div>
+                                            </li>
+                                        <% }); %>
+                                </ul>
+                            </div><!--tab episode-->
+                        <% }); %>
+                    </div><!--End tabs container-->
+                </div><!--End tabs-->
+            </div>
+        </div>
 
     </script>
 
@@ -497,7 +515,7 @@
 
                                 if (Settings.subtitle_language == key) 
                                     sub_langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
-                                else 
+                                else
                                     sub_langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
                             }
                         }

@@ -7,19 +7,20 @@
         className: 'shows-container-contain',
 
         ui: {
-            tabsContainer: "#tabs_container div",
-            seasonsList: "#tabs_season li"
+            startStreaming: ".startStreaming"
         },
+
         events: {
             'click .startStreaming': 'startStreaming',
             'click .tv-container-close': 'closeDetails',
-            'click #tabs_season li.seasonSwitch a': 'clickTab'
+            'click #tabs_season li': 'clickTab',
+            'click .episodeData': 'clickEpisode',
         },
 
         onShow: function() {
-            this.ui.seasonsList.first().attr("id","current_season"); // Activate first tab
-            this.ui.tabsContainer.fadeOut(); // hide all tabs tabs_container
-            this.ui.tabsContainer.first().fadeIn(); // Show first tab tabs_container   
+
+            this.selectSeason($("#tabs_season li").first("li"));
+            
             $(".filter-bar").hide();    
 
              var background = $(".tv-poster-background").attr("data-bgr");
@@ -63,23 +64,49 @@
 
         closeDetails: function(e) {
             e.preventDefault();
-			App.vent.trigger('show:closeDetail'); 
-            $(".filter-bar").show(); 	
+            App.vent.trigger('show:closeDetail'); 
+            $(".filter-bar").show();    
         },
 
         clickTab: function(e) {
             e.preventDefault();
-            if ($(e.currentTarget).attr("id") != "current_season"){           
-                this.ui.tabsContainer.hide(); //Hide all tabs_container
-                this.ui.seasonsList.attr("id",""); //Reset id's
-                $(e.currentTarget).parent().attr("id","current_season"); // Activate this
-                $( $(e.currentTarget).attr('href')).fadeIn(); // Show tabs_container for current tab
-            }
+            this.selectSeason($(e.currentTarget));
         },
 
+         clickEpisode: function(e) {
+            e.preventDefault();
+            this.selectEpisode($(e.currentTarget));
+         },
 
+         // Helper Function
+         selectSeason: function($elem) {
+            $('.tabs-episode').hide();
+            $('.tabs-episode').removeClass('current');
+            $('#tabs_season li').removeClass('active');
+            $('.epidoseSummary').removeClass('active');
+            $elem.addClass('active');
+            $("#"+$elem.attr('data-tab')).addClass('current').show();
+
+            this.selectEpisode($("#"+$elem.attr('data-tab')).find($( ".episodeData")).first());           
+         },
+
+         selectEpisode: function($elem) {
+            var tvdbid = $elem.attr('data-id');
+            var tvdbtorrent = $elem.attr('data-torrent');
+            $('.epidoseSummary').removeClass('active');
+            $elem.parent().addClass('active');
+            $(".episode-info-number").text($('.template-'+tvdbid+' .episode').html());
+            $(".episode-info-title").text($('.template-'+tvdbid+' .title').html());
+            $(".episode-info-date").text($('.template-'+tvdbid+' .date').html());
+            $(".episode-info-description").text($('.template-'+tvdbid+' .overview').html());
+            $(".movie-btn-watch-episode").attr("data-torrent", tvdbtorrent);
+            $(".movie-btn-watch-episode").attr("data-episodeid", tvdbid);
+
+            this.ui.startStreaming.show();            
+         }
 
     });
 
     App.View.ShowDetail = ShowDetail;
 })(window.App);
+    
