@@ -70,7 +70,8 @@
                     episode: episode,
                     season: season,
                     title: title,
-                    extract_subtitle: epInfo
+                    extract_subtitle: epInfo,
+                    defaultSubtitle: Settings.subtitle_language
             });
 
             App.vent.trigger('stream:start', torrentStart);
