@@ -20,7 +20,7 @@
 
         initialize: function() {
             this.filter = new App.Model.Filter({
-                genres: App.Config.genres,
+                genres: App.Config.genres_tv,
                 sorters: App.Config.sorters_tv
             });
 

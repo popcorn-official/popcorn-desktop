@@ -45,6 +45,36 @@
             'name'
         ],
 
+        genres_tv: [
+            "all",
+            "action",
+            "adventure",
+            "animation",
+            "children",
+            "comedy",
+            "crime",
+            "documentary",
+            "drama",
+            "family",
+            "fantasy",
+            "game show",
+            "home and garden",
+            "horror",
+            "mini series",
+            "mystery",
+            "news",
+            "reality",
+            "romance",
+            "science fiction",
+            "soap",
+            "special interest",
+            "sport",
+            "suspense",
+            "talk show",
+            "thriller",
+            "western"
+        ],
+
         cache: {
             name: 'cachedb',
             version: '1.5',

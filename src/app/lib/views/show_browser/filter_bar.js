@@ -12,7 +12,8 @@
             genreValue: '.genres .value'
         },
         events: {
-            'submit @ui.searchForm': 'search',            
+            'submit @ui.searchForm': 'search',         
+            'click .genres .dropdown-menu a': 'changeGenre',   
             'click .sorters .dropdown-menu a': 'sortBy',
             'click .showMovies': 'showMovies',
             'click .showShows': 'showShows',
@@ -54,6 +55,19 @@
             this.model.set({
                 keyword: '',
                 sorter: sorter
+            });
+        },
+
+        changeGenre: function(e) {
+            this.$('.genres .active').removeClass('active');
+            $(e.target).addClass('active');
+
+            var genre = $(e.target).attr('data-value');
+            this.ui.genreValue.text(i18n.__((genre.capitalizeEach())));
+
+            this.model.set({
+                keyword: '',
+                genre: genre.capitalizeEach()
             });
         },
 

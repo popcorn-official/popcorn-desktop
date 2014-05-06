@@ -260,6 +260,9 @@
                 if(data.sorter == "updated") sort = {last_updated: -1};
                 if(data.sorter == "name") sort = {title: 1};
             }
+            if(data.genre && data.genre != "all") {
+                query = {genres : data.genre}
+            }
                 
             db.tvshows.find(query).sort(sort).skip(offset).limit(byPage).exec(cb);
                
