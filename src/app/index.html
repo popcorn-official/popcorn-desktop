@@ -397,7 +397,7 @@
                                                 
                                                 var first_aired = '';
                                                 if (typeof episodeData.first_aired != 'undefined')
-                                                    first_aired = moment.unix(episodeData.first_aired).format();
+                                                    first_aired = moment.unix(episodeData.first_aired).format("Do MMM YY");
 
                                             %>                                
                                             <li class="epidoseSummary">
