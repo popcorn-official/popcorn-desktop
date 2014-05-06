@@ -772,6 +772,10 @@ App.Localization.langcodes = {
 		"name":"Portuguese (Brazil)",
 		"nativeName":"Português (Brasil)"
 	},
+	"pt-br":{
+		"name":"Portuguese (Brazil)",
+		"nativeName":"Português (Brasil)"
+	},
 	"qu":{
 		"name":"Quechua",
 		"nativeName":"Runa Simi"
