@@ -402,12 +402,12 @@
                                             %>                                
                                             <li class="epidoseSummary">
                                                 <a href="#" class="episodeData" data-id="<%=episodeData.tvdb_id %>" data-torrent='<%=episodeData.torrents[0].url %>'>
-                                                <span><%=episodeData.episode %></span> <span><%=episodeData.title %></span></a>
+                                                <span><%=episodeData.episode %></span> <span><%=(episodeData.title.length > 30) ? episodeData.title.substr(0,30)+"..." : episodeData.title %></span></a>
                                                 <span id="watched-<%=episodeData.season %>-<%=episodeData.episode %>" class="watched-false"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
 
                                                 <!-- hidden template so we can save a DB query -->
                                                 <div class="template-<%=episodeData.tvdb_id %>" style="display:none">
-                                                    <span class="title"><%=episodeData.title %></span>
+                                                    <span class="title"><%=(episodeData.title.length > 40) ? episodeData.title.substr(0,40)+"..." : episodeData.title %></span>
                                                     <span class="date"><%=first_aired %></span>
                                                     <span class="season"><%=episodeData.season %></span>
                                                     <span class="episode"><%=episodeData.episode %></span>
