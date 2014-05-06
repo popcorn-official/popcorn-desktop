@@ -27,7 +27,7 @@ var detectLanguage = function(preferredLanguage) {
 
 
 
-    // This is a hack to translate non-templated UI elements. Fuck it.
+    // This is a hack to translate non-templated UI elements.
     $('[data-translate]').each(function(){
         var $el = $(this);
         var key = $el.data('translate');
