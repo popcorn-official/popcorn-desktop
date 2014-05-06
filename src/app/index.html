@@ -397,7 +397,7 @@
                                                 
                                                 var first_aired = '';
                                                 if (typeof episodeData.first_aired != 'undefined')
-                                                    first_aired = new Date(episodeData.first_aired * 1000);
+                                                    first_aired = moment.unix(episodeData.first_aired).format();
 
                                             %>                                
                                             <li class="epidoseSummary">

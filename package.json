@@ -45,7 +45,8 @@
     "read-torrent": "1.0.x",
     "nedb": "~0.10.5",
     "opensrt_js": ">=0.0.5",
-    "mime": "^1.2.11"
+    "mime": "^1.2.11",
+    "moment": "^2.6.0"
   },
   "devDependencies": {
     "grunt": "0.4.4",

@@ -33,7 +33,9 @@ var
     i18n = require("i18n"),
 
     // Mime type parsing
-    mime = require('mime');
+    mime = require('mime'),
+
+    moment = require('moment');
 
 // Global App skeleton for backbone
 var App = new Backbone.Marionette.Application();
