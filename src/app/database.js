@@ -260,7 +260,7 @@
                 if(data.sorter == "updated") sort = {last_updated: -1};
                 if(data.sorter == "name") sort = {title: 1};
             }
-            if(data.genre && data.genre != "all") {
+            if(data.genre && data.genre != "All") {
                 query = {genres : data.genre}
             }
                 
@@ -280,6 +280,22 @@
                     });
                 });
             });
+        },
+        // Test Method to get list of Genres, never called in production
+        getGenres: function() {
+            db.tvshows.find({}, function(err, shows){
+                var genres = [];
+                async.each(shows, function(show, cb) {
+                    for(var g in show.genres) {
+                        var genre = show.genres[g];
+                        if(genres.indexOf(genre) == -1) genres.push(genre);
+                    }
+                    cb();
+                },
+                function(err, res){
+                    console.log(genres.sort());
+                })
+            })
         },
 
         initialize : function(callback){
