@@ -108,12 +108,10 @@
                     timer = 0;
                 }
 
-                $('.details-player').fadeIn('slow');
-                $('.player-title').fadeIn('slow')
-                    playerid.style.cursor = "auto";
+                $('.player-header-background').fadeIn('slow');
+                playerid.style.cursor = "auto";
                 timer = setTimeout(function() {
-                    $('.details-player').fadeOut('slow')
-                     $('.player-title').fadeOut('slow')
+                    $('.player-header-background').fadeOut('slow');
                     playerid.style.cursor = "none";
                 }, 2000) // roughly the time that the player's bottom bar fades out
             })

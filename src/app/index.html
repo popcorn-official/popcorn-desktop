@@ -1,691 +1,635 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap-theme.css">
-    <link rel="stylesheet" type="text/css" href="css/video-js.css">
-    <link rel="stylesheet" type="text/css" href="css/app.css">
-  </head>
-  <body>
-    <div class="main-window-region"></div>
-
-    <script id="movie-error-tpl" type="text/x-template">
-      <h2 class="error"><%= error %></h2>
-    </script>
-
-    <script id="movie-item-tpl" type="text/x-template">
-        <img class="cover-image" src="<%= image %>" style="display: none" />
-        <div class="cover">
-            <div class="cover-overlay">
-                <div id="favorites_icon" class="actions-favorites"></div>
-            </div>
-        </div>
-
-        <p class="title" title="<%= title %>"><%= title %></p>
-        <p class="year"><%= year %></p>
-    </script>
-
-    <script id="show-item-tpl" type="text/x-template">
-        <img class="cover-image" src="<%= images.poster %>" style="display: none" />
-        <div class="cover">
-            <div class="cover-overlay">
-            <div id="favorites_icon" class="actions-favorites"></div>
-        </div>
-
-        <p class="title" title="<%= title %>"><%= title %></p>
-        <p class="year"><%= year %></p>
-        <% if(num_seasons == undefined) var num_seasons = 0 %>
-        <p class="seasons"><%= num_seasons %> <%= num_seasons == 1 ? i18n.__("Season") : i18n.__("Seasons") %></p>
-    </script>
-
-    <script id="favorite-item-tpl" type="text/x-template">
-        <img class="cover-image" src="<%= image %>" style="display: none" />
-        <div class="cover">
-            <div class="cover-overlay">
-            <div id="favorites_icon" class="actions-favorites"></div>
-        </div>
-
-        <p class="title" title="<%= title %>"><%= title %></p>
-        <p class="year"><%= year %></p>
-    </script>    
-
-    <script id="movie-list-tpl" type="text/x-template">
-        <div class="spinner">
-          <div class="spinner-image"></div>
-        </div>
-        <div class="movies"></div>
-    </script>
-
-    <script id="show-list-tpl" type="text/x-template">
-        <div class="spinner">
-          <div class="spinner-image"></div>
-        </div>
-        <div class="shows"></div>
-    </script>   
-
-
-    <script id="favorite-list-tpl" type="text/x-template">
-        <div class="spinner">
-          <div class="spinner-image"></div>
-        </div>
-        <div class="bookmarks"></div>
-    </script>        
-
-    <script id="main-window-tpl" type="text/x-template">
-        <header id="header"></header>
-        <div id="notification"></div>
-        <div id="changelog-container"></div>
-        <div id="disclaimer-container"></div>
-        <div id="content"></div>
-        <div id="settings-container"></div>
-        <div id="movie-detail"></div>
-        <div id="player"></div>
-    </script>
-
-    <script id="movie-browser-tpl" type="text/x-template">
-        <div class="blur-header"></div>
-        <div class="filter-bar-region"></div>
-        <div class="movie-list-region"></div>
-    </script>
-
-    <script id="show-browser-tpl" type="text/x-template">
-        <div class="blur-header"></div>
-        <div class="filter-bar-region"></div>
-        <div class="show-list-region"></div>
-    </script>   
-
-    <script id="favorite-browser-tpl" type="text/x-template">
-        <div class="blur-header"></div>
-        <div class="filter-bar-region"></div>
-        <div class="favorite-list-region"></div>
-    </script>        
-
-    <script id="changelog-tpl" type="text/x-template">
-        <a class="btn-close"><img src="/images/close.svg" width="50" /></a>
-        <h1><%= title %></h1>
-        <h3><%= description %></h3>
-        <ul>
-        <% for(var i = 0; i < changeLog.length; i++) { %>
-          <li><%= changeLog[i] %></li>
-        <% } %>
-        </ul>
-    </script>
-
-    <script id="disclaimer-tpl" type="text/x-template">
-        <div class="loading-background"></div>
-        <div class="loading-background-overlay"></div>
-
-        <div class="state">
-            <h1>PUT DISCLAIMER HERE</h1>
-
-            <a class="btn-accept">I accept</a>
-             - 
-            <a class="btn-close">I refuse</a>
-        </div>        
-    </script>    
-
-    <script id="filter-bar-movie-tpl" type="text/x-template">
-        <ul class="nav nav-hor left">
-          <li class="source active showMovies"><%= i18n.__("Movies") %></li>
-          <li class="source showShows"><%= i18n.__("TV Series") %></li>
-        </ul>
-        <ul id="nav-filters" class="nav nav-hor filters">
-          <li class="dropdown filter genres">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-              <%= i18n.__("Genre") %><span class="value"><%= i18n.__(genre.capitalizeEach()) %></span>
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <% _.each(genres, function(c) { %>
-                    <li><a href="#" data-value="<%= c %>"><%= i18n.__(c.capitalizeEach()) %></a></li>
-                <% }); %>
-            </ul>
-          </li>
-          <li class="dropdown filter sorters">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-              <%= i18n.__("Sort by") %><span class="value"><%= i18n.__(sorter.capitalizeEach()) %></span>
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <% _.each(sorters, function(c) { %>
-                    <li><a href="#" data-value="<%= c %>"><%= i18n.__(c.capitalizeEach()) %></a></li>
-                <% }); %>
-            </ul>
-          </li>
-        </ul>
-        <ul class="nav nav-hor right">
-          <li>
-            <div class="right search">
-              <form><input type="text" placeholder="<%= i18n.__("Search") %>"></input></form>
-            </div>
-          </li>
-          <li><button class="favorites"></button></li>
-          <li><button class="settings"></button></li>
-        </ul>
-    </script>
-
-    <script id="filter-bar-show-tpl" type="text/x-template">
-        <ul class="nav nav-hor left">
-          <li class="source showMovies"><%= i18n.__("Movies") %></li>
-          <li class="source active showShows"><%= i18n.__("TV Series") %></li>
-        </ul>
-        
-        <ul id="nav-filters" class="nav nav-hor filters">
-          <li class="dropdown filter genres">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-              <%= i18n.__("Genre") %><span class="value"><%= i18n.__((genre.capitalizeEach())) %></span>
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <% _.each(genres, function(c) { %>
-                    <li><a href="#" data-value="<%= c %>"><%= i18n.__((c.capitalizeEach())) %></a></li>
-                <% }); %>
-            </ul>
-          </li>
-          <li class="dropdown filter sorters">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-              <%= i18n.__("Sort by") %><span class="value"><%= i18n.__((sorter.capitalizeEach())) %></span>
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <% _.each(sorters, function(c) { %>
-                    <li><a href="#" data-value="<%= c %>"><%= i18n.__((c.capitalizeEach())) %></a></li>
-                <% }); %>
-            </ul>
-          </li>
-        </ul>
-        <ul class="nav nav-hor right">
-          <li>
-            <div class="right search">
-              <form><input type="text" placeholder="<%= i18n.__("Search") %>"></input></form>
-            </div>
-          </li>
-          <li><button class="favorites"></button></li>
-          <li><button class="settings"></button></li>
-        </ul>
-    </script>
-
-    <script id="filter-bar-favorite-tpl" type="text/x-template">
-        <ul class="nav nav-hor left">
-          <li class="source showMovies"><%= i18n.__("Movies") %></li>
-          <li class="source showShows"><%= i18n.__("TV Series") %></li>
-        </ul>
-        
-        <ul class="nav nav-hor right">
-          <!-- TODO: Add active class -->
-          <li><button class="favorites active"></button></li>
-          <li><button class="settings"></button></li>
-        </ul>
-    </script>    
-
-    <script id="header-tpl" type="text/x-template">
-        <nav class="btn-set <%= process.platform %>">
-
-            <% _.each(getButtons(), function(button) { %>
-                <button class="btn-os os-<%= button %>"></button>
-            <% }); %>
-        </nav>
-
-        <nav class="btn-set fs-<%= process.platform %>">
-            <button class="btn-os fullscreen"></button>
-        </nav>
-        <h1>Popcorn Time</h1>
-    </script>
-
-
-
-    <script id="error-message-tpl" type="text/x-template">
-       
-    </script>
-
-    <script  id="movie-detail-tpl" type="text/x-template">
-        <div class="movie-detail">
-            <div class="detail-window">
-                <div id="movie-backdrop" data-bgr="<%= backdrop %> " class="movie-backdrop"></div>
-                <div class="movie-backdrop-overlay"></div>
-                <img class="movie-cover-image" src="<%= image %>" />
-                <div class="sperator-movie"></div>
-                <div class="movie-meta-title"><%= title %></div>
-                <ul class="movie-quick-info">
-           
-                    <div class="movie-meta-details"><%= year %></div>
-                    <div class="movie-dot"></div>
-                    <% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
-                    <div class="movie-meta-details"><%= runtime %> min</div>
-                    <div class="movie-dot"></div>
-
-                    <% var p_rating = Math.round(rating) / 2; %>
-
-                    <div data-toggle="tooltip" data-placement="left" title="Health <%= health %>" class="health-icon Excellent"></div>
-
-                    <div data-toggle="tooltip" data-placement="right" title="<%= p_rating %> stars" class="star-container">
-                        <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
-                            <div class="rating-star full"></div>
-                        <% }; %>
-                        <% if (p_rating % 1 > 0) { %>
-                            <div class="rating-star half"></div>
-                        <% }; %>
-                        <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
-                            <div class="rating-star null"></div>
-                        <% }; %>
-                    </div>
-
-                </ul>
-                <div class="movie-overview-container">
-                    <div class="movie-meta-overview"><%= synopsis %></div> 
-                </div>
-                <div class="movie-detail-close"></div>
-
-                <div class="movie-controlls-container">
-
-                    <div class="movie-btn-watch"><div class="movie-watch-now"><%= i18n.__("Watch Now") %></div></div>
-
-                    <div class="movie-btn-watch-trailer">
-                        <div class="movie-watch-now"><%= i18n.__("Watch Trailer") %></div>
-                    </div>
-                    <div class="movie-quality-container">
-                        <% if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {  %>
-
-                            <div class="q720">720</div>
-                            <div class="q1080">1080</div>
-                            <div class="quality switch white">
-                                <input type="radio" name="switch" id="switch-hd-off" >
-                                <input type="radio" name="switch" id="switch-hd-on" checked >
-
-
-                                <span class="toggle"></span>
-                            </div> 
-                        <% } else { %>
-                               <div class="q720"><% if (torrents['720p'] !== undefined) { %>720p<% }else { %><% if (torrents['1080p'] !== undefined) { %>1080p<% }} %> </div>
-                        <% } %>
-                    </div>
-
-                    <div class="sub-dropdown"><%= i18n.__("Subtitles") %><div id="toggle-sub-dropdown" class="flag toggle NA selected-lang"></div>
-                    <div id="toggle-sub-dropdown-arrow" class="sub-dropdown-arrow-down"></div> <div class="sub-dropdown-arrow-up"></div> </div> 
-           
-                    <div class="flag-container"> 
-                        <% for(var k in subtitle){ %>
-                        <div id="sub-flag-icon" class="flag <%= k %>" data-lang="<%= k %>"></div>
-                        <% } %> 
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </script>
-
-    <script  id="show-detail-tpl" type="text/x-template">
-        <div class="tv-container-close"></div>
-        <div class="tv-poster">
-        <div class="tv-poster-overlay"></div>
-        <div data-bgr="<%= images.fanart %>" class="tv-poster-background"></div>
-        <div style="background-image:url(<%= images.poster %>);" class="tv-cover"></div>
-        
-        <div class="tv-meta-data">
-        <div class="tv-title"><%= title %></div>
-        <div class="tv-duration"><%= year %></div>
-        <div class="tv-dot"></div>
-        <div class="tv-genre"><%= runtime %> min</div>
-        <div class="tv-dot"></div>
-        <div class="tv-num-episodes"> <%= genres[0]  %></div>
-    
-        <div class="tv-dot"></div>
-        
-        <%  p_rating = Math.round(rating.percentage) / 20; // Roundoff number to nearest 0.5 %>
-        <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
-            <div class="tv-rating-star full"></div>
-        <% }; %>
-        <% if (p_rating % 1 > 0) { %>
-            <div class="tv-rating-star half"></div>
-        <% }; %>
-        <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
-            <div class="tv-rating-star null"></div>
-        <% }; %>
-        <% if (synopsis.length > 776) { var synopsis = synopsis.substring(0, 776) + "..."; } %>
-            <div class="tv-overview"><%= synopsis %></div>
-            
-        </div>
-        </div>
-        
-        <div class="episode-base">
-            <div class="episode-info">
-                <div class="episode-info-title"></div>
-                <div class="episode-info-number"></div>
-                <div class="episode-info-date"></div>
-                <div class="episode-info-description"></div>
-                <div class="movie-btn-watch-episode startStreaming" data-torrent='' data-episodeid=''>
-                    <div class="movie-watch-now"><%= i18n.__("Watch Now") %></div>
-                </div>
-            </div>
-            <div class="display-base-title">
-                <div class="episode-list-text"><%= i18n.__("Seasons") %></div>
-                <div class="episode-list-text"><%= i18n.__("Episodes") %></div>
-                
-            </div>
-            <div class="season-episode-container">
-                <!-- <div class="season-ep-bar"></div> -->
-                <div>
-
-                    <ul id="tabs_season">
-                         <%
-                        // to be updated i dont find it really elegant
-                        // i'll build a compatible torrent array with our episodes content
-                        var torrents = {};
-                        _.each(episodes, function(value, currentEpisode) {
-                            if (!torrents[value.season]) torrents[value.season] = {};
-                            torrents[value.season][value.episode] = value;
-                        });
-                        %>
-
-                        <% _.each(torrents, function(value, season) { %>
-                            <li data-tab="season-<%=season %>">
-                                <a><%= i18n.__("Season") %>&nbsp;<%=season %></a>
-                            </li>
-                        <% }); %>
-                    </ul>
-                    <div id="tabs_episode_base">
-                        <% _.each(torrents, function(value, season) { %>
-
-                            <div id="season-<%=season %>"  class="tabs-episode">
-                                <ul>
-
-                                        <% _.each(value, function(episodeData, episode) { 
-
-                                                // TODO: Give some love to the date format
-                                                // Perhaps use moment.js ?
-                                                
-                                                var first_aired = '';
-                                                if (typeof episodeData.first_aired != 'undefined')
-                                                    first_aired = moment.unix(episodeData.first_aired).lang(Settings.language).format("LLLL").capitalizeEach();
-
-                                            %>                                
-                                            <li class="epidoseSummary" data-id="<%=episodeData.tvdb_id %>" data-torrent='<%=episodeData.torrents[0].url %>'>
-                                                <a href="#" class="episodeData">
-                                                    <span><%=episodeData.episode %></span> 
-                                                    <div><%=episodeData.title %></div>
-                                                </a>
-                                                <span id="watched-<%=episodeData.season %>-<%=episodeData.episode %>" class="watched-false"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
-
-                                                <!-- hidden template so we can save a DB query -->
-                                                <div class="template-<%=episodeData.tvdb_id %>" style="display:none">
-                                                    <span class="title"><%=episodeData.title %></span>
-                                                    <span class="date"><%=first_aired %></span>
-                                                    <span class="season"><%=episodeData.season %></span>
-                                                    <span class="episode"><%=episodeData.episode %></span>
-                                                    <div class="overview"><%=episodeData.overview %></div>
-                                                </div>
-                                            </li>
-                                        <% }); %>
-                                </ul>
-                            </div><!--tab episode-->
-                        <% }); %>
-                    </div><!--End tabs container-->
-                </div><!--End tabs-->
-            </div>
-        </div>
-
-    </script>
-
-    <script id="player-tpl" type="text/x-template">
-        <div class="player-title"><%= title %></div> 
-            <div class="details-player">
-                <span class="close-info-player"></span>
-                <div class="download-info-player">
-                    <div class="eye-info-player"></div>
-                    <div class="details-info-player">
-                        <div class="arrow-up"></div>
-                        <span class="speed-info-player"><%= i18n.__("Download") %>:&nbsp;</span><span class="download_speed_player"></span>
-                        <span class="speed-info-player"><%= i18n.__("Upload") %>:&nbsp;</span><span class="upload_speed_player"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="player-header-background"></div>
-        <%
-            var subArray = [];
-            for (var lang in subtitle) {
-                subArray.push({
-                    'language': lang,
-                    'languageName': App.Localization.langcodes[lang].nativeName,
-                    'sub': subtitle[lang]
-                });
-            }
-            subArray.sort(function (sub1, sub2) {
-                return sub1.language > sub2.language;
-            });
-            var subtracks = '';
-
-            var defaultSub = 'none';
-            if (typeof defaultSubtitle != 'undefined') {
-                defaultSub = defaultSubtitle;
-            }
-            for(var index in subArray ) {
-                var imDefault = '';
-
-                if(defaultSub == subArray[index].language) 
-                    imDefault = 'default';
-                
-                subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" '+  imDefault +' />';
-            }
-
-        %>
-        <video id="video_player" width="100%" height="100%" class="video-js vjs-default-skin vjs-big-play-centered" controls preload autoplay >
-            <source src="<%= src %>" type="<%= type %>" />
-            <%=subtracks%>
-        </video>
-    </script>
-
-    <script id="settings-container-tpl" type="text/x-template">
-        <div class="settings-container">
-            <div class="settings-container-close"></div>
-            <div class="settings-container-sidebar">
-                    <div class="settings-container-title"><%= i18n.__("Settings") %></div>
-                    <div class="settings-container-sidebar-subtitles-options"><%= i18n.__("Subtitles") %></div>
-                    <div class="settings-container-sidebar-UI-options"><%= i18n.__("User Interface") %></div>
-                    <div class="settings-container-sidebar-more-options"><%= i18n.__("More Options") %></div>
-            </div>
-            <div class="settings-container-settings-content">
-
-                <div class="success_alert" style="display:none"><%= i18n.__("Saved") %><span id="checkmark-notify"><div id="stem-notify"></div><div id="kick-notify"></div></span></div>
-
-                <div class="settings-seperater subtitles"> </div>
-
-                <!-- TODO: give some love -->
-                
-
-                <div class="dropdown subtitles-language">
-                    <p><%= i18n.__("Default Language") %>:</p>
-                    <%
-
-                        var langs = '';
-                        for(var key in App.Localization.languages) {
-                            
-                            if (typeof App.Localization.languages[key].display != 'undefined') {
-                                if (Settings.language == key) 
-                                    langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
-                                else 
-                                    langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
-                            }
-                        }
-                            
-                    %>
-                    <select name="language"><%=langs%></select>
-
-                    <div class="dropdown-arrow"></div>
-                </div>
-
-                <div class="dropdown subtitles-language-defualt">
-                    <p><%= i18n.__("Default Subtitle") %>:</p>
-                    <%
-
-                        var sub_langs = '';
-                        if (Settings.subtitle_language == 'none') 
-                            sub_langs += "<option selected='selected' value='none'>" + i18n.__('Disabled') + "</option>";
-                        else 
-                            sub_langs += "<option value='none'>" + i18n.__('Disabled') + "</option>";
-
-                        for(var key in App.Localization.languages) {
-                            
-                            if (typeof App.Localization.languages[key].subtitle != 'undefined' && App.Localization.languages[key].subtitle == true) {
-
-                                if (Settings.subtitle_language == key) 
-                                    sub_langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
-                                else
-                                    sub_langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
-                            }
-                        }
-                            
-                    %>
-                    <select name="subtitle_language"><%=sub_langs%></select>
-
-                    <div class="dropdown-arrow"></div>
-                </div>
-
-                <br/><br/>                 
-                 <div>
-                    <p><%= i18n.__("TV Show API Endpoint") %>:</p>
-                    <input type="text" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
-                 </div>
-                 <br/><br/>
-
-                <button style="color:#fff" class="rebuild-tvshows-database">Rebuild TV Shows Database</button>
-
-                <br/><br/>
-
-                <button style="color:#fff" class="flush-bookmarks">Flush bookmarks database</button>
-
-                <br/><br/>
-
-                <button style="color:#fff" class="flush-databases">Flush all databases</button>                
-
-            </div>
-        </div>
-
-    </script>
-
-
-
-    <script id="loading-tpl" type="text/x-template">
-    <div class="loading">
-        <div style="background-image:url( <%= backdrop %> )" class="loading-background"></div>
-        <div class="loading-background-overlay"></div>
-           
-        <div class="state">
-
-            <!-- download -->
-            <div class="text_download"><%= i18n.__(state) %></div>
-            
-
-            <div class="seed_status" style="display:none">
-
-                <!-- loading bar -->
-                <div class="loading-progressbar">
-                  <div id="loadingbar-contents"></div>
-                </div>
-
-                <!-- Active Peers -->
-                <div class="value_peers"></div>
-                <div class="text_peers"><%= i18n.__("Peers") %> - </div>
-                
-                <!-- Total Seeds 
-                <div class="text_seeds"><%= i18n.__("Seeds") %></div>
-                <div class="value_seeds"></div> 
-                -->
-
-                <div class="download_speed"></div>
-                <div class="value_download"></div>
-                <div class="download_percent"></div>
-                
-            </div>  
-           <div class="loading-cancel"><div class="loading-cancel-text"><%= i18n.__("Cancel") %></div></div>
-            </div>
-        </div>
-        </div>
-    </script>
-
-    <script id="initializing-tpl" type="text/x-template">
-
-        <div class="loading-background"></div>
-        <div class="loading-background-overlay"></div>
-
-        <div class="state">
-            <%= i18n.__("Initializing PopcornTime. Please Wait...") %>
-        </div>
-    </script>
-
-    <!-- 3rd party Dependencies -->
-    <script src="vendor/jquery/dist/jquery.js"></script>
-    <script src="vendor/underscore/underscore.js"></script>
-    <script src="vendor/backbone/backbone.js"></script>
-    <script src="vendor/backbone.wreqr/lib/backbone.wreqr.js"></script>
-    <script src="vendor/backbone.babysitter/lib/backbone.babysitter.js"></script>
-    <script src="vendor/marionette/lib/backbone.marionette.js"></script>
-    <script src="vendor/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="vendor/mousetrap/mousetrap.min.js"></script>
-    <script src="vendor/video.js-popcorn/dist/video-js/video.dev.js"></script>
-
-    <!-- Other dependencies -->
-    <script src="vendor/videojsplugins.js"></script>
-    <script src="vendor/dragwindow.js"></script>
-    <script src="vendor/videojs-youtube/src/youtube.js"></script>
-
-    <!-- App Initialization -->
-    <script src="database.js"></script>
-    <script src="settings.js"></script>
-
-    <script src="app.js"></script>
-    <script src="lib/config.js"></script>
-
-    <script src="updater.js"></script>
-    <script src="language.js"></script>
-    <script src="lib/streamer.js"></script>
-
-    <!-- Backbone Models -->
-    <script src="lib/models/filter.js"></script>
-    <script src="lib/models/movie.js"></script>
-    <script src="lib/models/movie_collection.js"></script>
-    <script src="lib/models/stream_info.js"></script>
-    <script src="lib/models/show_collection.js"></script>
-    <script src="lib/models/favorite_collection.js"></script>
-
-    <!-- Data Sources -->
-    <script src="lib/cache.js"></script>
-    <script src="lib/providers/cache_provider.js"></script>
-    <script src="lib/providers/ysubs.js"></script>
-    <script src="lib/providers/trakttv.js"></script>
-    <script src="lib/providers/yts.js"></script>
-    <script src="lib/providers/tvshows.js"></script>
-    <script src="lib/providers/favorites.js"></script>
-
-    <!-- Backbone Views and Controllers -->
-    <script src="lib/views/title_bar.js"></script>
-    <script src="lib/views/main_window.js"></script>
-
-    <script src="lib/views/movie_detail.js"></script>
-    <script src="lib/views/show_detail.js"></script>
-
-    <script src="lib/views/settings.js"></script>
-    <script src="lib/views/init_modal.js"></script>
-    <script src="lib/views/disclaimer.js"></script>
-    <script src="lib/views/player/loading.js"></script>
-    <script src="lib/views/player/player.js"></script>
-
-    <script src="lib/views/movie_browser/movie_browser.js"></script>
-    <script src="lib/views/movie_browser/filter_bar.js"></script>
-    <script src="lib/views/movie_browser/movie_item.js"></script>
-    <script src="lib/views/movie_browser/movie_list.js"></script>
-
-    <script src="lib/views/show_browser/filter_bar.js"></script>
-    <script src="lib/views/show_browser/show_browser.js"></script>
-    <script src="lib/views/show_browser/show_item.js"></script>
-    <script src="lib/views/show_browser/show_list.js"></script>
-
-    <script src="lib/views/favorites/favorite_browser.js"></script>
-    <script src="lib/views/favorites/filter_bar.js"></script>
-    <script src="lib/views/favorites/favorite_item.js"></script>
-    <script src="lib/views/favorites/favorite_list.js"></script>    
-
-    <script src="bootstrap.js"></script>
-  </body>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap-theme.css">
+	<link rel="stylesheet" type="text/css" href="css/video-js.css">
+	<link rel="stylesheet" type="text/css" href="css/app.css">
+</head>
+<body>
+	<div class="main-window-region"></div>
+
+	<script id="movie-error-tpl" type="text/x-template">
+		<h2 class="error"><%= error %></h2>
+	</script>
+
+	<script id="movie-item-tpl" type="text/x-template">
+		<img class="cover-image" src="<%= image %>" style="display: none">
+		<div class="cover">
+			<div class="cover-overlay">
+				<div id="favorites_icon" class="actions-favorites"></div>
+			</div>
+		</div>
+
+		<p class="title" title="<%= title %>"><%= title %></p>
+		<p class="year"><%= year %></p>
+	</script>
+
+	<script id="show-item-tpl" type="text/x-template">
+		<img class="cover-image" src="<%= images.poster %>" style="display: none">
+		<div class="cover">
+			<div class="cover-overlay">
+			<div id="favorites_icon" class="actions-favorites"></div>
+		</div>
+
+		<p class="title" title="<%= title %>"><%= title %></p>
+		<p class="year"><%= year %></p>
+		<% if(num_seasons == undefined) var num_seasons = 0 %>
+		<p class="seasons"><%= num_seasons %> <%= num_seasons == 1 ? i18n.__("Season") : i18n.__("Seasons") %></p>
+	</script>
+
+	<script id="favorite-item-tpl" type="text/x-template">
+		<img class="cover-image" src="<%= image %>" style="display: none">
+		<div class="cover">
+			<div class="cover-overlay">
+			<div id="favorites_icon" class="actions-favorites"></div>
+		</div>
+
+		<p class="title" title="<%= title %>"><%= title %></p>
+		<p class="year"><%= year %></p>
+	</script>	
+
+	<script id="movie-list-tpl" type="text/x-template">
+		<div class="spinner">
+			<div class="spinner-image"></div>
+		</div>
+		<div class="movies"></div>
+	</script>
+
+	<script id="show-list-tpl" type="text/x-template">
+		<div class="spinner">
+			<div class="spinner-image"></div>
+		</div>
+		<div class="shows"></div>
+	</script>
+
+	<script id="favorite-list-tpl" type="text/x-template">
+		<div class="spinner">
+			<div class="spinner-image"></div>
+		</div>
+		<div class="bookmarks"></div>
+	</script>		
+
+	<script id="main-window-tpl" type="text/x-template">
+		<header id="header"></header>
+		<div id="notification"></div>
+		<div id="changelog-container"></div>
+		<div id="disclaimer-container"></div>
+		<div id="content"></div>
+		<div id="settings-container"></div>
+		<div id="movie-detail"></div>
+		<div id="player"></div>
+	</script>
+
+	<script id="movie-browser-tpl" type="text/x-template">
+		<div class="blur-header"></div>
+		<div class="filter-bar-region"></div>
+		<div class="movie-list-region"></div>
+	</script>
+
+	<script id="show-browser-tpl" type="text/x-template">
+		<div class="blur-header"></div>
+		<div class="filter-bar-region"></div>
+		<div class="show-list-region"></div>
+	</script>
+
+	<script id="favorite-browser-tpl" type="text/x-template">
+		<div class="blur-header"></div>
+		<div class="filter-bar-region"></div>
+		<div class="favorite-list-region"></div>
+	</script>		
+
+	<script id="changelog-tpl" type="text/x-template">
+		<a class="btn-close"><img src="/images/close.svg" width="50"></a>
+		<h1><%= title %></h1>
+		<h3><%= description %></h3>
+		<ul>
+			<% for(var i = 0; i < changeLog.length; i++) { %>
+			<li><%= changeLog[i] %></li>
+			<% } %>
+		</ul>
+	</script>
+
+	<script id="disclaimer-tpl" type="text/x-template">
+		<div class="loading-background"></div>
+		<div class="loading-background-overlay"></div>
+
+		<div class="state">
+			<h1>PUT DISCLAIMER HERE</h1>
+
+			<a class="btn-accept">I accept</a> - <a class="btn-close">I refuse</a>
+		</div>		
+	</script>	
+
+	<script id="filter-bar-movie-tpl" type="text/x-template">
+		<ul class="nav nav-hor left">
+			<li class="source active showMovies"><%= i18n.__("Movies") %></li>
+			<li class="source showShows"><%= i18n.__("TV Series") %></li>
+		</ul>
+		<ul id="nav-filters" class="nav nav-hor filters">
+			<li class="dropdown filter genres">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<%= i18n.__("Genre") %><span class="value"><%= i18n.__(genre.capitalizeEach()) %></span>
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<% _.each(genres, function(c) { %>
+					<li><a href="#" data-value="<%= c %>"><%= i18n.__(c.capitalizeEach()) %></a></li>
+					<% }); %>
+				</ul>
+			</li>
+			<li class="dropdown filter sorters">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<%= i18n.__("Sort by") %><span class="value"><%= i18n.__(sorter.capitalizeEach()) %></span>
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<% _.each(sorters, function(c) { %>
+					<li><a href="#" data-value="<%= c %>"><%= i18n.__(c.capitalizeEach()) %></a></li>
+					<% }); %>
+				</ul>
+			</li>
+		</ul>
+		<ul class="nav nav-hor right">
+			<li>
+				<div class="right search">
+					<form><input type="text" placeholder="<%= i18n.__("Search") %>"></form>
+				</div>
+			</li>
+			<li><button class="favorites"></button></li>
+			<li><button class="settings"></button></li>
+		</ul>
+	</script>
+
+	<script id="filter-bar-show-tpl" type="text/x-template">
+		<ul class="nav nav-hor left">
+			<li class="source showMovies"><%= i18n.__("Movies") %></li>
+			<li class="source active showShows"><%= i18n.__("TV Series") %></li>
+		</ul>
+		
+		<ul id="nav-filters" class="nav nav-hor filters">
+			<li class="dropdown filter genres">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<%= i18n.__("Genre") %><span class="value"><%= i18n.__((genre.capitalizeEach())) %></span>
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<% _.each(genres, function(c) { %>
+					<li><a href="#" data-value="<%= c %>"><%= i18n.__((c.capitalizeEach())) %></a></li>
+					<% }); %>
+				</ul>
+			</li>
+			<li class="dropdown filter sorters">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<%= i18n.__("Sort by") %><span class="value"><%= i18n.__((sorter.capitalizeEach())) %></span>
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<% _.each(sorters, function(c) { %>
+					<li><a href="#" data-value="<%= c %>"><%= i18n.__((c.capitalizeEach())) %></a></li>
+					<% }); %>
+				</ul>
+			</li>
+		</ul>
+		<ul class="nav nav-hor right">
+			<li>
+				<div class="right search">
+					<form><input type="text" placeholder="<%= i18n.__("Search") %>"></form>
+				</div>
+			</li>
+			<li><button class="favorites"></button></li>
+			<li><button class="settings"></button></li>
+		</ul>
+	</script>
+
+	<script id="filter-bar-favorite-tpl" type="text/x-template">
+		<ul class="nav nav-hor left">
+			<li class="source showMovies"><%= i18n.__("Movies") %></li>
+			<li class="source showShows"><%= i18n.__("TV Series") %></li>
+		</ul>
+		
+		<ul class="nav nav-hor right">
+			<!-- TODO: Add active class -->
+			<li><button class="favorites active"></button></li>
+			<li><button class="settings"></button></li>
+		</ul>
+	</script>	
+
+	<script id="header-tpl" type="text/x-template">
+		<nav class="btn-set <%= process.platform %>">
+			<% _.each(getButtons(), function(button) { %>
+			<button class="btn-os os-<%= button %>"></button>
+			<% }); %>
+		</nav>
+
+		<nav class="btn-set fs-<%= process.platform %>">
+			<button class="btn-os fullscreen"></button>
+		</nav>
+		<h1>Popcorn Time</h1>
+	</script>
+
+	<script id="error-message-tpl" type="text/x-template"></script>
+
+	<script id="movie-detail-tpl" type="text/x-template">
+		<div class="movie-detail">
+			<div class="detail-window">
+				<div id="movie-backdrop" data-bgr="<%= backdrop %>" class="movie-backdrop"></div>
+				<div class="movie-backdrop-overlay"></div>
+				<img class="movie-cover-image" src="<%= image %>" />
+				<div class="sperator-movie"></div>
+				<div class="movie-meta-title"><%= title %></div>
+				<ul class="movie-quick-info">
+					<div class="movie-meta-details"><%= year %></div>
+					<div class="movie-dot"></div>
+					<% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
+					<div class="movie-meta-details"><%= runtime %> min</div>
+					<div class="movie-dot"></div>
+
+					<% var p_rating = Math.round(rating) / 2; %>
+
+					<div data-toggle="tooltip" data-placement="left" title="Health <%= health %>" class="health-icon Excellent"></div>
+
+					<div data-toggle="tooltip" data-placement="right" title="<%= p_rating %> stars" class="star-container">
+						<% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
+							<div class="rating-star full"></div>
+						<% }; %>
+						<% if (p_rating % 1 > 0) { %>
+							<div class="rating-star half"></div>
+						<% }; %>
+						<% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
+							<div class="rating-star null"></div>
+						<% }; %>
+					</div>
+				</ul>
+				
+				<div class="movie-overview-container">
+					<div class="movie-meta-overview"><%= synopsis %></div> 
+				</div>
+				
+				<div class="movie-detail-close"></div>
+
+				<div class="movie-controlls-container">
+
+					<div class="movie-btn-watch"><div class="movie-watch-now"><%= i18n.__("Watch Now") %></div></div>
+
+					<div class="movie-btn-watch-trailer">
+						<div class="movie-watch-now"><%= i18n.__("Watch Trailer") %></div>
+					</div>
+					
+					<div class="movie-quality-container">
+						<% if (torrents["720p"] !== undefined && torrents["1080p"] !== undefined) { %>
+							<div class="q720">720</div>
+							<div class="q1080">1080</div>
+							<div class="quality switch white">
+								<input type="radio" name="switch" id="switch-hd-off" >
+								<input type="radio" name="switch" id="switch-hd-on" checked >
+								<span class="toggle"></span>
+							</div> 
+						<% } else { %>
+							<div class="q720"><% if (torrents["720p"] !== undefined) { %>720p<% }else { %><% if (torrents["1080p"] !== undefined) { %>1080p<% }} %> </div>
+						<% } %>
+					</div>
+
+					<div class="sub-dropdown"><%= i18n.__("Subtitles") %><div id="toggle-sub-dropdown" class="flag toggle NA selected-lang"></div>
+					<div id="toggle-sub-dropdown-arrow" class="sub-dropdown-arrow-down"></div> <div class="sub-dropdown-arrow-up"></div> </div> 
+
+					<div class="flag-container"> 
+						<% for(var k in subtitle){ %>
+						<div id="sub-flag-icon" class="flag <%= k %>" data-lang="<%= k %>"></div>
+						<% } %> 
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>
+
+	<script id="show-detail-tpl" type="text/x-template">
+		<div class="tv-container-close"></div>
+		<div class="tv-poster">
+			<div class="tv-poster-overlay"></div>
+			<div data-bgr="<%= images.fanart %>" class="tv-poster-background"></div>
+			<div style="background-image:url(<%= images.poster %>);" class="tv-cover"></div>
+			
+			<div class="tv-meta-data">
+				<div class="tv-title"><%= title %></div>
+				<div class="tv-duration"><%= year %></div>
+				<div class="tv-dot"></div>
+				<div class="tv-genre"><%= runtime %> min</div>
+				<div class="tv-dot"></div>
+				<div class="tv-num-episodes"><%= genres[0] %></div>
+				<div class="tv-dot"></div>
+				<% p_rating = Math.round(rating.percentage) / 20; // Roundoff number to nearest 0.5 %>
+				<% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
+					<div class="tv-rating-star full"></div>
+				<% }; %>
+				<% if (p_rating % 1 > 0) { %>
+					<div class="tv-rating-star half"></div>
+				<% }; %>
+				<% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
+					<div class="tv-rating-star null"></div>
+				<% }; %>
+				<% if (synopsis.length > 776) { var synopsis = synopsis.substring(0, 776) + "..."; } %>
+				<div class="tv-overview"><%= synopsis %></div>
+			</div>
+		</div>
+		
+		<div class="episode-base">
+			<div class="episode-info">
+				<div class="episode-info-title"></div>
+				<div class="episode-info-number"></div>
+				<div class="episode-info-date"></div>
+				<div class="episode-info-description"></div>
+				<div class="movie-btn-watch-episode startStreaming" data-torrent="" data-episodeid="">
+					<div class="movie-watch-now"><%= i18n.__("Watch Now") %></div>
+				</div>
+			</div>
+			
+			<div class="display-base-title">
+				<div class="episode-list-text"><%= i18n.__("Seasons") %></div>
+				<div class="episode-list-text"><%= i18n.__("Episodes") %></div>
+			</div>
+			
+			<div class="season-episode-container">
+				<!-- <div class="season-ep-bar"></div> -->
+				<div id="tabs_base">
+					<ul id="tabs_season">
+						<!-- TODO: to be updated i dont find it really elegant
+							i'll build a compatible torrent array with our episodes content -->
+						<% var torrents = {};
+						_.each(episodes, function(value, currentEpisode) {
+							if (!torrents[value.season]) torrents[value.season] = {};
+							torrents[value.season][value.episode] = value;
+						}); %>
+
+						<% _.each(torrents, function(value, season) { %>
+							<li data-tab="season-<%=season %>">
+								<a><%= i18n.__("Season") %>&nbsp;<%=season %></a>
+							</li>
+						<% }); %>
+					</ul>
+					<div id="tabs_episode_base">
+						<% _.each(torrents, function(value, season) { %>
+							<div id="season-<%=season %>" class="tabs-episode">
+								<ul>
+									<% _.each(value, function(episodeData, episode) { 
+										var first_aired = '';
+										if (typeof episodeData.first_aired != "undefined") {
+											first_aired = moment.unix(episodeData.first_aired).lang(Settings.language).format("LLLL").capitalizeEach();
+										} %>								
+										<li class="epidoseSummary" data-id="<%=episodeData.tvdb_id %>" data-torrent="<%=episodeData.torrents[0].url %>">
+											<a href="#" class="episodeData">
+												<span><%=episodeData.episode %></span> 
+												<div><%=episodeData.title %></div>
+											</a>
+											<span id="watched-<%=episodeData.season %>-<%=episodeData.episode %>" class="watched-false"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
+
+											<!-- hidden template so we can save a DB query -->
+											<div class="template-<%=episodeData.tvdb_id %>" style="display:none">
+												<span class="title"><%=episodeData.title %></span>
+												<span class="date"><%=first_aired %></span>
+												<span class="season"><%=episodeData.season %></span>
+												<span class="episode"><%=episodeData.episode %></span>
+												<div class="overview"><%=episodeData.overview %></div>
+											</div>
+										</li>
+									<% }); %>
+								</ul>
+							</div><!--End tabs-episode-->
+						<% }); %>
+					</div><!--End tabs-episode-base-->
+				</div><!--End tabs_base-->
+			</div><!--End season-episode-container-->
+		</div>
+	</script>
+
+	<script id="player-tpl" type="text/x-template">
+		<div class="player-header-background">
+			<div class="player-title"><%= title %></div> 
+				<div class="details-player">
+					<span class="close-info-player"></span>
+					<div class="download-info-player">
+						<div class="eye-info-player"></div>
+						<div class="details-info-player">
+							<div class="arrow-up"></div>
+							<span class="speed-info-player"><%= i18n.__("Download") %>:&nbsp;</span><span class="download_speed_player"></span>
+							<span class="speed-info-player"><%= i18n.__("Upload") %>:&nbsp;</span><span class="upload_speed_player"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<%
+			var subArray = [];
+			for (var lang in subtitle) {
+				subArray.push({
+					"language": lang,
+					"languageName": App.Localization.langcodes[lang].nativeName,
+					"sub": subtitle[lang]
+				});
+			}
+			subArray.sort(function (sub1, sub2) {
+				return sub1.language > sub2.language;
+			});
+			var subtracks = "";
+
+			var defaultSub = "none";
+			if (typeof defaultSubtitle != "undefined") {
+				defaultSub = defaultSubtitle;
+			}
+			for(var index in subArray ) {
+				var imDefault = "";
+
+				if(defaultSub == subArray[index].language) 
+					imDefault = "default";
+				
+				subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" '+ imDefault +' />';
+			}
+		%>
+		<video id="video_player" width="100%" height="100%" class="video-js vjs-default-skin vjs-big-play-centered" controls preload autoplay >
+			<source src="<%= src %>" type="<%= type %>" />
+			<%=subtracks%>
+		</video>
+	</script>
+
+	<script id="settings-container-tpl" type="text/x-template">
+		<div class="settings-container">
+			<div class="settings-container-close"></div>
+			<div class="settings-container-sidebar">
+				<div class="settings-container-title"><%= i18n.__("Settings") %></div>
+				<div class="settings-container-sidebar-subtitles-options"><%= i18n.__("Subtitles") %></div>
+				<div class="settings-container-sidebar-UI-options"><%= i18n.__("User Interface") %></div>
+				<div class="settings-container-sidebar-more-options"><%= i18n.__("More Options") %></div>
+			</div>
+			<div class="settings-container-settings-content">
+
+				<div class="success_alert" style="display:none"><%= i18n.__("Saved") %><span id="checkmark-notify"><div id="stem-notify"></div><div id="kick-notify"></div></span></div>
+
+				<div class="settings-seperater subtitles"> </div>
+
+				<!-- TODO: give some love -->
+				
+				<div class="dropdown subtitles-language">
+					<p><%= i18n.__("Default Language") %>:</p>
+					<%
+						var langs = "";
+						for(var key in App.Localization.languages) {
+							if (typeof App.Localization.languages[key].display != "undefined") {
+								if (Settings.language == key) 
+									langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
+								else 
+									langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
+							}
+						}
+					%>
+					<select name="language"><%=langs%></select>
+					<div class="dropdown-arrow"></div>
+				</div>
+
+				<div class="dropdown subtitles-language-defualt">
+					<p><%= i18n.__("Default Subtitle") %>:</p>
+					<%
+						var sub_langs = "";
+						if (Settings.subtitle_language == "none") 
+							sub_langs += "<option selected='selected' value='none'>" + i18n.__("Disabled") + "</option>";
+						else 
+							sub_langs += "<option value='none'>" + i18n.__("Disabled") + "</option>";
+
+						for(var key in App.Localization.languages) {
+							if (typeof App.Localization.languages[key].subtitle != "undefined" && App.Localization.languages[key].subtitle == true) {
+								if (Settings.subtitle_language == key) 
+									sub_langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
+								else
+									sub_langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
+							}
+						}	
+					%>
+					<select name="subtitle_language"><%=sub_langs%></select>
+					<div class="dropdown-arrow"></div>
+				</div>
+
+				<br><br><br>				 
+				<div>
+					<span><%= i18n.__("TV Show API Endpoint") %>: </span>
+					<input type="text" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
+				</div>
+				
+				<br><br>
+				<button style="color:#fff" class="rebuild-tvshows-database">Rebuild TV Shows Database</button>
+
+				<br><br>
+				<button style="color:#fff" class="flush-bookmarks">Flush bookmarks database</button>
+
+				<br><br>
+				<button style="color:#fff" class="flush-databases">Flush all databases</button>				
+			</div>
+		</div>
+	</script>
+
+	<script id="loading-tpl" type="text/x-template">
+		<div class="loading">
+			<div style="background-image:url( <%= backdrop %> )" class="loading-background"></div>
+			<div class="loading-background-overlay"></div>
+
+			<div class="state">
+				<!-- download -->
+				<div class="text_download"><%= i18n.__(state) %></div>
+				
+				<div class="seed_status" style="display:none">
+					<!-- loading bar -->
+					<div class="loading-progressbar">
+						<div id="loadingbar-contents"></div>
+					</div>
+
+					<!-- Active Peers -->
+					<div class="value_peers"></div>
+					<div class="text_peers"><%= i18n.__("Peers") %> - </div>
+
+					<div class="download_speed"></div>
+					<div class="value_download"></div>
+					<div class="download_percent"></div>
+				</div>
+				<div class="loading-cancel"><div class="loading-cancel-text"><%= i18n.__("Cancel") %></div></div>
+			</div>
+		</div>
+	</script>
+
+	<script id="initializing-tpl" type="text/x-template">
+		<div class="loading-background"></div>
+		<div class="loading-background-overlay"></div>
+		<div class="state"><%= i18n.__("Initializing PopcornTime. Please Wait...") %></div>
+	</script>
+
+	<!-- 3rd party Dependencies -->
+	<script src="vendor/jquery/dist/jquery.js"></script>
+	<script src="vendor/underscore/underscore.js"></script>
+	<script src="vendor/backbone/backbone.js"></script>
+	<script src="vendor/backbone.wreqr/lib/backbone.wreqr.js"></script>
+	<script src="vendor/backbone.babysitter/lib/backbone.babysitter.js"></script>
+	<script src="vendor/marionette/lib/backbone.marionette.js"></script>
+	<script src="vendor/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="vendor/mousetrap/mousetrap.min.js"></script>
+	<script src="vendor/video.js-popcorn/dist/video-js/video.dev.js"></script>
+
+	<!-- Other dependencies -->
+	<script src="vendor/videojsplugins.js"></script>
+	<script src="vendor/dragwindow.js"></script>
+	<script src="vendor/videojs-youtube/src/youtube.js"></script>
+
+	<!-- App Initialization -->
+	<script src="database.js"></script>
+	<script src="settings.js"></script>
+	<script src="app.js"></script>
+	<script src="lib/config.js"></script>
+	<script src="updater.js"></script>
+	<script src="language.js"></script>
+	<script src="lib/streamer.js"></script>
+
+	<!-- Backbone Models -->
+	<script src="lib/models/filter.js"></script>
+	<script src="lib/models/movie.js"></script>
+	<script src="lib/models/movie_collection.js"></script>
+	<script src="lib/models/stream_info.js"></script>
+	<script src="lib/models/show_collection.js"></script>
+	<script src="lib/models/favorite_collection.js"></script>
+
+	<!-- Data Sources -->
+	<script src="lib/cache.js"></script>
+	<script src="lib/providers/cache_provider.js"></script>
+	<script src="lib/providers/ysubs.js"></script>
+	<script src="lib/providers/trakttv.js"></script>
+	<script src="lib/providers/yts.js"></script>
+	<script src="lib/providers/tvshows.js"></script>
+	<script src="lib/providers/favorites.js"></script>
+
+	<!-- Backbone Views and Controllers -->
+	<script src="lib/views/title_bar.js"></script>
+	<script src="lib/views/main_window.js"></script>
+
+	<script src="lib/views/movie_detail.js"></script>
+	<script src="lib/views/show_detail.js"></script>
+
+	<script src="lib/views/settings.js"></script>
+	<script src="lib/views/init_modal.js"></script>
+	<script src="lib/views/disclaimer.js"></script>
+	<script src="lib/views/player/loading.js"></script>
+	<script src="lib/views/player/player.js"></script>
+
+	<script src="lib/views/movie_browser/movie_browser.js"></script>
+	<script src="lib/views/movie_browser/filter_bar.js"></script>
+	<script src="lib/views/movie_browser/movie_item.js"></script>
+	<script src="lib/views/movie_browser/movie_list.js"></script>
+
+	<script src="lib/views/show_browser/filter_bar.js"></script>
+	<script src="lib/views/show_browser/show_browser.js"></script>
+	<script src="lib/views/show_browser/show_item.js"></script>
+	<script src="lib/views/show_browser/show_list.js"></script>
+
+	<script src="lib/views/favorites/favorite_browser.js"></script>
+	<script src="lib/views/favorites/filter_bar.js"></script>
+	<script src="lib/views/favorites/favorite_item.js"></script>
+	<script src="lib/views/favorites/favorite_list.js"></script>	
+
+	<script src="bootstrap.js"></script>
+</body>
 </html>
