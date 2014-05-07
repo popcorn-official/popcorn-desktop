@@ -4,6 +4,7 @@
 
 ;Include Modern UI
 !include "MUI2.nsh"
+!include "FileFunc.nsh"
 
 ;General Settings
 !searchparse /file "..\..\package.json" `  "version": "` PT_VERSION `",`
@@ -22,6 +23,7 @@ OutFile "Popcorn-Time-${PT_VERSION}-Win-32.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 !define NW_VER "0.9.2"
+!define UNINSTALLPATH "Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn-Time"
 
 ;Default installation folder
 InstallDir "$APPDATA\Popcorn Time"
@@ -158,6 +160,20 @@ Section ; Shortcuts
 	;Desktop Shortcut
 	Delete "$DESKTOP\Popcorn Time.lnk"
 	CreateShortCut "$DESKTOP\Popcorn Time.lnk" "$INSTDIR\Popcorn-Time.exe" "--debug" "$INSTDIR\Popcorn-Time.ico" "" "" "" "Start Popcorn Time"
+	
+	WriteRegStr HKLM "${UNINSTALLPATH}" "DisplayName" "Popcorn Time"
+	WriteRegStr HKLM "${UNINSTALLPATH}" "DisplayVersion" "${PT_VERSION}"
+	WriteRegStr HKLM "${UNINSTALLPATH}" "Publisher" "Popcorn Official"
+	WriteRegStr HKLM "${UNINSTALLPATH}" "UninstallString" "$\"$INSTDIR\Uninstall.exe$\""
+	WriteRegStr HKLM "${UNINSTALLPATH}" "InstallLocation" "$\"$INSTDIR$\""
+	WriteRegStr HKLM "${UNINSTALLPATH}" "DisplayIcon" "$\"$INSTDIR\Popcorn-Time.ico$\""
+	WriteRegStr HKLM "${UNINSTALLPATH}" "URLInfoAbout" "http://get-popcorn.com/"
+	WriteRegStr HKLM "${UNINSTALLPATH}" "HelpLink" "https://github.com/popcorn-official/popcorn-app/issues"
+	WriteRegDWORD HKLM "${UNINSTALLPATH}" "NoModify" 1
+	WriteRegDWORD HKLM "${UNINSTALLPATH}" "NoRepair" 1
+	${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
+	IntFmt $0 "0x%08X" $0
+	WriteRegDWORD HKLM "${UNINSTALLPATH}" "EstimatedSize" "$0"
 
 SectionEnd
 
@@ -166,6 +182,7 @@ Section "uninstall" ; Uninstaller
 	RMDir /r "$INSTDIR"
 	RMDir /r "$SMPROGRAMS\Popcorn Time"
 	Delete "$DESKTOP\Popcorn Time.lnk"
+	DeleteRegKey HKLM "${UNINSTALLPATH}"
 	
 SectionEnd
 
