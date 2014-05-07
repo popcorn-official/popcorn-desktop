@@ -204,20 +204,28 @@
         },
 
         // sync with updated/:since
-        syncDB: function(last_update, cb) {
-            console.log("Updating data from remote api since " + last_update);
-            request.get(Settings.tvshowApiEndpoint + "shows/updated/" + last_update, function(err, res, body) {
-                if(!err) {
-                    var toUpdate  = JSON.parse(body);
-                    db.tvshows.remove({ imdb_id: { $in: extractIds(toUpdate) }}, { multi: true }, function (err, numRemoved) {
-                        db.tvshows.insert(toUpdate, function (err, newDocs){
-                            if(err) return cb(err, null);
-                            else return cb(null, newDocs);
+        syncDB: function(cb) {
+            Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
+                var last_update = setting.value;
+                console.log("Updating data from remote api since " + last_update);
+                request.get(Settings.tvshowApiEndpoint + "shows/updated/" + last_update, function(err, res, body) {
+                    if(!err) {
+                        var toUpdate  = JSON.parse(body);
+                        db.tvshows.remove({ imdb_id: { $in: extractIds(toUpdate) }}, { multi: true }, function (err, numRemoved) {
+                            db.tvshows.insert(toUpdate, function (err, newDocs){
+                                if(err) return cb(err, null);
+                                else {
+                                    // we write our new update time
+                                    Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, function(err, setting) { 
+                                        return cb(null, newDocs);
+                                    })
+                                }
+                            });
                         });
-                    });
-                } else {
-                    return cb(err, null);
-                }
+                    } else {
+                        return cb(err, null);
+                    }
+                });
             });
         },
 
@@ -349,10 +357,7 @@
 
                             // we set a TTL of 24 hours for the DB
                             if ( (+new Date() - setting.value) > TTL ) {
-                                Database.syncDB(setting.value,function(err, setting) {
-                                    // we write our new update time
-                                    Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
-                                });
+                                Database.syncDB(callback);
                             } else {
                                 console.log("Skiping synchronization TTL not meet");
                                 callback();
