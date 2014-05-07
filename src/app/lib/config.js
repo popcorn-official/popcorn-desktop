@@ -16,7 +16,7 @@
             "drama",
             "family",
             "fantasy",
-            "film",
+            "film-noir",
             "history",
             "horror",
             "music",
