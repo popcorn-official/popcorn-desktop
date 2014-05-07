@@ -854,10 +854,10 @@ body.vjs-full-window {
     display: none;
     font-size: 28px;
     text-align: center;
-    margin-bottom: 0.1em;
+    margin-bottom: 30px;
     /* Transparent background */
     background-color: transparent;
-	text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px  1px 0 #000, 1px  1px 0 #000;
+	text-shadow: 0px 0px 10px #000, -2px -2px 1px #000, 2px -2px 1px #000, -2px 2px 1px #000, 2px 2px 1px #000;
 }
 .video-js .vjs-subtitles {
     color: #ffffff
