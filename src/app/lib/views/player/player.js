@@ -53,7 +53,7 @@
 
             // Test to make sure we have title
             console.log("Watching: " + this.model.get("title"));
-			$(".filter-bar").show(); 
+			//$(".filter-bar").show(); 
             var _this = this;
 
             $('.player-header-background').canDragWindow();
