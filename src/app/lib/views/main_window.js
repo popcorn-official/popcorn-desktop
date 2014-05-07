@@ -28,6 +28,7 @@
             App.vent.on('movies:list', _.bind(this.showMovies, this));
             App.vent.on('shows:list', _.bind(this.showShows, this));
             App.vent.on('favorites:list', _.bind(this.showFavorites, this));
+            App.vent.on('shows:update', _.bind(this.updateShows, this));
 
             // Add event to show disclaimer
             App.vent.on('show:disclaimer', _.bind(this.showDisclaimer, this));
@@ -95,6 +96,18 @@
             this.MovieDetail.close();
 
             this.Content.show(new App.View.ShowBrowser());
+        },
+
+        updateShows: function(e) {
+            var that = this;
+            this.Content.show(new App.View.InitModal());
+            App.db.syncDB(function() {
+                    that.InitModal.close();
+                    that.showShows();
+                    // Focus the window when the app opens
+                    that.nativeWindow.focus();
+
+            });
         },
 
         showFavorites: function(e) {

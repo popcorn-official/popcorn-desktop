@@ -18,7 +18,8 @@
             'click .showMovies': 'showMovies',
             'click .showShows': 'showShows',
             'click .settings': 'settings',
-            'click .favorites': 'showFavorites'
+            'click .favorites': 'showFavorites',
+            'click .triggerUpdate': 'updateTVShows'
         },
 
         settings: function(e) {
@@ -75,6 +76,12 @@
             e.preventDefault();
             App.vent.trigger('favorites:list', []);
         },
+
+        updateTVShows: function(e) {
+            e.preventDefault();
+            console.log('Update Triggered');
+            App.vent.trigger('shows:update', []);
+        }
                
     });
 
