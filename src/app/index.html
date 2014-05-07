@@ -318,7 +318,7 @@
 				<div class="tv-dot"></div>
 				<div class="tv-genre"><%= runtime %> min</div>
 				<div class="tv-dot"></div>
-				<div class="tv-status"><%= status %></div>
+				<div class="tv-status"><%= typeof status != 'undefined' ? status : 'N/A' %></div>
 				<div class="tv-dot"></div>
 				<div class="tv-num-episodes"><%= genres[0] %></div>
 				<div class="tv-dot"></div>
