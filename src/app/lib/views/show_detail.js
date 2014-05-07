@@ -70,6 +70,7 @@
                     episode: episode,
                     season: season,
                     title: title,
+                    status: status,
                     extract_subtitle: epInfo,
                     defaultSubtitle: Settings.subtitle_language
             });
