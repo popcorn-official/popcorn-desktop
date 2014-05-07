@@ -64,6 +64,7 @@
         },
 
         toggleFavorite: function(e) {
+            e.stopPropagation();
             e.preventDefault();
             var that = this;
          
