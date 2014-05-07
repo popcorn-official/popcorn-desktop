@@ -69,9 +69,15 @@
         showCover: function() {},
         toggledropdown: function() {
 
+            var self = this;
             $(".flag-container").fadeIn();
             $(".sub-dropdown-arrow-down").hide();
             $(".sub-dropdown-arrow-up").show();
+            $("#toggle-sub-dropdown").one('click', function(e) {
+                self.closedropdown(e);
+                return false;
+            });
+
 
         },
 
