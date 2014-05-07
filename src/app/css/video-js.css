@@ -261,18 +261,16 @@ fonts to show/hide properly.
     position: relative;
     /* Set above the rest of the controls. */
     top: 17px;
-    width: calc(100% - 415px);
+    width: calc(100% - 400px);
     height: 5px;
     float: left;
-    -moz-border-radius: 3px / 2px;
     -webkit-border-radius: 3px / 2px;
     border-radius: 3px / 2px;
     /* border radius */
-    -moz-background-clip: padding;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
     /* prevents bg color from leaking outside the border */
-    margin-left: 28px;
+    margin-left: 15px;
 }
 /* On hover, make the progress bar grow to something that's more clickable.
     This simply changes the overall font for the progress bar, and this
@@ -374,6 +372,14 @@ fonts to show/hide properly.
 .vjs-default-skin .vjs-duration {
     position: relative;
     float: left;
+}
+.vjs-current-time-display {
+	width: 50px;
+	text-align: right;
+}
+.vjs-duration-display {
+	width: 50px;
+	text-align: left;
 }
 /* Remaining time is in the HTML, but not included in default design */
 
