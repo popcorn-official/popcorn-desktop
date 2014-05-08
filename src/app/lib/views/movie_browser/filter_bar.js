@@ -1,8 +1,7 @@
 (function(App) {
     "use strict";
 
-    var FilterBarMovie = Backbone.Marionette.ItemView.extend({
-        template: '#filter-bar-movie-tpl',
+    App.View.FilterBar = Backbone.Marionette.ItemView.extend({
         className: 'filter-bar',
 
         ui: {
@@ -20,7 +19,8 @@
             'click .settings': 'settings',
             'click .showMovies': 'showMovies',
             'click .showShows': 'showShows',
-            'click .favorites': 'showFavorites'
+            'click .favorites': 'showFavorites',
+            'click .triggerUpdate': 'updateDB'
         },
 
         onShow: function() {
@@ -65,7 +65,7 @@
         },
 
         settings: function(e) {
-            App.vent.trigger('settings:show');
+            App.vent.trigger('settings:' + this.type);
         },
 
         showShows: function(e) {
@@ -83,7 +83,16 @@
             App.vent.trigger('favorites:list', []);
         },
 
+        updateDB: function (e) {
+            e.preventDefault();
+            console.log('Update Triggered');
+            App.vent.trigger(this.type + ':update', []);
+        },
     });
 
-    App.View.FilterBarMovie = FilterBarMovie;
+    App.View.FilterBarMovie = App.View.FilterBar.extend({
+        template: '#filter-bar-movie-tpl',
+        type: 'movies',
+    });
+
 })(window.App);
