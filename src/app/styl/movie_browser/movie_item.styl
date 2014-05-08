@@ -1,82 +1,82 @@
 .movie-item
-    display:inline-block;
-    margin: 10px
-    float: left
-    font-size: 0.8em
+	display:inline-block;
+	margin: 10px
+	float: left
+	font-size: 0.8em
 
-    .cover
-        background-size: 134px 196px
-        width: 134px
-        height: 196px
-        border-radius: 4px
-        box-shadow: 0px 0px 10px
-        cursor: pointer
-        transition: opacity .50s ease
-        opacity: 0
+	.cover
+		background-size: 134px 196px
+		width: 134px
+		height: 196px
+		border-radius: 4px
+		box-shadow: 0px 0px 10px
+		cursor: pointer
+		transition: opacity .50s ease
+		opacity: 0
 
-        .cover-overlay
-            //background: rgba(45, 117, 223, 0.61);
-            background rgba(23, 24, 27, 0.6)
-            text-align center
-            padding 88px 0
-            width 100%
-            height 100%
-            border-radius 4px
-            transition opacity .25s ease
-            opacity 0
-            
-            &:hover
-                opacity: 1
+		.cover-overlay
+			//background: rgba(45, 117, 223, 0.61);
+			background rgba(23, 24, 27, 0.6)
+			text-align center
+			padding 88px 0
+			width 100%
+			height 100%
+			border-radius 4px
+			transition opacity .25s ease
+			opacity 0
+			
+			&:hover
+				opacity: 1
 
-            .actions-favorites
-                height: 20px
-                width: 25px
-                float: right
-                background-repeat: no-repeat
-                background-position: center
-                margin-top: -80px
-                margin-right: 7px
-                -webkit-transition: background-image 0.2s ease-in-out
-                background-image: url(../../images/icons/AddToFavorites.png)
+			.actions-favorites
+				height: 20px
+				width: 25px
+				float: right
+				background-repeat: no-repeat
+				background-position: center
+				margin-top: -80px
+				margin-right: 7px
+				-webkit-transition: background-image 0.2s ease-in-out
+				background-image: url(../../images/icons/AddToFavorites.png)
 
-                &:hover
-                	background-image: url(../../images/icons/favorites_hover.png)
+				&:hover
+					background-image: url(../../images/icons/favorites_hover.png)
 
-            .actions-favorites-selected
-                height: 20px
-                width: 25px
-                -webkit-transition: background-image 0.2s ease-in-out
-                float: right
-                background-repeat: no-repeat
-                background-position: center
-                margin-top: -80px
-                margin-right: 7px
-                background-image: url(../../images/icons/FavoritesBlue.png)
+			.actions-favorites-selected
+				height: 20px
+				width: 25px
+				-webkit-transition: background-image 0.2s ease-in-out
+				float: right
+				background-repeat: no-repeat
+				background-position: center
+				margin-top: -80px
+				margin-right: 7px
+				background-image: url(../../images/icons/FavoritesBlue.png)
 
-                &:hover
-                	background-image: url(../../images/icons/AddToFavorites.png)
+				&:hover
+					background-image: url(../../images/icons/AddToFavorites.png)
 
 
 
-    .title
-        height: 14px;
-        margin: 6px 0 4px;
-        color: #fff
-        max-width: 134px
-        overflow: hidden
-        text-overflow: ellipsis
-        white-space: nowrap
+	.title
+		height: 14px;
+		margin: 6px 0 4px;
+		color: #fff
+		max-width: 134px
+		overflow: hidden
+		text-overflow: ellipsis
+		white-space: nowrap
 
-    .year
-        font-size: 0.85em
-        color: #5b5b5b
-        display: inline
+	.year
+		font-size: 0.85em
+		color: #5b5b5b
+		display: inline
 
-    .seasons
-        font-size: 0.85em
-        color: #5b5b5b
-        display: inline
-        float: right
+	.seasons
+		font-size: 0.85em
+		color: #5b5b5b
+		display: inline
+		float: right
 
 .load-more
 	background-size 134px 196px
@@ -91,59 +91,25 @@
 	background-color:#141c25
 	-webkit-transition: background-color 200ms linear;
 
-.status-loadmore
-	position: absolute;
-	color: #c3c5c7;
-	margin-top: 80px;
-	margin-left: 10px;
-	padding-left: 15px;
-	padding-right: 15px;
-	background-color: #173b5b;
-	-webkit-box-shadow: 0px 0px 10px #000;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	border-radius: 2px;
-	font-family: "Open Sans Semibold", sans-serif;
-	-webkit-transition: background-color 200ms linear;
+	> .loading-container
+		display none
+		margin-top 70px
+		margin-left 40px
 
-	&:hover
-		background-color:#1b4365
+	.status-loadmore
+		position: absolute;
+		color: #c3c5c7;
+		margin-top: 80px;
+		margin-left: 10px;
+		padding-left: 15px;
+		padding-right: 15px;
+		background-color: #173b5b;
+		-webkit-box-shadow: 0px 0px 10px #000;
+		padding-bottom: 10px;
+		padding-top: 10px;
+		border-radius: 2px;
+		font-family: "Open Sans Semibold", sans-serif;
+		-webkit-transition: background-color 200ms linear;
 
-.ball
-	background-color rgba(0,0,0,0)
-	border 5px solid rgba(0,183,229,0.9)
-	opacity .9
-	border-top 5px solid rgba(0,0,0,0)
-	border-left 5px solid rgba(0,0,0,0)
-	border-radius 50px
-	box-shadow 0 0 35px #2187e7
-	width 50px
-	height 50px
-	margin 0 auto
-	-moz-animation spin .5s infinite linear
-	-webkit-animation spin .5s infinite linear
-
-.ball1
-	background-color rgba(0,0,0,0)
-	border 5px solid rgba(0,183,229,0.9)
-	opacity .9
-	border-top 5px solid rgba(0,0,0,0)
-	border-left 5px solid rgba(0,0,0,0)
-	border-radius 50px
-	box-shadow 0 0 15px #2187e7
-	width 30px
-	height 30px
-	margin-top 10px
-	margin-left 10px
-	position relative
-	top -50px
-	-moz-animation spinoff .5s infinite linear
-	-webkit-animation spinoff .5s infinite linear
-
-.loading-container
-	width 50px
-	height 50px
-	position absolute
-	margin-top 70px
-	margin-left 40px
-	display none
+		&:hover
+			background-color:#1b4365
