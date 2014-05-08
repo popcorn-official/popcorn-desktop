@@ -3,7 +3,7 @@
 
     var DisclaimerModal = Backbone.Marionette.ItemView.extend({
         template: '#disclaimer-tpl',
-        className: 'loading',
+        className: 'disclaimer',
 
         events: {
             'click .btn-accept': 'acceptDisclaimer',
@@ -17,7 +17,7 @@
         acceptDisclaimer: function(e) {
             e.preventDefault();
             AdvSettings.set('disclaimerAccepted', 1);
-            App.vent.trigger('movies:list', []);
+            App.vent.trigger('close:disclaimer', []);
         },
 
         closeApp: function(e) {

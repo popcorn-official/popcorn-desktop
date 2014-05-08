@@ -12,7 +12,8 @@
             MovieDetail: '#movie-detail',
             Player: '#player',
             Settings: '#settings-container',
-            InitModal: '#initializing'
+            InitModal: '#initializing',
+            Disclaimer: '#disclaimer-container'
         },
 
         events: {
@@ -32,6 +33,7 @@
 
             // Add event to show disclaimer
             App.vent.on('show:disclaimer', _.bind(this.showDisclaimer, this));
+            App.vent.on('close:disclaimer', _.bind(this.Disclaimer.close, this.Disclaimer));
             
             // Movies
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
@@ -67,12 +69,13 @@
                     
                     that.showDisclaimer();
 
-                } else {
-                    that.InitModal.close();
-                    that.showMovies();
-                    // Focus the window when the app opens
-                    that.nativeWindow.focus();
                 }
+
+                that.InitModal.close();
+                that.showMovies();
+                // Focus the window when the app opens
+                that.nativeWindow.focus();
+                
 
             });
 
@@ -118,7 +121,7 @@
         },  
 
         showDisclaimer: function(e) {
-            this.Content.show(new App.View.DisclaimerModal());
+            this.Disclaimer.show(new App.View.DisclaimerModal());
         }, 
         
         preventDefault: function(e) {

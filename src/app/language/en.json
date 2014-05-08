@@ -78,5 +78,8 @@
 	"We are flushing your database": "We are flushing your database",
 	"We are flushing your databases": "We are flushing your databases",
 	"We are rebuilding the TV Show Database. Do not close the application.": "We are rebuilding the TV Show Database. Do not close the application.",
-	"No shows found...": "No shows found..."
+	"No shows found...": "No shows found...",
+	"Terms of Service": "Terms of Service",
+	"I Accept": "I Accept",
+	"Leave": "Leave"
 }
