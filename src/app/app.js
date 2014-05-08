@@ -201,6 +201,7 @@ if(last_arg) {
         } else if (last_arg.substring(0,7) == "http://") {
                 App.vent.on('main:ready', function() {
                         var si = new App.Model.StreamInfo({});
+                        si.set('title', last_arg);
                         si.set('subtitle', {});
                         si.set('type', 'video/mp4');
 

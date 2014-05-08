@@ -1,18 +1,15 @@
 (function(App) {
     "use strict";
 
-    var FilterBarMovie = Backbone.Marionette.ItemView.extend({
-        template: '#filter-bar-movie-tpl',
+    App.View.FilterBar = Backbone.Marionette.ItemView.extend({
         className: 'filter-bar',
-
         ui: {
             searchForm: '.search form',
-            search: '.search input',
+            search:     '.search input',
 
             sorterValue: '.sorters .value',
-            genreValue: '.genres .value'
+            genreValue:  '.genres  .value'
         },
-
         events: {
             'submit @ui.searchForm': 'search',
             'click .sorters .dropdown-menu a': 'sortBy',
@@ -20,12 +17,13 @@
             'click .settings': 'settings',
             'click .showMovies': 'showMovies',
             'click .showShows': 'showShows',
-            'click .favorites': 'showFavorites'
+            'click .favorites': 'showFavorites',
+            'click .triggerUpdate': 'updateDB'
         },
 
         onShow: function() {
             this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
-            this.$('.genres .dropdown-menu a:nth(0)').addClass('active');
+            this.$('.genres  .dropdown-menu a:nth(0)').addClass('active');
         },
 
         search: function(e) {
@@ -65,7 +63,7 @@
         },
 
         settings: function(e) {
-            App.vent.trigger('settings:show');
+            App.vent.trigger('settings:' + this.type);
         },
 
         showShows: function(e) {
@@ -83,7 +81,16 @@
             App.vent.trigger('favorites:list', []);
         },
 
+        updateDB: function (e) {
+            e.preventDefault();
+            console.log('Update Triggered');
+            App.vent.trigger(this.type + ':update', []);
+        },
     });
 
-    App.View.FilterBarMovie = FilterBarMovie;
+    App.View.FilterBarMovie = App.View.FilterBar.extend({
+        template: '#filter-bar-movie-tpl',
+        type: 'movies',
+    });
+
 })(window.App);
