@@ -24,9 +24,9 @@
 
 		<p class="title" title="<%= title %>"><%= title %></p>
 		<p class="year"><%= year %></p>
-		<p class="seasons"><% q720 = torrents["720p"] !== undefined; q1080 = torrents["1080p"] !== undefined;
+		<!--<p class="seasons"><% q720 = torrents["720p"] !== undefined; q1080 = torrents["1080p"] !== undefined;
 		if (q720 && q1080) { %>720p/1080p<% }else if (q1080) { %>1080p<% } else { %>720p<% } %>
-		</p>
+		</p> Lo -->
 	</script>
 
 	<script id="show-item-tpl" type="text/x-template">
@@ -259,13 +259,12 @@
 				<div class ="settings-container-download-TV-API">	<%= i18n.__("TV Show API Endpoint") + ":" %> </div> <input class="settings-container-api-location" type="text" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
 				
 				<br><br>
-				<button style="color:#fff" class="rebuild-tvshows-database">Rebuild TV Shows Database</button>
+				<div class="rebuild-tvshows-database">Rebuild TV Shows Database</div>
 
-				<br><br>
-				<button style="color:#fff" class="flush-bookmarks">Flush bookmarks database</button>
 
-				<br><br>
-				<button style="color:#fff" class="flush-databases">Flush all databases</button>				
+				<div class="flush-bookmarks">Flush bookmarks database</div>
+
+				<div class="flush-databases">Flush all databases</div>				
 			</div>
 		</div>
 	</script>
