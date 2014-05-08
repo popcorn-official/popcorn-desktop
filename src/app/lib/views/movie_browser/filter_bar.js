@@ -3,15 +3,13 @@
 
     App.View.FilterBar = Backbone.Marionette.ItemView.extend({
         className: 'filter-bar',
-
         ui: {
             searchForm: '.search form',
-            search: '.search input',
+            search:     '.search input',
 
             sorterValue: '.sorters .value',
-            genreValue: '.genres .value'
+            genreValue:  '.genres  .value'
         },
-
         events: {
             'submit @ui.searchForm': 'search',
             'click .sorters .dropdown-menu a': 'sortBy',
@@ -25,7 +23,7 @@
 
         onShow: function() {
             this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
-            this.$('.genres .dropdown-menu a:nth(0)').addClass('active');
+            this.$('.genres  .dropdown-menu a:nth(0)').addClass('active');
         },
 
         search: function(e) {
