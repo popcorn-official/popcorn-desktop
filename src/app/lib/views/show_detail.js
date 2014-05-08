@@ -15,6 +15,7 @@
             'click .tv-container-close': 'closeDetails',
             'click #tabs_season li': 'clickTab',
             'click .epidoseSummary': 'clickEpisode',
+            'dblclick .epidoseSummary': 'dblclickEpisode',
         },
 
 
@@ -93,7 +94,12 @@
             e.preventDefault();
             this.selectEpisode($(e.currentTarget));
         },
-
+        
+        dblclickEpisode: function(e) {
+            e.preventDefault();
+            this.selectEpisode($(e.currentTarget));
+            $('.startStreaming').trigger('click');
+        },
          // Helper Function
         selectSeason: function($elem) {
             $('.tabs-episode').hide();
