@@ -63,7 +63,7 @@
         },
 
         settings: function(e) {
-            App.vent.trigger('settings:' + this.type);
+            App.vent.trigger('settings:show');
         },
 
         showShows: function(e) {
