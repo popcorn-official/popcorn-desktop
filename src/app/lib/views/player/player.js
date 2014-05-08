@@ -68,7 +68,7 @@
                 this.ui.eyeInfo.hide();
             }
             else
-                this.video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {} }});
+                this.video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {}, progressTips: {} }});
 
             // Had only tracking in, leave it here if we want to do something else when paused.
             this.video.player().on('pause', function () {
@@ -98,23 +98,8 @@
             Mousetrap.bind(['space', 'p'], function(e) {
                 $(".vjs-play-control").click();
             });
-
-            // Function to fade out top bar, first implementation, feel free to rewrite
-            var timer;
-            $(document).mousemove(function() {
-                var playerid = document.getElementById("player");
-                if (timer) {
-                    clearTimeout(timer);
-                    timer = 0;
-                }
-
-                $('.player-header-background').fadeIn('slow');
-                playerid.style.cursor = "auto";
-                timer = setTimeout(function() {
-                    $('.player-header-background').fadeOut('slow');
-                    playerid.style.cursor = "none";
-                }, 2000) // roughly the time that the player's bottom bar fades out
-            })
+			
+			$('.player-header-background').appendTo('div#video_player');
         },
 
         toggleFullscreen: function() {

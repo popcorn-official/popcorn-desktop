@@ -61,7 +61,7 @@ The control icons are from a custom font. Each icon corresponds to a character
 .vjs-default-skin .vjs-slider-handle {
     position: absolute;
     /* Needed for IE6 */
-    top: -3.5px;
+    top: -3px;
     width: 11px;
     height: 11px;
 }
@@ -258,19 +258,19 @@ fonts to show/hide properly.
 */
 
 .vjs-default-skin .vjs-progress-control {
-    position: relative;
+    position: absolute;
     /* Set above the rest of the controls. */
-    top: 17px;
-    width: calc(100% - 400px);
-    height: 5px;
-    float: left;
+	top: 17px;
+	width: auto;
+	height: 6px;
     -webkit-border-radius: 3px / 2px;
     border-radius: 3px / 2px;
     /* border radius */
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
     /* prevents bg color from leaking outside the border */
-    margin-left: 15px;
+    left: 180px;
+	right: 230px;
 }
 /* On hover, make the progress bar grow to something that's more clickable.
     This simply changes the overall font for the progress bar, and this
@@ -328,23 +328,24 @@ fonts to show/hide properly.
 }
 .vjs-default-skin .vjs-play-progress {
 	background-color: #2d75df;
+	transition: all 0.5s ease;
 } 
 .vjs-default-skin .vjs-load-progress {
-    -moz-border-radius: 3px / 2px;
     -webkit-border-radius: 3px / 2px;
     border-radius: 3px / 2px;
     /* border radius */
-    -moz-background-clip: padding;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
     /* prevents bg color from leaking outside the border */
     background-image: url(data:image/gif;base64,R0lGODlhNgAKALMAALW1tayytKSuvJyqvIyixHyaxGySzFSK1ESC1Dx+3DR63Cx23P4BAgAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCQAMACwAAAAANgAKAAAEkXDJRYAdk1qAZ73Zx4VbJ4mmsQXJpFqsu7bSC8T1LMM0sgGHiW8TlAwtxcURKPwll0WFYFOYSKnWqaUquW6z2K4WwNWAPCXS+ZRGr82jHEyxAwhoC9u9vpfb8Xp4Tk1EEwmDEoeFiYgLikiGYQteZGBfYpKUZZqWJnAEdGxvKGpxoqZmOHkbfasWrYF8gKyzABEAIfkEBQkADAAsAAAAADYACgAABI5wKQFqWXhWcDO1mPRxoQZ6W7cQ2xCu7ctWbjgDNXbnMB0am0DitxEMMcCKkag8LpKAJbLo3AAOIYQVi9FuuAtvBSy+ZrfnkyhVGqlMJJQa/v7wdrKYTa/j93B5AEJMUU5QUk9UhIiHhl9pYyEJaBiTj5WUC5aRmHNubWxycWueoaQAgQAEqXd+eHs+sDgRACH5BAUJAAwALAAAAAA2AAoAAASNEEhwlkWT2oVnvdnHhVsniWaxJcKkWkorvUvsbvaMywCdD5sFYQLcDCVFyxGQFBKDy+YxkNgYJoKq5SrJWrHaBRfg3YK/pxIJ5FG32Wm4Bu7j1W8w+w5f0+cnUE9GEwSBSIZMiFKCYmdmXQkKj2RhY2WNkGiUciIJayNvoHGic6QfOT17On+rfXyod6sRACH5BAUJAAwALAAAAAA2AAoAAASYEIS0qgF41nUztZj0caEGelsHHBsSru3LVm44LzV25zAdFhuF4BccYoAVITFpBCAXymMxtFkQQoPqFZPdbAHdyjdsxWrNJ4BgpFqnQu50nISZtz+8nWyTkCkqfTZ/C4E6g4Urf1FOQQNLUE1PCo5Hg5M/lpROg2NnXJ5goGSdXmh0EoOndnBsrG91rbAbe4C0hLaIN7l8uBEAOw==);
 	background-size: 30px 5px;
 	/* layer fill content */
+	transition: width 2s;
 }
 .vjs-default-skin .vjs-seek-handle {
     width: 11px;
     height: 11px;
+	transition: all 0.5s ease;
 }
 .vjs-default-skin .vjs-seek-handle:before {
     padding-top: 0.1em
@@ -891,3 +892,9 @@ body.vjs-full-window {
 /* -----------------------------------------------------------------------------
 The original source of this file lives at
 https://github.com/videojs/video.js/blob/master/src/css/video-js.less */
+
+/*! videojs-progressTips - v0.1.0 - 2013-09-16
+* https://github.com/mickey/videojs-progressTips
+* Copyright (c) 2013 Michael Bensoussan; Licensed MIT */
+
+#vjs-tip{visibility:hidden;display:block;opacity:.8;padding:5px;font-size:10px;position:absolute;z-index:100000}#vjs-tip-arrow{background:url(data:image/gif;base64,R0lGODlhCQAJAIABAAAAAAAAACH5BAEAAAEALAAAAAAJAAkAAAIRjAOnwIrcDJxvwkplPtchVQAAOw==) no-repeat top left;bottom:0;left:50%;margin-left:-4px;background-position:bottom left;position:absolute;width:9px;height:5px}#vjs-tip-inner{border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;padding:5px 8px 4px;background-color:#000;color:#fff;max-width:200px;text-align:center}

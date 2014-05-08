@@ -98,7 +98,7 @@
         },
 
         playTrailer: function() {
-            var trailer = new Backbone.Model({src: this.model.get('trailer'), type: 'video/youtube', subtitle: null, title: null });
+            var trailer = new Backbone.Model({src: this.model.get('trailer'), type: 'video/youtube', subtitle: null, title: this.model.get('title') });
             App.vent.trigger('stream:ready', trailer);
         },
 
