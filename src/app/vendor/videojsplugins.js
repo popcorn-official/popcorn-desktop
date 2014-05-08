@@ -131,18 +131,28 @@ videojs.plugin('progressTips', function(options) {
       $(".vjs-progress-control").prepend($("<div id='vjs-tip'>  <div id='vjs-tip-arrow'></div>  <div id='vjs-tip-inner'></div>  </div>"));
       $("#vjs-tip").css("top", "-30px");
 	  $(".vjs-progress-control .vjs-slider").on("mousemove", function(event) {
-        var minutes, seconds, seekBar, timeInSeconds;
+        var time, hours, minutes, seconds, seekBar, timeInSeconds;
         seekBar = player.controlBar.progressControl.seekBar;
         timeInSeconds = seekBar.calculateDistance(event) * seekBar.player_.duration();
         if (timeInSeconds === seekBar.player_.duration()) {
           timeInSeconds = timeInSeconds - 0.1;
         }
+		hours = Math.floor(timeInSeconds / 60 / 60);
         minutes = Math.floor(timeInSeconds / 60);
         seconds = Math.floor(timeInSeconds - minutes * 60);
         if (seconds < 10) {
-          seconds = "0" + seconds;
+			seconds = "0" + seconds;
         }
-        $('#vjs-tip-inner').html("" + minutes + ":" + seconds);
+		if(hours > 0) {
+			minutes = minutes % 60;
+			if (minutes < 10) {
+				minutes = "0" + minutes;
+			}
+			time = "" + hours + ":" + minutes + ":" + seconds;
+		}else{
+			time = "" + minutes + ":" + seconds;
+		}
+        $('#vjs-tip-inner').html( time );
         $("#vjs-tip").css("left", "" + (event.pageX - $(this).offset().left - ( $("#vjs-tip").outerWidth() / 2 ) ) + "px").css("visibility", "visible");
         return;
       });
