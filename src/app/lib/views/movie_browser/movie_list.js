@@ -76,8 +76,9 @@
             $("#load-more-item").remove();
 
             // we add a load more
-            if(this.collection.hasMore && this.collection.filter.keywords == null) {
-                $(".movies").append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi"><div class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div></div>');
+            if(this.collection.hasMore && this.collection.filter.keywords == null && this.collection.state != 'error') {
+                $(".movies").append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
+                
                 $("#load-more-item").click(function(){
                     $("#load-more-item").off('click');
                     self.collection.fetchMore();
