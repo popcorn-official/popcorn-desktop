@@ -199,7 +199,76 @@
 			<li><button class="settings"></button></li>
 		</ul>
 	</script>
+<script id="settings-container-tpl" type="text/x-template">
+		<div class="settings-container">
+			<div class="settings-container-close"></div>
+			<div class="settings-container-sidebar">
+				<div class="settings-container-title"><%= i18n.__("Settings") %></div>
+				<div class="settings-container-sidebar-subtitles-options"><%= i18n.__("Subtitles") %></div>
+				<div class="settings-container-sidebar-UI-options"><%= i18n.__("User Interface") %></div>
+				<div class="settings-container-sidebar-more-options"><%= i18n.__("More Options") %></div>
+			</div>
+			<div class="settings-container-settings-content">
 
+				<div class="success_alert" style="display:none"><%= i18n.__("Saved") %><span id="checkmark-notify"><div id="stem-notify"></div><div id="kick-notify"></div></span></div>
+
+				<div class="settings-seperater subtitles"> </div>
+
+				<!-- TODO: give some love -->
+				
+				<div class="dropdown subtitles-language">
+					<p><%= i18n.__("Default Language") %>:</p>
+					<%
+						var langs = "";
+						for(var key in App.Localization.languages) {
+							if (typeof App.Localization.languages[key].display != "undefined") {
+								if (Settings.language == key) 
+									langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
+								else 
+									langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
+							}
+						}
+					%>
+					<select name="language"><%=langs%></select>
+					<div class="dropdown-arrow"></div>
+				</div>
+
+				<div class="dropdown subtitles-language-defualt">
+					<p><%= i18n.__("Default Subtitle") %>:</p>
+					<%
+						var sub_langs = "";
+						if (Settings.subtitle_language == "none") 
+							sub_langs += "<option selected='selected' value='none'>" + i18n.__("Disabled") + "</option>";
+						else 
+							sub_langs += "<option value='none'>" + i18n.__("Disabled") + "</option>";
+
+						for(var key in App.Localization.languages) {
+							if (typeof App.Localization.languages[key].subtitle != "undefined" && App.Localization.languages[key].subtitle == true) {
+								if (Settings.subtitle_language == key) 
+									sub_langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
+								else
+									sub_langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
+							}
+						}	
+					%>
+					<select name="subtitle_language"><%=sub_langs%></select>
+					<div class="dropdown-arrow"></div>
+				</div>
+
+				<div class="settings-seperater other-options"> </div>				 
+				<div class ="settings-container-download-TV-API">	<%= i18n.__("TV Show API Endpoint") + ":" %> </div> <input class="settings-container-api-location" type="text" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
+				
+				<br><br>
+				<button style="color:#fff" class="rebuild-tvshows-database">Rebuild TV Shows Database</button>
+
+				<br><br>
+				<button style="color:#fff" class="flush-bookmarks">Flush bookmarks database</button>
+
+				<br><br>
+				<button style="color:#fff" class="flush-databases">Flush all databases</button>				
+			</div>
+		</div>
+	</script>
 	<script id="filter-bar-show-tpl" type="text/x-template">
 		<ul class="nav nav-hor left">
 			<li class="source showMovies"><%= i18n.__("Movies") %></li>
@@ -493,79 +562,7 @@
 		</video>
 	</script>
 
-	<script id="settings-container-tpl" type="text/x-template">
-		<div class="settings-container">
-			<div class="settings-container-close"></div>
-			<div class="settings-container-sidebar">
-				<div class="settings-container-title"><%= i18n.__("Settings") %></div>
-				<div class="settings-container-sidebar-subtitles-options"><%= i18n.__("Subtitles") %></div>
-				<div class="settings-container-sidebar-UI-options"><%= i18n.__("User Interface") %></div>
-				<div class="settings-container-sidebar-more-options"><%= i18n.__("More Options") %></div>
-			</div>
-			<div class="settings-container-settings-content">
-
-				<div class="success_alert" style="display:none"><%= i18n.__("Saved") %><span id="checkmark-notify"><div id="stem-notify"></div><div id="kick-notify"></div></span></div>
-
-				<div class="settings-seperater subtitles"> </div>
-
-				<!-- TODO: give some love -->
-				
-				<div class="dropdown subtitles-language">
-					<p><%= i18n.__("Default Language") %>:</p>
-					<%
-						var langs = "";
-						for(var key in App.Localization.languages) {
-							if (typeof App.Localization.languages[key].display != "undefined") {
-								if (Settings.language == key) 
-									langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
-								else 
-									langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
-							}
-						}
-					%>
-					<select name="language"><%=langs%></select>
-					<div class="dropdown-arrow"></div>
-				</div>
-
-				<div class="dropdown subtitles-language-defualt">
-					<p><%= i18n.__("Default Subtitle") %>:</p>
-					<%
-						var sub_langs = "";
-						if (Settings.subtitle_language == "none") 
-							sub_langs += "<option selected='selected' value='none'>" + i18n.__("Disabled") + "</option>";
-						else 
-							sub_langs += "<option value='none'>" + i18n.__("Disabled") + "</option>";
-
-						for(var key in App.Localization.languages) {
-							if (typeof App.Localization.languages[key].subtitle != "undefined" && App.Localization.languages[key].subtitle == true) {
-								if (Settings.subtitle_language == key) 
-									sub_langs += "<option selected='selected' value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
-								else
-									sub_langs += "<option value='"+key+"'>"+App.Localization.languages[key].display+"</option>";
-							}
-						}	
-					%>
-					<select name="subtitle_language"><%=sub_langs%></select>
-					<div class="dropdown-arrow"></div>
-				</div>
-
-				<br><br><br>				 
-				<div>
-					<span><%= i18n.__("TV Show API Endpoint") %>: </span>
-					<input type="text" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
-				</div>
-				
-				<br><br>
-				<button style="color:#fff" class="rebuild-tvshows-database">Rebuild TV Shows Database</button>
-
-				<br><br>
-				<button style="color:#fff" class="flush-bookmarks">Flush bookmarks database</button>
-
-				<br><br>
-				<button style="color:#fff" class="flush-databases">Flush all databases</button>				
-			</div>
-		</div>
-	</script>
+	
 
 	<script id="loading-tpl" type="text/x-template">
 		<div class="loading">
