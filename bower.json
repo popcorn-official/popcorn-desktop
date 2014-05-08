@@ -3,7 +3,7 @@
   "dependencies": {
     "marionette": "~1.8.3",
     "bootstrap": "~3.1.1",
-    "video.js-popcorn": "~4.5.5",
+    "video.js-popcorn": "4.5.5",
     "videojs-youtube": "1.1.0",
     "mousetrap": "~1.4.6"
   }
