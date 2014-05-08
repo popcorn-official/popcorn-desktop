@@ -95,6 +95,14 @@
                 _this.toggleFullscreen();
             });
 
+            Mousetrap.bind('h', function(e) {
+                _this.increaseSubtitleOffset();
+            });
+
+            Mousetrap.bind('g', function(e) {
+                _this.decreaseSubtitleOffset();
+            });
+
             Mousetrap.bind(['space', 'p'], function(e) {
                 $(".vjs-play-control").click();
             });
@@ -122,6 +130,14 @@
                 this.nativeWindow.leaveFullscreen();
                 this.nativeWindow.focus();
             }
+        },
+
+        increaseSubtitleOffset: function() {
+            this.video.player().setOffset(this.video.player().offset() + 0.1);
+        },
+
+        decreaseSubtitleOffset: function() {
+            this.video.player().setOffset(this.video.player().offset() - 0.1);
         },
 
         onClose: function() {
