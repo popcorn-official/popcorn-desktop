@@ -1,12 +1,12 @@
 body.has-notification
 	padding-top 40px
-	overflow: hidden
+	overflow hidden
 
 	#notification
-		z-index: 10
-		position: absolute
-		top: TitleHeight
-		height: 40px
+		z-index 10
+		position absolute
+		top TitleHeight
+		height 40px
 		-webkit-user-select none   
 		opacity 1
 		overflow hidden
@@ -26,30 +26,39 @@ body.has-notification
 
 		.btn-grp 
 			position absolute
-			top 6px
+			top 3px
 			right 15px
 
 		.btn
 			background-image none
 			background rgba(0, 0, 0, 0.4)
+			color #fff
+
+			&:hover
+				color #000
 
 		.btn.chnglog 
 			margin-right 5px
 
 	#notification h1
-		float:left
+		float left
+		padding 0px 15px 0 0px
+		font-size 20px
+
+	#notification p
+		font-weight 100
 
 	#notification.blue 
-		background: #4ec0b6 !important
+		background #3498DB !important
 
 	#notification.green
-		background: #6abe9a !important
+		background #27AE60 !important
 
 	#notification.yellow 
-		background: #dbb756 !important
+		background #dbb756 !important
 
 	#notification.orange 
-		background: #f07f53 !important
+		background #f07f53 !important
 
 	#notification.red 
-		background: #f15153 !important
+		background #f15153 !important
