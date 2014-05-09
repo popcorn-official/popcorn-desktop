@@ -5,7 +5,7 @@
         template: '#favorite-item-tpl',
 
         tagName: 'li',
-        className: 'movie-item',
+        className: 'bookmark-item',
 
         ui: {
             coverImage: '.cover-image',

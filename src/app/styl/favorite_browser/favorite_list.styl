@@ -12,7 +12,7 @@
     .bookmarks
         padding-top: HeaderHeight
         -webkit-user-select: none;
-        text-align: left;
+        text-align: center;
         display: inline-block;
         width:100%;
 
@@ -32,3 +32,76 @@
 
         .loading-container
             margin: 180px auto 0px
+
+.bookmark-item
+    display:inline-block;
+    margin: 10px
+    padding-bottom: 25px
+    font-size: 0.8em
+
+    .cover
+        background-size: 134px 196px
+        width: 134px
+        height: 196px
+        border-radius: 4px
+        box-shadow: 0px 0px 10px
+        cursor: pointer
+        transition: opacity .50s ease
+        opacity: 0
+
+        .cover-overlay
+            //background: rgba(45, 117, 223, 0.61);
+            background rgba(23, 24, 27, 0.6)
+            text-align center
+            padding 88px 0
+            width 100%
+            height 100%
+            border-radius 4px
+            transition opacity .25s ease
+            opacity 0
+            
+            &:hover
+                opacity: 1
+
+            .actions-favorites
+                height: 20px
+                width: 25px
+                float: right
+                background-repeat: no-repeat
+                background-position: center
+                margin-top: -80px
+                margin-right: 7px
+                -webkit-transition: background-image 0.2s ease-in-out
+                background-image: url(../../images/icons/AddToFavorites.png)
+
+                &:hover
+                    background-image: url(../../images/icons/favorites_hover.png)
+
+                &.selected
+                    background-image: url(../../images/icons/FavoritesBlue.png)
+
+                    &:hover
+                        background-image: url(../../images/icons/AddToFavorites.png)
+
+
+
+    .title
+        height: 14px;
+        margin: 6px 0 4px;
+        color: #fff
+        max-width: 134px
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+
+    .year
+        font-size: 0.85em
+        color: #5b5b5b
+        display: inline
+
+    .seasons
+        font-size: 0.85em
+        color: #5b5b5b
+        display: inline
+        float: right
+
