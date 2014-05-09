@@ -33,7 +33,7 @@
 		<img class="cover-image" src="<%= images.poster %>" style="display: none">
 		<div class="cover">
 			<div class="cover-overlay">
-				<div id="favorites_icon" class="actions-favorites"></div>
+				<div class="actions-favorites"></div>
 			</div>
 		</div>
 
@@ -47,7 +47,7 @@
 		<img class="cover-image" src="<%= image %>" style="display: none">
 		<div class="cover">
 			<div class="cover-overlay">
-				<div id="favorites_icon" class="actions-favorites"></div>
+				<div class="actions-favorites"></div>
 			</div>
 		</div>
 
@@ -340,7 +340,7 @@
 				<img class="movie-cover-image" src="<%= image %>" />
 				<div class="sperator-movie"></div>
 				<div class="movie-meta-title"><%= title %></div>
-				<ul class="movie-quick-info">
+				<div class="movie-quick-info">
 					<div class="movie-meta-details"><%= year %></div>
 					<div class="movie-dot"></div>
 					<% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
@@ -362,7 +362,7 @@
 							<div class="rating-star null"></div>
 						<% }; %>
 					</div>
-				</ul>
+				</div>
 
 				<div class="movie-overview-container">
 					<div class="movie-meta-overview"><%= synopsis %></div>
@@ -480,7 +480,7 @@
 										if (episodeData.first_aired !== undefined) {
 											first_aired = moment.unix(episodeData.first_aired).lang(Settings.language).format("LLLL").capitalizeEach();
 										} %>
-										<li class="epidoseSummary" data-id="<%=episodeData.tvdb_id %>" data-torrent="<%=episodeData.torrents[0].url %>">
+										<li class="episodeSummary" data-id="<%=episodeData.tvdb_id %>" data-torrent="<%=episodeData.torrents[0].url %>">
 											<a href="#" class="episodeData">
 												<span><%=episodeData.episode %></span>
 												<div><%=episodeData.title %></div>
@@ -509,15 +509,14 @@
 	<script id="player-tpl" type="text/x-template">
 		<div class="player-header-background vjs-control-bar">
 			<div class="player-title"><%= title %></div>
-				<div class="details-player">
-					<span class="close-info-player"></span>
-					<div class="download-info-player">
-						<div class="eye-info-player"></div>
-						<div class="details-info-player">
-							<div class="arrow-up"></div>
-							<span class="speed-info-player"><%= i18n.__("Download") %>:&nbsp;</span><span class="download_speed_player"></span>
-							<span class="speed-info-player"><%= i18n.__("Upload") %>:&nbsp;</span><span class="upload_speed_player"></span>
-						</div>
+			<div class="details-player">
+				<span class="close-info-player"></span>
+				<div class="download-info-player">
+					<div class="eye-info-player"></div>
+					<div class="details-info-player">
+						<div class="arrow-up"></div>
+						<span class="speed-info-player"><%= i18n.__("Download") %>:&nbsp;</span><span class="download_speed_player"></span>
+						<span class="speed-info-player"><%= i18n.__("Upload") %>:&nbsp;</span><span class="upload_speed_player"></span>
 					</div>
 				</div>
 			</div>

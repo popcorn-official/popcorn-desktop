@@ -1,6 +1,6 @@
 (function(App) {
     "use strict";
-     
+
     var ShowItem = Backbone.Marionette.ItemView.extend({
         template: '#show-item-tpl',
 
@@ -13,7 +13,7 @@
         },
 
         events: {
-            'click .actions-favorites': 'toggleFavorite',            
+            'click .actions-favorites': 'toggleFavorite',
             'click .cover': 'showDetail'
         },
 
@@ -29,9 +29,10 @@
                     if (value == true) {
                         console.log("Bookmarked");
                     }
-                } else 
+                } else {
                     that.model.set('bookmarked', false);
-            })            
+                }
+            });
             this.ui.coverImage.on('load', _.bind(this.showCover, this));
         },
 
@@ -40,8 +41,11 @@
         },
 
         showCover: function() {
-            this.ui.cover.css('background-image', 'url(' + this.model.get('images').poster + ')');
-            this.ui.cover.css('opacity', '1');
+            this.ui.cover.css({
+                'background-image': 'url(' + this.model.get('images').poster + ')',
+                'opacity': 1
+            });
+
             this.ui.coverImage.remove();
         },
 
@@ -52,7 +56,7 @@
                 // we send our DB data to our view
                 App.vent.trigger('show:showDetail', new Backbone.Model(data));
             });
-            
+
         },
 
         toggleFavorite: function(e) {
@@ -60,16 +64,15 @@
             e.stopPropagation();
             e.preventDefault();
             var that = this;
+
             if (this.model.get('bookmarked') == true) {
                 Database.deleteBookmark(this.model.get('imdb_id'), function(err, data) {
                     that.model.set('bookmarked', false);
                 })
             } else {
-
                 Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function(err, data) {
                     that.model.set('bookmarked', true);
                 })
-
             }
         }
 
