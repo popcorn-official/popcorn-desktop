@@ -46,6 +46,7 @@
 				value = field.val();
 				if (value.substr(-1) != '/') value += '/';
 				break;
+			case 'subtitle_size':
 			case 'subtitle_language':
 				value = $("option:selected", field).val();
 				break;

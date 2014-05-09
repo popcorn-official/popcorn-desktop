@@ -253,6 +253,19 @@
 						<select name="subtitle_language"><%=sub_langs%></select>
 						<div class="dropdown-arrow"></div>
 					</div>
+					<div class="dropdown subtitles-size">
+						<p><%= i18n.__("Size") %>:</p>
+						<%
+							var arr_sizes = ["26px","28px","30px","32px","34px","36px","38px","48px","50px","52px","54px","56px","58px","60px"];
+							
+							var sub_sizes = "";
+							for(var key in arr_sizes) {
+								sub_sizes += "<option "+(Settings.subtitle_size == arr_sizes[key]? "selected='selected'":"")+" value='"+arr_sizes[key]+"'>"+arr_sizes[key]+"</option>";
+							}
+						%>
+						<select name="subtitle_size"><%=sub_sizes%></select>
+						<div class="dropdown-arrow"></div>	
+					</div>
 				</div>
 
 				<div class="more-options">
@@ -553,6 +566,7 @@
 				subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" '+ imDefault +' />';
 			}
 		%>
+		<style>#video_player.video-js .vjs-text-track{font-size: <%= Settings.subtitle_size %>}</style>
 		<video id="video_player" width="100%" height="100%" class="video-js vjs-default-skin vjs-big-play-centered" controls preload autoplay >
 			<source src="<%= src %>" type="<%= type %>" />
 			<%=subtracks%>

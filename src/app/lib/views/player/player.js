@@ -134,7 +134,7 @@
                 _this.seek(-30)
             });
 
-	    $('.player-header-background').appendTo('div#video_player');
+			$('.player-header-background').appendTo('div#video_player');
         },
 
         seek: function (s) {

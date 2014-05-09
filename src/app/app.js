@@ -8,9 +8,6 @@ var
     // Load native UI library
     gui = require('nw.gui'),
 
-    // Debug flag
-    isDebug = gui.App.argv.indexOf('--debug') > -1,
-
     // browser window object
     win = gui.Window.get(),
 
@@ -105,44 +102,28 @@ Mousetrap.bind('f11', function(e) {
 	win.reloadIgnoringCache(); 
 });
 
-if (isDebug) {
-
-    // Special Debug Console Calls!
-    console.logger = {};
-    console.logger.log = console.log.bind(console);
-    console.logger.debug = function() {
-        var params = Array.prototype.slice.call(arguments, 1);
-        params.unshift('%c[%cDEBUG%c] ' + arguments[0], 'color: black;', 'color: #00eb76;', 'color: black;');
-        console.debug.apply(console, params);
-    }
-    console.logger.info = function() {
-        var params = Array.prototype.slice.call(arguments, 1);
-        params.unshift('[%cINFO%c] ' + arguments[0], 'color: blue;', 'color: black;');
-        console.info.apply(console, params);
-    }
-    console.logger.warn = function() {
-        var params = Array.prototype.slice.call(arguments, 1);
-        params.unshift('[%cWARNING%c] ' + arguments[0], 'color: #ffc000;', 'color: black;');
-        console.warn.apply(console, params);
-    }
-    console.logger.error = function() {
-        var params = Array.prototype.slice.call(arguments, 1);
-        params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: #ff1500;', 'color: black;');
-        console.error.apply(console, params);
-    }
-
+// Special Debug Console Calls!
+console.logger = {};
+console.logger.log = console.log.bind(console);
+console.logger.debug = function() {
+	var params = Array.prototype.slice.call(arguments, 1);
+	params.unshift('%c[%cDEBUG%c] ' + arguments[0], 'color: black;', 'color: #00eb76;', 'color: black;');
+	console.debug.apply(console, params);
 }
-else
-{
-
-    console.log = function() {};
-    console.time = console.timeEnd = function() {};
-    console.logger = {};
-    console.logger.log = function() {};
-    console.logger.debug = console.logger.log;
-    console.logger.info = console.logger.log;
-    console.logger.warn = console.logger.log;
-    console.logger.error = console.logger.log;
+console.logger.info = function() {
+	var params = Array.prototype.slice.call(arguments, 1);
+	params.unshift('[%cINFO%c] ' + arguments[0], 'color: blue;', 'color: black;');
+	console.info.apply(console, params);
+}
+console.logger.warn = function() {
+	var params = Array.prototype.slice.call(arguments, 1);
+	params.unshift('[%cWARNING%c] ' + arguments[0], 'color: #ffc000;', 'color: black;');
+	console.warn.apply(console, params);
+}
+console.logger.error = function() {
+	var params = Array.prototype.slice.call(arguments, 1);
+	params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: #ff1500;', 'color: black;');
+	console.error.apply(console, params);
 }
 
 

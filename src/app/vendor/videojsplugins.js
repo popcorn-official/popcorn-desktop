@@ -11,7 +11,7 @@ videojs.BiggerSubtitleButton = videojs.Button.extend({
 videojs.BiggerSubtitleButton.prototype.onClick = function() {
   var $subs = $('#video_player.video-js .vjs-text-track');
   var font_size = parseInt($subs.css('font-size'));
-  font_size = font_size + 3;
+  font_size = font_size + 2;
   $subs.css('font-size', font_size+'px');
 };
 
@@ -44,7 +44,7 @@ videojs.SmallerSubtitleButton = videojs.Button.extend({
 videojs.SmallerSubtitleButton.prototype.onClick = function() {
   var $subs = $('#video_player.video-js .vjs-text-track');
   var font_size = parseInt($subs.css('font-size'));
-  font_size = font_size - 3;
+  font_size = font_size - 2;
   $subs.css('font-size', font_size+'px');
 };
 
@@ -166,7 +166,7 @@ videojs.plugin('progressTips', function(options) {
 // This is a custom way of loading subtitles, since we can't use src (CORS blocks it and we can't disable it)
 // We fetch them when requested, process them and finally throw a parseCues their way
 vjs.TextTrack.prototype.load = function(){
-
+			
   // Only load if not loaded yet.
   if (this.readyState_ === 0) {
     this.readyState_ = 1;

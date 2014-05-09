@@ -14,6 +14,7 @@
 
     Settings['connectionCheckUrl'] = 'http://google.com/';
     Settings['moviesShowQuality'] = false;
+    Settings['subtitle_size'] = '28px';
 
     // app Settings
     Settings['version'] = false;
