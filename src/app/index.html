@@ -394,8 +394,8 @@
 					<div id="toggle-sub-dropdown-arrow" class="sub-dropdown-arrow-down"></div> <div class="sub-dropdown-arrow-up"></div> </div>
 
 					<div class="flag-container">
-						<% for(var k in subtitle){ %>
-						<div id="sub-flag-icon" class="flag <%= k %>" data-lang="<%= k %>"></div>
+						<% for(var lang in subtitle){ %>
+							<div class="sub-flag-icon flag <%= lang %>" data-lang="<%= lang %>"></div>
 						<% } %>
 					</div>
 				</div>

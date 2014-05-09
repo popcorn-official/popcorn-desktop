@@ -17,7 +17,7 @@
             'click #switch-hd-off': 'disableHD',
             'click #toggle-sub-dropdown': 'toggledropdown',
             'click .sub-dropdown-arrow-down': 'toggledropdown',
-            'click #sub-flag-icon': 'closedropdown',
+            'click .sub-flag-icon': 'closedropdown',
             'click .sub-dropdown-arrow-up': 'closedropdown'
         },
 
