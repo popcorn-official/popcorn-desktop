@@ -134,6 +134,26 @@
                 _this.seek(-30)
             });
 
+
+          // Function to fade out cursor with other video elm's
+
+            var timer;
+           $(document).mousemove(function() {
+               var playerid = document.getElementById("player");
+               if (timer) {
+                    clearTimeout(timer);
+                    timer = 0;
+                }
+                playerid.style.cursor = "auto";
+                
+                timer = setTimeout(function() {
+
+                playerid.style.cursor = "none";
+
+               }, 2000) // roughly the time that the player's bottom bar fades out
+           })
+
+
 			$('.player-header-background').appendTo('div#video_player');
         },
 
