@@ -1,15 +1,14 @@
 ; Popcorn Time 
-; Installer Source
+; Updater Source
 ; Version 1.0
 
 ;Include Modern UI
 !include "MUI2.nsh"
-!include "FileFunc.nsh"
 
 ;General Settings
 !searchparse /file "..\..\package.json" `  "version": "` PT_VERSION `",`
 Name "Popcorn Time"
-Caption "Popcorn Time v${PT_VERSION}"
+Caption "Popcorn Time Updater v${PT_VERSION}"
 BrandingText "Popcorn Time v${PT_VERSION}"
 VIAddVersionKey "ProductName" "Popcorn Time"
 VIAddVersionKey "ProductVersion" "v${PT_VERSION}"
@@ -17,13 +16,11 @@ VIAddVersionKey "FileDescription" "Popcorn Time"
 VIAddVersionKey "FileVersion" "v${PT_VERSION}"
 VIAddVersionKey "CompanyName" "Popcorn Official"
 VIAddVersionKey "LegalCopyright" "http://get-popcorn.com"
-VIAddVersionKey "OriginalFilename" "Popcorn-Time-${PT_VERSION}-Win-32.exe"
+VIAddVersionKey "OriginalFilename" "Updater-Popcorn-Time-${PT_VERSION}-Win-32.exe"
 VIProductVersion "${PT_VERSION}.0"
-OutFile "Popcorn-Time-${PT_VERSION}-Win-32.exe"
+OutFile "Updater-Popcorn-Time-${PT_VERSION}-Win-32.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
-!define NW_VER "0.9.2"
-!define UNINSTALLPATH "Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn-Time"
 
 ;Default installation folder
 InstallDir "$APPDATA\Popcorn Time"
@@ -35,9 +32,7 @@ RequestExecutionLevel user
 !define MUI_LICENSEPAGE_BGCOLOR /GRAY
 !define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
 !define MUI_ICON "..\..\src\app\images\popcorntime.ico"
-!define MUI_UNICON "..\..\src\app\images\popcorntime.ico"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_ABORTWARNING
 !define MUI_FINISHPAGE_RUN
 !define MUI_FINISHPAGE_RUN_TEXT "Start Popcorn Time"
@@ -50,11 +45,6 @@ RequestExecutionLevel user
 !insertmacro MUI_PAGE_LICENSE "LICENSE.txt"
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
-
-!insertmacro MUI_UNPAGE_WELCOME
-!insertmacro MUI_UNPAGE_CONFIRM
-!insertmacro MUI_UNPAGE_INSTFILES
-!insertmacro MUI_UNPAGE_FINISH
 
 ;Load Language Files
 !insertmacro MUI_LANGUAGE "English"
@@ -121,69 +111,27 @@ RequestExecutionLevel user
 
 AutoCloseWindow false
 ShowInstDetails show
-ShowUninstDetails show
 
 Section ; App Files
+
+	IfFileExists "$INSTDIR\Popcorn-Time.exe" ff fnf
+	fnf:
+	MessageBox MB_OK "You need to have Popcorn-Time installed from the installer to use the updater."
+	Quit
+	ff:
 	
-	RMDir /r "$INSTDIR"
+	RMDir /r "$INSTDIR\src"
+	RMDir /r "$INSTDIR\node_modules"
 	
 	;Set output path to InstallDir
 	SetOutPath "$INSTDIR"
 
 	;Add the files
 	File "..\..\package.json" "..\..\README.md" "..\..\LICENSE.txt"
-	File "..\..\build\cache\win\${NW_VER}\*.dll" "..\..\build\cache\win\${NW_VER}\nw.pak"
-	File "/oname=Popcorn-Time.exe" "..\..\build\cache\win\${NW_VER}\nw.exe"
 	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test" /x "bin" /x ".*" "..\..\node_modules"
 	SetOutPath "$INSTDIR\src"
 	File /r "..\..\src\*.*"
-	
-	;Create uninstaller
-	WriteUninstaller "$INSTDIR\Uninstall.exe"
 
-SectionEnd
-
-Section ; Shortcuts
-
-	SetOutPath "$INSTDIR"
-	File /oname=Popcorn-Time.ico "..\..\src\app\images\popcorntime.ico"
-
-	;Working Directory Shortcut
-	CreateShortCut "$INSTDIR\Start Popcorn Time.lnk" "$INSTDIR\Popcorn-Time.exe" "" "$INSTDIR\Popcorn-Time.ico" "" "" "" "Start Popcorn Time"
-
-	;Start Menu Shortcut
-	RMDir /r "$SMPROGRAMS\Popcorn Time"
-	CreateDirectory "$SMPROGRAMS\Popcorn Time"
-	CreateShortCut "$SMPROGRAMS\Popcorn Time\Popcorn Time.lnk" "$INSTDIR\Popcorn-Time.exe" "" "$INSTDIR\Popcorn-Time.ico" "" "" "" "Start Popcorn Time"
-	CreateShortCut "$SMPROGRAMS\Popcorn Time\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-
-	;Desktop Shortcut
-	Delete "$DESKTOP\Popcorn Time.lnk"
-	CreateShortCut "$DESKTOP\Popcorn Time.lnk" "$INSTDIR\Popcorn-Time.exe" "" "$INSTDIR\Popcorn-Time.ico" "" "" "" "Start Popcorn Time"
-	
-	WriteRegStr HKLM "${UNINSTALLPATH}" "DisplayName" "Popcorn Time"
-	WriteRegStr HKLM "${UNINSTALLPATH}" "DisplayVersion" "${PT_VERSION}"
-	WriteRegStr HKLM "${UNINSTALLPATH}" "Publisher" "Popcorn Official"
-	WriteRegStr HKLM "${UNINSTALLPATH}" "UninstallString" "$\"$INSTDIR\Uninstall.exe$\""
-	WriteRegStr HKLM "${UNINSTALLPATH}" "InstallLocation" "$\"$INSTDIR$\""
-	WriteRegStr HKLM "${UNINSTALLPATH}" "DisplayIcon" "$\"$INSTDIR\Popcorn-Time.ico$\""
-	WriteRegStr HKLM "${UNINSTALLPATH}" "URLInfoAbout" "http://get-popcorn.com/"
-	WriteRegStr HKLM "${UNINSTALLPATH}" "HelpLink" "https://github.com/popcorn-official/popcorn-app/issues"
-	WriteRegDWORD HKLM "${UNINSTALLPATH}" "NoModify" 1
-	WriteRegDWORD HKLM "${UNINSTALLPATH}" "NoRepair" 1
-	${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
-	IntFmt $0 "0x%08X" $0
-	WriteRegDWORD HKLM "${UNINSTALLPATH}" "EstimatedSize" "$0"
-
-SectionEnd
-
-Section "uninstall" ; Uninstaller
-
-	RMDir /r "$INSTDIR"
-	RMDir /r "$SMPROGRAMS\Popcorn Time"
-	Delete "$DESKTOP\Popcorn Time.lnk"
-	DeleteRegKey HKLM "${UNINSTALLPATH}"
-	
 SectionEnd
 
 Function LaunchPopcornTime
