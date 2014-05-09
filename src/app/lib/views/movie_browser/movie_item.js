@@ -9,7 +9,8 @@
 
         ui: {
             coverImage: '.cover-image',
-            cover: '.cover'
+            cover: '.cover',
+            bookmarkIcon: '.actions-favorites'
         },
 
         events: {
@@ -18,6 +19,7 @@
         },
 
         onShow: function() {
+
             // is boorkmarked or not ?
             var that = this;
             Database.getBookmark(this.model.get('imdb'), function(err, value) {
@@ -26,9 +28,10 @@
                     that.model.set('bookmarked', value);
 
                     if (value == true) {
-                         $("#favorites_icon").attr("class", "actions-favorites-selected");
-                        
-                        console.log("Bookmarked");
+                    
+                        that.ui.bookmarkIcon.addClass('selected');
+
+                        console.log(that.model.get('imdb') + " Bookmarked");
                     }
                 } else 
                     that.model.set('bookmarked', false);
@@ -76,6 +79,8 @@
                     console.log("Bookmark deleted");
                     that.model.set('bookmarked', false);
 
+                        that.ui.bookmarkIcon.removeClass('selected');
+
                     // we'll make sure we dont have a cached movie
                     Database.deleteMovie(that.model.get('imdb'),function(err, data) {})
                 })
@@ -101,7 +106,15 @@
                 Database.addMovie(movie, function(error,result) {
                     Database.addBookmark(that.model.get('imdb'), 'movie', function(err, data) {
                         console.log("Bookmark added");
+
+
+
+                        that.ui.bookmarkIcon.addClass('selected');
+
+
                         that.model.set('bookmarked', true);
+
+
                     })
                 });
 
