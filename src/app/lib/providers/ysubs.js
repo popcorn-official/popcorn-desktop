@@ -29,6 +29,8 @@
         request({url:url, json: true}, function(error, response, data){
             if(error) {
                 deferred.reject(error);
+			} else if (response.statusCode != 200){
+				deferred.reject(error);
             } else if (!data || !data.success) {
                 deferred.reject(error);
             } else {
@@ -41,7 +43,7 @@
 
     var formatForPopcorn = function(data) {
         var allSubs = {};
-
+		console.log(data);
         // Iterate each movie
         _.each(data.subs, function(langs, imdbId) {
             var movieSubs = {};

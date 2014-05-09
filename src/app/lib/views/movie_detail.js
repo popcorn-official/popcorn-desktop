@@ -141,7 +141,7 @@
             var subtitles = this.model.get("subtitle");
 
             // make sure we have an existing lang
-            if (typeof subtitles[lang] == 'undefined') 
+            if (subtitles === undefined || subtitles[lang] === undefined) 
                 lang = 'none';
 
             // here we go...
