@@ -41,17 +41,26 @@
             // get active field
             var field = $(e.currentTarget);
             
-            // get right value
-            if(field.is('input')) 
-                value = field.val();
-            else 
-                value = $("option:selected", field).val();
-
-            // TODO Perhaps add check to make sure its a valid API?
-            // Also we should do a full resync
-            if (field.attr('name') == 'tvshowApiEndpoint') 
-                // add trailing slash
-                if (value.substr(-1) != '/') value += '/';
+			switch(field.attr('name')){
+			case 'tvshowApiEndpoint':
+				value = field.val();
+				if (value.substr(-1) != '/') value += '/';
+				break;
+			case 'subtitle_language':
+				value = $("option:selected", field).val();
+				break;
+			case 'language':
+				value = $("option:selected", field).val();
+				i18n.setLocale(value);
+				break;
+			case 'moviesShowQuality':
+				value = field.is(':checked');
+				break;
+			default:
+				console.log('Setting not defined: '+field.attr('name'));
+			}
+			
+			console.log('Setting changed: ' + field.attr('name') + ' - ' + value);
             
             // update active session
             App.settings[field.attr('name')] = value;
@@ -59,14 +68,6 @@
             //save to db
             App.db.writeSetting({key: field.attr('name'), value: value}, function() {
                 that.ui.success_alert.show().delay(3000).fadeOut(400);
-
-                // TODO : We need to reload all view
-                // or ask user to restart app
-                if (field.attr('name') == 'language') 
-                    // if field is language, set new language
-                    // on active session
-                    i18n.setLocale(value);
-                
             });
         },
 

@@ -119,9 +119,35 @@
 
          &.flush-databases
             margin-left: 30px
-
+			
 input[type=checkbox]
-  visibility hidden
+	&.settings-checkbox
+		position: absolute; 
+		overflow: hidden; 
+		clip: rect(0 0 0 0); 
+		height:1px; 
+		width:1px; 
+		margin:-1px; 
+		padding:0;
+		border:0;
+		
+	&.settings-checkbox+label.settings-label
+		padding-left:20px;
+		height:15px; 
+		display:inline-block;
+		line-height:15px;
+		background-repeat:no-repeat;
+		background-position: 0 0;
+		font-size:15px;
+		vertical-align:middle;
+		cursor:pointer;
+		color:#c3c5c7
+	
+	&.settings-checkbox:checked+label.settings-label
+		background-position: 0 -15px;
+
+.settings-label
+	background-image url('../../images/icons/checkbox.png')
 
 .settings-container-check-settings
   width 14px

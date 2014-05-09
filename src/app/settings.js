@@ -13,6 +13,7 @@
     Settings['tvshowApiEndpointMirror'] = "http://popcorn-api.net/";
 
     Settings['connectionCheckUrl'] = 'http://google.com/';
+    Settings['moviesShowQuality'] = false;
 
     // app Settings
     Settings['version'] = false;

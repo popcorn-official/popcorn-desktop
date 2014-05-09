@@ -24,9 +24,11 @@
 
 		<p class="title" title="<%= title %>"><%= title %></p>
 		<p class="year"><%= year %></p>
-		<!--<p class="seasons"><% q720 = torrents["720p"] !== undefined; q1080 = torrents["1080p"] !== undefined;
-		if (q720 && q1080) { %>720p/1080p<% }else if (q1080) { %>1080p<% } else { %>720p<% } %>
-		</p> Lo -->
+		<% if(Settings.moviesShowQuality){ %>
+			<p class="seasons"><% q720 = torrents["720p"] !== undefined; q1080 = torrents["1080p"] !== undefined;
+			if (q720 && q1080) { %>720p/1080p<% }else if (q1080) { %>1080p<% } else { %>720p<% } %>
+			</p>
+		<% } %>
 	</script>
 
 	<script id="show-item-tpl" type="text/x-template">
@@ -227,6 +229,9 @@
 						<select name="language"><%=langs%></select>
 						<div class="dropdown-arrow"></div>
 					</div>
+					<br><br>
+					<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
+					<label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
 				</div>
 				
 				<div class="subtitles-options">
