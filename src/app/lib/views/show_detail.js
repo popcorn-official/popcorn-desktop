@@ -14,8 +14,8 @@
             'click .startStreaming': 'startStreaming',
             'click .tv-container-close': 'closeDetails',
             'click #tabs_season li': 'clickTab',
-            'click .epidoseSummary': 'clickEpisode',
-            'dblclick .epidoseSummary': 'dblclickEpisode',
+            'click .episodeSummary': 'clickEpisode',
+            'dblclick .episodeSummary': 'dblclickEpisode',
         },
 
 
@@ -105,17 +105,17 @@
             $('.tabs-episode').hide();
             $('.tabs-episode').removeClass('current');
             $('#tabs_season li').removeClass('active');
-            $('.epidoseSummary').removeClass('active');
+            $('.episodeSummary').removeClass('active');
             $elem.addClass('active');
             $("#"+$elem.attr('data-tab')).addClass('current').show();
 
-            this.selectEpisode($("#"+$elem.attr('data-tab')).find($( ".epidoseSummary")).first());           
+            this.selectEpisode($("#"+$elem.attr('data-tab')).find($( ".episodeSummary")).first());           
         },
 
         selectEpisode: function($elem) {
             var tvdbid = $elem.attr('data-id');
             var tvdbtorrent = $elem.attr('data-torrent');
-            $('.epidoseSummary').removeClass('active');
+            $('.episodeSummary').removeClass('active');
             $elem.addClass('active');
             $(".episode-info-number").text(i18n.__('Episode') + ' '+$('.template-'+tvdbid+' .episode').html());
             $(".episode-info-title").text($('.template-'+tvdbid+' .title').html());
