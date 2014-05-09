@@ -4,16 +4,17 @@
 
 To allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
-![Demo Screenshot](http://i.imgsnap.tk/image.php?i=4f31ffd842828a896fa26fe6222fc01d9193a10d5f770a5930e10d5f)
-![](http://i.imgsnap.tk/image.php?i=36313fd842828a896fa26fe6222fc01d9193aa157b7481b3e95a157b)
-![](https://photos-6.dropbox.com/t/0/AADzD3xqTr81MhS-F3xHWP8FFb0mVSQQyF0JxpOwU80kPQ/12/176835404/png/1024x768/3/1398931200/0/2/Screenshot%202014-04-30%2023.14.26.png/vNfW4EqtO8bqFk5QaEVS6pBTzLE-rfCUA-edcljLMDU)
-![](http://i.imgsnap.tk/image.php?i=7530fd842828a896fa26fe6222fc01d9193a25fcf3b674b9b525fcf)
-![](http://i.imgsnap.tk/image.php?i=e7d5957fafd842828a896fa26fe6222fc01d9193ae5a8d9f0c46878e5a8d)
+![](http://i.imgur.com/OVMJkCB.png)
+![](http://i.imgur.com/MyJIzbX.png)
+![](http://i.imgur.com/xWo9U24.png)
+![](http://i.imgur.com/YdPiqKH.png)
+![](http://i.imgur.com/yILXXpf.png)
 ### APIs
 
 **Currently used:**
 - [YIFY](http://yts.re/api) movie torrents API.
-- [YifySubtitles](http://www.yifysubtitles.com) for subtitles
+- [YifySubtitles](http://www.yifysubtitles.com) for movie subtitles
+- [OpenSubtitles](http://www.opensubtitles.org) for tv shows subtitles
 - [Trakt.tv](https://trakt.tv/) for movies metadata.
 
 ### Development
