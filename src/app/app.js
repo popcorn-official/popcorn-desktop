@@ -97,15 +97,15 @@ String.prototype.capitalizeEach = function() {
     return this.replace(/\w*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
 
+// Developer Shortcuts
+Mousetrap.bind('f12', function(e) {
+	win.showDevTools(); 
+})
+Mousetrap.bind('f11', function(e) { 
+	win.reloadIgnoringCache(); 
+});
 
 if (isDebug) {
-    // Developer Shortcuts
-    Mousetrap.bind('f12', function(e) {
-        win.showDevTools(); 
-    })
-    Mousetrap.bind('f11', function(e) { 
-        win.reloadIgnoringCache(); 
-    });
 
     // Special Debug Console Calls!
     console.logger = {};

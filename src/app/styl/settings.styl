@@ -9,244 +9,116 @@
         margin-top: 40px
 
 .settings-container
-    z-index 1
-    width 100%
-    height 850px
-    position absolute
-    background-color #17181b
-    -webkit-user-select none
-    opacity 1
+   z-index 1
+   width 100%
+   position absolute
+   background-color #17181b
+   -webkit-user-select none
+   opacity 1
+   
+   .user-interface
+      height 100px
 
+   .subtitles-options
+      height 100px
 
+   .more-options
+      height 130px
+   
+   .close
+      top 55px
+      right 20px
+      position fixed
+      float right
+      width 16px
+      height 16px
+      background-image url('../../images/icons/Close.png')
+      cursor pointer
+      z-index 2
+      opacity 1
+      -webkit-backface-visibility hidden
 
+   .sidebar
+      float left
+      position relative
+      margin-left 20px
+      padding-right 30px
+      width 200px
+      height 100%
+      border-right solid #3a3b3e 1px
 
+      div
+         position relative
+         text-align right
+         color #2d75df
+         font-family "Open Sans", sans-serif
+         font-size 17px
 
-.settings-container-close
-    top 55px
-    right 20px
-    position fixed
-    float right
-    width 16px
-    height 16px
-    background-image url('../../images/icons/Close.png')
-    cursor pointer
-    z-index 2
-    opacity 1
-    -webkit-backface-visibility hidden
+      .title
+         position relative
+         color #fff
+         font-size 22px
 
+      .user-interface
+         margin-top 25px
 
-.settings-container-title
-  position relative
-  float right
-  color #fff
-  font-family "Open Sans", sans-serif
-  font-size 22px
+   .content
+      float left
+      position relative
+      margin-left 32px
+      padding-top: 45px;
+      width calc(100% - 253px)
+      height 100%
 
-.settings-container-sidebar
-  float left
-  position relative
-  margin-left 47px
-  padding-right 30px
-  width 171px
-  top 14px
-  bottom 14px
-  border-right solid #3a3b3e 1px
+      p
+         color #c3c5c7
+         font-family "Open Sans", sans-serif
+         font-size 13px
+         float left
+         margin-top 9px
 
-.settings-container-sidebar-subtitles-options
-  position relative
-  float right
-  margin-top 40px
-  color #2d75df
-  -webkit-font-smoothing antialiased
-  font-family "Open Sans", sans-serif
-  font-size 17px
+      input[type="text"]
+         margin-left 10px
+         padding-right 10px
+         padding-left 10px
+         height 29px
+         line-height 25px
+         border 0px solid #393b3d
+         background-color #393b3d
+         resize none
+         color #c3c5c7
+         font-family "Open Sans", sans-serif
+         font-size 13px
+         cursor text
+         outline 0
 
-.settings-container-sidebar-UI-options
-  position relative
-  float right
-  margin-top 184px
-  color #2d75df
-  font-family "Open Sans", sans-serif
-  font-size 17px
+      .btn-settings
+         position relative
+         margin-top 13px
+         float left
+         padding-left: 10px
+         padding-right: 10px
+         height 29px
+         background-color #2d75df
+         text-align center
+         color #c3c5c7
+         font-family "Open Sans", sans-serif
+         font-size 13px
+         line-height 28px
+         cursor pointer
+         &:hover
+            background #2d82ff
+            background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
+            text-decoration none
 
-.settings-container-sidebar-more-options
-  position relative
-  float right
-  margin-top 170px
-  color #2d75df
-  font-family "Open Sans", sans-serif
-  font-size 17px
+         &.rebuild-tvshows-database
+            //margin-left: 30px
 
-/*
-.settings-container-sidebar-download-options
-  position relative
-  float right
-  margin-top 40px
-  color #2d75df
-  -webkit-font-smoothing antialiased
-  font-family "Open Sans", sans-serif
-  font-size 17px
+         &.flush-bookmarks
+            margin-left: 30px
 
-.settings-container-sidebar-subtitles-options
-  position relative
-  float right
-  margin-top 184px
-  color #2d75df
-  font-family "Open Sans", sans-serif
-  font-size 17px
-
-.settings-container-sidebar-UI-options
-  position relative
-  float right
-  margin-top 170px
-  color #2d75df
-  font-family "Open Sans", sans-serif
-  font-size 17px
-
-.settings-container-sidebar-more-options
-  position relative
-  float right
-  margin-top 162px
-  color #2d75df
-  font-family "Open Sans", sans-serif
-  font-size 17px
-*/
-
-.settings-container-download-TV-API
-  position relative
-  margin-top 5px
-  color #c3c5c7
-  font-family "Open Sans", sans-serif
-  font-size 16px
-  float left
-
-.settings-container-api-location
-  //margin-top 13px
-  float left
-  position relative
-  margin-left 10px
-  padding-right 10px
-  height 29px
-  border 0px solid #393b3d
-  background-color #393b3d
-  resize none
-  color #c3c5c7
-  font-family "Open Sans", sans-serif
-  font-size 13px
-  line-height 25px
-  padding-left 10px
-  cursor text
-  outline 0
-
-.settings-container-settings-content
-  float left
-  position relative
-  margin-left 32px
-  top 14px
-  height calc(100% - 13px)
-  width calc(100% - 253px)
-
-.settings-container-download-btn
-  position relative
-  margin-top 13px
-  float left
-  width 70px
-  height 29px
-  background-color #2d75df
-  text-align center
-  color #c3c5c7
-  font-family "Open Sans", sans-serif
-  font-size 13px
-  line-height 28px
-  cursor pointer
-  &:hover
-    background #2d82ff
-    background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
-    text-decoration none
-
-.rebuild-tvshows-database
-  position relative
-  margin-top 13px
-  float left
-  padding-left: 10px
-  padding-right: 10px
-  height 29px
-  background-color #2d75df
-  text-align center
-  color #c3c5c7
-  font-family "Open Sans", sans-serif
-  font-size 13px
-  line-height 28px
-  cursor pointer
-  &:hover
-    background #2d82ff
-    background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
-    text-decoration none
-
-.flush-bookmarks
-  position relative
-  margin-top 13px
-  float left
-  margin-left: 30px
-  padding-left: 10px
-  padding-right: 10px
-  height 29px
-  background-color #2d75df
-  text-align center
-  color #c3c5c7
-  font-family "Open Sans", sans-serif
-  font-size 13px
-  line-height 28px
-  cursor pointer
-  &:hover
-    background #2d82ff
-    background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
-    text-decoration none
-
-.flush-databases
-  position relative
-  margin-top 13px
-  margin-left: 30px
-  float left
-  padding-left: 10px
-  padding-right: 10px
-  height 29px
-  background-color #2d75df
-  text-align center
-  color #c3c5c7
-  font-family "Open Sans", sans-serif
-  font-size 13px
-  line-height 28px
-  cursor pointer
-  &:hover
-    background #2d82ff
-    background-image -webkit-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image -moz-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image -ms-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image -o-linear-gradient(top, #2d82ff, #2d82ff)
-    background-image linear-gradient(to bottom, #2d82ff, #2d82ff)
-    text-decoration none
-
-.settings-container-checkbox-label
-  color #c3c5c7
-  position relative
-  font-family "Open Sans", sans-serif
-  font-size 13px
-  margin-top 0px
-  margin-left 0px
-  float left
+         &.flush-databases
+            margin-left: 30px
 
 input[type=checkbox]
   visibility hidden
@@ -316,7 +188,7 @@ input[type=checkbox]
     font-size 13px
     float left
     outline 0
-    //padding-right 10px
+    line-height 15px
 
     &.subtitles-size
       padding-right 10px
@@ -342,9 +214,8 @@ input[type=checkbox]
     float left
   &.subtitles-language
     top 0px
-  &.subtitles-language-defualt
+  &.subtitles-language-default
     top 0px
-    left 30px
   &.subtitles-font
     top 50px
     left -386px
@@ -360,15 +231,6 @@ input[type=checkbox]
   &.subtitles-color
     top 50px
     left -296px
-
-.settings-seperater
-  position relative
-
-  &.subtitles
-    margin-top 60px
-
-  &.other-options
-    margin-top 450px
 
 
 .dropdown-arrow

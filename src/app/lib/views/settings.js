@@ -10,7 +10,7 @@
         },
 
         events: {
-            'click .settings-container-close': 'closeSettings',
+            'click .close': 'closeSettings',
             'change select,input': 'saveSetting',
             'click .rebuild-tvshows-database': 'rebuildTvShows',
             'click .flush-bookmarks': 'flushBookmarks',
