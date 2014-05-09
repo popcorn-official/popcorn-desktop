@@ -70,18 +70,21 @@
             else
                 this.video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {}, progressTips: {} }});
 
+
+            var player = this.video.player();
+            this.player = player;
             // Had only tracking in, leave it here if we want to do something else when paused.
-            this.video.player().on('pause', function () {
+            player.on('pause', function () {
 
             });
 
-            this.video.player().on('play', function () {
+            player.on('play', function () {
               // Trigger a resize so the subtitles are adjusted
               $(window).trigger('resize');
             });
 
             // There was an issue with the video
-            this.video.player().on('error', function (error) {
+            player.on('error', function (error) {
               // TODO: what about some more elegant error tracking
                     console.error('Error: ',document.getElementById('video_player').player.error());
             });
