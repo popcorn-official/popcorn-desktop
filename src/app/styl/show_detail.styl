@@ -3,7 +3,7 @@
     height 100%
     width 100%
     position fixed
-    scrollable()
+    //scrollable()
     padding-top: 40px
     &::-webkit-scrollbar-track
         margin-top: 40px
@@ -203,7 +203,8 @@
     margin-top 10px
     margin-left 35px
     color white 
-
+    scrollable()
+    
     a
         text-decoration none
         color #707070
@@ -255,6 +256,7 @@
         margin-left 10px
         list-style none
         background #17181b
+        scrollable()
 
         li:nth-child(odd)
             background-color #1F2025
@@ -270,7 +272,9 @@
 
         li.active
             background-color #1b2d4c
-
+        
+            div
+                color white
 
     .current
         display block
@@ -403,6 +407,8 @@
     color #8d9296
     display inline
     margin-left 3%
+    position absolute
+    top 39px
     
 .episode-info-date
     font-weight 100
@@ -418,8 +424,7 @@
     margin-top 10px
     max-height 23%
     overflow-y auto
-    padding 10px
-    
+    padding 10px 10px 10px 0
     scrollable()
 
 .movie-btn-watch-episode
@@ -456,7 +461,11 @@
         width 56%
     
     .episode-info-title
-        font-size 12px
+        font-size 18px
+    
+    .episode-info-number
+        top 36px
+    
 
 @media all and (min-height: 700px) 
     .episode-info-description
