@@ -109,12 +109,42 @@
             Mousetrap.bind(['space', 'p'], function(e) {
                 $(".vjs-play-control").click();
             });
-			
-			$('.player-header-background').appendTo('div#video_player');
+
+            Mousetrap.bind('right', function (e) {
+                _this.seek(2)
+            });
+
+            Mousetrap.bind('shift+right', function (e) {
+                _this.seek(10)
+            });
+
+            Mousetrap.bind('ctrl+right', function (e) {
+                _this.seek(30)
+            });
+
+            Mousetrap.bind('left', function (e) {
+                _this.seek(-2)
+            });
+
+            Mousetrap.bind('shift+left', function (e) {
+                _this.seek(-10)
+            });
+
+            Mousetrap.bind('ctrl+left', function (e) {
+                _this.seek(-30)
+            });
+
+	    $('.player-header-background').appendTo('div#video_player');
+        },
+
+        seek: function (s) {
+            var t = this.player.currentTime();
+            this.player.currentTime(t + s);
+            this.player.trigger('mousemove'); //hack, make controls show
         },
 
         toggleFullscreen: function() {
-            
+
             this.nativeWindow = require('nw.gui').Window.get();
 
             if(this.nativeWindow.isFullscreen) {
