@@ -5,7 +5,7 @@
     var request = require('request');
     var Q = require('q');
 
-    var baseUrl = 'http://api.ysubs.com/subs/';
+    var baseUrl = 'http://api.yifysubtitles.com/subs/';
     var prefix = 'http://www.ysubs.com';
 
     var TTL = 1000 * 60 * 60 * 4; // 4 hours
