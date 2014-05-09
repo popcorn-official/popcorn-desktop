@@ -1,13 +1,12 @@
 (function(App) {
     "use strict";
-        
 
     var MovieDetail = Backbone.Marionette.ItemView.extend({
         template: '#movie-detail-tpl',
         className: 'app-overlay',
 
         ui: {
-            selected_lang: '.selected-lang' 
+            selected_lang: '.selected-lang'
         },
 
         events: {
@@ -32,33 +31,33 @@
             var torrents = this.model.get('torrents');
 
             if(torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
-            
+
                 var torrentUrl = torrents['1080p'].url;
                 this.model.set('quality', torrents['1080p'].url);
 
             } else if(torrents['1080p'] !== undefined ) {
-            
+
                 var torrentUrl = torrents['1080p'].url;
                 this.model.set('quality', torrents['1080p'].url);
 
             } else if(torrents['720p'] !== undefined ) {
-                
+
                 var torrentUrl = torrents['720p'].url;
                 this.model.set('quality', torrents['720p'].url);
 
             }
- 
+
 	        $('.health-icon').tooltip();
             $('.star-container').tooltip();
 
             var background = $(".movie-backdrop").attr("data-bgr");
-            
+
             $('<img/>').attr('src', background).load(function() {
                 $(this).remove();
                 $(".movie-backdrop").css('background-image', "url(" + background + ")");
                 $(".movie-backdrop").fadeIn( 300 );
             });
-            
+
             $(".sub-dropdown-arrow-down").show();
 
             // switch to default subtitle
@@ -66,8 +65,8 @@
 
             // add ESC to close this popup
             Mousetrap.bind('esc', function(e) {
-                App.vent.trigger('movie:closeDetail');  
-            });               
+                App.vent.trigger('movie:closeDetail');
+            });
         },
 
         onClose: function() {},
@@ -83,12 +82,11 @@
                 return false;
             });
 
-
         },
 
         closedropdown: function(e) {
             e.preventDefault();
-            var value = ($(e.currentTarget).attr("data-lang") == null) ? 'none' : $(e.currentTarget).attr("data-lang");      
+            var value = ($(e.currentTarget).attr("data-lang") == null) ? 'none' : $(e.currentTarget).attr("data-lang");
             this.switchSubtitle(value);
         },
 
@@ -103,7 +101,7 @@
         },
 
         closeDetails: function() {
-			App.vent.trigger('movie:closeDetail'); 	
+			App.vent.trigger('movie:closeDetail');
         },
 
         enableHD: function () {
@@ -141,7 +139,7 @@
             var subtitles = this.model.get("subtitle");
 
             // make sure we have an existing lang
-            if (subtitles === undefined || subtitles[lang] === undefined) 
+            if (subtitles === undefined || subtitles[lang] === undefined)
                 lang = 'none';
 
             // here we go...
@@ -150,13 +148,11 @@
             $(".flag-container").fadeOut();
             $(".sub-dropdown-arrow-down").show();
             $(".sub-dropdown-arrow-up").hide();
-            
 
             console.log("Subtitle: " + this.subtitle_selected);
         }
 
     });
-
 
     App.View.MovieDetail = MovieDetail;
 })(window.App);

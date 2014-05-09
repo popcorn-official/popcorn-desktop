@@ -51,7 +51,7 @@
 
 		<p class="title" title="<%= title %>"><%= title %></p>
 		<p class="year"><%= year %></p>
-	</script>	
+	</script>
 
 	<script id="movie-list-tpl" type="text/x-template">
 		<div class="spinner">
@@ -81,7 +81,7 @@
 			</div>
 		</div>
 		<div class="bookmarks"></div>
-	</script>		
+	</script>
 
 	<script id="main-window-tpl" type="text/x-template">
 		<header id="header"></header>
@@ -110,7 +110,7 @@
 		<div class="blur-header"></div>
 		<div class="filter-bar-region"></div>
 		<div class="favorite-list-region"></div>
-	</script>		
+	</script>
 
 	<script id="changelog-tpl" type="text/x-template">
 		<a class="btn-close"><img src="/images/close.svg" width="50"></a>
@@ -132,11 +132,11 @@
 				<h1><%= i18n.__("Terms of Service") %></h1>
 				<p class="disclaimer-text">
 					Your Acceptance<br/><br/>
-					 
+
 					By using the 'POPCORN TIME' app you signify your agreement to (1) these terms and conditions (the 'Terms of Service').<br/><br/>
-					 
+
 					Privacy Policy.<br/><br/>
-					 
+
 					You understand that by using 'POPCORN TIME' you may encounter material that you may deem to be offensive, indecent, or objectionable, and that such content may or may not be identified as having explicit material. 'POPCORN TIME' will have no liability to you for such material – you agree that your use of 'POPCORN TIME' is at your sole risk.
 					<br/>
 					DISCLAIMERS<br/><br/>
@@ -144,21 +144,21 @@
 					YOU EXPRESSLY AGREE THAT YOUR USE OF 'POPCORN TIME' IS AT YOUR SOLE RISK. 'POPCORN TIME' AND ALL PRODUCTS ARE PROVIDED TO YOU “AS IS” WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. 'POPCORN TIME' MAKES ABSOLUTELY NO WARRANTIES WHATSOEVER, EXPRESS OR IMPLIED. TO THE FULLEST EXTENT POSSIBLE UNDER APPLICABLE LAWS, YIFY DISCLAIMS ALL WARRANTIES, EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR OTHER VIOLATIONS OF RIGHTS.
 					<br/>
 					LIMITATION OF LIABILITY<br/><br/>
-					 
+
 					'POPCORN TIME' IS NOT RESPONSIBLE FOR ANY PROBLEMS OR TECHNICAL MALFUNCTION OF ANY WEBSITE, NETWORK, COMPUTER SYSTEMS, SERVERS, PROVIDERS, COMPUTER EQUIPMENT, OR SOFTWARE, OR FOR ANY FAILURE DUE TO TECHNICAL PROBLEMS OR TRAFFIC CONGESTION ON THE INTERNET OR 'POPCORN TIME' OR COMBINATION THEREOF, INCLUDING ANY INJURY OR DAMAGE TO USERS OR TO ANY COMPUTER OR OTHER DEVICE ON OR THROUGH WHICH 'POPCORN TIME' IS PROVIDED. UNDER NO CIRCUMSTANCES WILL 'POPCORN TIME' BE LIABLE FOR ANY LOSS OR DAMAGE, INCLUDING PERSONAL INJURY OR DEATH, RESULTING FROM YOUR USE OF 'POPCORN TIME'.
 					<br/>
 					SOURCE MATERIAL<br/><br/>
-					 
+
 					ALL MOVIES ARE NOT HOSTED IN ANY SERVER AND ARE STREAMED USING THE P2P BIT TORRENT PROTOCOL. ALL MOVIES ARE PULLED IN FROM THE OPEN PUBLIC APIS. BY WATCHING A MOVIE WITH THIS APPLICATION YOU MIGHT BE COMMITING COPYRIGHT VIOLATIONS DEPENDING ON YOUR COUNTRY´S LAWS. WE DO NOT TAKE ANY RESPONSABILITIES.
 					<br/>
 					Ability to Accept Terms of Service<br/><br/>
-					 
+
 					By using 'POPCORN TIME' or accessing this site you affirm that you are either more than 18 years of age, or an emancipated minor, or possess legal parental or guardian consent, and are fully able and competent to enter into the terms, conditions, obligations, affirmations, representations, and warranties set forth in these Terms of Service, and to abide by and comply with these Terms of Service. In any case, you affirm that you are over the age of 13, as the Service is not intended for children under 13. If you are under 13 years of age, then please do not use the Service. There are lots of other great web sites for you. Talk to your parents about what sites are appropriate for you.<br/>
 				</P>
 				<a class="btn-accept"><%= i18n.__("I Accept") %></a> <a class="btn-close"><%= i18n.__("Leave") %></a>
 			</div>
-		</div>		
-	</script>	
+		</div>
+	</script>
 
 	<script id="filter-bar-movie-tpl" type="text/x-template">
 		<ul class="nav nav-hor left">
@@ -228,12 +228,12 @@
 						<div class="dropdown-arrow"></div>
 					</div>
 				</div>
-				
+
 				<div class="subtitles-options">
 					<div class="dropdown subtitles-language-default">
 						<p><%= i18n.__("Default Subtitle") %>:</p>
 						<%
-							var sub_langs = "<option "+(Settings.subtitle_language == "none"? "selected='selected'":"")+" value='none'>" + 
+							var sub_langs = "<option "+(Settings.subtitle_language == "none"? "selected='selected'":"")+" value='none'>" +
 												i18n.__("Disabled") + "</option>";
 
 							for(var key in App.Localization.languages) {
@@ -241,14 +241,14 @@
 									sub_langs += "<option "+(Settings.subtitle_language == key? "selected='selected'":"")+" value='"+key+"'>"+
 														App.Localization.languages[key].display+"</option>";
 								}
-							}	
+							}
 						%>
 						<select name="subtitle_language"><%=sub_langs%></select>
 						<div class="dropdown-arrow"></div>
 					</div>
 				</div>
 
-				<div class="more-options">				 
+				<div class="more-options">
 					<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input type="text" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
 					<br><br>
 					<div class="btn-settings rebuild-tvshows-database"><%= i18n.__("Rebuild TV Shows Database") %></div>
@@ -256,7 +256,7 @@
 					<div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
 
 					<div class="btn-settings flush-databases"><%= i18n.__("Flush all databases") %></div>
-				</div>				
+				</div>
 			</div>
 		</div>
 	</script>
@@ -265,7 +265,7 @@
 			<li class="source showMovies"><%= i18n.__("Movies") %></li>
 			<li class="source active showShows"><%= i18n.__("TV Series") %></li>
 		</ul>
-		
+
 		<ul id="nav-filters" class="nav nav-hor filters">
 			<li class="dropdown filter genres">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -307,13 +307,13 @@
 			<li class="source showMovies"><%= i18n.__("Movies") %></li>
 			<li class="source showShows"><%= i18n.__("TV Series") %></li>
 		</ul>
-		
+
 		<ul class="nav nav-hor right">
 			<!-- TODO: Add active class -->
 			<li><button class="favorites active"></button></li>
 			<li><button class="settings"></button></li>
 		</ul>
-	</script>	
+	</script>
 
 	<script id="header-tpl" type="text/x-template">
 		<nav class="btn-set <%= process.platform %>">
@@ -361,11 +361,11 @@
 						<% }; %>
 					</div>
 				</ul>
-				
+
 				<div class="movie-overview-container">
-					<div class="movie-meta-overview"><%= synopsis %></div> 
+					<div class="movie-meta-overview"><%= synopsis %></div>
 				</div>
-				
+
 				<div class="movie-detail-close"></div>
 
 				<div class="movie-controlls-container">
@@ -375,7 +375,7 @@
 					<div class="movie-btn-watch-trailer">
 						<div class="movie-watch-now"><%= i18n.__("Watch Trailer") %></div>
 					</div>
-					
+
 					<div class="movie-quality-container">
 						<% if (torrents["720p"] !== undefined && torrents["1080p"] !== undefined) { %>
 							<div class="q720">720</div>
@@ -384,19 +384,19 @@
 								<input type="radio" name="switch" id="switch-hd-off" >
 								<input type="radio" name="switch" id="switch-hd-on" checked >
 								<span class="toggle"></span>
-							</div> 
+							</div>
 						<% } else { %>
 							<div class="q720"><% if (torrents["720p"] !== undefined) { %>720p<% }else { %><% if (torrents["1080p"] !== undefined) { %>1080p<% }} %> </div>
 						<% } %>
 					</div>
 
 					<div class="sub-dropdown"><%= i18n.__("Subtitles") %><div id="toggle-sub-dropdown" class="flag toggle NA selected-lang"></div>
-					<div id="toggle-sub-dropdown-arrow" class="sub-dropdown-arrow-down"></div> <div class="sub-dropdown-arrow-up"></div> </div> 
+					<div id="toggle-sub-dropdown-arrow" class="sub-dropdown-arrow-down"></div> <div class="sub-dropdown-arrow-up"></div> </div>
 
-					<div class="flag-container"> 
+					<div class="flag-container">
 						<% for(var k in subtitle){ %>
 						<div id="sub-flag-icon" class="flag <%= k %>" data-lang="<%= k %>"></div>
-						<% } %> 
+						<% } %>
 					</div>
 				</div>
 			</div>
@@ -409,7 +409,7 @@
 			<div class="tv-poster-overlay"></div>
 			<div data-bgr="<%= images.fanart %>" class="tv-poster-background"></div>
 			<div style="background-image:url(<%= images.poster %>);" class="tv-cover"></div>
-			
+
 			<div class="tv-meta-data">
 				<div class="tv-title"><%= title %></div>
 				<div class="tv-duration"><%= year %></div>
@@ -434,7 +434,7 @@
 				<div class="tv-overview"><%= synopsis %></div>
 			</div>
 		</div>
-		
+
 		<div class="episode-base">
 			<div class="episode-info">
 				<div class="episode-info-title"></div>
@@ -445,12 +445,12 @@
 					<div class="movie-watch-now"><%= i18n.__("Watch Now") %></div>
 				</div>
 			</div>
-			
+
 			<div class="display-base-title">
 				<div class="episode-list-text"><%= i18n.__("Seasons") %></div>
 				<div class="episode-list-text"><%= i18n.__("Episodes") %></div>
 			</div>
-			
+
 			<div class="season-episode-container">
 				<!-- <div class="season-ep-bar"></div> -->
 				<div id="tabs_base">
@@ -473,14 +473,14 @@
 						<% _.each(torrents, function(value, season) { %>
 							<div id="season-<%=season %>" class="tabs-episode">
 								<ul>
-									<% _.each(value, function(episodeData, episode) { 
+									<% _.each(value, function(episodeData, episode) {
 										var first_aired = '';
 										if (episodeData.first_aired !== undefined) {
 											first_aired = moment.unix(episodeData.first_aired).lang(Settings.language).format("LLLL").capitalizeEach();
-										} %>								
+										} %>
 										<li class="epidoseSummary" data-id="<%=episodeData.tvdb_id %>" data-torrent="<%=episodeData.torrents[0].url %>">
 											<a href="#" class="episodeData">
-												<span><%=episodeData.episode %></span> 
+												<span><%=episodeData.episode %></span>
 												<div><%=episodeData.title %></div>
 											</a>
 											<span id="watched-<%=episodeData.season %>-<%=episodeData.episode %>" class="watched-false"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
@@ -506,7 +506,7 @@
 
 	<script id="player-tpl" type="text/x-template">
 		<div class="player-header-background vjs-control-bar">
-			<div class="player-title"><%= title %></div> 
+			<div class="player-title"><%= title %></div>
 				<div class="details-player">
 					<span class="close-info-player"></span>
 					<div class="download-info-player">
@@ -541,9 +541,9 @@
 			for(var index in subArray ) {
 				var imDefault = "";
 
-				if(defaultSub == subArray[index].language) 
+				if(defaultSub == subArray[index].language)
 					imDefault = "default";
-				
+
 				subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" '+ imDefault +' />';
 			}
 		%>
@@ -553,7 +553,7 @@
 		</video>
 	</script>
 
-	
+
 
 	<script id="loading-tpl" type="text/x-template">
 		<div class="loading">
@@ -563,7 +563,7 @@
 			<div class="state">
 				<!-- download -->
 				<div class="text_download"><%= i18n.__(state) %></div>
-				
+
 				<div class="seed_status" style="display:none">
 					<!-- loading bar -->
 					<div class="loading-progressbar">
@@ -657,7 +657,7 @@
 	<script src="lib/views/favorites/favorite_browser.js"></script>
 	<script src="lib/views/favorites/filter_bar.js"></script>
 	<script src="lib/views/favorites/favorite_item.js"></script>
-	<script src="lib/views/favorites/favorite_list.js"></script>	
+	<script src="lib/views/favorites/favorite_list.js"></script>
 
 	<script src="bootstrap.js"></script>
 </body>
