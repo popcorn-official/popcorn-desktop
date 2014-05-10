@@ -185,6 +185,7 @@
         },
 
         initDB: function(cb) {
+        	 document.getElementById("init-status").innerHTML = "Status: Creating Database";
             console.log("Extracting data from remote api " + Settings.tvshowApiEndpoint);
             db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
                 db.tvshows.loadDatabase(function (err) {
@@ -207,7 +208,8 @@
         syncDB: function(cb) {
             Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
                 var last_update = setting.value;
-                console.log("Updating data from remote api since " + last_update);
+                console.log("Updating database from remote api since " + last_update);
+                document.getElementById("init-status").innerHTML = "Status: Updating database";
                 request.get(Settings.tvshowApiEndpoint + "shows/updated/" + last_update, function(err, res, body) {
                     if(!err) {
                         var toUpdate  = JSON.parse(body);
@@ -349,6 +351,7 @@
                         if (setting == null ) {
                             // we need to do a complete update
                             // this is our first launch
+                            
                             Database.initDB(function(err, setting) {
                                 // we write our new update time
                                 Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
@@ -360,7 +363,10 @@
                                 Database.syncDB(callback);
                             } else {
                                 console.log("Skiping synchronization TTL not meet");
-                                callback();
+                                document.getElementById("initbar-contents").style.width="100%";
+                                document.getElementById("init-status").innerHTML = "Status: Skiping synchronization TTL not meet";
+								setTimeout(function() { callback(); },500); //so user sees bar move :P
+                                
                             }
 
                         }

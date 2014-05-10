@@ -1,0 +1,47 @@
+#init-content {
+    width: 100%;
+    /* Full Width */
+	height: 5px;
+    background: #000;
+    margin-top: 14%;
+}
+
+.init-expand {
+    width: 100%;
+    height: 1px;
+    margin: 2px 0;
+    background: #2187e7;
+    position: absolute;
+    box-shadow: 0px 0px 10px 1px rgba(0,198,255,0.7);
+    -moz-animation: fullexpand 10s ease-out;
+    -webkit-animation: fullexpand 10s ease-out;
+}
+
+/* Full Width Animation Bar */
+@-moz-keyframes fullexpand {
+    0%  { width: 0px;
+}
+
+100% {
+    width: 100%;
+}	
+}
+
+@-webkit-keyframes fullexpand {
+    0% {
+        width: 0px;
+    }
+
+    100% {
+        width: 100%;
+    };
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform:rotate(0deg); }
+    100% { -webkit-transform:rotate(360deg); }
+}
+@-webkit-keyframes spinoff {
+    0% { -webkit-transform:rotate(0deg); }
+    100% { -webkit-transform:rotate(-360deg); }
+}

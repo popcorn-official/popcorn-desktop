@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap-theme.css">
 	<link rel="stylesheet" type="text/css" href="css/video-js.css">
 	<link rel="stylesheet" type="text/css" href="css/app.css">
+	<link rel="stylesheet" type="text/css" href="css/animation.css">
 </head>
 <body>
 	<div class="main-window-region"></div>
@@ -607,9 +608,11 @@
 	</script>
 
 	<script id="initializing-tpl" type="text/x-template">
-		<div class="loading-background"></div>
-		<div class="loading-background-overlay"></div>
-		<div class="state"><%= i18n.__("Initializing PopcornTime. Please Wait...") %></div>
+		<div class="init-text"><%= i18n.__("Initializing PopcornTime. Please Wait...") %></div>
+		<div class="init-progressbar">
+			<div id="initbar-contents"></div>
+		</div>
+		<div id="init-status" class="init-status"></div>
 	</script>
 
 	<!-- 3rd party Dependencies -->
