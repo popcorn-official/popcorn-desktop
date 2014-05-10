@@ -71,18 +71,27 @@ App.vent.on('error', function(err) {
 // Create the System Temp Folder. This is used to store temporary data like movie files.
 if( ! fs.existsSync(tmpFolder) ) { fs.mkdir(tmpFolder); }
 
-var wipeTmpFolder = function() {
-    if( typeof tmpFolder != 'string' ){ return; }
-    fs.readdir(tmpFolder, function(err, files){
-        for( var i in files ) {
-            fs.unlink(tmpFolder+'/'+files[i]);
-        }
-    });
+deleteFolder = function(path) {
+    if( typeof path != 'string' ) return;
+	
+    var files = [];
+    if( fs.existsSync(path) ) {
+        files = fs.readdirSync(path);
+        files.forEach(function(file,index){
+            var curPath = path + "/" + file;
+            if(fs.lstatSync(curPath).isDirectory()) {
+                deleteFolder(curPath);
+            } else {
+                fs.unlinkSync(curPath);
+            }
+        });
+        fs.rmdirSync(path);
+    }
 }
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
 win.on('close', function(){
-    wipeTmpFolder();
+    deleteFolder(tmpFolder);
     win.close(true);
 });
 
