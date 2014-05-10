@@ -24,7 +24,7 @@
             this.selectSeason($("#tabs_season li").first("li"));
             
             $(".filter-bar").hide();    
-
+            $('.star-container-tv').tooltip();
              var background = $(".tv-poster-background").attr("data-bgr");
               $('<img/>').attr('src', background).load(function() {
                 $(this).remove();

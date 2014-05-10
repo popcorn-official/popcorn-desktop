@@ -441,6 +441,8 @@
 				<div class="tv-num-episodes"><%= genres[0] %></div>
 				<div class="tv-dot"></div>
 				<% p_rating = Math.round(rating.percentage) / 20; // Roundoff number to nearest 0.5 %>
+				<div data-toggle="tooltip" data-placement="right" title="<%= p_rating %> stars" class="star-container-tv">
+
 				<% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
 					<div class="tv-rating-star full"></div>
 				<% }; %>
@@ -450,6 +452,7 @@
 				<% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
 					<div class="tv-rating-star null"></div>
 				<% }; %>
+				</div>
 				<% if (synopsis.length > 776) { var synopsis = synopsis.substring(0, 776) + "..."; } %>
 				<div class="tv-overview"><%= synopsis %></div>
 			</div>
