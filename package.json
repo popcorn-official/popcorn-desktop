@@ -54,6 +54,7 @@
     "grunt-conventional-changelog": "^1.1.0",
     "grunt-contrib-copy": "0.5.0",
     "grunt-contrib-stylus": "0.15.1",
+    "grunt-contrib-watch": "0.6.x",
     "grunt-node-webkit-builder": "0.1.x",
     "grunt-exec": "0.4.x",
     "load-grunt-tasks": "0.4.0",
