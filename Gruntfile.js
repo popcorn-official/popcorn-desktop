@@ -20,14 +20,12 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('build', [
 		'default',
-		'nodewebkit:build',
-		'copy:ffmpeg'
+		'nodewebkit:build'
 	]);
 
 	grunt.registerTask('dist', [
 		'default',
 		'nodewebkit:dist',
-		'copy:ffmpeg',
 		'copy:package'
 	]);
 
@@ -85,44 +83,6 @@ module.exports = function(grunt) {
 		},
 
 		copy: {
-			ffmpeg: {
-				files: [
-					{
-						src: 'libraries/win/ffmpegsumo.dll',
-						dest: 'build/releases/Popcorn-Time/win/Popcorn-Time/ffmpegsumo.dll',
-						flatten: true
-					},{
-						src: 'libraries/win/ffmpegsumo.dll',
-						dest: 'build/cache/win/<%= nodewebkit.build.options.version %>/ffmpegsumo.dll',
-						flatten: true
-					},{
-						src: 'libraries/mac/ffmpegsumo.so',
-						dest: 'build/releases/Popcorn-Time/mac/Popcorn-Time.app/Contents/Frameworks/node-webkit Framework.framework/Libraries/ffmpegsumo.so',
-						flatten: true
-					},{
-						src: 'libraries/mac/ffmpegsumo.so',
-						dest: 'build/cache/mac/<%= nodewebkit.build.options.version %>/node-webkit.app/Contents/Frameworks/node-webkit Framework.framework/Libraries/ffmpegsumo.so',
-						flatten: true
-					},{
-						src: 'libraries/linux64/libffmpegsumo.so',
-						dest: 'build/releases/Popcorn-Time/linux64/Popcorn-Time/libffmpegsumo.so',
-						flatten: true
-					},{
-						src: 'libraries/linux64/libffmpegsumo.so',
-						dest: 'build/cache/linux64/<%= nodewebkit.build.options.version %>/libffmpegsumo.so',
-						flatten: true
-					},{
-						src: 'libraries/linux32/libffmpegsumo.so',
-						dest: 'build/releases/Popcorn-Time/linux32/Popcorn-Time/libffmpegsumo.so',
-						flatten: true
-					},{
-						src: 'libraries/linux32/libffmpegsumo.so',
-						dest: 'build/cache/linux32/<%= nodewebkit.build.options.version %>/libffmpegsumo.so',
-						flatten: true
-					}
-				]
-			},
-
 			package: {
 				files: [
 					{
@@ -140,20 +100,16 @@ module.exports = function(grunt) {
 		
 		exec: {
 			win: {
-				cwd: 'build/releases/Popcorn-Time/win/Popcorn-Time/',
-				cmd: 'Popcorn-Time.exe .'
+				cmd: '"build/cache/win/<%= nodewebkit.build.options.version %>/nw.exe" .'
 			},
 			mac: {
-				cwd: 'build/releases/Popcorn-Time/mac/',
-				cmd: 'open -n ./Popcorn-Time.app'
+				cmd: 'open -n "build/cache/mac/<%= nodewebkit.build.options.version %>/node-webkit.app" --args .'
 			},
 			linux32: {
-				cwd: 'build/releases/Popcorn-Time/linux32/Popcorn-Time/',
-				cmd: './Popcorn-Time .'
+				cmd: '"build/cache/linux32/<%= nodewebkit.build.options.version %>/nw" .'
 			},
 			linux64: {
-				cwd: 'build/releases/Popcorn-Time/linux64/Popcorn-Time/',
-				cmd: './Popcorn-Time .'
+				cmd: '"build/cache/linux64/<%= nodewebkit.build.options.version %>/nw" .'
 			}
 		},
 
