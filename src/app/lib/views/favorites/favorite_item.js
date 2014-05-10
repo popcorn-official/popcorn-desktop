@@ -9,7 +9,8 @@
 
         ui: {
             coverImage: '.cover-image',
-            cover: '.cover'
+            cover: '.cover',
+            bookmarkIcon: '.actions-favorites'
         },
 
         events: {
@@ -19,6 +20,7 @@
 
         onShow: function() {
             this.ui.coverImage.on('load', _.bind(this.showCover, this));
+			this.ui.bookmarkIcon.addClass('selected');
         },
 
         onClose: function() {
