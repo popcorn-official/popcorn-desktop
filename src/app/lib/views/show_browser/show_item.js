@@ -9,7 +9,8 @@
 
         ui: {
             coverImage: '.cover-image',
-            cover: '.cover'
+            cover: '.cover',
+            bookmarkIcon: '.actions-favorites'
         },
 
         events: {
@@ -23,11 +24,9 @@
             var that = this;
             Database.getBookmark(this.model.get('imdb_id'), function(err, value) {
                 if (!err) {
-
                     that.model.set('bookmarked', value);
-
                     if (value == true) {
-                        console.log("Bookmarked");
+                        that.ui.bookmarkIcon.addClass('selected');
                     }
                 } else {
                     that.model.set('bookmarked', false);
@@ -68,10 +67,12 @@
             if (this.model.get('bookmarked') == true) {
                 Database.deleteBookmark(this.model.get('imdb_id'), function(err, data) {
                     that.model.set('bookmarked', false);
+                    that.ui.bookmarkIcon.removeClass('selected');
                 })
             } else {
                 Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function(err, data) {
                     that.model.set('bookmarked', true);
+                    that.ui.bookmarkIcon.addClass('selected');
                 })
             }
         }
