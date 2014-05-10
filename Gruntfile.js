@@ -103,7 +103,7 @@ module.exports = function(grunt) {
 				cmd: '"build/cache/win/<%= nodewebkit.build.options.version %>/nw.exe" .'
 			},
 			mac: {
-				cmd: 'open -n "build/cache/mac/<%= nodewebkit.build.options.version %>/node-webkit.app" --args .'
+				cmd: 'build/cache/mac/<%= nodewebkit.build.options.version %>/node-webkit.app/Contents/MacOS/node-webkit .'
 			},
 			linux32: {
 				cmd: '"build/cache/linux32/<%= nodewebkit.build.options.version %>/nw" .'
