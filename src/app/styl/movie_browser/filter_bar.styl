@@ -92,30 +92,33 @@
                 background-image: url(../../images/icons/TriggerUpdate_hover.png);
 
     .search input
-            line-height: normal;
-            -webkit-app-region: no-drag
-            outline: none
-            color: transparent;
-            background-color: transparent;
-            cursor: pointer;
-            width: 0px;
-            height: 18px;
-            position: relative;
-
-            background: url('../images/icons/search.png') no-repeat 5px center;
-            border: solid 0px;
-            margin: 8px 3px 0
-            padding: 2px
-            padding-left: 28px;
-            border-radius: 10em;
-            transition: all .5s;
-
-            -webkit-appearance: textfield;
-            -webkit-box-sizing: content-box;
+        line-height inherit
+        -webkit-app-region no-drag
+        outline none
+        cursor pointer
+        width 70px
+        height 18px
+        position relative
+        background url("../images/icons/search.png") no-repeat 5px center
+        border solid 0px
+        margin 8px 3px 0
+        padding 1px 2px 3px
+        padding-left 28px
+        -webkit-border-radius 10em
+        border-radius 10em
+        -webkit-transition all 0.5s
+        transition all 0.5s
+        -webkit-appearance textfield
+        -webkit-box-sizing content-box
+        color rgba(196, 198, 200, 0.47)
+        background-color rgba(14, 14, 15, 0.77)
 
             &:hover
                 background: url('../images/icons/search_hover.png') no-repeat 5px center;
-
+                background-color rgba(14, 14, 15, 1)
+                color white
+                width 80px
+                
             &:focus
                 background: #ededed url('../images/icons/search_hover.png') no-repeat 5px center;
                 width: 130px;
