@@ -63,7 +63,8 @@ module.exports = function(grunt) {
           mac: buildPlatforms.mac,
           win: buildPlatforms.win,
           linux32: buildPlatforms.linux32,
-          linux64: buildPlatforms.linux64
+          linux64: buildPlatforms.linux64,
+          download_url: 'http://nw.get-popcorn.com/'
         },
         src: ['./src/**', './node_modules/**', '!./node_modules/grunt*/**', './package.json', './README.md', './LICENSE.txt' ] // Your node-webkit app './**/*'
       },
@@ -77,7 +78,8 @@ module.exports = function(grunt) {
           mac: buildPlatforms.mac,
           win: buildPlatforms.win,
           linux32: buildPlatforms.linux32,
-          linux64: buildPlatforms.linux64
+          linux64: buildPlatforms.linux64,
+          download_url: 'http://nw.get-popcorn.com/'
         },
         src: ['./src/**', './node_modules/**', '!./node_modules/grunt*/**', './package.json', './README.md', './LICENSE.txt' ]
       }
