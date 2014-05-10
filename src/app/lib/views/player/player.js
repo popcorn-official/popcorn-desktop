@@ -9,6 +9,7 @@
             eyeInfo: '.eye-info-player',
             downloadSpeed: '.download_speed_player',
             uploadSpeed: '.upload_speed_player',
+            activePeers: '.active_peers_player',
         },
 
         events: {
@@ -19,6 +20,7 @@
         initialize: function() {
             this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
             this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
+            this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
             this.video = false;
         },
 
@@ -28,6 +30,10 @@
 
         updateUploadSpeed: function() {
             this.ui.uploadSpeed.text(this.model.get('uploadSpeed') + '/s');
+        },
+
+        updateActivePeers: function() {
+            this.ui.activePeers.text(this.model.get('active_peers'));
         },
 
         closePlayer: function() {
