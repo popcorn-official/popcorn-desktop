@@ -72,6 +72,7 @@
 
         // format: {page: page, keywords: title}
         getBookmarks: function(data, cb) {
+        	console.log("getBookmarks fired");
             var page = data.page-1;
             var byPage = 30;
             var offset = page*byPage;
@@ -186,6 +187,7 @@
 
         initDB: function(cb) {
         	 document.getElementById("init-status").innerHTML = "Status: Creating Database";
+        	 document.getElementById("initbar-contents").style.width="20%";
             console.log("Extracting data from remote api " + Settings.tvshowApiEndpoint);
             db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
                 db.tvshows.loadDatabase(function (err) {
@@ -210,6 +212,7 @@
                 var last_update = setting.value;
                 console.log("Updating database from remote api since " + last_update);
                 document.getElementById("init-status").innerHTML = "Status: Updating database";
+                document.getElementById("initbar-contents").style.width="20%";
                 request.get(Settings.tvshowApiEndpoint + "shows/updated/" + last_update, function(err, res, body) {
                     if(!err) {
                         var toUpdate  = JSON.parse(body);
@@ -240,6 +243,7 @@
         },      
 
         getSettings: function(cb) {
+        	console.log("getSettings fired");
             db.settings.find({}).exec(cb);
         },
 
@@ -364,7 +368,7 @@
                             } else {
                                 console.log("Skiping synchronization TTL not meet");
                                 document.getElementById("initbar-contents").style.width="100%";
-                                document.getElementById("init-status").innerHTML = "Status: Skiping synchronization TTL not meet";
+                                document.getElementById("init-status").innerHTML = "Status: Skiping synchronization TTL not met";
 								setTimeout(function() { callback(); },500); //so user sees bar move :P
                                 
                             }
