@@ -92,7 +92,7 @@
                 background-image: url(../../images/icons/TriggerUpdate_hover.png);
 
     .search input
-        line-height inherit
+        line-height normal
         -webkit-app-region no-drag
         outline none
         cursor pointer
@@ -113,22 +113,22 @@
         color rgba(196, 198, 200, 0.47)
         background-color rgba(14, 14, 15, 0.77)
 
-            &:hover
-                background: url('../images/icons/search_hover.png') no-repeat 5px center;
-                background-color rgba(14, 14, 15, 1)
-                color white
-                width 80px
-                
-            &:focus
-                background: #ededed url('../images/icons/search_hover.png') no-repeat 5px center;
-                width: 130px;
-                color: #c4c6c8;
-                background-color: #0e0e0f;
-                cursor: auto;
+        &:hover
+            background: url('../images/icons/search_hover.png') no-repeat 5px center;
+            background-color rgba(14, 14, 15, 1)
+            color white
+            width 80px
+            
+        &:focus
+            background: #ededed url('../images/icons/search_hover.png') no-repeat 5px center;
+            width: 130px;
+            color: #c4c6c8;
+            background-color: #0e0e0f;
+            cursor: auto;
 
-            &::-moz-placeholder,
-            &::-webkit-input-placeholder
-                color: transparent;
+        &::-moz-placeholder,
+        &::-webkit-input-placeholder
+            color: transparent;
 
-            &:focus::-webkit-input-placeholder
-                color: #c4c6c8;
+        &:focus::-webkit-input-placeholder
+            color: #c4c6c8;
