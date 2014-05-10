@@ -78,7 +78,9 @@
 
                 // we'll delete this element from our list view
                 $(e.currentTarget).closest( "li" ).remove();
-
+                if($('.bookmarks li').length == 0) {
+                    App.vent.trigger('movies:list', []);
+                }
             })
             
         }
