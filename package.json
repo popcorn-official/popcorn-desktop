@@ -32,7 +32,7 @@
     "i18n": "0.4.1",
     "xmlrpc": "1.2.0",
     "request": "2.34.0",
-    "peerflix": "0.8.x",
+    "peerflix": "0.9.x",
     "cheerio": "0.15.0",
     "express": "4.1.1",
     "socket.io": "0.9.16",
