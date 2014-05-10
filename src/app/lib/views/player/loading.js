@@ -55,7 +55,7 @@
             this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
             this.ui.downloadPercent.text(streamInfo.get('percent').toFixed() + '%');
 
-            this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed') + '/ s');
+            this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
             this.ui.progressbar.css('width', streamInfo.get('percent').toFixed() + '%');
         },
 

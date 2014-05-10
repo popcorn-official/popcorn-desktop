@@ -25,11 +25,11 @@
         },
 
         updateDownloadSpeed: function() {
-            this.ui.downloadSpeed.text(this.model.get('downloadSpeed') + '/s');
+            this.ui.downloadSpeed.text(this.model.get('downloadSpeed'));
         },
 
         updateUploadSpeed: function() {
-            this.ui.uploadSpeed.text(this.model.get('uploadSpeed') + '/s');
+            this.ui.uploadSpeed.text(this.model.get('uploadSpeed'));
         },
 
         updateActivePeers: function() {

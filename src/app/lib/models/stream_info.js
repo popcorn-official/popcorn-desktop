@@ -6,25 +6,27 @@
 			var active = function(wire) {return !wire.peerChoking;};
 			var swarm = this.get('engine').swarm;
 			var BUFFERING_SIZE = 10 * 1024 * 1024;
-			//algorithm for translate the speed
-			var speed_upload = swarm.uploadSpeed(); //upload speed
-			speed_upload = (isNaN(speed_upload) || speed_upload === undefined) ? 0 : speed_upload;
-			//Math.log(speed_upload) makes no sense if speed_upload equals 0
-			var converted_upload_speed = speed_upload !== 0 ? Math.floor( Math.log(speed_upload) / Math.log(1024) ) : 0;
-			var final_upload_speed = ( speed_upload / Math.pow(1024, converted_upload_speed) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][converted_upload_speed];
-			
-			var speed = swarm.downloadSpeed(); // download speed
-			speed = (isNaN(speed) || speed === undefined) ? 0 : speed;
-                        //Math.log(speed) makes no sense if speed equals 0
-                        var converted_speed = speed !== 0 ? Math.floor( Math.log(speed) / Math.log(1024) ) : 0;
-			var final_speed = ( speed / Math.pow(1024, converted_speed) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][converted_speed];
+
+			var upload_speed = swarm.uploadSpeed(); // upload speed
+			var final_upload_speed = '0 B/s';
+			if(!isNaN(upload_speed) && upload_speed != 0){
+				var converted_speed = Math.floor( Math.log(upload_speed) / Math.log(1024) );
+				final_upload_speed = ( upload_speed / Math.pow(1024, converted_speed) ).toFixed(2) + ' ' + ['B', 'KB', 'MB', 'GB', 'TB'][converted_speed]+'/s';
+			}
+
+			var download_speed = swarm.downloadSpeed(); // download speed
+			var final_download_speed = '0 B/s';
+			if(!isNaN(download_speed) && download_speed != 0){
+				var converted_speed = Math.floor( Math.log(download_speed) / Math.log(1024) );
+				final_download_speed = ( download_speed / Math.pow(1024, converted_speed) ).toFixed(2) + ' ' + ['B', 'KB', 'MB', 'GB', 'TB'][converted_speed]+'/s';
+			}
 
 			this.set('downloaded', swarm.downloaded);
 			this.set('active_peers', swarm.wires.filter(active).length);
 			this.set('total_peers', swarm.wires.length);
 
 			this.set('uploadSpeed', final_upload_speed); // variable for Upload Speed
-			this.set('downloadSpeed', final_speed); // variable for Download Speed
+			this.set('downloadSpeed', final_download_speed); // variable for Download Speed
 
 			swarm.downloaded = (swarm.downloaded) ? swarm.downloaded : 0;
 			this.set('percent', (swarm.downloaded / (BUFFERING_SIZE / 100)));
