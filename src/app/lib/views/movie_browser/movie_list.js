@@ -20,7 +20,8 @@
         itemViewContainer: '.movies',
 
         events: {
-            'mousewheel': 'onScroll'
+            'mousewheel': 'onScroll',
+            'keydown': 'onScroll'
         },
 
         isEmpty: function() {
@@ -91,6 +92,17 @@
             $(window).on('resize', this.onResize);
             this.onResize();
             this.ui.spinner.hide();
+			
+            $('.filter-bar').on('mousedown', function(e){
+                if(e.target.localName != 'div') return;
+                _.defer(function(){
+                    self.$('.movies:first').focus();
+                });
+            });
+            $(".movies").attr('tabindex','1');
+            _.defer(function(){
+                self.$('.movies:first').focus();
+            });
         },
 
         onScroll: function() {
