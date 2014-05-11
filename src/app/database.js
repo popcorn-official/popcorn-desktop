@@ -186,8 +186,8 @@
         },
 
         initDB: function(cb) {
-        	 document.getElementById("init-status").innerHTML = "Status: Creating Database";
-        	 document.getElementById("initbar-contents").style.width="20%";
+            $("#init-status").html("Status: Creating Database");
+            $("#initbar-contents").css("width","20%");
             console.log("Extracting data from remote api " + Settings.tvshowApiEndpoint);
             db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
                 db.tvshows.loadDatabase(function (err) {
