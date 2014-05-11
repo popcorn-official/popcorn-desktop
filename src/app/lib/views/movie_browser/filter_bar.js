@@ -11,6 +11,7 @@
             genreValue:  '.genres  .value'
         },
         events: {
+            'hover  @ui.search': 'focus',
             'submit @ui.searchForm': 'search',
             'click .sorters .dropdown-menu a': 'sortBy',
             'click .genres .dropdown-menu a': 'changeGenre',
@@ -21,9 +22,18 @@
             'click .triggerUpdate': 'updateDB'
         },
 
+        focus: function (e) {
+            console.error ('here');
+            e.focus();
+        },
+
         onShow: function() {
             this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
             this.$('.genres  .dropdown-menu a:nth(0)').addClass('active');
+        },
+
+        focusSearch: function () {
+            this.$('.search input').focus();
         },
 
         search: function(e) {

@@ -12,7 +12,9 @@
     var ShowBrowser = Backbone.Marionette.Layout.extend({
         template: '#show-browser-tpl',
         className: 'show-browser',
-
+        events: {
+            'keypress': 'focusSearch',
+        },
         regions: {
             FilterBar: '.filter-bar-region',
             ShowList: '.show-list-region'
@@ -35,9 +37,12 @@
         },
 
         onShow: function() {
-            this.FilterBar.show(new App.View.FilterBarShow({
+
+            this.bar = new App.View.FilterBarShow({
                 model: this.filter
-            }));
+            });
+
+            this.FilterBar.show(this.bar);
 
             this.ShowList.show(new App.View.ShowList({
                 collection: this.showCollection
@@ -54,8 +59,11 @@
             this.ShowList.show(new App.View.ShowList({
                 collection: this.showCollection
             }));
-        }
+        },
 
+        focusSearch: function (e){
+            this.bar.focusSearch();
+        }
     });
 
     App.View.ShowBrowser = ShowBrowser;

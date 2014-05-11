@@ -88,5 +88,6 @@
 	"Flush all databases": "Flush all databases",
 	"Show movie quality on list": "Show movie quality on list",
 	"Size": "Size",
-	"Active Peers": "Active Peers"
+	"Active Peers": "Active Peers",
+	"No movies found...": "No movies found..."
 }
