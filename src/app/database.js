@@ -23,6 +23,8 @@
     db.tvshows.ensureIndex({fieldName: 'imdb_id' , unique: true });
     db.tvshows.ensureIndex({fieldName: 'tvdb_id' , unique: true });
     db.movies.ensureIndex({fieldName: 'imdb' , unique: true });
+    db.movies.removeIndex('imdb_id');
+    db.movies.removeIndex('tmdb_id');
     db.bookmarks.ensureIndex({fieldName: 'imdb_id' , unique: true });
 
     // settings key uniqueness
@@ -73,7 +75,6 @@
 
         // format: {page: page, keywords: title}
         getBookmarks: function(data, cb) {
-        	console.log("getBookmarks fired");
             var page = data.page-1;
             var byPage = 30;
             var offset = page*byPage;
@@ -192,7 +193,6 @@
 
 			db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
                 db.tvshows.loadDatabase(function (err) {
-
 					function processJSON(data){
 						db.tvshows.insert(JSON.parse(data), function (err, newDocs){
 							if(err){

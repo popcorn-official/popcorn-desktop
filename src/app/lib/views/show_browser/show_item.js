@@ -59,7 +59,6 @@
         },
 
         toggleFavorite: function(e) {
-            console.log(this.model.get('imdb_id'));
             e.stopPropagation();
             e.preventDefault();
             var that = this;
