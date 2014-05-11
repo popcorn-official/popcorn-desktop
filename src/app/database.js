@@ -1,5 +1,6 @@
     var async = require('async');
     var request = require('request');
+	var zlib = require('zlib');
 
     var Datastore = require('nedb');
     var path = require('path');
@@ -185,26 +186,46 @@
             db.tvshows.count({}, cb);
         },
 
-        initDB: function(cb) {
-            $("#init-status").html("Status: Creating Database");
-            $("#initbar-contents").css("width","20%");
-            console.log("Extracting data from remote api " + Settings.tvshowApiEndpoint);
-            db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
+		initDB: function(cb) {
+			$("#init-status").html("Status: Creating Database");
+			$("#initbar-contents").css("width","20%");
+
+			db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
                 db.tvshows.loadDatabase(function (err) {
-                    request.get(Settings.tvshowApiEndpoint + "shows/all", function(err, res, body) {                        
-                        if(!err) {
-                            db.tvshows.insert(JSON.parse(body), function (err, newDocs){
-                                if(err) return cb(err, null);
-                                else return cb(null, newDocs);
-                            });
-                        }
-                        else {
-                            return cb(err, null);
-                        }
-                    })
-                });
-            });
-        },
+
+					function processJSON(data){
+						db.tvshows.insert(JSON.parse(data), function (err, newDocs){
+							if(err){
+								console.log("Procession failed!");
+								return cb(err, null);
+							}else{
+								console.log("Done! Processed data.");
+								return cb(null, newDocs);
+							}
+						});
+					}
+
+					var gunzip = zlib.createGunzip();            
+					var buffer = [];
+
+					gunzip.on('data', function(data) {
+						buffer.push(data.toString())
+					}).on("end", function() {
+						console.log("Done! Processing data.");
+						processJSON(buffer.join("")); 
+					}).on("error", function(e) {
+						console.log("Uncompression failed!");
+						return cb(err, null);
+					})
+					console.log("Downloading and uncompressing gzip data from: " + Settings.tvshowApiEndpoint);
+					request({
+						url: Settings.tvshowApiEndpoint + 'shows/all',
+						headers: { 'accept-encoding': 'gzip,deflate' }
+					}).pipe(gunzip);
+
+				});
+			});
+		},
 
         // sync with updated/:since
         syncDB: function(cb) {
