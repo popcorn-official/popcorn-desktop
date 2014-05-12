@@ -79,6 +79,10 @@
 
             var player = this.video.player();
             this.player = player;
+			
+            // Force custom controls
+            player.usingNativeControls(false);
+			
             // Had only tracking in, leave it here if we want to do something else when paused.
             player.on('pause', function () {
 
