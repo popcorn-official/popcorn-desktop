@@ -94,5 +94,9 @@
 	"Health Excellent": "Health Excellent",
 	"Health Good": "Health Good",
 	"Health Medium": "Health Medium",
-	"Health Bad": "Health Bad"
+	"Health Bad": "Health Bad",
+	"Status: Checking Database": "Status: Checking Database",
+	"Status: Creating Database": "Status: Creating Database",
+	"Status: Updating database": "Status: Updating database",
+	"Status: Skipping synchronization TTL not met": "Status: Skipping synchronization TTL not met"
 }

@@ -1,4 +1,4 @@
-(function(App) {
+(function(App) { 
     "use strict";
 
     var InitModal = Backbone.Marionette.ItemView.extend({
@@ -8,18 +8,15 @@
         ui: {
             initstatus: '.init-status',
             initbar: '#initbar-contents'
-            
         },
 
         initialize: function() {
-            console.log('Loading DB');
-
-            
+            console.log('Loading DB'); 
         },
 
         onShow: function() {
-            this.ui.initbar.css('width', '1%');
-            this.ui.initstatus.text('Status: Checking DB');
+            this.ui.initbar.animate({ width: "25%" }, 1000, 'swing');
+            this.ui.initstatus.text(i18n.__('Status: Checking Database...'));
         }
 
     });
