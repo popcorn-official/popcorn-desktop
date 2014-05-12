@@ -199,6 +199,11 @@ App.Localization.languages = {
         encoding: ['windows-1251', 'iso-8859-5']
     },
     "sk": {},
+    "sl": {
+        subtitle: true,
+        encoding: ['windows-1250'],
+        translation: false
+    },
     "sr": {
         subtitle: true,
         encoding: ['windows-1250'],
