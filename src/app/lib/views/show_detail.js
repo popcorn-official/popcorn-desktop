@@ -1,7 +1,7 @@
 (function(App) {
     "use strict";
-        
 
+    var _this;
     var ShowDetail = Backbone.Marionette.ItemView.extend({
         template: '#show-detail-tpl',
         className: 'shows-container-contain',
@@ -18,6 +18,10 @@
             'dblclick .episodeSummary': 'dblclickEpisode',
         },
 
+        initialize: function() {
+            _this = this;
+            App.vent.on('shows:watched', this.markWatched);
+        },
 
         onShow: function() {
 
@@ -40,11 +44,18 @@
 
             // we'll mark episode already watched
             Database.getEpisodesWatched( this.model.get('tvdb_id') ,function(err, data) {
-                _.each(data, function(value) {
-                    $('#watched-'+value.season+'-'+value.episode).removeClass().addClass("watched-true");
-                });
+                _.each(data, _this.markWatched);
             });
 
+        },
+
+        markWatched: function (value) {
+            // we should never get any shows that aren't us, but you know, just in case.
+            if (value.show_id == _this.model.get('tvdb_id')) {
+                $('#watched-'+value.season+'-'+value.episode).removeClass().addClass("watched-true");
+            } else {
+                console.error ('something fishy happened with the watched signal', this.model, value);
+            }
         },
 
         startStreaming: function(e) {
