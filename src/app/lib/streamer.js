@@ -110,17 +110,6 @@
             var stateModel = new Backbone.Model({state: 'connecting', backdrop: model.get('backdrop')});
             App.vent.trigger('stream:started', stateModel);
 
-            // did we need to etxract subtitle ?
-            var extractSubtitle = model.get('extract_subtitle');
-            if (typeof extractSubtitle == 'object') {
-
-                App.db.getSubtitles(extractSubtitle, function(err, subs) {
-                    if (!err) {
-                        subtitles = subs;
-                    }
-                });
-            }
-
             if(engine) {
                 Streamer.stop();
             }
@@ -130,6 +119,17 @@
                     App.vent.trigger('error', err);
                     App.vent.trigger('stream:stop');
                 } else {
+                    // did we need to etxract subtitle ?
+                    var extractSubtitle = model.get('extract_subtitle');
+                    if (typeof extractSubtitle == 'object') {
+                        extractSubtitle.filename = torrent.name;
+
+                        App.db.getSubtitles(extractSubtitle, function(err, subs) {
+                            if (!err) {
+                                subtitles = subs;
+                            }
+                        });
+                    }
                     var title = model.get('title');
                     if(!title) { //From ctrl+v magnet or drag torrent
                         title = torrent.name;
