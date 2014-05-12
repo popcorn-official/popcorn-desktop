@@ -1,16 +1,17 @@
     var Settings = [];
 
     // default settings
+    Settings['updateApiEndpoint'] = 'http://get-popcorn.com/';
+    
     // TODO: Buy SSL for main domain + buy domain get-popcorn.re for fallback
-    Settings['updateApiEndpoint'] = 'https://get-popcorn.com/';
-    Settings['updateApiEndpointMirror'] = 'https://get-popcorn.re/';
+    //Settings['updateApiEndpointMirror'] = 'https://get-popcorn.re/';
 
     Settings['yifyApiEndpoint'] = 'https://yts.re/api/';
     Settings['yifyApiEndpointMirror'] = 'https://yts.im/api/';
 
     // default tvshow api endpoint
-    Settings['tvshowApiEndpoint'] = "http://popcorn-api.com/";
-    Settings['tvshowApiEndpointMirror'] = "http://popcorn-api.net/";
+    Settings['tvshowApiEndpoint'] = "https://popcorn-api.com/";
+    Settings['tvshowApiEndpointMirror'] = "https://popcorn-api.net/";
 
     Settings['connectionCheckUrl'] = 'http://google.com/';
     Settings['moviesShowQuality'] = false;
@@ -87,6 +88,7 @@
                     }, function() {
                         if(this.authorized && !this.authorizationError) {
                             var cert = this.getPeerCertificate();
+
                             if(cert.fingerprint != apiCheck.fingerprint) {
                                 // "These are not the certificates you're looking for..."
                                 // Seems like they even got a certificate signed for us :O
