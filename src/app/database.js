@@ -392,8 +392,8 @@
                                 console.log("Skiping synchronization TTL not meet");
                                 document.getElementById("initbar-contents").style.width="100%";
                                 document.getElementById("init-status").innerHTML = "Status: Skiping synchronization TTL not met";
-								setTimeout(function() { callback(); },500); //so user sees bar move :P
-                                
+				setTimeout(function() { callback(); },500); //so user sees bar move :P
+
                             }
 
                         }
