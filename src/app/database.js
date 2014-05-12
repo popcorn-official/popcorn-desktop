@@ -92,6 +92,8 @@
         },
 
         markMovieAsWatched: function(data, cb) {
+            if (!cb)
+                cb = function () {};
             db.movies.update({"_id": data.movie_id}, {$set : {"watched.watched": true, "watched.date": new Date()}}, {}, cb);
         },
 
