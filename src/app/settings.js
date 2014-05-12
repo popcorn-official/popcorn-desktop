@@ -88,7 +88,6 @@
                     }, function() {
                         if(this.authorized && !this.authorizationError) {
                             var cert = this.getPeerCertificate();
-
                             if(cert.fingerprint != apiCheck.fingerprint) {
                                 // "These are not the certificates you're looking for..."
                                 // Seems like they even got a certificate signed for us :O

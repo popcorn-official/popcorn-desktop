@@ -354,11 +354,6 @@ var Database = {
 						original: 'yifyApiEndpoint',
 						mirror: 'yifyApiEndpointMirror', 
 						fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C'
-					},
-					{
-						original: 'tvshowApiEndpoint',
-						mirror: 'tvshowApiEndpointMirror', 
-						fingerprint: 'CD:9E:AC:B7:17:6E:DC:B8:88:4C:A5:42:4F:E1:45:E4:9D:56:03:A1'
 					}
 					// TODO: Add get-popcorn.com SSL fingerprint (for update)
 					// with fallback with DHT
