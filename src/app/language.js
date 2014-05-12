@@ -212,8 +212,13 @@ App.Localization.languages = {
     "uk": {
         encoding: ['windows-1251', 'iso-8859-5']
     },
+    "zh": {
+        display: "中文",
+        subtitle: true
+    },
     "zh-cn": {},
     "zh-tw": {}
+
 };
 
 App.Localization.langcodes = {
@@ -339,11 +344,11 @@ App.Localization.langcodes = {
 	},
 	"zh-cn":{
 		"name":"Chinese (simplified)",
-		"nativeName":"汉字改革"
+		"nativeName":"简体中文"
 	},
 	"zh-tw":{
 		"name":"Chinese (traditional)",
-		"nativeName":"臺灣話"
+		"nativeName":"正體中文"
 	},
 	"cv":{
 		"name":"Chuvash",
