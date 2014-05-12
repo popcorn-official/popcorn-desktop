@@ -141,7 +141,7 @@
 
         checkEpisodeWatched: function(data, cb) {
             db.watched.find({show_id: data.show_id, season: data.season, episode: data.episode}, function(err, data){
-                return cb(null, (data!=null && data.length > 0));
+                return cb((data!=null && data.length > 0), data);
             });
         },
 
