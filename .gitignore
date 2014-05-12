@@ -34,3 +34,4 @@ src/app/css/app.css
 *.sublime-*
 dist/windows/*.exe
 *.bat
+*.db
