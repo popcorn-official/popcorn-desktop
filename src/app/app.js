@@ -104,7 +104,7 @@ String.prototype.capitalizeEach = function() {
 };
 
 // Developer Shortcuts
-Mousetrap.bind(['shift+f12', 'f12', 'f5'], function(e) {
+Mousetrap.bind(['shift+f12', 'f12'], function(e) {
 	win.showDevTools(); 
 })
 Mousetrap.bind('f11', function(e) { 
