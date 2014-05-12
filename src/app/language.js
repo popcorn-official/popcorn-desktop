@@ -10,15 +10,14 @@ var detectLanguage = function(preferredLanguage) {
 
     if (!preferredLanguage) {
         // we are stillon default
-        if( fs.existsSync('./src/app/language/' + pureLanguage + '.json') ) {
+        if( $.inArray(pureLanguage, App.Localization.allTranslations) != -1 ) {
             i18n.setLocale(pureLanguage);
             AdvSettings.set('language', pureLanguage);
         }
-        else if( fs.existsSync('./src/app/language/' + baseLanguage + '.json') ) {
+        else if( $.inArray(baseLanguage, App.Localization.allTranslations) != -1 ) {
             i18n.setLocale(baseLanguage);
             AdvSettings.set('language', baseLanguage);
         } else {
-            // fallback to en
             i18n.setLocale('en');
             AdvSettings.set('language', 'en');
         }
@@ -55,14 +54,7 @@ App.Localization.filterSubtitle = function(langs) {
     return filteredLang;
 };
 
-App.Localization.getTranslations = function() {
-    return _.chain(App.Localization.languages)
-        .keys()
-        .filter(function(code){
-            var lang = App.Localization.languages[code];
-            return _.isUndefined(lang.translation) || lang.translation;
-        }).value();
-};
+App.Localization.allTranslations = ['en','ar','bg','ca','da','de','el','es','eu','fi','fr','he','hu','is','it','nl','no','pl','pt','pt-br','ro','ru','sk','sv','tr','uk','zh-cn','zh-tw','sl','gl','si','az'];
 
 // Simple mapping to translate some API language to ISO 639 code
 App.Localization.languageMapping = {
@@ -115,112 +107,91 @@ App.Localization.languages = {
         encoding: ['windows-1256']
     },
     "bg": {
-        display: "Български",
         subtitle: true,
         encoding: ['windows-1251', 'iso-8859-5']
     },
     "bn": {},
     "bs": {
-        display: "Bosanski",
         subtitle: true,
         encoding: ['windows-1250'],
         translation: false
     },
     "ca": {},
     "cs": {
-        display: "Česky",
         subtitle: true
     },
     "da": {
-        display: "Dansk",
         subtitle: true
     },
     "de": {
-        display: "Deutsch",
         subtitle: true,
         encoding: ['iso-8859-1']
     },
     "el": {
-        display: "Greek",
         subtitle: true,
         encoding: ['windows-1253', 'iso-8859-7']
     },
     "en": {
-        display: "English",
         subtitle: true
     },
     "es": {
-        display: "Español",
         subtitle: true,
         encoding: ['iso-8859-1']
     },
     "et": {
-        display: "Eesti",
         subtitle: true,
         translation: false
     },
     "eu": {},
     "fa": {},
     "fi": {
-        display: "Suomi",
         subtitle: true,
         encoding: ['iso-8859-1']
     },
     "fr": {
-        display: "Français",
         subtitle: true,
         encoding: ['iso-8859-1']
     },
     "he": {
-        display: "Hebrew",
         subtitle: true,
         encoding: ['windows-1255']
     },
     "hr": {
-        display: "Hrvatski",
         subtitle: true,
         encoding: ['windows-1250']
     },
     "hu": {
-        display: "Magyar",
         subtitle: true,
         encoding: ['iso-8859-2']
     },
     "is": {},
     "it": {
-        display: "Italiano",
         subtitle: true
     },
     "ja": {},
     "kr": {},
     "lt": {
-        display: "Lietuvių",
         subtitle: true
     },
     "lv": {},
     "mt": {},
     "nl": {
-        display: "Nederlands",
         subtitle: true,
         encoding: ['iso-8859-1']
     },
     "no": {},
     "pl": {
-        display: "Polish",
         subtitle: true
     },
     "pt": {
-        display: "Português",
         subtitle: true,
         encoding: ['iso-8859-1']
     },
     "pt-br": {
-        display: "Português-Br",
         subtitle: true,
         encoding: ['iso-8859-1']
     },
     "ro": {
-        display: "Română",
         subtitle: true,
         encoding: ['iso-8859-16']
     },
@@ -229,14 +200,12 @@ App.Localization.languages = {
     },
     "sk": {},
     "sr": {
-        display: "Srpski",
         subtitle: true,
         encoding: ['windows-1250'],
         translation: false
     },
     "sv": {},
     "tr": {
-        display: "Türkçe",
         subtitle: true,
         encoding: ['iso-8859-9']
     },
@@ -997,6 +966,6 @@ App.Localization.langcodes = {
 // Handles language detection and internationalization
 i18n.configure({
     defaultLocale: 'en',
-    locales: App.Localization.getTranslations(),
+    locales: App.Localization.allTranslations,
     directory: './src/app/language'
 });

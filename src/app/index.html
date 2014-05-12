@@ -222,10 +222,11 @@
 						<p><%= i18n.__("Default Language") %>:</p>
 						<%
 							var langs = "";
-							for(var key in App.Localization.languages) {
-								if (App.Localization.languages[key].display !== undefined) {
+							for(var key in App.Localization.allTranslations) {
+								key = App.Localization.allTranslations[key];
+								if (App.Localization.langcodes[key] !== undefined) {
 									langs += "<option "+(Settings.language == key? "selected='selected'":"")+" value='"+key+"'>"+
-													App.Localization.languages[key].display+"</option>";
+													App.Localization.langcodes[key].nativeName+"</option>";
 								}
 							}
 						%>
@@ -247,7 +248,7 @@
 							for(var key in App.Localization.languages) {
 								if (App.Localization.languages[key].subtitle !== undefined && App.Localization.languages[key].subtitle == true) {
 									sub_langs += "<option "+(Settings.subtitle_language == key? "selected='selected'":"")+" value='"+key+"'>"+
-														App.Localization.languages[key].display+"</option>";
+														App.Localization.langcodes[key].nativeName+"</option>";
 								}
 							}
 						%>

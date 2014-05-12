@@ -18,7 +18,6 @@
         },
 
         onShow: function() {
-            console.log('Show settings', this.model);
             $(".filter-bar").hide();    
             $("#movie-detail").hide();
         },
