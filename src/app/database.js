@@ -126,6 +126,8 @@
         },
 
         markEpisodeAsWatched: function(data, cb) {
+            if (!cb)
+                cb = function () {};
             db.watched.insert({show_id: data.show_id, season: data.season, episode: data.episode, date: new Date()}, cb);
         },
 
