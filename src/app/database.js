@@ -409,8 +409,9 @@
                 });
 
             });
-            App.vent.on('shows:watched',  _.bind(this.markEpisodeAsWatched, this));
 
+            App.vent.on('shows:watched',   _.bind(this.markEpisodeAsWatched, this));
+            App.vent.on('shows:unwatched', _.bind(this.markEpisodeAsNotWatched, this));
             App.vent.on('movies:watched',  _.bind(this.markMovieAsWatched, this));
         }
 

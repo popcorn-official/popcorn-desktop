@@ -11,6 +11,7 @@
         },
 
         events: {
+            'click .watched': 'toggleWatched',
             'click .startStreaming': 'startStreaming',
             'click .tv-container-close': 'closeDetails',
             'click #tabs_season li': 'clickTab',
@@ -20,13 +21,14 @@
 
         initialize: function() {
             _this = this;
-            App.vent.on('shows:watched', this.markWatched);
+            App.vent.on('shows:watched',   this.markWatched);
+            App.vent.on('shows:unwatched', this.markNotWatched);
         },
 
         onShow: function() {
 
             this.selectSeason($("#tabs_season li").first("li"));
-            
+
             $(".filter-bar").hide();    
             $('.star-container-tv').tooltip();
              var background = $(".tv-poster-background").attr("data-bgr");
@@ -49,12 +51,40 @@
 
         },
 
+        toggleWatched: function (e) {
+            var edata = e.currentTarget.id.split('-');
+            var value = {
+                show_id : Number (_this.model.get('tvdb_id')),
+                season  : edata[1],
+                episode : edata[2]};
+
+            // we do this because checkEpisodeWatched is broken,
+            // probably a bug in nedb
+            App.db.getEpisodesWatched(value.show_id, function (err, data) {
+                if (_.where (data, value).length) {
+                    App.vent.trigger ("shows:unwatched", value)
+                } else {
+                    App.vent.trigger ("shows:watched", value)
+                }
+            });
+
+        },
+
         markWatched: function (value) {
             // we should never get any shows that aren't us, but you know, just in case.
             if (value.show_id == _this.model.get('tvdb_id')) {
-                $('#watched-'+value.season+'-'+value.episode).removeClass().addClass("watched-true");
+                $('#watched-'+value.season+'-'+value.episode).removeClass('watched-false').addClass('watched-true');
             } else {
                 console.error ('something fishy happened with the watched signal', this.model, value);
+            }
+        },
+
+        markNotWatched: function (value) {
+            // we should never get any shows that aren't us, but you know, just in case.
+            if (value.show_id == _this.model.get('tvdb_id')) {
+                $('#watched-'+value.season+'-'+value.episode).removeClass('watched-true').addClass('watched-false');
+            } else {
+                console.error ('something fishy happened with the notwatched signal', this.model, value);
             }
         },
 

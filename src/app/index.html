@@ -508,7 +508,10 @@
 												<span><%=episodeData.episode %></span>
 												<div><%=episodeData.title %></div>
 											</a>
-											<span id="watched-<%=episodeData.season %>-<%=episodeData.episode %>" class="watched-false"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
+											<span
+							id="watched-<%=episodeData.season
+							%>-<%=episodeData.episode
+							%>" class="watched watched-false"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
 
 											<!-- hidden template so we can save a DB query -->
 											<div class="template-<%=episodeData.tvdb_id %>" style="display:none">
