@@ -133,6 +133,12 @@
             db.watched.insert({show_id: data.show_id, season: data.season, episode: data.episode, date: new Date()}, cb);
         },
 
+        markEpisodeAsNotWatched: function(data, cb) {
+            if (!cb)
+                cb = function () {};
+            db.watched.remove({show_id: data.show_id, season: data.season, episode: data.episode}, cb);
+        },
+
         checkEpisodeWatched: function(data, cb) {
             db.watched.find({show_id: data.show_id, season: data.season, episode: data.episode}, function(err, data){
                 return cb(null, (data!=null && data.length > 0));
