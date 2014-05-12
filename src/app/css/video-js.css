@@ -104,10 +104,10 @@ The default control bar that is a container for most of the controls.
 .vjs-default-skin.vjs-controls-disabled .vjs-control-bar {
     display: none;
 }
-/*.vjs-default-skin.vjs-using-native-controls .vjs-control-bar {
+.vjs-default-skin.vjs-using-native-controls .vjs-control-bar {
     display: none;
 }
- IE8 is flakey with fonts, and you have to change the actual content to force
+/* IE8 is flakey with fonts, and you have to change the actual content to force
 fonts to show/hide properly.
   - "\9" IE8 hack didn't work for this
   - Found in XP IE8 from http://modern.ie. Does not show up in "IE8 mode" in IE9
@@ -468,11 +468,11 @@ easily in the skin designer. http://designer.videojs.com/
     display: none;
 }
 /* Hide on mobile devices. Remove when we stop using native controls
-    by default on mobile  
+    by default on mobile  */
 
 .vjs-default-skin.vjs-using-native-controls .vjs-big-play-button {
     display: none;
-}*/
+}
 .vjs-default-skin:hover .vjs-big-play-button,
 .vjs-default-skin .vjs-big-play-button:focus {
     outline: 0;
@@ -820,11 +820,11 @@ body.vjs-full-window {
     padding: 0;
     width: 100%;
 }
-/* Hide the poster when native controls are used otherwise it covers them 
+/* Hide the poster when native controls are used otherwise it covers them */
 
 .video-js.vjs-using-native-controls .vjs-poster {
     display: none;
-}*/
+}
 /* Text Track Styles */
 
 /* Overall track holder for both captions and subtitles */
