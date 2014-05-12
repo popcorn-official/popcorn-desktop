@@ -180,11 +180,29 @@
         },
 
         increaseSubtitleOffset: function() {
-            this.video.player().setOffset(this.video.player().offset() + 0.1);
+            this.player.setOffset(this.player.offset() + 0.1);
+            this.displaySubtitleOffset();
         },
 
         decreaseSubtitleOffset: function() {
-            this.video.player().setOffset(this.video.player().offset() - 0.1);
+            this.player.setOffset(this.player.offset() - 0.1);
+            this.displaySubtitleOffset();
+        },
+
+        displaySubtitleOffset: function() {
+            if($('.vjs-overlay').length >0) {
+                $('.vjs-overlay').text('Subtitles Offset: '+ this.player.offset().toFixed(1) +' secs');
+                clearTimeout($.data(this, 'subtitleOffsetTimer'));
+                $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
+                    $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
+                }, 3000));
+            }
+            else {
+                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>Subtitles Offset: "+ this.player.offset().toFixed(1) +" secs");
+                $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
+                    $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
+                }, 3000));
+            }
         },
 
         onClose: function() {
