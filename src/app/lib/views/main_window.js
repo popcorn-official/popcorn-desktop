@@ -13,7 +13,8 @@
             Player: '#player',
             Settings: '#settings-container',
             InitModal: '#initializing',
-            Disclaimer: '#disclaimer-container'
+            Disclaimer: '#disclaimer-container',
+            About: '#about-container'
         },
 
         events: {
@@ -35,6 +36,9 @@
             App.vent.on('show:disclaimer', _.bind(this.showDisclaimer, this));
             App.vent.on('close:disclaimer', _.bind(this.Disclaimer.close, this.Disclaimer));
             
+            // Add event to show about
+            App.vent.on('about:show', _.bind(this.showAbout, this));
+            App.vent.on('about:close', _.bind(this.About.close, this.About));
             // Movies
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
             App.vent.on('movie:closeDetail', _.bind(this.MovieDetail.close, this.MovieDetail));
@@ -122,6 +126,10 @@
 
         showDisclaimer: function(e) {
             this.Disclaimer.show(new App.View.DisclaimerModal());
+        }, 
+
+        showAbout: function(e) {
+            this.About.show(new App.View.About());
         }, 
         
         preventDefault: function(e) {

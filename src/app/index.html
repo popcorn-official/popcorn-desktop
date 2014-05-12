@@ -94,6 +94,7 @@
 		<div id="notification"></div>
 		<div id="changelog-container"></div>
 		<div id="disclaimer-container"></div>
+		<div id="about-container"></div>
 		<div id="content"></div>
 		<div id="settings-container"></div>
 		<div id="movie-detail"></div>
@@ -202,6 +203,7 @@
 				</div>
 			</li>
 			<li><button class="favorites"></button></li>
+			<li><button class="about"></button></li>
 			<li><button class="settings"></button></li>
 		</ul>
 	</script>
@@ -224,10 +226,10 @@
 						<%
 							var langs = "";
 							for(var key in App.Localization.allTranslations) {
-								key = App.Localization.allTranslations[key];
-								if (App.Localization.langcodes[key] !== undefined) {
+ 								key = App.Localization.allTranslations[key];
+ 								if (App.Localization.langcodes[key] !== undefined) {
 									langs += "<option "+(Settings.language == key? "selected='selected'":"")+" value='"+key+"'>"+
-													App.Localization.langcodes[key].nativeName+"</option>";
+												App.Localization.langcodes[key].nativeName+"</option>";
 								}
 							}
 						%>
@@ -249,7 +251,7 @@
 							for(var key in App.Localization.languages) {
 								if (App.Localization.languages[key].subtitle !== undefined && App.Localization.languages[key].subtitle == true) {
 									sub_langs += "<option "+(Settings.subtitle_language == key? "selected='selected'":"")+" value='"+key+"'>"+
-														App.Localization.langcodes[key].nativeName+"</option>";
+													App.Localization.langcodes[key].nativeName+"</option>";
 								}
 							}
 						%>
@@ -321,6 +323,7 @@
 			</li>
 			<li><button class="triggerUpdate"></button></li>
 			<li><button class="favorites"></button></li>
+			<li><button class="about"></button></li>
 			<li><button class="settings"></button></li>
 		</ul>
 	</script>
@@ -334,10 +337,24 @@
 		<ul class="nav nav-hor right">
 			<!-- TODO: Add active class -->
 			<li><button class="favorites active"></button></li>
+			<li><button class="about"></button></li>
 			<li><button class="settings"></button></li>
 		</ul>
 	</script>
 
+	<script id="filter-bar-about-tpl" type="text/x-template">
+		<ul class="nav nav-hor left">
+			<li class="source showMovies"><%= i18n.__("Movies") %></li>
+			<li class="source showShows"><%= i18n.__("TV Series") %></li>
+		</ul>
+
+		<ul class="nav nav-hor right">
+			<!-- TODO: Add active class -->
+			<li><button class="favorites"></button></li>
+			<li><button class="about active"></button></li>
+			<li><button class="settings"></button></li>
+		</ul>
+	</script>
 	<script id="header-tpl" type="text/x-template">
 		<nav class="btn-set <%= process.platform %>">
 			<% _.each(getButtons(), function(button) { %>
@@ -509,10 +526,8 @@
 												<span><%=episodeData.episode %></span>
 												<div><%=episodeData.title %></div>
 											</a>
-											<span
-							id="watched-<%=episodeData.season
-							%>-<%=episodeData.episode
-							%>" class="watched watched-false"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
+											<span id="watched-<%=episodeData.season%>-<%=episodeData.episode%>" class="watched watched-false"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
+
 
 											<!-- hidden template so we can save a DB query -->
 											<div class="template-<%=episodeData.tvdb_id %>" style="display:none">
@@ -621,6 +636,29 @@
 		<div id="init-status" class="init-status"></div>
 	</script>
 
+	<script id="about-tpl" type="text/x-template">
+		<div class="about-container">
+			<div class="close"></div>
+			<div class="overlay-content"></div>
+			<img class="icon-about" src="/src/app/images/icon.png">
+			<div class="content">
+				<div class="title-big">Popcorn Time</div>
+				<div class="title-version">(<%=App.settings.version %>)</div>
+				<div class="text-about">
+					Popcorn Time! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.<br/>
+					We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.
+
+					<br/><br/>
+
+					<p>Website: http://get-popcorn.com</p>
+					<p>Twitter: http://twitter.com/popcorntimetv</p>
+				</div>
+				<div class="last-line">
+					Made with <span style="color:red;">&lt;3</span> by a bunch of geeks from All Around The World
+				</div>
+			</div>
+		</div>
+	</script>
 	<!-- 3rd party Dependencies -->
 	<script src="vendor/jquery/dist/jquery.js"></script>
 	<script src="vendor/underscore/underscore.js"></script>
@@ -673,6 +711,7 @@
 	<script src="lib/views/settings.js"></script>
 	<script src="lib/views/init_modal.js"></script>
 	<script src="lib/views/disclaimer.js"></script>
+	<script src="lib/views/about.js"></script>
 	<script src="lib/views/player/loading.js"></script>
 	<script src="lib/views/player/player.js"></script>
 

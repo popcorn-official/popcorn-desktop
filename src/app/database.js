@@ -226,6 +226,30 @@ var Database = {
 		});
 	},
 
+	importDB: function(cb) {
+		$("#init-status").html(i18n.__("Status: Creating Database..."));
+		$("#initbar-contents").animate({ width: "75%" }, 8000, 'swing');
+		db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
+			db.tvshows.loadDatabase(function (err) {
+				function processJSON(data){
+					db.tvshows.insert(data, function (err, newDocs){
+						if(err){
+							console.log("Procession failed!");
+							return cb(err, null);
+						}else{
+							console.log("Done! Processed data.");
+							return cb(null, newDocs);
+						}
+					});
+				}
+
+				processJSON(require('./db/tvshows.json'));
+
+
+			});
+		});
+	},
+
 	// sync with updated/:since
 	syncDB: function(cb) {
 		Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
@@ -267,7 +291,6 @@ var Database = {
 		db.settings.find({}).exec(cb);
 	},
 
-	// todo make sure to overwrite
 	// format: {key: key_name, value: settings_value}
 	writeSetting: function(data, cb) {
 		Database.getSetting({key: data.key}, function(err, setting) {
@@ -356,9 +379,6 @@ var Database = {
 						mirror: 'yifyApiEndpointMirror', 
 						fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C'
 					}
-					// TODO: If Settings.tvshowApiEndpoint == popcorn-api.com make a fallback to check if
-					// its not blocked
-					
 					// TODO: Add get-popcorn.com SSL fingerprint (for update)
 					// with fallback with DHT
 				]
@@ -374,13 +394,24 @@ var Database = {
 				Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
 					Database.getShowsCount(function(err, count) {
 						if (setting == null || count == 0) {
+
+
+							// TEMP: We'll import the tvshows.json into the DB to prevent flood on the api
+							// for the launch day
+							Database.importDB(function(err, setting) {
+								// we write our new update time
+								Database.writeSetting({key: "tvshow_last_sync", value: 1399926226389}, function() {
+									Database.syncDB(callback);
+								});
+							});							
+
 							// we need to do a complete update
 							// this is our first launch
 							
-							Database.initDB(function(err, setting) {
-								// we write our new update time
-								Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
-							});
+							//Database.initDB(function(err, setting) {
+							//	// we write our new update time
+							//	Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
+							//});
 						} else {
 
 							// we set a TTL of 24 hours for the DB	

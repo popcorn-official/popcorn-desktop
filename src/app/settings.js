@@ -1,9 +1,10 @@
     var Settings = [];
 
     // default settings
+    Settings['updateApiEndpoint'] = 'http://get-popcorn.com/';
+    
     // TODO: Buy SSL for main domain + buy domain get-popcorn.re for fallback
-    Settings['updateApiEndpoint'] = 'https://get-popcorn.com/';
-    Settings['updateApiEndpointMirror'] = 'https://get-popcorn.re/';
+    //Settings['updateApiEndpointMirror'] = 'https://get-popcorn.re/';
 
     Settings['yifyApiEndpoint'] = 'https://yts.re/api/';
     Settings['yifyApiEndpointMirror'] = 'https://yts.im/api/';
