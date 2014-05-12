@@ -43,11 +43,7 @@
             if(this.model.get('show_id') != null) {
                 if(this.video.currentTime() / this.video.duration() >= 0.8){
                     console.log("Mark TV Show watched");
-                    App.db.markEpisodeAsWatched({
-                        show_id: this.model.get("show_id"),
-                        episode: this.model.get("episode"),
-                        season: this.model.get("season")
-                    }, function(){});
+                    App.vent.trigger('shows:watched', this.model.attributes);
                 }
             }
 

@@ -402,7 +402,8 @@
 
                 });
 
-            });             
+            });
+            App.vent.on('shows:watched',  _.bind(this.markEpisodeAsWatched, this));
         }
 
 
