@@ -18,6 +18,10 @@
             'dblclick .episodeSummary': 'dblclickEpisode',
         },
 
+        initialize: function() {
+            _this = this;
+            App.vent.on('shows:watched', this.markWatched);
+        },
 
         onShow: function() {
 
