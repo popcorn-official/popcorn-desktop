@@ -39,12 +39,16 @@
         closePlayer: function() {
             console.log('Close player');
 
-            // Check if >80% is watched to mark as watched by user  (maybe add value to settings)
-            if(this.model.get('show_id') != null) {
-                if(this.video.currentTime() / this.video.duration() >= 0.8){
+            // Check if >80% is watched to mark as watched by user  (maybe add value to settings
+            if(this.video.currentTime() / this.video.duration() >= 0.8){
+                if(this.model.get('show_id') != null) {
                     console.log("Mark TV Show watched");
                     App.vent.trigger('shows:watched', this.model.attributes);
-                }
+                } else if (this.model.get('movie_id') != null) {
+                    console.log("Mark Movie watched");
+                    App.vent.trigger('movies:watched', this.model.attributes);
+
+                } // else, it's probably a stream or something we don't know of
             }
 
             this.video.dispose();
