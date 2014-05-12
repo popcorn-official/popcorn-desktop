@@ -16,6 +16,7 @@
             'click .sorters .dropdown-menu a': 'sortBy',
             'click .genres .dropdown-menu a': 'changeGenre',
             'click .settings': 'settings',
+            'click .about': 'about',
             'click .showMovies': 'showMovies',
             'click .showShows': 'showShows',
             'click .favorites': 'showFavorites',
@@ -31,12 +32,13 @@
             this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
             this.$('.genres  .dropdown-menu a:nth(0)').addClass('active');
         },
-
+        
         focusSearch: function () {
             this.$('.search input').focus();
         },
 
         search: function(e) {
+            App.vent.trigger('about:close');
             e.preventDefault();
             this.model.set({
                 keywords: this.ui.search.val(),
@@ -47,6 +49,7 @@
         },
 
         sortBy: function(e) {
+            App.vent.trigger('about:close');
             this.$('.sorters .active').removeClass('active');
             $(e.target).addClass('active');
 
@@ -60,6 +63,7 @@
         },
 
         changeGenre: function(e) {
+            App.vent.trigger('about:close');
             this.$('.genres .active').removeClass('active');
             $(e.target).addClass('active');
 
@@ -73,21 +77,29 @@
         },
 
         settings: function(e) {
+            App.vent.trigger('about:close');
             App.vent.trigger('settings:show');
+        },
+
+        about: function(e) {
+            App.vent.trigger('about:show');
         },
 
         showShows: function(e) {
             e.preventDefault();
+            App.vent.trigger('about:close');
             App.vent.trigger('shows:list', []);
         },
 
         showMovies: function(e) {
             e.preventDefault();
+            App.vent.trigger('about:close');
             App.vent.trigger('movies:list', []);
         },
 
         showFavorites: function(e) {
             e.preventDefault();
+            App.vent.trigger('about:close');
             App.vent.trigger('favorites:list', []);
         },
 
