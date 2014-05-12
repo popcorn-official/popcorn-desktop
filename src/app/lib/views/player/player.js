@@ -74,7 +74,7 @@
                 this.ui.eyeInfo.hide();
             }
             else
-                this.video = videojs('video_player', { plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {}, progressTips: {} }});
+                this.video = videojs('video_player', { nativeControlsForTouch: false, plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {}, progressTips: {} }});
 
 
             var player = this.video.player();
