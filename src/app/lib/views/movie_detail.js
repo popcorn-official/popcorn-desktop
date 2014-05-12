@@ -32,16 +32,15 @@
 
             if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
                 this.model.set('quality', torrents['1080p'].url);
-
+                this.calcHealth(torrents['1080p']);
             } else if(torrents['1080p'] !== undefined ) {
                 this.model.set('quality', torrents['1080p'].url);
-
+                this.calcHealth(torrents['1080p']);
             } else if(torrents['720p'] !== undefined ) {
                 this.model.set('quality', torrents['720p'].url);
-
+                this.calcHealth(torrents['720p']);
             }
 
-            $('.health-icon').tooltip();
             $('.star-container').tooltip();
 
             var background = $(".movie-backdrop").attr("data-bgr");
@@ -65,7 +64,6 @@
         onClose: function() {},
         showCover: function() {},
         toggleDropdown: function() {
-
             var self = this;
             $(".flag-container").fadeIn();
             $(".sub-dropdown-arrow-down").hide();
@@ -98,19 +96,18 @@
         },
 
         enableHD: function () {
-
             var torrents = this.model.get('torrents');
             console.logger.debug('HD Enabled');
 
             if (torrents['1080p'] !== undefined) {
                 torrents = this.model.get('torrents');
                 this.model.set('quality', torrents['1080p'].url);
+                this.calcHealth(torrents['1080p']);
                 console.logger.debug(this.model.get('quality'));
             }
         },
 
         disableHD: function () {
-
             var torrents = this.model.get('torrents');
             console.logger.debug('HD Disabled');
             console.logger.log(torrents['720p']);
@@ -118,9 +115,26 @@
             if (torrents['720p'] !== undefined) {
                 torrents = this.model.get('torrents');
                 this.model.set('quality', torrents['720p'].url);
+                this.calcHealth(torrents['720p']);
                 console.logger.debug(this.model.get('quality'));
             }
+        },
 
+        calcHealth: function (tQ) {
+            var spratio = tQ.seed / tQ.peer;
+            var health = "Bad";
+            if(spratio > 5){
+                health = tQ.seed > 100? "Excellent":"Good";
+            }else if(spratio > 2){
+                health = tQ.seed > 100? "Good":"Medium";
+            }else if(spratio >= 1){
+                health = tQ.seed > 100? "Medium":"Bad";
+            }
+            $('.health-icon').tooltip({html: true})
+                             .removeClass('Bad Medium Good Excellent')
+                             .addClass(health)
+                             .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio') + ': ' + spratio.toFixed(2) + ' <br> ' + i18n.__('Seeds') + ': ' + tQ.seed + ' - ' + i18n.__('Peers') + ': ' + tQ.peer)
+                             .tooltip('fixTitle');
         },
 
         // helper function to switch subtitle

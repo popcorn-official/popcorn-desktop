@@ -89,5 +89,10 @@
 	"Show movie quality on list": "Show movie quality on list",
 	"Size": "Size",
 	"Active Peers": "Active Peers",
-	"No movies found...": "No movies found..."
+	"No movies found...": "No movies found...",
+	"Ratio": "Ratio",
+	"Health Excellent": "Health Excellent",
+	"Health Good": "Health Good",
+	"Health Medium": "Health Medium",
+	"Health Bad": "Health Bad"
 }
