@@ -43,7 +43,6 @@
 
     var formatForPopcorn = function(data) {
         var allSubs = {};
-		console.log(data);
         // Iterate each movie
         _.each(data.subs, function(langs, imdbId) {
             var movieSubs = {};
