@@ -10,8 +10,9 @@
         },
 
         events: {
-            'click .close': 'closeAbout'
-        },
+            'click .close': 'closeAbout',
+            'click .links': 'links'
+        },        
 
         onShow: function() {
             console.log('Show about', this.model); 
@@ -24,6 +25,11 @@
 
         closeAbout: function() {
             App.vent.trigger('about:close');
+        },
+
+        links: function(e) {
+            e.preventDefault();
+            gui.Shell.openExternal($(e.currentTarget).attr('href'));
         }
 
     });
