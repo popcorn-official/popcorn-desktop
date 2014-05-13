@@ -258,14 +258,14 @@
         //TODO: Make this more universal
         displayVolume: function() {
             if($('.vjs-overlay').length >0) {
-                $('.vjs-overlay').text(i18n.__('Volume')+': '+ this.player.volume());
+                $('.vjs-overlay').text(i18n.__('Volume')+': '+ this.player.volume().toFixed(1) * 100 + '%');
                 clearTimeout($.data(this, 'subtitleOffsetTimer'));
                 $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
                     $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
                 }, 3000));
             }
             else {
-                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>"+i18n.__('Volume')+": "+ this.player.volume() + "</div>");
+                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>"+i18n.__('Volume')+": "+ this.player.volume().toFixed(1) * 100 + "%</div>");
                 $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
                     $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
                 }, 3000));
