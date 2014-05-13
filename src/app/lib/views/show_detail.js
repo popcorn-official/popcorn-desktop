@@ -160,7 +160,7 @@
             $elem.addClass('active');
             $(".episode-info-number").text(i18n.__('Episode') + ' '+$('.template-'+tvdbid+' .episode').html());
             $(".episode-info-title").text($('.template-'+tvdbid+' .title').html());
-            $(".episode-info-date").text($('.template-'+tvdbid+' .date').html());
+            $(".episode-info-date").text(i18n.__('Aired Date') + ': '+$('.template-'+tvdbid+' .date').html());
             $(".episode-info-description").text($('.template-'+tvdbid+' .overview').html());
             $(".movie-btn-watch-episode").attr("data-torrent", tvdbtorrent);
             $(".movie-btn-watch-episode").attr("data-episodeid", tvdbid);
