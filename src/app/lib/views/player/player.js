@@ -180,11 +180,7 @@
                _this.adjustVolume(-0.5)
             });
 
-            Mousetrap.bind('ctrl+down', function (e) {
-                _this.adjustVolume(-1)
-            });
-            
-            Mousetrap.bind('m', function (e) {
+            Mousetrap.bind(['ctrl+down', 'm', 'M'], function (e) {
                 _this.adjustVolume(-1)
             });
 
