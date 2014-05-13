@@ -240,7 +240,7 @@
                 }, 3000));
             }
             else {
-                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>"+i18n.__('Subtitles Offset')+": "+ this.player.offset().toFixed(1) +" "+i18n.__('secs'));
+                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>"+i18n.__('Subtitles Offset')+": "+ this.player.offset().toFixed(1) +" "+i18n.__('secs') + "</div>");
                 $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
                     $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
                 }, 3000));
@@ -257,7 +257,7 @@
                 }, 3000));
             }
             else {
-                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>"+i18n.__('Volume')+": "+ this.player.volume());
+                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>"+i18n.__('Volume')+": "+ this.player.volume() + "</div>");
                 $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
                     $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
                 }, 3000));
