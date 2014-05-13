@@ -17,6 +17,7 @@ To allow any computer user to watch movies easily streaming from torrents, witho
 - [OpenSubtitles](http://www.opensubtitles.org) for tv shows subtitles
 - [Trakt.tv](https://trakt.tv/) for movies metadata.
 - [EZTV](http://eztv.it) for TV Show torrents
+
 ### Development
 
 See [Development's 0.3 page](https://github.com/popcorn-official/popcorn-app/wiki/Build-and-Debug-dev-0.3)
