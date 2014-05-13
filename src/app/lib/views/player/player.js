@@ -121,27 +121,27 @@
             });
 
             Mousetrap.bind('right', function (e) {
-                _this.seek(2)
-            });
-
-            Mousetrap.bind('shift+right', function (e) {
                 _this.seek(10)
             });
 
+            Mousetrap.bind('shift+right', function (e) {
+                _this.seek(60)
+            });
+
             Mousetrap.bind('ctrl+right', function (e) {
-                _this.seek(30)
+                _this.seek(600)
             });
 
             Mousetrap.bind('left', function (e) {
-                _this.seek(-2)
-            });
-
-            Mousetrap.bind('shift+left', function (e) {
                 _this.seek(-10)
             });
 
+            Mousetrap.bind('shift+left', function (e) {
+                _this.seek(-60)
+            });
+
             Mousetrap.bind('ctrl+left', function (e) {
-                _this.seek(-30)
+                _this.seek(-600)
             });
 
 
