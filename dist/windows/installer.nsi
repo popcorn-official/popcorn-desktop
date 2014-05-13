@@ -136,7 +136,7 @@ Section ; App Files
 	File "/oname=Popcorn-Time.exe" "..\..\build\cache\win\${NW_VER}\nw.exe"
 	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test" /x "bin" /x ".*" "..\..\node_modules"
 	SetOutPath "$INSTDIR\src"
-	File /r "..\..\src\*.*"
+	File /r /x "tvshows.json" "..\..\src\*.*"
 	
 	;Create uninstaller
 	WriteUninstaller "$INSTDIR\Uninstall.exe"
