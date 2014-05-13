@@ -201,7 +201,7 @@
             var v = this.player.volume();
             this.player.volume(v + i);
             this.displayVolume();
-        }
+        },
 
         toggleFullscreen: function() {
 
