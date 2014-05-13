@@ -242,9 +242,25 @@ var Database = {
 						}
 					});
 				}
-
-				processJSON(require('./db/tvshows.json'));
-
+				/*
+				request({
+					url: Settings.tvshowApiEndpoint + 'shows/all',
+					headers: { 'accept-encoding': 'gzip,deflate' }
+				}).pipe(fs.createWriteStream('./db/data.dbz')); 
+				*/
+				console.log('Uncompressing local db');
+				var gunzip = zlib.createGunzip();
+				var showsdata = fs.createReadStream('./src/app/db/data.dbz');
+				showsdata.pipe(gunzip).pipe(fs.createWriteStream('./src/app/db/tvshows.json'));
+				
+				gunzip.on("end", function() {
+					console.log("Done! Processing data.");
+					$("#initbar-contents").animate({ width: "100%" }, 500, 'swing');
+					processJSON(require("./db/tvshows.json"));
+				}).on("error", function(err) {
+					console.log("Uncompression failed!");
+					return cb(err, null);
+				});
 
 			});
 		});

@@ -35,3 +35,4 @@ src/app/css/app.css
 dist/windows/*.exe
 *.bat
 *.db
+*.json
