@@ -80,21 +80,24 @@ if(process.platform === 'win32' && parseFloat(os.release(), 10) > 6.1) {
 if( ! fs.existsSync(tmpFolder) ) { fs.mkdir(tmpFolder); }
 
 deleteFolder = function(path) {
-    if( typeof path != 'string' ) return;
-	
-    var files = [];
-    if( fs.existsSync(path) ) {
-        files = fs.readdirSync(path);
-        files.forEach(function(file,index){
-            var curPath = path + "/" + file;
-            if(fs.lstatSync(curPath).isDirectory()) {
-                deleteFolder(curPath);
-            } else {
-                fs.unlinkSync(curPath);
-            }
-        });
-        fs.rmdirSync(path);
-    }
+	if( typeof path != 'string' ) return;
+	try {
+		var files = [];
+		if( fs.existsSync(path) ) {
+			files = fs.readdirSync(path);
+			files.forEach(function(file,index){
+				var curPath = path + "/" + file;
+				if(fs.lstatSync(curPath).isDirectory()) {
+					deleteFolder(curPath);
+				} else {
+					fs.unlinkSync(curPath);
+				}
+			});
+			fs.rmdirSync(path);
+		}
+	} catch(err) {
+		console.log('deleteFolder()',err);
+	}
 }
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
