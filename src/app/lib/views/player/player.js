@@ -109,11 +109,11 @@
             });
 
             Mousetrap.bind('h', function(e) {
-                _this.increaseSubtitleOffset();
+                _this.adjustSubtitleOffset(0.1);
             });
 
             Mousetrap.bind('g', function(e) {
-                _this.decreaseSubtitleOffset();
+                _this.adjustSubtitleOffset(-0.1);
             });
 
             Mousetrap.bind(['space', 'p'], function(e) {
@@ -178,15 +178,11 @@
                 this.nativeWindow.focus();
             }
         },
-
-        increaseSubtitleOffset: function() {
-            this.player.setOffset(this.player.offset() + 0.1);
-            this.displaySubtitleOffset();
-        },
-
-        decreaseSubtitleOffset: function() {
-            this.player.setOffset(this.player.offset() - 0.1);
-            this.displaySubtitleOffset();
+        
+        adjustSubtitleOffset: function(s) {
+        	var o = this.player.offset();
+        	this.player.setOffset(o + s);
+            	this.displaySubtitleOffset();
         },
 
         displaySubtitleOffset: function() {
