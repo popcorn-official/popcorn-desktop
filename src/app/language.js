@@ -201,8 +201,7 @@ App.Localization.languages = {
     "sk": {},
     "sl": {
         subtitle: true,
-        encoding: ['windows-1250'],
-        translation: false
+        encoding: ['windows-1250']
     },
     "sr": {
         subtitle: true,
@@ -821,7 +820,7 @@ App.Localization.langcodes = {
 	},
 	"sl":{
 		"name":"Slovene",
-		"nativeName":"slovenščina"
+		"nativeName":"Slovenščina"
 	},
 	"so":{
 		"name":"Somali",
