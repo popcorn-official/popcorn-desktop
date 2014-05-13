@@ -12,9 +12,10 @@
         events: {
             'click .close': 'closeAbout',
             'click .links': 'links'
-        },        
+        },
 
         onShow: function() {
+            $('.links').tooltip();
             console.log('Show about', this.model); 
             $("#movie-detail").hide();
         },
