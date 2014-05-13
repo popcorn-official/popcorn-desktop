@@ -629,11 +629,14 @@
 	</script>
 
 	<script id="initializing-tpl" type="text/x-template">
-		<div class="init-text"><%= i18n.__("Initializing PopcornTime. Please Wait...") %></div>
-		<div class="init-progressbar">
-			<div id="initbar-contents"></div>
+		<img class="icon-begin" src="/src/app/images/icon.png">
+		<div class="text-begin">
+			<div class="init-text"><%= i18n.__("Initializing PopcornTime. Please Wait...") %></div>
+			<div class="init-progressbar">
+				<div id="initbar-contents"></div>
+			</div>
+			<div id="init-status" class="init-status"></div>
 		</div>
-		<div id="init-status" class="init-status"></div>
 	</script>
 
 	<script id="about-tpl" type="text/x-template">
