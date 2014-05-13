@@ -159,6 +159,30 @@
             Mousetrap.bind('ctrl+left', function (e) {
                 _this.seek(-600)
             });
+            
+            Mousetrap.bind('up', function (e) {
+                _this.adjustVolume(0.1)
+            });
+
+            Mousetrap.bind('shift+up', function (e) {
+                _this.adjustVolume(0.5)
+            });
+
+            Mousetrap.bind('ctrl+up', function (e) {
+                _this.adjustVolume(1)
+            });
+
+            Mousetrap.bind('down', function (e) {
+                _this.adjustVolume(-0.1)
+            });
+
+            Mousetrap.bind('shift+down', function (e) {
+               _this.adjustVolume(-0.5)
+            });
+
+            Mousetrap.bind('ctrl+down', function (e) {
+                _this.adjustVolume(-1)
+            });
 
 
           // Function to fade out cursor with other video elm's
@@ -172,6 +196,12 @@
             this.player.currentTime(t + s);
             this.player.trigger('mousemove'); //hack, make controls show
         },
+        
+        adjustVolume: function(i) {
+            var v = this.player.volume();
+            this.player.volume(v + i);
+            this.displayVolume();
+        }
 
         toggleFullscreen: function() {
 
@@ -211,6 +241,22 @@
             }
             else {
                 $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>Subtitles Offset: "+ this.player.offset().toFixed(1) +" secs");
+                $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
+                    $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
+                }, 3000));
+            }
+        },
+        //TODO: Make this more universal
+        displayVolume: function() {
+            if($('.vjs-overlay').length >0) {
+                $('.vjs-overlay').text('Volume: '+ this.player.volume());
+                clearTimeout($.data(this, 'subtitleOffsetTimer'));
+                $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
+                    $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
+                }, 3000));
+            }
+            else {
+                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>Volume: "+ this.player.volume());
                 $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
                     $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
                 }, 3000));
