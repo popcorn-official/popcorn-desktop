@@ -3,7 +3,7 @@
     height 100%
     width 100%
     position fixed
-    scrollable()
+    //scrollable()
     padding-top: 40px
     &::-webkit-scrollbar-track
         margin-top: 40px
@@ -62,7 +62,7 @@
   background-repeat no-repeat
   background-attachment fixed
   background-position 50% 0
-  -webkit-filter blur(4px)
+  opacity 0.5
   -webkit-background-size cover
   -moz-background-size cover
   background-size cover
@@ -202,13 +202,22 @@
 .episode-base
     margin-top 233px
 
+#tabs_base
+    position: absolute
+    width: 100%
+    height: 100%
+
 #tabs_season
-    position absolute
+    position relative
     list-style none
     margin-top 10px
-    margin-left 35px
-    color white 
-    //scrollable()
+    margin-left 30px
+    color white
+    width: 13%
+    height: calc(100% - 350px)
+    display: inline-block
+    padding-right: 12px
+    scrollable()
     
     a
         text-decoration none
@@ -221,7 +230,7 @@
         background-color #1F2025
 
     li
-        padding 9px 30px 9px 15px
+        padding 9px 15px 9px 15px
         font-family sans-serif
         font-size 15px
         margin-left -10px
@@ -238,14 +247,31 @@
 
     li.active
         background-color #1b2d4c
+        position relative
+
+        &:after
+            content ""
+            position absolute
+            top 0px
+            right -12px
+            width 0
+            height 0
+            border-color transparent transparent transparent #1b2d4c
+            border-style solid
+            border-width 16px 6px 17px 6px
+		
+        span 
+            right 11px
+            color white
     
 #tabs_episode_base
-    padding 0px
     position relative
     z-index 2
-    height 100%
-    margin-left 150px
     color #fff
+    width: 48%
+    height calc(100% - 350px)
+    display: inline-block
+    scrollable()
 
     a
         text-decoration none
@@ -254,14 +280,14 @@
         font-weight normal
         margin 10px 0px
 
+    .current
+        display block
+
     ul
-        position absolute
+        position relative
         margin 0
-        padding 10px 18px 10px 0
-        margin-left 10px
         list-style none
         background #17181b
-        //scrollable()
 
         li:nth-child(odd)
             background-color #1F2025
@@ -277,61 +303,32 @@
 
         li.active
             background-color #1b2d4c
-        
+            position relative
+
             div
                 color white
 
-    .current
-        display block
-
 .tabs-episode
     display none
-
-#tabs_season .active
-    position relative
-
-    &:after
-        content ""
-        position absolute
-        top 0px
-        right -12px
-        width 0
-        height 0
-        border-color transparent transparent transparent #1b2d4c
-        border-style solid
-        border-width 16px 6px 17px 6px
     
-    span 
-        right 11px
-        color white
-        
-#tabs_episode_base .active
-    position relative
-
-    &:after
-        content ""
-        position absolute
-        top 0px
-        right -12px
-        width 0
-        height 0
-        border-color transparent transparent transparent #1b2d4c
-        border-style solid
-        border-width 16px 6px 17px 6px
-    
-    span 
-        right 11px
 .display-base-title
     width 100%
     color #fff
     height 60px
     font-size 23px
-    line-height 12px
     padding 20px 0
     position fixed
     top 273px
     z-index 3
     background #17181b
+    
+    .episode-list-seasons
+        display inline-block
+        margin-left: 30px
+        width: 13%
+    
+    .episode-list-episodes
+        display inline-block
     
 .season-episode-container
     padding-top 50px
@@ -358,13 +355,9 @@
     padding-bottom 3px
     vertical-align -5px
 
-.episode-list-text
-    display inline-block
-    margin 10px -10px 0 37px
-
 .watched-false
     position absolute
-    right 30px
+    right 20px
     opacity 0.1
     padding 10px 0
 
@@ -376,7 +369,7 @@
 
 .watched-true
     position absolute
-    right 30px
+    right 20px
     opacity 1
     padding 10px 0
 
@@ -456,15 +449,15 @@
     .episode-info
         width 46%
     
-    #tabs_episode_base ul
-        width 46%
+    #tabs_episode_base
+        width 38%
 
 @media all and (min-width: 700px) and (max-width: 1300px)
     .episode-info
         width 35%
 
-    #tabs_episode_base ul
-        width 56%
+    #tabs_episode_base
+        width 48%
     
     .episode-info-title
         font-size 18px
