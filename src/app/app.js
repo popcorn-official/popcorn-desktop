@@ -71,11 +71,13 @@ App.vent.on('error', function(err) {
 /**
 * Windows 8 Fix
 * https://github.com/rogerwang/node-webkit/issues/1021#issuecomment-34358536
-*/
+ # commented this line so we can watch movies withou the taskbar showing always
+ 
 if(process.platform === 'win32' && parseFloat(os.release(), 10) > 6.1) {
     gui.Window.get().setMaximumSize(screen.availWidth + 15, screen.availHeight + 14);
 };
 
+*/
 // Create the System Temp Folder. This is used to store temporary data like movie files.
 if( ! fs.existsSync(tmpFolder) ) { fs.mkdir(tmpFolder); }
 
