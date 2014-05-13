@@ -188,6 +188,9 @@
                 _this.toggleMute()
             });
 
+            Mousetrap.bind(['u', 'U'], function (e) {
+                _this.displayStreamURL()
+            });
 
           // Function to fade out cursor with other video elm's
 
@@ -231,6 +234,10 @@
                 this.nativeWindow.leaveFullscreen();
                 this.nativeWindow.focus();
             }
+        },
+        displayStreamURL: function() {
+            this.player.pause();
+            window.prompt("Copy to clipboard: Then Press Enter", $('#video_player video').attr('src'));
         },
         
         adjustSubtitleOffset: function(s) {
