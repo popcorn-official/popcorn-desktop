@@ -77,10 +77,11 @@
                     Database.deleteMovie(that.model.get('imdb'),function(err, data) {})
 
                 // we'll delete this element from our list view
-                $(e.currentTarget).closest( "li" ).animate({ width: "0%", opacity: 0 }, 1000, function(){$(this).remove()});
-                if($('.bookmarks li').length == 0) {
-                    App.vent.trigger('movies:list', []);
-                }
+                $(e.currentTarget).closest( "li" ).animate({ width: "0%", opacity: 0 }, 1000, function(){$(this).remove()
+                    if($('.bookmarks li').length == 0) {
+                        App.vent.trigger('movies:list', []);
+                    }
+                });
             })
             
         }
