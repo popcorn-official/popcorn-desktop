@@ -233,30 +233,31 @@
 
         displaySubtitleOffset: function() {
             if($('.vjs-overlay').length >0) {
-                $('.vjs-overlay').text('Subtitles Offset: '+ this.player.offset().toFixed(1) +' secs');
+                $('.vjs-overlay').text(i18n.__('Subtitles Offset')+': '+ this.player.offset().toFixed(1) +' '+i18n.__('secs')); 
                 clearTimeout($.data(this, 'subtitleOffsetTimer'));
                 $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
                     $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
                 }, 3000));
             }
             else {
-                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>Subtitles Offset: "+ this.player.offset().toFixed(1) +" secs");
+                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>"+i18n.__('Subtitles Offset')+": "+ this.player.offset().toFixed(1) +" "+i18n.__('secs'));
                 $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
                     $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
                 }, 3000));
             }
         },
+		
         //TODO: Make this more universal
         displayVolume: function() {
             if($('.vjs-overlay').length >0) {
-                $('.vjs-overlay').text('Volume: '+ this.player.volume());
+                $('.vjs-overlay').text(i18n.__('Volume')+': '+ this.player.volume());
                 clearTimeout($.data(this, 'subtitleOffsetTimer'));
                 $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
                     $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
                 }, 3000));
             }
             else {
-                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>Volume: "+ this.player.volume());
+                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>"+i18n.__('Volume')+": "+ this.player.volume());
                 $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
                     $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
                 }, 3000));
