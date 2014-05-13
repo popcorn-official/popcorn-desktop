@@ -183,6 +183,10 @@
             Mousetrap.bind('ctrl+down', function (e) {
                 _this.adjustVolume(-1)
             });
+            
+            Mousetrap.bind('m', function (e) {
+                _this.adjustVolume(-1)
+            });
 
 
           // Function to fade out cursor with other video elm's
