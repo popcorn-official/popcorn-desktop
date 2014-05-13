@@ -180,8 +180,12 @@
                _this.adjustVolume(-0.5)
             });
 
-            Mousetrap.bind(['ctrl+down', 'm', 'M'], function (e) {
+            Mousetrap.bind(['ctrl+down'], function (e) {
                 _this.adjustVolume(-1)
+            });
+
+            Mousetrap.bind(['m', 'M'], function (e) {
+                _this.toggleMute()
             });
 
 
@@ -202,7 +206,11 @@
             this.player.volume(v + i);
             this.displayVolume();
         },
-
+		
+        toggleMute: function() {
+            this.player.muted(!this.player.muted());
+        },
+		
         toggleFullscreen: function() {
 
             this.nativeWindow = require('nw.gui').Window.get();
