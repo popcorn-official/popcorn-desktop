@@ -142,7 +142,10 @@ App.Localization.languages = {
         subtitle: true,
         translation: false
     },
-    "eu": {},
+    "eu": {
+    	subtitle: true,
+        encoding: ['iso-8859-1']
+    },
     "fa": {},
     "fi": {
         subtitle: true,
