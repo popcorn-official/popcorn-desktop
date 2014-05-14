@@ -13,6 +13,8 @@ console.log("Database path: " + data_path);
 // TTL for popcorn-api DB sync
 var TTL = 1000 * 60 * 60 * 24;
 
+process.env.TZ = "America/New_York"; // set same api tz
+
 db.bookmarks = new Datastore({ filename: path.join(data_path, 'data/bookmarks.db'), autoload: true });
 db.settings = new Datastore({ filename: path.join(data_path, 'data/settings.db'), autoload: true });
 db.tvshows = new Datastore({ filename: path.join(data_path, 'data/shows.db'), autoload: true });
@@ -194,27 +196,28 @@ var Database = {
 		db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
 			db.tvshows.loadDatabase(function (err) {
 
-				function processJSON(data){
-					db.tvshows.insert(JSON.parse(data), function (err, newDocs){
-						if(err){
-							console.log("Procession failed!");
-							return false;
-						}else{
-							console.log("Done! Processed data.");
-							return true;
-						}
-					});
-				}
-
 				// we'll get number of page
-				request(Settings.tvshowApiEndpoint + 'shows/all', {json: true}, function(err, res, allPages) {
+				request(Settings.tvshowApiEndpoint + 'shows', {json: true}, function(err, res, allPages) {
 
 					// api is down? we continue anyways...
-           			if(err || !allPages) return cb("api down", null);
+           			if(err || !allPages) return cb("api_down", null);
 
 					// we'll make a query for each page
 					async.eachSeries(allPages, function(page, callback) {
 						
+
+						function processJSON(data){
+							db.tvshows.insert(JSON.parse(data), function (err, newDocs){
+								if(err){
+									console.log("Procession failed!");
+									callback();
+								}else{
+									console.log("Done! Processed data.");
+									callback();
+								}
+							});
+						}
+
 						var gunzip = zlib.createGunzip();            
 						var buffer = [];
 
@@ -237,12 +240,12 @@ var Database = {
 							headers: { 'accept-encoding': 'gzip,deflate' }
 						}).pipe(gunzip);
 						
-						callback();
+						
 					},
 					function(err, res){
 						
 						// all done
-						cb(false,res);
+						cb(err,res);
 
 					});
 
