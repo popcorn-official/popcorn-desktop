@@ -193,76 +193,60 @@ var Database = {
 		$("#initbar-contents").animate({ width: "75%" }, 8000, 'swing');
 		db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
 			db.tvshows.loadDatabase(function (err) {
+
 				function processJSON(data){
 					db.tvshows.insert(JSON.parse(data), function (err, newDocs){
 						if(err){
 							console.log("Procession failed!");
-							return cb(err, null);
+							return false;
 						}else{
 							console.log("Done! Processed data.");
-							return cb(null, newDocs);
+							return true;
 						}
 					});
 				}
 
-				var gunzip = zlib.createGunzip();            
-				var buffer = [];
+				// we'll get number of page
+				request(Settings.tvshowApiEndpoint + 'shows/all', {json: true}, function(err, res, allPages) {
 
-				gunzip.on('data', function(data) {
-					buffer.push(data.toString())
-				}).on("end", function() {
-					console.log("Done! Processing data.");
-					$("#initbar-contents").animate({ width: "100%" }, 500, 'swing');
-					processJSON(buffer.join("")); 
-				}).on("error", function(e) {
-					console.log("Uncompression failed!");
-					return cb(err, null);
-				})
-				console.log("Downloading and uncompressing gzip data from: " + Settings.tvshowApiEndpoint);
-				request({
-					url: Settings.tvshowApiEndpoint + 'shows/all',
-					headers: { 'accept-encoding': 'gzip,deflate' }
-				}).pipe(gunzip);
+					// api is down? we continue anyways...
+           			if(err || !allPages) return cb("api down", null);
 
-			});
-		});
-	},
+					// we'll make a query for each page
+					async.eachSeries(allPages, function(page, callback) {
+						
+						var gunzip = zlib.createGunzip();            
+						var buffer = [];
 
-	importDB: function(cb) {
-		$("#init-status").html(i18n.__("Status: Creating Database..."));
-		$("#initbar-contents").animate({ width: "75%" }, 8000, 'swing');
-		db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
-			db.tvshows.loadDatabase(function (err) {
-				function processJSON(data){
-					db.tvshows.insert(data, function (err, newDocs){
-						if(err){
-							console.log("Procession failed!");
+						gunzip.on('data', function(data) {
+								buffer.push(data.toString())
+						}).on("end", function() {
+								
+							console.log("Done! Processing data for page " + page);
+							$("#initbar-contents").animate({ width: "100%" }, 500, 'swing');
+							processJSON(buffer.join("")); 
+
+						}).on("error", function(e) {
+							console.log("Uncompression failed!");
 							return cb(err, null);
-						}else{
-							console.log("Done! Processed data.");
-							return cb(null, newDocs);
-						}
+						})
+
+						console.log("Downloading and uncompressing gzip data from: " + Settings.tvshowApiEndpoint + page);
+						request({
+							url: Settings.tvshowApiEndpoint + page,
+							headers: { 'accept-encoding': 'gzip,deflate' }
+						}).pipe(gunzip);
+						
+						callback();
+					},
+					function(err, res){
+						
+						// all done
+						cb(false,res);
+
 					});
-				}
-				/*
-				request({
-					url: Settings.tvshowApiEndpoint + 'shows/all',
-					headers: { 'accept-encoding': 'gzip,deflate' }
-				}).pipe(fs.createWriteStream('./db/data.dbz')); 
-				*/
-				console.log('Uncompressing local db');
-				var gunzip = zlib.createGunzip();
-				var showsdata = fs.createReadStream('./src/app/db/data.dbz');
-				showsdata.pipe(gunzip).pipe(fs.createWriteStream('./src/app/db/tvshows.json'));
-				
-				gunzip.on("end", function() {
-					console.log("Done! Processing data.");
-					$("#initbar-contents").animate({ width: "100%" }, 500, 'swing');
-					processJSON(require("./db/tvshows.json"));
-				}).on("error", function(err) {
-					console.log("Uncompression failed!");
-					return cb(err, null);
-				});
+
+            	});
 
 			});
 		});
@@ -412,24 +396,12 @@ var Database = {
 				Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
 					Database.getShowsCount(function(err, count) {
 						if (setting == null || count == 0) {
-
-
-							// TEMP: We'll import the tvshows.json into the DB to prevent flood on the api
-							// for the launch day
-							Database.importDB(function(err, setting) {
-								// we write our new update time
-								Database.writeSetting({key: "tvshow_last_sync", value: 1399926226389}, function() {
-									Database.syncDB(callback);
-								});
-							});							
-
 							// we need to do a complete update
 							// this is our first launch
-							
-							//Database.initDB(function(err, setting) {
-							//	// we write our new update time
-							//	Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
-							//});
+							Database.initDB(function(err, setting) {
+								// we write our new update time
+								Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
+							});
 						} else {
 
 							// we set a TTL of 24 hours for the DB	
