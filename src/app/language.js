@@ -42,10 +42,10 @@ var detectLanguage = function(preferredLanguage) {
 
 
 // Remove unsupported subtitle language from object
-App.Localization.filterSubtitle = function(langs) {
+App.Localization.filterSubtitle = function(langs) { 
     var filteredLang = {};
     _.each(langs, function(data, lang){
-        var langInfo = App.Localization.languages[lang];
+        var langInfo = App.Localization.langcodes[lang];
         if(langInfo && langInfo.subtitle) {
             filteredLang[lang] = data;
         }
@@ -101,878 +101,807 @@ App.Localization.languageMapping = {
     "vietnamese": "vi"
 };
 
-// Language used in the system, edit to add subtitle support
-App.Localization.languages = {
-    "ar": {
-        encoding: ['windows-1256']
-    },
-    "bg": {
-        subtitle: true,
-        encoding: ['windows-1251', 'iso-8859-5']
-    },
-    "bn": {},
-    "bs": {
-        subtitle: true,
-        encoding: ['windows-1250'],
-        translation: false
-    },
-    "ca": {},
-    "cs": {
-        subtitle: true
-    },
-    "da": {
-        subtitle: true
-    },
-    "de": {
-        subtitle: true,
-        encoding: ['iso-8859-1']
-    },
-    "el": {
-        subtitle: true,
-        encoding: ['windows-1253', 'iso-8859-7']
-    },
-    "en": {
-        subtitle: true
-    },
-    "es": {
-        subtitle: true,
-        encoding: ['iso-8859-1']
-    },
-    "et": {
-        subtitle: true,
-        translation: false
-    },
-    "eu": {
-    	subtitle: true,
-        encoding: ['iso-8859-1']
-    },
-    "fa": {},
-    "fi": {
-        subtitle: true,
-        encoding: ['iso-8859-1']
-    },
-    "fr": {
-        subtitle: true,
-        encoding: ['iso-8859-1']
-    },
-    "he": {
-        subtitle: true,
-        encoding: ['windows-1255']
-    },
-    "hr": {
-        subtitle: true,
-        encoding: ['windows-1250']
-    },
-    "hu": {
-        subtitle: true,
-        encoding: ['iso-8859-2']
-    },
-    "is": {},
-    "it": {
-        subtitle: true
-    },
-    "ja": {},
-    "kr": {},
-    "lt": {
-        subtitle: true
-    },
-    "lv": {},
-    "mt": {},
-    "nl": {
-        subtitle: true,
-        encoding: ['iso-8859-1']
-    },
-    "no": {},
-    "pl": {
-        subtitle: true
-    },
-    "pt": {
-        subtitle: true,
-        encoding: ['iso-8859-1']
-    },
-    "pt-br": {
-        subtitle: true,
-        encoding: ['iso-8859-1']
-    },
-    "ro": {
-        subtitle: true,
-        encoding: ['iso-8859-16']
-    },
-    "ru": {
-        encoding: ['windows-1251', 'iso-8859-5']
-    },
-    "sk": {},
-    "sl": {
-        subtitle: true,
-        encoding: ['windows-1250']
-    },
-    "sr": {
-        subtitle: true,
-        encoding: ['windows-1250'],
-        translation: false
-    },
-    "sv": {},
-    "tr": {
-        subtitle: true,
-        encoding: ['iso-8859-9']
-    },
-    "uk": {
-        encoding: ['windows-1251', 'iso-8859-5']
-    },
-    "zh": {
-        display: "中文",
-        subtitle: true
-    },
-    "zh-cn": {},
-    "zh-tw": {}
-
-};
-
-App.Localization.langcodes = {
+App.Localization.langcodes = { 
 	"ab":{
-		"name":"Abkhaz",
-		"nativeName":"аҧсуа"
+		name:"Abkhaz",
+		nativeName:"аҧсуа"
 	},
 	"aa":{
-		"name":"Afar",
-		"nativeName":"Afaraf"
+		name:"Afar",
+		nativeName:"Afaraf"
 	},
 	"af":{
-		"name":"Afrikaans",
-		"nativeName":"Afrikaans"
+		name:"Afrikaans",
+		nativeName:"Afrikaans"
 	},
 	"ak":{
-		"name":"Akan",
-		"nativeName":"Akan"
+		name:"Akan",
+		nativeName:"Akan"
 	},
 	"sq":{
-		"name":"Albanian",
-		"nativeName":"Shqip"
+		name:"Albanian",
+		nativeName:"Shqip"
 	},
 	"am":{
-		"name":"Amharic",
-		"nativeName":"አማርኛ"
+		name:"Amharic",
+		nativeName:"አማርኛ"
 	},
 	"ar":{
-		"name":"Arabic",
-		"nativeName":"العربية"
+		name:"Arabic",
+		nativeName:"العربية",
+		subtitle: true,
+		encoding: ['windows-1256']
 	},
 	"an":{
-		"name":"Aragonese",
-		"nativeName":"Aragonés"
+		name:"Aragonese",
+		nativeName:"Aragonés"
 	},
 	"hy":{
-		"name":"Armenian",
-		"nativeName":"Հայերեն"
+		name:"Armenian",
+		nativeName:"Հայերեն"
 	},
 	"as":{
-		"name":"Assamese",
-		"nativeName":"অসমীয়া"
+		name:"Assamese",
+		nativeName:"অসমীয়া"
 	},
 	"av":{
-		"name":"Avaric",
-		"nativeName":"авар мацӀ"
+		name:"Avaric",
+		nativeName:"авар мацӀ"
 	},
 	"ae":{
-		"name":"Avestan",
-		"nativeName":"avesta"
+		name:"Avestan",
+		nativeName:"avesta"
 	},
 	"ay":{
-		"name":"Aymara",
-		"nativeName":"aymar aru"
+		name:"Aymara",
+		nativeName:"aymar aru"
 	},
 	"az":{
-		"name":"Azerbaijani",
-		"nativeName":"azərbaycan dili"
+		name:"Azerbaijani",
+		nativeName:"azərbaycan dili"
 	},
 	"bm":{
-		"name":"Bambara",
-		"nativeName":"bamanankan"
+		name:"Bambara",
+		nativeName:"bamanankan"
 	},
 	"ba":{
-		"name":"Bashkir",
-		"nativeName":"башҡорт теле"
+		name:"Bashkir",
+		nativeName:"башҡорт теле"
 	},
 	"eu":{
-		"name":"Basque",
-		"nativeName":"Euskara"
+		name:"Basque",
+		nativeName:"Euskara",
+		subtitle: true,
+        encoding: ['iso-8859-1']
 	},
 	"be":{
-		"name":"Belarusian",
-		"nativeName":"Беларуская"
+		name:"Belarusian",
+		nativeName:"Беларуская"
 	},
 	"bn":{
-		"name":"Bengali",
-		"nativeName":"বাংলা"
+		name:"Bengali",
+		nativeName:"বাংলা"
 	},
 	"bh":{
-		"name":"Bihari",
-		"nativeName":"भोजपुरी"
+		name:"Bihari",
+		nativeName:"भोजपुरी"
 	},
 	"bi":{
-		"name":"Bislama",
-		"nativeName":"Bislama"
+		name:"Bislama",
+		nativeName:"Bislama"
 	},
 	"bs":{
-		"name":"Bosnian",
-		"nativeName":"Bosanski jezik"
+		name:"Bosnian",
+		nativeName:"Bosanski jezik",
+		subtitle: true,
+        encoding: ['windows-1250']
 	},
 	"br":{
-		"name":"Breton",
-		"nativeName":"Brezhoneg"
+		name:"Breton",
+		nativeName:"Brezhoneg"
 	},
 	"bg":{
-		"name":"Bulgarian",
-		"nativeName":"български език"
+		name:"Bulgarian",
+		nativeName:"български език",
+		subtitle: true,
+        encoding: ['windows-1251', 'iso-8859-5']
 	},
 	"my":{
-		"name":"Burmese",
-		"nativeName":"ဗမာစာ"
+		name:"Burmese",
+		nativeName:"ဗမာစာ"
 	},
 	"ca":{
-		"name":"Catalan",
-		"nativeName":"Català"
+		name:"Catalan",
+		nativeName:"Català"
 	},
 	"ch":{
-		"name":"Chamorro",
-		"nativeName":"Chamoru"
+		name:"Chamorro",
+		nativeName:"Chamoru"
 	},
 	"ce":{
-		"name":"Chechen",
-		"nativeName":"нохчийн мотт"
+		name:"Chechen",
+		nativeName:"нохчийн мотт"
 	},
 	"ny":{
-		"name":"Chichewa",
-		"nativeName":"chiCheŵa"
+		name:"Chichewa",
+		nativeName:"chiCheŵa"
 	},
 	"zh":{
-		"name":"Chinese",
-		"nativeName":"中文"
+		name:"Chinese",
+		nativeName:"中文"
 	},
 	"zh-cn":{
-		"name":"Chinese (simplified)",
-		"nativeName":"简体中文"
+		name:"Chinese (simplified)",
+		nativeName:"简体中文"
 	},
 	"zh-tw":{
-		"name":"Chinese (traditional)",
-		"nativeName":"正體中文"
+		name:"Chinese (traditional)",
+		nativeName:"正體中文"
 	},
 	"cv":{
-		"name":"Chuvash",
-		"nativeName":"чӑваш чӗлхи"
+		name:"Chuvash",
+		nativeName:"чӑваш чӗлхи"
 	},
 	"kw":{
-		"name":"Cornish",
-		"nativeName":"Kernewek"
+		name:"Cornish",
+		nativeName:"Kernewek"
 	},
 	"co":{
-		"name":"Corsican",
-		"nativeName":"Corsu"
+		name:"Corsican",
+		nativeName:"Corsu"
 	},
 	"cr":{
-		"name":"Cree",
-		"nativeName":"ᓀᐦᐃᔭᐍᐏᐣ"
+		name:"Cree",
+		nativeName:"ᓀᐦᐃᔭᐍᐏᐣ"
 	},
 	"hr":{
-		"name":"Croatian",
-		"nativeName":"hrvatski"
+		name:"Croatian",
+		nativeName:"hrvatski",
+		subtitle: true,
+        encoding: ['windows-1250']
 	},
 	"cs":{
-		"name":"Czech",
-		"nativeName":"Český"
+		name:"Czech",
+		nativeName:"Český",
+		subtitle: true
 	},
 	"da":{
-		"name":"Danish",
-		"nativeName":"Dansk"
+		name:"Danish",
+		nativeName:"Dansk",
+		subtitle: true
 	},
 	"dv":{
-		"name":"Divehi",
-		"nativeName":"ދިވެހި"
+		name:"Divehi",
+		nativeName:"ދިވެހި"
 	},
 	"nl":{
-		"name":"Dutch",
-		"nativeName":"Nederlands"
+		name:"Dutch",
+		nativeName:"Nederlands",
+		subtitle: true,
+        encoding: ['iso-8859-1']
 	},
 	"en":{
-		"name":"English",
-		"nativeName":"English"
+		name:"English",
+		nativeName:"English",
+		subtitle: true
 	},
 	"eo":{
-		"name":"Esperanto",
-		"nativeName":"Esperanto"
+		name:"Esperanto",
+		nativeName:"Esperanto"
 	},
 	"et":{
-		"name":"Estonian",
-		"nativeName":"Eesti"
+		name:"Estonian",
+		nativeName:"Eesti",
+		subtitle: true
 	},
 	"ee":{
-		"name":"Ewe",
-		"nativeName":"Eʋegbe"
+		name:"Ewe",
+		nativeName:"Eʋegbe"
 	},
 	"fo":{
-		"name":"Faroese",
-		"nativeName":"føroyskt"
+		name:"Faroese",
+		nativeName:"føroyskt"
 	},
 	"fj":{
-		"name":"Fijian",
-		"nativeName":"Vosa Vakaviti"
+		name:"Fijian",
+		nativeName:"Vosa Vakaviti"
 	},
 	"fi":{
-		"name":"Finnish",
-		"nativeName":"Suomi"
+		name:"Finnish",
+		nativeName:"Suomi",
+		subtitle: true,
+        encoding: ['iso-8859-1']
 	},
 	"fr":{
-		"name":"French",
-		"nativeName":"Français"
+		name:"French",
+		nativeName:"Français",
+		subtitle: true,
+        encoding: ['iso-8859-1']
 	},
 	"ff":{
-		"name":"Fula",
-		"nativeName":"Fulfulde"
+		name:"Fula",
+		nativeName:"Fulfulde"
 	},
 	"gl":{
-		"name":"Galician",
-		"nativeName":"Galego"
+		name:"Galician",
+		nativeName:"Galego"
 	},
 	"ka":{
-		"name":"Georgian",
-		"nativeName":"ქართული"
+		name:"Georgian",
+		nativeName:"ქართული"
 	},
 	"de":{
-		"name":"German",
-		"nativeName":"Deutsch"
+		name:"German",
+		nativeName:"Deutsch",
+		subtitle: true,
+        encoding: ['iso-8859-1']
 	},
 	"el":{
-		"name":"Modern Greek",
-		"nativeName":"Ελληνικά"
+		name:"Modern Greek",
+		nativeName:"Ελληνικά",
+		subtitle: true,
+        encoding: ['windows-1253', 'iso-8859-7']
 	},
 	"gn":{
-		"name":"Guaraní",
-		"nativeName":"Avañeẽ"
+		name:"Guaraní",
+		nativeName:"Avañeẽ"
 	},
 	"gu":{
-		"name":"Gujarati",
-		"nativeName":"ગુજરાતી"
+		name:"Gujarati",
+		nativeName:"ગુજરાતી"
 	},
 	"ht":{
-		"name":"Haitian",
-		"nativeName":"Kreyòl ayisyen"
+		name:"Haitian",
+		nativeName:"Kreyòl ayisyen"
 	},
 	"ha":{
-		"name":"Hausa",
-		"nativeName":"Hausa"
+		name:"Hausa",
+		nativeName:"Hausa"
 	},
 	"he":{
-		"name":"Hebrew (modern)",
-		"nativeName":"עברית"
+		name:"Hebrew (modern)",
+		nativeName:"עברית",
+		subtitle: true,
+        encoding: ['windows-1255']
 	},
 	"hz":{
-		"name":"Herero",
-		"nativeName":"Otjiherero"
+		name:"Herero",
+		nativeName:"Otjiherero"
 	},
 	"hi":{
-		"name":"Hindi",
-		"nativeName":"हिन्दी"
+		name:"Hindi",
+		nativeName:"हिन्दी"
 	},
 	"ho":{
-		"name":"Hiri Motu",
-		"nativeName":"Hiri Motu"
+		name:"Hiri Motu",
+		nativeName:"Hiri Motu"
 	},
 	"hu":{
-		"name":"Hungarian",
-		"nativeName":"Magyar"
+		name:"Hungarian",
+		nativeName:"Magyar",
+		subtitle: true,
+        encoding: ['iso-8859-2']
 	},
 	"ia":{
-		"name":"Interlingua",
-		"nativeName":"Interlingua"
+		name:"Interlingua",
+		nativeName:"Interlingua"
 	},
 	"id":{
-		"name":"Indonesian",
-		"nativeName":"Bahasa Indonesia"
+		name:"Indonesian",
+		nativeName:"Bahasa Indonesia"
 	},
 	"ie":{
-		"name":"Interlingue",
-		"nativeName":"Interlingue"
+		name:"Interlingue",
+		nativeName:"Interlingue"
 	},
 	"ga":{
-		"name":"Irish",
-		"nativeName":"Gaeilge"
+		name:"Irish",
+		nativeName:"Gaeilge"
 	},
 	"ig":{
-		"name":"Igbo",
-		"nativeName":"Asụsụ Igbo"
+		name:"Igbo",
+		nativeName:"Asụsụ Igbo"
 	},
 	"ik":{
-		"name":"Inupiaq",
-		"nativeName":"Iñupiaq"
+		name:"Inupiaq",
+		nativeName:"Iñupiaq"
 	},
 	"io":{
-		"name":"Ido",
-		"nativeName":"Ido"
+		name:"Ido",
+		nativeName:"Ido"
 	},
 	"is":{
-		"name":"Icelandic",
-		"nativeName":"Íslenska"
+		name:"Icelandic",
+		nativeName:"Íslenska"
 	},
 	"it":{
-		"name":"Italian",
-		"nativeName":"Italiano"
+		name:"Italian",
+		nativeName:"Italiano",
+		subtitle: true
 	},
 	"iu":{
-		"name":"Inuktitut",
-		"nativeName":"ᐃᓄᒃᑎᑐᑦ"
+		name:"Inuktitut",
+		nativeName:"ᐃᓄᒃᑎᑐᑦ"
 	},
 	"ja":{
-		"name":"Japanese",
-		"nativeName":"日本語"
+		name:"Japanese",
+		nativeName:"日本語"
 	},
 	"jv":{
-		"name":"Javanese",
-		"nativeName":"Basa Jawa"
+		name:"Javanese",
+		nativeName:"Basa Jawa"
 	},
 	"kl":{
-		"name":"Kalaallisut",
-		"nativeName":"Kalaallisut"
+		name:"Kalaallisut",
+		nativeName:"Kalaallisut"
 	},
 	"kn":{
-		"name":"Kannada",
-		"nativeName":"ಕನ್ನಡ"
+		name:"Kannada",
+		nativeName:"ಕನ್ನಡ"
 	},
 	"kr":{
-		"name":"Kanuri",
-		"nativeName":"Kanuri"
+		name:"Kanuri",
+		nativeName:"Kanuri"
 	},
 	"ks":{
-		"name":"Kashmiri",
-		"nativeName":"कश्मीरी"
+		name:"Kashmiri",
+		nativeName:"कश्मीरी"
 	},
 	"kk":{
-		"name":"Kazakh",
-		"nativeName":"Қазақ тілі"
+		name:"Kazakh",
+		nativeName:"Қазақ тілі"
 	},
 	"km":{
-		"name":"Khmer",
-		"nativeName":"ភាសាខ្មែរ"
+		name:"Khmer",
+		nativeName:"ភាសាខ្មែរ"
 	},
 	"ki":{
-		"name":"Kikuyu",
-		"nativeName":"Gĩkũyũ"
+		name:"Kikuyu",
+		nativeName:"Gĩkũyũ"
 	},
 	"rw":{
-		"name":"Kinyarwanda",
-		"nativeName":"Ikinyarwanda"
+		name:"Kinyarwanda",
+		nativeName:"Ikinyarwanda"
 	},
 	"ky":{
-		"name":"Kirghiz",
-		"nativeName":"кыргыз тили"
+		name:"Kirghiz",
+		nativeName:"кыргыз тили"
 	},
 	"kv":{
-		"name":"Komi",
-		"nativeName":"коми кыв"
+		name:"Komi",
+		nativeName:"коми кыв"
 	},
 	"kg":{
-		"name":"Kongo",
-		"nativeName":"KiKongo"
+		name:"Kongo",
+		nativeName:"KiKongo"
 	},
 	"ko":{
-		"name":"Korean",
-		"nativeName":"한국어"
+		name:"Korean",
+		nativeName:"한국어"
 	},
 	"ku":{
-		"name":"Kurdish",
-		"nativeName":"كوردی‎"
+		name:"Kurdish",
+		nativeName:"كوردی‎"
 	},
 	"kj":{
-		"name":"Kwanyama",
-		"nativeName":"Kuanyama"
+		name:"Kwanyama",
+		nativeName:"Kuanyama"
 	},
 	"la":{
-		"name":"Latin",
-		"nativeName":"Latine"
+		name:"Latin",
+		nativeName:"Latine"
 	},
 	"lb":{
-		"name":"Luxembourgish",
-		"nativeName":"Lëtzebuergesch"
+		name:"Luxembourgish",
+		nativeName:"Lëtzebuergesch"
 	},
 	"lg":{
-		"name":"Luganda",
-		"nativeName":"Luganda"
+		name:"Luganda",
+		nativeName:"Luganda"
 	},
 	"li":{
-		"name":"Limburgish",
-		"nativeName":"Limburgs"
+		name:"Limburgish",
+		nativeName:"Limburgs"
 	},
 	"ln":{
-		"name":"Lingala",
-		"nativeName":"Lingála"
+		name:"Lingala",
+		nativeName:"Lingála"
 	},
 	"lo":{
-		"name":"Lao",
-		"nativeName":"ພາສາລາວ"
+		name:"Lao",
+		nativeName:"ພາສາລາວ"
 	},
 	"lt":{
-		"name":"Lithuanian",
-		"nativeName":"lietuvių kalba"
+		name:"Lithuanian",
+		nativeName:"lietuvių kalba",
+		subtitle: true
 	},
 	"lu":{
-		"name":"Luba-Katanga",
-		"nativeName":"Kiluba"
+		name:"Luba-Katanga",
+		nativeName:"Kiluba"
 	},
 	"lv":{
-		"name":"Latvian",
-		"nativeName":"Latviešu valoda"
+		name:"Latvian",
+		nativeName:"Latviešu valoda"
 	},
 	"gv":{
-		"name":"Manx",
-		"nativeName":"Gaelg"
+		name:"Manx",
+		nativeName:"Gaelg"
 	},
 	"mk":{
-		"name":"Macedonian",
-		"nativeName":"македонски јазик"
+		name:"Macedonian",
+		nativeName:"македонски јазик"
 	},
 	"mg":{
-		"name":"Malagasy",
-		"nativeName":"Malagasy fiteny"
+		name:"Malagasy",
+		nativeName:"Malagasy fiteny"
 	},
 	"ms":{
-		"name":"Malay",
-		"nativeName":"بهاس ملايو‎"
+		name:"Malay",
+		nativeName:"بهاس ملايو‎"
 	},
 	"ml":{
-		"name":"Malayalam",
-		"nativeName":"മലയാളം"
+		name:"Malayalam",
+		nativeName:"മലയാളം"
 	},
 	"mt":{
-		"name":"Maltese",
-		"nativeName":"Malti"
+		name:"Maltese",
+		nativeName:"Malti"
 	},
 	"mi":{
-		"name":"Māori",
-		"nativeName":"te reo Māori"
+		name:"Māori",
+		nativeName:"te reo Māori"
 	},
 	"mr":{
-		"name":"Marathi (Marāṭhī)",
-		"nativeName":"मराठी"
+		name:"Marathi (Marāṭhī)",
+		nativeName:"मराठी"
 	},
 	"mh":{
-		"name":"Marshallese",
-		"nativeName":"Kajin M̧ajeļ"
+		name:"Marshallese",
+		nativeName:"Kajin M̧ajeļ"
 	},
 	"mn":{
-		"name":"Mongolian",
-		"nativeName":"монгол"
+		name:"Mongolian",
+		nativeName:"монгол"
 	},
 	"na":{
-		"name":"Nauru",
-		"nativeName":"Ekakairũ Naoero"
+		name:"Nauru",
+		nativeName:"Ekakairũ Naoero"
 	},
 	"nv":{
-		"name":"Navajo",
-		"nativeName":"Diné bizaad"
+		name:"Navajo",
+		nativeName:"Diné bizaad"
 	},
 	"nb":{
-		"name":"Norwegian Bokmål",
-		"nativeName":"Norsk bokmål"
+		name:"Norwegian Bokmål",
+		nativeName:"Norsk bokmål"
 	},
 	"nd":{
-		"name":"North Ndebele",
-		"nativeName":"isiNdebele"
+		name:"North Ndebele",
+		nativeName:"isiNdebele"
 	},
 	"ne":{
-		"name":"Nepali",
-		"nativeName":"नेपाली"
+		name:"Nepali",
+		nativeName:"नेपाली"
 	},
 	"ng":{
-		"name":"Ndonga",
-		"nativeName":"Owambo"
+		name:"Ndonga",
+		nativeName:"Owambo"
 	},
 	"nn":{
-		"name":"Norwegian Nynorsk",
-		"nativeName":"Norsk nynorsk"
+		name:"Norwegian Nynorsk",
+		nativeName:"Norsk nynorsk"
 	},
 	"no":{
-		"name":"Norwegian",
-		"nativeName":"Norsk"
+		name:"Norwegian",
+		nativeName:"Norsk"
 	},
 	"ii":{
-		"name":"Nuosu",
-		"nativeName":"ꆈꌠ꒿ Nuosuhxop"
+		name:"Nuosu",
+		nativeName:"ꆈꌠ꒿ Nuosuhxop"
 	},
 	"nr":{
-		"name":"South Ndebele",
-		"nativeName":"isiNdebele"
+		name:"South Ndebele",
+		nativeName:"isiNdebele"
 	},
 	"oc":{
-		"name":"Occitan",
-		"nativeName":"Occitan"
+		name:"Occitan",
+		nativeName:"Occitan"
 	},
 	"oj":{
-		"name":"Ojibwe",
-		"nativeName":"ᐊᓂᔑᓈᐯᒧᐎᓐ"
+		name:"Ojibwe",
+		nativeName:"ᐊᓂᔑᓈᐯᒧᐎᓐ"
 	},
 	"cu":{
-		"name":"Church Slavonic",
-		"nativeName":"ѩзыкъ словѣньскъ"
+		name:"Church Slavonic",
+		nativeName:"ѩзыкъ словѣньскъ"
 	},
 	"om":{
-		"name":"Oromo",
-		"nativeName":"Afaan Oromoo"
+		name:"Oromo",
+		nativeName:"Afaan Oromoo"
 	},
 	"or":{
-		"name":"Oriya",
-		"nativeName":"ଓଡ଼ିଆ"
+		name:"Oriya",
+		nativeName:"ଓଡ଼ିଆ"
 	},
 	"os":{
-		"name":"Ossetian",
-		"nativeName":"ирон æвзаг"
+		name:"Ossetian",
+		nativeName:"ирон æвзаг"
 	},
 	"pa":{
-		"name":"Panjabi",
-		"nativeName":"ਪੰਜਾਬੀ"
+		name:"Panjabi",
+		nativeName:"ਪੰਜਾਬੀ"
 	},
 	"pi":{
-		"name":"Pāli",
-		"nativeName":"पाऴि"
+		name:"Pāli",
+		nativeName:"पाऴि"
 	},
 	"fa":{
-		"name":"Persian",
-		"nativeName":"فارسی"
+		name:"Persian",
+		nativeName:"فارسی"
 	},
 	"pl":{
-		"name":"Polish",
-		"nativeName":"polski"
+		name:"Polish",
+		nativeName:"Polski",
+		subtitle: true
 	},
 	"ps":{
-		"name":"Pashto",
-		"nativeName":"پښتو"
+		name:"Pashto",
+		nativeName:"پښتو"
 	},
 	"pt":{
-		"name":"Portuguese",
-		"nativeName":"Português"
+		name:"Portuguese",
+		nativeName:"Português",
+		subtitle: true,
+        encoding: ['iso-8859-1']
 	},
 	"pb":{
-		"name":"Portuguese (Brazil)",
-		"nativeName":"Português (Brasil)"
+		name:"Portuguese (Brazil)",
+		nativeName:"Português (Brasil)",
+		subtitle: true,
+        encoding: ['iso-8859-1']
 	},
 	"pt-br":{
-		"name":"Portuguese (Brazil)",
-		"nativeName":"Português (Brasil)"
+		name:"Portuguese (Brazil)",
+		nativeName:"Português (Brasil)",
+		subtitle: true,
+        encoding: ['iso-8859-1']
 	},
 	"qu":{
-		"name":"Quechua",
-		"nativeName":"Runa Simi"
+		name:"Quechua",
+		nativeName:"Runa Simi"
 	},
 	"rm":{
-		"name":"Romansh",
-		"nativeName":"rumantsch grischun"
+		name:"Romansh",
+		nativeName:"rumantsch grischun"
 	},
 	"rn":{
-		"name":"Kirundi",
-		"nativeName":"kiRundi"
+		name:"Kirundi",
+		nativeName:"kiRundi"
 	},
 	"ro":{
-		"name":"Romanian",
-		"nativeName":"română"
+		name:"Romanian",
+		nativeName:"română",
+		subtitle: true,
+        encoding: ['iso-8859-16']
 	},
 	"ru":{
-		"name":"Russian",
-		"nativeName":"русский язык"
+		name:"Russian",
+		nativeName:"русский язык",
+		subtitle: true,
+		encoding: ['windows-1251', 'iso-8859-5']
 	},
 	"sa":{
-		"name":"Sanskrit (Saṁskṛta)",
-		"nativeName":"संस्कृतम्"
+		name:"Sanskrit (Saṁskṛta)",
+		nativeName:"संस्कृतम्"
 	},
 	"sc":{
-		"name":"Sardinian",
-		"nativeName":"sardu"
+		name:"Sardinian",
+		nativeName:"sardu"
 	},
 	"sd":{
-		"name":"Sindhi",
-		"nativeName":"سنڌي، سندھی‎"
+		name:"Sindhi",
+		nativeName:"سنڌي، سندھی‎"
 	},
 	"se":{
-		"name":"Northern Sami",
-		"nativeName":"Davvisámegiella"
+		name:"Northern Sami",
+		nativeName:"Davvisámegiella"
 	},
 	"sm":{
-		"name":"Samoan",
-		"nativeName":"gagana faa Samoa"
+		name:"Samoan",
+		nativeName:"gagana faa Samoa"
 	},
 	"sg":{
-		"name":"Sango",
-		"nativeName":"yângâ tî sängö"
+		name:"Sango",
+		nativeName:"yângâ tî sängö"
 	},
 	"sr":{
-		"name":"Serbian",
-		"nativeName":"српски језик"
+		name:"Serbian",
+		nativeName:"српски језик",
+		subtitle: true,
+        encoding: ['windows-1250']
 	},
 	"gd":{
-		"name":"Scottish Gaelic",
-		"nativeName":"Gàidhlig"
+		name:"Scottish Gaelic",
+		nativeName:"Gàidhlig"
 	},
 	"sn":{
-		"name":"Shona",
-		"nativeName":"chiShona"
+		name:"Shona",
+		nativeName:"chiShona"
 	},
 	"si":{
-		"name":"Sinhala",
-		"nativeName":"සිංහල"
+		name:"Sinhala",
+		nativeName:"සිංහල"
 	},
 	"sk":{
-		"name":"Slovak",
-		"nativeName":"slovenčina"
+		name:"Slovak",
+		nativeName:"slovenčina"
 	},
 	"sl":{
-		"name":"Slovene",
-		"nativeName":"Slovenščina"
+		name:"Slovene",
+		nativeName:"slovenščina",
+		subtitle: true,
+        encoding: ['windows-1250']
 	},
 	"so":{
-		"name":"Somali",
-		"nativeName":"Soomaaliga"
+		name:"Somali",
+		nativeName:"Soomaaliga"
 	},
 	"st":{
-		"name":"Southern Sotho",
-		"nativeName":"Sesotho"
+		name:"Southern Sotho",
+		nativeName:"Sesotho"
 	},
 	"es":{
-		"name":"Spanish",
-		"nativeName":"Español"
+		name:"Spanish",
+		nativeName:"Español",
+		subtitle: true,
+        encoding: ['iso-8859-1']
 	},
 	"su":{
-		"name":"Sundanese",
-		"nativeName":"Basa Sunda"
+		name:"Sundanese",
+		nativeName:"Basa Sunda"
 	},
 	"sw":{
-		"name":"Swahili",
-		"nativeName":"Kiswahili"
+		name:"Swahili",
+		nativeName:"Kiswahili"
 	},
 	"ss":{
-		"name":"Swati",
-		"nativeName":"SiSwati"
+		name:"Swati",
+		nativeName:"SiSwati"
 	},
 	"sv":{
-		"name":"Swedish",
-		"nativeName":"svenska"
+		name:"Swedish",
+		nativeName:"svenska"
 	},
 	"ta":{
-		"name":"Tamil",
-		"nativeName":"தமிழ்"
+		name:"Tamil",
+		nativeName:"தமிழ்"
 	},
 	"te":{
-		"name":"Telugu",
-		"nativeName":"తెలుగు"
+		name:"Telugu",
+		nativeName:"తెలుగు"
 	},
 	"tg":{
-		"name":"Tajik",
-		"nativeName":"тоҷикӣ‎"
+		name:"Tajik",
+		nativeName:"тоҷикӣ‎"
 	},
 	"th":{
-		"name":"Thai",
-		"nativeName":"ไทย"
+		name:"Thai",
+		nativeName:"ไทย"
 	},
 	"ti":{
-		"name":"Tigrinya",
-		"nativeName":"ትግርኛ"
+		name:"Tigrinya",
+		nativeName:"ትግርኛ"
 	},
 	"bo":{
-		"name":"Tibetan",
-		"nativeName":"བོད་ཡིག"
+		name:"Tibetan",
+		nativeName:"བོད་ཡིག"
 	},
 	"tk":{
-		"name":"Turkmen",
-		"nativeName":"Türkmen"
+		name:"Turkmen",
+		nativeName:"Türkmen"
 	},
 	"tl":{
-		"name":"Tagalog",
-		"nativeName":"Wikang Tagalog"
+		name:"Tagalog",
+		nativeName:"Wikang Tagalog"
 	},
 	"tn":{
-		"name":"Tswana",
-		"nativeName":"Setswana"
+		name:"Tswana",
+		nativeName:"Setswana"
 	},
 	"to":{
-		"name":"Tonga",
-		"nativeName":"faka Tonga"
+		name:"Tonga",
+		nativeName:"faka Tonga"
 	},
 	"tr":{
-		"name":"Turkish",
-		"nativeName":"Türkçe"
+		name:"Turkish",
+		nativeName:"Türkçe",
+		subtitle: true,
+        encoding: ['iso-8859-9']
 	},
 	"ts":{
-		"name":"Tsonga",
-		"nativeName":"Xitsonga"
+		name:"Tsonga",
+		nativeName:"Xitsonga"
 	},
 	"tt":{
-		"name":"Tatar",
-		"nativeName":"татарча‎"
+		name:"Tatar",
+		nativeName:"татарча‎"
 	},
 	"tw":{
-		"name":"Twi",
-		"nativeName":"Twi"
+		name:"Twi",
+		nativeName:"Twi"
 	},
 	"ty":{
-		"name":"Tahitian",
-		"nativeName":"Reo Tahiti"
+		name:"Tahitian",
+		nativeName:"Reo Tahiti"
 	},
 	"ug":{
-		"name":"Uighur",
-		"nativeName":"ئۇيغۇرچە‎"
+		name:"Uighur",
+		nativeName:"ئۇيغۇرچە‎"
 	},
 	"uk":{
-		"name":"Ukrainian",
-		"nativeName":"українська"
+		name:"Ukrainian",
+		nativeName:"українська",
+		subtitle: true,
+		encoding: ['windows-1251', 'iso-8859-5']
 	},
 	"ur":{
-		"name":"Urdu",
-		"nativeName":"اردو"
+		name:"Urdu",
+		nativeName:"اردو"
 	},
 	"uz":{
-		"name":"Uzbek",
-		"nativeName":"Oʻzbek‎"
+		name:"Uzbek",
+		nativeName:"Oʻzbek‎"
 	},
 	"ve":{
-		"name":"Venda",
-		"nativeName":"Tshivenḓa"
+		name:"Venda",
+		nativeName:"Tshivenḓa"
 	},
 	"vi":{
-		"name":"Vietnamese",
-		"nativeName":"Tiếng Việt"
+		name:"Vietnamese",
+		nativeName:"Tiếng Việt"
 	},
 	"vo":{
-		"name":"Volapük",
-		"nativeName":"Volapük"
+		name:"Volapük",
+		nativeName:"Volapük"
 	},
 	"wa":{
-		"name":"Walloon",
-		"nativeName":"Walon"
+		name:"Walloon",
+		nativeName:"Walon"
 	},
 	"cy":{
-		"name":"Welsh",
-		"nativeName":"Cymraeg"
+		name:"Welsh",
+		nativeName:"Cymraeg"
 	},
 	"wo":{
-		"name":"Wolof",
-		"nativeName":"Wollof"
+		name:"Wolof",
+		nativeName:"Wollof"
 	},
 	"fy":{
-		"name":"Western Frisian",
-		"nativeName":"Frysk"
+		name:"Western Frisian",
+		nativeName:"Frysk"
 	},
 	"xh":{
-		"name":"Xhosa",
-		"nativeName":"isiXhosa"
+		name:"Xhosa",
+		nativeName:"isiXhosa"
 	},
 	"yi":{
-		"name":"Yiddish",
-		"nativeName":"ייִדיש"
+		name:"Yiddish",
+		nativeName:"ייִדיש"
 	},
 	"yo":{
-		"name":"Yoruba",
-		"nativeName":"Yorùbá"
+		name:"Yoruba",
+		nativeName:"Yorùbá"
 	},
 	"za":{
-		"name":"Zhuang",
-		"nativeName":"Saɯ cueŋƅ"
-	}
+		name:"Zhuang",
+		nativeName:"Saɯ cueŋƅ"
+	},
+	"zh": {
+		name:"Chinese",
+        nativeName:"中文",
+        subtitle: true
+    }
 };
 
 // Handles language detection and internationalization

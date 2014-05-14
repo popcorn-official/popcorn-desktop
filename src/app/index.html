@@ -248,8 +248,8 @@
 							var sub_langs = "<option "+(Settings.subtitle_language == "none"? "selected='selected'":"")+" value='none'>" +
 												i18n.__("Disabled") + "</option>";
 
-							for(var key in App.Localization.languages) {
-								if (App.Localization.languages[key].subtitle !== undefined && App.Localization.languages[key].subtitle == true) {
+							for(var key in App.Localization.langcodes) {
+								if (App.Localization.langcodes[key].subtitle !== undefined && App.Localization.langcodes[key].subtitle == true) {
 									sub_langs += "<option "+(Settings.subtitle_language == key? "selected='selected'":"")+" value='"+key+"'>"+
 													App.Localization.langcodes[key].nativeName+"</option>";
 								}

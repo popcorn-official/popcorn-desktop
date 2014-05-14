@@ -247,7 +247,7 @@ vjs.TextTrack.prototype.load = function(){
 
         if ( detectedEncoding == 'IBM855' || detectedEncoding == 'windows-1250' || detectedEncoding == 'windows-1251' || detectedEncoding == 'windows-1252' || detectedEncoding == 'windows-1255' || detectedEncoding == 'windows-1254' ) {
           // It's the charset detector screwing up again
-          var langInfo = App.Localization.languages[language] || {};
+          var langInfo = App.Localization.langcodes[language] || {}; 
           var expected = langInfo.encoding;
           if (expected && expected.indexOf(detectedEncoding) < 0) {
             // The detected encoding was unexepected to the language, so we'll use the most common
