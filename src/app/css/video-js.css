@@ -836,6 +836,7 @@ body.vjs-full-window {
     /* Leave padding on left and right */
     left: 1em;
     right: 1em;
+	pointer-events: auto!important;
 }
 /* Move captions down when controls aren't being shown */
 

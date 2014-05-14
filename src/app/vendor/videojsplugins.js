@@ -170,7 +170,12 @@ vjs.TextTrack.prototype.load = function(){
   // Only load if not loaded yet.
   if (this.readyState_ === 0) {
     this.readyState_ = 1;
-
+	
+	this.on('loaded', function(){
+		console.log('Subtitles loaded!');
+		$('.vjs-subtitles.vjs-text-track').drags();
+		$('.vjs-subtitles.vjs-text-track').css('font-size', Settings.subtitle_size);
+	});
 
     // Fetches a raw subtitle, locally or remotely
     function getSub (subUrl, callback) {
