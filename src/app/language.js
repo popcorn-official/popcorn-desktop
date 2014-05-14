@@ -755,7 +755,8 @@ App.Localization.langcodes = {
 		name:"Spanish",
 		nativeName:"Español",
 		subtitle: true,
-        encoding: ['iso-8859-1']
+		encoding: ['iso-8859-1'],
+		keywords: ['@TSF','aRGENTeaM']
 	},
 	"su":{
 		name:"Sundanese",

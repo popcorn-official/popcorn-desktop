@@ -147,9 +147,11 @@ var Database = {
 	},
 
 	getSubtitles: function(data, cb) {
+		//console.log(data);
 		openSRT.searchEpisode(data, function(err, subs) {
 			if(subs) {
 				for(var lang in subs) {
+					//if(subs[lang].lang == "es") console.log(subs[lang]);
 					subs[lang] = subs[lang].url;
 				}
 				return cb(null, subs);

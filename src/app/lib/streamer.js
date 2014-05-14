@@ -123,7 +123,15 @@
                     var extractSubtitle = model.get('extract_subtitle');
                     if (typeof extractSubtitle == 'object') {
                         extractSubtitle.filename = torrent.name;
-
+                        
+                        var subskw = [];
+                        for(var key in App.Localization.langcodes){
+                            if (App.Localization.langcodes[key].keywords !== undefined) {
+                                subskw[key] = App.Localization.langcodes[key].keywords;
+                            }
+                        }
+                        extractSubtitle.keywords = subskw;
+                        
                         App.db.getSubtitles(extractSubtitle, function(err, subs) {
                             if (!err) {
                                 subtitles = subs;
