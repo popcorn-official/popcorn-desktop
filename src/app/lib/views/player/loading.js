@@ -27,6 +27,10 @@
         },        
 
         initialize: function() {
+            var that = this;
+            Mousetrap.bind('esc', function(e) {
+                that.cancelStreaming();
+            });
             console.log('Loading torrent');
             this.listenTo(this.model, 'change:state', this.onStateUpdate);
         },
@@ -60,6 +64,7 @@
         },
 
         cancelStreaming: function() {
+            Mousetrap.unbind('esc');
             App.vent.trigger('stream:stop');
             App.vent.trigger('player:close');  
         }        
