@@ -91,7 +91,18 @@ var Database = {
 
 	markMovieAsWatched: function(data, cb) {
 		if (!cb) cb = function () {};
-		db.movies.update({"_id": data.movie_id}, {$set : {"watched.watched": true, "watched.date": new Date()}}, {}, cb);
+		db.watched.insert({movie_id: data.movie_id, date: new Date()}, cb);
+	},
+
+	markMovieAsNotWatched: function(data, cb) {
+		if (!cb) cb = function () {};
+		db.watched.remove({movie_id: data.movie_id}, cb);
+	},
+
+	checkMovieWatched: function(data, cb) {
+		db.watched.find({movie_id: data.movie_id}, function(err, data){
+			return cb((data!=null && data.length > 0), data);
+		});
 	},
 
 	/*******************************
