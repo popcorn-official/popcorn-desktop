@@ -39,6 +39,7 @@
 
         search: function(e) {
             App.vent.trigger('about:close');
+            App.vent.trigger('movie:closeDetail');
             e.preventDefault();
             this.model.set({
                 keywords: this.ui.search.val(),
