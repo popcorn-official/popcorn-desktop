@@ -54,8 +54,14 @@
 				i18n.setLocale(value);
 				break;
 			case 'moviesShowQuality':
+            case 'deleteTmpOnClose':
 				value = field.is(':checked');
 				break;
+            case 'connectionLimit':
+            case 'dhtLimit':
+            case 'tmpLocation':
+                value = field.val();
+                break;
 			default:
 				console.log('Setting not defined: '+field.attr('name'));
 			}

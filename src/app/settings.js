@@ -1,5 +1,10 @@
     var Settings = [];
 
+    var os = require('os'),
+
+    // path object
+    path = require('path');
+
     // default settings
     Settings['updateApiEndpoint'] = 'http://get-popcorn.com/';
     
@@ -16,6 +21,11 @@
     Settings['connectionCheckUrl'] = 'http://google.com/';
     Settings['moviesShowQuality'] = false;
     Settings['subtitle_size'] = '28px';
+
+    Settings['connectionLimit'] = 100;
+    Settings['dhtLimit'] = 500;
+    Settings['tmpLocation'] = path.join(os.tmpDir(), 'Popcorn-Time');
+    Settings['deleteTmpOnClose'] = true;
 
     // app Settings
     Settings['version'] = false;

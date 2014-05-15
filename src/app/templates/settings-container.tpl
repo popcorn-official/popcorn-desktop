@@ -5,6 +5,7 @@
 		<div class="user-interface"><%= i18n.__("User Interface") %></div>
 		<div class="subtitles-options"><%= i18n.__("Subtitles") %></div>
 		<div class="more-options"><%= i18n.__("More Options") %></div>
+		<div class="advanced-settings"><%= i18n.__("Advanced Settings") %></div>
 	</div>
 	<div class="content">
 
@@ -64,13 +65,25 @@
 		</div>
 
 		<div class="more-options">
-			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input type="text" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
+			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input type="text" size = "50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
 			<br><br>
 			<div class="btn-settings rebuild-tvshows-database"><%= i18n.__("Rebuild TV Shows Database") %></div>
 
 			<div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
 
 			<div class="btn-settings flush-databases"><%= i18n.__("Flush all databases") %></div>
+		</div>
+		<div class="advanced-settings">
+			<p><%= i18n.__("Connection Limit") + ":" %></p> <input type="text" size = "20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
+			<br><br>
+
+			<p><%= i18n.__("DHT Limit") + ":" %></p> <input type="text" size = "20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
+			<br><br>
+
+			<p><%= i18n.__("Tmp Folder") + ":" %></p> <input type="text" size="75" name="tmpLocation" value="<%=Settings.tmpLocation%>"/>
+			<br><br>
+			<input class="settings-checkbox" name="deleteTmpOnClose" id="cb2" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
+			<label class="settings-label" for="cb2"><%= i18n.__("Clear Tmp Folder after closing app?") %></label>
 		</div>
 	</div>
 </div>

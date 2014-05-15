@@ -24,7 +24,7 @@ var
     url = require('url'),
 
     // TMP Folder
-    tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time'),
+    tmpFolder = Settings.tmpLocation,
 
     // i18n module (translations)
     i18n = require("i18n"),
@@ -108,10 +108,12 @@ deleteFolder = function(path) {
 }
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
-win.on('close', function(){
-    deleteFolder(tmpFolder);
-    win.close(true);
-});
+if(Settings.deleteTmpOnClose) {
+    win.on('close', function(){
+        deleteFolder(tmpFolder);
+        win.close(true);
+    });
+}
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
