@@ -147,7 +147,7 @@
             $('#tabs_season li').removeClass('active');
             $('.episodeSummary').removeClass('active');
             $elem.addClass('active');
-            $("#"+$elem.attr('data-tab')).addClass('current').show();
+            $("#"+$elem.attr('data-tab')).addClass('current').scrollTop(0).show(); //pull the scroll always to top to
 
             this.selectEpisode($("#"+$elem.attr('data-tab')).find($( ".episodeSummary")).first());           
         },
@@ -161,6 +161,10 @@
             $(".episode-info-title").text($('.template-'+tvdbid+' .title').html());
             $(".episode-info-date").text(i18n.__('Aired Date') + ': '+$('.template-'+tvdbid+' .date').html());
             $(".episode-info-description").text($('.template-'+tvdbid+' .overview').html());
+
+            //pull the scroll always to top
+            $(".episode-info-description").scrollTop(0);
+
             $(".movie-btn-watch-episode").attr("data-torrent", tvdbtorrent);
             $(".movie-btn-watch-episode").attr("data-episodeid", tvdbid);
 
@@ -169,7 +173,6 @@
             $(".movie-btn-watch-episode").attr("data-season", $('.template-'+tvdbid+' .season').html());
             $(".movie-btn-watch-episode").attr("data-title", $('.template-'+tvdbid+' .title').html());
 
-            
 
             this.ui.startStreaming.show();            
         }
