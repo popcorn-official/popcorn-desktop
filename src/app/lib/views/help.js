@@ -9,13 +9,17 @@
             'click .close': 'closeHelp',
         },
 
+
         onShow: function() {
-            console.log('Show help', this.model); 
             $("#movie-detail").hide();
+            Mousetrap.bind('esc', function(e) {
+                App.vent.trigger('help:close');
+            });
         },
 
-        onClose: function() {   
+        onClose: function() {
             $("#movie-detail").show();
+            Mousetrap.unbind('esc');
         },
 
         closeHelp: function() {

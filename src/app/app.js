@@ -129,7 +129,9 @@ Mousetrap.bind('f11', function(e) {
 	win.reloadIgnoringCache(); 
 });
 Mousetrap.bind(['?', '/'], function(e) {
-    App.vent.trigger('help:show');
+    App.vent.trigger('help:toggle');
+    e.preventDefault();
+    return false;
 })
 
 // Special Debug Console Calls!

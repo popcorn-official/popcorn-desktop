@@ -56,7 +56,6 @@
 
     .keyboard-table {
         float: left;
-        
         &.last {
             margin-left: 40px;
         }
@@ -103,7 +102,7 @@
 
     .key {
         display: inline-block
-        color: #aaa
+        color: lighten(#000, 10%)
         font: bold 9pt arial
         text-decoration: none
         text-align: center
@@ -121,26 +120,26 @@
         padding: 3px 0 0
         text-transform: uppercase
             
-        &#tab {
+        &.tab {
             text-align: left;
             padding: 23px 0 0 10px;
             font-size: 7.5pt;
             text-transform: lowercase;
         }
         
-        &#esc {
+        &.esc {
             padding: 6px 2px 0 0;
             font-size: 7.5pt;
             text-transform: lowercase;
         }
 
-        &#delete,
-        &#tab {
+        &.delete,
+        &.tab {
             width: 36px;
         }
 
-        &#caps,
-        &#enter {
+        &.caps,
+        &.enter {
             width: 42px;
         }
 
@@ -149,16 +148,16 @@
             width: 56px;
         }
 
-        &#fn,
-        &#control,
+        &.fn,
+        &.control,
         &.option,
         &.command,
-        &#spacebar {
+        &.spacebar {
             height: 24px;
         }
 
-        &#control {
-            width: 28px;
+        &.control {
+            width: 38px;
         }
         
         &.option {
@@ -166,38 +165,42 @@
         }
         
         &.command {
-            width: 33px;
+            width: 38px;
         }
         
-        &#spacebar {
+        &.spacebar {
             width: 113px;
         }
 
-        &#down {
+        &.down {
             height: 11px;
         }
 
-        &#up, 
-        &#left, 
-        &#right {
+        &.up, 
+        &.leftarrow, 
+        &.rightarrow {
             height: 12px;
         }
 
-        &#left, 
-        &#right {
-            padding: 30px 5px 5px;
+        &.leftarrow, 
+        &.rightarrow {
+            padding: 5px 5px 5px;
         }
 
-        &#up {
+        &.up {
             padding: 5px 5px 1px; 
             border-bottom-right-radius: 0px; 
             border-bottom-left-radius: 0px;
         }
 
-        &#down {
+        &.down {
             padding: 0 5px 5px; 
             border-top-left-radius: 0px; 
             border-top-right-radius: 0px;
+        }
+
+        &.arrow {
+            font-size: 14px;
         }
     }
 }
