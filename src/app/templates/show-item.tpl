@@ -1,0 +1,11 @@
+<img class="cover-image" src="<%= images.poster %>" style="display: none">
+<div class="cover">
+	<div class="cover-overlay">
+		<div class="actions-favorites"></div>
+	</div>
+</div>
+
+<p class="title" title="<%= title %>"><%= title %></p>
+<p class="year"><%= year %></p>
+<% if(num_seasons == undefined) var num_seasons = 0 %>
+<p class="seasons"><%= num_seasons %> <%= num_seasons == 1 ? i18n.__("Season") : i18n.__("Seasons") %></p>

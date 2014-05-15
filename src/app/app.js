@@ -34,6 +34,11 @@ var
 
     moment = require('moment');
 
+// Load in external templates
+_.each(document.querySelectorAll('[type="text/x-template"]'), function(el) {
+    $.get(el.src, function(res) { el.innerHTML = res });
+})
+
 // Global App skeleton for backbone
 var App = new Backbone.Marionette.Application();
 _.extend(App, {
