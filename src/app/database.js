@@ -200,14 +200,16 @@ var Database = {
 				request(Settings.tvshowApiEndpoint + 'shows', {json: true}, function(err, res, allPages) {
 
 					// api is down? we continue anyways...
-           			if(err || !allPages) return cb("api_down", null);
+					if(err || !allPages) return cb("api_down", null);
 
 					// we'll make a query for each page
 					async.eachSeries(allPages, function(page, callback) {
 						
+						console.log("Extract: " + Settings.tvshowApiEndpoint + page);
+						request(Settings.tvshowApiEndpoint + page, {json: true}, function(err, res, content) {
 
-						function processJSON(data){
-							db.tvshows.insert(JSON.parse(data), function (err, newDocs){
+							db.tvshows.insert(content, function (err, newDocs){
+		
 								if(err){
 									console.log("Procession failed!");
 									callback();
@@ -216,30 +218,7 @@ var Database = {
 									callback();
 								}
 							});
-						}
-
-						var gunzip = zlib.createGunzip();            
-						var buffer = [];
-
-						gunzip.on('data', function(data) {
-								buffer.push(data.toString())
-						}).on("end", function() {
-								
-							console.log("Done! Processing data for page " + page);
-							$("#initbar-contents").animate({ width: "100%" }, 500, 'swing');
-							processJSON(buffer.join("")); 
-
-						}).on("error", function(e) {
-							console.log("Uncompression failed!");
-							return cb(err, null);
-						})
-
-						console.log("Downloading and uncompressing gzip data from: " + Settings.tvshowApiEndpoint + page);
-						request({
-							url: Settings.tvshowApiEndpoint + page,
-							headers: { 'accept-encoding': 'gzip,deflate' }
-						}).pipe(gunzip);
-						
+						});
 						
 					},
 					function(err, res){
@@ -249,7 +228,7 @@ var Database = {
 
 					});
 
-            	});
+				});
 
 			});
 		});
@@ -262,24 +241,35 @@ var Database = {
 			console.log("Updating database from remote api since " + last_update);
 			$("#init-status").html(i18n.__("Status: Updating database..."));
 			$("#initbar-contents").animate({ width: "90%" }, 3000, 'swing');
-			request.get(Settings.tvshowApiEndpoint + "shows/updated/" + last_update, function(err, res, body) {
-				if(!err) {
-					var toUpdate  = JSON.parse(body);
-					db.tvshows.remove({ imdb_id: { $in: extractIds(toUpdate) }}, { multi: true }, function (err, numRemoved) {
-						db.tvshows.insert(toUpdate, function (err, newDocs){
-							if(err) return cb(err, null);
-							else {
-								// we write our new update time
-								Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, function(err, setting) { 
-									return cb(null, newDocs);
-								})
-							}
-						});
+
+			// we'll get number of page
+			request(Settings.tvshowApiEndpoint + 'shows/update/' + last_update, {json: true}, function(err, res, allPages) {
+
+				// api is down? we continue anyways...
+           		if(err || !allPages) return cb("empty", null);
+
+				// we'll make a query for each page
+				async.eachSeries(allPages, function(page, callback) {
+						
+					console.log("Extract: " + Settings.tvshowApiEndpoint + page);
+					request(Settings.tvshowApiEndpoint + page, {json: true}, function(err, res, toUpdate) {
+
+						db.tvshows.remove({ imdb_id: { $in: extractIds(toUpdate) }}, { multi: true }, function (err, numRemoved) {
+							db.tvshows.insert(toUpdate, function (err, newDocs){
+								 callback(err, newDocs);
+							});
+						});							
+
 					});
-				} else {
-					return cb(err, null);
-				}
-			});
+
+				}, function(err,data) {
+					Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, function(err, setting) { 
+						return cb(null, setting);
+					})					
+				});
+
+            });
+
 		});
 	},
 
