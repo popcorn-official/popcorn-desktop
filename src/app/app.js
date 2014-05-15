@@ -128,6 +128,9 @@ Mousetrap.bind(['shift+f12', 'f12'], function(e) {
 Mousetrap.bind('f11', function(e) { 
 	win.reloadIgnoringCache(); 
 });
+Mousetrap.bind(['?', '/'], function(e) {
+    App.vent.trigger('help:show');
+})
 
 // Special Debug Console Calls!
 console.logger = {};

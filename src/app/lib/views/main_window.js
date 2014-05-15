@@ -14,7 +14,8 @@
             Settings: '#settings-container',
             InitModal: '#initializing',
             Disclaimer: '#disclaimer-container',
-            About: '#about-container'
+            About: '#about-container',
+            Help: '#help-container'
         },
 
         events: {
@@ -39,6 +40,11 @@
             // Add event to show about
             App.vent.on('about:show', _.bind(this.showAbout, this));
             App.vent.on('about:close', _.bind(this.About.close, this.About));
+
+            // Help
+            App.vent.on('help:show', _.bind(this.showHelp, this));
+            App.vent.on('help:close', _.bind(this.Help.close, this.Help));
+
             // Movies
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
             App.vent.on('movie:closeDetail', _.bind(this.MovieDetail.close, this.MovieDetail));
@@ -130,7 +136,11 @@
 
         showAbout: function(e) {
             this.About.show(new App.View.About());
-        }, 
+        },
+
+        showHelp: function(e) {
+            this.Help.show(new App.View.Help());
+        },
         
         preventDefault: function(e) {
             e.preventDefault();
