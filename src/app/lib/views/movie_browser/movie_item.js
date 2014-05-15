@@ -64,6 +64,7 @@
                     rating: this.model.get('MovieRating'),
                     trailer: this.model.get('trailer'),
                     bookmarked: this.model.get('bookmarked'),
+                    imdb_id: this.model.get('ImdbCode')
                 }
             );
             console.log(SelectedMovie);

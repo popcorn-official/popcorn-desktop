@@ -91,7 +91,7 @@ var Database = {
 
 	markMovieAsWatched: function(data, cb) {
 		if (!cb) cb = function () {};
-		db.watched.insert({movie_id: data.movie_id, date: new Date()}, cb);
+		db.watched.insert({movie_id: data.imdb_id, date: new Date(), type: 'movie'}, cb);
 	},
 
 	markMovieAsNotWatched: function(data, cb) {
@@ -133,7 +133,7 @@ var Database = {
 
 	markEpisodeAsWatched: function(data, cb) {
 		if (!cb) cb = function () {};
-		db.watched.insert({show_id: data.show_id, season: data.season, episode: data.episode, date: new Date()}, cb);
+		db.watched.insert({show_id: data.show_id, season: data.season, episode: data.episode, type: 'episode', date: new Date()}, cb);
 	},
 
 	markEpisodeAsNotWatched: function(data, cb) {
