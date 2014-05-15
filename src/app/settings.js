@@ -29,7 +29,7 @@
     Settings['movies_quality'] = 'all';
 
     Settings['connectionLimit'] = 100;
-    Settings['dhtLimit'] = 500;
+    Settings['dhtLimit'] = 10000;
     Settings['tmpLocation'] = path.join(os.tmpDir(), 'Popcorn-Time');
     Settings['deleteTmpOnClose'] = true;
 
