@@ -64,9 +64,12 @@
         },
 
         cancelStreaming: function() {
-            Mousetrap.unbind('esc');
             App.vent.trigger('stream:stop');
-            App.vent.trigger('player:close');  
+            App.vent.trigger('player:close');
+            Mousetrap.bind('esc', function(e) {
+                App.vent.trigger('show:closeDetail');
+                App.vent.trigger('movie:closeDetail');
+            });  
         }        
     });
 

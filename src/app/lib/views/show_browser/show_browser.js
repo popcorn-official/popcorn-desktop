@@ -53,7 +53,7 @@
             this.showCollection = new App.Model.ShowCollection([], {
                 filter: this.filter
             });
-
+            App.vent.trigger('show:closeDetail');
             this.showCollection.fetch();
 
             this.ShowList.show(new App.View.ShowList({

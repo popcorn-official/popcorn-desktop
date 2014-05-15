@@ -67,7 +67,6 @@
         },
 
         onClose: function() {
-            Mousetrap.unbind('esc');
         },
         showCover: function() {},
         toggleDropdown: function() {

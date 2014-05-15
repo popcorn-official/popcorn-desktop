@@ -20,6 +20,9 @@
         onShow: function() {
             $(".filter-bar").hide();    
             $("#movie-detail").hide();
+            Mousetrap.bind('esc', function(e) {
+                App.vent.trigger('settings:close');
+            });
         },
 
         onClose: function() {

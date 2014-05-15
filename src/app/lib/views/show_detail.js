@@ -31,8 +31,6 @@
         onShow: function() {
 
             this.selectSeason($("#tabs_season li").first("li"));
-
-            $(".filter-bar").hide();    
             $('.star-container-tv').tooltip();
              var background = $(".tv-poster-background").attr("data-bgr");
               $('<img/>').attr('src', background).load(function() {
@@ -43,8 +41,7 @@
 
             // add ESC to close this popup
             Mousetrap.bind('esc', function(e) {
-                App.vent.trigger('show:closeDetail'); 
-                $(".filter-bar").show();   
+                App.vent.trigger('show:closeDetail');
             });
 
             // we'll mark episode already watched
@@ -124,10 +121,8 @@
         },
 
         closeDetails: function(e) {
-            Mousetrap.unbind('esc');
             e.preventDefault();
-            App.vent.trigger('show:closeDetail'); 
-            $(".filter-bar").show();    
+            App.vent.trigger('show:closeDetail');
         },
 
         clickTab: function(e) {
