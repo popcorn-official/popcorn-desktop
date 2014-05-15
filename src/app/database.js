@@ -328,8 +328,18 @@ var Database = {
 		var query = {};
 		var sort = {"rating.votes": -1, "rating.percentage": -1}
 
-		if (data.keywords) 
-			query = {title: new RegExp(data.keywords.toLowerCase(),"gi")};
+		if (data.keywords) {
+			var words = data.keywords.split(" ");
+			var regex = data.keywords.toLowerCase();
+			if(words.length > 1) {
+				var regex = "^";
+				for(var w in words) {
+					regex += "(?=.*\\b"+words[w].toLowerCase()+"\\b)";
+				}
+				regex += ".+";
+			}
+			query = {title: new RegExp(regex,"gi")};
+		}
 		if (data.sorter) {
 			if(data.sorter == "year") sort = {year: -1};
 			if(data.sorter == "updated") sort = {last_updated: -1};
