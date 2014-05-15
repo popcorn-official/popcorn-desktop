@@ -91,16 +91,16 @@ var Database = {
 
 	markMovieAsWatched: function(data, cb) {
 		if (!cb) cb = function () {};
-		db.watched.insert({movie_id: data.imdb_id, date: new Date(), type: 'movie'}, cb);
+		db.watched.insert({movie_id: data.imdb_id.toString(), date: new Date(), type: 'movie'}, cb);
 	},
 
 	markMovieAsNotWatched: function(data, cb) {
 		if (!cb) cb = function () {};
-		db.watched.remove({movie_id: data.movie_id}, cb);
+		db.watched.remove({movie_id: data.movie_id.toString()}, cb);
 	},
 
 	checkMovieWatched: function(data, cb) {
-		db.watched.find({movie_id: data.movie_id}, function(err, data){
+		db.watched.find({movie_id: data.movie_id.toString()}, function(err, data){
 			return cb((data!=null && data.length > 0), data);
 		});
 	},
@@ -133,16 +133,16 @@ var Database = {
 
 	markEpisodeAsWatched: function(data, cb) {
 		if (!cb) cb = function () {};
-		db.watched.insert({show_id: data.show_id, season: data.season, episode: data.episode, type: 'episode', date: new Date()}, cb);
+		db.watched.insert({show_id: data.show_id.toString(), season: data.season, episode: data.episode, type: 'episode', date: new Date()}, cb);
 	},
 
 	markEpisodeAsNotWatched: function(data, cb) {
 		if (!cb) cb = function () {};
-		db.watched.remove({show_id: data.show_id, season: data.season, episode: data.episode}, cb);
+		db.watched.remove({show_id: data.show_id.toString(), season: data.season, episode: data.episode}, cb);
 	},
 
 	checkEpisodeWatched: function(data, cb) {
-		db.watched.find({show_id: data.show_id, season: data.season, episode: data.episode}, function(err, data){
+		db.watched.find({show_id: data.show_id.toString(), season: data.season, episode: data.episode}, function(err, data){
 			return cb((data!=null && data.length > 0), data);
 		});
 	},
@@ -150,7 +150,7 @@ var Database = {
 	// return an array of watched episode for this 
 	// tvshow
 	getEpisodesWatched: function(show_id, cb) {
-		db.watched.find({show_id: show_id}, cb);
+		db.watched.find({show_id: show_id.toString()}, cb);
 	},
 
 	getEpisodesPerSeason: function(data, cb) {
