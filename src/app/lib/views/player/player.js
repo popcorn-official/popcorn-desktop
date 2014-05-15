@@ -72,10 +72,9 @@
             if(this.model.get('type') == 'video/youtube') {
                 this.video = videojs('video_player', { techOrder: ["youtube"], forceSSL: true, ytcontrols: false, quality: '720p' });
                 this.ui.eyeInfo.hide();
-            }
-            else
+            } else {
                 this.video = videojs('video_player', { nativeControlsForTouch: false, plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {}, progressTips: {} }});
-
+            }
 
             var player = this.video.player();
             this.player = player;

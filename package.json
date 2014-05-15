@@ -34,15 +34,14 @@
     "mime": "^1.2.11",
     "moment": "^2.6.0",
     "nedb": "~0.10.5",
-    "opensrt_js": ">=0.0.9",
-    "peerflix": "0.9.x",
+    "opensrt_js": ">=0.0.11",
+    "peerflix": "0.9.0",
     "q": "2.0.x",
     "raven": "^0.6.3",
     "read-torrent": "1.0.x",
     "request": "2.34.0",
     "rimraf": "^2.2.6",
-    "underscore": "1.6.x",
-    "zlib": "1.0.5"
+    "underscore": "1.6.x"
   },
   "devDependencies": {
     "grunt": "0.4.4",

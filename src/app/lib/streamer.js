@@ -47,6 +47,7 @@
 
         engine = peerflix(torrent.info, {
             connections: 100, // Max amount of peers to be connected to.
+            dht: 500,
             path: tmpFile, // we'll have a different file name for each stream also if it's same torrent in same session
             buffer: (1.5 * 1024 * 1024).toString() // create a buffer on torrent-stream
         });

@@ -1,5 +1,5 @@
 #video_player.vjs-user-inactive {
-cursor: none;
+	cursor: none;
 }
 
 /*!
@@ -11,12 +11,12 @@ Create your own skin at http://designer.videojs.com
 /* SKIN
 ================================================================================
 The main class name for all skin-specific styles. To make your own skin,
-replace all occurances of 'vjs-default-skin' with a new name. Then add your new
+replace all occurances of 'vjs-popcorn-skin' with a new name. Then add your new
 skin name to your video tag instead of the default skin.
 e.g. <video class="video-js my-skin-name">
 */
 
-.vjs-default-skin {
+.vjs-popcorn-skin {
     color: #1c1c1c;
 }
 /* Custom Icon Font
@@ -38,21 +38,21 @@ The control icons are from a custom font. Each icon corresponds to a character
 
 /* Slider - used for Volume bar and Seek bar */
 
-.vjs-default-skin .vjs-slider {
+.vjs-popcorn-skin .vjs-slider {
     /* Replace browser focus hightlight with handle highlight */
     position: relative;
     cursor: pointer;
     /* background-color-with-alpha */
     background-color: #bababa;
 }
-.vjs-default-skin .vjs-slider-handle {
+.vjs-popcorn-skin .vjs-slider-handle {
     position: absolute;
     /* Needed for IE6 */
     top: -3px;
     width: 11px;
     height: 11px;
 }
-.vjs-default-skin .vjs-slider-handle:before {
+.vjs-popcorn-skin .vjs-slider-handle:before {
     content: url('../images/icons/Player/Marker.png');
 }
 /* Control Bar
@@ -60,7 +60,7 @@ The control icons are from a custom font. Each icon corresponds to a character
 The default control bar that is a container for most of the controls.
 */
 
-.vjs-default-skin .vjs-control-bar {
+.vjs-popcorn-skin .vjs-control-bar {
     /* Start hidden */
     display: none;
     position: absolute;
@@ -79,7 +79,7 @@ The default control bar that is a container for most of the controls.
 }
 /* Show the control bar only once the video has started playing */
 
-.vjs-default-skin .vjs-title-bar {} .vjs-default-skin.vjs-has-started .vjs-control-bar {
+.vjs-popcorn-skin .vjs-title-bar {} .vjs-popcorn-skin.vjs-has-started .vjs-control-bar {
     display: block;
     /* Visibility needed to make sure things hide in older browsers too. */
     visibility: visible;
@@ -91,7 +91,7 @@ The default control bar that is a container for most of the controls.
 }
 /* Hide the control bar when the video is playing and the user is inactive  */
 
-.vjs-default-skin.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
+.vjs-popcorn-skin.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
     display: block;
     visibility: hidden;
     opacity: 0;
@@ -101,12 +101,18 @@ The default control bar that is a container for most of the controls.
     -o-transition: visibility 1s, opacity 1s;
     transition: visibility 1s, opacity 1s;
 }
-.vjs-default-skin.vjs-controls-disabled .vjs-control-bar {
+.vjs-popcorn-skin.vjs-controls-disabled .vjs-control-bar {
     display: none;
 }
-.vjs-default-skin.vjs-using-native-controls .vjs-control-bar {
+.vjs-popcorn-skin.vjs-using-native-controls .vjs-control-bar {
     display: none;
 }
+
+/* The control bar shouldn't show after an error */
+.vjs-popcorn-skin.vjs-error .vjs-control-bar {
+  display: none;
+}
+
 /* IE8 is flakey with fonts, and you have to change the actual content to force
 fonts to show/hide properly.
   - "\9" IE8 hack didn't work for this
@@ -114,13 +120,13 @@ fonts to show/hide properly.
 */
 
 @media \0screen {
-    .vjs-default-skin.vjs-user-inactive.vjs-playing .vjs-control-bar:before {
+    .vjs-popcorn-skin.vjs-user-inactive.vjs-playing .vjs-control-bar:before {
         content: "";
     }
 }
 /* General styles for individual controls. */
 
-.vjs-default-skin .vjs-control {
+.vjs-popcorn-skin .vjs-control {
     outline: none;
     position: relative;
     float: left;
@@ -129,18 +135,18 @@ fonts to show/hide properly.
 }
 /* Replacement for focus outline */
 
-.vjs-default-skin .vjs-control:focus:before,
-.vjs-default-skin .vjs-control:hover:before {
+.vjs-popcorn-skin .vjs-control:focus:before,
+.vjs-popcorn-skin .vjs-control:hover:before {
     text-shadow: 0em 0em 1em #ffffff;
 }
-.vjs-default-skin .vjs-control:focus {
+.vjs-popcorn-skin .vjs-control:focus {
     /*  outline: 0; */
     /* keyboard-only users cannot see the focus on several of the UI elements when
   this is set to 0 */
 }
 /* Hide control text visually, but have it available for screenreaders */
 
-.vjs-default-skin .vjs-control-text {
+.vjs-popcorn-skin .vjs-control-text {
     /* hide-visually */
     border: 0;
     clip: rect(0 0 0 0);
@@ -155,25 +161,47 @@ fonts to show/hide properly.
 --------------------------------------------------------------------------------
 */
 
-.vjs-default-skin .vjs-play-control {
+.vjs-popcorn-skin .vjs-play-control {
     top: 13px;
     cursor: pointer;
     width: 11px;
     height: 14px;
     margin-left: 16px;
 }
-.vjs-default-skin .vjs-play-control:before {
+.vjs-popcorn-skin .vjs-play-control:before {
     position: relative;
     content: url('../images/icons/Player/Play.png');
 }
-.vjs-default-skin.vjs-playing .vjs-play-control:before {
+.vjs-popcorn-skin.vjs-playing .vjs-play-control:before {
     content: url('../images/icons/Player/Pause.png');
 }
+
+/* Playback toggle
+--------------------------------------------------------------------------------
+*/
+.vjs-popcorn-skin .vjs-playback-rate .vjs-playback-rate-value {
+  font-size: 1.5em;
+  line-height: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.vjs-popcorn-skin .vjs-playback-rate.vjs-menu-button .vjs-menu .vjs-menu-content {
+  width: 4em;
+  left: -2em;
+  list-style: none;
+}
+ 
 /* Volume/Mute
 -------------------------------------------------------------------------------- */
 
-.vjs-default-skin .vjs-mute-control,
-.vjs-default-skin .vjs-volume-menu-button {
+.vjs-popcorn-skin .vjs-mute-control,
+.vjs-popcorn-skin .vjs-volume-menu-button {
     top: 12px;
     cursor: pointer;
     float: right;
@@ -184,30 +212,30 @@ fonts to show/hide properly.
 
 
 
-.vjs-default-skin .vjs-mute-control:before,
-.vjs-default-skin .vjs-volume-menu-button:before {
+.vjs-popcorn-skin .vjs-mute-control:before,
+.vjs-popcorn-skin .vjs-volume-menu-button:before {
     position: relative;
     content: url('../images/icons/Player/Sound3.png');
 }
-.vjs-default-skin .vjs-mute-control.vjs-vol-2:before,
-.vjs-default-skin .vjs-volume-menu-button.vjs-vol-2:before {
+.vjs-popcorn-skin .vjs-mute-control.vjs-vol-2:before,
+.vjs-popcorn-skin .vjs-volume-menu-button.vjs-vol-2:before {
     content: url('../images/icons/Player/Sound2.png');
 }
-.vjs-default-skin .vjs-mute-control.vjs-vol-1:before,
-.vjs-default-skin .vjs-volume-menu-button.vjs-vol-1:before {
+.vjs-popcorn-skin .vjs-mute-control.vjs-vol-1:before,
+.vjs-popcorn-skin .vjs-volume-menu-button.vjs-vol-1:before {
     content: url('../images/icons/Player/Sound1.png');
 }
-.vjs-default-skin .vjs-mute-control.vjs-vol-0:before,
-.vjs-default-skin .vjs-volume-menu-button.vjs-vol-0:before {
+.vjs-popcorn-skin .vjs-mute-control.vjs-vol-0:before,
+.vjs-popcorn-skin .vjs-volume-menu-button.vjs-vol-0:before {
     content: url('../images/icons/Player/Sound0.png');
 }
-.vjs-default-skin .vjs-volume-control {
+.vjs-popcorn-skin .vjs-volume-control {
     top: 17px;
     width: 54px;
     float: right;
     margin-right: 0px;
 }
-.vjs-default-skin .vjs-volume-bar {
+.vjs-popcorn-skin .vjs-volume-bar {
     height: 5px;
     width: 54px;
     margin-right: 0px;
@@ -215,10 +243,10 @@ fonts to show/hide properly.
     /* border radius */
     */
 }
-.vjs-default-skin .vjs-volume-menu-button .vjs-menu-content {
+.vjs-popcorn-skin .vjs-volume-menu-button .vjs-menu-content {
     height: 2.9em;
 }
-.vjs-default-skin .vjs-volume-level {
+.vjs-popcorn-skin .vjs-volume-level {
     position: absolute;
     top: 0;
     left: 0;
@@ -233,18 +261,18 @@ fonts to show/hide properly.
     background-clip: padding-box;
     /* layer fill content */
 }
-.vjs-default-skin .vjs-volume-bar .vjs-volume-handle {
+.vjs-popcorn-skin .vjs-volume-bar .vjs-volume-handle {
     content: url('../images/icons/Player/Marker.png');
 }
-.vjs-default-skin .vjs-volume-handle:before {
+.vjs-popcorn-skin .vjs-volume-handle:before {
     content: url('../images/icons/Player/Marker.png');
 }
-.vjs-default-skin .vjs-volume-menu-button .vjs-menu .vjs-menu-content {}
+.vjs-popcorn-skin .vjs-volume-menu-button .vjs-menu .vjs-menu-content {}
 /* Progress
 --------------------------------------------------------------------------------
 */
 
-.vjs-default-skin .vjs-progress-control {
+.vjs-popcorn-skin .vjs-progress-control {
     position: absolute;
     /* Set above the rest of the controls. */
 	top: 17px;
@@ -263,7 +291,7 @@ fonts to show/hide properly.
     This simply changes the overall font for the progress bar, and this
     updates both the em-based widths and heights, as wells as the icon font */
 
-.vjs-default-skin:hover .vjs-progress-control {
+.vjs-popcorn-skin:hover .vjs-progress-control {
     -moz-border-radius: 3px / 2px;
     -webkit-border-radius: 3px / 2px;
     border-radius: 3px / 2px;
@@ -278,7 +306,7 @@ fonts to show/hide properly.
 }
 /* Box containing play and load progresses. Also acts as seek scrubber. */
 
-.vjs-default-skin .vjs-progress-holder {
+.vjs-popcorn-skin .vjs-progress-holder {
     /* layer fill content */
     height: 100%;
     -moz-border-radius: 3px / 2px;
@@ -292,8 +320,8 @@ fonts to show/hide properly.
 }
 /* Progress Bars */
 
-.vjs-default-skin .vjs-progress-holder .vjs-play-progress,
-.vjs-default-skin .vjs-progress-holder .vjs-load-progress {
+.vjs-popcorn-skin .vjs-progress-holder .vjs-play-progress,
+.vjs-popcorn-skin .vjs-progress-holder .vjs-load-progress {
     position: absolute;
     display: block;
     height: 100%;
@@ -313,11 +341,11 @@ fonts to show/hide properly.
     background-color: #2d75df; */
     /* layer fill content */
 }
-.vjs-default-skin .vjs-play-progress {
+.vjs-popcorn-skin .vjs-play-progress {
 	background-color: #2d75df;
 	transition: all 0.5s ease;
 } 
-.vjs-default-skin .vjs-load-progress {
+.vjs-popcorn-skin .vjs-load-progress {
     -webkit-border-radius: 3px / 2px;
     border-radius: 3px / 2px;
     /* border radius */
@@ -329,12 +357,12 @@ fonts to show/hide properly.
 	/* layer fill content */
 	transition: width 2s;
 }
-.vjs-default-skin .vjs-seek-handle {
+.vjs-popcorn-skin .vjs-seek-handle {
     width: 11px;
     height: 11px;
 	transition: all 0.5s ease;
 }
-.vjs-default-skin .vjs-seek-handle:before {
+.vjs-popcorn-skin .vjs-seek-handle:before {
     padding-top: 0.1em
     /* Minor adjustment */
     ;
@@ -343,7 +371,7 @@ fonts to show/hide properly.
 --------------------------------------------------------------------------------
 */
 
-.vjs-default-skin .vjs-time-controls {
+.vjs-popcorn-skin .vjs-time-controls {
     position: relative;
     color: #fff;
     /* text color */
@@ -352,12 +380,12 @@ fonts to show/hide properly.
     /* Align vertically by making the line height the same as the control bar */
     top: 13px;
 }
-.vjs-default-skin .vjs-current-time {
+.vjs-popcorn-skin .vjs-current-time {
     position: relative;
     float: left;
     margin-left: 24px;
 }
-.vjs-default-skin .vjs-duration {
+.vjs-popcorn-skin .vjs-duration {
     position: relative;
     float: left;
 }
@@ -371,7 +399,7 @@ fonts to show/hide properly.
 }
 /* Remaining time is in the HTML, but not included in default design */
 
-.vjs-default-skin .vjs-remaining-time {
+.vjs-popcorn-skin .vjs-remaining-time {
     display: none;
     float: left;
 }
@@ -391,7 +419,7 @@ fonts to show/hide properly.
 --------------------------------------------------------------------------------
 */
 
-.vjs-default-skin .vjs-fullscreen-control {
+.vjs-popcorn-skin .vjs-fullscreen-control {
     position: relative;
     top: 12px;
     margin-right: 15px;
@@ -401,12 +429,12 @@ fonts to show/hide properly.
     width: 16px;
     height: 16px;
 }
-.vjs-default-skin .vjs-fullscreen-control:before {
+.vjs-popcorn-skin .vjs-fullscreen-control:before {
     content: url('../images/icons/Player/Fullscreen.png');
 }
 /* Switch to the exit icon when the player is in fullscreen */
 
-.vjs-default-skin.vjs-fullscreen .vjs-fullscreen-control:before {
+.vjs-popcorn-skin.vjs-fullscreen .vjs-fullscreen-control:before {
     content: url('../images/icons/Player/Normalscreen.png');
 }
 /* Big Play Button (play button at start)
@@ -415,7 +443,7 @@ Positioning of the play button in the center or other corners can be done more
 easily in the skin designer. http://designer.videojs.com/
 */
 
-.vjs-default-skin .vjs-big-play-button {
+.vjs-popcorn-skin .vjs-big-play-button {
     left: 0.5em;
     top: 0.5em;
     font-size: 3em;
@@ -449,7 +477,7 @@ easily in the skin designer. http://designer.videojs.com/
 }
 /* Optionally center */
 
-.vjs-default-skin.vjs-big-play-centered .vjs-big-play-button {
+.vjs-popcorn-skin.vjs-big-play-centered .vjs-big-play-button {
     /* Center it horizontally */
     left: 50%;
     margin-left: -2.1em;
@@ -459,22 +487,22 @@ easily in the skin designer. http://designer.videojs.com/
 }
 /* Hide if controls are disabled */
 
-.vjs-default-skin.vjs-controls-disabled .vjs-big-play-button {
+.vjs-popcorn-skin.vjs-controls-disabled .vjs-big-play-button {
     display: none;
 }
 /* Hide when video starts playing */
 
-.vjs-default-skin.vjs-has-started .vjs-big-play-button {
+.vjs-popcorn-skin.vjs-has-started .vjs-big-play-button {
     display: none;
 }
 /* Hide on mobile devices. Remove when we stop using native controls
     by default on mobile  */
 
-.vjs-default-skin.vjs-using-native-controls .vjs-big-play-button {
+.vjs-popcorn-skin.vjs-using-native-controls .vjs-big-play-button {
     display: none;
 }
-.vjs-default-skin:hover .vjs-big-play-button,
-.vjs-default-skin .vjs-big-play-button:focus {
+.vjs-popcorn-skin:hover .vjs-big-play-button,
+.vjs-popcorn-skin .vjs-big-play-button:focus {
     outline: 0;
     border-color: #fff;
     /* IE8 needs a non-glow hover state */
@@ -490,7 +518,7 @@ easily in the skin designer. http://designer.videojs.com/
     -o-transition: all 0s;
     transition: all 0s;
 }
-.vjs-default-skin .vjs-big-play-button:before {
+.vjs-popcorn-skin .vjs-big-play-button:before {
     content: "\e001";
     font-family: VideoJS;
     /* In order to center the play icon vertically we need to set the line height
@@ -505,6 +533,60 @@ easily in the skin designer. http://designer.videojs.com/
     width: 100%;
     height: 100%;
 }
+
+.vjs-error .vjs-big-play-button {
+  display: none;
+}
+
+/* Error Display
+--------------------------------------------------------------------------------
+*/
+
+.vjs-error-display {
+  display: none;
+}
+
+.vjs-error .vjs-error-display {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.vjs-error .vjs-error-display:before {
+  content: 'X';
+  font-family: Arial;
+  font-size: 4em;
+  color: #666666;
+  /* In order to center the play icon vertically we need to set the line height
+     to the same as the button height */
+  line-height: 1;
+  text-shadow: 0.05em 0.05em 0.1em #000;
+  text-align: center /* Needed for IE8 */;
+  vertical-align: middle;
+
+  position: absolute;
+  top: 50%;
+  margin-top: -0.5em;
+  width: 100%;
+}
+
+.vjs-error-display div {
+  position: absolute;
+
+  font-size: 1.4em;
+  text-align: center;
+  bottom: 1em;
+  right: 1em;
+  left: 1em;
+}
+
+.vjs-error-display a, .vjs-error-display a:visited {
+  color: #F4A460;
+}
+ 
 /* Loading Spinner
 --------------------------------------------------------------------------------
 */
@@ -527,7 +609,20 @@ easily in the skin designer. http://designer.videojs.com/
     -o-animation: spin 1.5s infinite linear;
     animation: spin 1.5s infinite linear;
 }
-.vjs-default-skin .vjs-loading-spinner:before {
+
+/* Errors are unrecoverable without user interaction,
+   so hide the spinner in the case of an error */
+.video-js.vjs-error .vjs-loading-spinner {
+  /* using !important flag because currently the loading spinner
+     uses hide()/show() instead of classes. The !important can be
+     removed when that's updated */
+  display: none !important;
+
+  /* ensure animation doesn't continue while hidden */
+  .animation(none);
+}
+
+.vjs-popcorn-skin .vjs-loading-spinner:before {
     content: "\e01e";
     font-family: VideoJS;
     position: absolute;
@@ -574,7 +669,7 @@ easily in the skin designer. http://designer.videojs.com/
 --------------------------------------------------------------------------------
 */
 
-.vjs-default-skin .vjs-menu-button {
+.vjs-popcorn-skin .vjs-menu-button {
     outline: 0;
     position: relative;
     float: right;
@@ -583,7 +678,7 @@ easily in the skin designer. http://designer.videojs.com/
     height: 16px;
     width: 17px;
 }
-.vjs-default-skin .vjs-menu {
+.vjs-popcorn-skin .vjs-menu {
     display: none;
     position: absolute;
     bottom: 0;
@@ -595,7 +690,7 @@ easily in the skin designer. http://designer.videojs.com/
     outline: 0;
 }
 
-.vjs-default-skin .vjs_smallersub_button.vjs-control {
+.vjs-popcorn-skin .vjs_smallersub_button.vjs-control {
     background: url(../images/icons/Player/fontdown.png);
     background-repeat: no-repeat;
     outline: 0;
@@ -607,7 +702,7 @@ easily in the skin designer. http://designer.videojs.com/
     width: 12px;
 }
 
-.vjs-default-skin .vjs_biggersub_button.vjs-control {
+.vjs-popcorn-skin .vjs_biggersub_button.vjs-control {
     background: url(../images/icons/Player/fontup.png);
     background-repeat: no-repeat;
     outline: 0;
@@ -620,7 +715,7 @@ easily in the skin designer. http://designer.videojs.com/
 }
 /* Button Pop-up Menu */
 
-.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content {
+.vjs-popcorn-skin .vjs-menu-button .vjs-menu .vjs-menu-content {
     display: block;
     padding: 0;
     margin: 0;
@@ -643,33 +738,33 @@ easily in the skin designer. http://designer.videojs.com/
     //-moz-box-shadow: -0.2em -0.2em 0.3em rgba(255, 255, 255, 0.2);
     //box-shadow: -0.2em -0.2em 0.3em rgba(255, 255, 255, 0.2);
 }
-.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar {
+.vjs-popcorn-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar {
   width: 5px;
 }
-.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-track {
+.vjs-popcorn-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-track {
   background-color: #30333c;
   -webkit-border-radius: 2px;
   border-radius: 2px;
 }
-.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-thumb {
+.vjs-popcorn-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-thumb {
   background-color: #83888c;
   -webkit-border-radius: 2px;
   border-radius: 2px;
 }
-.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-thumb:hover {
+.vjs-popcorn-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-thumb:hover {
   background-color: #93989c;
 }
-.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-resizer,
-.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-corner,
-.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-button,
-.vjs-default-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-track-piece {
+.vjs-popcorn-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-resizer,
+.vjs-popcorn-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-corner,
+.vjs-popcorn-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-button,
+.vjs-popcorn-skin .vjs-menu-button .vjs-menu .vjs-menu-content::-webkit-scrollbar-track-piece {
   display: none;
 }
-.vjs-default-skin .vjs-menu-button:hover .vjs-menu {
+.vjs-popcorn-skin .vjs-menu-button:hover .vjs-menu {
     display: block;
      outline: 0;
 }
-.vjs-default-skin .vjs-menu-button ul li {
+.vjs-popcorn-skin .vjs-menu-button ul li {
     list-style: none;
     margin: 0;
     padding: 0.3em 0 0.3em 0;
@@ -679,18 +774,18 @@ easily in the skin designer. http://designer.videojs.com/
      outline: 0;
 }
 
-.vjs-default-skin .vjs-menu-button ul li.vjs-selected {
+.vjs-popcorn-skin .vjs-menu-button ul li.vjs-selected {
     color: #2d75df;
      background-color: #151517;
      outline: 0;
 }
-.vjs-default-skin .vjs-menu-button ul li:focus,
-.vjs-default-skin .vjs-menu-button ul li:hover,
-.vjs-default-skin .vjs-menu-button ul li.vjs-selected:focus,
-.vjs-default-skin .vjs-menu-button ul li.vjs-selected:hover {
+.vjs-popcorn-skin .vjs-menu-button ul li:focus,
+.vjs-popcorn-skin .vjs-menu-button ul li:hover,
+.vjs-popcorn-skin .vjs-menu-button ul li.vjs-selected:focus,
+.vjs-popcorn-skin .vjs-menu-button ul li.vjs-selected:hover {
 color: #2d75df;
 }
-.vjs-default-skin .vjs-menu-button ul li.vjs-menu-title {
+.vjs-popcorn-skin .vjs-menu-button ul li.vjs-menu-title {
     text-align: center;
     text-transform: uppercase;
     font-size: 1em;
@@ -702,16 +797,16 @@ color: #2d75df;
 }
 /* Subtitles Button */
 
-.vjs-default-skin .vjs-subtitles-button:before {
+.vjs-popcorn-skin .vjs-subtitles-button:before {
     content: url('../images/icons/Player/Subtitles.png');
 }
 /* Captions Button */
 
-.vjs-default-skin .vjs-captions-button:before {}
+.vjs-popcorn-skin .vjs-captions-button:before {}
 /* Replacement for focus outline */
 
-.vjs-default-skin .vjs-captions-button:focus .vjs-control-content:before,
-.vjs-default-skin .vjs-captions-button:hover .vjs-control-content:before {
+.vjs-popcorn-skin .vjs-captions-button:focus .vjs-control-content:before,
+.vjs-popcorn-skin .vjs-captions-button:hover .vjs-control-content:before {
     /* box-shadow */
     -webkit-box-shadow: 0 0 1em #ffffff;
     -moz-box-shadow: 0 0 1em #ffffff;
@@ -869,7 +964,7 @@ body.vjs-full-window {
 }
 /* Hide disabled or unsupported controls */
 
-.vjs-default-skin .vjs-hidden {
+.vjs-popcorn-skin .vjs-hidden {
     display: none;
 }
 .vjs-lock-showing {
