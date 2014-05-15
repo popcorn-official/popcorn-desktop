@@ -133,16 +133,16 @@ var Database = {
 
 	markEpisodeAsWatched: function(data, cb) {
 		if (!cb) cb = function () {};
-		db.watched.insert({show_id: data.show_id.toString(), season: data.season, episode: data.episode, type: 'episode', date: new Date()}, cb);
+		db.watched.insert({show_id: data.show_id.toString(), season: data.season.toString(), episode: data.episode.toString(), type: 'episode', date: new Date()}, cb);
 	},
 
 	markEpisodeAsNotWatched: function(data, cb) {
 		if (!cb) cb = function () {};
-		db.watched.remove({show_id: data.show_id.toString(), season: data.season, episode: data.episode}, cb);
+		db.watched.remove({show_id: data.show_id.toString(), season: data.season.toString(), episode: data.episode.toString()}, cb);
 	},
 
 	checkEpisodeWatched: function(data, cb) {
-		db.watched.find({show_id: data.show_id.toString(), season: data.season, episode: data.episode}, function(err, data){
+		db.watched.find({show_id: data.show_id.toString(), season: data.season.toString(), episode: data.episode.toString()}, function(err, data){
 			return cb((data!=null && data.length > 0), data);
 		});
 	},
