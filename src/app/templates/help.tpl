@@ -130,6 +130,10 @@
 					<td><span class="key control">ctrl</span>+<span class="key">g</span></td>
 					<td>Offset Subtitles by -5s</td>
 				</tr>
+				<tr>
+					<td><span class="key">u</span></td>
+					<td>Show Stream URL</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
