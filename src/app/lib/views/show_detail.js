@@ -54,9 +54,10 @@
         toggleWatched: function (e) {
             var edata = e.currentTarget.id.split('-');
             var value = {
-                show_id : Number (_this.model.get('tvdb_id')),
+                show_id : _this.model.get('tvdb_id'),
                 season  : edata[1],
-                episode : edata[2]};
+                episode : edata[2]
+            };
 				
             Database.checkEpisodeWatched(value, function (watched, data) {
                 if(watched)
