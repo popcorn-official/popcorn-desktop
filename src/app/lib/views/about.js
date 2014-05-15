@@ -15,12 +15,16 @@
         },
 
         onShow: function() {
+            Mousetrap.bind('esc', function(e) {
+                App.vent.trigger('about:close');
+            });
             $('.links').tooltip();
             console.log('Show about', this.model); 
             $("#movie-detail").hide();
         },
 
-        onClose: function() {   
+        onClose: function() {
+            Mousetrap.unbind('esc');   
             $("#movie-detail").show();
         },
 
