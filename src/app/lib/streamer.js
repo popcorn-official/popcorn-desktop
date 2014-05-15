@@ -43,7 +43,7 @@
 
         var tmpFilename = torrent.info.infoHash;
         tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_') +'-'+ (new Date()*1);
-        var tmpFile = path.join(tmpFolder, tmpFilename);
+        var tmpFile = path.join(App.settings.temporaryDirectory, tmpFilename);
 
         engine = peerflix(torrent.info, {
             connections: 100, // Max amount of peers to be connected to.

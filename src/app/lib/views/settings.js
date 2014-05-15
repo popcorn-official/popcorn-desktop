@@ -6,7 +6,9 @@
         className: 'settings-container-contain',
 
         ui: {
-            success_alert: '.success_alert'
+            success_alert: '.success_alert',
+            fakeTempDir: '#fakeTemporaryDirectory',
+            tempDir: '#temporaryDirectory',
         },
 
         events: {
@@ -14,7 +16,9 @@
             'change select,input': 'saveSetting',
             'click .rebuild-tvshows-database': 'rebuildTvShows',
             'click .flush-bookmarks': 'flushBookmarks',
-            'click .flush-databases': 'flushAllDatabase'
+            'click .flush-databases': 'flushAllDatabase',
+            'click #fakeTemporaryDirectory' : 'showCacheDirectoryDialog',
+			'change #temporaryDirectory' : 'updateCacheDirectory',
         },
 
         onShow: function() {
@@ -56,6 +60,9 @@
 			case 'moviesShowQuality':
 				value = field.is(':checked');
 				break;
+            case 'temporaryDirectory':
+                value = field.val();
+                break;
 			default:
 				console.log('Setting not defined: '+field.attr('name'));
 			}
@@ -182,9 +189,24 @@
             argv.push(CWD);
             spawn(process.execPath, argv, { cwd: CWD, detached: true, stdio: [ 'ignore', 'ignore', 'ignore' ] }).unref();
             gui.App.quit();            
-        }
+        },
 
+        showCacheDirectoryDialog : function()
+        {
+            var that = this;
+            that.ui.tempDir.click();
+        },
 
+        updateCacheDirectory : function(e)
+        {
+            // feel free to improve/change radically!
+            var that = this;
+            var field = $('#temporaryDirectory');
+            var size  = field.val().length * 2.5;
+            that.ui.fakeTempDir.val = field.val();  // set the value to the styled textbox
+            that.render();
+            that.ui.fakeTempDir.css('width', size * 3);
+        },
     });
 
     App.View.Settings = Settings;

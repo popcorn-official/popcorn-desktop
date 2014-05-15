@@ -104,5 +104,6 @@
 	"Status: Checking Database...": "Status: Checking Database...",
 	"Status: Creating Database...": "Status: Creating Database...",
 	"Status: Updating database...": "Status: Updating database...",
-	"Status: Skipping synchronization TTL not met": "Status: Skipping synchronization TTL not met"
+	"Status: Skipping synchronization TTL not met": "Status: Skipping synchronization TTL not met",
+	"Cache Directory": "Cache Directory"
 }

@@ -71,6 +71,12 @@
 			<div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
 
 			<div class="btn-settings flush-databases"><%= i18n.__("Flush all databases") %></div>
+			<br><br><br><br>
+			<!-- Cache Directory -->
+			<p><%= i18n.__("Cache Directory") %>: </p>
+			<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="fakeTemporaryDirectory" value="<%= App.settings.temporaryDirectory %>" readonly="readonly" />
+			<input type="file" name="temporaryDirectory" id="temporaryDirectory" nwdirectory style="display: none;" />
+			<!-- Cache Directory / -->
 		</div>
 	</div>
 </div>

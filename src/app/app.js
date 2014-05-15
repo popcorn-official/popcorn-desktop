@@ -23,9 +23,6 @@ var
     // url object
     url = require('url'),
 
-    // TMP Folder
-    tmpFolder = path.join(os.tmpDir(), 'Popcorn-Time'),
-
     // i18n module (translations)
     i18n = require("i18n"),
 
@@ -84,7 +81,7 @@ if(process.platform === 'win32' && parseFloat(os.release(), 10) > 6.1) {
 
 */
 // Create the System Temp Folder. This is used to store temporary data like movie files.
-if( ! fs.existsSync(tmpFolder) ) { fs.mkdir(tmpFolder); }
+if( ! fs.existsSync(App.settings.temporaryDirectory) ) { fs.mkdir(App.settings.temporaryDirectory); }
 
 deleteFolder = function(path) {
 	if( typeof path != 'string' ) return;
@@ -109,7 +106,7 @@ deleteFolder = function(path) {
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
 win.on('close', function(){
-    deleteFolder(tmpFolder);
+    deleteFolder(App.settings.temporaryDirectory);
     win.close(true);
 });
 
