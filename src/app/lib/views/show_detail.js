@@ -21,6 +21,9 @@
 
         initialize: function() {
             _this = this;
+            Mousetrap.bind('esc', function(e) {
+                _this.closeDetails();
+            });
             App.vent.on('shows:watched',   this.markWatched);
             App.vent.on('shows:unwatched', this.markNotWatched);
         },
@@ -121,6 +124,7 @@
         },
 
         closeDetails: function(e) {
+            Mousetrap.unbind('esc');
             e.preventDefault();
             App.vent.trigger('show:closeDetail'); 
             $(".filter-bar").show();    
