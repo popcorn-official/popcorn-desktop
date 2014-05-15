@@ -39,10 +39,12 @@ It is recommended to join us on IRC at `#popcorntime` on freenode ([web access](
 
 ### Need to report a bug? [Read the report guideline](https://github.com/popcorn-official/popcorn-app/blob/master/CONTRIBUTING.md#report-a-bug)
 
-### Error about missing libudev.so.0
-Search for libudev.so.0 on your distribution. Most of the time it can be easily fixed by creating a symbolic link from libudev.so to libudev.so.0
+### Error about missing libudev.so.1
+Search for a package closest to your distro version from [here](http://pkgs.org/search/?query=libudev1&type=smart) (it doesn't need to match exactly). If you can't find one, it can also be fixed by creating a symbolic link from libudev.so.0 to libudev.so.1:
 
-See: https://github.com/rogerwang/node-webkit/wiki/The-solution-of-lacking-libudev.so.0
+`sudo ln -s /lib/x86_64-linux-gnu/libudev.so.0 ./libudev.so.1` for 64bit Linux
+
+`sudo ln -s /lib/i386-linux-gnu/libudev.so.0 ./libudev.so.1` for 32bit Linux
 
 ### Error "Gtk-WARNING **: cannot open display:"
 Try running `export DISPLAY=:0.0`
