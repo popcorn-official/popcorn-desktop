@@ -93,7 +93,7 @@
 
 			<!-- Cache Directory -->
 			<p><%= i18n.__("Cache Directory") %>: </p>
-			<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="fakeTemporaryDirectory" value="<%= App.settings.temporaryDirectory %>" readonly="readonly" />
+			<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="fakeTemporaryDirectory" value="<%= App.settings.temporaryDirectory %>" readonly="readonly" size="75" />
 			<input type="file" name="temporaryDirectory" id="temporaryDirectory" nwdirectory style="display: none;" />
 			<br><br>
 			<!-- Cache Directory / -->
