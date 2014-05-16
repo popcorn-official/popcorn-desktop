@@ -206,7 +206,7 @@
         adjustVolume: function(i) {
             var v = this.player.volume();
             this.player.volume(v + i);
-            this.displayVolume();
+            this.displayOverlayMsg(i18n.__('Volume')+': '+ this.player.volume().toFixed(1) * 100 + '%');
         },
 		
         toggleMute: function() {
@@ -234,45 +234,29 @@
                 this.nativeWindow.focus();
             }
         },
+		
         displayStreamURL: function() {
-            this.player.pause();
-            window.prompt("Copy to clipboard: Then Press Enter", $('#video_player video').attr('src'));
+            var clipboard = require('nw.gui').Clipboard.get();
+            clipboard.set($('#video_player video').attr('src'), 'text');
+            this.displayOverlayMsg(i18n.__('URL of this stream was copied to the clipboard'));
         },
         
         adjustSubtitleOffset: function(s) {
         	var o = this.player.offset();
         	this.player.setOffset(o + s);
-            	this.displaySubtitleOffset();
-        },
-
-        displaySubtitleOffset: function() {
-            if($('.vjs-overlay').length >0) {
-                $('.vjs-overlay').text(i18n.__('Subtitles Offset')+': '+ this.player.offset().toFixed(1) +' '+i18n.__('secs')); 
-                clearTimeout($.data(this, 'subtitleOffsetTimer'));
-                $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
-                    $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
-                }, 3000));
-            }
-            else {
-                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>"+i18n.__('Subtitles Offset')+": "+ this.player.offset().toFixed(1) +" "+i18n.__('secs') + "</div>");
-                $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
-                    $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
-                }, 3000));
-            }
+        	this.displayOverlayMsg(i18n.__('Subtitles Offset')+': '+ this.player.offset().toFixed(1) +' '+i18n.__('secs'));
         },
 		
-        //TODO: Make this more universal
-        displayVolume: function() {
-            if($('.vjs-overlay').length >0) {
-                $('.vjs-overlay').text(i18n.__('Volume')+': '+ this.player.volume().toFixed(1) * 100 + '%');
-                clearTimeout($.data(this, 'subtitleOffsetTimer'));
-                $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
+		displayOverlayMsg: function(message){
+			if($('.vjs-overlay').length >0) {
+                $('.vjs-overlay').text(message);
+                clearTimeout($.data(this, 'overlayTimer'));
+                $.data(this, 'overlayTimer', setTimeout(function() {
                     $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
                 }, 3000));
-            }
-            else {
-                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>"+i18n.__('Volume')+": "+ this.player.volume().toFixed(1) * 100 + "%</div>");
-                $.data(this, 'subtitleOffsetTimer', setTimeout(function() {
+            } else {
+                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>"+message+"</div>");
+                $.data(this, 'overlayTimer', setTimeout(function() {
                     $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
                 }, 3000));
             }
