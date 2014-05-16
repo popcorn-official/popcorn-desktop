@@ -84,6 +84,7 @@ if(process.platform === 'win32' && parseFloat(os.release(), 10) > 6.1) {
 if( ! fs.existsSync(App.settings.temporaryDirectory) ) { fs.mkdir(App.settings.temporaryDirectory); }
 
 deleteFolder = function(path) {
+    if( !App.settings.deleteTmpOnClose ) return;
 	if( typeof path != 'string' ) return;
 	try {
 		var files = [];

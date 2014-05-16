@@ -3,8 +3,10 @@
 	<div class="sidebar">
 		<div class="title"><%= i18n.__("Settings") %></div>
 		<div class="user-interface"><%= i18n.__("User Interface") %></div>
+		<div class="movies-options"><%= i18n.__("Movies") %></div>
 		<div class="subtitles-options"><%= i18n.__("Subtitles") %></div>
 		<div class="more-options"><%= i18n.__("More Options") %></div>
+		<div class="advanced-settings"><%= i18n.__("Advanced Settings") %></div>
 	</div>
 	<div class="content">
 
@@ -26,9 +28,21 @@
 				<select name="language"><%=langs%></select>
 				<div class="dropdown-arrow"></div>
 			</div>
-			<br><br>
+			<br><br><br>
 			<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
 			<label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
+		</div>
+		
+		<div class="movies-options">
+			<div class="dropdown movies-quality">
+				<p><%= i18n.__("Only list movies in") %>:</p>
+				<select name="movies_quality">
+					<option <%=(Settings.movies_quality == "all"? "selected='selected'":"") %> value="all"><%= i18n.__("All") %></option>
+					<option <%=(Settings.movies_quality == "1080p"? "selected='selected'":"") %> value="1080p">1080p</option>
+					<option <%=(Settings.movies_quality == "720p"? "selected='selected'":"") %> value="720p">720p</option>
+				</select>
+				<div class="dropdown-arrow"></div>	
+			</div>
 		</div>
 
 		<div class="subtitles-options">
@@ -64,19 +78,29 @@
 		</div>
 
 		<div class="more-options">
-			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input type="text" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
+			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input type="text" size = "50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
 			<br><br>
 			<div class="btn-settings rebuild-tvshows-database"><%= i18n.__("Rebuild TV Shows Database") %></div>
-
 			<div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
-
 			<div class="btn-settings flush-databases"><%= i18n.__("Flush all databases") %></div>
-			<br><br><br><br>
+		</div>
+		<div class="advanced-settings">
+			<p><%= i18n.__("Connection Limit") + ":" %></p> <input type="text" size = "20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
+			<br><br>
+
+			<p><%= i18n.__("DHT Limit") + ":" %></p> <input type="text" size = "20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
+			<br><br>
+
 			<!-- Cache Directory -->
 			<p><%= i18n.__("Cache Directory") %>: </p>
 			<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="fakeTemporaryDirectory" value="<%= App.settings.temporaryDirectory %>" readonly="readonly" />
 			<input type="file" name="temporaryDirectory" id="temporaryDirectory" nwdirectory style="display: none;" />
+			<br><br>
 			<!-- Cache Directory / -->
+			
+			<input class="settings-checkbox" name="deleteTmpOnClose" id="cb2" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
+
+			<label class="settings-label" for="cb2"><%= i18n.__("Clear Tmp Folder after closing app?") %></label>
 		</div>
 	</div>
 </div>

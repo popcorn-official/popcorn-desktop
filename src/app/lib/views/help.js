@@ -20,7 +20,6 @@
 
         onClose: function() {
             $("#movie-detail").show();
-            Mousetrap.unbind('esc');
         },
 
         closeHelp: function() {

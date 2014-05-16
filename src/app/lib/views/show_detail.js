@@ -21,6 +21,9 @@
 
         initialize: function() {
             _this = this;
+            Mousetrap.bind('esc', function(e) {
+                _this.closeDetails();
+            });
             App.vent.on('shows:watched',   this.markWatched);
             App.vent.on('shows:unwatched', this.markNotWatched);
         },
@@ -28,8 +31,6 @@
         onShow: function() {
 
             this.selectSeason($("#tabs_season li").first("li"));
-
-            $(".filter-bar").hide();    
             $('.star-container-tv').tooltip();
              var background = $(".tv-poster-background").attr("data-bgr");
               $('<img/>').attr('src', background).load(function() {
@@ -40,8 +41,7 @@
 
             // add ESC to close this popup
             Mousetrap.bind('esc', function(e) {
-                App.vent.trigger('show:closeDetail'); 
-                $(".filter-bar").show();   
+                App.vent.trigger('show:closeDetail');
             });
 
             // we'll mark episode already watched
@@ -57,17 +57,13 @@
                 show_id : Number (_this.model.get('tvdb_id')),
                 season  : edata[1],
                 episode : edata[2]};
-
-            // we do this because checkEpisodeWatched is broken,
-            // probably a bug in nedb
-            App.db.getEpisodesWatched(value.show_id, function (err, data) {
-                if (_.where (data, value).length) {
-                    App.vent.trigger ("shows:unwatched", value)
-                } else {
-                    App.vent.trigger ("shows:watched", value)
-                }
+				
+            Database.checkEpisodeWatched(value, function (watched, data) {
+                if(watched)
+                    App.vent.trigger ("shows:unwatched", value);
+                else
+                    App.vent.trigger ("shows:watched", value);
             });
-
         },
 
         markWatched: function (value) {
@@ -116,14 +112,13 @@
                     extract_subtitle: epInfo,
                     defaultSubtitle: Settings.subtitle_language
             });
-
+			
             App.vent.trigger('stream:start', torrentStart);
         },
 
         closeDetails: function(e) {
             e.preventDefault();
-            App.vent.trigger('show:closeDetail'); 
-            $(".filter-bar").show();    
+            App.vent.trigger('show:closeDetail');
         },
 
         clickTab: function(e) {
@@ -144,11 +139,11 @@
          // Helper Function
         selectSeason: function($elem) {
             $('.tabs-episode').hide();
-            $('.tabs-episode').removeClass('current');
-            $('#tabs_season li').removeClass('active');
-            $('.episodeSummary').removeClass('active');
+            $('.tabs-episode.current').removeClass('current');
+            $('#tabs_season li.active').removeClass('active');
+            $('.episodeSummary.active').removeClass('active');
             $elem.addClass('active');
-            $("#"+$elem.attr('data-tab')).addClass('current').show();
+            $("#"+$elem.attr('data-tab')).addClass('current').scrollTop(0).show(); //pull the scroll always to top to
 
             this.selectEpisode($("#"+$elem.attr('data-tab')).find($( ".episodeSummary")).first());           
         },
@@ -162,6 +157,10 @@
             $(".episode-info-title").text($('.template-'+tvdbid+' .title').html());
             $(".episode-info-date").text(i18n.__('Aired Date') + ': '+$('.template-'+tvdbid+' .date').html());
             $(".episode-info-description").text($('.template-'+tvdbid+' .overview').html());
+
+            //pull the scroll always to top
+            $(".episode-info-description").scrollTop(0);
+
             $(".movie-btn-watch-episode").attr("data-torrent", tvdbtorrent);
             $(".movie-btn-watch-episode").attr("data-episodeid", tvdbid);
 
@@ -170,7 +169,6 @@
             $(".movie-btn-watch-episode").attr("data-season", $('.template-'+tvdbid+' .season').html());
             $(".movie-btn-watch-episode").attr("data-title", $('.template-'+tvdbid+' .title').html());
 
-            
 
             this.ui.startStreaming.show();            
         }

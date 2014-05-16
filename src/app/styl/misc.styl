@@ -6,23 +6,23 @@
 
     // Gives nicer scrollbars to an element
 scrollable()
-    overflow-x: hidden;
+    overflow-x hidden
     // Overflow: overlay is an undocumented webkit feature. It places the scrollbar *on top* of the content instead of eating some 16px.
     // It's buggy, though (it paints the scrollbar *over* the content and composites badly, so it will crop the content anyway )
-    overflow-y: overlay;
+    overflow-y overlay
     // Inertial scrolling for touch devices (mostly useless here)
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling touch
 
     &::-webkit-scrollbar
-        width: 5px;
+        width 5px
 
     &::-webkit-scrollbar-track
-        background-color: #30333c
-        border-radius: 2px
+        background-color #30333c
+        border-radius 2px
 
     &::-webkit-scrollbar-thumb
-        background-color: #83888c
-        border-radius: 2px
+        background-color #83888c
+        border-radius 2px
 
         &:hover
             background-color: #93989c
@@ -31,7 +31,7 @@ scrollable()
     &::-webkit-scrollbar-corner,
     &::-webkit-scrollbar-button,
     &::-webkit-scrollbar-track-piece
-        display: none;
+        display none
 
 
 .tooltip-arrow
@@ -49,18 +49,21 @@ scrollable()
       margin-left -5px
       border-width 5px 5px 0
       border-top-color rgba(9, 13, 18, 0.75)
+      transition all 0.5s
   &.top-left
     .tooltip-arrow
       bottom 0
       left 5px
       border-width 5px 5px 0
       border-top-color rgba(9, 13, 18, 0.75)
+      transition all 0.5s
   &.top-right
     .tooltip-arrow
       right 5px
       bottom 0
       border-width 5px 5px 0
       border-top-color rgba(9, 13, 18, 0.75)
+      transition all 0.5s
   &.right
     .tooltip-arrow
       top 50%
@@ -68,6 +71,7 @@ scrollable()
       margin-top -5px
       border-width 5px 5px 5px 0
       border-right-color rgba(9, 13, 18, 0.75)
+      transition all 0.5s
   &.left
     .tooltip-arrow
       top 50%
@@ -75,6 +79,7 @@ scrollable()
       margin-top -5px
       border-width 5px 0 5px 5px
       border-left-color rgba(9, 13, 18, 0.75)
+      transition all 0.5s
   &.bottom
     .tooltip-arrow
       top 0
@@ -82,16 +87,19 @@ scrollable()
       margin-left -5px
       border-width 0 5px 5px
       border-bottom-color rgba(9, 13, 18, 0.75)
+      transition all 0.5s
   &.bottom-left
     .tooltip-arrow
       top 0
       left 5px
       border-width 0 5px 5px
       border-bottom-color rgba(9, 13, 18, 0.75)
+      transition all 0.5s
   &.bottom-right
     .tooltip-arrow
       top 0
       right 5px
       border-width 0 5px 5px
       border-bottom-color rgba(9, 13, 18, 0.75)
+      transition all 0.5s
 

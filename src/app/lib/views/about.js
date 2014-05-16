@@ -23,8 +23,7 @@
             $("#movie-detail").hide();
         },
 
-        onClose: function() {
-            Mousetrap.unbind('esc');   
+        onClose: function() {  
             $("#movie-detail").show();
         },
 

@@ -24,6 +24,9 @@
         onShow: function() {
             $(".filter-bar").hide();    
             $("#movie-detail").hide();
+            Mousetrap.bind('esc', function(e) {
+                App.vent.trigger('settings:close');
+            });
         },
 
         onClose: function() {
@@ -51,6 +54,7 @@
 				break;
 			case 'subtitle_size':
 			case 'subtitle_language':
+			case 'movies_quality':
 				value = $("option:selected", field).val();
 				break;
 			case 'language':
@@ -58,11 +62,17 @@
 				i18n.setLocale(value);
 				break;
 			case 'moviesShowQuality':
+            case 'deleteTmpOnClose':
 				value = field.is(':checked');
 				break;
-            case 'temporaryDirectory':
+            case 'connectionLimit':
+            case 'dhtLimit':
+            case 'tmpLocation':
                 value = field.val();
                 break;
+			case 'temporaryDirectory':
+				value = field.val();
+				break;
 			default:
 				console.log('Setting not defined: '+field.attr('name'));
 			}

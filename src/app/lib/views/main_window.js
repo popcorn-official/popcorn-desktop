@@ -61,6 +61,7 @@
             // Stream events
             App.vent.on('stream:started', _.bind(this.streamStarted, this));
             App.vent.on('stream:ready', _.bind(this.showPlayer, this));
+            App.vent.on('player:close', _.bind(this.showViews, this));
             App.vent.on('player:close', _.bind(this.Player.close, this.Player));
         },
 
@@ -193,6 +194,14 @@
             this.Player.show(new App.View.Player({
                 model: streamModel
             }));
+            this.Content.$el.hide();
+            this.MovieDetail.$el.hide();
+        },
+
+        showViews: function(streamModel) {
+            this.Content.$el.show();
+            this.MovieDetail.$el.show();
+            $(window).trigger('resize');
         }
     });
 

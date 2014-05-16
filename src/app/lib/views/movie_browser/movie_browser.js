@@ -55,7 +55,7 @@
 
             // Fetch default category movie:
             this.movieCollection.fetch();
-
+            App.vent.trigger('movie:closeDetail');
             this.MovieList.show(new App.View.MovieList({
                 collection: this.movieCollection
             }));
