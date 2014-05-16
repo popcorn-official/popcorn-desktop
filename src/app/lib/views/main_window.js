@@ -201,6 +201,7 @@
         showViews: function(streamModel) {
             this.Content.$el.show();
             this.MovieDetail.$el.show();
+            $(window).trigger('resize');
         }
     });
 
