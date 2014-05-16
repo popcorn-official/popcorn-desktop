@@ -195,15 +195,15 @@
             this.Player.show(new App.View.Player({
                 model: streamModel
             }));
-            //this.Content.$el.hide();
-            //this.MovieDetail.$el.hide();
+            this.Content.$el.hide();
+            this.MovieDetail.$el.hide();
         },
 
         showViews: function(streamModel) {
 
-            //this.Content.show();
-            //this.MovieDetail.hide();
-            //$(window).trigger('resize');
+            this.Content.$el.show();
+            this.MovieDetail.$el.show();
+            $(window).trigger('resize');
 
         }
     });
