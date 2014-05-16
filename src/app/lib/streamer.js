@@ -142,6 +142,12 @@
                     var title = model.get('title');
                     if(!title) { //From ctrl+v magnet or drag torrent
                         title = torrent.name;
+                        //Try get subtitles for custom torrents
+                        App.db.getSubtitles({filename: title}, function(err, subs) {
+                            if (!err) {
+                                subtitles = subs;
+                            }
+                        });
                     }
                     // TODO: We should passe the movie / tvshow imdbid instead
                     // and read from the player
