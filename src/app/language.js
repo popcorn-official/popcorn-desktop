@@ -618,7 +618,7 @@ App.Localization.langcodes = {
 		nativeName:"Português",
 		subtitle: true,
 		encoding: ['iso-8859-1'] // Tested
-	}
+	},
 	"pt-br":{
 		name:"Portuguese (Brazil)",
 		nativeName:"Português (Brasil)",
