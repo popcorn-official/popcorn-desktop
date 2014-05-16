@@ -1,126 +1,132 @@
 .settings-container-contain
-    background-color #17181b
-    height 100%
-    width 100%
-    position fixed
-    scrollable()
-    padding-top: 40px
-    &::-webkit-scrollbar-track
-        margin-top: 40px
+	background-color #17181b
+	height 100%
+	width 100%
+	position fixed
+	scrollable()
+	padding-top: 40px
+	&::-webkit-scrollbar-track
+		margin-top: 40px
 
 .settings-container
-   z-index 1
-   width 100%
-   height 100%
-   position absolute
-   background-color #17181b
-   -webkit-user-select none
-   opacity 1
-   
-   .user-interface
-      height 100px
+	z-index 1
+	width 100%
+	height 100%
+	position absolute
+	background-color #17181b
+	-webkit-user-select none
+	opacity 1
 
-   .subtitles-options
-      height 100px
+	.user-interface
+		height 100px
 
-   .more-options
-      height 130px
-   
-   .close
-      top 55px
-      right 20px
-      position fixed
-      float right
-      width 16px
-      height 16px
-      background-image url('../../images/icons/Close.png')
-      cursor pointer
-      z-index 2
-      opacity 1
-      -webkit-backface-visibility hidden
+	.movies-options
+		height 75px
 
-   .sidebar
-      float left
-      position relative
-      margin-left 20px
-      padding-right 30px
-      width 200px
-      height 100%
-      border-right solid #3a3b3e 1px
+	.subtitles-options
+		height 75px
 
-      div
-         position relative
-         text-align right
-         color #2d75df
-         font-family "Open Sans", sans-serif
-         font-size 17px
+	.more-options
+		height 130px
 
-      .title
-         position relative
-         color #fff
-         font-size 22px
+	.advanced-settings
+		height 170px
 
-      .user-interface
-         margin-top 25px
+	.close
+		top 55px
+		right 20px
+		position fixed
+		float right
+		width 16px
+		height 16px
+		background-image url('../../images/icons/Close.png')
+		cursor pointer
+		z-index 2
+		opacity 1
+		-webkit-backface-visibility hidden
 
-   .content
-      float left
-      position relative
-      margin-left 32px
-      padding-top: 45px;
-      width calc(100% - 253px)
-      height 100%
+	.sidebar
+		float left
+		position relative
+		margin-left 20px
+		padding-right 30px
+		width 200px
+		height 100%
+		border-right solid #3a3b3e 1px
 
-      p
-         color #c3c5c7
-         font-family "Open Sans", sans-serif
-         font-size 13px
-         float left
-         margin-top 9px
-         min-width 150px
+		div
+			position relative
+			text-align right
+			color #2d75df
+			font-family "Open Sans", sans-serif
+			font-size 17px
 
-      input[type="text"]
-         margin-left 10px
-         padding-right 10px
-         padding-left 10px
-         height 29px
-         line-height 25px
-         border 0px solid #393b3d
-         background-color #393b3d
-         resize none
-         color #c3c5c7
-         font-family "Open Sans", sans-serif
-         font-size 13px
-         cursor text
-         outline 0
+		.title
+			position relative
+			color #fff
+			font-size 22px
 
-      .btn-settings
-         position relative
-         margin-top 13px
-         float left
-         padding-left: 10px
-         padding-right: 10px
-         height 29px
-         background-color #2d75df
-         text-align center
-         color #c3c5c7
-         font-family "Open Sans", sans-serif
-         font-size 13px
-         line-height 28px
-         cursor pointer
-         transition background-color .5s
-         &:hover
-            background-color #4D96FF
-            text-decoration none
+		.user-interface
+			margin-top 25px
 
-         &.rebuild-tvshows-database
-            //margin-left: 30px
+	.content
+		float left
+		position relative
+		margin-left 32px
+		padding-top: 45px;
+		width calc(100% - 253px)
+		height 100%
 
-         &.flush-bookmarks
-            margin-left: 30px
+		p
+			color #c3c5c7
+			font-family "Open Sans", sans-serif
+			font-size 13px
+			float left
+			margin-top 9px
+			min-width 150px
 
-         &.flush-databases
-            margin-left: 30px
+		input[type="text"]
+			margin-left 10px
+			padding-right 10px
+			padding-left 10px
+			height 29px
+			line-height 25px
+			border 0px solid #393b3d
+			background-color #393b3d
+			resize none
+			color #c3c5c7
+			font-family "Open Sans", sans-serif
+			font-size 13px
+			cursor text
+			outline 0
+
+		.btn-settings
+			position relative
+			margin-top 13px
+			float left
+			padding-left: 10px
+			padding-right: 10px
+			height 29px
+			background-color #2d75df
+			text-align center
+			color #c3c5c7
+			font-family "Open Sans", sans-serif
+			font-size 13px
+			line-height 28px
+			cursor pointer
+			transition background-color .5s
+			&:hover
+				background-color #4D96FF
+				text-decoration none
+
+			&.rebuild-tvshows-database
+				//margin-left: 30px
+
+			&.flush-bookmarks
+				margin-left: 30px
+
+			&.flush-databases
+				margin-left: 30px
 			
 input[type=checkbox]
 	&.settings-checkbox
@@ -140,7 +146,8 @@ input[type=checkbox]
 		line-height:15px;
 		background-repeat:no-repeat;
 		background-position: 0 0;
-		font-size:15px;
+		font-size:13px;
+		font-family: "Open Sans", sans-serif;
 		vertical-align:middle;
 		cursor:pointer;
 		color:#c3c5c7
@@ -152,171 +159,156 @@ input[type=checkbox]
 	background-image url('../../images/icons/checkbox.png')
 
 .settings-container-check-settings
-  width 14px
-  height 14px
-  margin-top 59px
-  position relative
-  label
-    cursor pointer
-    position absolute
-    top 0
-    width 14px
-    height 14px
-    -moz-border-radius 3px
-    -webkit-border-radius 3px
-    border-radius 3px
-    -moz-background-clip padding
-    -webkit-background-clip padding-box
-    background-clip padding-box
-    background-color #393b3d
+	width 14px
+	height 14px
+	margin-top 59px
+	position relative
+	label
+		cursor pointer
+		position absolute
+		top 0
+		width 14px
+		height 14px
+		border-radius 3px
+		background-clip padding-box
+		background-color #393b3d
 
-    &:after
-      opacity 0
-      content ''
-      position absolute
-      width 10px
-      height 6px
-      background transparent
-      top 2px
-      left 2px
-      border 3px solid #2d75df
-      border-top none
-      border-right none
-      -webkit-transform rotate(-45deg)
-      -moz-transform rotate(-45deg)
-      -o-transform rotate(-45deg)
-      -ms-transform rotate(-45deg)
-      transform rotate(-45deg)
-  input[type=checkbox]:checked
-    & + label
-      &:after
-        opacity 1
+		&:after
+			opacity 0
+			content ''
+			position absolute
+			width 10px
+			height 6px
+			background transparent
+			top 2px
+			left 2px
+			border 3px solid #2d75df
+			border-top none
+			border-right none
+			transform rotate(-45deg)
+	input[type=checkbox]:checked
+		& + label
+			&:after
+				opacity 1
 
 .checkbox-text
-  font-family "Open Sans", sans-serif
-  color #c3c5c7
-  font-size 13px
-  margin-left 20px
-  width 400px
-
+	font-family "Open Sans", sans-serif
+	color #c3c5c7
+	font-size 13px
+	margin-left 20px
+	width 400px
 
 .dropdown
-  select
-    margin-left 5px
-    position relative
-    padding-left 5px
-    border 0 !important
-    -webkit-appearance none
-    //width 87px
-    height 30px
-    background-color #393b3d
-    cursor pointer
-    color #c3c5c7
-    font-family "Open Sans", sans-serif
-    font-size 13px
-    float left
-    outline 0
-    line-height 15px
-    padding-right 15px
-	  
+	select
+		margin-left 5px
+		position relative
+		padding-left 5px
+		border 0 !important
+		-webkit-appearance none
+		height 30px
+		background-color #393b3d
+		cursor pointer
+		color #c3c5c7
+		font-family "Open Sans", sans-serif
+		font-size 13px
+		float left
+		outline 0
+		line-height 15px
+		padding-right 15px
 
-  option
-    background #393b3d
-    border 0 !important
-    outline 0
-  p
-    color #c3c5c7
-    font-family "Open Sans", sans-serif
-    font-size 13px
-    float left
-    margin-top 9px
-  &.download-limit
-    top 24px
-  &.upload-limit
-    top 24px
-    left 31px
-  &.local-port
-    top 24px
-    left 65px
-    float left
-  &.subtitles-language
-    top 0px
-  &.subtitles-language-default
-    top 0px
-  &.subtitles-font
-    top 50px
-    left -386px
+	option
+		background #393b3d
+		border 0 !important
+		outline 0
+	p
+		color #c3c5c7
+		font-family "Open Sans", sans-serif
+		font-size 13px
+		float left
+		margin-top 9px
+	&.download-limit
+		top 24px
+	&.upload-limit
+		top 24px
+		left 31px
+	&.local-port
+		top 24px
+		left 65px
+		float left
+	&.subtitles-language
+		top 0px
+	&.subtitles-language-default
+		top 0px
+	&.subtitles-font
+		top 50px
+		left -386px
 
-  &.subtitles-style
-    top 50px
-    left -356px
+	&.subtitles-style
+		top 50px
+		left -356px
 
-  &.subtitles-size
-    left 15px
+	&.subtitles-size
+		left 15px
 
-  &.subtitles-color
-    top 50px
-    left -296px
-
+	&.subtitles-color
+		top 50px
+		left -296px
 
 .dropdown-arrow
-  width 0
-  height 0
-  border-left 4px solid transparent
-  border-right 4px solid transparent
-  border-top 5px solid #c4c6c8
-  top 13px
-  margin-left -13px
-  position relative
-  float left
-  cursor pointer
+	width 0
+	height 0
+	border-left 4px solid transparent
+	border-right 4px solid transparent
+	border-top 5px solid #c4c6c8
+	top 13px
+	margin-left -13px
+	position relative
+	float left
+	cursor pointer
 
 .port-text
-  top 1px
-  left 5px
-  position relative
-  width 56px
-  height 29px
-  border 0px solid #393b3d
-  background-color #393b3d
-  resize none
-  color #c3c5c7
-  font-family "Open Sans", sans-serif
-  font-size 13px
-  line-height 25px
-  padding-left 13px
-  cursor text
-  outline 0
+	top 1px
+	left 5px
+	position relative
+	width 56px
+	height 29px
+	border 0px solid #393b3d
+	background-color #393b3d
+	resize none
+	color #c3c5c7
+	font-family "Open Sans", sans-serif
+	font-size 13px
+	line-height 25px
+	padding-left 13px
+	cursor text
+	outline 0
 
 .success_alert
-  position fixed
-  top 75px
-  right 50px
-  color #fff
-  font-family "Open Sans Semibold", sans-serif
-  font-size 16px
+	position fixed
+	top 75px
+	right 50px
+	color #fff
+	font-family "Open Sans Semibold", sans-serif
+	font-size 16px
 
 #checkmark-notify
-  display inline-block
-  width 20px
-  height 20px
-  -ms-transform rotate(45deg)
-  -webkit-transform rotate(45deg)
-  transform rotate(45deg)
+	display inline-block
+	width 20px
+	height 20px
+	transform rotate(45deg)
 
 #stem-notify
-  position absolute
-  width 3px
-  height 12px
-  background-color #ccc
-  left 11px
-  top 6px
+	position absolute
+	width 3px
+	height 12px
+	background-color #ccc
+	left 11px
+	top 6px
 
 #kick-notify
-  position absolute
-  width 6px
-  height 3px
-  background-color #ccc
-  left 6px
-  top 15px
-
+	position absolute
+	width 6px
+	height 3px
+	background-color #ccc
+	left 6px
+	top 15px

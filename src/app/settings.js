@@ -20,7 +20,10 @@
 
     Settings['connectionCheckUrl'] = 'http://google.com/';
     Settings['moviesShowQuality'] = false;
+	
     Settings['subtitle_size'] = '28px';
+	
+    Settings['movies_quality'] = 'all';
 
     Settings['connectionLimit'] = 100;
     Settings['dhtLimit'] = 500;

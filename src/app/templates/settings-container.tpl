@@ -3,6 +3,7 @@
 	<div class="sidebar">
 		<div class="title"><%= i18n.__("Settings") %></div>
 		<div class="user-interface"><%= i18n.__("User Interface") %></div>
+		<div class="movies-options"><%= i18n.__("Movies") %></div>
 		<div class="subtitles-options"><%= i18n.__("Subtitles") %></div>
 		<div class="more-options"><%= i18n.__("More Options") %></div>
 		<div class="advanced-settings"><%= i18n.__("Advanced Settings") %></div>
@@ -27,9 +28,21 @@
 				<select name="language"><%=langs%></select>
 				<div class="dropdown-arrow"></div>
 			</div>
-			<br><br>
+			<br><br><br>
 			<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
 			<label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
+		</div>
+		
+		<div class="movies-options">
+			<div class="dropdown movies-quality">
+				<p><%= i18n.__("Only list movies in") %>:</p>
+				<select name="movies_quality">
+					<option <%=(Settings.movies_quality == "all"? "selected='selected'":"") %> value="all"><%= i18n.__("All") %></option>
+					<option <%=(Settings.movies_quality == "1080p"? "selected='selected'":"") %> value="1080p">1080p</option>
+					<option <%=(Settings.movies_quality == "720p"? "selected='selected'":"") %> value="720p">720p</option>
+				</select>
+				<div class="dropdown-arrow"></div>	
+			</div>
 		</div>
 
 		<div class="subtitles-options">

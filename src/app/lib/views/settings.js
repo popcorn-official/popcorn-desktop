@@ -50,6 +50,7 @@
 				break;
 			case 'subtitle_size':
 			case 'subtitle_language':
+			case 'movies_quality':
 				value = $("option:selected", field).val();
 				break;
 			case 'language':
