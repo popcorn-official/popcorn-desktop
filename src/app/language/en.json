@@ -108,7 +108,9 @@
 	"Advanced Settings": "Advanced Settings",
 	"Connection Limit": "Connection Limit",
 	"DHT Limit": "DHT Limit",
+	"Cache Directory": "Cache Directory",
+	"Clear Cache directory after closing app?": "Clear Tmp Folder after closing app?",
+	"Only list movies in": "Only list movies in",
 	"Tmp Folder": "Tmp Folder",
-	"Clear Tmp Folder after closing app?": "Clear Tmp Folder after closing app?",
-	"Only list movies in": "Only list movies in"
+	"Clear Tmp Folder after closing app?": "Clear Tmp Folder after closing app?"
 }

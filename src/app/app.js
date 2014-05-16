@@ -23,9 +23,6 @@ var
     // url object
     url = require('url'),
 
-    // TMP Folder
-    tmpFolder = Settings.tmpLocation,
-
     // i18n module (translations)
     i18n = require("i18n"),
 
@@ -84,9 +81,10 @@ if(process.platform === 'win32' && parseFloat(os.release(), 10) > 6.1) {
 
 */
 // Create the System Temp Folder. This is used to store temporary data like movie files.
-if( ! fs.existsSync(tmpFolder) ) { fs.mkdir(tmpFolder); }
+if( ! fs.existsSync(App.settings.temporaryDirectory) ) { fs.mkdir(App.settings.temporaryDirectory); }
 
 deleteFolder = function(path) {
+    if( !App.settings.deleteTmpOnClose ) return;
 	if( typeof path != 'string' ) return;
 	try {
 		var files = [];
@@ -108,12 +106,10 @@ deleteFolder = function(path) {
 }
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
-if(Settings.deleteTmpOnClose) {
-    win.on('close', function(){
-        deleteFolder(tmpFolder);
-        win.close(true);
-    });
-}
+win.on('close', function(){
+    deleteFolder(App.settings.temporaryDirectory);
+    win.close(true);
+});
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
