@@ -16,6 +16,7 @@
 <%
 	var subArray = [];
 	for (var lang in subtitle) {
+		if(lang == 'pb') lang = 'pt-br';
 		subArray.push({
 			"language": lang,
 			"languageName": (App.Localization.langcodes[lang] !== undefined ? App.Localization.langcodes[lang].nativeName : lang),

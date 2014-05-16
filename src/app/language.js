@@ -54,7 +54,7 @@ App.Localization.filterSubtitle = function(langs) {
     return filteredLang;
 };
 
-App.Localization.allTranslations = ['en','ar','bg','ca','cs','da','de','el','es','eu','fi','fr','he','hu','is','it','nl','no','pb','pl','pt','pt-br','ro','ru','sk','sv','tr','uk','zh-cn','zh-tw','sl','gl','si','az'];
+App.Localization.allTranslations = ['en','ar','bg','ca','cs','da','de','el','es','eu','fi','fr','he','hu','is','it','nl','no','pl','pt','pt-br','ro','ru','sk','sv','tr','uk','zh-cn','zh-tw','sl','gl','si','az'];
 
 App.Localization.langcodes = { 
 	"ab":{
@@ -618,13 +618,7 @@ App.Localization.langcodes = {
 		nativeName:"Português",
 		subtitle: true,
 		encoding: ['iso-8859-1'] // Tested
-	},
-	"pb":{
-		name:"Portuguese (Brazil)",
-		nativeName:"Português (Brasil)",
-		subtitle: true,
-		encoding: ['iso-8859-1'] // Tested
-	},
+	}
 	"pt-br":{
 		name:"Portuguese (Brazil)",
 		nativeName:"Português (Brasil)",
