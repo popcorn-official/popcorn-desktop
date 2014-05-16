@@ -9,6 +9,7 @@
   "license": "GPL-3.0",
   "main": "app://host/src/app/index.html",
   "version": "0.3.0",
+  "chromium-args": "--ignore-gpu-blacklist",
   "scripts": {
     "postinstall": "node_modules/.bin/bower install",
     "postupdate": "node_modules/.bin/bower update"
