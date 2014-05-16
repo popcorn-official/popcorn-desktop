@@ -41,10 +41,14 @@
 
     var handleTorrent = function(torrent, stateModel) {
 
+        var tmpFilename = torrent.info.infoHash;
+        tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_') +'-'+ (new Date()*1);
+        var tmpFile = path.join(App.settings.temporaryDirectory, tmpFilename);
+
         engine = peerflix(torrent.info, {
             connections: Settings.connectionLimit, // Max amount of peers to be connected to.
             dht: Settings.dhtLimit,
-            path: Settings.temporaryDirectory, // we'll have a different file name for each stream also if it's same torrent in same session
+            path: tmpFile, // we'll have a different file name for each stream also if it's same torrent in same session
             buffer: (1.5 * 1024 * 1024).toString() // create a buffer on torrent-stream
         });
 
