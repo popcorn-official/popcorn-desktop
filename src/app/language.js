@@ -56,51 +56,6 @@ App.Localization.filterSubtitle = function(langs) {
 
 App.Localization.allTranslations = ['en','ar','bg','ca','cs','da','de','el','es','eu','fi','fr','he','hu','is','it','nl','no','pl','pt','pt-br','ro','ru','sk','sv','tr','uk','zh-cn','zh-tw','sl','gl','si','az'];
 
-// Simple mapping to translate some API language to ISO 639 code
-App.Localization.languageMapping = {
-    "albanian": "sq",
-    "arabic": "ar",
-    "bengali": "bn",
-    "brazilian-portuguese": "pt-br",
-    "bulgarian": "bg",
-    "bosnian": "bs",
-    "chinese": "zh",
-    "croatian": "hr",
-    "czech": "cs",
-    "danish": "da",
-    "dutch": "nl",
-    "english": "en",
-    "estonian": "et",
-    "farsi-persian": "fa",
-    "finnish": "fi",
-    "french": "fr",
-    "german": "de",
-    "greek": "el",
-    "hebrew": "he",
-    "hungarian": "hu",
-    "indonesian": "id",
-    "italian": "it",
-    "japanese": "ja",
-    "korean": "ko",
-    "lithuanian": "lt",
-    "macedonian": "mk",
-    "malay": "ms",
-    "norwegian": "no",
-    "polish": "pl",
-    "portuguese": "pt",
-    "romanian": "ro",
-    "russian": "ru",
-    "serbian": "sr",
-    "slovenian": "sl",
-    "spanish": "es",
-    "swedish": "sv",
-    "thai": "th",
-    "turkish": "tr",
-    "urdu": "ur",
-    "ukrainian": "uk",
-    "vietnamese": "vi"
-};
-
 App.Localization.langcodes = { 
 	"ab":{
 		name:"Abkhaz",
