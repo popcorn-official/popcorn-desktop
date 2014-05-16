@@ -32,6 +32,7 @@
             App.vent.on('shows:list', _.bind(this.showShows, this));
             App.vent.on('favorites:list', _.bind(this.showFavorites, this));
             App.vent.on('shows:update', _.bind(this.updateShows, this));
+            App.vent.on('shows:init', _.bind(this.initShows, this));
 
             // Add event to show disclaimer
             App.vent.on('show:disclaimer', _.bind(this.showDisclaimer, this));
@@ -125,6 +126,26 @@
 
             });
         },
+
+        // used in app to re-triger a api resync
+        initShows: function(e) {
+            var that = this;
+            App.vent.trigger('settings:close');
+            this.Content.show(new App.View.InitModal());
+            App.db.initDB(function(err,data) {
+                    that.InitModal.close();
+
+                    if (!err) {
+                        // we write our new update time
+                        AdvSettings.set("tvshow_last_sync", +new Date());
+                    }
+
+                    App.vent.trigger('shows:list');
+                    // Focus the window when the app opens
+                    that.nativeWindow.focus();
+
+            });
+        }, 
 
         showFavorites: function(e) {
             this.Settings.close();

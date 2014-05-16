@@ -90,39 +90,7 @@
 
 
         rebuildTvShows: function() {
-            var that = this;
-
-            // we build our notification
-            var $el = $('#notification');
-            $el.html(
-                '<h1>' + i18n.__('Please wait') + '...</h1>'   +
-                '<p>' + i18n.__('We are rebuilding the TV Show Database. Do not close the application.') + '.</p>'
-            ).addClass('red');
-
-            // enable the notification on current view
-            $('body').addClass('has-notification')
-
-            Database.initDB(function(err, setting) {
-
-                // we write our new update time
-                AdvSettings.set("tvshow_last_sync",+new Date());
-
-                // ask user to restart (to be sure)
-                $el.html(
-                    '<h1>' + i18n.__('Success') + '</h1>'   +
-                    '<p>' + i18n.__('Please restart your application') + '.</p>' +
-                    '<span class="btn-grp">'                        +
-                        '<a class="btn restart">' + i18n.__('Restart') + '</a>'    +
-                    '</span>'
-                ).removeClass().addClass('green');
-
-                // add restart button function
-                var $restart = $('.btn.restart');
-                $restart.on('click', function() {
-                    that.restartApplication();
-                });
-
-            });
+            App.vent.trigger('shows:init');
         },
 
         flushBookmarks: function() {

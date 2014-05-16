@@ -280,14 +280,14 @@ var Database = {
 						$("#initbar-contents").animate({ width: "90%" }, 4000, 'swing');
 						fs.unlink("./src/app/db/latest.zip");
 						console.log("initDB done");
-						cb();
+						cb(null,true);
 
 					});
 
 				} catch ( e ) {
 
 					console.log("initDB failed : " + e);
-					cb();
+					cb(e,null);
 				
 				}
 
@@ -312,7 +312,9 @@ var Database = {
 
 				// we'll make a query for each page
 				async.eachSeries(allPages, function(page, callback) {
-						
+					
+					$("#init-status").html(i18n.__("Status: Updating database...") + " " + page);
+
 					console.log("Extract: " + Settings.tvshowApiEndpoint + page);
 					request(Settings.tvshowApiEndpoint + page, {json: true}, function(err, res, toUpdate) {
 
@@ -464,6 +466,10 @@ var Database = {
 							// we need to do a complete update
 							// this is our first launch
 							Database.initDB(function(err, setting) {
+
+								// if failed we didnt write our last update
+								if (err) return callback();
+
 								// we write our new update time
 								Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
 							});
