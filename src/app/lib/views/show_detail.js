@@ -57,17 +57,13 @@
                 show_id : Number (_this.model.get('tvdb_id')),
                 season  : edata[1],
                 episode : edata[2]};
-
-            // we do this because checkEpisodeWatched is broken,
-            // probably a bug in nedb
-            App.db.getEpisodesWatched(value.show_id, function (err, data) {
-                if (_.where (data, value).length) {
-                    App.vent.trigger ("shows:unwatched", value)
-                } else {
-                    App.vent.trigger ("shows:watched", value)
-                }
+				
+            Database.checkEpisodeWatched(value, function (watched, data) {
+                if(watched)
+                    App.vent.trigger ("shows:unwatched", value);
+                else
+                    App.vent.trigger ("shows:watched", value);
             });
-
         },
 
         markWatched: function (value) {
@@ -116,7 +112,7 @@
                     extract_subtitle: epInfo,
                     defaultSubtitle: Settings.subtitle_language
             });
-
+			
             App.vent.trigger('stream:start', torrentStart);
         },
 
@@ -143,9 +139,9 @@
          // Helper Function
         selectSeason: function($elem) {
             $('.tabs-episode').hide();
-            $('.tabs-episode').removeClass('current');
-            $('#tabs_season li').removeClass('active');
-            $('.episodeSummary').removeClass('active');
+            $('.tabs-episode.current').removeClass('current');
+            $('#tabs_season li.active').removeClass('active');
+            $('.episodeSummary.active').removeClass('active');
             $elem.addClass('active');
             $("#"+$elem.attr('data-tab')).addClass('current').scrollTop(0).show(); //pull the scroll always to top to
 
