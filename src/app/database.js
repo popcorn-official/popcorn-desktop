@@ -249,37 +249,47 @@ var Database = {
 				$("#init-status").html(i18n.__("Status: Archive downloaded successfully..."));
 
 				var AdmZip = require('adm-zip');
-				var zip = new AdmZip("./src/app/db/latest.zip");
-				var zipEntries = zip.getEntries();
 
-				zip.extractAllTo("./src/app/db/", true);
-				async.eachSeries(zipEntries, function(zipEntry, callback) {
-					
-					fs.readFile("./src/app/db/"+zipEntry.name, function (err, data) {
-	
-						if (err) callback();
-						console.log(zipEntry.name);
-						$("#init-status").html(i18n.__("Status: Importing file") + " " +  zipEntry.name);
+				try { 
 
-						processJSON(JSON.parse(data), function(err,data) {
-								
-							$("#init-status").html(i18n.__("Status: Imported successfully") + " " +  zipEntry.name);
+					var zip = new AdmZip("./src/app/db/latest.zip");
+					var zipEntries = zip.getEntries();
 
-							fs.unlink("./src/app/db/"+zipEntry.name);
-							callback();
-						});						
+					zip.extractAllTo("./src/app/db/", true);
+					async.eachSeries(zipEntries, function(zipEntry, callback) {
+						
+						fs.readFile("./src/app/db/"+zipEntry.name, function (err, data) {
+		
+							if (err) callback();
+							console.log(zipEntry.name);
+							$("#init-status").html(i18n.__("Status: Importing file") + " " +  zipEntry.name);
+
+							processJSON(JSON.parse(data), function(err,data) {
+									
+								$("#init-status").html(i18n.__("Status: Imported successfully") + " " +  zipEntry.name);
+
+								fs.unlink("./src/app/db/"+zipEntry.name);
+								callback();
+							});						
+
+						});
+
+					}, function(err) {
+
+						$("#init-status").html(i18n.__("Status: Launching applicaion... "));
+						$("#initbar-contents").animate({ width: "90%" }, 4000, 'swing');
+						fs.unlink("./src/app/db/latest.zip");
+						console.log("initDB done");
+						cb();
 
 					});
 
-				}, function(err) {
+				} catch ( e ) {
 
-					$("#init-status").html(i18n.__("Status: Launching applicaion... "));
-					$("#initbar-contents").animate({ width: "90%" }, 4000, 'swing');
-					fs.unlink("./src/app/db/latest.zip");
-					console.log("initDB done");
+					console.log("initDB failed : " + e);
 					cb();
-
-				});
+				
+				}
 
 			});
 
