@@ -115,6 +115,7 @@
 
         updateShows: function(e) {
             var that = this;
+            App.vent.trigger('show:closeDetail');
             this.Content.show(new App.View.InitModal());
             App.db.syncDB(function() {
                     that.InitModal.close();
