@@ -209,20 +209,15 @@ var Database = {
 			db.tvshows.loadDatabase(function (err) {
 
 				// JSON Processing
-				function processJSON(data){
+				function processJSON(data, callback){
 
 					db.tvshows.insert(data, function (err, newDocs){
-
-						// we delete our temps file
-						fs.unlink("./src/app/db/latest.json");
-						fs.unlink("./src/app/db/latest.dbz");
-
 						if(err){
 							console.log("Procession failed!");
-							return cb(err, null);
+							return callback(err, null);
 						}else{
 							console.log("Done! Processed data.");
-							return cb(null, newDocs);
+							return callback(null, newDocs);
 						}
 					});
 				}
@@ -230,10 +225,10 @@ var Database = {
 				// we extract our remote dbz and save it locally
 				// we'll not use memory to prevent error / flood
 
-				var out = fs.createWriteStream('./src/app/db/latest.dbz');
+				var out = fs.createWriteStream('./src/app/db/latest.zip');
 				var req = request({
 					method: 'GET',
-					uri: Settings.tvshowApiEndpoint + 'db/latest.dbz'
+					uri: Settings.tvshowApiEndpoint + 'db/latest.zip'
 				});
 
 				req.pipe(out);
@@ -243,25 +238,40 @@ var Database = {
 				});
 
 				req.on('error', function(err) {
-					console.log("GZIP Download Failed");
+					console.log("ZIP Download Failed");
 					return cb(err, null);
 				});
 
 				req.on('end', function() {
 
-					// ok we have our dbz
-					var gunzip = zlib.createGunzip();
-					var showsdata = fs.createReadStream('./src/app/db/latest.dbz');
-					showsdata.pipe(gunzip).pipe(fs.createWriteStream('./src/app/db/latest.json'));
+					var AdmZip = require('adm-zip');
+					var zip = new AdmZip("./src/app/db/latest.zip");
+					var zipEntries = zip.getEntries();
 
-					gunzip.on("end", function() {
-						$("#initbar-contents").animate({ width: "90%" }, 500, 'swing');
-						processJSON(require("./db/latest.json"));
-					}).on("error", function(err) {
-						console.log("Uncompression failed!");
-						return cb(err, null);
-					});
+					zip.extractAllTo("./src/app/db/", true);
+
+					async.eachSeries(zipEntries, function(zipEntry, callback) {
 					
+						fs.readFile("./src/app/db/"+zipEntry.name, function (err, data) {
+	
+							if (err) callback();
+
+							processJSON(JSON.parse(data), function(err,data) {
+								fs.unlink("./src/app/db/"+zipEntry.name);
+								callback();
+							});						
+
+						});
+
+
+					}, function(err) {
+
+						fs.unlink("./src/app/db/latest.zip");
+						console.log("initDB done");
+						cb();
+
+					});
+
 				});
 
 			});
