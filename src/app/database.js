@@ -191,43 +191,66 @@ var Database = {
 	},
 
 	initDB: function(cb) {
+
 		$("#init-status").html(i18n.__("Status: Creating Database..."));
 		$("#initbar-contents").animate({ width: "75%" }, 8000, 'swing');
 		db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
 			db.tvshows.loadDatabase(function (err) {
 
-				// we'll get number of page
-				request(Settings.tvshowApiEndpoint + 'shows', {json: true}, function(err, res, allPages) {
+				// JSON Processing
+				function processJSON(data){
 
-					// api is down? we continue anyways...
-					if(err || !allPages) return cb("api_down", null);
+					db.tvshows.insert(data, function (err, newDocs){
 
-					// we'll make a query for each page
-					async.eachSeries(allPages, function(page, callback) {
-						
-						console.log("Extract: " + Settings.tvshowApiEndpoint + page);
-						request(Settings.tvshowApiEndpoint + page, {json: true}, function(err, res, content) {
+						// we delete our temps file
+						fs.unlink("./src/app/db/latest.json");
+						fs.unlink("./src/app/db/latest.dbz");
 
-							db.tvshows.insert(content, function (err, newDocs){
-		
-								if(err){
-									console.log("Procession failed!");
-									callback();
-								}else{
-									console.log("Done! Processed data.");
-									callback();
-								}
-							});
-						});
-						
-					},
-					function(err, res){
-						
-						// all done
-						cb(err,res);
-
+						if(err){
+							console.log("Procession failed!");
+							return cb(err, null);
+						}else{
+							console.log("Done! Processed data.");
+							return cb(null, newDocs);
+						}
 					});
+				}
+				
+				// we extract our remote dbz and save it locally
+				// we'll not use memory to prevent error / flood
 
+				var out = fs.createWriteStream('./src/app/db/latest.dbz');
+				var req = request({
+					method: 'GET',
+					uri: Settings.tvshowApiEndpoint + 'db/latest.dbz'
+				});
+
+				req.pipe(out);
+
+				req.on('data', function (chunk) {
+					console.log(chunk.length);
+				});
+
+				req.on('error', function(err) {
+					console.log("GZIP Download Failed");
+					return cb(err, null);
+				});
+
+				req.on('end', function() {
+
+					// ok we have our dbz
+					var gunzip = zlib.createGunzip();
+					var showsdata = fs.createReadStream('./src/app/db/latest.dbz');
+					showsdata.pipe(gunzip).pipe(fs.createWriteStream('./src/app/db/latest.json'));
+
+					gunzip.on("end", function() {
+						$("#initbar-contents").animate({ width: "90%" }, 500, 'swing');
+						processJSON(require("./db/latest.json"));
+					}).on("error", function(err) {
+						console.log("Uncompression failed!");
+						return cb(err, null);
+					});
+					
 				});
 
 			});
@@ -409,8 +432,7 @@ var Database = {
 
 						}
 					});
-				})                       
-
+				})
 			});
 
 		});
