@@ -55,12 +55,15 @@
             $(e.target).addClass('active');
 
             var sorter = $(e.target).attr('data-value');
+            if(this.previousSort == sorter) this.model.set('order', this.model.get('order') * -1);
+            else this.model.set('order', -1);
             this.ui.sorterValue.text(i18n.__(sorter.capitalizeEach()));
 
             this.model.set({
                 keyword: '',
                 sorter: sorter
             });
+            this.previousSort = sorter;
         },
 
         changeGenre: function(e) {

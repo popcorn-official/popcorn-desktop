@@ -376,7 +376,7 @@ var Database = {
 		var byPage = 30;
 		var offset = page*byPage;
 		var query = {};
-		var sort = {"rating.votes": -1, "rating.percentage": -1}
+		var sort = {"rating.votes": data.order, "rating.percentage": data.order}
 
 		if (data.keywords) {
 			var words = data.keywords.split(" ");
@@ -391,9 +391,9 @@ var Database = {
 			query = {title: new RegExp(regex,"gi")};
 		}
 		if (data.sorter) {
-			if(data.sorter == "year") sort = {year: -1};
-			if(data.sorter == "updated") sort = {last_updated: -1};
-			if(data.sorter == "name") sort = {title: 1};
+			if(data.sorter == "year") sort = {year: data.order};
+			if(data.sorter == "updated") sort = {last_updated: data.order};
+			if(data.sorter == "name") sort = {title: data.order * -1};
 		}
 		if(data.genre && data.genre != "All") {
 			query = {genres : data.genre}
