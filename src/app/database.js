@@ -239,7 +239,7 @@ var Database = {
 				req.pipe(out);
 
 				req.on('data', function (chunk) {
-					console.log(chunk.length);
+					//console.log(chunk.length);
 				});
 
 				req.on('error', function(err) {
