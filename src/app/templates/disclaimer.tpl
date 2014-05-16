@@ -1,6 +1,6 @@
 <div class="loading-background"></div>
 <div class="disclaimer-loading"></div>
-<img class="icon-begin" src="/src/app/images/icon.png">
+<img class="icon-disclaimer" src="/src/app/images/icon.png">
 <div class="disclaimer-state">
 	<div class="disclaimer-content">
 		<h1><%= i18n.__("Terms of Service") %></h1>
