@@ -24,6 +24,10 @@
         },
 
         onClose: function() {  
+            Mousetrap.bind('esc', function(e) {
+                App.vent.trigger('show:closeDetail');
+                App.vent.trigger('movie:closeDetail');
+            });
             $("#movie-detail").show();
         },
 
