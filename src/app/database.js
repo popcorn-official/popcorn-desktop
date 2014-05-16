@@ -204,77 +204,85 @@ var Database = {
 	initDB: function(cb) {
 
 		$("#init-status").html(i18n.__("Status: Creating Database..."));
-		$("#initbar-contents").animate({ width: "75%" }, 8000, 'swing');
 		db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
-			db.tvshows.loadDatabase(function (err) {
 
-				// JSON Processing
-				function processJSON(data, callback){
+			// JSON Processing
+			function processJSON(data, callback){
 
-					db.tvshows.insert(data, function (err, newDocs){
-						if(err){
-							console.log("Procession failed!");
-							return callback(err, null);
-						}else{
-							console.log("Done! Processed data.");
-							return callback(null, newDocs);
-						}
-					});
-				}
+				db.tvshows.insert(data, function (err, newDocs){
+					if(err){
+						console.log("Procession failed!");
+						return callback(err, null);
+					}else{
+						console.log("Done! Processed data.");
+						return callback(null, newDocs);
+					}
+				});
+			}
 				
-				// we extract our remote dbz and save it locally
-				// we'll not use memory to prevent error / flood
+			$("#initbar-contents").animate({ width: "35%" }, 3000, 'swing');
 
-				var out = fs.createWriteStream('./src/app/db/latest.zip');
-				var req = request({
-					method: 'GET',
-					uri: Settings.tvshowApiEndpoint + 'db/latest.zip'
-				});
+			// we extract our remote dbz and save it locally
+			// we'll not use memory to prevent error / flood
 
-				req.pipe(out);
+			var out = fs.createWriteStream('./src/app/db/latest.zip');
+			var req = request({
+				method: 'GET',
+				uri: Settings.tvshowApiEndpoint + 'db/latest.zip'
+			});
 
-				req.on('data', function (chunk) {
-					//console.log(chunk.length);
-				});
+			req.pipe(out);
 
-				req.on('error', function(err) {
+			req.on('data', function (chunk) {
+				$("#init-status").html(i18n.__("Status: Downloading API archive...") + " " + chunk.length);
+			});
+
+			req.on('error', function(err) {
 					console.log("ZIP Download Failed");
 					return cb(err, null);
-				});
+			});
 
-				req.on('end', function() {
+			req.on('end', function() {
 
-					var AdmZip = require('adm-zip');
-					var zip = new AdmZip("./src/app/db/latest.zip");
-					var zipEntries = zip.getEntries();
 
-					zip.extractAllTo("./src/app/db/", true);
+				$("#initbar-contents").animate({ width: "75%" }, 4000, 'swing');
+				$("#init-status").html(i18n.__("Status: Archive downloaded successfully..."));
 
-					async.eachSeries(zipEntries, function(zipEntry, callback) {
+				var AdmZip = require('adm-zip');
+				var zip = new AdmZip("./src/app/db/latest.zip");
+				var zipEntries = zip.getEntries();
+
+				zip.extractAllTo("./src/app/db/", true);
+				async.eachSeries(zipEntries, function(zipEntry, callback) {
 					
-						fs.readFile("./src/app/db/"+zipEntry.name, function (err, data) {
+					fs.readFile("./src/app/db/"+zipEntry.name, function (err, data) {
 	
-							if (err) callback();
+						if (err) callback();
+						console.log(zipEntry.name);
+						$("#init-status").html(i18n.__("Status: Importing file") + " " +  zipEntry.name);
 
-							processJSON(JSON.parse(data), function(err,data) {
-								fs.unlink("./src/app/db/"+zipEntry.name);
-								callback();
-							});						
+						processJSON(JSON.parse(data), function(err,data) {
+								
+							$("#init-status").html(i18n.__("Status: Imported successfully") + " " +  zipEntry.name);
 
-						});
-
-
-					}, function(err) {
-
-						fs.unlink("./src/app/db/latest.zip");
-						console.log("initDB done");
-						cb();
+							fs.unlink("./src/app/db/"+zipEntry.name);
+							callback();
+						});						
 
 					});
+
+				}, function(err) {
+
+					$("#init-status").html(i18n.__("Status: Launching applicaion... "));
+					$("#initbar-contents").animate({ width: "90%" }, 4000, 'swing');
+					fs.unlink("./src/app/db/latest.zip");
+					console.log("initDB done");
+					cb();
 
 				});
 
 			});
+
 		});
 	},
 

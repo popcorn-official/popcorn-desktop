@@ -112,5 +112,10 @@
 	"Clear Cache directory after closing app?": "Clear Tmp Folder after closing app?",
 	"Only list movies in": "Only list movies in",
 	"Tmp Folder": "Tmp Folder",
-	"Clear Tmp Folder after closing app?": "Clear Tmp Folder after closing app?"
+	"Clear Tmp Folder after closing app?": "Clear Tmp Folder after closing app?",
+	"Status: Downloading API archive...": "Status: Downloading API archive...",
+	"Status: Archive downloaded successfully...": "Status: Archive downloaded successfully...",
+	"Status: Importing file": "Status: Importing file",
+	"Status: Imported successfully": "Status: Imported successfully",
+	"Status: Launching applicaion... ": "Status: Launching applicaion... "
 }
