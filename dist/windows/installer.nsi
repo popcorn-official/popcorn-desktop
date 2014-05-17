@@ -30,7 +30,7 @@ InstallDir "$PROGRAMFILES\Popcorn Time"
 InstallDirRegKey HKLM "Software\Popcorn Time" ""
 
 ;Request application privileges
-RequestExecutionLevel user
+RequestExecutionLevel admin
 
 ;Define UI settings
 !define MUI_LICENSEPAGE_BGCOLOR /GRAY
