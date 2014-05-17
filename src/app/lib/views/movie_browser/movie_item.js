@@ -50,25 +50,12 @@
         },
         showDetail: function(e) {
             e.preventDefault();
-            var SelectedMovie = new Backbone.Model(
-                {
-                    image: this.model.get('image'),
-                    torrents: this.model.get('torrents'),
-                    title: this.model.get('title'),
-                    synopsis: this.model.get('synopsis'),
-                    runtime: this.model.get('runtime'),
-                    year: this.model.get('year'),
-                    health: this.model.get('health'),
-                    subtitle: this.model.get('subtitle'),
-                    backdrop: this.model.get('backdrop'),
-                    rating: this.model.get('MovieRating'),
-                    trailer: this.model.get('trailer'),
-                    bookmarked: this.model.get('bookmarked'),
-                    imdb_id: this.model.get('ImdbCode')
-                }
-            );
-            console.log(SelectedMovie);
-            App.vent.trigger('movie:showDetail', SelectedMovie);
+
+            this.model.set('imdb_id', this.model.get('ImdbCode'));
+            this.model.set('rating', this.model.get('MovieRating'));
+            this.model.set('health', false);
+
+            App.vent.trigger('movie:showDetail', this.model);
         },
 
         toggleFavorite: function(e) {

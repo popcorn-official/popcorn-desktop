@@ -45,7 +45,6 @@
 
                         var id = movie.imdb;
                         movie.subtitle = subtitles[id];
-
                     });
 
                     if(_.isEmpty(movies)) {

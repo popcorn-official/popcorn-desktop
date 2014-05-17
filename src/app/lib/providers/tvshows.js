@@ -1,21 +1,60 @@
 (function(App) {
     "use strict";
+    var querystring = require("querystring");
+    var request = require('request');
     var Q = require('q');
 
+    var URL = false;
     var Tvshows = function() {};
+
     Tvshows.prototype.constructor = Tvshows;
 
     var queryTorrents = function(filters) {
+        
         var deferred = Q.defer();
         
-        App.db.getShows(filters, function(err, data) {
+        var params = {};
+        params.sort = 'seeds';
+        params.limit = '50';
 
-            deferred.resolve(data || []);
-            
+        if (filters.keywords) {
+            params.keywords = filters.keywords.replace(/\s/g, '% ');
+        }
+
+        if (filters.genre) {
+            params.genre = filters.genre;
+        }
+
+        if (filters.sorter && filters.sorter != 'popularity') {
+            params.sort = filters.sorter;
+        }
+
+        if (filters.page) {
+            params.set = filters.page;
+        }
+
+        if (Settings.movies_quality != "all") {
+            params.quality = Settings.movies_quality;
+        }
+        
+        var url = AdvSettings.get('tvshowApiEndpoint') + 'shows/'+filters.page+'?' + querystring.stringify(params).replace(/%E2%80%99/g,'%27');
+        
+        console.log('Api request to: ' + url);
+        request({url: url, json: true}, function(error, response, data) {
+            if(error) {
+                deferred.reject(error);
+            } else if(!data || (data.error && data.error !== 'No movies found')) {
+                var err = data? data.error: 'No data returned';
+                console.error('API error:', err);
+                deferred.reject(err);
+            } else {
+                deferred.resolve(data || []);
+            }
         });
 
         return deferred.promise;
     };
+    
 
     Tvshows.prototype.extractIds = function(items) {
         return _.pluck(items, 'imdb_id');

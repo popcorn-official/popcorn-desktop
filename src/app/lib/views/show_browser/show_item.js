@@ -51,10 +51,7 @@
         // triggered on click only
         showDetail: function() {
 
-            App.db.getTVShow({show_id: this.model.get("_id")}, function(err, data) {
-                // we send our DB data to our view
-                App.vent.trigger('show:showDetail', new Backbone.Model(data));
-            });
+            App.vent.trigger('show:showDetail', this.model);
 
         },
 
