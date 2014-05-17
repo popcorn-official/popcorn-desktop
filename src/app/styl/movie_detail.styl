@@ -427,10 +427,9 @@
   right -12px
 
 .flag-container
-    //opasity
     z-index 2
     right: 10.1%
-    top 20px
+    top 30px
     position relative
     float right
     max-width: 36%
@@ -442,24 +441,20 @@
 
 .flag
   z-index 2
-  margin-top 6px
-  margin-left 6px
-  background-size 18px 12px
+  margin 4px
+  background-size 22px 16px
   position relative
   float right
   cursor pointer
   background-image url('../images/none.png')
-  width 18px
-  height 12px
-  -moz-border-radius 1px
-  -webkit-border-radius 1px
-  border-radius 1px
-  -moz-background-clip padding
-  -webkit-background-clip padding-box
+  width 22px
+  height 16px
   &.NA
     background-image url('../images/none.png')
   &.toggle
     top: -7px
+    border-radius: 0
+    background-color: transparent
   &.bn
     background-image url('../images/bengali.png')
   &.bs

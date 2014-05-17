@@ -85,7 +85,7 @@ App.Localization.langcodes = {
 		name:"Arabic",
 		nativeName:"العربية",
 		subtitle: true,
-		encoding: ['windows-1256']
+		encoding: ['windows-1256'] // Tested
 	},
 	"an":{
 		name:"Aragonese",
@@ -127,7 +127,7 @@ App.Localization.langcodes = {
 		name:"Basque",
 		nativeName:"Euskara",
 		subtitle: true,
-        encoding: ['iso-8859-1']
+		encoding: ['iso-8859-1'] /** NEED TEST **/
 	},
 	"be":{
 		name:"Belarusian",
@@ -149,7 +149,7 @@ App.Localization.langcodes = {
 		name:"Bosnian",
 		nativeName:"Bosanski jezik",
 		subtitle: true,
-        encoding: ['windows-1250']
+		encoding: ['Windows-1250'] // Tested
 	},
 	"br":{
 		name:"Breton",
@@ -159,7 +159,7 @@ App.Localization.langcodes = {
 		name:"Bulgarian",
 		nativeName:"български език",
 		subtitle: true,
-        encoding: ['windows-1251', 'iso-8859-5']
+		encoding: ['Windows-1251'] // Tested
 	},
 	"my":{
 		name:"Burmese",
@@ -213,17 +213,19 @@ App.Localization.langcodes = {
 		name:"Croatian",
 		nativeName:"hrvatski",
 		subtitle: true,
-        encoding: ['windows-1250']
+		encoding: ['iso-8859-2'] // Tested
 	},
 	"cs":{
 		name:"Czech",
 		nativeName:"Český",
-		subtitle: true
+		subtitle: true,
+		encoding: ['iso-8859-2'] // Tested
 	},
 	"da":{
 		name:"Danish",
 		nativeName:"Dansk",
-		subtitle: true
+		subtitle: true,
+		encoding: ['iso-8859-1'] // Tested
 	},
 	"dv":{
 		name:"Divehi",
@@ -233,12 +235,13 @@ App.Localization.langcodes = {
 		name:"Dutch",
 		nativeName:"Nederlands",
 		subtitle: true,
-        encoding: ['iso-8859-1']
+		encoding: ['iso-8859-1'] // Tested
 	},
 	"en":{
 		name:"English",
 		nativeName:"English",
-		subtitle: true
+		subtitle: true,
+		encoding: ['iso-8859-1'] // Tested
 	},
 	"eo":{
 		name:"Esperanto",
@@ -247,7 +250,8 @@ App.Localization.langcodes = {
 	"et":{
 		name:"Estonian",
 		nativeName:"Eesti",
-		subtitle: true
+		subtitle: true,
+		encoding: ['iso-8859-4'] /** NEED TEST **/
 	},
 	"ee":{
 		name:"Ewe",
@@ -265,13 +269,13 @@ App.Localization.langcodes = {
 		name:"Finnish",
 		nativeName:"Suomi",
 		subtitle: true,
-        encoding: ['iso-8859-1']
+		encoding: ['iso-8859-1'] // Tested
 	},
 	"fr":{
 		name:"French",
 		nativeName:"Français",
 		subtitle: true,
-        encoding: ['iso-8859-1']
+		encoding: ['iso-8859-1'] // Tested
 	},
 	"ff":{
 		name:"Fula",
@@ -289,13 +293,13 @@ App.Localization.langcodes = {
 		name:"German",
 		nativeName:"Deutsch",
 		subtitle: true,
-        encoding: ['iso-8859-1']
+		encoding: ['iso-8859-1'] /** NEED TEST **/
 	},
 	"el":{
 		name:"Modern Greek",
 		nativeName:"Ελληνικά",
 		subtitle: true,
-        encoding: ['iso-8859-7']
+		encoding: ['iso-8859-7'] // Tested
 	},
 	"gn":{
 		name:"Guaraní",
@@ -317,7 +321,7 @@ App.Localization.langcodes = {
 		name:"Hebrew (modern)",
 		nativeName:"עברית",
 		subtitle: true,
-        encoding: ['windows-1255']
+		encoding: ['iso-8859-8'] // Tested
 	},
 	"hz":{
 		name:"Herero",
@@ -335,7 +339,7 @@ App.Localization.langcodes = {
 		name:"Hungarian",
 		nativeName:"Magyar",
 		subtitle: true,
-        encoding: ['iso-8859-2']
+		encoding: ['iso-8859-2'] // Tested
 	},
 	"ia":{
 		name:"Interlingua",
@@ -372,7 +376,8 @@ App.Localization.langcodes = {
 	"it":{
 		name:"Italian",
 		nativeName:"Italiano",
-		subtitle: true
+		subtitle: true,
+		encoding: ['iso-8859-1'] // Tested
 	},
 	"iu":{
 		name:"Inuktitut",
@@ -469,7 +474,8 @@ App.Localization.langcodes = {
 	"lt":{
 		name:"Lithuanian",
 		nativeName:"lietuvių kalba",
-		subtitle: true
+		subtitle: true,
+		encoding: ['iso-8859-4'] /** NEED TEST **/
 	},
 	"lu":{
 		name:"Luba-Katanga",
@@ -593,12 +599,15 @@ App.Localization.langcodes = {
 	},
 	"fa":{
 		name:"Persian",
-		nativeName:"فارسی"
+		nativeName:"فارسی",
+		subtitle: true,
+		encoding: ['Windows-1256'] // Tested
 	},
 	"pl":{
 		name:"Polish",
 		nativeName:"Polski",
-		subtitle: true
+		subtitle: true,
+		encoding: ['iso-8859-2'] // Tested
 	},
 	"ps":{
 		name:"Pashto",
@@ -608,19 +617,19 @@ App.Localization.langcodes = {
 		name:"Portuguese",
 		nativeName:"Português",
 		subtitle: true,
-        encoding: ['iso-8859-1']
+		encoding: ['iso-8859-1'] // Tested
 	},
 	"pb":{
 		name:"Portuguese (Brazil)",
 		nativeName:"Português (Brasil)",
 		subtitle: true,
-        encoding: ['iso-8859-1']
+		encoding: ['iso-8859-1'] // Tested
 	},
 	"pt-br":{
 		name:"Portuguese (Brazil)",
 		nativeName:"Português (Brasil)",
 		subtitle: true,
-        encoding: ['iso-8859-1']
+		encoding: ['iso-8859-1'] // Tested
 	},
 	"qu":{
 		name:"Quechua",
@@ -638,13 +647,13 @@ App.Localization.langcodes = {
 		name:"Romanian",
 		nativeName:"română",
 		subtitle: true,
-        encoding: ['iso-8859-16']
+		encoding: ['iso-8859-2'] // Tested
 	},
 	"ru":{
 		name:"Russian",
 		nativeName:"русский язык",
 		subtitle: true,
-		encoding: ['windows-1251', 'iso-8859-5']
+		encoding: ['Windows-1251'] // Tested
 	},
 	"sa":{
 		name:"Sanskrit (Saṁskṛta)",
@@ -674,7 +683,7 @@ App.Localization.langcodes = {
 		name:"Serbian",
 		nativeName:"српски језик",
 		subtitle: true,
-        encoding: ['windows-1250']
+		encoding: ['Windows-1251'] // Tested
 	},
 	"gd":{
 		name:"Scottish Gaelic",
@@ -696,7 +705,7 @@ App.Localization.langcodes = {
 		name:"Slovene",
 		nativeName:"slovenščina",
 		subtitle: true,
-        encoding: ['windows-1250']
+		encoding: ['windows-1250'] // Tested
 	},
 	"so":{
 		name:"Somali",
@@ -710,7 +719,7 @@ App.Localization.langcodes = {
 		name:"Spanish",
 		nativeName:"Español",
 		subtitle: true,
-		encoding: ['iso-8859-1'],
+		encoding: ['iso-8859-1'], // Tested
 		keywords: ['@TSF','aRGENTeaM']
 	},
 	"su":{
@@ -773,7 +782,7 @@ App.Localization.langcodes = {
 		name:"Turkish",
 		nativeName:"Türkçe",
 		subtitle: true,
-        encoding: ['iso-8859-9']
+		encoding: ['iso-8859-9'] // Tested
 	},
 	"ts":{
 		name:"Tsonga",
@@ -799,7 +808,7 @@ App.Localization.langcodes = {
 		name:"Ukrainian",
 		nativeName:"українська",
 		subtitle: true,
-		encoding: ['windows-1251', 'iso-8859-5']
+		encoding: ['iso-8859-5'] /** NEED TEST **/
 	},
 	"ur":{
 		name:"Urdu",
@@ -855,9 +864,10 @@ App.Localization.langcodes = {
 	},
 	"zh": {
 		name:"Chinese",
-        nativeName:"中文",
-        subtitle: true
-    }
+		nativeName:"中文",
+		subtitle: false,
+		encoding: ['GB18030'] /** CANT FIND A PROPER ENCODING. Tested: UTF8/UTF16/CP936/GB2312/GB2313/GB18030/Windows936/Big5 **/
+	}
 };
 
 // Handles language detection and internationalization

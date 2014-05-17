@@ -239,7 +239,7 @@ vjs.TextTrack.prototype.load = function(){
 
       var charset = charsetDetect.detect(dataBuff);
       var detectedEncoding = charset.encoding;
-
+		console.log("detectedEncoding: "+detectedEncoding);
       // Do we need decoding?
       if (detectedEncoding == targetEncodingCharset || detectedEncoding == targetCharset) {
         callback(dataBuff.toString('utf-8'));
@@ -250,17 +250,18 @@ vjs.TextTrack.prototype.load = function(){
         // Windows-1251/2/IBM855 works fine when read from a file (like it's UTF-8), but if you try to convert it you'll ruin the encoding.
         // Just save it again, and it'll be stored as UTF-8. At least on Windows.
 
-        if ( detectedEncoding == 'IBM855' || detectedEncoding == 'windows-1250' || detectedEncoding == 'windows-1251' || detectedEncoding == 'windows-1252' || detectedEncoding == 'windows-1255' || detectedEncoding == 'windows-1254' ) {
+        if ( detectedEncoding == 'UTF-16LE' || detectedEncoding == 'MacCyrillic' || detectedEncoding == 'IBM855' || detectedEncoding == 'windows-1250' || detectedEncoding == 'windows-1251' || detectedEncoding == 'windows-1252' || detectedEncoding == 'windows-1255' || detectedEncoding == 'windows-1254' ) {
           // It's the charset detector screwing up again
           var langInfo = App.Localization.langcodes[language] || {}; 
           var expected = langInfo.encoding;
+		  console.log("expected: "+expected);
           if (expected && expected.indexOf(detectedEncoding) < 0) {
             // The detected encoding was unexepected to the language, so we'll use the most common
             // encoding for that language instead.
             detectedEncoding = expected[0];
           }
         }
-
+		console.log("finalexpected: "+expected);
         dataBuff = iconv.encode( iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset );
         callback(dataBuff.toString('utf-8'));
       }
