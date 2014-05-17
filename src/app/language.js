@@ -752,7 +752,9 @@ App.Localization.langcodes = {
 	},
 	"th":{
 		name:"Thai",
-		nativeName:"ไทย"
+		nativeName:"ไทย",
+		subtitle: true,
+		encoding: ['windows-874', 'iso-8859-11']
 	},
 	"ti":{
 		name:"Tigrinya",
