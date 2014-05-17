@@ -26,7 +26,8 @@ SetCompressor /SOLID lzma
 !define UNINSTALLPATH "Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn-Time"
 
 ;Default installation folder
-InstallDir "$APPDATA\Popcorn Time"
+InstallDir "$PROGRAMFILES\Popcorn Time"
+InstallDirRegKey HKLM "Software\Popcorn Time" ""
 
 ;Request application privileges
 RequestExecutionLevel user
@@ -37,7 +38,7 @@ RequestExecutionLevel user
 !define MUI_ICON "..\..\src\app\images\popcorntime.ico"
 !define MUI_UNICON "..\..\src\app\images\popcorntime.ico"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
 !define MUI_ABORTWARNING
 !define MUI_FINISHPAGE_RUN
 !define MUI_FINISHPAGE_RUN_TEXT "Start Popcorn Time"
@@ -48,6 +49,7 @@ RequestExecutionLevel user
 ;Define the pages
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "LICENSE.txt"
+!insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
 
@@ -123,6 +125,29 @@ AutoCloseWindow false
 ShowInstDetails show
 ShowUninstDetails show
 
+Function .onInit
+ 
+  ReadRegStr $R0 HKLM "${UNINSTALLPATH}" "UninstallString"
+  StrCmp $R0 "" done
+ 
+  MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION "Popcorn Time is already installed. \
+  $\n$\nClick `OK` to uninstall previous version or `Cancel` to abort this upgrade." \
+  IDOK uninstall
+  Abort
+ 
+;Run the uninstaller
+uninstall:
+  ClearErrors
+  ExecWait '$R0'
+ 
+  IfErrors abort done
+  abort:
+    Abort
+ 
+done:
+ 
+FunctionEnd
+
 Section ; App Files
 	
 	RMDir /r "$INSTDIR"
@@ -131,10 +156,10 @@ Section ; App Files
 	SetOutPath "$INSTDIR"
 
 	;Add the files
-	File "..\..\package.json" "..\..\README.md" "..\..\LICENSE.txt"
+	File "..\..\package.json" "..\..\README.md" "..\..\CHANGELOG.md" "..\..\LICENSE.txt"
 	File "..\..\build\cache\win\${NW_VER}\*.dll" "..\..\build\cache\win\${NW_VER}\nw.pak"
 	File "/oname=Popcorn-Time.exe" "..\..\build\cache\win\${NW_VER}\nw.exe"
-	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test" /x "bin" /x ".*" "..\..\node_modules"
+	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test" /x "tests" /x "docs" /x "example" /x "examples" /x "demo" /x "bin" /x ".*" "..\..\node_modules"
 	SetOutPath "$INSTDIR\src"
 	File /r /x "tvshows.json" "..\..\src\*.*"
 	
@@ -178,7 +203,7 @@ Section ; Shortcuts
 SectionEnd
 
 Section "uninstall" ; Uninstaller
-
+	
 	RMDir /r "$INSTDIR"
 	RMDir /r "$SMPROGRAMS\Popcorn Time"
 	Delete "$DESKTOP\Popcorn Time.lnk"

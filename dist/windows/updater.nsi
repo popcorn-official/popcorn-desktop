@@ -23,7 +23,8 @@ CRCCheck on
 SetCompressor /SOLID lzma
 
 ;Default installation folder
-InstallDir "$APPDATA\Popcorn Time"
+InstallDir "$PROGRAMFILES\Popcorn Time"
+InstallDirRegKey HKLM "Software\Popcorn Time" ""
 
 ;Request application privileges
 RequestExecutionLevel user
@@ -127,8 +128,8 @@ Section ; App Files
 	SetOutPath "$INSTDIR"
 
 	;Add the files
-	File "..\..\package.json" "..\..\README.md" "..\..\LICENSE.txt"
-	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test" /x "bin" /x ".*" "..\..\node_modules"
+	File "..\..\package.json" "..\..\README.md" "..\..\CHANGELOG.md" "..\..\LICENSE.txt"
+	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test" /x "tests" /x "docs" /x "example" /x "examples" /x "demo" /x "bin" /x ".*" "..\..\node_modules"
 	SetOutPath "$INSTDIR\src"
 	File /r "..\..\src\*.*"
 
