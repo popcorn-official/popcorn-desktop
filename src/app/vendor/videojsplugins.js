@@ -239,7 +239,7 @@ vjs.TextTrack.prototype.load = function(){
 
       var charset = charsetDetect.detect(dataBuff);
       var detectedEncoding = charset.encoding;
-		console.log("detectedEncoding: "+detectedEncoding);
+      //console.log("detectedEncoding: "+detectedEncoding);
       // Do we need decoding?
       if (detectedEncoding == targetEncodingCharset || detectedEncoding == targetCharset) {
         callback(dataBuff.toString('utf-8'));
@@ -254,14 +254,14 @@ vjs.TextTrack.prototype.load = function(){
           // It's the charset detector screwing up again
           var langInfo = App.Localization.langcodes[language] || {}; 
           var expected = langInfo.encoding;
-		  console.log("expected: "+expected);
+		  //console.log("expected: "+expected);
           if (expected && expected.indexOf(detectedEncoding) < 0) {
             // The detected encoding was unexepected to the language, so we'll use the most common
             // encoding for that language instead.
             detectedEncoding = expected[0];
           }
         }
-		console.log("finalexpected: "+expected);
+        //console.log("finalexpected: "+expected);
         dataBuff = iconv.encode( iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset );
         callback(dataBuff.toString('utf-8'));
       }
