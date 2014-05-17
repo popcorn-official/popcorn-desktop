@@ -5,7 +5,8 @@
     var request = require('request');
     var Q = require('q');
 
-    var baseUrl = 'http://api.yifysubtitles.com/subs/';
+    var baseUrl = 'http://api.ysubs.com/subs/';
+    var mirrorUrl = 'http://api.yifysubtitles.com/subs/';
     var prefix = 'http://www.ysubs.com';
 
     var TTL = 1000 * 60 * 60 * 4; // 4 hours
@@ -18,21 +19,24 @@
     YSubs.prototype.constructor = YSubs;
 
     var querySubtitles = function(imdbIds) {
-        var url = baseUrl + _.map(imdbIds.sort(), function(id){return 'tt'+id;}).join('-');
-
         if(_.isEmpty(imdbIds)) {
             return {};
         }
+		
+        var url = baseUrl + _.map(imdbIds.sort(), function(id){return 'tt'+id;}).join('-');
+        var mirrorurl = mirrorUrl + _.map(imdbIds.sort(), function(id){return 'tt'+id;}).join('-');
 
         var deferred = Q.defer();
 
         request({url:url, json: true}, function(error, response, data){
-            if(error) {
-                deferred.reject(error);
-			} else if (response.statusCode != 200){
-				deferred.reject(error);
-            } else if (!data || !data.success) {
-                deferred.reject(error);
+            if(error || response.statusCode != 200 || !data || !data.success) {
+                request({url:mirrorurl, json: true}, function(error, response, data){
+                    if(error || response.statusCode != 200 || !data || !data.success) {
+                        deferred.reject(error);
+                    } else {
+                        deferred.resolve(data);
+                    }
+                });
             } else {
                 deferred.resolve(data);
             }
