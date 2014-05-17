@@ -71,7 +71,7 @@
                 value = field.val();
                 break;
 			case 'temporaryDirectory':
-				value = field.val();
+				value = path.join(field.val(), 'Popcorn-Time');
 				break;
 			default:
 				console.log('Setting not defined: '+field.attr('name'));
