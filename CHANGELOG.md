@@ -1,26 +1,26 @@
-6a1dfb0 [NEW] Added mirror failback to yify subtitles.
-27a0849 [FIX] Subtitles encode fixes.
-7414a9a [FIX] Copy stream URL to clipboard directly. Press U.
-00804cb [FIX] Catch exception to prevent blocking on initDb
-14c035b [FIX] Rebuild the initDB to download a ZIP with multiple file
-9f237ce [FIX] Description pass behind the "Watch" button
-2b2f249 [NEW] Add icons and links to about dialog
-ec83b30 [FIX] Fix watched list.
-b4a823d [NEW] Add methods to mark movie as watched
-f6e2083 [NEW] Added quality filter for movies
-02f8b27 [FIX] Cant use scrollbar #420
-e01f441 [FIX] movie list after close movie
-f9602f4 [FIX] Glitches, jumps, lag in TV Shows, Performance gain in Movies
-636d68d [FIX] Scrollbar issues on episode descriptions
-747755c [FIX] Top menu hidden in TV Shows
-7a3fb4d [FIX] Greek subtitles encoding
-30b6136 [NEW] Added Advanced Settings with Connection, DHT, Tmp Folder options
-f8569d8 [FIX] Pressing 'escape' cancels/stops download on "Downloading" screen
-1a56f64 [NEW] Pressing 'escape' closes modals
-2e4167e [NEW] Added a help view for keyboard shortcuts. Press ?
-8b632e8 [FIX] TV Show search keywords can be in any order
-4b90f70 [FIX] Close movie detail on search
-597de42 [NEW] Subtitles are search by filename for better results
-37be4be [NEW] Draggable subtitles. Move subtitles around the player.
-66efa9b [FIX] Portuguese subtitle encoding.
-17c62fb [NEW] Better init screen
+- 6a1dfb0 [NEW] Added mirror failback to yify subtitles.
+- 27a0849 [FIX] Subtitles encode fixes.
+- 7414a9a [FIX] Copy stream URL to clipboard directly. Press U.
+- 00804cb [FIX] Catch exception to prevent blocking on initDb
+- 14c035b [FIX] Rebuild the initDB to download a ZIP with multiple file
+- 9f237ce [FIX] Description pass behind the "Watch" button
+- 2b2f249 [NEW] Add icons and links to about dialog
+- ec83b30 [FIX] Fix watched list.
+- b4a823d [NEW] Add methods to mark movie as watched
+- f6e2083 [NEW] Added quality filter for movies
+- 02f8b27 [FIX] Cant use scrollbar #420
+- e01f441 [FIX] movie list after close movie
+- f9602f4 [FIX] Glitches, jumps, lag in TV Shows, Performance gain in Movies
+- 636d68d [FIX] Scrollbar issues on episode descriptions
+- 747755c [FIX] Top menu hidden in TV Shows
+- 7a3fb4d [FIX] Greek subtitles encoding
+- 30b6136 [NEW] Added Advanced Settings with Connection, DHT, Tmp Folder options
+- f8569d8 [FIX] Pressing 'escape' cancels/stops download on "Downloading" screen
+- 1a56f64 [NEW] Pressing 'escape' closes modals
+- 2e4167e [NEW] Added a help view for keyboard shortcuts. Press ?
+- 8b632e8 [FIX] TV Show search keywords can be in any order
+- 4b90f70 [FIX] Close movie detail on search
+- 597de42 [NEW] Subtitles are search by filename for better results
+- 37be4be [NEW] Draggable subtitles. Move subtitles around the player.
+- 66efa9b [FIX] Portuguese subtitle encoding.
+- 17c62fb [NEW] Better init screen
