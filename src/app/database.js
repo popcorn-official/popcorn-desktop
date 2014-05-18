@@ -7,8 +7,8 @@ var path = require('path');
 var openSRT = require('opensrt_js');
 var db = {};
 
-var data_path = require('nw.gui').App.dataPath;;
-console.log("Database path: " + data_path);
+var data_path = require('nw.gui').App.dataPath;
+console.debug("Database path: " + data_path);
 
 // TTL for popcorn-api DB sync
 var TTL = 1000 * 60 * 60 * 24;
@@ -346,7 +346,7 @@ var Database = {
 	},      
 
 	getSettings: function(cb) {
-		console.log("getSettings fired");
+		win.debug("getSettings() fired");
 		db.settings.find({}).exec(cb);
 	},
 
@@ -479,7 +479,7 @@ var Database = {
 							if ( (+new Date() - setting.value) > TTL ) {
 								Database.syncDB(callback);
 							} else {
-								console.log("Skiping synchronization TTL not meet");
+								win.info("Skiping synchronization TTL not meet");
 								$("#init-status").html(i18n.__("Status: Skipping synchronization TTL not met"));
 								$("#initbar-contents").animate({ width: "100%" }, 500, 'swing');
 								setTimeout(function() { callback(); },500);

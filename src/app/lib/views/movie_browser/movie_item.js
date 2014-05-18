@@ -67,7 +67,7 @@
                     imdb_id: this.model.get('ImdbCode')
                 }
             );
-            console.log(SelectedMovie);
+            win.debug('Selected Movie', SelectedMovie);
             App.vent.trigger('movie:showDetail', SelectedMovie);
         },
 

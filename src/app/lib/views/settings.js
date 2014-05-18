@@ -7,8 +7,8 @@
 
         ui: {
             success_alert: '.success_alert',
-            fakeTempDir: '#fakeTemporaryDirectory',
-            tempDir: '#temporaryDirectory',
+            fakeTempDir: '#faketmpLocation',
+            tempDir: '#tmpLocation',
         },
 
         events: {
@@ -17,8 +17,8 @@
             'click .rebuild-tvshows-database': 'rebuildTvShows',
             'click .flush-bookmarks': 'flushBookmarks',
             'click .flush-databases': 'flushAllDatabase',
-            'click #fakeTemporaryDirectory' : 'showCacheDirectoryDialog',
-			'change #temporaryDirectory' : 'updateCacheDirectory',
+            'click #faketmpLocation' : 'showCacheDirectoryDialog',
+			'change #tmpLocation' : 'updateCacheDirectory',
         },
 
         onShow: function() {
@@ -67,17 +67,15 @@
 				break;
             case 'connectionLimit':
             case 'dhtLimit':
-            case 'tmpLocation':
                 value = field.val();
                 break;
-			case 'temporaryDirectory':
+			case 'tmpLocation':
 				value = path.join(field.val(), 'Popcorn-Time');
 				break;
 			default:
-				console.log('Setting not defined: '+field.attr('name'));
+				win.warn('Setting not defined: '+field.attr('name'));
 			}
-			
-			console.log('Setting changed: ' + field.attr('name') + ' - ' + value);
+			win.info('Setting changed: ' + field.attr('name') + ' - ' + value);
             
             // update active session
             App.settings[field.attr('name')] = value;
@@ -179,11 +177,9 @@
         {
             // feel free to improve/change radically!
             var that = this;
-            var field = $('#temporaryDirectory');
-            var size  = field.val().length * 2.5;
+            var field = $('#tmpLocation');
             that.ui.fakeTempDir.val = field.val();  // set the value to the styled textbox
             that.render();
-            that.ui.fakeTempDir.css('width', size * 3);
         },
     });
 

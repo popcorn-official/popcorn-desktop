@@ -39,7 +39,6 @@
     Settings['language'] = false;
     Settings['subtitle_language'] = 'none'; // none by default
     Settings['font'] = 'tahoma';
-    Settings['temporaryDirectory'] = path.join(os.tmpDir(), 'Popcorn-Time');
 
     var AdvSettings = {
 

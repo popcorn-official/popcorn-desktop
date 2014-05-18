@@ -16,7 +16,7 @@
     }
 
 
-    console.debug('Testing if we should check for update...', testInstalled());
+    win.debug('Testing if we should check for update...', testInstalled());
     if(testInstalled()) {
         var request = require('request')
           , fs = require('fs')

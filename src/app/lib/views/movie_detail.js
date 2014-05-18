@@ -31,7 +31,7 @@
             // TODO: use the default in settings
             this.subtitle_selected = false;
 
-            console.log('Show movie detail', this.model);
+            win.info('Show movie detail');
 
             var torrents = this.model.get('torrents');
 
@@ -116,26 +116,25 @@
 
         enableHD: function () {
             var torrents = this.model.get('torrents');
-            console.logger.debug('HD Enabled');
+            win.info('HD Enabled');
 
             if (torrents['1080p'] !== undefined) {
                 torrents = this.model.get('torrents');
                 this.model.set('quality', torrents['1080p'].url);
                 this.calcHealth(torrents['1080p']);
-                console.logger.debug(this.model.get('quality'));
+                win.debug(this.model.get('quality'));
             }
         },
 
         disableHD: function () {
             var torrents = this.model.get('torrents');
-            console.logger.debug('HD Disabled');
-            console.logger.log(torrents['720p']);
+            win.info('HD Disabled');
 
             if (torrents['720p'] !== undefined) {
                 torrents = this.model.get('torrents');
                 this.model.set('quality', torrents['720p'].url);
                 this.calcHealth(torrents['720p']);
-                console.logger.debug(this.model.get('quality'));
+                win.debug(this.model.get('quality'));
             }
         },
 
@@ -174,7 +173,7 @@
             $(".sub-dropdown-arrow-down").show();
             $(".sub-dropdown-arrow-up").hide();
 
-            console.log("Subtitle: " + this.subtitle_selected);
+            win.info("Subtitle: " + this.subtitle_selected);
         }
     });
 })(window.App);

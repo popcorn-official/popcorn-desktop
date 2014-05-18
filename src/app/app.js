@@ -31,10 +31,33 @@ var
 
     moment = require('moment');
 
+// Special Debug Console Calls!
+win.log = console.log.bind(console);
+win.debug = function() {
+	var params = Array.prototype.slice.call(arguments, 1);
+	params.unshift('%c[%cDEBUG%c] %c' + arguments[0], 'color: black;', 'color: green;', 'color: black;', 'color: blue;');
+	console.debug.apply(console, params);
+}
+win.info = function() {
+	var params = Array.prototype.slice.call(arguments, 1);
+	params.unshift('[%cINFO%c] ' + arguments[0], 'color: blue;', 'color: black;');
+	console.info.apply(console, params);
+}
+win.warn = function() {
+	var params = Array.prototype.slice.call(arguments, 1);
+	params.unshift('[%cWARNING%c] ' + arguments[0], 'color: orange;', 'color: black;');
+	console.warn.apply(console, params);
+}
+win.error = function() {
+	var params = Array.prototype.slice.call(arguments, 1);
+	params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: red;', 'color: black;');
+	console.error.apply(console, params);
+}
+
 // Load in external templates
 _.each(document.querySelectorAll('[type="text/x-template"]'), function(el) {
     $.get(el.src, function(res) { el.innerHTML = res });
-})
+});
 
 // Global App skeleton for backbone
 var App = new Backbone.Marionette.Application();
@@ -81,10 +104,9 @@ if(process.platform === 'win32' && parseFloat(os.release(), 10) > 6.1) {
 
 */
 // Create the System Temp Folder. This is used to store temporary data like movie files.
-if( ! fs.existsSync(App.settings.temporaryDirectory) ) { fs.mkdir(App.settings.temporaryDirectory); }
+if( ! fs.existsSync(App.settings.tmpLocation) ) { fs.mkdir(App.settings.tmpLocation); }
 
 deleteFolder = function(path) {
-    if( !App.settings.deleteTmpOnClose ) return;
 	if( typeof path != 'string' ) return;
 	try {
 		var files = [];
@@ -101,13 +123,14 @@ deleteFolder = function(path) {
 			fs.rmdirSync(path);
 		}
 	} catch(err) {
-		console.log('deleteFolder()',err);
+		win.error('deleteFolder()', err);
 	}
 }
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
 win.on('close', function(){
-    deleteFolder(App.settings.temporaryDirectory);
+    if( App.settings.deleteTmpOnClose )
+        deleteFolder(App.settings.tmpLocation);
     win.close(true);
 });
 
@@ -122,38 +145,19 @@ String.prototype.capitalizeEach = function() {
 // Developer Shortcuts
 Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function(e) {
 	win.showDevTools(); 
-})
+});
 Mousetrap.bind('f11', function(e) { 
 	win.reloadIgnoringCache(); 
 });
 Mousetrap.bind(['?', '/', '\''], function(e) {
-    App.vent.trigger('help:toggle');
     e.preventDefault();
-    return false;
-})
-
-// Special Debug Console Calls!
-console.logger = {};
-console.logger.log = console.log.bind(console);
-console.logger.debug = function() {
-	var params = Array.prototype.slice.call(arguments, 1);
-	params.unshift('%c[%cDEBUG%c] ' + arguments[0], 'color: black;', 'color: #00eb76;', 'color: black;');
-	console.debug.apply(console, params);
-}
-console.logger.info = function() {
-	var params = Array.prototype.slice.call(arguments, 1);
-	params.unshift('[%cINFO%c] ' + arguments[0], 'color: blue;', 'color: black;');
-	console.info.apply(console, params);
-}
-console.logger.warn = function() {
-	var params = Array.prototype.slice.call(arguments, 1);
-	params.unshift('[%cWARNING%c] ' + arguments[0], 'color: #ffc000;', 'color: black;');
-	console.warn.apply(console, params);
-}
-console.logger.error = function() {
-	var params = Array.prototype.slice.call(arguments, 1);
-	params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: #ff1500;', 'color: black;');
-	console.error.apply(console, params);
+    App.vent.trigger('help:toggle');
+});
+if (process.platform == 'darwin') {
+    Mousetrap.bind('command+ctrl+f', function(e) {
+		e.preventDefault();
+        win.toggleFullscreen();
+    });
 }
 
 
