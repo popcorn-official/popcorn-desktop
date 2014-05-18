@@ -73,7 +73,7 @@
                 this.video = videojs('video_player', { techOrder: ["youtube"], forceSSL: true, ytcontrols: false, quality: '720p' });
                 this.ui.eyeInfo.hide();
             } else {
-                this.video = videojs('video_player', { nativeControlsForTouch: false, plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {}, progressTips: {} }});
+                this.video = videojs('video_player', { nativeControlsForTouch: false, plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {}, progressTips: {}, dropSubtitles: {} }});
             }
 
             var player = this.video.player();
