@@ -31,13 +31,13 @@
             Mousetrap.bind('esc', function(e) {
                 that.cancelStreaming();
             });
-            console.log('Loading torrent');
+            win.info('Loading torrent');
             this.listenTo(this.model, 'change:state', this.onStateUpdate);
         },
 
         onStateUpdate: function() {
             var state = this.model.get('state');
-            console.log('Loading torrent:', state);
+            win.info('Loading torrent:', state);
 
             this.ui.stateTextDownload.text(i18n.__(state));
 

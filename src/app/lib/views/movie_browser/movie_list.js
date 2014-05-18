@@ -71,6 +71,7 @@
         },
 
         onLoaded: function() {
+			console.timeEnd("App startup time")
             var self = this;
             this.checkEmpty();
 

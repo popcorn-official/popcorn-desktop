@@ -42,7 +42,7 @@
                     });
 
                     if(_.isEmpty(movies)) {
-                        console.log('hasMore = false');
+                        win.debug('hasMore = false');
                         self.hasMore = false;
                     }
 
@@ -54,12 +54,12 @@
                 .catch(function(err) {
                     self.state = 'error';
                     self.trigger('loaded', self, self.state);
-                    console.error(err, err.stack);
+                    win.error(err.message, err.stack);
                 });
         },
 
          fetchMore: function() {
-            console.log('fetchMore');
+            win.debug('fetchMore');
             this.filter.page += 1;
             this.fetch();
         }

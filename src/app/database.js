@@ -7,6 +7,7 @@ var path = require('path');
 var openSRT = require('opensrt_js');
 var db = {};
 
+console.time("App startup time");
 var data_path = require('nw.gui').App.dataPath;
 console.debug("Database path: " + data_path);
 
@@ -202,7 +203,7 @@ var Database = {
 	},
 
 	initDB: function(cb) {
-
+		console.time('initDB time');
 		$("#init-status").html(i18n.__("Status: Creating Database..."));
 		db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
 
@@ -211,10 +212,10 @@ var Database = {
 
 				db.tvshows.insert(data, function (err, newDocs){
 					if(err){
-						console.log("Procession failed!");
+						win.error("Procession failed!");
 						return callback(err, null);
 					}else{
-						console.log("Done! Processed data.");
+						win.info("Done! Processed data.");
 						return callback(null, newDocs);
 					}
 				});
@@ -238,8 +239,9 @@ var Database = {
 			});
 
 			req.on('error', function(err) {
-					console.log("ZIP Download Failed");
-					return cb(err, null);
+				console.timeEnd('initDB time');
+				win.error("ZIP Download Failed");
+				return cb(err, null);
 			});
 
 			req.on('end', function() {
@@ -261,7 +263,7 @@ var Database = {
 						fs.readFile("./src/app/db/"+zipEntry.name, function (err, data) {
 		
 							if (err) callback();
-							console.log(zipEntry.name);
+							win.debug(zipEntry.name);
 							$("#init-status").html(i18n.__("Status: Importing file") + " " +  zipEntry.name);
 
 							processJSON(JSON.parse(data), function(err,data) {
@@ -275,18 +277,19 @@ var Database = {
 						});
 
 					}, function(err) {
-
+					
+						console.timeEnd('initDB time');
 						$("#init-status").html(i18n.__("Status: Launching applicaion... "));
 						$("#initbar-contents").animate({ width: "90%" }, 4000, 'swing');
 						fs.unlink("./src/app/db/latest.zip");
-						console.log("initDB done");
+						win.info("initDB done!");
 						cb(null,true);
 
 					});
 
 				} catch ( e ) {
-
-					console.log("initDB failed : " + e);
+					console.timeEnd('initDB time');
+					win.error("initDB failed: " + e);
 					cb(e,null);
 				
 				}
@@ -298,9 +301,10 @@ var Database = {
 
 	// sync with updated/:since
 	syncDB: function(cb) {
+		console.time('syncDB time');
 		Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
 			var last_update = setting.value;
-			console.log("Updating database from remote api since " + last_update);
+			win.info("Updating database from remote api since " + last_update);
 			$("#init-status").html(i18n.__("Status: Updating database..."));
 			$("#initbar-contents").animate({ width: "90%" }, 3000, 'swing');
 
@@ -308,14 +312,18 @@ var Database = {
 			request(Settings.tvshowApiEndpoint + 'shows/update/' + last_update, {json: true}, function(err, res, allPages) {
 
 				// api is down? we continue anyways...
-           		if(err || !allPages) return cb("empty", null);
+           		if(err || !allPages) {
+					console.timeEnd('syncDB time');
+					win.warn("syncDB failed:", err.message);
+					return cb("empty", null);
+				}
 
 				// we'll make a query for each page
 				async.eachSeries(allPages, function(page, callback) {
 					
 					$("#init-status").html(i18n.__("Status: Updating database...") + " " + page);
 
-					console.log("Extract: " + Settings.tvshowApiEndpoint + page);
+					win.info("Extract: " + Settings.tvshowApiEndpoint + page);
 					request(Settings.tvshowApiEndpoint + page, {json: true}, function(err, res, toUpdate) {
 
 						db.tvshows.remove({ imdb_id: { $in: extractIds(toUpdate) }}, { multi: true }, function (err, numRemoved) {
@@ -327,6 +335,7 @@ var Database = {
 					});
 
 				}, function(err,data) {
+					console.timeEnd('syncDB time');
 					Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, function(err, setting) { 
 						return cb(null, setting);
 					})					

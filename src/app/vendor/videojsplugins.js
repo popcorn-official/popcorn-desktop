@@ -172,7 +172,7 @@ vjs.TextTrack.prototype.load = function(){
     this.readyState_ = 1;
 	
 	this.on('loaded', function(){
-		console.log('Subtitles loaded!');
+		win.info('Subtitle loaded!');
 		$('.vjs-subtitles.vjs-text-track').drags();
 		$('.vjs-subtitles.vjs-text-track').css('font-size', Settings.subtitle_size);
 	});
@@ -299,24 +299,21 @@ videojs.plugin('dropSubtitles', function() {
     e.preventDefault();
     e.stopPropagation();
     var files = e.dataTransfer.files;
-    //
-    console.log("Dropped [" + files.length + "] file(s) in window");
-    //
     if(files.length == 1) {
-        //
+	
         var regexAll = /[^\\]*\.(\w+)$/;
         var total = files[0].path.match(regexAll);
         var filename = total[0];
         var extension = total[1];
-        //
+		
         if(extension == "srt") {
-            console.log("Path of subtitle => [" + files[0].path + "]");
+            win.info("Subtitle dropped: " + files[0].path);
             setDroppedSubtitle(files[0].path);                    
         } else {
-            console.log("File dropped not a subtitle");
+            win.warn("File dropped is not a subtitle");
         }
     } else {
-        console.log("Too many files dropped");
+        win.warn("Too many files dropped");
         return;
     }
   })

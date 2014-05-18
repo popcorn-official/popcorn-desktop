@@ -93,7 +93,7 @@
             if(App.settings.os == 'linux')
                 updateData = updateData[App.settings.arch];
 
-            console.debug('Testing if we should install update...', checkVersion(updateData.version, App.settings.version) > 0);
+            win.debug('Testing if we should install update...', checkVersion(updateData.version, App.settings.version) > 0);
 
             // Should use SemVer here in v0.2.9 (refactor)
             // As per checkVersion, -1 == lt; 0 == eq; 1 == gt

@@ -37,15 +37,15 @@
         },
 
         closePlayer: function() {
-            console.log('Close player');
+            win.info('Player closed');
 
             // Check if >80% is watched to mark as watched by user  (maybe add value to settings
             if(this.video.currentTime() / this.video.duration() >= 0.8){
                 if(this.model.get('show_id') != null) {
-                    console.log("Mark TV Show watched");
+                    win.debug("Mark TV Show as watched");
                     App.vent.trigger('shows:watched', this.model.attributes);
                 } else if (this.model.get('movie_id') != null) {
-                    console.log("Mark Movie watched");
+                    win.debug("Mark Movie as watched");
                     App.vent.trigger('movies:watched', this.model.attributes);
 
                 } // else, it's probably a stream or something we don't know of
@@ -58,7 +58,7 @@
         onShow: function() {
 
             // Test to make sure we have title
-            console.log("Watching: " + this.model.get("title"));
+            win.info("Watching:", this.model.get("title"));
 			//$(".filter-bar").show(); 
             var _this = this;
 
@@ -94,8 +94,8 @@
 
             // There was an issue with the video
             player.on('error', function (error) {
-              // TODO: what about some more elegant error tracking
-                    console.error('Error: ',document.getElementById('video_player').player.error());
+				// TODO: user errors
+                win.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
             });
 
             // add ESC toggle when full screen
