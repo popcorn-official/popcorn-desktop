@@ -251,7 +251,7 @@ var Database = {
 			$("#init-status").html(i18n.__("Status: Archive downloaded successfully..."));
 
 			try { 
-
+				var AdmZip = require('adm-zip');
 				var zip = new AdmZip("./src/app/db/latest.zip");
 				var zipEntries = zip.getEntries();
 				$("#init-status").html(i18n.__("Status: Extracting Archive..."));
@@ -261,7 +261,7 @@ var Database = {
 				$("#init-status").html(i18n.__("Status: Creating Database..."));
 				db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
 					$("#initbar-contents").animate({ width: "75%" }, 3000, 'swing');
-					var AdmZip = require('adm-zip');
+					
 					async.eachSeries(zipEntries, function(zipEntry, callback) {
 						
 						fs.readFile("./src/app/db/"+zipEntry.name, function (err, data) {
