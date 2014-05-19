@@ -16,10 +16,10 @@
 <%
 	var subArray = [];
 	for (var lang in subtitle) {
-		if(lang == 'pb') lang = 'pt-br';
+		var langcode = lang == "pb"? "pt-br" : lang;
 		subArray.push({
-			"language": lang,
-			"languageName": (App.Localization.langcodes[lang] !== undefined ? App.Localization.langcodes[lang].nativeName : lang),
+			"language": langcode,
+			"languageName": (App.Localization.langcodes[langcode] !== undefined ? App.Localization.langcodes[langcode].nativeName : langcode),
 			"sub": subtitle[lang]
 		});
 	}
