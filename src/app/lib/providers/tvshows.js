@@ -54,7 +54,34 @@
 
         return deferred.promise;
     };
-    
+
+    // Single element query
+    var queryTorrent = function(torrent_id, callback) {
+        
+        var url = AdvSettings.get('tvshowApiEndpoint') + 'show/' + torrent_id;
+        
+        console.log('Api request to: ' + url);
+        request({url: url, json: true}, function(error, response, data) {
+            if(error) {
+
+                callback(error, false);
+
+            } else if(!data || (data.error && data.error !== 'No data returned')) {
+
+                var err = data? data.error: 'No data returned';
+                console.error('API error:', err);
+                callback(err, false);
+            
+            } else {
+
+                // we cache our new element
+                Database.addTVShow(data, function(err, idata) {
+                    callback(false, data);
+                });
+            }
+        });
+        
+    };
 
     Tvshows.prototype.extractIds = function(items) {
         return _.pluck(items, 'imdb_id');
@@ -62,6 +89,10 @@
 
     Tvshows.prototype.fetch = function(filters) {
         return queryTorrents(filters);
+    };
+
+    Tvshows.prototype.detail = function(torrent_id, callback) {
+        return queryTorrent(torrent_id, callback);
     };
 
     App.Providers.Tvshows = Tvshows;

@@ -111,8 +111,7 @@ var Database = {
 	*******     SHOWS       ********
 	*******************************/
 	addTVShow: function(data, cb) {
-		if(!data.show.episodes) data.show.episodes = [];
-		db.tvshows.insert(data.show, cb);
+		db.tvshows.insert(data, cb);
 	},
 
 	// This calls the addTVShow method as we need to setup a blank episodes array for each
@@ -459,35 +458,9 @@ var Database = {
 				// set hardware settings and usefull stuff
 				AdvSettings.setup();
 
-				// db sync with remote endpoint
-				Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
-					Database.getShowsCount(function(err, count) {
-						if (setting == null || count == 0) {
-							// we need to do a complete update
-							// this is our first launch
-							Database.initDB(function(err, setting) {
+				// we skip the initDB (not needed in current version)
+				callback();
 
-								// if failed we didnt write our last update
-								if (err) return callback();
-
-								// we write our new update time
-								Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
-							});
-						} else {
-
-							// we set a TTL of 24 hours for the DB	
-							if ( (+new Date() - setting.value) > TTL ) {
-								Database.syncDB(callback);
-							} else {
-								console.log("Skiping synchronization TTL not meet");
-								$("#init-status").html(i18n.__("Status: Skipping synchronization TTL not met"));
-								$("#initbar-contents").animate({ width: "100%" }, 500, 'swing');
-								setTimeout(function() { callback(); },500);
-							}
-
-						}
-					});
-				})
 			});
 
 		});

@@ -51,7 +51,14 @@
         // triggered on click only
         showDetail: function() {
 
-            App.vent.trigger('show:showDetail', this.model);
+            var tvshow = new (App.Providers['Tvshows'])();
+            var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
+                if (!err) App.vent.trigger('show:showDetail', new Backbone.Model(data));
+                else alert("Somethings wrong... try later");
+            });
+
+
+            
 
         },
 
