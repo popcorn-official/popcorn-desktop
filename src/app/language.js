@@ -607,7 +607,7 @@ App.Localization.langcodes = {
 		name:"Polish",
 		nativeName:"Polski",
 		subtitle: true,
-		encoding: ['iso-8859-2'] // Tested
+		encoding: ['Windows-1250'] // Tested
 	},
 	"ps":{
 		name:"Pashto",
