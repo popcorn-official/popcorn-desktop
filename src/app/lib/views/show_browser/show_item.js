@@ -56,9 +56,6 @@
                 else alert("Somethings wrong... try later");
             });
 
-
-            
-
         },
 
         toggleFavorite: function(e) {
@@ -71,7 +68,7 @@
                     that.model.set('bookmarked', false);
 
                         that.ui.bookmarkIcon.removeClass('selected');
-
+                        
                     // we'll make sure we dont have a cached show
                     Database.deleteTVShow(that.model.get('imdb_id'),function(err, data) {})
                 })

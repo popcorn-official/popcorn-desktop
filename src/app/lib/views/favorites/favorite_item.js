@@ -57,10 +57,14 @@
                 App.vent.trigger('movie:showDetail', SelectedMovie);                
 
             } else {
-                Database.getTVShowByImdb(this.model.get("imdb"), function(err, data) {
-                    // we send our DB data to our view
-                    App.vent.trigger('show:showDetail', new Backbone.Model(data));
+
+                // live call to api to get latest detail !
+                var tvshow = new (App.Config.getProvider('tvshow'))();
+                var data = tvshow.detail(this.model.get('imdb'), function(err, data) {
+                    if (!err) App.vent.trigger('show:showDetail', new Backbone.Model(data));
+                    else alert("Somethings wrong... try later");
                 });
+
             }
 
         },
