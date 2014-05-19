@@ -28,10 +28,7 @@
                     that.model.set('bookmarked', value);
 
                     if (value == true) {
-                    
                         that.ui.bookmarkIcon.addClass('selected');
-
-                        console.log(that.model.get('imdb') + " Bookmarked");
                     }
                 } else 
                     that.model.set('bookmarked', false);

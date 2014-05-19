@@ -172,6 +172,11 @@ var Database = {
 		});
 	},
 
+
+	deleteTVShow: function(imdb_id, cb) {
+		db.tvshows.remove({imdb: imdb_id}, cb);
+	},	
+
 	getTVShow: function(data, cb) {
 		db.tvshows.findOne({_id : data.show_id}, cb);
 	},

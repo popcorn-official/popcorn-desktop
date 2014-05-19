@@ -33,7 +33,7 @@
 			<form><input type="text" placeholder="<%= i18n.__("Search") %>"></form>
 		</div>
 	</li>
-	<li><button class="triggerUpdate"></button></li>
+	<!--<li><button class="triggerUpdate"></button></li>-->
 	<li><button class="favorites"></button></li>
 	<li><button class="about"></button></li>
 	<li><button class="settings"></button></li>
