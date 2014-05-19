@@ -136,6 +136,25 @@
                         });
                     }
 					
+                    var handleTorrent_fnc = function(){
+                        // TODO: We should passe the movie / tvshow imdbid instead
+                        // and read from the player
+                        // so from there we can use the previous next etc
+                        // and use all available function with the right imdb id
+
+                        var torrentInfo = {
+                            info: torrent,
+                            subtitle: model.get('subtitle'),
+                            defaultSubtitle: model.get('defaultSubtitle'),
+                            title: title,
+                            show_id: model.get('show_id'),
+                            episode: model.get('episode'),
+                            season: model.get('season')
+                        };
+
+                        handleTorrent(torrentInfo, stateModel);
+                    }
+					
                     if (typeof extractSubtitle == 'object') {
                         extractSubtitle.filename = torrent.name;
                         
@@ -149,9 +168,11 @@
                         
                         getSubtitles(extractSubtitle);
                     }
+
                     //Try get subtitles for custom torrents
                     var title = model.get('title');
                     if(!title) { //From ctrl+v magnet or drag torrent
+                        model.set('defaultSubtitle', Settings.subtitle_language);
                         var sub_data = {};
                         title = $.trim( torrent.name.replace('[rartv]','').replace('[PublicHD]','').replace('[ettv]','').replace('[eztv]','') );
                         sub_data.filename = title;
@@ -159,31 +180,29 @@
                         if(se_re != null){
                             var tvshowname = $.trim( se_re[1].replace(/\./g,' ') );
                             App.db.getImdbByTVShow(tvshowname, function(err, show) {
+                                $('.loading-background').css('background-image', 'url('+show.images.fanart+')');
                                 sub_data.imdbid = show.imdb_id;
-                                sub_data.season = Number(se_re[2]);
-                                sub_data.episode = Number(se_re[3]);
+                                sub_data.season = Number(se_re[2]).toString();
+                                sub_data.episode = Number(se_re[3]).toString();
                                 getSubtitles(sub_data);
+                                model.set('show_id', show.tvdb_id);
+                                model.set('episode', sub_data.season);
+                                model.set('season', sub_data.episode);
+                                for(var episode in show.episodes) {
+                                    var ep = show.episodes[episode];
+                                    if(ep.season == Number(se_re[2]) && ep.episode == Number(se_re[3])) {
+                                        title = show.title + ' - ' + i18n.__('Season') + ' ' + ep.season + ', ' + i18n.__('Episode') + ' ' + ep.episode + ' - ' + ep.title;
+                                    }
+                                }
+                                handleTorrent_fnc();
                             });
                         }else{
                             getSubtitles(sub_data);
+                            handleTorrent_fnc();
                         }
+                    } else {
+                        handleTorrent_fnc();
                     }
-                    // TODO: We should passe the movie / tvshow imdbid instead
-                    // and read from the player
-                    // so from there we can use the previous next etc
-                    // and use all available function with the right imdb id
-
-                    var torrentInfo = {
-                        info: torrent,
-                        subtitle: model.get('subtitle'),
-                        defaultSubtitle: model.get('defaultSubtitle'),
-                        title: title,
-                        show_id: model.get('show_id'),
-                        episode: model.get('episode'),
-                        season: model.get('season')
-                    };
-
-                    handleTorrent(torrentInfo, stateModel);
                 }
             });
         },
