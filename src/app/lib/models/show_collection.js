@@ -8,7 +8,7 @@
 
         initialize: function(models, options) {
             this.providers = {
-                torrent: new (App.Providers['Tvshows'])(),
+                torrent: new (App.Config.getProvider('tvshow'))(),
                 subtitle: new (App.Config.getProvider('subtitle'))(),
                 metadata: new (App.Config.getProvider('metadata'))()
             };
@@ -45,7 +45,6 @@
 
                         var id = movie.imdb;
                         movie.subtitle = subtitles[id];
-
                     });
 
                     if(_.isEmpty(movies)) {

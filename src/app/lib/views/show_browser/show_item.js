@@ -50,11 +50,14 @@
 
         // triggered on click only
         showDetail: function() {
-
-            App.db.getTVShow({show_id: this.model.get("_id")}, function(err, data) {
-                // we send our DB data to our view
-                App.vent.trigger('show:showDetail', new Backbone.Model(data));
+            var tvshow = new (App.Config.getProvider('tvshow'))();
+            var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
+                if (!err) App.vent.trigger('show:showDetail', new Backbone.Model(data));
+                else alert("Somethings wrong... try later");
             });
+
+
+            
 
         },
 
@@ -62,17 +65,32 @@
             e.stopPropagation();
             e.preventDefault();
             var that = this;
-
             if (this.model.get('bookmarked') == true) {
                 Database.deleteBookmark(this.model.get('imdb_id'), function(err, data) {
+                    console.log("Bookmark deleted");
                     that.model.set('bookmarked', false);
-                    that.ui.bookmarkIcon.removeClass('selected');
+
+                        that.ui.bookmarkIcon.removeClass('selected');
+
+                    // we'll make sure we dont have a cached show
+                    Database.deleteTVShow(that.model.get('imdb_id'),function(err, data) {})
                 })
             } else {
-                Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function(err, data) {
-                    that.model.set('bookmarked', true);
-                    that.ui.bookmarkIcon.addClass('selected');
-                })
+                var tvshow = new (App.Config.getProvider('tvshow'))();
+                var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
+                    if (!err) {
+                        Database.addTVShow(data, function(err, idata) {
+                            Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function(err, data) {
+                                console.log("Bookmark added");
+                                that.ui.bookmarkIcon.addClass('selected');
+                                that.model.set('bookmarked', true);
+                            })
+                        });
+
+                    } else alert("Somethings wrong... try later");
+                });
+                
+
             }
         }
 

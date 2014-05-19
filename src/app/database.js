@@ -112,8 +112,7 @@ var Database = {
 	*******     SHOWS       ********
 	*******************************/
 	addTVShow: function(data, cb) {
-		if(!data.show.episodes) data.show.episodes = [];
-		db.tvshows.insert(data.show, cb);
+		db.tvshows.insert(data, cb);
 	},
 
 	// This calls the addTVShow method as we need to setup a blank episodes array for each
@@ -173,6 +172,11 @@ var Database = {
 			else return cb(null, {});
 		});
 	},
+
+
+	deleteTVShow: function(imdb_id, cb) {
+		db.tvshows.remove({imdb: imdb_id}, cb);
+	},	
 
 	getTVShow: function(data, cb) {
 		db.tvshows.findOne({_id : data.show_id}, cb);
@@ -292,12 +296,14 @@ var Database = {
 					});
 				});
 
+
 			} catch ( e ) {
 				console.timeEnd('initDB time');
 				win.error("initDB failed: " + e);
 				cb(e,null);
 			
 			}
+
 
 		});
 	},
@@ -327,6 +333,7 @@ var Database = {
 					$("#init-status").html(i18n.__("Status: Updating database...") + " " + page);
 
 					win.info("Extract: " + Settings.tvshowApiEndpoint + page);
+
 					request(Settings.tvshowApiEndpoint + page, {json: true}, function(err, res, toUpdate) {
 
 						db.tvshows.remove({ imdb_id: { $in: extractIds(toUpdate) }}, { multi: true }, function (err, numRemoved) {
@@ -471,35 +478,9 @@ var Database = {
 				// set hardware settings and usefull stuff
 				AdvSettings.setup();
 
-				// db sync with remote endpoint
-				Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
-					Database.getShowsCount(function(err, count) {
-						if (setting == null || count == 0) {
-							// we need to do a complete update
-							// this is our first launch
-							Database.initDB(function(err, setting) {
+				// we skip the initDB (not needed in current version)
+				callback();
 
-								// if failed we didnt write our last update
-								if (err) return callback();
-
-								// we write our new update time
-								Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, callback);
-							});
-						} else {
-
-							// we set a TTL of 24 hours for the DB	
-							if ( (+new Date() - setting.value) > TTL ) {
-								Database.syncDB(callback);
-							} else {
-								win.info("Skiping synchronization TTL not meet");
-								$("#init-status").html(i18n.__("Status: Skipping synchronization TTL not met"));
-								$("#initbar-contents").animate({ width: "100%" }, 500, 'swing');
-								setTimeout(function() { callback(); },500);
-							}
-
-						}
-					});
-				})
 			});
 
 		});
