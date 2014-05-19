@@ -204,52 +204,51 @@ var Database = {
 
 	initDB: function(cb) {
 		console.time('initDB time');
-		$("#init-status").html(i18n.__("Status: Creating Database..."));
-		db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
 
-			// JSON Processing
-			function processJSON(data, callback){
+		// JSON Processing
+		function processJSON(data, callback){
 
-				db.tvshows.insert(data, function (err, newDocs){
-					if(err){
-						win.error("Procession failed!");
-						return callback(err, null);
-					}else{
-						win.info("Done! Processed data.");
-						return callback(null, newDocs);
-					}
-				});
-			}
-				
-			$("#initbar-contents").animate({ width: "35%" }, 3000, 'swing');
-
-			// we extract our remote dbz and save it locally
-			// we'll not use memory to prevent error / flood
-
-			var out = fs.createWriteStream('./src/app/db/latest.zip');
-			var req = request({
-				method: 'GET',
-				uri: Settings.tvshowApiEndpoint + 'db/latest.zip'
+			db.tvshows.insert(data, function (err, newDocs){
+				if(err){
+					win.error("Procession failed!");
+					return callback(err, null);
+				}else{
+					win.info("Done! Processed data.");
+					return callback(null, newDocs);
+				}
 			});
+		}
 
-			req.pipe(out);
+		// we extract our remote dbz and save it locally
+		// we'll not use memory to prevent error / flood
 
-			req.on('data', function (chunk) {
-				$("#init-status").html(i18n.__("Status: Downloading API archive...") + " " + chunk.length);
-			});
+		var out = fs.createWriteStream('./src/app/db/latest.zip');
+		var req = request({
+			method: 'GET',
+			uri: Settings.tvshowApiEndpoint + 'db/latest.zip'
+		});
 
-			req.on('error', function(err) {
-				console.timeEnd('initDB time');
-				win.error("ZIP Download Failed");
-				return cb(err, null);
-			});
+		req.pipe(out);
 
-			req.on('end', function() {
+		req.on('data', function (chunk) {
+			$("#init-status").html(i18n.__("Status: Downloading API archive...") + " " + chunk.length);
+		});
+
+		req.on('error', function(err) {
+			console.timeEnd('initDB time');
+			win.error("ZIP Download Failed");
+			return cb(err, null);
+		});
+
+		req.on('end', function() {
 
 
-				$("#initbar-contents").animate({ width: "75%" }, 4000, 'swing');
-				$("#init-status").html(i18n.__("Status: Archive downloaded successfully..."));
+			$("#initbar-contents").animate({ width: "55%" }, 4000, 'swing');
+			$("#init-status").html(i18n.__("Status: Archive downloaded successfully..."));
 
+			$("#init-status").html(i18n.__("Status: Creating Database..."));
+			db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
+				$("#initbar-contents").animate({ width: "75%" }, 3000, 'swing');
 				var AdmZip = require('adm-zip');
 
 				try { 
@@ -293,7 +292,6 @@ var Database = {
 					cb(e,null);
 				
 				}
-
 			});
 
 		});
