@@ -246,17 +246,18 @@ var Database = {
 			$("#initbar-contents").animate({ width: "55%" }, 4000, 'swing');
 			$("#init-status").html(i18n.__("Status: Archive downloaded successfully..."));
 
-			$("#init-status").html(i18n.__("Status: Creating Database..."));
-			db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
-				$("#initbar-contents").animate({ width: "75%" }, 3000, 'swing');
-				var AdmZip = require('adm-zip');
+			try { 
 
-				try { 
+				var zip = new AdmZip("./src/app/db/latest.zip");
+				var zipEntries = zip.getEntries();
+				$("#init-status").html(i18n.__("Status: Extracting Archive..."));
+				zip.extractAllTo("./src/app/db/", true);
+				$("#initbar-contents").animate({ width: "70%" }, 3000, 'swing');
 
-					var zip = new AdmZip("./src/app/db/latest.zip");
-					var zipEntries = zip.getEntries();
-
-					zip.extractAllTo("./src/app/db/", true);
+				$("#init-status").html(i18n.__("Status: Creating Database..."));
+				db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
+					$("#initbar-contents").animate({ width: "75%" }, 3000, 'swing');
+					var AdmZip = require('adm-zip');
 					async.eachSeries(zipEntries, function(zipEntry, callback) {
 						
 						fs.readFile("./src/app/db/"+zipEntry.name, function (err, data) {
@@ -285,14 +286,14 @@ var Database = {
 						cb(null,true);
 
 					});
+				});
 
-				} catch ( e ) {
-					console.timeEnd('initDB time');
-					win.error("initDB failed: " + e);
-					cb(e,null);
-				
-				}
-			});
+			} catch ( e ) {
+				console.timeEnd('initDB time');
+				win.error("initDB failed: " + e);
+				cb(e,null);
+			
+			}
 
 		});
 	},
