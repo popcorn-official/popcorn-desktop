@@ -134,8 +134,12 @@
                         extractSubtitle.keywords = subskw;
                         
                         App.db.getSubtitles(extractSubtitle, function(err, subs) {
-                            if (!err) {
+                            if (Object.keys(subs).length > 0) {
                                 subtitles = subs;
+                                win.info(Object.keys(subs).length + ' subtitles found');
+                            }else{
+                                subtitles = null;
+                                win.warn('No subtitles returned');
                             }
                         });
                     }
@@ -144,8 +148,12 @@
                         title = torrent.name;
                         //Try get subtitles for custom torrents
                         App.db.getSubtitles({filename: title}, function(err, subs) {
-                            if (!err) {
+                            if (Object.keys(subs).length > 0) {
                                 subtitles = subs;
+                                win.info(Object.keys(subs).length + ' subtitles found');
+                            }else{
+                                subtitles = null;
+                                win.warn('No subtitles returned');
                             }
                         });
                     }
@@ -175,7 +183,7 @@
             }
             engine = null;
             subtitles = null; // reset subtitles to make sure they will not be used in next session.
-            console.log("Streaming cancelled");
+            win.info("Streaming cancelled");
         }
     };
 
