@@ -28,16 +28,8 @@
         if (filters.sorter && filters.sorter != 'popularity') {
             params.sort = filters.sorter;
         }
-
-        if (filters.page) {
-            params.set = filters.page;
-        }
-
-        if (Settings.movies_quality != "all") {
-            params.quality = Settings.movies_quality;
-        }
         
-        var url = AdvSettings.get('tvshowApiEndpoint') + 'shows/'+filters.page+'?' + querystring.stringify(params).replace(/%E2%80%99/g,'%27');
+        var url = AdvSettings.get('tvshowApiEndpoint') + 'shows/'+filters.page+'?' + querystring.stringify(params).replace(/%25%20/g,'%20');
         
         console.log('Api request to: ' + url);
         request({url: url, json: true}, function(error, response, data) {

@@ -80,7 +80,6 @@
 		<div class="more-options">
 			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input type="text" size = "50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
 			<br><br>
-			<div class="btn-settings rebuild-tvshows-database"><%= i18n.__("Rebuild TV Shows Database") %></div>
 			<div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
 			<div class="btn-settings flush-databases"><%= i18n.__("Flush all databases") %></div>
 		</div>

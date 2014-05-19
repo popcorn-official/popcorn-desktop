@@ -118,5 +118,6 @@
 	"Status: Importing file": "Status: Importing file",
 	"Status: Imported successfully": "Status: Imported successfully",
 	"Status: Launching applicaion... ": "Status: Launching applicaion... ",
-	"URL of this stream was copied to the clipboard": "URL of this stream was copied to the clipboard"
+	"URL of this stream was copied to the clipboard": "URL of this stream was copied to the clipboard",
+	"Error loading data, try again later...": "Error loading data, try again later..."
 }
