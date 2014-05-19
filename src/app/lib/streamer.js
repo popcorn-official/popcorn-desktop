@@ -122,6 +122,20 @@
                 } else {
                     // did we need to etxract subtitle ?
                     var extractSubtitle = model.get('extract_subtitle');
+					
+                    var getSubtitles = function(data){
+                        win.debug('Subtitle data request:', data);
+                        App.db.getSubtitles(data, function(err, subs) {
+                            if (Object.keys(subs).length > 0) {
+                                subtitles = subs;
+                                win.info(Object.keys(subs).length + ' subtitles found');
+                            }else{
+                                subtitles = null;
+                                win.warn('No subtitles returned');
+                            }
+                        });
+                    }
+					
                     if (typeof extractSubtitle == 'object') {
                         extractSubtitle.filename = torrent.name;
                         
@@ -133,36 +147,26 @@
                         }
                         extractSubtitle.keywords = subskw;
                         
-                        App.db.getSubtitles(extractSubtitle, function(err, subs) {
-                            if (Object.keys(subs).length > 0) {
-                                subtitles = subs;
-                                win.info(Object.keys(subs).length + ' subtitles found');
-                            }else{
-                                subtitles = null;
-                                win.warn('No subtitles returned');
-                            }
-                        });
+                        getSubtitles(extractSubtitle);
                     }
+                    //Try get subtitles for custom torrents
                     var title = model.get('title');
                     if(!title) { //From ctrl+v magnet or drag torrent
                         var sub_data = {};
                         title = $.trim( torrent.name.replace('[rartv]','').replace('[PublicHD]','').replace('[ettv]','').replace('[eztv]','') );
                         sub_data.filename = title;
-                        var se_re = title.match(/S(\d\d)E(\d\d)/i);
+                        var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i);
                         if(se_re != null){
-                            sub_data.season = se_re[1];
-                            sub_data.episode = se_re[2];
+                            var tvshowname = $.trim( se_re[1].replace(/\./g,' ') );
+                            App.db.getImdbByTVShow(tvshowname, function(err, show) {
+                                sub_data.imdbid = show.imdb_id;
+                                sub_data.season = Number(se_re[2]);
+                                sub_data.episode = Number(se_re[3]);
+                                getSubtitles(sub_data);
+                            });
+                        }else{
+                            getSubtitles(sub_data);
                         }
-                        //Try get subtitles for custom torrents
-                        App.db.getSubtitles(sub_data, function(err, subs) {
-                            if (Object.keys(subs).length > 0) {
-                                subtitles = subs;
-                                win.info(Object.keys(subs).length + ' subtitles found');
-                            }else{
-                                subtitles = null;
-                                win.warn('No subtitles returned');
-                            }
-                        });
                     }
                     // TODO: We should passe the movie / tvshow imdbid instead
                     // and read from the player

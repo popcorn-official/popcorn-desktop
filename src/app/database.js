@@ -180,7 +180,11 @@ var Database = {
 
 	getTVShowByImdb: function(imdb_id, cb) {
 		db.tvshows.findOne({imdb_id : imdb_id}, cb);
-	},        
+	},
+
+	getImdbByTVShow: function(tvshow, cb) {
+		db.tvshows.findOne({title : tvshow}, cb);
+	},
 
 	getNumSeasons: function(data, cb) {
 		db.tvshows.findOne({_id : data.show_id}).sort({"episodes.season": -1}).exec(function(err, doc) {
