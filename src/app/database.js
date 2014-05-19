@@ -122,17 +122,6 @@ var Database = {
 		},cb);
 	},
 
-	addEpisodeToShow: function(data, cb) {
-		if(!data.episode.watched) data.episode.watched = {};
-		db.tvshows.update({imdb_id: data.imdb_id}, { $addToSet: {episodes: data.episode}}, cb);
-	},
-
-	addEpisodesToShow: function(data, cb) {
-		async.each(data.episodes, function(episode, callback) {
-			addEpisodeToShow({imdb_id: data.imdb_id, episode: episode}, function(err, episode) {callback(err)})
-		},cb);
-	},
-
 	markEpisodeAsWatched: function(data, cb) {
 		if (!cb) cb = function () {};
 		db.watched.insert({show_id: data.show_id.toString(), season: data.season.toString(), episode: data.episode.toString(), type: 'episode', date: new Date()}, cb);
@@ -155,10 +144,6 @@ var Database = {
 		db.watched.find({show_id: show_id.toString()}, cb);
 	},
 
-	getEpisodesPerSeason: function(data, cb) {
-		db.tvshows.find({_id : data.show_id, "episodes.season": data.season}, cb);
-	},
-
 	getSubtitles: function(data, cb) {
 		//console.log(data);
 		openSRT.searchEpisode(data, function(err, subs) {
@@ -173,191 +158,24 @@ var Database = {
 		});
 	},
 
-
+	// Used in bookmarks
 	deleteTVShow: function(imdb_id, cb) {
 		db.tvshows.remove({imdb: imdb_id}, cb);
 	},	
 
+	// Used in bookmarks
 	getTVShow: function(data, cb) {
 		db.tvshows.findOne({_id : data.show_id}, cb);
 	},
 
+	// Used in bookmarks
 	getTVShowByImdb: function(imdb_id, cb) {
 		db.tvshows.findOne({imdb_id : imdb_id}, cb);
 	},
 
+	// TO BE REWRITTEN TO USE TRAKT INSTEAD
 	getImdbByTVShow: function(tvshow, cb) {
 		db.tvshows.findOne({title : tvshow}, cb);
-	},
-
-	getNumSeasons: function(data, cb) {
-		db.tvshows.findOne({_id : data.show_id}).sort({"episodes.season": -1}).exec(function(err, doc) {
-			if(err) return cb(err, null);
-			else {
-				var episodes = doc.episodes;
-				episodes.sort(function(a,b) {
-					if(a.season == b.season) return 0;
-					if(a.season < b.season) return 1;
-					if(a.season > b.season) return -1;
-				})
-				var numSeasons = episodes[0].season;
-				cb(null, numSeasons);
-			}
-		})
-	},
-
-	getShowsCount: function(cb) {
-		db.tvshows.count({}, cb);
-	},
-
-	initDB: function(cb) {
-		console.time('initDB time');
-
-		// JSON Processing
-		function processJSON(data, callback){
-
-			db.tvshows.insert(data, function (err, newDocs){
-				if(err){
-					win.error("Procession failed!");
-					return callback(err, null);
-				}else{
-					win.info("Done! Processed data.");
-					return callback(null, newDocs);
-				}
-			});
-		}
-
-		// we extract our remote dbz and save it locally
-		// we'll not use memory to prevent error / flood
-
-		var out = fs.createWriteStream('./src/app/db/latest.zip');
-		var req = request({
-			method: 'GET',
-			uri: Settings.tvshowApiEndpoint + 'db/latest.zip'
-		});
-
-		req.pipe(out);
-
-		req.on('data', function (chunk) {
-			$("#init-status").html(i18n.__("Status: Downloading API archive...") + " " + chunk.length);
-		});
-
-		req.on('error', function(err) {
-			console.timeEnd('initDB time');
-			win.error("ZIP Download Failed");
-			return cb(err, null);
-		});
-
-		req.on('end', function() {
-
-
-			$("#initbar-contents").animate({ width: "55%" }, 4000, 'swing');
-			$("#init-status").html(i18n.__("Status: Archive downloaded successfully..."));
-
-			try { 
-				var AdmZip = require('adm-zip');
-				var zip = new AdmZip("./src/app/db/latest.zip");
-				var zipEntries = zip.getEntries();
-				$("#init-status").html(i18n.__("Status: Extracting Archive..."));
-				zip.extractAllTo("./src/app/db/", true);
-				$("#initbar-contents").animate({ width: "70%" }, 3000, 'swing');
-
-				$("#init-status").html(i18n.__("Status: Creating Database..."));
-				db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
-					$("#initbar-contents").animate({ width: "75%" }, 3000, 'swing');
-					
-					async.eachSeries(zipEntries, function(zipEntry, callback) {
-						
-						fs.readFile("./src/app/db/"+zipEntry.name, function (err, data) {
-		
-							if (err) callback();
-							win.debug(zipEntry.name);
-							$("#init-status").html(i18n.__("Status: Importing file") + " " +  zipEntry.name);
-
-							processJSON(JSON.parse(data), function(err,data) {
-									
-								$("#init-status").html(i18n.__("Status: Imported successfully") + " " +  zipEntry.name);
-
-								fs.unlink("./src/app/db/"+zipEntry.name);
-								callback();
-							});						
-
-						});
-
-					}, function(err) {
-					
-						console.timeEnd('initDB time');
-						$("#init-status").html(i18n.__("Status: Launching applicaion... "));
-						$("#initbar-contents").animate({ width: "90%" }, 4000, 'swing');
-						fs.unlink("./src/app/db/latest.zip");
-						win.info("initDB done!");
-						cb(null,true);
-
-					});
-				});
-
-
-			} catch ( e ) {
-				console.timeEnd('initDB time');
-				win.error("initDB failed: " + e);
-				cb(e,null);
-			
-			}
-
-
-		});
-	},
-
-	// sync with updated/:since
-	syncDB: function(cb) {
-		console.time('syncDB time');
-		Database.getSetting({key: "tvshow_last_sync"}, function(err, setting) {
-			var last_update = setting.value;
-			win.info("Updating database from remote api since " + last_update);
-			$("#init-status").html(i18n.__("Status: Updating database..."));
-			$("#initbar-contents").animate({ width: "90%" }, 3000, 'swing');
-
-			// we'll get number of page
-			request(Settings.tvshowApiEndpoint + 'shows/update/' + last_update, {json: true}, function(err, res, allPages) {
-
-				// api is down? we continue anyways...
-           		if(err || !allPages) {
-					console.timeEnd('syncDB time');
-					win.warn("syncDB failed:", err.message);
-					return cb("empty", null);
-				}
-
-				// we'll make a query for each page
-				async.eachSeries(allPages, function(page, callback) {
-					
-					$("#init-status").html(i18n.__("Status: Updating database...") + " " + page);
-
-					win.info("Extract: " + Settings.tvshowApiEndpoint + page);
-
-					request(Settings.tvshowApiEndpoint + page, {json: true}, function(err, res, toUpdate) {
-
-						db.tvshows.remove({ imdb_id: { $in: extractIds(toUpdate) }}, { multi: true }, function (err, numRemoved) {
-							db.tvshows.insert(toUpdate, function (err, newDocs){
-								 callback(err, newDocs);
-							});
-						});							
-
-					});
-
-				}, function(err,data) {
-					console.timeEnd('syncDB time');
-					Database.writeSetting({key: "tvshow_last_sync", value: +new Date()}, function(err, setting) { 
-						return cb(null, setting);
-					})					
-				});
-
-            });
-
-		});
-	},
-
-	getShowsByRating: function(cb) {
-		db.tvshows.find({}).sort({"rating.votes": -1, "rating.percentage": -1}).limit(10).exec(cb);
 	},
 
 	getSetting: function(data, cb) {
@@ -380,39 +198,6 @@ var Database = {
 		})
 	},
 
-	// format: {page: page, keywords: title}
-	getShows: function(data, cb) {
-		var page = data.page-1;    
-		var byPage = 30;
-		var offset = page*byPage;
-		var query = {};
-		var sort = {"rating.votes": data.order, "rating.percentage": data.order}
-
-		if (data.keywords) {
-			var words = data.keywords.split(" ");
-			var regex = data.keywords.toLowerCase();
-			if(words.length > 1) {
-				var regex = "^";
-				for(var w in words) {
-					regex += "(?=.*\\b"+words[w].toLowerCase()+"\\b)";
-				}
-				regex += ".+";
-			}
-			query = {title: new RegExp(regex,"gi")};
-		}
-		if (data.sorter) {
-			if(data.sorter == "year") sort = {year: data.order};
-			if(data.sorter == "updated") sort = {last_updated: data.order};
-			if(data.sorter == "name") sort = {title: data.order * -1};
-		}
-		if(data.genre && data.genre != "All") {
-			query = {genres : data.genre}
-		}
-			
-		db.tvshows.find(query).sort(sort).skip(offset).limit(byPage).exec(cb);
-		   
-	},
-
 	deleteDatabases: function(cb) {
 		db.bookmarks.remove({ }, { multi: true }, function (err, numRemoved) {
 			db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {
@@ -425,22 +210,6 @@ var Database = {
 				});
 			});
 		});
-	},
-	// Test Method to get list of Genres, never called in production
-	getGenres: function() {
-		db.tvshows.find({}, function(err, shows){
-			var genres = [];
-			async.each(shows, function(show, cb) {
-				for(var g in show.genres) {
-					var genre = show.genres[g];
-					if(genres.indexOf(genre) == -1) genres.push(genre);
-				}
-				cb();
-			},
-			function(err, res){
-				console.log(genres.sort());
-			})
-		})
 	},
 
 	initialize : function(callback){
