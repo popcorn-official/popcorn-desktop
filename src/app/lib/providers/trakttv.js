@@ -7,7 +7,7 @@
 
     var API_ENDPOINT = URI('http://api.trakt.tv/');
     var MOVIE_PATH = 'movie';
-    var API_KEY = '7b7b93f7f00f8e4b488dcb3c5baa81e1619bb074';
+    var API_KEY = '515a27ba95fbd83f20690e5c22bceaff0dfbde7c';
 
     function Trakttv() {
         App.Providers.CacheProvider.call(this, 'metadata');
