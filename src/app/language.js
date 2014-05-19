@@ -275,7 +275,7 @@ App.Localization.langcodes = {
 		name:"French",
 		nativeName:"Français",
 		subtitle: true,
-		encoding: ['iso-8859-1'] // Tested
+		encoding: ['Windows-1252'] // Tested
 	},
 	"ff":{
 		name:"Fula",
