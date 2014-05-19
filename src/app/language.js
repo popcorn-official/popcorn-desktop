@@ -299,7 +299,7 @@ App.Localization.langcodes = {
 		name:"Modern Greek",
 		nativeName:"Ελληνικά",
 		subtitle: true,
-		encoding: ['iso-8859-7'] // Tested
+		encoding: ['Windows-1253'] // Tested
 	},
 	"gn":{
 		name:"Guaraní",

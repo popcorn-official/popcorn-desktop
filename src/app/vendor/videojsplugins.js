@@ -121,168 +121,162 @@ videojs.plugin('customSubtitles', function() {
 * Copyright (c) 2013 Michael Bensoussan; Licensed MIT */
 
 videojs.plugin('progressTips', function(options) {
-    var init;
-    init = function() {
-      var player;
-      /*if (this.techName !== "Html5") {
-        return;
-      }*/
-      player = this;
-      $(".vjs-progress-control").prepend($("<div id='vjs-tip'>  <div id='vjs-tip-arrow'></div>  <div id='vjs-tip-inner'></div>  </div>"));
-      $("#vjs-tip").css("top", "-30px");
-	  $(".vjs-progress-control .vjs-slider").on("mousemove", function(event) {
-        var time, hours, minutes, seconds, seekBar, timeInSeconds;
-        seekBar = player.controlBar.progressControl.seekBar;
-        timeInSeconds = seekBar.calculateDistance(event) * seekBar.player_.duration();
-        if (timeInSeconds === seekBar.player_.duration()) {
-          timeInSeconds = timeInSeconds - 0.1;
-        }
-		hours = Math.floor(timeInSeconds / 60 / 60);
-        minutes = Math.floor(timeInSeconds / 60);
-        seconds = Math.floor(timeInSeconds - minutes * 60);
-        if (seconds < 10) {
-			seconds = "0" + seconds;
-        }
-		if(hours > 0) {
-			minutes = minutes % 60;
-			if (minutes < 10) {
-				minutes = "0" + minutes;
+	var init;
+	init = function() {
+		var player;
+		/*if (this.techName !== "Html5") {
+		return;
+		}*/
+		player = this;
+		$(".vjs-progress-control").prepend($("<div id='vjs-tip'>  <div id='vjs-tip-arrow'></div>  <div id='vjs-tip-inner'></div>  </div>"));
+		$("#vjs-tip").css("top", "-30px");
+		$(".vjs-progress-control .vjs-slider").on("mousemove", function(event) {
+			var time, hours, minutes, seconds, seekBar, timeInSeconds;
+			seekBar = player.controlBar.progressControl.seekBar;
+			timeInSeconds = seekBar.calculateDistance(event) * seekBar.player_.duration();
+			if (timeInSeconds === seekBar.player_.duration()) {
+				timeInSeconds = timeInSeconds - 0.1;
 			}
-			time = "" + hours + ":" + minutes + ":" + seconds;
-		}else{
-			time = "" + minutes + ":" + seconds;
-		}
-        $('#vjs-tip-inner').html( time );
-        $("#vjs-tip").css("left", "" + (event.pageX - $(this).offset().left - ( $("#vjs-tip").outerWidth() / 2 ) ) + "px").css("visibility", "visible");
-        return;
-      });
-      $(".vjs-progress-control, .vjs-play-control").on("mouseout", function() {
-        $("#vjs-tip").css("visibility", "hidden");
-      });
-    };
-    this.on("loadedmetadata", init);
-  });
+			hours = Math.floor(timeInSeconds / 60 / 60);
+			minutes = Math.floor(timeInSeconds / 60);
+			seconds = Math.floor(timeInSeconds - minutes * 60);
+			if (seconds < 10) {
+				seconds = "0" + seconds;
+			}
+			if(hours > 0) {
+				minutes = minutes % 60;
+				if (minutes < 10) {
+					minutes = "0" + minutes;
+				}
+				time = "" + hours + ":" + minutes + ":" + seconds;
+			}else{
+				time = "" + minutes + ":" + seconds;
+			}
+			$('#vjs-tip-inner').html( time );
+			$("#vjs-tip").css("left", "" + (event.pageX - $(this).offset().left - ( $("#vjs-tip").outerWidth() / 2 ) ) + "px").css("visibility", "visible");
+			return;
+		});
+		$(".vjs-progress-control, .vjs-play-control").on("mouseout", function() {
+			$("#vjs-tip").css("visibility", "hidden");
+		});
+	};
+	this.on("loadedmetadata", init);
+});
 
 // This is a custom way of loading subtitles, since we can't use src (CORS blocks it and we can't disable it)
 // We fetch them when requested, process them and finally throw a parseCues their way
 vjs.TextTrack.prototype.load = function(){
 			
-  // Only load if not loaded yet.
-  if (this.readyState_ === 0) {
-    this.readyState_ = 1;
-	
+	// Only load if not loaded yet.
+	if (this.readyState_ === 0) {
+	this.readyState_ = 1;
+
 	this.on('loaded', function(){
 		win.info('Subtitle loaded!');
 		$('.vjs-subtitles.vjs-text-track').drags();
 		$('.vjs-subtitles.vjs-text-track').css('font-size', Settings.subtitle_size);
 	});
 
-    // Fetches a raw subtitle, locally or remotely
-    function getSub (subUrl, callback) {
+	// Fetches a raw subtitle, locally or remotely
+	function getSub (subUrl, callback) {
+		var fs  = require('fs');
+		var http    = require('http');
+		var url     = require('url');
 
-      var fs  = require('fs');
-      var http    = require('http');
-      var url     = require('url');
+		// Fetches Locally
+		if (fs.existsSync(subUrl)) {
+			fs.readFile(subUrl, function(err, data) {
+				// TODO: Error handling --- if (err) throw err;
+				callback(data);
+			})
+			// Fetches remotely
+			// TODO: Lots of Error Handling
+		} else {
+			var options = {
+				host: url.parse(subUrl).host,
+				port: 80,
+				path: url.parse(subUrl).pathname
+			};
+			http.get(options, function(res) {
+				var data = [], dataLen = 0;
+				res.on('data', function(chunk) {
+					data.push(chunk);
+					dataLen += chunk.length;
+				}).on('end', function() {
+					var buf = new Buffer(dataLen);
+					for (var i=0, len = data.length, pos = 0; i < len; i++) {
+						data[i].copy(buf, pos);
+						pos += data[i].length;
+					}
+					callback(buf);
+				});
+			});
+		}
+	}
 
-      // Fetches Locally
-      if (fs.existsSync(subUrl)) {
-        fs.readFile(subUrl, function(err, data) {
-          // TODO: Error handling --- if (err) throw err;
-          callback(data);
-        })
+	// Decompress zip
+	function decompress(dataBuff, callback) {
+		// TODO: Error handling, exceptions, etc
+		var AdmZip  = require('adm-zip');
+		var zip = new AdmZip(dataBuff);
+		var zipEntries = zip.getEntries();
+		// TODO: Shouldn't we look for only 1 file ???
+		zipEntries.forEach(function(zipEntry, key) {
+			if (zipEntry.entryName.indexOf('.srt') != -1) {
+				var decompressedData = zip.readFile(zipEntry); // decompressed buffer of the entry
+				callback(decompressedData);
+			}
+		});
+	}
 
-      // Fetches remotely
-      // TODO: Lots of Error Handling
-      } else {
-        var options = {
-          host: url.parse(subUrl).host,
-          port: 80,
-          path: url.parse(subUrl).pathname
-        };
-        http.get(options, function(res) {
-          var data = [], dataLen = 0;
-          res.on('data', function(chunk) {
-            data.push(chunk);
-            dataLen += chunk.length;
-          }).on('end', function() {
-            var buf = new Buffer(dataLen);
-            for (var i=0, len = data.length, pos = 0; i < len; i++) {
-              data[i].copy(buf, pos);
-              pos += data[i].length;
-            }
-            callback(buf);
-          });
-        });
-      }
-    }
+	// Handles charset encoding
+	function decode(dataBuff, language, callback) {
+		var charsetDetect = require('jschardet');
+		var targetCharset = 'UTF-8';
+		var targetEncodingCharset = 'utf8';
 
-    // Decompress zip
-    function decompress(dataBuff, callback) {
-      // TODO: Error handling, exceptions, etc
-      var AdmZip  = require('adm-zip');
-      var zip = new AdmZip(dataBuff);
-      var zipEntries = zip.getEntries();
-      // TODO: Shouldn't we look for only 1 file ???
-      zipEntries.forEach(function(zipEntry, key) {
-        if (zipEntry.entryName.indexOf('.srt') != -1) {
-          var decompressedData = zip.readFile(zipEntry); // decompressed buffer of the entry
-          callback(decompressedData);
-        }
-      });
-    }
+		var charset = charsetDetect.detect(dataBuff);
+		var detectedEncoding = charset.encoding;
+		win.debug("SUB charset detected: "+detectedEncoding);
+		// Do we need decoding?
+		if (detectedEncoding == targetEncodingCharset || detectedEncoding == targetCharset) {
+			callback(dataBuff.toString('utf-8'));
+		// We do
+		} else {
+			var iconv = require('iconv-lite');
+			// Windows-1251/2/IBM855 works fine when read from a file (like it's UTF-8), but if you try to convert it you'll ruin the encoding.
+			// Just save it again, and it'll be stored as UTF-8. At least on Windows.
+			//if ( detectedEncoding == 'UTF-16LE' || detectedEncoding == 'MacCyrillic' || detectedEncoding == 'IBM855' || detectedEncoding == 'windows-1250' || detectedEncoding == 'windows-1251' || detectedEncoding == 'windows-1252' || detectedEncoding == 'windows-1255' || detectedEncoding == 'windows-1254' ) {
+			// It's the charset detector screwing up again
+			var langInfo = App.Localization.langcodes[language] || {};
+			win.debug("SUB charset expected: "+langInfo.encoding);
+			if (langInfo.encoding !== undefined && langInfo.encoding.indexOf(detectedEncoding) < 0) {
+				// The detected encoding was unexepected to the language, so we'll use the most common
+				// encoding for that language instead.
+				detectedEncoding = langInfo.encoding[0];
+			}
+			win.debug("SUB charset used: "+detectedEncoding);
+			dataBuff = iconv.encode( iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset );
+			callback(dataBuff.toString('utf-8'));
+		}
+	}
 
-    // Handles charset encoding
-    function decode(dataBuff, language, callback) {
-      var charsetDetect = require('jschardet');
-      var targetCharset = 'utf-8';
-      var targetEncodingCharset = 'utf8';
+	// Get it, Unzip it, Decode it, Send it
+	var this_ = this;
+	getSub(this.src_, function(dataBuf) {
+		var path = require('path');
+		if (path.extname(this_.src_) === '.zip') {
+			decompress(dataBuf, function(dataBuf) {
+				decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
+			});
+		} else {
+			decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
+		}
+	});
 
-      var charset = charsetDetect.detect(dataBuff);
-      var detectedEncoding = charset.encoding;
-      //console.log("detectedEncoding: "+detectedEncoding);
-      // Do we need decoding?
-      if (detectedEncoding == targetEncodingCharset || detectedEncoding == targetCharset) {
-        callback(dataBuff.toString('utf-8'));
+	// TODO: Error Handling when an invalid .srt file is loaded.
 
-      // We do
-      } else {
-        var iconv = require('iconv-lite');
-        // Windows-1251/2/IBM855 works fine when read from a file (like it's UTF-8), but if you try to convert it you'll ruin the encoding.
-        // Just save it again, and it'll be stored as UTF-8. At least on Windows.
-
-        if ( detectedEncoding == 'UTF-16LE' || detectedEncoding == 'MacCyrillic' || detectedEncoding == 'IBM855' || detectedEncoding == 'windows-1250' || detectedEncoding == 'windows-1251' || detectedEncoding == 'windows-1252' || detectedEncoding == 'windows-1255' || detectedEncoding == 'windows-1254' ) {
-          // It's the charset detector screwing up again
-          var langInfo = App.Localization.langcodes[language] || {}; 
-          var expected = langInfo.encoding;
-		  //console.log("expected: "+expected);
-          if (expected && expected.indexOf(detectedEncoding) < 0) {
-            // The detected encoding was unexepected to the language, so we'll use the most common
-            // encoding for that language instead.
-            detectedEncoding = expected[0];
-          }
-        }
-        //console.log("finalexpected: "+expected);
-        dataBuff = iconv.encode( iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset );
-        callback(dataBuff.toString('utf-8'));
-      }
-    }
-
-    // Get it, Unzip it, Decode it, Send it
-    var this_ = this;
-    getSub(this.src_, function(dataBuf) {
-      var path = require('path');
-      if (path.extname(this_.src_) === '.zip') {
-        decompress(dataBuf, function(dataBuf) {
-          decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
-        });
-      } else {
-        decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
-      }
-    });
-
-    // TODO: Error Handling when an invalid .srt file is loaded.
-
-  }
+	}
 
 };
 
