@@ -157,7 +157,7 @@ App.Localization.langcodes = {
 	},
 	"bg":{
 		name:"Bulgarian",
-		nativeName:"български език",
+		nativeName:"Български",
 		subtitle: true,
 		encoding: ['Windows-1251'] // Tested
 	},
