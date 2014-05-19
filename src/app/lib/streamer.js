@@ -145,9 +145,16 @@
                     }
                     var title = model.get('title');
                     if(!title) { //From ctrl+v magnet or drag torrent
-                        title = torrent.name;
+                        var sub_data = {};
+                        title = $.trim( torrent.name.replace('[rartv]','').replace('[PublicHD]','').replace('[ettv]','').replace('[eztv]','') );
+                        sub_data.filename = title;
+                        var se_re = title.match(/S(\d\d)E(\d\d)/i);
+                        if(se_re != null){
+                            sub_data.season = se_re[1];
+                            sub_data.episode = se_re[2];
+                        }
                         //Try get subtitles for custom torrents
-                        App.db.getSubtitles({filename: title}, function(err, subs) {
+                        App.db.getSubtitles(sub_data, function(err, subs) {
                             if (Object.keys(subs).length > 0) {
                                 subtitles = subs;
                                 win.info(Object.keys(subs).length + ' subtitles found');
