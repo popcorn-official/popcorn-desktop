@@ -72,7 +72,7 @@
             $(e.target).addClass('active');
 
             var genre = $(e.target).attr('data-value');
-            this.ui.genreValue.text(i18n.__(genre.capitalizeEach()));
+            this.ui.genreValue.text(i18n.__(genre));
 
             this.model.set({
                 keyword: '',
