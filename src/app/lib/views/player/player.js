@@ -44,7 +44,7 @@
                 if(this.model.get('show_id') != null) {
                     win.debug("Mark TV Show as watched");
                     App.vent.trigger('shows:watched', this.model.attributes);
-                } else if (this.model.get('movie_id') != null) {
+                } else if (this.model.get('imdb_id') != null) {
                     win.debug("Mark Movie as watched");
                     App.vent.trigger('movies:watched', this.model.attributes);
 

@@ -99,13 +99,17 @@ var Database = {
 
 	markMovieAsNotWatched: function(data, cb) {
 		if (!cb) cb = function () {};
-		db.watched.remove({movie_id: data.movie_id.toString()}, cb);
+		db.watched.remove({movie_id: data.imdb_id.toString()}, cb);
 	},
 
 	checkMovieWatched: function(data, cb) {
-		db.watched.find({movie_id: data.movie_id.toString()}, function(err, data){
+		db.watched.find({movie_id: data.imdb_id.toString()}, function(err, data){
 			return cb((data!=null && data.length > 0), data);
 		});
+	},
+
+	getMoviesWatched: function(cb) {
+		db.watched.find({type: 'movie'}, cb);
 	},
 
 	/*******************************
