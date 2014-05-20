@@ -142,12 +142,8 @@
         // we run the updater and close PT to overwrite.
         function installWin(dlPath) {
             try {
-                var exec = require('child_process').execFile;
-                exec(dlPath, function(err, data) {  
-                    if(err) throw err;
-                    // we close the app
-                    gui.App.quit();
-                });
+                gui.Shell.openItem(dlPath);
+                gui.App.quit();
             } catch(err) {
                 // Dop! We have a update.exe and we can't use it... ;/
                 alert("Oops.. Something is wrong.\nPlease download latest version on http://get-popcorn.com\n\n"+err);
