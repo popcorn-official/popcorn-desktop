@@ -19,13 +19,19 @@
         right 20px
         position fixed
         float right
-        width 16px
-        height 16px
+        width 20px
+        height 20px
         background-image url('../../images/icons/Close.png')
+        background-size 20px
         cursor pointer
         z-index 2
-        opacity 1
+        opacity 0.7
         -webkit-backface-visibility hidden
+        transition all .5s
+
+        &:hover
+            opacity 1 
+            transition all .5s
     }
 
     h1 {
