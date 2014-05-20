@@ -7,7 +7,7 @@
   - `b4a823d` [NEW] Add methods to mark movie as watched
   - `f6e2083` [NEW] Added quality filter for movies
   - `30b6136` [NEW] Added Advanced Settings with Connection, DHT, Tmp Folder options
-  - `1a56f64` [NEW] Pressing 'escape' closes modals
+  - `1a56f64` [NEW] Pressing 'escape' to closes modals
   - `2e4167e` [NEW] Added a help view for keyboard shortcuts. Press `?`
   - `597de42` [NEW] Subtitles are search by filename for better results
   - `37be4be` [NEW] Draggable subtitles. Move subtitles around the player.
@@ -17,7 +17,7 @@
 
   - `7384cad` [FIX] Rebuild TV Show API Endpoint with live data.
   - `27a0849` [FIX] Subtitles encode fixes.
-  - `7414a9a` [FIX] Copy stream URL to clipboard directly. Press U.
+  - `7414a9a` [FIX] Copy stream URL to clipboard directly. Press `U`
   - `00804cb` [FIX] Catch exception to prevent blocking on initDb
   - `9f237ce` [FIX] Description pass behind the "Watch" button
   - `ec83b30` [FIX] Fix watched list.
@@ -30,5 +30,6 @@
   - `f8569d8` [FIX] Pressing 'escape' cancels/stops download on "Downloading" screen
   - `8b632e8` [FIX] TV Show search keywords can be in any order
   - `4b90f70` [FIX] Close movie detail on search
-  - `66efa9b` [FIX] Portuguese subtitle encoding.
-  - `85ff8e6` [FIX] Fastest app opening.
+  - `66efa9b` [FIX] Portuguese subtitle encoding
+  - `85ff8e6` [FIX] Fastest app opening
+  - `7cc2d0f` [FIX] Auto updater
