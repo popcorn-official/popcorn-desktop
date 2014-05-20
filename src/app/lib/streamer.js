@@ -174,25 +174,32 @@
                     if(!title) { //From ctrl+v magnet or drag torrent
                         model.set('defaultSubtitle', Settings.subtitle_language);
                         var sub_data = {};
-                        title = $.trim( torrent.name.replace('[rartv]','').replace('[PublicHD]','').replace('[ettv]','').replace('[eztv]','') );
+                        title = $.trim( torrent.name.replace('[rartv]','').replace('[PublicHD]','').replace('[ettv]','').replace('[eztv]','') ).replace(/[\s]/g,'.');
                         sub_data.filename = title;
                         var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i);
                         if(se_re != null){
-                            var tvshowname = $.trim( se_re[1].replace(/\./g,' ') );
-                            App.db.getImdbByTVShow(tvshowname, function(err, show) {
-                                $('.loading-background').css('background-image', 'url('+show.images.fanart+')');
-                                sub_data.imdbid = show.imdb_id;
-                                sub_data.season = Number(se_re[2]).toString();
-                                sub_data.episode = Number(se_re[3]).toString();
-                                getSubtitles(sub_data);
-                                model.set('show_id', show.tvdb_id);
-                                model.set('episode', sub_data.season);
-                                model.set('season', sub_data.episode);
-                                for(var episode in show.episodes) {
-                                    var ep = show.episodes[episode];
-                                    if(ep.season == Number(se_re[2]) && ep.episode == Number(se_re[3])) {
-                                        title = show.title + ' - ' + i18n.__('Season') + ' ' + ep.season + ', ' + i18n.__('Episode') + ' ' + ep.episode + ' - ' + ep.title;
-                                    }
+                            var tvshowname = $.trim( se_re[1].replace(/[\.]/g,' ') ).replace(/[\s]/g,'-').toLowerCase();
+                            // Direct call until api is done --v
+                            var request = require('request');
+                            var url = 'http://api.trakt.tv/show/episode/summary.json/515a27ba95fbd83f20690e5c22bceaff0dfbde7c/'+tvshowname+'/'+Number(se_re[2])+'/'+Number(se_re[3]);
+                            win.debug(url);
+                            request({url: url, json: true}, function(error, response, data) {
+                                if(error) {
+                                    win.warn(error);
+                                    getSubtitles(sub_data);
+                                } else if(!data || data.status == 'failure') {
+                                    win.warn('TTV error:', data.error);
+                                    getSubtitles(sub_data);
+                                } else {
+                                    $('.loading-background').css('background-image', 'url('+data.show.images.fanart+')');
+                                    sub_data.imdbid = data.show.imdb_id;
+                                    sub_data.season = data.episode.season.toString();
+                                    sub_data.episode = data.episode.number.toString();
+                                    getSubtitles(sub_data);
+                                    model.set('show_id', data.show.tvdb_id);
+                                    model.set('episode', sub_data.season);
+                                    model.set('season', sub_data.episode);
+                                    title = data.show.title + ' - ' + i18n.__('Season') + ' ' + data.episode.season + ', ' + i18n.__('Episode') + ' ' + data.episode.number + ' - ' + data.episode.title;
                                 }
                                 handleTorrent_fnc();
                             });
