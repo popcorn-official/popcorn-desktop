@@ -9,14 +9,20 @@
 	position absolute
 	top 85px
 	right 20px
-	z-index 4
-	width 16px
-	height 16px
-	cursor pointer
-	opacity 1
-	-webkit-filter drop-shadow(0px 0px 1px #17181b)
-	background-image url('../../images/icons/Close.png')
-	-webkit-backface-visibility hidden
+    width 20px
+    height 20px
+    background-image url(../../images/icons/Close.png)
+    background-size 20px
+    cursor pointer
+    z-index 100
+    opacity 0.7
+    -webkit-backface-visibility hidden
+    transition all .5s
+
+    &:hover
+        opacity 1 
+        transition all .5s
+
 
 .tv-poster
 	position fixed

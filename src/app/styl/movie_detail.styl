@@ -121,17 +121,22 @@
     -webkit-backface-visibility hidden
 
 .movie-detail-close
-    top 13px
-    right 13px
+    top 15px
+    right 15px
     position absolute
     float right
-    width 16px
-    height 16px
-    background-image: url(../../images/icons/Close.png);
+    width 20px
+    height 20px
+    background-image url(../../images/icons/Close.png)
+    background-size 20px
     cursor pointer
     z-index 100
-    opacity 1
+    opacity 0.7
     -webkit-backface-visibility hidden
+    transition all .5s
+  &:hover
+    opacity 1 
+    transition all .5s
 
 .movie-meta-title
     margin-top 5.5%
