@@ -35,16 +35,15 @@
             var torrentPromise = torrent.fetch(this.filter);
 
             var idsPromise = torrentPromise.then(_.bind(torrent.extractIds, torrent));
-            var subtitlePromise = idsPromise.then(_.bind(subtitle.fetch, subtitle));
 
-            return Q.all([torrentPromise, subtitlePromise])
-                .spread(function(movies, subtitles) {
+            return Q.all([torrentPromise])
+                .spread(function(movies) {
 
                     // If a new request was started...
                     _.each(movies, function(movie){
 
                         var id = movie.imdb;
-                        movie.subtitle = subtitles[id];
+                        movie.subtitle = [];
                     });
 
                     if(_.isEmpty(movies)) {
