@@ -178,17 +178,14 @@
                         sub_data.filename = title;
                         var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i);
                         if(se_re != null){
-                            var tvshowname = $.trim( se_re[1].replace(/[\.]/g,' ') ).replace(/[\s]/g,'-').toLowerCase();
-                            // Direct call until api is done --v
-                            var request = require('request');
-                            var url = 'http://api.trakt.tv/show/episode/summary.json/515a27ba95fbd83f20690e5c22bceaff0dfbde7c/'+tvshowname+'/'+Number(se_re[2])+'/'+Number(se_re[3]);
-                            win.debug(url);
-                            request({url: url, json: true}, function(error, response, data) {
+                            var tvshowname = $.trim( se_re[1].replace(/[\.]/g,' ') );
+                            var trakt = new (App.Config.getProvider('metadata'))();
+                            trakt.episodeDetail({title: tvshowname, season: se_re[2], episode: se_re[3]}, function(error, data) {
                                 if(error) {
                                     win.warn(error);
                                     getSubtitles(sub_data);
-                                } else if(!data || data.status == 'failure') {
-                                    win.warn('TTV error:', data.error);
+                                } else if(!data) {
+                                    win.warn('TTV error:', error.error);
                                     getSubtitles(sub_data);
                                 } else {
                                     $('.loading-background').css('background-image', 'url('+data.show.images.fanart+')');
