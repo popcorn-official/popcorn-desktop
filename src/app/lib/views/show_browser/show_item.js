@@ -23,6 +23,7 @@
         onShow: function() {
             // is boorkmarked or not ?
             var that = this;
+            this.blocked = false;
             Database.getBookmark(this.model.get('imdb_id'), function(err, value) {
                 if (!err) {
                     that.model.set('bookmarked', value);
@@ -52,15 +53,19 @@
         // triggered on click only
         showDetail: function() {
             var that = this;
-            this.ui.bookmarkIcon.hide();
-            this.ui.coverOverlay.prepend('<div id="element-loading"><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
-            var tvshow = new (App.Config.getProvider('tvshow'))();
-            var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
-                that.ui.bookmarkIcon.show();
-                that.ui.coverOverlay.find('#element-loading').remove();
-                if (!err) App.vent.trigger('show:showDetail', new Backbone.Model(data));
-                else alert("Somethings wrong... try later");
-            });
+            if (!this.blocked) {
+                this.ui.bookmarkIcon.hide();
+                this.blocked = true;
+                this.ui.coverOverlay.prepend('<div id="element-loading"><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
+                var tvshow = new (App.Config.getProvider('tvshow'))();
+                var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
+                    that.blocked = false;
+                    that.ui.bookmarkIcon.show();
+                    that.ui.coverOverlay.find('#element-loading').remove();
+                    if (!err) App.vent.trigger('show:showDetail', new Backbone.Model(data));
+                    else alert("Somethings wrong... try later");
+                });
+            }
 
         },
 
