@@ -17,7 +17,7 @@
 .init-progressbar
   position relative
   margin-bottom 10px
-  margin-top 3.2%
+  margin-top 3%
   background-color #bababa
   border-radius 13px
   //padding 3px
@@ -29,17 +29,32 @@
     left 0px
 
 .icon-begin
-	margin 0 36%
+	margin 0 40%
+	width 25%
+	max-width 270px
+
+.init-icon-title
+	margin 0 43%
+
+.init-geek-line
+	margin 2% 0
+	color white
+	width 100%
+	text-align center
+	font-family 23px
 
 .text-begin
 	text-align center
+	bottom 5%
+	position absolute
+	width 70%
+	margin 0 15%
 
 .init-text
     position relative
     color #fff
     font-family 'Open Sans Semibold'
     -webkit-font-smoothing antialiased
-    margin-top 1%
 
 .init-status
     position relative
@@ -59,8 +74,8 @@
     left 0
     right 0
     -webkit-backface-visibility hidden
-    position: relative
-    top: 15%
+    position  relative
+    top  15%
 
 
 
@@ -102,14 +117,14 @@
 
 
 #disclaimer-container .disclaimer
-	height: 100%
+	height  100%
 	position absolute
-	z-index 10000;
+	z-index 10000
 	width 100%
 	height 100%
 
 	.icon-disclaimer
-		z-index:1000
+		z-index 1000
 		top 20%
 		left 5%
 		position absolute
@@ -117,7 +132,7 @@
 		filter drop-shadow(5px 2px 10px #fff)
 
 	.disclaimer-loading
-		z-index:1000
+		z-index 1000
 		width 100%
 		height 100%
 		position absolute
@@ -125,7 +140,7 @@
 		background-size cover
 
 	.loading-background
-		z-index:1000
+		z-index 1000
 		width 100%
 		height 100%
 		position absolute
@@ -133,13 +148,13 @@
 		background-color #000
 
 	.disclaimer-state
-		z-index:1000
+		z-index 1000
 		color #fff
 		font-family 'Open Sans Semibold'
 		-webkit-font-smoothing antialiased
 		text-align center
 		width 50%
-		height: 100%
+		height 100%
 		margin auto
 		left 40px
 		right 0
@@ -147,24 +162,24 @@
 		position relative
 
 		.disclaimer-content
-			padding-top:20%
-			height:100%
+			padding-top 20%
+			height 100%
 
 			h1
-				font-size: 25px
-				text-transform:uppercase
+				font-size 25px
+				text-transform uppercase
 
 			.disclaimer-text
 				font-size 15px
 				margin 20px
 				overflow auto
-				height:60%
+				height 60%
 				text-align left
 				width  100%
 				background rgba(0, 0, 0, 0.3)
 				padding 7px
 				scrollable()
-				text-transform:uppercase
+				text-transform uppercase
 
 			.btn-accept
 				display inline-block

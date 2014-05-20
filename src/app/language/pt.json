@@ -104,5 +104,7 @@
 	"Status: Checking Database...": "Estado: A verificar a base de dados...",
 	"Status: Creating Database...": "Estado: A criar a base de dados...",
 	"Status: Updating database...": "Estado: A atualizar a base de dados...",
-	"Status: Skipping synchronization TTL not met": "Estado: A ignorar sincronização, TTL ultrapassado"
+	"Status: Skipping synchronization TTL not met": "Estado: A ignorar sincronização, TTL ultrapassado",
+	"Status: Downloading API archive...": "Status: Downloading API archive...",
+	"Status: Archive downloaded successfully...": "Status: Archive downloaded successfully..."
 }
