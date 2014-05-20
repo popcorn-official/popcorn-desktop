@@ -99,7 +99,8 @@
             // As per checkVersion, -1 == lt; 0 == eq; 1 == gt
             if(checkVersion(updateData.version, App.settings.version) > 0) {
                 var outDir = App.settings.os == 'linux' ? process.execPath : CWD;
-                var outputFile = path.join(path.dirname(outDir), 'package.nw.new');
+                var fileName = App.settings.os == 'windows' ? 'update.exe' : 'package.nw.new'; 
+                var outputFile = path.join(path.dirname(outDir), fileName);
                 var downloadRequest = request(updateData.updateUrl);
                 downloadRequest.pipe(fs.createWriteStream(outputFile));
                 downloadRequest.on('complete', function() {
@@ -128,7 +129,7 @@
                                 else if(os == 'linux')
                                     installLin(outputFile, updateData);
                                 else if(os == 'windows')
-                                    installWin(outputFile, updateData);
+                                    installWin(outputFile);
                                 else
                                     return;
                             }
@@ -137,22 +138,19 @@
             }
         })
 
-        // Under Windows, we install to %APPDATA% and the app
-        // is in a folder called 'app'. 
-        function installWin(dlPath, updateData) {
-            var outDir = path.dirname(dlPath),
-                installDir = path.join(outDir, 'app');
-
-            var pack = new zip(dlPath);
+        // Under Windows, we download it as update.exe (built with NSIS)
+        // we run the updater and close PT to overwrite.
+        function installWin(dlPath) {
             try {
-                pack.extractAllTo(installDir, true);
-                fs.unlink(dlPath, function(err) {
+                var exec = require('child_process').execFile;
+                exec(dlPath, function(err, data) {  
                     if(err) throw err;
-                    installationComplete(updateData);
-                })
-            } catch(ex) {
-                // It's cool, worst comes to worst, we have a 17mb
-                // .nw file lying around :P
+                    // we close the app
+                    gui.App.quit();
+                });
+            } catch(err) {
+                // Dop! We have a update.exe and we can't use it... ;/
+                alert("Oops.. Something is wrong.\nPlease download latest version on http://get-popcorn.com\n\n"+err);
             }
         }
 
