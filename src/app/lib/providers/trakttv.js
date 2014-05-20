@@ -7,6 +7,7 @@
 
     var API_ENDPOINT = URI('http://api.trakt.tv/');
     var MOVIE_PATH = 'movie';
+    var SHOW_PATH = 'show';
     var API_KEY = '515a27ba95fbd83f20690e5c22bceaff0dfbde7c';
 
     function Trakttv() {
@@ -66,10 +67,50 @@
         return movies;
     };
 
+    // Single element query
+    // {title: "Game of Thrones", season: 4, episode: 6}
+    // {title: "Game of Thrones", season: 04, episode: 06}
+    
+    var episodeDetail = function(data, callback) {
+
+        var slug = data.title.toLowerCase()
+            .replace(/[^\w ]+/g,'')
+            .replace(/ +/g,'-');
+
+        var uri = API_ENDPOINT.clone()
+            .segment([
+                SHOW_PATH,
+                'episode',
+                'summary.json',
+                API_KEY,
+                slug,
+                data.season.toString(),
+                data.episode.toString()
+            ]);
+
+        win.info('Request to TRAKT API');
+        win.debug(uri.toString());
+        request({url: uri.toString(), json: true}, function(error, response, data) {
+            if(error || !data) {
+                callback(error, false);
+            } else {
+                if (data.status === 'failure') {
+                    callback(data, false);
+                } else {
+                    callback(false, data);
+                }
+            }
+        });
+    };    
+
     Trakttv.prototype.query = function(ids) {
         return Q.when(querySummaries(ids))
             .then(formatForPopcorn);
     };
+
+    Trakttv.prototype.episodeDetail = function(data, callback) {
+        return episodeDetail(data, callback);
+    };    
 
     App.Providers.Trakttv = Trakttv;
 
