@@ -19,6 +19,7 @@
         var movieList = [];
 
         items.forEach(function(movie) {
+
             var deferred = Q.defer();
             // we check if its a movie 
             // or tv show then we extract right data
@@ -27,21 +28,24 @@
                 Database.getMovie(movie.imdb_id, function(err,data) {
                     if (data != null) {                        
                         data.type = 'movie';
+                        deferred.resolve(data);   
+                    } else {
+                        deferred.reject(err);
                     }
-                    deferred.resolve(data || {});                    
                 });
 
             } else {
                 // its a tv show
                 Database.getTVShowByImdb(movie.imdb_id, function(err,data) {
-                    if (data != null) {
+                    if (data != null) {                        
                         data.type = 'tvshow';
 
-                        // little tweak
                         data.image = data.images.poster;
                         data.imdb = data.imdb_id;
-                    }
-                    deferred.resolve(data || {});                     
+                        deferred.resolve(data);   
+                    } else {
+                        deferred.reject(err);
+                    }                 
                 });
             }
 

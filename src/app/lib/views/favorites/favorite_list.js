@@ -29,7 +29,7 @@
 
         getEmptyView: function() {
             if(this.collection.state === 'error') {
-                return ErrorView.extend({error: i18n.__('Error loading data, try again later...')});
+                return ErrorView.extend({error: i18n.__('Error, database is probably corrupted. Try flushing the bookmarks in settings.')});
             } else {
                 return ErrorView.extend({error: i18n.__('No bookmarks found...')});
             }
