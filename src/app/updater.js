@@ -226,11 +226,7 @@
             })
                 
             $chnglog.on('click', function() {
-                var $changelog = $('#changelog-container').html(_.template($('#changelog-tpl').html())(updateData));
-                $changelog.find('.btn-close').on('click', function() {
-                    $changelog.hide();
-                });
-                $changelog.show();
+                gui.Shell.openExternal("http://blog.get-popcorn.com/");
             })
 
             $('body').addClass('has-notification')
