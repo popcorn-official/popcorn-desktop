@@ -126,5 +126,10 @@
 	"Flushing bookmarks...": "Flushing bookmarks...",
 	"Flushing...": "Flushing...",
 	"Resetting...": "Resetting...",
-	"We are resetting the settings": "We are resetting the settings"
+	"We are resetting the settings": "We are resetting the settings",
+	"New version downloaded": "New version downloaded",
+	"Installed": "Installed",
+	"Changelog": "Changelog",
+	"Install Now": "Install Now",
+	"Restart Now": "Restart Now"
 }

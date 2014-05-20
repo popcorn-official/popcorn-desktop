@@ -128,7 +128,7 @@
                                     else if(os == 'linux')
                                         installLin(outputFile, updateData);
                                     else if(os == 'windows')
-                                        installWin(outputFile);
+                                        installWin(outputFile, updateData);
                                     else
                                         return;
                                 }
@@ -140,10 +140,31 @@
 
         // Under Windows, we download it as update.exe (built with NSIS)
         // we run the updater and close PT to overwrite.
-        function installWin(dlPath) {
+        function installWin(dlPath, updateData) {
             try {
-                gui.Shell.openItem(dlPath);
-                gui.App.quit();
+                var $el = $('#notification');
+                $el.html(
+                    '<h1>' + i18n.__('New version downloaded') + ': ' + updateData.title + '</h1>'   +
+                    '<p>&nbsp;- ' + updateData.description + '</p>' +
+                    '<span class="btn-grp">'                        +
+                        '<a class="btn chnglog">' + i18n.__('Changelog') + '</a>'      +
+                        '<a class="btn restart">' + i18n.__('Install Now') + '</a>'    +
+                    '</span>'
+                ).addClass('blue');
+
+                var $install = $('.btn.restart'),
+                    $chnglog = $('.btn.chnglog');
+
+                $install.on('click', function() {
+                    gui.Shell.openItem(dlPath);
+                    gui.App.quit();
+                })
+					
+                $chnglog.on('click', function() {
+                    gui.Shell.openExternal("http://blog.get-popcorn.com/");
+                })
+
+                $('body').addClass('has-notification')
             } catch(err) {
                 // Dop! We have a update.exe and we can't use it... ;/
                 alert("Oops.. Something is wrong.\nPlease download latest version on http://get-popcorn.com\n\n"+err);
@@ -202,11 +223,11 @@
         function installationComplete(updateData) {
             var $el = $('#notification');
             $el.html(
-                '<h1>' + updateData.title + ' Installed</h1>'   +
+                '<h1>' + updateData.title + ' ' + i18n.__('Installed') + '</h1>'   +
                 '<p>&nbsp;- ' + updateData.description + '</p>' +
                 '<span class="btn-grp">'                        +
-                    '<a class="btn chnglog">Changelog</a>'      +
-                    '<a class="btn restart">Restart Now</a>'    +
+                    '<a class="btn chnglog">' + i18n.__('Changelog') + '</a>'      +
+                    '<a class="btn restart">' + i18n.__('Restart Now') + '</a>'    +
                 '</span>'
             ).addClass('blue');
 
