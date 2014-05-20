@@ -54,12 +54,14 @@
                 });
             },
 
-            setup : function() {
-                AdvSettings.getHardwareInfo();
+            setup : function(callback) {
                 AdvSettings.performUpgrade();
+                AdvSettings.getHardwareInfo(function(err, data) {
+                    callback();
+                });
             },
 
-            getHardwareInfo: function() {
+            getHardwareInfo: function(callback) {
                 if(/64/.test(process.arch))
                     AdvSettings.set('arch', 'x64');
                 else
@@ -68,16 +70,20 @@
                 switch(process.platform) {
                     case 'darwin':
                         AdvSettings.set('os', 'mac');
-                        break;
+                        callback();
+                    break;
                     case 'win32':
                         AdvSettings.set('os', 'windows');
-                        break;
+                        callback();
+                    break;
                     case 'linux':
                         AdvSettings.set('os', 'linux');
-                        break;
+                        callback();
+                    break;
                     default:
                         AdvSettings.set('os', 'unknown');
-                        break;
+                        callback();
+                    break;
                 }
             },
 

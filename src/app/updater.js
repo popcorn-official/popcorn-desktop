@@ -1,4 +1,3 @@
-(function() {
     function testInstalled() {
         return (!_.contains(require('fs').readdirSync('.'), '.git') || // Test Development
                 (   // Test Windows
@@ -15,128 +14,129 @@
                 ));
     }
 
+    function checkUpdate() {
+        win.debug('Testing if we should check for update...', testInstalled());
+        if(testInstalled()) {
+            var request = require('request')
+              , fs = require('fs')
+              , rm = require('rimraf')
+              , path = require('path')
+              , crypto = require('crypto')
+              , zip = require('adm-zip');
 
-    win.debug('Testing if we should check for update...', testInstalled());
-    if(testInstalled()) {
-        var request = require('request')
-          , fs = require('fs')
-          , rm = require('rimraf')
-          , path = require('path')
-          , crypto = require('crypto')
-          , zip = require('adm-zip');
+            var updateUrl = Settings.updateApiEndpoint + "update.json";
 
-        var updateUrl = Settings.updateApiEndpoint + "update.json";
+            var CWD = process.cwd();
 
-        var CWD = process.cwd();
+            /* HARDCODED DSA PUBLIC KEY... DO NOT MODIFY, CHANGE, OR OTHERWISE MESS WITH THIS
+             * IF I SEE A PULL REQUEST CHANGING THIS LINE, I WILL, REPEAT.. I WILL COME AFTER YOU
+             * AND KILL YOU! You have been warned -jduncanator
+             * On a side note, this is here as its easier for an attacker to modify localStorage 
+             * than source code!                                                                */
+            var VERIFY_PUBKEY =
+                '-----BEGIN PUBLIC KEY-----\n' +
+                'MIIBtjCCASsGByqGSM44BAEwggEeAoGBAPNM5SX+yR8MJNrX9uCQIiy0t3IsyNHs\n' +
+                'HWA180wDDd3S+DzQgIzDXBqlYVmcovclX+1wafshVDw3xFTJGuKuva7JS3yKnjds\n' +
+                'NXbvM9CrJ2Jngfd0yQPmSh41qmJXHHSwZfPZBxQnspKjbcC5qypM5DqX9oDSJm2l\n' +
+                'fM/weiUGnIf7AhUAgokTdF7G0USfpkUUOaBOmzx2RRkCgYAyy5WJDESLoU8vHbQc\n' +
+                'rAMnPZrImUwjFD6Pa3CxhkZrulsAOUb/gmc7B0K9I6p+UlJoAvVPXOBMVG/MYeBJ\n' +
+                '19/BH5UNeI1sGT5/Kg2k2rHVpuqzcvlS/qctIENgCNMo49l3LrkHbJPXKJ6bf+T2\n' +
+                '8lFWRP2kVlrx/cHdqSi6aHoGTAOBhAACgYBTNeXBHbWDOxzSJcD6q4UDGTnHaHHP\n' +
+                'JgeCrPkH6GBa9azUsZ+3MA98b46yhWO2QuRwmFQwPiME+Brim3tHlSuXbL1e5qKf\n' +
+                'GOm3OxA3zKXG4cjy6TyEKajYlT45Q+tgt1L1HuGAJjWFRSA0PP9ctC6nH+2N3HmW\n' +
+                'RTcms0CPio56gg==\n' +
+                '-----END PUBLIC KEY-----\n';
+                
+            var checkVersion = function(ver1, ver2) {
+                // returns `-` when ver2 less than
+                // returns `0` when ver2 equal
+                // returns `+` when ver2 greater than
+                ver1 = _.map(ver1.replace(/[^0-9.]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
+                ver2 = _.map(ver2.replace(/[^0-9.]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
 
-        /* HARDCODED DSA PUBLIC KEY... DO NOT MODIFY, CHANGE, OR OTHERWISE MESS WITH THIS
-         * IF I SEE A PULL REQUEST CHANGING THIS LINE, I WILL, REPEAT.. I WILL COME AFTER YOU
-         * AND KILL YOU! You have been warned -jduncanator
-         * On a side note, this is here as its easier for an attacker to modify localStorage 
-         * than source code!                                                                */
-        var VERIFY_PUBKEY =
-            '-----BEGIN PUBLIC KEY-----\n' +
-            'MIIBtjCCASsGByqGSM44BAEwggEeAoGBAPNM5SX+yR8MJNrX9uCQIiy0t3IsyNHs\n' +
-            'HWA180wDDd3S+DzQgIzDXBqlYVmcovclX+1wafshVDw3xFTJGuKuva7JS3yKnjds\n' +
-            'NXbvM9CrJ2Jngfd0yQPmSh41qmJXHHSwZfPZBxQnspKjbcC5qypM5DqX9oDSJm2l\n' +
-            'fM/weiUGnIf7AhUAgokTdF7G0USfpkUUOaBOmzx2RRkCgYAyy5WJDESLoU8vHbQc\n' +
-            'rAMnPZrImUwjFD6Pa3CxhkZrulsAOUb/gmc7B0K9I6p+UlJoAvVPXOBMVG/MYeBJ\n' +
-            '19/BH5UNeI1sGT5/Kg2k2rHVpuqzcvlS/qctIENgCNMo49l3LrkHbJPXKJ6bf+T2\n' +
-            '8lFWRP2kVlrx/cHdqSi6aHoGTAOBhAACgYBTNeXBHbWDOxzSJcD6q4UDGTnHaHHP\n' +
-            'JgeCrPkH6GBa9azUsZ+3MA98b46yhWO2QuRwmFQwPiME+Brim3tHlSuXbL1e5qKf\n' +
-            'GOm3OxA3zKXG4cjy6TyEKajYlT45Q+tgt1L1HuGAJjWFRSA0PP9ctC6nH+2N3HmW\n' +
-            'RTcms0CPio56gg==\n' +
-            '-----END PUBLIC KEY-----\n';
-            
-        var checkVersion = function(ver1, ver2) {
-            // returns `-` when ver2 less than
-            // returns `0` when ver2 equal
-            // returns `+` when ver2 greater than
-            ver1 = _.map(ver1.replace(/[^0-9.]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
-            ver2 = _.map(ver2.replace(/[^0-9.]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
+                var count = Math.max(ver1.length, ver2.length);
 
-            var count = Math.max(ver1.length, ver2.length);
+                for(var i = 0; i < count; i++) {
+                    if(ver1[i] === undefined)
+                        ver1[i] = 0;
+                    if(ver2[i] === undefined)
+                        ver2[i] = 0;
 
-            for(var i = 0; i < count; i++) {
-                if(ver1[i] === undefined)
-                    ver1[i] = 0;
-                if(ver2[i] === undefined)
-                    ver2[i] = 0;
+                    if(i == count - 1) {
+                        if(ver1[i] === ver2[i])
+                            return 0;
+                        if(ver1[i] > ver2[i])
+                            return 1;
+                        return -1;
+                    }
 
-                if(i == count - 1) {
                     if(ver1[i] === ver2[i])
-                        return 0;
+                        continue;
                     if(ver1[i] > ver2[i])
                         return 1;
                     return -1;
                 }
-
-                if(ver1[i] === ver2[i])
-                    continue;
-                if(ver1[i] > ver2[i])
-                    return 1;
-                return -1;
-            }
-        }
-
-        request(updateUrl, {json: true}, function(err, res, data) {
-            if(err || !data) return; // Its just an updater, we don't care :P
-
-            if(!_.contains(Object.keys(data), App.settings.os)) {
-                // No update for this OS, FreeBSD or SunOS.
-                // Must not be an official binary
-                return;
             }
 
-            var updateData = data[App.settings.os];
+            request(updateUrl, {json: true}, function(err, res, data) {
+                if(err || !data) return; // Its just an updater, we don't care :P
 
-            if(App.settings.os == 'linux')
-                updateData = updateData[App.settings.arch];
+                if(!_.contains(Object.keys(data), App.settings.os)) {
+                    // No update for this OS, FreeBSD or SunOS.
+                    // Must not be an official binary
+                    return;
+                }
 
-            win.debug('Testing if we should install update...', checkVersion(updateData.version, App.settings.version) > 0);
+                var updateData = data[App.settings.os];
 
-            // Should use SemVer here in v0.2.9 (refactor)
-            // As per checkVersion, -1 == lt; 0 == eq; 1 == gt
-            if(checkVersion(updateData.version, App.settings.version) > 0) {
-                var outDir = App.settings.os == 'linux' ? process.execPath : CWD;
-                var fileName = App.settings.os == 'windows' ? 'update.exe' : 'package.nw.new'; 
-                var outputFile = path.join(path.dirname(outDir), fileName);
-                var downloadRequest = request(updateData.updateUrl);
-                downloadRequest.pipe(fs.createWriteStream(outputFile));
-                downloadRequest.on('complete', function() {
-                    var hash = crypto.createHash('SHA1'),
-                        verify = crypto.createVerify('DSA-SHA1');
-                    fs.createReadStream(outputFile)
-                        .on('data', function(chunk) {
-                            hash.update(chunk);
-                            verify.update(chunk);
-                        })
-                        .on('end', function() {
-                            var checksum = hash.digest('hex');
-                            if(updateData.checksum !== checksum || verify.verify(VERIFY_PUBKEY, updateData.signature, 'base64') === false) {
-                                // Corrupt download or tampered update
-                                // Wait until next start to attempt the update again
-                                if(fs.existsSync(outputFile)) {
-                                    fs.unlink(outputFile, function(err) {
-                                        if(err) throw err;
-                                    })
+                if(App.settings.os == 'linux')
+                    updateData = updateData[App.settings.arch];
+
+                win.debug('Testing if we should install update...', checkVersion(updateData.version, App.settings.version) > 0);
+
+                // Should use SemVer here in v0.2.9 (refactor)
+                // As per checkVersion, -1 == lt; 0 == eq; 1 == gt
+                if(checkVersion(updateData.version, App.settings.version) > 0) {
+                    var outDir = App.settings.os == 'linux' ? process.execPath : CWD;
+                    var fileName = App.settings.os == 'windows' ? 'update.exe' : 'package.nw.new'; 
+                    var outputFile = path.join(path.dirname(outDir), fileName);
+                    var downloadRequest = request(updateData.updateUrl);
+                    downloadRequest.pipe(fs.createWriteStream(outputFile));
+                    downloadRequest.on('complete', function() {
+                        var hash = crypto.createHash('SHA1'),
+                            verify = crypto.createVerify('DSA-SHA1');
+                        fs.createReadStream(outputFile)
+                            .on('data', function(chunk) {
+                                hash.update(chunk);
+                                verify.update(chunk);
+                            })
+                            .on('end', function() {
+                                var checksum = hash.digest('hex');
+                                if(updateData.checksum !== checksum || verify.verify(VERIFY_PUBKEY, updateData.signature, 'base64') === false) {
+                                    // Corrupt download or tampered update
+                                    // Wait until next start to attempt the update again
+                                    if(fs.existsSync(outputFile)) {
+                                        fs.unlink(outputFile, function(err) {
+                                            if(err) throw err;
+                                        })
+                                    }
+                                } else {
+                                    // Valid update data! Overwrite the old data and move on with life!
+                                    var os = App.settings.os;
+                                    if(os == 'mac')
+                                        installMac(outputFile, updateData);
+                                    else if(os == 'linux')
+                                        installLin(outputFile, updateData);
+                                    else if(os == 'windows')
+                                        installWin(outputFile);
+                                    else
+                                        return;
                                 }
-                            } else {
-                                // Valid update data! Overwrite the old data and move on with life!
-                                var os = App.settings.os;
-                                if(os == 'mac')
-                                    installMac(outputFile, updateData);
-                                else if(os == 'linux')
-                                    installLin(outputFile, updateData);
-                                else if(os == 'windows')
-                                    installWin(outputFile);
-                                else
-                                    return;
-                            }
-                        });
-                });
-            }
-        })
+                            });
+                    });
+                }
+            })
+        }
 
         // Under Windows, we download it as update.exe (built with NSIS)
         // we run the updater and close PT to overwrite.
@@ -236,4 +236,3 @@
             $('body').addClass('has-notification')
         }
     }
-})();

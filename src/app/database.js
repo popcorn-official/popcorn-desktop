@@ -253,10 +253,17 @@ var Database = {
 				detectLanguage(Settings['language']);
 
 				// set hardware settings and usefull stuff
-				AdvSettings.setup();
+				AdvSettings.setup(function() {
 
-				// we skip the initDB (not needed in current version)
-				callback();
+					// check update
+					checkUpdate();
+
+					// we skip the initDB (not needed in current version)
+					callback();
+
+				});
+
+				
 
 			});
 
