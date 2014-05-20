@@ -202,6 +202,10 @@ var Database = {
 		})
 	},
 
+	resetSettings : function(cb) {
+		db.settings.remove({ }, { multi: true }, cb)
+	},
+
 	deleteDatabases: function(cb) {
 		db.bookmarks.remove({ }, { multi: true }, function (err, numRemoved) {
 			db.tvshows.remove({ }, { multi: true }, function (err, numRemoved) {

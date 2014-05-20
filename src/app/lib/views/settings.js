@@ -17,6 +17,7 @@
             'click .flush-bookmarks': 'flushBookmarks',
             'click .flush-databases': 'flushAllDatabase',
             'click #faketmpLocation' : 'showCacheDirectoryDialog',
+            'click .default-settings' : 'resetSettings',
 			'change #tmpLocation' : 'updateCacheDirectory',
         },
 
@@ -105,6 +106,45 @@
             $('body').addClass('has-notification')
 
             Database.deleteBookmarks(function(err, setting) {
+
+                // ask user to restart (to be sure)
+                $el.html(
+                    '<h1>' + i18n.__('Success') + '</h1>'   +
+                    '<p>' + i18n.__('Please restart your application') + '.</p>' +
+                    '<span class="btn-grp">'                        +
+                        '<a class="btn restart">' + i18n.__('Restart') + '</a>'    +
+                    '</span>'
+                ).removeClass().addClass('green');
+
+                // add restart button function
+                var $restart = $('.btn.restart');
+                $restart.on('click', function() {
+                    that.restartApplication();
+                });
+
+            });
+        },
+
+        resetSettings: function(e) {
+            var btn = $(e.currentTarget);
+            if(!btn.hasClass('confirm')){
+                btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
+                return;
+            }
+            btn.text( i18n.__('Resetting Settings to Default...') ).addClass('disabled').prop('disabled',true);
+            var that = this;
+
+            // we build our notification
+            var $el = $('#notification');
+            $el.html(
+                '<h1>' + i18n.__('Please wait') + '...</h1>'   +
+                '<p>' + i18n.__('We are resetting the settings') + '.</p>'
+            ).addClass('red');
+
+            // enable the notification on current view
+            $('body').addClass('has-notification')
+
+            Database.resetSettings(function(err, setting) {
 
                 // ask user to restart (to be sure)
                 $el.html(

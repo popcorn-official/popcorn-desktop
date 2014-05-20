@@ -124,5 +124,7 @@
 	"Reset to Default Settings": "Reset to Default Settings",
 	"Are you sure?": "Are you sure?",
 	"Flushing bookmarks...": "Flushing bookmarks...",
-	"Flushing...": "Flushing..."
+	"Flushing...": "Flushing...",
+	"Resetting Settings to Default...": "Resetting Settings to Default...",
+	"We are resetting the settings": "We are resetting the settings"
 }
