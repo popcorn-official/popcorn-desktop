@@ -131,7 +131,7 @@
                 btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
                 return;
             }
-            btn.text( i18n.__('Resetting Settings to Default...') ).addClass('disabled').prop('disabled',true);
+            btn.text( i18n.__('Resetting...') ).addClass('disabled').prop('disabled',true);
             var that = this;
 
             // we build our notification
