@@ -1,4 +1,4 @@
-.help-container {
+.help-container 
     z-index 1
     height 100%
     width 100%
@@ -6,15 +6,14 @@
     -webkit-user-select none
     opacity 1
 
-    .overlay-content {
+    .overlay-content 
         height 100%
         width 100%
         position absolute
         background rgba(0, 0, 0, 0.9)
         z-index -1
-    }
 
-    .close {
+    .close 
         top 85px
         right 20px
         position fixed
@@ -32,17 +31,15 @@
         &:hover
             opacity 1 
             transition all .5s
-    }
 
-    h1 {
+    h1 
         font-weight: bold;
 
-        & + hr {
+        & + hr 
             margin-top: 10px;
-        }
-    }
 
-    .content {
+
+    .content 
         margin 0 auto
         margin-top 100px
         width 60%
@@ -51,62 +48,60 @@
         font-family sans-serif
         font-size 17px
 
-        .text-about {
+        .text-about 
             margin-top 55px
             line-height 22px
             margin-bottom 20px
             position absolute
             width 60%
-        }
-    }
 
-    .keyboard-table {
+
+    .keyboard-table 
         float: left;
-        &.last {
+        &.last 
             margin-left: 40px;
-        }
 
-        tbody:first-child tr:first-child th {
+
+        tbody:first-child tr:first-child th 
             padding-top: 0;
-        }
 
-        th {
+
+        th 
             padding-top: 25px;
             font-size: 14px;
             font-weight: bold;
             line-height: 1.5;
             color: darken(#fff, 10%);
             text-align: left;
-        }
 
-        td {
+
+        td 
             padding-top: 3px;
             padding-bottom: 3px;
             line-height: 22px;
-        }
 
-        tr td:first-child {
+
+        tr td:first-child 
             padding-top: 1px;
             padding-right: 10px;
             text-align: right;
             white-space: nowrap;
-        }
 
-        td span.key {
+
+        td span.key 
             margin-left: 7px;
             margin-right: 7px;
 
-            &:first-child {
+            &:first-child 
                 margin-left: 0;
-            }
+    
 
-            &:last-child {
+            &:last-child 
                 margin-right: 0;
-            }
-        }
-    }
+    
 
-    .key {
+
+    .key 
         display: inline-block
         color: lighten(#000, 10%)
         font: bold 9pt arial
@@ -126,87 +121,85 @@
         padding: 3px 0 0
         text-transform: uppercase
             
-        &.tab {
+        &.tab 
             text-align: left;
             padding: 23px 0 0 10px;
             font-size: 7.5pt;
             text-transform: lowercase;
-        }
+
         
-        &.esc {
+        &.esc 
             padding: 6px 2px 0 0;
             font-size: 7.5pt;
             text-transform: lowercase;
-        }
+
 
         &.delete,
-        &.tab {
+        &.tab 
             width: 36px;
-        }
+
 
         &.caps,
-        &.enter {
+        &.enter 
             width: 42px;
-        }
+
 
         &.shiftleft,
-        &.shiftright {
+        &.shiftright 
             width: 56px;
-        }
+
 
         &.fn,
         &.control,
         &.option,
         &.command,
-        &.spacebar {
+        &.spacebar 
             height: 24px;
-        }
 
-        &.control {
+
+        &.control 
             width: 38px;
-        }
+
         
-        &.option {
+        &.option 
             width: 23px;
-        }
-        
-        &.command {
-            width: 38px;
-        }
-        
-        &.spacebar {
-            width: 113px;
-        }
 
-        &.down {
+        
+        &.command 
+            width: 38px;
+
+        
+        &.spacebar 
+            width: 113px;
+
+
+        &.down 
             height: 11px;
-        }
+
 
         &.up, 
         &.leftarrow, 
-        &.rightarrow {
+        &.rightarrow 
             height: 12px;
-        }
+
 
         &.leftarrow, 
-        &.rightarrow {
+        &.rightarrow 
             padding: 5px 5px 5px;
-        }
 
-        &.up {
+
+        &.up 
             padding: 5px 5px 1px; 
             border-bottom-right-radius: 0px; 
             border-bottom-left-radius: 0px;
-        }
 
-        &.down {
+
+        &.down 
             padding: 0 5px 5px; 
             border-top-left-radius: 0px; 
             border-top-right-radius: 0px;
-        }
 
-        &.arrow {
+
+        &.arrow 
             font-size: 14px;
-        }
-    }
-}
+
