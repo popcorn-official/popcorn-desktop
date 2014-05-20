@@ -18,8 +18,7 @@
     Settings['yifyApiEndpointMirror'] = 'https://yts.im/api/';
 
     // default tvshow api endpoint
-    Settings['tvshowApiEndpoint'] = "http://popcorn-api.com/";
-    Settings['tvshowApiEndpointMirror'] = "http://popcorn-api.net/";
+    Settings['tvshowApiEndpoint'] = "http://eztvapi.re/";
 
     Settings['connectionCheckUrl'] = 'http://google.com/';
     Settings['moviesShowQuality'] = false;
