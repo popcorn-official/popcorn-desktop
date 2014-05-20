@@ -14,7 +14,6 @@
         events: {
             'click .close': 'closeSettings',
             'change select,input': 'saveSetting',
-            'click .rebuild-tvshows-database': 'rebuildTvShows',
             'click .flush-bookmarks': 'flushBookmarks',
             'click .flush-databases': 'flushAllDatabase',
             'click #faketmpLocation' : 'showCacheDirectoryDialog',
@@ -86,12 +85,13 @@
             });
         },
 
-
-        rebuildTvShows: function() {
-            App.vent.trigger('shows:init');
-        },
-
-        flushBookmarks: function() {
+        flushBookmarks: function(e) {
+            var btn = $(e.currentTarget);
+            if(!btn.hasClass('confirm')){
+                btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
+                return;
+            }
+            btn.text( i18n.__('Flushing bookmarks...') ).addClass('disabled').prop('disabled',true);
             var that = this;
 
             // we build our notification
@@ -124,7 +124,13 @@
             });
         },
 
-        flushAllDatabase: function() {
+        flushAllDatabase: function(e) {
+            var btn = $(e.currentTarget);
+            if(!btn.hasClass('confirm')){
+                btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
+                return;
+            }
+            btn.text( i18n.__('Flushing...') ).addClass('disabled').prop('disabled',true);
             var that = this;
 
             // we build our notification
