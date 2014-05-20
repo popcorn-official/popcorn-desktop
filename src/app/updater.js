@@ -1,7 +1,8 @@
     function testInstalled() {
         return (!_.contains(require('fs').readdirSync('.'), '.git') || // Test Development
                 (   // Test Windows
-                    App.settings.os == 'windows'
+                    App.settings.os == 'windows' &&
+                    fs.existsSync(process.cwd()+'\\Uninstall.exe')
                 ) ||
                 (   // Test Linux
                     App.settings.os == 'linux' &&
