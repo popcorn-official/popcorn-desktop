@@ -28,12 +28,12 @@
 				<select name="language"><%=langs%></select>
 				<div class="dropdown-arrow"></div>
 			</div>
-			<br><br><br>
-			<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
-			<label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
 		</div>
 		
 		<div class="movies-options">
+			<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
+			<label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
+			<br><br>
 			<div class="dropdown movies-quality">
 				<p><%= i18n.__("Only list movies in") %>:</p>
 				<select name="movies_quality">
@@ -79,9 +79,6 @@
 
 		<div class="more-options">
 			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input type="text" size = "50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
-			<br><br>
-			<div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
-			<div class="btn-settings flush-databases"><%= i18n.__("Flush all databases") %></div>
 		</div>
 		<div class="advanced-settings">
 			<p><%= i18n.__("Connection Limit") + ":" %></p> <input type="text" size = "20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
@@ -100,6 +97,11 @@
 			<input class="settings-checkbox" name="deleteTmpOnClose" id="cb2" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
 
 			<label class="settings-label" for="cb2"><%= i18n.__("Clear Tmp Folder after closing app?") %></label>
+		</div>
+		<div class="btns">
+			<div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
+			<div class="btn-settings flush-databases"><%= i18n.__("Flush all databases") %></div>
+			<div class="btn-settings default-settings"><%= i18n.__("Reset to Default Settings") %></div>
 		</div>
 	</div>
 </div>
