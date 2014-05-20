@@ -1,8 +1,7 @@
     function testInstalled() {
         return (!_.contains(require('fs').readdirSync('.'), '.git') || // Test Development
                 (   // Test Windows
-                    App.settings.os == 'windows' && 
-                    process.cwd().indexOf(process.env.APPDATA) != -1
+                    App.settings.os == 'windows'
                 ) ||
                 (   // Test Linux
                     App.settings.os == 'linux' &&
