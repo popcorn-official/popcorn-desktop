@@ -22,6 +22,7 @@
             this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
             this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
             this.video = false;
+            this.inFullscreen = win.isFullscreen;
         },
 
         updateDownloadSpeed: function() {
@@ -263,6 +264,9 @@
         },
 
         onClose: function() {
+            if(!this.inFullscreen && win.isFullscreen) {
+                win.leaveFullscreen();
+            }
             App.vent.trigger('stream:stop');            
         }
 
