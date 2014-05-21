@@ -1,5 +1,10 @@
 <div class="movie-detail">
 	<div class="detail-window">
+	<%  
+		if(typeof backdrop === 'undefined'){ backdrop = ''; }; 
+		if(typeof synopsis === 'undefined'){ synopsis = 'Synopsis not available.'; }; 
+ 		if(typeof runtime === 'undefined'){ runtime = 'N/A'; }; 
+ 	%>
 		<div id="movie-backdrop" data-bgr="<%= backdrop %>" class="movie-backdrop"></div>
 		<div class="movie-backdrop-overlay"></div>
 		<img class="movie-cover-image" src="<%= image %>" />
