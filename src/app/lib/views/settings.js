@@ -16,6 +16,7 @@
             'change select,input': 'saveSetting',
             'click .flush-bookmarks': 'flushBookmarks',
             'click .flush-databases': 'flushAllDatabase',
+            'click .flush-subtitles': 'flushAllSubtitles',
             'click #faketmpLocation' : 'showCacheDirectoryDialog',
             'click .default-settings' : 'resetSettings',
 			'change #tmpLocation' : 'updateCacheDirectory',
@@ -227,6 +228,14 @@
             that.ui.fakeTempDir.val = field.val();  // set the value to the styled textbox
             that.render();
         },
+
+        flushAllSubtitles : function() {
+            // TODO: ADD CONFIRM
+            var cache = new App.Cache('subtitle');
+            cache.flushTable(function() {
+                console.log("done !");
+            });
+        }
     });
 
     App.View.Settings = Settings;

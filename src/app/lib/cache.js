@@ -112,7 +112,16 @@
                 var query = 'DELETE FROM ' + self.table + ' WHERE ' + buildWhereIn(ids);
                 tx.executeSql(query, ids, function () {});
             });
-        }
+        },
+
+        flushTable: function(callback) {
+            var self = this;
+            db.transaction(function (tx) {
+                var query = 'DELETE FROM ' + self.table;
+                tx.executeSql(query, function () {});
+                callback();
+            });
+        }        
     });
 
     App.Cache = Cache;

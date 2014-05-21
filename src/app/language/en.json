@@ -131,5 +131,6 @@
 	"Installed": "Installed",
 	"Changelog": "Changelog",
 	"Install Now": "Install Now",
-	"Restart Now": "Restart Now"
+	"Restart Now": "Restart Now",
+	"Flush subtitles database": "Flush subtitles database"
 }
