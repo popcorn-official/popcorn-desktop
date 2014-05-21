@@ -132,5 +132,7 @@
 	"Changelog": "Changelog",
 	"Install Now": "Install Now",
 	"Restart Now": "Restart Now",
-	"Flush subtitles database": "Flush subtitles database"
+	"We are flushing your subtitle cache": "We are flushing your subtitle cache",
+	"Subtitle cache deleted": "Subtitle cache deleted",
+	"Flush subtitles cache": "Flush subtitles cache"
 }

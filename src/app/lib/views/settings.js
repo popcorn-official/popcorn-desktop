@@ -229,11 +229,36 @@
             that.render();
         },
 
-        flushAllSubtitles : function() {
+        flushAllSubtitles : function(e) {
+            var btn = $(e.currentTarget);
+            if(!btn.hasClass('confirm')){
+                btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
+                return;
+            }
+            btn.text( i18n.__('Flushing...') ).addClass('disabled').prop('disabled',true);
+            var that = this;
+
+            // we build our notification
+            var $el = $('#notification');
+            $el.html(
+                '<h1>' + i18n.__('Please wait') + '...</h1>'   +
+                '<p>' + i18n.__('We are flushing your subtitle cache') + '.</p>'
+            ).addClass('red').show();
+
+            // enable the notification on current view
+            $('body').addClass('has-notification');
             // TODO: ADD CONFIRM
             var cache = new App.Cache('subtitle');
             cache.flushTable(function() {
-                console.log("done !");
+                $el.html(
+                    '<h1>' + i18n.__('Success') + '</h1>'   +
+                    '<p>' + i18n.__('Subtitle cache deleted') + '.</p>'
+                ).removeClass().addClass('green');
+                setTimeout(function(){
+                    btn.text( i18n.__("Flush subtitles cache") ).removeClass('confirm disabled').prop('disabled',false);
+                    $('body').removeClass('has-notification');
+                    $el.hide();
+                }, 2000);
             });
         }
     });
