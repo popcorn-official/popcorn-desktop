@@ -9,8 +9,9 @@
   - `30b6136` [NEW] Added Advanced Settings with Connection, DHT, Tmp Folder options
   - `1a56f64` [NEW] Pressing 'escape' to closes modals
   - `2e4167e` [NEW] Added a help view for keyboard shortcuts. Press `?`
-  - `597de42` [NEW] Subtitles are search by filename for better results
   - `17c62fb` [NEW] Better init screen
+  - `37be4be` [NEW] Draggable subtitles. Move subtitles around the player.
+  - `476d4d5` [NEW] Drag and drop subtitles on the player to load a custom SRT file
 
 ### Bugfixes:
 
@@ -31,4 +32,5 @@
   - `4b90f70` [FIX] Close movie detail on search
   - `66efa9b` [FIX] Portuguese subtitle encoding
   - `85ff8e6` [FIX] Fastest app opening
+  - `597de42` [FIX] Better subtitles results (search by filename)
   - `7cc2d0f` [FIX] Auto updater
