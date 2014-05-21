@@ -10,7 +10,6 @@
   - `1a56f64` [NEW] Pressing 'escape' to closes modals
   - `2e4167e` [NEW] Added a help view for keyboard shortcuts. Press `?`
   - `597de42` [NEW] Subtitles are search by filename for better results
-  - `37be4be` [NEW] Draggable subtitles. Move subtitles around the player.
   - `17c62fb` [NEW] Better init screen
 
 ### Bugfixes:
