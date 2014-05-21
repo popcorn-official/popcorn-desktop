@@ -118,7 +118,7 @@
 	"Status: Importing file": "Durum: Dosya içe aktarılıyor.",
 	"Status: Imported successfully": "Durum: Dosya içe aktarımı tamamlandı.",
 	"Status: Launching applicaion... ": "Durum: Uygulama çalıştırılıyor.",
-	"URL of this stream was copied to the clipboard": "Bu yayının URL\'si panoya kopyalandı.",
+	"URL of this stream was copied to the clipboard": "Bu yayının URL'si panoya kopyalandı.",
 	"Error loading data, try again later...": "Veri yüklenirken hata oluştu, daha sonra tekrar deneyin...",
 	"Error, database is probably corrupted. Try flushing the bookmarks in settings.": "Hata, veritabanı büyük olasılıkla bozuldu. Ayarlarda yer imlerini kurtarmayı deneyin.",
 	"Reset to Default Settings": "Varsayılan Ayarlara Sıfırla",
