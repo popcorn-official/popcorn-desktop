@@ -155,9 +155,9 @@
             $('.episodeSummary').removeClass('active');
             $elem.addClass('active');
             $(".episode-info-number").text(i18n.__('Episode') + ' '+$('.template-'+tvdbid+' .episode').html());
-            $(".episode-info-title").text($('.template-'+tvdbid+' .title').html());
+            $(".episode-info-title").text($('.template-'+tvdbid+' .title').text());
             $(".episode-info-date").text(i18n.__('Aired Date') + ': '+$('.template-'+tvdbid+' .date').html());
-            $(".episode-info-description").text($('.template-'+tvdbid+' .overview').html());
+            $(".episode-info-description").text($('.template-'+tvdbid+' .overview').text());
 
             //pull the scroll always to top
             $(".episode-info-description").scrollTop(0);
