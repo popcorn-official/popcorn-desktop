@@ -14,7 +14,7 @@
 		<div class="tv-num-episodes"><%= i18n.__(genres[0]) %></div>
 		<div class="tv-dot"></div>
 		<% p_rating = Math.round(rating.percentage) / 20; // Roundoff number to nearest 0.5 %>
-		<div data-toggle="tooltip" data-placement="right" title="<%= p_rating %> stars" class="star-container-tv">
+		<div data-toggle="tooltip" data-placement="right" title="<%= Math.round(rating.percentage) / 10 %> /10" class="star-container-tv">
 
 		<% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
 			<img src="images/icons/star.png" alt="full" class="tv-rating-star">
