@@ -89,8 +89,8 @@
 
 			<!-- Cache Directory -->
 			<p><%= i18n.__("Cache Directory") %>: </p>
-			<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= App.settings.tmpLocation %>" readonly="readonly" size="75" />
-			<input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" />
+			<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="75" />
+			<input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
 			<br><br>
 			<!-- Cache Directory / -->
 			
