@@ -90,6 +90,7 @@
             });
 
             player.on('ended', function () {
+                // For now close player. In future we will check if auto-play etc and get next episode
                 _this.closePlayer();
             });
 
