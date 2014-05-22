@@ -89,6 +89,10 @@
 
             });
 
+            player.on('ended', function () {
+                _this.closePlayer();
+            });
+
             player.on('play', function () {
               // Trigger a resize so the subtitles are adjusted
               $(window).trigger('resize');
