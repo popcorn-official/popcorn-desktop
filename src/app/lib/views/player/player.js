@@ -96,6 +96,7 @@
             // There was an issue with the video
             player.on('error', function (error) {
 				// TODO: user errors
+                if(_this.model.get('type') == 'video/youtube') setTimeout(function() {App.vent.trigger('player:close')}, 2000);
                 win.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
             });
 
