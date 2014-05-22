@@ -213,7 +213,7 @@ App.Localization.langcodes = {
 		name:"Croatian",
 		nativeName:"hrvatski",
 		subtitle: true,
-		encoding: ['iso-8859-2'] // Tested
+		encoding: ['Windows-1250'] // Tested
 	},
 	"cs":{
 		name:"Czech",
@@ -677,7 +677,7 @@ App.Localization.langcodes = {
 		name:"Serbian",
 		nativeName:"српски језик",
 		subtitle: true,
-		encoding: ['Windows-1251'] // Tested
+		encoding: ['Windows-1250'] // Tested
 	},
 	"gd":{
 		name:"Scottish Gaelic",
