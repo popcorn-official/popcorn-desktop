@@ -22,11 +22,14 @@
 			padding 88px 0
 			width 100%
 			height 100%
+			border: 2px solid rgba(23, 24, 27, 0.6)
 			border-radius 4px
 			transition opacity .25s ease
+			transition border-color .25s ease
 			opacity 0
 			
 			&:hover
+				border 2px solid #2d75df
 				opacity: 1
 
 			.actions-favorites
@@ -46,7 +49,11 @@
 				&.selected
 					background-image: url(../../images/icons/favorites_marked.png)
 
-
+	&.selected
+		.cover
+			.cover-overlay
+				border 2px solid #2d75df
+				opacity: 1
 	.title
 		height: 14px;
 		margin: 6px 0 4px;
