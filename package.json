@@ -11,7 +11,8 @@
   "version": "0.3.1",
   "scripts": {
     "postinstall": "node_modules/.bin/bower install",
-    "postupdate": "node_modules/.bin/bower update"
+    "postupdate": "node_modules/.bin/bower update",
+    "test": "grunt --verbose"
   },
   "window": {
     "title": "Popcorn Time",
