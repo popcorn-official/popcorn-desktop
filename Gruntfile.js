@@ -68,13 +68,6 @@ module.exports = function(grunt) {
 	});
 
 	grunt.initConfig({
-		bump: {
-			options: {
-				files: ['package.json'],
-				pushTo: 'origin'
-			}
-		},
-
 		stylus: {
 			compile: {
 				options: {
