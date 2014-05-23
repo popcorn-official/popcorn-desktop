@@ -87,7 +87,8 @@
             movie: 'Yts',
             subtitle: 'YSubs',
             metadata: 'Trakttv',
-            tvshow: 'Eztv'
+            tvshow: 'Eztv',
+            tvshowsubtitle: 'OpenSubtitles'
         },
 
         getProvider: function(type) {

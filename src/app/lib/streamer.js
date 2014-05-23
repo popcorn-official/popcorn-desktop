@@ -120,12 +120,15 @@
                     App.vent.trigger('error', err);
                     App.vent.trigger('stream:stop');
                 } else {
-                    // did we need to etxract subtitle ?
+                    // did we need to extract subtitle ?
                     var extractSubtitle = model.get('extract_subtitle');
 					
                     var getSubtitles = function(data){
                         win.debug('Subtitle data request:', data);
-                        App.db.getSubtitles(data, function(err, subs) {
+                        
+                        var subtitleProvider = new (App.Config.getProvider('tvshowsubtitle'))();
+                        
+                        subtitleProvider.query(data, function(subs) {
                             if (Object.keys(subs).length > 0) {
                                 subtitles = subs;
                                 win.info(Object.keys(subs).length + ' subtitles found');
