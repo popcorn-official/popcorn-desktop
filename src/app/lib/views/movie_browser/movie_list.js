@@ -110,13 +110,13 @@
                 if(e.target.localName != 'div') return;
                 _.defer(function(){
                     self.$('.movies:first').focus();
-                    self.$('.movie-item').eq(3).addClass('selected');
+                    self.$('.movie-item').eq(0).addClass('selected');
                 });
             });
             $(".movies").attr('tabindex','1');
             _.defer(function(){
                 self.$('.movies:first').focus();
-                self.$('.movie-item').eq(3).addClass('selected');
+                self.$('.movie-item').eq(0).addClass('selected');
             });
         },
 

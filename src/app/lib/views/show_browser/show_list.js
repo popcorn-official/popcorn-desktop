@@ -53,6 +53,18 @@
         initialize: function() {
             this.listenTo(this.collection, 'loading', this.onLoading);
             this.listenTo(this.collection, 'loaded', this.onLoaded);
+
+            var _this = this;
+
+            Mousetrap.bind('up', _this.moveUp);
+
+            Mousetrap.bind('down', _this.moveDown);
+
+            Mousetrap.bind('left', _this.moveLeft);
+
+            Mousetrap.bind('right', _this.moveRight);
+
+            Mousetrap.bind('enter', _this.selectItem);
         },
 
         remove: function() {
@@ -97,11 +109,13 @@
                 if(e.target.localName != 'div') return;
                 _.defer(function(){
                     self.$('.shows:first').focus();
+                    self.$('.movie-item').eq(0).addClass('selected');
                 });
             });
             $(".shows").attr('tabindex','1');
             _.defer(function(){
                 self.$('.shows:first').focus();
+                self.$('.movie-item').eq(0).addClass('selected');
             });
         },
 
@@ -115,8 +129,66 @@
                 totalHeight - currentPosition < SCROLL_MORE) {
                 this.collection.fetchMore();
             }
-        }
+        },
+
+        selectItem: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $('.movie-item.selected .cover').trigger('click');
+        },
+
+        moveUp: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var index = $('.movie-item.selected').index();
+            var numInRow = calculateSeriesInThisRow($('.movie-item.selected'));
+            if(index - numInRow < 0) return;
+            $('.movie-item.selected').removeClass('selected');
+            $('.shows .movie-item').eq(index - numInRow).addClass('selected');
+            $('.movie-item.selected')[0].scrollIntoView(false);
+        },
+
+        moveDown: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var index = $('.movie-item.selected').index();
+            var numInRow = calculateSeriesInThisRow($('.movie-item.selected'));
+            $('.movie-item.selected').removeClass('selected');
+            $('.shows .movie-item').eq(index + numInRow).addClass('selected');
+            $('.movie-item.selected')[0].scrollIntoView(false);
+        },
+
+        moveLeft: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var index = $('.movie-item.selected').index();
+            if(index == 0) return;
+            if(index == -1) $('.shows .movie-item').eq(0).addClass('selected');
+            $('.movie-item.selected').removeClass('selected');
+            $('.shows .movie-item').eq(--index).addClass('selected');
+            $('.movie-item.selected')[0].scrollIntoView(false);
+        },
+
+        moveRight: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var index = $('.movie-item.selected').index();
+            $('.movie-item.selected').removeClass('selected');
+            $('.shows .movie-item').eq(++index).addClass('selected');
+            $('.movie-item.selected')[0].scrollIntoView(false);
+        },
     });
+
+    function calculateSeriesInThisRow(selected) {
+        var topNumber = selected.position().top;
+        var divsInRow = 0;
+        $('.shows li').each(function() {
+            if($(this).position().top == topNumber){
+                divsInRow++;
+            }
+        });
+        return divsInRow;
+    }
 
     App.View.ShowList = ShowList;
 })(window.App);
