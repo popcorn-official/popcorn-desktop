@@ -97,8 +97,9 @@
             var epInfo = {
                 type: 'tvshow',
                 imdbid: that.model.get('imdb_id'), 
-                season : season,
-                episode : episode
+                tvdbid: that.model.get("tvdb_id"),
+                season: season,
+                episode: episode
             };
                
             var torrentStart = new Backbone.Model({
