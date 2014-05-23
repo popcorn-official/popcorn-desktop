@@ -22,7 +22,8 @@
     "height": 618,
     "min_width": 990,
     "min_height": 556,
-    "resizable": true
+    "resizable": true,
+    "position": "center"
   },
   "dependencies": {
     "URIjs": "1.13.1",
