@@ -240,14 +240,13 @@ vjs.TextTrack.prototype.load = function(){
 	// Handles charset encoding
 	function decode(dataBuff, language, callback) {
 		var charsetDetect = require('jschardet');
-		var targetCharset = 'UTF-8';
 		var targetEncodingCharset = 'utf8';
 
 		var charset = charsetDetect.detect(dataBuff);
 		var detectedEncoding = charset.encoding;
 		win.debug("SUB charset detected: "+detectedEncoding);
 		// Do we need decoding?
-		if (detectedEncoding == targetEncodingCharset || detectedEncoding == targetCharset) {
+		if (detectedEncoding.toLowerCase().replace('-','') == targetEncodingCharset) {
 			callback(dataBuff.toString('utf-8'));
 		// We do
 		} else {
