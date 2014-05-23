@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var StreamInfo = Backbone.Model.extend({
         updateStats: function() {

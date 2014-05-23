@@ -1,8 +1,8 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var MainWindow = Backbone.Marionette.Layout.extend({
-        template: "#main-window-tpl",
+        template: '#main-window-tpl',
 
         id: 'main-window',
 
@@ -137,7 +137,7 @@
 
                     if (!err) {
                         // we write our new update time
-                        AdvSettings.set("tvshow_last_sync", +new Date());
+                        AdvSettings.set('tvshow_last_sync', +new Date());
                     }
 
                     App.vent.trigger('shows:list');

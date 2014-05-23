@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
     var request = require('request');
 
     var Q = require('q');
@@ -68,8 +68,8 @@
     };
 
     // Single element query
-    // {title: "Game of Thrones", season: 4, episode: 6}
-    // {title: "Game of Thrones", season: 04, episode: 06}
+    // {title: 'Game of Thrones', season: 4, episode: 6}
+    // {title: 'Game of Thrones', season: 04, episode: 06}
     
     var episodeDetail = function(data, callback) {
 

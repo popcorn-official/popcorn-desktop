@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var _this;
     var ShowDetail = Backbone.Marionette.ItemView.extend({
@@ -7,7 +7,7 @@
         className: 'shows-container-contain',
 
         ui: {
-            startStreaming: ".startStreaming"
+            startStreaming: '.startStreaming'
         },
 
         events: {
@@ -30,13 +30,13 @@
 
         onShow: function() {
 
-            this.selectSeason($("#tabs_season li").first("li"));
+            this.selectSeason($('#tabs_season li').first('li'));
             $('.star-container-tv').tooltip();
-             var background = $(".tv-poster-background").attr("data-bgr");
+             var background = $('.tv-poster-background').attr('data-bgr');
               $('<img/>').attr('src', background).load(function() {
                 $(this).remove();
-                $(".tv-poster-background").css('background-image', "url(" + background + ")");
-                $(".tv-poster-background").fadeIn( 300 );
+                $('.tv-poster-background').css('background-image', 'url(' + background + ')');
+                $('.tv-poster-background').fadeIn( 300 );
               });     
 
             // add ESC to close this popup
@@ -61,9 +61,9 @@
 				
             Database.checkEpisodeWatched(value, function (watched, data) {
                 if(watched) {
-                    App.vent.trigger ("shows:unwatched", value);
+                    App.vent.trigger ('shows:unwatched', value);
                 } else {
-                    App.vent.trigger ("shows:watched", value);
+                    App.vent.trigger ('shows:watched', value);
                 }
             });
         },
@@ -94,7 +94,7 @@
             var season = $(e.currentTarget).attr('data-season');
             var name = $(e.currentTarget).attr('data-title');
 
-            title += " - " + i18n.__('Season') + " "+ season + ", " + i18n.__('Episode') + " "+ episode +" - "+ name;
+            title += ' - ' + i18n.__('Season') + ' '+ season + ', ' + i18n.__('Episode') + ' '+ episode +' - '+ name;
             var epInfo = {
                 type: 'tvshow',
                 imdbid: that.model.get('imdb_id'), 
@@ -105,12 +105,12 @@
             var torrentStart = new Backbone.Model({
                     torrent: $(e.currentTarget).attr('data-torrent'), 
                     backdrop: that.model.get('images').fanart, 
-                    type: "episode", 
-                    show_id: that.model.get("tvdb_id"),
+                    type: 'episode', 
+                    show_id: that.model.get('tvdb_id'),
                     episode: episode,
                     season: season,
                     title: title,
-                    status: that.model.get("status"),
+                    status: that.model.get('status'),
                     extract_subtitle: epInfo,
                     defaultSubtitle: Settings.subtitle_language
             });
@@ -145,9 +145,9 @@
             $('#tabs_season li.active').removeClass('active');
             $('.episodeSummary.active').removeClass('active');
             $elem.addClass('active');
-            $("#"+$elem.attr('data-tab')).addClass('current').scrollTop(0).show(); //pull the scroll always to top to
+            $('#'+$elem.attr('data-tab')).addClass('current').scrollTop(0).show(); //pull the scroll always to top to
 
-            this.selectEpisode($("#"+$elem.attr('data-tab')).find($( ".episodeSummary")).first());           
+            this.selectEpisode($('#'+$elem.attr('data-tab')).find($( '.episodeSummary')).first());           
         },
 
         selectEpisode: function($elem) {
@@ -155,21 +155,21 @@
             var tvdbtorrent = $elem.attr('data-torrent');
             $('.episodeSummary').removeClass('active');
             $elem.addClass('active');
-            $(".episode-info-number").text(i18n.__('Episode') + ' '+$('.template-'+tvdbid+' .episode').html());
-            $(".episode-info-title").text($('.template-'+tvdbid+' .title').text());
-            $(".episode-info-date").text(i18n.__('Aired Date') + ': '+$('.template-'+tvdbid+' .date').html());
-            $(".episode-info-description").text($('.template-'+tvdbid+' .overview').text());
+            $('.episode-info-number').text(i18n.__('Episode') + ' '+$('.template-'+tvdbid+' .episode').html());
+            $('.episode-info-title').text($('.template-'+tvdbid+' .title').text());
+            $('.episode-info-date').text(i18n.__('Aired Date') + ': '+$('.template-'+tvdbid+' .date').html());
+            $('.episode-info-description').text($('.template-'+tvdbid+' .overview').text());
 
             //pull the scroll always to top
-            $(".episode-info-description").scrollTop(0);
+            $('.episode-info-description').scrollTop(0);
 
-            $(".movie-btn-watch-episode").attr("data-torrent", tvdbtorrent);
-            $(".movie-btn-watch-episode").attr("data-episodeid", tvdbid);
+            $('.movie-btn-watch-episode').attr('data-torrent', tvdbtorrent);
+            $('.movie-btn-watch-episode').attr('data-episodeid', tvdbid);
 
             // set var for player
-            $(".movie-btn-watch-episode").attr("data-episode", $('.template-'+tvdbid+' .episode').html());
-            $(".movie-btn-watch-episode").attr("data-season", $('.template-'+tvdbid+' .season').html());
-            $(".movie-btn-watch-episode").attr("data-title", $('.template-'+tvdbid+' .title').html());
+            $('.movie-btn-watch-episode').attr('data-episode', $('.template-'+tvdbid+' .episode').html());
+            $('.movie-btn-watch-episode').attr('data-season', $('.template-'+tvdbid+' .season').html());
+            $('.movie-btn-watch-episode').attr('data-title', $('.template-'+tvdbid+' .title').html());
 
 
             this.ui.startStreaming.show();            

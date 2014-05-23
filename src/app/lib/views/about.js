@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var About = Backbone.Marionette.ItemView.extend({
         template: '#about-tpl',
@@ -20,7 +20,7 @@
             });
             $('.links').tooltip();
             console.log('Show about', this.model); 
-            $("#movie-detail").hide();
+            $('#movie-detail').hide();
         },
 
         onClose: function() {  
@@ -28,7 +28,7 @@
                 App.vent.trigger('show:closeDetail');
                 App.vent.trigger('movie:closeDetail');
             });
-            $("#movie-detail").show();
+            $('#movie-detail').show();
         },
 
         closeAbout: function() {

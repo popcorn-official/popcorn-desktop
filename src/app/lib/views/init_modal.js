@@ -1,5 +1,5 @@
 (function(App) { 
-    "use strict";
+    'use strict';
 
     var InitModal = Backbone.Marionette.ItemView.extend({
         template: '#initializing-tpl',
@@ -15,7 +15,7 @@
         },
 
         onShow: function() {
-            this.ui.initbar.animate({ width: "25%" }, 1000, 'swing');
+            this.ui.initbar.animate({ width: '25%' }, 1000, 'swing');
             this.ui.initstatus.text(i18n.__('Status: Checking Database...'));
         }
 

@@ -24,7 +24,7 @@ var
     url = require('url'),
 
     // i18n module (translations)
-    i18n = require("i18n"),
+    i18n = require('i18n'),
 
     // Mime type parsing
     mime = require('mime'),
@@ -78,14 +78,14 @@ App.db = Database;
 App.advsettings = AdvSettings;
 App.settings = Settings;  
 
-App.addRegions({ Window: ".main-window-region" });
+App.addRegions({ Window: '.main-window-region' });
 
 App.addInitializer(function(options){
     var mainWindow = new App.View.MainWindow();
     try{
         App.Window.show(mainWindow);
     } catch(e) {
-        console.error("Couldn't start app: ", e, e.stack);
+        console.error('Couldn\'t start app: ', e, e.stack);
     }
 });
 
@@ -117,7 +117,7 @@ var deleteFolder = function(path) {
 		if( fs.existsSync(path) ) {
 			files = fs.readdirSync(path);
 			files.forEach(function(file,index){
-				var curPath = path + "/" + file;
+				var curPath = path + '\/' + file;
 				if(fs.lstatSync(curPath).isDirectory()) {
 					deleteFolder(curPath);
 				} else {
@@ -153,7 +153,7 @@ Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function(e) {
 	win.showDevTools(); 
 });
 Mousetrap.bind('f11', function(e) { 
-	win.reloadIgnoringCache(); 
+	win.reloadIgnoringCache();
 });
 Mousetrap.bind(['?', '/', '\''], function(e) {
     e.preventDefault();
@@ -179,16 +179,16 @@ holder.ondrop = function (e) {
   e.preventDefault();
 
   var file = e.dataTransfer.files[0];
-  if(file.name.indexOf(".torrent") !== -1) {
+  if(file.name.indexOf('.torrent') !== -1) {
       var reader = new FileReader();
       reader.onload = function (event) {
         var content = reader.result;
-        fs.writeFile(gui.App.dataPath + "/" + file.name, content, function(err) {
+        fs.writeFile(gui.App.dataPath + '\/' + file.name, content, function(err) {
             if(err) {
-                window.alert("Error Loading Torrent: " + err);
+                window.alert('Error Loading Torrent: ' + err);
             }
             else {
-                var torrentStart = new Backbone.Model({torrent: gui.App.dataPath + "/" + file.name});
+                var torrentStart = new Backbone.Model({torrent: gui.App.dataPath + '\/' + file.name});
                 App.vent.trigger('stream:start', torrentStart);
             }
         });
@@ -204,7 +204,7 @@ holder.ondrop = function (e) {
 */
 holder.onpaste = function(e) {
     var data = e.clipboardData.getData('text/plain');
-    if(data.substring(0,8) === "magnet:?") {
+    if(data.substring(0,8) === 'magnet:?') {
         var torrentStart = new Backbone.Model({torrent: data});
         App.vent.trigger('stream:start', torrentStart);
     }
@@ -216,12 +216,12 @@ holder.onpaste = function(e) {
 */
 var last_arg = gui.App.argv.pop();
 if(last_arg) {
-        if (last_arg.substring(0,8) === "magnet:?") {
+        if (last_arg.substring(0,8) === 'magnet:?') {
                 App.vent.on('main:ready', function() {
                         var torrentStart = new Backbone.Model({torrent: last_arg});
                         App.vent.trigger('stream:start', torrentStart);
                 });
-        } else if (last_arg.substring(0,7) === "http://") {
+        } else if (last_arg.substring(0,7) === 'http://') {
                 App.vent.on('main:ready', function() {
                         var si = new App.Model.StreamInfo({});
                         si.set('title', last_arg);

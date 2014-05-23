@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
      
     var MovieItem = Backbone.Marionette.ItemView.extend({
         template: '#movie-item-tpl',
@@ -64,7 +64,7 @@
             var that = this;
             if (this.model.get('bookmarked') === true) {
                 Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
-                    console.log("Bookmark deleted");
+                    console.log('Bookmark deleted');
                     that.model.set('bookmarked', false);
 
                         that.ui.bookmarkIcon.removeClass('selected');
@@ -93,7 +93,7 @@
 
                 Database.addMovie(movie, function(error,result) {
                     Database.addBookmark(that.model.get('imdb'), 'movie', function(err, data) {
-                        console.log("Bookmark added");
+                        console.log('Bookmark added');
 
 
 

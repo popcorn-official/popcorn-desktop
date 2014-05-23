@@ -1,4 +1,4 @@
 (function(App) {
-    "use strict";
+    'use strict';
     App.start();
 })(window.App);

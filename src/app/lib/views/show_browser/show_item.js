@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var ShowItem = Backbone.Marionette.ItemView.extend({
         template: '#show-item-tpl',
@@ -58,7 +58,7 @@
                 if (!err) {
                     App.vent.trigger('show:showDetail', new Backbone.Model(data));
                 } else {
-                    alert("Somethings wrong... try later");
+                    alert('Somethings wrong... try later');
                 }
             });
         },
@@ -69,7 +69,7 @@
             var that = this;
             if (this.model.get('bookmarked') === true) {
                 Database.deleteBookmark(this.model.get('imdb_id'), function(err, data) {
-                    console.log("Bookmark deleted");
+                    console.log('Bookmark deleted');
                     that.model.set('bookmarked', false);
 
                         that.ui.bookmarkIcon.removeClass('selected');
@@ -83,14 +83,14 @@
                     if (!err) {
                         Database.addTVShow(data, function(err, idata) {
                             Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function(err, data) {
-                                console.log("Bookmark added");
+                                console.log('Bookmark added');
                                 that.ui.bookmarkIcon.addClass('selected');
                                 that.model.set('bookmarked', true);
                             });
                         });
 
                     } else {
-                        alert("Somethings wrong... try later");
+                        alert('Somethings wrong... try later');
                     }
                 });
                 

@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var SCROLL_MORE = 200;
 
@@ -78,28 +78,28 @@
         },
 
         onLoading: function() {
-            $(".status-loadmore").hide();
-            $("#loading-more-animi").show();
+            $('.status-loadmore').hide();
+            $('#loading-more-animi').show();
         },
 
         onLoaded: function() {
-			console.timeEnd("App startup time");
+			console.timeEnd('App startup time');
             var self = this;
             this.checkEmpty();
 
-            $("#load-more-item").remove();
+            $('#load-more-item').remove();
 
             // we add a load more
             if(this.collection.hasMore && this.collection.filter.keywords === null && this.collection.state !== 'error') {
-                $(".movies").append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
+                $('.movies').append('<div id=\'load-more-item\' class=\'load-more\'><span class=\'status-loadmore\'>' + i18n.__('Load More') + '</span><div id=\'loading-more-animi\' class=\'loading-container\'><div class=\'ball\'></div><div class=\'ball1\'></div></div></div>');
                 
-                $("#load-more-item").click(function(){
-                    $("#load-more-item").off('click');
+                $('#load-more-item').click(function(){
+                    $('#load-more-item').off('click');
                     self.collection.fetchMore();
                 });
 
-                $("#loading-more-animi").hide();
-                $(".status-loadmore").show();
+                $('#loading-more-animi').hide();
+                $('.status-loadmore').show();
             }
 
             $(window).on('resize', this.onResize);
@@ -115,7 +115,7 @@
                     self.$('.movie-item').eq(0).addClass('selected');
                 });
             });
-            $(".movies").attr('tabindex','1');
+            $('.movies').attr('tabindex','1');
             _.defer(function(){
                 self.$('.movies:first').focus();
                 self.$('.movie-item').eq(0).addClass('selected');

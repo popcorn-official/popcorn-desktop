@@ -18,7 +18,7 @@
     Settings.yifyApiEndpointMirror = 'https://yts.im/api/';
 
     // default tvshow api endpoint
-    Settings.tvshowApiEndpoint = "http://eztvapi.re/";
+    Settings.tvshowApiEndpoint = 'http://eztvapi.re/';
 
     Settings.connectionCheckUrl = 'http://google.com/';
     Settings.moviesShowQuality = false;

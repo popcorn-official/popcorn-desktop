@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     App.View.FilterBarShow = App.View.FilterBar.extend({
         template: '#filter-bar-show-tpl',

@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var STREAM_PORT = 21584; // 'PT'!
     var BUFFERING_SIZE = 10 * 1024 * 1024;
@@ -217,7 +217,7 @@
             }
             engine = null;
             subtitles = null; // reset subtitles to make sure they will not be used in next session.
-            win.info("Streaming cancelled");
+            win.info('Streaming cancelled');
         }
     };
 

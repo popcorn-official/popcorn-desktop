@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     // use of darwin string instead of mac (mac os x returns darwin as platform)
     var ButtonOrder = {

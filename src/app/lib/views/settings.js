@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var Settings = Backbone.Marionette.ItemView.extend({
         template: '#settings-container-tpl',
@@ -23,16 +23,16 @@
         },
 
         onShow: function() {
-            $(".filter-bar").hide();    
-            $("#movie-detail").hide();
+            $('.filter-bar').hide();    
+            $('#movie-detail').hide();
             Mousetrap.bind('esc', function(e) {
                 App.vent.trigger('settings:close');
             });
         },
 
         onClose: function() {
-            $(".filter-bar").show();    
-            $("#movie-detail").show();
+            $('.filter-bar').show();    
+            $('#movie-detail').show();
         },
         showCover: function() {},
 
@@ -58,10 +58,10 @@
 			case 'subtitle_size':
 			case 'subtitle_language':
 			case 'movies_quality':
-				value = $("option:selected", field).val();
+				value = $('option:selected', field).val();
 				break;
 			case 'language':
-				value = $("option:selected", field).val();
+				value = $('option:selected', field).val();
 				i18n.setLocale(value);
 				break;
 			case 'moviesShowQuality':
@@ -114,8 +114,8 @@
                 $el.html(
                     '<h1>' + i18n.__('Success') + '</h1>'   +
                     '<p>' + i18n.__('Please restart your application') + '.</p>' +
-                    '<span class="btn-grp">'                        +
-                        '<a class="btn restart">' + i18n.__('Restart') + '</a>'    +
+                    '<span class=\'btn-grp\'>'                        +
+                        '<a class=\'btn restart\'>' + i18n.__('Restart') + '</a>'    +
                     '</span>'
                 ).removeClass().addClass('green');
 
@@ -153,8 +153,8 @@
                 $el.html(
                     '<h1>' + i18n.__('Success') + '</h1>'   +
                     '<p>' + i18n.__('Please restart your application') + '.</p>' +
-                    '<span class="btn-grp">'                        +
-                        '<a class="btn restart">' + i18n.__('Restart') + '</a>'    +
+                    '<span class=\'btn-grp\'>'                        +
+                        '<a class=\'btn restart\'>' + i18n.__('Restart') + '</a>'    +
                     '</span>'
                 ).removeClass().addClass('green');
 
@@ -192,8 +192,8 @@
                 $el.html(
                     '<h1>' + i18n.__('Success') + '</h1>'   +
                     '<p>' + i18n.__('Please restart your application') + '.</p>' +
-                    '<span class="btn-grp">'                        +
-                        '<a class="btn restart">' + i18n.__('Restart') + '</a>'    +
+                    '<span class=\'btn-grp\'>'                        +
+                        '<a class=\'btn restart\'>' + i18n.__('Restart') + '</a>'    +
                     '</span>'
                 ).removeClass().addClass('green');
 
@@ -257,7 +257,7 @@
                     '<p>' + i18n.__('Subtitle cache deleted') + '.</p>'
                 ).removeClass().addClass('green');
                 setTimeout(function(){
-                    btn.text( i18n.__("Flush subtitles cache") ).removeClass('confirm disabled').prop('disabled',false);
+                    btn.text( i18n.__('Flush subtitles cache') ).removeClass('confirm disabled').prop('disabled',false);
                     $('body').removeClass('has-notification');
                     $el.hide();
                 }, 2000);

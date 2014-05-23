@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     /**
      * Manage movie browsing:

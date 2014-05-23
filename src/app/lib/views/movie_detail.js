@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     App.View.MovieDetail = Backbone.Marionette.ItemView.extend({
         template: '#movie-detail-tpl',
@@ -51,14 +51,14 @@
 
             $('.star-container').tooltip();
 
-            var background = $(".movie-backdrop").attr("data-bgr");
+            var background = $('.movie-backdrop').attr('data-bgr');
 
             $('<img/>').attr('src', background).load(function() {
                 $(this).remove();
-                $(".movie-backdrop").css('background-image', "url(" + background + ")").fadeIn(300);
+                $('.movie-backdrop').css('background-image', 'url(' + background + ')').fadeIn(300);
             });
 
-            $(".sub-dropdown-arrow-down").show();
+            $('.sub-dropdown-arrow-down').show();
 
             // switch to default subtitle
             this.switchSubtitle(Settings.subtitle_language);
@@ -75,7 +75,7 @@
 
         onThisResize: function() {
  
-            $('.cover-detail-overlay').height( $(".movie-cover-image").height() );
+            $('.cover-detail-overlay').height( $('.movie-cover-image').height() );
         },
 
         onClose: function() {
@@ -83,10 +83,10 @@
         showCover: function() {},
         toggleDropdown: function() {
             var self = this;
-            $(".flag-container").fadeIn();
-            $(".sub-dropdown-arrow-down").hide();
-            $(".sub-dropdown-arrow-up").show();
-            $("#toggle-sub-dropdown").one('click', function(e) {
+            $('.flag-container').fadeIn();
+            $('.sub-dropdown-arrow-down').hide();
+            $('.sub-dropdown-arrow-up').show();
+            $('#toggle-sub-dropdown').one('click', function(e) {
                 self.closeDropdown(e);
                 return false;
             });
@@ -95,7 +95,7 @@
 
         closeDropdown: function(e) {
             e.preventDefault();
-            var value = ($(e.currentTarget).attr("data-lang") == null) ? 'none' : $(e.currentTarget).attr("data-lang");
+            var value = ($(e.currentTarget).attr('data-lang') == null) ? 'none' : $(e.currentTarget).attr('data-lang');
             this.switchSubtitle(value);
         },
 
@@ -152,13 +152,13 @@
 
         calcHealth: function (tQ) {
             var spratio = tQ.seed / tQ.peer;
-            var health = "Bad";
+            var health = 'Bad';
             if(spratio > 5){
-                health = tQ.seed > 100? "Excellent":"Good";
+                health = tQ.seed > 100? 'Excellent':'Good';
             }else if(spratio > 2){
-                health = tQ.seed > 100? "Good":"Medium";
+                health = tQ.seed > 100? 'Good':'Medium';
             }else if(spratio >= 1){
-                health = tQ.seed > 100? "Medium":"Bad";
+                health = tQ.seed > 100? 'Medium':'Bad';
             }
             $('.health-icon').tooltip({html: true})
                              .removeClass('Bad Medium Good Excellent')
@@ -174,7 +174,7 @@
             var that = this;
             if (this.model.get('bookmarked') === true) {
                 Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
-                    console.log("Bookmark deleted");
+                    console.log('Bookmark deleted');
                     that.model.set('bookmarked', false);
 
                         that.ui.bookmarkIcon.removeClass('selected');
@@ -203,7 +203,7 @@
 
                 Database.addMovie(movie, function(error,result) {
                     Database.addBookmark(that.model.get('imdb'), 'movie', function(err, data) {
-                        console.log("Bookmark added");
+                        console.log('Bookmark added');
 
 
 
@@ -224,7 +224,7 @@
         switchSubtitle: function(lang) {
 
             // did this lang exist ?
-            var subtitles = this.model.get("subtitle");
+            var subtitles = this.model.get('subtitle');
 
             // make sure we have an existing lang
             if (subtitles === undefined || subtitles[lang] === undefined) {
@@ -233,12 +233,12 @@
 
             // here we go...
             this.subtitle_selected = lang;
-            this.ui.selected_lang.removeClass().addClass("flag").addClass("toggle").addClass("selected-lang").addClass(this.subtitle_selected);
-            $(".flag-container").fadeOut();
-            $(".sub-dropdown-arrow-down").show();
-            $(".sub-dropdown-arrow-up").hide();
+            this.ui.selected_lang.removeClass().addClass('flag').addClass('toggle').addClass('selected-lang').addClass(this.subtitle_selected);
+            $('.flag-container').fadeOut();
+            $('.sub-dropdown-arrow-down').show();
+            $('.sub-dropdown-arrow-up').hide();
 
-            win.info("Subtitle: " + this.subtitle_selected);
+            win.info('Subtitle: ' + this.subtitle_selected);
         }
     });
 })(window.App);

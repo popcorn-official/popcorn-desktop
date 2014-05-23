@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var Player = Backbone.Marionette.ItemView.extend({
         template: '#player-tpl',
@@ -44,10 +44,10 @@
             // Check if >80% is watched to mark as watched by user  (maybe add value to settings
             if(this.video.currentTime() / this.video.duration() >= 0.8){
                 if(this.model.get('show_id') != null) {
-                    win.debug("Mark TV Show as watched");
+                    win.debug('Mark TV Show as watched');
                     App.vent.trigger('shows:watched', this.model.attributes);
                 } else if (this.model.get('imdb_id') != null) {
-                    win.debug("Mark Movie as watched");
+                    win.debug('Mark Movie as watched');
                     App.vent.trigger('movies:watched', this.model.attributes);
 
                 } // else, it's probably a stream or something we don't know of
@@ -60,8 +60,8 @@
         onShow: function() {
 
             // Test to make sure we have title
-            win.info("Watching:", this.model.get("title"));
-			//$(".filter-bar").show(); 
+            win.info('Watching:', this.model.get('title'));
+			//$('.filter-bar').show(); 
             var _this = this;
 
             $('.player-header-background').canDragWindow();
@@ -72,7 +72,7 @@
             });
 
             if(this.model.get('type') === 'video/youtube') {
-                this.video = videojs('video_player', { techOrder: ["youtube"], forceSSL: true, ytcontrols: false, quality: '720p' });
+                this.video = videojs('video_player', { techOrder: ['youtube'], forceSSL: true, ytcontrols: false, quality: '720p' });
                 this.ui.eyeInfo.hide();
             } else {
                 this.video = videojs('video_player', { nativeControlsForTouch: false, plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {}, progressTips: {}, dropSubtitles: {} }});
@@ -144,7 +144,7 @@
             });
 
             Mousetrap.bind(['space', 'p'], function(e) {
-                $(".vjs-play-control").click();
+                $('.vjs-play-control').click();
             });
 
             Mousetrap.bind('right', function (e) {
@@ -275,12 +275,12 @@
                 $('.vjs-overlay').text(message);
                 clearTimeout($.data(this, 'overlayTimer'));
                 $.data(this, 'overlayTimer', setTimeout(function() {
-                    $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
+                    $('.vjs-overlay').fadeOut('normal', function() {$(this).remove();});
                 }, 3000));
             } else {
-                $(this.player.el()).append("<div class ='vjs-overlay vjs-overlay-top-left'>"+message+"</div>");
+                $(this.player.el()).append('<div class =\'vjs-overlay vjs-overlay-top-left\'>'+message+'</div>');
                 $.data(this, 'overlayTimer', setTimeout(function() {
-                    $('.vjs-overlay').fadeOut("normal", function() {$(this).remove();});
+                    $('.vjs-overlay').fadeOut('normal', function() {$(this).remove();});
                 }, 3000));
             }
         },

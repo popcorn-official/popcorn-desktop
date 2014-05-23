@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
      
     var FavoriteItem = Backbone.Marionette.ItemView.extend({
         template: '#favorite-item-tpl',
@@ -64,7 +64,7 @@
                     if (!err) {
                         App.vent.trigger('show:showDetail', new Backbone.Model(data));
                     } else {
-                        alert("Somethings wrong... try later");
+                        alert('Somethings wrong... try later');
                     }
                 });
 
@@ -85,7 +85,7 @@
                 } 
 
                 // we'll delete this element from our list view
-                $(e.currentTarget).closest( "li" ).animate({ width: "0%", opacity: 0 }, 1000, function(){$(this).remove();
+                $(e.currentTarget).closest( 'li' ).animate({ width: '0%', opacity: 0 }, 1000, function(){$(this).remove();
                     if($('.bookmarks li').length === 0) {
                         App.vent.trigger('movies:list', []);
                     }

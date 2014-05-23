@@ -1,12 +1,12 @@
 {
-  "curly": true,
+
   "eqeqeq": true,
   "eqnull": true,
   "bitwise": true,
   "camelcase": false,
   "forin": false,
   "immed": true,
-  "indent": 4,
+  "indent": 2,
   "latedef": true,
   "newcap": false,
   "noarg": true,
@@ -22,7 +22,7 @@
   "maxstatements": 50,
   "maxcomplexity": 15,
   "loopfunc": true,
-
+  "quotmark": "single",
   "browser": false,
   "node": true,
 

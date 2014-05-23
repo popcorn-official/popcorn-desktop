@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var FavoriteBrowser = Backbone.Marionette.Layout.extend({
         template: '#favorite-browser-tpl',

@@ -24,7 +24,7 @@
               crypto = require('crypto'),
               zip = require('adm-zip');
 
-            var updateUrl = Settings.updateApiEndpoint + "update.json";
+            var updateUrl = Settings.updateApiEndpoint + 'update.json';
 
             var CWD = process.cwd();
 
@@ -176,13 +176,13 @@
                 });
 					
                 $chnglog.on('click', function() {
-                    gui.Shell.openExternal("http://blog.get-popcorn.com/");
+                    gui.Shell.openExternal('http://blog.get-popcorn.com/');
                 });
 
                 $('body').addClass('has-notification');
             } catch(err) {
                 // Dop! We have a update.exe and we can't use it... ;/
-                alert("Oops.. Something is wrong.\nPlease download latest version on http://get-popcorn.com\n\n"+err);
+                alert('Oops.. Something is wrong.\nPlease download latest version on http://get-popcorn.com\n\n'+err);
             }
         }
 
@@ -258,7 +258,7 @@
             });
                 
             $chnglog.on('click', function() {
-                gui.Shell.openExternal("http://blog.get-popcorn.com/");
+                gui.Shell.openExternal('http://blog.get-popcorn.com/');
             });
 
             $('body').addClass('has-notification');

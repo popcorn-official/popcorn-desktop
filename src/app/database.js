@@ -7,14 +7,14 @@ var path = require('path');
 var openSRT = require('opensrt_js');
 var db = {};
 
-console.time("App startup time");
+console.time('App startup time');
 var data_path = require('nw.gui').App.dataPath;
-console.debug("Database path: " + data_path);
+console.debug('Database path: ' + data_path);
 
 // TTL for popcorn-api DB sync
 var TTL = 1000 * 60 * 60 * 24;
 
-process.env.TZ = "America/New_York"; // set same api tz
+process.env.TZ = 'America/New_York'; // set same api tz
 
 db.bookmarks = new Datastore({ filename: path.join(data_path, 'data/bookmarks.db'), autoload: true });
 db.settings = new Datastore({ filename: path.join(data_path, 'data/settings.db'), autoload: true });
@@ -168,7 +168,7 @@ var Database = {
 		openSRT.searchEpisode(data, function(err, subs) {
 			if(subs) {
 				for(var lang in subs) {
-					//if(subs[lang].lang == "es") console.log(subs[lang]);
+					//if(subs[lang].lang == 'es') console.log(subs[lang]);
 					subs[lang] = subs[lang].url;
 				}
 				return cb(null, subs);
@@ -204,7 +204,7 @@ var Database = {
 	},      
 
 	getSettings: function(cb) {
-		win.debug("getSettings() fired");
+		win.debug('getSettings() fired');
 		db.settings.find({}).exec(cb);
 	},
 
@@ -214,7 +214,7 @@ var Database = {
 			if (setting == null) {
 				db.settings.insert(data, cb);
 			} else {
-				db.settings.update({"key": data.key}, {$set : {"value": data.value}}, {}, cb);
+				db.settings.update({'key': data.key}, {$set : {'value': data.value}}, {}, cb);
 			}
 		});
 	},

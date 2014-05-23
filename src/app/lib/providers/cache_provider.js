@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var Q = require('q');
 
@@ -35,7 +35,7 @@
                 // Merge all promise result
                 var items = {};
                 _.each(results, function(result){
-                    if(result.state === "fulfilled") {
+                    if(result.state === 'fulfilled') {
                         _.extend(items, result.value);
                     }
                 });

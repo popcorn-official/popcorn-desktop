@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var Loading = Backbone.Marionette.ItemView.extend({
         template: '#loading-tpl',

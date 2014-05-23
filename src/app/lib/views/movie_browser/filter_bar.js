@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     App.View.FilterBar = Backbone.Marionette.ItemView.extend({
         className: 'filter-bar',
