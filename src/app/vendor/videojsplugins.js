@@ -9,7 +9,7 @@ videojs.BiggerSubtitleButton = videojs.Button.extend({
 });
 
 videojs.BiggerSubtitleButton.prototype.onClick = function() {
-  var $subs = $('#video_player.video-js .vjs-text-track');
+  var $subs = $('#video_player.video-js .vjs-text-track-display');
   var font_size = parseInt($subs.css('font-size'));
   font_size = font_size + 2;
   $subs.css('font-size', font_size+'px');
@@ -42,7 +42,7 @@ videojs.SmallerSubtitleButton = videojs.Button.extend({
 });
 
 videojs.SmallerSubtitleButton.prototype.onClick = function() {
-  var $subs = $('#video_player.video-js .vjs-text-track');
+  var $subs = $('#video_player.video-js .vjs-text-track-display');
   var font_size = parseInt($subs.css('font-size'));
   font_size = font_size - 2;
   $subs.css('font-size', font_size+'px');
@@ -163,6 +163,14 @@ videojs.plugin('progressTips', function(options) {
 	this.on("loadedmetadata", init);
 });
 
+vjs.TextTrack.prototype.adjustFontSize = function(){
+    if (this.player_.isFullScreen()) {
+        $('#video_player .vjs-text-track').css('font-size', '140%');
+    } else {
+        $('#video_player .vjs-text-track').css('font-size', '100%');
+    }
+};
+
 // This is a custom way of loading subtitles, since we can't use src (CORS blocks it and we can't disable it)
 // We fetch them when requested, process them and finally throw a parseCues their way
 vjs.TextTrack.prototype.load = function(){
@@ -173,8 +181,8 @@ vjs.TextTrack.prototype.load = function(){
 
 	this.on('loaded', function(){
 		win.info('Subtitle loaded!');
-		$('.vjs-subtitles.vjs-text-track').drags();
-		$('.vjs-subtitles.vjs-text-track').css('font-size', Settings.subtitle_size);
+		$('#video_player .vjs-text-track').css('display','inline-block').drags();
+		$('#video_player .vjs-text-track-display').css('font-size', Settings.subtitle_size);
 	});
 
 	// Fetches a raw subtitle, locally or remotely
