@@ -35,7 +35,7 @@
         showDetail: function(e) {
             e.preventDefault();
 
-            if (this.model.get('type') == 'movie') {
+            if (this.model.get('type') === 'movie') {
 
                 var SelectedMovie = new Backbone.Model(
                     {
@@ -61,8 +61,11 @@
                 // live call to api to get latest detail !
                 var tvshow = new (App.Config.getProvider('tvshow'))();
                 var data = tvshow.detail(this.model.get('imdb'), function(err, data) {
-                    if (!err) App.vent.trigger('show:showDetail', new Backbone.Model(data));
-                    else alert("Somethings wrong... try later");
+                    if (!err) {
+                        App.vent.trigger('show:showDetail', new Backbone.Model(data));
+                    } else {
+                        alert("Somethings wrong... try later");
+                    }
                 });
 
             }
@@ -76,17 +79,18 @@
          
             Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
 
-                if (that.model.get('type') == 'movie')
+                if (that.model.get('type') === 'movie') {
                     // we'll make sure we dont have a cached movie
-                    Database.deleteMovie(that.model.get('imdb'),function(err, data) {})
+                    Database.deleteMovie(that.model.get('imdb'),function(err, data) {});
+                } 
 
                 // we'll delete this element from our list view
-                $(e.currentTarget).closest( "li" ).animate({ width: "0%", opacity: 0 }, 1000, function(){$(this).remove()
-                    if($('.bookmarks li').length == 0) {
+                $(e.currentTarget).closest( "li" ).animate({ width: "0%", opacity: 0 }, 1000, function(){$(this).remove();
+                    if($('.bookmarks li').length === 0) {
                         App.vent.trigger('movies:list', []);
                     }
                 });
-            })
+            });
             
         }
 

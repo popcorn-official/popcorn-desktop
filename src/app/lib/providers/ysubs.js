@@ -29,9 +29,9 @@
         var deferred = Q.defer();
 
         request({url:url, json: true}, function(error, response, data){
-            if(error || response.statusCode != 200 || !data || !data.success) {
+            if(error || response.statusCode !== 200 || !data || !data.success) {
                 request({url:mirrorurl, json: true}, function(error, response, data){
-                    if(error || response.statusCode != 200 || !data || !data.success) {
+                    if(error || response.statusCode !== 200 || !data || !data.success) {
                         deferred.reject(error);
                     } else {
                         deferred.resolve(data);

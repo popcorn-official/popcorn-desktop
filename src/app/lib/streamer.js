@@ -33,7 +33,7 @@
 
             stateModel.set('state', state);
 
-            if(state != 'ready') {
+            if(state !== 'ready') {
                 _.delay(watchState, 100, stateModel);
             }
         }
@@ -134,7 +134,7 @@
                                 win.warn('No subtitles returned');
                             }
                         });
-                    }
+                    };
 					
                     var handleTorrent_fnc = function(){
                         // TODO: We should passe the movie / tvshow imdbid instead
@@ -153,9 +153,9 @@
                         };
 
                         handleTorrent(torrentInfo, stateModel);
-                    }
+                    };
 					
-                    if (typeof extractSubtitle == 'object') {
+                    if (typeof extractSubtitle === 'object') {
                         extractSubtitle.filename = torrent.name;
                         
                         var subskw = [];

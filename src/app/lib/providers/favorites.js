@@ -23,7 +23,7 @@
             var deferred = Q.defer();
             // we check if its a movie 
             // or tv show then we extract right data
-            if (movie.type == 'movie') {
+            if (movie.type === 'movie') {
                 // its a movie
                 Database.getMovie(movie.imdb_id, function(err,data) {
                     if (data != null) {                        

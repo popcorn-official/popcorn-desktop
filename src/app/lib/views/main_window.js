@@ -217,13 +217,17 @@
                 model: streamModel
             }));
             this.Content.$el.hide();
-            if(this.MovieDetail.$el !== undefined) this.MovieDetail.$el.hide();
+            if(this.MovieDetail.$el !== undefined) {
+                this.MovieDetail.$el.hide();
+            }
         },
 
         showViews: function(streamModel) {
 
             this.Content.$el.show();
-            if(this.MovieDetail.$el !== undefined) this.MovieDetail.$el.show();
+            if(this.MovieDetail.$el !== undefined) {
+                this.MovieDetail.$el.show();
+            }
             $(window).trigger('resize');
 
         }

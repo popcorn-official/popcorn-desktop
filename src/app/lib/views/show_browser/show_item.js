@@ -26,7 +26,7 @@
             Database.getBookmark(this.model.get('imdb_id'), function(err, value) {
                 if (!err) {
                     that.model.set('bookmarked', value);
-                    if (value == true) {
+                    if (value === true) {
                         that.ui.bookmarkIcon.addClass('selected');
                     }
                 } else {
@@ -55,8 +55,11 @@
             var tvshow = new (App.Config.getProvider('tvshow'))();
             var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
                 $('.spinner').hide();
-                if (!err) App.vent.trigger('show:showDetail', new Backbone.Model(data));
-                else alert("Somethings wrong... try later");
+                if (!err) {
+                    App.vent.trigger('show:showDetail', new Backbone.Model(data));
+                } else {
+                    alert("Somethings wrong... try later");
+                }
             });
         },
 
@@ -64,7 +67,7 @@
             e.stopPropagation();
             e.preventDefault();
             var that = this;
-            if (this.model.get('bookmarked') == true) {
+            if (this.model.get('bookmarked') === true) {
                 Database.deleteBookmark(this.model.get('imdb_id'), function(err, data) {
                     console.log("Bookmark deleted");
                     that.model.set('bookmarked', false);
@@ -72,8 +75,8 @@
                         that.ui.bookmarkIcon.removeClass('selected');
                         
                     // we'll make sure we dont have a cached show
-                    Database.deleteTVShow(that.model.get('imdb_id'),function(err, data) {})
-                })
+                    Database.deleteTVShow(that.model.get('imdb_id'),function(err, data) {});
+                });
             } else {
                 var tvshow = new (App.Config.getProvider('tvshow'))();
                 var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
@@ -83,10 +86,12 @@
                                 console.log("Bookmark added");
                                 that.ui.bookmarkIcon.addClass('selected');
                                 that.model.set('bookmarked', true);
-                            })
+                            });
                         });
 
-                    } else alert("Somethings wrong... try later");
+                    } else {
+                        alert("Somethings wrong... try later");
+                    }
                 });
                 
 

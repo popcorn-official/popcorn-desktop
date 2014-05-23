@@ -28,7 +28,8 @@ module.exports = function(grunt) {
 	require('load-grunt-tasks')(grunt);
 
 	grunt.registerTask('default', [
-		'stylus'
+		'stylus',
+		'jshint'
 	]);
 
 	grunt.registerTask('css', [
@@ -162,13 +163,7 @@ module.exports = function(grunt) {
 					jshintrc: 'src/app/.jshintrc'
 				},
 				src: ['src/app/lib/*.js','src/app/lib/**/*.js','src/app/*.js']
-			},
-			test: {
-				options: {
-					jshintrc: 'test/.jshintrc'
-				},
-				src: ['test/**/*.js']
-			},
+			}
 		},
 
 		watch: {

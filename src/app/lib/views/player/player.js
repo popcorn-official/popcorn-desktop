@@ -71,7 +71,7 @@
               _this.toggleFullscreen();
             });
 
-            if(this.model.get('type') == 'video/youtube') {
+            if(this.model.get('type') === 'video/youtube') {
                 this.video = videojs('video_player', { techOrder: ["youtube"], forceSSL: true, ytcontrols: false, quality: '720p' });
                 this.ui.eyeInfo.hide();
             } else {
@@ -102,7 +102,11 @@
             // There was an issue with the video
             player.on('error', function (error) {
 				// TODO: user errors
-                if(_this.model.get('type') == 'video/youtube') setTimeout(function() {App.vent.trigger('player:close')}, 2000);
+                if(_this.model.get('type') === 'video/youtube') {
+                    setTimeout(function() {
+                        App.vent.trigger('player:close');
+                    } , 2000);
+                }
                 win.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
             });
 
@@ -144,59 +148,59 @@
             });
 
             Mousetrap.bind('right', function (e) {
-                _this.seek(10)
+                _this.seek(10);
             });
 
             Mousetrap.bind('shift+right', function (e) {
-                _this.seek(60)
+                _this.seek(60);
             });
 
             Mousetrap.bind('ctrl+right', function (e) {
-                _this.seek(600)
+                _this.seek(600);
             });
 
             Mousetrap.bind('left', function (e) {
-                _this.seek(-10)
+                _this.seek(-10);
             });
 
             Mousetrap.bind('shift+left', function (e) {
-                _this.seek(-60)
+                _this.seek(-60);
             });
 
             Mousetrap.bind('ctrl+left', function (e) {
-                _this.seek(-600)
+                _this.seek(-600);
             });
             
             Mousetrap.bind('up', function (e) {
-                _this.adjustVolume(0.1)
+                _this.adjustVolume(0.1);
             });
 
             Mousetrap.bind('shift+up', function (e) {
-                _this.adjustVolume(0.5)
+                _this.adjustVolume(0.5);
             });
 
             Mousetrap.bind('ctrl+up', function (e) {
-                _this.adjustVolume(1)
+                _this.adjustVolume(1);
             });
 
             Mousetrap.bind('down', function (e) {
-                _this.adjustVolume(-0.1)
+                _this.adjustVolume(-0.1);
             });
 
             Mousetrap.bind('shift+down', function (e) {
-               _this.adjustVolume(-0.5)
+               _this.adjustVolume(-0.5);
             });
 
             Mousetrap.bind(['ctrl+down'], function (e) {
-                _this.adjustVolume(-1)
+                _this.adjustVolume(-1);
             });
 
             Mousetrap.bind(['m', 'M'], function (e) {
-                _this.toggleMute()
+                _this.toggleMute();
             });
 
             Mousetrap.bind(['u', 'U'], function (e) {
-                _this.displayStreamURL()
+                _this.displayStreamURL();
             });
 
           // Function to fade out cursor with other video elm's

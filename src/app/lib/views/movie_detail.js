@@ -172,7 +172,7 @@
             e.stopPropagation();
             e.preventDefault();
             var that = this;
-            if (this.model.get('bookmarked') == true) {
+            if (this.model.get('bookmarked') === true) {
                 Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
                     console.log("Bookmark deleted");
                     that.model.set('bookmarked', false);
@@ -180,8 +180,8 @@
                         that.ui.bookmarkIcon.removeClass('selected');
 
                     // we'll make sure we dont have a cached movie
-                    Database.deleteMovie(that.model.get('imdb'),function(err, data) {})
-                })
+                    Database.deleteMovie(that.model.get('imdb'),function(err, data) {});
+                });
             } else {
 
                 // we need to have this movie cached
@@ -213,7 +213,7 @@
                         that.model.set('bookmarked', true);
 
 
-                    })
+                    });
                 });
 
             }

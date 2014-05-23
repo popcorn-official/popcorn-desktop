@@ -37,26 +37,26 @@ win.debug = function() {
 	var params = Array.prototype.slice.call(arguments, 1);
 	params.unshift('%c[%cDEBUG%c] %c' + arguments[0], 'color: black;', 'color: green;', 'color: black;', 'color: blue;');
 	console.debug.apply(console, params);
-}
+};
 win.info = function() {
 	var params = Array.prototype.slice.call(arguments, 1);
 	params.unshift('[%cINFO%c] ' + arguments[0], 'color: blue;', 'color: black;');
 	console.info.apply(console, params);
-}
+};
 win.warn = function() {
 	var params = Array.prototype.slice.call(arguments, 1);
 	params.unshift('[%cWARNING%c] ' + arguments[0], 'color: orange;', 'color: black;');
 	console.warn.apply(console, params);
-}
+};
 win.error = function() {
 	var params = Array.prototype.slice.call(arguments, 1);
 	params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: red;', 'color: black;');
 	console.error.apply(console, params);
-}
+};
 
 // Load in external templates
 _.each(document.querySelectorAll('[type="text/x-template"]'), function(el) {
-    $.get(el.src, function(res) { el.innerHTML = res });
+    $.get(el.src, function(res) { el.innerHTML = res; });
 });
 
 // Global App skeleton for backbone
@@ -106,9 +106,13 @@ if(process.platform === 'win32' && parseFloat(os.release(), 10) > 6.1) {
 // Create the System Temp Folder. This is used to store temporary data like movie files.
 if( ! fs.existsSync(App.settings.tmpLocation) ) { fs.mkdir(App.settings.tmpLocation); }
 
-deleteFolder = function(path) {
-	if( typeof path != 'string' ) return;
-	try {
+var deleteFolder = function(path) {
+
+	if( typeof path !== 'string' ) { 
+        return; 
+    }
+	
+    try {
 		var files = [];
 		if( fs.existsSync(path) ) {
 			files = fs.readdirSync(path);
@@ -125,12 +129,14 @@ deleteFolder = function(path) {
 	} catch(err) {
 		win.error('deleteFolder()', err);
 	}
-}
+};
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
 win.on('close', function(){
-    if( App.settings.deleteTmpOnClose )
+    if( App.settings.deleteTmpOnClose ) {
         deleteFolder(App.settings.tmpLocation);
+    }
+
     win.close(true);
 });
 
@@ -153,7 +159,7 @@ Mousetrap.bind(['?', '/', '\''], function(e) {
     e.preventDefault();
     App.vent.trigger('help:toggle');
 });
-if (process.platform == 'darwin') {
+if (process.platform === 'darwin') {
     Mousetrap.bind('command+ctrl+f', function(e) {
 		e.preventDefault();
         win.toggleFullscreen();
@@ -164,8 +170,8 @@ if (process.platform == 'darwin') {
 /**
 * Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
 */
-window.ondragover = function(e) { e.preventDefault(); return false };
-window.ondrop = function(e) { e.preventDefault(); return false };
+window.ondragover = function(e) { e.preventDefault(); return false; };
+window.ondrop = function(e) { e.preventDefault(); return false; };
 var holder = $('body')[0];
 holder.ondragover = function () { this.classList.add('dragging'); return false; };
 holder.ondragend = function () { this.classList.remove('dragging'); return false; };
@@ -173,12 +179,14 @@ holder.ondrop = function (e) {
   e.preventDefault();
 
   var file = e.dataTransfer.files[0];
-  if(file.name.indexOf(".torrent") != -1) {
+  if(file.name.indexOf(".torrent") !== -1) {
       var reader = new FileReader();
       reader.onload = function (event) {
         var content = reader.result;
         fs.writeFile(gui.App.dataPath + "/" + file.name, content, function(err) {
-            if(err) window.alert("Error Loading Torrent: " + err);
+            if(err) {
+                window.alert("Error Loading Torrent: " + err);
+            }
             else {
                 var torrentStart = new Backbone.Model({torrent: gui.App.dataPath + "/" + file.name});
                 App.vent.trigger('stream:start', torrentStart);
@@ -196,24 +204,24 @@ holder.ondrop = function (e) {
 */
 holder.onpaste = function(e) {
     var data = e.clipboardData.getData('text/plain');
-    if(data.substring(0,8) == "magnet:?") {
+    if(data.substring(0,8) === "magnet:?") {
         var torrentStart = new Backbone.Model({torrent: data});
         App.vent.trigger('stream:start', torrentStart);
     }
     return true;
-}
+};
 
 /**
 * Pass magnet link as last argument to start stream
 */
 var last_arg = gui.App.argv.pop();
 if(last_arg) {
-        if (last_arg.substring(0,8) == "magnet:?") {
+        if (last_arg.substring(0,8) === "magnet:?") {
                 App.vent.on('main:ready', function() {
                         var torrentStart = new Backbone.Model({torrent: last_arg});
                         App.vent.trigger('stream:start', torrentStart);
                 });
-        } else if (last_arg.substring(0,7) == "http://") {
+        } else if (last_arg.substring(0,7) === "http://") {
                 App.vent.on('main:ready', function() {
                         var si = new App.Model.StreamInfo({});
                         si.set('title', last_arg);
@@ -226,7 +234,7 @@ if(last_arg) {
                         App.vent.trigger('stream:ready', si);
                 });
         }
-};
+}
 
 /**
  * Show 404 page on uncaughtException

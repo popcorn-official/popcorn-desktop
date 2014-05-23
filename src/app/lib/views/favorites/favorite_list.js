@@ -76,7 +76,9 @@
         },
 
         onScroll: function() {
-            if(!this.collection.hasMore) return;
+            if(!this.collection.hasMore) {
+                return;
+            }
 
             var totalHeight       = this.$el.prop('scrollHeight');
             var currentPosition = this.$el.scrollTop() + this.$el.height();

@@ -60,16 +60,17 @@
             };
 				
             Database.checkEpisodeWatched(value, function (watched, data) {
-                if(watched)
+                if(watched) {
                     App.vent.trigger ("shows:unwatched", value);
-                else
+                } else {
                     App.vent.trigger ("shows:watched", value);
+                }
             });
         },
 
         markWatched: function (value) {
             // we should never get any shows that aren't us, but you know, just in case.
-            if (value.show_id == _this.model.get('tvdb_id')) {
+            if (value.show_id === _this.model.get('tvdb_id')) {
                 $('#watched-'+value.season+'-'+value.episode).removeClass('watched-false').addClass('watched-true');
             } else {
                 console.error ('something fishy happened with the watched signal', this.model, value);
@@ -78,7 +79,7 @@
 
         markNotWatched: function (value) {
             // we should never get any shows that aren't us, but you know, just in case.
-            if (value.show_id == _this.model.get('tvdb_id')) {
+            if (value.show_id === _this.model.get('tvdb_id')) {
                 $('#watched-'+value.season+'-'+value.episode).removeClass('watched-true').addClass('watched-false');
             } else {
                 console.error ('something fishy happened with the notwatched signal', this.model, value);
@@ -109,7 +110,7 @@
                     episode: episode,
                     season: season,
                     title: title,
-                    status: status,
+                    status: that.model.get("status"),
                     extract_subtitle: epInfo,
                     defaultSubtitle: Settings.subtitle_language
             });

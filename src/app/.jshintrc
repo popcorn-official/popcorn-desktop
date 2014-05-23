@@ -18,10 +18,9 @@
   "unused": false,
   "trailing": true,
   "maxparams": 10,
-  "maxdepth": 3,
+  "maxdepth": 4,
   "maxstatements": 50,
-  "maxcomplexity": 10,
-  "smarttabs": true,
+  "maxcomplexity": 15,
   "loopfunc": true,
 
   "browser": false,
@@ -54,6 +53,12 @@
     "Database": true,
     "navigator": true,
     "checkUpdate": true,
-    "detectLanguage": true
+    "detectLanguage": true,
+    "Backbone": true,
+    "FileReader": true,
+    "Mousetrap": true,
+    "document": true,
+    "path": true,
+    "videojs": true
   }
 }

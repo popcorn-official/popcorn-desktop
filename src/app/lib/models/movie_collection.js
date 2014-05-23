@@ -25,7 +25,9 @@
         fetch: function() {
             var self = this;
 
-            if(this.state == 'loading' && !this.hasMore) return;
+            if(this.state === 'loading' && !this.hasMore) {
+                return;
+            }
 
             this.state = 'loading';
             self.trigger('loading', self);

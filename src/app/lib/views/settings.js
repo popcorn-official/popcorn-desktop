@@ -51,7 +51,9 @@
 			switch(field.attr('name')){
 			case 'tvshowApiEndpoint':
 				value = field.val();
-				if (value.substr(-1) != '/') value += '/';
+				if (value.substr(-1) !== '/') {
+                    value += '/';
+                }
 				break;
 			case 'subtitle_size':
 			case 'subtitle_language':
@@ -104,7 +106,7 @@
             ).addClass('red');
 
             // enable the notification on current view
-            $('body').addClass('has-notification')
+            $('body').addClass('has-notification');
 
             Database.deleteBookmarks(function(err, setting) {
 
@@ -143,7 +145,7 @@
             ).addClass('red');
 
             // enable the notification on current view
-            $('body').addClass('has-notification')
+            $('body').addClass('has-notification');
 
             Database.resetSettings(function(err, setting) {
 
@@ -182,7 +184,7 @@
             ).addClass('red');
 
             // enable the notification on current view
-            $('body').addClass('has-notification')
+            $('body').addClass('has-notification');
 
             Database.deleteDatabases(function(err, setting) {
 

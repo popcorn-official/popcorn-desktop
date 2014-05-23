@@ -61,7 +61,10 @@ var Database = {
 
 	getBookmark: function(imdb_id, cb) {
 		db.bookmarks.findOne({imdb_id : imdb_id}, function(err,data) {
-			if (err) cb(true,false);
+			if (err) {
+				cb(true,false);
+			}
+			
 			if (data != null) {
 				return cb(false,true);
 			} else {
@@ -88,17 +91,23 @@ var Database = {
 
 	addMovies: function(data, cb) {
 		async.each(data.movies, function(movie, callback) {
-			Database.addTVShow({movie: movie}, function(err, show) {callback(err)})
+			Database.addTVShow({movie: movie}, function(err, show) {
+				callback(err);
+			});
 		},cb);
 	},
 
 	markMovieAsWatched: function(data, cb) {
-		if (!cb) cb = function () {};
+		if (!cb) {
+			cb = function () {};
+		}
 		db.watched.insert({movie_id: data.imdb_id.toString(), date: new Date(), type: 'movie'}, cb);
 	},
 
 	markMovieAsNotWatched: function(data, cb) {
-		if (!cb) cb = function () {};
+		if (!cb) {
+			cb = function () {};
+		}
 		db.watched.remove({movie_id: data.imdb_id.toString()}, cb);
 	},
 
@@ -122,17 +131,23 @@ var Database = {
 	// This calls the addTVShow method as we need to setup a blank episodes array for each
 	addTVShows: function(data, cb) {
 		async.each(data.shows, function(show, callback) {
-			Database.addTVShow({show:show}, function(err, show) {callback(err)})
+			Database.addTVShow({show:show}, function(err, show) {
+				callback(err);
+			});
 		},cb);
 	},
 
 	markEpisodeAsWatched: function(data, cb) {
-		if (!cb) cb = function () {};
+		if (!cb) {
+			cb = function () {};
+		}
 		db.watched.insert({show_id: data.show_id.toString(), season: data.season.toString(), episode: data.episode.toString(), type: 'episode', date: new Date()}, cb);
 	},
 
 	markEpisodeAsNotWatched: function(data, cb) {
-		if (!cb) cb = function () {};
+		if (!cb) {
+			cb = function () {};
+		}
 		db.watched.remove({show_id: data.show_id.toString(), season: data.season.toString(), episode: data.episode.toString()}, cb);
 	},
 
@@ -158,7 +173,9 @@ var Database = {
 				}
 				return cb(null, subs);
 			}
-			else return cb(null, {});
+			else {
+				return cb(null, {});
+			}
 		});
 	},
 
