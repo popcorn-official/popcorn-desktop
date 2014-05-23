@@ -148,18 +148,9 @@ var Database = {
 		db.watched.find({show_id: show_id.toString()}, cb);
 	},
 
+	// deprecated: moved to provider 
+	// TODO: remove once is approved
 	getSubtitles: function(data, cb) {
-		//console.log(data);
-		openSRT.searchEpisode(data, function(err, subs) {
-			if(subs) {
-				for(var lang in subs) {
-					//if(subs[lang].lang == "es") console.log(subs[lang]);
-					subs[lang] = subs[lang].url;
-				}
-				return cb(null, subs);
-			}
-			else return cb(null, {});
-		});
 	},
 
 	// Used in bookmarks
