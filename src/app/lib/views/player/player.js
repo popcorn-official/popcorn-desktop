@@ -9,12 +9,13 @@
             eyeInfo: '.eye-info-player',
             downloadSpeed: '.download_speed_player',
             uploadSpeed: '.upload_speed_player',
-            activePeers: '.active_peers_player',
+            activePeers: '.active_peers_player'
         },
 
         events: {
             'click .close-info-player': 'closePlayer',
             'click .vjs-fullscreen-control': 'toggleFullscreen',
+            'click .vjs-subtitles-button': 'toggleSubtitles'
         },        
 
         initialize: function() {
@@ -231,6 +232,13 @@
                 this.nativeWindow.focus();
             }
         },
+
+
+        toggleSubtitles: function() {
+
+          
+        },
+
 
         leaveFullscreen: function() {
             this.nativeWindow = require('nw.gui').Window.get();
