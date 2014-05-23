@@ -1,10 +1,13 @@
 {
+  "curly"    : true,
   "validthis": true,
   "debug"    : true,
   "boss"     : true,
+  "eqeqeq"   : true,
   "expr"     : true,
   "eqnull"   : true,
   "quotmark" : "single",
+  "trailing" : true,
   "sub"      : true,
   "trailing" : true,
   "undef"    : true,
