@@ -22,6 +22,7 @@
         },
 
         onShow: function() {
+        
 
             var that = this;
             Mousetrap.bind('esc', function(e) {
@@ -64,6 +65,15 @@
             Mousetrap.bind('esc', function(e) {
                 App.vent.trigger('movie:closeDetail');
             });
+
+            $(window).on('resize', this.onThisResize);
+            this.onThisResize();
+
+        },
+
+        onThisResize: function() {
+ 
+            $('.cover-detail-overlay').height( $(".movie-cover-image").height() );
         },
 
         onClose: function() {
