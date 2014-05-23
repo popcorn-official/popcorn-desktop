@@ -29,6 +29,21 @@ module.exports = function(grunt) {
 		'copy:package'
 	]);
 
+	grunt.registerTask('start', function(){
+		var start = parseBuildPlatforms();
+		if(start.win){
+			grunt.task.run('exec:win');
+		}else if(start.mac){
+			grunt.task.run('exec:mac');
+		}else if(start.linux32){
+			grunt.task.run('exec:linux32');
+		}else if(start.linux64){
+			grunt.task.run('exec:linux64');
+		}else{
+			grunt.log.writeln('OS not supported.');
+		}
+	});
+
 	grunt.initConfig({
 		bump: {
 			options: {
