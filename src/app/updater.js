@@ -1,28 +1,28 @@
     function testInstalled() {
         return (!_.contains(require('fs').readdirSync('.'), '.git') || // Test Development
                 (   // Test Windows
-                    App.settings.os == 'windows' &&
+                    App.settings.os === 'windows' &&
                     fs.existsSync(process.cwd()+'\\Uninstall.exe')
                 ) ||
                 (   // Test Linux
-                    App.settings.os == 'linux' &&
+                    App.settings.os === 'linux' &&
                     _.contains(require('fs').readdirSync('.'), 'package.nw')
                 ) ||
                 (   // Test Mac OS X
-                    App.settings.os == 'mac' &&
-                    process.cwd().indexOf('Resources/app.nw') != -1
+                    App.settings.os === 'mac' &&
+                    process.cwd().indexOf('Resources/app.nw') !== -1
                 ));
     }
 
     function checkUpdate() {
         win.debug('Testing if we should check for update...', testInstalled());
         if(testInstalled()) {
-            var request = require('request')
-              , fs = require('fs')
-              , rm = require('rimraf')
-              , path = require('path')
-              , crypto = require('crypto')
-              , zip = require('adm-zip');
+            var request = require('request'),
+              fs = require('fs'),
+              rm = require('rimraf'),
+              path = require('path'),
+              crypto = require('crypto'),
+              zip = require('adm-zip');
 
             var updateUrl = Settings.updateApiEndpoint + "update.json";
 
@@ -51,35 +51,47 @@
                 // returns `-` when ver2 less than
                 // returns `0` when ver2 equal
                 // returns `+` when ver2 greater than
-                ver1 = _.map(ver1.replace(/[^0-9.]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
-                ver2 = _.map(ver2.replace(/[^0-9.]/g, '').split('.'), function(num) { var num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
+                var num;
+                ver1 = _.map(ver1.replace(/[^0-9.]/g, '').split('.'), function(num) { num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
+                ver2 = _.map(ver2.replace(/[^0-9.]/g, '').split('.'), function(num) { num = parseInt(num); return Number.isNaN(num) ? 0 : num; });
 
                 var count = Math.max(ver1.length, ver2.length);
 
                 for(var i = 0; i < count; i++) {
-                    if(ver1[i] === undefined)
+                    if(ver1[i] === undefined) {
                         ver1[i] = 0;
-                    if(ver2[i] === undefined)
-                        ver2[i] = 0;
+                    }
 
-                    if(i == count - 1) {
-                        if(ver1[i] === ver2[i])
+                    if(ver2[i] === undefined) {
+                        ver2[i] = 0; 
+                    }
+
+                    if(i === count - 1) {
+                        if(ver1[i] === ver2[i]) {
                             return 0;
-                        if(ver1[i] > ver2[i])
+                        }
+                        
+                        if(ver1[i] > ver2[i]) {
                             return 1;
+                        }
+                            
                         return -1;
                     }
 
-                    if(ver1[i] === ver2[i])
+                    if(ver1[i] === ver2[i]) {
                         continue;
-                    if(ver1[i] > ver2[i])
+                    }
+                        
+                    if(ver1[i] > ver2[i]) {
                         return 1;
+                    }
+                        
                     return -1;
                 }
-            }
+            };
 
             request(updateUrl, {json: true}, function(err, res, data) {
-                if(err || !data) return; // Its just an updater, we don't care :P
+                if(err || !data) { return; } // Its just an updater, we don't care :P
 
                 if(!_.contains(Object.keys(data), App.settings.os)) {
                     // No update for this OS, FreeBSD or SunOS.
@@ -89,16 +101,17 @@
 
                 var updateData = data[App.settings.os];
 
-                if(App.settings.os == 'linux')
+                if(App.settings.os === 'linux') {
                     updateData = updateData[App.settings.arch];
+                }
 
                 win.debug('Testing if we should install update...', checkVersion(updateData.version, App.settings.version) > 0);
 
                 // Should use SemVer here in v0.2.9 (refactor)
                 // As per checkVersion, -1 == lt; 0 == eq; 1 == gt
                 if(checkVersion(updateData.version, App.settings.version) > 0) {
-                    var outDir = App.settings.os == 'linux' ? process.execPath : CWD;
-                    var fileName = App.settings.os == 'windows' ? 'update.exe' : 'package.nw.new'; 
+                    var outDir = App.settings.os === 'linux' ? process.execPath : CWD;
+                    var fileName = App.settings.os === 'windows' ? 'update.exe' : 'package.nw.new'; 
                     var outputFile = path.join(path.dirname(outDir), fileName);
                     var downloadRequest = request(updateData.updateUrl);
                     downloadRequest.pipe(fs.createWriteStream(outputFile));
@@ -117,25 +130,27 @@
                                     // Wait until next start to attempt the update again
                                     if(fs.existsSync(outputFile)) {
                                         fs.unlink(outputFile, function(err) {
-                                            if(err) throw err;
-                                        })
+                                            if(err) { throw err; }
+                                        });
                                     }
                                 } else {
                                     // Valid update data! Overwrite the old data and move on with life!
                                     var os = App.settings.os;
-                                    if(os == 'mac')
+
+                                    if(os === 'mac') {
                                         installMac(outputFile, updateData);
-                                    else if(os == 'linux')
+                                    } else if(os === 'linux') {
                                         installLin(outputFile, updateData);
-                                    else if(os == 'windows')
+                                    } else if(os === 'windows') {
                                         installWin(outputFile, updateData);
-                                    else
-                                        return;
+                                    } else {
+                                            return;
+                                    }
                                 }
                             });
                     });
                 }
-            })
+            });
         }
 
         // Under Windows, we download it as update.exe (built with NSIS)
@@ -158,13 +173,13 @@
                 $install.on('click', function() {
                     gui.Shell.openItem(dlPath);
                     gui.App.quit();
-                })
+                });
 					
                 $chnglog.on('click', function() {
                     gui.Shell.openExternal("http://blog.get-popcorn.com/");
-                })
+                });
 
-                $('body').addClass('has-notification')
+                $('body').addClass('has-notification');
             } catch(err) {
                 // Dop! We have a update.exe and we can't use it... ;/
                 alert("Oops.. Something is wrong.\nPlease download latest version on http://get-popcorn.com\n\n"+err);
@@ -176,7 +191,7 @@
         function installLin(dlPath, updateData) {
             var outDir = path.dirname(dlPath);
             fs.rename(path.join(outDir, 'package.nw'), path.join(outDir, 'package.nw.old'), function(err) {
-                if(err) throw err;
+                if(err) { throw err; }
 
                 fs.rename(dlPath, path.join(outDir, 'package.nw'), function(err) {
                     if(err) {
@@ -184,18 +199,18 @@
                         // Quick! Lets erase it before anyone realizes!
                         if(fs.existsSync(dlPath)) {
                             fs.unlink(dlPath, function(err) {
-                                if(err) throw err;
-                            })
+                                if(err) { throw err; }
+                            });
                         }
                         throw err;
                     } else {
                         fs.unlink(path.join(outDir, 'package.nw.old'), function(err) {
-                            if(err) throw err;
+                            if(err) { throw err; }
                             installationComplete(updateData);
-                        })
+                        });
                     }
-                })
-            })
+                });
+            });
         }
 
         // Under Mac, we install the app into a folder called 
@@ -204,20 +219,20 @@
             var outDir = path.dirname(dlPath),
                 installDir = path.join(outDir, 'app.nw');
             rm(installDir, function(err) {
-                if(err) throw err;
+                if(err) { throw err; }
 
                 var pack = new zip(dlPath);
                 try {
                     pack.extractAllTo(installDir, true);
                     fs.unlink(dlPath, function(err) {
-                        if(err) throw err;
+                        if(err) { throw err; }
                         installationComplete(updateData);
-                    })
+                    });
                 } catch(ex) {
                     // Dunno what to do here :( We deleted the app files, 
                     // and now we can't extract it... sheet!
                 }
-            })
+            });
         }
 
         function installationComplete(updateData) {
@@ -240,12 +255,12 @@
                 argv.push(CWD);
                 spawn(process.execPath, argv, { cwd: CWD, detached: true, stdio: [ 'ignore', 'ignore', 'ignore' ] }).unref();
                 gui.App.quit();
-            })
+            });
                 
             $chnglog.on('click', function() {
                 gui.Shell.openExternal("http://blog.get-popcorn.com/");
-            })
+            });
 
-            $('body').addClass('has-notification')
+            $('body').addClass('has-notification');
         }
     }

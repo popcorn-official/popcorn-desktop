@@ -88,7 +88,7 @@ var Database = {
 
 	addMovies: function(data, cb) {
 		async.each(data.movies, function(movie, callback) {
-			addTVShow({movie: movie}, function(err, show) {callback(err)})
+			Database.addTVShow({movie: movie}, function(err, show) {callback(err)})
 		},cb);
 	},
 
@@ -122,7 +122,7 @@ var Database = {
 	// This calls the addTVShow method as we need to setup a blank episodes array for each
 	addTVShows: function(data, cb) {
 		async.each(data.shows, function(show, callback) {
-			addTVShow({show:show}, function(err, show) {callback(err)})
+			Database.addTVShow({show:show}, function(err, show) {callback(err)})
 		},cb);
 	},
 
@@ -199,11 +199,11 @@ var Database = {
 			} else {
 				db.settings.update({"key": data.key}, {$set : {"value": data.value}}, {}, cb);
 			}
-		})
+		});
 	},
 
 	resetSettings : function(cb) {
-		db.settings.remove({ }, { multi: true }, cb)
+		db.settings.remove({ }, { multi: true }, cb);
 	},
 
 	deleteDatabases: function(cb) {
@@ -233,9 +233,9 @@ var Database = {
 			}
 
 			// new install?    
-			if( Settings.version == false ) {
+			if( Settings.version === false ) {
 				window.__isNewInstall = true;
-			};
+			}
 
 			AdvSettings.checkApiEndpoint(
 				[
@@ -246,11 +246,10 @@ var Database = {
 					}
 					// TODO: Add get-popcorn.com SSL fingerprint (for update)
 					// with fallback with DHT
-				]
-				, function() {
+				] , function() {
 
 				// set app language
-				detectLanguage(Settings['language']);
+				detectLanguage(Settings.language);
 
 				// set hardware settings and usefull stuff
 				AdvSettings.setup(function() {
@@ -271,6 +270,5 @@ var Database = {
 		App.vent.on('shows:watched',   _.bind(this.markEpisodeAsWatched, this));
 		App.vent.on('shows:unwatched', _.bind(this.markEpisodeAsNotWatched, this));
 		App.vent.on('movies:watched',  _.bind(this.markMovieAsWatched, this));
-	}
-	
-}
+	}	
+};

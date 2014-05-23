@@ -10,11 +10,11 @@ var detectLanguage = function(preferredLanguage) {
 
     if (!preferredLanguage) {
         // we are stillon default
-        if( $.inArray(pureLanguage, App.Localization.allTranslations) != -1 ) {
+        if( $.inArray(pureLanguage, App.Localization.allTranslations) !== -1 ) {
             i18n.setLocale(pureLanguage);
             AdvSettings.set('language', pureLanguage);
         }
-        else if( $.inArray(baseLanguage, App.Localization.allTranslations) != -1 ) {
+        else if( $.inArray(baseLanguage, App.Localization.allTranslations) !== -1 ) {
             i18n.setLocale(baseLanguage);
             AdvSettings.set('language', baseLanguage);
         } else {
@@ -180,10 +180,6 @@ App.Localization.langcodes = {
 	"ny":{
 		name:"Chichewa",
 		nativeName:"chiCheŵa"
-	},
-	"zh":{
-		name:"Chinese",
-		nativeName:"中文"
 	},
 	"zh-cn":{
 		name:"Chinese (simplified)",
@@ -441,7 +437,7 @@ App.Localization.langcodes = {
 	},
 	"ku":{
 		name:"Kurdish",
-		nativeName:"كوردی‎"
+		nativeName:"كوردی"
 	},
 	"kj":{
 		name:"Kwanyama",
@@ -499,7 +495,7 @@ App.Localization.langcodes = {
 	},
 	"ms":{
 		name:"Malay",
-		nativeName:"بهاس ملايو‎"
+		nativeName:"بهاس ملايو"
 	},
 	"ml":{
 		name:"Malayalam",
@@ -659,7 +655,7 @@ App.Localization.langcodes = {
 	},
 	"sd":{
 		name:"Sindhi",
-		nativeName:"سنڌي، سندھی‎"
+		nativeName:"سنڌي، سندھی"
 	},
 	"se":{
 		name:"Northern Sami",
@@ -742,7 +738,7 @@ App.Localization.langcodes = {
 	},
 	"tg":{
 		name:"Tajik",
-		nativeName:"тоҷикӣ‎"
+		nativeName:"тоҷикӣ"
 	},
 	"th":{
 		name:"Thai",
@@ -786,7 +782,7 @@ App.Localization.langcodes = {
 	},
 	"tt":{
 		name:"Tatar",
-		nativeName:"татарча‎"
+		nativeName:"татарча"
 	},
 	"tw":{
 		name:"Twi",
@@ -798,7 +794,7 @@ App.Localization.langcodes = {
 	},
 	"ug":{
 		name:"Uighur",
-		nativeName:"ئۇيغۇرچە‎"
+		nativeName:"ئۇيغۇرچە"
 	},
 	"uk":{
 		name:"Ukrainian",
@@ -812,7 +808,7 @@ App.Localization.langcodes = {
 	},
 	"uz":{
 		name:"Uzbek",
-		nativeName:"Oʻzbek‎"
+		nativeName:"Oʻzbek"
 	},
 	"ve":{
 		name:"Venda",

@@ -1,3 +1,25 @@
+
+var parseBuildPlatforms = function(argumentPlatform) {
+	// this will make it build no platform when the platform option is specified
+	// without a value which makes argumentPlatform into a boolean
+	var inputPlatforms = argumentPlatform || process.platform + ";" + process.arch;
+
+	// Do some scrubbing to make it easier to match in the regexes bellow
+	inputPlatforms = inputPlatforms.replace("darwin", "mac");
+	inputPlatforms = inputPlatforms.replace(/;ia|;x|;arm/, "");
+
+	var buildAll = /^all$/.test(inputPlatforms);
+
+	var buildPlatforms = {
+		mac: /mac/.test(inputPlatforms) || buildAll,
+		win: /win/.test(inputPlatforms) || buildAll,
+		linux32: /linux32/.test(inputPlatforms) || buildAll,
+		linux64: /linux64/.test(inputPlatforms) || buildAll
+	};
+
+	return buildPlatforms;
+};
+
 module.exports = function(grunt) {
 	"use strict";
 
@@ -128,6 +150,27 @@ module.exports = function(grunt) {
 			}
 		},
 
+		jshint: {
+			gruntfile: {
+				options: {
+					jshintrc: '.jshintrc'
+				},
+				src: 'Gruntfile.js'
+			},
+			src: {
+				options: {
+					jshintrc: 'src/app/.jshintrc'
+				},
+				src: ['src/app/lib/*.js','src/app/lib/**/*.js','src/app/*.js']
+			},
+			test: {
+				options: {
+					jshintrc: 'test/.jshintrc'
+				},
+				src: ['test/**/*.js']
+			},
+		},
+
 		watch: {
 			options: {
 				dateFormat: function(time) {
@@ -140,27 +183,8 @@ module.exports = function(grunt) {
 				tasks: ['css']
 			},
 		},
+
+
 	});
 
 };
-
-var parseBuildPlatforms = function(argumentPlatform) {
-	// this will make it build no platform when the platform option is specified
-	// without a value which makes argumentPlatform into a boolean
-	var inputPlatforms = argumentPlatform || process.platform + ";" + process.arch;
-
-	// Do some scrubbing to make it easier to match in the regexes bellow
-	inputPlatforms = inputPlatforms.replace("darwin", "mac");
-	inputPlatforms = inputPlatforms.replace(/;ia|;x|;arm/, "");
-
-	var buildAll = /^all$/.test(inputPlatforms);
-
-	var buildPlatforms = {
-		mac: /mac/.test(inputPlatforms) || buildAll,
-		win: /win/.test(inputPlatforms) || buildAll,
-		linux32: /linux32/.test(inputPlatforms) || buildAll,
-		linux64: /linux64/.test(inputPlatforms) || buildAll
-	};
-
-	return buildPlatforms;
-}
