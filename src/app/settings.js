@@ -2,12 +2,7 @@
     Settings = [],
     os = require('os'),
     path = require('path');
-
-    var os = require('os'),
-
-    // path object
-    path = require('path');
-
+    
     // default settings
     Settings.updateApiEndpoint = 'http://get-popcorn.com/';
     
