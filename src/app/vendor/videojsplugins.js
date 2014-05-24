@@ -163,6 +163,17 @@ videojs.plugin('progressTips', function(options) {
 	this.on("loadedmetadata", init);
 });
 
+vjs.Player.prototype.debugMouse_ = false;
+vjs.Player.prototype.reportUserActivity = function(event){
+  /** DEBUG MOUSE CTRL+D **/
+  if(this.debugMouse_) {
+    console.log('');
+    console.log('Event fired at: '+ vjs.formatTime(this.player_.currentTime(), this.player_.duration()));
+    console.log(event);
+  }
+  this.userActivity_ = true;
+};
+
 vjs.TextTrack.prototype.adjustFontSize = function(){
     if (this.player_.isFullScreen()) {
         $('#video_player .vjs-text-track').css('font-size', '140%');

@@ -203,10 +203,24 @@
                 _this.displayStreamURL();
             });
 
+            Mousetrap.bind(['ctrl+d'], function (e) {
+                _this.toggleMouseDebug();
+            });
+
           // Function to fade out cursor with other video elm's
 
 
 			$('.player-header-background').appendTo('div#video_player');
+        },
+
+        toggleMouseDebug: function () {
+            if(this.player.debugMouse_){
+                this.player.debugMouse_ = false;
+                this.displayOverlayMsg('Mouse debug disabled');
+            }else{
+                this.player.debugMouse_ = true;
+                this.displayOverlayMsg('Mouse debug enabled. Dont touch the mouse until disabled.');
+            }
         },
 
         seek: function (s) {
