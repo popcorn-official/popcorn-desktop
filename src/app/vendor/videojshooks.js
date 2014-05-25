@@ -17,12 +17,52 @@ vjs.Player.prototype.reportUserActivity = function(event){
     console.log('Event fired at: '+ vjs.formatTime(this.player_.currentTime(), this.player_.duration()));
     console.log(event);
   }
-  /** Possible not needed anymore with new version
   if(event !== undefined && event.type === 'mousemove'){
     if(event.webkitMovementX === 0 && event.webkitMovementY === 0) return;
   }
-  **/
   this.userActivity_ = true;
+};
+
+vjs.Player.prototype.listenForUserActivity = function(){
+  var onActivity, onMouseDown, mouseInProgress, onMouseUp,
+      activityCheck, inactivityTimeout;
+
+  onActivity = vjs.bind(this, this.reportUserActivity);
+
+  onMouseDown = function(e) {
+    onActivity(e);
+    clearInterval(mouseInProgress);
+    mouseInProgress = setInterval(onActivity, 250);
+  };
+  
+  onMouseUp = function(e) {
+    onActivity(e);
+    clearInterval(mouseInProgress);
+  };
+  
+  this.on('mousedown', onMouseDown);
+  this.on('mousemove', onActivity);
+  this.on('mouseup', onMouseUp);
+  this.on('keydown', onActivity);
+  this.on('keyup', onActivity);
+  
+  activityCheck = setInterval(vjs.bind(this, function() {
+    if (this.userActivity_) {
+      this.userActivity_ = false;
+      this.userActive(true);
+      clearTimeout(inactivityTimeout);
+      inactivityTimeout = setTimeout(vjs.bind(this, function() {
+        if (!this.userActivity_) {
+          this.userActive(false);
+        }
+      }), 2000);
+    }
+  }), 250);
+
+  this.on('dispose', function(){
+    clearInterval(activityCheck);
+    clearTimeout(inactivityTimeout);
+  });
 };
 
 vjs.TextTrack.prototype.adjustFontSize = function(){
