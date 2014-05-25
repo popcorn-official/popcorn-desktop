@@ -75,7 +75,7 @@
                 this.video = videojs('video_player', { techOrder: ['youtube'], forceSSL: true, ytcontrols: false, quality: '720p' });
                 this.ui.eyeInfo.hide();
             } else {
-                this.video = videojs('video_player', { nativeControlsForTouch: false, plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {}, progressTips: {}, dropSubtitles: {} }});
+                this.video = videojs('video_player', { nativeControlsForTouch: false, trackTimeOffset: 0, plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {}, progressTips: {}, dropSubtitles: {} }});
             }
 
             var player = this.video.player();
@@ -244,12 +244,12 @@
             this.nativeWindow = require('nw.gui').Window.get();
 
             if(this.nativeWindow.isFullscreen) {
-                this.player.isFullScreen(false);
+                this.player.isFullscreen(false);
                 this.player.trigger('fullscreenchange');
                 this.nativeWindow.leaveFullscreen();
                 this.nativeWindow.focus();
             } else {
-                this.player.isFullScreen(true);
+                this.player.isFullscreen(true);
                 this.player.trigger('fullscreenchange');
                 this.nativeWindow.enterFullscreen();
                 this.nativeWindow.focus();
@@ -279,9 +279,9 @@
         },
         
         adjustSubtitleOffset: function(s) {
-        	var o = this.player.offset();
-        	this.player.setOffset(o + s);
-        	this.displayOverlayMsg(i18n.__('Subtitles Offset')+': '+ this.player.offset().toFixed(1) +' '+i18n.__('secs'));
+        	var o = this.player.options()['trackTimeOffset'];
+        	this.player.options()['trackTimeOffset'] = (o + s);
+        	this.displayOverlayMsg(i18n.__('Subtitles Offset')+': '+ this.player.options()['trackTimeOffset'].toFixed(1) +' '+i18n.__('secs'));
         },
 		
 		displayOverlayMsg: function(message){

@@ -86,6 +86,12 @@ The default control bar that is a container for most of the controls.
     transition: visibility 0.1s, opacity 0.1s;
 }
 /* Hide the control bar when the video is playing and the user is inactive  */
+.vjs-popcorn-skin.vjs-user-active .player-header-background {
+	display: block;
+}
+.vjs-popcorn-skin .vjs-live-controls {
+	display: none;
+}
 
 .vjs-popcorn-skin.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
     display: block;
@@ -107,6 +113,11 @@ The default control bar that is a container for most of the controls.
 /* The control bar shouldn't show after an error */
 .vjs-popcorn-skin.vjs-error .vjs-control-bar {
   display: none;
+}
+.vjs-popcorn-skin.vjs-error .player-header-background.vjs-control-bar {
+	visibility: visible!important;
+	opacity: 1!important;
+	display: block!important;
 }
 
 /* IE8 is flakey with fonts, and you have to change the actual content to force
@@ -932,13 +943,15 @@ body.vjs-full-window {
 
 .video-js .vjs-text-track {
     display: none;
-    font-size: 28px;
     text-align: center;
     margin-bottom: 30px;
     /* Transparent background */
     background-color: transparent;
 	text-shadow: 0px 0px 10px #000, -2px -2px 1px #000, 2px -2px 1px #000, -2px 2px 1px #000, 2px 2px 1px #000;
 	pointer-events: auto!important;
+}
+.video-js.vjs-error .vjs-text-track {
+	display: none!important;
 }
 .video-js .vjs-subtitles {
     color: #ffffff
