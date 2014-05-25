@@ -1,5 +1,5 @@
     var 
-    Settings = [],
+    Settings = {},
     os = require('os'),
     path = require('path');
     
