@@ -20,7 +20,8 @@
             'click .sub-dropdown-arrow-down': 'toggleDropdown',
             'click .sub-flag-icon': 'closeDropdown',
             'click .sub-dropdown-arrow-up': 'closeDropdown',
-            'click .cover-detail-favorites': 'toggleFavorite'
+            'click .cover-detail-favorites': 'toggleFavorite',
+            'click .movie-imdb-link': 'openIMDb'
         },
 
         onShow: function() {
@@ -49,7 +50,7 @@
                 this.calcHealth(torrents['720p']);
             }
 
-            $('.star-container').tooltip();
+            $('.star-container,.movie-imdb-link').tooltip();
 
             var background = $('.movie-backdrop').attr('data-bgr');
 
@@ -176,9 +177,7 @@
                 Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
                     console.log('Bookmark deleted');
                     that.model.set('bookmarked', false);
-
-                        that.ui.bookmarkIcon.removeClass('selected');
-
+                    that.ui.bookmarkIcon.removeClass('selected');
                     // we'll make sure we dont have a cached movie
                     Database.deleteMovie(that.model.get('imdb'),function(err, data) {});
                 });
@@ -204,15 +203,8 @@
                 Database.addMovie(movie, function(error,result) {
                     Database.addBookmark(that.model.get('imdb'), 'movie', function(err, data) {
                         console.log('Bookmark added');
-
-
-
                         that.ui.bookmarkIcon.addClass('selected');
-
-
                         that.model.set('bookmarked', true);
-
-
                     });
                 });
 
@@ -239,6 +231,11 @@
             $('.sub-dropdown-arrow-up').hide();
 
             win.info('Subtitle: ' + this.subtitle_selected);
+        },
+
+        openIMDb: function() {
+            gui.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
         }
+
     });
 })(window.App);

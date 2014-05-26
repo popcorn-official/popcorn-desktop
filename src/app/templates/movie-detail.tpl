@@ -17,11 +17,9 @@
 			<% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
 			<div class="movie-meta-details"><%= runtime %> min</div>
 			<div class="movie-dot"></div>
-
+			<div data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Open IMDb page") %>" class="movie-imdb-link"></div>
+			<div class="movie-dot"></div>
 			<% var p_rating = Math.round(rating) / 2; %>
-
-			<div data-toggle="tooltip" data-placement="left" title="Health <%= health %>" class="health-icon Excellent"></div>
-
 			<div data-toggle="tooltip" data-placement="right" title="<%= rating %>/10" class="star-container">
 				<% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
 					<div class="rating-star full"></div>
@@ -33,6 +31,8 @@
 					<div class="rating-star null"></div>
 				<% }; %>
 			</div>
+			
+			<div data-toggle="tooltip" data-placement="left" title="Health <%= health %>" class="health-icon Excellent"></div>
 		</div>
 
 		<div class="movie-overview-container">

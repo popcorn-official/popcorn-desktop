@@ -70,9 +70,13 @@
     -webkit-backface-visibility hidden
 
 .star-container
+  position: relative
   opacity 1
   float left
-  margin-top 20px
+  margin-top: 18px
+  width: 80px
+  height: 16px
+  z-index: 2
 
 
 .sperator-movie
@@ -102,6 +106,18 @@
     cursor default
     z-index 2
     -webkit-backface-visibility hidden
+
+  .movie-imdb-link
+    margin-left 4px
+    margin-top 18px
+    width 27px
+    height 16px
+    opacity 1
+    position relative
+    float left
+    cursor pointer
+    z-index 2
+    background url(../images/icons/imdb.png) no-repeat
 
   .movie-dot
     margin-left 15px
@@ -209,10 +225,9 @@
       background-image url('../images/icons/HealthExcellent.png')
 .rating-star
     z-index 2
-    margin-right 3px
-    //margin-top 20px
+    padding-right: 12px
     position relative
-    float left
+    display: inline-block
     width 11px
     height 11px
     opacity 1

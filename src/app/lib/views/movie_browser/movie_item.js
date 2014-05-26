@@ -50,7 +50,7 @@
         showDetail: function(e) {
             e.preventDefault();
 
-            this.model.set('imdb_id', this.model.get('ImdbCode'));
+            this.model.set('imdb_id', 'tt'+this.model.get('imdb'));
             this.model.set('rating', this.model.get('MovieRating'));
             this.model.set('health', false);
 
