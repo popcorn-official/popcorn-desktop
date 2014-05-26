@@ -11,6 +11,7 @@
     // Movies
     Settings.moviesShowQuality = false;
     Settings.movies_quality = 'all';
+    Settings.tvHighQuality = false;
 	
     // Subtitles
     Settings.subtitle_language = 'none';

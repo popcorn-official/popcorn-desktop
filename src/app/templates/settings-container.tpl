@@ -3,7 +3,7 @@
 	<div class="sidebar">
 		<div class="title"><%= i18n.__("Settings") %></div>
 		<div class="user-interface"><%= i18n.__("User Interface") %></div>
-		<div class="movies-options"><%= i18n.__("Movies") %></div>
+		<div class="quality-options"><%= i18n.__("Quality") %></div>
 		<div class="subtitles-options"><%= i18n.__("Subtitles") %></div>
 		<div class="more-options"><%= i18n.__("More Options") %></div>
 		<div class="advanced-settings"><%= i18n.__("Advanced Settings") %></div>
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		
-		<div class="movies-options">
+		<div class="quality-options">
 			<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
 			<label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
 			<br><br>
@@ -43,6 +43,10 @@
 				</select>
 				<div class="dropdown-arrow"></div>	
 			</div>
+			<br /><br /><br />
+			<input class="settings-checkbox" name="tvHighQuality" id="tvhq" type="checkbox" <%=(Settings.tvHighQuality? "checked='checked'":"")%>>
+			<label class="settings-label" for="tvhq"><%= i18n.__("Play High Quality TV episodes when available?") %></label>
+			<br><br>
 		</div>
 
 		<div class="subtitles-options">

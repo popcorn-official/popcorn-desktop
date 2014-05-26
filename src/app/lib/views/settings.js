@@ -65,6 +65,7 @@
 				i18n.setLocale(value);
 				break;
 			case 'moviesShowQuality':
+            case 'tvHighQuality':
             case 'deleteTmpOnClose':
 				value = field.is(':checked');
 				break;

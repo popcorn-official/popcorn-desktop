@@ -70,10 +70,18 @@
 						<ul>
 							<% _.each(value, function(episodeData, episode) {
 								var first_aired = '';
+
 								if (episodeData.first_aired !== undefined) {
 									first_aired = moment.unix(episodeData.first_aired).lang(Settings.language).format("LLLL");
-								} %>
-								<li class="episodeSummary" data-id="<%=episodeData.tvdb_id %>" data-torrent="<%=episodeData.torrents[0].url %>">
+								} 
+
+								var torrent_url = episodeData.torrents[0].url;
+								if(episodeData.torrents["720p"] && Settings.tvHighQuality) {
+									torrent_url = episodeData.torrents["720p"].url;
+								}
+
+							%>
+								<li class="episodeSummary" data-id="<%=episodeData.tvdb_id %>" data-torrent="<%=torrent_url %>">
 									<a href="#" class="episodeData">
 										<span><%=episodeData.episode %></span>
 										<div><%=episodeData.title %></div>
