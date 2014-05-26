@@ -55,13 +55,13 @@
             this.listenTo(this.collection, 'loading', this.onLoading);
             this.listenTo(this.collection, 'loaded', this.onLoaded);
 
-            Mousetrap.bind('up', _this.moveUp);
+            Mousetrap.bind('up', function(e) {_this.moveUp(e); _this.keyNav(e)});
 
-            Mousetrap.bind('down', _this.moveDown);
+            Mousetrap.bind('down',function(e) {_this.moveDown(e); _this.keyNav(e)});
 
-            Mousetrap.bind('left', _this.moveLeft);
+            Mousetrap.bind('left', function(e) {_this.moveLeft(e); _this.keyNav(e)});
 
-            Mousetrap.bind('right', _this.moveRight);
+            Mousetrap.bind('right', function(e) {_this.moveRight(e); _this.keyNav(e)});
 
             Mousetrap.bind('enter', _this.selectItem);
 
@@ -188,6 +188,16 @@
             $('.movies .movie-item').eq(++index).addClass('selected');
             $('.movie-item.selected')[0].scrollIntoView(false);
         },
+
+        keyNav: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            clearTimeout($('#content').data('keyNavTimer'));
+            $('#content').addClass('key-nav');
+            $('#content').data('key-nav-timer', setTimeout(function() {
+                $('#content').removeClass('key-nav');
+            }, 30000));
+        }
     });
 
     function calculateMoviesInThisRow(selected) {

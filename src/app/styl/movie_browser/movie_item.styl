@@ -29,7 +29,7 @@
 			opacity 0
 			
 			&:hover
-				border 2px solid #2d75df
+				border none
 				opacity: 1
 
 			.actions-favorites
@@ -49,11 +49,6 @@
 				&.selected
 					background-image: url(../../images/icons/favorites_marked.png)
 
-	&.selected
-		.cover
-			.cover-overlay
-				border 2px solid #2d75df
-				opacity: 1
 	.title
 		height: 14px;
 		margin: 6px 0 4px;
@@ -73,6 +68,10 @@
 		color: #5b5b5b
 		display: inline
 		float: right
+
+.key-nav .movie-item.selected .cover .cover-overlay
+	border 2px solid #2d75df
+	opacity: 1
 
 .load-more
 	background-size 134px 196px
