@@ -107,7 +107,7 @@ module.exports = function(grunt) {
 					win: buildPlatforms.win,
 					linux32: buildPlatforms.linux32,
 					linux64: buildPlatforms.linux64,
-					download_url: 'http://nw.get-popcorn.com/'
+					download_url: 'http://cdn.get-popcorn.com/nw/'
 				},
 				src: ['./src/**', './node_modules/**', '!./node_modules/bower/**', '!./node_modules/grunt*/**', '!./node_modules/stylus/**', './package.json', './README.md', './LICENSE.txt' ]
 			}
