@@ -118,7 +118,7 @@
                         outDir = Settings.tmpLocation;
                         filename = 'update.exe';
                     }
-                    var outputFile = path.join(path.dirname(outDir), fileName);
+                    var outputFile = path.join(path.dirname(outDir), filename);
                     var downloadRequest = request(updateData.updateUrl);
                     downloadRequest.pipe(fs.createWriteStream(outputFile));
                     downloadRequest.on('complete', function() {
