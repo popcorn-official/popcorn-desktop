@@ -72,7 +72,7 @@
             });
 
             if(this.model.get('type') === 'video/youtube') {
-                this.video = videojs('video_player', { techOrder: ['youtube'], forceSSL: true, ytcontrols: false, quality: '720p' });
+                this.video = videojs('video_player', { techOrder: ['youtube'], forceSSL: true, ytcontrols: false, quality: '720p' }).ready(function() {this.addClass('vjs-has-started');});
                 this.ui.eyeInfo.hide();
             } else {
                 this.video = videojs('video_player', { nativeControlsForTouch: false, trackTimeOffset: 0, plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {}, progressTips: {}, dropSubtitles: {} }});
