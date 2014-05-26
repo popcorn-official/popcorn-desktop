@@ -110,8 +110,14 @@
                 // Should use SemVer here in v0.2.9 (refactor)
                 // As per checkVersion, -1 == lt; 0 == eq; 1 == gt
                 if(checkVersion(updateData.version, App.settings.version) > 0) {
-                    var outDir = App.settings.os === 'linux' ? process.execPath : CWD;
-                    var fileName = App.settings.os === 'windows' ? 'update.exe' : 'package.nw.new'; 
+                    var outDir = CWD;
+                    var filename = 'package.nw.new';
+                    if(App.settings.os === 'linux') {
+                        outDir = process.execPath;
+                    }else if(App.settings.os === 'windows') {
+                        outDir = Settings.tmpLocation;
+                        filename = 'update.exe'
+                    }
                     var outputFile = path.join(path.dirname(outDir), fileName);
                     var downloadRequest = request(updateData.updateUrl);
                     downloadRequest.pipe(fs.createWriteStream(outputFile));
