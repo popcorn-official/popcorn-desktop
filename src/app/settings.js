@@ -1,22 +1,22 @@
-    var 
+    var
     Settings = {},
     os = require('os'),
     path = require('path');
-    
+
     /** Default settings **/
 
     // User interface
-	Settings.language = 'en';
-	
+    Settings.language = 'en';
+
     // Movies
     Settings.moviesShowQuality = false;
     Settings.movies_quality = 'all';
     Settings.tvHighQuality = false;
-	
+
     // Subtitles
     Settings.subtitle_language = 'none';
     Settings.subtitle_size = '28px';
-	
+
     // More options
     Settings.tvshowApiEndpoint = 'http://eztvapi.re/';
 
@@ -25,7 +25,7 @@
     Settings.dhtLimit = 1000;
     Settings.tmpLocation = path.join(os.tmpDir(), 'Popcorn-Time');
     Settings.deleteTmpOnClose = true;
-	
+
     // Hidden endpoints
     Settings.updateApiEndpoint = 'http://get-popcorn.com/';
     /* TODO: Buy SSL for main domain + buy domain get-popcorn.re for fallback
@@ -33,7 +33,7 @@
     Settings.yifyApiEndpoint = 'https://yts.re/api/';
     Settings.yifyApiEndpointMirror = 'https://yts.im/api/';
     Settings.connectionCheckUrl = 'http://google.com/';
-	
+
     // App Settings
     Settings.version = false;
     Settings.dbversion = '0.1.0';
@@ -44,13 +44,12 @@
             get: function(variable) {
                 if (typeof Settings[variable] !== 'undefined') {
                     return Settings[variable];
-                } else {
-                    return false;
                 }
+
+                return false;
             },
 
             set: function(variable, newValue) {
-
                 Database.writeSetting({key: variable, value: newValue}, function() {
                     Settings[variable] = newValue;
                 });
@@ -58,9 +57,7 @@
 
             setup : function(callback) {
                 AdvSettings.performUpgrade();
-                AdvSettings.getHardwareInfo(function(err, data) {
-                    callback();
-                });
+                AdvSettings.getHardwareInfo(callback);
             },
 
             getHardwareInfo: function(callback) {
@@ -69,76 +66,59 @@
                 } else {
                     AdvSettings.set('arch', 'x86');
                 }
-                    
 
                 switch(process.platform) {
                     case 'darwin':
                         AdvSettings.set('os', 'mac');
-                        callback();
                     break;
                     case 'win32':
                         AdvSettings.set('os', 'windows');
-                        callback();
                     break;
                     case 'linux':
                         AdvSettings.set('os', 'linux');
-                        callback();
                     break;
                     default:
                         AdvSettings.set('os', 'unknown');
-                        callback();
                     break;
                 }
+
+                callback();
             },
 
             checkApiEndpoint: function(allApis, callback) {
                 var tls = require('tls'),
-                  URI = require('URIjs');
-
+                    URI = require('URIjs');
 
                 // TODO: Did we want to check api SSL at EACH load ?
                 // Default timeout of 120 ms
 
                 var numCompletedCalls = 0;
-                for(var apiCheck in allApis) {
-                    
+                for (var apiCheck in allApis) {
                     numCompletedCalls++;
                     apiCheck = allApis[apiCheck];
-                    
+
                     var hostname = URI(AdvSettings.get(apiCheck.original)).hostname();
 
                     tls.connect(443, hostname, {
                         servername: hostname,
                         rejectUnauthorized: false
                     }, function() {
-                        if(this.authorized && !this.authorizationError) {
-                            var cert = this.getPeerCertificate();
-                            if(cert.fingerprint !== apiCheck.fingerprint) {
-                                // "These are not the certificates you're looking for..."
-                                // Seems like they even got a certificate signed for us :O
-                                Settings[apiCheck.original] = Settings[apiCheck.mirror];
-                                this.end();
-                                if (numCompletedCalls === allApis.length) {
-                                    callback();
-                                }
-                            } else {
-                                // Valid Certificate! YAY - Not blocked!
-                                this.end();
-                                if (numCompletedCalls === allApis.length) {
-                                    callback();
-                                }
-                            }
-                        } else {
-                            // Not a valid SSL certificate... mhmmm right, this is not it, use a mirror
+                        if (!this.authorized
+                          || this.authorizationError
+                          || this.getPeerCertificate().fingerprint !== apiCheck.fingerprint) {
+                            // "These are not the certificates you're looking for..."
+                            // Seems like they even got a certificate signed for us :O
                             Settings[apiCheck.original] = Settings[apiCheck.mirror];
-                            this.end();
-                            if (numCompletedCalls === allApis.length) {
-                                callback();
-                            }
+                        }
+
+                        this.end();
+                        if (numCompletedCalls === allApis.length) {
+                            callback();
                         }
                     }).on('error', function() {
                         // No SSL support. That's convincing >.<
                         Settings[apiCheck.original] = Settings[apiCheck.mirror];
+
                         this.end();
                         if (numCompletedCalls === allApis.length) {
                             callback();
@@ -170,4 +150,3 @@
                 AdvSettings.set('version', currentVersion);
             },
     };
-
