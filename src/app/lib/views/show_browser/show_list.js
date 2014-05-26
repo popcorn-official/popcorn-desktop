@@ -56,13 +56,13 @@
 
             var _this = this;
 
-            Mousetrap.bind('up', function(e) {_this.moveUp(e); _this.keyNav(e)});
+            Mousetrap.bind('up', function (e) { _this.moveUp(e); _this.keyNav(e);});
 
-            Mousetrap.bind('down',function(e) {_this.moveDown(e); _this.keyNav(e)});
+            Mousetrap.bind('down', function (e) { _this.moveDown(e); _this.keyNav(e);});
 
-            Mousetrap.bind('left', function(e) {_this.moveLeft(e); _this.keyNav(e)});
+            Mousetrap.bind('left', function (e) { _this.moveLeft(e); _this.keyNav(e);});
 
-            Mousetrap.bind('right', function(e) {_this.moveRight(e); _this.keyNav(e)});
+            Mousetrap.bind('right', function (e) { _this.moveRight(e); _this.keyNav(e);});
 
             Mousetrap.bind('enter', _this.selectItem);
         },
