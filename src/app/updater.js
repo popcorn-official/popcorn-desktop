@@ -116,7 +116,7 @@
                         outDir = process.execPath;
                     }else if(App.settings.os === 'windows') {
                         outDir = Settings.tmpLocation;
-                        filename = 'update.exe'
+                        filename = 'update.exe';
                     }
                     var outputFile = path.join(path.dirname(outDir), fileName);
                     var downloadRequest = request(updateData.updateUrl);
