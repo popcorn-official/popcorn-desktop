@@ -2,7 +2,7 @@
     'use strict';
     var prevX = 0;
     var prevY = 0;
-    
+
     var ShowItem = Backbone.Marionette.ItemView.extend({
         template: '#show-item-tpl',
 

@@ -10,6 +10,7 @@
             Header: '#header',
             Content: '#content',
             MovieDetail: '#movie-detail',
+            FileSelector: '#file-selector-container',
             Player: '#player',
             Settings: '#settings-container',
             InitModal: '#initializing',
@@ -58,6 +59,9 @@
             // Settings events
             App.vent.on('settings:show', _.bind(this.showSettings, this));
             App.vent.on('settings:close', _.bind(this.Settings.close, this.Settings));
+
+            App.vent.on('system:openFileSelector', _.bind(this.showFileSelector, this));
+            App.vent.on('system:closeFileSelector', _.bind(this.FileSelector.close, this.FileSelector));
 
             // Stream events
             App.vent.on('stream:started', _.bind(this.streamStarted, this));
@@ -188,6 +192,14 @@
         showShowDetail: function(showModel) {
             this.MovieDetail.show(new App.View.ShowDetail({
                 model: showModel
+            }));
+        },
+
+        showFileSelector: function(fileModel) {
+            App.vent.trigger('stream:stop');
+            App.vent.trigger('player:close');
+            this.FileSelector.show(new App.View.FileSelector({
+                model: fileModel
             }));
         },  
 

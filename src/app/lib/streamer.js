@@ -49,7 +49,8 @@
             connections: Settings.connectionLimit, // Max amount of peers to be connected to.
             dht: Settings.dhtLimit,
             path: tmpFile, // we'll have a different file name for each stream also if it's same torrent in same session
-            buffer: (1.5 * 1024 * 1024).toString() // create a buffer on torrent-stream
+            buffer: (1.5 * 1024 * 1024).toString(), // create a buffer on torrent-stream
+            index: torrent.file_index
         });
 
         var streamInfo = new App.Model.StreamInfo({engine: engine});
@@ -107,6 +108,10 @@
         start: function(model) {
 
             var torrentUrl  = model.get('torrent');
+            var torrent_read = false;
+            if(model.get('torrent_read')) {
+                torrent_read = true;
+            }
             
             var stateModel = new Backbone.Model({state: 'connecting', backdrop: model.get('backdrop')});
             App.vent.trigger('stream:started', stateModel);
@@ -115,14 +120,14 @@
                 Streamer.stop();
             }
 
-            readTorrent(torrentUrl, function(err, torrent) {
+            var doTorrent = function(err, torrent) {
                 if(err) {
                     App.vent.trigger('error', err);
                     App.vent.trigger('stream:stop');
                 } else {
                     // did we need to extract subtitle ?
                     var extractSubtitle = model.get('extract_subtitle');
-					
+                    
                     var getSubtitles = function(data){
                         win.debug('Subtitle data request:', data);
                         
@@ -138,7 +143,7 @@
                             }
                         });
                     };
-					
+                    
                     var handleTorrent_fnc = function(){
                         // TODO: We should passe the movie / tvshow imdbid instead
                         // and read from the player
@@ -152,12 +157,13 @@
                             title: title,
                             show_id: model.get('show_id'),
                             episode: model.get('episode'),
-                            season: model.get('season')
+                            season: model.get('season'),
+                            file_index: model.get('file_index')
                         };
 
                         handleTorrent(torrentInfo, stateModel);
                     };
-					
+                    
                     if (typeof extractSubtitle === 'object') {
                         extractSubtitle.filename = torrent.name;
                         
@@ -175,43 +181,66 @@
                     //Try get subtitles for custom torrents
                     var title = model.get('title');
                     if(!title) { //From ctrl+v magnet or drag torrent
-                        model.set('defaultSubtitle', Settings.subtitle_language);
-                        var sub_data = {};
-                        title = $.trim( torrent.name.replace('[rartv]','').replace('[PublicHD]','').replace('[ettv]','').replace('[eztv]','') ).replace(/[\s]/g,'.');
-                        sub_data.filename = title;
-                        var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i);
-                        if(se_re != null){
-                            var tvshowname = $.trim( se_re[1].replace(/[\.]/g,' ') );
-                            var trakt = new (App.Config.getProvider('metadata'))();
-                            trakt.episodeDetail({title: tvshowname, season: se_re[2], episode: se_re[3]}, function(error, data) {
-                                if(error) {
-                                    win.warn(error);
-                                    getSubtitles(sub_data);
-                                } else if(!data) {
-                                    win.warn('TTV error:', error.error);
-                                    getSubtitles(sub_data);
-                                } else {
-                                    $('.loading-background').css('background-image', 'url('+data.show.images.fanart+')');
-                                    sub_data.imdbid = data.show.imdb_id;
-                                    sub_data.season = data.episode.season.toString();
-                                    sub_data.episode = data.episode.number.toString();
-                                    getSubtitles(sub_data);
-                                    model.set('show_id', data.show.tvdb_id);
-                                    model.set('episode', sub_data.season);
-                                    model.set('season', sub_data.episode);
-                                    title = data.show.title + ' - ' + i18n.__('Season') + ' ' + data.episode.season + ', ' + i18n.__('Episode') + ' ' + data.episode.number + ' - ' + data.episode.title;
-                                }
+                        for(var f in torrent.files) {
+                            if(!torrent.files[f].name.endsWith('.avi') && 
+                                !torrent.files[f].name.endsWith('.mp4') && 
+                                !torrent.files[f].name.endsWith('.mkv')) {
+                                torrent.files[f] = null;
+                            }
+                        }
+                        torrent.files = $.grep(torrent.files,function(n){ return(n); });
+                        if(torrent.files.length > 1 && !model.get('file_index') && model.get('file_index') !== 0) {
+                            var fileModel = new Backbone.Model({torrent: torrent, files: torrent.files});
+                            App.vent.trigger('system:openFileSelector', fileModel);
+                        }
+                        else {
+                            model.set('defaultSubtitle', Settings.subtitle_language);
+                            var sub_data = {};
+                            title = $.trim( torrent.name.replace('[rartv]','').replace('[PublicHD]','').replace('[ettv]','').replace('[eztv]','') ).replace(/[\s]/g,'.');
+                            sub_data.filename = title;
+                            var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i);
+                            if(se_re != null){
+                                var tvshowname = $.trim( se_re[1].replace(/[\.]/g,' ') );
+                                var trakt = new (App.Config.getProvider('metadata'))();
+                                trakt.episodeDetail({title: tvshowname, season: se_re[2], episode: se_re[3]}, function(error, data) {
+                                    if(error) {
+                                        win.warn(error);
+                                        getSubtitles(sub_data);
+                                    } else if(!data) {
+                                        win.warn('TTV error:', error.error);
+                                        getSubtitles(sub_data);
+                                    } else {
+                                        $('.loading-background').css('background-image', 'url('+data.show.images.fanart+')');
+                                        sub_data.imdbid = data.show.imdb_id;
+                                        sub_data.season = data.episode.season.toString();
+                                        sub_data.episode = data.episode.number.toString();
+                                        getSubtitles(sub_data);
+                                        model.set('show_id', data.show.tvdb_id);
+                                        model.set('episode', sub_data.season);
+                                        model.set('season', sub_data.episode);
+                                        title = data.show.title + ' - ' + i18n.__('Season') + ' ' + data.episode.season + ', ' + i18n.__('Episode') + ' ' + data.episode.number + ' - ' + data.episode.title;
+                                    }
+                                    handleTorrent_fnc();
+                                });
+                            }else{
+                                getSubtitles(sub_data);
                                 handleTorrent_fnc();
-                            });
-                        }else{
-                            getSubtitles(sub_data);
-                            handleTorrent_fnc();
+                            }
                         }
                     } else {
                         handleTorrent_fnc();
                     }
                 }
-            });
+            };
+
+            if(!torrent_read) {
+                readTorrent(torrentUrl, doTorrent);
+            }
+            else {
+                doTorrent(null, model.get('torrent'));
+            }
+
+            
         },
 
         stop: function() {
