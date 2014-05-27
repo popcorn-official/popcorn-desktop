@@ -143,7 +143,14 @@
                         if (numCompletedCalls === allApis.length) {
                             callback();
                         }
-                    });
+                    }).on('timeout', function() {
+                        // Connection timed out, we'll say its not available
+                        Settings[apiCheck.original] = Settings[apiCheck.mirror];
+                        this.end();
+                        if (numCompletedCalls === allApis.length) {
+                            callback();
+                        }
+                    }).setTimeout(10000); // Set 10 second timeout
                 }
             },
 
