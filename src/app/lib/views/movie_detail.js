@@ -25,6 +25,12 @@
         },
 
         onShow: function() {
+        
+
+            var that = this;
+            Mousetrap.bind('esc', function(e) {
+                that.closeDetails();
+            });
 
             // TODO: use the default in settings
             this.subtitle_selected = false;

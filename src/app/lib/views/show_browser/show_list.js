@@ -2,6 +2,8 @@
     'use strict';
 
     var SCROLL_MORE = 200;
+    var NUM_SHOWS_IN_ROW = 7;
+    var _this;
 
     var ErrorView = Backbone.Marionette.ItemView.extend({
         template: '#movie-error-tpl',
@@ -43,6 +45,7 @@
             showItemAmount = Math.floor(showItemAmount);
 
             var newWidth = showItemAmount * showItemFullWidth;
+            NUM_SHOWS_IN_ROW = showItemAmount;
             $('.shows').width(newWidth);
         },
 
@@ -54,15 +57,15 @@
             this.listenTo(this.collection, 'loading', this.onLoading);
             this.listenTo(this.collection, 'loaded', this.onLoaded);
 
-            var _this = this;
+            _this = this;
 
-            Mousetrap.bind('up', function (e) { _this.moveUp(e); _this.keyNav(e);});
+            Mousetrap.bind('up', _this.moveUp);
 
-            Mousetrap.bind('down', function (e) { _this.moveDown(e); _this.keyNav(e);});
+            Mousetrap.bind('down', _this.moveDown);
 
-            Mousetrap.bind('left', function (e) { _this.moveLeft(e); _this.keyNav(e);});
+            Mousetrap.bind('left', _this.moveLeft);
 
-            Mousetrap.bind('right', function (e) { _this.moveRight(e); _this.keyNav(e);});
+            Mousetrap.bind('right', _this.moveRight);
 
             Mousetrap.bind('enter', _this.selectItem);
         },
@@ -111,13 +114,17 @@
                 }
                 _.defer(function(){
                     self.$('.shows:first').focus();
-                    self.$('.movie-item').eq(0).addClass('selected');
+                    if($('.movie-item.selected').length === 0){
+                        self.$('.movie-item').eq(0).addClass('selected');
+                    }
                 });
             });
             $('.shows').attr('tabindex','1');
             _.defer(function(){
                 self.$('.shows:first').focus();
-                self.$('.movie-item').eq(0).addClass('selected');
+                if($('.movie-item.selected').length === 0){
+                    self.$('.movie-item').eq(0).addClass('selected');
+                }
             });
         },
 
@@ -141,74 +148,53 @@
             $('.movie-item.selected .cover').trigger('click');
         },
 
+        selectIndex: function(index) {
+            $('.movie-item.selected').removeClass('selected');
+            $('.shows .movie-item').eq(index).addClass('selected');
+            $('.movie-item.selected')[0].scrollIntoView(false);
+            _this.onScroll();
+        },
+
         moveUp: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var index = $('.movie-item.selected').index();
-            var numInRow = calculateSeriesInThisRow($('.movie-item.selected'));
-            if(index - numInRow < 0) {
+            var index = $('.movie-item.selected').index() - NUM_SHOWS_IN_ROW;
+            if(index< 0) {
                 return;
             }
-            $('.movie-item.selected').removeClass('selected');
-            $('.shows .movie-item').eq(index - numInRow).addClass('selected');
-            $('.movie-item.selected')[0].scrollIntoView(false);
+            _this.selectIndex(index);
         },
 
         moveDown: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var index = $('.movie-item.selected').index();
-            var numInRow = calculateSeriesInThisRow($('.movie-item.selected'));
-            $('.movie-item.selected').removeClass('selected');
-            $('.shows .movie-item').eq(index + numInRow).addClass('selected');
-            $('.movie-item.selected')[0].scrollIntoView(false);
+            var index = $('.movie-item.selected').index() + NUM_SHOWS_IN_ROW;
+            if($('.shows .movie-item').eq(index).length === 0) {
+                return;
+            }
+            _this.selectIndex(index);
         },
 
         moveLeft: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var index = $('.movie-item.selected').index();
-            if(index === 0) {
+            var index = $('.movie-item.selected').index() - 1;
+            if(index === -1) {
                 return;
             }
-            if(index === -1) {
+            if(index === -2) {
                 $('.shows .movie-item').eq(0).addClass('selected');
             }
-            $('.movie-item.selected').removeClass('selected');
-            $('.shows .movie-item').eq(--index).addClass('selected');
-            $('.movie-item.selected')[0].scrollIntoView(false);
+            _this.selectIndex(index);
         },
 
         moveRight: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var index = $('.movie-item.selected').index();
-            $('.movie-item.selected').removeClass('selected');
-            $('.shows .movie-item').eq(++index).addClass('selected');
-            $('.movie-item.selected')[0].scrollIntoView(false);
+            var index = $('.movie-item.selected').index() + 1;
+            _this.selectIndex(index);
         },
-
-        keyNav: function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            clearTimeout($('#content').data('keyNavTimer'));
-            $('#content').addClass('key-nav');
-            $('#content').data('key-nav-timer', setTimeout(function() {
-                $('#content').removeClass('key-nav');
-            }, 30000));
-        }
     });
-
-    function calculateSeriesInThisRow(selected) {
-        var topNumber = selected.position().top;
-        var divsInRow = 0;
-        $('.shows li').each(function() {
-            if($(this).position().top === topNumber){
-                divsInRow++;
-            }
-        });
-        return divsInRow;
-    }
 
     App.View.ShowList = ShowList;
 })(window.App);

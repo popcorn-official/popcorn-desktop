@@ -1,6 +1,8 @@
 (function(App) {
     'use strict';
-
+    var prevX = 0;
+    var prevY = 0;
+    
     var ShowItem = Backbone.Marionette.ItemView.extend({
         template: '#show-item-tpl',
 
@@ -15,7 +17,8 @@
 
         events: {
             'click .actions-favorites': 'toggleFavorite',
-            'click .cover': 'showDetail'
+            'click .cover': 'showDetail',
+            'mouseover .cover': 'hoverItem'
         },
 
 
@@ -47,6 +50,15 @@
             });
 
             this.ui.coverImage.remove();
+        },
+
+        hoverItem: function(e) {
+            if(e.pageX !== prevX || e.pageY !== prevY) {
+                $('.movie-item.selected').removeClass('selected');
+                $(this.el).addClass('selected');
+                prevX = e.pageX;
+                prevY = e.pageY;
+            }
         },
 
         // triggered on click only

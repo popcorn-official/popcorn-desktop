@@ -27,10 +27,6 @@
 			transition opacity .25s ease
 			transition border-color .25s ease
 			opacity 0
-			
-			&:hover
-				border none
-				opacity: 1
 
 			.actions-favorites
 				height: 20px
@@ -49,6 +45,11 @@
 				&.selected
 					background-image: url(../../images/icons/favorites_marked.png)
 
+	&.selected
+		.cover
+			.cover-overlay
+				border 2px solid #2d75df
+				opacity: 1
 	.title
 		height: 14px;
 		margin: 6px 0 4px;
@@ -68,10 +69,6 @@
 		color: #5b5b5b
 		display: inline
 		float: right
-
-.key-nav .movie-item.selected .cover .cover-overlay
-	border 2px solid #2d75df
-	opacity: 1
 
 .load-more
 	background-size 134px 196px

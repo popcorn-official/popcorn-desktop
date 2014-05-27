@@ -1,5 +1,8 @@
 (function(App) {
     'use strict';
+
+    var prevX = 0;
+    var prevY = 0;
      
     var MovieItem = Backbone.Marionette.ItemView.extend({
         template: '#movie-item-tpl',
@@ -15,7 +18,8 @@
 
         events: {
             'click .actions-favorites': 'toggleFavorite',
-            'click .cover': 'showDetail'
+            'click .cover': 'showDetail',
+            'mouseover .cover': 'hoverItem'
         },
 
         onShow: function() {
@@ -42,11 +46,21 @@
             this.ui.coverImage.off('load');
         },
 
+        hoverItem: function(e) {
+            if(e.pageX !== prevX || e.pageY !== prevY) {
+                $('.movie-item.selected').removeClass('selected');
+                $(this.el).addClass('selected');
+                prevX = e.pageX;
+                prevY = e.pageY;
+            }
+        },
+
         showCover: function() {
             this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')');
             this.ui.cover.css('opacity', '1');
             this.ui.coverImage.remove();
         },
+
         showDetail: function(e) {
             e.preventDefault();
 
