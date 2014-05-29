@@ -44,8 +44,9 @@
         },
 
         showCover: function() {
+			console.log(this.model);
             this.ui.cover.css({
-                'background-image': 'url(' + this.model.get('images').poster + ')',
+                'background-image': 'url(' + this.model.get('images').poster.replace('.jpg','-138.jpg') + ')',
                 'opacity': 1
             });
 
