@@ -189,7 +189,9 @@
                                 torrent.files[f] = null;
                             }
                         }
-                        torrent.files = $.grep(torrent.files,function(n){ return(n); });
+                        if(torrent.files) {
+                            torrent.files = $.grep(torrent.files,function(n){ return(n); });
+                        }
                         if(torrent.files.length > 1 && !model.get('file_index') && model.get('file_index') !== 0) {
                             var fileModel = new Backbone.Model({torrent: torrent, files: torrent.files});
                             App.vent.trigger('system:openFileSelector', fileModel);
