@@ -197,7 +197,7 @@
                         else {
                             model.set('defaultSubtitle', Settings.subtitle_language);
                             var sub_data = {};
-                            if(torrent.name) {
+                            if(torrent.name) { // sometimes magnets don't have names for some reason
                                 title = $.trim( torrent.name.replace('[rartv]','').replace('[PublicHD]','').replace('[ettv]','').replace('[eztv]','') ).replace(/[\s]/g,'.');
                                 sub_data.filename = title;
                                 var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i);
