@@ -137,5 +137,7 @@
 	"Flush subtitles cache": "Flush subtitles cache",
 	"Open IMDb page": "Open IMDb page",
 	"Quality": "Quality",
-	"Please select a file to play": "Please select a file to play"
+	"Please select a file to play": "Please select a file to play",
+	"Port to stream on": "Port to stream on",
+	"0 = Random": "0 = Random"
 }

@@ -87,6 +87,9 @@
 			<p><%= i18n.__("DHT Limit") + ":" %></p> <input type="text" size = "20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
 			<br><br>
 
+			<p><%= i18n.__("Port to stream on") + ":" %></p> <input type="text" size = "20" name="streamPort" value="<%=Settings.streamPort%>"/> <%= i18n.__("0 = Random") %>
+			<br><br>
+
 			<!-- Cache Directory -->
 			<p><%= i18n.__("Cache Directory") %>: </p>
 			<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="75" />

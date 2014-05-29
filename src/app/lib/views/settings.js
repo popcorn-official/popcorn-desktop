@@ -70,6 +70,7 @@
 				break;
 			case 'connectionLimit':
 			case 'dhtLimit':
+			case 'streamPort':
 				value = field.val();
 				break;
 			case 'tmpLocation':
