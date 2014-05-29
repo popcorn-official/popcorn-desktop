@@ -419,6 +419,37 @@
 		&:hover
 			background-color #225694
 
+.show-quality-container
+	padding-left: 10%
+	top: 30px
+	z-index: 2
+	float: left
+	width: 10px
+	height: 10px
+	position: relative
+	
+	div
+		font-family: "Open Sans Bold", "Open Sans", sans-serif;
+		-webkit-font-smoothing: antialiased;
+		font-size: 11px;
+		color: #fff;
+		font-weight: normal;
+		position: absolute;
+		z-index: 2;
+	
+	.quality-selector
+		display: none
+		
+		.q720
+			margin-left: 60px;
+		
+		.switch
+			top: 1px;
+			margin-left: 30px;
+	
+	.quality-info
+		display: none
+
 @media all and (min-width: 1300px)
 	.episode-info
 		width 46%
@@ -438,15 +469,3 @@
 
 	.episode-info-number
 		top 36px
-
-@media all and (min-height: 700px) 
-	.episode-info-description
-		 max-height 42%
-
-@media all and (min-height: 900px) 
-	.episode-info-description
-		 max-height 52%
-
-@media all and (min-height: 1040px) 
-	.episode-info-description
-		 max-height 62%

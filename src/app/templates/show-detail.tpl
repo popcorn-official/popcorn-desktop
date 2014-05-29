@@ -37,6 +37,18 @@
 		<div class="episode-info-number"></div>
 		<div class="episode-info-date"></div>
 		<div class="episode-info-description"></div>
+		<div class="show-quality-container">
+			<div class="quality-selector">
+				<div class="q480">480p</div>
+				<div class="q720">720p</div>
+				<div class="quality switch white">
+					<input type="radio" name="switch" id="switch-hd-off" >
+					<input type="radio" name="switch" id="switch-hd-on" checked >
+					<span class="toggle"></span>
+				</div>
+			</div>
+			<div class="quality-info"></div>
+		</div>
 		<div class="movie-btn-watch-episode startStreaming" data-torrent="" data-episodeid="">
 			<div class="movie-watch-now"><%= i18n.__("Watch Now") %></div>
 		</div>
@@ -69,23 +81,27 @@
 					<div id="season-<%=season %>" class="tabs-episode">
 						<ul>
 							<% _.each(value, function(episodeData, episode) {
-								var first_aired = '';
+								var first_aired = '',
+									q720 = '',
+									q480 = '';
 
 								if (episodeData.first_aired !== undefined) {
 									first_aired = moment.unix(episodeData.first_aired).lang(Settings.language).format("LLLL");
-								} 
-
-								var torrent_url = episodeData.torrents[0].url;
-								if(episodeData.torrents["720p"] && Settings.tvHighQuality) {
-									torrent_url = episodeData.torrents["720p"].url;
+								}
+								if(episodeData.torrents["480p"]) {
+									q480 = episodeData.torrents["480p"].url;
+								}
+								if(episodeData.torrents["720p"]) {
+									q720 = episodeData.torrents["720p"].url;
 								}
 
 							%>
-								<li class="episodeSummary" data-id="<%=episodeData.tvdb_id %>" data-torrent="<%=torrent_url %>">
+								<li class="episodeSummary" data-id="<%=episodeData.tvdb_id %>">
 									<a href="#" class="episodeData">
 										<span><%=episodeData.episode %></span>
 										<div><%=episodeData.title %></div>
 									</a>
+									
 									<span id="watched-<%=episodeData.season%>-<%=episodeData.episode%>" class="watched watched-false"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
 
 
@@ -95,7 +111,9 @@
 										<span class="date"><%=first_aired %></span>
 										<span class="season"><%=episodeData.season %></span>
 										<span class="episode"><%=episodeData.episode %></span>
-										<div class="overview"><%=episodeData.overview %></div>
+										<span class="overview"><%=episodeData.overview %></span>
+										<span class="q480"><%=q480 %></span>
+										<span class="q720"><%=q720 %></span>
 									</div>
 								</li>
 							<% }); %>

@@ -43,10 +43,6 @@
 				</select>
 				<div class="dropdown-arrow"></div>	
 			</div>
-			<br /><br /><br />
-			<input class="settings-checkbox" name="tvHighQuality" id="tvhq" type="checkbox" <%=(Settings.tvHighQuality? "checked='checked'":"")%>>
-			<label class="settings-label" for="tvhq"><%= i18n.__("Play High Quality TV episodes when available?") %></label>
-			<br><br>
 		</div>
 
 		<div class="subtitles-options">
