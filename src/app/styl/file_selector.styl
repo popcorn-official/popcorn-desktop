@@ -16,7 +16,7 @@
         z-index -1
 
     .close
-        top 85px
+        top 25px
         right 20px
         position fixed
         float right
@@ -33,10 +33,16 @@
         &:hover
             opacity 1 
             transition all .5s
+    .title
+        font-size 24px
+        padding 0 0 20px
+        margin-top 100px
+        color #fff
+        font-family sans-serif
+        text-align center
 
     .content
         margin 0 auto
-        margin-top 100px
         width 66%
         height 60%
         color #fff
@@ -46,18 +52,20 @@
         text-align center
         scrollable()
 
-        .title
-            font-size 24px
-            border-bottom 1px solid #eee
-
         ul
 
             li.file-item
-                padding 5px
-                border-bottom 1px solid #2d75df
+                border-bottom 1px solid rgba(255, 255, 255, 0.06)
+                background rgba(255, 255, 255, 0.05)
+                padding 10px 40px
+                text-align left
+                margin 2px
+                cursor pointer
+                transition all 0.3s
 
                 a
                     color #eee
-                    cursor pointer
+                    text-decoration blink
 
-        
+                &:hover
+                    color #2a6496
