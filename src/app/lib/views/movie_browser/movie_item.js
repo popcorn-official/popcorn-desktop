@@ -26,19 +26,12 @@
 
             // is boorkmarked or not ?
             var that = this;
-            Database.getBookmark(this.model.get('imdb'), function(err, value) {
-                if (!err) {
+            var bookmarked = App.userBookmarks.indexOf(this.model.get('imdb')) !== -1;
+            this.model.set('bookmarked', bookmarked);
 
-                    that.model.set('bookmarked', value);
-
-                    if (value === true) {
-                        that.ui.bookmarkIcon.addClass('selected');
-                    }
-                } else {
-                    that.model.set('bookmarked', false);
-                }
-                    
-            });            
+            if (bookmarked) {
+                this.ui.bookmarkIcon.addClass('selected');
+            }         
             this.ui.coverImage.on('load', _.bind(this.showCover, this));
         },
 
@@ -82,6 +75,7 @@
                     that.model.set('bookmarked', false);
 
                         that.ui.bookmarkIcon.removeClass('selected');
+                        App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb'), 1));
 
                     // we'll make sure we dont have a cached movie
                     Database.deleteMovie(that.model.get('imdb'),function(err, data) {});
@@ -115,7 +109,7 @@
 
 
                         that.model.set('bookmarked', true);
-
+                        App.userBookmarks.push(that.model.get('imdb'));
 
                     });
                 });

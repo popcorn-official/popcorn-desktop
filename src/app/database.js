@@ -119,6 +119,18 @@ var Database = {
 		db.bookmarks.find(query).skip(offset).limit(byPage).exec(cb);
 	},
 
+	getAllBookmarks: function (cb) {
+		db.bookmarks.find({}).exec(function(err, data) {
+			if(err) return cb(err, null);
+			var bookmarks = [];
+			if(data) {
+				bookmarks = extractIds(data);
+			}
+
+			return cb(null, bookmarks);
+		});
+	},
+
 	addMovies: function (data, cb) {
 		async.each(data.movies, function (movie, callback) {
 			Database.addTVShow({
@@ -263,7 +275,10 @@ var Database = {
 
 	getSettings: function (cb) {
 		win.debug('getSettings() fired');
-		db.settings.find({}).exec(cb);
+		Database.getAllBookmarks(function(err, data){
+			App.userBookmarks = data;
+			db.settings.find({}).exec(cb);
+		});
 	},
 
 	// format: {key: key_name, value: settings_value}
