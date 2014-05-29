@@ -66,7 +66,7 @@
 
             Mousetrap.bind('right', _this.moveRight);
 
-            Mousetrap.bind('enter', _this.selectItem);
+            Mousetrap.bind(['enter', 'space'], _this.selectItem);
 
         },
 
