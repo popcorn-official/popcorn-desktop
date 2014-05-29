@@ -189,44 +189,47 @@
                                 torrent.files[f] = null;
                             }
                         }
-                        if(torrent.files) {
-                            torrent.files = $.grep(torrent.files,function(n){ return(n); });
-                        }
                         if(torrent.files && torrent.files.length > 1 && !model.get('file_index') && model.get('file_index') !== 0) {
+                            torrent.files = $.grep(torrent.files,function(n){ return(n); });
                             var fileModel = new Backbone.Model({torrent: torrent, files: torrent.files});
                             App.vent.trigger('system:openFileSelector', fileModel);
                         }
                         else {
                             model.set('defaultSubtitle', Settings.subtitle_language);
                             var sub_data = {};
-                            title = $.trim( torrent.name.replace('[rartv]','').replace('[PublicHD]','').replace('[ettv]','').replace('[eztv]','') ).replace(/[\s]/g,'.');
-                            sub_data.filename = title;
-                            var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i);
-                            if(se_re != null){
-                                var tvshowname = $.trim( se_re[1].replace(/[\.]/g,' ') );
-                                var trakt = new (App.Config.getProvider('metadata'))();
-                                trakt.episodeDetail({title: tvshowname, season: se_re[2], episode: se_re[3]}, function(error, data) {
-                                    if(error) {
-                                        win.warn(error);
-                                        getSubtitles(sub_data);
-                                    } else if(!data) {
-                                        win.warn('TTV error:', error.error);
-                                        getSubtitles(sub_data);
-                                    } else {
-                                        $('.loading-background').css('background-image', 'url('+data.show.images.fanart+')');
-                                        sub_data.imdbid = data.show.imdb_id;
-                                        sub_data.season = data.episode.season.toString();
-                                        sub_data.episode = data.episode.number.toString();
-                                        getSubtitles(sub_data);
-                                        model.set('show_id', data.show.tvdb_id);
-                                        model.set('episode', sub_data.season);
-                                        model.set('season', sub_data.episode);
-                                        title = data.show.title + ' - ' + i18n.__('Season') + ' ' + data.episode.season + ', ' + i18n.__('Episode') + ' ' + data.episode.number + ' - ' + data.episode.title;
-                                    }
+                            if(torrent.name) {
+                                title = $.trim( torrent.name.replace('[rartv]','').replace('[PublicHD]','').replace('[ettv]','').replace('[eztv]','') ).replace(/[\s]/g,'.');
+                                sub_data.filename = title;
+                                var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i);
+                                if(se_re != null){
+                                    var tvshowname = $.trim( se_re[1].replace(/[\.]/g,' ') );
+                                    var trakt = new (App.Config.getProvider('metadata'))();
+                                    trakt.episodeDetail({title: tvshowname, season: se_re[2], episode: se_re[3]}, function(error, data) {
+                                        if(error) {
+                                            win.warn(error);
+                                            getSubtitles(sub_data);
+                                        } else if(!data) {
+                                            win.warn('TTV error:', error.error);
+                                            getSubtitles(sub_data);
+                                        } else {
+                                            $('.loading-background').css('background-image', 'url('+data.show.images.fanart+')');
+                                            sub_data.imdbid = data.show.imdb_id;
+                                            sub_data.season = data.episode.season.toString();
+                                            sub_data.episode = data.episode.number.toString();
+                                            getSubtitles(sub_data);
+                                            model.set('show_id', data.show.tvdb_id);
+                                            model.set('episode', sub_data.season);
+                                            model.set('season', sub_data.episode);
+                                            title = data.show.title + ' - ' + i18n.__('Season') + ' ' + data.episode.season + ', ' + i18n.__('Episode') + ' ' + data.episode.number + ' - ' + data.episode.title;
+                                        }
+                                        handleTorrent_fnc();
+                                    });
+                                }else{
+                                    getSubtitles(sub_data);
                                     handleTorrent_fnc();
-                                });
-                            }else{
-                                getSubtitles(sub_data);
+                                }
+                            }
+                            else {
                                 handleTorrent_fnc();
                             }
                         }
