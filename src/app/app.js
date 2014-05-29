@@ -1,74 +1,76 @@
 var
-    // Minimum percentage to open video
-    MIN_PERCENTAGE_LOADED = 0.5,
+	// Minimum percentage to open video
+	MIN_PERCENTAGE_LOADED = 0.5,
 
-    // Minimum bytes loaded to open video
-    MIN_SIZE_LOADED = 10 * 1024 * 1024,
+	// Minimum bytes loaded to open video
+	MIN_SIZE_LOADED = 10 * 1024 * 1024,
 
-    // Load native UI library
-    gui = require('nw.gui'),
+	// Load native UI library
+	gui = require('nw.gui'),
 
-    // browser window object
-    win = gui.Window.get(),
+	// browser window object
+	win = gui.Window.get(),
 
-    // os object
-    os = require('os'),
+	// os object
+	os = require('os'),
 
-    // path object
-    path = require('path'),
+	// path object
+	path = require('path'),
 
-    // fs object
-    fs = require('fs'),
+	// fs object
+	fs = require('fs'),
 
-    // url object
-    url = require('url'),
+	// url object
+	url = require('url'),
 
-    // i18n module (translations)
-    i18n = require('i18n'),
+	// i18n module (translations)
+	i18n = require('i18n'),
 
-    // Mime type parsing
-    mime = require('mime'),
+	// Mime type parsing
+	mime = require('mime'),
 
-    moment = require('moment');
+	moment = require('moment');
 
 // Special Debug Console Calls!
 win.log = console.log.bind(console);
-win.debug = function() {
+win.debug = function () {
 	var params = Array.prototype.slice.call(arguments, 1);
 	params.unshift('%c[%cDEBUG%c] %c' + arguments[0], 'color: black;', 'color: green;', 'color: black;', 'color: blue;');
 	console.debug.apply(console, params);
 };
-win.info = function() {
+win.info = function () {
 	var params = Array.prototype.slice.call(arguments, 1);
 	params.unshift('[%cINFO%c] ' + arguments[0], 'color: blue;', 'color: black;');
 	console.info.apply(console, params);
 };
-win.warn = function() {
+win.warn = function () {
 	var params = Array.prototype.slice.call(arguments, 1);
 	params.unshift('[%cWARNING%c] ' + arguments[0], 'color: orange;', 'color: black;');
 	console.warn.apply(console, params);
 };
-win.error = function() {
+win.error = function () {
 	var params = Array.prototype.slice.call(arguments, 1);
 	params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: red;', 'color: black;');
 	console.error.apply(console, params);
 };
 
 // Load in external templates
-_.each(document.querySelectorAll('[type="text/x-template"]'), function(el) {
-    $.get(el.src, function(res) { el.innerHTML = res; });
+_.each(document.querySelectorAll('[type="text/x-template"]'), function (el) {
+	$.get(el.src, function (res) {
+		el.innerHTML = res;
+	});
 });
 
 // Global App skeleton for backbone
 var App = new Backbone.Marionette.Application();
 _.extend(App, {
-    Controller: {},
-    View: {},
-    Model: {},
-    Page: {},
-    Scrapers: {},
-    Providers: {},
-    Localization: {}
+	Controller: {},
+	View: {},
+	Model: {},
+	Page: {},
+	Scrapers: {},
+	Providers: {},
+	Localization: {}
 });
 
 // set database
@@ -76,21 +78,23 @@ App.db = Database;
 
 // Set settings
 App.advsettings = AdvSettings;
-App.settings = Settings;  
+App.settings = Settings;
 
-App.addRegions({ Window: '.main-window-region' });
-
-App.addInitializer(function(options){
-    var mainWindow = new App.View.MainWindow();
-    try{
-        App.Window.show(mainWindow);
-    } catch(e) {
-        console.error('Couldn\'t start app: ', e, e.stack);
-    }
+App.addRegions({
+	Window: '.main-window-region'
 });
 
-App.vent.on('error', function(err) {
-    window.alert('Error: ' + err);
+App.addInitializer(function (options) {
+	var mainWindow = new App.View.MainWindow();
+	try {
+		App.Window.show(mainWindow);
+	} catch(e) {
+		console.error('Couldn\'t start app: ', e, e.stack);
+	}
+});
+
+App.vent.on('error', function (err) {
+	window.alert('Error: ' + err);
 });
 
 /**
@@ -104,19 +108,21 @@ if(process.platform === 'win32' && parseFloat(os.release(), 10) > 6.1) {
 
 */
 // Create the System Temp Folder. This is used to store temporary data like movie files.
-if( ! fs.existsSync(App.settings.tmpLocation) ) { fs.mkdir(App.settings.tmpLocation); }
+if(!fs.existsSync(App.settings.tmpLocation)) {
+	fs.mkdir(App.settings.tmpLocation);
+}
 
-var deleteFolder = function(path) {
+var deleteFolder = function (path) {
 
-	if( typeof path !== 'string' ) { 
-        return; 
-    }
-	
-    try {
+	if(typeof path !== 'string') {
+		return;
+	}
+
+	try {
 		var files = [];
-		if( fs.existsSync(path) ) {
+		if(fs.existsSync(path)) {
 			files = fs.readdirSync(path);
-			files.forEach(function(file,index){
+			files.forEach(function (file, index) {
 				var curPath = path + '\/' + file;
 				if(fs.lstatSync(curPath).isDirectory()) {
 					deleteFolder(curPath);
@@ -132,117 +138,135 @@ var deleteFolder = function(path) {
 };
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
-win.on('close', function(){
-    if( App.settings.deleteTmpOnClose ) {
-        deleteFolder(App.settings.tmpLocation);
-    }
+win.on('close', function () {
+	if(App.settings.deleteTmpOnClose) {
+		deleteFolder(App.settings.tmpLocation);
+	}
 
-    win.close(true);
+	win.close(true);
 });
 
-String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
+String.prototype.capitalize = function () {
+	return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-String.prototype.capitalizeEach = function() {
-    return this.replace(/\w*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+String.prototype.capitalizeEach = function () {
+	return this.replace(/\w*/g, function (txt) {
+		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+	});
 };
 
-String.prototype.endsWith = function(suffix) {
-    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+String.prototype.endsWith = function (suffix) {
+	return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 // Developer Shortcuts
-Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function(e) {
-	win.showDevTools(); 
+Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function (e) {
+	win.showDevTools();
 });
-Mousetrap.bind('f11', function(e) { 
+Mousetrap.bind('f11', function (e) {
 	win.reloadIgnoringCache();
 });
-Mousetrap.bind(['?', '/', '\''], function(e) {
-    e.preventDefault();
-    App.vent.trigger('help:toggle');
+Mousetrap.bind(['?', '/', '\''], function (e) {
+	e.preventDefault();
+	App.vent.trigger('help:toggle');
 });
-if (process.platform === 'darwin') {
-    Mousetrap.bind('command+ctrl+f', function(e) {
+if(process.platform === 'darwin') {
+	Mousetrap.bind('command+ctrl+f', function (e) {
 		e.preventDefault();
-        win.toggleFullscreen();
-    });
+		win.toggleFullscreen();
+	});
 }
 
 
 /**
-* Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
-*/
-window.ondragover = function(e) { e.preventDefault(); return false; };
-window.ondrop = function(e) { e.preventDefault(); return false; };
+ * Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
+ */
+window.ondragover = function (e) {
+	e.preventDefault();
+	return false;
+};
+window.ondrop = function (e) {
+	e.preventDefault();
+	return false;
+};
 var holder = $('body')[0];
-holder.ondragover = function () { this.classList.add('dragging'); return false; };
-holder.ondragend = function () { this.classList.remove('dragging'); return false; };
+holder.ondragover = function () {
+	this.classList.add('dragging');
+	return false;
+};
+holder.ondragend = function () {
+	this.classList.remove('dragging');
+	return false;
+};
 holder.ondrop = function (e) {
-  e.preventDefault();
+	e.preventDefault();
 
-  var file = e.dataTransfer.files[0];
-  if(file.name.indexOf('.torrent') !== -1) {
-      var reader = new FileReader();
-      reader.onload = function (event) {
-        var content = reader.result;
-        fs.writeFile(gui.App.dataPath + '\/' + file.name, content, function(err) {
-            if(err) {
-                window.alert('Error Loading Torrent: ' + err);
-            }
-            else {
-                var torrentStart = new Backbone.Model({torrent: gui.App.dataPath + '\/' + file.name});
-                App.vent.trigger('stream:start', torrentStart);
-            }
-        });
-      };
-     reader.readAsBinaryString(file);
-  }
+	var file = e.dataTransfer.files[0];
+	if(file.name.indexOf('.torrent') !== -1) {
+		var reader = new FileReader();
+		reader.onload = function (event) {
+			var content = reader.result;
+			fs.writeFile(gui.App.dataPath + '\/' + file.name, content, function (err) {
+				if(err) {
+					window.alert('Error Loading Torrent: ' + err);
+				} else {
+					var torrentStart = new Backbone.Model({
+						torrent: gui.App.dataPath + '\/' + file.name
+					});
+					App.vent.trigger('stream:start', torrentStart);
+				}
+			});
+		};
+		reader.readAsBinaryString(file);
+	}
 
-  return false;
+	return false;
 };
 
 /**
-* Paste Magnet Link to start stream
-*/
-holder.onpaste = function(e) {
-    var data = e.clipboardData.getData('text/plain');
-    if(data.substring(0,8) === 'magnet:?') {
-        var torrentStart = new Backbone.Model({torrent: data});
-        App.vent.trigger('stream:start', torrentStart);
-    }
-    return true;
+ * Paste Magnet Link to start stream
+ */
+holder.onpaste = function (e) {
+	var data = e.clipboardData.getData('text/plain');
+	if(data.substring(0, 8) === 'magnet:?') {
+		var torrentStart = new Backbone.Model({
+			torrent: data
+		});
+		App.vent.trigger('stream:start', torrentStart);
+	}
+	return true;
 };
 
 /**
-* Pass magnet link as last argument to start stream
-*/
+ * Pass magnet link as last argument to start stream
+ */
 var last_arg = gui.App.argv.pop();
 if(last_arg) {
-        if (last_arg.substring(0,8) === 'magnet:?') {
-                App.vent.on('main:ready', function() {
-                        var torrentStart = new Backbone.Model({torrent: last_arg});
-                        App.vent.trigger('stream:start', torrentStart);
-                });
-        } else if (last_arg.substring(0,7) === 'http://') {
-                App.vent.on('main:ready', function() {
-                        var si = new App.Model.StreamInfo({});
-                        si.set('title', last_arg);
-                        si.set('subtitle', {});
-                        si.set('type', 'video/mp4');
+	if(last_arg.substring(0, 8) === 'magnet:?') {
+		App.vent.on('main:ready', function () {
+			var torrentStart = new Backbone.Model({
+				torrent: last_arg
+			});
+			App.vent.trigger('stream:start', torrentStart);
+		});
+	} else if(last_arg.substring(0, 7) === 'http://') {
+		App.vent.on('main:ready', function () {
+			var si = new App.Model.StreamInfo({});
+			si.set('title', last_arg);
+			si.set('subtitle', {});
+			si.set('type', 'video/mp4');
 
-                        // Test for Custom NW
-                        //si.set('type', mime.lookup(last_arg));
-                        si.set('src', last_arg);
-                        App.vent.trigger('stream:ready', si);
-                });
-        }
+			// Test for Custom NW
+			//si.set('type', mime.lookup(last_arg));
+			si.set('src', last_arg);
+			App.vent.trigger('stream:ready', si);
+		});
+	}
 }
 
 /**
  * Show 404 page on uncaughtException
  */
-process.on('uncaughtException', function(err) {
-    window.console.error(err, err.stack);
+process.on('uncaughtException', function (err) {
+	window.console.error(err, err.stack);
 });
-
