@@ -45,7 +45,7 @@
 
         showCover: function() {
             this.ui.cover.css({
-                'background-image': 'url(' + this.model.get('images').poster.replace('.jpg','-138.jpg') + ')',
+                'background-image': 'url(' + this.model.get('images').poster + ')',
                 'opacity': 1
             });
 

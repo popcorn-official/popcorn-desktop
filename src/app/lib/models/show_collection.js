@@ -45,6 +45,8 @@
                     _.each(movies, function(movie){
 
                         var id = movie.imdb;
+                        // Resize image down from 1MP
+                        movie.images.poster = App.Providers.Trakttv.resizeImage(movie.images.poster, '300');
                         movie.subtitle = [];
                     });
 

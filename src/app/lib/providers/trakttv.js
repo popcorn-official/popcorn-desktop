@@ -46,7 +46,7 @@
         return deferred.promise;
     };
 
-    var resizeImage = function(imageUrl, width) {
+    Trakttv.resizeImage = function(imageUrl, width) {
         var uri = URI(imageUrl),
             ext = uri.suffix(),
             file = uri.filename().split('.' + ext)[0];
@@ -58,9 +58,9 @@
         var movies = {};
         _.each(items, function(movie){
             var imdb = movie.imdb_id.replace('tt','');
-            movie.image = resizeImage(movie.images.poster, '300');
+            movie.image = Trakttv.resizeImage(movie.images.poster, '300');
             movie.bigImage = movie.images.poster;
-            movie.backdrop = resizeImage(movie.images.fanart, '940');
+            movie.backdrop = Trakttv.resizeImage(movie.images.fanart, '940');
             movie.synopsis = movie.overview;
             movies[imdb] = movie;
         });
