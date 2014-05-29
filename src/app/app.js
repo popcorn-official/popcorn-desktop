@@ -264,6 +264,11 @@ if(last_arg) {
 	}
 }
 
+// -f argument to open in fullscreen
+if(gui.App.fullArgv.indexOf('-f') !== -1) {
+    win.enterFullscreen();
+}
+
 /**
  * Show 404 page on uncaughtException
  */
