@@ -148,6 +148,9 @@ String.prototype.capitalizeEach = function() {
     return this.replace(/\w*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
 
+String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
 // Developer Shortcuts
 Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function(e) {
 	win.showDevTools(); 
