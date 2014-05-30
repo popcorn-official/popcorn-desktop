@@ -91,16 +91,16 @@ module.exports = function(grunt) {
 		
 		exec: {
 			win: {
-				cmd: '"build/cache/win/<%= nodewebkit.build.options.version %>/nw.exe" .'
+				cmd: '"build/cache/win/<%= nodewebkit.options.version %>/nw.exe" .'
 			},
 			mac: {
-				cmd: 'build/cache/mac/<%= nodewebkit.build.options.version %>/node-webkit.app/Contents/MacOS/node-webkit .'
+				cmd: 'build/cache/mac/<%= nodewebkit.options.version %>/node-webkit.app/Contents/MacOS/node-webkit .'
 			},
 			linux32: {
-				cmd: '"build/cache/linux32/<%= nodewebkit.build.options.version %>/nw" .'
+				cmd: '"build/cache/linux32/<%= nodewebkit.options.version %>/nw" .'
 			},
 			linux64: {
-				cmd: '"build/cache/linux64/<%= nodewebkit.build.options.version %>/nw" .'
+				cmd: '"build/cache/linux64/<%= nodewebkit.options.version %>/nw" .'
 			}
 		},
 
@@ -126,14 +126,13 @@ module.exports = function(grunt) {
 				dateFormat: function(time) {
 					grunt.log.writeln('Completed in ' + time + 'ms at ' + (new Date()).toLocaleTimeString());
 					grunt.log.writeln('Waiting for more changes...');
-				},
+				}
 			},
 			scripts: {
 				files: ['./src/app/styl/*.styl','./src/app/styl/**/*.styl'],
 				tasks: ['css']
-			},
-		},
-
+			}
+		}
 
 	});
 
