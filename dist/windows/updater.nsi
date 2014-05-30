@@ -7,6 +7,7 @@
 
 ;General Settings
 !searchparse /file "..\..\package.json" `  "version": "` PT_VERSION `",`
+!define /date builddate "%y.%m.%d-%H.%M"
 Name "Popcorn Time"
 Caption "Popcorn Time Updater v${PT_VERSION}"
 BrandingText "Popcorn Time v${PT_VERSION}"
@@ -16,9 +17,9 @@ VIAddVersionKey "FileDescription" "Popcorn Time"
 VIAddVersionKey "FileVersion" "v${PT_VERSION}"
 VIAddVersionKey "CompanyName" "Popcorn Official"
 VIAddVersionKey "LegalCopyright" "http://get-popcorn.com"
-VIAddVersionKey "OriginalFilename" "Updater-Popcorn-Time-${PT_VERSION}-Win-32.exe"
+VIAddVersionKey "OriginalFilename" "Updater-Popcorn-Time-${PT_VERSION}-Win-${builddate}.exe"
 VIProductVersion "${PT_VERSION}.0"
-OutFile "Updater-Popcorn-Time-${PT_VERSION}-Win-32.exe"
+OutFile "Updater-Popcorn-Time-${PT_VERSION}-Win-${builddate}.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 
@@ -129,9 +130,9 @@ Section ; App Files
 
 	;Add the files
 	File "..\..\package.json" "..\..\README.md" "..\..\CHANGELOG.md" "..\..\LICENSE.txt"
-	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test" /x "tests" /x "docs" /x "example" /x "examples" /x "demo" /x "bin" /x ".*" "..\..\node_modules"
+	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test*" /x "doc*" /x "example*" /x "demo*" /x "bin" /x ".*" "..\..\node_modules"
 	SetOutPath "$INSTDIR\src"
-	File /r "..\..\src\*.*"
+	File /r /x "styl" /x "build" /x "docs" /x "test*" /x "examples" /x "reports" /x "public" "..\..\src\*.*"
 
 SectionEnd
 
