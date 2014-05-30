@@ -54,6 +54,10 @@ var extractIds = function (items) {
 	return _.pluck(items, 'imdb_id');
 };
 
+var extractMovieIds = function (items) {
+	return _.pluck(items, 'movie_id');
+};
+
 var Database = {
 
 	addMovie: function (data, cb) {
@@ -121,7 +125,9 @@ var Database = {
 
 	getAllBookmarks: function (cb) {
 		db.bookmarks.find({}).exec(function(err, data) {
-			if(err) return cb(err, null);
+			if(err) {
+				return cb(err, null);
+			}
 			var bookmarks = [];
 			if(data) {
 				bookmarks = extractIds(data);
@@ -275,9 +281,15 @@ var Database = {
 
 	getSettings: function (cb) {
 		win.debug('getSettings() fired');
+		db.settings.find({}).exec(cb);
+	},
+
+	getUserInfo: function(cb) {
+		var bookmarksDone = false; // Added so in future can have multiple checks for watched Movies etc.
+
 		Database.getAllBookmarks(function(err, data){
 			App.userBookmarks = data;
-			db.settings.find({}).exec(cb);
+			cb();
 		});
 	},
 
@@ -322,40 +334,42 @@ var Database = {
 
 		// we'll intiatlize our settings and our API SSL Validation
 		// we build our settings array
-		Database.getSettings(function (err, data) {
+		Database.getUserInfo(function() {
+			Database.getSettings(function (err, data) {
 
-			if(data != null) {
-				for(var key in data) {
-					Settings[data[key].key] = data[key].value;
+				if(data != null) {
+					for(var key in data) {
+						Settings[data[key].key] = data[key].value;
+					}
 				}
-			}
 
-			// new install?    
-			if(Settings.version === false) {
-				window.__isNewInstall = true;
-			}
-
-			AdvSettings.checkApiEndpoint([
-				{
-					original: 'yifyApiEndpoint',
-					mirror: 'yifyApiEndpointMirror',
-					fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C'
+				// new install?    
+				if(Settings.version === false) {
+					window.__isNewInstall = true;
 				}
-				// TODO: Add get-popcorn.com SSL fingerprint (for update)
-				// with fallback with DHT
-			], function () {
-				// set app language
-				detectLanguage(Settings.language);
-				// set hardware settings and usefull stuff
-				AdvSettings.setup(function () {
-					// check update
-					checkUpdate();
-					// we skip the initDB (not needed in current version)
-					callback();
+
+				AdvSettings.checkApiEndpoint([
+					{
+						original: 'yifyApiEndpoint',
+						mirror: 'yifyApiEndpointMirror',
+						fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C'
+					}
+					// TODO: Add get-popcorn.com SSL fingerprint (for update)
+					// with fallback with DHT
+				], function () {
+					// set app language
+					detectLanguage(Settings.language);
+					// set hardware settings and usefull stuff
+					AdvSettings.setup(function () {
+						// check update
+						checkUpdate();
+						// we skip the initDB (not needed in current version)
+						callback();
+					});
+
 				});
 
 			});
-
 		});
 		App.vent.on('shows:watched', _.bind(this.markEpisodeAsWatched, this));
 		App.vent.on('shows:unwatched', _.bind(this.markEpisodeAsNotWatched, this));
