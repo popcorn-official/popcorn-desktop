@@ -50,8 +50,11 @@
         var uri = URI(imageUrl),
             ext = uri.suffix(),
             file = uri.filename().split('.' + ext)[0];
-
-        return uri.filename(file + '-' + width + '.' + ext).toString();
+        if(uri.filename() == 'poster-dark.jpg') {
+            return imageUrl;
+        }else{
+            return uri.filename(file + '-' + width + '.' + ext).toString();
+        }
     };
 
     var formatForPopcorn = function(items) {
