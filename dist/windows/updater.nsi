@@ -130,7 +130,8 @@ Section ; App Files
 
 	;Add the files
 	File "..\..\package.json" "..\..\README.md" "..\..\CHANGELOG.md" "..\..\LICENSE.txt"
-	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test*" /x "doc*" /x "example*" /x "demo*" /x "bin" /x ".*" "..\..\node_modules"
+	SetOutPath "$INSTDIR\node_modules"
+	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test*" /x "doc*" /x "example*" /x "demo*" /x "bin" /x ".*" "..\..\node_modules\*.*"
 	SetOutPath "$INSTDIR\src"
 	File /r /x "styl" /x "build" /x "docs" /x "test*" /x "examples" /x "reports" /x "public" "..\..\src\*.*"
 

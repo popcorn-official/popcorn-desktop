@@ -160,7 +160,8 @@ Section ; App Files
 	File "..\..\package.json" "..\..\README.md" "..\..\CHANGELOG.md" "..\..\LICENSE.txt"
 	File "..\..\build\cache\win\${NW_VER}\*.dll" "..\..\build\cache\win\${NW_VER}\nw.pak"
 	File "/oname=Popcorn-Time.exe" "..\..\build\cache\win\${NW_VER}\nw.exe"
-	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test*" /x "doc*" /x "example*" /x "demo*" /x "bin" /x ".*" "..\..\node_modules"
+	SetOutPath "$INSTDIR\node_modules"
+	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test*" /x "doc*" /x "example*" /x "demo*" /x "bin" /x ".*" "..\..\node_modules\*.*"
 	SetOutPath "$INSTDIR\src"
 	File /r /x "styl" /x "build" /x "docs" /x "test*" /x "examples" /x "reports" /x "public" "..\..\src\*.*"
 	
