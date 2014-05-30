@@ -36,20 +36,9 @@ module.exports = function(grunt) {
 		'stylus'
 	]);
 
-	grunt.registerTask('nodewkbuild', [
-		'nodewebkit:build',
-		'copy:ffmpeg'
-	]);
-
 	grunt.registerTask('build', [
 		'default',
-		'nodewebkit:build'
-	]);
-
-	grunt.registerTask('dist', [
-		'default',
-		'nodewebkit:dist',
-		'copy:package'
+		'nodewebkit'
 	]);
 
 	grunt.registerTask('start', function(){
@@ -83,39 +72,21 @@ module.exports = function(grunt) {
 		},
 
 		nodewebkit: {
-			build: {
-				options: {
-					version: '0.9.2',
-					build_dir: './build', // Where the build version of my node-webkit app is saved
-					keep_nw: true,
-					mac_icns: './src/app/images/popcorntime.icns', // Path to the Mac icon file
-					mac: buildPlatforms.mac,
-					win: buildPlatforms.win,
-					linux32: buildPlatforms.linux32,
-					linux64: buildPlatforms.linux64,
-					download_url: 'http://cdn.get-popcorn.com/nw/'
-				},
-				src: ['./src/**', '!./src/app/styl/**', 
-					'./node_modules/**', '!./node_modules/bower/**', '!./node_modules/*grunt*/**', '!./node_modules/stylus/**', 
-					'!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**', 
-					'./package.json', './README.md', './LICENSE.txt' ]
-			}
-		},
-
-		copy: {
-			package: {
-				files: [
-					{
-						src: 'build/releases/Popcorn-Time/Popcorn-Time.nw',
-						dest: 'build/releases/Popcorn-Time/linux32/Popcorn-Time/package.nw',
-						flatten: true
-					},{
-						src: 'build/releases/Popcorn-Time/Popcorn-Time.nw',
-						dest: 'build/releases/Popcorn-Time/linux64/Popcorn-Time/package.nw',
-						flatten: true
-					}
-				]
-			}
+			options: {
+				version: '0.9.2',
+				build_dir: './build', // Where the build version of my node-webkit app is saved
+				keep_nw: true,
+				mac_icns: './src/app/images/popcorntime.icns', // Path to the Mac icon file
+				mac: buildPlatforms.mac,
+				win: buildPlatforms.win,
+				linux32: buildPlatforms.linux32,
+				linux64: buildPlatforms.linux64,
+				download_url: 'http://cdn.get-popcorn.com/nw/'
+			},
+			src: ['./src/**', '!./src/app/styl/**', 
+				'./node_modules/**', '!./node_modules/bower/**', '!./node_modules/*grunt*/**', '!./node_modules/stylus/**', 
+				'!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**', 
+				'./package.json', './README.md', './LICENSE.txt' ]
 		},
 		
 		exec: {
@@ -136,13 +107,15 @@ module.exports = function(grunt) {
 		jshint: {
 			gruntfile: {
 				options: {
-					jshintrc: '.jshintrc'
+					jshintrc: '.jshintrc',
+					force: true
 				},
 				src: 'Gruntfile.js'
 			},
 			src: {
 				options: {
-					jshintrc: 'src/app/.jshintrc'
+					jshintrc: 'src/app/.jshintrc',
+					force: true
 				},
 				src: ['src/app/lib/*.js','src/app/lib/**/*.js','src/app/*.js']
 			}
