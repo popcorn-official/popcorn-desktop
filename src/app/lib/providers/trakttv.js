@@ -50,7 +50,7 @@
         var uri = URI(imageUrl),
             ext = uri.suffix(),
             file = uri.filename().split('.' + ext)[0];
-        if(uri.filename() == 'poster-dark.jpg') {
+        if(uri.filename() === 'poster-dark.jpg') {
             return imageUrl;
         }else{
             return uri.filename(file + '-' + width + '.' + ext).toString();
