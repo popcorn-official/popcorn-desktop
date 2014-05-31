@@ -77,6 +77,7 @@ module.exports = function(grunt) {
 				build_dir: './build', // Where the build version of my node-webkit app is saved
 				keep_nw: true,
 				mac_icns: './src/app/images/popcorntime.icns', // Path to the Mac icon file
+				zip: buildPlatforms.win, // Zip nw for mac in windows. Prevent path too long if build all is used.
 				mac: buildPlatforms.mac,
 				win: buildPlatforms.win,
 				linux32: buildPlatforms.linux32,
