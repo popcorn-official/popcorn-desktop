@@ -1,4 +1,3 @@
-vjs.options['defaultVolume'] = 1;
 vjs.options['children'] = {
     'mediaLoader': {},
     'posterImage': {},
@@ -218,4 +217,5 @@ vjs.Player.prototype.onLoadStart = function() {
   }
   
   vjs.addClass(this.el_, 'vjs-has-started');
+  this.trigger('volumechange');
 };
