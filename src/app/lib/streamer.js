@@ -42,8 +42,10 @@
     var handleTorrent = function(torrent, stateModel) {
 
         var tmpFilename = torrent.info.infoHash;
-        tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_') +'-'+ (new Date()*1);
+        tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_');// +'-'+ (new Date()*1);
         var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
+
+        win.debug('Streaming movie to %s', tmpFile);
 
         engine = peerflix(torrent.info, {
             connections: parseInt(Settings.connectionLimit, 10) || 100, // Max amount of peers to be connected to.
@@ -53,6 +55,10 @@
             buffer: (1.5 * 1024 * 1024).toString(), // create a buffer on torrent-stream
             index: torrent.file_index
         });
+
+        engine.on('download', function(piece) {
+            win.debug('Downloaded piece %s', piece);
+        })
 
         var streamInfo = new App.Model.StreamInfo({engine: engine});
         statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 3000);
