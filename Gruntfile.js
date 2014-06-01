@@ -37,7 +37,7 @@ module.exports = function(grunt) {
 	]);
 
 	grunt.registerTask('build', [
-		'default',
+		'css',
 		'nodewebkit'
 	]);
 
@@ -108,15 +108,13 @@ module.exports = function(grunt) {
 		jshint: {
 			gruntfile: {
 				options: {
-					jshintrc: '.jshintrc',
-					force: true
+					jshintrc: '.jshintrc'
 				},
 				src: 'Gruntfile.js'
 			},
 			src: {
 				options: {
-					jshintrc: 'src/app/.jshintrc',
-					force: true
+					jshintrc: 'src/app/.jshintrc'
 				},
 				src: ['src/app/lib/*.js','src/app/lib/**/*.js','src/app/*.js']
 			}
