@@ -251,7 +251,8 @@
 
         stop: function() {
             if (engine) {
-                engine.server.close();
+                if(engine.server._handle)
+                    engine.server.close();
                 engine.destroy();
             }
             engine = null;
