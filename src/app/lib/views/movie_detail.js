@@ -38,7 +38,6 @@
             win.info('Show movie detail');
 
             var torrents = this.model.get('torrents');
-
             if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
                 this.model.set('quality', torrents['1080p'].url);
                 this.calcHealth(torrents['1080p']);
@@ -48,6 +47,9 @@
             } else if(torrents['720p'] !== undefined ) {
                 this.model.set('quality', torrents['720p'].url);
                 this.calcHealth(torrents['720p']);
+            } else if(torrents['HDRip'] !== undefined ) {
+                this.model.set('quality', torrents['HDRip'].url);
+                this.calcHealth(torrents['HDRip']);
             }
 
             $('.star-container,.movie-imdb-link').tooltip();

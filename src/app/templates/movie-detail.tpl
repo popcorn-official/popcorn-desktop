@@ -59,7 +59,7 @@
 						<span class="toggle"></span>
 					</div>
 				<% } else { %>
-					<div class="q720"><% if (torrents["720p"] !== undefined) { %>720p<% }else { %><% if (torrents["1080p"] !== undefined) { %>1080p<% }} %> </div>
+					<div class="q720"><% if (torrents["720p"] !== undefined) { %>720p<% }else if (torrents["1080p"] !== undefined) { %>1080p<% } else { %>HDRip<% } %> </div>
 				<% } %>
 			</div>
 
