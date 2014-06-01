@@ -58,7 +58,7 @@
 
         engine.on('download', function(piece) {
             win.debug('Downloaded piece %s', piece);
-        })
+        });
 
         var streamInfo = new App.Model.StreamInfo({engine: engine});
         statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 3000);
@@ -84,13 +84,15 @@
         };
 
         engine.server.on('listening', function(){
-            streamInfo.set('src', 'http://127.0.0.1:' + engine.server.address().port + '/');
-            streamInfo.set('type', 'video/mp4');
+            if(engine) {
+                streamInfo.set('src', 'http://127.0.0.1:' + engine.server.address().port + '/');
+                streamInfo.set('type', 'video/mp4');
 
-            // TEST for custom NW
-            //streamInfo.set('type', mime.lookup(engine.server.index.name));
-            stateModel.on('change:state', checkReady);
-            checkReady();
+                // TEST for custom NW
+                //streamInfo.set('type', mime.lookup(engine.server.index.name));
+                stateModel.on('change:state', checkReady);
+                checkReady();
+            }
         });
 
         // not used anymore
@@ -113,7 +115,6 @@
 
     var Streamer = {
         start: function(model) {
-
             var torrentUrl  = model.get('torrent');
             var torrent_read = false;
             if(model.get('torrent_read')) {
@@ -127,7 +128,13 @@
                 Streamer.stop();
             }
 
+            this.stop_ = false;
+            var that = this;
             var doTorrent = function(err, torrent) {
+                // Return if streaming was cancelled while loading torrent
+                if (that.stop_) {
+                    return;
+                }
                 if(err) {
                     App.vent.trigger('error', err);
                     App.vent.trigger('stream:stop');
@@ -256,9 +263,11 @@
         },
 
         stop: function() {
+            this.stop_ = true;
             if (engine) {
-                if(engine.server._handle)
+                if(engine.server._handle) {
                     engine.server.close();
+                }
                 engine.destroy();
             }
             clearInterval(statsUpdater);
