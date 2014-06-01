@@ -55,7 +55,7 @@
         });
 
         var streamInfo = new App.Model.StreamInfo({engine: engine});
-        statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 1000);
+        statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 3000);
         stateModel.set('streamInfo', streamInfo);
         watchState(stateModel);
 
@@ -255,6 +255,8 @@
                     engine.server.close();
                 engine.destroy();
             }
+            clearInterval(statsUpdater);
+            statsUpdater = null;
             engine = null;
             subtitles = null; // reset subtitles to make sure they will not be used in next session.
             win.info('Streaming cancelled');
