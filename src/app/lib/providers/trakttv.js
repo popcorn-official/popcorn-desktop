@@ -53,7 +53,7 @@
 
         // Don't resize images that don't come from trakt
         //  eg. YTS Movie Covers
-        if(uri.domain() !== 'trakt.us') { return; }
+        if(uri.domain() !== 'trakt.us') { return imageUrl; }
 
         var existingIndex = 0;
         if((existingIndex = file.search('-300$')) !== -1 || (existingIndex = file.search('-138$')) !== -1) {
