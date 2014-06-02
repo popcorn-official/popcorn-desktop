@@ -201,6 +201,10 @@
                         getSubtitles(extractSubtitle);
                     }
 
+                    if(model.get('type') === 'movie') {
+                        hasSubtitles = true;
+                    }
+
                     //Try get subtitles for custom torrents
                     var title = model.get('title');
                     if(!title) { //From ctrl+v magnet or drag torrent
