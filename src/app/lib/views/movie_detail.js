@@ -215,7 +215,7 @@
 					health: this.model.get('health'),
 					subtitle: this.model.get('subtitle'),
 					backdrop: this.model.get('backdrop'),
-					rating: this.model.get('MovieRating'),
+					rating: this.model.get('rating'),
 					trailer: this.model.get('trailer'),
 				};
 

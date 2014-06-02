@@ -64,7 +64,6 @@
             e.preventDefault();
 
             this.model.set('imdb_id', 'tt'+this.model.get('imdb'));
-            this.model.set('rating', this.model.get('MovieRating'));
             this.model.set('health', false);
 
             App.vent.trigger('movie:showDetail', this.model);
@@ -101,7 +100,7 @@
                     health: this.model.get('health'),
                     subtitle: this.model.get('subtitle'),
                     backdrop: this.model.get('backdrop'),
-                    rating: this.model.get('MovieRating'),
+                    rating: this.model.get('rating'),
                     trailer: this.model.get('trailer'),
                 };
 
