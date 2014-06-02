@@ -134,5 +134,8 @@
 	"Restart Now": "Reinicia agora",
 	"We are flushing your subtitle cache": "Nós estamos a descartar as legendas na cache",
 	"Subtitle cache deleted": "Legendas da cache apagadas",
-	"Flush subtitles cache": "Descartar legendas em cache"
+	"Flush subtitles cache": "Descartar legendas em cache",
+	"Open IMDb page": "Open IMDb page",
+	"Add to bookmarks": "Add to bookmarks",
+	"Remove from bookmarks": "Remove from bookmarks"
 }
