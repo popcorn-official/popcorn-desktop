@@ -4,7 +4,8 @@
     var StreamInfo = Backbone.Model.extend({
         updateStats: function() {
 			var active = function(wire) {return !wire.peerChoking;};
-			var swarm = this.get('engine').swarm;
+			var engine = this.get('engine');
+			var swarm = engine.swarm;
 			var BUFFERING_SIZE = 10 * 1024 * 1024;
             var converted_speed = 0;
 
@@ -22,6 +23,7 @@
 				final_download_speed = ( download_speed / Math.pow(1024, converted_speed) ).toFixed(2) + ' ' + ['B', 'KB', 'MB', 'GB', 'TB'][converted_speed]+'/s';
 			}
 
+			this.set('pieces', swarm.piecesGot);
 			this.set('downloaded', swarm.downloaded);
 			this.set('active_peers', swarm.wires.filter(active).length);
 			this.set('total_peers', swarm.wires.length);

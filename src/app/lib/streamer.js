@@ -22,18 +22,17 @@
         if (engine != null) {
 
             var swarm = engine.swarm;
-            var state = 'connecting';
+            var state = 'connecting';            
 
-            if(swarm.downloaded > BUFFERING_SIZE && hasSubtitles) {
+            if((swarm.downloaded > BUFFERING_SIZE || (swarm.piecesGot * engine.torrent.pieceLength) > BUFFERING_SIZE) && hasSubtitles) {
                 state = 'ready';
-            } else if(swarm.downloaded) {
+            } else if(swarm.downloaded || swarm.piecesGot > 0) {
                 state = 'downloading';
             } else if(swarm.wires.length) {
                 state = 'startingDownload';
             } else if(swarm.downloaded > BUFFERING_SIZE && !hasSubtitles) {
                 state = 'waitingForSubtitles';
             }
-
 
             stateModel.set('state', state);
 
@@ -60,8 +59,10 @@
             index: torrent.file_index
         });
 
-        engine.on('verify', function(piece) {
-            win.debug('Downloaded piece %s', piece);
+        engine.swarm.piecesGot = 0;
+        engine.on('verify', function(index) {
+            engine.swarm.piecesGot += 1;
+            win.debug('Got piece #%d', index);
         });
 
         var streamInfo = new App.Model.StreamInfo({engine: engine});
@@ -71,6 +72,7 @@
         
         statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 3000);
         stateModel.set('streamInfo', streamInfo);
+        stateModel.set('state', 'connecting');
         watchState(stateModel);
 
         var checkReady = function() {
