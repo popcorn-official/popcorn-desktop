@@ -9,7 +9,7 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 	</div>
 	<div class="detail-window">
 		<div class="movie-detail-close"></div>
-		<img class="movie-cover-image" src="images/cover-placeholder.jpg" data-cover="<%= bigImage %>" />
+		<img class="movie-cover-image" src="images/cover-placeholder.jpg" data-cover="<%= image %>" />
 		<div class="movie-data">
 			<div class="movie-meta-title"><%= title %></div>
 			<div class="movie-quick-info">
