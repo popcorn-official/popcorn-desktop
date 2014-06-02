@@ -14,6 +14,7 @@
         return !wire.peerChoking;
     };
     var subtitles = null;
+    var hasSubtitles = false;
 
 
     var watchState = function(stateModel) {
@@ -23,13 +24,16 @@
             var swarm = engine.swarm;
             var state = 'connecting';
 
-            if(swarm.downloaded > BUFFERING_SIZE) {
+            if(swarm.downloaded > BUFFERING_SIZE && hasSubtitles) {
                 state = 'ready';
             } else if(swarm.downloaded) {
                 state = 'downloading';
             } else if(swarm.wires.length) {
                 state = 'startingDownload';
+            } else if(swarm.downloaded > BUFFERING_SIZE && !hasSubtitles) {
+                state = 'waitingForSubtitles';
             }
+
 
             stateModel.set('state', state);
 
@@ -159,6 +163,7 @@
                                 subtitles = null;
                                 win.warn('No subtitles returned');
                             }
+                            hasSubtitles = true;
                         });
                     };
                     
@@ -278,6 +283,7 @@
             statsUpdater = null;
             engine = null;
             subtitles = null; // reset subtitles to make sure they will not be used in next session.
+            hasSubtitles = false;
             win.info('Streaming cancelled');
         }
     };

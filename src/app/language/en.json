@@ -141,5 +141,6 @@
 	"Port to stream on": "Port to stream on",
 	"0 = Random": "0 = Random",
 	"Add to bookmarks": "Add to bookmarks",
-	"Remove from bookmarks": "Remove from bookmarks"
+	"Remove from bookmarks": "Remove from bookmarks",
+	"waitingForSubtitles": "Waiting for subtitles"
 }
