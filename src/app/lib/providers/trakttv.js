@@ -51,6 +51,10 @@
             ext = uri.suffix(),
             file = uri.filename().split('.' + ext)[0];
 
+        // Don't resize images that don't come from trakt
+        //  eg. YTS Movie Covers
+        if(uri.domain() !== 'trakt.us') { return; }
+
         var existingIndex = 0;
         if((existingIndex = file.search('-300$')) !== -1 || (existingIndex = file.search('-138$')) !== -1) {
             file = file.slice(0, existingIndex);
