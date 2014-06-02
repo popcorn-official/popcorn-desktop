@@ -40,12 +40,14 @@ Settings.dbversion = '0.1.0';
 Settings.font = 'tahoma';
 
 var ScreenResolution = {
-	SD: 0x01,
-	HD: 0x02,
-	FullHD: 0x04,
-	UltraHD: 0x08,
-	Standard: 0x10,
-	Retina: 0x20,
+	get SD() { return window.screen.width < 1280 || window.screen.height < 720; },
+	get HD() { return window.screen.width >= 1280 && window.screen.width < 1920
+						|| window.screen.height >= 720 && window.screen.height < 1080; },
+	get FullHD() { return window.screen.width >= 1920 && window.screen.width < 2000
+						|| window.screen.height >= 1080 && window.screen.height < 1600; },
+	get UltraHD() { return window.screen.width >= 2000 || window.screen.height >= 1600; },
+	get Standard() { return window.devicePixelRatio <= 1; },
+	get Retina() { return window.devicePixelRatio > 1; }
 };
 
 var AdvSettings = {
@@ -93,27 +95,6 @@ var AdvSettings = {
 			AdvSettings.set('os', 'unknown');
 			break;
 		}
-
-		var resFlags = 0x00;
-		if(window.devicePixelRatio > 1) {
-			resFlags |= ScreenResolution.Retina;
-		} else {
-			resFlags |= ScreenResolution.Standard;
-		}
-
-		if(window.screen.width < 1280 || window.screen.height < 720) {
-			resFlags |= ScreenResolution.SD;
-		} else if(window.screen.width >= 1280 && window.screen.width < 1920
-				|| window.screen.height >= 720 && window.screen.height < 1080) {
-			resFlags |= ScreenResolution.HD;
-		} else if(window.screen.width >= 1920 && window.screen.width < 2000
-				|| window.screen.height >= 1080 && window.screen.height < 1600) {
-			resFlags |= ScreenResolution.FullHD;
-		} else {
-			resFlags |= ScreenResolution.UltraHD;
-		}
-
-		AdvSettings.set('screen', resFlags);
 
 		callback();
 	},

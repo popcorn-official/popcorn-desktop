@@ -25,9 +25,7 @@
 		},
 
 		initialize: function() {
-			var screenFlags = AdvSettings.get('screen');
-			if((screenFlags & ScreenResolution.SD || screenFlags & ScreenResolution.HD) 
-				&& !(screenFlags & ScreenResolution.Retina)) {
+			if((ScreenResolution.SD || ScreenResolution.HD) && !ScreenResolution.Retina) {
 				// Screen Resolution of 720p or less is fine to have 300x450px image
 				this.model.set('image', resizeImage(this.model.get('image'), '300'));
 			}
