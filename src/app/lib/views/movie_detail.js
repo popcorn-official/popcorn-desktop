@@ -57,6 +57,7 @@
 			bgCache.src = backgroundUrl;
 			bgCache.onload = function() {
 				$('.movie-backdrop').css('background-image', 'url(' + backgroundUrl + ')').fadeIn(500);
+				bgCache = null;
 			};
 			
 			var coverUrl = $('.movie-cover-image').attr('data-cover');
@@ -65,6 +66,7 @@
 			coverCache.src = coverUrl;
 			coverCache.onload = function() {
 				$('.movie-cover-image').attr('src', coverUrl).fadeTo(500, 1);
+				coverCache = null;
 			};
 
 			// switch to default subtitle

@@ -51,6 +51,7 @@
 				$('.tv-poster-background')
 					.css('background-image', 'url(' + background + ')')
 					.fadeIn( 300 );
+					bgCache = null;
 			};
 
 			// add ESC to close this popup
