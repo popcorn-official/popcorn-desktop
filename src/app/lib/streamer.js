@@ -56,7 +56,7 @@
             index: torrent.file_index
         });
 
-        engine.on('download', function(piece) {
+        engine.on('verify', function(piece) {
             win.debug('Downloaded piece %s', piece);
         });
 
