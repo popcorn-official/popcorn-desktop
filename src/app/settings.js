@@ -21,7 +21,7 @@ Settings.tvshowApiEndpoint = 'http://eztvapi.re/';
 
 // Advanced options
 Settings.connectionLimit = 100;
-Settings.dhtLimit = 1000;
+Settings.dhtLimit = 50;
 Settings.streamPort = 0; // 0 = Random
 Settings.tmpLocation = path.join(os.tmpDir(), 'Popcorn-Time');
 Settings.deleteTmpOnClose = true;
