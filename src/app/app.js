@@ -177,7 +177,6 @@ if(process.platform === 'darwin') {
 	});
 }
 
-
 /**
  * Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
  */
@@ -198,11 +197,20 @@ holder.ondragend = function () {
 	this.classList.remove('dragging');
 	return false;
 };
+
+var startTorrentStream = function(torrentFile) {
+	var torrentStart = new Backbone.Model({
+		torrent: torrentFile
+	});
+	App.vent.trigger('stream:start', torrentStart);
+};
+
 holder.ondrop = function (e) {
 	e.preventDefault();
 
 	var file = e.dataTransfer.files[0];
-	if(file.name.indexOf('.torrent') !== -1) {
+
+	if(file != null && file.name.indexOf('.torrent') !== -1) {
 		var reader = new FileReader();
 		reader.onload = function (event) {
 			var content = reader.result;
@@ -210,14 +218,16 @@ holder.ondrop = function (e) {
 				if(err) {
 					window.alert('Error Loading Torrent: ' + err);
 				} else {
-					var torrentStart = new Backbone.Model({
-						torrent: gui.App.dataPath + '\/' + file.name
-					});
-					App.vent.trigger('stream:start', torrentStart);
+					startTorrentStream(gui.App.dataPath + '\/' + file.name);
 				}
 			});
 		};
 		reader.readAsBinaryString(file);
+	} else {
+		var data = e.dataTransfer.getData('text/plain');
+		if(data != null && data.substring(0, 8) === 'magnet:?') {
+			startTorrentStream(data);
+		}
 	}
 
 	return false;
@@ -228,11 +238,8 @@ holder.ondrop = function (e) {
  */
 holder.onpaste = function (e) {
 	var data = e.clipboardData.getData('text/plain');
-	if(data.substring(0, 8) === 'magnet:?') {
-		var torrentStart = new Backbone.Model({
-			torrent: data
-		});
-		App.vent.trigger('stream:start', torrentStart);
+	if(data != null && data.substring(0, 8) === 'magnet:?') {
+		startTorrentStream(data);
 	}
 	return true;
 };
@@ -244,10 +251,7 @@ var last_arg = gui.App.argv.pop();
 if(last_arg) {
 	if(last_arg.substring(0, 8) === 'magnet:?') {
 		App.vent.on('main:ready', function () {
-			var torrentStart = new Backbone.Model({
-				torrent: last_arg
-			});
-			App.vent.trigger('stream:start', torrentStart);
+			startTorrentStream(last_arg);
 		});
 	} else if(last_arg.substring(0, 7) === 'http://') {
 		App.vent.on('main:ready', function () {
