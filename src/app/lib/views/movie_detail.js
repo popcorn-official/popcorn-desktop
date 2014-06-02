@@ -199,6 +199,7 @@
 					that.model.set('bookmarked', false);
 					that.ui.bookmarkIcon.removeClass('selected').text( i18n.__('Add to bookmarks') );
 					// we'll make sure we dont have a cached movie
+					App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb'), 1));
 					Database.deleteMovie(that.model.get('imdb'),function(err, data) {});
 				});
 			} else {
@@ -225,6 +226,7 @@
 						console.log('Bookmark added');
 						that.ui.bookmarkIcon.addClass('selected').text( i18n.__('Remove from bookmarks') );
 						that.model.set('bookmarked', true);
+						App.userBookmarks.push(that.model.get('imdb'));
 					});
 				});
 
