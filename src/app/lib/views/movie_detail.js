@@ -1,6 +1,8 @@
 (function(App) {
 	'use strict';
 
+	var resizeImage = App.Providers.Trakttv.resizeImage;
+
 	App.View.MovieDetail = Backbone.Marionette.ItemView.extend({
 		template: '#movie-detail-tpl',
 		className: 'app-overlay',
@@ -20,6 +22,15 @@
 			'click .sub-flag-icon': 'closeDropdown',
 			'click .detail-favourites': 'toggleFavourite',
 			'click .movie-imdb-link': 'openIMDb'
+		},
+
+		initialize: function() {
+			var screenFlags = AdvSettings.get('screen');
+			if((screenFlags & ScreenResolution.SD || screenFlags & ScreenResolution.HD) 
+				&& !(screenFlags & ScreenResolution.Retina)) {
+				// Screen Resolution of 720p or less is fine to have 300x450px image
+				this.model.set('image', resizeImage(this.model.get('image'), '300'));
+			}
 		},
 
 		onShow: function() {
@@ -42,17 +53,21 @@
 
 			$('.star-container,.movie-imdb-link').tooltip();
 
-			var background = $('.movie-backdrop').attr('data-bgr');
-			$('<img/>').attr('src', background).on('load', function() {
-				$(this).remove();
-				$('.movie-backdrop').css('background-image', 'url(' + background + ')').fadeIn(1000);
-			});
+			var backgroundUrl = $('.movie-backdrop').attr('data-bgr');
+
+			var bgCache = new Image();
+			bgCache.src = backgroundUrl;
+			bgCache.onload = function() {
+				$('.movie-backdrop').css('background-image', 'url(' + backgroundUrl + ')').fadeIn(500);
+			};
 			
-			var coverurl = $('.movie-cover-image').attr('data-cover');
-			$('<img/>').attr('src', coverurl).on('load', function() {
-				$(this).remove();
-				$('.movie-cover-image').attr('src', coverurl).fadeTo(1000, 1);
-			});
+			var coverUrl = $('.movie-cover-image').attr('data-cover');
+
+			var coverCache = new Image();
+			coverCache.src = coverUrl;
+			coverCache.onload = function() {
+				$('.movie-cover-image').attr('src', coverUrl).fadeTo(500, 1);
+			};
 
 			// switch to default subtitle
 			this.switchSubtitle(Settings.subtitle_language);

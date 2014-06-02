@@ -48,7 +48,7 @@
                         var info = metadatas[id] || {};
                         movie.subtitle = subtitles[id];
                         _.extend(movie, _.pick(info, [
-                            'image','bigImage','backdrop',
+                            'image','backdrop',
                             'synopsis','genres','certification','runtime',
                             'tagline','title','trailer','year'
                         ]));

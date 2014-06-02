@@ -50,9 +50,15 @@
         var uri = URI(imageUrl),
             ext = uri.suffix(),
             file = uri.filename().split('.' + ext)[0];
-        if(uri.filename() === 'poster-dark.jpg') {
+
+        var existingIndex = 0;
+        if((existingIndex = file.search('-300$')) !== -1 || (existingIndex = file.search('-138$')) !== -1) {
+            file = file.slice(0, existingIndex);
+        }
+
+        if(file === 'poster-dark') {
             return imageUrl;
-        }else{
+        } else {
             return uri.filename(file + '-' + width + '.' + ext).toString();
         }
     };
@@ -61,8 +67,7 @@
         var movies = {};
         _.each(items, function(movie){
             var imdb = movie.imdb_id.replace('tt','');
-            movie.image = Trakttv.resizeImage(movie.images.poster, '300');
-            movie.bigImage = movie.images.poster;
+            movie.image = movie.images.poster;
             movie.backdrop = Trakttv.resizeImage(movie.images.fanart, '940');
             movie.synopsis = movie.overview;
             movies[imdb] = movie;

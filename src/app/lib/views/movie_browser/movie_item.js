@@ -3,6 +3,8 @@
 
     var prevX = 0;
     var prevY = 0;
+
+    var resizeImage = App.Providers.Trakttv.resizeImage;
      
     var MovieItem = Backbone.Marionette.ItemView.extend({
         template: '#movie-item-tpl',
@@ -20,6 +22,10 @@
             'click .actions-favorites': 'toggleFavorite',
             'click .cover': 'showDetail',
             'mouseover .cover': 'hoverItem'
+        },
+
+        initialize: function() {
+            this.model.set('image', resizeImage(this.model.get('image'), '300'));
         },
 
         onShow: function() {

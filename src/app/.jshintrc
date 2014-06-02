@@ -41,6 +41,8 @@
     "openDatabase": true,
     "Settings": true,
     "AdvSettings": true,
+    "ScreenResolution": true,
+    "Image": true,
     "Database": true,
     "navigator": true,
     "checkUpdate": true,

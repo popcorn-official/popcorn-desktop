@@ -1,6 +1,8 @@
 (function(App) {
 	'use strict';
 
+	var resizeImage = App.Providers.Trakttv.resizeImage;
+
 	var _this;
 	var ShowDetail = Backbone.Marionette.ItemView.extend({
 		template: '#show-detail-tpl',
@@ -30,18 +32,28 @@
 			});
 			App.vent.on('shows:watched',   this.markWatched);
 			App.vent.on('shows:unwatched', this.markNotWatched);
+
+			var screenFlags = AdvSettings.get('screen');
+			if((screenFlags & ScreenResolution.SD || screenFlags & ScreenResolution.HD) 
+				&& !(screenFlags & ScreenResolution.Retina)) {
+				// Screen Resolution of 720p or less is fine to have 300x450px image
+				this.model.set('image', resizeImage(this.model.get('image'), '300'));
+			}
 		},
 
 		onShow: function() {
 
 			this.selectSeason($('#tabs_season li').first('li'));
 			$('.star-container-tv').tooltip();
-			 var background = $('.tv-poster-background').attr('data-bgr');
-			  $('<img/>').attr('src', background).load(function() {
-				$(this).remove();
-				$('.tv-poster-background').css('background-image', 'url(' + background + ')');
-				$('.tv-poster-background').fadeIn( 300 );
-			  });     
+
+			var background = $('.tv-poster-background').attr('data-bgr');
+			var bgCache = new Image();
+			bgCache.src = background;
+			bgCache.onload = function() {
+				$('.tv-poster-background')
+					.css('background-image', 'url(' + background + ')')
+					.fadeIn( 300 );
+			};
 
 			// add ESC to close this popup
 			Mousetrap.bind('esc', function(e) {
