@@ -54,8 +54,7 @@
                         ]));
                     });
 
-                    if(_.isEmpty(movies)) {
-                        win.debug('hasMore = false');
+                    if(_.isEmpty(movies) || movies.length < 40) {
                         self.hasMore = false;
                     }
 
@@ -72,7 +71,6 @@
         },
 
         fetchMore: function() {
-            win.debug('fetchMore');
             this.filter.page += 1;
             this.fetch();
         }
