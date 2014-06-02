@@ -61,6 +61,10 @@
         });
 
         var streamInfo = new App.Model.StreamInfo({engine: engine});
+
+        // Fix for loading modal
+        streamInfo.updateStats(engine);
+        
         statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 3000);
         stateModel.set('streamInfo', streamInfo);
         watchState(stateModel);
