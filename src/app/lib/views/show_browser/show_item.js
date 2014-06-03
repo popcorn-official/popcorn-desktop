@@ -24,7 +24,8 @@
         },
 
         initialize: function() {
-            this.model.set('image', resizeImage(this.model.get('image'), '300'));
+            var images = this.model.get('images');
+            images.poster = resizeImage(images.poster, '300');
         },
 
         onShow: function() {
