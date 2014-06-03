@@ -8,6 +8,7 @@
 			var swarm = engine.swarm;
 			var BUFFERING_SIZE = 10 * 1024 * 1024;
             var converted_speed = 0;
+            var percent = 0;
 
 			var upload_speed = swarm.uploadSpeed(); // upload speed
 			var final_upload_speed = '0 B/s';
@@ -32,7 +33,11 @@
 			this.set('downloadSpeed', final_download_speed); // variable for Download Speed
 
 			swarm.downloaded = (swarm.downloaded) ? swarm.downloaded : 0;
-			this.set('percent', (swarm.downloaded / (BUFFERING_SIZE / 100)));
+			percent = swarm.downloaded / (BUFFERING_SIZE / 100);
+			if(percent >= 100) {
+				percent = 99; // wait for subtitles
+			}
+			this.set('percent', percent);
         }
     });
 

@@ -24,13 +24,14 @@
             var swarm = engine.swarm;
             var state = 'connecting';            
 
-            if((swarm.downloaded > BUFFERING_SIZE || (swarm.piecesGot * (engine.torrent !== null ? engine.torrent.pieceLength : 0)) > BUFFERING_SIZE) && hasSubtitles) {
+            if((swarm.downloaded > BUFFERING_SIZE || (swarm.piecesGot * (engine.torrent !== null ? engine.torrent.pieceLength : 0)) > BUFFERING_SIZE)) {
                 state = 'ready';
             } else if(swarm.downloaded || swarm.piecesGot > 0) {
                 state = 'downloading';
             } else if(swarm.wires.length) {
                 state = 'startingDownload';
-            } else if(swarm.downloaded > BUFFERING_SIZE && !hasSubtitles) {
+            }
+            if(state === 'ready' && !hasSubtitles) {
                 state = 'waitingForSubtitles';
             }
 
