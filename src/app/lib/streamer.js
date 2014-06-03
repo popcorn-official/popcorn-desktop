@@ -24,7 +24,7 @@
             var swarm = engine.swarm;
             var state = 'connecting';            
 
-            if((swarm.downloaded > BUFFERING_SIZE || (swarm.piecesGot * engine.torrent.pieceLength) > BUFFERING_SIZE) && hasSubtitles) {
+            if((swarm.downloaded > BUFFERING_SIZE || (swarm.piecesGot * (engine.torrent !== null ? engine.torrent.pieceLength : 0)) > BUFFERING_SIZE) && hasSubtitles) {
                 state = 'ready';
             } else if(swarm.downloaded || swarm.piecesGot > 0) {
                 state = 'downloading';
