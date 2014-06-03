@@ -185,27 +185,33 @@ window.ondragover = function (e) {
 	e.preventDefault();
 	return false;
 };
+
 window.ondrop = function (e) {
 	e.preventDefault();
 	return false;
 };
+
 var holder = $('body')[0];
 holder.ondragover = function () {
 	this.classList.add('dragging');
 	return false;
 };
+
 holder.ondragend = function () {
 	this.classList.remove('dragging');
 	return false;
 };
+
 holder.ondrop = function (e) {
 	e.preventDefault();
 
 	var file = e.dataTransfer.files[0];
-	if(file.name.indexOf('.torrent') !== -1) {
+	if(path.extname(file.name) === '.torrent') {
 		var reader = new FileReader();
+
 		reader.onload = function (event) {
 			var content = reader.result;
+
 			fs.writeFile(gui.App.dataPath + '\/' + file.name, content, function (err) {
 				if(err) {
 					window.alert('Error Loading Torrent: ' + err);
@@ -216,7 +222,9 @@ holder.ondrop = function (e) {
 					App.vent.trigger('stream:start', torrentStart);
 				}
 			});
+
 		};
+
 		reader.readAsBinaryString(file);
 	}
 
