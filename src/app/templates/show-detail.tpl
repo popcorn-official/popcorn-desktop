@@ -60,25 +60,24 @@
 	</div>
 
 	<div class="season-episode-container">
-		<div id="tabs_base">
-			<ul id="tabs_season">
-				<!-- "TODO: to be updated i dont find it really elegant
-					i'll build a compatible torrent array with our episodes content" -->
-				<% var torrents = {};
-				_.each(episodes, function(value, currentEpisode) {
-					if (!torrents[value.season]) torrents[value.season] = {};
-					torrents[value.season][value.episode] = value;
-				}); %>
-
+		<div class="tabs-base">
+			<div class="tabs-seasons">
+				<ul>
+					<% var torrents = {};
+					_.each(episodes, function(value, currentEpisode) {
+						if (!torrents[value.season]) torrents[value.season] = {};
+						torrents[value.season][value.episode] = value;
+					});
+					_.each(torrents, function(value, season) { %>
+						<li class="tab-season" data-tab="season-<%=season %>">
+							<a><%= i18n.__("Season") %>&nbsp;<%=season %></a>
+						</li>
+					<% }); %>
+				</ul>
+			</div>
+			<div class="tabs-episodes">
 				<% _.each(torrents, function(value, season) { %>
-					<li data-tab="season-<%=season %>">
-						<a><%= i18n.__("Season") %>&nbsp;<%=season %></a>
-					</li>
-				<% }); %>
-			</ul>
-			<div id="tabs_episode_base">
-				<% _.each(torrents, function(value, season) { %>
-					<div id="season-<%=season %>" class="tabs-episode">
+					<div class="tab-episodes season-<%=season %>">
 						<ul>
 							<% _.each(value, function(episodeData, episode) {
 								var first_aired = '',
@@ -96,13 +95,13 @@
 								}
 
 							%>
-								<li class="episodeSummary" data-id="<%=episodeData.tvdb_id %>">
+								<li class="tab-episode" data-id="<%=episodeData.tvdb_id %>">
 									<a href="#" class="episodeData">
 										<span><%=episodeData.episode %></span>
 										<div><%=episodeData.title %></div>
 									</a>
 									
-									<span id="watched-<%=episodeData.season%>-<%=episodeData.episode%>" class="watched watched-false"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
+									<span id="watched-<%=episodeData.season%>-<%=episodeData.episode%>" class="watched"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
 
 
 									<!-- hidden template so we can save a DB query -->

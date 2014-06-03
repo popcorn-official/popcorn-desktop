@@ -18,9 +18,9 @@
 			'click .watched': 'toggleWatched',
 			'click .startStreaming': 'startStreaming',
 			'click .tv-container-close': 'closeDetails',
-			'click #tabs_season li': 'clickTab',
-			'click .episodeSummary': 'clickEpisode',
-			'dblclick .episodeSummary': 'dblclickEpisode',
+			'click .tab-season': 'clickSeason',
+			'click .tab-episode': 'clickEpisode',
+			'dblclick .tab-episode': 'dblclickEpisode',
 			'click #switch-hd-on': 'enableHD',
 			'click #switch-hd-off': 'disableHD'
 		},
@@ -30,8 +30,7 @@
 			Mousetrap.bind('esc', function(e) {
 				_this.closeDetails();
 			});
-			App.vent.on('shows:watched',   this.markWatched);
-			App.vent.on('shows:unwatched', this.markNotWatched);
+			App.vent.on('shows:watched', this.markWatched);
 
 			if((ScreenResolution.SD || ScreenResolution.HD) && !ScreenResolution.Retina) {
 				// Screen Resolution of 720p or less is fine to have 300x450px image
@@ -41,7 +40,7 @@
 
 		onShow: function() {
 
-			this.selectSeason($('#tabs_season li').first('li'));
+			this.selectSeason($('.tab-season:first'));
 			$('.star-container-tv').tooltip();
 
 			var background = $('.tv-poster-background').attr('data-bgr');
@@ -73,31 +72,24 @@
 				season  : edata[1],
 				episode : edata[2]
 			};
-				
+
 			Database.checkEpisodeWatched(value, function (watched, data) {
 				if(watched) {
 					App.vent.trigger ('shows:unwatched', value);
 				} else {
 					App.vent.trigger ('shows:watched', value);
 				}
+				_this.markWatched(value, !watched);
 			});
 		},
-
-		markWatched: function (value) {
+		
+		markWatched: function (value, state) {
+			state = (state === undefined) ? true : state;
 			// we should never get any shows that aren't us, but you know, just in case.
 			if (value.show_id === _this.model.get('tvdb_id')) {
-				$('#watched-'+value.season+'-'+value.episode).removeClass('watched-false').addClass('watched-true');
+				$('#watched-'+value.season+'-'+value.episode).toggleClass('true', state);
 			} else {
 				console.error ('something fishy happened with the watched signal', this.model, value);
-			}
-		},
-
-		markNotWatched: function (value) {
-			// we should never get any shows that aren't us, but you know, just in case.
-			if (value.show_id === _this.model.get('tvdb_id')) {
-				$('#watched-'+value.season+'-'+value.episode).removeClass('watched-true').addClass('watched-false');
-			} else {
-				console.error ('something fishy happened with the notwatched signal', this.model, value);
 			}
 		},
 
@@ -105,7 +97,7 @@
 			e.preventDefault();
 			var that = this;
 			var title = that.model.get('title');
-			var episode =  $(e.currentTarget).attr('data-episode');
+			var episode = $(e.currentTarget).attr('data-episode');
 			var season = $(e.currentTarget).attr('data-season');
 			var name = $(e.currentTarget).attr('data-title');
 
@@ -117,18 +109,18 @@
 				season: season,
 				episode: episode
 			};
-			   
+
 			var torrentStart = new Backbone.Model({
-					torrent: $(e.currentTarget).attr('data-torrent'), 
-					backdrop: that.model.get('images').fanart, 
-					type: 'episode', 
-					show_id: that.model.get('tvdb_id'),
-					episode: episode,
-					season: season,
-					title: title,
-					status: that.model.get('status'),
-					extract_subtitle: epInfo,
-					defaultSubtitle: Settings.subtitle_language
+				torrent: $(e.currentTarget).attr('data-torrent'), 
+				backdrop: that.model.get('images').fanart, 
+				type: 'episode', 
+				show_id: that.model.get('tvdb_id'),
+				episode: episode,
+				season: season,
+				title: title,
+				status: that.model.get('status'),
+				extract_subtitle: epInfo,
+				defaultSubtitle: Settings.subtitle_language
 			});
 			
 			App.vent.trigger('stream:start', torrentStart);
@@ -139,7 +131,7 @@
 			App.vent.trigger('show:closeDetail');
 		},
 
-		clickTab: function(e) {
+		clickSeason: function(e) {
 			e.preventDefault();
 			this.selectSeason($(e.currentTarget));
 		},
@@ -156,14 +148,13 @@
 		},
 		 // Helper Function
 		selectSeason: function($elem) {
-			$('.tabs-episode').hide();
-			$('.tabs-episode.current').removeClass('current');
-			$('#tabs_season li.active').removeClass('active');
-			$('.episodeSummary.active').removeClass('active');
+			$('.tab-season.active').removeClass('active');
 			$elem.addClass('active');
-			$('#'+$elem.attr('data-tab')).addClass('current').scrollTop(0).show(); //pull the scroll always to top to
-
-			this.selectEpisode($('#'+$elem.attr('data-tab')).find($( '.episodeSummary')).first());           
+			$('.tab-episodes').hide();
+			$('.tab-episodes.current').removeClass('current');
+			$('.tab-episode.active').removeClass('active');
+			$('.tab-episodes.'+$elem.attr('data-tab')).addClass('current').scrollTop(0).show(); //pull the scroll always to top to
+			this.selectEpisode($('.tab-episodes.'+$elem.attr('data-tab')+' li:first'));
 		},
 
 		selectEpisode: function($elem) {
@@ -192,7 +183,7 @@
 				this.ui.qinfo.show();
 			}
 			
-			$('.episodeSummary').removeClass('active');
+			$('.tab-episode.active').removeClass('active');
 			$elem.addClass('active');
 			$('.episode-info-number').text(i18n.__('Episode') + ' '+$('.template-'+tvdbid+' .episode').html());
 			$('.episode-info-title').text($('.template-'+tvdbid+' .title').text());
@@ -210,7 +201,7 @@
 			$('.movie-btn-watch-episode').attr('data-season', $('.template-'+tvdbid+' .season').html());
 			$('.movie-btn-watch-episode').attr('data-title', $('.template-'+tvdbid+' .title').html());
 
-			this.ui.startStreaming.show();            
+			this.ui.startStreaming.show();
 		},
 
 		enableHD: function () {
@@ -233,4 +224,3 @@
 
 	App.View.ShowDetail = ShowDetail;
 })(window.App);
-    
