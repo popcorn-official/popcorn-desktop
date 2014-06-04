@@ -3,6 +3,7 @@
 	<div class="cover">
 		<div class="cover-overlay">
 			<div class="actions-favorites"></div>
+			<div class="actions-watched"><img src = "./images/icons/ViewMoreInfo.png"/></div>
 		</div>
 	</div>
 

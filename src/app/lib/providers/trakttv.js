@@ -124,6 +124,23 @@
         });
     };
 
+    var seenMovie = function(data) {
+        var uri = API_ENDPOINT.clone().segment([MOVIE_PATH, 'seen', API_KEY]);
+        request.post({url: uri.toString(), form: data}, function(error, response, data) {
+            if(error) {
+                win.error(error);
+            }
+        });
+    };
+    var seenEpisode = function(data) {
+        var uri = API_ENDPOINT.clone().segment([SHOW_PATH, 'episode', 'seen', API_KEY]);
+        request.post({url: uri.toString(), form: data}, function(error, response, data) {
+            if(error) {
+                win.error(error);
+            }
+        });
+    };
+
     var testLogin = function(data, callback) {
         var uri = API_ENDPOINT.clone().segment(['account', 'test', API_KEY]);
         request.post({url: uri.toString(), form: data}, function(error, response, data) {
@@ -146,7 +163,13 @@
 
     Trakttv.prototype.scrobble = function(data) {
         return scrobble(data);
-    };   
+    };  
+    Trakttv.prototype.seenMovie = function(data) {
+        return seenMovie(data);
+    };  
+    Trakttv.prototype.seenEpisode = function(data) {
+        return seenEpisode(data);
+    };
     Trakttv.prototype.testLogin = function(data, callback) {
         return testLogin(data, callback);
     };

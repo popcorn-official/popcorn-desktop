@@ -72,7 +72,8 @@
 			var value = {
 				show_id : _this.model.get('tvdb_id'),
 				season  : edata[1],
-				episode : edata[2]
+				episode : edata[2],
+				from_browser: true
 			};
 
 			Database.checkEpisodeWatched(value, function (watched, data) {

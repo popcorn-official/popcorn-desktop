@@ -15,11 +15,13 @@
         ui: {
             coverImage: '.cover-image',
             cover: '.cover',
-            bookmarkIcon: '.actions-favorites'
+            bookmarkIcon: '.actions-favorites',
+            watchedIcon: '.actions-watched'
         },
 
         events: {
             'click .actions-favorites': 'toggleFavorite',
+            'click .actions-watched': 'toggleWatched',
             'click .cover': 'showDetail',
             'mouseover .cover': 'hoverItem'
         },
@@ -33,10 +35,16 @@
             // is boorkmarked or not ?
             var that = this;
             var bookmarked = App.userBookmarks.indexOf(this.model.get('imdb')) !== -1;
+            var watched = App.watchedMovies.indexOf(this.model.get('imdb')) !== -1;
             this.model.set('bookmarked', bookmarked);
 
             if (bookmarked) {
                 this.ui.bookmarkIcon.addClass('selected');
+            } 
+            this.model.set('watched', watched);
+
+            if (watched) {
+                this.ui.watchedIcon.addClass('selected');
             }         
             this.ui.coverImage.on('load', _.bind(this.showCover, this));
         },
@@ -68,6 +76,33 @@
 
             App.vent.trigger('movie:showDetail', this.model);
 
+        },
+
+        toggleWatched: function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            var that = this;
+            if (this.model.get('watched') === true) {
+                Database.markMovieAsNotWatched({imdb_id: this.model.get('imdb')}, function(err, data) {
+                    that.model.set('watched', false);
+
+                        that.ui.watchedIcon.removeClass('selected');
+                        App.watchedMovies.splice(App.watchedMovies.indexOf(that.model.get('imdb'), 1));
+                });
+            } else {
+
+                Database.markMovieAsWatched({
+                    imdb_id: this.model.get('imdb'),
+                    from_browser: true
+                }, function(err, data) {
+                    that.model.set('watched', false);
+
+                    that.ui.watchedIcon.addClass('selected');
+                    that.model.set('watched', true);
+                    App.watchedMovies.push(that.model.get('imdb'));
+                });
+
+            }
         },
 
         toggleFavorite: function(e) {

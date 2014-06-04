@@ -156,14 +156,30 @@ var Database = {
 			if(trakt === null) {
 				trakt = new (App.Config.getProvider('metadata'))();
 			}
-			var query = {
-	            username: Settings.traktUsername,
-	            password: Settings.traktPassword,
-	            imdb_id: data.imdb_id.toString(),
-	            type: 'movie'
-	        };
+			var query = {};
+			if(data.from_browser) {
+				query = {
+					username: Settings.traktUsername,
+	            	password: Settings.traktPassword,
+	            	movies: [
+	            		{
+	            			imdb_id: 'tt'+data.imdb_id.toString()
+	            		}
+	            	]
+				};
+				trakt.seenMovie(query);
+			}
+			else {
+				query = {
+		            username: Settings.traktUsername,
+		            password: Settings.traktPassword,
+		            imdb_id: 'tt'+data.imdb_id.toString(),
+		            duration: data.runtime.toString(),
+		            type: 'movie'
+		        };
 
-	        trakt.scrobble(query);
+		        trakt.scrobble(query);
+		    }
 	    }
 		db.watched.insert({
 			movie_id: data.imdb_id.toString(),
@@ -221,16 +237,34 @@ var Database = {
 			if(trakt === null) {
 				trakt = new (App.Config.getProvider('metadata'))();
 			}
-			var query = {
-	            username: Settings.traktUsername,
-	            password: Settings.traktPassword,
-	            tvdb_id: data.show_id.toString(),
-	            season: data.season.toString(),
-	            episode: data.episode.toString(),
-	            type: 'show'
-	        };
+			var query = {};
+			if(data.from_browser) {
+				query = {
+		            username: Settings.traktUsername,
+		            password: Settings.traktPassword,
+		            tvdb_id: data.show_id.toString(),
+		            episodes: [
+			            {
+			            	season: data.season.toString(),
+		            		episode: data.episode.toString(), 
+			            }
 
-	        trakt.scrobble(query);
+		            ]
+		        };
+		        trakt.seenEpisode(query);
+			}
+			else {
+				query = {
+		            username: Settings.traktUsername,
+		            password: Settings.traktPassword,
+		            tvdb_id: data.show_id.toString(),
+		            season: data.season.toString(),
+		            episode: data.episode.toString(),
+		            type: 'show'
+		        };
+
+		        trakt.scrobble(query);
+		    }
 	    }
 		db.watched.insert({
 			show_id: data.show_id.toString(),
@@ -314,11 +348,23 @@ var Database = {
 	},
 
 	getUserInfo: function(cb) {
-		var bookmarksDone = false; // Added so in future can have multiple checks for watched Movies etc.
+		var bookmarksDone = false;
+		var watchedMoviesDone = false;
 
 		Database.getAllBookmarks(function(err, data){
 			App.userBookmarks = data;
-			cb();
+			bookmarksDone = true;
+			if(bookmarksDone && watchedMoviesDone) {
+				cb();
+			}
+		});
+		Database.getMoviesWatched(function(err, data){
+			App.watchedMovies = extractMovieIds(data);
+			console.log(App.watchedMovies);
+			watchedMoviesDone = true;
+			if(bookmarksDone && watchedMoviesDone) {
+				cb();
+			}
 		});
 	},
 

@@ -45,6 +45,26 @@
 				&.selected
 					background-image: url(../../images/icons/favorites_marked.png)
 
+			.actions-watched
+				height: 20px
+				width: 25px
+				background-repeat: no-repeat
+				background-position: center
+				margin-top: -80px
+				margin-left: 7px
+				img
+					-webkit-transition: opacity 1s ease-in-out
+					opacity 0.3
+
+
+				&:hover
+					img
+						opacity 0.7
+
+				&.selected
+					img
+						opacity 1
+
 	&.selected
 		.cover
 			.cover-overlay
