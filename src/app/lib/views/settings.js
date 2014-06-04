@@ -78,14 +78,14 @@
 				value = field.val();
 				break;
 			case 'traktUsername':
-				$('.test-trakt-login').removeClass('red').removeClass('green').text(i18n.__("Test Login"));
+				$('.test-trakt-login').removeClass('red').removeClass('green').text(i18n.__('Test Login'));
 				value = field.val();
 				break;
 			case 'tmpLocation':
 				value = path.join(field.val(), 'Popcorn-Time');
 				break;
 			case 'traktPassword':
-				$('.test-trakt-login').removeClass('red').removeClass('green').text(i18n.__("Test Login"));
+				$('.test-trakt-login').removeClass('red').removeClass('green').text(i18n.__('Test Login'));
 				value = sha1(field.val());
 				break;
 			default:
