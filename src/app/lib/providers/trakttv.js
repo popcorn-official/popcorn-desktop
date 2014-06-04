@@ -132,8 +132,25 @@
             }
         });
     };
+    var unseenMovie = function(data) {
+        var uri = API_ENDPOINT.clone().segment([MOVIE_PATH, 'unseen', API_KEY]);
+        request.post({url: uri.toString(), form: data}, function(error, response, data) {
+            if(error) {
+                win.error(error);
+            }
+        });
+    };
     var seenEpisode = function(data) {
         var uri = API_ENDPOINT.clone().segment([SHOW_PATH, 'episode', 'seen', API_KEY]);
+        request.post({url: uri.toString(), form: data}, function(error, response, data) {
+            if(error) {
+                win.error(error);
+            }
+        });
+    };
+
+    var unseenEpisode = function(data) {
+        var uri = API_ENDPOINT.clone().segment([SHOW_PATH, 'episode', 'unseen', API_KEY]);
         request.post({url: uri.toString(), form: data}, function(error, response, data) {
             if(error) {
                 win.error(error);
@@ -167,8 +184,14 @@
     Trakttv.prototype.seenMovie = function(data) {
         return seenMovie(data);
     };  
+    Trakttv.prototype.unseenMovie = function(data) {
+        return unseenMovie(data);
+    };
     Trakttv.prototype.seenEpisode = function(data) {
         return seenEpisode(data);
+    };
+    Trakttv.prototype.unseenEpisode = function(data) {
+        return unseenEpisode(data);
     };
     Trakttv.prototype.testLogin = function(data, callback) {
         return testLogin(data, callback);

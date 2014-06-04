@@ -192,6 +192,21 @@ var Database = {
 		if(!cb) {
 			cb = function () {};
 		}
+		if(Settings.traktUsername && Settings.traktPassword) {
+			if(trakt === null) {
+				trakt = new (App.Config.getProvider('metadata'))();
+			}
+			var query = {
+				username: Settings.traktUsername,
+            	password: Settings.traktPassword,
+            	movies: [
+            		{
+            			imdb_id: 'tt'+data.imdb_id.toString()
+            		}
+            	]
+			};
+			trakt.unseenMovie(query);
+		}
 		db.watched.remove({
 			movie_id: data.imdb_id.toString()
 		}, cb);
