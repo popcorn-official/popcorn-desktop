@@ -113,7 +113,16 @@
                 }
             }
         });
-    };    
+    };  
+
+    var scrobble = function(data) {
+        var uri = API_ENDPOINT.clone().segment([data.type, 'scrobble', API_KEY]);
+        request.post({url: uri.toString(), form: data}, function(error, response, data) {
+            if(error) {
+                win.error(error);
+            }
+        });
+    };
 
     Trakttv.prototype.query = function(ids) {
         return Q.when(querySummaries(ids))
@@ -122,7 +131,11 @@
 
     Trakttv.prototype.episodeDetail = function(data, callback) {
         return episodeDetail(data, callback);
-    };    
+    }; 
+
+    Trakttv.prototype.scrobble = function(data) {
+        return scrobble(data);
+    };   
 
     App.Providers.Trakttv = Trakttv;
 
