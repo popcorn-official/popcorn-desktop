@@ -5,6 +5,7 @@
 		<div class="user-interface"><%= i18n.__("User Interface") %></div>
 		<div class="quality-options"><%= i18n.__("Quality") %></div>
 		<div class="subtitles-options"><%= i18n.__("Subtitles") %></div>
+		<div class="trakt-options"><%= i18n.__("Trakt.tv") %></div>
 		<div class="more-options"><%= i18n.__("More Options") %></div>
 		<div class="advanced-settings"><%= i18n.__("Advanced Settings") %></div>
 	</div>
@@ -75,6 +76,21 @@
 				<select name="subtitle_size"><%=sub_sizes%></select>
 				<div class="dropdown-arrow"></div>	
 			</div>
+		</div>
+
+		<div class="trakt-options">
+			<%= i18n.__("Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time") %>
+			<br><br>
+			<p><%= i18n.__("Username") + ":" %></p> <input type="text" size = "50" name="traktUsername" value="<%=Settings.traktUsername%>">
+			<br><br>
+			<p><%= i18n.__("Password") + ":" %></p> <input type="password" size = "50" name="traktPassword" value="<%=Settings.traktPassword === '' ? '' : 'password'%>"> 
+			<br><br>
+			<%= i18n.__("Popcorn Time will store an encrypted hash of your password in your local database") %>
+			<br><br>
+			<div class = "btns">
+				<div class="btn-settings test-trakt-login" style="margin-top: -10px"><%= i18n.__("Test Login") %></div>
+			</div>
+			<br><br>
 		</div>
 
 		<div class="more-options">

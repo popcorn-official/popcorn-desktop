@@ -1,6 +1,9 @@
 (function(App) {
 	'use strict';
 
+	var sha1 = require('sha1'); // Crypto doesn't work with field.val(), that's why sha1 is needed
+	var trakt = null;
+
 	var Settings = Backbone.Marionette.ItemView.extend({
 		template: '#settings-container-tpl',
 		className: 'settings-container-contain',
@@ -17,6 +20,7 @@
 			'click .flush-bookmarks': 'flushBookmarks',
 			'click .flush-databases': 'flushAllDatabase',
 			'click .flush-subtitles': 'flushAllSubtitles',
+			'click .test-trakt-login': 'testTraktLogin',
 			'click #faketmpLocation' : 'showCacheDirectoryDialog',
 			'click .default-settings' : 'resetSettings',
 			'change #tmpLocation' : 'updateCacheDirectory',
@@ -73,8 +77,16 @@
 			case 'streamPort':
 				value = field.val();
 				break;
+			case 'traktUsername':
+				$('.test-trakt-login').removeClass('red').removeClass('green').text(i18n.__("Test Login"));
+				value = field.val();
+				break;
 			case 'tmpLocation':
 				value = path.join(field.val(), 'Popcorn-Time');
+				break;
+			case 'traktPassword':
+				$('.test-trakt-login').removeClass('red').removeClass('green').text(i18n.__("Test Login"));
+				value = sha1(field.val());
 				break;
 			default:
 				win.warn('Setting not defined: '+field.attr('name'));
@@ -87,6 +99,27 @@
 			//save to db
 			App.db.writeSetting({key: field.attr('name'), value: value}, function() {
 				that.ui.success_alert.show().delay(3000).fadeOut(400);
+			});
+		},
+
+		testTraktLogin: function(e) {
+			if(trakt === null) {
+				trakt = new (App.Config.getProvider('metadata'))();
+			}
+			var btn = $(e.currentTarget);
+			btn.text( i18n.__('Testing...') ).addClass('disabled').prop('disabled',true);
+			var that = this;
+
+			trakt.testLogin({
+				username: App.settings.traktUsername,
+				password: App.settings.traktPassword
+			}, function(success) {
+				if(success) {
+					btn.removeClass('disabled').prop('disabled', false).addClass('green').text(i18n.__('Success!'));
+				}
+				else {
+					btn.removeClass('disabled').prop('disabled', false).addClass('red').text(i18n.__('Failed!'));
+				}
 			});
 		},
 

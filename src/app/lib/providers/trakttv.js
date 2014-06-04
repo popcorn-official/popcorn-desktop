@@ -124,6 +124,17 @@
         });
     };
 
+    var testLogin = function(data, callback) {
+        var uri = API_ENDPOINT.clone().segment(['account', 'test', API_KEY]);
+        request.post({url: uri.toString(), form: data}, function(error, response, data) {
+            if(error || !data) {
+                return callback(false);
+            }
+            data = JSON.parse(data);
+            return callback(data.status !== 'failure');
+        });
+    };
+
     Trakttv.prototype.query = function(ids) {
         return Q.when(querySummaries(ids))
             .then(formatForPopcorn);
@@ -136,6 +147,9 @@
     Trakttv.prototype.scrobble = function(data) {
         return scrobble(data);
     };   
+    Trakttv.prototype.testLogin = function(data, callback) {
+        return testLogin(data, callback);
+    };
 
     App.Providers.Trakttv = Trakttv;
 

@@ -19,6 +19,10 @@ Settings.subtitle_size = '28px';
 // More options
 Settings.tvshowApiEndpoint = 'http://eztvapi.re/';
 
+// User settings (not set here, just init'd)
+Settings.traktUsername = '';
+Settings.traktPassword = '';
+
 // Advanced options
 Settings.connectionLimit = 100;
 Settings.dhtLimit = 500;

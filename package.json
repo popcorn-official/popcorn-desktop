@@ -43,6 +43,7 @@
     "read-torrent": "1.0.x",
     "request": "2.36.0",
     "rimraf": "^2.2.6",
+    "sha1": "^1.1.0",
     "underscore": "1.6.x"
   },
   "devDependencies": {

@@ -5,6 +5,7 @@ var
 	Datastore = require('nedb'),
 	path = require('path'),
 	openSRT = require('opensrt_js'),
+	trakt = null,
 	
 	db = {},
 	data_path = require('nw.gui').App.dataPath,
@@ -151,6 +152,19 @@ var Database = {
 		if(!cb) {
 			cb = function () {};
 		}
+		if(Settings.traktUsername && Settings.traktPassword) {
+			if(trakt === null) {
+				trakt = new (App.Config.getProvider('metadata'))();
+			}
+			var query = {
+	            username: Settings.traktUsername,
+	            password: Settings.traktPassword,
+	            imdb_id: data.imdb_id.toString(),
+	            type: 'movie'
+	        };
+
+	        trakt.scrobble(query);
+	    }
 		db.watched.insert({
 			movie_id: data.imdb_id.toString(),
 			date: new Date(),
@@ -203,6 +217,21 @@ var Database = {
 		if(!cb) {
 			cb = function () {};
 		}
+		if(Settings.traktUsername && Settings.traktPassword) {
+			if(trakt === null) {
+				trakt = new (App.Config.getProvider('metadata'))();
+			}
+			var query = {
+	            username: Settings.traktUsername,
+	            password: Settings.traktPassword,
+	            tvdb_id: data.show_id.toString(),
+	            season: data.season.toString(),
+	            episode: data.episode.toString(),
+	            type: 'show'
+	        };
+
+	        trakt.scrobble(query);
+	    }
 		db.watched.insert({
 			show_id: data.show_id.toString(),
 			season: data.season.toString(),
