@@ -10,7 +10,7 @@
 
     var API_ENDPOINT = URI('https://api.trakt.tv/'), 
         API_KEY = '515a27ba95fbd83f20690e5c22bceaff0dfbde7c',
-        API_PLUGIN_VERSION = AdvSettings.get('TraktTvVersion'),
+        API_PLUGIN_VERSION = AdvSettings.get('traktTvVersion'),
         PT_VERSION = AdvSettings.get('version');
 
     function TraktTv() {
