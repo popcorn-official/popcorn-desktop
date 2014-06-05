@@ -152,35 +152,9 @@ var Database = {
 		if(!cb) {
 			cb = function () {};
 		}
-		if(Settings.traktUsername && Settings.traktPassword) {
-			if(trakt === null) {
-				trakt = new (App.Config.getProvider('metadata'))();
-			}
-			var query = {};
-			if(data.from_browser) {
-				query = {
-					username: Settings.traktUsername,
-	            	password: Settings.traktPassword,
-	            	movies: [
-	            		{
-	            			imdb_id: 'tt'+data.imdb_id.toString()
-	            		}
-	            	]
-				};
-				trakt.seenMovie(query);
-			}
-			else {
-				query = {
-		            username: Settings.traktUsername,
-		            password: Settings.traktPassword,
-		            imdb_id: 'tt'+data.imdb_id.toString(),
-		            duration: data.runtime.toString(),
-		            type: 'movie'
-		        };
 
-		        trakt.scrobble(query);
-		    }
-	    }
+		trakt.movie.seen('tt'+data.imdb_id);
+		
 		db.watched.insert({
 			movie_id: data.imdb_id.toString(),
 			date: new Date(),
@@ -192,21 +166,9 @@ var Database = {
 		if(!cb) {
 			cb = function () {};
 		}
-		if(Settings.traktUsername && Settings.traktPassword) {
-			if(trakt === null) {
-				trakt = new (App.Config.getProvider('metadata'))();
-			}
-			var query = {
-				username: Settings.traktUsername,
-            	password: Settings.traktPassword,
-            	movies: [
-            		{
-            			imdb_id: 'tt'+data.imdb_id.toString()
-            		}
-            	]
-			};
-			trakt.unseenMovie(query);
-		}
+		
+		trakt.movie.unseen('tt'+data.imdb_id);
+
 		db.watched.remove({
 			movie_id: data.imdb_id.toString()
 		}, cb);
@@ -248,39 +210,9 @@ var Database = {
 		if(!cb) {
 			cb = function () {};
 		}
-		if(Settings.traktUsername && Settings.traktPassword) {
-			if(trakt === null) {
-				trakt = new (App.Config.getProvider('metadata'))();
-			}
-			var query = {};
-			if(data.from_browser) {
-				query = {
-		            username: Settings.traktUsername,
-		            password: Settings.traktPassword,
-		            tvdb_id: data.show_id.toString(),
-		            episodes: [
-			            {
-			            	season: data.season.toString(),
-		            		episode: data.episode.toString(), 
-			            }
+		
+		trakt.show.seen(data.show_id, {season: data.season, episode: data.episode});
 
-		            ]
-		        };
-		        trakt.seenEpisode(query);
-			}
-			else {
-				query = {
-		            username: Settings.traktUsername,
-		            password: Settings.traktPassword,
-		            tvdb_id: data.show_id.toString(),
-		            season: data.season.toString(),
-		            episode: data.episode.toString(),
-		            type: 'show'
-		        };
-
-		        trakt.scrobble(query);
-		    }
-	    }
 		db.watched.insert({
 			show_id: data.show_id.toString(),
 			season: data.season.toString(),
@@ -294,6 +226,9 @@ var Database = {
 		if(!cb) {
 			cb = function () {};
 		}
+
+		trakt.show.unseen(data.show_id, {season: data.season, episode: data.episode});
+		
 		db.watched.remove({
 			show_id: data.show_id.toString(),
 			season: data.season.toString(),
@@ -422,6 +357,7 @@ var Database = {
 
 	initialize: function (callback) {
 
+		trakt = new (App.Config.getProvider('metadata'))();
 		// we'll intiatlize our settings and our API SSL Validation
 		// we build our settings array
 		Database.getUserInfo(function() {
