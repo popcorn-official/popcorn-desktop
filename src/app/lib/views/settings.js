@@ -1,7 +1,6 @@
 (function(App) {
 	'use strict';
 
-	var trakt = null;
 	function fixString(input) {
 		var b = new Buffer(Buffer.byteLength(input));
 		for(var i = 0; i < b.length; i++) { 
@@ -116,15 +115,11 @@
 			var username = document.querySelector('#traktUsername').value;
 			var password = fixString(document.querySelector('#traktPassword').value);
 
-			if(trakt === null) {
-				trakt = new (App.Config.getProvider('metadata'))();
-			}
-
 			$('.invalid-cross').hide();
 			$('.valid-tick').hide();
 			$('.loading-spinner').show();
 			// trakt.authenticate automatically saves the username and pass on success!
-			trakt.authenticate(username, password).then(function(valid) {
+			App.Trakt.authenticate(username, password).then(function(valid) {
 				$('.loading-spinner').hide();
 				if(valid) {
 					$('.valid-tick').show();

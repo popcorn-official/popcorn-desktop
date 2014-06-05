@@ -6,7 +6,7 @@
         Q = require('q'), 
         _ = require('underscore'),
         inherits = require('util').inherits,
-        crypto = require('crypto');
+        sha1 = require('sha1');
 
     var API_ENDPOINT = URI('https://api.trakt.tv/'), 
         API_KEY = '515a27ba95fbd83f20690e5c22bceaff0dfbde7c',
@@ -114,12 +114,12 @@
         var self = this;
         return this.post('account/test/{KEY}', {
             username: username, 
-            password: preHashed ? password : crypto.createHash('sha1').update(password, 'utf8').digest('hex')
+            password: preHashed ? password : sha1(password)
         }).then(function(data) {
             if(data.status === 'success') {
                 self._credentials = {
                     username: username, 
-                    password: preHashed ? password : crypto.createHash('sha1').update(password, 'utf8').digest('hex')
+                    password: preHashed ? password : sha1(password)
                 };
                 self.authenticated = true;
                 // Store the credentials (hashed ofc)

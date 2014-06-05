@@ -232,8 +232,7 @@
                                 var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i);
                                 if(se_re != null){
                                     var tvshowname = $.trim( se_re[1].replace(/[\.]/g,' ') ).replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-                                    var trakt = new (App.Config.getProvider('metadata'))();
-                                    trakt.show.episodeSummary(tvshowname, se_re[2], se_re[3]).then(function(data) {
+                                    App.Trakt.show.episodeSummary(tvshowname, se_re[2], se_re[3]).then(function(data) {
                                         if(!data) {
                                             win.warn('Unable to fetch data from Trakt.tv');
                                             getSubtitles(sub_data);

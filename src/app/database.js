@@ -5,7 +5,6 @@ var
 	Datastore = require('nedb'),
 	path = require('path'),
 	openSRT = require('opensrt_js'),
-	trakt = null,
 	
 	db = {},
 	data_path = require('nw.gui').App.dataPath,
@@ -153,7 +152,7 @@ var Database = {
 			cb = function () {};
 		}
 
-		trakt.movie.seen('tt'+data.imdb_id);
+		App.Trakt.movie.seen('tt'+data.imdb_id);
 		
 		db.watched.insert({
 			movie_id: data.imdb_id.toString(),
@@ -167,7 +166,7 @@ var Database = {
 			cb = function () {};
 		}
 		
-		trakt.movie.unseen('tt'+data.imdb_id);
+		App.Trakt.movie.unseen('tt'+data.imdb_id);
 
 		db.watched.remove({
 			movie_id: data.imdb_id.toString()
@@ -211,7 +210,7 @@ var Database = {
 			cb = function () {};
 		}
 		
-		trakt.show.episodeSeen(data.show_id, {season: data.season, episode: data.episode});
+		App.Trakt.show.episodeSeen(data.show_id, {season: data.season, episode: data.episode});
 
 		db.watched.insert({
 			show_id: data.show_id.toString(),
@@ -227,7 +226,7 @@ var Database = {
 			cb = function () {};
 		}
 
-		trakt.show.episodeUnseen(data.show_id, {season: data.season, episode: data.episode});
+		App.Trakt.show.episodeUnseen(data.show_id, {season: data.season, episode: data.episode});
 		
 		db.watched.remove({
 			show_id: data.show_id.toString(),
@@ -389,7 +388,7 @@ var Database = {
 						checkUpdate();
 						// we skip the initDB (not needed in current version)
 						callback();
-						App.Trakt = trakt = new (App.Config.getProvider('metadata'))();
+						App.Trakt = new (App.Config.getProvider('metadata'))();
 					});
 
 				});
