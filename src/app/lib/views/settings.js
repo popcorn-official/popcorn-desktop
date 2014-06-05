@@ -27,7 +27,7 @@
 		},
 
 		onShow: function() {
-			$('.filter-bar').hide();    
+			$('.filter-bar').hide();
 			$('#movie-detail').hide();
 			Mousetrap.bind('esc', function(e) {
 				App.vent.trigger('settings:close');
@@ -35,13 +35,13 @@
 		},
 
 		onClose: function() {
-			$('.filter-bar').show();    
+			$('.filter-bar').show();
 			$('#movie-detail').show();
 		},
 		showCover: function() {},
 
 		closeSettings: function() {
-			App.vent.trigger('settings:close');     
+			App.vent.trigger('settings:close');
 		},
 
 		saveSetting: function(e){
@@ -124,119 +124,71 @@
 		},
 
 		flushBookmarks: function(e) {
+			var that = this;
 			var btn = $(e.currentTarget);
-			if(!btn.hasClass('confirm')){
-				btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
+
+			if( !that.areYouSure( btn, i18n.__('Flushing bookmarks...') ) ) {
 				return;
 			}
-			btn.text( i18n.__('Flushing bookmarks...') ).addClass('disabled').prop('disabled',true);
-			var that = this;
 
-			// we build our notification
-			var $el = $('#notification');
-			$el.html(
-				'<h1>' + i18n.__('Please wait') + '...</h1>'   +
-				'<p>' + i18n.__('We are flushing your database') + '.</p>'
-			).addClass('red');
-
-			// enable the notification on current view
-			$('body').addClass('has-notification');
+			that.alertMessageWait( i18n.__('We are flushing your database') );
 
 			Database.deleteBookmarks(function(err, setting) {
 
-				// ask user to restart (to be sure)
-				$el.html(
-					'<h1>' + i18n.__('Success') + '</h1>'   +
-					'<p>' + i18n.__('Please restart your application') + '.</p>' +
-					'<span class=\'btn-grp\'>'                        +
-						'<a class=\'btn restart\'>' + i18n.__('Restart') + '</a>'    +
-					'</span>'
-				).removeClass().addClass('green');
-
-				// add restart button function
-				var $restart = $('.btn.restart');
-				$restart.on('click', function() {
-					that.restartApplication();
-				});
+				that.alertMessageSuccess( true );
 
 			});
 		},
 
 		resetSettings: function(e) {
+			var that = this;
 			var btn = $(e.currentTarget);
-			if(!btn.hasClass('confirm')){
-				btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
+			
+			if( !that.areYouSure( btn, i18n.__('Resetting...') ) ) {
 				return;
 			}
-			btn.text( i18n.__('Resetting...') ).addClass('disabled').prop('disabled',true);
-			var that = this;
 
-			// we build our notification
-			var $el = $('#notification');
-			$el.html(
-				'<h1>' + i18n.__('Please wait') + '...</h1>'   +
-				'<p>' + i18n.__('We are resetting the settings') + '.</p>'
-			).addClass('red');
-
-			// enable the notification on current view
-			$('body').addClass('has-notification');
+			that.alertMessageWait( i18n.__('We are resetting the settings') );
 
 			Database.resetSettings(function(err, setting) {
 
-				// ask user to restart (to be sure)
-				$el.html(
-					'<h1>' + i18n.__('Success') + '</h1>'   +
-					'<p>' + i18n.__('Please restart your application') + '.</p>' +
-					'<span class=\'btn-grp\'>'                        +
-						'<a class=\'btn restart\'>' + i18n.__('Restart') + '</a>'    +
-					'</span>'
-				).removeClass().addClass('green');
-
-				// add restart button function
-				var $restart = $('.btn.restart');
-				$restart.on('click', function() {
-					that.restartApplication();
-				});
+				that.alertMessageSuccess( true );
 
 			});
 		},
 
 		flushAllDatabase: function(e) {
+			var that = this;
 			var btn = $(e.currentTarget);
-			if(!btn.hasClass('confirm')){
-				btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
+			
+			if( !that.areYouSure( btn, i18n.__('Flushing...') ) ) {
 				return;
 			}
-			btn.text( i18n.__('Flushing...') ).addClass('disabled').prop('disabled',true);
-			var that = this;
 
-			// we build our notification
-			var $el = $('#notification');
-			$el.html(
-				'<h1>' + i18n.__('Please wait') + '...</h1>'   +
-				'<p>' + i18n.__('We are flushing your databases') + '.</p>'
-			).addClass('red');
-
-			// enable the notification on current view
-			$('body').addClass('has-notification');
+			that.alertMessageWait( i18n.__('We are flushing your databases') );
 
 			Database.deleteDatabases(function(err, setting) {
 
-				// ask user to restart (to be sure)
-				$el.html(
-					'<h1>' + i18n.__('Success') + '</h1>'   +
-					'<p>' + i18n.__('Please restart your application') + '.</p>' +
-					'<span class=\'btn-grp\'>'                        +
-						'<a class=\'btn restart\'>' + i18n.__('Restart') + '</a>'    +
-					'</span>'
-				).removeClass().addClass('green');
+				that.alertMessageSuccess( true );
 
-				// add restart button function
-				var $restart = $('.btn.restart');
-				$restart.on('click', function() {
-					that.restartApplication();
-				});
+			});
+		},
 
+		flushAllSubtitles : function(e) {
+			var that = this;
+			var btn = $(e.currentTarget);
+			
+			if( !that.areYouSure( btn, i18n.__('Flushing...') ) ) {
+				return;
+			}
+
+			that.alertMessageWait( i18n.__('We are flushing your subtitle cache') );
+
+			var cache = new App.Cache('subtitle');
+			cache.flushTable(function() {
+			
+				that.alertMessageSuccess( false, btn, i18n.__('Flush subtitles cache'), i18n.__('Subtitle cache deleted') );
+				
 			});
 		},
 
@@ -247,55 +199,62 @@
 					
 			argv.push(CWD);
 			spawn(process.execPath, argv, { cwd: CWD, detached: true, stdio: [ 'ignore', 'ignore', 'ignore' ] }).unref();
-			gui.App.quit();            
+			gui.App.quit();
 		},
 
-		showCacheDirectoryDialog : function()
-		{
+		showCacheDirectoryDialog : function() {
 			var that = this;
 			that.ui.tempDir.click();
 		},
 
-		updateCacheDirectory : function(e)
-		{
+		updateCacheDirectory : function(e) {
 			// feel free to improve/change radically!
 			var that = this;
 			var field = $('#tmpLocation');
-			that.ui.fakeTempDir.val = field.val();  // set the value to the styled textbox
+			that.ui.fakeTempDir.val = field.val();
 			that.render();
 		},
-
-		flushAllSubtitles : function(e) {
-			var btn = $(e.currentTarget);
+		
+		areYouSure : function (btn, waitDesc) {
 			if(!btn.hasClass('confirm')){
 				btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
-				return;
+				return false;
 			}
-			btn.text( i18n.__('Flushing...') ).addClass('disabled').prop('disabled',true);
-			var that = this;
-
-			// we build our notification
+			btn.text( waitDesc ).addClass('disabled').prop('disabled',true);
+			return true;
+		},
+		
+		alertMessageWait : function(waitDesc) {
 			var $el = $('#notification');
-			$el.html(
-				'<h1>' + i18n.__('Please wait') + '...</h1>'   +
-				'<p>' + i18n.__('We are flushing your subtitle cache') + '.</p>'
-			).addClass('red').show();
-
-			// enable the notification on current view
+			
+			$el.removeClass().addClass('red').show();
+			$el.html('<h1>' + i18n.__('Please wait') + '...</h1><p>' + waitDesc + '.</p>');
+			
 			$('body').addClass('has-notification');
-			// TODO: ADD CONFIRM
-			var cache = new App.Cache('subtitle');
-			cache.flushTable(function() {
-				$el.html(
-					'<h1>' + i18n.__('Success') + '</h1>'   +
-					'<p>' + i18n.__('Subtitle cache deleted') + '.</p>'
-				).removeClass().addClass('green');
+		},
+		
+		alertMessageSuccess : function(btnRestart, btn, btnText, successDesc) {
+			var that = this;
+			var $el = $('#notification');
+			
+			$el.removeClass().addClass('green');
+			$el.html('<h1>' + i18n.__('Success') + '</h1>');
+			
+			if(btnRestart) {
+				// Add restart button
+				$el.append('<p>' + i18n.__('Please restart your application') + '.</p><span class="btn-grp"><a class="btn restart">' + i18n.__('Restart') + '</a></span>');
+				$('.btn.restart').on('click', function() {
+					that.restartApplication();
+				});
+			}else{
+				// Hide notification after 2 seconds
+				$el.append('<p>' + successDesc + '.</p>');
 				setTimeout(function(){
-					btn.text( i18n.__('Flush subtitles cache') ).removeClass('confirm disabled').prop('disabled',false);
+					btn.text( btnText ).removeClass('confirm disabled').prop('disabled',false);
 					$('body').removeClass('has-notification');
 					$el.hide();
 				}, 2000);
-			});
+			}
 		}
 	});
 
