@@ -40,7 +40,7 @@
                 if(val === '{KEY}') {
                     return API_KEY;
                 }
-                return val;
+                return val.toString();
             });
         } else {
             endpoint = endpoint.replace('{KEY}', API_KEY);
@@ -50,7 +50,7 @@
                             .segment(endpoint)
                             .addQuery(getVariables);
 
-        request(requestUri, {json: true}, function(err, res, body) {
+        request(requestUri.toString(), {json: true}, function(err, res, body) {
             if(err || !body) {
                 defer.reject(err);
             } else {
@@ -71,7 +71,7 @@
                 if(val === '{KEY}') {
                     return API_KEY;
                 }
-                return val;
+                return val.toString();
             });
         } else {
             endpoint = endpoint.replace('{KEY}', API_KEY);
@@ -91,7 +91,7 @@
             }
         }
 
-        request(requestUri, {body: postVariables, json: true}, function(err, res, body) {
+        request(requestUri.toString(), {body: postVariables, json: true}, function(err, res, body) {
             if(err || !body) {
                 defer.reject(err);
             } else {
