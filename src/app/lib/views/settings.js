@@ -1,14 +1,6 @@
 (function(App) {
 	'use strict';
 
-	function fixString(input) {
-		var b = new Buffer(Buffer.byteLength(input));
-		for(var i = 0; i < b.length; i++) { 
-			b[i] = input.charCodeAt(i);
-		}
-		return b.toString();
-	}
-
 	var Settings = Backbone.Marionette.ItemView.extend({
 		template: '#settings-container-tpl',
 		className: 'settings-container-contain',
@@ -113,7 +105,7 @@
 
 		checkTraktLogin: _.debounce(function(e) {
 			var username = document.querySelector('#traktUsername').value;
-			var password = fixString(document.querySelector('#traktPassword').value);
+			var password = document.querySelector('#traktPassword').value;
 
 			$('.invalid-cross').hide();
 			$('.valid-tick').hide();
