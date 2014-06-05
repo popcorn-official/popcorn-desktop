@@ -170,7 +170,7 @@
                     return {imdb_id: val};
                 });
             } else {
-                movie = {imdb_id: movie};
+                movie = [{imdb_id: movie}];
             }
 
             return this.post('movie/seen/{KEY}', {
@@ -193,7 +193,7 @@
                     return {imdb_id: val};
                 });
             } else {
-                movie = {imdb_id: movie};
+                movie = [{imdb_id: movie}];
             }
 
             return this.post('movie/unseen/{KEY}', {
@@ -248,7 +248,7 @@
                     return {imdb_id: val};
                 });
             } else {
-                movie = {imdb_id: movie};
+                movie = [{imdb_id: movie}];
             }
 
             return this.post('movie/library/{KEY}', {
@@ -271,7 +271,7 @@
                     return {imdb_id: val};
                 });
             } else {
-                movie = {imdb_id: movie};
+                movie = [{imdb_id: movie}];
             }
 
             return this.post('movie/unlibrary/{KEY}', {
