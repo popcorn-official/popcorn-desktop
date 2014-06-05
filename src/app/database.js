@@ -356,8 +356,6 @@ var Database = {
 	},
 
 	initialize: function (callback) {
-
-		trakt = new (App.Config.getProvider('metadata'))();
 		// we'll intiatlize our settings and our API SSL Validation
 		// we build our settings array
 		Database.getUserInfo(function() {
@@ -391,6 +389,7 @@ var Database = {
 						checkUpdate();
 						// we skip the initDB (not needed in current version)
 						callback();
+						trakt = new (App.Config.getProvider('metadata'))();
 					});
 
 				});
