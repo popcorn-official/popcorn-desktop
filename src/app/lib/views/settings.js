@@ -1,12 +1,14 @@
 (function(App) {
 	'use strict';
 
-	var crypto = require('crypto');
-	function sha1(input) {
-		return crypto.createHash('sha1').update(input, 'utf8').digest('hex');
-	}
-
 	var trakt = null;
+	function fixString(input) {
+		var b = new Buffer(Buffer.byteLength(input));
+		for(var i = 0; i < b.length; i++) { 
+			b[i] = input.charCodeAt(i);
+		}
+		return b.toString();
+	}
 
 	var Settings = Backbone.Marionette.ItemView.extend({
 		template: '#settings-container-tpl',
@@ -87,9 +89,8 @@
 				value = field.val();
 				break;
 			case 'traktUsername':
-				break;
 			case 'traktPassword':
-				break;
+				return;
 			case 'tmpLocation':
 				value = path.join(field.val(), 'Popcorn-Time');
 				break;
@@ -109,7 +110,7 @@
 
 		checkTraktLogin: _.debounce(function(e) {
 			var username = document.querySelector('#traktUsername').value;
-			var password = document.querySelector('#traktPassword').value;
+			var password = fixString(document.querySelector('#traktPassword').value);
 
 			if(trakt === null) {
 				trakt = new (App.Config.getProvider('metadata'))();
@@ -130,7 +131,7 @@
 				$('.loading-spinner').hide();
 				$('.invalid-cross').show();
 			});
-		}, 300),
+		}, 500),
 
 		flushBookmarks: function(e) {
 			var that = this;
