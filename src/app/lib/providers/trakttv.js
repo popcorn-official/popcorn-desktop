@@ -160,6 +160,52 @@
                 }
             });
         },
+        seen: function(movie) {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+            
+            if(Array.isArray(movie)) {
+                movie = movie.map(function(val) {
+                    return {imdb_id: val};
+                });
+            } else {
+                movie = {imdb_id: movie};
+            }
+
+            return this.post('movie/seen/{KEY}', {
+                movies: movie
+            }).then(function(data) {
+                if(data.status === 'success') {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        },
+        unseen: function(imdb) {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+            
+            if(Array.isArray(movie)) {
+                movie = movie.map(function(val) {
+                    return {imdb_id: val};
+                });
+            } else {
+                movie = {imdb_id: movie};
+            }
+
+            return this.post('movie/unseen/{KEY}', {
+                movies: movie
+            }).then(function(data) {
+                if(data.status === 'success') {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        },
         watching: function(imdb, progress) {
             if(!this.authenticated) {
                 return Q.reject('Not Authenticated');
@@ -271,6 +317,62 @@
                 plugin_version: API_PLUGIN_VERSION,
                 media_center_version: PT_VERSION
             }).then(function(data) {
+                if(data.status === 'success') {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        },
+        episodeSeen: function(id, episode) {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+
+            var data = {};
+
+            if(/^tt/.test(id)) {
+                data.imdb_id = id;
+            } else {
+                data.tvdb_id = id;
+            }
+            
+            if(!Array.isArray(episode)) {
+                episode = [{season: episode.season, episode: episode.episode}];
+            }
+
+            data.episodes = episode;
+
+            return this.post('show/episode/seen/{KEY}', data)
+            .then(function(data) {
+                if(data.status === 'success') {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        },
+        episodeUnseen: function(id, episode) {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+
+            var data = {};
+
+            if(/^tt/.test(id)) {
+                data.imdb_id = id;
+            } else {
+                data.tvdb_id = id;
+            }
+            
+            if(!Array.isArray(episode)) {
+                episode = [{season: episode.season, episode: episode.episode}];
+            }
+
+            data.episodes = episode;
+
+            return this.post('show/episode/unseen/{KEY}', data)
+            .then(function(data) {
                 if(data.status === 'success') {
                     return true;
                 } else {
