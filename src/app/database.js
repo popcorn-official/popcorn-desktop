@@ -211,7 +211,7 @@ var Database = {
 			cb = function () {};
 		}
 		
-		trakt.show.seen(data.show_id, {season: data.season, episode: data.episode});
+		trakt.show.episodeSeen(data.show_id, {season: data.season, episode: data.episode});
 
 		db.watched.insert({
 			show_id: data.show_id.toString(),
@@ -227,7 +227,7 @@ var Database = {
 			cb = function () {};
 		}
 
-		trakt.show.unseen(data.show_id, {season: data.season, episode: data.episode});
+		trakt.show.episodeUnseen(data.show_id, {season: data.season, episode: data.episode});
 		
 		db.watched.remove({
 			show_id: data.show_id.toString(),
