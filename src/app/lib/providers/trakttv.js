@@ -21,7 +21,7 @@
 
         // Login with stored credentials
         if(AdvSettings.get('traktUsername') !== '' && AdvSettings.get('traktPassword') !== '') {
-            this.authenticate(AdvSettings.get('traktUsername'), AdvSettings.get('traktPassword'), true);
+            this._authenticationPromise = this.authenticate(AdvSettings.get('traktUsername'), AdvSettings.get('traktPassword'), true);
         }
 
         var self = this;
