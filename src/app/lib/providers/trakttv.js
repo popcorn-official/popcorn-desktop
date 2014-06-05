@@ -15,8 +15,14 @@
 
     function TraktTv() {
         App.Providers.CacheProvider.call(this, 'metadata');
+
         this.authenticated = false;
         this._credentials = {username: '', password: ''};
+
+        // Login with stored credentials
+        if(AdvSettings.get('traktUsername') !== '' && AdvSettings.get('traktPassword') !== '') {
+            this.authenticate(AdvSettings.get('traktUsername'), AdvSettings.get('traktPassword'), true);
+        }
 
         var self = this;
         // Bind all "sub" method calls to TraktTv
@@ -102,18 +108,23 @@
         return defer.promise;
     };
 
-    TraktTv.prototype.authenticate = function(username, password) {
+    TraktTv.prototype.authenticate = function(username, password, preHashed) {
+        preHashed = preHashed || false;
+
         var self = this;
         return this.post('account/test/{KEY}', {
             username: username, 
-            password: crypto.createHash('sha1').update(password, 'utf8').digest('hex')
+            password: preHashed ? password : crypto.createHash('sha1').update(password, 'utf8').digest('hex')
         }).then(function(data) {
             if(data.status === 'success') {
                 self._credentials = {
                     username: username, 
-                    password: crypto.createHash('sha1').update(password, 'utf8').digest('hex')
+                    password: preHashed ? password : crypto.createHash('sha1').update(password, 'utf8').digest('hex')
                 };
                 self.authenticated = true;
+                // Store the credentials (hashed ofc)
+                AdvSettings.set('traktUsername', self._credentials.username);
+                AdvSettings.set('traktPassword', self._credentials.password);
                 return true;
             } else {
                 return false;
@@ -351,7 +362,7 @@
         if(uri.domain() !== 'trakt.us') { return imageUrl; }
 
         var existingIndex = 0;
-        if((existingIndex = file.search('-\d\d\d$')) !== -1) {
+        if((existingIndex = file.search('-\\d\\d\\d$')) !== -1) {
             file = file.slice(0, existingIndex);
         }
 
