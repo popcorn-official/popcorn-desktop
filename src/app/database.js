@@ -389,7 +389,7 @@ var Database = {
 						checkUpdate();
 						// we skip the initDB (not needed in current version)
 						callback();
-						trakt = new (App.Config.getProvider('metadata'))();
+						App.Trakt = trakt = new (App.Config.getProvider('metadata'))();
 					});
 
 				});

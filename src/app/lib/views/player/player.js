@@ -1,66 +1,68 @@
 (function(App) {
-	'use strict';
+    'use strict';
 
-	var Player = Backbone.Marionette.ItemView.extend({
-		template: '#player-tpl',
-		className: 'player',
+    var Player = Backbone.Marionette.ItemView.extend({
+        template: '#player-tpl',
+        className: 'player',
 
-		ui: {
-			eyeInfo: '.eye-info-player',
-			downloadSpeed: '.download_speed_player',
-			uploadSpeed: '.upload_speed_player',
-			activePeers: '.active_peers_player'
-		},
+        ui: {
+            eyeInfo: '.eye-info-player',
+            downloadSpeed: '.download_speed_player',
+            uploadSpeed: '.upload_speed_player',
+            activePeers: '.active_peers_player'
+        },
 
-		events: {
-			'click .close-info-player': 'closePlayer',
-			'click .vjs-fullscreen-control': 'toggleFullscreen',
-			'click .vjs-subtitles-button': 'toggleSubtitles'
-		},
+        events: {
+            'click .close-info-player': 'closePlayer',
+            'click .vjs-fullscreen-control': 'toggleFullscreen',
+            'click .vjs-subtitles-button': 'toggleSubtitles'
+        },        
 
-		initialize: function() {
-			this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
-			this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
-			this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
-			this.video = false;
-			this.inFullscreen = win.isFullscreen;
-		},
+        initialize: function() {
+            this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
+            this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
+            this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
+            this.video = false;
+            this.inFullscreen = win.isFullscreen;
+        },
 
-		updateDownloadSpeed: function() {
-			this.ui.downloadSpeed.text(this.model.get('downloadSpeed'));
-		},
+        updateDownloadSpeed: function() {
+            this.ui.downloadSpeed.text(this.model.get('downloadSpeed'));
+        },
 
-		updateUploadSpeed: function() {
-			this.ui.uploadSpeed.text(this.model.get('uploadSpeed'));
-		},
+        updateUploadSpeed: function() {
+            this.ui.uploadSpeed.text(this.model.get('uploadSpeed'));
+        },
 
-		updateActivePeers: function() {
-			this.ui.activePeers.text(this.model.get('active_peers'));
-		},
+        updateActivePeers: function() {
+            this.ui.activePeers.text(this.model.get('active_peers'));
+        },
 
-		closePlayer: function() {
-			win.info('Player closed');
+        closePlayer: function() {
+            win.info('Player closed');
 
-			// Check if >80% is watched to mark as watched by user (maybe add value to settings
-			if(this.video.currentTime() / this.video.duration() >= 0.8){
-				if(this.model.get('show_id') != null) {
-					win.debug('Mark TV Show as watched');
-					App.vent.trigger('shows:watched', this.model.attributes);
-				} else if (this.model.get('imdb_id') != null) {
-					win.debug('Mark Movie as watched');
-					App.vent.trigger('movies:watched', this.model.attributes);
+            // Check if >80% is watched to mark as watched by user  (maybe add value to settings
+            if(this.video.currentTime() / this.video.duration() >= 0.8){
+                if(this.model.get('show_id') != null) {
+                    win.debug('Mark TV Show as watched');
+                    App.vent.trigger('shows:watched', this.model.attributes);
+                    App.Trakt.show.scrobble(this.model.get('show_id'), this.video.currentTime() / this.video.duration() * 100 | 0);
+                } else if (this.model.get('imdb_id') != null) {
+                    win.debug('Mark Movie as watched');
+                    App.vent.trigger('movies:watched', this.model.attributes);
+                    App.Trakt.movie.scrobble('tt' + this.model.get('imdb_id'), this.video.currentTime() / this.video.duration() * 100 | 0);
 
-				} // else, it's probably a stream or something we don't know of
-			}
+                } // else, it's probably a stream or something we don't know of
+            }
 
-			this.video.dispose();
-			App.vent.trigger('player:close');
-		},
+            this.video.dispose();
+            App.vent.trigger('player:close');  
+        },
 
-		onShow: function() {
+        onShow: function() {
 
-			// Test to make sure we have title
-			win.info('Watching:', this.model.get('title'));
+            // Test to make sure we have title
+            win.info('Watching:', this.model.get('title'));
 			//$('.filter-bar').show(); 
 			var _this = this;
 

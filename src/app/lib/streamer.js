@@ -235,7 +235,7 @@
                                     var trakt = new (App.Config.getProvider('metadata'))();
                                     trakt.show.episodeSummary(tvshowname, se_re[2], se_re[3]).then(function(data) {
                                         if(!data) {
-                                            win.warn('TTV error:', error.error);
+                                            win.warn('Unable to fetch data from Trakt.tv');
                                             getSubtitles(sub_data);
                                         } else {
                                             $('.loading-background').css('background-image', 'url('+data.show.images.fanart+')');
@@ -250,7 +250,7 @@
                                         }
                                         handleTorrent_fnc();
                                     }).catch(function(err) {
-                                        win.warn(error);
+                                        win.warn(err);
                                         getSubtitles(sub_data);
                                     });
                                 }else{
