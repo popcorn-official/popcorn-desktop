@@ -183,7 +183,7 @@
                 }
             });
         },
-        unseen: function(imdb) {
+        unseen: function(movie) {
             if(!this.authenticated) {
                 return Q.reject('Not Authenticated');
             }

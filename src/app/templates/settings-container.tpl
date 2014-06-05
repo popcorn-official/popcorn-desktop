@@ -81,29 +81,27 @@
 		<div class="trakt-options">
 			<%= i18n.__("Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time") %>
 			<br><br>
-			<p><%= i18n.__("Username") + ":" %></p> <input type="text" size = "50" name="traktUsername" value="<%=Settings.traktUsername%>">
+			<p><%= i18n.__("Username") + ":" %></p> <input type="text" size="50" id="traktUsername" name="traktUsername" value="<%=Settings.traktUsername%>">
+			<div class="loading-spinner" style="display: none"></div>
+			<div class="valid-tick" style="display: none"></div>
+			<div class="invalid-cross" style="display: none"></div>
 			<br><br>
-			<p><%= i18n.__("Password") + ":" %></p> <input type="password" size = "50" name="traktPassword" value="<%=Settings.traktPassword === '' ? '' : 'password'%>"> 
+			<p><%= i18n.__("Password") + ":" %></p> <input type="password" size="50" id="traktPassword" name="traktPassword" value="<%=Settings.traktPassword === '' ? '' : 'password'%>">
 			<br><br>
 			<%= i18n.__("Popcorn Time will store an encrypted hash of your password in your local database") %>
-			<br><br>
-			<div class = "btns">
-				<div class="btn-settings test-trakt-login" style="margin-top: -10px"><%= i18n.__("Test Login") %></div>
-			</div>
-			<br><br>
 		</div>
 
 		<div class="more-options">
-			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input type="text" size = "50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
+			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input type="text" size="50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
 		</div>
 		<div class="advanced-settings">
-			<p><%= i18n.__("Connection Limit") + ":" %></p> <input type="text" size = "20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
+			<p><%= i18n.__("Connection Limit") + ":" %></p> <input type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
 			<br><br>
 
-			<p><%= i18n.__("DHT Limit") + ":" %></p> <input type="text" size = "20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
+			<p><%= i18n.__("DHT Limit") + ":" %></p> <input type="text" size="20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
 			<br><br>
 
-			<p><%= i18n.__("Port to stream on") + ":" %></p> <input type="text" size = "20" name="streamPort" value="<%=Settings.streamPort%>"/> <%= i18n.__("0 = Random") %>
+			<p><%= i18n.__("Port to stream on") + ":" %></p> <input type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/> <%= i18n.__("0 = Random") %>
 			<br><br>
 
 			<!-- Cache Directory -->
