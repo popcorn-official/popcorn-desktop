@@ -142,7 +142,7 @@
             }
             return this.call(['movie/summaries.json', '{KEY}', ids.join(','), 'full']);
         },
-        scrobble: function(imdb, progress) {
+        scrobble: function(imdb, progress, duration) {
             if(!this.authenticated) {
                 return Q.reject('Not Authenticated');
             }
@@ -150,6 +150,7 @@
             return this.post('movie/scrobble/{KEY}', {
                 imdb_id: imdb,
                 progress: progress,
+                duration: duration,
                 plugin_version: API_PLUGIN_VERSION,
                 media_center_version: PT_VERSION
             }).then(function(data) {
@@ -306,7 +307,7 @@
                 }
             });
         },
-        scrobble: function(tvdb, season, episode, progress) {
+        scrobble: function(tvdb, season, episode, progress, duration) {
             if(!this.authenticated) {
                 return Q.reject('Not Authenticated');
             }
@@ -314,6 +315,7 @@
             return this.post('show/scrobble/{KEY}', {
                 tvdb_id: tvdb,
                 progress: progress,
+                duration: duration,
                 plugin_version: API_PLUGIN_VERSION,
                 media_center_version: PT_VERSION
             }).then(function(data) {
