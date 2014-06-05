@@ -231,13 +231,10 @@
                                 sub_data.filename = title;
                                 var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i);
                                 if(se_re != null){
-                                    var tvshowname = $.trim( se_re[1].replace(/[\.]/g,' ') );
+                                    var tvshowname = $.trim( se_re[1].replace(/[\.]/g,' ') ).replace(/[^\w ]+/g,'').replace(/ +/g,'-');
                                     var trakt = new (App.Config.getProvider('metadata'))();
-                                    trakt.episodeDetail({title: tvshowname, season: se_re[2], episode: se_re[3]}, function(error, data) {
-                                        if(error) {
-                                            win.warn(error);
-                                            getSubtitles(sub_data);
-                                        } else if(!data) {
+                                    trakt.show.episodeSummary(tvshowname, se_re[2], se_re[3]).then(function(data) {
+                                        if(!data) {
                                             win.warn('TTV error:', error.error);
                                             getSubtitles(sub_data);
                                         } else {
@@ -252,6 +249,9 @@
                                             title = data.show.title + ' - ' + i18n.__('Season') + ' ' + data.episode.season + ', ' + i18n.__('Episode') + ' ' + data.episode.number + ' - ' + data.episode.title;
                                         }
                                         handleTorrent_fnc();
+                                    }).catch(function(err) {
+                                        win.warn(error);
+                                        getSubtitles(sub_data);
                                     });
                                 }else{
                                     getSubtitles(sub_data);
