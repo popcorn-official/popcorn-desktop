@@ -351,7 +351,7 @@
         if(uri.domain() !== 'trakt.us') { return imageUrl; }
 
         var existingIndex = 0;
-        if((existingIndex = file.search('-300$')) !== -1 || (existingIndex = file.search('-138$')) !== -1) {
+        if((existingIndex = file.search('-\d\d\d$')) !== -1) {
             file = file.slice(0, existingIndex);
         }
 
