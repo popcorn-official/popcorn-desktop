@@ -39,6 +39,10 @@
 			Mousetrap.bind('backspace', function(e) {
 				App.vent.trigger('settings:close');
 			});
+			if($('#traktPassword').data('fake') !== undefined) {
+				$('.valid-tick').show();
+				$('#traktPassword').attr('data-fake', null);
+			}
 		},
 
 		onClose: function() {

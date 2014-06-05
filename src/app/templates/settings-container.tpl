@@ -86,7 +86,7 @@
 			<div class="valid-tick" style="display: none"></div>
 			<div class="invalid-cross" style="display: none"></div>
 			<br><br>
-			<p><%= i18n.__("Password") + ":" %></p> <input type="password" size="50" id="traktPassword" name="traktPassword" value="<%=Settings.traktPassword === '' ? '' : 'password'%>">
+			<p><%= i18n.__("Password") + ":" %></p> <input type="password" size="50" id="traktPassword" name="traktPassword" <%=Settings.traktPassword === '' ? '' : 'data-fake '%>value="<%=Settings.traktPassword === '' ? '' : 'password'%>">
 			<br><br>
 			<%= i18n.__("Popcorn Time will store an encrypted hash of your password in your local database") %>
 		</div>
