@@ -15,6 +15,7 @@
 
     function TraktTv() {
         App.Providers.CacheProvider.call(this, 'metadata');
+        this.authenticated = false;
         this._credentials = {username: '', password: ''};
 
         var self = this;
@@ -80,12 +81,12 @@
                             .segment(endpoint);
 
         if(postVariables.username === undefined) {
-            if(this._credentials.username !== '') {
+            if(this.authenticated && this._credentials.username !== '') {
                 postVariables.username = this._credentials.username;
             }
         }
         if(postVariables.password === undefined) {
-            if(this._credentials.password !== '') {
+            if(this.authenticated && this._credentials.password !== '') {
                 postVariables.password = this._credentials.password;
             }
         }
@@ -112,6 +113,7 @@
                     username: username, 
                     password: crypto.createHash('sha1').update(password, 'utf8').digest('hex')
                 };
+                self.authenticated = true;
                 return true;
             } else {
                 return false;
@@ -130,6 +132,10 @@
             return this.call(['movie/summaries.json', '{KEY}', ids.join(','), 'full']);
         },
         scrobble: function(imdb, progress) {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+
             return this.post('movie/scrobble/{KEY}', {
                 imdb_id: imdb,
                 progress: progress,
@@ -144,6 +150,10 @@
             });
         },
         watching: function(imdb, progress) {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+            
             return this.post('movie/watching/{KEY}', {
                 imdb_id: imdb,
                 progress: progress,
@@ -158,6 +168,10 @@
             });
         },
         cancelWatching: function() {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+            
             return this.post('movie/cancelwatching/{KEY}')
             .then(function(data) {
                 if(data.status === 'success') {
@@ -168,6 +182,10 @@
             });
         },
         library: function(movie) {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+            
             if(Array.isArray(movie)) {
                 movie = movie.map(function(val) {
                     return {imdb_id: val};
@@ -187,6 +205,10 @@
             });
         },
         unLibrary: function(movie) {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+            
             if(Array.isArray(movie)) {
                 movie = movie.map(function(val) {
                     return {imdb_id: val};
@@ -228,6 +250,10 @@
             });
         },
         scrobble: function(tvdb, season, episode, progress) {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+            
             return this.post('show/scrobble/{KEY}', {
                 tvdb_id: tvdb,
                 progress: progress,
@@ -242,6 +268,10 @@
             });
         },
         watching: function(tvdb, season, episode, progress) {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+            
             return this.post('show/watching/{KEY}', {
                 tvdb_id: tvdb,
                 progress: progress,
@@ -256,6 +286,10 @@
             });
         },
         cancelWatching: function() {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+            
             return this.post('show/cancelwatching/{KEY}')
             .then(function(data) {
                 if(data.status === 'success') {
@@ -266,6 +300,10 @@
             });
         },
         library: function(show) {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+            
             if(/^tt/.test(show)) {
                 show = {imdb_id: show};
             } else {
@@ -282,6 +320,10 @@
             });
         },
         unLibrary: function(show) {
+            if(!this.authenticated) {
+                return Q.reject('Not Authenticated');
+            }
+            
             if(/^tt/.test(show)) {
                 show = {imdb_id: show};
             } else {
