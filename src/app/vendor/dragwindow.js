@@ -45,7 +45,7 @@
 			drg_w = $drag.outerWidth(),
 			pos_y = $drag.offset().top + drg_h - e.pageY,
 			pos_x = $drag.offset().left + drg_w - e.pageX,
-			max_y = win.height - 50;
+			max_y = win.height - 40;
 			$drag.css('z-index', 1000).parents().on("mousemove", function(e) {
 				if(e.pageX < 0 || e.pageX > win.width || e.pageY < 0 || e.pageY > win.height){
 					$(this).off('mousemove');
