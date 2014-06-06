@@ -30,14 +30,14 @@ When creating a new issue make sure to include the following:
 - Version of Popcorn Time used. Are you running from source? Which revision? Are you using a released build? Which release?
 - Your environment. What is your operating system? 32 or 64 bits?
 - Step to reproduce. Even if the step is only to open the app, __include it!__ Include the actual result and what you expected.
-- Messages you get when running from console with the `--debug` parameter.
+- Messages you get when running from console with the `--debug` parameter, or by pressing F12 (Mac: cmd+0) in the app.
 - A screenshot of any visual bug.
 
 Here is what a great bug report would look like:
 ```
 Movie not playing
 
-Version: Release 0.2.7 for Windows
+Version: Release 0.3.1 for Windows
 Downloaded from: get-popcorn.com
 OS: Windows 7 64bits
 Connection: 10mbps
