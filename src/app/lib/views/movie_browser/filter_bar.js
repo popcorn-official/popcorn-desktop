@@ -46,12 +46,14 @@
                 keywords: this.ui.search.val(),
                 genre: ''
             });
-            if( this.ui.search.val() !== "" )
-            {
-               $("#searchbox").attr("placeholder", this.ui.search.val()); 
-            }
+            if( this.ui.search.val() !== '' )
+                {
+               $('#searchbox').attr('placeholder', this.ui.search.vsssal()); 
+                }
             else
-                $("#searchbox").attr("placeholder", "Search"); 
+                {
+                $('#searchbox').attr('placeholder', 'Search'); 
+                }
             
             this.ui.search.val('');
             this.ui.search.blur();
