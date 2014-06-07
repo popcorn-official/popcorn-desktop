@@ -116,7 +116,7 @@
 				$('.status-loadmore').show();
 			}
 
-			if($('.movies .movie-item:empty').length === 0){
+			if($('.movie-item:empty').length === 0 && $('.movie-item:not(:empty)').length > 0){
 				for (var i=0; i<20; i++) {
 					$('.movies').append('<li class="movie-item"></li>');
 				}

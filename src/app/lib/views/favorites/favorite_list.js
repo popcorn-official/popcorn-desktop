@@ -55,11 +55,11 @@
 		onLoaded: function() {
 			var self = this;
 			this.checkEmpty();
-
-			$('.movie-item:empty').remove();
-			if($('.bookmarks .movie-item:empty').length === 0){
+			
+			$('.bookmark-item:empty').remove();
+			if($('.bookmark-item:empty').length === 0 && $('.bookmark-item:not(:empty)').length > 0){
 				for (var i=0; i<20; i++) {
-					$('.bookmarks').append('<li class="movie-item"></li>');
+					$('.bookmarks').append('<li class="bookmark-item"></li>');
 				}
 			}
 			

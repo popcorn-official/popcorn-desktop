@@ -104,7 +104,7 @@
 
 			// we add a load more
 			if(this.collection.hasMore && this.collection.filter.keywords === undefined && this.collection.state !== 'error') {
-				$('.shows').append('<div id=\'load-more-item\' class=\'load-more\'><span class=\'status-loadmore\'>' + i18n.__('Load More') + '</span><div id=\'loading-more-animi\' class=\'loading-container\'><div class=\'ball\'></div><div class=\'ball1\'></div></div></div>');
+				$('.shows').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
 
 				$('#load-more-item').click(function(){
 					$('#load-more-item').off('click');
@@ -115,7 +115,7 @@
 				$('.status-loadmore').show();
 			}
 
-			if($('.shows .movie-item:empty').length === 0){
+			if($('.movie-item:empty').length === 0 && $('.movie-item:not(:empty)').length > 0){
 				for (var i=0; i<20; i++) {
 					$('.shows').append('<li class="movie-item"></li>');
 				}
