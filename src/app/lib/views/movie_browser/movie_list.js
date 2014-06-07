@@ -47,17 +47,43 @@
 			this.listenTo(this.collection, 'loading', this.onLoading);
 			this.listenTo(this.collection, 'loaded', this.onLoaded);
 
-			Mousetrap.bind('up', _this.moveUp);
+            App.vent.on('shortcuts:movies', function() {
+                _this.initKeyboardShortcuts();
+            });
 
-			Mousetrap.bind('down', _this.moveDown);
+            _this.initKeyboardShortcuts();
 
-			Mousetrap.bind('left', _this.moveLeft);
+        },
 
-			Mousetrap.bind('right', _this.moveRight);
+        initKeyboardShortcuts: function() {
+            Mousetrap.bind('up', _this.moveUp);
 
-			Mousetrap.bind(['enter', 'space'], _this.selectItem);
+            Mousetrap.bind('down', _this.moveDown);
 
-		},
+            Mousetrap.bind('left', _this.moveLeft);
+
+            Mousetrap.bind('right', _this.moveRight);
+
+            Mousetrap.bind(['enter', 'space'], _this.selectItem);
+
+            Mousetrap.bind('tab', function() {
+                App.vent.trigger('shows:list');
+            });
+        },
+
+        unbindKeyboardShortcuts: function() {
+            Mousetrap.unbind('up');
+
+            Mousetrap.unbind('down');
+
+            Mousetrap.unbind('left');
+
+            Mousetrap.unbind('right');
+
+            Mousetrap.unbind(['enter', 'space']);
+
+            Mousetrap.unbind('tab');
+        },
 
 		onShow: function() {
 			if(this.collection.state === 'loading') {
@@ -80,7 +106,7 @@
 			// we add a load more
 			if(this.collection.hasMore && this.collection.filter.keywords === undefined && this.collection.state !== 'error') {
 				$('.movies').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
-				
+
 				$('#load-more-item').click(function(){
 					$('#load-more-item').off('click');
 					self.collection.fetchMore();
@@ -89,7 +115,7 @@
 				$('#loading-more-animi').hide();
 				$('.status-loadmore').show();
 			}
-			
+
 			if($('.movies .movie-item:empty').length === 0){
 				for (var i=0; i<20; i++) {
 					$('.movies').append('<li class="movie-item"></li>');
@@ -97,7 +123,7 @@
 			}
 
 			this.ui.spinner.hide();
-			
+
 			$('.filter-bar').on('mousedown', function(e){
 				if(e.target.localName !== 'div') {
 					return;

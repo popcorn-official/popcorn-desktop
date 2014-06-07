@@ -48,16 +48,42 @@
 
 			_this = this;
 
-			Mousetrap.bind('up', _this.moveUp);
+            App.vent.on('shortcuts:shows', function() {
+                _this.initKeyboardShortcuts();
+            });
 
-			Mousetrap.bind('down', _this.moveDown);
-
-			Mousetrap.bind('left', _this.moveLeft);
-
-			Mousetrap.bind('right', _this.moveRight);
-
-			Mousetrap.bind(['enter', 'space'], _this.selectItem);
+            _this.initKeyboardShortcuts();
 		},
+
+        initKeyboardShortcuts: function() {
+            Mousetrap.bind('up', _this.moveUp);
+
+            Mousetrap.bind('down', _this.moveDown);
+
+            Mousetrap.bind('left', _this.moveLeft);
+
+            Mousetrap.bind('right', _this.moveRight);
+
+            Mousetrap.bind(['enter', 'space'], _this.selectItem);
+
+            Mousetrap.bind('tab', function() {
+                App.vent.trigger('movies:list');
+            });
+        },
+
+        unbindKeyboardShortcuts: function() {
+            Mousetrap.unbind('up');
+
+            Mousetrap.unbind('down');
+
+            Mousetrap.unbind('left');
+
+            Mousetrap.unbind('right');
+
+            Mousetrap.unbind(['enter', 'space']);
+
+            Mousetrap.unbind('tab');
+        },
 
 		onShow: function() {
 			if(this.collection.state === 'loading') {
@@ -88,7 +114,7 @@
 				$('#loading-more-animi').hide();
 				$('.status-loadmore').show();
 			}
-			
+
 			if($('.shows .movie-item:empty').length === 0){
 				for (var i=0; i<20; i++) {
 					$('.shows').append('<li class="movie-item"></li>');
@@ -96,7 +122,7 @@
 			}
 
 			this.ui.spinner.hide();
-			
+
 			$('.filter-bar').on('mousedown', function(e){
 				if(e.target.localName !== 'div') {
 					return;

@@ -2,6 +2,7 @@
 	'use strict';
 
 	var resizeImage = App.Providers.Trakttv.resizeImage;
+    var _this;
 
 	App.View.MovieDetail = Backbone.Marionette.ItemView.extend({
 		template: '#movie-detail-tpl',
@@ -25,11 +26,33 @@
 		},
 
 		initialize: function() {
+            _this = this;
 			if((ScreenResolution.SD || ScreenResolution.HD) && !ScreenResolution.Retina) {
 				// Screen Resolution of 720p or less is fine to have 300x450px image
 				this.model.set('image', resizeImage(this.model.get('image'), '300'));
 			}
-		},
+            App.vent.on('shortcuts:movie', function() {
+                _this.initKeyboardShortcuts();
+            });
+
+            _this.initKeyboardShortcuts();
+        },
+
+        initKeyboardShortcuts: function() {
+            Mousetrap.bind('backspace', _this.closeDetails);
+
+            Mousetrap.bind(['enter', 'space'], _this.startStreaming);
+
+            Mousetrap.bind('q', _this.toggleQuality);
+        },
+
+        unbindKeyboardShortcuts: function() { // There should be a better way to do this
+            Mousetrap.unbind('backspace');
+
+            Mousetrap.unbind(['enter', 'space']);
+
+            Mousetrap.unbind('q');
+        },
 
 		onShow: function() {
 			win.info('Show movie detail');
@@ -59,7 +82,7 @@
 				$('.movie-backdrop').css('background-image', 'url(' + backgroundUrl + ')').fadeIn(500);
 				bgCache = null;
 			};
-			
+
 			var coverUrl = $('.movie-cover-image').attr('data-cover');
 
 			var coverCache = new Image();
@@ -71,7 +94,7 @@
 
 			// switch to default subtitle
 			this.switchSubtitle(Settings.subtitle_language);
-			
+
 			if (this.model.get('bookmarked') === true) {
 				this.ui.bookmarkIcon.addClass('selected').text( i18n.__('Remove from bookmarks') );
 			}
@@ -84,7 +107,7 @@
 		},
 
 		onClose: function() {},
-		
+
 		toggleDropdown: function(e) {
 			if($('.sub-dropdown').is('.open')) {
 				this.closeDropdown(e);
@@ -100,13 +123,13 @@
 			e.preventDefault();
 			$('.flag-container').fadeOut();
 			$('.sub-dropdown').removeClass('open');
-			
+
 			var value = $(e.currentTarget).attr('data-lang');
 			if(value) {
 				this.switchSubtitle(value);
 			}
 		},
-		
+
 		switchSubtitle: function(lang) {
 			var subtitles = this.model.get('subtitle');
 
@@ -122,28 +145,30 @@
 
 		startStreaming: function() {
 			var torrentStart = new Backbone.Model({
-				torrent: this.model.get('quality'),
-				backdrop: this.model.get('backdrop'),
-				subtitle: this.model.get('subtitle'),
-				defaultSubtitle: this.subtitle_selected,
-				title: this.model.get('title'),
+				torrent: _this.model.get('quality'),
+				backdrop: _this.model.get('backdrop'),
+				subtitle: _this.model.get('subtitle'),
+				defaultSubtitle: _this.subtitle_selected,
+				title: _this.model.get('title'),
 				type: 'movie',
-				imdb_id: this.model.get('imdb_id')
+				imdb_id: _this.model.get('imdb_id')
 			});
+            _this.unbindKeyboardShortcuts();
 			App.vent.trigger('stream:start', torrentStart);
 		},
 
 		playTrailer: function() {
 			var trailer = new Backbone.Model({
-				src: this.model.get('trailer'), 
-				type: 'video/youtube', 
-				subtitle: null, 
-				title: this.model.get('title') 
+				src: this.model.get('trailer'),
+				type: 'video/youtube',
+				subtitle: null,
+				title: this.model.get('title')
 			});
 			App.vent.trigger('stream:ready', trailer);
 		},
 
 		closeDetails: function() {
+            _this.unbindKeyboardShortcuts();
 			App.vent.trigger('movie:closeDetail');
 		},
 
@@ -235,7 +260,19 @@
 
 		openIMDb: function() {
 			gui.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
-		}
+		},
+
+        toggleQuality: function(e) {
+            if($('#switch-hd-off').is(':checked')){
+                $('#switch-hd-on').trigger('click');
+            }
+            else {
+                $('#switch-hd-off').trigger('click');
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
+        },
 
 	});
 })(window.App);

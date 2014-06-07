@@ -1,6 +1,8 @@
 (function(App) {
     'use strict';
 
+    var _this;
+
     var MainWindow = Backbone.Marionette.Layout.extend({
         template: '#main-window-tpl',
 
@@ -26,6 +28,8 @@
         },
 
         initialize: function() {
+            _this = this;
+
             this.nativeWindow = require('nw.gui').Window.get();
 
             // Application events
@@ -38,7 +42,7 @@
             // Add event to show disclaimer
             App.vent.on('show:disclaimer', _.bind(this.showDisclaimer, this));
             App.vent.on('close:disclaimer', _.bind(this.Disclaimer.close, this.Disclaimer));
-            
+
             // Add event to show about
             App.vent.on('about:show', _.bind(this.showAbout, this));
             App.vent.on('about:close', _.bind(this.About.close, this.About));
@@ -50,11 +54,11 @@
 
             // Movies
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
-            App.vent.on('movie:closeDetail', _.bind(this.MovieDetail.close, this.MovieDetail));
+            App.vent.on('movie:closeDetail', _.bind(this.closeMovieDetail, this.MovieDetail));
 
             // Tv Shows
             App.vent.on('show:showDetail', _.bind(this.showShowDetail, this));
-            App.vent.on('show:closeDetail', _.bind(this.MovieDetail.close, this.MovieDetail));
+            App.vent.on('show:closeDetail', _.bind(this.closeShowDetail, this.MovieDetail));
 
             // Settings events
             App.vent.on('settings:show', _.bind(this.showSettings, this));
@@ -81,9 +85,9 @@
             App.db.initialize(function() {
 
                 // we check if the disclaimer is accepted
-                
+
                 if( ! AdvSettings.get('disclaimerAccepted') ) {
-                    
+
                     that.showDisclaimer();
 
                 }
@@ -92,7 +96,7 @@
                 that.showMovies();
                 // Focus the window when the app opens
                 that.nativeWindow.focus();
-                
+
 
             });
 
@@ -149,18 +153,18 @@
                     that.nativeWindow.focus();
 
             });
-        }, 
+        },
 
         showFavorites: function(e) {
             this.Settings.close();
             this.MovieDetail.close();
 
             this.Content.show(new App.View.FavoriteBrowser());
-        },  
+        },
 
         showDisclaimer: function(e) {
             this.Disclaimer.show(new App.View.DisclaimerModal());
-        }, 
+        },
 
         showAbout: function(e) {
             this.About.show(new App.View.About());
@@ -178,15 +182,20 @@
                 this.showHelp();
             }
         },
-        
+
         preventDefault: function(e) {
             e.preventDefault();
         },
-   
+
         showMovieDetail: function(movieModel) {
             this.MovieDetail.show(new App.View.MovieDetail({
                 model: movieModel
             }));
+        },
+
+        closeMovieDetail: function(movieModel) {
+            _this.MovieDetail.close();
+            App.vent.trigger('shortcuts:movies');
         },
 
         showShowDetail: function(showModel) {
@@ -195,15 +204,20 @@
             }));
         },
 
+        closeShowDetail: function(showModel) {
+            _this.MovieDetail.close();
+            App.vent.trigger('shortcuts: shows');
+        },
+
         showFileSelector: function(fileModel) {
             App.vent.trigger('stream:stop');
             App.vent.trigger('player:close');
             this.FileSelector.show(new App.View.FileSelector({
                 model: fileModel
             }));
-        },  
+        },
 
-        showSettings: function(settingsModel) {            
+        showSettings: function(settingsModel) {
             this.Settings.show(new App.View.Settings({
                 model: settingsModel
             }));
@@ -211,12 +225,12 @@
 
         streamStarted: function(stateModel) {
 
-            // People wanted to keep the active 
+            // People wanted to keep the active
             // modal (tvshow/movie) detail open when
             // the streaming start.
-            // 
+            //
             // this.MovieDetail.close();
-            // 
+            //
             // uncomment previous line to close it
 
             this.Player.show(new App.View.Loading({
