@@ -12,9 +12,6 @@
     var MovieBrowser = Backbone.Marionette.Layout.extend({
         template: '#movie-browser-tpl',
         className: 'movie-browser',
-        /*events: {
-            'keypress': 'focusSearch',
-        },*/
         regions: {
             FilterBar: '.filter-bar-region',
             MovieList: '.movie-list-region'

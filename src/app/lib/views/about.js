@@ -15,16 +15,16 @@
         },
 
         onShow: function() {
-            Mousetrap.bind('esc', function(e) {
+            Mousetrap.bind('backspace', function(e) {
                 App.vent.trigger('about:close');
             });
             $('.links').tooltip();
-            console.log('Show about', this.model); 
+            console.log('Show about', this.model);
             $('#movie-detail').hide();
         },
 
-        onClose: function() {  
-            Mousetrap.bind('esc', function(e) {
+        onClose: function() {
+            Mousetrap.bind('backspace', function(e) {
                 App.vent.trigger('show:closeDetail');
                 App.vent.trigger('movie:closeDetail');
             });
