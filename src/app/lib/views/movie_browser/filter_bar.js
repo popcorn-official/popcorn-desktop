@@ -31,6 +31,7 @@
         onShow: function() {
             this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
             this.$('.genres  .dropdown-menu a:nth(0)').addClass('active');
+           
         },
         
         focusSearch: function () {
@@ -42,18 +43,15 @@
             App.vent.trigger('about:close');
             App.vent.trigger('movie:closeDetail');
             e.preventDefault();
+            var searchvalue = this.ui.search.val(); 
             this.model.set({
                 keywords: this.ui.search.val(),
                 genre: ''
             });
-            if( this.ui.search.val() !== '' )
-                {
-               $('#searchbox').attr('placeholder', this.ui.search.vsssal()); 
-                }
-            else
-                {
-                $('#searchbox').attr('placeholder', 'Search'); 
-                }
+
+            $('#searchbox').focus(function(){
+            $('#searchbox').attr('placeholder', searchvalue); 
+            });
             
             this.ui.search.val('');
             this.ui.search.blur();

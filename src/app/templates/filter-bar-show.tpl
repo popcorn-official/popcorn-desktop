@@ -30,7 +30,7 @@
 <ul class="nav nav-hor right">
 	<li>
 		<div class="right search">
-			<form><input id="searchbox" type="text" placeholder="<%= i18n.__("Search") %>"></form>
+			<form><input onblur="this.placeholder = ''" id="searchbox" type="text" placeholder="<%= i18n.__("Search") %>"></form>
 		</div>
 	</li>
 	<!--<li><button class="triggerUpdate"></button></li>-->
