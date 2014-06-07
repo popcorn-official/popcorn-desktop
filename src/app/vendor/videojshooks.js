@@ -219,3 +219,6 @@ vjs.Player.prototype.onLoadStart = function() {
   vjs.addClass(this.el_, 'vjs-has-started');
   this.trigger('volumechange');
 };
+
+// Remove videojs key listeners
+vjs.Button.prototype.onKeyPress = function(event){ return; };
