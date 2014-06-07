@@ -93,14 +93,16 @@
 		width: 14px
 		height: 17px
 		right: 0
+		background-image url('../images/icons/health.png')
+		background-repeat no-repeat
 		&.Bad
-			background-image url('../images/icons/HealthBad.png')
+			background-position: 0px 0px;
 		&.Medium
-			background-image url('../images/icons/HealthMedium.png')
+			background-position: -14px 0px;
 		&.Good
-			background-image url('../images/icons/HealthGood.png')
+			background-position: -28px 0px;
 		&.Excellent
-			background-image url('../images/icons/HealthExcellent.png')
+			background-position: -42px 0px;
 
 .movie-overview-container
 	.movie-meta-overview
@@ -125,25 +127,16 @@
 		-webkit-font-smoothing: antialiased
 
 		.detail-favourites
-			display: inline-block;
-			padding-left: 25px;
-			position: relative;
-			background-repeat: no-repeat;
-			background-position: left;
-			-webkit-transition: background-image 0.2s ease-in-out;
-			background-image: url("../images/icons/AddToFavorites.png");
+			display: inline;
 			cursor: pointer;
-			background-image: url(../../images/icons/AddToFavorites.png)
-
-			&:hover
-				background-image: url(../../images/icons/favorites_hover.png)
+			padding-left: 24px;
+			fadeicon(favourites, 0px, -38px, 18px)
 
 			&.selected
-				background-image: url(../../images/icons/favorites_marked.png)
-
-				&:hover
-					background-image: url(../../images/icons/AddToFavorites.png)
-
+				fadeicon(favourites, -57px, 0px, 18px)
+				
+			
+					
 .movie-detail-close
 	top 15px
 	right 15px
@@ -170,15 +163,16 @@
 	width 11px
 	height 11px
 	opacity 1
+	background-image url('../images/icons/stars.png')
 	background-repeat no-repeat
 	-webkit-backface-visibility hidden
 	
 	&.null
-		background-image url('../images/icons/StarGray.png')
+		background-position: 0px 0px;
 	&.half
-		background-image url('../images/icons/StarHalf.png')
+		background-position: -11px 0px;
 	&.full
-		background-image url('../images/icons/star.png')
+		background-position: -22px 0px;
 
 .movie-quality-container
 	padding-left: 10%

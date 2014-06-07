@@ -17,13 +17,13 @@
 		<div data-toggle="tooltip" data-placement="right" title="<%= Math.round(rating.percentage) / 10 %> /10" class="star-container-tv">
 
 		<% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
-			<img src="images/icons/star.png" alt="full" class="tv-rating-star">
+			<div class="rating-star full"></div>
 		<% }; %>
 		<% if (p_rating % 1 > 0) { %>
-			<img src="images/icons/StarHalf.png" alt="half" class="tv-rating-star">
+			<div class="rating-star half"></div>
 		<% }; %>
 		<% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
-			<img src="images/icons/StarGray.png" alt="null" class="tv-rating-star">
+			<div class="rating-star null"></div>
 		<% }; %>
 		</div>
 		<% if (synopsis.length > 776) { var synopsis = synopsis.substring(0, 776) + "..."; } %>
