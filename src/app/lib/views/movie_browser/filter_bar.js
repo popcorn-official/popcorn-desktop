@@ -35,6 +35,7 @@
         
         focusSearch: function () {
             this.$('.search input').focus();
+
         },
 
         search: function(e) {
@@ -45,6 +46,13 @@
                 keywords: this.ui.search.val(),
                 genre: ''
             });
+            if( this.ui.search.val() !== "" )
+            {
+               $("#searchbox").attr("placeholder", this.ui.search.val()); 
+            }
+            else
+                $("#searchbox").attr("placeholder", "Search"); 
+            
             this.ui.search.val('');
             this.ui.search.blur();
         },
