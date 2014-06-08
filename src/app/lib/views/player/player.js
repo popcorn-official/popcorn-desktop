@@ -50,7 +50,7 @@
                 } else if (this.model.get('imdb_id') != null) {
                     win.debug('Mark Movie as watched');
                     App.vent.trigger('movies:watched', this.model.attributes);
-                    App.Trakt.movie.scrobble('tt' + this.model.get('imdb_id'), this.video.currentTime() / this.video.duration() * 100 | 0, this.video.duration() | 0);
+                    App.Trakt.movie.scrobble(this.model.get('imdb_id'), this.video.currentTime() / this.video.duration() * 100 | 0, this.video.duration() | 0);
 
                 } // else, it's probably a stream or something we don't know of
             }

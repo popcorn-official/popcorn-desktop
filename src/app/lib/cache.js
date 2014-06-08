@@ -40,12 +40,14 @@
             // getItems can be use with scalar id
             ids = $.makeArray(ids);
 
+            console.log(ids);
+
             var deferred = Q.defer();
             db.transaction(function (tx) {
                 // Select item in db
                 var query = 'SELECT * FROM ' + self.table + ' WHERE ' + buildWhereIn(ids);
                 tx.executeSql(query, ids, function (tx, results) {
-                    var cachedData = {};
+                    var cachedData = [];
                     var expiredData = [];
                     var now = +new Date();
 
@@ -57,7 +59,7 @@
                         if(row.ttl !== 0 && row.ttl < now - row.date_saved) {
                             expiredData.push(row.id);
                         } else {
-                            cachedData[row.id] = data;
+                            cachedData.push(data);
                         }
                     }
 
@@ -81,24 +83,30 @@
             this.setItems(items, ttl);
         },
 
-        setItems: function(items, ttl) {
+        setItems: function(key, items, ttl) {
             var self = this;
             ttl = +ttl || 0;
             var now = +new Date();
 
-            self.getItems(_.keys(items))
+            console.log(items, key, _.pluck(items, key));
+
+            self.getItems(_.pluck(items, key))
                 .then(function(cachedData) {
+                    console.log(cachedData);
                     db.transaction(function (tx) {
-                        _.each(cachedData, function(item, id){
+                        _.each(cachedData, function(item){
                             var data = JSON.stringify(item);
-                            tx.executeSql('UPDATE ' + self.table + ' SET data = ?, ttl = ?, date_saved = ? WHERE id = ?', [data, ttl, now, id]);
+                            tx.executeSql('UPDATE ' + self.table + ' SET data = ?, ttl = ?, date_saved = ? WHERE id = ?', [data, ttl, now, data[key]]);
                         });
 
-                        var missedData = _.difference(_.keys(items), _.keys(cachedData));
-                        _.each(missedData, function(id){
-                            var data = JSON.stringify(items[id]);
-                            var query = 'INSERT INTO ' + self.table + ' VALUES (?, ?, ?, ?)';
-                            tx.executeSql(query, [id, data, ttl, now]);
+                        _.each(items, function(item){
+                            if(!_.any(cachedData, function(cachedItem) {
+                                return item === cachedItem;
+                            })) {
+                                var data = JSON.stringify(item);
+                                var query = 'INSERT INTO ' + self.table + ' VALUES (?, ?, ?, ?)';
+                                tx.executeSql(query, [item[key], data, ttl, now]);
+                            }
                         });
                     }, function(err) {
                         console.error(err);

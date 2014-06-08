@@ -77,7 +77,7 @@
 
         cache: {
             name: 'cachedb',
-            version: '1.5',
+            version: '1.6',
             desc: 'Cache database',
             size: 10*1024*1024,
             tables: ['subtitle', 'metadata']

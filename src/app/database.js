@@ -152,7 +152,7 @@ var Database = {
 			cb = function () {};
 		}
 
-		App.Trakt.movie.seen('tt'+data.imdb_id);
+		App.Trakt.movie.seen(data.imdb_id);
 		
 		db.watched.insert({
 			movie_id: data.imdb_id.toString(),
@@ -166,7 +166,7 @@ var Database = {
 			cb = function () {};
 		}
 		
-		App.Trakt.movie.unseen('tt'+data.imdb_id);
+		App.Trakt.movie.unseen(data.imdb_id);
 
 		db.watched.remove({
 			movie_id: data.imdb_id.toString()
@@ -384,11 +384,11 @@ var Database = {
 					detectLanguage(Settings.language);
 					// set hardware settings and usefull stuff
 					AdvSettings.setup(function () {
+						App.Trakt = new (App.Config.getProvider('metadata'))();
 						// check update
 						checkUpdate();
 						// we skip the initDB (not needed in current version)
 						callback();
-						App.Trakt = new (App.Config.getProvider('metadata'))();
 					});
 
 				});

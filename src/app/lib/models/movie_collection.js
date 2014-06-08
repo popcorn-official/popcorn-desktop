@@ -38,7 +38,7 @@
 			var torrentPromise = torrent.fetch(this.filter);
 			var idsPromise = torrentPromise.then(_.bind(torrent.extractIds, torrent));
 			var subtitlePromise = idsPromise.then(_.bind(subtitle.fetch, subtitle));
-			var metadataPromise = idsPromise.then(_.bind(metadata.fetch, metadata));
+			var metadataPromise = idsPromise.then(_.bind(metadata.movie.listSummary, metadata));
 			
 			
 			return Q.all([torrentPromise, subtitlePromise, metadataPromise])
@@ -46,13 +46,20 @@
 					// If a new request was started...
 					_.each(torrents.movies, function(movie){
 						var id = movie.imdb;
-						var info = metadatas[id] || {};
+						var info = _.findWhere(metadatas, {imdb_id: id}) || {};
 						movie.subtitle = subtitles[id];
-						_.extend(movie, _.pick(info, [
-							'image','backdrop',
-							'synopsis','genres','certification','runtime',
-							'tagline','title','trailer','year'
-						]));
+						_.extend(movie, {
+							synopsis: info.overview,
+							genres: info.genres,
+							certification: info.certification,
+							runtime: info.runtime,
+							tagline: info.tagline,
+							title: info.title,
+							trailer: info.trailer,
+							year: info.year,
+							image: info.images.poster,
+							backdrop: info.images.fanart
+						});
 					});
 
 					self.add(torrents.movies);

@@ -1,47 +1,26 @@
 (function(App) {
     'use strict';
 
-    var Q = require('q');
-
     var CacheProvider = function(table, ttl) {
-        this.table = table;
-        this.cache = new App.Cache(table);
+        this._table = table;
+        this._cache = new App.Cache(table);
         this.ttl = ttl;
     };
 
-    // TODO: Duplicate cache entry
     CacheProvider.prototype.fetch = function(ids) {
         var self = this;
-        ids = _.map(ids, function(id){return id.toString();});
-        var cachePromise = this.cache.getItems(ids);
-        var queryPromise = cachePromise.then(function(items){
-                // Filter out cached subtitles
-                var cachedIds = _.keys(items);
-                win.info(cachedIds.length + ' cached ' + self.table);
-                var filteredId = _.difference(ids, cachedIds);
-                return filteredId;
-            })
-            .then(this.query);
 
-        // Cache ysubs subtitles
-        queryPromise.then(function(items) {
-                win.info('Cache ' + _.keys(items).length + ' ' + self.table);
-                self.cache.setItems(items, self.ttl);
-            });
+        console.log(ids);
+        return this._cache.getItems(ids).then(function(items) {
+            win.info('Loaded ' + items.length + ' items from ' + self._table + ' cache');
+            return items;
+        });
+    };
 
-        // Wait for all query promise to finish
-        return Q.allSettled([cachePromise, queryPromise])
-            .then(function(results){
-                // Merge all promise result
-                var items = {};
-                _.each(results, function(result){
-                    if(result.state === 'fulfilled') {
-                        _.extend(items, result.value);
-                    }
-                });
-
-                return items;
-            });
+    CacheProvider.prototype.store = function(key, items) {
+        win.info('Just Cached ' + items.length + ' items in ' + this._table);
+        this._cache.setItems(key, items, this.ttl);
+        return items;
     };
 
     App.Providers.CacheProvider = CacheProvider;

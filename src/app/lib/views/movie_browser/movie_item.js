@@ -84,7 +84,7 @@
         showDetail: function(e) {
             e.preventDefault();
 
-            this.model.set('imdb_id', 'tt'+this.model.get('imdb'));
+            this.model.set('imdb_id', this.model.get('imdb'));
             this.model.set('health', false);
 
             App.vent.trigger('movie:showDetail', this.model);

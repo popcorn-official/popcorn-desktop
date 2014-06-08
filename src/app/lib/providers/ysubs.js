@@ -23,8 +23,8 @@
             return {};
         }
 		
-        var url = baseUrl + _.map(imdbIds.sort(), function(id){return 'tt'+id;}).join('-');
-        var mirrorurl = mirrorUrl + _.map(imdbIds.sort(), function(id){return 'tt'+id;}).join('-');
+        var url = baseUrl + _.map(imdbIds.sort(), function(id){return id;}).join('-');
+        var mirrorurl = mirrorUrl + _.map(imdbIds.sort(), function(id){return id;}).join('-');
 
         var deferred = Q.defer();
 
@@ -60,7 +60,7 @@
             // Remove unsupported subtitles
             var filteredSubtitle = App.Localization.filterSubtitle(movieSubs);
 
-            allSubs[imdbId.replace('tt','')] = filteredSubtitle;
+            allSubs[imdbId] = filteredSubtitle;
         });
 
         return allSubs;

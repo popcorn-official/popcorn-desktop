@@ -36,6 +36,23 @@
     // Inherit the Cache Provider
     inherits(TraktTv, App.Providers.CacheProvider);
 
+    function MergePromises(promises) {
+        return Q.all(promises).then(function(results) {
+            return _.unique(_.flatten(results));
+        });
+    }
+
+    TraktTv.prototype.cache = function(key, ids, func) {
+        var self = this;
+        return this.fetch(ids).then(function(items) {
+            var nonCachedIds = _.difference(ids, _.keys(items));
+            return MergePromises([
+                Q(items), 
+                func(nonCachedIds)
+            ]).then(self.store.bind(self, key));
+        });
+    };
+
     TraktTv.prototype.call = function(endpoint, getVariables) {
         var defer = Q.defer();
 
@@ -140,7 +157,11 @@
             if(_.isEmpty(ids)) {
                 return Q([]);
             }
-            return this.call(['movie/summaries.json', '{KEY}', ids.join(','), 'full']);
+
+            var self = this;
+            return this.cache('imdb_id', ids, function(ids) {
+                return self.call(['movie/summaries.json', '{KEY}', ids.join(','), 'full']);
+            });
         },
         scrobble: function(imdb, progress, duration) {
             if(!this.authenticated) {
@@ -295,7 +316,11 @@
             if(_.isEmpty(ids)) {
                 return Q([]);
             }
-            return this.call(['show/summaries.json', '{KEY}', ids.join(','), 'full']);
+
+            var self = this;
+            return this.cache(ids, function(ids) {
+                return self.call(['show/summaries.json', '{KEY}', ids.join(','), 'full']);
+            });
         },
         episodeSummary: function(id, season, episode) {
             return this.call(['show/episode/summary.json', '{KEY}', id, season, episode])
