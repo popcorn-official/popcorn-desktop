@@ -10,8 +10,7 @@
 
 		ui: {
 			selected_lang: '.selected-lang',
-			bookmarkIcon: '.detail-favourites',
-			bookmarkIconText: '.detail-favourites .btn-text'
+			bookmarkIcon: '.detail-favourites'
 		},
 
 		events: {
@@ -97,8 +96,7 @@
 			this.switchSubtitle(Settings.subtitle_language);
 
 			if (this.model.get('bookmarked') === true) {
-				this.ui.bookmarkIcon.addClass('selected');
-				this.ui.bookmarkIconText.text( i18n.__('Remove from bookmarks') );
+				this.ui.bookmarkIcon.addClass('selected').text( i18n.__('Remove from bookmarks') );
 			}
 
 			// add ESC to close this popup
@@ -224,8 +222,7 @@
 				Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
 					win.info('Bookmark deleted');
 					that.model.set('bookmarked', false);
-					that.ui.bookmarkIcon.removeClass('selected');
-					$( '.detail-favourites' ).text( i18n.__('Add to bookmarks') );
+					that.ui.bookmarkIcon.removeClass('selected').text( i18n.__('Add to bookmarks') );
 					// we'll make sure we dont have a cached movie
 					App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb'), 1));
 					Database.deleteMovie(that.model.get('imdb'),function(err, data) {});
@@ -252,8 +249,7 @@
 				Database.addMovie(movie, function(error,result) {
 					Database.addBookmark(that.model.get('imdb'), 'movie', function(err, data) {
 						win.info('Bookmark added');
-						that.ui.bookmarkIcon.addClass('selected');
-						$( '.detail-favourites' ).text( i18n.__('Remove from bookmarks') );
+						that.ui.bookmarkIcon.addClass('selected').text( i18n.__('Remove from bookmarks') );
 						that.model.set('bookmarked', true);
 						App.userBookmarks.push(that.model.get('imdb'));
 					});
