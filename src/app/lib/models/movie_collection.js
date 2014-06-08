@@ -10,7 +10,7 @@
 			this.providers = {
 				torrent: new (App.Config.getProvider('movie'))(),
 				subtitle: new (App.Config.getProvider('subtitle'))(),
-				metadata: new (App.Config.getProvider('metadata'))()
+				metadata: App.Trakt
 			};
 
 			options = options || {};
