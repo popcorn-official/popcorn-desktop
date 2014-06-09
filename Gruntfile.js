@@ -82,7 +82,7 @@ module.exports = function(grunt) {
 				win: buildPlatforms.win,
 				linux32: buildPlatforms.linux32,
 				linux64: buildPlatforms.linux64,
-				download_url: 'http://cdn.get-popcorn.com/nw/'
+				download_url: 'http://cdn.popcorntime.io/nw/'
 			},
 			src: ['./src/**', '!./src/app/styl/**', 
 				'./node_modules/**', '!./node_modules/bower/**', '!./node_modules/*grunt*/**', '!./node_modules/stylus/**', 
