@@ -155,10 +155,10 @@ module.exports = function(grunt) {
 			}			
 		},
 
-        clean: {
-          releases: ['build/releases/Popcorn-Time/**']
-        },
-
+		clean: {
+			releases: ['build/releases/Popcorn-Time/**']
+		},
+		
 		watch: {
 			options: {
 				dateFormat: function(time) {
