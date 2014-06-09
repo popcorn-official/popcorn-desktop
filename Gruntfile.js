@@ -24,6 +24,7 @@ module.exports = function(grunt) {
 	"use strict";
 
 	var buildPlatforms = parseBuildPlatforms(grunt.option('platforms'));
+	var currentVersion = grunt.file.readJSON('package.json').version;
 
 	require('load-grunt-tasks')(grunt);
 
@@ -40,6 +41,18 @@ module.exports = function(grunt) {
 		'css',
 		'nodewebkit'
 	]);
+
+	grunt.registerTask('setBuildAll', function(n) {
+		buildPlatforms = 'all'
+	});
+
+	grunt.registerTask('dist', [
+		'setBuildAll',
+		'clean',
+		'build',
+		'exec:createDmg', // mac
+		'compress' // linux
+	]);	
 
 	grunt.registerTask('start', function(){
 		var start = parseBuildPlatforms();
@@ -76,6 +89,7 @@ module.exports = function(grunt) {
 				version: '0.9.2',
 				build_dir: './build', // Where the build version of my node-webkit app is saved
 				keep_nw: true,
+				embed_nw: false,
 				mac_icns: './src/app/images/popcorntime.icns', // Path to the Mac icon file
 				zip: buildPlatforms.win, // Zip nw for mac in windows. Prevent path too long if build all is used.
 				mac: buildPlatforms.mac,
@@ -102,6 +116,9 @@ module.exports = function(grunt) {
 			},
 			linux64: {
 				cmd: '"build/cache/linux64/<%= nodewebkit.options.version %>/nw" .'
+			},
+			createDmg: {
+				cmd: 'dist/mac/yoursway-create-dmg/create-dmg --volname "Popcorn Time ' + currentVersion + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "Popcorn-Time" 240 110 ./build/releases/Popcorn-Time/mac/Popcorn-Time-' + currentVersion + '.dmg ./build/releases/Popcorn-Time/mac/'
 			}
 		},
 
@@ -119,6 +136,35 @@ module.exports = function(grunt) {
 				src: ['src/app/lib/*.js','src/app/lib/**/*.js','src/app/*.js']
 			}
 		},
+
+		compress: {
+			linux32: {
+				options: {
+					mode: 'tgz',
+					archive: 'build/releases/Popcorn-Time/linux32/Popcorn-Time-' + currentVersion + '-Linux-32.tar.gz'
+				},
+				expand: true,
+				cwd: 'build/releases/Popcorn-Time/linux32/Popcorn-Time',
+				src: '**',
+				dest: 'Popcorn-Time'
+			},
+			linux64: {
+				options: {
+					mode: 'tgz',
+					archive: 'build/releases/Popcorn-Time/linux64/Popcorn-Time-' + currentVersion + '-Linux-64.tar.gz'
+				},
+				expand: true,
+				cwd: 'build/releases/Popcorn-Time/linux64/Popcorn-Time',
+				src: '**',
+				dest: 'Popcorn-Time'
+			}			
+		},
+
+        clean: {
+          linux64: ['build/releases/Popcorn-Time/linux64/*.tar.gz'],
+          linux32: ['build/releases/Popcorn-Time/linux32/*.tar.gz'],
+          mac: ['build/releases/Popcorn-Time/mac/*.dmg']
+        },
 
 		watch: {
 			options: {
