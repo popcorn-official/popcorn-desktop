@@ -163,7 +163,7 @@ String.prototype.endsWith = function (suffix) {
 Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function (e) {
 	win.showDevTools();
 });
-Mousetrap.bind(['command+,'], function(e) {
+Mousetrap.bind('command+,', function(e) {
 	App.vent.trigger('about:close');
 	App.vent.trigger('settings:show');
 });
