@@ -42,13 +42,8 @@ module.exports = function(grunt) {
 		'nodewebkit'
 	]);
 
-	grunt.registerTask('setBuildAll', function(n) {
-		buildPlatforms = 'all'
-	});
-
 	grunt.registerTask('dist', [
-		'setBuildAll',
-		'clean',
+		'clean:releases',
 		'build',
 		'exec:createDmg', // mac
 		'compress' // linux
@@ -161,9 +156,7 @@ module.exports = function(grunt) {
 		},
 
         clean: {
-          linux64: ['build/releases/Popcorn-Time/linux64/*.tar.gz'],
-          linux32: ['build/releases/Popcorn-Time/linux32/*.tar.gz'],
-          mac: ['build/releases/Popcorn-Time/mac/*.dmg']
+          releases: ['build/releases/Popcorn-Time/**']
         },
 
 		watch: {
