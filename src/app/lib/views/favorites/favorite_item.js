@@ -43,6 +43,7 @@
                         torrents: this.model.get('torrents'),
                         title: this.model.get('title'),
                         synopsis: this.model.get('synopsis'),
+                        imdb_id: "tt" +this.model.get('imdb'),
                         runtime: this.model.get('runtime'),
                         year: this.model.get('year'),
                         health: this.model.get('health'),
@@ -78,6 +79,7 @@
             var that = this;
          
             Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
+                App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb'), 1));
 
                 if (that.model.get('type') === 'movie') {
                     // we'll make sure we dont have a cached movie
