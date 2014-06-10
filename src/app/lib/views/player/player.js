@@ -207,6 +207,10 @@
 				_this.toggleMouseDebug();
 			});
 
+			document.addEventListener('mousewheel', function(e){
+				_this.mouseScroll(e);
+			});
+
 			$('.player-header-background').appendTo('div#video_player');
 		},
 
@@ -224,6 +228,18 @@
 			var t = this.player.currentTime();
 			this.player.currentTime(t + s);
 			this.player.trigger('mousemove'); //hack, make controls show
+		},
+
+		mouseScroll: function(e) {
+			if ($(e.target).parents('.vjs-subtitles-button').length) {
+				return;
+			}
+			if (event.wheelDelta > 0) { // Scroll up
+				this.adjustVolume(0.1);
+			} 
+			else { // Scroll down
+				this.adjustVolume(-0.1);
+			}
 		},
 		
 		adjustVolume: function(i) {
