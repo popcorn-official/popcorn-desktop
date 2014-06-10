@@ -7,6 +7,9 @@
 
     var ShowItem = Backbone.Marionette.ItemView.extend({
         template: '#show-item-tpl',
+        modelEvents: {
+            'change': 'render'
+        },
 
         tagName: 'li',
         className: 'movie-item',
@@ -34,11 +37,20 @@
             this.blocked = false;
             var bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
             this.model.set('bookmarked', bookmarked);
+            this.ui.coverImage.on('load', _.bind(this.showCover, this));
+        },
+
+        onRender: function() {
+            var bookmarked = this.model.get('bookmarked');
 
             if (bookmarked) {
                 this.ui.bookmarkIcon.addClass('selected');
             }
-            this.ui.coverImage.on('load', _.bind(this.showCover, this));
+            else {
+                this.ui.bookmarkIcon.removeClass('selected');
+            }
+
+            this.showCover();
         },
 
         onClose: function() {
@@ -85,8 +97,6 @@
                 Database.deleteBookmark(this.model.get('imdb_id'), function(err, data) {
                     console.log('Bookmark deleted');
                     that.model.set('bookmarked', false);
-
-                    that.ui.bookmarkIcon.removeClass('selected');
                     App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id'), 1));
                         
                     // we'll make sure we dont have a cached show
@@ -99,7 +109,6 @@
                         Database.addTVShow(data, function(err, idata) {
                             Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function(err, data) {
                                 console.log('Bookmark added');
-                                that.ui.bookmarkIcon.addClass('selected');
                                 that.model.set('bookmarked', true);
                                 App.userBookmarks.push(that.model.get('imdb_id'));
                             });
