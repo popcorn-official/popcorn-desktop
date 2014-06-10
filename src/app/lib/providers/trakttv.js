@@ -14,7 +14,7 @@
         PT_VERSION = AdvSettings.get('version');
 
     function TraktTv() {
-        App.Providers.CacheProvider.call(this, 'metadata');
+        App.Providers.CacheProviderV2.call(this, 'metadata');
 
         this.authenticated = false;
         this._credentials = {username: '', password: ''};
@@ -34,7 +34,7 @@
         });
     }
     // Inherit the Cache Provider
-    inherits(TraktTv, App.Providers.CacheProvider);
+    inherits(TraktTv, App.Providers.CacheProviderV2);
 
     function MergePromises(promises) {
         return Q.all(promises).then(function(results) {
@@ -45,11 +45,11 @@
     TraktTv.prototype.cache = function(key, ids, func) {
         var self = this;
         return this.fetch(ids).then(function(items) {
-            var nonCachedIds = _.difference(ids, _.keys(items));
+            var nonCachedIds = _.difference(ids, _.pluck(items, key));
             return MergePromises([
                 Q(items), 
-                func(nonCachedIds)
-            ]).then(self.store.bind(self, key));
+                func(nonCachedIds).then(self.store.bind(self, key))
+            ]);
         });
     };
 
@@ -160,6 +160,9 @@
 
             var self = this;
             return this.cache('imdb_id', ids, function(ids) {
+                if(_.isEmpty(ids)) {
+                    return Q([]);
+                }
                 return self.call(['movie/summaries.json', '{KEY}', ids.join(','), 'full']);
             });
         },
@@ -319,6 +322,9 @@
 
             var self = this;
             return this.cache(ids, function(ids) {
+                if(_.isEmpty(ids)) {
+                    return Q([]);
+                }
                 return self.call(['show/summaries.json', '{KEY}', ids.join(','), 'full']);
             });
         },

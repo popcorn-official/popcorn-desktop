@@ -346,7 +346,9 @@ var Database = {
 				db.movies.remove({}, {multi: true}, function (err, numRemoved) {
 					db.settings.remove({}, {multi: true}, function (err, numRemoved) {
 						db.watched.remove({}, {multi: true}, function (err, numRemoved) {
-							return cb(false, true);
+							var req = indexedDB.deleteDatabase(App.Config.cache.name);
+							req.onsuccess = function() { cb(false, true); };
+							req.onerror = function() { cb(false, true); };
 						});
 					});
 				});
