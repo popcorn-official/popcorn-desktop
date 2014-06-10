@@ -43,7 +43,7 @@
                         torrents: this.model.get('torrents'),
                         title: this.model.get('title'),
                         synopsis: this.model.get('synopsis'),
-                        imdb_id: "tt" +this.model.get('imdb'),
+                        imdb_id: 'tt' +this.model.get('imdb'),
                         runtime: this.model.get('runtime'),
                         year: this.model.get('year'),
                         health: this.model.get('health'),
