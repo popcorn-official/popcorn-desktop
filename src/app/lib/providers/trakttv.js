@@ -231,7 +231,7 @@
                 }
             });
         },
-        watching: function(imdb, progress) {
+        watching: function(imdb, progress, duration) {
             if(!this.authenticated) {
                 return Q.reject('Not Authenticated');
             }
@@ -239,6 +239,7 @@
             return this.post('movie/watching/{KEY}', {
                 imdb_id: imdb,
                 progress: progress,
+                duration: duration,
                 plugin_version: API_PLUGIN_VERSION,
                 media_center_version: PT_VERSION
             }).then(function(data) {
@@ -413,7 +414,7 @@
                 }
             });
         },
-        watching: function(tvdb, season, episode, progress) {
+        watching: function(tvdb, season, episode, progress, duration) {
             if(!this.authenticated) {
                 return Q.reject('Not Authenticated');
             }
@@ -421,6 +422,7 @@
             return this.post('show/watching/{KEY}', {
                 tvdb_id: tvdb,
                 progress: progress,
+                duration: duration,
                 plugin_version: API_PLUGIN_VERSION,
                 media_center_version: PT_VERSION
             }).then(function(data) {

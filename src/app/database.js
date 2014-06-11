@@ -147,12 +147,19 @@ var Database = {
 		}, cb);
 	},
 
-	markMovieAsWatched: function (data, cb) {
+	markMovieAsWatched: function (data, trakt, cb) {
 		if(!cb) {
-			cb = function () {};
+			if(typeof trakt === 'function') {
+				cb = trakt;
+				trakt = undefined;
+			} else {
+				cb = function () {};
+			}
 		}
-
-		App.Trakt.movie.seen(data.imdb_id);
+		
+		if(trakt !== false) {
+			App.Trakt.movie.seen(data.imdb_id);
+		}
 		
 		db.watched.insert({
 			movie_id: data.imdb_id.toString(),
@@ -161,12 +168,19 @@ var Database = {
 		}, cb);
 	},
 
-	markMovieAsNotWatched: function (data, cb) {
+	markMovieAsNotWatched: function (data, trakt, cb) {
 		if(!cb) {
-			cb = function () {};
+			if(typeof trakt === 'function') {
+				cb = trakt;
+				trakt = undefined;
+			} else {
+				cb = function () {};
+			}
 		}
 		
-		App.Trakt.movie.unseen(data.imdb_id);
+		if(trakt !== false) {
+			App.Trakt.movie.unseen(data.imdb_id);
+		}
 
 		db.watched.remove({
 			movie_id: data.imdb_id.toString()
@@ -205,12 +219,19 @@ var Database = {
 		}, cb);
 	},
 
-	markEpisodeAsWatched: function (data, cb) {
+	markEpisodeAsWatched: function (data, trakt, cb) {
 		if(!cb) {
-			cb = function () {};
+			if(typeof trakt === 'function') {
+				cb = trakt;
+				trakt = undefined;
+			} else {
+				cb = function () {};
+			}
 		}
 		
-		App.Trakt.show.episodeSeen(data.show_id, {season: data.season, episode: data.episode});
+		if(trakt !== false) {
+			App.Trakt.show.episodeSeen(data.show_id, {season: data.season, episode: data.episode});
+		}
 
 		db.watched.insert({
 			show_id: data.show_id.toString(),
@@ -221,12 +242,19 @@ var Database = {
 		}, cb);
 	},
 
-	markEpisodeAsNotWatched: function (data, cb) {
+	markEpisodeAsNotWatched: function (data, trakt, cb) {
 		if(!cb) {
-			cb = function () {};
+			if(typeof trakt === 'function') {
+				cb = trakt;
+				trakt = undefined;
+			} else {
+				cb = function () {};
+			}
 		}
 
-		App.Trakt.show.episodeUnseen(data.show_id, {season: data.season, episode: data.episode});
+		if(trakt !== false) {
+			App.Trakt.show.episodeUnseen(data.show_id, {season: data.season, episode: data.episode});
+		}
 		
 		db.watched.remove({
 			show_id: data.show_id.toString(),

@@ -78,16 +78,10 @@
 
         var checkReady = function() {
             if(stateModel.get('state') === 'ready') {
+                streamInfo.set(torrent);
 
                 // we need subtitle in the player
                 streamInfo.set('subtitle', subtitles != null ? subtitles : torrent.subtitle);
-                streamInfo.set('defaultSubtitle', torrent.defaultSubtitle);
-                streamInfo.set('title', torrent.title);
-
-                // add few info
-                streamInfo.set('show_id', torrent.show_id);
-                streamInfo.set('episode', torrent.episode);
-                streamInfo.set('season', torrent.season);
 
                 App.vent.trigger('stream:ready', streamInfo);
                 stateModel.destroy();
@@ -184,7 +178,8 @@
                             show_id: model.get('show_id'),
                             episode: model.get('episode'),
                             season: model.get('season'),
-                            file_index: model.get('file_index')
+                            file_index: model.get('file_index'),
+                            imdb_id: model.get('imdb_id')
                         };
 
                         handleTorrent(torrentInfo, stateModel);

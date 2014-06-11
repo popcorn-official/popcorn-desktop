@@ -113,6 +113,9 @@
 			// trakt.authenticate automatically saves the username and pass on success!
 			App.Trakt.authenticate(username, password).then(function(valid) {
 				$('.loading-spinner').hide();
+				// Stop multiple requests interfering with each other
+				$('.invalid-cross').hide();
+				$('.valid-tick').hide();
 				if(valid) {
 					$('.valid-tick').show();
 				} else {

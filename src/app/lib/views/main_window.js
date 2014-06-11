@@ -239,6 +239,7 @@
         },
 
         showPlayer: function(streamModel) {
+            console.log(streamModel);
             this.Player.show(new App.View.Player({
                 model: streamModel
             }));

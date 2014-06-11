@@ -26,11 +26,13 @@
 		},
 
 		initialize: function() {
-			_this = this;
+			this.model.set('backdrop', resizeImage(this.model.get('backdrop'), '940'));
 			if((ScreenResolution.SD || ScreenResolution.HD) && !ScreenResolution.Retina) {
 				// Screen Resolution of 720p or less is fine to have 300x450px image
 				this.model.set('image', resizeImage(this.model.get('image'), '300'));
 			}
+
+			_this = this;
 			App.vent.on('shortcuts:movie', function() {
 				_this.initKeyboardShortcuts();
 			});
@@ -145,13 +147,13 @@
 
 		startStreaming: function() {
 			var torrentStart = new Backbone.Model({
-				torrent: _this.model.get('quality'),
-				backdrop: _this.model.get('backdrop'),
-				subtitle: _this.model.get('subtitle'),
-				defaultSubtitle: _this.subtitle_selected,
-				title: _this.model.get('title'),
+				imdb_id: this.model.get('imdb_id'),
+				torrent: this.model.get('quality'),
+				backdrop: this.model.get('backdrop'),
+				subtitle: this.model.get('subtitle'),
+				defaultSubtitle: this.subtitle_selected,
+				title: this.model.get('title'),
 				type: 'movie',
-				imdb_id: _this.model.get('imdb_id')
 			});
 			_this.unbindKeyboardShortcuts();
 			App.vent.trigger('stream:start', torrentStart);
