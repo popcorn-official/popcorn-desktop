@@ -46,20 +46,24 @@
 					// If a new request was started...
 					_.each(torrents.movies, function(movie){
 						var id = movie.imdb;
-						var info = _.findWhere(metadatas, {imdb_id: id}) || {};
+						var info = _.findWhere(metadatas, {imdb_id: id});
 						movie.subtitle = subtitles[id];
-						_.extend(movie, {
-							synopsis: info.overview,
-							genres: info.genres,
-							certification: info.certification,
-							runtime: info.runtime,
-							tagline: info.tagline,
-							title: info.title,
-							trailer: info.trailer,
-							year: info.year,
-							image: info.images.poster,
-							backdrop: info.images.fanart
-						});
+						if(info) {
+							_.extend(movie, {
+								synopsis: info.overview,
+								genres: info.genres,
+								certification: info.certification,
+								runtime: info.runtime,
+								tagline: info.tagline,
+								title: info.title,
+								trailer: info.trailer,
+								year: info.year,
+								image: info.images.poster,
+								backdrop: info.images.fanart
+							});
+						} else {
+							win.warn('Unable to find %s on Trakt.tv', id);
+						}
 					});
 
 					self.add(torrents.movies);
