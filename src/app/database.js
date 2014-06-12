@@ -337,7 +337,6 @@ var Database = {
 		});
 		Database.getMoviesWatched(function(err, data){
 			App.watchedMovies = extractMovieIds(data);
-			console.log(App.watchedMovies);
 			watchedMoviesDone = true;
 			if(bookmarksDone && watchedMoviesDone) {
 				cb();
