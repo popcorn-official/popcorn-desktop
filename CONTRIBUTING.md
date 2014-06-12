@@ -30,7 +30,7 @@ requests](#pull-requests), but please respect the following restrictions:
 has already reported your problem or requested your idea.
 
 * Please **do not** use the issue tracker for personal support requests (use
-  [the forum](http://discuss.get-popcorn.com) or IRC - #popcorntime on freenode).
+  [the forum](http://discuss.popcorntime.io) or IRC - #popcorntime on freenode).
 
 * Please **do not** derail or troll issues. Keep the discussion on topic and respect the opinions of others.
 
@@ -76,7 +76,7 @@ reported. Especially, why do you consider this to be a bug? What do you expect t
 ### Technical details:
 
 * Popcorn Time Version: stable 0.3.2
-* Downloaded from: get-popcorn.com
+* Downloaded from: popcorntime.io
 * Connection: 10mbs
 * OS: MAC OSX
 ```
