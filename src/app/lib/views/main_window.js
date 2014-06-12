@@ -206,7 +206,7 @@
 
         closeShowDetail: function(showModel) {
             _this.MovieDetail.close();
-            App.vent.trigger('shortcuts: shows');
+            App.vent.trigger('shortcuts:shows');
         },
 
         showFileSelector: function(fileModel) {
