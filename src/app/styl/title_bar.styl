@@ -1,121 +1,114 @@
 #header
-    z-index: 10
-    position: absolute
-    top: 0
-    height: TitleHeight
-    padding: 13px 0 0
-    text-align: center
-    -webkit-app-region: drag
+	z-index: 10
+	position: absolute
+	top: 0
+	height: TitleHeight
+	padding: 13px 0 0
+	text-align: center
+	-webkit-app-region: drag
 
-    h1
-        color: rgb(255, 255, 255);
-        font-size: 0.9em;
+	h1
+		color: rgb(255, 255, 255);
+		font-size: 0.9em;
 
-    .btn-set
-        position: absolute;
-        left: 15px;
+	.btn-set
+		position: absolute;
+		left: 15px;
 
-    // Changes the min/max/close button position depending on OS
-    nav
-        -webkit-app-region: no-drag
+	// Changes the min/max/close button position depending on OS
+	nav
+		-webkit-app-region: no-drag
 
-        &.darwin
-            position: absolute;
-            left: 15px;
+		&.darwin
+			position: absolute;
+			left: 15px;
 
-        &.fs-darwin
-            top: 0px;
-            right: 7px;
-            left: initial;
+		&.fs-darwin
+			top: 0px;
+			right: 7px;
+			left: initial;
 
-        &.win32,
-        &.linux
-            right: 7px;
-            left: initial;
+		&.win32,
+		&.linux
+			right: 7px;
+			left: initial;
 
-        &.fs-win32,
-        &.fs-linux
-            position: absolute;
-            left: 2px;
-            top: 2px;
+		&.fs-win32,
+		&.fs-linux
+			position: absolute;
+			left: 2px;
+			top: 2px;
 
-    .btn-os
-        float: left;
-        margin: 0 6px 0 0;
-        background: #000;
+	.btn-os
+		float: left
+		margin: 0 6px 0 0
+		background: #000
+		border-radius: 30px
+		border: 0
+		color: transparent
+		display: inline-block
+		font-size: 10px
+		height: 12px
+		padding: 0
+		text-align: center
+		width: 12px
+		cursor: pointer
+		background: url('../images/icons/topbar_sprite.png')
 
-        border-radius: 30px;
-        border: 0;
-        color: transparent;
-        display: inline-block;
-        font-size: 10px;
-        height: 12px;
-        padding: 0;
-        text-align: center;
-        width: 12px;
+		&.os-min
+			background-position: 0px 0px;
+		&.os-max
+			background-position: -12px 0px;
+		&.os-close
+			background-position: -24px 0px;
 
-        cursor: pointer
+		&.os-min:hover
+			background-position: -36px 0px;
+		&.os-max:hover
+			background-position: -48px 0px;
+		&.os-close:hover
+			background-position: -60px 0px;
 
-        &.os-close
-            background-image: url('../images/icons/quit.png')
-            background-position: center
-        &.os-max
-            background-image: url('../images/icons/max.png')
-            background-position: center
-        &.os-min
-            background-image: url('../images/icons/min.png')
-            background-position: center
+		&.fullscreen
+			color:#000;
+			background: transparent;
+			margin:0;
+			width:32px;
+			height:32px;
+			border-radius:0;
+			display:block;
 
-        &.os-close:hover
-            background-image: url('../images/icons/quitcolor.png')
-            background-position: center
-        &.os-max:hover
-            background-image: url('../images/icons/maxcolor.png')
-            background-position: center
-        &.os-min:hover
-            background-image: url('../images/icons/mincolor.png')
-            background-position: center
+		&.fullscreen::before
+			content: "\e000";
+			font-family: VideoJS;
+			font-size: 1.85em;
+			line-height: 0.2em;
+			background: none;
+			display:block;
+			text-shadow: 0 1px 0 rgba(255,255,255,0.1)
 
-        &.fullscreen
-            color:#000;
-            background: transparent;
-            margin:0;
-            width:32px;
-            height:32px;
-            border-radius:0;
-            display:block;
+		&.fullscreen.active::before
+			content: "\e00B";
 
-        &.fullscreen::before
-            content: "\e000";
-            font-family: VideoJS;
-            font-size: 1.85em;
-            line-height: 0.2em;
-            background: none;
-            display:block;
-            text-shadow: 0 1px 0 rgba(255,255,255,0.1)
+		&.fullscreen:hover
+			color:#b2b2b2;
 
-        &.fullscreen.active::before
-            content: "\e00B";
+	.btn-set.darwin
+		.btn-os
+			&.os-close
+				background: #CA2C24
+			&.os-max
+				background: #239C3A
+			&.os-min
+				background: #E3AF0A
 
-        &.fullscreen:hover
-            color:#b2b2b2;
+		&:hover
+			.btn-os
+				background: url('../images/icons/topbar_sprite.png')
 
-    .btn-set.darwin
-        .btn-os
-            &.os-close
-                background: #CA2C24
-            &.os-max
-                background: #239C3A
-            &.os-min
-                background: #E3AF0A
-
-        &:hover
-            .btn-os
-                background-position: center
-
-                &.os-close
-                    background-image: url('../images/icons/quitcolor.png')
-                &.os-max
-                    background-image: url('../images/icons/maxcolor.png')
-                &.os-min
-                    background-image: url('../images/icons/mincolor.png')
+				&.os-min
+					background-position: -36px 0px;
+				&.os-max
+					background-position: -48px 0px;
+				&.os-close
+					background-position: -60px 0px;

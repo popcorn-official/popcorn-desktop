@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var Q = require('q');
 
@@ -10,7 +10,7 @@
             this.providers = {
                 torrent: new (App.Config.getProvider('tvshow'))(),
                 subtitle: new (App.Config.getProvider('subtitle'))(),
-                metadata: new (App.Config.getProvider('metadata'))()
+                metadata: App.Trakt
             };
 
             options = options || {};
@@ -25,7 +25,9 @@
         fetch: function() {
             var self = this;
 
-            if(this.state == 'loading' && !this.hasMore) return;
+            if(this.state === 'loading' && !this.hasMore) {
+                return;
+            }
 
             this.state = 'loading';
             self.trigger('loading', self);
@@ -41,13 +43,11 @@
 
                     // If a new request was started...
                     _.each(movies, function(movie){
-
                         var id = movie.imdb;
                         movie.subtitle = [];
                     });
 
-                    if(_.isEmpty(movies)) {
-                        win.debug('hasMore = false');
+                    if(_.isEmpty(movies) || movies.length < 50) {
                         self.hasMore = false;
                     }
 
@@ -64,7 +64,6 @@
         },
 
          fetchMore: function() {
-            win.debug('fetchMore');
             this.filter.page += 1;
             this.fetch();
         }

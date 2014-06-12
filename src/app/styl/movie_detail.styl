@@ -1,125 +1,143 @@
+#player .app-overlay
+	z-index 20
+
 .app-overlay
-  position absolute
-  z-index 2
-  width 100%
-  height 100%
-  background-color rgba(9, 13, 18, 0.75)
+	position absolute
+	z-index 2
+	width 100%
+	height 100%
+	background-color rgba(0,0,0,0.95)
 
 .tooltip-inner
-  max-width 200px
-  padding 3px 8px
-  color #fff
-  text-align center
-  text-decoration none
-  background-color rgba(9, 13, 18, 0.75)
-  border-radius 4px
-
-
+	max-width 200px
+	padding 3px 8px
+	color #fff
+	text-align center
+	text-decoration none
+	background-color rgba(9, 13, 18, 0.75)
+	border-radius 4px
 
 .movie-detail
-    z-index 10
-    width 100%
-    height calc(100% - 65px)
-    position absolute
-    -webkit-user-select none
-    opacity 1
-    overflow hidden
-    margin auto
-    left 0
-    right 0
-    top 65px
-    //max-width 940px
-    //max-height 430px
-    -webkit-backface-visibility hidden
+	z-index 10
+	width 100%
+	height calc(100% - 65px)
+	position absolute
+	-webkit-user-select none
+	opacity 1
+	overflow hidden
+	margin auto
+	left 0
+	right 0
+	top 65px
+	-webkit-backface-visibility hidden
 
-.star-container
-  opacity 1
-  float left
-  margin-top 20px
+.movie-data
+	display table
+	height 100%
+	position relative
+	width 62%
 
+.movie-cover-image
+	opacity 0
+	float left
+	width auto
+	height 100%
+	border-radius 4px
+	margin-right 20px
+	-webkit-backface-visibility hidden
 
-.sperator-movie
-    opacity 1
-    height 5.5%
-    width 100%
-    position relative
-    -webkit-backface-visibility hidden
+.movie-meta-title
+	color #fff
+	font-size 38px
+	font-family 'Open Sans Semibold'
+	-webkit-font-smoothing antialiased
+	-webkit-backface-visibility hidden
+	
+.movie-quick-info
+	height 20px
+	margin 12px 0px
+	padding-left 3px
+	
+	div
+		display inline-block
+		-webkit-backface-visibility hidden
+		
+	.movie-meta-details
+		color #fff
+		font-size 12px
+		font-family 'Open Sans Bold'
+		-webkit-font-smoothing antialiased
 
-    .detail-window
-      opacity 1
+	.movie-imdb-link
+		margin-bottom: -4px
+		width 27px
+		height 16px
+		position relative
+		cursor pointer
+		background url(../images/icons/imdb.png) no-repeat
 
-	    .movie-quick-info
-	    	margin-bottom: 5px
-	    	color: #fff
-
-  .movie-meta-details
-    opacity 1
-    margin-left 4px
-    margin-top 20px
-    position relative
-    float left
-    color #fff
-    font-family: 'Open Sans Bold'
-    -webkit-font-smoothing: antialiased
-    font-size 11px
-    cursor default
-    z-index 2
-    -webkit-backface-visibility hidden
-
-  .movie-dot
-    margin-left 15px
-    margin-right 15px
-    margin-top 25px
-    position relative
-    float left
-    width 3px
-    height 3px
-    -moz-border-radius 2px
-    -webkit-border-radius 2px
-    border-radius 2px
-    -moz-background-clip padding
-    -webkit-background-clip padding-box
-    background-clip padding-box
-    background-color #dbdbdd
-    cursor default
-    z-index 2
-    opacity 1
-    -webkit-backface-visibility hidden
-
-
-  .movie-cover-image
-    position relative
-    width 23%
-    border-radius 4px
-    //max-height 70%
-    float left
-    margin-right 20px
-    margin-left 7.1%
-    z-index 2
-    opacity 1
-    -webkit-backface-visibility hidden
+	.movie-dot
+		margin 0 15px 2px 15px
+		position relative
+		display inline-block
+		width 4px
+		height 4px
+		border-radius 2px
+		background-color #dbdbdd
+		
+	.star-container
+		width 80px
+		height 16px
+		
+	.health-icon
+		position absolute
+		width 14px
+		height 17px
+		right 0
+		background-image url('../images/icons/health.png')
+		background-repeat no-repeat
+		&.Bad
+			background-position 0px 0px
+		&.Medium
+			background-position -14px 0px
+		&.Good
+			background-position -28px 0px
+		&.Excellent
+			background-position -42px 0px
 
 .movie-overview-container
-  top: 22%
-  z-index: 2
-  width: 92%
+	.movie-meta-overview
+		color #fff
+		font-family 'Open Sans Semibold'
+		-webkit-font-smoothing antialiased
+		font-size 14px
+		line-height 24px
+		-webkit-backface-visibility hidden
 
-.movie-meta-overview
-    position relative
-    margin-left 285px
-    margin-top 45px
-    color #fff
-    font-family 'Open Sans Semibold'
-    -webkit-font-smoothing: antialiased
-    font-size 14px
-    line-height 22px
-    //width 60%
-    //max-width 60%
-    //height 55%
-    z-index 2
-    opacity 1
-    -webkit-backface-visibility hidden
+.movie-bottom
+	display table-footer-group
+	
+	.movie-buttons
+		position relative
+		height 50px
+		padding 15px 0
+		color #fff
+		font-size 14px
+		line-height 24px
+		font-family 'Open Sans Semibold'
+		-webkit-font-smoothing antialiased
 
+		.detail-favourites
+			display inline;
+			cursor pointer;
+			padding-left 24px;
+			fadeicon(favourites, 0px, -38px, 18px)
+
+			&.selected
+				fadeicon(favourites, -57px, 0px, 18px)
+				
+			
+					
 .movie-detail-close
 	top 15px
 	right 15px
@@ -127,7 +145,7 @@
 	float right
 	width 20px
 	height 20px
-	background-image url('../../images/icons/Close.png')
+	background-image url('../images/icons/Close.png')
 	background-size 20px
 	cursor pointer
 	z-index 100
@@ -135,401 +153,332 @@
 	-webkit-backface-visibility hidden
 	transition all .5s
 	&:hover
-      opacity 1 
-      transition all .5s
+		opacity 1 
+		transition all .5s
 
-.movie-meta-title
-    margin-top 5.5%
-    margin-left 285px
-    color #fff
-    font-family: 'Open Sans Semibold'
-    -webkit-font-smoothing: antialiased;
-    font-size 38px
-    position relative
-    cursor default
-    z-index 2
-    max-width 60%
-    opacity 1
-    -webkit-backface-visibility hidden
-
-.health-icon
-    z-index 2
-    margin-right 6%
-    margin-top 18px
-    position relative
-    float right
-    width 12px
-    height 17px
-    opacity 1
-    -webkit-backface-visibility hidden
-    &.Bad
-      background-image url('../../images/icons/HealthBad.png')
-    &.Medium
-      background-image url('../../images/icons/HealthMedium.png')
-    &.Good
-      background-image url('../../images/icons/HealthGood.png')
-    &.Excellent
-      background-image url('../../images/icons/HealthExcellent.png')
 .rating-star
-    z-index 2
-    margin-right 3px
-    //margin-top 20px
-    position relative
-    float left
-    width 11px
-    height 11px
-    opacity 1
-    background-repeat no-repeat
-    -webkit-backface-visibility hidden
-    &.null
-      background-image url('../../images/icons/StarGray.png')
-    &.half
-      background-image url('../../images/icons/StarHalf.png')
-    &.full
-      background-image url('../../images/icons/star.png')
+	z-index 2
+	padding-right: 12px
+	position relative
+	display: inline-block
+	width 11px
+	height 11px
+	opacity 1
+	background-image url('../images/icons/stars.png')
+	background-repeat no-repeat
+	-webkit-backface-visibility hidden
+	
+	&.null
+		background-position: 0px 0px;
+	&.half
+		background-position: -11px 0px;
+	&.full
+		background-position: -22px 0px;
 
 .movie-quality-container
-  padding-left: 10%
-  top: 13px
-  z-index: 2
-  float: left
-  width: 10px
-  height: 10px
-  position: relative
+	padding-left: 10%
+	top: 13px
+	z-index: 2
+	float: left
+	width: 10px
+	height: 10px
+	position: relative
 
-.movie-controlls-container
-  margin-left: 31%
-  top: 72%
-  z-index: 2
-  width: 70%
-  height: 10px
-  position: absolute
+.movie-controls-container
+	height: 35px;
+	position: relative;
 
+.movie-btn
+	z-index 2
+	margin-right 15px
+	position relative
+	cursor pointer
+	float left
+	height 35px
+	border-radius 3px
+	background-clip padding-box
+	background-color #1F375F
+	padding 0 15px
+	transition background-color .5s
+	&:hover
+		background #225694
+		text-decoration none
 
+	&:active
+		box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6)
+		background: #2875e5
+		border: solid 1px #2468cc
 
-.movie-btn-watch
-    float left
-    z-index 2
-    //left 29%
-    //top 72%
-    position relative
-    cursor pointer
-    height 35px
-    -moz-border-radius 3px
-    -webkit-border-radius 3px
-    border-radius 3px
-    -moz-background-clip padding
-    -webkit-background-clip padding-box
-    background-clip padding-box
-    background-color #1F375F
-    padding 0 15px
-    transition background-color .5s
-    &:hover
-      background #225694
-      text-decoration none
+	.movie-watch-now
+		color #fff
+		font-family "Open Sans Semibold", "Open Sans", sans-serif
+		-webkit-font-smoothing antialiased
+		text-align center
+		padding-top 12px
+		font-size 12px
 
-    &:active
-      box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6)
-      background: #2875e5
-      border: solid 1px #2468cc
-
-    .movie-watch-now
-      color #fff
-      font-family "Open Sans Semibold", "Open Sans", sans-serif
-      -webkit-font-smoothing antialiased
-      text-align center
-      padding-top 12px
-      font-size 12px
-
-.movie-btn-watch-trailer
-    z-index 2
-    margin-left 15px
-    //top 300px
-    position relative
-    cursor pointer
-    float left
-    height 35px
-    -moz-border-radius 3px
-    -webkit-border-radius 3px
-    border-radius 3px
-    -moz-background-clip padding
-    -webkit-background-clip padding-box
-    background-clip padding-box
-    background-color #1F375F
-    padding 0 15px
-    transition background-color .5s
-    &:hover
-      background #225694
-      text-decoration none
-
-    &:active
-      box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6)
-      background: #2875e5
-      border: solid 1px #2468cc
-
-    .movie-watch-now
-      color #fff
-      font-family "Open Sans Semibold", "Open Sans", sans-serif
-      -webkit-font-smoothing antialiased
-      text-align center
-      padding-top 12px
-      font-size 12px
-
-
+.detail-window
+	width 100%
+	height 100%
+	padding 75px 7%
+	
 .movie-backdrop
-    width 100%
-    height 100%
-    position absolute
-    top 0px
-    z-index 0
-    background-repeat no-repeat
-    background-position center
-    background-size cover
-    overflow hidden
-    opacity 1
-    -webkit-backface-visibility hidden
-    display none
+	width 100%
+	height 100%
+	position absolute
+	top 0px
+	z-index 0
+	background-repeat no-repeat
+	background-position center
+	background-size cover
+	overflow hidden
+	opacity 1
+	-webkit-backface-visibility hidden
+	display none
 
 .movie-backdrop-overlay
-    width 100%
-    height 100%
-    position absolute
-    top 0px
-    opacity 0.83
-    /* layer alpha */
-    background-color #000
-    /* layer fill content */
-    z-index: 2
-
-
+	width 100%
+	height 100%
+	position absolute
+	top 0px
+	opacity 0.7
+	/* layer alpha */
+	background-color #000
+	/* layer fill content */
+	z-index: 2
 
 .q720
-  z-index 2
-  font-family "Open Sans Bold", "Open Sans", sans-serif
-  -webkit-font-smoothing antialiased
-  font-size 11px
-  color #fff
-  font-weight normal
-  //margin-left 525px
-  //top 312px
-  position absolute
+	z-index 2
+	font-family "Open Sans Bold", "Open Sans", sans-serif
+	-webkit-font-smoothing antialiased
+	font-size 11px
+	color #fff
+	font-weight normal
+	position absolute
 
 .q1080
-  font-family "Open Sans Bold", "Open Sans", sans-serif
-  -webkit-font-smoothing antialiased
-  font-size 11px
-  color #fff
-  font-weight normal
-  margin-left 50px
-  //top 312px
-  position absolute
-  z-index 2
+	font-family "Open Sans Bold", "Open Sans", sans-serif
+	-webkit-font-smoothing antialiased
+	font-size 11px
+	color #fff
+	font-weight normal
+	margin-left 50px
+	position absolute
+	z-index 2
 
 .switch
-  background transparent
-  border-radius 32px
-  display block
-  height 12px
-  position absolute
-  margin-left 21px
-  //top 312px
-  width 25px
-  border 2px solid #FFF
-  cursor pointer
-  z-index 2
-  label
-    font-family "Open Sans", sans-serif
-    font-size 11px
-    color #fff
-    font-weight bold
-    transition color 0.2s ease
-    transition color 0.2s ease
-    width 20px
-    cursor pointer
-    &:nth-of-type(1)
-      left -38px
-      position absolute
-      text-align right
-    &:nth-of-type(2)
-      position absolute
-      right -30px
-      text-align left
-  input
-    height 7px
-    left -27px
-    opacity 0
-    position absolute
-    top -4px
-    width 79px
-    z-index 2
-    cursor pointer
-    &:checked
-      z-index 0
-      & ~ label
-        &:nth-of-type(1)
-          color #286dc4
-        &:nth-of-type(2)
-          color #FFF
-      & ~ .toggle
-        left 0px
-    & ~ :checked
-      & ~ label
-        &:nth-of-type(1)
-          color #FFF
-        &:nth-of-type(2)
-          color #286dc4
-      & ~ .toggle
-        left 11px
+	background transparent
+	border-radius 32px
+	display block
+	height 12px
+	position absolute
+	margin-left 21px
+	//top 312px
+	width 25px
+	border 2px solid #FFF
+	cursor pointer
+	z-index 2
+	
+	label
+		font-family "Open Sans", sans-serif
+		font-size 11px
+		color #fff
+		font-weight bold
+		transition color 0.2s ease
+		transition color 0.2s ease
+		width 20px
+		cursor pointer
+		
+		&:nth-of-type(1)
+			left -38px
+			position absolute
+			text-align right
+			
+		&:nth-of-type(2)
+			position absolute
+			right -30px
+			text-align left
+	input
+		height 7px
+		left -27px
+		opacity 0
+		position absolute
+		top -4px
+		width 79px
+		z-index 2
+		cursor pointer
+		
+		&:checked
+			z-index 0
+			
+			& ~ label
+			
+				&:nth-of-type(1)
+					color #286dc4
+					
+				&:nth-of-type(2)
+					color #FFF
+					
+			& ~ .toggle
+				left 0px
+				
+		& ~ :checked
+		
+			& ~ label
+			
+				&:nth-of-type(1)
+					color #FFF
+					
+				&:nth-of-type(2)
+					color #286dc4
+					
+			& ~ .toggle
+				left 11px
 
 .toggle
-  transition left 0.2s ease
-  transition left 0.2s ease
-  background #286dc4
-  border-radius 50%
-  height 10px
-  left -0px
-  position absolute
-  top -1px
-  width 10px
-  z-index 1
+	transition left 0.2s ease
+	transition left 0.2s ease
+	background #286dc4
+	border-radius 50%
+	height 10px
+	left -0px
+	position absolute
+	top -1px
+	width 10px
+	z-index 1
 
 .sub-dropdown
-    z-index 2
-    right 11%
-    top 10px
-    position absolute
-    float right
-    height 17px
-    opacity 1
-    -webkit-backface-visibility hidden
-    color #fff
-    font-family 'Open Sans Semibold'
-    -webkit-font-smoothing: antialiased
-    font-size 12px
+	top: 15px
+	right: 0
+	position: absolute
+	height: 26px
+	color: #fff
+	font-family: 'Open Sans Semibold'
+	-webkit-font-smoothing: antialiased
+	font-size: 12px
+	line-height: 18px
+	cursor pointer
+	padding: 5px;
+	padding-right: 13px;
+		
+	&.open
+		background-color: rgba(45,117,223,0.4);
+		-webkit-border-radius: 5px;
+		border-radius: 5px 5px 0 0;
+		
+		.sub-dropdown-arrow
+			border-bottom 5px solid #c4c6c8
+			border-top none
 
-.sub-dropdown-arrow-down
-  width 0
-  height 0
-  border-left 4px solid transparent
-  border-right 4px solid transparent
-  border-top 5px solid #c4c6c8
-  top: 3px
-  position: absolute
-  float left
-  cursor pointer
-  right -12px
-
-.sub-dropdown-arrow-up
-  width 0
-  height 0
-  border-left 4px solid transparent
-  border-right 4px solid transparent
-  border-bottom 5px solid #c4c6c8
-  top: 3px
-  position: absolute
-  float left
-  cursor pointer
-  right -12px
+	.sub-dropdown-arrow
+		width 0
+		height 0
+		border-left 4px solid transparent
+		border-right 4px solid transparent
+		top: 10px
+		position: absolute
+		float left
+		right 5px
+		border-top 5px solid #c4c6c8
+		border-bottom none
 
 .flag-container
-    z-index 2
-    right: 10.1%
-    top 30px
-    position relative
-    float right
-    max-width: 36%
-    opacity 1
-    -webkit-backface-visibility hidden
-    padding-bottom: 6px
-    padding-right: 6px
-    display none
+	display: none
+	z-index: 10
+	right: 0
+	top: 40px
+	position: absolute
+	float: right
+	max-width: 222px
+	padding: 6px
+	background-color: rgba(0,0,0,0.5)
+	border-radius: 5px 0 5px 5px
 
 .flag
-  z-index 2
-  margin 4px
-  background-size 22px 16px
-  position relative
-  float right
-  cursor pointer
-  background-image url('../images/none.png')
-  width 22px
-  height 16px
-  &.NA
-    background-image url('../images/none.png')
-  &.toggle
-    top: -7px
-    border-radius: 0
-    background-color: transparent
-  &.bn
-    background-image url('../images/bengali.png')
-  &.bs
-    background-image url('../images/bosnian.png')
-  &.pt-br
-    background-image url('../images/brazilian.png')
-  &.bg
-    background-image url('../images/bulgarian.png')
-  &.hr
-    background-image url('../images/croatian.png')
-  &.cs
-    background-image url('../images/czech.png')
-  &.da
-    background-image url('../images/danish.png')
-  &.nl
-    background-image url('../images/dutch.png')
-  &.en
-    background-image url('../images/english.png')
-  &.et
-    background-image url('../images/estonian.png')
-  &.eu
-    background-image url('../images/basque.png')
-  &.fa
-    background-image url('../images/farsi.png')
-  &.fi
-    background-image url('../images/finnish.png')
-  &.fr
-    background-image url('../images/french.png')
-  &.de
-    background-image url('../images/german.png')
-  &.he
-    background-image url('../images/hebrew.png')
-  &.hy
-    background-image url('../images/hungarian.png')
-  &.it
-    background-image url('../images/italian.png')
-  &.lv
-    background-image url('../images/latvian.png')
-  &.lt
-    background-image url('../images/lithuanian.png')
-  &.mt
-    background-image url('../images/maltese.png')
-  &.ar
-    background-image url('../images/algeria.png')
-  &.pl
-    background-image url('../images/polish.png')
-  &.pt
-    background-image url('../images/portuguese.png')
-  &.ro
-    background-image url('../images/romanian.png')
-  &.ru
-    background-image url('../images/russian.png')
-  &.sr
-    background-image url('../images/serbian.png')
-  &.sk
-    background-image url('../images/slovak.png')
-  &.sl
-    background-image url('../images/slovenian.png')
-  &.es
-    background-image url('../images/spanish.png')
-  &.th
-    background-image url('../images/thai.png')
-  &.tr
-    background-image url('../images/turkish.png')
-  &.uk
-    background-image url('../images/ukrainian.png')
-  &.el
-    background-image url('../images/greek.png')
-  &.hu
-    background-image url('../images/hungarian.png')
-  &.zh
-    background-image url('../images/chinese.png')
-
+	z-index 2
+	margin 4px
+	background-size 22px 16px
+	position relative
+	float right
+	cursor pointer
+	background-image url('../images/flags/none.png')
+	width 22px
+	height 16px
+	&.NA
+		background-image url('../images/flags/none.png')
+	&.toggle
+		top: -22px
+		border-radius: 0
+		background-color: transparent
+	&.bn
+		 background-image url('../images/flags/bengali.png')
+	&.bs
+		 background-image url('../images/flags/bosnian.png')
+	&.pt-br
+		 background-image url('../images/flags/brazilian.png')
+	&.bg
+		 background-image url('../images/flags/bulgarian.png')
+	&.hr
+		 background-image url('../images/flags/croatian.png')
+	&.cs
+		 background-image url('../images/flags/czech.png')
+	&.da
+		 background-image url('../images/flags/danish.png')
+	&.nl
+		 background-image url('../images/flags/dutch.png')
+	&.en
+		 background-image url('../images/flags/english.png')
+	&.et
+		 background-image url('../images/flags/estonian.png')
+	&.eu
+		 background-image url('../images/flags/basque.png')
+	&.fa
+		 background-image url('../images/flags/farsi.png')
+	&.fi
+		 background-image url('../images/flags/finnish.png')
+	&.fr
+		 background-image url('../images/flags/french.png')
+	&.de
+		 background-image url('../images/flags/german.png')
+	&.he
+		 background-image url('../images/flags/hebrew.png')
+	&.hy
+		 background-image url('../images/flags/hungarian.png')
+	&.it
+		 background-image url('../images/flags/italian.png')
+	&.lv
+		 background-image url('../images/flags/latvian.png')
+	&.lt
+		 background-image url('../images/flags/lithuanian.png')
+	&.mt
+		 background-image url('../images/flags/maltese.png')
+	&.ar
+		 background-image url('../images/flags/arabic.png')
+	&.pl
+		 background-image url('../images/flags/polish.png')
+	&.pt
+		 background-image url('../images/flags/portuguese.png')
+	&.ro
+		 background-image url('../images/flags/romanian.png')
+	&.ru
+		 background-image url('../images/flags/russian.png')
+	&.sr
+		 background-image url('../images/flags/serbian.png')
+	&.sk
+		 background-image url('../images/flags/slovak.png')
+	&.sl
+		 background-image url('../images/flags/slovenian.png')
+	&.es
+		 background-image url('../images/flags/spanish.png')
+	&.th
+		 background-image url('../images/flags/thai.png')
+	&.tr
+		 background-image url('../images/flags/turkish.png')
+	&.uk
+		 background-image url('../images/flags/ukrainian.png')
+	&.el
+		 background-image url('../images/flags/greek.png')
+	&.hu
+		 background-image url('../images/flags/hungarian.png')
+	&.zh
+		 background-image url('../images/flags/chinese.png')

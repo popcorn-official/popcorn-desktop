@@ -62,7 +62,7 @@
 			margin-top 25px
 			height 50px
 
-		.movies-options
+		.quality-options
 			height 100px
 			padding-top 20px
 
@@ -70,12 +70,16 @@
 			height 75px
 			padding-top 20px
 
+		.trakt-options
+			height 160px
+			padding-top 20px
+
 		.more-options
 			height 70px
 			padding-top 20px
 
 		.advanced-settings
-			height 170px
+			height 200px
 			padding-top 20px
 
 	.content
@@ -85,6 +89,9 @@
 		padding-top: 45px;
 		width calc(100% - 253px)
 		height 100%
+		color #c3c5c7
+		font-family "Open Sans", sans-serif
+		font-size 13px
 
 		p
 			color #c3c5c7
@@ -94,7 +101,7 @@
 			margin-top 9px
 			min-width 150px
 
-		input[type="text"]
+		input[type="text"], input[type="password"]
 			margin-left 10px
 			padding-right 10px
 			padding-left 10px
@@ -133,13 +140,17 @@
 					text-decoration none
 				&.disabled
 					background-color #393b3d
+				&.green
+					background-color #27AE60
+				&.red
+					background-color #F15153
 
 		.user-interface
 			height 50px
 			border-bottom solid #3a3b3e 1px
 			margin-right 30px
 
-		.movies-options
+		.quality-options
 			height 100px
 			padding-top 20px
 			border-bottom solid #3a3b3e 1px
@@ -151,6 +162,12 @@
 			border-bottom solid #3a3b3e 1px
 			margin-right 30px
 
+		.trakt-options
+			height 160px
+			padding-top 20px
+			border-bottom solid #3a3b3e 1px
+			margin-right 30px
+
 		.more-options
 			height 70px
 			padding-top 20px
@@ -158,7 +175,7 @@
 			margin-right 30px
 
 		.advanced-settings
-			height 170px
+			height 200px
 			padding-top 20px
 
 	.dropdown.subtitles-size
@@ -357,3 +374,54 @@ input[type=checkbox]
 hr
 	border-color #3a3b3e
 	height 1px
+
+@keyframes rotate-forever 
+	0% 
+		transform rotate(0deg)
+	
+	100% 
+		transform rotate(360deg)
+
+.trakt-options
+	.loading-spinner 
+		animation-duration 0.75s
+		animation-iteration-count infinite
+		animation-name rotate-forever
+		animation-timing-function linear
+		width 20px
+		height 20px
+		border 4px solid #2d75df
+		border-right-color transparent
+		border-radius 50%
+		display inline-block
+		margin 0px 0px -5px -27px
+
+	.invalid-cross
+		width 20px
+		height 20px
+		display inline-block
+		margin 0px 0px -5px -27px
+		
+		&:before
+			content "\2573"
+			font-family Arial
+			font-size 12px
+			font-weight bolder
+			text-shadow 0 0 10px #EE3030
+			color #EE3030
+
+	.valid-tick
+		width 20px
+		height 20px
+		display inline-block
+		margin 0px 0px -5px -27px
+		
+		&:before
+			content "\2714"
+			font-family Arial
+			font-size 17px
+			font-weight bold
+			text-shadow 0 0 10px #4EEE30
+			color #4EEE30
+			position relative
+			top 2px

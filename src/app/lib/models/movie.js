@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var healthMap = {
         0: 'bad',

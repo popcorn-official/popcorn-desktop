@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var FilterBarFavorite = Backbone.Marionette.ItemView.extend({
         template: '#filter-bar-favorite-tpl',

@@ -1,5 +1,5 @@
 (function(App) {
-	"use strict";
+	'use strict';
     var openSRT = require('opensrt_js');
 
     var OpenSubtitles = function() {};

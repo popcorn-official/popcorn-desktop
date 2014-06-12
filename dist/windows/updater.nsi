@@ -6,7 +6,8 @@
 !include "MUI2.nsh"
 
 ;General Settings
-!searchparse /file "..\..\package.json" `  "version": "` PT_VERSION `",`
+!searchparse /file "../../package.json" `  "version": "` PT_VERSION `",`
+!define /date builddate "%y.%m.%d-%H.%M"
 Name "Popcorn Time"
 Caption "Popcorn Time Updater v${PT_VERSION}"
 BrandingText "Popcorn Time v${PT_VERSION}"
@@ -15,10 +16,11 @@ VIAddVersionKey "ProductVersion" "v${PT_VERSION}"
 VIAddVersionKey "FileDescription" "Popcorn Time"
 VIAddVersionKey "FileVersion" "v${PT_VERSION}"
 VIAddVersionKey "CompanyName" "Popcorn Official"
-VIAddVersionKey "LegalCopyright" "http://get-popcorn.com"
-VIAddVersionKey "OriginalFilename" "Updater-Popcorn-Time-${PT_VERSION}-Win-32.exe"
+VIAddVersionKey "LegalCopyright" "http://popcorntime.io"
+VIAddVersionKey "OriginalFilename" "Updater-Popcorn-Time-${PT_VERSION}-Win.exe"
 VIProductVersion "${PT_VERSION}.0"
-OutFile "Updater-Popcorn-Time-${PT_VERSION}-Win-32.exe"
+!system 'mkdir -p ../../build/releases/Popcorn-Time/win/'
+OutFile "../../build/releases/Popcorn-Time/win/Updater-Popcorn-Time-${PT_VERSION}-Win.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 
@@ -39,7 +41,7 @@ RequestExecutionLevel admin
 !define MUI_FINISHPAGE_RUN_TEXT "Start Popcorn Time"
 !define MUI_FINISHPAGE_RUN_FUNCTION "LaunchPopcornTime"
 !define MUI_FINISHPAGE_LINK "Popcorn Time Official Homepage"
-!define MUI_FINISHPAGE_LINK_LOCATION "http://get-popcorn.com/"
+!define MUI_FINISHPAGE_LINK_LOCATION "http://popcorntime.io/"
 
 ;Define the pages
 !insertmacro MUI_PAGE_WELCOME
@@ -52,7 +54,6 @@ RequestExecutionLevel admin
 !insertmacro MUI_LANGUAGE "Afrikaans"
 !insertmacro MUI_LANGUAGE "Albanian"
 !insertmacro MUI_LANGUAGE "Arabic"
-!insertmacro MUI_LANGUAGE "Asturian"
 !insertmacro MUI_LANGUAGE "Basque"
 !insertmacro MUI_LANGUAGE "Belarusian"
 !insertmacro MUI_LANGUAGE "Bosnian"
@@ -88,7 +89,6 @@ RequestExecutionLevel admin
 !insertmacro MUI_LANGUAGE "Mongolian"
 !insertmacro MUI_LANGUAGE "Norwegian"
 !insertmacro MUI_LANGUAGE "NorwegianNynorsk"
-!insertmacro MUI_LANGUAGE "Pashto"
 !insertmacro MUI_LANGUAGE "Polish"
 !insertmacro MUI_LANGUAGE "Portuguese"
 !insertmacro MUI_LANGUAGE "PortugueseBR"
@@ -107,7 +107,6 @@ RequestExecutionLevel admin
 !insertmacro MUI_LANGUAGE "Turkish"
 !insertmacro MUI_LANGUAGE "Ukrainian"
 !insertmacro MUI_LANGUAGE "Uzbek"
-!insertmacro MUI_LANGUAGE "Vietnamese"
 !insertmacro MUI_LANGUAGE "Welsh"
 
 AutoCloseWindow false
@@ -129,9 +128,10 @@ Section ; App Files
 
 	;Add the files
 	File "..\..\package.json" "..\..\README.md" "..\..\CHANGELOG.md" "..\..\LICENSE.txt"
-	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test" /x "tests" /x "docs" /x "example" /x "examples" /x "demo" /x "bin" /x ".*" "..\..\node_modules"
+	SetOutPath "$INSTDIR\node_modules"
+	File /r /x "*grunt*" /x "stylus" /x "bower" /x "test*" /x "doc*" /x "example*" /x "demo*" /x "bin" /x ".*" "..\..\node_modules\*.*"
 	SetOutPath "$INSTDIR\src"
-	File /r "..\..\src\*.*"
+	File /r /x "styl" /x "build" /x "docs" /x "test*" /x "examples" /x "reports" /x "public" "..\..\src\*.*"
 
 SectionEnd
 

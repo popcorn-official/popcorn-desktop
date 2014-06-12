@@ -1,75 +1,91 @@
 (function(App) {
-    "use strict";
+	'use strict';
 
-    var Settings = Backbone.Marionette.ItemView.extend({
-        template: '#settings-container-tpl',
-        className: 'settings-container-contain',
+	var Settings = Backbone.Marionette.ItemView.extend({
+		template: '#settings-container-tpl',
+		className: 'settings-container-contain',
 
-        ui: {
-            success_alert: '.success_alert',
-            fakeTempDir: '#faketmpLocation',
-            tempDir: '#tmpLocation',
-        },
+		ui: {
+			success_alert: '.success_alert',
+			fakeTempDir: '#faketmpLocation',
+			tempDir: '#tmpLocation',
+		},
 
-        events: {
-            'click .close': 'closeSettings',
-            'change select,input': 'saveSetting',
-            'click .flush-bookmarks': 'flushBookmarks',
-            'click .flush-databases': 'flushAllDatabase',
-            'click .flush-subtitles': 'flushAllSubtitles',
-            'click #faketmpLocation' : 'showCacheDirectoryDialog',
-            'click .default-settings' : 'resetSettings',
+		events: {
+			'click .close': 'closeSettings',
+			'change select,input': 'saveSetting',
+			'click .flush-bookmarks': 'flushBookmarks',
+			'click .flush-databases': 'flushAllDatabase',
+			'click .flush-subtitles': 'flushAllSubtitles',
+			'click #faketmpLocation' : 'showCacheDirectoryDialog',
+			'click .default-settings' : 'resetSettings',
+			'keyup #traktUsername': 'checkTraktLogin',
+			'keyup #traktPassword': 'checkTraktLogin',
 			'change #tmpLocation' : 'updateCacheDirectory',
-        },
+		},
 
-        onShow: function() {
-            $(".filter-bar").hide();    
-            $("#movie-detail").hide();
-            Mousetrap.bind('esc', function(e) {
-                App.vent.trigger('settings:close');
+		onShow: function() {
+			$('.filter-bar').hide();
+			$('#movie-detail').hide();
+			Mousetrap.bind('backspace', function(e) {
+				App.vent.trigger('settings:close');
+			});
+			if($('#traktPassword').data('fake') !== undefined) {
+				$('.valid-tick').show();
+				$('#traktPassword').attr('data-fake', null);
+			}
+		},
+
+		onClose: function() {
+            Mousetrap.bind('backspace', function(e) {
+                App.vent.trigger('show:closeDetail');
+                App.vent.trigger('movie:closeDetail');
             });
-        },
+			$('.filter-bar').show();
+			$('#movie-detail').show();
+		},
+		showCover: function() {},
 
-        onClose: function() {
-            $(".filter-bar").show();    
-            $("#movie-detail").show();
-        },
-        showCover: function() {},
+		closeSettings: function() {
+			App.vent.trigger('settings:close');
+		},
 
-        closeSettings: function() {
-            App.vent.trigger('settings:close');     
-        },
+		saveSetting: function(e){
+			var that = this;
+			var value = false;
+			var data = {};
 
-        saveSetting: function(e){
-            var that = this;
-            var value = false;
-            var data = {};
+			// get active field
+			var field = $(e.currentTarget);
 
-            // get active field
-            var field = $(e.currentTarget);
-            
 			switch(field.attr('name')){
 			case 'tvshowApiEndpoint':
 				value = field.val();
-				if (value.substr(-1) != '/') value += '/';
+				if (value.substr(-1) !== '/') {
+					value += '/';
+				}
 				break;
 			case 'subtitle_size':
 			case 'subtitle_language':
 			case 'movies_quality':
-				value = $("option:selected", field).val();
+				value = $('option:selected', field).val();
 				break;
 			case 'language':
-				value = $("option:selected", field).val();
+				value = $('option:selected', field).val();
 				i18n.setLocale(value);
 				break;
 			case 'moviesShowQuality':
-            case 'deleteTmpOnClose':
+			case 'deleteTmpOnClose':
 				value = field.is(':checked');
 				break;
-            case 'connectionLimit':
-            case 'dhtLimit':
-                value = field.val();
-                break;
+			case 'connectionLimit':
+			case 'dhtLimit':
+			case 'streamPort':
+				value = field.val();
+				break;
+			case 'traktUsername':
+			case 'traktPassword':
+				return;
 			case 'tmpLocation':
 				value = path.join(field.val(), 'Popcorn-Time');
 				break;
@@ -77,192 +93,175 @@
 				win.warn('Setting not defined: '+field.attr('name'));
 			}
 			win.info('Setting changed: ' + field.attr('name') + ' - ' + value);
-            
-            // update active session
-            App.settings[field.attr('name')] = value;
 
-            //save to db
-            App.db.writeSetting({key: field.attr('name'), value: value}, function() {
-                that.ui.success_alert.show().delay(3000).fadeOut(400);
-            });
-        },
+			// update active session
+			App.settings[field.attr('name')] = value;
 
-        flushBookmarks: function(e) {
-            var btn = $(e.currentTarget);
-            if(!btn.hasClass('confirm')){
-                btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
-                return;
-            }
-            btn.text( i18n.__('Flushing bookmarks...') ).addClass('disabled').prop('disabled',true);
-            var that = this;
+			//save to db
+			App.db.writeSetting({key: field.attr('name'), value: value}, function() {
+				that.ui.success_alert.show().delay(3000).fadeOut(400);
+			});
+		},
 
-            // we build our notification
-            var $el = $('#notification');
-            $el.html(
-                '<h1>' + i18n.__('Please wait') + '...</h1>'   +
-                '<p>' + i18n.__('We are flushing your database') + '.</p>'
-            ).addClass('red');
+		checkTraktLogin: _.debounce(function(e) {
+			var username = document.querySelector('#traktUsername').value;
+			var password = document.querySelector('#traktPassword').value;
 
-            // enable the notification on current view
-            $('body').addClass('has-notification')
+			$('.invalid-cross').hide();
+			$('.valid-tick').hide();
+			$('.loading-spinner').show();
+			// trakt.authenticate automatically saves the username and pass on success!
+			App.Trakt.authenticate(username, password).then(function(valid) {
+				$('.loading-spinner').hide();
+				// Stop multiple requests interfering with each other
+				$('.invalid-cross').hide();
+				$('.valid-tick').hide();
+				if(valid) {
+					$('.valid-tick').show();
+				} else {
+					$('.invalid-cross').show();
+				}
+			}).catch(function(err) {
+				$('.loading-spinner').hide();
+				$('.invalid-cross').show();
+			});
+		}, 500),
 
-            Database.deleteBookmarks(function(err, setting) {
+		flushBookmarks: function(e) {
+			var that = this;
+			var btn = $(e.currentTarget);
 
-                // ask user to restart (to be sure)
-                $el.html(
-                    '<h1>' + i18n.__('Success') + '</h1>'   +
-                    '<p>' + i18n.__('Please restart your application') + '.</p>' +
-                    '<span class="btn-grp">'                        +
-                        '<a class="btn restart">' + i18n.__('Restart') + '</a>'    +
-                    '</span>'
-                ).removeClass().addClass('green');
+			if( !that.areYouSure( btn, i18n.__('Flushing bookmarks...') ) ) {
+				return;
+			}
 
-                // add restart button function
-                var $restart = $('.btn.restart');
-                $restart.on('click', function() {
-                    that.restartApplication();
-                });
+			that.alertMessageWait( i18n.__('We are flushing your database') );
 
-            });
-        },
+			Database.deleteBookmarks(function(err, setting) {
 
-        resetSettings: function(e) {
-            var btn = $(e.currentTarget);
-            if(!btn.hasClass('confirm')){
-                btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
-                return;
-            }
-            btn.text( i18n.__('Resetting...') ).addClass('disabled').prop('disabled',true);
-            var that = this;
+				that.alertMessageSuccess( true );
 
-            // we build our notification
-            var $el = $('#notification');
-            $el.html(
-                '<h1>' + i18n.__('Please wait') + '...</h1>'   +
-                '<p>' + i18n.__('We are resetting the settings') + '.</p>'
-            ).addClass('red');
+			});
+		},
 
-            // enable the notification on current view
-            $('body').addClass('has-notification')
+		resetSettings: function(e) {
+			var that = this;
+			var btn = $(e.currentTarget);
 
-            Database.resetSettings(function(err, setting) {
+			if( !that.areYouSure( btn, i18n.__('Resetting...') ) ) {
+				return;
+			}
 
-                // ask user to restart (to be sure)
-                $el.html(
-                    '<h1>' + i18n.__('Success') + '</h1>'   +
-                    '<p>' + i18n.__('Please restart your application') + '.</p>' +
-                    '<span class="btn-grp">'                        +
-                        '<a class="btn restart">' + i18n.__('Restart') + '</a>'    +
-                    '</span>'
-                ).removeClass().addClass('green');
+			that.alertMessageWait( i18n.__('We are resetting the settings') );
 
-                // add restart button function
-                var $restart = $('.btn.restart');
-                $restart.on('click', function() {
-                    that.restartApplication();
-                });
+			Database.resetSettings(function(err, setting) {
 
-            });
-        },
+				that.alertMessageSuccess( true );
 
-        flushAllDatabase: function(e) {
-            var btn = $(e.currentTarget);
-            if(!btn.hasClass('confirm')){
-                btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
-                return;
-            }
-            btn.text( i18n.__('Flushing...') ).addClass('disabled').prop('disabled',true);
-            var that = this;
+			});
+		},
 
-            // we build our notification
-            var $el = $('#notification');
-            $el.html(
-                '<h1>' + i18n.__('Please wait') + '...</h1>'   +
-                '<p>' + i18n.__('We are flushing your databases') + '.</p>'
-            ).addClass('red');
+		flushAllDatabase: function(e) {
+			var that = this;
+			var btn = $(e.currentTarget);
 
-            // enable the notification on current view
-            $('body').addClass('has-notification')
+			if( !that.areYouSure( btn, i18n.__('Flushing...') ) ) {
+				return;
+			}
 
-            Database.deleteDatabases(function(err, setting) {
+			that.alertMessageWait( i18n.__('We are flushing your databases') );
 
-                // ask user to restart (to be sure)
-                $el.html(
-                    '<h1>' + i18n.__('Success') + '</h1>'   +
-                    '<p>' + i18n.__('Please restart your application') + '.</p>' +
-                    '<span class="btn-grp">'                        +
-                        '<a class="btn restart">' + i18n.__('Restart') + '</a>'    +
-                    '</span>'
-                ).removeClass().addClass('green');
+			Database.deleteDatabases(function(err, setting) {
 
-                // add restart button function
-                var $restart = $('.btn.restart');
-                $restart.on('click', function() {
-                    that.restartApplication();
-                });
+				that.alertMessageSuccess( true );
 
-            });
-        },
+			});
+		},
 
-        restartApplication: function() {
-            var spawn = require('child_process').spawn,
-                argv = gui.App.fullArgv,
-                CWD = process.cwd();
-                    
-            argv.push(CWD);
-            spawn(process.execPath, argv, { cwd: CWD, detached: true, stdio: [ 'ignore', 'ignore', 'ignore' ] }).unref();
-            gui.App.quit();            
-        },
+		flushAllSubtitles : function(e) {
+			var that = this;
+			var btn = $(e.currentTarget);
 
-        showCacheDirectoryDialog : function()
-        {
-            var that = this;
-            that.ui.tempDir.click();
-        },
+			if( !that.areYouSure( btn, i18n.__('Flushing...') ) ) {
+				return;
+			}
 
-        updateCacheDirectory : function(e)
-        {
-            // feel free to improve/change radically!
-            var that = this;
-            var field = $('#tmpLocation');
-            that.ui.fakeTempDir.val = field.val();  // set the value to the styled textbox
-            that.render();
-        },
+			that.alertMessageWait( i18n.__('We are flushing your subtitle cache') );
 
-        flushAllSubtitles : function(e) {
-            var btn = $(e.currentTarget);
-            if(!btn.hasClass('confirm')){
-                btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
-                return;
-            }
-            btn.text( i18n.__('Flushing...') ).addClass('disabled').prop('disabled',true);
-            var that = this;
+			var cache = new App.Cache('subtitle');
+			cache.flushTable(function() {
 
-            // we build our notification
-            var $el = $('#notification');
-            $el.html(
-                '<h1>' + i18n.__('Please wait') + '...</h1>'   +
-                '<p>' + i18n.__('We are flushing your subtitle cache') + '.</p>'
-            ).addClass('red').show();
+				that.alertMessageSuccess( false, btn, i18n.__('Flush subtitles cache'), i18n.__('Subtitle cache deleted') );
 
-            // enable the notification on current view
-            $('body').addClass('has-notification');
-            // TODO: ADD CONFIRM
-            var cache = new App.Cache('subtitle');
-            cache.flushTable(function() {
-                $el.html(
-                    '<h1>' + i18n.__('Success') + '</h1>'   +
-                    '<p>' + i18n.__('Subtitle cache deleted') + '.</p>'
-                ).removeClass().addClass('green');
-                setTimeout(function(){
-                    btn.text( i18n.__("Flush subtitles cache") ).removeClass('confirm disabled').prop('disabled',false);
-                    $('body').removeClass('has-notification');
-                    $el.hide();
-                }, 2000);
-            });
-        }
-    });
+			});
+		},
 
-    App.View.Settings = Settings;
+		restartApplication: function() {
+			var spawn = require('child_process').spawn,
+				argv = gui.App.fullArgv,
+				CWD = process.cwd();
+
+			argv.push(CWD);
+			spawn(process.execPath, argv, { cwd: CWD, detached: true, stdio: [ 'ignore', 'ignore', 'ignore' ] }).unref();
+			gui.App.quit();
+		},
+
+		showCacheDirectoryDialog : function() {
+			var that = this;
+			that.ui.tempDir.click();
+		},
+
+		updateCacheDirectory : function(e) {
+			// feel free to improve/change radically!
+			var that = this;
+			var field = $('#tmpLocation');
+			that.ui.fakeTempDir.val = field.val();
+			that.render();
+		},
+
+		areYouSure : function (btn, waitDesc) {
+			if(!btn.hasClass('confirm')){
+				btn.addClass('confirm').css('width',btn.css('width')).text( i18n.__('Are you sure?') );
+				return false;
+			}
+			btn.text( waitDesc ).addClass('disabled').prop('disabled',true);
+			return true;
+		},
+
+		alertMessageWait : function(waitDesc) {
+			var $el = $('#notification');
+
+			$el.removeClass().addClass('red').show();
+			$el.html('<h1>' + i18n.__('Please wait') + '...</h1><p>' + waitDesc + '.</p>');
+
+			$('body').addClass('has-notification');
+		},
+
+		alertMessageSuccess : function(btnRestart, btn, btnText, successDesc) {
+			var that = this;
+			var $el = $('#notification');
+
+			$el.removeClass().addClass('green');
+			$el.html('<h1>' + i18n.__('Success') + '</h1>');
+
+			if(btnRestart) {
+				// Add restart button
+				$el.append('<p>' + i18n.__('Please restart your application') + '.</p><span class="btn-grp"><a class="btn restart">' + i18n.__('Restart') + '</a></span>');
+				$('.btn.restart').on('click', function() {
+					that.restartApplication();
+				});
+			}else{
+				// Hide notification after 2 seconds
+				$el.append('<p>' + successDesc + '.</p>');
+				setTimeout(function(){
+					btn.text( btnText ).removeClass('confirm disabled').prop('disabled',false);
+					$('body').removeClass('has-notification');
+					$el.hide();
+				}, 2000);
+			}
+		}
+	});
+
+	App.View.Settings = Settings;
 })(window.App);
 

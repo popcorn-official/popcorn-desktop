@@ -1,10 +1,10 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var Q = require('q');
 
     var cache = App.Config.cache;
-    var db = openDatabase(cache.name, "", cache.desc, cache.size);
+    var db = openDatabase(cache.name, '', cache.desc, cache.size);
 
     var tableStruct = 'id TEXT, data TEXT, ttl INTEGER, date_saved INTEGER';
 
@@ -14,7 +14,7 @@
             console.log('New database version');
 
             _.each(cache.tables, function(table) {
-                tx.executeSql("DROP TABLE IF EXISTS " + table, [], function(){
+                tx.executeSql('DROP TABLE IF EXISTS ' + table, [], function(){
                     console.log('Create table ' + table);
                     tx.executeSql('CREATE TABLE ' + table + ' (' + tableStruct + ')');
                 }, function(tx, err) {

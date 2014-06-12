@@ -134,5 +134,22 @@
 	"Restart Now": "Restart Now",
 	"We are flushing your subtitle cache": "We are flushing your subtitle cache",
 	"Subtitle cache deleted": "Subtitle cache deleted",
-	"Flush subtitles cache": "Flush subtitles cache"
+	"Flush subtitles cache": "Flush subtitles cache",
+	"Open IMDb page": "Open IMDb page",
+	"Quality": "Quality",
+	"Please select a file to play": "Please select a file to play",
+	"Port to stream on": "Port to stream on",
+	"0 = Random": "0 = Random",
+	"Add to bookmarks": "Add to bookmarks",
+	"Remove from bookmarks": "Remove from bookmarks",
+	"waitingForSubtitles": "Waiting for subtitles...",
+	"Trakt.tv": "Trakt.tv",
+	"Username": "Username",
+	"Password": "Password",
+	"Popcorn Time will store an encrypted hash of your password in your local database": "Popcorn Time will store an encrypted hash of your password in your local database",
+	"Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time": "Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time",
+	"Test Login": "Test Login",
+	"Testing...": "Testing...",
+	"Success!": "Success!",
+	"Failed!": "Failed!"
 }

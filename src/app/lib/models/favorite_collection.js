@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var Q = require('q');
 
@@ -8,7 +8,7 @@
 
         initialize: function(models, options) {
             this.providers = {
-                torrent: new (App.Providers['Favorites'])()
+                torrent: new (App.Providers.Favorites)()
             };
 
             options = options || {};
@@ -23,7 +23,9 @@
         fetch: function() {
             var self = this;
 
-            if(this.state == 'loading' && !this.hasMore) return;
+            if(this.state === 'loading' && !this.hasMore) {
+                return;
+            }
 
             this.state = 'loading';
             self.trigger('loading', self);

@@ -37,6 +37,7 @@
 	<script id="loading-tpl" src="templates/loading.tpl" type="text/x-template"></script>
 	<script id="initializing-tpl" src="templates/initializing.tpl" type="text/x-template"></script>
 	<script id="about-tpl" src="templates/about.tpl" type="text/x-template"></script>
+	<script id="file-selector-tpl" src="templates/file-selector.tpl" type="text/x-template"></script>
 	<script id="help-tpl" src="templates/help.tpl" type="text/x-template"></script>
 	
 	<!-- 3rd party Dependencies -->
@@ -48,9 +49,10 @@
 	<script src="vendor/marionette/lib/backbone.marionette.js"></script>
 	<script src="vendor/bootstrap/dist/js/bootstrap.js"></script>
 	<script src="vendor/mousetrap/mousetrap.min.js"></script>
-	<script src="vendor/video.js-popcorn/dist/video-js/video.dev.js"></script>
+	<script src="vendor/videojs/dist/video-js/video.dev.js"></script>
 
 	<!-- Other dependencies -->
+	<script src="vendor/videojshooks.js"></script>
 	<script src="vendor/videojsplugins.js"></script>
 	<script src="vendor/dragwindow.js"></script>
 	<script src="vendor/videojs-youtube/src/youtube.js"></script>
@@ -74,7 +76,9 @@
 
 	<!-- Data Sources -->
 	<script src="lib/cache.js"></script>
+	<script src="lib/cachev2.js"></script>
 	<script src="lib/providers/cache_provider.js"></script>
+	<script src="lib/providers/cache_providerv2.js"></script>
 	<script src="lib/providers/ysubs.js"></script>
 	<script src="lib/providers/trakttv.js"></script>
 	<script src="lib/providers/yts.js"></script>
@@ -93,6 +97,7 @@
 	<script src="lib/views/init_modal.js"></script>
 	<script src="lib/views/disclaimer.js"></script>
 	<script src="lib/views/about.js"></script>
+	<script src="lib/views/file_selector.js"></script>
 	<script src="lib/views/help.js"></script>
 	<script src="lib/views/player/loading.js"></script>
 	<script src="lib/views/player/player.js"></script>

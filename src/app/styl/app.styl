@@ -14,6 +14,37 @@ SecondaryTextColor = #a3a5a7
 HoverBackgroundColor = #0b131f
 HoverTextColor = white
 
+fadeicon(image, posx, posx2, size)
+  width: size
+  height: size
+  position: relative;
+  &:before
+    content: ""
+    position: absolute
+    top: 0; left: 0; bottom: 0; right: 0
+    width: size
+    height: size
+    background-image: url(../images/icons/image.png)
+    background-position: posx 0px
+    background-repeat: no-repeat
+    opacity: 1
+    -webkit-transition: opacity 0.5s
+  &:after
+    content: ""
+    position: absolute
+    top: 0; left: 0; bottom: 0; right: 0
+    width: size
+    height: size
+    background-image: url(../images/icons/image.png)
+    background-position: posx2 0px
+    background-repeat: no-repeat
+    opacity: 0
+    -webkit-transition: opacity 0.5s
+  &:hover:before
+    opacity: 0;
+  &:hover:after
+    opacity: 1;
+
 @import 'fonts'
 @import 'misc'
 @import 'bootstrap-theme'
@@ -34,6 +65,7 @@ HoverTextColor = white
 
 @import 'about'
 @import 'help'
+@import 'file_selector'
 
 @import 'settings'
 @import 'loading'

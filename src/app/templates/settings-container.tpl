@@ -3,8 +3,9 @@
 	<div class="sidebar">
 		<div class="title"><%= i18n.__("Settings") %></div>
 		<div class="user-interface"><%= i18n.__("User Interface") %></div>
-		<div class="movies-options"><%= i18n.__("Movies") %></div>
+		<div class="quality-options"><%= i18n.__("Quality") %></div>
 		<div class="subtitles-options"><%= i18n.__("Subtitles") %></div>
+		<div class="trakt-options"><%= i18n.__("Trakt.tv") %></div>
 		<div class="more-options"><%= i18n.__("More Options") %></div>
 		<div class="advanced-settings"><%= i18n.__("Advanced Settings") %></div>
 	</div>
@@ -30,7 +31,7 @@
 			</div>
 		</div>
 		
-		<div class="movies-options">
+		<div class="quality-options">
 			<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
 			<label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
 			<br><br>
@@ -77,14 +78,30 @@
 			</div>
 		</div>
 
+		<div class="trakt-options">
+			<%= i18n.__("Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time") %>
+			<br><br>
+			<p><%= i18n.__("Username") + ":" %></p> <input type="text" size="50" id="traktUsername" name="traktUsername" value="<%=Settings.traktUsername%>">
+			<div class="loading-spinner" style="display: none"></div>
+			<div class="valid-tick" style="display: none"></div>
+			<div class="invalid-cross" style="display: none"></div>
+			<br><br>
+			<p><%= i18n.__("Password") + ":" %></p> <input type="password" size="50" id="traktPassword" name="traktPassword" <%=Settings.traktPassword === '' ? '' : 'data-fake '%>value="<%=Settings.traktPassword === '' ? '' : 'password'%>">
+			<br><br>
+			<%= i18n.__("Popcorn Time will store an encrypted hash of your password in your local database") %>
+		</div>
+
 		<div class="more-options">
-			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input type="text" size = "50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
+			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input type="text" size="50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
 		</div>
 		<div class="advanced-settings">
-			<p><%= i18n.__("Connection Limit") + ":" %></p> <input type="text" size = "20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
+			<p><%= i18n.__("Connection Limit") + ":" %></p> <input type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
 			<br><br>
 
-			<p><%= i18n.__("DHT Limit") + ":" %></p> <input type="text" size = "20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
+			<p><%= i18n.__("DHT Limit") + ":" %></p> <input type="text" size="20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
+			<br><br>
+
+			<p><%= i18n.__("Port to stream on") + ":" %></p> <input type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/> <%= i18n.__("0 = Random") %>
 			<br><br>
 
 			<!-- Cache Directory -->

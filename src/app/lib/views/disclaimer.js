@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var DisclaimerModal = Backbone.Marionette.ItemView.extend({
         template: '#disclaimer-tpl',

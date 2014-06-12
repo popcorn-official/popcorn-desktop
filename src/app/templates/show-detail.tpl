@@ -17,13 +17,13 @@
 		<div data-toggle="tooltip" data-placement="right" title="<%= Math.round(rating.percentage) / 10 %> /10" class="star-container-tv">
 
 		<% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
-			<img src="images/icons/star.png" alt="full" class="tv-rating-star">
+			<div class="rating-star full"></div>
 		<% }; %>
 		<% if (p_rating % 1 > 0) { %>
-			<img src="images/icons/StarHalf.png" alt="half" class="tv-rating-star">
+			<div class="rating-star half"></div>
 		<% }; %>
 		<% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
-			<img src="images/icons/StarGray.png" alt="null" class="tv-rating-star">
+			<div class="rating-star null"></div>
 		<% }; %>
 		</div>
 		<% if (synopsis.length > 776) { var synopsis = synopsis.substring(0, 776) + "..."; } %>
@@ -37,6 +37,18 @@
 		<div class="episode-info-number"></div>
 		<div class="episode-info-date"></div>
 		<div class="episode-info-description"></div>
+		<div class="show-quality-container">
+			<div class="quality-selector">
+				<div class="q480">480p</div>
+				<div class="q720">720p</div>
+				<div class="quality switch white">
+					<input type="radio" name="switch" id="switch-hd-off" >
+					<input type="radio" name="switch" id="switch-hd-on" checked >
+					<span class="toggle"></span>
+				</div>
+			</div>
+			<div class="quality-info"></div>
+		</div>
 		<div class="movie-btn-watch-episode startStreaming" data-torrent="" data-episodeid="">
 			<div class="movie-watch-now"><%= i18n.__("Watch Now") %></div>
 		</div>
@@ -48,37 +60,48 @@
 	</div>
 
 	<div class="season-episode-container">
-		<div id="tabs_base">
-			<ul id="tabs_season">
-				<!-- "TODO: to be updated i dont find it really elegant
-					i'll build a compatible torrent array with our episodes content" -->
-				<% var torrents = {};
-				_.each(episodes, function(value, currentEpisode) {
-					if (!torrents[value.season]) torrents[value.season] = {};
-					torrents[value.season][value.episode] = value;
-				}); %>
-
+		<div class="tabs-base">
+			<div class="tabs-seasons">
+				<ul>
+					<% var torrents = {};
+					_.each(episodes, function(value, currentEpisode) {
+						if (!torrents[value.season]) torrents[value.season] = {};
+						torrents[value.season][value.episode] = value;
+					});
+					_.each(torrents, function(value, season) { %>
+						<li class="tab-season" data-tab="season-<%=season %>">
+							<a><%= i18n.__("Season") %>&nbsp;<%=season %></a>
+						</li>
+					<% }); %>
+				</ul>
+			</div>
+			<div class="tabs-episodes">
 				<% _.each(torrents, function(value, season) { %>
-					<li data-tab="season-<%=season %>">
-						<a><%= i18n.__("Season") %>&nbsp;<%=season %></a>
-					</li>
-				<% }); %>
-			</ul>
-			<div id="tabs_episode_base">
-				<% _.each(torrents, function(value, season) { %>
-					<div id="season-<%=season %>" class="tabs-episode">
+					<div class="tab-episodes season-<%=season %>">
 						<ul>
 							<% _.each(value, function(episodeData, episode) {
-								var first_aired = '';
+								var first_aired = '',
+									q720 = '',
+									q480 = '';
+
 								if (episodeData.first_aired !== undefined) {
 									first_aired = moment.unix(episodeData.first_aired).lang(Settings.language).format("LLLL");
-								} %>
-								<li class="episodeSummary" data-id="<%=episodeData.tvdb_id %>" data-torrent="<%=episodeData.torrents[0].url %>">
+								}
+								if(episodeData.torrents["480p"]) {
+									q480 = episodeData.torrents["480p"].url;
+								}
+								if(episodeData.torrents["720p"]) {
+									q720 = episodeData.torrents["720p"].url;
+								}
+
+							%>
+								<li class="tab-episode" data-id="<%=episodeData.tvdb_id %>">
 									<a href="#" class="episodeData">
 										<span><%=episodeData.episode %></span>
 										<div><%=episodeData.title %></div>
 									</a>
-									<span id="watched-<%=episodeData.season%>-<%=episodeData.episode%>" class="watched watched-false"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
+									
+									<span id="watched-<%=episodeData.season%>-<%=episodeData.episode%>" class="watched"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
 
 
 									<!-- hidden template so we can save a DB query -->
@@ -87,7 +110,9 @@
 										<span class="date"><%=first_aired %></span>
 										<span class="season"><%=episodeData.season %></span>
 										<span class="episode"><%=episodeData.episode %></span>
-										<div class="overview"><%=episodeData.overview %></div>
+										<span class="overview"><%=episodeData.overview %></span>
+										<span class="q480"><%=q480 %></span>
+										<span class="q720"><%=q720 %></span>
 									</div>
 								</li>
 							<% }); %>

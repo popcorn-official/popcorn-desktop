@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var Help = Backbone.Marionette.ItemView.extend({
         template: '#help-tpl',
@@ -12,14 +12,14 @@
 
         onShow: function() {
             $('.search input').blur();
-            $("#movie-detail").hide();
+            $('#movie-detail').hide();
             Mousetrap.bind('esc', function(e) {
                 App.vent.trigger('help:close');
             });
         },
 
         onClose: function() {
-            $("#movie-detail").show();
+            $('#movie-detail').show();
         },
 
         closeHelp: function() {

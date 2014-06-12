@@ -7,4 +7,5 @@
 <div id="content"></div>
 <div id="settings-container"></div>
 <div id="movie-detail"></div>
+<div id="file-selector-container"></div>
 <div id="player"></div>

@@ -1,140 +1,165 @@
 .filter-bar,
 #header
-    z-index: 10
-    width: 100%
-    opacity: .97
-    background-color: #17181b
-    -webkit-user-select: none;
+	z-index: 10
+	width: 100%
+	opacity: .97
+	background-color: #17181b
+	-webkit-user-select: none;
 
 .filter-bar
-    position: absolute
-    top: TitleHeight
-    height: FilterBarHeight
-    box-shadow: 0px 6px 8px -4px rgba(0, 0, 0, .9);
+	position: absolute
+	top: TitleHeight
+	height: FilterBarHeight
+	box-shadow: 0px 6px 8px -4px rgba(0, 0, 0, .9);
 
-    .source
-        box-sizing: content-box
-        -webkit-app-region: no-drag
-        color: #c3c5c7
-        text-align: center
-        cursor: pointer
-        height: 20px
-        padding: 10px 15px 0 18px
+	.source
+		box-sizing: content-box
+		-webkit-app-region: no-drag
+		color: #c3c5c7
+		text-align: center
+		cursor: pointer
+		height: 20px
+		padding: 10px 15px 0 18px
 
-        &:hover
-            color: white
+		&:hover
+			color: white
 
-        &.active
-            border-bottom: 4px solid #2d75df
+		&.active
+			border-bottom: 4px solid #2d75df
 
-    .nav.filters
-        float: left
-        margin-left: 10px
+	.nav.filters
+		float: left
+		margin-left: 10px
+		
+	.nav.right
+		margin-right: 5px
 
-    .filter
-        padding: 10px 0 0
-        margin-left: 20px
+	.filter
+		padding: 10px 0 0
+		margin-left: 20px
 
-        & > a
-            -webkit-app-region: no-drag
-            display: inline-block
-            padding: 0
-            color: #c3c5c7
-            background-color: transparent !important
+		& > a
+			-webkit-app-region: no-drag
+			display: inline-block
+			padding: 0
+			color: #c3c5c7
+			background-color: transparent !important
 
-            &:hover
-                color: white
-        .value
-            color: #2d75df
-            padding-left: 10px
+			&:hover
+				color: white
+		.value
+			color: #2d75df
+			padding-left: 10px
 
-        .dropdown-menu
-            font-size: 0.9em
-            -webkit-app-region: no-drag
-            scrollable()
-            max-height: 500px
-            margin-top: 11px
-            border-top-left-radius: 0
-            border-top-right-radius: 0
+		.dropdown-menu
+			font-size: 0.9em
+			-webkit-app-region: no-drag
+			scrollable()
+			max-height: 500px
+			margin-top: 11px
+			border-top-left-radius: 0
+			border-top-right-radius: 0
 
-    button
-        -webkit-app-region: no-drag
-        background: center no-repeat
-        transition: background-image 0.5s;
-        width: 18px;
-        height: 18px;
-        margin: 10px 5px 0;
+	button
+		-webkit-app-region: no-drag
+		background: center no-repeat
+		transition: background-image 0.5s;
+		width: 18px;
+		height: 18px;
+		margin: 10px 5px 0;
 
-        &.settings
-            margin-right: 10px
-            background-image: url(../images/icons/settings.png);
+		&.settings
+			fadeicon(settings, 0px, -18px, 18px)
 
-            &:hover
-                background-image: url(../images/icons/settings_hover.png);
+		&.about
+			fadeicon(info, 0px, -18px, 18px)
 
-        &.about
-            background-image: url(../images/icons/info.png);
+		&.queue
+			fadeicon(queue, -15px, -30px, 18px)
 
-            &:hover
-                background-image: url(../images/icons/info_hover.png);
+		&.favorites
+			fadeicon(favourites, -20px, -39px, 18px)
 
-        &.queue
-            background-image: url(../images/icons/queue.png);
+		&.triggerUpdate
+			fadeicon(update, 0px, -18px, 18px)
 
-            &:hover
-                background-image: url(../images/icons/queue_hover.png);
+	.search input
+		line-height normal
+		-webkit-app-region no-drag
+		outline none
+		cursor pointer
+		width 0px
+		height 18px
+		position relative
+		background url("../images/icons/search.png") #17181b no-repeat right center
+		background-position right 3px center
+		border solid 0px
+		margin 8px 3px 0
+		padding 1px 2px 3px
+		padding-left 21px
+		border-radius 10em
+		-webkit-appearance textfield
+		-webkit-box-sizing content-box
+		color rgba(196, 198, 200, 0.47)
+		transition width 0.5s, background 0.5s
 
-        &.favorites
-            background-image: url(../images/icons/favorites.png);
+		&:hover
+			background: url('../images/icons/search_hover.png') no-repeat right center;
+			background-position left 3px center
+			color white
+			
+			
+		&:focus
+			background: #ededed url('../images/icons/search_hover.png') no-repeat right center;
+			background-position left 3px center
+			padding-left 25px
+			width: 130px;
+			color: #c4c6c8;
+			background-color: #0e0e0f;
+			cursor: auto;
 
-            &:hover
-                background-image: url(../images/icons/favorites_hover.png);
+		&::-moz-placeholder,
+		&::-webkit-input-placeholder
+			color: transparent;
 
-        &.triggerUpdate
-            background-image: url(../images/icons/TriggerUpdate.png);
+		&:focus::-webkit-input-placeholder
+			color: #c4c6c8;
 
-            &:hover
-                background-image: url(../images/icons/TriggerUpdate_hover.png);
-
-    .search input
-        line-height normal
-        -webkit-app-region no-drag
-        outline none
-        cursor pointer
-        width 0px
-        height 18px
-        position relative
-        background url("../images/icons/search.png") #17181b no-repeat right center
-        background-position right 3px center
-        border solid 0px
-        margin 8px 3px 0
-        padding 1px 2px 3px
-        padding-left 21px
-        border-radius 10em
-        transition width 0.5s
-        -webkit-appearance textfield
-        -webkit-box-sizing content-box
-        color rgba(196, 198, 200, 0.47)
-
-        &:hover
-            background: url('../images/icons/search_hover.png') no-repeat right center;
-            background-position right 3px center
-            background-color rgba(14, 14, 15, 1)
-            color white
-            width 80px
-            
-        &:focus
-            background: #ededed url('../images/icons/search_hover.png') no-repeat right center;
-            background-position right 3px center
-            padding-left 10px
-            width: 130px;
-            color: #c4c6c8;
-            background-color: #0e0e0f;
-            cursor: auto;
-
-        &::-moz-placeholder,
-        &::-webkit-input-placeholder
-            color: transparent;
-
-        &:focus::-webkit-input-placeholder
-            color: #c4c6c8;
+	.remove-search{
+		position absolute
+		right 31px
+		text-align right
+		color #c3c5c7
+		top 12px
+		font-size 12px
+		display none
+		transition all 0.3s
+		&:hover{
+			color #615D5D
+		}
+	}
+	.text-search{
+		max-width 120px
+		text-overflow ellipsis
+		white-space nowrap
+		display block
+		overflow hidden
+		text-align left
+		float right
+		padding 4px
+		margin-top -3px
+		cursor pointer
+		background rgba(141, 141, 141, 0.1)
+		&::before{
+			content "x"
+			background #888A8A
+			padding 0 6px 1px
+			margin-right 6px
+			color #17181b
+			font-weight 900
+		}
+		&:hover::before{
+			content "x"
+			background #2d75df
+		}
+	}

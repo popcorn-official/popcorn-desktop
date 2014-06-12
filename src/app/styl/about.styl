@@ -11,20 +11,19 @@
     background-position 50% 50%
 
     .icon-about
-        margin-top 65px
-        margin-left 40%
-        position absolute
+        margin 80px auto 0 auto
+        display block
 
     .icon-title
-        position absolute
-        top 320px
-        left 43%
+        margin 0 auto 8px auto
+        display block
 
     .overlay-content
         height 100%
         width 100%
         position absolute
         background rgba(0, 0, 0, 0.6)
+        z-index -1
 
     .close
         top 85px
@@ -46,14 +45,14 @@
             transition all .5s
 
     .content
-        margin 270px 20%
-        padding-top 55px
-        width 60%
+        margin 0 auto
+        width 66%
         height 60%
         color #fff
         font-weight 100
         font-family sans-serif
         font-size 17px
+        text-align center
 
         .title-big
             font-size 2.4em
@@ -61,31 +60,30 @@
 
         .title-version
             position absolute
-            margin-left 25%
-            font-size 17px
-            margin-top 30px
+            right 8px
+            bottom 8px
+            font-size 11px
 
         .text-about
-            margin-top 6%
-            line-height 22px
-            margin-bottom 20px
-            position absolute
-            width 70%
+            line-height 20px
+            max-width 800px
+            margin 0 auto
             
             .full-text
                 height 90px
 
         .icons_social
-            bottom 45px
+            bottom 40px
             position absolute
-            margin-left 14.2%
+            left 0
+            right 0
 
             a
                 width 38px
                 height 38px
                 display inline-block
                 transition opacity .2s ease
-                margin-left 15px
+                margin 0 8px
 
                 &:hover
                     opacity .7
@@ -119,9 +117,10 @@
                 background-size contain
 
         .last-line
-            bottom 20px
+            bottom 16px
             color #fff
             font-family sans-serif
             font-size 14px
             position absolute
-            margin-left 17%
+            left 0
+            right 0

@@ -22,35 +22,50 @@
 			padding 88px 0
 			width 100%
 			height 100%
+			border: 2px solid rgba(23, 24, 27, 0.6)
 			border-radius 4px
 			transition opacity .25s ease
+			transition border-color .25s ease
 			opacity 0
-			
-			&:hover
-				opacity: 1
 
 			.actions-favorites
 				height: 20px
-				width: 25px
+				width: 20px
 				float: right
 				background-repeat: no-repeat
 				background-position: center
 				margin-top: -80px
 				margin-right: 7px
-				-webkit-transition: background-image 0.2s ease-in-out
-				background-image: url(../../images/icons/AddToFavorites.png)
-
-				&:hover
-					background-image: url(../../images/icons/favorites_hover.png)
+				fadeicon(favourites, 0px, -38px, 18px)
 
 				&.selected
-					background-image: url(../../images/icons/favorites_marked.png)
+					fadeicon(favourites, -57px, 0px, 18px)
 
-					&:hover
-						background-image: url(../../images/icons/AddToFavorites.png)
+			.actions-watched
+				height: 20px
+				width: 25px
+				background-repeat: no-repeat
+				background-position: center
+				margin-top: -80px
+				margin-left: 7px
+				img
+					-webkit-transition: opacity 0.2s ease-in-out
+					opacity 0.3
 
 
+				&:hover
+					img
+						opacity 0.7
 
+				&.selected
+					img
+						opacity 1
+
+	&.selected
+		.cover
+			.cover-overlay
+				border 2px solid #2d75df
+				opacity: 1
 	.title
 		height: 14px;
 		margin: 6px 0 4px;

@@ -1,5 +1,5 @@
 (function(context){
-    "use strict";
+    'use strict';
 
     var _ = require('underscore');
     var request = require('request');
@@ -23,15 +23,15 @@
             return {};
         }
 		
-        var url = baseUrl + _.map(imdbIds.sort(), function(id){return 'tt'+id;}).join('-');
-        var mirrorurl = mirrorUrl + _.map(imdbIds.sort(), function(id){return 'tt'+id;}).join('-');
+        var url = baseUrl + _.map(imdbIds.sort(), function(id){return id;}).join('-');
+        var mirrorurl = mirrorUrl + _.map(imdbIds.sort(), function(id){return id;}).join('-');
 
         var deferred = Q.defer();
 
         request({url:url, json: true}, function(error, response, data){
-            if(error || response.statusCode != 200 || !data || !data.success) {
+            if(error || response.statusCode !== 200 || !data || !data.success) {
                 request({url:mirrorurl, json: true}, function(error, response, data){
-                    if(error || response.statusCode != 200 || !data || !data.success) {
+                    if(error || response.statusCode !== 200 || !data || !data.success) {
                         deferred.reject(error);
                     } else {
                         deferred.resolve(data);
@@ -60,7 +60,7 @@
             // Remove unsupported subtitles
             var filteredSubtitle = App.Localization.filterSubtitle(movieSubs);
 
-            allSubs[imdbId.replace('tt','')] = filteredSubtitle;
+            allSubs[imdbId] = filteredSubtitle;
         });
 
         return allSubs;
@@ -73,47 +73,47 @@
 	
 	// Language mapping to match PT langcodes
 	var languageMapping = {
-		"albanian": "sq",
-		"arabic": "ar",
-		"bengali": "bn",
-		"brazilian-portuguese": "pt-br",
-		"bulgarian": "bg",
-		"bosnian": "bs",
-		"chinese": "zh",
-		"croatian": "hr",
-		"czech": "cs",
-		"danish": "da",
-		"dutch": "nl",
-		"english": "en",
-		"estonian": "et",
-		"farsi-persian": "fa",
-		"finnish": "fi",
-		"french": "fr",
-		"german": "de",
-		"greek": "el",
-		"hebrew": "he",
-		"hungarian": "hu",
-		"indonesian": "id",
-		"italian": "it",
-		"japanese": "ja",
-		"korean": "ko",
-		"lithuanian": "lt",
-		"macedonian": "mk",
-		"malay": "ms",
-		"norwegian": "no",
-		"polish": "pl",
-		"portuguese": "pt",
-		"romanian": "ro",
-		"russian": "ru",
-		"serbian": "sr",
-		"slovenian": "sl",
-		"spanish": "es",
-		"swedish": "sv",
-		"thai": "th",
-		"turkish": "tr",
-		"urdu": "ur",
-		"ukrainian": "uk",
-		"vietnamese": "vi"
+		'albanian': 'sq',
+		'arabic': 'ar',
+		'bengali': 'bn',
+		'brazilian-portuguese': 'pt-br',
+		'bulgarian': 'bg',
+		'bosnian': 'bs',
+		'chinese': 'zh',
+		'croatian': 'hr',
+		'czech': 'cs',
+		'danish': 'da',
+		'dutch': 'nl',
+		'english': 'en',
+		'estonian': 'et',
+		'farsi-persian': 'fa',
+		'finnish': 'fi',
+		'french': 'fr',
+		'german': 'de',
+		'greek': 'el',
+		'hebrew': 'he',
+		'hungarian': 'hu',
+		'indonesian': 'id',
+		'italian': 'it',
+		'japanese': 'ja',
+		'korean': 'ko',
+		'lithuanian': 'lt',
+		'macedonian': 'mk',
+		'malay': 'ms',
+		'norwegian': 'no',
+		'polish': 'pl',
+		'portuguese': 'pt',
+		'romanian': 'ro',
+		'russian': 'ru',
+		'serbian': 'sr',
+		'slovenian': 'sl',
+		'spanish': 'es',
+		'swedish': 'sv',
+		'thai': 'th',
+		'turkish': 'tr',
+		'urdu': 'ur',
+		'ukrainian': 'uk',
+		'vietnamese': 'vi'
 	};
 
     context.App.Providers.YSubs = YSubs;

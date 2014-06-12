@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     /**
      * Manage movie browsing:
@@ -12,9 +12,6 @@
     var ShowBrowser = Backbone.Marionette.Layout.extend({
         template: '#show-browser-tpl',
         className: 'show-browser',
-        events: {
-            'keypress': 'focusSearch',
-        },
         regions: {
             FilterBar: '.filter-bar-region',
             ShowList: '.show-list-region'

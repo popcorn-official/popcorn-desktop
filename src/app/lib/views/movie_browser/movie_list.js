@@ -1,123 +1,222 @@
 (function(App) {
-    "use strict";
+	'use strict';
 
-    var SCROLL_MORE = 200;
+	var SCROLL_MORE = 200;
+	var NUM_MOVIES_IN_ROW = 7;
+	var _this;
 
-    var ErrorView = Backbone.Marionette.ItemView.extend({
-        template: '#movie-error-tpl',
-        onBeforeRender: function() {
-            this.model.set('error', this.error);
-        }
-    });
+	var ErrorView = Backbone.Marionette.ItemView.extend({
+		template: '#movie-error-tpl',
+		onBeforeRender: function() {
+			this.model.set('error', this.error);
+		}
+	});
 
-    var MovieList = Backbone.Marionette.CompositeView.extend({
-        template: '#movie-list-tpl',
+	var MovieList = Backbone.Marionette.CompositeView.extend({
+		template: '#movie-list-tpl',
 
-        tagName: 'ul',
-        className: 'movie-list',
+		tagName: 'ul',
+		className: 'movie-list',
 
-        itemView: App.View.MovieItem,
-        itemViewContainer: '.movies',
+		itemView: App.View.MovieItem,
+		itemViewContainer: '.movies',
 
-        events: {
-            'mousewheel': 'onScroll',
-            'keydown': 'onScroll'
-        },
+		events: {
+			'mousewheel': 'onScroll',
+			'keydown': 'onScroll'
+		},
 
-        isEmpty: function() {
-            return !this.collection.length && this.collection.state !== 'loading';
-        },
+		isEmpty: function() {
+			return !this.collection.length && this.collection.state !== 'loading';
+		},
 
-        getEmptyView: function() {
-            if(this.collection.state === 'error') {
-                return ErrorView.extend({error: i18n.__('Error loading data, try again later...')});
-            } else {
-                return ErrorView.extend({error: i18n.__('No movies found...')});
-            }
-        },
+		getEmptyView: function() {
+			if(this.collection.state === 'error') {
+				return ErrorView.extend({error: i18n.__('Error loading data, try again later...')});
+			} else {
+				return ErrorView.extend({error: i18n.__('No movies found...')});
+			}
+		},
 
-        onResize: function() {
-            var movieItem = $('.movie-item');
-            var movieItemFullWidth = movieItem.width() + parseInt(movieItem.css('marginLeft')) + parseInt(movieItem.css('marginRight'));
-            var movieItemAmount = $('.movie-list').width() / movieItemFullWidth;
-            movieItemAmount = Math.floor(movieItemAmount);
+		ui: {
+			spinner: '.spinner'
+		},
 
-            var newWidth = movieItemAmount * movieItemFullWidth;
-            $('.movies').width(newWidth);
-        },
+		initialize: function() {
+			_this = this;
+			this.listenTo(this.collection, 'loading', this.onLoading);
+			this.listenTo(this.collection, 'loaded', this.onLoaded);
 
-        ui: {
-            spinner: '.spinner'
-        },
+			App.vent.on('shortcuts:movies', function() {
+				_this.initKeyboardShortcuts();
+			});
 
-        initialize: function() {
-            this.listenTo(this.collection, 'loading', this.onLoading);
-            this.listenTo(this.collection, 'loaded', this.onLoaded);
-        },
+			_this.initKeyboardShortcuts();
 
-        remove: function() {
-            $(window).off('resize', this.onResize);
-        },
+		},
 
-        onShow: function() {
-            if(this.collection.state === 'loading') {
-                this.onLoading();
-            }
-        },
+		initKeyboardShortcuts: function() {
+			Mousetrap.bind('up', _this.moveUp);
 
-        onLoading: function() {
-            $(".status-loadmore").hide();
-            $("#loading-more-animi").show();
-        },
+			Mousetrap.bind('down', _this.moveDown);
 
-        onLoaded: function() {
-			console.timeEnd("App startup time")
-            var self = this;
-            this.checkEmpty();
+			Mousetrap.bind('left', _this.moveLeft);
 
-            $("#load-more-item").remove();
+			Mousetrap.bind('right', _this.moveRight);
 
-            // we add a load more
-            if(this.collection.hasMore && this.collection.filter.keywords == null && this.collection.state != 'error') {
-                $(".movies").append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
-                
-                $("#load-more-item").click(function(){
-                    $("#load-more-item").off('click');
-                    self.collection.fetchMore();
-                });
+			Mousetrap.bind(['enter', 'space'], _this.selectItem);
 
-                $("#loading-more-animi").hide();
-                $(".status-loadmore").show();
-            }
+			Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch);
 
-            $(window).on('resize', this.onResize);
-            this.onResize();
-            this.ui.spinner.hide();
-			
-            $('.filter-bar').on('mousedown', function(e){
-                if(e.target.localName != 'div') return;
-                _.defer(function(){
-                    self.$('.movies:first').focus();
-                });
-            });
-            $(".movies").attr('tabindex','1');
-            _.defer(function(){
-                self.$('.movies:first').focus();
-            });
-        },
+			Mousetrap.bind('tab', function() {
+				App.vent.trigger('shows:list');
+			});
+		},
 
-        onScroll: function() {
-            if(!this.collection.hasMore) return;
+		unbindKeyboardShortcuts: function() {
+			Mousetrap.unbind('up');
 
-            var totalHeight       = this.$el.prop('scrollHeight');
-            var currentPosition = this.$el.scrollTop() + this.$el.height();
+			Mousetrap.unbind('down');
 
-            if(this.collection.state === 'loaded' &&
-                totalHeight - currentPosition < SCROLL_MORE) {
-                this.collection.fetchMore();
-            }
-        }
-    });
+			Mousetrap.unbind('left');
 
-    App.View.MovieList = MovieList;
+			Mousetrap.unbind('right');
+
+			Mousetrap.unbind(['enter', 'space']);
+
+			Mousetrap.unbind(['ctrl+f', 'command+f']);
+
+			Mousetrap.unbind('tab');
+		},
+
+		onShow: function() {
+			if(this.collection.state === 'loading') {
+				this.onLoading();
+			}
+		},
+
+		onLoading: function() {
+			$('.status-loadmore').hide();
+			$('#loading-more-animi').show();
+		},
+
+		onLoaded: function() {
+			console.timeEnd('App startup time');
+			var self = this;
+			this.checkEmpty();
+
+			$('#load-more-item,.movie-item:empty').remove();
+
+			// we add a load more
+			if(this.collection.hasMore && this.collection.filter.keywords === undefined && this.collection.state !== 'error') {
+				$('.movies').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
+
+				$('#load-more-item').click(function(){
+					$('#load-more-item').off('click');
+					self.collection.fetchMore();
+				});
+
+				$('#loading-more-animi').hide();
+				$('.status-loadmore').show();
+			}
+
+			if($('.movie-item:empty').length === 0 && $('.movie-item:not(:empty)').length > 0){
+				for (var i=0; i<20; i++) {
+					$('.movies').append('<li class="movie-item"></li>');
+				}
+			}
+
+			this.ui.spinner.hide();
+
+			$('.filter-bar').on('mousedown', function(e){
+				if(e.target.localName !== 'div') {
+					return;
+				}
+				_.defer(function(){
+					self.$('.movies:first').focus();
+					if($('.movie-item.selected').length === 0) {
+						self.$('.movie-item').eq(0).addClass('selected');
+					}
+				});
+			});
+			$('.movies').attr('tabindex','1');
+			_.defer(function(){
+				self.$('.movies:first').focus();
+				if($('.movie-item.selected').length === 0){
+					self.$('.movie-item').eq(0).addClass('selected');
+				}
+			});
+		},
+
+		onScroll: function() {
+			if(!this.collection.hasMore) { return; }
+
+			var totalHeight = this.$el.prop('scrollHeight');
+			var currentPosition = this.$el.scrollTop() + this.$el.height();
+
+			if(this.collection.state === 'loaded' &&
+				totalHeight - currentPosition < SCROLL_MORE) {
+				this.collection.fetchMore();
+		}
+	},
+
+	focusSearch: function(e) {
+		$('.search input').focus();
+	},
+
+	selectItem: function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$('.movie-item.selected .cover').trigger('click');
+	},
+
+	selectIndex: function(index) {
+		$('.movie-item.selected').removeClass('selected');
+		$('.movies .movie-item').eq(index).addClass('selected');
+		$('.movie-item.selected')[0].scrollIntoView(false);
+		_this.onScroll();
+	},
+
+	moveUp: function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		var index = $('.movie-item.selected').index() - NUM_MOVIES_IN_ROW;
+		if(index< 0) {
+			return;
+		}
+		_this.selectIndex(index);
+	},
+
+	moveDown: function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		var index = $('.movie-item.selected').index() + NUM_MOVIES_IN_ROW;
+		if($('.movies .movie-item').eq(index).length === 0) {
+			return;
+		}
+		_this.selectIndex(index);
+	},
+
+	moveLeft: function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		var index = $('.movie-item.selected').index() - 1;
+		if(index === -1) {
+			return;
+		}
+		if(index === -2) {
+			$('.movies .movie-item').eq(0).addClass('selected');
+		}
+		_this.selectIndex(index);
+	},
+
+	moveRight: function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		var index = $('.movie-item.selected').index() + 1;
+		_this.selectIndex(index);
+	},
+});
+
+App.View.MovieList = MovieList;
 })(window.App);

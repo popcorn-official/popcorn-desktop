@@ -1,0 +1,69 @@
+.file-selector-container
+    z-index 100
+    height 100%
+    width 100%
+    position fixed
+    background-color #17181b
+    -webkit-user-select none
+    opacity 1
+    background-position 50% 50%
+
+    .close
+        top 25px
+        right 20px
+        position fixed
+        float right
+        width 20px
+        height 20px
+        background-image url('../../images/icons/Close.png')
+        background-size 20px
+        cursor pointer
+        z-index 100
+        opacity 0.7
+        -webkit-backface-visibility hidden
+        transition all .5s
+
+        &:hover
+            opacity 1 
+            transition all .5s
+    .title
+        font-size 24px
+        padding 0 0 20px
+        margin-top 100px
+        color #fff
+        font-family sans-serif
+        text-align center
+
+    .content
+        margin 0 auto
+        width 66%
+        height 60%
+        color #fff
+        font-weight 100
+        font-family sans-serif
+        font-size 17px
+        text-align center
+        box-shadow inset -3px 0px 10px rgba(0, 0, 0, 0.67)
+        scrollable()
+
+        ul
+
+            li.file-item
+                border-bottom 1px solid rgba(255, 255, 255, 0.06)
+                background rgba(255, 255, 255, 0.05)
+                text-align left
+                margin 2px
+                cursor pointer
+                
+                color #eee
+
+                a
+                    color #eee
+                    text-decoration blink
+                    width 100%
+                    display block
+                    padding 10px 0 10px 40px
+                    transition all 0.3s
+
+                    &:hover
+                        color #2a6496

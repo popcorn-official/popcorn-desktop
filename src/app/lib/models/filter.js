@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var Filter = Backbone.Model.extend({
         defaults: {

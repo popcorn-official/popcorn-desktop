@@ -1,5 +1,5 @@
 (function(App) {
-    "use strict";
+    'use strict';
 
     var About = Backbone.Marionette.ItemView.extend({
         template: '#about-tpl',
@@ -15,20 +15,20 @@
         },
 
         onShow: function() {
-            Mousetrap.bind('esc', function(e) {
+            Mousetrap.bind('backspace', function(e) {
                 App.vent.trigger('about:close');
             });
             $('.links').tooltip();
-            console.log('Show about', this.model); 
-            $("#movie-detail").hide();
+            console.log('Show about', this.model);
+            $('#movie-detail').hide();
         },
 
-        onClose: function() {  
-            Mousetrap.bind('esc', function(e) {
+        onClose: function() {
+            Mousetrap.bind('backspace', function(e) {
                 App.vent.trigger('show:closeDetail');
                 App.vent.trigger('movie:closeDetail');
             });
-            $("#movie-detail").show();
+            $('#movie-detail').show();
         },
 
         closeAbout: function() {
