@@ -46,7 +46,9 @@ module.exports = function(grunt) {
 		'clean:releases',
 		'build',
 		'exec:createDmg', // mac
-		'compress' // linux
+		'exec:createWinInstall',
+		'exec:createWinUpdate',
+		'compress' // win & linux
 	]);	
 
 	grunt.registerTask('start', function(){
@@ -113,7 +115,13 @@ module.exports = function(grunt) {
 				cmd: '"build/cache/linux64/<%= nodewebkit.options.version %>/nw" .'
 			},
 			createDmg: {
-				cmd: 'dist/mac/yoursway-create-dmg/create-dmg --volname "Popcorn Time ' + currentVersion + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "Popcorn-Time" 240 110 ./build/releases/Popcorn-Time/mac/Popcorn-Time-' + currentVersion + '.dmg ./build/releases/Popcorn-Time/mac/'
+				cmd: 'dist/mac/yoursway-create-dmg/create-dmg --volname "Popcorn Time ' + currentVersion + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "Popcorn-Time" 240 110 ./build/releases/Popcorn-Time/mac/Popcorn-Time-' + currentVersion + '-Mac.dmg ./build/releases/Popcorn-Time/mac/'
+			},
+			createWinInstall: {
+				cmd: 'makensis dist/windows/installer.nsi'
+			},
+			createWinUpdate: {
+				cmd: 'makensis dist/windows/updater.nsi'
 			}
 		},
 
@@ -152,6 +160,16 @@ module.exports = function(grunt) {
 				cwd: 'build/releases/Popcorn-Time/linux64/Popcorn-Time',
 				src: '**',
 				dest: 'Popcorn-Time'
+			},
+			windows: {
+				options: {
+					mode: 'zip',
+					archive: 'build/releases/Popcorn-Time/win/Popcorn-Time-' + currentVersion + '-Win.zip'
+				},
+				expand: true,
+				cwd: 'build/releases/Popcorn-Time/win',
+				src: 'Popcorn-Time-' + currentVersion + '-Win.exe',
+				dest: 'Popcorn-Time-'+ currentVersion
 			}			
 		},
 

@@ -7,7 +7,7 @@
 !include "FileFunc.nsh"
 
 ;General Settings
-!searchparse /file "..\..\package.json" `  "version": "` PT_VERSION `",`
+!searchparse /file "../../package.json" `  "version": "` PT_VERSION `",`
 !define /date builddate "%y.%m.%d-%H.%M"
 Name "Popcorn Time"
 Caption "Popcorn Time v${PT_VERSION}"
@@ -17,10 +17,11 @@ VIAddVersionKey "ProductVersion" "v${PT_VERSION}"
 VIAddVersionKey "FileDescription" "Popcorn Time"
 VIAddVersionKey "FileVersion" "v${PT_VERSION}"
 VIAddVersionKey "CompanyName" "Popcorn Official"
-VIAddVersionKey "LegalCopyright" "http://get-popcorn.com"
-VIAddVersionKey "OriginalFilename" "Popcorn-Time-${PT_VERSION}-Win-${builddate}.exe"
+VIAddVersionKey "LegalCopyright" "http://popcorntime.io"
+VIAddVersionKey "OriginalFilename" "Popcorn-Time-${PT_VERSION}-Win.exe"
 VIProductVersion "${PT_VERSION}.0"
-OutFile "Popcorn-Time-${PT_VERSION}-Win-${builddate}.exe"
+!system 'mkdir -p ../../build/releases/Popcorn-Time/win/'
+OutFile "../../build/releases/Popcorn-Time/win/Popcorn-Time-${PT_VERSION}-Win.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 !define NW_VER "0.9.2"
@@ -45,7 +46,7 @@ RequestExecutionLevel admin
 !define MUI_FINISHPAGE_RUN_TEXT "Start Popcorn Time"
 !define MUI_FINISHPAGE_RUN_FUNCTION "LaunchPopcornTime"
 !define MUI_FINISHPAGE_LINK "Popcorn Time Official Homepage"
-!define MUI_FINISHPAGE_LINK_LOCATION "http://get-popcorn.com/"
+!define MUI_FINISHPAGE_LINK_LOCATION "http://popcorntime.io/"
 
 ;Define the pages
 !insertmacro MUI_PAGE_WELCOME
@@ -64,7 +65,6 @@ RequestExecutionLevel admin
 !insertmacro MUI_LANGUAGE "Afrikaans"
 !insertmacro MUI_LANGUAGE "Albanian"
 !insertmacro MUI_LANGUAGE "Arabic"
-!insertmacro MUI_LANGUAGE "Asturian"
 !insertmacro MUI_LANGUAGE "Basque"
 !insertmacro MUI_LANGUAGE "Belarusian"
 !insertmacro MUI_LANGUAGE "Bosnian"
@@ -100,7 +100,6 @@ RequestExecutionLevel admin
 !insertmacro MUI_LANGUAGE "Mongolian"
 !insertmacro MUI_LANGUAGE "Norwegian"
 !insertmacro MUI_LANGUAGE "NorwegianNynorsk"
-!insertmacro MUI_LANGUAGE "Pashto"
 !insertmacro MUI_LANGUAGE "Polish"
 !insertmacro MUI_LANGUAGE "Portuguese"
 !insertmacro MUI_LANGUAGE "PortugueseBR"
@@ -119,7 +118,6 @@ RequestExecutionLevel admin
 !insertmacro MUI_LANGUAGE "Turkish"
 !insertmacro MUI_LANGUAGE "Ukrainian"
 !insertmacro MUI_LANGUAGE "Uzbek"
-!insertmacro MUI_LANGUAGE "Vietnamese"
 !insertmacro MUI_LANGUAGE "Welsh"
 
 AutoCloseWindow false
@@ -194,7 +192,7 @@ Section ; Shortcuts
 	WriteRegStr HKLM "${UNINSTALLPATH}" "UninstallString" "$\"$INSTDIR\Uninstall.exe$\""
 	WriteRegStr HKLM "${UNINSTALLPATH}" "InstallLocation" "$\"$INSTDIR$\""
 	WriteRegStr HKLM "${UNINSTALLPATH}" "DisplayIcon" "$\"$INSTDIR\Popcorn-Time.ico$\""
-	WriteRegStr HKLM "${UNINSTALLPATH}" "URLInfoAbout" "http://get-popcorn.com/"
+	WriteRegStr HKLM "${UNINSTALLPATH}" "URLInfoAbout" "http://popcorntime.io/"
 	WriteRegStr HKLM "${UNINSTALLPATH}" "HelpLink" "https://github.com/popcorn-official/popcorn-app/issues"
 	WriteRegDWORD HKLM "${UNINSTALLPATH}" "NoModify" 1
 	WriteRegDWORD HKLM "${UNINSTALLPATH}" "NoRepair" 1
