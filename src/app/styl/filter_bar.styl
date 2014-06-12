@@ -124,3 +124,40 @@
 
 		&:focus::-webkit-input-placeholder
 			color: #c4c6c8;
+
+	.remove-search{
+		position absolute
+		right 31px
+		text-align right
+		color #c3c5c7
+		top 12px
+		width 140px
+		font-size 12px
+		display none
+		cursor pointer
+		transition all 0.3s
+		&::before{
+			content "x"
+			background rgb(112, 112, 112)
+			border-radius 30px
+			padding 0 6px 1px
+			margin-right 4px
+			color white
+		}
+		&:hover{
+			color #615D5D
+		}
+	}
+	.text-search{
+		max-width 120px
+		text-overflow ellipsis
+		white-space nowrap
+		display block
+		overflow hidden
+		text-align right
+		float right
+		background rgba(255, 255, 255, 0.1)
+		padding 4px
+		border-radius 10px
+		margin-top -3px
+	}

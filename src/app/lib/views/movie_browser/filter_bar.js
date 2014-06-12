@@ -6,6 +6,8 @@
         ui: {
             searchForm: '.search form',
             search:     '.search input',
+            searchClose:'.remove-search',
+            searchText: '.text-search',
 
             sorterValue: '.sorters .value',
             genreValue:  '.genres  .value'
@@ -13,6 +15,7 @@
         events: {
             'hover  @ui.search': 'focus',
             'submit @ui.searchForm': 'search',
+            'click  @ui.searchClose': 'removeSearch',
             'click .sorters .dropdown-menu a': 'sortBy',
             'click .genres .dropdown-menu a': 'changeGenre',
             'click .settings': 'settings',
@@ -48,6 +51,27 @@
                 genre: ''
             });
             this.ui.search.blur();
+
+            if (searchvalue == "") {
+                this.ui.searchClose.hide('slow');
+                this.ui.searchText.text();
+            } else {
+                this.ui.searchClose.show();
+                this.ui.searchText.text("'" + this.ui.search.val() + "'");
+            }
+        },
+        removeSearch: function(e) {
+            App.vent.trigger('about:close');
+            App.vent.trigger('movie:closeDetail');
+            e.preventDefault();
+            this.model.set({
+                keywords: '',
+                genre: ''
+            });
+
+            this.ui.search.val(''); 
+            this.ui.searchClose.hide('slow');
+            this.ui.searchText.text();
         },
 
         sortBy: function(e) {
