@@ -63,7 +63,6 @@
         engine.swarm.piecesGot = 0;
         engine.on('verify', function(index) {
             engine.swarm.piecesGot += 1;
-            win.debug('Got piece #%d', index);
         });
 
         var streamInfo = new App.Model.StreamInfo({engine: engine});
