@@ -28,7 +28,7 @@
 		initialize: function() {
 			_this = this;
 			Mousetrap.bind('esc', function(e) {
-				_this.closeDetails();
+				_this.closeDetails(e);
 			});
 			App.vent.on('shows:watched', this.markWatched);
 
