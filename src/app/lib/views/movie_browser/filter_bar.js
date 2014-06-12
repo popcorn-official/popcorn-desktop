@@ -52,12 +52,12 @@
             });
             this.ui.search.blur();
 
-            if (searchvalue == "") {
+            if (searchvalue === '') {
                 this.ui.searchClose.hide('slow');
                 this.ui.searchText.text();
             } else {
                 this.ui.searchClose.show();
-                this.ui.searchText.text("'" + this.ui.search.val() + "'");
+                this.ui.searchText.text('\'' + this.ui.search.val() + '\'');
             }
         },
         removeSearch: function(e) {
