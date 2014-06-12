@@ -5,7 +5,6 @@ var
 	Datastore = require('nedb'),
 	path = require('path'),
 	openSRT = require('opensrt_js'),
-	trakt = null,
 	
 	db = {},
 	data_path = require('nw.gui').App.dataPath,
@@ -148,39 +147,20 @@ var Database = {
 		}, cb);
 	},
 
-	markMovieAsWatched: function (data, cb) {
+	markMovieAsWatched: function (data, trakt, cb) {
 		if(!cb) {
-			cb = function () {};
+			if(typeof trakt === 'function') {
+				cb = trakt;
+				trakt = undefined;
+			} else {
+				cb = function () {};
+			}
 		}
-		if(Settings.traktUsername && Settings.traktPassword) {
-			if(trakt === null) {
-				trakt = new (App.Config.getProvider('metadata'))();
-			}
-			var query = {};
-			if(data.from_browser) {
-				query = {
-					username: Settings.traktUsername,
-	            	password: Settings.traktPassword,
-	            	movies: [
-	            		{
-	            			imdb_id: 'tt'+data.imdb_id.toString()
-	            		}
-	            	]
-				};
-				trakt.seenMovie(query);
-			}
-			else {
-				query = {
-		            username: Settings.traktUsername,
-		            password: Settings.traktPassword,
-		            imdb_id: 'tt'+data.imdb_id.toString(),
-		            duration: data.runtime.toString(),
-		            type: 'movie'
-		        };
-
-		        trakt.scrobble(query);
-		    }
-	    }
+		
+		if(trakt !== false) {
+			App.Trakt.movie.seen(data.imdb_id);
+		}
+		
 		db.watched.insert({
 			movie_id: data.imdb_id.toString(),
 			date: new Date(),
@@ -188,25 +168,20 @@ var Database = {
 		}, cb);
 	},
 
-	markMovieAsNotWatched: function (data, cb) {
+	markMovieAsNotWatched: function (data, trakt, cb) {
 		if(!cb) {
-			cb = function () {};
-		}
-		if(Settings.traktUsername && Settings.traktPassword) {
-			if(trakt === null) {
-				trakt = new (App.Config.getProvider('metadata'))();
+			if(typeof trakt === 'function') {
+				cb = trakt;
+				trakt = undefined;
+			} else {
+				cb = function () {};
 			}
-			var query = {
-				username: Settings.traktUsername,
-            	password: Settings.traktPassword,
-            	movies: [
-            		{
-            			imdb_id: 'tt'+data.imdb_id.toString()
-            		}
-            	]
-			};
-			trakt.unseenMovie(query);
 		}
+		
+		if(trakt !== false) {
+			App.Trakt.movie.unseen(data.imdb_id);
+		}
+
 		db.watched.remove({
 			movie_id: data.imdb_id.toString()
 		}, cb);
@@ -244,43 +219,20 @@ var Database = {
 		}, cb);
 	},
 
-	markEpisodeAsWatched: function (data, cb) {
+	markEpisodeAsWatched: function (data, trakt, cb) {
 		if(!cb) {
-			cb = function () {};
+			if(typeof trakt === 'function') {
+				cb = trakt;
+				trakt = undefined;
+			} else {
+				cb = function () {};
+			}
 		}
-		if(Settings.traktUsername && Settings.traktPassword) {
-			if(trakt === null) {
-				trakt = new (App.Config.getProvider('metadata'))();
-			}
-			var query = {};
-			if(data.from_browser) {
-				query = {
-		            username: Settings.traktUsername,
-		            password: Settings.traktPassword,
-		            tvdb_id: data.show_id.toString(),
-		            episodes: [
-			            {
-			            	season: data.season.toString(),
-		            		episode: data.episode.toString(), 
-			            }
+		
+		if(trakt !== false) {
+			App.Trakt.show.episodeSeen(data.show_id, {season: data.season, episode: data.episode});
+		}
 
-		            ]
-		        };
-		        trakt.seenEpisode(query);
-			}
-			else {
-				query = {
-		            username: Settings.traktUsername,
-		            password: Settings.traktPassword,
-		            tvdb_id: data.show_id.toString(),
-		            season: data.season.toString(),
-		            episode: data.episode.toString(),
-		            type: 'show'
-		        };
-
-		        trakt.scrobble(query);
-		    }
-	    }
 		db.watched.insert({
 			show_id: data.show_id.toString(),
 			season: data.season.toString(),
@@ -290,10 +242,20 @@ var Database = {
 		}, cb);
 	},
 
-	markEpisodeAsNotWatched: function (data, cb) {
+	markEpisodeAsNotWatched: function (data, trakt, cb) {
 		if(!cb) {
-			cb = function () {};
+			if(typeof trakt === 'function') {
+				cb = trakt;
+				trakt = undefined;
+			} else {
+				cb = function () {};
+			}
 		}
+
+		if(trakt !== false) {
+			App.Trakt.show.episodeUnseen(data.show_id, {season: data.season, episode: data.episode});
+		}
+		
 		db.watched.remove({
 			show_id: data.show_id.toString(),
 			season: data.season.toString(),
@@ -375,7 +337,6 @@ var Database = {
 		});
 		Database.getMoviesWatched(function(err, data){
 			App.watchedMovies = extractMovieIds(data);
-			console.log(App.watchedMovies);
 			watchedMoviesDone = true;
 			if(bookmarksDone && watchedMoviesDone) {
 				cb();
@@ -412,7 +373,9 @@ var Database = {
 				db.movies.remove({}, {multi: true}, function (err, numRemoved) {
 					db.settings.remove({}, {multi: true}, function (err, numRemoved) {
 						db.watched.remove({}, {multi: true}, function (err, numRemoved) {
-							return cb(false, true);
+							var req = indexedDB.deleteDatabase(App.Config.cache.name);
+							req.onsuccess = function() { cb(false, true); };
+							req.onerror = function() { cb(false, true); };
 						});
 					});
 				});
@@ -421,7 +384,6 @@ var Database = {
 	},
 
 	initialize: function (callback) {
-
 		// we'll intiatlize our settings and our API SSL Validation
 		// we build our settings array
 		Database.getUserInfo(function() {
@@ -451,6 +413,7 @@ var Database = {
 					detectLanguage(Settings.language);
 					// set hardware settings and usefull stuff
 					AdvSettings.setup(function () {
+						App.Trakt = new (App.Config.getProvider('metadata'))();
 						// check update
 						checkUpdate();
 						// we skip the initDB (not needed in current version)

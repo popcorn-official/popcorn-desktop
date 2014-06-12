@@ -78,16 +78,10 @@
 
         var checkReady = function() {
             if(stateModel.get('state') === 'ready') {
+                streamInfo.set(torrent);
 
                 // we need subtitle in the player
                 streamInfo.set('subtitle', subtitles != null ? subtitles : torrent.subtitle);
-                streamInfo.set('defaultSubtitle', torrent.defaultSubtitle);
-                streamInfo.set('title', torrent.title);
-
-                // add few info
-                streamInfo.set('show_id', torrent.show_id);
-                streamInfo.set('episode', torrent.episode);
-                streamInfo.set('season', torrent.season);
 
                 App.vent.trigger('stream:ready', streamInfo);
                 stateModel.destroy();
@@ -184,7 +178,8 @@
                             show_id: model.get('show_id'),
                             episode: model.get('episode'),
                             season: model.get('season'),
-                            file_index: model.get('file_index')
+                            file_index: model.get('file_index'),
+                            imdb_id: model.get('imdb_id')
                         };
 
                         handleTorrent(torrentInfo, stateModel);
@@ -231,14 +226,10 @@
                                 sub_data.filename = title;
                                 var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i);
                                 if(se_re != null){
-                                    var tvshowname = $.trim( se_re[1].replace(/[\.]/g,' ') );
-                                    var trakt = new (App.Config.getProvider('metadata'))();
-                                    trakt.episodeDetail({title: tvshowname, season: se_re[2], episode: se_re[3]}, function(error, data) {
-                                        if(error) {
-                                            win.warn(error);
-                                            getSubtitles(sub_data);
-                                        } else if(!data) {
-                                            win.warn('TTV error:', error.error);
+                                    var tvshowname = $.trim( se_re[1].replace(/[\.]/g,' ') ).replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+                                    App.Trakt.show.episodeSummary(tvshowname, se_re[2], se_re[3]).then(function(data) {
+                                        if(!data) {
+                                            win.warn('Unable to fetch data from Trakt.tv');
                                             getSubtitles(sub_data);
                                         } else {
                                             $('.loading-background').css('background-image', 'url('+data.show.images.fanart+')');
@@ -252,6 +243,9 @@
                                             title = data.show.title + ' - ' + i18n.__('Season') + ' ' + data.episode.season + ', ' + i18n.__('Episode') + ' ' + data.episode.number + ' - ' + data.episode.title;
                                         }
                                         handleTorrent_fnc();
+                                    }).catch(function(err) {
+                                        win.warn(err);
+                                        getSubtitles(sub_data);
                                     });
                                 }else{
                                     getSubtitles(sub_data);

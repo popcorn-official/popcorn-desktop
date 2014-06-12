@@ -22,6 +22,7 @@ Settings.tvshowApiEndpoint = 'http://eztvapi.re/';
 // User settings (not set here, just init'd)
 Settings.traktUsername = '';
 Settings.traktPassword = '';
+Settings.traktTvVersion = '0.0.2';
 
 // Advanced options
 Settings.connectionLimit = 100;

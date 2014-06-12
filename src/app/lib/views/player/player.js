@@ -1,66 +1,90 @@
 (function(App) {
-	'use strict';
+    'use strict';
 
-	var Player = Backbone.Marionette.ItemView.extend({
-		template: '#player-tpl',
-		className: 'player',
+    var Player = Backbone.Marionette.ItemView.extend({
+        template: '#player-tpl',
+        className: 'player',
 
-		ui: {
-			eyeInfo: '.eye-info-player',
-			downloadSpeed: '.download_speed_player',
-			uploadSpeed: '.upload_speed_player',
-			activePeers: '.active_peers_player'
-		},
+        ui: {
+            eyeInfo: '.eye-info-player',
+            downloadSpeed: '.download_speed_player',
+            uploadSpeed: '.upload_speed_player',
+            activePeers: '.active_peers_player'
+        },
 
-		events: {
-			'click .close-info-player': 'closePlayer',
-			'click .vjs-fullscreen-control': 'toggleFullscreen',
-			'click .vjs-subtitles-button': 'toggleSubtitles'
-		},
+        events: {
+            'click .close-info-player': 'closePlayer',
+            'click .vjs-fullscreen-control': 'toggleFullscreen',
+            'click .vjs-subtitles-button': 'toggleSubtitles'
+        },        
 
-		initialize: function() {
-			this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
-			this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
-			this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
-			this.video = false;
-			this.inFullscreen = win.isFullscreen;
-		},
+        isMovie: function() {
+            return this.model.get('show_id') === undefined;
+        },
 
-		updateDownloadSpeed: function() {
-			this.ui.downloadSpeed.text(this.model.get('downloadSpeed'));
-		},
+        initialize: function() {
+            this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
+            this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
+            this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
+            this.video = false;
+            this.inFullscreen = win.isFullscreen;
+        },
 
-		updateUploadSpeed: function() {
-			this.ui.uploadSpeed.text(this.model.get('uploadSpeed'));
-		},
+        updateDownloadSpeed: function() {
+            this.ui.downloadSpeed.text(this.model.get('downloadSpeed'));
+        },
 
-		updateActivePeers: function() {
-			this.ui.activePeers.text(this.model.get('active_peers'));
-		},
+        updateUploadSpeed: function() {
+            this.ui.uploadSpeed.text(this.model.get('uploadSpeed'));
+        },
 
-		closePlayer: function() {
-			win.info('Player closed');
+        updateActivePeers: function() {
+            this.ui.activePeers.text(this.model.get('active_peers'));
+        },
 
-			// Check if >80% is watched to mark as watched by user (maybe add value to settings
-			if(this.video.currentTime() / this.video.duration() >= 0.8){
-				if(this.model.get('show_id') != null) {
-					win.debug('Mark TV Show as watched');
-					App.vent.trigger('shows:watched', this.model.attributes);
-				} else if (this.model.get('imdb_id') != null) {
-					win.debug('Mark Movie as watched');
-					App.vent.trigger('movies:watched', this.model.attributes);
+        closePlayer: function() {
+            win.info('Player closed');
+            console.log(this.model);
 
-				} // else, it's probably a stream or something we don't know of
-			}
+            if(this._WatchingTimer) {
+                clearInterval(this._WatchingTimer);
+            }
 
-			this.video.dispose();
-			App.vent.trigger('player:close');
-		},
+            // Check if >80% is watched to mark as watched by user  (maybe add value to settings
+            if(this.video.currentTime() / this.video.duration() >= 0.8){
+                if(!this.isMovie()) {
+                    win.debug('Mark TV Show as watched');
+                    App.vent.trigger('shows:watched', this.model.attributes, false);
+                    
+                    App.Trakt
+                    .show
+                    .scrobble(this.model.get('show_id'), this.model.get('season'), this.model.get('episode'), this.video.currentTime() / this.video.duration() * 100 | 0, this.video.duration() / 60 | 0);
+                
+                } else if (this.model.get('imdb_id') != null) {
+                    win.debug('Mark Movie as watched');
+                    App.vent.trigger('movies:watched', this.model.attributes, false);
+                    
+                    App.Trakt
+                    .movie
+                    .scrobble(this.model.get('imdb_id'), this.video.currentTime() / this.video.duration() * 100 | 0, this.video.duration() / 60 | 0);
 
-		onShow: function() {
+                } // else, it's probably a stream or something we don't know of
+            } else {
+                if(this.isMovie()) {
+                    App.Trakt.movie.cancelWatching();
+                } else {
+                    App.Trakt.show.cancelWatching();
+                }
+            }
 
-			// Test to make sure we have title
-			win.info('Watching:', this.model.get('title'));
+            this.video.dispose();
+            App.vent.trigger('player:close');  
+        },
+
+        onShow: function() {
+
+            // Test to make sure we have title
+            win.info('Watching:', this.model.get('title'));
 			//$('.filter-bar').show(); 
 			var _this = this;
 
@@ -94,13 +118,33 @@
 				_this.closePlayer();
 			});
 
-			player.on('play', function () {
-				// Trigger a resize so the subtitles are adjusted
-				$(window).trigger('resize');
-			});
+            player.one('play', function() {
+                var sendToTrakt = function() {
+                    if(_this.isMovie()) {
+                        win.debug('Reporting we are watching ' + _this.model.get('imdb_id') + ' ' + (_this.video.currentTime() / _this.video.duration() * 100 | 0) + '% ' + (_this.video.duration() / 60 | 0));
+                        App.Trakt.movie.watching(_this.model.get('imdb_id'), _this.video.currentTime() / _this.video.duration() * 100 | 0, _this.video.duration() / 60 | 0);
+                    } else {
+                        win.debug('Reporting we are watching ' + _this.model.get('show_id') + ' ' + (_this.video.currentTime() / _this.video.duration() * 100 | 0) + '%');
+                        App.Trakt.show.watching(_this.model.get('show_id'), _this.model.get('season'), _this.model.get('episode'), _this.video.currentTime() / _this.video.duration() * 100 | 0, _this.video.duration() / 60 | 0);
+                    }
+                };
 
-			// There was an issue with the video
-			player.on('error', function (error) {
+                player.one('durationchange', sendToTrakt);
+                _this._WatchingTimer = setInterval(sendToTrakt, 10 * 60 * 1000); // 10 minutes
+            });
+
+            player.on('play', function () {
+              // Trigger a resize so the subtitles are adjusted
+              $(window).trigger('resize');
+            });
+
+            // There was an issue with the video
+            player.on('error', function (error) {
+                if(_this.isMovie()) {
+                    App.Trakt.movie.cancelWatching();
+                } else {
+                    App.Trakt.show.cancelWatching();
+                }
 				// TODO: user errors
 				if(_this.model.get('type') === 'video/youtube') {
 					setTimeout(function() {
@@ -294,26 +338,29 @@
 		
 		displayOverlayMsg: function(message){
 			if($('.vjs-overlay').length >0) {
-				$('.vjs-overlay').text(message);
-				clearTimeout($.data(this, 'overlayTimer'));
-				$.data(this, 'overlayTimer', setTimeout(function() {
-					$('.vjs-overlay').fadeOut('normal', function() {$(this).remove();});
-				}, 3000));
-			} else {
-				$(this.player.el()).append('<div class =\'vjs-overlay vjs-overlay-top-left\'>'+message+'</div>');
-				$.data(this, 'overlayTimer', setTimeout(function() {
-					$('.vjs-overlay').fadeOut('normal', function() {$(this).remove();});
-				}, 3000));
-			}
-		},
+                $('.vjs-overlay').text(message);
+                clearTimeout($.data(this, 'overlayTimer'));
+                $.data(this, 'overlayTimer', setTimeout(function() {
+                    $('.vjs-overlay').fadeOut('normal', function() {$(this).remove();});
+                }, 3000));
+            } else {
+                $(this.player.el()).append('<div class =\'vjs-overlay vjs-overlay-top-left\'>'+message+'</div>');
+                $.data(this, 'overlayTimer', setTimeout(function() {
+                    $('.vjs-overlay').fadeOut('normal', function() {$(this).remove();});
+                }, 3000));
+            }
+        },
 
-		onClose: function() {
-			if(!this.inFullscreen && win.isFullscreen) {
-				win.leaveFullscreen();
-			}
-			App.vent.trigger('stream:stop');
-		}
+        onClose: function() {
+            if(!this.inFullscreen && win.isFullscreen) {
+                win.leaveFullscreen();
+            }
+            App.vent.trigger('stream:stop');            
+            if(this._WatchingTimer) {
+                clearInterval(this._WatchingTimer);
+            }
+        }
 
-	});
-	App.View.Player = Player;
+    });
+    App.View.Player = Player;
 })(window.App);

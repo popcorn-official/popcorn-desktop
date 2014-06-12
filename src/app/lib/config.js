@@ -77,10 +77,16 @@
 
         cache: {
             name: 'cachedb',
-            version: '1.5',
+            version: '1.7',
+            tables: ['subtitle'],
             desc: 'Cache database',
-            size: 10*1024*1024,
-            tables: ['subtitle', 'metadata']
+            size: 10*1024*1024
+        },
+
+        cachev2: {
+            name: 'cache',
+            version: 3,
+            tables: ['metadata']
         },
 
         providers: {

@@ -1,9 +1,6 @@
 (function(App) {
 	'use strict';
 
-	var sha1 = require('sha1'); // Crypto doesn't work with field.val(), that's why sha1 is needed
-	var trakt = null;
-
 	var Settings = Backbone.Marionette.ItemView.extend({
 		template: '#settings-container-tpl',
 		className: 'settings-container-contain',
@@ -20,9 +17,10 @@
 			'click .flush-bookmarks': 'flushBookmarks',
 			'click .flush-databases': 'flushAllDatabase',
 			'click .flush-subtitles': 'flushAllSubtitles',
-			'click .test-trakt-login': 'testTraktLogin',
 			'click #faketmpLocation' : 'showCacheDirectoryDialog',
 			'click .default-settings' : 'resetSettings',
+			'keyup #traktUsername': 'checkTraktLogin',
+			'keyup #traktPassword': 'checkTraktLogin',
 			'change #tmpLocation' : 'updateCacheDirectory',
 		},
 
@@ -32,6 +30,10 @@
 			Mousetrap.bind('backspace', function(e) {
 				App.vent.trigger('settings:close');
 			});
+			if($('#traktPassword').data('fake') !== undefined) {
+				$('.valid-tick').show();
+				$('#traktPassword').attr('data-fake', null);
+			}
 		},
 
 		onClose: function() {
@@ -82,15 +84,10 @@
 				value = field.val();
 				break;
 			case 'traktUsername':
-				$('.test-trakt-login').removeClass('red').removeClass('green').text(i18n.__('Test Login'));
-				value = field.val();
-				break;
+			case 'traktPassword':
+				return;
 			case 'tmpLocation':
 				value = path.join(field.val(), 'Popcorn-Time');
-				break;
-			case 'traktPassword':
-				$('.test-trakt-login').removeClass('red').removeClass('green').text(i18n.__('Test Login'));
-				value = sha1(field.val());
 				break;
 			default:
 				win.warn('Setting not defined: '+field.attr('name'));
@@ -106,26 +103,29 @@
 			});
 		},
 
-		testTraktLogin: function(e) {
-			if(trakt === null) {
-				trakt = new (App.Config.getProvider('metadata'))();
-			}
-			var btn = $(e.currentTarget);
-			btn.text( i18n.__('Testing...') ).addClass('disabled').prop('disabled',true);
-			var that = this;
+		checkTraktLogin: _.debounce(function(e) {
+			var username = document.querySelector('#traktUsername').value;
+			var password = document.querySelector('#traktPassword').value;
 
-			trakt.testLogin({
-				username: App.settings.traktUsername,
-				password: App.settings.traktPassword
-			}, function(success) {
-				if(success) {
-					btn.removeClass('disabled').prop('disabled', false).addClass('green').text(i18n.__('Success!'));
+			$('.invalid-cross').hide();
+			$('.valid-tick').hide();
+			$('.loading-spinner').show();
+			// trakt.authenticate automatically saves the username and pass on success!
+			App.Trakt.authenticate(username, password).then(function(valid) {
+				$('.loading-spinner').hide();
+				// Stop multiple requests interfering with each other
+				$('.invalid-cross').hide();
+				$('.valid-tick').hide();
+				if(valid) {
+					$('.valid-tick').show();
+				} else {
+					$('.invalid-cross').show();
 				}
-				else {
-					btn.removeClass('disabled').prop('disabled', false).addClass('red').text(i18n.__('Failed!'));
-				}
+			}).catch(function(err) {
+				$('.loading-spinner').hide();
+				$('.invalid-cross').show();
 			});
-		},
+		}, 500),
 
 		flushBookmarks: function(e) {
 			var that = this;

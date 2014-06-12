@@ -71,7 +71,7 @@
 			padding-top 20px
 
 		.trakt-options
-			height 200px
+			height 160px
 			padding-top 20px
 
 		.more-options
@@ -163,7 +163,7 @@
 			margin-right 30px
 
 		.trakt-options
-			height 200px
+			height 160px
 			padding-top 20px
 			border-bottom solid #3a3b3e 1px
 			margin-right 30px
@@ -374,3 +374,54 @@ input[type=checkbox]
 hr
 	border-color #3a3b3e
 	height 1px
+
+@keyframes rotate-forever 
+	0% 
+		transform rotate(0deg)
+	
+	100% 
+		transform rotate(360deg)
+
+.trakt-options
+	.loading-spinner 
+		animation-duration 0.75s
+		animation-iteration-count infinite
+		animation-name rotate-forever
+		animation-timing-function linear
+		width 20px
+		height 20px
+		border 4px solid #2d75df
+		border-right-color transparent
+		border-radius 50%
+		display inline-block
+		margin 0px 0px -5px -27px
+
+	.invalid-cross
+		width 20px
+		height 20px
+		display inline-block
+		margin 0px 0px -5px -27px
+		
+		&:before
+			content "\2573"
+			font-family Arial
+			font-size 12px
+			font-weight bolder
+			text-shadow 0 0 10px #EE3030
+			color #EE3030
+
+	.valid-tick
+		width 20px
+		height 20px
+		display inline-block
+		margin 0px 0px -5px -27px
+		
+		&:before
+			content "\2714"
+			font-family Arial
+			font-size 17px
+			font-weight bold
+			text-shadow 0 0 10px #4EEE30
+			color #4EEE30
+			position relative
+			top 2px
