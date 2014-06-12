@@ -24,7 +24,6 @@
         },
 
         focus: function (e) {
-            console.error ('here');
             e.focus();
         },
 
@@ -48,15 +47,6 @@
                 keywords: this.ui.search.val(),
                 genre: ''
             });
-            if(searchvalue !== '')
-            {          
-                $('#searchbox').attr('placeholder', searchvalue);       
-            }
-            else
-            {
-                $('#searchbox').attr('placeholder', 'Search');  
-            }
-            this.ui.search.val('');
             this.ui.search.blur();
         },
 

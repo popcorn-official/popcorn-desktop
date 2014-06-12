@@ -66,6 +66,8 @@
 
 			Mousetrap.bind(['enter', 'space'], _this.selectItem);
 
+			Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch);
+
 			Mousetrap.bind('tab', function() {
 				App.vent.trigger('shows:list');
 			});
@@ -81,6 +83,8 @@
 			Mousetrap.unbind('right');
 
 			Mousetrap.unbind(['enter', 'space']);
+
+			Mousetrap.unbind(['ctrl+f', 'command+f']);
 
 			Mousetrap.unbind('tab');
 		},
@@ -154,6 +158,10 @@
 				totalHeight - currentPosition < SCROLL_MORE) {
 				this.collection.fetchMore();
 		}
+	},
+
+	focusSearch: function(e) {
+		$('.search input').focus();
 	},
 
 	selectItem: function(e) {
