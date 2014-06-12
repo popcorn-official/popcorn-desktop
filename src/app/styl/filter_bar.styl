@@ -131,19 +131,9 @@
 		text-align right
 		color #c3c5c7
 		top 12px
-		width 140px
 		font-size 12px
 		display none
-		cursor pointer
 		transition all 0.3s
-		&::before{
-			content "x"
-			background rgb(112, 112, 112)
-			border-radius 30px
-			padding 0 6px 1px
-			margin-right 4px
-			color white
-		}
 		&:hover{
 			color #615D5D
 		}
@@ -154,10 +144,17 @@
 		white-space nowrap
 		display block
 		overflow hidden
-		text-align right
+		text-align left
 		float right
-		background rgba(255, 255, 255, 0.1)
 		padding 4px
-		border-radius 10px
 		margin-top -3px
+		cursor pointer
+		&::before{
+			content "x"
+			background rgb(112, 112, 112)
+			border-radius 30px
+			padding 0 6px 1px
+			margin-right 6px
+			color white
+		}
 	}
