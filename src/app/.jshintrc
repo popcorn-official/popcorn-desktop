@@ -7,7 +7,7 @@
 	
 	// Options
 	"curly"    : true,
-	"bitwise"  : true,
+	"bitwise"  : false,
 	"immed"    : true,
 	"latedef"  : true,
 	"nonbsp"   : true,
@@ -26,6 +26,7 @@
 	"laxbreak" : true,
 	"loopfunc" : true,
 	"indent"   : 4,
+  "newcap"   : false,
 	
 	// Globals
 	"globals": {
@@ -42,6 +43,7 @@
 		"Database": true,
 		"checkUpdate": true,
 		"detectLanguage": true,
+    "indexedDB": true,
 		
 		// Third party
 		"Backbone": true,
