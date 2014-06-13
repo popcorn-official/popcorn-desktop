@@ -52,9 +52,9 @@
 
 			Mousetrap.bind('down', _this.nextEpisode);
 
-			Mousetrap.bind(['ctrl+up', 'command+up'], _this.previousSeason);
+			Mousetrap.bind('ctrl+up', _this.previousSeason);
 
-			Mousetrap.bind(['ctrl+down', 'command+down'], _this.nextSeason);
+			Mousetrap.bind('ctrl+down', _this.nextSeason);
 
 			Mousetrap.bind(['enter', 'space'], _this.playEpisode);
 
@@ -70,9 +70,9 @@
 
         	Mousetrap.unbind('down');
 
-			Mousetrap.unbind(['ctrl+up', 'command+up']);
+        	Mousetrap.unbind('ctrl+up');
 
-			Mousetrap.unbind(['ctrl+down', 'command+down']);
+        	Mousetrap.unbind('ctrl+down');
 
         	Mousetrap.unbind(['enter', 'space']);
 
