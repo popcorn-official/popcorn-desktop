@@ -37,6 +37,11 @@
 				_this.initKeyboardShortcuts();
 			});
 
+			var resumeTimes = AdvSettings.get('resumeTimes') || {};
+            if(resumeTimes[this.model.get('imdb_id')]) {
+                this.model.set('remaining', this.model.get('runtime') - (resumeTimes[this.model.get('imdb_id')] / 60 | 0));
+            }
+
 			_this.initKeyboardShortcuts();
 		},
 
@@ -105,7 +110,6 @@
 			Mousetrap.bind('esc', function(e) {
 				App.vent.trigger('movie:closeDetail');
 			});
-
 		},
 
 		onClose: function() {},

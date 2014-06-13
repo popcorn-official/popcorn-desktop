@@ -16,7 +16,12 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 				<div class="movie-meta-details"><%= year %></div>
 				<div class="movie-dot"></div>
 				<% if (synopsis.length > 528) { var synopsis = synopsis.substring(0, 528) + "..."; } %>
-				<div class="movie-meta-details"><%= runtime %> min</div>
+				<div class="movie-meta-details"><% if(typeof remaining !== "undefined") { %>
+					<%= remaining %> min left
+				<% } else { %>
+					<%= runtime %> min
+				<% } %>
+				</div>
 				<div class="movie-dot"></div>
 				<div data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Open IMDb page") %>" class="movie-imdb-link"></div>
 				<div class="movie-dot"></div>
