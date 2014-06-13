@@ -19,7 +19,7 @@ VIAddVersionKey "CompanyName" "Popcorn Official"
 VIAddVersionKey "LegalCopyright" "http://popcorntime.io"
 VIAddVersionKey "OriginalFilename" "Updater-Popcorn-Time-${PT_VERSION}-Win.exe"
 VIProductVersion "${PT_VERSION}.0"
-;!system "mkdir ..\..\build\releases\Popcorn-Time\win\"
+!system "mkdir ..\..\build\releases\Popcorn-Time\win\"
 OutFile "..\..\build\releases\Popcorn-Time\win\Updater-Popcorn-Time-${PT_VERSION}-Win.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
