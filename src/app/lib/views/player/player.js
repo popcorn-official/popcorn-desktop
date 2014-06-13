@@ -50,7 +50,6 @@
                 clearInterval(this._WatchingTimer);
             }
 
-
             var movieProgress = this.video.currentTime() / this.video.duration() * 100 | 0;
             var resumeTimes = AdvSettings.get('resumeTimes');
 
