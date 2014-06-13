@@ -85,57 +85,65 @@
 
             // Test to make sure we have title
             win.info('Watching:', this.model.get('title'));
-			//$('.filter-bar').show(); 
-			var _this = this;
+            var _this = this;
 
-			$('.player-header-background').canDragWindow();
-			$('#video_player').canDragWindow();
-			// Double Click to toggle Fullscreen
-			$('#video_player').dblclick(function(event){
-				_this.toggleFullscreen();
-			});
+            $('.player-header-background').canDragWindow();
+            $('#video_player').canDragWindow();
+            // Double Click to toggle Fullscreen
+            $('#video_player').dblclick(function(event){
+                _this.toggleFullscreen();
+            });
 
-			if(this.model.get('type') === 'video/youtube') {
-				this.video = videojs('video_player', { techOrder: ['youtube'], forceSSL: true, ytcontrols: false, quality: '720p' }).ready(function() {this.addClass('vjs-has-started');});
-				this.ui.eyeInfo.hide();
-			} else {
-				this.video = videojs('video_player', { nativeControlsForTouch: false, trackTimeOffset: 0, plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {}, progressTips: {}, dropSubtitles: {} }});
-			}
+            if(this.model.get('type') === 'video/youtube') {
+                this.video = videojs('video_player', { techOrder: ['youtube'], forceSSL: true, ytcontrols: false, quality: '720p' }).ready(function() {this.addClass('vjs-has-started');});
+                this.ui.eyeInfo.hide();
+            } else {
+                this.video = videojs('video_player', { nativeControlsForTouch: false, trackTimeOffset: 0, plugins: { biggerSubtitle : {}, smallerSubtitle : {}, customSubtitles: {}, progressTips: {}, dropSubtitles: {} }});
+            }
 
-			var player = this.video.player();
-			this.player = player;
-			
-			// Force custom controls
-			player.usingNativeControls(false);
-			
-			// Had only tracking in, leave it here if we want to do something else when paused.
-			player.on('pause', function () {
+            var player = this.video.player();
+            this.player = player;
+            
+            // Force custom controls
+            player.usingNativeControls(false);
 
-			});
+            player.on('ended', function () {
+                // For now close player. In future we will check if auto-play etc and get next episode
+                _this.closePlayer();
+            });
 
-			player.on('ended', function () {
-				// For now close player. In future we will check if auto-play etc and get next episode
-				_this.closePlayer();
-			});
+
+            var sendToTrakt = function() {
+                if(_this.isMovie()) {
+                    win.debug('Reporting we are watching ' + _this.model.get('imdb_id') + ' ' + (_this.video.currentTime() / _this.video.duration() * 100 | 0) + '% ' + (_this.video.duration() / 60 | 0));
+                    App.Trakt.movie.watching(_this.model.get('imdb_id'), _this.video.currentTime() / _this.video.duration() * 100 | 0, _this.video.duration() / 60 | 0);
+                } else {
+                    win.debug('Reporting we are watching ' + _this.model.get('show_id') + ' ' + (_this.video.currentTime() / _this.video.duration() * 100 | 0) + '%');
+                    App.Trakt.show.watching(_this.model.get('show_id'), _this.model.get('season'), _this.model.get('episode'), _this.video.currentTime() / _this.video.duration() * 100 | 0, _this.video.duration() / 60 | 0);
+                }
+            };
 
             player.one('play', function() {
-                var sendToTrakt = function() {
-                    if(_this.isMovie()) {
-                        win.debug('Reporting we are watching ' + _this.model.get('imdb_id') + ' ' + (_this.video.currentTime() / _this.video.duration() * 100 | 0) + '% ' + (_this.video.duration() / 60 | 0));
-                        App.Trakt.movie.watching(_this.model.get('imdb_id'), _this.video.currentTime() / _this.video.duration() * 100 | 0, _this.video.duration() / 60 | 0);
-                    } else {
-                        win.debug('Reporting we are watching ' + _this.model.get('show_id') + ' ' + (_this.video.currentTime() / _this.video.duration() * 100 | 0) + '%');
-                        App.Trakt.show.watching(_this.model.get('show_id'), _this.model.get('season'), _this.model.get('episode'), _this.video.currentTime() / _this.video.duration() * 100 | 0, _this.video.duration() / 60 | 0);
-                    }
-                };
-
                 player.one('durationchange', sendToTrakt);
                 _this._WatchingTimer = setInterval(sendToTrakt, 10 * 60 * 1000); // 10 minutes
             });
 
             player.on('play', function () {
-              // Trigger a resize so the subtitles are adjusted
-              $(window).trigger('resize');
+                // Trigger a resize so the subtitles are adjusted
+                $(window).trigger('resize');
+
+                if(_this.wasSeek) {
+                    sendToTrakt();
+                    _this.wasSeek = false;
+                }
+            });
+
+            player.on('pause', function() {
+                if(_this.player.scrubbing) {
+                    _this.wasSeek = true;
+                } else {
+                    _this.wasSeek = false;
+                }
             });
 
             // There was an issue with the video
@@ -145,199 +153,199 @@
                 } else {
                     App.Trakt.show.cancelWatching();
                 }
-				// TODO: user errors
-				if(_this.model.get('type') === 'video/youtube') {
-					setTimeout(function() {
-						App.vent.trigger('player:close');
-					} , 2000);
-				}
-				win.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
-			});
+                // TODO: user errors
+                if(_this.model.get('type') === 'video/youtube') {
+                    setTimeout(function() {
+                        App.vent.trigger('player:close');
+                    } , 2000);
+                }
+                win.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
+            });
 
-			// add ESC toggle when full screen
-			Mousetrap.bind('esc', function(e) {
-				_this.leaveFullscreen();
-			});
+            // add ESC toggle when full screen
+            Mousetrap.bind('esc', function(e) {
+                _this.leaveFullscreen();
+            });
 
-			Mousetrap.bind(['f', 'F'], function(e) {
-				_this.toggleFullscreen();
-			});
+            Mousetrap.bind(['f', 'F'], function(e) {
+                _this.toggleFullscreen();
+            });
 
-			Mousetrap.bind('h', function(e) {
-				_this.adjustSubtitleOffset(0.1);
-			});
+            Mousetrap.bind('h', function(e) {
+                _this.adjustSubtitleOffset(0.1);
+            });
 
-			Mousetrap.bind('g', function(e) {
-				_this.adjustSubtitleOffset(-0.1);
-			});
-			
-			Mousetrap.bind('shift+h', function(e) {
-				_this.adjustSubtitleOffset(1);
-			});
+            Mousetrap.bind('g', function(e) {
+                _this.adjustSubtitleOffset(-0.1);
+            });
+            
+            Mousetrap.bind('shift+h', function(e) {
+                _this.adjustSubtitleOffset(1);
+            });
 
-			Mousetrap.bind('shift+g', function(e) {
-				_this.adjustSubtitleOffset(-1);
-			});
-			
-			Mousetrap.bind('ctrl+h', function(e) {
-				_this.adjustSubtitleOffset(5);
-			});
+            Mousetrap.bind('shift+g', function(e) {
+                _this.adjustSubtitleOffset(-1);
+            });
+            
+            Mousetrap.bind('ctrl+h', function(e) {
+                _this.adjustSubtitleOffset(5);
+            });
 
-			Mousetrap.bind('ctrl+g', function(e) {
-				_this.adjustSubtitleOffset(-5);
-			});
+            Mousetrap.bind('ctrl+g', function(e) {
+                _this.adjustSubtitleOffset(-5);
+            });
 
-			Mousetrap.bind(['space', 'p'], function(e) {
-				$('.vjs-play-control').click();
-			});
+            Mousetrap.bind(['space', 'p'], function(e) {
+                $('.vjs-play-control').click();
+            });
 
-			Mousetrap.bind('right', function (e) {
-				_this.seek(10);
-			});
+            Mousetrap.bind('right', function (e) {
+                _this.seek(10);
+            });
 
-			Mousetrap.bind('shift+right', function (e) {
-				_this.seek(60);
-			});
+            Mousetrap.bind('shift+right', function (e) {
+                _this.seek(60);
+            });
 
-			Mousetrap.bind('ctrl+right', function (e) {
-				_this.seek(600);
-			});
+            Mousetrap.bind('ctrl+right', function (e) {
+                _this.seek(600);
+            });
 
-			Mousetrap.bind('left', function (e) {
-				_this.seek(-10);
-			});
+            Mousetrap.bind('left', function (e) {
+                _this.seek(-10);
+            });
 
-			Mousetrap.bind('shift+left', function (e) {
-				_this.seek(-60);
-			});
+            Mousetrap.bind('shift+left', function (e) {
+                _this.seek(-60);
+            });
 
-			Mousetrap.bind('ctrl+left', function (e) {
-				_this.seek(-600);
-			});
-			
-			Mousetrap.bind('up', function (e) {
-				_this.adjustVolume(0.1);
-			});
+            Mousetrap.bind('ctrl+left', function (e) {
+                _this.seek(-600);
+            });
+            
+            Mousetrap.bind('up', function (e) {
+                _this.adjustVolume(0.1);
+            });
 
-			Mousetrap.bind('shift+up', function (e) {
-				_this.adjustVolume(0.5);
-			});
+            Mousetrap.bind('shift+up', function (e) {
+                _this.adjustVolume(0.5);
+            });
 
-			Mousetrap.bind('ctrl+up', function (e) {
-				_this.adjustVolume(1);
-			});
+            Mousetrap.bind('ctrl+up', function (e) {
+                _this.adjustVolume(1);
+            });
 
-			Mousetrap.bind('down', function (e) {
-				_this.adjustVolume(-0.1);
-			});
+            Mousetrap.bind('down', function (e) {
+                _this.adjustVolume(-0.1);
+            });
 
-			Mousetrap.bind('shift+down', function (e) {
-				_this.adjustVolume(-0.5);
-			});
+            Mousetrap.bind('shift+down', function (e) {
+                _this.adjustVolume(-0.5);
+            });
 
-			Mousetrap.bind(['ctrl+down'], function (e) {
-				_this.adjustVolume(-1);
-			});
+            Mousetrap.bind(['ctrl+down'], function (e) {
+                _this.adjustVolume(-1);
+            });
 
-			Mousetrap.bind(['m', 'M'], function (e) {
-				_this.toggleMute();
-			});
+            Mousetrap.bind(['m', 'M'], function (e) {
+                _this.toggleMute();
+            });
 
-			Mousetrap.bind(['u', 'U'], function (e) {
-				_this.displayStreamURL();
-			});
+            Mousetrap.bind(['u', 'U'], function (e) {
+                _this.displayStreamURL();
+            });
 
-			Mousetrap.bind(['ctrl+d'], function (e) {
-				_this.toggleMouseDebug();
-			});
+            Mousetrap.bind(['ctrl+d'], function (e) {
+                _this.toggleMouseDebug();
+            });
 
-			document.addEventListener('mousewheel', function(e){
-				_this.mouseScroll(e);
-			});
+            document.addEventListener('mousewheel', function(e){
+                _this.mouseScroll(e);
+            });
 
-			$('.player-header-background').appendTo('div#video_player');
-		},
+            $('.player-header-background').appendTo('div#video_player');
+        },
 
-		toggleMouseDebug: function () {
-			if(this.player.debugMouse_){
-				this.player.debugMouse_ = false;
-				this.displayOverlayMsg('Mouse debug disabled');
-			}else{
-				this.player.debugMouse_ = true;
-				this.displayOverlayMsg('Mouse debug enabled. Dont touch the mouse until disabled.');
-			}
-		},
+        toggleMouseDebug: function () {
+            if(this.player.debugMouse_){
+                this.player.debugMouse_ = false;
+                this.displayOverlayMsg('Mouse debug disabled');
+            }else{
+                this.player.debugMouse_ = true;
+                this.displayOverlayMsg('Mouse debug enabled. Dont touch the mouse until disabled.');
+            }
+        },
 
-		seek: function (s) {
-			var t = this.player.currentTime();
-			this.player.currentTime(t + s);
-			this.player.trigger('mousemove'); //hack, make controls show
-		},
+        seek: function (s) {
+            var t = this.player.currentTime();
+            this.player.currentTime(t + s);
+            this.player.trigger('mousemove'); //hack, make controls show
+        },
 
-		mouseScroll: function(e) {
-			if ($(e.target).parents('.vjs-subtitles-button').length) {
-				return;
-			}
-			if (event.wheelDelta > 0) { // Scroll up
-				this.adjustVolume(0.1);
-			} 
-			else { // Scroll down
-				this.adjustVolume(-0.1);
-			}
-		},
-		
-		adjustVolume: function(i) {
-			var v = this.player.volume();
-			this.player.volume(v + i);
-			this.displayOverlayMsg(i18n.__('Volume')+': '+ this.player.volume().toFixed(1) * 100 + '%');
-		},
-		
-		toggleMute: function() {
-			this.player.muted(!this.player.muted());
-		},
-		
-		toggleFullscreen: function() {
+        mouseScroll: function(e) {
+            if ($(e.target).parents('.vjs-subtitles-button').length) {
+                return;
+            }
+            if (event.wheelDelta > 0) { // Scroll up
+                this.adjustVolume(0.1);
+            } 
+            else { // Scroll down
+                this.adjustVolume(-0.1);
+            }
+        },
+        
+        adjustVolume: function(i) {
+            var v = this.player.volume();
+            this.player.volume(v + i);
+            this.displayOverlayMsg(i18n.__('Volume')+': '+ this.player.volume().toFixed(1) * 100 + '%');
+        },
+        
+        toggleMute: function() {
+            this.player.muted(!this.player.muted());
+        },
+        
+        toggleFullscreen: function() {
 
-			this.nativeWindow = require('nw.gui').Window.get();
+            this.nativeWindow = require('nw.gui').Window.get();
 
-			if(this.nativeWindow.isFullscreen) {
-				this.player.isFullscreen(false);
-				this.player.trigger('fullscreenchange');
-				this.nativeWindow.leaveFullscreen();
-				this.nativeWindow.focus();
-			} else {
-				this.player.isFullscreen(true);
-				this.player.trigger('fullscreenchange');
-				this.nativeWindow.enterFullscreen();
-				this.nativeWindow.focus();
-			}
-		},
+            if(this.nativeWindow.isFullscreen) {
+                this.player.isFullscreen(false);
+                this.player.trigger('fullscreenchange');
+                this.nativeWindow.leaveFullscreen();
+                this.nativeWindow.focus();
+            } else {
+                this.player.isFullscreen(true);
+                this.player.trigger('fullscreenchange');
+                this.nativeWindow.enterFullscreen();
+                this.nativeWindow.focus();
+            }
+        },
 
-		toggleSubtitles: function() {},
+        toggleSubtitles: function() {},
 
-		leaveFullscreen: function() {
-			this.nativeWindow = require('nw.gui').Window.get();
+        leaveFullscreen: function() {
+            this.nativeWindow = require('nw.gui').Window.get();
 
-			if(this.nativeWindow.isFullscreen) {
-				this.nativeWindow.leaveFullscreen();
-				this.nativeWindow.focus();
-			}
-		},
-		
-		displayStreamURL: function() {
-			var clipboard = require('nw.gui').Clipboard.get();
-			clipboard.set($('#video_player video').attr('src'), 'text');
-			this.displayOverlayMsg(i18n.__('URL of this stream was copied to the clipboard'));
-		},
-		
-		adjustSubtitleOffset: function(s) {
-			var o = this.player.options()['trackTimeOffset'];
-			this.player.options()['trackTimeOffset'] = (o + s);
-			this.displayOverlayMsg(i18n.__('Subtitles Offset')+': '+ this.player.options()['trackTimeOffset'].toFixed(1) +' '+i18n.__('secs'));
-		},
-		
-		displayOverlayMsg: function(message){
-			if($('.vjs-overlay').length >0) {
+            if(this.nativeWindow.isFullscreen) {
+                this.nativeWindow.leaveFullscreen();
+                this.nativeWindow.focus();
+            }
+        },
+        
+        displayStreamURL: function() {
+            var clipboard = require('nw.gui').Clipboard.get();
+            clipboard.set($('#video_player video').attr('src'), 'text');
+            this.displayOverlayMsg(i18n.__('URL of this stream was copied to the clipboard'));
+        },
+        
+        adjustSubtitleOffset: function(s) {
+            var o = this.player.options()['trackTimeOffset'];
+            this.player.options()['trackTimeOffset'] = (o + s);
+            this.displayOverlayMsg(i18n.__('Subtitles Offset')+': '+ this.player.options()['trackTimeOffset'].toFixed(1) +' '+i18n.__('secs'));
+        },
+        
+        displayOverlayMsg: function(message){
+            if($('.vjs-overlay').length >0) {
                 $('.vjs-overlay').text(message);
                 clearTimeout($.data(this, 'overlayTimer'));
                 $.data(this, 'overlayTimer', setTimeout(function() {
