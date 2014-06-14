@@ -199,7 +199,7 @@
 		},
 
 		calcHealth: function (tQ) {
-			var spratio = tQ.seed / tQ.peer;
+			var spratio = (tQ.seed !== 0 && tQ.peer !== 0) ? tQ.seed / tQ.peer : 0;
 			var health = 'Bad';
 			if(spratio > 5){
 				health = tQ.seed > 100? 'Excellent':'Good';
