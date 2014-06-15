@@ -21,6 +21,7 @@
 			'click .default-settings' : 'resetSettings',
 			'keyup #traktUsername': 'checkTraktLogin',
 			'keyup #traktPassword': 'checkTraktLogin',
+			'click #unauthTrakt': 'disconnectTrakt',
 			'change #tmpLocation' : 'updateCacheDirectory',
 		},
 
@@ -30,10 +31,6 @@
 			Mousetrap.bind('backspace', function(e) {
 				App.vent.trigger('settings:close');
 			});
-			if($('#traktPassword').data('fake') !== undefined) {
-				$('.valid-tick').show();
-				$('#traktPassword').attr('data-fake', null);
-			}
 		},
 
 		onClose: function() {
@@ -107,6 +104,10 @@
 			var username = document.querySelector('#traktUsername').value;
 			var password = document.querySelector('#traktPassword').value;
 
+			if(username === '' || password === '') {
+				return;
+			}
+
 			$('.invalid-cross').hide();
 			$('.valid-tick').hide();
 			$('.loading-spinner').show();
@@ -125,7 +126,20 @@
 				$('.loading-spinner').hide();
 				$('.invalid-cross').show();
 			});
-		}, 500),
+		}, 750),
+
+		disconnectTrakt: function(e) {
+			var self = this;
+
+			App.settings['traktUsername'] = '';
+			App.settings['traktPassword'] = '';
+			App.Trakt.authenticated = false;
+
+			_.defer(function() {
+				App.Trakt = new App.Providers.Trakttv();
+				self.render();
+			});
+		},
 
 		flushBookmarks: function(e) {
 			var that = this;

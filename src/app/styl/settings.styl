@@ -74,6 +74,9 @@
 			height 160px
 			padding-top 20px
 
+			&.authenticated
+				height 90px
+
 		.more-options
 			height 70px
 			padding-top 20px
@@ -167,6 +170,9 @@
 			padding-top 20px
 			border-bottom solid #3a3b3e 1px
 			margin-right 30px
+
+			&.authenticated
+				height 90px
 
 		.more-options
 			height 70px
@@ -383,6 +389,18 @@ hr
 		transform rotate(360deg)
 
 .trakt-options
+	a
+		margin-top 5px
+		display inline-block
+
+	aside
+		margin-top 5px
+		font-style italic
+
+	&.authenticated
+		aside
+			margin-top 15px
+
 	.loading-spinner 
 		animation-duration 0.75s
 		animation-iteration-count infinite
