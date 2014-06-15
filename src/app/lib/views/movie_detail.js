@@ -33,19 +33,26 @@
 			}
 
 			_this = this;
+
 			App.vent.on('shortcuts:movie', function() {
-				_this.initKeyboardShortcuts();
+				this.initKeyboardShortcuts();
 			});
 
-			_this.initKeyboardShortcuts();
+			this.initKeyboardShortcuts();
 		},
 
 		initKeyboardShortcuts: function() {
-			Mousetrap.bind('backspace', _this.closeDetails);
+			Mousetrap.bind('backspace', this.closeDetails);
 
-			Mousetrap.bind(['enter', 'space'], _this.startStreaming);
 
-			Mousetrap.bind('q', _this.toggleQuality);
+            Mousetrap.bind(['enter', 'space'], function(e) {
+               $('.movie-btn.watch').click();
+            });
+
+
+
+			Mousetrap.bind('q', this.toggleQuality);
+			
 		},
 
         unbindKeyboardShortcuts: function() { // There should be a better way to do this
@@ -155,7 +162,7 @@
 				title: this.model.get('title'),
 				type: 'movie',
 			});
-			_this.unbindKeyboardShortcuts();
+			this.unbindKeyboardShortcuts();
 			App.vent.trigger('stream:start', torrentStart);
 		},
 
