@@ -50,26 +50,15 @@
                 clearInterval(this._WatchingTimer);
             }
 
-            var movieProgress = this.video.currentTime() / this.video.duration() * 100 | 0;
-            var resumeTimes = AdvSettings.get('resumeTimes');
-
-            if(movieProgress >= 90) {
-                AdvSettings.set('resumeTimes', _.omit(resumeTimes, this.model.get('imdb_id')));
-            } else {
-                var obj = {};
-                obj[this.model.get('imdb_id')] = this.video.currentTime();
-                AdvSettings.set('resumeTimes', _.extend(obj, _.omit(resumeTimes, this.model.get('imdb_id'))));
-            }
-
-            // Check if >80% is watched to mark as watched by user  (maybe add value to settings)
-            if(movieProgress >= 80){
+            // Check if >80% is watched to mark as watched by user  (maybe add value to settings
+            if(this.video.currentTime() / this.video.duration() >= 0.8){
                 if(!this.isMovie()) {
                     win.debug('Mark TV Show as watched');
                     App.vent.trigger('shows:watched', this.model.attributes, false);
                     
                     App.Trakt
                     .show
-                    .scrobble(this.model.get('show_id'), this.model.get('season'), this.model.get('episode'), movieProgress, this.video.duration() / 60 | 0);
+                    .scrobble(this.model.get('show_id'), this.model.get('season'), this.model.get('episode'), this.video.currentTime() / this.video.duration() * 100 | 0, this.video.duration() / 60 | 0);
                 
                 } else if (this.model.get('imdb_id') != null) {
                     win.debug('Mark Movie as watched');
@@ -77,7 +66,7 @@
                     
                     App.Trakt
                     .movie
-                    .scrobble(this.model.get('imdb_id'), movieProgress, this.video.duration() / 60 | 0);
+                    .scrobble(this.model.get('imdb_id'), this.video.currentTime() / this.video.duration() * 100 | 0, this.video.duration() / 60 | 0);
 
                 } // else, it's probably a stream or something we don't know of
             } else {
@@ -135,12 +124,6 @@
             };
 
             player.one('play', function() {
-                player.one('durationchange', function() {
-                    var resumeTimes = AdvSettings.get('resumeTimes') || {};
-                    if(resumeTimes[_this.model.get('imdb_id')]) {
-                        _this.video.currentTime(resumeTimes[_this.model.get('imdb_id')]);
-                    }
-                });
                 player.one('durationchange', sendToTrakt);
                 _this._WatchingTimer = setInterval(sendToTrakt, 10 * 60 * 1000); // 10 minutes
             });

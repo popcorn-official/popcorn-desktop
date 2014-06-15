@@ -37,11 +37,6 @@
 				_this.initKeyboardShortcuts();
 			});
 
-			var resumeTimes = AdvSettings.get('resumeTimes') || {};
-			if(resumeTimes[this.model.get('imdb_id')]) {
-				this.model.set('remaining', this.model.get('runtime') - (resumeTimes[this.model.get('imdb_id')] / 60 | 0));
-			}
-
 			_this.initKeyboardShortcuts();
 		},
 
@@ -110,6 +105,7 @@
 			Mousetrap.bind('esc', function(e) {
 				App.vent.trigger('movie:closeDetail');
 			});
+
 		},
 
 		onClose: function() {},
@@ -203,7 +199,7 @@
 		},
 
 		calcHealth: function (tQ) {
-			var spratio = tQ.seed / tQ.peer;
+			var spratio = (tQ.seed !== 0 && tQ.peer !== 0) ? tQ.seed / tQ.peer : 0;
 			var health = 'Bad';
 			if(spratio > 5){
 				health = tQ.seed > 100? 'Excellent':'Good';
