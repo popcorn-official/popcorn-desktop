@@ -42,6 +42,10 @@
         });
     }
 
+    TraktTv.prototype.isAuthenticating = function() {
+        return this._authenticationPromise && this._authenticationPromise.isPending();
+    };
+
     TraktTv.prototype.cache = function(key, ids, func) {
         var self = this;
         return this.fetch(ids).then(function(items) {
@@ -129,7 +133,7 @@
         preHashed = preHashed || false;
 
         var self = this;
-        return this.post('account/test/{KEY}', {
+        return this._authenticationPromise = this.post('account/test/{KEY}', {
             username: username, 
             password: preHashed ? password : sha1(password)
         }).then(function(data) {
@@ -346,6 +350,8 @@
             
             return this.post('show/scrobble/{KEY}', {
                 tvdb_id: tvdb,
+                season: season,
+                episode: episode,
                 progress: progress,
                 duration: duration,
                 plugin_version: API_PLUGIN_VERSION,
@@ -421,6 +427,8 @@
             
             return this.post('show/watching/{KEY}', {
                 tvdb_id: tvdb,
+                season: season,
+                episode: episode,
                 progress: progress,
                 duration: duration,
                 plugin_version: API_PLUGIN_VERSION,
