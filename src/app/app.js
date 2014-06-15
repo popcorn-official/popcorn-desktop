@@ -209,6 +209,7 @@ var startTorrentStream = function(torrentFile) {
 	var torrentStart = new Backbone.Model({
 		torrent: torrentFile
 	});
+	$('.close-info-player').click();
 	App.vent.trigger('stream:start', torrentStart);
 };
 
