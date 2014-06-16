@@ -2,7 +2,6 @@
 	'use strict';
 
 	var resizeImage = App.Providers.Trakttv.resizeImage;
-	var _this;
 
 	App.View.MovieDetail = Backbone.Marionette.ItemView.extend({
 		template: '#movie-detail-tpl',
@@ -31,8 +30,6 @@
 				// Screen Resolution of 720p or less is fine to have 300x450px image
 				this.model.set('image', resizeImage(this.model.get('image'), '300'));
 			}
-
-			_this = this;
 
 			App.vent.on('shortcuts:movie', function() {
 				this.initKeyboardShortcuts();
@@ -177,7 +174,7 @@
 		},
 
 		closeDetails: function() {
-			_this.unbindKeyboardShortcuts();
+			this.unbindKeyboardShortcuts();
 			App.vent.trigger('movie:closeDetail');
 		},
 
