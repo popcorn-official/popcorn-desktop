@@ -9,11 +9,11 @@
     var querySubtitles = function(queryParams) {
     	var deferred = Q.defer();
     	openSRT.searchEpisode(queryParams, function(error, subs) {
-    		if(error) {
-                deferred.reject(error);
-            } else {
-                deferred.resolve(subs||{});
-            }
+			if (error) {
+				deferred.reject(error);
+			} else {
+				deferred.resolve(subs || {});
+			}
     	});
     	return deferred.promise;
     };
