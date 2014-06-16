@@ -5,6 +5,19 @@
 	var NUM_SHOWS_IN_ROW = 7;
 	var _this;
 
+	function elementInViewport(container, element) {
+		var $container = $(container), $el = $(element);
+
+		var docViewTop = $container.offset().top;
+	    var docViewBottom = docViewTop + $container.height();
+
+	    var elemTop = $el.offset().top;
+	    var elemBottom = elemTop + $el.height();
+
+	    return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom)
+	      && (elemBottom <= docViewBottom) &&  (elemTop >= docViewTop) );
+	}
+
 	var ErrorView = Backbone.Marionette.ItemView.extend({
 		template: '#movie-error-tpl',
 		onBeforeRender: function() {
@@ -156,66 +169,70 @@
 			if(this.collection.state === 'loaded' &&
 				totalHeight - currentPosition < SCROLL_MORE) {
 				this.collection.fetchMore();
-		}
-	},
-	
-	focusSearch: function(e) {
-		$('.search input').focus();
-	},
+			}
+		},
+		
+		focusSearch: function(e) {
+			$('.search input').focus();
+		},
 
-	selectItem: function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		$('.movie-item.selected .cover').trigger('click');
-	},
+		selectItem: function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			$('.movie-item.selected .cover').trigger('click');
+		},
 
-	selectIndex: function(index) {
-		$('.movie-item.selected').removeClass('selected');
-		$('.shows .movie-item').eq(index).addClass('selected');
-		$('.movie-item.selected')[0].scrollIntoView(false);
-		_this.onScroll();
-	},
+		selectIndex: function(index) {
+			$('.movie-item.selected').removeClass('selected');
+			$('.shows .movie-item').eq(index).addClass('selected');
+			
+			var $movieEl = $('.movie-item.selected')[0];
+			if(!elementInViewport(this.$el, $movieEl)) {
+				$movieEl.scrollIntoView(false);
+				this.onScroll();
+			}
+		},
 
-	moveUp: function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		var index = $('.movie-item.selected').index() - NUM_SHOWS_IN_ROW;
-		if(index< 0) {
-			return;
-		}
-		_this.selectIndex(index);
-	},
+		moveUp: function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			var index = $('.movie-item.selected').index() - NUM_SHOWS_IN_ROW;
+			if(index< 0) {
+				return;
+			}
+			_this.selectIndex(index);
+		},
 
-	moveDown: function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		var index = $('.movie-item.selected').index() + NUM_SHOWS_IN_ROW;
-		if($('.shows .movie-item').eq(index).length === 0) {
-			return;
-		}
-		_this.selectIndex(index);
-	},
+		moveDown: function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			var index = $('.movie-item.selected').index() + NUM_SHOWS_IN_ROW;
+			if($('.shows .movie-item').eq(index).length === 0) {
+				return;
+			}
+			_this.selectIndex(index);
+		},
 
-	moveLeft: function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		var index = $('.movie-item.selected').index() - 1;
-		if(index === -1) {
-			return;
-		}
-		if(index === -2) {
-			$('.shows .movie-item').eq(0).addClass('selected');
-		}
-		_this.selectIndex(index);
-	},
+		moveLeft: function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			var index = $('.movie-item.selected').index() - 1;
+			if(index === -1) {
+				return;
+			}
+			if(index === -2) {
+				$('.shows .movie-item').eq(0).addClass('selected');
+			}
+			_this.selectIndex(index);
+		},
 
-	moveRight: function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		var index = $('.movie-item.selected').index() + 1;
-		_this.selectIndex(index);
-	},
-});
+		moveRight: function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			var index = $('.movie-item.selected').index() + 1;
+			_this.selectIndex(index);
+		},
+	});
 
-App.View.ShowList = ShowList;
+	App.View.ShowList = ShowList;
 })(window.App);
