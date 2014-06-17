@@ -267,14 +267,30 @@
                 }
             };
 
-            if(!torrent_read) {
+            if (torrentUrl.substring(0,7) === 'http://') {
+                return Streamer.startStream (model, torrentUrl, stateModel);
+            } else if(!torrent_read) {
                 readTorrent(torrentUrl, doTorrent);
             }
             else {
                 doTorrent(null, model.get('torrent'));
             }
 
-            
+
+        },
+        startStream: function (model, url, stateModel) {
+                var si = new App.Model.StreamInfo({});
+                si.set('title', url);
+                si.set('subtitle', {});
+                si.set('type', 'video/mp4');
+
+                // Test for Custom NW
+                //si.set('type', mime.lookup(url));
+                si.set('src', [
+                        { type: 'video/mp4',
+                          src: url }
+                ]);
+                App.vent.trigger('stream:ready', si);
         },
 
         stop: function() {
