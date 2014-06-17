@@ -162,7 +162,8 @@
                             hasSubtitles = true;
                         }).catch(function(err) {
                         	subtitles = null;
-                        	win.warn(err);
+                        	hasSubtitles = true;
+                        	win.warn(err);                        	
                         });
                     };
                     
