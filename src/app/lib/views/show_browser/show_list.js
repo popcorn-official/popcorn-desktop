@@ -1,7 +1,7 @@
 (function(App) {
 	'use strict';
 
-	var SCROLL_MORE = 200;
+	var SCROLL_MORE = 0.7; // 70% of window height
 	var NUM_SHOWS_IN_ROW = 7;
 	var _this;
 
@@ -167,7 +167,7 @@
 			var currentPosition = this.$el.scrollTop() + this.$el.height();
 
 			if(this.collection.state === 'loaded' &&
-				totalHeight - currentPosition < SCROLL_MORE) {
+				(currentPosition / totalHeight) > SCROLL_MORE) {
 				this.collection.fetchMore();
 			}
 		},
