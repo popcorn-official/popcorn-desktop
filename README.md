@@ -60,8 +60,8 @@ You should have received a copy of the GNU General Public License along with thi
 
 ***
 
-If you want to contact us : hello@get-popcorn.com
+If you want to contact us : hello@popcorntime.io
  
-Copyright © 2014 - Popcorn Time and the contributors (get-popcorn.com)
+Copyright © 2014 - Popcorn Time and the contributors (popcorntime.io)
 
 Popcorn Time is released under the GPL
