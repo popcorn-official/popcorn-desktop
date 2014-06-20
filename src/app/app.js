@@ -224,11 +224,11 @@ holder.ondrop = function (e) {
 		reader.onload = function (event) {
 			var content = reader.result;
 
-			fs.writeFile(gui.App.dataPath + '\/' + file.name, content, function (err) {
+			fs.writeFile(App.settings.tmpLocation + '\/' + file.name, content, function (err) {
 				if(err) {
 					window.alert('Error Loading Torrent: ' + err);
 				} else {
-					startTorrentStream(gui.App.dataPath + '\/' + file.name);
+					startTorrentStream(App.settings.tmpLocation + '\/' + file.name);
 				}
 			});
 
