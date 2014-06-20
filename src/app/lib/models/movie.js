@@ -21,65 +21,40 @@
 
         updateHealth: function() {
             var torrents = this.get('torrents');
+
+            var calcHealth = function(torrent) {
+                var seeds = torrent.seed;
+                var peers = torrent.peer;
+
+                // First calculate the seed/peer ratio
+                var ratio = peers > 0 ? (seeds / peers) : seeds;
+
+                // Normalize the data. Convert each to a percentage
+                // Ratio: Anything above a ratio of 5 is good
+                var normalizedRatio = Math.min(ratio / 5 * 100, 100);
+                // Seeds: Anything above 30 seeds is good
+                var normalizedSeeds = Math.min(seeds / 30 * 100, 100);
+
+                // Weight the above metrics differently
+                // Ratio is weighted 60% whilst seeders is 40%
+                var weightedRatio = normalizedRatio * 0.6;
+                var weightedSeeds = normalizedSeeds * 0.4;
+                var weightedTotal = weightedRatio + weightedSeeds;
+
+                // Scale from [0, 100] to [0, 3]. Drops the decimal places
+                var scaledTotal = ((weightedTotal * 3) / 100) | 0;
+
+                return scaledTotal;
+            };
+
             _.each(torrents, function(torrent) {
-
-                
                 if (!torrent.url) {
-
-                    // we have a tv show
                     _.each(torrent, function(episode, key) {
-                        // ok we have a movie
-                        var seeds = episode.seeds;
-                        var peers = episode.peers;
-                        var ratio = peers > 0 ? (seeds / peers) : seeds;
-                        var health = 0;
-                        if (seeds >= 100 && seeds < 1000) {
-                            if( ratio > 5 ) {
-                                health = 2;
-                            } else if( ratio > 3 ) {
-                                health = 1;
-                            }
-                        } else if (seeds >= 1000) {
-                            if( ratio > 5 ) {
-                                health = 3;
-                            } else if( ratio > 3 ) {
-                                health = 2;
-                            } else if( ratio > 2 ) {
-                                health = 1;
-                            }
-                        }
-
-                        torrent[key].health = healthMap[health];
-
+                        torrent[key].health = healthMap[calcHealth(episode)];
                     });
-
                 } else {
-
-                    // we have a movie
-                    var seeds = torrent.seeds;
-                    var peers = torrent.peers;
-                    var ratio = peers > 0 ? (seeds / peers) : seeds;
-                    var health = 0;
-                    if (seeds >= 100 && seeds < 1000) {
-                        if( ratio > 5 ) {
-                            health = 2;
-                        } else if( ratio > 3 ) {
-                            health = 1;
-                        }
-                    } else if (seeds >= 1000) {
-                        if( ratio > 5 ) {
-                            health = 3;
-                        } else if( ratio > 3 ) {
-                            health = 2;
-                        } else if( ratio > 2 ) {
-                            health = 1;
-                        }
-                    }
-
-                    torrent.health = healthMap[health];
+                    torrent.health = healthMap[calcHealth(torrent)];
                 }
-
-
             });
 
             this.set('torrents', torrents, {silent: true});

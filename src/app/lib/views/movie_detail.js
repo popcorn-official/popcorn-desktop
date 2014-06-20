@@ -36,27 +36,20 @@
 			});
 
 			this.initKeyboardShortcuts();
+			this.model.on('change:quality', this.renderHealth, this);
 		},
 
 		initKeyboardShortcuts: function() {
 			Mousetrap.bind('backspace', this.closeDetails);
-
-
             Mousetrap.bind(['enter', 'space'], function(e) {
                $('.movie-btn.watch').click();
             });
-
-
-
 			Mousetrap.bind('q', this.toggleQuality);
-			
 		},
 
         unbindKeyboardShortcuts: function() { // There should be a better way to do this
         	Mousetrap.unbind('backspace');
-
         	Mousetrap.unbind(['enter', 'space']);
-
         	Mousetrap.unbind('q');
         },
 
@@ -65,17 +58,13 @@
 
         	var torrents = this.model.get('torrents');
         	if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
-        		this.model.set('quality', torrents['1080p'].url);
-        		this.calcHealth(torrents['1080p']);
+        		this.model.set('quality', '1080p');
         	} else if(torrents['1080p'] !== undefined ) {
-        		this.model.set('quality', torrents['1080p'].url);
-        		this.calcHealth(torrents['1080p']);
+        		this.model.set('quality', '1080p');
         	} else if(torrents['720p'] !== undefined ) {
-        		this.model.set('quality', torrents['720p'].url);
-        		this.calcHealth(torrents['720p']);
+        		this.model.set('quality', '720p');
         	} else if(torrents['HDRip'] !== undefined ) {
-        		this.model.set('quality', torrents['HDRip'].url);
-        		this.calcHealth(torrents['HDRip']);
+        		this.model.set('quality', 'HDRip');
         	}
 
         	$('.star-container,.movie-imdb-link').tooltip();
@@ -152,7 +141,7 @@
 		startStreaming: function() {
 			var torrentStart = new Backbone.Model({
 				imdb_id: this.model.get('imdb_id'),
-				torrent: this.model.get('quality'),
+				torrent: this.model.get('torrents')[this.model.get('quality')].url,
 				backdrop: this.model.get('backdrop'),
 				subtitle: this.model.get('subtitle'),
 				defaultSubtitle: this.subtitle_selected,
@@ -184,8 +173,7 @@
 
 			if (torrents['1080p'] !== undefined) {
 				torrents = this.model.get('torrents');
-				this.model.set('quality', torrents['1080p'].url);
-				this.calcHealth(torrents['1080p']);
+				this.model.set('quality', '1080p');
 				win.debug(this.model.get('quality'));
 			}
 		},
@@ -196,26 +184,20 @@
 
 			if (torrents['720p'] !== undefined) {
 				torrents = this.model.get('torrents');
-				this.model.set('quality', torrents['720p'].url);
-				this.calcHealth(torrents['720p']);
+				this.model.set('quality', '720p');
 				win.debug(this.model.get('quality'));
 			}
 		},
 
-		calcHealth: function (tQ) {
-			var spratio = (tQ.seed !== 0 && tQ.peer !== 0) ? tQ.seed / tQ.peer : 0;
-			var health = 'Bad';
-			if(spratio > 5){
-				health = tQ.seed > 100? 'Excellent':'Good';
-			}else if(spratio > 2){
-				health = tQ.seed > 100? 'Good':'Medium';
-			}else if(spratio >= 1){
-				health = tQ.seed > 100? 'Medium':'Bad';
-			}
+		renderHealth: function () {
+			var torrent = this.model.get('torrents')[this.model.get('quality')];
+			var health = torrent.health.capitalize();
+			var ratio = torrent.peer > 0 ? torrent.seed / torrent.peer : +torrent.seed;
+
 			$('.health-icon').tooltip({html: true})
 			.removeClass('Bad Medium Good Excellent')
 			.addClass(health)
-			.attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio') + ': ' + spratio.toFixed(2) + ' <br> ' + i18n.__('Seeds') + ': ' + tQ.seed + ' - ' + i18n.__('Peers') + ': ' + tQ.peer)
+			.attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio') + ': ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds') + ': ' + torrent.seed + ' - ' + i18n.__('Peers') + ': ' + torrent.peer)
 			.tooltip('fixTitle');
 		},
 
