@@ -9,13 +9,13 @@
 		var $container = $(container), $el = $(element);
 
 		var docViewTop = $container.offset().top;
-	    var docViewBottom = docViewTop + $container.height();
+		var docViewBottom = docViewTop + $container.height();
 
-	    var elemTop = $el.offset().top;
-	    var elemBottom = elemTop + $el.height();
+		var elemTop = $el.offset().top;
+		var elemBottom = elemTop + $el.height();
 
-	    return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom)
-	      && (elemBottom <= docViewBottom) &&  (elemTop >= docViewTop) );
+		return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom)
+		  && (elemBottom <= docViewBottom) &&  (elemTop >= docViewTop) );
 	}
 
 	var ErrorView = Backbone.Marionette.ItemView.extend({
@@ -49,6 +49,17 @@
 			} else {
 				return ErrorView.extend({error: i18n.__('No movies found...')});
 			}
+		},
+
+		onResize: function() {
+			var movieItem = $('.movie-item');
+			var movieItemFullWidth = movieItem.width() + parseInt(movieItem.css('marginLeft')) + parseInt(movieItem.css('marginRight'));
+			var movieItemAmount = $('.movie-list').width() / movieItemFullWidth;
+			movieItemAmount = Math.floor(movieItemAmount);
+
+			var newWidth = movieItemAmount * movieItemFullWidth;
+			NUM_MOVIES_IN_ROW = movieItemAmount;
+			$('.movies').width(newWidth);
 		},
 
 		ui: {
@@ -102,6 +113,10 @@
 			Mousetrap.unbind('tab');
 		},
 
+		remove: function() {
+			$(window).off('resize', this.onResize);
+		},
+
 		onShow: function() {
 			if(this.collection.state === 'loading') {
 				this.onLoading();
@@ -138,6 +153,9 @@
 					$('.movies').append('<li class="movie-item"></li>');
 				}
 			}
+
+			$(window).on('resize', this.onResize);
+			this.onResize();
 
 			this.ui.spinner.hide();
 
