@@ -92,6 +92,8 @@
             // Double Click to toggle Fullscreen
             $('#video_player').dblclick(function(event){
                 _this.toggleFullscreen();
+                // Stop any mouseup events pausing video
+                event.preventDefault();
             });
 
             if(this.model.get('type') === 'video/youtube') {
@@ -103,6 +105,23 @@
 
             var player = this.video.player();
             this.player = player;
+
+            /* The following is a hack to make VideoJS listen to
+               mouseup instead of mousedown for pause/play on the 
+               video element. Stops video pausing/playing when
+               dragged. TODO: #fixit! /XC                        */
+            this.player.tech.off('mousedown');
+            this.player.tech.on('mouseup', function(event) {
+                if(event.target.origEvent) {
+                    if(!event.target.origEvent.originalEvent.defaultPrevented) {
+                        _this.player.tech.onClick(event);
+                    }
+                    // clean up after ourselves
+                    delete event.target.origEvent;
+                } else {
+                    _this.player.tech.onClick(event);
+                }
+            });
             
             // Force custom controls
             player.usingNativeControls(false);
