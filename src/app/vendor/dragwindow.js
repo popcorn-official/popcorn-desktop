@@ -36,7 +36,6 @@
                     if( distanceFromFirst.x > 5 || distanceFromFirst.x < -5 || 
                         distanceFromFirst.y > 5 || distanceFromFirst.y < -5) {
                         wasDrag = true;
-                        console.log('Was drag with %j', distanceFromFirst);
                     }
                     nativeWindow.moveBy(distance.x, distance.y);
                 }
