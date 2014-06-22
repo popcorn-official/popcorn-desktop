@@ -32,9 +32,9 @@ Settings.tmpLocation = path.join(os.tmpDir(), 'Popcorn-Time');
 Settings.deleteTmpOnClose = true;
 
 // Hidden endpoints
-Settings.updateApiEndpoint = 'http://get-popcorn.com/';
+Settings.updateApiEndpoint = 'http://popcorntime.io/';
 /* TODO: Buy SSL for main domain + buy domain get-popcorn.re for fallback
-Settings.updateApiEndpointMirror = 'https://get-popcorn.re/'; */
+Settings.updateApiEndpointMirror = 'https://popcorntime.cc/'; */
 Settings.yifyApiEndpoint = 'https://yts.re/api/';
 Settings.yifyApiEndpointMirror = 'https://yts.im/api/';
 Settings.connectionCheckUrl = 'http://google.com/';

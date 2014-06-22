@@ -41,7 +41,6 @@
 		"AdvSettings": true,
 		"ScreenResolution": true,
 		"Database": true,
-		"checkUpdate": true,
 		"detectLanguage": true,
     "indexedDB": true,
 		
