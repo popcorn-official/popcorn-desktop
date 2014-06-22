@@ -1,14 +1,21 @@
 (function(App) {
 	'use strict';
     var openSRT = require('opensrt_js');
+    var Q = require('q');
 
     var OpenSubtitles = function() {};
     OpenSubtitles.prototype.constructor = OpenSubtitles;
     
-    var querySubtitles = function(queryParams, cb) {
-    	openSRT.searchEpisode(queryParams, function(err, subs) {
-    		cb(subs||{});
+    var querySubtitles = function(queryParams) {
+    	var deferred = Q.defer();
+    	openSRT.searchEpisode(queryParams, function(error, subs) {
+			if (error) {
+				deferred.reject(error);
+			} else {
+				deferred.resolve(subs || {});
+			}
     	});
+    	return deferred.promise;
     };
     
     var formatForPopcorn = function(data) {
@@ -17,14 +24,10 @@
 		}
     	return data;
     };
-	
-    // TODO: TV episode subs query calls are asynchronous
-    // maybe we can define a new interface for sync calls 
-    // or use Q promise on calling party (streamer)
-    OpenSubtitles.prototype.query = function(queryParams, cb) {
-    	querySubtitles(queryParams, function(subs) {
-    		cb(formatForPopcorn(subs));
-    	});
+    
+    OpenSubtitles.prototype.fetch = function(queryParams) {
+    	return querySubtitles(queryParams)
+    		.then(formatForPopcorn);
     };
 
     

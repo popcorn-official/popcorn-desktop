@@ -152,7 +152,7 @@
                         
                         var subtitleProvider = new (App.Config.getProvider('tvshowsubtitle'))();
                         
-                        subtitleProvider.query(data, function(subs) {
+                        subtitleProvider.fetch(data).then(function(subs) {
                             if (Object.keys(subs).length > 0) {
                                 subtitles = subs;
                                 win.info(Object.keys(subs).length + ' subtitles found');
@@ -161,6 +161,10 @@
                                 win.warn('No subtitles returned');
                             }
                             hasSubtitles = true;
+                        }).catch(function(err) {
+                        	subtitles = null;
+                        	hasSubtitles = true;
+                        	win.warn(err);                        	
                         });
                     };
                     
