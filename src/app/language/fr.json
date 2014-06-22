@@ -132,7 +132,7 @@
 	"Changelog": "Historique des modifications",
 	"Install Now": "Installer maintenant",
 	"Restart Now": "Redémarrer maintenant",
-	"We are flushing your subtitle cache": "Nous vidons votre cache des sous-titres",
+	"We are flushing your subtitle cache": "Nous vidons le cache des sous-titres",
 	"Subtitle cache deleted": "Cache des sous-titres supprimé.",
 	"Flush subtitles cache": "Vider le cache des sous-titres",
     	"Open IMDb page": "Ouvrir la page IMDb",
@@ -149,7 +149,7 @@
 	"Popcorn Time stores an encrypted hash of your password in your local database": "Popcorn Time conserve une empreinte chiffrée de votre mot de passe dans votre base de données locale",
 	"Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time": "Entrez vos identifiants Trakt.tv pour 'scrobbler' automatiquement les épisodes que vous regardez avec Popcorn Time",
 	"Test Login": "Tester l'identification",
-	"Testing...": "Test en cours...",
+	"Testing...": "Test en cours…",
 	"Success!": "Succès !",
 	"Failed!": "Échec !"
 }
