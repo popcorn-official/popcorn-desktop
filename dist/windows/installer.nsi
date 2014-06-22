@@ -20,8 +20,8 @@ VIAddVersionKey "CompanyName" "Popcorn Official"
 VIAddVersionKey "LegalCopyright" "http://popcorntime.io"
 VIAddVersionKey "OriginalFilename" "Popcorn-Time-${PT_VERSION}-Win.exe"
 VIProductVersion "${PT_VERSION}.0"
-!system 'mkdir -p ../../build/releases/Popcorn-Time/win/'
-OutFile "../../build/releases/Popcorn-Time/win/Popcorn-Time-${PT_VERSION}-Win.exe"
+!system "mkdir ..\..\build\releases\Popcorn-Time\win\"
+OutFile "..\..\build\releases\Popcorn-Time\win\Popcorn-Time-${PT_VERSION}-Win.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 !define NW_VER "0.9.2"
