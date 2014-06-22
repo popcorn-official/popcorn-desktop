@@ -184,16 +184,6 @@ if(process.platform === 'darwin') {
 /**
  * Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
  */
-window.ondragover = function (e) {
-	e.preventDefault();
-	return false;
-};
-
-window.ondrop = function (e) {
-	e.preventDefault();
-	return false;
-};
-
 var holder = $('body')[0];
 holder.ondragover = function () {
 	this.classList.add('dragging');
@@ -203,6 +193,14 @@ holder.ondragover = function () {
 holder.ondragend = function () {
 	this.classList.remove('dragging');
 	return false;
+};
+
+window.ondragover = function (e) {
+	holder.ondragover(e);
+};
+
+window.ondrop = function (e) {
+	holder.ondragend(e);
 };
 
 var startTorrentStream = function(torrentFile) {
