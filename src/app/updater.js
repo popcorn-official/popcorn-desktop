@@ -29,6 +29,12 @@
             'RTcms0CPio56gg==\n' +
             '-----END PUBLIC KEY-----\n';
 
+    function forcedBind(func, thisVar) {
+        return function() {
+            return func.apply(thisVar, arguments);
+        };
+    }
+
     function Updater(options) {
         if(!(this instanceof Updater)) {
             return new Updater(options);
@@ -110,7 +116,6 @@
 
     Updater.prototype.download = function(source, output) {
         var defer = Q.defer();
-        defer.notify('downloading');
         var downloadStream = request(source);
         downloadStream.pipe(fs.createWriteStream(output));
         downloadStream.on('complete', function() { 
@@ -123,7 +128,6 @@
         var defer = Q.defer();
         var self = this;
 
-        defer.notify('verifying');
         var hash = crypto.createHash('SHA1'),
             verify = crypto.createVerify('DSA-SHA1');
 
@@ -131,8 +135,9 @@
         readStream.pipe(hash);
         readStream.pipe(verify);
         readStream.on('end', function() {
+            hash.end();
             if(
-                self.updateData.checksum !== hash.digest('hex') || 
+                self.updateData.checksum !== hash.read().toString('hex') || 
                 verify.verify(VERIFY_PUBKEY, self.updateData.signature, 'base64') === false
             ) {
                 defer.reject('invalid hash or signature');
@@ -294,18 +299,18 @@
         if(this.updateData) {
             // If we have already checked for updates...
             return this.download(this.updateData.updateUrl, outputFile)
-                .then(this.verify)
-                .then(this.install)
-                .then(this.displayNotification);
+                .then(forcedBind(this.verify, this))
+                .then(forcedBind(this.install, this))
+                .then(forcedBind(this.displayNotification, this));
         } else {
             // Otherwise, check for updates then install if needed!
             var self = this;
             return this.check().then(function(updateAvailable) {
                 if(updateAvailable) {
                     return self.download(self.updateData.updateUrl, outputFile)
-                        .then(self.verify)
-                        .then(self.install)
-                        .then(self.displayNotification);
+                        .then(forcedBind(self.verify, self))
+                        .then(forcedBind(self.install, self))
+                        .then(forcedBind(self.displayNotification, self));
                 } else {
                     return false;
                 }
