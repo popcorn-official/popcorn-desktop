@@ -140,10 +140,12 @@ Section ; App Files
 	File /r "..\..\src\app\lib"
 	File /r "..\..\src\app\templates"
 	File /r "..\..\src\app\vendor"
-	File /r /x "*grunt*" /x "stylus" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" "..\..\node_modules\*.*"
 	File "..\..\src\app\index.html"
 	File "..\..\src\app\*.js"
 	File "..\..\package.json"
+
+	SetOutPath "$INSTDIR\app\node_modules"
+	File /r /x "*grunt*" /x "stylus" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" "..\..\node_modules\*.*"
 
 	;Create uninstaller
 	WriteUninstaller "$INSTDIR\Uninstall.exe"
