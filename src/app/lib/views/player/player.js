@@ -346,6 +346,8 @@
             this.nativeWindow = require('nw.gui').Window.get();
 
             if(this.nativeWindow.isFullscreen) {
+                this.player.isFullscreen(false);
+                this.player.trigger('fullscreenchange');
                 this.nativeWindow.leaveFullscreen();
                 this.nativeWindow.focus();
             }
