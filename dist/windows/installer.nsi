@@ -145,7 +145,7 @@ Section ; App Files
 	File "..\..\package.json"
 
 	SetOutPath "$INSTDIR\app\node_modules"
-	File /r /x "*grunt*" /x "stylus" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" "..\..\node_modules\*.*"
+	File /r /x "*grunt*" /x "stylus" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" "..\..\node_modules\*.*"
 
 	;Create uninstaller
 	WriteUninstaller "$INSTDIR\Uninstall.exe"
