@@ -23,7 +23,7 @@ CRCCheck on
 SetCompressor /SOLID lzma
 
 ;Default installation folder
-InstallDir "$APPDATA\Popcorn Time"
+InstallDir "$LOCALAPPDATA\Popcorn Time"
 
 ;Request application privileges
 RequestExecutionLevel user
