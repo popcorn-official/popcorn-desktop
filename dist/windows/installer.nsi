@@ -130,7 +130,7 @@ SectionEnd
 Section ; App Files
 
 	;Set output path to InstallDir
-	SetOutPath "$INSTDIR\app"
+	SetOutPath "$INSTDIR\src\app"
 
 	;Add the files
 	File /r "..\..\src\app\css"
@@ -142,9 +142,11 @@ Section ; App Files
 	File /r "..\..\src\app\vendor"
 	File "..\..\src\app\index.html"
 	File "..\..\src\app\*.js"
+
+	SetOutPath "$INSTDIR"
 	File "..\..\package.json"
 
-	SetOutPath "$INSTDIR\app\node_modules"
+	SetOutPath "$INSTDIR\node_modules"
 	File /r /x "*grunt*" /x "stylus" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" "..\..\node_modules\*.*"
 
 	;Create uninstaller
@@ -163,12 +165,12 @@ Section ; Shortcuts
 	;Start Menu Shortcut
 	RMDir /r "$SMPROGRAMS\Popcorn Time"
 	CreateDirectory "$SMPROGRAMS\Popcorn Time"
-	CreateShortCut "$SMPROGRAMS\Popcorn Time\Popcorn Time.lnk" "$INSTDIR\node-webkit\nw.exe" "app" "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
+	CreateShortCut "$SMPROGRAMS\Popcorn Time\Popcorn Time.lnk" "$INSTDIR\node-webkit\nw.exe" "." "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
 	CreateShortCut "$SMPROGRAMS\Popcorn Time\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\app.ico" "" "" "" "Uninstall Popcorn Time"
 
 	;Desktop Shortcut
 	Delete "$DESKTOP\Popcorn Time.lnk"
-	CreateShortCut "$DESKTOP\Popcorn Time.lnk" "$INSTDIR\node-webkit\nw.exe" "app" "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
+	CreateShortCut "$DESKTOP\Popcorn Time.lnk" "$INSTDIR\node-webkit\nw.exe" "." "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
 
 SectionEnd
 
