@@ -25,10 +25,11 @@
 
         startStreaming: function(e) {
             var torrent = _this.model.get('torrent');
-            var fileIndex = parseInt($(e.currentTarget).attr('data-file'));
-            torrent.name = torrent.files[fileIndex].name;
+            var file = parseInt($(e.currentTarget).attr('data-file'));
+            var actualIndex = parseInt($(e.currentTarget).attr('data-index'));
+            torrent.name = torrent.files[file].name;
 
-            var torrentStart = new Backbone.Model({torrent: torrent, torrent_read: true, file_index: fileIndex});
+            var torrentStart = new Backbone.Model({torrent: torrent, torrent_read: true, file_index: actualIndex});
             App.vent.trigger('stream:start', torrentStart);
             _this.closeSelector(e);
         },

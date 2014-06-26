@@ -5,7 +5,7 @@
 	<div class="content">
 		<ul class = "file-list">
 			<% _.each(files, function(file, index) { %>
-				<li class="file-item" data-file="<%=index%>">
+				<li class="file-item" data-index="<%=file.index%>" data-file="<%=index%>">
 					<a><%=file.name %></a>
 				</li>
 			<% }); %>

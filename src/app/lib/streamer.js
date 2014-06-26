@@ -162,9 +162,9 @@
                             }
                             hasSubtitles = true;
                         }).catch(function(err) {
-                        	subtitles = null;
-                        	hasSubtitles = true;
-                        	win.warn(err);                        	
+                            subtitles = null;
+                            hasSubtitles = true;
+                            win.warn(err);                          
                         });
                     };
                     
@@ -211,6 +211,7 @@
                     var title = model.get('title');
                     if(!title) { //From ctrl+v magnet or drag torrent
                         for(var f in torrent.files) {
+                            torrent.files[f].index = f;
                             if(!torrent.files[f].name.endsWith('.avi') && 
                                 !torrent.files[f].name.endsWith('.mp4') && 
                                 !torrent.files[f].name.endsWith('.mkv')) {
