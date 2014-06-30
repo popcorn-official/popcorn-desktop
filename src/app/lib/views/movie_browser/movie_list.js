@@ -131,7 +131,7 @@
 		onLoaded: function() {
 			console.timeEnd('App startup time');
 			var self = this;
-			//this.checkEmpty();
+			this.checkEmpty();
 
 			$('#load-more-item,.movie-item:empty').remove();
 			// we add a load more
