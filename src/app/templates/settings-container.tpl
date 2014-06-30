@@ -81,7 +81,7 @@
 		<div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
 			<% if(App.Trakt.authenticated) { %>
 			<%= i18n.__("You are currently authenticated to Trakt.tv as") %> <%= Settings.traktUsername %>
-			<br><a id="unauthTrakt" href="#">Disconnect account</a>
+			<br><a id="unauthTrakt" href="#"><%= i18n.__("Disconnect account") %></a>
 			<% } else { %>
 			<%= i18n.__("Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time") %>
 			<br><br>

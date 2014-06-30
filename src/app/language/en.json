@@ -146,11 +146,16 @@
 	"Trakt.tv": "Trakt.tv",
 	"Username": "Username",
 	"Password": "Password",
-	"Popcorn Time will store an encrypted hash of your password in your local database": "Popcorn Time will store an encrypted hash of your password in your local database",
+	"Popcorn Time stores an encrypted hash of your password in your local database": "Popcorn Time stores an encrypted hash of your password in your local database",
 	"Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time": "Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time",
 	"Test Login": "Test Login",
 	"Testing...": "Testing...",
 	"Success!": "Success!",
 	"Failed!": "Failed!",
-	"Popcorn Time stores an encrypted hash of your password in your local database": "Popcorn Time stores an encrypted hash of your password in your local database"
+	"Popcorn Time! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Popcorn Time! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.",
+	"We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.",
+	"Made with": "Made with",
+	"by a bunch of geeks from All Around The World": "by a bunch of geeks from All Around The World",
+	"Disconnect account": "Disconnect account",
+	"You are currently authenticated to Trakt.tv as": "You are currently authenticated to Trakt.tv as"
 }
