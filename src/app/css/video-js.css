@@ -786,7 +786,6 @@ easily in the skin designer. http://designer.videojs.com/
      background-color: #151517;
      outline: 0;
 }
-.vjs-popcorn-skin .vjs-menu-button ul li:focus,
 .vjs-popcorn-skin .vjs-menu-button ul li:hover,
 .vjs-popcorn-skin .vjs-menu-button ul li.vjs-selected:focus,
 .vjs-popcorn-skin .vjs-menu-button ul li.vjs-selected:hover {
