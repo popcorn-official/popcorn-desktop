@@ -67,8 +67,8 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 
 					<div class="movie-quality-container">
 						<% if (torrents["720p"] !== undefined && torrents["1080p"] !== undefined) { %>
-							<div class="q720">720</div>
-							<div class="q1080">1080</div>
+							<div class="q720">720p</div>
+							<div class="q1080">1080p</div>
 							<div class="quality switch white">
 								<input type="radio" name="switch" id="switch-hd-off" >
 								<input type="radio" name="switch" id="switch-hd-on" checked >
