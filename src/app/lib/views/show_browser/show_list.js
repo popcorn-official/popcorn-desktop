@@ -59,7 +59,7 @@
 
 			var newWidth = showItemAmount * showItemFullWidth;
 			NUM_SHOWS_IN_ROW = showItemAmount;
-			$('.shows').width(newWidth);
+			//$('.shows').width(newWidth);
 		},
 
 		ui: {

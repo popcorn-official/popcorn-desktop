@@ -52,14 +52,15 @@
 		},
 
 		onResize: function() {
+			
 			var movieItem = $('.movie-item');
 			var movieItemFullWidth = movieItem.width() + parseInt(movieItem.css('marginLeft')) + parseInt(movieItem.css('marginRight'));
 			var movieItemAmount = $('.movie-list').width() / movieItemFullWidth;
 			movieItemAmount = Math.floor(movieItemAmount);
 
 			var newWidth = movieItemAmount * movieItemFullWidth;
-			NUM_MOVIES_IN_ROW = movieItemAmount;
-			$('.movies').width(newWidth);
+			NUM_MOVIES_IN_ROW = movieItemAmount; 
+			//$('.movies').width(newWidth); 
 		},
 
 		ui: {
