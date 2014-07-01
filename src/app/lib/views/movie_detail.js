@@ -5,7 +5,7 @@
 
 	App.View.MovieDetail = Backbone.Marionette.ItemView.extend({
 		template: '#movie-detail-tpl',
-		className: 'app-overlay',
+		className: 'movie-detail',
 
 		ui: {
 			selected_lang: '.selected-lang',

@@ -3,7 +3,7 @@ if(typeof backdrop === "undefined"){ backdrop = ""; };
 if(typeof synopsis === "undefined"){ synopsis = "Synopsis not available."; }; 
 if(typeof runtime === "undefined"){ runtime = "N/A"; }; 
 %>
-<div class="movie-detail">
+
 	<div id="movie-backdrop" data-bgr="<%= backdrop %>" class="movie-backdrop">
 		<div class="movie-backdrop-overlay"></div>
 	</div>
@@ -82,4 +82,3 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 			</div>
 		</div>
 	</div>
-</div>
