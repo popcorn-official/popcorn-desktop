@@ -32,3 +32,38 @@ body,
         width 100%
         height 100%
         overflow hidden
+
+.drop-indicator 
+    position fixed
+    background-color #060
+    z-index 1000
+    display none
+
+    &.right 
+        top: 6px
+        right: 0px
+        width: 6px
+        height: 100%
+    &.left
+        bottom: 6px
+        left: 0px
+        width: 6px
+        height: 100%
+    &.bottom 
+        bottom 0px
+        right 6px
+        width 100%
+        height 6px
+    &.top
+        top: 0px
+        left: 6px
+        width: 100%
+        height: 6px
+
+#drop-mask 
+    position: absolute
+    width: 100%
+    height: 100%
+    z-index: 999
+    display: none
+

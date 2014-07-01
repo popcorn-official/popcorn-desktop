@@ -8,4 +8,9 @@
 <div id="settings-container"></div>
 <div id="movie-detail"></div>
 <div id="file-selector-container"></div>
+<div id="drop-mask"></div>
+<div class="drop-indicator top"></div>
+<div class="drop-indicator right"></div>
+<div class="drop-indicator left"></div>
+<div class="drop-indicator bottom"></div>
 <div id="player"></div>

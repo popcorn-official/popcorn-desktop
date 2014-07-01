@@ -180,106 +180,108 @@ if(process.platform === 'darwin') {
 		win.toggleFullscreen();
 	});
 }
-
 /**
  * Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
  */
-var holder = $('body')[0];
-holder.ondragover = function () {
-	this.classList.add('dragging');
-	return false;
+
+
+window.ondragenter = function (e) {
+
+    $('#drop-mask').show();
+    $('#drop-mask').on('dragenter',
+        function (e) {
+            $('.drop-indicator').fadeIn('fast');
+            console.log('drag init');
+        });
+    $('#drop-mask').on('dragleave',
+        function (e) {
+            console.log('drag aborted');
+            $('.drop-indicator').hide();
+            $('#drop-mask').hide();
+        });
 };
 
-holder.ondragend = function () {
-	this.classList.remove('dragging');
-	return false;
-};
 
-window.ondragover = function (e) {
-	holder.ondragover(e);
+var startTorrentStream = function (torrentFile) {
+    var torrentStart = new Backbone.Model({
+        torrent: torrentFile
+    });
+    $('.close-info-player').click();
+    App.vent.trigger('stream:start', torrentStart);
 };
 
 window.ondrop = function (e) {
-	holder.ondragend(e);
-};
+    e.preventDefault();
+    $('#drop-mask').hide();
+    console.log('drag compleated');
+    $('.drop-indicator').hide();
 
-var startTorrentStream = function(torrentFile) {
-	var torrentStart = new Backbone.Model({
-		torrent: torrentFile
-	});
-	$('.close-info-player').click();
-	App.vent.trigger('stream:start', torrentStart);
-};
+    var file = e.dataTransfer.files[0];
 
-holder.ondrop = function (e) {
-	e.preventDefault();
+    if (file != null && file.name.indexOf('.torrent') !== -1) {
+        var reader = new FileReader();
 
-	var file = e.dataTransfer.files[0];
+        reader.onload = function (event) {
+            var content = reader.result;
 
-	if(file != null && file.name.indexOf('.torrent') !== -1) {
-		var reader = new FileReader();
+            fs.writeFile(App.settings.tmpLocation + '\/' + file.name, content, function (err) {
+                if (err) {
+                    window.alert('Error Loading Torrent: ' + err);
+                } else {
+                    startTorrentStream(App.settings.tmpLocation + '\/' + file.name);
+                }
+            });
 
-		reader.onload = function (event) {
-			var content = reader.result;
+        };
 
-			fs.writeFile(App.settings.tmpLocation + '\/' + file.name, content, function (err) {
-				if(err) {
-					window.alert('Error Loading Torrent: ' + err);
-				} else {
-					startTorrentStream(App.settings.tmpLocation + '\/' + file.name);
-				}
-			});
+        reader.readAsBinaryString(file);
+    } else {
+        var data = e.dataTransfer.getData('text/plain');
+        if (data != null && data.substring(0, 8) === 'magnet:?') {
+            startTorrentStream(data);
+        }
+    }
 
-		};
-
-		reader.readAsBinaryString(file);
-	} else {
-		var data = e.dataTransfer.getData('text/plain');
-		if(data != null && data.substring(0, 8) === 'magnet:?') {
-			startTorrentStream(data);
-		}
-	}
-
-	return false;
+    return false;
 };
 
 /**
  * Paste Magnet Link to start stream
  */
-holder.onpaste = function (e) {
-	var data = e.clipboardData.getData('text/plain');
-	if(data != null && data.substring(0, 8) === 'magnet:?') {
-		startTorrentStream(data);
-	}
-	return true;
+window.onpaste = function (e) {
+    var data = e.clipboardData.getData('text/plain');
+    if (data != null && data.substring(0, 8) === 'magnet:?') {
+        startTorrentStream(data);
+    }
+    return true;
 };
 
 /**
  * Pass magnet link as last argument to start stream
  */
 var last_arg = gui.App.argv.pop();
-if(last_arg) {
-	if(last_arg.substring(0, 8) === 'magnet:?') {
-		App.vent.on('main:ready', function () {
-			startTorrentStream(last_arg);
-		});
-	} else if(last_arg.substring(0, 7) === 'http://') {
-		App.vent.on('main:ready', function () {
-			var si = new App.Model.StreamInfo({});
-			si.set('title', last_arg);
-			si.set('subtitle', {});
-			si.set('type', 'video/mp4');
+if (last_arg) {
+    if (last_arg.substring(0, 8) === 'magnet:?') {
+        App.vent.on('main:ready', function () {
+            startTorrentStream(last_arg);
+        });
+    } else if (last_arg.substring(0, 7) === 'http://') {
+        App.vent.on('main:ready', function () {
+            var si = new App.Model.StreamInfo({});
+            si.set('title', last_arg);
+            si.set('subtitle', {});
+            si.set('type', 'video/mp4');
 
-			// Test for Custom NW
-			//si.set('type', mime.lookup(last_arg));
-			si.set('src', last_arg);
-			App.vent.trigger('stream:ready', si);
-		});
-	}
+            // Test for Custom NW
+            //si.set('type', mime.lookup(last_arg));
+            si.set('src', last_arg);
+            App.vent.trigger('stream:ready', si);
+        });
+    }
 }
 
 // -f argument to open in fullscreen
-if(gui.App.fullArgv.indexOf('-f') !== -1) {
+if (gui.App.fullArgv.indexOf('-f') !== -1) {
     win.enterFullscreen();
 }
 
@@ -287,5 +289,5 @@ if(gui.App.fullArgv.indexOf('-f') !== -1) {
  * Show 404 page on uncaughtException
  */
 process.on('uncaughtException', function (err) {
-	window.console.error(err, err.stack);
+    window.console.error(err, err.stack);
 });
