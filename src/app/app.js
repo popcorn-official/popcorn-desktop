@@ -186,11 +186,13 @@ if (process.platform === 'darwin') {
  */
 
 
+
+
 window.ondragenter = function(e) {
 
     $('#drop-mask').show();
-    showDrag = true;
-    timeout = -1;
+    var showDrag = true;
+    var timeout = -1;
     $('#drop-mask').on('dragenter',
         function(e) {
             $('.drop-indicator').fadeIn('fast');
@@ -198,15 +200,13 @@ window.ondragenter = function(e) {
         });
     $('#drop-mask').on('dragover',
         function(e) {
-            showDrag = true;
+            var showDrag = true;
         });
 
     $('#drop-mask').on('dragleave',
         function(e) {
-            showDrag = false;
+            var showDrag = false;
             clearTimeout(timeout);
-            //$('.drop-indicator').hide();
-            //$('#drop-mask').hide();
             timeout = setTimeout(function() {
                 if (!showDrag) {
                     console.log('drag aborted');
