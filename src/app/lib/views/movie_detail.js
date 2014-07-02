@@ -56,8 +56,6 @@
         onShow: function() {
             win.info('Show movie detail');
 
-
-
             var torrents = this.model.get('torrents');
             if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
                 this.model.set('quality', '1080p');
@@ -71,12 +69,12 @@
 
             $('.star-container,.movie-imdb-link').tooltip();
 
-            var backgroundUrl = $('.backdrop-overlay').attr('data-bgr');
+            var backgroundUrl = $('.backdrop').attr('data-bgr');
 
             var bgCache = new Image();
             bgCache.src = backgroundUrl;
             bgCache.onload = function() {
-                $('.movie-detail').css('background-image', 'url(' + backgroundUrl + ')').fadeIn(500);
+                $('.backdrop').css('background-image', 'url(' + backgroundUrl + ')').fadeIn(500);
                 bgCache = null;
             };
 

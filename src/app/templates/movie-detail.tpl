@@ -4,8 +4,8 @@ if(typeof synopsis === "undefined"){ synopsis = "Synopsis not available."; };
 if(typeof runtime === "undefined"){ runtime = "N/A"; }; 
 %>
 
-
-    <div data-bgr="<%= backdrop %>" class="backdrop-overlay"></div>
+    <div data-bgr="<%= backdrop %>" class="backdrop"></div>
+    <div class="backdrop-overlay"></div>
 
 <div class="close"></div>
 
