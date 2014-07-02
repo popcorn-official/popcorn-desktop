@@ -151,5 +151,11 @@
 	"Test Login": "Tester l'identification",
 	"Testing...": "Test en cours…",
 	"Success!": "Succès !",
-	"Failed!": "Échec !"
+	"Failed!": "Échec !",
+	"Popcorn Time! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Popcorn Time est le fruit de nombreux développeurs et de graphistes qui ont rassemblé plusieurs API dans le but de rendre l'expérience du streaming via torrent la plus simple possible.",
+	"We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "Nous construisons ce projet en open source depuis les quatre coins du monde. Nous adorons le cinéma… et le popcorn !",
+	"Made with": "Créé avec",
+	"by a bunch of geeks from All Around The World": "par une bande de geeks venant du monde entier",
+	"Disconnect account": "Se déconnecter",
+	"You are currently authenticated to Trakt.tv as": "Vous êtes actuellement identifié sur Trakt.tv en tant que"
 }
