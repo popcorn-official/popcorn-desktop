@@ -33,30 +33,30 @@ var
 
 // Special Debug Console Calls!
 win.log = console.log.bind(console);
-win.debug = function () {
+win.debug = function() {
     var params = Array.prototype.slice.call(arguments, 1);
     params.unshift('%c[%cDEBUG%c] %c' + arguments[0], 'color: black;', 'color: green;', 'color: black;', 'color: blue;');
     console.debug.apply(console, params);
 };
-win.info = function () {
+win.info = function() {
     var params = Array.prototype.slice.call(arguments, 1);
     params.unshift('[%cINFO%c] ' + arguments[0], 'color: blue;', 'color: black;');
     console.info.apply(console, params);
 };
-win.warn = function () {
+win.warn = function() {
     var params = Array.prototype.slice.call(arguments, 1);
     params.unshift('[%cWARNING%c] ' + arguments[0], 'color: orange;', 'color: black;');
     console.warn.apply(console, params);
 };
-win.error = function () {
+win.error = function() {
     var params = Array.prototype.slice.call(arguments, 1);
     params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: red;', 'color: black;');
     console.error.apply(console, params);
 };
 
 // Load in external templates
-_.each(document.querySelectorAll('[type="text/x-template"]'), function (el) {
-    $.get(el.src, function (res) {
+_.each(document.querySelectorAll('[type="text/x-template"]'), function(el) {
+    $.get(el.src, function(res) {
         el.innerHTML = res;
     });
 });
@@ -84,7 +84,7 @@ App.addRegions({
     Window: '.main-window-region'
 });
 
-App.addInitializer(function (options) {
+App.addInitializer(function(options) {
     var mainWindow = new App.View.MainWindow();
     try {
         App.Window.show(mainWindow);
@@ -93,7 +93,7 @@ App.addInitializer(function (options) {
     }
 });
 
-App.vent.on('error', function (err) {
+App.vent.on('error', function(err) {
     window.alert('Error: ' + err);
 });
 
@@ -112,7 +112,7 @@ if (!fs.existsSync(App.settings.tmpLocation)) {
     fs.mkdir(App.settings.tmpLocation);
 }
 
-var deleteFolder = function (path) {
+var deleteFolder = function(path) {
 
     if (typeof path !== 'string') {
         return;
@@ -122,7 +122,7 @@ var deleteFolder = function (path) {
         var files = [];
         if (fs.existsSync(path)) {
             files = fs.readdirSync(path);
-            files.forEach(function (file, index) {
+            files.forEach(function(file, index) {
                 var curPath = path + '\/' + file;
                 if (fs.lstatSync(curPath).isDirectory()) {
                     deleteFolder(curPath);
@@ -138,7 +138,7 @@ var deleteFolder = function (path) {
 };
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
-win.on('close', function () {
+win.on('close', function() {
     if (App.settings.deleteTmpOnClose) {
         deleteFolder(App.settings.tmpLocation);
     }
@@ -146,36 +146,36 @@ win.on('close', function () {
     win.close(true);
 });
 
-String.prototype.capitalize = function () {
+String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-String.prototype.capitalizeEach = function () {
-    return this.replace(/\w*/g, function (txt) {
+String.prototype.capitalizeEach = function() {
+    return this.replace(/\w*/g, function(txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
 };
 
-String.prototype.endsWith = function (suffix) {
+String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 // Developer Shortcuts
-Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function (e) {
+Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function(e) {
     win.showDevTools();
 });
-Mousetrap.bind('command+,', function (e) {
+Mousetrap.bind('command+,', function(e) {
     App.vent.trigger('about:close');
     App.vent.trigger('settings:show');
 });
-Mousetrap.bind('f11', function (e) {
+Mousetrap.bind('f11', function(e) {
     win.reloadIgnoringCache();
 });
-Mousetrap.bind(['?', '/', '\''], function (e) {
+Mousetrap.bind(['?', '/', '\''], function(e) {
     e.preventDefault();
     App.vent.trigger('help:toggle');
 });
 if (process.platform === 'darwin') {
-    Mousetrap.bind('command+ctrl+f', function (e) {
+    Mousetrap.bind('command+ctrl+f', function(e) {
         e.preventDefault();
         win.toggleFullscreen();
     });
@@ -185,25 +185,23 @@ if (process.platform === 'darwin') {
  * Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
  */
 
-
-window.ondragenter = function (e) {
+window.ondragenter = function(e) {
 
     $('#drop-mask').show();
     $('#drop-mask').on('dragenter',
-        function (e) {
+        function(e) {
             $('.drop-indicator').fadeIn('fast');
             console.log('drag init');
         });
     $('#drop-mask').on('dragleave',
-        function (e) {
+        function(e) {
             console.log('drag aborted');
             $('.drop-indicator').hide();
             $('#drop-mask').hide();
         });
 };
 
-
-var startTorrentStream = function (torrentFile) {
+var startTorrentStream = function(torrentFile) {
     var torrentStart = new Backbone.Model({
         torrent: torrentFile
     });
@@ -211,7 +209,7 @@ var startTorrentStream = function (torrentFile) {
     App.vent.trigger('stream:start', torrentStart);
 };
 
-window.ondrop = function (e) {
+window.ondrop = function(e) {
     e.preventDefault();
     $('#drop-mask').hide();
     console.log('drag compleated');
@@ -222,10 +220,10 @@ window.ondrop = function (e) {
     if (file != null && file.name.indexOf('.torrent') !== -1) {
         var reader = new FileReader();
 
-        reader.onload = function (event) {
+        reader.onload = function(event) {
             var content = reader.result;
 
-            fs.writeFile(App.settings.tmpLocation + '\/' + file.name, content, function (err) {
+            fs.writeFile(App.settings.tmpLocation + '\/' + file.name, content, function(err) {
                 if (err) {
                     window.alert('Error Loading Torrent: ' + err);
                 } else {
@@ -249,7 +247,7 @@ window.ondrop = function (e) {
 /**
  * Paste Magnet Link to start stream
  */
-window.onpaste = function (e) {
+window.onpaste = function(e) {
     var data = e.clipboardData.getData('text/plain');
     if (data != null && data.substring(0, 8) === 'magnet:?') {
         startTorrentStream(data);
@@ -263,11 +261,11 @@ window.onpaste = function (e) {
 var last_arg = gui.App.argv.pop();
 if (last_arg) {
     if (last_arg.substring(0, 8) === 'magnet:?') {
-        App.vent.on('main:ready', function () {
+        App.vent.on('main:ready', function() {
             startTorrentStream(last_arg);
         });
     } else if (last_arg.substring(0, 7) === 'http://') {
-        App.vent.on('main:ready', function () {
+        App.vent.on('main:ready', function() {
             var si = new App.Model.StreamInfo({});
             si.set('title', last_arg);
             si.set('subtitle', {});
@@ -289,6 +287,6 @@ if (gui.App.fullArgv.indexOf('-f') !== -1) {
 /**
  * Show 404 page on uncaughtException
  */
-process.on('uncaughtException', function (err) {
+process.on('uncaughtException', function(err) {
     window.console.error(err, err.stack);
 });
