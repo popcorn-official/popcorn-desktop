@@ -157,5 +157,8 @@
 	"Made with": "Made with",
 	"by a bunch of geeks from All Around The World": "by a bunch of geeks from All Around The World",
 	"Disconnect account": "Disconnect account",
-	"You are currently authenticated to Trakt.tv as": "You are currently authenticated to Trakt.tv as"
+	"You are currently authenticated to Trakt.tv as": "You are currently authenticated to Trakt.tv as",
+	"Ratio:": "Ratio:",
+	"Seeds:": "Seeds:",
+	"Peers:": "Peers:"
 }

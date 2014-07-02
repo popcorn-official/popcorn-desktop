@@ -1,482 +1,358 @@
-#player .app-overlay
-	z-index 20
-
-.app-overlay
-	position absolute
-	z-index 2
-	width 100%
-	height 100%
-	background-color rgba(0,0,0,0.95)
-
-.tooltip-inner
-	max-width 200px
-	padding 3px 8px
-	color #fff
-	text-align center
-	text-decoration none
-	background-color rgba(9, 13, 18, 0.75)
-	border-radius 4px
-
 .movie-detail
-	width 100%
-	height calc(100% - 65px)
-	position absolute
-	-webkit-user-select none
-	background-color rgba(0,0,0,1)
-	opacity 1
-	overflow hidden
-	margin auto
-	left 0
-	right 0
-	top 65px
-	-webkit-backface-visibility hidden
+    width 100%
+    height 100%
+    position fixed
+    top 65px
+    height calc( 100% - 65px )
+    user-select none
+    backface-visibility hidden
+    //background-image url(https://zapp.trakt.us/images/fanart_movies/180757-940.jpg?1)
+    display block
+    background-repeat no-repeat
+    background-size cover
+    .backdrop-overlay
+        width 100%
+        height 100%
+        position absolute
+        opacity 0.6
+        background-color #000
+    .cover-image
+        float left
+        width auto
+        position relative
+        height 100%
+        margin-right 2%
+        border-radius 4px
+        margin-left 5%
+        //top 10%
+        backface-visibility hidden
+    .close
+         top 15px
+         right 15px
+         position absolute
+         float right
+         width 20px
+         height 20px
+         background-image url('../images/icons/Close.png')
+         background-size 20px
+         cursor pointer
+         opacity 0.7
+         backface-visibility hidden
+         transition all .5s
+         &:hover
+            opacity 1
+            transition all .5s
+    .container
+        width 100%
+        position relative
+        height 80%
+        border-radius 4px
+        top 10%
+        backface-visibility hidden
+    .title
+        color #fff
+        position relative
+        top -4px
+        text-stroke 1px rgba(0, 0, 0, 0.1)
+        font-size 38px
+        font-family 'Open Sans Semibold'
+        font-smoothing antialiased
+    .meta-container
+        top 5px
+        height 20px
+        position relative
+        .item
+            color #fff
+            font-size 12px
+            position relative
+            font-family 'Open Sans Bold'
+            text-stroke 1px rgba(0, 0, 0, 0.1)
+            float left
+            font-smoothing antialiased
+        .dot
+            margin 4px 15px 0px 15px
+            position relative
+            display inline-block
+            width 4px
+            float left
+            height 4px
+            border-radius 2px
+            background-color #dbdbdd
+        .star-container
+            height 16px
+            float left
+            top: -3px
+            position relative
+            .rating-star
+                z-index 2
+                margin-right 3px
+                position relative
+                display inline-block
+                width 11px
+                height 11px
+                background-image url("../images/icons/stars.png")
+                background-repeat no-repeat
+                backface-visibility hidden
+                &.null
+                    background-position 0px 0px
+                &.half
+                    background-position -11px 0px
+                &.full
+                    background-position -22px 0px
+    .overview
+        position relative
+        float none
+        color #fff
+        top 20px
+        width 95%
+        font-family 'Open Sans Semibold'
+        font-smoothing antialiased
+        font-size 14px
+        text-stroke 1px rgba(0, 0, 0, 0.1)
+        backface-visibility hidden
+    .health-icon
+        position relative
+        width 14px
+        height 19px
+        float right
+        margin-right 5%
+        background-image url("../images/icons/health.png")
+        background-repeat no-repeat
+        &.Bad
+            background-position 0px 0px
+        &.Medium
+            background-position -14px 0px
+        &.Good
+            background-position -28px 0px
+        &.Excellent
+            background-position -42px 0px
+    .bottom-container
+        position absolute
+        cursor pointer
+        float left
+        left 8%
+        bottom 0
+    .button
+        position relative
+        cursor pointer
+        float left
+        bottom 0
+        height 35px
+        margin-right 15px
+        border-radius 3px
+        background-clip padding-box
+        background-color #1f375f
+        padding 0 15px
+        transition background-color 0.5s
+        color #fff
+        font-family 'Open Sans Semibold'
+        font-smoothing antialiased
+        text-align center
+        font-size 12px
+        line-height 34px
+        &:hover
+            background #225694
+            text-decoration none
+        &:active
+            box-shadow inset 0 1px 4px rgba(0, 0, 0, 0.6)
+            background #2875e5
+            border solid -2px #2468cc
+    .favourites-toggle
+        cursor pointer
+        padding-left 24px
+        bottom 5px
+        height 18px
+        position relative
+        color #fff
+        fadeicon(favourites, 0px, -38px, 18px)
+        width 200px
+        font-family 'Open Sans Semibold'
+        font-smoothing antialiased
+        font-size 14px
+        line-height 17px
+        
+        &.selected
+            fadeicon(favourites, -57px, 0px, 18px)
+            width 200px
 
-.movie-data
-	display table
-	height 100%
-	position relative
-	max-width 62%
-
-.movie-cover-image
-	opacity 0
-	float left
-	height 100%
-	max-width 36%
-	border-radius 4px
-	margin-right 20px
-	-webkit-backface-visibility hidden
-
-.movie-meta-title
-	color #fff
-	font-size 38px
-	font-family 'Open Sans Semibold'
-	-webkit-font-smoothing antialiased
-	-webkit-backface-visibility hidden
-
-.movie-quick-info
-	height 20px
-	margin 12px 0px
-	padding-left 3px
-
-	div
-		display inline-block
-		-webkit-backface-visibility hidden
-
-	.movie-meta-details
-		color #fff
-		font-size 12px
-		font-family 'Open Sans Bold'
-		-webkit-font-smoothing antialiased
-
-	.movie-imdb-link
-		margin-bottom: -4px
-		width 27px
-		height 16px
-		position relative
-		cursor pointer
-		background url(../images/icons/imdb.png) no-repeat
-
-	.movie-dot
-		margin 0 15px 2px 15px
-		position relative
-		display inline-block
-		width 4px
-		height 4px
-		border-radius 2px
-		background-color #dbdbdd
-
-	.star-container
-		width 80px
-		height 16px
-
-	.health-icon
-		position absolute
-		width 14px
-		height 17px
-		right 0
-		background-image url('../images/icons/health.png')
-		background-repeat no-repeat
-		&.Bad
-			background-position 0px 0px
-		&.Medium
-			background-position -14px 0px
-		&.Good
-			background-position -28px 0px
-		&.Excellent
-			background-position -42px 0px
-
-.movie-overview-container
-	.movie-meta-overview
-		color #fff
-		font-family 'Open Sans Semibold'
-		-webkit-font-smoothing antialiased
-		font-size 14px
-		line-height 24px
-		-webkit-backface-visibility hidden
-
-.movie-bottom
-	display table-footer-group
-
-	.movie-buttons
-		position relative
-		height 50px
-		padding 15px 0
-		color #fff
-		font-size 14px
-		line-height 24px
-		font-family 'Open Sans Semibold'
-		-webkit-font-smoothing antialiased
-
-		.detail-favourites
-			display inline;
-			cursor pointer;
-			padding-left 24px;
-			fadeicon(favourites, 0px, -38px, 18px)
-
-			&.selected
-				fadeicon(favourites, -57px, 0px, 18px)
-
-.movie-detail-close
-	top 15px
-	right 15px
-	position absolute
-	float right
-	width 20px
-	height 20px
-	background-image url('../images/icons/Close.png')
-	background-size 20px
-	cursor pointer
-	z-index 100
-	opacity 0.7
-	-webkit-backface-visibility hidden
-	transition all .5s
-	&:hover
-		opacity 1
-		transition all .5s
-
-.rating-star
-	z-index 2
-	padding-right: 12px
-	position relative
-	display: inline-block
-	width 11px
-	height 11px
-	opacity 1
-	background-image url('../images/icons/stars.png')
-	background-repeat no-repeat
-	-webkit-backface-visibility hidden
-
-	&.null
-		background-position: 0px 0px;
-	&.half
-		background-position: -11px 0px;
-	&.full
-		background-position: -22px 0px;
 
 .movie-quality-container
-	padding-left: 10%
-	top: 13px
-	z-index: 2
-	float: left
-	width: 10px
-	height: 10px
-	position: relative
-
-.movie-controls-container
-	height: 35px;
-	position: relative;
-
-.movie-btn
-	z-index 2
-	margin-right 15px
-	position relative
-	cursor pointer
-	float left
-	height 35px
-	border-radius 3px
-	background-clip padding-box
-	background-color #1F375F
-	padding 0 15px
-	transition background-color .5s
-	&:hover
-		background #225694
-		text-decoration none
-
-	&:active
-		box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6)
-		background: #2875e5
-		border: solid 1px #2468cc
-
-	.movie-watch-now
-		color #fff
-		font-family "Open Sans Semibold", "Open Sans", sans-serif
-		-webkit-font-smoothing antialiased
-		text-align center
-		padding-top 12px
-		font-size 12px
-
-.detail-window
-	width 100%
-	height 100%
-	padding 75px 7%
-
-.movie-backdrop
-	width 100%
-	height 100%
-	position absolute
-	top 0px
-	z-index 0
-	background-repeat no-repeat
-	background-position center
-	background-size cover
-	overflow hidden
-	opacity 1
-	-webkit-backface-visibility hidden
-	display none
-
-.movie-backdrop-overlay
-	width 100%
-	height 100%
-	position absolute
-	top 0px
-	opacity 0.7
-	/* layer alpha */
-	background-color #000
-	/* layer fill content */
-	z-index: 2
+    margin-top 10px
+    float left
+    position relative
 
 .q720
-	z-index 2
-	font-family "Open Sans Bold", "Open Sans", sans-serif
-	-webkit-font-smoothing antialiased
-	font-size 11px
-	color #fff
-	font-weight normal
-	position absolute
+    font-family 'Open Sans Bold'
+    font-smoothing antialiased
+    font-size 11px
+    color #fff
+    font-weight normal
+    position absolute
 
 .q1080
-	font-family "Open Sans Bold", "Open Sans", sans-serif
-	-webkit-font-smoothing antialiased
-	font-size 11px
-	color #fff
-	font-weight normal
-	margin-left 60px
-	position absolute
-	z-index 2
+    font-family 'Open Sans Bold'
+    font-smoothing antialiased
+    font-size 11px
+    color #fff
+    font-weight normal
+    margin-left 50px
+    position absolute
 
 .switch
-	background transparent
-	border-radius 32px
-	display block
-	height 12px
-	position absolute
-	margin-left 30px
-	//top 312px
-	width 25px
-	border 2px solid #FFF
-	cursor pointer
-	z-index 2
-
-	label
-		font-family "Open Sans", sans-serif
-		font-size 11px
-		color #fff
-		font-weight bold
-		transition color 0.2s ease
-		transition color 0.2s ease
-		width 20px
-		cursor pointer
-
-		&:nth-of-type(1)
-			left -38px
-			position absolute
-			text-align right
-
-		&:nth-of-type(2)
-			position absolute
-			right -30px
-			text-align left
-	input
-		height 7px
-		left -27px
-		opacity 0
-		position absolute
-		top -4px
-		width 79px
-		z-index 2
-		cursor pointer
-
-		&:checked
-			z-index 0
-
-			& ~ label
-
-				&:nth-of-type(1)
-					color #286dc4
-
-				&:nth-of-type(2)
-					color #FFF
-
-			& ~ .toggle
-				left 0px
-
-		& ~ :checked
-
-			& ~ label
-
-				&:nth-of-type(1)
-					color #FFF
-
-				&:nth-of-type(2)
-					color #286dc4
-
-			& ~ .toggle
-				left 11px
+    background transparent
+    border-radius 32px
+    display block
+    height 10px
+    position absolute
+    margin-left 21px
+    width 25px
+    border 2px solid #fff
+    cursor pointer
+    label
+        transition color 0.2s ease
+        width 20px
+        cursor pointer
+        &:nth-of-type(1)
+            left -38px
+            position absolute
+            text-align right
+        &:nth-of-type(2)
+            position absolute
+            right -30px
+            text-align left
+    input
+        height 12px
+        left -27px
+        opacity 0
+        position absolute
+        top -4px
+        width 79px
+        cursor pointer
+        &:checked
+            z-index 0
+            & ~ label
+                &:nth-of-type(1)
+                    color #286dc4
+                &:nth-of-type(2)
+                    color #fff
+            & ~ .toggle
+                left -1px
+        & ~ :checked
+            & ~ label
+                &:nth-of-type(1)
+                    color #fff
+                &:nth-of-type(2)
+                    color #286dc4
+            & ~ .toggle
+                left 14.5px
 
 .toggle
-	transition left 0.2s ease
-	transition left 0.2s ease
-	background #286dc4
-	border-radius 50%
-	height 10px
-	left -0px
-	position absolute
-	top -1px
-	width 10px
-	z-index 1
-
-.sub-dropdown
-	top: 15px
-	right: 0
-	position: absolute
-	height: 26px
-	color: #fff
-	font-family: 'Open Sans Semibold'
-	-webkit-font-smoothing: antialiased
-	font-size: 12px
-	line-height: 18px
-	cursor pointer
-	padding: 5px;
-	padding-right: 13px;
-
-	&.open
-		background-color: rgba(45,117,223,0.4);
-		-webkit-border-radius: 5px;
-		border-radius: 5px 5px 0 0;
-
-		.sub-dropdown-arrow
-			border-bottom 5px solid #c4c6c8
-			border-top none
-
-	.sub-dropdown-arrow
-		width 0
-		height 0
-		border-left 4px solid transparent
-		border-right 4px solid transparent
-		top: 10px
-		position: absolute
-		float left
-		right 5px
-		border-top 5px solid #c4c6c8
-		border-bottom none
+    transition left 0.2s ease
+    background #286dc4
+    border-radius 50%
+    height 10px
+    left 0px
+    position absolute
+    width 10px
 
 .flag-container
-	display: none
-	z-index: 10
-	right: 0
-	top: 40px
-	position: absolute
-	float: right
-	max-width: 222px
-	padding: 6px
-	background-color: rgba(0,0,0,0.5)
-	border-radius: 5px 0 5px 5px
+    display none
+    z-index 10
+    right 0
+    top 40px
+    position absolute
+    float right
+    max-width 222px
+    padding 6px
+    background-color rgba(0, 0, 0, 0.5)
+    border-radius 5px 0 5px 5px
 
 .flag
-	z-index 2
-	margin 4px
-	background-size 22px 16px
-	position relative
-	float right
-	cursor pointer
-	background-image url('../images/flags/none.png')
-	width 22px
-	height 16px
-	&.NA
-		background-image url('../images/flags/none.png')
-	&.toggle
-		top: -22px
-		border-radius: 0
-		background-color: transparent
-	&.bn
-		 background-image url('../images/flags/bengali.png')
-	&.bs
-		 background-image url('../images/flags/bosnian.png')
-	&.pt-br
-		 background-image url('../images/flags/brazilian.png')
-	&.bg
-		 background-image url('../images/flags/bulgarian.png')
-	&.hr
-		 background-image url('../images/flags/croatian.png')
-	&.cs
-		 background-image url('../images/flags/czech.png')
-	&.da
-		 background-image url('../images/flags/danish.png')
-	&.nl
-		 background-image url('../images/flags/dutch.png')
-	&.en
-		 background-image url('../images/flags/english.png')
-	&.et
-		 background-image url('../images/flags/estonian.png')
-	&.eu
-		 background-image url('../images/flags/basque.png')
-	&.fa
-		 background-image url('../images/flags/farsi.png')
-	&.fi
-		 background-image url('../images/flags/finnish.png')
-	&.fr
-		 background-image url('../images/flags/french.png')
-	&.de
-		 background-image url('../images/flags/german.png')
-	&.he
-		 background-image url('../images/flags/hebrew.png')
-	&.hy
-		 background-image url('../images/flags/hungarian.png')
-	&.it
-		 background-image url('../images/flags/italian.png')
-	&.lv
-		 background-image url('../images/flags/latvian.png')
-	&.lt
-		 background-image url('../images/flags/lithuanian.png')
-	&.mt
-		 background-image url('../images/flags/maltese.png')
-	&.ar
-		 background-image url('../images/flags/arabic.png')
-	&.pl
-		 background-image url('../images/flags/polish.png')
-	&.pt
-		 background-image url('../images/flags/portuguese.png')
-	&.ro
-		 background-image url('../images/flags/romanian.png')
-	&.ru
-		 background-image url('../images/flags/russian.png')
-	&.sr
-		 background-image url('../images/flags/serbian.png')
-	&.sk
-		 background-image url('../images/flags/slovak.png')
-	&.sl
-		 background-image url('../images/flags/slovenian.png')
-	&.es
-		 background-image url('../images/flags/spanish.png')
-	&.th
-		 background-image url('../images/flags/thai.png')
-	&.tr
-		 background-image url('../images/flags/turkish.png')
-	&.uk
-		 background-image url('../images/flags/ukrainian.png')
-	&.el
-		 background-image url('../images/flags/greek.png')
-	&.hu
-		 background-image url('../images/flags/hungarian.png')
-	&.zh
-		 background-image url('../images/flags/chinese.png')
+    z-index 2
+    margin 4px
+    background-size 22px 16px
+    position relative
+    float right
+    cursor pointer
+    background-image url("../images/flags/none.png")
+    width 22px
+    height 16px
+    &.NA
+        background-image url("../images/flags/none.png")
+    &.toggle
+        top -22px
+        border-radius 0
+        background-color transparent
+    &.bn
+        background-image url("../images/flags/bengali.png")
+    &.bs
+        background-image url("../images/flags/bosnian.png")
+    &.pt-br
+        background-image url("../images/flags/brazilian.png")
+    &.bg
+        background-image url("../images/flags/bulgarian.png")
+    &.hr
+        background-image url("../images/flags/croatian.png")
+    &.cs
+        background-image url("../images/flags/czech.png")
+    &.da
+        background-image url("../images/flags/danish.png")
+    &.nl
+        background-image url("../images/flags/dutch.png")
+    &.en
+        background-image url("../images/flags/english.png")
+    &.et
+        background-image url("../images/flags/estonian.png")
+    &.eu
+        background-image url("../images/flags/basque.png")
+    &.fa
+        background-image url("../images/flags/farsi.png")
+    &.fi
+        background-image url("../images/flags/finnish.png")
+    &.fr
+        background-image url("../images/flags/french.png")
+    &.de
+        background-image url("../images/flags/german.png")
+    &.he
+        background-image url("../images/flags/hebrew.png")
+    &.hy
+        background-image url("../images/flags/hungarian.png")
+    &.it
+        background-image url("../images/flags/italian.png")
+    &.lv
+        background-image url("../images/flags/latvian.png")
+    &.lt
+        background-image url("../images/flags/lithuanian.png")
+    &.mt
+        background-image url("../images/flags/maltese.png")
+    &.ar
+        background-image url("../images/flags/arabic.png")
+    &.pl
+        background-image url("../images/flags/polish.png")
+    &.pt
+        background-image url("../images/flags/portuguese.png")
+    &.ro
+        background-image url("../images/flags/romanian.png")
+    &.ru
+        background-image url("../images/flags/russian.png")
+    &.sr
+        background-image url("../images/flags/serbian.png")
+    &.sk
+        background-image url("../images/flags/slovak.png")
+    &.sl
+        background-image url("../images/flags/slovenian.png")
+    &.es
+        background-image url("../images/flags/spanish.png")
+    &.th
+        background-image url("../images/flags/thai.png")
+    &.tr
+        background-image url("../images/flags/turkish.png")
+    &.uk
+        background-image url("../images/flags/ukrainian.png")
+    &.el
+        background-image url("../images/flags/greek.png")
+    &.hu
+        background-image url("../images/flags/hungarian.png")
+    &.zh
+        background-image url("../images/flags/chinese.png")
+
