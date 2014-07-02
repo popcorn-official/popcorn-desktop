@@ -185,19 +185,36 @@ if (process.platform === 'darwin') {
  * Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
  */
 
+
 window.ondragenter = function(e) {
 
     $('#drop-mask').show();
+    showDrag = true;
+    timeout = -1;
     $('#drop-mask').on('dragenter',
         function(e) {
             $('.drop-indicator').fadeIn('fast');
             console.log('drag init');
         });
+    $('#drop-mask').on('dragover',
+        function(e) {
+            showDrag = true;
+        });
+
     $('#drop-mask').on('dragleave',
         function(e) {
-            console.log('drag aborted');
-            $('.drop-indicator').hide();
-            $('#drop-mask').hide();
+            showDrag = false;
+            clearTimeout(timeout);
+            //$('.drop-indicator').hide();
+            //$('#drop-mask').hide();
+            timeout = setTimeout(function() {
+                if (!showDrag) {
+                    console.log('drag aborted');
+                    $('.drop-indicator').hide();
+                    $('#drop-mask').hide();
+                }
+            }, 100);
+
         });
 };
 
