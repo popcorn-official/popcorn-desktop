@@ -34,14 +34,16 @@
 
 			var subtitle = this.providers.subtitle;
 			var metadata = this.providers.metadata;
-			var torrent = this.providers.torrent;
-			var torrentPromise = torrent.fetch(this.filter);
-			var idsPromise = torrentPromise.then(_.bind(torrent.extractIds, torrent));
-			var subtitlePromise = idsPromise.then(_.bind(subtitle.fetch, subtitle));
-			var metadataPromise = idsPromise.then(_.bind(metadata.movie.listSummary, metadata));
-			
-			
-			return Q.all([torrentPromise, subtitlePromise, metadataPromise])
+			var torrents = this.providers.torrents;
+			var torrentPromises = _.map(torrents, function (t) {
+                                var deferred = Q.defer();
+                                var tPromise = t.fetch(self.filter);
+
+			        var idsPromise = tPromise.then(_.bind(t.extractIds, t));
+			        var subtitlePromise = idsPromise.then(_.bind(subtitle.fetch, subtitle));
+			        var metadataPromise = idsPromise.then(_.bind(metadata.movie.listSummary, metadata));
+
+			        Q.all([tPromise, subtitlePromise, metadataPromise])
 				.spread(function(torrents, subtitles, metadatas) {
 					// If a new request was started...
 					_.each(torrents.movies, function(movie){
@@ -66,17 +68,26 @@
 						}
 					});
 
-					self.add(torrents.movies);
-					self.hasMore = torrents.hasMore;
-					self.trigger('sync', self);
-					self.state = 'loaded';
-					self.trigger('loaded', self, self.state);
+                                        return deferred.resolve (torrents);
 				})
 				.catch(function(err) {
 					self.state = 'error';
 					self.trigger('loaded', self, self.state);
 					win.error(err.message, err.stack);
 				});
+
+                                return deferred.promise;
+                        });
+
+                        Q.all(torrentPromises).done (function (torrents) {
+                                _.forEach(torrents, function (t) {
+                                        self.add(t.movies);
+                                });
+				self.hasMore = _.pluck(torrents, 'hasMore').length?true:false;
+				self.trigger('sync', self);
+				self.state = 'loaded';
+				self.trigger('loaded', self, self.state);
+                        });
 		},
 
 		fetchMore: function() {
