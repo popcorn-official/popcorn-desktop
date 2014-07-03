@@ -77,7 +77,7 @@
         // triggered on click only
         showDetail: function() {
             $('.spinner').show();
-            var tvshow = new(App.Config.getProvider('tvshow'))();
+            var tvshow = App.Config.getProvider('tvshow');
             var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
                 $('.spinner').hide();
                 if (!err) {
@@ -102,7 +102,7 @@
                     Database.deleteTVShow(that.model.get('imdb_id'), function(err, data) {});
                 });
             } else {
-                var tvshow = new(App.Config.getProvider('tvshow'))();
+                var tvshow = App.Config.getProvider('tvshow');
                 var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
                     if (!err) {
                         Database.addTVShow(data, function(err, idata) {

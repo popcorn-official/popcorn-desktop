@@ -149,8 +149,8 @@
                     
                     var getSubtitles = function(data){
                         win.debug('Subtitle data request:', data);
-                        
-                        var subtitleProvider = new (App.Config.getProvider('tvshowsubtitle'))();
+
+                        var subtitleProvider = App.Config.getProvider('tvshowsubtitle');
                         
                         subtitleProvider.fetch(data).then(function(subs) {
                             if (Object.keys(subs).length > 0) {
