@@ -1,52 +1,59 @@
-#Popcorn Time [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-app.svg)](https://david-dm.org/popcorn-official/popcorn-app) [![Build Status](https://travis-ci.org/popcorn-official/popcorn-app.svg?branch=dev-0.3)](https://travis-ci.org/popcorn-official/popcorn-app)
+# [Popcorn Time](https://github.com/popcorn-official/popcorn-app) [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-app.svg)](https://david-dm.org/popcorn-official/popcorn-app) [![Build Status](https://travis-ci.org/popcorn-official/popcorn-app.svg?branch=dev-0.3)](https://travis-ci.org/popcorn-official/popcorn-app)
 
-### Idea
+Allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
-To allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
+![](http://i.imgur.com/MdZR313.gif)
 
-![](http://i.imgur.com/OVMJkCB.png)
-![](http://i.imgur.com/MyJIzbX.png)
-![](http://i.imgur.com/xWo9U24.png)
-![](http://i.imgur.com/YdPiqKH.png)
-![](http://i.imgur.com/yILXXpf.png)
-### APIs
+Visit the project's website at <http://popcorntime.io>.
 
-**Currently used:**
-- [YIFY](http://yts.re/api) movie torrents API.
-- [YifySubtitles](http://www.yifysubtitles.com) for movie subtitles
-- [OpenSubtitles](http://www.opensubtitles.org) for tv shows subtitles
-- [Trakt.tv](https://trakt.tv/) for movies metadata.
-- [EZTV](http://eztv.it) for TV Show torrents
+***
 
-### Development
+## Getting Involved
 
-See [Development's page](https://github.com/popcorn-official/popcorn-app/wiki/Build-and-Debug)
+Want to report a bug, request a feature, contribute or translate Popcorn Time? Check out our in-depth guide to [Contributing to Popcorn Time](https://github.com/popcorn-official/popcorn-app/blob/master/CONTRIBUTING.md). We need all the help we can get! You can also join in with our [community](https://github.com/popcorn-official/popcorn-app#community) to keep up-to-date and meet other Popcorn Timers.
 
-### How to contribute
+## Getting Started
 
-First, building, testing and reporting bug is highly appreciated. Please include console's output and reproduction step in your bug report.
+If you're comfortable getting up and running from a `git clone`, this method is for you.
 
-If you want to develop, you can look at the issues, especialy the bug and fix them.
-Here's a [list of feature](http://github.com/popcorn-official/popcorn-app/issues?labels=feature-request) requested by the community so far.
+If you clone the GitHub repository, you will need to build a number of assets using grunt.
 
-Please follow the [contributions guidelines](https://github.com/popcorn-official/popcorn-app/blob/master/CONTRIBUTING.md).
+The [stable](https://github.com/popcorn-official/popcorn-app/tree/stable) branch which contains the latest release.
 
-It is recommended to join us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime)), most active developers hang in there. You can ask `phnz` or  `Sharkiller` for high priority task.
+#### Quickstart:
 
-## Any problem?
+1. `npm install -g grunt-cli bower`
+1. `npm install`
+1. `grunt build`
+1. `grunt start`
 
-### Need to report a bug? [Read the report guideline](https://github.com/popcorn-official/popcorn-app/blob/master/CONTRIBUTING.md#report-a-bug)
+Full instructions & troubleshooting tips can be found in the [Contributing Guide](https://github.com/popcorn-official/popcorn-app/blob/master/CONTRIBUTING.md)
 
-### Error about missing libudev.so.0
-Search for libudev.so.0 on your distribution. Most of the time it can be easily fixed by creating a symbolic link from libudev.so to libudev.so.0
+## Community
 
-See: https://github.com/rogerwang/node-webkit/wiki/The-solution-of-lacking-libudev.so.0
+Keep track of Popcorn Time development and community activity.
 
-### Error "Gtk-WARNING **: cannot open display:"
-Try running `export DISPLAY=:0.0`
+* Follow Popcorn Time on [Twitter](https://twitter.com/popcorntimetv), [Facebook](https://www.facebook.com/PopcornTimeTv) and [Google+](https://plus.google.com/+Getpopcorntime).
+* Read and subscribe to the [The Official Popcorn Time Blog](http://blog.popcorntime.io).
+* Join in discussions on the [Popcorn Time Forum](http://discuss.popcorntime.io)
+* Connect with us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime))
 
-### Error "The video format is not supported"
-See: https://github.com/rogerwang/node-webkit/wiki/Support-mp3-and-h264-in-video-and-audio-tag
+
+## Versioning
+
+For transparency and insight into our release cycle, and for striving to maintain backward compatibility, Popcorn Time will be maintained according to the [Semantic Versioning](http://semver.org/) guidelines as much as possible.
+
+Releases will be numbered with the following format:
+
+`<major>.<minor>.<patch>-<build>`
+
+Constructed with the following guidelines:
+
+* A new *major* release indicates a large change where backwards compatibility is broken.
+* A new *minor* release indicates a normal change that maintains backwards compatibility.
+* A new *patch* release indicates a bugfix or small change which does not affect compatibility.
+* A new *build* release indicates this is a pre-release of the version.
+
 
 ***
 
@@ -60,8 +67,6 @@ You should have received a copy of the GNU General Public License along with thi
 
 ***
 
-If you want to contact us : hello@popcorntime.io
+If you want to contact us : [hello@popcorntime.io](mailto:hello@popcorntime.io)
  
-Copyright © 2014 - Popcorn Time and the contributors (popcorntime.io)
-
-Popcorn Time is released under the GPL
+Copyright (c) 2014 Popcorn Time Foundation - Released under the [GLV v3 license](https://github.com/popcorn-official/popcorn-app/blob/master/LICENSE.txt).
