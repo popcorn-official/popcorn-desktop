@@ -1,6 +1,6 @@
 var
 // Minimum percentage to open video
-    MIN_PERCENTAGE_LOADED = 0.5,
+MIN_PERCENTAGE_LOADED = 0.5,
 
     // Minimum bytes loaded to open video
     MIN_SIZE_LOADED = 10 * 1024 * 1024,
@@ -86,6 +86,7 @@ App.addRegions({
 
 App.addInitializer(function(options) {
     var mainWindow = new App.View.MainWindow();
+    win.show();
     try {
         App.Window.show(mainWindow);
     } catch (e) {
