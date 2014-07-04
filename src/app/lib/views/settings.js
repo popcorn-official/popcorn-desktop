@@ -19,6 +19,7 @@
 			'click .flush-subtitles': 'flushAllSubtitles',
 			'click #faketmpLocation' : 'showCacheDirectoryDialog',
 			'click .default-settings' : 'resetSettings',
+			'click .open-tmp-folder' : 'openTmpFolder',
 			'keyup #traktUsername': 'checkTraktLogin',
 			'keyup #traktPassword': 'checkTraktLogin',
 			'click #unauthTrakt': 'disconnectTrakt',
@@ -223,6 +224,11 @@
 		showCacheDirectoryDialog : function() {
 			var that = this;
 			that.ui.tempDir.click();
+		},
+
+		openTmpFolder : function() {
+			console.log('Opening: '+ App.settings['tmpLocation']);
+			gui.Shell.showItemInFolder(App.settings['tmpLocation']);
 		},
 
 		updateCacheDirectory : function(e) {
