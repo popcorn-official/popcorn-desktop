@@ -111,7 +111,7 @@
 
 			<!-- Cache Directory -->
 			<p><%= i18n.__("Cache Directory") %>: </p>
-			<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="75" /> <i class="open-tmp-folder fa fa-folder-open-o"></i>
+			<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="70" /> <i class="open-tmp-folder fa fa-folder-open-o"></i>
 			<input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
 			<br><br>
 			<!-- Cache Directory / -->
