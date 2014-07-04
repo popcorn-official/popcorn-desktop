@@ -21,7 +21,7 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
             <div class="dot"></div>
             <div class="item"><%= runtime %> min</div>
             <div class="dot"></div>
-            <div data-toggle="tooltip" data-placement="right" title="" class="star-container" data-original-title="8.3/10">
+            <div data-toggle="tooltip" data-placement="right" title="<%= rating %>/10" class="star-container">
 <% var p_rating = Math.round(rating) / 2; %>
                <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
 						<div class="rating-star full"></div>
