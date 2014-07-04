@@ -163,9 +163,9 @@ module.exports = function(grunt) {
 					archive: 'build/releases/Popcorn-Time/win/Popcorn-Time-' + currentVersion + '-Win.zip'
 				},
 				expand: true,
-				cwd: 'build/releases/Popcorn-Time/win',
-				src: 'Popcorn-Time-' + currentVersion + '-Win.exe',
-				dest: 'Popcorn-Time-'+ currentVersion
+				cwd: 'dist/windows',
+				src: 'PopcornTimeSetup.exe',
+				dest: ''
 			}			
 		},
 
