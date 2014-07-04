@@ -1,4 +1,4 @@
-<% p_rating = Math.round(rating * 10) / 20; %>
+<% var p_rating = Math.round(rating) / 2; %>
 
 <div id ="tt<%= imdb %>">
 	<img class="cover-image" src="<%= image %>" style="display: none">
