@@ -122,7 +122,7 @@ Section ; Node Webkit Files
 
 	;Add the files
 	File "..\..\build\cache\win\0.9.2\*.dll"
-	File "..\..\build\cache\win\0.9.2\nw.exe"
+	File "/oname=Popcorn Time.exe" "..\..\build\cache\win\0.9.2\nw.exe"
 	File "..\..\build\cache\win\0.9.2\nw.pak"
 
 SectionEnd
@@ -156,21 +156,20 @@ SectionEnd
 
 Section ; Shortcuts
 
-	SetOutPath "$INSTDIR"
-	File /oname=app.ico "..\..\src\app\images\popcorntime.ico"
-
 	;Working Directory
 	SetOutPath "$INSTDIR"
+    
+	CreateShortCut "$INSTDIR\Popcorn Time.lnk" "$INSTDIR\node-webkit\Popcorn Time.exe" "." "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "Popcorn Time"
 
 	;Start Menu Shortcut
 	RMDir /r "$SMPROGRAMS\Popcorn Time"
 	CreateDirectory "$SMPROGRAMS\Popcorn Time"
-	CreateShortCut "$SMPROGRAMS\Popcorn Time\Popcorn Time.lnk" "$INSTDIR\node-webkit\nw.exe" "." "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
-	CreateShortCut "$SMPROGRAMS\Popcorn Time\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\app.ico" "" "" "" "Uninstall Popcorn Time"
+	CreateShortCut "$SMPROGRAMS\Popcorn Time\Popcorn Time.lnk" "$INSTDIR\node-webkit\Popcorn Time.exe" "." "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "Popcorn Time"
+	CreateShortCut "$SMPROGRAMS\Popcorn Time\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "Uninstall Popcorn Time"
 
 	;Desktop Shortcut
 	Delete "$DESKTOP\Popcorn Time.lnk"
-	CreateShortCut "$DESKTOP\Popcorn Time.lnk" "$INSTDIR\node-webkit\nw.exe" "." "$INSTDIR\app.ico" "" "" "" "Start Popcorn Time"
+	CreateShortCut "$DESKTOP\Popcorn Time.lnk" "$INSTDIR\node-webkit\Popcorn Time.exe" "." "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "Popcorn Time"
 
 SectionEnd
 
