@@ -389,6 +389,44 @@
             top: -1px
             width: 10px
         }
+        .sub-dropdown {
+            position: relative
+            left: 20%
+            float: left
+            height: 26px
+            width: 70px
+            color: #fff
+            font-family: 'Open Sans Semibold'
+            font-smoothing: antialiased
+            font-size: 12px
+            line-height: 18px
+            cursor pointer
+            padding: 5px
+            padding-right: 13px
+
+            &.open {
+                background-color: rgba(45,117,223,0.4);
+                border-radius: 5px 5px 0 0;
+            }
+
+            .sub-dropdown-arrow {
+                border-bottom: 5px solid #c4c6c8
+                border-top: none
+            }
+        }
+        .sub-dropdown-arrow {
+            width: 0
+            height: 0
+            border-left: 4px solid transparent
+            border-right: 4px solid transparent
+            top: 10px
+            position: absolute
+            float: left
+            right: 5px
+            border-top: 5px solid #c4c6c8
+            border-bottom: none
+        }
+
         .flag-container {
             display: none
             right: 0
