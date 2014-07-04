@@ -1,9 +1,26 @@
+<% p_rating = Math.round(rating * 10) / 20; %>
+
 <div id ="tt<%= imdb %>">
 	<img class="cover-image" src="<%= image %>" style="display: none">
 	<div class="cover">
 		<div class="cover-overlay">
 			<div class="actions-favorites"></div>
 			<div class="actions-watched"><img src = "./images/icons/ViewMoreInfo.png"/></div>
+
+			<div class="rating">
+				<div class="rating-stars">
+					<% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
+						<div class="rating-star full"></div>
+					<% }; %>
+					<% if (p_rating % 1 > 0) { %>
+						<div class="rating-star half"></div>
+					<% }; %>
+					<% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
+						<div class="rating-star null"></div>
+					<% }; %>
+				</div>
+				<div class="rating-value"><%= rating %>/10</div>
+			</div>
 		</div>
 	</div>
 
