@@ -84,7 +84,7 @@
             coverCache.src = coverUrl;
             coverCache.onload = function() {
                 $('.cover-image').attr('src', coverUrl).fadeTo(500, 1);
-                $('.bottom-container').css('margin-left', $('.cover-image').width() + 'px');
+                $('.bottom-container').css('padding-left', $('.cover-image').width() + 'px');
 
                 coverCache = null;
             };
