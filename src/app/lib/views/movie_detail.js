@@ -102,7 +102,7 @@
             });
 
             $(window).resize(function() {
-                $('.bottom-container').css('margin-left', $('.cover-image').width() + 'px');
+                $('.bottom-container').css('padding-left', $('.cover-image').width() + 'px');
             });
 
 
