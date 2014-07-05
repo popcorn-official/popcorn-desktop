@@ -65,16 +65,17 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 
 
                    <div class="sub-dropdown"><%= i18n.__("Subtitles") %>
-                       <div class="flag toggle selected-lang none"></div>
+                       <div class="flag toggle selected-lang NA"></div>
                        <div class="sub-dropdown-arrow"></div>
-                   </div>
- 
-                  <div class="flag-container">
+                       <div class="flag-container">
                        <div class="sub-flag-icon flag none" data-lang="none" title="<%= i18n.__("Disabled") %>"></div>
                       <% for(var lang in subtitle){ %>
                           <div class="sub-flag-icon flag <%= lang %>" data-lang="<%= lang %>" title="<%= App.Localization.langcodes[lang].nativeName %>"></div>
                        <% } %>
                    </div>
+                   </div>
+ 
+
 
 
         </div>
