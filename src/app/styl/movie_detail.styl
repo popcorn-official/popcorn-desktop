@@ -163,7 +163,6 @@
     }
     .bottom-container {
         position: absolute
-        cursor: pointer
         float: left
         left: 8%
         width: 100%
@@ -200,7 +199,7 @@
         .favourites-toggle {
             cursor: pointer
             padding-left: 24px
-            bottom: 5px
+            bottom: 6px
             color: #fff
             height: 18px
             position: relative
@@ -391,8 +390,6 @@
         }
         .sub-dropdown {
             position: absolute
-            left: 50%
-            //background-color: rgba(45,117,223,0.4);
             float: left
             height: 26px
             width: 70px
@@ -415,6 +412,13 @@
                 border-top: none
             }
         }
+        .sub-container {
+            position: absolute
+            left: 50%
+            width: 100%
+            float: left
+
+        }
         .sub-dropdown-arrow {
             width: 0
             height: 0
@@ -429,12 +433,12 @@
         }
 
         .flag-container {
-            display: none
             position: absolute
-            max-width: 222px
-            padding: 6px
-            background-color: rgba(0,0,0,0.5)
-            border-radius: 5px 0 5px 5px
+            width: 23%
+            left: 40%
+            overflow-x: hidden
+            overflow-y:hidden
+            height: 48px
             .flag {
                 margin: 4px
                 background-size: 22px 16px

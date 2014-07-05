@@ -18,8 +18,6 @@
             'click .close': 'closeDetails',
             'click #switch-hd-on': 'enableHD',
             'click #switch-hd-off': 'disableHD',
-            'click .sub-dropdown': 'toggleDropdown',
-            'click .sub-flag-icon': 'closeDropdown',
             'click .favourites-toggle': 'toggleFavourite',
             'click .movie-imdb-link': 'openIMDb'
         },
@@ -85,6 +83,7 @@
             coverCache.onload = function() {
                 $('.cover-image').attr('src', coverUrl).fadeTo(500, 1);
                 $('.bottom-container').css('margin-left', $('.cover-image').width() + 'px');
+
                 coverCache = null;
             };
 
@@ -111,27 +110,6 @@
 
         onClose: function() {},
 
-        toggleDropdown: function(e) {
-            if ($('.sub-dropdown').is('.open')) {
-                this.closeDropdown(e);
-                return false;
-            } else {
-                $('.sub-dropdown').addClass('open');
-            }
-            var self = this;
-            $('.flag-container').fadeIn();
-        },
-
-        closeDropdown: function(e) {
-            e.preventDefault();
-            $('.flag-container').fadeOut();
-            $('.sub-dropdown').removeClass('open');
-
-            var value = $(e.currentTarget).attr('data-lang');
-            if (value) {
-                this.switchSubtitle(value);
-            }
-        },
 
         switchSubtitle: function(lang) {
             var subtitles = this.model.get('subtitle');
