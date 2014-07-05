@@ -53,6 +53,8 @@
 
         onShow: function() {
             win.info('Show movie detail');
+            $('#header').css('opacity', '1');
+            $('.filter-bar').css('opacity', '1');
 
             var torrents = this.model.get('torrents');
             if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
@@ -108,7 +110,10 @@
 
         },
 
-        onClose: function() {},
+        onClose: function() {
+            $('#header').css('opacity', '0.97');
+            $('.filter-bar').css('opacity', '0.97');
+        },
 
 
         switchSubtitle: function(lang) {
