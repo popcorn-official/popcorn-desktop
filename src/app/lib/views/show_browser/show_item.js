@@ -103,7 +103,8 @@
                     Database.deleteTVShow(that.model.get('imdb_id'), function(err, data) {});
                 });
             } else {
-                var tvshow = App.Config.getProvider('tvshow');
+                var provider = this.model.get('provider'); //XXX(xaiki): provider hack
+                var tvshow = App.Config.getProvider('tvshow')[provider];
                 var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
                     if (!err) {
                         Database.addTVShow(data, function(err, idata) {
