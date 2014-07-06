@@ -17,13 +17,13 @@
 		<div data-toggle="tooltip" data-placement="right" title="<%= Math.round(rating.percentage) / 10 %> /10" class="star-container-tv">
 
 		<% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
-			<div class="rating-star full"></div>
+			<div class="fa fa-star star"></div>
 		<% }; %>
 		<% if (p_rating % 1 > 0) { %>
-			<div class="rating-star half"></div>
+			<div class="fa fa-star-half-o star"></div>
 		<% }; %>
 		<% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
-			<div class="rating-star null"></div>
+			<div class="fa fa-star-o star"></div>
 		<% }; %>
 		</div>
 		<% if (synopsis.length > 776) { var synopsis = synopsis.substring(0, 776) + "..."; } %>
