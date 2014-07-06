@@ -413,7 +413,7 @@ var Database = {
                     detectLanguage(Settings.language);
                     // set hardware settings and usefull stuff
                     AdvSettings.setup(function () {
-                        App.Trakt = new (App.Config.getProvider('metadata'))();
+                        App.Trakt = App.Config.getProvider('metadata');
                         // check update
                         var updater = new App.Updater();
                         updater.update()

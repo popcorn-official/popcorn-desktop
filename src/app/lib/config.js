@@ -90,15 +90,23 @@
         },
 
         providers: {
-            movie: 'Yts',
+            movie:  ['Yts'],
+            tvshow: ['Eztv'],
             subtitle: 'YSubs',
             metadata: 'Trakttv',
-            tvshow: 'Eztv',
+
             tvshowsubtitle: 'OpenSubtitles'
         },
 
         getProvider: function(type) {
-            return App.Providers[App.Config.providers[type]];
+            var provider = App.Config.providers[type];
+            if (provider instanceof Array) {
+                return _.map (provider, function (t) {
+                    console.log (t);
+                    return new App.Providers[t]();
+                });
+            }
+            return new App.Providers[provider]();
         }
     };
 

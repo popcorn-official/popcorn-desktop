@@ -60,7 +60,8 @@
             } else {
 
                 // live call to api to get latest detail !
-                var tvshow = new (App.Config.getProvider('tvshow'))();
+                var provider = this.model.get('provider'); //XXX(xaiki): provider hack
+                var tvshow = App.Config.getProvider('tvshow')[provider];
                 var data = tvshow.detail(this.model.get('imdb'), function(err, data) {
                     if (!err) {
                         App.vent.trigger('show:showDetail', new Backbone.Model(data));

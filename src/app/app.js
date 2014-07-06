@@ -277,24 +277,10 @@ window.onpaste = function(e) {
  * Pass magnet link as last argument to start stream
  */
 var last_arg = gui.App.argv.pop();
-if (last_arg) {
-    if (last_arg.substring(0, 8) === 'magnet:?') {
-        App.vent.on('main:ready', function() {
-            startTorrentStream(last_arg);
-        });
-    } else if (last_arg.substring(0, 7) === 'http://') {
-        App.vent.on('main:ready', function() {
-            var si = new App.Model.StreamInfo({});
-            si.set('title', last_arg);
-            si.set('subtitle', {});
-            si.set('type', 'video/mp4');
-
-            // Test for Custom NW
-            //si.set('type', mime.lookup(last_arg));
-            si.set('src', last_arg);
-            App.vent.trigger('stream:ready', si);
-        });
-    }
+if(last_arg) {
+    App.vent.on('main:ready', function() {
+	startTorrentStream(last_arg);
+    });
 }
 
 // -f argument to open in fullscreen
