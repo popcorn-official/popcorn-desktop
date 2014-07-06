@@ -1,7 +1,7 @@
 <div class="tv-container-close"></div>
 <div class="tv-poster">
 	<div data-bgr="<%= images.fanart %>" class="tv-poster-background"><div class="tv-poster-overlay"></div></div>
-	<div style="background-image:url(<%= images.poster %>);" class="tv-cover"></div>
+	<div data-bgr="<%= images.poster %>" class="tv-cover"></div>
 
 	<div class="tv-meta-data">
 		<div class="tv-title"><%= title %></div>
