@@ -62,9 +62,9 @@
             } else if (torrents['1080p'] !== undefined) {
                 this.model.set('quality', '1080p');
             } else if (torrents['720p'] !== undefined) {
-                    this.model.set('quality', '720p');
+                this.model.set('quality', '720p');
             } else if (torrents['480p'] !== undefined) {
-                    this.model.set('quality', '480p');
+                this.model.set('quality', '480p');
             } else if (torrents['HDRip'] !== undefined) {
                 this.model.set('quality', 'HDRip');
             }
@@ -104,7 +104,8 @@
             });
 
             $(window).resize(function() {
-                $('.bottom-container').css('padding-left', $('.cover-image').width() + 'px');
+                $('.bottom-container').css('padding-left', $('.mcover-image').width() + 'px');
+                console.log('botom moved');
             });
 
 
