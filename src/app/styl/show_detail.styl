@@ -83,6 +83,12 @@
 		background-color #dbdbdd
 		cursor default
 
+	.star
+		z-index: 2;
+		margin-right: 3px;
+		color: #ffdf43;
+		font-size: 12px;
+
 	.tv-title
 		top 21px
 		left 198px
@@ -149,19 +155,10 @@
 		margin-top 33px
 
 		.tv-rating-star
-			position relative
-			z-index 2
-			width 11px
-			height 11px
-			opacity 1
-			background-image url('../images/icons/stars.png')
-			background-repeat no-repeat
-			&.null
-				background-position: 0px 0px;
-			&.half
-				background-position: -11px 0px;
-			&.full
-				background-position: -22px 0px;
+			z-index: 2;
+			margin-right: 3px;
+			color: #ffdf43;
+			font-size: 12px;
 
 	.tv-overview
 		margin-top 60px
