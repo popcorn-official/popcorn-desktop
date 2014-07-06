@@ -1,45 +1,50 @@
 ; Popcorn Time 
 ; Installer Source
-; Version 1.0
 
 ;Include Modern UI
 !include "MUI2.nsh"
 
-;General Settings
+;Parse package.json
+!searchparse /file "..\..\package.json" `  "name": "` APP_NAME `",`
+!searchreplace APP_NAME "${APP_NAME}" "-" " "
 !searchparse /file "..\..\package.json" `  "version": "` PT_VERSION `",`
 !searchreplace PT_VERSION "${PT_VERSION}" "-" "."
-Name "Popcorn Time"
-Caption "Popcorn Time v${PT_VERSION}"
-BrandingText "Popcorn Time v${PT_VERSION}"
-VIAddVersionKey "ProductName" "Popcorn Time"
+!searchparse /file "..\..\package.json" `  "homepage": "` APP_URL `",`
+!searchparse /file "..\..\package.json" `  "name": "` DATA_FOLDER `",`
+
+;General Settings
+Name "${APP_NAME}"
+Caption "${APP_NAME} v${PT_VERSION}"
+BrandingText "${APP_NAME} v${PT_VERSION}"
+VIAddVersionKey "ProductName" "${APP_NAME}"
 VIAddVersionKey "ProductVersion" "v${PT_VERSION}"
-VIAddVersionKey "FileDescription" "Popcorn Time v${PT_VERSION} Installer"
+VIAddVersionKey "FileDescription" "${APP_NAME} v${PT_VERSION} Installer"
 VIAddVersionKey "FileVersion" "v${PT_VERSION}"
 VIAddVersionKey "CompanyName" "Popcorn Official"
-VIAddVersionKey "LegalCopyright" "http://popcorntime.io"
+VIAddVersionKey "LegalCopyright" "${APP_URL}"
 VIProductVersion "${PT_VERSION}.0"
-OutFile "PopcornTimeSetup.exe"
+OutFile "${APP_NAME}-${PT_VERSION}-Setup.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 
 ;Default installation folder
-InstallDir "$LOCALAPPDATA\Popcorn Time"
+InstallDir "$LOCALAPPDATA\${APP_NAME}"
 
 ;Request application privileges
 RequestExecutionLevel user
 
 ;Define UI settings
-!define MUI_LICENSEPAGE_BGCOLOR /GRAY
 !define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
 !define MUI_ICON "..\..\src\app\images\popcorntime.ico"
 !define MUI_UNICON "..\..\src\app\images\popcorntime.ico"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
 !define MUI_ABORTWARNING
-!define MUI_FINISHPAGE_LINK "Popcorn Time Official Homepage"
-!define MUI_FINISHPAGE_LINK_LOCATION "http://popcorntime.io/"
+!define MUI_FINISHPAGE_LINK "${APP_URL}"
+!define MUI_FINISHPAGE_LINK_LOCATION "${APP_URL}"
 
 ;Define the pages
+!insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "LICENSE.txt"
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
@@ -112,6 +117,68 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Vietnamese"
 !insertmacro MUI_LANGUAGE "Welsh"
 
+LangString removeDataFolder ${LANG_ENGLISH} "Remove all databases and configuration files?"
+LangString removeDataFolder ${LANG_Afrikaans} "Alle databasisse en opset lêers verwyder?" 
+LangString removeDataFolder ${LANG_Albanian} "Hiq të gjitha bazat e të dhënave dhe fotografi konfigurimit?" 
+LangString removeDataFolder ${LANG_Arabic} "إزالة كافة قواعد البيانات وملفات التكوين؟" 
+LangString removeDataFolder ${LANG_Asturian} "Remove all databases and configuration files?" 
+LangString removeDataFolder ${LANG_Basque} "Remove all databases and configuration files?" 
+LangString removeDataFolder ${LANG_Belarusian} "Выдаліць усе базы дадзеных і файлы канфігурацыі?" 
+LangString removeDataFolder ${LANG_Bosnian} "Uklonite sve baze podataka i konfiguracijske datoteke?" 
+LangString removeDataFolder ${LANG_Breton} "Remove all databases and configuration files?" 
+LangString removeDataFolder ${LANG_Bulgarian} "Премахнете всички бази данни и конфигурационни файлове?" 
+LangString removeDataFolder ${LANG_Catalan} "Eliminar totes les bases de dades i arxius de configuració?" 
+LangString removeDataFolder ${LANG_Croatian} "Uklonite sve baze podataka i konfiguracijske datoteke?" 
+LangString removeDataFolder ${LANG_Czech} "Odstraňte všechny databáze a konfiguračních souborů?" 
+LangString removeDataFolder ${LANG_Danish} "Fjern alle databaser og konfigurationsfiler?" 
+LangString removeDataFolder ${LANG_Dutch} "Verwijder alle databases en configuratiebestanden?" 
+LangString removeDataFolder ${LANG_Esperanto} "Forigi la tuta datumbazojn kaj agordaj dosieroj?" 
+LangString removeDataFolder ${LANG_Estonian} "Eemalda kõik andmebaasid ja konfiguratsioonifailid?" 
+LangString removeDataFolder ${LANG_Farsi} "حذف تمام پایگاه داده ها و فایل های پیکربندی؟" 
+LangString removeDataFolder ${LANG_Finnish} "Poista kaikki tietokannat ja asetustiedostot?" 
+LangString removeDataFolder ${LANG_French} "Supprimer toutes les bases de données et les fichiers de configuration ?" 
+LangString removeDataFolder ${LANG_Galician} "Eliminar todos os bancos de datos e arquivos de configuración?" 
+LangString removeDataFolder ${LANG_German} "Alle Datenbanken und Konfigurationsdateien zu entfernen?" 
+LangString removeDataFolder ${LANG_Greek} "Αφαιρέστε όλες τις βάσεις δεδομένων και τα αρχεία διαμόρφωσης;" 
+LangString removeDataFolder ${LANG_Hebrew} "הסר את כל קבצי תצורת מסדי נתונים ו" 
+LangString removeDataFolder ${LANG_Hungarian} "Vegye ki az összes adatbázisok és konfigurációs fájlok?" 
+LangString removeDataFolder ${LANG_Icelandic} "Fjarlægja allar gagnagrunna og stillingar skrá?" 
+LangString removeDataFolder ${LANG_Indonesian} "Hapus semua database dan file konfigurasi?" 
+LangString removeDataFolder ${LANG_Irish} "Bain na bunachair shonraí agus comhaid cumraíochta?" 
+LangString removeDataFolder ${LANG_Italian} "Rimuovere tutti i database ei file di configurazione?" 
+LangString removeDataFolder ${LANG_Japanese} "すべてのデータベースと設定ファイルを削除しますか？" 
+LangString removeDataFolder ${LANG_Korean} "모든 데이터베이스와 구성 파일을 삭제 하시겠습니까?" 
+LangString removeDataFolder ${LANG_Kurdish} "Remove all databases and configuration files?" 
+LangString removeDataFolder ${LANG_Latvian} "Noņemt visas datu bāzes un konfigurācijas failus?" 
+LangString removeDataFolder ${LANG_Lithuanian} "Pašalinti visas duombazes ir konfigūravimo failus?" 
+LangString removeDataFolder ${LANG_Luxembourgish} "Remove all databases and configuration files?" 
+LangString removeDataFolder ${LANG_Macedonian} "Отстрани ги сите бази на податоци и конфигурациските датотеки?" 
+LangString removeDataFolder ${LANG_Malay} "Buang semua pangkalan data dan fail-fail konfigurasi?" 
+LangString removeDataFolder ${LANG_Mongolian} "Бүх өгөгдлийн сангууд болон тохиргооны файлуудыг устгана?" 
+LangString removeDataFolder ${LANG_Norwegian} "Fjern alle databaser og konfigurasjonsfiler?" 
+LangString removeDataFolder ${LANG_NorwegianNynorsk} "Remove all databases and configuration files?" 
+LangString removeDataFolder ${LANG_Pashto} "Remove all databases and configuration files?" 
+LangString removeDataFolder ${LANG_Polish} "Usuń wszystkie bazy danych i plików konfiguracyjnych?" 
+LangString removeDataFolder ${LANG_Portuguese} "Remova todos os bancos de dados e arquivos de configuração?" 
+LangString removeDataFolder ${LANG_PortugueseBR} "Remove all databases and configuration files?" 
+LangString removeDataFolder ${LANG_Romanian} "Elimina toate bazele de date și fișierele de configurare?" 
+LangString removeDataFolder ${LANG_Russian} "Удалить все базы данных и файлы конфигурации?" 
+LangString removeDataFolder ${LANG_Serbian} "Уклоните све базе података и конфигурационе фајлове?" 
+LangString removeDataFolder ${LANG_SerbianLatin} "Remove all databases and configuration files?" 
+LangString removeDataFolder ${LANG_SimpChinese} "删除所有数据库和配置文件？" 
+LangString removeDataFolder ${LANG_Slovak} "Odstráňte všetky databázy a konfiguračných súborov?" 
+LangString removeDataFolder ${LANG_Slovenian} "Odstranite vse podatkovne baze in konfiguracijske datoteke?" 
+LangString removeDataFolder ${LANG_Spanish} "Eliminar todas las bases de datos y archivos de configuración?" 
+LangString removeDataFolder ${LANG_SpanishInternational} "Eliminar todas las bases de datos y archivos de configuración?" 
+LangString removeDataFolder ${LANG_Swedish} "Ta bort alla databaser och konfigurationsfiler?" 
+LangString removeDataFolder ${LANG_Thai} "ลบฐานข้อมูลทั้งหมดและแฟ้มการกำหนดค่า?" 
+LangString removeDataFolder ${LANG_TradChinese} "刪除所有數據庫和配置文件？" 
+LangString removeDataFolder ${LANG_Turkish} "Tüm veritabanlarını ve yapılandırma dosyaları çıkarın?" 
+LangString removeDataFolder ${LANG_Ukrainian} "Видалити всі бази даних і файли конфігурації?" 
+LangString removeDataFolder ${LANG_Uzbek} "Remove all databases and configuration files?" 
+LangString removeDataFolder ${LANG_Vietnamese} "Loại bỏ tất cả các cơ sở dữ liệu và các tập tin cấu hình?" 
+LangString removeDataFolder ${LANG_Welsh} "Tynnwch yr holl gronfeydd data a ffeiliau cyfluniad?" 
+
 Section ; Node Webkit Files
 
 	;Delete existing install
@@ -122,7 +189,7 @@ Section ; Node Webkit Files
 
 	;Add the files
 	File "..\..\build\cache\win\0.9.2\*.dll"
-	File "/oname=Popcorn Time.exe" "..\..\build\cache\win\0.9.2\nw.exe"
+	File "/oname=${APP_NAME}.exe" "..\..\build\cache\win\0.9.2\nw.exe"
 	File "..\..\build\cache\win\0.9.2\nw.pak"
 
 SectionEnd
@@ -139,15 +206,16 @@ Section ; App Files
 	File /r "..\..\src\app\language"
 	File /r "..\..\src\app\lib"
 	File /r "..\..\src\app\templates"
-	File /r "..\..\src\app\vendor"
+	File /r /x ".*" /x "test*" /x "example*" "..\..\src\app\vendor"
 	File "..\..\src\app\index.html"
 	File "..\..\src\app\*.js"
+    	File /oname=License.txt "..\..\dist\windows\LICENSE.txt"
 
 	SetOutPath "$INSTDIR"
 	File "..\..\package.json"
 
 	SetOutPath "$INSTDIR\node_modules"
-	File /r /x "*grunt*" /x "stylus" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" "..\..\node_modules\*.*"
+	File /r /x "*grunt*" /x "stylus" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" "..\..\node_modules\*.*"
 
 	;Create uninstaller
 	WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -159,24 +227,29 @@ Section ; Shortcuts
 	;Working Directory
 	SetOutPath "$INSTDIR"
     
-	CreateShortCut "$INSTDIR\Popcorn Time.lnk" "$INSTDIR\node-webkit\Popcorn Time.exe" "." "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "Popcorn Time"
+	CreateShortCut "$INSTDIR\${APP_NAME}.lnk" "$INSTDIR\node-webkit\${APP_NAME}.exe" "." "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME}"
 
 	;Start Menu Shortcut
-	RMDir /r "$SMPROGRAMS\Popcorn Time"
-	CreateDirectory "$SMPROGRAMS\Popcorn Time"
-	CreateShortCut "$SMPROGRAMS\Popcorn Time\Popcorn Time.lnk" "$INSTDIR\node-webkit\Popcorn Time.exe" "." "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "Popcorn Time"
-	CreateShortCut "$SMPROGRAMS\Popcorn Time\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "Uninstall Popcorn Time"
+	RMDir /r "$SMPROGRAMS\${APP_NAME}"
+	CreateDirectory "$SMPROGRAMS\${APP_NAME}"
+	CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\node-webkit\${APP_NAME}.exe" "." "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
+	CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "Uninstall ${APP_NAME}"
 
 	;Desktop Shortcut
-	Delete "$DESKTOP\Popcorn Time.lnk"
-	CreateShortCut "$DESKTOP\Popcorn Time.lnk" "$INSTDIR\node-webkit\Popcorn Time.exe" "." "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "Popcorn Time"
+	Delete "$DESKTOP\${APP_NAME}.lnk"
+	CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\node-webkit\${APP_NAME}.exe" "." "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
 
 SectionEnd
 
-Section "uninstall" ; Uninstaller
+; Uninstaller
+Section "uninstall" 
 
 	RMDir /r "$INSTDIR"
-	RMDir /r "$SMPROGRAMS\Popcorn Time"
-	Delete "$DESKTOP\Popcorn Time.lnk"
+	RMDir /r "$SMPROGRAMS\${APP_NAME}"
+	Delete "$DESKTOP\${APP_NAME}.lnk"
+    
+    	MessageBox MB_YESNO|MB_ICONQUESTION "$(removeDataFolder)" IDNO NoUninstallData
+    	RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
+    	NoUninstallData:
 	
 SectionEnd
