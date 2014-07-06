@@ -29,8 +29,13 @@
 				<select name="language"><%=langs%></select>
 				<div class="dropdown-arrow"></div>
 			</div>
+			<br><br><br>
+			<p>
+				<input class="settings-checkbox" name="coversShowRating" id="cb3" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
+				<label class="settings-label" for="cb3"><%= i18n.__("Show movie rating on the cover") %></label>
+			</p>
 		</div>
-		
+
 		<div class="quality-options">
 			<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
 			<label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
@@ -42,7 +47,7 @@
 					<option <%=(Settings.movies_quality == "1080p"? "selected='selected'":"") %> value="1080p">1080p</option>
 					<option <%=(Settings.movies_quality == "720p"? "selected='selected'":"") %> value="720p">720p</option>
 				</select>
-				<div class="dropdown-arrow"></div>	
+				<div class="dropdown-arrow"></div>
 			</div>
 		</div>
 
@@ -67,14 +72,14 @@
 				<p><%= i18n.__("Size") %>:</p>
 				<%
 					var arr_sizes = ["26px","28px","30px","32px","34px","36px","38px","48px","50px","52px","54px","56px","58px","60px"];
-					
+
 					var sub_sizes = "";
 					for(var key in arr_sizes) {
 						sub_sizes += "<option "+(Settings.subtitle_size == arr_sizes[key]? "selected='selected'":"")+" value='"+arr_sizes[key]+"'>"+arr_sizes[key]+"</option>";
 					}
 				%>
 				<select name="subtitle_size"><%=sub_sizes%></select>
-				<div class="dropdown-arrow"></div>	
+				<div class="dropdown-arrow"></div>
 			</div>
 		</div>
 
@@ -115,7 +120,7 @@
 			<input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
 			<br><br>
 			<!-- Cache Directory / -->
-			
+
 			<input class="settings-checkbox" name="deleteTmpOnClose" id="cb2" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
 
 			<label class="settings-label" for="cb2"><%= i18n.__("Clear Tmp Folder after closing app?") %></label>

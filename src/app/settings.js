@@ -7,6 +7,7 @@ Settings = {},
 
 // User interface
 Settings.language = 'en';
+Settings.coversShowRating = true;
 
 // Advanced UI
 Settings.always_on_top = false;

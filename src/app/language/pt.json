@@ -137,5 +137,14 @@
 	"Flush subtitles cache": "Descartar legendas em cache",
 	"Open IMDb page": "Open IMDb page",
 	"Add to bookmarks": "Add to bookmarks",
-	"Remove from bookmarks": "Remove from bookmarks"
+	"Remove from bookmarks": "Remove from bookmarks",
+	"Quality": "Quality",
+	"Trakt.tv": "Trakt.tv",
+	"Show movie rating on the cover": "Show movie rating on the cover",
+	"You are currently authenticated to Trakt.tv as": "You are currently authenticated to Trakt.tv as",
+	"Disconnect account": "Disconnect account",
+	"Popcorn Time stores an encrypted hash of your password in your local database": "Popcorn Time stores an encrypted hash of your password in your local database",
+	"Port to stream on": "Port to stream on",
+	"0 = Random": "0 = Random",
+	"Show movie rating on the cover": "Mostrar pontuação na capa"
 }
