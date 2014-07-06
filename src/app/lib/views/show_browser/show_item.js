@@ -77,7 +77,8 @@
         // triggered on click only
         showDetail: function() {
             $('.spinner').show();
-            var tvshow = App.Config.getProvider('tvshow');
+            var provider = this.model.get('provider'); //XXX(xaiki): provider hack
+            var tvshow = App.Config.getProvider('tvshow')[provider];
             var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
                 $('.spinner').hide();
                 if (!err) {

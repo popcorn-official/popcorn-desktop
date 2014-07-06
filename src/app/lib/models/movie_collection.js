@@ -3,96 +3,16 @@
 
 	var Q = require('q');
 
-	var MovieCollection = Backbone.Collection.extend({
+	var MovieCollection = App.Model.Collection.extend({
 		model: App.Model.Movie,
-
-		initialize: function(models, options) {
-			this.providers = {
+                popid: 'imdb_id',
+                type: 'movies',
+		getProviders: function () {
+                        return {
 				torrents: App.Config.getProvider('movie'),
 				subtitle: App.Config.getProvider('subtitle'),
 				metadata: App.Trakt
-			};
-
-			options = options || {};
-			options.filter = options.filter || new App.Model.Filter();
-
-			this.filter = _.defaults(_.clone(options.filter.attributes), {page: 1});
-			this.hasMore = true;
-
-			Backbone.Collection.prototype.initialize.apply(this, arguments);
-		},
-
-		fetch: function() {
-			var self = this;
-
-			if(this.state === 'loading' && !this.hasMore) {
-				return;
-			}
-
-			this.state = 'loading';
-			self.trigger('loading', self);
-
-			var subtitle = this.providers.subtitle;
-			var metadata = this.providers.metadata;
-			var torrents = this.providers.torrents;
-			var torrentPromises = _.map(torrents, function (t) {
-                                var deferred = Q.defer();
-                                var tPromise = t.fetch(self.filter);
-
-			        var idsPromise = tPromise.then(_.bind(t.extractIds, t));
-			        var subtitlePromise = idsPromise.then(_.bind(subtitle.fetch, subtitle));
-			        var metadataPromise = idsPromise.then(_.bind(metadata.movie.listSummary, metadata));
-
-			        Q.all([tPromise, subtitlePromise, metadataPromise])
-				.spread(function(torrents, subtitles, metadatas) {
-					// If a new request was started...
-					_.each(torrents.movies, function(movie){
-						var id = movie.imdb;
-						var info = _.findWhere(metadatas, {imdb_id: id});
-						movie.subtitle = subtitles[id];
-						if(info) {
-							_.extend(movie, {
-								synopsis: info.overview,
-								genres: info.genres,
-								certification: info.certification,
-								runtime: info.runtime,
-								tagline: info.tagline,
-								title: info.title,
-								trailer: info.trailer,
-								year: info.year,
-								image: info.images.poster,
-								backdrop: info.images.fanart
-							});
-						} else {
-							win.warn('Unable to find %s on Trakt.tv', id);
-						}
-					});
-
-                                        return deferred.resolve (torrents);
-				})
-				.catch(function(err) {
-					self.state = 'error';
-					self.trigger('loaded', self, self.state);
-					win.error(err.message, err.stack);
-				});
-
-                                return deferred.promise;
-                        });
-
-                        Q.all(torrentPromises).done (function (torrents) {
-                                _.forEach(torrents, function (t) {
-                                        self.add(t.movies);
-                                });
-				self.hasMore = _.pluck(torrents, 'hasMore').length?true:false;
-				self.trigger('sync', self);
-				self.state = 'loaded';
-				self.trigger('loaded', self, self.state);
-                        });
-		},
-
-		fetchMore: function() {
-			this.filter.page += 1;
-			this.fetch();
+                        };
 		}
 	});
 

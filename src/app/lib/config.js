@@ -90,10 +90,11 @@
         },
 
         providers: {
-            movie: 'Yts',
+            movie:  ['Yts'],
+            tvshow: ['Eztv'],
             subtitle: 'YSubs',
             metadata: 'Trakttv',
-            tvshow: 'Eztv',
+
             tvshowsubtitle: 'OpenSubtitles'
         },
 
