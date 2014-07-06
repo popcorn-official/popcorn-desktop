@@ -11,7 +11,7 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 
 
     <div class="container">
-        <img src="images/cover-placeholder.jpg" data-cover="<%= image %>" class="cover-image" />
+        <img src="images/cover-placeholder.jpg" data-cover="<%= image %>" class="mcover-image" />
         <div class="title"><%= title %></div>
 
 

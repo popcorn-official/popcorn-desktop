@@ -37,7 +37,7 @@
             this.blocked = false;
             var bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
             this.model.set('bookmarked', bookmarked);
-            this.ui.coverImage.on('load', _.bind(this.showCover, this));
+
         },
 
         onRender: function() {
@@ -45,12 +45,11 @@
 
             if (bookmarked) {
                 this.ui.bookmarkIcon.addClass('selected');
-            }
-            else {
+            } else {
                 this.ui.bookmarkIcon.removeClass('selected');
             }
 
-            this.showCover();
+            this.ui.coverImage.on('load', _.bind(this.showCover, this));
         },
 
         onClose: function() {
@@ -67,7 +66,7 @@
         },
 
         hoverItem: function(e) {
-            if(e.pageX !== prevX || e.pageY !== prevY) {
+            if (e.pageX !== prevX || e.pageY !== prevY) {
                 $('.movie-item.selected').removeClass('selected');
                 $(this.el).addClass('selected');
                 prevX = e.pageX;
@@ -78,7 +77,7 @@
         // triggered on click only
         showDetail: function() {
             $('.spinner').show();
-            var tvshow = new (App.Config.getProvider('tvshow'))();
+            var tvshow = new(App.Config.getProvider('tvshow'))();
             var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
                 $('.spinner').hide();
                 if (!err) {
@@ -98,12 +97,12 @@
                     console.log('Bookmark deleted');
                     that.model.set('bookmarked', false);
                     App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id'), 1));
-                        
+
                     // we'll make sure we dont have a cached show
-                    Database.deleteTVShow(that.model.get('imdb_id'),function(err, data) {});
+                    Database.deleteTVShow(that.model.get('imdb_id'), function(err, data) {});
                 });
             } else {
-                var tvshow = new (App.Config.getProvider('tvshow'))();
+                var tvshow = new(App.Config.getProvider('tvshow'))();
                 var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
                     if (!err) {
                         Database.addTVShow(data, function(err, idata) {
@@ -118,7 +117,7 @@
                         alert('Somethings wrong... try later');
                     }
                 });
-                
+
 
             }
         }

@@ -5,7 +5,7 @@
     var prevY = 0;
 
     var resizeImage = App.Providers.Trakttv.resizeImage;
-     
+
     var MovieItem = Backbone.Marionette.ItemView.extend({
         template: '#movie-item-tpl',
         modelEvents: {
@@ -33,12 +33,12 @@
             this.model.set('image', resizeImage(this.model.get('image'), '300'));
         },
 
-        onShow: function() {    
+        onShow: function() {
             var bookmarked = App.userBookmarks.indexOf(this.model.get('imdb')) !== -1;
             var watched = App.watchedMovies.indexOf(this.model.get('imdb')) !== -1;
             this.model.set('bookmarked', bookmarked);
             this.model.set('watched', watched);
-            this.ui.coverImage.on('load', _.bind(this.showCover, this));
+
         },
 
         onRender: function() {
@@ -47,19 +47,17 @@
 
             if (bookmarked) {
                 this.ui.bookmarkIcon.addClass('selected');
-            }
-            else {
+            } else {
                 this.ui.bookmarkIcon.removeClass('selected');
             }
 
             if (watched) {
                 this.ui.watchedIcon.addClass('selected');
-            }
-            else {
+            } else {
                 this.ui.watchedIcon.removeClass('selected');
             }
-
-            this.showCover();
+            this.ui.coverImage.on('load', _.bind(this.showCover, this));
+            // this.showCover();
         },
 
         onClose: function() {
@@ -67,7 +65,7 @@
         },
 
         hoverItem: function(e) {
-            if(e.pageX !== prevX || e.pageY !== prevY) {
+            if (e.pageX !== prevX || e.pageY !== prevY) {
                 $('.movie-item.selected').removeClass('selected');
                 $(this.el).addClass('selected');
                 prevX = e.pageX;
@@ -96,7 +94,9 @@
             e.preventDefault();
             var that = this;
             if (this.model.get('watched') === true) {
-                Database.markMovieAsNotWatched({imdb_id: this.model.get('imdb')}, function(err, data) {
+                Database.markMovieAsNotWatched({
+                    imdb_id: this.model.get('imdb')
+                }, function(err, data) {
                     that.model.set('watched', false);
                     App.watchedMovies.splice(App.watchedMovies.indexOf(that.model.get('imdb'), 1));
                 });
@@ -123,7 +123,7 @@
                     App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb'), 1));
 
                     // we'll make sure we dont have a cached movie
-                    Database.deleteMovie(that.model.get('imdb'),function(err, data) {
+                    Database.deleteMovie(that.model.get('imdb'), function(err, data) {
                         that.model.set('bookmarked', false);
                     });
                 });
@@ -146,7 +146,7 @@
                     trailer: this.model.get('trailer'),
                 };
 
-                Database.addMovie(movie, function(error,result) {
+                Database.addMovie(movie, function(error, result) {
                     Database.addBookmark(that.model.get('imdb'), 'movie', function(err, data) {
                         console.log('Bookmark added');
                         that.model.set('bookmarked', true);

@@ -78,13 +78,13 @@
                 bgCache = null;
             };
 
-            var coverUrl = $('.cover-image').attr('data-cover');
+            var coverUrl = $('.mcover-image').attr('data-cover');
 
             var coverCache = new Image();
             coverCache.src = coverUrl;
             coverCache.onload = function() {
-                $('.cover-image').attr('src', coverUrl).fadeTo(500, 1);
-                $('.bottom-container').css('padding-left', $('.cover-image').width() + 'px');
+                $('.mcover-image').attr('src', coverUrl).fadeTo(500, 1);
+                $('.bottom-container').css('padding-left', $('.mcover-image').width() + 'px');
 
                 coverCache = null;
             };
