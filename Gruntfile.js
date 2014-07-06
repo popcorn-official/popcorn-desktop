@@ -164,7 +164,7 @@ module.exports = function(grunt) {
 				},
 				expand: true,
 				cwd: 'dist/windows',
-				src: 'PopcornTimeSetup.exe',
+				src: 'Popcorn Time-' + currentVersion + '-Setup.exe',
 				dest: ''
 			}			
 		},
