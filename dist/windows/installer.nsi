@@ -1,4 +1,4 @@
-; Popcorn Time 
+﻿; Popcorn Time 
 ; Installer Source
 
 ;Include Modern UI
