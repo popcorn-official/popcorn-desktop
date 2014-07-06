@@ -1,4 +1,4 @@
-; Popcorn Time 
+﻿; Popcorn Time 
 ; Installer Source
 
 ;Include Modern UI
@@ -209,7 +209,7 @@ Section ; App Files
 	File /r /x ".*" /x "test*" /x "example*" "..\..\src\app\vendor"
 	File "..\..\src\app\index.html"
 	File "..\..\src\app\*.js"
-		File /oname=License.txt "..\..\dist\windows\LICENSE.txt"
+	File /oname=License.txt "..\..\dist\windows\LICENSE.txt"
 
 	SetOutPath "$INSTDIR"
 	File "..\..\package.json"
@@ -248,8 +248,8 @@ Section "uninstall"
 	RMDir /r "$SMPROGRAMS\${APP_NAME}"
 	Delete "$DESKTOP\${APP_NAME}.lnk"
 	
-		MessageBox MB_YESNO|MB_ICONQUESTION "$(removeDataFolder)" IDNO NoUninstallData
-		RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
-		NoUninstallData:
+	MessageBox MB_YESNO|MB_ICONQUESTION "$(removeDataFolder)" IDNO NoUninstallData
+	RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
+	NoUninstallData:
 	
 SectionEnd
