@@ -12,6 +12,7 @@
 		},
 
 		events: {
+            'click .help': 'showHelp', 
 			'click .close': 'closeSettings',
 			'change select,input': 'saveSetting',
 			'click .flush-bookmarks': 'flushBookmarks',
@@ -48,6 +49,10 @@
 		closeSettings: function() {
 			App.vent.trigger('settings:close');
 		},
+        
+        showHelp: function() {
+            App.vent.trigger('help:toggle');
+        },
 
 
 		saveSetting: function(e) {
