@@ -54,7 +54,6 @@
 
             // TODO: Translate peers / seeds in the template
             this.ui.seedStatus.show();
-            App.vent.trigger('stream:stop');
             var streamInfo = this.model.get('streamInfo');
             var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
             this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
