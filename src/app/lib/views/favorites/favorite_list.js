@@ -1,85 +1,85 @@
 (function(App) {
-	'use strict';
+    'use strict';
 
-	var SCROLL_MORE = 0.7;
+    var SCROLL_MORE = 0.7;
 
-	var ErrorView = Backbone.Marionette.ItemView.extend({
-		template: '#movie-error-tpl',
-		onBeforeRender: function() {
-			this.model.set('error', this.error);
-		}
-	});
+    var ErrorView = Backbone.Marionette.ItemView.extend({
+        template: '#movie-error-tpl',
+        onBeforeRender: function() {
+            this.model.set('error', this.error);
+        }
+    });
 
-	var FavoriteList = Backbone.Marionette.CompositeView.extend({
-		template: '#favorite-list-tpl',
+    var FavoriteList = Backbone.Marionette.CompositeView.extend({
+        template: '#favorite-list-tpl',
 
-		tagName: 'ul',
-		className: 'favorite-list',
+        tagName: 'ul',
+        className: 'favorite-list',
 
-		itemView: App.View.FavoriteItem,
-		itemViewContainer: '.bookmarks',
+        itemView: App.View.FavoriteItem,
+        itemViewContainer: '.bookmarks',
 
-		events: {
-			'mousewheel': 'onScroll'
-		},
+        events: {
+            'mousewheel': 'onScroll'
+        },
 
-		isEmpty: function() {
-			return !this.collection.length && this.collection.state !== 'loading';
-		},
+        isEmpty: function() {
+            return !this.collection.length && this.collection.state !== 'loading';
+        },
 
-		getEmptyView: function() {
-			if(this.collection.state === 'error') {
-				return ErrorView.extend({error: i18n.__('Error, database is probably corrupted. Try flushing the bookmarks in settings.')});
-			} else {
-				return ErrorView.extend({error: i18n.__('No bookmarks found...')});
-			}
-		},
+        getEmptyView: function() {
+            if(this.collection.state === 'error') {
+                return ErrorView.extend({error: i18n.__('Error, database is probably corrupted. Try flushing the bookmarks in settings.')});
+            } else {
+                return ErrorView.extend({error: i18n.__('No bookmarks found...')});
+            }
+        },
 
-		ui: {
-			spinner: '.spinner'
-		},
+        ui: {
+            spinner: '.spinner'
+        },
 
-		initialize: function() {
-			this.listenTo(this.collection, 'loading', this.onLoading);
-			this.listenTo(this.collection, 'loaded', this.onLoaded);
-		},
+        initialize: function() {
+            this.listenTo(this.collection, 'loading', this.onLoading);
+            this.listenTo(this.collection, 'loaded', this.onLoaded);
+        },
 
-		onShow: function() {
-			if(this.collection.state === 'loading') {
-				this.onLoading();
-			}
-		},
+        onShow: function() {
+            if(this.collection.state === 'loading') {
+                this.onLoading();
+            }
+        },
 
-		onLoading: function() {},
+        onLoading: function() {},
 
-		onLoaded: function() {
-			var self = this;
-			this.checkEmpty();
-			
-			$('.bookmark-item:empty').remove();
-			if($('.bookmark-item:empty').length === 0 && $('.bookmark-item:not(:empty)').length > 0){
-				for (var i=0; i<20; i++) {
-					$('.bookmarks').append('<li class="bookmark-item"></li>');
-				}
-			}
-			
-			this.ui.spinner.hide();
-		},
+        onLoaded: function() {
+            var self = this;
+            this.checkEmpty();
+            
+            $('.bookmark-item:empty').remove();
+            if($('.bookmark-item:empty').length === 0 && $('.bookmark-item:not(:empty)').length > 0){
+                for (var i=0; i<20; i++) {
+                    $('.bookmarks').append('<li class="bookmark-item"></li>');
+                }
+            }
+            
+            this.ui.spinner.hide();
+        },
 
-		onScroll: function() {
-			if(!this.collection.hasMore) {
-				return;
-			}
+        onScroll: function() {
+            if(!this.collection.hasMore) {
+                return;
+            }
 
-			var totalHeight       = this.$el.prop('scrollHeight');
-			var currentPosition = this.$el.scrollTop() + this.$el.height();
+            var totalHeight       = this.$el.prop('scrollHeight');
+            var currentPosition = this.$el.scrollTop() + this.$el.height();
 
-			if(this.collection.state === 'loaded' &&
-				(currentPosition / totalHeight) > SCROLL_MORE) {
-				this.collection.fetchMore();
-			}
-		}
-	});
+            if(this.collection.state === 'loaded' &&
+                (currentPosition / totalHeight) > SCROLL_MORE) {
+                this.collection.fetchMore();
+            }
+        }
+    });
 
-	App.View.FavoriteList = FavoriteList;
+    App.View.FavoriteList = FavoriteList;
 })(window.App);

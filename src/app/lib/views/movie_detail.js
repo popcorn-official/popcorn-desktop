@@ -52,7 +52,7 @@
         },
 
         onShow: function() {
-            win.info('Show movie detail');
+            win.info('Show movie detail (' + this.model.get('imdb') + ')');
             $('#header').css('opacity', '1');
             $('.filter-bar').css('opacity', '1');
 
@@ -204,13 +204,17 @@
             var that = this;
             if (this.model.get('bookmarked') === true) {
                 Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
-                    win.info('Bookmark deleted');
-                    App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb'), 1));
+                    win.info('Bookmark deleted (' + that.model.get('imdb') + ')');
+                    App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb')), 1);
                     that.ui.bookmarkIcon.removeClass('selected').text(i18n.__('Add to bookmarks'));
 
                     // we'll make sure we dont have a cached movie
                     Database.deleteMovie(that.model.get('imdb'), function(err, data) {
                         that.model.set('bookmarked', false);
+                        var bookmark = $('.bookmark-item .' + that.model.get('imdb'));
+                        if(bookmark.length > 0) {
+                            bookmark.parents('.bookmark-item').remove();
+                        }
                     });
                 });
             } else {
@@ -234,7 +238,7 @@
 
                 Database.addMovie(movie, function(error, result) {
                     Database.addBookmark(that.model.get('imdb'), 'movie', function(err, data) {
-                        win.info('Bookmark added');
+                        win.info('Bookmark added (' + that.model.get('imdb') + ')');
                         that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
                         App.userBookmarks.push(that.model.get('imdb'));
                         that.model.set('bookmarked', true);

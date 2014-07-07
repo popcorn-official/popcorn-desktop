@@ -97,7 +97,7 @@
                 Database.deleteBookmark(this.model.get('imdb_id'), function(err, data) {
                     console.log('Bookmark deleted');
                     that.model.set('bookmarked', false);
-                    App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id'), 1));
+                    App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
 
                     // we'll make sure we dont have a cached show
                     Database.deleteTVShow(that.model.get('imdb_id'), function(err, data) {});

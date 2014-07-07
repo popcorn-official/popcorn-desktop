@@ -98,7 +98,7 @@
                     imdb_id: this.model.get('imdb')
                 }, function(err, data) {
                     that.model.set('watched', false);
-                    App.watchedMovies.splice(App.watchedMovies.indexOf(that.model.get('imdb'), 1));
+                    App.watchedMovies.splice(App.watchedMovies.indexOf(that.model.get('imdb')), 1);
                 });
             } else {
 
@@ -119,8 +119,8 @@
             var that = this;
             if (this.model.get('bookmarked') === true) {
                 Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
-                    console.log('Bookmark deleted');
-                    App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb'), 1));
+                    win.info('Bookmark deleted (' + that.model.get('imdb') + ')');
+                    App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb')), 1);
 
                     // we'll make sure we dont have a cached movie
                     Database.deleteMovie(that.model.get('imdb'), function(err, data) {
@@ -148,7 +148,7 @@
 
                 Database.addMovie(movie, function(error, result) {
                     Database.addBookmark(that.model.get('imdb'), 'movie', function(err, data) {
-                        console.log('Bookmark added');
+                        win.info('Bookmark added (' + that.model.get('imdb') + ')');
                         App.userBookmarks.push(that.model.get('imdb'));
                         that.model.set('bookmarked', true);
                     });

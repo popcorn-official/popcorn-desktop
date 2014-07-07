@@ -20,7 +20,7 @@
 
         onShow: function() {
             this.ui.coverImage.on('load', _.bind(this.showCover, this));
-			this.ui.bookmarkIcon.addClass('selected');
+            this.ui.bookmarkIcon.addClass('selected');
         },
 
         onClose: function() {
@@ -39,11 +39,11 @@
 
                 var SelectedMovie = new Backbone.Model(
                     {
+                        imdb: this.model.get('imdb'),
                         image: this.model.get('image'),
                         torrents: this.model.get('torrents'),
                         title: this.model.get('title'),
                         synopsis: this.model.get('synopsis'),
-                        imdb_id: 'tt' +this.model.get('imdb'),
                         runtime: this.model.get('runtime'),
                         year: this.model.get('year'),
                         health: this.model.get('health'),
@@ -80,8 +80,8 @@
             var that = this;
          
             Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
-                App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb'), 1));
-
+                App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb')), 1);
+                win.info('Bookmark deleted (' + that.model.get('imdb') + ')');
                 if (that.model.get('type') === 'movie') {
                     // we'll make sure we dont have a cached movie
                     Database.deleteMovie(that.model.get('imdb'),function(err, data) {});
