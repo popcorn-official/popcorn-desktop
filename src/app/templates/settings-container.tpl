@@ -1,5 +1,5 @@
 <div class="settings-container">
-    <div class="fa fa-keyboard-o help"></div>
+	<div class="fa fa-keyboard-o help"></div>
 	<div class="close"></div>
 	<div class="sidebar">
 		<div class="title"><%= i18n.__("Settings") %></div>

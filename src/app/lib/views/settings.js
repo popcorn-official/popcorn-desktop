@@ -12,7 +12,7 @@
 		},
 
 		events: {
-            'click .help': 'showHelp', 
+			'click .help': 'showHelp', 
 			'click .close': 'closeSettings',
 			'change select,input': 'saveSetting',
 			'click .flush-bookmarks': 'flushBookmarks',
@@ -50,9 +50,9 @@
 			App.vent.trigger('settings:close');
 		},
         
-        showHelp: function() {
-            App.vent.trigger('help:toggle');
-        },
+		showHelp: function() {
+			App.vent.trigger('help:toggle');
+		},
 
 
 		saveSetting: function(e) {
