@@ -84,12 +84,12 @@
             this.Content.show(new App.View.InitModal());
             App.db.initialize(function() {
 
+                // Always on top
+                win.setAlwaysOnTop(App.settings.alwaysOnTop);
+
                 // we check if the disclaimer is accepted
-
                 if (!AdvSettings.get('disclaimerAccepted')) {
-
                     that.showDisclaimer();
-
                 }
 
                 that.InitModal.close();

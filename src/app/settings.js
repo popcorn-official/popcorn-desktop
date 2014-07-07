@@ -10,7 +10,7 @@ Settings.language = 'en';
 Settings.coversShowRating = true;
 
 // Advanced UI
-Settings.always_on_top = false;
+Settings.alwaysOnTop = false;
 
 // Movies
 Settings.moviesShowQuality = false;
@@ -68,9 +68,7 @@ var ScreenResolution = {
         return window.devicePixelRatio > 1;
     }
 };
-if (Settings.always_on_top) {
-    win.setAlwaysOnTop(1);
-}
+
 var AdvSettings = {
 
     get: function(variable) {
