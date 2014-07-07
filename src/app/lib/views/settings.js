@@ -29,6 +29,7 @@
 		onShow: function() {
 			$('.filter-bar').hide();
 			$('#movie-detail').hide();
+			$('#header').css('box-shadow', '0px 6px 8px -4px rgba(0, 0, 0, .9)');
 			Mousetrap.bind('backspace', function(e) {
 				App.vent.trigger('settings:close');
 			});

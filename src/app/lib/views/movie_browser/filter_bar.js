@@ -5,12 +5,12 @@
         className: 'filter-bar',
         ui: {
             searchForm: '.search form',
-            search:     '.search input',
-            searchClose:'.remove-search',
+            search: '.search input',
+            searchClose: '.remove-search',
             searchText: '.text-search',
 
             sorterValue: '.sorters .value',
-            genreValue:  '.genres  .value'
+            genreValue: '.genres  .value'
         },
         events: {
             'hover  @ui.search': 'focus',
@@ -26,17 +26,17 @@
             'click .triggerUpdate': 'updateDB'
         },
 
-        focus: function (e) {
+        focus: function(e) {
             e.focus();
         },
 
         onShow: function() {
             this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
             this.$('.genres  .dropdown-menu a:nth(0)').addClass('active');
-           
+
         },
-        
-        focusSearch: function () {
+
+        focusSearch: function() {
             this.$('.search input').focus();
 
         },
@@ -45,7 +45,7 @@
             App.vent.trigger('about:close');
             App.vent.trigger('movie:closeDetail');
             e.preventDefault();
-            var searchvalue = this.ui.search.val(); 
+            var searchvalue = this.ui.search.val();
             this.model.set({
                 keywords: this.ui.search.val(),
                 genre: ''
@@ -69,7 +69,7 @@
                 genre: ''
             });
 
-            this.ui.search.val(''); 
+            this.ui.search.val('');
             this.ui.searchClose.hide('slow');
             this.ui.searchText.text();
         },
@@ -81,7 +81,7 @@
 
             var sorter = $(e.target).attr('data-value');
 
-            if(this.previousSort === sorter) {
+            if (this.previousSort === sorter) {
                 this.model.set('order', this.model.get('order') * -1);
             } else {
                 this.model.set('order', -1);
@@ -136,7 +136,7 @@
             App.vent.trigger('favorites:list', []);
         },
 
-        updateDB: function (e) {
+        updateDB: function(e) {
             e.preventDefault();
             console.log('Update Triggered');
             App.vent.trigger(this.type + ':update', []);

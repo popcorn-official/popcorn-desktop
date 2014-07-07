@@ -24,7 +24,7 @@
 
         events: {
             'click .loading-cancel': 'cancelStreaming'
-        },        
+        },
 
         initialize: function() {
             var that = this;
@@ -34,14 +34,18 @@
             win.info('Loading torrent');
             this.listenTo(this.model, 'change:state', this.onStateUpdate);
         },
+        onShow: function() {
+            $('.filter-bar').hide();
+            $('#header').css('box-shadow', '0px 6px 8px -4px rgba(0, 0, 0, .9)');
 
+        },
         onStateUpdate: function() {
             var state = this.model.get('state');
             win.info('Loading torrent:', state);
 
             this.ui.stateTextDownload.text(i18n.__(state));
 
-            if(state === 'downloading') {
+            if (state === 'downloading') {
                 this.listenTo(this.model.get('streamInfo'), 'change:downloaded', this.onProgressUpdate);
             }
         },
@@ -50,9 +54,9 @@
 
             // TODO: Translate peers / seeds in the template
             this.ui.seedStatus.show();
-
+            App.vent.trigger('stream:stop');
             var streamInfo = this.model.get('streamInfo');
-            var downloaded = streamInfo.get('downloaded')/(1024 * 1024);
+            var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
             this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
 
             this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
@@ -66,11 +70,12 @@
         cancelStreaming: function() {
             App.vent.trigger('stream:stop');
             App.vent.trigger('player:close');
+            $('.filter-bar').show();
             Mousetrap.bind('esc', function(e) {
                 App.vent.trigger('show:closeDetail');
                 App.vent.trigger('movie:closeDetail');
-            });  
-        }        
+            });
+        }
     });
 
     App.View.Loading = Loading;
