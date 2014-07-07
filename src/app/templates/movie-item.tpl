@@ -14,10 +14,10 @@
 							<i class="fa fa-star star"></i>
 						<% }; %>
 						<% if (p_rating % 1 > 0) { %>
-							<i class="fa fa-star-half-o star"></i>
+							<i class="fa fa-star-half star"></i>
 						<% }; %>
 						<% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
-							<i class="fa fa-star-o star"></i>
+							<i class="fa fa-star star-empty"></i>
 						<% }; %>
 					</div>
 					<div class="rating-value"><%= rating %>/10</div>

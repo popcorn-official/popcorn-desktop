@@ -20,10 +20,10 @@
 			<div class="fa fa-star star"></div>
 		<% }; %>
 		<% if (p_rating % 1 > 0) { %>
-			<div class="fa fa-star-half-o star"></div>
+			<div class="fa fa-star-half star"></div>
 		<% }; %>
 		<% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
-			<div class="fa fa-star-o star"></div>
+			<div class="fa fa-star star-empty"></div>
 		<% }; %>
 		</div>
 		<% if (synopsis.length > 776) { var synopsis = synopsis.substring(0, 776) + "..."; } %>
