@@ -277,9 +277,9 @@ window.onpaste = function(e) {
  * Pass magnet link as last argument to start stream
  */
 var last_arg = gui.App.argv.pop();
-if(last_arg) {
+if(last_arg && (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0, 7) === 'http://')) {
     App.vent.on('main:ready', function() {
-	startTorrentStream(last_arg);
+		startTorrentStream(last_arg);
     });
 }
 
