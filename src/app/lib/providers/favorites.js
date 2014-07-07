@@ -28,6 +28,7 @@
                 Database.getMovie(movie.imdb_id, function(err,data) {
                     if (data != null) {                        
                         data.type = 'movie';
+                        data.provider = 0; // TODO : change the 0 with the right provider (it works because right now, there's only one provider)
                         deferred.resolve(data);   
                     } else {
                         deferred.reject(err);
@@ -42,6 +43,7 @@
 
                         data.image = data.images.poster;
                         data.imdb = data.imdb_id;
+                        data.provider = 0; // TODO : change the 0 with the right provider (it works because right now, there's only one provider)
                         deferred.resolve(data);   
                     } else {
                         deferred.reject(err);

@@ -60,7 +60,7 @@
                 });
         },
 
-         fetchMore: function() {
+        fetchMore: function() {
             win.debug('fetchMore');
             this.filter.page += 1;
             this.fetch();

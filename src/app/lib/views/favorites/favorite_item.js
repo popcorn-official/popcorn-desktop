@@ -60,15 +60,17 @@
             } else {
 
                 // live call to api to get latest detail !
+                $('.spinner').show();
                 var provider = this.model.get('provider'); //XXX(xaiki): provider hack
                 var tvshow = App.Config.getProvider('tvshow')[provider];
-                var data = tvshow.detail(this.model.get('imdb'), function(err, data) {
-                    if (!err) {
-                        App.vent.trigger('show:showDetail', new Backbone.Model(data));
-                    } else {
-                        alert('Somethings wrong... try later');
-                    }
-                });
+                var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
+                $('.spinner').hide();
+                if (!err) {
+                    App.vent.trigger('show:showDetail', new Backbone.Model(data));
+                } else {
+                    alert('Somethings wrong... try later');
+                }
+            });
 
             }
 

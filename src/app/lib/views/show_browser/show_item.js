@@ -37,7 +37,6 @@
             this.blocked = false;
             var bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
             this.model.set('bookmarked', bookmarked);
-
         },
 
         onRender: function() {
