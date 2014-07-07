@@ -7,8 +7,8 @@
 			<div class="actions-favorites"></div>
 			<div class="actions-watched"><img src = "./images/icons/ViewMoreInfo.png"/></div>
 
-			<% if(Settings.coversShowRating){ %>
-				<div class="rating">
+			
+				<div class="rating" <% if(Settings.coversShowRating){ %> style="display: block;"<% } %> >
 					<div class="rating-stars">
 						<% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
 							<i class="fa fa-star star"></i>
@@ -22,16 +22,16 @@
 					</div>
 					<div class="rating-value"><%= rating %>/10</div>
 				</div>
-			<% } %>
+		
 		</div>
 	</div>
 
 	<p class="title" title="<%= title %>"><%= title %></p>
 	<p class="year"><%= year %></p>
-	<% if(Settings.moviesShowQuality){ %>
-		<p class="seasons">
+	
+		<p id="movie_quality" class="seasons quality" <% if(Settings.moviesShowQuality){ %> style="display: block;" <% } %> >
 		<% q720 = torrents["720p"] !== undefined; q1080 = torrents["1080p"] !== undefined;
 		if (q720 && q1080) { %>720p/1080p<% } else if (q1080) { %>1080p<% } else if (q720) { %>720p<% } else { %>HDRip<% } %>
 		</p>
-	<% } %>
+
 </div>
