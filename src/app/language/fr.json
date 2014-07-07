@@ -160,5 +160,6 @@
 	"You are currently authenticated to Trakt.tv as": "Vous êtes actuellement identifié sur Trakt.tv en tant que",
 	"Ratio:": "Ratio :",
 	"Seeds:": "Sources :",
-	"Peers:": "Clients :"
+	"Peers:": "Clients :",
+	"Show movie rating on the cover": "Afficher la note du film sur son affiche"
 }
