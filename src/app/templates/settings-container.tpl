@@ -36,7 +36,7 @@
 			</p>
 			<br><br><br>
 			<p>
-				<input class="settings-checkbox" name="alwaysOnTop" id="cb4" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
+				<input class="settings-checkbox" name="alwaysOnTop" id="cb4" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
 				<label class="settings-label" for="cb4"><%= i18n.__("Always On Top") %></label>
 			</p>
 		</div>

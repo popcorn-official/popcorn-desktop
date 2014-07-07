@@ -1,5 +1,5 @@
 var
-Settings = {},
+    Settings = {},
     os = require('os'),
     path = require('path');
 
@@ -68,7 +68,9 @@ var ScreenResolution = {
         return window.devicePixelRatio > 1;
     }
 };
-
+if (Settings.always_on_top) {
+    win.setAlwaysOnTop(1);
+}
 var AdvSettings = {
 
     get: function(variable) {
