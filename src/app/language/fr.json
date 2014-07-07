@@ -191,5 +191,6 @@
 	"shift": "maj",
 	"ctrl": "ctrl",
 	"enter": "entrée",
-	"esc": "esc"
+	"esc": "esc",
+	"Keyboard Shortcuts": "Raccourcis clavier"
 }

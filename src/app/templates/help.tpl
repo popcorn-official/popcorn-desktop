@@ -2,7 +2,7 @@
 	<div class="close"></div>
 	<div class="overlay-content"></div>
 	<div class="content">
-		<h1>Keyboard Shortcuts</h1>
+		<h1><%= i18n.__("Keyboard Shortcuts") %></h1>
 		<hr>
 		<div class="help-outer">
 			<table class="keyboard-table">
