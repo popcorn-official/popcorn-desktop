@@ -27,6 +27,7 @@
 			transition opacity .25s ease
 			transition border-color .25s ease
 			opacity 0
+			position relative
 
 			.actions-favorites
 				height: 20px
@@ -60,6 +61,29 @@
 				&.selected
 					img
 						opacity 1
+
+			.rating
+				background linear-gradient(to top, rgba(0, 0, 0, .9), rgba(255, 255, 255, 0))
+				bottom 0
+				height auto
+				left 0
+				margin 0
+				overflow hidden
+				padding: 10px 5px 5px
+				position absolute
+				right 0
+				text-align left
+
+			.rating-stars
+				float left
+
+			.star
+				color: #ffdf43;
+				font-size: 12px;
+
+			.rating-value
+				color #fff
+				float right
 
 	&.selected
 		.cover

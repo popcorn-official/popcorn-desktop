@@ -20,7 +20,7 @@
 	transition all .5s
 
 	&:hover
-		opacity 1 
+		opacity 1
 		transition all .5s
 
 .tv-poster
@@ -70,7 +70,7 @@
 	height 100%
 	width 100%
 	position absolute
-	
+
 	.tv-dot
 		position relative
 		z-index 3
@@ -82,11 +82,13 @@
 		background-clip padding-box
 		background-color #dbdbdd
 		cursor default
+
 	.star
-		z-index 2
-		padding-right: 12px
-		font-size: 12px
-		color: #ffdf43
+		z-index: 2;
+		margin-right: 3px;
+		color: #ffdf43;
+		font-size: 12px;
+
 	.tv-title
 		top 21px
 		left 198px
@@ -97,7 +99,7 @@
 		font-family 'Open Sans'
 		-webkit-font-smoothing antialiased
 		font-size 22px
-		
+
 	.tv-duration
 		margin-top 35px
 		position relative
@@ -111,7 +113,7 @@
 		font-size 11px
 		cursor default
 		z-index 3
-		
+
 	.tv-genre
 		margin-top 35px
 		z-index 3
@@ -122,7 +124,7 @@
 		-webkit-font-smoothing antialiased
 		font-size 11px
 		cursor default
-		
+
 	.tv-status
 		margin-top 35px
 		z-index 3
@@ -133,7 +135,7 @@
 		-webkit-font-smoothing antialiased
 		font-size 11px
 		cursor default
-		
+
 	.tv-num-episodes
 		margin-top 35px
 		position relative
@@ -144,18 +146,19 @@
 		-webkit-font-smoothing antialiased
 		font-size 11px
 		cursor default
-		
+
 	.star-container-tv
 		z-index 3
 		position relative
 		opacity 1
 		float left
-		margin-top 31px
-		.star
-			z-index 2
-			padding-right: 3px
-			font-size: 12px
-			color: #ffdf43
+		margin-top 33px
+
+		.tv-rating-star
+			z-index: 2;
+			margin-right: 3px;
+			color: #ffdf43;
+			font-size: 12px;
 
 	.tv-overview
 		margin-top 60px
@@ -171,7 +174,7 @@
 
 .episode-base
 	margin-top 240px
-	
+
 	.season-episode-container
 		padding-top 50px
 
@@ -221,7 +224,7 @@
 	position relative
 	direction rtl
 	scrollable()
-	
+
 	ul
 		list-style none
 		color white
@@ -285,7 +288,7 @@
 			min-width 360px
 			margin 1px
 			cursor pointer
-				
+
 			.watched
 				position absolute
 				right 20px
@@ -297,10 +300,10 @@
 
 				img
 					width 20px
-					
+
 				&.true
 					opacity 1
-					
+
 			.episodeData
 				span
 					padding 9px 18px 9px 20px
@@ -337,12 +340,12 @@
 	top 280px
 	z-index 3
 	background #17181b
-	
+
 	.episode-list-seasons
 		display inline-block
 		margin-left: 30px
 		width: 13%
-	
+
 	.episode-list-episodes
 		display inline-block
 
@@ -426,7 +429,7 @@
 		width: 10px
 		height: 10px
 		position: relative
-		
+
 		div
 			font-family: "Open Sans Bold", "Open Sans", sans-serif;
 			-webkit-font-smoothing: antialiased;
@@ -435,17 +438,17 @@
 			font-weight: normal;
 			position: absolute;
 			z-index: 2;
-		
+
 		.quality-selector
 			display: none
-			
+
 			.q720
 				margin-left: 60px;
-			
+
 			.switch
 				top: 1px;
 				margin-left: 30px;
-		
+
 		.quality-info
 			display: none
 
@@ -490,7 +493,7 @@
 				width 79px
 				z-index 2
 				cursor pointer
-		
+
 				&:checked
 					z-index 0
 
@@ -504,14 +507,14 @@
 
 					& ~ .toggle
 						left 0px
-		
+
 				& ~ :checked
 
 					& ~ label
 
 						&:nth-of-type(1)
 							color #FFF
-				
+
 						&:nth-of-type(2)
 							color #286dc4
 

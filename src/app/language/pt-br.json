@@ -144,5 +144,6 @@
 	"Subtitle cache deleted": "Cache de legendas deletado",
 	"Flush subtitles cache": "Limpar cache de legendas",
 	"Trakt.tv": "Trakt.tv",
-	"Popcorn Time stores an encrypted hash of your password in your local database": "Popcorn Time salva uma hash criptografada da sua senha em seu banco de dados local"
+	"Popcorn Time stores an encrypted hash of your password in your local database": "Popcorn Time salva uma hash criptografada da sua senha em seu banco de dados local",
+	"Show movie rating on the cover": "Mostrar pontuação na capa"
 }

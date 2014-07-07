@@ -74,6 +74,7 @@
 				break;
 			case 'moviesShowQuality':
 			case 'deleteTmpOnClose':
+			case 'coversShowRating':
 				value = field.is(':checked');
 				break;
 			case 'connectionLimit':

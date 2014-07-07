@@ -60,7 +60,7 @@
 
 		.user-interface
 			margin-top 25px
-			height 50px
+			height 85px
 
 		.quality-options
 			height 100px
@@ -149,9 +149,10 @@
 					background-color #F15153
 
 		.user-interface
-			height 50px
 			border-bottom solid #3a3b3e 1px
 			margin-right 30px
+			overflow hidden
+			padding-bottom 25px
 
 		.quality-options
 			height 100px
@@ -190,18 +191,18 @@
 
 input[type=checkbox]
 	&.settings-checkbox
-		position: absolute; 
-		overflow: hidden; 
-		clip: rect(0 0 0 0); 
-		height:1px; 
-		width:1px; 
-		margin:-1px; 
+		position: absolute;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		height:1px;
+		width:1px;
+		margin:-1px;
 		padding:0;
 		border:0;
-		
+
 	&.settings-checkbox+label.settings-label
 		padding-left:20px;
-		height:15px; 
+		height:15px;
 		display:inline-block;
 		line-height:15px;
 		background-repeat:no-repeat;
@@ -211,7 +212,7 @@ input[type=checkbox]
 		vertical-align:middle;
 		cursor:pointer;
 		color:#c3c5c7
-	
+
 	&.settings-checkbox:checked+label.settings-label
 		background-position: 0 -15px;
 
@@ -388,11 +389,11 @@ hr
 	border-color #3a3b3e
 	height 1px
 
-@keyframes rotate-forever 
-	0% 
+@keyframes rotate-forever
+	0%
 		transform rotate(0deg)
-	
-	100% 
+
+	100%
 		transform rotate(360deg)
 
 .trakt-options
@@ -408,7 +409,7 @@ hr
 		aside
 			margin-top 15px
 
-	.loading-spinner 
+	.loading-spinner
 		animation-duration 0.75s
 		animation-iteration-count infinite
 		animation-name rotate-forever
@@ -426,7 +427,7 @@ hr
 		height 20px
 		display inline-block
 		margin 0px 0px -5px -27px
-		
+
 		&:before
 			content "\2573"
 			font-family Arial
@@ -440,7 +441,7 @@ hr
 		height 20px
 		display inline-block
 		margin 0px 0px -5px -27px
-		
+
 		&:before
 			content "\2714"
 			font-family Arial
