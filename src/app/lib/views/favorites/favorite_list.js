@@ -63,7 +63,9 @@
                 }
             }
             
-            this.ui.spinner.hide();
+            if(typeof(this.ui.spinner) === 'object') {
+                this.ui.spinner.hide();
+            }
         },
 
         onScroll: function() {
