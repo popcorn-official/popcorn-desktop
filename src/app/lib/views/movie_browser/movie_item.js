@@ -149,8 +149,8 @@
                 Database.addMovie(movie, function(error, result) {
                     Database.addBookmark(that.model.get('imdb'), 'movie', function(err, data) {
                         console.log('Bookmark added');
+                        App.userBookmarks.push(that.model.get('imdb'));
                         that.model.set('bookmarked', true);
-
                     });
                 });
 
