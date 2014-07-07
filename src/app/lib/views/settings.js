@@ -127,9 +127,9 @@
 					break;
 				case 'alwaysOnTop':
 					if (value) {
-						win.setAlwaysOnTop(0);
-					} else {
 						win.setAlwaysOnTop(1);
+					} else {
+						win.setAlwaysOnTop(0);
 					}
 
 					break;
