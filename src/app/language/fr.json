@@ -106,7 +106,7 @@
 	"Status: Updating database...": "Statut : Mise à jour de la base de données…",
 	"Status: Skipping synchronization TTL not met": "Statut : Saut de synchronisation TTL non rencontré",
 	"Advanced Settings": "Réglages avancés",
-	"Connection Limit": "Limite  de connexion ",
+	"Connection Limit": "Limite de connexion ",
 	"DHT Limit": "Limite DHT ",
 	"Cache Directory": "Dossier temporaire ",
 	"Clear Cache directory after closing app?": "Nettoyer le dossier cache à la fermeture ?",
