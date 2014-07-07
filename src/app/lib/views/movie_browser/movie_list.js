@@ -157,7 +157,9 @@
 			$(window).on('resize', this.onResize);
 			this.onResize();
 
-			this.ui.spinner.hide();
+			if(typeof(this.ui.spinner) === 'object') {
+				this.ui.spinner.hide();
+			}
 
 			$('.filter-bar').on('mousedown', function(e){
 				if(e.target.localName !== 'div') {
