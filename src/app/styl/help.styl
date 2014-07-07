@@ -1,6 +1,6 @@
 .help-container 
     z-index 15
-    height 100%
+    min-height 100%
     width 100%
     position fixed
     -webkit-user-select none
@@ -42,7 +42,7 @@
     .content 
         margin 0 auto
         margin-top 100px
-        width 60%
+        width 80%
         color #fff
         font-weight 100
         font-family sans-serif
@@ -55,7 +55,9 @@
             position absolute
             width 60%
 
-
+    .help-outer
+        scrollable()
+        height: 400px
     .keyboard-table 
         float: left;
         &.last 
