@@ -90,7 +90,8 @@
                 } 
 
                 // we'll delete this element from our list view
-                $(e.currentTarget).closest( 'li' ).animate({ width: '0%', opacity: 0 }, 1000, function(){$(this).remove();
+                $(e.currentTarget).closest( 'li' ).animate({ paddingLeft: '0px', paddingRight: '0px', width: '0%', opacity: 0 }, 500, function(){
+                    $(this).remove();
                     if($('.bookmarks li').length === 0) {
                         App.vent.trigger('movies:list', []);
                     }
