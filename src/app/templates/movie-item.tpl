@@ -4,8 +4,8 @@
 	<img class="cover-image" src="<%= image %>" style="display: none">
 	<div class="cover">
 		<div class="cover-overlay">
-			<div class="actions-favorites"></div>
-			<div class="actions-watched"><img src = "./images/icons/ViewMoreInfo.png"/></div>
+			<i class="fa fa-heart actions-favorites"></i>
+			<i class="fa fa-eye actions-watched"></i>
 
 			
 				<div class="rating" <% if(Settings.coversShowRating){ %> style="display: block;"<% } %> >
