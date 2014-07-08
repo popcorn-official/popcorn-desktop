@@ -96,7 +96,7 @@
             if (this.model.get('watched') === true) {
                 Database.markMovieAsNotWatched({
                     imdb_id: this.model.get('imdb')
-                }, function(err, data) {
+                }, true, function(err, data) {
                     that.model.set('watched', false);
                     App.watchedMovies.splice(App.watchedMovies.indexOf(that.model.get('imdb')), 1);
                 });
@@ -105,7 +105,7 @@
                 Database.markMovieAsWatched({
                     imdb_id: this.model.get('imdb'),
                     from_browser: true
-                }, function(err, data) {
+                }, true, function(err, data) {
                     that.model.set('watched', true);
                     App.watchedMovies.push(that.model.get('imdb'));
                 });

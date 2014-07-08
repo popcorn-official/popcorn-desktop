@@ -130,9 +130,9 @@
 
             Database.checkEpisodeWatched(value, function(watched, data) {
                 if (watched) {
-                    App.vent.trigger('shows:unwatched', value);
+                    App.vent.trigger('shows:unwatched', value, true);
                 } else {
-                    App.vent.trigger('shows:watched', value);
+                    App.vent.trigger('shows:watched', value, true);
                 }
                 _this.markWatched(value, !watched);
             });
