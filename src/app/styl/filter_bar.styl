@@ -61,28 +61,20 @@
 			border-top-left-radius: 0
 			border-top-right-radius: 0
 
-	button
-		-webkit-app-region: no-drag
-		background: center no-repeat
-		transition: background-image 0.5s;
-		width: 18px;
-		height: 18px;
+	i
+		transition: color 0.5s;
 		margin: 10px 5px 0;
+		color: #a3a7ab;
+		font-size: 1.5em;
+		&:hover
+			color: #2d75df
+			cursor: pointer
 
-		&.settings
-			fadeicon(settings, 0px, -18px, 18px)
-
-		&.about
-			fadeicon(info, 0px, -18px, 18px)
-
-		&.queue
-			fadeicon(queue, -15px, -30px, 18px)
-
-		&.favorites
-			fadeicon(favourites, -20px, -39px, 18px)
-
-		&.triggerUpdate
-			fadeicon(update, 0px, -18px, 18px)
+		&.active
+			&.favorites
+				color: #df2d37
+			&.about
+				color: #2d75df
 
 	.search input
 		line-height normal

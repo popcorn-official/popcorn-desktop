@@ -33,7 +33,7 @@
 					<form><input id="searchbox" type="text" placeholder="<%= i18n.__("Search") %>"></form>
 				</div>
 			</li>
-			<li><button class="favorites"></button></li>
-			<li><button class="about"></button></li>
-			<li><button class="settings"></button></li>
+			<li><i class="fa fa-heart favorites"></i></li>
+			<li><i class="fa fa-info-circle about"></i></li>
+			<li><i class="fa fa-cog settings"></i></li>
 		</ul>

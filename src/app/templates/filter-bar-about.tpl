@@ -5,7 +5,7 @@
 
 <ul class="nav nav-hor right">
 	<!-- TODO: Add active class -->
-	<li><button class="favorites"></button></li>
-	<li><button class="about active"></button></li>
-	<li><button class="settings"></button></li>
+	<li><i class="fa fa-heart favorites"></i></li>
+	<li><i class="fa fa-info-circle about active"></i></li>
+	<li><i class="fa fa-cog settings"></i></li>
 </ul>
