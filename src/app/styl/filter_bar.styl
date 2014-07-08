@@ -76,47 +76,63 @@
 			&.about
 				color: #2d75df
 
-	.search input
-		line-height normal
-		-webkit-app-region no-drag
-		outline none
-		cursor pointer
-		width 0px
-		height 18px
-		position relative
-		background url("../images/icons/search.png") #17181b no-repeat right center
-		background-position right 3px center
-		border solid 0px
-		margin 8px 3px 0
-		padding 1px 2px 3px
-		padding-left 21px
-		border-radius 10em
-		-webkit-appearance textfield
-		-webkit-box-sizing content-box
-		color rgba(196, 198, 200, 0.47)
-		transition width 0.5s, background 0.5s
+	.search
+		form		
+			&:before
+				content: '\f002'
+				font-family: FontAwesome
+				font-style: normal
+				transition color 0.5s
+				color: #a3a7ab
+				position: absolute;
+				top:11px;
+				left: 7px;
+				z-index: 2;
+				font-size: 1.4em;
+			&:hover
+				cursor: pointer
+				&:before
+					color: #2d75df
 
-		&:hover
-			background: url('../images/icons/search_hover.png') no-repeat right center;
-			background-position left 3px center
-			color white
-			
-			
-		&:focus
-			background: #ededed url('../images/icons/search_hover.png') no-repeat right center;
-			background-position left 3px center
-			padding-left 25px
-			width: 130px;
-			color: #c4c6c8;
-			background-color: #0e0e0f;
-			cursor: auto;
+			input
+				line-height normal
+				-webkit-app-region no-drag
+				outline none
+				cursor pointer
+				width 0px
+				height 18px
+				position relative
+				background #17181b no-repeat right center
+				background-position right 3px center
+				border solid 0px
+				margin 8px 3px 0
+				padding 1px 2px 3px
+				padding-left 21px
+				border-radius 10em
+				-webkit-appearance textfield
+				-webkit-box-sizing content-box
+				color rgba(196, 198, 200, 0.47)
+				transition width 0.5s
 
-		&::-moz-placeholder,
-		&::-webkit-input-placeholder
-			color: transparent;
+				&:hover
+					color white
+					
+					
+				&:focus
+					padding-left 25px
+					width: 130px;
+					color: #c4c6c8;
+					background-color: #0e0e0f;
+					cursor: auto;
+					&:before
+						color: #2d75df
 
-		&:focus::-webkit-input-placeholder
-			color: #c4c6c8;
+				&::-moz-placeholder,
+				&::-webkit-input-placeholder
+					color: transparent;
+
+				&:focus::-webkit-input-placeholder
+					color: #c4c6c8;
 
 	.remove-search{
 		position absolute

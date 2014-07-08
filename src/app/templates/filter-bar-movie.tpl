@@ -30,7 +30,8 @@
 			<li>
 				<div class="right search">
 					<span class="remove-search"><span class="text-search"></span></span>
-					<form><input id="searchbox" type="text" placeholder="<%= i18n.__("Search") %>"></form>
+					<form>
+						<input id="searchbox" type="text" placeholder="<%= i18n.__("Search") %>"></form>
 				</div>
 			</li>
 			<li><i class="fa fa-heart favorites"></i></li>

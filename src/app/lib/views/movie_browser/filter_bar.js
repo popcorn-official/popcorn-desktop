@@ -5,7 +5,8 @@
         className: 'filter-bar',
         ui: {
             searchForm: '.search form',
-            search: '.search input',
+            searchInput: '.search input',
+            search: '.search',
             searchClose: '.remove-search',
             searchText: '.text-search',
 
@@ -13,9 +14,10 @@
             genreValue: '.genres  .value'
         },
         events: {
-            'hover  @ui.search': 'focus',
+            'hover  @ui.searchInput': 'focus',
             'submit @ui.searchForm': 'search',
             'click  @ui.searchClose': 'removeSearch',
+            'click  @ui.search': 'focusSearch',
             'click .sorters .dropdown-menu a': 'sortBy',
             'click .genres .dropdown-menu a': 'changeGenre',
             'click .settings': 'settings',
@@ -45,9 +47,9 @@
             App.vent.trigger('about:close');
             App.vent.trigger('movie:closeDetail');
             e.preventDefault();
-            var searchvalue = this.ui.search.val();
+            var searchvalue = this.ui.searchInput.val();
             this.model.set({
-                keywords: this.ui.search.val(),
+                keywords: this.ui.searchInput.val(),
                 genre: ''
             });
             this.ui.search.blur();
@@ -57,7 +59,7 @@
                 this.ui.searchText.text();
             } else {
                 this.ui.searchClose.show();
-                this.ui.searchText.text(this.ui.search.val());
+                this.ui.searchText.text(this.ui.searchInput.val());
             }
         },
         removeSearch: function(e) {
@@ -69,7 +71,7 @@
                 genre: ''
             });
 
-            this.ui.search.val('');
+            this.ui.searchInput.val('');
             this.ui.searchClose.hide('slow');
             this.ui.searchText.text();
         },
