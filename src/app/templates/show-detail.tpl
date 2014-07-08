@@ -101,7 +101,7 @@
 										<div><%=episodeData.title %></div>
 									</a>
 									
-									<span id="watched-<%=episodeData.season%>-<%=episodeData.episode%>" class="watched"><img src="images/icons/Player/ViewMoreInfo.png" /></span>
+									<i id="watched-<%=episodeData.season%>-<%=episodeData.episode%>" class="fa fa-eye watched"></i>
 
 
 									<!-- hidden template so we can save a DB query -->
