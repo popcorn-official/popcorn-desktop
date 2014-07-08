@@ -1,5 +1,4 @@
 <div class="settings-container">
-	<div class="fa fa-keyboard-o help"></div>
 	<div class="close"></div>
 	<div class="sidebar">
 		<div class="title"><%= i18n.__("Settings") %></div>
@@ -13,6 +12,8 @@
 	<div class="content">
 
 		<div class="success_alert" style="display:none"><%= i18n.__("Saved") %><span id="checkmark-notify"><div id="stem-notify"></div><div id="kick-notify"></div></span></div>
+
+		<div class="fa fa-keyboard-o help"></div>
 
 		<div class="user-interface">
 			<div class="dropdown subtitles-language">
