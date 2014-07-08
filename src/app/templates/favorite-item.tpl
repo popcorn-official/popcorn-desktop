@@ -2,7 +2,7 @@
 	<img class="cover-image" src="<%= image %>" style="display: none">
 	<div class="cover">
 		<div class="cover-overlay">
-			<div class="actions-favorites"></div>
+			<i class="fa fa-heart actions-favorites"></i>
 		</div>
 	</div>
 
