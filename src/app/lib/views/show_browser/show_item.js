@@ -1,5 +1,6 @@
 (function(App) {
     'use strict';
+
     var prevX = 0;
     var prevY = 0;
 
@@ -119,10 +120,8 @@
                         alert('Somethings wrong... try later');
                     }
                 });
-
-
             }
-        }
+        },
 
     });
 

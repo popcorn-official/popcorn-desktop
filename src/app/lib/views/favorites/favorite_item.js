@@ -32,6 +32,7 @@
             this.ui.cover.css('opacity', '1');
             this.ui.coverImage.remove();
         },
+
         showDetail: function(e) {
             e.preventDefault();
 
@@ -98,9 +99,7 @@
                     }
                 });
             });
-            
         }
-
     });
 
     App.View.FavoriteItem = FavoriteItem;
