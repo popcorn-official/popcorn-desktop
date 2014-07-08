@@ -20,7 +20,9 @@
         itemViewContainer: '.bookmarks',
 
         events: {
-            'mousewheel': 'onScroll'
+            'scroll': 'onScroll',
+            'mousewheel': 'onScroll',
+            'keydown': 'onScroll'
         },
 
         isEmpty: function() {

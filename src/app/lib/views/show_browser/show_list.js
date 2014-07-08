@@ -35,6 +35,7 @@
         itemViewContainer: '.shows',
 
         events: {
+            'scroll': 'onScroll',
             'mousewheel': 'onScroll',
             'keydown': 'onScroll'
         },

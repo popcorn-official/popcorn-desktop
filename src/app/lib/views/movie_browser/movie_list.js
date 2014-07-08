@@ -35,6 +35,7 @@
         itemViewContainer: '.movies',
 
         events: {
+            'scroll': 'onScroll',
             'mousewheel': 'onScroll',
             'keydown': 'onScroll'
         },
