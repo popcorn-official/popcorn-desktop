@@ -144,6 +144,7 @@
                     backdrop: this.model.get('backdrop'),
                     rating: this.model.get('rating'),
                     trailer: this.model.get('trailer'),
+                    provider: this.model.get('provider'),
                 };
 
                 Database.addMovie(movie, function(error, result) {

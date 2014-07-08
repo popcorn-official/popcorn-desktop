@@ -94,7 +94,7 @@
             var that = this;
             if (this.model.get('bookmarked') === true) {
                 Database.deleteBookmark(this.model.get('imdb_id'), function(err, data) {
-                    console.log('Bookmark deleted');
+                    win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
                     that.model.set('bookmarked', false);
                     App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
 
@@ -106,9 +106,10 @@
                 var tvshow = App.Config.getProvider('tvshow')[provider];
                 var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
                     if (!err) {
+                        data.provider = that.model.get('provider');
                         Database.addTVShow(data, function(err, idata) {
                             Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function(err, data) {
-                                console.log('Bookmark added');
+                                win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
                                 that.model.set('bookmarked', true);
                                 App.userBookmarks.push(that.model.get('imdb_id'));
                             });
