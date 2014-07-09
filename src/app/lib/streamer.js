@@ -258,6 +258,7 @@
                                 }
                             }
                             else {
+                                hasSubtitles = true;
                                 handleTorrent_fnc();
                             }
                         }
