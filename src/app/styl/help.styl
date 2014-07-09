@@ -59,10 +59,18 @@
     .help-outer
         scrollable()
         height: calc(100% - 200px);
+
+    .fix-float
+        float left
+        position relative
+        left: 50%
+    
     .keyboard-table 
         float: left;
+        position relative
+        left: -50%
         &.last 
-            margin-left: 40px;
+            margin-left: 25px;
 
 
         tbody:first-child tr:first-child th 
