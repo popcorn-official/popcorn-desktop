@@ -5,6 +5,7 @@
 		<h1><%= i18n.__("Keyboard Shortcuts") %></h1>
 		<hr>
 		<div class="help-outer">
+		<div class="fix-float">
 			<table class="keyboard-table">
 				<tbody>
 					<tr>
@@ -185,6 +186,7 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
 		</div>
 	</div>
 </div>
