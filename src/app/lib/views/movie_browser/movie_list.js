@@ -229,7 +229,7 @@
             e.preventDefault();
             e.stopPropagation();
             var index = $('.movie-item.selected').index() + NUM_MOVIES_IN_ROW;
-            if($('.movies .movie-item').eq(index).length === 0) {
+            if($('.movies .movie-item').eq(index).length === 0 || $('.movies .movie-item').eq(index).children().length === 0) {
                 return;
             }
             _this.selectIndex(index);
