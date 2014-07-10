@@ -3,7 +3,7 @@
 	<div class="details-player">
 		<span class="close-info-player"></span>
 		<div class="download-info-player">
-			<div class="eye-info-player"></div>
+			<i class="fa fa-eye eye-info-player"></i>
 			<div class="details-info-player">
 				<div class="arrow-up"></div>
 				<span class="speed-info-player"><%= i18n.__("Download") %>:&nbsp;</span><span class="download_speed_player">0 B/s</span><br>
