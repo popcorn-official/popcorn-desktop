@@ -166,17 +166,11 @@
                 }
                 _.defer(function(){
                     self.$('.shows:first').focus();
-                    if($('.movie-item.selected').length === 0){
-                        self.$('.movie-item').eq(0).addClass('selected');
-                    }
                 });
             });
             $('.shows').attr('tabindex','1');
             _.defer(function(){
                 self.$('.shows:first').focus();
-                if($('.movie-item.selected').length === 0){
-                    self.$('.movie-item').eq(0).addClass('selected');
-                }
             });
         },
 
@@ -203,6 +197,9 @@
         },
 
         selectIndex: function(index) {
+            if($('.shows .movie-item').eq(index).length === 0 || $('.shows .movie-item').eq(index).children().length === 0) {
+                return;
+            }
             $('.movie-item.selected').removeClass('selected');
             $('.shows .movie-item').eq(index).addClass('selected');
             
@@ -216,8 +213,14 @@
         moveUp: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var index = $('.movie-item.selected').index() - NUM_SHOWS_IN_ROW;
-            if(index< 0) {
+            var index = $('.movie-item.selected').index();
+            if(index === -1) {
+                index = 0;
+            }
+            else {
+                index =  index - NUM_SHOWS_IN_ROW;
+            }
+            if(index < 0) {
                 return;
             }
             _this.selectIndex(index);
@@ -226,9 +229,12 @@
         moveDown: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var index = $('.movie-item.selected').index() + NUM_SHOWS_IN_ROW;
-            if($('.shows .movie-item').eq(index).length === 0 || $('.shows .movie-item').eq(index).children().length === 0) {
-                return;
+            var index = $('.movie-item.selected').index();
+            if(index === -1) {
+                index = 0;
+            }
+            else {
+                index =  index + NUM_SHOWS_IN_ROW;
             }
             _this.selectIndex(index);
         },
@@ -236,12 +242,15 @@
         moveLeft: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var index = $('.movie-item.selected').index() - 1;
+            var index = $('.movie-item.selected').index();
             if(index === -1) {
-                return;
+                index = 0;
             }
-            if(index === -2) {
-                $('.shows .movie-item').eq(0).addClass('selected');
+            else if(index === 0) {
+                index = 0;
+            }
+            else {
+                index = index - 1;
             }
             _this.selectIndex(index);
         },
@@ -249,9 +258,12 @@
         moveRight: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var index = $('.movie-item.selected').index() + 1;
-            if($('.shows .movie-item').eq(index).length === 0 || $('.shows .movie-item').eq(index).children().length === 0) {
-                return;
+            var index = $('.movie-item.selected').index();
+            if(index === -1) {
+                index = 0;
+            }
+            else {
+                index =  index + 1;
             }
             _this.selectIndex(index);
         },
