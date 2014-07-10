@@ -1,6 +1,7 @@
 <div class="player-header-background vjs-control-bar">
 	<div class="player-title"><%= title %></div>
 	<div class="details-player">
+		<span class="quality-info-player"><%= quality %></span>
 		<span class="close-info-player"></span>
 		<div class="download-info-player">
 			<i class="fa fa-eye eye-info-player"></i>

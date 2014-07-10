@@ -140,6 +140,7 @@
                 subtitle: this.model.get('subtitle'),
                 defaultSubtitle: this.subtitle_selected,
                 title: this.model.get('title'),
+                quality: this.model.get('quality'),
                 type: 'movie',
             });
             this.unbindKeyboardShortcuts();

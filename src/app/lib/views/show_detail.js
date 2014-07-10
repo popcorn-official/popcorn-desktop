@@ -175,6 +175,7 @@
                 title: title,
                 status: that.model.get('status'),
                 extract_subtitle: epInfo,
+                quality: $(e.currentTarget).attr('data-quality'),
                 defaultSubtitle: Settings.subtitle_language
             });
             _this.unbindKeyboardShortcuts();
@@ -218,14 +219,17 @@
             var torrents = {};
             torrents.q480 = $('.template-' + tvdbid + ' .q480').text();
             torrents.q720 = $('.template-' + tvdbid + ' .q720').text();
+            torrents.quality = '420p';
             if (torrents.q720 !== '') {
                 torrents.def = torrents.q720;
+                torrents.quality = '720p';
             } else {
                 torrents.def = torrents.q480;
             }
             if (torrents.q480 !== '' && torrents.q720 !== '') {
                 if ($('#switch-hd-off').is(':checked')) {
                     torrents.def = torrents.q480;
+                    torrents.quality = '420p';
                 }
                 this.ui.qselector.show();
                 this.ui.qinfo.hide();
@@ -250,6 +254,7 @@
             $('.episode-info-description').scrollTop(0);
 
             $('.movie-btn-watch-episode').attr('data-torrent', torrents.def);
+            $('.movie-btn-watch-episode').attr('data-quality', torrents.quality);
             $('.movie-btn-watch-episode').attr('data-episodeid', tvdbid);
 
             // set var for player
@@ -265,6 +270,7 @@
             var tvdbid = $('.movie-btn-watch-episode').attr('data-episodeid'),
                 torrent = $('.template-' + tvdbid + ' .q720').text();
             $('.movie-btn-watch-episode').attr('data-torrent', torrent);
+            $('.movie-btn-watch-episode').attr('data-quality', '720P');
             win.debug(torrent);
         },
 
@@ -273,6 +279,7 @@
             var tvdbid = $('.movie-btn-watch-episode').attr('data-episodeid'),
                 torrent = $('.template-' + tvdbid + ' .q480').text();
             $('.movie-btn-watch-episode').attr('data-torrent', torrent);
+            $('.movie-btn-watch-episode').attr('data-quality', '480P');
             win.debug(torrent);
         },
 
