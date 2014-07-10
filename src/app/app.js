@@ -230,7 +230,7 @@ var startTorrentStream = function(torrentFile) {
 window.ondrop = function(e) {
     e.preventDefault();
     $('#drop-mask').hide();
-    console.log('drag compleated');
+    console.log('drag completed');
     $('.drop-indicator').hide();
 
     var file = e.dataTransfer.files[0];
@@ -265,13 +265,14 @@ window.ondrop = function(e) {
 /**
  * Paste Magnet Link to start stream
  */
-window.onpaste = function(e) {
-    var data = e.clipboardData.getData('text/plain');
+$(document).on('paste', function(e) {
+    e.preventDefault();
+    var data = (e.originalEvent || e).clipboardData.getData('text/plain');
     if (data != null && data.substring(0, 8) === 'magnet:?') {
         startTorrentStream(data);
     }
     return true;
-};
+});
 
 /**
  * Pass magnet link as last argument to start stream
