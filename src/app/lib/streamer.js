@@ -267,8 +267,7 @@
                     }
                 }
             };
-
-            if (torrentUrl.substring(0,7) === 'http://') {
+            if (typeof(torrentUrl) === 'string' && torrentUrl.substring(0,7) === 'http://') {
                 return Streamer.startStream (model, torrentUrl, stateModel);
             } else if(!torrent_read) {
                 readTorrent(torrentUrl, doTorrent);
