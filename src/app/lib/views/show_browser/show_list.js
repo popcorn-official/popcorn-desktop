@@ -250,6 +250,9 @@
             e.preventDefault();
             e.stopPropagation();
             var index = $('.movie-item.selected').index() + 1;
+            if($('.shows .movie-item').eq(index).length === 0 || $('.shows .movie-item').eq(index).children().length === 0) {
+                return;
+            }
             _this.selectIndex(index);
         },
     });
