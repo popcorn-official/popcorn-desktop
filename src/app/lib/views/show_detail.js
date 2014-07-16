@@ -219,7 +219,7 @@
             var torrents = {};
             torrents.q480 = $('.template-' + tvdbid + ' .q480').text();
             torrents.q720 = $('.template-' + tvdbid + ' .q720').text();
-            torrents.quality = '420p';
+            torrents.quality = '480p';
             if (torrents.q720 !== '') {
                 torrents.def = torrents.q720;
                 torrents.quality = '720p';
@@ -229,7 +229,7 @@
             if (torrents.q480 !== '' && torrents.q720 !== '') {
                 if ($('#switch-hd-off').is(':checked')) {
                     torrents.def = torrents.q480;
-                    torrents.quality = '420p';
+                    torrents.quality = '480p';
                 }
                 this.ui.qselector.show();
                 this.ui.qinfo.hide();
