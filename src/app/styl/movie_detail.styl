@@ -375,16 +375,17 @@
             background: #286dc4
             border-radius: 50%
             height: 10px
-            left: 0px
+            left: -0px
             position: absolute
             top: -1px
             width: 10px
         }
         .sub-dropdown {
             position: absolute
-            float: left
             height: 26px
-            width: 70px
+            width: auto
+            top: -8px
+            right: 13.56%
             color: #fff
             font-family: 'Open Sans Semibold'
             font-smoothing: antialiased
@@ -404,13 +405,6 @@
                 border-top: none
             }
         }
-        .sub-container {
-            position: absolute
-            left: 50%
-            width: 100%
-            float: left
-
-        }
         .sub-dropdown-arrow {
             width: 0
             height: 0
@@ -423,14 +417,15 @@
             border-top: 5px solid #c4c6c8
             border-bottom: none
         }
-
         .flag-container {
             position: absolute
-            width: 23%
+            width: auto
+            max-width: 24.7%
             right: 13.56%
             overflow-x: hidden
             overflow-y:hidden
-            height: 48px
+            height: auto
+            background: rgba(31,31,31,0.74)
             .flag {
                 margin: 4px
                 background-size: 22px 16px
@@ -560,4 +555,3 @@
         }
     }
 }
-
