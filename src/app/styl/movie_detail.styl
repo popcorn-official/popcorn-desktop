@@ -384,13 +384,13 @@
             position: absolute
             height: 26px
             width: auto
-            top: -8px
+            top: -11px
             right: 13.56%
             color: #fff
             font-family: 'Open Sans Semibold'
             font-smoothing: antialiased
-            font-size: 12px
-            line-height: 18px
+            font-size: 14px
+            line-height: 17px
             cursor pointer
             padding: 5px
             padding-right: 13px
@@ -420,137 +420,137 @@
         .flag-container {
             position: absolute
             width: auto
-            max-width: 24.7%
+            max-width: 24.9%
             right: 13.56%
             overflow-x: hidden
             overflow-y:hidden
             height: auto
             background: rgba(31,31,31,0.74)
-            .flag {
-                margin: 4px
-                background-size: 22px 16px
-                position: relative
-                float: right
-                cursor: pointer
+        }
+        .flag {
+            margin: 4px
+            background-size: 22px 16px
+            position: relative
+            float: right
+            cursor: pointer
+            background-image: url("../images/flags/none.png")
+            width: 22px
+            height: 16px
+            &.NA {
                 background-image: url("../images/flags/none.png")
-                width: 22px
-                height: 16px
-                &.NA {
-                    background-image: url("../images/flags/none.png")
-                }
-                &.toggle {
-                    top: -22px
-                    border-radius: 0
-                    background-color: transparent
-                }
-                &.bn {
-                    background-image: url("../images/flags/bengali.png")
-                }
-                &.bs {
-                    background-image: url("../images/flags/bosnian.png")
-                }
-                &.pt-br {
-                    background-image: url("../images/flags/brazilian.png")
-                }
-                &.bg {
-                    background-image: url("../images/flags/bulgarian.png")
-                }
-                &.hr {
-                    background-image: url("../images/flags/croatian.png")
-                }
-                &.cs {
-                    background-image: url("../images/flags/czech.png")
-                }
-                &.da {
-                    background-image: url("../images/flags/danish.png")
-                }
-                &.nl {
-                    background-image: url("../images/flags/dutch.png")
-                }
-                &.en {
-                    background-image: url("../images/flags/english.png")
-                }
-                &.et {
-                    background-image: url("../images/flags/estonian.png")
-                }
-                &.eu {
-                    background-image: url("../images/flags/basque.png")
-                }
-                &.fa {
-                    background-image: url("../images/flags/farsi.png")
-                }
-                &.fi {
-                    background-image: url("../images/flags/finnish.png")
-                }
-                &.fr {
-                    background-image: url("../images/flags/french.png")
-                }
-                &.de {
-                    background-image: url("../images/flags/german.png")
-                }
-                &.he {
-                    background-image: url("../images/flags/hebrew.png")
-                }
-                &.hy {
-                    background-image: url("../images/flags/hungarian.png")
-                }
-                &.it {
-                    background-image: url("../images/flags/italian.png")
-                }
-                &.lv {
-                    background-image: url("../images/flags/latvian.png")
-                }
-                &.lt {
-                    background-image: url("../images/flags/lithuanian.png")
-                }
-                &.mt {
-                    background-image: url("../images/flags/maltese.png")
-                }
-                &.ar {
-                    background-image: url("../images/flags/arabic.png")
-                }
-                &.pl {
-                    background-image: url("../images/flags/polish.png")
-                }
-                &.pt {
-                    background-image: url("../images/flags/portuguese.png")
-                }
-                &.ro {
-                    background-image: url("../images/flags/romanian.png")
-                }
-                &.ru {
-                    background-image: url("../images/flags/russian.png")
-                }
-                &.sr {
-                    background-image: url("../images/flags/serbian.png")
-                }
-                &.sk {
-                    background-image: url("../images/flags/slovak.png")
-                }
-                &.sl {
-                    background-image: url("../images/flags/slovenian.png")
-                }
-                &.es {
-                    background-image: url("../images/flags/spanish.png")
-                }
-                &.th {
-                    background-image: url("../images/flags/thai.png")
-                }
-                &.tr {
-                    background-image: url("../images/flags/turkish.png")
-                }
-                &.uk {
-                    background-image: url("../images/flags/ukrainian.png")
-                }
-                &.el {
-                    background-image: url("../images/flags/greek.png")
-                }
-                &.hu {
-                    background-image: url("../images/flags/hungarian.png")
-                }
-                &.zh {
-                    background-image: url("../images/flags/chinese.png")
-                }
+            }
+            &.toggle {
+                top: -22px
+                border-radius: 0
+                background-color: transparent
+            }
+            &.bn {
+                background-image: url("../images/flags/bengali.png")
+            }
+            &.bs {
+                background-image: url("../images/flags/bosnian.png")
+            }
+            &.pt-br {
+                background-image: url("../images/flags/brazilian.png")
+            }
+            &.bg {
+                background-image: url("../images/flags/bulgarian.png")
+            }
+            &.hr {
+                background-image: url("../images/flags/croatian.png")
+            }
+            &.cs {
+                background-image: url("../images/flags/czech.png")
+            }
+            &.da {
+                background-image: url("../images/flags/danish.png")
+            }
+            &.nl {
+                background-image: url("../images/flags/dutch.png")
+            }
+            &.en {
+                background-image: url("../images/flags/english.png")
+            }
+            &.et {
+                background-image: url("../images/flags/estonian.png")
+            }
+            &.eu {
+                background-image: url("../images/flags/basque.png")
+            }
+            &.fa {
+                background-image: url("../images/flags/farsi.png")
+            }
+            &.fi {
+                background-image: url("../images/flags/finnish.png")
+            }
+            &.fr {
+                background-image: url("../images/flags/french.png")
+            }
+            &.de {
+                background-image: url("../images/flags/german.png")
+            }
+            &.he {
+                background-image: url("../images/flags/hebrew.png")
+            }
+            &.hy {
+                background-image: url("../images/flags/hungarian.png")
+            }
+            &.it {
+                background-image: url("../images/flags/italian.png")
+            }
+            &.lv {
+                background-image: url("../images/flags/latvian.png")
+            }
+            &.lt {
+                background-image: url("../images/flags/lithuanian.png")
+            }
+            &.mt {
+                background-image: url("../images/flags/maltese.png")
+            }
+            &.ar {
+                background-image: url("../images/flags/arabic.png")
+            }
+            &.pl {
+                background-image: url("../images/flags/polish.png")
+            }
+            &.pt {
+                background-image: url("../images/flags/portuguese.png")
+            }
+            &.ro {
+                background-image: url("../images/flags/romanian.png")
+            }
+            &.ru {
+                background-image: url("../images/flags/russian.png")
+            }
+            &.sr {
+                background-image: url("../images/flags/serbian.png")
+            }
+            &.sk {
+                background-image: url("../images/flags/slovak.png")
+            }
+            &.sl {
+                background-image: url("../images/flags/slovenian.png")
+            }
+            &.es {
+                background-image: url("../images/flags/spanish.png")
+            }
+            &.th {
+                background-image: url("../images/flags/thai.png")
+            }
+            &.tr {
+                background-image: url("../images/flags/turkish.png")
+            }
+            &.uk {
+                background-image: url("../images/flags/ukrainian.png")
+            }
+            &.el {
+                background-image: url("../images/flags/greek.png")
+            }
+            &.hu {
+                background-image: url("../images/flags/hungarian.png")
+            }
+            &.zh {
+                background-image: url("../images/flags/chinese.png")
             }
         }
     }

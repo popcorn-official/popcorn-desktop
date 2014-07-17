@@ -65,6 +65,7 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 
             <div class="sub-dropdown">
                       <%= i18n.__("Subtitles") %>
+                      <div class="sub-flag-icon flag selected-lang none"></div>
                       <div class="sub-dropdown-arrow"></div>
             </div>                                            
             <div class="flag-container">
