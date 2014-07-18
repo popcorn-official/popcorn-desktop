@@ -110,7 +110,6 @@
 
 
 
-
         },
 
         onClose: function() {
@@ -152,6 +151,7 @@
                 src: this.model.get('trailer'),
                 type: 'video/youtube',
                 subtitle: null,
+                quality: false,
                 title: this.model.get('title')
             });
             App.vent.trigger('stream:ready', trailer);
@@ -213,7 +213,7 @@
                     Database.deleteMovie(that.model.get('imdb'), function(err, data) {
                         that.model.set('bookmarked', false);
                         var bookmark = $('.bookmark-item .' + that.model.get('imdb'));
-                        if(bookmark.length > 0) {
+                        if (bookmark.length > 0) {
                             bookmark.parents('.bookmark-item').remove();
                         }
                     });
