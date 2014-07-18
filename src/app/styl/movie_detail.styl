@@ -400,10 +400,7 @@
                 border-radius: 5px 5px 0 0;
             }
 
-            .sub-dropdown-arrow {
-                border-bottom: 5px solid #c4c6c8
-                border-top: none
-            }
+
         }
         .sub-dropdown-arrow {
             width: 0
@@ -416,6 +413,11 @@
             right: 5px
             border-top: 5px solid #c4c6c8
             border-bottom: none
+
+            &.down {
+                border-bottom: 5px solid #c4c6c8
+                border-top: none
+            }
         }
         .flag-container {
             position: absolute
@@ -423,7 +425,8 @@
             max-width: 24.9%
             right: 13.56%
             overflow-x: hidden
-            overflow-y:hidden
+            overflow-y: hidden
+            display: none
             height: auto
             background: rgba(31,31,31,0.74)
         }

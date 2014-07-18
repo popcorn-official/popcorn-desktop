@@ -154,6 +154,7 @@
                 return false;
             } else {
                 $('.sub-dropdown').addClass('open');
+                $('.sub-dropdown-arrow').addClass('down');
             }
             var self = this;
             $('.flag-container').fadeIn();
@@ -163,6 +164,7 @@
             e.preventDefault();
             $('.flag-container').fadeOut();
             $('.sub-dropdown').removeClass('open');
+            $('.sub-dropdown-arrow').removeClass('down');
 
             var value = $(e.currentTarget).attr('data-lang');
             if (value) {
