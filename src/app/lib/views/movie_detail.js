@@ -19,7 +19,9 @@
             'click #switch-hd-on': 'enableHD',
             'click #switch-hd-off': 'disableHD',
             'click .favourites-toggle': 'toggleFavourite',
-            'click .movie-imdb-link': 'openIMDb'
+            'click .movie-imdb-link': 'openIMDb',
+            'click .sub-dropdown': 'toggleDropdown',
+            'click .sub-flag-icon': 'closeDropdown'
         },
 
         initialize: function() {
@@ -144,6 +146,28 @@
             });
             this.unbindKeyboardShortcuts();
             App.vent.trigger('stream:start', torrentStart);
+        },
+
+        toggleDropdown: function(e) {
+            if ($('.sub-dropdown').is('.open')) {
+                this.closeDropdown(e);
+                return false;
+            } else {
+                $('.sub-dropdown').addClass('open');
+            }
+            var self = this;
+            $('.flag-container').fadeIn();
+        },
+
+        closeDropdown: function(e) {
+            e.preventDefault();
+            $('.flag-container').fadeOut();
+            $('.sub-dropdown').removeClass('open');
+
+            var value = $(e.currentTarget).attr('data-lang');
+            if (value) {
+                this.switchSubtitle(value);
+            }
         },
 
         playTrailer: function() {
