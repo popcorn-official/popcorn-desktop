@@ -70,7 +70,7 @@
 
             // Stream events
             App.vent.on('stream:started', _.bind(this.streamStarted, this));
-            App.vent.on('stream:ready', _.bind(this.showPlayer, this));
+            App.vent.on('stream:ready', _.bind(this.streamReady, this));
             App.vent.on('player:close', _.bind(this.showViews, this));
             App.vent.on('player:close', _.bind(this.Player.close, this.Player));
         },
@@ -239,6 +239,15 @@
             }));
         },
 
+        streamReady: function(streamModel) {
+            if (streamModel.device === 'airplay') {
+                if (App.Airplay.startAirplay(streamModel)) {
+                    return true;
+                }
+            }
+
+            return this.showPlayer(streamModel);
+        },
         showPlayer: function(streamModel) {
             console.log(streamModel);
             this.Player.show(new App.View.Player({

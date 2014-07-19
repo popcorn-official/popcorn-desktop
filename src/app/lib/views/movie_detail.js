@@ -13,7 +13,8 @@
         },
 
         events: {
-            'click #watch-now': 'startStreaming',
+            'click #watch-now': 'startWatching',
+            'click #airplay-now': 'startAirplay',
             'click #watch-trailer': 'playTrailer',
             'click .close-icon': 'closeDetails',
             'click #switch-hd-on': 'enableHD',
@@ -57,6 +58,20 @@
             win.info('Show movie detail (' + this.model.get('imdb') + ')');
             $('#header').css('opacity', '1');
             $('.filter-bar').css('opacity', '1');
+
+            App.vent.on('airplay:add', function() {
+                $('#airplay-now').show();
+            });
+
+            App.vent.on('airplay:rm', function() {
+                $('#airplay-now').hide();
+            });
+
+            if (App.Airplay.has()) {
+                $('#airplay-now').show();
+            } else {
+                $('#airplay-now').hide();
+            }
 
             var torrents = this.model.get('torrents');
             if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
@@ -124,7 +139,7 @@
             win.info('Subtitle: ' + this.subtitle_selected);
         },
 
-        startStreaming: function() {
+        startStreaming: function(device) {
             var torrentStart = new Backbone.Model({
                 imdb_id: this.model.get('imdb_id'),
                 torrent: this.model.get('torrents')[this.model.get('quality')].url,
@@ -134,12 +149,13 @@
                 title: this.model.get('title'),
                 quality: this.model.get('quality'),
                 type: 'movie',
+                device: device
             });
             this.unbindKeyboardShortcuts();
             App.vent.trigger('stream:start', torrentStart);
         },
 
-        toggleDropdown: function(e) {
+            toggleDropdown: function(e) {
             if ($('.sub-dropdown').is('.open')) {
                 this.closeDropdown(e);
                 return false;
@@ -161,6 +177,15 @@
             if (value) {
                 this.switchSubtitle(value);
             }
+        },
+
+        startWatching: function () {
+            this.startStreaming('local');
+        },
+
+        startAirplay: function () {
+            this.startStreaming('airplay');
+
         },
 
         playTrailer: function() {

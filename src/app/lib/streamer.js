@@ -284,6 +284,7 @@
                 si.set('title', url);
                 si.set('subtitle', {});
                 si.set('type', 'video/mp4');
+                si.set('device', model.get('device'));
 
                 // Test for Custom NW
                 //si.set('type', mime.lookup(url));
