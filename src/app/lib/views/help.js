@@ -6,7 +6,7 @@
         className: 'help',
         
         events: {
-            'click .close': 'closeHelp',
+            'click .close-icon': 'closeHelp',
         },
 
 

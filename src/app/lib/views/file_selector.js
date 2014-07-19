@@ -7,7 +7,7 @@
         className: 'file-selector',
 
         events: {
-            'click .close': 'closeSelector',
+            'click .close-icon': 'closeSelector',
             'click .file-item': 'startStreaming'
         },
 

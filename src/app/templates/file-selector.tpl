@@ -1,5 +1,5 @@
 <div class="file-selector-container">
-	<div class="close"></div>
+	<div class="fa fa-times close-icon"></div>
 
 	<div class="title"><%=i18n.__('Please select a file to play')%></div>
 	<div class="content">

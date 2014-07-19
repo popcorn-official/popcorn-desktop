@@ -13,7 +13,7 @@
 
 		events: {
 			'click .help': 'showHelp', 
-			'click .close': 'closeSettings',
+			'click .close-icon': 'closeSettings',
 			'change select,input': 'saveSetting',
 			'click .flush-bookmarks': 'flushBookmarks',
 			'click .flush-databases': 'flushAllDatabase',

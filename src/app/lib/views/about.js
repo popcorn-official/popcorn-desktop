@@ -10,7 +10,7 @@
         },
 
         events: {
-            'click .close': 'closeAbout',
+            'click .close-icon': 'closeAbout',
             'click .links': 'links'
         },
 

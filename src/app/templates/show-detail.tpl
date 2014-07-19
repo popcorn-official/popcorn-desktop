@@ -1,4 +1,4 @@
-<div class="tv-container-close"></div>
+<div class="fa fa-times close-icon"></div>
 <div class="tv-poster">
 	<div data-bgr="<%= images.fanart %>" class="tv-poster-background"><div class="tv-poster-overlay"></div></div>
 	<div data-bgr="<%= images.poster %>" class="tv-cover"></div>

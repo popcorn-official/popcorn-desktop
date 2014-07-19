@@ -17,7 +17,7 @@
         events: {
             'click .watched': 'toggleWatched',
             'click .startStreaming': 'startStreaming',
-            'click .tv-container-close': 'closeDetails',
+            'click .close-icon': 'closeDetails',
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
             'dblclick .tab-episode': 'dblclickEpisode',

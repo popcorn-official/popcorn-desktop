@@ -1,5 +1,5 @@
 <div class="about-container">
-	<div class="close"></div>
+	<div class="fa fa-times close-icon"></div>
 	<div class="overlay-content"></div>
 	<img class="icon-about" src="/src/app/images/icon.png">
 	<img class="icon-title" src="/src/app/images/icons/big-logo.png">

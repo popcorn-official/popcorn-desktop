@@ -1,5 +1,5 @@
 <div class="settings-container">
-	<div class="close"></div>
+	<div class="fa fa-times close-icon"></div>
 	<div class="sidebar">
 		<div class="title"><%= i18n.__("Settings") %></div>
 		<div class="user-interface"><%= i18n.__("User Interface") %></div>

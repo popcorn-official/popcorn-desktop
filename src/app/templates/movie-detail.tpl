@@ -7,7 +7,7 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
     <div data-bgr="<%= backdrop %>" class="backdrop"></div>
     <div class="backdrop-overlay"></div>
 
-<div class="close"></div>
+<div class="fa fa-times close-icon"></div>
 
 
     <div class="container">
