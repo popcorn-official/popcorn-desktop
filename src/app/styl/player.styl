@@ -182,15 +182,18 @@
         z-index: 20
 
     .close-info-player
-        background: url(../images/Close.png)
-        width: 16px
-        height: 16px
+        top: -1px
+        right: 18px
         position: absolute
-        right: 15px
-        top:1px
+        color: #fff
+        font-size: 2em
+        font-smoothing: antialiased
+        transition all .5s
+        
+        &:hover
+          cursor: pointer
+          color: #a3a5a7
 
-    .close-info-player:hover
-        cursor: pointer
 
     .quality-info-player
         position: absolute
@@ -207,9 +210,12 @@
         top: -1px
         right: 55px
         z-index 4
+        transition all .5s
 
         &:hover
           cursor: pointer
+          color: #a3a5a7
+          
 
     .eye-info-player:hover + .details-info-player
         display: block
