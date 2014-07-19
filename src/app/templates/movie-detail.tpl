@@ -36,7 +36,7 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
                 <% }; %>
 
             </div>
-            <div data-toggle="tooltip" data-placement="left" title="Health <%= health %>" class="health-icon <%= health %>"></div>
+            <div data-toggle="tooltip" data-placement="left" title="Health <%= health %>" class="fa fa-bolt health-icon <%= health %>"></div>
 
         </div>
 
