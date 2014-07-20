@@ -83,21 +83,21 @@
             background: url(../images/icons/imdb.png) no-repeat
         }
         .star-container {
-            height: 16px
+            width: auto
             float: left
             top: -5px
             position: relative
             .star {
                 z-index: 2
-                margin-right: 3px
-                color: #ffc900
-                font-size: 11px
+                fill: #ffc900
+            }
+            .star-half {
+                z-index: 2
+                fill: url('#svgHalf')
             }
             .star-empty {
                 z-index: 2
-                margin-right: 3px
-                color: #AAA
-                font-size: 11px
+                fill: #AAA
             }
         }
     }
