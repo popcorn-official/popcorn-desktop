@@ -85,19 +85,17 @@
         .star-container {
             width: auto
             float: left
-            top: -5px
+            top: -3px
             position: relative
+            z-index: 2
             .star {
-                z-index: 2
                 fill: #ffc900
             }
             .star-half {
-                z-index: 2
-                fill: url('#svgHalf')
+                fill: unquote('url(#svgHalf)')
             }
             .star-empty {
-                z-index: 2
-                fill: #AAA
+                fill: #aaa
             }
         }
     }
