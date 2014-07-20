@@ -14,3 +14,12 @@
 <div class="drop-indicator left"></div>
 <div class="drop-indicator bottom"></div>
 <div id="player"></div>
+
+<svg>
+    <defs>
+        <linearGradient id="svgHalf">
+              <stop offset="50%" stop-color="#ffc900" />
+              <stop offset="50%" stop-color="#aaa" />
+        </linearGradient>
+    </defs>
+</svg>

@@ -76,11 +76,3 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
                 </div>
             </div>
         </div>
-        <svg>
-            <defs>
-                <linearGradient id="svgHalf">
-                      <stop offset="50%" stop-color="#ffc900" />
-                      <stop offset="50%" stop-color="#aaa" />
-                </linearGradient>
-            </defs>
-        </svg>
