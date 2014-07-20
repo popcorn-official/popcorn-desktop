@@ -14,3 +14,14 @@
 <div class="drop-indicator left"></div>
 <div class="drop-indicator bottom"></div>
 <div id="player"></div>
+
+<div id="svg-gradients">
+    <svg>
+        <defs>
+            <linearGradient id="rating-half-gradient">
+                  <stop offset="50%" stop-color="#ffc900" />
+                  <stop offset="50%" stop-color="#a3a5a7" />
+            </linearGradient>
+        </defs>
+    </svg>
+</div>
