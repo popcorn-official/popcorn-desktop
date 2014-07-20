@@ -1,20 +1,17 @@
 body.has-notification
-	padding-top 40px
 	overflow hidden
 
 	#notification
-		z-index 10
 		position absolute
 		top TitleHeight
+		border-radius 0px 0px 3px 3px
 		height 40px
 		-webkit-user-select none   
-		opacity 1
+		opacity 0.95
 		overflow hidden
-		margin auto
 		left 0
 		right 0
-		opacity 1
-		z-index 9999
+		z-index 5000
 		font-size 13px
 		font-weight bold
 		line-height 27px
@@ -35,7 +32,7 @@ body.has-notification
 			color #fff
 
 			&:hover
-				color #000
+				color #a3a5a7
 
 		.btn.chnglog 
 			margin-right 5px
@@ -47,7 +44,7 @@ body.has-notification
 
 	#notification p
 		font-weight 100
-		line-height: normal;
+		line-height: 20px
 
 	#notification.blue 
 		background #3498DB !important
