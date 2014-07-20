@@ -19,7 +19,7 @@
     <defs>
         <linearGradient id="svgHalf">
               <stop offset="50%" stop-color="#ffc900" />
-              <stop offset="50%" stop-color="#aaa" />
+              <stop offset="50%" stop-color="#a3a5a7" />
         </linearGradient>
     </defs>
 </svg>
