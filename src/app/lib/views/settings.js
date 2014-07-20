@@ -211,6 +211,7 @@
 			Database.resetSettings(function(err, setting) {
 
 				that.alertMessageSuccess(true);
+				AdvSettings.set('disclaimerAccepted', 1);
 
 			});
 		},
