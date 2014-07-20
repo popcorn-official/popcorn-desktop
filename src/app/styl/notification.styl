@@ -3,43 +3,50 @@ body.has-notification
 
 	#notification
 		position absolute
-		top TitleHeight
-		border-radius 0px 0px 3px 3px
-		height 40px
-		-webkit-user-select none   
-		opacity 0.95
-		overflow hidden
-		left 0
-		right 0
+		top 60px
+		border-radius 3px
+		height auto
+		min-width 300px
+		-webkit-user-select none
+		opacity 0.9
+		right 60px
 		z-index 5000
 		font-size 13px
 		font-weight bold
+		text-align center
 		line-height 27px
 		padding 9px 15px
-		background #dbb756
 		color #fff
-		border 1px solid #000
-		border-top none
+		border 1px solid rgba(0,0,0,.7)
+		transition all .5s
+        
+		&:hover
+			opacity 1
 
 		.btn-grp 
-			position absolute
-			top 3px
-			right 15px
+			position relative
+			top 6px
+			padding-bottom 6px
+			margin-right auto
+			margin-left auto
 
 		.btn
-			background-image none
 			background rgba(0, 0, 0, 0.4)
 			color #fff
+			transition all .5s
 
 			&:hover
-				color #a3a5a7
+				background rgba(0,0,0,0.6)
+                
+			&:active
+				box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+				box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+				background rgba(0,0,0,0.7)
 
 		.btn.chnglog 
 			margin-right 5px
 
 	#notification h1
-		float left
-		padding 0px 15px 0 0px
 		font-size 20px
 
 	#notification p
@@ -47,16 +54,16 @@ body.has-notification
 		line-height: 20px
 
 	#notification.blue 
-		background #3498DB !important
+		background #3498DB
 
 	#notification.green
-		background #27AE60 !important
+		background #27AE60
 
 	#notification.yellow 
-		background #dbb756 !important
+		background #dbb756
 
 	#notification.orange 
-		background #f07f53 !important
+		background #f07f53
 
 	#notification.red 
-		background #f15153 !important
+		background #f15153
