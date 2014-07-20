@@ -21,8 +21,8 @@
         "frame": false,
         "width": 1100,
         "height": 618,
-        "min_width": 990,
-        "min_height": 556,
+        "min_width": 960,
+        "min_height": 520,
         "resizable": true,
         "show": false,
         "position": "center"

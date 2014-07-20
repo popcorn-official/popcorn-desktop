@@ -84,6 +84,7 @@
 						<td><span class="key enter"><%= i18n.__("enter") %></span>/<span class="key spacebar"><%= i18n.__("space") %></span></td></td>
 						<td><%= i18n.__("Play Movie") %></td>
 					</tr>
+                    <tr><th></th><td></td></tr><!-- this empty entry is for small screens -->
 				</tbody>
 			</table>
 			<table class="keyboard-table last">

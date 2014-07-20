@@ -148,7 +148,7 @@
 	"Username": "Nom d'utilisateur ",
 	"Password": "Mot de passe ",
 	"Popcorn Time stores an encrypted hash of your password in your local database": "Popcorn Time conserve une empreinte chiffrée du mot de passe dans votre base de données locale",
-	"Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time": "Entrez vos identifiants Trakt.tv pour 'scrobbler' automatiquement les épisodes que vous regardez avec Popcorn Time",
+	"Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time": "Entrez vos identifiants Trakt.tv pour 'scrobbler' automatiquement les épisodes regardés avec Popcorn Time",
 	"Test Login": "Tester l'identification",
 	"Testing...": "Test en cours…",
 	"Success!": "Réussi !",
