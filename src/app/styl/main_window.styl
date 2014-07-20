@@ -84,7 +84,17 @@ body,
     &:hover
         color #fff
         transition all .5s
-        
-.star { fill: #ffc900 }
-.star-half { fill: unquote('url(#svgHalf)') }
-.star-empty { fill: #a3a5a7 }
+
+#svg-gradients
+    z-index -999
+    width 0px
+    height 0px
+
+.star
+    fill #ffc900
+    
+.star-half
+    fill unquote('url(#rating-half-gradient)')
+    
+.star-empty
+    fill #a3a5a7
