@@ -101,6 +101,7 @@
 	"Health Good": "Bonne santé",
 	"Health Medium": "Moyenne santé",
 	"Health Bad": "Mauvaise santé",
+	"Health false": "Santé - erreur",
 	"Status: Checking Database...": "Statut : Vérification de la base de données…",
 	"Status: Creating Database...": "Statut : Création de la base de données…",
 	"Status: Updating database...": "Statut : Mise à jour de la base de données…",
