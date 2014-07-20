@@ -174,7 +174,7 @@
 				text-transform uppercase
 
 			.disclaimer-text
-				font-size 15px
+				font-size 14px
 				margin 20px
 				overflow auto
 				height 60%
@@ -184,6 +184,17 @@
 				padding 7px
 				scrollable()
 				text-transform uppercase
+				text-align justify
+                
+				h2
+					padding-top 16px
+					padding-bottom 8px
+					font-size 16px
+					font-weight 700
+
+				p
+					padding-right 5px
+					line-height 16px
 
 			.btn-accept
 				display inline-block
@@ -208,9 +219,11 @@
 				text-decoration none
 
 				&:hover
-					color #FFF
 					background-color #47A447
 					border-color #398439
+                    
+				&:active
+					box-shadow: inset 0 1px 2px rgba(0,0,0,0.6)
 
 			.btn-close
 				display inline-block
@@ -238,3 +251,6 @@
 					color #FFF
 					background-color #D2322D
 					border-color #AC2925
+                    
+				&:active
+					box-shadow: inset 0 1px 2px rgba(0,0,0,0.6)
