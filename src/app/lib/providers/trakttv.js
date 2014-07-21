@@ -494,6 +494,12 @@
                     return false;
                 }
             });
+        },
+        getWatched: function() {
+            return this.call(['user/library/shows/watched.json', '{KEY}', this._credentials.username])
+            .then(function(data) {
+                return data;
+            });
         }
     };
 

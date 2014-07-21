@@ -242,6 +242,10 @@ var Database = {
         }, cb);
     },
 
+    markEpisodesWatched: function(data, cb) {
+        db.watched.insert(data, cb);
+    },
+
     markEpisodeAsNotWatched: function (data, trakt, cb) {
         if(!cb) {
             if(typeof trakt === 'function') {

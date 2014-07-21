@@ -25,6 +25,7 @@
 			'keyup #traktPassword': 'checkTraktLogin',
 			'click #unauthTrakt': 'disconnectTrakt',
 			'change #tmpLocation': 'updateCacheDirectory',
+			'click #syncTrakt': 'syncTrakt'
 		},
 
 		onShow: function() {
@@ -323,6 +324,42 @@
 					$el.hide();
 				}, 2000);
 			}
+		},
+
+		syncTrakt: function() {
+			$('#syncTrakt').text(i18n.__('Syncing...')).addClass('disabled').prop('disabled', true);
+			App.Trakt.show.getWatched().then(function(data) {
+				if(data) {
+					var watched = [];
+					var show;
+					var season;
+					for(var d in data) {
+						show = data[d];
+						for(var s in show.seasons) {
+							season = show.seasons[s];
+							for(var e in season.episodes) {
+								watched.push({
+									show_id: show.tvdb_id.toString(),
+									season: season.season.toString(),
+									episode: season.episodes[e].toString(),
+									type: 'episode',
+									date: new Date()
+								});
+							}
+						}
+					}
+				}
+				Database.markEpisodesWatched(watched, function(err, data) {
+					if(err) {
+						win.error(err);
+						$('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red');
+					}
+					else {
+						win.info(data.length + ' episodes marked watched');
+						$('#syncTrakt').text(i18n.__('Done')).removeClass('disabled').addClass('green');
+					}
+				})
+			})
 		}
 	});
 
