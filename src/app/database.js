@@ -147,6 +147,10 @@ var Database = {
         }, cb);
     },
 
+    markMoviesWatched: function(data, cb) {
+        db.watched.insert(data, cb);
+    },
+
     markMovieAsWatched: function (data, trakt, cb) {
         if(!cb) {
             if(typeof trakt === 'function') {
