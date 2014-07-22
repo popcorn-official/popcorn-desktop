@@ -193,5 +193,8 @@
 	"ctrl": "ctrl",
 	"enter": "entrée",
 	"esc": "esc",
-	"Keyboard Shortcuts": "Raccourcis clavier"
+	"Keyboard Shortcuts": "Raccourcis clavier",
+	"Sync With Trakt": "Synchroniser avec Trakt",
+	"Syncing...": "Synchronisation...",
+	"Done": "Fait"
 }
