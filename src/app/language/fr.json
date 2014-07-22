@@ -194,7 +194,8 @@
 	"enter": "entrée",
 	"esc": "esc",
 	"Keyboard Shortcuts": "Raccourcis clavier",
-	"Sync With Trakt": "Synchroniser avec Trakt",
+	"Sync With Trakt": "Sync. avec Trakt",
 	"Syncing...": "Synchronisation...",
-	"Done": "Fait"
+	"Done": "Terminé",
+	"Error": "Erreur"
 }
