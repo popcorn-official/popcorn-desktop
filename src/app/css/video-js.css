@@ -175,6 +175,10 @@ fonts to show/hide properly.
     height: 14px;
     margin-left: 16px;
 }
+.vjs-popcorn-skin .vjs-play-control:hover {
+    transition: all .5s;
+    -webkit-filter: brightness(0.70);
+}
 .vjs-popcorn-skin .vjs-play-control:before {
     position: relative;
     content: url('../images/icons/Player/Play.png');
@@ -216,9 +220,10 @@ fonts to show/hide properly.
     width: 20px;
     margin-right: 10px;
 }
-
-
-
+.vjs-popcorn-skin .vjs-mute-control:hover {
+    transition: all .5s;
+    -webkit-filter: brightness(0.70);
+}
 .vjs-popcorn-skin .vjs-mute-control:before,
 .vjs-popcorn-skin .vjs-volume-menu-button:before {
     position: relative;
@@ -274,6 +279,7 @@ fonts to show/hide properly.
 .vjs-popcorn-skin .vjs-volume-handle:before {
     content: url('../images/icons/Player/Marker.png');
 }
+
 .vjs-popcorn-skin .vjs-volume-menu-button .vjs-menu .vjs-menu-content {}
 /* Progress
 --------------------------------------------------------------------------------
@@ -435,6 +441,10 @@ fonts to show/hide properly.
     float: right;
     width: 16px;
     height: 16px;
+}
+.vjs-popcorn-skin .vjs-fullscreen-control:hover {
+    transition: all .5s;
+    -webkit-filter: brightness(0.70);
 }
 .vjs-popcorn-skin .vjs-fullscreen-control:before {
     content: url('../images/icons/Player/Fullscreen.png');
@@ -708,6 +718,10 @@ easily in the skin designer. http://designer.videojs.com/
     height: 11px;
     width: 12px;
 }
+.vjs-popcorn-skin .vjs_smallersub_button.vjs-control:hover {
+    transition: all .5s;
+    -webkit-filter: brightness(0.70);
+}
 
 .vjs-popcorn-skin .vjs_biggersub_button.vjs-control {
     background: url(../images/icons/Player/fontup.png);
@@ -719,6 +733,10 @@ easily in the skin designer. http://designer.videojs.com/
     margin-right: 12px;
     height: 11px;
     width: 12px;
+}
+.vjs-popcorn-skin .vjs_biggersub_button.vjs-control:hover {
+    transition: all .5s;
+    -webkit-filter: brightness(0.70);
 }
 /* Button Pop-up Menu */
 
@@ -789,7 +807,7 @@ easily in the skin designer. http://designer.videojs.com/
 .vjs-popcorn-skin .vjs-menu-button ul li:hover,
 .vjs-popcorn-skin .vjs-menu-button ul li.vjs-selected:focus,
 .vjs-popcorn-skin .vjs-menu-button ul li.vjs-selected:hover {
-color: #2d75df;
+    color: #2d75df;
 }
 .vjs-popcorn-skin .vjs-menu-button ul li.vjs-menu-title {
     text-align: center;
@@ -805,6 +823,10 @@ color: #2d75df;
 
 .vjs-popcorn-skin .vjs-subtitles-button:before {
     content: url('../images/icons/Player/Subtitles.png');
+}
+.vjs-popcorn-skin .vjs-subtitles-button:hover:before {
+    transition: all .5s;
+    -webkit-filter: brightness(0.70);
 }
 /* Captions Button */
 
