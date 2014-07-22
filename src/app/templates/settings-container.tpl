@@ -107,8 +107,8 @@
 				<br><br>
 				<p><%= i18n.__("Password") + ":" %></p> <input type="password" size="50" id="traktPassword" name="traktPassword">
 				<br><br>
+				<aside><em><%= i18n.__("Popcorn Time stores an encrypted hash of your password in your local database") %></em></aside>
 			<% } %>
-			<aside><em><%= i18n.__("Popcorn Time stores an encrypted hash of your password in your local database") %></em></aside>
 		</div>
 
 		<div class="more-options">
