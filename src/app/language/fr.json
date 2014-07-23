@@ -197,5 +197,8 @@
 	"Sync With Trakt": "Sync. avec Trakt",
 	"Syncing...": "Synchronisation...",
 	"Done": "Terminé",
-	"Error": "Erreur"
+	"Error": "Erreur",
+	"Cut": "Couper",
+	"Copy": "Copier",
+	"Paste": "Coller"
 }
