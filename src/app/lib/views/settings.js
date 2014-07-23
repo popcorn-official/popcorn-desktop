@@ -12,7 +12,7 @@
 		},
 
 		events: {
-			'click .help': 'showHelp', 
+			'click .help': 'showHelp',
 			'click .close-icon': 'closeSettings',
 			'change select,input': 'saveSetting',
 			'click .flush-bookmarks': 'flushBookmarks',
@@ -43,6 +43,7 @@
 				App.vent.trigger('movie:closeDetail');
 			});
 			$('.filter-bar').show();
+			$('#header').css('box-shadow', 'none');
 			$('#movie-detail').show();
 		},
 		showCover: function() {},
@@ -50,7 +51,7 @@
 		closeSettings: function() {
 			App.vent.trigger('settings:close');
 		},
-        
+
 		showHelp: function() {
 			App.vent.trigger('help:toggle');
 		},
@@ -329,15 +330,15 @@
 		syncTrakt: function() {
 			$('#syncTrakt').text(i18n.__('Syncing...')).addClass('disabled').prop('disabled', true);
 			App.Trakt.show.getWatched().then(function(data) {
-				if(data) {
+				if (data) {
 					var watched = [];
 					var show;
 					var season;
-					for(var d in data) {
+					for (var d in data) {
 						show = data[d];
-						for(var s in show.seasons) {
+						for (var s in show.seasons) {
 							season = show.seasons[s];
-							for(var e in season.episodes) {
+							for (var e in season.episodes) {
 								watched.push({
 									show_id: show.tvdb_id.toString(),
 									season: season.season.toString(),
@@ -350,17 +351,17 @@
 					}
 				}
 				Database.markEpisodesWatched(watched, function(err, data) {
-					if(err) {
+					if (err) {
 						win.error(err);
 						$('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red');
 						return;
 					}
 					win.info(data.length + ' episodes marked watched');
 					App.Trakt.movie.getWatched().then(function(data) {
-						if(data) {
+						if (data) {
 							var movie;
 							watched = [];
-							for(var m in data) {
+							for (var m in data) {
 								movie = data[m];
 								watched.push({
 									movie_id: movie.imdb_id.toString(),
@@ -370,8 +371,9 @@
 							}
 							console.log(watched);
 							Database.markMoviesWatched(watched, function(err, data) {
-								if(err) {
-									win.error(err);$('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red');
+								if (err) {
+									win.error(err);
+									$('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red');
 									return;
 								}
 								win.info(data.length + ' movies marked watched');
@@ -380,8 +382,7 @@
 									return;
 								})
 							})
-						}
-						else {
+						} else {
 							$('#syncTrakt').text(i18n.__('Done')).removeClass('disabled').addClass('green');
 						}
 
