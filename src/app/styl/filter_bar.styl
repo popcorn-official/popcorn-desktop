@@ -116,24 +116,24 @@
 				&:hover
 					color NavBarTextHover
 					
-					
 				&:focus
 					padding-left 25px
 					width: 130px;
-					color: NavBarText;
-					background rgba(141, 141, 141, 0.1)
+					color: NavBarTextHover
+					background-color: SearchBox
 					cursor: auto;
+					opacity: 1
 					&:before
 						color: ButtonActive
 
 				&::-moz-placeholder,
 				&::-webkit-input-placeholder
-					color: transparent;
+					color: transparent
 
 				&:focus::-webkit-input-placeholder
-					color: NavBarText;
+					color: NavBarText
 
-	.remove-search{
+	.remove-search {
 		position absolute
 		right 31px
 		text-align right
