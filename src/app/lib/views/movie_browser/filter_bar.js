@@ -1,5 +1,6 @@
 (function(App) {
     'use strict';
+    var clipboard = gui.Clipboard.get();
 
     App.View.FilterBar = Backbone.Marionette.ItemView.extend({
         className: 'filter-bar',
@@ -16,6 +17,7 @@
         events: {
             'hover  @ui.searchInput': 'focus',
             'submit @ui.searchForm': 'search',
+            'contextmenu @ui.searchInput': 'rightclick_search',
             'click  @ui.searchClose': 'removeSearch',
             'click  @ui.search': 'focusSearch',
             'click .sorters .dropdown-menu a': 'sortBy',
@@ -31,16 +33,51 @@
         focus: function(e) {
             e.focus();
         },
+        rightclick_search: function(e) {
+            e.preventDefault();
+            var search_menu = new this.context_Menu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'));
+            search_menu.popup(e.originalEvent.x, e.originalEvent.y);
+        },
 
+        context_Menu: function(cutLabel, copyLabel, pasteLabel) {
+            var gui = require('nw.gui'),
+                menu = new gui.Menu()
+
+            , cut = new gui.MenuItem({
+                label: cutLabel || "Cut",
+                click: function() {
+                    document.execCommand("cut");
+                }
+            })
+
+            , copy = new gui.MenuItem({
+                label: copyLabel || "Copy",
+                click: function() {
+                    document.execCommand("copy");
+                }
+            })
+
+            , paste = new gui.MenuItem({
+                label: pasteLabel || "Paste",
+                click: function() {
+                    var text = clipboard.get('text');
+                    $('#searchbox').val(text);
+                }
+            });
+
+            menu.append(cut);
+            menu.append(copy);
+            menu.append(paste);
+
+            return menu;
+        },
         onShow: function() {
             this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
             this.$('.genres  .dropdown-menu a:nth(0)').addClass('active');
-
         },
 
         focusSearch: function() {
             this.$('.search input').focus();
-
         },
 
         search: function(e) {
