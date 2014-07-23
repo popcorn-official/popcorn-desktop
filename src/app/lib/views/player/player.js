@@ -86,7 +86,7 @@
             // Test to make sure we have title
             win.info('Watching:', this.model.get('title'));
             var _this = this;
-
+            $('#header').css('box-shadow', 'none');
             $('.player-header-background').canDragWindow();
             $('#video_player').canDragWindow();
             // Double Click to toggle Fullscreen
