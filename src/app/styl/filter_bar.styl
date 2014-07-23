@@ -1,9 +1,9 @@
 .filter-bar
 	z-index: 10
 	width: 100%
-	opacity: .97
+	opacity: 1
 	height: 35px
-	background-color: #17181b
+	background-color: BgColor1
 	-webkit-user-select: none;
 
 .filter-bar
@@ -15,17 +15,17 @@
 	.source
 		box-sizing: content-box
 		-webkit-app-region: no-drag
-		color: #c3c5c7
+		color: TextColor2
 		text-align: center
 		cursor: pointer
 		height: 20px
 		padding: 10px 15px 0 18px
 
 		&:hover
-			color: white
+			color: TextColor1
 
 		&.active
-			border-bottom: 4px solid #2d75df
+			border-bottom: 4px solid ButtonActive
 
 	.nav.filters
 		float: left
@@ -42,13 +42,13 @@
 			-webkit-app-region: no-drag
 			display: inline-block
 			padding: 0
-			color: #c3c5c7
+			color: TextColor2
 			background-color: transparent !important
 
 			&:hover
-				color: white
+				color: TextColor1
 		.value
-			color: #2d75df
+			color: ButtonActive
 			padding-left: 10px
 
 		.dropdown-menu
@@ -63,17 +63,17 @@
 	i
 		transition: color 0.5s;
 		margin: 10px 5px 0;
-		color: #a3a7ab;
+		color: TextColor3;
 		font-size: 1.5em;
 		&:hover
-			color: #2d75df
+			color: ButtonActive
 			cursor: pointer
 
 		&.active
 			&.favorites
-				color: #df2d37
+				color: FavoritesColor
 			&.about
-				color: #2d75df
+				color: ButtonActive
 
 	.search
 		form		
@@ -82,7 +82,7 @@
 				font-family: FontAwesome
 				font-style: normal
 				transition color 0.5s
-				color: #a3a7ab
+				color: TextColor3
 				position: absolute;
 				top:11px;
 				left: 7px;
@@ -91,7 +91,7 @@
 			&:hover
 				cursor: pointer
 				&:before
-					color: #2d75df
+					color: ButtonActive
 
 			input
 				line-height normal
@@ -101,7 +101,7 @@
 				width 0px
 				height 18px
 				position relative
-				background #17181b no-repeat right center
+				background BgColor1 no-repeat right center
 				background-position right 3px center
 				border solid 0px
 				margin 8px 3px 0
@@ -114,36 +114,36 @@
 				transition width 0.5s
 
 				&:hover
-					color white
+					color TextColor1
 					
 					
 				&:focus
 					padding-left 25px
 					width: 130px;
-					color: #c4c6c8;
-					background-color: #0e0e0f;
+					color: TextColor2;
+					background rgba(141, 141, 141, 0.1)
 					cursor: auto;
 					&:before
-						color: #2d75df
+						color: ButtonActive
 
 				&::-moz-placeholder,
 				&::-webkit-input-placeholder
 					color: transparent;
 
 				&:focus::-webkit-input-placeholder
-					color: #c4c6c8;
+					color: TextColor2;
 
 	.remove-search{
 		position absolute
 		right 31px
 		text-align right
-		color #c3c5c7
+		color TextColor2
 		top 12px
 		font-size 12px
 		display none
 		transition all 0.3s
 		&:hover{
-			color #615D5D
+			color TextColor3
 		}
 	}
 	.text-search{
@@ -160,14 +160,14 @@
 		background rgba(141, 141, 141, 0.1)
 		&::before{
 			content "x"
-			background #888A8A
+			background TextColor3
 			padding 0 6px 1px
 			margin-right 6px
-			color #17181b
+			color BgColor1
 			font-weight 900
 		}
 		&:hover::before{
 			content "x"
-			background #2d75df
+			background ButtonActive
 		}
 	}

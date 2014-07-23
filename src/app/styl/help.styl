@@ -10,11 +10,13 @@
         height 100%
         width 100%
         position absolute
-        background rgba(0, 0, 0, 0.9)
+        background BgColor1
+        opacity 0.95
         z-index -1
 
     h1 
-        font-weight: bold;
+        font-family MainFontBold
+        font-size 17px
 
         & + hr 
             margin-top: 10px;
@@ -25,10 +27,9 @@
         margin 0 auto
         margin-top 80px
         width 80%
-        color #fff
-        font-weight 100
-        font-family sans-serif
-        font-size 17px
+        color TextColor1
+        font-family MainFont
+        font-size 15px
 
         .text-about 
             margin-top 55px
@@ -60,10 +61,10 @@
 
         th 
             padding-top: 25px;
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 16px;
+            font-family MainFontBold
             line-height: 1.5;
-            color: darken(#fff, 10%);
+            color: darken(TextColor1, 10%);
             text-align: left;
 
 
@@ -194,4 +195,3 @@
 
         &.arrow 
             font-size: 14px;
-

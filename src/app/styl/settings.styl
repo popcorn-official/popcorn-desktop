@@ -1,5 +1,5 @@
 .settings-container-contain
-	background-color #17181b
+	background-color BgColor1
 	height 100%
 	width calc(100% - 5px)
 	position fixed
@@ -17,7 +17,7 @@
 	width 100%
 	height auto
 	position absolute
-	background-color #17181b
+	background-color BgColor1
 	-webkit-user-select none
 	padding-bottom 20px
 
@@ -28,18 +28,18 @@
 		padding-right 30px
 		width 200px
 		height 100%
-		border-right solid #3a3b3e 1px
+		border-right solid lighten(#17181b,20%) 1px
 
 		div
 			position relative
 			text-align right
-			color #2d75df
-			font-family "Open Sans", sans-serif
+			color ButtonActive
+			font-family Font, AlternateFont
 			font-size 17px
 
 		.title
 			position relative
-			color #fff
+			color TextColor1
 			font-size 22px
 
 		.user-interface
@@ -76,26 +76,26 @@
 		padding-top: 45px;
 		width calc(100% - 253px)
 		height 100%
-		color #c3c5c7
-		font-family "Open Sans", sans-serif
+		color TextColor2
+		font-family Font, AlternateFont
 		font-size 13px
 
 		.help
 			position: absolute;
 			top: 5px;
 			font-size: 21px
-			color: #a3a5a7
+			color: TextColor3
 			cursor pointer
 			z-index 100
 			transition all .5s
 
 			&:hover
-				color: #fff
+				color: TextColor1
 				transition all .5s
 
 		p
-			color #c3c5c7
-			font-family "Open Sans", sans-serif
+			color TextColor2
+			font-family Font, AlternateFont
 			font-size 13px
 			float left
 			margin-top 9px
@@ -107,17 +107,17 @@
 			padding-left 10px
 			height 29px
 			line-height 25px
-			border 0px solid #393b3d
-			background-color #393b3d
+			border 0px solid InputBox
+			background-color InputBox
 			resize none
-			color #c3c5c7
-			font-family "Open Sans", sans-serif
+			color TextColor2
+			font-family Font, AlternateFont
 			font-size 13px
 			cursor text
 			outline 0
             
 		em
-			color #838587
+			color TextColor3
 			font-size 12px
 			
 		.btns
@@ -132,23 +132,23 @@
 			margin-right 20px
 			border-radius 3px
 			height 35px
-			background-color #1f375f
+			background-color Button
 			text-align center
-			color #e3e5e7
-			font-family "Open Sans", sans-serif
+			color TextButton
+			font-family Font, AlternateFont
 			font-size 13px
 			line-height 34px
 			cursor pointer
 			transition background-color .5s
 			&:hover
-				background-color #225694
+				background-color ButtonHover
 				text-decoration none
 			&.disabled
-				background-color #393b3d
+				background-color ButtonInactive
 				&:hover
-					background-color #223547
+					background-color ButtonInactiveHover
 				&:active
-					background-color #223547
+					background-color ButtonInactiveHover
 
 			&.green
 				background-color #27AE60
@@ -156,12 +156,10 @@
 				background-color #F15153
 			&:active
 				box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-				box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-				background: #2875e5
-				border: solid -2px #2468cc
+				background: ButtonActive
 
 		.user-interface
-			border-bottom solid #3a3b3e 1px
+			border-bottom solid lighten(#17181b,20%) 1px
 			margin-right 30px
 			overflow hidden
 			padding-bottom 25px
@@ -169,19 +167,19 @@
 		.quality-options
 			height 100px
 			padding-top 20px
-			border-bottom solid #3a3b3e 1px
+			border-bottom solid lighten(#17181b,20%) 1px
 			margin-right 30px
 
 		.subtitles-options
 			height 75px
 			padding-top 20px
-			border-bottom solid #3a3b3e 1px
+			border-bottom solid lighten(#17181b,20%) 1px
 			margin-right 30px
 
 		.trakt-options
 			height 160px
 			padding-top 20px
-			border-bottom solid #3a3b3e 1px
+			border-bottom solid lighten(#17181b,20%) 1px
 			margin-right 30px
 
 			&.authenticated
@@ -190,7 +188,7 @@
 		.more-options
 			height 70px
 			padding-top 20px
-			border-bottom solid #3a3b3e 1px
+			border-bottom solid lighten(#17181b,20%) 1px
 			margin-right 30px
 
 		.advanced-settings
@@ -220,10 +218,10 @@ input[type=checkbox]
 		background-repeat:no-repeat;
 		background-position: 0 0;
 		font-size:13px;
-		font-family: "Open Sans", sans-serif;
+		font-family: Font, AlternateFont;
 		vertical-align:middle;
 		cursor:pointer;
-		color:#c3c5c7
+		color:TextColor2
 
 	&.settings-checkbox:checked+label.settings-label
 		background-position: 0 -15px;
@@ -244,7 +242,7 @@ input[type=checkbox]
 		height 14px
 		border-radius 3px
 		background-clip padding-box
-		background-color #393b3d
+		background-color InputBox
 
 		&:after
 			opacity 0
@@ -255,7 +253,7 @@ input[type=checkbox]
 			background transparent
 			top 2px
 			left 2px
-			border 3px solid #2d75df
+			border 3px solid ButtonActive
 			border-top none
 			border-right none
 			transform rotate(-45deg)
@@ -265,8 +263,8 @@ input[type=checkbox]
 				opacity 1
 
 .checkbox-text
-	font-family "Open Sans", sans-serif
-	color #c3c5c7
+	font-family Font, AlternateFont
+	color TextColor2
 	font-size 13px
 	margin-left 20px
 	width 400px
@@ -277,7 +275,7 @@ input[type=checkbox]
 	transition: all .5s;
 	&:hover
 		cursor: pointer;
-		color: #2875e5;
+		color: ButtonActive;
 		transition: all .5s;
 
 #faketmpLocation
@@ -292,10 +290,10 @@ input[type=checkbox]
 		border 0 !important
 		-webkit-appearance none
 		height 30px
-		background-color #393b3d
+		background-color InputBox
 		cursor pointer
-		color #c3c5c7
-		font-family "Open Sans", sans-serif
+		color TextColor2
+		font-family Font, AlternateFont
 		font-size 13px
 		float left
 		outline 0
@@ -303,12 +301,12 @@ input[type=checkbox]
 		padding-right 15px
 
 	option
-		background #393b3d
+		background InputBox
 		border 0 !important
 		outline 0
 	p
-		color #c3c5c7
-		font-family "Open Sans", sans-serif
+		color TextColor2
+		font-family Font, AlternateFont
 		font-size 13px
 		float left
 		margin-top 9px
@@ -345,7 +343,7 @@ input[type=checkbox]
 	height 0
 	border-left 4px solid transparent
 	border-right 4px solid transparent
-	border-top 5px solid #c4c6c8
+	border-top 5px solid TextColor2
 	top 13px
 	margin-left -13px
 	position relative
@@ -358,11 +356,11 @@ input[type=checkbox]
 	position relative
 	width 56px
 	height 29px
-	border 0px solid #393b3d
-	background-color #393b3d
+	border 0px solid InputBox
+	background-color InputBox
 	resize none
-	color #c3c5c7
-	font-family "Open Sans", sans-serif
+	color TextColor2
+	font-family Font, AlternateFont
 	font-size 13px
 	line-height 25px
 	padding-left 13px
@@ -373,8 +371,8 @@ input[type=checkbox]
 	position fixed
 	top 45px
 	right 20px
-	color #fff
-	font-family "Open Sans Semibold", sans-serif
+	color TextColor1
+	font-family MainFont, AlternateFont
 	font-size 16px
 
 #checkmark-notify
@@ -387,7 +385,7 @@ input[type=checkbox]
 	position absolute
 	width 3px
 	height 12px
-	background-color #ccc
+	background-color TextColor2
 	left 11px
 	top 6px
 
@@ -395,12 +393,12 @@ input[type=checkbox]
 	position absolute
 	width 6px
 	height 3px
-	background-color #ccc
+	background-color TextColor2
 	left 6px
 	top 15px
 
 hr
-	border-color #3a3b3e
+	border-color lighten(#17181b,20%)
 	height 1px
 
 @keyframes rotate-forever
@@ -416,6 +414,8 @@ hr
 
 	.unauthtext
 		margin-left 5px
+		color ButtonActive
+		&:hover{ color: ButtonHover; }
 
 	aside
 		margin-top 5px

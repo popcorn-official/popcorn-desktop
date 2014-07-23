@@ -12,12 +12,37 @@ FilterBarHeight = 35px
 HeaderHeight = 65px
 MovieListPadding = calc(100% - 67px)
 
-BackgroundColor = #17181b
-TextColor = #c3c5c7
-SecondaryTextColor = #a3a5a7
+//THEME Fallback - in case a variable is missing in theme
+BgColor1 = #17181b
+BgColor2 = #212225
+TextColor1 = #fff
+TextColor2 = #c3c5c7
+TextColor3 = #a3a5a7
+TextColor4 = #5b5b5b
+Font = 'Open Sans'
+MainFont = 'Open Sans Semibold'
+MainFontBold = 'Open Sans Bold'
+AlternateFont = sans-serif
+Button = #1f375f
+ButtonHover = #225694
+ButtonActive = #2468cc
+ButtonInactive = #737577
+ButtonInactiveHover = #223547
+TextButton = #fff
+FavoritesColor = #df2d37
+LoadingColor1 = #2187e7
+LoadingColor2 = rgba(0,183,229,0.9)
+ScrollBarBg = #30333c
+ScrollBarIndicator = #83888c
+ScrollBarIndicatorHover = #93989c
+InputBox = #393b3d
+ErrorText = #727272
+CloseButton = #a3a5a7
+CloseButtonHover = #fff
 
-HoverBackgroundColor = #0b131f
-HoverTextColor = white
+//Load Themes
+@require 'themes/light_official_theme'
+
 
 fadeicon(image, posx, posx2, size)
   width: size
@@ -75,3 +100,5 @@ fadeicon(image, posx, posx2, size)
 @import 'settings'
 @import 'loading'
 @import 'notification'
+
+@import 'themes/dark_official_theme'
