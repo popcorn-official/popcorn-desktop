@@ -70,6 +70,7 @@
             App.vent.trigger('stream:stop');
             App.vent.trigger('player:close');
             $('.filter-bar').show();
+            $('#header').css('box-shadow', 'none');
             Mousetrap.bind('esc', function(e) {
                 App.vent.trigger('show:closeDetail');
                 App.vent.trigger('movie:closeDetail');
