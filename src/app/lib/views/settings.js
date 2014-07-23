@@ -1,5 +1,6 @@
 (function(App) {
 	'use strict';
+	var clipboard = gui.Clipboard.get();
 
 	var Settings = Backbone.Marionette.ItemView.extend({
 		template: '#settings-container-tpl',
@@ -15,6 +16,7 @@
 			'click .help': 'showHelp',
 			'click .close-icon': 'closeSettings',
 			'change select,input': 'saveSetting',
+			'contextmenu input': 'rightclick_field',
 			'click .flush-bookmarks': 'flushBookmarks',
 			'click .flush-databases': 'flushAllDatabase',
 			'click .flush-subtitles': 'flushAllSubtitles',
@@ -36,7 +38,44 @@
 				App.vent.trigger('settings:close');
 			});
 		},
+		rightclick_field: function(e) {
+			e.preventDefault();
+			var menu = new this.context_Menu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'), e.target.id);
+			menu.popup(e.originalEvent.x, e.originalEvent.y);
+		},
 
+		context_Menu: function(cutLabel, copyLabel, pasteLabel, field) {
+			var gui = require('nw.gui'),
+				menu = new gui.Menu()
+
+			, cut = new gui.MenuItem({
+				label: cutLabel || "Cut",
+				click: function() {
+					document.execCommand("cut");
+				}
+			})
+
+			, copy = new gui.MenuItem({
+				label: copyLabel || "Copy",
+				click: function() {
+					document.execCommand("copy");
+				}
+			})
+
+			, paste = new gui.MenuItem({
+				label: pasteLabel || "Paste",
+				click: function() {
+					var text = clipboard.get('text');
+					$('#' + field).val(text);
+				}
+			});
+
+			menu.append(cut);
+			menu.append(copy);
+			menu.append(paste);
+
+			return menu;
+		},
 		onClose: function() {
 			Mousetrap.bind('backspace', function(e) {
 				App.vent.trigger('show:closeDetail');

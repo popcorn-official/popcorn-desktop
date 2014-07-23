@@ -111,16 +111,16 @@
 		</div>
 
 		<div class="more-options">
-			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input type="text" size="50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
+			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input id="tvshowApiEndpoint" type="text" size="50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
 		</div>
 		<div class="advanced-settings">
-			<p><%= i18n.__("Connection Limit") + ":" %></p> <input type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
+			<p><%= i18n.__("Connection Limit") + ":" %></p> <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
 			<br><br>
 
-			<p><%= i18n.__("DHT Limit") + ":" %></p> <input type="text" size="20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
+			<p><%= i18n.__("DHT Limit") + ":" %></p> <input type="text" id="dhtLimit" size="20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
 			<br><br>
 
-			<p><%= i18n.__("Port to stream on") + ":" %></p> <input type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/> <em><%= i18n.__("0 = Random") %></em>
+			<p><%= i18n.__("Port to stream on") + ":" %></p> <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/> <em><%= i18n.__("0 = Random") %></em>
 			<br><br>
 
 			<!-- Cache Directory -->
