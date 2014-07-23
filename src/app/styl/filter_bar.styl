@@ -3,7 +3,7 @@
 	width: 100%
 	opacity: 1
 	height: 35px
-	background-color: BgColor1
+	background-color: NavBarColor
 	-webkit-user-select: none;
 
 .filter-bar
@@ -15,14 +15,14 @@
 	.source
 		box-sizing: content-box
 		-webkit-app-region: no-drag
-		color: TextColor2
+		color: NavBarText
 		text-align: center
 		cursor: pointer
 		height: 20px
 		padding: 10px 15px 0 18px
 
 		&:hover
-			color: TextColor1
+			color: NavBarTextHover
 
 		&.active
 			border-bottom: 4px solid ButtonActive
@@ -42,11 +42,11 @@
 			-webkit-app-region: no-drag
 			display: inline-block
 			padding: 0
-			color: TextColor2
+			color: NavBarText
 			background-color: transparent !important
 
 			&:hover
-				color: TextColor1
+				color: NavBarTextHover
 		.value
 			color: ButtonActive
 			padding-left: 10px
@@ -63,7 +63,7 @@
 	i
 		transition: color 0.5s;
 		margin: 10px 5px 0;
-		color: TextColor3;
+		color: NavBarText;
 		font-size: 1.5em;
 		&:hover
 			color: ButtonActive
@@ -82,7 +82,7 @@
 				font-family: FontAwesome
 				font-style: normal
 				transition color 0.5s
-				color: TextColor3
+				color: NavBarText
 				position: absolute;
 				top:11px;
 				left: 7px;
@@ -101,7 +101,7 @@
 				width 0px
 				height 18px
 				position relative
-				background BgColor1 no-repeat right center
+				background NavBarColor no-repeat right center
 				background-position right 3px center
 				border solid 0px
 				margin 8px 3px 0
@@ -114,13 +114,13 @@
 				transition width 0.5s
 
 				&:hover
-					color TextColor1
+					color NavBarTextHover
 					
 					
 				&:focus
 					padding-left 25px
 					width: 130px;
-					color: TextColor2;
+					color: NavBarText;
 					background rgba(141, 141, 141, 0.1)
 					cursor: auto;
 					&:before
@@ -131,19 +131,19 @@
 					color: transparent;
 
 				&:focus::-webkit-input-placeholder
-					color: TextColor2;
+					color: NavBarText;
 
 	.remove-search{
 		position absolute
 		right 31px
 		text-align right
-		color TextColor2
+		color NavBarText
 		top 12px
 		font-size 12px
 		display none
 		transition all 0.3s
 		&:hover{
-			color TextColor3
+			color NavBarTextHover
 		}
 	}
 	.text-search{
@@ -160,10 +160,10 @@
 		background rgba(141, 141, 141, 0.1)
 		&::before{
 			content "x"
-			background TextColor3
+			background NavBarText
 			padding 0 6px 1px
 			margin-right 6px
-			color BgColor1
+			color NavBarColor
 			font-weight 900
 		}
 		&:hover::before{
