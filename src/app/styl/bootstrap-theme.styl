@@ -3,29 +3,27 @@
 
 .header_icon
     font-size: 20px
-    color: #93989c //add onhover color of 2d75df later
+    color: TextColor3 //add onhover color of #2468cc later
 
 ul.nav-hor > li
     float: left
 
 .dropdown-menu
-    background-color: BackgroundColor
+    background-color: BgColor1
 
     & > li > a
         transition: all 0.2s
-        color: TextColor
+        color: TextColor2
 
         &.active
-            color: HoverTextColor
-            background-color: HoverBackgroundColor
+            color: TextColor1
+            background-color: BgColor2
             background-image: none
-            border-left: 4px solid #83888c
+            border-left: 4px solid ButtonInactive
 
         &:focus,
         &:hover
-            color: HoverTextColor
-            background-color: HoverBackgroundColor
+            color: TextColor1
+            background-color: BgColor2
             background-image: none
-            border-left: 4px solid #2d75df
-
-
+            border-left: 4px solid ButtonActive

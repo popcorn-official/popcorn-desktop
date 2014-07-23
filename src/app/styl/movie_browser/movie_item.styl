@@ -38,10 +38,10 @@
 				-webkit-transition: color 0.5s
 
 				&.selected
-					color: #df2d37
+					color: FavoritesColor
 				&:hover
 					cursor: pointer
-					color: #2d75df
+					color: ButtonActive
 
 			.actions-watched
 				float: left
@@ -85,12 +85,12 @@
 	&.selected
 		.cover
 			.cover-overlay
-				border 2px solid #2d75df
+				border 2px solid ButtonActive
 				opacity: 1
 	.title
 		height: 14px;
 		margin: 6px 0 4px;
-		color: #fff
+		color: TextColor1
 		max-width: 134px
 		overflow: hidden
 		text-overflow: ellipsis
@@ -98,12 +98,12 @@
 
 	.year
 		font-size: 0.85em
-		color: #5b5b5b
+		color: TextColor4
 		display: inline
 
 	.seasons
 		font-size: 0.85em
-		color: #5b5b5b
+		color: TextColor4
 		display: inline
 		float: right
 		
@@ -121,7 +121,7 @@
 	display inline-block
 	margin 10px
 	float left
-	background-color:#141c25
+	background-color:BgColor1
 	-webkit-transition: background-color 200ms linear;
 
 	> .loading-container
@@ -131,22 +131,24 @@
 
 	.status-loadmore
 		position: absolute;
-		color: #c3c5c7;
+		color: TextButton;
 		margin-top: 80px;
 		margin-left: 10px;
 		margin-right: 10px;
 		padding-left: 15px;
 		padding-right: 15px;
-		background-color: #173b5b;
+		background-color: Button;
 		-webkit-box-shadow: 0px 0px 10px #000;
 		padding-bottom: 10px;
 		padding-top: 10px;
 		border-radius: 2px;
-		font-family: "Open Sans Semibold", sans-serif;
+		font-family: MainFont, AlternateFont;
 		-webkit-transition: background-color 200ms linear;
 		width: 100%;
 		max-width 113px
 		text-align center
 
 		&:hover
-			background-color:#1b4365
+			background-color:ButtonHover
+		&:active
+			background-color:ButtonActive

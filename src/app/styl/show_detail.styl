@@ -1,5 +1,5 @@
 .shows-container-contain
-	background-color #17181b
+	background-color BgColor1
 	height 100%
 	width 100%
 	position fixed
@@ -13,7 +13,7 @@
 	margin-top 65px
 	z-index 3
 	overflow hidden
-	background #17181b
+	background BgColor1
 
 	.tv-cover
 		position relative
@@ -62,7 +62,7 @@
 		height 3px
 		border-radius 2px
 		background-clip padding-box
-		background-color #dbdbdd
+		background-color #eee
 		cursor default
 
 	.tv-title
@@ -72,7 +72,7 @@
 		z-index 3
 		color #fff
 		width 452px
-		font-family 'Open Sans'
+		font-family Font
 		-webkit-font-smoothing antialiased
 		font-size 22px
 
@@ -84,7 +84,7 @@
 		color #fff
 		width auto
 		height auto
-		font-family 'Open Sans Bold'
+		font-family MainFontBold
 		-webkit-font-smoothing antialiased
 		font-size 11px
 		cursor default
@@ -96,7 +96,7 @@
 		position relative
 		float left
 		color #fff
-		font-family 'Open Sans Bold'
+		font-family MainFontBold
 		-webkit-font-smoothing antialiased
 		font-size 11px
 		cursor default
@@ -107,7 +107,7 @@
 		position relative
 		float left
 		color #fff
-		font-family 'Open Sans Bold'
+		font-family MainFontBold
 		-webkit-font-smoothing antialiased
 		font-size 11px
 		cursor default
@@ -118,7 +118,7 @@
 		z-index 3
 		float left
 		color #fff
-		font-family: 'Open Sans Bold'
+		font-family: MainFontBold
 		-webkit-font-smoothing antialiased
 		font-size 11px
 		cursor default
@@ -136,7 +136,7 @@
 		z-index 3
 		position relative
 		color #fff
-		font-family 'Open Sans Semibold'
+		font-family MainFont
 		-webkit-font-smoothing: antialiased
 		font-size 12px
 		line-height 22px
@@ -152,21 +152,21 @@
 	position absolute
 	width 100%
 	height 100%
-	background #17181b
+	background BgColor1
 	z-index 3
 
 	ul
 		list-style none
 
 		li:nth-child(odd)
-			background-color #1F2025
+			background-color BgColor2
 
 		li:hover
-			background #26272d
-			color #dfdcdc
+			background darken(BgColor2,10%)
+			color TextColor2
 
 		li.active
-			background-color #1b2d4c
+			background-color darken(Button,20%)
 			position relative
 
 			.watched
@@ -179,7 +179,7 @@
 				right -12px
 				width 0
 				height 0
-				border-color transparent transparent transparent #1b2d4c
+				border-color transparent transparent transparent darken(Button,20%)
 				border-style solid
 				border-width 16px 6px 17px 6px
 
@@ -197,12 +197,12 @@
 
 	ul
 		list-style none
-		color white
+		color TextColor1
 		direction ltr
-
+            
 		a
 			text-decoration none
-			color #707070
+			color TextColor2
 			font-size 15px
 			font-weight normal
 			margin 10px 0px
@@ -212,20 +212,19 @@
 			font-family sans-serif
 			font-size 15px
 			margin-left -10px
-			border-left 1px solid #17181B
+			border-left 1px solid BgColor1
 			margin 1px
 
 			a
-				color #fff
+				color TextColor1
 
 		li.active span
 			right 11px
-			color white
 
 .tabs-episodes
 	position relative
 	z-index 2
-	color #fff
+	color TextColor1
 	width: 48%
 	height calc(100% - 350px)
 	display: inline-block
@@ -239,7 +238,7 @@
 
 	a
 		text-decoration none
-		color #fff
+		color TextColor1
 		font-size 15px
 		font-weight normal
 		margin 10px 0px
@@ -251,7 +250,7 @@
 		position relative
 		margin 0
 		list-style none
-		background #17181b
+		background BgColor1
 
 		li
 			padding 0
@@ -262,9 +261,9 @@
 			.watched
 				position absolute
 				right 20px
-				opacity 0.1
+				opacity 0.2
 				padding 10px 0
-				color: #FFFFFF
+				color: TextColor1
 				font-size: 1em
 
 				&:hover
@@ -281,11 +280,11 @@
 					&:first-child
 						width 57px
 						display inline-block
-						border-right 1px solid #17181B
+						border-right 1px solid BgColor1
 						text-align right
 
 				div
-					color #8d9296
+					color TextColor3
 					font-weight 100
 					padding-left 34px
 					display inline-block
@@ -297,18 +296,18 @@
 					vertical-align -5px
 
 			&.active div
-				color white
+				color TextButton
 
 .display-base-title
 	width 100%
-	color #fff
+	color TextColor1
 	height 60px
 	font-size 23px
 	padding 20px 0
 	position fixed
 	top 280px
 	z-index 3
-	background #17181b
+	background BgColor1
 
 	.episode-list-seasons
 		display inline-block
@@ -319,10 +318,10 @@
 		display inline-block
 
 .episode-info
-	background-color #1f2025
+	background-color BgColor1
 	float right
 	width 44%
-	color #FFF
+	color TextColor1
 	padding 20px 30px 30px 30px
 	height 100%
 	line-height initial
@@ -350,7 +349,7 @@
 		font-weight 100
 		font-size 10px
 		line-height 1
-		color #8d9296
+		color TextColor3
 		display inline
 		margin-left 3%
 		position absolute
@@ -359,7 +358,7 @@
 	.episode-info-date
 		font-weight 100
 		font-size 12px
-		color #8d9296
+		color TextColor3
 		margin-top 16px
 		margin-bottom 7px
 
@@ -385,22 +384,21 @@
 		font-size 12px
 		border-radius 3px
 		background-clip padding-box
-		background-color #1F375F
+		background-color Button
 		transition background-color .5s
-		font-family: 'Open Sans Semibold'
+		font-family: MainFont
 		font-smoothing: antialiased
 		text-align: center
 		line-height: 34px
+		color TextButton
 
 		&:hover
-			background-color #225694
+			background-color ButtonHover
 			text-decoration: none
             
 		&:active
 			box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-			box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-			background: #2875e5
-			border: solid -2px #2468cc
+			background: ButtonActive
 
 	.show-quality-container
 		top: 40px
@@ -411,10 +409,10 @@
 		position: relative
 
 		div
-			font-family: "Open Sans Bold", "Open Sans", sans-serif;
+			font-family: MainFontBold, Font, AlternateFont;
 			-webkit-font-smoothing: antialiased;
 			font-size: 11px;
-			color: #fff;
+			color: TextColor1;
 			font-weight: normal;
 			position: absolute;
 			z-index: 2;
@@ -441,14 +439,14 @@
 			margin-left 30px
 			//top 312px
 			width 25px
-			border 2px solid #FFF
+			border 2px solid TextColor1
 			cursor pointer
 			z-index 2
 
 			label
-				font-family "Open Sans", sans-serif
+				font-family Font, AlternateFont
 				font-size 11px
-				color #fff
+				color TextColor1
 				font-weight bold
 				transition color 0.2s ease
 				transition color 0.2s ease
@@ -480,10 +478,10 @@
 					& ~ label
 
 						&:nth-of-type(1)
-							color #286dc4
+							color ButtonActive
 
 						&:nth-of-type(2)
-							color #FFF
+							color TextColor1
 
 					& ~ .toggle
 						left 0px
@@ -493,10 +491,10 @@
 					& ~ label
 
 						&:nth-of-type(1)
-							color #FFF
+							color TextColor1
 
 						&:nth-of-type(2)
-							color #286dc4
+							color ButtonActive
 
 					& ~ .toggle
 						left 11px
@@ -504,7 +502,7 @@
 		.toggle
 			transition left 0.2s ease
 			transition left 0.2s ease
-			background #286dc4
+			background ButtonActive
 			border-radius 50%
 			height 10px
 			left -0px
