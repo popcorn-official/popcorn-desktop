@@ -41,29 +41,29 @@
 
         context_Menu: function(cutLabel, copyLabel, pasteLabel) {
             var gui = require('nw.gui'),
-                menu = new gui.Menu()
+                menu = new gui.Menu(),
 
-            , cut = new gui.MenuItem({
-                label: cutLabel || "Cut",
-                click: function() {
-                    document.execCommand("cut");
-                }
-            })
+                cut = new gui.MenuItem({
+                    label: cutLabel || 'Cut',
+                    click: function() {
+                        document.execCommand('cut');
+                    }
+                }),
 
-            , copy = new gui.MenuItem({
-                label: copyLabel || "Copy",
-                click: function() {
-                    document.execCommand("copy");
-                }
-            })
+                copy = new gui.MenuItem({
+                    label: copyLabel || 'Copy',
+                    click: function() {
+                        document.execCommand('copy');
+                    }
+                }),
 
-            , paste = new gui.MenuItem({
-                label: pasteLabel || "Paste",
-                click: function() {
-                    var text = clipboard.get('text');
-                    $('#searchbox').val(text);
-                }
-            });
+                paste = new gui.MenuItem({
+                    label: pasteLabel || 'Paste',
+                    click: function() {
+                        var text = clipboard.get('text');
+                        $('#searchbox').val(text);
+                    }
+                });
 
             menu.append(cut);
             menu.append(copy);
