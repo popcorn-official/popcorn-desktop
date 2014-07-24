@@ -2,16 +2,16 @@
 	z-index: 10
 	position: absolute
 	top: 0
-	opacity: .97
 	width: 100%
+	opacity: .97
 	height: TitleHeight
-	background-color: #17181b
+	background-color: TitleBarColor
 	padding: 13px 0 0
 	text-align: center
 	-webkit-app-region: drag
 
 	h1
-		color: rgb(255, 255, 255)
+		color: TitleBarText
 		font-size: 0.9em
 		top: -3px
 		position: relative
@@ -76,7 +76,7 @@
 			background-position: -60px 0px;
 
 		&.fullscreen
-			color:#000;
+			color:FullScreenBtn;
 			background: transparent;
 			margin:0;
 			z-index: 10;
@@ -98,7 +98,7 @@
 			content: "\e00B";
 
 		&.fullscreen:hover
-			color:#b2b2b2;
+			color:FullScreenBtnHover;
 
 	.btn-set.win32
 		top: 6px
@@ -119,6 +119,7 @@
 			width: 20px
 			cursor: pointer
 			background: url("../images/icons/topbar_sprite_win.png")
+			-webkit-filter PngLogo
 			&.os-close
 				background-position -40px 0px
 			&.os-max
@@ -127,10 +128,13 @@
 				background-position 0px 0px
 			&.os-close:hover
 				background-position -100px 0px
+				-webkit-filter brightness(1)
 			&.os-max:hover
 				background-position -80px 0px
+				-webkit-filter brightness(1)
 			&.os-min:hover
 				background-position -60px 0px
+				-webkit-filter brightness(1)
 
 
 	.btn-set.darwin

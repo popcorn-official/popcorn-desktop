@@ -7,7 +7,7 @@
     user-select: none
     backface-visibility: hidden
     display: block
-    background-color: black
+    background-color: BgColor1
     .backdrop-overlay {
         width: 100%
         height: 100%
@@ -42,12 +42,12 @@
         backface-visibility: hidden
     }
     .title {
-        color: #fff
+        color: #FFF
         position: relative
         top: -4px
         text-stroke: 1px rgba(0,0,0,0.1)
         font-size: 38px
-        font-family: 'Open Sans Semibold'
+        font-family: MainFont
         font-smoothing: antialiased
     }
     .meta-container {
@@ -55,10 +55,10 @@
         height: 20px
         position: relative
         .item {
-            color: #fff
+            color: #FFF
             font-size: 12px
             position: relative
-            font-family: 'Open Sans Bold'
+            font-family: MainFontBold
             text-stroke: 1px rgba(0,0,0,0.1)
             float: left
             font-smoothing: antialiased
@@ -71,7 +71,7 @@
             float: left
             height: 4px
             border-radius: 2px
-            background-color: #dbdbdd
+            background-color: #eee
         }
         .movie-imdb-link {
             margin-top: -3px
@@ -93,13 +93,14 @@
     .overview {
         position: relative
         float: none
-        color: #fff
+        color: #FFF
         top: 25px
         width: 95%
-        font-family: 'Open Sans Semibold'
+        font-family: MainFont
         font-smoothing: antialiased
         font-size: 13px
         line-height: 22px
+        text-align: justify
         text-stroke: 1px rgba(0,0,0,0.1)
         backface-visibility: hidden
     }
@@ -110,6 +111,7 @@
         height: 19px
         float: right
         margin-right: 5%
+        margin-top: -3px
         color: #737577
         &.Bad {
             color: #d53f3f
@@ -137,37 +139,35 @@
             bottom: 0
             height: 35px
             margin-right: 15px
-            border-radius: 3px
+            border-radius: ButtonRadius
             background-clip: padding-box
-            background-color: #1f375f
+            background-color: Button
             padding: 0 15px
             transition: background-color 0.5s
-            color: #fff
-            font-family: 'Open Sans Semibold'
+            color: TextButton
+            font-family: MainFont
             font-smoothing: antialiased
             text-align: center
             font-size: 12px
             line-height: 34px
             &:hover {
-                background: #225694
+                background: ButtonHover
                 text-decoration: none
             }
             &:active {
                 box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-                box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-                background: #2875e5
-                border: solid -2px #2468cc
+                background: ButtonActive
             }
         }
         .favourites-toggle {
             cursor: pointer
             padding-left: 24px
             bottom: 6px
-            color: #fff
+            color: #FFF
             height: 18px
             position: relative
             width: 200px
-            font-family: 'Open Sans Semibold'
+            font-family: MainFont
             font-smoothing: antialiased
             font-size: 12px
             line-height: 17px
@@ -262,7 +262,7 @@
             left: 5%
         }
         .q720 {
-            font-family: 'Open Sans Bold'
+            font-family: MainFontBold
             font-smoothing: antialiased
             font-size: 11px
             color: #fff
@@ -270,7 +270,7 @@
             position: absolute
         }
         .q1080 {
-            font-family: 'Open Sans Bold'
+            font-family: MainFontBold
             font-smoothing: antialiased
             font-size: 11px
             color: #fff
@@ -316,7 +316,7 @@
                     z-index: 0
                     & ~ label {
                         &:nth-of-type(1) {
-                            color: #286dc4
+                            color: ButtonActive
                         }
                         &:nth-of-type(2) {
                             color: #fff
@@ -332,7 +332,7 @@
                             color: #fff
                         }
                         &:nth-of-type(2) {
-                            color: #286dc4
+                            color: ButtonActive
                         }
                     }
                     & ~ .toggle {
@@ -343,7 +343,7 @@
         }
         .toggle {
             transition: left 0.2s ease
-            background: #286dc4
+            background: ButtonActive
             border-radius: 50%
             height: 10px
             left: -0px
@@ -357,8 +357,8 @@
             width: auto
             top: -11px
             right: 13.56%
-            color: #fff
-            font-family: 'Open Sans Semibold'
+            color: #FFF
+            font-family: MainFont
             font-smoothing: antialiased
             font-size: 12px
             line-height: 17px
@@ -367,10 +367,9 @@
             padding-right: 13px
 
             &.open {
-                background-color: rgba(45,117,223,0.4);
+                background-color: rgba(ButtonActive,0.6);
                 border-radius: 5px 5px 0 0;
             }
-
 
         }
         .sub-dropdown-arrow {
@@ -399,7 +398,7 @@
             overflow-y: hidden
             display: none
             height: auto
-            background: rgba(31,31,31,0.74)
+            background: rgba(20, 24, 26, 0.6)
         }
         .flag {
             margin: 4px
