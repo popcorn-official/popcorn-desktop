@@ -3,14 +3,14 @@
 
 .header_icon
     font-size: 20px
-    color: TextColor3 //add onhover color of #2468cc later
+    color: TextColor3 //add onhover color of NavBarActive later
 
 ul.nav-hor > li
     float: left
 
 .dropdown-menu
     background-color: DropDownColor
-    opacity .97
+    opacity DropDownOpacity
 
     & > li > a
         transition: all 0.2s
@@ -21,11 +21,11 @@ ul.nav-hor > li
             color: DropDownText
             background-color: DropDownColor2
             background-image: none
-            border-left: 4px solid ButtonInactive
+            border-left: 4px solid NavBarText
 
         &:focus,
         &:hover
             color: DropDownText
             background-color: DropDownColor2
             background-image: none
-            border-left: 4px solid ButtonActive
+            border-left: 4px solid NavBarActive
