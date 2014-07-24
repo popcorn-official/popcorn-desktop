@@ -24,12 +24,12 @@
 		padding-right 30px
 		width 200px
 		height 100%
-		border-right solid lighten(#17181b,20%) 1px
+		border-right solid SettingsSeparator 1px
 
 		div
 			position relative
 			text-align right
-			color ButtonActive
+			color SettingsCategories
 			font-family Font, AlternateFont
 			font-size 17px
 
@@ -90,7 +90,7 @@
 				transition all .5s
 
 		p
-			color TextColor2
+			color SettingsTextColor1
 			font-family Font, AlternateFont
 			font-size 13px
 			float left
@@ -106,14 +106,14 @@
 			border 0px solid InputBox
 			background-color InputBox
 			resize none
-			color TextColor2
+			color InputBoxText
 			font-family Font, AlternateFont
 			font-size 13px
 			cursor text
 			outline 0
             
 		em
-			color TextColor3
+			color SettingsTextColor2
 			font-size 12px
 			
 		.btns
@@ -126,18 +126,19 @@
 			padding-left 10px
 			padding-right 10px
 			margin-right 20px
-			border-radius 3px
+			border-radius ButtonRadius
 			height 35px
 			background-color Button
 			text-align center
 			color TextButton
-			font-family Font, AlternateFont
-			font-size 13px
+			font-family ButtonFont, AlternateFont
+			font-size 12px
 			line-height 34px
 			cursor pointer
 			transition background-color .5s
 			&:hover
 				background-color ButtonHover
+				color TextButtonHover
 				text-decoration none
 			&.disabled
 				background-color ButtonInactive
@@ -155,7 +156,7 @@
 				background: ButtonActive
 
 		.user-interface
-			border-bottom solid lighten(#17181b,20%) 1px
+			border-bottom solid SettingsSeparator 1px
 			margin-right 30px
 			overflow hidden
 			padding-bottom 25px
@@ -163,19 +164,19 @@
 		.quality-options
 			height 100px
 			padding-top 20px
-			border-bottom solid lighten(#17181b,20%) 1px
+			border-bottom solid SettingsSeparator 1px
 			margin-right 30px
 
 		.subtitles-options
 			height 75px
 			padding-top 20px
-			border-bottom solid lighten(#17181b,20%) 1px
+			border-bottom solid SettingsSeparator 1px
 			margin-right 30px
 
 		.trakt-options
 			height 160px
 			padding-top 20px
-			border-bottom solid lighten(#17181b,20%) 1px
+			border-bottom solid SettingsSeparator 1px
 			margin-right 30px
 
 			&.authenticated
@@ -184,7 +185,7 @@
 		.more-options
 			height 70px
 			padding-top 20px
-			border-bottom solid lighten(#17181b,20%) 1px
+			border-bottom solid SettingsSeparator 1px
 			margin-right 30px
 
 		.advanced-settings
@@ -217,7 +218,7 @@ input[type=checkbox]
 		font-family: Font, AlternateFont;
 		vertical-align:middle;
 		cursor:pointer;
-		color:TextColor2
+		color:SettingsTextColor1
 
 	&.settings-checkbox:checked+label.settings-label
 		background-position: 0 -15px;
@@ -288,7 +289,7 @@ input[type=checkbox]
 		height 30px
 		background-color InputBox
 		cursor pointer
-		color TextColor2
+		color InputBoxText
 		font-family Font, AlternateFont
 		font-size 13px
 		float left
@@ -405,6 +406,8 @@ hr
 		transform rotate(360deg)
 
 .trakt-options
+	color SettingsTextColor1
+    
 	a
 		display inline-block
 

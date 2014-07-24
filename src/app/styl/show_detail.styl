@@ -152,7 +152,7 @@
 	position absolute
 	width 100%
 	height 100%
-	background BgColor1
+	background ShowBgColor1
 	z-index 3
 
 	ul
@@ -197,13 +197,12 @@
 
 	ul
 		list-style none
-		color TextColor1
 		direction ltr
             
 		a
 			text-decoration none
-			color TextColor2
 			font-size 15px
+			color ShowTextColor1
 			font-weight normal
 			margin 10px 0px
 
@@ -212,14 +211,11 @@
 			font-family sans-serif
 			font-size 15px
 			margin-left -10px
-			border-left 1px solid BgColor1
+			border-left 1px solid ShowBgColor1
 			margin 1px
-
-			a
-				color TextColor1
-
+				
 		li.active a
-			color TextButton
+			color ShowSelectorText
         
 		li.active span
 			right 11px
@@ -227,7 +223,6 @@
 .tabs-episodes
 	position relative
 	z-index 2
-	color TextColor1
 	width: 48%
 	height calc(100% - 350px)
 	display: inline-block
@@ -241,7 +236,7 @@
 
 	a
 		text-decoration none
-		color TextColor1
+		color ShowTextColor1
 		font-size 15px
 		font-weight normal
 		margin 10px 0px
@@ -253,7 +248,7 @@
 		position relative
 		margin 0
 		list-style none
-		background BgColor1
+		background ShowBgColor1
 
 		li
 			padding 0
@@ -283,11 +278,11 @@
 					&:first-child
 						width 57px
 						display inline-block
-						border-right 1px solid BgColor1
+						border-right 1px solid ShowBgColor1
 						text-align right
 
 				div
-					color TextColor3
+					color ShowTextColor2
 					font-weight 100
 					padding-left 34px
 					display inline-block
@@ -299,18 +294,18 @@
 					vertical-align -5px
 
 			&.active div, &.active a
-				color TextButton
+				color ShowSelectorText
 
 .display-base-title
 	width 100%
-	color TextColor1
+	color ShowTextColor1
 	height 60px
 	font-size 23px
 	padding 20px 0
 	position fixed
 	top 280px
 	z-index 3
-	background BgColor1
+	background ShowBgColor1
 
 	.episode-list-seasons
 		display inline-block
@@ -321,12 +316,13 @@
 		display inline-block
 
 .episode-info
-	background-color BgColor1
+	background-color ShowBgColor1
 	float right
 	width 44%
-	color TextColor1
+	color ShowTextColor1
 	padding 20px 30px 30px 30px
 	height 100%
+	font-family MainFont
 	line-height initial
 	position fixed
 	margin-left auto
@@ -352,7 +348,7 @@
 		font-weight 100
 		font-size 10px
 		line-height 1
-		color TextColor3
+		color ShowTextColor2
 		display inline
 		margin-left 3%
 		position absolute
@@ -361,7 +357,7 @@
 	.episode-info-date
 		font-weight 100
 		font-size 12px
-		color TextColor3
+		color ShowTextColor2
 		margin-top 16px
 		margin-bottom 7px
 
@@ -383,13 +379,12 @@
 		cursor pointer
 		padding 0 15px
 		height 35px
-		font-weight 100
 		font-size 12px
-		border-radius 3px
+		border-radius ButtonRadius
 		background-clip padding-box
 		background-color Button
 		transition background-color .5s
-		font-family: MainFont
+		font-family: ButtonFont
 		font-smoothing: antialiased
 		text-align: center
 		line-height: 34px
@@ -415,7 +410,7 @@
 			font-family: MainFontBold, Font, AlternateFont;
 			-webkit-font-smoothing: antialiased;
 			font-size: 11px;
-			color: TextColor1;
+			color: ShowTextColor1;
 			font-weight: normal;
 			position: absolute;
 			z-index: 2;
@@ -442,7 +437,7 @@
 			margin-left 30px
 			//top 312px
 			width 25px
-			border 2px solid TextColor1
+			border 2px solid ShowTextColor1
 			cursor pointer
 			z-index 2
 

@@ -1,7 +1,7 @@
 .filter-bar
 	z-index: 10
 	width: 100%
-	opacity: 1
+	opacity: .97
 	height: 35px
 	background-color: NavBarColor
 	-webkit-user-select: none;
@@ -10,7 +10,7 @@
 	position: absolute
 	top: TitleHeight
 	height: FilterBarHeight
-	box-shadow: 0px 6px 8px -4px rgba(0, 0, 0, .9);
+	box-shadow: TopBarShadow
 
 	.source
 		box-sizing: content-box
@@ -25,7 +25,7 @@
 			color: NavBarTextHover
 
 		&.active
-			border-bottom: 4px solid ButtonActive
+			border-bottom: 4px solid NavBarActive
 
 	.nav.filters
 		float: left
@@ -48,7 +48,7 @@
 			&:hover
 				color: NavBarTextHover
 		.value
-			color: ButtonActive
+			color: NavBarActive
 			padding-left: 10px
 
 		.dropdown-menu
@@ -63,17 +63,17 @@
 	i
 		transition: color 0.5s;
 		margin: 10px 5px 0;
-		color: NavBarText;
+		color: IconColor;
 		font-size: 1.5em;
 		&:hover
-			color: ButtonActive
+			color: IconColorHover
 			cursor: pointer
 
 		&.active
 			&.favorites
 				color: FavoritesColor
 			&.about
-				color: ButtonActive
+				color: IconColorHover
 
 	.search
 		form		
@@ -82,7 +82,7 @@
 				font-family: FontAwesome
 				font-style: normal
 				transition color 0.5s
-				color: NavBarText
+				color: IconColor
 				position: absolute;
 				top:11px;
 				left: 7px;
@@ -91,7 +91,7 @@
 			&:hover
 				cursor: pointer
 				&:before
-					color: ButtonActive
+					color: IconColorHover
 
 			input
 				line-height normal
@@ -124,7 +124,7 @@
 					cursor: auto;
 					opacity: 1
 					&:before
-						color: ButtonActive
+						color: IconColorHover
 
 				&::-moz-placeholder,
 				&::-webkit-input-placeholder
@@ -168,6 +168,6 @@
 		}
 		&:hover::before{
 			content "x"
-			background ButtonActive
+			background IconColorHover
 		}
 	}
