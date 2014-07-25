@@ -206,6 +206,7 @@ Section ; App Files
 	File /r "..\..\src\app\language"
 	File /r "..\..\src\app\lib"
 	File /r "..\..\src\app\templates"
+	File /r "..\..\src\app\themes"
 	File /r /x ".*" /x "test*" /x "example*" "..\..\src\app\vendor"
 	File "..\..\src\app\index.html"
 	File "..\..\src\app\*.js"
