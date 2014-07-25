@@ -31,6 +31,29 @@
 				<select name="language"><%=langs%></select>
 				<div class="dropdown-arrow"></div>
 			</div>
+
+		<div class="dropdown pct-theme">
+				<p><%= i18n.__("Theme") %>:</p>
+
+				<%
+					var themes = "";
+var theme_files = fs.readdirSync('./src/app/css/');
+
+for (var i in theme_files) {
+
+    if (theme_files[i].indexOf('_theme') > -1) {
+        themes += "<option " + (Settings.theme == theme_files[i].slice(0, -4)? "selected='selected'" : "") + " value='" + theme_files[i].slice(0, -4) + "'>" +
+            theme_files[i].slice(0, -4) + "</option>";
+    }
+
+}
+
+				%>
+				
+				<select name="theme"><%=themes%></select>
+				<div class="dropdown-arrow"></div>
+			</div>
+
 			<br><br><br>
 			<p>
 				<input class="settings-checkbox" name="coversShowRating" id="cb3" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>

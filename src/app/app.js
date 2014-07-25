@@ -82,8 +82,6 @@ App.db = Database;
 App.advsettings = AdvSettings;
 App.settings = Settings;
 
-$('head').append('<link rel="stylesheet" href="css/' + Settings.theme_src + '.css" type="text/css" />');
-
 App.addRegions({
     Window: '.main-window-region'
 });

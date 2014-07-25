@@ -11,7 +11,7 @@ Settings.coversShowRating = true;
 
 // Advanced UI
 Settings.alwaysOnTop = false;
-Settings.theme_src = 'app_offical_dark';
+Settings.theme = 'dark_official_theme';
 
 
 

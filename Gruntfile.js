@@ -75,10 +75,10 @@ module.exports = function(grunt) {
 				},
 
 				files: {
-					'src/app/css/app_offical_dark.css': 'src/app/styl/dark_official_theme.styl',
-					'src/app/css/app_offical_light.css': 'src/app/styl/light_official_theme.styl',
-					'src/app/css/app_offical_black_yellow.styl.css': 'src/app/styl/black_yellow_official_theme.styl',
-					'src/app/css/app_offical_flat.css': 'src/app/styl/flat_official_theme.styl'
+					'src/app/css/dark_official_theme.css': 'src/app/styl/dark_official_theme.styl',
+					'src/app/css/light_official_theme.css': 'src/app/styl/light_official_theme.styl',
+					'src/app/css/black_yellow_official_theme.css': 'src/app/styl/black_yellow_official_theme.styl',
+					'src/app/css/flat_official_theme.css': 'src/app/styl/flat_official_theme.styl'
 				}
 			}
 		},

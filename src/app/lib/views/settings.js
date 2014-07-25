@@ -120,6 +120,9 @@
 					value = $('option:selected', field).val();
 					i18n.setLocale(value);
 					break;
+				case 'theme':
+					value = $('option:selected', field).val();
+					break;
 				case 'moviesShowQuality':
 				case 'deleteTmpOnClose':
 				case 'coversShowRating':
@@ -175,7 +178,9 @@
 				case 'alwaysOnTop':
 					win.setAlwaysOnTop(value);
 					break;
-
+				case 'theme':
+					$('head').append('<link rel="stylesheet" href="css/' + value + '.css" type="text/css" />');
+					break;
 				default:
 
 			}

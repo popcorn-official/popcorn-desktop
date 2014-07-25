@@ -30,6 +30,7 @@
         initialize: function() {
             _this = this;
 
+
             this.nativeWindow = require('nw.gui').Window.get();
 
             // Application events
@@ -83,7 +84,7 @@
             var that = this;
             this.Content.show(new App.View.InitModal());
             App.db.initialize(function() {
-
+                $('head').append('<link rel="stylesheet" href="css/' + Settings.theme + '.css" type="text/css" />');
                 // Always on top
                 win.setAlwaysOnTop(App.settings.alwaysOnTop);
 

@@ -3493,6 +3493,14 @@ input[type=checkbox].settings-checkbox:checked+label.settings-label {
 .dropdown.subtitles-language {
   top: 0px;
 }
+.dropdown.pct-theme {
+  top: 0px;
+  left: 15px;
+}
+.dropdown.pct-theme p {
+  width: 60px;
+  min-width: 0px;
+}
 .dropdown.subtitles-language-default {
   top: 0px;
 }
