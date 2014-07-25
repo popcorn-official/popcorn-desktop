@@ -179,7 +179,7 @@
 					win.setAlwaysOnTop(value);
 					break;
 				case 'theme':
-					$('head').append('<link rel="stylesheet" href="css/' + value + '.css" type="text/css" />');
+					$('head').append('<link rel="stylesheet" href="themes/' + value + '.css" type="text/css" />');
 					break;
 				default:
 
