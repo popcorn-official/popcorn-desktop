@@ -260,16 +260,17 @@
 			.watched
 				position absolute
 				right 20px
-				opacity 0.2
+				opacity 1
 				padding 10px 0
-				color: TextColor1
+				color: WatchedIconFalse
 				font-size: 1em
+				transition color .5s
 
 				&:hover
-					opacity 0.4
+					color: WatchedIconHover
 
 				&.true
-					opacity 1
+					color: WatchedIconTrue
 
 			.episodeData
 				span
