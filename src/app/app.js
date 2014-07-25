@@ -1,6 +1,6 @@
 var
 // Minimum percentage to open video
-MIN_PERCENTAGE_LOADED = 0.5,
+    MIN_PERCENTAGE_LOADED = 0.5,
 
     // Minimum bytes loaded to open video
     MIN_SIZE_LOADED = 10 * 1024 * 1024,
@@ -54,6 +54,8 @@ win.error = function() {
     console.error.apply(console, params);
 };
 
+
+
 // Load in external templates
 _.each(document.querySelectorAll('[type="text/x-template"]'), function(el) {
     $.get(el.src, function(res) {
@@ -79,6 +81,8 @@ App.db = Database;
 // Set settings
 App.advsettings = AdvSettings;
 App.settings = Settings;
+
+$('head').append('<link rel="stylesheet" href="css/' + Settings.theme_src + '.css" type="text/css" />');
 
 App.addRegions({
     Window: '.main-window-region'
@@ -188,7 +192,6 @@ if (process.platform === 'darwin') {
 
 
 
-
 window.ondragenter = function(e) {
 
     $('#drop-mask').show();
@@ -278,12 +281,12 @@ $(document).on('paste', function(e) {
  * Pass magnet link as last argument to start stream
  */
 var last_arg = gui.App.argv.pop();
-console.log('Last arg: '+ last_arg);
+console.log('Last arg: ' + last_arg);
 console.log('All Args:');
 console.log(gui.App.fullArgv);
-if(last_arg && (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0, 7) === 'http://' || last_arg.endsWith('.torrent'))) {
+if (last_arg && (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0, 7) === 'http://' || last_arg.endsWith('.torrent'))) {
     App.vent.on('main:ready', function() {
-		startTorrentStream(last_arg);
+        startTorrentStream(last_arg);
     });
 }
 

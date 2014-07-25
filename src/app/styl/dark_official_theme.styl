@@ -1,3 +1,5 @@
+
+
 // OFFICIAL POPCORN-THEME: DARK
 
 //Fonts
@@ -102,3 +104,57 @@
     PngLogo = brightness(1.00)
 
     FavoritesColor = #df2d37
+
+
+
+// OFFICIAL POPCORN-THEME: DARK - END
+
+
+
+
+
+
+
+// Disable IE Vendor Patches
+support-for-ie = false
+// Only use Webkit vendor prefixes
+vendor-prefixes = webkit official
+
+@import 'nib'
+
+global-reset()
+
+TitleHeight = 32px
+FilterBarHeight = 35px
+HeaderHeight = 65px
+MovieListPadding = calc(100% - 67px)
+
+
+
+
+
+@import 'views/fonts'
+@import 'views/misc'
+@import 'views/bootstrap-theme'
+
+@import 'views/player'
+
+@import 'views/main_window'
+@import 'views/title_bar'
+@import 'views/filter_bar'
+
+@import 'views/movie_browser/movie_list'
+@import 'views/movie_browser/movie_item'
+@import 'views/movie_detail'
+@import 'views/show_detail'
+
+@import 'views/show_browser/show_list'
+@import 'views/favorite_browser/favorite_list'
+
+@import 'views/about'
+@import 'views/help'
+@import 'views/file_selector'
+
+@import 'views/settings'
+@import 'views/loading'
+@import 'views/notification'

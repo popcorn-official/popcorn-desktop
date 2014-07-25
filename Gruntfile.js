@@ -1,4 +1,3 @@
-
 var parseBuildPlatforms = function(argumentPlatform) {
 	// this will make it build no platform when the platform option is specified
 	// without a value which makes argumentPlatform into a boolean
@@ -48,19 +47,19 @@ module.exports = function(grunt) {
 		'exec:createDmg', // mac
 		'exec:createWinInstall',
 		'compress' // win & linux
-	]);	
+	]);
 
-	grunt.registerTask('start', function(){
+	grunt.registerTask('start', function() {
 		var start = parseBuildPlatforms();
-		if(start.win){
+		if (start.win) {
 			grunt.task.run('exec:win');
-		}else if(start.mac){
+		} else if (start.mac) {
 			grunt.task.run('exec:mac');
-		}else if(start.linux32){
+		} else if (start.linux32) {
 			grunt.task.run('exec:linux32');
-		}else if(start.linux64){
+		} else if (start.linux64) {
 			grunt.task.run('exec:linux64');
-		}else{
+		} else {
 			grunt.log.writeln('OS not supported.');
 		}
 	});
@@ -74,8 +73,12 @@ module.exports = function(grunt) {
 					use: ['nib'],
 					paths: ['src/app/styl']
 				},
+
 				files: {
-					'src/app/css/app.css' : 'src/app/styl/app.styl'
+					'src/app/css/app_offical_dark.css': 'src/app/styl/dark_official_theme.styl',
+					'src/app/css/app_offical_light.css': 'src/app/styl/light_official_theme.styl',
+					'src/app/css/app_offical_black_yellow.styl.css': 'src/app/styl/black_yellow_official_theme.styl',
+					'src/app/css/app_offical_flat.css': 'src/app/styl/flat_official_theme.styl'
 				}
 			}
 		},
@@ -94,12 +97,13 @@ module.exports = function(grunt) {
 				linux64: buildPlatforms.linux64,
 				download_url: 'http://cdn.popcorntime.io/nw/'
 			},
-			src: ['./src/**', '!./src/app/styl/**', 
-				'./node_modules/**', '!./node_modules/bower/**', '!./node_modules/*grunt*/**', '!./node_modules/stylus/**', 
-				'!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**', 
-				'./package.json', './README.md', './LICENSE.txt' ]
+			src: ['./src/**', '!./src/app/styl/**',
+				'./node_modules/**', '!./node_modules/bower/**', '!./node_modules/*grunt*/**', '!./node_modules/stylus/**',
+				'!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**',
+				'./package.json', './README.md', './LICENSE.txt'
+			]
 		},
-		
+
 		exec: {
 			win: {
 				cmd: '"build/cache/win/<%= nodewebkit.options.version %>/nw.exe" .'
@@ -132,7 +136,7 @@ module.exports = function(grunt) {
 				options: {
 					jshintrc: 'src/app/.jshintrc'
 				},
-				src: ['src/app/lib/*.js','src/app/lib/**/*.js','src/app/*.js']
+				src: ['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js']
 			}
 		},
 
@@ -166,13 +170,13 @@ module.exports = function(grunt) {
 				cwd: 'dist/windows',
 				src: 'Popcorn Time-' + currentVersion + '-Setup.exe',
 				dest: ''
-			}			
+			}
 		},
 
 		clean: {
 			releases: ['build/releases/Popcorn-Time/**']
 		},
-		
+
 		watch: {
 			options: {
 				dateFormat: function(time) {
@@ -181,7 +185,7 @@ module.exports = function(grunt) {
 				}
 			},
 			scripts: {
-				files: ['./src/app/styl/*.styl','./src/app/styl/**/*.styl'],
+				files: ['./src/app/styl/*.styl', './src/app/styl/**/*.styl'],
 				tasks: ['css']
 			}
 		}

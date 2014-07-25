@@ -11,6 +11,9 @@ Settings.coversShowRating = true;
 
 // Advanced UI
 Settings.alwaysOnTop = false;
+Settings.theme_src = 'app_offical_dark';
+
+
 
 // Movies
 Settings.moviesShowQuality = false;
