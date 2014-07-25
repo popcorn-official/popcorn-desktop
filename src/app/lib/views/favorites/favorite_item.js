@@ -1,14 +1,11 @@
 (function(App) {
     'use strict';
-	
-    var resizeImage = App.Providers.Trakttv.resizeImage;
+
+	var resizeImage = App.Providers.Trakttv.resizeImage;
 	
     var FavoriteItem = Backbone.Marionette.ItemView.extend({
         template: '#favorite-item-tpl',
-        modelEvents: {
-            'change': 'render'
-        },
-		
+
         tagName: 'li',
         className: 'bookmark-item',
 
@@ -23,6 +20,11 @@
             'click .cover': 'showDetail'
         },
 
+        initialize: function() {
+            var images = this.model.get('images');
+            images.poster = resizeImage(images.poster, '300');
+        },
+
         onShow: function() {
             this.ui.coverImage.on('load', _.bind(this.showCover, this));
             this.ui.bookmarkIcon.addClass('selected');
@@ -33,7 +35,7 @@
         },
 
         showCover: function() {
-            this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')');
+            this.ui.cover.css('background-image', 'url(' + this.model.get('images').poster + ')');
             this.ui.cover.css('opacity', '1');
             this.ui.coverImage.remove();
         },
