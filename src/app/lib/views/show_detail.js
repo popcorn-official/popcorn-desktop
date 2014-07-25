@@ -34,10 +34,10 @@
 
             var images = this.model.get('images');
             images.fanart = resizeImage(images.fanart, '940');
-            if ((ScreenResolution.SD || ScreenResolution.HD) && !ScreenResolution.Retina) {
+            //if ((ScreenResolution.SD || ScreenResolution.HD) && !ScreenResolution.Retina) {
                 // Screen Resolution of 720p or less is fine to have 300x450px image
-                images.poster = resizeImage(images.poster, '300');
-            }
+            	images.poster = resizeImage(images.poster, '300');
+            //}
 
             App.vent.on('shortcuts:show', function() {
                 _this.initKeyboardShortcuts();

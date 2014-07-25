@@ -524,7 +524,7 @@
         }
 
         if(file === 'poster-dark') {
-            return imageUrl;
+            return 'images/posterholder.png'.toString();
         } else {
             return uri.filename(file + '-' + width + '.' + ext).toString();
         }
