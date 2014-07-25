@@ -65,22 +65,22 @@ module.exports = function(grunt) {
 	});
 
 	grunt.initConfig({
+
 		stylus: {
 			compile: {
 				options: {
-					compress: false,
 					'resolve url': true,
 					use: ['nib'],
+					compress: false,
 					paths: ['src/app/styl']
 				},
-
-				files: {
-					'src/app/themes/Dark_Official_theme.css': 'src/app/styl/dark_official_theme.styl',
-					'src/app/themes/Light_Official_theme.css': 'src/app/styl/light_official_theme.styl',
-					'src/app/themes/Black_Yellow_Official_theme.css': 'src/app/styl/black_yellow_official_theme.styl',
-					'src/app/themes/Flat_Official_theme.css': 'src/app/styl/flat_official_theme.styl'
-				}
+				expand: true,
+				cwd: 'src/app/styl',
+				src: '*.styl',
+				dest: 'src/app/themes/',
+				ext: '.css'
 			}
+
 		},
 
 		nodewebkit: {
