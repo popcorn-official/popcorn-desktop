@@ -33,7 +33,7 @@
 		onShow: function() {
 			$('.filter-bar').hide();
 			$('#movie-detail').hide();
-			$('#header').css('box-shadow', '0px 6px 8px -4px rgba(0, 0, 0, .9)');
+			$('#header').addClass('header-shadow');
 			Mousetrap.bind('backspace', function(e) {
 				App.vent.trigger('settings:close');
 			});
@@ -82,7 +82,7 @@
 				App.vent.trigger('movie:closeDetail');
 			});
 			$('.filter-bar').show();
-			$('#header').css('box-shadow', 'none');
+			$('#header').removeClass('header-shadow');
 			$('#movie-detail').show();
 		},
 		showCover: function() {},
