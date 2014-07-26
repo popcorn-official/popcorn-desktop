@@ -81,10 +81,12 @@
         },
 
         onShow: function() {
-            $('#header').removeClass('header-shadow');
+            $('#header').removeClass('header-shadow').hide();
             // Test to make sure we have title
             win.info('Watching:', this.model.get('title'));
             $('.filter-bar').show();
+            $('#player_drag').show();
+
             var _this = this;
             //$('.player-header-background').canDragWindow();
             //$('#video_player').canDragWindow();
@@ -400,6 +402,8 @@
         },
 
         onClose: function() {
+            $('#player_drag').hide();
+            $('#header').show();
             if (!this.inFullscreen && win.isFullscreen) {
                 win.leaveFullscreen();
             }

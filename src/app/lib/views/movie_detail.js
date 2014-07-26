@@ -107,7 +107,6 @@
 
             $(window).resize(function() {
                 $('.bottom-container').css('padding-left', $('.mcover-image').width() + 'px');
-                console.log('botom moved');
             });
 
 
