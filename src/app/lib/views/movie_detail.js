@@ -88,7 +88,6 @@
             coverCache.src = coverUrl;
             coverCache.onload = function() {
                 $('.mcover-image').attr('src', coverUrl).fadeTo(500, 1);
-                $('.bottom-container').css('padding-left', $('.mcover-image').width() + 'px');
 
                 coverCache = null;
             };
@@ -104,13 +103,6 @@
             Mousetrap.bind('esc', function(e) {
                 App.vent.trigger('movie:closeDetail');
             });
-
-            $(window).resize(function() {
-                $('.bottom-container').css('padding-left', $('.mcover-image').width() + 'px');
-            });
-
-
-
         },
 
         onClose: function() {
