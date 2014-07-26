@@ -21,8 +21,7 @@
         },
 
         initialize: function() {
-            var images = this.model.get('images');
-            images.poster = resizeImage(images.poster, '300');
+            this.model.set('image', resizeImage(this.model.get('image'), '300'));
         },
 
         onShow: function() {
@@ -35,7 +34,7 @@
         },
 
         showCover: function() {
-            this.ui.cover.css('background-image', 'url(' + this.model.get('images').poster + ')');
+            this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')');
             this.ui.cover.css('opacity', '1');
             this.ui.coverImage.remove();
         },
