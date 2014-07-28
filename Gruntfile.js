@@ -23,13 +23,15 @@ module.exports = function(grunt) {
 	"use strict";
 
 	var buildPlatforms = parseBuildPlatforms(grunt.option('platforms'));
-	var currentVersion = grunt.file.readJSON('package.json').version;
+	var pkgJson = grunt.file.readJSON('package.json');
+	var currentVersion = pkgJson.version;
 
 	require('load-grunt-tasks')(grunt);
 
 	grunt.registerTask('default', [
 		'stylus',
-		'jshint'
+		'jshint',
+		'injectgit'
 	]);
 
 	grunt.registerTask('css', [
@@ -38,6 +40,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('build', [
 		'css',
+		'injectgit',
 		'nodewebkit'
 	]);
 
@@ -61,6 +64,19 @@ module.exports = function(grunt) {
 			grunt.task.run('exec:linux64');
 		} else {
 			grunt.log.writeln('OS not supported.');
+		}
+	});
+
+	grunt.registerTask('injectgit', function() {
+		if(grunt.file.exists('.git/')) {
+			var path = require('path');
+			var gitRef = grunt.file.read('.git/HEAD').split(':')[1].trim();
+			var gitBranch = path.basename(gitRef);
+			if(grunt.file.exists('.git/' + gitRef)) {
+				var currCommit = grunt.file.read('.git/' + gitRef).trim();
+				pkgJson.git = {branch: gitBranch, commit: currCommit};
+				grunt.file.write('package.json', JSON.stringify(pkgJson, null, '  '));
+			}
 		}
 	});
 

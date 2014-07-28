@@ -5,7 +5,12 @@
 	<img class="icon-about" src="/src/app/images/icon.png">
 	<img class="icon-title" src="/src/app/images/icons/big-logo.png">
 	<div class="content">
-		<div class="title-version"><%=App.settings.version %> Beta</div>
+		<div class="title-version">
+			<%= App.settings.version %> Beta
+			<% if(gui.App.manifest['git']) { %>
+				- <small><i><%= gui.App.manifest.git.branch + ' (' + gui.App.manifest.git.commit.slice(0,8) + ')' %></i></small>
+			<% } %>
+		</div>
 		<div class="text-about">
 			<div class="full-text">
 				<%= i18n.__("Popcorn Time! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.") %><br/>
