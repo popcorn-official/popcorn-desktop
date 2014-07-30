@@ -50,7 +50,6 @@
     "sha1": "1.1.0",
     "underscore": "1.6.0",
     "torrent-health": "0.0.3"
-    "airplay2": "^0.1.4"
   },
   "devDependencies": {
     "bower": "1.3.4",
