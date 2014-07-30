@@ -396,6 +396,31 @@
 			box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
 			background: ButtonActive
 
+    .health-icon {
+        position: relative
+        font-size: 16px
+        float: right
+        margin-right: 5%
+        margin-top: -4px
+        color: #737577
+        cursor: pointer
+        &.Bad {
+            color: #d53f3f
+        }
+        &.Medium {
+            color: #ece523
+        }
+        &.Good {
+            color: #a3e147
+        }
+        &.Excellent {
+            color: #2ad942
+        }
+        &.None {
+        	color: #d3d3d3
+        }
+    }
+
 	.show-quality-container
 		top: 32px
 		z-index: 2

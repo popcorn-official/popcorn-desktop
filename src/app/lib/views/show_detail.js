@@ -1,3 +1,5 @@
+var torrentHealth = require('torrent-health');
+
 (function(App) {
     'use strict';
 
@@ -22,7 +24,8 @@
             'click .tab-episode': 'clickEpisode',
             'dblclick .tab-episode': 'dblclickEpisode',
             'click #switch-hd-on': 'enableHD',
-            'click #switch-hd-off': 'disableHD'
+            'click #switch-hd-off': 'disableHD',
+            'click .health-icon': 'getTorrentHealth'
         },
 
         initialize: function() {
@@ -271,6 +274,7 @@
                 torrent = $('.template-' + tvdbid + ' .q720').text();
             $('.movie-btn-watch-episode').attr('data-torrent', torrent);
             $('.movie-btn-watch-episode').attr('data-quality', '720P');
+            _this.resetHealth();
             win.debug(torrent);
         },
 
@@ -280,6 +284,7 @@
                 torrent = $('.template-' + tvdbid + ' .q480').text();
             $('.movie-btn-watch-episode').attr('data-torrent', torrent);
             $('.movie-btn-watch-episode').attr('data-quality', '480P');
+            _this.resetHealth();
             win.debug(torrent);
         },
 
@@ -356,6 +361,7 @@
                 } else {
                     $('#switch-hd-off').trigger('click');
                 }
+                resetHealth();
             }
 
         },
@@ -388,6 +394,34 @@
             return (
                 (eap = efp(rect.left, rect.top)) === el || el[contains](eap) === has || (eap = efp(rect.right, rect.top)) === el || el[contains](eap) === has || (eap = efp(rect.right, rect.bottom)) === el || el[contains](eap) === has || (eap = efp(rect.left, rect.bottom)) === el || el[contains](eap) === has
             );
+        },
+
+        getTorrentHealth: function(e) {
+            var torrent = $('.startStreaming').attr('data-torrent');
+            torrentHealth(torrent)
+            .then(function(res) {
+                var h = calcHealth({seed: res.seeds, peer: res.peers});
+                var health = healthMap[h].capitalize();
+                var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
+
+                $('.health-icon').tooltip({
+                    html: true
+                })
+                .removeClass('Bad Medium Good Excellent None')
+                .addClass(health)
+                .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
+                .tooltip('fixTitle');
+            });
+        },
+
+        resetHealth: function() {
+            $('.health-icon').tooltip({
+                html: true
+            })
+            .removeClass('Bad Medium Good Excellent')
+            .addClass('None')
+            .attr('data-original-title', i18n.__("Health Unknown"))
+            .tooltip('fixTitle');
         }
 
     });
