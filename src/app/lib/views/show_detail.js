@@ -1,4 +1,5 @@
 var torrentHealth = require('torrent-health');
+var health_checked = false;
 
 (function(App) {
     'use strict';
@@ -399,7 +400,11 @@ var torrentHealth = require('torrent-health');
         },
 
         getTorrentHealth: function(e) {
+            if(health_checked) {
+                return;
+            }
             var torrent = $('.startStreaming').attr('data-torrent');
+            health_checked = true;
             torrentHealth(torrent)
             .then(function(res) {
                 var h = calcHealth({seed: res.seeds, peer: res.peers});
@@ -424,6 +429,7 @@ var torrentHealth = require('torrent-health');
             .addClass('None')
             .attr('data-original-title', i18n.__("Health Unknown"))
             .tooltip('fixTitle');
+            health_checked = false;
         }
 
     });
