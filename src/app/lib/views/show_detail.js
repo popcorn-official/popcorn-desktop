@@ -421,7 +421,7 @@ var health_checked = false;
                 .removeClass('fa-spin')
                 .removeClass('fa-spinner')
                 .addClass('fa-circle')
-                .removeClass('Bad Medium Good Excellent None')
+                .removeClass('Bad Medium Good Excellent')
                 .addClass(health)
                 .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
                 .tooltip('fixTitle');
@@ -435,8 +435,7 @@ var health_checked = false;
             .removeClass('fa-spin')
             .removeClass('fa-spinner')
             .addClass('fa-circle')
-            .removeClass('Bad Medium Good Excellent None')
-            .addClass('None')
+            .removeClass('Bad Medium Good Excellent')
             .attr('data-original-title', i18n.__("Health Unknown"))
             .tooltip('fixTitle');
             health_checked = false;
