@@ -30,7 +30,9 @@
   "dependencies": {
     "URIjs": "1.13.2",
     "adm-zip": "https://github.com/xeoncore/adm-zip/archive/78f820330c776bca72aad3f22d127b357f57a609.tar.gz",
+    "airplay-js": "https://github.com/guerrerocarlos/node-airplay2/tarball/master",
     "async": "0.9.0",
+    "chromecast": "0.0.4",
     "i18n": "0.5.0",
     "iconv-lite": "0.4.3",
     "jschardet": "1.1.0",
@@ -48,7 +50,6 @@
     "sha1": "1.1.0",
     "underscore": "1.6.0",
     "torrent-health": "0.0.3"
-    "airplay2": "^0.1.4"
   },
   "devDependencies": {
     "bower": "1.3.4",
@@ -61,6 +62,7 @@
     "grunt-exec": "0.4.x",
     "grunt-node-webkit-builder": "0.1.x",
     "load-grunt-tasks": "0.4.0",
+    "nw-gyp": "^0.12.2",
     "stylus": "0.46.2"
   }
 }

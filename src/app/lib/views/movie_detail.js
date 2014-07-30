@@ -59,19 +59,15 @@
             $('#header').css('opacity', '1');
             $('.filter-bar').css('opacity', '1');
 
-            App.vent.on('airplay:add', function() {
-                $('#airplay-now').show();
+            App.vent.on('device:add', function(device) {
+                $('#' + device.PTtype + '-now').show();
             });
 
-            App.vent.on('airplay:rm', function() {
-                $('#airplay-now').hide();
+            App.vent.on('device:rm', function(device) {
+                $('#' + device.PTtype + '-now').hide();
             });
 
-            if (App.Airplay.has()) {
-                $('#airplay-now').show();
-            } else {
-                $('#airplay-now').hide();
-            }
+            App.vent.trigger('device:list');
 
             var torrents = this.model.get('torrents');
             if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
