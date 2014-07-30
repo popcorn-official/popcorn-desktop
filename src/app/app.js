@@ -260,8 +260,6 @@ function calcHealth(torrent) {
     // Scale from [0, 100] to [0, 3]. Drops the decimal places
     var scaledTotal = ((weightedTotal * 3) / 100) | 0;
 
-    console.log('HealthFN: '+ scaledTotal);
-
     return scaledTotal;
 };
 
@@ -316,9 +314,7 @@ $(document).on('paste', function(e) {
  * Pass magnet link as last argument to start stream
  */
 var last_arg = gui.App.argv.pop();
-console.log('Last arg: ' + last_arg);
-console.log('All Args:');
-console.log(gui.App.fullArgv);
+
 if (last_arg && (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0, 7) === 'http://' || last_arg.endsWith('.torrent'))) {
     App.vent.on('main:ready', function() {
         startTorrentStream(last_arg);
