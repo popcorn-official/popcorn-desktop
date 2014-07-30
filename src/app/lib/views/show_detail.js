@@ -246,6 +246,8 @@ var torrentHealth = require('torrent-health');
                 this.ui.qinfo.show();
             }
 
+            _this.resetHealth();
+
             $('.tab-episode.active').removeClass('active');
             $elem.addClass('active');
             $('.episode-info-number').text(i18n.__('Season') + ' ' + $('.template-' + tvdbid + ' .season').html() + ', ' + i18n.__('Episode') + ' ' + $('.template-' + tvdbid + ' .episode').html());
