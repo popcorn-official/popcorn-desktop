@@ -364,7 +364,7 @@ var health_checked = false;
                 } else {
                     $('#switch-hd-off').trigger('click');
                 }
-                resetHealth();
+                _this.resetHealth();
             }
 
         },
@@ -411,8 +411,8 @@ var health_checked = false;
             .addClass('fa-spin');
             torrentHealth(torrent)
             .then(function(res) {
-                var h = calcHealth({seed: res.seeds, peer: res.peers});
-                var health = healthMap[h].capitalize();
+                var h = Common.calcHealth({seed: res.seeds, peer: res.peers});
+                var health = Common.healthMap[h].capitalize();
                 var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
 
                 $('.health-icon').tooltip({
@@ -436,7 +436,7 @@ var health_checked = false;
             .removeClass('fa-spinner')
             .addClass('fa-circle')
             .removeClass('Bad Medium Good Excellent')
-            .attr('data-original-title', i18n.__("Health Unknown"))
+            .attr('data-original-title', i18n.__('Health Unknown'))
             .tooltip('fixTitle');
             health_checked = false;
         }

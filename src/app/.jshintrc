@@ -42,6 +42,7 @@
 		"ScreenResolution": true,
 		"Database": true,
 		"detectLanguage": true,
+		"Common": true,
     "indexedDB": true,
 		
 		// Third party

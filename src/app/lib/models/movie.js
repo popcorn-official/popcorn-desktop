@@ -18,10 +18,10 @@
             _.each(torrents, function(torrent) {
                 if (!torrent.url) {
                     _.each(torrent, function(episode, key) {
-                        torrent[key].health = healthMap[calcHealth(episode)];
+                        torrent[key].health = Common.healthMap[Common.calcHealth(episode)];
                     });
                 } else {
-                    torrent.health = healthMap[calcHealth(torrent)];
+                    torrent.health = Common.healthMap[Common.calcHealth(torrent)];
                 }
             });
 
