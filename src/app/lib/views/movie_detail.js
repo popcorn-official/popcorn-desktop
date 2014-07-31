@@ -181,6 +181,7 @@
         selectPlayer: function (e) {
             var player = $(e.currentTarget).attr('id').replace('player-', '');
             this.model.set('device', player);
+            $('.playerchoicemenu li.active').removeClass('active');
             $(e.currentTarget).addClass('active');
         },
 
