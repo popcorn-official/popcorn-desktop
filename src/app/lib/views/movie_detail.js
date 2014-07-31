@@ -60,6 +60,7 @@
             $('.filter-bar').css('opacity', '1');
 
             App.vent.on('device:add', function(device) {
+                console.log(device);
                 $('#' + device.PTtype + '-now').show();
             });
 

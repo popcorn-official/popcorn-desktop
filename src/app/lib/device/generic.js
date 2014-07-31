@@ -53,7 +53,7 @@
 
     Device.prototype.list = function () {
         var self = this;
-        _.foreach (this.devices, function (device) {
+        _.each(this.devices, function (device) {
             App.vent.trigger('device:add', device);
         });
     };
