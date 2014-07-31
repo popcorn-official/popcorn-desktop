@@ -66,6 +66,7 @@
 		var found = [];
 		var search = toLowerCaseArray(externalPlayers.slice(0));
 		async.each(searchPaths[process.platform], function(folderName, pathcb) {
+			folderName = path.normalize(folderName);
 			console.log('Scanning: '+ folderName);
 			var appIndex = -1;
 			var fileStream = readdirp({root: folderName, depth: 3});
