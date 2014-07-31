@@ -4,8 +4,9 @@
 	var inherits = require('util').inherits;
 	var path = require('path');
 	var fs = require('fs');
-	var readdir_recursive = require('fs-readdir-recursive');
+	var readdirp = require('readdirp');
 	var async = require('async');
+	var _this;
 
 	var externalPlayers = ['VLC', 'MPlayer OSX Extended', 'MPlayer', 'mpv'];
 	var playerCmds = [];
@@ -13,31 +14,31 @@
 	playerCmds['VLC'] = '/Contents/MacOS/VLC';
 	playerCmds['MPlayer OSX Extended'] = '/Contents/Resources/Binaries/mpextended.mpBinaries/Contents/MacOS/mplayer';
 
-	playerSwitches['VLC'] = ' --no-video-title-show --sub-filter=marq --marq-marquee="Streaming From Popcorn Time" --marq-position=8 --marq-timeout=3000 --sub-file=';
+	playerSwitches['VLC'] = ' --no-video-title-show --sub-filter=marq --marq-marquee="'+ i18n.__('Streaming From Popcorn Time') + '" --marq-position=8 --marq-timeout=3000 --sub-file=';
 	playerSwitches['MPlayer OSX Extended'] = ' -font "/Library/Fonts/Arial Bold.ttf" -sub ';
 	playerSwitches['MPlayer'] = ' -sub ';
 	playerSwitches['mpv'] = ' -sub ';
 
 	var searchPaths = {};
 	searchPaths.linux = ['/usr/bin', '/usr/local/bin'];
-	searchPaths.mac = ['/Applications'];
-	searchPaths.windows = ['"C:\\Program Files\\"', '"C:\\Program Files (x86)\\"'];
+	searchPaths.darwin = ['/Applications'];
+	searchPaths.win32 = ['"C:\\Program Files\\"', '"C:\\Program Files (x86)\\"'];
 
 	var External = function () {
 		App.Device.Generic.call(this);
+		_this = this;
 	};
 
 	inherits(External, App.Device.Generic);
 
 	External.prototype.initialize = function () {
 		this.type = 'external';
-		console.log('EXTERNAL!!!');
 		findExternalPlayers();
 	};
 
 	External.prototype.play = function(device, url) {
 		var extraCmd = ''; // MAC needs to delve into the .app to get the actual executable
-		if(Settings.os === 'mac') {
+		if(process.platform === 'darwin') {
 			extraCmd =  getPlayerCmd(device.path);
 		}
 
@@ -62,28 +63,27 @@
 	function findExternalPlayers() {
 		var folderName = '';
 		var players = [];
+		var found = [];
 		var search = toLowerCaseArray(externalPlayers.slice(0));
-		async.each(searchPaths[Settings.os], function(folderName, pathcb) {
+		async.each(searchPaths[process.platform], function(folderName, pathcb) {
 			console.log('Scanning: '+ folderName);
 			var appIndex = -1;
-			var data = readdir_recursive(folderName);
-			if(data) {
-				async.each(
-					data,
-					function(d, cb) {
-						var app = d.replace(path.extname(d), '').toLowerCase();
-						appIndex = search.indexOf(path.basename(app));
-						if(appIndex !== -1) {
-							console.log('Found External Player: '+ app + ' in '+ folderName);
-							this.add({id: externalPlayers[appIndex], name: externalPlayers[appIndex], path: path.join(folderName, d)});
-						}
-						cb();
-					},
-					function(err, data) {
-						pathcb();
+			var fileStream = readdirp({root: folderName, depth: 3});
+			fileStream.on('data', function(d) {
+				var app = d.name.replace(path.extname(d.name), '').toLowerCase();
+				appIndex = search.indexOf(app);
+				if(appIndex !== -1) {
+					if(found.indexOf(app) === -1) { // don't know why I have to do this, for some reason it finds stuff 3 times (probably cos depth is 3)
+						found.push(app);
+						console.log('Found External Player: '+ app + ' in '+ d.fullParentDir);
+						_this.add({id: externalPlayers[appIndex], name: externalPlayers[appIndex], path: d.fullPath});
 					}
-				);
-			}
+				}
+
+			});
+			fileStream.on('end', function() {
+				pathcb();
+			});
 		},
 		function(err) {
 			if(err) {

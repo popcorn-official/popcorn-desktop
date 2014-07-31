@@ -9,7 +9,6 @@
         App.vent.on('device:list', this.list);
 
         if (this.initialize) {
-            console.log('here');
             this.initialize();
         }
     };
