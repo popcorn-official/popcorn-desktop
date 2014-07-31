@@ -1,7 +1,7 @@
 (function(App) {
     'use strict';
 
-    var inherits = require('utils').inherits;
+    var inherits = require('util').inherits;
     var chromecast = require('chromecast')();
 
     var Chromecast = function () {

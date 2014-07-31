@@ -1,7 +1,7 @@
 (function(App) {
     'use strict';
 
-    var inherits = require('utils').inherits;
+    var inherits = require('util').inherits;
     var browser = require( 'airplay-js' ).createBrowser();
 
     var Airplay = function () {
