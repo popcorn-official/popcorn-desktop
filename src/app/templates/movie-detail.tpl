@@ -45,10 +45,10 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
         <div class="bottom-container">
             <div class="favourites-toggle"><%=i18n.__("Add to bookmarks") %></div>
             <div class="button dropup">
-            <div id="watch-now" class="left"><%=i18n.__("Watch Now") %></div>
-            <div class="dropdown-toggle left playerchoice" data-toggle="dropdown">
-                <span class="caret"></span>
-            </div>
+		<div id="watch-now" class="left"><%=i18n.__("Watch Now") %></div>
+		<div class="dropdown-toggle left playerchoice" data-toggle="dropdown">
+			<span class="caret"></span>
+		</div>
                 <ul class="dropdown-menu playerchoicemenu" role="menu">
                     <li id ="player-airplay" style="display:none"><a href="#">AirPlay<img class="playerchoiceicon" src="images/icons/airplay-icon.png"/></a></li>
                     <li id ="player-chromecast" style="display:none"><a href="#">ChromeCast<img class="playerchoiceicon" src="images/icons/chromecast-icon.png"/></a></li>
