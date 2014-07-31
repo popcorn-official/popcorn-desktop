@@ -183,6 +183,7 @@
             this.model.set('device', player);
             $('.playerchoicemenu li a.active').removeClass('active');
             $(e.currentTarget).addClass('active');
+            $('.imgplayerchoice').attr('src',  $(e.currentTarget).children('img').attr('src'));
         },
 
         playTrailer: function() {
