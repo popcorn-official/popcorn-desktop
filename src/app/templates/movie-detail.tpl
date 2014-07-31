@@ -45,7 +45,8 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
         <div class="bottom-container">
             <div class="favourites-toggle"><%=i18n.__("Add to bookmarks") %></div>
             <div id="watch-now" class="button"><%=i18n.__("Watch Now") %></div>
-            <div id="watch-now" class="button"><%=i18n.__("Airplay Now") %></div>
+            <div id="airplay-now" class="button"><%=i18n.__("Airplay Now") %></div>
+            <div id="external-now" class="button"><%=i18n.__("External Now") %></div>
             <div id="watch-trailer" class="button"><%=i18n.__("Watch Trailer") %></div>
 
             <div class="movie-quality-container">
