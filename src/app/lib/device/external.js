@@ -22,7 +22,7 @@
 	var searchPaths = {};
 	searchPaths.linux = ['/usr/bin', '/usr/local/bin'];
 	searchPaths.darwin = ['/Applications'];
-	searchPaths.win32 = ['"\\C:\\Program Files\\"', '"\\C:\\Program Files (x86)\\"'];
+	searchPaths.win32 = ['\\C:\\Program Files\\', '\\C:\\Program Files (x86)\\'];
 
 	var External = function () {
 		App.Device.Generic.call(this);
