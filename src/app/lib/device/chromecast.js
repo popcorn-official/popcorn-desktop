@@ -25,5 +25,5 @@
         chromecast.discover();
     };
 
-    App.Device.Chromecast = Chromecast;
+    App.Device.Chromecast = new Chromecast();
 })(window.App);

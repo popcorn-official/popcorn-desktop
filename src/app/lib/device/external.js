@@ -106,5 +106,5 @@
 		return playerCmds[name];
 	}
 
-	App.Device.External = External;
+	App.Device.External = new External();
 })(window.App);

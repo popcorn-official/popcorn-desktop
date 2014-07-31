@@ -26,5 +26,5 @@
         return device.play(url);
     };
 
-    App.Device.Airplay = Airplay;
+    App.Device.Airplay = new Airplay();
 })(window.App);
