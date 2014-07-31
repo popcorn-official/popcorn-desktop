@@ -75,7 +75,7 @@
 						appIndex = search.indexOf(path.basename(app));
 						if(appIndex !== -1) {
 							console.log('Found External Player: '+ app + ' in '+ folderName);
-							this.add({name: externalPlayers[appIndex], path: path.join(folderName, d)});
+							this.add({id: externalPlayers[appIndex], name: externalPlayers[appIndex], path: path.join(folderName, d)});
 						}
 						cb();
 					},
