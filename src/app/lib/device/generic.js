@@ -2,16 +2,16 @@
     'use strict';
 
     var Device = function () {
-        this.selected = null;
-        this.devices = {};
-        this.type = 'generic';
-
         App.vent.on('device:list', this.list);
 
         if (this.initialize) {
             this.initialize();
         }
     };
+
+    Device.prototype.devices = {};
+    Device.prototype.selected = null;
+    Device.prototype.type = 'generic';
 
     Device.prototype.startDevice =  function (streamModel) {
         if (! this.selected) {
