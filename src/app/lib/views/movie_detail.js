@@ -13,8 +13,7 @@
         },
 
         events: {
-            'click #watch-now': 'startWatching',
-            'click #airplay-now': 'startAirplay',
+            'click #watch-now': 'startStreaming',
             'click #watch-trailer': 'playTrailer',
             'click .close-icon': 'closeDetails',
             'click #switch-hd-on': 'enableHD',
@@ -22,7 +21,8 @@
             'click .favourites-toggle': 'toggleFavourite',
             'click .movie-imdb-link': 'openIMDb',
             'click .sub-dropdown': 'toggleDropdown',
-            'click .sub-flag-icon': 'closeDropdown'
+            'click .sub-flag-icon': 'closeDropdown',
+            'click .playerchoicemenu li': 'selectPlayer'
         },
 
         initialize: function() {
@@ -60,15 +60,17 @@
             $('.filter-bar').css('opacity', '1');
 
             App.vent.on('device:add', function(device) {
-                console.log(device);
-                $('#' + device.PTtype + '-now').show();
+                $('.playerchoicemenu li#player-'+ device.PTtype).show();
             });
 
             App.vent.on('device:rm', function(device) {
-                $('#' + device.PTtype + '-now').hide();
+                $('.playerchoicemenu li#player-'+ device.PTtype).hide();
             });
 
             App.vent.trigger('device:list');
+
+            this.model.set('device', 'local');
+            $('.playerchoicemenu li#player-local').addClass('active');
 
             var torrents = this.model.get('torrents');
             if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
@@ -146,7 +148,7 @@
                 title: this.model.get('title'),
                 quality: this.model.get('quality'),
                 type: 'movie',
-                device: device
+                device: this.model.get('device')
             });
             this.unbindKeyboardShortcuts();
             App.vent.trigger('stream:start', torrentStart);
@@ -176,13 +178,10 @@
             }
         },
 
-        startWatching: function () {
-            this.startStreaming('local');
-        },
-
-        startAirplay: function () {
-            this.startStreaming('airplay');
-
+        selectPlayer: function (e) {
+            var player = $(e.currentTarget).attr('id').replace('player-', '');
+            this.model.set('device', player);
+            $(e.currentTarget).addClass('active');
         },
 
         playTrailer: function() {
