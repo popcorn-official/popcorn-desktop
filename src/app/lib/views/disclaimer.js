@@ -11,11 +11,13 @@
         },
 
         initialize: function() {
+			Mousetrap.pause();
             console.log('Show Disclaimer');
         },
 
         acceptDisclaimer: function(e) {
             e.preventDefault();
+			Mousetrap.unpause();
             AdvSettings.set('disclaimerAccepted', 1);
             App.vent.trigger('close:disclaimer', []);
         },
