@@ -17,7 +17,7 @@
 	playerSwitches['VLC'] = ' --no-video-title-show --sub-filter=marq --marq-marquee="'+ i18n.__('Streaming From Popcorn Time') + '" --marq-position=8 --marq-timeout=3000 --sub-file=';
 	playerSwitches['MPlayer OSX Extended'] = ' -font "/Library/Fonts/Arial Bold.ttf" -sub ';
 	playerSwitches['MPlayer'] = ' -sub ';
-	playerSwitches['mpv'] = ' -sub ';
+	playerSwitches['mpv'] = ' --sub-file=';
 
 	var searchPaths = {};
 	searchPaths.linux = ['/usr/bin', '/usr/local/bin'];
