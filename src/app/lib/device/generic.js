@@ -1,8 +1,11 @@
 (function(App) {
     'use strict';
 
+    var self;
+
     var Device = function () {
         App.vent.on('device:list', this.list);
+        self = this;
 
         if (this.initialize) {
             this.initialize();
@@ -52,8 +55,7 @@
     };
 
     Device.prototype.list = function () {
-        var self = this;
-        _.each(this.devices, function (device) {
+        _.each(self.devices, function (device, index, list) {
             App.vent.trigger('device:add', device);
         });
     };
