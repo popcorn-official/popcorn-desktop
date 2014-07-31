@@ -22,7 +22,7 @@
             'click .movie-imdb-link': 'openIMDb',
             'click .sub-dropdown': 'toggleDropdown',
             'click .sub-flag-icon': 'closeDropdown',
-            'click .playerchoicemenu li': 'selectPlayer'
+            'click .playerchoicemenu li a': 'selectPlayer'
         },
 
         initialize: function() {
@@ -70,7 +70,7 @@
             App.vent.trigger('device:list');
 
             this.model.set('device', 'local');
-            $('.playerchoicemenu li#player-local').addClass('active');
+            $('.playerchoicemenu li#player-local a').addClass('active');
 
             var torrents = this.model.get('torrents');
             if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
@@ -179,9 +179,9 @@
         },
 
         selectPlayer: function (e) {
-            var player = $(e.currentTarget).attr('id').replace('player-', '');
+            var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
             this.model.set('device', player);
-            $('.playerchoicemenu li.active').removeClass('active');
+            $('.playerchoicemenu li a.active').removeClass('active');
             $(e.currentTarget).addClass('active');
         },
 
