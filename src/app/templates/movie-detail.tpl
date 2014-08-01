@@ -44,19 +44,7 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 
         <div class="bottom-container">
             <div class="favourites-toggle"><%=i18n.__("Add to bookmarks") %></div>
-            <div class="button dropup">
-		<div id="watch-now" class="left"><%=i18n.__("Watch Now") %></div>
-		<div class="dropdown-toggle left playerchoice" data-toggle="dropdown">
-                    <img class="imgplayerchoice" src="images/icons/pt-icon.png"/>
-			<span class="caret"></span>
-		</div>
-                <ul class="dropdown-menu playerchoicemenu" role="menu">
-                    <li id ="player-airplay" style="display:none"><a href="#">AirPlay<img class="playerchoiceicon" src="images/icons/airplay-icon.png"/></a></li>
-                    <li id ="player-chromecast" style="display:none"><a href="#">ChromeCast<img class="playerchoiceicon" src="images/icons/chromecast-icon.png"/></a></li>
-                    <li id = "player-external" style="display:none"><a href="#"><%=i18n.__("External Player") %><img class="playerchoiceicon" src="images/icons/external-icon.png"/></a></li>
-                    <li id = "player-local"><a href="#">Popcorn Time<img class="playerchoiceicon" src="images/icons/pt-icon.png"/></a></li>
-                </ul>
-            </div>
+            <div class="button dropup" id="player-chooser"></div>
             <div id="watch-trailer" class="button"><%=i18n.__("Watch Trailer") %></div>
 
             <div class="movie-quality-container">

@@ -51,7 +51,7 @@
 			<div class="quality-info"></div>
 		</div>
 		<div class="movie-btn-watch-episode startStreaming" data-torrent="" data-episodeid="">
-			<div class="movie-watch-now"><%= i18n.__("Watch Now") %></div>
+                        <div class="button dropup" id="player-chooser"></div>
 		</div>
 	</div>
 

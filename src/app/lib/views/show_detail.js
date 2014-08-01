@@ -12,14 +12,14 @@ var health_checked = false;
         className: 'shows-container-contain',
 
         ui: {
-            startStreaming: '.startStreaming',
+            startStreaming: '#watch-now',
             qselector: '.quality-selector',
             qinfo: '.quality-info'
         },
 
         events: {
             'click .watched': 'toggleWatched',
-            'click .startStreaming': 'startStreaming',
+            'click #watch-now': 'startStreaming',
             'click .close-icon': 'closeDetails',
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
@@ -90,7 +90,8 @@ var health_checked = false;
             this.selectSeason($('.tab-season:first'));
             $('.star-container-tv').tooltip();
 
-
+            App.Device.ChooserView('#player-chooser').render();
+            this.model.set('device', 'local');
 
             var cbackground = $('.tv-cover').attr('data-bgr');
             var coverCache = new Image();

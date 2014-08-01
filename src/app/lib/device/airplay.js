@@ -1,30 +1,40 @@
 (function(App) {
     'use strict';
 
-    var inherits = require('util').inherits;
     var browser = require( 'airplay-js' ).createBrowser();
 
-    var Airplay = function () {
-        App.Device.Generic.call(this);
+    var collection = App.Device.Collection;
+
+    var makeID=  function (baseID) {
+            return 'airplay-' + baseID;
     };
 
-    inherits(Airplay, App.Device.Generic);
+    var Airplay = App.Device.Generic.extend ({
+        defaults: {
+            type: 'airplay'
+        },
+        initialize: function () {
+            this.device = this.model.get('device');
+            this.model.set('name', this.device.name);
+            this.id = makeID(this.device.id);
+        },
+         play: function (url) {
+            this.device.play(url);
+        }
+    });
 
-    Airplay.prototype.initialize = function () {
-        browser.on( 'deviceOn', function( device ) {
-            this.add(device);
-        });
 
-        browser.on( 'deviceOff', function( device ) {
-            this.rm(device);
-        });
+    browser.on( 'deviceOn', function( device ) {
+        collection.add(new Airplay ({device: device}));
+    });
 
-        browser.start();
-    };
+    browser.on( 'deviceOff', function( device ) {
+        var model = collection.get ({id: makeID(device.id)});
+        if (model)
+            model.destroy();
+    });
 
-    Airplay.prototype.play = function (device, url) {
-        return device.play(url);
-    };
+    browser.start();
 
-    App.Device.Airplay = new Airplay();
+    App.Device.Airplay = Airplay;
 })(window.App);

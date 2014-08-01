@@ -21,8 +21,7 @@
             'click .favourites-toggle': 'toggleFavourite',
             'click .movie-imdb-link': 'openIMDb',
             'click .sub-dropdown': 'toggleDropdown',
-            'click .sub-flag-icon': 'closeDropdown',
-            'click .playerchoicemenu li a': 'selectPlayer'
+            'click .sub-flag-icon': 'closeDropdown'
         },
 
         initialize: function() {
@@ -59,18 +58,8 @@
             $('#header').css('opacity', '1');
             $('.filter-bar').css('opacity', '1');
 
-            App.vent.on('device:add', function(device) {
-                $('.playerchoicemenu li#player-'+ device.PTtype).show();
-            });
-
-            App.vent.on('device:rm', function(device) {
-                $('.playerchoicemenu li#player-'+ device.PTtype).hide();
-            });
-
-            App.vent.trigger('device:list');
-
+            App.Device.ChooserView('#player-chooser').render();
             this.model.set('device', 'local');
-            $('.playerchoicemenu li#player-local a').addClass('active');
 
             var torrents = this.model.get('torrents');
             if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
@@ -138,7 +127,7 @@
             win.info('Subtitle: ' + this.subtitle_selected);
         },
 
-        startStreaming: function(device) {
+        startStreaming: function() {
             var torrentStart = new Backbone.Model({
                 imdb_id: this.model.get('imdb_id'),
                 torrent: this.model.get('torrents')[this.model.get('quality')].url,
@@ -176,14 +165,6 @@
             if (value) {
                 this.switchSubtitle(value);
             }
-        },
-
-        selectPlayer: function (e) {
-            var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
-            this.model.set('device', player);
-            $('.playerchoicemenu li a.active').removeClass('active');
-            $(e.currentTarget).addClass('active');
-            $('.imgplayerchoice').attr('src',  $(e.currentTarget).children('img').attr('src'));
         },
 
         playTrailer: function() {
