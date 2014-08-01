@@ -30,8 +30,9 @@
 
     browser.on( 'deviceOff', function( device ) {
         var model = collection.get ({id: makeID(device.id)});
-        if (model)
+        if (model) {
             model.destroy();
+        }
     });
 
     browser.start();

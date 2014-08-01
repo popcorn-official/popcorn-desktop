@@ -11,14 +11,14 @@
         var External = App.Device.Generic.extend ({
                 defaults: {
                         type: 'external',
-                        name: i18n.__("External Player"),
+                        name: i18n.__('External Player'),
                 },
 	        play: function(url) {
                         // MAC needs to delve into the .app to get the actual executable
 		        var extraCmd = '';
 
 		        if(process.platform === 'darwin') {
-			        extraCmd =  getPlayerCmd(device.path);
+			        extraCmd =  getPlayerCmd(this.path);
 		        }
 
                         // So it behaves when spaces in path
