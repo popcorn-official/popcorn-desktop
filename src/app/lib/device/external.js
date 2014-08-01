@@ -18,7 +18,7 @@
 			// "" So it behaves when spaces in path
 			// TODO: Subtitles
                         var url = streamModel.attributes.src;
-			var cmd = path.normalize('"'+ device.attributes.path + '"');
+			var cmd = path.normalize('"'+ this.get('path') + '"');
 			win.info('Launching External Player: '+ cmd + ' ' +  url);
 			child.exec(cmd + ' '+  url);
 		}
