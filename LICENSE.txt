@@ -652,4 +652,4 @@ END OF TERMS AND CONDITIONSwo
 The source code for any program binaries or compressed scripts that are
 included with Popcorn Time can be freely obtained at the following URL:
  
-https://github.com/popcorn-official/popcorn-app/
+https://git.popcorntime.io/

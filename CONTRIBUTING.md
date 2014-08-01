@@ -22,7 +22,7 @@ There are lots and lots of ways to get involved, this document covers:
 If you're about to raise an issue because think you've found a problem with Popcorn Time, or you'd like to make a request
 for a new feature in the codebase, or any other reason… please read this first.
 
-The GitHub issue tracker is the preferred channel for [bug reports](#bugs),
+The JIRA issue tracker is the preferred channel for [bug reports](#bugs),
 [feature requests](#features), [change requests](#changes) and [submitting pull
 requests](#pull-requests), but please respect the following restrictions:
 
@@ -42,36 +42,33 @@ Good bug reports are extremely helpful - thank you!
 
 Guidelines for bug reports:
 
-1. **Use the GitHub issue search** &mdash; check if the issue has already been reported.
+1. **Use the JIRA issue search** &mdash; check if the issue has already been reported.
 
-2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or look for [closed issues in the current milestone](https://github.com/popcorn-official/popcorn-app/issues?milestone=2&page=1&state=closed).
+2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or look for [closed issues](https://git.popcorntime.io/jira/issues/?jql=project%20%3D%20PT%20AND%20status%20in%20%28Resolved%2C%20Closed%29).
 
-3. **Include a screencast if relevant** - Is your issue about a design or front end feature or bug? The most
-helpful thing in the world is if we can *see* what you're talking about.
-Use [LICEcap](http://www.cockos.com/licecap/) to quickly and easily record a short screencast (24fps) and save it as an animated gif! Embed it directly into your GitHub issue. Kapow.
+3. **Include a screencast if relevant** - Is your issue about a design or front end feature or bug? The most helpful thing in the world is if we can *see* what you're talking about.
+Use [LICEcap](http://www.cockos.com/licecap/) to quickly and easily record a short screencast (24fps) and save it as an animated gif! Embed it directly into your Jira issue. Kapow.
 
-3. Use the Bug Report template below or [click this link](https://github.com/popcorn-official/popcorn-app/issues/new?title=Bug%3A%20&body=%23%23%23%20Issue%20Summary%0A%0A%23%23%23%20Steps%20to%20Reproduce%0A%0A1.%20This%20is%20the%20first%20step%0A%0AThis%20is%20a%20bug%20because...%0A%0A%23%23%23%20Technical%20details%0A%0A*%20Popcorn%20Time%20Version%3A%20(stable%2Fmaster)%20-%20latest%20commit%3A%20%20INSERT%20COMMIT%20REF%0A*%20Downloaded%20from%3A%20%0A*%20Connection%3A%0A*%20OS%3A) to start creating a bug report with the template automatically.
+3. Use the Bug Report template below to start creating a bug report with the template automatically.
 
-A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the
-details of your environment.
+A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment.
 
-Template Example ([click to use](https://github.com/popcorn-official/popcorn-app/issues/new?title=Bug%3A%20&body=%23%23%23%20Issue%20Summary%0A%0A%23%23%23%20Steps%20to%20Reproduce%0A%0A1.%20This%20is%20the%20first%20step%0A%0AThis%20is%20a%20bug%20because...%0A%0A%23%23%23%20Technical%20details%0A%0A*%20Popcorn%20Time%20Version%3A%20(stable%2Fmaster)%20-%20latest%20commit%3A%20%20INSERT%20COMMIT%20REF%0A*%20Downloaded%20from%3A%20%0A*%20Connection%3A%0A*%20OS%3A)):
+Template Example :
 ```
-Short and descriptive example bug report title
+Short and descriptive example bug report summary (title)
 
-### Issue Summary
+### Environment
 
-A summary of the issue and the OS environment in which it occurs. If
-suitable, include the steps required to reproduce the bug.
+The OS environment in which the issue occurs. 
 
 ### Steps to Reproduce
+If suitable, include the steps required to reproduce the bug.
 
 1. This is the first step
 2. This is the second step
 3. Further steps, etc.
 
-Any other information you want to share that is relevant to the issue being
-reported. Especially, why do you consider this to be a bug? What do you expect to happen instead?
+Any other information you want to share that is relevant to the issue being reported. Especially, why do you consider this to be a bug? What do you expect to happen instead?
 
 ### Technical details:
 
@@ -87,7 +84,7 @@ reported. Especially, why do you consider this to be a bug? What do you expect t
 Feature requests are welcome. Before you submit one be sure to have:
 
 1. Read the [Roadmap](https://github.com/popcorn-official/popcorn-app/wiki/RoadMap) and
-[Planned Features](https://github.com/popcorn-official/popcorn-app/wiki/Planned-Features) listing, **use the GitHub search** and check the feature hasn't already been requested.
+[Planned Features](https://github.com/popcorn-official/popcorn-app/wiki/Planned-Features) listing, **use the Jira search** and check the feature hasn't already been requested.
 2. Take a moment to think about whether your idea fits with the scope and aims of the project, or if it might
 better fit being an app/plugin.
 3. Remember, it's up to *you* to make a strong case to convince the project's leaders of the merits of this
@@ -102,7 +99,7 @@ likely to be common.
 Change requests cover both architectural and functional changes to how Popcorn Time works. If you have an idea for a
 new or different dependency, a refactor, or an improvement to a feature, etc  - please be sure to:
 
-1. **Use the GitHub search** and check someone else didn't get there first
+1. **Use the Jira search** and check someone else didn't get there first
 2. Take a moment to think about the best way to make a case for, and explain what you're thinking. Are you sure
 this shouldn't really be a [bug report](#bug-reports) or a [feature request](#feature-requests)? Is it really one
 idea or is it many? What's the context? What problem are you solving? Why is what you are suggesting better than
@@ -157,14 +154,14 @@ For translations please go to: [http://www.getlocalization.com/PopcornTime/](htt
 
 ### Updating with the latest changes
 
-Pulling down the latest changes from master will often require more than just a pull, you may also need to do one
-or more of the following:
+Pulling down the latest changes from master will often require more than just a pull, you may also need to do one or more of the following:
 
  * `npm install` - fetch any new dependencies
+ * `grunt stylus` - rebuild the css files
 
 ### Key Branches & Tags
 
-- **[master](https://github.com/popcorn-official/popcorn-app)** is the bleeding edge development branch. All work on the next
+- **[master](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse?at=refs/heads/master)** is the bleeding edge development branch. All work on the next
 release is here.
 
 

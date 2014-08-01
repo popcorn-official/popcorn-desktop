@@ -1,8 +1,8 @@
-# [Popcorn Time](https://github.com/popcorn-official/popcorn-app) [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-app.svg)](https://david-dm.org/popcorn-official/popcorn-app) [![Build Status](https://travis-ci.org/popcorn-official/popcorn-app.svg?branch=dev-0.3)](https://travis-ci.org/popcorn-official/popcorn-app)
+# [Popcorn Time](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app) [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-app.svg)](https://david-dm.org/popcorn-official/popcorn-app) [![Build Status](https://travis-ci.org/popcorn-official/popcorn-app.svg?branch=dev-0.3)](https://travis-ci.org/popcorn-official/popcorn-app)
 
 Allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
-![](http://i.imgur.com/MdZR313.gif)
+![Popcorn Time](http://i.imgur.com/MdZR313.gif)
 
 Visit the project's website at <http://popcorntime.io>.
 
@@ -10,7 +10,7 @@ Visit the project's website at <http://popcorntime.io>.
 
 ## Getting Involved
 
-Want to report a bug, request a feature, contribute or translate Popcorn Time? Check out our in-depth guide to [Contributing to Popcorn Time](https://github.com/popcorn-official/popcorn-app/blob/master/CONTRIBUTING.md). We need all the help we can get! You can also join in with our [community](https://github.com/popcorn-official/popcorn-app#community) to keep up-to-date and meet other Popcorn Timers.
+Want to report a bug, request a feature, contribute or translate Popcorn Time? Check out our in-depth guide to [Contributing to Popcorn Time](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse/CONTRIBUTING.md). We need all the help we can get! You can also join in with our [community](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse/README.md#community) to keep up-to-date and meet other Popcorn Timers.
 
 ## Getting Started
 
@@ -18,7 +18,7 @@ If you're comfortable getting up and running from a `git clone`, this method is 
 
 If you clone the GitHub repository, you will need to build a number of assets using grunt.
 
-The [stable](https://github.com/popcorn-official/popcorn-app/tree/stable) branch which contains the latest release.
+The [stable](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse?at=refs/heads/master) branch which contains the latest release.
 
 #### Quickstart:
 
@@ -27,8 +27,9 @@ The [stable](https://github.com/popcorn-official/popcorn-app/tree/stable) branch
 1. `grunt build`
 1. `grunt start`
 
-Full instructions & troubleshooting tips can be found in the [Contributing Guide](https://github.com/popcorn-official/popcorn-app/blob/master/CONTRIBUTING.md)
+Full instructions & troubleshooting tips can be found in the [Contributing Guide](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse/CONTRIBUTING.md)
 
+<a name="community"></a>
 ## Community
 
 Keep track of Popcorn Time development and community activity.
@@ -69,4 +70,4 @@ You should have received a copy of the GNU General Public License along with thi
 
 If you want to contact us : [hello@popcorntime.io](mailto:hello@popcorntime.io)
  
-Copyright (c) 2014 Popcorn Time Foundation - Released under the [GLV v3 license](https://github.com/popcorn-official/popcorn-app/blob/master/LICENSE.txt).
+Copyright (c) 2014 Popcorn Time Foundation - Released under the [GLV v3 license](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse/LICENSE.txt).
