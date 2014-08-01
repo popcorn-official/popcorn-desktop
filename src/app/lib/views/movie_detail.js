@@ -143,7 +143,7 @@
             App.vent.trigger('stream:start', torrentStart);
         },
 
-            toggleDropdown: function(e) {
+        toggleDropdown: function(e) {
             if ($('.sub-dropdown').is('.open')) {
                 this.closeDropdown(e);
                 return false;
