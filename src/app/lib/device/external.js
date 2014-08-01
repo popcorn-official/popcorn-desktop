@@ -14,9 +14,10 @@
 			name: i18n.__('External Player'),
 		},
 
-		play: function(device, url) {
+		play: function(streamModel) {
 			// "" So it behaves when spaces in path
 			// TODO: Subtitles
+                        var url = streamModel.attributes.src;
 			var cmd = path.normalize('"'+ device.attributes.path + '"');
 			win.info('Launching External Player: '+ cmd + ' ' +  url);
 			child.exec(cmd + ' '+  url);

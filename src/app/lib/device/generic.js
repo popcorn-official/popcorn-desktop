@@ -8,8 +8,8 @@
 			type: 'local',
 			name: 'Popcorn Time'
 		},
-		play: function (device, url) {
-			console.error ('PLAY not implemented in generic class');
+		play: function (streamModel) {
+                        App.vent.trigger('stream:local', streamModel);
 		},
 		getID: function () {
 			return this.id;
@@ -33,8 +33,7 @@
 				return false;
 			}
 
-			var src = streamModel.attributes.src;
-			return this.selected.play(this.selected, src);
+			return this.selected.play(streamModel);
 		},
 
 		setDevice: function(deviceID) {

@@ -19,7 +19,8 @@
 			this.attributes.name =  this.device.name || this.device.serverInfo.model;
                         this.attributes.id = this.makeID(this.device.serverInfo.deviceId);
 		},
-		play: function (device, url) {
+		play: function (streamModel) {
+                        var url = streamModel.attributes.src;
 			this.device.play(url);
 		}
 	});
