@@ -240,8 +240,7 @@
         },
 
         streamReady: function(streamModel) {
-            console.log(streamModel);
-            if (streamModel.attributes.device === 'local') { // This check
+            if (streamModel.get('device') === 'local') {
                 return this.showPlayer(streamModel);
             }
             else {

@@ -102,9 +102,6 @@ var health_checked = false;
                     .css('background-image', 'url(' + cbackground + ')')
                     .css('opacity', '1');
                 coverCache = null;
-
-
-
             };
 
             var background = $('.tv-poster-background').attr('data-bgr');
@@ -182,7 +179,8 @@ var health_checked = false;
                 status: that.model.get('status'),
                 extract_subtitle: epInfo,
                 quality: $(e.currentTarget).attr('data-quality'),
-                defaultSubtitle: Settings.subtitle_language
+                defaultSubtitle: Settings.subtitle_language,
+                device: that.model.get('device')
             });
             _this.unbindKeyboardShortcuts();
             App.vent.trigger('stream:start', torrentStart);

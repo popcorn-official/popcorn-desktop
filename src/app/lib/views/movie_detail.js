@@ -289,7 +289,6 @@
 
         selectPlayer: function(e) {
             var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
-            console.log(player);
             this.model.set('device', player);
         }
 
