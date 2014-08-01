@@ -33,8 +33,13 @@
 				return false;
 			}
 
-			var src = streamModel.get(src);
-			return this.selected.play (src[0].url);
+			var src = streamModel.attributes.src;
+			return this.selected.play(this.selected, src);
+		},
+
+		setDevice: function(deviceID) {
+			console.log(deviceID);
+			this.selected = _.findWhere(self.models, {id: deviceID});
 		}
 
 	});
@@ -48,7 +53,7 @@
 		},
 		selectPlayer: function (e) {
 			var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
-			this.model.set('device', player);
+			collection.setDevice(player);
 			$('.playerchoicemenu li a.active').removeClass('active');
 			$(e.currentTarget).addClass('active');
 			$('.imgplayerchoice').attr('src',  $(e.currentTarget).children('img').attr('src'));

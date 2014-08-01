@@ -18,7 +18,7 @@
 			this.model.set('name', this.device.name);
 			this.id = makeID(this.device.id);
 		},
-		play: function (url) {
+		play: function (device, url) {
 			this.device.play(url);
 		}
 	});

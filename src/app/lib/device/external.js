@@ -6,6 +6,7 @@
 	var readdirp = require('readdirp');
 	var async = require('async');
 	var collection = App.Device.Collection;
+	var child = require('child_process');
 
 	var External = App.Device.Generic.extend ({
 		defaults: {
@@ -13,17 +14,12 @@
 			name: i18n.__('External Player'),
 		},
 
-		play: function(url) {
-			// MAC needs to delve into the .app to get the actual executable
-			var extraCmd = '';
-			if(process.platform === 'darwin') {
-				extraCmd =  getPlayerCmd(this.path);
-			}
-			// So it behaves when spaces in path
-			var cmd = '"'+ this.path + extraCmd +'"';
+		play: function(device, url) {
+			// "" So it behaves when spaces in path
 			// TODO: Subtitles
+			var cmd = path.normalize(device.attributes.path);
 			win.info('Launching External Player: '+ cmd + ' ' +  url);
-			process.exec(cmd + ' '+  url);
+			child.exec(cmd + ' '+  url);
 		}
 	});
 

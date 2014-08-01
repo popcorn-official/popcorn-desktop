@@ -21,7 +21,8 @@
             'click .favourites-toggle': 'toggleFavourite',
             'click .movie-imdb-link': 'openIMDb',
             'click .sub-dropdown': 'toggleDropdown',
-            'click .sub-flag-icon': 'closeDropdown'
+            'click .sub-flag-icon': 'closeDropdown',
+            'click .playerchoicemenu li a': 'selectPlayer'
         },
 
         initialize: function() {
@@ -285,6 +286,12 @@
             e.preventDefault();
             e.stopPropagation();
         },
+
+        selectPlayer: function(e) {
+            var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
+            console.log(player);
+            this.model.set('device', player);
+        }
 
     });
 })(window.App);

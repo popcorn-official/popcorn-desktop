@@ -26,7 +26,8 @@ var health_checked = false;
             'dblclick .tab-episode': 'dblclickEpisode',
             'click #switch-hd-on': 'enableHD',
             'click #switch-hd-off': 'disableHD',
-            'click .health-icon': 'getTorrentHealth'
+            'click .health-icon': 'getTorrentHealth',
+            'click .playerchoicemenu li a': 'selectPlayer'
         },
 
         initialize: function() {
@@ -40,7 +41,7 @@ var health_checked = false;
             images.fanart = resizeImage(images.fanart, '940');
             //if ((ScreenResolution.SD || ScreenResolution.HD) && !ScreenResolution.Retina) {
                 // Screen Resolution of 720p or less is fine to have 300x450px image
-            	images.poster = resizeImage(images.poster, '300');
+                images.poster = resizeImage(images.poster, '300');
             //}
 
             App.vent.on('shortcuts:show', function() {
@@ -260,24 +261,24 @@ var health_checked = false;
             //pull the scroll always to top
             $('.episode-info-description').scrollTop(0);
 
-            $('.movie-btn-watch-episode').attr('data-torrent', torrents.def);
-            $('.movie-btn-watch-episode').attr('data-quality', torrents.quality);
-            $('.movie-btn-watch-episode').attr('data-episodeid', tvdbid);
+            $('.startStreaming').attr('data-torrent', torrents.def);
+            $('.startStreaming').attr('data-quality', torrents.quality);
+            $('.startStreaming').attr('data-episodeid', tvdbid);
 
             // set var for player
-            $('.movie-btn-watch-episode').attr('data-episode', $('.template-' + tvdbid + ' .episode').html());
-            $('.movie-btn-watch-episode').attr('data-season', $('.template-' + tvdbid + ' .season').html());
-            $('.movie-btn-watch-episode').attr('data-title', $('.template-' + tvdbid + ' .title').html());
+            $('.startStreaming').attr('data-episode', $('.template-' + tvdbid + ' .episode').html());
+            $('.startStreaming').attr('data-season', $('.template-' + tvdbid + ' .season').html());
+            $('.startStreaming').attr('data-title', $('.template-' + tvdbid + ' .title').html());
 
             this.ui.startStreaming.show();
         },
 
         enableHD: function() {
             win.info('HD Enabled');
-            var tvdbid = $('.movie-btn-watch-episode').attr('data-episodeid'),
+            var tvdbid = $('.startStreaming').attr('data-episodeid'),
                 torrent = $('.template-' + tvdbid + ' .q720').text();
-            $('.movie-btn-watch-episode').attr('data-torrent', torrent);
-            $('.movie-btn-watch-episode').attr('data-quality', '720P');
+            $('.startStreaming').attr('data-torrent', torrent);
+            $('.startStreaming').attr('data-quality', '720P');
             _this.resetHealth();
             win.debug(torrent);
         },
@@ -286,8 +287,8 @@ var health_checked = false;
             win.info('HD Disabled');
             var tvdbid = $('.movie-btn-watch-episode').attr('data-episodeid'),
                 torrent = $('.template-' + tvdbid + ' .q480').text();
-            $('.movie-btn-watch-episode').attr('data-torrent', torrent);
-            $('.movie-btn-watch-episode').attr('data-quality', '480P');
+            $('.startStreaming').attr('data-torrent', torrent);
+            $('.startStreaming').attr('data-quality', '480P');
             _this.resetHealth();
             win.debug(torrent);
         },
@@ -440,6 +441,11 @@ var health_checked = false;
             .attr('data-original-title', i18n.__('Health Unknown'))
             .tooltip('fixTitle');
             health_checked = false;
+        },
+
+        selectPlayer: function(e) {
+            var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
+            _this.model.set('device', player);
         }
 
     });

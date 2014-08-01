@@ -240,16 +240,15 @@
         },
 
         streamReady: function(streamModel) {
-            if (streamModel.device === 'airplay') {
-                if (App.Airplay.startAirplay(streamModel)) {
-                    return true;
-                }
+            console.log(streamModel);
+            if (streamModel.attributes.device === 'local') { // This check
+                return this.showPlayer(streamModel);
             }
-
-            return this.showPlayer(streamModel);
+            else {
+                App.Device.Collection.startDevice(streamModel);
+            }
         },
         showPlayer: function(streamModel) {
-            console.log(streamModel);
             this.Player.show(new App.View.Player({
                 model: streamModel
             }));
