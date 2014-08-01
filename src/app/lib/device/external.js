@@ -17,7 +17,7 @@
 		play: function(device, url) {
 			// "" So it behaves when spaces in path
 			// TODO: Subtitles
-			var cmd = path.normalize(device.attributes.path);
+			var cmd = path.normalize('"'+ device.attributes.path + '"');
 			win.info('Launching External Player: '+ cmd + ' ' +  url);
 			child.exec(cmd + ' '+  url);
 		}
