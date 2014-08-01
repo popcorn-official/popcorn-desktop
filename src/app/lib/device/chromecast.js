@@ -1,29 +1,29 @@
 (function(App) {
-    'use strict';
+	'use strict';
 
-    var inherits = require('util').inherits;
-    var chromecast = require('chromecast')();
+	var inherits = require('util').inherits;
+	var chromecast = require('chromecast')();
 
-    var Chromecast = function () {
-        App.Device.Generic.call(this);
-    };
+	var Chromecast = function () {
+		App.Device.Generic.call(this);
+	};
 
-    inherits(Chromecast, App.Device.Generic);
+	inherits(Chromecast, App.Device.Generic);
 
-    Chromecast.prototype.initialize = function () {
-        this.type = 'chromecast';
+	Chromecast.prototype.initialize = function () {
+		this.type = 'chromecast';
 
-        chromecast.on('device', function( device ) {
-            console.log('New chomecast device:', device);
-            device = this.add(device);
-        });
+		chromecast.on('device', function( device ) {
+			console.log('New chomecast device:', device);
+			device = this.add(device);
+		});
 
-        chromecast.on( 'deviceOff', function( device ) {
-            device = this.rm(device);
-        });
+		chromecast.on( 'deviceOff', function( device ) {
+			device = this.rm(device);
+		});
 
-        chromecast.discover();
-    };
+		chromecast.discover();
+	};
 
-    App.Device.Chromecast = new Chromecast();
+	App.Device.Chromecast = new Chromecast();
 })(window.App);
