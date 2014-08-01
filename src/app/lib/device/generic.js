@@ -31,7 +31,7 @@
 		},
 		startDevice:  function (streamModel) {
 			if (! this.selected) {
-				return false;
+				this.selected = this.models[0];
 			}
 
 			return this.selected.play(streamModel);
@@ -39,7 +39,7 @@
 
 		setDevice: function(deviceID) {
 			console.log(deviceID);
-			this.selected = _.findWhere(self.models, {id: deviceID});
+			this.selected = this.findWhere({id: deviceID});
 		}
 
 	});
