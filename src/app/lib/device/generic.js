@@ -5,6 +5,7 @@
 
 	var Device = Backbone.Model.extend ({
 		defaults: {
+                        id:   'local',
 			type: 'local',
 			name: 'Popcorn Time'
 		},
@@ -44,6 +45,8 @@
 	});
 
 	var collection = new DeviceCollection (new Device());
+        collection.setDevice('local');
+
 	var ChooserView = Backbone.Marionette.ItemView.extend({
 		template: '#player-chooser-tpl',
 		events: {'click .playerchoicemenu li a': 'selectPlayer'},

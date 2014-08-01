@@ -71,6 +71,7 @@
             // Stream events
             App.vent.on('stream:started', _.bind(this.streamStarted, this));
             App.vent.on('stream:ready', _.bind(this.streamReady, this));
+            App.vent.on('stream:local', _.bind(this.showPlayer, this));
             App.vent.on('player:close', _.bind(this.showViews, this));
             App.vent.on('player:close', _.bind(this.Player.close, this.Player));
         },
@@ -239,14 +240,10 @@
             }));
         },
 
-        streamReady: function(streamModel) {
-            if (streamModel.get('device') === 'local') {
-                return this.showPlayer(streamModel);
-            }
-            else {
-                App.Device.Collection.startDevice(streamModel);
-            }
+        streamReady: function (streamModel) {
+            App.Device.Collection.startDevice(streamModel);
         },
+
         showPlayer: function(streamModel) {
             this.Player.show(new App.View.Player({
                 model: streamModel
