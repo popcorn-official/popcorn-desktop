@@ -18,7 +18,6 @@
 	});
 
 	browser.on( 'deviceOn', function( device ) {
-                console.log ("new xbmc device",device);
 		collection.add(new AirplayXBMC ({device: device}));
 	});
 
