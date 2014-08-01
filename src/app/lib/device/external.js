@@ -5,29 +5,26 @@
 	var fs = require('fs');
 	var readdirp = require('readdirp');
 	var async = require('async');
+	var collection = App.Device.Collection;
 
-        var collection = App.Device.Collection;
+	var External = App.Device.Generic.extend ({
+		defaults: {
+			type: 'external',
+			name: i18n.__('External Player'),
+		},
 
-        var External = App.Device.Generic.extend ({
-                defaults: {
-                        type: 'external',
-                        name: i18n.__('External Player'),
-                },
-	        play: function(url) {
-                        // MAC needs to delve into the .app to get the actual executable
-		        var extraCmd = '';
-
-		        if(process.platform === 'darwin') {
-			        extraCmd =  getPlayerCmd(this.path);
-		        }
-
-                        // So it behaves when spaces in path
-		        var cmd = '"'+ this.path + extraCmd +'"';
-
-		        // TODO: Subtitles
-		        win.info('Launching External Player: '+ cmd + ' ' +  url);
-		        process.exec(cmd + ' '+  url);
-                }
+		play: function(url) {
+			// MAC needs to delve into the .app to get the actual executable
+			var extraCmd = '';
+			if(process.platform === 'darwin') {
+				extraCmd =  getPlayerCmd(this.path);
+			}
+			// So it behaves when spaces in path
+			var cmd = '"'+ this.path + extraCmd +'"';
+			// TODO: Subtitles
+			win.info('Launching External Player: '+ cmd + ' ' +  url);
+			process.exec(cmd + ' '+  url);
+		}
 	});
 
 	function toLowerCaseArray(arr) {
@@ -48,24 +45,23 @@
 		var name = getPlayerName(loc);
 		return playerCmds[name];
 	}
-
-        var externalPlayers = ['VLC', 'MPlayer OSX Extended', 'MPlayer', 'mpv'];
+	var externalPlayers = ['VLC', 'MPlayer OSX Extended', 'MPlayer', 'mpv'];
 	var playerCmds = {
-                VLC: '/Contents/MacOS/VLC',
-                'MPlayer OSX Extended': '/Contents/Resources/Binaries/mpextended.mpBinaries/Contents/MacOS/mplayer'
-        };
+		VLC: '/Contents/MacOS/VLC',
+		'MPlayer OSX Extended': '/Contents/Resources/Binaries/mpextended.mpBinaries/Contents/MacOS/mplayer'
+	};
 	var playerSwitches = {
-                VLC: ' --no-video-title-show --sub-filter=marq --marq-marquee="'+ i18n.__('Streaming From Popcorn Time') + '" --marq-position=8 --marq-timeout=3000 --sub-file=',
-	        'MPlayer OSX Extended': ' -font "/Library/Fonts/Arial Bold.ttf" -sub ',
-	        MPlayer: ' -sub ',
-	        mpv: ' --sub-file='
-        };
+		VLC: ' --no-video-title-show --sub-filter=marq --marq-marquee="'+ i18n.__('Streaming From Popcorn Time') + '" --marq-position=8 --marq-timeout=3000 --sub-file=',
+		'MPlayer OSX Extended': ' -font "/Library/Fonts/Arial Bold.ttf" -sub ',
+		MPlayer: ' -sub ',
+		mpv: ' --sub-file='
+	};
 
 	var searchPaths = {
-	        linux: ['/usr/bin', '/usr/local/bin'],
-	        darwin: ['/Applications'],
-	        win32: ['C:\\Program Files\\', 'C:\\Program Files (x86)\\']
-        };
+		linux: ['/usr/bin', '/usr/local/bin'],
+		darwin: ['/Applications'],
+		win32: ['C:\\Program Files\\', 'C:\\Program Files (x86)\\']
+	};
 
 	var folderName = '';
 	var players = [];
@@ -81,19 +77,20 @@
 			var app = d.name.replace(path.extname(d.name), '').toLowerCase();
 			appIndex = search.indexOf(app);
 			if(appIndex !== -1) {
-                                /** XXX:SlashmanX
-                                 * don't know why I have to do this, for
-                                 * some reason it finds stuff 3 times
-                                 * (probably cos depth is 3)
-                                 */
+				/** XXX:SlashmanX
+				 * don't know why I have to do this, for
+				 * some reason it finds stuff 3 times
+				 * (probably cos depth is 3)
+				 */
 				if(found.indexOf(app) === -1) {
 					found.push(app);
 					console.log('Found External Player: '+ app + ' in '+ d.fullParentDir);
 					collection.add(new External({
-                                                id: externalPlayers[appIndex],
-                                                name: externalPlayers[appIndex],
-                                                path: d.fullPath}));
-			        }
+						id: externalPlayers[appIndex],
+						name: externalPlayers[appIndex],
+						path: d.fullPath
+					}));
+				}
 			}
 
 		});
