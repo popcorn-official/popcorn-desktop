@@ -31,6 +31,7 @@
     "URIjs": "1.13.2",
     "adm-zip": "https://github.com/xeoncore/adm-zip/archive/78f820330c776bca72aad3f22d127b357f57a609.tar.gz",
     "airplay-js": "https://github.com/guerrerocarlos/node-airplay2/tarball/master",
+    "airplay-xbmc": "^0.2.7",
     "async": "0.9.0",
     "chromecast": "0.0.4",
     "i18n": "0.5.0",
