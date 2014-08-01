@@ -3,6 +3,7 @@
 
 ;Include Modern UI
 !include "MUI2.nsh"
+!include "FileFunc.nsh"
 
 ;Parse package.json
 !searchparse /file "..\..\package.json" `  "name": "` APP_NAME `",`
@@ -178,6 +179,25 @@ LangString removeDataFolder ${LANG_Ukrainian} "Видалити всі бази 
 LangString removeDataFolder ${LANG_Uzbek} "Remove all databases and configuration files?" 
 LangString removeDataFolder ${LANG_Vietnamese} "Loại bỏ tất cả các cơ sở dữ liệu và các tập tin cấu hình?" 
 LangString removeDataFolder ${LANG_Welsh} "Tynnwch yr holl gronfeydd data a ffeiliau cyfluniad?" 
+
+Function .onInit ; check for previous version (needed for 0.3.2 that was in ProgramFiles)
+ 
+  ReadRegStr $0 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn-Time" "InstallLocation"
+  ReadRegStr $1 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn-Time" "UninstallString"
+  ReadRegStr $2 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn-Time" "DisplayVersion"
+  StrCmp $0 "" done
+ 
+  MessageBox MB_YESNO|MB_ICONQUESTION "${APP_NAME} $2 is already installed in $0. \
+  $\n$\nThe new version will be installed in $\"$INSTDIR$\". \
+  $\n$\n$\nDo you want to uninstall ${APP_NAME} $2 ?" \
+  IDYES uninstall IDNO done
+
+uninstall:
+  ClearErrors
+  ExecShell "" "$1"
+
+done:
+FunctionEnd
 
 Section ; Node Webkit Files
 
