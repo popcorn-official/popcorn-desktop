@@ -13,10 +13,11 @@
 		defaults: {
 			type: 'airplay'
 		},
-		initialize: function () {
-			this.device = this.model.get('device');
-			this.model.set('name', this.device.name);
-			this.id = makeID(this.device.id);
+                makeID: makeID,
+		initialize: function (attrs) {
+			this.device = attrs.device;
+			this.attributes.name =  this.device.name || this.device.serverInfo.model;
+                        this.attributes.id = this.makeID(this.device.serverInfo.deviceId);
 		},
 		play: function (device, url) {
 			this.device.play(url);
