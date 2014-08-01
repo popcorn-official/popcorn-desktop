@@ -201,5 +201,6 @@
 	"Cut": "Couper",
 	"Copy": "Copier",
 	"Paste": "Coller",
-	"Theme": "Thème "
+	"Theme": "Thème ",
+	"Health Unknown": "Santé - inconnue"
 }
