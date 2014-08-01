@@ -92,7 +92,7 @@ var health_checked = false;
             $('.star-container-tv').tooltip();
 
             App.Device.ChooserView('#player-chooser').render();
-            this.model.set('device', 'local');
+            this.selectEpisode($('.tab-episode.active'));
 
             var cbackground = $('.tv-cover').attr('data-bgr');
             var coverCache = new Image();
@@ -180,7 +180,7 @@ var health_checked = false;
                 extract_subtitle: epInfo,
                 quality: $(e.currentTarget).attr('data-quality'),
                 defaultSubtitle: Settings.subtitle_language,
-                device: that.model.get('device')
+                device: App.Device.Collection.selected
             });
             _this.unbindKeyboardShortcuts();
             App.vent.trigger('stream:start', torrentStart);
