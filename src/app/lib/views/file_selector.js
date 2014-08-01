@@ -39,7 +39,7 @@
 				App.vent.trigger('movie:closeDetail');
 			});
 			$('.filter-bar').show();
-			$('#header').css('box-shadow', 'none');
+			$('#header').removeClass('header-shadow');
 			$('#movie-detail').show();
 			App.vent.trigger('system:closeFileSelector');
         },

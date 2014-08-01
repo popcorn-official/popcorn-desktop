@@ -36,7 +36,7 @@
         },
         onShow: function() {
             $('.filter-bar').hide();
-            $('#header').css('box-shadow', '0px 6px 8px -4px rgba(0, 0, 0, .9)');
+            $('#header').addClass('header-shadow');
 
         },
         onStateUpdate: function() {
@@ -70,7 +70,7 @@
             App.vent.trigger('stream:stop');
             App.vent.trigger('player:close');
             $('.filter-bar').show();
-            $('#header').css('box-shadow', 'none');
+            $('#header').removeClass('header-shadow');
             Mousetrap.bind('esc', function(e) {
                 App.vent.trigger('show:closeDetail');
                 App.vent.trigger('movie:closeDetail');
