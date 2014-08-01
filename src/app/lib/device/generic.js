@@ -18,7 +18,7 @@
 	});
 
 	var DeviceCollection = Backbone.Collection.extend ({
-		selected: null,
+		selected: 'local',
 		initialize: function () {
 			App.vent.on('device:list', this.list);
 			self = this;

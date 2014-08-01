@@ -60,7 +60,6 @@
             $('.filter-bar').css('opacity', '1');
 
             App.Device.ChooserView('#player-chooser').render();
-            this.model.set('device', 'local');
 
             var torrents = this.model.get('torrents');
             if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
@@ -138,7 +137,7 @@
                 title: this.model.get('title'),
                 quality: this.model.get('quality'),
                 type: 'movie',
-                device: this.model.get('device')
+                device: App.Device.Collection.selected
             });
             this.unbindKeyboardShortcuts();
             App.vent.trigger('stream:start', torrentStart);
