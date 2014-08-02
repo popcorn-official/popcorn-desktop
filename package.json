@@ -65,9 +65,5 @@
     "load-grunt-tasks": "0.4.0",
     "nw-gyp": "^0.12.2",
     "stylus": "0.46.2"
-  },
-  "git": {
-    "branch": "chromecast",
-    "commit": "5effb09a9034a4d0952c9290d90e49d01f8c88a7"
   }
 }

@@ -82,6 +82,12 @@ App.db = Database;
 App.advsettings = AdvSettings;
 App.settings = Settings;
 
+fs.readFile('./.git.json', 'utf8', function(err, json) {
+    if(!err) {
+        App.git = JSON.parse(json);
+    }
+});
+
 App.addRegions({
     Window: '.main-window-region'
 });

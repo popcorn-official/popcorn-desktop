@@ -74,8 +74,8 @@ module.exports = function(grunt) {
 			var gitBranch = path.basename(gitRef);
 			if(grunt.file.exists('.git/' + gitRef)) {
 				var currCommit = grunt.file.read('.git/' + gitRef).trim();
-				pkgJson.git = {branch: gitBranch, commit: currCommit};
-				grunt.file.write('package.json', JSON.stringify(pkgJson, null, '  '));
+				var git = {branch: gitBranch, commit: currCommit};
+				grunt.file.write('.git.json', JSON.stringify(git, null, '  '));
 			}
 		}
 	});
