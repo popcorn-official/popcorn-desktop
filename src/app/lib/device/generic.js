@@ -33,6 +33,22 @@
 			if (! this.selected) {
 				this.selected = this.models[0];
 			}
+			/* SlashmanX: Just testing for now, 
+			** replaces localhost IP with network IP, 
+			** will remove when new streamer implemented
+			*/
+			var os = require('os')
+			var interfaces = os.networkInterfaces();
+			var addresses = [];
+			for (var k in interfaces) {
+				for (var k2 in interfaces[k]) {
+					var address = interfaces[k][k2];
+					if (address.family == 'IPv4' && !address.internal) {
+						streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', address.address); 
+						addresses.push(address.address)
+					}
+				}
+			}
 
 			return this.selected.play(streamModel);
 		},
