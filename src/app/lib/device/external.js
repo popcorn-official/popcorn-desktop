@@ -17,10 +17,11 @@
 		play: function(streamModel) {
 			// "" So it behaves when spaces in path
 			// TODO: Subtitles
-                        var url = streamModel.attributes.src;
+			var url = streamModel.attributes.src;
 			var cmd = path.normalize('"'+ this.get('path') + '"');
-			win.info('Launching External Player: '+ cmd + ' ' +  url);
-			child.exec(cmd + ' '+  url);
+			cmd += getPlayerSwitches(this.get('id')) + ' ' +  url
+			win.info('Launching External Player: '+ cmd);
+			child.exec(cmd);
 		}
 	});
 
@@ -42,16 +43,21 @@
 		var name = getPlayerName(loc);
 		return playerCmds[name];
 	}
+
+	function getPlayerSwitches(loc) {
+		var name = getPlayerName(loc);
+		return playerSwitches[name] || '';
+	}
 	var externalPlayers = ['VLC', 'MPlayer OSX Extended', 'MPlayer', 'mpv'];
 	var playerCmds = {
 		VLC: '/Contents/MacOS/VLC',
 		'MPlayer OSX Extended': '/Contents/Resources/Binaries/mpextended.mpBinaries/Contents/MacOS/mplayer'
 	};
 	var playerSwitches = {
-		VLC: ' --no-video-title-show --sub-filter=marq --marq-marquee="'+ i18n.__('Streaming From Popcorn Time') + '" --marq-position=8 --marq-timeout=3000 --sub-file=',
-		'MPlayer OSX Extended': ' -font "/Library/Fonts/Arial Bold.ttf" -sub ',
-		MPlayer: ' -sub ',
-		mpv: ' --sub-file='
+		VLC: ' --no-video-title-show --sub-filter=marq --marq-marquee="'+ i18n.__('Streaming From Popcorn Time') + '" --marq-position=8 --marq-timeout=3000 --sub-file=""',
+		'MPlayer OSX Extended': ' -font "/Library/Fonts/Arial Bold.ttf" -sub ""',
+		MPlayer: ' -sub ""',
+		mpv: ' --sub-file=""'
 	};
 
 	var searchPaths = {
@@ -71,7 +77,7 @@
 		var appIndex = -1;
 		var fileStream = readdirp({root: folderName, depth: 3});
 		fileStream.on('data', function(d) {
-			var app = d.name.replace(path.extname(d.name), '').toLowerCase();
+			var app = d.name.replace('.app', '').replace('.exe', '').toLowerCase();
 			appIndex = search.indexOf(app);
 			if(appIndex !== -1) {
 				/** XXX:SlashmanX
