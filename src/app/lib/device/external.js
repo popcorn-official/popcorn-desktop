@@ -39,31 +39,31 @@
 		return players[name].switches || '';
 	}
 
-        var players = {
-                'VLC': {
-                        type: 'vlc',
-                        cmd: '/Contents/MacOS/VLC',
-                        switches: ' --no-video-title-show --sub-filter=marq --marq-marquee="'+ i18n.__('Streaming From Popcorn Time') + '" --marq-position=8 --marq-timeout=3000 --sub-file=""'
-                },
+	var players = {
+		'VLC': {
+			type: 'vlc',
+			cmd: '/Contents/MacOS/VLC',
+			switches: ' --no-video-title-show --sub-filter=marq --marq-marquee="'+ i18n.__('Streaming From Popcorn Time') + '" --marq-position=8 --marq-timeout=3000 --sub-file=""'
+		},
 		'MPlayer OSX Extended': {
-                        type: 'mplayer',
-                        cmd: '/Contents/Resources/Binaries/mpextended.mpBinaries/Contents/MacOS/mplayer',
-                        switches: ' -font "/Library/Fonts/Arial Bold.ttf" -sub ""'
-                },
-                'MPlayer': {
-                        type: 'mplayer',
-                        cmd: ' -sub ""'
-                },
-                'mpv': {
-                        type: 'mpv',
-                        cmd: ' --sub-file=""'
-                }
-        };
+			type: 'mplayer',
+			cmd: '/Contents/Resources/Binaries/mpextended.mpBinaries/Contents/MacOS/mplayer',
+			switches: ' -font "/Library/Fonts/Arial Bold.ttf" -sub ""'
+		},
+		'MPlayer': {
+			type: 'mplayer',
+			cmd: ' -sub ""'
+		},
+		'mpv': {
+			type: 'mpv',
+			cmd: ' --sub-file=""'
+		}
+	};
 
-        /* map name back into the object as we use it in match */
-        _.each(players, function (v, k) {
-                players[k].name = k;
-        });
+	/* map name back into the object as we use it in match */
+	_.each(players, function (v, k) {
+		players[k].name = k;
+	});
 
 	var searchPaths = {
 		linux: ['/usr/bin', '/usr/local/bin'],
@@ -81,21 +81,21 @@
 		var fileStream = readdirp({root: folderName, depth: 3});
 		fileStream.on('data', function(d) {
 			var app = d.name.replace('.app', '').replace('.exe', '').toLowerCase();
-                        var match = _.filter(players, function (v, k) {
-                                return k.toLowerCase() === app;
-                        });
+			var match = _.filter(players, function (v, k) {
+				return k.toLowerCase() === app;
+			});
 
-                        if (match.length) {
-                                match = match[0];
+			if (match.length) {
+				match = match[0];
 				console.log('Found External Player: '+ app + ' in '+ d.fullParentDir);
-                                collection.add(new External({
+				collection.add(new External({
 					id: match.name,
-                                        type: 'external-' + match.type,
+					type: 'external-' + match.type,
 					name: match.name,
 					path: d.fullPath
 				}));
 
-                        }
+			}
 		});
 		fileStream.on('end', function() {
 			pathcb();
