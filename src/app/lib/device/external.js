@@ -19,21 +19,11 @@
 			// TODO: Subtitles
 			var url = streamModel.attributes.src;
 			var cmd = path.normalize('"'+ this.get('path') + '"');
-			cmd += getPlayerSwitches(this.get('id')) + ' ' +  url
+			cmd += getPlayerSwitches(this.get('id')) + ' ' +  url;
 			win.info('Launching External Player: '+ cmd);
 			child.exec(cmd);
 		}
 	});
-
-	function toLowerCaseArray(arr) {
-		var i = arr.length;
-		while ( --i >= 0 ) {
-			if ( typeof arr[i] === 'string' ) {
-				arr[i] = arr[i].toLowerCase();
-			}
-		}
-		return arr;
-	}
 
 	function getPlayerName(loc) {
 		return path.basename(loc).replace(path.extname(loc), '');
@@ -41,24 +31,39 @@
 
 	function getPlayerCmd(loc) {
 		var name = getPlayerName(loc);
-		return playerCmds[name];
+		return players[name].cmd;
 	}
 
 	function getPlayerSwitches(loc) {
 		var name = getPlayerName(loc);
-		return playerSwitches[name] || '';
+		return players[name].switches || '';
 	}
-	var externalPlayers = ['VLC', 'MPlayer OSX Extended', 'MPlayer', 'mpv'];
-	var playerCmds = {
-		VLC: '/Contents/MacOS/VLC',
-		'MPlayer OSX Extended': '/Contents/Resources/Binaries/mpextended.mpBinaries/Contents/MacOS/mplayer'
-	};
-	var playerSwitches = {
-		VLC: ' --no-video-title-show --sub-filter=marq --marq-marquee="'+ i18n.__('Streaming From Popcorn Time') + '" --marq-position=8 --marq-timeout=3000 --sub-file=""',
-		'MPlayer OSX Extended': ' -font "/Library/Fonts/Arial Bold.ttf" -sub ""',
-		MPlayer: ' -sub ""',
-		mpv: ' --sub-file=""'
-	};
+
+        var players = {
+                'VLC': {
+                        type: 'vlc',
+                        cmd: '/Contents/MacOS/VLC',
+                        switches: ' --no-video-title-show --sub-filter=marq --marq-marquee="'+ i18n.__('Streaming From Popcorn Time') + '" --marq-position=8 --marq-timeout=3000 --sub-file=""'
+                },
+		'MPlayer OSX Extended': {
+                        type: 'mplayer',
+                        cmd: '/Contents/Resources/Binaries/mpextended.mpBinaries/Contents/MacOS/mplayer',
+                        switches: ' -font "/Library/Fonts/Arial Bold.ttf" -sub ""'
+                },
+                'MPlayer': {
+                        type: 'mplayer',
+                        cmd: ' -sub ""'
+                },
+                'mpv': {
+                        type: 'mpv',
+                        cmd: ' --sub-file=""'
+                }
+        };
+
+        /* map name back into the object as we use it in match */
+        _.each(players, function (v, k) {
+                players[k].name = k;
+        });
 
 	var searchPaths = {
 		linux: ['/usr/bin', '/usr/local/bin'],
@@ -67,9 +72,7 @@
 	};
 
 	var folderName = '';
-	var players = [];
-	var found = [];
-	var search = toLowerCaseArray(externalPlayers.slice(0));
+	var found = {};
 
 	async.each(searchPaths[process.platform], function(folderName, pathcb) {
 		folderName = path.resolve(folderName);
@@ -78,24 +81,21 @@
 		var fileStream = readdirp({root: folderName, depth: 3});
 		fileStream.on('data', function(d) {
 			var app = d.name.replace('.app', '').replace('.exe', '').toLowerCase();
-			appIndex = search.indexOf(app);
-			if(appIndex !== -1) {
-				/** XXX:SlashmanX
-				 * don't know why I have to do this, for
-				 * some reason it finds stuff 3 times
-				 * (probably cos depth is 3)
-				 */
-				if(found.indexOf(app) === -1) {
-					found.push(app);
-					console.log('Found External Player: '+ app + ' in '+ d.fullParentDir);
-					collection.add(new External({
-						id: externalPlayers[appIndex],
-						name: externalPlayers[appIndex],
-						path: d.fullPath
-					}));
-				}
-			}
+                        var match = _.filter(players, function (v, k) {
+                                return k.toLowerCase() === app;
+                        });
 
+                        if (match.length) {
+                                match = match[0];
+				console.log('Found External Player: '+ app + ' in '+ d.fullParentDir);
+                                collection.add(new External({
+					id: match.name,
+                                        type: 'external-' + match.type,
+					name: match.name,
+					path: d.fullPath
+				}));
+
+                        }
 		});
 		fileStream.on('end', function() {
 			pathcb();
