@@ -67,14 +67,19 @@
 		template: '#player-chooser-tpl',
 		events: {'click .playerchoicemenu li a': 'selectPlayer'},
 		onRender: function () {
-			$('.playerchoicemenu li#player-local a').addClass('active');
+                        var id =  this.collection.selected.get('id');
+                        var el = $('.playerchoicemenu li#player-' + id + ' a');
+                        this._selectPlayer(el);
 		},
 		selectPlayer: function (e) {
-			var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
+                        this._selectPlayer($(e.currentTarget));
+                },
+                _selectPlayer: function (el) {
+			var player = el.parent('li').attr('id').replace('player-', '');
 			collection.setDevice(player);
 			$('.playerchoicemenu li a.active').removeClass('active');
-			$(e.currentTarget).addClass('active');
-			$('.imgplayerchoice').attr('src',  $(e.currentTarget).children('img').attr('src'));
+			el.addClass('active');
+			$('.imgplayerchoice').attr('src',  el.children('img').attr('src'));
 		}
 	});
 
