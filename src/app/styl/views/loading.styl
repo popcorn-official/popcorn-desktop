@@ -21,12 +21,14 @@
   background-color #bababa
   border-radius 13px
   //padding 3px
+
   & > div
     width 0%
-    background-color ButtonActive
+    background-color $ButtonBgActive
     height 5px
     border-radius 13px
     left 0px
+    transition: background-color 0.5s
 
 .icon-begin
 	display block
@@ -39,14 +41,16 @@
 	margin 0 auto
 	height calc(11%)
 	max-height 52px
-	-webkit-filter PngLogo
+	-webkit-filter $PngLogo
+	transition: -webkit-filter 0.5s
 
 .init-geek-line
 	margin 2% 0
-	color TextColor1
+	color $Text1
 	width 100%
 	text-align center
 	font-family 23px
+	transition: color 0.5s
 
 .text-begin
 	text-align center
@@ -57,20 +61,22 @@
 
 .init-text
     position relative
-    color TextColor1
-    font-family MainFont
+    color $Text1
+    font-family $MainFont
     -webkit-font-smoothing antialiased
+    transition: color 0.5s, font-family 0.5s
 
 .init-status
     position relative
-    color TextColor1
-    font-family MainFont
+    color $Text1
+    font-family $MainFont
     -webkit-font-smoothing antialiased
     margin-top 1%
+    transition: color 0.5s, font-family 0.5s
 
 .init-expand
-    color TextColor1
-    font-family MainFont
+    color $Text1
+    font-family $MainFont
     -webkit-font-smoothing antialiased
     text-align center
     width 40%
@@ -81,6 +87,7 @@
     -webkit-backface-visibility hidden
     position  relative
     top  15%
+    transition: color 0.5s, font-family 0.5s
 
 
 
@@ -91,12 +98,12 @@
 
 	.ball
 		background-color rgba(0,0,0,0)
-		border 5px solid LoadingColor2
+		border 5px solid $SpinnerColor2
 		opacity .9
 		border-top 5px solid rgba(0,0,0,0)
 		border-left 5px solid rgba(0,0,0,0)
 		border-radius 50px
-		box-shadow 0 0 35px LoadingColor1
+		box-shadow 0 0 35px $SpinnerColor1
 		width 50px
 		height 50px
 		margin 0 auto
@@ -105,12 +112,12 @@
 
 	.ball1
 		background-color rgba(0,0,0,0)
-		border 5px solid LoadingColor2
+		border 5px solid $SpinnerColor2
 		opacity .9
 		border-top 5px solid rgba(0,0,0,0)
 		border-left 5px solid rgba(0,0,0,0)
 		border-radius 50px
-		box-shadow 0 0 15px LoadingColor1
+		box-shadow 0 0 15px $SpinnerColor1
 		width 30px
 		height 30px
 		margin-top 10px
@@ -155,7 +162,7 @@
 	.disclaimer-state
 		z-index 1000
 		color #fff
-		font-family MainFont
+		font-family $MainFont
 		-webkit-font-smoothing antialiased
 		text-align center
 		width 50%

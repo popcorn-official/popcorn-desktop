@@ -7,111 +7,117 @@
     YellowD = #ffcc00
 
 //Fonts
-    Font = 'Open Sans'
-    MainFont = 'Open Sans Semibold'
-    MainFontBold = 'Open Sans Bold'
-    AlternateFont = sans-serif
-    ButtonFont = 'Open Sans Semibold'
+    $Font = 'Open Sans'
+    $MainFont = 'Open Sans Semibold'
+    $MainFontBold = 'Open Sans Bold'
+    $AlternateFont = sans-serif
+    $ButtonFont = 'Open Sans Semibold'
     
 //Main app
-    BgColor1 = Black
-    BgColor2 = lighten(Black,5%)
+    $BgColor1 = Black
+    $BgColor2 = lighten(Black,5%)
 
-    TextColor1 = #fff 
-    TextColor2 = #C9C9C9
-    TextColor3 = #939597
-    TextColor4 = #fff
-    ErrorText = #797979
+    $Text1 = #fff 
+    $Text2 = #C9C9C9
+    $Text3 = #939597
+    $Text4 = #fff
+    $TextError = #797979
 
-    CloseButton = #fff
-    CloseButtonHover = YellowL
+    $CloseButton = #fff
+    $CloseButtonHover = YellowL
 
-    LoadingColor1 = #e3bd0c
-    LoadingColor2 = #FFCC00
+    $SpinnerColor1 = #e3bd0c
+    $SpinnerColor2 = #FFCC00
     
-    ScrollBarBg = #30333c
-    ScrollBarIndicator = #e3bd0c
-    ScrollBarIndicatorHover = YellowD
+    $ScrollBarBg = #30333c
+    $ScrollBarThumb = #e3bd0c
+    $ScrollBarThumbHover = YellowD
     
 //Top Bar
-    TitleBarColor = Black  
-    TitleBarText = #fff
-    FullScreenBtn = #999
-    FullScreenBtnHover = YellowL
+    $TitleBarBg = Black  
+    $TitleBarText = #fff
+    $FullScreenButton = #999
+    $FullScreenButtonHover = YellowL
 
-    NavBarColor = Black  
-    NavBarText = #e9e9e9
-    NavBarTextHover = #fff
-    NavBarActive = YellowL
+    $FilterBarBg = Black  
+    $FilterBarText = #e9e9e9
+    $FilterBarTextHover = #fff
+    $FilterBarActive = YellowL
 
-    SearchBox = #191818
+    $SearchBoxBg = #191818
 
-    DropDownColor = rgba(Black,0.9)
-    DropDownColor2 = rgba(YellowL,0.15)
-    DropDownText = #fff
-    DropDownText2 = #d9d9d9
-    DropDownOpacity = 0.97
+    $DropDownBg = rgba(Black,0.9)
+    $DropDownBgHover = rgba(YellowL,0.15)
+    $DropDownTextHover = #fff
+    $DropDownText = #d9d9d9
+    $DropDownOpacity = 0.97
 
-    IconColor = TextColor1
-    IconColorHover = YellowD
+    $FilterBarIcon = $Text1
+    $FilterBarIconHover = YellowD
     
-    TopBarShadow = 0px 6px 8px -4px rgba(0, 0, 0, .9);
+    $TopBarShadow = 0px 6px 8px -4px rgba(0, 0, 0, .9);
     
 //Buttons
-    Button = YellowL
-    ButtonHover = YellowM
-    ButtonActive = YellowD
+    $ButtonBg = YellowL
+    $ButtonBgHover = YellowM
+    $ButtonBgActive = YellowD
     
-    ButtonInactive = #737577
-    ButtonInactiveHover = ButtonInactive
+    $ButtonBgDisabled = #737577
+    $ButtonBgDisabled = $ButtonBgDisabled
     
-    TextButton = #000
-    TextButtonHover = #000
+    $ButtonText = #000
+    $ButtonTextHover = #000
     
-    ButtonRadius = 3px
+    $ButtonRadius = 3px
 
 //Posters
-    PosterRadius = 4px
-    PosterBorder = ButtonActive
-    PosterOverlay = rgba(23, 24, 27, 0.6)
-    PosterShadow = 0px 0px 10px
+    $PosterRadius = 4px
+    $PosterHoverBorder = $ButtonBgActive
+    $PosterHoverOverlay = rgba(23, 24, 27, 0.6)
+    $PosterShadow = 0px 0px 10px
     
 //TV Series
-    ShowBgColor1 = BgColor1
-    ShowBgColor2 = BgColor2
+    $ShowBgColor1 = $BgColor1
+    $ShowBgColor2 = $BgColor2
 
-    EpisodeDetails = BgColor1
+    $EpisodeDetailsBg = $BgColor1
     
-    ShowTextColor1 = TextColor1
-    ShowTextColor2 = TextColor2
+    $ShowText1 = $Text1
+    $ShowText2 = $Text2
 
-    SeasonListColor = TextColor1
-    EpisodeListColor = TextColor2
+    $SaisonListText = $Text1
+    $EpisodeListText = $Text2
 
-    ShowSelector = darken(#e3bd0c,2%)
-    ShowSelectorText = TextButton
+    $EpisodeSelectorBg = darken(#e3bd0c,2%)
+	$EpisodeSelectorHover = #26272d
+    $EpisodeSelectorText = $ButtonText
 
-	WatchedIconFalse = rgba(#fff,0.2)
-	WatchedIconHover = rgba(#fff,0.4)
-	WatchedIconTrue = #fff
+	$ShowWatchedIcon_false = rgba(#fff,0.2)
+	$ShowWatchedIcon_hover = rgba(#fff,0.4)
+	$ShowWatchedIcon_true = #fff
+
+//File selector
+	$FileSelectorText = #eee
+	$FileSelectorBg = rgba(255, 255, 255, 0.05)
+	$FileSelectorShadow = rgba(0, 0, 0, 0.67)
 
 //Settings
-    SettingsCategories = YellowD
-    SettingsSeparator = #333
+    $SettingsCategoriesText = YellowD
+    $SettingsSeparator = #333
     
-    InputBox = #232324
-    InputBoxText = TextColor2
+    $InputBoxBg = #232324
+    $InputBoxText = $Text2
     
-    SettingsTextColor1 = TextColor2
-    SettingsTextColor2 = TextColor4
+    $SettingsText1 = $Text2
+    $SettingsText2 = $Text3
 
-    SettingsTextButton = TextButton
-    SettingsTextButtonHover = TextButton
+    $SettingsButtonText = $ButtonText
+    $SettingsButtonTextHover = $ButtonText
 
 //Misc
-    FavoritesColor = #df2d37
+    $FavoriteColor = #df2d37
     
-    PngLogo = brightness(1)
+    $PngLogo = brightness(1)
 
     
 // OFFICIAL POPCORN-THEME: BLACK AND YELLOW - END

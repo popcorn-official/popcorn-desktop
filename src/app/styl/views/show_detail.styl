@@ -1,5 +1,5 @@
 .shows-container-contain
-	background-color BgColor1
+	background-color $BgColor1
 	height 100%
 	width 100%
 	position fixed
@@ -13,7 +13,7 @@
 	margin-top 65px
 	z-index 3
 	overflow hidden
-	background BgColor1
+	background $BgColor1
 
 	.tv-cover
 		position relative
@@ -28,7 +28,7 @@
 		border-radius 4px
 		transition: opacity .50s ease
 		opacity 0
-		background-color ShowBgColor1
+		background-color $ShowBgColor1
 
 	.tv-poster-background
 		position absolute
@@ -63,7 +63,7 @@
 		height 3px
 		border-radius 2px
 		background-clip padding-box
-		background-color #eee
+		background-color #dbdbdd
 		cursor default
 
 	.tv-title
@@ -73,7 +73,7 @@
 		z-index 3
 		color #fff
 		width 452px
-		font-family Font
+		font-family $Font
 		-webkit-font-smoothing antialiased
 		font-size 22px
 
@@ -85,7 +85,7 @@
 		color #fff
 		width auto
 		height auto
-		font-family MainFontBold
+		font-family $MainFontBold
 		-webkit-font-smoothing antialiased
 		font-size 11px
 		cursor default
@@ -97,7 +97,7 @@
 		position relative
 		float left
 		color #fff
-		font-family MainFontBold
+		font-family $MainFontBold
 		-webkit-font-smoothing antialiased
 		font-size 11px
 		cursor default
@@ -108,7 +108,7 @@
 		position relative
 		float left
 		color #fff
-		font-family MainFontBold
+		font-family $MainFontBold
 		-webkit-font-smoothing antialiased
 		font-size 11px
 		cursor default
@@ -119,12 +119,12 @@
 		z-index 3
 		float left
 		color #fff
-		font-family: MainFontBold
+		font-family: $MainFontBold
 		-webkit-font-smoothing antialiased
 		font-size 11px
 		cursor default
 
-	.movie-imdb-link
+	.show-imdb-link
 		z-index 3
 		margin-top: 33px
 		width: 27px
@@ -148,7 +148,7 @@
 		position relative
 		color #fff
 		text-align justify
-		font-family MainFont
+		font-family $MainFont
 		-webkit-font-smoothing: antialiased
 		font-size 12px
 		line-height 22px
@@ -164,21 +164,20 @@
 	position absolute
 	width 100%
 	height 100%
-	background ShowBgColor1
+	background $ShowBgColor1
 	z-index 3
 
 	ul
 		list-style none
 
 		li:nth-child(odd)
-			background-color ShowBgColor2
+			background-color $ShowBgColor2
 
 		li:hover
-			background darken(ShowBgColor2,10%)
-			color TextColor2
+			background $EpisodeSelectorHover
 
 		li.active
-			background-color ShowSelector
+			background-color $EpisodeSelectorBg
 			position relative
 
 			.watched
@@ -191,7 +190,7 @@
 				right -12px
 				width 0
 				height 0
-				border-color transparent transparent transparent ShowSelector
+				border-color transparent transparent transparent $EpisodeSelectorBg
 				border-style solid
 				border-width 16px 6px 17px 6px
 
@@ -214,7 +213,7 @@
 		a
 			text-decoration none
 			font-size 15px
-			color SeasonListColor
+			color $SaisonListText
 			font-weight normal
 			margin 10px 0px
 
@@ -223,11 +222,11 @@
 			font-family sans-serif
 			font-size 15px
 			margin-left -10px
-			border-left 1px solid ShowBgColor1
+			border-left 1px solid $ShowBgColor1
 			margin 1px
 				
 		li.active a
-			color ShowSelectorText
+			color $EpisodeSelectorText
         
 		li.active span
 			right 11px
@@ -248,7 +247,7 @@
 
 	a
 		text-decoration none
-		color ShowTextColor1
+		color $ShowText1
 		font-size 15px
 		font-weight normal
 		margin 10px 0px
@@ -260,7 +259,7 @@
 		position relative
 		margin 0
 		list-style none
-		background ShowBgColor1
+		background $ShowBgColor1
 
 		li
 			padding 0
@@ -273,15 +272,15 @@
 				right 20px
 				opacity 1
 				padding 10px 0
-				color: WatchedIconFalse
+				color: $ShowWatchedIcon_false
 				font-size: 1em
 				transition color .5s
 
 				&:hover
-					color: WatchedIconHover
+					color: $ShowWatchedIcon_hover
 
 				&.true
-					color: WatchedIconTrue
+					color: $ShowWatchedIcon_true
 
 			.episodeData
 				span
@@ -291,11 +290,11 @@
 					&:first-child
 						width 57px
 						display inline-block
-						border-right 1px solid ShowBgColor1
+						border-right 1px solid $ShowBgColor1
 						text-align right
 
 				div
-					color EpisodeListColor
+					color $EpisodeListText
 					font-weight 100
 					padding-left 34px
 					display inline-block
@@ -307,18 +306,18 @@
 					vertical-align -5px
 
 			&.active div, &.active a
-				color ShowSelectorText
+				color $EpisodeSelectorText
 
 .display-base-title
 	width 100%
-	color ShowTextColor1
+	color $ShowText1
 	height 60px
 	font-size 23px
 	padding 20px 0
 	position fixed
 	top 280px
 	z-index 3
-	background ShowBgColor1
+	background $ShowBgColor1
 
 	.episode-list-seasons
 		display inline-block
@@ -329,13 +328,13 @@
 		display inline-block
 
 .episode-info
-	background-color EpisodeDetails
+	background-color $EpisodeDetailsBg
 	float right
 	width 44%
-	color ShowTextColor1
+	color $ShowText1
 	padding 20px 30px 30px 30px
 	height 100%
-	font-family MainFont
+	font-family $MainFont
 	line-height initial
 	position fixed
 	margin-left auto
@@ -360,12 +359,12 @@
 	.episode-info-number
 		font-weight 100
 		font-size 12px
-		color ShowTextColor2
+		color $ShowText2
 
 	.episode-info-date
 		font-weight 100
 		font-size 12px
-		color ShowTextColor2
+		color $ShowText2
 		margin-bottom 5px
 		white-space nowrap
 		text-overflow ellipsis
@@ -391,27 +390,27 @@
 		padding 0 15px
 		height 35px
 		font-size 12px
-		border-radius ButtonRadius
+		border-radius $ButtonRadius
 		background-clip padding-box
-		background-color Button
+		background-color $ButtonBg
 		transition background-color .5s
-		font-family: ButtonFont
+		font-family: $ButtonFont
 		font-smoothing: antialiased
 		text-align: center
 		line-height: 34px
-		color TextButton
+		color $ButtonText
 
 		&:hover
-			background-color ButtonHover
+			background-color $ButtonBgHover
 			text-decoration: none
             
 		&:active
 			box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-			background: ButtonActive
+			background: $ButtonBgActive
 
     .health-icon {
         position: relative
-        font-size: 16px
+        font-size: 14px
         float: right
         margin-right: 15px;
         margin-top: -16px;
@@ -440,10 +439,10 @@
 		position: relative
 
 		div
-			font-family: MainFontBold, Font, AlternateFont;
+			font-family: $MainFontBold, $Font, $AlternateFont;
 			-webkit-font-smoothing: antialiased;
 			font-size: 11px;
-			color: ShowTextColor1;
+			color: $ShowText1;
 			font-weight: normal;
 			position: absolute;
 			z-index: 2;
@@ -470,14 +469,14 @@
 			margin-left 30px
 			//top 312px
 			width 25px
-			border 2px solid ShowTextColor1
+			border 2px solid $ShowText1
 			cursor pointer
 			z-index 2
 
 			label
-				font-family Font, AlternateFont
+				font-family $Font, $AlternateFont
 				font-size 11px
-				color TextColor1
+				color $Text1
 				font-weight bold
 				transition color 0.2s ease
 				transition color 0.2s ease
@@ -509,10 +508,10 @@
 					& ~ label
 
 						&:nth-of-type(1)
-							color ButtonActive
+							color $ButtonBgActive
 
 						&:nth-of-type(2)
-							color TextColor1
+							color $Text1
 
 					& ~ .toggle
 						left 0px
@@ -522,10 +521,10 @@
 					& ~ label
 
 						&:nth-of-type(1)
-							color TextColor1
+							color $Text1
 
 						&:nth-of-type(2)
-							color ButtonActive
+							color $ButtonBgActive
 
 					& ~ .toggle
 						left 11px
@@ -533,7 +532,7 @@
 		.toggle
 			transition left 0.2s ease
 			transition left 0.2s ease
-			background ButtonActive
+			background $ButtonBgActive
 			border-radius 50%
 			height 10px
 			left -0px

@@ -23,7 +23,7 @@ var health_checked = false;
             'click .close-icon': 'closeDetails',
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
-			'click .movie-imdb-link': 'openIMDb',
+			'click .show-imdb-link': 'openIMDb',
             'dblclick .tab-episode': 'dblclickEpisode',
             'click #switch-hd-on': 'enableHD',
             'click #switch-hd-off': 'disableHD',
@@ -90,7 +90,7 @@ var health_checked = false;
         onShow: function() {
 
             this.selectSeason($('.tab-season:first'));
-            $('.star-container-tv,.movie-imdb-link').tooltip();
+            $('.star-container-tv,.show-imdb-link').tooltip();
 
             App.Device.ChooserView('#player-chooser').render();
             this.selectEpisode($('.tab-episode.active'));

@@ -6,7 +6,7 @@
 
 .loading
     position: absolute
-    background-color: BgColor1
+    background-color: $BgColor1
     -webkit-user-select: none
     width 100%
     height 100%
@@ -15,12 +15,12 @@
     margin auto
     left 0
     right 0
-    padding-top TitleHeight
+    padding-top $TitleHeight
     -webkit-backface-visibility hidden
 
     .state
         color #fff
-        font-family MainFont
+        font-family $MainFont
         -webkit-font-smoothing antialiased
         text-align center
         width 40%
@@ -35,13 +35,13 @@
 
         .value
             color #fff
-            font-family MainFont
+            font-family $MainFont
             -webkit-font-smoothing antialiased
 
 .text_peers
     position relative
     color #fff
-    font-family MainFont
+    font-family $MainFont
     -webkit-font-smoothing antialiased  
     float left
     font-size 12px
@@ -51,7 +51,7 @@
     position relative
     color #fff
     font-size 12px
-    font-family MainFont
+    font-family $MainFont
     -webkit-font-smoothing antialiased  
     float left
 
@@ -61,7 +61,7 @@
     position relative
     color #fff
     font-size 12px
-    font-family MainFont
+    font-family $MainFont
     -webkit-font-smoothing antialiased  
     float left
     margin-left 10px
@@ -70,7 +70,7 @@
     position relative
     color #fff
     font-size 12px
-    font-family MainFont
+    font-family $MainFont
     -webkit-font-smoothing antialiased  
     margin-left 5px
     float left
@@ -93,7 +93,7 @@
     position relative
     color #fff
     font-size 12px
-    font-family MainFont
+    font-family $MainFont
     -webkit-font-smoothing antialiased  
     float right
 
@@ -101,7 +101,7 @@
     position relative
     color #fff
     font-size 12px
-    font-family MainFont
+    font-family $MainFont
     -webkit-font-smoothing antialiased  
     margin-left 5px
 
@@ -109,7 +109,7 @@
     position relative
     color #fff
     font-size 12px
-    font-family MainFont
+    font-family $MainFont
     -webkit-font-smoothing antialiased  
     margin-left 5px
     
@@ -129,23 +129,23 @@
     -moz-background-clip padding
     -webkit-background-clip padding-box
     background-clip padding-box
-    background-color Button
+    background-color $ButtonBg
     -webkit-backface-visibility hidden
     transition all .5s
     
     &:hover
-        background: ButtonHover
+        background: $ButtonBgHover
         text-decoration: none
 
     &:active
         box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-        background: ButtonActive
+        background: $ButtonBgActive
 
     .loading-cancel-text
         -webkit-backface-visibility hidden
         position relative
         color #fff
-        font-family MainFont, Font, AlternateFont
+        font-family $MainFont, $Font, $AlternateFont
         -webkit-font-smoothing antialiased
         text-align center
         top 12px
@@ -159,7 +159,7 @@
   border-radius 13px
   //padding 3px
   & > div
-    background-color ButtonActive
+    background-color $ButtonBgActive
     height 5px
     border-radius 13px
     left 0px
@@ -258,7 +258,7 @@
   top 18px
   left 16px
   color #fff
-  font-family Font, AlternateFont
+  font-family $Font, $AlternateFont
   font-size 17px
   max-width 85%
   z-index 3

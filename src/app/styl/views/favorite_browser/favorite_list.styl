@@ -6,10 +6,10 @@
 	scrollable()
 
 	&::-webkit-scrollbar-track
-		margin-top: HeaderHeight
+		margin-top: $HeaderHeight
 
 	.bookmarks
-		padding-top: HeaderHeight
+		padding-top: $HeaderHeight
 		-webkit-user-select: none;
 		text-align: left
 		display: flex
@@ -32,7 +32,7 @@
 	.error
 		font-size: 1.5em;
 		text-align: center;
-		color: ErrorText;
+		color: $TextError;
 		font-weight: bold;
 		margin: 180px auto;
 
@@ -58,26 +58,26 @@
 		background-size: 134px 196px
 		width: 134px
 		height: 196px
-		border-radius: PosterRadius
-		box-shadow: PosterShadow
+		border-radius: $PosterRadius
+		box-shadow: $PosterShadow
 		cursor: pointer
 		transition: opacity .50s ease
 		opacity: 0
 
 		.cover-overlay
-			background PosterOverlay
+			background $PosterHoverOverlay
 			text-align center
 			padding 88px 0
 			width 100%
 			height 100%
-			border-radius PosterRadius
+			border-radius $PosterRadius
 			border: 2px solid rgba(23, 24, 27, 0.6)
 			transition opacity .25s ease
 			opacity 0
 			
 			&:hover
 				opacity: 1
-				border 2px solid PosterBorder
+				border 2px solid $PosterHoverBorder
 
 			.actions-favorites
 				float: right
@@ -88,17 +88,17 @@
 				-webkit-transition: color 0.5s
 
 				&.selected
-					color: FavoritesColor
+					color: $FavoriteColor
 				&:hover
 					cursor: pointer
-					color: ButtonActive
+					color: $ButtonBgActive
 
 
 
 	.title
 		height: 14px;
 		margin: 6px 0 4px;
-		color: TextColor1
+		color: $Text1
 		max-width: 134px
 		overflow: hidden
 		text-overflow: ellipsis
@@ -106,11 +106,11 @@
 
 	.year
 		font-size: 0.85em
-		color: TextColor4
+		color: $Text4
 		display: inline
 
 	.seasons
 		font-size: 0.85em
-		color: TextColor4
+		color: $Text4
 		display: inline
 		float: right

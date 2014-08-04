@@ -4,14 +4,14 @@
 	top: 0
 	width: 100%
 	opacity: .97
-	height: TitleHeight
-	background-color: TitleBarColor
+	height: $TitleHeight
+	background-color: $TitleBarBg
 	padding: 13px 0 0
 	text-align: center
 	-webkit-app-region: drag
 
 	h1
-		color: TitleBarText
+		color: $TitleBarText
 		font-size: 0.9em
 		top: -3px
 		position: relative
@@ -76,7 +76,7 @@
 			background-position: -60px 0px;
 
 		&.fullscreen
-			color:FullScreenBtn;
+			color:$FullScreenButton;
 			background: transparent;
 			margin:0;
 			z-index: 10;
@@ -98,7 +98,7 @@
 			content: "\e00B";
 
 		&.fullscreen:hover
-			color:FullScreenBtnHover;
+			color:$FullScreenButtonHover;
 
 	.btn-set.win32
 		top: 6px
@@ -119,7 +119,7 @@
 			width: 20px
 			cursor: pointer
 			background: url("../images/icons/topbar_sprite_win.png")
-			-webkit-filter PngLogo
+			-webkit-filter $PngLogo
 			&.os-close
 				background-position -40px 0px
 			&.os-max
@@ -158,4 +158,4 @@
 					background-position: -60px 0px;
 
 .header-shadow 
-	box-shadow: TopBarShadow
+	box-shadow: $TopBarShadow

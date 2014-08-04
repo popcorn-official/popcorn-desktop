@@ -7,7 +7,7 @@
     user-select: none
     backface-visibility: hidden
     display: block
-    background-color: BgColor1
+    background-color: $BgColor1
     .backdrop-overlay {
         width: 100%
         height: 100%
@@ -32,7 +32,7 @@
         margin-right: 2%
         border-radius: 4px
         margin-left: 5%
-        background-color BgColor1
+        background-color $BgColor1
         opacity 0
         backface-visibility: hidden
     }
@@ -50,7 +50,7 @@
         top: -4px
         text-stroke: 1px rgba(0,0,0,0.1)
         font-size: 38px
-        font-family: MainFont
+        font-family: $MainFont
         font-smoothing: antialiased
     }
     .meta-container {
@@ -61,7 +61,7 @@
             color: #FFF
             font-size: 12px
             position: relative
-            font-family: MainFontBold
+            font-family: $MainFontBold
             text-stroke: 1px rgba(0,0,0,0.1)
             float: left
             font-smoothing: antialiased
@@ -74,7 +74,7 @@
             float: left
             height: 4px
             border-radius: 2px
-            background-color: #eee
+            background-color: #dbdbdd
         }
         .movie-imdb-link {
             margin-top: -3px
@@ -88,7 +88,7 @@
         .star-container {
             width: auto
             float: left
-            top: -3px
+            top: -2px
             position: relative
             z-index: 2
         }
@@ -102,7 +102,7 @@
         color: #FFF
         top: 25px
         padding-right: 5%
-        font-family: MainFont
+        font-family: $MainFont
         font-smoothing: antialiased
         font-size: 13px
         line-height: 22px
@@ -113,10 +113,10 @@
     }
     .health-icon {
         position: relative
-        font-size: 16px
+        font-size: 14px
         float: right
         margin-right: 5%
-        margin-top: -4px
+        margin-top: -1px
         color: #737577
         cursor: pointer
         &.Bad {
@@ -147,24 +147,24 @@
             bottom: 0
             height: 35px
             margin-right: 15px
-            border-radius: ButtonRadius
+            border-radius: $ButtonRadius
             background-clip: padding-box
-            background-color: Button
+            background-color: $ButtonBg
             padding: 0 15px
             transition: background-color 0.5s
-            color: TextButton
-            font-family: MainFont
+            color: $ButtonText
+            font-family: $MainFont
             font-smoothing: antialiased
             text-align: center
             font-size: 12px
             line-height: 34px
             &:hover {
-                background: ButtonHover
+                background: $ButtonBgHover
                 text-decoration: none
             }
             &:active {
                 box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-                background: ButtonActive
+                background: $ButtonBgActive
             }
         }
         .favourites-toggle {
@@ -175,7 +175,7 @@
             height: 18px
             position: relative
             width: 200px
-            font-family: MainFont
+            font-family: $MainFont
             font-smoothing: antialiased
             font-size: 12px
             line-height: 17px
@@ -270,7 +270,7 @@
             left: 5%
         }
         .q720 {
-            font-family: MainFontBold
+            font-family: $MainFontBold
             font-smoothing: antialiased
             font-size: 11px
             color: #fff
@@ -278,7 +278,7 @@
             position: absolute
         }
         .q1080 {
-            font-family: MainFontBold
+            font-family: $MainFontBold
             font-smoothing: antialiased
             font-size: 11px
             color: #fff
@@ -324,7 +324,7 @@
                     z-index: 0
                     & ~ label {
                         &:nth-of-type(1) {
-                            color: ButtonActive
+                            color: $ButtonBgActive
                         }
                         &:nth-of-type(2) {
                             color: #fff
@@ -340,7 +340,7 @@
                             color: #fff
                         }
                         &:nth-of-type(2) {
-                            color: ButtonActive
+                            color: $ButtonBgActive
                         }
                     }
                     & ~ .toggle {
@@ -351,7 +351,7 @@
         }
         .toggle {
             transition: left 0.2s ease
-            background: ButtonActive
+            background: $ButtonBgActive
             border-radius: 50%
             height: 10px
             left: -0px
@@ -366,7 +366,7 @@
             top: -11px
             right: 13.56%
             color: #FFF
-            font-family: MainFont
+            font-family: $MainFont
             font-smoothing: antialiased
             font-size: 12px
             line-height: 17px
@@ -375,7 +375,7 @@
             padding-right: 13px
 
             &.open {
-                background-color: rgba(ButtonActive,0.6);
+                background-color: rgba($ButtonBgActive,0.6);
                 border-radius: 5px 5px 0 0;
             }
 

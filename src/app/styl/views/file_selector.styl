@@ -3,41 +3,41 @@
     height 100%
     width 100%
     position fixed
-    background-color BgColor1
+    background-color $BgColor1
     -webkit-user-select none
     opacity 1
     background-position 50% 50%
 
     .title
-        font-size 20px
+        font-size 24px
         padding 0 0 20px
         margin-top 100px
-        color TextColor1
-        font-family MainFontBold
+        color $Text1
+        font-family $AlternateFont
         text-align center
 
     .content
         margin 0 auto
         width 66%
         height 60%
-        color TextColor1
-        font-family MainFont
-        font-size 14px
+        color $Text1
+        font-family $AlternateFont
+        font-size 17px
         text-align center
-        box-shadow inset -3px 0px 10px rgba(0, 0, 0, 0.67)
+        box-shadow inset -3px 0px 10px $FileSelectorShadow
         scrollable()
 
         ul
             li.file-item
                 border-bottom 1px solid rgba(255, 255, 255, 0.06)
-                background BgColor2
+                background $FileSelectorBg
                 text-align left
                 margin 2px
                 cursor pointer
-                color TextColor2
+                color $FileSelectorText
 
                 a
-                    color TextColor2
+                    color $FileSelectorText
                     text-decoration blink
                     width 100%
                     display block
@@ -45,6 +45,6 @@
                     transition all 0.3s
 
                     &:hover
-                        color ButtonHover
+                        color $ButtonBgHover
                     &:active
-                        color ButtonActive
+                        color $ButtonBgActive

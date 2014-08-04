@@ -3,28 +3,28 @@
 	width: 100%
 	opacity: .97
 	height: 35px
-	background-color: NavBarColor
+	background-color: $FilterBarBg
 	-webkit-user-select: none;
 
 .filter-bar
 	position: absolute
-	top: TitleHeight
-	height: FilterBarHeight
-	box-shadow: TopBarShadow
+	top: $TitleHeight
+	height: $FilterBarHeight
+	box-shadow: $TopBarShadow
 
 	.source
 		box-sizing: content-box
-		color: NavBarText
+		color: $FilterBarText
 		text-align: center
 		cursor: pointer
 		height: 20px
 		padding: 10px 15px 0 18px
 
 		&:hover
-			color: NavBarTextHover
+			color: $FilterBarTextHover
 
 		&.active
-			border-bottom: 4px solid NavBarActive
+			border-bottom: 4px solid $FilterBarActive
 
 	.nav.filters
 		float: left
@@ -40,13 +40,13 @@
 		& > a
 			display: inline-block
 			padding: 0
-			color: NavBarText
+			color: $FilterBarText
 			background-color: transparent !important
 
 			&:hover
-				color: NavBarTextHover
+				color: $FilterBarTextHover
 		.value
-			color: NavBarActive
+			color: $FilterBarActive
 			padding-left: 10px
 
 		.dropdown-menu
@@ -60,17 +60,17 @@
 	i
 		transition: color 0.5s;
 		margin: 10px 5px 0;
-		color: IconColor;
+		color: $FilterBarIcon;
 		font-size: 1.5em;
 		&:hover
-			color: IconColorHover
+			color: $FilterBarIconHover
 			cursor: pointer
 
 		&.active
 			&.favorites
-				color: FavoritesColor
+				color: $FavoriteColor
 			&.about
-				color: IconColorHover
+				color: $FilterBarIconHover
 
 	.search
 		form		
@@ -79,16 +79,17 @@
 				font-family: FontAwesome
 				font-style: normal
 				transition color 0.5s
-				color: IconColor
+				color: $FilterBarIcon
 				position: absolute;
 				top:11px;
 				left: 7px;
 				z-index: 2;
 				font-size: 1.4em;
+
 			&:hover
 				cursor: pointer
 				&:before
-					color: IconColorHover
+					color: $FilterBarIconHover
 
 			input
 				line-height normal
@@ -98,7 +99,7 @@
 				width 0px
 				height 18px
 				position relative
-				background NavBarColor no-repeat right center
+				background $FilterBarBg no-repeat right center
 				background-position right 3px center
 				border solid 0px
 				margin 8px 3px 0
@@ -107,40 +108,40 @@
 				border-radius 10em
 				-webkit-appearance textfield
 				-webkit-box-sizing content-box
-				color rgba(196, 198, 200, 0.47)
+				color rgba($FilterBarText,.47)
 				transition width 0.5s
 
 				&:hover
-					color NavBarTextHover
+					color $FilterBarTextHover
 					
 				&:focus
 					padding-left 25px
 					width: 130px;
-					color: NavBarTextHover
-					background-color: SearchBox
+					color: $FilterBarText
+					background-color: $SearchBoxBg
 					cursor: auto;
 					opacity: 1
 					&:before
-						color: IconColorHover
+						color: $FilterBarIconHover //this doesn't work for some reason
 
 				&::-moz-placeholder,
 				&::-webkit-input-placeholder
 					color: transparent
 
 				&:focus::-webkit-input-placeholder
-					color: NavBarText
+					color: rgba($FilterBarText,.7)
 
 	.remove-search {
 		position absolute
 		right 31px
 		text-align right
-		color NavBarText
+		color $FilterBarText
 		top 12px
 		font-size 12px
 		display none
 		transition all 0.3s
 		&:hover{
-			color NavBarTextHover
+			color rgba($FilterBarText,0.7)
 		}
 	}
 	.text-search{
@@ -157,14 +158,14 @@
 		background rgba(141, 141, 141, 0.1)
 		&::before{
 			content "x"
-			background NavBarText
+			background $FilterBarText
 			padding 0 6px 1px
 			margin-right 6px
-			color NavBarColor
+			color $FilterBarBg
 			font-weight 900
 		}
 		&:hover::before{
 			content "x"
-			background IconColorHover
+			background $FilterBarIconHover
 		}
 	}
