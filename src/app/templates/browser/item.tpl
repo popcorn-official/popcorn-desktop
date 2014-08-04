@@ -35,7 +35,11 @@
 <p class="title" title="<%= title %>"><%= title %></p>
 <p class="year"><%= year %></p>
 
-<% if(typeof num_seasons !== 'undefined'){%>
+<% if (typeof item_data !== 'undefined') {%>
+        <p class="seasons data">
+           <%= item_data %>
+        </p>
+<% } else if(typeof num_seasons !== 'undefined'){%>
 	<p class="seasons">
 		<%= num_seasons %> <%= num_seasons == 1 ? i18n.__("Season") : i18n.__("Seasons") %>
 	</p>

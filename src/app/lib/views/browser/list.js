@@ -54,6 +54,7 @@
             switch (App.currentview) {
                 case 'movies':
                 case 'shows':
+                case 'anime':
                     if (this.collection.state === 'error') {
                         return ErrorView.extend({
                             error: i18n.__('Error loading data, try again later...')
@@ -77,7 +78,6 @@
                     }
                     break;
             }
-
         },
 
         initialize: function() {

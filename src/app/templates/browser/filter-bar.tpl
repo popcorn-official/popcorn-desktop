@@ -1,6 +1,7 @@
 <ul class="nav nav-hor left">
 	<li class="source active showMovies"><%= i18n.__("Movies") %></li>
 	<li class="source showShows"><%= i18n.__("TV Series") %></li>
+        <li class="source showAnime"><%= i18n.__("Anime") %></li>
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">
 	<% if(typeof genre !== 'undefined'){ %>

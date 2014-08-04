@@ -1,18 +1,18 @@
 (function(App) {
     'use strict';
 
-    var ShowCollection = App.Model.Collection.extend({
+    var AnimeCollection = App.Model.Collection.extend({
         model: App.Model.Movie,
-        popid: 'imdb_id',
-        type: 'shows',
+        popid: 'mal_id',
+        type: 'animes',
         getProviders: function() {
             return {
-                torrents: App.Config.getProvider('tvshow'),
+                torrents: App.Config.getProvider('anime'),
                     //         subtitle: App.Config.getProvider('subtitle'),
                     //         metadata: App.Trakt
             };
         },
     });
 
-    App.Model.ShowCollection = ShowCollection;
+    App.Model.AnimeCollection = AnimeCollection;
 })(window.App);

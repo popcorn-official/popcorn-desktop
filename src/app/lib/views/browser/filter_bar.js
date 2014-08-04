@@ -25,6 +25,7 @@
 			'click #filterbar-about': 'about',
 			'click .showMovies': 'showMovies',
 			'click .showShows': 'showShows',
+                        'click .showAnime': 'showAnime',
 			'click #filterbar-favorites': 'showFavorites',
 			'click .triggerUpdate': 'updateDB'
 		},
@@ -43,6 +44,10 @@
 				case 'Movies':
 				case 'movies':
 					$('.source.showMovies').addClass('active');
+				        break;
+				case 'Anime':
+				case 'anime':
+					$('.source.showAnime').addClass('active');
 					break;
 				case 'Favorites':
 				case 'favorites':
@@ -204,6 +209,14 @@
 			App.vent.trigger('about:close');
 			App.vent.trigger('shows:list', []);
 			this.setactive('TV Series');
+		},
+
+		showAnime: function(e) {
+			e.preventDefault();
+			App.currentview = 'anime';
+			App.vent.trigger('about:close');
+			App.vent.trigger('anime:list', []);
+			this.setactive('Anime');
 		},
 
 		showMovies: function(e) {
