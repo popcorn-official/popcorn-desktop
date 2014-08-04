@@ -35,12 +35,9 @@ var health_checked = false;
         },
 
         toggleFavorite: function(e) {
-            console.log('clicked Toggle fav');
             e.stopPropagation();
             e.preventDefault();
-            console.log(this.model);
             var that = this;
-            console.log(bookmarked);
 
             if (bookmarked !== true) {
                 bookmarked = true;
