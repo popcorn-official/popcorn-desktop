@@ -6,7 +6,7 @@ var health_checked = false;
 
     var resizeImage = App.Providers.Trakttv.resizeImage;
 
-    var _this;
+    var _this, bookmarked;
     var ShowDetail = Backbone.Marionette.ItemView.extend({
         template: '#show-detail-tpl',
         className: 'shows-container-contain',
@@ -14,22 +14,59 @@ var health_checked = false;
         ui: {
             startStreaming: '#watch-now',
             qselector: '.quality-selector',
-            qinfo: '.quality-info'
+            qinfo: '.quality-info',
+            bookmarkIcon: '.favourites-toggle'
         },
 
         events: {
+            'click .favourites-toggle': 'toggleFavorite',
             'click .watched': 'toggleWatched',
             'click #watch-now': 'startStreaming',
             'click .close-icon': 'closeDetails',
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
-			'click .show-imdb-link': 'openIMDb',
+            'click .show-imdb-link': 'openIMDb',
             'dblclick .tab-episode': 'dblclickEpisode',
             'click #switch-hd-on': 'enableHD',
             'click #switch-hd-off': 'disableHD',
             'click .health-icon': 'getTorrentHealth',
             'click .playerchoicemenu li a': 'selectPlayer'
+
         },
+
+        toggleFavorite: function(e) {
+            console.log('clicked Toggle fav');
+            e.stopPropagation();
+            e.preventDefault();
+            console.log(this.model);
+            var that = this;
+            console.log(bookmarked);
+
+            if (bookmarked !== true) {
+                bookmarked = true;
+                that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
+                Database.deleteBookmark(this.model.get('imdb_id'), function(err, data) {
+                    win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
+                    that.model.set('bookmarked', false);
+                    App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
+
+                    // we'll make sure we dont have a cached show
+                    Database.deleteTVShow(that.model.get('imdb_id'), function(err, data) {});
+                });
+            } else {
+                that.ui.bookmarkIcon.removeClass('selected').text(i18n.__('Add to bookmarks'));
+                bookmarked = false;
+                Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function(err, data) {
+                    win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+                    that.model.set('bookmarked', true);
+                    App.userBookmarks.push(that.model.get('imdb_id'));
+                });
+
+
+
+            }
+        },
+
 
         initialize: function() {
             _this = this;
@@ -41,8 +78,8 @@ var health_checked = false;
             var images = this.model.get('images');
             images.fanart = resizeImage(images.fanart, '940');
             //if ((ScreenResolution.SD || ScreenResolution.HD) && !ScreenResolution.Retina) {
-                // Screen Resolution of 720p or less is fine to have 300x450px image
-                images.poster = resizeImage(images.poster, '300');
+            // Screen Resolution of 720p or less is fine to have 300x450px image
+            images.poster = resizeImage(images.poster, '300');
             //}
 
             App.vent.on('shortcuts:show', function() {
@@ -89,6 +126,14 @@ var health_checked = false;
 
         onShow: function() {
             App.Device.ChooserView('#player-chooser').render();
+            bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
+
+            if (bookmarked) {
+                this.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
+            } else {
+                this.ui.bookmarkIcon.removeClass('selected');
+            }
+
 
             this.selectSeason($('.tab-season:first'));
             $('.star-container-tv,.show-imdb-link').tooltip();
@@ -121,7 +166,7 @@ var health_checked = false;
 
         },
 
-		openIMDb: function() {
+        openIMDb: function() {
             gui.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
         },
 
@@ -403,51 +448,56 @@ var health_checked = false;
         },
 
         getTorrentHealth: function(e) {
-            if(health_checked) {
+            if (health_checked) {
                 return;
             }
             var torrent = $('.startStreaming').attr('data-torrent');
             health_checked = true;
             $('.health-icon')
-            .removeClass('fa-circle')
-            .addClass('fa-spinner')
-            .addClass('fa-spin');
+                .removeClass('fa-circle')
+                .addClass('fa-spinner')
+                .addClass('fa-spin');
             torrentHealth(torrent)
-            .then(function(res) {
-                var h = Common.calcHealth({seed: res.seeds, peer: res.peers});
-                var health = Common.healthMap[h].capitalize();
-                var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
+                .then(function(res) {
+                    var h = Common.calcHealth({
+                        seed: res.seeds,
+                        peer: res.peers
+                    });
+                    var health = Common.healthMap[h].capitalize();
+                    var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
 
-                $('.health-icon').tooltip({
-                    html: true
-                })
-                .removeClass('fa-spin')
-                .removeClass('fa-spinner')
-                .addClass('fa-circle')
-                .removeClass('Bad Medium Good Excellent')
-                .addClass(health)
-                .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
-                .tooltip('fixTitle');
-            });
+                    $('.health-icon').tooltip({
+                        html: true
+                    })
+                        .removeClass('fa-spin')
+                        .removeClass('fa-spinner')
+                        .addClass('fa-circle')
+                        .removeClass('Bad Medium Good Excellent')
+                        .addClass(health)
+                        .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
+                        .tooltip('fixTitle');
+                });
         },
 
         resetHealth: function() {
             $('.health-icon').tooltip({
                 html: true
             })
-            .removeClass('fa-spin')
-            .removeClass('fa-spinner')
-            .addClass('fa-circle')
-            .removeClass('Bad Medium Good Excellent')
-            .attr('data-original-title', i18n.__('Health Unknown'))
-            .tooltip('fixTitle');
+                .removeClass('fa-spin')
+                .removeClass('fa-spinner')
+                .addClass('fa-circle')
+                .removeClass('Bad Medium Good Excellent')
+                .attr('data-original-title', i18n.__('Health Unknown'))
+                .tooltip('fixTitle');
             health_checked = false;
         },
 
         selectPlayer: function(e) {
             var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
             _this.model.set('device', player);
-        }
+        },
+
+
 
     });
 
