@@ -28,8 +28,8 @@
 			<i class="star-empty"><svg viewbox="0 0 100 100" width="13px" height="13px"><path d="M71.686,85.706L69,60l16.982-17.541L62,39L50.001,13.98L38,39l-23.982,3.284L31,60l-2.692,25.676L49.98,72 c0.017,0,0.028,0,0.049,0L71.686,85.706z"/></svg></i>
 		<% }; %>
 		</div>
-		<% if (synopsis.length > 776) { var synopsis = synopsis.substring(0, 776) + "..."; } %>
 		<div class="tv-overview"><%= synopsis %></div>
+		<div class="favourites-toggle"><%=i18n.__("Add to bookmarks") %></div>
 	</div>
 </div>
 

@@ -153,6 +153,102 @@
 		font-size 12px
 		line-height 22px
 		max-width 78%
+		max-height 88px
+		padding-right 15px
+		overflow hidden
+		scrollable()
+
+	.favourites-toggle 
+		cursor: pointer
+		padding-left: 24px
+		margin-left: 198px
+		z-index: 3
+		color: #FFF
+		height: 18px
+		top: 194px
+		position: absolute
+		width: 200px
+		font-family: $MainFont
+		font-smoothing: antialiased
+		font-size: 12px
+		line-height: 17px
+		&:before 
+			content: ""
+			position: absolute
+			top: 0
+			left: 0
+			bottom: 0
+			right: 0
+			width: 18px
+			height: 18px
+			background-image: url("../images/icons/favourites.png")
+			background-position: 0px 0px
+			background-repeat: no-repeat
+			opacity: 1
+			transition: opacity 0.5s
+		
+		&:after 
+			content: ""
+			position: absolute
+			top: 0
+			left: 0
+			bottom: 0
+			right: 0
+			width: 18px
+			height: 18px
+			background-image: url("../images/icons/favourites.png")
+			background-position: -38px 0px
+			background-repeat: no-repeat
+			opacity: 0
+			transition: opacity 0.5s
+		
+		&:hover 
+			&:before 
+				opacity: 0
+			
+			&:after 
+				opacity: 1
+		
+		&.selected 
+			height: 18px
+			position: relative
+			width: 200px
+			&:before 
+				content: ""
+				position: absolute
+				top: 0
+				left: 0
+				bottom: 0
+				right: 0
+				width: 18px
+				height: 18px
+				background-image: url("../images/icons/favourites.png")
+				background-position: -57px 0px
+				background-repeat: no-repeat
+				opacity: 1
+				transition: opacity 0.5s
+			
+			&:after 
+				content: ""
+				position: absolute
+				top: 0
+				left: 0
+				bottom: 0
+				right: 0
+				width: 18px
+				height: 18px
+				background-image: url("../images/icons/favourites.png")
+				background-position: 0px 0px
+				background-repeat: no-repeat
+				opacity: 0
+				transition: opacity 0.5s
+			
+			&:hover 
+				&:before 
+					opacity: 0
+				
+				&:after 
+					opacity: 1
 
 .episode-base
 	margin-top 240px
