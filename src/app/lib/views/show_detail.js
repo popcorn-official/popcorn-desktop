@@ -88,12 +88,10 @@ var health_checked = false;
         },
 
         onShow: function() {
+            App.Device.ChooserView('#player-chooser').render();
 
             this.selectSeason($('.tab-season:first'));
             $('.star-container-tv,.show-imdb-link').tooltip();
-
-            App.Device.ChooserView('#player-chooser').render();
-            this.selectEpisode($('.tab-episode.active'));
 
             var cbackground = $('.tv-cover').attr('data-bgr');
             var coverCache = new Image();
