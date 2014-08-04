@@ -5,13 +5,13 @@
 
 	<div class="tv-meta-data">
 		<div class="tv-title"><%= title %></div>
-		<div class="tv-duration"><%= year %></div>
+		<div class="tv-year"><%= year %></div>
 		<div class="tv-dot"></div>
-		<div class="tv-genre"><%= runtime %> min</div>
+		<div class="tv-runtime"><%= runtime %> min</div>
 		<div class="tv-dot"></div>
 		<div class="tv-status"><%= status !== undefined ? i18n.__(status) : "N/A" %></div>
 		<div class="tv-dot"></div>
-		<div class="tv-num-episodes"><%= i18n.__(genres[0]) %></div>
+		<div class="tv-genre"><%= i18n.__(genres[0]) %></div>
 		<div class="tv-dot"></div>
 		<div data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Open IMDb page") %>" class="show-imdb-link"></div>
 		<div class="tv-dot"></div>
