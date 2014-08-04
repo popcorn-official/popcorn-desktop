@@ -23,6 +23,7 @@ var health_checked = false;
             'click .close-icon': 'closeDetails',
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
+			'click .movie-imdb-link': 'openIMDb',
             'dblclick .tab-episode': 'dblclickEpisode',
             'click #switch-hd-on': 'enableHD',
             'click #switch-hd-off': 'disableHD',
@@ -89,7 +90,7 @@ var health_checked = false;
         onShow: function() {
 
             this.selectSeason($('.tab-season:first'));
-            $('.star-container-tv').tooltip();
+            $('.star-container-tv,.movie-imdb-link').tooltip();
 
             App.Device.ChooserView('#player-chooser').render();
             this.selectEpisode($('.tab-episode.active'));
@@ -120,6 +121,10 @@ var health_checked = false;
                 _.each(data, _this.markWatched);
             });
 
+        },
+
+		openIMDb: function() {
+            gui.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
         },
 
         toggleWatched: function(e) {

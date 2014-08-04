@@ -13,6 +13,8 @@
 		<div class="tv-dot"></div>
 		<div class="tv-num-episodes"><%= i18n.__(genres[0]) %></div>
 		<div class="tv-dot"></div>
+		<div data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Open IMDb page") %>" class="movie-imdb-link"></div>
+		<div class="tv-dot"></div>
 		<% p_rating = Math.round(rating.percentage) / 20; // Roundoff number to nearest 0.5 %>
 		<div data-toggle="tooltip" data-placement="right" title="<%= Math.round(rating.percentage) / 10 %> /10" class="star-container-tv">
 
