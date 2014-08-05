@@ -30,10 +30,14 @@
         },
 
         getEmptyView: function() {
-            if(this.collection.state === 'error') {
-                return ErrorView.extend({error: i18n.__('Error, database is probably corrupted. Try flushing the bookmarks in settings.')});
+            if (this.collection.state === 'error') {
+                return ErrorView.extend({
+                    error: i18n.__('Error, database is probably corrupted. Try flushing the bookmarks in settings.')
+                });
             } else {
-                return ErrorView.extend({error: i18n.__('No bookmarks found...')});
+                return ErrorView.extend({
+                    error: i18n.__('No bookmarks found...')
+                });
             }
         },
 
@@ -47,39 +51,67 @@
         },
 
         onShow: function() {
-            if(this.collection.state === 'loading') {
+            if (this.collection.state === 'loading') {
                 this.onLoading();
             }
         },
 
         onLoading: function() {},
 
-        onLoaded: function() {
-            var self = this;
-            this.checkEmpty();
-            
-            $('.bookmark-item:empty').remove();
-            if($('.bookmark-item:empty').length === 0 && $('.bookmark-item:not(:empty)').length > 0){
-                for (var i=0; i<20; i++) {
-                    $('.bookmarks').append('<li class="bookmark-item"></li>');
+        calculateDivsInRow: function() {
+            var divsInLastRow, divsInRow, to_add;
+            $('.ghost').remove();
+            divsInRow = 0;
+            $('.bookmarks .bookmark-item').each(function() {
+                if ($(this).prev().length > 0) {
+                    if ($(this).position().top !== $(this).prev().position().top) {
+                        return false;
+                    }
+                    divsInRow++;
+                } else {
+                    divsInRow++;
                 }
+            });
+            divsInLastRow = $('.bookmarks .bookmark-item').length % divsInRow;
+            if (divsInLastRow === 0) {
+                divsInLastRow = divsInRow;
             }
-            
-            if(typeof(this.ui.spinner) === 'object') {
-                this.ui.spinner.hide();
+            to_add = divsInRow - divsInLastRow;
+            while (to_add > 0) {
+                $('.bookmarks').append($('<li/>').addClass('bookmark-item ghost'));
+                to_add--;
             }
         },
 
+        onLoaded: function() {
+            var self = this;
+            this.checkEmpty();
+
+            this.calculateDivsInRow();
+
+            if (typeof(this.ui.spinner) === 'object') {
+                this.ui.spinner.hide();
+            }
+            $(window).resize(function() {
+                var addghost;
+                clearTimeout(addghost);
+                addghost = setTimeout(function() {
+                    self.calculateDivsInRow();
+                }, 100);
+            });
+        },
+
         onScroll: function() {
-            if(!this.collection.hasMore) {
+            if (!this.collection.hasMore) {
                 return;
             }
 
-            var totalHeight       = this.$el.prop('scrollHeight');
+            var totalHeight = this.$el.prop('scrollHeight');
             var currentPosition = this.$el.scrollTop() + this.$el.height();
 
-            if(this.collection.state === 'loaded' &&
-                (currentPosition / totalHeight) > SCROLL_MORE) {
+            if (this.collection.state === 'loaded' &&
+                (currentPosition /
+                    totalHeight) > SCROLL_MORE) {
                 this.collection.fetchMore();
             }
         }
