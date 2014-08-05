@@ -6,7 +6,8 @@
     var _this;
 
     function elementInViewport(container, element) {
-        var $container = $(container), $el = $(element);
+        var $container = $(container),
+            $el = $(element);
 
         var docViewTop = $container.offset().top;
         var docViewBottom = docViewTop + $container.height();
@@ -14,8 +15,7 @@
         var elemTop = $el.offset().top;
         var elemBottom = elemTop + $el.height();
 
-        return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom)
-          && (elemBottom <= docViewBottom) &&  (elemTop >= docViewTop) );
+        return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom) && (elemBottom <= docViewBottom) && (elemTop >= docViewTop));
     }
 
     var ErrorView = Backbone.Marionette.ItemView.extend({
@@ -40,32 +40,25 @@
             'keydown': 'onScroll'
         },
 
+        ui: {
+            spinner: '.spinner'
+        },
+
+
         isEmpty: function() {
             return !this.collection.length && this.collection.state !== 'loading';
         },
 
         getEmptyView: function() {
-            if(this.collection.state === 'error') {
-                return ErrorView.extend({error: i18n.__('Error loading data, try again later...')});
+            if (this.collection.state === 'error') {
+                return ErrorView.extend({
+                    error: i18n.__('Error loading data, try again later...')
+                });
             } else {
-                return ErrorView.extend({error: i18n.__('No movies found...')});
+                return ErrorView.extend({
+                    error: i18n.__('No movies found...')
+                });
             }
-        },
-
-        onResize: function() {
-            
-            var movieItem = $('.movie-item');
-            var movieItemFullWidth = movieItem.width() + parseInt(movieItem.css('marginLeft')) + parseInt(movieItem.css('marginRight'));
-            var movieItemAmount = $('.movie-list').width() / movieItemFullWidth;
-            movieItemAmount = Math.floor(movieItemAmount);
-
-            var newWidth = movieItemAmount * movieItemFullWidth;
-            NUM_MOVIES_IN_ROW = movieItemAmount; 
-            //$('.movies').width(newWidth); 
-        },
-
-        ui: {
-            spinner: '.spinner'
         },
 
         initialize: function() {
@@ -115,12 +108,8 @@
             Mousetrap.unbind('tab');
         },
 
-        remove: function() {
-            $(window).off('resize', this.onResize);
-        },
-
         onShow: function() {
-            if(this.collection.state === 'loading') {
+            if (this.collection.state === 'loading') {
                 this.onLoading();
             }
         },
@@ -135,12 +124,12 @@
             var self = this;
             this.checkEmpty();
 
-            $('#load-more-item,.movie-item:empty').remove();
+            $('#load-more-item').remove();
             // we add a load more
-            if(this.collection.hasMore && !this.collection.filter.keywords && this.collection.state !== 'error') {
+            if (this.collection.hasMore && !this.collection.filter.keywords && this.collection.state !== 'error') {
                 $('.movies').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
 
-                $('#load-more-item').click(function(){
+                $('#load-more-item').click(function() {
                     $('#load-more-item').off('click');
                     self.collection.fetchMore();
                 });
@@ -148,41 +137,66 @@
                 $('#loading-more-animi').hide();
                 $('.status-loadmore').show();
             }
+            this.AddGhostsToBottomRow();
+            $(window).resize(function() {
+                var addghost;
+                clearTimeout(addghost);
+                addghost = setTimeout(function() {
+                    self.AddGhostsToBottomRow();
+                }, 100);
+            });
 
-            if($('.movie-item:empty').length === 0 && $('.movie-item:not(:empty)').length > 0){
-                for (var i=0; i<20; i++) {
-                    $('.movies').append('<li class="movie-item"></li>');
-                }
-            }
-
-            $(window).on('resize', this.onResize);
-            this.onResize();
-
-            if(typeof(this.ui.spinner) === 'object') {
+            if (typeof(this.ui.spinner) === 'object') {
                 this.ui.spinner.hide();
             }
 
-            $('.filter-bar').on('mousedown', function(e){
-                if(e.target.localName !== 'div') {
+            $('.filter-bar').on('mousedown', function(e) {
+                if (e.target.localName !== 'div') {
                     return;
                 }
-                _.defer(function(){
+                _.defer(function() {
                     self.$('.movies:first').focus();
                 });
             });
-            $('.movies').attr('tabindex','1');
-            _.defer(function(){
+            $('.movies').attr('tabindex', '1');
+            _.defer(function() {
                 self.$('.movies:first').focus();
             });
         },
-
+        AddGhostsToBottomRow: function() {
+            var divsInLastRow, divsInRow, to_add;
+            $('.ghost').remove();
+            divsInRow = 0;
+            $('.movies .movie-item').each(function() {
+                if ($(this).prev().length > 0) {
+                    if ($(this).position().top !== $(this).prev().position().top) {
+                        return false;
+                    }
+                    divsInRow++;
+                } else {
+                    divsInRow++;
+                }
+            });
+            divsInLastRow = $('.movies .movie-item').length % divsInRow;
+            if (divsInLastRow === 0) {
+                divsInLastRow = divsInRow;
+            }
+            NUM_MOVIES_IN_ROW = divsInRow;
+            to_add = divsInRow - divsInLastRow;
+            while (to_add > 0) {
+                $('.movies').append($('<li/>').addClass('movie-item ghost'));
+                to_add--;
+            }
+        },
         onScroll: function() {
-            if(!this.collection.hasMore) { return; }
+            if (!this.collection.hasMore) {
+                return;
+            }
 
             var totalHeight = this.$el.prop('scrollHeight');
             var currentPosition = this.$el.scrollTop() + this.$el.height();
 
-            if(this.collection.state === 'loaded' &&
+            if (this.collection.state === 'loaded' &&
                 (currentPosition / totalHeight) > SCROLL_MORE) {
                 this.collection.fetchMore();
             }
@@ -199,14 +213,14 @@
         },
 
         selectIndex: function(index) {
-            if($('.movies .movie-item').eq(index).length === 0 || $('.movies .movie-item').eq(index).children().length === 0) {
+            if ($('.movies .movie-item').eq(index).length === 0 || $('.movies .movie-item').eq(index).children().length === 0) {
                 return;
             }
             $('.movie-item.selected').removeClass('selected');
             $('.movies .movie-item').eq(index).addClass('selected');
 
             var $movieEl = $('.movie-item.selected')[0];
-            if(!elementInViewport(this.$el, $movieEl)) {
+            if (!elementInViewport(this.$el, $movieEl)) {
                 $movieEl.scrollIntoView(false);
                 this.onScroll();
             }
@@ -216,13 +230,12 @@
             e.preventDefault();
             e.stopPropagation();
             var index = $('.movie-item.selected').index();
-            if(index === -1) {
+            if (index === -1) {
                 index = 0;
+            } else {
+                index = index - NUM_MOVIES_IN_ROW;
             }
-            else {
-                index =  index - NUM_MOVIES_IN_ROW;
-            }
-            if(index < 0) {
+            if (index < 0) {
                 return;
             }
             _this.selectIndex(index);
@@ -232,10 +245,9 @@
             e.preventDefault();
             e.stopPropagation();
             var index = $('.movie-item.selected').index();
-            if(index === -1) {
+            if (index === -1) {
                 index = 0;
-            }
-            else {
+            } else {
                 index = index + NUM_MOVIES_IN_ROW;
             }
             _this.selectIndex(index);
@@ -245,13 +257,11 @@
             e.preventDefault();
             e.stopPropagation();
             var index = $('.movie-item.selected').index();
-            if(index === -1) {
+            if (index === -1) {
                 index = 0;
-            }
-            else if(index === 0) {
+            } else if (index === 0) {
                 index = 0;
-            }
-            else {
+            } else {
                 index = index - 1;
             }
             _this.selectIndex(index);
@@ -261,11 +271,10 @@
             e.preventDefault();
             e.stopPropagation();
             var index = $('.movie-item.selected').index();
-            if(index === -1) {
+            if (index === -1) {
                 index = 0;
-            }
-            else {
-                index =  index + 1;
+            } else {
+                index = index + 1;
             }
             _this.selectIndex(index);
         },

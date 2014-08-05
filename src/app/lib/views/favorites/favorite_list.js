@@ -58,7 +58,7 @@
 
         onLoading: function() {},
 
-        calculateDivsInRow: function() {
+        AddGhostsToBottomRow: function() {
             var divsInLastRow, divsInRow, to_add;
             $('.ghost').remove();
             divsInRow = 0;
@@ -87,16 +87,15 @@
             var self = this;
             this.checkEmpty();
 
-            this.calculateDivsInRow();
-
             if (typeof(this.ui.spinner) === 'object') {
                 this.ui.spinner.hide();
             }
+            this.AddGhostsToBottomRow();
             $(window).resize(function() {
                 var addghost;
                 clearTimeout(addghost);
                 addghost = setTimeout(function() {
-                    self.calculateDivsInRow();
+                    self.AddGhostsToBottomRow();
                 }, 100);
             });
         },
