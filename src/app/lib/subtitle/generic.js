@@ -76,6 +76,9 @@
 			App.vent.on('subtitle:download', this.downloadSubtitle);
 			self = this;
 		},
+		fetch: function(data) {
+			console.error('Not implemented in parent model')
+		},
 		downloadSubtitle : function(data) {
 			console.log(data);
 			var fileFolder = path.dirname(data.path);
