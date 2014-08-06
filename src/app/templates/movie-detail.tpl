@@ -53,8 +53,8 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
                             <div class="q720">720p</div>
                             <div class="q1080">1080p</div>
                             <div class="quality switch white">
-                                <input type="radio" name="switch" id="switch-hd-off" >
-                                <input type="radio" name="switch" id="switch-hd-on" checked >
+                                <input type="radio" data-toogle="tooltip" data-placement="top" title="<%= torrents['1080p'].filesize %>" name="switch" id="switch-hd-off" >
+                                <input type="radio" data-toogle="tooltip" data-placement="top" title="<%= torrents['720p'].filesize %>" name="switch" id="switch-hd-on" checked >
                                 <span class="toggle"></span>
                             </div>
                         <% } else { %>
