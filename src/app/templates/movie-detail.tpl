@@ -53,14 +53,13 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
                             <div class="q720">720p</div>
                             <div class="q1080">1080p</div>
                             <div class="quality switch white">
-                                <input type="radio" data-toogle="tooltip" data-placement="top" title="<%= torrents['1080p'].filesize %>" name="switch" id="switch-hd-off" >
-                                <input type="radio" data-toogle="tooltip" data-placement="top" title="<%= torrents['720p'].filesize %>" name="switch" id="switch-hd-on" checked >
+                                <input data-toogle="tooltip" data-placement="top" title="720p - <%= torrents['720p'].filesize %><br>1080p - <%= torrents['1080p'].filesize %>" type="radio" name="switch" id="switch-hd-off" >
+                                <input data-toogle="tooltip" data-placement="top" title="720p - <%= torrents['720p'].filesize %><br>1080p - <%= torrents['1080p'].filesize %>" type="radio" name="switch" id="switch-hd-on" checked >
                                 <span class="toggle"></span>
                             </div>
                         <% } else { %>
-                            <div class="q720"><% if (torrents["720p"] !== undefined) { %>720p<% }else if (torrents["1080p"] !== undefined) { %>1080p<% } else { %>HDRip<% } %> </div>
+                            <% if (torrents["720p"] !== undefined) { %><div data-toogle="tooltip" data-placement="top" title="<%= torrents['720p'].filesize %>" class="q720">720p</div><% }else if (torrents["1080p"] !== undefined) { %><div data-toogle="tooltip" data-placement="top" title="<%= torrents['1080p'].filesize %>" class="q720">1080p</div><% } else { %>HDRip<% } %> 
                         <% } %>
-
             </div>
 
             <div class="sub-dropdown">
