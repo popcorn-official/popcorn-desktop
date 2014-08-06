@@ -40,6 +40,7 @@
     "mkdirp": "*",
     "moment": "2.6.0",
     "nedb": "0.10.5",
+    "node-captions": "*",
     "opensrt_js": "0.0.16",
     "peerflix": "0.10.3",
     "q": "2.0.2",

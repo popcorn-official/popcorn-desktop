@@ -7,6 +7,7 @@
 	var async = require('async');
 	var path = require('path');
 	var mkdirp = require('mkdirp');
+	var captions = require('node-captions');
 
 	var self;
 
@@ -73,13 +74,13 @@
 	var Subtitles = Backbone.Model.extend ({
 		initialize: function () {
 			console.log('In Subtitles');
-			App.vent.on('subtitle:download', this.downloadSubtitle);
+			App.vent.on('subtitle:download', this.download);
 			self = this;
 		},
 		fetch: function(data) {
 			console.error('Not implemented in parent model')
 		},
-		downloadSubtitle : function(data) {
+		download : function(data) {
 			console.log(data);
 			var fileFolder = path.dirname(data.path);
 			var subExt = data.url.split('.').pop();
@@ -99,7 +100,27 @@
 					App.vent.trigger('subtitles:downloaded', location);
 				});
 			}
-		}
+		},
+		convert : function(data) { // Converts .srt's to .vtt's
+			var srt = data.path;
+			var vtt = srt.replace('.srt', '.vtt');
+			captions.srt.read(srt, function (err, data) {
+				if (err) { 
+					return console.log(err);
+				}
+				fs.writeFile(vtt, captions.vtt.generate(captions.srt.toJSON(data), function(err, result) {
+						if (err) { 
+							return console.log(err); 
+						}
+						else {
+							App.vent.trigger('subtitles:converted', vtt)
+						}
+					})
+				)
+			});
+
+		},
+
 	});
 
 	App.Device.Subtitles = new Subtitles();
