@@ -75,6 +75,7 @@
 		initialize: function () {
 			console.log('In Subtitles');
 			App.vent.on('subtitle:download', this.download);
+			App.vent.on('subtitle:convert', this.convert);
 			self = this;
 		},
 		fetch: function(data) {
@@ -92,12 +93,12 @@
 			}
 			if(subExt === 'zip') {
 				downloadZip(data, function(location) {
-					App.vent.trigger('subtitles:downloaded', location);
+					App.vent.trigger('subtitle:downloaded', location);
 				});
 			}
 			else if(subExt === 'srt') {
 				downloadSRT(data, function(location) {
-					App.vent.trigger('subtitles:downloaded', location);
+					App.vent.trigger('subtitle:downloaded', location);
 				});
 			}
 		},
@@ -113,7 +114,7 @@
 							return console.log(err); 
 						}
 						else {
-							App.vent.trigger('subtitles:converted', vtt)
+							App.vent.trigger('subtitle:converted', vtt)
 						}
 					})
 				)
