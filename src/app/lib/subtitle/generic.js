@@ -81,7 +81,7 @@
 			App.vent.on('subtitle:convert', this.convert);
 			self = this;
 		},
-		fetch: function(data) {
+		get: function(data) {
 			win.error('Not implemented in parent model')
 		},
 		download : function(data) {

@@ -16,7 +16,7 @@
 			type: 'movie'
 		},
 
-		fetch: function(queryParams) {
+		get: function(queryParams) {
 			return Q.when(querySubtitles(ids))
 			.then(formatForPopcorn);
 		}
@@ -69,7 +69,7 @@
 
         return allSubs;
     };
-    
+
 	// Language mapping to match PT langcodes
 	var languageMapping = {
 		'albanian': 'sq',

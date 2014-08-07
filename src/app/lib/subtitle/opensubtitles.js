@@ -11,7 +11,7 @@
 			type: 'tv'
 		},
 
-		fetch: function(queryParams) {
+		get: function(queryParams) {
 			return querySubtitles(queryParams)
     		.then(formatForPopcorn);
 		}
