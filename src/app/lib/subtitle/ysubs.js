@@ -1,59 +1,59 @@
 (function(context){
-    'use strict';
+	'use strict';
 
-    var _ = require('underscore');
-    var request = require('request');
-    var Q = require('q');
+	var _ = require('underscore');
+	var request = require('request');
+	var Q = require('q');
 
-    var baseUrl = 'http://api.yifysubtitles.com/subs/';
-    var mirrorUrl = 'http://api.ysubs.com/subs/';
-    var prefix = 'http://www.yifysubtitles.com';
+	var baseUrl = 'http://api.yifysubtitles.com/subs/';
+	var mirrorUrl = 'http://api.ysubs.com/subs/';
+	var prefix = 'http://www.yifysubtitles.com';
 
-    var YSubs = App.Subtitles.Generic.extend ({
-        defaults: {
-            id: 'ysubs',
-            name: 'YSubs',
-            type: 'movie'
-        },
+	var YSubs = App.Subtitles.Generic.extend ({
+		defaults: {
+			id: 'ysubs',
+			name: 'YSubs',
+			type: 'movie'
+		},
 
-        fetch: function(queryParams) {
-            return Q.when(querySubtitles(ids))
-            .then(formatForPopcorn);
-        }
-    });
+		fetch: function(queryParams) {
+			return Q.when(querySubtitles(ids))
+			.then(formatForPopcorn);
+		}
+	});
 
-    var querySubtitles = function(imdbIds) {
-        if(_.isEmpty(imdbIds)) {
-            return {};
-        }
+	var querySubtitles = function(imdbIds) {
+		if(_.isEmpty(imdbIds)) {
+			return {};
+		}
 		
-        var url = baseUrl + _.map(imdbIds.sort(), function(id){return id;}).join('-');
-        var mirrorurl = mirrorUrl + _.map(imdbIds.sort(), function(id){return id;}).join('-');
+		var url = baseUrl + _.map(imdbIds.sort(), function(id){return id;}).join('-');
+		var mirrorurl = mirrorUrl + _.map(imdbIds.sort(), function(id){return id;}).join('-');
 
-        var deferred = Q.defer();
+		var deferred = Q.defer();
 
-        request({url:url, json: true}, function(error, response, data){
-            if(error || response.statusCode !== 200 || !data || !data.success) {
-                request({url:mirrorurl, json: true}, function(error, response, data){
-                    if(error || response.statusCode !== 200 || !data || !data.success) {
-                        deferred.reject(error);
-                    } else {
-                        deferred.resolve(data);
-                    }
-                });
-            } else {
-                deferred.resolve(data);
-            }
-        });
+		request({url:url, json: true}, function(error, response, data){
+			if(error || response.statusCode !== 200 || !data || !data.success) {
+				request({url:mirrorurl, json: true}, function(error, response, data){
+					if(error || response.statusCode !== 200 || !data || !data.success) {
+						deferred.reject(error);
+					} else {
+						deferred.resolve(data);
+					}
+				});
+			} else {
+				deferred.resolve(data);
+			}
+		});
 
-        return deferred.promise;
-    };
+		return deferred.promise;
+	};
 
-    var formatForPopcorn = function(data) {
-        var allSubs = {};
+	var formatForPopcorn = function(data) {
+		var allSubs = {};
         // Iterate each movie
         _.each(data.subs, function(langs, imdbId) {
-            var movieSubs = {};
+        	var movieSubs = {};
             // Iterate each language
             _.each(langs, function(subs, lang) {
                 // Pick highest rated
@@ -69,7 +69,7 @@
 
         return allSubs;
     };
-	
+    
 	// Language mapping to match PT langcodes
 	var languageMapping = {
 		'albanian': 'sq',
@@ -115,6 +115,6 @@
 		'vietnamese': 'vi'
 	};
 
-    App.Subtitles.YSubs = YSubs;
+	App.Subtitles.YSubs = YSubs;
 
 })(window);
