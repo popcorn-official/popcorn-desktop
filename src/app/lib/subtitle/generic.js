@@ -72,14 +72,17 @@
 
 	};
 	var Subtitles = Backbone.Model.extend ({
+		defaults: {
+			id:   'generic',
+			name: 'Generic'
+		},
 		initialize: function () {
-			console.log('In Subtitles');
 			App.vent.on('subtitle:download', this.download);
 			App.vent.on('subtitle:convert', this.convert);
 			self = this;
 		},
 		fetch: function(data) {
-			console.error('Not implemented in parent model')
+			win.error('Not implemented in parent model')
 		},
 		download : function(data) {
 			console.log(data);
@@ -124,5 +127,5 @@
 
 	});
 
-	App.Device.Subtitles = new Subtitles();
+	App.Subtitles.Generic = new Subtitles();
 })(window.App);
