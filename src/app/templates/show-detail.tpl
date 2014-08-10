@@ -52,7 +52,7 @@
 			</div>
 			<div class="quality-info"></div>
 		</div>
-		<div class="movie-btn-watch-episode startStreaming" data-torrent="" data-episodeid="">
+		<div class="movie-btn-watch-episode">
 			<div class="button dropup" id="player-chooser"></div>
 		</div>
 	</div>
