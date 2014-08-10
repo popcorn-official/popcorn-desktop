@@ -328,7 +328,7 @@ var health_checked = false;
 
         disableHD: function() {
             win.info('HD Disabled');
-            var tvdbid = $('.movie-btn-watch-episode').attr('data-episodeid'),
+            var tvdbid = $('.startStreaming').attr('data-episodeid'),
                 torrent = $('.template-' + tvdbid + ' .q480').text();
             $('.startStreaming').attr('data-torrent', torrent);
             $('.startStreaming').attr('data-quality', '480P');
