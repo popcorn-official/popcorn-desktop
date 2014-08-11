@@ -7,6 +7,7 @@
     var readTorrent = require('read-torrent');
     var peerflix = require('peerflix');
     var mime = require('mime');
+    var path = require('path');
 
     var engine = null;
     var statsUpdater = null;
@@ -15,14 +16,17 @@
     };
     var subtitles = null;
     var hasSubtitles = false;
+    var downloadedSubtitles = false;
+    var subtitleDownloading = false;
 
 
     var watchState = function(stateModel) {
 
+
         if (engine != null) {
 
             var swarm = engine.swarm;
-            var state = 'connecting';            
+            var state = 'connecting';      
 
             if((swarm.downloaded > BUFFERING_SIZE || (swarm.piecesGot * (engine.torrent !== null ? engine.torrent.pieceLength : 0)) > BUFFERING_SIZE)) {
                 state = 'ready';
@@ -31,7 +35,7 @@
             } else if(swarm.wires.length) {
                 state = 'startingDownload';
             }
-            if(state === 'ready' && !hasSubtitles) {
+            if(state === 'ready' && (!hasSubtitles || (hasSubtitles && !downloadedSubtitles))) {
                 state = 'waitingForSubtitles';
             }
 
@@ -39,6 +43,30 @@
 
             if(state !== 'ready') {
                 _.delay(watchState, 100, stateModel);
+            }
+
+            // This is way too big, should be fixed but basically
+            // We only download subtitle once file is ready (to get path)
+            // and when the selected lang or default lang is set
+            // subtitleDownloading is needed cos this is called every 300ms
+
+            if(Settings.subtitle_language !== 'none' 
+                && stateModel.get('streamInfo').get('defaultSubtitle') !== 'none' 
+                && hasSubtitles && subtitles != null 
+                && engine.files[0] && !downloadedSubtitles
+                && !subtitleDownloading) {
+                win.debug('downloading subtitle');
+                subtitleDownloading = true;
+                App.vent.trigger('subtitle:download', {
+                    url: subtitles[stateModel.get('streamInfo').get('defaultSubtitle') || Settings.subtitle_language],
+                    path: path.join(engine.path, engine.files[0].path)
+                })
+            }
+
+            // No need to download subtitles
+            if(Settings.subtitle_language === 'none' 
+                && stateModel.get('streamInfo').get('defaultSubtitle') === 'none') {
+                downloadedSubtitles = true;
             }
         }
     };
@@ -87,6 +115,11 @@
                 stateModel.destroy();
             }
         };
+
+        App.vent.on('subtitle:downloaded', function(sub) {
+            stateModel.get('streamInfo').set('subFile', sub);
+            downloadedSubtitles = true;
+        })
 
         engine.server.on('listening', function(){
             if(engine) {
@@ -309,6 +342,8 @@
             engine = null;
             subtitles = null; // reset subtitles to make sure they will not be used in next session.
             hasSubtitles = false;
+            downloadedSubtitles = false;
+            subtitleDownloading = false;
             win.info('Streaming cancelled');
         }
     };

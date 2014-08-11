@@ -127,5 +127,5 @@
 
 	});
 
-	App.Subtitles.Generic = new Subtitles();
+	App.Subtitles = {Generic: new Subtitles()};
 })(window.App);
