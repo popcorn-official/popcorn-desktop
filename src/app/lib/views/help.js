@@ -12,14 +12,12 @@
 
         onShow: function() {
             $('.search input').blur();
-            $('#movie-detail').hide();
             Mousetrap.bind('esc', function(e) {
                 App.vent.trigger('help:close');
             });
         },
 
         onClose: function() {
-            $('#movie-detail').show();
         },
 
         closeHelp: function() {
