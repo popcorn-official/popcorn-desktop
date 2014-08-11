@@ -76,6 +76,7 @@
         var tmpFilename = torrent.info.infoHash;
         tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_');// +'-'+ (new Date()*1);
         var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
+        subtitles = torrent.subtitle;
 
         win.debug('Streaming movie to %s', tmpFile);
 

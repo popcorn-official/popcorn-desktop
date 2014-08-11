@@ -38,7 +38,7 @@
 			zipEntries = zip.getEntries();
 			zip.extractAllTo(/*target path*/unzipPath, /*overwrite*/true);
 			fs.unlink(zipPath, function(err){});
-			win.debug('Subtitle extracted to : '+ unzipPath);
+			win.debug('Subtitle extracted to : '+ newName);
 			var files = fs.readdirSync(unzipPath);
 			for(var f in files) {
 				if(path.extname(files[f]) === '.srt') {
