@@ -74,7 +74,9 @@
             });
             divsInLastRow = $('.bookmarks .bookmark-item').length % divsInRow;
             if (divsInLastRow === 0) {
-                divsInLastRow = divsInRow;
+
+                divsInLastRow = -Math.abs(Math.round($(".bookmarks").width() / $('.bookmark-item').outerWidth(true)) - divsInRow);
+
             }
             to_add = divsInRow - divsInLastRow;
             while (to_add > 0) {
