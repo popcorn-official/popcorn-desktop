@@ -14,7 +14,7 @@
 
         events: {
             'click #watch-now': 'startStreaming',
-            'click #watch-trailer': 'playTrailer',
+            'click .watch-trailer': 'playTrailer',
             'click .close-icon': 'closeDetails',
             'click #switch-hd-on': 'enableHD',
             'click #switch-hd-off': 'disableHD',
