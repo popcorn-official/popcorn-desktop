@@ -134,5 +134,16 @@
 	"Restart Now": "Genstart nu",
 	"We are flushing your subtitle cache": "Vi rydder din undertekst cache",
 	"Subtitle cache deleted": "Undertekst cache slettet",
-	"Flush subtitles cache": "Ryd undertekst cache"
+	"Flush subtitles cache": "Ryd undertekst cache",
+	"Quality": "Quality",
+	"Trakt.tv": "Trakt.tv",
+	"Theme": "Theme",
+	"Show movie rating on the cover": "Show movie rating on the cover",
+	"Always On Top": "Always On Top",
+	"Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time": "Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time",
+	"Username": "Username",
+	"Password": "Password",
+	"Popcorn Time stores an encrypted hash of your password in your local database": "Popcorn Time stores an encrypted hash of your password in your local database",
+	"Port to stream on": "Port to stream on",
+	"0 = Random": "0 = Random"
 }

@@ -240,7 +240,7 @@
             }));
         },
 
-        streamReady: function (streamModel) {
+        streamReady: function(streamModel) {
             App.Device.Collection.startDevice(streamModel);
         },
 
