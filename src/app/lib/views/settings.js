@@ -85,7 +85,6 @@
 			$('#header').removeClass('header-shadow');
 			$('#movie-detail').show();
 		},
-		showCover: function() {},
 
 		closeSettings: function() {
 			App.vent.trigger('settings:close');
@@ -145,7 +144,7 @@
 			}
 			win.info('Setting changed: ' + field.attr('name') + ' - ' + value);
 
-			this.syncSetting(field.attr('name'), value);
+
 
 			// update active session
 			App.settings[field.attr('name')] = value;
@@ -155,8 +154,10 @@
 				key: field.attr('name'),
 				value: value
 			}, function() {
-				that.ui.success_alert.show().delay(3000).fadeOut(400);
+				if (field.attr('name') !== 'language')
+					that.ui.success_alert.show().delay(3000).fadeOut(400);
 			});
+			this.syncSetting(field.attr('name'), value);
 		},
 		syncSetting: function(setting, value) {
 
@@ -174,6 +175,9 @@
 					} else {
 						$('.quality').hide();
 					}
+					break;
+				case 'language':
+					App.vent.trigger('settings:show');
 					break;
 				case 'alwaysOnTop':
 					win.setAlwaysOnTop(value);
@@ -394,7 +398,7 @@
 						}
 					}
 				}
-					
+
 				Database.markEpisodesWatched(watched, function(err, data) {
 					if (err) {
 						win.error(err);
