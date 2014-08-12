@@ -44,12 +44,14 @@ var os = require('os');
                         // unmaximise replacement
                         this.nativeWindow.resizeTo(win8w, win8h);
                         this.nativeWindow.moveTo(win8x, win8y);
+						$('.os-max').removeClass('os-is-max');
                     }else{
                         // maximise replacement - always happens first as we start in a window
                         win8x = this.nativeWindow.x;
                         win8y = this.nativeWindow.y;
                         win8h = this.nativeWindow.height;
                         win8w = this.nativeWindow.width;
+						$('.os-max').addClass('os-is-max');
 
                         // does not support multiple monitors - will always use primary
                         this.nativeWindow.moveTo(0, 0);
