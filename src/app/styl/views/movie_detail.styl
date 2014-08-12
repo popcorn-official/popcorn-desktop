@@ -92,6 +92,23 @@
             position: relative
             z-index: 2
         }
+		.watch-trailer {
+            cursor: pointer;
+			&:hover {
+				&:before {
+					font-family: FontAwesome
+					content: "\f008 \00a0 \00a0"
+					color: $ButtonBgActive
+					transition: color 0.5s
+				}
+			}
+			&:before {
+				font-family: FontAwesome
+				content: "\f008 \00a0 \00a0"
+				color: #FFF
+				transition: color 0.5s
+			}
+		}
     }
     .overview {
         position: relative
