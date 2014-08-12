@@ -74,6 +74,8 @@
                 this.model.set('quality', 'HDRip');
             }
 
+            this.renderHealth();
+
             $('.star-container,.movie-imdb-link,.q720,input').tooltip({
                 html: true
             });
