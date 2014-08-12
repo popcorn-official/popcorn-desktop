@@ -177,6 +177,7 @@
 					}
 					break;
 				case 'language':
+					App.vent.trigger('movies:list');
 					App.vent.trigger('settings:show');
 					break;
 				case 'alwaysOnTop':
