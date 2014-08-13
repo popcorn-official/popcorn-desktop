@@ -251,11 +251,11 @@ window.ondrop = function(e) {
         reader.onload = function(event) {
             var content = reader.result;
 
-            fs.writeFile(App.settings.tmpLocation + '\/' + file.name, content, function(err) {
+            fs.writeFile(path.join(App.settings.tmpLocation, file.name), content, function(err) {
                 if (err) {
                     window.alert('Error Loading Torrent: ' + err);
                 } else {
-                    startTorrentStream(App.settings.tmpLocation + '\/' + file.name);
+                    startTorrentStream(path.join(App.settings.tmpLocation, file.name));
                 }
             });
 
