@@ -58,6 +58,10 @@ for (var i in theme_files) {
 			<p>
 				<input class="settings-checkbox" name="coversShowRating" id="cb3" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
 				<label class="settings-label" for="cb3"><%= i18n.__("Show movie rating on the cover") %></label>
+			</p><br><br><br>
+			<p>
+				<input class="settings-checkbox" name="fadeWatchedCovers" id="cbfade" type="checkbox" <%=(Settings.fadeWatchedCovers? "checked='checked'":"")%>>
+				<label class="settings-label" for="cbfade"><%= i18n.__("Fade watched items") %></label>
 			</p>
 			<br><br><br>
 			<p>

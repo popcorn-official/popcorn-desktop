@@ -8,6 +8,7 @@ var
 // User interface
 Settings.language = 'en';
 Settings.coversShowRating = false;
+Settings.fadeWatchedCovers = true;
 
 // Advanced UI
 Settings.alwaysOnTop = false;
