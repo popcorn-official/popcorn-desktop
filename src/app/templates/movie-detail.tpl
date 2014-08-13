@@ -34,18 +34,18 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
                     <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
                         <i class="star-empty"><svg viewbox="0 0 100 100" width="13px" height="13px"><path d="M71.686,85.706L69,60l16.982-17.541L62,39L50.001,13.98L38,39l-23.982,3.284L31,60l-2.692,25.676L49.98,72 c0.017,0,0.028,0,0.049,0L71.686,85.706z"/></svg></i>
                 <% }; %>
+
             </div>
             <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__("Health false") %>" class="fa fa-circle health-icon <%= health %>"></div>
-            <div class="dot"></div>
-			<div class="item watch-trailer"><%=i18n.__("Trailer") %></div>
+
         </div>
 
         <div class="overview"><%= synopsis %></div>
 
         <div class="bottom-container">
             <div class="favourites-toggle"><%=i18n.__("Add to bookmarks") %></div>
-			
             <div class="button dropup" id="player-chooser"></div>
+            <div id="watch-trailer" class="button"><%=i18n.__("Watch Trailer") %></div>
 
             <div class="movie-quality-container">
 
