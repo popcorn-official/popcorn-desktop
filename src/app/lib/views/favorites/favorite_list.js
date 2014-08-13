@@ -75,7 +75,7 @@
             divsInLastRow = $('.bookmarks .bookmark-item').length % divsInRow;
             if (divsInLastRow === 0) {
 
-                divsInLastRow = -Math.abs(Math.round($(".bookmarks").width() / $('.bookmark-item').outerWidth(true)) - divsInRow);
+                divsInLastRow = -Math.abs(Math.round($('.bookmarks').width() / $('.bookmark-item').outerWidth(true)) - divsInRow);
 
             }
             to_add = divsInRow - divsInLastRow;

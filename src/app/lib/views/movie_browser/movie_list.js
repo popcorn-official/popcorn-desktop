@@ -179,7 +179,7 @@
             });
             divsInLastRow = $('.movies .movie-item').length % divsInRow;
             if (divsInLastRow === 0) {
-                divsInLastRow = -Math.abs(Math.round($(".movies").width() / $('.movie-item').outerWidth(true)) - divsInRow);
+                divsInLastRow = -Math.abs(Math.round($('.movies').width() / $('.movie-item').outerWidth(true)) - divsInRow);
             }
             NUM_MOVIES_IN_ROW = divsInRow;
             to_add = divsInRow - divsInLastRow;
