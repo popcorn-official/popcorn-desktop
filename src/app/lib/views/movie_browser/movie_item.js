@@ -53,8 +53,14 @@
 
             if (watched) {
                 this.ui.watchedIcon.addClass('selected');
+                if(Settings.fadeWatchedCovers) {
+                    this.$el.addClass('fadeCover');
+                }
             } else {
                 this.ui.watchedIcon.removeClass('selected');
+                if(Settings.fadeWatchedCovers) {
+                    this.$el.removeClass('fadeCover');
+                }
             }
             this.ui.coverImage.on('load', _.bind(this.showCover, this));
             // this.showCover();

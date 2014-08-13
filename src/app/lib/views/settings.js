@@ -125,6 +125,7 @@
 				case 'moviesShowQuality':
 				case 'deleteTmpOnClose':
 				case 'coversShowRating':
+				case 'fadeWatchedCovers':
 				case 'alwaysOnTop':
 					value = field.is(':checked');
 					break;
