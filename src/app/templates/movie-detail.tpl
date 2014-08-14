@@ -21,6 +21,8 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
             <div class="dot"></div>
             <div class="item"><%= runtime %> min</div>
             <div class="dot"></div>
+            <div class="item"><%= genre %></div>
+            <div class="dot"></div>
             <div data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Open IMDb page") %>" class="movie-imdb-link"></div>
             <div class="dot"></div>
             <div data-toggle="tooltip" data-placement="right" title="<%= rating %>/10" class="star-container">
