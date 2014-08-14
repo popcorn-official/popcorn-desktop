@@ -85,7 +85,7 @@
             var bgCache = new Image();
             bgCache.src = backgroundUrl;
             bgCache.onload = function() {
-                $('.backdrop').css('background-image', 'url(' + backgroundUrl + ')').fadeIn(500);
+                $('.backdrop').css('background-image', 'url(' + backgroundUrl + ')').fadeTo(500, 1);
                 bgCache = null;
             };
 
