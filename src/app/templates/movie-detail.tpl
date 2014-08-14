@@ -18,7 +18,7 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 	<div class="meta-container">
 		<div class="title"><%= title %></div>
 
-		<div class="meta-container">
+		<div class="metadatas">
 			<div class="item"><%= year %></div>
 			<div class="dot"></div>
 			<div class="item"><%= runtime %> min</div>
