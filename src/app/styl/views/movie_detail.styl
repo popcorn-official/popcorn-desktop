@@ -1,41 +1,59 @@
-.movie-detail {
-    width: 100%
-    height: 100%
-    position: fixed
-    top: 65px
-    height: calc(100% - 65px)
-    user-select: none
-    backface-visibility: hidden
-    display: block
-    background-color: $BgColor1
-    .backdrop-overlay {
-        width: 100%
-        height: 100%
-        position: absolute
-        opacity: 0.6
-        background-color: #000
-    }
-    .backdrop {
-        width: 100%
-        height: 100%
-        position: absolute
-        display: none
-        background-repeat: no-repeat
-        background-size: cover
-    }
-    .mcover-image {
-        float: left
-        width: auto
-        max-width: 50vh
-        position: relative
-        height: 100%
-        margin-right: 2%
-        border-radius: 4px
-        margin-left: 5%
-        background-color $BgColor1
-        opacity 0
-        backface-visibility: hidden
-    }
+.movie-detail
+	display: flex
+	flex-direction: row
+	justify-content: flex-start
+	flex-flow: row wrap
+	height: 100vh 			//needs to become calc(100vh - 65px)
+	padding-top: 65px		//when webkit calc() is fixed = m34
+	user-select: none
+	backface-visibility: hidden
+	background-color: $BgColor1
+	position: fixed
+	.backdrop-overlay
+		width: 100%
+		height: 100%
+		position: absolute
+		opacity: 0.6
+		background-color: #000
+
+	.backdrop
+		width: 100%
+		height: 100%
+		position: absolute
+		display: none
+		background-repeat: no-repeat
+		background-size: cover
+
+	.poster-box
+		width: 32%
+
+		.mcover-image
+			top: 40px
+			float: right
+			width: 80%
+			max-width: 50vh
+			height: 70%
+			position: relative
+			margin-right: 2%
+			border-radius: 4px
+			background-color $BgColor1
+			opacity 0
+			backface-visibility: hidden
+
+	.content-box
+		width: 68%
+
+		.meta-container
+			top: 40px
+			height: 70vh
+
+		.bottom-container
+			height: 30vh
+
+
+
+
+    
     .container {
         width: 100%
         position: relative
@@ -109,7 +127,7 @@
         text-align: justify
         text-stroke: 1px rgba(0,0,0,0.1)
         backface-visibility: hidden
-		scrollable();
+        scrollable();
     }
     .health-icon {
         position: relative
@@ -534,4 +552,3 @@
             }
         }
     }
-}
