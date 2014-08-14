@@ -26,29 +26,31 @@
 		background-size: cover
 
 	.poster-box
-		width: 35%
+		height: 75vh
+		margin-top: 8vh
+		width: 35vw
+		padding-left: 4vw
 
 		.mcover-image
-			margin-top: 10%
 			float: right
-			width: 90%
+			width: 100%
 			max-width: 50vh
-			height: 70%
+			max-height: 75vh
 			position: relative
-			margin-right: 4%
+			margin-right: 1vw
 			border-radius: 4px
 			background-color $BgColor1
 			opacity 0
 			backface-visibility: hidden
 
 	.content-box
-		height: 92.5%
-		margin-top: 3.2%
-		width: 65%
-		padding-right: 5%
+		height: 75vh
+		margin-top: 8vh
+		width: 65vw
+		padding-right: 4vw
 
 		.meta-container
-			height: 81%
+			height: calc(100% - 35px) // to replace by calc(75vh - 35px) when m34+
 
 			.title
 				color: #FFF
@@ -135,13 +137,12 @@
 				scrollable();
 
 		.bottom-container
-			position: relative
+			height: 35px
 
 			.button
 				position: relative
 				cursor: pointer
 				float: left
-				bottom: 0
 				height: 35px
 				margin-right: 15px
 				border-radius: $ButtonRadius
@@ -163,89 +164,6 @@
 				&:active
 					box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
 					background: $ButtonBgActive
-
-			.favourites-toggle
-				cursor: pointer
-				padding-left: 24px
-				bottom: 6px
-				color: #FFF
-				height: 18px
-				position: relative
-				width: 200px
-				font-family: $MainFont
-				font-smoothing: antialiased
-				font-size: 12px
-				line-height: 17px
-
-				&:before
-					content: "\f004"
-					font-family: FontAwesome
-					position: absolute
-					font-size: 18px
-					color: #FFF
-					top: 0
-					left: 0
-					bottom: 0
-					right: 0
-					opacity: 1
-					transition: opacity 0.5s
-
-				&:after 
-					content: "\f004"
-					font-family: FontAwesome
-					position: absolute
-					font-size: 18px
-					color: $ButtonBgActive
-					top: 0
-					left: 0
-					bottom: 0
-					right: 0
-					opacity: 0
-					transition: opacity 0.5s
-
-				&:hover
-					&:before
-						opacity: 0
-					&:after
-						opacity: 1
-
-
-				&.selected
-					height: 18px
-					position: relative
-					width: 200px
-
-					&:before
-						content: "\f004"
-						font-family: FontAwesome
-						position: absolute
-						font-size: 18px
-						color: $FavoriteColor
-						top: 0
-						left: 0
-						bottom: 0
-						right: 0
-						opacity: 1
-						transition: opacity 0.5s
-
-					&:after
-						content: "\f004"
-						font-family: FontAwesome
-						position: absolute
-						font-size: 18px
-						color: #FFF
-						top: 0
-						left: 0
-						bottom: 0
-						right: 0
-						opacity: 0
-						transition: opacity 0.5s
-
-					&:hover
-						&:before
-							opacity: 0
-						&:after
-							opacity: 1
 
 			.movie-quality-container
 				margin-top: 10px
@@ -348,11 +266,93 @@
 						top: -1px
 						width: 10px
 
+			.favourites-toggle
+				cursor: pointer
+				padding-left: 24px
+				left: 0
+				color: #FFF
+				height: 18px
+				position: absolute
+				width: auto
+				font-family: $MainFont
+				font-smoothing: antialiased
+				font-size: 12px
+				line-height: 17px
+
+				&:before
+					content: "\f004"
+					font-family: FontAwesome
+					position: absolute
+					font-size: 18px
+					color: #FFF
+					top: 0
+					left: 0
+					bottom: 0
+					right: 0
+					opacity: 1
+					transition: opacity 0.5s
+
+				&:after 
+					content: "\f004"
+					font-family: FontAwesome
+					position: absolute
+					font-size: 18px
+					color: $ButtonBgActive
+					top: 0
+					left: 0
+					bottom: 0
+					right: 0
+					opacity: 0
+					transition: opacity 0.5s
+
+				&:hover
+					&:before
+						opacity: 0
+					&:after
+						opacity: 1
+
+
+				&.selected
+					height: 18px
+					position: relative
+					width: 200px
+
+					&:before
+						content: "\f004"
+						font-family: FontAwesome
+						position: absolute
+						font-size: 18px
+						color: $FavoriteColor
+						top: 0
+						left: 0
+						bottom: 0
+						right: 0
+						opacity: 1
+						transition: opacity 0.5s
+
+					&:after
+						content: "\f004"
+						font-family: FontAwesome
+						position: absolute
+						font-size: 18px
+						color: #FFF
+						top: 0
+						left: 0
+						bottom: 0
+						right: 0
+						opacity: 0
+						transition: opacity 0.5s
+
+					&:hover
+						&:before
+							opacity: 0
+						&:after
+							opacity: 1
+
 			.sub-dropdown
 				position: absolute
 				height: 26px
 				width: auto
-				top: -11px
 				right: 0
 				margin-right: 2%
 				color: #FFF
@@ -366,8 +366,6 @@
 				&.open
 					background-color: rgba($ButtonBgActive,0.6);
 					border-radius: 5px 5px 0 0;
-
-
 
 				.sub-dropdown-arrow
 					width: 0
@@ -387,9 +385,8 @@
 
 			.flag-container
 				position: absolute
-				width: auto
 				right: 0
-				top: 15px
+				width: auto
 				max-width: 270px
 				max-height: 72px
 				margin-right: 2%
