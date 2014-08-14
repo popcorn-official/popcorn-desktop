@@ -28,13 +28,13 @@
 		width: 32%
 
 		.mcover-image
-			top: 40px
+			margin-top: 10%
 			float: right
-			width: 80%
+			width: 90%
 			max-width: 50vh
 			height: 70%
 			position: relative
-			margin-right: 2%
+			margin-right: 4%
 			border-radius: 4px
 			background-color $BgColor1
 			opacity 0
@@ -42,10 +42,95 @@
 
 	.content-box
 		width: 68%
+		padding-right: 5%
 
 		.meta-container
-			top: 40px
+			margin-top: 5%
 			height: 70vh
+
+			.title
+				color: #FFF
+				position: relative
+				top: -4px
+				text-stroke: 1px rgba(0,0,0,0.1)
+				font-size: 38px
+				font-family: $MainFont
+				font-smoothing: antialiased
+
+			.metadatas
+				top: 15px     
+				height: 20px
+				position: relative
+
+				.item
+					color: #FFF
+					font-size: 12px
+					position: relative
+					font-family: $MainFontBold
+					text-stroke: 1px rgba(0,0,0,0.1)
+					float: left
+					font-smoothing: antialiased
+
+				.dot
+					margin: 4px 15px 0px 15px
+					position: relative
+					display: inline-block
+					width: 4px
+					float: left
+					height: 4px
+					border-radius: 2px
+					background-color: #dbdbdd
+
+				.movie-imdb-link
+					margin-top: -3px
+					width: 27px
+					float: left
+					height: 16px
+					position: relative
+					cursor: pointer
+					background: url(../images/icons/imdb.png) no-repeat
+
+				.star-container
+					width: auto
+					float: left
+					top: -2px
+					position: relative
+					z-index: 2
+
+				.health-icon
+					position: relative
+					font-size: 14px
+					float: right
+					margin-right: 2%
+					margin-top: -1px
+					color: #737577
+					cursor: pointer
+					&.Bad
+						color: #d53f3f
+					&.Medium
+						color: #ece523
+					&.Good
+						color: #a3e147
+					&.Excellent
+						color: #2ad942
+
+			.overview
+				position: relative
+				height: 42%
+				overflow: hidden
+				text-overflow: ellipsis
+				float: none
+				color: #FFF
+				top: 25px
+				padding-right: 2%
+				font-family: $MainFont
+				font-smoothing: antialiased
+				font-size: 13px
+				line-height: 22px
+				text-align: justify
+				text-stroke: 1px rgba(0,0,0,0.1)
+				backface-visibility: hidden
+				scrollable();
 
 		.bottom-container
 			height: 30vh
@@ -62,94 +147,9 @@
         top: 10%
         backface-visibility: hidden
     }
-    .title {
-        color: #FFF
-        position: relative
-        top: -4px
-        text-stroke: 1px rgba(0,0,0,0.1)
-        font-size: 38px
-        font-family: $MainFont
-        font-smoothing: antialiased
-    }
-    .meta-container {
-        top: 15px     
-        height: 20px
-        position: relative
-        .item {
-            color: #FFF
-            font-size: 12px
-            position: relative
-            font-family: $MainFontBold
-            text-stroke: 1px rgba(0,0,0,0.1)
-            float: left
-            font-smoothing: antialiased
-        }
-        .dot {
-            margin: 4px 15px 0px 15px
-            position: relative
-            display: inline-block
-            width: 4px
-            float: left
-            height: 4px
-            border-radius: 2px
-            background-color: #dbdbdd
-        }
-        .movie-imdb-link {
-            margin-top: -3px
-            width: 27px
-            float: left
-            height: 16px
-            position: relative
-            cursor: pointer
-            background: url(../images/icons/imdb.png) no-repeat
-        }
-        .star-container {
-            width: auto
-            float: left
-            top: -2px
-            position: relative
-            z-index: 2
-        }
-    }
-    .overview {
-        position: relative
-        height: 42%
-        overflow: hidden
-        text-overflow: ellipsis
-        float: none
-        color: #FFF
-        top: 25px
-        padding-right: 5%
-        font-family: $MainFont
-        font-smoothing: antialiased
-        font-size: 13px
-        line-height: 22px
-        text-align: justify
-        text-stroke: 1px rgba(0,0,0,0.1)
-        backface-visibility: hidden
-        scrollable();
-    }
-    .health-icon {
-        position: relative
-        font-size: 14px
-        float: right
-        margin-right: 5%
-        margin-top: -1px
-        color: #737577
-        cursor: pointer
-        &.Bad {
-            color: #d53f3f
-        }
-        &.Medium {
-            color: #ece523
-        }
-        &.Good {
-            color: #a3e147
-        }
-        &.Excellent {
-            color: #2ad942
-        }
-    }
+
+
+
     .bottom-container {
         position: absolute
         float: left
