@@ -26,6 +26,8 @@ Settings.subtitle_size = '28px';
 
 // More options
 Settings.tvshowApiEndpoint = 'http://eztvapi.re/';
+Settings.httpApiPort = 8008;
+Settings.httpApiPassword = 'time4popcorn';
 
 // User settings (not set here, just init'd)
 Settings.traktUsername = '';
