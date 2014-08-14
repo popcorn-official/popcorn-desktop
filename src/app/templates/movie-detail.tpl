@@ -47,37 +47,35 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 	</div>
 
 	<div class="bottom-container">
-		<div class="bottom-container">
-			<div class="favourites-toggle"><%=i18n.__("Add to bookmarks") %></div>
-			<div class="button dropup" id="player-chooser"></div>
-			<div id="watch-trailer" class="button"><%=i18n.__("Watch Trailer") %></div>
+		<div class="favourites-toggle"><%=i18n.__("Add to bookmarks") %></div>
+		<div class="button dropup" id="player-chooser"></div>
+		<div id="watch-trailer" class="button"><%=i18n.__("Watch Trailer") %></div>
 
-			<div class="movie-quality-container">
+		<div class="movie-quality-container">
 
-			   <% if (torrents["720p"] !== undefined && torrents["1080p"] !== undefined) { %>
-							<div class="q720">720p</div>
-							<div class="q1080">1080p</div>
-							<div class="quality switch white">
-								<input data-toogle="tooltip" data-placement="top" title="720p - <%= torrents['720p'].filesize %><br>1080p - <%= torrents['1080p'].filesize %>" type="radio" name="switch" id="switch-hd-off" >
-								<input data-toogle="tooltip" data-placement="top" title="720p - <%= torrents['720p'].filesize %><br>1080p - <%= torrents['1080p'].filesize %>" type="radio" name="switch" id="switch-hd-on" checked >
-								<span class="toggle"></span>
-							</div>
-						<% } else { %>
-							<% if (torrents["720p"] !== undefined) { %><div data-toogle="tooltip" data-placement="top" title="<%= torrents['720p'].filesize %>" class="q720">720p</div><% }else if (torrents["1080p"] !== undefined) { %><div data-toogle="tooltip" data-placement="top" title="<%= torrents['1080p'].filesize %>" class="q720">1080p</div><% } else { %>HDRip<% } %> 
-						<% } %>
-			</div>
+		   <% if (torrents["720p"] !== undefined && torrents["1080p"] !== undefined) { %>
+						<div class="q720">720p</div>
+						<div class="q1080">1080p</div>
+						<div class="quality switch white">
+							<input data-toogle="tooltip" data-placement="top" title="720p - <%= torrents['720p'].filesize %><br>1080p - <%= torrents['1080p'].filesize %>" type="radio" name="switch" id="switch-hd-off" >
+							<input data-toogle="tooltip" data-placement="top" title="720p - <%= torrents['720p'].filesize %><br>1080p - <%= torrents['1080p'].filesize %>" type="radio" name="switch" id="switch-hd-on" checked >
+							<span class="toggle"></span>
+						</div>
+					<% } else { %>
+						<% if (torrents["720p"] !== undefined) { %><div data-toogle="tooltip" data-placement="top" title="<%= torrents['720p'].filesize %>" class="q720">720p</div><% }else if (torrents["1080p"] !== undefined) { %><div data-toogle="tooltip" data-placement="top" title="<%= torrents['1080p'].filesize %>" class="q720">1080p</div><% } else { %>HDRip<% } %> 
+					<% } %>
+		</div>
 
-			<div class="sub-dropdown">
-					  <%= i18n.__("Subtitles") %>
-					  <div class="sub-flag-icon flag selected-lang none"></div>
-					  <div class="sub-dropdown-arrow"></div>
-			</div>                                            
-			<div class="flag-container">
-					  <div class="sub-flag-icon flag none" data-lang="none" title="<%= i18n.__("Disabled") %>"></div>
-					  <% for(var lang in subtitle){ %>
-						  <div class="sub-flag-icon flag <%= lang %>" data-lang="<%= lang %>" title="<%= App.Localization.langcodes[lang].nativeName %>"></div>
-					   <% } %>
-			</div>
+		<div class="sub-dropdown">
+				  <%= i18n.__("Subtitles") %>
+				  <div class="sub-flag-icon flag selected-lang none"></div>
+				  <div class="sub-dropdown-arrow"></div>
+		</div>                                            
+		<div class="flag-container">
+				  <div class="sub-flag-icon flag none" data-lang="none" title="<%= i18n.__("Disabled") %>"></div>
+				  <% for(var lang in subtitle){ %>
+					  <div class="sub-flag-icon flag <%= lang %>" data-lang="<%= lang %>" title="<%= App.Localization.langcodes[lang].nativeName %>"></div>
+				   <% } %>
 		</div>
 	</div>
 </section>
