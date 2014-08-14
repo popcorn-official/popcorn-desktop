@@ -5,20 +5,21 @@
 	flex-flow: row wrap
 	height: 100vh 			//needs to become calc(100vh - 65px)
 	padding-top: 65px		//when webkit calc() is fixed = m34
+	width: 100vw
 	user-select: none
 	backface-visibility: hidden
 	background-color: $BgColor1
 	position: fixed
 	.backdrop-overlay
-		width: 100%
-		height: 100%
+		width: 100vw
+		height: 100vh
 		position: absolute
 		opacity: 0.6
 		background-color: #000
 
 	.backdrop
-		width: 100%
-		height: 100%
+		width: 100vw
+		height: 100vh
 		position: absolute
 		display: none
 		background-repeat: no-repeat
@@ -134,7 +135,6 @@
 				scrollable();
 
 		.bottom-container
-			height: 20%
 			position: relative
 
 			.button
