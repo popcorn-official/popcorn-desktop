@@ -50,7 +50,7 @@
 		padding-right: 4vw
 
 		.meta-container
-			height: calc(100% - 35px) // to replace by calc(75vh - 35px) when m34+
+			height: calc(100% - 65px) // to replace by calc(75vh - 65px) when m34+
 
 			.title
 				color: #FFF
@@ -120,7 +120,7 @@
 
 			.overview
 				position: relative
-				height: 52%
+				height: 55%
 				overflow: hidden
 				text-overflow: ellipsis
 				float: none
@@ -137,142 +137,17 @@
 				scrollable();
 
 		.bottom-container
-			height: 35px
-
-			.button
-				position: relative
-				cursor: pointer
-				float: left
-				height: 35px
-				margin-right: 15px
-				border-radius: $ButtonRadius
-				background-clip: padding-box
-				background-color: $ButtonBg
-				padding: 0 15px
-				transition: background-color 0.5s
-				color: $ButtonText
-				font-family: $MainFont
-				font-smoothing: antialiased
-				text-align: center
-				font-size: 12px
-				line-height: 34px
-
-				&:hover
-					background: $ButtonBgHover
-					text-decoration: none
-
-				&:active
-					box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-					background: $ButtonBgActive
-
-			.movie-quality-container
-				margin-top: 10px
-				float: left
-				position: relative
-				height: 15px
-				width: 95px
-				left: 5%
-
-				.tooltip
-					width: 85px
-
-
-				.q720
-					font-family: $MainFontBold
-					font-smoothing: antialiased
-					font-size: 11px
-					color: #fff
-					font-weight: normal
-					position: absolute
-
-				.q1080
-					font-family: $MainFontBold
-					font-smoothing: antialiased
-					font-size: 11px
-					color: #fff
-					font-weight: normal
-					left: 58px
-					position: absolute
-
-				.switch
-					background: transparent
-					border-radius: 32px
-					display: block
-					height: 12px
-					position: absolute
-					left: 28px
-					width: 25px
-					border: 2px solid #fff
-					cursor: pointer
-
-					label
-						transition: color 0.2s ease
-						width: 20px
-						cursor: pointer
-						&:nth-of-type(1)
-							left: -38px
-							position: absolute
-							text-align: right
-
-						&:nth-of-type(2)
-							position: absolute
-							right: -30px
-							text-align: left
-
-
-					.tooltip
-						width: 130px
-
-					input
-						height: 7px
-						left: -27px
-						opacity: 0
-						position: absolute
-						top: -4px
-						width: 79px
-						z-index: 2
-						cursor: pointer
-						&:checked
-							z-index: 0
-							& ~ label
-								&:nth-of-type(1)
-									color: $ButtonBgActive
-
-								&:nth-of-type(2)
-									color: #fff
-
-							& ~ .toggle
-								left: 0px
-
-
-						& ~ :checked
-							& ~ label
-								&:nth-of-type(1)
-									color: #fff
-
-								&:nth-of-type(2)
-									color: $ButtonBgActive
-
-							& ~ .toggle
-								left: 11px
-
-					.toggle
-						transition: left 0.2s ease
-						background: $ButtonBgActive
-						border-radius: 50%
-						height: 10px
-						left: -0px
-						position: absolute
-						top: -1px
-						width: 10px
+			height: 65px
+			line-height: 30px
 
 			.favourites-toggle
 				cursor: pointer
+				padding: 5px
 				padding-left: 24px
-				left: 0
+				float: left
 				color: #FFF
-				height: 18px
-				position: absolute
+				height: 26px
+				position: relative
 				width: auto
 				font-family: $MainFont
 				font-smoothing: antialiased
@@ -285,10 +160,7 @@
 					position: absolute
 					font-size: 18px
 					color: #FFF
-					top: 0
 					left: 0
-					bottom: 0
-					right: 0
 					opacity: 1
 					transition: opacity 0.5s
 
@@ -298,10 +170,7 @@
 					position: absolute
 					font-size: 18px
 					color: $ButtonBgActive
-					top: 0
 					left: 0
-					bottom: 0
-					right: 0
 					opacity: 0
 					transition: opacity 0.5s
 
@@ -323,10 +192,7 @@
 						position: absolute
 						font-size: 18px
 						color: $FavoriteColor
-						top: 0
 						left: 0
-						bottom: 0
-						right: 0
 						opacity: 1
 						transition: opacity 0.5s
 
@@ -336,10 +202,7 @@
 						position: absolute
 						font-size: 18px
 						color: #FFF
-						top: 0
 						left: 0
-						bottom: 0
-						right: 0
 						opacity: 0
 						transition: opacity 0.5s
 
@@ -350,10 +213,10 @@
 							opacity: 1
 
 			.sub-dropdown
-				position: absolute
+				position: relative
 				height: 26px
 				width: auto
-				right: 0
+				float: right
 				margin-right: 2%
 				color: #FFF
 				font-family: $MainFont
@@ -385,11 +248,13 @@
 
 			.flag-container
 				position: absolute
-				right: 0
+				margin-right: 5.2%
+				margin-top: 26px
+				z-index: 3
 				width: auto
 				max-width: 270px
 				max-height: 72px
-				margin-right: 2%
+				right: 0
 				overflow-x: hidden
 				overflow-y: hidden
 				display: none
@@ -483,3 +348,131 @@
 					background-image: url("../images/flags/hungarian.png")
 				&.zh
 					background-image: url("../images/flags/chinese.png")
+
+			.button
+				position: relative
+				cursor: pointer
+				float: left
+				height: 35px
+				margin-right: 15px
+				border-radius: $ButtonRadius
+				background-clip: padding-box
+				background-color: $ButtonBg
+				padding: 0 15px
+				transition: background-color 0.5s
+				color: $ButtonText
+				font-family: $MainFont
+				font-smoothing: antialiased
+				text-align: center
+				font-size: 12px
+				line-height: 34px
+
+				&:hover
+					background: $ButtonBgHover
+					text-decoration: none
+
+				&:active
+					box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+					background: $ButtonBgActive
+
+			.movie-quality-container
+				margin-top: 10px
+				float: left
+				position: relative
+				height: 15px
+				width: 95px
+				left: 3%
+				line-height: 1
+
+				.tooltip
+					width: 85px
+
+
+				.q720
+					font-family: $MainFontBold
+					font-smoothing: antialiased
+					font-size: 11px
+					color: #fff
+					font-weight: normal
+					position: absolute
+
+				.q1080
+					font-family: $MainFontBold
+					font-smoothing: antialiased
+					font-size: 11px
+					color: #fff
+					font-weight: normal
+					left: 58px
+					position: absolute
+
+				.switch
+					background: transparent
+					border-radius: 32px
+					display: block
+					height: 12px
+					position: absolute
+					left: 28px
+					width: 25px
+					border: 2px solid #fff
+					cursor: pointer
+
+					label
+						transition: color 0.2s ease
+						width: 20px
+						cursor: pointer
+						&:nth-of-type(1)
+							left: -38px
+							position: absolute
+							text-align: right
+
+						&:nth-of-type(2)
+							position: absolute
+							right: -30px
+							text-align: left
+
+
+					.tooltip
+						width: 130px
+
+					input
+						height: 7px
+						left: -27px
+						opacity: 0
+						position: absolute
+						top: -4px
+						width: 79px
+						z-index: 2
+						cursor: pointer
+						&:checked
+							z-index: 0
+							& ~ label
+								&:nth-of-type(1)
+									color: $ButtonBgActive
+
+								&:nth-of-type(2)
+									color: #fff
+
+							& ~ .toggle
+								left: 0px
+
+
+						& ~ :checked
+							& ~ label
+								&:nth-of-type(1)
+									color: #fff
+
+								&:nth-of-type(2)
+									color: $ButtonBgActive
+
+							& ~ .toggle
+								left: 11px
+
+					.toggle
+						transition: left 0.2s ease
+						background: $ButtonBgActive
+						border-radius: 50%
+						height: 10px
+						left: -0px
+						position: absolute
+						top: -1px
+						width: 10px
