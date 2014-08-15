@@ -27,7 +27,7 @@
 		});
 
 		server.expose('togglemute', function(args, opt, callback){
-			this.player.muted(!this.player.muted());
+			App.Player.muted(!App.Player.muted());
 			callback();
 		});
 
