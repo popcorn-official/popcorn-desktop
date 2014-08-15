@@ -74,49 +74,6 @@
         server.enableAuth(Settings.httpApiUsername, Settings.httpApiPassword);
 
         server.listen(Settings.httpApiPort, 'localhost');
-
-        // server
-        //     .use(restify.fullResponse())
-        //     .use(restify.bodyParser());
-
-        // server.post('/', function (req, res, next) {
-        //     var action = req.params.action;
-
-        //     if(req.params.password !== Settings.httpApiPassword){
-        //         res.send(401, "PASSWORD INCORRECT");
-        //         return;
-        //     }
-
-        //     //Player commands
-        //     if(typeof App.Player !== 'undefined'){
-        //         switch(action) {
-        //             case 'setvolume':
-        //                 App.Player.volume(parseFloat(req.params.data));
-        //                 break;
-        //             case 'toggleplaying':
-        //                 if(App.Player.paused()){
-        //                     App.Player.play();
-        //                 }
-        //                 else{
-        //                     App.Player.pause();
-        //                 }
-        //                 break;
-        //             case 'togglemute':
-        //                 this.player.muted(!this.player.muted());
-        //                 break;
-        //             case 'seek':
-        //                 App.Player.currentTime(App.Player.currentTime() + parseFloat(req.params.data));
-        //                 break;
-        //             default:
-        //                 res.send(400, "INCORRECT ACTION"); 
-        //                 return;
-        //                 break;
-        //         }
-        //     }
-        //     res.send(200, "OK"); 
-        // });
-
-        // server.listen(Settings.httpApiPort);
     };  
     HttpApi.prototype.constructor = HttpApi;
 
