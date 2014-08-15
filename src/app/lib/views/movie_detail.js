@@ -255,6 +255,7 @@
                     synopsis: this.model.get('synopsis'),
                     runtime: this.model.get('runtime'),
                     year: this.model.get('year'),
+                    genre: this.model.get('genre'),
                     health: this.model.get('health'),
                     subtitle: this.model.get('subtitle'),
                     backdrop: this.model.get('backdrop'),
