@@ -52,7 +52,8 @@
     "torrent-health": "*",
     "underscore": "1.6.0",
     "jayson": "git+https://github.com/FREEZX/jayson.git",
-    "http-auth": "*"
+    "http-auth": "*",
+    "json-rpc2": "*"
   },
   "devDependencies": {
     "tmp": "0.0.23",

@@ -288,8 +288,10 @@
                 $('#switch-hd-off').trigger('click');
             }
 
-            e.preventDefault();
-            e.stopPropagation();
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         },
 
         selectPlayer: function(e) {
