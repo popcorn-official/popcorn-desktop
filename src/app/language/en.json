@@ -66,6 +66,7 @@
 	"Disabled": "Disabled",
 	"TV Show API Endpoint": "TV Show API Endpoint",
 	"HTTP API Port": "HTTP API Port",
+	"HTTP API Username": "HTTP API Username",
 	"HTTP API Password": "HTTP API Password",
 	"connecting": "Connecting...",
 	"Download": "Download",

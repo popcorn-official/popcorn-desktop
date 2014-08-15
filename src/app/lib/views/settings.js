@@ -132,6 +132,7 @@
 				case 'alwaysOnTop':
 					value = field.is(':checked');
 					break;
+				case 'httpApiUsername':
 				case 'httpApiPassword':
 				case 'connectionLimit':
 				case 'dhtLimit':
