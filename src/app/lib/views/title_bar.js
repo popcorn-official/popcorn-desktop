@@ -61,8 +61,14 @@ var os = require('os');
                     // end patch
                     if (window.screen.availHeight <= this.nativeWindow.height) {
                         this.nativeWindow.unmaximize();
+						if (process.platform === 'win32') {
+							$('.os-max').removeClass('os-is-max');
+						}
                     }else{
                         this.nativeWindow.maximize();
+						if (process.platform === 'win32') {
+							$('.os-max').addClass('os-is-max');
+						}
                     }
                 }
             }
