@@ -41,12 +41,26 @@ var health_checked = false;
 
             if (bookmarked !== true) {
                 bookmarked = true;
-                that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
-                Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function(err, data) {
-                    win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
-                    that.model.set('bookmarked', true);
-                    App.userBookmarks.push(that.model.get('imdb_id'));
+
+                var provider = this.model.get('provider'); //XXX(xaiki): provider hack
+                var tvshow = App.Config.getProvider('tvshow')[provider];
+                var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
+                    if (!err) {
+                        data.provider = that.model.get('provider');
+                        Database.addTVShow(data, function(err, idata) {
+                            Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function(err, data) {
+                                win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+                                that.model.set('bookmarked', true);
+                                that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
+                                App.userBookmarks.push(that.model.get('imdb_id'));
+                            });
+                        });
+
+                    } else {
+                        alert('Somethings wrong... try later');
+                    }
                 });
+
             } else {
                 that.ui.bookmarkIcon.removeClass('selected').text(i18n.__('Add to bookmarks'));
                 bookmarked = false;
@@ -59,6 +73,7 @@ var health_checked = false;
                     // we'll make sure we dont have a cached show
                     Database.deleteTVShow(that.model.get('imdb_id'), function(err, data) {});
                 });
+
 
 
             }
@@ -130,7 +145,6 @@ var health_checked = false;
             } else {
                 this.ui.bookmarkIcon.removeClass('selected');
             }
-
 
             this.selectSeason($('.tab-season:first'));
             $('.star-container-tv,.show-imdb-link').tooltip();

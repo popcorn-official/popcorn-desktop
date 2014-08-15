@@ -80,6 +80,7 @@
             var provider = this.model.get('provider'); //XXX(xaiki): provider hack
             var tvshow = App.Config.getProvider('tvshow')[provider];
             var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
+                data.provider = provider;
                 $('.spinner').hide();
                 if (!err) {
                     App.vent.trigger('show:showDetail', new Backbone.Model(data));

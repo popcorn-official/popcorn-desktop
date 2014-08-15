@@ -53,12 +53,12 @@
 
             if (watched) {
                 this.ui.watchedIcon.addClass('selected');
-                if(Settings.fadeWatchedCovers) {
+                if (Settings.fadeWatchedCovers) {
                     this.$el.addClass('fadeCover');
                 }
             } else {
                 this.ui.watchedIcon.removeClass('selected');
-                if(Settings.fadeWatchedCovers) {
+                if (Settings.fadeWatchedCovers) {
                     this.$el.removeClass('fadeCover');
                 }
             }
@@ -142,6 +142,7 @@
                     image: this.model.get('image'),
                     torrents: this.model.get('torrents'),
                     title: this.model.get('title'),
+                    genre: this.model.get('genre'),
                     synopsis: this.model.get('synopsis'),
                     runtime: this.model.get('runtime'),
                     year: this.model.get('year'),

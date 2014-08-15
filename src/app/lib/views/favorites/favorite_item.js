@@ -49,6 +49,7 @@
                     image: this.model.get('image'),
                     torrents: this.model.get('torrents'),
                     title: this.model.get('title'),
+                    genre: this.model.get('genre'),
                     synopsis: this.model.get('synopsis'),
                     runtime: this.model.get('runtime'),
                     year: this.model.get('year'),
