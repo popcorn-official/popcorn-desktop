@@ -30,13 +30,16 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 			<div data-toggle="tooltip" data-placement="right" title="<%= rating %>/10" class="star-container">
 			<% var p_rating = Math.round(rating) / 2; %>
 			   <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
-						<i class="star"><svg viewbox="0 0 100 100" width="13px" height="13px"><path d="M71.686,85.706L69,60l16.982-17.541L62,39L50.001,13.98L38,39l-23.982,3.284L31,60l-2.692,25.676L49.98,72 c0.017,0,0.028,0,0.049,0L71.686,85.706z"/></svg></i>
+						<i class="fa fa-star rating-star"></i>
 					<% }; %>
 					<% if (p_rating % 1 > 0) { %>
-						<i class="star-half"><svg viewbox="0 0 100 100" width="13px" height="13px"><path d="M71.686,85.706L69,60l16.982-17.541L62,39L50.001,13.98L38,39l-23.982,3.284L31,60l-2.692,25.676L49.98,72 c0.017,0,0.028,0,0.049,0L71.686,85.706z"/></svg></i>
+						<span class = "fa-stack rating-star-half-container">
+							<i class="fa fa-star fa-stack-1x rating-star-half-empty"></i>
+							<i class="fa fa-star-half fa-stack-1x rating-star-half"></i>
+						</span>
 					<% }; %>
 					<% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
-						<i class="star-empty"><svg viewbox="0 0 100 100" width="13px" height="13px"><path d="M71.686,85.706L69,60l16.982-17.541L62,39L50.001,13.98L38,39l-23.982,3.284L31,60l-2.692,25.676L49.98,72 c0.017,0,0.028,0,0.049,0L71.686,85.706z"/></svg></i>
+						<i class="fa fa-star rating-star-empty"></i>
 				<% }; %>
 			</div>
 			<div data-toggle="tooltip" data-placement="left" title="<%=i18n.__("Health false") %>" class="fa fa-circle health-icon <%= health %>"></div>
