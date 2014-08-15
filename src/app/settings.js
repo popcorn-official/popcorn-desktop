@@ -27,7 +27,7 @@ Settings.subtitle_size = '28px';
 // More options
 Settings.tvshowApiEndpoint = 'http://eztvapi.re/';
 Settings.httpApiPort = 8008;
-Settings.httpApiUsername = 'time4popcorn';
+Settings.httpApiUsername = 'pocho';
 Settings.httpApiPassword = 'popcorn';
 
 // User settings (not set here, just init'd)
