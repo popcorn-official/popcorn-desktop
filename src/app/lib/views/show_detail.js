@@ -35,8 +35,11 @@ var health_checked = false;
         },
 
         toggleFavorite: function(e) {
-            e.stopPropagation();
-            e.preventDefault();
+            
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             var that = this;
 
             if (bookmarked !== true) {
@@ -211,7 +214,10 @@ var health_checked = false;
         },
 
         startStreaming: function(e) {
-            e.preventDefault();
+            
+            if(e.type) {
+                e.preventDefault();
+            }
             var that = this;
             var title = that.model.get('title');
             var episode = $(e.currentTarget).attr('data-episode');
@@ -246,23 +252,35 @@ var health_checked = false;
         },
 
         closeDetails: function(e) {
-            e.preventDefault();
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             _this.unbindKeyboardShortcuts();
             App.vent.trigger('show:closeDetail');
         },
 
         clickSeason: function(e) {
-            e.preventDefault();
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             this.selectSeason($(e.currentTarget));
         },
 
         clickEpisode: function(e) {
-            e.preventDefault();
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             this.selectEpisode($(e.currentTarget));
         },
 
         dblclickEpisode: function(e) {
-            e.preventDefault();
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             this.selectEpisode($(e.currentTarget));
             $('.startStreaming').trigger('click');
         },
@@ -360,8 +378,11 @@ var health_checked = false;
             if (!_this.isElementVisible($nextEpisode[0])) {
                 $nextEpisode[0].scrollIntoView(false);
             }
-            e.preventDefault();
-            e.stopPropagation();
+            
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
 
         },
 
@@ -375,8 +396,11 @@ var health_checked = false;
             if (!_this.isElementVisible($prevEpisode[0])) {
                 $prevEpisode[0].scrollIntoView(true);
             }
-            e.preventDefault();
-            e.stopPropagation();
+            
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
 
         },
 
@@ -390,8 +414,11 @@ var health_checked = false;
             if (!_this.isElementVisible($nextSeason[0])) {
                 $nextSeason[0].scrollIntoView(false);
             }
-            e.preventDefault();
-            e.stopPropagation();
+            
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         },
 
         previousSeason: function(e) {
@@ -404,15 +431,21 @@ var health_checked = false;
             if (!_this.isElementVisible($prevSeason[0])) {
                 $prevSeason[0].scrollIntoView(true);
             }
-            e.preventDefault();
-            e.stopPropagation();
+            
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
 
         },
 
         playEpisode: function(e) {
             $('.startStreaming').trigger('click');
-            e.preventDefault();
-            e.stopPropagation();
+            
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         },
 
         toggleQuality: function(e) {

@@ -138,6 +138,15 @@ for (var i in theme_files) {
 		</div>
 
 		<div class="more-options">
+			<p><%= i18n.__("HTTP API Port") + ":" %></p> <input id="httpApiPort" type="number" size="5" name="httpApiPort" value="<%=Settings.httpApiPort%>">
+			<br><br>
+
+			<p><%= i18n.__("HTTP API Username") + ":" %></p> <input id="httpApiUsername" type="text" size="50" name="httpApiUsername" value="<%=Settings.httpApiUsername%>">
+			<br><br>
+
+			<p><%= i18n.__("HTTP API Password") + ":" %></p> <input id="httpApiPassword" type="text" size="50" name="httpApiPassword" value="<%=Settings.httpApiPassword%>">
+			<br><br>
+
 			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input id="tvshowApiEndpoint" type="text" size="50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
 		</div>
 		<div class="advanced-settings">

@@ -1,6 +1,8 @@
 (function(App) {
     'use strict';
 
+    var player;
+
     var Player = Backbone.Marionette.ItemView.extend({
         template: '#player-tpl',
         className: 'player',
@@ -121,8 +123,9 @@
                 });
             }
 
-            var player = this.video.player();
+            player = this.video.player();
             this.player = player;
+            App.Player = player;
 
             /* The following is a hack to make VideoJS listen to
                mouseup instead of mousedown for pause/play on the 
