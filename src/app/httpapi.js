@@ -20,24 +20,47 @@
                 else{
                     App.Player.pause();
                 }
+                callback();
             },
             togglemute: function(callback){
                 this.player.muted(!this.player.muted());
+                callback();
             },
             seek: function(value, callback){
                 App.Player.currentTime(App.Player.currentTime() + parseFloat(value));
+                callback();
+            },
+            up: function(callback){
+                Mousetrap.trigger('up');
+                callback();
+            },
+            down: function(callback){
+                Mousetrap.trigger('down');
+                callback();
+            },
+            left: function(callback){
+                Mousetrap.trigger('left');
+                callback();
+            },
+            right: function(callback){
+                Mousetrap.trigger('right');
+                callback();
+            },
+            enter: function(callback){
+                Mousetrap.trigger('enter');
+                callback();
             }
         });
 
-        // var basic = auth.basic({
-        //         realm: "JSONRPC"
-        //     }, function (username, password, callback) { // Custom authentication method.
-        //         callback(username === "FREEZXX" && password === "FREEZX");
-        //     }
-        // );
+        var basic = auth.basic({
+                realm: 'JSONRPC'
+            }, function (username, password, callback) { // Custom authentication method.
+                callback(username === 'FREEZXX' && password === 'FREEZX');
+            }
+        );
 
-        // var httpServer = http.createServer(basic);
-        var jaysonHttpServer = server.http();
+        var httpServer = http.createServer(basic);
+        var jaysonHttpServer = server.http(httpServer);
 
         jaysonHttpServer.listen(Settings.httpApiPort, function(){
             win.log('Listening for commands on '+Settings.httpApiPort);
