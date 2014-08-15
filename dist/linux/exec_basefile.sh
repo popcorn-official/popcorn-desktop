@@ -6,13 +6,12 @@ func_error() {
 echo "
 Unexpected Error:
 =================
-
 at: $current
-
-Please try again."
+... Please try again."
 exit 1 
 }
 
+#progressbar on download
 progressfilt ()
 {
     local flag=false c count cr=$'\r' nl=$'\n'
@@ -48,7 +47,7 @@ fi
 func_error
 
 #Variables
-version="0.3.2"
+version="PT_VERSION"
 tos="https://popcorntime.io/tos"
 downloadlink="https://cdn.popcorntime.io/build/Popcorn-Time-$version-Linux-$arch.tar.gz"
 
