@@ -207,8 +207,10 @@
         },
 
         selectItem: function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             $('.movie-item.selected .cover').trigger('click');
         },
 
@@ -227,8 +229,10 @@
         },
 
         moveUp: function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             var index = $('.movie-item.selected').index();
             if (index === -1) {
                 index = 0;
@@ -242,8 +246,10 @@
         },
 
         moveDown: function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             var index = $('.movie-item.selected').index();
             if (index === -1) {
                 index = 0;
@@ -254,8 +260,10 @@
         },
 
         moveLeft: function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             var index = $('.movie-item.selected').index();
             if (index === -1) {
                 index = 0;
@@ -268,8 +276,10 @@
         },
 
         moveRight: function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             var index = $('.movie-item.selected').index();
             if (index === -1) {
                 index = 0;

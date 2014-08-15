@@ -41,9 +41,11 @@
         },
 
         initKeyboardShortcuts: function() {
+            win.log('Binding detail events!');
             Mousetrap.bind('backspace', this.closeDetails);
             Mousetrap.bind(['enter', 'space'], function(e) {
-                $('.movie-btn.watch').click();
+                win.log('Enter click!');
+                $('#watch-now').click();
             });
             Mousetrap.bind('q', this.toggleQuality);
         },
