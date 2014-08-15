@@ -104,6 +104,9 @@
 			var field = $(e.currentTarget);
 
 			switch (field.attr('name')) {
+				case 'httpApiPort':
+					value = parseInt(field.val());
+					break;
 				case 'tvshowApiEndpoint':
 					value = field.val();
 					if (value.substr(-1) !== '/') {
@@ -129,6 +132,8 @@
 				case 'alwaysOnTop':
 					value = field.is(':checked');
 					break;
+				case 'httpApiUsername':
+				case 'httpApiPassword':
 				case 'connectionLimit':
 				case 'dhtLimit':
 				case 'streamPort':

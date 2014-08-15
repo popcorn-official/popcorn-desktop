@@ -41,9 +41,11 @@
         },
 
         initKeyboardShortcuts: function() {
+            win.log('Binding detail events!');
             Mousetrap.bind('backspace', this.closeDetails);
             Mousetrap.bind(['enter', 'space'], function(e) {
-                $('.movie-btn.watch').click();
+                win.log('Enter click!');
+                $('#watch-now').click();
             });
             Mousetrap.bind('q', this.toggleQuality);
         },
@@ -287,8 +289,10 @@
                 $('#switch-hd-off').trigger('click');
             }
 
-            e.preventDefault();
-            e.stopPropagation();
+            if(e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         },
 
         selectPlayer: function(e) {
