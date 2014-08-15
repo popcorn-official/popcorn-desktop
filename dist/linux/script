@@ -2,7 +2,7 @@
 
 #Error
 func_error() {
-[ -n $error ] && return 0
+[ $error == "0" ] && return 0
 echo "
 Unexpected Error:
 =================
@@ -13,12 +13,35 @@ Please try again."
 exit 1 
 }
 
+progressfilt ()
+{
+    local flag=false c count cr=$'\r' nl=$'\n'
+    while IFS='' read -d '' -rn 1 c
+    do
+        if $flag
+        then
+            printf '%c' "$c"
+        else
+            if [[ $c != $cr && $c != $nl ]]
+            then
+                count=0
+            else
+                ((count++))
+                if ((count > 1))
+                then
+                    flag=true
+                fi
+            fi
+        fi
+    done
+}
+
 #Get current architecture
-current="1:get architecture"
+current="1:Set architecture"
 if [ $(arch) == "x86_64" ] ; then
-	arch="64"
+	arch="64" && error=0
 elif [ $(arch) == "i386" ] ; then
-	arch="32"
+	arch="32" && error=0
 else
 	error=1
 fi
@@ -46,24 +69,31 @@ This installer will download and install Popcorn Time in:
 read -p "If you agree with our ToS, type 'I agree': "
 [ "$REPLY" != "I agree" ] && exit 0
 
-#download in temp and install in home
-current="2:Downloading archive"
+#if agreed, start install
+clear
 echo "
-- Downloading and extracting the archive (FILE_SIZE)..."
+Popcorn Time $version - Linux $arch bits
+=================================="
 
-wget -O /tmp/popcorntime.tar.gz $downloadlink &> /dev/null || error=1
+#download in temp and install in home
+current="2:Get archive"
+echo "
+- Downloading and extracting the archive...
+"
+wget --progress=bar:force -O /tmp/popcorntime.tar.gz $downloadlink 2>&1 | progressfilt && error=0 || error=1
 func_error
 
 #extract archive
 current="3:Extract archive"
 mkdir -p "$HOME/.Popcorn-Time"
-tar -xf "/tmp/popcorntime.tar.gz" -C "$HOME/.Popcorn-Time" --overwrite --preserve-permissions || error=1
+tar -xf /tmp/popcorntime.tar.gz -C /tmp --overwrite --preserve-permissions && error=0 || error=1
+cp /tmp/Popcorn-Time/* "$HOME/.Popcorn-Time" &> /dev/null && error=0 || error=1
 func_error
 
 #download icon and install in home
 #NEED FIX: a permanent icon uploaded somewhere on our servers.
 current="4:Get icon"
-wget -O "$HOME/.Popcorn-Time/icon.png" http://i.imgur.com/BhQu7He.png &> /dev/null || error=1
+wget -O "$HOME/.Popcorn-Time/icon.png" http://i.imgur.com/BhQu7He.png &> /dev/null && error=0 || error=1
 func_error
 
 #create .desktop in home
@@ -74,17 +104,17 @@ current="5:Desktop file"
 echo "[Desktop Entry]
 Comment=Watch Movies and TV Shows instantly
 Name=Popcorn Time
-Exec=$HOME/.Popcorn-Time/Popcorn-Time/Popcorn-Time
+Exec=$HOME/.Popcorn-Time/Popcorn-Time
 Icon=$HOME/.Popcorn-Time/icon.png
 MimeType=application/x-bittorrent;x-scheme-handler/magnet;
 StartupNotify=false
-Type=Application" >> "$HOME/.local/share/applications/Popcorn-Time.desktop" &> /dev/null || error=1
+Type=Application" > "$HOME/.local/share/applications/Popcorn-Time.desktop" && error=0 || error=1
 func_error
 
 #chmod .desktop
 current="6:Chmod files"
-chmod +x "$HOME/.Popcorn-Time/Popcorn-Time/Popcorn-Time" &> /dev/null || error=1
-chmod +x "$HOME/.local/share/applications/Popcorn-Time.desktop" &> /dev/null || error=1
+chmod +x "$HOME/.Popcorn-Time/Popcorn-Time/Popcorn-Time" &> /dev/null && error=0 || error=1
+chmod +x "$HOME/.local/share/applications/Popcorn-Time.desktop" &> /dev/null && error=0 || error=1
 func_error
 
 #uninstaller
@@ -96,13 +126,13 @@ echo "How to uninstall Popcorn Time ?
 - Delete ~/.local/share/applications/Popcorn-Time.desktop
 
 2) Configuration files and databases:
-- Delete ~/.config/Popcorn-Time" >> "$HOME/.Popcorn-Time/Uninstall.txt" &> /dev/null
+- Delete ~/.config/Popcorn-Time" > "$HOME/.Popcorn-Time/Uninstall.txt"
 
 #installation success
 echo "
 
 Popcorn Time is now installed in:
-	«$HOME/.Popcorn-Time/Popcorn-Time/»
+	«$HOME/.Popcorn-Time»
 "
 
 #delete this script
