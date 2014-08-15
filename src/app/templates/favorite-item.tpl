@@ -3,6 +3,7 @@
 	<div class="cover">
 		<div class="cover-overlay">
 			<i class="fa fa-heart actions-favorites"></i>
+			<i class="fa fa-eye actions-watched"></i>
 		</div>
 	</div>
 
