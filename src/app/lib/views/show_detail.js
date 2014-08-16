@@ -104,7 +104,7 @@ var health_checked = false;
         },
 
         initKeyboardShortcuts: function() {
-            Mousetrap.bind('backspace', _this.closeDetails);
+            Mousetrap.bind(['esc', 'backspace'], _this.closeDetails);
 
             Mousetrap.bind('up', _this.previousEpisode);
 
@@ -122,7 +122,7 @@ var health_checked = false;
         },
 
         unbindKeyboardShortcuts: function() { // There should be a better way to do this
-            Mousetrap.unbind('backspace');
+            Mousetrap.unbind(['esc', 'backspace']);
 
             Mousetrap.unbind('up');
 
@@ -463,7 +463,7 @@ var health_checked = false;
 
         toggleEpisodeWatched: function(e) {
             var data = {};
-            data.currentTarget = $('.tab-episode.active span.watched')[0];
+            data.currentTarget = $('.tab-episode.active .watched')[0];
             _this.toggleWatched(data);
         },
 

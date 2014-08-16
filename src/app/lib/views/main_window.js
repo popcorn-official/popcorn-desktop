@@ -30,6 +30,18 @@
         initialize: function() {
             _this = this;
 
+            _.each(_this.regionManager._regions, function(element, index){
+                element.on('show', function(view){
+                    if(view.className){
+                        App.ViewStack.push(view.className);
+                        win.log(App.WindowStack);
+                    }
+                });
+
+                element.on('close', function(view){
+                    App.ViewStack.pop();
+                });
+            });
 
             this.nativeWindow = require('nw.gui').Window.get();
 
