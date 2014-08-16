@@ -90,16 +90,13 @@ cp /tmp/Popcorn-Time/* "$HOME/.Popcorn-Time" &> /dev/null && error=0 || error=1
 func_error
 
 #download icon and install in home
-#NEED FIX: a permanent icon uploaded somewhere on our servers.
-current="4:Get icon"
-wget -O "$HOME/.Popcorn-Time/icon.png" http://i.imgur.com/BhQu7He.png &> /dev/null && error=0 || error=1
-func_error
+wget -O "$HOME/.Popcorn-Time/icon.png" http://i.imgur.com/BhQu7He.png &> /dev/null
 
 #create .desktop in home
 echo "
 - Creating new configuration files..."
 
-current="5:Desktop file"
+current="4:Desktop file"
 echo "[Desktop Entry]
 Comment=Watch Movies and TV Shows instantly
 Name=Popcorn Time
@@ -110,8 +107,14 @@ StartupNotify=false
 Type=Application" > "$HOME/.local/share/applications/Popcorn-Time.desktop" && error=0 || error=1
 func_error
 
+# Work-around for missing libudev.so.1 on Ubuntu 12.04
+if [ ! -e /lib/$(arch)-linux-gnu/libudev.so.1 ]; then
+	ln -s /lib/$(arch)-linux-gnu/libudev.so.0 $HOME/.Popcorn-Time/libudev.so.1
+	sed -i "s/Exec=/Exec=env LD_LIBRARY_PATH=\~\/.Popcorn-Time /g" $HOME/.local/share/applications/Popcorn-Time.desktop
+fi
+
 #chmod .desktop
-current="6:Chmod files"
+current="5:Chmod files"
 chmod +x "$HOME/.Popcorn-Time/Popcorn-Time/Popcorn-Time" &> /dev/null && error=0 || error=1
 chmod +x "$HOME/.local/share/applications/Popcorn-Time.desktop" &> /dev/null && error=0 || error=1
 func_error
