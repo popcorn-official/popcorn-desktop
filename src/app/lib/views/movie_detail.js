@@ -48,12 +48,16 @@
                 $('#watch-now').click();
             });
             Mousetrap.bind('q', this.toggleQuality);
+            Mousetrap.bind('f', function(){
+                $('.favourites-toggle').click();
+            });
         },
 
         unbindKeyboardShortcuts: function() { // There should be a better way to do this
             Mousetrap.unbind('backspace');
             Mousetrap.unbind(['enter', 'space']);
             Mousetrap.unbind('q');
+            Mousetrap.unbind('f');
         },
 
         onShow: function() {
@@ -81,6 +85,8 @@
             $('.star-container,.movie-imdb-link,.q720,input').tooltip({
                 html: true
             });
+
+            App.MovieDetailView = this;
 
             var backgroundUrl = $('.backdrop').attr('data-bgr');
 
@@ -227,8 +233,10 @@
 
 
         toggleFavourite: function(e) {
-            e.stopPropagation();
-            e.preventDefault();
+            if(e.type){
+                e.stopPropagation();
+                e.preventDefault();
+            }
             var that = this;
             if (this.model.get('bookmarked') === true) {
                 Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
