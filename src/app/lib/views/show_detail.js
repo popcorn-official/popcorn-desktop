@@ -85,8 +85,21 @@ var health_checked = false;
 
         initialize: function() {
             _this = this;
-            Mousetrap.bind('esc', function(e) {
-                _this.closeDetails(e);
+
+            //Handle keyboard shortcuts when other views are appended or removed
+
+            //If a child was removed from above this view
+            App.vent.on('viewstack:pop', function() {
+                if(_.last(App.ViewStack) === _this.className){
+                    _this.initKeyboardShortcuts();
+                }
+            });
+
+            //If a child was added above this view
+            App.vent.on('viewstack:push', function() {
+                if(_.last(App.ViewStack) !== _this.className){
+                    _this.unbindKeyboardShortcuts();
+                }
             });
             App.vent.on('shows:watched', this.markWatched);
 
@@ -100,7 +113,6 @@ var health_checked = false;
             App.vent.on('shortcuts:show', function() {
                 _this.initKeyboardShortcuts();
             });
-            _this.initKeyboardShortcuts();
         },
 
         initKeyboardShortcuts: function() {
@@ -177,6 +189,8 @@ var health_checked = false;
             Database.getEpisodesWatched(this.model.get('tvdb_id'), function(err, data) {
                 _.each(data, _this.markWatched);
             });
+            
+            _this.initKeyboardShortcuts();
 
         },
 
