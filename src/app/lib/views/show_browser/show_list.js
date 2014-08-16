@@ -60,19 +60,15 @@
         },
 
         initialize: function() {
+            _this = this;
             this.listenTo(this.collection, 'loading', this.onLoading);
             this.listenTo(this.collection, 'loaded', this.onLoaded);
 
-            _this = this;
-
-            App.vent.on('shortcuts:shows', function() {
-                _this.initKeyboardShortcuts();
-            });
-
-            _this.initKeyboardShortcuts();
+            App.vent.on('shortcuts:shows', _this.initKeyboardShortcuts);
         },
 
         initKeyboardShortcuts: function() {
+
             Mousetrap.bind('up', _this.moveUp);
 
             Mousetrap.bind('down', _this.moveDown);
@@ -80,6 +76,8 @@
             Mousetrap.bind('left', _this.moveLeft);
 
             Mousetrap.bind('right', _this.moveRight);
+
+            Mousetrap.bind('f', _this.toggleSelectedFavourite);
 
             Mousetrap.bind(['enter', 'space'], _this.selectItem);
 
@@ -90,28 +88,11 @@
             });
         },
 
-        unbindKeyboardShortcuts: function() {
-            Mousetrap.unbind('up');
-
-            Mousetrap.unbind('down');
-
-            Mousetrap.unbind('left');
-
-            Mousetrap.unbind('right');
-
-            Mousetrap.unbind(['enter', 'space']);
-
-            Mousetrap.unbind(['ctrl+f', 'command+f']);
-
-            Mousetrap.unbind('tab');
-        },
-
-
-
         onShow: function() {
             if (this.collection.state === 'loading') {
                 this.onLoading();
             }
+            _this.initKeyboardShortcuts();
         },
 
         onLoading: function() {
@@ -278,6 +259,10 @@
             }
             _this.selectIndex(index);
         },
+
+        toggleSelectedFavourite: function(e) {
+            $('.movie-item.selected .actions-favorites').click();
+        }
     });
 
     App.View.ShowList = ShowList;

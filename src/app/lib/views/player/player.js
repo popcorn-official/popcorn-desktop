@@ -45,7 +45,6 @@
 
         closePlayer: function() {
             win.info('Player closed');
-            console.log(this.model);
             if (this._WatchingTimer) {
                 clearInterval(this._WatchingTimer);
             }
@@ -207,7 +206,7 @@
         },
 
         bindKeyboardShortcuts: function() {
-
+            var _this = this;
 
             // add ESC toggle when full screen, go back when not
             Mousetrap.bind('esc', function(e) {
@@ -219,6 +218,10 @@
                 else {
                     _this.closePlayer();
                 }
+            });
+
+            Mousetrap.bind('backspace', function(e) {
+                _this.closePlayer();
             });
 
             Mousetrap.bind(['f', 'F'], function(e) {
@@ -317,8 +320,11 @@
         },
 
         unbindKeyboardShortcuts: function() {
+            var _this = this;
 
             Mousetrap.unbind('esc');
+
+            Mousetrap.unbind('backspace');
 
             Mousetrap.unbind(['f', 'F']);
 
@@ -468,6 +474,8 @@
         },
 
         onClose: function() {
+            var _this = this;
+
             $('#player_drag').hide();
             $('#header').show();
             if (!this.inFullscreen && win.isFullscreen) {
