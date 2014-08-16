@@ -49,6 +49,7 @@ module.exports = function(grunt) {
 		'build',
 		'exec:createDmg', // mac
 		'exec:createWinInstall',
+		'exec:createLinuxInstall',
 		'compress' // win & linux
 	]);
 
@@ -138,6 +139,9 @@ module.exports = function(grunt) {
 			},
 			createWinInstall: {
 				cmd: 'makensis dist/windows/installer.nsi'
+			},
+			createLinuxInstall: {
+				cmd: 'bash dist/linux/exec_installer.sh'
 			}
 		},
 
