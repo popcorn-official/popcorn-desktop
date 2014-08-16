@@ -1,11 +1,10 @@
 (function(App) {
     'use strict';
 
-    var player;
-
     var Player = Backbone.Marionette.ItemView.extend({
         template: '#player-tpl',
         className: 'player',
+        player: null,
 
         ui: {
             eyeInfo: '.eye-info-player',
@@ -123,9 +122,9 @@
                 });
             }
 
-            player = this.video.player();
+            var player = this.video.player();
             this.player = player;
-            App.Player = player;
+            App.PlayerView = this;
 
             /* The following is a hack to make VideoJS listen to
                mouseup instead of mousedown for pause/play on the 
@@ -186,6 +185,8 @@
                 }
             });
 
+            _this.bindKeyboardShortcuts();
+
             // There was an issue with the video
             player.on('error', function(error) {
                 if (_this.isMovie()) {
@@ -202,9 +203,22 @@
                 win.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
             });
 
-            // add ESC toggle when full screen
+            $('.player-header-background').appendTo('div#video_player');
+        },
+
+        bindKeyboardShortcuts: function() {
+
+
+            // add ESC toggle when full screen, go back when not
             Mousetrap.bind('esc', function(e) {
-                _this.leaveFullscreen();
+                _this.nativeWindow = require('nw.gui').Window.get();
+
+                if (_this.nativeWindow.isFullscreen) {
+                    _this.leaveFullscreen();
+                }
+                else {
+                    _this.closePlayer();
+                }
             });
 
             Mousetrap.bind(['f', 'F'], function(e) {
@@ -283,7 +297,7 @@
                 _this.adjustVolume(-0.5);
             });
 
-            Mousetrap.bind(['ctrl+down'], function(e) {
+            Mousetrap.bind('ctrl+down', function(e) {
                 _this.adjustVolume(-1);
             });
 
@@ -295,15 +309,64 @@
                 _this.displayStreamURL();
             });
 
-            Mousetrap.bind(['ctrl+d'], function(e) {
+            Mousetrap.bind('ctrl+d', function(e) {
                 _this.toggleMouseDebug();
             });
 
-            document.addEventListener('mousewheel', function(e) {
-                _this.mouseScroll(e);
-            });
+            document.addEventListener('mousewheel', _this.mouseScroll);
+        },
 
-            $('.player-header-background').appendTo('div#video_player');
+        unbindKeyboardShortcuts: function() {
+
+            Mousetrap.unbind('esc');
+
+            Mousetrap.unbind(['f', 'F']);
+
+            Mousetrap.unbind('h');
+
+            Mousetrap.unbind('g');
+
+            Mousetrap.unbind('shift+h');
+
+            Mousetrap.unbind('shift+g');
+
+            Mousetrap.unbind('ctrl+h');
+
+            Mousetrap.unbind('ctrl+g');
+
+            Mousetrap.unbind(['space', 'p']);
+
+            Mousetrap.unbind('right');
+
+            Mousetrap.unbind('shift+right');
+
+            Mousetrap.unbind('ctrl+right');
+
+            Mousetrap.unbind('left');
+
+            Mousetrap.unbind('shift+left');
+
+            Mousetrap.unbind('ctrl+left');
+
+            Mousetrap.unbind('up');
+
+            Mousetrap.unbind('shift+up');
+
+            Mousetrap.unbind('ctrl+up');
+
+            Mousetrap.unbind('down');
+
+            Mousetrap.unbind('shift+down');
+
+            Mousetrap.unbind('ctrl+down');
+
+            Mousetrap.unbind(['m', 'M']);
+
+            Mousetrap.unbind(['u', 'U']);
+            
+            Mousetrap.unbind('ctrl+d');
+
+            document.removeEventListener('mousewheel', _this.mouseScroll)
         },
 
         toggleMouseDebug: function() {
@@ -410,6 +473,8 @@
             if (!this.inFullscreen && win.isFullscreen) {
                 win.leaveFullscreen();
             }
+            _this.unbindKeyboardShortcuts();
+
             App.vent.trigger('stream:stop');
             if (this._WatchingTimer) {
                 clearInterval(this._WatchingTimer);
