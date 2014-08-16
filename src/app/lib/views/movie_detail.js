@@ -26,38 +26,31 @@
         },
 
         initialize: function() {
+            var _this = this;
             this.model.set('backdrop', resizeImage(this.model.get('backdrop'), '940'));
             if ((ScreenResolution.SD || ScreenResolution.HD) && !ScreenResolution.Retina) {
                 // Screen Resolution of 720p or less is fine to have 300x450px image
                 this.model.set('image', resizeImage(this.model.get('image'), '300'));
             }
 
-            App.vent.on('shortcuts:movie', function() {
-                this.initKeyboardShortcuts();
+            //Handle keyboard shortcuts when other views are appended or removed
+
+            //If a child was removed from above this view
+            App.vent.on('viewstack:pop', function() {
+                if(_.last(App.ViewStack) === _this.className){
+                    _this.initKeyboardShortcuts();
+                }
             });
 
-            this.initKeyboardShortcuts();
+            //If a child was added above this view
+            App.vent.on('viewstack:push', function() {
+                if(_.last(App.ViewStack) !== _this.className){
+                    _this.unbindKeyboardShortcuts();
+                }
+            });
+
+            // this.initKeyboardShortcuts();
             this.model.on('change:quality', this.renderHealth, this);
-        },
-
-        initKeyboardShortcuts: function() {
-            win.log('Binding detail events!');
-            Mousetrap.bind('backspace', this.closeDetails);
-            Mousetrap.bind(['enter', 'space'], function(e) {
-                win.log('Enter click!');
-                $('#watch-now').click();
-            });
-            Mousetrap.bind('q', this.toggleQuality);
-            Mousetrap.bind('f', function(){
-                $('.favourites-toggle').click();
-            });
-        },
-
-        unbindKeyboardShortcuts: function() { // There should be a better way to do this
-            Mousetrap.unbind('backspace');
-            Mousetrap.unbind(['enter', 'space']);
-            Mousetrap.unbind('q');
-            Mousetrap.unbind('f');
         },
 
         onShow: function() {
@@ -114,15 +107,33 @@
                 this.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
             }
 
-            // add ESC to close this popup
-            Mousetrap.bind('esc', function(e) {
-                App.vent.trigger('movie:closeDetail');
-            });
+            this.initKeyboardShortcuts();
         },
 
         onClose: function() {
             $('#header').css('opacity', '0.97');
             $('.filter-bar').css('opacity', '0.97');
+            this.unbindKeyboardShortcuts();
+        },
+
+        initKeyboardShortcuts: function() {
+            Mousetrap.bind(['esc', 'backspace'], this.closeDetails);
+            Mousetrap.bind(['enter', 'space'], function(e) {
+                win.log('Enter click!');
+                $('#watch-now').click();
+            });
+            Mousetrap.bind('q', this.toggleQuality);
+            Mousetrap.bind('f', function(){
+                $('.favourites-toggle').click();
+            });
+
+        },
+
+        unbindKeyboardShortcuts: function() { // There should be a better way to do this
+            Mousetrap.unbind(['esc', 'backspace']);
+            Mousetrap.unbind(['enter', 'space']);
+            Mousetrap.unbind('q');
+            Mousetrap.unbind('f');
         },
 
 
@@ -151,7 +162,6 @@
                 type: 'movie',
                 device: App.Device.Collection.selected
             });
-            this.unbindKeyboardShortcuts();
             App.vent.trigger('stream:start', torrentStart);
         },
 
@@ -180,6 +190,7 @@
         },
 
         playTrailer: function() {
+
             var trailer = new Backbone.Model({
                 src: this.model.get('trailer'),
                 type: 'video/youtube',
@@ -191,7 +202,6 @@
         },
 
         closeDetails: function() {
-            this.unbindKeyboardShortcuts();
             App.vent.trigger('movie:closeDetail');
         },
 

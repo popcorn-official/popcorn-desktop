@@ -15,7 +15,7 @@
         },
 
         onShow: function() {
-            Mousetrap.bind('backspace', function(e) {
+            Mousetrap.bind(['esc', 'backspace'], function(e) {
                 App.vent.trigger('about:close');
             });
             $('.links').tooltip();
@@ -24,10 +24,7 @@
         },
 
         onClose: function() {
-            Mousetrap.bind('backspace', function(e) {
-                App.vent.trigger('show:closeDetail');
-                App.vent.trigger('movie:closeDetail');
-            });
+            Mousetrap.unbind(['esc', 'backspace']);
             $('#movie-detail').show();
         },
 

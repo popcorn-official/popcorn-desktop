@@ -34,12 +34,13 @@
                 element.on('show', function(view){
                     if(view.className){
                         App.ViewStack.push(view.className);
-                        win.log(App.WindowStack);
                     }
+                    App.vent.trigger('viewstack:push', view.className);
                 });
 
                 element.on('close', function(view){
                     App.ViewStack.pop();
+                    App.vent.trigger('viewstack:pop', view.className);
                 });
             });
 
@@ -118,6 +119,15 @@
             this.nativeWindow.on('new-win-policy', function(frame, url, policy) {
                 policy.ignore();
             });
+
+            Mousetrap.bind('`', function(){
+                $('.favorites').click();
+            });
+
+            Mousetrap.bind('i', function(){
+                $('.about').click();
+            });
+
 
             App.vent.trigger('main:ready');
 

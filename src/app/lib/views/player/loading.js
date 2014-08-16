@@ -27,17 +27,42 @@
         },
 
         initialize: function() {
-            var that = this;
-            Mousetrap.bind('esc', function(e) {
-                that.cancelStreaming();
+            var _this = this;
+
+            //If a child was removed from above this view
+            App.vent.on('viewstack:pop', function() {
+                if(_.last(App.ViewStack) === _this.className){
+                    _this.initKeyboardShortcuts();
+                }
             });
+
+            //If a child was added above this view
+            App.vent.on('viewstack:push', function() {
+                if(_.last(App.ViewStack) !== _this.className){
+                    _this.unbindKeyboardShortcuts();
+                }
+            });
+
             win.info('Loading torrent');
             this.listenTo(this.model, 'change:state', this.onStateUpdate);
         },
+
+        initKeyboardShortcuts: function(){
+            var _this = this;
+            Mousetrap.bind(['esc', 'backspace'], function(e) {
+                _this.cancelStreaming();
+            });
+        },
+
+        unbindKeyboardShortcuts: function(){
+            Mousetrap.unbind(['esc', 'backspace']);
+        },
+
         onShow: function() {
             $('.filter-bar').hide();
             $('#header').addClass('header-shadow');
 
+            this.initKeyboardShortcuts();
         },
         onStateUpdate: function() {
             var state = this.model.get('state');

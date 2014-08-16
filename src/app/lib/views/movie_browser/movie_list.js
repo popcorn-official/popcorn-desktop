@@ -66,9 +66,7 @@
             this.listenTo(this.collection, 'loading', this.onLoading);
             this.listenTo(this.collection, 'loaded', this.onLoaded);
 
-            App.vent.on('shortcuts:movies', function() {
-                _this.initKeyboardShortcuts();
-            });
+            App.vent.on('shortcuts:movies', _this.initKeyboardShortcuts);
 
             _this.initKeyboardShortcuts();
 
@@ -94,22 +92,6 @@
             Mousetrap.bind('tab', function() {
                 App.vent.trigger('shows:list');
             });
-        },
-
-        unbindKeyboardShortcuts: function() {
-            Mousetrap.unbind('up');
-
-            Mousetrap.unbind('down');
-
-            Mousetrap.unbind('left');
-
-            Mousetrap.unbind('right');
-
-            Mousetrap.unbind(['enter', 'space']);
-
-            Mousetrap.unbind(['ctrl+f', 'command+f']);
-
-            Mousetrap.unbind('tab');
         },
 
         onShow: function() {
