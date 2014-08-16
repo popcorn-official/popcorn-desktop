@@ -210,7 +210,7 @@ window.ondragenter = function(e) {
     var timeout = -1;
     $('#drop-mask').on('dragenter',
         function(e) {
-            $('.drop-indicator').fadeIn('fast');
+            $('.drop-indicator').show();
             console.log('drag init');
         });
     $('#drop-mask').on('dragover',
@@ -229,7 +229,6 @@ window.ondragenter = function(e) {
                     $('#drop-mask').hide();
                 }
             }, 100);
-
         });
 };
 
