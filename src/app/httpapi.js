@@ -164,7 +164,7 @@
 
 		server.enableAuth(Settings.httpApiUsername, Settings.httpApiPassword);
 
-		server.listen(Settings.httpApiPort, 'localhost');
+		server.listen(Settings.httpApiPort);
 	};  
 	HttpApi.prototype.constructor = HttpApi;
 
