@@ -92,6 +92,10 @@ App.addRegions({
     Window: '.main-window-region'
 });
 
+
+//Keeps a list of stacked views
+App.ViewStack = [];
+
 App.addInitializer(function(options) {
     var mainWindow = new App.View.MainWindow();
     win.show();

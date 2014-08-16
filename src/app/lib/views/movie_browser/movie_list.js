@@ -83,6 +83,10 @@
 
             Mousetrap.bind('right', _this.moveRight);
 
+            Mousetrap.bind('f', _this.toggleSelectedFavourite);
+
+            Mousetrap.bind('w', _this.toggleSelectedWatched);
+
             Mousetrap.bind(['enter', 'space'], _this.selectItem);
 
             Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch);
@@ -287,6 +291,14 @@
                 index = index + 1;
             }
             _this.selectIndex(index);
+        },
+
+        toggleSelectedFavourite: function(e) {
+            $('.movie-item.selected .actions-favorites').click();
+        },
+
+        toggleSelectedWatched: function(e) {
+            $('.movie-item.selected .actions-watched').click();
         },
     });
 
