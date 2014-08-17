@@ -53,8 +53,7 @@
     "sha1": "1.1.0",
     "torrent-health": "*",
     "underscore": "1.6.0",
-    "http-auth": "*",
-    "json-rpc2": "git+https://github.com/FREEZX/node-jsonrpc2.git"
+    "json-rpc2": "0.7.0"
   },
   "devDependencies": {
     "tmp": "0.0.23",
