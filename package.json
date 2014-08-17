@@ -51,9 +51,8 @@
     "sha1": "1.1.0",
     "torrent-health": "*",
     "underscore": "1.6.0",
-    "jayson": "git+https://github.com/FREEZX/jayson.git",
     "http-auth": "*",
-    "json-rpc2": "*"
+    "json-rpc2": "git+https://github.com/FREEZX/node-jsonrpc2.git"
   },
   "devDependencies": {
     "tmp": "0.0.23",

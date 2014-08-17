@@ -57,24 +57,24 @@
 		});
 
 		server.expose('getviewstack', function(args, opt, callback){
-			callback(App.ViewStack);
+			callback(false, App.ViewStack);
 		});
 
 		//Filter Bar
 		server.expose('getgenres', function(args, opt, callback){
-			callback(App.Config.genres);
+			callback(false, [App.Config.genres]);
 		});
 
 		server.expose('getgenres_tv', function(args, opt, callback){
-			callback(App.Config.genres_tv);
+			callback(false, [App.Config.genres_tv]);
 		});
 
 		server.expose('getsorters', function(args, opt, callback){
-			callback(App.Config.sorters);
+			callback(false, [App.Config.sorters]);
 		});
 
 		server.expose('getsorters_tv', function(args, opt, callback){
-			callback(App.Config.sorters_tv);
+			callback(false, [App.Config.sorters_tv]);
 		});
 
 		server.expose('filtergenre', function(args, opt, callback){
@@ -154,7 +154,7 @@
 		});
 
 		server.expose('getsubtitles', function(args, opt, callback){
-			callback(_.keys(App.MovieDetailView.model.get('subtitle')));
+			callback(false, [_.keys(App.MovieDetailView.model.get('subtitle'))]);
 		});
 
 		server.expose('setsubtitle', function(args, opt, callback){
