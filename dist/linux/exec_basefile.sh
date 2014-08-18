@@ -49,7 +49,7 @@ func_error
 #Variables
 version="PT_VERSION"
 tos="https://popcorntime.io/tos"
-downloadlink="https://cdn.popcorntime.io/build/Popcorn-Time-$version-Linux-$arch.tar.gz"
+downloadlink="http://cdn.popcorntime.io/build/Popcorn-Time-$version-Linux-$arch.tar.gz"
 
 #Disclaimer
 clear
