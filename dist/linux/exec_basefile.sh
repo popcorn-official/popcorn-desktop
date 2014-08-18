@@ -104,6 +104,7 @@ Exec=$HOME/.Popcorn-Time/Popcorn-Time
 Icon=$HOME/.Popcorn-Time/icon.png
 MimeType=application/x-bittorrent;x-scheme-handler/magnet;
 StartupNotify=false
+Categories=AudioVideo;Player;
 Type=Application" > "$HOME/.local/share/applications/Popcorn-Time.desktop" && error=0 || error=1
 func_error
 
