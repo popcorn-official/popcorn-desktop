@@ -111,7 +111,7 @@ func_error
 # Work-around for missing libudev.so.1 on Ubuntu 12.04
 if [ ! -e /lib/$(arch)-linux-gnu/libudev.so.1 ]; then
 	ln -s /lib/$(arch)-linux-gnu/libudev.so.0 $HOME/.Popcorn-Time/libudev.so.1
-	sed -i "s/Exec=/Exec=env LD_LIBRARY_PATH=\~\/.Popcorn-Time /g" $HOME/.local/share/applications/Popcorn-Time.desktop
+	sed -i 's,Exec=,Exec=env LD_LIBRARY_PATH='"$HOME"'/.Popcorn-Time ,g' $HOME/.local/share/applications/Popcorn-Time.desktop
 fi
 
 #chmod .desktop
