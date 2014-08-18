@@ -4,7 +4,7 @@
 	var httpServer;
 
 	var HttpApi = function() {
-		var server = rpc.Server.create({
+		var server = rpc.Server({
 			'headers': { // allow custom headers is empty by default
 				'Access-Control-Allow-Origin': '*'
 			}
