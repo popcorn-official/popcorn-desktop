@@ -137,6 +137,3 @@ echo "
 Popcorn Time is now installed in:
 	«$HOME/.Popcorn-Time»
 "
-
-#delete this script
-rm -rf $0
