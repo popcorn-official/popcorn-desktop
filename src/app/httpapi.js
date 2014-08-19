@@ -1,13 +1,18 @@
 (function(App) {
 	'use strict';
 	var rpc = require('json-rpc2');
+	var server;
 	var httpServer;
 
-	var HttpApi = function() {
-		var server = rpc.Server({
+	var initServer = function() {
+		server = rpc.Server({
 			'headers': { // allow custom headers is empty by default
 				'Access-Control-Allow-Origin': '*'
 			}
+		});
+
+		server.expose('ping', function(args, opt, callback){
+			callback();
 		});
 
 		server.expose('setvolume', function(args, opt, callback){
@@ -160,14 +165,44 @@
 		server.expose('setsubtitle', function(args, opt, callback){
 			App.MovieDetailView.switchSubtitle(args[0]);
 		});
+	};
 
+	var sockets = [];
 
+	function startListening(){
+		httpServer = server.listen(Settings.httpApiPort);
+
+		httpServer.on('connection', function (socket) {
+			sockets.push(socket);
+			socket.setTimeout(4000);
+			socket.on('close', function () {
+				console.log('socket closed');
+				sockets.splice(sockets.indexOf(socket), 1);
+			});
+		});
+	}
+
+	function closeServer(cb){
+		httpServer.close(function () {
+			cb();
+		});
+		for (var i = 0; i < sockets.length; i++) {
+			console.log('socket #' + i + ' destroyed');
+			sockets[i].destroy();
+		}
+	}
+
+	initServer();
+
+	App.vent.on('initHttpApi', function(){
+		console.log('Reiniting server');
 		server.enableAuth(Settings.httpApiUsername, Settings.httpApiPassword);
-
-		server.listen(Settings.httpApiPort);
-	};  
-	HttpApi.prototype.constructor = HttpApi;
-
-	App.HttpApi = new HttpApi();
+		if(httpServer){
+			closeServer(startListening);
+		}
+		else{
+			startListening();
+		}
+	});
 	
 })(window.App);
