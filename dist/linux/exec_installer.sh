@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#remove old script
+rm -rf dist/linux/linux-installer
+
 #copy basefile
 cp dist/linux/exec_basefile.sh dist/linux/linux-installer
 

@@ -66,7 +66,10 @@ This installer will download and install Popcorn Time in:
 "
 
 read -p "If you agree with our ToS, type 'I agree': "
-[ "$REPLY" != "I agree" ] && exit 0
+if [ "$REPLY" != "I agree" ] || [ ! "$REPLY" ] ; then
+	echo "The Terms of Service haven't been accepted."
+	exit 0
+fi
 
 #if agreed, start install
 clear
