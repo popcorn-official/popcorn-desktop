@@ -39,7 +39,7 @@ progressfilt ()
 current="1:Set architecture"
 if [[ $(arch) == "x86_64" ]] ; then
 	arch="64" && error=0
-elif [[ $(arch) == "i*86" ]] ; then
+elif [[ $(arch) == "i"*"86" ]] ; then
 	arch="32" && error=0
 else
 	error=1
