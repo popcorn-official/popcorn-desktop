@@ -103,8 +103,10 @@
 			// get active field
 			var field = $(e.currentTarget);
 
+			var apiDataChanged = false;
 			switch (field.attr('name')) {
 				case 'httpApiPort':
+					apiDataChanged = true;
 					value = parseInt(field.val());
 					break;
 				case 'tvshowApiEndpoint':
@@ -134,6 +136,9 @@
 					break;
 				case 'httpApiUsername':
 				case 'httpApiPassword':
+					apiDataChanged = true;
+					value = field.val();
+					break;
 				case 'connectionLimit':
 				case 'dhtLimit':
 				case 'streamPort':
@@ -151,9 +156,12 @@
 			win.info('Setting changed: ' + field.attr('name') + ' - ' + value);
 
 
-
 			// update active session
 			App.settings[field.attr('name')] = value;
+			
+			if(apiDataChanged){
+				App.vent.trigger('initHttpApi');
+			}
 
 			//save to db
 			App.db.writeSetting({

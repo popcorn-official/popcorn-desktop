@@ -408,6 +408,8 @@ var Database = {
                     window.__isNewInstall = true;
                 }
 
+                App.vent.trigger('initHttpApi');
+
                 AdvSettings.checkApiEndpoint([
                     {
                         original: 'yifyApiEndpoint',
