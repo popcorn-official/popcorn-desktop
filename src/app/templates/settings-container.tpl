@@ -106,10 +106,6 @@
 		<div class="title"><%= i18n.__("Quality") %></div>
 		<div class="content">
 			<span>
-				<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
-				<label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
-			</span>
-			<span>
 				<div class="dropdown movies-quality">
 					<p><%= i18n.__("Only list movies in") %>:</p>
 					<select name="movies_quality">
@@ -120,34 +116,103 @@
 					<div class="dropdown-arrow"></div>
 				</div>
 			</span>
+			<span>
+				<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
+				<label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
+			</span>
 		</div>
 	</section>
 
 	<section id="trakt-tv">
 		<div class="title"><%= i18n.__("Trakt.tv") %></div>
-		<div class="content trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
-			<span>Content</span>
+		<div class="content">
+			<div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
+				<% if(App.Trakt.authenticated) { %>
+					<span>
+						<%= i18n.__("You are currently authenticated to Trakt.tv as") %> <%= Settings.traktUsername %>.
+						<a id="unauthTrakt" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
+					</span>
+					<span>
+						<div class="btn-settings syncTrakt" id="syncTrakt">
+							<i class="fa fa-refresh">&nbsp;&nbsp;</i>
+							<%= i18n.__("Sync With Trakt") %>
+						</div>
+					</span>
+				<% } else { %>
+					<span>
+						<%= i18n.__("Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time") %>
+					</span>
+					<span>
+						<p><%= i18n.__("Username") + ":" %></p>
+						<input type="text" size="50" id="traktUsername" name="traktUsername">
+							<div class="loading-spinner" style="display: none"></div>
+							<div class="valid-tick" style="display: none"></div>
+							<div class="invalid-cross" style="display: none"></div>
+					</span>
+					<span>
+						<p><%= i18n.__("Password") + ":" %></p>
+						<input type="password" size="50" id="traktPassword" name="traktPassword">
+					</span>
+					<span>
+						<em><%= i18n.__("Popcorn Time stores an encrypted hash of your password in your local database") %></em>
+					</span>
+				<% } %>
+			</div>
 		</div>
 	</section>
 
 	<section id="remote-control">
 		<div class="title"><%= i18n.__("Remote Control") %></div>
 		<div class="content">
-			<span>Content</span>
+			<span>
+				<p><%= i18n.__("HTTP API Port") + ":" %></p>
+				<input id="httpApiPort" type="number" size="5" name="httpApiPort" value="<%=Settings.httpApiPort%>">
+			</span>
+			<span>
+				<p><%= i18n.__("HTTP API Username") + ":" %></p>
+				<input id="httpApiUsername" type="text" size="50" name="httpApiUsername" value="<%=Settings.httpApiUsername%>">
+			</span>
+			<span>
+				<p><%= i18n.__("HTTP API Password") + ":" %></p>
+				<input id="httpApiPassword" type="text" size="50" name="httpApiPassword" value="<%=Settings.httpApiPassword%>">
+			</span>
 		</div>
 	</section>
 
 	<section id="connexion">
 		<div class="title"><%= i18n.__("Connexion") %></div>
 		<div class="content">
-			<span>Content</span>
+			<span>
+				<p><%= i18n.__("TV Show API Endpoint") + ":" %></p>
+				<input id="tvshowApiEndpoint" type="text" size="50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
+			</span>
+			<span>
+				<p><%= i18n.__("Connection Limit") + ":" %></p>
+				<input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
+			</span>
+			<span>
+				<p><%= i18n.__("DHT Limit") + ":" %></p>
+				<input type="text" id="dhtLimit" size="20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
+			</span>
+			<span>
+				<p><%= i18n.__("Port to stream on") + ":" %></p>
+				<input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
+			</span>
 		</div>
 	</section>
 
 	<section id="cache">
 		<div class="title"><%= i18n.__("Cache Directory") %></div>
 		<div class="content">
-			<span>Content</span>
+			<span>
+				<p><%= i18n.__("Cache Directory") %>: </p>
+				<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="60" /> <i class="open-tmp-folder fa fa-folder-open-o"></i>
+				<input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
+			</span>
+			<span>
+				<input class="settings-checkbox" name="deleteTmpOnClose" id="cb2" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
+				<label class="settings-label" for="cb2"><%= i18n.__("Clear Tmp Folder after closing app?") %></label>
+			</span>
 		</div>
 	</section>
 		
@@ -162,61 +227,13 @@
 	
 	
 	<!--div class="sidebar">
-		<div class="quality-options"><%= i18n.__("Quality") %></div>
-		<div class="subtitles-options"><%= i18n.__("Subtitles") %></div>
+
 		<div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>"><%= i18n.__("Trakt.tv") %></div>
 		<div class="more-options"><%= i18n.__("More Options") %></div>
 		<div class="advanced-settings"><%= i18n.__("Advanced Settings") %></div>
 	</div>
 	<div class="content">
 
-
-		<div class="quality-options">
-			<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
-			<label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
-			<br><br>
-			<div class="dropdown movies-quality">
-				<p><%= i18n.__("Only list movies in") %>:</p>
-				<select name="movies_quality">
-					<option <%=(Settings.movies_quality == "all"? "selected='selected'":"") %> value="all"><%= i18n.__("All") %></option>
-					<option <%=(Settings.movies_quality == "1080p"? "selected='selected'":"") %> value="1080p">1080p</option>
-					<option <%=(Settings.movies_quality == "720p"? "selected='selected'":"") %> value="720p">720p</option>
-				</select>
-				<div class="dropdown-arrow"></div>
-			</div>
-		</div>
-
-		<div class="subtitles-options">
-			<div class="dropdown subtitles-language-default">
-				<p><%= i18n.__("Default Subtitle") %>:</p>
-				<%
-					var sub_langs = "<option "+(Settings.subtitle_language == "none"? "selected='selected'":"")+" value='none'>" +
-										i18n.__("Disabled") + "</option>";
-
-					for(var key in App.Localization.langcodes) {
-						if (App.Localization.langcodes[key].subtitle !== undefined && App.Localization.langcodes[key].subtitle == true) {
-							sub_langs += "<option "+(Settings.subtitle_language == key? "selected='selected'":"")+" value='"+key+"'>"+
-											App.Localization.langcodes[key].nativeName+"</option>";
-						}
-					}
-				%>
-				<select name="subtitle_language"><%=sub_langs%></select>
-				<div class="dropdown-arrow"></div>
-			</div>
-			<div class="dropdown subtitles-size">
-				<p><%= i18n.__("Size") %>:</p>
-				<%
-					var arr_sizes = ["26px","28px","30px","32px","34px","36px","38px","48px","50px","52px","54px","56px","58px","60px"];
-
-					var sub_sizes = "";
-					for(var key in arr_sizes) {
-						sub_sizes += "<option "+(Settings.subtitle_size == arr_sizes[key]? "selected='selected'":"")+" value='"+arr_sizes[key]+"'>"+arr_sizes[key]+"</option>";
-					}
-				%>
-				<select name="subtitle_size"><%=sub_sizes%></select>
-				<div class="dropdown-arrow"></div>
-			</div>
-		</div>
 
 		<div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
 			<% if(App.Trakt.authenticated) { %>
@@ -237,28 +254,6 @@
 				<aside><em><%= i18n.__("Popcorn Time stores an encrypted hash of your password in your local database") %></em></aside>
 			<% } %>
 		</div>
-
-		<div class="more-options">
-			<p><%= i18n.__("HTTP API Port") + ":" %></p> <input id="httpApiPort" type="number" size="5" name="httpApiPort" value="<%=Settings.httpApiPort%>">
-			<br><br>
-
-			<p><%= i18n.__("HTTP API Username") + ":" %></p> <input id="httpApiUsername" type="text" size="50" name="httpApiUsername" value="<%=Settings.httpApiUsername%>">
-			<br><br>
-
-			<p><%= i18n.__("HTTP API Password") + ":" %></p> <input id="httpApiPassword" type="text" size="50" name="httpApiPassword" value="<%=Settings.httpApiPassword%>">
-			<br><br>
-
-			<p><%= i18n.__("TV Show API Endpoint") + ":" %></p> <input id="tvshowApiEndpoint" type="text" size="50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
-		</div>
-		<div class="advanced-settings">
-			<p><%= i18n.__("Connection Limit") + ":" %></p> <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
-			<br><br>
-
-			<p><%= i18n.__("DHT Limit") + ":" %></p> <input type="text" id="dhtLimit" size="20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
-			<br><br>
-
-			<p><%= i18n.__("Port to stream on") + ":" %></p> <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/> <em><%= i18n.__("0 = Random") %></em>
-			<br><br>
 
 			<!-- Cache Directory >
 			<p><%= i18n.__("Cache Directory") %>: </p>
