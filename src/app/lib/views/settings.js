@@ -27,7 +27,8 @@
 			'keyup #traktPassword': 'checkTraktLogin',
 			'click #unauthTrakt': 'disconnectTrakt',
 			'change #tmpLocation': 'updateCacheDirectory',
-			'click #syncTrakt': 'syncTrakt'
+			'click #syncTrakt': 'syncTrakt',
+			'click #show-advanced-settings': 'showAdvancedSettings'
 		},
 
 		onShow: function() {
@@ -94,6 +95,16 @@
 			App.vent.trigger('help:toggle');
 		},
 
+		showAdvancedSettings: function() {
+			$('#show-advanced-settings').on('change', function() {
+				var check = $('#show-advanced-settings').is( ":checked" );
+				if (check === true){
+					$(".advanced").css("display", "flex");
+				} else {
+					$(".advanced").css("display", "none");
+				}
+			});
+		},
 
 		saveSetting: function(e) {
 			var that = this;

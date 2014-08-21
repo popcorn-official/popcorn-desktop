@@ -7,8 +7,8 @@
 		<div class="content">
 			<span>
 				<i class="fa fa-keyboard-o help"></i>
-				<input id="show-advanced-settings" class="settings-checkbox" name="showAdvancedSettings" id="cb5" type="checkbox" <%=(Settings.showAdvancedSettings? "checked='checked'":"")%>>
-				<label class="settings-label" for="cb5"><%= i18n.__("Show advanced settings") %></label>
+				<input id="show-advanced-settings" class="settings-checkbox" name="showAdvancedSettings" type="checkbox" <%=(Settings.showAdvancedSettings? "checked":"")%>>
+				<label class="settings-label" for="show-advanced-settings"><%= i18n.__("Show advanced settings") %></label>
 			</span>
 		</div>
 	</section>
