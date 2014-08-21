@@ -5,12 +5,12 @@
 
 	var Device = Backbone.Model.extend ({
 		defaults: {
-                        id:   'local',
+			id:   'local',
 			type: 'local',
 			name: 'Popcorn Time'
 		},
 		play: function (streamModel) {
-                        App.vent.trigger('stream:local', streamModel);
+			App.vent.trigger('stream:local', streamModel);
 		},
 		getID: function () {
 			return this.id;
@@ -54,7 +54,6 @@
 		},
 
 		setDevice: function(deviceID) {
-			console.log(deviceID);
 			this.selected = this.findWhere({id: deviceID});
 		}
 
