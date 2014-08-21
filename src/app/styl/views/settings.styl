@@ -56,6 +56,9 @@
 					p
 						min-width 150px
 
+					&.two-cols
+						width 50%
+
 		#title
 			.title
 				color $Text1
@@ -75,6 +78,14 @@
 					&:hover
 						color: $Text1
 						transition all .5s
+
+		#subtitles
+			.subtitles-size
+				left -8%
+			.subtitles-size > p
+				min-width 50px
+			.subtitles-size > select
+				width 60px
 
 		.btns
 			padding-top 10px
@@ -159,24 +170,6 @@
 				top 24px
 				left 65px
 				float left
-
-			&.subtitles-language-default
-				top 0px
-
-			&.subtitles-font
-				top 50px
-				left -386px
-
-			&.subtitles-style
-				top 50px
-				left -356px
-
-			&.subtitles-size
-				left 15px
-
-			&.subtitles-color
-				top 50px
-				left -296px
 
 			.dropdown-arrow
 				width 0
