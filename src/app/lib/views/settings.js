@@ -32,7 +32,7 @@
 
 		onShow: function() {
 
-			if ($('input:checkbox[name=showAdvancedSettings]').prop('checked')) {
+			if (App.settings.showAdvancedSettings) {
 				$('.advanced').css('display', 'flex');
 			}
 
