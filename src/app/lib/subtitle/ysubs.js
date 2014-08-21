@@ -16,7 +16,7 @@
 			type: 'movie'
 		},
 
-		get: function(queryParams) {
+		get: function(ids) {
 			return Q.when(querySubtitles(ids))
 				.then(formatForPopcorn);
 		}
