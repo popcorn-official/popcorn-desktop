@@ -5,7 +5,11 @@
 	<section id="title">
 		<div class="title"><%= i18n.__("Settings") %></div>
 		<div class="content">
-			<span><i class="fa fa-keyboard-o help"></i></span>
+			<span>
+				<i class="fa fa-keyboard-o help"></i>
+				<input id="show-advanced-settings" class="settings-checkbox" name="showAdvancedSettings" id="cb5" type="checkbox" <%=(Settings.showAdvancedSettings? "checked='checked'":"")%>>
+				<label class="settings-label" for="cb5"><%= i18n.__("Show advanced settings") %></label>
+			</span>
 		</div>
 	</section>
 	
@@ -29,6 +33,7 @@
 					<div class="dropdown-arrow"></div>
 				</div>
 			</span>
+						
 			<span>
 				<div class="dropdown pct-theme">
 					<p><%= i18n.__("Theme") %>:</p>
@@ -47,15 +52,17 @@
 				</div>		
 			</span>
 
-			<span>
+			<span class="advanced">
 				<input class="settings-checkbox" name="coversShowRating" id="cb3" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
 				<label class="settings-label" for="cb3"><%= i18n.__("Show movie rating on the cover") %></label>
 			</span>
-			<span>
+				
+			<span class="advanced">
 				<input class="settings-checkbox" name="fadeWatchedCovers" id="cbfade" type="checkbox" <%=(Settings.fadeWatchedCovers? "checked='checked'":"")%>>
 				<label class="settings-label" for="cbfade"><%= i18n.__("Fade watched items") %></label>
 			</span>
-			<span>
+				
+			<span class="advanced">
 				<input class="settings-checkbox" name="alwaysOnTop" id="cb4" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
 				<label class="settings-label" for="cb4"><%= i18n.__("Always On Top") %></label>
 			</span>
@@ -101,7 +108,7 @@
 		</div>
 	</section>
 	
-	<section id="quality">
+	<section id="quality" class="advanced">
 		<div class="title"><%= i18n.__("Quality") %></div>
 		<div class="content">
 			<span>
@@ -160,7 +167,7 @@
 		</div>
 	</section>
 
-	<section id="remote-control">
+	<section id="remote-control" class="advanced">
 		<div class="title"><%= i18n.__("Remote Control") %></div>
 		<div class="content">
 			<span>
@@ -178,8 +185,8 @@
 		</div>
 	</section>
 
-	<section id="connexion">
-		<div class="title"><%= i18n.__("Connexion") %></div>
+	<section id="connection" class="advanced">
+		<div class="title"><%= i18n.__("Connection") %></div>
 		<div class="content">
 			<span>
 				<p><%= i18n.__("TV Show API Endpoint") + ":" %></p>
@@ -200,7 +207,7 @@
 		</div>
 	</section>
 
-	<section id="cache">
+	<section id="cache" class="advanced">
 		<div class="title"><%= i18n.__("Cache Directory") %></div>
 		<div class="content">
 			<span>
@@ -215,61 +222,11 @@
 		</div>
 	</section>
 		
-	<div class="btns">
+	<div class="btns advanced">
 		<div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
 		<div class="btn-settings flush-subtitles"><%= i18n.__("Flush subtitles cache") %></div>
 		<div class="btn-settings flush-databases"><%= i18n.__("Flush all databases") %></div>
 		<div class="btn-settings default-settings"><%= i18n.__("Reset to Default Settings") %></div>
 	</div>
 		
-</div>
-	
-	
-	<!--div class="sidebar">
-
-		<div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>"><%= i18n.__("Trakt.tv") %></div>
-		<div class="more-options"><%= i18n.__("More Options") %></div>
-		<div class="advanced-settings"><%= i18n.__("Advanced Settings") %></div>
-	</div>
-	<div class="content">
-
-
-		<div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
-			<% if(App.Trakt.authenticated) { %>
-				<%= i18n.__("You are currently authenticated to Trakt.tv as") %> <%= Settings.traktUsername %>.
-				<a id="unauthTrakt" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
-				<br>
-				<div class="btn-settings syncTrakt" id="syncTrakt"><i class="fa fa-refresh">&nbsp;&nbsp;</i><%= i18n.__("Sync With Trakt") %></div>
-			<% } else { %>
-				<%= i18n.__("Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time") %>
-				<br><br>
-				<p><%= i18n.__("Username") + ":" %></p> <input type="text" size="50" id="traktUsername" name="traktUsername">
-				<div class="loading-spinner" style="display: none"></div>
-				<div class="valid-tick" style="display: none"></div>
-				<div class="invalid-cross" style="display: none"></div>
-				<br><br>
-				<p><%= i18n.__("Password") + ":" %></p> <input type="password" size="50" id="traktPassword" name="traktPassword">
-				<br><br>
-				<aside><em><%= i18n.__("Popcorn Time stores an encrypted hash of your password in your local database") %></em></aside>
-			<% } %>
-		</div>
-
-			<!-- Cache Directory >
-			<p><%= i18n.__("Cache Directory") %>: </p>
-			<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="68" /> <i class="open-tmp-folder fa fa-folder-open-o"></i>
-			<input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
-			<br><br>
-			<!-- Cache Directory / >
-
-			<input class="settings-checkbox" name="deleteTmpOnClose" id="cb2" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
-
-			<label class="settings-label" for="cb2"><%= i18n.__("Clear Tmp Folder after closing app?") %></label>
-		</div>
-		<div class="btns">
-			<div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
-			<div class="btn-settings flush-subtitles"><%= i18n.__("Flush subtitles cache") %></div>
-			<div class="btn-settings flush-databases"><%= i18n.__("Flush all databases") %></div>
-			<div class="btn-settings default-settings"><%= i18n.__("Reset to Default Settings") %></div>
-		</div>
-	</div>
 </div>

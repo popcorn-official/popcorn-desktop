@@ -204,9 +204,10 @@
 	"Theme": "Thème ",
 	"Health Unknown": "Santé - inconnue",
 	"Fade watched items": "Décolorer les éléments visionnés",
-	"Remote Control": "Remote Control",
-	"Connexion": "Connexion",
-	"HTTP API Port": "HTTP API Port",
-	"HTTP API Username": "HTTP API Username",
-	"HTTP API Password": "HTTP API Password"
+	"Remote Control": "Contrôle à distance",
+	"Connection": "Connexion",
+	"HTTP API Port": "Port HTTP ",
+	"HTTP API Username": "Nom d'utilisateur ",
+	"HTTP API Password": "Mot de passe ",
+	"Show advanced settings": "Montrer les réglages avancés"
 }
