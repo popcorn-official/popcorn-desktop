@@ -96,14 +96,12 @@
 		},
 
 		showAdvancedSettings: function() {
-			$('#show-advanced-settings').on('change', function() {
-				var check = $('#show-advanced-settings').is( ":checked" );
-				if (check === true){
-					$(".advanced").css("display", "flex");
-				} else {
-					$(".advanced").css("display", "none");
-				}
-			});
+			var check = $('#show-advanced-settings').is( ":checked" );
+			if (check === true){
+				$(".advanced").css("display", "flex");
+			} else {
+				$(".advanced").css("display", "none");
+			}
 		},
 
 		saveSetting: function(e) {
