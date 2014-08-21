@@ -1,6 +1,122 @@
 <div class="settings-container">
 	<div class="fa fa-times close-icon"></div>
-	<div class="sidebar">
+	<div class="success_alert" style="display:none"><%= i18n.__("Saved") %>&nbsp;<span id="checkmark-notify"><div id="stem-notify"></div><div id="kick-notify"></div></span></div>
+	
+	<section id="title">
+		<div class="title"><%= i18n.__("Settings") %></div>
+		<div class="content">
+			<span><i class="fa fa-keyboard-o help"></i></span>
+		</div>
+	</section>
+	
+	<section id="user-interface">
+		<div class="title"><%= i18n.__("User Interface") %></div>
+		<div class="content">
+			<span>
+				<div class="dropdown subtitles-language">
+					<p><%= i18n.__("Default Language") %>:</p>
+					<%
+						var langs = "";
+						for(var key in App.Localization.allTranslations) {
+								key = App.Localization.allTranslations[key];
+								if (App.Localization.langcodes[key] !== undefined) {
+								langs += "<option "+(Settings.language == key? "selected='selected'":"")+" value='"+key+"'>"+
+											App.Localization.langcodes[key].nativeName+"</option>";
+							}
+						}
+					%>
+					<select name="language"><%=langs%></select>
+					<div class="dropdown-arrow"></div>
+				</div>
+			</span>
+			<span>
+				<div class="dropdown pct-theme">
+					<p><%= i18n.__("Theme") %>:</p>
+					<%
+						var themes = "";
+						var theme_files = fs.readdirSync('./src/app/themes/');
+						for (var i in theme_files) {
+							if (theme_files[i].indexOf('_theme') > -1) {
+								themes += "<option " + (Settings.theme == theme_files[i].slice(0, -4)? "selected='selected'" : "") + " value='" + theme_files[i].slice(0, -4) + "'>" +
+								theme_files[i].slice(0, -10).split('_').join(' '); + "</option>";
+							}
+						}
+					%>
+					<select name="theme"><%=themes%></select>
+					<div class="dropdown-arrow"></div>
+				</div>		
+			</span>
+
+			<span>
+				<input class="settings-checkbox" name="coversShowRating" id="cb3" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
+				<label class="settings-label" for="cb3"><%= i18n.__("Show movie rating on the cover") %></label>
+			</span>
+			<span>
+				<input class="settings-checkbox" name="fadeWatchedCovers" id="cbfade" type="checkbox" <%=(Settings.fadeWatchedCovers? "checked='checked'":"")%>>
+				<label class="settings-label" for="cbfade"><%= i18n.__("Fade watched items") %></label>
+			</span>
+			<span>
+				<input class="settings-checkbox" name="alwaysOnTop" id="cb4" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
+				<label class="settings-label" for="cb4"><%= i18n.__("Always On Top") %></label>
+			</span>
+
+		</div>
+	</section>
+
+	<section id="subtitles">
+		<div class="title"><%= i18n.__("Subtitles") %></div>
+		<div class="content">
+			<span>Subtitles</span>
+			<span>Subtitles 2</span>
+		</div>
+	</section>
+	
+	<section id="quality">
+		<div class="title"><%= i18n.__("Quality") %></div>
+		<div class="content">
+			<span>Content</span>
+		</div>
+	</section>
+
+	<section id="trakt-tv">
+		<div class="title"><%= i18n.__("Trakt.tv") %></div>
+		<div class="content trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
+			<span>Content</span>
+		</div>
+	</section>
+
+	<section id="remote-control">
+		<div class="title"><%= i18n.__("Remote Control") %></div>
+		<div class="content">
+			<span>Content</span>
+		</div>
+	</section>
+
+	<section id="connexion">
+		<div class="title"><%= i18n.__("Connexion") %></div>
+		<div class="content">
+			<span>Content</span>
+		</div>
+	</section>
+
+	<section id="cache">
+		<div class="title"><%= i18n.__("Cache Directory") %></div>
+		<div class="content">
+			<span>Content</span>
+		</div>
+	</section>
+		
+	<div class="btns">
+		<div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
+		<div class="btn-settings flush-subtitles"><%= i18n.__("Flush subtitles cache") %></div>
+		<div class="btn-settings flush-databases"><%= i18n.__("Flush all databases") %></div>
+		<div class="btn-settings default-settings"><%= i18n.__("Reset to Default Settings") %></div>
+	</div>
+		
+</div>
+	
+	
+	<!--div class="sidebar">
 		<div class="title"><%= i18n.__("Settings") %></div>
 		<div class="user-interface"><%= i18n.__("User Interface") %></div>
 		<div class="quality-options"><%= i18n.__("Quality") %></div>
@@ -14,61 +130,6 @@
 		<div class="success_alert" style="display:none"><%= i18n.__("Saved") %>&nbsp;<span id="checkmark-notify"><div id="stem-notify"></div><div id="kick-notify"></div></span></div>
 
 		<div class="fa fa-keyboard-o help"></div>
-
-		<div class="user-interface">
-			<div class="dropdown subtitles-language">
-				<p><%= i18n.__("Default Language") %>:</p>
-				<%
-					var langs = "";
-					for(var key in App.Localization.allTranslations) {
-							key = App.Localization.allTranslations[key];
-							if (App.Localization.langcodes[key] !== undefined) {
-							langs += "<option "+(Settings.language == key? "selected='selected'":"")+" value='"+key+"'>"+
-										App.Localization.langcodes[key].nativeName+"</option>";
-						}
-					}
-				%>
-				<select name="language"><%=langs%></select>
-				<div class="dropdown-arrow"></div>
-			</div>
-
-		<div class="dropdown pct-theme">
-				<p><%= i18n.__("Theme") %>:</p>
-
-				<%
-					var themes = "";
-var theme_files = fs.readdirSync('./src/app/themes/');
-
-for (var i in theme_files) {
-
-    if (theme_files[i].indexOf('_theme') > -1) {
-        themes += "<option " + (Settings.theme == theme_files[i].slice(0, -4)? "selected='selected'" : "") + " value='" + theme_files[i].slice(0, -4) + "'>" +
-            theme_files[i].slice(0, -10).split('_').join(' '); + "</option>";
-    }
-
-}
-
-				%>
-				
-				<select name="theme"><%=themes%></select>
-				<div class="dropdown-arrow"></div>
-			</div>
-
-			<br><br><br>
-			<p>
-				<input class="settings-checkbox" name="coversShowRating" id="cb3" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
-				<label class="settings-label" for="cb3"><%= i18n.__("Show movie rating on the cover") %></label>
-			</p><br><br><br>
-			<p>
-				<input class="settings-checkbox" name="fadeWatchedCovers" id="cbfade" type="checkbox" <%=(Settings.fadeWatchedCovers? "checked='checked'":"")%>>
-				<label class="settings-label" for="cbfade"><%= i18n.__("Fade watched items") %></label>
-			</p>
-			<br><br><br>
-			<p>
-				<input class="settings-checkbox" name="alwaysOnTop" id="cb4" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
-				<label class="settings-label" for="cb4"><%= i18n.__("Always On Top") %></label>
-			</p>
-		</div>
 
 		<div class="quality-options">
 			<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
@@ -159,12 +220,12 @@ for (var i in theme_files) {
 			<p><%= i18n.__("Port to stream on") + ":" %></p> <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/> <em><%= i18n.__("0 = Random") %></em>
 			<br><br>
 
-			<!-- Cache Directory -->
+			<!-- Cache Directory >
 			<p><%= i18n.__("Cache Directory") %>: </p>
 			<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="68" /> <i class="open-tmp-folder fa fa-folder-open-o"></i>
 			<input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
 			<br><br>
-			<!-- Cache Directory / -->
+			<!-- Cache Directory / >
 
 			<input class="settings-checkbox" name="deleteTmpOnClose" id="cb2" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
 

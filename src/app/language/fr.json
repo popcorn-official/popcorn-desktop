@@ -203,5 +203,10 @@
 	"Paste": "Coller",
 	"Theme": "Thème ",
 	"Health Unknown": "Santé - inconnue",
-	"Fade watched items": "Décolorer les éléments visionnés"
+	"Fade watched items": "Décolorer les éléments visionnés",
+	"Remote Control": "Remote Control",
+	"Connexion": "Connexion",
+	"HTTP API Port": "HTTP API Port",
+	"HTTP API Username": "HTTP API Username",
+	"HTTP API Password": "HTTP API Password"
 }
