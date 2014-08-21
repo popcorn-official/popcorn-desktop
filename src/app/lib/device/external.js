@@ -19,7 +19,8 @@
 			// TODO: Subtitles
 			var url = streamModel.attributes.src;
 			var cmd = path.normalize('"'+ this.get('path') + '"');
-			cmd += getPlayerSwitches(this.get('id')) + ' ' +  url;
+			var subtitle = streamModel.attributes.subFile || '';
+			cmd += getPlayerSwitches(this.get('id')) + '"'+ subtitle + '" ' + url;
 			win.info('Launching External Player: '+ cmd);
 			child.exec(cmd);
 		}
@@ -43,20 +44,20 @@
 		'VLC': {
 			type: 'vlc',
 			cmd: '/Contents/MacOS/VLC',
-			switches: ' --no-video-title-show --sub-filter=marq --marq-marquee="'+ i18n.__('Streaming From Popcorn Time') + '" --marq-position=8 --marq-timeout=3000 --sub-file=""'
+			switches: ' --no-video-title-show --sub-filter=marq --marq-marquee="Streaming From Popcorn Time" --marq-position=8 --marq-timeout=3000 --sub-file='
 		},
 		'MPlayer OSX Extended': {
 			type: 'mplayer',
 			cmd: '/Contents/Resources/Binaries/mpextended.mpBinaries/Contents/MacOS/mplayer',
-			switches: ' -font "/Library/Fonts/Arial Bold.ttf" -sub ""'
+			switches: ' -font "/Library/Fonts/Arial Bold.ttf" -sub '
 		},
 		'MPlayer': {
 			type: 'mplayer',
-			cmd: ' -sub ""'
+			switches: ' -sub '
 		},
 		'mpv': {
 			type: 'mpv',
-			cmd: ' --sub-file=""'
+			switches: ' --sub-file='
 		}
 	};
 

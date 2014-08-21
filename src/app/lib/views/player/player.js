@@ -1,6 +1,8 @@
 (function(App) {
     'use strict';
 
+    var _this;
+
     var Player = Backbone.Marionette.ItemView.extend({
         template: '#player-tpl',
         className: 'player',
@@ -76,7 +78,12 @@
                 }
             }
 
-            this.video.dispose();
+            try {
+                this.video.dispose();
+            }
+            catch(e) {
+                // Stop weird Videojs errors
+            }
             App.vent.trigger('player:close');
         },
 
@@ -87,7 +94,7 @@
             $('.filter-bar').show();
             $('#player_drag').show();
 
-            var _this = this;
+            _this = this;
             //$('.player-header-background').canDragWindow();
             //$('#video_player').canDragWindow();
             // Double Click to toggle Fullscreen
@@ -372,7 +379,7 @@
             
             Mousetrap.unbind('ctrl+d');
 
-            document.removeEventListener('mousewheel', _this.mouseScroll)
+            document.removeEventListener('mousewheel', _this.mouseScroll);
         },
 
         toggleMouseDebug: function() {
@@ -396,9 +403,9 @@
                 return;
             }
             if (event.wheelDelta > 0) { // Scroll up
-                this.adjustVolume(0.1);
+                _this.adjustVolume(0.1);
             } else { // Scroll down
-                this.adjustVolume(-0.1);
+                _this.adjustVolume(-0.1);
             }
         },
 
