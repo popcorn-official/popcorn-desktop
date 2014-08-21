@@ -1,10 +1,11 @@
 (function(App) {
     'use strict';
 
+    var _this;
+
     var Player = Backbone.Marionette.ItemView.extend({
         template: '#player-tpl',
         className: 'player',
-        _this: null,
         player: null,
 
         ui: {
