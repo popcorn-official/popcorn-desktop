@@ -50,7 +50,13 @@
             // and when the selected lang or default lang is set
             // subtitleDownloading is needed cos this is called every 300ms
 
-            if (stateModel.get('streamInfo').get('torrent').defaultSubtitle && stateModel.get('streamInfo').get('torrent').defaultSubtitle !== 'none' && hasSubtitles && subtitles != null && engine.files[0] && !downloadedSubtitles && !subtitleDownloading) {
+            if (stateModel.get('streamInfo').get('torrent').defaultSubtitle 
+                && stateModel.get('streamInfo').get('torrent').defaultSubtitle !== 'none' 
+                && hasSubtitles 
+                && subtitles != null 
+                && engine.files[0] 
+                && !downloadedSubtitles 
+                && !subtitleDownloading) {
                 win.debug('downloading subtitle');
                 subtitleDownloading = true;
                 App.vent.trigger('subtitle:download', {
@@ -60,7 +66,8 @@
             }
 
             // No need to download subtitles
-            if (!stateModel.get('streamInfo').get('torrent').defaultSubtitle || stateModel.get('streamInfo').get('torrent').defaultSubtitle === 'none') {
+            if (!subtitles || !stateModel.get('streamInfo').get('torrent').defaultSubtitle 
+                || stateModel.get('streamInfo').get('torrent').defaultSubtitle === 'none') {
                 downloadedSubtitles = true;
             }
         }
