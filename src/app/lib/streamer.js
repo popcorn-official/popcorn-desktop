@@ -50,22 +50,22 @@
             // and when the selected lang or default lang is set
             // subtitleDownloading is needed cos this is called every 300ms
 
-            if(Settings.subtitle_language !== 'none' 
-                && stateModel.get('streamInfo').get('defaultSubtitle') !== 'none' 
+            if(stateModel.get('streamInfo').get('torrent').defaultSubtitle 
+                && stateModel.get('streamInfo').get('torrent').defaultSubtitle !== 'none' 
                 && hasSubtitles && subtitles != null 
                 && engine.files[0] && !downloadedSubtitles
                 && !subtitleDownloading) {
                 win.debug('downloading subtitle');
                 subtitleDownloading = true;
                 App.vent.trigger('subtitle:download', {
-                    url: subtitles[stateModel.get('streamInfo').get('defaultSubtitle') || Settings.subtitle_language],
+                    url: subtitles[stateModel.get('streamInfo').get('torrent').defaultSubtitle],
                     path: path.join(engine.path, engine.files[0].path)
                 })
             }
 
             // No need to download subtitles
-            if(Settings.subtitle_language === 'none' 
-                && stateModel.get('streamInfo').get('defaultSubtitle') === 'none') {
+            if(!stateModel.get('streamInfo').get('torrent').defaultSubtitle 
+                || stateModel.get('streamInfo').get('torrent').defaultSubtitle === 'none') {
                 downloadedSubtitles = true;
             }
         }
@@ -99,6 +99,7 @@
 
         // Fix for loading modal
         streamInfo.updateStats(engine);
+        streamInfo.set('torrent', torrent);
         
         statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 3000);
         stateModel.set('streamInfo', streamInfo);

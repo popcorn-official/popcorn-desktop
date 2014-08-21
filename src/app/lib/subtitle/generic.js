@@ -34,19 +34,25 @@
 
 		req.pipe(out);
 		req.on('end', function() {
-			var zip = new AdmZip(zipPath),
-			zipEntries = zip.getEntries();
-			zip.extractAllTo(/*target path*/unzipPath, /*overwrite*/true);
-			fs.unlink(zipPath, function(err){});
-			win.debug('Subtitle extracted to : '+ newName);
-			var files = fs.readdirSync(unzipPath);
-			for(var f in files) {
-				if(path.extname(files[f]) === '.srt') {
-					break;
+			try {
+				var zip = new AdmZip(zipPath),
+				zipEntries = zip.getEntries();
+				zip.extractAllTo(/*target path*/unzipPath, /*overwrite*/true);
+				fs.unlink(zipPath, function(err){});
+				win.debug('Subtitle extracted to : '+ newName);
+				var files = fs.readdirSync(unzipPath);
+				for(var f in files) {
+					if(path.extname(files[f]) === '.srt') {
+						break;
+					}
 				}
+				fs.renameSync(path.join(unzipPath, files[f]), newName);
+				return callback(newName);
 			}
-			fs.renameSync(path.join(unzipPath, files[f]), newName);
-			return callback(newName);
+			catch(e) {
+				win.error('Error downloading subtitle: '+ e);
+				return callback(null);
+			}
 		});
 
 	};
