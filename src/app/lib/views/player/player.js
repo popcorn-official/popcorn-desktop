@@ -4,6 +4,7 @@
     var Player = Backbone.Marionette.ItemView.extend({
         template: '#player-tpl',
         className: 'player',
+        _this: null,
         player: null,
 
         ui: {
@@ -92,7 +93,7 @@
             $('.filter-bar').show();
             $('#player_drag').show();
 
-            var _this = this;
+            _this = this;
             //$('.player-header-background').canDragWindow();
             //$('#video_player').canDragWindow();
             // Double Click to toggle Fullscreen
@@ -401,9 +402,9 @@
                 return;
             }
             if (event.wheelDelta > 0) { // Scroll up
-                this.adjustVolume(0.1);
+                _this.adjustVolume(0.1);
             } else { // Scroll down
-                this.adjustVolume(-0.1);
+                _this.adjustVolume(-0.1);
             }
         },
 
