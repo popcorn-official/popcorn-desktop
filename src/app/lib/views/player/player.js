@@ -76,7 +76,12 @@
                 }
             }
 
-            this.video.dispose();
+            try {
+                this.video.dispose();
+            }
+            catch(e) {
+                // Stop weird Videojs errors
+            }
             App.vent.trigger('player:close');
         },
 
