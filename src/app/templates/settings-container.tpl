@@ -66,7 +66,7 @@
 	<section id="subtitles">
 		<div class="title"><%= i18n.__("Subtitles") %></div>
 		<div class="content">
-			<span class="two-cols">
+			<span>
 				<div class="dropdown subtitles-language-default">
 					<p><%= i18n.__("Default Subtitle") %>:</p>
 					<%
@@ -83,8 +83,7 @@
 					<select name="subtitle_language"><%=sub_langs%></select>
 					<div class="dropdown-arrow"></div>
 				</div>
-			</span>
-			<span class="two-cols">
+
 				<div class="dropdown subtitles-size">
 					<p><%= i18n.__("Size") %>:</p>
 					<%
@@ -206,7 +205,7 @@
 		<div class="content">
 			<span>
 				<p><%= i18n.__("Cache Directory") %>: </p>
-				<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="60" /> <i class="open-tmp-folder fa fa-folder-open-o"></i>
+				<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="65" /> <i class="open-tmp-folder fa fa-folder-open-o"></i>
 				<input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
 			</span>
 			<span>
