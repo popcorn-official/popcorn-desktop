@@ -372,7 +372,7 @@
             
             Mousetrap.unbind('ctrl+d');
 
-            document.removeEventListener('mousewheel', _this.mouseScroll)
+            document.removeEventListener('mousewheel', _this.mouseScroll);
         },
 
         toggleMouseDebug: function() {
