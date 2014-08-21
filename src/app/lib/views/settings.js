@@ -254,6 +254,18 @@
 			App.settings['traktPassword'] = '';
 			App.Trakt.authenticated = false;
 
+			App.db.writeSetting({
+				key: 'traktUsername',
+				value: ''
+			}, function() {
+				App.db.writeSetting({
+					key: 'traktPassword',
+					value: ''
+				}, function() {
+					self.ui.success_alert.show().delay(3000).fadeOut(400);
+				});
+			});
+
 			_.defer(function() {
 				App.Trakt = new App.Providers.Trakttv();
 				self.render();
