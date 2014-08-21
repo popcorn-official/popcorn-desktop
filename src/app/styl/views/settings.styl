@@ -53,11 +53,11 @@
 					width 100%
 					height 40px
 
-					p
-						min-width 150px
-
 					&.two-cols
 						width 50%
+
+					p
+						min-width 150px
 
 		#title
 			.title
@@ -79,13 +79,16 @@
 						color: $Text1
 						transition all .5s
 
+		#user-interface
+			.subtitles-language > select,
+			.pct-theme > select
+				width 150px
+
 		#subtitles
-			.subtitles-size
-				left -8%
+			.subtitles-language-default > select
+				width 150px
 			.subtitles-size > p
 				min-width 50px
-			.subtitles-size > select
-				width 60px
 
 		.btns
 			padding-top 10px
@@ -136,7 +139,6 @@
 				border 0 !important
 				-webkit-appearance none
 				height 30px
-				width 150px
 				margin-top -9px
 				background-color $InputBoxBg
 				cursor pointer
