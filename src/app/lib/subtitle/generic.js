@@ -86,23 +86,28 @@
 		},
 		download : function(data) {
 			console.log(data);
-			var fileFolder = path.dirname(data.path);
-			var subExt = data.url.split('.').pop();
+			if(data.path && data.url) {
+				var fileFolder = path.dirname(data.path);
+				var subExt = data.url.split('.').pop();
 
-			try {
-				mkdirp.sync(fileFolder);
-			} catch(e) {
-				// Ignore EEXIST
+				try {
+					mkdirp.sync(fileFolder);
+				} catch(e) {
+					// Ignore EEXIST
+				}
+				if(subExt === 'zip') {
+					downloadZip(data, function(location) {
+						App.vent.trigger('subtitle:downloaded', location);
+					});
+				}
+				else if(subExt === 'srt') {
+					downloadSRT(data, function(location) {
+						App.vent.trigger('subtitle:downloaded', location);
+					});
+				}
 			}
-			if(subExt === 'zip') {
-				downloadZip(data, function(location) {
-					App.vent.trigger('subtitle:downloaded', location);
-				});
-			}
-			else if(subExt === 'srt') {
-				downloadSRT(data, function(location) {
-					App.vent.trigger('subtitle:downloaded', location);
-				});
+			else {
+				App.vent.trigger('subtitle:downloaded', null);
 			}
 		},
 		convert : function(data) { // Converts .srt's to .vtt's
