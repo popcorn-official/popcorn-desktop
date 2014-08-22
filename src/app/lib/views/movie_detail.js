@@ -22,7 +22,8 @@
             'click .movie-imdb-link': 'openIMDb',
             'click .sub-dropdown': 'toggleDropdown',
             'click .sub-flag-icon': 'closeDropdown',
-            'click .playerchoicemenu li a': 'selectPlayer'
+            'click .playerchoicemenu li a': 'selectPlayer',
+			'click .rating-container': 'switchRating'
         },
 
         initialize: function() {
@@ -126,7 +127,6 @@
             Mousetrap.bind('f', function(){
                 $('.favourites-toggle').click();
             });
-
         },
 
         unbindKeyboardShortcuts: function() { // There should be a better way to do this
@@ -136,6 +136,15 @@
             Mousetrap.unbind('f');
         },
 
+		switchRating: function() {
+			if ($('.number-container').hasClass('hidden')) {
+				$('.number-container').removeClass('hidden');
+				$('.star-container').addClass('hidden');
+			}else{
+				$('.number-container').addClass('hidden');
+				$('.star-container').removeClass('hidden');
+			}
+		},
 
         switchSubtitle: function(lang) {
             var subtitles = this.model.get('subtitle');
