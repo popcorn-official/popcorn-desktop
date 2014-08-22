@@ -27,8 +27,7 @@
 			'keyup #traktPassword': 'checkTraktLogin',
 			'click #unauthTrakt': 'disconnectTrakt',
 			'change #tmpLocation': 'updateCacheDirectory',
-			'click #syncTrakt': 'syncTrakt',
-			'click #show-advanced-settings': 'showAdvancedSettings'
+			'click #syncTrakt': 'syncTrakt'
 		},
 
 		onShow: function() {
@@ -95,15 +94,6 @@
 			App.vent.trigger('help:toggle');
 		},
 
-		showAdvancedSettings: function() {
-			var check = $('#show-advanced-settings').is( ":checked" );
-			if (check === true){
-				$(".advanced").css("display", "flex");
-			} else {
-				$(".advanced").css("display", "none");
-			}
-		},
-
 		saveSetting: function(e) {
 			var that = this;
 			var value = false;
@@ -140,6 +130,7 @@
 				case 'deleteTmpOnClose':
 				case 'coversShowRating':
 				case 'fadeWatchedCovers':
+				case 'showAdvancedSettings':
 				case 'alwaysOnTop':
 					value = field.is(':checked');
 					break;
@@ -167,8 +158,8 @@
 
 			// update active session
 			App.settings[field.attr('name')] = value;
-			
-			if(apiDataChanged){
+
+			if (apiDataChanged) {
 				App.vent.trigger('initHttpApi');
 			}
 
@@ -177,7 +168,7 @@
 				key: field.attr('name'),
 				value: value
 			}, function() {
-				if (field.attr('name') !== 'language') {
+				if (!(field.attr('name') !== 'language' || field.attr('name') !== 'showAdvancedSettings')) {
 					that.ui.success_alert.show().delay(3000).fadeOut(400);
 				}
 			});
@@ -198,6 +189,13 @@
 						$('.quality').show();
 					} else {
 						$('.quality').hide();
+					}
+					break;
+				case 'showAdvancedSettings':
+					if (value) {
+						$(".advanced").css("display", "flex");
+					} else {
+						$(".advanced").css("display", "none");
 					}
 					break;
 				case 'language':
