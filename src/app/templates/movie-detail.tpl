@@ -43,7 +43,7 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 							<i class="fa fa-star rating-star-empty"></i>
 					<% }; %>
 				</div>
-				<div class="number-container hidden"><%= rating %> / 10</div>
+				<div class="number-container hidden"><%= rating %> <em>/10</em></div>
 			</div>
 			<div data-toggle="tooltip" data-placement="left" title="<%=i18n.__("Health false") %>" class="fa fa-circle health-icon <%= health %>"></div>
 

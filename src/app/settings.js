@@ -13,7 +13,7 @@ Settings.showAdvancedSettings = false;
 
 // Advanced UI
 Settings.alwaysOnTop = false;
-Settings.theme = 'dark_official_theme';
+Settings.theme = 'Dark_-_Official_theme';
 
 
 

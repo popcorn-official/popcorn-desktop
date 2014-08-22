@@ -108,6 +108,11 @@
                 this.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
             }
 
+			if (AdvSettings.get('ratingStars') === false) {
+				$('.star-container').addClass('hidden');
+				$('.number-container').removeClass('hidden');
+			}
+				
             this.initKeyboardShortcuts();
         },
 
@@ -140,9 +145,11 @@
 			if ($('.number-container').hasClass('hidden')) {
 				$('.number-container').removeClass('hidden');
 				$('.star-container').addClass('hidden');
+				AdvSettings.set('ratingStars', false);
 			}else{
 				$('.number-container').addClass('hidden');
 				$('.star-container').removeClass('hidden');
+				AdvSettings.set('ratingStars', true);
 			}
 		},
 
