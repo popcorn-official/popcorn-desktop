@@ -31,12 +31,18 @@
 		},
 
 		onShow: function() {
+
+			if ($('input:checkbox[name=showAdvancedSettings]').prop('checked')) {
+				$('.advanced').css('display', 'flex');
+			}
+
 			$('.filter-bar').hide();
 			$('#movie-detail').hide();
 			$('#header').addClass('header-shadow');
 			Mousetrap.bind('backspace', function(e) {
 				App.vent.trigger('settings:close');
 			});
+
 		},
 		rightclick_field: function(e) {
 			e.preventDefault();
