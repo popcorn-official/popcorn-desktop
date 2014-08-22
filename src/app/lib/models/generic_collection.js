@@ -10,7 +10,9 @@
             options = options || {};
             options.filter = options.filter || new App.Model.Filter();
 
-            this.filter = _.defaults(_.clone(options.filter.attributes), {page: 1});
+            this.filter = _.defaults(_.clone(options.filter.attributes), {
+                page: 1
+            });
             this.hasMore = true;
 
             Backbone.Collection.prototype.initialize.apply(this, arguments);
@@ -19,7 +21,7 @@
         fetch: function() {
             var self = this;
 
-            if(this.state === 'loading' && !this.hasMore) {
+            if (this.state === 'loading' && !this.hasMore) {
                 return;
             }
 
@@ -38,7 +40,7 @@
              * provider declare a unique id, and then lookthem up in
              * a hash.
              */
-            var torrentPromises = _.map(torrents, function (torrentProvider, pid) { //XXX(xaiki): provider hack
+            var torrentPromises = _.map(torrents, function(torrentProvider, pid) { //XXX(xaiki): provider hack
                 var deferred = Q.defer();
 
                 var promises = [torrentProvider.fetch(self.filter)];
@@ -53,7 +55,7 @@
                 Q.all(promises)
                     .spread(function(torrents, subtitles, metadatas) {
                         // If a new request was started...
-                        _.each(torrents.results, function(movie){
+                        _.each(torrents.results, function(movie) {
                             var id = movie['imdb'];
                             movie.provider = pid; //XXX(xaiki): provider hack
 
@@ -67,7 +69,7 @@
 
                                 var info = _.findWhere(metadatas, whash);
 
-                                if(info) {
+                                if (info) {
                                     _.extend(movie, {
                                         synopsis: info.overview,
                                         genres: info.genres,
@@ -86,7 +88,7 @@
                             }
                         });
 
-                        return deferred.resolve (torrents);
+                        return deferred.resolve(torrents);
                     })
                     .catch(function(err) {
                         self.state = 'error';
@@ -97,11 +99,11 @@
                 return deferred.promise;
             });
 
-            Q.all(torrentPromises).done (function (torrents) {
-                _.forEach(torrents, function (t) {
+            Q.all(torrentPromises).done(function(torrents) {
+                _.forEach(torrents, function(t) {
                     self.add(t.results);
                 });
-                self.hasMore = _.pluck(torrents, 'hasMore').length?true:false;
+                self.hasMore = _.pluck(torrents, 'hasMore')[0];
                 self.trigger('sync', self);
                 self.state = 'loaded';
                 self.trigger('loaded', self, self.state);
