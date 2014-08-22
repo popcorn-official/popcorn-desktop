@@ -174,9 +174,7 @@
 				key: field.attr('name'),
 				value: value
 			}, function() {
-				if (!(field.attr('name') !== 'language' || field.attr('name') !== 'showAdvancedSettings')) {
-					that.ui.success_alert.show().delay(3000).fadeOut(400);
-				}
+				that.ui.success_alert.show().delay(3000).fadeOut(400);
 			});
 			this.syncSetting(field.attr('name'), value);
 		},
