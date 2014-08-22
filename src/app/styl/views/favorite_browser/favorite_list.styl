@@ -23,11 +23,6 @@
 		& > div
 			margin: 0 auto
 
-		.movie-item
-			width: 134px
-			&:empty
-				height: 0
-				margin: 0 10px
 
 	.error
 		font-size: 1.5em;
@@ -46,95 +41,3 @@
 		.loading-container
 			margin: 180px auto 0px
 			opacity: .8;
-
-.bookmark-item
-	display: inline-block;
-	margin: 10px
-	float: left
-	width: 134px
-	font-size: 0.8em
-
-	.cover
-		background-image url(../images/posterholder.png)
-		background-size: 134px 196px
-		width: 134px
-		height: 196px
-		border-radius: $PosterRadius
-		box-shadow: $PosterShadow
-		cursor: pointer
-		transition: opacity .50s ease
-		opacity: 0
-
-		.cover-overlay
-			background $PosterHoverOverlay
-			text-align center
-			padding 88px 0
-			width 100%
-			height 100%
-			border-radius $PosterRadius
-			border: 2px solid rgba(23, 24, 27, 0.6)
-			transition opacity .25s ease
-			opacity 0
-			
-			&:hover
-				opacity: 1
-				border 2px solid $PosterHoverBorder
-
-			.actions-favorites
-				float: right
-				margin-top: -80px
-				margin-right: 7px
-				color: #FFFFFF
-				font-size: 1.4 em
-				-webkit-transition: color 0.5s
-
-				&.selected
-					color: $FavoriteColor
-					opacity: 1
-				&:hover
-					cursor: pointer
-					color: $ButtonBgActive
-
-			.actions-watched
-				float: left
-				margin-top: -80px
-				margin-left: 7px
-				color: #FFFFFF
-				font-size: 1.4 em
-				-webkit-transition: opacity 0.5s
-				opacity: 0.3
-
-				&:hover
-					opacity: 0.7
-					cursor: pointer
-
-				&.selected
-					opacity: 1
-
-
-	.title
-		height: 14px;
-		margin: 6px 0 4px;
-		color: $Text1
-		max-width: 134px
-		overflow: hidden
-		text-overflow: ellipsis
-		white-space: nowrap
-
-	.year
-		font-size: 0.85em
-		color: $Text4
-		display: inline
-
-	.seasons
-		font-size: 0.85em
-		color: $Text4
-		display: inline
-		float: right
-		
-	&.selected
-		.cover
-			.cover-overlay
-				border 2px solid $PosterHoverBorder
-				transition all .25s
-				opacity: 1
