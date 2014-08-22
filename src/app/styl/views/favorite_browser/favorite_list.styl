@@ -90,6 +90,7 @@
 
 				&.selected
 					color: $FavoriteColor
+					opacity: 1
 				&:hover
 					cursor: pointer
 					color: $ButtonBgActive
@@ -110,6 +111,7 @@
 				&.selected
 					opacity: 1
 
+
 	.title
 		height: 14px;
 		margin: 6px 0 4px;
@@ -129,3 +131,10 @@
 		color: $Text4
 		display: inline
 		float: right
+		
+	&.selected
+		.cover
+			.cover-overlay
+				border 2px solid $PosterHoverBorder
+				transition all .25s
+				opacity: 1
