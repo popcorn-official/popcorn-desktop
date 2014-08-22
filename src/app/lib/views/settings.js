@@ -466,7 +466,10 @@
 								}
 								win.info(data.length + ' movies marked watched');
 								Database.getUserInfo(function() {
-									$('#syncTrakt').text(i18n.__('Done')).removeClass('disabled').addClass('green');
+									$('#syncTrakt').text(i18n.__('Done')).removeClass('disabled').addClass('green').delay(3000).queue(function() {
+										$('#syncTrakt').text(i18n.__('Sync With Trakt')).removeClass('green').prop('disabled', false);
+										$('#syncTrakt').dequeue();
+									});
 									return;
 								});
 							});
