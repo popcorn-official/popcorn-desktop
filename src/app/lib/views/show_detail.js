@@ -30,8 +30,8 @@ var health_checked = false;
             'click #switch-hd-on': 'enableHD',
             'click #switch-hd-off': 'disableHD',
             'click .health-icon': 'getTorrentHealth',
-            'click .playerchoicemenu li a': 'selectPlayer'
-
+            'click .playerchoicemenu li a': 'selectPlayer',
+			'click .rating-container-tv': 'switchRating'
         },
 
         toggleFavorite: function(e) {
@@ -192,11 +192,28 @@ var health_checked = false;
             
             _this.initKeyboardShortcuts();
 
+			if (AdvSettings.get('ratingStars') === false) {
+				$('.star-container-tv').addClass('hidden');
+				$('.number-container-tv').removeClass('hidden');
+			}
+			
         },
 
         openIMDb: function() {
             gui.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
         },
+
+		switchRating: function() {
+			if ($('.number-container-tv').hasClass('hidden')) {
+				$('.number-container-tv').removeClass('hidden');
+				$('.star-container-tv').addClass('hidden');
+				AdvSettings.set('ratingStars', false);
+			}else{
+				$('.number-container-tv').addClass('hidden');
+				$('.star-container-tv').removeClass('hidden');
+				AdvSettings.set('ratingStars', true);
+			}
+		},
 
         toggleWatched: function(e) {
             var edata = e.currentTarget.id.split('-');

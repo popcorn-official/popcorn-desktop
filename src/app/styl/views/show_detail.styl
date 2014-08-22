@@ -134,41 +134,61 @@
 		cursor: pointer
 		background: url(../images/icons/imdb.png) no-repeat
 
-	.star-container-tv
-		z-index 3
-		position relative
-		top 1px
-		opacity 1
-		float left
-		margin-top 30px
+	.rating-container-tv
+		.hidden
+			display: none
 
-		.rating-star
-			color #ffc900
-			font-size 11px
-			padding-right: 3px
+		.number-container-tv
+			width: auto
+			float: left
+			position: relative
+			font-size: 12px
+			font-family: $MainFontBold
+			color: #FFF
+			cursor: pointer
+			margin-top 30px
+			top: 5px
+			z-index 3
 
-		.rating-star-half
-			color #ffc900
-			font-size 11px
-			margin-left -4px
-			padding-right: 3px
+			em
+				font-size: 0.8em
 
-		.rating-star-half-empty
-			color #a3a5a7
-			font-size 11px
-			margin-left: -3px
+		.star-container-tv
+			z-index 3
+			position relative
+			top 1px
+			opacity 1
+			float left
+			margin-top 30px
+			cursor: pointer
 
-		.rating-star-empty
-			color #a3a5a7
-			font-size 11px
-			padding-right: 3px
+			.rating-star
+				color #ffc900
+				font-size 11px
+				padding-right: 3px
 
-		.rating-star-half-container
-			width 1em
-			height 1em
-			line-height 1em
-			margin-top 2px
-			margin-right: -3px
+			.rating-star-half
+				color #ffc900
+				font-size 11px
+				margin-left -4px
+				padding-right: 3px
+
+			.rating-star-half-empty
+				color #a3a5a7
+				font-size 11px
+				margin-left: -3px
+
+			.rating-star-empty
+				color #a3a5a7
+				font-size 11px
+				padding-right: 3px
+
+			.rating-star-half-container
+				width 1em
+				height 1em
+				line-height 1em
+				margin-top 2px
+				margin-right: -3px
 
 	.tv-overview
 		margin-top 60px

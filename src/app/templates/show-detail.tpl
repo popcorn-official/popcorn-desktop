@@ -15,21 +15,24 @@
 		<div class="tv-dot"></div>
 		<div data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Open IMDb page") %>" class="show-imdb-link"></div>
 		<div class="tv-dot"></div>
-		<% p_rating = Math.round(rating.percentage) / 20; // Roundoff number to nearest 0.5 %>
-		<div data-toggle="tooltip" data-placement="right" title="<%= Math.round(rating.percentage) / 10 %> /10" class="star-container-tv">
+		<div class="rating-container-tv">
+			<% p_rating = Math.round(rating.percentage) / 20; // Roundoff number to nearest 0.5 %>
+			<div data-toggle="tooltip" data-placement="right" title="<%= Math.round(rating.percentage) / 10 %> /10" class="star-container-tv">
 
-		<% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
-				<i class="fa fa-star rating-star"></i>
+			<% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
+					<i class="fa fa-star rating-star"></i>
+				<% }; %>
+				<% if (p_rating % 1 > 0) { %>
+					<span class = "fa-stack rating-star-half-container">
+						<i class="fa fa-star fa-stack-1x rating-star-half-empty"></i>
+						<i class="fa fa-star-half fa-stack-1x rating-star-half"></i>
+					</span>
+				<% }; %>
+				<% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
+					<i class="fa fa-star rating-star-empty"></i>
 			<% }; %>
-			<% if (p_rating % 1 > 0) { %>
-				<span class = "fa-stack rating-star-half-container">
-					<i class="fa fa-star fa-stack-1x rating-star-half-empty"></i>
-					<i class="fa fa-star-half fa-stack-1x rating-star-half"></i>
-				</span>
-			<% }; %>
-			<% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
-				<i class="fa fa-star rating-star-empty"></i>
-		<% }; %>
+			</div>
+			<div class="number-container-tv hidden"><%= Math.round(rating.percentage) / 10 %> <em>/10</em></div>
 		</div>
 		<div class="tv-overview"><%= synopsis %></div>
 		<div class="favourites-toggle"><%=i18n.__("Add to bookmarks") %></div>

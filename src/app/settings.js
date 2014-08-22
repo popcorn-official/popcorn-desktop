@@ -14,8 +14,7 @@ Settings.showAdvancedSettings = false;
 // Advanced UI
 Settings.alwaysOnTop = false;
 Settings.theme = 'Dark_-_Official_theme';
-
-
+Settings.ratingStars = true; //trigger on click in details
 
 // Movies
 Settings.moviesShowQuality = false;
