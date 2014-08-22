@@ -199,9 +199,9 @@
 					break;
 				case 'showAdvancedSettings':
 					if (value) {
-						$(".advanced").css("display", "flex");
+						$('.advanced').css('display', 'flex');
 					} else {
-						$(".advanced").css("display", "none");
+						$('.advanced').css('display', 'none');
 					}
 					break;
 				case 'language':

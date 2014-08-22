@@ -1,4 +1,4 @@
-(function(context){
+(function(context) {
 	'use strict';
 
 	var _ = require('underscore');
@@ -9,7 +9,7 @@
 	var mirrorUrl = 'http://api.ysubs.com/subs/';
 	var prefix = 'http://www.yifysubtitles.com';
 
-	var YSubs = App.Subtitles.Generic.extend ({
+	var YSubs = App.Subtitles.Generic.extend({
 		defaults: {
 			id: 'ysubs',
 			name: 'YSubs',
@@ -18,24 +18,34 @@
 
 		get: function(queryParams) {
 			return Q.when(querySubtitles(ids))
-			.then(formatForPopcorn);
+				.then(formatForPopcorn);
 		}
 	});
 
 	var querySubtitles = function(imdbIds) {
-		if(_.isEmpty(imdbIds)) {
+		if (_.isEmpty(imdbIds)) {
 			return {};
 		}
-		
-		var url = baseUrl + _.map(imdbIds.sort(), function(id){return id;}).join('-');
-		var mirrorurl = mirrorUrl + _.map(imdbIds.sort(), function(id){return id;}).join('-');
+
+		var url = baseUrl + _.map(imdbIds.sort(), function(id) {
+			return id;
+		}).join('-');
+		var mirrorurl = mirrorUrl + _.map(imdbIds.sort(), function(id) {
+			return id;
+		}).join('-');
 
 		var deferred = Q.defer();
 
-		request({url:url, json: true}, function(error, response, data){
-			if(error || response.statusCode !== 200 || !data || !data.success) {
-				request({url:mirrorurl, json: true}, function(error, response, data){
-					if(error || response.statusCode !== 200 || !data || !data.success) {
+		request({
+			url: url,
+			json: true
+		}, function(error, response, data) {
+			if (error || response.statusCode !== 200 || !data || !data.success) {
+				request({
+					url: mirrorurl,
+					json: true
+				}, function(error, response, data) {
+					if (error || response.statusCode !== 200 || !data || !data.success) {
 						deferred.reject(error);
 					} else {
 						deferred.resolve(data);
@@ -51,24 +61,26 @@
 
 	var formatForPopcorn = function(data) {
 		var allSubs = {};
-        // Iterate each movie
-        _.each(data.subs, function(langs, imdbId) {
-        	var movieSubs = {};
-            // Iterate each language
-            _.each(langs, function(subs, lang) {
-                // Pick highest rated
-                var langCode = languageMapping[lang];
-                movieSubs[langCode] = prefix + _.max(subs, function(s){return s.rating;}).url;
-            });
+		// Iterate each movie
+		_.each(data.subs, function(langs, imdbId) {
+			var movieSubs = {};
+			// Iterate each language
+			_.each(langs, function(subs, lang) {
+				// Pick highest rated
+				var langCode = languageMapping[lang];
+				movieSubs[langCode] = prefix + _.max(subs, function(s) {
+					return s.rating;
+				}).url;
+			});
 
-            // Remove unsupported subtitles
-            var filteredSubtitle = App.Localization.filterSubtitle(movieSubs);
+			// Remove unsupported subtitles
+			var filteredSubtitle = App.Localization.filterSubtitle(movieSubs);
 
-            allSubs[imdbId] = filteredSubtitle;
-        });
+			allSubs[imdbId] = filteredSubtitle;
+		});
 
-        return allSubs;
-    };
+		return allSubs;
+	};
 
 	// Language mapping to match PT langcodes
 	var languageMapping = {
