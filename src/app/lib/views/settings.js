@@ -365,7 +365,7 @@
 
 		openTmpFolder: function() {
 			console.log('Opening: ' + App.settings['tmpLocation']);
-			gui.Shell.showItemInFolder(App.settings['tmpLocation']);
+			gui.Shell.openItem(App.settings['tmpLocation']);
 		},
 
 		updateCacheDirectory: function(e) {
