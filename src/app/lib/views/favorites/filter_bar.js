@@ -36,8 +36,12 @@
 
 		showFavorites: function(e) {
 			e.preventDefault();
-			App.vent.trigger('about:close');
-			App.vent.trigger('favorites:list', []);
+			if ($('#movie-detail').html().length == 0) {
+				App.vent.trigger('movies:list', []);
+			} else {
+				App.vent.trigger('about:close');
+				App.vent.trigger('favorites:list', []);
+			}
 		}
 	});
 
