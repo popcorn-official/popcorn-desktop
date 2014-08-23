@@ -111,7 +111,7 @@
 				
 				if (AdvSettings.get('startScreen') === 'Favorites') {
 					that.showFavorites();
-				}else if (AdvSettings.get('startScreen') === 'Shows') {
+				}else if (AdvSettings.get('startScreen') === 'TV Series') {
 					that.showShows();
 				}else{
 					that.showMovies();
