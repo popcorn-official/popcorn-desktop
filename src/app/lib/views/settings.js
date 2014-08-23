@@ -123,6 +123,7 @@
 				case 'subtitle_size':
 				case 'subtitle_language':
 				case 'movies_quality':
+				case 'start_screen':
 					value = $('option:selected', field).val();
 					break;
 				case 'language':
@@ -211,6 +212,9 @@
 					break;
 				case 'theme':
 					$('head').append('<link rel="stylesheet" href="themes/' + value + '.css" type="text/css" />');
+					break;
+				case 'start_screen':
+					AdvSettings.set('startScreen', value);
 					break;
 				default:
 

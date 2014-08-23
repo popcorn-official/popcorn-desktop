@@ -209,5 +209,6 @@
 	"HTTP API Port": "Port HTTP ",
 	"HTTP API Username": "Nom d'utilisateur ",
 	"HTTP API Password": "Mot de passe ",
-	"Show advanced settings": "Montrer les réglages avancés"
+	"Show advanced settings": "Montrer les réglages avancés",
+	"Start Screen": "Écran d'accueil "
 }

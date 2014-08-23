@@ -108,10 +108,17 @@
                 }
 
                 that.InitModal.close();
-                that.showMovies();
-                // Focus the window when the app opens
+				
+				if (AdvSettings.get('startScreen') === 'Favorites') {
+					that.showFavorites();
+				}else if (AdvSettings.get('startScreen') === 'Shows') {
+					that.showShows();
+				}else{
+					that.showMovies();
+				}
+                
+				// Focus the window when the app opens
                 that.nativeWindow.focus();
-
 
             });
 

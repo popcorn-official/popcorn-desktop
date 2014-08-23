@@ -51,6 +51,22 @@
 					<div class="dropdown-arrow"></div>
 				</div>		
 			</span>
+						
+			<span class="advanced">
+				<div class="dropdown start-screen">
+					<p><%= i18n.__("Start Screen") %>:</p>
+						<%
+							var arr_screens = ["Movies","TV Series","Favorites"];
+
+							var selct_start_screen = "";
+							for(var key in arr_screens) {
+								selct_start_screen += "<option "+(Settings.start_screen == arr_screens[key]? "selected='selected'":"")+" value='"+arr_screens[key]+"'>"+arr_screens[key]+"</option>";
+							}
+						%>
+					<select name="start_screen"><%=selct_start_screen%></select>
+					<div class="dropdown-arrow"></div>
+				</div>
+			</span>
 
 			<span class="advanced">
 				<input class="settings-checkbox" name="coversShowRating" id="cb3" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>

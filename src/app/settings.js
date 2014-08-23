@@ -15,6 +15,7 @@ Settings.showAdvancedSettings = false;
 Settings.alwaysOnTop = false;
 Settings.theme = 'Dark_-_Official_theme';
 Settings.ratingStars = true; //trigger on click in details
+Settings.start_screen = 'Movies';
 
 // Movies
 Settings.moviesShowQuality = false;
