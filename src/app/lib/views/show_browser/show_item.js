@@ -39,16 +39,16 @@
             this.blocked = false;
             var bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
             this.model.set('bookmarked', bookmarked);
-            this.ui.watchedIcon.hide();
+            if (bookmarked) {
+                this.ui.bookmarkIcon.addClass('selected');
+            }
         },
 
         onRender: function() {
-            var bookmarked = this.model.get('bookmarked');
+            this.ui.watchedIcon.remove();
 
-            if (bookmarked) {
+            if (this.model.get('bookmarked')) {
                 this.ui.bookmarkIcon.addClass('selected');
-            } else {
-                this.ui.bookmarkIcon.removeClass('selected');
             }
 
             this.ui.coverImage.on('load', _.bind(this.showCover, this));
@@ -93,6 +93,7 @@
             e.preventDefault();
             var that = this;
             if (this.model.get('bookmarked') === true) {
+                this.ui.bookmarkIcon.removeClass('selected');
                 Database.deleteBookmark(this.model.get('imdb_id'), function(err, data) {
                     win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
                     that.model.set('bookmarked', false);
@@ -102,6 +103,7 @@
                     Database.deleteTVShow(that.model.get('imdb_id'), function(err, data) {});
                 });
             } else {
+                this.ui.bookmarkIcon.addClass('selected');
                 var provider = this.model.get('provider'); //XXX(xaiki): provider hack
                 var tvshow = App.Config.getProvider('tvshow')[provider];
                 var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
