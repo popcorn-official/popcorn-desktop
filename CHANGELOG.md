@@ -1,36 +1,113 @@
-## 0.3.1-dev
+## 0.1.0 Alpha - 20 february 2014
+- First release Windows/Linux amd64/MacOS
+- Windows Installer
+- Connect peerflix using .torrent files
+- Use localStorage Web SQL
+- Implement optional quality functionality (SD vs. HD)
+- VideoJS full integration
+- Rotten-Tomato
+- Yify Subtitles
+- Manual input torrent / subtitles files
+- Multi-language App support
 
-### Features:
+## 0.2.0 Beta - 03 march 2014
 
-  - `6a1dfb0` [NEW] Added mirror failback to yify subtitles.
-  - `2b2f249` [NEW] Add icons and links to about dialog
-  - `b4a823d` [NEW] Add methods to mark movie as watched
-  - `f6e2083` [NEW] Added quality filter for movies
-  - `30b6136` [NEW] Added Advanced Settings with Connection, DHT, Tmp Folder options
-  - `1a56f64` [NEW] Pressing 'escape' to closes modals
-  - `2e4167e` [NEW] Added a help view for keyboard shortcuts. Press `?`
-  - `17c62fb` [NEW] Better init screen
-  - `37be4be` [NEW] Draggable subtitles. Move subtitles around the player.
-  - `476d4d5` [NEW] Drag and drop subtitles on the player to load a custom SRT file
+- New sidebar UI
+- New languages
+- Disclaimer
+- Movie API
 
-### Bugfixes:
+## 0.2.5 Beta - 08 march 2014
 
-  - `7384cad` [FIX] Rebuild TV Show API Endpoint with live data.
-  - `27a0849` [FIX] Subtitles encode fixes.
-  - `7414a9a` [FIX] Copy stream URL to clipboard directly. Press `U`
-  - `00804cb` [FIX] Catch exception to prevent blocking on initDb
-  - `9f237ce` [FIX] Description pass behind the "Watch" button
-  - `ec83b30` [FIX] Fix watched list.
-  - `02f8b27` [FIX] Can't use scrollbar #420
-  - `e01f441` [FIX] Movie list after close movie
-  - `f9602f4` [FIX] Glitches, jumps, lag in TV Shows, Performance gain in Movies
-  - `636d68d` [FIX] Scrollbar issues on episode descriptions
-  - `747755c` [FIX] Top menu hidden in TV Shows
-  - `7a3fb4d` [FIX] Greek subtitles encoding
-  - `f8569d8` [FIX] Pressing 'escape' cancels/stops download on "Downloading" screen
-  - `8b632e8` [FIX] TV Show search keywords can be in any order
-  - `4b90f70` [FIX] Close movie detail on search
-  - `66efa9b` [FIX] Portuguese subtitle encoding
-  - `85ff8e6` [FIX] Fastest app opening
-  - `597de42` [FIX] Better subtitles results (search by filename)
-  - `7cc2d0f` [FIX] Auto updater
+- New languages 
+- Localized Windows Installer
+- Update Node-Webkit 0.9.2
+- Infinite scroll
+- Wipe temp folder on close
+- Multiplatform grunt build
+- Personnalize title-bar based on the platform
+- Settings page
+
+## 0.2.6 Beta, 0.2.7 Beta - 14 march 2014
+
+- March 14 : original developers leave :(
+- Confusing times & multiple repo change
+- Trakt API
+- Licence choice: GPL v3
+
+## 0.2.8 Beta - 16 march 2014
+- New languages and subtitles
+- Linux 32bits support
+- Yts API
+
+## 0.2.9 Beta - 15 april 2014
+- Updater in-app
+- New website
+- Bump to working tree src/app
+- Use Marionnette
+- Speed up API requests
+- Use OpenSans
+- Loading screen
+
+## 0.3.0 Beta - 13 may 2014
+- New NSIS Windows installer
+- Rating stars
+- Trailers
+- Peers/Seeds view
+- Brand new UI
+- TV Series
+- Bookmarks
+- New languages
+- Keyboard shortcuts
+- More codec support
+- More settings
+- "About" tab
+
+## 0.3.1 Beta - 21 may 2014
+
+- Add methods to mark movie as watched
+- Added quality filter for movies
+- Added Advanced Settings with Connection, DHT, Tmp Folder options
+- Added a help view for keyboard shortcuts. Press `?`
+- Draggable subtitles. Move subtitles around the player.
+- Drag and drop subtitles on the player to load a custom SRT file
+- Rebuild TV Show API Endpoint with live data.
+- Subtitles encode fixes.
+- Copy stream URL to clipboard directly. Press `U`
+- Catch exception to prevent blocking on initDb
+- Return to Movie list after close movie
+- TV Show search keywords can be in any order
+- Faster app opening
+- Better subtitles results (search by filename)
+- Auto updater
+
+## 0.3.2 Beta - 12 june 2014
+
+- Code cleanup
+- Use official videojs
+- IMDb links
+- Support HDrip for old movies
+- Trakt.tv integration to scrobble watched
+- DMG app for MacOS
+- Keyboard navigation
+- Seen/Unseen icon
+- HD TV series
+- File selector for custom torrents
+
+## 0.3.3-dev - not out [WIP]
+
+- Move to self-hosted repo
+- Use FontAwesome instead of PNG's
+- Get rid of white flash at startup
+- Rethink Settings
+- Themes
+- HTTP Api
+- Trakt.tv synchronisation
+- New settings: 
+	- Always on Top option
+	- Start page option
+	- Rating on covers
+	- Fade watched items
+- Multiple UI improvements
+- External players (ex: VLC, XBMC)
+- Linux installer
