@@ -3,11 +3,11 @@
 
     var FavoriteBrowser = Backbone.Marionette.Layout.extend({
         template: '#browser-tpl',
-        className: 'movie-browser',
+        className: 'main-browser',
 
         regions: {
             FilterBar: '.filter-bar-region',
-            FavoriteList: '.movie-list-region'
+            FavoriteList: '.list-region'
         },
 
         initialize: function() {

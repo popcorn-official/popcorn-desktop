@@ -11,9 +11,10 @@
      */
     var ShowBrowser = Backbone.Marionette.Layout.extend({
         template: '#browser-tpl',
+        className: 'main-browser',
         regions: {
             FilterBar: '.filter-bar-region',
-            ShowList: '.movie-list-region'
+            ShowList: '.list-region'
         },
 
         initialize: function() {

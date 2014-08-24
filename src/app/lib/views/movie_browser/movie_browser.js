@@ -11,10 +11,10 @@
      */
     var MovieBrowser = Backbone.Marionette.Layout.extend({
         template: '#browser-tpl',
-        className: 'movie-browser',
+        className: 'main-browser',
         regions: {
             FilterBar: '.filter-bar-region',
-            MovieList: '.movie-list-region'
+            MovieList: '.list-region'
         },
 
         initialize: function() {
