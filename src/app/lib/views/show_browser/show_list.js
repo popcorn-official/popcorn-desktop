@@ -148,7 +148,7 @@
             var divsInLastRow, divsInRow, to_add;
             $('.ghost').remove();
             divsInRow = 0;
-            $('.shows .movie-item').each(function() {
+            $('.shows .item').each(function() {
                 if ($(this).prev().length > 0) {
                     if ($(this).position().top !== $(this).prev().position().top) {
                         return false;
@@ -158,13 +158,13 @@
                     divsInRow++;
                 }
             });
-            divsInLastRow = $('.shows .movie-item').length % divsInRow;
+            divsInLastRow = $('.shows .item').length % divsInRow;
             if (divsInLastRow === 0) {
-                divsInLastRow = -Math.abs(Math.round($('.shows').width() / $('.movie-item').outerWidth(true)) - divsInRow);
+                divsInLastRow = -Math.abs(Math.round($('.shows').width() / $('.item').outerWidth(true)) - divsInRow);
             }
             to_add = divsInRow - divsInLastRow;
             while (to_add > 0) {
-                $('.shows').append($('<li/>').addClass('movie-item ghost'));
+                $('.shows').append($('<li/>').addClass('item ghost'));
                 to_add--;
             }
             NUM_SHOWS_IN_ROW = divsInRow;
@@ -190,17 +190,17 @@
         selectItem: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            $('.movie-item.selected .cover').trigger('click');
+            $('.item.selected .cover').trigger('click');
         },
 
         selectIndex: function(index) {
-            if ($('.shows .movie-item').eq(index).length === 0 || $('.shows .movie-item').eq(index).children().length === 0) {
+            if ($('.shows .item').eq(index).length === 0 || $('.shows .item').eq(index).children().length === 0) {
                 return;
             }
-            $('.movie-item.selected').removeClass('selected');
-            $('.shows .movie-item').eq(index).addClass('selected');
+            $('.item.selected').removeClass('selected');
+            $('.shows .item').eq(index).addClass('selected');
 
-            var $movieEl = $('.movie-item.selected')[0];
+            var $movieEl = $('.item.selected')[0];
             if (!elementInViewport(this.$el, $movieEl)) {
                 $movieEl.scrollIntoView(false);
                 this.onScroll();
@@ -210,7 +210,7 @@
         moveUp: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var index = $('.movie-item.selected').index();
+            var index = $('.item.selected').index();
             if (index === -1) {
                 index = 0;
             } else {
@@ -225,7 +225,7 @@
         moveDown: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var index = $('.movie-item.selected').index();
+            var index = $('.item.selected').index();
             if (index === -1) {
                 index = 0;
             } else {
@@ -237,7 +237,7 @@
         moveLeft: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var index = $('.movie-item.selected').index();
+            var index = $('.item.selected').index();
             if (index === -1) {
                 index = 0;
             } else if (index === 0) {
@@ -251,7 +251,7 @@
         moveRight: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var index = $('.movie-item.selected').index();
+            var index = $('.item.selected').index();
             if (index === -1) {
                 index = 0;
             } else {
@@ -261,7 +261,7 @@
         },
 
         toggleSelectedFavourite: function(e) {
-            $('.movie-item.selected .actions-favorites').click();
+            $('.item.selected .actions-favorites').click();
         }
     });
 

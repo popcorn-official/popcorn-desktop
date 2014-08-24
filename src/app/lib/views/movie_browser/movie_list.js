@@ -153,7 +153,7 @@
             var divsInLastRow, divsInRow, to_add;
             $('.ghost').remove();
             divsInRow = 0;
-            $('.movies .movie-item').each(function() {
+            $('.movies .item').each(function() {
                 if ($(this).prev().length > 0) {
                     if ($(this).position().top !== $(this).prev().position().top) {
                         return false;
@@ -163,14 +163,14 @@
                     divsInRow++;
                 }
             });
-            divsInLastRow = $('.movies .movie-item').length % divsInRow;
+            divsInLastRow = $('.movies .item').length % divsInRow;
             if (divsInLastRow === 0) {
-                divsInLastRow = -Math.abs(Math.round($('.movies').width() / $('.movie-item').outerWidth(true)) - divsInRow);
+                divsInLastRow = -Math.abs(Math.round($('.movies').width() / $('.item').outerWidth(true)) - divsInRow);
             }
             NUM_MOVIES_IN_ROW = divsInRow;
             to_add = divsInRow - divsInLastRow;
             while (to_add > 0) {
-                $('.movies').append($('<li/>').addClass('movie-item ghost'));
+                $('.movies').append($('<li/>').addClass('item ghost'));
                 to_add--;
             }
         },
@@ -193,21 +193,21 @@
         },
 
         selectItem: function(e) {
-            if(e.type) {
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            $('.movie-item.selected .cover').trigger('click');
+            $('.item.selected .cover').trigger('click');
         },
 
         selectIndex: function(index) {
-            if ($('.movies .movie-item').eq(index).length === 0 || $('.movies .movie-item').eq(index).children().length === 0) {
+            if ($('.movies .item').eq(index).length === 0 || $('.movies .item').eq(index).children().length === 0) {
                 return;
             }
-            $('.movie-item.selected').removeClass('selected');
-            $('.movies .movie-item').eq(index).addClass('selected');
+            $('.item.selected').removeClass('selected');
+            $('.movies .item').eq(index).addClass('selected');
 
-            var $movieEl = $('.movie-item.selected')[0];
+            var $movieEl = $('.item.selected')[0];
             if (!elementInViewport(this.$el, $movieEl)) {
                 $movieEl.scrollIntoView(false);
                 this.onScroll();
@@ -215,11 +215,11 @@
         },
 
         moveUp: function(e) {
-            if(e.type) {
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            var index = $('.movie-item.selected').index();
+            var index = $('.item.selected').index();
             if (index === -1) {
                 index = 0;
             } else {
@@ -232,11 +232,11 @@
         },
 
         moveDown: function(e) {
-            if(e.type) {
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            var index = $('.movie-item.selected').index();
+            var index = $('.item.selected').index();
             if (index === -1) {
                 index = 0;
             } else {
@@ -246,11 +246,11 @@
         },
 
         moveLeft: function(e) {
-            if(e.type) {
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            var index = $('.movie-item.selected').index();
+            var index = $('.item.selected').index();
             if (index === -1) {
                 index = 0;
             } else if (index === 0) {
@@ -262,11 +262,11 @@
         },
 
         moveRight: function(e) {
-            if(e.type) {
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            var index = $('.movie-item.selected').index();
+            var index = $('.item.selected').index();
             if (index === -1) {
                 index = 0;
             } else {
@@ -276,11 +276,11 @@
         },
 
         toggleSelectedFavourite: function(e) {
-            $('.movie-item.selected .actions-favorites').click();
+            $('.item.selected .actions-favorites').click();
         },
 
         toggleSelectedWatched: function(e) {
-            $('.movie-item.selected .actions-watched').click();
+            $('.item.selected .actions-watched').click();
         },
     });
 

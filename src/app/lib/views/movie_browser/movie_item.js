@@ -7,13 +7,13 @@
     var resizeImage = App.Providers.Trakttv.resizeImage;
 
     var MovieItem = Backbone.Marionette.ItemView.extend({
-        template: '#movie-item-tpl',
+        template: '#item-tpl',
         modelEvents: {
             'change': 'render'
         },
 
         tagName: 'li',
-        className: 'movie-item',
+        className: 'item',
 
         ui: {
             coverImage: '.cover-image',
@@ -72,7 +72,7 @@
 
         hoverItem: function(e) {
             if (e.pageX !== prevX || e.pageY !== prevY) {
-                $('.movie-item.selected').removeClass('selected');
+                $('.item.selected').removeClass('selected');
                 $(this.el).addClass('selected');
                 prevX = e.pageX;
                 prevY = e.pageY;

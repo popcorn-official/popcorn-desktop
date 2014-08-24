@@ -13,7 +13,7 @@
         },
 
         tagName: 'li',
-        className: 'movie-item',
+        className: 'item',
 
         ui: {
             coverImage: '.cover-image',
@@ -67,7 +67,7 @@
 
         hoverItem: function(e) {
             if (e.pageX !== prevX || e.pageY !== prevY) {
-                $('.movie-item.selected').removeClass('selected');
+                $('.item.selected').removeClass('selected');
                 $(this.el).addClass('selected');
                 prevX = e.pageX;
                 prevY = e.pageY;

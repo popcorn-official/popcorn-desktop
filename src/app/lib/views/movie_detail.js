@@ -23,7 +23,7 @@
             'click .sub-dropdown': 'toggleDropdown',
             'click .sub-flag-icon': 'closeDropdown',
             'click .playerchoicemenu li a': 'selectPlayer',
-			'click .rating-container': 'switchRating'
+            'click .rating-container': 'switchRating'
         },
 
         initialize: function() {
@@ -38,14 +38,14 @@
 
             //If a child was removed from above this view
             App.vent.on('viewstack:pop', function() {
-                if(_.last(App.ViewStack) === _this.className){
+                if (_.last(App.ViewStack) === _this.className) {
                     _this.initKeyboardShortcuts();
                 }
             });
 
             //If a child was added above this view
             App.vent.on('viewstack:push', function() {
-                if(_.last(App.ViewStack) !== _this.className){
+                if (_.last(App.ViewStack) !== _this.className) {
                     _this.unbindKeyboardShortcuts();
                 }
             });
@@ -56,8 +56,6 @@
 
         onShow: function() {
             win.info('Show movie detail (' + this.model.get('imdb') + ')');
-            $('#header').css('opacity', '1');
-            $('.filter-bar').css('opacity', '1');
 
             App.Device.ChooserView('#player-chooser').render();
 
@@ -87,7 +85,7 @@
             var bgCache = new Image();
             bgCache.src = backgroundUrl;
             bgCache.onload = function() {
-                $('.backdrop').css('background-image', 'url(' + backgroundUrl + ')').fadeTo(500, 1);
+                $('.backdrop').css('background-image', 'url(' + backgroundUrl + ')').addClass('fadein');
                 bgCache = null;
             };
 
@@ -97,7 +95,6 @@
             coverCache.src = coverUrl;
             coverCache.onload = function() {
                 $('.mcover-image').attr('src', coverUrl).fadeTo(500, 1);
-
                 coverCache = null;
             };
 
@@ -108,17 +105,16 @@
                 this.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
             }
 
-			if (AdvSettings.get('ratingStars') === false) {
-				$('.star-container').addClass('hidden');
-				$('.number-container').removeClass('hidden');
-			}
-				
+            if (AdvSettings.get('ratingStars') === false) {
+                $('.star-container').addClass('hidden');
+                $('.number-container').removeClass('hidden');
+            }
+
             this.initKeyboardShortcuts();
         },
 
         onClose: function() {
-            $('#header').css('opacity', '0.97');
-            $('.filter-bar').css('opacity', '0.97');
+
             this.unbindKeyboardShortcuts();
         },
 
@@ -129,7 +125,7 @@
                 $('#watch-now').click();
             });
             Mousetrap.bind('q', this.toggleQuality);
-            Mousetrap.bind('f', function(){
+            Mousetrap.bind('f', function() {
                 $('.favourites-toggle').click();
             });
         },
@@ -141,17 +137,17 @@
             Mousetrap.unbind('f');
         },
 
-		switchRating: function() {
-			if ($('.number-container').hasClass('hidden')) {
-				$('.number-container').removeClass('hidden');
-				$('.star-container').addClass('hidden');
-				AdvSettings.set('ratingStars', false);
-			}else{
-				$('.number-container').addClass('hidden');
-				$('.star-container').removeClass('hidden');
-				AdvSettings.set('ratingStars', true);
-			}
-		},
+        switchRating: function() {
+            if ($('.number-container').hasClass('hidden')) {
+                $('.number-container').removeClass('hidden');
+                $('.star-container').addClass('hidden');
+                AdvSettings.set('ratingStars', false);
+            } else {
+                $('.number-container').addClass('hidden');
+                $('.star-container').removeClass('hidden');
+                AdvSettings.set('ratingStars', true);
+            }
+        },
 
         switchSubtitle: function(lang) {
             var subtitles = this.model.get('subtitle');
@@ -259,7 +255,7 @@
 
 
         toggleFavourite: function(e) {
-            if(e.type){
+            if (e.type) {
                 e.stopPropagation();
                 e.preventDefault();
             }
@@ -323,7 +319,7 @@
                 $('#switch-hd-off').trigger('click');
             }
 
-            if(e.type) {
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
