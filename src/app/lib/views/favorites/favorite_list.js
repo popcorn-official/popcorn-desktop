@@ -11,10 +11,10 @@
     });
 
     var FavoriteList = Backbone.Marionette.CompositeView.extend({
-        template: '#movie-list-tpl',
+        template: '#list-tpl',
 
         tagName: 'ul',
-        className: 'movie-list',
+        className: 'list',
 
         itemView: App.View.FavoriteItem,
         itemViewContainer: '.movies',
