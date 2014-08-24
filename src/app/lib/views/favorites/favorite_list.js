@@ -62,7 +62,7 @@
             var divsInLastRow, divsInRow, to_add;
             $('.ghost').remove();
             divsInRow = 0;
-            $('.bookmarks .bookmark-item').each(function() {
+            $('.bookmarks .item').each(function() {
                 if ($(this).prev().length > 0) {
                     if ($(this).position().top !== $(this).prev().position().top) {
                         return false;
@@ -72,15 +72,15 @@
                     divsInRow++;
                 }
             });
-            divsInLastRow = $('.bookmarks .bookmark-item').length % divsInRow;
+            divsInLastRow = $('.bookmarks .item').length % divsInRow;
             if (divsInLastRow === 0) {
 
-                divsInLastRow = -Math.abs(Math.round($('.bookmarks').width() / $('.bookmark-item').outerWidth(true)) - divsInRow);
+                divsInLastRow = -Math.abs(Math.round($('.bookmarks').width() / $('.item').outerWidth(true)) - divsInRow);
 
             }
             to_add = divsInRow - divsInLastRow;
             while (to_add > 0) {
-                $('.bookmarks').append($('<li/>').addClass('bookmark-item ghost'));
+                $('.bookmarks').append($('<li/>').addClass('item ghost'));
                 to_add--;
             }
         },

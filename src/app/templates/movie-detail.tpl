@@ -19,11 +19,11 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 		<div class="title"><%= title %></div>
 
 		<div class="metadatas">
-			<div class="item"><%= year %></div>
+			<div class="metaitem"><%= year %></div>
 			<div class="dot"></div>
-			<div class="item"><%= runtime %> min</div>
+			<div class="metaitem"><%= runtime %> min</div>
 			<div class="dot"></div>
-			<div class="item"><%= i18n.__(genre) %></div>
+			<div class="metaitem"><%= i18n.__(genre) %></div>
 			<div class="dot"></div>
 			<div data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Open IMDb page") %>" class="movie-imdb-link"></div>
 			<div class="dot"></div>

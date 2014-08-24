@@ -10,7 +10,7 @@
         template: '#item-tpl',
 
         tagName: 'li',
-        className: 'bookmark-item',
+        className: 'item',
 
         ui: {
             coverImage: '.cover-image',
