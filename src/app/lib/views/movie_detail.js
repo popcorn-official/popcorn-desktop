@@ -94,7 +94,7 @@
             var coverCache = new Image();
             coverCache.src = coverUrl;
             coverCache.onload = function() {
-                $('.mcover-image').attr('src', coverUrl).fadeTo(500, 1);
+                $('.mcover-image').attr('src', coverUrl).addClass('fadein');
                 coverCache = null;
             };
 

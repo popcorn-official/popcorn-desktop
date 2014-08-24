@@ -24,8 +24,9 @@
 		opacity: 0
 		background-repeat: no-repeat
 		background-size: cover
-	&.fadein
-		opacity: 1
+		&.fadein
+			transition: opacity .5s ease;
+			opacity: 1
 
 	.poster-box
 		height: 75vh
@@ -44,6 +45,10 @@
 			background-color $BgColor1
 			opacity 0
 			backface-visibility: hidden
+
+			&.fadein
+				transition: opacity .5s ease;
+				opacity: 1
 
 	.content-box
 		height: 75vh
