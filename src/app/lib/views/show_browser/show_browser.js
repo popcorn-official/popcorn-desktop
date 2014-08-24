@@ -10,11 +10,10 @@
      *  * Start playing a movie
      */
     var ShowBrowser = Backbone.Marionette.Layout.extend({
-        template: '#show-browser-tpl',
-        className: 'show-browser',
+        template: '#movie-browser-tpl',
         regions: {
             FilterBar: '.filter-bar-region',
-            ShowList: '.show-list-region'
+            ShowList: '.movie-list-region'
         },
 
         initialize: function() {
@@ -58,7 +57,7 @@
             }));
         },
 
-        focusSearch: function (e){
+        focusSearch: function(e) {
             this.bar.focusSearch();
         }
     });

@@ -11,13 +11,13 @@
     });
 
     var FavoriteList = Backbone.Marionette.CompositeView.extend({
-        template: '#favorite-list-tpl',
+        template: '#movie-list-tpl',
 
         tagName: 'ul',
-        className: 'favorite-list',
+        className: 'movie-list',
 
         itemView: App.View.FavoriteItem,
-        itemViewContainer: '.bookmarks',
+        itemViewContainer: '.movies',
 
         events: {
             'scroll': 'onScroll',
@@ -62,7 +62,7 @@
             var divsInLastRow, divsInRow, to_add;
             $('.ghost').remove();
             divsInRow = 0;
-            $('.bookmarks .item').each(function() {
+            $('.movies .item').each(function() {
                 if ($(this).prev().length > 0) {
                     if ($(this).position().top !== $(this).prev().position().top) {
                         return false;
@@ -72,15 +72,15 @@
                     divsInRow++;
                 }
             });
-            divsInLastRow = $('.bookmarks .item').length % divsInRow;
+            divsInLastRow = $('.movies .item').length % divsInRow;
             if (divsInLastRow === 0) {
 
-                divsInLastRow = -Math.abs(Math.round($('.bookmarks').width() / $('.item').outerWidth(true)) - divsInRow);
+                divsInLastRow = -Math.abs(Math.round($('.movies').width() / $('.item').outerWidth(true)) - divsInRow);
 
             }
             to_add = divsInRow - divsInLastRow;
             while (to_add > 0) {
-                $('.bookmarks').append($('<li/>').addClass('item ghost'));
+                $('.movies').append($('<li/>').addClass('item ghost'));
                 to_add--;
             }
         },

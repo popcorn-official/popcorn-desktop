@@ -2,12 +2,12 @@
     'use strict';
 
     var FavoriteBrowser = Backbone.Marionette.Layout.extend({
-        template: '#favorite-browser-tpl',
-        className: 'favorite-browser',
+        template: '#movie-browser-tpl',
+        className: 'movie-browser',
 
         regions: {
             FilterBar: '.filter-bar-region',
-            FavoriteList: '.favorite-list-region'
+            FavoriteList: '.movie-list-region'
         },
 
         initialize: function() {
