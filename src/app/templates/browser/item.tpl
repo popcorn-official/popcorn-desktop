@@ -3,6 +3,11 @@
 	{
 		var image = images.poster;
 	} 
+
+	if(typeof rating.percentage !== 'undefined'){
+		var rating = rating.percentage /10;
+	}
+	
 %>
 
 	<img class="cover-image" src="<%= image %>" style="display: none">
