@@ -131,15 +131,15 @@
 				<div class="dropdown movies-quality">
 					<p><%= i18n.__("Only list movies in") %>:</p>
 					<select name="movies_quality">
-						<option <%=(Settings.items_quality == "all"? "selected='selected'":"") %> value="all"><%= i18n.__("All") %></option>
-						<option <%=(Settings.items_quality == "1080p"? "selected='selected'":"") %> value="1080p">1080p</option>
-						<option <%=(Settings.items_quality == "720p"? "selected='selected'":"") %> value="720p">720p</option>
+						<option <%=(Settings.movies_quality == "all"? "selected='selected'":"") %> value="all"><%= i18n.__("All") %></option>
+						<option <%=(Settings.movies_quality == "1080p"? "selected='selected'":"") %> value="1080p">1080p</option>
+						<option <%=(Settings.movies_quality == "720p"? "selected='selected'":"") %> value="720p">720p</option>
 					</select>
 					<div class="dropdown-arrow"></div>
 				</div>
 			</span>
 			<span>
-				<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.itemsShowQuality? "checked='checked'":"")%>>
+				<input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
 				<label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
 			</span>
 		</div>

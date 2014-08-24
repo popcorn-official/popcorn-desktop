@@ -18,7 +18,7 @@
 
 			
 			<% if(typeof rating !== 'undefined'){ 
-	var p_rating = Math.round(rating) / 2;     %>
+				var p_rating = Math.round(rating) / 2;  %>
 				<div class="rating" <% if(Settings.coversShowRating){ %> style="display: block;"<% } %> >
 					<div class="rating-stars">
 					   <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
@@ -47,7 +47,7 @@
 	<p class="seasons"><%= num_seasons %> <%= num_seasons == 1 ? i18n.__("Season") : i18n.__("Seasons") %></p>
 
 	<%}else{ %>
-		<p id="movie_quality" class="seasons quality" <% if(Settings.itemsShowQuality){ %> style="display: block;" <% } %> >
+		<p id="movie_quality" class="seasons quality" <% if(Settings.moviesShowQuality){ %> style="display: block;" <% } %> >
 		<% q720 = torrents["720p"] !== undefined; q1080 = torrents["1080p"] !== undefined;
 		if (q720 && q1080) { %>720p/1080p<% } else if (q1080) { %>1080p<% } else if (q720) { %>720p<% } else { %>HDRip<% } %>
 		</p>
