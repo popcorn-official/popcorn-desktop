@@ -60,7 +60,6 @@
 
         showCover: function() {
             this.ui.cover.css('background-image', 'url(' + this.model.get('images').poster + ')').addClass('fadein');
-
             this.ui.coverImage.remove();
         },
 

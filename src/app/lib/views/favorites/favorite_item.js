@@ -54,7 +54,6 @@
 
         showCover: function() {
             this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')').addClass('fadein');
-            this.ui.cover.css('opacity', '1');
             this.ui.coverImage.remove();
         },
 
