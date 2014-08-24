@@ -413,6 +413,7 @@
             var v = this.player.volume();
             this.player.volume(v + i);
             this.displayOverlayMsg(i18n.__('Volume') + ': ' + this.player.volume().toFixed(1) * 100 + '%');
+            App.vent.trigger('volumechange');
         },
 
         toggleMute: function() {

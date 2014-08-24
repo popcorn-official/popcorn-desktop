@@ -165,6 +165,42 @@
 		server.expose('setsubtitle', function(args, opt, callback){
 			App.MovieDetailView.switchSubtitle(args[0]);
 		});
+
+		server.expose('listennotifications', function(args, opt, callback){
+			var timeout;
+			var startTime = (new Date()).getTime();
+			var events = {};
+
+			var emitEvents = function(){
+				callback(false, events);
+			}
+
+			//Do a small delay before sending data in case there are more simultaneous events
+			var reinitTimeout = function(){
+				//Only do a delay if the request won't time out in the meantime
+				if(startTime + 8000 - (new Date()).getTime() > 250){
+					if(timeout){
+						clearTimeout(timeout);
+					}
+					timeout = setTimeout(emitEvents, 200);
+				}
+			}
+
+			//Listen for volume change
+			App.vent.on('volumechange', function(){
+				events['volumechange'] = App.PlayerView.player.volume();
+				reinitTimeout();
+			});
+
+			//Listen for view stack change
+			var emitViewChange = function(){
+				events['viewstack'] = App.ViewStack;
+				reinitTimeout();
+			}
+
+			App.vent.on('viewstack:push', emitViewChange);
+			App.vent.on('viewstack:pop', emitViewChange);
+		});
 	};
 
 	var sockets = [];
