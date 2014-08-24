@@ -384,7 +384,7 @@ var health_checked = false;
             var tvdbid = $('.startStreaming').attr('data-episodeid'),
                 torrent = $('.template-' + tvdbid + ' .q720').text();
             $('.startStreaming').attr('data-torrent', torrent);
-            $('.startStreaming').attr('data-quality', '720P');
+            $('.startStreaming').attr('data-quality', '720p');
             _this.resetHealth();
             win.debug(torrent);
         },
@@ -394,7 +394,7 @@ var health_checked = false;
             var tvdbid = $('.startStreaming').attr('data-episodeid'),
                 torrent = $('.template-' + tvdbid + ' .q480').text();
             $('.startStreaming').attr('data-torrent', torrent);
-            $('.startStreaming').attr('data-quality', '480P');
+            $('.startStreaming').attr('data-quality', '480p');
             _this.resetHealth();
             win.debug(torrent);
         },
