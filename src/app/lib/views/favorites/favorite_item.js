@@ -7,7 +7,7 @@
     var resizeImage = App.Providers.Trakttv.resizeImage;
 
     var FavoriteItem = Backbone.Marionette.ItemView.extend({
-        template: '#favorite-item-tpl',
+        template: '#item-tpl',
 
         tagName: 'li',
         className: 'bookmark-item',
