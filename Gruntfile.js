@@ -44,6 +44,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('build', [
 		'css',
 		'injectgit',
+		'bower_clean',
 		'nodewebkit'
 	]);
 
