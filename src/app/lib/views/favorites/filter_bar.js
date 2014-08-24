@@ -6,5 +6,4 @@
 		type: 'favorites',
 	});
 
-
 })(window.App);
