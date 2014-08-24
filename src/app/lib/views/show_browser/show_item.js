@@ -7,7 +7,7 @@
     var resizeImage = App.Providers.Trakttv.resizeImage;
 
     var ShowItem = Backbone.Marionette.ItemView.extend({
-        template: '#show-item-tpl',
+        template: '#item-tpl',
         modelEvents: {
             'change': 'render'
         },
@@ -18,7 +18,8 @@
         ui: {
             coverImage: '.cover-image',
             cover: '.cover',
-            bookmarkIcon: '.actions-favorites'
+            bookmarkIcon: '.actions-favorites',
+            watchedIcon: '.actions-watched'
         },
 
         events: {
@@ -38,6 +39,7 @@
             this.blocked = false;
             var bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
             this.model.set('bookmarked', bookmarked);
+            this.ui.watchedIcon.hide();
         },
 
         onRender: function() {
