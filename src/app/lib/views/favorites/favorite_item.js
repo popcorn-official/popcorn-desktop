@@ -163,8 +163,8 @@
                     opacity: 0
                 }, 500, function() {
                     $(this).remove();
-                    $('.bookmarks').append($('<li/>').addClass('bookmark-item ghost'));
-                    if ($('.bookmarks li').length === 0) {
+                    $('.movies').append($('<li/>').addClass('item ghost'));
+                    if ($('.movies li').length === 0) {
                         App.vent.trigger('movies:list', []);
                     }
                 });
