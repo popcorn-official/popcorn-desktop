@@ -148,7 +148,7 @@
             var divsInLastRow, divsInRow, to_add;
             $('.ghost').remove();
             divsInRow = 0;
-            $('.shows .item').each(function() {
+            $('.movies .item').each(function() {
                 if ($(this).prev().length > 0) {
                     if ($(this).position().top !== $(this).prev().position().top) {
                         return false;
@@ -158,13 +158,13 @@
                     divsInRow++;
                 }
             });
-            divsInLastRow = $('.shows .item').length % divsInRow;
+            divsInLastRow = $('.movies .item').length % divsInRow;
             if (divsInLastRow === 0) {
-                divsInLastRow = -Math.abs(Math.round($('.shows').width() / $('.item').outerWidth(true)) - divsInRow);
+                divsInLastRow = -Math.abs(Math.round($('.movies').width() / $('.item').outerWidth(true)) - divsInRow);
             }
             to_add = divsInRow - divsInLastRow;
             while (to_add > 0) {
-                $('.shows').append($('<li/>').addClass('item ghost'));
+                $('.movies').append($('<li/>').addClass('item ghost'));
                 to_add--;
             }
             NUM_SHOWS_IN_ROW = divsInRow;

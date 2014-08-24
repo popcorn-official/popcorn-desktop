@@ -161,12 +161,16 @@
             e.preventDefault();
             App.vent.trigger('about:close');
             App.vent.trigger('shows:list', []);
+            $('.source').removeClass('active');
+            $('.source.showShows').addClass('active');
         },
 
         showMovies: function(e) {
             e.preventDefault();
             App.vent.trigger('about:close');
             App.vent.trigger('movies:list', []);
+            $('.source').removeClass('active');
+            $('.source.showMovies').addClass('active');
         },
 
         showFavorites: function(e) {
@@ -183,7 +187,7 @@
     });
 
     App.View.FilterBarMovie = App.View.FilterBar.extend({
-        template: '#filter-bar-movie-tpl',
+        template: '#filter-bar-tpl',
         type: 'movies',
     });
 
