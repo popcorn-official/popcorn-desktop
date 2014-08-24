@@ -26,13 +26,13 @@
     });
 
     var ShowList = Backbone.Marionette.CompositeView.extend({
-        template: '#show-list-tpl',
+        template: '#movie-list-tpl',
 
         tagName: 'ul',
-        className: 'show-list',
+        className: 'movie-list',
 
         itemView: App.View.ShowItem,
-        itemViewContainer: '.shows',
+        itemViewContainer: '.movies',
 
         events: {
             'scroll': 'onScroll',
