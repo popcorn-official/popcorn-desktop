@@ -27,16 +27,19 @@ module.exports = function(grunt) {
 	var currentVersion = pkgJson.version;
 
 	require('load-grunt-tasks')(grunt);
+	grunt.loadNpmTasks('grunt-bower-clean');
 
 	grunt.registerTask('default', [
 		'stylus',
 		'jshint',
+		'bower_clean',
 		'injectgit'
 	]);
 
 	grunt.registerTask('css', [
 		'stylus'
 	]);
+
 
 	grunt.registerTask('build', [
 		'css',
@@ -52,6 +55,8 @@ module.exports = function(grunt) {
 		'exec:createLinuxInstall',
 		'compress' // win & linux
 	]);
+
+
 
 	grunt.registerTask('start', function() {
 		var start = parseBuildPlatforms();
@@ -69,13 +74,16 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('injectgit', function() {
-		if(grunt.file.exists('.git/')) {
+		if (grunt.file.exists('.git/')) {
 			var path = require('path');
 			var gitRef = grunt.file.read('.git/HEAD').split(':')[1].trim();
 			var gitBranch = path.basename(gitRef);
-			if(grunt.file.exists('.git/' + gitRef)) {
+			if (grunt.file.exists('.git/' + gitRef)) {
 				var currCommit = grunt.file.read('.git/' + gitRef).trim();
-				var git = {branch: gitBranch, commit: currCommit};
+				var git = {
+					branch: gitBranch,
+					commit: currCommit
+				};
 				grunt.file.write('.git.json', JSON.stringify(git, null, '  '));
 			}
 		}
