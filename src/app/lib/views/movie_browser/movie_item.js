@@ -8,9 +8,6 @@
 
     var MovieItem = Backbone.Marionette.ItemView.extend({
         template: '#item-tpl',
-        modelEvents: {
-            'change': 'render'
-        },
 
         tagName: 'li',
         className: 'item',
@@ -21,7 +18,9 @@
             bookmarkIcon: '.actions-favorites',
             watchedIcon: '.actions-watched'
         },
-
+        modelEvents: {
+            'change': 'render'
+        },
         events: {
             'click .actions-favorites': 'toggleFavorite',
             'click .actions-watched': 'toggleWatched',
@@ -42,28 +41,7 @@
         },
 
         onRender: function() {
-            var bookmarked = this.model.get('bookmarked');
-            var watched = this.model.get('watched');
-
-            if (bookmarked) {
-                this.ui.bookmarkIcon.addClass('selected');
-            } else {
-                this.ui.bookmarkIcon.removeClass('selected');
-            }
-
-            if (watched) {
-                this.ui.watchedIcon.addClass('selected');
-                if (Settings.fadeWatchedCovers) {
-                    this.$el.addClass('fadeCover');
-                }
-            } else {
-                this.ui.watchedIcon.removeClass('selected');
-                if (Settings.fadeWatchedCovers) {
-                    this.$el.removeClass('fadeCover');
-                }
-            }
             this.ui.coverImage.on('load', _.bind(this.showCover, this));
-            // this.showCover();
         },
 
         onClose: function() {
@@ -80,9 +58,21 @@
         },
 
         showCover: function() {
-
+            var bookmarked = this.model.get('bookmarked');
+            var watched = this.model.get('watched');
             this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')').addClass('fadein');
+
+            if (watched) {
+                this.ui.watchedIcon.addClass('selected');
+                if (Settings.fadeWatchedCovers) {
+                    this.$el.addClass('watched');
+                }
+            }
+            if (bookmarked) {
+                this.ui.bookmarkIcon.addClass('selected');
+            }
             this.ui.coverImage.remove();
+
         },
 
         showDetail: function(e) {
@@ -99,7 +89,11 @@
             e.stopPropagation();
             e.preventDefault();
             var that = this;
-            if (this.model.get('watched') === true) {
+            if (this.model.get('watched')) {
+                this.ui.watchedIcon.removeClass('selected');
+                if (Settings.fadeWatchedCovers) {
+                    this.$el.removeClass('watched');
+                }
                 Database.markMovieAsNotWatched({
                     imdb_id: this.model.get('imdb')
                 }, true, function(err, data) {
@@ -107,7 +101,10 @@
                     App.watchedMovies.splice(App.watchedMovies.indexOf(that.model.get('imdb')), 1);
                 });
             } else {
-
+                this.ui.watchedIcon.addClass('selected');
+                if (Settings.fadeWatchedCovers) {
+                    this.$el.addClass('watched');
+                }
                 Database.markMovieAsWatched({
                     imdb_id: this.model.get('imdb'),
                     from_browser: true
@@ -123,7 +120,8 @@
             e.stopPropagation();
             e.preventDefault();
             var that = this;
-            if (this.model.get('bookmarked') === true) {
+            if (this.model.get('bookmarked')) {
+                this.ui.bookmarkIcon.removeClass('selected');
                 Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
                     win.info('Bookmark deleted (' + that.model.get('imdb') + ')');
                     App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb')), 1);
@@ -134,7 +132,7 @@
                     });
                 });
             } else {
-
+                this.ui.bookmarkIcon.addClass('selected');
                 // we need to have this movie cached
                 // for bookmarking
                 var movie = {

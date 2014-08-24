@@ -4,6 +4,14 @@
 	float: left
 	width: 134px
 	font-size: 0.8em
+	&.watched
+		transition: opacity .50s ease
+		opacity: 0.4
+		
+		&.selected
+			opacity 1
+			transition opacity .25s ease
+
 
 	.cover
 		background-image url(../images/posterholder.png)
@@ -17,6 +25,7 @@
 		opacity: 0
 		&.fadein
 			opacity: 1
+
 
 		.cover-overlay
 			background $PosterHoverOverlay
