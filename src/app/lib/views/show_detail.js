@@ -31,12 +31,12 @@ var health_checked = false;
             'click #switch-hd-off': 'disableHD',
             'click .health-icon': 'getTorrentHealth',
             'click .playerchoicemenu li a': 'selectPlayer',
-			'click .rating-container-tv': 'switchRating'
+            'click .rating-container-tv': 'switchRating'
         },
 
         toggleFavorite: function(e) {
-            
-            if(e.type) {
+
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -90,14 +90,14 @@ var health_checked = false;
 
             //If a child was removed from above this view
             App.vent.on('viewstack:pop', function() {
-                if(_.last(App.ViewStack) === _this.className){
+                if (_.last(App.ViewStack) === _this.className) {
                     _this.initKeyboardShortcuts();
                 }
             });
 
             //If a child was added above this view
             App.vent.on('viewstack:push', function() {
-                if(_.last(App.ViewStack) !== _this.className){
+                if (_.last(App.ViewStack) !== _this.className) {
                     _this.unbindKeyboardShortcuts();
                 }
             });
@@ -170,7 +170,7 @@ var health_checked = false;
             coverCache.onload = function() {
                 $('.tv-cover')
                     .css('background-image', 'url(' + cbackground + ')')
-                    .css('opacity', '1');
+                    .addClass('fadein');
                 coverCache = null;
             };
 
@@ -180,7 +180,7 @@ var health_checked = false;
             bgCache.onload = function() {
                 $('.tv-poster-background')
                     .css('background-image', 'url(' + background + ')')
-                    .css('opacity', '1');
+                    .addClass('fadein');
                 bgCache = null;
             };
 
@@ -189,31 +189,31 @@ var health_checked = false;
             Database.getEpisodesWatched(this.model.get('tvdb_id'), function(err, data) {
                 _.each(data, _this.markWatched);
             });
-            
+
             _this.initKeyboardShortcuts();
 
-			if (AdvSettings.get('ratingStars') === false) {
-				$('.star-container-tv').addClass('hidden');
-				$('.number-container-tv').removeClass('hidden');
-			}
-			
+            if (AdvSettings.get('ratingStars') === false) {
+                $('.star-container-tv').addClass('hidden');
+                $('.number-container-tv').removeClass('hidden');
+            }
+
         },
 
         openIMDb: function() {
             gui.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
         },
 
-		switchRating: function() {
-			if ($('.number-container-tv').hasClass('hidden')) {
-				$('.number-container-tv').removeClass('hidden');
-				$('.star-container-tv').addClass('hidden');
-				AdvSettings.set('ratingStars', false);
-			}else{
-				$('.number-container-tv').addClass('hidden');
-				$('.star-container-tv').removeClass('hidden');
-				AdvSettings.set('ratingStars', true);
-			}
-		},
+        switchRating: function() {
+            if ($('.number-container-tv').hasClass('hidden')) {
+                $('.number-container-tv').removeClass('hidden');
+                $('.star-container-tv').addClass('hidden');
+                AdvSettings.set('ratingStars', false);
+            } else {
+                $('.number-container-tv').addClass('hidden');
+                $('.star-container-tv').removeClass('hidden');
+                AdvSettings.set('ratingStars', true);
+            }
+        },
 
         toggleWatched: function(e) {
             var edata = e.currentTarget.id.split('-');
@@ -245,8 +245,8 @@ var health_checked = false;
         },
 
         startStreaming: function(e) {
-            
-            if(e.type) {
+
+            if (e.type) {
                 e.preventDefault();
             }
             var that = this;
@@ -283,7 +283,7 @@ var health_checked = false;
         },
 
         closeDetails: function(e) {
-            if(e.type) {
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -292,7 +292,7 @@ var health_checked = false;
         },
 
         clickSeason: function(e) {
-            if(e.type) {
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -300,7 +300,7 @@ var health_checked = false;
         },
 
         clickEpisode: function(e) {
-            if(e.type) {
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -308,7 +308,7 @@ var health_checked = false;
         },
 
         dblclickEpisode: function(e) {
-            if(e.type) {
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -409,8 +409,8 @@ var health_checked = false;
             if (!_this.isElementVisible($nextEpisode[0])) {
                 $nextEpisode[0].scrollIntoView(false);
             }
-            
-            if(e.type) {
+
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -427,8 +427,8 @@ var health_checked = false;
             if (!_this.isElementVisible($prevEpisode[0])) {
                 $prevEpisode[0].scrollIntoView(true);
             }
-            
-            if(e.type) {
+
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -445,8 +445,8 @@ var health_checked = false;
             if (!_this.isElementVisible($nextSeason[0])) {
                 $nextSeason[0].scrollIntoView(false);
             }
-            
-            if(e.type) {
+
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -462,8 +462,8 @@ var health_checked = false;
             if (!_this.isElementVisible($prevSeason[0])) {
                 $prevSeason[0].scrollIntoView(true);
             }
-            
-            if(e.type) {
+
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -472,8 +472,8 @@ var health_checked = false;
 
         playEpisode: function(e) {
             $('.startStreaming').trigger('click');
-            
-            if(e.type) {
+
+            if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }

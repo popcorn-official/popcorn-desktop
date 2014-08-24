@@ -29,6 +29,9 @@
 		transition: opacity .50s ease
 		opacity 0
 		background-color $ShowBgColor1
+		&.fadein
+			transition: opacity .5s ease;
+			opacity: 1
 
 	.tv-poster-background
 		position absolute
@@ -40,6 +43,9 @@
 		opacity 0
 		transition: opacity .50s ease
 		background-size cover
+		&.fadein
+			transition: opacity .5s ease;
+			opacity: 1
 
 		.tv-poster-overlay
 			position absolute
