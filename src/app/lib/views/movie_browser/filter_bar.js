@@ -21,11 +21,11 @@
             'click  @ui.search': 'focusSearch',
             'click .sorters .dropdown-menu a': 'sortBy',
             'click .genres .dropdown-menu a': 'changeGenre',
-            'click .settings': 'settings',
-            'click .about': 'about',
+            'click #filterbar-settings': 'settings',
+            'click #filterbar-about': 'about',
             'click .showMovies': 'showMovies',
             'click .showShows': 'showShows',
-            'click .favorites': 'showFavorites',
+            'click #filterbar-favorites': 'showFavorites',
             'click .triggerUpdate': 'updateDB'
         },
 
@@ -161,7 +161,7 @@
             App.vent.trigger('about:close');
             App.vent.trigger('shows:list', []);
             currentview = 'shows';
-            $('.source').removeClass('active');
+            $('.filter-bar').find('.active').removeClass('active');
             $('.source.showShows').addClass('active');
         },
 
@@ -169,7 +169,7 @@
             e.preventDefault();
             App.vent.trigger('about:close');
             App.vent.trigger('movies:list', []);
-            $('.source').removeClass('active');
+            $('.filter-bar').find('.active').removeClass('active');
             $('.source.showMovies').addClass('active');
             currentview = 'movies';
         },
@@ -181,8 +181,9 @@
                 currentview = 'favorites';
                 App.vent.trigger('about:close');
                 App.vent.trigger('favorites:list', []);
-                $('.source').removeClass('active');
-                $('.fa.fa-heart.favorites').addClass('active');
+                $('.filter-bar').find('.active').removeClass('active');
+                $('#filterbar-favorites').addClass('active');
+
             } else {
 
                 if ($('#movie-detail').html().length === 0 && $('#about-container').html().length === 0) {
@@ -191,8 +192,6 @@
                 } else {
                     App.vent.trigger('about:close');
                     App.vent.trigger('favorites:list', []);
-                    $('.source').removeClass('active');
-                    $('.fa.fa-heart.favorites').addClass('active');
                 }
 
             }

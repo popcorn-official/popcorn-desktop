@@ -38,7 +38,7 @@
 						<input id="searchbox" type="text" placeholder="<%= i18n.__("Search") %>"></form>
 				</div>
 			</li>
-			<li><i class="fa fa-heart favorites"></i></li>
-			<li><i class="fa fa-info-circle about"></i></li>
-			<li><i class="fa fa-cog settings"></i></li>
+			<li><i id="filterbar-favorites" class="fa fa-heart favorites"></i></li>
+			<li><i id="filterbar-about" class="fa fa-info-circle about"></i></li>
+			<li><i id="filterbar-settings" class="fa fa-cog settings"></i></li>
 		</ul>
