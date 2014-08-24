@@ -163,8 +163,8 @@
                     opacity: 0
                 }, 500, function() {
                     $(this).remove();
-                    $('.movies').append($('<li/>').addClass('item ghost'));
-                    if ($('.movies li').length === 0) {
+                    $('.items').append($('<li/>').addClass('item ghost'));
+                    if ($('.items li').length === 0) {
                         App.vent.trigger('movies:list', []);
                     }
                 });

@@ -32,7 +32,7 @@
         className: 'list',
 
         itemView: App.View.ShowItem,
-        itemViewContainer: '.movies',
+        itemViewContainer: '.items',
 
         events: {
             'scroll': 'onScroll',
@@ -148,7 +148,7 @@
             var divsInLastRow, divsInRow, to_add;
             $('.ghost').remove();
             divsInRow = 0;
-            $('.movies .item').each(function() {
+            $('.items .item').each(function() {
                 if ($(this).prev().length > 0) {
                     if ($(this).position().top !== $(this).prev().position().top) {
                         return false;
@@ -158,13 +158,13 @@
                     divsInRow++;
                 }
             });
-            divsInLastRow = $('.movies .item').length % divsInRow;
+            divsInLastRow = $('.items .item').length % divsInRow;
             if (divsInLastRow === 0) {
-                divsInLastRow = -Math.abs(Math.round($('.movies').width() / $('.item').outerWidth(true)) - divsInRow);
+                divsInLastRow = -Math.abs(Math.round($('.items').width() / $('.item').outerWidth(true)) - divsInRow);
             }
             to_add = divsInRow - divsInLastRow;
             while (to_add > 0) {
-                $('.movies').append($('<li/>').addClass('item ghost'));
+                $('.items').append($('<li/>').addClass('item ghost'));
                 to_add--;
             }
             NUM_SHOWS_IN_ROW = divsInRow;

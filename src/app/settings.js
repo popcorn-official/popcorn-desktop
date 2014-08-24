@@ -18,8 +18,8 @@ Settings.ratingStars = true; //trigger on click in details
 Settings.start_screen = 'Movies';
 
 // Movies
-Settings.moviesShowQuality = false;
-Settings.movies_quality = 'all';
+Settings.itemsShowQuality = false;
+Settings.items_quality = 'all';
 
 // Subtitles
 Settings.subtitle_language = 'none';

@@ -42,7 +42,7 @@
 	<p class="seasons"><%= num_seasons %> <%= num_seasons == 1 ? i18n.__("Season") : i18n.__("Seasons") %></p>
 
 	<%}else{ %>
-		<p id="movie_quality" class="seasons quality" <% if(Settings.moviesShowQuality){ %> style="display: block;" <% } %> >
+		<p id="movie_quality" class="seasons quality" <% if(Settings.itemsShowQuality){ %> style="display: block;" <% } %> >
 		<% q720 = torrents["720p"] !== undefined; q1080 = torrents["1080p"] !== undefined;
 		if (q720 && q1080) { %>720p/1080p<% } else if (q1080) { %>1080p<% } else if (q720) { %>720p<% } else { %>HDRip<% } %>
 		</p>
