@@ -10,7 +10,7 @@
      *  * Start playing a movie
      */
     var ShowBrowser = Backbone.Marionette.Layout.extend({
-        template: '#movie-browser-tpl',
+        template: '#browser-tpl',
         regions: {
             FilterBar: '.filter-bar-region',
             ShowList: '.movie-list-region'
