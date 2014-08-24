@@ -60,7 +60,7 @@
 
         hoverItem: function(e) {
             if (e.pageX !== prevX || e.pageY !== prevY) {
-                $('.bookmark-item.selected').removeClass('selected');
+                $('.item.selected').removeClass('selected');
                 $(this.el).addClass('selected');
                 prevX = e.pageX;
                 prevY = e.pageY;
