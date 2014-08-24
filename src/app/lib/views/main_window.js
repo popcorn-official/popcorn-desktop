@@ -30,15 +30,15 @@
         initialize: function() {
             _this = this;
 
-            _.each(_this.regionManager._regions, function(element, index){
-                element.on('show', function(view){
-                    if(view.className){
+            _.each(_this.regionManager._regions, function(element, index) {
+                element.on('show', function(view) {
+                    if (view.className) {
                         App.ViewStack.push(view.className);
                     }
                     App.vent.trigger('viewstack:push', view.className);
                 });
 
-                element.on('close', function(view){
+                element.on('close', function(view) {
                     App.ViewStack.pop();
                     App.vent.trigger('viewstack:pop', view.className);
                 });
@@ -108,16 +108,16 @@
                 }
 
                 that.InitModal.close();
-				
-				if (AdvSettings.get('startScreen') === 'Favorites') {
-					that.showFavorites();
-				}else if (AdvSettings.get('startScreen') === 'TV Series') {
-					that.showShows();
-				}else{
-					that.showMovies();
-				}
-                
-				// Focus the window when the app opens
+
+                if (AdvSettings.get('startScreen') === 'Favorites') {
+                    that.showFavorites();
+                } else if (AdvSettings.get('startScreen') === 'TV Series') {
+                    that.showShows();
+                } else {
+                    that.showMovies();
+                }
+
+                // Focus the window when the app opens
                 that.nativeWindow.focus();
 
             });
@@ -127,11 +127,11 @@
                 policy.ignore();
             });
 
-            Mousetrap.bind('`', function(){
+            Mousetrap.bind('`', function() {
                 $('.favorites').click();
             });
 
-            Mousetrap.bind('i', function(){
+            Mousetrap.bind('i', function() {
                 $('.about').click();
             });
 

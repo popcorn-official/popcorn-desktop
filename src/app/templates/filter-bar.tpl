@@ -3,6 +3,8 @@
 			<li class="source showShows"><%= i18n.__("TV Series") %></li>
 		</ul>
 		<ul id="nav-filters" class="nav nav-hor filters">
+
+		<% if(typeof genre !== 'undefined'){ %>
 			<li class="dropdown filter genres">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					<%= i18n.__("Genre") %><span class="value"><%= i18n.__(genre.capitalizeEach()) %></span>
@@ -14,6 +16,7 @@
 					<% }); %>
 				</ul>
 			</li>
+			<%} if(typeof sorter !== 'undefined'){ %>
 			<li class="dropdown filter sorters">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					<%= i18n.__("Sort by") %><span class="value"><%= i18n.__(sorter.capitalizeEach()) %></span>
@@ -25,6 +28,7 @@
 					<% }); %>
 				</ul>
 			</li>
+			<%}%>
 		</ul>
 		<ul class="nav nav-hor right">
 			<li>

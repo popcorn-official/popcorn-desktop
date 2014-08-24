@@ -1,7 +1,7 @@
 (function(App) {
     'use strict';
     var clipboard = gui.Clipboard.get();
-
+    var currentview = 'movies';
     App.View.FilterBar = Backbone.Marionette.ItemView.extend({
         className: 'filter-bar',
         ui: {
@@ -10,7 +10,6 @@
             search: '.search',
             searchClose: '.remove-search',
             searchText: '.text-search',
-
             sorterValue: '.sorters .value',
             genreValue: '.genres  .value'
         },
@@ -161,6 +160,7 @@
             e.preventDefault();
             App.vent.trigger('about:close');
             App.vent.trigger('shows:list', []);
+            currentview = 'shows';
             $('.source').removeClass('active');
             $('.source.showShows').addClass('active');
         },
@@ -171,12 +171,31 @@
             App.vent.trigger('movies:list', []);
             $('.source').removeClass('active');
             $('.source.showMovies').addClass('active');
+            currentview = 'movies';
         },
 
         showFavorites: function(e) {
             e.preventDefault();
-            App.vent.trigger('about:close');
-            App.vent.trigger('favorites:list', []);
+
+            if (currentview !== 'favorites') {
+                currentview = 'favorites';
+                App.vent.trigger('about:close');
+                App.vent.trigger('favorites:list', []);
+                $('.source').removeClass('active');
+                $('.fa.fa-heart.favorites').addClass('active');
+            } else {
+
+                if ($('#movie-detail').html().length === 0 && $('#about-container').html().length === 0) {
+                    App.vent.trigger('movies:list', []);
+                    currentview = 'movies';
+                } else {
+                    App.vent.trigger('about:close');
+                    App.vent.trigger('favorites:list', []);
+                    $('.source').removeClass('active');
+                    $('.fa.fa-heart.favorites').addClass('active');
+                }
+
+            }
         },
 
         updateDB: function(e) {
