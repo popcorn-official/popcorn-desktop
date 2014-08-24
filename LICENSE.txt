@@ -647,7 +647,7 @@ an absolute waiver of all civil liability in connection with the
 Program, unless a warranty or assumption of liability accompanies a
 copy of the Program in return for a fee.
  
-END OF TERMS AND CONDITIONSwo
+END OF TERMS AND CONDITIONS
  
 The source code for any program binaries or compressed scripts that are
 included with Popcorn Time can be freely obtained at the following URL:
