@@ -16,6 +16,7 @@ Settings.postersMaxWidth = 295;
 Settings.postersMinFontSize = 0.8;
 Settings.postersMaxFontSize = 1.3;
 Settings.postersSizeRatio = (196 / 134);
+Settings.postersWidth = Settings.postersMinWidth;
 
 // Advanced UI
 Settings.alwaysOnTop = false;
