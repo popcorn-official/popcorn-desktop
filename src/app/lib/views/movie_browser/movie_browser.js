@@ -40,7 +40,7 @@
 
             this.FilterBar.show(this.bar);
 
-            this.MovieList.show(new App.View.MovieList({
+            this.MovieList.show(new App.View.List({
                 collection: this.movieCollection
             }));
         },
@@ -53,7 +53,7 @@
             // Fetch default category movie:
             this.movieCollection.fetch();
             App.vent.trigger('movie:closeDetail');
-            this.MovieList.show(new App.View.MovieList({
+            this.MovieList.show(new App.View.List({
                 collection: this.movieCollection
             }));
         },

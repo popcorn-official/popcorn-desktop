@@ -41,7 +41,7 @@
 
             this.FilterBar.show(this.bar);
 
-            this.ShowList.show(new App.View.ShowList({
+            this.ShowList.show(new App.View.List({
                 collection: this.showCollection
             }));
         },
@@ -53,7 +53,7 @@
             App.vent.trigger('show:closeDetail');
             this.showCollection.fetch();
 
-            this.ShowList.show(new App.View.ShowList({
+            this.ShowList.show(new App.View.List({
                 collection: this.showCollection
             }));
         },

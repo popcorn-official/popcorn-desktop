@@ -6,7 +6,7 @@
 
     var resizeImage = App.Providers.Trakttv.resizeImage;
 
-    var MovieItem = Backbone.Marionette.ItemView.extend({
+    var Item = Backbone.Marionette.ItemView.extend({
         template: '#item-tpl',
 
         tagName: 'li',
@@ -228,5 +228,5 @@
 
     });
 
-    App.View.MovieItem = MovieItem;
+    App.View.Item = Item;
 })(window.App);

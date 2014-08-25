@@ -25,13 +25,13 @@
         }
     });
 
-    var MovieList = Backbone.Marionette.CompositeView.extend({
+    var List = Backbone.Marionette.CompositeView.extend({
         template: '#list-tpl',
 
         tagName: 'ul',
         className: 'list',
 
-        itemView: App.View.MovieItem,
+        itemView: App.View.Item,
         itemViewContainer: '.items',
 
         events: {
@@ -284,5 +284,5 @@
         },
     });
 
-    App.View.MovieList = MovieList;
+    App.View.List = List;
 })(window.App);
