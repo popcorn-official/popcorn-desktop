@@ -23,7 +23,7 @@
         },
 
         events: {
-            'click .loading-cancel': 'cancelStreaming'
+            'click .button-cancel': 'cancelStreaming'
         },
 
         initialize: function() {

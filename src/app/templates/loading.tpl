@@ -20,6 +20,7 @@
 			<div class="value_download"></div>
 			<div class="download_percent"></div>
 		</div>
-		<div class="loading-cancel"><div class="loading-cancel-text"><%= i18n.__("Cancel") %></div></div>
+
+		<div class="loading-button button-cancel"><div class="loading-button-text"><%= i18n.__("Cancel") %></div></div>
 	</div>
 </div>

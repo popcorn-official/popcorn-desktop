@@ -3,167 +3,6 @@
   position: fixed;
   display: none;
 
-
-.loading
-    position: absolute
-    background-color: $BgColor1
-    -webkit-user-select: none
-    width 100%
-    height 100%
-    opacity 1
-    overflow hidden
-    margin auto
-    left 0
-    right 0
-    padding-top $TitleHeight
-    -webkit-backface-visibility hidden
-
-    .state
-        color #fff
-        font-family $MainFont
-        -webkit-font-smoothing antialiased
-        text-align center
-        width 40%
-        z-index 11
-        margin auto
-        left 0
-        right 0
-        -webkit-backface-visibility hidden
-
-        position: relative
-        top: calc(50% - 87.5px)
-
-        .value
-            color #fff
-            font-family $MainFont
-            -webkit-font-smoothing antialiased
-
-.text_peers
-    position relative
-    color #fff
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    float left
-    font-size 12px
-    margin-left 5px
-
-.value_peers
-    position relative
-    color #fff
-    font-size 12px
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    float left
-
-
-.value_download
-    display none
-    position relative
-    color #fff
-    font-size 12px
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    float left
-    margin-left 10px
-
-.download_speed
-    position relative
-    color #fff
-    font-size 12px
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    margin-left 5px
-    float left
-.loading-background
-    position: absolute
-    width: 100%
-    height: 100%
-    background-repeat no-repeat
-    background-position center
-    background-size cover
-
-.loading-background-overlay
-    width 100%
-    height 100%
-    position absolute
-    opacity .7
-    background-color #000
-
-.download_percent
-    position relative
-    color #fff
-    font-size 12px
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    float right
-
-.download_speed_plyer
-    position relative
-    color #fff
-    font-size 12px
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    margin-left 5px
-
-.upload_speed_plyer
-    position relative
-    color #fff
-    font-size 12px
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    margin-left 5px
-    
-.loading-cancel
-    top 60px
-    z-index 2
-    position absolute
-    cursor pointer
-    width 120px
-    height 35px
-    margin auto
-    left 0
-    right 0
-    -moz-border-radius 3px
-    -webkit-border-radius 3px
-    border-radius 3px
-    -moz-background-clip padding
-    -webkit-background-clip padding-box
-    background-clip padding-box
-    background-color $ButtonBg
-    -webkit-backface-visibility hidden
-    transition all .5s
-    
-    &:hover
-        background: $ButtonBgHover
-        text-decoration: none
-
-    &:active
-        box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-        background: $ButtonBgActive
-
-    .loading-cancel-text
-        -webkit-backface-visibility hidden
-        position relative
-        color #fff
-        font-family $MainFont, $Font, $AlternateFont
-        -webkit-font-smoothing antialiased
-        text-align center
-        top 12px
-        font-size 12px
-
-.loading-progressbar
-  position relative
-  margin-bottom 10px
-  margin-top 10px
-  background-color #bababa
-  border-radius 13px
-  //padding 3px
-  & > div
-    background-color $ButtonBgActive
-    height 5px
-    border-radius 13px
-    left 0px
-
 #player,
 .player
     width: 100%
@@ -198,7 +37,6 @@
           cursor: pointer
           color: #a3a5a7
 
-
     .quality-info-player
         position: absolute
         right: 95px;
@@ -220,7 +58,6 @@
           cursor: pointer
           color: #a3a5a7
           
-
     .eye-info-player:hover + .details-info-player
         display: block
 
@@ -236,7 +73,6 @@
         position: absolute
         right: 45px
         border-radius: 2px
-
 
     .details-info-player > span
         margin-bottom: 5px
@@ -266,7 +102,6 @@
   white-space nowrap
   text-overflow ellipsis
   padding-bottom 3px
-
 
 .vjs-quality-button
     color #fff
@@ -311,7 +146,6 @@
   top 65px
   left 5px
   /*text-align center*/
-
 
 /* overlay alignment styles */
 .vjs-overlay.vjs-overlay-top 
