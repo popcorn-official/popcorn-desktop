@@ -19,7 +19,7 @@
         },
 
         onShow: function() {
-            this.FilterBar.show(new App.View.FilterBarFavorite({}));
+            this.FilterBar.show(new App.View.FilterBar({}));
             this.FavoriteList.show(new App.View.List({
                 collection: this.favoriteCollection
             }));
