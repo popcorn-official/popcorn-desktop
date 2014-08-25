@@ -1,212 +1,229 @@
 (function(App) {
-    'use strict';
-    var clipboard = gui.Clipboard.get();
-    var currentview = 'movies';
-    App.View.FilterBar = Backbone.Marionette.ItemView.extend({
-        className: 'filter-bar',
-        ui: {
-            searchForm: '.search form',
-            searchInput: '.search input',
-            search: '.search',
-            searchClose: '.remove-search',
-            searchText: '.text-search',
-            sorterValue: '.sorters .value',
-            genreValue: '.genres  .value'
-        },
-        events: {
-            'hover  @ui.searchInput': 'focus',
-            'submit @ui.searchForm': 'search',
-            'contextmenu @ui.searchInput': 'rightclick_search',
-            'click  @ui.searchClose': 'removeSearch',
-            'click  @ui.search': 'focusSearch',
-            'click .sorters .dropdown-menu a': 'sortBy',
-            'click .genres .dropdown-menu a': 'changeGenre',
-            'click #filterbar-settings': 'settings',
-            'click #filterbar-about': 'about',
-            'click .showMovies': 'showMovies',
-            'click .showShows': 'showShows',
-            'click #filterbar-favorites': 'showFavorites',
-            'click .triggerUpdate': 'updateDB'
-        },
+	'use strict';
+	var clipboard = gui.Clipboard.get();
 
-        focus: function(e) {
-            e.focus();
-        },
-        rightclick_search: function(e) {
-            e.preventDefault();
-            var search_menu = new this.context_Menu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'));
-            search_menu.popup(e.originalEvent.x, e.originalEvent.y);
-        },
+	var currentview = AdvSettings.get('startScreen');
 
-        context_Menu: function(cutLabel, copyLabel, pasteLabel) {
-            var gui = require('nw.gui'),
-                menu = new gui.Menu(),
+	App.View.FilterBar = Backbone.Marionette.ItemView.extend({
+		className: 'filter-bar',
+		ui: {
+			searchForm: '.search form',
+			searchInput: '.search input',
+			search: '.search',
+			searchClose: '.remove-search',
+			searchText: '.text-search',
+			sorterValue: '.sorters .value',
+			genreValue: '.genres  .value'
+		},
+		events: {
+			'hover  @ui.searchInput': 'focus',
+			'submit @ui.searchForm': 'search',
+			'contextmenu @ui.searchInput': 'rightclick_search',
+			'click  @ui.searchClose': 'removeSearch',
+			'click  @ui.search': 'focusSearch',
+			'click .sorters .dropdown-menu a': 'sortBy',
+			'click .genres .dropdown-menu a': 'changeGenre',
+			'click #filterbar-settings': 'settings',
+			'click #filterbar-about': 'about',
+			'click .showMovies': 'showMovies',
+			'click .showShows': 'showShows',
+			'click #filterbar-favorites': 'showFavorites',
+			'click .triggerUpdate': 'updateDB'
+		},
 
-                cut = new gui.MenuItem({
-                    label: cutLabel || 'Cut',
-                    click: function() {
-                        document.execCommand('cut');
-                    }
-                }),
+		focus: function(e) {
+			e.focus();
+		},
+		setactive: function(set) {
+			$('.filter-bar').find('.active').removeClass('active');
+			switch (set) {
+				case 'TV Series':
+					$('.source.showShows').addClass('active');
+					break;
+				case 'Movies':
+					$('.source.showMovies').addClass('active');
+					break;
+				case 'Favorites':
+					$('#filterbar-favorites').addClass('active');
+					break;
+			}
+		},
+		rightclick_search: function(e) {
+			e.preventDefault();
+			var search_menu = new this.context_Menu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'));
+			search_menu.popup(e.originalEvent.x, e.originalEvent.y);
+		},
 
-                copy = new gui.MenuItem({
-                    label: copyLabel || 'Copy',
-                    click: function() {
-                        document.execCommand('copy');
-                    }
-                }),
+		context_Menu: function(cutLabel, copyLabel, pasteLabel) {
+			var gui = require('nw.gui'),
+				menu = new gui.Menu(),
 
-                paste = new gui.MenuItem({
-                    label: pasteLabel || 'Paste',
-                    click: function() {
-                        var text = clipboard.get('text');
-                        $('#searchbox').val(text);
-                    }
-                });
+				cut = new gui.MenuItem({
+					label: cutLabel || 'Cut',
+					click: function() {
+						document.execCommand('cut');
+					}
+				}),
 
-            menu.append(cut);
-            menu.append(copy);
-            menu.append(paste);
+				copy = new gui.MenuItem({
+					label: copyLabel || 'Copy',
+					click: function() {
+						document.execCommand('copy');
+					}
+				}),
 
-            return menu;
-        },
-        onShow: function() {
-            this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
-            this.$('.genres  .dropdown-menu a:nth(0)').addClass('active');
-        },
+				paste = new gui.MenuItem({
+					label: pasteLabel || 'Paste',
+					click: function() {
+						var text = clipboard.get('text');
+						$('#searchbox').val(text);
+					}
+				});
 
-        focusSearch: function() {
-            this.$('.search input').focus();
-        },
+			menu.append(cut);
+			menu.append(copy);
+			menu.append(paste);
 
-        search: function(e) {
-            App.vent.trigger('about:close');
-            App.vent.trigger('movie:closeDetail');
-            e.preventDefault();
-            var searchvalue = this.ui.searchInput.val();
-            this.model.set({
-                keywords: this.ui.searchInput.val(),
-                genre: ''
-            });
-            this.ui.search.blur();
+			return menu;
+		},
+		onShow: function() {
+			this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
+			this.$('.genres  .dropdown-menu a:nth(0)').addClass('active');
+			this.setactive(AdvSettings.get('startScreen'));
+			console.log(currentview);
+		},
 
-            if (searchvalue === '') {
-                this.ui.searchClose.hide('slow');
-                this.ui.searchText.text();
-            } else {
-                this.ui.searchClose.show();
-                this.ui.searchText.text(this.ui.searchInput.val());
-            }
-        },
-        removeSearch: function(e) {
-            App.vent.trigger('about:close');
-            App.vent.trigger('movie:closeDetail');
-            e.preventDefault();
-            this.model.set({
-                keywords: '',
-                genre: ''
-            });
+		focusSearch: function() {
+			this.$('.search input').focus();
+		},
 
-            this.ui.searchInput.val('');
-            this.ui.searchClose.hide('slow');
-            this.ui.searchText.text();
-        },
+		search: function(e) {
+			App.vent.trigger('about:close');
+			App.vent.trigger('movie:closeDetail');
+			e.preventDefault();
+			var searchvalue = this.ui.searchInput.val();
+			this.model.set({
+				keywords: this.ui.searchInput.val(),
+				genre: ''
+			});
+			this.ui.search.blur();
 
-        sortBy: function(e) {
-            App.vent.trigger('about:close');
-            this.$('.sorters .active').removeClass('active');
-            $(e.target).addClass('active');
+			if (searchvalue === '') {
+				this.ui.searchClose.hide('slow');
+				this.ui.searchText.text();
+			} else {
+				this.ui.searchClose.show();
+				this.ui.searchText.text(this.ui.searchInput.val());
+			}
+		},
+		removeSearch: function(e) {
+			App.vent.trigger('about:close');
+			App.vent.trigger('movie:closeDetail');
+			e.preventDefault();
+			this.model.set({
+				keywords: '',
+				genre: ''
+			});
 
-            var sorter = $(e.target).attr('data-value');
+			this.ui.searchInput.val('');
+			this.ui.searchClose.hide('slow');
+			this.ui.searchText.text();
+		},
 
-            if (this.previousSort === sorter) {
-                this.model.set('order', this.model.get('order') * -1);
-            } else {
-                this.model.set('order', -1);
-            }
-            this.ui.sorterValue.text(i18n.__(sorter.capitalizeEach()));
+		sortBy: function(e) {
+			App.vent.trigger('about:close');
+			this.$('.sorters .active').removeClass('active');
+			$(e.target).addClass('active');
 
-            this.model.set({
-                keyword: '',
-                sorter: sorter
-            });
-            this.previousSort = sorter;
-        },
+			var sorter = $(e.target).attr('data-value');
 
-        changeGenre: function(e) {
-            App.vent.trigger('about:close');
-            this.$('.genres .active').removeClass('active');
-            $(e.target).addClass('active');
+			if (this.previousSort === sorter) {
+				this.model.set('order', this.model.get('order') * -1);
+			} else {
+				this.model.set('order', -1);
+			}
+			this.ui.sorterValue.text(i18n.__(sorter.capitalizeEach()));
 
-            var genre = $(e.target).attr('data-value');
-            this.ui.genreValue.text(i18n.__(genre));
+			this.model.set({
+				keyword: '',
+				sorter: sorter
+			});
+			this.previousSort = sorter;
+		},
 
-            this.model.set({
-                keyword: '',
-                genre: genre
-            });
-        },
+		changeGenre: function(e) {
+			App.vent.trigger('about:close');
+			this.$('.genres .active').removeClass('active');
+			$(e.target).addClass('active');
 
-        settings: function(e) {
-            App.vent.trigger('about:close');
-            App.vent.trigger('settings:show');
-        },
+			var genre = $(e.target).attr('data-value');
+			this.ui.genreValue.text(i18n.__(genre));
 
-        about: function(e) {
-            App.vent.trigger('about:show');
-        },
+			this.model.set({
+				keyword: '',
+				genre: genre
+			});
+		},
 
-        showShows: function(e) {
-            e.preventDefault();
-            App.vent.trigger('about:close');
-            App.vent.trigger('shows:list', []);
-            currentview = 'shows';
-            $('.filter-bar').find('.active').removeClass('active');
-            $('.source.showShows').addClass('active');
-        },
+		settings: function(e) {
+			App.vent.trigger('about:close');
+			App.vent.trigger('settings:show');
+			currentview = 'Settings';
+		},
 
-        showMovies: function(e) {
-            e.preventDefault();
-            App.vent.trigger('about:close');
-            App.vent.trigger('movies:list', []);
-            $('.filter-bar').find('.active').removeClass('active');
-            $('.source.showMovies').addClass('active');
-            currentview = 'movies';
-        },
+		about: function(e) {
+			App.vent.trigger('about:show');
+			currentview = 'About';
+		},
 
-        showFavorites: function(e) {
-            e.preventDefault();
+		showShows: function(e) {
+			e.preventDefault();
+			App.vent.trigger('about:close');
+			App.vent.trigger('shows:list', []);
+			currentview = 'TV Series';
+			this.setactive('TV Series');
+		},
 
-            if (currentview !== 'favorites') {
-                currentview = 'favorites';
-                App.vent.trigger('about:close');
-                App.vent.trigger('favorites:list', []);
-                $('.filter-bar').find('.active').removeClass('active');
-                $('#filterbar-favorites').addClass('active');
+		showMovies: function(e) {
+			e.preventDefault();
+			App.vent.trigger('about:close');
+			App.vent.trigger('movies:list', []);
+			this.setactive('Movies');
+			currentview = 'Movies';
+		},
 
-            } else {
+		showFavorites: function(e) {
+			e.preventDefault();
 
-                if ($('#movie-detail').html().length === 0 && $('#about-container').html().length === 0) {
-                    App.vent.trigger('movies:list', []);
-                    currentview = 'movies';
-                } else {
-                    App.vent.trigger('about:close');
-                    App.vent.trigger('favorites:list', []);
-                }
+			if (currentview !== 'Favorites') {
+				currentview = 'Favorites';
+				App.vent.trigger('about:close');
+				App.vent.trigger('favorites:list', []);
+				this.setactive('Favorites');
 
-            }
-        },
+			} else {
 
-        updateDB: function(e) {
-            e.preventDefault();
-            console.log('Update Triggered');
-            App.vent.trigger(this.type + ':update', []);
-        },
-    });
+				if ($('#movie-detail').html().length === 0 && $('#about-container').html().length === 0) {
+					App.vent.trigger('movies:list', []);
+					currentview = 'movies';
+				} else {
+					App.vent.trigger('about:close');
+					App.vent.trigger('favorites:list', []);
+				}
 
-    App.View.FilterBarMovie = App.View.FilterBar.extend({
-        template: '#filter-bar-tpl',
-        type: 'movies',
-    });
+			}
+		},
+
+		updateDB: function(e) {
+			e.preventDefault();
+			console.log('Update Triggered');
+			App.vent.trigger(this.type + ':update', []);
+		},
+	});
+
+	App.View.FilterBarMovie = App.View.FilterBar.extend({
+		template: '#filter-bar-tpl',
+		type: 'movies',
+	});
 
 })(window.App);
