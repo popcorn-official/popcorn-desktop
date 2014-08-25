@@ -41,4 +41,3 @@
 
     App.View.About = About;
 })(window.App);
-

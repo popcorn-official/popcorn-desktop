@@ -6,7 +6,7 @@
 	<img class="icon-title" src="/src/app/images/icons/big-logo.png">
 	<div class="content">
 		<div class="title-version">
-			<%= App.settings.version %> Beta
+			<a href='https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse/CHANGELOG.md' data-toggle="tooltip" data-placement="top" title="Changelog" class='links'><%= App.settings.version %> Beta</a>
 			<% if(App.git) { %>
 				- <small><i><%= App.git.branch %> (<a class="links" href="https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/commits/<%= App.git.commit %>"><%= App.git.commit.slice(0,8) %></a>)</i></small>
 			<% } %>
