@@ -9,6 +9,7 @@ var
 Settings.language = 'en';
 Settings.coversShowRating = false;
 Settings.fadeWatchedCovers = true;
+Settings.hideWatchedCovers = true;
 Settings.showAdvancedSettings = false;
 
 // Advanced UI

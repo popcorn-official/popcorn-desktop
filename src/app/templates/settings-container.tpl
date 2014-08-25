@@ -76,7 +76,9 @@
 				
 			<span class="advanced">
 				<input class="settings-checkbox" name="fadeWatchedCovers" id="cbfade" type="checkbox" <%=(Settings.fadeWatchedCovers? "checked='checked'":"")%>>
-				<label class="settings-label" for="cbfade"><%= i18n.__("Fade watched items") %></label>
+				<label class="settings-label" for="cbfade"><%= i18n.__("Fade watched items") %></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input class="settings-checkbox" name="hideWatchedCovers" id="cbHide" type="checkbox" <%=(Settings.hideWatchedCovers? "checked='checked'":"")%>>
+				<label class="settings-label" for="cbHide"><%= i18n.__("Hide watched items") %></label>
 			</span>
 				
 			<span class="advanced">

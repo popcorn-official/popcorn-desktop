@@ -95,6 +95,9 @@
                         if (Settings.fadeWatchedCovers) {
                             this.$el.addClass('watched');
                         }
+						if (Settings.hideWatchedCovers) {
+							this.$el.remove();
+						}
                     }
                     if (this.model.get('bookmarked')) {
                         this.ui.bookmarkIcon.addClass('selected');

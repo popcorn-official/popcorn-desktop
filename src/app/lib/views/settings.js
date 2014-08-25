@@ -148,6 +148,7 @@
 				case 'deleteTmpOnClose':
 				case 'coversShowRating':
 				case 'fadeWatchedCovers':
+				case 'hideWatchedCovers':
 				case 'showAdvancedSettings':
 				case 'alwaysOnTop':
 					value = field.is(':checked');
