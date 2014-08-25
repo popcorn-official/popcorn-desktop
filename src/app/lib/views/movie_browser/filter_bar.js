@@ -250,9 +250,8 @@
 		},
 	});
 
-	App.View.FilterBarMovie = App.View.FilterBar.extend({
-		template: '#filter-bar-tpl',
-		type: 'movies',
+	App.View.FilterBar = App.View.FilterBar.extend({
+		template: '#filter-bar-tpl'
 	});
 
 })(window.App);

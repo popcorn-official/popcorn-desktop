@@ -34,7 +34,7 @@
         },
 
         onShow: function() {
-            this.bar = new App.View.FilterBarMovie({
+            this.bar = new App.View.FilterBar({
                 model: this.filter
             });
 

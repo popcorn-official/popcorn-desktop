@@ -35,7 +35,7 @@
 
         onShow: function() {
 
-            this.bar = new App.View.FilterBarShow({
+            this.bar = new App.View.FilterBar({
                 model: this.filter
             });
 
