@@ -50,15 +50,45 @@
         },
 
         getEmptyView: function() {
-            if (this.collection.state === 'error') {
-                return ErrorView.extend({
-                    error: i18n.__('Error loading data, try again later...')
-                });
-            } else {
-                return ErrorView.extend({
-                    error: i18n.__('No movies found...')
-                });
+
+            switch (currentview) {
+                case 'shows':
+                    if (this.collection.state === 'error') {
+                        return ErrorView.extend({
+                            error: i18n.__('Error loading data, try again later...')
+                        });
+                    } else {
+                        return ErrorView.extend({
+                            error: i18n.__('No shows found...')
+                        });
+                    }
+                    break;
+
+                case 'movies':
+                    if (this.collection.state === 'error') {
+                        return ErrorView.extend({
+                            error: i18n.__('Error loading data, try again later...')
+                        });
+                    } else {
+                        return ErrorView.extend({
+                            error: i18n.__('No movies found...')
+                        });
+                    }
+                    break;
+
+                case 'Favorites':
+                    if (this.collection.state === 'error') {
+                        return ErrorView.extend({
+                            error: i18n.__('Error, database is probably corrupted. Try flushing the bookmarks in settings.')
+                        });
+                    } else {
+                        return ErrorView.extend({
+                            error: i18n.__('No bookmarks found...')
+                        });
+                    }
+                    break;
             }
+
         },
 
         initialize: function() {

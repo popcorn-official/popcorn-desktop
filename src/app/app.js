@@ -31,6 +31,10 @@ var
 
     moment = require('moment');
 
+
+var currentview,
+    previousview;
+
 // Special Debug Console Calls!
 win.log = console.log.bind(console);
 win.debug = function() {
@@ -83,7 +87,7 @@ App.advsettings = AdvSettings;
 App.settings = Settings;
 
 fs.readFile('./.git.json', 'utf8', function(err, json) {
-    if(!err) {
+    if (!err) {
         App.git = JSON.parse(json);
     }
 });
@@ -188,7 +192,7 @@ Mousetrap.bind(['?', '/', '\''], function(e) {
     App.vent.trigger('help:toggle');
 });
 Mousetrap.bind('shift+up shift+up shift+down shift+down shift+left shift+right shift+left shift+right shift+b shift+a', function() {
-	$('body').addClass('knm');
+    $('body').addClass('knm');
 });
 if (process.platform === 'darwin') {
     Mousetrap.bind('command+ctrl+f', function(e) {

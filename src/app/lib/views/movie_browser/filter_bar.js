@@ -2,9 +2,6 @@
 	'use strict';
 	var clipboard = gui.Clipboard.get();
 
-	var currentview,
-		previousview;
-
 	App.View.FilterBar = Backbone.Marionette.ItemView.extend({
 		className: 'filter-bar',
 		ui: {
