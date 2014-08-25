@@ -109,5 +109,7 @@
 	- Rating on covers
 	- Fade watched items
 - Multiple UI improvements
-- External players (ex: VLC, XBMC)
+- External players (ex: VLC, XBMC, MPlayer, mpv, ...)
 - Linux installer
+- Chromecast support
+- Airplay support
