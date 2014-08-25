@@ -135,20 +135,17 @@
 				case 'subtitle_language':
 				case 'movies_quality':
 				case 'start_screen':
+				case 'watchedCovers':
+				case 'theme':
 					value = $('option:selected', field).val();
 					break;
 				case 'language':
 					value = $('option:selected', field).val();
 					i18n.setLocale(value);
 					break;
-				case 'theme':
-					value = $('option:selected', field).val();
-					break;
 				case 'moviesShowQuality':
 				case 'deleteTmpOnClose':
 				case 'coversShowRating':
-				case 'fadeWatchedCovers':
-				case 'hideWatchedCovers':
 				case 'showAdvancedSettings':
 				case 'alwaysOnTop':
 					value = field.is(':checked');

@@ -92,11 +92,13 @@
                     this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')').addClass('fadein');
                     if (this.model.get('watched')) {
                         this.ui.watchedIcon.addClass('selected');
-                        if (Settings.fadeWatchedCovers) {
-                            this.$el.addClass('watched');
-                        }
-						if (Settings.hideWatchedCovers) {
-							this.$el.remove();
+						switch (Settings.watchedCovers) {
+							case 'fade':
+								this.$el.addClass('watched');
+								break;
+							case 'hide':
+								this.$el.remove();
+								break;
 						}
                     }
                     if (this.model.get('bookmarked')) {
@@ -175,7 +177,7 @@
             var that = this;
             if (this.model.get('watched')) {
                 this.ui.watchedIcon.removeClass('selected');
-                if (Settings.fadeWatchedCovers) {
+                if (Settings.watchedCovers == 'fade') {
                     this.$el.removeClass('watched');
                 }
                 Database.markMovieAsNotWatched({
@@ -186,9 +188,14 @@
                 });
             } else {
                 this.ui.watchedIcon.addClass('selected');
-                if (Settings.fadeWatchedCovers) {
-                    this.$el.addClass('watched');
-                }
+				switch (Settings.watchedCovers) {
+					case 'fade':
+						this.$el.addClass('watched');
+						break;
+					case 'hide':
+						this.$el.remove();
+						break;
+				}
                 Database.markMovieAsWatched({
                     imdb_id: this.model.get('imdb_id'),
                     from_browser: true

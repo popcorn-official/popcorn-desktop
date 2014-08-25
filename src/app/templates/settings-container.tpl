@@ -75,10 +75,23 @@
 			</span>
 				
 			<span class="advanced">
-				<input class="settings-checkbox" name="fadeWatchedCovers" id="cbfade" type="checkbox" <%=(Settings.fadeWatchedCovers? "checked='checked'":"")%>>
-				<label class="settings-label" for="cbfade"><%= i18n.__("Fade watched items") %></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input class="settings-checkbox" name="hideWatchedCovers" id="cbHide" type="checkbox" <%=(Settings.hideWatchedCovers? "checked='checked'":"")%>>
-				<label class="settings-label" for="cbHide"><%= i18n.__("Hide watched items") %></label>
+				<div class="dropdown watchedCovers">
+					<p><%= i18n.__("Watched Movie") %>:</p>
+						<%
+							var watch_type = {
+								" "   :"----",
+								"fade":"Fade all Covers",
+								"hide":"Hide all Covers"
+							};
+
+							var select_watched_cover = "";
+							for(var key in watch_type) {
+								select_watched_cover += "<option "+(Settings.watchedCovers == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(watch_type[key])+"</option>";
+							}
+						%>
+					<select name="watchedCovers"><%=select_watched_cover%></select>
+					<div class="dropdown-arrow"></div>
+				</div>
 			</span>
 				
 			<span class="advanced">
