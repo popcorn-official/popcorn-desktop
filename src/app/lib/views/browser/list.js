@@ -140,19 +140,8 @@
             var self = this;
             this.checkEmpty();
 
-            $('#load-more-item').remove();
-            // we add a load more
-            if (this.collection.hasMore && !this.collection.filter.keywords && this.collection.state !== 'error') {
-                $('.items').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
+            this.addloadmore();
 
-                $('#load-more-item').click(function() {
-                    $('#load-more-item').off('click');
-                    self.collection.fetchMore();
-                });
-
-                $('#loading-more-animi').hide();
-                $('.status-loadmore').show();
-            }
             this.AddGhostsToBottomRow();
             $(window).resize(function() {
                 var addghost;
@@ -179,6 +168,34 @@
                 self.$('.items:first').focus();
             });
         },
+
+        addloadmore: function() {
+
+
+            switch (currentview) {
+                case 'movies':
+                case 'shows':
+                    $('#load-more-item').remove();
+                    // we add a load more
+                    if (this.collection.hasMore && !this.collection.filter.keywords && this.collection.state !== 'error') {
+                        $('.items').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
+
+                        $('#load-more-item').click(function() {
+                            $('#load-more-item').off('click');
+                            self.collection.fetchMore();
+                        });
+
+                        $('#loading-more-animi').hide();
+                        $('.status-loadmore').show();
+                    }
+                    break;
+
+                case 'Favorites':
+
+                    break;
+            }
+        },
+
         AddGhostsToBottomRow: function() {
             var divsInLastRow, divsInRow, to_add;
             $('.ghost').remove();
