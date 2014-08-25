@@ -106,6 +106,10 @@
 					case 'Movies':
 						currentview = 'movies';
 						break;
+					case 'Favorites':
+						currentview = 'Favorites';
+						previousview = 'movies';
+						break;
 					default:
 						currentview = 'movies';
 				}
