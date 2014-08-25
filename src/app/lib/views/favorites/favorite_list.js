@@ -16,7 +16,7 @@
         tagName: 'ul',
         className: 'list',
 
-        itemView: App.View.FavoriteItem,
+        itemView: App.View.Item,
         itemViewContainer: '.items',
 
         events: {
