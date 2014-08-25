@@ -51,7 +51,7 @@
 
         getEmptyView: function() {
 
-            switch (currentview) {
+            switch (App.currentview) {
                 case 'shows':
                     if (this.collection.state === 'error') {
                         return ErrorView.extend({
@@ -137,9 +137,8 @@
 
         onLoaded: function() {
             console.timeEnd('App startup time');
-            var self = this;
             this.checkEmpty();
-
+            var self = this;
             this.addloadmore();
 
             this.AddGhostsToBottomRow();
@@ -170,9 +169,9 @@
         },
 
         addloadmore: function() {
+            var self = this;
 
-
-            switch (currentview) {
+            switch (App.currentview) {
                 case 'movies':
                 case 'shows':
                     $('#load-more-item').remove();

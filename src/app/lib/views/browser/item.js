@@ -34,22 +34,20 @@
         },
 
         onShow: function() {
+            var bookmarked = App.userBookmarks.indexOf(this.model.get('imdb')) !== -1;
+            var watched = App.watchedMovies.indexOf(this.model.get('imdb')) !== -1;
 
             switch (this.model.get('type')) {
                 case 'bookmarkedmovie':
-                    var watched = App.watchedMovies.indexOf(this.model.get('imdb')) !== -1;
                     this.model.set('watched', watched);
                     break;
                 case 'bookmarkedshow':
                     break;
                 case 'movie':
-                    var bookmarked = App.userBookmarks.indexOf(this.model.get('imdb')) !== -1;
-                    var watched = App.watchedMovies.indexOf(this.model.get('imdb')) !== -1;
                     this.model.set('watched', watched);
                     this.model.set('bookmarked', bookmarked);
                     break;
                 case 'show':
-                    var bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
                     this.model.set('bookmarked', bookmarked);
                     break;
 
@@ -58,7 +56,7 @@
         },
 
         onRender: function() {
-            if (this.model.get('type') == 'show' || this.model.get('type') == 'bookmarkedshow') {
+            if (this.model.get('type') === 'show' || this.model.get('type') === 'bookmarkedshow') {
                 this.ui.watchedIcon.remove();
             }
             this.ui.coverImage.on('load', _.bind(this.showCover, this));

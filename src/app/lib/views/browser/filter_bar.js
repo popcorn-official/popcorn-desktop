@@ -92,23 +92,23 @@
 			this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
 			this.$('.genres  .dropdown-menu a:nth(0)').addClass('active');
 
-			if (typeof currentview == 'undefined') {
+			if (typeof App.currentview === 'undefined') {
 
 				this.setactive(AdvSettings.get('startScreen'));
 
 				switch (AdvSettings.get('startScreen')) {
 					case 'TV Series':
-						currentview = 'shows';
+						App.currentview = 'shows';
 						break;
 					case 'Movies':
-						currentview = 'movies';
+						App.currentview = 'movies';
 						break;
 					case 'Favorites':
-						currentview = 'Favorites';
-						previousview = 'movies';
+						App.currentview = 'Favorites';
+						App.previousview = 'movies';
 						break;
 					default:
-						currentview = 'movies';
+						App.currentview = 'movies';
 				}
 			}
 
@@ -189,17 +189,17 @@
 		settings: function(e) {
 			App.vent.trigger('about:close');
 			App.vent.trigger('settings:show');
-			currentview = 'settings';
+			App.currentview = 'settings';
 		},
 
 		about: function(e) {
 			App.vent.trigger('about:show');
-			currentview = 'about';
+			App.currentview = 'about';
 		},
 
 		showShows: function(e) {
 			e.preventDefault();
-			currentview = 'shows';
+			App.currentview = 'shows';
 			App.vent.trigger('about:close');
 			App.vent.trigger('shows:list', []);
 			this.setactive('TV Series');
@@ -208,7 +208,7 @@
 		showMovies: function(e) {
 			e.preventDefault();
 
-			currentview = 'movies';
+			App.currentview = 'movies';
 			App.vent.trigger('about:close');
 			App.vent.trigger('movies:list', []);
 			this.setactive('Movies');
@@ -217,19 +217,18 @@
 		showFavorites: function(e) {
 			e.preventDefault();
 
-			if (currentview !== 'Favorites') {
-				previousview = currentview;
-				currentview = 'Favorites';
+			if (App.currentview !== 'Favorites') {
+				App.previousview = App.currentview;
+				App.currentview = 'Favorites';
 				App.vent.trigger('about:close');
 				App.vent.trigger('favorites:list', []);
 				this.setactive('Favorites');
 			} else {
 
 				if ($('#movie-detail').html().length === 0 && $('#about-container').html().length === 0) {
-					currentview = previousview;
-					App.vent.trigger(previousview + ':list', []);
-					console.log('previousview: ', previousview);
-					this.setactive(currentview);
+					App.currentview = App.previousview;
+					App.vent.trigger(App.previousview + ':list', []);
+					this.setactive(App.currentview);
 
 				} else {
 					App.vent.trigger('about:close');

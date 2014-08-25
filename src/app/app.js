@@ -31,10 +31,6 @@ var
 
     moment = require('moment');
 
-
-var currentview,
-    previousview;
-
 // Special Debug Console Calls!
 win.log = console.log.bind(console);
 win.debug = function() {
