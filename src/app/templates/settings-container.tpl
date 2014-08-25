@@ -75,13 +75,18 @@
 			</span>
 				
 			<span class="advanced">
+				<input class="settings-checkbox" name="alwaysOnTop" id="cb4" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
+				<label class="settings-label" for="cb4"><%= i18n.__("Always On Top") %></label>
+			</span>
+
+			<span class="advanced">
 				<div class="dropdown watchedCovers">
-					<p><%= i18n.__("Watched Movie") %>:</p>
+					<p><%= i18n.__("Watched Items") %>:</p>
 						<%
 							var watch_type = {
-								" "   :"----",
-								"fade":"Fade all Covers",
-								"hide":"Hide all Covers"
+								"none": "Show",
+								"fade": "Fade",
+								"hide": "Hide"
 							};
 
 							var select_watched_cover = "";
@@ -92,11 +97,6 @@
 					<select name="watchedCovers"><%=select_watched_cover%></select>
 					<div class="dropdown-arrow"></div>
 				</div>
-			</span>
-				
-			<span class="advanced">
-				<input class="settings-checkbox" name="alwaysOnTop" id="cb4" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
-				<label class="settings-label" for="cb4"><%= i18n.__("Always On Top") %></label>
 			</span>
 
 		</div>

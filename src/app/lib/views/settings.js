@@ -213,6 +213,7 @@
 					}
 					break;
 				case 'language':
+				case 'watchedCovers':
 					App.vent.trigger('movies:list');
 					App.vent.trigger('settings:show');
 					break;
