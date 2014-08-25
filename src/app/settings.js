@@ -11,6 +11,12 @@ Settings.coversShowRating = false;
 Settings.watchedCovers = 'fade';
 Settings.showAdvancedSettings = false;
 
+Settings.postersMinWidth = 134;
+Settings.postersMaxWidth = 295;
+Settings.postersMinFontSize = 0.8;
+Settings.postersMaxFontSize = 1.3;
+Settings.postersSizeRatio = (196 / 134);
+
 // Advanced UI
 Settings.alwaysOnTop = false;
 Settings.theme = 'Dark_-_Official_theme';

@@ -222,6 +222,7 @@
 					break;
 				case 'theme':
 					$('head').append('<link rel="stylesheet" href="themes/' + value + '.css" type="text/css" />');
+					App.vent.trigger('movies:updatePostersWidth');
 					break;
 				case 'start_screen':
 					AdvSettings.set('startScreen', value);

@@ -11,7 +11,8 @@
 			searchClose: '.remove-search',
 			searchText: '.text-search',
 			sorterValue: '.sorters .value',
-			genreValue: '.genres  .value'
+			genreValue: '.genres  .value',
+			postersWidth: '#posters-width'
 		},
 		events: {
 			'hover  @ui.searchInput': 'focus',
@@ -26,7 +27,8 @@
 			'click .showMovies': 'showMovies',
 			'click .showShows': 'showShows',
 			'click #filterbar-favorites': 'showFavorites',
-			'click .triggerUpdate': 'updateDB'
+			'click .triggerUpdate': 'updateDB',
+			'change @ui.postersWidth': 'updatePostersWidth'
 		},
 
 
@@ -244,6 +246,15 @@
 			console.log('Update Triggered');
 			App.vent.trigger(this.type + ':update', []);
 		},
+
+		updatePostersWidth: function() {
+			App.db.writeSetting({
+				key: 'postersWidth',
+				value: this.ui.postersWidth.val()
+			}, function() {
+				App.vent.trigger('movies:updatePostersWidth');
+			});
+		}
 	});
 
 	App.View.FilterBar = App.View.FilterBar.extend({

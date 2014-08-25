@@ -42,6 +42,11 @@
 			</form>
 		</div>
 	</li>
+	<li class="posters-width">
+		<i class="fa fa-th posters-width--small"></i>
+		<input id="posters-width" type="range" min="<%= Settings.postersMinWidth %>" max="<%= Settings.postersMaxWidth %>" value="<%= Settings.postersWidth %>" />
+		<i class="fa fa-th-large posters-width--large"></i>
+	</li>
 	<li>
 		<i id="filterbar-favorites" class="fa fa-heart favorites"></i>
 	</li>

@@ -126,6 +126,7 @@
                 // Focus the window when the app opens
                 that.nativeWindow.focus();
 
+                App.vent.trigger('movies:updatePostersWidth');
             });
 
             // Cancel all new windows (Middle clicks / New Tab)

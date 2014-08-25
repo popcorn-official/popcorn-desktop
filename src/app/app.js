@@ -63,6 +63,39 @@ _.each(document.querySelectorAll('[type="text/x-template"]'), function(el) {
     });
 });
 
+var updatePostersSizeStylesheet = function() {
+    App.db.getSetting({key: 'postersWidth'}, function(err, doc) {
+        var postersWidth = doc.value;
+        var postersHeight = Math.round(postersWidth * Settings.postersSizeRatio);
+        var postersWidthPercentage = (postersWidth - Settings.postersMinWidth) / (Settings.postersMaxWidth - Settings.postersMinWidth) * 100;
+        var fontSize = ((Settings.postersMaxFontSize - Settings.postersMinFontSize) * postersWidthPercentage / 100) + Settings.postersMinFontSize;
+
+        var stylesheetContents = [
+            '.list .items .item {',
+                'width:', postersWidth, 'px;',
+            '}',
+
+            '.list .items .item .cover,',
+            '.load-more {',
+                'background-size: cover;',
+                'width: ', postersWidth, 'px;',
+                'height: ', postersHeight, 'px;',
+            '}',
+
+            '.item {',
+                'font-size: ' + fontSize + 'em;',
+            '}'
+        ].join('');
+
+        $('#postersSizeStylesheet').remove();
+
+        $('<style>', {'id': 'postersSizeStylesheet'}).text(stylesheetContents).appendTo('head');
+
+        // Copy the value to Settings so we can get it from templates
+        Settings.postersWidth = postersWidth;
+    });
+};
+
 // Global App skeleton for backbone
 var App = new Backbone.Marionette.Application();
 _.extend(App, {
@@ -106,8 +139,11 @@ App.addInitializer(function(options) {
     }
 });
 
-App.vent.on('error', function(err) {
-    window.alert('Error: ' + err);
+App.vent.on({
+    'error': function(err) {
+        window.alert('Error: ' + err);
+    },
+    'movies:updatePostersWidth': updatePostersSizeStylesheet
 });
 
 /**

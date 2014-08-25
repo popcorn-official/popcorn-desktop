@@ -29,7 +29,7 @@
 	.nav.filters
 		float: left
 		margin-left: 10px
-		
+
 	.nav.right
 		margin-right: 5px
 
@@ -57,6 +57,46 @@
 			border-top-left-radius: 0
 			border-top-right-radius: 0
 
+	.posters-width
+		margin 11px 0 0 10px
+
+		.fa
+			color #93989c
+			cursor default
+			margin-top 0
+			vertical-align middle
+
+		.posters-width--small
+			font-size 12px
+
+		.posters-width--large
+			font-size 15px
+
+		input
+			-webkit-appearance: none;
+			display inline-block
+			vertical-align middle
+			margin 0 5px
+			width 70px
+			border-radius: 5px;
+			background-color: #93989c;
+			height: 5px;
+
+		input:focus,
+		input:active
+				outline none
+
+		input::-webkit-slider-thumb
+			transition: background-color 0.5s;
+			-webkit-appearance: none
+			border-radius: 20px
+			background-color: $FilterBarIcon
+			height: 15px
+			width: 15px
+
+		input:hover::-webkit-slider-thumb
+			background-color: $FilterBarIconHover
+
 	i
 		transition: color 0.5s;
 		margin: 10px 5px 0;
@@ -77,7 +117,7 @@
 				color: $FilterBarIconHover
 
 	.search
-		form		
+		form
 			&:before
 				content: '\f002'
 				font-family: FontAwesome
@@ -117,7 +157,7 @@
 
 				&:hover
 					color $FilterBarTextHover
-					
+
 				&:focus
 					padding-left 25px
 					width: 130px;

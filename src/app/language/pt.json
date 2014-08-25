@@ -187,5 +187,13 @@
 	"Popcorn Time! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Popcorn Time é o resultado de muitos desenvolvedores e designers juntando um monte de APIs para fazer a experiencia de ver um filme ou uma série tão simples quanto possível.",
 	"We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "Nós somos um projeto de código aberto. Nós somos de todas as partes do mundo. Nós adoramos os nossos filmes e séries. E acredita, nós adoramos pipocas.",
 	"Made with": "Feito com",
-	"by a bunch of geeks from All Around The World": "por um grupo de nerds de todas as partes do mundo"
+	"by a bunch of geeks from All Around The World": "por um grupo de nerds de todas as partes do mundo",
+	"Show advanced settings": "Show advanced settings",
+	"Start Screen": "Start Screen",
+	"Favorites": "Favorites",
+	"Remote Control": "Remote Control",
+	"HTTP API Port": "HTTP API Port",
+	"HTTP API Username": "HTTP API Username",
+	"HTTP API Password": "HTTP API Password",
+	"Connection": "Connection"
 }
