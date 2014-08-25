@@ -64,6 +64,7 @@
         },
 
         hoverItem: function(e) {
+            console.log(this.model);
             if (e.pageX !== prevX || e.pageY !== prevY) {
                 $('.item.selected').removeClass('selected');
                 $(this.el).addClass('selected');

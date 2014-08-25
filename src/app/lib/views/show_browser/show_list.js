@@ -31,7 +31,7 @@
         tagName: 'ul',
         className: 'list',
 
-        itemView: App.View.ShowItem,
+        itemView: App.View.MovieItem,
         itemViewContainer: '.items',
 
         events: {

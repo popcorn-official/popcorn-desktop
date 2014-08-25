@@ -7,7 +7,7 @@
         model: App.Model.Movie,
         popid: 'imdb',
         type: 'shows',
-        getProviders: function () {
+        getProviders: function() {
             return {
                 torrents: App.Config.getProvider('tvshow'),
                 subtitle: App.Config.getProvider('subtitle'),
