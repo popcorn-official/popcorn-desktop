@@ -2,7 +2,8 @@
 	'use strict';
 	var clipboard = gui.Clipboard.get();
 
-	var currentview = AdvSettings.get('startScreen');
+	var currentview,
+		previousview;
 
 	App.View.FilterBar = Backbone.Marionette.ItemView.extend({
 		className: 'filter-bar',
@@ -31,6 +32,7 @@
 			'click .triggerUpdate': 'updateDB'
 		},
 
+
 		focus: function(e) {
 			e.focus();
 		},
@@ -38,12 +40,15 @@
 			$('.filter-bar').find('.active').removeClass('active');
 			switch (set) {
 				case 'TV Series':
+				case 'shows':
 					$('.source.showShows').addClass('active');
 					break;
 				case 'Movies':
+				case 'movies':
 					$('.source.showMovies').addClass('active');
 					break;
 				case 'Favorites':
+				case 'favorites':
 					$('#filterbar-favorites').addClass('active');
 					break;
 			}
@@ -89,8 +94,23 @@
 		onShow: function() {
 			this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
 			this.$('.genres  .dropdown-menu a:nth(0)').addClass('active');
-			this.setactive(AdvSettings.get('startScreen'));
-			console.log(currentview);
+
+			if (typeof currentview == 'undefined') {
+
+				this.setactive(AdvSettings.get('startScreen'));
+
+				switch (AdvSettings.get('startScreen')) {
+					case 'TV Series':
+						currentview = 'shows';
+						break;
+					case 'Movies':
+						currentview = 'movies';
+						break;
+					default:
+						currentview = 'movies';
+				}
+			}
+
 		},
 
 		focusSearch: function() {
@@ -168,50 +188,55 @@
 		settings: function(e) {
 			App.vent.trigger('about:close');
 			App.vent.trigger('settings:show');
-			currentview = 'Settings';
+			currentview = 'settings';
 		},
 
 		about: function(e) {
 			App.vent.trigger('about:show');
-			currentview = 'About';
+			currentview = 'about';
 		},
 
 		showShows: function(e) {
 			e.preventDefault();
+			currentview = 'shows';
 			App.vent.trigger('about:close');
 			App.vent.trigger('shows:list', []);
-			currentview = 'TV Series';
 			this.setactive('TV Series');
 		},
 
 		showMovies: function(e) {
 			e.preventDefault();
+
+			currentview = 'movies';
 			App.vent.trigger('about:close');
 			App.vent.trigger('movies:list', []);
 			this.setactive('Movies');
-			currentview = 'Movies';
 		},
 
 		showFavorites: function(e) {
 			e.preventDefault();
 
 			if (currentview !== 'Favorites') {
+				previousview = currentview;
 				currentview = 'Favorites';
 				App.vent.trigger('about:close');
 				App.vent.trigger('favorites:list', []);
 				this.setactive('Favorites');
-
 			} else {
 
 				if ($('#movie-detail').html().length === 0 && $('#about-container').html().length === 0) {
-					App.vent.trigger('movies:list', []);
-					currentview = 'movies';
+					currentview = previousview;
+					App.vent.trigger(previousview + ':list', []);
+					console.log('previousview: ', previousview);
+					this.setactive(currentview);
+
 				} else {
 					App.vent.trigger('about:close');
 					App.vent.trigger('favorites:list', []);
 				}
 
 			}
+
 		},
 
 		updateDB: function(e) {
