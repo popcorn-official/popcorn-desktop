@@ -4,7 +4,7 @@
 <div id="changelog-container"></div>
 <div id="disclaimer-container"></div>
 <div id="about-container"></div>
-<div id="help-container"></div>
+<div id="keyboard-container"></div>
 <div id="content"></div>
 <div id="settings-container"></div>
 <div id="movie-detail"></div>

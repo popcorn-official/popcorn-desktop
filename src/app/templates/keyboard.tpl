@@ -1,10 +1,10 @@
-<div class="help-container">
+<div class="keyboard-container">
 	<div class="fa fa-times close-icon"></div>
 	<div class="overlay-content"></div>
 	<div class="content">
 		<h1><%= i18n.__("Keyboard Shortcuts") %></h1>
 		<hr>
-		<div class="help-outer">
+		<div class="keyboard-outer">
 		<div class="fix-float">
 			<table class="keyboard-table">
 				<tbody>

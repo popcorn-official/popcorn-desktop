@@ -185,7 +185,7 @@ Mousetrap.bind('f11', function(e) {
 });
 Mousetrap.bind(['?', '/', '\''], function(e) {
     e.preventDefault();
-    App.vent.trigger('help:toggle');
+    App.vent.trigger('keyboard:toggle');
 });
 Mousetrap.bind('shift+up shift+up shift+down shift+down shift+left shift+right shift+left shift+right shift+b shift+a', function() {
     $('body').addClass('knm');

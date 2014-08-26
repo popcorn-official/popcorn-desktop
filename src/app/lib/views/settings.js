@@ -13,7 +13,7 @@
 		},
 
 		events: {
-			'click .help': 'showHelp',
+			'click .keyboard': 'showKeyboard',
 			'click .close-icon': 'closeSettings',
 			'change select,input': 'saveSetting',
 			'contextmenu input': 'rightclick_field',
@@ -96,8 +96,8 @@
 			App.vent.trigger('settings:close');
 		},
 
-		showHelp: function() {
-			App.vent.trigger('help:toggle');
+		showKeyboard: function() {
+			App.vent.trigger('keyboard:toggle');
 		},
 
 		saveSetting: function(e) {

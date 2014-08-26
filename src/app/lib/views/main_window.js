@@ -18,7 +18,7 @@
             InitModal: '#initializing',
             Disclaimer: '#disclaimer-container',
             About: '#about-container',
-            Help: '#help-container'
+            Keyboard: '#keyboard-container'
         },
 
         events: {
@@ -61,10 +61,10 @@
             App.vent.on('about:show', _.bind(this.showAbout, this));
             App.vent.on('about:close', _.bind(this.About.close, this.About));
 
-            // Help
-            App.vent.on('help:show', _.bind(this.showHelp, this));
-            App.vent.on('help:close', _.bind(this.Help.close, this.Help));
-            App.vent.on('help:toggle', _.bind(this.toggleHelp, this));
+            // Keyboard
+            App.vent.on('keyboard:show', _.bind(this.showKeyboard, this));
+            App.vent.on('keyboard:close', _.bind(this.Keyboard.close, this.Keyboard));
+            App.vent.on('keyboard:toggle', _.bind(this.toggleKeyboard, this));
 
             // Movies
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
@@ -202,15 +202,15 @@
             this.About.show(new App.View.About());
         },
 
-        showHelp: function(e) {
-            this.Help.show(new App.View.Help());
+        showKeyboard: function(e) {
+            this.Keyboard.show(new App.View.Keyboard());
         },
 
-        toggleHelp: function(e) {
-            if ($('.help-container').length > 0) {
-                App.vent.trigger('help:close');
+        toggleKeyboard: function(e) {
+            if ($('.keyboard-container').length > 0) {
+                App.vent.trigger('keyboard:close');
             } else {
-                this.showHelp();
+                this.showKeyboard();
             }
         },
 
