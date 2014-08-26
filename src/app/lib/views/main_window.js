@@ -18,7 +18,8 @@
             InitModal: '#initializing',
             Disclaimer: '#disclaimer-container',
             About: '#about-container',
-            Keyboard: '#keyboard-container'
+            Keyboard: '#keyboard-container',
+			Help: '#help-container'
         },
 
         events: {
@@ -65,6 +66,11 @@
             App.vent.on('keyboard:show', _.bind(this.showKeyboard, this));
             App.vent.on('keyboard:close', _.bind(this.Keyboard.close, this.Keyboard));
             App.vent.on('keyboard:toggle', _.bind(this.toggleKeyboard, this));
+			
+			// Help
+            App.vent.on('help:show', _.bind(this.showHelp, this));
+            App.vent.on('help:close', _.bind(this.Help.close, this.Help));
+            App.vent.on('help:toggle', _.bind(this.toggleHelp, this));
 
             // Movies
             App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
@@ -211,6 +217,18 @@
                 App.vent.trigger('keyboard:close');
             } else {
                 this.showKeyboard();
+            }
+        },
+		
+		showHelp: function(e) {
+            this.Help.show(new App.View.Help());
+        },
+
+        toggleHelp: function(e) {
+            if ($('.help-container').length > 0) {
+                App.vent.trigger('help:close');
+            } else {
+                this.showHelp();
             }
         },
 

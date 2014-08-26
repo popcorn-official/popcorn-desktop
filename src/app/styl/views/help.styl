@@ -1,0 +1,48 @@
+.help-container 
+    z-index 15
+    height 100%
+    width 100%
+    position fixed
+    -webkit-user-select none
+    opacity 1
+
+    .overlay-content 
+        height 100%
+        width 100%
+        position absolute
+        background $BgColor1
+        opacity 0.95
+        z-index -1
+
+    h1 
+        font-family $MainFontBold
+        font-size 17px
+
+        & + hr 
+            margin-top: 10px;
+
+
+    .content 
+        height: 100%
+        margin 0 auto
+        margin-top 80px
+        width 80%
+        color $Text1
+        font-family $MainFont
+        font-size 15px
+
+        .text-about 
+            margin-top 55px
+            line-height 22px
+            margin-bottom 20px
+            position absolute
+            width 60%
+
+    .help-outer
+        scrollable()
+        height: calc(100% - 200px);
+
+    .fix-float
+        float left
+        position relative
+        left: 50%
