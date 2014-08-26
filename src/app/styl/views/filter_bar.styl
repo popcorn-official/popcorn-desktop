@@ -58,29 +58,32 @@
 			border-top-right-radius: 0
 
 	.posters-width
-		margin 11px 0 0 10px
+		margin 13px 5px 0 5px
 
 		.fa
-			color #93989c
+			color $FilterBarIcon-PosterWidth
 			cursor default
 			margin-top 0
 			vertical-align middle
+		i
+			margin 0
 
 		.posters-width--small
-			font-size 12px
+			font-size 14px
 
 		.posters-width--large
-			font-size 15px
+			font-size 16px
 
 		input
 			-webkit-appearance: none;
 			display inline-block
 			vertical-align middle
 			margin 0 5px
-			width 70px
+			margin-top 1px
+			width 60px
 			border-radius: 5px;
-			background-color: #93989c;
-			height: 5px;
+			background-color: $FilterBarIcon-PosterWidth
+			height: 4px;
 
 		input:focus,
 		input:active
@@ -91,8 +94,8 @@
 			-webkit-appearance: none
 			border-radius: 20px
 			background-color: $FilterBarIcon
-			height: 15px
-			width: 15px
+			height: 14px
+			width: 14px
 
 		input:hover::-webkit-slider-thumb
 			background-color: $FilterBarIconHover
