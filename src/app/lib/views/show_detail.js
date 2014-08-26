@@ -182,48 +182,49 @@ var health_checked = false;
                     .addClass('fadein');
                 bgCache = null;
             };
-			var episodesSeen = [];
+            var episodesSeen = [];
             Database.getEpisodesWatched(this.model.get('tvdb_id'), function(err, data) {
                 _.each(data, function (value,state){
-					// we'll mark episode already watched
-					_this.markWatched(value,state);
-					// store all watched episode
-					if (value){
-						episodesSeen.push( parseInt(value.season) * 100 +
-							parseInt(value.episode) );
-					}
-				});
-				var season = 1;
-				var episode = 1;
-				if( episodesSeen.length > 0 ){
-					//get all episode
-					var episodes = [];
-					_.each(_this.model.get('episodes'),
-						function(value, currentepisode) {
-							episodes.push(parseInt(value.season) * 100 +
-								parseInt(value.episode));
-						}
-					);
-					episodesSeen.sort();
-					episodes.sort();
-					var last = episodes.pop();
-					var unseen = episodes.filter(function(item) {
-							return episodesSeen.indexOf(item) === -1;
-					});
-					//if all episode seend back to last
-					//it will be the only one
-					unseen.push(last);
-					episode = unseen[0] % 100;
-					season = (unseen[0] - episode) / 100;
-				}
-                               if(season === 1 && episode === 1) {
-                                       // Workaround in case S01E01 doesn't exist in PT
-                                       // Select the first possible season
-                                       this.selectSeason($('.tab-season:first'));
-                               } else {
-    				       _this.selectSeason($('li[data-tab="season-' + season + '"]'));
-    				       _this.selectEpisode($('#watched-' + season + '-' + episode).parent());
-                               }
+                    // we'll mark episode already watched
+                    _this.markWatched(value,state);
+                    // store all watched episode
+                    if (value){
+                        episodesSeen.push( parseInt(value.season) * 100 +
+                            parseInt(value.episode) );
+                    }
+                });
+                var season = 1;
+                var episode = 1;
+                if( episodesSeen.length > 0 ){
+                    //get all episode
+                    var episodes = [];
+                    _.each(_this.model.get('episodes'),
+                        function(value, currentepisode) {
+                            episodes.push(parseInt(value.season) * 100 +
+                                parseInt(value.episode));
+                        }
+                    );
+                    episodesSeen.sort();
+                    episodes.sort();
+                    var last = episodes.pop();
+                    var unseen = episodes.filter(function(item) {
+                            return episodesSeen.indexOf(item) === -1;
+                    });
+                    //if all episode seend back to last
+                    //it will be the only one
+                    unseen.push(last);
+                    episode = unseen[0] % 100;
+                    season = (unseen[0] - episode) / 100;
+                }
+                if(season === 1 && episode === 1) {
+                    // Workaround in case S01E01 doesn't exist in PT
+                    // Select the first possible season
+                    _this.selectSeason($('.tab-season:first'));
+                }
+                else {
+                    _this.selectSeason($('li[data-tab="season-' + season + '"]'));
+                    _this.selectEpisode($('#watched-' + season + '-' + episode).parent());
+                }
             });
 
             _this.initKeyboardShortcuts();
@@ -359,10 +360,16 @@ var health_checked = false;
             $('.tab-episodes.current').removeClass('current');
             $('.tab-episode.active').removeClass('active');
             $('.tab-episodes.' + $elem.attr('data-tab')).addClass('current').scrollTop(0).show(); //pull the scroll always to top to
-			this.selectEpisode($('.tab-episodes.' + $elem.attr('data-tab') + ' li>i:not(.true):first').parent());
+            this.selectEpisode($('.tab-episodes.' + $elem.attr('data-tab') + ' li>i:not(.true):first').parent());
         },
 
         selectEpisode: function($elem) {
+<<<<<<< HEAD
+=======
+            if($elem.length === 0) {
+                return;
+            }
+>>>>>>> 00e1a0d... Fix select season
             var tvdbid = $elem.attr('data-id');
             var torrents = {};
             torrents.q480 = $('.template-' + tvdbid + ' .q480').text();
