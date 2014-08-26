@@ -26,7 +26,7 @@
 	.content 
 		height: 100%
 		margin 0 auto
-		margin-top 80px
+		margin-top 60px
 		width 80%
 		color $Text1
 		font-family $MainFont
@@ -63,4 +63,33 @@
 
 		.help-outer
 			scrollable()
-			height: calc(100% - 240px);			
+			height: calc(100% - 200px);
+			padding-right 10px
+			text-align justify
+
+			h2
+				font-family $MainFontBold
+				font-size 18px
+				line-height 22px
+				color $Text1
+				margin-bottom 6px
+				margin-top 15px
+
+				&.top
+					margin-top 5px
+
+			p
+				font-family $AlternateFont
+				font-size 15px
+				line-height 20px
+				color $Text1
+
+			li
+				margin-top 6px
+				line-height 18px
+				font-size 14px
+				font-family $AlternateFont
+
+			b
+				font-family $MainFontBold
+				font-weight: normal
