@@ -9,7 +9,6 @@
             'click .close-icon': 'closeHelp',
         },
 
-
         onShow: function() {
             $('.search input').blur();
             Mousetrap.bind('esc', function(e) {

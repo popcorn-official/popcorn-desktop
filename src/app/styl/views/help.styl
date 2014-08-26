@@ -1,48 +1,66 @@
 .help-container 
-    z-index 15
-    height 100%
-    width 100%
-    position fixed
-    -webkit-user-select none
-    opacity 1
+	z-index 15
+	height 100%
+	width 100%
+	position fixed
+	-webkit-user-select none
+	opacity 1
 
-    .overlay-content 
-        height 100%
-        width 100%
-        position absolute
-        background $BgColor1
-        opacity 0.95
-        z-index -1
+	.overlay-content 
+		height 100%
+		width 100%
+		position absolute
+		background $BgColor1
+		opacity 0.95
+		z-index -1
 
-    h1 
-        font-family $MainFontBold
-        font-size 17px
+	h1 
+		font-family $MainFontBold
+		font-size 17px
 
-        & + hr 
-            margin-top: 10px;
+		& + hr 
+			margin-top: 10px
+			margin-bottom: 10px
 
 
-    .content 
-        height: 100%
-        margin 0 auto
-        margin-top 80px
-        width 80%
-        color $Text1
-        font-family $MainFont
-        font-size 15px
+	.content 
+		height: 100%
+		margin 0 auto
+		margin-top 80px
+		width 80%
+		color $Text1
+		font-family $MainFont
+		font-size 15px
 
-        .text-about 
-            margin-top 55px
-            line-height 22px
-            margin-bottom 20px
-            position absolute
-            width 60%
+		.text-about 
+			margin-top 55px
+			line-height 22px
+			margin-bottom 20px
+			position absolute
+			width 60%
 
-    .help-outer
-        scrollable()
-        height: calc(100% - 200px);
+		.did-you-know
+			width 100%
+			text-align: center
+			line-height: 26px
+			vertical-align: middle
+			font-family: $MainFont
+			margin-bottom 15px
 
-    .fix-float
-        float left
-        position relative
-        left: 50%
+			.title-dyk
+				font-family $MainFontBold
+				color $Text1
+				font-size: 24px
+				margin-right: 20px
+
+				.icon-dyk
+					font-size: 30px
+					color: $Text1
+					margin-right: 10px
+
+			.randomized-dyk
+				font-size: 16px
+
+		.help-outer
+			scrollable()
+			height: calc(100% - 240px);			
