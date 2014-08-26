@@ -2,28 +2,40 @@
 	'use strict';
 
 	var inherits = require('util').inherits;
-	var chromecast = require('chromecast')();
+	var chromecast = require('chromecast-js');
+	var collection = App.Device.Collection;
 
-	var Chromecast = function () {
-		App.Device.Generic.call(this);
-	};
+	var Chromecast = App.Device.Generic.extend ({
+		defaults: {
+			type: 'chromecast',
+		},
 
-	inherits(Chromecast, App.Device.Generic);
+		play: function(streamModel) {
+			// "" So it behaves when spaces in path
+			// TODO: Subtitles
+			var url = streamModel.attributes.src;
+			var name = this.get('name');
+			var device = this.get('device');
+			device.connect();
+			device.on('connected', function(){
+				device.play(url, 0, function(){
+					console.log('Playing '+ url + ' on '+ name);
+				});
+			});
+		}
+	});
 
-	Chromecast.prototype.initialize = function () {
-		this.type = 'chromecast';
+	var browser = new chromecast.Browser();
 
-		chromecast.on('device', function( device ) {
-			console.log('New chomecast device:', device);
-			device = this.add(device);
-		});
+	browser.on('deviceOn', function(device){
+		console.log(device);
+		collection.add(new Chromecast({
+					id: 'chromecast',
+					name: "Chromecast",
+					type: 'chromecast',
+					device: device
+				}));
+	});
 
-		chromecast.on( 'deviceOff', function( device ) {
-			device = this.rm(device);
-		});
-
-		chromecast.discover();
-	};
-
-	App.Device.Chromecast = new Chromecast();
+	App.Device.Chromecast = Chromecast;
 })(window.App);
