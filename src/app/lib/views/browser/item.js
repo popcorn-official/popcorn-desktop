@@ -29,8 +29,12 @@
         },
 
         initialize: function() {
-            this.model.set('image', resizeImage(this.model.get('image'), '300'));
-
+			if (this.model.get('type') === 'show') {
+				var images = this.model.get('images');
+				images.poster = resizeImage(images.poster, '300');
+			} else {
+				this.model.set('image', resizeImage(this.model.get('image'), '300'));
+			}
         },
 
         onShow: function() {
