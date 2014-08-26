@@ -7,6 +7,7 @@
         
         events: {
             'click .close-icon': 'closeHelp',
+			'click a': 'links'
         },
 
         onShow: function() {
@@ -22,6 +23,11 @@
         closeHelp: function() {
             App.vent.trigger('help:close');
         },
+
+        links: function(e) {
+            e.preventDefault();
+            gui.Shell.openExternal($(e.currentTarget).attr('href'));
+        }
 
     });
 
