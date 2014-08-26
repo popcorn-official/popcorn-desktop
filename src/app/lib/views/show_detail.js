@@ -216,9 +216,14 @@ var health_checked = false;
 					episode = unseen[0] % 100;
 					season = (unseen[0] - episode) / 100;
 				}
-				_this.selectSeason($('li[data-tab="season-' + season + '"]'));
-				//_this.selectEpisode($('#watched-' + season + '-' + episode 
-				//).parent());
+                               if(season === 1 && episode === 1) {
+                                       // Workaround in case S01E01 doesn't exist in PT
+                                       // Select the first possible season
+                                       this.selectSeason($('.tab-season:first'));
+                               } else {
+    				       _this.selectSeason($('li[data-tab="season-' + season + '"]'));
+    				       _this.selectEpisode($('#watched-' + season + '-' + episode).parent());
+                               }
             });
 
             _this.initKeyboardShortcuts();
