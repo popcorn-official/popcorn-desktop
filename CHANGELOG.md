@@ -107,9 +107,11 @@
 	- Always on Top option
 	- Start page option
 	- Rating on covers
-	- Fade watched items
+	- Fade or Hide watched items
 - Multiple UI improvements
 - External players (ex: VLC, XBMC, MPlayer, mpv, ...)
 - Linux installer
 - Chromecast support
 - Airplay support
+- Resize covers on-the-fly
+- [TV] Open directly next unseen episode
