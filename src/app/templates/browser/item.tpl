@@ -39,7 +39,7 @@
 	<p class="seasons">
 		<%= num_seasons %> <%= num_seasons == 1 ? i18n.__("Season") : i18n.__("Seasons") %>
 	</p>
-<%}else{ %>
+<%}else if (typeof torrents !== 'undefined') { %>
 	<p id="movie_quality" class="seasons quality" <% if(Settings.moviesShowQuality){ %> style="display: block;" <% } %> >
 		<% q720 = torrents["720p"] !== undefined; q1080 = torrents["1080p"] !== undefined;
 		if (q720 && q1080) { %>
