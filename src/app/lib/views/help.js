@@ -23,7 +23,8 @@
                 i18n.__('You can login to Trakt.tv to save all your watched items, and synchronize them across multiple devices.'),
                 i18n.__('Clicking on the rating stars will display a number instead'),
                 i18n.__('This application is entirely written in HTML5, CSS3 and Javascript'),
-                i18n.__('Wanna know more about a Movie or a TV Series? Just click the IMDb icon.')
+                i18n.__('Wanna know more about a Movie or a TV Series? Just click the IMDb icon.'),
+				i18n.__('Clicking twice on a \"Sort By\" filter reverses the order of the list')
             ];
         },
 
