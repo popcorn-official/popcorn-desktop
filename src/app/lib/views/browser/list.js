@@ -52,6 +52,7 @@
         getEmptyView: function() {
 
             switch (App.currentview) {
+                case 'movies':
                 case 'shows':
                     if (this.collection.state === 'error') {
                         return ErrorView.extend({
@@ -59,19 +60,7 @@
                         });
                     } else {
                         return ErrorView.extend({
-                            error: i18n.__('No shows found...')
-                        });
-                    }
-                    break;
-
-                case 'movies':
-                    if (this.collection.state === 'error') {
-                        return ErrorView.extend({
-                            error: i18n.__('Error loading data, try again later...')
-                        });
-                    } else {
-                        return ErrorView.extend({
-                            error: i18n.__('No movies found...')
+                            error: i18n.__('No ' + App.currentview +' found...')
                         });
                     }
                     break;
@@ -83,7 +72,7 @@
                         });
                     } else {
                         return ErrorView.extend({
-                            error: i18n.__('No bookmarks found...')
+                            error: i18n.__('No ' + App.currentview +' found...')
                         });
                     }
                     break;
