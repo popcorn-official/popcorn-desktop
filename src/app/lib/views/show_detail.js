@@ -223,7 +223,11 @@ var health_checked = false;
                 }
                 else {
                     _this.selectSeason($('li[data-tab="season-' + season + '"]'));
-                    _this.selectEpisode($('#watched-' + season + '-' + episode).parent());
+                    var $episode = $('#watched-' + season + '-' + episode).parent();
+                    _this.selectEpisode($episode);
+                    if (!_this.isElementVisible($episode[0])) {
+                        $episode[0].scrollIntoView(false);
+                    }
                 }
             });
 
