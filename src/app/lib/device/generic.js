@@ -22,12 +22,24 @@
 		selected: 'local',
 		initialize: function () {
 			App.vent.on('device:list', this.list);
+			App.vent.on('device:pause', this.pause);
+			App.vent.on('device:unpause', this.unpause);
+			App.vent.on('device:stop', this.stop);
 			self = this;
 		},
 		list: function () {
 			_.each(self.models, function (device) {
 				App.vent.trigger('device:add', device);
 			});
+		},
+		pause: function() {
+			self.selected.pause();
+		},
+		unpause: function() {
+			self.selected.unpause();
+		},
+		stop: function() {
+			self.selected.stop();
 		},
 		startDevice:  function (streamModel) {
 			if (! this.selected) {
@@ -60,7 +72,7 @@
 	});
 
 	var collection = new DeviceCollection (new Device());
-        collection.setDevice('local');
+		collection.setDevice('local');
 
 	var ChooserView = Backbone.Marionette.ItemView.extend({
 		template: '#player-chooser-tpl',

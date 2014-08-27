@@ -12,148 +12,133 @@
     padding-top $TitleHeight
     -webkit-backface-visibility hidden
 
+    .loading-background
+        position: absolute
+        width: 100%
+        height: 100%
+        background-repeat no-repeat
+        background-position center
+        background-size cover
+
+    .loading-background-overlay
+        width 100%
+        height 100%
+        position absolute
+        opacity .7
+        background-color #000
+
     .state
         color #fff
         font-family $MainFont
         -webkit-font-smoothing antialiased
         text-align center
         width 40%
+        height 350px
         z-index 11
         margin auto
         left 0
         right 0
         -webkit-backface-visibility hidden
-
         position: relative
-        top: calc(50% - 87.5px)
+        top: calc(50% - 180px)
 
-        .value
-            color #fff
-            font-family $MainFont
-            -webkit-font-smoothing antialiased
+        .title
+            font-size 16px
+            line-height 20px
+            padding-bottom 10px
+            font-weight bold
 
-.loading-progressbar
-  position relative
-  margin-bottom 10px
-  margin-top 10px
-  background-color #bababa
-  border-radius 13px
-  //padding 3px
-  & > div
-    background-color $ButtonBgActive
-    height 5px
-    border-radius 13px
-    left 0px
+        .external-play
+            font-size 14px
+            font-style: italic
+            padding-bottom 40px
 
-.loading-button
-    top 60px
-    z-index 2
-    position absolute
-    cursor pointer
-    width 120px
-    height 35px
-    margin auto
-    left 0
-    right 0
-    -moz-border-radius 3px
-    -webkit-border-radius 3px
-    border-radius 3px
-    -moz-background-clip padding
-    -webkit-background-clip padding-box
-    background-clip padding-box
-    background-color $ButtonBg
-    -webkit-backface-visibility hidden
-    transition all .5s
-    
-    &:hover
-        background: $ButtonBgHover
-        text-decoration: none
+        .loading-progressbar
+            position relative
+            margin-bottom 10px
+            margin-top 10px
+            background-color #bababa
+            border-radius 13px
+            //padding 3px
 
-    &:active
-        box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-        background: $ButtonBgActive
+            & > div
+                background-color $ButtonBgActive
+                height 5px
+                border-radius 13px
+                left 0px
 
-    .loading-button-text
-        -webkit-backface-visibility hidden
-        position relative
-        color #fff
-        font-family $MainFont, $Font, $AlternateFont
-        -webkit-font-smoothing antialiased
-        text-align center
-        top 12px
-        font-size 12px
+        .player-controls
+            text-align center
+            margin-left 40px
+            color $Text1
+            font-size 24px
+            margin-top 20px
+            i
+                cursor pointer
+                margin-right 20px
+        .cancel-button
+            bottom 20px
+            z-index 2
+            position absolute
+            cursor pointer
+            width 120px
+            height 35px
+            margin auto
+            left 0
+            right 0
+            -moz-border-radius 3px
+            -webkit-border-radius 3px
+            border-radius 3px
+            -moz-background-clip padding
+            -webkit-background-clip padding-box
+            background-clip padding-box
+            background-color $ButtonBg
+            -webkit-backface-visibility hidden
+            transition all .5s
+            
+            &:hover
+                background: $ButtonBgHover
+                text-decoration: none
 
-.text_peers
-    position relative
-    color #fff
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    float left
-    font-size 12px
-    margin-left 5px
+            &:active
+                box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+                background: $ButtonBgActive
 
-.value_peers
-    position relative
-    color #fff
-    font-size 12px
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    float left
+            .cancel-button-text
+                -webkit-backface-visibility hidden
+                position relative
+                color #fff
+                font-family $MainFont, $Font, $AlternateFont
+                -webkit-font-smoothing antialiased
+                text-align center
+                top 12px
+                font-size 12px
 
-.value_download
-    display none
-    position relative
-    color #fff
-    font-size 12px
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    float left
-    margin-left 10px
+        .loading-info
+            width 180px
+            height auto
+            margin auto
+            padding 10px
+            padding-bottom 20px
+            border-radius 4px
+            left 0
+            right 0
+            background: rgba(0, 0, 0, .6)
 
-.download_speed
-    position relative
-    color #fff
-    font-size 12px
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    margin-left 5px
-    float left
+            span
+                position relative
+                color #fff
+                font-family $MainFont
+                -webkit-font-smoothing antialiased
+                font-size 12px
+                line-height 14px
 
-.loading-background
-    position: absolute
-    width: 100%
-    height: 100%
-    background-repeat no-repeat
-    background-position center
-    background-size cover
+                &.loading-info-text
+                    float left
+                &.value
+                    float right
 
-.loading-background-overlay
-    width 100%
-    height 100%
-    position absolute
-    opacity .7
-    background-color #000
-
-.download_percent
-    position relative
-    color #fff
-    font-size 12px
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    float right
-
-.download_speed_plyer
-    position relative
-    color #fff
-    font-size 12px
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    margin-left 5px
-
-.upload_speed_plyer
-    position relative
-    color #fff
-    font-size 12px
-    font-family $MainFont
-    -webkit-font-smoothing antialiased  
-    margin-left 5px
+            .download_percent
+                text-align center
+                font-size 14px
+                line-height 10px

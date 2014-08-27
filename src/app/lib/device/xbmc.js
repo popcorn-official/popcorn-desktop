@@ -13,7 +13,7 @@
 		defaults: {
 			type: 'airplay-xbmc'
 		},
-                makeID: makeID
+		makeID: makeID
 	});
 
 	browser.on( 'deviceOn', function( device ) {

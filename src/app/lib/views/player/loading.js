@@ -19,11 +19,20 @@
             downloadPercent: '.download_percent',
 
             downloadSpeed: '.download_speed',
-            progressbar: '#loadingbar-contents'
+            progressbar: '#loadingbar-contents',
+
+            title: '.title',
+            player: '.player-name',
+            streaming: '.external-play',
+            controls: '.player-controls',
+            cancel_button: '.cancel-button'
         },
 
         events: {
-            'click .button-cancel': 'cancelStreaming'
+            'click .cancel-button': 'cancelStreaming',
+            'click .pause': 'pauseStreaming',
+            'click .stop': 'stopStreaming',
+            'click .play': 'resumeStreaming'
         },
 
         initialize: function() {
@@ -73,6 +82,11 @@
             if (state === 'downloading') {
                 this.listenTo(this.model.get('streamInfo'), 'change:downloaded', this.onProgressUpdate);
             }
+
+            if(state === 'playingExternally') {
+                this.ui.stateTextDownload.hide();
+                this.ui.controls.show();
+            }
         },
 
         onProgressUpdate: function() {
@@ -89,6 +103,15 @@
 
             this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
             this.ui.progressbar.css('width', streamInfo.get('percent').toFixed() + '%');
+
+            if(streamInfo.get('title') !== '') {
+                this.ui.title.text(streamInfo.get('title'));
+            }
+            if(streamInfo.get('player') !== ''){
+                this.ui.player.text(streamInfo.get('player'))
+                this.ui.streaming.show();
+                this.ui.cancel_button.hide();
+            }
         },
 
         cancelStreaming: function() {
@@ -100,6 +123,22 @@
                 App.vent.trigger('show:closeDetail');
                 App.vent.trigger('movie:closeDetail');
             });
+        },
+
+        pauseStreaming: function() {
+            App.vent.trigger('device:pause');
+            $('.pause').removeClass('fa-pause').removeClass('pause').addClass('fa-play').addClass('play');
+        },
+
+        resumeStreaming: function() {
+            console.log('clicked play');
+            App.vent.trigger('device:unpause');
+            $('.play').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
+        },
+
+        stopStreaming: function() {
+            App.vent.trigger('device:stop');
+            this.cancelStreaming();
         }
     });
 

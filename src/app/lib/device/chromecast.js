@@ -16,25 +16,38 @@
 			var url = streamModel.attributes.src;
 			var name = this.get('name');
 			var device = this.get('device');
+			this.set('url', url)
 			device.connect();
 			device.on('connected', function(){
 				device.play(url, 0, function(){
 					console.log('Playing '+ url + ' on '+ name);
 				});
 			});
+		},
+
+		pause: function() {
+			this.get('device').pause(function(){});
+		},
+
+		stop: function() {
+			this.get('device').stop(function(){});
+		},
+
+		unpause: function() {
+			this.get('device').unpause(function(){});
 		}
 	});
 
 	var browser = new chromecast.Browser();
 
-	browser.on('deviceOn', function(device){
-		console.log(device);
+	browser.on('deviceOn', function(device) {
+		console.log(device.config);
 		collection.add(new Chromecast({
-					id: 'chromecast',
-					name: "Chromecast",
-					type: 'chromecast',
-					device: device
-				}));
+			id: 'chromecast-'+device.config.name.replace(' ', '-'),
+			name: device.config.name,
+			type: 'chromecast',
+			device: device
+		}));
 	});
 
 	App.Device.Chromecast = Chromecast;

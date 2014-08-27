@@ -104,6 +104,8 @@
         // Fix for loading modal
         streamInfo.updateStats(engine);
         streamInfo.set('torrent', torrent);
+        streamInfo.set('title', torrent.title);
+        streamInfo.set('player', torrent.device.get('name'));
 
         statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 3000);
         stateModel.set('streamInfo', streamInfo);
@@ -112,6 +114,10 @@
 
         var checkReady = function() {
             if (stateModel.get('state') === 'ready') {
+
+                if(stateModel.get('state') === 'ready' && stateModel.get('streamInfo').get('player') !== 'local') {
+                    stateModel.set('state', 'playingExternally');
+                }
                 streamInfo.set(torrent);
 
                 // we need subtitle in the player
@@ -167,7 +173,10 @@
 
             var stateModel = new Backbone.Model({
                 state: 'connecting',
-                backdrop: model.get('backdrop')
+                backdrop: model.get('backdrop'),
+                title: '',
+                player: '',
+                show_controls: false
             });
             App.vent.trigger('stream:started', stateModel);
 
