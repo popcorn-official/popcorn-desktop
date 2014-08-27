@@ -308,7 +308,6 @@
                 this.MovieDetail.$el.show();
             }
             $(window).trigger('resize');
-
         }
     });
 
