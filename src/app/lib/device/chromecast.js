@@ -34,7 +34,7 @@
 		},
 
 		unpause: function() {
-			this.get('device').play(function(){});
+			this.get('device').player.play(function(){});
 		}
 	});
 
