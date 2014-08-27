@@ -44,7 +44,7 @@
 		'VLC': {
 			type: 'vlc',
 			cmd: '/Contents/MacOS/VLC',
-			switches: ' --no-video-title-show --sub-filter=marq --marq-marquee="Streaming From Popcorn Time" --marq-position=8 --marq-timeout=3000 --sub-file='
+			switches: ' --no-video-title-show --sub-file='
 		},
 		'MPlayer OSX Extended': {
 			type: 'mplayer',
