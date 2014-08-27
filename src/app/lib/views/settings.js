@@ -1,6 +1,7 @@
 (function(App) {
 	'use strict';
 	var clipboard = gui.Clipboard.get();
+	var that;
 
 	var Settings = Backbone.Marionette.ItemView.extend({
 		template: '#settings-container-tpl',
@@ -43,6 +44,7 @@
 			Mousetrap.bind('backspace', function(e) {
 				App.vent.trigger('settings:close');
 			});
+			that = this;
 
 		},
 		rightclick_field: function(e) {
@@ -106,7 +108,6 @@
 		},
 
 		saveSetting: function(e) {
-			var that = this;
 			var value = false;
 			var data = {};
 
@@ -182,7 +183,7 @@
 			}, function() {
 				that.ui.success_alert.show().delay(3000).fadeOut(400);
 			});
-			this.syncSetting(field.attr('name'), value);
+			that.syncSetting(field.attr('name'), value);
 		},
 		syncSetting: function(setting, value) {
 
