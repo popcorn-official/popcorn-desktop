@@ -206,13 +206,14 @@ var health_checked = false;
                     );
                     episodesSeen.sort();
                     episodes.sort();
+                    var first = episodes[0];
                     var last = episodes.pop();
                     var unseen = episodes.filter(function(item) {
                             return episodesSeen.indexOf(item) === -1;
                     });
-                    //if all episode seend back to last
+                    //if all episode seend back to first
                     //it will be the only one
-                    unseen.push(last);
+                    unseen.push(first);
                     episode = unseen[0] % 100;
                     season = (unseen[0] - episode) / 100;
                 }
@@ -364,7 +365,7 @@ var health_checked = false;
             $('.tab-episodes.current').removeClass('current');
             $('.tab-episode.active').removeClass('active');
             $('.tab-episodes.' + $elem.attr('data-tab')).addClass('current').scrollTop(0).show(); //pull the scroll always to top to
-            this.selectEpisode($('.tab-episodes.' + $elem.attr('data-tab') + ' li>i:not(.true):first').parent());
+            this.selectEpisode($('.tab-episodes.' + $elem.attr('data-tab') + ' li:first'));
         },
 
         selectEpisode: function($elem) {
