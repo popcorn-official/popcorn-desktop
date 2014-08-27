@@ -5,7 +5,6 @@
 
 	var collection = App.Device.Collection;
 
-        console.log ('hello jimmy');
 	var makeID=  function (baseID) {
 		return 'airplay-xbmc' + baseID;
 	};
