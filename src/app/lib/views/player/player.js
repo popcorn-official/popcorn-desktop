@@ -46,6 +46,7 @@
 		},
 
 		closePlayer: function() {
+			/*
 			win.info('Player closed');
 			if (this._WatchingTimer) {
 				clearInterval(this._WatchingTimer);
@@ -77,7 +78,7 @@
 					App.Trakt.show.cancelWatching();
 				}
 			}
-
+*/
 			try {
 				this.video.dispose();
 			} catch (e) {
