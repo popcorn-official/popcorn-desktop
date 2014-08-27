@@ -244,9 +244,6 @@
                             });
                         });
                     } else {
-                        this.ui.bookmarkIcon.addClass('selected');
-                        // we need to have this movie cached
-                        // for bookmarking
                         var movie = {
                             imdb: this.model.get('imdb'),
                             image: this.model.get('image'),
@@ -271,7 +268,6 @@
                                 that.model.set('bookmarked', true);
                             });
                         });
-
                     }
                     break;
                 case 'show':
@@ -286,6 +282,7 @@
                             Database.deleteTVShow(that.model.get('imdb_id'), function(err, data) {});
                         });
                     } else {
+                        this.model.set('bookmarked', true);
                         this.ui.bookmarkIcon.addClass('selected');
                         var provider = this.model.get('provider'); //XXX(xaiki): provider hack
                         var tvshow = App.Config.getProvider('tvshow')[provider];
