@@ -12,14 +12,14 @@
 
 				- You can paste magnet links anywhere in Popcorn Time with CTRL-V
 				- You can drag & drop a .torrent file into Popcorn Time
-				- Clicking twice on a "Sort By" filter reverses the order of the list
+				- Clicking twice on a 'Sort By' filter reverses the order of the list
 				- Popcorn Time is Open Source. Find the code on [git.popcorntime.io] !
 				- The Popcorn Time project started in February 2014 and already have had 150 people that contributed more than 3000 times to its development in August 2014.
 				- The rule n°10 applies here. 
 				- If a subtitle for a TV Show is missing, you can add it on [opensubtitles.org]. And the same way for a Movie, but on [yifysubtitles.com]
-				- If you're experiencing connection drop issues, try to reduce the <%= i18n.__("DHT Limit") %>
+				- If you're experiencing connection drop issues, try to reduce the DHT Limit
 				- Search "1998" to see all movies that came out that year
-				- You can login to Trakt.tv to save all your watched items, and get to synchronize them
+				- You can login to Trakt.tv to save all your watched items, and get to synchronize them across multiple devices.
 				- Clicking on the rating stars will display a number instead
 				- This application is entirely written in HTML5, CSS3 and Javascript
 				- Wanna know more about a Movie or a TV Series? Just click the IMDb icon. 

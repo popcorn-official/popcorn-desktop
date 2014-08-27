@@ -115,3 +115,4 @@
 - Airplay support
 - Resize covers on-the-fly
 - [TV] Open directly next unseen episode
+- Builtin help section
