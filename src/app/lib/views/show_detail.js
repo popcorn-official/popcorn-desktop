@@ -45,9 +45,8 @@ var health_checked = false;
             if (bookmarked !== true) {
                 bookmarked = true;
 
-                var provider = this.model.get('provider'); //XXX(xaiki): provider hack
-                var tvshow = App.Config.getProvider('tvshow')[provider];
-                var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
+                var provider = App.Providers.get(this.model.get('provider'));
+                var data = provider.detail(this.model.get('imdb_id'), function(err, data) {
                     if (!err) {
                         data.provider = that.model.get('provider');
                         Database.addTVShow(data, function(err, idata) {
@@ -369,12 +368,9 @@ var health_checked = false;
         },
 
         selectEpisode: function($elem) {
-<<<<<<< HEAD
-=======
             if($elem.length === 0) {
                 return;
             }
->>>>>>> 00e1a0d... Fix select season
             var tvdbid = $elem.attr('data-id');
             var torrents = {};
             torrents.q480 = $('.template-' + tvdbid + ' .q480').text();

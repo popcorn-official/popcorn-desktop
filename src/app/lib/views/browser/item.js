@@ -151,9 +151,8 @@
                 case 'bookmarkedshow':
                 case 'show':
                     $('.spinner').show();
-                    var provider = this.model.get('provider'); //XXX(xaiki): provider hack
-                    var tvshow = App.Config.getProvider('tvshow')[provider];
-                    var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
+                    var provider = App.Providers.get(this.model.get('provider'));
+                    var data = provider.detail(this.model.get('imdb_id'), function(err, data) {
                         data.provider = provider;
                         $('.spinner').hide();
                         if (!err) {
@@ -284,9 +283,8 @@
                     } else {
                         this.model.set('bookmarked', true);
                         this.ui.bookmarkIcon.addClass('selected');
-                        var provider = this.model.get('provider'); //XXX(xaiki): provider hack
-                        var tvshow = App.Config.getProvider('tvshow')[provider];
-                        var data = tvshow.detail(this.model.get('imdb_id'), function(err, data) {
+                        var provider = App.Providers.get(this.model.get('provider'));
+                        var data = provider.detail(this.model.get('imdb_id'), function(err, data) {
                             if (!err) {
                                 data.provider = that.model.get('provider');
                                 Database.addTVShow(data, function(err, idata) {

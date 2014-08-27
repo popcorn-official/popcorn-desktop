@@ -43,7 +43,7 @@
                         data.imdb = data.imdb_id;
                         // Fallback for old bookmarks without provider in database
                         if (typeof(data.provider) === 'undefined') {
-                            data.provider = 0; // 0 = Eztv
+                            data.provider = 'Eztv';
                         }
                         deferred.resolve(data);
                     } else {

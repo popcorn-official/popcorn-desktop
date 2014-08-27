@@ -8,7 +8,7 @@
 
         initialize: function(models, options) {
             this.providers = {
-                torrent: new (App.Providers.Favorites)()
+                torrent: App.Providers.get('Favorites')
             };
 
             options = options || {};

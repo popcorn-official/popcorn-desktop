@@ -102,10 +102,10 @@
             var provider = App.Config.providers[type];
             if (provider instanceof Array) {
                 return _.map(provider, function(t) {
-                    return new App.Providers[t]();
+                    return App.Providers.get(t);
                 });
             }
-            return new App.Providers[provider]();
+            return App.Providers.get(provider);
         }
     };
 

@@ -57,7 +57,7 @@
                         // If a new request was started...
                         _.each(torrents.results, function(movie) {
                             var id = movie['imdb'];
-                            movie.provider = pid; //XXX(xaiki): provider hack
+                            movie.provider = torrentProvider.name; //XXX(xaiki): provider hack
 
                             if (subtitles) {
                                 movie.subtitle = subtitles[id];

@@ -283,7 +283,7 @@
 			});
 
 			_.defer(function() {
-				App.Trakt = new App.Providers.Trakttv();
+				App.Trakt = App.Providers.get('Trakttv');
 				self.render();
 			});
 		},
