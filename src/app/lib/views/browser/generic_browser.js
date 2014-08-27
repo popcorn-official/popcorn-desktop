@@ -49,7 +49,7 @@
             App.vent.trigger('show:closeDetail');
             this.collection.fetch();
 
-            this.ShowList.show(new App.View.List({
+            this.ItemList.show(new App.View.List({
                 collection: this.collection
             }));
         },
