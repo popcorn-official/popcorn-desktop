@@ -63,8 +63,8 @@
 			type: 'mpc-hc',
 			switches: ' /sub '
 		},	
-		'MPC-HC (64-bit)': {
-			type: 'mpc-hc64',
+		'MPC-HC64': {
+			type: 'mpc-hc',
 			switches: ' /sub '
 		}
 	};
