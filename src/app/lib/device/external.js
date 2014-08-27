@@ -58,6 +58,14 @@
 		'mpv': {
 			type: 'mpv',
 			switches: ' --sub-file='
+		},
+		'MPC-HC': {
+			type: 'mpc-hc',
+			switches: ' /sub '
+		},	
+		'MPC-HC (64-bit)': {
+			type: 'mpc-hc64',
+			switches: ' /sub '
 		}
 	};
 
