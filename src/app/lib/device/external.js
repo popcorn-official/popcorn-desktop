@@ -86,7 +86,13 @@
 		'MPC-HC64': {
 			type: 'mpc-hc',
 			switches: ' /sub '
-		}
+		},
+		'SMPlayer': {
+			type: 'smplayer',
+			switches: ' -sub ',
+			stop: 'smplayer -send-action quit',
+			pause: 'smplayer -send-action pause'
+		},
 	};
 
 	/* map name back into the object as we use it in match */
