@@ -195,6 +195,11 @@ if (process.platform === 'darwin') {
         e.preventDefault();
         win.toggleFullscreen();
     });
+} else {
+    Mousetrap.bind('alt+enter', function(e) {
+        e.preventDefault();
+        win.toggleFullscreen();
+	});
 }
 
 /**
