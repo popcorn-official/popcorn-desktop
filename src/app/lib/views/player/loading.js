@@ -108,7 +108,7 @@
                 this.ui.title.text(streamInfo.get('title'));
             }
             if(streamInfo.get('player') !== ''){
-                this.ui.player.text(streamInfo.get('player'))
+                this.ui.player.text(streamInfo.get('player'));
                 this.ui.streaming.show();
                 this.ui.cancel_button.hide();
             }

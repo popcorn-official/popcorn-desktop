@@ -16,7 +16,7 @@
 			var url = streamModel.attributes.src;
 			var name = this.get('name');
 			var device = this.get('device');
-			this.set('url', url)
+			this.set('url', url);
 			device.connect();
 			device.on('connected', function() {
 				device.load(url, 0, function() {

@@ -87,14 +87,6 @@
 			App.vent.trigger('player:close');
 		},
 
-
-		Setwatched: function(data) {
-
-			//I'll work on this tommorow; entire view is going to get a re-work
-
-		},
-
-
 		onShow: function() {
 			$('#header').removeClass('header-shadow').hide();
 			// Test to make sure we have title
