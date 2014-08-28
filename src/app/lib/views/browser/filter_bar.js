@@ -11,8 +11,7 @@
 			searchClose: '.remove-search',
 			searchText: '.text-search',
 			sorterValue: '.sorters .value',
-			genreValue: '.genres  .value',
-			postersWidth: '#posters-width'
+			genreValue: '.genres  .value'
 		},
 		events: {
 			'hover  @ui.searchInput': 'focus',
@@ -27,8 +26,7 @@
 			'click .showMovies': 'showMovies',
 			'click .showShows': 'showShows',
 			'click #filterbar-favorites': 'showFavorites',
-			'click .triggerUpdate': 'updateDB',
-			'change @ui.postersWidth': 'updatePostersWidth'
+			'click .triggerUpdate': 'updateDB'
 		},
 
 
@@ -245,15 +243,6 @@
 			e.preventDefault();
 			console.log('Update Triggered');
 			App.vent.trigger(this.type + ':update', []);
-		},
-
-		updatePostersWidth: function() {
-			App.db.writeSetting({
-				key: 'postersWidth',
-				value: this.ui.postersWidth.val()
-			}, function() {
-				App.vent.trigger('movies:updatePostersWidth');
-			});
 		}
 	});
 

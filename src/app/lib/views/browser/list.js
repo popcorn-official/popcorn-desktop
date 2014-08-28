@@ -108,6 +108,12 @@
 
             Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch);
 
+
+            Mousetrap.bind(['mod+=', 'mod++'], _this.increasePoster);
+            Mousetrap.bind(['mod+_', 'mod+-'], _this.decreasePoster);
+
+
+
             Mousetrap.bind('tab', function() {
                 switch(App.currentview) {
                     case 'movies':
@@ -236,6 +242,39 @@
         focusSearch: function(e) {
             $('.search input').focus();
         },
+
+        increasePoster: function(e) {
+            var postersWidthIndex = Settings.postersJump.indexOf(parseInt(Settings.postersWidth));
+
+            if (postersWidthIndex !== -1 && postersWidthIndex+1 in Settings.postersJump) {
+                App.db.writeSetting({
+                    key: 'postersWidth',
+                    value: Settings.postersJump[postersWidthIndex+1]
+                }, function() {
+                    App.vent.trigger('updatePostersSizeStylesheet');
+                });
+            } else {
+                // do nothing for now
+            }
+        },
+
+        decreasePoster: function(e) {
+            var postersWidthIndex = Settings.postersJump.indexOf(parseInt(Settings.postersWidth));
+
+            if (postersWidthIndex !== -1 && postersWidthIndex-1 in Settings.postersJump) {
+                var postersWidth = Settings.postersJump[postersWidthIndex-1];
+            } else {
+                var postersWidth = Settings.postersJump[0];
+            }
+
+            App.db.writeSetting({
+                key: 'postersWidth',
+                value: postersWidth
+            }, function() {
+                App.vent.trigger('updatePostersSizeStylesheet');
+            });
+        },
+
 
         selectItem: function(e) {
             if (e.type) {
