@@ -7,7 +7,62 @@
 
 	&::-webkit-scrollbar-track
 		margin-top: $HeaderHeight
+	
 
+	.items_show
+		padding-top: $HeaderHeight
+		-webkit-user-select: none;
+		text-align: left
+		display: flex
+		flex-direction: row
+		flex-wrap: wrap
+		justify-content: space-between
+		align-content: flex-start
+		align-items: flex-start
+		width: calc(50% - 5px)
+		height: 100%
+		float: left
+		background: rgba(138, 138, 138, 0.14)
+		scrollable()
+
+		&::-webkit-scrollbar-track
+			margin-top: $HeaderHeight
+
+		.title_history
+			color: $Text1
+			padding: 25px 10px 10px
+			font-size: 1.2em
+			text-align: left
+
+		.items
+			padding-top: 0
+
+	.items_movie
+		padding-top: $HeaderHeight
+		-webkit-user-select: none;
+		text-align: left
+		display: flex
+		flex-direction: row
+		flex-wrap: wrap
+		justify-content: space-between
+		align-content: flex-start
+		align-items: flex-start
+		width: calc(50% - 5px)
+		height: 100%
+		float: left
+		scrollable()
+
+		&::-webkit-scrollbar-track
+			margin-top: $HeaderHeight
+
+		.title_history
+			color: $Text1
+			padding: 25px 10px 10px
+			font-size: 1.2em
+			text-align: left
+
+		.items
+			padding-top: 0
 	.items
 		padding-top: $HeaderHeight
 		-webkit-user-select: none;
