@@ -19,7 +19,7 @@
 			this.set('url', url);
 			device.connect();
 			device.on('connected', function() {
-				device.load(url, 0, function() {
+				device.play(url, 0, function() {
 					console.log('Playing ' + url + ' on ' + name);
 				});
 			});
@@ -34,7 +34,7 @@
 		},
 
 		unpause: function() {
-			this.get('device').player.play(function(){});
+			this.get('device').unpause(function(){});
 		}
 	});
 
