@@ -4,11 +4,11 @@
 
 	<div class="state">
 		<div class="title"></div>
-		<div class="external-play" style="display:hidden"><%= i18n.__("Streaming to") %> <span class="player-name"></span></div>
+		<div class="external-play" style="visibility:hidden"><%= i18n.__("Streaming to") %> <span class="player-name"></span></div>
 		<!-- download -->
 		<div class="text_download"><%= i18n.__(state) %></div>
 
-		<div class="seed_status" style="display:hidden">
+		<div class="seed_status" style="visibility:hidden">
 			<!-- loading bar -->
 			<div class="loading-progressbar">
 				<div id="loadingbar-contents"></div>
@@ -26,7 +26,7 @@
 					<span class="value_peers value">0</span>
 			</div>
 		</div>
-		<div class="player-controls" style="display:hidden">
+		<div class="player-controls" style="visibility:hidden">
 			<i class="fa fa-pause pause"></i>
 			<i class="fa fa-stop stop"></i>
 		</div>

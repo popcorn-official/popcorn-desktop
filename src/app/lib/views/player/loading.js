@@ -92,7 +92,7 @@
         onProgressUpdate: function() {
 
             // TODO: Translate peers / seeds in the template
-            this.ui.seedStatus.show();
+            this.ui.seedStatus.css('visibility','visible');
             var streamInfo = this.model.get('streamInfo');
             var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
             this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
@@ -107,10 +107,10 @@
             if(streamInfo.get('title') !== '') {
                 this.ui.title.text(streamInfo.get('title'));
             }
-            if(streamInfo.get('player') !== ''){
+            if(streamInfo.get('player') !== 'Popcorn Time'){
                 this.ui.player.text(streamInfo.get('player'));
-                this.ui.streaming.show();
-                this.ui.cancel_button.hide();
+                this.ui.streaming.css('visibility','visible');
+				this.ui.cancel_button.hide();
             }
         },
 
