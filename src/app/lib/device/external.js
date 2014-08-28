@@ -23,6 +23,24 @@
 			cmd += getPlayerSwitches(this.get('id')) + '"'+ subtitle + '" ' + url;
 			win.info('Launching External Player: '+ cmd);
 			child.exec(cmd);
+		},
+
+		pause: function() {
+			var cmd = path.normalize('"'+ this.get('path') + '"');
+			cmd += ' '+ this.get('pause');
+			child.exec(cmd);
+		},
+
+		stop: function() {
+			var cmd = path.normalize('"'+ this.get('path') + '"');
+			cmd += ' '+ this.get('stop');
+			child.exec(cmd);
+		},
+
+		unpause: function() {
+			var cmd = path.normalize('"'+ this.get('path') + '"');
+			cmd += ' '+ this.get('unpause');
+			child.exec(cmd);
 		}
 	});
 
@@ -44,7 +62,9 @@
 		'VLC': {
 			type: 'vlc',
 			cmd: '/Contents/MacOS/VLC',
-			switches: ' --no-video-title-show --sub-file='
+			switches: ' --no-video-title-show --sub-file=',
+			stop: 'vlc://quit',
+			pause: 'vlc://pause'
 		},
 		'MPlayer OSX Extended': {
 			type: 'mplayer',

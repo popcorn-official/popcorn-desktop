@@ -19,6 +19,7 @@
             downloadPercent: '.download_percent',
 
             downloadSpeed: '.download_speed',
+            uploadSpeed: '.upload_speed',
             progressbar: '#loadingbar-contents',
 
             title: '.title',
@@ -75,6 +76,7 @@
         },
         onStateUpdate: function() {
             var state = this.model.get('state');
+            var streamInfo = this.model.get('streamInfo');
             win.info('Loading torrent:', state);
 
             this.ui.stateTextDownload.text(i18n.__(state));
@@ -85,7 +87,10 @@
 
             if(state === 'playingExternally') {
                 this.ui.stateTextDownload.hide();
-                this.ui.controls.show();
+                if(streamInfo.get('player').get('type') === 'chromecast') {
+                    this.ui.controls.css('visibility','visible');
+                    this.ui.cancel_button.hide();
+                }
             }
         },
 
@@ -102,15 +107,15 @@
             this.ui.downloadPercent.text(streamInfo.get('percent').toFixed() + '%');
 
             this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
+            this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
             this.ui.progressbar.css('width', streamInfo.get('percent').toFixed() + '%');
 
             if(streamInfo.get('title') !== '') {
                 this.ui.title.text(streamInfo.get('title'));
             }
-            if(streamInfo.get('player') !== 'Popcorn Time'){
-                this.ui.player.text(streamInfo.get('player'));
+            if(streamInfo.get('player').get('type') !== 'local'){
+                this.ui.player.text(streamInfo.get('player').get('name'));
                 this.ui.streaming.css('visibility','visible');
-				this.ui.cancel_button.hide();
             }
         },
 
