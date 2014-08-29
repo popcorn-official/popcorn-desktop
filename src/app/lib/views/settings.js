@@ -388,7 +388,6 @@
 			var field = $('#tmpLocation');
 			that.ui.fakeTempDir.val = field.val();
 			that.render();
-            $('.advanced').css('display', 'flex');
 		},
 
 		areYouSure: function(btn, waitDesc) {
