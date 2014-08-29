@@ -187,10 +187,6 @@ Mousetrap.bind(['?', '/', '\''], function(e) {
     e.preventDefault();
     App.vent.trigger('keyboard:toggle');
 });
-Mousetrap.bind(['h','mod+h'], function(e) {
-    e.preventDefault();
-    App.vent.trigger('help:toggle');
-});
 Mousetrap.bind('shift+up shift+up shift+down shift+down shift+left shift+right shift+left shift+right shift+b shift+a', function() {
     $('body').addClass('knm');
 });
@@ -200,7 +196,7 @@ if (process.platform === 'darwin') {
         win.toggleFullscreen();
     });
 } else {
-    Mousetrap.bind('alt+enter', function(e) {
+    Mousetrap.bind('ctrl+alt+f', function(e) {
         e.preventDefault();
         win.toggleFullscreen();
 	});

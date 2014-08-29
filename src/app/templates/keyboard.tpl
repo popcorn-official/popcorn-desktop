@@ -17,10 +17,6 @@
 						<td><%= i18n.__("Open this screen") %></td>
 					</tr>
 					<tr>
-						<td><span class="key">H</span></td>
-						<td><%= i18n.__("Open the Help Section") %></td>
-					</tr>
-					<tr>
 						<td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">,</span></td>
 						<td><%= i18n.__("Open Settings") %></td>
 					</tr>
