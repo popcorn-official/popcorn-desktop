@@ -20,6 +20,7 @@
         var provider = App.Providers[name];
         if (! provider) {
             console.error ('couldn\'t find provider', name);
+            return null;
         }
 
         win.info ('Spawning new provider', name);
