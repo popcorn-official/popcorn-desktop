@@ -153,7 +153,7 @@
                     $('.spinner').show();
                     var provider = App.Providers.get(this.model.get('provider'));
                     var data = provider.detail(this.model.get('imdb_id'), function(err, data) {
-                        data.provider = provider;
+                        data.provider = provider.name;
                         $('.spinner').hide();
                         if (!err) {
                             App.vent.trigger('show:showDetail', new Backbone.Model(data));
