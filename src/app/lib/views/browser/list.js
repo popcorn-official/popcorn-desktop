@@ -120,7 +120,17 @@
             Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch);
 
             Mousetrap.bind('tab', function() {
-                App.vent.trigger('shows:list');
+                switch(App.currentview) {
+                    case 'movies':
+                        App.currentview = 'shows';
+                        App.vent.trigger('shows:list', []);
+                        $('.source.showMovies').removeClass('active');
+                        $('.source.showShows').addClass('active');
+                        break;
+                    default:
+                        App.currentview = 'movies';
+                        App.vent.trigger('movies:list');
+                }                
             });
         },
 
