@@ -4,6 +4,7 @@
     var Q = require('q');
 
     var PopCollection = Backbone.Collection.extend({
+        popid: 'imdb',
         initialize: function(models, options) {
             this.providers = this.getProviders();
 
@@ -56,8 +57,8 @@
                     .spread(function(torrents, subtitles, metadatas) {
                         // If a new request was started...
                         _.each(torrents.results, function(movie) {
-                            var id = movie['imdb'];
-                            movie.provider = torrentProvider.name; //XXX(xaiki): provider hack
+                            var id = movie[self.popid];
+                            movie.provider = torrentProvider.name;
 
                             if (subtitles) {
                                 movie.subtitle = subtitles[id];
