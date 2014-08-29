@@ -86,9 +86,9 @@
             this.listenTo(this.collection, 'loaded', this.onLoaded);
 
             App.vent.on('shortcuts:movies', _this.initKeyboardShortcuts);
-
             _this.initKeyboardShortcuts();
 
+            _this.initPosterResizeKeys();
         },
 
         initKeyboardShortcuts: function() {
@@ -108,12 +108,6 @@
 
             Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch);
 
-
-            Mousetrap.bind(['mod+=', 'mod++'], _this.increasePoster);
-            Mousetrap.bind(['mod+_', 'mod+-'], _this.decreasePoster);
-
-
-
             Mousetrap.bind('tab', function() {
                 switch(App.currentview) {
                     case 'movies':
@@ -127,6 +121,33 @@
                         App.vent.trigger('movies:list');
                 }                
             });
+        },
+
+        initPosterResizeKeys: function() {
+            $(window)
+                .on('mousewheel', function(event) { // Ctrl + wheel doesnt seems to be working on node-webkit (works just fine on chrome)
+                    console.log(event);
+                    if (event.ctrlKey === true || event.metaKey === true) {
+                        if (event.originalEvent.wheelDelta > 0 || event.originalEvent.wheelDelta < 0) {
+                            _this.increasePoster();
+                        } else {
+                            _this.decreasePoster();
+                        }
+                    }
+                })
+                .on('keydown', function(event) {
+                    if (event.ctrlKey === true || event.metaKey === true) {
+
+                        if ($.inArray(event.keyCode, [107, 187]) !== -1) {
+                            _this.increasePoster();
+                            return false;
+
+                        } else if ($.inArray(event.keyCode, [109, 189]) !== -1) {
+                            _this.decreasePoster();
+                            return false;
+                        }
+                    }
+                });
         },
 
         onShow: function() {
@@ -171,6 +192,8 @@
             _.defer(function() {
                 self.$('.items:first').focus();
             });
+
+
         },
 
         addloadmore: function() {
