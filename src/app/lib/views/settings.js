@@ -251,8 +251,9 @@
 				$('.invalid-cross').hide();
 				$('.valid-tick').hide();
 				if (valid) {
-					$('.valid-tick').show();
-					self.render();
+					$('.valid-tick').show().delay(2000).queue(function() {
+						self.render().dequeue;
+					});
 				} else {
 					$('.invalid-cross').show();
 				}
