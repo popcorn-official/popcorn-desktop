@@ -4,7 +4,7 @@
     var Q = require('q');
 
     var PopCollection = Backbone.Collection.extend({
-        popid: 'imdb',
+        popid: 'imdb_id',
         initialize: function(models, options) {
             this.providers = this.getProviders();
 

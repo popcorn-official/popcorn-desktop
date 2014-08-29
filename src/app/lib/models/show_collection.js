@@ -5,7 +5,7 @@
 
     var ShowCollection = App.Model.Collection.extend({
         model: App.Model.Movie,
-        popid: 'imdb',
+        popid: 'imdb_id',
         type: 'shows',
         getProviders: function() {
             return {
