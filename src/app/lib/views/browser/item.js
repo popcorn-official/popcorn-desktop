@@ -54,7 +54,6 @@
                 case 'show':
                     this.model.set('bookmarked', bookmarked);
                     break;
-
             }
 
         },
