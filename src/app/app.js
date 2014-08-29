@@ -288,12 +288,16 @@ window.ondrop = function(e) {
  * Paste Magnet Link to start stream
  */
 $(document).on('paste', function(e) {
-    e.preventDefault();
-    var data = (e.originalEvent || e).clipboardData.getData('text/plain');
-    if (data != null && data.substring(0, 8) === 'magnet:?') {
-        startTorrentStream(data);
+    if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA') {
+        return;
+    } else {
+        e.preventDefault();
+        var data = (e.originalEvent || e).clipboardData.getData('text/plain');
+        if (data != null && data.substring(0, 8) === 'magnet:?') {
+            startTorrentStream(data);
+        }
+        return true;
     }
-    return true;
 });
 
 /**

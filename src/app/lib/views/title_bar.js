@@ -45,7 +45,7 @@ var os = require('os');
                         this.nativeWindow.resizeTo(win8w, win8h);
                         this.nativeWindow.moveTo(win8x, win8y);
 						$('.os-max').removeClass('os-is-max');
-                    }else{
+                    } else {
                         // maximise replacement - always happens first as we start in a window
                         win8x = this.nativeWindow.x;
                         win8y = this.nativeWindow.y;
@@ -64,7 +64,7 @@ var os = require('os');
 						if (process.platform === 'win32') {
 							$('.os-max').removeClass('os-is-max');
 						}
-                    }else{
+                    } else {
                         this.nativeWindow.maximize();
 						if (process.platform === 'win32') {
 							$('.os-max').addClass('os-is-max');

@@ -1,4 +1,4 @@
-// jQuery plugi
+// jQuery plugins
 (function( $ ){
 
 	// Drag subtitles around player
