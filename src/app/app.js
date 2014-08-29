@@ -288,11 +288,11 @@ window.ondrop = function(e) {
  * Paste Magnet Link to start stream
  */
 $(document).on('paste', function(e) {
-    if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA') {
+    var data = (e.originalEvent || e).clipboardData.getData('text/plain');
+    if (data.substring(0, 8) !== 'magnet:?' && (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA')) {
         return;
     } else {
         e.preventDefault();
-        var data = (e.originalEvent || e).clipboardData.getData('text/plain');
         if (data != null && data.substring(0, 8) === 'magnet:?') {
             startTorrentStream(data);
         }
