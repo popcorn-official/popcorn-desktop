@@ -126,9 +126,9 @@
         initPosterResizeKeys: function() {
             $(window)
                 .on('mousewheel', function(event) { // Ctrl + wheel doesnt seems to be working on node-webkit (works just fine on chrome)
-                    console.log(event);
-                    if (event.ctrlKey === true || event.metaKey === true) {
-                        if (event.originalEvent.wheelDelta > 0 || event.originalEvent.wheelDelta < 0) {
+                    if (event.altKey === true) {
+                        event.preventDefault();
+                        if (event.originalEvent.wheelDelta > 0) {
                             _this.increasePoster();
                         } else {
                             _this.decreasePoster();
