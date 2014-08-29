@@ -71,10 +71,6 @@
 			cmd: '/Contents/Resources/Binaries/mpextended.mpBinaries/Contents/MacOS/mplayer',
 			switches: ' -font "/Library/Fonts/Arial Bold.ttf" -sub '
 		},
-		'MPlayer': {
-			type: 'mplayer',
-			switches: ' -sub '
-		},
 		'mpv': {
 			type: 'mpv',
 			switches: ' --sub-file='
