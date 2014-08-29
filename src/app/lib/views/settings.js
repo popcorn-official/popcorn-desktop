@@ -33,11 +33,9 @@
 		},
 
 		onShow: function() {
-
-			if (App.settings.showAdvancedSettings) {
-				$('.advanced').css('display', 'flex');
-			}
-
+			
+			this.render();
+			
 			$('.filter-bar').hide();
 			$('#movie-detail').hide();
 			$('#header').addClass('header-shadow');
@@ -47,6 +45,13 @@
 			that = this;
 
 		},
+		
+		onRender: function() {
+			if (App.settings.showAdvancedSettings) {
+				$('.advanced').css('display', 'flex');
+			}
+		},
+		
 		rightclick_field: function(e) {
 			e.preventDefault();
 			var menu = new this.context_Menu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'), e.target.id);
@@ -228,6 +233,7 @@
 
 		},
 		checkTraktLogin: _.debounce(function(e) {
+			var self = this;
 			var username = document.querySelector('#traktUsername').value;
 			var password = document.querySelector('#traktPassword').value;
 
@@ -246,6 +252,7 @@
 				$('.valid-tick').hide();
 				if (valid) {
 					$('.valid-tick').show();
+					self.render();
 				} else {
 					$('.invalid-cross').show();
 				}
