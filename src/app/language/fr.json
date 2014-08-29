@@ -165,7 +165,6 @@
 	"Show rating over covers": "Montrer la note sur les affiches",
 	"Always On Top": "Toujours au premier plan",
 	"Global shortcuts": "Raccourcis globaux",
-	"Opens this help screen": "Afficher l'aide",
 	"Video Player": "Lecteur vidéo",
 	"Toggle Fullscreen": "Plein écran",
 	"Play/Pause": "Lecture/Pause",
@@ -262,5 +261,11 @@
 	"playingExternally": "En lecture externe",
 	"Switch Tab": "Changer d'onglet",
 	"Enlarge Covers": "Agrandir les affiches",
-	"Reduce Covers": "Diminuer les affiches"
+	"Reduce Covers": "Diminuer les affiches",
+	"Open the Help Section": "Afficher l'Aide",
+	"Open Item Details": "Ouvrir la fiche de l'élément",
+	"Add Item to Favorites": "Ajouter aux favoris",
+	"Mark as Seen": "Marquer comme vu",
+	"Open this screen": "Afficher cette page",
+	"Open Settings": "Ouvrir les Réglages"
 }

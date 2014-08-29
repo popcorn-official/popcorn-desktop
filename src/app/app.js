@@ -176,7 +176,7 @@ String.prototype.endsWith = function(suffix) {
 Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function(e) {
     win.showDevTools();
 });
-Mousetrap.bind('command+,', function(e) {
+Mousetrap.bind('mod+,', function(e) {
     App.vent.trigger('about:close');
     App.vent.trigger('settings:show');
 });
@@ -186,6 +186,10 @@ Mousetrap.bind('f11', function(e) {
 Mousetrap.bind(['?', '/', '\''], function(e) {
     e.preventDefault();
     App.vent.trigger('keyboard:toggle');
+});
+Mousetrap.bind(['h','mod+h'], function(e) {
+    e.preventDefault();
+    App.vent.trigger('help:toggle');
 });
 Mousetrap.bind('shift+up shift+up shift+down shift+down shift+left shift+right shift+left shift+right shift+b shift+a', function() {
     $('body').addClass('knm');

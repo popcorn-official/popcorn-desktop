@@ -14,11 +14,23 @@
 					</tr>
 					<tr>
 						<td><span class="key">?</span></td>
-						<td><%= i18n.__("Opens this help screen") %></td>
+						<td><%= i18n.__("Open this screen") %></td>
+					</tr>
+					<tr>
+						<td><span class="key">H</span></td>
+						<td><%= i18n.__("Open the Help Section") %></td>
+					</tr>
+					<tr>
+						<td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">,</span></td>
+						<td><%= i18n.__("Open Settings") %></td>
 					</tr>
 					<tr>
 						<td><span class="key control">TAB</span></td>
 						<td><%= i18n.__("Switch Tab") %></td>
+					</tr>
+					<tr>
+						<td><span class="key enter"><%= i18n.__("enter") %></span>/<span class="key spacebar"><%= i18n.__("space") %></span></td></td>
+						<td><%= i18n.__("Open Item Details") %></td>
 					</tr>
 					<tr>
 						<td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">+</span></td>
@@ -27,6 +39,14 @@
 					<tr>
 						<td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">-</span></td>
 						<td><%= i18n.__("Reduce Covers") %></td>
+					</tr>
+					<tr>
+						<td><span class="key">F</span></td>
+						<td><%= i18n.__("Add Item to Favorites") %></td>
+					</tr>
+					<tr>
+						<td><span class="key">W</span></td>
+						<td><%= i18n.__("Mark as Seen") %></td>
 					</tr>
 				</tbody>
 				<tbody>

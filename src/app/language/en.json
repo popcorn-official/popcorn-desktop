@@ -168,7 +168,6 @@
 	"Show rating over covers": "Show rating over covers",
 	"Always On Top": "Always On Top",
 	"Global shortcuts": "Global shortcuts",
-	"Opens this help screen": "Opens this help screen",
 	"Video Player": "Video Player",
 	"Toggle Fullscreen": "Toggle Fullscreen",
 	"Play/Pause": "Play/Pause",
@@ -266,5 +265,11 @@
 	"playingExternally": "Playing Externally",
 	"Switch Tab": "Switch Tab",
 	"Enlarge Covers": "Enlarge Covers",
-	"Reduce Covers": "Reduce Covers"
+	"Reduce Covers": "Reduce Covers",
+	"Open this screen": "Open this screen",
+	"Open the Help Section": "Open the Help Section",
+	"Open Item Details": "Open Item Details",
+	"Add Item to Favorites": "Add Item to Favorites",
+	"Mark as Seen": "Mark as Seen",
+	"Open Settings": "Open Settings"
 }
