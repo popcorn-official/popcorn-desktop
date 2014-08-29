@@ -21,7 +21,7 @@
 						<td><%= i18n.__("Switch Tab") %></td>
 					</tr>
 					<tr>
-						<td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">=</span></td>
+						<td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">+</span></td>
 						<td><%= i18n.__("Enlarge Covers") %></td>
 					</tr>
 					<tr>
