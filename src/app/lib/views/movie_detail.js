@@ -55,7 +55,7 @@
         },
 
         onShow: function() {
-            win.info('Show movie detail (' + this.model.get('imdb') + ')');
+            win.info('Show movie detail (' + this.model.get('imdb_id') + ')');
 
             App.Device.ChooserView('#player-chooser').render();
 
@@ -261,15 +261,15 @@
             }
             var that = this;
             if (this.model.get('bookmarked') === true) {
-                Database.deleteBookmark(this.model.get('imdb'), function(err, data) {
-                    win.info('Bookmark deleted (' + that.model.get('imdb') + ')');
-                    App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb')), 1);
+                Database.deleteBookmark(this.model.get('imdb_id'), function(err, data) {
+                    win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
+                    App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
                     that.ui.bookmarkIcon.removeClass('selected').text(i18n.__('Add to bookmarks'));
 
                     // we'll make sure we dont have a cached movie
-                    Database.deleteMovie(that.model.get('imdb'), function(err, data) {
+                    Database.deleteMovie(that.model.get('imdb_id'), function(err, data) {
                         that.model.set('bookmarked', false);
-                        var bookmark = $('.bookmark-item .' + that.model.get('imdb'));
+                        var bookmark = $('.bookmark-item .' + that.model.get('imdb_id'));
                         if (bookmark.length > 0) {
                             bookmark.parents('.bookmark-item').remove();
                         }
@@ -280,7 +280,7 @@
                 // we need to have this movie cached
                 // for bookmarking
                 var movie = {
-                    imdb: this.model.get('imdb'),
+                    imdb: this.model.get('imdb_id'),
                     image: this.model.get('image'),
                     torrents: this.model.get('torrents'),
                     title: this.model.get('title'),
@@ -297,10 +297,10 @@
                 };
 
                 Database.addMovie(movie, function(error, result) {
-                    Database.addBookmark(that.model.get('imdb'), 'movie', function(err, data) {
-                        win.info('Bookmark added (' + that.model.get('imdb') + ')');
+                    Database.addBookmark(that.model.get('imdb_id'), 'movie', function(err, data) {
+                        win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
                         that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
-                        App.userBookmarks.push(that.model.get('imdb'));
+                        App.userBookmarks.push(that.model.get('imdb_id'));
                         that.model.set('bookmarked', true);
                     });
                 });
