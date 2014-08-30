@@ -58,6 +58,21 @@
                         // If a new request was started...
                         _.each(torrents.results, function(movie) {
                             var id = movie[self.popid];
+                            /* XXX(xaiki): check if we already have this
+                             * torrent if we do merge our torrents with the
+                             * ones we already have and update, we don't
+                             * need to go through metadata, and we just lost
+                             * a trakt call for nothing. this should really
+                             * be handled in the YTS provider/API.
+                             */
+                            var model = self.get(id);
+                            if (model) {
+                                var ts = model.get('torrents');
+                                _.extend(ts, movie.torrents);
+                                model.set('torrents', ts);
+                                win.log ('updated', model);
+                                return;
+                            }
                             movie.provider = torrentProvider.name;
 
                             if (subtitles) {
