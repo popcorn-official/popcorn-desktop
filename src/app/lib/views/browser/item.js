@@ -156,7 +156,9 @@
                 case 'show':
                     $('.spinner').show();
                     var provider = App.Providers.get(this.model.get('provider'));
-                    var data = provider.detail(this.model.get('imdb_id'), function(err, data) {
+                	var data = provider.detail(this.model.get('imdb_id'),
+                                                   this.model.attributes,
+                                                   function(err, data) {
                         data.provider = provider.name;
                         $('.spinner').hide();
                         if (!err) {
@@ -293,7 +295,9 @@
                         this.model.set('bookmarked', true);
                         this.ui.bookmarkIcon.addClass('selected');
                         var provider = App.Providers.get(this.model.get('provider'));
-                        var data = provider.detail(this.model.get('imdb_id'), function(err, data) {
+                        var data = provider.detail(this.model.get('imdb_id'),
+                                                   this.model.attributes,
+                                                   function(err, data) {
                             if (!err) {
                                 data.provider = that.model.get('provider');
                                 Database.addTVShow(data, function(err, idata) {
