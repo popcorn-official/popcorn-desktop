@@ -234,7 +234,6 @@
                             episode: model.get('episode'),
                             season: model.get('season'),
                             file_index: model.get('file_index'),
-                            imdb_id: model.get('imdb_id'),
                             quality: model.get('quality'),
                             device: model.get('device')
                         };
