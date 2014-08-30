@@ -122,12 +122,6 @@
         cancelStreaming: function() {
             App.vent.trigger('stream:stop');
             App.vent.trigger('player:close');
-            $('.filter-bar').show();
-            $('#header').removeClass('header-shadow');
-            Mousetrap.bind('esc', function(e) {
-                App.vent.trigger('show:closeDetail');
-                App.vent.trigger('movie:closeDetail');
-            });
         },
 
         pauseStreaming: function() {
@@ -144,7 +138,16 @@
         stopStreaming: function() {
             App.vent.trigger('device:stop');
             this.cancelStreaming();
-        }
+        },
+		
+		onClose: function() {
+			$('.filter-bar').show();
+            $('#header').removeClass('header-shadow');
+            Mousetrap.bind('esc', function(e) {
+                App.vent.trigger('show:closeDetail');
+                App.vent.trigger('movie:closeDetail');
+            });
+		}
     });
 
     App.View.Loading = Loading;

@@ -194,6 +194,7 @@
                 if (err) {
                     App.vent.trigger('error', err);
                     App.vent.trigger('stream:stop');
+					App.vent.trigger('player:close');
                 } else {
                     // did we need to extract subtitle ?
                     var extractSubtitle = model.get('extract_subtitle');
