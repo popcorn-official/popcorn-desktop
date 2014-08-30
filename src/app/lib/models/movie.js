@@ -6,7 +6,7 @@
             'change:torrents': 'updateHealth',
         },
 
-        idAttribute: 'imdb',
+        idAttribute: 'imdb_id',
 
         initialize: function() {
             this.updateHealth();
