@@ -39,7 +39,7 @@ db.watched = new Datastore({
 // Create unique indexes for the various id's for shows and movies
 db.tvshows.ensureIndex({fieldName: 'imdb_id',unique: true});
 db.tvshows.ensureIndex({fieldName: 'tvdb_id',unique: true});
-db.movies.ensureIndex({fieldName: 'imdb',unique: true});
+db.movies.ensureIndex({fieldName: 'imdb_id',unique: true});
 db.movies.removeIndex('imdb_id');
 db.movies.removeIndex('tmdb_id');
 db.bookmarks.ensureIndex({fieldName: 'imdb_id',unique: true});
@@ -66,13 +66,13 @@ var Database = {
 
     deleteMovie: function (imdb_id, cb) {
         db.movies.remove({
-            imdb: imdb_id
+            imdb_id: imdb_id
         }, cb);
     },
 
     getMovie: function (imdb_id, cb) {
         db.movies.findOne({
-            imdb: imdb_id
+            imdb_id: imdb_id
         }, cb);
     },
 
@@ -239,6 +239,7 @@ var Database = {
 
         db.watched.insert({
             show_id: data.show_id.toString(),
+            imdb_id: data.imdb_id.toString(),
             season: data.season.toString(),
             episode: data.episode.toString(),
             type: 'episode',
@@ -266,6 +267,7 @@ var Database = {
         
         db.watched.remove({
             show_id: data.show_id.toString(),
+            imdb_id: data.imdb_id.toString(),
             season: data.season.toString(),
             episode: data.episode.toString()
         }, cb);
@@ -274,6 +276,7 @@ var Database = {
     checkEpisodeWatched: function (data, cb) {
         db.watched.find({
             show_id: data.show_id.toString(),
+            imdb_id: data.imdb_id.toString(),
             season: data.season.toString(),
             episode: data.episode.toString()
         }, function (err, data) {
@@ -296,7 +299,7 @@ var Database = {
     // Used in bookmarks
     deleteTVShow: function (imdb_id, cb) {
         db.tvshows.remove({
-            imdb: imdb_id
+            imdb_id: imdb_id
         }, cb);
     },
 
