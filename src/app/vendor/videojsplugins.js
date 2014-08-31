@@ -83,7 +83,7 @@ videojs.plugin('customSubtitles', function() {
       options['track'] = {
         kind: function() { return 'subtitles'; },
         player: player,
-        label: function(){ return 'Custom...' },
+        label: function(){ return i18n.__("Custom...") },
         dflt: function(){ return false; },
         mode: function(){ return false; }
       };
@@ -107,7 +107,7 @@ videojs.plugin('customSubtitles', function() {
 
   CustomTrackMenuItem.prototype.loadSubtitle = function(filePath) {
     // TODO Delete old track
-    this.track = this.player_.addTextTrack('subtitles', 'Custom...', '00', { src: filePath });
+    this.track = this.player_.addTextTrack('subtitles', i18n.__("Custom..."), '00', { src: filePath });
     vjs.TextTrackMenuItem.prototype.onClick.call(this); // redirect to TextTrackMenuItem.onClick
   }
 
