@@ -177,7 +177,7 @@
             var that = this;
             if (this.model.get('watched')) {
                 this.ui.watchedIcon.removeClass('selected');
-                if (Settings.watchedCovers == 'fade') {
+                if (Settings.watchedCovers === 'fade') {
                     this.$el.removeClass('watched');
                 }
                 Database.markMovieAsNotWatched({

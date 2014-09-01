@@ -93,6 +93,8 @@
             App.vent.on('stream:local', _.bind(this.showPlayer, this));
             App.vent.on('player:close', _.bind(this.showViews, this));
             App.vent.on('player:close', _.bind(this.Player.close, this.Player));
+
+			App.vent.on('updatePostersSizeStylesheet', _.bind(this.updatePostersSizeStylesheet, this));
         },
 
         onShow: function() {
@@ -126,7 +128,6 @@
                 // Focus the window when the app opens
                 that.nativeWindow.focus();
 
-                App.vent.trigger('movies:updatePostersWidth');
             });
 
             // Cancel all new windows (Middle clicks / New Tab)
@@ -142,7 +143,7 @@
                 $('.about').click();
             });
 
-
+			App.vent.trigger('updatePostersSizeStylesheet');
             App.vent.trigger('main:ready');
 
         },
@@ -309,7 +310,47 @@
                 this.MovieDetail.$el.show();
             }
             $(window).trigger('resize');
-        }
+        },
+
+        updatePostersSizeStylesheet: function() {
+
+            App.db.getSetting({
+                key: 'postersWidth'
+            }, function(err, doc) {
+                if(doc) {
+                    var postersWidth = doc.value;
+                    var postersHeight = Math.round(postersWidth * Settings.postersSizeRatio);
+                    var postersWidthPercentage = (postersWidth - Settings.postersMinWidth) / (Settings.postersMaxWidth - Settings.postersMinWidth) * 100;
+                    var fontSize = ((Settings.postersMaxFontSize - Settings.postersMinFontSize) * postersWidthPercentage / 100) + Settings.postersMinFontSize;
+
+                    var stylesheetContents = [
+                        '.list .items .item {',
+                        'width:', postersWidth, 'px;',
+                        '}',
+
+                        '.list .items .item .cover,',
+                        '.load-more {',
+                        'background-size: cover;',
+                        'width: ', postersWidth, 'px;',
+                        'height: ', postersHeight, 'px;',
+                        '}',
+
+                        '.item {',
+                        'font-size: ' + fontSize + 'em;',
+                        '}'
+                    ].join('');
+
+                    $('#postersSizeStylesheet').remove();
+
+                    $('<style>', {
+                        'id': 'postersSizeStylesheet'
+                    }).text(stylesheetContents).appendTo('head');
+
+                    // Copy the value to Settings so we can get it from templates
+                    Settings.postersWidth = postersWidth;
+                }
+            });
+		}
     });
 
     App.View.MainWindow = MainWindow = MainWindow;

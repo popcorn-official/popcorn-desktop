@@ -282,12 +282,13 @@
         },
 
         decreasePoster: function(e) {
+			var postersWidth;
             var postersWidthIndex = Settings.postersJump.indexOf(parseInt(Settings.postersWidth));
 
             if (postersWidthIndex !== -1 && postersWidthIndex-1 in Settings.postersJump) {
-                var postersWidth = Settings.postersJump[postersWidthIndex-1];
+                postersWidth = Settings.postersJump[postersWidthIndex-1];
             } else {
-                var postersWidth = Settings.postersJump[0];
+                postersWidth = Settings.postersJump[0];
             }
 
             App.db.writeSetting({
