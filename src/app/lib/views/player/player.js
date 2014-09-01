@@ -46,7 +46,7 @@
 		},
 
 		closePlayer: function() {
-			/*
+
 			win.info('Player closed');
 			if (this._WatchingTimer) {
 				clearInterval(this._WatchingTimer);
@@ -57,7 +57,6 @@
 				if (!this.isMovie()) {
 					win.debug('Mark TV Show as watched');
 					App.vent.trigger('shows:watched', this.model.attributes, false);
-
 					App.Trakt
 						.show
 						.scrobble(this.model.get('show_id'), this.model.get('season'), this.model.get('episode'), this.video.currentTime() / this.video.duration() * 100 | 0, this.video.duration() / 60 | 0);
@@ -78,7 +77,7 @@
 					App.Trakt.show.cancelWatching();
 				}
 			}
-*/
+
 			try {
 				this.video.dispose();
 			} catch (e) {

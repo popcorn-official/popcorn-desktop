@@ -232,6 +232,7 @@
                             defaultSubtitle: model.get('defaultSubtitle'),
                             title: title,
                             show_id: model.get('show_id'),
+							imdb_id: model.get('imdb_id'),
                             episode: model.get('episode'),
                             season: model.get('season'),
                             file_index: model.get('file_index'),

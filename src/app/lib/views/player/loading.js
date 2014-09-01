@@ -87,7 +87,7 @@
 
             if(state === 'playingExternally') {
                 this.ui.stateTextDownload.hide();
-                if(streamInfo.get('player').get('type') === 'chromecast') {
+                if(streamInfo.get('player') && streamInfo.get('player').get('type') === 'chromecast') {
                     this.ui.controls.css('visibility','visible');
                     this.ui.cancel_button.hide();
                 }
@@ -113,7 +113,7 @@
             if(streamInfo.get('title') !== '') {
                 this.ui.title.text(streamInfo.get('title'));
             }
-            if(streamInfo.get('player').get('type') !== 'local'){
+            if(streamInfo.get('player') && streamInfo.get('player').get('type') !== 'local'){
                 this.ui.player.text(streamInfo.get('player').get('name'));
                 this.ui.streaming.css('visibility','visible');
             }
