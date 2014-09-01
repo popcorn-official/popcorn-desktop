@@ -280,7 +280,7 @@
                 // we need to have this movie cached
                 // for bookmarking
                 var movie = {
-                    imdb: this.model.get('imdb_id'),
+                    imdb_id: this.model.get('imdb_id'),
                     image: this.model.get('image'),
                     torrents: this.model.get('torrents'),
                     title: this.model.get('title'),
