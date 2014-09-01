@@ -94,7 +94,7 @@
 
 			if (typeof App.currentview === 'undefined') {
 
-				this.setactive(AdvSettings.get('startScreen'));
+
 
 				switch (AdvSettings.get('startScreen')) {
 					case 'TV Series':
@@ -107,9 +107,11 @@
 						App.currentview = 'Favorites';
 						App.previousview = 'movies';
 						break;
+
 					default:
 						App.currentview = 'movies';
 				}
+				this.setactive(App.currentview);
 			}
 
 		},
@@ -194,7 +196,6 @@
 
 		about: function(e) {
 			App.vent.trigger('about:show');
-			App.currentview = 'about';
 		},
 
 		showShows: function(e) {
@@ -233,6 +234,7 @@
 				} else {
 					App.vent.trigger('about:close');
 					App.vent.trigger('favorites:list', []);
+					this.setactive('Favorites');
 				}
 
 			}
