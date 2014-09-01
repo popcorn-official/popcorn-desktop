@@ -29,37 +29,37 @@
         },
 
         initialize: function() {
-	    if (this.model.get('type') === 'show') {
-		var images = this.model.get('images');
-		images.poster = resizeImage(images.poster, '300');
-	    } else {
-		this.model.set('image', resizeImage(this.model.get('image'), '300'));
-	    }
-        },
 
-        onShow: function() {
-            var bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
-            var watched = App.watchedMovies.indexOf(this.model.get('imdb_id')) !== -1;
+            var itemtype = this.model.get('type');
+            var bookmarked, watched, cached, that = this;
+            var images = this.model.get('images');
+            var img = (images) ? images.poster : this.model.get('image');
+            var imdb = this.model.get('imdb_id');
 
-            switch (this.model.get('type')) {
-                case 'bookmarkedmovie':
-                    this.model.set('watched', watched);
-                    break;
-                case 'bookmarkedshow':
-                    break;
-                case 'movie':
-                    this.model.set('watched', watched);
+            switch (itemtype) {
+                case 'show':
+                    bookmarked = App.userBookmarks.indexOf(imdb) !== -1;
+                    images.poster = resizeImage(img, '300');
                     this.model.set('bookmarked', bookmarked);
                     break;
-                case 'show':
+
+                case 'movie':
+                    watched = App.watchedMovies.indexOf(imdb) !== -1;
+                    bookmarked = App.userBookmarks.indexOf(imdb) !== -1;
+                    this.model.set('image', resizeImage(img, '300'));
+                    this.model.set('watched', watched);
                     this.model.set('bookmarked', bookmarked);
                     break;
             }
+        },
+
+        onShow: function() {
 
         },
 
         onRender: function() {
-            if (this.model.get('type') === 'show' || this.model.get('type') === 'bookmarkedshow') {
+            var itemtype = this.model.get('type');
+            if (itemtype === 'show' || itemtype === 'bookmarkedshow' || itemtype === 'historyshow') {
                 this.ui.watchedIcon.remove();
             }
             this.ui.coverImage.on('load', _.bind(this.showCover, this));
@@ -80,32 +80,43 @@
         },
 
         showCover: function() {
-
-            switch (this.model.get('type')) {
-                case 'bookmarkedshow':
+            var itemtype = this.model.get('type');
+            switch (itemtype) {
                 case 'bookmarkedmovie':
+                    if (this.model.get('watched')) {
+                        this.ui.watchedIcon.addClass('selected');
+                        switch (Settings.watchedCovers) {
+                            case 'fade':
+                            case 'hide':
+                                this.$el.addClass('watched');
+                                break;
+                        }
+                    }
                     this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')').addClass('fadein');
                     this.ui.bookmarkIcon.addClass('selected');
                     break;
-
+                case 'bookmarkedshow':
+                    this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')').addClass('fadein');
+                    this.ui.bookmarkIcon.addClass('selected');
+                    break;
                 case 'movie':
                     this.ui.cover.css('background-image', 'url(' + this.model.get('image') + ')').addClass('fadein');
+
                     if (this.model.get('watched')) {
                         this.ui.watchedIcon.addClass('selected');
-						switch (Settings.watchedCovers) {
-							case 'fade':
-								this.$el.addClass('watched');
-								break;
-							case 'hide':
-								this.$el.remove();
-								break;
-						}
+                        switch (Settings.watchedCovers) {
+                            case 'fade':
+                                this.$el.addClass('watched');
+                                break;
+                            case 'hide':
+                                this.$el.remove();
+                                break;
+                        }
                     }
                     if (this.model.get('bookmarked')) {
                         this.ui.bookmarkIcon.addClass('selected');
                     }
                     break;
-
                 case 'show':
                     this.ui.cover.css('background-image', 'url(' + this.model.get('images').poster + ')').addClass('fadein');
 
@@ -113,9 +124,7 @@
                         this.ui.bookmarkIcon.addClass('selected');
                     }
                     break;
-
             }
-
             this.ui.coverImage.remove();
 
         },
@@ -188,14 +197,14 @@
                 });
             } else {
                 this.ui.watchedIcon.addClass('selected');
-				switch (Settings.watchedCovers) {
-					case 'fade':
-						this.$el.addClass('watched');
-						break;
-					case 'hide':
-						this.$el.remove();
-						break;
-				}
+                switch (Settings.watchedCovers) {
+                    case 'fade':
+                        this.$el.addClass('watched');
+                        break;
+                    case 'hide':
+                        this.$el.remove();
+                        break;
+                }
                 Database.markMovieAsWatched({
                     imdb_id: this.model.get('imdb_id'),
                     from_browser: true
