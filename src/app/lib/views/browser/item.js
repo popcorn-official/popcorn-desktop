@@ -243,7 +243,7 @@
                         });
                     } else {
                         var movie = {
-                            imdb: imdb,
+                            imdb_id: this.model.get('imdb_id'),
                             image: this.model.get('image'),
                             torrents: this.model.get('torrents'),
                             title: this.model.get('title'),
@@ -283,7 +283,7 @@
                         this.model.set('bookmarked', true);
                         this.ui.bookmarkIcon.addClass('selected');
                         var provider = App.Providers.get(this.model.get('provider'));
-                        var data = provider.detail(imdb, function(err, data) {
+                        var data = provider.detail(this.model.get('imdb_id'), function(err, data) {
                             if (!err) {
                                 data.provider = that.model.get('provider');
                                 Database.addTVShow(data, function(err, idata) {
