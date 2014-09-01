@@ -30,27 +30,28 @@
 
         initialize: function() {
 
-            var itemtype = this.model.get('type');
-            var bookmarked, watched, cached, that = this;
-            var images = this.model.get('images');
-            var img = (images) ? images.poster : this.model.get('image');
-            var imdb = this.model.get('imdb_id');
+            var imdb = this.model.get('imdb_id'),
+                bookmarked = App.userBookmarks.indexOf(imdb) !== -1,
+                itemtype = this.model.get('type'),
+                images = this.model.get('images'),
+                img = (images) ? images.poster : this.model.get('image'),
+                watched, cached, that = this;
 
             switch (itemtype) {
-                case 'show':
-                    bookmarked = App.userBookmarks.indexOf(imdb) !== -1;
-                    images.poster = resizeImage(img, '300');
-                    this.model.set('bookmarked', bookmarked);
+                case 'bookmarkedshow':
+                    this.model.set('image', resizeImage(img, '300'));
                     break;
-
+                case 'show':
+                    images.poster = resizeImage(img, '300');
+                    break;
+                case 'bookmarkedmovie':
                 case 'movie':
                     watched = App.watchedMovies.indexOf(imdb) !== -1;
-                    bookmarked = App.userBookmarks.indexOf(imdb) !== -1;
                     this.model.set('image', resizeImage(img, '300'));
-                    this.model.set('watched', watched);
-                    this.model.set('bookmarked', bookmarked);
                     break;
             }
+            this.model.set('watched', watched);
+            this.model.set('bookmarked', bookmarked);
         },
 
         onShow: function() {
