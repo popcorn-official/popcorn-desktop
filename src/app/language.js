@@ -202,7 +202,7 @@ App.Localization.langcodes = {
 	},
 	'hr': {
 		name: 'Croatian',
-		nativeName: 'hrvatski',
+		nativeName: 'Hrvatski',
 		subtitle: true,
 		encoding: ['Windows-1250'] // Tested
 	},
