@@ -183,18 +183,18 @@ var health_checked = false;
             };
             var episodesSeen = [];
             Database.getEpisodesWatched(this.model.get('tvdb_id'), function(err, data) {
-                _.each(data, function (value,state){
+                _.each(data, function(value, state) {
                     // we'll mark episode already watched
-                    _this.markWatched(value,state);
+                    _this.markWatched(value, state);
                     // store all watched episode
-                    if (value){
-                        episodesSeen.push( parseInt(value.season) * 100 +
-                            parseInt(value.episode) );
+                    if (value) {
+                        episodesSeen.push(parseInt(value.season) * 100 +
+                            parseInt(value.episode));
                     }
                 });
                 var season = 1;
                 var episode = 1;
-                if( episodesSeen.length > 0 ){
+                if (episodesSeen.length > 0) {
                     //get all episode
                     var episodes = [];
                     _.each(_this.model.get('episodes'),
@@ -208,7 +208,7 @@ var health_checked = false;
                     var first = episodes[0];
                     var last = episodes.pop();
                     var unseen = episodes.filter(function(item) {
-                            return episodesSeen.indexOf(item) === -1;
+                        return episodesSeen.indexOf(item) === -1;
                     });
                     //if all episode seend back to first
                     //it will be the only one
@@ -216,12 +216,11 @@ var health_checked = false;
                     episode = unseen[0] % 100;
                     season = (unseen[0] - episode) / 100;
                 }
-                if(season === 1 && episode === 1) {
+                if (season === 1 && episode === 1) {
                     // Workaround in case S01E01 doesn't exist in PT
                     // Select the first possible season
                     _this.selectSeason($('.tab-season:first'));
-                }
-                else {
+                } else {
                     _this.selectSeason($('li[data-tab="season-' + season + '"]'));
                     var $episode = $('#watched-' + season + '-' + episode).parent();
                     _this.selectEpisode($episode);
@@ -368,7 +367,7 @@ var health_checked = false;
         },
 
         selectEpisode: function($elem) {
-            if($elem.length === 0) {
+            if ($elem.length === 0) {
                 return;
             }
             var tvdbid = $elem.attr('data-id');
