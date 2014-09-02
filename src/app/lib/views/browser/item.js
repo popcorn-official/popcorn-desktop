@@ -158,7 +158,6 @@
                     break;
 
                 case 'movie':
-                    this.model.set('imdb_id', this.model.get('imdb_id'));
                     this.model.set('health', false);
 
                     App.vent.trigger('movie:showDetail', this.model);
