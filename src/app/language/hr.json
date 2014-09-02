@@ -87,11 +87,11 @@
 	"We are flushing your database": "Radi se čišćenje baze podataka",
 	"We are flushing your databases": "Radi se čišćenje baza podataka",
 	"We are rebuilding the TV Show Database. Do not close the application.": "Radi se obnova baze podataka TV serija. Nemojte zatvoriti aplikaciju.",
-	"No shows found...": "Nisu pronađene TV serije...",
+	"No shows found...": "Nisu pronađene TV serije...",	
 	"Terms of Service": "Uvjeti korištenja",
 	"I Accept": "Prihvaćam",
 	"Leave": "Napusti",
-	"No bookmarks found...": "Nisu pronađeni omiljeni...",
+	"No Favorites found...": "Nisu pronađeni omiljeni...",
 	"Rebuild TV Shows Database": "Obnoviti bazu podataka TV serija",
 	"Flush bookmarks database": "Očistiti bazu podataka omiljenih",
 	"Flush all databases": "Očistiti sve baze podataka",
@@ -209,7 +209,7 @@
 	"External Now": "Vanjski odmah",
 	"Streaming From Popcorn Time": "Puštanje iz Popcorn Time",
 	"External Player": "Vanjski izvođač",
-	"Remote Control": "Daljinski upravljač",
+	"Remote Control": "Daljinsko upravljanje",
 	"Connection": "Veza",
 	"Show advanced settings": "Prikazati napredne postavke",
 	"Start Screen": "Početni prikaz",
@@ -271,6 +271,5 @@
 	"Add Item to Favorites": "Dodati stavku u omiljeno",
 	"Mark as Seen": "Označiti kao pogledano",
 	"Open Settings": "Otvoriti postavke",
-	"Custom...": "Prilagođeno...",
-	"No Favorites found...": "No Favorites found..."
+	"Custom...": "Prilagođeno..."
 }
