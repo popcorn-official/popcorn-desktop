@@ -5,14 +5,24 @@
 
     var Provider = function() {
         var memopts = {
-            maxAge: 3600000, /* 1 hour */
-            preFetch: 0.6,
+            maxAge: 10*60*1000, /* 10 minutes */
+            preFetch: 0.5, /* recache every 5 minutes */
             primitive: true
         };
 
-        this.fetch = memoize(this.fetch.bind(this), memopts);
-        this.detail = memoize(this.detail.bind(this), memopts);
+        this.memfetch = memoize(this.fetch.bind(this), memopts);
+        this.fetch = this._fetch.bind(this);
 
+        this.detail = memoize(this.detail.bind(this), _.extend(memopts, {async: true}));;
+    };
+
+    Provider.prototype._fetch = function (filters) {
+        filters.toString = this.toString;
+        return this.memfetch(filters);
+    };
+
+    Provider.prototype.toString = function (arg) {
+        return JSON.stringify(this);
     };
 
     function getProvider (name) {
