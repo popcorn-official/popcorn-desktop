@@ -12,6 +12,12 @@
         tagName: 'li',
         className: 'item',
 
+        attributes: function() {
+            return {
+                'data-imdb-id': this.model.get('imdb_id')
+            };
+        },
+
         ui: {
             coverImage: '.cover-image',
             cover: '.cover',
