@@ -70,7 +70,7 @@
                                 var ts = model.get('torrents');
                                 _.extend(ts, movie.torrents);
                                 model.set('torrents', ts);
-                                win.log ('updated', model);
+
                                 return;
                             }
                             movie.provider = torrentProvider.name;
