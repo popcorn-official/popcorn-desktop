@@ -39,9 +39,11 @@
 
             switch (itemtype) {
                 case 'bookmarkedshow':
+                    watched = App.watchedShows.indexOf(imdb) !== -1;
                     this.model.set('image', resizeImage(img, '300'));
                     break;
                 case 'show':
+                    watched = App.watchedShows.indexOf(imdb) !== -1;
                     images.poster = resizeImage(img, '300');
                     break;
                 case 'bookmarkedmovie':
@@ -71,7 +73,6 @@
         },
 
         hoverItem: function(e) {
-            //console.log(this.model);
             if (e.pageX !== prevX || e.pageY !== prevY) {
                 $('.item.selected').removeClass('selected');
                 $(this.el).addClass('selected');
@@ -157,7 +158,6 @@
                     break;
 
                 case 'movie':
-                    this.model.set('imdb_id', this.model.get('imdb_id'));
                     this.model.set('health', false);
 
                     App.vent.trigger('movie:showDetail', this.model);
