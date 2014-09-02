@@ -312,6 +312,7 @@ var health_checked = false;
                 backdrop: that.model.get('images').fanart,
                 type: 'episode',
                 show_id: that.model.get('tvdb_id'),
+                imdb_id: that.model.get('imdb_id'),
                 episode: episode,
                 season: season,
                 title: title,
