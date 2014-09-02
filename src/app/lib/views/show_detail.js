@@ -259,6 +259,7 @@ var health_checked = false;
             var edata = e.currentTarget.id.split('-');
             var value = {
                 show_id: _this.model.get('tvdb_id'),
+                imdb_id: _this.model.get('imdb_id'),
                 season: edata[1],
                 episode: edata[2],
                 from_browser: true
