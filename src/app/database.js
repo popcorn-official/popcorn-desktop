@@ -255,8 +255,9 @@ var Database = {
         db.watched.find({
             show_id: data.show_id.toString()
         }, function(err, response) {
-            if (response.length === 0)
+            if (response.length === 0) {
                 App.watchedShows.push(data.imdb_id.toString());
+            }
         });
 
         db.watched.insert({
@@ -293,8 +294,9 @@ var Database = {
         db.watched.find({
             show_id: data.show_id.toString()
         }, function(err, response) {
-            if (response.length === 1)
+            if (response.length === 1) {
                 App.watchedShows.splice(App.watchedShows.indexOf(data.imdb_id.toString()), 1);
+            }
         });
 
         db.watched.remove({
