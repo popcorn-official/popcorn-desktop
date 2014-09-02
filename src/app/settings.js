@@ -12,12 +12,12 @@ Settings.watchedCovers = 'fade';
 Settings.showAdvancedSettings = false;
 
 Settings.postersMinWidth = 134;
-Settings.postersMaxWidth = 295;
+Settings.postersMaxWidth = 294;
 Settings.postersMinFontSize = 0.8;
 Settings.postersMaxFontSize = 1.3;
 Settings.postersSizeRatio = (196 / 134);
 Settings.postersWidth = Settings.postersMinWidth;
-Settings.postersJump = [134, 144, 154, 264, 274, 284, 295];
+Settings.postersJump = [134, 154, 174, 194, 214, 234, 254, 274, 294];
 
 // Advanced UI
 Settings.alwaysOnTop = false;
