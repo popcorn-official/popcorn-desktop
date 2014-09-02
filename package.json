@@ -37,6 +37,8 @@
     "i18n": "0.5.0",
     "iconv-lite": "0.4.3",
     "jschardet": "1.1.0",
+    "json-rpc2": "0.7.0",
+    "memoizee": "^0.3.7",
     "mime": "1.2.11",
     "mkdirp": "*",
     "moment": "2.6.0",
@@ -53,8 +55,7 @@
     "semver": "2.3.1",
     "sha1": "1.1.0",
     "torrent-health": "*",
-    "underscore": "1.6.0",
-    "json-rpc2": "0.7.0"
+    "underscore": "1.6.0"
   },
   "devDependencies": {
     "tmp": "0.0.23",
