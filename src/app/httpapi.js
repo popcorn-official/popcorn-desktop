@@ -62,7 +62,7 @@
 		});
 
 		server.expose('getviewstack', function(args, opt, callback) {
-			callback(false, App.ViewStack);
+			callback(false, [App.ViewStack]);
 		});
 
 		//Filter Bar
@@ -172,7 +172,7 @@
 			var events = {};
 
 			var emitEvents = function() {
-				callback(false, events);
+				callback(false, [events]);
 			};
 
 			//Do a small delay before sending data in case there are more simultaneous events
