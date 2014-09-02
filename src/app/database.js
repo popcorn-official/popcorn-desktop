@@ -89,6 +89,7 @@ var Database = {
     },
 
     addBookmark: function(imdb_id, type, cb) {
+        App.userBookmarks.push(imdb_id);
         db.bookmarks.insert({
             imdb_id: imdb_id,
             type: type
@@ -96,6 +97,7 @@ var Database = {
     },
 
     deleteBookmark: function(imdb_id, cb) {
+        App.userBookmarks.splice(App.userBookmarks.indexOf(imdb_id), 1);
         db.bookmarks.remove({
             imdb_id: imdb_id
         }, cb);
@@ -176,7 +178,7 @@ var Database = {
         if (trakt !== false) {
             App.Trakt.movie.seen(data.imdb_id);
         }
-
+        App.watchedMovies.push(data.imdb_id);
         db.watched.insert({
             movie_id: data.imdb_id.toString(),
             date: new Date(),
@@ -197,6 +199,8 @@ var Database = {
         if (trakt !== false) {
             App.Trakt.movie.unseen(data.imdb_id);
         }
+
+        App.watchedMovies.splice(App.watchedMovies.indexOf(data.imdb_id), 1);
 
         db.watched.remove({
             movie_id: data.imdb_id.toString()

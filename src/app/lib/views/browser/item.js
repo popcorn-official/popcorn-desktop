@@ -166,17 +166,17 @@
                 case 'show':
                     $('.spinner').show();
                     var provider = App.Providers.get(this.model.get('provider'));
-                	var data = provider.detail(this.model.get('imdb_id'),
-                                                   this.model.attributes,
-                                                   function(err, data) {
-                        data.provider = provider.name;
-                        $('.spinner').hide();
-                        if (!err) {
-                            App.vent.trigger('show:showDetail', new Backbone.Model(data));
-                        } else {
-                            alert('Somethings wrong... try later');
-                        }
-                    });
+                    var data = provider.detail(this.model.get('imdb_id'),
+                        this.model.attributes,
+                        function(err, data) {
+                            data.provider = provider.name;
+                            $('.spinner').hide();
+                            if (!err) {
+                                App.vent.trigger('show:showDetail', new Backbone.Model(data));
+                            } else {
+                                alert('Somethings wrong... try later');
+                            }
+                        });
                     break;
 
             }
@@ -196,7 +196,6 @@
                     imdb_id: this.model.get('imdb_id')
                 }, true, function(err, data) {
                     that.model.set('watched', false);
-                    App.watchedMovies.splice(App.watchedMovies.indexOf(that.model.get('imdb_id')), 1);
                 });
             } else {
                 this.ui.watchedIcon.addClass('selected');
@@ -213,7 +212,6 @@
                     from_browser: true
                 }, true, function(err, data) {
                     that.model.set('watched', true);
-                    App.watchedMovies.push(that.model.get('imdb_id'));
                 });
 
             }
@@ -256,8 +254,6 @@
                         this.ui.bookmarkIcon.removeClass('selected');
                         Database.deleteBookmark(this.model.get('imdb_id'), function(err, data) {
                             win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
-                            App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
-
                             // we'll make sure we dont have a cached movie
                             Database.deleteMovie(that.model.get('imdb_id'), function(err, data) {
                                 that.model.set('bookmarked', false);
@@ -284,7 +280,6 @@
                         Database.addMovie(movie, function(error, result) {
                             Database.addBookmark(that.model.get('imdb_id'), 'movie', function(err, data) {
                                 win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
-                                App.userBookmarks.push(that.model.get('imdb_id'));
                                 that.model.set('bookmarked', true);
                             });
                         });
@@ -306,22 +301,22 @@
                         this.ui.bookmarkIcon.addClass('selected');
                         var provider = App.Providers.get(this.model.get('provider'));
                         var data = provider.detail(this.model.get('imdb_id'),
-                                                   this.model.attributes,
-                                                   function(err, data) {
-                            if (!err) {
-                                data.provider = that.model.get('provider');
-                                Database.addTVShow(data, function(err, idata) {
-                                    Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function(err, data) {
-                                        win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
-                                        that.model.set('bookmarked', true);
-                                        App.userBookmarks.push(that.model.get('imdb_id'));
+                            this.model.attributes,
+                            function(err, data) {
+                                if (!err) {
+                                    data.provider = that.model.get('provider');
+                                    Database.addTVShow(data, function(err, idata) {
+                                        Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function(err, data) {
+                                            win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+                                            that.model.set('bookmarked', true);
+                                            App.userBookmarks.push(that.model.get('imdb_id'));
+                                        });
                                     });
-                                });
 
-                            } else {
-                                alert('Somethings wrong... try later');
-                            }
-                        });
+                                } else {
+                                    alert('Somethings wrong... try later');
+                                }
+                            });
                     }
                     break;
 
