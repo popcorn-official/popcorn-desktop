@@ -139,8 +139,8 @@
 
         showDetail: function(e) {
             e.preventDefault();
-
-            switch (this.model.get('type')) {
+            var type = this.model.get('type');
+            switch (type) {
                 case 'bookmarkedmovie':
                     var SelectedMovie = new Backbone.Model({
                         imdb_id: this.model.get('imdb_id'),
@@ -163,13 +163,11 @@
                     App.vent.trigger('movie:showDetail', SelectedMovie);
                     break;
 
+                case 'bookmarkedshow':
+                    type = 'show';
+                case 'show':
                 case 'movie':
                     this.model.set('health', false);
-
-                    App.vent.trigger('movie:showDetail', this.model);
-                    break;
-                case 'bookmarkedshow':
-                case 'show':
                     $('.spinner').show();
                     var provider = App.Providers.get(this.model.get('provider'));
                     var data = provider.detail(this.model.get('imdb_id'),
@@ -178,7 +176,7 @@
                             data.provider = provider.name;
                             $('.spinner').hide();
                             if (!err) {
-                                App.vent.trigger('show:showDetail', new Backbone.Model(data));
+                                App.vent.trigger(type + ':showDetail', new Backbone.Model(data));
                             } else {
                                 alert('Somethings wrong... try later');
                             }
