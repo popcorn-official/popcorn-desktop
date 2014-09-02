@@ -252,6 +252,13 @@ var Database = {
             });
         }
 
+        db.watched.find({
+            show_id: data.show_id.toString()
+        }, function(err, response) {
+            if (response.length === 0)
+                App.watchedShows.push(data.imdb_id.toString());
+        });
+
         db.watched.insert({
             show_id: data.show_id.toString(),
             imdb_id: data.imdb_id.toString(),
@@ -283,6 +290,13 @@ var Database = {
             });
         }
 
+        db.watched.find({
+            show_id: data.show_id.toString()
+        }, function(err, response) {
+            if (response.length === 1)
+                App.watchedShows.splice(App.watchedShows.indexOf(data.imdb_id.toString()), 1);
+        });
+
         db.watched.remove({
             show_id: data.show_id.toString(),
             imdb_id: data.imdb_id.toString(),
@@ -310,6 +324,11 @@ var Database = {
         }, cb);
     },
 
+    getAllEpisodesWatched: function(cb) {
+        db.watched.find({
+            type: 'episode'
+        }, cb);
+    },
     // deprecated: moved to provider 
     // TODO: remove once is approved
     getSubtitles: function(data, cb) {},
@@ -356,21 +375,31 @@ var Database = {
     getUserInfo: function(cb) {
         var bookmarksDone = false;
         var watchedMoviesDone = false;
+        var watchedShowsDone = false;
 
         Database.getAllBookmarks(function(err, data) {
             App.userBookmarks = data;
             bookmarksDone = true;
-            if (bookmarksDone && watchedMoviesDone) {
+            if (bookmarksDone && watchedMoviesDone && watchedShowsDone) {
                 cb();
             }
         });
         Database.getMoviesWatched(function(err, data) {
             App.watchedMovies = extractMovieIds(data);
             watchedMoviesDone = true;
-            if (bookmarksDone && watchedMoviesDone) {
+            if (bookmarksDone && watchedMoviesDone && watchedShowsDone) {
                 cb();
             }
         });
+
+        Database.getAllEpisodesWatched(function(err, data) {
+            App.watchedShows = extractIds(data);
+            watchedShowsDone = true;
+            if (bookmarksDone && watchedMoviesDone && watchedShowsDone) {
+                cb();
+            }
+        });
+
     },
 
     // format: {key: key_name, value: settings_value}
