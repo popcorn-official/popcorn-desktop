@@ -1,15 +1,35 @@
 (function(App) {
     'use strict';
-
+    var memoize = require ('memoizee');
     var cache = {};
+
+    var Provider = function() {
+        var memopts = {
+            maxAge: 10*60*1000, /* 10 minutes */
+            preFetch: 0.5, /* recache every 5 minutes */
+            primitive: true
+        };
+
+        this.memfetch = memoize(this.fetch.bind(this), memopts);
+        this.fetch = this._fetch.bind(this);
+
+        this.detail = memoize(this.detail.bind(this), _.extend(memopts, {async: true}));;
+    };
+
+    Provider.prototype._fetch = function (filters) {
+        filters.toString = this.toString;
+        return this.memfetch(filters);
+    };
+
+    Provider.prototype.toString = function (arg) {
+        return JSON.stringify(this);
+    };
 
     function getProvider (name) {
         if (!name) {
             /* XXX(xaiki): this is for debug purposes, will it bite us later ? */
             console.error ('dumping provider cache');
-            /* cache is actually private we need to copy it, this is a hack */
             return cache;
-//            return _.map (cache, function (i) {return i;});
         }
 
         if (cache[name]) {
@@ -31,4 +51,6 @@
     }
 
     App.Providers.get = getProvider;
+    App.Providers.Generic =  Provider;
+
 })(window.App);
