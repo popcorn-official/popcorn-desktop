@@ -67,7 +67,7 @@
 				### Technical details:<br>
 				* Popcorn Time Version: stable 0.3.3<br>
 				* Downloaded from: popcorntime.io<br>
-				* Connection: 10mbs<br>
+				* Connection: 10mbps<br>
 				* OS: MAC OSX</span>
 			</p>
 		</div>
