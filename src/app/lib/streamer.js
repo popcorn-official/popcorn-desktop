@@ -301,6 +301,7 @@
                                             sub_data.episode = data.episode.number.toString();
                                             getSubtitles(sub_data);
                                             model.set('show_id', data.show.tvdb_id);
+                                            model.set('imdb_id', data.show.tvdb_id);
                                             model.set('episode', sub_data.season);
                                             model.set('season', sub_data.episode);
                                             title = data.show.title + ' - ' + i18n.__('Season') + ' ' + data.episode.season + ', ' + i18n.__('Episode') + ' ' + data.episode.number + ' - ' + data.episode.title;
