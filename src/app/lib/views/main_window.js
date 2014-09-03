@@ -22,6 +22,10 @@
 			Help: '#help-container'
         },
 
+		ui: {
+			posterswidth_alert: '.posterswidth_alert'
+		},
+
         events: {
             'dragover': 'preventDefault',
             'drop': 'preventDefault',
@@ -313,7 +317,9 @@
         },
 
         updatePostersSizeStylesheet: function() {
-
+			
+			var that = this;
+			
             App.db.getSetting({
                 key: 'postersWidth'
             }, function(err, doc) {
@@ -348,6 +354,12 @@
 
                     // Copy the value to Settings so we can get it from templates
                     Settings.postersWidth = postersWidth;
+					
+					// Display PostersWidth
+					var humanReadableWidth = Number(postersWidthPercentage + 100).toFixed(0) + '%';
+					if (typeof App.currentview !== 'undefined') {
+						that.ui.posterswidth_alert.show().text(i18n.__('Posters Size') + ': ' + humanReadableWidth).delay(3000).fadeOut(400);
+					}
                 }
             });
 		}
