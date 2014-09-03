@@ -209,6 +209,8 @@
 			});
 
 			$('.player-header-background').appendTo('div#video_player');
+
+			$('li:contains("subtitles off")').text(i18n.__('Disabled'));
 		},
 
 		bindKeyboardShortcuts: function() {

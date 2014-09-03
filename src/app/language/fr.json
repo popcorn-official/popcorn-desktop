@@ -63,7 +63,7 @@
 	"Saved": "Enregistré",
 	"Default Language": "Langue par défaut ",
 	"Default Subtitle": "Sous-titres par défaut ",
-	"Disabled": "Désactivé",
+	"Disabled": "Désactivés",
 	"TV Show API Endpoint": "Adresse de l'API Série ",
 	"connecting": "Connexion…",
 	"Download": "Téléchargement ",
@@ -84,11 +84,11 @@
 	"We are flushing your database": "Nous vidons la base de données",
 	"We are flushing your databases": "Nous vidons les bases de données",
 	"We are rebuilding the TV Show Database. Do not close the application.": "Nous reconstruisons la base de données des séries TV. Ne pas fermer l'application.",
-	"No shows found...": "Aucune série trouvée...",
+	"No shows found...": "Aucune série trouvée…",
 	"Terms of Service": "Conditions d'utilisation",
 	"I Accept": "J'accepte",
 	"Leave": "Quitter",
-	"No Favorites found...": "Aucun favori trouvé...",
+	"No Favorites found...": "Aucun favori trouvé…",
 	"Rebuild TV Shows Database": "Reconstruire la base de données des séries TV",
 	"Flush bookmarks database": "Vider la base de données des favoris",
 	"Flush all databases": "Vider les bases de données",
@@ -194,7 +194,7 @@
 	"esc": "esc",
 	"Keyboard Shortcuts": "Raccourcis clavier",
 	"Sync With Trakt": "Sync. avec Trakt",
-	"Syncing...": "Synchronisation...",
+	"Syncing...": "Synchronisation…",
 	"Done": "Terminé",
 	"Error": "Erreur",
 	"Cut": "Couper",
@@ -267,5 +267,5 @@
 	"Mark as Seen": "Marquer comme vu",
 	"Open this screen": "Afficher cette page",
 	"Open Settings": "Ouvrir les Réglages",
-	"Custom...": "Ajouter un fichier..."
+	"Custom...": "Ajouter…"
 }
