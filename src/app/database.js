@@ -239,23 +239,7 @@ var Database = {
         }, cb);
     },
 
-    markEpisodeAsWatched: function(data, trakt, cb) {
-        if (!cb) {
-            if (typeof trakt === 'function') {
-                cb = trakt;
-                trakt = undefined;
-            } else {
-                cb = function() {};
-            }
-        }
-
-        if (trakt !== false) {
-            App.Trakt.show.episodeSeen(data.show_id, {
-                season: data.season,
-                episode: data.episode
-            });
-        }
-
+    markEpisodeAsWatched: function(data) {
         db.watched.find({
             show_id: data.show_id.toString()
         }, function(err, response) {
@@ -271,7 +255,7 @@ var Database = {
             episode: data.episode.toString(),
             type: 'episode',
             date: new Date()
-        }, cb);
+        });
     },
 
     markEpisodesWatched: function(data, cb) {
