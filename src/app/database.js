@@ -509,8 +509,8 @@ var Database = {
 
             });
         });
-        App.vent.on('shows:watched', _.bind(this.markEpisodeAsWatched, this));
-        App.vent.on('shows:unwatched', _.bind(this.markEpisodeAsNotWatched, this));
-        App.vent.on('movies:watched', _.bind(this.markMovieAsWatched, this));
+        App.vent.on('show:watched', _.bind(this.markEpisodeAsWatched, this));
+        App.vent.on('show:unwatched', _.bind(this.markEpisodeAsNotWatched, this));
+        App.vent.on('movie:watched', _.bind(this.markMovieAsWatched, this));
     }
 };

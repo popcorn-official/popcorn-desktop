@@ -102,7 +102,7 @@ var health_checked = false;
                     _this.unbindKeyboardShortcuts();
                 }
             });
-            App.vent.on('shows:watched', _.bind(this.onWatched, this));
+            App.vent.on('show:watched', _.bind(this.onWatched, this));
 
             var images = this.model.get('images');
             images.fanart = resizeImage(images.fanart, '940');
@@ -274,9 +274,9 @@ var health_checked = false;
 
             Database.checkEpisodeWatched(value, function(watched, data) {
                 if (watched) {
-                    App.vent.trigger('shows:unwatched', value, true);
+                    App.vent.trigger('show:unwatched', value, 'seen');
                 } else {
-                    App.vent.trigger('shows:watched', value, true);
+                    App.vent.trigger('show:watched', value, 'seen');
                 }
                 _this.markWatched(value, !watched);
             });
