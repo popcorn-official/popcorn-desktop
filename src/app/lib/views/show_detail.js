@@ -208,7 +208,7 @@ var health_checked = false;
                     episodesSeen.sort();
                     episodes.sort();
                     var first = episodes[0];
-                    var last = episodes.pop();
+                    var last = episodes[episodes.length - 1];
                     var unseen = episodes.filter(function(item) {
                         return episodesSeen.indexOf(item) === -1;
                     });
