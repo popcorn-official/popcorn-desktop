@@ -445,7 +445,7 @@
 							season = show.seasons[s];
 							for (var e in season.episodes) {
 								watched.push({
-									show_id: show.tvdb_id.toString(),
+									tvdb_id: show.tvdb_id.toString(),
 									show_imdb_id: show.imdb_id.toString(),
 									season: season.season.toString(),
 									episode: season.episodes[e].toString(),

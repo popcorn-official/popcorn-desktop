@@ -241,7 +241,7 @@ var Database = {
 
     markEpisodeAsWatched: function(data) {
         db.watched.find({
-            show_id: data.show_id.toString()
+            tvdb_id: data.tvdb_id.toString()
         }, function(err, response) {
             if (response.length === 0) {
                 App.watchedShows.push(data.imdb_id.toString());
@@ -249,7 +249,7 @@ var Database = {
         });
 
         db.watched.insert({
-            show_id: data.show_id.toString(),
+            tvdb_id: data.tvdb_id.toString(),
             imdb_id: data.imdb_id.toString(),
             season: data.season.toString(),
             episode: data.episode.toString(),
@@ -273,14 +273,14 @@ var Database = {
         }
 
         if (trakt !== false) {
-            App.Trakt.show.episodeUnseen(data.show_id, {
+            App.Trakt.show.episodeUnseen(data.tvdb_id, {
                 season: data.season,
                 episode: data.episode
             });
         }
 
         db.watched.find({
-            show_id: data.show_id.toString()
+            tvdb_id: data.tvdb_id.toString()
         }, function(err, response) {
             if (response.length === 1) {
                 App.watchedShows.splice(App.watchedShows.indexOf(data.imdb_id.toString()), 1);
@@ -288,7 +288,7 @@ var Database = {
         });
 
         db.watched.remove({
-            show_id: data.show_id.toString(),
+            tvdb_id: data.tvdb_id.toString(),
             imdb_id: data.imdb_id.toString(),
             season: data.season.toString(),
             episode: data.episode.toString()
@@ -297,7 +297,7 @@ var Database = {
 
     checkEpisodeWatched: function(data, cb) {
         db.watched.find({
-            show_id: data.show_id.toString(),
+            tvdb_id: data.tvdb_id.toString(),
             imdb_id: data.imdb_id.toString(),
             season: data.season.toString(),
             episode: data.episode.toString()
@@ -308,9 +308,9 @@ var Database = {
 
     // return an array of watched episode for this 
     // tvshow
-    getEpisodesWatched: function(show_id, cb) {
+    getEpisodesWatched: function(tvdb_id, cb) {
         db.watched.find({
-            show_id: show_id.toString()
+            tvdb_id: tvdb_id.toString()
         }, cb);
     },
 
@@ -333,7 +333,7 @@ var Database = {
     // Used in bookmarks
     getTVShow: function(data, cb) {
         db.tvshows.findOne({
-            _id: data.show_id
+            _id: data.tvdb_id
         }, cb);
     },
 

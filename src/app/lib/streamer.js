@@ -231,7 +231,7 @@
                             subtitle: model.get('subtitle'),
                             defaultSubtitle: model.get('defaultSubtitle'),
                             title: title,
-                            show_id: model.get('show_id'),
+                            tvdb_id: model.get('tvdb_id'),
 							imdb_id: model.get('imdb_id'),
                             episode: model.get('episode'),
                             season: model.get('season'),
@@ -300,7 +300,7 @@
                                             sub_data.season = data.episode.season.toString();
                                             sub_data.episode = data.episode.number.toString();
                                             getSubtitles(sub_data);
-                                            model.set('show_id', data.show.tvdb_id);
+                                            model.set('tvdb_id', data.show.tvdb_id);
                                             model.set('imdb_id', data.show.tvdb_id);
                                             model.set('episode', sub_data.season);
                                             model.set('season', sub_data.episode);

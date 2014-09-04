@@ -535,12 +535,12 @@
         switch (channel) {
         case 'scrobble':
             App.Trakt.show
-                .scrobble(show.show_id, show.season, show.episode, 100);
+                .scrobble(show.tvdb_id, show.season, show.episode, 100);
             break;
         case 'seen':
         default:
             App.Trakt.show
-                .episodeSeen(show.show_id, show);
+                .episodeSeen(show.tvdb_id, show);
             break;
         }
     }
@@ -550,12 +550,12 @@
         switch (channel) {
         case 'scrobble':
             App.Trakt.show
-                .scrobble(show.show_id, show.season, show.episode, 0);
+                .scrobble(show.tvdb_id, show.season, show.episode, 0);
             break;
         case 'seen':
         default:
             App.Trakt.show
-                .episodeUnseen(show.show_id, show);
+                .episodeUnseen(show.tvdb_id, show);
             break;
         }
     }

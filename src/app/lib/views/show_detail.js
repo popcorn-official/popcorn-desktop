@@ -266,7 +266,7 @@ var health_checked = false;
         toggleWatched: function(e) {
             var edata = e.currentTarget.id.split('-');
             var value = {
-                show_id: _this.model.get('tvdb_id'),
+                tvdb_id: _this.model.get('tvdb_id'),
                 imdb_id: _this.model.get('imdb_id'),
                 season: edata[1],
                 episode: edata[2],
@@ -294,7 +294,7 @@ var health_checked = false;
         markWatched: function(value, state) {
             state = (state === undefined) ? true : state;
             // we should never get any shows that aren't us, but you know, just in case.
-            if (value.show_id === _this.model.get('tvdb_id')) {
+            if (value.tvdb_id === _this.model.get('tvdb_id')) {
                 $('#watched-' + value.season + '-' + value.episode).toggleClass('true', state);
             } else {
                 console.error('something fishy happened with the watched signal', this.model, value);
@@ -325,7 +325,7 @@ var health_checked = false;
                 torrent: $(e.currentTarget).attr('data-torrent'),
                 backdrop: that.model.get('images').fanart,
                 type: 'episode',
-                show_id: that.model.get('tvdb_id'),
+                tvdb_id: that.model.get('tvdb_id'),
                 imdb_id: that.model.get('imdb_id'),
                 episode: episode,
                 season: season,
