@@ -102,7 +102,8 @@ var health_checked = false;
                     _this.unbindKeyboardShortcuts();
                 }
             });
-            App.vent.on('show:watched', _.bind(this.onWatched, this));
+            App.vent.on('show:watched',   _.bind(this.onWatched,   this));
+            App.vent.on('show:unwatched', _.bind(this.onUnWatched, this));
 
             var images = this.model.get('images');
             images.fanart = resizeImage(images.fanart, '940');
@@ -278,13 +279,16 @@ var health_checked = false;
                 } else {
                     App.vent.trigger('show:watched', value, 'seen');
                 }
-                _this.markWatched(value, !watched);
             });
         },
 
-        onWatched: function (value, state) {
-            this.markWatched(value, state);
+        onWatched: function (value, channel) {
+            this.markWatched(value, true);
             this.selectFirstUnseen();
+        },
+
+        onUnWatched: function (value, channel) {
+            this.markWatched(value, false);
         },
 
         markWatched: function(value, state) {
