@@ -540,7 +540,7 @@
         case 'seen':
         default:
             App.Trakt.show
-                .episodeSeen(show.season, show.episode);
+                .episodeSeen(show.show_id, show);
             break;
         }
     }
@@ -555,7 +555,7 @@
         case 'seen':
         default:
             App.Trakt.show
-                .episodeUnseen(show.season, show.episode);
+                .episodeUnseen(show.show_id, show);
             break;
         }
     }
