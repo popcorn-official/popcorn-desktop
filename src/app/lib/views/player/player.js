@@ -53,29 +53,11 @@
 			}
 
 			// Check if >80% is watched to mark as watched by user  (maybe add value to settings
+                        var type = (this.isMovie()?'movie':'show');
 			if (this.video.currentTime() / this.video.duration() >= 0.8) {
-				if (!this.isMovie()) {
-					win.debug('Mark TV Show as watched');
-					App.vent.trigger('shows:watched', this.model.attributes, true);
-					App.Trakt
-						.show
-						.scrobble(this.model.get('show_id'), this.model.get('season'), this.model.get('episode'), this.video.currentTime() / this.video.duration() * 100 | 0, this.video.duration() / 60 | 0);
-
-				} else if (this.model.get('imdb_id') != null) {
-					win.debug('Mark Movie as watched');
-					App.vent.trigger('movies:watched', this.model.attributes, true);
-
-					App.Trakt
-						.movie
-						.scrobble(this.model.get('imdb_id'), this.video.currentTime() / this.video.duration() * 100 | 0, this.video.duration() / 60 | 0);
-
-				} // else, it's probably a stream or something we don't know of
+				App.vent.trigger(type + ':watched', this.model.attributes, 'scrobble');
 			} else {
-				if (this.isMovie()) {
-					App.Trakt.movie.cancelWatching();
-				} else {
-					App.Trakt.show.cancelWatching();
-				}
+				App.Trakt[type].cancelWatching();
 			}
 
 			try {
