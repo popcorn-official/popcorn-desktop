@@ -183,6 +183,19 @@ var health_checked = false;
                     .addClass('fadein');
                 bgCache = null;
             };
+
+            this.selectFirstUnseen();
+
+            _this.initKeyboardShortcuts();
+
+            if (AdvSettings.get('ratingStars') === false) {
+                $('.star-container-tv').addClass('hidden');
+                $('.number-container-tv').removeClass('hidden');
+            }
+
+        },
+        selectFirstUnseen: function () {
+
             var episodesSeen = [];
             Database.getEpisodesWatched(this.model.get('tvdb_id'), function(err, data) {
                 _.each(data, function(value, state) {
@@ -231,14 +244,6 @@ var health_checked = false;
                     }
                 }
             });
-
-            _this.initKeyboardShortcuts();
-
-            if (AdvSettings.get('ratingStars') === false) {
-                $('.star-container-tv').addClass('hidden');
-                $('.number-container-tv').removeClass('hidden');
-            }
-
         },
 
         openIMDb: function() {
