@@ -530,6 +530,55 @@
         }
     };
 
+    function onShowWatched (show, channel) {
+        win.debug('Mark TV Show as watched', channel);
+        switch (channel) {
+        case 'scrobble':
+            App.Trakt.show
+                .scrobble(show.show_id, show.season, show.episode, 100);
+            break;
+        case 'seen':
+        default:
+            App.Trakt.show
+                .episodeSeen(show.season, show.episode);
+            break;
+        }
+    }
+
+    function onShowUnWatched (show, channel) {
+        win.debug('Mark TV Show as unwatched', channel);
+        switch (channel) {
+        case 'scrobble':
+            App.Trakt.show
+                .scrobble(show.show_id, show.season, show.episode, 0);
+            break;
+        case 'seen':
+        default:
+            App.Trakt.show
+                .episodeUnseen(show.season, show.episode);
+            break;
+        }
+    }
+
+    function onMoviesWatched (movie, channel) {
+        win.debug('Mark Movie as watched');
+        switch (channel) {
+        case 'scrobble':
+            App.Trakt.movie
+		.scrobble(movie.imdb_id, 100);
+            break;
+        case 'seen':
+        default:
+            App.Trakt.movie
+                .seen(movie.imdb_id);
+            break;
+        }
+    }
+
+    App.vent.on('show:watched',   onShowWatched);
+    App.vent.on('show:unwatched', onShowUnWatched);
+    App.vent.on('movie:watched',  onMoviesWatched);
+
     App.Providers.Trakttv = TraktTv;
 
 })(window.App);
