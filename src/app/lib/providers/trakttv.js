@@ -531,7 +531,7 @@
     };
 
     function onShowWatched (show, channel) {
-        win.debug('Mark TV Show as watched', channel);
+        win.debug('Mark TV Show as watched, on channel:', channel);
         switch (channel) {
         case 'scrobble':
             App.Trakt.show
@@ -546,7 +546,7 @@
     }
 
     function onShowUnWatched (show, channel) {
-        win.debug('Mark TV Show as unwatched', channel);
+        win.debug('Mark TV Show as unwatched, on channel:', channel);
         switch (channel) {
         case 'scrobble':
             App.Trakt.show
@@ -561,7 +561,7 @@
     }
 
     function onMoviesWatched (movie, channel) {
-        win.debug('Mark Movie as watched');
+        win.debug('Mark Movie as watched, on channel:', channel);
         switch (channel) {
         case 'scrobble':
             App.Trakt.movie
