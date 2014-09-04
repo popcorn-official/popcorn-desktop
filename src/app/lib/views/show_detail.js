@@ -102,7 +102,7 @@ var health_checked = false;
                     _this.unbindKeyboardShortcuts();
                 }
             });
-            App.vent.on('shows:watched', this.markWatched);
+            App.vent.on('shows:watched', _.bind(this.onWatched, this));
 
             var images = this.model.get('images');
             images.fanart = resizeImage(images.fanart, '940');
@@ -280,6 +280,11 @@ var health_checked = false;
                 }
                 _this.markWatched(value, !watched);
             });
+        },
+
+        onWatched: function (value, state) {
+            this.markWatched(value, state);
+            this.selectFirstUnseen();
         },
 
         markWatched: function(value, state) {
