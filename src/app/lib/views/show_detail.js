@@ -200,7 +200,7 @@ var health_checked = false;
             Database.getEpisodesWatched(this.model.get('tvdb_id'), function(err, data) {
                 _.each(data, function(value, state) {
                     // we'll mark episode already watched
-                    _this.markWatched(value, state);
+                    _this.markWatched(value, true);
                     // store all watched episode
                     if (value) {
                         episodesSeen.push(parseInt(value.season) * 100 +
