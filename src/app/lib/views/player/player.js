@@ -53,7 +53,7 @@
 			}
 
 			// Check if >80% is watched to mark as watched by user  (maybe add value to settings
-                        var type = (this.isMovie()?'movie':'show');
+			var type = (this.isMovie()?'movie':'show');
 			if (this.video.currentTime() / this.video.duration() >= 0.8) {
 				App.vent.trigger(type + ':watched', this.model.attributes, 'scrobble');
 			} else {
