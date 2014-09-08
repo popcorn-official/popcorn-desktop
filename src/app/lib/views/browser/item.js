@@ -140,6 +140,7 @@
         showDetail: function(e) {
             e.preventDefault();
             var type = this.model.get('type');
+            var Type = type.charAt(0).toUpperCase() + type.slice(1);
             switch (type) {
                 case 'bookmarkedmovie':
                     var SelectedMovie = new Backbone.Model({
@@ -176,7 +177,7 @@
                             data.provider = provider.name;
                             $('.spinner').hide();
                             if (!err) {
-                                App.vent.trigger(type + ':showDetail', new Backbone.Model(data));
+                                App.vent.trigger(type + ':showDetail', new App.Model[Type](data));
                             } else {
                                 alert('Somethings wrong... try later');
                             }
