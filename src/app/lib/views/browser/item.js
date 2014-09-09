@@ -140,7 +140,6 @@
         showDetail: function(e) {
             e.preventDefault();
             var type = this.model.get('type');
-            var Type = type.charAt(0).toUpperCase() + type.slice(1);
             switch (type) {
                 case 'bookmarkedmovie':
                     var SelectedMovie = new Backbone.Model({
@@ -168,6 +167,7 @@
                     type = 'show';
                 case 'show':
                 case 'movie':
+                    var Type = type.charAt(0).toUpperCase() + type.slice(1);
                     this.model.set('health', false);
                     $('.spinner').show();
                     var provider = App.Providers.get(this.model.get('provider'));
