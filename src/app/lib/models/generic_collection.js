@@ -49,9 +49,13 @@
                 var idsPromise = promises[0].then(_.bind(torrentProvider.extractIds, torrentProvider));
 
                 if (subtitle)
+                {
                     promises.push(idsPromise.then(_.bind(subtitle.fetch, subtitle)));
+                }
                 if (metadata)
+                {
                     promises.push(idsPromise.then(_.bind(metadata.movie.listSummary, metadata)));
+                }
 
                 Q.all(promises)
                     .spread(function(torrents, subtitles, metadatas) {
