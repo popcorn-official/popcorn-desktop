@@ -33,7 +33,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', [
         'stylus',
-        'jsbeautifier',
         'jshint',
         'bower_clean',
         'injectgit'
@@ -43,7 +42,7 @@ module.exports = function (grunt) {
         'stylus'
     ]);
 
-    grunt.registerTask('beautify', [
+    grunt.registerTask('js', [
         'jsbeautifier'
     ]);
 
@@ -51,7 +50,6 @@ module.exports = function (grunt) {
         'css',
         'injectgit',
         'bower_clean',
-        'jsbeautifier',
         'nodewebkit'
     ]);
 
