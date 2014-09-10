@@ -11,6 +11,7 @@
 			searchClose: '.remove-search',
 			searchText: '.text-search',
 			sorterValue: '.sorters .value',
+			typeValue: '.types .value',
 			genreValue: '.genres  .value'
 		},
 		events: {
@@ -21,10 +22,12 @@
 			'click  @ui.search': 'focusSearch',
 			'click .sorters .dropdown-menu a': 'sortBy',
 			'click .genres .dropdown-menu a': 'changeGenre',
+			'click .types .dropdown-menu a': 'changeType',
 			'click #filterbar-settings': 'settings',
 			'click #filterbar-about': 'about',
 			'click .showMovies': 'showMovies',
 			'click .showShows': 'showShows',
+            'click .showAnime': 'showAnime',
 			'click #filterbar-favorites': 'showFavorites',
 			'click .triggerUpdate': 'updateDB'
 		},
@@ -43,6 +46,10 @@
 				case 'Movies':
 				case 'movies':
 					$('.source.showMovies').addClass('active');
+				        break;
+				case 'Anime':
+				case 'anime':
+					$('.source.showAnime').addClass('active');
 					break;
 				case 'Favorites':
 				case 'favorites':
@@ -174,6 +181,20 @@
 			this.previousSort = sorter;
 		},
 
+		changeType: function(e) {
+			App.vent.trigger('about:close');
+			this.$('.types .active').removeClass('active');
+			$(e.target).addClass('active');
+
+			var type = $(e.target).attr('data-value');
+			this.ui.typeValue.text(i18n.__(type));
+
+			this.model.set({
+				keyword: '',
+				type: type
+			});
+		},
+
 		changeGenre: function(e) {
 			App.vent.trigger('about:close');
 			this.$('.genres .active').removeClass('active');
@@ -204,6 +225,14 @@
 			App.vent.trigger('about:close');
 			App.vent.trigger('shows:list', []);
 			this.setactive('TV Series');
+		},
+
+		showAnime: function(e) {
+			e.preventDefault();
+			App.currentview = 'anime';
+			App.vent.trigger('about:close');
+			App.vent.trigger('anime:list', []);
+			this.setactive('Anime');
 		},
 
 		showMovies: function(e) {

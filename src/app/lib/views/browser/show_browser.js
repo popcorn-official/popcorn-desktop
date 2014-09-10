@@ -1,7 +1,6 @@
 (function(App) {
     'use strict';
 
-
     var ShowBrowser = App.View.PCTBrowser.extend({
         collectionModel: App.Model.ShowCollection,
         filters: {

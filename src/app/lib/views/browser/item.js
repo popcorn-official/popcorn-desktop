@@ -168,6 +168,7 @@
                 /* falls through */
                 case 'show':
                 case 'movie':
+                    var Type = type.charAt(0).toUpperCase() + type.slice(1);
                     this.model.set('health', false);
                     $('.spinner').show();
                     var provider = App.Providers.get(this.model.get('provider'));
@@ -177,7 +178,7 @@
                             data.provider = provider.name;
                             $('.spinner').hide();
                             if (!err) {
-                                App.vent.trigger(type + ':showDetail', new Backbone.Model(data));
+                                App.vent.trigger(type + ':showDetail', new App.Model[Type](data));
                             } else {
                                 alert('Somethings wrong... try later');
                             }

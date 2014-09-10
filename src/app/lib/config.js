@@ -45,6 +45,13 @@
             'name'
         ],
 
+        types_anime: [
+            'All',
+            'Movies',
+            'TV',
+            'OVH'
+        ],
+
         genres_tv: [
             'All',
             'Action',
@@ -92,6 +99,7 @@
         providers: {
             movie: ['Yts'],
             tvshow: ['Eztv'],
+            anime: ['Haruhichan'],
             subtitle: 'YSubs',
             metadata: 'Trakttv',
 

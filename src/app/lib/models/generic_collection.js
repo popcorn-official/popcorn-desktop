@@ -31,8 +31,8 @@
 
             var subtitle = this.providers.subtitle;
             var metadata = this.providers.metadata;
-
             var torrents = this.providers.torrents;
+
             /* XXX(xaiki): provider hack
              *
              * we actually do this to 'save' the provider number,
@@ -48,10 +48,10 @@
 
                 var idsPromise = promises[0].then(_.bind(torrentProvider.extractIds, torrentProvider));
 
-                if (self.type === 'movies') {
+                if (subtitle)
                     promises.push(idsPromise.then(_.bind(subtitle.fetch, subtitle)));
+                if (metadata)
                     promises.push(idsPromise.then(_.bind(metadata.movie.listSummary, metadata)));
-                }
 
                 Q.all(promises)
                     .spread(function(torrents, subtitles, metadatas) {

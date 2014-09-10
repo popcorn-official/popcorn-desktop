@@ -16,13 +16,7 @@
             var torrents = this.get('torrents');
 
             _.each(torrents, function(torrent) {
-                if (!torrent.url) {
-                    _.each(torrent, function(episode, key) {
-                        torrent[key].health = Common.healthMap[Common.calcHealth(episode)];
-                    });
-                } else {
                     torrent.health = Common.healthMap[Common.calcHealth(torrent)];
-                }
             });
 
             this.set('torrents', torrents, {silent: true});
