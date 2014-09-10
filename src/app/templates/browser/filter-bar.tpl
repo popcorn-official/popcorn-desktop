@@ -12,7 +12,7 @@
 					<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
-				<% console.log(types);  _.each(types, function(c) { %>
+				<% _.each(types, function(c) { %>
 					<li><a href="#" data-value="<%= c %>"><%= i18n.__(c) %></a></li>
 				<% }); %>
 			</ul>

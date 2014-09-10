@@ -124,7 +124,6 @@
                     self.add(t.results);
                 });
                 self.hasMore = _.pluck(torrents, 'hasMore')[0];
-                console.log(_.pluck(torrents, 'results')[0].length);
                 if( self.hasMore && _.pluck(torrents, 'results')[0].length < 38){
                      self.hasMore = false;
                 }

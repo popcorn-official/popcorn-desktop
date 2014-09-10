@@ -138,7 +138,7 @@
 			return;
 		}
 		else {
-			console.log('Scan Finished');
+			win.info('External players Scan Finished');
 			return;
 		}
 	});
