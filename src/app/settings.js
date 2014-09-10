@@ -21,7 +21,7 @@ Settings.postersJump = [134, 154, 174, 194, 214, 234, 254, 274, 294];
 
 // Advanced UI
 Settings.alwaysOnTop = false;
-Settings.theme = 'Dark_-_Official_theme';
+Settings.theme = 'Official_-_Dark_theme';
 Settings.ratingStars = true; //trigger on click in details
 Settings.startScreen = 'Movies';
 
