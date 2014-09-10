@@ -49,7 +49,8 @@
             'All',
             'Movies',
             'TV',
-            'OVH'
+            'OVA',
+            'ONA'
         ],
 
         genres_tv: [
