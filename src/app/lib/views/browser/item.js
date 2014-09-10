@@ -165,6 +165,7 @@
 
                 case 'bookmarkedshow':
                     type = 'show';
+                /* falls through */
                 case 'show':
                 case 'movie':
                     this.model.set('health', false);

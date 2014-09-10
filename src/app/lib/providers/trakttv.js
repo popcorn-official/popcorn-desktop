@@ -538,6 +538,7 @@
                 .scrobble(show.tvdb_id, show.season, show.episode, 100);
             break;
         case 'seen':
+        /* falls through */
         default:
             App.Trakt.show
                 .episodeSeen(show.tvdb_id, show);
@@ -553,6 +554,7 @@
                 .scrobble(show.tvdb_id, show.season, show.episode, 0);
             break;
         case 'seen':
+        /* falls through */
         default:
             App.Trakt.show
                 .episodeUnseen(show.tvdb_id, show);
@@ -568,6 +570,7 @@
 		.scrobble(movie.imdb_id, 100);
             break;
         case 'seen':
+        /* falls through */
         default:
             App.Trakt.movie
                 .seen(movie.imdb_id);
