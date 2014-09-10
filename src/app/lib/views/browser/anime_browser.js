@@ -5,7 +5,8 @@
         collectionModel: App.Model.AnimeCollection,
         filters: {
             genres: App.Config.genres_tv,
-            sorters: App.Config.sorters_tv
+            sorters: App.Config.sorters_tv,
+            types: App.Config.types_anime
         }
     });
 

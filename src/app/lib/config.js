@@ -45,6 +45,13 @@
             'name'
         ],
 
+        types_anime: [
+            'All',
+            'Movies',
+            'TV',
+            'OVH'
+        ],
+
         genres_tv: [
             'All',
             'Action',

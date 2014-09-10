@@ -30,6 +30,19 @@
 				<% }); %>
 			</ul>
 		</li>
+	<%} if(typeof type !== 'undefined'){ %>
+		<li class="dropdown filter type">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<%= i18n.__("Display") %>
+					<span class="value"><%= i18n.__(type.capitalizeEach()) %></span>
+					<span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu">
+				<% _.each(types, function(c) { %>
+					<li><a href="#" data-value="<%= c %>"><%= i18n.__(c.capitalizeEach()) %></a></li>
+				<% }); %>
+			</ul>
+		</li>
 	<%}%>
 </ul>
 <ul class="nav nav-hor right">
