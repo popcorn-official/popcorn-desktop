@@ -202,6 +202,7 @@
             switch (App.currentview) {
                 case 'movies':
                 case 'shows':
+                case 'anime':
                     $('#load-more-item').remove();
                     // we add a load more
                     if (this.collection.hasMore && !this.collection.filter.keywords && this.collection.state !== 'error') {
