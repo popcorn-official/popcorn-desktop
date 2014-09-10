@@ -2,8 +2,7 @@
 	<div class="fa fa-times close-icon"></div>
 	<div class="overlay-content"></div>
 	<div class="margintop"></div>
-	<img class="icon-about" src="/src/app/images/icon.png">
-	<img class="icon-title" src="/src/app/images/icons/big-logo.png">
+	<img class="icon-title" src="/src/app/images/popcorn-time-logo.svg">
 	<div class="content">
 		<div class="title-version">
 			<a href='https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse/CHANGELOG.md' data-toggle="tooltip" data-placement="top" title="Changelog" class='links'><%= App.settings.version %> Beta</a>
