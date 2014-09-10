@@ -11,6 +11,7 @@
 			searchClose: '.remove-search',
 			searchText: '.text-search',
 			sorterValue: '.sorters .value',
+			typeValue: '.types .value',
 			genreValue: '.genres  .value'
 		},
 		events: {
@@ -21,11 +22,12 @@
 			'click  @ui.search': 'focusSearch',
 			'click .sorters .dropdown-menu a': 'sortBy',
 			'click .genres .dropdown-menu a': 'changeGenre',
+			'click .types .dropdown-menu a': 'changeType',
 			'click #filterbar-settings': 'settings',
 			'click #filterbar-about': 'about',
 			'click .showMovies': 'showMovies',
 			'click .showShows': 'showShows',
-                        'click .showAnime': 'showAnime',
+            'click .showAnime': 'showAnime',
 			'click #filterbar-favorites': 'showFavorites',
 			'click .triggerUpdate': 'updateDB'
 		},
@@ -177,6 +179,20 @@
 				sorter: sorter
 			});
 			this.previousSort = sorter;
+		},
+
+		changeType: function(e) {
+			App.vent.trigger('about:close');
+			this.$('.types .active').removeClass('active');
+			$(e.target).addClass('active');
+
+			var type = $(e.target).attr('data-value');
+			this.ui.typeValue.text(i18n.__(type));
+
+			this.model.set({
+				keyword: '',
+				type: type
+			});
 		},
 
 		changeGenre: function(e) {

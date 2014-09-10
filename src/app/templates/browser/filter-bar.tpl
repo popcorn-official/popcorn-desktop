@@ -31,7 +31,7 @@
 			</ul>
 		</li>
 	<%} if(typeof type !== 'undefined'){ %>
-		<li class="dropdown filter type">
+		<li class="dropdown filter types">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 				<%= i18n.__("Display") %>
 					<span class="value"><%= i18n.__(type.capitalizeEach()) %></span>
