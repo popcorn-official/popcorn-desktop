@@ -95,7 +95,7 @@ App.addRegions({
 App.ViewStack = [];
 
 App.addInitializer(function(options) {
-    var zoom = 1;
+    var zoom = 0;
 
     if (ScreenResolution.UltraHD || ScreenResolution.Retina) {
         zoom = 2;
