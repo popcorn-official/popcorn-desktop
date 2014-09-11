@@ -98,7 +98,7 @@ App.addInitializer(function(options) {
     var zoom = 0;
 
     if (ScreenResolution.UltraHD || ScreenResolution.Retina) {
-        zoom = 2;
+        zoom = 1;
     } else if (ScreenResolution.QuadHD) {
         zoom = 3;
     }
