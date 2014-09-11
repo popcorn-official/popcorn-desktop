@@ -60,7 +60,7 @@ var zoom = 1;
 
 if (sw > 3000) {
     zoom = 3;
-} else if (sw > 1500) {
+} else if (sw > 2000) {
     zoom = 2;
 };
 
