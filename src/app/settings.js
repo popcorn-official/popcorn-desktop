@@ -63,6 +63,8 @@ Settings.connectionCheckUrl = 'http://google.com/';
 Settings.version = false;
 Settings.dbversion = '0.1.0';
 Settings.font = 'tahoma';
+Settings.width = 1100;
+Settings.height = 618;
 
 var ScreenResolution = {
     get SD() {
@@ -76,6 +78,9 @@ var ScreenResolution = {
     },
     get UltraHD() {
         return window.screen.width >= 2000 || window.screen.height >= 1600;
+    },
+    get QuadHD() {
+        return window.screen.width >= 3000 || window.screen.height >= 1800;
     },
     get Standard() {
         return window.devicePixelRatio <= 1;

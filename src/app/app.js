@@ -54,18 +54,6 @@ win.error = function() {
     console.error.apply(console, params);
 };
 
-// Detect HiDPI and set win.zoomLevel
-var sw = window.screen.availWidth;
-var zoom = 1;
-
-if (sw > 3000) {
-    zoom = 3;
-} else if (sw > 2000) {
-    zoom = 2;
-};
-
-win.zoomLevel = zoom;
-
 // Load in external templates
 _.each(document.querySelectorAll('[type="text/x-template"]'), function(el) {
     $.get(el.src, function(res) {
@@ -105,6 +93,19 @@ App.addRegions({
 
 //Keeps a list of stacked views
 App.ViewStack = [];
+
+App.addInitializer(function(options) {
+    var zoom = 1;
+
+    if (ScreenResolution.UltraHD || ScreenResolution.Retina) {
+        zoom = 2;
+    } else if (ScreenResolution.QuadHD) {
+        zoom = 3;
+    }
+
+    win.zoomLevel = zoom;
+    win.resizeTo(zoom*Settings.width, zoom*Settings.height);
+});
 
 App.addInitializer(function(options) {
     var mainWindow = new App.View.MainWindow();
