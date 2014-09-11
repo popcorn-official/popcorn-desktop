@@ -101,8 +101,6 @@
 
 			if (typeof App.currentview === 'undefined') {
 
-
-
 				switch (AdvSettings.get('startScreen')) {
 					case 'TV Series':
 						App.currentview = 'shows';
@@ -110,11 +108,13 @@
 					case 'Movies':
 						App.currentview = 'movies';
 						break;
+					case 'Anime':
+						App.currentview = 'anime';
+						break;
 					case 'Favorites':
 						App.currentview = 'Favorites';
 						App.previousview = 'movies';
 						break;
-
 					default:
 						App.currentview = 'movies';
 				}

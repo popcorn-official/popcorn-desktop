@@ -126,7 +126,9 @@
                     that.showFavorites();
                 } else if (AdvSettings.get('startScreen') === 'TV Series') {
                     that.showShows();
-                } else {
+                } else if (AdvSettings.get('startScreen') === 'Anime') {
+                    that.showAnime();
+                }else {
                     that.showMovies();
                 }
 
