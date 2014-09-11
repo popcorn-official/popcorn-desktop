@@ -54,7 +54,17 @@ win.error = function() {
     console.error.apply(console, params);
 };
 
+// Detect HiDPI and set win.zoomLevel
+var sw = window.screen.availWidth;
+var zoom = 1;
 
+if (sw > 3000) {
+    zoom = 3;
+} else if (sw > 1500) {
+    zoom = 2;
+};
+
+win.zoomLevel = zoom;
 
 // Load in external templates
 _.each(document.querySelectorAll('[type="text/x-template"]'), function(el) {
