@@ -95,6 +95,7 @@ App.addRegions({
 App.ViewStack = [];
 
 App.addInitializer(function(options) {
+    // this is the 'do things with resolutions and size initializer
     var zoom = 0;
     var screen = window.screen;
 
@@ -106,7 +107,7 @@ App.addInitializer(function(options) {
 
     win.zoomLevel = zoom;
     win.resizeTo(Settings.width, Settings.height);
-    win.moveTo((screen.availWidth - Settings.width)/2,
+    win.moveTo((screen.availWidth  - Settings.width )/2,
                (screen.availHeight - Settings.height)/2);
 });
 
