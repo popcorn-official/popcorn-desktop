@@ -96,6 +96,7 @@ App.ViewStack = [];
 
 App.addInitializer(function(options) {
     var zoom = 0;
+    var screen = window.screen;
 
     if (ScreenResolution.QuadHD) {
         zoom = 2;
@@ -105,6 +106,8 @@ App.addInitializer(function(options) {
 
     win.zoomLevel = zoom;
     win.resizeTo(Settings.width, Settings.height);
+    win.moveTo((screen.availWidth - Settings.width)/2,
+               (screen.availHeight - Settings.height)/2);
 });
 
 App.addInitializer(function(options) {
