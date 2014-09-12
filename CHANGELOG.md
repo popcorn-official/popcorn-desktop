@@ -1,3 +1,9 @@
+## 0.3.4-dev - NOT RELEASED
+- HiDPI support, scales properly on 1080p, 2k/Retina and 4k/QHD screens
+- Update vectorial 'about' view
+- New theme from @ghostbear
+- [ALPHA] Anime Tab, thanks to the haruhichan people !
+
 ## 0.3.3 Beta - 12 sept 2014
 - Move to self-hosted repo, you can now find us at http://git.popcorntime.io
 - Use FontAwesome instead of PNG's: nicer sharper icons accross the ui
