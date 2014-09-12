@@ -1,24 +1,42 @@
 ## 0.3.3 Beta - 12 sept 2014
-- Move to self-hosted repo
-- Use FontAwesome instead of PNG's
-- Get rid of white flash at startup
-- Rethink Settings
-- Themes
-- HTTP Api
-- Trakt.tv synchronisation
+- Move to self-hosted repo, you can now find us at http://git.popcorntime.io
+- Use FontAwesome instead of PNG's: nicer sharper icons accross the ui
+- Get rid of white flash at startup.
+- Rethink Settings: much cleaner layout, separated in advanced.
+- Themes: we give you 3 new themes to check out, and soon you'll be able to
+  submit your own.
+- HTTP Api: to control Popcorn Time from another application
 - New settings: 
 	- Always on Top option
 	- Start page option
 	- Rating on covers
 	- Fade or Hide watched items
+
 - Multiple UI improvements
-- External players (ex: VLC, XBMC, MPlayer, mpv, ...)
+    - Resize covers on-the-fly
+    - [TV] Open directly next unseen episode
+    - Builtin help section
+
+- External Players Framework:
+    - VLC,
+    - XBMC,
+    - MPlayer,
+    - mpv,
+    - and many more !
 - Linux installer
-- Chromecast support
-- Airplay support
-- Resize covers on-the-fly
-- [TV] Open directly next unseen episode
-- Builtin help section
+
+- [ALPHA] Trakt.tv synchronisation: trakt will now remember your favs for
+- [ALPHA] External Devices Framework:
+    - Chromecast
+    - Airplay
+
+release notes:
+- This release ships with a huge internal code clean up that forced us to
+  break former Databases compatibilities, so you most probably will have to reset
+  your DataBase on install. sorry, we'll be better next time.
+- We will not support auto-update for this release, sorry, we'll be better
+  next time.
+
 
 ## 0.3.2 Beta - 12 june 2014
 
