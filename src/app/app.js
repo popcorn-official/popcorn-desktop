@@ -104,7 +104,7 @@ App.addInitializer(function(options) {
     }
 
     win.zoomLevel = zoom;
-    win.resizeTo(zoom*Settings.width, zoom*Settings.height);
+    win.resizeTo(Settings.width, Settings.height);
 });
 
 App.addInitializer(function(options) {
