@@ -97,10 +97,10 @@ App.ViewStack = [];
 App.addInitializer(function(options) {
     var zoom = 0;
 
-    if (ScreenResolution.UltraHD || ScreenResolution.Retina) {
+    if (ScreenResolution.QuadHD) {
+        zoom = 2;
+    } else if (ScreenResolution.UltraHD || ScreenResolution.Retina) {
         zoom = 1;
-    } else if (ScreenResolution.QuadHD) {
-        zoom = 3;
     }
 
     win.zoomLevel = zoom;
