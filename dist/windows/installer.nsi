@@ -234,8 +234,8 @@ Section ; App Files
 
 	SetOutPath "$INSTDIR"
 	File "..\..\package.json"
-	File "..\..\.git.json"
-	
+	File /NONFATAL "..\..\.git.json"
+
 	SetOutPath "$INSTDIR\node_modules"
 	File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" "..\..\node_modules\*.*"
 
