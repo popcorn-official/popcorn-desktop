@@ -64,7 +64,7 @@ Settings.version = false;
 Settings.dbversion = '0.1.0';
 Settings.font = 'tahoma';
 Settings.width = window.screen.availWidth*0.8;
-Settings.height = window.screen.availHeight*0.8;;
+Settings.height = window.screen.availHeight*0.8;
 
 var ScreenResolution = {
     get SD() {
