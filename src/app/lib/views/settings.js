@@ -1,6 +1,11 @@
 (function(App) {
 	'use strict';
 	var clipboard = gui.Clipboard.get();
+
+    var AdmZip = require('adm-zip');
+    var fdialogs = require('node-webkit-fdialogs');
+	var fs = require('fs');
+
 	var that;
 
 	var Settings = Backbone.Marionette.ItemView.extend({
@@ -26,6 +31,7 @@
 			'click .default-settings': 'resetSettings',
 			'click .open-tmp-folder': 'openTmpFolder',
 			'click .open-database-folder': 'openDatabaseFolder',
+            'click .export-database': 'exportDatabase',
 			'keyup #traktUsername': 'checkTraktLogin',
 			'keyup #traktPassword': 'checkTraktLogin',
 			'click #unauthTrakt': 'disconnectTrakt',
@@ -34,7 +40,7 @@
 		},
 
 		onShow: function() {
-			
+
 			this.render();
 			
 			$('.filter-bar').hide();
@@ -388,6 +394,21 @@
 			gui.Shell.openItem(App.settings['databaseLocation']);
 		},
 		
+        exportDatabase: function() {
+
+            var zip = new AdmZip();
+            var databaseFiles = fs.readdirSync(App.settings['databaseLocation']);
+
+            databaseFiles.forEach(function(entry) {
+                zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
+            });
+
+            fdialogs.saveFile(zip.toBuffer(), function (err, path) {
+                console.log("Database exported to:", path);
+            });
+
+		},
+
 		updateCacheDirectory: function(e) {
 			// feel free to improve/change radically!
 			var that = this;
