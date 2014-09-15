@@ -484,7 +484,7 @@
 					btn.text(btnText).removeClass('confirm disabled').prop('disabled', false);
 					$('body').removeClass('has-notification');
 					$el.hide();
-				}, 2000);
+				}, 3000);
 			}
 		},
 
