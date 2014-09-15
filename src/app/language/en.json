@@ -297,5 +297,6 @@
 	"Database": "Database",
 	"Database Directory": "Database Directory",
 	"Inport Database": "Inport Database",
-	"Export Database": "Export Database"
+	"Export Database": "Export Database",
+	"Importing Database...": "Importing Database..."
 }

@@ -32,6 +32,7 @@
 			'click .open-tmp-folder': 'openTmpFolder',
 			'click .open-database-folder': 'openDatabaseFolder',
             'click .export-database': 'exportDatabase',
+            'click .inport-database': 'inportDatabase',
 			'keyup #traktUsername': 'checkTraktLogin',
 			'keyup #traktPassword': 'checkTraktLogin',
 			'click #unauthTrakt': 'disconnectTrakt',
@@ -406,6 +407,26 @@
             fdialogs.saveFile(zip.toBuffer(), function (err, path) {
                 console.log("Database exported to:", path);
             });
+
+		},
+
+        inportDatabase: function() {
+            var that = this;
+
+            var Dialog = new fdialogs.FDialog({
+                type: 'open',
+                accept: ['.zip']
+            });
+
+            Dialog.readFile(function (err, content, path) {
+                that.alertMessageWait(i18n.__('Importing Database...'));
+                if(err) throw err;
+                var zip = new AdmZip(content);
+
+                zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/true);
+                that.alertMessageSuccess(true);
+            });
+
 
 		},
 
