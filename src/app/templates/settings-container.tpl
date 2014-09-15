@@ -253,6 +253,22 @@
 			</span>
 		</div>
 	</section>
+
+	<section id="database" class="advanced">
+		<div class="title"><%= i18n.__("Database") %></div>
+		<div class="content">
+			<span>
+				<p><%= i18n.__("Database Directory") %>: </p>
+				<input type="text" placeholder="<%= i18n.__("Database Directory") %>" id="fakedatabaseLocation" value="<%= Settings.databaseLocation %>" readonly="readonly" size="65" /> <i class="open-database-folder fa fa-folder-open-o"></i>
+				<input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
+			</span>
+			<div class="btns advanced database">
+				<div class="btn-settings database inport-database"><%= i18n.__("Inport Database") %></div>
+				<div class="btn-settings database export-database"><%= i18n.__("Export Database") %></div>
+			</div>
+		</div>
+	</section>
+
 		
 	<div class="btns advanced">
 		<div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
@@ -263,3 +279,4 @@
 		
 </div>
 
+<input style="display:none;" id="exportDatabases" type="file" />

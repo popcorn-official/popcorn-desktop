@@ -175,11 +175,24 @@
 					cursor: pointer;
 					color: $ButtonBgActive;
 					transition: all .5s;
+		#database
+			.open-database-folder
+				font-size: 16px
+				margin-left: 10px;
+				transition: all .5s;
+				&:hover
+					cursor: pointer;
+					color: $ButtonBgActive;
+					transition: all .5s;
 
 		.btns
 			padding-top 10px
 			padding-right 2%
 			float right
+			&.database
+				float left
+				padding-top 0
+				padding-bottom 13px
 
 		.btn-settings
 			position relative
@@ -198,6 +211,8 @@
 			line-height 34px
 			cursor pointer
 			transition background-color .5s
+			&.database
+				margin-top: 0
 			&:hover
 				background-color $ButtonBgHover
 				color $SettingsButtonTextHover

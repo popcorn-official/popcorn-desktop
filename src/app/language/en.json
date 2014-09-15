@@ -293,5 +293,9 @@
 	"Home and Garden": "Home and Garden",
 	"OVA": "OVA",
 	"ONA": "ONA",
-	"No anime found...": "No anime found..."
+	"No anime found...": "No anime found...",
+	"Database": "Database",
+	"Database Directory": "Database Directory",
+	"Inport Database": "Inport Database",
+	"Export Database": "Export Database"
 }

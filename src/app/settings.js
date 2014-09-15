@@ -49,6 +49,7 @@ Settings.connectionLimit = 100;
 Settings.dhtLimit = 500;
 Settings.streamPort = 0; // 0 = Random
 Settings.tmpLocation = path.join(os.tmpDir(), 'Popcorn-Time');
+Settings.databaseLocation = data_path + '/data';
 Settings.deleteTmpOnClose = true;
 
 // Hidden endpoints

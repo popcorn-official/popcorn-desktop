@@ -25,6 +25,7 @@
 			'click #faketmpLocation': 'showCacheDirectoryDialog',
 			'click .default-settings': 'resetSettings',
 			'click .open-tmp-folder': 'openTmpFolder',
+			'click .open-database-folder': 'openDatabaseFolder',
 			'keyup #traktUsername': 'checkTraktLogin',
 			'keyup #traktPassword': 'checkTraktLogin',
 			'click #unauthTrakt': 'disconnectTrakt',
@@ -382,6 +383,11 @@
 			gui.Shell.openItem(App.settings['tmpLocation']);
 		},
 
+		openDatabaseFolder: function() {
+			console.log('Opening: ' + App.settings['databaseLocation']);
+			gui.Shell.openItem(App.settings['databaseLocation']);
+		},
+		
 		updateCacheDirectory: function(e) {
 			// feel free to improve/change radically!
 			var that = this;
