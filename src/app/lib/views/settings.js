@@ -395,9 +395,10 @@
 			gui.Shell.openItem(App.settings['databaseLocation']);
 		},
 		
-        exportDatabase: function() {
-
+        exportDatabase: function(e) {
+            var that = this;
             var zip = new AdmZip();
+            var btn = $(e.currentTarget);
             var databaseFiles = fs.readdirSync(App.settings['databaseLocation']);
 
             databaseFiles.forEach(function(entry) {
@@ -405,7 +406,9 @@
             });
 
             fdialogs.saveFile(zip.toBuffer(), function (err, path) {
+                that.alertMessageWait(i18n.__('Exporting Database...'));
                 console.log("Database exported to:", path);
+                that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
             });
 
 		},
@@ -413,18 +416,23 @@
         inportDatabase: function() {
             var that = this;
 
-            var Dialog = new fdialogs.FDialog({
-                type: 'open',
-                accept: ['.zip']
-            });
+            fdialogs.readFile(function (err, content, path) {
 
-            Dialog.readFile(function (err, content, path) {
                 that.alertMessageWait(i18n.__('Importing Database...'));
-                if(err) throw err;
-                var zip = new AdmZip(content);
 
-                zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/true);
-                that.alertMessageSuccess(true);
+                try {
+                   var zip = new AdmZip(content);
+
+                    zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/true);
+                    that.alertMessageSuccess(true);
+                }
+                catch(err) {
+
+                    that.alertMessageFailed(i18n.__('Inporting Database: Invalid PCT Database File Selected'));
+                    console.log('Failed to Inport Database');
+                }
+
+
             });
 
 
@@ -478,6 +486,23 @@
 					$el.hide();
 				}, 2000);
 			}
+		},
+
+ 		alertMessageFailed: function(errorDesc) {
+
+			var $el = $('#notification');
+
+			$el.html('<h1>' + i18n.__('Error') + '</h1>');
+
+				// Hide notification after 5 seconds
+				$el.append('<p>' + errorDesc + '.</p>');
+				setTimeout(function() {
+
+				   $('body').removeClass('has-notification');
+					$el.hide();
+
+                }, 5000);
+
 		},
 
 		syncTrakt: function() {

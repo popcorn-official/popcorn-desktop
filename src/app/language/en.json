@@ -298,5 +298,8 @@
 	"Database Directory": "Database Directory",
 	"Inport Database": "Inport Database",
 	"Export Database": "Export Database",
-	"Importing Database...": "Importing Database..."
+	"Importing Database...": "Importing Database...",
+	"Database Successfully Exported": "Database Successfully Exported",
+	"Exporting Database...": "Exporting Database...",
+	"Inporting Database: Invalid PCT Database File Selected": "Inporting Database: Invalid PCT Database File Selected"
 }

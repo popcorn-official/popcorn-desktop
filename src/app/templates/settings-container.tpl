@@ -278,5 +278,3 @@
 	</div>
 		
 </div>
-
-<input style="display:none;" id="exportDatabases" type="file" />
