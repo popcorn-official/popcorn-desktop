@@ -263,7 +263,7 @@
 				<input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
 			</span>
 			<div class="btns advanced database">
-				<div class="btn-settings database inport-database"><%= i18n.__("Inport Database") %></div>
+				<div class="btn-settings database import-database"><%= i18n.__("Import Database") %></div>
 				<div class="btn-settings database export-database"><%= i18n.__("Export Database") %></div>
 			</div>
 		</div>

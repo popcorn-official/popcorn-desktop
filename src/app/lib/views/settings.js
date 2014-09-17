@@ -32,7 +32,7 @@
 			'click .open-tmp-folder': 'openTmpFolder',
 			'click .open-database-folder': 'openDatabaseFolder',
             'click .export-database': 'exportDatabase',
-            'click .inport-database': 'inportDatabase',
+            'click .import-database': 'inportDatabase',
 			'keyup #traktUsername': 'checkTraktLogin',
 			'keyup #traktPassword': 'checkTraktLogin',
 			'click #unauthTrakt': 'disconnectTrakt',
@@ -428,8 +428,8 @@
                 }
                 catch(err) {
 
-                    that.alertMessageFailed(i18n.__('Inporting Database: Invalid PCT Database File Selected'));
-                    console.log('Failed to Inport Database');
+                    that.alertMessageFailed(i18n.__('Invalid PCT Database File Selected'));
+                    console.log('Failed to Import Database');
                 }
 
 
