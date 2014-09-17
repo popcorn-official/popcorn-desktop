@@ -116,5 +116,22 @@
 	"Changelog": "Changelog",
 	"Popcorn Time! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Popcorn Time! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.",
 	"We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.",
-	"Invalid PCT Database File Selected": "Invalid PCT Database File Selected"
+	"Invalid PCT Database File Selected": "Invalid PCT Database File Selected",
+	"Continuing": "Continuing",
+	"Health Unknown": "Health Unknown",
+	"Episodes": "Episodes",
+	"Episode": "Episode",
+	"Aired Date": "Aired Date",
+	"Streaming to": "Streaming to",
+	"connecting": "connecting",
+	"Download": "Download",
+	"Upload": "Upload",
+	"Active Peers": "Active Peers",
+	"Cancel": "Cancel",
+	"startingDownload": "startingDownload",
+	"downloading": "downloading",
+	"ready": "ready",
+	"playingExternally": "playingExternally",
+	"Custom...": "Custom...",
+	"Volume": "Volume"
 }
