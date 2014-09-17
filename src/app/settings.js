@@ -1,6 +1,7 @@
 var
     Settings = {},
     os = require('os'),
+    data_path = require('nw.gui').App.dataPath,
     path = require('path');
 
 /** Default settings **/

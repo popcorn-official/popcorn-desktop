@@ -407,7 +407,7 @@
 
             fdialogs.saveFile(zip.toBuffer(), function (err, path) {
                 that.alertMessageWait(i18n.__('Exporting Database...'));
-                console.log("Database exported to:", path);
+                console.log('Database exported to:', path);
                 that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
             });
 
