@@ -268,8 +268,29 @@
 			</div>
 		</div>
 	</section>
+    <section id="miscellaneous" class="advanced">
+		<div class="title"><%= i18n.__("Miscellaneous") %></div>
+		<div class="content">
+			<span >
+				<div class="dropdown tv_detail_jump_to">
+					<p><%= i18n.__("When Opening TV Series Detail Jump To") %>:</p>
+						<%
+							var tv_detail_jump_to = {
+								"firstUnwatched": "First Unwatched Episode",
+								"next": "Next Episode In Series"
+							};
 
-		
+							var selected_tv_detail_jump = "";
+							for(var key in tv_detail_jump_to) {
+								selected_tv_detail_jump += "<option "+(Settings.tv_detail_jump_to == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(tv_detail_jump_to[key])+"</option>";
+							}
+						%>
+					<select name="tv_detail_jump_to"><%=selected_tv_detail_jump%></select>
+					<div class="dropdown-arrow"></div>
+				</div>
+			</span>
+		</div>
+	</section>
 	<div class="btns advanced">
 		<div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
 		<div class="btn-settings flush-subtitles"><%= i18n.__("Flush subtitles cache") %></div>
