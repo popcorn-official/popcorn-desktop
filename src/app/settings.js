@@ -68,6 +68,11 @@ Settings.font = 'tahoma';
 Settings.width = window.screen.availWidth*0.8;
 Settings.height = window.screen.availHeight*0.8;
 
+// Miscellaneous
+
+Settings.tv_detail_jump_to = 'firstUnwatched';
+
+
 var ScreenResolution = {
     get SD() {
         return window.screen.width < 1280 || window.screen.height < 720;

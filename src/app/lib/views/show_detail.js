@@ -185,7 +185,9 @@ var health_checked = false;
                 bgCache = null;
             };
 
-            this.selectFirstUnseen();
+
+            this.selectNextEpisode();
+
 
             _this.initKeyboardShortcuts();
 
@@ -195,7 +197,8 @@ var health_checked = false;
             }
 
         },
-        selectFirstUnseen: function () {
+
+        selectNextEpisode: function () {
 
             var episodesSeen = [];
             Database.getEpisodesWatched(this.model.get('tvdb_id'), function(err, data) {
@@ -226,11 +229,32 @@ var health_checked = false;
                     var unseen = episodes.filter(function(item) {
                         return episodesSeen.indexOf(item) === -1;
                     });
+                    if (AdvSettings.get('tv_detail_jump_to') !== 'firstUnwatched') {
+                        var lastSeen = episodesSeen[episodesSeen.length - 1];
+
+                        episode = lastSeen % 100;
+                        season = (lastSeen - episode) / 100;
+
+                        if(lastSeen !== episodes[episodes.length - 1] ){
+                            if($('.season-'+season+' ul li').length === episode)
+                            {
+                                console.log('adding 1 to season episode value');
+                                episode = 1;
+                                season = season + 1;
+                            }
+                            else{
+                                episode = episode + 1;
+                            }
+                        }
+                    }else{
                     //if all episode seend back to first
                     //it will be the only one
-                    unseen.push(first);
-                    episode = unseen[0] % 100;
-                    season = (unseen[0] - episode) / 100;
+                        unseen.push(first);
+                        episode = unseen[0] % 100;
+                        season = (unseen[0] - episode) / 100;
+                    }
+
+
                 }
                 if (season === 1 && episode === 1) {
                     // Workaround in case S01E01 doesn't exist in PT
@@ -284,7 +308,8 @@ var health_checked = false;
 
         onWatched: function (value, channel) {
             this.markWatched(value, true);
-            this.selectFirstUnseen();
+
+            this.selectNextEpisode();
         },
 
         onUnWatched: function (value, channel) {
