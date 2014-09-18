@@ -175,15 +175,17 @@ var Database = {
             }
         }
 
-        if (trakt !== false) {
-            App.Trakt.movie.seen(data.imdb_id);
-        }
-        App.watchedMovies.push(data.imdb_id);
-        db.watched.insert({
-            movie_id: data.imdb_id.toString(),
-            date: new Date(),
-            type: 'movie'
-        }, cb);
+        if(data.imdb_id){
+            if (trakt !== false) {
+                App.Trakt.movie.seen(data.imdb_id);
+            }
+            App.watchedMovies.push(data.imdb_id);
+            db.watched.insert({
+                movie_id: data.imdb_id.toString(),
+                date: new Date(),
+                type: 'movie'
+            }, cb);
+       }
     },
 
     markMovieAsNotWatched: function(data, trakt, cb) {
