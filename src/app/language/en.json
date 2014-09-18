@@ -133,5 +133,22 @@
 	"ready": "ready",
 	"playingExternally": "playingExternally",
 	"Custom...": "Custom...",
-	"Volume": "Volume"
+	"Volume": "Volume",
+	"Ended": "Ended",
+	"Error loading data, try again later...": "Error loading data, try again later...",
+	"Miscellaneous": "Miscellaneous",
+	"When opening TV Show Detail Jump to:": "When opening TV Show Detail Jump to:",
+	"First Unwatched Episode": "First Unwatched Episode",
+	"Next Episode In Series": "Next Episode In Series",
+	"When Opening TV Show Detail Jump To": "When Opening TV Show Detail Jump To",
+	"Flushing...": "Flushing...",
+	"Are you sure?": "Are you sure?",
+	"We are flushing your databases": "We are flushing your databases",
+	"Success": "Success",
+	"Please restart your application": "Please restart your application",
+	"Restart": "Restart",
+	"Terms of Service": "Terms of Service",
+	"I Accept": "I Accept",
+	"Leave": "Leave",
+	"When Opening TV Series Detail Jump To": "When Opening TV Series Detail Jump To"
 }
