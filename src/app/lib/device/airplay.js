@@ -6,7 +6,7 @@
 	var collection = App.Device.Collection;
 
 	var makeID=  function (baseID) {
-		return 'airplay-' + baseID;
+		return 'airplay-' + baseID.replace(':', '');
 	};
 
 	var Airplay = App.Device.Generic.extend ({

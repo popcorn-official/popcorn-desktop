@@ -6,7 +6,7 @@
 	var collection = App.Device.Collection;
 
 	var makeID=  function (baseID) {
-		return 'airplay-xbmc' + baseID;
+		return 'airplay-xbmc' + baseID.replace(':','');
 	};
 
 	var AirplayXBMC = App.Device.Airplay.extend ({
