@@ -86,6 +86,9 @@
 			});
 
 			if (this.model.get('type') === 'video/youtube') {
+
+				$( '<div/>').appendTo( '#main-window' ).addClass('trailer_mouse_catch');
+
 				this.video = videojs('video_player', {
 					techOrder: ['youtube'],
 					forceSSL: true,
@@ -95,6 +98,21 @@
 					this.addClass('vjs-has-started');
 				});
 				this.ui.eyeInfo.hide();
+
+			$( '.trailer_mouse_catch' ).show().mousemove(function( event ) {
+	 			if (!_this.player.userActive()) {
+        			_this.player.userActive(true);
+      			}
+			});
+			$( '.trailer_mouse_catch' ).click(function() {
+	 			if (_this.player.paused()) {
+          			_this.player.play();
+        		} else {
+         		 _this.player.pause();
+        		}
+			});
+
+
 			} else {
 				this.video = videojs('video_player', {
 					nativeControlsForTouch: false,
@@ -129,7 +147,6 @@
 					_this.player.tech.onClick(event);
 				}
 			});
-
 			// Force custom controls
 			player.usingNativeControls(false);
 
@@ -465,7 +482,9 @@
 
 		onClose: function() {
 			var _this = this;
-
+			if (this.model.get('type') === 'video/youtube') {
+				$( '.trailer_mouse_catch' ).remove();
+			}
 			$('#player_drag').hide();
 			$('#header').show();
 			if (!this.inFullscreen && win.isFullscreen) {
