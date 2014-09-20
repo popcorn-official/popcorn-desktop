@@ -1,4 +1,6 @@
 var Common = {};
+var crypt = require('crypto');
+var fs = require('fs');
 Common.healthMap = {
     0: 'bad',
     1: 'medium',
@@ -29,4 +31,34 @@ Common.calcHealth = function(torrent) {
     var scaledTotal = ((weightedTotal * 3) / 100) | 0;
 
     return scaledTotal;
+};
+
+Common.md5 = function(arg) {
+    return crypt.createHash('md5').update(arg).digest('hex');
+};
+
+Common.copyFile = function(source, target, cb) {
+    var cbCalled = false;
+
+    var rd = fs.createReadStream(source);
+    
+    function done(err) {
+        if (!cbCalled) {
+            if(err) {
+                fs.unlink(target);
+            }
+            cb(err);
+            cbCalled = true;
+        }
+    }
+    
+    rd.on('error', done);
+    
+    var wr = fs.createWriteStream(target);
+        wr.on('error', done);
+        wr.on('close', function(ex) {
+        done();
+    });
+
+    rd.pipe(wr);
 };
