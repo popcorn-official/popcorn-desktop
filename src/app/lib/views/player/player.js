@@ -90,7 +90,13 @@
                     next_episode.auto_play = true;
                     next_episode.auto_id = parseInt(next_episode.season) * 100 + parseInt(next_episode.episode);
                     next_episode.auto_play_data = auto_play_data;
-                    next_episode.torrent = next_episode.torrents[current_quality].url;
+
+                    if (next_episode.torrents[current_quality].url) {
+                        next_episode.torrent = next_episode.torrents[current_quality].url;
+                    } else {
+                        next_episode.torrent = next_episode[next_episode.torrents.length - 1].url; //select highest quality available if user selected not found
+                    }
+
                     console.log(next_episode.torrents[current_quality].url, current_quality);
 
                     var torrentStart = new Backbone.Model(next_episode);
