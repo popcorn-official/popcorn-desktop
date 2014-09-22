@@ -191,7 +191,7 @@
 
             var checkAutoPlay = function () {
                 if (!_this.isMovie()) {
-                    if ((_this.video.duration() - _this.video.currentTime()) < 60) {
+                    if ((_this.video.duration() - _this.video.currentTime()) < 120) {
                         console.log(_this.video.duration() - _this.video.currentTime());
                     }
                 }

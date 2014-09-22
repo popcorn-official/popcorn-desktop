@@ -391,10 +391,11 @@ var health_checked = false;
                 defaultSubtitle: Settings.subtitle_language,
                 device: App.Device.Collection.selected,
                 episodes: episodes,
-                auto_play: true,
+                auto_play: AdvSettings.get('playNextEpisodeAuto'),
                 auto_id: parseInt(season) * 100 + parseInt(episode),
                 auto_play_data: episodes_data
             });
+            win.info('Playing next episode automatically:', AdvSettings.get('playNextEpisodeAuto'));
             _this.unbindKeyboardShortcuts();
             App.vent.trigger('stream:start', torrentStart);
         },
