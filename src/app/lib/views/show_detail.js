@@ -345,18 +345,34 @@ var health_checked = false;
             };
 
             var episodes = [];
+            var episodes_data = [];
 
             _.each(this.model.get('episodes'), function (value) {
                 var epaInfo = {
                     id: parseInt(value.season) * 100 + parseInt(value.episode),
-                    title: value.title,
-                    torrents: value.torrents
+                    backdrop: that.model.get('images').fanart,
+                    defaultSubtitle: Settings.subtitle_language,
+                    episode: value.episode,
+                    season: value.season,
+                    title: that.model.get('title') + ' - ' + i18n.__('Season') + ' ' + value.season + ', ' + i18n.__('Episode') + ' ' + value.episode + ' - ' + value.title,
+                    torrents: value.torrents,
+                    extract_subtitle: {
+                        type: 'tvshow',
+                        imdbid: that.model.get('imdb_id'),
+                        tvdbid: value.tvdb_id,
+                        season: value.season,
+                        episode: value.episode
+                    },
+                    tvdb_id: value.tvdb_id,
+                    imdb_id: that.model.get('imdb_id'),
+                    device: App.Device.Collection.selected,
+                    quality: $(e.currentTarget).attr('data-quality'),
                 };
-                episodes.push(epaInfo);
+                episodes_data.push(epaInfo);
+                episodes.push(parseInt(value.season) * 100 + parseInt(value.episode));
             });
-
-            episodes = _.sortBy(episodes, 'id');
-            console.log(episodes);
+            episodes.sort();
+            episodes_data = _.sortBy(episodes_data, 'id');
 
             var torrentStart = new Backbone.Model({
                 torrent: $(e.currentTarget).attr('data-torrent'),
@@ -372,8 +388,10 @@ var health_checked = false;
                 quality: $(e.currentTarget).attr('data-quality'),
                 defaultSubtitle: Settings.subtitle_language,
                 device: App.Device.Collection.selected,
+                episodes: episodes,
                 auto_play: true,
-                episodes: episodes
+                auto_id: parseInt(season) * 100 + parseInt(episode),
+                auto_play_data: episodes_data
             });
             _this.unbindKeyboardShortcuts();
             App.vent.trigger('stream:start', torrentStart);

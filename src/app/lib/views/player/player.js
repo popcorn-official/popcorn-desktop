@@ -46,7 +46,7 @@
         },
 
         closePlayer: function () {
-
+            var that = this;
             win.info('Player closed');
             if (this._WatchingTimer) {
                 clearInterval(this._WatchingTimer);
@@ -66,6 +66,12 @@
                 // Stop weird Videojs errors
             }
             App.vent.trigger('player:close');
+
+            if (this.model.get('auto_play')) {
+
+
+                //App.vent.trigger('stream:start', torrentStart);
+            }
         },
 
         onShow: function () {
@@ -74,8 +80,25 @@
             win.info('Watching:', this.model.get('title'));
             $('.filter-bar').show();
             $('#player_drag').show();
-
             _this = this;
+
+            var episodes = this.model.get('episodes');
+
+            if (this.model.get('auto_id') !== episodes[episodes.length - 1]) {
+
+                var auto_play_data = this.model.get('auto_play_data');
+
+                var idx;
+
+                _.find(auto_play_data, function (data, dataIdx) {
+                    if (data.id == _this.model.get('auto_id')) {
+                        idx = dataIdx;
+                        return true;
+                    };
+                });
+                console.log(auto_play_data[idx + 1]);
+            }
+
             //$('.player-header-background').canDragWindow();
             //$('#video_player').canDragWindow();
             // Double Click to toggle Fullscreen

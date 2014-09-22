@@ -230,7 +230,11 @@
                             season: model.get('season'),
                             file_index: model.get('file_index'),
                             quality: model.get('quality'),
-                            device: model.get('device')
+                            device: model.get('device'),
+                            episodes: model.get('episodes'),
+                            auto_play: model.get('auto_play'),
+                            auto_id: model.get('auto_id'),
+                            auto_play_data: model.get('auto_play_data')
                         };
 
                         handleTorrent(torrentInfo, stateModel);
