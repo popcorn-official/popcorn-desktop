@@ -16,6 +16,7 @@
 		</div>
 	</div>
 </div>
+<div class="playing_next"><%= i18n.__("Playing Next Episode in") %>: <span id="nextCountdown"></span></div>
 <%
 	var subArray = [];
 	for (var lang in subtitle) {

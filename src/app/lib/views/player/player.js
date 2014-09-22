@@ -160,7 +160,6 @@
                     }
                 });
             }
-
             var player = this.video.player();
             this.player = player;
             App.PlayerView = this;
@@ -192,7 +191,19 @@
             var checkAutoPlay = function () {
                 if (!_this.isMovie()) {
                     if ((_this.video.duration() - _this.video.currentTime()) < 120) {
-                        console.log(_this.video.duration() - _this.video.currentTime());
+                        var count = Math.round(_this.video.duration() - _this.video.currentTime());
+                        $('.playing_next').show();
+
+
+                        $('.playing_next span').text(count);
+
+
+                        console.log(count);
+
+                    } else {
+                        $('.playing_next').hide();
+                        $('.playing_next span').text('');
+
                     }
                 }
             };
@@ -212,7 +223,7 @@
                 player.one('durationchange', sendToTrakt);
                 _this._WatchingTimer = setInterval(sendToTrakt, 10 * 60 * 1000); // 10 minutes
 
-                _this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 10); // every 10 sec
+                _this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
 
             });
 
@@ -542,8 +553,9 @@
             if (this._WatchingTimer) {
                 clearInterval(this._WatchingTimer);
             }
-            if (this._AutoPlayCheckTimer)
+            if (this._AutoPlayCheckTimer) {
                 clearInterval(this._AutoPlayCheckTimer);
+            }
         }
 
     });
