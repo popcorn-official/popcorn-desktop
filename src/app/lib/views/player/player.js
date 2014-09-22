@@ -69,8 +69,34 @@
 
             if (this.model.get('auto_play')) {
 
+                _this = this;
 
-                //App.vent.trigger('stream:start', torrentStart);
+                var episodes = this.model.get('episodes');
+
+                if (this.model.get('auto_id') !== episodes[episodes.length - 1]) {
+
+                    var auto_play_data = this.model.get('auto_play_data');
+                    var current_quality = this.model.get('quality');
+                    var idx;
+
+                    _.find(auto_play_data, function (data, dataIdx) {
+                        if (data.id == _this.model.get('auto_id')) {
+                            idx = dataIdx;
+                            return true;
+                        };
+                    });
+                    var next_episode = auto_play_data[idx + 1];
+
+                    next_episode.auto_play = true;
+                    next_episode.auto_id = parseInt(next_episode.season) * 100 + parseInt(next_episode.episode);
+                    next_episode.auto_play_data = auto_play_data;
+                    next_episode.torrent = next_episode.torrents[current_quality].url;
+                    console.log(next_episode.torrents[current_quality].url, current_quality);
+
+                    var torrentStart = new Backbone.Model(next_episode);
+
+                    App.vent.trigger('stream:start', torrentStart);
+                }
             }
         },
 
@@ -81,26 +107,7 @@
             $('.filter-bar').show();
             $('#player_drag').show();
             _this = this;
-
-            var episodes = this.model.get('episodes');
-
-            if (this.model.get('auto_id') !== episodes[episodes.length - 1]) {
-
-                var auto_play_data = this.model.get('auto_play_data');
-
-                var idx;
-
-                _.find(auto_play_data, function (data, dataIdx) {
-                    if (data.id == _this.model.get('auto_id')) {
-                        idx = dataIdx;
-                        return true;
-                    };
-                });
-                console.log(auto_play_data[idx + 1]);
-            }
-
-            //$('.player-header-background').canDragWindow();
-            //$('#video_player').canDragWindow();
+            console.log(this.model);
             // Double Click to toggle Fullscreen
             $('#video_player').dblclick(function (event) {
                 _this.toggleFullscreen();

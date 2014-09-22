@@ -346,6 +346,7 @@ var health_checked = false;
 
             var episodes = [];
             var episodes_data = [];
+            var selected_quality = $(e.currentTarget).attr('data-quality');
 
             _.each(this.model.get('episodes'), function (value) {
                 var epaInfo = {
@@ -366,7 +367,8 @@ var health_checked = false;
                     tvdb_id: value.tvdb_id,
                     imdb_id: that.model.get('imdb_id'),
                     device: App.Device.Collection.selected,
-                    quality: $(e.currentTarget).attr('data-quality'),
+                    status: that.model.get('status'),
+                    type: 'episode'
                 };
                 episodes_data.push(epaInfo);
                 episodes.push(parseInt(value.season) * 100 + parseInt(value.episode));
