@@ -51,7 +51,9 @@
             if (this._WatchingTimer) {
                 clearInterval(this._WatchingTimer);
             }
-
+            if (this._AutoPlayCheckTimer) {
+                clearInterval(this._AutoPlayCheckTimer);
+            }
             // Check if >80% is watched to mark as watched by user  (maybe add value to settings
             var type = (this.isMovie() ? 'movie' : 'show');
             if (this.video.currentTime() / this.video.duration() >= 0.8) {
@@ -187,6 +189,14 @@
                 _this.closePlayer();
             });
 
+            var checkAutoPlay = function () {
+                if (!_this.isMovie()) {
+                    if ((_this.video.duration() - _this.video.currentTime()) < 60) {
+                        console.log(_this.video.duration() - _this.video.currentTime());
+                    }
+                }
+            };
+
 
             var sendToTrakt = function () {
                 if (_this.isMovie()) {
@@ -201,6 +211,9 @@
             player.one('play', function () {
                 player.one('durationchange', sendToTrakt);
                 _this._WatchingTimer = setInterval(sendToTrakt, 10 * 60 * 1000); // 10 minutes
+
+                _this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 10); // every 10 sec
+
             });
 
             player.on('play', function () {
@@ -209,6 +222,7 @@
 
                 if (_this.wasSeek) {
                     sendToTrakt();
+                    checkAutoPlay();
                     _this.wasSeek = false;
                 }
             });
@@ -528,6 +542,8 @@
             if (this._WatchingTimer) {
                 clearInterval(this._WatchingTimer);
             }
+            if (this._AutoPlayCheckTimer)
+                clearInterval(this._AutoPlayCheckTimer);
         }
 
     });
