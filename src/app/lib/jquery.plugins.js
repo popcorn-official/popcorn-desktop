@@ -451,7 +451,7 @@
         size: 200,
 
         // code color or image element
-        fill: '#fff',
+        fill: '#000',
 
         // background color or image element, `null` for transparent background
         background: null,
