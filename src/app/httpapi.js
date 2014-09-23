@@ -18,14 +18,16 @@
 		server.expose('volume', function (args, opt, callback) {
 			var volume = 1;
 			var view = App.PlayerView;
+			args = parseFloat(args);
 			if(view !== undefined && view.player !== undefined) {
-				if(args.length > 0) {
-					volume = parseFloat(args[0]);
+				console.log(args);
+				if(args >= 0) {
+					volume = args;
 					if(volume > 0) {
-						if(App.PlayerView.muted()) App.PlayerView.muted(false);
-						App.PlayerView.player.volume(volume);
+						if(view.player.muted()) view.player.muted(false);
+						view.player.volume(volume);
 					} else {
-						App.PlayerView.muted(true);
+						view.player.muted(true);
 					}
 				} else {
 					volume = view.player.volume();
