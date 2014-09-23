@@ -1,4 +1,4 @@
-(function(App) {
+(function (App) {
 	'use strict';
 
 	var request = require('request');
@@ -11,7 +11,7 @@
 
 	var self;
 
-	var downloadZip = function(data, callback) {
+	var downloadZip = function (data, callback) {
 		var filePath = data.path;
 		var subUrl = data.url;
 
@@ -31,12 +31,12 @@
 		});
 
 		req.pipe(out);
-		req.on('end', function() {
+		req.on('end', function () {
 			try {
 				var zip = new AdmZip(zipPath),
 					zipEntries = zip.getEntries();
 				zip.extractAllTo( /*target path*/ unzipPath, /*overwrite*/ true);
-				fs.unlink(zipPath, function(err) {});
+				fs.unlink(zipPath, function (err) {});
 				win.debug('Subtitle extracted to : ' + newName);
 				var files = fs.readdirSync(unzipPath);
 				for (var f in files) {
@@ -54,7 +54,7 @@
 
 	};
 
-	var downloadSRT = function(data, callback) {
+	var downloadSRT = function (data, callback) {
 		var filePath = data.path;
 		var subUrl = data.url;
 		var fileExt = path.extname(filePath);
@@ -66,7 +66,7 @@
 		});
 
 		req.pipe(out);
-		req.on('end', function() {
+		req.on('end', function () {
 			win.debug('Subtitle downloaded to : ' + srtPath);
 			return callback(srtPath);
 		});
@@ -77,15 +77,15 @@
 			id: 'generic',
 			name: 'Generic'
 		},
-		initialize: function() {
+		initialize: function () {
 			App.vent.on('subtitle:download', this.download);
 			App.vent.on('subtitle:convert', this.convert);
 			self = this;
 		},
-		get: function(data) {
+		get: function (data) {
 			win.error('Not implemented in parent model');
 		},
-		download: function(data) {
+		download: function (data) {
 			console.log(data);
 			if (data.path && data.url) {
 				var fileFolder = path.dirname(data.path);
@@ -97,11 +97,11 @@
 					// Ignore EEXIST
 				}
 				if (subExt === 'zip') {
-					downloadZip(data, function(location) {
+					downloadZip(data, function (location) {
 						App.vent.trigger('subtitle:downloaded', location);
 					});
 				} else if (subExt === 'srt') {
-					downloadSRT(data, function(location) {
+					downloadSRT(data, function (location) {
 						App.vent.trigger('subtitle:downloaded', location);
 					});
 				}
@@ -109,14 +109,14 @@
 				App.vent.trigger('subtitle:downloaded', null);
 			}
 		},
-		convert: function(data) { // Converts .srt's to .vtt's
+		convert: function (data) { // Converts .srt's to .vtt's
 			var srt = data.path;
 			var vtt = srt.replace('.srt', '.vtt');
-			captions.srt.read(srt, function(err, data) {
+			captions.srt.read(srt, function (err, data) {
 				if (err) {
 					return console.log(err);
 				}
-				fs.writeFile(vtt, captions.vtt.generate(captions.srt.toJSON(data), function(err, result) {
+				fs.writeFile(vtt, captions.vtt.generate(captions.srt.toJSON(data), function (err, result) {
 					if (err) {
 						return console.log(err);
 					} else {

@@ -7,12 +7,12 @@ var detectLanguage = function (preferredLanguage) {
 	// The global language name (without localization, like 'en')
 	var baseLanguage = navigator.language.toLowerCase().slice(0, 2);
 
-	if(!preferredLanguage) {
+	if (!preferredLanguage) {
 		// we are stillon default
-		if($.inArray(pureLanguage, App.Localization.allTranslations) !== -1) {
+		if ($.inArray(pureLanguage, App.Localization.allTranslations) !== -1) {
 			i18n.setLocale(pureLanguage);
 			AdvSettings.set('language', pureLanguage);
-		} else if($.inArray(baseLanguage, App.Localization.allTranslations) !== -1) {
+		} else if ($.inArray(baseLanguage, App.Localization.allTranslations) !== -1) {
 			i18n.setLocale(baseLanguage);
 			AdvSettings.set('language', baseLanguage);
 		} else {
@@ -28,7 +28,7 @@ var detectLanguage = function (preferredLanguage) {
 		var $el = $(this);
 		var key = $el.data('translate');
 
-		if($el.is('input')) {
+		if ($el.is('input')) {
 			$el.attr('placeholder', i18n.__(key));
 		} else {
 			$el.text(i18n.__(key));
@@ -41,7 +41,7 @@ App.Localization.filterSubtitle = function (langs) {
 	var filteredLang = {};
 	_.each(langs, function (data, lang) {
 		var langInfo = App.Localization.langcodes[lang];
-		if(langInfo && langInfo.subtitle) {
+		if (langInfo && langInfo.subtitle) {
 			filteredLang[lang] = data;
 		}
 	});

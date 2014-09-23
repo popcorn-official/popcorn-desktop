@@ -1,4 +1,4 @@
-(function(App) {
+(function (App) {
 	'use strict';
 
 	var openSRT = require('opensrt_js');
@@ -11,7 +11,7 @@
 			type: 'tv'
 		},
 
-		get: function(queryParams) {
+		get: function (queryParams) {
 			return querySubtitles(queryParams)
 				.then(formatForPopcorn);
 		}
@@ -19,7 +19,7 @@
 
 	function querySubtitles(queryParams) {
 		var deferred = Q.defer();
-		openSRT.searchEpisode(queryParams, function(error, subs) {
+		openSRT.searchEpisode(queryParams, function (error, subs) {
 			if (error) {
 				deferred.reject(error);
 			} else {

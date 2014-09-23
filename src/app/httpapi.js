@@ -1,182 +1,182 @@
-(function(App) {
+(function (App) {
 	'use strict';
 	var rpc = require('json-rpc2');
 	var server;
 	var httpServer;
 
-	var initServer = function() {
+	var initServer = function () {
 		server = rpc.Server({
 			'headers': { // allow custom headers is empty by default
 				'Access-Control-Allow-Origin': '*'
 			}
 		});
 
-		server.expose('ping', function(args, opt, callback) {
+		server.expose('ping', function (args, opt, callback) {
 			callback();
 		});
 
-		server.expose('setvolume', function(args, opt, callback) {
+		server.expose('setvolume', function (args, opt, callback) {
 			var volume = parseFloat(args[0]) || App.Player.volume();
 			App.PlayerView.player.volume(volume);
 			callback();
 		});
 
-		server.expose('toggleplaying', function(args, opt, callback) {
+		server.expose('toggleplaying', function (args, opt, callback) {
 			Mousetrap.trigger('space');
 			callback();
 		});
 
-		server.expose('togglemute', function(args, opt, callback) {
+		server.expose('togglemute', function (args, opt, callback) {
 			Mousetrap.trigger('m');
 			callback();
 		});
 
-		server.expose('togglefullscreen', function(args, opt, callback) {
+		server.expose('togglefullscreen', function (args, opt, callback) {
 			Mousetrap.trigger('f');
 			callback();
 		});
 
-		server.expose('togglefavourite', function(args, opt, callback) {
+		server.expose('togglefavourite', function (args, opt, callback) {
 			Mousetrap.trigger('f');
 			callback();
 		});
 
-		server.expose('togglemoviesshows', function(args, opt, callback) {
+		server.expose('togglemoviesshows', function (args, opt, callback) {
 			Mousetrap.trigger('tab');
 			callback();
 		});
 
-		server.expose('togglewatched', function(args, opt, callback) {
+		server.expose('togglewatched', function (args, opt, callback) {
 			Mousetrap.trigger('w');
 			callback();
 		});
 
-		server.expose('showslist', function(args, opt, callback) {
+		server.expose('showslist', function (args, opt, callback) {
 			App.vent.trigger('shows:list');
 			callback();
 		});
 
-		server.expose('movieslist', function(args, opt, callback) {
+		server.expose('movieslist', function (args, opt, callback) {
 			App.vent.trigger('movies:list');
 			callback();
 		});
 
-		server.expose('getviewstack', function(args, opt, callback) {
+		server.expose('getviewstack', function (args, opt, callback) {
 			callback(false, [App.ViewStack]);
 		});
 
 		//Filter Bar
-		server.expose('getgenres', function(args, opt, callback) {
+		server.expose('getgenres', function (args, opt, callback) {
 			callback(false, [App.Config.genres]);
 		});
 
-		server.expose('getgenres_tv', function(args, opt, callback) {
+		server.expose('getgenres_tv', function (args, opt, callback) {
 			callback(false, [App.Config.genres_tv]);
 		});
 
-		server.expose('getsorters', function(args, opt, callback) {
+		server.expose('getsorters', function (args, opt, callback) {
 			callback(false, [App.Config.sorters]);
 		});
 
-		server.expose('getsorters_tv', function(args, opt, callback) {
+		server.expose('getsorters_tv', function (args, opt, callback) {
 			callback(false, [App.Config.sorters_tv]);
 		});
 
-		server.expose('filtergenre', function(args, opt, callback) {
+		server.expose('filtergenre', function (args, opt, callback) {
 			$('.genres .dropdown-menu a[data-value=' + args[0] + ']').click();
 			callback();
 		});
 
-		server.expose('filtersorter', function(args, opt, callback) {
+		server.expose('filtersorter', function (args, opt, callback) {
 			$('.sorters .dropdown-menu a[data-value=' + args[0] + ']').click();
 			callback();
 		});
 
-		server.expose('filtersearch', function(args, opt, callback) {
+		server.expose('filtersearch', function (args, opt, callback) {
 			$('#searchbox').val(args[0]);
 			$('.search form').submit();
 			callback();
 		});
 
-		server.expose('clearsearch', function(args, opt, callback) {
+		server.expose('clearsearch', function (args, opt, callback) {
 			$('.remove-search').click();
 		});
 
 		//Standard controls
-		server.expose('seek', function(args, opt, callback) {
+		server.expose('seek', function (args, opt, callback) {
 			App.PlayerView.seek(parseFloat(args[0]));
 			callback();
 		});
 
-		server.expose('up', function(args, opt, callback) {
+		server.expose('up', function (args, opt, callback) {
 			Mousetrap.trigger('up');
 			callback();
 		});
 
-		server.expose('down', function(args, opt, callback) {
+		server.expose('down', function (args, opt, callback) {
 			Mousetrap.trigger('down');
 			callback();
 		});
 
-		server.expose('left', function(args, opt, callback) {
+		server.expose('left', function (args, opt, callback) {
 			Mousetrap.trigger('left');
 			callback();
 		});
 
-		server.expose('right', function(args, opt, callback) {
+		server.expose('right', function (args, opt, callback) {
 			Mousetrap.trigger('right');
 			callback();
 		});
 
-		server.expose('enter', function(args, opt, callback) {
+		server.expose('enter', function (args, opt, callback) {
 			Mousetrap.trigger('enter');
 			callback();
 		});
 
-		server.expose('back', function(args, opt, callback) {
+		server.expose('back', function (args, opt, callback) {
 			Mousetrap.trigger('backspace');
 			callback();
 		});
 
-		server.expose('quality', function(args, opt, callback) {
+		server.expose('quality', function (args, opt, callback) {
 			Mousetrap.trigger('q');
 			callback();
 		});
 
-		server.expose('previousseason', function(args, opt, callback) {
+		server.expose('previousseason', function (args, opt, callback) {
 			Mousetrap.trigger('ctrl+up');
 			callback();
 		});
 
-		server.expose('nextseason', function(args, opt, callback) {
+		server.expose('nextseason', function (args, opt, callback) {
 			Mousetrap.trigger('ctrl+down');
 			callback();
 		});
 
-		server.expose('subtitleoffset', function(args, opt, callback) {
+		server.expose('subtitleoffset', function (args, opt, callback) {
 			App.PlayerView.adjustSubtitleOffset(parseFloat(args[0]));
 			callback();
 		});
 
-		server.expose('getsubtitles', function(args, opt, callback) {
+		server.expose('getsubtitles', function (args, opt, callback) {
 			callback(false, [_.keys(App.MovieDetailView.model.get('subtitle'))]);
 		});
 
-		server.expose('setsubtitle', function(args, opt, callback) {
+		server.expose('setsubtitle', function (args, opt, callback) {
 			App.MovieDetailView.switchSubtitle(args[0]);
 		});
 
-		server.expose('listennotifications', function(args, opt, callback) {
+		server.expose('listennotifications', function (args, opt, callback) {
 			var timeout;
 			var startTime = (new Date()).getTime();
 			var events = {};
 
-			var emitEvents = function() {
+			var emitEvents = function () {
 				callback(false, [events]);
 			};
 
 			//Do a small delay before sending data in case there are more simultaneous events
-			var reinitTimeout = function() {
+			var reinitTimeout = function () {
 				//Only do a delay if the request won't time out in the meantime
 				if (startTime + 8000 - (new Date()).getTime() > 250) {
 					if (timeout) {
@@ -187,13 +187,13 @@
 			};
 
 			//Listen for volume change
-			App.vent.on('volumechange', function() {
+			App.vent.on('volumechange', function () {
 				events['volumechange'] = App.PlayerView.player.volume();
 				reinitTimeout();
 			});
 
 			//Listen for view stack change
-			var emitViewChange = function() {
+			var emitViewChange = function () {
 				events['viewstack'] = App.ViewStack;
 				reinitTimeout();
 			};
@@ -208,10 +208,10 @@
 	function startListening() {
 		httpServer = server.listen(Settings.httpApiPort);
 
-		httpServer.on('connection', function(socket) {
+		httpServer.on('connection', function (socket) {
 			sockets.push(socket);
 			socket.setTimeout(4000);
-			socket.on('close', function() {
+			socket.on('close', function () {
 				console.log('socket closed');
 				sockets.splice(sockets.indexOf(socket), 1);
 			});
@@ -219,7 +219,7 @@
 	}
 
 	function closeServer(cb) {
-		httpServer.close(function() {
+		httpServer.close(function () {
 			cb();
 		});
 		for (var i = 0; i < sockets.length; i++) {
@@ -230,7 +230,7 @@
 
 	initServer();
 
-	App.vent.on('initHttpApi', function() {
+	App.vent.on('initHttpApi', function () {
 		console.log('Reiniting server');
 		server.enableAuth(Settings.httpApiUsername, Settings.httpApiPassword);
 		if (httpServer) {

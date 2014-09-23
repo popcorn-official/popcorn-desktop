@@ -1,30 +1,29 @@
-(function(App) {
-    'use strict';
+(function (App) {
+	'use strict';
 
-    var Keyboard = Backbone.Marionette.ItemView.extend({
-        template: '#keyboard-tpl',
-        className: 'keyboard',
-        
-        events: {
-            'click .close-icon': 'closeKeyboard',
-        },
+	var Keyboard = Backbone.Marionette.ItemView.extend({
+		template: '#keyboard-tpl',
+		className: 'keyboard',
+
+		events: {
+			'click .close-icon': 'closeKeyboard',
+		},
 
 
-        onShow: function() {
-            $('.search input').blur();
-            Mousetrap.bind('esc', function(e) {
-                App.vent.trigger('keyboard:close');
-            });
-        },
+		onShow: function () {
+			$('.search input').blur();
+			Mousetrap.bind('esc', function (e) {
+				App.vent.trigger('keyboard:close');
+			});
+		},
 
-        onClose: function() {
-        },
+		onClose: function () {},
 
-        closeKeyboard: function() {
-            App.vent.trigger('keyboard:close');
-        },
+		closeKeyboard: function () {
+			App.vent.trigger('keyboard:close');
+		},
 
-    });
+	});
 
-    App.View.Keyboard = Keyboard;
+	App.View.Keyboard = Keyboard;
 })(window.App);
