@@ -33,30 +33,30 @@ var
 
 // Special Debug Console Calls!
 win.log = console.log.bind(console);
-win.debug = function() {
+win.debug = function () {
 	var params = Array.prototype.slice.call(arguments, 1);
 	params.unshift('%c[%cDEBUG%c] %c' + arguments[0], 'color: black;', 'color: green;', 'color: black;', 'color: blue;');
 	console.debug.apply(console, params);
 };
-win.info = function() {
+win.info = function () {
 	var params = Array.prototype.slice.call(arguments, 1);
 	params.unshift('[%cINFO%c] ' + arguments[0], 'color: blue;', 'color: black;');
 	console.info.apply(console, params);
 };
-win.warn = function() {
+win.warn = function () {
 	var params = Array.prototype.slice.call(arguments, 1);
 	params.unshift('[%cWARNING%c] ' + arguments[0], 'color: orange;', 'color: black;');
 	console.warn.apply(console, params);
 };
-win.error = function() {
+win.error = function () {
 	var params = Array.prototype.slice.call(arguments, 1);
 	params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: red;', 'color: black;');
 	console.error.apply(console, params);
 };
 
 // Load in external templates
-_.each(document.querySelectorAll('[type="text/x-template"]'), function(el) {
-	$.get(el.src, function(res) {
+_.each(document.querySelectorAll('[type="text/x-template"]'), function (el) {
+	$.get(el.src, function (res) {
 		el.innerHTML = res;
 	});
 });
@@ -80,7 +80,7 @@ App.db = Database;
 App.advsettings = AdvSettings;
 App.settings = Settings;
 
-fs.readFile('./.git.json', 'utf8', function(err, json) {
+fs.readFile('./.git.json', 'utf8', function (err, json) {
 	if (!err) {
 		App.git = JSON.parse(json);
 	}
@@ -94,7 +94,7 @@ App.addRegions({
 //Keeps a list of stacked views
 App.ViewStack = [];
 
-App.addInitializer(function(options) {
+App.addInitializer(function (options) {
 	// this is the 'do things with resolutions and size initializer
 	var zoom = 0;
 	var screen = window.screen;
@@ -107,11 +107,10 @@ App.addInitializer(function(options) {
 
 	win.zoomLevel = zoom;
 	win.resizeTo(Settings.width, Settings.height);
-	win.moveTo((screen.availWidth  - Settings.width )/2,
-			   (screen.availHeight - Settings.height)/2);
+	win.moveTo((screen.availWidth - Settings.width) / 2, (screen.availHeight - Settings.height) / 2);
 });
 
-App.addInitializer(function(options) {
+App.addInitializer(function (options) {
 	var mainWindow = new App.View.MainWindow();
 	win.show();
 	try {
@@ -136,7 +135,7 @@ if (!fs.existsSync(App.settings.tmpLocation)) {
 	fs.mkdir(App.settings.tmpLocation);
 }
 
-var deleteFolder = function(path) {
+var deleteFolder = function (path) {
 
 	if (typeof path !== 'string') {
 		return;
@@ -146,7 +145,7 @@ var deleteFolder = function(path) {
 		var files = [];
 		if (fs.existsSync(path)) {
 			files = fs.readdirSync(path);
-			files.forEach(function(file, index) {
+			files.forEach(function (file, index) {
 				var curPath = path + '\/' + file;
 				if (fs.lstatSync(curPath).isDirectory()) {
 					deleteFolder(curPath);
@@ -162,7 +161,7 @@ var deleteFolder = function(path) {
 };
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
-win.on('close', function() {
+win.on('close', function () {
 	if (App.settings.deleteTmpOnClose) {
 		deleteFolder(App.settings.tmpLocation);
 	}
@@ -170,44 +169,44 @@ win.on('close', function() {
 	win.close(true);
 });
 
-String.prototype.capitalize = function() {
+String.prototype.capitalize = function () {
 	return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-String.prototype.capitalizeEach = function() {
-	return this.replace(/\w*/g, function(txt) {
+String.prototype.capitalizeEach = function () {
+	return this.replace(/\w*/g, function (txt) {
 		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 	});
 };
 
-String.prototype.endsWith = function(suffix) {
+String.prototype.endsWith = function (suffix) {
 	return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 // Developer Shortcuts
-Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function(e) {
+Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function (e) {
 	win.showDevTools();
 });
-Mousetrap.bind('mod+,', function(e) {
+Mousetrap.bind('mod+,', function (e) {
 	App.vent.trigger('about:close');
 	App.vent.trigger('settings:show');
 });
-Mousetrap.bind('f11', function(e) {
+Mousetrap.bind('f11', function (e) {
 	win.reloadIgnoringCache();
 });
-Mousetrap.bind(['?', '/', '\''], function(e) {
+Mousetrap.bind(['?', '/', '\''], function (e) {
 	e.preventDefault();
 	App.vent.trigger('keyboard:toggle');
 });
-Mousetrap.bind('shift+up shift+up shift+down shift+down shift+left shift+right shift+left shift+right shift+b shift+a', function() {
+Mousetrap.bind('shift+up shift+up shift+down shift+down shift+left shift+right shift+left shift+right shift+b shift+a', function () {
 	$('body').addClass('knm');
 });
 if (process.platform === 'darwin') {
-	Mousetrap.bind('command+ctrl+f', function(e) {
+	Mousetrap.bind('command+ctrl+f', function (e) {
 		e.preventDefault();
 		win.toggleFullscreen();
 	});
 } else {
-	Mousetrap.bind('ctrl+alt+f', function(e) {
+	Mousetrap.bind('ctrl+alt+f', function (e) {
 		e.preventDefault();
 		win.toggleFullscreen();
 	});
@@ -218,27 +217,26 @@ if (process.platform === 'darwin') {
  */
 
 
-
-window.ondragenter = function(e) {
+window.ondragenter = function (e) {
 
 	$('#drop-mask').show();
 	var showDrag = true;
 	var timeout = -1;
 	$('#drop-mask').on('dragenter',
-		function(e) {
+		function (e) {
 			$('.drop-indicator').show();
 			console.log('drag init');
 		});
 	$('#drop-mask').on('dragover',
-		function(e) {
+		function (e) {
 			var showDrag = true;
 		});
 
 	$('#drop-mask').on('dragleave',
-		function(e) {
+		function (e) {
 			var showDrag = false;
 			clearTimeout(timeout);
-			timeout = setTimeout(function() {
+			timeout = setTimeout(function () {
 				if (!showDrag) {
 					console.log('drag aborted');
 					$('.drop-indicator').hide();
@@ -248,7 +246,7 @@ window.ondragenter = function(e) {
 		});
 };
 
-var handleTorrent = function(torrent) {
+var handleTorrent = function (torrent) {
 	App.Config.getProvider('torrentCache').resolve(torrent);
 };
 
@@ -260,7 +258,7 @@ var handleTorrent = function(torrent) {
 //     App.vent.trigger('stream:start', torrentStart);
 // };
 
-window.ondrop = function(e) {
+window.ondrop = function (e) {
 	e.preventDefault();
 	$('#drop-mask').hide();
 	console.log('drag completed');
@@ -271,10 +269,10 @@ window.ondrop = function(e) {
 	if (file != null && file.name.indexOf('.torrent') !== -1) {
 		var reader = new FileReader();
 
-		reader.onload = function(event) {
+		reader.onload = function (event) {
 			var content = reader.result;
 
-			fs.writeFile(path.join(App.settings.tmpLocation, file.name), content, function(err) {
+			fs.writeFile(path.join(App.settings.tmpLocation, file.name), content, function (err) {
 				if (err) {
 					window.alert('Error Loading Torrent: ' + err);
 				} else {
@@ -301,7 +299,7 @@ window.ondrop = function(e) {
  * Paste Magnet Link to start stream
  */
 
-$(document).on('paste', function(e) {
+$(document).on('paste', function (e) {
 	// if (data.substring(0, 8) !== 'magnet:?' && (e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA')) {
 	//     return;
 	// } else {
@@ -311,7 +309,7 @@ $(document).on('paste', function(e) {
 	//     }
 	//     return true;
 	// }
-	if(e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA') {
+	if (e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA') {
 		return;
 	}
 	var data = (e.originalEvent || e).clipboardData.getData('text/plain');
@@ -326,7 +324,7 @@ $(document).on('paste', function(e) {
 var last_arg = gui.App.argv.pop();
 
 if (last_arg && (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0, 7) === 'http://' || last_arg.endsWith('.torrent'))) {
-	App.vent.on('main:ready', function() {
+	App.vent.on('main:ready', function () {
 		// startTorrentStream(last_arg);
 		handleTorrent(last_arg);
 	});
@@ -340,6 +338,6 @@ if (gui.App.fullArgv.indexOf('-f') !== -1) {
 /**
  * Show 404 page on uncaughtException
  */
-process.on('uncaughtException', function(err) {
+process.on('uncaughtException', function (err) {
 	window.console.error(err, err.stack);
 });

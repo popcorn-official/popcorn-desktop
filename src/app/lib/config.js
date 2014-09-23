@@ -1,4 +1,4 @@
-(function(App) {
+(function (App) {
 	'use strict';
 
 	var Config = {
@@ -108,10 +108,10 @@
 			torrentCache: 'TorrentCache'
 		},
 
-		getProvider: function(type) {
+		getProvider: function (type) {
 			var provider = App.Config.providers[type];
 			if (provider instanceof Array) {
-				return _.map(provider, function(t) {
+				return _.map(provider, function (t) {
 					return App.Providers.get(t);
 				});
 			}

@@ -8,7 +8,7 @@ Common.healthMap = {
 	3: 'excellent'
 };
 
-Common.calcHealth = function(torrent) {
+Common.calcHealth = function (torrent) {
 	var seeds = torrent.seed;
 	var peers = torrent.peer;
 
@@ -33,30 +33,30 @@ Common.calcHealth = function(torrent) {
 	return scaledTotal;
 };
 
-Common.md5 = function(arg) {
+Common.md5 = function (arg) {
 	return crypt.createHash('md5').update(arg).digest('hex');
 };
 
-Common.copyFile = function(source, target, cb) {
+Common.copyFile = function (source, target, cb) {
 	var cbCalled = false;
 
 	var rd = fs.createReadStream(source);
-	
+
 	function done(err) {
 		if (!cbCalled) {
-			if(err) {
+			if (err) {
 				fs.unlink(target);
 			}
 			cb(err);
 			cbCalled = true;
 		}
 	}
-	
+
 	rd.on('error', done);
-	
+
 	var wr = fs.createWriteStream(target);
-		wr.on('error', done);
-		wr.on('close', function(ex) {
+	wr.on('error', done);
+	wr.on('close', function (ex) {
 		done();
 	});
 
