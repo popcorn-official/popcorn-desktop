@@ -17,16 +17,21 @@
 		
 		server.expose('volume', function (args, opt, callback) {
 			var volume = 1;
-			if(args.length > 0) {
-				volume = parseFloat(args[0]) || App.Player.volume();
-				App.PlayerView.player.volume(volume);
-			} else {
-				var view = App.PlayerView;
-				if(view !== undefined) {
-					volume = view.player.volume()
+			var view = App.PlayerView;
+			if(view !== undefined && view.player !== undefined) {
+				if(args.length > 0) {
+					volume = parseFloat(args[0]);
+					if(volume > 0) {
+						if(App.PlayerView.muted()) App.PlayerView.muted(false);
+						App.PlayerView.player.volume(volume);
+					} else {
+						App.PlayerView.muted(true);
+					}
+				} else {
+					volume = view.player.volume();
 				}
 			}
-			popcornCallback(callback, false, {'volume': volume});
+			popcornCallback(callback, false, { 'volume': volume });
 		});
 
 		server.expose('toggleplaying', function (args, opt, callback) {
@@ -80,7 +85,7 @@
 			popcornCallback(callback);
 		});
 
-		server.expose('togglemoviesshows', function (args, opt, callback) {
+		server.expose('toggletab', function (args, opt, callback) {
 			Mousetrap.trigger('tab');
 			popcornCallback(callback);
 		});
@@ -103,22 +108,51 @@
 		server.expose('getviewstack', function (args, opt, callback) {
 			popcornCallback(callback, false, {'viewstack': App.ViewStack});
 		});
+		
+		server.expose('getcurrenttab', function (args, opt, callback) {
+			popcornCallback(callback, false, {'tav': App.currentview});
+		});
 
 		//Filter Bar
 		server.expose('getgenres', function (args, opt, callback) {
-			popcornCallback(callback, false, {'genres': App.Config.genres});
-		});
-
-		server.expose('getgenres_tv', function (args, opt, callback) {
-			popcornCallback(callback, false, {'genres': App.Config.genres_tv});
+			switch(App.currentview) {
+				case 'shows':
+				case 'anime':
+					popcornCallback(callback, false, {'genres': App.Config.genres_tv});
+					break;
+				case 'movies':
+					popcornCallback(callback, false, {'genres': App.Config.genres});
+					break;
+				default:
+					popcornCallback(callback, false, {'genres': []});
+					break;
+			}
 		});
 
 		server.expose('getsorters', function (args, opt, callback) {
-			popcornCallback(callback, false, {'sorters': App.Config.sorters});
+			switch(App.currentview) {
+				case 'shows':
+				case 'anime':
+					popcornCallback(callback, false, {'sorters': App.Config.sorters_tv});
+					break;
+				case 'movies':
+					popcornCallback(callback, false, {'sorters': App.Config.sorters});
+					break;
+				default:
+					popcornCallback(callback, false, {'sorters': []});
+					break;
+			}
 		});
-
-		server.expose('getsorters_tv', function (args, opt, callback) {
-			popcornCallback(callback, false, {'sorters': App.Config.sorters_tv});
+		
+		server.expose('gettypes', function (args, opt, callback) {
+			switch(App.currentview) {
+				case 'anime':
+					popcornCallback(callback, false, {'types': App.Config.types_anime});
+					break;
+				default:
+					popcornCallback(callback, false, {'types': []});
+					break;
+			}
 		});
 
 		server.expose('filtergenre', function (args, opt, callback) {
@@ -128,6 +162,11 @@
 
 		server.expose('filtersorter', function (args, opt, callback) {
 			$('.sorters .dropdown-menu a[data-value=' + args[0] + ']').click();
+			popcornCallback(callback);
+		});
+		
+		server.expose('filtertype', function (args, opt, callback) {
+			$('.types .dropdown-menu a[data-value=' + args[0] + ']').click();
 			popcornCallback(callback);
 		});
 
