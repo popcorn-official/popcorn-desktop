@@ -20,7 +20,6 @@
 			var view = App.PlayerView;
 			args = parseFloat(args);
 			if(view !== undefined && view.player !== undefined) {
-				console.log(args);
 				if(args >= 0) {
 					volume = args;
 					if(volume > 0) {
