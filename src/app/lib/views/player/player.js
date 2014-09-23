@@ -115,7 +115,6 @@
             $('.filter-bar').show();
             $('#player_drag').show();
             _this = this;
-            console.log(this.model);
             // Double Click to toggle Fullscreen
             $('#video_player').dblclick(function (event) {
                 _this.toggleFullscreen();
@@ -189,7 +188,7 @@
             });
 
             var checkAutoPlay = function () {
-                if (!_this.isMovie() && this.model.get('auto_play')) {
+                if (!_this.isMovie()) {
                     if ((_this.video.duration() - _this.video.currentTime()) < 120) {
                         var count = Math.round(_this.video.duration() - _this.video.currentTime());
                         $('.playing_next').show();
@@ -217,10 +216,9 @@
             player.one('play', function () {
                 player.one('durationchange', sendToTrakt);
                 _this._WatchingTimer = setInterval(sendToTrakt, 10 * 60 * 1000); // 10 minutes
-
-
-                _this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
-
+                if (_this.model.get('auto_play')) {
+                    _this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
+                }
 
             });
 
@@ -230,9 +228,9 @@
 
                 if (_this.wasSeek) {
                     sendToTrakt();
-
-                    checkAutoPlay();
-
+                    if (_this.model.get('auto_play')) {
+                        checkAutoPlay();
+                    }
                     _this.wasSeek = false;
                 }
             });

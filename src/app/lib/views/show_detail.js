@@ -343,39 +343,42 @@ var health_checked = false;
                 season: season,
                 episode: episode
             };
+            if (AdvSettings.get('playNextEpisodeAuto')) {
 
-            var episodes = [];
-            var episodes_data = [];
-            var selected_quality = $(e.currentTarget).attr('data-quality');
+                var episodes = [];
+                var episodes_data = [];
+                var selected_quality = $(e.currentTarget).attr('data-quality');
 
-            _.each(this.model.get('episodes'), function (value) {
-                var epaInfo = {
-                    id: parseInt(value.season) * 100 + parseInt(value.episode),
-                    backdrop: that.model.get('images').fanart,
-                    defaultSubtitle: Settings.subtitle_language,
-                    episode: value.episode,
-                    season: value.season,
-                    title: that.model.get('title') + ' - ' + i18n.__('Season') + ' ' + value.season + ', ' + i18n.__('Episode') + ' ' + value.episode + ' - ' + value.title,
-                    torrents: value.torrents,
-                    extract_subtitle: {
-                        type: 'tvshow',
-                        imdbid: that.model.get('imdb_id'),
-                        tvdbid: value.tvdb_id,
+                _.each(this.model.get('episodes'), function (value) {
+                    var epaInfo = {
+                        id: parseInt(value.season) * 100 + parseInt(value.episode),
+                        backdrop: that.model.get('images').fanart,
+                        defaultSubtitle: Settings.subtitle_language,
+                        episode: value.episode,
                         season: value.season,
-                        episode: value.episode
-                    },
-                    tvdb_id: value.tvdb_id,
-                    imdb_id: that.model.get('imdb_id'),
-                    device: App.Device.Collection.selected,
-                    status: that.model.get('status'),
-                    type: 'episode'
-                };
-                episodes_data.push(epaInfo);
-                episodes.push(parseInt(value.season) * 100 + parseInt(value.episode));
-            });
-            episodes.sort();
-            episodes_data = _.sortBy(episodes_data, 'id');
-
+                        title: that.model.get('title') + ' - ' + i18n.__('Season') + ' ' + value.season + ', ' + i18n.__('Episode') + ' ' + value.episode + ' - ' + value.title,
+                        torrents: value.torrents,
+                        extract_subtitle: {
+                            type: 'tvshow',
+                            imdbid: that.model.get('imdb_id'),
+                            tvdbid: value.tvdb_id,
+                            season: value.season,
+                            episode: value.episode
+                        },
+                        tvdb_id: value.tvdb_id,
+                        imdb_id: that.model.get('imdb_id'),
+                        device: App.Device.Collection.selected,
+                        status: that.model.get('status'),
+                        type: 'episode'
+                    };
+                    episodes_data.push(epaInfo);
+                    episodes.push(parseInt(value.season) * 100 + parseInt(value.episode));
+                });
+                episodes.sort();
+                episodes_data = _.sortBy(episodes_data, 'id');
+            } else {
+                var episodes_data = null;
+            }
             var torrentStart = new Backbone.Model({
                 torrent: $(e.currentTarget).attr('data-torrent'),
                 backdrop: that.model.get('images').fanart,
