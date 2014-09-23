@@ -128,11 +128,11 @@
             $('#qrcode').qrcode({
                 'text': JSON.stringify(QRCodeInfo)
             });
-            $('#qrcode-modal, #qrcode-overlay').show("slow");
+            $('#qrcode-modal, #qrcode-overlay').show('slow');
         },
 
         closeModal: function () {
-            $('#qrcode-modal, #qrcode-overlay').hide("slow");
+            $('#qrcode-modal, #qrcode-overlay').hide('slow');
         },
 
         showHelp: function () {
