@@ -151,5 +151,8 @@
 	"I Accept": "I Accept",
 	"Leave": "Leave",
 	"When Opening TV Series Detail Jump To": "When Opening TV Series Detail Jump To",
-	"Health Medium": "Health Medium"
+	"Health Medium": "Health Medium",
+	"Playback": "Playback",
+	"Play next episode automatically": "Play next episode automatically",
+	"Generate Pairing QR code": "Generate Pairing QR code"
 }
