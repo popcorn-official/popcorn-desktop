@@ -226,7 +226,14 @@
 			<div class="btns advanced database">
 				<div class="btn-settings database qr-code"><%= i18n.__("Generate Pairing QR code") %></div>
 			</div>
-			<canvas id="qrcode" width="200" height="200"></canvas>
+			<div id="qrcode-overlay"></div>
+			<div id="qrcode-modal">
+				<span class="fa-stack fa-1x" id="qrcode-close">
+					<i class="fa fa-circle-thin fa-stack-2x" style="margin-top: -2px;"></i>
+					<i class="fa fa-times fa-stack-1x" style="margin-top: -2px;"></i>
+				</span>
+				<canvas id="qrcode" width="200" height="200"></canvas>
+			</div><!-- /.modal -->
 		</div>
 	</section>
 

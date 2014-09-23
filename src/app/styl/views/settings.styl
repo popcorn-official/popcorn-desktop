@@ -64,9 +64,44 @@
 					em
 						color $SettingsText2
 						font-size 12px
-		#qrcode
-			margin-bottom: 10px
-			display: none
+
+			/* overlay styles, all needed */
+		#qrcode-overlay 
+			display none
+			position fixed
+			top 0
+			left 0
+			height 100%
+			width 100%
+			background-color rgba(0,0,0,0.5)
+			z-index 99998
+
+		#qrcode-modal 
+			display none
+			position fixed
+			top 35%
+			left 40%
+			background-color #fff
+			-webkit-border-radius 5px
+			border-radius 5px
+			border 1px solid #000
+			padding 30px 10px 0px
+			z-index 99999 /* 1px higher than the overlay layer */
+			#qrcode-close
+				color #000
+				cursor pointer
+				position absolute
+				top -11px
+				right -10px
+				background white
+				border-radius 51px
+				padding 0
+				width 21px
+				height 21px
+
+
+			#qrcode
+				margin-bottom 10px
 
 		#title
 			.title

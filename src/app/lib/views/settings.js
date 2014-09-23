@@ -38,7 +38,9 @@
             'click #unauthTrakt': 'disconnectTrakt',
             'change #tmpLocation': 'updateCacheDirectory',
             'click #syncTrakt': 'syncTrakt',
-            'click .qr-code': 'generateQRcode'
+            'click .qr-code': 'generateQRcode',
+            'click #qrcode-overlay': 'closeModal',
+            'click #qrcode-close': 'closeModal'
         },
 
         onShow: function () {
@@ -123,10 +125,14 @@
             };
             var qrcodecanvus = document.getElementById('qrcode');
             qrcodecanvus.width = qrcodecanvus.width;
-
-            $('#qrcode').show().qrcode({
+            $('#qrcode').qrcode({
                 'text': JSON.stringify(QRCodeInfo)
             });
+            $('#qrcode-modal, #qrcode-overlay').show("slow");
+        },
+
+        closeModal: function () {
+            $('#qrcode-modal, #qrcode-overlay').hide("slow");
         },
 
         showHelp: function () {
