@@ -1,83 +1,66 @@
-.dragzone
-  -webkit-app-region: drag;
-  position: fixed;
-  display: none;
-
 #player,
-.player
+.player {
     width: 100%
     height: 100%
+}
 
-.player
+.player {
     z-index: 10
-    position: absolute;
-    overflow: hidden;
-    background-color: black
-
-    video
+    position: absolute
+    overflow: hidden
+    background-color: #000
+    video {
         width: 100%
         height: 100%
-
-    .playing_next
-      position: fixed
-      height: 40px
-      color: #fff
-      z-index: 23
-      bottom: 10vh
-      padding: 10px
-      font-size: 20px
-      left: 3vw
-      display: none
-      background-color: rgba(0, 0, 0, 0.48)
-
-    .details-player
+    }
+    .details-player {
         right: 10px
         position: absolute
         top: 20px
         z-index: 20
-
-    .close-info-player
+    }
+    .close-info-player {
         top: -1px
         right: 18px
         position: absolute
         color: #fff
         font-size: 2em
         font-smoothing: antialiased
-        transition all .5s
-        
-        &:hover
-          cursor: pointer
-          color: #a3a5a7
-
-    .quality-info-player
+        transition: all 0.5s
+        &:hover {
+            cursor: pointer
+            color: #a3a5a7
+        }
+    }
+    .quality-info-player {
         position: absolute
-        right: 95px;
-        top: 3px;
-        font-size: 1.3em;
-        color: #FFFFFF
+        right: 95px
+        top: 3px
+        font-size: 1.3em
+        color: #fff
         font-weight: bold
-
-    .eye-info-player
+    }
+    .eye-info-player {
         position: absolute
         font-size: 2em
-        color: #FFFFFF
+        color: #fff
         top: -1px
         right: 55px
-        z-index 4
-        transition all .5s
-
-        &:hover
-          cursor: pointer
-          color: #a3a5a7
-          
-    .eye-info-player:hover + .details-info-player
-        display: block
-
-    .details-info-player
+        z-index: 4
+        transition: all 0.5s
+        &:hover {
+            cursor: pointer
+            color: #a3a5a7
+            & + .details-info-player {
+                display: block
+            }
+        }
+    }
+    .details-info-player {
         display: none
         width: 185px
-        background: rgba(31, 31, 31, 0.74)
-        color: #FFF
+        background: rgba(31,31,31,0.74)
+        color: #fff
         padding: 10px
         font-family: sans-serif
         font-size: 14px
@@ -85,116 +68,135 @@
         position: absolute
         right: 45px
         border-radius: 2px
-
-    .details-info-player > span
-        margin-bottom: 5px
-        display: -webkit-inline-box
-        margin-right: 3px
-    
-    .arrow-up 
+        & > span {
+            margin-bottom: 5px
+            display: inline-box
+            margin-right: 3px
+        }
+    }
+    .arrow-up {
         width: 0
         height: 0
-        border-left: 6px solid rgba(0, 0, 0, 0)
-        border-right: 6px solid rgba(0, 0, 0, 0)
-        border-bottom: 6px solid rgba(31, 31, 31, 0.74)
+        border-left: 6px solid rgba(0,0,0,0)
+        border-right: 6px solid rgba(0,0,0,0)
+        border-bottom: 6px solid rgba(31,31,31,0.74)
         top: -6px
         right: 15px
         position: absolute
+    }
+}
 
-.player-title
-  position absolute
-  top 18px
-  left 16px
-  color #fff
-  font-family $Font, $AlternateFont
-  font-size 17px
-  max-width 85%
-  z-index 3
-  overflow hidden
-  white-space nowrap
-  text-overflow ellipsis
-  padding-bottom 3px
+.player-title {
+    position: absolute
+    top: 18px
+    left: 16px
+    color: #fff
+    font-family: 'Open Sans', sans-serif
+    font-size: 17px
+    max-width: 85%
+    z-index: 3
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis
+    padding-bottom: 3px
+}
 
-.vjs-quality-button
-    color #fff
-    right 15px
-    top 8px
-    
-.vjs-subtitles-button
-    top 12px
+.dragzone {
+    app-region: drag
+    position: fixed
+    display: none
+}
 
-.vjs_smallersub_button.vjs-control
-    top 13px
+.vjs-quality-button {
+    color: #fff
+    right: 15px
+    top: 8px
+}
 
-.vjs_biggersub_button.vjs-control
-    top 13px
+.vjs-subtitles-button {
+    top: 12px
+}
 
-.player-header-background
-  position absolute
-  background -webkit-linear-gradient(black, transparent)!important
-  width 100%!important
-  height 75px!important
-  z-index 3
-  top 0
+.vjs_smallersub_button {
+    &.vjs-control {
+        top: 13px
+    }
+}
 
-/*! videojs-overlay - v0.0.0 - 2014-4-26
- * Copyright (c) 2014 Brightcove
- * Licensed under the Apache-2.0 license. */
+.vjs_biggersub_button {
+    &.vjs-control {
+        top: 13px
+    }
+}
 
-/**
- * Some handy default styles for overlays.
- */
+.player-header-background {
+    position: absolute
+    background: linear-gradient(#000, transparent) !important
+    width: 100% !important
+    height: 75px !important
+    z-index: 3
+    top: 0
+}
+
 .vjs-overlay,
-.vjs-overlay.vjs-overlay-top-left 
-  position absolute
-  width 33%
-  font-size 14px
-  background-color transparent
-  color: #fff
-  font-family "Open Sans Semibold"
-  -webkit-font-smoothing antialiased
-  padding 10px
-  border-radius 3px
-  top 65px
-  left 5px
-  /*text-align center*/
+.vjs-overlay.vjs-overlay-top-left {
+    position: absolute
+    width: 33%
+    font-size: 14px
+    background-color: transparent
+    color: #fff
+    font-family: "Open Sans Semibold"
+    font-smoothing: antialiased
+    padding: 10px
+    border-radius: 3px
+    top: 65px
+    left: 5px
+}
 
-/* overlay alignment styles */
-.vjs-overlay.vjs-overlay-top 
-  margin-left: -16.5%;
-  left: 50%;
+.vjs-overlay {
+    &.vjs-overlay-top {
+        margin-left: -16.5%
+        left: 50%
+    }
+    &.vjs-overlay-top-right {
+        left: auto
+        right: 5px
+    }
+    &.vjs-overlay-left {
+        top: 50%
+        margin-top: -15px
+    }
+    &.vjs-overlay-right {
+        left: auto
+        right: 5px
+        top: 50%
+        margin-top: -15px
+    }
+    &.vjs-overlay-bottom {
+        margin-left: -16.5%
+        left: 50%
+        top: auto
+        bottom: 4.5em
+    }
+    &.vjs-overlay-bottom-left {
+        bottom: 4.5em
+        top: auto
+        left: 5px
+    }
+    &.vjs-overlay-bottom-right {
+        bottom: 4.5em
+        top: auto
+        left: auto
+        right: 5px
+    }
+}
 
-.vjs-overlay.vjs-overlay-top-right 
-  left: auto
-  right: 5px
-
-.vjs-overlay.vjs-overlay-left 
-  top 50%
-  margin-top -15px
-
-.vjs-overlay.vjs-overlay-right 
-  left auto
-  right 5px
-  top 50%
-  margin-top -15px
-
-.vjs-overlay.vjs-overlay-bottom 
-  margin-left -16.5%
-  left 50%
-  top auto
-  bottom 4.5em
-
-.vjs-overlay.vjs-overlay-bottom-left 
-  bottom 4.5em
-  top auto
-  left 5px
-
-.vjs-overlay.vjs-overlay-bottom-right
-  bottom 4.5em
-  top auto
-  left auto
-  right 5px
-
-.video-js.vjs-fullscreen.vjs-user-inactive .vjs-tech
-  // make sure the cursor disappear in fullscreen
-  pointer-events none
+.video-js {
+    &.vjs-fullscreen {
+        &.vjs-user-inactive {
+            .vjs-tech {
+                pointer-events: none
+            }
+        }
+    }
+}
