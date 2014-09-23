@@ -223,6 +223,10 @@
 				<p><%= i18n.__("HTTP API Password") + ":" %></p>
 				<input id="httpApiPassword" type="text" size="50" name="httpApiPassword" value="<%=Settings.httpApiPassword%>">
 			</span>
+			<div class="btns advanced database">
+				<div class="btn-settings database qr-code"><%= i18n.__("Generate Pairing QR code") %></div>
+			</div>
+			<canvas id="qrcode" width="200" height="200"></canvas>
 		</div>
 	</section>
 
