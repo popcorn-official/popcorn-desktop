@@ -160,6 +160,15 @@
 			</span>
 		</div>
 	</section>
+	<section id="playback">
+		<div class="title"><%= i18n.__("Playback") %></div>
+		<div class="content">
+			<span>
+				<input class="settings-checkbox" name="playNextEpisodeAuto" id="playNextEpisodeAuto" type="checkbox" <%=(Settings.playNextEpisodeAuto? "checked='checked'":"")%>>
+				<label class="settings-label" for="playNextEpisodeAuto"><%= i18n.__("Play next episode automatically") %></label>
+			</span>
+		</div>
+	</section>
 
 	<section id="trakt-tv">
 		<div class="title"><%= i18n.__("Trakt.tv") %></div>

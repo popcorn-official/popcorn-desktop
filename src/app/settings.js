@@ -20,6 +20,10 @@ Settings.postersSizeRatio = (196 / 134);
 Settings.postersWidth = Settings.postersMinWidth;
 Settings.postersJump = [134, 154, 174, 194, 214, 234, 254, 274, 294];
 
+//Playback
+
+Settings.playNextEpisodeAuto = true;
+
 // Advanced UI
 Settings.alwaysOnTop = false;
 Settings.theme = 'Official_-_Dark_theme';
@@ -65,8 +69,8 @@ Settings.connectionCheckUrl = 'http://google.com/';
 Settings.version = false;
 Settings.dbversion = '0.1.0';
 Settings.font = 'tahoma';
-Settings.width = window.screen.availWidth*0.8;
-Settings.height = window.screen.availHeight*0.8;
+Settings.width = window.screen.availWidth * 0.8;
+Settings.height = window.screen.availHeight * 0.8;
 
 // Miscellaneous
 
@@ -99,7 +103,7 @@ var ScreenResolution = {
 
 var AdvSettings = {
 
-    get: function(variable) {
+    get: function (variable) {
         if (typeof Settings[variable] !== 'undefined') {
             return Settings[variable];
         }
@@ -107,21 +111,21 @@ var AdvSettings = {
         return false;
     },
 
-    set: function(variable, newValue) {
+    set: function (variable, newValue) {
         Database.writeSetting({
             key: variable,
             value: newValue
-        }, function() {
+        }, function () {
             Settings[variable] = newValue;
         });
     },
 
-    setup: function(callback) {
+    setup: function (callback) {
         AdvSettings.performUpgrade();
         AdvSettings.getHardwareInfo(callback);
     },
 
-    getHardwareInfo: function(callback) {
+    getHardwareInfo: function (callback) {
         if (/64/.test(process.arch)) {
             AdvSettings.set('arch', 'x64');
         } else {
@@ -129,24 +133,24 @@ var AdvSettings = {
         }
 
         switch (process.platform) {
-            case 'darwin':
-                AdvSettings.set('os', 'mac');
-                break;
-            case 'win32':
-                AdvSettings.set('os', 'windows');
-                break;
-            case 'linux':
-                AdvSettings.set('os', 'linux');
-                break;
-            default:
-                AdvSettings.set('os', 'unknown');
-                break;
+        case 'darwin':
+            AdvSettings.set('os', 'mac');
+            break;
+        case 'win32':
+            AdvSettings.set('os', 'windows');
+            break;
+        case 'linux':
+            AdvSettings.set('os', 'linux');
+            break;
+        default:
+            AdvSettings.set('os', 'unknown');
+            break;
         }
 
         callback();
     },
 
-    checkApiEndpoint: function(allApis, callback) {
+    checkApiEndpoint: function (allApis, callback) {
         var tls = require('tls'),
             URI = require('URIjs');
 
@@ -163,7 +167,7 @@ var AdvSettings = {
             tls.connect(443, hostname, {
                 servername: hostname,
                 rejectUnauthorized: false
-            }, function() {
+            }, function () {
                 if (!this.authorized || this.authorizationError || this.getPeerCertificate().fingerprint !== apiCheck.fingerprint) {
                     // "These are not the certificates you're looking for..."
                     // Seems like they even got a certificate signed for us :O
@@ -174,7 +178,7 @@ var AdvSettings = {
                 if (numCompletedCalls === allApis.length) {
                     callback();
                 }
-            }).on('error', function() {
+            }).on('error', function () {
                 // No SSL support. That's convincing >.<
                 Settings[apiCheck.original] = Settings[apiCheck.mirror];
 
@@ -182,7 +186,7 @@ var AdvSettings = {
                 if (numCompletedCalls === allApis.length) {
                     callback();
                 }
-            }).on('timeout', function() {
+            }).on('timeout', function () {
                 // Connection timed out, we'll say its not available
                 Settings[apiCheck.original] = Settings[apiCheck.mirror];
                 this.end();
@@ -193,7 +197,7 @@ var AdvSettings = {
         }
     },
 
-    performUpgrade: function() {
+    performUpgrade: function () {
         // This gives the official version (the package.json one)
         gui = require('nw.gui');
         var currentVersion = gui.App.manifest.version;
@@ -203,7 +207,7 @@ var AdvSettings = {
             // Todo: Make this nicer so we don't lose all the cached data
             var cacheDb = openDatabase('cachedb', '', 'Cache database', 50 * 1024 * 1024);
 
-            cacheDb.transaction(function(tx) {
+            cacheDb.transaction(function (tx) {
                 tx.executeSql('DELETE FROM subtitle');
                 tx.executeSql('DELETE FROM metadata');
             });
