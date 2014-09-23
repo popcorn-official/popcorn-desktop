@@ -189,17 +189,12 @@
             });
 
             var checkAutoPlay = function () {
-                if (!_this.isMovie()) {
+                if (!_this.isMovie() && this.model.get('auto_play')) {
                     if ((_this.video.duration() - _this.video.currentTime()) < 120) {
                         var count = Math.round(_this.video.duration() - _this.video.currentTime());
                         $('.playing_next').show();
 
-
                         $('.playing_next span').text(count);
-
-
-                        console.log(count);
-
                     } else {
                         $('.playing_next').hide();
                         $('.playing_next span').text('');
@@ -223,7 +218,9 @@
                 player.one('durationchange', sendToTrakt);
                 _this._WatchingTimer = setInterval(sendToTrakt, 10 * 60 * 1000); // 10 minutes
 
+
                 _this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
+
 
             });
 
@@ -233,7 +230,9 @@
 
                 if (_this.wasSeek) {
                     sendToTrakt();
+
                     checkAutoPlay();
+
                     _this.wasSeek = false;
                 }
             });
