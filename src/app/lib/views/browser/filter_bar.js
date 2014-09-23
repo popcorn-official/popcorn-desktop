@@ -1,4 +1,4 @@
-(function(App) {
+(function (App) {
 	'use strict';
 	var clipboard = gui.Clipboard.get();
 
@@ -27,63 +27,63 @@
 			'click #filterbar-about': 'about',
 			'click .showMovies': 'showMovies',
 			'click .showShows': 'showShows',
-            'click .showAnime': 'showAnime',
+			'click .showAnime': 'showAnime',
 			'click #filterbar-favorites': 'showFavorites',
 			'click .triggerUpdate': 'updateDB'
 		},
 
 
-		focus: function(e) {
+		focus: function (e) {
 			e.focus();
 		},
-		setactive: function(set) {
+		setactive: function (set) {
 			$('.filter-bar').find('.active').removeClass('active');
 			switch (set) {
-				case 'TV Series':
-				case 'shows':
-					$('.source.showShows').addClass('active');
-					break;
-				case 'Movies':
-				case 'movies':
-					$('.source.showMovies').addClass('active');
-				        break;
-				case 'Anime':
-				case 'anime':
-					$('.source.showAnime').addClass('active');
-					break;
-				case 'Favorites':
-				case 'favorites':
-					$('#filterbar-favorites').addClass('active');
-					break;
+			case 'TV Series':
+			case 'shows':
+				$('.source.showShows').addClass('active');
+				break;
+			case 'Movies':
+			case 'movies':
+				$('.source.showMovies').addClass('active');
+				break;
+			case 'Anime':
+			case 'anime':
+				$('.source.showAnime').addClass('active');
+				break;
+			case 'Favorites':
+			case 'favorites':
+				$('#filterbar-favorites').addClass('active');
+				break;
 			}
 		},
-		rightclick_search: function(e) {
+		rightclick_search: function (e) {
 			e.stopPropagation();
 			var search_menu = new this.context_Menu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'));
 			search_menu.popup(e.originalEvent.x, e.originalEvent.y);
 		},
 
-		context_Menu: function(cutLabel, copyLabel, pasteLabel) {
+		context_Menu: function (cutLabel, copyLabel, pasteLabel) {
 			var gui = require('nw.gui'),
 				menu = new gui.Menu(),
 
 				cut = new gui.MenuItem({
 					label: cutLabel || 'Cut',
-					click: function() {
+					click: function () {
 						document.execCommand('cut');
 					}
 				}),
 
 				copy = new gui.MenuItem({
 					label: copyLabel || 'Copy',
-					click: function() {
+					click: function () {
 						document.execCommand('copy');
 					}
 				}),
 
 				paste = new gui.MenuItem({
 					label: pasteLabel || 'Paste',
-					click: function() {
+					click: function () {
 						var text = clipboard.get('text');
 						$('#searchbox').val(text);
 					}
@@ -95,39 +95,39 @@
 
 			return menu;
 		},
-		onShow: function() {
+		onShow: function () {
 			this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
 			this.$('.genres  .dropdown-menu a:nth(0)').addClass('active');
 
 			if (typeof App.currentview === 'undefined') {
 
 				switch (AdvSettings.get('startScreen')) {
-					case 'TV Series':
-						App.currentview = 'shows';
-						break;
-					case 'Movies':
-						App.currentview = 'movies';
-						break;
-					case 'Anime':
-						App.currentview = 'anime';
-						break;
-					case 'Favorites':
-						App.currentview = 'Favorites';
-						App.previousview = 'movies';
-						break;
-					default:
-						App.currentview = 'movies';
+				case 'TV Series':
+					App.currentview = 'shows';
+					break;
+				case 'Movies':
+					App.currentview = 'movies';
+					break;
+				case 'Anime':
+					App.currentview = 'anime';
+					break;
+				case 'Favorites':
+					App.currentview = 'Favorites';
+					App.previousview = 'movies';
+					break;
+				default:
+					App.currentview = 'movies';
 				}
 				this.setactive(App.currentview);
 			}
 
 		},
 
-		focusSearch: function() {
+		focusSearch: function () {
 			this.$('.search input').focus();
 		},
 
-		search: function(e) {
+		search: function (e) {
 			App.vent.trigger('about:close');
 			App.vent.trigger('movie:closeDetail');
 			e.preventDefault();
@@ -146,7 +146,7 @@
 				this.ui.searchText.text(this.ui.searchInput.val());
 			}
 		},
-		removeSearch: function(e) {
+		removeSearch: function (e) {
 			App.vent.trigger('about:close');
 			App.vent.trigger('movie:closeDetail');
 			e.preventDefault();
@@ -160,7 +160,7 @@
 			this.ui.searchText.text();
 		},
 
-		sortBy: function(e) {
+		sortBy: function (e) {
 			App.vent.trigger('about:close');
 			this.$('.sorters .active').removeClass('active');
 			$(e.target).addClass('active');
@@ -181,7 +181,7 @@
 			this.previousSort = sorter;
 		},
 
-		changeType: function(e) {
+		changeType: function (e) {
 			App.vent.trigger('about:close');
 			this.$('.types .active').removeClass('active');
 			$(e.target).addClass('active');
@@ -195,7 +195,7 @@
 			});
 		},
 
-		changeGenre: function(e) {
+		changeGenre: function (e) {
 			App.vent.trigger('about:close');
 			this.$('.genres .active').removeClass('active');
 			$(e.target).addClass('active');
@@ -209,17 +209,17 @@
 			});
 		},
 
-		settings: function(e) {
+		settings: function (e) {
 			App.vent.trigger('about:close');
 			App.vent.trigger('settings:show');
 			App.currentview = 'settings';
 		},
 
-		about: function(e) {
+		about: function (e) {
 			App.vent.trigger('about:show');
 		},
 
-		showShows: function(e) {
+		showShows: function (e) {
 			e.preventDefault();
 			App.currentview = 'shows';
 			App.vent.trigger('about:close');
@@ -227,7 +227,7 @@
 			this.setactive('TV Series');
 		},
 
-		showAnime: function(e) {
+		showAnime: function (e) {
 			e.preventDefault();
 			App.currentview = 'anime';
 			App.vent.trigger('about:close');
@@ -235,7 +235,7 @@
 			this.setactive('Anime');
 		},
 
-		showMovies: function(e) {
+		showMovies: function (e) {
 			e.preventDefault();
 
 			App.currentview = 'movies';
@@ -244,7 +244,7 @@
 			this.setactive('Movies');
 		},
 
-		showFavorites: function(e) {
+		showFavorites: function (e) {
 			e.preventDefault();
 
 			if (App.currentview !== 'Favorites') {
@@ -270,7 +270,7 @@
 
 		},
 
-		updateDB: function(e) {
+		updateDB: function (e) {
 			e.preventDefault();
 			console.log('Update Triggered');
 			App.vent.trigger(this.type + ':update', []);

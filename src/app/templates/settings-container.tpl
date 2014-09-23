@@ -160,6 +160,15 @@
 			</span>
 		</div>
 	</section>
+	<section id="playback">
+		<div class="title"><%= i18n.__("Playback") %></div>
+		<div class="content">
+			<span>
+				<input class="settings-checkbox" name="playNextEpisodeAuto" id="playNextEpisodeAuto" type="checkbox" <%=(Settings.playNextEpisodeAuto? "checked='checked'":"")%>>
+				<label class="settings-label" for="playNextEpisodeAuto"><%= i18n.__("Play next episode automatically") %></label>
+			</span>
+		</div>
+	</section>
 
 	<section id="trakt-tv">
 		<div class="title"><%= i18n.__("Trakt.tv") %></div>
@@ -214,6 +223,10 @@
 				<p><%= i18n.__("HTTP API Password") + ":" %></p>
 				<input id="httpApiPassword" type="text" size="50" name="httpApiPassword" value="<%=Settings.httpApiPassword%>">
 			</span>
+			<div class="btns advanced database">
+				<div class="btn-settings database qr-code"><%= i18n.__("Generate Pairing QR code") %></div>
+			</div>
+			<canvas id="qrcode" width="200" height="200"></canvas>
 		</div>
 	</section>
 

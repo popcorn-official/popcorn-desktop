@@ -1,4 +1,4 @@
-(function(context) {
+(function (context) {
 	'use strict';
 
 	var _ = require('underscore');
@@ -16,21 +16,21 @@
 			type: 'movie'
 		},
 
-		get: function(ids) {
+		get: function (ids) {
 			return Q.when(querySubtitles(ids))
 				.then(formatForPopcorn);
 		}
 	});
 
-	var querySubtitles = function(imdbIds) {
+	var querySubtitles = function (imdbIds) {
 		if (_.isEmpty(imdbIds)) {
 			return {};
 		}
 
-		var url = baseUrl + _.map(imdbIds.sort(), function(id) {
+		var url = baseUrl + _.map(imdbIds.sort(), function (id) {
 			return id;
 		}).join('-');
-		var mirrorurl = mirrorUrl + _.map(imdbIds.sort(), function(id) {
+		var mirrorurl = mirrorUrl + _.map(imdbIds.sort(), function (id) {
 			return id;
 		}).join('-');
 
@@ -39,12 +39,12 @@
 		request({
 			url: url,
 			json: true
-		}, function(error, response, data) {
+		}, function (error, response, data) {
 			if (error || response.statusCode !== 200 || !data || !data.success) {
 				request({
 					url: mirrorurl,
 					json: true
-				}, function(error, response, data) {
+				}, function (error, response, data) {
 					if (error || response.statusCode !== 200 || !data || !data.success) {
 						deferred.reject(error);
 					} else {
@@ -59,16 +59,16 @@
 		return deferred.promise;
 	};
 
-	var formatForPopcorn = function(data) {
+	var formatForPopcorn = function (data) {
 		var allSubs = {};
 		// Iterate each movie
-		_.each(data.subs, function(langs, imdbId) {
+		_.each(data.subs, function (langs, imdbId) {
 			var movieSubs = {};
 			// Iterate each language
-			_.each(langs, function(subs, lang) {
+			_.each(langs, function (subs, lang) {
 				// Pick highest rated
 				var langCode = languageMapping[lang];
-				movieSubs[langCode] = prefix + _.max(subs, function(s) {
+				movieSubs[langCode] = prefix + _.max(subs, function (s) {
 					return s.rating;
 				}).url;
 			});

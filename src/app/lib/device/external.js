@@ -1,4 +1,4 @@
-(function(App) {
+(function (App) {
 	'use strict';
 
 	var path = require('path');
@@ -8,38 +8,38 @@
 	var collection = App.Device.Collection;
 	var child = require('child_process');
 
-	var External = App.Device.Generic.extend ({
+	var External = App.Device.Generic.extend({
 		defaults: {
 			type: 'external',
 			name: i18n.__('External Player'),
 		},
 
-		play: function(streamModel) {
+		play: function (streamModel) {
 			// "" So it behaves when spaces in path
 			// TODO: Subtitles
 			var url = streamModel.attributes.src;
-			var cmd = path.normalize('"'+ this.get('path') + '"');
+			var cmd = path.normalize('"' + this.get('path') + '"');
 			var subtitle = streamModel.attributes.subFile || '';
-			cmd += getPlayerSwitches(this.get('id')) + '"'+ subtitle + '" ' + url;
-			win.info('Launching External Player: '+ cmd);
+			cmd += getPlayerSwitches(this.get('id')) + '"' + subtitle + '" ' + url;
+			win.info('Launching External Player: ' + cmd);
 			child.exec(cmd);
 		},
 
-		pause: function() {
-			var cmd = path.normalize('"'+ this.get('path') + '"');
-			cmd += ' '+ this.get('pause');
+		pause: function () {
+			var cmd = path.normalize('"' + this.get('path') + '"');
+			cmd += ' ' + this.get('pause');
 			child.exec(cmd);
 		},
 
-		stop: function() {
-			var cmd = path.normalize('"'+ this.get('path') + '"');
-			cmd += ' '+ this.get('stop');
+		stop: function () {
+			var cmd = path.normalize('"' + this.get('path') + '"');
+			cmd += ' ' + this.get('stop');
 			child.exec(cmd);
 		},
 
-		unpause: function() {
-			var cmd = path.normalize('"'+ this.get('path') + '"');
-			cmd += ' '+ this.get('unpause');
+		unpause: function () {
+			var cmd = path.normalize('"' + this.get('path') + '"');
+			cmd += ' ' + this.get('unpause');
 			child.exec(cmd);
 		}
 	});
@@ -78,7 +78,7 @@
 		'MPC-HC': {
 			type: 'mpc-hc',
 			switches: ' /sub '
-		},	
+		},
 		'MPC-HC64': {
 			type: 'mpc-hc',
 			switches: ' /sub '
@@ -105,12 +105,15 @@
 	var folderName = '';
 	var found = {};
 
-	async.each(searchPaths[process.platform], function(folderName, pathcb) {
+	async.each(searchPaths[process.platform], function (folderName, pathcb) {
 		folderName = path.resolve(folderName);
-		console.log('Scanning: '+ folderName);
+		console.log('Scanning: ' + folderName);
 		var appIndex = -1;
-		var fileStream = readdirp({root: folderName, depth: 3});
-		fileStream.on('data', function(d) {
+		var fileStream = readdirp({
+			root: folderName,
+			depth: 3
+		});
+		fileStream.on('data', function (d) {
 			var app = d.name.replace('.app', '').replace('.exe', '').toLowerCase();
 			var match = _.filter(players, function (v, k) {
 				return k.toLowerCase() === app;
@@ -118,7 +121,7 @@
 
 			if (match.length) {
 				match = match[0];
-				console.log('Found External Player: '+ app + ' in '+ d.fullParentDir);
+				console.log('Found External Player: ' + app + ' in ' + d.fullParentDir);
 				collection.add(new External({
 					id: match.name,
 					type: 'external-' + match.type,
@@ -128,16 +131,15 @@
 
 			}
 		});
-		fileStream.on('end', function() {
+		fileStream.on('end', function () {
 			pathcb();
 		});
-	}, function(err) {
+	}, function (err) {
 
-		if(err) {
+		if (err) {
 			console.error(err);
 			return;
-		}
-		else {
+		} else {
 			win.info('External players Scan Finished');
 			return;
 		}
