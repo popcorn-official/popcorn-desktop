@@ -67,45 +67,11 @@
             } catch (e) {
                 // Stop weird Videojs errors
             }
+
             App.vent.trigger('player:close');
 
-            if (this.model.get('auto_play')) {
 
-                _this = this;
 
-                var episodes = this.model.get('episodes');
-
-                if (this.model.get('auto_id') !== episodes[episodes.length - 1]) {
-
-                    var auto_play_data = this.model.get('auto_play_data');
-                    var current_quality = this.model.get('quality');
-                    var idx;
-
-                    _.find(auto_play_data, function (data, dataIdx) {
-                        if (data.id == _this.model.get('auto_id')) {
-                            idx = dataIdx;
-                            return true;
-                        };
-                    });
-                    var next_episode = auto_play_data[idx + 1];
-
-                    next_episode.auto_play = true;
-                    next_episode.auto_id = parseInt(next_episode.season) * 100 + parseInt(next_episode.episode);
-                    next_episode.auto_play_data = auto_play_data;
-
-                    if (next_episode.torrents[current_quality].url) {
-                        next_episode.torrent = next_episode.torrents[current_quality].url;
-                    } else {
-                        next_episode.torrent = next_episode[next_episode.torrents.length - 1].url; //select highest quality available if user selected not found
-                    }
-
-                    console.log(next_episode.torrents[current_quality].url, current_quality);
-
-                    var torrentStart = new Backbone.Model(next_episode);
-
-                    App.vent.trigger('stream:start', torrentStart);
-                }
-            }
         },
 
         onShow: function () {
@@ -185,11 +151,48 @@
             player.on('ended', function () {
                 // For now close player. In future we will check if auto-play etc and get next episode
                 _this.closePlayer();
+
+                if (_this.model.get('auto_play')) {
+
+                    var episodes = _this.model.get('episodes');
+
+                    if (_this.model.get('auto_id') !== episodes[episodes.length - 1]) {
+
+                        var auto_play_data = _this.model.get('auto_play_data');
+                        var current_quality = _this.model.get('quality');
+                        var idx;
+
+                        _.find(auto_play_data, function (data, dataIdx) {
+                            if (data.id == _this.model.get('auto_id')) {
+                                idx = dataIdx;
+                                return true;
+                            };
+                        });
+                        var next_episode = auto_play_data[idx + 1];
+
+                        next_episode.auto_play = true;
+                        next_episode.auto_id = parseInt(next_episode.season) * 100 + parseInt(next_episode.episode);
+                        next_episode.auto_play_data = auto_play_data;
+
+                        if (next_episode.torrents[current_quality].url) {
+                            next_episode.torrent = next_episode.torrents[current_quality].url;
+                        } else {
+                            next_episode.torrent = next_episode[next_episode.torrents.length - 1].url; //select highest quality available if user selected not found
+                        }
+
+                        console.log(next_episode.torrents[current_quality].url, current_quality);
+
+                        var torrentStart = new Backbone.Model(next_episode);
+
+                        App.vent.trigger('stream:start', torrentStart);
+                    }
+                }
+
             });
 
             var checkAutoPlay = function () {
                 if (!_this.isMovie()) {
-                    if ((_this.video.duration() - _this.video.currentTime()) < 120) {
+                    if ((_this.video.duration() - _this.video.currentTime()) < 60) {
                         var count = Math.round(_this.video.duration() - _this.video.currentTime());
                         $('.playing_next').show();
 
