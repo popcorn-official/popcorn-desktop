@@ -17,6 +17,7 @@
 
         events: {
             'click .close-info-player': 'closePlayer',
+            'click .playnownext': 'playNextNow',
             'click .vjs-fullscreen-control': 'toggleFullscreen',
             'click .vjs-subtitles-button': 'toggleSubtitles'
         },
@@ -149,42 +150,13 @@
 
             player.on('ended', function () {
                 // For now close player. In future we will check if auto-play etc and get next episode
-                _this.closePlayer();
 
                 if (_this.model.get('auto_play')) {
 
-                    var episodes = _this.model.get('episodes');
+                    _this.playNextNow();
 
-                    if (_this.model.get('auto_id') !== episodes[episodes.length - 1]) {
-
-                        var auto_play_data = _this.model.get('auto_play_data');
-                        var current_quality = _this.model.get('quality');
-                        var idx;
-
-                        _.find(auto_play_data, function (data, dataIdx) {
-                            if (data.id == _this.model.get('auto_id')) {
-                                idx = dataIdx;
-                                return true;
-                            };
-                        });
-                        var next_episode = auto_play_data[idx + 1];
-
-                        next_episode.auto_play = true;
-                        next_episode.auto_id = parseInt(next_episode.season) * 100 + parseInt(next_episode.episode);
-                        next_episode.auto_play_data = auto_play_data;
-
-                        if (next_episode.torrents[current_quality].url) {
-                            next_episode.torrent = next_episode.torrents[current_quality].url;
-                        } else {
-                            next_episode.torrent = next_episode[next_episode.torrents.length - 1].url; //select highest quality available if user selected not found
-                        }
-
-                        console.log(next_episode.torrents[current_quality].url, current_quality);
-
-                        var torrentStart = new Backbone.Model(next_episode);
-
-                        App.vent.trigger('stream:start', torrentStart);
-                    }
+                } else {
+                    _this.closePlayer();
                 }
 
             });
@@ -266,6 +238,67 @@
             $('.player-header-background').appendTo('div#video_player');
 
             $('li:contains("subtitles off")').text(i18n.__('Disabled'));
+        },
+
+        playNextNow: function () {
+
+            var that = this;
+            win.info('Player closed');
+            if (this._WatchingTimer) {
+                clearInterval(this._WatchingTimer);
+            }
+            if (this._AutoPlayCheckTimer) {
+                clearInterval(this._AutoPlayCheckTimer);
+            }
+            // Check if >80% is watched to mark as watched by user  (maybe add value to settings
+            var type = (this.isMovie() ? 'movie' : 'show');
+            if (this.video.currentTime() / this.video.duration() >= 0.8) {
+                App.vent.trigger(type + ':watched', this.model.attributes, 'scrobble');
+            } else {
+                App.Trakt[type].cancelWatching();
+            }
+
+            try {
+                this.video.dispose();
+            } catch (e) {
+                // Stop weird Videojs errors
+            }
+
+            App.vent.trigger('player:close');
+
+            var episodes = _this.model.get('episodes');
+
+            if (_this.model.get('auto_id') !== episodes[episodes.length - 1]) {
+
+                var auto_play_data = _this.model.get('auto_play_data');
+                var current_quality = _this.model.get('quality');
+                var idx;
+
+                _.find(auto_play_data, function (data, dataIdx) {
+                    if (data.id == _this.model.get('auto_id')) {
+                        idx = dataIdx;
+                        return true;
+                    };
+                });
+                var next_episode = auto_play_data[idx + 1];
+
+                next_episode.auto_play = true;
+                next_episode.auto_id = parseInt(next_episode.season) * 100 + parseInt(next_episode.episode);
+                next_episode.auto_play_data = auto_play_data;
+
+                if (next_episode.torrents[current_quality].url) {
+                    next_episode.torrent = next_episode.torrents[current_quality].url;
+                } else {
+                    next_episode.torrent = next_episode[next_episode.torrents.length - 1].url; //select highest quality available if user selected not found
+                }
+
+                console.log(next_episode.torrents[current_quality].url, current_quality);
+
+                var torrentStart = new Backbone.Model(next_episode);
+
+                App.vent.trigger('stream:start', torrentStart);
+            }
+
         },
 
         bindKeyboardShortcuts: function () {
