@@ -121,7 +121,8 @@
                 user: $('#httpApiUsername').val(),
                 pass: $('#httpApiPassword').val()
             };
-            console.log(JSON.stringify(QRCodeInfo));
+            var qrcodecanvus = document.getElementById('qrcode');
+            qrcodecanvus.width = qrcodecanvus.width;
 
             $('#qrcode').show().qrcode({
                 "width": 100,
