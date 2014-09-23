@@ -87,7 +87,6 @@
     }
     .playing_next {
         position: fixed
-        height: 40px
         color: #fff
         z-index: 23
         bottom: 10vh
@@ -97,9 +96,58 @@
         display: none
         background-color: rgba(0, 0, 0, 0.48)
 
+        & > p {
+            float left
+            padding-right 5px
+        }
         & > span {
             font-weight: bold
+            float right
             color: rgb(0, 143, 255)
+        }
+    }
+
+    .auto-next-btn {
+        position relative
+        margin-top 13px
+        float right
+        padding-left 12px
+        padding-right 12px
+        margin-left 15px
+        border-radius $ButtonRadius
+        height 35px
+        background-color $ButtonBg
+        text-align center
+        color $SettingsButtonText
+        font-family $ButtonFont, $AlternateFont
+        font-size 13px
+        line-height 33px
+        cursor pointer
+        transition background-color .5s
+        &:hover {
+            background-color $ButtonBgHover
+            color $SettingsButtonTextHover
+            text-decoration none
+        }
+        &.disabled {
+            background-color $ButtonBgDisabled
+            &:hover{
+                background-color $ButtonBgDisabled
+            }
+            &:active{
+                background-color $ButtonBgDisabled
+            }
+        }
+
+        &.green{
+            background-color #27AE60
+        }
+        &.red{
+            background-color #F15153
+        }
+        &:active{
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+            background: $ButtonBgActive
         }
     }
 }
