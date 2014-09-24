@@ -224,7 +224,6 @@
             this.MovieDetail.close();
 
             this.Content.show(new App.View.WatchlistBrowser());
-            return false;
         },
 
 		showDisclaimer: function (e) {
