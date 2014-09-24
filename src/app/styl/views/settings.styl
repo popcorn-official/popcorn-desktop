@@ -1,397 +1,432 @@
 .settings-container-contain
-	background-color $BgColor1
-	height 100%
-	width calc(100% - 5px)
-	position fixed
-	scrollable()
-	padding-top: $TitleHeight + 10px 
-	&::-webkit-scrollbar-track
-		margin-top: $TitleHeight
+    background-color $BgColor1
+    height 100%
+    width calc(100% - 5px)
+    position fixed
+    scrollable()
+    padding-top: $TitleHeight + 10px 
+    &::-webkit-scrollbar-track
+        margin-top: $TitleHeight
 
-	.settings-container
-		z-index 1
-		width 100%
-		height auto
-		position absolute
-		background-color $BgColor1
-		-webkit-user-select none
-		padding-bottom 20px		
+    .settings-container
+        z-index 1
+        width 100%
+        height auto
+        position absolute
+        background-color $BgColor1
+        -webkit-user-select none
+        padding-bottom 20px     
 
-		section
-			display: flex
-			flex-direction: row
-			justify-content: flex-start
-			flex-flow: row wrap
-			width 92%
-			margin-left auto
-			margin-right auto
-			position relative
+        section
+            display: flex
+            flex-direction: row
+            justify-content: flex-start
+            flex-flow: row wrap
+            width 92%
+            margin-left auto
+            margin-right auto
+            position relative
 
-			.title
-				padding-top 26px
-				color $SettingsCategoriesText
-				font-family $Font, $AlternateFont
-				font-size 17px
-				width 160px
-				margin-right 30px
-				position relative
-				border-right 1px solid $SettingsSeparator
+            .title
+                padding-top 26px
+                color $SettingsCategoriesText
+                font-family $Font, $AlternateFont
+                font-size 17px
+                width 160px
+                margin-right 30px
+                position relative
+                border-right 1px solid $SettingsSeparator
 
-			.content
-				position relative
-				padding-top 30px
-				padding-left 10px
-				float right
-				width calc(100% - 190px)
-				height 100%
-				color $SettingsText1
-				font-family $Font, $AlternateFont
-				font-size 13px
-				border-bottom 1px solid $SettingsSeparator
+            .content
+                position relative
+                padding-top 30px
+                padding-left 10px
+                float right
+                width calc(100% - 190px)
+                height 100%
+                color $SettingsText1
+                font-family $Font, $AlternateFont
+                font-size 13px
+                border-bottom 1px solid $SettingsSeparator
 
-				span
-					float left
-					width 100%
-					height 40px
+                span
+                    float left
+                    width 100%
+                    height 40px
 
-					p
-						min-width 158px
-						color $SettingsText1
-						font-family $Font, $AlternateFont
-						font-size 13px
-						float left
+                    p
+                        min-width 158px
+                        color $SettingsText1
+                        font-family $Font, $AlternateFont
+                        font-size 13px
+                        float left
 
-					em
-						color $SettingsText2
-						font-size 12px
-		#qrcode
-			margin-bottom: 10px
-			display: none
+                    em
+                        color $SettingsText2
+                        font-size 12px
 
-		#title
-			.title
-				color $Text1
-				padding-top 5px
-				font-size 22px
+            /* overlay styles, all needed */
+        #qrcode-overlay 
+            display none
+            position fixed
+            top 0
+            left 0
+            height 100%
+            width 100%
+            background-color rgba(0,0,0,0.5)
+            z-index 99998
 
-			.content
-				padding-top 5px
-				height 30px
-				border-bottom 1px solid transparent
+        #qrcode-modal 
+            display none
+            position fixed
+            top 35%
+            left 40%
+            background-color #fff
+            -webkit-border-radius 5px
+            border-radius 5px
+            border 1px solid #000
+            padding 30px 10px 0px
+            z-index 99999 /* 1px higher than the overlay layer */
+            #qrcode-close
+                color #000
+                cursor pointer
+                position absolute
+                top -11px
+                right -10px
+                background white
+                border-radius 51px
+                padding 0
+                width 21px
+                height 21px
 
-				label
-					margin-top -7px
 
-				.keyboard,.help
-					font-size: 21px
-					margin-right: 25px
-					color: $Text3
-					cursor pointer
-					transition all .5s
+            #qrcode
+                margin-bottom 10px
 
-					&:hover
-						color: $Text1
-						transition all .5s
+        #title
+            .title
+                color $Text1
+                padding-top 5px
+                font-size 22px
 
-		#user-interface
-			.subtitles-language > select,
-			.pct-theme > select,
-			.start-screen > select,
-			.watchedCovers > select
-				width 158px
+            .content
+                padding-top 5px
+                height 30px
+                border-bottom 1px solid transparent
 
-		#subtitles
-			.subtitles-language-default > select
-				width 158px
-			.subtitles-size > p
-				margin-left 93px
-				min-width 50px
+                label
+                    margin-top -7px
 
-		#trakt-tv
-			.trakt-options
-				color $SettingsText1
-			    
-				a
-					display inline-block
-			
-				.unauthtext
-					margin-left 5px
-					color $ButtonBgActive
-					&:hover{ color: $ButtonBgHover; }
-			
-				.loading-spinner
-					animation-duration 0.75s
-					animation-iteration-count infinite
-					animation-name rotate-forever
-					animation-timing-function linear
-					width 20px
-					height 20px
-					border 4px solid #2d75df
-					border-right-color transparent
-					border-radius 50%
-					display inline-flex
-					margin-left -27px
-					margin-top -9px
-			
-				.invalid-cross
-					width 20px
-					height 20px
-					display inline-flex
-					margin-left -27px
-			
-					&:before
-						content "\2573"
-						font-family Arial
-						font-size 12px
-						font-weight bolder
-						text-shadow 0 0 10px #EE3030
-						color #EE3030
-			
-				.valid-tick
-					width 20px
-					height 20px
-					display inline-flex
-					margin-left -27px
-					margin-top -9px
-			
-					&:before
-						content "\2714"
-						font-family Arial
-						font-size 17px
-						font-weight bold
-						text-shadow 0 0 10px #4EEE30
-						color #4EEE30
-						position relative
-						top 2px
-			
-				.syncTrakt
-					margin-left: 15px
-					margin-bottom: 15px
-					margin-top: -15px
+                .keyboard,.help
+                    font-size: 21px
+                    margin-right: 25px
+                    color: $Text3
+                    cursor pointer
+                    transition all .5s
 
-		#cache
-			.open-tmp-folder
-				font-size: 16px
-				margin-left: 10px;
-				transition: all .5s;
-				&:hover
-					cursor: pointer;
-					color: $ButtonBgActive;
-					transition: all .5s;
-		#database
-			.open-database-folder
-				font-size: 16px
-				margin-left: 10px;
-				transition: all .5s;
-				&:hover
-					cursor: pointer;
-					color: $ButtonBgActive;
-					transition: all .5s;
+                    &:hover
+                        color: $Text1
+                        transition all .5s
 
-		.btns
-			padding-top 10px
-			padding-right 2%
-			float right
-			&.database
-				float left
-				padding-top 0
-				padding-bottom 13px
+        #user-interface
+            .subtitles-language > select,
+            .pct-theme > select,
+            .start-screen > select,
+            .watchedCovers > select
+                width 158px
 
-		.btn-settings
-			position relative
-			margin-top 13px
-			float left
-			padding-left 10px
-			padding-right 10px
-			margin-right 20px
-			border-radius $ButtonRadius
-			height 35px
-			background-color $ButtonBg
-			text-align center
-			color $SettingsButtonText
-			font-family $ButtonFont, $AlternateFont
-			font-size 12px
-			line-height 34px
-			cursor pointer
-			transition background-color .5s
-			&.database
-				margin-top: 0
-			&:hover
-				background-color $ButtonBgHover
-				color $SettingsButtonTextHover
-				text-decoration none
-			&.disabled
-				background-color $ButtonBgDisabled
-				&:hover
-					background-color $ButtonBgDisabled
-				&:active
-					background-color $ButtonBgDisabled
+        #subtitles
+            .subtitles-language-default > select
+                width 158px
+            .subtitles-size > p
+                margin-left 93px
+                min-width 50px
 
-			&.green
-				background-color #27AE60
-			&.red
-				background-color #F15153
-			&:active
-				box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-				background: $ButtonBgActive
+        #trakt-tv
+            .trakt-options
+                color $SettingsText1
+                
+                a
+                    display inline-block
+            
+                .unauthtext
+                    margin-left 5px
+                    color $ButtonBgActive
+                    &:hover{ color: $ButtonBgHover; }
+            
+                .loading-spinner
+                    animation-duration 0.75s
+                    animation-iteration-count infinite
+                    animation-name rotate-forever
+                    animation-timing-function linear
+                    width 20px
+                    height 20px
+                    border 4px solid #2d75df
+                    border-right-color transparent
+                    border-radius 50%
+                    display inline-flex
+                    margin-left -27px
+                    margin-top -9px
+            
+                .invalid-cross
+                    width 20px
+                    height 20px
+                    display inline-flex
+                    margin-left -27px
+            
+                    &:before
+                        content "\2573"
+                        font-family Arial
+                        font-size 12px
+                        font-weight bolder
+                        text-shadow 0 0 10px #EE3030
+                        color #EE3030
+            
+                .valid-tick
+                    width 20px
+                    height 20px
+                    display inline-flex
+                    margin-left -27px
+                    margin-top -9px
+            
+                    &:before
+                        content "\2714"
+                        font-family Arial
+                        font-size 17px
+                        font-weight bold
+                        text-shadow 0 0 10px #4EEE30
+                        color #4EEE30
+                        position relative
+                        top 2px
+            
+                .syncTrakt
+                    margin-left: 15px
+                    margin-bottom: 15px
+                    margin-top: -15px
 
-		.dropdown
-			select
-				margin-left 10px
-				position relative
-				padding-left 5px
-				border 0 !important
-				-webkit-appearance none
-				height 30px
-				line-height 25px
-				margin-top -9px
-				background-color $InputBoxBg
-				cursor pointer
-				color $InputBoxText
-				font-family $Font, $AlternateFont
-				font-size 13px
-				float left
-				outline 0
-				padding-right 15px
+        #cache
+            .open-tmp-folder
+                font-size: 16px
+                margin-left: 10px;
+                transition: all .5s;
+                &:hover
+                    cursor: pointer;
+                    color: $ButtonBgActive;
+                    transition: all .5s;
+        #database
+            .open-database-folder
+                font-size: 16px
+                margin-left: 10px;
+                transition: all .5s;
+                &:hover
+                    cursor: pointer;
+                    color: $ButtonBgActive;
+                    transition: all .5s;
 
-			option
-				background $InputBoxBg
-				border 0 !important
-				outline 0
+        .btns
+            padding-top 10px
+            padding-right 2%
+            float right
+            &.database
+                float left
+                padding-top 0
+                padding-bottom 13px
 
-			.dropdown-arrow
-				width 0
-				height 0
-				border-left 4px solid transparent
-				border-right 4px solid transparent
-				border-top 5px solid $Text2
-				top 4px
-				margin-left -13px
-				position relative
-				float left
-				cursor pointer
+        .btn-settings
+            position relative
+            margin-top 13px
+            float left
+            padding-left 10px
+            padding-right 10px
+            margin-right 20px
+            border-radius $ButtonRadius
+            height 35px
+            background-color $ButtonBg
+            text-align center
+            color $SettingsButtonText
+            font-family $ButtonFont, $AlternateFont
+            font-size 12px
+            line-height 34px
+            cursor pointer
+            transition background-color .5s
+            &.database
+                margin-top: 0
+            &:hover
+                background-color $ButtonBgHover
+                color $SettingsButtonTextHover
+                text-decoration none
+            &.disabled
+                background-color $ButtonBgDisabled
+                &:hover
+                    background-color $ButtonBgDisabled
+                &:active
+                    background-color $ButtonBgDisabled
 
-	.success_alert
-		position fixed
-		top 45px
-		right 20px
-		color $Text1
-		font-family $MainFont, $AlternateFont
-		font-size 16px
+            &.green
+                background-color #27AE60
+            &.red
+                background-color #F15153
+            &:active
+                box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+                background: $ButtonBgActive
 
-		#checkmark-notify
-			display inline-block
-			width 20px
-			height 20px
-			transform rotate(45deg)
+        .dropdown
+            select
+                margin-left 10px
+                position relative
+                padding-left 5px
+                border 0 !important
+                -webkit-appearance none
+                height 30px
+                line-height 25px
+                margin-top -9px
+                background-color $InputBoxBg
+                cursor pointer
+                color $InputBoxText
+                font-family $Font, $AlternateFont
+                font-size 13px
+                float left
+                outline 0
+                padding-right 15px
 
-		#stem-notify
-			position absolute
-			width 3px
-			height 12px
-			background-color $Text1
-			left 11px
-			top 6px
+            option
+                background $InputBoxBg
+                border 0 !important
+                outline 0
 
-		#kick-notify
-			position absolute
-			width 6px
-			height 3px
-			background-color $Text1
-			left 6px
-			top 15px
+            .dropdown-arrow
+                width 0
+                height 0
+                border-left 4px solid transparent
+                border-right 4px solid transparent
+                border-top 5px solid $Text2
+                top 4px
+                margin-left -13px
+                position relative
+                float left
+                cursor pointer
 
-	input[type="text"], input[type="password"], input[type="number"]
-		margin-left 10px
-		margin-top -9px
-		padding-left 10px
-		height 30px
-		border 0 !important
-		line-height 15px
-		background-color $InputBoxBg
-		resize none
-		color $InputBoxText
-		font-family $Font, $AlternateFont
-		font-size 13px
-		cursor text
-		outline 0 !important
+    .success_alert
+        position fixed
+        top 45px
+        right 20px
+        color $Text1
+        font-family $MainFont, $AlternateFont
+        font-size 16px
 
-	input[type='number']::-webkit-inner-spin-button
-		-webkit-appearance: none
-		margin: 0
+        #checkmark-notify
+            display inline-block
+            width 20px
+            height 20px
+            transform rotate(45deg)
 
-	input[type=checkbox]
-		&.settings-checkbox
-			position: absolute;
-			overflow: hidden;
-			clip: rect(0 0 0 0);
-			height:1px;
-			width:1px;
-			margin:-1px;
-			padding:0;
-			border:0;
+        #stem-notify
+            position absolute
+            width 3px
+            height 12px
+            background-color $Text1
+            left 11px
+            top 6px
 
-		&.settings-checkbox+label.settings-label
-			padding-left:20px;
-			height:15px;
-			display:inline-block;
-			line-height:15px;
-			background-repeat:no-repeat;
-			background-position: 0 0;
-			font-size:13px;
-			font-family: $Font, $AlternateFont;
-			vertical-align:middle;
-			cursor:pointer;
-			color:$SettingsText1
+        #kick-notify
+            position absolute
+            width 6px
+            height 3px
+            background-color $Text1
+            left 6px
+            top 15px
 
-		&.settings-checkbox:checked+label.settings-label
-			background-position: 0 -15px;
+    input[type="text"], input[type="password"], input[type="number"]
+        margin-left 10px
+        margin-top -9px
+        padding-left 10px
+        height 30px
+        border 0 !important
+        line-height 15px
+        background-color $InputBoxBg
+        resize none
+        color $InputBoxText
+        font-family $Font, $AlternateFont
+        font-size 13px
+        cursor text
+        outline 0 !important
 
-	.settings-label
-		background-image url('../images/icons/checkbox.png')
+    input[type='number']::-webkit-inner-spin-button
+        -webkit-appearance: none
+        margin: 0
 
-	.settings-container-check-settings
-		width 14px
-		height 14px
-		margin-top 59px
-		position relative
-		label
-			cursor pointer
-			position absolute
-			top 0
-			width 14px
-			height 14px
-			border-radius 3px
-			background-clip padding-box
-			background-color $InputBoxBg
+    input[type=checkbox]
+        &.settings-checkbox
+            position: absolute;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            height:1px;
+            width:1px;
+            margin:-1px;
+            padding:0;
+            border:0;
 
-			&:after
-				opacity 0
-				content ''
-				position absolute
-				width 10px
-				height 6px
-				background transparent
-				top 2px
-				left 2px
-				border 3px solid $ButtonBgActive
-				border-top none
-				border-right none
-				transform rotate(-45deg)
-		input[type=checkbox]:checked
-			& + label
-				&:after
-					opacity 1
+        &.settings-checkbox+label.settings-label
+            padding-left:20px;
+            height:15px;
+            display:inline-block;
+            line-height:15px;
+            background-repeat:no-repeat;
+            background-position: 0 0;
+            font-size:13px;
+            font-family: $Font, $AlternateFont;
+            vertical-align:middle;
+            cursor:pointer;
+            color:$SettingsText1
+
+        &.settings-checkbox:checked+label.settings-label
+            background-position: 0 -15px;
+
+    .settings-label
+        background-image url('../images/icons/checkbox.png')
+
+    .settings-container-check-settings
+        width 14px
+        height 14px
+        margin-top 59px
+        position relative
+        label
+            cursor pointer
+            position absolute
+            top 0
+            width 14px
+            height 14px
+            border-radius 3px
+            background-clip padding-box
+            background-color $InputBoxBg
+
+            &:after
+                opacity 0
+                content ''
+                position absolute
+                width 10px
+                height 6px
+                background transparent
+                top 2px
+                left 2px
+                border 3px solid $ButtonBgActive
+                border-top none
+                border-right none
+                transform rotate(-45deg)
+        input[type=checkbox]:checked
+            & + label
+                &:after
+                    opacity 1
 
 @keyframes rotate-forever
-	0%
-		transform rotate(0deg)
-	100%
-		transform rotate(360deg)
+    0%
+        transform rotate(0deg)
+    100%
+        transform rotate(360deg)
 
 .settings-container
-	section
-		&.advanced
-			display: none
-	.advanced
-		display: none
+    section
+        &.advanced
+            display: none
+    .advanced
+        display: none

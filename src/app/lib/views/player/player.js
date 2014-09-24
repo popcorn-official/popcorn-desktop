@@ -275,10 +275,10 @@
 				var idx;
 
 				_.find(auto_play_data, function (data, dataIdx) {
-					if (data.id == _this.model.get('auto_id')) {
+					if (data.id === _this.model.get('auto_id')) {
 						idx = dataIdx;
 						return true;
-					};
+					}
 				});
 				var next_episode = auto_play_data[idx + 1];
 
