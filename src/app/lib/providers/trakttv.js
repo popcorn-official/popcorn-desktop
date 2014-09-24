@@ -348,7 +348,7 @@
 
 	TraktTv.prototype.show = {
 		summary: function (id) {
-			return this.call(['show/summary.json', '{KEY}', id]);
+            return this.call(['show/summary.json', '{KEY}', id]);
 		},
 		listSummary: function (ids) {
 			if (_.isEmpty(ids)) {
@@ -569,6 +569,15 @@
 			return uri.filename(file + '-' + width + '.' + ext).toString();
 		}
 	};
+    
+    TraktTv.prototype.user = {
+        getWatched: function () {
+            return this.call(['user/library/shows/watched.json', '{KEY}', this._credentials.username])
+            .then(function (data) {
+                return data;
+            });
+        }
+    };
 
 	function onShowWatched(show, channel) {
 		win.debug('Mark TV Show as watched, on channel:', channel);

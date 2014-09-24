@@ -117,7 +117,12 @@
 				&:hover
 					color darken($FavoriteColor, 10)
         			transition all .5s
-
+            
+            &.watchlist
+                color: yellow//$WatchlistColor
+                &:hover
+                    color darken(yellow, 10)
+                    transition all .5s
 			&.about
 				color: $FilterBarIconHover
 	.clear

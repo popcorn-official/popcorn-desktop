@@ -50,7 +50,7 @@
 		},
 
 		getEmptyView: function () {
-
+            console.log('Get empty view: '+App.currentview);
 			switch (App.currentview) {
 			case 'movies':
 			case 'shows':
@@ -77,11 +77,23 @@
 					});
 				}
 				break;
+            case 'Watchlist':
+                if (this.collection.state === 'error') {
+                    return ErrorView.extend({
+                        error: i18n.__('Error, database is probably corrupted. Try flushing the bookmarks in settings.')
+                    });
+                } else {
+                    return ErrorView.extend({
+                        error: i18n.__('No ' + App.currentview + ' found...')
+                    });
+                }
+                break;
 			}
 		},
 
 		initialize: function () {
 			_this = this;
+            console.log('Initialize list', this.collection);
 			this.listenTo(this.collection, 'loading', this.onLoading);
 			this.listenTo(this.collection, 'loaded', this.onLoaded);
 
@@ -228,6 +240,9 @@
 			case 'Favorites':
 
 				break;
+            case 'Watchlist':
+
+                break;
 			}
 		},
 

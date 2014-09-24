@@ -56,6 +56,7 @@
 			App.vent.on('shows:list', _.bind(this.showShows, this));
 			App.vent.on('anime:list', _.bind(this.showAnime, this));
 			App.vent.on('favorites:list', _.bind(this.showFavorites, this));
+            App.vent.on('watchlist:list', _.bind(this.showWatchlist, this));
 			App.vent.on('shows:update', _.bind(this.updateShows, this));
 			App.vent.on('shows:init', _.bind(this.initShows, this));
 
@@ -121,8 +122,10 @@
 				}
 
 				that.InitModal.close();
-
-				if (AdvSettings.get('startScreen') === 'Favorites') {
+                
+                if (AdvSettings.get('startScreen') === 'Watchlist') {
+                    that.showWatchlist();
+                } else if (AdvSettings.get('startScreen') === 'Favorites') {
 					that.showFavorites();
 				} else if (AdvSettings.get('startScreen') === 'TV Series') {
 					that.showShows();
@@ -215,6 +218,14 @@
 
 			this.Content.show(new App.View.FavoriteBrowser());
 		},
+        
+        showWatchlist: function (e) {
+            this.Settings.close();
+            this.MovieDetail.close();
+
+            this.Content.show(new App.View.WatchlistBrowser());
+            return false;
+        },
 
 		showDisclaimer: function (e) {
 			this.Disclaimer.show(new App.View.DisclaimerModal());
