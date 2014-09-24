@@ -116,6 +116,13 @@
 					$('.source.showMovies').removeClass('active');
 					$('.source.showShows').addClass('active');
 					break;
+				case 'shows':
+					App.currentview = 'anime';
+					App.vent.trigger('anime:list', []);
+					$('.source.showMovies').removeClass('active');
+					$('.source.showShows').removeClass('active');
+					$('.source.showAnime').addClass('active');
+					break;
 				default:
 					App.currentview = 'movies';
 					App.vent.trigger('movies:list');
