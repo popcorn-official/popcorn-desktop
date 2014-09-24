@@ -162,7 +162,7 @@
 		});
 
 		server.expose('filtergenre', function (args, opt, callback) {
-			$('.genres .dropdown-menu a[data-value="' + args.toLowerCase() + ']').click();
+			$('.genres .dropdown-menu a[data-value="' + args.toLowerCase() + '"]').click();
 			popcornCallback(callback);
 		});
 
