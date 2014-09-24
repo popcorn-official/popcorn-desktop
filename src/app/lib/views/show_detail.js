@@ -342,12 +342,13 @@ var health_checked = false;
 				season: season,
 				episode: episode
 			};
+
+
+			var episodes = [];
+			var episodes_data = [];
+			var selected_quality = $(e.currentTarget).attr('data-quality');
+
 			if (AdvSettings.get('playNextEpisodeAuto')) {
-
-				var episodes = [];
-				var episodes_data = [];
-				var selected_quality = $(e.currentTarget).attr('data-quality');
-
 				_.each(this.model.get('episodes'), function (value) {
 					var epaInfo = {
 						id: parseInt(value.season) * 100 + parseInt(value.episode),
@@ -376,7 +377,7 @@ var health_checked = false;
 				episodes.sort();
 				episodes_data = _.sortBy(episodes_data, 'id');
 			} else {
-				var episodes_data = null;
+				episodes_data = null;
 			}
 			var torrentStart = new Backbone.Model({
 				torrent: $(e.currentTarget).attr('data-torrent'),
