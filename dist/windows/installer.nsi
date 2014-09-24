@@ -6,12 +6,12 @@
 !include "FileFunc.nsh"
 
 ;Parse package.json
-!searchparse /file "..\..\package.json" '"name": "' APP_NAME '"'
+!searchparse /file "..\..\package.json" '"name": "' APP_NAME '",'
 !searchreplace APP_NAME "${APP_NAME}" "-" " "
-!searchparse /file "..\..\package.json" '"version": "' PT_VERSION '"'
+!searchparse /file "..\..\package.json" '"version": "' PT_VERSION '",'
 !searchreplace PT_VERSION "${PT_VERSION}" "-" "."
-!searchparse /file "..\..\package.json" '"homepage": "' APP_URL '"'
-!searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '"'
+!searchparse /file "..\..\package.json" '"homepage": "' APP_URL '",'
+!searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '",'
 
 ;General Settings
 Name "${APP_NAME}"
