@@ -1,8 +1,10 @@
 (function (App) {
 	'use strict';
 	var rpc = require('json-rpc2');
+	var mdns = require('mdns');
 	var server;
 	var httpServer;
+	var ad;
 
 	var initServer = function () {
 		server = rpc.Server({
@@ -39,6 +41,46 @@
 			Mousetrap.trigger('space');
 			popcornCallback(callback);
 		});
+
+		server.expose('togglemute', function (args, opt, callback) {
+			Mousetrap.trigger('m');
+			popcornCallback(callback);
+		});
+
+		server.expose('togglefullscreen', function (args, opt, callback) {
+			Mousetrap.trigger('f');
+			popcornCallback(callback);
+		});
+
+		server.expose('togglefavourite', function (args, opt, callback) {
+			Mousetrap.trigger('f');
+			popcornCallback(callback);
+		});
+
+		server.expose('toggletab', function (args, opt, callback) {
+			Mousetrap.trigger('tab');
+			popcornCallback(callback);
+		});
+
+		server.expose('togglewatched', function (args, opt, callback) {
+			Mousetrap.trigger('w');
+			popcornCallback(callback);
+		});
+
+		server.expose('togglequality', function (args, opt, callback) {
+			Mousetrap.trigger('q');
+			popcornCallback(callback);
+		});
+
+		server.expose('showslist', function (args, opt, callback) {
+			App.vent.trigger('shows:list');
+			popcornCallback(callback);
+		});
+
+		server.expose('movieslist', function (args, opt, callback) {
+			App.vent.trigger('movies:list');
+			popcornCallback(callback);
+		});
 		
 		server.expose('getplaying', function (args, opt, callback) {
 			var view = App.PlayerView;
@@ -71,47 +113,12 @@
 			}
 		});
 
-		server.expose('togglemute', function (args, opt, callback) {
-			Mousetrap.trigger('m');
-			popcornCallback(callback);
-		});
-
-		server.expose('togglefullscreen', function (args, opt, callback) {
-			Mousetrap.trigger('f');
-			popcornCallback(callback);
-		});
-
-		server.expose('togglefavourite', function (args, opt, callback) {
-			Mousetrap.trigger('f');
-			popcornCallback(callback);
-		});
-
-		server.expose('toggletab', function (args, opt, callback) {
-			Mousetrap.trigger('tab');
-			popcornCallback(callback);
-		});
-
-		server.expose('togglewatched', function (args, opt, callback) {
-			Mousetrap.trigger('w');
-			popcornCallback(callback);
-		});
-
-		server.expose('showslist', function (args, opt, callback) {
-			App.vent.trigger('shows:list');
-			popcornCallback(callback);
-		});
-
-		server.expose('movieslist', function (args, opt, callback) {
-			App.vent.trigger('movies:list');
-			popcornCallback(callback);
-		});
-
 		server.expose('getviewstack', function (args, opt, callback) {
 			popcornCallback(callback, false, {'viewstack': App.ViewStack});
 		});
 		
 		server.expose('getcurrenttab', function (args, opt, callback) {
-			popcornCallback(callback, false, {'tav': App.currentview});
+			popcornCallback(callback, false, {'tab': App.currentview});
 		});
 
 		//Filter Bar
@@ -119,13 +126,13 @@
 			switch(App.currentview) {
 				case 'shows':
 				case 'anime':
-					popcornCallback(callback, false, {'genres': App.Config.genres_tv});
+					popcornCallback(callback, false, { 'genres': App.Config.genres_tv });
 					break;
 				case 'movies':
-					popcornCallback(callback, false, {'genres': App.Config.genres});
+					popcornCallback(callback, false, { 'genres': App.Config.genres });
 					break;
 				default:
-					popcornCallback(callback, false, {'genres': []});
+					popcornCallback(callback, false, { 'genres': [] });
 					break;
 			}
 		});
@@ -134,13 +141,13 @@
 			switch(App.currentview) {
 				case 'shows':
 				case 'anime':
-					popcornCallback(callback, false, {'sorters': App.Config.sorters_tv});
+					popcornCallback(callback, false, { 'sorters': App.Config.sorters_tv });
 					break;
 				case 'movies':
-					popcornCallback(callback, false, {'sorters': App.Config.sorters});
+					popcornCallback(callback, false, { 'sorters': App.Config.sorters });
 					break;
 				default:
-					popcornCallback(callback, false, {'sorters': []});
+					popcornCallback(callback, false, { 'sorters': [] });
 					break;
 			}
 		});
@@ -148,10 +155,10 @@
 		server.expose('gettypes', function (args, opt, callback) {
 			switch(App.currentview) {
 				case 'anime':
-					popcornCallback(callback, false, {'types': App.Config.types_anime});
+					popcornCallback(callback, false, { 'types': App.Config.types_anime });
 					break;
 				default:
-					popcornCallback(callback, false, {'types': []});
+					popcornCallback(callback, false, { 'types': [] });
 					break;
 			}
 		});
@@ -215,11 +222,6 @@
 
 		server.expose('back', function (args, opt, callback) {
 			Mousetrap.trigger('backspace');
-			popcornCallback(callback);
-		});
-
-		server.expose('quality', function (args, opt, callback) {
-			Mousetrap.trigger('q');
 			popcornCallback(callback);
 		});
 
@@ -288,6 +290,8 @@
 
 	function startListening() {
 		httpServer = server.listen(Settings.httpApiPort);
+		ad = mdns.createAdvertisement(mdns.tcp('http'), Settings.httpApiPort, { 'name': 'Popcorn Time' })
+		ad.start();
 
 		httpServer.on('connection', function (socket) {
 			sockets.push(socket);
@@ -300,6 +304,7 @@
 	}
 
 	function closeServer(cb) {
+		ad.stop();
 		httpServer.close(function () {
 			cb();
 		});
