@@ -1,10 +1,8 @@
 (function (App) {
 	'use strict';
 	var rpc = require('json-rpc2');
-	var mdns = require('mdns');
 	var server;
 	var httpServer;
-	var ad;
 
 	var initServer = function () {
 		server = rpc.Server({
@@ -164,22 +162,22 @@
 		});
 
 		server.expose('filtergenre', function (args, opt, callback) {
-			$('.genres .dropdown-menu a[data-value=' + args[0] + ']').click();
+			$('.genres .dropdown-menu a[data-value="' + args.toLowerCase() + ']').click();
 			popcornCallback(callback);
 		});
 
 		server.expose('filtersorter', function (args, opt, callback) {
-			$('.sorters .dropdown-menu a[data-value=' + args[0] + ']').click();
+			$('.sorters .dropdown-menu a[data-value="' + args.toLowerCase() + '"]').click();
 			popcornCallback(callback);
 		});
 		
 		server.expose('filtertype', function (args, opt, callback) {
-			$('.types .dropdown-menu a[data-value=' + args[0] + ']').click();
+			$('.types .dropdown-menu a[data-value="' + args.toLowerCase() + '"]').click();
 			popcornCallback(callback);
 		});
 
 		server.expose('filtersearch', function (args, opt, callback) {
-			$('#searchbox').val(args[0]);
+			$('#searchbox').val(args);
 			$('.search form').submit();
 			popcornCallback(callback);
 		});
@@ -191,7 +189,11 @@
 
 		//Standard controls
 		server.expose('seek', function (args, opt, callback) {
-			App.PlayerView.seek(parseFloat(args[0]));
+			var view = App.PlayerView;
+			args = parseFloat(args);
+			if(view !== undefined && view.player !== undefined && args != undefined) {
+				App.PlayerView.seek(args);
+			}
 			popcornCallback(callback);
 		});
 
@@ -241,7 +243,7 @@
 		});
 
 		server.expose('getsubtitles', function (args, opt, callback) {
-			popcornCallback(callback, false, [_.keys(App.MovieDetailView.model.get('subtitle'))]);
+			popcornCallback(callback, false, { "subtitles": _.keys(App.MovieDetailView.model.get('subtitle')) });
 		});
 
 		server.expose('setsubtitle', function (args, opt, callback) {
@@ -290,8 +292,6 @@
 
 	function startListening() {
 		httpServer = server.listen(Settings.httpApiPort);
-		ad = mdns.createAdvertisement(mdns.tcp('http'), Settings.httpApiPort, { 'name': 'Popcorn Time' })
-		ad.start();
 
 		httpServer.on('connection', function (socket) {
 			sockets.push(socket);
@@ -304,7 +304,6 @@
 	}
 
 	function closeServer(cb) {
-		ad.stop();
 		httpServer.close(function () {
 			cb();
 		});
@@ -315,6 +314,7 @@
 	}
 		
 	function popcornCallback(callback, err, result) {
+		if(result == undefined) result = {};
 		result['popcornVersion'] = App.settings.version;
 		callback(err, result);
 	}

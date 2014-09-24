@@ -12,7 +12,7 @@ Here are the currently supported procedures, the arguments they require, and the
 ##### ping()
 An empty method you can call to test the connection to the API. It needs no arguments.
 
-##### volume(volume*)
+##### volume(double volume)
 You can use this to get or set the volume if currently in the player view. If you want to set the volume then it should be a decimal number equal to or between 0 and 1.
 
 ##### toggleplaying()
@@ -60,22 +60,22 @@ Gets information about the current playing video. Responds with the main object 
 ##### getcurrenttab()
 Gets the current tab.
 
-##### filtergenre(genre*)
+##### filtergenre(string genre)
 Set the filter for the given genre.
 
-##### filtersorter(sorter*)
+##### filtersorter(string sorter)
 Set the filter for the given sorter.
 
-##### filtertype(type*)
+##### filtertype(string type)
 Set the filter for the given type.
 
-##### filtersearch(term*)
+##### filtersearch(string term)
 Set the filter search for the given term.
 
 ##### clearsearch()
 Clear the search field.
 
-##### seek(amount*)
+##### seek(double amount)
 Seek through the video by the given time amount in seconds.
 
 ##### up()
