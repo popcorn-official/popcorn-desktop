@@ -4,14 +4,16 @@ Popcorn time JSON-RPC 2 Api
 The JSON-RPC api built into the popcorn time app is an interface other programs can use to communicate with popcorn time.
 It uses basic http authentication and opens an endpoint port, both of which that you can set up in popocorn time's settings view.
 
+Every response is an object containing the version of Popcorn Time in the key 'popcornVersion'.
+
 Here are the currently supported procedures, the arguments they require, and the response they send:
 
 
 ##### ping()
-An empty method you can call to test the connection to the API. It needs no arguments and responds without any arguments.
+An empty method you can call to test the connection to the API. It needs no arguments.
 
-##### setvolume(volume*)
-You can use this to set the volume if currently in the player view. Volume should be a decimal number between 0 and 1. Responds without arguments.
+##### volume(volume*)
+You can use this to get or set the volume if currently in the player view. If you want to set the volume then it should be a decimal number equal to or between 0 and 1.
 
 ##### toggleplaying()
 Toggles whether the video is playing.
@@ -25,11 +27,14 @@ Toggles full screen mode of the app.
 ##### togglefavourite()
 Toggles favourite status of the currently selected item.
 
-##### togglemoviesshows()
-Toggles between movies and shows tabs.
+##### toggletab()
+Toggles between tabs.
 
 ##### togglewatched()
 Toggles watched status of the currently selected item.
+
+##### togglequality()
+Simulates a keyboard q button click which toggles quality if on movie detail view.
 
 ##### showslist()
 Opens the shows tab.
@@ -41,22 +46,28 @@ Opens the movies tab.
 Gets the views stack. Responds with the array of currently stacked views.
 
 ##### getgenres()
-Gets the available genres. Responds with the array of genres as a first argument.
-
-##### getgenres_tv()
-Gets the available shows genres. Responds with the array of genres as a first argument.
+Gets the available genres for the current tab. Responds with the array of genres with the key 'genres' in the main object.
 
 ##### getsorters()
-Gets the available sorters. Responds with the array of sorters as a first argument.
+Gets the available sorters for the current tab. Responds with the array of sorters with the key 'sorters' in the main object.
 
-##### getsorters_tv()
-Gets the available shows sorters. Responds with the array of sorters as a first argument.
+##### gettypes()
+Gets the available sorters for the current tab. Responds with the array of sorters with the key 'types' in the main object.
+
+##### getplaying()
+Gets information about the current playing video. Responds with the main object which contains the current playing state, download speed, upload speed, active peers, volume, title, quality, current time, duration, movie (true/false), imdb id (if movie = true), tvdb id (if movie = false), season (if movie = false) and episode (if movie = false).
+
+##### getcurrenttab()
+Gets the current tab.
 
 ##### filtergenre(genre*)
 Set the filter for the given genre.
 
 ##### filtersorter(sorter*)
 Set the filter for the given sorter.
+
+##### filtertype(type*)
+Set the filter for the given type.
 
 ##### filtersearch(term*)
 Set the filter search for the given term.
@@ -84,9 +95,6 @@ Simulates a keyboard enter button click
 
 ##### back()
 Simulates a keyboard backspace button click
-
-##### quality()
-Simulates a keyboard q button click which toggles quality if on movie detail view.
 
 ##### previousseason()
 Go to previous season in show details view. Simulates ctrl+up click
