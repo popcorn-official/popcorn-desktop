@@ -78,6 +78,9 @@ Set the filter search for the given term.
 ##### clearsearch()
 Clear the search field.
 
+##### startstream(string imdb_id, string torrent_url, string backdrop, [subtitles], string selected_subtitle, string title == undefined, string quality, string type)
+Start the torrent stream with the given values.
+
 ##### seek(double amount)
 Seek through the video by the given time amount in seconds.
 

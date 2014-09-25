@@ -232,7 +232,7 @@
 		});
 		
 		server.expose('startstream', function (args, opt, callback) {
-			if(args.imdb_id == undefined || args.torrent_url == undefined || args.backdrop == undefined || args.subtitle == undefined || args.defaultSubtitle == undefined || args.title == undefined || args.quality == undefined || args.type == undefined) {
+			if(args.imdb_id == undefined || args.torrent_url == undefined || args.backdrop == undefined || args.subtitle == undefined || args.selected_subtitle == undefined || args.title == undefined || args.quality == undefined || args.type == undefined) {
 				popcornCallback(callback, "Arguments missing");
 			} else {
 				var torrentStart = new Backbone.Model({
