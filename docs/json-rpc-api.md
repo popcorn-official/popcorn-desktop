@@ -12,7 +12,7 @@ Here are the currently supported procedures, the arguments they require, and the
 ##### ping()
 An empty method you can call to test the connection to the API. It needs no arguments.
 
-##### volume(double volume)
+##### volume([double volume] = optional)
 You can use this to get or set the volume if currently in the player view. If you want to set the volume then it should be a decimal number equal to or between 0 and 1.
 
 ##### toggleplaying()
@@ -60,16 +60,19 @@ Gets information about the current playing video. Responds with the main object 
 ##### getcurrenttab()
 Gets the current tab.
 
-##### filtergenre(string genre)
+##### getselection([integer index] = optional)
+Gets the current highlighted item in de list or the details of the opened view.
+
+##### filtergenre([string genre])
 Set the filter for the given genre.
 
-##### filtersorter(string sorter)
+##### filtersorter([string sorter])
 Set the filter for the given sorter.
 
-##### filtertype(string type)
+##### filtertype([string type])
 Set the filter for the given type.
 
-##### filtersearch(string term)
+##### filtersearch([string term])
 Set the filter search for the given term.
 
 ##### clearsearch()
@@ -102,7 +105,7 @@ Go to previous season in show details view. Simulates ctrl+up click
 ##### nextseason()
 Go to next season in show details view. Simulates ctrl+up click
 
-##### subtitleoffset(amount*)
+##### subtitleoffset([double amount])
 Adjusts subtitle offset by the given decimal amount
 
 ##### getsubtitles()
