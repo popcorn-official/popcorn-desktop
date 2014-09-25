@@ -18,7 +18,7 @@
             this.filter = _.defaults(_.clone(options.filter.attributes), {
                 page: 1
             });
-            this.hasMore = true;
+            this.hasMore = false;
 
             Backbone.Collection.prototype.initialize.apply(this, arguments);
         },
