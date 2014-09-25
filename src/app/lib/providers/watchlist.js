@@ -21,21 +21,21 @@
     var formatForPopcorn = function (items) {
         var showList = [];
         console.log('Trakt data: ', items);
+        var provider = App.Providers.get('Eztv');
         items.forEach(function (show) {
-            if (! show.next_episode) {
+            //If has no next episode or next episode is not aired, go to next one
+            if (! show.next_episode || (Math.round(new Date().getTime()/ 1000) < show.next_episode.first_aired)) {
                 console.log('No next episode');
                 return;
             }
             console.log('Yes next episode', show.show.imdb_id);
             var deferred = Q.defer();
-            var provider = App.Providers.get('Eztv');
             var data = provider.detail(show.show.imdb_id,
                 show,
                 function (err, data) {
                     if (!err) {
                         data.provider = 'Eztv';
                         data.type = 'show';
-                        //console.log('Eztv data:', data);
                         deferred.resolve(data);
                         /*Database.addTVShow(data, function (err, idata) {
                             Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function (err, data) {
@@ -50,7 +50,7 @@
                         deferred.reject(err);
                     }
                 });
-            // its a tv show
+            // Get tv show from favourites list
             /*Database.getTVShowByImdb(show.show.imdb_id, function (err, data) {
                 if (data != null) {
                     console.log('Show found in DB', data);

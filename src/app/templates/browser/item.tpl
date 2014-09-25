@@ -57,3 +57,19 @@
 		<% } %>
 	</p>
 <%} %>
+
+<% if (typeof next_episode !== 'undefined'){%>
+<p class="next_episode">
+    Next available unwatched episode:
+    <dl>
+        <dt>Season:</dt>
+        <dd><%=next_episode.season%></dd>
+
+        <dt>Episode:</dt>
+        <dd><%=next_episode.number%></dd>
+
+        <dt>Title</dt>
+        <dd><%=next_episode.title%></dd>
+    </dl>
+</p>
+<%} %>
