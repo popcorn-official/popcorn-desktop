@@ -206,6 +206,8 @@
 						checkAutoPlay();
 					}
 					_this.wasSeek = false;
+				} else {
+					App.vent.trigger('player:play');
 				}
 			});
 
@@ -214,6 +216,7 @@
 					_this.wasSeek = true;
 				} else {
 					_this.wasSeek = false;
+					App.vent.trigger('player:pause');
 				}
 			});
 
@@ -484,6 +487,7 @@
 			var t = this.player.currentTime();
 			this.player.currentTime(t + s);
 			this.player.trigger('mousemove'); //hack, make controls show
+			App.vent.trigger('seekchange');
 		},
 
 		mouseScroll: function (e) {
@@ -514,15 +518,15 @@
 
 			if (this.nativeWindow.isFullscreen) {
 				this.player.isFullscreen(false);
-				this.player.trigger('fullscreenchange');
 				this.nativeWindow.leaveFullscreen();
 				this.nativeWindow.focus();
 			} else {
 				this.player.isFullscreen(true);
-				this.player.trigger('fullscreenchange');
 				this.nativeWindow.enterFullscreen();
 				this.nativeWindow.focus();
 			}
+			
+			this.player.trigger('fullscreenchange');
 		},
 
 		toggleSubtitles: function () {},

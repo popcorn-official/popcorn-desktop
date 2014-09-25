@@ -31,7 +31,7 @@
 					volume = view.player.volume();
 				}
 			}
-			popcornCallback(callback, false, { 'volume': volume });
+			popcornCallback(callback, "Can't change volume, player not open");
 		});
 
 		server.expose('toggleplaying', function (args, opt, callback) {
@@ -46,7 +46,8 @@
 
 		server.expose('togglefullscreen', function (args, opt, callback) {
 			Mousetrap.trigger('f');
-			popcornCallback(callback);
+			nativeWindow = require('nw.gui').Window.get();
+			popcornCallback(callback, false { "fullscreen": nativeWindow.isFullscreen });
 		});
 
 		server.expose('togglefavourite', function (args, opt, callback) {
@@ -137,6 +138,11 @@
 
 		server.expose('getviewstack', function (args, opt, callback) {
 			popcornCallback(callback, false, {'viewstack': App.ViewStack});
+		});
+		
+		server.expose('getfullscreen', function (args, opt, callback) {
+			nativeWindow = require('nw.gui').Window.get();
+			popcornCallback(callback, false { "fullscreen": nativeWindow.isFullscreen });
 		});
 		
 		server.expose('getcurrenttab', function (args, opt, callback) {
@@ -339,20 +345,43 @@
 
 			//Do a small delay before sending data in case there are more simultaneous events
 			var reinitTimeout = function () {
+				win.debug("reinitTimeout");
 				//Only do a delay if the request won't time out in the meantime
 				if (startTime + 8000 - (new Date()).getTime() > 250) {
 					if (timeout) {
 						clearTimeout(timeout);
 					}
 					timeout = setTimeout(emitEvents, 200);
+					win.debug("setTimeout");
 				}
 			};
+			
+			//Listen for seek position change
+			App.vent.on('seekchange', function () {
+				events['seek'] = App.PlayerView.player.currentTime();
+				reinitTimeout();
+			});
 
 			//Listen for volume change
 			App.vent.on('volumechange', function () {
 				events['volumechange'] = App.PlayerView.player.volume();
 				reinitTimeout();
 			});
+			
+			//Listen for seek position change
+			App.vent.on('fullscreenchange', function () {
+				events['seek'] = App.PlayerView.player.currentTime();
+				reinitTimeout();
+			});
+			
+			//Listen for playing change
+			var playingChange = function () {
+				events['playing'] = !App.PlayerView.player.paused();
+				reinitTimeout();
+			};
+			
+			App.vent.on('player:pause', playingChange);
+			App.vent.on('player:play', playingChange);
 
 			//Listen for view stack change
 			var emitViewChange = function () {
