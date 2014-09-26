@@ -172,5 +172,6 @@
 	"Sync With Trakt": "Sync With Trakt",
 	"Syncing...": "Syncing...",
 	"Done": "Done",
-	"Error, database is probably corrupted. Try flushing the bookmarks in settings.": "Error, database is probably corrupted. Try flushing the bookmarks in settings."
+	"Error, database is probably corrupted. Try flushing the bookmarks in settings.": "Error, database is probably corrupted. Try flushing the bookmarks in settings.",
+	"This feature only works if you have your Traktv account synched. Please go to Settings and enter your credentials.": "This feature only works if you have your Traktv account synched. Please go to Settings and enter your credentials."
 }

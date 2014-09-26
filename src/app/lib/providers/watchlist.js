@@ -13,6 +13,9 @@
 		});*/
 		App.Trakt.show.getProgress().then(function (data) {
 			deferred.resolve(data || []);
+		})
+		.catch(function(error) {
+			deferred.reject(error);
 		});
 
 		return deferred.promise;
