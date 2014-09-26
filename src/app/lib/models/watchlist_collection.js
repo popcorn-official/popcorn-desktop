@@ -1,75 +1,74 @@
 (function (App) {
-    'use strict';
+	'use strict';
 
-    var Q = require('q');
+	var Q = require('q');
 
-    var WatchlistCollection = Backbone.Collection.extend({
-        model: App.Model.Movie,
+	var WatchlistCollection = Backbone.Collection.extend({
+		model: App.Model.Movie,
 
-        initialize: function (models, options) {
-            console.log('Init Watchlist Collection');
-            this.providers = {
-                torrent: App.Providers.get('Watchlist')
-            };
-            console.log('Watchlist', this.providers.torrent);
-            options = options || {};
-            options.filter = options.filter || new App.Model.Filter();
+		initialize: function (models, options) {
+			this.providers = {
+				torrent: App.Providers.get('Watchlist')
+			};
 
-            this.filter = _.defaults(_.clone(options.filter.attributes), {
-                page: 1
-            });
-            this.hasMore = false;
+			options = options || {};
+			options.filter = options.filter || new App.Model.Filter();
 
-            Backbone.Collection.prototype.initialize.apply(this, arguments);
-        },
+			this.filter = _.defaults(_.clone(options.filter.attributes), {
+				page: 1
+			});
+			this.hasMore = false;
 
-        fetch: function () {
-            var self = this;
+			Backbone.Collection.prototype.initialize.apply(this, arguments);
+		},
 
-            if (this.state === 'loading' && !this.hasMore) {
-                return;
-            }
+		fetch: function () {
+			var self = this;
 
-            this.state = 'loading';
-            self.trigger('loading', self);
+			if (this.state === 'loading' && !this.hasMore) {
+				return;
+			}
 
-            var torrent = this.providers.torrent;
-            var torrentPromise = torrent.fetch(this.filter);
+			this.state = 'loading';
+			self.trigger('loading', self);
 
-            var idsPromise = torrentPromise.then(_.bind(torrent.extractIds, torrent));
+			var torrent = this.providers.torrent;
+			var torrentPromise = torrent.fetch(this.filter);
 
-            return Q.all([torrentPromise])
-            .spread(function (movies) {
+			var idsPromise = torrentPromise.then(_.bind(torrent.extractIds, torrent));
 
-                // If a new request was started...
-                _.each(movies, function (movie) {
-                    var id = movie.imdb_id;
-                });
+			return Q.all([torrentPromise])
+			.spread(function (movies) {
 
-                if (_.isEmpty(movies)) {
-                    win.debug('hasMore = false');
-                    self.hasMore = false;
-                }
+				// If a new request was started...
+				_.each(movies, function (movie) {
+					var id = movie.imdb_id;
+				});
 
-                self.add(movies);
-                self.trigger('sync', self);
-                self.state = 'loaded';
-                self.trigger('loaded', self, self.state);
-            })
-            .catch(function (err) {
-                self.state = 'error';
-                self.trigger('loaded', self, self.state);
-                win.error(err.message, err.stack);
-            });
-        },
+				if (_.isEmpty(movies)) {
+					win.debug('hasMore = false');
+					self.hasMore = false;
+				}
 
-        fetchMore: function () {
-            win.debug('fetchMore');
-            this.filter.page += 1;
-            this.fetch();
-        }
+				self.add(movies);
+				self.trigger('sync', self);
+				self.state = 'loaded';
+				self.trigger('loaded', self, self.state);
+			})
+			.catch(function (err) {
+				self.state = 'error';
+				self.trigger('loaded', self, self.state);
+				win.error(err.message, err.stack);
+			});
+		},
 
-    });
+		fetchMore: function () {
+			win.debug('fetchMore');
+			this.filter.page += 1;
+			this.fetch();
+		}
 
-    App.Model.WatchlistCollection = WatchlistCollection;
+	});
+
+	App.Model.WatchlistCollection = WatchlistCollection;
 })(window.App);
