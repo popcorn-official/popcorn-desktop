@@ -47,7 +47,7 @@
 		server.expose('togglefullscreen', function (args, opt, callback) {
 			Mousetrap.trigger('f');
 			nativeWindow = require('nw.gui').Window.get();
-			popcornCallback(callback, false { "fullscreen": nativeWindow.isFullscreen });
+			popcornCallback(callback, false, { "fullscreen": nativeWindow.isFullscreen });
 		});
 
 		server.expose('togglefavourite', function (args, opt, callback) {
