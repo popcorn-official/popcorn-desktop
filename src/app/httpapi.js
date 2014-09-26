@@ -18,10 +18,9 @@
 		server.expose('volume', function (args, opt, callback) {
 			var volume = 1;
 			var view = App.PlayerView;
-			args = parseFloat(args);
 			if(view !== undefined && view.player !== undefined) {
-				if(args >= 0) {
-					volume = args;
+				if(args.length > 0) {
+					volume = parseFloat(args[0]);
 					if(volume > 0) {
 						if(view.player.muted()) view.player.muted(false);
 						view.player.volume(volume);
@@ -32,7 +31,7 @@
 					volume = view.player.volume();
 				}
 			}
-			popcornCallback(callback, false, { 'volume': volume });
+			popcornCallback(callback, "Can't change volume, player not open");
 		});
 
 		server.expose('toggleplaying', function (args, opt, callback) {
@@ -47,7 +46,8 @@
 
 		server.expose('togglefullscreen', function (args, opt, callback) {
 			Mousetrap.trigger('f');
-			popcornCallback(callback);
+			nativeWindow = require('nw.gui').Window.get();
+			popcornCallback(callback, false { "fullscreen": nativeWindow.isFullscreen });
 		});
 
 		server.expose('togglefavourite', function (args, opt, callback) {
@@ -110,9 +110,39 @@
 				popcornCallback(callback, false, { 'playing': false });
 			}
 		});
+		
+		server.expose('getselection', function (args, opt, callback) {
+			var movieView = App.Window.currentView.MovieDetail.currentView;
+			console.log(args);
+			if(movieView == undefined || movieView.model == undefined) {
+				var index = $('.item.selected').index();
+				if(args.length > 0) {
+					index = parseFloat(args[0]);	
+				} else {
+					if (index === -1) {
+						index = 0;
+					} else {
+						index = index + 1;
+					}
+				}
+				var result = App.Window.currentView.Content.currentView.ItemList.currentView.collection.models[index].attributes;
+				if(result != undefined) {
+					popcornCallback(callback, false, result);
+				} else {
+					popcornCallback(callback, false, "Index not found");
+				}
+			} else {
+				popcornCallback(callback, false, movieView.model.attributes);
+			}
+		});
 
 		server.expose('getviewstack', function (args, opt, callback) {
 			popcornCallback(callback, false, {'viewstack': App.ViewStack});
+		});
+		
+		server.expose('getfullscreen', function (args, opt, callback) {
+			nativeWindow = require('nw.gui').Window.get();
+			popcornCallback(callback, false { "fullscreen": nativeWindow.isFullscreen });
 		});
 		
 		server.expose('getcurrenttab', function (args, opt, callback) {
@@ -162,22 +192,42 @@
 		});
 
 		server.expose('filtergenre', function (args, opt, callback) {
-			$('.genres .dropdown-menu a[data-value="' + args.toLowerCase() + '"]').click();
+			if(args.length <= 0) {
+				popcornCallback(callback, "Arguments missing");
+				return;
+			}
+			
+			$('.genres .dropdown-menu a[data-value="' + args[0].toLowerCase() + ']').click();
 			popcornCallback(callback);
 		});
 
 		server.expose('filtersorter', function (args, opt, callback) {
-			$('.sorters .dropdown-menu a[data-value="' + args.toLowerCase() + '"]').click();
+			if(args.length <= 0) {
+				popcornCallback(callback, "Arguments missing");
+				return;
+			}
+			
+			$('.sorters .dropdown-menu a[data-value="' + args[0].toLowerCase() + '"]').click();
 			popcornCallback(callback);
 		});
 		
 		server.expose('filtertype', function (args, opt, callback) {
-			$('.types .dropdown-menu a[data-value="' + args.toLowerCase() + '"]').click();
+			if(args.length <= 0) {
+				popcornCallback(callback, "Arguments missing");
+				return;
+			}
+			
+			$('.types .dropdown-menu a[data-value="' + args[0].toLowerCase() + '"]').click();
 			popcornCallback(callback);
 		});
 
 		server.expose('filtersearch', function (args, opt, callback) {
-			$('#searchbox').val(args);
+			if(args.length <= 0) {
+				popcornCallback(callback, "Arguments missing");
+				return;
+			}
+			
+			$('#searchbox').val(args[0]);
 			$('.search form').submit();
 			popcornCallback(callback);
 		});
@@ -186,11 +236,36 @@
 			$('.remove-search').click();
 			popcornCallback(callback);
 		});
+		
+		server.expose('startstream', function (args, opt, callback) {
+			if(args.imdb_id == undefined || args.torrent_url == undefined || args.backdrop == undefined || args.subtitle == undefined || args.selected_subtitle == undefined || args.title == undefined || args.quality == undefined || args.type == undefined) {
+				popcornCallback(callback, "Arguments missing");
+			} else {
+				var torrentStart = new Backbone.Model({
+					imdb_id: args.imdb_id,
+					torrent: args.torrent_url,
+					backdrop: args.backdrop,
+					subtitle: args.subtitle,
+					defaultSubtitle: args.selected_subtitle,
+					title: args.title,
+					quality: args.quality,
+					type: args.type,
+					device: App.Device.Collection.selected
+				});
+				App.vent.trigger('stream:start', torrentStart);
+				popcornCallback(callback);
+			}
+		});
 
 		//Standard controls
 		server.expose('seek', function (args, opt, callback) {
+			if(args.length <= 0) {
+				popcornCallback(callback, "Arguments missing");
+				return;
+			}
+			
 			var view = App.PlayerView;
-			args = parseFloat(args);
+			args = parseFloat(args[0]);
 			if(view !== undefined && view.player !== undefined && args != undefined) {
 				App.PlayerView.seek(args);
 			}
@@ -238,6 +313,10 @@
 		});
 
 		server.expose('subtitleoffset', function (args, opt, callback) {
+			if(args.length <= 0) {
+				popcornCallback(callback, "Arguments missing");
+				return;
+			}
 			App.PlayerView.adjustSubtitleOffset(parseFloat(args[0]));
 			popcornCallback(callback);
 		});
@@ -247,6 +326,10 @@
 		});
 
 		server.expose('setsubtitle', function (args, opt, callback) {
+			if(args.length <= 0) {
+				popcornCallback(callback, "Arguments missing");
+				return;
+			}
 			App.MovieDetailView.switchSubtitle(args[0]);
 			popcornCallback(callback);
 		});
@@ -262,20 +345,43 @@
 
 			//Do a small delay before sending data in case there are more simultaneous events
 			var reinitTimeout = function () {
+				win.debug("reinitTimeout");
 				//Only do a delay if the request won't time out in the meantime
 				if (startTime + 8000 - (new Date()).getTime() > 250) {
 					if (timeout) {
 						clearTimeout(timeout);
 					}
 					timeout = setTimeout(emitEvents, 200);
+					win.debug("setTimeout");
 				}
 			};
+			
+			//Listen for seek position change
+			App.vent.on('seekchange', function () {
+				events['seek'] = App.PlayerView.player.currentTime();
+				reinitTimeout();
+			});
 
 			//Listen for volume change
 			App.vent.on('volumechange', function () {
 				events['volumechange'] = App.PlayerView.player.volume();
 				reinitTimeout();
 			});
+			
+			//Listen for seek position change
+			App.vent.on('fullscreenchange', function () {
+				events['seek'] = App.PlayerView.player.currentTime();
+				reinitTimeout();
+			});
+			
+			//Listen for playing change
+			var playingChange = function () {
+				events['playing'] = !App.PlayerView.player.paused();
+				reinitTimeout();
+			};
+			
+			App.vent.on('player:pause', playingChange);
+			App.vent.on('player:play', playingChange);
 
 			//Listen for view stack change
 			var emitViewChange = function () {
