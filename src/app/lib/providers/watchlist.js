@@ -11,12 +11,29 @@
 		/*App.db.getBookmarks(filters, function (err, data) {
 			deferred.resolve(data || []);
 		});*/
-		App.Trakt.show.getProgress().then(function (data) {
-			deferred.resolve(data || []);
-		})
-		.catch(function(error) {
-			deferred.reject(error);
+		App.db.getSetting({
+			key: 'watchlist'
+		}, function (err, doc) {
+			if (doc) {
+				console.log('Found in settings');
+				console.log(doc);
+				deferred.resolve(doc.value || []);
+			} else {
+				App.Trakt.show.getProgress().then(function (data) {
+					App.db.writeSetting({
+						key: 'watchlist',
+						value: data
+					}, function () {
+						deferred.resolve(data || []);
+					});
+				})
+				.catch(function(error) {
+					deferred.reject(error);
+				});
+			}
 		});
+		//writeSetting
+		
 
 		return deferred.promise;
 	};
@@ -35,6 +52,7 @@
 			//Try to find it on the Favourites database and attach the next_episode info
 			Database.getTVShowByImdb(show.show.imdb_id, function (err, data) {
 				if (data != null) {
+					console.log('Show found in DB', show.show.imdb_id);
 					data.type = 'bookmarkedshow';
 					data.image = data.images.poster;
 					data.imdb = data.imdb_id;
@@ -45,6 +63,7 @@
 					}
 					deferred.resolve(data);
 				} else {
+					console.log('Show not found in DB', show.show.imdb_id);
 					//If not found, then get the details from Eztv and add it to the DB
 					var data = provider.detail(show.show.imdb_id,
 						show,
