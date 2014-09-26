@@ -9,7 +9,7 @@
 		<i class="fa fa-heart actions-favorites"></i>
 		<i class="fa fa-eye actions-watched"></i>
 
-		<% if(typeof rating !== 'undefined'){ 
+		<% if(typeof rating !== 'undefined'){
 		var p_rating = Math.round(rating) / 2;  %>
 			<div class="rating" <% if(Settings.coversShowRating){ %> style="display: block;"<% } %> >
 				<div class="rating-stars">
@@ -36,9 +36,9 @@
 <p class="year"><%= year %></p>
 
 <% if (typeof item_data !== 'undefined') {%>
-        <p class="seasons data">
-           <%= item_data %>
-        </p>
+		<p class="seasons data">
+			<%= item_data %>
+		</p>
 <% } else if(typeof num_seasons !== 'undefined'){%>
 	<p class="seasons">
 		<%= num_seasons %> <%= num_seasons == 1 ? i18n.__("Season") : i18n.__("Seasons") %>
@@ -60,16 +60,10 @@
 
 <% if (typeof next_episode !== 'undefined'){%>
 <p class="next_episode">
-    Next available unwatched episode:
-    <dl>
-        <dt>Season:</dt>
-        <dd><%=next_episode.season%></dd>
-
-        <dt>Episode:</dt>
-        <dd><%=next_episode.number%></dd>
-
-        <dt>Title</dt>
-        <dd><%=next_episode.title%></dd>
-    </dl>
+	Next episode: <br/>
+	<small>
+		<strong><%=next_episode.season%>x<%=next_episode.number%></strong>
+		<%=next_episode.title%>
+	</small>
 </p>
 <%} %>

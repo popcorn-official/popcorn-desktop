@@ -544,23 +544,14 @@
                 .then(function (data) {
                     return data;
                 });
-        }
-    };
-
-    TraktTv.prototype.user = {
-        getWatched: function () {
-            //TraktTv();
-
-            //onsole.log('Is authenticating: ', this.isAuthenticating());
-            console.log(this._credentials);
-            console.log(this);
-            console.log(AdvSettings.get('traktUsername'));
-            /*if (!this.authenticated) {
+        },
+        getProgress: function () {
+            if (!this.authenticated) {
                 console.log('Not Authenticated');
                 return Q.reject('Not Authenticated');
-            }*/
+            }
 
-            return App.Trakt.call(['user/progress/watched.json', '{KEY}', AdvSettings.get('traktUsername')])
+            return App.Trakt.call(['user/progress/watched.json', '{KEY}', this._credentials.username])
             .then(function (data) {
                 return data;
             });
