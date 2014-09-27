@@ -142,7 +142,7 @@
 		
 		server.expose('getfullscreen', function (args, opt, callback) {
 			nativeWindow = require('nw.gui').Window.get();
-			popcornCallback(callback, false { "fullscreen": nativeWindow.isFullscreen });
+			popcornCallback(callback, false, { "fullscreen": nativeWindow.isFullscreen });
 		});
 		
 		server.expose('getcurrenttab', function (args, opt, callback) {
