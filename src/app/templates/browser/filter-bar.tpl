@@ -49,11 +49,9 @@
 <ul class="nav nav-hor right">
 	<li>
 		<div class="right search">
-			<span class="remove-search">
-				<span class="text-search"></span>
-			</span>
 			<form>
 				<input id="searchbox" type="text" placeholder="<%= i18n.__("Search") %>">
+				<div class="clear">X</div>
 			</form>
 		</div>
 	</li>
