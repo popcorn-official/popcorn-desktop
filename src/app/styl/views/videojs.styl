@@ -11,7 +11,10 @@
         width: 11px;
         height: 11px;
         &:before {
-            content: url('../images/icons/Player/Marker.png');
+            color: white;
+			content: '\25CF';
+			font-size: 22px;
+			line-height: 9px;
         }
     }
     .vjs-control-bar {
@@ -98,22 +101,30 @@
     .vjs-play-control {
         top: 13px;
         cursor: pointer;
-        width: 11px;
+        width: 12px;
         height: 14px;
         margin-left: 16px;
         &:hover {
             transition: all .5s;
             -webkit-filter: brightness(0.70);
+            &:before {
+            	text-shadow: none !important;
+            }
         }
         &:before {
             position: relative;
-            content: url('../images/icons/Player/Play.png');
+            text-shadow: none !important;
+			content: "\f04b";
+			color: white;
+			font-family: "fontawesome";
+			font-size: 12px;
+			line-height: 15px;
         }
     }
     &.vjs-playing {
         .vjs-play-control {
             &:before {
-                content: url('../images/icons/Player/Pause.png');
+                content: "\f04c";
             }
         }
     }
@@ -156,9 +167,6 @@
         width: 54px;
         margin-right: 0px;
         border-radius: 3px / 2px;
-        .vjs-volume-handle {
-            content: url('../images/icons/Player/Marker.png');
-        }
     }
     .vjs-volume-menu-button {
         .vjs-menu-content {
@@ -170,7 +178,7 @@
         top: 0;
         left: 0;
         height: 5px;
-        background-color: #2d75df;
+        background-color: $PlayerColor;
         border-radius: 3px / 2px;
         border-radius: 3px / 2px;
         background-clip: padding;
@@ -179,7 +187,10 @@
     }
     .vjs-volume-handle {
         &:before {
-            content: url('../images/icons/Player/Marker.png');
+            color: white;
+			content: '\25CF';
+			font-size: 22px;
+			line-height: 9px;
         }
     }
     .vjs-progress-control {
@@ -212,17 +223,22 @@
         background-clip: padding-box;
     }
     .vjs-play-progress {
-        background-color: #2d75df;
+        background-color: $PlayerColor;
         transition: all 0.5s ease;
     }
+    @keyframes progress {
+		to { background-position: -30px 0; }
+	}
     .vjs-load-progress {
         border-radius: 3px / 2px;
         border-radius: 3px / 2px;
         background-clip: padding-box;
         background-clip: padding-box;
-        background-image: url(unquote('data:image/gif;base64,R0lGODlhNgAKALMAALW1tayytKSuvJyqvIyixHyaxGySzFSK1ESC1Dx+3DR63Cx23P4BAgAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCQAMACwAAAAANgAKAAAEkXDJRYAdk1qAZ73Zx4VbJ4mmsQXJpFqsu7bSC8T1LMM0sgGHiW8TlAwtxcURKPwll0WFYFOYSKnWqaUquW6z2K4WwNWAPCXS+ZRGr82jHEyxAwhoC9u9vpfb8Xp4Tk1EEwmDEoeFiYgLikiGYQteZGBfYpKUZZqWJnAEdGxvKGpxoqZmOHkbfasWrYF8gKyzABEAIfkEBQkADAAsAAAAADYACgAABI5wKQFqWXhWcDO1mPRxoQZ6W7cQ2xCu7ctWbjgDNXbnMB0am0DitxEMMcCKkag8LpKAJbLo3AAOIYQVi9FuuAtvBSy+ZrfnkyhVGqlMJJQa/v7wdrKYTa/j93B5AEJMUU5QUk9UhIiHhl9pYyEJaBiTj5WUC5aRmHNubWxycWueoaQAgQAEqXd+eHs+sDgRACH5BAUJAAwALAAAAAA2AAoAAASNEEhwlkWT2oVnvdnHhVsniWaxJcKkWkorvUvsbvaMywCdD5sFYQLcDCVFyxGQFBKDy+YxkNgYJoKq5SrJWrHaBRfg3YK/pxIJ5FG32Wm4Bu7j1W8w+w5f0+cnUE9GEwSBSIZMiFKCYmdmXQkKj2RhY2WNkGiUciIJayNvoHGic6QfOT17On+rfXyod6sRACH5BAUJAAwALAAAAAA2AAoAAASYEIS0qgF41nUztZj0caEGelsHHBsSru3LVm44LzV25zAdFhuF4BccYoAVITFpBCAXymMxtFkQQoPqFZPdbAHdyjdsxWrNJ4BgpFqnQu50nISZtz+8nWyTkCkqfTZ/C4E6g4Urf1FOQQNLUE1PCo5Hg5M/lpROg2NnXJ5goGSdXmh0EoOndnBsrG91rbAbe4C0hLaIN7l8uBEAOw=='));
-        background-size: 30px 5px;
+        background-size: 6px 6px;
         transition: width 2s;
+		animation: progress 2.8s linear infinite;
+		background-repeat: repeat-x;
+		background-image: linear-gradient(-45deg, $PlayerColor 25%, transparent 25%, transparent 50%, $PlayerColor 50%, $PlayerColor 75%, transparent 75%, transparent);
     }
     .vjs-seek-handle {
         width: 11px;
@@ -242,7 +258,7 @@
     .vjs-current-time {
         position: relative;
         float: left;
-        margin-left: 24px;
+        margin-left: 18px;
     }
     .vjs-duration {
         position: relative;
@@ -264,15 +280,24 @@
         &:hover {
             transition: all .5s;
             -webkit-filter: brightness(0.70);
+            &:before {
+            	text-shadow: none !important;
+            }
         }
         &:before {
-            content: url('../images/icons/Player/Fullscreen.png');
+            content: "\f065";
+			text-shadow: none !important;
+			font-size: 16px;
+			font-family: "fontawesome";
+			height: 16px;
+			width: 16px;
+			color: white;
         }
     }
     &.vjs-fullscreen {
         .vjs-fullscreen-control {
             &:before {
-                content: url('../images/icons/Player/Normalscreen.png');
+                content: "\f066";
             }
         }
     }
@@ -325,7 +350,8 @@
             width: 1em;
             height: 1em;
             text-align: center;
-            text-shadow: 0em 0em 0.1em #000;
+            text-shadow: 0em 0em 0.1em $PlayerColor;
+            color: $PlayerColor;
         }
     }
     .vjs-menu-button {
@@ -412,8 +438,6 @@
     }
     .vjs_smallersub_button {
         &.vjs-control {
-            background: url(../images/icons/Player/fontdown.png);
-            background-repeat: no-repeat;
             outline: 0;
             position: relative;
             float: right;
@@ -424,13 +448,22 @@
             &:hover {
                 transition: all .5s;
                 -webkit-filter: brightness(0.70);
+                &:before {
+                	text-shadow: none;
+                }
+            }
+            &:before {
+            	height: 11px;
+				width: 12px;
+				font-size: 12px;
+				line-height: 14px;
+				content: "A";
+				color: #fff;
             }
         }
     }
     .vjs_biggersub_button {
         &.vjs-control {
-            background: url(../images/icons/Player/fontup.png);
-            background-repeat: no-repeat;
             outline: 0;
             position: relative;
             float: right;
@@ -441,6 +474,17 @@
             &:hover {
                 transition: all .5s;
                 -webkit-filter: brightness(0.70);
+                &:before {
+                	text-shadow: none;
+                }
+            }
+            &:before {
+            	height: 11px;
+				width: 12px;
+				font-size: 16px;
+				line-height: 12px;
+				content: "A";
+				color: #fff;
             }
         }
     }
