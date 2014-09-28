@@ -121,32 +121,79 @@
 				} else {
 					if (index === -1) {
 						index = 0;
-					} else {
-						index = index + 1;
 					}
 				}
-				var result = App.Window.currentView.Content.currentView.ItemList.currentView.collection.models[index].attributes;
-				if(result != undefined) {
-					popcornCallback(callback, false, result);
-				} else {
-					popcornCallback(callback, false, "Index not found");
+				var result = App.Window.currentView.Content.currentView.ItemList.currentView.collection.models[index];
+				if(result == undefined) popcornCallback(callback, "Index not found");
+				
+				var type = result.get('type');
+				
+				type.charAt(0).toUpperCase() + type.slice(1)
+				
+				switch(type) {
+					case 'movie':
+						popcornCallback(callback, false, result);
+						break;
+					case 'show':
+					case 'anime':
+						result.set('health', false);
+						var provider = App.Providers.get(result.get('provider'));
+						var data = provider.detail(result.get('imdb_id'), result.attributes,
+							function (err, data) {
+								data.provider = provider.name;
+								result = new App.Model[type.charAt(0).toUpperCase() + type.slice(1)](data);
+								popcornCallback(callback, false, result);
+							}
+						);
+						break;
 				}
 			} else {
-				popcornCallback(callback, false, movieView.model.attributes);
+				popcornCallback(callback, false, movieView.model);
 			}
+		});
+		
+		server.expose('getcurrentlist', function (args, opt, callback) {
+			var collection = App.Window.currentView.Content.currentView.ItemList.currentView.collection;
+			var result = collection.models;
+			if(args.length > 0) {
+				var page = parseInt(args[0]);
+				var size = page * 50;
+				if(result.length < size) {
+					collection.on("loaded", function() {
+						result = collection.models;
+						if(result.length >= size) {
+							result = result.slice((page - 1) * 50, size);
+							popcornCallback(callback, false, { 'type': result[0].get("type"), 'list': result, 'page': page, 'max_page': App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page });
+						} else {							
+							collection.fetchMore();
+						}
+					});
+					collection.fetchMore();
+				} else {
+					result = result.slice((page - 1) * 50, size);
+					popcornCallback(callback, false, { 'type': result[0].get("type"), 'list': result, 'page': page, 'max_page': App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page });
+				}
+			} else {
+				var page = App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page;
+				popcornCallback(callback, false, { 'type': result[0].get("type"), 'list': result, 'page': page, 'max_page': page });
+			}
+		});
+		
+		server.expose('getplayers', function (args, opt, callback) {
+			popcornCallback(callback, false, { 'players': App.ViewStack });
 		});
 
 		server.expose('getviewstack', function (args, opt, callback) {
-			popcornCallback(callback, false, {'viewstack': App.ViewStack});
+			popcornCallback(callback, false, { 'viewstack': App.ViewStack });
 		});
 		
 		server.expose('getfullscreen', function (args, opt, callback) {
 			nativeWindow = require('nw.gui').Window.get();
-			popcornCallback(callback, false, { "fullscreen": nativeWindow.isFullscreen });
+			popcornCallback(callback, false, { 'fullscreen': nativeWindow.isFullscreen });
 		});
 		
 		server.expose('getcurrenttab', function (args, opt, callback) {
-			popcornCallback(callback, false, {'tab': App.currentview});
+			popcornCallback(callback, false, { 'tab': App.currentview });
 		});
 
 		//Filter Bar

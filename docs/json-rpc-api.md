@@ -63,6 +63,9 @@ Gets the current tab.
 ##### getselection([integer index] = optional)
 Gets the current highlighted item in de list or the details of the opened view.
 
+##### getcurrentlist([integer page] = optional)
+Gets the items of the current showing list.
+
 ##### filtergenre([string genre])
 Set the filter for the given genre.
 
