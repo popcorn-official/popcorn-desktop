@@ -2,6 +2,7 @@
 	'use strict';
 
 	var _this;
+	var autoplayisshown = false;
 
 	var Player = Backbone.Marionette.ItemView.extend({
 		template: '#player-tpl',
@@ -148,6 +149,13 @@
 			// Force custom controls
 			player.usingNativeControls(false);
 
+
+			player.on('canplay', function () {
+
+				$('.vjs-loading-info').hide();
+			});
+
+
 			player.on('ended', function () {
 				// For now close player. In future we will check if auto-play etc and get next episode
 
@@ -164,13 +172,28 @@
 			var checkAutoPlay = function () {
 				if (!_this.isMovie()) {
 					if ((_this.video.duration() - _this.video.currentTime()) < 60 && _this.video.currentTime() > 30) {
-						var count = Math.round(_this.video.duration() - _this.video.currentTime());
-						$('.playing_next').show();
 
+						if (!autoplayisshown) {
+							console.log('Showing Auto Play message');
+							autoplayisshown = true;
+							$('.playing_next').show();
+							$('.playing_next').appendTo('div#video_player');
+							if (!_this.player.userActive()) {
+								_this.player.userActive(true);
+							}
+						}
+
+						var count = Math.round(_this.video.duration() - _this.video.currentTime());
 						$('.playing_next span').text(count + ' ' + i18n.__('Seconds'));
+
 					} else {
-						$('.playing_next').hide();
-						$('.playing_next span').text('');
+						if (autoplayisshown) {
+							console.log('Hiding Auto Play message');
+							$('.playing_next').hide();
+							$('.playing_next span').text('');
+							autoplayisshown = false;
+						}
+
 
 					}
 				}
@@ -525,7 +548,7 @@
 				this.nativeWindow.enterFullscreen();
 				this.nativeWindow.focus();
 			}
-			
+
 			this.player.trigger('fullscreenchange');
 		},
 

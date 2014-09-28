@@ -120,7 +120,8 @@
 
 			&.about
 				color: $FilterBarIconHover
-
+	.clear
+		display: none;
 	.search
 		form
 			&:before
@@ -135,6 +136,21 @@
 				z-index: 2;
 				font-size: 1.4em;
 
+			&.edited .clear
+				display: block;
+				font-weight: bold;
+				transition color 0.5s
+				color: $FilterBarIcon
+				position: absolute;
+				top:11px;
+				right: 7px;
+				padding: 2px 5px;
+
+			&.edited input, input:focus
+				width: 130px;
+				background-color: $SearchBoxBg
+				opacity: 1
+
 			&:hover
 				cursor: pointer
 				&:before
@@ -144,7 +160,7 @@
 				line-height normal
 				-webkit-app-region no-drag
 				outline none
-				cursor pointer
+				cursor text
 				width 0px
 				height 18px
 				position relative
@@ -153,7 +169,7 @@
 				border solid 0px
 				margin 8px 3px 0
 				padding 1px 2px 3px
-				padding-left 21px
+				padding-left 25px
 				border-radius 10em
 				-webkit-appearance textfield
 				-webkit-box-sizing content-box
@@ -161,15 +177,11 @@
 				transition width 0.5s
 
 				&:hover
-					color $FilterBarTextHover
+					color: $FilterBarText
 
 				&:focus
-					padding-left 25px
-					width: 130px;
 					color: $FilterBarText
-					background-color: $SearchBoxBg
 					cursor: auto;
-					opacity: 1
 					&:before
 						color: $FilterBarIconHover //this doesn't work for some reason
 
@@ -179,42 +191,3 @@
 
 				&:focus::-webkit-input-placeholder
 					color: rgba($FilterBarText,.7)
-
-	.remove-search {
-		position absolute
-		right 31px
-		text-align right
-		color $FilterBarText
-		top 12px
-		font-size 12px
-		display none
-		transition all 0.3s
-		&:hover{
-			color rgba($FilterBarText,0.7)
-		}
-	}
-	.text-search{
-		max-width 120px
-		text-overflow ellipsis
-		white-space nowrap
-		display block
-		overflow hidden
-		text-align left
-		float right
-		padding 4px
-		margin-top -3px
-		cursor pointer
-		background rgba(141, 141, 141, 0.1)
-		&::before{
-			content "x"
-			background $FilterBarText
-			padding 0 6px 1px
-			margin-right 6px
-			color $FilterBarBg
-			font-weight 900
-		}
-		&:hover::before{
-			content "x"
-			background $FilterBarIconHover
-		}
-	}

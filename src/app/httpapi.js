@@ -2,27 +2,30 @@
 	'use strict';
 	var rpc = require('json-rpc2');
 	var server;
+	var nativeWindow = require('nw.gui').Window.get();
 	var httpServer;
 
 	var initServer = function () {
 		server = rpc.Server({
 			'headers': { // allow custom headers is empty by default
 				'Access-Control-Allow-Origin': '*'
-			}			
+			}
 		});
 
 		server.expose('ping', function (args, opt, callback) {
 			popcornCallback(callback);
 		});
-		
+
 		server.expose('volume', function (args, opt, callback) {
 			var volume = 1;
 			var view = App.PlayerView;
-			if(view !== undefined && view.player !== undefined) {
-				if(args.length > 0) {
+			if (view !== undefined && view.player !== undefined) {
+				if (args.length > 0) {
 					volume = parseFloat(args[0]);
-					if(volume > 0) {
-						if(view.player.muted()) view.player.muted(false);
+					if (volume > 0) {
+						if (view.player.muted()) {
+							view.player.muted(false);
+						}
 						view.player.volume(volume);
 					} else {
 						view.player.muted(true);
@@ -31,7 +34,7 @@
 					volume = view.player.volume();
 				}
 			}
-			popcornCallback(callback, "Can't change volume, player not open");
+			popcornCallback(callback, 'Cant change volume, player not open');
 		});
 
 		server.expose('toggleplaying', function (args, opt, callback) {
@@ -46,8 +49,9 @@
 
 		server.expose('togglefullscreen', function (args, opt, callback) {
 			Mousetrap.trigger('f');
-			nativeWindow = require('nw.gui').Window.get();
-			popcornCallback(callback, false, { "fullscreen": nativeWindow.isFullscreen });
+			popcornCallback(callback, false, {
+				'fullscreen': nativeWindow.isFullscreen
+			});
 		});
 
 		server.expose('togglefavourite', function (args, opt, callback) {
@@ -79,13 +83,13 @@
 			App.vent.trigger('movies:list');
 			popcornCallback(callback);
 		});
-		
+
 		server.expose('getplaying', function (args, opt, callback) {
 			var view = App.PlayerView;
 			var playing = false;
-			if(view !== undefined && view.player !== undefined && !view.player.paused()) {
-				var result = { 
-					'playing': true, 
+			if (view !== undefined && view.player !== undefined && !view.player.paused()) {
+				var result = {
+					'playing': true,
 					'title': view.model.get('title'),
 					'movie': view.isMovie(),
 					'quality': view.model.get('quality'),
@@ -96,28 +100,30 @@
 					'currentTime': App.PlayerView.player.currentTime(),
 					'duration': App.PlayerView.player.duration()
 				};
-				
-				if(result.movie) {
+
+				if (result.movie) {
 					result['imdb_id'] = view.model.get('imdb_id');
 				} else {
 					result['tvdb_id'] = view.model.get('tvdb_id');
 					result['season'] = view.model.get('season');
 					result['episode'] = view.model.get('episode');
 				}
-				
+
 				popcornCallback(callback, false, result);
 			} else {
-				popcornCallback(callback, false, { 'playing': false });
+				popcornCallback(callback, false, {
+					'playing': false
+				});
 			}
 		});
-		
+
 		server.expose('getselection', function (args, opt, callback) {
 			var movieView = App.Window.currentView.MovieDetail.currentView;
 			console.log(args);
-			if(movieView == undefined || movieView.model == undefined) {
+			if (movieView === undefined || movieView.model === undefined) {
 				var index = $('.item.selected').index();
-				if(args.length > 0) {
-					index = parseFloat(args[0]);	
+				if (args.length > 0) {
+					index = parseFloat(args[0]);
 				} else {
 					if (index === -1) {
 						index = 0;
@@ -186,94 +192,110 @@
 		server.expose('getviewstack', function (args, opt, callback) {
 			popcornCallback(callback, false, { 'viewstack': App.ViewStack });
 		});
-		
+
 		server.expose('getfullscreen', function (args, opt, callback) {
 			nativeWindow = require('nw.gui').Window.get();
 			popcornCallback(callback, false, { 'fullscreen': nativeWindow.isFullscreen });
 		});
-		
+
 		server.expose('getcurrenttab', function (args, opt, callback) {
 			popcornCallback(callback, false, { 'tab': App.currentview });
 		});
 
 		//Filter Bar
 		server.expose('getgenres', function (args, opt, callback) {
-			switch(App.currentview) {
-				case 'shows':
-				case 'anime':
-					popcornCallback(callback, false, { 'genres': App.Config.genres_tv });
-					break;
-				case 'movies':
-					popcornCallback(callback, false, { 'genres': App.Config.genres });
-					break;
-				default:
-					popcornCallback(callback, false, { 'genres': [] });
-					break;
+			switch (App.currentview) {
+			case 'shows':
+			case 'anime':
+				popcornCallback(callback, false, {
+					'genres': App.Config.genres_tv
+				});
+				break;
+			case 'movies':
+				popcornCallback(callback, false, {
+					'genres': App.Config.genres
+				});
+				break;
+			default:
+				popcornCallback(callback, false, {
+					'genres': []
+				});
+				break;
 			}
 		});
 
 		server.expose('getsorters', function (args, opt, callback) {
-			switch(App.currentview) {
-				case 'shows':
-				case 'anime':
-					popcornCallback(callback, false, { 'sorters': App.Config.sorters_tv });
-					break;
-				case 'movies':
-					popcornCallback(callback, false, { 'sorters': App.Config.sorters });
-					break;
-				default:
-					popcornCallback(callback, false, { 'sorters': [] });
-					break;
+			switch (App.currentview) {
+			case 'shows':
+			case 'anime':
+				popcornCallback(callback, false, {
+					'sorters': App.Config.sorters_tv
+				});
+				break;
+			case 'movies':
+				popcornCallback(callback, false, {
+					'sorters': App.Config.sorters
+				});
+				break;
+			default:
+				popcornCallback(callback, false, {
+					'sorters': []
+				});
+				break;
 			}
 		});
-		
+
 		server.expose('gettypes', function (args, opt, callback) {
-			switch(App.currentview) {
-				case 'anime':
-					popcornCallback(callback, false, { 'types': App.Config.types_anime });
-					break;
-				default:
-					popcornCallback(callback, false, { 'types': [] });
-					break;
+			switch (App.currentview) {
+			case 'anime':
+				popcornCallback(callback, false, {
+					'types': App.Config.types_anime
+				});
+				break;
+			default:
+				popcornCallback(callback, false, {
+					'types': []
+				});
+				break;
 			}
 		});
 
 		server.expose('filtergenre', function (args, opt, callback) {
-			if(args.length <= 0) {
-				popcornCallback(callback, "Arguments missing");
+			if (args.length <= 0) {
+				popcornCallback(callback, 'Arguments missing');
 				return;
 			}
-			
+
 			$('.genres .dropdown-menu a[data-value="' + args[0].toLowerCase() + ']').click();
 			popcornCallback(callback);
 		});
 
 		server.expose('filtersorter', function (args, opt, callback) {
-			if(args.length <= 0) {
-				popcornCallback(callback, "Arguments missing");
+			if (args.length <= 0) {
+				popcornCallback(callback, 'Arguments missing');
 				return;
 			}
-			
+
 			$('.sorters .dropdown-menu a[data-value="' + args[0].toLowerCase() + '"]').click();
 			popcornCallback(callback);
 		});
-		
+
 		server.expose('filtertype', function (args, opt, callback) {
-			if(args.length <= 0) {
-				popcornCallback(callback, "Arguments missing");
+			if (args.length <= 0) {
+				popcornCallback(callback, 'Arguments missing');
 				return;
 			}
-			
+
 			$('.types .dropdown-menu a[data-value="' + args[0].toLowerCase() + '"]').click();
 			popcornCallback(callback);
 		});
 
 		server.expose('filtersearch', function (args, opt, callback) {
-			if(args.length <= 0) {
-				popcornCallback(callback, "Arguments missing");
+			if (args.length <= 0) {
+				popcornCallback(callback, 'Arguments missing');
 				return;
 			}
-			
+
 			$('#searchbox').val(args[0]);
 			$('.search form').submit();
 			popcornCallback(callback);
@@ -283,10 +305,10 @@
 			$('.remove-search').click();
 			popcornCallback(callback);
 		});
-		
+
 		server.expose('startstream', function (args, opt, callback) {
-			if(args.imdb_id == undefined || args.torrent_url == undefined || args.backdrop == undefined || args.subtitle == undefined || args.selected_subtitle == undefined || args.title == undefined || args.quality == undefined || args.type == undefined) {
-				popcornCallback(callback, "Arguments missing");
+			if (args.imdb_id === undefined || args.torrent_url === undefined || args.backdrop === undefined || args.subtitle === undefined || args.selected_subtitle === undefined || args.title === undefined || args.quality === undefined || args.type === undefined) {
+				popcornCallback(callback, 'Arguments missing');
 			} else {
 				var torrentStart = new Backbone.Model({
 					imdb_id: args.imdb_id,
@@ -306,14 +328,14 @@
 
 		//Standard controls
 		server.expose('seek', function (args, opt, callback) {
-			if(args.length <= 0) {
-				popcornCallback(callback, "Arguments missing");
+			if (args.length <= 0) {
+				popcornCallback(callback, 'Arguments missing');
 				return;
 			}
-			
+
 			var view = App.PlayerView;
 			args = parseFloat(args[0]);
-			if(view !== undefined && view.player !== undefined && args != undefined) {
+			if (view !== undefined && view.player !== undefined && args !== undefined) {
 				App.PlayerView.seek(args);
 			}
 			popcornCallback(callback);
@@ -360,8 +382,8 @@
 		});
 
 		server.expose('subtitleoffset', function (args, opt, callback) {
-			if(args.length <= 0) {
-				popcornCallback(callback, "Arguments missing");
+			if (args.length <= 0) {
+				popcornCallback(callback, 'Arguments missing');
 				return;
 			}
 			App.PlayerView.adjustSubtitleOffset(parseFloat(args[0]));
@@ -369,12 +391,14 @@
 		});
 
 		server.expose('getsubtitles', function (args, opt, callback) {
-			popcornCallback(callback, false, { "subtitles": _.keys(App.MovieDetailView.model.get('subtitle')) });
+			popcornCallback(callback, false, {
+				'subtitles': _.keys(App.MovieDetailView.model.get('subtitle'))
+			});
 		});
 
 		server.expose('setsubtitle', function (args, opt, callback) {
-			if(args.length <= 0) {
-				popcornCallback(callback, "Arguments missing");
+			if (args.length <= 0) {
+				popcornCallback(callback, 'Arguments missing');
 				return;
 			}
 			App.MovieDetailView.switchSubtitle(args[0]);
@@ -387,22 +411,24 @@
 			var events = {};
 
 			var emitEvents = function () {
-				popcornCallback(callback, false, {"events": events});
+				popcornCallback(callback, false, {
+					'events': events
+				});
 			};
 
 			//Do a small delay before sending data in case there are more simultaneous events
 			var reinitTimeout = function () {
-				win.debug("reinitTimeout");
+				win.debug('reinitTimeout');
 				//Only do a delay if the request won't time out in the meantime
 				if (startTime + 8000 - (new Date()).getTime() > 250) {
 					if (timeout) {
 						clearTimeout(timeout);
 					}
 					timeout = setTimeout(emitEvents, 200);
-					win.debug("setTimeout");
+					win.debug('setTimeout');
 				}
 			};
-			
+
 			//Listen for seek position change
 			App.vent.on('seekchange', function () {
 				events['seek'] = App.PlayerView.player.currentTime();
@@ -414,19 +440,19 @@
 				events['volumechange'] = App.PlayerView.player.volume();
 				reinitTimeout();
 			});
-			
+
 			//Listen for seek position change
 			App.vent.on('fullscreenchange', function () {
-				events['seek'] = App.PlayerView.player.currentTime();
+				events['fullscreen'] = nativeWindow.isFullscreen;
 				reinitTimeout();
 			});
-			
+
 			//Listen for playing change
 			var playingChange = function () {
 				events['playing'] = !App.PlayerView.player.paused();
 				reinitTimeout();
 			};
-			
+
 			App.vent.on('player:pause', playingChange);
 			App.vent.on('player:play', playingChange);
 
@@ -465,9 +491,11 @@
 			sockets[i].destroy();
 		}
 	}
-		
+
 	function popcornCallback(callback, err, result) {
-		if(result == undefined) result = {};
+		if (result === undefined) {
+			result = {};
+		}
 		result['popcornVersion'] = App.settings.version;
 		callback(err, result);
 	}
