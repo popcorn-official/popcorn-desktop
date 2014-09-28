@@ -544,6 +544,17 @@
 				.then(function (data) {
 					return data;
 				});
+        },
+        getProgress: function () {
+            if (!this.authenticated) {
+                console.log('Not Authenticated');
+                return Q.reject('Not Authenticated');
+            }
+
+            return App.Trakt.call(['user/progress/watched.json', '{KEY}', this._credentials.username])
+            .then(function (data) {
+                return data;
+            });
 		}
 	};
 
