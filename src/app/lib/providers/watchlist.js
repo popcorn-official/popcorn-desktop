@@ -7,31 +7,58 @@
 
 	var queryTorrents = function (filters) {
 		var deferred = Q.defer();
-
-		/*App.db.getBookmarks(filters, function (err, data) {
-			deferred.resolve(data || []);
-		});*/
+		var now = moment();
+		
+		//Checked when last fetched
 		App.db.getSetting({
-			key: 'watchlist'
-		}, function (err, doc) {
+			key: 'watchlist-fetched'
+		}, function(err, doc) {
 			if (doc) {
-				console.log('Found in settings');
-				console.log(doc);
-				deferred.resolve(doc.value || []);
+				console.log('Get last fetched', doc.value);
+				var d = moment.unix(doc.value);
+				
+				if (Math.abs(now.diff(d, 'days')) >= 1) {
+					console.log('Last fetched more than 1 day');
+					fetchWatchlist(true);
+				} else {
+					console.log('Last fetch is fresh');
+					fetchWatchlist(false);
+				}
 			} else {
-				App.Trakt.show.getProgress().then(function (data) {
-					App.db.writeSetting({
-						key: 'watchlist',
-						value: data
-					}, function () {
-						deferred.resolve(data || []);
-					});
-				})
-				.catch(function(error) {
-					deferred.reject(error);
+				console.log('No last fetch, fetch again');
+				App.db.writeSetting({
+					key: 'watchlist-fetched',
+					value: now.unix()
+				}, function () {
+					fetchWatchlist(true);
 				});
-			}
+			}	
 		});
+		
+		function fetchWatchlist(update) {
+			console.log('fetchWatchlist, update', update);
+			App.db.getSetting({
+				key: 'watchlist'
+			}, function (err, doc) {
+				if (doc && !update) {
+					console.log('Returned cached watchlist');
+					deferred.resolve(doc.value || []);
+				} else {
+					console.log('Fetch new watchlist');
+					App.Trakt.show.getProgress().then(function (data) {
+						App.db.writeSetting({
+							key: 'watchlist',
+							value: data
+						}, function () {
+							deferred.resolve(data || []);
+						});
+					})
+					.catch(function(error) {
+						deferred.reject(error);
+					});
+				}
+			});
+		}
 		//writeSetting
 		
 
