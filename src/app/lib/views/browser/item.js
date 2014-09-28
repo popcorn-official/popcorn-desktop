@@ -136,10 +136,6 @@
 			this.ui.coverImage.remove();
 
 		},
-        
-        showWatchlist: function(){
-            console.log('Who is calling this??');  
-        },
 
 		showDetail: function (e) {
 			e.preventDefault();

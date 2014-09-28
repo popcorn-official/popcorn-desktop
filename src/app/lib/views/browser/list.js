@@ -79,7 +79,7 @@
 			case 'Watchlist':
 				if (this.collection.state === 'error') {
 					return ErrorView.extend({
-						error: i18n.__('This feature only works if you have your Traktv account synched. Please go to Settings and enter your credentials.')
+						error: i18n.__('This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.')
 					});
 				} else {
 					return ErrorView.extend({
