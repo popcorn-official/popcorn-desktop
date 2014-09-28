@@ -120,7 +120,8 @@
 
 			&.about
 				color: $FilterBarIconHover
-
+	.clear
+		display: none;
 	.search
 		form
 			&:before
@@ -136,6 +137,7 @@
 				font-size: 1.4em;
 
 			&.edited .clear
+				display: block;
 				font-weight: bold;
 				transition color 0.5s
 				color: $FilterBarIcon
