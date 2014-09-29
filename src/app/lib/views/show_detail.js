@@ -231,17 +231,18 @@ var health_checked = false;
 					if (AdvSettings.get('tv_detail_jump_to') !== 'firstUnwatched') {
 						var lastSeen = episodesSeen[episodesSeen.length - 1];
 
-						episode = lastSeen % 100;
-						season = (lastSeen - episode) / 100;
-
 						if (lastSeen !== episodes[episodes.length - 1]) {
-							if ($('.season-' + season + ' ul li').length === episode) {
-								console.log('adding 1 to season episode value');
-								episode = 1;
-								season = season + 1;
-							} else {
-								episode = episode + 1;
-							}
+							var idx;
+							_.find(episodes, function (data, dataIdx) {
+								if (data === lastSeen) {
+									idx = dataIdx;
+									return true;
+								}
+							});
+
+							var next_episode = episodes[idx + 1];
+							episode = next_episode % 100;
+							season = (next_episode - episode) / 100;
 						}
 					} else {
 						//if all episode seend back to first
