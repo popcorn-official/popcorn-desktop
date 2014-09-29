@@ -196,9 +196,16 @@
 		
 		server.expose('setplayer', function (args, opt, callback) {
 			if(args.length > 0) {
-				// TODO: Change selection in movie/show detail
-				App.Device.Collection.setDevice(args[0]);
-				popcornCallback(callback, false);
+				var el = $('.playerchoicemenu li#player-' + args[0] + ' a');
+				if(el.length > 0) {
+					App.Device.Collection.setDevice(args[0]);
+					$('.playerchoicemenu li a.active').removeClass('active');
+					el.addClass('active');
+					$('.imgplayerchoice').attr('src', el.children('img').attr('src'));
+					popcornCallback(callback, false);
+				} else {
+					popcornCallback(callback, 'Player ID invalid');
+				}
 			} else {
 				popcornCallback(callback, 'Arguments missing');
 			}
