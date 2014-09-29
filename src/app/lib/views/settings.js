@@ -532,7 +532,7 @@
         syncTrakt: function() {
             $('#syncTrakt').text(i18n.__('Syncing...')).addClass('disabled').prop('disabled', true);
 
-            App.Providers.TraktSync()
+            App.Trakt.sync()
             .then(function() {
                 $('#syncTrakt').text(i18n.__('Done')).removeClass('disabled').addClass('green').delay(3000).queue(function () {
                     $('#syncTrakt').text(i18n.__('Sync With Trakt')).removeClass('green').prop('disabled', false);
@@ -541,7 +541,10 @@
             })
             .catch(function(err) {
                 win.error(err);
-                $('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red');
+                $('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red').delay(3000).queue(function () {
+                    $('#syncTrakt').text(i18n.__('Sync With Trakt')).removeClass('red').prop('disabled', false);
+                    $('#syncTrakt').dequeue();
+                });
             });
         }
     });
