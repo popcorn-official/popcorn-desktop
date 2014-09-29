@@ -99,26 +99,7 @@ module.exports = function (grunt) {
 		jsbeautifier: {
 			files: ["src/app/lib/**/*.js", "src/app/*.js", "*.js", "*.json"],
 			options: {
-				js: {
-					braceStyle: "collapse",
-					breakChainedMethods: false,
-					e4x: false,
-					evalCode: false,
-					indentChar: " ",
-					indentLevel: 0,
-					indentSize: 4,
-					indentWithTabs: true,
-					jslintHappy: true,
-					keepArrayIndentation: false,
-					keepFunctionIndentation: false,
-					maxPreserveNewlines: 3,
-					preserveNewlines: true,
-					spaceBeforeConditional: true,
-					spaceInParen: false,
-					unescapeStrings: true,
-					wrapLineLength: 0,
-					fileTypes: ['.json']
-				}
+				config: ".jsbeautifyrc"
 			}
 		},
 
