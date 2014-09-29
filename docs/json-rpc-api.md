@@ -63,6 +63,15 @@ Gets the current tab.
 ##### getselection([integer index] = optional)
 Gets the current highlighted item in de list or the details of the opened view.
 
+##### getcurrentlist([integer page] = optional)
+Gets the items of the current showing list.
+
+##### getplayers()
+Gets the available mediaplayers.
+
+##### getsubtitles()
+Gets the available subtitles for this movie. Responds with a list of subtitles as the first language
+
 ##### filtergenre([string genre])
 Set the filter for the given genre.
 
@@ -111,11 +120,11 @@ Go to next season in show details view. Simulates ctrl+up click
 ##### subtitleoffset([double amount])
 Adjusts subtitle offset by the given decimal amount
 
-##### getsubtitles()
-Gets the available subtitles for this movie. Responds with a list of subtitles as the first language
-
 ##### setsubtitle()
 Sets the subtitle for this movie.
+
+##### setplayer(string player_id)
+Sets the mediaplayer for playback.
 
 ##### listennotifications()
 This function is meant to be used for retrieving notifications from the app with the long-polling method.
