@@ -423,6 +423,28 @@
 				popcornCallback(callback, 'Arguments missing');
 				return;
 			}
+			if(App.ViewStack[App.ViewStack.length - 1] === 'player') {
+				var tracks = App.PlayerView.player.textTracks();
+				var track = null;
+				var track_index = null;
+				for(var i = 0; i < tracks.length; i++) {
+					track = tracks[i];
+					if(track.language_ === lang) {
+						track_index = i + 1;
+					} else {
+						track.hide();
+						track == null;
+					}
+				}
+				
+				if(track !== null) {
+					track.show();
+					$('.vjs-subtitles-button li').attr('aria-selected', false).removeChild('vjs-selected');
+					$('.vjs-subtitles-button li').removeChild('vjs-selected');
+					$('.vjs-subtitles-button li:nth-child(' + track_index + ')').attr('aria-selected', true);
+					$('.vjs-subtitles-button li:nth-child(' + track_index + ')').addClass('vjs-selected');
+				}
+			}
 			App.MovieDetailView.switchSubtitle(args[0]);
 			popcornCallback(callback);
 		});
