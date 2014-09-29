@@ -106,8 +106,8 @@ App.addInitializer(function (options) {
 	}
 
 	win.zoomLevel = zoom;
-	win.resizeTo(Settings.width, Settings.height);
-	win.moveTo((screen.availWidth - Settings.width) / 2, (screen.availHeight - Settings.height) / 2);
+	win.resizeTo(Math.round(Settings.width), Math.round(Settings.height));
+	win.moveTo(Math.round((screen.availWidth - Settings.width) / 2), Math.round((screen.availHeight - Settings.height) / 2));
 });
 
 App.addInitializer(function (options) {
