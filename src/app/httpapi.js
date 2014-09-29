@@ -188,7 +188,7 @@
 		server.expose('getplayers', function (args, opt, callback) {
 			var players = App.Device.Collection.models;
 			for(var i = 0; i < players.length; i++) {
-				players[i].unset("path");
+				players[i].unset('path');
 			}
 		
 			popcornCallback(callback, false, { 'players': players });
@@ -200,7 +200,7 @@
 				App.Device.Collection.setDevice(args[0]);
 				popcornCallback(callback, false);
 			} else {
-				popcornCallback(callback, "Arguments missing");
+				popcornCallback(callback, 'Arguments missing');
 			}
 		});
 
