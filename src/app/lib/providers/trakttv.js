@@ -124,6 +124,7 @@
 		}
 
 		request(requestUri.toString(), {
+			method: 'post',
 			body: postVariables,
 			json: true
 		}, function (err, res, body) {
