@@ -186,7 +186,22 @@
 		});
 		
 		server.expose('getplayers', function (args, opt, callback) {
-			popcornCallback(callback, false, { 'players': App.ViewStack });
+			var players = App.Device.Collection.models;
+			for(var i = 0; i < players.length; i++) {
+				players[i].unset("path");
+			}
+		
+			popcornCallback(callback, false, { 'players': players });
+		});
+		
+		server.expose('setplayer', function (args, opt, callback) {
+			if(args.length > 0) {
+				// TODO: Change selection in movie/show detail
+				App.Device.Collection.setDevice(args[0]);
+				popcornCallback(callback, false);
+			} else {
+				popcornCallback(callback, "Arguments missing");
+			}
 		});
 
 		server.expose('getviewstack', function (args, opt, callback) {
