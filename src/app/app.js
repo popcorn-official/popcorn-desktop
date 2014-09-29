@@ -165,12 +165,12 @@ var deleteFolder = function (path) {
 	}
 };
 
-win.on('resize', function(width, height) {
+win.on('resize', function (width, height) {
 	localStorage.width = Math.round(width);
 	localStorage.height = Math.round(height);
 });
 
-win.on('move', function(x, y) {
+win.on('move', function (x, y) {
 	localStorage.posX = Math.round(x);
 	localStorage.posY = Math.round(y);
 
