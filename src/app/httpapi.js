@@ -130,12 +130,11 @@
 					}
 				}
 				var result = App.Window.currentView.Content.currentView.ItemList.currentView.collection.models[index];
-				if(result == undefined) popcornCallback(callback, "Index not found");
+				if(result === undefined) {
+					popcornCallback(callback, 'Index not found');
+				}
 				
 				var type = result.get('type');
-				
-				type.charAt(0).toUpperCase() + type.slice(1)
-				
 				switch(type) {
 					case 'movie':
 						popcornCallback(callback, false, result);
@@ -161,15 +160,16 @@
 		server.expose('getcurrentlist', function (args, opt, callback) {
 			var collection = App.Window.currentView.Content.currentView.ItemList.currentView.collection;
 			var result = collection.models;
+			var page = 0;
 			if(args.length > 0) {
-				var page = parseInt(args[0]);
+				page = parseInt(args[0]);
 				var size = page * 50;
 				if(result.length < size) {
-					collection.on("loaded", function() {
+					collection.on('loaded', function() {
 						result = collection.models;
 						if(result.length >= size) {
 							result = result.slice((page - 1) * 50, size);
-							popcornCallback(callback, false, { 'type': result[0].get("type"), 'list': result, 'page': page, 'max_page': App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page });
+							popcornCallback(callback, false, { 'type': result[0].get('type'), 'list': result, 'page': page, 'max_page': App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page });
 						} else {							
 							collection.fetchMore();
 						}
@@ -177,11 +177,11 @@
 					collection.fetchMore();
 				} else {
 					result = result.slice((page - 1) * 50, size);
-					popcornCallback(callback, false, { 'type': result[0].get("type"), 'list': result, 'page': page, 'max_page': App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page });
+					popcornCallback(callback, false, { 'type': result[0].get('type'), 'list': result, 'page': page, 'max_page': App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page });
 				}
 			} else {
-				var page = App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page;
-				popcornCallback(callback, false, { 'type': result[0].get("type"), 'list': result, 'page': page, 'max_page': page });
+				page = App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page;
+				popcornCallback(callback, false, { 'type': result[0].get('type'), 'list': result, 'page': page, 'max_page': page });
 			}
 		});
 		
