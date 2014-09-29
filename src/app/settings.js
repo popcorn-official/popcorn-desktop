@@ -74,7 +74,7 @@ Settings.height = window.screen.availHeight * 0.8;
 
 // Miscellaneous
 
-Settings.tv_detail_jump_to = 'firstUnwatched';
+Settings.tv_detail_jump_to = 'next';
 
 
 var ScreenResolution = {
