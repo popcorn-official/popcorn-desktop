@@ -58,6 +58,13 @@
 				Q.all(promises)
 					.spread(function (torrents, subtitles, metadatas) {
 						// If a new request was started...
+						if (_.isUndefined(torrents.results)) {
+							var t = {
+								results: torrents,
+								hasMore: false
+							};
+							torrents = t;
+						}
 						_.each(torrents.results, function (movie) {
 							var id = movie[self.popid];
 							/* XXX(xaiki): check if we already have this
