@@ -13,7 +13,8 @@
 			eyeInfo: '.eye-info-player',
 			downloadSpeed: '.download_speed_player',
 			uploadSpeed: '.upload_speed_player',
-			activePeers: '.active_peers_player'
+			activePeers: '.active_peers_player',
+			loadingInfo: '.vjs-loading-info'
 		},
 
 		events: {
@@ -102,6 +103,7 @@
 					this.addClass('vjs-has-started');
 				});
 				this.ui.eyeInfo.hide();
+				this.ui.loadingInfo.hide();
 
 				$('.trailer_mouse_catch').show().mousemove(function (event) { // XXX Sammuel86 Trailer UI Show FIX/HACK
 					if (!_this.player.userActive()) {
@@ -151,8 +153,7 @@
 
 
 			player.on('canplay', function () {
-
-				$('.vjs-loading-info').hide();
+				_this.ui.loadingInfo.hide();
 			});
 
 
