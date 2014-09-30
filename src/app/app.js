@@ -131,7 +131,7 @@ App.addInitializer(function (options) {
  # commented this line so we can watch movies withou the taskbar showing always
 
 if(process.platform === 'win32' && parseFloat(os.release(), 10) > 6.1) {
-    gui.Window.get().setMaximumSize(screen.availWidth + 15, screen.availHeight + 14);
+	gui.Window.get().setMaximumSize(screen.availWidth + 15, screen.availHeight + 14);
 };
 
 */
@@ -272,13 +272,17 @@ window.ondragenter = function (e) {
 		});
 };
 
-var startTorrentStream = function (torrentFile) {
-	var torrentStart = new Backbone.Model({
-		torrent: torrentFile
-	});
-	$('.close-info-player').click();
-	App.vent.trigger('stream:start', torrentStart);
+var handleTorrent = function (torrent) {
+	App.Config.getProvider('torrentCache').resolve(torrent);
 };
+
+// var startTorrentStream = function(torrentFile) {
+//     var torrentStart = new Backbone.Model({
+//         torrent: torrentFile
+//     });
+//     $('.close-info-player').click();
+//     App.vent.trigger('stream:start', torrentStart);
+// };
 
 window.ondrop = function (e) {
 	e.preventDefault();
@@ -298,7 +302,8 @@ window.ondrop = function (e) {
 				if (err) {
 					window.alert('Error Loading Torrent: ' + err);
 				} else {
-					startTorrentStream(path.join(App.settings.tmpLocation, file.name));
+					// startTorrentStream(path.join(App.settings.tmpLocation, file.name));
+					handleTorrent(path.join(App.settings.tmpLocation, file.name));
 				}
 			});
 
@@ -307,9 +312,10 @@ window.ondrop = function (e) {
 		reader.readAsBinaryString(file);
 	} else {
 		var data = e.dataTransfer.getData('text/plain');
-		if (data != null && data.substring(0, 8) === 'magnet:?') {
-			startTorrentStream(data);
-		}
+		handleTorrent(data);
+		// if (data != null && data.substring(0, 8) === 'magnet:?') {
+		//     startTorrentStream(data);
+		// }
 	}
 
 	return false;
@@ -320,16 +326,22 @@ window.ondrop = function (e) {
  */
 
 $(document).on('paste', function (e) {
-	var data = (e.originalEvent || e).clipboardData.getData('text/plain');
-	if (data.substring(0, 8) !== 'magnet:?' && (e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA')) {
+	// if (data.substring(0, 8) !== 'magnet:?' && (e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA')) {
+	//     return;
+	// } else {
+	//     e.preventDefault();
+	//     if (data != null && data.substring(0, 8) === 'magnet:?') {
+	//         startTorrentStream(data);
+	//     }
+	//     return true;
+	// }
+	if (e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA') {
 		return;
-	} else {
-		e.preventDefault();
-		if (data != null && data.substring(0, 8) === 'magnet:?') {
-			startTorrentStream(data);
-		}
-		return true;
 	}
+	var data = (e.originalEvent || e).clipboardData.getData('text/plain');
+	e.preventDefault();
+	handleTorrent(data);
+	return true;
 });
 
 /**
@@ -339,7 +351,8 @@ var last_arg = gui.App.argv.pop();
 
 if (last_arg && (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0, 7) === 'http://' || last_arg.endsWith('.torrent'))) {
 	App.vent.on('main:ready', function () {
-		startTorrentStream(last_arg);
+		// startTorrentStream(last_arg);
+		handleTorrent(last_arg);
 	});
 }
 

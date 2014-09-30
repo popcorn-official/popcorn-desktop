@@ -103,8 +103,9 @@
 			anime: ['Haruhichan'],
 			subtitle: 'YSubs',
 			metadata: 'Trakttv',
-
-			tvshowsubtitle: 'OpenSubtitles'
+			
+			tvshowsubtitle: 'OpenSubtitles',
+			torrentCache: 'TorrentCache'
 		},
 
 		getProvider: function (type) {

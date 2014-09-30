@@ -122,6 +122,7 @@
 		cancelStreaming: function () {
 			App.vent.trigger('stream:stop');
 			App.vent.trigger('player:close');
+			App.vent.trigger('torrentcache:stop');
 		},
 
 		pauseStreaming: function () {
