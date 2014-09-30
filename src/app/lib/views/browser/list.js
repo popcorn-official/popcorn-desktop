@@ -339,9 +339,10 @@
 				App.db.writeSetting({
 					key: 'postersWidth',
 					value: Settings.postersJump[postersWidthIndex + 1]
-				}, function () {
-					App.vent.trigger('updatePostersSizeStylesheet');
-				});
+				})
+					.then(function () {
+						App.vent.trigger('updatePostersSizeStylesheet');
+					});
 			} else {
 				// do nothing for now
 			}
@@ -360,9 +361,10 @@
 			App.db.writeSetting({
 				key: 'postersWidth',
 				value: postersWidth
-			}, function () {
-				App.vent.trigger('updatePostersSizeStylesheet');
-			});
+			})
+				.then(function () {
+					App.vent.trigger('updatePostersSizeStylesheet');
+				});
 		},
 
 

@@ -51,16 +51,16 @@ var health_checked = false;
 					function (err, data) {
 						if (!err) {
 							data.provider = that.model.get('provider');
-							Database.addTVShow(data, function (err, idata) {
-								Database.addBookmark(that.model.get('imdb_id'), 'tvshow')
-									.then(function () {
-										win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
-										that.model.set('bookmarked', true);
-										that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
-										App.userBookmarks.push(that.model.get('imdb_id'));
-									});
-							});
-
+							Database.addTVShow(data)
+								.then(function (idata) {
+									return Database.addBookmark(that.model.get('imdb_id'), 'tvshow');
+								})
+								.then(function () {
+									win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+									that.model.set('bookmarked', true);
+									that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
+									App.userBookmarks.push(that.model.get('imdb_id'));
+								});
 						} else {
 							alert('Somethings wrong... try later');
 						}
@@ -77,7 +77,7 @@ var health_checked = false;
 						App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
 
 						// we'll make sure we dont have a cached show
-						Database.deleteTVShow(that.model.get('imdb_id'), function (err, data) {});
+						Database.deleteTVShow(that.model.get('imdb_id'));
 					});
 			}
 		},
@@ -202,34 +202,18 @@ var health_checked = false;
 		selectNextEpisode: function () {
 
 			var episodesSeen = [];
-			Database.getEpisodesWatched(this.model.get('tvdb_id'), function (err, data) {
-				_.each(data, function (value, state) {
-					// we'll mark episode already watched
-					_this.markWatched(value, true);
-					// store all watched episode
-					if (value) {
-						episodesSeen.push(parseInt(value.season) * 100 +
-							parseInt(value.episode));
-					}
-				});
-				var season = 1;
-				var episode = 1;
-				if (episodesSeen.length > 0) {
-					//get all episode
-					var episodes = [];
-					_.each(_this.model.get('episodes'),
-						function (value, currentepisode) {
-							episodes.push(parseInt(value.season) * 100 +
+			Database.getEpisodesWatched(this.model.get('tvdb_id'))
+				.then(function (data) {
+					_.each(data, function (value, state) {
+						// we'll mark episode already watched
+						_this.markWatched(value, true);
+						// store all watched episode
+						if (value) {
+							episodesSeen.push(parseInt(value.season) * 100 +
 								parseInt(value.episode));
 						}
-					);
-					episodesSeen.sort();
-					episodes.sort();
-					var first = episodes[0];
-					var last = episodes[episodes.length - 1];
-					var unseen = episodes.filter(function (item) {
-						return episodesSeen.indexOf(item) === -1;
 					});
+
 					if (AdvSettings.get('tv_detail_jump_to') !== 'firstUnwatched') {
 						var lastSeen = episodesSeen[episodesSeen.length - 1];
 
@@ -249,29 +233,20 @@ var health_checked = false;
 							episode = lastSeen % 100;
 							season = (lastSeen - episode) / 100;
 						}
+					}
+					if (season === 1 && episode === 1) {
+						// Workaround in case S01E01 doesn't exist in PT
+						// Select the first possible season
+						_this.selectSeason($('.tab-season:first'));
 					} else {
-						//if all episode seend back to first
-						//it will be the only one
-						unseen.push(first);
-						episode = unseen[0] % 100;
-						season = (unseen[0] - episode) / 100;
+						_this.selectSeason($('li[data-tab="season-' + season + '"]'));
+						var $episode = $('#watched-' + season + '-' + episode).parent();
+						_this.selectEpisode($episode);
+						if (!_this.isElementVisible($episode[0])) {
+							$episode[0].scrollIntoView(false);
+						}
 					}
-
-
-				}
-				if (season === 1 && episode === 1) {
-					// Workaround in case S01E01 doesn't exist in PT
-					// Select the first possible season
-					_this.selectSeason($('.tab-season:first'));
-				} else {
-					_this.selectSeason($('li[data-tab="season-' + season + '"]'));
-					var $episode = $('#watched-' + season + '-' + episode).parent();
-					_this.selectEpisode($episode);
-					if (!_this.isElementVisible($episode[0])) {
-						$episode[0].scrollIntoView(false);
-					}
-				}
-			});
+				});
 		},
 
 		openIMDb: function () {
@@ -300,13 +275,14 @@ var health_checked = false;
 				from_browser: true
 			};
 
-			Database.checkEpisodeWatched(value, function (watched, data) {
-				if (watched) {
-					App.vent.trigger('show:unwatched', value, 'seen');
-				} else {
-					App.vent.trigger('show:watched', value, 'seen');
-				}
-			});
+			Database.checkEpisodeWatched(value)
+				.then(function (watched) {
+					if (watched) {
+						App.vent.trigger('show:unwatched', value, 'seen');
+					} else {
+						App.vent.trigger('show:watched', value, 'seen');
+					}
+				});
 		},
 
 		onWatched: function (value, channel) {

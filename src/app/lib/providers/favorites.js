@@ -21,7 +21,7 @@
 		items.forEach(function (movie) {
 
 			var deferred = Q.defer();
-			// we check if its a movie 
+			// we check if its a movie
 			// or tv show then we extract right data
 			if (movie.type === 'movie') {
 				// its a movie
@@ -35,8 +35,8 @@
 						});
 			} else {
 				// its a tv show
-				Database.getTVShowByImdb(movie.imdb_id, function (err, data) {
-					if (data != null) {
+				Database.getTVShowByImdb(movie.imdb_id)
+					.then(function (data) {
 						data.type = 'bookmarkedshow';
 						data.image = data.images.poster;
 						data.imdb = data.imdb_id;
@@ -45,10 +45,9 @@
 							data.provider = 'Eztv';
 						}
 						deferred.resolve(data);
-					} else {
+					}, function (err) {
 						deferred.reject(err);
-					}
-				});
+					});
 			}
 
 			movieList.push(deferred.promise);

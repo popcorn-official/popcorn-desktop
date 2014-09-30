@@ -169,8 +169,10 @@ var Database = {
 
 	addMovies: function (data) {
 		win.warn('addTvShow in addMovies seems like a bug');
+		win.warn('this isnt called anywhere');
+
 		var promises = data.movies.map(function (movie) {
-			return promisify(Database, 'addTVShow', {
+			return Database.addTVShow({
 				movie: movie
 			});
 		});
@@ -233,56 +235,57 @@ var Database = {
 	/*******************************
 	 *******     SHOWS       ********
 	 *******************************/
-	addTVShow: function (data, cb) {
-		db.tvshows.insert(data, cb);
+	addTVShow: function (data) {
+		return promisifyDb(db.tvshows.insert(data));
 	},
 
 	// This calls the addTVShow method as we need to setup a blank episodes array for each
-	addTVShows: function (data, cb) {
-		async.each(data.shows, function (show, callback) {
-			Database.addTVShow({
+	addTVShows: function (data) {
+		win.warn('this isnt called anywhere');
+
+		var promises = data.shows.map(function (show) {
+			return Database.addTVShow({
 				show: show
-			}, function (err, show) {
-				callback(err);
 			});
-		}, cb);
+		});
+
+		return Promise.all(promises);
 	},
 
 	markEpisodeAsWatched: function (data) {
-		db.watched.find({
-			tvdb_id: data.tvdb_id.toString()
-		}, function (err, response) {
-			if (response.length === 0) {
-				App.watchedShows.push(data.imdb_id.toString());
-			}
+		return promisifyDb(db.watched.find({
+				tvdb_id: data.tvdb_id.toString()
+			}))
+			.then(function (response) {
+				if (response.length === 0) {
+					App.watchedShows.push(data.imdb_id.toString());
+				}
+			}).then(function () {
+
+
+				return promisifyDb(db.watched.insert({
+					tvdb_id: data.tvdb_id.toString(),
+					imdb_id: data.imdb_id.toString(),
+					season: data.season.toString(),
+					episode: data.episode.toString(),
+					type: 'episode',
+					date: new Date()
+				}));
+
+			})
+
+		.then(function () {
+			App.vent.trigger('show:watched:' + data.tvdb_id, data);
 		});
 
-		db.watched.insert({
-			tvdb_id: data.tvdb_id.toString(),
-			imdb_id: data.imdb_id.toString(),
-			season: data.season.toString(),
-			episode: data.episode.toString(),
-			type: 'episode',
-			date: new Date()
-		});
 
-                App.vent.trigger('show:watched:' + data.tvdb_id, data);
-        },
-
-	markEpisodesWatched: function (data, cb) {
-		db.watched.insert(data, cb);
 	},
 
-	markEpisodeAsNotWatched: function (data, trakt, cb) {
-		if (!cb) {
-			if (typeof trakt === 'function') {
-				cb = trakt;
-				trakt = undefined;
-			} else {
-				cb = function () {};
-			}
-		}
+	markEpisodesWatched: function (data) {
+		return promisifyDb(db.watched.insert(data));
+	},
 
+	markEpisodeAsNotWatched: function (data, trakt) {
 		if (trakt !== false) {
 			App.Trakt.show.episodeUnseen(data.tvdb_id, {
 				season: data.season,
@@ -290,91 +293,102 @@ var Database = {
 			});
 		}
 
-		db.watched.find({
-			tvdb_id: data.tvdb_id.toString()
-		}, function (err, response) {
-			if (response.length === 1) {
-				App.watchedShows.splice(App.watchedShows.indexOf(data.imdb_id.toString()), 1);
-			}
-		});
-
-		db.watched.remove({
-			tvdb_id: data.tvdb_id.toString(),
-			imdb_id: data.imdb_id.toString(),
-			season: data.season.toString(),
-			episode: data.episode.toString()
-		}, cb);
-
-                App.vent.trigger('show:unwatched:' + data.tvdb_id, data);
+		return promisifyDb(db.watched.find({
+				tvdb_id: data.tvdb_id.toString()
+			}))
+			.then(function (response) {
+				if (response.length === 1) {
+					App.watchedShows.splice(App.watchedShows.indexOf(data.imdb_id.toString()), 1);
+				}
+			})
+			.then(function () {
+				return promisifyDb(db.watched.remove({
+					tvdb_id: data.tvdb_id.toString(),
+					imdb_id: data.imdb_id.toString(),
+					season: data.season.toString(),
+					episode: data.episode.toString()
+				}));
+			})
+			.then(function () {
+				App.vent.trigger('show:unwatched:' + data.tvdb_id, data);
+			});
 	},
 
-	checkEpisodeWatched: function (data, cb) {
-		db.watched.find({
-			tvdb_id: data.tvdb_id.toString(),
-			imdb_id: data.imdb_id.toString(),
-			season: data.season.toString(),
-			episode: data.episode.toString()
-		}, function (err, data) {
-			return cb((data != null && data.length > 0), data);
-		});
+	checkEpisodeWatched: function (data) {
+		return promisifyDb(db.watched.find({
+				tvdb_id: data.tvdb_id.toString(),
+				imdb_id: data.imdb_id.toString(),
+				season: data.season.toString(),
+				episode: data.episode.toString()
+			}))
+			.then(function (data) {
+				return (data != null && data.length > 0);
+			});
 	},
 
 	// return an array of watched episode for this
 	// tvshow
-	getEpisodesWatched: function (tvdb_id, cb) {
-		db.watched.find({
+	getEpisodesWatched: function (tvdb_id) {
+		return promisifyDb(db.watched.find({
 			tvdb_id: tvdb_id.toString()
-		}, cb);
+		}));
 	},
 
-	getAllEpisodesWatched: function (cb) {
-		db.watched.find({
+	getAllEpisodesWatched: function () {
+		return promisifyDb(db.watched.find({
 			type: 'episode'
-		}, cb);
+		}));
 	},
 	// deprecated: moved to provider
 	// TODO: remove once is approved
-	getSubtitles: function (data, cb) {},
-
-	// Used in bookmarks
-	deleteTVShow: function (imdb_id, cb) {
-		db.tvshows.remove({
-			imdb_id: imdb_id
-		}, cb);
+	getSubtitles: function (data) {
+		win.warn('This function is deprecated, also, nothing is currently using it.');
 	},
 
 	// Used in bookmarks
-	getTVShow: function (data, cb) {
-		db.tvshows.findOne({
+	deleteTVShow: function (imdb_id) {
+		return promisifyDb(db.tvshows.remove({
+			imdb_id: imdb_id
+		}));
+	},
+
+	// Used in bookmarks
+	getTVShow: function (data) {
+		win.warn('this isn\'t used anywhere');
+
+		return promisifyDb(db.tvshows.findOne({
 			_id: data.tvdb_id
-		}, cb);
+		}));
 	},
 
 	// Used in bookmarks
-	getTVShowByImdb: function (imdb_id, cb) {
-		db.tvshows.findOne({
+	getTVShowByImdb: function (imdb_id) {
+		return promisifyDb(db.tvshows.findOne({
 			imdb_id: imdb_id
-		}, cb);
+		}));
 	},
 
 	// TO BE REWRITTEN TO USE TRAKT INSTEAD
-	getImdbByTVShow: function (tvshow, cb) {
-		db.tvshows.findOne({
+	getImdbByTVShow: function (tvshow) {
+		win.warn('this isn\'t used anywhere');
+
+		return promisifyDb(db.tvshows.findOne({
 			title: tvshow
-		}, cb);
+		}));
 	},
 
-	getSetting: function (data, cb) {
-		db.settings.findOne({
+	getSetting: function (data) {
+		return promisifyDb(db.settings.findOne({
 			key: data.key
-		}, cb);
+		}));
 	},
 
-	getSettings: function (cb) {
+	getSettings: function () {
 		win.debug('getSettings() fired');
-		db.settings.find({}).exec(cb);
+		return promisifyDb(db.settings.find({}));
 	},
 
+	// TODO: Make this use Promise.all
 	getUserInfo: function (cb) {
 		var bookmarksDone = false;
 		var watchedMoviesDone = false;
@@ -398,39 +412,40 @@ var Database = {
 				}
 			});
 
-		Database.getAllEpisodesWatched(function (err, data) {
-			App.watchedShows = extractIds(data);
-			watchedShowsDone = true;
-			if (bookmarksDone && watchedMoviesDone && watchedShowsDone) {
-				cb();
-			}
-		});
+		Database.getAllEpisodesWatched()
+			.then(function (data) {
+				App.watchedShows = extractIds(data);
+				watchedShowsDone = true;
+				if (bookmarksDone && watchedMoviesDone && watchedShowsDone) {
+					cb();
+				}
+			});
 
 	},
 
 	// format: {key: key_name, value: settings_value}
-	writeSetting: function (data, cb) {
-		Database.getSetting({
-			key: data.key
-		}, function (err, setting) {
-			if (setting == null) {
-				db.settings.insert(data, cb);
-			} else {
-				db.settings.update({
-					'key': data.key
-				}, {
-					$set: {
-						'value': data.value
-					}
-				}, {}, cb);
-			}
-		});
+	writeSetting: function (data) {
+		return promisify(Database, 'getSetting', {
+				key: data.key
+			})
+			.then(function () {
+					return promisifyDb(db.settings.update({
+						'key': data.key
+					}, {
+						$set: {
+							'value': data.value
+						}
+					}, {}));
+				},
+				function () {
+					return promisifyDb(db.settings.insert(data));
+				});
 	},
 
-	resetSettings: function (cb) {
-		db.settings.remove({}, {
+	resetSettings: function () {
+		return promisifyDb(db.settings.remove({}, {
 			multi: true
-		}, cb);
+		}));
 	},
 
 	deleteDatabases: function (cb) {
@@ -466,9 +481,11 @@ var Database = {
 	initialize: function (callback) {
 		// we'll intiatlize our settings and our API SSL Validation
 		// we build our settings array
-		Database.getUserInfo(function () {
-			Database.getSettings(function (err, data) {
-
+		Database.getUserInfo()
+			.then(function () {
+				return Database.getSettings();
+			})
+			.then(function (data) {
 				if (data != null) {
 					for (var key in data) {
 						Settings[data[key].key] = data[key].value;
@@ -504,11 +521,9 @@ var Database = {
 						// we skip the initDB (not needed in current version)
 						callback();
 					});
-
 				});
-
 			});
-		});
+
 		App.vent.on('show:watched', _.bind(this.markEpisodeAsWatched, this));
 		App.vent.on('show:unwatched', _.bind(this.markEpisodeAsNotWatched, this));
 		App.vent.on('movie:watched', _.bind(this.markMovieAsWatched, this));

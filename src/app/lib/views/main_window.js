@@ -342,8 +342,8 @@
 
 			App.db.getSetting({
 				key: 'postersWidth'
-			}, function (err, doc) {
-				if (doc) {
+			})
+				.then(function (doc) {
 					var postersWidth = doc.value;
 					var postersHeight = Math.round(postersWidth * Settings.postersSizeRatio);
 					var postersWidthPercentage = (postersWidth - Settings.postersMinWidth) / (Settings.postersMaxWidth - Settings.postersMinWidth) * 100;
@@ -380,8 +380,7 @@
 					if (typeof App.currentview !== 'undefined') {
 						that.ui.posterswidth_alert.show().text(i18n.__('Posters Size') + ': ' + humanReadableWidth).delay(3000).fadeOut(400);
 					}
-				}
-			});
+				});
 		}
 	});
 

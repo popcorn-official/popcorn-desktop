@@ -220,9 +220,10 @@
 			App.db.writeSetting({
 				key: field.attr('name'),
 				value: value
-			}, function () {
-				that.ui.success_alert.show().delay(3000).fadeOut(400);
-			});
+			})
+				.then(function () {
+					that.ui.success_alert.show().delay(3000).fadeOut(400);
+				});
 			that.syncSetting(field.attr('name'), value);
 		},
 		syncSetting: function (setting, value) {
@@ -310,14 +311,16 @@
 			App.db.writeSetting({
 				key: 'traktUsername',
 				value: ''
-			}, function () {
-				App.db.writeSetting({
-					key: 'traktPassword',
-					value: ''
-				}, function () {
+			})
+				.then(function () {
+					return App.db.writeSetting({
+						key: 'traktPassword',
+						value: ''
+					});
+				})
+				.then(function () {
 					self.ui.success_alert.show().delay(3000).fadeOut(400);
 				});
-			});
 
 			_.defer(function () {
 				App.Trakt = App.Providers.get('Trakttv');
@@ -351,12 +354,11 @@
 
 			that.alertMessageWait(i18n.__('We are resetting the settings'));
 
-			Database.resetSettings(function (err, setting) {
-
-				that.alertMessageSuccess(true);
-				AdvSettings.set('disclaimerAccepted', 1);
-
-			});
+			Database.resetSettings()
+				.then(function () {
+					that.alertMessageSuccess(true);
+					AdvSettings.set('disclaimerAccepted', 1);
+				});
 		},
 
 		flushAllDatabase: function (e) {

@@ -675,31 +675,14 @@
 				})
 				.then(function (traktWatched) {
 					// Insert them locally
-					return Q.Promise(function (resolve, reject) {
-						Database.markEpisodesWatched(traktWatched, function (err, results) {
-							if (err) {
-								return reject(err);
-							}
-
-							return resolve(results);
-						});
-					});
+					return Database.markEpisodesWatched(traktWatched);
 				});
 		},
 
 		syncTo: function () {
 			var self = this;
 
-			return Q.Promise(function (resolve, reject) {
-					Database.getAllEpisodesWatched(function (err, results) {
-						if (err) {
-							return reject(err);
-						}
-
-						return resolve(results);
-
-					});
-				})
+			return Database.getAllEpisodesWatched()
 				.then(function (results) {
 					return results.reduce(function (prev, current) {
 						if (current.tvdb_id) {

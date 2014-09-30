@@ -116,9 +116,10 @@ var AdvSettings = {
 		Database.writeSetting({
 			key: variable,
 			value: newValue
-		}, function () {
-			Settings[variable] = newValue;
-		});
+		})
+			.then(function () {
+				Settings[variable] = newValue;
+			});
 	},
 
 	setup: function (callback) {
