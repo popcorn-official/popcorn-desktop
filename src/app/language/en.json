@@ -173,5 +173,6 @@
 	"Syncing...": "Syncing...",
 	"Done": "Done",
 	"Error, database is probably corrupted. Try flushing the bookmarks in settings.": "Error, database is probably corrupted. Try flushing the bookmarks in settings.",
-	"This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.": "This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials."
+	"This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.": "This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.",
+	"No movies found...": "No movies found..."
 }
