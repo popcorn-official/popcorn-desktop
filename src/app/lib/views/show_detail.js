@@ -46,10 +46,8 @@ var health_checked = false;
 				bookmarked = true;
 
 				var provider = App.Providers.get(this.model.get('provider'));
-				var data = provider.detail(this.model.get('imdb_id'),
-					this.model.attributes,
-					function (err, data) {
-						if (!err) {
+				var data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
+					.then(function (data) {
 							data.provider = that.model.get('provider');
 							Database.addTVShow(data)
 								.then(function (idata) {
@@ -61,10 +59,10 @@ var health_checked = false;
 									that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
 									App.userBookmarks.push(that.model.get('imdb_id'));
 								});
-						} else {
+						},
+						function (err) {
 							alert('Somethings wrong... try later');
-						}
-					});
+						});
 
 			} else {
 				that.ui.bookmarkIcon.removeClass('selected').text(i18n.__('Add to bookmarks'));

@@ -172,16 +172,14 @@
 				this.model.set('health', false);
 				$('.spinner').show();
 				var provider = App.Providers.get(this.model.get('provider'));
-				var data = provider.detail(this.model.get('imdb_id'),
-					this.model.attributes,
-					function (err, data) {
+				var data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
+					.catch(function () {
+						alert('Somethings wrong... try later');
+					})
+					.then(function (data) {
 						data.provider = provider.name;
 						$('.spinner').hide();
-						if (!err) {
-							App.vent.trigger(type + ':showDetail', new App.Model[Type](data));
-						} else {
-							alert('Somethings wrong... try later');
-						}
+						App.vent.trigger(type + ':showDetail', new App.Model[Type](data));
 					});
 				break;
 
