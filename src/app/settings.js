@@ -29,6 +29,7 @@ Settings.alwaysOnTop = false;
 Settings.theme = 'Official_-_Dark_theme';
 Settings.ratingStars = true; //trigger on click in details
 Settings.startScreen = 'Movies';
+Settings.lastTab = '';
 
 // Movies
 Settings.moviesShowQuality = false;
@@ -69,12 +70,12 @@ Settings.connectionCheckUrl = 'http://google.com/';
 Settings.version = false;
 Settings.dbversion = '0.1.0';
 Settings.font = 'tahoma';
-Settings.width = window.screen.availWidth * 0.8;
-Settings.height = window.screen.availHeight * 0.8;
+Settings.defaultWidth = Math.round(window.screen.availWidth * 0.8);
+Settings.defaultHeight = Math.round(window.screen.availHeight * 0.8);
 
 // Miscellaneous
 
-Settings.tv_detail_jump_to = 'firstUnwatched';
+Settings.tv_detail_jump_to = 'next';
 
 
 var ScreenResolution = {

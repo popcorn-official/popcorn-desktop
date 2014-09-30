@@ -37,6 +37,11 @@
 			e.focus();
 		},
 		setactive: function (set) {
+
+			if (AdvSettings.get('startScreen') === 'Last Open') {
+				AdvSettings.set('lastTab', set);
+			}
+
 			$('.filter-bar').find('.active').removeClass('active');
 			switch (set) {
 			case 'TV Series':
@@ -103,9 +108,17 @@
 			this.$('.sorters .dropdown-menu a:nth(0)').addClass('active');
 			this.$('.genres  .dropdown-menu a:nth(0)').addClass('active');
 
+			var activetab;
+
+			if (AdvSettings.get('startScreen') === 'Last Open') {
+				activetab = AdvSettings.get('lastTab');
+			} else {
+				activetab = AdvSettings.get('startScreen');
+			}
+
 			if (typeof App.currentview === 'undefined') {
 
-				switch (AdvSettings.get('startScreen')) {
+				switch (activetab) {
 				case 'TV Series':
 					App.currentview = 'shows';
 					break;

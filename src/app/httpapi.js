@@ -2,6 +2,7 @@
 	'use strict';
 	var rpc = require('json-rpc2');
 	var server;
+	var lang;
 	var nativeWindow = require('nw.gui').Window.get();
 	var httpServer;
 
@@ -127,18 +128,104 @@
 				} else {
 					if (index === -1) {
 						index = 0;
-					} else {
-						index = index + 1;
 					}
 				}
-				var result = App.Window.currentView.Content.currentView.ItemList.currentView.collection.models[index].attributes;
-				if (result !== undefined) {
+				var result = App.Window.currentView.Content.currentView.ItemList.currentView.collection.models[index];
+				if (result === undefined) {
+					popcornCallback(callback, 'Index not found');
+				}
+
+				var type = result.get('type');
+				switch (type) {
+				case 'movie':
 					popcornCallback(callback, false, result);
-				} else {
-					popcornCallback(callback, false, 'Index not found');
+					break;
+				case 'show':
+				case 'anime':
+					result.set('health', false);
+					var provider = App.Providers.get(result.get('provider'));
+					var data = provider.detail(result.get('imdb_id'), result.attributes,
+						function (err, data) {
+							data.provider = provider.name;
+							result = new App.Model[type.charAt(0).toUpperCase() + type.slice(1)](data);
+							popcornCallback(callback, false, result);
+						}
+					);
+					break;
 				}
 			} else {
-				popcornCallback(callback, false, movieView.model.attributes);
+				popcornCallback(callback, false, movieView.model);
+			}
+		});
+
+		server.expose('getcurrentlist', function (args, opt, callback) {
+			var collection = App.Window.currentView.Content.currentView.ItemList.currentView.collection;
+			var result = collection.models;
+			var page = 0;
+			if (args.length > 0) {
+				page = parseInt(args[0]);
+				var size = page * 50;
+				if (result.length < size) {
+					collection.on('loaded', function () {
+						result = collection.models;
+						if (result.length >= size) {
+							result = result.slice((page - 1) * 50, size);
+							popcornCallback(callback, false, {
+								'type': result[0].get('type'),
+								'list': result,
+								'page': page,
+								'max_page': App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page
+							});
+						} else {
+							collection.fetchMore();
+						}
+					});
+					collection.fetchMore();
+				} else {
+					result = result.slice((page - 1) * 50, size);
+					popcornCallback(callback, false, {
+						'type': result[0].get('type'),
+						'list': result,
+						'page': page,
+						'max_page': App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page
+					});
+				}
+			} else {
+				page = App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page;
+				popcornCallback(callback, false, {
+					'type': result[0].get('type'),
+					'list': result,
+					'page': page,
+					'max_page': page
+				});
+			}
+		});
+
+		server.expose('getplayers', function (args, opt, callback) {
+			var players = App.Device.Collection.models;
+			for (var i = 0; i < players.length; i++) {
+				players[i].unset('path');
+			}
+
+			popcornCallback(callback, false, {
+				'players': players
+			});
+		});
+
+		server.expose('setplayer', function (args, opt, callback) {
+			if (args.length > 0) {
+				var el = $('.playerchoicemenu li#player-' + args[0] + ' a');
+				if (el.length > 0) {
+					App.Device.Collection.setDevice(args[0]);
+					$('.playerchoicemenu li a.active').removeClass('active');
+					el.addClass('active');
+					$('.imgplayerchoice').attr('src', el.children('img').attr('src'));
+					popcornCallback(callback, false);
+				} else {
+					popcornCallback(callback, 'Player ID invalid');
+				}
+			} else {
+				popcornCallback(callback, 'Arguments missing');
 			}
 		});
 
@@ -360,6 +447,28 @@
 				popcornCallback(callback, 'Arguments missing');
 				return;
 			}
+			if (App.ViewStack[App.ViewStack.length - 1] === 'player') {
+				var tracks = App.PlayerView.player.textTracks();
+				var track = null;
+				var track_index = null;
+				for (var i = 0; i < tracks.length; i++) {
+					track = tracks[i];
+					if (track.language_ === lang) {
+						track_index = i + 1;
+					} else {
+						track.hide();
+						track == null;
+					}
+				}
+
+				if (track !== null) {
+					track.show();
+					$('.vjs-subtitles-button li').attr('aria-selected', false).removeChild('vjs-selected');
+					$('.vjs-subtitles-button li').removeChild('vjs-selected');
+					$('.vjs-subtitles-button li:nth-child(' + track_index + ')').attr('aria-selected', true);
+					$('.vjs-subtitles-button li:nth-child(' + track_index + ')').addClass('vjs-selected');
+				}
+			}
 			App.MovieDetailView.switchSubtitle(args[0]);
 			popcornCallback(callback);
 		});
@@ -402,7 +511,7 @@
 
 			//Listen for seek position change
 			App.vent.on('fullscreenchange', function () {
-				events['seek'] = App.PlayerView.player.currentTime();
+				events['fullscreen'] = nativeWindow.isFullscreen;
 				reinitTimeout();
 			});
 

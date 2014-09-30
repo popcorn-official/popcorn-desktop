@@ -150,12 +150,6 @@
 			player.usingNativeControls(false);
 
 
-			player.on('canplay', function () {
-
-				$('.vjs-loading-info').hide();
-			});
-
-
 			player.on('ended', function () {
 				// For now close player. In future we will check if auto-play etc and get next episode
 
