@@ -105,9 +105,14 @@ App.addInitializer(function (options) {
 		zoom = 1;
 	}
 
+	var width = localStorage.width ? localStorage.width : Settings.defaultWidth;
+	var height = localStorage.height ? localStorage.height : Settings.defaultHeight;
+	var x = localStorage.posX ? localStorage.posX : Math.round((screen.availWidth - Settings.defaultWidth) / 2);
+	var y = localStorage.posY ? localStorage.posY : Math.round((screen.availHeight - Settings.defaultHeight) / 2);
+
 	win.zoomLevel = zoom;
-	win.resizeTo(Math.round(Settings.width), Math.round(Settings.height));
-	win.moveTo(Math.round((screen.availWidth - Settings.width) / 2), Math.round((screen.availHeight - Settings.height) / 2));
+	win.resizeTo(width, height);
+	win.moveTo(x, y);
 });
 
 App.addInitializer(function (options) {
@@ -159,6 +164,17 @@ var deleteFolder = function (path) {
 		win.error('deleteFolder()', err);
 	}
 };
+
+win.on('resize', function (width, height) {
+	localStorage.width = Math.round(width);
+	localStorage.height = Math.round(height);
+});
+
+win.on('move', function (x, y) {
+	localStorage.posX = Math.round(x);
+	localStorage.posY = Math.round(y);
+
+});
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
 win.on('close', function () {
