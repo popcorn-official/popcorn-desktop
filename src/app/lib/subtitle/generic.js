@@ -12,64 +12,68 @@
 
 	var self;
 
-	var downloadZip = function (data, callback) {
-		var filePath = data.path;
-		var subUrl = data.url;
+	var downloadZip = function (data) {
+		return new Promise(function (resolve, reject) {
+			var filePath = data.path;
+			var subUrl = data.url;
 
-		var fileFolder = path.dirname(filePath);
-		var fileExt = path.extname(filePath);
-		var newName = filePath.substring(0, filePath.lastIndexOf(fileExt)) + '.srt';
+			var fileFolder = path.dirname(filePath);
+			var fileExt = path.extname(filePath);
+			var newName = filePath.substring(0, filePath.lastIndexOf(fileExt)) + '.srt';
 
-		var zipPath = filePath.substring(0, filePath.lastIndexOf(fileExt)) + '.zip';
+			var zipPath = filePath.substring(0, filePath.lastIndexOf(fileExt)) + '.zip';
 
-		var unzipPath = filePath.substring(0, filePath.lastIndexOf(fileExt));
-		unzipPath = unzipPath.substring(0, unzipPath.lastIndexOf(path.sep));
+			var unzipPath = filePath.substring(0, filePath.lastIndexOf(fileExt));
+			unzipPath = unzipPath.substring(0, unzipPath.lastIndexOf(path.sep));
 
-		var out = fs.createWriteStream(zipPath);
-		var req = request({
-			method: 'GET',
-			uri: subUrl,
-		});
+			var out = fs.createWriteStream(zipPath);
+			var req = request({
+				method: 'GET',
+				uri: subUrl,
+			});
 
-		req.pipe(out);
-		req.on('end', function () {
-			try {
-				var zip = new AdmZip(zipPath),
-					zipEntries = zip.getEntries();
-				zip.extractAllTo( /*target path*/ unzipPath, /*overwrite*/ true);
-				fs.unlink(zipPath, function (err) {});
-				win.debug('Subtitle extracted to : ' + newName);
-				var files = fs.readdirSync(unzipPath);
-				for (var f in files) {
-					if (path.extname(files[f]) === '.srt') {
-						break;
+			req.pipe(out);
+			req.on('end', function () {
+				try {
+					var zip = new AdmZip(zipPath),
+						zipEntries = zip.getEntries();
+					zip.extractAllTo( /*target path*/ unzipPath, /*overwrite*/ true);
+					fs.unlink(zipPath, function (err) {});
+					win.debug('Subtitle extracted to : ' + newName);
+					var files = fs.readdirSync(unzipPath);
+					for (var f in files) {
+						if (path.extname(files[f]) === '.srt') {
+							break;
+						}
 					}
+					fs.renameSync(path.join(unzipPath, files[f]), newName);
+					resolve(newName);
+				} catch (e) {
+					win.error('Error downloading subtitle: ' + e);
+					reject();
 				}
-				fs.renameSync(path.join(unzipPath, files[f]), newName);
-				return callback(newName);
-			} catch (e) {
-				win.error('Error downloading subtitle: ' + e);
-				return callback(null);
-			}
-		});
+			});
 
+		});
 	};
 
 	var downloadSRT = function (data, callback) {
-		var filePath = data.path;
-		var subUrl = data.url;
-		var fileExt = path.extname(filePath);
-		var srtPath = filePath.substring(0, filePath.lastIndexOf(fileExt)) + '.srt';
-		var out = fs.createWriteStream(srtPath);
-		var req = request({
-			method: 'GET',
-			uri: subUrl,
-		});
+		return new Promise(function (resolve, reject) {
+			var filePath = data.path;
+			var subUrl = data.url;
+			var fileExt = path.extname(filePath);
+			var srtPath = filePath.substring(0, filePath.lastIndexOf(fileExt)) + '.srt';
+			var out = fs.createWriteStream(srtPath);
+			var req = request({
+				method: 'GET',
+				uri: subUrl,
+			});
 
-		req.pipe(out);
-		req.on('end', function () {
-			win.debug('Subtitle downloaded to : ' + srtPath);
-			return callback(srtPath);
+			req.pipe(out);
+			req.on('end', function () {
+				win.debug('Subtitle downloaded to : ' + srtPath);
+				resolve(srtPath);
+			});
 		});
 
 	};
@@ -98,13 +102,15 @@
 					// Ignore EEXIST
 				}
 				if (subExt === 'zip') {
-					downloadZip(data, function (location) {
-						App.vent.trigger('subtitle:downloaded', location);
-					});
+					downloadZip(data)
+						.then(function (location) {
+							App.vent.trigger('subtitle:downloaded', location);
+						});
 				} else if (subExt === 'srt') {
-					downloadSRT(data, function (location) {
-						App.vent.trigger('subtitle:downloaded', location);
-					});
+					downloadSRT(data)
+						.then(function (location) {
+							App.vent.trigger('subtitle:downloaded', location);
+						});
 				}
 			} else {
 				App.vent.trigger('subtitle:downloaded', null);
