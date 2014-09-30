@@ -1,7 +1,8 @@
 (function (App) {
 	'use strict';
 	var Q = require('q');
-
+	var Eztv = App.Providers.get('Eztv');
+	
 	var Watchlist = function () {};
 	Watchlist.prototype.constructor = Watchlist;
 
@@ -64,7 +65,6 @@
 	var formatForPopcorn = function (items) {
 		var showList = [];
 
-		var provider = App.Providers.get('Eztv');
 		items.forEach(function (show) {
 			//If has no next episode or next episode is not aired, go to next one
 			if (! show.next_episode || (Math.round(new Date().getTime()/ 1000) < show.next_episode.first_aired)) {
@@ -86,7 +86,7 @@
 					deferred.resolve(data);
 				} else {
 					//If not found, then get the details from Eztv and add it to the DB
-					var data = provider.detail(show.show.imdb_id,
+					var data = Eztv.detail(show.show.imdb_id,
 						show,
 						function (err, data) {
 							if (!err) {
@@ -120,6 +120,10 @@
 	Watchlist.prototype.fetch = function (filters) {
 		return queryTorrents(filters)
 		.then(formatForPopcorn);
+	};
+	
+	Watchlist.prototype.detail = function (torrent_id, old_data, callback) {
+		return Eztv.detail(torrent_id, old_data, callback);
 	};
 
 	App.Providers.Watchlist = Watchlist;
