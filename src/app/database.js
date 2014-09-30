@@ -433,37 +433,38 @@ var Database = {
 		}));
 	},
 
-	deleteDatabases: function (cb) {
-		db.bookmarks.remove({}, {
+	deleteDatabases: function () {
+		var option = {
 			multi: true
-		}, function (err, numRemoved) {
-			db.tvshows.remove({}, {
-				multi: true
-			}, function (err, numRemoved) {
-				db.movies.remove({}, {
-					multi: true
-				}, function (err, numRemoved) {
-					db.settings.remove({}, {
-						multi: true
-					}, function (err, numRemoved) {
-						db.watched.remove({}, {
-							multi: true
-						}, function (err, numRemoved) {
-							var req = indexedDB.deleteDatabase(App.Config.cache.name);
-							req.onsuccess = function () {
-								cb(false, true);
-							};
-							req.onerror = function () {
-								cb(false, true);
-							};
-						});
-					});
+		};
+
+		return promisifyDb(db.bookmarks.remove({}, option))
+			.then(function () {
+				return promisifyDb(db.tvshows.remove({}, option));
+			})
+			.then(function () {
+				return promisifyDb(db.movies.remove({}, option));
+			})
+			.then(function () {
+				return promisifyDb(db.settings.remove({}, option));
+			})
+			.then(function () {
+				return promisifyDb(db.watched.remove({}, option));
+			})
+			.then(function () {
+				return new Promise(function (resolve, reject) {
+					var req = indexedDB.deleteDatabase(App.Config.cache.name);
+					req.onsuccess = function () {
+						resolve();
+					};
+					req.onerror = function () {
+						resolve();
+					};
 				});
 			});
-		});
 	},
 
-	initialize: function (callback) {
+	initialize: function () {
 		// we'll intiatlize our settings and our API SSL Validation
 		// we build our settings array
 		Database.getUserInfo()
@@ -471,40 +472,44 @@ var Database = {
 				return Database.getSettings();
 			})
 			.then(function (data) {
-				if (data != null) {
-					for (var key in data) {
-						Settings[data[key].key] = data[key].value;
+				return new Promise(function (resolve, reject) {
+					if (data != null) {
+						for (var key in data) {
+							Settings[data[key].key] = data[key].value;
+						}
+					} else {
+						win.warn('is it possible to get here');
 					}
-				}
 
-				// new install?
-				if (Settings.version === false) {
-					window.__isNewInstall = true;
-				}
-
-				App.vent.trigger('initHttpApi');
-
-				AdvSettings.checkApiEndpoint([{
-						original: 'yifyApiEndpoint',
-						mirror: 'yifyApiEndpointMirror',
-						fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C'
+					// new install?
+					if (Settings.version === false) {
+						window.__isNewInstall = true;
 					}
-					// TODO: Add get-popcorn.com SSL fingerprint (for update)
-					// with fallback with DHT
-				], function () {
-					// set app language
-					detectLanguage(Settings.language);
-					// set hardware settings and usefull stuff
-					AdvSettings.setup(function () {
-						App.Trakt = App.Config.getProvider('metadata');
-						// check update
-						var updater = new App.Updater();
-						updater.update()
-							.catch(function (err) {
-								win.error(err);
-							});
-						// we skip the initDB (not needed in current version)
-						callback();
+
+					App.vent.trigger('initHttpApi');
+
+					AdvSettings.checkApiEndpoint([{
+							original: 'yifyApiEndpoint',
+							mirror: 'yifyApiEndpointMirror',
+							fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C'
+						}
+						// TODO: Add get-popcorn.com SSL fingerprint (for update)
+						// with fallback with DHT
+					], function () {
+						// set app language
+						detectLanguage(Settings.language);
+						// set hardware settings and usefull stuff
+						AdvSettings.setup(function () {
+							App.Trakt = App.Config.getProvider('metadata');
+							// check update
+							var updater = new App.Updater();
+							updater.update()
+								.catch(function (err) {
+									win.error(err);
+								});
+							// we skip the initDB (not needed in current version)
+							resolve();
+						});
 					});
 				});
 			});

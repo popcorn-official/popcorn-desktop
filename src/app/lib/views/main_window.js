@@ -56,7 +56,7 @@
 			App.vent.on('shows:list', _.bind(this.showShows, this));
 			App.vent.on('anime:list', _.bind(this.showAnime, this));
 			App.vent.on('favorites:list', _.bind(this.showFavorites, this));
-            App.vent.on('watchlist:list', _.bind(this.showWatchlist, this));
+			App.vent.on('watchlist:list', _.bind(this.showWatchlist, this));
 			App.vent.on('shows:update', _.bind(this.updateShows, this));
 			App.vent.on('shows:init', _.bind(this.initShows, this));
 
@@ -111,34 +111,35 @@
 			// Show loading modal on startup
 			var that = this;
 			this.Content.show(new App.View.InitModal());
-			App.db.initialize(function () {
-				$('head').append('<link rel="stylesheet" href="themes/' + Settings.theme + '.css" type="text/css" />');
-				// Always on top
-				win.setAlwaysOnTop(App.settings.alwaysOnTop);
+			App.db.initialize()
+				.then(function () {
+					$('head').append('<link rel="stylesheet" href="themes/' + Settings.theme + '.css" type="text/css" />');
+					// Always on top
+					win.setAlwaysOnTop(App.settings.alwaysOnTop);
 
-				// we check if the disclaimer is accepted
-				if (!AdvSettings.get('disclaimerAccepted')) {
-					that.showDisclaimer();
-				}
+					// we check if the disclaimer is accepted
+					if (!AdvSettings.get('disclaimerAccepted')) {
+						that.showDisclaimer();
+					}
 
-				that.InitModal.close();
-                
-                if (AdvSettings.get('startScreen') === 'Watchlist') {
-                    that.showWatchlist();
-                } else if (AdvSettings.get('startScreen') === 'Favorites') {
-					that.showFavorites();
-				} else if (AdvSettings.get('startScreen') === 'TV Series') {
-					that.showShows();
-				} else if (AdvSettings.get('startScreen') === 'Anime') {
-					that.showAnime();
-				} else {
-					that.showMovies();
-				}
+					that.InitModal.close();
 
-				// Focus the window when the app opens
-				that.nativeWindow.focus();
+					if (AdvSettings.get('startScreen') === 'Watchlist') {
+						that.showWatchlist();
+					} else if (AdvSettings.get('startScreen') === 'Favorites') {
+						that.showFavorites();
+					} else if (AdvSettings.get('startScreen') === 'TV Series') {
+						that.showShows();
+					} else if (AdvSettings.get('startScreen') === 'Anime') {
+						that.showAnime();
+					} else {
+						that.showMovies();
+					}
 
-			});
+					// Focus the window when the app opens
+					that.nativeWindow.focus();
+
+				});
 
 			// Cancel all new windows (Middle clicks / New Tab)
 			this.nativeWindow.on('new-win-policy', function (frame, url, policy) {
@@ -218,13 +219,13 @@
 
 			this.Content.show(new App.View.FavoriteBrowser());
 		},
-        
-        showWatchlist: function (e) {
-            this.Settings.close();
-            this.MovieDetail.close();
 
-            this.Content.show(new App.View.WatchlistBrowser());
-        },
+		showWatchlist: function (e) {
+			this.Settings.close();
+			this.MovieDetail.close();
+
+			this.Content.show(new App.View.WatchlistBrowser());
+		},
 
 		showDisclaimer: function (e) {
 			this.Disclaimer.show(new App.View.DisclaimerModal());
@@ -341,8 +342,8 @@
 			var that = this;
 
 			App.db.getSetting({
-				key: 'postersWidth'
-			})
+					key: 'postersWidth'
+				})
 				.then(function (doc) {
 					var postersWidth = doc.value;
 					var postersHeight = Math.round(postersWidth * Settings.postersSizeRatio);

@@ -371,11 +371,10 @@
 
 			that.alertMessageWait(i18n.__('We are flushing your databases'));
 
-			Database.deleteDatabases(function (err, setting) {
-
-				that.alertMessageSuccess(true);
-
-			});
+			Database.deleteDatabases()
+				.then(function () {
+					that.alertMessageSuccess(true);
+				});
 		},
 
 		flushAllSubtitles: function (e) {
