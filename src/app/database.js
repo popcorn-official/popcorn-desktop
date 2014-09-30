@@ -389,38 +389,23 @@ var Database = {
 	},
 
 	// TODO: Make this use Promise.all
-	getUserInfo: function (cb) {
-		var bookmarksDone = false;
-		var watchedMoviesDone = false;
-		var watchedShowsDone = false;
-
-		Database.getAllBookmarks()
+	getUserInfo: function () {
+		var bookmarks = Database.getAllBookmarks()
 			.then(function (data) {
 				App.userBookmarks = data;
-				bookmarksDone = true;
-				if (bookmarksDone && watchedMoviesDone && watchedShowsDone) {
-					cb();
-				}
 			});
 
-		Database.getMoviesWatched()
+		var movies = Database.getMoviesWatched()
 			.then(function (data) {
 				App.watchedMovies = extractMovieIds(data);
-				watchedMoviesDone = true;
-				if (bookmarksDone && watchedMoviesDone && watchedShowsDone) {
-					cb();
-				}
 			});
 
-		Database.getAllEpisodesWatched()
+		var episodes = Database.getAllEpisodesWatched()
 			.then(function (data) {
 				App.watchedShows = extractIds(data);
-				watchedShowsDone = true;
-				if (bookmarksDone && watchedMoviesDone && watchedShowsDone) {
-					cb();
-				}
 			});
 
+		return Promise.all([bookmarks, movies, episodes]);
 	},
 
 	// format: {key: key_name, value: settings_value}
