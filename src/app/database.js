@@ -70,157 +70,164 @@ var extractMovieIds = function (items) {
 	return _.pluck(items, 'movie_id');
 };
 
+// This generically turns single argument callback functions into promises
+var promisify = function (obj, func, arg) {
+	return new Promise(function (resolve, reject) {
+
+		obj[func].call(obj, arg, function (error, result) {
+			if (error) {
+				return reject(error);
+			} else {
+				return resolve(result);
+			}
+		});
+
+	});
+};
+
+// This utilizes the exec function on nedb to turn function calls into promises
+var promisifyDb = function (obj) {
+	return new Promise(function (resolve, reject) {
+		obj.exec(function (error, result) {
+			if (error) {
+				return reject(error);
+			} else {
+				return resolve(result);
+			}
+		});
+	});
+};
+
 var Database = {
-
-	addMovie: function (data, cb) {
-		db.movies.insert(data, cb);
+	addMovie: function (data) {
+		return promisifyDb(db.movies.insert(data));
 	},
 
-	deleteMovie: function (imdb_id, cb) {
-		db.movies.remove({
+	deleteMovie: function (imdb_id) {
+		return promisifyDb(db.movies.remove({
 			imdb_id: imdb_id
-		}, cb);
+		}));
 	},
 
-	getMovie: function (imdb_id, cb) {
-		db.movies.findOne({
+	getMovie: function (imdb_id) {
+		return promisifyDb(db.movies.findOne({
 			imdb_id: imdb_id
-		}, cb);
+		}));
 	},
 
-	addBookmark: function (imdb_id, type, cb) {
+	addBookmark: function (imdb_id, type) {
 		App.userBookmarks.push(imdb_id);
-		db.bookmarks.insert({
+		return promisifyDb(db.bookmarks.insert({
 			imdb_id: imdb_id,
 			type: type
-		}, cb);
+		}));
 	},
 
-	deleteBookmark: function (imdb_id, cb) {
+	deleteBookmark: function (imdb_id) {
 		App.userBookmarks.splice(App.userBookmarks.indexOf(imdb_id), 1);
-		db.bookmarks.remove({
+		return promisifyDb(db.bookmarks.remove({
 			imdb_id: imdb_id
-		}, cb);
+		}));
 	},
 
-	getBookmark: function (imdb_id, cb) {
-		db.bookmarks.findOne({
+	getBookmark: function (imdb_id) {
+		win.warn('what is this even supposed to do? It isn\'t used anywhere');
+		return promisifyDb(db.bookmarks.findOne({
 			imdb_id: imdb_id
-		}, function (err, data) {
-			if (err) {
-				cb(true, false);
-			}
-
-			if (data != null) {
-				return cb(false, true);
-			} else {
-				return cb(false, false);
-			}
-		});
+		}));
 	},
 
-	deleteBookmarks: function (cb) {
-		db.bookmarks.remove({}, {
+	deleteBookmarks: function () {
+		return promisifyDb(db.bookmarks.remove({}, {
 			multi: true
-		}, function (err, numRemoved) {
-			return cb(false, true);
-		});
+		}));
 	},
 
 	// format: {page: page, keywords: title}
-	getBookmarks: function (data, cb) {
+	getBookmarks: function (data) {
 		var page = data.page - 1;
 		var byPage = 30;
 		var offset = page * byPage;
 		var query = {};
 
-		db.bookmarks.find(query).skip(offset).limit(byPage).exec(cb);
+		return promisifyDb(db.bookmarks.find(query).skip(offset).limit(byPage));
 	},
 
-	getAllBookmarks: function (cb) {
-		db.bookmarks.find({}).exec(function (err, data) {
-			if (err) {
-				return cb(err, null);
-			}
-			var bookmarks = [];
-			if (data) {
-				bookmarks = extractIds(data);
-			}
+	getAllBookmarks: function () {
+		win.warn('this used to use .exec after the find');
 
-			return cb(null, bookmarks);
-		});
-	},
+		return promisifyDb(db.bookmarks.find({}))
+			.then(function (data) {
+				var bookmarks = [];
+				if (data) {
+					bookmarks = extractIds(data);
+				}
 
-	addMovies: function (data, cb) {
-		async.each(data.movies, function (movie, callback) {
-			Database.addTVShow({
-				movie: movie
-			}, function (err, show) {
-				callback(err);
+				return bookmarks;
 			});
-		}, cb);
 	},
 
-	markMoviesWatched: function (data, cb) {
-		db.watched.insert(data, cb);
+	addMovies: function (data) {
+		win.warn('addTvShow in addMovies seems like a bug');
+		var promises = data.movies.map(function (movie) {
+			return promisify(Database, 'addTVShow', {
+				movie: movie
+			});
+		});
+
+		return Promise.all(promises);
 	},
 
-	markMovieAsWatched: function (data, trakt, cb) {
-		if (!cb) {
-			if (typeof trakt === 'function') {
-				cb = trakt;
-				trakt = undefined;
-			} else {
-				cb = function () {};
-			}
-		}
+	markMoviesWatched: function (data) {
+		return promisifyDb(db.watched.insert(data));
+	},
 
+	markMovieAsWatched: function (data, trakt) {
 		if (data.imdb_id) {
 			if (trakt !== false) {
 				App.Trakt.movie.seen(data.imdb_id);
 			}
 			App.watchedMovies.push(data.imdb_id);
-			db.watched.insert({
+
+			return promisifyDb(db.watched.insert({
 				movie_id: data.imdb_id.toString(),
 				date: new Date(),
 				type: 'movie'
-			}, cb);
+			}));
 		}
+
+		win.warn('This shouldn\'t be called');
+
+		return Promise.resolve();
 	},
 
-	markMovieAsNotWatched: function (data, trakt, cb) {
-		if (!cb) {
-			if (typeof trakt === 'function') {
-				cb = trakt;
-				trakt = undefined;
-			} else {
-				cb = function () {};
-			}
-		}
-
+	markMovieAsNotWatched: function (data, trakt) {
 		if (trakt !== false) {
 			App.Trakt.movie.unseen(data.imdb_id);
 		}
 
 		App.watchedMovies.splice(App.watchedMovies.indexOf(data.imdb_id), 1);
 
-		db.watched.remove({
+		return promisifyDb(db.watched.remove({
 			movie_id: data.imdb_id.toString()
-		}, cb);
+		}));
 	},
 
-	checkMovieWatched: function (data, cb) {
-		db.watched.find({
-			movie_id: data.imdb_id.toString()
-		}, function (err, data) {
-			return cb((data != null && data.length > 0), data);
-		});
+	isMovieWatched: function (data) {
+		win.warn('this isn\'t used anywhere');
+
+		return promisifyDb(db.watched.find({
+				movie_id: data.imdb_id.toString()
+			}))
+			.then(function (data) {
+				return (data != null && data.length > 0);
+			});
 	},
 
-	getMoviesWatched: function (cb) {
-		db.watched.find({
+	getMoviesWatched: function () {
+		return promisifyDb(db.watched.find({
 			type: 'movie'
-		}, cb);
+		}));
 	},
 
 	/*******************************
@@ -312,7 +319,7 @@ var Database = {
 		});
 	},
 
-	// return an array of watched episode for this 
+	// return an array of watched episode for this
 	// tvshow
 	getEpisodesWatched: function (tvdb_id, cb) {
 		db.watched.find({
@@ -325,7 +332,7 @@ var Database = {
 			type: 'episode'
 		}, cb);
 	},
-	// deprecated: moved to provider 
+	// deprecated: moved to provider
 	// TODO: remove once is approved
 	getSubtitles: function (data, cb) {},
 
@@ -373,20 +380,23 @@ var Database = {
 		var watchedMoviesDone = false;
 		var watchedShowsDone = false;
 
-		Database.getAllBookmarks(function (err, data) {
-			App.userBookmarks = data;
-			bookmarksDone = true;
-			if (bookmarksDone && watchedMoviesDone && watchedShowsDone) {
-				cb();
-			}
-		});
-		Database.getMoviesWatched(function (err, data) {
-			App.watchedMovies = extractMovieIds(data);
-			watchedMoviesDone = true;
-			if (bookmarksDone && watchedMoviesDone && watchedShowsDone) {
-				cb();
-			}
-		});
+		Database.getAllBookmarks()
+			.then(function (data) {
+				App.userBookmarks = data;
+				bookmarksDone = true;
+				if (bookmarksDone && watchedMoviesDone && watchedShowsDone) {
+					cb();
+				}
+			});
+
+		Database.getMoviesWatched()
+			.then(function (data) {
+				App.watchedMovies = extractMovieIds(data);
+				watchedMoviesDone = true;
+				if (bookmarksDone && watchedMoviesDone && watchedShowsDone) {
+					cb();
+				}
+			});
 
 		Database.getAllEpisodesWatched(function (err, data) {
 			App.watchedShows = extractIds(data);
@@ -465,7 +475,7 @@ var Database = {
 					}
 				}
 
-				// new install?    
+				// new install?
 				if (Settings.version === false) {
 					window.__isNewInstall = true;
 				}

@@ -6,13 +6,13 @@
 	Favorites.prototype.constructor = Favorites;
 
 	var queryTorrents = function (filters) {
-		var deferred = Q.defer();
-
-		App.db.getBookmarks(filters, function (err, data) {
-			deferred.resolve(data || []);
-		});
-
-		return deferred.promise;
+		return App.db.getBookmarks(filters)
+			.then(function (data) {
+					return data;
+				},
+				function (error) {
+					return [];
+				});
 	};
 
 	var formatForPopcorn = function (items) {
@@ -25,15 +25,14 @@
 			// or tv show then we extract right data
 			if (movie.type === 'movie') {
 				// its a movie
-				Database.getMovie(movie.imdb_id, function (err, data) {
-					if (data != null) {
-						data.type = 'bookmarkedmovie';
-						deferred.resolve(data);
-					} else {
-						deferred.reject(err);
-					}
-				});
-
+				Database.getMovie(movie.imdb_id)
+					.then(function (data) {
+							data.type = 'bookmarkedmovie';
+							deferred.resolve(data);
+						},
+						function (err) {
+							deferred.reject(err);
+						});
 			} else {
 				// its a tv show
 				Database.getTVShowByImdb(movie.imdb_id, function (err, data) {

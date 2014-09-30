@@ -52,12 +52,13 @@ var health_checked = false;
 						if (!err) {
 							data.provider = that.model.get('provider');
 							Database.addTVShow(data, function (err, idata) {
-								Database.addBookmark(that.model.get('imdb_id'), 'tvshow', function (err, data) {
-									win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
-									that.model.set('bookmarked', true);
-									that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
-									App.userBookmarks.push(that.model.get('imdb_id'));
-								});
+								Database.addBookmark(that.model.get('imdb_id'), 'tvshow')
+									.then(function () {
+										win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+										that.model.set('bookmarked', true);
+										that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
+										App.userBookmarks.push(that.model.get('imdb_id'));
+									});
 							});
 
 						} else {
@@ -69,16 +70,15 @@ var health_checked = false;
 				that.ui.bookmarkIcon.removeClass('selected').text(i18n.__('Add to bookmarks'));
 				bookmarked = false;
 
-				Database.deleteBookmark(this.model.get('imdb_id'), function (err, data) {
-					win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
-					that.model.set('bookmarked', false);
-					App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
+				Database.deleteBookmark(this.model.get('imdb_id'))
+					.then(function () {
+						win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
+						that.model.set('bookmarked', false);
+						App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
 
-					// we'll make sure we dont have a cached show
-					Database.deleteTVShow(that.model.get('imdb_id'), function (err, data) {});
-				});
-
-
+						// we'll make sure we dont have a cached show
+						Database.deleteTVShow(that.model.get('imdb_id'), function (err, data) {});
+					});
 			}
 		},
 

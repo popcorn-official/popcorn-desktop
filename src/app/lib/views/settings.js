@@ -335,11 +335,10 @@
 
 			that.alertMessageWait(i18n.__('We are flushing your database'));
 
-			Database.deleteBookmarks(function (err, setting) {
-
-				that.alertMessageSuccess(true);
-
-			});
+			Database.deleteBookmarks()
+				.then(function () {
+					that.alertMessageSuccess(true);
+				});
 		},
 
 		resetSettings: function (e) {

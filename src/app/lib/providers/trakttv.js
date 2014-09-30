@@ -398,29 +398,12 @@
 					return watched;
 				})
 				.then(function (traktWatched) {
-					return Q.Promise(function (resolve, reject) {
-						Database.markMoviesWatched(traktWatched, function (err, results) {
-							if (err) {
-								return reject(err);
-							}
-
-							return resolve(results);
-
-						});
-					});
+					return Database.markMoviesWatched(traktWatched);
 				});
 		},
 
 		syncTo: function () {
-			return Q.Promise(function (resolve, reject) {
-					Database.getMoviesWatched(function (err, results) {
-						if (err) {
-							return reject(err);
-						}
-
-						return resolve(results);
-					});
-				})
+			return Database.getMoviesWatched()
 				.then(function (results) {
 					return results.map(function (item) {
 						return item.movie_id;
