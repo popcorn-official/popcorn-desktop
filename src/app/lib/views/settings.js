@@ -388,11 +388,12 @@
 			that.alertMessageWait(i18n.__('We are flushing your subtitle cache'));
 
 			var cache = new App.Cache('subtitle');
-			cache.flushTable(function () {
+			cache.flushTable()
+				.then(function () {
 
-				that.alertMessageSuccess(false, btn, i18n.__('Flush subtitles cache'), i18n.__('Subtitle cache deleted'));
+					that.alertMessageSuccess(false, btn, i18n.__('Flush subtitles cache'), i18n.__('Subtitle cache deleted'));
 
-			});
+				});
 		},
 
 		restartApplication: function () {
