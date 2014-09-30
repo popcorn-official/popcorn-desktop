@@ -167,6 +167,9 @@
 			case 'subtitle_language':
 			case 'movies_quality':
 			case 'start_screen':
+				if ($('option:selected', field).val() === 'Last Open') {
+					AdvSettings.set('lastTab', App.currentview);
+				}
 			case 'watchedCovers':
 			case 'theme':
 				value = $('option:selected', field).val();
