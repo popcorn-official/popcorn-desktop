@@ -122,12 +122,12 @@ var AdvSettings = {
 			});
 	},
 
-	setup: function (callback) {
+	setup: function () {
 		AdvSettings.performUpgrade();
-		AdvSettings.getHardwareInfo(callback);
+		return AdvSettings.getHardwareInfo();
 	},
 
-	getHardwareInfo: function (callback) {
+	getHardwareInfo: function () {
 		if (/64/.test(process.arch)) {
 			AdvSettings.set('arch', 'x64');
 		} else {
@@ -149,73 +149,75 @@ var AdvSettings = {
 			break;
 		}
 
-		callback();
+		return Promise.resolve();
 	},
 
-	checkApiEndpoint: function (allApis, callback) {
+	checkApiEndpoint: function (allApis) {
 		var tls = require('tls'),
 			URI = require('URIjs'),
-			request = require('request');
+			request = require('request'),
+
+			that = this;
 
 		// TODO: Did we want to check api SSL at EACH load ?
 		// Default timeout of 120 ms
 
-		var numCompletedCalls = 0;
-		for (var apiCheck in allApis) {
-			numCompletedCalls++;
-			apiCheck = allApis[apiCheck];
-			var url = AdvSettings.get(apiCheck.original);
-			var hostname = URI(url).hostname();
-			
-			if (url.match(/http:/) !== null) {
-				//Not SSL
-				request(url, {
-					method: 'get',
-				}, function (err, res, body) {
-					if (err || !body || res.request.host !== hostname) {
-						//If host of the response is not the same as the one we requested
-						//means ISP redirected us, so go for the mirror
-						Settings[apiCheck.original] = Settings[apiCheck.mirror];
-					}
-					if (numCompletedCalls === allApis.length) {
-						callback();
-					}
-				});
-				
-			} else {
+		// var numCompletedCalls = 0;
+		// for (var apiCheck in allApis) {
+		// 	numCompletedCalls++;
+		// 	apiCheck = allApis[apiCheck];
+		// 	var url = AdvSettings.get(apiCheck.original);
+		// 	var hostname = URI(url).hostname();
+
+		// 	if (url.match(/http:/) !== null) {
+		// 		//Not SSL
+		// 		request(url, {
+		// 			method: 'get',
+		// 		}, function (err, res, body) {
+		// 			if (err || !body || res.request.host !== hostname) {
+		// 				//If host of the response is not the same as the one we requested
+		// 				//means ISP redirected us, so go for the mirror
+		// 				Settings[apiCheck.original] = Settings[apiCheck.mirror];
+		// 			}
+		// 			if (numCompletedCalls === allApis.length) {
+		// 				callback();
+		// 			}
+		// 		});
+
+		// 	} else {
 				//Is SSL
+		var promises = allApis.map(function (apiCheck) {
+			return new Promise(function (resolve, reject) {
+				var hostname = URI(AdvSettings.get(apiCheck.original)).hostname();
+
 				tls.connect(443, hostname, {
 					servername: hostname,
 					rejectUnauthorized: false
 				}, function () {
-					if (!this.authorized || this.authorizationError || this.getPeerCertificate().fingerprint !== apiCheck.fingerprint) {
+					if (!that.authorized || that.authorizationError || that.getPeerCertificate().fingerprint !== apiCheck.fingerprint) {
 						// "These are not the certificates you're looking for..."
 						// Seems like they even got a certificate signed for us :O
 						Settings[apiCheck.original] = Settings[apiCheck.mirror];
 					}
 
 					this.end();
-					if (numCompletedCalls === allApis.length) {
-						callback();
-					}
+					resolve();
 				}).on('error', function () {
 					// No SSL support. That's convincing >.<
 					Settings[apiCheck.original] = Settings[apiCheck.mirror];
 
 					this.end();
-					if (numCompletedCalls === allApis.length) {
-						callback();
-					}
+					resolve();
 				}).on('timeout', function () {
 					// Connection timed out, we'll say its not available
 					Settings[apiCheck.original] = Settings[apiCheck.mirror];
 					this.end();
-					if (numCompletedCalls === allApis.length) {
-						callback();
-					}
+					resolve();
 				}).setTimeout(10000); // Set 10 second timeout
-			}
-		}
+			});
+		});
+
+		return Promise.all(promises);
 	},
 
 	performUpgrade: function () {

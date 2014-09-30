@@ -465,57 +465,62 @@ var Database = {
 	},
 
 	initialize: function () {
+		App.vent.on('show:watched', _.bind(this.markEpisodeAsWatched, this));
+		App.vent.on('show:unwatched', _.bind(this.markEpisodeAsNotWatched, this));
+		App.vent.on('movie:watched', _.bind(this.markMovieAsWatched, this));
+
 		// we'll intiatlize our settings and our API SSL Validation
 		// we build our settings array
-		Database.getUserInfo()
+		return Database.getUserInfo()
+			.then(function(results) {
+			})
 			.then(function () {
 				return Database.getSettings();
 			})
 			.then(function (data) {
-				return new Promise(function (resolve, reject) {
-					if (data != null) {
-						for (var key in data) {
-							Settings[data[key].key] = data[key].value;
-						}
-					} else {
-						win.warn('is it possible to get here');
+				if (data != null) {
+					for (var key in data) {
+						Settings[data[key].key] = data[key].value;
 					}
+				} else {
+					win.warn('is it possible to get here');
+				}
 
-					// new install?
-					if (Settings.version === false) {
-						window.__isNewInstall = true;
+				// new install?
+				if (Settings.version === false) {
+					window.__isNewInstall = true;
+				}
+
+				App.vent.trigger('initHttpApi');
+
+				return AdvSettings.checkApiEndpoint([{
+						original: 'yifyApiEndpoint',
+						mirror: 'yifyApiEndpointMirror',
+						fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C'
 					}
-
-					App.vent.trigger('initHttpApi');
-
-					AdvSettings.checkApiEndpoint([{
-							original: 'yifyApiEndpoint',
-							mirror: 'yifyApiEndpointMirror',
-							fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C'
-						}
-						// TODO: Add get-popcorn.com SSL fingerprint (for update)
-						// with fallback with DHT
-					], function () {
-						// set app language
-						detectLanguage(Settings.language);
-						// set hardware settings and usefull stuff
-						AdvSettings.setup(function () {
-							App.Trakt = App.Config.getProvider('metadata');
-							// check update
-							var updater = new App.Updater();
-							updater.update()
-								.catch(function (err) {
-									win.error(err);
-								});
-							// we skip the initDB (not needed in current version)
-							resolve();
-						});
+					// TODO: Add get-popcorn.com SSL fingerprint (for update)
+					// with fallback with DHT
+				]);
+			})
+			.then(function () {
+				// set app language
+				detectLanguage(Settings.language);
+				// set hardware settings and usefull stuff
+				return AdvSettings.setup();
+			})
+			.then(function () {
+				App.Trakt = App.Config.getProvider('metadata');
+				// check update
+				var updater = new App.Updater();
+				updater.update()
+					.catch(function (err) {
+						win.error(err);
 					});
-				});
+				// we skip the initDB (not needed in current version)
+			})
+			.catch(function(err){
+				win.error('Error starting up');
+				win.error(err);
 			});
-
-		App.vent.on('show:watched', _.bind(this.markEpisodeAsWatched, this));
-		App.vent.on('show:unwatched', _.bind(this.markEpisodeAsNotWatched, this));
-		App.vent.on('movie:watched', _.bind(this.markMovieAsWatched, this));
 	}
 };
