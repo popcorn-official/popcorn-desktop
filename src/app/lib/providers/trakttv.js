@@ -162,6 +162,10 @@
 		});
 	};
 
+	TraktTv.prototype.sync = function () {
+		return Promise.all([this.show.sync(), this.movie.sync()]);
+	};
+
 	TraktTv.prototype.movie = {
 		summary: function (id) {
 			return this.call(['movie/summary.json', '{KEY}', id]);
@@ -344,6 +348,64 @@
 				.then(function (data) {
 					return data;
 				});
+		},
+
+		sync: function () {
+			return Promise.all([this.movie.syncFrom(), this.movie.syncTo()]);
+		},
+
+		syncFrom: function () {
+			this.movie.getWatched()
+				.then(function (data) {
+					var watched = [];
+
+					if (data) {
+						var movie;
+						for (var m in data) {
+							movie = data[m];
+							watched.push({
+								movie_id: movie.imdb_id.toString(),
+								date: new Date(),
+								type: 'movie'
+							});
+						}
+					}
+
+					return watched;
+				})
+				.then(function (traktWatched) {
+					return new Promise(function (resolve, reject) {
+						Database.markMoviesWatched(traktWatched, function (err, results) {
+							if (err) {
+								return reject(err);
+							}
+
+							return resolve(results);
+
+						});
+					});
+				});
+		},
+
+		syncTo: function () {
+			return new Promise(function (resolve, reject) {
+					Database.getMoviesWatched(function (err, results) {
+						if (err) {
+							return reject(err);
+						}
+
+						return resolve(results);
+
+					});
+				})
+				.then(function (results) {
+					return results.map(function (item) {
+						return item.movie_id;
+					});
+				})
+				.then((function (movieIds) {
+					return this.movie.seen(movieIds);
+				}).bind(this));
 		}
 	};
 
@@ -544,6 +606,96 @@
 			return this.call(['user/library/shows/watched.json', '{KEY}', this._credentials.username])
 				.then(function (data) {
 					return data;
+				});
+		},
+
+		sync: function () {
+			return Promise.all([this.show.syncFrom(), this.show.syncTo()]);
+		},
+
+		syncFrom: function () {
+			return this.show.getWatched()
+				.then(function (data) {
+					// Format them for insertion
+					var watched = [];
+
+					if (data) {
+						var show;
+						var season;
+						for (var d in data) {
+							show = data[d];
+							for (var s in show.seasons) {
+								season = show.seasons[s];
+								for (var e in season.episodes) {
+									watched.push({
+										tvdb_id: show.tvdb_id.toString(),
+										show_imdb_id: show.imdb_id.toString(),
+										season: season.season.toString(),
+										episode: season.episodes[e].toString(),
+										type: 'episode',
+										date: new Date()
+									});
+								}
+							}
+						}
+					}
+
+					return watched;
+				})
+				.then(function (traktWatched) {
+					// Insert them locally
+					return new Promise(function (resolve, reject) {
+						Database.markEpisodesWatched(traktWatched, function (err, results) {
+							if (err) {
+								return reject(err);
+							}
+
+							return resolve(results);
+						});
+					});
+				});
+		},
+
+		syncTo: function () {
+			var self = this;
+
+			return new Promise(function (resolve, reject) {
+					Database.getAllEpisodesWatched(function (err, results) {
+						if (err) {
+							return reject(err);
+						}
+
+						return resolve(results);
+
+					});
+				})
+				.then(function (results) {
+					return results.reduce(function (prev, current) {
+						if (current.tvdb_id) {
+							if (!prev[current.tvdb_id]) {
+								prev[current.tvdb_id] = {
+									tvdb_id: current.tvdb_id,
+									episode: []
+								};
+							}
+
+							prev[current.tvdb_id].episode.push({
+								season: current.season,
+								episode: current.episode
+							});
+						}
+
+						return prev;
+					}, {});
+				})
+				.then(function (shows) {
+
+					var promises = Object.keys(shows).map(function (showId) {
+						var show = shows[showId];
+						return self.show.episodeSeen(show.tvdb_id, show.episode);
+					});
+
+					return Promise.all(promises);
 				});
 		}
 	};

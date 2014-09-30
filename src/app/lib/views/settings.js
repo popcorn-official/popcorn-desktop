@@ -531,71 +531,21 @@
 
 		syncTrakt: function () {
 			$('#syncTrakt').text(i18n.__('Syncing...')).addClass('disabled').prop('disabled', true);
-			var watched = [];
-			App.Trakt.show.getWatched().then(function (data) {
-				if (data) {
-					var show;
-					var season;
-					for (var d in data) {
-						show = data[d];
-						for (var s in show.seasons) {
-							season = show.seasons[s];
-							for (var e in season.episodes) {
-								watched.push({
-									tvdb_id: show.tvdb_id.toString(),
-									show_imdb_id: show.imdb_id.toString(),
-									season: season.season.toString(),
-									episode: season.episodes[e].toString(),
-									type: 'episode',
-									date: new Date()
-								});
-							}
-						}
-					}
-				}
 
-				Database.markEpisodesWatched(watched, function (err, data) {
-					if (err) {
-						win.error(err);
-						$('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red');
-						return;
-					}
-					win.info(data.length + ' episodes marked watched');
-					watched = [];
-					App.Trakt.movie.getWatched().then(function (data) {
-						if (data) {
-							var movie;
-							for (var m in data) {
-								movie = data[m];
-								watched.push({
-									movie_id: movie.imdb_id.toString(),
-									date: new Date(),
-									type: 'movie'
-								});
-							}
-							console.log(watched);
-							Database.markMoviesWatched(watched, function (err, data) {
-								if (err) {
-									win.error(err);
-									$('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red');
-									return;
-								}
-								win.info(data.length + ' movies marked watched');
-								Database.getUserInfo(function () {
-									$('#syncTrakt').text(i18n.__('Done')).removeClass('disabled').addClass('green').delay(3000).queue(function () {
-										$('#syncTrakt').text(i18n.__('Sync With Trakt')).removeClass('green').prop('disabled', false);
-										$('#syncTrakt').dequeue();
-									});
-									return;
-								});
-							});
-						} else {
-							$('#syncTrakt').text(i18n.__('Done')).removeClass('disabled').addClass('green');
-						}
-
+			App.Trakt.sync()
+				.then(function () {
+					$('#syncTrakt').text(i18n.__('Done')).removeClass('disabled').addClass('green').delay(3000).queue(function () {
+						$('#syncTrakt').text(i18n.__('Sync With Trakt')).removeClass('green').prop('disabled', false);
+						$('#syncTrakt').dequeue();
+					});
+				})
+				.catch(function (err) {
+					win.error(err);
+					$('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red').delay(3000).queue(function () {
+						$('#syncTrakt').text(i18n.__('Sync With Trakt')).removeClass('red').prop('disabled', false);
+						$('#syncTrakt').dequeue();
 					});
 				});
-			});
 		}
 	});
 
