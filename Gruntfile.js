@@ -32,14 +32,20 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-jsbeautifier');
 
 	grunt.registerTask('default', [
-		'stylus',
+		'css',
 		'jshint',
 		'bower_clean',
 		'injectgit'
 	]);
 
 	grunt.registerTask('css', [
-		'stylus'
+		'clean:css',
+		'officalcss'
+	]);
+
+	grunt.registerTask('themes', [
+		'update_submodules',
+		'unofficalcss'
 	]);
 
 	grunt.registerTask('js', [
@@ -78,6 +84,13 @@ module.exports = function (grunt) {
 		}
 	});
 
+	grunt.registerTask('officalcss', [
+		'stylus:offical'
+	]);
+	grunt.registerTask('unofficalcss', [
+		'stylus:third_party'
+	]);
+
 	grunt.registerTask('injectgit', function () {
 		if (grunt.file.exists('.git/')) {
 			var path = require('path');
@@ -104,7 +117,20 @@ module.exports = function (grunt) {
 		},
 
 		stylus: {
-			compile: {
+			third_party: {
+				options: {
+					'resolve url': true,
+					use: ['nib'],
+					compress: false,
+					paths: ['src/app/styl']
+				},
+				expand: true,
+				cwd: 'src/app/styl/third_party',
+				src: '*.styl',
+				dest: 'src/app/themes/',
+				ext: '.css'
+			},
+			offical: {
 				options: {
 					'resolve url': true,
 					use: ['nib'],
@@ -117,7 +143,6 @@ module.exports = function (grunt) {
 				dest: 'src/app/themes/',
 				ext: '.css'
 			}
-
 		},
 
 		nodewebkit: {
@@ -180,6 +205,14 @@ module.exports = function (grunt) {
 			}
 		},
 
+		update_submodules: {
+			default: {
+				options: {
+					params: "--force" // specifies your own command-line parameters
+				}
+			}
+		},
+
 		compress: {
 			linux32: {
 				options: {
@@ -214,7 +247,8 @@ module.exports = function (grunt) {
 		},
 
 		clean: {
-			releases: ['build/releases/Popcorn-Time/**']
+			releases: ['build/releases/Popcorn-Time/**'],
+			css: ['src/app/themes/**']
 		},
 
 		watch: {
