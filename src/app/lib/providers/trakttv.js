@@ -388,6 +388,7 @@
 		},
 
 		syncTo: function () {
+
 			return new Promise(function (resolve, reject) {
 					Database.getMoviesWatched(function (err, results) {
 						if (err) {
@@ -403,10 +404,12 @@
 						return item.movie_id;
 					});
 				})
-				.then((function (movieIds) {
+				.then((function (movieIds) { // jshint ignore:line
 					return this.movie.seen(movieIds);
 				}).bind(this));
+
 		}
+
 	};
 
 	TraktTv.prototype.show = {
