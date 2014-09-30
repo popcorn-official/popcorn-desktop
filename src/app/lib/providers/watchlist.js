@@ -14,18 +14,17 @@
 			key: 'watchlist-fetched'
 		}, function(err, doc) {
 			if (doc) {
-				console.log('Get last fetched', doc.value);
 				var d = moment.unix(doc.value);
 				
 				if (Math.abs(now.diff(d, 'days')) >= 1) {
-					console.log('Last fetched more than 1 day');
+					//Last fetched more than 1 day
 					fetchWatchlist(true);
 				} else {
-					console.log('Last fetch is fresh');
+					//Last fetch is fresh
 					fetchWatchlist(false);
 				}
 			} else {
-				console.log('No last fetch, fetch again');
+				//No last fetch, fetch again
 				App.db.writeSetting({
 					key: 'watchlist-fetched',
 					value: now.unix()
@@ -36,15 +35,14 @@
 		});
 		
 		function fetchWatchlist(update) {
-			console.log('fetchWatchlist, update', update);
 			App.db.getSetting({
 				key: 'watchlist'
 			}, function (err, doc) {
 				if (doc && !update) {
-					console.log('Returned cached watchlist');
+					//Returned cached watchlist
 					deferred.resolve(doc.value || []);
 				} else {
-					console.log('Fetch new watchlist');
+					//Fetch new watchlist
 					App.Trakt.show.getProgress().then(function (data) {
 						App.db.writeSetting({
 							key: 'watchlist',
@@ -59,8 +57,6 @@
 				}
 			});
 		}
-		//writeSetting
-		
 
 		return deferred.promise;
 	};
@@ -79,7 +75,6 @@
 			//Try to find it on the Favourites database and attach the next_episode info
 			Database.getTVShowByImdb(show.show.imdb_id, function (err, data) {
 				if (data != null) {
-					console.log('Show found in DB', show.show.imdb_id);
 					data.type = 'bookmarkedshow';
 					data.image = data.images.poster;
 					data.imdb = data.imdb_id;
@@ -90,7 +85,6 @@
 					}
 					deferred.resolve(data);
 				} else {
-					console.log('Show not found in DB', show.show.imdb_id);
 					//If not found, then get the details from Eztv and add it to the DB
 					var data = provider.detail(show.show.imdb_id,
 						show,
