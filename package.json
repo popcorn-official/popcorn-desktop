@@ -65,6 +65,7 @@
 		"grunt-bower-clean": "^0.2.1",
 		"grunt-contrib-compress": "^0.9.1",
 		"grunt-contrib-jshint": "^0.10.0",
+		"grunt-update-submodules": "^0.4.1",
 		"grunt-jsbeautifier": "*",
 		"grunt-contrib-stylus": "0.16.0",
 		"grunt-contrib-watch": "0.6.x",
