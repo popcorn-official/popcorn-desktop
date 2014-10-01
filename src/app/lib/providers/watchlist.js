@@ -110,7 +110,7 @@
 
 			showList.push(deferred.promise);
 		});
-		return Q.all(showList);
+		return Q.all(showList).then(function(res) { return { results: res, hasMore: false }; });
 	};
 
 	Watchlist.prototype.extractIds = function (items) {
