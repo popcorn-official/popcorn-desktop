@@ -170,6 +170,7 @@
 				if ($('option:selected', field).val() === 'Last Open') {
 					AdvSettings.set('lastTab', App.currentview);
 				}
+				value = $('option:selected', field).val();
 				break;
 			case 'watchedCovers':
 			case 'theme':
