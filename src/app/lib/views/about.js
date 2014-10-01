@@ -15,6 +15,7 @@
 		},
 
 		onShow: function () {
+			$('.filter-bar').hide();
 			Mousetrap.bind(['esc', 'backspace'], function (e) {
 				App.vent.trigger('about:close');
 			});
@@ -25,6 +26,7 @@
 
 		onClose: function () {
 			Mousetrap.unbind(['esc', 'backspace']);
+			$('.filter-bar').show();
 			$('#movie-detail').show();
 		},
 
