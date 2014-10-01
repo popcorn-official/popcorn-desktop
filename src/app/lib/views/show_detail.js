@@ -348,6 +348,7 @@ var health_checked = false;
 			var episodes = [];
 			var episodes_data = [];
 			var selected_quality = $(e.currentTarget).attr('data-quality');
+			var auto_play = false;
 
 			if (AdvSettings.get('playNextEpisodeAuto')) {
 				_.each(this.model.get('episodes'), function (value) {
@@ -377,6 +378,11 @@ var health_checked = false;
 				});
 				episodes.sort();
 				episodes_data = _.sortBy(episodes_data, 'id');
+
+				if(parseInt(season) * 100 + parseInt(episode) !== episodes[episodes.length - 1]){
+					auto_play = true;
+				}
+				
 			} else {
 				episodes_data = null;
 			}
@@ -395,7 +401,7 @@ var health_checked = false;
 				defaultSubtitle: Settings.subtitle_language,
 				device: App.Device.Collection.selected,
 				episodes: episodes,
-				auto_play: AdvSettings.get('playNextEpisodeAuto'),
+				auto_play: auto_play,
 				auto_id: parseInt(season) * 100 + parseInt(episode),
 				auto_play_data: episodes_data
 			});
