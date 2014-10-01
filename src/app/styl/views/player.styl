@@ -107,19 +107,6 @@
             color: rgb(0, 143, 255)
         }
     }
-    .vjs-loading-info{
-        top: 54vh
-        width: 100%
-        position: absolute
-        text-align: center
-        color: $PlayerColor
-        left: 10px
-        z-index: 2
-        font-size: 20px
-    }
-    .vjs-loading-info::after { 
-        content: "...";
-    }
     .auto-next-btn {
         position relative
         margin-top 13px
@@ -181,7 +168,7 @@
 }
 
 .dragzone {
-    app-region: drag
+    -webkit-app-region: drag
     position: fixed
     display: none
 }
