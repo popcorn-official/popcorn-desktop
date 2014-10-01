@@ -131,7 +131,7 @@
 			App.PlayerView = this;
 
 			/* The following is a hack to make VideoJS listen to
-               mouseup instead of mousedown for pause/play on the 
+               mouseup instead of mousedown for pause/play on the
                video element. Stops video pausing/playing when
                dragged. TODO: #fixit! /XC                        */
 			this.player.tech.off('mousedown');
@@ -148,6 +148,7 @@
 			});
 			// Force custom controls
 			player.usingNativeControls(false);
+
 			player.on('ended', function () {
 				// For now close player. In future we will check if auto-play etc and get next episode
 
