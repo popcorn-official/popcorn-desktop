@@ -1,8 +1,22 @@
 ## 0.3.4-dev - NOT RELEASED
-- HiDPI support, scales properly on 1080p, 2k/Retina and 4k/QHD screens
-- Update vectorial 'about' view
-- New theme from @ghostbear
+
+After the introduction of the Remote Control API on 0.3.3,
+these remotes have been created by our awesome users go grab the one you
+like best at http://discuss.popcorntime.io/t/list-of-popcorn-time-remote-controls/2044
+
+- HiDPI support, scales properly on 1080p, 2k/Retina and 4k/QHD screens.
+- Update vectorial 'about' view.
+- New watchlist view, automatically synced to trakt.
+- Better caching of network calls, makes the app more snappy.
+- [TV] Auto-Play next episode.
+- New themes infrastructure allows for easier integration with community
+  themes.
+- New translation infrastructure allows for easier integration with community
+  translations.
+- A lot of bugfixes and under-the-hood changes.
+- All dependencies have been updated.
 - [ALPHA] Anime Tab, thanks to the haruhichan people !
+- [ALPHA] ChromeCast now supports subtitles and cover images.
 
 ## 0.3.3 Beta - 12 sept 2014
 - Move to self-hosted repo, you can now find us at http://git.popcorntime.io
