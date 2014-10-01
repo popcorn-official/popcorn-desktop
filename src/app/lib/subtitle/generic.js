@@ -9,6 +9,7 @@
 	var mkdirp = require('mkdirp');
 	var captions = require('node-captions');
 	var iconv = require('iconv-lite');
+	var Q = require('q');
 
 	var self;
 
