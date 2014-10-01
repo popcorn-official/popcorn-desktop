@@ -16,7 +16,6 @@
 		</div>
 	</div>
 </div>
-<div class="vjs-loading-info"><%= i18n.__("Processing") %></div>
 <div class="playing_next vjs-control-bar">
 	<p><%= i18n.__("Playing Next Episode in") %>: </p><span id="nextCountdown">60</span>
 	<div class="sperator"></div>

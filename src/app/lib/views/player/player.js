@@ -13,8 +13,7 @@
 			eyeInfo: '.eye-info-player',
 			downloadSpeed: '.download_speed_player',
 			uploadSpeed: '.upload_speed_player',
-			activePeers: '.active_peers_player',
-			loadingInfo: '.vjs-loading-info'
+			activePeers: '.active_peers_player'
 		},
 
 		events: {
@@ -103,7 +102,6 @@
 					this.addClass('vjs-has-started');
 				});
 				this.ui.eyeInfo.hide();
-				this.ui.loadingInfo.hide();
 
 				$('.trailer_mouse_catch').show().mousemove(function (event) { // XXX Sammuel86 Trailer UI Show FIX/HACK
 					if (!_this.player.userActive()) {
@@ -150,12 +148,6 @@
 			});
 			// Force custom controls
 			player.usingNativeControls(false);
-
-
-			player.on('canplay', function () {
-				_this.ui.loadingInfo.hide();
-			});
-
 
 			player.on('ended', function () {
 				// For now close player. In future we will check if auto-play etc and get next episode
