@@ -16,11 +16,13 @@
 
 		play: function (streamModel) {
 			// "" So it behaves when spaces in path
-			// TODO: Subtitles
 			var url = streamModel.attributes.src;
-			var cmd = path.normalize('"' + this.get('path') + '"');
+			var cmd = path.normalize('"' + this.get('path') + '" ' + getPlayerSwitches(this.get('id')) + ' ');
 			var subtitle = streamModel.attributes.subFile || '';
-			cmd += getPlayerSwitches(this.get('id')) + '"' + subtitle + '" ' + url;
+			if (subtitle !== '') {
+				cmd += getPlayerSubSwitch(this.get('id')) + '"' + subtitle + '" ';
+			}
+			cmd += url;
 			win.info('Launching External Player: ' + cmd);
 			child.exec(cmd);
 		},
@@ -48,6 +50,11 @@
 		return path.basename(loc).replace(path.extname(loc), '');
 	}
 
+	function getPlayerSubSwitch(loc) {
+		var name = getPlayerName(loc);
+		return players[name].subswitch || '';
+	}
+
 	function getPlayerCmd(loc) {
 		var name = getPlayerName(loc);
 		return players[name].cmd;
@@ -62,30 +69,42 @@
 		'VLC': {
 			type: 'vlc',
 			cmd: '/Contents/MacOS/VLC',
-			switches: ' --no-video-title-show --sub-file=',
+			switches: '--no-video-title-show',
+			subswitch: '--sub-file=',
 			stop: 'vlc://quit',
 			pause: 'vlc://pause'
 		},
 		'MPlayer OSX Extended': {
 			type: 'mplayer',
 			cmd: '/Contents/Resources/Binaries/mpextended.mpBinaries/Contents/MacOS/mplayer',
-			switches: ' -font "/Library/Fonts/Arial Bold.ttf" -sub '
+			switches: '-font "/Library/Fonts/Arial Bold.ttf"',
+			subswitch: '-sub '
+		},
+		'mplayer': {
+			type: 'mplayer',
+			cmd: 'mplayer',
+			switches: '-really-quiet',
+			subswitch: '-sub '
 		},
 		'mpv': {
 			type: 'mpv',
-			switches: ' --sub-file='
+			switches: '',
+			subswitch: '--sub-file='
 		},
 		'MPC-HC': {
 			type: 'mpc-hc',
-			switches: ' /sub '
+			switches: '',
+			subswitch: '/sub '
 		},
 		'MPC-HC64': {
 			type: 'mpc-hc',
-			switches: ' /sub '
+			switches: '',
+			subswitch: '/sub '
 		},
 		'SMPlayer': {
 			type: 'smplayer',
-			switches: ' -sub ',
+			switches: '',
+			subswitch: '-sub ',
 			stop: 'smplayer -send-action quit',
 			pause: 'smplayer -send-action pause'
 		},

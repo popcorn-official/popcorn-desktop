@@ -370,6 +370,7 @@ var health_checked = false;
 						tvdb_id: value.tvdb_id,
 						imdb_id: that.model.get('imdb_id'),
 						device: App.Device.Collection.selected,
+						cover: that.model.get('images').poster,
 						status: that.model.get('status'),
 						type: 'episode'
 					};
@@ -400,6 +401,7 @@ var health_checked = false;
 				quality: $(e.currentTarget).attr('data-quality'),
 				defaultSubtitle: Settings.subtitle_language,
 				device: App.Device.Collection.selected,
+				cover: that.model.get('images').poster,
 				episodes: episodes,
 				auto_play: auto_play,
 				auto_id: parseInt(season) * 100 + parseInt(episode),

@@ -8,6 +8,7 @@
 	var path = require('path');
 	var mkdirp = require('mkdirp');
 	var captions = require('node-captions');
+	var iconv = require('iconv-lite');
 
 	var self;
 
@@ -109,21 +110,49 @@
 				App.vent.trigger('subtitle:downloaded', null);
 			}
 		},
-		convert: function (data) { // Converts .srt's to .vtt's
-			var srt = data.path;
-			var vtt = srt.replace('.srt', '.vtt');
-			captions.srt.read(srt, function (err, data) {
-				if (err) {
-					return console.log(err);
+		convert: function (data, cb) { // Converts .srt's to .vtt's
+			try {
+				var srt = data.path;
+				var vtt = srt.replace('.srt', '.vtt');
+				var lang = data.language;
+				var encoding = 'utf8';
+				iconv.extendNodeEncodings();
+				var langInfo = App.Localization.langcodes[lang] || {};
+				if (langInfo.encoding !== undefined) {
+					encoding = langInfo.encoding[0].replace('-', '');
 				}
-				fs.writeFile(vtt, captions.vtt.generate(captions.srt.toJSON(data), function (err, result) {
+				win.debug(data);
+				win.debug('Encoding: ' + encoding);
+				captions.srt.read(srt, {
+					encoding: encoding
+				}, function (err, data) {
 					if (err) {
-						return console.log(err);
-					} else {
-						App.vent.trigger('subtitle:converted', vtt);
+						return cb(err, null);
 					}
-				}));
-			});
+					try {
+						fs.writeFile(vtt, captions.vtt.generate(captions.srt.toJSON(data)), encoding, function (err) {
+							if (err) {
+								return cb(err, null);
+							} else {
+								App.vent.trigger('subtitle:converted', vtt);
+								return cb(null, {
+									vtt: vtt,
+									encoding: encoding
+								});
+							}
+						});
+					} catch (e) {
+						win.error('Error writing vtt');
+					}
+				});
+			} catch (e) {
+				win.error('error parsing subtitles');
+				App.vent.trigger('subtitle:converted', vtt);
+				return cb(null, {
+					vtt: '',
+					encoding: 'utf8'
+				});
+			}
 
 		},
 
