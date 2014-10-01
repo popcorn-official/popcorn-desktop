@@ -5,6 +5,7 @@ var
 	Datastore = require('nedb'),
 	path = require('path'),
 	openSRT = require('opensrt_js'),
+	Q = require('q'),
 
 	db = {},
 	data_path = require('nw.gui').App.dataPath,
@@ -72,7 +73,7 @@ var extractMovieIds = function (items) {
 
 // This generically turns single argument callback functions into promises
 var promisify = function (obj, func, arg) {
-	return new Promise(function (resolve, reject) {
+	return Q.Promise(function (resolve, reject) {
 
 		obj[func].call(obj, arg, function (error, result) {
 			if (error) {
@@ -87,7 +88,7 @@ var promisify = function (obj, func, arg) {
 
 // This utilizes the exec function on nedb to turn function calls into promises
 var promisifyDb = function (obj) {
-	return new Promise(function (resolve, reject) {
+	return Q.Promise(function (resolve, reject) {
 		obj.exec(function (error, result) {
 			if (error) {
 				return reject(error);
@@ -177,7 +178,7 @@ var Database = {
 			});
 		});
 
-		return Promise.all(promises);
+		return Q.all(promises);
 	},
 
 	markMoviesWatched: function (data) {
@@ -200,7 +201,7 @@ var Database = {
 
 		win.warn('This shouldn\'t be called');
 
-		return Promise.resolve();
+		return Q();
 	},
 
 	markMovieAsNotWatched: function (data, trakt) {
@@ -249,7 +250,7 @@ var Database = {
 			});
 		});
 
-		return Promise.all(promises);
+		return Q.all(promises);
 	},
 
 	markEpisodeAsWatched: function (data) {
@@ -388,7 +389,6 @@ var Database = {
 		return promisifyDb(db.settings.find({}));
 	},
 
-	// TODO: Make this use Promise.all
 	getUserInfo: function () {
 		var bookmarks = Database.getAllBookmarks()
 			.then(function (data) {
@@ -405,7 +405,7 @@ var Database = {
 				App.watchedShows = extractIds(data);
 			});
 
-		return Promise.all([bookmarks, movies, episodes]);
+		return Q.all([bookmarks, movies, episodes]);
 	},
 
 	// format: {key: key_name, value: settings_value}
@@ -452,7 +452,7 @@ var Database = {
 				return promisifyDb(db.watched.remove({}, option));
 			})
 			.then(function () {
-				return new Promise(function (resolve, reject) {
+				return Q.Promise(function (resolve, reject) {
 					var req = indexedDB.deleteDatabase(App.Config.cache.name);
 					req.onsuccess = function () {
 						resolve();
@@ -472,8 +472,6 @@ var Database = {
 		// we'll intiatlize our settings and our API SSL Validation
 		// we build our settings array
 		return Database.getUserInfo()
-			.then(function(results) {
-			})
 			.then(function () {
 				return Database.getSettings();
 			})
@@ -518,7 +516,7 @@ var Database = {
 					});
 				// we skip the initDB (not needed in current version)
 			})
-			.catch(function(err){
+			.catch(function (err) {
 				win.error('Error starting up');
 				win.error(err);
 			});

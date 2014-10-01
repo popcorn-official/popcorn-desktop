@@ -13,7 +13,7 @@
 	var self;
 
 	var downloadZip = function (data) {
-		return new Promise(function (resolve, reject) {
+		return Q.Promise(function (resolve, reject) {
 			var filePath = data.path;
 			var subUrl = data.url;
 
@@ -58,7 +58,7 @@
 	};
 
 	var downloadSRT = function (data, callback) {
-		return new Promise(function (resolve, reject) {
+		return Q.Promise(function (resolve, reject) {
 			var filePath = data.path;
 			var subUrl = data.url;
 			var fileExt = path.extname(filePath);

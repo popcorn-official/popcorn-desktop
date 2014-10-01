@@ -119,7 +119,7 @@
 		flushTable: function () {
 			var self = this;
 
-			return new Promise(function (resolve, reject) {
+			return Q.Promise(function (resolve, reject) {
 				db.transaction(function (tx) {
 					var query = 'DELETE FROM ' + self.table;
 					tx.executeSql(query, function () {});

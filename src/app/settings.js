@@ -2,7 +2,8 @@ var
 	Settings = {},
 	os = require('os'),
 	data_path = require('nw.gui').App.dataPath,
-	path = require('path');
+	path = require('path'),
+	Q = require('q');
 
 /** Default settings **/
 
@@ -149,7 +150,7 @@ var AdvSettings = {
 			break;
 		}
 
-		return Promise.resolve();
+		return Q();
 	},
 
 	checkApiEndpoint: function (allApis) {
@@ -187,7 +188,7 @@ var AdvSettings = {
 		// 	} else {
 				//Is SSL
 		var promises = allApis.map(function (apiCheck) {
-			return new Promise(function (resolve, reject) {
+			return Q.Promise(function (resolve, reject) {
 				var hostname = URI(AdvSettings.get(apiCheck.original)).hostname();
 
 				tls.connect(443, hostname, {
@@ -217,7 +218,7 @@ var AdvSettings = {
 			});
 		});
 
-		return Promise.all(promises);
+		return Q.all(promises);
 	},
 
 	performUpgrade: function () {
