@@ -374,7 +374,7 @@
 					return watched;
 				})
 				.then(function (traktWatched) {
-					return new Promise(function (resolve, reject) {
+					return Q.Promise(function (resolve, reject) {
 						Database.markMoviesWatched(traktWatched, function (err, results) {
 							if (err) {
 								return reject(err);
@@ -389,7 +389,7 @@
 
 		syncTo: function () {
 
-			return new Promise(function (resolve, reject) {
+			return Q.Promise(function (resolve, reject) {
 					Database.getMoviesWatched(function (err, results) {
 						if (err) {
 							return reject(err);
@@ -611,7 +611,7 @@
 					return data;
 				});
 		},
-		
+
 		getProgress: function () {
 			if (!this.authenticated) {
 				console.log('Not Authenticated');
@@ -659,7 +659,7 @@
 				})
 				.then(function (traktWatched) {
 					// Insert them locally
-					return new Promise(function (resolve, reject) {
+					return Q.Promise(function (resolve, reject) {
 						Database.markEpisodesWatched(traktWatched, function (err, results) {
 							if (err) {
 								return reject(err);
@@ -674,7 +674,7 @@
 		syncTo: function () {
 			var self = this;
 
-			return new Promise(function (resolve, reject) {
+			return Q.Promise(function (resolve, reject) {
 					Database.getAllEpisodesWatched(function (err, results) {
 						if (err) {
 							return reject(err);
