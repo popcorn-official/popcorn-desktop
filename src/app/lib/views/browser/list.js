@@ -50,7 +50,6 @@
 		},
 
 		getEmptyView: function () {
-
 			switch (App.currentview) {
 			case 'movies':
 			case 'shows':
@@ -70,6 +69,17 @@
 				if (this.collection.state === 'error') {
 					return ErrorView.extend({
 						error: i18n.__('Error, database is probably corrupted. Try flushing the bookmarks in settings.')
+					});
+				} else {
+					return ErrorView.extend({
+						error: i18n.__('No ' + App.currentview + ' found...')
+					});
+				}
+				break;
+			case 'Watchlist':
+				if (this.collection.state === 'error') {
+					return ErrorView.extend({
+						error: i18n.__('This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.')
 					});
 				} else {
 					return ErrorView.extend({
@@ -226,6 +236,9 @@
 				break;
 
 			case 'Favorites':
+
+				break;
+			case 'Watchlist':
 
 				break;
 			}
