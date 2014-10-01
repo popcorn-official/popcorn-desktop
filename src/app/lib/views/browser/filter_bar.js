@@ -28,6 +28,7 @@
 			'click .showShows': 'showShows',
 			'click .showAnime': 'showAnime',
 			'click #filterbar-favorites': 'showFavorites',
+			'click #filterbar-watchlist' : 'showWatchlist',
 			'click .triggerUpdate': 'updateDB'
 		},
 
@@ -58,6 +59,10 @@
 			case 'Favorites':
 			case 'favorites':
 				$('#filterbar-favorites').addClass('active');
+				break;
+			case 'Watchlist':
+			case 'watchlist':
+				$('#filterbar-watchlist').addClass('active');
 				break;
 			}
 		},
@@ -125,6 +130,10 @@
 					break;
 				case 'Favorites':
 					App.currentview = 'Favorites';
+					App.previousview = 'movies';
+					break;
+				case 'Watchlist':
+					App.currentview = 'Watchlist';
 					App.previousview = 'movies';
 					break;
 				default:
@@ -285,9 +294,33 @@
 
 		},
 
+		showWatchlist: function (e) {
+			e.preventDefault();
+
+			if (App.currentview !== 'Watchlist') {
+				App.previousview = App.currentview;
+				App.currentview = 'Watchlist';
+				App.vent.trigger('about:close');
+				App.vent.trigger('watchlist:list', []);
+				this.setactive('Watchlist');
+			} else {
+				if ($('#movie-detail').html().length === 0 && $('#about-container').html().length === 0) {
+					App.currentview = App.previousview;
+					App.vent.trigger(App.previousview + ':list', []);
+					this.setactive(App.currentview);
+
+				} else {
+					App.vent.trigger('about:close');
+					App.vent.trigger('watchlist:list', []);
+					this.setactive('Watchlist');
+				}
+
+			}
+			return false;
+		},
+
 		updateDB: function (e) {
 			e.preventDefault();
-			console.log('Update Triggered');
 			App.vent.trigger(this.type + ':update', []);
 		}
 	});
