@@ -60,7 +60,7 @@
 			}
 
 			// No need to download subtitles
-			if (!subtitles || !stateModel.get('streamInfo').get('torrent').defaultSubtitle || stateModel.get('streamInfo').get('torrent').defaultSubtitle === 'none') {
+			if (!stateModel.get('streamInfo').get('torrent').defaultSubtitle || stateModel.get('streamInfo').get('torrent').defaultSubtitle === 'none') {
 				downloadedSubtitles = true;
 			}
 		}
@@ -123,6 +123,12 @@
 
 		App.vent.on('subtitle:downloaded', function (sub) {
 			stateModel.get('streamInfo').set('subFile', sub);
+			App.vent.trigger('subtitle:convert', {
+				path: sub,
+				language: torrent.defaultSubtitle
+			}, function (err, res) {
+				App.Subtitles.Server.start(res);
+			});
 			downloadedSubtitles = true;
 		});
 
@@ -231,6 +237,7 @@
 							file_index: model.get('file_index'),
 							quality: model.get('quality'),
 							device: model.get('device'),
+							cover: model.get('cover'),
 							episodes: model.get('episodes'),
 							auto_play: model.get('auto_play'),
 							auto_id: model.get('auto_id'),

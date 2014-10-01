@@ -25,6 +25,8 @@
 			App.vent.on('device:pause', this.pause);
 			App.vent.on('device:unpause', this.unpause);
 			App.vent.on('device:stop', this.stop);
+			App.vent.on('device:forward', this.forward);
+			App.vent.on('device:backward', this.backward);
 			self = this;
 		},
 		list: function () {
@@ -40,6 +42,12 @@
 		},
 		stop: function () {
 			self.selected.stop();
+		},
+		forward: function () {
+			self.selected.forward();
+		},
+		backward: function () {
+			self.selected.backward();
 		},
 		startDevice: function (streamModel) {
 			if (!this.selected) {

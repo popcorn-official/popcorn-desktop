@@ -172,7 +172,8 @@
 				title: this.model.get('title'),
 				quality: this.model.get('quality'),
 				type: 'movie',
-				device: App.Device.Collection.selected
+				device: App.Device.Collection.selected,
+				cover: this.model.get('image')
 			});
 			App.vent.trigger('stream:start', torrentStart);
 		},

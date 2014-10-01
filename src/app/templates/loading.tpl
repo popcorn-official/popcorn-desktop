@@ -27,8 +27,10 @@
 			</div>
 		</div>
 		<div class="player-controls" style="visibility:hidden">
+			<i class="fa fa-backward backward"></i>
 			<i class="fa fa-pause pause"></i>
 			<i class="fa fa-stop stop"></i>
+			<i class="fa fa-forward forward"></i>
 		</div>
 		<div class="cancel-button"><div class="cancel-button-text"><%= i18n.__("Cancel") %></div></div>
 	</div>
