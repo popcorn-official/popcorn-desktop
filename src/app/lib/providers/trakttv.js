@@ -163,7 +163,7 @@
 	};
 
 	TraktTv.prototype.sync = function () {
-		return Promise.all([this.show.sync(), this.movie.sync()]);
+		return Q.all([this.show.sync(), this.movie.sync()]);
 	};
 
 	TraktTv.prototype.movie = {
@@ -351,7 +351,7 @@
 		},
 
 		sync: function () {
-			return Promise.all([this.movie.syncFrom(), this.movie.syncTo()]);
+			return Q.all([this.movie.syncFrom(), this.movie.syncTo()]);
 		},
 
 		syncFrom: function () {
@@ -625,7 +625,7 @@
 		},
 
 		sync: function () {
-			return Promise.all([this.show.syncFrom(), this.show.syncTo()]);
+			return Q.all([this.show.syncFrom(), this.show.syncTo()]);
 		},
 
 		syncFrom: function () {
@@ -710,7 +710,7 @@
 						return self.show.episodeSeen(show.tvdb_id, show.episode);
 					});
 
-					return Promise.all(promises);
+					return Q.all(promises);
 				});
 		}
 	};
