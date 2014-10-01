@@ -19,7 +19,7 @@
 				App.vent.trigger('about:close');
 			});
 			$('.links').tooltip();
-			console.log('Show about', this.model);
+			console.log('Show about');
 			$('#movie-detail').hide();
 		},
 
