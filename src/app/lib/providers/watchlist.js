@@ -1,3 +1,4 @@
+/* globals moment*/
 (function (App) {
 	'use strict';
 	var Q = require('q');
@@ -86,7 +87,7 @@
 					deferred.resolve(data);
 				} else {
 					//If not found, then get the details from Eztv and add it to the DB
-					var data = Eztv.detail(show.show.imdb_id,
+					data = Eztv.detail(show.show.imdb_id,
 						show,
 						function (err, data) {
 							if (!err) {
