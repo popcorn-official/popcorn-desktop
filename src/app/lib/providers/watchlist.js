@@ -20,7 +20,13 @@
 				
 				if (Math.abs(now.diff(d, 'days')) >= 1) {
 					//Last fetched more than 1 day
-					fetchWatchlist(true);
+					App.db.writeSetting({
+						key: 'watchlist-fetched',
+						value: now.unix()
+					}, function(){
+						fetchWatchlist(true);
+					});
+					
 				} else {
 					//Last fetch is fresh
 					fetchWatchlist(false);
@@ -76,7 +82,7 @@
 			//Try to find it on the Favourites database and attach the next_episode info
 			Database.getTVShowByImdb(show.show.imdb_id, function (err, data) {
 				if (data != null) {
-					data.type = 'bookmarkedshow';
+					data.type = 'show';
 					data.image = data.images.poster;
 					data.imdb = data.imdb_id;
 					data.next_episode = show.next_episode;
