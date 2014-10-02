@@ -57,13 +57,3 @@
 		<% } %>
 	</p>
 <%} %>
-
-<% if (typeof next_episode !== 'undefined'){%>
-<p class="next_episode">
-	Next episode: <br/>
-	<small>
-		<strong><%=next_episode.season%>x<%=next_episode.number%></strong>
-		<%=next_episode.title%>
-	</small>
-</p>
-<%} %>
