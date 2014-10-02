@@ -51,7 +51,7 @@
 		<div class="right search">
 			<form>
 				<input id="searchbox" type="text" placeholder="<%= i18n.__("Search") %>">
-				<div class="clear">X</div>
+				<div class="clear fa fa-times"></div>
 			</form>
 		</div>
 	</li>
