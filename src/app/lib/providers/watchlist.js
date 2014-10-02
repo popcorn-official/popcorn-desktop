@@ -50,19 +50,12 @@
 				} else {
 					//Fetch new watchlist
 					App.Trakt.show.getProgress().then(function (data) {
-						//If data returned is not a valid json, return an empty list
-						try {
-							JSON.parse(data);
-							App.db.writeSetting({
-								key: 'watchlist',
-								value: data
-							}, function () {
-								deferred.resolve(data || []);
-							});
-						} catch (e) {
-							//throw Error({message: 'Can\'t get a proper response from Trakt', stack:e.stack});
-							deferred.resolve([]);
-						}
+						App.db.writeSetting({
+							key: 'watchlist',
+							value: data
+						}, function () {
+							deferred.resolve(data || []);
+						});
 					})
 					.catch(function(error) {
 						deferred.reject(error);

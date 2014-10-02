@@ -83,7 +83,7 @@
 		request(requestUri.toString(), {
 			json: true
 		}, function (err, res, body) {
-			if (err || !body) {
+			if (err || !body || res.statusCode != 200) {
 				defer.reject(err);
 			} else {
 				defer.resolve(body);
