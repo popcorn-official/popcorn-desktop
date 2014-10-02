@@ -75,7 +75,7 @@
 					</tr>
 					<tr>
 						<td><span class="key arrow">&#8595;</span></td>
-						<td><%= i18n.__("Select Next Epsisode") %></td>
+						<td><%= i18n.__("Select Next Episode") %></td>
 					</tr>
 					<tr>
 						<td><span class="key arrow">&#8593;</span></td>
