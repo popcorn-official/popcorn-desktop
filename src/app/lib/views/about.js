@@ -16,6 +16,8 @@
 
 		onShow: function () {
 			$('.filter-bar').hide();
+			$('#header').addClass('header-shadow');
+
 			Mousetrap.bind(['esc', 'backspace'], function (e) {
 				App.vent.trigger('about:close');
 			});
@@ -27,6 +29,7 @@
 		onClose: function () {
 			Mousetrap.unbind(['esc', 'backspace']);
 			$('.filter-bar').show();
+			$('#header').removeClass('header-shadow');
 			$('#movie-detail').show();
 		},
 
