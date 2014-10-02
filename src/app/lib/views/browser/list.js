@@ -138,6 +138,51 @@
 					App.vent.trigger('movies:list');
 				}
 			});
+			
+			Mousetrap.bind('shift+tab', function () {
+				switch (App.currentview) {
+				case 'movies':
+					App.currentview = 'anime';
+					App.vent.trigger('anime:list', []);
+					$('.source.showMovies').removeClass('active');
+					$('.source.showAnime').addClass('active');
+					break;
+				case 'anime':
+					App.currentview = 'shows';
+					App.vent.trigger('shows:list', []);
+					$('.source.showMovies').removeClass('active');
+					$('.source.showAnime').removeClass('active');
+					$('.source.showShows').addClass('active');
+					break;
+				default:
+					App.currentview = 'movies';
+					App.vent.trigger('movies:list');
+				}
+			});
+			
+			Mousetrap.bind('ctrl+1', function () {
+				App.currentview = 'movies';
+				App.vent.trigger('movies:list', []);
+				$('.source.showShows').removeClass('active');
+				$('.source.showAnime').removeClass('active');
+				$('.source.showMovies').addClass('active');
+			});
+			
+			Mousetrap.bind('ctrl+2', function () {
+				App.currentview = 'shows';
+				App.vent.trigger('shows:list', []);
+				$('.source.showMovies').removeClass('active');
+				$('.source.showAnime').removeClass('active');
+				$('.source.showShows').addClass('active');
+			});
+			
+			Mousetrap.bind('ctrl+3', function () {
+				App.currentview = 'anime';
+				App.vent.trigger('anime:list', []);
+				$('.source.showMovies').removeClass('active');
+				$('.source.showShows').removeClass('active');
+				$('.source.showAnime').addClass('active');
+			});
 		},
 
 		initPosterResizeKeys: function () {
