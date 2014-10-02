@@ -20,6 +20,10 @@
 				
 				if (Math.abs(now.diff(d, 'days')) >= 1) {
 					//Last fetched more than 1 day
+					App.db.writeSetting({
+						key: 'watchlist-fetched',
+						value: now.unix()
+					});
 					fetchWatchlist(true);
 				} else {
 					//Last fetch is fresh
@@ -46,12 +50,19 @@
 				} else {
 					//Fetch new watchlist
 					App.Trakt.show.getProgress().then(function (data) {
-						App.db.writeSetting({
-							key: 'watchlist',
-							value: data
-						}, function () {
-							deferred.resolve(data || []);
-						});
+						//If data returned is not a valid json, return an empty list
+						try {
+							JSON.parse(data);
+							App.db.writeSetting({
+								key: 'watchlist',
+								value: data
+							}, function () {
+								deferred.resolve(data || []);
+							});
+						} catch (e) {
+							//throw Error({message: 'Can\'t get a proper response from Trakt', stack:e.stack});
+							deferred.resolve([]);
+						}
 					})
 					.catch(function(error) {
 						deferred.reject(error);
@@ -76,7 +87,7 @@
 			//Try to find it on the Favourites database and attach the next_episode info
 			Database.getTVShowByImdb(show.show.imdb_id, function (err, data) {
 				if (data != null) {
-					data.type = 'bookmarkedshow';
+					data.type = 'show';
 					data.image = data.images.poster;
 					data.imdb = data.imdb_id;
 					data.next_episode = show.next_episode;
