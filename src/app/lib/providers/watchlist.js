@@ -23,8 +23,10 @@
 					App.db.writeSetting({
 						key: 'watchlist-fetched',
 						value: now.unix()
+					}, function(){
+						fetchWatchlist(true);
 					});
-					fetchWatchlist(true);
+					
 				} else {
 					//Last fetch is fresh
 					fetchWatchlist(false);
