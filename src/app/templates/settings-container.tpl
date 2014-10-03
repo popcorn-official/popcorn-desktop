@@ -57,7 +57,7 @@
 				<div class="dropdown start-screen">
 					<p><%= i18n.__("Start Screen") %>:</p>
 						<%
-							var arr_screens = ["Movies","TV Series","Favorites","Anime","Last Open"];
+							var arr_screens = ["Movies","TV Series","Favorites","Anime",, "Watchlist", "Last Open"];
 
 							var selct_start_screen = "";
 							for(var key in arr_screens) {
