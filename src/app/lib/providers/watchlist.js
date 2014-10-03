@@ -102,11 +102,7 @@
 								data.next_episode = show.next_episode;
 
 								Database.addTVShow(data, function (err, idata) {
-									Database.addBookmark(show.show.imdb_id, 'tvshow', function (err, saveddata) {
-										data.bookmarked = true;
-										App.userBookmarks.push(data.imdb_id);
-										deferred.resolve(data);
-									});
+									deferred.resolve(data);
 								});
 							} else {
 								deferred.reject(err);
