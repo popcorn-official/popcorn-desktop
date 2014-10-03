@@ -152,9 +152,9 @@
 			&.edited input, input:focus
 				width: 130px;
 				background-color: $SearchBoxBg
-				opacity: 1
+				color: $FilterBarText
 
-			&:hover
+			&.edited, &:hover
 				cursor: pointer
 				&:before
 					color: $FilterBarIconHover
@@ -176,14 +176,9 @@
 				border-radius 10em
 				-webkit-appearance textfield
 				-webkit-box-sizing content-box
-				color rgba($FilterBarText,.47)
 				transition width 0.5s
 
-				&:hover
-					color: $FilterBarText
-
 				&:focus
-					color: $FilterBarText
 					cursor: auto;
 					&:before
 						color: $FilterBarIconHover //this doesn't work for some reason
