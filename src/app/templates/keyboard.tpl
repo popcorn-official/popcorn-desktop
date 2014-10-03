@@ -22,7 +22,15 @@
 					</tr>
 					<tr>
 						<td><span class="key control">TAB</span></td>
-						<td><%= i18n.__("Switch Tab") %></td>
+						<td><%= i18n.__("Switch to next tab") %></td>
+					</tr>
+					<tr>
+						<td><span class="key shiftleft"><%= i18n.__("shift") %></span>+<span class="key control">TAB</span></td>
+						<td><%= i18n.__("Switch to previous tab") %></td>
+					</tr>
+					<tr>
+						<td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">1</span><%= i18n.__("through") %></span><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">3</span></td>
+						<td><%= i18n.__("Switch to corresponding tab") %></td>
 					</tr>
 					<tr>
 						<td><span class="key enter"><%= i18n.__("enter") %></span>/<span class="key spacebar"><%= i18n.__("space") %></span></td></td>
