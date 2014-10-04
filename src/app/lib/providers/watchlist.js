@@ -103,51 +103,48 @@
 	var formatForPopcorn = function (items) {
 		var showList = [];
 		
-		return filterShows(items).then(function(items){
-			items.forEach(function (show) {
-				show = show.value;
-				if (show === null) {
-					return;
-				}
-				
-				var deferred = Q.defer();
-				//Try to find it on the shows database and attach the next_episode info
-				Database.getTVShowByImdb(show.show.imdb_id, function (err, data) {
-					if (data != null) {
-						data.type = 'show';
-						data.image = data.images.poster;
-						data.imdb = data.imdb_id;
-						data.next_episode = show.next_episode;
-						// Fallback for old bookmarks without provider in database
-						if (typeof (data.provider) === 'undefined') {
-							data.provider = 'Eztv';
-						}
-						deferred.resolve(data);
-					} else {
-						//If not found, then get the details from Eztv and add it to the DB
-						data = Eztv.detail(show.show.imdb_id,
-							show,
-							function (err, data) {
-								if (!err) {
-									data.provider = 'Eztv';
-									data.type = 'show';
-									data.next_episode = show.next_episode;
+		items.forEach(function (show) {
+			show = show.value;
+			if (show === null) {
+				return;
+			}
 
-									Database.addTVShow(data, function (err, idata) {
-										deferred.resolve(data);
-									});
-								} else {
-									deferred.reject(err);
-								}
-						});
+			var deferred = Q.defer();
+			//Try to find it on the shows database and attach the next_episode info
+			Database.getTVShowByImdb(show.show.imdb_id, function (err, data) {
+				if (data != null) {
+					data.type = 'show';
+					data.image = data.images.poster;
+					data.imdb = data.imdb_id;
+					data.next_episode = show.next_episode;
+					// Fallback for old bookmarks without provider in database
+					if (typeof (data.provider) === 'undefined') {
+						data.provider = 'Eztv';
 					}
-				});
+					deferred.resolve(data);
+				} else {
+					//If not found, then get the details from Eztv and add it to the DB
+					data = Eztv.detail(show.show.imdb_id,
+						show,
+						function (err, data) {
+							if (!err) {
+								data.provider = 'Eztv';
+								data.type = 'show';
+								data.next_episode = show.next_episode;
 
-				showList.push(deferred.promise);
+								Database.addTVShow(data, function (err, idata) {
+									deferred.resolve(data);
+								});
+							} else {
+								deferred.reject(err);
+							}
+					});
+				}
 			});
-			
-			return Q.all(showList).then(function(res) { return { results: res, hasMore: false }; });
+			showList.push(deferred.promise);
 		});
+		
+		return Q.all(showList).then(function(res) { return { results: res, hasMore: false }; });
 		
 	};
 
@@ -157,7 +154,8 @@
 
 	Watchlist.prototype.fetch = function (filters) {
 		return queryTorrents(filters)
-		.then(formatForPopcorn);
+			.then(filterShows)
+			.then(formatForPopcorn);
 	};
 	
 	Watchlist.prototype.detail = function (torrent_id, old_data, callback) {
