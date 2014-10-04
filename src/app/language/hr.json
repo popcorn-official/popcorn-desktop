@@ -20,7 +20,7 @@
 	"Family": "Obiteljski",
 	"Fantasy": "Fantazijski",
 	"Game Show": "Kvizovi",
-	"Home And Garden": "Dom i vrt",
+	"Home And Garden": "Home And Garden",
 	"Horror": "Horori",
 	"Mini Series": "Mini serije",
 	"Mystery": "Misterijski",
@@ -294,7 +294,7 @@
 	"This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.": "Ova mogućnost radi samo ako imate TraktTv račun sinkroniziran. U postavkama unesite svoje podatke. ",
 	"Last Open": "Posljednji otvoreni",
 	"Exporting Database...": "Izvoz baze podataka...",
-	"Database Successfully Exported.": "Baza podataka uspješno izvezena",
+	"Database Successfully Exported": "Database Successfully Exported",
 	"Currently Airing": "Trenutno se emitira",
 	"Drama - Historical": "Drame - povijesne",
 	"Magic": "Magični",
@@ -316,5 +316,6 @@
 	"No anime found...": "Anime nisu pronađene...",
 	"Movie": "Film",
 	"Special": "Posebno",
-	"No Watchlist found...": "Nije pronađena lista za gledanje"
+	"No Watchlist found...": "Nije pronađena lista za gledanje",
+	"Watchlist": "Watchlist"
 }

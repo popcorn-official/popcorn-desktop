@@ -1,5 +1,5 @@
 {
-    "External Player": "Player Externo",
+	"External Player": "Player Externo",
 	"Made with": "Feito com",
 	"by a bunch of geeks from All Around The World": "por um grupo de geeks de todas as partes do mundo",
 	"Initializing PopcornTime. Please Wait...": "Iniciando PopcornTime. Por favor aguarde...",
@@ -294,7 +294,7 @@
 	"This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.": "O funcionamento deste recurso depende da sincronia com sua conta do TraktTv. Por favor, vá às Configurações e forneça suas informações.",
 	"Last Open": "Aberto por último",
 	"Exporting Database...": "Exportando banco de dados...",
-	"Database Successfully Exported.": "Banco de dados exportado com sucesso.",
+	"Database Successfully Exported": "Database Successfully Exported",
 	"Currently Airing": "Sendo exibido",
 	"Drama - Historical": "Drama - Histórico",
 	"Magic": "Magia",
@@ -316,5 +316,6 @@
 	"No anime found...": "Nenhum anime encontrado...",
 	"Movie": "Filme",
 	"Special": "Especial",
-	"No Watchlist found...": "Nenhuma Lista encontrada..."
+	"No Watchlist found...": "Nenhuma Lista encontrada...",
+	"Watchlist": "Watchlist"
 }

@@ -20,7 +20,7 @@
 	"Family": "Famille",
 	"Fantasy": "Fantastique",
 	"Game Show": "Jeu télévisé",
-	"Home And Garden": "Home and Garden",
+	"Home And Garden": "Home And Garden",
 	"Horror": "Horreur",
 	"Mini Series": "Mini séries",
 	"Mystery": "Mystère",
@@ -63,7 +63,7 @@
 	"Disabled": "Désactivés",
 	"Size": "Taille",
 	"Quality": "Qualité",
-	"Only list movies in": "Uniquement les films en",
+	"Only list movies in": "Afficher uniquement les films en",
 	"Show movie quality on list": "Afficher la qualité des films dans la liste",
 	"Trakt.tv": "Trakt.tv",
 	"Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time": "Entrez vos identifiants Trakt.tv pour 'scrobbler' automatiquement les épisodes regardés avec Popcorn Time",
@@ -294,7 +294,7 @@
 	"This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.": "Cette fonctionnalité n'est accessible qu'à ceux ayant un compte TraktTv synchronisé. Veuillez vous rendre dans les réglages pour entrer vos identifiants.",
 	"Last Open": "Dernier ouvert",
 	"Exporting Database...": "Exportation de la base de données...",
-	"Database Successfully Exported.": "Base de données exportée avec succès.",
+	"Database Successfully Exported": "Database Successfully Exported",
 	"Currently Airing": "Diffusion en cours",
 	"Drama - Historical": "Drame - Historique",
 	"Magic": "Magique",
@@ -316,5 +316,6 @@
 	"No anime found...": "Pas de dessin animé trouvé...",
 	"Movie": "Film",
 	"Special": "Spécial",
-	"No Watchlist found...": "Pas de liste trouvée..."
+	"No Watchlist found...": "Pas de liste trouvée...",
+	"Watchlist": "Watchlist"
 }
