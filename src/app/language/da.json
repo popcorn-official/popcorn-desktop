@@ -20,7 +20,7 @@
 	"Family": "Familie",
 	"Fantasy": "Fantasi",
 	"Game Show": "Gameshow",
-	"Home And Garden": "Home and Garden",
+	"Home And Garden": "Home And Garden",
 	"Horror": "Gyser",
 	"Mini Series": "Miniserier",
 	"Mystery": "Mystik",
@@ -294,7 +294,7 @@
 	"This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.": "Denne funktion virker kun, hvis du har synkroniseret din Trakt.tv konto. Gå venligst til Indstillingerne og indtast dit Trakt.tv brugernavn og adgangskode.",
 	"Last Open": "Sidst åbnet",
 	"Exporting Database...": "Exporting Database...",
-	"Database Successfully Exported.": "Database Successfully Exported.",
+	"Database Successfully Exported": "Database Successfully Exported",
 	"Currently Airing": "Sendes i øjeblikket",
 	"Drama - Historical": "Historisk drama",
 	"Magic": "Magi",
@@ -316,5 +316,6 @@
 	"No anime found...": "Ingen anime fundet...",
 	"Movie": "Movie",
 	"Special": "Special",
-	"No Watchlist found...": "No Watchlist found..."
+	"No Watchlist found...": "No Watchlist found...",
+	"Watchlist": "Watchlist"
 }

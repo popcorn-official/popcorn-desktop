@@ -294,7 +294,7 @@
 	"This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.": "Esta funcionalidade apenas funciona se tiveres a tua conta TraktTv sincronizada. Por favor, vai às Definições e introduz as tuas credenciais.",
 	"Last Open": "Último Aberto",
 	"Exporting Database...": "A exportar base de dados...",
-	"Database Successfully Exported.": "Base de dados exportada com sucesso.",
+	"Database Successfully Exported": "Base de dados exportada com sucesso",
 	"Currently Airing": "Ainda no ar",
 	"Drama - Historical": "Drama - Histórico",
 	"Magic": "Magia",
@@ -316,5 +316,6 @@
 	"No anime found...": "Nenhum Anime encontrado...",
 	"Movie": "Filme",
 	"Special": "Especial",
-	"No Watchlist found...": "Nenhuma lista de referências encontrada..."
+	"No Watchlist found...": "Nenhuma lista de referências encontrada...",
+	"Watchlist": "Lista de referências"
 }
