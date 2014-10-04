@@ -19,7 +19,7 @@
 				var d = moment.unix(doc.value);
 				
 				if (Math.abs(now.diff(d, 'days')) >= 1) {
-					//Last fetched more than 1 day
+					win.info('Watchlist - Last fetched more than 1 day');
 					App.db.writeSetting({
 						key: 'watchlist-fetched',
 						value: now.unix()
@@ -28,11 +28,11 @@
 					});
 					
 				} else {
-					//Last fetch is fresh
+					win.info('Watchlist - Last fetch is fresh');
 					fetchWatchlist(false);
 				}
 			} else {
-				//No last fetch, fetch again
+				win.info('Watchlist - No last fetch, fetch again');
 				App.db.writeSetting({
 					key: 'watchlist-fetched',
 					value: now.unix()
@@ -47,10 +47,10 @@
 				key: 'watchlist'
 			}, function (err, doc) {
 				if (doc && !update) {
-					//Returned cached watchlist
+					win.info('Watchlist - Returning cached watchlist');
 					deferred.resolve(doc.value || []);
 				} else {
-					//Fetch new watchlist
+					win.info('Watchlist - Fetching new watchlist');
 					App.Trakt.show.getProgress().then(function (data) {
 						App.db.writeSetting({
 							key: 'watchlist',
@@ -69,51 +69,86 @@
 		return deferred.promise;
 	};
 
-	var formatForPopcorn = function (items) {
-		var showList = [];
-
+	var filterShows = function (items) {
+		var filtered = [];
+		
 		items.forEach(function (show) {
+			var deferred = Q.defer();
 			//If has no next episode or next episode is not aired, go to next one
 			if (! show.next_episode || (Math.round(new Date().getTime()/ 1000) < show.next_episode.first_aired)) {
 				return;
 			}
 
-			var deferred = Q.defer();
-			//Try to find it on the Favourites database and attach the next_episode info
-			Database.getTVShowByImdb(show.show.imdb_id, function (err, data) {
-				if (data != null) {
-					data.type = 'show';
-					data.image = data.images.poster;
-					data.imdb = data.imdb_id;
-					data.next_episode = show.next_episode;
-					// Fallback for old bookmarks without provider in database
-					if (typeof (data.provider) === 'undefined') {
-						data.provider = 'Eztv';
-					}
-					deferred.resolve(data);
+			//Check if not seen on local DB
+			var episode = {
+				tvdb_id: show.show.tvdb_id,
+				imdb_id: show.show.imdb_id,
+				season: show.next_episode.season,
+				episode: show.next_episode.number
+			};
+			Database.checkEpisodeWatched(episode, function(watched) {
+				if (watched) {
+					deferred.resolve(null);
 				} else {
-					//If not found, then get the details from Eztv and add it to the DB
-					data = Eztv.detail(show.show.imdb_id,
-						show,
-						function (err, data) {
-							if (!err) {
-								data.provider = 'Eztv';
-								data.type = 'show';
-								data.next_episode = show.next_episode;
-
-								Database.addTVShow(data, function (err, idata) {
-									deferred.resolve(data);
-								});
-							} else {
-								deferred.reject(err);
-							}
-					});
+					deferred.resolve(show);
 				}
 			});
-
-			showList.push(deferred.promise);
+			
+			filtered.push(deferred.promise);
 		});
-		return Q.all(showList).then(function(res) { return { results: res, hasMore: false }; });
+		
+		return Q.allSettled(filtered);
+	};
+	
+	var formatForPopcorn = function (items) {
+		var showList = [];
+		
+		return filterShows(items).then(function(items){
+			items.forEach(function (show) {
+				show = show.value;
+				if (show === null) {
+					return;
+				}
+				
+				var deferred = Q.defer();
+				//Try to find it on the shows database and attach the next_episode info
+				Database.getTVShowByImdb(show.show.imdb_id, function (err, data) {
+					if (data != null) {
+						data.type = 'show';
+						data.image = data.images.poster;
+						data.imdb = data.imdb_id;
+						data.next_episode = show.next_episode;
+						// Fallback for old bookmarks without provider in database
+						if (typeof (data.provider) === 'undefined') {
+							data.provider = 'Eztv';
+						}
+						deferred.resolve(data);
+					} else {
+						//If not found, then get the details from Eztv and add it to the DB
+						data = Eztv.detail(show.show.imdb_id,
+							show,
+							function (err, data) {
+								if (!err) {
+									data.provider = 'Eztv';
+									data.type = 'show';
+									data.next_episode = show.next_episode;
+
+									Database.addTVShow(data, function (err, idata) {
+										deferred.resolve(data);
+									});
+								} else {
+									deferred.reject(err);
+								}
+						});
+					}
+				});
+
+				showList.push(deferred.promise);
+			});
+			
+			return Q.all(showList).then(function(res) { return { results: res, hasMore: false }; });
+		});
+		
 	};
 
 	Watchlist.prototype.extractIds = function (items) {
