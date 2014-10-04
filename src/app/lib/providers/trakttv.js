@@ -208,6 +208,10 @@
 			}
 
 			if (Array.isArray(movie)) {
+				if (movie.length === 0) {
+					return Q.resolve(true);
+				}
+
 				movie = movie.map(function (val) {
 					return {
 						imdb_id: val
@@ -235,6 +239,10 @@
 			}
 
 			if (Array.isArray(movie)) {
+				if (movie.length === 0) {
+					return Q.resolve(true);
+				}
+
 				movie = movie.map(function (val) {
 					return {
 						imdb_id: val
@@ -295,6 +303,10 @@
 			}
 
 			if (Array.isArray(movie)) {
+				if (movie.length === 0) {
+					return Q.resolve(true);
+				}
+
 				movie = movie.map(function (val) {
 					return {
 						imdb_id: val
@@ -322,6 +334,10 @@
 			}
 
 			if (Array.isArray(movie)) {
+				if (movie.length === 0) {
+					return Q.resolve(true);
+				}
+
 				movie = movie.map(function (val) {
 					return {
 						imdb_id: val
@@ -355,7 +371,7 @@
 		},
 
 		syncFrom: function () {
-			this.movie.getWatched()
+			return this.movie.getWatched()
 				.then(function (data) {
 					var watched = [];
 
@@ -388,7 +404,6 @@
 		},
 
 		syncTo: function () {
-
 			return Q.Promise(function (resolve, reject) {
 					Database.getMoviesWatched(function (err, results) {
 						if (err) {
@@ -396,7 +411,6 @@
 						}
 
 						return resolve(results);
-
 					});
 				})
 				.then(function (results) {
@@ -407,9 +421,7 @@
 				.then((function (movieIds) { // jshint ignore:line
 					return this.movie.seen(movieIds);
 				}).bind(this));
-
 		}
-
 	};
 
 	TraktTv.prototype.show = {
@@ -474,6 +486,10 @@
 			}
 
 			if (!Array.isArray(episode)) {
+				if (episode.length === 0) {
+					return Q.resolve(true);
+				}
+
 				episode = [{
 					season: episode.season,
 					episode: episode.episode
@@ -505,6 +521,10 @@
 			}
 
 			if (!Array.isArray(episode)) {
+				if (episode.length === 0) {
+					return Q.resolve(true);
+				}
+
 				episode = [{
 					season: episode.season,
 					episode: episode.episode
@@ -619,9 +639,9 @@
 			}
 
 			return App.Trakt.call(['user/progress/watched.json', '{KEY}', this._credentials.username])
-			.then(function (data) {
-				return data;
-			});
+				.then(function (data) {
+					return data;
+				});
 		},
 
 		sync: function () {
