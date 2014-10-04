@@ -281,7 +281,7 @@
 
 				if ($('#movie-detail').html().length === 0 && $('#about-container').html().length === 0) {
 					App.currentview = App.previousview;
-					App.vent.trigger(App.previousview + ':list', []);
+					App.vent.trigger(App.previousview.toLowerCase() + ':list', []);
 					this.setactive(App.currentview);
 
 				} else {
@@ -306,7 +306,7 @@
 			} else {
 				if ($('#movie-detail').html().length === 0 && $('#about-container').html().length === 0) {
 					App.currentview = App.previousview;
-					App.vent.trigger(App.previousview + ':list', []);
+					App.vent.trigger(App.previousview.toLowerCase() + ':list', []);
 					this.setactive(App.currentview);
 
 				} else {
