@@ -153,7 +153,8 @@ var AdvSettings = {
 
 	checkApiEndpoint: function (allApis, callback) {
 		var tls = require('tls'),
-			URI = require('URIjs');
+			URI = require('URIjs'),
+			request = require('request');
 
 		// TODO: Did we want to check api SSL at EACH load ?
 		// Default timeout of 120 ms
@@ -162,39 +163,57 @@ var AdvSettings = {
 		for (var apiCheck in allApis) {
 			numCompletedCalls++;
 			apiCheck = allApis[apiCheck];
+			var url = AdvSettings.get(apiCheck.original);
+			var hostname = URI(url).hostname();
+			
+			if (url.match(/http:/) !== null) {
+				//Not SSL
+				request(url, {
+					method: 'get',
+				}, function (err, res, body) {
+					if (err || !body || res.request.host !== hostname) {
+						//If host of the response is not the same as the one we requested
+						//means ISP redirected us, so go for the mirror
+						Settings[apiCheck.original] = Settings[apiCheck.mirror];
+					}
+					if (numCompletedCalls === allApis.length) {
+						callback();
+					}
+				});
+				
+			} else {
+				//Is SSL
+				tls.connect(443, hostname, {
+					servername: hostname,
+					rejectUnauthorized: false
+				}, function () {
+					if (!this.authorized || this.authorizationError || this.getPeerCertificate().fingerprint !== apiCheck.fingerprint) {
+						// "These are not the certificates you're looking for..."
+						// Seems like they even got a certificate signed for us :O
+						Settings[apiCheck.original] = Settings[apiCheck.mirror];
+					}
 
-			var hostname = URI(AdvSettings.get(apiCheck.original)).hostname();
-
-			tls.connect(443, hostname, {
-				servername: hostname,
-				rejectUnauthorized: false
-			}, function () {
-				if (!this.authorized || this.authorizationError || this.getPeerCertificate().fingerprint !== apiCheck.fingerprint) {
-					// "These are not the certificates you're looking for..."
-					// Seems like they even got a certificate signed for us :O
+					this.end();
+					if (numCompletedCalls === allApis.length) {
+						callback();
+					}
+				}).on('error', function () {
+					// No SSL support. That's convincing >.<
 					Settings[apiCheck.original] = Settings[apiCheck.mirror];
-				}
 
-				this.end();
-				if (numCompletedCalls === allApis.length) {
-					callback();
-				}
-			}).on('error', function () {
-				// No SSL support. That's convincing >.<
-				Settings[apiCheck.original] = Settings[apiCheck.mirror];
-
-				this.end();
-				if (numCompletedCalls === allApis.length) {
-					callback();
-				}
-			}).on('timeout', function () {
-				// Connection timed out, we'll say its not available
-				Settings[apiCheck.original] = Settings[apiCheck.mirror];
-				this.end();
-				if (numCompletedCalls === allApis.length) {
-					callback();
-				}
-			}).setTimeout(10000); // Set 10 second timeout
+					this.end();
+					if (numCompletedCalls === allApis.length) {
+						callback();
+					}
+				}).on('timeout', function () {
+					// Connection timed out, we'll say its not available
+					Settings[apiCheck.original] = Settings[apiCheck.mirror];
+					this.end();
+					if (numCompletedCalls === allApis.length) {
+						callback();
+					}
+				}).setTimeout(10000); // Set 10 second timeout
+			}
 		}
 	},
 
