@@ -537,6 +537,7 @@
 			return this.post('show/episode/unseen/{KEY}', data)
 				.then(function (data) {
 					if (data.status === 'success') {
+						App.Providers.get('Watchlist').fetchWatchlist();
 						return true;
 					} else {
 						return false;
