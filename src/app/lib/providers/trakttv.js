@@ -22,7 +22,7 @@
 			password: ''
 		};
 
-                this.watchlist = App.Providers.get('Watchlist');
+		this.watchlist = App.Providers.get('Watchlist');
 
 		// Login with stored credentials
 		if (AdvSettings.get('traktUsername') !== '' && AdvSettings.get('traktPassword') !== '') {
@@ -518,7 +518,7 @@
 				});
 		},
 		episodeUnseen: function (id, episode) {
-                        var that = this;
+			var that = this;
 
 			if (!this.authenticated) {
 				return Q.reject('Not Authenticated');
