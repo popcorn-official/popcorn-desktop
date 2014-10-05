@@ -62,8 +62,8 @@ Settings.deleteTmpOnClose = true;
 Settings.updateApiEndpoint = 'http://popcorntime.io/';
 /* TODO: Buy SSL for main domain + buy domain get-popcorn.re for fallback
 Settings.updateApiEndpointMirror = 'https://popcorntime.cc/'; */
-Settings.yifyApiEndpoint = 'https://yts.re/api/';
-Settings.yifyApiEndpointMirror = 'https://yts.im/api/';
+Settings.yifyApiEndpoint = 'http://yts.re/api/';
+Settings.yifyApiEndpointMirror = 'http://yts.im/api/';
 Settings.connectionCheckUrl = 'http://google.com/';
 
 // App Settings
