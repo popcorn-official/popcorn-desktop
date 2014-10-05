@@ -167,9 +167,9 @@
 
 		return Q()
 			.then(function () {watchlist.inhibit(true);})
-			.then(Q.all([this.show.sync(), this.movie.sync()]))
-			.then(function () {watchlist.inhibit(false);})
-			.then(function () {watchlist.fetchWatchlist();});
+			.then(Q.all([this.show.sync(), this.movie.sync()])
+			      .then(function () {watchlist.inhibit(false);})
+			      .then(function () {watchlist.fetchWatchlist();}));
 	};
 
 	TraktTv.prototype.movie = {
