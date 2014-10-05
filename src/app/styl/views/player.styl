@@ -86,42 +86,34 @@
         position: absolute
     }
     .playing_next {
-        width: 350px !important
         color: #fff
         z-index: 23
-        height: 90px !important
         bottom: 10vh !important
         padding: 10px
         font-size: 20px
         left: 3vw !important
         display: none
         background-color: rgba(0, 0, 0, 0.48) !important
+        overflow: hidden
 
-        & > p {
-            float left
-            padding-right 5px
-        }
-        & > span {
+        span {
             font-weight: bold
-            float right
             color: rgb(0, 143, 255)
         }
     }
     .auto-next-btn {
         position relative
-        margin-top 13px
         float right
-        padding-left 12px
-        padding-right 12px
-        margin-left 15px
+        margin 15px
+        padding 12px
+
+
         border-radius $ButtonRadius
-        height 35px
         background-color $ButtonBg
         text-align center
         color $SettingsButtonText
         font-family $ButtonFont, $AlternateFont
         font-size 13px
-        line-height 33px
         cursor pointer
         transition background-color .5s
         &:hover {

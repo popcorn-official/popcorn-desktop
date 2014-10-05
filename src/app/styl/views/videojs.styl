@@ -17,16 +17,21 @@
 			line-height: 9px;
         }
     }
-    .vjs-control-bar {
+
+    .vjs-control-bar, .vjs-control-window {
         display: none;
         position: absolute;
         bottom: 0;
         left: 0;
+        background-color: rgba(23, 24, 27, 0.75);
+    }
+
+    .vjs-control-bar {
         right: 0;
         height: 40px;
         width: 100%;
-        background-color: rgba(23, 24, 27, 0.75);
     }
+
     &.vjs-user-active {
         .player-header-background {
             display: block;
@@ -38,7 +43,7 @@
     &.vjs-has-started {
         &.vjs-user-inactive {
             &.vjs-playing {
-                .vjs-control-bar {
+                .vjs-control-bar, .vjs-control-window {
                     display: block;
                     visibility: hidden;
                     opacity: 0;
@@ -52,7 +57,7 @@
         }
     }
     &.vjs-controls-disabled {
-        .vjs-control-bar {
+        .vjs-control-bar, .vjs-control-window {
             display: none;
         }
         .vjs-big-play-button {
@@ -60,7 +65,7 @@
         }
     }
     &.vjs-using-native-controls {
-        .vjs-control-bar {
+        .vjs-control-bar, .vjs-control-window {
             display: none;
         }
         .vjs-big-play-button {
@@ -68,11 +73,11 @@
         }
     }
     &.vjs-error {
-        .vjs-control-bar {
+        .vjs-control-bar, .vjs-control-window {
             display: none;
         }
         .player-header-background {
-            &.vjs-control-bar {
+            &.vjs-control-bar, .vjs-control-window {
                 visibility: visible!important;
                 opacity: 1!important;
                 display: block!important;
@@ -507,7 +512,7 @@
 
     .vjs-popcorn-skin {
         &.vjs-has-started {
-            .vjs-control-bar {
+            .vjs-control-bar, .vjs-control-window {
                 display: block;
                 visibility: visible;
                 transition: visibility 0.1s, opacity 0.1s;
