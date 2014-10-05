@@ -20,7 +20,7 @@
 	"Family": "Familie",
 	"Fantasy": "Fantasie",
 	"Game Show": "Spelprogramma",
-	"Home And Garden": "Home And Garden",
+	"Home And Garden": "Huis en tuin",
 	"Horror": "Horror",
 	"Mini Series": "Miniserie",
 	"Mystery": "Mysterie",
@@ -294,7 +294,7 @@
 	"This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.": "Deze functie werkt alleen als je ingelogd bent met je Trakt.tv-account; ga naar instellingen om dit aan te passen.",
 	"Last Open": "Laatste geopend",
 	"Exporting Database...": "Database exporteren...",
-	"Database Successfully Exported": "Database Successfully Exported",
+	"Database Successfully Exported": "Database exporten gelukt",
 	"Currently Airing": "Nu op televisie",
 	"Drama - Historical": "Historisch drama",
 	"Magic": "Magie",
@@ -317,5 +317,6 @@
 	"Movie": "Film",
 	"Special": "Special",
 	"No Watchlist found...": "Geen watchlist gevonden...",
-	"Watchlist": "Watchlist"
+	"Watchlist": "Watchlist",
+	"Resolving..": "Laden.."
 }
