@@ -166,10 +166,10 @@
 		var watchlist = App.Providers.get('Watchlist');
 
 		return Q()
-			.then(watchlist.inhibit.bind(watchlist, true))
+			.then(function () {watchlist.inhibit(true);})
 			.then(Q.all([this.show.sync(), this.movie.sync()]))
-			.then(watchlist.inhibit.bind(watchlist, false))
-			.then(watchlist.fetchWatchlist.bind(watchlist));
+			.then(function () {watchlist.inhibit(false);})
+			.then(function () {watchlist.fetchWatchlist();});
 	};
 
 	TraktTv.prototype.movie = {
