@@ -169,7 +169,7 @@
 			.then(watchlist.inhibit.bind(watchlist, true))
 			.then(Q.all([this.show.sync(), this.movie.sync()]))
 			.then(watchlist.inhibit.bind(watchlist, false))
-			.then(watchlist.fetchWatchlist);
+			.then(watchlist.fetchWatchlist.bind(watchlist));
 	};
 
 	TraktTv.prototype.movie = {
