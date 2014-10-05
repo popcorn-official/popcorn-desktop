@@ -56,7 +56,7 @@
 		</div>
 	</li>
     <li>
-        <i id="filterbar-watchlist" class="fa fa-eye watchlist"></i>
+        <i id="filterbar-watchlist" class="fa fa-inbox watchlist"></i>
     </li>
 	<li>
 		<i id="filterbar-favorites" class="fa fa-heart favorites"></i>
