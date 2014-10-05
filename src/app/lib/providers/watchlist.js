@@ -170,7 +170,6 @@
 
 	Watchlist.prototype.fetchWatchlist = function() {
 		if (this.inhibited) {
-			win.info('Watchlist - not fetching new watchlist because of inhibit');
 			return Q(true);
 		}
 
