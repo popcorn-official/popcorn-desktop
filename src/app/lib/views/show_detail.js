@@ -243,6 +243,9 @@ var health_checked = false;
 							var next_episode = episodes[idx + 1];
 							episode = next_episode % 100;
 							season = (next_episode - episode) / 100;
+						} else {
+							episode = lastSeen % 100;
+							season = (lastSeen - episode) / 100;
 						}
 					} else {
 						//if all episode seend back to first
@@ -380,10 +383,10 @@ var health_checked = false;
 				episodes.sort();
 				episodes_data = _.sortBy(episodes_data, 'id');
 
-				if(parseInt(season) * 100 + parseInt(episode) !== episodes[episodes.length - 1]){
+				if (parseInt(season) * 100 + parseInt(episode) !== episodes[episodes.length - 1]) {
 					auto_play = true;
 				}
-				
+
 			} else {
 				episodes_data = null;
 			}
@@ -675,8 +678,8 @@ var health_checked = false;
 					var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
 
 					$('.health-icon').tooltip({
-						html: true
-					})
+							html: true
+						})
 						.removeClass('fa-spin')
 						.removeClass('fa-spinner')
 						.addClass('fa-circle')
@@ -689,8 +692,8 @@ var health_checked = false;
 
 		resetHealth: function () {
 			$('.health-icon').tooltip({
-				html: true
-			})
+					html: true
+				})
 				.removeClass('fa-spin')
 				.removeClass('fa-spinner')
 				.addClass('fa-circle')
