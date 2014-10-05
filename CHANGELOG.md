@@ -1,4 +1,4 @@
-## 0.3.4-dev - NOT RELEASED
+## 0.3.4 Beta - BROS NIGHT - NOT RELEASED
 
 After the introduction of the Remote Control API on 0.3.3,
 these remotes have been created by our awesome users go grab the one you
