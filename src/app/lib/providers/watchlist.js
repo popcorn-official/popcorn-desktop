@@ -12,14 +12,14 @@
 	var queryTorrents = function (filters) {
 		var deferred = Q.defer();
 		var now = moment();
-		
+
 		//Checked when last fetched
 		App.db.getSetting({
 			key: 'watchlist-fetched'
 		}, function(err, doc) {
 			if (doc) {
 				var d = moment.unix(doc.value);
-				
+
 				if (Math.abs(now.diff(d, 'days')) >= 1) {
 					win.info('Watchlist - Last fetched more than 1 day');
 					App.db.writeSetting({
@@ -28,7 +28,7 @@
 					}, function(){
 						fetchWatchlist(true);
 					});
-					
+
 				} else {
 					win.info('Watchlist - Last fetch is fresh');
 					fetchWatchlist(false);
@@ -43,7 +43,7 @@
 				});
 			}	
 		});
-		
+
 		function fetchWatchlist(update) {
 			App.db.getSetting({
 				key: 'watchlist'
@@ -73,7 +73,7 @@
 
 	var filterShows = function (items) {
 		var filtered = [];
-		
+
 		items.forEach(function (show) {
 			var deferred = Q.defer();
 			//If has no next episode or next episode is not aired, go to next one
@@ -95,16 +95,16 @@
 					deferred.resolve(show);
 				}
 			});
-			
+
 			filtered.push(deferred.promise);
 		});
-		
+
 		return Q.allSettled(filtered);
 	};
-	
+
 	var formatForPopcorn = function (items) {
 		var showList = [];
-		
+
 		items.forEach(function (show) {
 			show = show.value;
 			if (show === null) {
@@ -145,9 +145,9 @@
 			});
 			showList.push(deferred.promise);
 		});
-		
+
 		return Q.all(showList).then(function(res) { return { results: res, hasMore: false }; });
-		
+
 	};
 
 	Watchlist.prototype.extractIds = function (items) {
@@ -165,12 +165,13 @@
 	};
 
 	Watchlist.prototype.inhibit = function (flag) {
+		win.info('Watchlist - inhibit: ', flag);
+
 		this.inhibited = flag;
 	};
 
 	Watchlist.prototype.fetchWatchlist = function() {
 		if (this.inhibited) {
-			win.info('Watchlist - not fetching new watchlist because of inhibit');
 			return Q(true);
 		}
 
