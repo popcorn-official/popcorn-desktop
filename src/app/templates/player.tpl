@@ -2,7 +2,7 @@
 	<div class="player-title"><%= title %></div>
 	<div class="details-player">
 		<% if(quality) { %>
-		<span class="quality-info-player"><%= quality %></span>  
+		<span class="quality-info-player"><%= quality %></span>
 		<% } %>
 		<span class="fa fa-times close-info-player"></span>
 		<div class="download-info-player">
@@ -16,9 +16,10 @@
 		</div>
 	</div>
 </div>
-<div class="playing_next vjs-control-bar">
-	<p><%= i18n.__("Playing Next Episode in") %>: </p><span id="nextCountdown">60</span>
-	<div class="sperator"></div>
+
+<div class="playing_next vjs-control-window">
+	<p><%= i18n.__("Playing Next Episode in") %>: <span id="nextCountdown">60</span>
+	</p>
 	<div class="auto-next-btn playnownext"><%= i18n.__("Play Now") %></div>
 </div>
 <%
