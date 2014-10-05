@@ -282,6 +282,8 @@
 				// Stop weird Videojs errors
 			}
 
+                        //XXX(xaiki): hack, don't touch fs state
+                        that.dontTouchFS = true;
 			App.vent.trigger('player:close');
 
 			var episodes = _this.model.get('episodes');
@@ -595,7 +597,7 @@
 			}
 			$('#player_drag').hide();
 			$('#header').show();
-			if (!this.inFullscreen && win.isFullscreen) {
+			if (!this.dontTouchFS && !this.inFullscreen && win.isFullscreen) {
 				win.leaveFullscreen();
 			}
 			_this.unbindKeyboardShortcuts();
