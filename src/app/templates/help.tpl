@@ -50,11 +50,11 @@
 				<br>
 				Short and descriptive example bug report summary (title)<br>
 				<br>
-				### Environment<br>
+				### Environment:<br>
 				<br>
 				The OS environment in which the issue occurs. <br>
 				<br>
-				### Steps to Reproduce<br>
+				### Steps to Reproduce:<br>
 				If suitable, include the steps required to reproduce the bug.<br>
 				<br>
 				1. This is the first step<br>
