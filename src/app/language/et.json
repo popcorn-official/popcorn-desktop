@@ -20,7 +20,7 @@
 	"Family": "Perekond",
 	"Fantasy": "Fantaasia",
 	"Game Show": "Game Show",
-	"Home And Garden": "Home And Garden",
+	"Home And Garden": "Kodu ja Aed",
 	"Horror": "Õudus",
 	"Mini Series": "Mini Seeriad",
 	"Mystery": "Müsteeria",
@@ -294,7 +294,7 @@
 	"This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.": "See funktsioon toimib ainult siis kui sinu TraktTv konto on sünkroniseeritud. Palun mine Seadetetesse ja sisesta oma andmed.",
 	"Last Open": "Viimati Avatud",
 	"Exporting Database...": "Ekspordin Andmebaasi...",
-	"Database Successfully Exported": "Database Successfully Exported",
+	"Database Successfully Exported": "Andmebaas Edukalt Eksporditud.",
 	"Currently Airing": "Hetkel Eetris",
 	"Drama - Historical": "Draama - Ajalooline",
 	"Magic": "Maagia",
@@ -317,5 +317,6 @@
 	"Movie": "Film",
 	"Special": "Eriline",
 	"No Watchlist found...": "Vaatamiste nimekrija ei leitud...",
-	"Watchlist": "Watchlist"
+	"Watchlist": "Vaatamiste nimekiri",
+	"Resolving..": "Lahendan..."
 }
