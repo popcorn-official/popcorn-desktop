@@ -55,7 +55,7 @@
 	"Show rating over covers": "Mostrar classificação na capa",
 	"Always On Top": "Sempre visível",
 	"Watched Items": "Itens Vistos",
-	"Show": "Mostar",
+	"Show": "Mostrar",
 	"Fade": "Desvanecer",
 	"Hide": "Ocultar",
 	"Subtitles": "Legendas",
@@ -317,5 +317,6 @@
 	"Movie": "Filme",
 	"Special": "Especial",
 	"No Watchlist found...": "Nenhuma lista de referências encontrada...",
-	"Watchlist": "Lista de referências"
+	"Watchlist": "Lista de referências",
+	"Resolving..": "A resolver..."
 }
