@@ -42,7 +42,7 @@
 		"moment": "^2.6.0",
 		"nedb": "^0.10.5",
 		"node-captions": "0.2.2",
-		"opensrt_js": "0.0.16",
+		"opensrt_js": "https://github.com/SlashmanX/OpenSRTJS/archive/c07d18983d7a6409dee4cacc056ed5cc01e2ed09.tar.gz",
 		"peerflix": "^0.17.0",
 		"q": "^2.0.2",
 		"raven": "^0.6.3",
