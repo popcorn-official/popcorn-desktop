@@ -3,8 +3,10 @@
 	'use strict';
 	var Q = require('q');
 	var Eztv = App.Providers.get('Eztv');
-	
-	var Watchlist = function () {};
+
+	var Watchlist = function () {
+		this.inhibited = false;
+	};
 	Watchlist.prototype.constructor = Watchlist;
 
 	var queryTorrents = function (filters) {
@@ -157,12 +159,21 @@
 			.then(filterShows)
 			.then(formatForPopcorn);
 	};
-	
+
 	Watchlist.prototype.detail = function (torrent_id, old_data, callback) {
 		return Eztv.detail(torrent_id, old_data, callback);
 	};
-	
+
+	Watchlist.prototype.inhibit = function (flag) {
+		this.inhibited = flag;
+	};
+
 	Watchlist.prototype.fetchWatchlist = function() {
+		if (this.inhibited) {
+			win.info('Watchlist - not fetching new watchlist because of inhibit');
+			return Q(true);
+		}
+
 		var deferred = Q.defer();
 		win.info('Watchlist - Fetching new watchlist');
 		App.Trakt.show.getProgress().then(function (data) {
@@ -176,7 +187,7 @@
 		.catch(function(error) {
 			deferred.reject(error);
 		});
-		
+
 		return deferred.promise;
 	};
 

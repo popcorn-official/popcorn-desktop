@@ -163,7 +163,13 @@
 	};
 
 	TraktTv.prototype.sync = function () {
-		return Q.all([this.show.sync(), this.movie.sync()]);
+		var watchlist = App.Providers.get('Watchlist');
+
+		return Q()
+			.then(function () {watchlist.inhibit(true);})
+			.then(Q.all([this.show.sync(), this.movie.sync()]))
+			.then(function () {watchlist.inhibit(false);})
+			.then(function () {watchlist.fetchWatchlist();});
 	};
 
 	TraktTv.prototype.movie = {
