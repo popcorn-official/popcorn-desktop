@@ -161,6 +161,24 @@
 	Watchlist.prototype.detail = function (torrent_id, old_data, callback) {
 		return Eztv.detail(torrent_id, old_data, callback);
 	};
+	
+	Watchlist.prototype.fetchWatchlist = function() {
+		var deferred = Q.defer();
+		win.info('Watchlist - Fetching new watchlist');
+		App.Trakt.show.getProgress().then(function (data) {
+			App.db.writeSetting({
+				key: 'watchlist',
+				value: data
+			}, function () {
+				deferred.resolve(data || []);
+			});
+		})
+		.catch(function(error) {
+			deferred.reject(error);
+		});
+		
+		return deferred.promise;
+	};
 
 	App.Providers.Watchlist = Watchlist;
 
