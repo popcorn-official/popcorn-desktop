@@ -22,6 +22,8 @@
 			password: ''
 		};
 
+                this.watchlist = App.Providers.get('Watchlist');
+
 		// Login with stored credentials
 		if (AdvSettings.get('traktUsername') !== '' && AdvSettings.get('traktPassword') !== '') {
 			this._authenticationPromise = this.authenticate(AdvSettings.get('traktUsername'), AdvSettings.get('traktPassword'), true);
@@ -163,13 +165,13 @@
 	};
 
 	TraktTv.prototype.sync = function () {
-		var watchlist = App.Providers.get('Watchlist');
+		var that = this;
 
 		return Q()
-			.then(function () {watchlist.inhibit(true);})
+			.then(function () {that.watchlist.inhibit(true);})
 			.then(Q.all([this.show.sync(), this.movie.sync()])
-			      .then(function () {watchlist.inhibit(false);})
-			      .then(function () {watchlist.fetchWatchlist();}));
+			      .then(function () {that.watchlist.inhibit(false);})
+			      .then(function () {that.watchlist.fetchWatchlist();}));
 	};
 
 	TraktTv.prototype.movie = {
@@ -479,6 +481,7 @@
 			});
 		},
 		episodeSeen: function (id, episode) {
+                        var that = this;
 			if (!this.authenticated) {
 				return Q.reject('Not Authenticated');
 			}
@@ -507,7 +510,7 @@
 			return this.post('show/episode/seen/{KEY}', data)
 				.then(function (data) {
 					if (data.status === 'success') {
-						App.Providers.get('Watchlist').fetchWatchlist();
+						that.watchlist.fetchWatchlist();
 						return true;
 					} else {
 						return false;
@@ -515,6 +518,8 @@
 				});
 		},
 		episodeUnseen: function (id, episode) {
+                        var that = this;
+
 			if (!this.authenticated) {
 				return Q.reject('Not Authenticated');
 			}
@@ -543,7 +548,7 @@
 			return this.post('show/episode/unseen/{KEY}', data)
 				.then(function (data) {
 					if (data.status === 'success') {
-						App.Providers.get('Watchlist').fetchWatchlist();
+						that.watchlist.fetchWatchlist();
 						return true;
 					} else {
 						return false;
