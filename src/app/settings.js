@@ -236,5 +236,6 @@ var AdvSettings = {
 			window.__isUpgradeInstall = true;
 		}
 		AdvSettings.set('version', currentVersion);
+		AdvSettings.set('releaseName', gui.App.manifest.releaseName);
 	},
 };
