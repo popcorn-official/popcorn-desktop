@@ -9,7 +9,7 @@
 	"license": "GPL-3.0",
 	"main": "app://host/src/app/index.html",
 	"version": "0.3.4",
-	"releaseName": "BROS NIGHT",
+	"releaseName": "It's Cold Outside",
 	"scripts": {
 		"postinstall": "node_modules/.bin/bower install",
 		"postupdate": "node_modules/.bin/bower update",

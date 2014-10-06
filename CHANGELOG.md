@@ -1,9 +1,11 @@
-## 0.3.4 Beta - BROS NIGHT - NOT RELEASED
+## 0.3.4 Beta - It's Cold Outside - 06 October 2014
 
 After the introduction of the Remote Control API on 0.3.3,
 these remotes have been created by our awesome users go grab the one you
 like best at http://discuss.popcorntime.io/t/list-of-popcorn-time-remote-controls/2044
 
+- Now comes with release names
+- More resiliant to APIs falling down
 - HiDPI support, scales properly on 1080p, 2k/Retina and 4k/QHD screens.
 - Update vectorial 'about' view.
 - New watchlist view, automatically synced to trakt.
