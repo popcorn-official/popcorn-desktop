@@ -146,7 +146,13 @@
 			showList.push(deferred.promise);
 		});
 
-		return Q.all(showList).then(function(res) { return { results: _.filter(res, Boolean), hasMore: false }; });
+		return Q.all(showList)
+            .then(function(res) { 
+                return { 
+                    results: _.filter(res, Boolean), 
+                    hasMore: false 
+                }; 
+            });
 
 	};
 
