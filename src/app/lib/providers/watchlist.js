@@ -138,7 +138,7 @@
 									deferred.resolve(data);
 								});
 							} else {
-								deferred.reject(err);
+								deferred.resolve(false);
 							}
 					});
 				}
@@ -146,7 +146,7 @@
 			showList.push(deferred.promise);
 		});
 
-		return Q.all(showList).then(function(res) { return { results: res, hasMore: false }; });
+		return Q.all(showList).then(function(res) { return { results: _.filter(res, Boolean), hasMore: false }; });
 
 	};
 
