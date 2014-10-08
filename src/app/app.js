@@ -29,7 +29,9 @@ var
 	// Mime type parsing
 	mime = require('mime'),
 
-	moment = require('moment');
+	moment = require('moment'),
+	
+	Q = require('q');
 
 // Special Debug Console Calls!
 win.log = console.log.bind(console);
@@ -53,13 +55,6 @@ win.error = function () {
 	params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: red;', 'color: black;');
 	console.error.apply(console, params);
 };
-
-// Load in external templates
-_.each(document.querySelectorAll('[type="text/x-template"]'), function (el) {
-	$.get(el.src, function (res) {
-		el.innerHTML = res;
-	});
-});
 
 // Global App skeleton for backbone
 var App = new Backbone.Marionette.Application();
@@ -115,14 +110,36 @@ App.addInitializer(function (options) {
 	win.moveTo(x, y);
 });
 
-App.addInitializer(function (options) {
+var initTemplates = function() {
+	// Load in external templates
+	var ts = [];
+
+	_.each(document.querySelectorAll('[type="text/x-template"]'), function (el) {
+		var d = Q.defer();
+		$.get(el.src, function (res) {
+			el.innerHTML = res;
+			d.resolve(true);
+		});
+		ts.push(d.promise);
+	});
+
+	return Q.all(ts);
+
+}
+var initApp = function() {
 	var mainWindow = new App.View.MainWindow();
 	win.show();
+
 	try {
 		App.Window.show(mainWindow);
 	} catch (e) {
 		console.error('Couldn\'t start app: ', e, e.stack);
 	}
+}
+
+App.addInitializer(function (options) {
+	initTemplates()
+	.then(initApp);
 });
 
 /**
