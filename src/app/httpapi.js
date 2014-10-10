@@ -447,29 +447,25 @@
 				popcornCallback(callback, 'Arguments missing');
 				return;
 			}
-			if (App.ViewStack[App.ViewStack.length - 1] === 'player') {
+			
+			var lang = args[0];
+			if(App.ViewStack[App.ViewStack.length - 1] === 'player') {
 				var tracks = App.PlayerView.player.textTracks();
-				var track = null;
-				var track_index = null;
-				for (var i = 0; i < tracks.length; i++) {
-					track = tracks[i];
-					if (track.language_ === lang) {
-						track_index = i + 1;
-					} else {
-						track.hide();
-						track == null;
-					}
-				}
-
-				if (track !== null) {
-					track.show();
-					$('.vjs-subtitles-button li').attr('aria-selected', false).removeChild('vjs-selected');
-					$('.vjs-subtitles-button li').removeChild('vjs-selected');
-					$('.vjs-subtitles-button li:nth-child(' + track_index + ')').attr('aria-selected', true);
-					$('.vjs-subtitles-button li:nth-child(' + track_index + ')').addClass('vjs-selected');
+				for(var trackIndex = 0; trackIndex < tracks.length; trackIndex++) {
+					var track = tracks[trackIndex];
+					if (track.language() === lang) {
+                        // Disable the previous active track and enable the new one.
+                        App.PlayerView.player.showTextTrack(track.id(), track.kind());
+                        break;
+                    }
 				}
 			}
-			App.MovieDetailView.switchSubtitle(args[0]);
+			
+			// Check to make sure this is even possible
+			if(App.MovieDetailView != undefined) {
+				App.MovieDetailView.switchSubtitle(lang);
+			}
+
 			popcornCallback(callback);
 		});
 
