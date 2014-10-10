@@ -101,8 +101,10 @@ var health_checked = false;
 					_this.unbindKeyboardShortcuts();
 				}
 			});
-			App.vent.on('show:watched', _.bind(this.onWatched, this));
-			App.vent.on('show:unwatched', _.bind(this.onUnWatched, this));
+			App.vent.on('show:watched:' + this.model.id,
+                                    _.bind(this.onWatched, this));
+			App.vent.on('show:unwatched:' + this.model.id,
+                                    _.bind(this.onUnWatched, this));
 
 			var images = this.model.get('images');
 			images.fanart = resizeImage(images.fanart, '940');
