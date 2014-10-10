@@ -258,7 +258,9 @@ var Database = {
 			type: 'episode',
 			date: new Date()
 		});
-	},
+
+                App.vent.trigger('show:watched:' + data.tvdb_id, data);
+        },
 
 	markEpisodesWatched: function (data, cb) {
 		db.watched.insert(data, cb);
@@ -295,6 +297,8 @@ var Database = {
 			season: data.season.toString(),
 			episode: data.episode.toString()
 		}, cb);
+
+                App.vent.trigger('show:unwatched:' + data.tvdb_id, data);
 	},
 
 	checkEpisodeWatched: function (data, cb) {
