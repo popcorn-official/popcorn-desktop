@@ -49,7 +49,7 @@ App.Localization.filterSubtitle = function (langs) {
 	return filteredLang;
 };
 
-App.Localization.allTranslations = ['en', 'ar', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'es', 'et', 'eu', 'fi', 'fr', 'he', 'hr', 'hu', 'is', 'it', 'lv', 'nl', 'no', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'sk', 'sv', 'tr', 'uk', 'zh-cn', 'zh-tw', 'sl', 'gl', 'si', 'az', 'th', 'vi'];
+App.Localization.allTranslations = ['en', 'ar', 'az', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'es', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'is', 'it', 'ku', 'ku-iq', 'lt', 'lv', 'nl', 'no', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'si', 'sk', 'sl', 'sr', 'sv', 'th', 'tr', 'uk', 'vi', 'zh-cn', 'zh-tw'];
 
 App.Localization.langcodes = {
 	'ab': {
@@ -434,6 +434,10 @@ App.Localization.langcodes = {
 		name: 'Kurdish',
 		nativeName: 'كوردی'
 	},
+	'ku-iq': {
+		name: 'Kurdish (Sorani)',
+		nativeName: 'کوردیی ناوەندی'
+	},
 	'kj': {
 		name: 'Kwanyama',
 		nativeName: 'Kuanyama'
@@ -706,6 +710,11 @@ App.Localization.langcodes = {
 		subtitle: true,
 		encoding: ['iso-8859-1'], // Tested
 		keywords: ['@TSF', 'aRGENTeaM']
+	},
+	'es-mx': {
+		name: 'Spanish (Mexico)',
+		nativeName: 'Español (México)',
+		encoding: ['iso-8859-1'] // Tested
 	},
 	'su': {
 		name: 'Sundanese',
