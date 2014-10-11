@@ -564,10 +564,9 @@
 		callback(err, result);
 	}
 
-	initServer();
-
 	App.vent.on('initHttpApi', function () {
 		console.log('Reiniting server');
+		initServer();
 		server.enableAuth(Settings.httpApiUsername, Settings.httpApiPassword);
 		if (httpServer) {
 			closeServer(startListening);
