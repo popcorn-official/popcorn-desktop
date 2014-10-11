@@ -211,26 +211,52 @@ var health_checked = false;
 								parseInt(value.episode));
 						}
 					});
+					var season = 1;
+					var episode = 1;
+					if (episodesSeen.length > 0) {
+						//get all episode
+						var episodes = [];
+						_.each(_this.model.get('episodes'),
+							function (value, currentepisode) {
+								episodes.push(parseInt(value.season) * 100 +
+									parseInt(value.episode));
+							}
+						);
+						episodesSeen.sort();
+						episodes.sort();
+						var first = episodes[0];
+						var last = episodes[episodes.length - 1];
+						var unseen = episodes.filter(function (item) {
+							return episodesSeen.indexOf(item) === -1;
+						});
+						if (AdvSettings.get('tv_detail_jump_to') !== 'firstUnwatched') {
+							var lastSeen = episodesSeen[episodesSeen.length - 1];
 
-					if (AdvSettings.get('tv_detail_jump_to') !== 'firstUnwatched') {
-						var lastSeen = episodesSeen[episodesSeen.length - 1];
+							if (lastSeen !== episodes[episodes.length - 1]) {
+								var idx;
+								_.find(episodes, function (data, dataIdx) {
+									if (data === lastSeen) {
+										idx = dataIdx;
+										return true;
+									}
+								});
 
-						if (lastSeen !== episodes[episodes.length - 1]) {
-							var idx;
-							_.find(episodes, function (data, dataIdx) {
-								if (data === lastSeen) {
-									idx = dataIdx;
-									return true;
-								}
-							});
-
-							var next_episode = episodes[idx + 1];
-							episode = next_episode % 100;
-							season = (next_episode - episode) / 100;
+								var next_episode = episodes[idx + 1];
+								episode = next_episode % 100;
+								season = (next_episode - episode) / 100;
+							} else {
+								episode = lastSeen % 100;
+								season = (lastSeen - episode) / 100;
+							}
 						} else {
-							episode = lastSeen % 100;
-							season = (lastSeen - episode) / 100;
+							//if all episode seend back to first
+							//it will be the only one
+							unseen.push(first);
+							episode = unseen[0] % 100;
+							season = (unseen[0] - episode) / 100;
 						}
+
+
 					}
 					if (season === 1 && episode === 1) {
 						// Workaround in case S01E01 doesn't exist in PT
