@@ -10,6 +10,7 @@
 	var path = require('path');
 
 	var engine = null;
+	var preload_engine = null;
 	var statsUpdater = null;
 	var active = function (wire) {
 		return !wire.peerChoking;
@@ -160,6 +161,56 @@
 			}
 		});
 
+	};
+
+
+	var Preload = {
+		start: function (model) {
+
+			if (Streamer.currentTorrent && model.get('torrent') === Streamer.currentTorrent.get('torrent')) {
+				return;
+			}
+			this.currentTorrent = model;
+
+			console.log(model);
+			var torrent_url = model.get('torrent');
+
+			readTorrent(torrent_url, function (err, torrent) {
+
+				console.log(torrent);
+				var tmpFilename = torrent.infoHash;
+				tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_'); // +'-'+ (new Date()*1);
+				var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
+				subtitles = torrent.subtitle;
+
+				win.debug('Preloading movie to %s', tmpFile);
+
+				preload_engine = peerflix(torrent_url, {
+					connections: parseInt(Settings.connectionLimit, 10) || 100, // Max amount of peers to be connected to.
+					dht: parseInt(Settings.dhtLimit, 10) || 50,
+					port: 2710,
+					tmp: App.settings.tmpLocation,
+					path: tmpFile, // we'll have a different file name for each stream also if it's same torrent in same session
+					index: torrent.file_index
+				});
+
+			});
+
+
+		},
+
+		stop: function () {
+
+			if (preload_engine) {
+				if (preload_engine.server._handle) {
+					preload_engine.server.close();
+				}
+				preload_engine.destroy();
+			}
+
+			preload_engine = null;
+			win.info('Preloading stoped');
+		}
 	};
 
 	var Streamer = {
@@ -332,9 +383,7 @@
 			// HACK(xaiki): we need to go through parse torrent
 			// if we have a torrent and not an http source, this
 			// is fragile as shit.
-			if (typeof (torrentUrl) === 'string'
-			    && torrentUrl.substring(0, 7) === 'http://'
-			    && ! torrentUrl.match ('\\.torrent')) {
+			if (typeof (torrentUrl) === 'string' && torrentUrl.substring(0, 7) === 'http://' && !torrentUrl.match('\\.torrent')) {
 				return Streamer.startStream(model, torrentUrl, stateModel);
 			} else if (!torrent_read) {
 				readTorrent(torrentUrl, doTorrent);
@@ -379,6 +428,8 @@
 		}
 	};
 
+	App.vent.on('preload:start', Preload.start);
+	App.vent.on('preload:stop', Preload.stop);
 	App.vent.on('stream:start', Streamer.start);
 	App.vent.on('stream:stop', Streamer.stop);
 
