@@ -3,6 +3,8 @@
 
 	var _this;
 	var autoplayisshown = false;
+	var precachestarted = false;
+	var next_episode_model = false;
 
 	var Player = Backbone.Marionette.ItemView.extend({
 		template: '#player-tpl',
@@ -71,7 +73,7 @@
 			}
 
 			App.vent.trigger('player:close');
-
+			App.vent.trigger('preload:stop');
 
 		},
 
@@ -89,6 +91,15 @@
 				event.preventDefault();
 			});
 
+
+			if (this.model.get('auto_play')) {
+
+				precachestarted = false;
+				autoplayisshown = false;
+				next_episode_model = false;
+
+				_this.prossessNext();
+			}
 			if (this.model.get('type') === 'video/youtube') {
 
 				$('<div/>').appendTo('#main-window').addClass('trailer_mouse_catch'); // XXX Sammuel86 Trailer UI Show FIX/HACK
@@ -162,10 +173,16 @@
 			});
 
 			var checkAutoPlay = function () {
-				if (!_this.isMovie()) {
+				if (!_this.isMovie() && next_episode_model) {
 					if ((_this.video.duration() - _this.video.currentTime()) < 60 && _this.video.currentTime() > 30) {
 
 						if (!autoplayisshown) {
+
+							if (!precachestarted) {
+								App.vent.trigger('preload:start', next_episode_model);
+								precachestarted = true;
+							}
+
 							console.log('Showing Auto Play message');
 							autoplayisshown = true;
 							$('.playing_next').show();
@@ -282,10 +299,15 @@
 				// Stop weird Videojs errors
 			}
 
-                        //XXX(xaiki): hack, don't touch fs state
-                        that.dontTouchFS = true;
-			App.vent.trigger('player:close');
+			//XXX(xaiki): hack, don't touch fs state
+			that.dontTouchFS = true;
 
+			App.vent.trigger('preload:stop');
+			App.vent.trigger('player:close');
+			App.vent.trigger('stream:start', next_episode_model);
+
+		},
+		prossessNext: function () {
 			var episodes = _this.model.get('episodes');
 
 			if (_this.model.get('auto_id') !== episodes[episodes.length - 1]) {
@@ -312,15 +334,9 @@
 					next_episode.torrent = next_episode[next_episode.torrents.length - 1].url; //select highest quality available if user selected not found
 				}
 
-				console.log(next_episode.torrents[current_quality].url, current_quality);
-
-				var torrentStart = new Backbone.Model(next_episode);
-
-				App.vent.trigger('stream:start', torrentStart);
+				next_episode_model = new Backbone.Model(next_episode);
 			}
-
 		},
-
 		bindKeyboardShortcuts: function () {
 			var _this = this;
 
