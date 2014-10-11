@@ -116,12 +116,15 @@
 			});
 		},
 
-		flushTable: function (callback) {
+		flushTable: function () {
 			var self = this;
-			db.transaction(function (tx) {
-				var query = 'DELETE FROM ' + self.table;
-				tx.executeSql(query, function () {});
-				callback();
+
+			return Q.Promise(function (resolve, reject) {
+				db.transaction(function (tx) {
+					var query = 'DELETE FROM ' + self.table;
+					tx.executeSql(query, function () {});
+					resolve();
+				});
 			});
 		}
 	});

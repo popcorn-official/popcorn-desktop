@@ -144,13 +144,13 @@
 				case 'anime':
 					result.set('health', false);
 					var provider = App.Providers.get(result.get('provider'));
-					var data = provider.detail(result.get('imdb_id'), result.attributes,
-						function (err, data) {
+					var data = provider.detail(result.get('imdb_id'), result.attributes)
+						.then(function (resolve, reject) {
 							data.provider = provider.name;
 							result = new App.Model[type.charAt(0).toUpperCase() + type.slice(1)](data);
 							popcornCallback(callback, false, result);
-						}
-					);
+						});
+
 					break;
 				}
 			} else {
