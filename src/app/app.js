@@ -30,7 +30,7 @@ var
 	mime = require('mime'),
 
 	moment = require('moment'),
-	
+
 	Q = require('q');
 
 // Special Debug Console Calls!
@@ -110,7 +110,7 @@ App.addInitializer(function (options) {
 	win.moveTo(x, y);
 });
 
-var initTemplates = function() {
+var initTemplates = function () {
 	// Load in external templates
 	var ts = [];
 
@@ -124,9 +124,9 @@ var initTemplates = function() {
 	});
 
 	return Q.all(ts);
+};
 
-}
-var initApp = function() {
+var initApp = function () {
 	var mainWindow = new App.View.MainWindow();
 	win.show();
 
@@ -135,11 +135,11 @@ var initApp = function() {
 	} catch (e) {
 		console.error('Couldn\'t start app: ', e, e.stack);
 	}
-}
+};
 
 App.addInitializer(function (options) {
 	initTemplates()
-	.then(initApp);
+		.then(initApp);
 });
 
 /**

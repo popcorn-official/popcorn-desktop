@@ -16,7 +16,7 @@
 		//Checked when last fetched
 		App.db.getSetting({
 			key: 'watchlist-fetched'
-		}, function(err, doc) {
+		}, function (err, doc) {
 			if (doc) {
 				var d = moment.unix(doc.value);
 
@@ -25,7 +25,7 @@
 					App.db.writeSetting({
 						key: 'watchlist-fetched',
 						value: now.unix()
-					}, function(){
+					}, function () {
 						fetchWatchlist(true);
 					});
 
@@ -41,7 +41,7 @@
 				}, function () {
 					fetchWatchlist(true);
 				});
-			}	
+			}
 		});
 
 		function fetchWatchlist(update) {
@@ -61,9 +61,9 @@
 							deferred.resolve(data || []);
 						});
 					})
-					.catch(function(error) {
-						deferred.reject(error);
-					});
+						.catch(function (error) {
+							deferred.reject(error);
+						});
 				}
 			});
 		}
@@ -77,7 +77,7 @@
 		items.forEach(function (show) {
 			var deferred = Q.defer();
 			//If has no next episode or next episode is not aired, go to next one
-			if (! show.next_episode || (Math.round(new Date().getTime()/ 1000) < show.next_episode.first_aired)) {
+			if (!show.next_episode || (Math.round(new Date().getTime() / 1000) < show.next_episode.first_aired)) {
 				return;
 			}
 
@@ -88,7 +88,7 @@
 				season: show.next_episode.season,
 				episode: show.next_episode.number
 			};
-			Database.checkEpisodeWatched(episode, function(watched) {
+			Database.checkEpisodeWatched(episode, function (watched) {
 				if (watched) {
 					deferred.resolve(null);
 				} else {
@@ -140,19 +140,19 @@
 							} else {
 								deferred.resolve(false);
 							}
-					});
+						});
 				}
 			});
 			showList.push(deferred.promise);
 		});
 
 		return Q.all(showList)
-            .then(function(res) { 
-                return { 
-                    results: _.filter(res, Boolean), 
-                    hasMore: false 
-                }; 
-            });
+			.then(function (res) {
+				return {
+					results: _.filter(res, Boolean),
+					hasMore: false
+				};
+			});
 
 	};
 
@@ -176,7 +176,7 @@
 		this.inhibited = flag;
 	};
 
-	Watchlist.prototype.fetchWatchlist = function() {
+	Watchlist.prototype.fetchWatchlist = function () {
 		if (this.inhibited) {
 			return Q(true);
 		}
@@ -191,9 +191,9 @@
 				deferred.resolve(data || []);
 			});
 		})
-		.catch(function(error) {
-			deferred.reject(error);
-		});
+			.catch(function (error) {
+				deferred.reject(error);
+			});
 
 		return deferred.promise;
 	};
