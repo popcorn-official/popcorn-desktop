@@ -28,14 +28,16 @@ module.exports = function (grunt) {
 
 	require('load-grunt-tasks')(grunt);
 
-	grunt.loadNpmTasks('grunt-bower-clean');
-	grunt.loadNpmTasks('grunt-jsbeautifier');
-
 	grunt.registerTask('default', [
 		'css',
 		'jshint',
 		'bower_clean',
 		'injectgit'
+	]);
+
+	// Called from the npm hook
+	grunt.registerTask('setup', [
+		'githooks'
 	]);
 
 	grunt.registerTask('css', [
@@ -49,7 +51,7 @@ module.exports = function (grunt) {
 	]);
 
 	grunt.registerTask('js', [
-		'jsbeautifier'
+		'jsbeautifier:default'
 	]);
 
 	grunt.registerTask('build', [
@@ -108,11 +110,26 @@ module.exports = function (grunt) {
 	});
 
 	grunt.initConfig({
+		githooks: {
+			all: {
+				'pre-commit': 'jsbeautifier:verify jshint',
+			}
+		},
 
 		jsbeautifier: {
-			files: ["src/app/lib/**/*.js", "src/app/*.js", "*.js", "*.json"],
 			options: {
 				config: ".jsbeautifyrc"
+			},
+
+			default: {
+				src: ["src/app/lib/**/*.js", "src/app/*.js", "*.js", "*.json"],
+			},
+
+			verify: {
+				src: ["src/app/lib/**/*.js", "src/app/*.js", "*.js", "*.json"],
+				options: {
+					mode: 'VERIFY_ONLY'
+				}
 			}
 		},
 
