@@ -122,9 +122,6 @@
 					self.add(t.results);
 				});
 				self.hasMore = _.pluck(torrents, 'hasMore')[0];
-				if (self.hasMore && _.pluck(torrents, 'results')[0].length < 38) {
-					self.hasMore = false;
-				}
 				self.trigger('sync', self);
 				self.state = 'loaded';
 				self.trigger('loaded', self, self.state);
