@@ -327,6 +327,8 @@
 				next_episode.auto_play = true;
 				next_episode.auto_id = parseInt(next_episode.season) * 100 + parseInt(next_episode.episode);
 				next_episode.auto_play_data = auto_play_data;
+				next_episode.episodes = episodes;
+				next_episode.quality = current_quality;
 
 				if (next_episode.torrents[current_quality].url) {
 					next_episode.torrent = next_episode.torrents[current_quality].url;
