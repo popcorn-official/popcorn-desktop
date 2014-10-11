@@ -5,6 +5,7 @@
 	var lang;
 	var nativeWindow = require('nw.gui').Window.get();
 	var httpServer;
+	var Q = require('q');
 
 	var initServer = function () {
 		server = rpc.Server({
@@ -564,16 +565,17 @@
 		callback(err, result);
 	}
 
-	initServer();
-
 	App.vent.on('initHttpApi', function () {
 		console.log('Reiniting server');
-		server.enableAuth(Settings.httpApiUsername, Settings.httpApiPassword);
-		if (httpServer) {
-			closeServer(startListening);
-		} else {
-			startListening();
-		}
+		Q.call(initServer)
+		.then(function(){
+			server.enableAuth(Settings.httpApiUsername, Settings.httpApiPassword);
+			if (httpServer) {
+				closeServer(startListening);
+			} else {
+				startListening();
+			}
+		});
 	});
 
 })(window.App);
