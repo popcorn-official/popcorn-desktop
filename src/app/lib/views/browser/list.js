@@ -138,7 +138,7 @@
 					App.vent.trigger('movies:list');
 				}
 			});
-			
+
 			Mousetrap.bind('shift+tab', function () {
 				switch (App.currentview) {
 				case 'movies':
@@ -159,7 +159,7 @@
 					App.vent.trigger('movies:list');
 				}
 			});
-			
+
 			Mousetrap.bind('ctrl+1', function () {
 				App.currentview = 'movies';
 				App.vent.trigger('movies:list', []);
@@ -167,7 +167,7 @@
 				$('.source.showAnime').removeClass('active');
 				$('.source.showMovies').addClass('active');
 			});
-			
+
 			Mousetrap.bind('ctrl+2', function () {
 				App.currentview = 'shows';
 				App.vent.trigger('shows:list', []);
@@ -175,7 +175,7 @@
 				$('.source.showAnime').removeClass('active');
 				$('.source.showShows').addClass('active');
 			});
-			
+
 			Mousetrap.bind('ctrl+3', function () {
 				App.currentview = 'anime';
 				App.vent.trigger('anime:list', []);

@@ -6,8 +6,8 @@
 	var WatchlistCollection = App.Model.Collection.extend({
 		model: App.Model.Movie,
 		hasMore: false,
-		
-		getProviders: function() {
+
+		getProviders: function () {
 			return {
 				torrents: [App.Providers.get('Watchlist')]
 			};

@@ -28,7 +28,7 @@
 			'click .showShows': 'showShows',
 			'click .showAnime': 'showAnime',
 			'click #filterbar-favorites': 'showFavorites',
-			'click #filterbar-watchlist' : 'showWatchlist',
+			'click #filterbar-watchlist': 'showWatchlist',
 			'click .triggerUpdate': 'updateDB'
 		},
 

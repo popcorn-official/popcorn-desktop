@@ -448,22 +448,22 @@
 				popcornCallback(callback, 'Arguments missing');
 				return;
 			}
-			
+
 			var lang = args[0];
-			if(App.ViewStack[App.ViewStack.length - 1] === 'player') {
+			if (App.ViewStack[App.ViewStack.length - 1] === 'player') {
 				var tracks = App.PlayerView.player.textTracks();
-				for(var trackIndex = 0; trackIndex < tracks.length; trackIndex++) {
+				for (var trackIndex = 0; trackIndex < tracks.length; trackIndex++) {
 					var track = tracks[trackIndex];
 					if (track.language() === lang) {
-                        // Disable the previous active track and enable the new one.
-                        App.PlayerView.player.showTextTrack(track.id(), track.kind());
-                        break;
-                    }
+						// Disable the previous active track and enable the new one.
+						App.PlayerView.player.showTextTrack(track.id(), track.kind());
+						break;
+					}
 				}
 			}
-			
+
 			// Check to make sure this is even possible
-			if(App.MovieDetailView != undefined) {
+			if (App.MovieDetailView !== undefined) {
 				App.MovieDetailView.switchSubtitle(lang);
 			}
 
@@ -568,14 +568,14 @@
 	App.vent.on('initHttpApi', function () {
 		console.log('Reiniting server');
 		Q.call(initServer)
-		.then(function(){
-			server.enableAuth(Settings.httpApiUsername, Settings.httpApiPassword);
-			if (httpServer) {
-				closeServer(startListening);
-			} else {
-				startListening();
-			}
-		});
+			.then(function () {
+				server.enableAuth(Settings.httpApiUsername, Settings.httpApiPassword);
+				if (httpServer) {
+					closeServer(startListening);
+				} else {
+					startListening();
+				}
+			});
 	});
 
 })(window.App);

@@ -168,10 +168,16 @@
 		var that = this;
 
 		return Q()
-			.then(function () {that.watchlist.inhibit(true);})
+			.then(function () {
+				that.watchlist.inhibit(true);
+			})
 			.then(Q.all([this.show.sync(), this.movie.sync()])
-			      .then(function () {that.watchlist.inhibit(false);})
-			      .then(function () {that.watchlist.fetchWatchlist();}));
+				.then(function () {
+					that.watchlist.inhibit(false);
+				})
+				.then(function () {
+					that.watchlist.fetchWatchlist();
+				}));
 	};
 
 	TraktTv.prototype.movie = {
@@ -464,7 +470,7 @@
 			});
 		},
 		episodeSeen: function (id, episode) {
-                        var that = this;
+			var that = this;
 			if (!this.authenticated) {
 				return Q.reject('Not Authenticated');
 			}

@@ -100,9 +100,9 @@ var health_checked = false;
 				}
 			});
 			App.vent.on('show:watched:' + this.model.id,
-                                    _.bind(this.onWatched, this));
+				_.bind(this.onWatched, this));
 			App.vent.on('show:unwatched:' + this.model.id,
-                                    _.bind(this.onUnWatched, this));
+				_.bind(this.onUnWatched, this));
 
 			var images = this.model.get('images');
 			images.fanart = resizeImage(images.fanart, '940');
@@ -680,8 +680,8 @@ var health_checked = false;
 					var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
 
 					$('.health-icon').tooltip({
-							html: true
-						})
+						html: true
+					})
 						.removeClass('fa-spin')
 						.removeClass('fa-spinner')
 						.addClass('fa-circle')
@@ -694,8 +694,8 @@ var health_checked = false;
 
 		resetHealth: function () {
 			$('.health-icon').tooltip({
-					html: true
-				})
+				html: true
+			})
 				.removeClass('fa-spin')
 				.removeClass('fa-spinner')
 				.addClass('fa-circle')

@@ -186,7 +186,7 @@ var AdvSettings = {
 		// 		});
 
 		// 	} else {
-				//Is SSL
+		//Is SSL
 		var promises = allApis.map(function (apiCheck) {
 			return Q.Promise(function (resolve, reject) {
 				var hostname = URI(AdvSettings.get(apiCheck.original)).hostname();
