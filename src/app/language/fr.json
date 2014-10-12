@@ -313,10 +313,10 @@
 	"name": "nom",
 	"OVA": "OAV",
 	"ONA": "ONA",
-	"No anime found...": "Pas de dessin animé trouvé...",
+	"No anime found...": "Aucun anime trouvé...",
 	"Movie": "Film",
 	"Special": "Spécial",
-	"No Watchlist found...": "Pas de liste trouvée...",
-	"Watchlist": "Liste",
+	"No Watchlist found...": "Aucune liste de visionnage trouvée...",
+	"Watchlist": "Liste de visionnage",
 	"Resolving..": "Résolution.."
 }
