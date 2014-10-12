@@ -317,5 +317,6 @@
 	"Movie": "Movie",
 	"Special": "Special",
 	"No Watchlist found...": "No Watchlist found...",
-	"Watchlist": "Watchlist"
+	"Watchlist": "Watchlist",
+	"Resolving..": "Resolving.."
 }
