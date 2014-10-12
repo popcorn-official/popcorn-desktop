@@ -6,8 +6,8 @@
 		<div class="title"><%= i18n.__("Settings") %></div>
 		<div class="content">
 			<span>
-				<i class="fa fa-keyboard-o keyboard"></i>
-				<i class="fa fa-question-circle help"></i>
+				<i class="fa fa-keyboard-o keyboard tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Keyboard Shortcuts") %>"></i>
+				<i class="fa fa-question-circle help tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Help Section") %>"></i>
 				<input id="show-advanced-settings" class="settings-checkbox" name="showAdvancedSettings" type="checkbox" <%=(Settings.showAdvancedSettings? "checked":"")%>>
 				<label class="settings-label" for="show-advanced-settings"><%= i18n.__("Show advanced settings") %></label>
 			</span>
@@ -264,7 +264,8 @@
 		<div class="content">
 			<span>
 				<p><%= i18n.__("Cache Directory") %>: </p>
-				<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="65" /> <i class="open-tmp-folder fa fa-folder-open-o"></i>
+				<input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="65" /> 
+				<i class="open-tmp-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Cache Directory") %>"></i>
 				<input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
 			</span>
 			<span>
@@ -279,7 +280,8 @@
 		<div class="content">
 			<span>
 				<p><%= i18n.__("Database Directory") %>: </p>
-				<input type="text" placeholder="<%= i18n.__("Database Directory") %>" id="fakedatabaseLocation" value="<%= Settings.databaseLocation %>" readonly="readonly" size="65" /> <i class="open-database-folder fa fa-folder-open-o"></i>
+				<input type="text" placeholder="<%= i18n.__("Database Directory") %>" id="fakedatabaseLocation" value="<%= Settings.databaseLocation %>" readonly="readonly" size="65" /> 
+				<i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
 				<input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
 			</span>
 			<div class="btns advanced database">
