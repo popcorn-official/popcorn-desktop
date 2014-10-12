@@ -20,7 +20,7 @@
 	"Family": "Ģimenes",
 	"Fantasy": "Fantastika",
 	"Game Show": "Spēļu šovs",
-	"Home And Garden": "Home And Garden",
+	"Home And Garden": "Māja un dārzs",
 	"Horror": "Šausmas",
 	"Mini Series": "Mini Seriāls",
 	"Mystery": "Mistērija",
@@ -84,8 +84,8 @@
 	"Clear Tmp Folder after closing app?": "Attīrīt Temp mapi pēc aplikācijas slēgšanas",
 	"Database": "Datubāze",
 	"Database Directory": "Database Directory",
-	"Import Database": "Import Database",
-	"Export Database": "Export Database",
+	"Import Database": "Importēt datubāzi",
+	"Export Database": "Eksportēt datubāzi",
 	"Flush bookmarks database": "Dzēst grāmatzīmju datubāzi",
 	"Flush subtitles cache": "Dzēst subtitru kešatmiņu",
 	"Flush all databases": "Dzēst visas datubāzes",
@@ -317,5 +317,6 @@
 	"Movie": "Movie",
 	"Special": "Special",
 	"No Watchlist found...": "No Watchlist found...",
-	"Watchlist": "Watchlist"
+	"Watchlist": "Watchlist",
+	"Resolving..": "Resolving.."
 }
