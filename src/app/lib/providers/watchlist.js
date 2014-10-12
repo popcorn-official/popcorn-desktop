@@ -16,56 +16,63 @@
 		//Checked when last fetched
 		App.db.getSetting({
 			key: 'watchlist-fetched'
-		}, function (err, doc) {
-			if (doc) {
-				var d = moment.unix(doc.value);
+		})
+			.then(function (doc) {
+				if (doc) {
+					var d = moment.unix(doc.value);
 
-				if (Math.abs(now.diff(d, 'days')) >= 1) {
-					win.info('Watchlist - Last fetched more than 1 day');
+					if (Math.abs(now.diff(d, 'days')) >= 1) {
+						win.info('Watchlist - Last fetched more than 1 day');
+						App.db.writeSetting({
+							key: 'watchlist-fetched',
+							value: now.unix()
+						})
+							.then(function () {
+								fetchWatchlist(true);
+							});
+
+					} else {
+						win.info('Watchlist - Last fetch is fresh');
+						fetchWatchlist(false);
+					}
+				} else {
+					win.info('Watchlist - No last fetch, fetch again');
 					App.db.writeSetting({
 						key: 'watchlist-fetched',
 						value: now.unix()
-					}, function () {
-						fetchWatchlist(true);
-					});
-
-				} else {
-					win.info('Watchlist - Last fetch is fresh');
-					fetchWatchlist(false);
+					})
+						.then(function () {
+							fetchWatchlist(true);
+						});
 				}
-			} else {
-				win.info('Watchlist - No last fetch, fetch again');
-				App.db.writeSetting({
-					key: 'watchlist-fetched',
-					value: now.unix()
-				}, function () {
-					fetchWatchlist(true);
-				});
-			}
-		});
+			});
+
 
 		function fetchWatchlist(update) {
 			App.db.getSetting({
 				key: 'watchlist'
-			}, function (err, doc) {
-				if (doc && !update) {
-					win.info('Watchlist - Returning cached watchlist');
-					deferred.resolve(doc.value || []);
-				} else {
-					win.info('Watchlist - Fetching new watchlist');
-					App.Trakt.show.getProgress().then(function (data) {
-						App.db.writeSetting({
-							key: 'watchlist',
-							value: data
-						}, function () {
-							deferred.resolve(data || []);
-						});
-					})
-						.catch(function (error) {
-							deferred.reject(error);
-						});
-				}
-			});
+			})
+				.then(function (doc) {
+					if (doc && !update) {
+						win.info('Watchlist - Returning cached watchlist');
+						deferred.resolve(doc.value || []);
+					} else {
+						win.info('Watchlist - Fetching new watchlist');
+						App.Trakt.show.getProgress()
+							.then(function (data) {
+								App.db.writeSetting({
+									key: 'watchlist',
+									value: data
+								})
+									.then(function () {
+										deferred.resolve(data || []);
+									});
+							})
+							.catch(function (error) {
+								deferred.reject(error);
+							});
+					}
+				});
 		}
 
 		return deferred.promise;
@@ -88,13 +95,14 @@
 				season: show.next_episode.season,
 				episode: show.next_episode.number
 			};
-			Database.checkEpisodeWatched(episode, function (watched) {
-				if (watched) {
-					deferred.resolve(null);
-				} else {
-					deferred.resolve(show);
-				}
-			});
+			Database.checkEpisodeWatched(episode)
+				.then(function (watched) {
+					if (watched) {
+						deferred.resolve(null);
+					} else {
+						deferred.resolve(show);
+					}
+				});
 
 			filtered.push(deferred.promise);
 		});
@@ -113,36 +121,37 @@
 
 			var deferred = Q.defer();
 			//Try to find it on the shows database and attach the next_episode info
-			Database.getTVShowByImdb(show.show.imdb_id, function (err, data) {
-				if (data != null) {
-					data.type = 'show';
-					data.image = data.images.poster;
-					data.imdb = data.imdb_id;
-					data.next_episode = show.next_episode;
-					// Fallback for old bookmarks without provider in database
-					if (typeof (data.provider) === 'undefined') {
-						data.provider = 'Eztv';
-					}
-					deferred.resolve(data);
-				} else {
-					//If not found, then get the details from Eztv and add it to the DB
-					data = Eztv.detail(show.show.imdb_id,
-						show,
-						function (err, data) {
-							if (!err) {
-								data.provider = 'Eztv';
-								data.type = 'show';
-								data.next_episode = show.next_episode;
+			Database.getTVShowByImdb(show.show.imdb_id)
+				.then(function (data) {
+					if (data != null) {
+						data.type = 'show';
+						data.image = data.images.poster;
+						data.imdb = data.imdb_id;
+						data.next_episode = show.next_episode;
+						// Fallback for old bookmarks without provider in database
+						if (typeof (data.provider) === 'undefined') {
+							data.provider = 'Eztv';
+						}
+						deferred.resolve(data);
+					} else {
+						//If not found, then get the details from Eztv and add it to the DB
+						data = Eztv.detail(show.show.imdb_id, show)
+							.then(function (data) {
+								if (data) {
+									data.provider = 'Eztv';
+									data.type = 'show';
+									data.next_episode = show.next_episode;
 
-								Database.addTVShow(data, function (err, idata) {
-									deferred.resolve(data);
-								});
-							} else {
-								deferred.resolve(false);
-							}
-						});
-				}
-			});
+									Database.addTVShow(data)
+										.then(function (idata) {
+											deferred.resolve(data);
+										});
+								} else {
+									deferred.resolve(false);
+								}
+							});
+					}
+				});
 			showList.push(deferred.promise);
 		});
 
@@ -153,7 +162,6 @@
 					hasMore: false
 				};
 			});
-
 	};
 
 	Watchlist.prototype.extractIds = function (items) {
@@ -183,14 +191,16 @@
 
 		var deferred = Q.defer();
 		win.info('Watchlist - Fetching new watchlist');
-		App.Trakt.show.getProgress().then(function (data) {
-			App.db.writeSetting({
-				key: 'watchlist',
-				value: data
-			}, function () {
-				deferred.resolve(data || []);
-			});
-		})
+		App.Trakt.show.getProgress()
+			.then(function (data) {
+				App.db.writeSetting({
+					key: 'watchlist',
+					value: data
+				})
+					.then(function () {
+						deferred.resolve(data || []);
+					});
+			})
 			.catch(function (error) {
 				deferred.reject(error);
 			});
