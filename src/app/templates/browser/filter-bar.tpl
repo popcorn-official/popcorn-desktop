@@ -56,15 +56,15 @@
 		</div>
 	</li>
     <li>
-        <i id="filterbar-watchlist" class="fa fa-inbox watchlist"></i>
+        <i id="filterbar-watchlist" class="fa fa-inbox watchlist tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Watchlist") %>"></i>
     </li>
 	<li>
-		<i id="filterbar-favorites" class="fa fa-heart favorites"></i>
+		<i id="filterbar-favorites" class="fa fa-heart favorites tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Favorites") %>"></i>
 	</li>
 	<li>
-		<i id="filterbar-about" class="fa fa-info-circle about"></i>
+		<i id="filterbar-about" class="fa fa-info-circle about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("About") %>"></i>
 	</li>
 	<li>
-		<i id="filterbar-settings" class="fa fa-cog settings"></i>
+		<i id="filterbar-settings" class="fa fa-cog settings tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Settings") %>"></i>
 	</li>
 </ul>

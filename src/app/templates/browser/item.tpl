@@ -6,8 +6,8 @@
 <img class="cover-image" src="<%= image %>" style="display: none">
 <div class="cover">
 	<div class="cover-overlay">
-		<i class="fa fa-heart actions-favorites"></i>
-		<i class="fa fa-eye actions-watched"></i>
+		<i class="fa fa-heart actions-favorites tooltipped" data-toggle="tooltip" data-placement="auto bottom" data-delay='{ "show": "800", "hide": "100" }'></i>
+		<i class="fa fa-eye actions-watched tooltipped" data-toggle="tooltip" data-placement="auto bottom" data-delay='{ "show": "800", "hide": "100" }'></i>
 
 		<% if(typeof rating !== 'undefined'){
 		var p_rating = Math.round(rating) / 2;  %>

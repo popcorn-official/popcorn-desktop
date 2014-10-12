@@ -50,6 +50,12 @@
 			$('.filter-bar').hide();
 			$('#movie-detail').hide();
 			$('#header').addClass('header-shadow');
+			$('.tooltipped').tooltip({
+				delay: {
+					'show': 800,
+					'hide': 100
+				}
+			});
 			Mousetrap.bind('backspace', function (e) {
 				App.vent.trigger('settings:close');
 			});
@@ -218,9 +224,9 @@
 
 			//save to db
 			App.db.writeSetting({
-				key: field.attr('name'),
-				value: value
-			})
+					key: field.attr('name'),
+					value: value
+				})
 				.then(function () {
 					that.ui.success_alert.show().delay(3000).fadeOut(400);
 				});
@@ -309,9 +315,9 @@
 			App.Trakt.authenticated = false;
 
 			App.db.writeSetting({
-				key: 'traktUsername',
-				value: ''
-			})
+					key: 'traktUsername',
+					value: ''
+				})
 				.then(function () {
 					return App.db.writeSetting({
 						key: 'traktPassword',

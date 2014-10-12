@@ -142,6 +142,13 @@
 				this.setactive(App.currentview);
 			}
 
+			this.$('.tooltipped').tooltip({
+				delay: {
+					'show': 800,
+					'hide': 100
+				}
+			});
+
 		},
 
 		focusSearch: function () {

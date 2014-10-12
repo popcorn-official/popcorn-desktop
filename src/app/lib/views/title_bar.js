@@ -31,6 +31,10 @@ var os = require('os');
 		templateHelpers: {
 			getButtons: function () {
 				return ButtonOrder[App.Config.platform];
+			},
+
+			fsTooltipPos: function () {
+				return App.Config.platform === 'darwin' ? 'left' : 'right';
 			}
 		},
 
@@ -90,7 +94,17 @@ var os = require('os');
 				$('.os-min, .os-max').css('display', 'block');
 			}
 			this.$el.find('.btn-os.fullscreen').toggleClass('active');
+		},
+
+		onShow: function () {
+			$('.tooltipped').tooltip({
+				delay: {
+					'show': 800,
+					'hide': 100
+				}
+			});
 		}
+
 	});
 
 	App.View.TitleBar = TitleBar;

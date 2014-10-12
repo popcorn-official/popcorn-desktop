@@ -135,6 +135,12 @@
 			}
 			this.ui.coverImage.remove();
 
+			this.ui.watchedIcon.tooltip({
+				title: this.ui.watchedIcon.hasClass('selected') ? i18n.__('Mark as unseen') : i18n.__('Mark as Seen')
+			});
+			this.ui.bookmarkIcon.tooltip({
+				title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from bookmarks') : i18n.__('Add to bookmarks')
+			});
 		},
 
 		showDetail: function (e) {
@@ -197,8 +203,8 @@
 					this.$el.removeClass('watched');
 				}
 				Database.markMovieAsNotWatched({
-					imdb_id: this.model.get('imdb_id')
-				}, true)
+						imdb_id: this.model.get('imdb_id')
+					}, true)
 					.then(function () {
 						that.model.set('watched', false);
 					});
@@ -213,14 +219,18 @@
 					break;
 				}
 				Database.markMovieAsWatched({
-					imdb_id: this.model.get('imdb_id'),
-					from_browser: true
-				}, true)
+						imdb_id: this.model.get('imdb_id'),
+						from_browser: true
+					}, true)
 					.then(function () {
 						that.model.set('watched', true);
 					});
 
 			}
+
+			this.ui.watchedIcon.tooltip({
+				title: this.ui.watchedIcon.hasClass('selected') ? i18n.__('Mark as unseen') : i18n.__('Mark as Seen')
+			});
 		},
 
 		toggleFavorite: function (e) {
@@ -334,6 +344,9 @@
 
 			}
 
+			this.ui.bookmarkIcon.tooltip({
+				title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from bookmarks') : i18n.__('Add to bookmarks')
+			});
 		}
 
 	});
