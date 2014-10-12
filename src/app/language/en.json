@@ -318,5 +318,9 @@
 	"Special": "Special",
 	"No Watchlist found...": "No Watchlist found...",
 	"Watchlist": "Watchlist",
-	"Resolving..": "Resolving.."
+	"Resolving..": "Resolving..",
+	"About": "About",
+	"Open Cache Directory": "Open Cache Directory",
+	"Open Database Directory": "Open Database Directory",
+	"Mark as unseen": "Mark as unseen"
 }
