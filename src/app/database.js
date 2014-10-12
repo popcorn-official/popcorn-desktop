@@ -37,6 +37,18 @@ db.watched = new Datastore({
 	autoload: true
 });
 
+function promisifyDatastore(datastore) {
+	datastore.insert = Q.denodeify(datastore.insert, datastore);
+	datastore.update = Q.denodeify(datastore.update, datastore);
+	datastore.remove = Q.denodeify(datastore.remove, datastore);
+}
+
+promisifyDatastore(db.bookmarks);
+promisifyDatastore(db.settings);
+promisifyDatastore(db.tvshows);
+promisifyDatastore(db.movies);
+promisifyDatastore(db.watched);
+
 // Create unique indexes for the various id's for shows and movies
 db.tvshows.ensureIndex({
 	fieldName: 'imdb_id',
@@ -71,21 +83,6 @@ var extractMovieIds = function (items) {
 	return _.pluck(items, 'movie_id');
 };
 
-// This generically turns single argument callback functions into promises
-var promisify = function (obj, func, arg) {
-	return Q.Promise(function (resolve, reject) {
-
-		obj[func].call(obj, arg, function (error, result) {
-			if (error) {
-				return reject(error);
-			} else {
-				return resolve(result);
-			}
-		});
-
-	});
-};
-
 // This utilizes the exec function on nedb to turn function calls into promises
 var promisifyDb = function (obj) {
 	return Q.Promise(function (resolve, reject) {
@@ -101,13 +98,13 @@ var promisifyDb = function (obj) {
 
 var Database = {
 	addMovie: function (data) {
-		return promisifyDb(db.movies.insert(data));
+		return db.movies.insert(data);
 	},
 
 	deleteMovie: function (imdb_id) {
-		return promisifyDb(db.movies.remove({
+		return db.movies.remove({
 			imdb_id: imdb_id
-		}));
+		});
 	},
 
 	getMovie: function (imdb_id) {
@@ -118,17 +115,17 @@ var Database = {
 
 	addBookmark: function (imdb_id, type) {
 		App.userBookmarks.push(imdb_id);
-		return promisifyDb(db.bookmarks.insert({
+		return db.bookmarks.insert({
 			imdb_id: imdb_id,
 			type: type
-		}));
+		});
 	},
 
 	deleteBookmark: function (imdb_id) {
 		App.userBookmarks.splice(App.userBookmarks.indexOf(imdb_id), 1);
-		return promisifyDb(db.bookmarks.remove({
+		return db.bookmarks.remove({
 			imdb_id: imdb_id
-		}));
+		});
 	},
 
 	getBookmark: function (imdb_id) {
@@ -139,9 +136,9 @@ var Database = {
 	},
 
 	deleteBookmarks: function () {
-		return promisifyDb(db.bookmarks.remove({}, {
+		return db.bookmarks.remove({}, {
 			multi: true
-		}));
+		});
 	},
 
 	// format: {page: page, keywords: title}
@@ -182,7 +179,7 @@ var Database = {
 	},
 
 	markMoviesWatched: function (data) {
-		return promisifyDb(db.watched.insert(data));
+		return db.watched.insert(data);
 	},
 
 	markMovieAsWatched: function (data, trakt) {
@@ -192,11 +189,11 @@ var Database = {
 			}
 			App.watchedMovies.push(data.imdb_id);
 
-			return promisifyDb(db.watched.insert({
+			return db.watched.insert({
 				movie_id: data.imdb_id.toString(),
 				date: new Date(),
 				type: 'movie'
-			}));
+			});
 		}
 
 		win.warn('This shouldn\'t be called');
@@ -211,9 +208,9 @@ var Database = {
 
 		App.watchedMovies.splice(App.watchedMovies.indexOf(data.imdb_id), 1);
 
-		return promisifyDb(db.watched.remove({
+		return db.watched.remove({
 			movie_id: data.imdb_id.toString()
-		}));
+		});
 	},
 
 	isMovieWatched: function (data) {
@@ -237,7 +234,7 @@ var Database = {
 	 *******     SHOWS       ********
 	 *******************************/
 	addTVShow: function (data) {
-		return promisifyDb(db.tvshows.insert(data));
+		return db.tvshows.insert(data);
 	},
 
 	// This calls the addTVShow method as we need to setup a blank episodes array for each
@@ -264,14 +261,14 @@ var Database = {
 			}).then(function () {
 
 
-				return promisifyDb(db.watched.insert({
+				return db.watched.insert({
 					tvdb_id: data.tvdb_id.toString(),
 					imdb_id: data.imdb_id.toString(),
 					season: data.season.toString(),
 					episode: data.episode.toString(),
 					type: 'episode',
 					date: new Date()
-				}));
+				});
 
 			})
 
@@ -283,7 +280,7 @@ var Database = {
 	},
 
 	markEpisodesWatched: function (data) {
-		return promisifyDb(db.watched.insert(data));
+		return db.watched.insert(data);
 	},
 
 	markEpisodeAsNotWatched: function (data, trakt) {
@@ -303,12 +300,12 @@ var Database = {
 				}
 			})
 			.then(function () {
-				return promisifyDb(db.watched.remove({
+				return db.watched.remove({
 					tvdb_id: data.tvdb_id.toString(),
 					imdb_id: data.imdb_id.toString(),
 					season: data.season.toString(),
 					episode: data.episode.toString()
-				}));
+				});
 			})
 			.then(function () {
 				App.vent.trigger('show:unwatched:' + data.tvdb_id, data);
@@ -348,9 +345,9 @@ var Database = {
 
 	// Used in bookmarks
 	deleteTVShow: function (imdb_id) {
-		return promisifyDb(db.tvshows.remove({
+		return db.tvshows.remove({
 			imdb_id: imdb_id
-		}));
+		});
 	},
 
 	// Used in bookmarks
@@ -410,27 +407,28 @@ var Database = {
 
 	// format: {key: key_name, value: settings_value}
 	writeSetting: function (data) {
-		return promisify(Database, 'getSetting', {
+		return Database.getSetting({
 				key: data.key
 			})
-			.then(function () {
-					return promisifyDb(db.settings.update({
+			.then(function (result) {
+				if (result) {
+					return db.settings.update({
 						'key': data.key
 					}, {
 						$set: {
 							'value': data.value
 						}
-					}, {}));
-				},
-				function () {
-					return promisifyDb(db.settings.insert(data));
-				});
+					}, {});
+				} else {
+					return db.settings.insert(data);
+				}
+			});
 	},
 
 	resetSettings: function () {
-		return promisifyDb(db.settings.remove({}, {
+		return db.settings.remove({}, {
 			multi: true
-		}));
+		});
 	},
 
 	deleteDatabases: function () {
@@ -438,18 +436,18 @@ var Database = {
 			multi: true
 		};
 
-		return promisifyDb(db.bookmarks.remove({}, option))
+		return db.bookmarks.remove({}, option)
 			.then(function () {
-				return promisifyDb(db.tvshows.remove({}, option));
+				return db.tvshows.remove({}, option);
 			})
 			.then(function () {
-				return promisifyDb(db.movies.remove({}, option));
+				return db.movies.remove({}, option);
 			})
 			.then(function () {
-				return promisifyDb(db.settings.remove({}, option));
+				return db.settings.remove({}, option);
 			})
 			.then(function () {
-				return promisifyDb(db.watched.remove({}, option));
+				return db.watched.remove({}, option);
 			})
 			.then(function () {
 				return Q.Promise(function (resolve, reject) {
