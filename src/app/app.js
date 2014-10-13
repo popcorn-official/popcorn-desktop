@@ -102,8 +102,20 @@ App.addInitializer(function (options) {
 
 	var width = localStorage.width ? localStorage.width : Settings.defaultWidth;
 	var height = localStorage.height ? localStorage.height : Settings.defaultHeight;
-	var x = localStorage.posX ? localStorage.posX : Math.round((screen.availWidth - Settings.defaultWidth) / 2);
-	var y = localStorage.posY ? localStorage.posY : Math.round((screen.availHeight - Settings.defaultHeight) / 2);
+	var x = localStorage.posX ? localStorage.posX : -1;
+	var y = localStorage.posY ? localStorage.posY : -1;
+	
+	// reset x when the screen width is smaller than the window x-position
+	if(x < 0 || x > screen.width) {
+		win.info("Window out of view, recentering x-pos");
+		x = Math.round((screen.availWidth - width) / 2);
+	}
+	
+	// reset x when the screen height is smaller than the window y-position
+	if(y < 0 || y > screen.height) {
+		win.info("Window out of view, recentering y-pos");
+		y = Math.round((screen.availHeight - height) / 2);
+	}
 
 	win.zoomLevel = zoom;
 	win.resizeTo(width, height);
