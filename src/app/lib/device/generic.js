@@ -90,7 +90,7 @@
 			'click .playerchoicemenu li a': 'selectPlayer'
 		},
 		onRender: function () {
-			var id = this.collection.selected.get('id');
+			var id = this.collection.selected.get('id').replace('\'','\\\'');
 			var el = $('.playerchoicemenu li#player-' + id + ' a');
 			this._selectPlayer(el);
 		},
