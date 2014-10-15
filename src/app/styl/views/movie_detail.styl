@@ -312,16 +312,21 @@
 				display: none
 				height: auto
 				background: rgba(20, 24, 26, 0.6)
+				
+				.flag
+					height: 16px;
+				
 
 			.flag
 				margin: 3px
-				background-size: 22px 16px
+				background-image: url("../images/flags/none.png")
+				background-size: 24px 24px
+				background-position: center
 				position: relative
 				float: right
 				cursor: pointer
-				background-image: url("../images/flags/none.png")
-				width: 22px
-				height: 16px
+				width: 24px
+				height: 22px
 				&.NA
 					background-image: url("../images/flags/none.png")
 				&.toggle
@@ -388,6 +393,8 @@
 					background-image: url("../images/flags/slovenian.png")
 				&.es
 					background-image: url("../images/flags/spanish.png")
+				&.sv
+					background-image: url("../images/flags/swedish.png")
 				&.th
 					background-image: url("../images/flags/thai.png")
 				&.tr
