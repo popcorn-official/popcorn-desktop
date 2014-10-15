@@ -100,19 +100,19 @@ App.addInitializer(function (options) {
 		zoom = 1;
 	}
 
-	var width = localStorage.width ? localStorage.width : Settings.defaultWidth;
-	var height = localStorage.height ? localStorage.height : Settings.defaultHeight;
-	var x = localStorage.posX ? localStorage.posX : -1;
-	var y = localStorage.posY ? localStorage.posY : -1;
+	var width = parseInt(localStorage.width ? localStorage.width : Settings.defaultWidth);
+	var height = parseInt(localStorage.height ? localStorage.height : Settings.defaultHeight);
+	var x = parseInt(localStorage.posX ? localStorage.posX : -1);
+	var y = parseInt(localStorage.posY ? localStorage.posY : -1);
 
-	// reset x when the screen width is smaller than the window x-position
-	if (x < 0 || x > screen.width) {
+	// reset x when the screen width is smaller than the window x-position + the window width
+	if (x < 0 || (x + width) > screen.width) {
 		win.info('Window out of view, recentering x-pos');
 		x = Math.round((screen.availWidth - width) / 2);
 	}
 
-	// reset x when the screen height is smaller than the window y-position
-	if (y < 0 || y > screen.height) {
+	// reset y when the screen height is smaller than the window y-position + the window height
+	if (y < 0 || (y + height) > screen.height) {
 		win.info('Window out of view, recentering y-pos');
 		y = Math.round((screen.availHeight - height) / 2);
 	}
