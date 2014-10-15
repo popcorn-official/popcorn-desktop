@@ -15,8 +15,8 @@
 
 		//Checked when last fetched
 		App.db.getSetting({
-			key: 'watchlist-fetched'
-		})
+				key: 'watchlist-fetched'
+			})
 			.then(function (doc) {
 				if (doc) {
 					var d = moment.unix(doc.value);
@@ -24,9 +24,9 @@
 					if (Math.abs(now.diff(d, 'days')) >= 1) {
 						win.info('Watchlist - Last fetched more than 1 day');
 						App.db.writeSetting({
-							key: 'watchlist-fetched',
-							value: now.unix()
-						})
+								key: 'watchlist-fetched',
+								value: now.unix()
+							})
 							.then(function () {
 								fetchWatchlist(true);
 							});
@@ -38,9 +38,9 @@
 				} else {
 					win.info('Watchlist - No last fetch, fetch again');
 					App.db.writeSetting({
-						key: 'watchlist-fetched',
-						value: now.unix()
-					})
+							key: 'watchlist-fetched',
+							value: now.unix()
+						})
 						.then(function () {
 							fetchWatchlist(true);
 						});
@@ -50,8 +50,8 @@
 
 		function fetchWatchlist(update) {
 			App.db.getSetting({
-				key: 'watchlist'
-			})
+					key: 'watchlist'
+				})
 				.then(function (doc) {
 					if (doc && !update) {
 						win.info('Watchlist - Returning cached watchlist');
@@ -61,9 +61,9 @@
 						App.Trakt.show.getProgress()
 							.then(function (data) {
 								App.db.writeSetting({
-									key: 'watchlist',
-									value: data
-								})
+										key: 'watchlist',
+										value: data
+									})
 									.then(function () {
 										deferred.resolve(data || []);
 									});
@@ -194,9 +194,9 @@
 		App.Trakt.show.getProgress()
 			.then(function (data) {
 				App.db.writeSetting({
-					key: 'watchlist',
-					value: data
-				})
+						key: 'watchlist',
+						value: data
+					})
 					.then(function () {
 						deferred.resolve(data || []);
 					});

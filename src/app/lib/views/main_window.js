@@ -99,8 +99,17 @@
 			App.vent.on('stream:local', _.bind(this.showPlayer, this));
 			App.vent.on('player:close', _.bind(this.showViews, this));
 			App.vent.on('player:close', _.bind(this.Player.close, this.Player));
+			App.vent.on('subtitles:ready', _.bind(this.showSubtitles, this));
 
 			App.vent.on('updatePostersSizeStylesheet', _.bind(this.updatePostersSizeStylesheet, this));
+		},
+
+		showSubtitles: function (model) {
+			console.log('Show subs', model);
+			var s = new App.View.Subtitles({
+				model: model
+			});
+			s.render();
 		},
 
 		onShow: function () {
@@ -342,8 +351,8 @@
 			var that = this;
 
 			App.db.getSetting({
-				key: 'postersWidth'
-			})
+					key: 'postersWidth'
+				})
 				.then(function (doc) {
 					var postersWidth = doc.value;
 					var postersHeight = Math.round(postersWidth * Settings.postersSizeRatio);
