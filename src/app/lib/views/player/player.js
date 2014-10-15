@@ -532,17 +532,11 @@
 
 			Mousetrap.unbind(['u', 'U']);
 
-			Mousetrap.unbind('j');
+			Mousetrap.unbind(['j', 'shift+j', 'ctrl+j']);
 
 			Mousetrap.unbind(['k', 'shift+k', 'ctrl+k']);
 
-			Mousetrap.unbind('l');
-
-			Mousetrap.unbind(['shift+j', 'ctrl+j']);
-
-			Mousetrap.unbind('shift+l');
-
-			Mousetrap.unbind('ctrl+l');
+			Mousetrap.unbind(['l', 'shift+l', 'ctrl+l']);
 
 			Mousetrap.unbind('ctrl+d');
 
