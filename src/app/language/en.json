@@ -326,5 +326,6 @@
 	"Playback rate": "Playback rate",
 	"Increase playback rate by %s": "Increase playback rate by %s",
 	"Decrease playback rate by %s": "Decrease playback rate by %s",
-	"Set playback rate to %s": "Set playback rate to %s"
+	"Set playback rate to %s": "Set playback rate to %s",
+	"Playback rate adjustment is not available for this video!": "Playback rate adjustment is not available for this video!"
 }
