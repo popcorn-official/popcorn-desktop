@@ -257,12 +257,6 @@
 						subtitleProvider.fetch(data).then(function (subs) {
 							if (Object.keys(subs).length > 0) {
 								subtitles = subs;
-								/*var s = new App.View.Subtitles({
-									model: {subtitle: subtitles}
-								});
-								//s.render();
-								console.log(s);
-								s.render();*/
 								App.vent.trigger('subtitles:ready', {
 									subtitle: subtitles
 								});

@@ -104,14 +104,6 @@
 			App.vent.on('updatePostersSizeStylesheet', _.bind(this.updatePostersSizeStylesheet, this));
 		},
 
-		showSubtitles: function (model) {
-			console.log('Show subs', model);
-			var s = new App.View.Subtitles({
-				model: model
-			});
-			s.render();
-		},
-
 		onShow: function () {
 			this.Header.show(new App.View.TitleBar());
 			// Set the app title (for Windows mostly)
@@ -391,6 +383,13 @@
 						that.ui.posterswidth_alert.show().text(i18n.__('Posters Size') + ': ' + humanReadableWidth).delay(3000).fadeOut(400);
 					}
 				});
+		},
+
+		showSubtitles: function (model) {
+			var s = new App.View.Subtitles({
+				model: model
+			});
+			s.render();
 		}
 	});
 
