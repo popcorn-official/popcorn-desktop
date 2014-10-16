@@ -626,12 +626,12 @@
 
 		adjustPlaybackRate: function (rate, delta) {
 			var nRate = delta ? this.player.playbackRate() + rate : rate;
-			if (nRate >= 0.49 && nRate <= 4.01) {
+			if (nRate > 0.49 && nRate < 4.01) {
 				this.player.playbackRate(nRate);
 				if (this.player.playbackRate() !== nRate) {
 					this.displayOverlayMsg(i18n.__('Playback rate adjustment is not available for this video!'));
 				} else {
-					this.displayOverlayMsg(i18n.__('Playback rate') + ': ' + parseFloat((nRate + 0.00001).toFixed(1)) + 'x');
+					this.displayOverlayMsg(i18n.__('Playback rate') + ': ' + parseFloat(nRate.toFixed(1)) + 'x');
 				}
 			}
 		},
