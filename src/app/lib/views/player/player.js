@@ -140,6 +140,7 @@
 			var player = this.video.player();
 			this.player = player;
 			App.PlayerView = this;
+			App.vent.trigger('player:ready', {});
 
 			/* The following is a hack to make VideoJS listen to
                mouseup instead of mousedown for pause/play on the

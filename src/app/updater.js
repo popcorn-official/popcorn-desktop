@@ -57,18 +57,18 @@
 		var self = this;
 
 		if (!(!_.contains(fs.readdirSync('.'), '.git') || // Test Development
-			( // Test Windows
-				App.settings.os === 'windows' &&
-				process.cwd().indexOf(process.env.APPDATA) !== -1
-			) ||
-			( // Test Linux
-				App.settings.os === 'linux' &&
-				_.contains(fs.readdirSync('.'), 'package.nw')
-			) ||
-			( // Test Mac OS X
-				App.settings.os === 'mac' &&
-				process.cwd().indexOf('Resources/app.nw') !== -1
-			))) {
+				( // Test Windows
+					App.settings.os === 'windows' &&
+					process.cwd().indexOf(process.env.APPDATA) !== -1
+				) ||
+				( // Test Linux
+					App.settings.os === 'linux' &&
+					_.contains(fs.readdirSync('.'), 'package.nw')
+				) ||
+				( // Test Mac OS X
+					App.settings.os === 'mac' &&
+					process.cwd().indexOf('Resources/app.nw') !== -1
+				))) {
 			win.debug('Not updating because we are running in a development environment');
 			defer.resolve(false);
 			return defer.promise;
