@@ -447,19 +447,15 @@
 			});
 
 			Mousetrap.bind('j', function (e) {
-				if (!e.shiftKey && !e.ctrlKey) {
-					_this.adjustPlaybackRate(-0.1, true);
-				}
+				_this.adjustPlaybackRate(-0.1, true);
 			});
 
 			Mousetrap.bind(['k', 'shift+k', 'ctrl+k'], function (e) {
 				_this.adjustPlaybackRate(1.0, false);
 			});
 
-			Mousetrap.bind('l', function (e) {
-				if (!e.shiftKey && !e.ctrlKey) {
-					_this.adjustPlaybackRate(0.1, true);
-				}
+			Mousetrap.bind(['l'], function (e) {
+				_this.adjustPlaybackRate(0.1, true);
 			});
 
 			Mousetrap.bind(['shift+j', 'ctrl+j'], function (e) {
