@@ -42,6 +42,9 @@ Opens the shows tab.
 ##### movieslist()
 Opens the movies tab.
 
+##### animelist()
+Opens the anime tab.
+
 ##### getviewstack()
 Gets the views stack. Responds with the array of currently stacked views.
 
