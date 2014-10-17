@@ -205,6 +205,30 @@
 						<td><%= i18n.__("Offset Subtitles by") %> -5s</td>
 					</tr>
 					<tr>
+						<td><span class="key">l</span></td>
+						<td><%= i18n.__('Increase playback rate by %s', '0.1x') %></td>
+					</tr>
+					<tr>
+						<td><span class="key">j</span></td>
+						<td><%= i18n.__('Decrease playback rate by %s', '0.1x') %></td>
+					</tr>
+					<tr>
+						<td><span class="key shiftleft"><%= i18n.__("shift") %></span>+<span class="key">j</span></td>
+						<td><%= i18n.__('Set playback rate to %s', '0.5x') %></td>
+					</tr>
+					<tr>
+						<td><span class="key">k</span></td>
+						<td><%= i18n.__('Set playback rate to %s', '1x') %></td>
+					</tr>
+					<tr>
+						<td><span class="key shiftleft"><%= i18n.__("shift") %></span>+<span class="key">l</span></td>
+						<td><%= i18n.__('Set playback rate to %s', '2x') %></td>
+					</tr>
+					<tr>
+						<td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">l</span></td>
+						<td><%= i18n.__('Set playback rate to %s', '4x') %></td>
+					</tr>
+					<tr>
 						<td><span class="key">u</span></td>
 						<td><%= i18n.__("Show Stream URL") %></td>
 					</tr>

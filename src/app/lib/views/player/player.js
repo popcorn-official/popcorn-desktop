@@ -447,6 +447,30 @@
 				_this.displayStreamURL();
 			});
 
+			Mousetrap.bind('j', function (e) {
+				_this.adjustPlaybackRate(-0.1, true);
+			});
+
+			Mousetrap.bind(['k', 'shift+k', 'ctrl+k'], function (e) {
+				_this.adjustPlaybackRate(1.0, false);
+			});
+
+			Mousetrap.bind(['l'], function (e) {
+				_this.adjustPlaybackRate(0.1, true);
+			});
+
+			Mousetrap.bind(['shift+j', 'ctrl+j'], function (e) {
+				_this.adjustPlaybackRate(0.5, false);
+			});
+
+			Mousetrap.bind('shift+l', function (e) {
+				_this.adjustPlaybackRate(2.0, false);
+			});
+
+			Mousetrap.bind('ctrl+l', function (e) {
+				_this.adjustPlaybackRate(4.0, false);
+			});
+
 			Mousetrap.bind('ctrl+d', function (e) {
 				_this.toggleMouseDebug();
 			});
@@ -504,6 +528,12 @@
 			Mousetrap.unbind(['m', 'M']);
 
 			Mousetrap.unbind(['u', 'U']);
+
+			Mousetrap.unbind(['j', 'shift+j', 'ctrl+j']);
+
+			Mousetrap.unbind(['k', 'shift+k', 'ctrl+k']);
+
+			Mousetrap.unbind(['l', 'shift+l', 'ctrl+l']);
 
 			Mousetrap.unbind('ctrl+d');
 
@@ -589,6 +619,18 @@
 			var o = this.player.options()['trackTimeOffset'];
 			this.player.options()['trackTimeOffset'] = (o + s);
 			this.displayOverlayMsg(i18n.__('Subtitles Offset') + ': ' + this.player.options()['trackTimeOffset'].toFixed(1) + ' ' + i18n.__('secs'));
+		},
+
+		adjustPlaybackRate: function (rate, delta) {
+			var nRate = delta ? this.player.playbackRate() + rate : rate;
+			if (nRate > 0.49 && nRate < 4.01) {
+				this.player.playbackRate(nRate);
+				if (this.player.playbackRate() !== nRate) {
+					this.displayOverlayMsg(i18n.__('Playback rate adjustment is not available for this video!'));
+				} else {
+					this.displayOverlayMsg(i18n.__('Playback rate') + ': ' + parseFloat(nRate.toFixed(1)) + 'x');
+				}
+			}
 		},
 
 		displayOverlayMsg: function (message) {
