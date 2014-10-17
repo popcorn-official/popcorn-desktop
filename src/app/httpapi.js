@@ -8,8 +8,6 @@
 	var Q = require('q');
 
 	var initServer = function () {
-		win.debug("Initing server");
-	
 		server = rpc.Server({
 			'headers': { // allow custom headers is empty by default
 				'Access-Control-Allow-Origin': '*'
@@ -327,7 +325,7 @@
 			}
 			
 			$('.genres .dropdown-menu a').filter(function() {
-				return $(this).attr('data-value').toLowerCase() == args[0].toLowerCase();
+				return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
 			}).click();
 
 			popcornCallback(callback);
@@ -340,7 +338,7 @@
 			}
 
 			$('.sorters .dropdown-menu a').filter(function() {
-				return $(this).attr('data-value').toLowerCase() == args[0].toLowerCase();
+				return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
 			}).click();
 			
 			popcornCallback(callback);
@@ -353,7 +351,7 @@
 			}
 
 			$('.types .dropdown-menu a').filter(function() {
-				return $(this).attr('data-value').toLowerCase() == args[0].toLowerCase();
+				return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
 			}).click();
 			
 			popcornCallback(callback);
