@@ -80,11 +80,22 @@
 
 		server.expose('showslist', function (args, opt, callback) {
 			App.vent.trigger('shows:list');
+			App.currentview = 'shows';
+			App.Window.currentView.Content.currentView.FilterBar.currentView.setactive('shows');
 			popcornCallback(callback);
 		});
 
 		server.expose('movieslist', function (args, opt, callback) {
 			App.vent.trigger('movies:list');
+			App.currentview = 'movies';
+			App.Window.currentView.Content.currentView.FilterBar.currentView.setactive('movies');
+			popcornCallback(callback);
+		});
+		
+		server.expose('animelist', function (args, opt, callback) {
+			App.vent.trigger('anime:list');
+			App.currentview = 'anime';
+			App.Window.currentView.Content.currentView.FilterBar.currentView.setactive('anime');
 			popcornCallback(callback);
 		});
 
