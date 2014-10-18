@@ -229,7 +229,8 @@ module.exports = function (grunt) {
 					'git submodule init',
 					'cd src/app/styl/third_party/',
 					'git checkout master',
-					'git pull --force'
+					'git pull --force',
+					'git submodule update'
 				].join('&&')
 			},
 			language: {
@@ -237,7 +238,8 @@ module.exports = function (grunt) {
 					'git submodule init',
 					'cd src/app/language/',
 					'git checkout master',
-					'git pull --force'
+					'git pull --force',
+					'git submodule update'
 				].join('&&')
 			}
 		},
