@@ -37,7 +37,7 @@
 				return sub1.language > sub2.language;
 			});
 
-			var defaultSub = 'none';
+			var defaultSub = this.model.defaultSubtitle;
 
 			for (var index in subArray) {
 				var imDefault = '';

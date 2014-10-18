@@ -258,7 +258,8 @@
 							if (Object.keys(subs).length > 0) {
 								subtitles = subs;
 								App.vent.trigger('subtitles:ready', {
-									subtitle: subtitles
+									subtitle: subtitles,
+									defaultSubtitle: Settings.subtitle_language
 								});
 								win.info(Object.keys(subs).length + ' subtitles found');
 							} else {
