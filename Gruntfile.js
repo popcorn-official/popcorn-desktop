@@ -226,6 +226,7 @@ module.exports = function (grunt) {
 		shell: {
 			themes: {
 				command: [
+					'git submodule init',
 					'cd src/app/styl/third_party/',
 					'git checkout master',
 					'git pull --force'
@@ -233,6 +234,7 @@ module.exports = function (grunt) {
 			},
 			language: {
 				command: [
+					'git submodule init',
 					'cd src/app/language/',
 					'git checkout master',
 					'git pull --force'
