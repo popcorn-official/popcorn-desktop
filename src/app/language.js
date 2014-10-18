@@ -49,7 +49,7 @@ App.Localization.filterSubtitle = function (langs) {
 	return filteredLang;
 };
 
-App.Localization.allTranslations = ['en', 'ar', 'az', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'es', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'is', 'it', 'ku', 'ku-iq', 'lt', 'lv', 'nl', 'no', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'si', 'sk', 'sl', 'sr', 'sv', 'th', 'tr', 'uk', 'vi', 'zh-cn', 'zh-tw'];
+App.Localization.allTranslations = ['en', 'ar', 'az', 'bg', 'bn', 'bs', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en@pirate', 'es', 'es-ar', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'is', 'it', 'ku-iq', 'lt', 'lv', 'mk', 'nl', 'no', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'si', 'sk', 'sl', 'sr', 'sv', 'th', 'tr', 'uk', 'vi', 'zh-cn', 'zh-tw'];
 
 App.Localization.langcodes = {
 	'ab': {
@@ -233,6 +233,14 @@ App.Localization.langcodes = {
 		nativeName: 'English',
 		subtitle: true,
 		encoding: ['iso-8859-1'] // Tested
+	},
+	'en-gb': {
+		name: 'English (United Kingdom)',
+		nativeName: 'English (United Kingdom)'
+	},
+	'en@pirate': {
+		name: 'English (Pirate)',
+		nativeName: 'English (Pirate)'
 	},
 	'eo': {
 		name: 'Esperanto',
@@ -711,10 +719,13 @@ App.Localization.langcodes = {
 		encoding: ['iso-8859-1'], // Tested
 		keywords: ['@TSF', 'aRGENTeaM']
 	},
+	'es-ar': {
+		name: 'Spanish (Argentina)',
+		nativeName: 'Español (Argentina)'
+	},
 	'es-mx': {
 		name: 'Spanish (Mexico)',
-		nativeName: 'Español (México)',
-		encoding: ['iso-8859-1'] // Tested
+		nativeName: 'Español (México)'
 	},
 	'su': {
 		name: 'Sundanese',
