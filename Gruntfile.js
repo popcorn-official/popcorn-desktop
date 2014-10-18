@@ -46,7 +46,7 @@ module.exports = function (grunt) {
 	]);
 
 	grunt.registerTask('themes', [
-		'update_submodules',
+		'shell:themes',
 		'unofficalcss'
 	]);
 
@@ -60,6 +60,7 @@ module.exports = function (grunt) {
 		'bower_clean',
 		'nodewebkit'
 	]);
+	grunt.registerTask('lang', ['shell:language']);
 
 	grunt.registerTask('dist', [
 		'clean:releases',
@@ -222,11 +223,20 @@ module.exports = function (grunt) {
 			}
 		},
 
-		update_submodules: {
-			default: {
-				options: {
-					params: "--force" // specifies your own command-line parameters
-				}
+		shell: {
+			themes: {
+				command: [
+					'cd src/app/styl/third_party/',
+					'git checkout master',
+					'git pull --force'
+				].join('&&')
+			},
+			language: {
+				command: [
+					'cd src/app/language/',
+					'git checkout master',
+					'git pull --force'
+				].join('&&')
 			}
 		},
 
