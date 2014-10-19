@@ -77,12 +77,17 @@
 		});
 
 		server.expose('showslist', function (args, opt, callback) {
-			App.vent.trigger('shows:list');
+			$('.source.showShows').click();
 			popcornCallback(callback);
 		});
 
 		server.expose('movieslist', function (args, opt, callback) {
-			App.vent.trigger('movies:list');
+			$('.source.showMovies').click();
+			popcornCallback(callback);
+		});
+		
+		server.expose('animelist', function (args, opt, callback) {
+			$('.source.showAnime').click();
 			popcornCallback(callback);
 		});
 
@@ -312,8 +317,11 @@
 				popcornCallback(callback, 'Arguments missing');
 				return;
 			}
+			
+			$('.genres .dropdown-menu a').filter(function() {
+				return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
+			}).click();
 
-			$('.genres .dropdown-menu a[data-value="' + args[0].toLowerCase() + ']').click();
 			popcornCallback(callback);
 		});
 
@@ -323,7 +331,10 @@
 				return;
 			}
 
-			$('.sorters .dropdown-menu a[data-value="' + args[0].toLowerCase() + '"]').click();
+			$('.sorters .dropdown-menu a').filter(function() {
+				return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
+			}).click();
+			
 			popcornCallback(callback);
 		});
 
@@ -333,7 +344,10 @@
 				return;
 			}
 
-			$('.types .dropdown-menu a[data-value="' + args[0].toLowerCase() + '"]').click();
+			$('.types .dropdown-menu a').filter(function() {
+				return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
+			}).click();
+			
 			popcornCallback(callback);
 		});
 
@@ -567,7 +581,7 @@
 
 	App.vent.on('initHttpApi', function () {
 		console.log('Reiniting server');
-		Q.call(initServer)
+		Q.fcall(initServer)
 			.then(function () {
 				server.enableAuth(Settings.httpApiUsername, Settings.httpApiPassword);
 				if (httpServer) {
