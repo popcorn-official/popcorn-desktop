@@ -57,7 +57,7 @@ module.exports = function (grunt) {
 		'css',
 		'injectgit',
 		'bower_clean',
-        'lang',
+		'lang',
 		'nodewebkit'
 	]);
 	grunt.registerTask('lang', ['shell:language']);

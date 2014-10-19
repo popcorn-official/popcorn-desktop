@@ -190,7 +190,7 @@
 			case 'coversShowRating':
 			case 'showAdvancedSettings':
 			case 'alwaysOnTop':
-            case 'subtitle_shadows':
+			case 'subtitle_shadows':
 			case 'playNextEpisodeAuto':
 				value = field.is(':checked');
 				break;
@@ -210,14 +210,15 @@
 			case 'tmpLocation':
 				value = path.join(field.val(), 'Popcorn-Time');
 				break;
-            case 'subtitle_color':
-                //check if valid hex color
-                if (/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(field.val())) {
-                    value = field.val();
-                    break;
-                }else{
-                    return;
-                }
+			case 'subtitle_color':
+				//check if valid hex color
+				if (/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(field.val())) {
+					value = field.val();
+					break;
+				} else {
+					return;
+				}
+				break;
 			default:
 				win.warn('Setting not defined: ' + field.attr('name'));
 			}
@@ -233,9 +234,9 @@
 
 			//save to db
 			App.db.writeSetting({
-					key: field.attr('name'),
-					value: value
-				})
+				key: field.attr('name'),
+				value: value
+			})
 				.then(function () {
 					that.ui.success_alert.show().delay(3000).fadeOut(400);
 				});
@@ -324,9 +325,9 @@
 			App.Trakt.authenticated = false;
 
 			App.db.writeSetting({
-					key: 'traktUsername',
-					value: ''
-				})
+				key: 'traktUsername',
+				value: ''
+			})
 				.then(function () {
 					return App.db.writeSetting({
 						key: 'traktPassword',

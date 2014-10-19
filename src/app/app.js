@@ -232,7 +232,7 @@ Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function (e) {
 	win.showDevTools();
 });
 Mousetrap.bind(['shift+f10', 'f10', 'command+9'], function (e) {
-    console.log('Opening: ' + App.settings['tmpLocation']);
+	console.log('Opening: ' + App.settings['tmpLocation']);
 	gui.Shell.openItem(App.settings['tmpLocation']);
 });
 Mousetrap.bind('mod+,', function (e) {
