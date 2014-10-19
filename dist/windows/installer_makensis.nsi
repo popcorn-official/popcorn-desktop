@@ -1,17 +1,35 @@
-; Popcorn Time 
+; Popcorn Time
 ; Installer Source for NSIS 3.0 or higher
 
 ;Include Modern UI
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
 
+;Check file paths
+!if /FileExists "..\..\package.json"
+    !define WIN_PATHS
+!endif
+
 ;Parse package.json
-!searchparse /file "../../package.json" '"name": "' APP_NAME '",'
+!ifdef WIN_PATHS
+    !searchparse /file "..\..\package.json" '"name": "' APP_NAME '",'
+!else
+    !searchparse /file "../../package.json" '"name": "' APP_NAME '",'
+!endif
 !searchreplace APP_NAME "${APP_NAME}" "-" " "
-!searchparse /file "../../package.json" '"version": "' PT_VERSION '",'
+!ifdef WIN_PATHS
+    !searchparse /file "..\..\package.json" '"version": "' PT_VERSION '",'
+!else
+    !searchparse /file "../../package.json" '"version": "' PT_VERSION '",'
+!endif
 !searchreplace PT_VERSION "${PT_VERSION}" "-" "."
-!searchparse /file "../../package.json" '"homepage": "' APP_URL '",'
-!searchparse /file "../../package.json" '"name": "' DATA_FOLDER '",'
+!ifdef WIN_PATHS
+    !searchparse /file "..\..\package.json" '"homepage": "' APP_URL '",'
+    !searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '",'
+!else
+    !searchparse /file "../../package.json" '"homepage": "' APP_URL '",'
+    !searchparse /file "../../package.json" '"name": "' DATA_FOLDER '",'
+!endif
 
 ;General Settings
 Name "${APP_NAME}"
@@ -35,9 +53,15 @@ InstallDir "$LOCALAPPDATA\${APP_NAME}"
 RequestExecutionLevel user
 
 ;Define UI settings
-!define MUI_UI_HEADERIMAGE_RIGHT "../../src/app/images/icon.png"
-!define MUI_ICON "../../src/app/images\popcorntime.ico"
-!define MUI_UNICON "../../src/app/images\popcorntime.ico"
+!ifdef WIN_PATHS
+    !define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
+    !define MUI_ICON "..\..\src\app\images\popcorntime.ico"
+    !define MUI_UNICON "..\..\src\app\images\popcorntime.ico"
+!else
+    !define MUI_UI_HEADERIMAGE_RIGHT "../../src/app/images/icon.png"
+    !define MUI_ICON "../../src/app/images\popcorntime.ico"
+    !define MUI_UNICON "../../src/app/images\popcorntime.ico"
+!endif
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
 !define MUI_ABORTWARNING
@@ -205,9 +229,15 @@ Section ; Node Webkit Files
     SetOutPath "$INSTDIR\node-webkit"
 
     ;Add the files
-    File "../../build/cache/win/0.9.2/*.dll"
-    File "/oname=${APP_NAME}.exe" "../../build/cache/win/0.9.2/nw.exe"
-    File "../../build/cache/win/0.9.2/nw.pak"
+    !ifdef WIN_PATHS
+        File "..\..\build\cache\win\0.9.2\*.dll"
+        File "/oname=${APP_NAME}.exe" "..\..\build\cache\win\0.9.2\nw.exe"
+        File "..\..\build\cache\win\0.9.2\nw.pak"
+    !else
+        File "../../build/cache/win/0.9.2/*.dll"
+        File "/oname=${APP_NAME}.exe" "../../build/cache/win/0.9.2/nw.exe"
+        File "../../build/cache/win/0.9.2/nw.pak"
+    !endif
 
 SectionEnd
 
@@ -217,24 +247,47 @@ Section ; App Files
     SetOutPath "$INSTDIR\src\app"
 
     ;Add the files
-    File /r "../../src/app/css"
-    File /r "../../src/app/fonts"
-    File /r "../../src/app/images"
-    File /r "../../src/app/language"
-    File /r "../../src/app/lib"
-    File /r "../../src/app/templates"
-    File /r "../../src/app/themes"
-    File /r /x ".*" /x "test*" /x "example*" "../../src/app/vendor"
-    File "../../src/app/index.html"
-    File "../../src/app/*.js"
-    File /oname=License.txt "../../dist/windows/LICENSE.txt"
+    !ifdef WIN_PATHS
+        File /r "..\..\src\app\css"
+        File /r "..\..\src\app\fonts"
+        File /r "..\..\src\app\images"
+        File /r "..\..\src\app\language"
+        File /r "..\..\src\app\lib"
+        File /r "..\..\src\app\templates"
+        File /r "..\..\src/app\themes"
+        File /r /x ".*" /x "test*" /x "example*" "..\..\src\app\vendor"
+        File "..\..\src\app\index.html"
+        File "..\..\src\app\*.js"
+        File /oname=License.txt "..\..\dist\windows\LICENSE.txt"
+    !else
+        File /r "../../src/app/css"
+        File /r "../../src/app/fonts"
+        File /r "../../src/app/images"
+        File /r "../../src/app/language"
+        File /r "../../src/app/lib"
+        File /r "../../src/app/templates"
+        File /r "../../src/app/themes"
+        File /r /x ".*" /x "test*" /x "example*" "../../src/app/vendor"
+        File "../../src/app/index.html"
+        File "../../src/app/*.js"
+        File /oname=License.txt "../../dist/windows/LICENSE.txt"
+    !endif
 
     SetOutPath "$INSTDIR"
-    File "../../package.json"
-    File /NONFATAL "../../.git.json"
+    !ifdef WIN_PATHS
+        File "..\..\package.json"
+        File /NONFATAL "..\..\.git.json"
+    !else
+        File "../../package.json"
+        File /NONFATAL "../../.git.json"
+    !endif
 
     SetOutPath "$INSTDIR\node_modules"
-    File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" "../../node_modules/*.*"
+    !ifdef WIN_PATHS
+        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" "..\..\node_modules\*.*"
+    !else
+        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" "../../node_modules/*.*"
+    !endif
 
     ;Create uninstaller
     WriteUninstaller "$INSTDIR\Uninstall.exe"
