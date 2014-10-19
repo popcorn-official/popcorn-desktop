@@ -41,7 +41,6 @@ module.exports = function (grunt) {
 	]);
 
 	grunt.registerTask('css', [
-		'clean:css',
 		'officalcss'
 	]);
 
@@ -92,6 +91,7 @@ module.exports = function (grunt) {
 		'stylus:offical'
 	]);
 	grunt.registerTask('unofficalcss', [
+		'clean:css',
 		'stylus:third_party'
 	]);
 
