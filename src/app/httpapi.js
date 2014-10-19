@@ -75,25 +75,19 @@
 			Mousetrap.trigger('q');
 			popcornCallback(callback);
 		});
-		
-		var switchTab = function (view) {
-			App.vent.trigger(view + ':list');
-			App.currentview = view;
-			App.Window.currentView.Content.currentView.FilterBar.currentView.setactive(view);
-		};
 
 		server.expose('showslist', function (args, opt, callback) {
-			switchTab('shows');
+			$('.source.showShows').click();
 			popcornCallback(callback);
 		});
 
 		server.expose('movieslist', function (args, opt, callback) {
-			switchTab('movies');
+			$('.source.showMovies').click();
 			popcornCallback(callback);
 		});
 		
 		server.expose('animelist', function (args, opt, callback) {
-			switchTab('anime');
+			$('.source.showAnime').click();
 			popcornCallback(callback);
 		});
 
