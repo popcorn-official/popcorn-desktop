@@ -190,6 +190,7 @@
 			case 'coversShowRating':
 			case 'showAdvancedSettings':
 			case 'alwaysOnTop':
+            case 'subtitle_shadows':
 			case 'playNextEpisodeAuto':
 				value = field.is(':checked');
 				break;
@@ -209,6 +210,14 @@
 			case 'tmpLocation':
 				value = path.join(field.val(), 'Popcorn-Time');
 				break;
+            case 'subtitle_color':
+                //check if valid hex color
+                if (/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(field.val())) {
+                    value = field.val();
+                    break;
+                }else{
+                    return;
+                }
 			default:
 				win.warn('Setting not defined: ' + field.attr('name'));
 			}
