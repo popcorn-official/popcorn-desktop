@@ -122,7 +122,9 @@
 					<select name="subtitle_language"><%=sub_langs%></select>
 					<div class="dropdown-arrow"></div>
 				</div>
+            </span>
 
+            <span>
 				<div class="dropdown subtitles-size">
 					<p><%= i18n.__("Size") %>:</p>
 					<%
@@ -136,6 +138,16 @@
 					<select name="subtitle_size"><%=sub_sizes%></select>
 					<div class="dropdown-arrow"></div>
 				</div>
+            </span>
+
+            <span class="advanced">
+                <div class="subtitles-custom">
+                    <p><%= i18n.__("Color") + ":" %></p>
+                    <input id="subtitles_color" type="text" maxlength="7" size="7" name="subtitle_color" value="<%=Settings.subtitle_color%>">
+
+                    <input class="settings-checkbox" name="subtitle_shadows" id="subtitle_shadows" type="checkbox" <%=(Settings.subtitle_shadows? "checked='checked'":"")%>>
+				    <label class="settings-label" for="subtitle_shadows"><%= i18n.__("With Shadows") %></label>
+                </div>
 			</span>
 		</div>
 	</section>

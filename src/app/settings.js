@@ -39,6 +39,8 @@ Settings.movies_quality = 'all';
 // Subtitles
 Settings.subtitle_language = 'none';
 Settings.subtitle_size = '28px';
+Settings.subtitle_color = '#ffffff';
+Settings.subtitle_shadows = 'true';
 
 // More options
 Settings.tvshowApiEndpoint = 'http://eztvapi.re/';
