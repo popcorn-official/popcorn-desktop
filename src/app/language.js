@@ -49,7 +49,7 @@ App.Localization.filterSubtitle = function (langs) {
 	return filteredLang;
 };
 
-App.Localization.allTranslations = ['en', 'ar', 'az', 'bg', 'bn', 'bs', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en@pirate', 'es', 'es-ar', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'is', 'it', 'ku-iq', 'lt', 'lv', 'mk', 'nl', 'no', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'si', 'sk', 'sl', 'sr', 'sv', 'th', 'tr', 'uk', 'vi', 'zh-cn', 'zh-tw'];
+App.Localization.allTranslations = ['en', 'ar', 'az', 'bg', 'bn', 'bs', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en@pirate', 'es', 'es-ar', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'is', 'it', 'ku-iq', 'lt', 'lv', 'mk', 'nb', 'nl', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'si', 'sk', 'sl', 'sr', 'sv', 'th', 'tr', 'uk', 'vi', 'zh-cn', 'zh-tw'];
 
 App.Localization.langcodes = {
 	'ab': {
