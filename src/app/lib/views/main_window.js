@@ -343,8 +343,8 @@
 			var that = this;
 
 			App.db.getSetting({
-					key: 'postersWidth'
-				})
+				key: 'postersWidth'
+			})
 				.then(function (doc) {
 					var postersWidth = doc.value;
 					var postersHeight = Math.round(postersWidth * Settings.postersSizeRatio);
