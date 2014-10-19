@@ -230,7 +230,7 @@ module.exports = function (grunt) {
 					'cd src/app/styl/third_party/',
 					'git checkout master',
 					'git pull --force',
-					'cd ../../../',
+					'cd ../../../../',
 					'git submodule update'
 				].join('&&')
 			},
