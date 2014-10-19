@@ -5,9 +5,26 @@
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
 
+;Define macro to check for file existence
+!define !IfExist `!insertmacro _!IfExist ""`
+!macro _!IfExist _OP _FilePath
+    !ifdef !IfExistIsTrue
+        !undef !IfExistIsTrue
+    !endif
+    !tempfile "!IfExistTmp"
+    !system `IF EXIST "${_FilePath}" Echo !define "!IfExistIsTrue" > "${!IfExistTmp}"`
+    !include /NONFATAL "${!IfExistTmp}"
+    !delfile /NONFATAL "${!IfExistTmp}"
+    !undef !IfExistTmp
+    !if${_OP}def !IfExistIsTrue
+!macroend
+
 ;Check file paths
-!if /FileExists "..\..\package.json"
+${!IfExist} "..\..\package.json"
+    ;File exists!
     !define WIN_PATHS
+!else
+    ;File does NOT exist!
 !endif
 
 ;Parse package.json
