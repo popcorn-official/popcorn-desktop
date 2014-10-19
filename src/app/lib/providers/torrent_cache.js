@@ -176,7 +176,7 @@
 					},
 					req = request(params)
 					.on('response', function (resp) {
-						if (resp.statusCode !== 200) {
+						if (resp.statusCode >= 400) {
 							return done('Invalid status: ' + resp.statusCode);
 						}
 						switch (resp.headers['content-encoding']) {

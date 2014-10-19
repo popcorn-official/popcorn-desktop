@@ -85,7 +85,7 @@
 		request(requestUri.toString(), {
 			json: true
 		}, function (err, res, body) {
-			if (err || !body || res.statusCode !== 200) {
+			if (err || !body || res.statusCode >= 400) {
 				defer.reject(err);
 			} else {
 				defer.resolve(body);
@@ -130,7 +130,7 @@
 			body: postVariables,
 			json: true
 		}, function (err, res, body) {
-			if (err || !body || res.statusCode !== 200) {
+			if (err || !body || res.statusCode >= 400) {
 				defer.reject(err);
 			} else {
 				defer.resolve(body);
