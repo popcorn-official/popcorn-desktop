@@ -485,11 +485,7 @@
 		});
 		
 		server.expose('getstreamurl', function (args, opt, callback) {
-			if (typeof(App.PlayerView) === "undefined") {
-				popcornCallback(callback, 'Cannot get stream URL: no video playing.');
-				return;
-			}
-			else if (App.PlayerView.isClosed === false) {
+			if (App.PlayerView !== undefined && App.PlayerView.isClosed === false) {
 				var streamurl = $('#video_player video').attr('src');
 				popcornCallback(callback, false, {
 					'streamurl': streamurl
