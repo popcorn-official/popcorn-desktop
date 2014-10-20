@@ -118,70 +118,56 @@
 
 			Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch);
 
-			Mousetrap.bind('tab', function () {
-				switch (App.currentview) {
-				case 'movies':
-					App.currentview = 'shows';
-					App.vent.trigger('shows:list', []);
-					$('.source.showMovies').removeClass('active');
-					$('.source.showShows').addClass('active');
-					break;
-				case 'shows':
-					App.currentview = 'anime';
-					App.vent.trigger('anime:list', []);
-					$('.source.showMovies').removeClass('active');
-					$('.source.showShows').removeClass('active');
-					$('.source.showAnime').addClass('active');
-					break;
-				default:
-					App.currentview = 'movies';
-					App.vent.trigger('movies:list');
+			Mousetrap.bind(['tab', 'shift+tab'], function (e, combo) {
+				if((App.PlayerView === undefined || App.PlayerView.isClosed) && $('#about-container').children().length <= 0) {
+					if(combo == 'tab') {
+						switch (App.currentview) {
+							case 'movies':
+								App.currentview = 'shows';
+								break;
+							case 'shows':
+								App.currentview = 'anime';
+								break;
+							default:
+								App.currentview = 'movies';
+						}
+					} else if(combo == 'shift+tab') {
+						switch (App.currentview) {
+							case 'movies':
+								App.currentview = 'anime';
+								break;
+							case 'anime':
+								App.currentview = 'shows';
+								break;
+							default:
+								App.currentview = 'movies';
+						}
+					}
+					
+					App.vent.trigger(App.currentview + ':list', []);
+					$('.filter-bar').find('.active').removeClass('active');
+					$('.source.show' + App.currentview.charAt(0).toUpperCase() + App.currentview.slice(1)).addClass('active');
 				}
 			});
 
-			Mousetrap.bind('shift+tab', function () {
-				switch (App.currentview) {
-				case 'movies':
-					App.currentview = 'anime';
-					App.vent.trigger('anime:list', []);
-					$('.source.showMovies').removeClass('active');
-					$('.source.showAnime').addClass('active');
-					break;
-				case 'anime':
-					App.currentview = 'shows';
-					App.vent.trigger('shows:list', []);
-					$('.source.showMovies').removeClass('active');
-					$('.source.showAnime').removeClass('active');
-					$('.source.showShows').addClass('active');
-					break;
-				default:
-					App.currentview = 'movies';
-					App.vent.trigger('movies:list');
+			Mousetrap.bind(['ctrl+1', 'ctrl+2', 'ctrl+3'], function (e, combo) {
+				if((App.PlayerView === undefined || App.PlayerView.isClosed) && $('#about-container').children().length <= 0) {
+					switch(combo) {
+						case 'ctrl+1':
+							App.currentview = 'movies';
+							break;
+						case 'ctrl+2':
+							App.currentview = 'shows';
+							break;
+						case 'ctrl+3':
+							App.currentview = 'anime';
+							break;
+					}
+					
+					App.vent.trigger(App.currentview + ':list', []);
+					$('.filter-bar').find('.active').removeClass('active');
+					$('.source.show' + App.currentview.charAt(0).toUpperCase() + App.currentview.slice(1)).addClass('active');
 				}
-			});
-
-			Mousetrap.bind('ctrl+1', function () {
-				App.currentview = 'movies';
-				App.vent.trigger('movies:list', []);
-				$('.source.showShows').removeClass('active');
-				$('.source.showAnime').removeClass('active');
-				$('.source.showMovies').addClass('active');
-			});
-
-			Mousetrap.bind('ctrl+2', function () {
-				App.currentview = 'shows';
-				App.vent.trigger('shows:list', []);
-				$('.source.showMovies').removeClass('active');
-				$('.source.showAnime').removeClass('active');
-				$('.source.showShows').addClass('active');
-			});
-
-			Mousetrap.bind('ctrl+3', function () {
-				App.currentview = 'anime';
-				App.vent.trigger('anime:list', []);
-				$('.source.showMovies').removeClass('active');
-				$('.source.showShows').removeClass('active');
-				$('.source.showAnime').addClass('active');
 			});
 		},
 

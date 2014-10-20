@@ -152,7 +152,9 @@
 			});
 
 			Mousetrap.bind('i', function () {
-				$('.about').click();
+				if(App.PlayerView === undefined || App.PlayerView.isClosed) {
+					$('.about').click();
+				}
 			});
 
 			App.vent.trigger('updatePostersSizeStylesheet');
