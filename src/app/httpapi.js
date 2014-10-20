@@ -94,18 +94,20 @@
 		server.expose('getplaying', function (args, opt, callback) {
 			var view = App.PlayerView;
 			var playing = false;
-			if (view !== undefined && view.player !== undefined && !view.player.paused()) {
+			if (view !== undefined && !view.isClosed) {
 				var result = {
-					'playing': true,
-					'title': view.model.get('title'),
-					'movie': view.isMovie(),
-					'quality': view.model.get('quality'),
-					'downloadSpeed': view.model.get('downloadSpeed'),
-					'uploadSpeed': view.model.get('uploadSpeed'),
-					'activePeers': view.model.get('activePeers'),
-					'volume': view.player.volume(),
-					'currentTime': App.PlayerView.player.currentTime(),
-					'duration': App.PlayerView.player.duration()
+					playing: !view.player.paused(),
+					title: view.model.get('title'),
+					movie: view.isMovie(),
+					quality: view.model.get('quality'),
+					downloadSpeed: view.model.get('downloadSpeed'),
+					uploadSpeed: view.model.get('uploadSpeed'),
+					activePeers: view.model.get('activePeers'),
+					volume: view.player.volume(),
+					currentTime: App.PlayerView.player.currentTime(),
+					duration: App.PlayerView.player.duration(),
+					streamUrl: $('#video_player video') === undefined ? '' : $('#video_player video').attr('src'),
+					selectedSubtitle: ''
 				};
 
 				if (result.movie) {
@@ -115,6 +117,10 @@
 					result['season'] = view.model.get('season');
 					result['episode'] = view.model.get('episode');
 				}
+				
+				if (App.PlayerView.player.textTrackDisplay.children().length > 0) {
+                    result.selectedSubtitle = App.PlayerView.player.textTrackDisplay.children()[0].language();
+                }
 
 				popcornCallback(callback, false, result);
 			} else {
