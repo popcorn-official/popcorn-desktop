@@ -119,31 +119,31 @@
 			Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch);
 
 			Mousetrap.bind(['tab', 'shift+tab'], function (e, combo) {
-				if((App.PlayerView === undefined || App.PlayerView.isClosed) && $('#about-container').children().length <= 0) {
-					if(combo == 'tab') {
+				if ((App.PlayerView === undefined || App.PlayerView.isClosed) && $('#about-container').children().length <= 0) {
+					if (combo === 'tab') {
 						switch (App.currentview) {
-							case 'movies':
-								App.currentview = 'shows';
-								break;
-							case 'shows':
-								App.currentview = 'anime';
-								break;
-							default:
-								App.currentview = 'movies';
+						case 'movies':
+							App.currentview = 'shows';
+							break;
+						case 'shows':
+							App.currentview = 'anime';
+							break;
+						default:
+							App.currentview = 'movies';
 						}
-					} else if(combo == 'shift+tab') {
+					} else if (combo === 'shift+tab') {
 						switch (App.currentview) {
-							case 'movies':
-								App.currentview = 'anime';
-								break;
-							case 'anime':
-								App.currentview = 'shows';
-								break;
-							default:
-								App.currentview = 'movies';
+						case 'movies':
+							App.currentview = 'anime';
+							break;
+						case 'anime':
+							App.currentview = 'shows';
+							break;
+						default:
+							App.currentview = 'movies';
 						}
 					}
-					
+
 					App.vent.trigger(App.currentview + ':list', []);
 					$('.filter-bar').find('.active').removeClass('active');
 					$('.source.show' + App.currentview.charAt(0).toUpperCase() + App.currentview.slice(1)).addClass('active');
@@ -151,19 +151,19 @@
 			});
 
 			Mousetrap.bind(['ctrl+1', 'ctrl+2', 'ctrl+3'], function (e, combo) {
-				if((App.PlayerView === undefined || App.PlayerView.isClosed) && $('#about-container').children().length <= 0) {
-					switch(combo) {
-						case 'ctrl+1':
-							App.currentview = 'movies';
-							break;
-						case 'ctrl+2':
-							App.currentview = 'shows';
-							break;
-						case 'ctrl+3':
-							App.currentview = 'anime';
-							break;
+				if ((App.PlayerView === undefined || App.PlayerView.isClosed) && $('#about-container').children().length <= 0) {
+					switch (combo) {
+					case 'ctrl+1':
+						App.currentview = 'movies';
+						break;
+					case 'ctrl+2':
+						App.currentview = 'shows';
+						break;
+					case 'ctrl+3':
+						App.currentview = 'anime';
+						break;
 					}
-					
+
 					App.vent.trigger(App.currentview + ':list', []);
 					$('.filter-bar').find('.active').removeClass('active');
 					$('.source.show' + App.currentview.charAt(0).toUpperCase() + App.currentview.slice(1)).addClass('active');
@@ -323,9 +323,9 @@
 
 			if (postersWidthIndex !== -1 && postersWidthIndex + 1 in Settings.postersJump) {
 				App.db.writeSetting({
-					key: 'postersWidth',
-					value: Settings.postersJump[postersWidthIndex + 1]
-				})
+						key: 'postersWidth',
+						value: Settings.postersJump[postersWidthIndex + 1]
+					})
 					.then(function () {
 						App.vent.trigger('updatePostersSizeStylesheet');
 					});
@@ -345,9 +345,9 @@
 			}
 
 			App.db.writeSetting({
-				key: 'postersWidth',
-				value: postersWidth
-			})
+					key: 'postersWidth',
+					value: postersWidth
+				})
 				.then(function () {
 					App.vent.trigger('updatePostersSizeStylesheet');
 				});

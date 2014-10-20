@@ -152,7 +152,7 @@
 			});
 
 			Mousetrap.bind('i', function () {
-				if(App.PlayerView === undefined || App.PlayerView.isClosed) {
+				if (App.PlayerView === undefined || App.PlayerView.isClosed) {
 					$('.about').click();
 				}
 			});
@@ -345,8 +345,8 @@
 			var that = this;
 
 			App.db.getSetting({
-				key: 'postersWidth'
-			})
+					key: 'postersWidth'
+				})
 				.then(function (doc) {
 					var postersWidth = doc.value;
 					var postersHeight = Math.round(postersWidth * Settings.postersSizeRatio);
