@@ -85,7 +85,7 @@
 			$('.source.showMovies').click();
 			popcornCallback(callback);
 		});
-		
+
 		server.expose('animelist', function (args, opt, callback) {
 			$('.source.showAnime').click();
 			popcornCallback(callback);
@@ -117,10 +117,10 @@
 					result['season'] = view.model.get('season');
 					result['episode'] = view.model.get('episode');
 				}
-				
+
 				if (App.PlayerView.player.textTrackDisplay.children().length > 0) {
-                    result.selectedSubtitle = App.PlayerView.player.textTrackDisplay.children()[0].language();
-                }
+					result.selectedSubtitle = App.PlayerView.player.textTrackDisplay.children()[0].language();
+				}
 
 				popcornCallback(callback, false, result);
 			} else {
@@ -323,8 +323,8 @@
 				popcornCallback(callback, 'Arguments missing');
 				return;
 			}
-			
-			$('.genres .dropdown-menu a').filter(function() {
+
+			$('.genres .dropdown-menu a').filter(function () {
 				return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
 			}).click();
 
@@ -337,10 +337,10 @@
 				return;
 			}
 
-			$('.sorters .dropdown-menu a').filter(function() {
+			$('.sorters .dropdown-menu a').filter(function () {
 				return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
 			}).click();
-			
+
 			popcornCallback(callback);
 		});
 
@@ -350,10 +350,10 @@
 				return;
 			}
 
-			$('.types .dropdown-menu a').filter(function() {
+			$('.types .dropdown-menu a').filter(function () {
 				return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
 			}).click();
-			
+
 			popcornCallback(callback);
 		});
 
