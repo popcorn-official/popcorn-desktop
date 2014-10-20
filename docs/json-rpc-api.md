@@ -129,6 +129,9 @@ Sets the subtitle for this movie.
 ##### setplayer(string player_id)
 Sets the mediaplayer for playback.
 
+##### getstreamurl()
+Get the stream URL of playing video.
+
 ##### listennotifications()
 This function is meant to be used for retrieving notifications from the app with the long-polling method.
 This function returns when something happens with the app.
