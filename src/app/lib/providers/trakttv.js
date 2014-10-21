@@ -171,13 +171,15 @@
 			.then(function () {
 				that.watchlist.inhibit(true);
 			})
-			.then(Q.all([this.show.sync(), this.movie.sync()])
-				.then(function () {
-					that.watchlist.inhibit(false);
-				})
-				.then(function () {
-					that.watchlist.fetchWatchlist();
-				}));
+			.then(function () {
+				return Q.all([that.show.sync(), that.movie.sync()]);
+			})
+			.then(function () {
+				that.watchlist.inhibit(false);
+			})
+			.then(function () {
+				return that.watchlist.fetchWatchlist();
+			});
 	};
 
 	TraktTv.prototype.movie = {
