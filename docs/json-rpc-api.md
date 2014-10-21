@@ -63,6 +63,9 @@ Gets information about the current playing video. Responds with the main object 
 ##### getcurrenttab()
 Gets the current tab.
 
+##### getfullscreen()
+Gets the fullscreen status.
+
 ##### getselection([integer index] = optional)
 Gets the current highlighted item in de list or the details of the opened view.
 
