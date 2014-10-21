@@ -49,16 +49,20 @@ App.Localization.filterSubtitle = function (langs) {
 	return filteredLang;
 };
 
-App.Localization.allTranslations = ['en', 'ar', 'az', 'bg', 'bn', 'bs', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en@pirate', 'es', 'es-ar', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'is', 'it', 'ku-iq', 'lt', 'lv', 'mk', 'nb', 'nl', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'si', 'sk', 'sl', 'sr', 'sv', 'th', 'tr', 'uk', 'vi', 'zh-cn', 'zh-tw'];
+App.Localization.allTranslations = ['en', 'ar', 'az', 'bg', 'bn', 'bs', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en@pirate', 'es', 'es-ar', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'is', 'it', 'ko', 'ku-iq', 'lt', 'lv', 'mk', 'nb', 'nl', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'si', 'sk', 'sl', 'sr', 'sv', 'th', 'tr', 'uk', 'vi', 'zh-cn', 'zh-tw'];
 
 App.Localization.langcodes = {
+	'aa': {
+		name: 'Afar',
+		nativeName: 'Afaraf'
+	},
 	'ab': {
 		name: 'Abkhaz',
 		nativeName: 'аҧсуа'
 	},
-	'aa': {
-		name: 'Afar',
-		nativeName: 'Afaraf'
+	'ae': {
+		name: 'Avestan',
+		nativeName: 'avesta'
 	},
 	'af': {
 		name: 'Afrikaans',
@@ -68,27 +72,19 @@ App.Localization.langcodes = {
 		name: 'Akan',
 		nativeName: 'Akan'
 	},
-	'sq': {
-		name: 'Albanian',
-		nativeName: 'Shqip'
-	},
 	'am': {
 		name: 'Amharic',
 		nativeName: 'አማርኛ'
+	},
+	'an': {
+		name: 'Aragonese',
+		nativeName: 'Aragonés'
 	},
 	'ar': {
 		name: 'Arabic',
 		nativeName: 'العربية',
 		subtitle: true,
 		encoding: ['windows-1256'] // Tested
-	},
-	'an': {
-		name: 'Aragonese',
-		nativeName: 'Aragonés'
-	},
-	'hy': {
-		name: 'Armenian',
-		nativeName: 'Հայերեն'
 	},
 	'as': {
 		name: 'Assamese',
@@ -98,10 +94,6 @@ App.Localization.langcodes = {
 		name: 'Avaric',
 		nativeName: 'авар мацӀ'
 	},
-	'ae': {
-		name: 'Avestan',
-		nativeName: 'avesta'
-	},
 	'ay': {
 		name: 'Aymara',
 		nativeName: 'aymar aru'
@@ -110,27 +102,19 @@ App.Localization.langcodes = {
 		name: 'Azerbaijani',
 		nativeName: 'azərbaycan dili'
 	},
-	'bm': {
-		name: 'Bambara',
-		nativeName: 'bamanankan'
-	},
 	'ba': {
 		name: 'Bashkir',
 		nativeName: 'башҡорт теле'
-	},
-	'eu': {
-		name: 'Basque',
-		nativeName: 'Euskara',
-		subtitle: true,
-		encoding: ['iso-8859-1'] /** NEED TEST **/
 	},
 	'be': {
 		name: 'Belarusian',
 		nativeName: 'Беларуская'
 	},
-	'bn': {
-		name: 'Bengali',
-		nativeName: 'বাংলা'
+	'bg': {
+		name: 'Bulgarian',
+		nativeName: 'Български',
+		subtitle: true,
+		encoding: ['Windows-1251'] // Tested
 	},
 	'bh': {
 		name: 'Bihari',
@@ -140,57 +124,39 @@ App.Localization.langcodes = {
 		name: 'Bislama',
 		nativeName: 'Bislama'
 	},
+	'bm': {
+		name: 'Bambara',
+		nativeName: 'bamanankan'
+	},
+	'bn': {
+		name: 'Bengali',
+		nativeName: 'বাংলা'
+	},
+	'bo': {
+		name: 'Tibetan',
+		nativeName: 'བོད་ཡིག'
+	},
+	'br': {
+		name: 'Breton',
+		nativeName: 'Brezhoneg'
+	},
 	'bs': {
 		name: 'Bosnian',
 		nativeName: 'Bosanski jezik',
 		subtitle: true,
 		encoding: ['Windows-1250'] // Tested
 	},
-	'br': {
-		name: 'Breton',
-		nativeName: 'Brezhoneg'
-	},
-	'bg': {
-		name: 'Bulgarian',
-		nativeName: 'Български',
-		subtitle: true,
-		encoding: ['Windows-1251'] // Tested
-	},
-	'my': {
-		name: 'Burmese',
-		nativeName: 'ဗမာစာ'
-	},
 	'ca': {
 		name: 'Catalan',
 		nativeName: 'Català'
-	},
-	'ch': {
-		name: 'Chamorro',
-		nativeName: 'Chamoru'
 	},
 	'ce': {
 		name: 'Chechen',
 		nativeName: 'нохчийн мотт'
 	},
-	'ny': {
-		name: 'Chichewa',
-		nativeName: 'chiCheŵa'
-	},
-	'zh-cn': {
-		name: 'Chinese (simplified)',
-		nativeName: '简体中文'
-	},
-	'zh-tw': {
-		name: 'Chinese (traditional)',
-		nativeName: '正體中文'
-	},
-	'cv': {
-		name: 'Chuvash',
-		nativeName: 'чӑваш чӗлхи'
-	},
-	'kw': {
-		name: 'Cornish',
-		nativeName: 'Kernewek'
+	'ch': {
+		name: 'Chamorro',
+		nativeName: 'Chamoru'
 	},
 	'co': {
 		name: 'Corsican',
@@ -200,17 +166,23 @@ App.Localization.langcodes = {
 		name: 'Cree',
 		nativeName: 'ᓀᐦᐃᔭᐍᐏᐣ'
 	},
-	'hr': {
-		name: 'Croatian',
-		nativeName: 'Hrvatski',
-		subtitle: true,
-		encoding: ['Windows-1250'] // Tested
-	},
 	'cs': {
 		name: 'Czech',
 		nativeName: 'Český',
 		subtitle: true,
 		encoding: ['iso-8859-2'] // Tested
+	},
+	'cu': {
+		name: 'Church Slavonic',
+		nativeName: 'ѩзыкъ словѣньскъ'
+	},
+	'cv': {
+		name: 'Chuvash',
+		nativeName: 'чӑваш чӗлхи'
+	},
+	'cy': {
+		name: 'Welsh',
+		nativeName: 'Cymraeg'
 	},
 	'da': {
 		name: 'Danish',
@@ -218,15 +190,25 @@ App.Localization.langcodes = {
 		subtitle: true,
 		encoding: ['iso-8859-1'] // Tested
 	},
+	'de': {
+		name: 'German',
+		nativeName: 'Deutsch',
+		subtitle: true,
+		encoding: ['iso-8859-1'] /** NEED TEST **/
+	},
 	'dv': {
 		name: 'Divehi',
 		nativeName: 'ދިވެހި'
 	},
-	'nl': {
-		name: 'Dutch',
-		nativeName: 'Nederlands',
+	'ee': {
+		name: 'Ewe',
+		nativeName: 'Eʋegbe'
+	},
+	'el': {
+		name: 'Modern Greek',
+		nativeName: 'Ελληνικά',
 		subtitle: true,
-		encoding: ['iso-8859-1'] // Tested
+		encoding: ['Windows-1253'] // Tested
 	},
 	'en': {
 		name: 'English',
@@ -246,23 +228,42 @@ App.Localization.langcodes = {
 		name: 'Esperanto',
 		nativeName: 'Esperanto'
 	},
+	'es': {
+		name: 'Spanish',
+		nativeName: 'Español',
+		subtitle: true,
+		encoding: ['iso-8859-1'], // Tested
+		keywords: ['@TSF', 'aRGENTeaM']
+	},
+	'es-ar': {
+		name: 'Spanish (Argentina)',
+		nativeName: 'Español (Argentina)'
+	},
+	'es-mx': {
+		name: 'Spanish (Mexico)',
+		nativeName: 'Español (México)'
+	},
 	'et': {
 		name: 'Estonian',
 		nativeName: 'Eesti',
 		subtitle: true,
 		encoding: ['iso-8859-4'] /** NEED TEST **/
 	},
-	'ee': {
-		name: 'Ewe',
-		nativeName: 'Eʋegbe'
+	'eu': {
+		name: 'Basque',
+		nativeName: 'Euskara',
+		subtitle: true,
+		encoding: ['iso-8859-1'] /** NEED TEST **/
 	},
-	'fo': {
-		name: 'Faroese',
-		nativeName: 'føroyskt'
+	'fa': {
+		name: 'Persian',
+		nativeName: 'فارسی',
+		subtitle: true,
+		encoding: ['Windows-1256'] // Tested
 	},
-	'fj': {
-		name: 'Fijian',
-		nativeName: 'Vosa Vakaviti'
+	'ff': {
+		name: 'Fula',
+		nativeName: 'Fulfulde'
 	},
 	'fi': {
 		name: 'Finnish',
@@ -270,35 +271,35 @@ App.Localization.langcodes = {
 		subtitle: true,
 		encoding: ['iso-8859-1'] // Tested
 	},
+	'fj': {
+		name: 'Fijian',
+		nativeName: 'Vosa Vakaviti'
+	},
+	'fo': {
+		name: 'Faroese',
+		nativeName: 'føroyskt'
+	},
 	'fr': {
 		name: 'French',
 		nativeName: 'Français',
 		subtitle: true,
 		encoding: ['Windows-1252'] // Tested
 	},
-	'ff': {
-		name: 'Fula',
-		nativeName: 'Fulfulde'
+	'fy': {
+		name: 'Western Frisian',
+		nativeName: 'Frysk'
+	},
+	'ga': {
+		name: 'Irish',
+		nativeName: 'Gaeilge'
+	},
+	'gd': {
+		name: 'Scottish Gaelic',
+		nativeName: 'Gàidhlig'
 	},
 	'gl': {
 		name: 'Galician',
 		nativeName: 'Galego'
-	},
-	'ka': {
-		name: 'Georgian',
-		nativeName: 'ქართული'
-	},
-	'de': {
-		name: 'German',
-		nativeName: 'Deutsch',
-		subtitle: true,
-		encoding: ['iso-8859-1'] /** NEED TEST **/
-	},
-	'el': {
-		name: 'Modern Greek',
-		nativeName: 'Ελληνικά',
-		subtitle: true,
-		encoding: ['Windows-1253'] // Tested
 	},
 	'gn': {
 		name: 'Guaraní',
@@ -308,9 +309,9 @@ App.Localization.langcodes = {
 		name: 'Gujarati',
 		nativeName: 'ગુજરાતી'
 	},
-	'ht': {
-		name: 'Haitian',
-		nativeName: 'Kreyòl ayisyen'
+	'gv': {
+		name: 'Manx',
+		nativeName: 'Gaelg'
 	},
 	'ha': {
 		name: 'Hausa',
@@ -322,10 +323,6 @@ App.Localization.langcodes = {
 		subtitle: true,
 		encoding: ['iso-8859-8'] // Tested
 	},
-	'hz': {
-		name: 'Herero',
-		nativeName: 'Otjiherero'
-	},
 	'hi': {
 		name: 'Hindi',
 		nativeName: 'हिन्दी'
@@ -334,11 +331,29 @@ App.Localization.langcodes = {
 		name: 'Hiri Motu',
 		nativeName: 'Hiri Motu'
 	},
+	'hr': {
+		name: 'Croatian',
+		nativeName: 'Hrvatski',
+		subtitle: true,
+		encoding: ['Windows-1250'] // Tested
+	},
+	'ht': {
+		name: 'Haitian',
+		nativeName: 'Kreyòl ayisyen'
+	},
 	'hu': {
 		name: 'Hungarian',
 		nativeName: 'Magyar',
 		subtitle: true,
 		encoding: ['iso-8859-2'] // Tested
+	},
+	'hy': {
+		name: 'Armenian',
+		nativeName: 'Հայերեն'
+	},
+	'hz': {
+		name: 'Herero',
+		nativeName: 'Otjiherero'
 	},
 	'ia': {
 		name: 'Interlingua',
@@ -352,13 +367,13 @@ App.Localization.langcodes = {
 		name: 'Interlingue',
 		nativeName: 'Interlingue'
 	},
-	'ga': {
-		name: 'Irish',
-		nativeName: 'Gaeilge'
-	},
 	'ig': {
 		name: 'Igbo',
 		nativeName: 'Asụsụ Igbo'
+	},
+	'ii': {
+		name: 'Nuosu',
+		nativeName: 'ꆈꌠ꒿ Nuosuhxop'
 	},
 	'ik': {
 		name: 'Inupiaq',
@@ -390,13 +405,41 @@ App.Localization.langcodes = {
 		name: 'Javanese',
 		nativeName: 'Basa Jawa'
 	},
+	'ka': {
+		name: 'Georgian',
+		nativeName: 'ქართული'
+	},
+	'kg': {
+		name: 'Kongo',
+		nativeName: 'KiKongo'
+	},
+	'ki': {
+		name: 'Kikuyu',
+		nativeName: 'Gĩkũyũ'
+	},
+	'kj': {
+		name: 'Kwanyama',
+		nativeName: 'Kuanyama'
+	},
+	'kk': {
+		name: 'Kazakh',
+		nativeName: 'Қазақ тілі'
+	},
 	'kl': {
 		name: 'Kalaallisut',
 		nativeName: 'Kalaallisut'
 	},
+	'km': {
+		name: 'Khmer',
+		nativeName: 'ភាសាខ្មែរ'
+	},
 	'kn': {
 		name: 'Kannada',
 		nativeName: 'ಕನ್ನಡ'
+	},
+	'ko': {
+		name: 'Korean',
+		nativeName: '한국어'
 	},
 	'kr': {
 		name: 'Kanuri',
@@ -406,38 +449,6 @@ App.Localization.langcodes = {
 		name: 'Kashmiri',
 		nativeName: 'कश्मीरी'
 	},
-	'kk': {
-		name: 'Kazakh',
-		nativeName: 'Қазақ тілі'
-	},
-	'km': {
-		name: 'Khmer',
-		nativeName: 'ភាសាខ្មែរ'
-	},
-	'ki': {
-		name: 'Kikuyu',
-		nativeName: 'Gĩkũyũ'
-	},
-	'rw': {
-		name: 'Kinyarwanda',
-		nativeName: 'Ikinyarwanda'
-	},
-	'ky': {
-		name: 'Kirghiz',
-		nativeName: 'кыргыз тили'
-	},
-	'kv': {
-		name: 'Komi',
-		nativeName: 'коми кыв'
-	},
-	'kg': {
-		name: 'Kongo',
-		nativeName: 'KiKongo'
-	},
-	'ko': {
-		name: 'Korean',
-		nativeName: '한국어'
-	},
 	'ku': {
 		name: 'Kurdish',
 		nativeName: 'كوردی'
@@ -446,9 +457,17 @@ App.Localization.langcodes = {
 		name: 'Kurdish (Sorani)',
 		nativeName: 'کوردیی ناوەندی'
 	},
-	'kj': {
-		name: 'Kwanyama',
-		nativeName: 'Kuanyama'
+	'kv': {
+		name: 'Komi',
+		nativeName: 'коми кыв'
+	},
+	'kw': {
+		name: 'Cornish',
+		nativeName: 'Kernewek'
+	},
+	'ky': {
+		name: 'Kirghiz',
+		nativeName: 'кыргыз тили'
 	},
 	'la': {
 		name: 'Latin',
@@ -488,53 +507,49 @@ App.Localization.langcodes = {
 		name: 'Latvian',
 		nativeName: 'Latviešu valoda'
 	},
-	'gv': {
-		name: 'Manx',
-		nativeName: 'Gaelg'
-	},
-	'mk': {
-		name: 'Macedonian',
-		nativeName: 'македонски јазик'
-	},
 	'mg': {
 		name: 'Malagasy',
 		nativeName: 'Malagasy fiteny'
-	},
-	'ms': {
-		name: 'Malay',
-		nativeName: 'بهاس ملايو'
-	},
-	'ml': {
-		name: 'Malayalam',
-		nativeName: 'മലയാളം'
-	},
-	'mt': {
-		name: 'Maltese',
-		nativeName: 'Malti'
-	},
-	'mi': {
-		name: 'Māori',
-		nativeName: 'te reo Māori'
-	},
-	'mr': {
-		name: 'Marathi (Marāṭhī)',
-		nativeName: 'मराठी'
 	},
 	'mh': {
 		name: 'Marshallese',
 		nativeName: 'Kajin M̧ajeļ'
 	},
+	'mi': {
+		name: 'Māori',
+		nativeName: 'te reo Māori'
+	},
+	'mk': {
+		name: 'Macedonian',
+		nativeName: 'македонски јазик'
+	},
+	'ml': {
+		name: 'Malayalam',
+		nativeName: 'മലയാളം'
+	},
 	'mn': {
 		name: 'Mongolian',
 		nativeName: 'монгол'
 	},
+	'mr': {
+		name: 'Marathi (Marāṭhī)',
+		nativeName: 'मराठी'
+	},
+	'ms': {
+		name: 'Malay',
+		nativeName: 'بهاس ملايو'
+	},
+	'mt': {
+		name: 'Maltese',
+		nativeName: 'Malti'
+	},
+	'my': {
+		name: 'Burmese',
+		nativeName: 'ဗမာစာ'
+	},
 	'na': {
 		name: 'Nauru',
 		nativeName: 'Ekakairũ Naoero'
-	},
-	'nv': {
-		name: 'Navajo',
-		nativeName: 'Diné bizaad'
 	},
 	'nb': {
 		name: 'Norwegian Bokmål',
@@ -552,6 +567,12 @@ App.Localization.langcodes = {
 		name: 'Ndonga',
 		nativeName: 'Owambo'
 	},
+	'nl': {
+		name: 'Dutch',
+		nativeName: 'Nederlands',
+		subtitle: true,
+		encoding: ['iso-8859-1'] // Tested
+	},
 	'nn': {
 		name: 'Norwegian Nynorsk',
 		nativeName: 'Norsk nynorsk'
@@ -560,13 +581,17 @@ App.Localization.langcodes = {
 		name: 'Norwegian',
 		nativeName: 'Norsk'
 	},
-	'ii': {
-		name: 'Nuosu',
-		nativeName: 'ꆈꌠ꒿ Nuosuhxop'
-	},
 	'nr': {
 		name: 'South Ndebele',
 		nativeName: 'isiNdebele'
+	},
+	'nv': {
+		name: 'Navajo',
+		nativeName: 'Diné bizaad'
+	},
+	'ny': {
+		name: 'Chichewa',
+		nativeName: 'chiCheŵa'
 	},
 	'oc': {
 		name: 'Occitan',
@@ -575,10 +600,6 @@ App.Localization.langcodes = {
 	'oj': {
 		name: 'Ojibwe',
 		nativeName: 'ᐊᓂᔑᓈᐯᒧᐎᓐ'
-	},
-	'cu': {
-		name: 'Church Slavonic',
-		nativeName: 'ѩзыкъ словѣньскъ'
 	},
 	'om': {
 		name: 'Oromo',
@@ -599,12 +620,6 @@ App.Localization.langcodes = {
 	'pi': {
 		name: 'Pāli',
 		nativeName: 'पाऴि'
-	},
-	'fa': {
-		name: 'Persian',
-		nativeName: 'فارسی',
-		subtitle: true,
-		encoding: ['Windows-1256'] // Tested
 	},
 	'pl': {
 		name: 'Polish',
@@ -652,6 +667,10 @@ App.Localization.langcodes = {
 		subtitle: true,
 		encoding: ['Windows-1251'] // Tested
 	},
+	'rw': {
+		name: 'Kinyarwanda',
+		nativeName: 'Ikinyarwanda'
+	},
 	'sa': {
 		name: 'Sanskrit (Saṁskṛta)',
 		nativeName: 'संस्कृतम्'
@@ -668,27 +687,9 @@ App.Localization.langcodes = {
 		name: 'Northern Sami',
 		nativeName: 'Davvisámegiella'
 	},
-	'sm': {
-		name: 'Samoan',
-		nativeName: 'gagana faa Samoa'
-	},
 	'sg': {
 		name: 'Sango',
 		nativeName: 'yângâ tî sängö'
-	},
-	'sr': {
-		name: 'Serbian',
-		nativeName: 'српски језик',
-		subtitle: true,
-		encoding: ['Windows-1250'] // Tested
-	},
-	'gd': {
-		name: 'Scottish Gaelic',
-		nativeName: 'Gàidhlig'
-	},
-	'sn': {
-		name: 'Shona',
-		nativeName: 'chiShona'
 	},
 	'si': {
 		name: 'Sinhala',
@@ -704,44 +705,47 @@ App.Localization.langcodes = {
 		subtitle: true,
 		encoding: ['windows-1250'] // Tested
 	},
+	'sm': {
+		name: 'Samoan',
+		nativeName: 'gagana faa Samoa'
+	},
+	'sn': {
+		name: 'Shona',
+		nativeName: 'chiShona'
+	},
 	'so': {
 		name: 'Somali',
 		nativeName: 'Soomaaliga'
 	},
-	'st': {
-		name: 'Southern Sotho',
-		nativeName: 'Sesotho'
+	'sq': {
+		name: 'Albanian',
+		nativeName: 'Shqip'
 	},
-	'es': {
-		name: 'Spanish',
-		nativeName: 'Español',
+	'sr': {
+		name: 'Serbian',
+		nativeName: 'српски језик',
 		subtitle: true,
-		encoding: ['iso-8859-1'], // Tested
-		keywords: ['@TSF', 'aRGENTeaM']
-	},
-	'es-ar': {
-		name: 'Spanish (Argentina)',
-		nativeName: 'Español (Argentina)'
-	},
-	'es-mx': {
-		name: 'Spanish (Mexico)',
-		nativeName: 'Español (México)'
-	},
-	'su': {
-		name: 'Sundanese',
-		nativeName: 'Basa Sunda'
-	},
-	'sw': {
-		name: 'Swahili',
-		nativeName: 'Kiswahili'
+		encoding: ['Windows-1250'] // Tested
 	},
 	'ss': {
 		name: 'Swati',
 		nativeName: 'SiSwati'
 	},
+	'st': {
+		name: 'Southern Sotho',
+		nativeName: 'Sesotho'
+	},
+	'su': {
+		name: 'Sundanese',
+		nativeName: 'Basa Sunda'
+	},
 	'sv': {
 		name: 'Swedish',
 		nativeName: 'svenska'
+	},
+	'sw': {
+		name: 'Swahili',
+		nativeName: 'Kiswahili'
 	},
 	'ta': {
 		name: 'Tamil',
@@ -764,10 +768,6 @@ App.Localization.langcodes = {
 	'ti': {
 		name: 'Tigrinya',
 		nativeName: 'ትግርኛ'
-	},
-	'bo': {
-		name: 'Tibetan',
-		nativeName: 'བོད་ཡིག'
 	},
 	'tk': {
 		name: 'Turkmen',
@@ -841,17 +841,9 @@ App.Localization.langcodes = {
 		name: 'Walloon',
 		nativeName: 'Walon'
 	},
-	'cy': {
-		name: 'Welsh',
-		nativeName: 'Cymraeg'
-	},
 	'wo': {
 		name: 'Wolof',
 		nativeName: 'Wollof'
-	},
-	'fy': {
-		name: 'Western Frisian',
-		nativeName: 'Frysk'
 	},
 	'xh': {
 		name: 'Xhosa',
@@ -874,6 +866,14 @@ App.Localization.langcodes = {
 		nativeName: '中文',
 		subtitle: false,
 		encoding: ['GB18030'] /** CANT FIND A PROPER ENCODING. Tested: UTF8/UTF16/CP936/GB2312/GB2313/GB18030/Windows936/Big5 **/
+	},
+	'zh-cn': {
+		name: 'Chinese (simplified)',
+		nativeName: '简体中文'
+	},
+	'zh-tw': {
+		name: 'Chinese (traditional)',
+		nativeName: '正體中文'
 	}
 };
 
