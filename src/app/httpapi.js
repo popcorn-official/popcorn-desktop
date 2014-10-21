@@ -107,7 +107,8 @@
 					currentTime: App.PlayerView.player.currentTime(),
 					duration: App.PlayerView.player.duration(),
 					streamUrl: $('#video_player video') === undefined ? '' : $('#video_player video').attr('src'),
-					selectedSubtitle: ''
+					selectedSubtitle: '',
+					isFullscreen: nativeWindow.isFullscreen
 				};
 
 				if (result.movie) {
