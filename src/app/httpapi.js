@@ -490,6 +490,20 @@
 
 			popcornCallback(callback);
 		});
+		
+		server.expose('getstreamurl', function (args, opt, callback) {
+			if (App.PlayerView !== undefined && !App.PlayerView.isClosed) {
+				var streamurl = $('#video_player video').attr('src');
+				popcornCallback(callback, false, {
+					'streamurl': streamurl
+				});
+				return;
+			}
+			else {
+				popcornCallback(callback, 'Cannot get stream URL: no video playing.');
+				return;
+			}
+		});
 
 		server.expose('listennotifications', function (args, opt, callback) {
 			var timeout;
