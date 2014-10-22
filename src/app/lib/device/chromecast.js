@@ -18,30 +18,28 @@
 			var name = this.get('name');
 			var device = this.get('device');
 			this.set('url', url);
-			
-			var media = {
-			    url : url,
-			    subtitles: [
-			    ],
-			    cover: {
-			        title: streamModel.get('title'),
-					url: streamModel.get('cover')
-			    },
-			    subtitles_style: { 
-			          backgroundColor: '#FFFFFFFF', // see http://dev.w3.org/csswg/css-color/#hex-notation
-			          foregroundColor: '#000000FF', // see http://dev.w3.org/csswg/css-color/#hex-notation
-			          edgeType: 'DROP_SHADOW', // can be: "NONE", "OUTLINE", "DROP_SHADOW", "RAISED", "DEPRESSED"
-			          edgeColor: '#00000000', // see http://dev.w3.org/csswg/css-color/#hex-notation
-			          fontScale: 1.5, // transforms into "font-size: " + (fontScale*100) +"%"
-			          fontStyle: 'NORMAL', // can be: "NORMAL", "BOLD", "BOLD_ITALIC", "ITALIC",
-			          fontFamily: 'Helvetica',
-			          fontGenericFamily: 'SANS_SERIF', // can be: "SANS_SERIF", "MONOSPACED_SANS_SERIF", "SERIF", "MONOSPACED_SERIF", "CASUAL", "CURSIVE", "SMALL_CAPITALS",
-			          windowColor: '#00000000', // see http://dev.w3.org/csswg/css-color/#hex-notation
-			          windowRoundedCornerRadius: 0, // radius in px
-			          windowType: 'NONE' // can be: "NONE", "NORMAL", "ROUNDED_CORNERS"
-			    }
-			}
 
+			var media = {
+				url: url,
+				subtitles: [],
+				cover: {
+					title: streamModel.get('title'),
+					url: streamModel.get('cover')
+				},
+				subtitles_style: {
+					backgroundColor: '#FFFFFFFF', // see http://dev.w3.org/csswg/css-color/#hex-notation
+					foregroundColor: '#000000FF', // see http://dev.w3.org/csswg/css-color/#hex-notation
+					edgeType: 'DROP_SHADOW', // can be: "NONE", "OUTLINE", "DROP_SHADOW", "RAISED", "DEPRESSED"
+					edgeColor: '#00000000', // see http://dev.w3.org/csswg/css-color/#hex-notation
+					fontScale: 1.5, // transforms into "font-size: " + (fontScale*100) +"%"
+					fontStyle: 'NORMAL', // can be: "NORMAL", "BOLD", "BOLD_ITALIC", "ITALIC",
+					fontFamily: 'Helvetica',
+					fontGenericFamily: 'SANS_SERIF', // can be: "SANS_SERIF", "MONOSPACED_SANS_SERIF", "SERIF", "MONOSPACED_SERIF", "CASUAL", "CURSIVE", "SMALL_CAPITALS",
+					windowColor: '#00000000', // see http://dev.w3.org/csswg/css-color/#hex-notation
+					windowRoundedCornerRadius: 0, // radius in px
+					windowType: 'NONE' // can be: "NONE", "NORMAL", "ROUNDED_CORNERS"
+				}
+			};
 
 			var subtitle = streamModel.get('subFile');
 			var cover = {
