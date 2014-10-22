@@ -61,15 +61,10 @@ if (gui.App.fullArgv.indexOf('--reset') !== -1) {
 
 	var data_path = require('nw.gui').App.dataPath;
 
-	localStorage.width = parseInt(Math.round(window.screen.availWidth * 0.8));
-	localStorage.height = parseInt(Math.round(window.screen.availHeight * 0.8));
-
-	localStorage.posX = parseInt(Math.round((screen.availWidth - localStorage.width) / 2));
-	localStorage.posY = parseInt(Math.round((screen.availHeight - localStorage.height) / 2));
+	localStorage.clear();
 
 	fs.unlinkSync(path.join(data_path, 'data/watched.db'), function (err) {
 		if (err) throw err;
-
 	});
 	fs.unlinkSync(path.join(data_path, 'data/movies.db'), function (err) {
 		if (err) throw err;
