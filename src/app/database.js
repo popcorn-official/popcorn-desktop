@@ -432,34 +432,27 @@ var Database = {
 	},
 
 	deleteDatabases: function () {
-		var option = {
-			multi: true
-		};
 
-		return db.bookmarks.remove({}, option)
-			.then(function () {
-				return db.tvshows.remove({}, option);
-			})
-			.then(function () {
-				return db.movies.remove({}, option);
-			})
-			.then(function () {
-				return db.settings.remove({}, option);
-			})
-			.then(function () {
-				return db.watched.remove({}, option);
-			})
-			.then(function () {
-				return Q.Promise(function (resolve, reject) {
-					var req = indexedDB.deleteDatabase(App.Config.cache.name);
-					req.onsuccess = function () {
-						resolve();
-					};
-					req.onerror = function () {
-						resolve();
-					};
-				});
-			});
+		fs.unlinkSync(path.join(data_path, 'data/watched.db'));
+
+		fs.unlinkSync(path.join(data_path, 'data/movies.db'));
+
+		fs.unlinkSync(path.join(data_path, 'data/bookmarks.db'));
+
+		fs.unlinkSync(path.join(data_path, 'data/shows.db'));
+
+		fs.unlinkSync(path.join(data_path, 'data/settings.db'));
+
+		return Q.Promise(function (resolve, reject) {
+			var req = indexedDB.deleteDatabase(App.Config.cache.name);
+			req.onsuccess = function () {
+				resolve();
+			};
+			req.onerror = function () {
+				resolve();
+			};
+		});
+
 	},
 
 	initialize: function () {

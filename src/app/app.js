@@ -56,6 +56,32 @@ win.error = function () {
 	console.error.apply(console, params);
 };
 
+
+if (gui.App.fullArgv.indexOf('--reset') !== -1) {
+
+	var data_path = require('nw.gui').App.dataPath;
+
+	localStorage.clear();
+
+	fs.unlinkSync(path.join(data_path, 'data/watched.db'), function (err) {
+		if (err) throw err;
+	});
+	fs.unlinkSync(path.join(data_path, 'data/movies.db'), function (err) {
+		if (err) throw err;
+	});
+	fs.unlinkSync(path.join(data_path, 'data/bookmarks.db'), function (err) {
+		if (err) throw err;
+	});
+	fs.unlinkSync(path.join(data_path, 'data/shows.db'), function (err) {
+		if (err) throw err;
+	});
+	fs.unlinkSync(path.join(data_path, 'data/settings.db'), function (err) {
+		if (err) throw err;
+	});
+
+}
+
+
 // Global App skeleton for backbone
 var App = new Backbone.Marionette.Application();
 _.extend(App, {
