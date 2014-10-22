@@ -485,7 +485,7 @@
 		});
 		
 		server.expose('getstreamurl', function (args, opt, callback) {
-			if (App.PlayerView !== undefined && App.PlayerView.isClosed === false) {
+			if (App.PlayerView !== undefined && !App.PlayerView.isClosed) {
 				var streamurl = $('#video_player video').attr('src');
 				popcornCallback(callback, false, {
 					'streamurl': streamurl
