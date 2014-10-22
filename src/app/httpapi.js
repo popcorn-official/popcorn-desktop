@@ -370,7 +370,7 @@
 		});
 
 		server.expose('clearsearch', function (args, opt, callback) {
-			$('.remove-search').click();
+			$('.search .clear').click();
 			popcornCallback(callback);
 		});
 
