@@ -4,7 +4,7 @@
 	var AnimeBrowser = App.View.PCTBrowser.extend({
 		collectionModel: App.Model.AnimeCollection,
 		filters: {
-			genres: App.Config.genres_tv,
+			genres: App.Config.genres_anime,
 			sorters: App.Config.sorters_tv,
 			types: App.Config.types_anime
 		}

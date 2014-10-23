@@ -265,9 +265,13 @@
 		server.expose('getgenres', function (args, opt, callback) {
 			switch (App.currentview) {
 			case 'shows':
-			case 'anime':
 				popcornCallback(callback, false, {
 					'genres': App.Config.genres_tv
+				});
+				break;
+			case 'anime':
+				popcornCallback(callback, false, {
+					'genres': App.Config.genres_anime
 				});
 				break;
 			case 'movies':
