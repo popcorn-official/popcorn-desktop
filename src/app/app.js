@@ -131,21 +131,27 @@ App.addInitializer(function (options) {
 	var x = parseInt(localStorage.posX ? localStorage.posX : -1);
 	var y = parseInt(localStorage.posY ? localStorage.posY : -1);
 
+	// reset app width when the width is bigger than the available width
+	if(screen.availWidth < width) {
+		win.info('Window too big, resetting width');
+		width = screen.availWidth;
+	}
+	
+	// reset app height when the width is bigger than the available height
+	if(screen.availHeight < height) {
+		win.info('Window too big, resetting height');
+		height = screen.availHeight;
+	}
+
 	// reset x when the screen width is smaller than the window x-position + the window width
 	if (x < 0 || (x + width) > screen.width) {
 		win.info('Window out of view, recentering x-pos');
-		if(screen.availWidth < width) {
-			width = screen.availWidth;
-		}
 		x = Math.round((screen.availWidth - width) / 2);
 	}
 
 	// reset y when the screen height is smaller than the window y-position + the window height
 	if (y < 0 || (y + height) > screen.height) {
 		win.info('Window out of view, recentering y-pos');
-		if(screen.availHeight < height) {
-			height = screen.availHeight;
-		}
 		y = Math.round((screen.availHeight - height) / 2);
 	}
 
