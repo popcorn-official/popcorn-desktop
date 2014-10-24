@@ -232,7 +232,9 @@ module.exports = function (grunt) {
 					'git checkout master',
 					'git pull --force',
 					'cd ../../../../',
-					'git submodule update'
+					'git submodule update',
+					'cd src/app/styl/third_party/',
+					'git reset --hard origin/master'
 				].join('&&')
 			},
 			language: {
@@ -242,7 +244,9 @@ module.exports = function (grunt) {
 					'git checkout master',
 					'git pull --force',
 					'cd ../../../',
-					'git submodule update'
+					'git submodule update',
+					'cd src/app/language/',
+					'git reset --hard origin/master'
 				].join('&&')
 			}
 		},
