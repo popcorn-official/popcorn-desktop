@@ -134,12 +134,18 @@ App.addInitializer(function (options) {
 	// reset x when the screen width is smaller than the window x-position + the window width
 	if (x < 0 || (x + width) > screen.width) {
 		win.info('Window out of view, recentering x-pos');
+		if(screen.availWidth < width) {
+			width = screen.availWidth;
+		}
 		x = Math.round((screen.availWidth - width) / 2);
 	}
 
 	// reset y when the screen height is smaller than the window y-position + the window height
 	if (y < 0 || (y + height) > screen.height) {
 		win.info('Window out of view, recentering y-pos');
+		if(screen.availHeight < height) {
+			height = screen.availHeight;
+		}
 		y = Math.round((screen.availHeight - height) / 2);
 	}
 
