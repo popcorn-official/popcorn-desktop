@@ -52,6 +52,7 @@ Settings.httpApiPassword = 'popcorn';
 Settings.traktUsername = '';
 Settings.traktPassword = '';
 Settings.traktTvVersion = '0.0.2';
+Settings.syncOnStart = false;
 
 // Advanced options
 Settings.connectionLimit = 100;
