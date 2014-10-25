@@ -16,7 +16,7 @@
 		},
 
 		onShow: function () {
-			App.Device.ChooserView('#player-chooser').render();
+			App.Device.ChooserView('#player-chooser2').render();
 			this.$('#watch-now').text('');
 
 			Mousetrap.bind(['esc', 'backspace'], function (e) {
