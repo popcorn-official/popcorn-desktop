@@ -11,5 +11,5 @@
 			<% }); %>
 		</ul>
 	</div>
-    <div class="button dropup" id="player-chooser"></div>
+    <div class="button dropup" id="player-chooser2"></div>
 </div>
