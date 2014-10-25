@@ -93,6 +93,8 @@
 			App.vent.on('system:openFileSelector', _.bind(this.showFileSelector, this));
 			App.vent.on('system:closeFileSelector', _.bind(this.FileSelector.close, this.FileSelector));
 
+			App.vent.on('system:traktAuthenticated', _.bind(this.syncTraktOnStart, this));
+
 			// Stream events
 			App.vent.on('stream:started', _.bind(this.streamStarted, this));
 			App.vent.on('stream:ready', _.bind(this.streamReady, this));
@@ -301,6 +303,12 @@
 				model: settingsModel
 			}));
 		},
+
+        syncTraktOnStart: function () {
+            if (Settings.syncOnStart) {
+                App.Trakt.sync();
+            };
+        },
 
 		streamStarted: function (stateModel) {
 

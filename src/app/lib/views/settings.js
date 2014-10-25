@@ -190,6 +190,7 @@
 			case 'coversShowRating':
 			case 'showAdvancedSettings':
 			case 'alwaysOnTop':
+            case 'syncOnStart':
 			case 'subtitle_shadows':
 			case 'playNextEpisodeAuto':
 				value = field.is(':checked');

@@ -196,6 +196,10 @@
 							<i class="fa fa-refresh">&nbsp;&nbsp;</i>
 							<%= i18n.__("Sync With Trakt") %>
 						</div>
+                        <div class="sync-on-start">
+                            <input class="settings-checkbox" name="syncOnStart" id="syncOnStart" type="checkbox" <%=(Settings.syncOnStart? "checked='checked'":"")%>>
+                            <label class="settings-label" for="syncOnStart"><%= i18n.__("Automatically Sync on Start") %></label>
+                        </div>
 					</span>
 				<% } else { %>
 					<span>

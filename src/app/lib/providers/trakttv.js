@@ -154,6 +154,7 @@
 					password: preHashed ? password : sha1(password)
 				};
 				self.authenticated = true;
+                App.vent.trigger('system:traktAuthenticated');
 				// Store the credentials (hashed ofc)
 				AdvSettings.set('traktUsername', self._credentials.username);
 				AdvSettings.set('traktPassword', self._credentials.password);
