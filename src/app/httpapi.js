@@ -33,7 +33,7 @@
 						view.player.muted(true);
 					}
 					popcornCallback(callback, false, {
-						'newVolume': App.PlayerView.player.volume()
+						'volume': App.PlayerView.player.volume()
 					});
 				} else {
 					volume = view.player.volume();
