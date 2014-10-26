@@ -98,6 +98,26 @@
 			popcornCallback(callback);
 		});
 
+		server.expose('showwatchlist', function (args, opt, callback) {
+			$('#filterbar-watchlist').click();
+			popcornCallback(callback);
+		});
+
+		server.expose('showfavourites', function (args, opt, callback) {
+			$('#filterbar-favorites').click();
+			popcornCallback(callback);
+		});
+
+		server.expose('showsettings', function (args, opt, callback) {
+			$('#filterbar-settings').click();
+			popcornCallback(callback);
+		});
+
+		server.expose('showabout', function (args, opt, callback) {
+			$('#filterbar-about').click();
+			popcornCallback(callback);
+		});
+
 		server.expose('getplaying', function (args, opt, callback) {
 			var view = App.PlayerView;
 			var playing = false;
