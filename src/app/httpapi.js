@@ -32,18 +32,13 @@
 					} else {
 						view.player.muted(true);
 					}
-					popcornCallback(callback, false, {
-						'volume': App.PlayerView.player.volume()
-					});
-				} else {
-					volume = view.player.volume();
-					popcornCallback(callback, false, {
-						'volume': volume
-					});
 				}
-			} else {
-				popcornCallback(callback, "Can't change volume, player is not open.");
+				popcornCallback(callback, false, {
+					volume: App.PlayerView.player.volume()
+				});
+				return;
 			}
+			popcornCallback(callback, 'Can\'t change volume, player is not open.');
 		});
 
 		server.expose('toggleplaying', function (args, opt, callback) {
@@ -98,6 +93,26 @@
 			popcornCallback(callback);
 		});
 
+		server.expose('showwatchlist', function (args, opt, callback) {
+			$('#filterbar-watchlist').click();
+			popcornCallback(callback);
+		});
+
+		server.expose('showfavourites', function (args, opt, callback) {
+			$('#filterbar-favorites').click();
+			popcornCallback(callback);
+		});
+
+		server.expose('showsettings', function (args, opt, callback) {
+			$('#filterbar-settings').click();
+			popcornCallback(callback);
+		});
+
+		server.expose('showabout', function (args, opt, callback) {
+			$('#filterbar-about').click();
+			popcornCallback(callback);
+		});
+
 		server.expose('getplaying', function (args, opt, callback) {
 			var view = App.PlayerView;
 			var playing = false;
@@ -140,7 +155,6 @@
 
 		server.expose('getselection', function (args, opt, callback) {
 			var movieView = App.Window.currentView.MovieDetail.currentView;
-			console.log(args);
 			if (movieView === undefined || movieView.model === undefined) {
 				var index = $('.item.selected').index();
 				if (args.length > 0) {
@@ -158,7 +172,7 @@
 				var type = result.get('type');
 				switch (type) {
 				case 'movie':
-					popcornCallback(callback, false, result);
+					popcornCallback(callback, false, result.attributes);
 					break;
 				case 'show':
 				case 'anime':
@@ -168,13 +182,22 @@
 						.then(function (resolve, reject) {
 							data.provider = provider.name;
 							result = new App.Model[type.charAt(0).toUpperCase() + type.slice(1)](data);
-							popcornCallback(callback, false, result);
+							popcornCallback(callback, false, result.attributes);
 						});
 
 					break;
 				}
 			} else {
-				popcornCallback(callback, false, movieView.model);
+				var model = movieView.model.attributes;
+				if (model.type !== 'movie') {
+					var episodeId = parseInt($('.startStreaming').attr('data-episodeid'));
+					model.episodes.forEach(function (item) {
+						if (item.tvdb_id === episodeId) {
+							model.selectedEpisode = item;
+						}
+					});
+				}
+				popcornCallback(callback, false, model);
 			}
 		});
 
@@ -460,6 +483,27 @@
 			popcornCallback(callback);
 		});
 
+		server.expose('selectepisode', function (args, opt, callback) {
+			if (args.length <= 0) {
+				popcornCallback(callback, 'Arguments missing');
+				return;
+			}
+
+			var movieView = App.Window.currentView.MovieDetail.currentView;
+			if (movieView === undefined || movieView.model === undefined || movieView.model.type === 'movie') {
+				popcornCallback(callback, 'View not open');
+				return;
+			}
+
+			var season = parseInt(args[0]);
+			var episode = parseInt(args[1]) - 1;
+
+			$('li[data-tab=season-' + season + ']').click();
+			$('.season-' + season + '.current li')[episode].click();
+
+			popcornCallback(callback);
+		});
+
 		server.expose('subtitleoffset', function (args, opt, callback) {
 			if (args.length <= 0) {
 				popcornCallback(callback, 'Arguments missing');
@@ -501,19 +545,25 @@
 
 			popcornCallback(callback);
 		});
-		
+
+		server.expose('watchtrailer', function (args, opt, callback) {
+			var movieView = App.Window.currentView.MovieDetail.currentView;
+			if (movieView === undefined || movieView.model === undefined || movieView.model.type !== 'movie') {
+				popcornCallback(callback, 'View not open');
+				return;
+			}
+
+			$('#watch-trailer').click();
+		});
+
 		server.expose('getstreamurl', function (args, opt, callback) {
 			if (App.PlayerView !== undefined && !App.PlayerView.isClosed) {
-				var streamurl = $('#video_player video').attr('src');
 				popcornCallback(callback, false, {
-					'streamurl': streamurl
+					streamUrl: $('#video_player video') === undefined ? '' : $('#video_player video').attr('src')
 				});
 				return;
 			}
-			else {
-				popcornCallback(callback, 'Cannot get stream URL: no video playing.');
-				return;
-			}
+			popcornCallback(callback, 'Cannot get stream URL: no video playing.');
 		});
 
 		server.expose('listennotifications', function (args, opt, callback) {
