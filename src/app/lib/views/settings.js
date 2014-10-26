@@ -573,16 +573,17 @@
 		},
         
         getIPAddress: function () {
-            var interfaces = require('os').networkInterfaces();
-            for (var devName in interfaces) {
-                var iface = interfaces[devName];
-                for (var i = 0; i < iface.length; i++) {
-                    var alias = iface[i];
-                    if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal)
-                    return alias.address;
-                }
-            }
-            return '0.0.0.0';
+			var os = require('os');
+			var interfaces = os.networkInterfaces();
+			var addresses = [];
+			for (var k in interfaces) {
+				for (var k2 in interfaces[k]) {
+					var address = interfaces[k][k2];
+					if (address.family === 'IPv4' && !address.internal) {
+						return address.address;
+					}
+				}
+			}
         }
 	});
 
