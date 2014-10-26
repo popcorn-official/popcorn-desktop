@@ -227,6 +227,10 @@
 	<section id="remote-control" class="advanced">
 		<div class="title"><%= i18n.__("Remote Control") %></div>
 		<div class="content">
+            <span>
+                <p><%= i18n.__("Local IP Address") + ":" %></p>
+                <input type="text" value="<%= Settings.ipAddress %>" readonly="readonly" size="20" /> 
+            </span>
 			<span>
 				<p><%= i18n.__("HTTP API Port") + ":" %></p>
 				<input id="httpApiPort" type="number" size="5" name="httpApiPort" value="<%=Settings.httpApiPort%>">
