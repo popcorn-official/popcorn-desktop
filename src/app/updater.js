@@ -47,7 +47,10 @@
 			channel: 'beta'
 		});
 
-		this.outputDir = App.settings.os === 'linux' ? process.execPath : process.cwd();
+		this.outputDir = App.settings.os === 'linux' ? process.execPath : 
+			// works regardless of whether or not the app uses a zipped package
+			App.settings.os === 'mac' ? path.join(process.execPath, '../../../../../Resources/app.nw')  :
+			path.join(process.execPath, '../');
 		this.updateData = null;
 	}
 
@@ -151,23 +154,38 @@
 
 	function installWindows(downloadPath, updateData) {
 		var outputDir = path.dirname(downloadPath),
-			installDir = path.join(outputDir, 'app');
+			nodeModulesDir = path.join(outputDir, 'node_modules'),
+			srcDir = path.join(outputDir, 'src');
 		var defer = Q.defer();
 
-		var pack = new zip(downloadPath);
-		pack.extractAllToAsync(installDir, true, function (err) {
+		// Remove node modules and src directories
+		rm(nodeModulesDir, function (err) {
 			if (err) {
 				defer.reject(err);
 			} else {
-				fs.unlink(downloadPath, function (err) {
+				rm(srcDir, function (err) {
 					if (err) {
 						defer.reject(err);
 					} else {
-						defer.resolve();
+						// extract update package
+						var pack = new zip(downloadPath);
+						pack.extractAllToAsync(outputDir, true, function (err) {
+							if (err) {
+								defer.reject(err);
+							} else {
+								fs.unlink(downloadPath, function (err) {
+									if (err) {
+										defer.reject(err);
+									} else {
+										defer.resolve();
+									}
+								});
+							}
+						});
 					}
-				});
+				}
 			}
-		});
+		}
 
 		return defer.promise;
 	}
