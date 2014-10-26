@@ -32,18 +32,13 @@
 					} else {
 						view.player.muted(true);
 					}
-					popcornCallback(callback, false, {
-						'volume': App.PlayerView.player.volume()
-					});
-				} else {
-					volume = view.player.volume();
-					popcornCallback(callback, false, {
-						'volume': volume
-					});
 				}
-			} else {
-				popcornCallback(callback, "Can't change volume, player is not open.");
+				popcornCallback(callback, false, {
+					volume: App.PlayerView.player.volume()
+				});
+				return;
 			}
+			popcornCallback(callback, 'Can\'t change volume, player is not open.');
 		});
 
 		server.expose('toggleplaying', function (args, opt, callback) {
