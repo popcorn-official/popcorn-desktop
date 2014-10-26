@@ -171,7 +171,7 @@ module.exports = function (grunt) {
 				keep_nw: true,
 				embed_nw: false,
 				mac_icns: './src/app/images/popcorntime.icns', // Path to the Mac icon file
-				zip: buildPlatforms.win, // Zip nw for mac in windows. Prevent path too long if build all is used.
+				macZip: buildPlatforms.win, // Zip nw for mac in windows. Prevent path too long if build all is used.
 				mac: buildPlatforms.mac,
 				win: buildPlatforms.win,
 				linux32: buildPlatforms.linux32,
