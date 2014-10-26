@@ -155,7 +155,6 @@
 
 		server.expose('getselection', function (args, opt, callback) {
 			var movieView = App.Window.currentView.MovieDetail.currentView;
-			console.log(args);
 			if (movieView === undefined || movieView.model === undefined) {
 				var index = $('.item.selected').index();
 				if (args.length > 0) {
@@ -173,7 +172,7 @@
 				var type = result.get('type');
 				switch (type) {
 				case 'movie':
-					popcornCallback(callback, false, result);
+					popcornCallback(callback, false, result.attributes);
 					break;
 				case 'show':
 				case 'anime':
@@ -183,13 +182,22 @@
 						.then(function (resolve, reject) {
 							data.provider = provider.name;
 							result = new App.Model[type.charAt(0).toUpperCase() + type.slice(1)](data);
-							popcornCallback(callback, false, result);
+							popcornCallback(callback, false, result.attributes);
 						});
 
 					break;
 				}
 			} else {
-				popcornCallback(callback, false, movieView.model);
+				var model = movieView.model.attributes;
+				if(model.type !== 'movie') {
+					var episodeId = parseInt($('.startStreaming').attr('data-episodeid'));
+					model.episodes.forEach(function(item) {
+						if(item.tvdb_id === episodeId) {
+							model.selectedEpisode = item;
+						}
+					});
+				}
+				popcornCallback(callback, false, model);
 			}
 		});
 
@@ -472,6 +480,27 @@
 
 		server.expose('nextseason', function (args, opt, callback) {
 			Mousetrap.trigger('ctrl+down');
+			popcornCallback(callback);
+		});
+
+		server.expose('selectepisode', function (args, opt, callback) {
+			if (args.length <= 0) {
+				popcornCallback(callback, 'Arguments missing');
+				return;
+			}
+
+			var movieView = App.Window.currentView.MovieDetail.currentView;
+			if (movieView === undefined || movieView.model === undefined || movieView.model.type === "movie") {
+				popcornCallback(callback, 'View not open');
+				return;
+			}
+
+			var season = parseInt(args[0]);
+			var episode = parseInt(args[1]) - 1;
+
+			$('li[data-tab=season-' + season + ']').click();
+			$('.season-' + season + '.current li')[episode].click();
+
 			popcornCallback(callback);
 		});
 
