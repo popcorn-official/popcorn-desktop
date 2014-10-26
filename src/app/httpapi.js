@@ -189,10 +189,10 @@
 				}
 			} else {
 				var model = movieView.model.attributes;
-				if(model.type !== 'movie') {
+				if (model.type !== 'movie') {
 					var episodeId = parseInt($('.startStreaming').attr('data-episodeid'));
-					model.episodes.forEach(function(item) {
-						if(item.tvdb_id === episodeId) {
+					model.episodes.forEach(function (item) {
+						if (item.tvdb_id === episodeId) {
 							model.selectedEpisode = item;
 						}
 					});
@@ -490,7 +490,7 @@
 			}
 
 			var movieView = App.Window.currentView.MovieDetail.currentView;
-			if (movieView === undefined || movieView.model === undefined || movieView.model.type === "movie") {
+			if (movieView === undefined || movieView.model === undefined || movieView.model.type === 'movie') {
 				popcornCallback(callback, 'View not open');
 				return;
 			}
@@ -545,7 +545,7 @@
 
 			popcornCallback(callback);
 		});
-		
+
 		server.expose('getstreamurl', function (args, opt, callback) {
 			if (App.PlayerView !== undefined && !App.PlayerView.isClosed) {
 				popcornCallback(callback, false, {
