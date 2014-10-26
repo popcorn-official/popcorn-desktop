@@ -22,6 +22,13 @@
 			if (subtitle !== '') {
 				cmd += getPlayerSubSwitch(this.get('id')) + '"' + subtitle + '" ';
 			}
+			if(getPlayerFilenameSwitch(this.get('id')) !== ''){
+				// The video file is the biggest file in the torrent
+				var videoFile = _.sortBy(streamModel.attributes.torrent.info.files, function(file){
+	                return -file.length;
+	            })[0];
+				cmd += videoFile ? (getPlayerFilenameSwitch(this.get('id')) + '"' + videoFile.name + '" ') : '';
+			}
 			cmd += url;
 			win.info('Launching External Player: ' + cmd);
 			child.exec(cmd);
@@ -55,6 +62,11 @@
 		return players[name].subswitch || '';
 	}
 
+	function getPlayerFilenameSwitch(loc) {
+		var name = getPlayerName(loc);
+		return players[name].filenameswitch || '';
+	}
+
 	function getPlayerCmd(loc) {
 		var name = getPlayerName(loc);
 		return players[name].cmd;
@@ -73,6 +85,11 @@
 			subswitch: '--sub-file=',
 			stop: 'vlc://quit',
 			pause: 'vlc://pause'
+		},
+		'Fleex player': {
+			type: 'fleex-player',
+			cmd: '/Contents/MacOS/Fleex player',
+			filenameswitch: '-file-name '
 		},
 		'MPlayer OSX Extended': {
 			type: 'mplayer',
@@ -121,8 +138,13 @@
 		win32: ['C:\\Program Files\\', 'C:\\Program Files (x86)\\']
 	};
 
+	// Also search for ClickOnce applications
+	if(process.env.LOCALAPPDATA){
+		searchPaths.win32.push(process.env.LOCALAPPDATA+'\\Apps\\2.0\\');
+	}
+
 	var folderName = '';
-	var found = {};
+	var birthtimes = {};
 
 	async.each(searchPaths[process.platform], function (folderName, pathcb) {
 		folderName = path.resolve(folderName);
@@ -140,14 +162,23 @@
 
 			if (match.length) {
 				match = match[0];
-				console.log('Found External Player: ' + app + ' in ' + d.fullParentDir);
-				collection.add(new External({
-					id: match.name,
-					type: 'external-' + match.type,
-					name: match.name,
-					path: d.fullPath
-				}));
-
+				var birthtime = d.stat.birthtime;
+				var previousBirthTime = birthtimes[match.name];
+				if(!previousBirthTime || birthtime > previousBirthTime){
+					if(!previousBirthTime){
+						collection.add(new External({
+							id: match.name,
+							type: 'external-' + match.type,
+							name: match.name,
+							path: d.fullPath
+						}));
+						console.log('Found External Player: ' + app + ' in ' + d.fullParentDir);
+					} else {
+						collection.findWhere({ id: match.name }).set('path', d.fullPath);
+						console.log('Updated External Player: ' + app + ' with more recent version found in ' + d.fullParentDir);
+					}
+					birthtimes[match.name] = birthtime;
+				}
 			}
 		});
 		fileStream.on('end', function () {
