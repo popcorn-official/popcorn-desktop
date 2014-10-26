@@ -546,6 +546,16 @@
 			popcornCallback(callback);
 		});
 
+		server.expose('watchtrailer', function (args, opt, callback) {
+			var movieView = App.Window.currentView.MovieDetail.currentView;
+			if (movieView === undefined || movieView.model === undefined || movieView.model.type !== 'movie') {
+				popcornCallback(callback, 'View not open');
+				return;
+			}
+
+			$('#watch-trailer').click();
+		});
+
 		server.expose('getstreamurl', function (args, opt, callback) {
 			if (App.PlayerView !== undefined && !App.PlayerView.isClosed) {
 				popcornCallback(callback, false, {
