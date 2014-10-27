@@ -64,19 +64,29 @@ if (gui.App.fullArgv.indexOf('--reset') !== -1) {
 	localStorage.clear();
 
 	fs.unlinkSync(path.join(data_path, 'data/watched.db'), function (err) {
-		if (err) throw err;
+		if (err) {
+			throw err;
+		}
 	});
 	fs.unlinkSync(path.join(data_path, 'data/movies.db'), function (err) {
-		if (err) throw err;
+		if (err) {
+			throw err;
+		}
 	});
 	fs.unlinkSync(path.join(data_path, 'data/bookmarks.db'), function (err) {
-		if (err) throw err;
+		if (err) {
+			throw err;
+		}
 	});
 	fs.unlinkSync(path.join(data_path, 'data/shows.db'), function (err) {
-		if (err) throw err;
+		if (err) {
+			throw err;
+		}
 	});
 	fs.unlinkSync(path.join(data_path, 'data/settings.db'), function (err) {
-		if (err) throw err;
+		if (err) {
+			throw err;
+		}
 	});
 
 }
@@ -132,13 +142,13 @@ App.addInitializer(function (options) {
 	var y = parseInt(localStorage.posY ? localStorage.posY : -1);
 
 	// reset app width when the width is bigger than the available width
-	if(screen.availWidth < width) {
+	if (screen.availWidth < width) {
 		win.info('Window too big, resetting width');
 		width = screen.availWidth;
 	}
-	
+
 	// reset app height when the width is bigger than the available height
-	if(screen.availHeight < height) {
+	if (screen.availHeight < height) {
 		win.info('Window too big, resetting height');
 		height = screen.availHeight;
 	}

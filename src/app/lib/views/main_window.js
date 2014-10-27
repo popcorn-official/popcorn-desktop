@@ -304,11 +304,11 @@
 			}));
 		},
 
-        syncTraktOnStart: function () {
-            if (Settings.syncOnStart) {
-                App.Trakt.sync();
-            };
-        },
+		syncTraktOnStart: function () {
+			if (Settings.syncOnStart) {
+				App.Trakt.sync();
+			}
+		},
 
 		streamStarted: function (stateModel) {
 
@@ -353,8 +353,8 @@
 			var that = this;
 
 			App.db.getSetting({
-					key: 'postersWidth'
-				})
+				key: 'postersWidth'
+			})
 				.then(function (doc) {
 					var postersWidth = doc.value;
 					var postersHeight = Math.round(postersWidth * Settings.postersSizeRatio);
