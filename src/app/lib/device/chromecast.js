@@ -27,11 +27,11 @@
 					url: streamModel.get('cover')
 				},
 				subtitles_style: {
-					backgroundColor: '#00000000', // see http://dev.w3.org/csswg/css-color/#hex-notation
-					foregroundColor: '#FFFFFFFF', // see http://dev.w3.org/csswg/css-color/#hex-notation
-					edgeType: 'OUTLINE', // can be: "NONE", "OUTLINE", "DROP_SHADOW", "RAISED", "DEPRESSED"
-					edgeColor: '#000000FF', // see http://dev.w3.org/csswg/css-color/#hex-notation
-					fontScale: 1.3, // transforms into "font-size: " + (fontScale*100) +"%"
+					backgroundColor: '#00000000', // color of background - see http://dev.w3.org/csswg/css-color/#hex-notation
+					foregroundColor: '#FFFFFFFF', // color of text - see http://dev.w3.org/csswg/css-color/#hex-notation
+					edgeType: 'OUTLINE', // border of text - can be: "NONE", "OUTLINE", "DROP_SHADOW", "RAISED", "DEPRESSED"
+					edgeColor: '#000000FF', // color of border - see http://dev.w3.org/csswg/css-color/#hex-notation
+					fontScale: 1.3, // size of the text - transforms into "font-size: " + (fontScale*100) +"%"
 					fontStyle: 'NORMAL', // can be: "NORMAL", "BOLD", "BOLD_ITALIC", "ITALIC",
 					fontFamily: 'Helvetica',
 					fontGenericFamily: 'SANS_SERIF', // can be: "SANS_SERIF", "MONOSPACED_SANS_SERIF", "SERIF", "MONOSPACED_SERIF", "CASUAL", "CURSIVE", "SMALL_CAPITALS",
