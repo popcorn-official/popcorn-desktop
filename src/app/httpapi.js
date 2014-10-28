@@ -156,7 +156,7 @@
 		server.expose('setselection', function (args, opt, callback) {
 			var index = 0;
 			if (args.length > 0) {
-					index = parseFloat(args[0]);
+				index = parseFloat(args[0]);
 			} else {
 				popcornCallback(callback, 'Arguments missing');
 			}
