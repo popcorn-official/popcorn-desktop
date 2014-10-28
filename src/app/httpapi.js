@@ -153,6 +153,19 @@
 			}
 		});
 
+		server.expose('setselection', function (args, opt, callback) {
+			var index = 0;
+			if (args.length > 0) {
+					index = parseFloat(args[0]);
+			} else {
+				popcornCallback(callback, 'Arguments missing');
+			}
+
+			App.Window.currentView.Content.currentView.ItemList.currentView.selectIndex(index);
+
+			popcornCallback(callback);
+		});
+
 		server.expose('getselection', function (args, opt, callback) {
 			var movieView = App.Window.currentView.MovieDetail.currentView;
 			if (movieView === undefined || movieView.model === undefined) {
