@@ -554,19 +554,23 @@
 		},
 
 		syncTrakt: function () {
-			$('#syncTrakt').text(i18n.__('Syncing...')).addClass('disabled').prop('disabled', true);
+
+            var oldHTML = document.getElementById('syncTrakt').innerHTML;
+            $('#syncTrakt').text(i18n.__('Syncing...')).addClass('disabled').prop('disabled', true);
 
 			App.Trakt.sync()
 				.then(function () {
 					$('#syncTrakt').text(i18n.__('Done')).removeClass('disabled').addClass('green').delay(3000).queue(function () {
-						$('#syncTrakt').text(i18n.__('Sync With Trakt')).removeClass('green').prop('disabled', false);
+						$('#syncTrakt').removeClass('green').prop('disabled', false);
+                        document.getElementById('syncTrakt').innerHTML = oldHTML;
 						$('#syncTrakt').dequeue();
 					});
 				})
 				.catch(function (err) {
 					win.error(err);
 					$('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red').delay(3000).queue(function () {
-						$('#syncTrakt').text(i18n.__('Sync With Trakt')).removeClass('red').prop('disabled', false);
+						$('#syncTrakt').removeClass('red').prop('disabled', false);
+                        document.getElementById('syncTrakt').innerHTML = oldHTML;
 						$('#syncTrakt').dequeue();
 					});
 				});
