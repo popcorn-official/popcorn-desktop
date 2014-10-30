@@ -45,6 +45,18 @@ Opens the movies tab.
 ##### animelist()
 Opens the anime tab.
 
+##### showwatchlist()
+Opens the watchlist view.
+
+##### showfavourites()
+Opens the favourites view.
+
+##### showabout()
+Opens the about view.
+
+##### showsettings()
+Opens the settings view.
+
 ##### getviewstack()
 Gets the views stack. Responds with the array of currently stacked views.
 
@@ -117,11 +129,17 @@ Simulates a keyboard enter button click
 ##### back()
 Simulates a keyboard backspace button click
 
+##### watchtrailer()
+Open the trailer
+
 ##### previousseason()
 Go to previous season in show details view. Simulates ctrl+up click
 
 ##### nextseason()
 Go to next season in show details view. Simulates ctrl+up click
+
+##### selectepisode([int season, int episode])
+Select the specified season and episode in the show-detail
 
 ##### subtitleoffset([double amount])
 Adjusts subtitle offset by the given decimal amount
@@ -129,8 +147,11 @@ Adjusts subtitle offset by the given decimal amount
 ##### setsubtitle()
 Sets the subtitle for this movie.
 
-##### setplayer(string player_id)
+##### setplayer([string player_id])
 Sets the mediaplayer for playback.
+
+##### setselection([string index])
+Select the item at index in the list browser
 
 ##### getstreamurl()
 Get the stream URL of playing video.
@@ -145,3 +166,4 @@ Currently, the following events are supported:
 
 * volumechange: the player volume has been changed
 * viewstack: the view stack has been changed
+* fullscreenchange: the player fullscreens status has been changed
