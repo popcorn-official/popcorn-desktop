@@ -1,13 +1,13 @@
-// POPCORN-THEME: FLAX
+// OFFICIAL POPCORN-THEME: FLAX
 
 //FLAX Color scheme
-    Green = #323a45 //bars
-    LightGreen = #656d78 //small bar
-    DarkGreen = #191d22 //bg
-    LightGrey = #a5a9b0 //text
-    DarkGrey = #555b65 //inactive text
-    White = #f5f7fa //bg
-    Rose = #de5362 //colored
+    Green = #323a45
+    LightGreen = #656d78
+    DarkGreen = #191d22
+    LightGrey = #a5a9b0
+    DarkGrey = #555b65
+    White = #f5f7fa
+    Rose = #de5362
     
 
 //Fonts
@@ -18,22 +18,22 @@
     $ButtonFont = 'Open Sans Semibold'
 
 //Main app
-    $BgColor1 = DarkGreen //big bg
-    $BgColor2 = Green //useless??
+    $BgColor1 = DarkGreen
+    $BgColor2 = Green
 
-    $Text1 = White //poster title
-    $Text2 = LightGrey //caret
-    $Text3 = LightGrey //icon settings
-    $Text4 = darken(LightGrey,5) //poster sub-title
-    $TextError = Green //not found
+    $Text1 = White
+    $Text2 = LightGrey
+    $Text3 = LightGrey
+    $Text4 = darken(LightGrey,5)
+    $TextError = Green
 
-    $CloseButton = Rose //#e74c3c
-    $CloseButtonHover = darken(Rose,5) //#c0392b
+    $CloseButton = Rose
+    $CloseButtonHover = darken(Rose,5)
     
     $SpinnerColor1 = rgba(#fff,.2)
     $SpinnerColor2 = Rose
 
-    $ScrollBarBg = Green //darken(White,10)
+    $ScrollBarBg = Green
     $ScrollBarThumb = LightGreen
     $ScrollBarThumbHover = Rose
 
@@ -64,8 +64,8 @@
 
 //Buttons
     $ButtonBg = Rose
-    $ButtonBgHover = darken(Rose,5)
-    $ButtonBgActive = darken(Rose,9)
+    $ButtonBgHover = darken(Rose,4)
+    $ButtonBgActive = darken(Rose,6)
     
     $ButtonBgDisabled = #d1d5d8
     $ButtonBgDisabled = #d1d5d8
@@ -128,6 +128,14 @@
 	$PlayerColor = Rose
 
 
-// OFFICIAL POPCORN-THEME: FLAT - END
+// OFFICIAL POPCORN-THEME: FLAX - END
 
-@import 'views/app' 
+@import 'views/app'
+
+//additionnal set of rules
+.init-progressbar > div,
+.loading .state .loading-progressbar > div
+    background-color Rose
+.show-quality-container .toggle,
+.movie-detail .content-box .bottom-container .movie-quality-container .switch .toggle
+    background Rose
