@@ -92,6 +92,14 @@ videojs.plugin('customSubtitles', function() {
       $(this.el()).append(this.fileInput_);
 
       var that = this;
+
+      App.vent.on('videojs:drop_sub', function() {
+        var subname = AdvSettings.get('droppedSub');
+        var subpath = path.join(App.settings.tmpLocation, subname);
+        win.info("Subtitle dropped: " + subname);
+        that.loadSubtitle(subpath);
+      });
+
       this.fileInput_.on('change', function() {
         if (this.value == '') return;
         that.loadSubtitle(this.value);
@@ -161,42 +169,4 @@ videojs.plugin('progressTips', function(options) {
 		});
 	};
 	this.on("loadedmetadata", init);
-});
-
-// Intercept drag'n'drop of subtitles into movie window
-videojs.plugin('dropSubtitles', function() {
-  var this_ = this;
-
-  function setDroppedSubtitle(path) {
-    var track = this_.addTextTrack('subtitles', 'Dropped sub', '00', { src: path });
-    this_.showTextTrack(track.id(), track.kind());
-  }
-
-  this_.on('drop', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    var files = e.dataTransfer.files;
-    if(files.length == 1) {
-	
-        var regexAll = /[^\\]*\.(\w+)$/;
-        var total = files[0].path.match(regexAll);
-        var filename = total[0];
-        var extension = total[1];
-		
-        if(extension == "srt") {
-            win.info("Subtitle dropped: " + files[0].path);
-            setDroppedSubtitle(files[0].path);                    
-        } else {
-            win.warn("File dropped is not a subtitle");
-        }
-    } else {
-        win.warn("Too many files dropped");
-        return;
-    }
-  })
-
-  this_.on('dragover', function(e) {
-    //prevent dragover event as http://stackoverflow.com/questions/14346556/drop-event-not-firing-on-backbone-view/14349610#14349610 describes
-    e.preventDefault();
-  })
 });
