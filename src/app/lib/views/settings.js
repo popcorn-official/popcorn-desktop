@@ -126,7 +126,7 @@
 		generateQRcode: function () {
 
 			var QRCodeInfo = {
-				ip: require('my-local-ip')(),
+				ip: AdvSettings.get('ipAddress'),
 				port: $('#httpApiPort').val(),
 				user: $('#httpApiUsername').val(),
 				pass: $('#httpApiPassword').val()
@@ -577,17 +577,21 @@
 		},
         
         getIPAddress: function () {
-			var os = require('os');
-			var interfaces = os.networkInterfaces();
-			var addresses = [];
-			for (var k in interfaces) {
-				for (var k2 in interfaces[k]) {
-					var address = interfaces[k][k2];
-					if (address.family === 'IPv4' && !address.internal) {
-						return address.address;
-					}
-				}
-			}
+            var ifaces=require('os').networkInterfaces();
+            for (var dev in ifaces) {
+              var ip, alias=0;
+              ifaces[dev].forEach(function(details){
+                if (details.family=='IPv4') {
+                    if(!/(loopback|vmware|internal|hamachi)/gi.test(dev+(alias?':'+alias:''))){
+                        if ( (details.address.substring(0, 8) == "192.168.") || (details.address.substring(0, 7) == "172.16.") || (details.address.substring(0, 5) == "10.0.")) {
+                            ip = details.address;
+                            ++alias;
+                        }
+                    }
+                }
+              });
+              return ip; 
+            }
         }
 	});
 
