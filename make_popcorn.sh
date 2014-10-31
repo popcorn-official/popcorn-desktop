@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# Script usage
+#   ./make_popcorn [clone_from]
+#   Either download this file or clone this repository and run ./make_popcorn.sh to quickly grab all required dependancies and install them
+#   This script will ask for sudo when it needs it in order to install packages correctly and fix permissions.
+#
+#   When you run this script from inside of a cloned Popcorn Time repository, it will skip over cloning and simply work on dependancies
+#
+#   When you run this script from outside of any repositroy, it will ask you if you wish to clone Popcorn Time into a folder
+#   When doing this, you have the option to grab the source from an alternate repostiry by passing it as the first argument of the script
+#   Optinally, you may just use 'ssh' as replacement for a git-url and it will clone via the main repo's ssh url instead.
+#     Note: You need permissions to clone via ssh
+
+
 clone_repo="True"
 if [ -z "${1}" ]; then
     clone_url="https://git.popcorntime.io/stash/scm/pt/popcorn-app.git"
