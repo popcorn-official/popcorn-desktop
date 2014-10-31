@@ -27,6 +27,8 @@ The [stable](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/brow
 1. `grunt build`
 1. `grunt start`
 
+Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
+
 Full instructions & troubleshooting tips can be found in the [Contributing Guide](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse/CONTRIBUTING.md)
 
 <a name="community"></a>
