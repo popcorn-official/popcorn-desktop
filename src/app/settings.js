@@ -3,7 +3,8 @@ var
 	os = require('os'),
 	data_path = require('nw.gui').App.dataPath,
 	path = require('path'),
-	Q = require('q');
+	Q = require('q'),
+    slash = (process.platform === 'win32')? '\\':'\/';
 
 /** Default settings **/
 
@@ -59,7 +60,7 @@ Settings.connectionLimit = 100;
 Settings.dhtLimit = 500;
 Settings.streamPort = 0; // 0 = Random
 Settings.tmpLocation = path.join(os.tmpDir(), 'Popcorn-Time');
-Settings.databaseLocation = data_path + '/data';
+Settings.databaseLocation = data_path + slash + 'data';
 Settings.deleteTmpOnClose = true;
 
 // Hidden endpoints
