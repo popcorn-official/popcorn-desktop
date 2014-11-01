@@ -1,18 +1,5 @@
 #!/bin/bash
 
-# Script usage
-#   ./make_popcorn [clone_from]
-#   Either download this file or clone this repository and run ./make_popcorn.sh to quickly grab all required dependancies and install them
-#   This script will ask for sudo when it needs it in order to install packages correctly and fix permissions.
-#
-#   When you run this script from inside of a cloned Popcorn Time repository, it will skip over cloning and simply work on dependancies
-#
-#   When you run this script from outside of any repositroy, it will ask you if you wish to clone Popcorn Time into a folder
-#   When doing this, you have the option to grab the source from an alternate repostiry by passing it as the first argument of the script
-#   Optinally, you may just use 'ssh' as replacement for a git-url and it will clone via the main repo's ssh url instead.
-#     Note: You need permissions to clone via ssh
-
-
 clone_repo="True"
 if [ -z "${1}" ]; then
     clone_url="https://git.popcorntime.io/stash/scm/pt/popcorn-app.git"
@@ -21,8 +8,11 @@ elif [ "${1}" == "ssh" ]; then
 else
     clone_url="${1}"
 fi
-echo "Using ${clone_url}"
-clone_command () { git clone ${clone_url} ${dir}; }
+clone_command () { 
+    git clone ${clone_url} ${dir} && 
+    echo "Cloned Popcorn Time successfully" || 
+    echo "Popcorn Time encountered an error and could not be cloned" && exit 1; 
+}
 
 if [ -e ".git/config" ]; then
     dat=`cat .git/config | grep 'url'`
@@ -60,7 +50,7 @@ if [ "${clone_repo}" == "True" ]; then
     fi
     if [ ! -d "${dir}" ]; then
         clone_command
-        echo "Cloned Popcorn Time successfully"
+        
     else
         try="True"
         while [ "$try" == "True" ]; do
@@ -84,7 +74,6 @@ if [ "${clone_repo}" == "True" ]; then
                 sudo rm -rf ${dir}
             fi
             clone_command
-            echo "Cloned Popcorn Time successfully"
         else
             echo "Directory already exists and you've chosen not to clone again"
         fi
@@ -107,18 +96,26 @@ if [ "${rd_dep}" == "yes" ]; then
         dir="."
     fi
     echo "Installing global dependancies"
-    sudo npm install -g bower grunt-cli
-    cd ${dir}
-    echo "Global dependancies installed successfully!"
+    sudo npm install -g bower grunt-cli &&
+    cd ${dir} &&
+    echo "Global dependancies installed successfully!" ||
+    echo "Global dependancies encountered an error while installing" && exit 1
+
     echo "Installing local dependancies"
-    sudo npm install 
-    echo "Dependancies installed successfully!"
-    sudo chown -R $USER .
-    sudo chown -R $USER ~/.cache
-    bower install
+    sudo npm install &&
+    sudo chown -R $USER . &&
+    sudo chown -R $USER ~/.cache &&
+    echo "Local dependancies installed successfully!" ||
+    echo "Local dependancies encountered an error while installing" && exit 1
+
+    echo "Setting up Bower"
+    bower install && 
+    echo "Bower successfully installed" ||
+    echo "Encountered an error while installing bower" && exit 1
     echo "Successfully setup for Popcorn Time"
+    
 fi
-grunt build
-echo "Popcorn Time built sucessfully!"
-echo "Run 'grunt start' from inside the repository to launch the app"
-echo "Enjoy!"
+grunt build && 
+echo "Popcorn Time built sucessfully!" && 
+echo "Run 'grunt start' from inside the repository to launch the app" && 
+echo "Enjoy!" || echo "Popcorn Time encountered an error and couldn't be built" && exit 1
