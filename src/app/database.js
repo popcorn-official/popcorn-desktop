@@ -140,6 +140,12 @@ var Database = {
 			multi: true
 		});
 	},
+    
+    deleteWatched: function () {
+        return db.watched.remove({}, {
+            multi: true
+        });
+    },
 
 	// format: {page: page, keywords: title}
 	getBookmarks: function (data) {
