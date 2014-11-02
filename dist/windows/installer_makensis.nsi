@@ -1,4 +1,6 @@
-﻿;Include Modern UI
+;Popcorn Time installer source
+
+;Include Modern UI
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
 
