@@ -1,7 +1,4 @@
-﻿; Popcorn Time
-; Installer Source for NSIS 3.0 or higher
-
-;Include Modern UI
+﻿;Include Modern UI
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
 
