@@ -283,9 +283,9 @@ module.exports = function (grunt) {
 					archive: 'build/releases/Popcorn-Time/mac/Popcorn-Time-' + currentVersion + '-Mac.tar.gz'
 				},
 				expand: true,
-				cwd: 'build/releases/Popcorn-Time/mac/Popcorn-Time',
+				cwd: 'build/releases/Popcorn-Time/mac/',
 				src: '**',
-				dest: 'Popcorn-Time'
+				dest: ''
 			},
 			windows: {
 				options: {
