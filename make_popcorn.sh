@@ -9,7 +9,7 @@ else
     clone_url="${1}"
 fi
 
-exec-sudo() {
+execsudo() {
     case ${OSTYPE} in msys*)
        echo $OSTYPE
        $1
@@ -123,14 +123,16 @@ while [ "${try}" = "True" ]; do
         echo "Not a valid answer, please try again"
     fi
 done
-if [ "${rd_dep}" = "yes" ]; then
-    if [ -z "${dir}" ]; then
-        dir="."
-    fi
-    cd ${dir}
 
+if [ -z "${dir}" ]; then
+    dir="."
+fi
+cd ${dir}
+echo "Switched to ${PWD}"
+
+if [ "${rd_dep}" = "yes" ]; then
     echo "Installing global dependencies"
-    if exec-sudo "npm install -g bower grunt-cli"; then
+    if execsudo "npm install -g bower grunt-cli"; then
         echo "Global dependencies installed successfully!"
     else
         echo "Global dependencies encountered an error while installing"
@@ -138,7 +140,7 @@ if [ "${rd_dep}" = "yes" ]; then
     fi
 
     echo "Installing local dependencies"
-    if exec-sudo "npm install"; then
+    if execsudo "npm install"; then
         echo "Local dependencies installed successfully!"
     else
         echo "Local dependencies encountered an error while installing"
@@ -149,7 +151,7 @@ if [ "${rd_dep}" = "yes" ]; then
     case ${OSTYPE} in msys*)
         ;;
         *)
-        if chown -R $USER . && chown -R $USER $curh/.cache; then
+        if execsudo "chown -R $USER ." && execsudo "chown -R $USER $curh/.cache"; then
             echo "Local permissions corrected successfully!"
         else
             echo "Local permissions encountered an error while correcting"
@@ -159,7 +161,7 @@ if [ "${rd_dep}" = "yes" ]; then
     esac
 
     echo "Setting up Bower"
-    if `bower install`; then
+    if bower install; then
         echo "Bower successfully installed"
     else
         echo "Encountered an error while installing bower"
@@ -169,7 +171,7 @@ if [ "${rd_dep}" = "yes" ]; then
     echo "Successfully setup for Popcorn Time"
 fi
 
-if `grunt build`; then
+if grunt build; then
     echo "Popcorn Time built successfully!"
     echo "Run 'grunt start' from inside the repository to launch the app"
     echo "Enjoy!"
