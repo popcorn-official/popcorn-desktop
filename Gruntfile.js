@@ -277,21 +277,32 @@ module.exports = function (grunt) {
 				src: '**',
 				dest: 'Popcorn-Time'
 			},
+			mac: {
+				options: {
+					mode: 'tgz',
+					archive: 'build/releases/Popcorn-Time/mac/Popcorn-Time-' + currentVersion + '-Mac.tar.gz'
+				},
+				expand: true,
+				cwd: 'build/releases/Popcorn-Time/mac/',
+				src: '**',
+				dest: ''
+			},
 			windows: {
 				options: {
 					mode: 'zip',
 					archive: 'build/releases/Popcorn-Time/win/Popcorn-Time-' + currentVersion + '-Win.zip'
 				},
 				expand: true,
-				cwd: 'dist/windows',
-				src: 'Popcorn Time-' + currentVersion + '-Setup.exe',
-				dest: ''
+				cwd: 'build/releases/Popcorn-Time/win/Popcorn-Time',
+				src: '**',
+				dest: 'Popcorn-Time'
 			}
 		},
 
 		clean: {
 			releases: ['build/releases/Popcorn-Time/**'],
-			css: ['src/app/themes/**']
+			css: ['src/app/themes/**'],
+			dist: ['dist/windows/Popcorn-*-Setup.exe']
 		},
 
 		watch: {
