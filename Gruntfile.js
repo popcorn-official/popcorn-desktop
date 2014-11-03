@@ -58,7 +58,8 @@ module.exports = function (grunt) {
 		'injectgit',
 		'bower_clean',
 		'lang',
-		'nodewebkit'
+		'nodewebkit',
+		'shell:setexecutable'
 	]);
 	grunt.registerTask('lang', ['shell:language']);
 
@@ -69,7 +70,7 @@ module.exports = function (grunt) {
 		'exec:createDmg', // mac
 		'exec:createWinInstall',
 		'exec:createLinuxInstall',
-		'compress' // win & linux
+		'compress' // all platforms
 	]);
 
 
@@ -271,6 +272,14 @@ module.exports = function (grunt) {
 					'git submodule update',
 					'cd src/app/language/',
 					'git reset --hard origin/master'
+				].join('&&')
+			}, 
+			setexecutable: {
+				command: [
+				'pct_rel="build/releases/Popcorn-Time"',
+				'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app/Contents/MacOS || : ',
+				'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app/Contents/Frameworks || : ',
+				'chmod +x ${pct_rel}/linux*/Popcorn-Time/Popcorn-Time || : '
 				].join('&&')
 			}
 		},
