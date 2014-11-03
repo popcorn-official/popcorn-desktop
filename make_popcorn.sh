@@ -146,12 +146,15 @@ if [ "${rd_dep}" = "yes" ]; then
     fi
 
     curh=$HOME
-    if exec-sudo "chown -R $USER ." && exec-sudo "chown -R $USER $curh/.cache"; then
-        echo "Local permissions corrected successfully!"
-    else
-        echo "Local permissions encountered an error while correcting"
-        exit 4
-    fi
+    case ${OSTYPE} in msys*)
+        if exec-sudo "chown -R $USER ." && exec-sudo "chown -R $USER $curh/.cache"; then
+            echo "Local permissions corrected successfully!"
+        else
+            echo "Local permissions encountered an error while correcting"
+            exit 4
+        fi
+        ;;
+    esac
 
     echo "Setting up Bower"
     if `bower install`; then
