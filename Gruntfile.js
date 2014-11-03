@@ -99,16 +99,22 @@ module.exports = function (grunt) {
 	grunt.registerTask('injectgit', function () {
 		if (grunt.file.exists('.git/')) {
 			var path = require('path');
-			var gitRef = grunt.file.read('.git/HEAD').split(':')[1].trim();
-			var gitBranch = path.basename(gitRef);
-			if (grunt.file.exists('.git/' + gitRef)) {
+			var gitRef = grunt.file.read('.git/HEAD');
+                        try {
+                        	var gitRef = gitRef.split(':')[1].trim();
+				var gitBranch = path.basename(gitRef);
 				var currCommit = grunt.file.read('.git/' + gitRef).trim();
-				var git = {
-					branch: gitBranch,
-					commit: currCommit
-				};
-				grunt.file.write('.git.json', JSON.stringify(git, null, '  '));
 			}
+			catch (e) {
+				var currCommit = gitRef.trim();
+				var items = fs.readdirSync('.git/refs/heads');
+				var gitBranch = items[0];
+			}
+			var git = {
+				branch: gitBranch,
+				commit: currCommit
+			}
+			grunt.file.write('.git.json', JSON.stringify(git, null, '  '));
 		}
 	});
 
