@@ -277,8 +277,7 @@ module.exports = function (grunt) {
 			setexecutable: {
 				command: [
 				'pct_rel="build/releases/Popcorn-Time"',
-				'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app/Contents/MacOS || : ',
-				'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app/Contents/Frameworks || : ',
+				'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app || : ',
 				'chmod +x ${pct_rel}/linux*/Popcorn-Time/Popcorn-Time || : '
 				].join('&&')
 			}
