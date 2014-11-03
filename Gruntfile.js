@@ -18,7 +18,7 @@ var parseBuildPlatforms = function (argumentPlatform) {
 
 	return buildPlatforms;
 };
-
+ 
 module.exports = function (grunt) {
 	"use strict";
 
