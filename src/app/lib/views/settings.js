@@ -126,7 +126,7 @@
 		generateQRcode: function () {
 
 			var QRCodeInfo = {
-				ip: require('my-local-ip')(),
+				ip: AdvSettings.get('ipAddress'),
 				port: $('#httpApiPort').val(),
 				user: $('#httpApiUsername').val(),
 				pass: $('#httpApiPassword').val()
@@ -554,36 +554,44 @@
 		},
 
 		syncTrakt: function () {
-			$('#syncTrakt').text(i18n.__('Syncing...')).addClass('disabled').prop('disabled', true);
+
+            var oldHTML = document.getElementById('syncTrakt').innerHTML;
+            $('#syncTrakt').text(i18n.__('Syncing...')).addClass('disabled').prop('disabled', true);
 
 			App.Trakt.sync()
 				.then(function () {
 					$('#syncTrakt').text(i18n.__('Done')).removeClass('disabled').addClass('green').delay(3000).queue(function () {
-						$('#syncTrakt').text(i18n.__('Sync With Trakt')).removeClass('green').prop('disabled', false);
+						$('#syncTrakt').removeClass('green').prop('disabled', false);
+                        document.getElementById('syncTrakt').innerHTML = oldHTML;
 						$('#syncTrakt').dequeue();
 					});
 				})
 				.catch(function (err) {
 					win.error(err);
 					$('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red').delay(3000).queue(function () {
-						$('#syncTrakt').text(i18n.__('Sync With Trakt')).removeClass('red').prop('disabled', false);
+						$('#syncTrakt').removeClass('red').prop('disabled', false);
+                        document.getElementById('syncTrakt').innerHTML = oldHTML;
 						$('#syncTrakt').dequeue();
 					});
 				});
 		},
         
         getIPAddress: function () {
-			var os = require('os');
-			var interfaces = os.networkInterfaces();
-			var addresses = [];
-			for (var k in interfaces) {
-				for (var k2 in interfaces[k]) {
-					var address = interfaces[k][k2];
-					if (address.family === 'IPv4' && !address.internal) {
-						return address.address;
-					}
-				}
-			}
+            var ifaces=require('os').networkInterfaces();
+            for (var dev in ifaces) {
+              var ip, alias=0;
+              ifaces[dev].forEach(function(details){
+                if (details.family=='IPv4') {
+                    if(!/(loopback|vmware|internal|hamachi)/gi.test(dev+(alias?':'+alias:''))){
+                        if ( (details.address.substring(0, 8) == "192.168.") || (details.address.substring(0, 7) == "172.16.") || (details.address.substring(0, 5) == "10.0.")) {
+                            ip = details.address;
+                            ++alias;
+                        }
+                    }
+                }
+              });
+            }
+            return ip;
         }
 	});
 

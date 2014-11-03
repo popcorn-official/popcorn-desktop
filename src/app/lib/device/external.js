@@ -20,6 +20,18 @@
 			var cmd = path.normalize('"' + this.get('path') + '" ' + getPlayerSwitches(this.get('id')) + ' ');
 			var subtitle = streamModel.attributes.subFile || '';
 			if (subtitle !== '') {
+
+				if ((this.get('id') === 'mplayer') || (this.get('id') === 'MPlayer OSX Extended')) {
+					//detect charset
+					var dataBuff = fs.readFileSync(subtitle);
+					var charsetDetect = require('jschardet');
+					//var targetEncodingCharset = 'utf8';
+					var charset = charsetDetect.detect(dataBuff);
+					var detectedEncoding = charset.encoding;
+					win.debug("SUBB charset detected: "+detectedEncoding);
+					if (detectedEncoding.toLowerCase() === 'utf-8')
+						cmd += '-utf8 ';
+				}
 				cmd += getPlayerSubSwitch(this.get('id')) + '"' + subtitle + '" ';
 			}
 			if(getPlayerFilenameSwitch(this.get('id')) !== ''){

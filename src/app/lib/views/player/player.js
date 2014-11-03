@@ -132,8 +132,7 @@
 						biggerSubtitle: {},
 						smallerSubtitle: {},
 						customSubtitles: {},
-						progressTips: {},
-						dropSubtitles: {}
+						progressTips: {}
 					}
 				});
 			}
@@ -364,27 +363,27 @@
 			});
 
 			Mousetrap.bind('h', function (e) {
-				_this.adjustSubtitleOffset(0.1);
-			});
-
-			Mousetrap.bind('g', function (e) {
 				_this.adjustSubtitleOffset(-0.1);
 			});
 
-			Mousetrap.bind('shift+h', function (e) {
-				_this.adjustSubtitleOffset(1);
+			Mousetrap.bind('g', function (e) {
+				_this.adjustSubtitleOffset(0.1);
 			});
 
-			Mousetrap.bind('shift+g', function (e) {
+			Mousetrap.bind('shift+h', function (e) {
 				_this.adjustSubtitleOffset(-1);
 			});
 
+			Mousetrap.bind('shift+g', function (e) {
+				_this.adjustSubtitleOffset(1);
+			});
+
 			Mousetrap.bind('ctrl+h', function (e) {
-				_this.adjustSubtitleOffset(5);
+				_this.adjustSubtitleOffset(-5);
 			});
 
 			Mousetrap.bind('ctrl+g', function (e) {
-				_this.adjustSubtitleOffset(-5);
+				_this.adjustSubtitleOffset(5);
 			});
 
 			Mousetrap.bind(['space', 'p'], function (e) {
@@ -618,7 +617,7 @@
 		adjustSubtitleOffset: function (s) {
 			var o = this.player.options()['trackTimeOffset'];
 			this.player.options()['trackTimeOffset'] = (o + s);
-			this.displayOverlayMsg(i18n.__('Subtitles Offset') + ': ' + this.player.options()['trackTimeOffset'].toFixed(1) + ' ' + i18n.__('secs'));
+			this.displayOverlayMsg(i18n.__('Subtitles Offset') + ': ' + (-this.player.options()['trackTimeOffset'].toFixed(1)) + ' ' + i18n.__('secs'));
 		},
 
 		adjustPlaybackRate: function (rate, delta) {

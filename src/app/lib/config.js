@@ -35,7 +35,8 @@
 			'popularity',
 			'date',
 			'year',
-			'rating'
+			'rating',
+            'alphabet'
 		],
 
 		sorters_tv: [

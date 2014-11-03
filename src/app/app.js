@@ -373,7 +373,7 @@ window.ondrop = function (e) {
 
 	var file = e.dataTransfer.files[0];
 
-	if (file != null && file.name.indexOf('.torrent') !== -1) {
+	if (file != null && (file.name.indexOf('.torrent') !== -1 || file.name.indexOf('.srt') !== -1 )) {
 		var reader = new FileReader();
 
 		reader.onload = function (event) {
@@ -381,16 +381,22 @@ window.ondrop = function (e) {
 
 			fs.writeFile(path.join(App.settings.tmpLocation, file.name), content, function (err) {
 				if (err) {
-					window.alert('Error Loading Torrent: ' + err);
+					window.alert('Error Loading File: ' + err);
 				} else {
-					// startTorrentStream(path.join(App.settings.tmpLocation, file.name));
-					handleTorrent(path.join(App.settings.tmpLocation, file.name));
+                    if (file.name.indexOf('.torrent') !== -1) {
+                        // startTorrentStream(path.join(App.settings.tmpLocation, file.name));
+                        handleTorrent(path.join(App.settings.tmpLocation, file.name));
+                    } else if (file.name.indexOf('.srt') !== -1) {
+                        AdvSettings.set('droppedSub', file.name);
+                        App.vent.trigger('videojs:drop_sub');
+                    }
 				}
 			});
 
 		};
 
 		reader.readAsBinaryString(file);
+        
 	} else {
 		var data = e.dataTransfer.getData('text/plain');
 		handleTorrent(data);
