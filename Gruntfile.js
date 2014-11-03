@@ -100,8 +100,8 @@ module.exports = function (grunt) {
 		if (grunt.file.exists('.git/')) {
 			var path = require('path');
 			var gitRef = grunt.file.read('.git/HEAD');
-                        try {
-                        	var gitRef = gitRef.split(':')[1].trim();
+			try {
+				var gitRef = gitRef.split(':')[1].trim();
 				var gitBranch = path.basename(gitRef);
 				var currCommit = grunt.file.read('.git/' + gitRef).trim();
 			}
