@@ -25,7 +25,7 @@ clone_command() {
         echo "Cloned Popcorn Time successfully"
     else
         echo "Popcorn Time encountered an error and could not be cloned"
-        exit $?
+        exit 2
     fi
 }
 
@@ -86,7 +86,7 @@ if [ "${clone_repo}" = "True" ]; then
                 try="False"
             elif [ "$tries" -ge "3" ]; then
                 echo "No valid input, exiting"
-                exit 1
+                exit 3
             else
                 echo "Not a valid answer, please try again"
             fi
@@ -118,7 +118,7 @@ while [ "${try}" = "True" ]; do
         try="False"
     elif [ "$tries" -ge "3" ]; then
         echo "No valid input, exiting"
-        exit 1
+        exit 3
     else
         echo "Not a valid answer, please try again"
     fi
@@ -134,7 +134,7 @@ if [ "${rd_dep}" = "yes" ]; then
         echo "Global dependencies installed successfully!"
     else
         echo "Global dependencies encountered an error while installing"
-        exit $?
+        exit 4
     fi
 
     echo "Installing local dependencies"
@@ -142,7 +142,7 @@ if [ "${rd_dep}" = "yes" ]; then
         echo "Local dependencies installed successfully!"
     else
         echo "Local dependencies encountered an error while installing"
-        exit $?
+        exit 4
     fi
 
     curh=$HOME
@@ -150,7 +150,7 @@ if [ "${rd_dep}" = "yes" ]; then
         echo "Local permissions corrected successfully!"
     else
         echo "Local permissions encountered an error while correcting"
-        exit $?
+        exit 4
     fi
 
     echo "Setting up Bower"
@@ -158,7 +158,7 @@ if [ "${rd_dep}" = "yes" ]; then
         echo "Bower successfully installed"
     else
         echo "Encountered an error while installing bower"
-        exit $?
+        exit 4
     fi
 
     echo "Successfully setup for Popcorn Time"
@@ -170,5 +170,5 @@ if `grunt build`; then
     echo "Enjoy!"
 else
     echo "Popcorn Time encountered an error and couldn't be built"
-    exit $?
+    exit 5
 fi
