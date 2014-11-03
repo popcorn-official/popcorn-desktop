@@ -147,7 +147,9 @@ if [ "${rd_dep}" = "yes" ]; then
 
     curh=$HOME
     case ${OSTYPE} in msys*)
-        if exec-sudo "chown -R $USER ." && exec-sudo "chown -R $USER $curh/.cache"; then
+        ;;
+        *)
+        if chown -R $USER . && chown -R $USER $curh/.cache; then
             echo "Local permissions corrected successfully!"
         else
             echo "Local permissions encountered an error while correcting"
