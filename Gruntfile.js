@@ -212,8 +212,21 @@ module.exports = function (grunt) {
 				cmd: 'dist/mac/yoursway-create-dmg/create-dmg --volname "Popcorn Time ' + currentVersion + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "Popcorn-Time" 240 110 ./build/releases/Popcorn-Time/mac/Popcorn-Time-' + currentVersion + '-Mac.dmg ./build/releases/Popcorn-Time/mac/'
 			},
 			createWinInstall: {
-				cmd: 'makensis dist/windows/installer_makensis.nsi',
-				maxBuffer: Infinity
+				cmd: function() {
+					var plat = parseBuildPlatforms();
+					var nsispath = 'dist/windows/';
+					var nsisfile = nsispath + 'installer_makensis.nsi';
+					if (plat.linux64 || plat.linux32) {
+						grunt.log.writeln('Using non-BOM nsis file');
+						var nsisbuff = grunt.file.read(nsisfile);
+						var nsisfile = nsispath + 'installer_nobom.nsi';
+						nsisbuff.preserveBOM = false;
+						grunt.file.write(nsisfile, nsisbuff);
+					} else {
+						grunt.log.writeln('Using BOM nsis file');
+					}
+					return "'makensis ' + nsisfile";
+				}
 			},
 			createLinuxInstall: {
 				cmd: 'bash dist/linux/exec_installer.sh'
