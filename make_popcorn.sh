@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 clone_repo="True"
 if [ -z "${1}" ]; then
