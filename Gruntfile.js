@@ -18,7 +18,7 @@ var parseBuildPlatforms = function (argumentPlatform) {
 
 	return buildPlatforms;
 };
-
+ 
 module.exports = function (grunt) {
 	"use strict";
 
@@ -58,7 +58,8 @@ module.exports = function (grunt) {
 		'injectgit',
 		'bower_clean',
 		'lang',
-		'nodewebkit'
+		'nodewebkit',
+		'shell:setexecutable'
 	]);
 	grunt.registerTask('lang', ['shell:language']);
 
@@ -69,7 +70,7 @@ module.exports = function (grunt) {
 		'exec:createDmg', // mac
 		'exec:createWinInstall',
 		'exec:createLinuxInstall',
-		'compress' // win & linux
+		'compress' // all platforms
 	]);
 
 
@@ -99,16 +100,22 @@ module.exports = function (grunt) {
 	grunt.registerTask('injectgit', function () {
 		if (grunt.file.exists('.git/')) {
 			var path = require('path');
-			var gitRef = grunt.file.read('.git/HEAD').split(':')[1].trim();
-			var gitBranch = path.basename(gitRef);
-			if (grunt.file.exists('.git/' + gitRef)) {
+			var gitRef = grunt.file.read('.git/HEAD');
+			try {
+				var gitRef = gitRef.split(':')[1].trim();
+				var gitBranch = path.basename(gitRef);
 				var currCommit = grunt.file.read('.git/' + gitRef).trim();
-				var git = {
-					branch: gitBranch,
-					commit: currCommit
-				};
-				grunt.file.write('.git.json', JSON.stringify(git, null, '  '));
 			}
+			catch (e) {
+				var currCommit = gitRef.trim();
+				var items = fs.readdirSync('.git/refs/heads');
+				var gitBranch = items[0];
+			}
+			var git = {
+				branch: gitBranch,
+				commit: currCommit
+			}
+			grunt.file.write('.git.json', JSON.stringify(git, null, '  '));
 		}
 	});
 
@@ -252,6 +259,13 @@ module.exports = function (grunt) {
 					'git submodule update',
 					'cd src/app/language/',
 					'git reset --hard origin/master'
+				].join('&&')
+			}, 
+			setexecutable: {
+				command: [
+				'pct_rel="build/releases/Popcorn-Time"',
+				'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app || : ',
+				'chmod +x ${pct_rel}/linux*/Popcorn-Time/Popcorn-Time || : '
 				].join('&&')
 			}
 		},
