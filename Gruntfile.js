@@ -65,13 +65,14 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('dist', [
 		'clean:releases',
+		'clean:dist',
 		'build',
 		'exec:codesign', // mac
 		'exec:createDmg', // mac
 		'exec:createWinInstall',
 		'exec:createWinUpdate',
 		'exec:createLinuxInstall',
-		'compress' // all platforms
+		'package' // all platforms
 	]);
 
 
@@ -96,6 +97,13 @@ module.exports = function (grunt) {
 	grunt.registerTask('unofficalcss', [
 		'clean:css',
 		'stylus:third_party'
+	]);
+
+	grunt.registerTask('package', [
+		'exec:packageLinux64',
+		'exec:packageLinux32',
+		'exec:packageWin',
+		'exec:packageMac',
 	]);
 
 	grunt.registerTask('injectgit', function () {
@@ -223,6 +231,18 @@ module.exports = function (grunt) {
 			},
 			createWinUpdate: {
 				cmd: 'sh dist/windows/updater_package.sh'
+			},
+			packageLinux64: {
+				cmd: 'cd build/releases/Popcorn-Time/linux64/Popcorn-Time/ && tar -cf ../Popcorn-Time-' + currentVersion + '-Linux-64.tar.xz *'
+			},
+			packageLinux32: {
+				cmd: "cd build/releases/Popcorn-Time/linux32/Popcorn-Time/ && tar -cf ../Popcorn-Time-' + currentVersion + '-Linux-32.tar.xz *'
+			},
+			packageWin: {
+				cmd: "cd build/releases/Popcorn-Time/win/Popcorn-Time/ && tar -cf ../Popcorn-Time-' + currentVersion + '-Win.tar.xz *"
+			},
+			packageMac: {
+				cmd: "cd build/releases/Popcorn-Time/mac/Popcorn-Time/ && tar -cf ../Popcorn-Time-' + currentVersion + '-Mac.tar.xz *"
 			}
 		},
 
