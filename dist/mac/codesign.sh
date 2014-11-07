@@ -1,6 +1,6 @@
 #!/bin/sh
 
-dir="$(dirname $(readlink -f "${0}"))"
+dir="$(dirname $(readlink -f ${0}))"
 build="${dir}/../../build/releases/Popcorn-Time/mac"
 app="${build}/Popcorn-Time.app"
 identity="2Z88DW977Y"
@@ -32,7 +32,7 @@ codesign -vvv -d "${app}"
 echo "### create dmg"
 dist/mac/yoursway-create-dmg/create-dmg --volname "Popcorn Time ${1}" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "Popcorn-Time" 240 110 "${build}/Popcorn-Time-${1}-Mac.dmg" "${build}"
 
-dmg="$build/Popcorn-Time-${1}-Mac.dmg"
+dmg="${build}/Popcorn-Time-${1}-Mac.dmg"
 
 echo "### signing dmg"
 codesign --force --verify --verbose --sign "${identity}" "${dmg}"
