@@ -5,7 +5,6 @@ windir="${basedir}/build/releases/Popcorn-Time/win"
 outdir="${basedir}/build/updater/win"
 
 mkdir -p "${outdir}"
-mkdir -p "${outdir}/node-webkit/"
 
 echo "Copying Sourcefiles"
 cp -r "${basedir}/src" "${outdir}"
@@ -13,8 +12,12 @@ cp -r "${basedir}/src" "${outdir}"
 echo "Copying modules"
 cp -r "${basedir}/node_modules" "${outdir}"
 
-echo "Copying compiled files"
-cp -r "${windir}/Popcorn-Time/*" "${outdir}/node-webkit/"
+if [ ${POP_NEW_NW} = "TRUE" ]; then
+   echo "Copying compiled files"
+   mkdir -p "${outdir}/node-webkit/"
+   cp -r "${windir}/Popcorn-Time/*" "${outdir}/node-webkit/"
+done
+
 cp "${basedir}/package.json" "${outdir}"
 cp "${basedir}/.git.json" "${outdir}"
 
