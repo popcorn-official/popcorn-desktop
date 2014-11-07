@@ -1,5 +1,19 @@
 #!/bin/sh
 
+## Version 0.1.1
+##
+## Usage
+## ./make_popcorn.sh [url]
+##
+## The script make_popcorn.sh allows you to clone, setup, and build a version of popcorn time
+## The [url] handle is optional and allows you to pick what repository you wish to clone
+## If you use 'ssh' in the place of the optional [url] parameter, it will clone via ssh instead of http
+##
+## Optionally, you can also pass in a specific branch to build or clone, by making url contain a branch specifier
+## ./make_popcorn.sh '-b release/0.3.4 https://git.popcorntime.io/stash/scm/pt/popcorn-app.git'
+##
+
+
 clone_repo="True"
 if [ -z "${1}" ]; then
     clone_url="https://git.popcorntime.io/stash/scm/pt/popcorn-app.git"
@@ -21,7 +35,7 @@ execsudo() {
 }
 
 clone_command() {
-    if `git clone ${clone_url} ${dir}`; then
+    if git clone ${clone_url} ${dir}; then
         echo "Cloned Popcorn Time successfully"
     else
         echo "Popcorn Time encountered an error and could not be cloned"
