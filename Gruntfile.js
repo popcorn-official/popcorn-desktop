@@ -100,10 +100,10 @@ module.exports = function (grunt) {
 	]);
 
 	grunt.registerTask('package', [
-		'exec:packageLinux64',
-		'exec:packageLinux32',
-		'exec:packageWin',
-		'exec:packageMac',
+		'shell:packageLinux64',
+		'shell:packageLinux32',
+		'shell:packageWin',
+		'shell:packageMac'
 	]);
 
 	grunt.registerTask('injectgit', function () {
@@ -231,18 +231,6 @@ module.exports = function (grunt) {
 			},
 			createWinUpdate: {
 				cmd: 'sh dist/windows/updater_package.sh'
-			},
-			packageLinux64: {
-				cmd: 'cd build/releases/Popcorn-Time/linux64/Popcorn-Time/ && tar -cf ../Popcorn-Time-' + currentVersion + '-Linux-64.tar.xz *'
-			},
-			packageLinux32: {
-				cmd: "cd build/releases/Popcorn-Time/linux32/Popcorn-Time/ && tar -cf ../Popcorn-Time-' + currentVersion + '-Linux-32.tar.xz *'
-			},
-			packageWin: {
-				cmd: "cd build/releases/Popcorn-Time/win/Popcorn-Time/ && tar -cf ../Popcorn-Time-' + currentVersion + '-Win.tar.xz *"
-			},
-			packageMac: {
-				cmd: "cd build/releases/Popcorn-Time/mac/Popcorn-Time/ && tar -cf ../Popcorn-Time-' + currentVersion + '-Mac.tar.xz *"
 			}
 		},
 
@@ -291,6 +279,34 @@ module.exports = function (grunt) {
 				'pct_rel="build/releases/Popcorn-Time"',
 				'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app || : ',
 				'chmod +x ${pct_rel}/linux*/Popcorn-Time/Popcorn-Time || : '
+				].join('&&')
+			},
+			packageLinux64: {
+				command: [
+				'cd build/releases/Popcorn-Time/linux64/Popcorn-Time',
+				'tar -cf "../Popcorn-Time-' + currentVersion + '-Linux-64.tar.xz" *',
+				'echo "Linux64 Sucessfully packaged" || echo "Linux64 failed to package"'
+				].join('&&')
+			},
+			packageLinux32: {
+				command: [
+				'cd build/releases/Popcorn-Time/linux32/Popcorn-Time',
+				'tar -cf "../Popcorn-Time-' + currentVersion + '-Linux-32.tar.xz" *',
+				'echo "Linux32 Sucessfully packaged" || echo "Linux32 failed to package"' 
+				].join('&&')
+			},
+			packageWin: {
+				command: [
+				'cd build/releases/Popcorn-Time/win/Popcorn-Time',
+				'tar -cf "../Popcorn-Time-' + currentVersion + '-Win.tar.xz" *',
+				'echo "Windows Sucessfully packaged" || echo "Windows failed to package"' 
+				].join('&&')
+			},
+			packageMac: {
+				command: [
+				'cd build/releases/Popcorn-Time/mac/',
+				'tar -cf "Popcorn-Time-' + currentVersion + '-Mac.tar.xz" Popcorn-Time.app',
+				'echo "Mac Sucessfully packaged" || echo "Mac failed to package"' 
 				].join('&&')
 			}
 		},
