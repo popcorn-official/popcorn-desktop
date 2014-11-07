@@ -209,7 +209,7 @@ module.exports = function (grunt) {
 				cmd: '"build/cache/linux64/<%= nodewebkit.options.version %>/nw" .'
 			},
 			codesign: {
-				cmd: 'sh dist/mac/codesign.sh || echo "Codesign failed, likely caused by not being run on mac, continuing"'
+				cmd: 'bash dist/mac/codesign.sh'
 			},
 			createDmg: {
 				cmd: 'dist/mac/yoursway-create-dmg/create-dmg --volname "Popcorn Time ' + currentVersion + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "Popcorn-Time" 240 110 ./build/releases/Popcorn-Time/mac/Popcorn-Time-' + currentVersion + '-Mac.dmg ./build/releases/Popcorn-Time/mac/'
