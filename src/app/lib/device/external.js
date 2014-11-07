@@ -43,7 +43,11 @@
 			}
 			cmd += url;
 			win.info('Launching External Player: ' + cmd);
-			child.exec(cmd);
+			child.exec(cmd, function (error, stdout, stderr) {
+				App.vent.trigger('player:close');
+				App.vent.trigger('stream:stop');
+				App.vent.trigger('preload:stop');
+			});
 		},
 
 		pause: function () {
