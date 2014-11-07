@@ -1,5 +1,10 @@
 #!/bin/sh
 
+case ${OSTYPE} in *darwin*)
+    # if this fails please run `brew install coreutils` - homebrew also has this package
+    alias readlink=greadlink
+    ;;
+esac
 basedir="$(dirname $(readlink -f ${0}))/../.."
 windir="${basedir}/build/releases/Popcorn-Time/win"
 outdir="${basedir}/build/updater/win"

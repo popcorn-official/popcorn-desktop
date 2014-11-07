@@ -1,5 +1,11 @@
 #!/bin/sh
 
+case ${OSTYPE} in *darwin*)
+    # if this fails please run `brew install coreutils` - homebrew also has this package
+    alias readlink=greadlink
+    ;;
+esac
+
 dir="$(dirname $(readlink -f ${0}))"
 build="${dir}/../../build/releases/Popcorn-Time/mac"
 app="${build}/Popcorn-Time.app"
