@@ -16,7 +16,7 @@ if [ ${POP_NEW_NW} = "TRUE" ]; then
    echo "Copying compiled files"
    mkdir -p "${outdir}/node-webkit/"
    cp -r "${windir}/Popcorn-Time/*" "${outdir}/node-webkit/"
-done
+fi
 
 cp "${basedir}/package.json" "${outdir}"
 cp "${basedir}/.git.json" "${outdir}"
