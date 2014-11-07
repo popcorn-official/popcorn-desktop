@@ -207,7 +207,7 @@ module.exports = function (grunt) {
 				cmd: '"build/cache/linux64/<%= nodewebkit.options.version %>/nw" .'
 			},
 			codesign: {
-				cmd: 'bash dist/mac/codesign.sh'
+				cmd: 'sh dist/mac/codesign.sh'
 			},
 			createDmg: {
 				cmd: 'dist/mac/yoursway-create-dmg/create-dmg --volname "Popcorn Time ' + currentVersion + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "Popcorn-Time" 240 110 ./build/releases/Popcorn-Time/mac/Popcorn-Time-' + currentVersion + '-Mac.dmg ./build/releases/Popcorn-Time/mac/'
@@ -217,7 +217,10 @@ module.exports = function (grunt) {
 				maxBuffer: Infinity
 			},
 			createLinuxInstall: {
-				cmd: 'bash dist/linux/exec_installer.sh'
+				cmd: 'sh dist/linux/exec_installer.sh'
+			},
+			createWinUpdate: {
+				cmd: 'sh dist/windows/updater_package.sh'
 			}
 		},
 
