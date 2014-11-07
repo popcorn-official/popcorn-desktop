@@ -108,6 +108,7 @@ module.exports = function (grunt) {
 				var currCommit = grunt.file.read('.git/' + gitRef).trim();
 			}
 			catch (e) {
+				var fs = require('fs');
 				var currCommit = gitRef.trim();
 				var items = fs.readdirSync('.git/refs/heads');
 				var gitBranch = items[0];
