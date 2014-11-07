@@ -69,6 +69,7 @@ module.exports = function (grunt) {
 		'exec:codesign', // mac
 		'exec:createDmg', // mac
 		'exec:createWinInstall',
+		'exec:createWinUpdate',
 		'exec:createLinuxInstall',
 		'compress' // all platforms
 	]);
@@ -107,6 +108,7 @@ module.exports = function (grunt) {
 				var currCommit = grunt.file.read('.git/' + gitRef).trim();
 			}
 			catch (e) {
+				var fs = require('fs');
 				var currCommit = gitRef.trim();
 				var items = fs.readdirSync('.git/refs/heads');
 				var gitBranch = items[0];
@@ -217,7 +219,10 @@ module.exports = function (grunt) {
 				maxBuffer: Infinity
 			},
 			createLinuxInstall: {
-				cmd: 'bash dist/linux/exec_installer.sh'
+				cmd: 'sh dist/linux/exec_installer.sh'
+			},
+			createWinUpdate: {
+				cmd: 'sh dist/windows/updater_package.sh'
 			}
 		},
 
