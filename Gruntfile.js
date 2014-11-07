@@ -69,6 +69,7 @@ module.exports = function (grunt) {
 		'exec:codesign', // mac
 		'exec:createDmg', // mac
 		'exec:createWinInstall',
+		'exec:createWinUpdate',
 		'exec:createLinuxInstall',
 		'compress' // all platforms
 	]);
