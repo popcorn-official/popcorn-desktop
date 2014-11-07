@@ -66,6 +66,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('dist', [
 		'clean:releases',
 		'clean:dist',
+		'clean:update',
 		'build',
 		'exec:codesign', // mac
 		'exec:createDmg', // mac
@@ -357,7 +358,8 @@ module.exports = function (grunt) {
 		clean: {
 			releases: ['build/releases/Popcorn-Time/**'],
 			css: ['src/app/themes/**'],
-			dist: ['dist/windows/*.exe', 'dist/mac/*.dmg']
+			dist: ['dist/windows/*.exe', 'dist/mac/*.dmg'],
+			update: ['build/updater/*.*']
 		},
 
 		watch: {
