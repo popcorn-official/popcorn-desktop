@@ -38,7 +38,7 @@ ${!IfExist} "..\..\package.json"
 !else
     !searchparse /file "../../package.json" '"version": "' PT_VERSION '",'
 !endif
-!searchreplace PT_VERSION "${PT_VERSION}" "-" "."
+!searchreplace PT_VERSION "${PT_VERSION}" "-" ".0"
 !ifdef WIN_PATHS
     !searchparse /file "..\..\package.json" '"homepage": "' APP_URL '",'
     !searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '",'
