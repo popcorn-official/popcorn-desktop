@@ -285,28 +285,28 @@ module.exports = function (grunt) {
 			packageLinux64: {
 				command: [
 				'cd build/releases/Popcorn-Time/linux64/Popcorn-Time',
-				'tar -cf "../Popcorn-Time-' + currentVersion + '-Linux-64.tar.xz" *',
+				'tar -caf "../Popcorn-Time-' + currentVersion + '-Linux-64.tar.xz" *',
 				'echo "Linux64 Sucessfully packaged" || echo "Linux64 failed to package"'
 				].join('&&')
 			},
 			packageLinux32: {
 				command: [
 				'cd build/releases/Popcorn-Time/linux32/Popcorn-Time',
-				'tar -cf "../Popcorn-Time-' + currentVersion + '-Linux-32.tar.xz" *',
+				'tar -caf "../Popcorn-Time-' + currentVersion + '-Linux-32.tar.xz" *',
 				'echo "Linux32 Sucessfully packaged" || echo "Linux32 failed to package"' 
 				].join('&&')
 			},
 			packageWin: {
 				command: [
 				'cd build/releases/Popcorn-Time/win/Popcorn-Time',
-				'tar -cf "../Popcorn-Time-' + currentVersion + '-Win.tar.xz" *',
+				'tar -caf "../Popcorn-Time-' + currentVersion + '-Win.tar.xz" *',
 				'echo "Windows Sucessfully packaged" || echo "Windows failed to package"' 
 				].join('&&')
 			},
 			packageMac: {
 				command: [
 				'cd build/releases/Popcorn-Time/mac/',
-				'tar -cf "Popcorn-Time-' + currentVersion + '-Mac.tar.xz" Popcorn-Time.app',
+				'tar -caf "Popcorn-Time-' + currentVersion + '-Mac.tar.xz" Popcorn-Time.app',
 				'echo "Mac Sucessfully packaged" || echo "Mac failed to package"' 
 				].join('&&')
 			}
