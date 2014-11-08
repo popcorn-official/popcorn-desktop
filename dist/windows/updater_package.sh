@@ -12,15 +12,15 @@ outdir="${basedir}/build/updater/win"
 mkdir -p "${outdir}"
 
 echo "Copying Sourcefiles"
-cp -r --exclude=.git "${basedir}/src" "${outdir}"
+rsync -a --exclude=.git "${basedir}/src" "${outdir}"
 
 echo "Copying modules"
-cp -r --exclude=.git "${basedir}/node_modules" "${outdir}"
+rsync -a --exclude=.git "${basedir}/node_modules" "${outdir}"
 
 if [ "${POP_NEW_NW}" = "TRUE" ]; then
    echo "Copying compiled files"
    mkdir -p "${outdir}/node-webkit/"
-   cp -r --exclude=.git "${windir}/Popcorn-Time/*" "${outdir}/node-webkit/"
+   rsync -a --exclude=.git "${windir}/Popcorn-Time/*" "${outdir}/node-webkit/"
 fi
 
 cp "${basedir}/package.json" "${outdir}"
