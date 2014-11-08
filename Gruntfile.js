@@ -65,13 +65,15 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('dist', [
 		'clean:releases',
+		'clean:dist',
+		'clean:update',
 		'build',
 		'exec:codesign', // mac
 		'exec:createDmg', // mac
 		'exec:createWinInstall',
 		'exec:createWinUpdate',
 		'exec:createLinuxInstall',
-		'compress' // all platforms
+		'package' // all platforms
 	]);
 
 
@@ -96,6 +98,13 @@ module.exports = function (grunt) {
 	grunt.registerTask('unofficalcss', [
 		'clean:css',
 		'stylus:third_party'
+	]);
+
+	grunt.registerTask('package', [
+		'shell:packageLinux64',
+		'shell:packageLinux32',
+		'shell:packageWin',
+		'shell:packageMac'
 	]);
 
 	grunt.registerTask('injectgit', function () {
@@ -209,7 +218,7 @@ module.exports = function (grunt) {
 				cmd: '"build/cache/linux64/<%= nodewebkit.options.version %>/nw" .'
 			},
 			codesign: {
-				cmd: 'bash dist/mac/codesign.sh'
+				cmd: 'sh dist/mac/codesign.sh || echo "Codesign failed, likely caused by not being run on mac, continuing"'
 			},
 			createDmg: {
 				cmd: 'dist/mac/yoursway-create-dmg/create-dmg --volname "Popcorn Time ' + currentVersion + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "Popcorn-Time" 240 110 ./build/releases/Popcorn-Time/mac/Popcorn-Time-' + currentVersion + '-Mac.dmg ./build/releases/Popcorn-Time/mac/'
@@ -268,9 +277,37 @@ module.exports = function (grunt) {
 			}, 
 			setexecutable: {
 				command: [
-				'pct_rel="build/releases/Popcorn-Time"',
-				'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app || : ',
-				'chmod +x ${pct_rel}/linux*/Popcorn-Time/Popcorn-Time || : '
+					'pct_rel="build/releases/Popcorn-Time"',
+					'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app || : ',
+					'chmod +x ${pct_rel}/linux*/Popcorn-Time/Popcorn-Time || : '
+				].join('&&')
+			},
+			packageLinux64: {
+				command: [
+					'cd build/releases/Popcorn-Time/linux64/Popcorn-Time',
+					'tar --exclude-vcs -caf "../Popcorn-Time-' + currentVersion + '-Linux-64.tar.xz" .',
+					'echo "Linux64 Sucessfully packaged" || echo "Linux64 failed to package"'
+				].join('&&')
+			},
+			packageLinux32: {
+				command: [
+					'cd build/releases/Popcorn-Time/linux32/Popcorn-Time',
+					'tar --exclude-vcs -caf "../Popcorn-Time-' + currentVersion + '-Linux-32.tar.xz" .',
+					'echo "Linux32 Sucessfully packaged" || echo "Linux32 failed to package"' 
+				].join('&&')
+			},
+			packageWin: {
+				command: [
+					'cd build/releases/Popcorn-Time/win/Popcorn-Time',
+					'tar --exclude-vcs -caf "../Popcorn-Time-' + currentVersion + '-Win.tar.xz" .',
+					'echo "Windows Sucessfully packaged" || echo "Windows failed to package"' 
+				].join('&&')
+			},
+			packageMac: {
+				command: [
+					'cd build/releases/Popcorn-Time/mac/',
+					'tar --exclude-vcs -caf "Popcorn-Time-' + currentVersion + '-Mac.tar.xz" Popcorn-Time.app',
+					'echo "Mac Sucessfully packaged" || echo "Mac failed to package"' 
 				].join('&&')
 			}
 		},
@@ -321,7 +358,8 @@ module.exports = function (grunt) {
 		clean: {
 			releases: ['build/releases/Popcorn-Time/**'],
 			css: ['src/app/themes/**'],
-			dist: ['dist/windows/Popcorn-*-Setup.exe']
+			dist: ['dist/windows/*.exe', 'dist/mac/*.dmg'],
+			update: ['build/updater/*.*']
 		},
 
 		watch: {
