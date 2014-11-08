@@ -30,4 +30,4 @@ cd ${outdir}
 vers=$(sed -n "s|\s*\"version\"\:\ \"\(.*\)\"\,|\1|p" "${basedir}/package.json")
 
 echo "Zipping Files"
-tar -cf "../Popcorn-Time-${vers}-Update-Win.tar.xz" *
+tar --exclude-vcs -caf "../Popcorn-Time-${vers}-Update-Win.tar.xz" .

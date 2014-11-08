@@ -1,4 +1,8 @@
-;Popcorn Time installer source
+﻿; Popcorn Time
+; Installer Source for NSIS 3.0 or higher
+
+;Enable Unicode encoding
+Unicode True
 
 ;Include Modern UI
 !include "MUI2.nsh"
