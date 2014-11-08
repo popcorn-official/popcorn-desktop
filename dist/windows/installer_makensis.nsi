@@ -1,4 +1,8 @@
-;Popcorn Time installer source
+﻿; Popcorn Time
+; Installer Source for NSIS 3.0 or higher
+
+;Enable Unicode encoding
+Unicode True
 
 ;Include Modern UI
 !include "MUI2.nsh"
@@ -38,7 +42,7 @@ ${!IfExist} "..\..\package.json"
 !else
     !searchparse /file "../../package.json" '"version": "' PT_VERSION '",'
 !endif
-!searchreplace PT_VERSION_CLEAN "${PT_VERSION}" "-" ".0"
+!searchreplace PT_VERSION "${PT_VERSION}" "-" "."
 !ifdef WIN_PATHS
     !searchparse /file "..\..\package.json" '"homepage": "' APP_URL '",'
     !searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '",'
@@ -57,7 +61,7 @@ VIAddVersionKey "FileDescription" "${APP_NAME} v${PT_VERSION} Installer"
 VIAddVersionKey "FileVersion" "v${PT_VERSION}"
 VIAddVersionKey "CompanyName" "Popcorn Official"
 VIAddVersionKey "LegalCopyright" "${APP_URL}"
-VIProductVersion "${PT_VERSION_CLEAN}.0"
+VIProductVersion "${PT_VERSION}.0"
 OutFile "${APP_NAME}-${PT_VERSION}-Setup.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
@@ -155,13 +159,13 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Uzbek"
 !insertmacro MUI_LANGUAGE "Welsh"
 
-LangString removeDataFolder ${LANG_ENGLISH} "Remove all databases and configuration files?"
-LangString removeDataFolder ${LANG_Afrikaans} "Alle databasisse en opset lêers verwyder?" 
-LangString removeDataFolder ${LANG_Albanian} "Hiq të gjitha bazat e të dhënave dhe fotografi konfigurimit?" 
+LangString removeDataFolder ${LANG_ENGLISH} "حذف تمام پایگاه داده ها و فایل های پیکربندی؟"
+LangString removeDataFolder ${LANG_Afrikaans} "حذف تمام پایگاه داده ها و فایل های پیکربندی؟" 
+LangString removeDataFolder ${LANG_Albanian} "حذف تمام پایگاه داده ها و فایل های پیکربندی؟" 
 LangString removeDataFolder ${LANG_Arabic} "إزالة كافة قواعد البيانات وملفات التكوين؟" 
-LangString removeDataFolder ${LANG_Asturian} "Remove all databases and configuration files?" 
-LangString removeDataFolder ${LANG_Basque} "Remove all databases and configuration files?" 
-LangString removeDataFolder ${LANG_Belarusian} "Выдаліць усе базы дадзеных і файлы канфігурацыі?" 
+LangString removeDataFolder ${LANG_Asturian} "حذف تمام پایگاه داده ها و فایل های پیکربندی؟" 
+LangString removeDataFolder ${LANG_Basque} "حذف تمام پایگاه داده ها و فایل های پیکربندی؟" 
+LangString removeDataFolder ${LANG_Belarusian} "حذف تمام پایگاه داده ها و فایل های پیکربندی؟" 
 LangString removeDataFolder ${LANG_Bosnian} "Uklonite sve baze podataka i konfiguracijske datoteke?" 
 LangString removeDataFolder ${LANG_Breton} "Remove all databases and configuration files?" 
 LangString removeDataFolder ${LANG_Bulgarian} "Премахнете всички бази данни и конфигурационни файлове?" 
@@ -215,7 +219,7 @@ LangString removeDataFolder ${LANG_Turkish} "Tüm veritabanlarını ve yapıland
 LangString removeDataFolder ${LANG_Ukrainian} "Видалити всі бази даних і файли конфігурації?" 
 LangString removeDataFolder ${LANG_Uzbek} "Remove all databases and configuration files?" 
 LangString removeDataFolder ${LANG_Vietnamese} "Loại bỏ tất cả các cơ sở dữ liệu và các tập tin cấu hình?" 
-LangString removeDataFolder ${LANG_Welsh} "Tynnwch yr holl gronfeydd data a ffeiliau cyfluniad?" 
+LangString removeDataFolder ${LANG_Welsh} "حذف تمام پایگاه داده ها و فایل های پیکربندی؟" 
 
 Function .onInit ; check for previous version (needed for 0.3.2 that was in ProgramFiles)
  
