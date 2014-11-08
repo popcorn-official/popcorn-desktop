@@ -277,37 +277,37 @@ module.exports = function (grunt) {
 			}, 
 			setexecutable: {
 				command: [
-				'pct_rel="build/releases/Popcorn-Time"',
-				'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app || : ',
-				'chmod +x ${pct_rel}/linux*/Popcorn-Time/Popcorn-Time || : '
+					'pct_rel="build/releases/Popcorn-Time"',
+					'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app || : ',
+					'chmod +x ${pct_rel}/linux*/Popcorn-Time/Popcorn-Time || : '
 				].join('&&')
 			},
 			packageLinux64: {
 				command: [
-				'cd build/releases/Popcorn-Time/linux64/Popcorn-Time',
-				'tar -caf "../Popcorn-Time-' + currentVersion + '-Linux-64.tar.xz" *',
-				'echo "Linux64 Sucessfully packaged" || echo "Linux64 failed to package"'
+					'cd build/releases/Popcorn-Time/linux64/Popcorn-Time',
+					'tar --exclude-vcs -caf "../Popcorn-Time-' + currentVersion + '-Linux-64.tar.xz" .',
+					'echo "Linux64 Sucessfully packaged" || echo "Linux64 failed to package"'
 				].join('&&')
 			},
 			packageLinux32: {
 				command: [
-				'cd build/releases/Popcorn-Time/linux32/Popcorn-Time',
-				'tar -caf "../Popcorn-Time-' + currentVersion + '-Linux-32.tar.xz" *',
-				'echo "Linux32 Sucessfully packaged" || echo "Linux32 failed to package"' 
+					'cd build/releases/Popcorn-Time/linux32/Popcorn-Time',
+					'tar --exclude-vcs -caf "../Popcorn-Time-' + currentVersion + '-Linux-32.tar.xz" .',
+					'echo "Linux32 Sucessfully packaged" || echo "Linux32 failed to package"' 
 				].join('&&')
 			},
 			packageWin: {
 				command: [
-				'cd build/releases/Popcorn-Time/win/Popcorn-Time',
-				'tar -caf "../Popcorn-Time-' + currentVersion + '-Win.tar.xz" *',
-				'echo "Windows Sucessfully packaged" || echo "Windows failed to package"' 
+					'cd build/releases/Popcorn-Time/win/Popcorn-Time',
+					'tar --exclude-vcs -caf "../Popcorn-Time-' + currentVersion + '-Win.tar.xz" .',
+					'echo "Windows Sucessfully packaged" || echo "Windows failed to package"' 
 				].join('&&')
 			},
 			packageMac: {
 				command: [
-				'cd build/releases/Popcorn-Time/mac/',
-				'tar -caf "Popcorn-Time-' + currentVersion + '-Mac.tar.xz" Popcorn-Time.app',
-				'echo "Mac Sucessfully packaged" || echo "Mac failed to package"' 
+					'cd build/releases/Popcorn-Time/mac/',
+					'tar --exclude-vcs -caf "Popcorn-Time-' + currentVersion + '-Mac.tar.xz" Popcorn-Time.app',
+					'echo "Mac Sucessfully packaged" || echo "Mac failed to package"' 
 				].join('&&')
 			}
 		},
