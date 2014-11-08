@@ -42,7 +42,7 @@ ${!IfExist} "..\..\package.json"
 !else
     !searchparse /file "../../package.json" '"version": "' PT_VERSION '",'
 !endif
-!searchreplace PT_VERSION "${PT_VERSION}" "-" "."
+!searchreplace PT_VERSION_CLEAN "${PT_VERSION}" "-" ".0"
 !ifdef WIN_PATHS
     !searchparse /file "..\..\package.json" '"homepage": "' APP_URL '",'
     !searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '",'
@@ -61,7 +61,7 @@ VIAddVersionKey "FileDescription" "${APP_NAME} v${PT_VERSION} Installer"
 VIAddVersionKey "FileVersion" "v${PT_VERSION}"
 VIAddVersionKey "CompanyName" "Popcorn Official"
 VIAddVersionKey "LegalCopyright" "${APP_URL}"
-VIProductVersion "${PT_VERSION}.0"
+VIProductVersion "${PT_VERSION_CLEAN}.0"
 OutFile "${APP_NAME}-${PT_VERSION}-Setup.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
