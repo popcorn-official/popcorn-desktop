@@ -9,6 +9,8 @@ basedir="$(dirname $(readlink -f ${0}))/../.."
 windir="${basedir}/build/releases/Popcorn-Time/win"
 outdir="${basedir}/build/updater/win"
 
+rm -rf "${outdir}"
+
 mkdir -p "${outdir}"
 
 echo "Copying Sourcefiles"
@@ -16,6 +18,7 @@ cp -r "${basedir}/src" "${outdir}"
 
 echo "Copying modules"
 cp -r "${basedir}/node_modules" "${outdir}"
+rm -rf "${basedir}/node_modules/grunt"
 
 if [ "${POP_NEW_NW}" = "TRUE" ]; then
    echo "Copying compiled files"
