@@ -61,8 +61,7 @@
 			});
 			that = this;
 
-            AdvSettings.set('ipAddress', this.getIPAddress());
-            
+			AdvSettings.set('ipAddress', this.getIPAddress());
 		},
 
 		onRender: function () {
@@ -164,12 +163,17 @@
 				apiDataChanged = true;
 				value = parseInt(field.val());
 				break;
-			case 'tvshowApiEndpoint':
+			case 'tvshowAPI':
 				value = field.val();
 				if (value.substr(-1) !== '/') {
 					value += '/';
 				}
-				break;
+				var tvapiep = AdvSettings.get('tvshowAPI');
+				tvapiep.url = value;
+				tvapiep.skipVerification = true;
+				AdvSettings.set('tvshowAPI', tvapiep);
+				that.ui.success_alert.show().delay(3000).fadeOut(400);
+				return;
 			case 'subtitle_size':
 			case 'tv_detail_jump_to':
 			case 'subtitle_language':
@@ -192,7 +196,7 @@
 			case 'coversShowRating':
 			case 'showAdvancedSettings':
 			case 'alwaysOnTop':
-            case 'syncOnStart':
+			case 'syncOnStart':
 			case 'subtitle_shadows':
 			case 'playNextEpisodeAuto':
 				value = field.is(':checked');
@@ -240,9 +244,9 @@
 				key: field.attr('name'),
 				value: value
 			})
-				.then(function () {
-					that.ui.success_alert.show().delay(3000).fadeOut(400);
-				});
+			.then(function () {
+				that.ui.success_alert.show().delay(3000).fadeOut(400);
+			});
 			that.syncSetting(field.attr('name'), value);
 		},
 		syncSetting: function (setting, value) {
@@ -555,14 +559,14 @@
 
 		syncTrakt: function () {
 
-            var oldHTML = document.getElementById('syncTrakt').innerHTML;
-            $('#syncTrakt').text(i18n.__('Syncing...')).addClass('disabled').prop('disabled', true);
+			var oldHTML = document.getElementById('syncTrakt').innerHTML;
+			$('#syncTrakt').text(i18n.__('Syncing...')).addClass('disabled').prop('disabled', true);
 
 			App.Trakt.sync()
 				.then(function () {
 					$('#syncTrakt').text(i18n.__('Done')).removeClass('disabled').addClass('green').delay(3000).queue(function () {
 						$('#syncTrakt').removeClass('green').prop('disabled', false);
-                        document.getElementById('syncTrakt').innerHTML = oldHTML;
+						document.getElementById('syncTrakt').innerHTML = oldHTML;
 						$('#syncTrakt').dequeue();
 					});
 				})
@@ -570,29 +574,32 @@
 					win.error(err);
 					$('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red').delay(3000).queue(function () {
 						$('#syncTrakt').removeClass('red').prop('disabled', false);
-                        document.getElementById('syncTrakt').innerHTML = oldHTML;
+						document.getElementById('syncTrakt').innerHTML = oldHTML;
 						$('#syncTrakt').dequeue();
 					});
 				});
 		},
-        
-        getIPAddress: function () {
-            var ifaces=require('os').networkInterfaces();
-            for (var dev in ifaces) {
-              var ip, alias=0;
-              ifaces[dev].forEach(function(details){
-                if (details.family=='IPv4') {
-                    if(!/(loopback|vmware|internal|hamachi)/gi.test(dev+(alias?':'+alias:''))){
-                        if ( (details.address.substring(0, 8) == "192.168.") || (details.address.substring(0, 7) == "172.16.") || (details.address.substring(0, 5) == "10.0.")) {
-                            ip = details.address;
-                            ++alias;
-                        }
-                    }
-                }
-              });
-            }
-            return ip;
-        }
+
+		getIPAddress: function () {
+			var ip, alias = 0;
+			var ifaces = require('os').networkInterfaces();
+			for (var dev in ifaces) {
+			  ifaces[dev].forEach(function(details){
+				if (details.family === 'IPv4') {
+					if(!/(loopback|vmware|internal|hamachi)/gi.test(dev + (alias ? ':' + alias : ''))){
+						if( details.address.substring(0, 8) === '192.168.' ||
+							details.address.substring(0, 7) === '172.16.' ||
+							details.address.substring(0, 5) === '10.0.'
+						) {
+							ip = details.address;
+							++alias;
+						}
+					}
+				}
+			  });
+			}
+			return ip;
+		}
 	});
 
 	App.View.Settings = Settings;

@@ -265,7 +265,7 @@
 		<div class="content">
 			<span>
 				<p><%= i18n.__("TV Show API Endpoint") + ":" %></p>
-				<input id="tvshowApiEndpoint" type="text" size="50" name="tvshowApiEndpoint" value="<%=Settings.tvshowApiEndpoint%>">
+				<input id="tvshowAPI" type="text" size="50" name="tvshowAPI" value="<%=Settings.tvshowAPI.url%>">
 			</span>
 			<span>
 				<p><%= i18n.__("Connection Limit") + ":" %></p>

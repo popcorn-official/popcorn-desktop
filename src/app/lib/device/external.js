@@ -28,9 +28,10 @@
 					//var targetEncodingCharset = 'utf8';
 					var charset = charsetDetect.detect(dataBuff);
 					var detectedEncoding = charset.encoding;
-					win.debug("SUBB charset detected: "+detectedEncoding);
-					if (detectedEncoding.toLowerCase() === 'utf-8')
+					win.debug('Subtitle charset detected: %s', detectedEncoding);
+					if (detectedEncoding.toLowerCase() === 'utf-8') {
 						cmd += '-utf8 ';
+					}
 				}
 				cmd += getPlayerSubSwitch(this.get('id')) + '"' + subtitle + '" ';
 			}

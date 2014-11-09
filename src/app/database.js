@@ -469,9 +469,7 @@ var Database = {
 		// we'll intiatlize our settings and our API SSL Validation
 		// we build our settings array
 		return Database.getUserInfo()
-			.then(function () {
-				return Database.getSettings();
-			})
+			.then(Database.getSettings)
 			.then(function (data) {
 				if (data != null) {
 					for (var key in data) {
@@ -488,13 +486,10 @@ var Database = {
 
 				App.vent.trigger('initHttpApi');
 
-				return AdvSettings.checkApiEndpoint([{
-						original: 'yifyApiEndpoint',
-						mirror: 'yifyApiEndpointMirror',
-						fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C'
-					}
-					// TODO: Add get-popcorn.com SSL fingerprint (for update)
-					// with fallback with DHT
+				return AdvSettings.checkApiEndpoints([
+					Settings.ytsAPI,
+					Settings.tvshowAPI,
+					Settings.updateEndpoint
 				]);
 			})
 			.then(function () {
@@ -511,7 +506,6 @@ var Database = {
 					.catch(function (err) {
 						win.error(err);
 					});
-				// we skip the initDB (not needed in current version)
 			})
 			.catch(function (err) {
 				win.error('Error starting up');
