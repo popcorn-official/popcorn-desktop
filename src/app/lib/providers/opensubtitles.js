@@ -1,22 +1,11 @@
 (function (App) {
 	'use strict';
-	var openSRT = require('opensrt_js');
+	var openSRT = require('popcorn-opensubtitles');
 	var Q = require('q');
+	var userAgent = 'Popcorn Time v1';
 
 	var OpenSubtitles = function () {};
 	OpenSubtitles.prototype.constructor = OpenSubtitles;
-
-	var querySubtitles = function (queryParams) {
-		var deferred = Q.defer();
-		openSRT.searchEpisode(queryParams, function (error, subs) {
-			if (error) {
-				deferred.reject(error);
-			} else {
-				deferred.resolve(subs || {});
-			}
-		});
-		return deferred.promise;
-	};
 
 	var formatForPopcorn = function (data) {
 		for (var lang in data) {
@@ -26,10 +15,9 @@
 	};
 
 	OpenSubtitles.prototype.fetch = function (queryParams) {
-		return querySubtitles(queryParams)
+		return openSRT.searchEpisode(queryParams, userAgent)
 			.then(formatForPopcorn);
 	};
-
 
 	App.Providers.OpenSubtitles = OpenSubtitles;
 

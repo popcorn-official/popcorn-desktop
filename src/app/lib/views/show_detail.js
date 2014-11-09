@@ -680,8 +680,8 @@ var health_checked = false;
 					var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
 
 					$('.health-icon').tooltip({
-						html: true
-					})
+							html: true
+						})
 						.removeClass('fa-spin')
 						.removeClass('fa-spinner')
 						.addClass('fa-circle')
@@ -694,8 +694,8 @@ var health_checked = false;
 
 		resetHealth: function () {
 			$('.health-icon').tooltip({
-				html: true
-			})
+					html: true
+				})
 				.removeClass('fa-spin')
 				.removeClass('fa-spinner')
 				.addClass('fa-circle')

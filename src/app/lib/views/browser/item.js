@@ -203,8 +203,8 @@
 					this.$el.removeClass('watched');
 				}
 				Database.markMovieAsNotWatched({
-					imdb_id: this.model.get('imdb_id')
-				}, true)
+						imdb_id: this.model.get('imdb_id')
+					}, true)
 					.then(function () {
 						that.model.set('watched', false);
 					});
@@ -219,9 +219,9 @@
 					break;
 				}
 				Database.markMovieAsWatched({
-					imdb_id: this.model.get('imdb_id'),
-					from_browser: true
-				}, true)
+						imdb_id: this.model.get('imdb_id'),
+						from_browser: true
+					}, true)
 					.then(function () {
 						that.model.set('watched', true);
 					});
