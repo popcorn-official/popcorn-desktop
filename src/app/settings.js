@@ -80,16 +80,27 @@ Settings.updateEndpoint = {
 
 Settings.ytsAPI = {
 	url: 'https://yts.re/api/',
-	fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C',
+	fingerprint: 'F4:83:12:02:23:EF:BF:39:4C:85:D3:3C:EE:F2:63:2B:33:43:22:3D',
 	fallbacks: [{
 		url: 'https://yts.pm/api/',
 		fingerprint: 'B6:0A:11:A8:74:48:EB:B4:9A:9C:79:1A:DA:FA:72:BF:F8:8B:0A:B3'
 	}, {
-		url: 'https://yts.wf/api/',
-		fingerprint: '77:44:AC:40:4A:B8:A6:83:06:37:5C:56:16:B4:2C:30:B9:75:99:94'
+		url: 'http://yts.wf/api/',
+		ssl: false,
+		fingerprint: /YTS - The Official Home of YIFY Movie Torrent Downloads/
 	}, {
 		url: 'https://yts.io/api/',
 		fingerprint: '27:96:21:06:E3:2F:5D:3D:7D:46:13:EF:42:5B:AD:5E:C8:FD:DA:45'
+	}, {
+		url: 'http://proxy.piratenpartij.nl/yts.re/api/',
+		ssl: false,
+		fingerprint: /Piratenpartij.nl Proxy/
+	}, {
+		url: 'https://yts-proxy.net/api/',
+		fingerprint: '8E:49:5B:A9:2E:F1:AE:E8:A2:BB:E2:77:E9:C3:BC:D4:5D:4B:66:1F'
+	}, { // .wf is listed last due to lack of ECDSA support in nw0.9.2
+		url: 'https://yts.wf/api/',
+		fingerprint: '77:44:AC:40:4A:B8:A6:83:06:37:5C:56:16:B4:2C:30:B9:75:99:94'
 	}, { // .im is listed last due to lack of ECDSA support in nw0.9.2
 		url: 'https://yts.im/api/',
 		fingerprint: 'F6:E8:18:11:0A:6F:57:7F:F2:9C:FC:C3:80:F9:A8:5B:07:04:08:2C'
@@ -208,14 +219,16 @@ var AdvSettings = {
 				agent: false
 			}, function (res) {
 				res.on('data', function(body) {
+					res.removeAllListeners('data');
 					// Doesn't match the expected response
-					if(!endpoint.fingerprint.test(body)) {
+					if(!endpoint.fingerprint.test(body.toString('utf8'))) {
 						win.warn('[%s] Endpoint fingerprint %s does not match %s',
 							url.hostname,
 							endpoint.fingerprint, 
-							body);
+							body.toString('utf8'));
 						if(endpoint.fallbacks.length) {
 							var fallback = endpoint.fallbacks.shift();
+							endpoint.ssl = undefined;
 							_.extend(endpoint, fallback);
 
 							AdvSettings.checkApiEndpoint(endpoint, defer);
@@ -247,6 +260,7 @@ var AdvSettings = {
 						this.getPeerCertificate().fingerprint);
 					if(endpoint.fallbacks.length) {
 						var fallback = endpoint.fallbacks.shift();
+						endpoint.ssl = undefined;
 						_.extend(endpoint, fallback);
 
 						AdvSettings.checkApiEndpoint(endpoint, defer);
@@ -264,6 +278,7 @@ var AdvSettings = {
 						url.hostname);
 				if(endpoint.fallbacks.length) {
 					var fallback = endpoint.fallbacks.shift();
+					endpoint.ssl = undefined;
 					_.extend(endpoint, fallback);
 
 					AdvSettings.checkApiEndpoint(endpoint, defer);
@@ -279,6 +294,7 @@ var AdvSettings = {
 						url.hostname);
 				if(endpoint.fallbacks.length) {
 					var fallback = endpoint.fallbacks.shift();
+					endpoint.ssl = undefined;
 					_.extend(endpoint, fallback);
 
 					AdvSettings.checkApiEndpoint(endpoint, defer);
