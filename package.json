@@ -8,8 +8,8 @@
 	},
 	"license": "GPL-3.0",
 	"main": "app://host/src/app/index.html",
-	"version": "0.3.4",
-	"releaseName": "It's Cold Outside",
+	"version": "0.3.5",
+	"releaseName": "We're snowed in",
 	"scripts": {
 		"postinstall": "node_modules/.bin/bower install && grunt setup",
 		"postupdate": "node_modules/.bin/bower update && grunt setup",
