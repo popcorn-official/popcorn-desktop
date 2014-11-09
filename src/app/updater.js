@@ -150,8 +150,7 @@
 	};
 
 	function installWindows(downloadPath, updateData) {
-		var outputDir = path.dirname(downloadPath),
-			installDir = path.join(outputDir, 'app');
+		var installDir = path.dirname(downloadPath);
 		var defer = Q.defer();
 
 		var pack = new zip(downloadPath);
