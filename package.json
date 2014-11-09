@@ -43,7 +43,7 @@
 		"moment": "^2.6.0",
 		"nedb": "^0.10.5",
 		"node-captions": "0.2.2",
-		"popcorn-opensubtitles": "git+https://git.popcorntime.io/stash/scm/thrd/popcorn-opensubtitles.git",
+		"opensrt_js": "https://github.com/SlashmanX/OpenSRTJS/archive/c07d18983d7a6409dee4cacc056ed5cc01e2ed09.tar.gz",
 		"peerflix": "^0.21.0",
 		"q": "^2.0.2",
 		"read-torrent": "1.0.0",

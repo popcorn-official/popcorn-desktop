@@ -4,6 +4,7 @@ var
 	zlib = require('zlib'),
 	Datastore = require('nedb'),
 	path = require('path'),
+	openSRT = require('opensrt_js'),
 	Q = require('q'),
 
 	db = {},
@@ -139,12 +140,12 @@ var Database = {
 			multi: true
 		});
 	},
-
-	deleteWatched: function () {
-		return db.watched.remove({}, {
-			multi: true
-		});
-	},
+    
+    deleteWatched: function () {
+        return db.watched.remove({}, {
+            multi: true
+        });
+    },
 
 	// format: {page: page, keywords: title}
 	getBookmarks: function (data) {

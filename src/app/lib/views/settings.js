@@ -241,12 +241,12 @@
 
 			//save to db
 			App.db.writeSetting({
-					key: field.attr('name'),
-					value: value
-				})
-				.then(function () {
-					that.ui.success_alert.show().delay(3000).fadeOut(400);
-				});
+				key: field.attr('name'),
+				value: value
+			})
+			.then(function () {
+				that.ui.success_alert.show().delay(3000).fadeOut(400);
+			});
 			that.syncSetting(field.attr('name'), value);
 		},
 		syncSetting: function (setting, value) {
@@ -332,9 +332,9 @@
 			App.Trakt.authenticated = false;
 
 			App.db.writeSetting({
-					key: 'traktUsername',
-					value: ''
-				})
+				key: 'traktUsername',
+				value: ''
+			})
 				.then(function () {
 					return App.db.writeSetting({
 						key: 'traktPassword',
@@ -584,19 +584,19 @@
 			var ip, alias = 0;
 			var ifaces = require('os').networkInterfaces();
 			for (var dev in ifaces) {
-				ifaces[dev].forEach(function (details) {
-					if (details.family === 'IPv4') {
-						if (!/(loopback|vmware|internal|hamachi)/gi.test(dev + (alias ? ':' + alias : ''))) {
-							if (details.address.substring(0, 8) === '192.168.' ||
-								details.address.substring(0, 7) === '172.16.' ||
-								details.address.substring(0, 5) === '10.0.'
-							) {
-								ip = details.address;
-								++alias;
-							}
+			  ifaces[dev].forEach(function(details){
+				if (details.family === 'IPv4') {
+					if(!/(loopback|vmware|internal|hamachi)/gi.test(dev + (alias ? ':' + alias : ''))){
+						if( details.address.substring(0, 8) === '192.168.' ||
+							details.address.substring(0, 7) === '172.16.' ||
+							details.address.substring(0, 5) === '10.0.'
+						) {
+							ip = details.address;
+							++alias;
 						}
 					}
-				});
+				}
+			  });
 			}
 			return ip;
 		}

@@ -65,7 +65,7 @@
 				$('#filterbar-watchlist').addClass('active');
 				break;
 			}
-			$('.sorters .dropdown-menu a:nth(0)').addClass('active');
+            $('.sorters .dropdown-menu a:nth(0)').addClass('active');
 			$('.genres .dropdown-menu a:nth(0)').addClass('active');
 			$('.types .dropdown-menu a:nth(0)').addClass('active');
 		},
@@ -201,8 +201,8 @@
 
 			if (this.previousSort === sorter) {
 				this.model.set('order', this.model.get('order') * -1);
-			} else if (this.previousSort !== sorter && sorter === 'alphabet') {
-				this.model.set('order', this.model.get('order') * -1);
+            } else if (this.previousSort !== sorter && sorter === 'alphabet') {
+                this.model.set('order', this.model.get('order') * -1);
 			} else {
 				this.model.set('order', -1);
 			}
