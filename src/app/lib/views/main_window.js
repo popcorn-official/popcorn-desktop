@@ -116,7 +116,7 @@
 			this.Content.show(new App.View.InitModal());
 			App.db.initialize()
 				.then(function () {
-					$('head').append('<link rel="stylesheet" href="themes/' + Settings.theme + '.css" type="text/css" />');
+					$('link#theme').attr('href', 'themes/' + Settings.theme + '.css');
 					// Always on top
 					win.setAlwaysOnTop(App.settings.alwaysOnTop);
 

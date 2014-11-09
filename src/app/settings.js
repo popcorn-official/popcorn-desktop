@@ -1,12 +1,11 @@
-var
-	Settings = {},
+var Q = require('q'),
 	os = require('os'),
-	data_path = require('nw.gui').App.dataPath,
 	path = require('path'),
-	Q = require('q'),
-    slash = (process.platform === 'win32')? '\\':'\/';
+	_ = require('underscore'),
+	data_path = require('nw.gui').App.dataPath;
 
 /** Default settings **/
+var Settings = {};
 
 // User interface
 Settings.language = 'en';
@@ -44,7 +43,6 @@ Settings.subtitle_color = '#ffffff';
 Settings.subtitle_shadows = 'true';
 
 // More options
-Settings.tvshowApiEndpoint = 'http://eztvapi.re/';
 Settings.httpApiPort = 8008;
 Settings.httpApiUsername = 'popcorn';
 Settings.httpApiPassword = 'popcorn';
@@ -60,16 +58,43 @@ Settings.connectionLimit = 100;
 Settings.dhtLimit = 500;
 Settings.streamPort = 0; // 0 = Random
 Settings.tmpLocation = path.join(os.tmpDir(), 'Popcorn-Time');
-Settings.databaseLocation = data_path + slash + 'data';
+Settings.databaseLocation = path.join(data_path, 'data');
 Settings.deleteTmpOnClose = true;
 
-// Hidden endpoints
-Settings.updateApiEndpoint = 'http://popcorntime.io/';
-/* TODO: Buy SSL for main domain + buy domain get-popcorn.re for fallback
-Settings.updateApiEndpointMirror = 'https://popcorntime.cc/'; */
-Settings.yifyApiEndpoint = 'http://yts.re/api/';
-Settings.yifyApiEndpointMirror = 'http://yts.im/api/';
-Settings.connectionCheckUrl = 'http://google.com/';
+Settings.tvshowAPI = {
+	url: 'http://api.popcorntime.io/',
+	ssl: false,
+	fingerprint: /"status":"online"/,
+	fallbacks: [{
+		url: 'http://eztvapi.re/',
+		ssl: false,
+		fingerprint: /"status":"online"/
+	}]
+};
+
+Settings.updateEndpoint = {
+	url: 'https://popcorntime.io/',
+	fingerprint: '32:74:8E:CC:19:3C:94:6A:4E:F8:EA:39:97:69:1C:0D:A8:69:D2:9D',
+	fallbacks: []
+};
+
+Settings.ytsAPI = {
+	url: 'https://yts.re/api/',
+	fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C',
+	fallbacks: [{
+		url: 'https://yts.pm/api/',
+		fingerprint: 'B6:0A:11:A8:74:48:EB:B4:9A:9C:79:1A:DA:FA:72:BF:F8:8B:0A:B3'
+	}, {
+		url: 'https://yts.wf/api/',
+		fingerprint: '77:44:AC:40:4A:B8:A6:83:06:37:5C:56:16:B4:2C:30:B9:75:99:94'
+	}, {
+		url: 'https://yts.io/api/',
+		fingerprint: '27:96:21:06:E3:2F:5D:3D:7D:46:13:EF:42:5B:AD:5E:C8:FD:DA:45'
+	}, { // .im is listed last due to lack of ECDSA support in nw0.9.2
+		url: 'https://yts.im/api/',
+		fingerprint: 'F6:E8:18:11:0A:6F:57:7F:F2:9C:FC:C3:80:F9:A8:5B:07:04:08:2C'
+	}]
+};
 
 // App Settings
 Settings.version = false;
@@ -122,9 +147,9 @@ var AdvSettings = {
 			key: variable,
 			value: newValue
 		})
-			.then(function () {
-				Settings[variable] = newValue;
-			});
+		.then(function () {
+			Settings[variable] = newValue;
+		});
 	},
 
 	setup: function () {
@@ -157,72 +182,115 @@ var AdvSettings = {
 		return Q();
 	},
 
-	checkApiEndpoint: function (allApis) {
+	checkApiEndpoints: function (endpoints) {
+		return Q.all(_.map(endpoints, function(endpoint) { return AdvSettings.checkApiEndpoint(endpoint); }));
+	},
+
+	checkApiEndpoint: function (endpoint, defer) {
 		var tls = require('tls'),
-			URI = require('URIjs'),
-			request = require('request'),
+			http = require('http'),
+			uri = require('url');
 
-			that = this;
+		defer = defer || Q.defer();
 
-		// TODO: Did we want to check api SSL at EACH load ?
-		// Default timeout of 120 ms
+		if(endpoint.skip) {
+			win.debug('Skipping endpoint check for %s', endpoint.url);
+			return Q();
+		}
 
-		// var numCompletedCalls = 0;
-		// for (var apiCheck in allApis) {
-		// 	numCompletedCalls++;
-		// 	apiCheck = allApis[apiCheck];
-		// 	var url = AdvSettings.get(apiCheck.original);
-		// 	var hostname = URI(url).hostname();
+		var url = uri.parse(endpoint.url);
+		win.debug('Checking %s endpoint', url.hostname);
 
-		// 	if (url.match(/http:/) !== null) {
-		// 		//Not SSL
-		// 		request(url, {
-		// 			method: 'get',
-		// 		}, function (err, res, body) {
-		// 			if (err || !body || res.request.host !== hostname) {
-		// 				//If host of the response is not the same as the one we requested
-		// 				//means ISP redirected us, so go for the mirror
-		// 				Settings[apiCheck.original] = Settings[apiCheck.mirror];
-		// 			}
-		// 			if (numCompletedCalls === allApis.length) {
-		// 				callback();
-		// 			}
-		// 		});
+		if(endpoint.ssl === false) {
+			http.get({
+				hostname: url.hostname,
+				port: url.port || 80,
+				agent: false
+			}, function (res) {
+				res.on('data', function(body) {
+					// Doesn't match the expected response
+					if(!endpoint.fingerprint.test(body)) {
+						win.warn('[%s] Endpoint fingerprint %s does not match %s',
+							url.hostname,
+							endpoint.fingerprint, 
+							body);
+						if(endpoint.fallbacks.length) {
+							var fallback = endpoint.fallbacks.shift();
+							_.extend(endpoint, fallback);
 
-		// 	} else {
-		//Is SSL
-		var promises = allApis.map(function (apiCheck) {
-			return Q.Promise(function (resolve, reject) {
-				var hostname = URI(AdvSettings.get(apiCheck.original)).hostname();
-
-				tls.connect(443, hostname, {
-					servername: hostname,
-					rejectUnauthorized: false
-				}, function () {
-					if (!that.authorized || that.authorizationError || that.getPeerCertificate().fingerprint !== apiCheck.fingerprint) {
-						// "These are not the certificates you're looking for..."
-						// Seems like they even got a certificate signed for us :O
-						Settings[apiCheck.original] = Settings[apiCheck.mirror];
+							AdvSettings.checkApiEndpoint(endpoint, defer);
+							return;
+						} else {
+							// TODO: should reject here!
+						}
 					}
 
-					this.end();
-					resolve();
-				}).on('error', function () {
-					// No SSL support. That's convincing >.<
-					Settings[apiCheck.original] = Settings[apiCheck.mirror];
+					defer.resolve();
+				});
+			}).setTimeout(5000);
+		} else {
+			tls.connect(url.port || 443, url.hostname, {
+				servername: url.hostname,
+				rejectUnauthorized: false
+			}, function () {
+				this.setTimeout(0);
+				this.removeAllListeners('error');
+				if (!this.authorized ||
+					this.authorizationError ||
+					this.getPeerCertificate().fingerprint !== endpoint.fingerprint) 
+				{
+					// "These are not the certificates you're looking for..."
+					// Seems like they even got a certificate signed for us :O
+					win.warn('[%s] Endpoint fingerprint %s does not match %s',
+						url.hostname,
+						endpoint.fingerprint,
+						this.getPeerCertificate().fingerprint);
+					if(endpoint.fallbacks.length) {
+						var fallback = endpoint.fallbacks.shift();
+						_.extend(endpoint, fallback);
 
-					this.end();
-					resolve();
-				}).on('timeout', function () {
-					// Connection timed out, we'll say its not available
-					Settings[apiCheck.original] = Settings[apiCheck.mirror];
-					this.end();
-					resolve();
-				}).setTimeout(10000); // Set 10 second timeout
-			});
-		});
+						AdvSettings.checkApiEndpoint(endpoint, defer);
+					} else {
+						defer.resolve();
+					}
+				} else {
+					defer.resolve();
+				}
+				this.end();
+			}).on('error', function (err) {
+				this.setTimeout(0);
+				// No SSL support. That's convincing >.<
+				win.warn('[%s] Endpoint does not support SSL, failing',
+						url.hostname);
+				if(endpoint.fallbacks.length) {
+					var fallback = endpoint.fallbacks.shift();
+					_.extend(endpoint, fallback);
 
-		return Q.all(promises);
+					AdvSettings.checkApiEndpoint(endpoint, defer);
+				} else {
+					// TODO: Should probably reject here
+					defer.resolve();
+				}
+				this.end();
+			}).on('timeout', function () {
+				this.removeAllListeners('error');
+				// Connection timed out, we'll say its not available
+				win.warn('[%s] Endpoint timed out, failing',
+						url.hostname);
+				if(endpoint.fallbacks.length) {
+					var fallback = endpoint.fallbacks.shift();
+					_.extend(endpoint, fallback);
+
+					AdvSettings.checkApiEndpoint(endpoint, defer);
+				} else {
+					// TODO: Should probably reject here
+					defer.resolve();
+				}
+				this.end();
+			}).setTimeout(5000); // Set 5 second timeout
+		}
+
+		return defer.promise;
 	},
 
 	performUpgrade: function () {

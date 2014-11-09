@@ -8,6 +8,7 @@
 	var peerflix = require('peerflix');
 	var mime = require('mime');
 	var path = require('path');
+	var crypto = require('crypto');
 
 	var engine = null;
 	var preload_engine = null;
@@ -74,6 +75,17 @@
 		var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
 		subtitles = torrent.subtitle;
 
+		var version = require('semver').parse(App.settings.version);
+		var torrentVersion = '';
+		torrentVersion += version.major;
+		torrentVersion += version.minor;
+		torrentVersion += version.patch;
+		torrentVersion += version.prerelease.length ? version.prerelease[0] : 0;
+		var torrentPeerId = '-PT';
+		torrentPeerId += torrentVersion;
+		torrentPeerId += '-';
+		torrentPeerId += crypto.pseudoRandomBytes(6).toString('hex');
+
 		win.debug('Streaming movie to %s', tmpFile);
 
 		engine = peerflix(torrent.info, {
@@ -83,7 +95,8 @@
 			tmp: App.settings.tmpLocation,
 			path: tmpFile, // we'll have a different file name for each stream also if it's same torrent in same session
 			buffer: (1.5 * 1024 * 1024).toString(), // create a buffer on torrent-stream
-			index: torrent.file_index
+			index: torrent.file_index,
+			id: torrentPeerId
 		});
 
 		engine.swarm.piecesGot = 0;
@@ -183,15 +196,27 @@
 				var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
 				subtitles = torrent.subtitle;
 
+				var version = require('semver').parse(App.settings.version);
+				var torrentVersion = '';
+				torrentVersion += version.major;
+				torrentVersion += version.minor;
+				torrentVersion += version.patch;
+				torrentVersion += version.prerelease.length ? version.prerelease[0] : 0;
+				var torrentPeerId = '-PT';
+				torrentPeerId += torrentVersion;
+				torrentPeerId += '-';
+				torrentPeerId += crypto.pseudoRandomBytes(6).toString('hex');
+
 				win.debug('Preloading movie to %s', tmpFile);
 
 				preload_engine = peerflix(torrent_url, {
 					connections: parseInt(Settings.connectionLimit, 10) || 100, // Max amount of peers to be connected to.
 					dht: parseInt(Settings.dhtLimit, 10) || 50,
-					port: 2710,
+					port: 0,
 					tmp: App.settings.tmpLocation,
 					path: tmpFile, // we'll have a different file name for each stream also if it's same torrent in same session
-					index: torrent.file_index
+					index: torrent.file_index,
+					id: torrentPeerId
 				});
 
 			});

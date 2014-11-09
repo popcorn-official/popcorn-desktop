@@ -12,7 +12,7 @@
 		zip = require('adm-zip'),
 		spawn = require('child_process').spawn;
 
-	var UPDATE_ENDPOINT = AdvSettings.get('updateApiEndpoint') + 'update.json',
+	var UPDATE_ENDPOINT = AdvSettings.get('updateEndpoint').url + 'update.json',
 		CHANNELS = ['stable', 'beta', 'nightly'],
 		FILENAME = 'package.nw.new',
 		VERIFY_PUBKEY =
@@ -101,7 +101,7 @@
 				updateData.version += '-0';
 			}
 			if (!App.settings.version.match(/-\d+$/)) {
-				App.settings.version.version += '-0';
+				App.settings.version += '-0';
 			}
 
 			if (semver.gt(updateData.version, App.settings.version)) {
@@ -150,8 +150,7 @@
 	};
 
 	function installWindows(downloadPath, updateData) {
-		var outputDir = path.dirname(downloadPath),
-			installDir = path.join(outputDir, 'app');
+		var installDir = path.dirname(downloadPath);
 		var defer = Q.defer();
 
 		var pack = new zip(downloadPath);
