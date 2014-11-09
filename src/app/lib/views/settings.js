@@ -282,7 +282,7 @@
 				win.setAlwaysOnTop(value);
 				break;
 			case 'theme':
-				$('head').append('<link rel="stylesheet" href="themes/' + value + '.css" type="text/css" />');
+				$('link#theme').attr('href', 'themes/' + value + '.css');
 				App.vent.trigger('updatePostersSizeStylesheet');
 				break;
 			case 'start_screen':
