@@ -101,7 +101,7 @@
 				updateData.version += '-0';
 			}
 			if (!App.settings.version.match(/-\d+$/)) {
-				App.settings.version.version += '-0';
+				App.settings.version += '-0';
 			}
 
 			if (semver.gt(updateData.version, App.settings.version)) {
