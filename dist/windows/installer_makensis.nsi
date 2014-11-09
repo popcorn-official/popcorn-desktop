@@ -104,6 +104,7 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Afrikaans"
 !insertmacro MUI_LANGUAGE "Albanian"
 !insertmacro MUI_LANGUAGE "Arabic"
+!insertmacro MUI_LANGUAGE "Asturian"
 !insertmacro MUI_LANGUAGE "Basque"
 !insertmacro MUI_LANGUAGE "Belarusian"
 !insertmacro MUI_LANGUAGE "Bosnian"
@@ -139,6 +140,7 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Mongolian"
 !insertmacro MUI_LANGUAGE "Norwegian"
 !insertmacro MUI_LANGUAGE "NorwegianNynorsk"
+!insertmacro MUI_LANGUAGE "Pashto"
 !insertmacro MUI_LANGUAGE "Polish"
 !insertmacro MUI_LANGUAGE "Portuguese"
 !insertmacro MUI_LANGUAGE "PortugueseBR"
@@ -157,6 +159,7 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Turkish"
 !insertmacro MUI_LANGUAGE "Ukrainian"
 !insertmacro MUI_LANGUAGE "Uzbek"
+!insertmacro MUI_LANGUAGE "Vietnamese"
 !insertmacro MUI_LANGUAGE "Welsh"
 
 LangString removeDataFolder ${LANG_ENGLISH} "Remove all databases and configuration files?"
