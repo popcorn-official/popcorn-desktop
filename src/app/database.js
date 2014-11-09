@@ -4,7 +4,6 @@ var
 	zlib = require('zlib'),
 	Datastore = require('nedb'),
 	path = require('path'),
-	openSRT = require('opensrt_js'),
 	Q = require('q'),
 
 	db = {},
