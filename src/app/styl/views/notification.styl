@@ -1,69 +1,71 @@
 body.has-notification
-	overflow hidden
-
 	#notification
-		position absolute
-		top 60px
-		border-radius 3px
-		height auto
-		min-width 300px
-		-webkit-user-select none
-		opacity 0.9
-		right 60px
-		z-index 5000
-		font-size 13px
-		font-weight bold
-		text-align center
-		line-height 27px
-		padding 9px 15px
+		display block
+
+#notification
+	display none
+	position absolute
+	top 60px
+	border-radius 3px
+	height auto
+	min-width 300px
+	-webkit-user-select none
+	opacity 0.9
+	right 60px
+	z-index 5000
+	font-size 13px
+	font-weight bold
+	text-align center
+	line-height 27px
+	padding 9px 15px
+	color #fff
+	border 1px solid rgba(0,0,0,.7)
+	transition all .5s
+
+	&:hover
+		opacity 1
+
+	.btn-grp
+		position relative
+		top 6px
+		padding-bottom 6px
+		margin-right auto
+		margin-left auto
+
+	.btn
+		background rgba(0, 0, 0, 0.4)
 		color #fff
-		border 1px solid rgba(0,0,0,.7)
 		transition all .5s
-        
+
 		&:hover
-			opacity 1
+			background rgba(0,0,0,0.6)
 
-		.btn-grp 
-			position relative
-			top 6px
-			padding-bottom 6px
-			margin-right auto
-			margin-left auto
+		&:active
+			box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+			box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+			background rgba(0,0,0,0.7)
 
-		.btn
-			background rgba(0, 0, 0, 0.4)
-			color #fff
-			transition all .5s
+	.btn.chnglog
+		margin-right 5px
 
-			&:hover
-				background rgba(0,0,0,0.6)
-                
-			&:active
-				box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-				box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-				background rgba(0,0,0,0.7)
+#notification h1
+	font-size 20px
 
-		.btn.chnglog 
-			margin-right 5px
+#notification p
+	font-weight 100
+	line-height: 20px
 
-	#notification h1
-		font-size 20px
+#notification.blue
+	background #3498DB
 
-	#notification p
-		font-weight 100
-		line-height: 20px
+#notification.green
+	background #27AE60
 
-	#notification.blue 
-		background #3498DB
+#notification.yellow
+	background #dbb756
 
-	#notification.green
-		background #27AE60
+#notification.orange
+	background #f07f53
 
-	#notification.yellow 
-		background #dbb756
-
-	#notification.orange 
-		background #f07f53
-
-	#notification.red 
-		background #f15153
+#notification.red
+	background #f15153
