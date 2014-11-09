@@ -37,9 +37,9 @@
 			} else if (swarm.wires.length) {
 				state = 'startingDownload';
 			}
-			/*if (state === 'ready' && (!hasSubtitles || (hasSubtitles && !downloadedSubtitles))) {
+			if (state === 'ready' && (!hasSubtitles || (hasSubtitles && !downloadedSubtitles))) {
 				state = 'waitingForSubtitles';
-			}*/
+			}
 
 			stateModel.set('state', state);
 
@@ -282,10 +282,6 @@
 						subtitleProvider.fetch(data).then(function (subs) {
 							if (Object.keys(subs).length > 0) {
 								subtitles = subs;
-								App.vent.trigger('subtitles:ready', {
-									subtitle: subtitles,
-									defaultSubtitle: Settings.subtitle_language
-								});
 								win.info(Object.keys(subs).length + ' subtitles found');
 							} else {
 								subtitles = null;

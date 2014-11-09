@@ -323,9 +323,9 @@
 
 			if (postersWidthIndex !== -1 && postersWidthIndex + 1 in Settings.postersJump) {
 				App.db.writeSetting({
-						key: 'postersWidth',
-						value: Settings.postersJump[postersWidthIndex + 1]
-					})
+					key: 'postersWidth',
+					value: Settings.postersJump[postersWidthIndex + 1]
+				})
 					.then(function () {
 						App.vent.trigger('updatePostersSizeStylesheet');
 					});
@@ -345,9 +345,9 @@
 			}
 
 			App.db.writeSetting({
-					key: 'postersWidth',
-					value: postersWidth
-				})
+				key: 'postersWidth',
+				value: postersWidth
+			})
 				.then(function () {
 					App.vent.trigger('updatePostersSizeStylesheet');
 				});
