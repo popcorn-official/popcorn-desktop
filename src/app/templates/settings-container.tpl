@@ -143,7 +143,15 @@
             <span class="advanced">
                 <div class="subtitles-custom">
                     <p><%= i18n.__("Color") + ":" %></p>
-                    <input id="subtitles_color" type="text" maxlength="7" size="7" name="subtitle_color" value="<%=Settings.subtitle_color%>">
+                    <input class="colorsub" id="subtitles_color" type="color" size="7" name="subtitle_color" value="<%=Settings.subtitle_color%>" list="subs_colors">
+                        <datalist id="subs_colors">
+                            <option>#ffffff</option>
+                            <option>#ffff00</option>
+                            <option>#ff0000</option>
+                            <option>#ff00ff</option>
+                            <option>#00ffff</option>
+                            <option>#00ff00</option>
+                        </datalist>
 
                     <input class="settings-checkbox" name="subtitle_shadows" id="subtitle_shadows" type="checkbox" <%=(Settings.subtitle_shadows? "checked='checked'":"")%>>
 				    <label class="settings-label" for="subtitle_shadows"><%= i18n.__("With Shadows") %></label>
