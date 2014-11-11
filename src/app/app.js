@@ -132,8 +132,6 @@ App.addInitializer(function (options) {
 
 	if (ScreenResolution.QuadHD) {
 		zoom = 2;
-	} else if (ScreenResolution.UltraHD || ScreenResolution.Retina) {
-		zoom = 1;
 	}
 
 	var width = parseInt(localStorage.width ? localStorage.width : Settings.defaultWidth);
