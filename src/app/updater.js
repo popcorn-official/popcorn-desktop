@@ -177,7 +177,8 @@
 		var defer = Q.defer();
 
 		fs.rename(packageFile, path.join(outputDir, 'package.nw.old'), function (err) {
-			if (err) {
+			// errno 34 = ENOENT, file not found
+			if (err && err.errno !== 34) {
 				defer.reject(err);
 			} else {
 				fs.rename(downloadPath, packageFile, function (err) {
@@ -200,7 +201,7 @@
 						}
 					} else {
 						fs.unlink(path.join(outputDir, 'package.nw.old'), function (err) {
-							if (err) {
+							if (err && err.errno !== 34) {
 								// This is a non-fatal error, should we reject?
 								defer.reject(err);
 							} else {
