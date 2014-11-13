@@ -170,7 +170,7 @@
 				}
 				var tvapiep = AdvSettings.get('tvshowAPI');
 				tvapiep.url = value;
-				tvapiep.skipVerification = true;
+				tvapiep.skip = true;
 				AdvSettings.set('tvshowAPI', tvapiep);
 				that.ui.success_alert.show().delay(3000).fadeOut(400);
 				return;

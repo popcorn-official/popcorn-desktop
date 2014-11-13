@@ -221,7 +221,7 @@ var AdvSettings = {
 				res.on('data', function(body) {
 					res.removeAllListeners('data');
 					// Doesn't match the expected response
-					if(!endpoint.fingerprint.test(body.toString('utf8'))) {
+					if(!_.isRegExp(endpoint.fingerprint) || !endpoint.fingerprint.test(body.toString('utf8'))) {
 						win.warn('[%s] Endpoint fingerprint %s does not match %s',
 							url.hostname,
 							endpoint.fingerprint, 
