@@ -209,6 +209,7 @@
 			case 'connectionLimit':
 			case 'dhtLimit':
 			case 'streamPort':
+			case 'subtitle_color':
 				value = field.val();
 				break;
 			case 'traktUsername':
@@ -216,15 +217,6 @@
 				return;
 			case 'tmpLocation':
 				value = path.join(field.val(), 'Popcorn-Time');
-				break;
-			case 'subtitle_color':
-				//check if valid hex color
-				if (/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(field.val())) {
-					value = field.val();
-					break;
-				} else {
-					return;
-				}
 				break;
 			default:
 				win.warn('Setting not defined: ' + field.attr('name'));

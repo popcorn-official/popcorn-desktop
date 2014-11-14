@@ -145,6 +145,10 @@
             .subtitles-custom > .settings-label
                 margin-left 40px
 
+            .subtitles-custom
+                .colorsub
+                    cursor pointer
+
         #trakt-tv
             .trakt-options
                 color $SettingsText1
@@ -338,7 +342,7 @@
             left 6px
             top 15px
 
-    input[type="text"], input[type="password"], input[type="number"]
+    input[type="text"], input[type="password"], input[type="number"], input[type="color"]
         margin-left 10px
         margin-top -9px
         padding-left 10px
@@ -352,6 +356,12 @@
         font-size 13px
         cursor text
         outline 0 !important
+
+    input[type='color']
+        -webkit-appearance: none
+        width 67px
+    input[type='color']::-webkit-color-swatch 
+        margin: 3px -9px 3px -3px;
 
     input[type='number']::-webkit-inner-spin-button
         -webkit-appearance: none
