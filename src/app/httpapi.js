@@ -560,8 +560,7 @@
 		});
 
 		server.expose('watchtrailer', function (args, opt, callback) {
-			var movieView = App.Window.currentView.MovieDetail.currentView;
-			if (movieView === undefined || movieView.model === undefined || movieView.model.type !== 'movie') {
+			if (App.ViewStack[App.ViewStack.length -1] !== "movie-detail") {
 				popcornCallback(callback, 'View not open');
 				return;
 			}
