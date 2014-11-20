@@ -7,7 +7,14 @@
 	var OpenSubtitles = function () {};
 	OpenSubtitles.prototype.constructor = OpenSubtitles;
 
+	var normalizeLangCodes = function(data) {
+		data['pt-br'] = data['pb'];
+		delete data['pb'];
+		return data;
+	};
+
 	var formatForPopcorn = function (data) {
+		data = normalizeLangCodes(data);
 		for (var lang in data) {
 			data[lang] = data[lang].url;
 		}
