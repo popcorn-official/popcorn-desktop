@@ -8,8 +8,10 @@
 	OpenSubtitles.prototype.constructor = OpenSubtitles;
 
 	var normalizeLangCodes = function(data) {
-		data['pt-br'] = data['pb'];
-		delete data['pb'];
+		if ('pb' in data) {
+			data['pt-br'] = data['pb'];
+			delete data['pb'];
+		}
 		return data;
 	};
 

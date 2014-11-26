@@ -24,11 +24,11 @@
 </div>
 <%
 	var subArray = [];
-	for (var lang in subtitle) {
+	for (var langcode in subtitle) {
 		subArray.push({
 			"language": langcode,
 			"languageName": (App.Localization.langcodes[langcode] !== undefined ? App.Localization.langcodes[langcode].nativeName : langcode),
-			"sub": subtitle[lang]
+			"sub": subtitle[langcode]
 		});
 	}
 	subArray.sort(function (sub1, sub2) {
