@@ -9,4 +9,9 @@
 		<div id="initbar-contents"></div>
 	</div>
 	<div id="init-status" class="init-status"></div>
+
+	<p id='waiting-block' style="margin-top:20px;display:none">
+			<a href='#' style='color:#fff;font-weight:bold;' class='fixApp'>Loading stuck ? Click here !</a>
+	</p>
+
 </div>

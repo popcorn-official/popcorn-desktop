@@ -18,7 +18,7 @@ var parseBuildPlatforms = function (argumentPlatform) {
 
 	return buildPlatforms;
 };
- 
+
 module.exports = function (grunt) {
 	"use strict";
 
@@ -117,8 +117,7 @@ module.exports = function (grunt) {
 				gitRef = gitRef.split(':')[1].trim();
 				gitBranch = path.basename(gitRef);
 				currCommit = grunt.file.read('.git/' + gitRef).trim();
-			}
-			catch (e) {
+			} catch (e) {
 				var fs = require('fs');
 				currCommit = gitRef.trim();
 				var items = fs.readdirSync('.git/refs/heads');
@@ -197,7 +196,7 @@ module.exports = function (grunt) {
 				win: buildPlatforms.win,
 				linux32: buildPlatforms.linux32,
 				linux64: buildPlatforms.linux64,
-				download_url: 'http://cdn.popcorntime.io/nw/'
+				download_url: 'http://get.popcorntime.io/nw/'
 			},
 			src: ['./src/**', '!./src/app/styl/**',
 				'./node_modules/**', '!./node_modules/bower/**', '!./node_modules/*grunt*/**', '!./node_modules/stylus/**',
@@ -279,7 +278,7 @@ module.exports = function (grunt) {
 					'cd src/app/language/',
 					'git reset --hard origin/master'
 				].join('&&')
-			}, 
+			},
 			setexecutable: {
 				command: [
 					'pct_rel="build/releases/Popcorn-Time"',
@@ -298,21 +297,21 @@ module.exports = function (grunt) {
 				command: [
 					'cd build/releases/Popcorn-Time/linux32/Popcorn-Time',
 					'tar --exclude-vcs -caf "../Popcorn-Time-' + currentVersion + '-Linux-32.tar.xz" .',
-					'echo "Linux32 Sucessfully packaged" || echo "Linux32 failed to package"' 
+					'echo "Linux32 Sucessfully packaged" || echo "Linux32 failed to package"'
 				].join('&&')
 			},
 			packageWin: {
 				command: [
 					'cd build/releases/Popcorn-Time/win/Popcorn-Time',
 					'tar --exclude-vcs -caf "../Popcorn-Time-' + currentVersion + '-Win.tar.xz" .',
-					'echo "Windows Sucessfully packaged" || echo "Windows failed to package"' 
+					'echo "Windows Sucessfully packaged" || echo "Windows failed to package"'
 				].join('&&')
 			},
 			packageMac: {
 				command: [
 					'cd build/releases/Popcorn-Time/mac/',
 					'tar --exclude-vcs -caf "Popcorn-Time-' + currentVersion + '-Mac.tar.xz" Popcorn-Time.app',
-					'echo "Mac Sucessfully packaged" || echo "Mac failed to package"' 
+					'echo "Mac Sucessfully packaged" || echo "Mac failed to package"'
 				].join('&&')
 			}
 		},
