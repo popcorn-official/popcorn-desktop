@@ -19,13 +19,10 @@
 			var device = this.get('device');
 			this.set('url', url);
 			var self = this;
-			console.log(url);
-			console.log(device);
 
 			var subtitle = streamModel.get('subFile');
 
 			if (subtitle) {
-				console.log('http:' + url.split(':')[1] + ':9999/subtitle.vtt');
 				var media = {
 					url: url,
 					subtitles: [{
@@ -59,14 +56,11 @@
 						url: streamModel.get('cover')
 					}
 				}
-				console.log(media);
 			}
 
 			device.connect();
 			device.on('connected', function () {
 				device.play(media, 0, function (err, status) {
-					console.log(err);
-					console.log(device);
 					console.log('Playing ' + url + ' on ' + name);
 				});
 			});
