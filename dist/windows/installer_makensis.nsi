@@ -1,4 +1,4 @@
-﻿; Popcorn Time
+; Popcorn Time
 ; Installer Source for NSIS 3.0 or higher
 
 ;Enable Unicode encoding
@@ -6,28 +6,21 @@ Unicode True
 
 ;Include Modern UI
 !include "MUI2.nsh"
-!include "FileFunc.nsh"
-
-;Define macro to check for file existence
-!define !IfExist `!insertmacro _!IfExist ""`
-!macro _!IfExist _OP _FilePath
-    !ifdef !IfExistIsTrue
-        !undef !IfExistIsTrue
-    !endif
-    !tempfile "!IfExistTmp"
-    !system `IF EXIST "${_FilePath}" Echo !define "!IfExistIsTrue" > "${!IfExistTmp}"`
-    !include /NONFATAL "${!IfExistTmp}"
-    !delfile /NONFATAL "${!IfExistTmp}"
-    !undef !IfExistTmp
-    !if${_OP}def !IfExistIsTrue
-!macroend
+!include "LogicLib.nsh"
 
 ;Check file paths
-${!IfExist} "..\..\package.json"
+!if /FILEEXISTS "..\..\package.json"
     ;File exists!
     !define WIN_PATHS
 !else
     ;File does NOT exist!
+!endif
+
+;Parse Gruntfile.js
+!ifdef WIN_PATHS
+    !searchparse /file "..\..\Gruntfile.js" "version: '" APP_NW "',"
+!else
+    !searchparse /file "../../Gruntfile.js" "version: '" APP_NW "',"
 !endif
 
 ;Parse package.json
@@ -251,15 +244,35 @@ Section ; Node Webkit Files
     ;Set output path to InstallDir
     SetOutPath "$INSTDIR\node-webkit"
 
+    ;Check to see if this nw uses datfiles
+    !ifdef WIN_PATHS
+        !define DATPATH "..\..\build\cache\win\${APP_NW}\"
+    !else
+        !define DATPATH "../../build/cache/win/${APP_NW}/"
+    !endif
+
+    !ifdef DATPATH
+        !if /FILEEXISTS "${DATPATH}icudtl.dat"
+            ;File exists!
+            !define DATFILES
+        !else
+            ;File does NOT exist!
+        !endif
+    !endif
+    
     ;Add the files
     !ifdef WIN_PATHS
-        File "..\..\build\cache\win\0.9.2\*.dll"
-        File "/oname=${APP_NAME}.exe" "..\..\build\cache\win\0.9.2\nw.exe"
-        File "..\..\build\cache\win\0.9.2\nw.pak"
+        File "..\..\build\cache\win\${APP_NW}\*.dll"
+        File "/oname=${APP_NAME}.exe" "..\..\build\cache\win\${APP_NW}\nw.exe"
+        File "..\..\build\cache\win\${APP_NW}\nw.pak"
     !else
-        File "../../build/cache/win/0.9.2/*.dll"
-        File "/oname=${APP_NAME}.exe" "../../build/cache/win/0.9.2/nw.exe"
-        File "../../build/cache/win/0.9.2/nw.pak"
+        File "../../build/cache/win/${APP_NW}/*.dll"
+        File "/oname=${APP_NAME}.exe" "../../build/cache/win/${APP_NW}/nw.exe"
+        File "../../build/cache/win/${APP_NW}/nw.pak"
+    !endif
+
+    !ifdef DATFILES
+        File "${DATPATH}*.dat"
     !endif
 
 SectionEnd
