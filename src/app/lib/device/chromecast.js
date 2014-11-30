@@ -19,11 +19,12 @@
 			var device = this.get('device');
 			this.set('url', url);
 			var self = this;
+			var media;
 
 			var subtitle = streamModel.get('subFile');
 
 			if (subtitle) {
-				var media = {
+				media = {
 					url: url,
 					subtitles: [{
 						url: 'http:' + url.split(':')[1] + ':9999/subtitle.vtt',
@@ -55,7 +56,7 @@
 						title: streamModel.get('title'),
 						url: streamModel.get('cover')
 					}
-				}
+				};
 			}
 
 			device.connect();

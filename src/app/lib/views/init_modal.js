@@ -8,7 +8,7 @@
 		ui: {
 			initstatus: '.init-status',
 			initbar: '#initbar-contents',
-			waitingblock : '#waiting-block'
+			waitingblock: '#waiting-block'
 		},
 
 		events: {
@@ -27,12 +27,12 @@
 			}, 1000, 'swing');
 			this.ui.initstatus.text(i18n.__('Status: Checking Database...'));
 
-			fixer = setTimeout(function(){
+			fixer = setTimeout(function () {
 				self.ui.waitingblock.show();
 			}, 7000);
 		},
 
-		onClose: function() {
+		onClose: function () {
 			clearTimeout(fixer);
 		},
 

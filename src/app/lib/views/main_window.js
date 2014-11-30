@@ -125,7 +125,7 @@
 				.then(function () {
 					try {
 						require('fs').statSync('src/app/themes/' + Settings.theme + '.css');
-					} catch(e) {
+					} catch (e) {
 						Settings.theme = 'Official_-_Dark_theme';
 						AdvSettings.set('theme', 'Official_-_Dark_theme');
 					}
@@ -320,7 +320,7 @@
 
 		syncTraktOnStart: function () {
 			if (Settings.syncOnStart) {
-                Database.deleteWatched();
+				Database.deleteWatched();
 				App.Trakt.sync();
 			}
 		},
@@ -368,8 +368,8 @@
 			var that = this;
 
 			App.db.getSetting({
-				key: 'postersWidth'
-			})
+					key: 'postersWidth'
+				})
 				.then(function (doc) {
 					var postersWidth = doc.value;
 					var postersHeight = Math.round(postersWidth * Settings.postersSizeRatio);

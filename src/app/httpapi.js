@@ -560,7 +560,7 @@
 		});
 
 		server.expose('watchtrailer', function (args, opt, callback) {
-			if (App.ViewStack[App.ViewStack.length -1] !== "movie-detail") {
+			if (App.ViewStack[App.ViewStack.length - 1] !== 'movie-detail') {
 				popcornCallback(callback, 'View not open');
 				return;
 			}

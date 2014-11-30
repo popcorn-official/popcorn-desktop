@@ -203,8 +203,8 @@
 					this.$el.removeClass('watched');
 				}
 				Database.markMovieAsNotWatched({
-					imdb_id: this.model.get('imdb_id')
-				}, true)
+						imdb_id: this.model.get('imdb_id')
+					}, true)
 					.then(function () {
 						that.model.set('watched', false);
 					});
@@ -219,9 +219,9 @@
 					break;
 				}
 				Database.markMovieAsWatched({
-					imdb_id: this.model.get('imdb_id'),
-					from_browser: true
-				}, true)
+						imdb_id: this.model.get('imdb_id'),
+						from_browser: true
+					}, true)
 					.then(function () {
 						that.model.set('watched', true);
 					});
@@ -310,14 +310,14 @@
 				if (this.model.get('bookmarked') === true) {
 					this.ui.bookmarkIcon.removeClass('selected');
 					Database.deleteBookmark(this.model.get('imdb_id'))
-					.then(function () {
-						win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
-						that.model.set('bookmarked', false);
-						App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
+						.then(function () {
+							win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
+							that.model.set('bookmarked', false);
+							App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
 
-						// we'll make sure we dont have a cached show
-						Database.deleteTVShow(that.model.get('imdb_id'));
-					});
+							// we'll make sure we dont have a cached show
+							Database.deleteTVShow(that.model.get('imdb_id'));
+						});
 				} else {
 					this.model.set('bookmarked', true);
 					var provider = App.Providers.get(this.model.get('provider'));

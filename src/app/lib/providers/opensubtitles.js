@@ -7,7 +7,7 @@
 	var OpenSubtitles = function () {};
 	OpenSubtitles.prototype.constructor = OpenSubtitles;
 
-	var normalizeLangCodes = function(data) {
+	var normalizeLangCodes = function (data) {
 		if ('pb' in data) {
 			data['pt-br'] = data['pb'];
 			delete data['pb'];

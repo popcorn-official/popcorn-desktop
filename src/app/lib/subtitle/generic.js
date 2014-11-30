@@ -106,17 +106,17 @@
 
 					downloadZip(data)
 						.then(function (location) {
-								App.vent.trigger('subtitle:downloaded', location);
+							App.vent.trigger('subtitle:downloaded', location);
 						})
 						.catch(function (error) {
 							App.vent.trigger('subtitle:downloaded', null);
 						});
-						
+
 				} else if (subExt === 'srt') {
 
 					downloadSRT(data)
 						.then(function (location) {
-								App.vent.trigger('subtitle:downloaded', location);
+							App.vent.trigger('subtitle:downloaded', location);
 						})
 						.catch(function (error) {
 							App.vent.trigger('subtitle:downloaded', null);

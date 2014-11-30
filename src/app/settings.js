@@ -155,12 +155,12 @@ var AdvSettings = {
 
 	set: function (variable, newValue) {
 		Database.writeSetting({
-			key: variable,
-			value: newValue
-		})
-		.then(function () {
-			Settings[variable] = newValue;
-		});
+				key: variable,
+				value: newValue
+			})
+			.then(function () {
+				Settings[variable] = newValue;
+			});
 	},
 
 	setup: function () {
@@ -194,7 +194,9 @@ var AdvSettings = {
 	},
 
 	checkApiEndpoints: function (endpoints) {
-		return Q.all(_.map(endpoints, function(endpoint) { return AdvSettings.checkApiEndpoint(endpoint); }));
+		return Q.all(_.map(endpoints, function (endpoint) {
+			return AdvSettings.checkApiEndpoint(endpoint);
+		}));
 	},
 
 	checkApiEndpoint: function (endpoint, defer) {
@@ -204,7 +206,7 @@ var AdvSettings = {
 
 		defer = defer || Q.defer();
 
-		if(endpoint.skip) {
+		if (endpoint.skip) {
 			win.debug('Skipping endpoint check for %s', endpoint.url);
 			return Q();
 		}
@@ -212,21 +214,21 @@ var AdvSettings = {
 		var url = uri.parse(endpoint.url);
 		win.debug('Checking %s endpoint', url.hostname);
 
-		if(endpoint.ssl === false) {
+		if (endpoint.ssl === false) {
 			http.get({
 				hostname: url.hostname,
 				port: url.port || 80,
 				agent: false
 			}, function (res) {
-				res.on('data', function(body) {
+				res.on('data', function (body) {
 					res.removeAllListeners('data');
 					// Doesn't match the expected response
-					if(!_.isRegExp(endpoint.fingerprint) || !endpoint.fingerprint.test(body.toString('utf8'))) {
+					if (!_.isRegExp(endpoint.fingerprint) || !endpoint.fingerprint.test(body.toString('utf8'))) {
 						win.warn('[%s] Endpoint fingerprint %s does not match %s',
 							url.hostname,
-							endpoint.fingerprint, 
+							endpoint.fingerprint,
 							body.toString('utf8'));
-						if(endpoint.fallbacks.length) {
+						if (endpoint.fallbacks.length) {
 							var fallback = endpoint.fallbacks.shift();
 							endpoint.ssl = undefined;
 							_.extend(endpoint, fallback);
@@ -250,15 +252,14 @@ var AdvSettings = {
 				this.removeAllListeners('error');
 				if (!this.authorized ||
 					this.authorizationError ||
-					this.getPeerCertificate().fingerprint !== endpoint.fingerprint) 
-				{
+					this.getPeerCertificate().fingerprint !== endpoint.fingerprint) {
 					// "These are not the certificates you're looking for..."
 					// Seems like they even got a certificate signed for us :O
 					win.warn('[%s] Endpoint fingerprint %s does not match %s',
 						url.hostname,
 						endpoint.fingerprint,
 						this.getPeerCertificate().fingerprint);
-					if(endpoint.fallbacks.length) {
+					if (endpoint.fallbacks.length) {
 						var fallback = endpoint.fallbacks.shift();
 						endpoint.ssl = undefined;
 						_.extend(endpoint, fallback);
@@ -275,8 +276,8 @@ var AdvSettings = {
 				this.setTimeout(0);
 				// No SSL support. That's convincing >.<
 				win.warn('[%s] Endpoint does not support SSL, failing',
-						url.hostname);
-				if(endpoint.fallbacks.length) {
+					url.hostname);
+				if (endpoint.fallbacks.length) {
 					var fallback = endpoint.fallbacks.shift();
 					endpoint.ssl = undefined;
 					_.extend(endpoint, fallback);
@@ -291,8 +292,8 @@ var AdvSettings = {
 				this.removeAllListeners('error');
 				// Connection timed out, we'll say its not available
 				win.warn('[%s] Endpoint timed out, failing',
-						url.hostname);
-				if(endpoint.fallbacks.length) {
+					url.hostname);
+				if (endpoint.fallbacks.length) {
 					var fallback = endpoint.fallbacks.shift();
 					endpoint.ssl = undefined;
 					_.extend(endpoint, fallback);
