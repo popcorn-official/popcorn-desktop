@@ -29,6 +29,8 @@
 		'RTcms0CPio56gg==\n' +
 		'-----END PUBLIC KEY-----\n';
 
+
+
 	function forcedBind(func, thisVar) {
 		return function () {
 			return func.apply(thisVar, arguments);
@@ -43,7 +45,7 @@
 		var self = this;
 
 		this.options = _.defaults(options || {}, {
-			endpoint: UPDATE_ENDPOINT,
+			endpoint: UPDATE_ENDPOINT + '?version=' + App.settings.version,
 			channel: 'beta'
 		});
 

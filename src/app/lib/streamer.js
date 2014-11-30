@@ -136,13 +136,15 @@
 		};
 
 		App.vent.on('subtitle:downloaded', function (sub) {
-			stateModel.get('streamInfo').set('subFile', sub);
-			App.vent.trigger('subtitle:convert', {
-				path: sub,
-				language: torrent.defaultSubtitle
-			}, function (err, res) {
-				App.Subtitles.Server.start(res);
-			});
+			if (sub) {
+				stateModel.get('streamInfo').set('subFile', sub);
+				App.vent.trigger('subtitle:convert', {
+					path: sub,
+					language: torrent.defaultSubtitle
+				}, function (err, res) {
+					App.Subtitles.Server.start(res);
+				});
+			}
 			downloadedSubtitles = true;
 		});
 

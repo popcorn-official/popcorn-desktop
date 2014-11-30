@@ -51,7 +51,7 @@
 					resolve(newName);
 				} catch (e) {
 					win.error('Error downloading subtitle: ' + e);
-					reject();
+					reject(e);
 				}
 			});
 
@@ -103,14 +103,23 @@
 					// Ignore EEXIST
 				}
 				if (subExt === 'zip') {
+
 					downloadZip(data)
 						.then(function (location) {
-							App.vent.trigger('subtitle:downloaded', location);
+								App.vent.trigger('subtitle:downloaded', location);
+						})
+						.catch(function (error) {
+							App.vent.trigger('subtitle:downloaded', null);
 						});
+						
 				} else if (subExt === 'srt') {
+
 					downloadSRT(data)
 						.then(function (location) {
-							App.vent.trigger('subtitle:downloaded', location);
+								App.vent.trigger('subtitle:downloaded', location);
+						})
+						.catch(function (error) {
+							App.vent.trigger('subtitle:downloaded', null);
 						});
 				}
 			} else {
