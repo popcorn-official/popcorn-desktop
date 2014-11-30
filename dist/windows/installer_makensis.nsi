@@ -6,7 +6,6 @@ Unicode True
 
 ;Include Modern UI
 !include "MUI2.nsh"
-!include "LogicLib.nsh"
 
 ;Check file paths
 !if /FILEEXISTS "..\..\package.json"
