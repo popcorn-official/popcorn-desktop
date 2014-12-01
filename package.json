@@ -8,8 +8,8 @@
 	},
 	"license": "GPL-3.0",
 	"main": "app://host/src/app/index.html",
-	"version": "0.3.5-2",
-	"releaseName": "We're snowed in (Hotfix 2)",
+	"version": "0.3.5-3",
+	"releaseName": "We're snowed in (Hotfix 3)",
 	"scripts": {
 		"postinstall": "node_modules/.bin/bower install && grunt setup",
 		"postupdate": "node_modules/.bin/bower update && grunt setup",
