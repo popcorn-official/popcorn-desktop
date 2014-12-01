@@ -259,24 +259,16 @@ module.exports = function (grunt) {
 				command: [
 					'git submodule init',
 					'cd src/app/styl/third_party/',
-					'git checkout master',
-					'git pull --force',
-					'cd ../../../../',
-					'git submodule update',
-					'cd src/app/styl/third_party/',
-					'git reset --hard origin/master'
+					'git submodule update --init',
+					'git pull origin master --force'
 				].join('&&')
 			},
 			language: {
 				command: [
 					'git submodule init',
 					'cd src/app/language/',
-					'git checkout master',
-					'git pull --force',
-					'cd ../../../',
-					'git submodule update',
-					'cd src/app/language/',
-					'git reset --hard origin/master'
+					'git submodule update --init',
+					'git pull origin master --force'
 				].join('&&')
 			},
 			setexecutable: {
