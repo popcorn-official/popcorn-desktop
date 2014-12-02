@@ -120,6 +120,13 @@
 		},
 
 		cancelStreaming: function () {
+
+			// call stop if we play externally
+			if (this.model.get('state') === 'playingExternally') {
+				console.log("Trying to stop external device");
+				App.vent.trigger('device:stop');
+			}
+
 			App.vent.trigger('stream:stop');
 			App.vent.trigger('player:close');
 			App.vent.trigger('torrentcache:stop');
@@ -137,7 +144,6 @@
 		},
 
 		stopStreaming: function () {
-			App.vent.trigger('device:stop');
 			this.cancelStreaming();
 		},
 
