@@ -123,7 +123,7 @@
 
 			// call stop if we play externally
 			if (this.model.get('state') === 'playingExternally') {
-				console.log("Trying to stop external device");
+				console.log('Trying to stop external device');
 				App.vent.trigger('device:stop');
 			}
 
