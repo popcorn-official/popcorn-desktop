@@ -4,6 +4,7 @@
 	var Loading = Backbone.Marionette.ItemView.extend({
 		template: '#loading-tpl',
 		className: 'app-overlay',
+		extPlayerStatusUpdater: null,
 
 		ui: {
 			stateTextDownload: '.text_download',
@@ -100,6 +101,11 @@
 					this.ui.progressbar.hide();
 					this.ui.cancel_button.hide();
 					
+					// Request device status/progress update every 5 sec
+					this.extPlayerStatusUpdater = setInterval(function() {
+						App.vent.trigger('device:status:update');
+					}, 5000);
+
 					// Update gui on status update.
 					// Strange scope issues on re-launch of loading view means we have to do the update here.
 					var playingbar = this.ui.playingbar;
@@ -145,6 +151,7 @@
 
 			// call stop if we play externally
 			if (this.model.get('state') === 'playingExternally') {
+				clearInterval(this.extPlayerStatusUpdater);
 				console.log('Trying to stop external device');
 				App.vent.trigger('device:stop');
 			}
