@@ -33,7 +33,9 @@
 			'click .cancel-button': 'cancelStreaming',
 			'click .pause': 'pauseStreaming',
 			'click .stop': 'stopStreaming',
-			'click .play': 'resumeStreaming'
+			'click .play': 'resumeStreaming',
+			'click .forward': 'forwardStreaming',
+			'click .backward': 'backwardStreaming'
 		},
 
 		initialize: function () {
@@ -145,6 +147,16 @@
 
 		stopStreaming: function () {
 			this.cancelStreaming();
+		},
+
+		forwardStreaming: function() {
+			console.log('clicked forward');
+			App.vent.trigger('device:forward');
+		},
+
+		backwardStreaming: function() {
+			console.log('clicked backward');
+			App.vent.trigger('device:backward');
 		},
 
 		onClose: function () {
