@@ -71,8 +71,9 @@
 			});
 			device.on('status', function(status) {
 				if (status.playerState == 'IDLE') {
-					device.removeAllListeners();
+					self._internalStatusUpdated(status);
 					console.log('chromecast.idle: listeners removed!');
+					device.removeAllListeners();
 				} else {
 					self._internalStatusUpdated(status);
 				}
