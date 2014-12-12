@@ -27,6 +27,10 @@
 			App.vent.on('device:stop', this.stop);
 			App.vent.on('device:forward', this.forward);
 			App.vent.on('device:backward', this.backward);
+			App.vent.on('device:seek', this.seek);
+			App.vent.on('device:seekTo', this.seekTo);
+			App.vent.on('device:seekPercentage', this.seekPercentage);
+			App.vent.on('device:status:update', this.updateStatus);
 			self = this;
 		},
 		list: function () {
@@ -48,6 +52,18 @@
 		},
 		backward: function () {
 			self.selected.backward();
+		},
+		seek: function (seconds) {
+			self.selected.seekBy(seconds);
+		},
+		seekTo: function (newCurrentTime) {
+			self.selected.seekTo(newCurrentTime);
+		},
+		seekPercentage: function (percentage) {
+			self.selected.seekPercentage(percentage);
+		},
+		updateStatus: function () {
+			self.selected.updateStatus();
 		},
 		startDevice: function (streamModel) {
 			if (!this.selected) {
