@@ -69,7 +69,14 @@
 					}
 				});
 			});
-
+			device.on('status', function(status) {
+				if (status.playerState == 'IDLE') {
+					device.removeAllListeners();
+					console.log('chromecast.idle: listeners removed!');
+				} else {
+					self._internalStatusUpdated(status);
+				}
+			});
 		},
 
 		pause: function () {
@@ -77,7 +84,15 @@
 		},
 
 		stop: function () {
-			this.get('device').stop(function () {});
+			var device = this.get('device');
+
+			device.stop(function () {
+				// No need to keep a connection open to the chromecast, when not playing any media.
+				// This however requires chromecast-js to create a new Client object in its connect method,
+				// since close() renders the client un-reusable.
+				// See https://github.com/guerrerocarlos/chromecast-js/pull/9
+				device.close();
+			});
 		},
 
 		seek: function(seconds) {
