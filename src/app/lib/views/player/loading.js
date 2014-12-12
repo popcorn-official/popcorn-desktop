@@ -99,6 +99,19 @@
 					this.ui.playingbar.css('width', '0%');
 					this.ui.progressbar.hide();
 					this.ui.cancel_button.hide();
+					
+					// Update gui on status update.
+					// Strange scope issues on re-launch of loading view means we have to do the update here.
+					var playingbar = this.ui.playingbar;
+					App.vent.on('device:status', function(status) {
+						//console.log('device status: ', status);
+						if (status.media !== undefined && status.media.duration !== undefined) {
+							var playedPercent = status.currentTime / status.media.duration * 100;
+							playingbar.css('width', playedPercent.toFixed(1) + '%');
+							console.log('ExternalStream: %s: %ss / %ss (%s%)', status.playerState, 
+								status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
+						}
+					});
 				}
 			}
 		},
@@ -164,6 +177,12 @@
 		backwardStreaming: function() {
 			console.log('clicked backward');
 			App.vent.trigger('device:backward');
+		},
+
+		seekStreaming: function(e) {
+			var percentClicked = e.offsetX / e.currentTarget.clientWidth * 100;
+			console.log('clicked seek (%s%)', percentClicked.toFixed(2));
+			App.vent.trigger('device:seekPercentage', percentClicked);
 		},
 
 		onClose: function () {
