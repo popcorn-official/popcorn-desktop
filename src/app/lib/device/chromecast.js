@@ -76,12 +76,32 @@
 			this.get('device').stop(function () {});
 		},
 
+		seek: function(seconds) {
+			console.log('chromecast.seek %s', seconds);
+			this.get('device').seek(seconds, function (err, status) {
+				if (err) console.log('Chromecast.seek:Error', err);
+			});
+		},
+		
+		seekTo: function(newCurrentTime) {
+			console.log('chromecast.seekTo %ss', newCurrentTime);
+			this.get('device').seekTo(newCurrentTime, function(err, status) {
+				if (err) console.log('Chromecast.seekTo:Error', err);
+			});
+		},
+		
+		seekPercentage: function(percentage) {
+			console.log('chromecast.seekPercentage %s%', percentage.toFixed(2));
+			var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
+			this.seekTo(newCurrentTime.toFixed());
+		},
+
 		forward: function () {
-			this.get('device').seek(30, function () {});
+			this.seek(30);
 		},
 
 		backward: function () {
-			this.get('device').seek(-30, function () {});
+			this.seek(-30);
 		},
 
 		unpause: function () {
