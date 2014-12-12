@@ -32,6 +32,9 @@
 			<i class="fa fa-stop stop"></i>
 			<i class="fa fa-forward forward"></i>
 		</div>
+		<div class="playing-progressbar" style="visibility:hidden">
+			<div id="playingbar-contents"></div>
+		</div>
 		<div class="cancel-button"><div class="cancel-button-text"><%= i18n.__("Cancel") %></div></div>
 	</div>
 </div>
