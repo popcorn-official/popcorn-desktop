@@ -62,7 +62,11 @@
 			device.connect();
 			device.on('connected', function () {
 				device.play(media, 0, function (err, status) {
-					console.log('Playing ' + url + ' on ' + name);
+					if (err) console.log('chromecast.play error');
+					else {
+						console.log('Playing ' + url + ' on ' + name);
+						self.set('loadedMedia', status.media);
+					}
 				});
 			});
 
@@ -106,6 +110,24 @@
 
 		unpause: function () {
 			this.get('device').unpause(function () {});
+		},
+
+		updateStatus: function() {
+			var self = this;
+			
+			this.get('device').getStatus(function(status) {
+				self._internalStatusUpdated(status);
+			});
+		},
+
+		_internalStatusUpdated: function(status) {
+			if (status.media === undefined) {
+				status.media = this.get('loadedMedia');
+			}
+			// If this is the active device, propagate the status event.
+			if (collection.selected.id === this.id) {
+				App.vent.trigger('device:status', status);
+			}
 		}
 	});
 
