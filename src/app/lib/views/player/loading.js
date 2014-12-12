@@ -82,6 +82,7 @@
 			this.initKeyboardShortcuts();
 		},
 		onStateUpdate: function () {
+			var self = this;
 			var state = this.model.get('state');
 			var streamInfo = this.model.get('streamInfo');
 			win.info('Loading torrent:', state);
@@ -116,6 +117,10 @@
 							playingbar.css('width', playedPercent.toFixed(1) + '%');
 							console.log('ExternalStream: %s: %ss / %ss (%s%)', status.playerState, 
 								status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
+						}
+						if (status.playerState == 'IDLE') {
+							// media finished playing
+							self.cancelStreaming();
 						}
 					});
 				}
