@@ -62,10 +62,22 @@
 			device.connect();
 			device.on('connected', function () {
 				device.play(media, 0, function (err, status) {
-					console.log('Playing ' + url + ' on ' + name);
+					if (err) console.log('chromecast.play error');
+					else {
+						console.log('Playing ' + url + ' on ' + name);
+						self.set('loadedMedia', status.media);
+					}
 				});
 			});
-
+			device.on('status', function(status) {
+				if (status.playerState == 'IDLE') {
+					self._internalStatusUpdated(status);
+					console.log('chromecast.idle: listeners removed!');
+					device.removeAllListeners();
+				} else {
+					self._internalStatusUpdated(status);
+				}
+			});
 		},
 
 		pause: function () {
@@ -73,19 +85,65 @@
 		},
 
 		stop: function () {
-			this.get('device').stop(function () {});
+			var device = this.get('device');
+
+			device.stop(function () {
+				// No need to keep a connection open to the chromecast, when not playing any media.
+				// This however requires chromecast-js to create a new Client object in its connect method,
+				// since close() renders the client un-reusable.
+				// See https://github.com/guerrerocarlos/chromecast-js/pull/9
+				device.close();
+			});
+		},
+
+		seek: function(seconds) {
+			console.log('chromecast.seek %s', seconds);
+			this.get('device').seek(seconds, function (err, status) {
+				if (err) console.log('Chromecast.seek:Error', err);
+			});
+		},
+		
+		seekTo: function(newCurrentTime) {
+			console.log('chromecast.seekTo %ss', newCurrentTime);
+			this.get('device').seekTo(newCurrentTime, function(err, status) {
+				if (err) console.log('Chromecast.seekTo:Error', err);
+			});
+		},
+		
+		seekPercentage: function(percentage) {
+			console.log('chromecast.seekPercentage %s%', percentage.toFixed(2));
+			var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
+			this.seekTo(newCurrentTime.toFixed());
 		},
 
 		forward: function () {
-			this.get('device').seek(30, function () {});
+			this.seek(30);
 		},
 
 		backward: function () {
-			this.get('device').seek(-30, function () {});
+			this.seek(-30);
 		},
 
 		unpause: function () {
 			this.get('device').unpause(function () {});
+		},
+
+		updateStatus: function() {
+			var self = this;
+			
+			this.get('device').getStatus(function(status) {
+				self._internalStatusUpdated(status);
+			});
+		},
+
+		_internalStatusUpdated: function(status) {
+			if (status.media === undefined) {
+				status.media = this.get('loadedMedia');
+			}
+			// If this is the active device, propagate the status event.
+			if (collection.selected.id === this.id) {
+				App.vent.trigger('device:status', status);
+			}
 		}
 	});
 
