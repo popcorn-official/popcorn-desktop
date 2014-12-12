@@ -26,7 +26,10 @@
 			player: '.player-name',
 			streaming: '.external-play',
 			controls: '.player-controls',
-			cancel_button: '.cancel-button'
+			cancel_button: '.cancel-button',
+
+			playingbarBox: '.playing-progressbar',
+			playingbar: '#playingbar-contents'
 		},
 
 		events: {
@@ -35,7 +38,8 @@
 			'click .stop': 'stopStreaming',
 			'click .play': 'resumeStreaming',
 			'click .forward': 'forwardStreaming',
-			'click .backward': 'backwardStreaming'
+			'click .backward': 'backwardStreaming',
+			'click .playing-progressbar': 'seekStreaming'
 		},
 
 		initialize: function () {
@@ -91,6 +95,9 @@
 				this.ui.stateTextDownload.hide();
 				if (streamInfo.get('player') && streamInfo.get('player').get('type') === 'chromecast') {
 					this.ui.controls.css('visibility', 'visible');
+					this.ui.playingbarBox.css('visibility', 'visible');
+					this.ui.playingbar.css('width', '0%');
+					this.ui.progressbar.hide();
 					this.ui.cancel_button.hide();
 				}
 			}
