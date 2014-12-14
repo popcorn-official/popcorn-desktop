@@ -156,7 +156,7 @@
 	};
 
 	// Also search for ClickOnce applications
-	if (process.env.LOCALAPPDATA) {
+	if (fs.existsSync(process.env.LOCALAPPDATA + '\\Apps\\2.0\\')) {
 		searchPaths.win32.push(process.env.LOCALAPPDATA + '\\Apps\\2.0\\');
 	}
 
