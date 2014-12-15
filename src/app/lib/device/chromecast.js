@@ -58,25 +58,21 @@
 					}
 				};
 			}
+			console.log('chromecast: connecting to '+ device.host);
 
-			device.connect();
-			device.on('connected', function () {
-				device.play(media, 0, function (err, status) {
-					if (err) console.log('chromecast.play error');
-					else {
-						console.log('Playing ' + url + ' on ' + name);
-						self.set('loadedMedia', status.media);
-					}
-				});
+			device.play(media, 0, function (err, status) {
+				if (err) console.log('chromecast.play error');
+				else {
+					console.log('Playing ' + url + ' on ' + name);
+					self.set('loadedMedia', status.media);
+				}
 			});
 			device.on('status', function(status) {
 				if (status.playerState == 'IDLE') {
-					self._internalStatusUpdated(status);
 					console.log('chromecast.idle: listeners removed!');
 					device.removeAllListeners();
-				} else {
-					self._internalStatusUpdated(status);
 				}
+				self._internalStatusUpdated(status);
 			});
 		},
 
@@ -85,15 +81,8 @@
 		},
 
 		stop: function () {
-			var device = this.get('device');
-
-			device.stop(function () {
-				// No need to keep a connection open to the chromecast, when not playing any media.
-				// This however requires chromecast-js to create a new Client object in its connect method,
-				// since close() renders the client un-reusable.
-				// See https://github.com/guerrerocarlos/chromecast-js/pull/9
-				device.close();
-			});
+			// Also stops player and closes connection.
+			this.get('device').stop(function () {});
 		},
 
 		seek: function(seconds) {
