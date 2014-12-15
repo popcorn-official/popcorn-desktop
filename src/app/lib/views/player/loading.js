@@ -101,28 +101,10 @@
 					this.ui.playingbar.css('width', '0%');
 					this.ui.progressbar.hide();
 					this.ui.cancel_button.hide();
-					
-					// Request device status/progress update every 5 sec
-					this.extPlayerStatusUpdater = setInterval(function() {
-						App.vent.trigger('device:status:update');
-					}, 5000);
 
 					// Update gui on status update.
-					// Strange scope issues on re-launch of loading view means we have to do the update here.
-					var playingbar = this.ui.playingbar;
-					App.vent.on('device:status', function(status) {
-						//console.log('device status: ', status);
-						if (status.media !== undefined && status.media.duration !== undefined) {
-							var playedPercent = status.currentTime / status.media.duration * 100;
-							playingbar.css('width', playedPercent.toFixed(1) + '%');
-							console.log('ExternalStream: %s: %ss / %ss (%s%)', status.playerState, 
-								status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
-						}
-						if (status.playerState == 'IDLE') {
-							// media finished playing
-							self.cancelStreaming();
-						}
-					});
+					// uses listenTo so event is unsubscribed automatically when loading view closes.
+					this.listenTo( App.vent, 'device:status', this.onDeviceStatus);
 				}
 			}
 		},
@@ -152,15 +134,39 @@
 			}
 		},
 
+		onDeviceStatus: function(status) {
+			//console.log('device status: ', status);
+			if (status.media !== undefined && status.media.duration !== undefined) {
+				// Update playingbar width
+				var playedPercent = status.currentTime / status.media.duration * 100;
+				this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
+				console.log('ExternalStream: %s: %ss / %ss (%s%)', status.playerState, 
+					status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
+			}
+			if (!this.extPlayerStatusUpdater && status.playerState == 'PLAYING') {
+				// First PLAYING state. Start requesting device status update every 5 sec
+				this.extPlayerStatusUpdater = setInterval(function() {
+					App.vent.trigger('device:status:update');
+				}, 5000);
+			}
+			if (this.extPlayerStatusUpdater && status.playerState == 'IDLE') {
+				// Media started streaming and is now finished playing
+				this.cancelStreaming();
+			}
+		},
+
 		cancelStreaming: function () {
 
 			// call stop if we play externally
 			if (this.model.get('state') === 'playingExternally') {
-				clearInterval(this.extPlayerStatusUpdater);
-				console.log('Trying to stop external device');
+				if (this.extPlayerStatusUpdater) {
+					clearInterval(this.extPlayerStatusUpdater);
+				}
+				console.log('Stopping external device');
 				App.vent.trigger('device:stop');
 			}
 
+			console.log('Closing loading view');
 			App.vent.trigger('stream:stop');
 			App.vent.trigger('player:close');
 			App.vent.trigger('torrentcache:stop');
