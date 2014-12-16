@@ -61,6 +61,10 @@ Settings.tmpLocation = path.join(os.tmpDir(), 'Popcorn-Time');
 Settings.databaseLocation = path.join(data_path, 'data');
 Settings.deleteTmpOnClose = true;
 
+Settings.vpn = false;
+Settings.vpnUsername = false;
+Settings.vpnPassword = false;
+
 Settings.tvshowAPI = {
 	url: 'http://api.popcorntime.io/',
 	ssl: false,
