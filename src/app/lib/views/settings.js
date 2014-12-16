@@ -588,10 +588,10 @@
 
 		connectVpn: function() {
 			var self = this;
-			App.VPN.connect()
-				.then(function () {
-					that.alertMessageSuccess(true);
-				});
+			// we launch the process in bg ?
+			App.VpnConnexion = App.VPN.connect();
+			that.alertMessageSuccess(true);
+
 		},
 
 		registerVpn: function() {

@@ -62,8 +62,8 @@ Settings.databaseLocation = path.join(data_path, 'data');
 Settings.deleteTmpOnClose = true;
 
 Settings.vpn = false;
-Settings.vpnUsername = false;
-Settings.vpnPassword = false;
+Settings.vpnUsername = '';
+Settings.vpnPassword = '';
 
 Settings.tvshowAPI = {
 	url: 'http://api.popcorntime.io/',
