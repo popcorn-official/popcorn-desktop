@@ -317,22 +317,6 @@ if (process.platform === 'darwin') {
 	});
 }
 
-// simple test
-Mousetrap.bind(['ctrl+y', 'command+y'], function (e) {
-	e.preventDefault();
-	console.log('install');
-	var vpn = new App.VPN();
-	vpn.install();
-});
-Mousetrap.bind(['ctrl+z', 'command+z'], function (e) {
-	e.preventDefault();
-	console.log('connect');
-	var vpn = new App.VPN();
-	vpn.connect();
-});
-
-
-
 /**
  * Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
  */
