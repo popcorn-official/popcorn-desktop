@@ -66,11 +66,11 @@ Settings.vpnUsername = '';
 Settings.vpnPassword = '';
 
 Settings.tvshowAPI = {
-	url: 'http://api.popcorntime.io/',
+	url: 'http://eztvapi.re/',
 	ssl: false,
 	fingerprint: /"status":"online"/,
 	fallbacks: [{
-		url: 'http://eztvapi.re/',
+		url: 'http://api.popcorntime.io/',
 		ssl: false,
 		fingerprint: /"status":"online"/
 	}]
