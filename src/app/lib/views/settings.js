@@ -43,6 +43,7 @@
 			'click #qrcode-close': 'closeModal',
 			'click .install-vpn': 'installVpn',
 			'click .connect-vpn': 'connectVpn',
+			'click .disconnect-vpn': 'disconnectVpn',
 			'click .create-vpn': 'registerVpn'
 		},
 
@@ -592,6 +593,14 @@
 			App.VpnConnexion = App.VPN.connect();
 			that.alertMessageSuccess(true);
 
+		},
+
+		disconnectVpn: function() {
+			var self = this;
+			// we launch the process in bg ?
+			App.VPN.disconnect()
+			App.VpnConnexion = false;
+			that.alertMessageSuccess(true);
 		},
 
 		registerVpn: function() {
