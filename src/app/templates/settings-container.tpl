@@ -240,6 +240,7 @@
 					<span>
 						<%= i18n.__("VPN.ht client is installed")%>.
 						<a class="unauthtext install-vpn" href="#"><%= i18n.__("Install again") %></a>
+						Your IP: <%= App.VPN.ip %>
 					</span>
 					<span>
 						<p><%= i18n.__("Username") + ":" %></p>
