@@ -251,7 +251,7 @@
 					</span>
 					<div class="btns database">
 
-						<% if(App.VPN.isConnected()) { %>
+						<% if(App.VPN.isRunning()) { %>
 							<div class="btn-settings database disconnect-vpn">
 			                    <%= i18n.__("Disconnect") %>
 			                </div>
