@@ -14,4 +14,8 @@
 			<a href='#' style='color:#fff;font-weight:bold;' class='fixApp'>Loading stuck ? Click here !</a>
 	</p>
 
+	<p id='cancel-block' style="margin-top:20px;display:none">
+			<a href='#' style='color:#fff;font-weight:bold;' class='cancel'>Cancel</a>
+	</p>
+
 </div>
