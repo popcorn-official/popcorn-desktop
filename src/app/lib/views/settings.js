@@ -590,10 +590,7 @@
 		connectVpn: function() {
 			var self = this;
 			// we launch the process in bg ?
-			App.VpnConnexion = App.VPN.connect().then(function () {
-				that.alertMessageSuccess(true);
-				setTimeout(function(){ self.render(); }, 2000);
-			});
+			App.vent.trigger('vpn:connect');
 
 		},
 
@@ -604,7 +601,7 @@
 				that.alertMessageSuccess(true);
 				setTimeout(function(){ self.render(); }, 2000);
 			});
-			
+
 			App.VpnConnexion = false;
 			that.alertMessageSuccess(true);
 		},

@@ -500,6 +500,7 @@ var Database = {
 				App.Trakt = App.Config.getProvider('metadata');
 				// check update
 				var updater = new App.Updater();
+
 				updater.resolve()
 					.catch(function (err) {
 						win.error(err);
