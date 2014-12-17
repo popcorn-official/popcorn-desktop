@@ -251,18 +251,24 @@
 					</span>
 					<div class="btns database">
 
-						<% if(App.VPN.isRunning()) { %>
-							<div class="btn-settings database disconnect-vpn">
-			                    <%= i18n.__("Disconnect") %>
-			                </div>
-						<% } else { %>
-							<div class="btn-settings database connect-vpn">
-			                    <%= i18n.__("Connect") %>
-			                </div>
-						<% } %>
+						<% App.VPN.isRunning().then(function(enabled) {
+
+							if (enabled) {%>
+								<div class="btn-settings database disconnect-vpn">
+				                    <%= i18n.__("Disconnect") %>
+				                </div>
+							<% } else { %>
+								<div class="btn-settings database connect-vpn">
+				                    <%= i18n.__("Connect") %>
+				                </div>
+							<% }
+						});
+						%>
+
 						<div class="btn-settings database create-vpn">
 		                    <%= i18n.__("Create Account") %>
 		                </div>
+
 					</div>
 				<% } else { %>
 					<div class="btns database">
