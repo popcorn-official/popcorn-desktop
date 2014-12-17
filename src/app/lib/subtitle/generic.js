@@ -95,7 +95,12 @@
 			console.log(data);
 			if (data.path && data.url) {
 				var fileFolder = path.dirname(data.path);
+
+				// Fix cases of OpenSubtitles appending data after file extension.
 				var subExt = data.url.split('.').pop();
+				if (subExt.indexOf('/') > -1) {
+					subExt = subExt.split('/')[0];
+				}
 
 				try {
 					mkdirp.sync(fileFolder);
@@ -121,6 +126,8 @@
 						.catch(function (error) {
 							App.vent.trigger('subtitle:downloaded', null);
 						});
+				} else {
+					win.error('Subtitle Error, unknown file format: '+ data.url);
 				}
 			} else {
 				App.vent.trigger('subtitle:downloaded', null);
