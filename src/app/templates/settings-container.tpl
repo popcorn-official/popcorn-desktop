@@ -250,9 +250,16 @@
 						<input type="password" size="50" id="vpnPassword" name="vpnPassword" value="<%= Settings.vpnPassword %>">
 					</span>
 					<div class="btns database">
-						<div class="btn-settings database connect-vpn">
-		                    <%= i18n.__("Connect") %>
-		                </div>
+
+						<% if(App.VPN.isConnected()) { %>
+							<div class="btn-settings database disconnect-vpn">
+			                    <%= i18n.__("Disconnect") %>
+			                </div>
+						<% } else { %>
+							<div class="btn-settings database connect-vpn">
+			                    <%= i18n.__("Connect") %>
+			                </div>
+						<% } %>
 						<div class="btn-settings database create-vpn">
 		                    <%= i18n.__("Create Account") %>
 		                </div>
