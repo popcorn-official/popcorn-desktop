@@ -590,15 +590,21 @@
 		connectVpn: function() {
 			var self = this;
 			// we launch the process in bg ?
-			App.VpnConnexion = App.VPN.connect();
-			that.alertMessageSuccess(true);
+			App.VpnConnexion = App.VPN.connect().then(function () {
+				that.alertMessageSuccess(true);
+				setTimeout(function(){ self.render(); }, 2000);
+			});
 
 		},
 
 		disconnectVpn: function() {
 			var self = this;
 			// we launch the process in bg ?
-			App.VPN.disconnect()
+			App.VPN.disconnect().then(function () {
+				that.alertMessageSuccess(true);
+				setTimeout(function(){ self.render(); }, 2000);
+			});
+			
 			App.VpnConnexion = false;
 			that.alertMessageSuccess(true);
 		},
