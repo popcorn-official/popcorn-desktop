@@ -103,6 +103,7 @@
 			App.vent.on('player:close', _.bind(this.Player.close, this.Player));
 
 			App.vent.on('vpn:connect', _.bind(this.connectVpn, this));
+			App.vent.on('vpn:disconnect', _.bind(this.disconnectVpn, this));
 
 			App.vent.on('updatePostersSizeStylesheet', _.bind(this.updatePostersSizeStylesheet, this));
 		},
@@ -215,9 +216,16 @@
 		},
 
 		connectVpn: function (e) {
-			var that = this;
 			App.vent.trigger('settings:close');
 			this.Content.show(new App.View.VpnConnect());
+		},
+
+		disconnectVpn: function (e) {
+			App.VPN.disconnect().then(function () {
+				setTimeout(function(){ App.vent.trigger('movies:list'); }, 2000);
+			});
+
+			App.VpnConnexion = false;
 		},
 
 		// used in app to re-triger a api resync
