@@ -62,7 +62,7 @@
 	    </li>
 	<% } else if(App.VPN.isInstalled() && Settings.vpnUsername && Settings.vpnPassword) { %>
 		<li>
-	        <i id="filterbar-vpn-connect" class="fa fa-unlock vpn-connect tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Connect VPN") %>"></i>
+	        <i style="color:#CC0000" id="filterbar-vpn-connect" class="fa fa-unlock-alt vpn-connect tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Connect VPN") %>"></i>
 	    </li>
 	<% } else { %>
 		<li>
