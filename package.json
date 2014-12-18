@@ -54,6 +54,7 @@
     "readdirp": "*",
     "request": "^2.36.0",
     "rimraf": "2.2.8",
+    "runas-windows": "^1.0.0",
     "semver": "^2.3.1",
     "sha1": "1.1.0",
     "tar": "^1.0.3",
