@@ -33,7 +33,6 @@
 				uri: subUrl,
 			});
 
-			req.pipe(out);
 			req.on('end', function () {
 				out.end(function() {
 					try {
@@ -56,6 +55,7 @@
 					}
 				});
 			});
+			req.pipe(out);
 		});
 	};
 
@@ -71,11 +71,13 @@
 				uri: subUrl,
 			});
 
-			req.pipe(out);
 			req.on('end', function () {
-				win.debug('Subtitle downloaded to : ' + srtPath);
-				resolve(srtPath);
+				out.end(function() {
+					win.debug('Subtitle downloaded to : ' + srtPath);
+					resolve(srtPath);
+				});
 			});
+			req.pipe(out);
 		});
 
 	};
