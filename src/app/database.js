@@ -505,6 +505,10 @@ var Database = {
 					.catch(function (err) {
 						win.error(err);
 					});
+
+				// we look if VPN is running
+				App.VPN.isRunning(true);
+
 			})
 			.catch(function (err) {
 				win.error('Error starting up');
