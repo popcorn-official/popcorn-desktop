@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - "0.10"
-before_install: npm install -g grunt-cli
+before_install: npm install -g grunt-cli grunt bower
 notifications:
   email: true
-  irc: "chat.freenode.net#popcorntime"
+  irc: "chat.freenode.net#vpnht"
