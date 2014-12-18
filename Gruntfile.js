@@ -30,7 +30,6 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('default', [
 		'css',
-		'jshint',
 		'bower_clean',
 		'injectgit'
 	]);
@@ -134,7 +133,7 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		githooks: {
 			all: {
-				'pre-commit': 'jsbeautifier:verify jshint',
+				'pre-commit': 'jsbeautifier:verify',
 			}
 		},
 
@@ -239,20 +238,7 @@ module.exports = function (grunt) {
 			}
 		},
 
-		jshint: {
-			gruntfile: {
-				options: {
-					jshintrc: '.jshintrc'
-				},
-				src: 'Gruntfile.js'
-			},
-			src: {
-				options: {
-					jshintrc: 'src/app/.jshintrc'
-				},
-				src: ['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js']
-			}
-		},
+	
 
 		shell: {
 			themes: {
