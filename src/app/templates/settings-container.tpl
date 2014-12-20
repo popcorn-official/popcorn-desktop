@@ -273,6 +273,10 @@
 		                    <i class="fa fa-level-down">&nbsp;&nbsp;</i>
 		                    <%= i18n.__("Install VPN Client") %>
 		                </div>
+						<div class="btn-settings database create-vpn">
+							<i class="fa fa-question-circle">&nbsp;&nbsp;</i>
+		                    <%= i18n.__("More Details") %>
+		                </div>
 					</div>
 					<span>
 					<a id="disableVpnPerm" class="unauthtext" href="#"><%= i18n.__("Don't show me this VPN option anymore") %></a>
