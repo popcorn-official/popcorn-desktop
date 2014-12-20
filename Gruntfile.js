@@ -1,4 +1,4 @@
-var getHost: function() {
+var getHost = function() {
     return {
         get linux() {
             return process.platform === 'linux';
@@ -10,7 +10,7 @@ var getHost: function() {
             return process.platform === 'darwin';
         },
     };
-}
+};
 
 var parseBuildPlatforms = function (argumentPlatform) {
 	// this will make it build no platform when the platform option is specified
