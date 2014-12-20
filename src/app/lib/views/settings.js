@@ -42,6 +42,7 @@
 			'click #qrcode-overlay': 'closeModal',
 			'click #qrcode-close': 'closeModal',
 			'click .install-vpn': 'installVpn',
+			'click #disableVpnPerm': 'disableVpnPerm',
 			'click .connect-vpn': 'connectVpn',
 			'click .disconnect-vpn': 'disconnectVpn',
 			'click .create-vpn': 'registerVpn'
@@ -591,6 +592,11 @@
 					that.alertMessageSuccess(false, btn, i18n.__('Install VPN Client'), i18n.__('VPN Client Installed'));
 					setTimeout(function(){ that.render(); }, 2000);
 				});
+		},
+		
+		disableVpnPerm: function() {
+			$('#vpn').css('display','none');
+			AdvSettings.set('vpnDisabledPerm', true);
 		},
 
 		connectVpn: function() {

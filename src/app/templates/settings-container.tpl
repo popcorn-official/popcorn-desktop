@@ -232,6 +232,8 @@
 		</div>
 	</section>
 
+	<% if(App.VPN.isDisabled()) { %>
+	<% } else { %>
 	<section id="vpn">
 		<div class="title"><%= i18n.__("VPN") %></div>
 		<div class="content">
@@ -272,10 +274,14 @@
 		                    <%= i18n.__("Install VPN Client") %>
 		                </div>
 					</div>
+					<span>
+					<a id="disableVpnPerm" class="unauthtext" href="#"><%= i18n.__("Don't show me this VPN option anymore") %></a>
+					</span>
 				<% } %>
 			</div>
 		</div>
 	</section>
+	<% } %>
 
 	<section id="remote-control" class="advanced">
 		<div class="title"><%= i18n.__("Remote Control") %></div>
