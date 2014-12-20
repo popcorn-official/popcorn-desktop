@@ -578,7 +578,7 @@
 			for (var dev in ifaces) {
 				ifaces[dev].forEach(function (details) {
 					if (details.family === 'IPv4') {
-						if (!/(loopback|vmware|internal|hamachi)/gi.test(dev + (alias ? ':' + alias : ''))) {
+						if (!/(loopback|vmware|internal|hamachi|vboxnet)/gi.test(dev + (alias ? ':' + alias : ''))) {
 							if (details.address.substring(0, 8) === '192.168.' ||
 								details.address.substring(0, 7) === '172.16.' ||
 								details.address.substring(0, 5) === '10.0.'
