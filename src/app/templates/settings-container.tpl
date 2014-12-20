@@ -239,47 +239,55 @@
 		<div class="content">
 			<div class="vpn-options">
 				<% if(App.VPN.isInstalled()) { %>
-					<span>
-						<%= i18n.__("VPN.ht client is installed")%>.
-						<a class="unauthtext install-vpn" href="#"><%= i18n.__("Install again") %></a>
-						Your IP: <%= App.VPN.ip %>
-					</span>
-					<span>
-						<p><%= i18n.__("Username") + ":" %></p>
-						<input type="text" size="50" id="vpnUsername" name="vpnUsername" value="<%= Settings.vpnUsername %>">
-					</span>
-					<span>
-						<p><%= i18n.__("Password") + ":" %></p>
-						<input type="password" size="50" id="vpnPassword" name="vpnPassword" value="<%= Settings.vpnPassword %>">
-					</span>
-					<div class="btns database">
-
-						<% if(App.VPN.running) { %>
+					<% if(App.VPN.running) { %>
+						<span>
+							<i class="fa fa-lock">&nbsp;&nbsp;</i><%= i18n.__("Secure connection") + '. ' + i18n.__("Your IP:") + ' ' + App.VPN.ip %>
+						</span>
+						<span class="vpn-buttons">
 							<div class="btn-settings database disconnect-vpn">
-			                    <%= i18n.__("Disconnect") %>
-			                </div>
-						<% } else { %>
+			                	<%= i18n.__("Disconnect") %>
+			            	</div>
+						</span>
+					<% } else { %>
+						<span>
+							<%= i18n.__("VPN.ht client is installed")%>.
+							<a class="unauthtext install-vpn" href="#">
+								<%= i18n.__("Install again") %>
+							</a>
+						</span>
+						<span>
+							<p><%= i18n.__("Username") + ":" %></p>
+							<input type="text" size="50" id="vpnUsername" name="vpnUsername" value="<%= Settings.vpnUsername %>">
+						</span>
+						<span>
+							<p><%= i18n.__("Password") + ":" %></p>
+							<input type="password" size="50" id="vpnPassword" name="vpnPassword" value="<%= Settings.vpnPassword %>">
+						</span>
+						<span class="vpn-buttons">
 							<div class="btn-settings database connect-vpn">
-			                    <%= i18n.__("Connect") %>
-			                </div>
-						<% } %>
-						<div class="btn-settings database create-vpn">
-		                    <%= i18n.__("Create Account") %>
-		                </div>
-					</div>
+			            		<%= i18n.__("Connect") %>
+			            	</div>
+							<div class="btn-settings database create-vpn">
+		                		<%= i18n.__("Create Account") %>
+		            		</div>
+						</span>
+					<% } %>
+					
 				<% } else { %>
-					<div class="btns database">
-						<div class="btn-settings database install-vpn">
-		                    <i class="fa fa-level-down">&nbsp;&nbsp;</i>
-		                    <%= i18n.__("Install VPN Client") %>
-		                </div>
-						<div class="btn-settings database create-vpn">
-							<i class="fa fa-question-circle">&nbsp;&nbsp;</i>
-		                    <%= i18n.__("More Details") %>
-		                </div>
-					</div>
+					<span class="vpn-buttons">
+						<div class="btns database">
+							<div class="btn-settings database install-vpn">
+								<i class="fa fa-level-down">&nbsp;&nbsp;</i>
+								<%= i18n.__("Install VPN Client") %>
+							</div>
+							<div class="btn-settings database create-vpn">
+								<i class="fa fa-question-circle">&nbsp;&nbsp;</i>
+								<%= i18n.__("More Details") %>
+							</div>
+						</div>
+					</span>
 					<span>
-					<a id="disableVpnPerm" class="unauthtext" href="#"><%= i18n.__("Don't show me this VPN option anymore") %></a>
+						<a id="disableVpnPerm" class="unauthtext" href="#"><%= i18n.__("Don't show me this VPN option anymore") %></a>
 					</span>
 				<% } %>
 			</div>
