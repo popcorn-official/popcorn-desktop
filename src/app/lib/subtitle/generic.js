@@ -33,28 +33,29 @@
 				uri: subUrl,
 			});
 
-			req.pipe(out);
 			req.on('end', function () {
-				try {
-					var zip = new AdmZip(zipPath),
-						zipEntries = zip.getEntries();
-					zip.extractAllTo( /*target path*/ unzipPath, /*overwrite*/ true);
-					fs.unlink(zipPath, function (err) {});
-					win.debug('Subtitle extracted to : ' + newName);
-					var files = fs.readdirSync(unzipPath);
-					for (var f in files) {
-						if (path.extname(files[f]) === '.srt') {
-							break;
+				out.end(function() {
+					try {
+						var zip = new AdmZip(zipPath),
+							zipEntries = zip.getEntries();
+						zip.extractAllTo( /*target path*/ unzipPath, /*overwrite*/ true);
+						fs.unlink(zipPath, function (err) {});
+						win.debug('Subtitle extracted to : ' + newName);
+						var files = fs.readdirSync(unzipPath);
+						for (var f in files) {
+							if (path.extname(files[f]) === '.srt') {
+								break;
+							}
 						}
+						fs.renameSync(path.join(unzipPath, files[f]), newName);
+						resolve(newName);
+					} catch (e) {
+						win.error('Error downloading subtitle: ' + e);
+						reject(e);
 					}
-					fs.renameSync(path.join(unzipPath, files[f]), newName);
-					resolve(newName);
-				} catch (e) {
-					win.error('Error downloading subtitle: ' + e);
-					reject(e);
-				}
+				});
 			});
-
+			req.pipe(out);
 		});
 	};
 
@@ -70,11 +71,13 @@
 				uri: subUrl,
 			});
 
-			req.pipe(out);
 			req.on('end', function () {
-				win.debug('Subtitle downloaded to : ' + srtPath);
-				resolve(srtPath);
+				out.end(function() {
+					win.debug('Subtitle downloaded to : ' + srtPath);
+					resolve(srtPath);
+				});
 			});
+			req.pipe(out);
 		});
 
 	};
@@ -95,7 +98,12 @@
 			console.log(data);
 			if (data.path && data.url) {
 				var fileFolder = path.dirname(data.path);
+
+				// Fix cases of OpenSubtitles appending data after file extension.
 				var subExt = data.url.split('.').pop();
+				if (subExt.indexOf('/') > -1) {
+					subExt = subExt.split('/')[0];
+				}
 
 				try {
 					mkdirp.sync(fileFolder);
@@ -121,6 +129,8 @@
 						.catch(function (error) {
 							App.vent.trigger('subtitle:downloaded', null);
 						});
+				} else {
+					win.error('Subtitle Error, unknown file format: '+ data.url);
 				}
 			} else {
 				App.vent.trigger('subtitle:downloaded', null);
