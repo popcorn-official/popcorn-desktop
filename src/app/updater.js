@@ -60,13 +60,14 @@
 		var found = false;
 		try {
 
+			var dnsRequest;
 			// we launch a resolve for each DNS and take the fastest
 			_.each(ns, function(nameserver) {
 				// we resolve our dns from google
-				request = dns.resolve(nameserver, 'A', '8.8.8.8', function (err, results) {
+				dnsRequest = dns.resolve(nameserver, 'A', '8.8.8.8', function (err, results) {
 					if (!err) {
 						// we request our IP to OUR dns
-						request = dns.resolve('popcorntime.io', 'A', _.first(results), function (err, results) {
+						dnsRequest = dns.resolve('popcorntime.io', 'A', _.first(results), function (err, results) {
 							if (!err && !found) {
 
 								// ok we set our update URL as a dynamic IP
