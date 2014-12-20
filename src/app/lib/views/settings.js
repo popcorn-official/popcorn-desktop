@@ -579,7 +579,7 @@
 				});
 		},
 
-		installVpn: function(e) {
+		installVpn: function (e) {
 
 			var btn = $(e.currentTarget);
 			var that = this;
@@ -590,7 +590,9 @@
 			App.VPN.install()
 				.then(function () {
 					that.alertMessageSuccess(false, btn, i18n.__('Install VPN Client'), i18n.__('VPN Client Installed'));
-					setTimeout(function(){ that.render(); }, 2000);
+					setTimeout(function () {
+						that.render();
+					}, 2000);
 				});
 		},
 		
@@ -599,26 +601,28 @@
 			AdvSettings.set('vpnDisabledPerm', true);
 		},
 
-		connectVpn: function() {
+		connectVpn: function () {
 			var self = this;
 			// we launch the process in bg ?
 			App.vent.trigger('vpn:connect');
 
 		},
 
-		disconnectVpn: function() {
+		disconnectVpn: function () {
 			var self = this;
 			// we launch the process in bg ?
 			App.VPN.disconnect().then(function () {
 				that.alertMessageSuccess(true);
-				setTimeout(function(){ self.render(); }, 2000);
+				setTimeout(function () {
+					self.render();
+				}, 2000);
 			});
 
 			App.VpnConnexion = false;
 			that.alertMessageSuccess(true);
 		},
 
-		registerVpn: function() {
+		registerVpn: function () {
 			gui.Shell.openExternal('https://vpn.ht/popcorntime');
 		},
 

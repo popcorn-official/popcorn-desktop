@@ -222,7 +222,9 @@
 
 		disconnectVpn: function (e) {
 			App.VPN.disconnect().then(function () {
-				setTimeout(function(){ App.vent.trigger('movies:list'); }, 2000);
+				setTimeout(function () {
+					App.vent.trigger('movies:list');
+				}, 2000);
 			});
 
 			App.VpnConnexion = false;

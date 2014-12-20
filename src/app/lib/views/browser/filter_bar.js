@@ -155,20 +155,20 @@
 
 			// somwe styling for vpn
 			this.$('#filterbar-vpn-disconnect').hover(function () {
-	            $(this).removeClass('fa-lock');
-	            $(this).addClass('fa-unlock-alt');
-	        }, function () {
-	            $(this).removeClass('fa-unlock-alt');
-	            $(this).addClass('fa-lock');
-	        });
+				$(this).removeClass('fa-lock');
+				$(this).addClass('fa-unlock-alt');
+			}, function () {
+				$(this).removeClass('fa-unlock-alt');
+				$(this).addClass('fa-lock');
+			});
 
 			this.$('#filterbar-vpn-connect').hover(function () {
-	            $(this).removeClass('fa-unlock-alt');
-	            $(this).addClass('fa-lock');
-	        }, function () {
-	            $(this).removeClass('fa-lock');
-	            $(this).addClass('fa-unlock-alt');
-	        });
+				$(this).removeClass('fa-unlock-alt');
+				$(this).addClass('fa-lock');
+			}, function () {
+				$(this).removeClass('fa-lock');
+				$(this).addClass('fa-unlock-alt');
+			});
 
 
 		},
@@ -355,17 +355,17 @@
 			App.vent.trigger(this.type + ':update', []);
 		},
 
-		vpnDisconnect: function(e) {
+		vpnDisconnect: function (e) {
 			e.preventDefault();
 			App.vent.trigger('vpn:disconnect');
 		},
 
-		vpnConnect: function(e) {
+		vpnConnect: function (e) {
 			e.preventDefault();
 			App.vent.trigger('vpn:connect');
 		},
 
-		vpnSettings: function(e) {
+		vpnSettings: function (e) {
 			e.preventDefault();
 			App.vent.trigger('settings:show');
 		}

@@ -104,7 +104,7 @@
 
 					// Update gui on status update.
 					// uses listenTo so event is unsubscribed automatically when loading view closes.
-					this.listenTo( App.vent, 'device:status', this.onDeviceStatus);
+					this.listenTo(App.vent, 'device:status', this.onDeviceStatus);
 				}
 			}
 		},
@@ -134,22 +134,22 @@
 			}
 		},
 
-		onDeviceStatus: function(status) {
+		onDeviceStatus: function (status) {
 			//console.log('device status: ', status);
 			if (status.media !== undefined && status.media.duration !== undefined) {
 				// Update playingbar width
 				var playedPercent = status.currentTime / status.media.duration * 100;
 				this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
-				console.log('ExternalStream: %s: %ss / %ss (%s%)', status.playerState, 
+				console.log('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
 					status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
 			}
-			if (!this.extPlayerStatusUpdater && status.playerState == 'PLAYING') {
+			if (!this.extPlayerStatusUpdater && status.playerState === 'PLAYING') {
 				// First PLAYING state. Start requesting device status update every 5 sec
-				this.extPlayerStatusUpdater = setInterval(function() {
+				this.extPlayerStatusUpdater = setInterval(function () {
 					App.vent.trigger('device:status:update');
 				}, 5000);
 			}
-			if (this.extPlayerStatusUpdater && status.playerState == 'IDLE') {
+			if (this.extPlayerStatusUpdater && status.playerState === 'IDLE') {
 				// Media started streaming and is now finished playing
 				this.cancelStreaming();
 			}
@@ -187,17 +187,17 @@
 			this.cancelStreaming();
 		},
 
-		forwardStreaming: function() {
+		forwardStreaming: function () {
 			console.log('clicked forward');
 			App.vent.trigger('device:forward');
 		},
 
-		backwardStreaming: function() {
+		backwardStreaming: function () {
 			console.log('clicked backward');
 			App.vent.trigger('device:backward');
 		},
 
-		seekStreaming: function(e) {
+		seekStreaming: function (e) {
 			var percentClicked = e.offsetX / e.currentTarget.clientWidth * 100;
 			console.log('clicked seek (%s%)', percentClicked.toFixed(2));
 			App.vent.trigger('device:seekPercentage', percentClicked);

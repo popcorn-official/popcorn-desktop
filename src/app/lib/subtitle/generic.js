@@ -34,7 +34,7 @@
 			});
 
 			req.on('end', function () {
-				out.end(function() {
+				out.end(function () {
 					try {
 						var zip = new AdmZip(zipPath),
 							zipEntries = zip.getEntries();
@@ -72,7 +72,7 @@
 			});
 
 			req.on('end', function () {
-				out.end(function() {
+				out.end(function () {
 					win.debug('Subtitle downloaded to : ' + srtPath);
 					resolve(srtPath);
 				});
@@ -130,7 +130,7 @@
 							App.vent.trigger('subtitle:downloaded', null);
 						});
 				} else {
-					win.error('Subtitle Error, unknown file format: '+ data.url);
+					win.error('Subtitle Error, unknown file format: ' + data.url);
 				}
 			} else {
 				App.vent.trigger('subtitle:downloaded', null);
