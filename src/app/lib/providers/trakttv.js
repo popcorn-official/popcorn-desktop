@@ -228,7 +228,7 @@
 
 			if (Array.isArray(movie)) {
 				if (movie.length === 0) {
-					return Q.resolve(true);
+					return Q(true);
 				}
 
 				movie = movie.map(function (val) {
