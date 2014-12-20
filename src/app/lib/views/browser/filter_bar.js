@@ -29,7 +29,10 @@
 			'click .showAnime': 'showAnime',
 			'click #filterbar-favorites': 'showFavorites',
 			'click #filterbar-watchlist': 'showWatchlist',
-			'click .triggerUpdate': 'updateDB'
+			'click .triggerUpdate': 'updateDB',
+			'click .vpn-disconnect': 'vpnDisconnect',
+			'click .vpn-connect': 'vpnConnect',
+			'click .vpn-settings': 'vpnSettings'
 		},
 
 
@@ -149,6 +152,24 @@
 					'hide': 100
 				}
 			});
+
+			// somwe styling for vpn
+			this.$('#filterbar-vpn-disconnect').hover(function () {
+	            $(this).removeClass('fa-lock');
+	            $(this).addClass('fa-unlock-alt');
+	        }, function () {
+	            $(this).removeClass('fa-unlock-alt');
+	            $(this).addClass('fa-lock');
+	        });
+
+			this.$('#filterbar-vpn-connect').hover(function () {
+	            $(this).removeClass('fa-unlock-alt');
+	            $(this).addClass('fa-lock');
+	        }, function () {
+	            $(this).removeClass('fa-lock');
+	            $(this).addClass('fa-unlock-alt');
+	        });
+
 
 		},
 
@@ -332,6 +353,21 @@
 		updateDB: function (e) {
 			e.preventDefault();
 			App.vent.trigger(this.type + ':update', []);
+		},
+
+		vpnDisconnect: function(e) {
+			e.preventDefault();
+			App.vent.trigger('vpn:disconnect');
+		},
+
+		vpnConnect: function(e) {
+			e.preventDefault();
+			App.vent.trigger('vpn:connect');
+		},
+
+		vpnSettings: function(e) {
+			e.preventDefault();
+			App.vent.trigger('settings:show');
 		}
 	});
 

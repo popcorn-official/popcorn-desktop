@@ -55,6 +55,21 @@
 			</form>
 		</div>
 	</li>
+
+	<% if(App.VPN.running) { %>
+		<li>
+	        <i style="color:#266E3E" id="filterbar-vpn-disconnect" class="fa fa-lock vpn-disconnect tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Disconnect VPN") %>"></i>
+	    </li>
+	<% } else if(App.VPN.isInstalled() && Settings.vpnUsername && Settings.vpnPassword) { %>
+		<li>
+	        <i style="color:#CC0000" id="filterbar-vpn-connect" class="fa fa-unlock-alt vpn-connect tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Connect VPN") %>"></i>
+	    </li>
+	<% } else { %>
+		<li>
+	        <i style="color:#CC0000" id="filterbar-vpn-settings" class="fa fa-unlock vpn-settings tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Setup VPN") %>"></i>
+	    </li>
+	<% } %>
+
     <li>
         <i id="filterbar-watchlist" class="fa fa-inbox watchlist tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Watchlist") %>"></i>
     </li>

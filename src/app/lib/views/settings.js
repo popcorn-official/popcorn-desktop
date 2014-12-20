@@ -40,7 +40,11 @@
 			'click #syncTrakt': 'syncTrakt',
 			'click .qr-code': 'generateQRcode',
 			'click #qrcode-overlay': 'closeModal',
-			'click #qrcode-close': 'closeModal'
+			'click #qrcode-close': 'closeModal',
+			'click .install-vpn': 'installVpn',
+			'click .connect-vpn': 'connectVpn',
+			'click .disconnect-vpn': 'disconnectVpn',
+			'click .create-vpn': 'registerVpn'
 		},
 
 		onShow: function () {
@@ -210,6 +214,8 @@
 			case 'dhtLimit':
 			case 'streamPort':
 			case 'subtitle_color':
+			case 'vpnUsername':
+			case 'vpnPassword':
 				value = field.val();
 				break;
 			case 'traktUsername':
@@ -570,6 +576,44 @@
 						$('#syncTrakt').dequeue();
 					});
 				});
+		},
+
+		installVpn: function(e) {
+
+			var btn = $(e.currentTarget);
+			var that = this;
+
+			that.alertMessageWait(i18n.__('We are installing VPN client'));
+			btn.text('Please wait...').addClass('disabled').prop('disabled', true);
+
+			App.VPN.install()
+				.then(function () {
+					that.alertMessageSuccess(false, btn, i18n.__('Install VPN Client'), i18n.__('VPN Client Installed'));
+					setTimeout(function(){ that.render(); }, 2000);
+				});
+		},
+
+		connectVpn: function() {
+			var self = this;
+			// we launch the process in bg ?
+			App.vent.trigger('vpn:connect');
+
+		},
+
+		disconnectVpn: function() {
+			var self = this;
+			// we launch the process in bg ?
+			App.VPN.disconnect().then(function () {
+				that.alertMessageSuccess(true);
+				setTimeout(function(){ self.render(); }, 2000);
+			});
+
+			App.VpnConnexion = false;
+			that.alertMessageSuccess(true);
+		},
+
+		registerVpn: function() {
+			gui.Shell.openExternal('https://vpn.ht/popcorntime');
 		},
 
 		getIPAddress: function () {

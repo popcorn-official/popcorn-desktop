@@ -61,12 +61,16 @@ Settings.tmpLocation = path.join(os.tmpDir(), 'Popcorn-Time');
 Settings.databaseLocation = path.join(data_path, 'data');
 Settings.deleteTmpOnClose = true;
 
+Settings.vpn = false;
+Settings.vpnUsername = '';
+Settings.vpnPassword = '';
+
 Settings.tvshowAPI = {
-	url: 'http://api.popcorntime.io/',
+	url: 'http://eztvapi.re/',
 	ssl: false,
 	fingerprint: /"status":"online"/,
 	fallbacks: [{
-		url: 'http://eztvapi.re/',
+		url: 'http://api.popcorntime.io/',
 		ssl: false,
 		fingerprint: /"status":"online"/
 	}]
