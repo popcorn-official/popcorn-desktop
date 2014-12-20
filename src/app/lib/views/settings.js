@@ -203,6 +203,7 @@
 			case 'syncOnStart':
 			case 'subtitle_shadows':
 			case 'playNextEpisodeAuto':
+			case 'automaticUpdating':
 				value = field.is(':checked');
 				break;
 			case 'httpApiUsername':

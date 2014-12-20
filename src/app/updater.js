@@ -115,6 +115,9 @@
 		var self = this;
 
 		if (!(!_.contains(fs.readdirSync('.'), '.git') || // Test Development
+			    !( // Settings update disabled
+					App.settings.automaticUpdating
+				) ||
 				( // Test Windows
 					App.settings.os === 'windows' &&
 					process.cwd().indexOf(process.env.APPDATA) !== -1

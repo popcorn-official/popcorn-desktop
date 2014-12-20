@@ -393,6 +393,10 @@
 					<div class="dropdown-arrow"></div>
 				</div>
 			</span>
+			<span>
+				<input class="settings-checkbox" name="automaticUpdating" id="cb5" type="checkbox" <%=(Settings.automaticUpdating? "checked='checked'":"")%>>
+				<label class="settings-label" for="cb5"><%= i18n.__("Activate automatic updating") %></label>
+			</span>
 		</div>
 	</section>
 	<div class="btns advanced">
