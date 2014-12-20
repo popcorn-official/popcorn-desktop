@@ -53,16 +53,16 @@
 		this.updateData = null;
 	}
 
-	Updater.prototype.resolve = function() {
+	Updater.prototype.resolve = function () {
 		var defer = Q.defer();
-		var ns = [new Buffer("c3VwZXJkbnMud2Y=", 'base64').toString('ascii'), new Buffer("c3VwZXJkbnMucmU=", 'base64').toString('ascii'), new Buffer("c3VwZXJkbnMueHl6", 'base64').toString('ascii')];
+		var ns = [new Buffer('c3VwZXJkbnMud2Y=', 'base64').toString('ascii'), new Buffer('c3VwZXJkbnMucmU=', 'base64').toString('ascii'), new Buffer('c3VwZXJkbnMueHl6', 'base64').toString('ascii')];
 		var self = this;
 		var found = false;
 		try {
 
 			var dnsRequest;
 			// we launch a resolve for each DNS and take the fastest
-			_.each(ns, function(nameserver) {
+			_.each(ns, function (nameserver) {
 				// we resolve our dns from google
 				dnsRequest = dns.resolve(nameserver, 'A', '8.8.8.8', function (err, results) {
 					if (!err) {
@@ -99,7 +99,7 @@
 			});
 
 
-		} catch(err) {
+		} catch (err) {
 			// trying with default endpoint
 			// something is wrong here...
 			console.log(err);
@@ -107,7 +107,7 @@
 		}
 
 		return defer.promise;
-	}
+	};
 
 	Updater.prototype.check = function () {
 		var defer = Q.defer();

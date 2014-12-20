@@ -261,10 +261,10 @@ win.on('close', function () {
 	// if yes we kill it
 	if (App.VPN.running) {
 		App.VPN.disconnect()
-			.then(function() {
+			.then(function () {
 				win.close(true);
 			})
-			.catch(function() {
+			.catch(function () {
 				win.close(true);
 			});
 	} else {

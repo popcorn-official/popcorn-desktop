@@ -58,17 +58,19 @@
 					}
 				};
 			}
-			console.log('chromecast: connecting to '+ device.host);
+			console.log('chromecast: connecting to ' + device.host);
 
 			device.play(media, 0, function (err, status) {
-				if (err) console.log('chromecast.play error');
+				if (err) {
+					console.log('chromecast.play error');
+				}
 				else {
 					console.log('Playing ' + url + ' on ' + name);
 					self.set('loadedMedia', status.media);
 				}
 			});
-			device.on('status', function(status) {
-				if (status.playerState == 'IDLE') {
+			device.on('status', function (status) {
+				if (status.playerState === 'IDLE') {
 					console.log('chromecast.idle: listeners removed!');
 					device.removeAllListeners();
 				}
@@ -85,21 +87,25 @@
 			this.get('device').stop(function () {});
 		},
 
-		seek: function(seconds) {
+		seek: function (seconds) {
 			console.log('chromecast.seek %s', seconds);
 			this.get('device').seek(seconds, function (err, status) {
-				if (err) console.log('Chromecast.seek:Error', err);
+				if (err) {
+					console.log('Chromecast.seek:Error', err);
+				}
 			});
 		},
-		
-		seekTo: function(newCurrentTime) {
+
+		seekTo: function (newCurrentTime) {
 			console.log('chromecast.seekTo %ss', newCurrentTime);
-			this.get('device').seekTo(newCurrentTime, function(err, status) {
-				if (err) console.log('Chromecast.seekTo:Error', err);
+			this.get('device').seekTo(newCurrentTime, function (err, status) {
+				if (err) {
+					console.log('Chromecast.seekTo:Error', err);
+				}
 			});
 		},
-		
-		seekPercentage: function(percentage) {
+
+		seekPercentage: function (percentage) {
 			console.log('chromecast.seekPercentage %s%', percentage.toFixed(2));
 			var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
 			this.seekTo(newCurrentTime.toFixed());
@@ -117,15 +123,15 @@
 			this.get('device').unpause(function () {});
 		},
 
-		updateStatus: function() {
+		updateStatus: function () {
 			var self = this;
-			
-			this.get('device').getStatus(function(status) {
+
+			this.get('device').getStatus(function (status) {
 				self._internalStatusUpdated(status);
 			});
 		},
 
-		_internalStatusUpdated: function(status) {
+		_internalStatusUpdated: function (status) {
 			if (status.media === undefined) {
 				status.media = this.get('loadedMedia');
 			}
