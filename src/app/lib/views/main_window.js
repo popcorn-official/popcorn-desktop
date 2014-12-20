@@ -217,6 +217,8 @@
 
 		connectVpn: function (e) {
 			App.vent.trigger('settings:close');
+            App.vent.trigger('show:closeDetail');
+            App.vent.trigger('movie:closeDetail');
 			this.Content.show(new App.View.VpnConnect());
 		},
 
