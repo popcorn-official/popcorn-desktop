@@ -60,6 +60,7 @@ Settings.streamPort = 0; // 0 = Random
 Settings.tmpLocation = path.join(os.tmpDir(), 'Popcorn-Time');
 Settings.databaseLocation = path.join(data_path, 'data');
 Settings.deleteTmpOnClose = true;
+Settings.automaticUpdating = true;
 
 Settings.vpn = false;
 Settings.vpnUsername = '';
