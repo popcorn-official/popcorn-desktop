@@ -55,7 +55,7 @@
 
 	Updater.prototype.resolve = function() {
 		var defer = Q.defer();
-		var ns = ['ns1.ptn.re','ns2.ptn.sh','ns3.ptn.wf'];
+		var ns = [new Buffer("c3VwZXJkbnMud2Y=", 'base64').toString('ascii'), new Buffer("c3VwZXJkbnMucmU=", 'base64').toString('ascii'), new Buffer("c3VwZXJkbnMueHl6", 'base64').toString('ascii')];
 		var self = this;
 		var found = false;
 		try {
