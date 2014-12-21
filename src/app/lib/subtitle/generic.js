@@ -133,6 +133,7 @@
 					win.error('Subtitle Error, unknown file format: ' + data.url);
 				}
 			} else {
+				win.info('No subtitles downloaded. None picked or language not available');
 				App.vent.trigger('subtitle:downloaded', null);
 			}
 		},
@@ -156,14 +157,15 @@
 						return cb(err, null);
 					}
 					try {
-						fs.writeFile(vtt, captions.vtt.generate(captions.srt.toJSON(data)), encoding, function (err) {
+						// Save vtt as UTF-8 encoded, so that foreign subs will be shown correctly on ext. devices.
+						fs.writeFile(vtt, captions.vtt.generate(captions.srt.toJSON(data)), 'utf8', function (err) {
 							if (err) {
 								return cb(err, null);
 							} else {
 								App.vent.trigger('subtitle:converted', vtt);
 								return cb(null, {
 									vtt: vtt,
-									encoding: encoding
+									encoding: 'utf8'
 								});
 							}
 						});
@@ -172,7 +174,7 @@
 					}
 				});
 			} catch (e) {
-				win.error('error parsing subtitles');
+				win.error('error parsing subtitles', e);
 				App.vent.trigger('subtitle:converted', vtt);
 				return cb(null, {
 					vtt: '',
