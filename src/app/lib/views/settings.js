@@ -5,6 +5,7 @@
 	var AdmZip = require('adm-zip');
 	var fdialogs = require('node-webkit-fdialogs');
 	var fs = require('fs');
+	var waitComplete;
 
 	var that;
 
@@ -121,6 +122,7 @@
 			$('.filter-bar').show();
 			$('#header').removeClass('header-shadow');
 			$('#movie-detail').show();
+			clearInterval(waitComplete);
 		},
 
 		closeSettings: function () {
@@ -591,9 +593,16 @@
 			App.VPN.install()
 				.then(function () {
 					that.alertMessageSuccess(false, btn, i18n.__('Install VPN Client'), i18n.__('VPN Client Installed'));
-					setTimeout(function () {
-						that.render();
-					}, 5000); // wait 5 sec till openvpn is fully installed as we need the binaries
+
+					btn.text('Please wait...').addClass('disabled').prop('disabled', true);
+
+					waitComplete = setInterval(function () {
+						var isInstalled = App.VPN.isInstalled();
+						if (isInstalled) {
+							clearInterval(waitComplete);
+							that.render();
+						}
+					}, 2000);
 				});
 		},
 
