@@ -593,10 +593,10 @@
 					that.alertMessageSuccess(false, btn, i18n.__('Install VPN Client'), i18n.__('VPN Client Installed'));
 					setTimeout(function () {
 						that.render();
-					}, 2000);
+					}, 5000); // wait 5 sec till openvpn is fully installed as we need the binaries
 				});
 		},
-		
+
 		disableVpnPerm: function() {
 			$('#vpn').css('display','none');
 			AdvSettings.set('vpnDisabledPerm', true);
