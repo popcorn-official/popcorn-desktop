@@ -594,7 +594,7 @@
 				.then(function () {
 					that.alertMessageSuccess(false, btn, i18n.__('Install VPN Client'), i18n.__('VPN Client Installed'));
 
-					btn.text('Please wait...').addClass('disabled').prop('disabled', true);
+					that.alertMessageWait(i18n.__('Please wait...'));
 
 					waitComplete = setInterval(function () {
 						var isInstalled = App.VPN.isInstalled();
