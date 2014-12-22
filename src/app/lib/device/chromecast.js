@@ -18,46 +18,63 @@
 			var name = this.get('name');
 			var device = this.get('device');
 			this.set('url', url);
-
-			var media = {
-				url: url,
-				subtitles: [],
-				cover: {
-					title: streamModel.get('title'),
-					url: streamModel.get('cover')
-				},
-				subtitles_style: {
-					backgroundColor: '#00000000', // color of background - see http://dev.w3.org/csswg/css-color/#hex-notation
-					foregroundColor: AdvSettings.get('subtitle_color'), // color of text - see http://dev.w3.org/csswg/css-color/#hex-notation
-					edgeType: AdvSettings.get('subtitle_shadow') ? 'DROP_SHADOW' : 'OUTLINE', // border of text - can be: "NONE", "OUTLINE", "DROP_SHADOW", "RAISED", "DEPRESSED"
-					edgeColor: '#000000FF', // color of border - see http://dev.w3.org/csswg/css-color/#hex-notation
-					fontScale: 1.3, // size of the text - transforms into "font-size: " + (fontScale*100) +"%"
-					fontStyle: 'NORMAL', // can be: "NORMAL", "BOLD", "BOLD_ITALIC", "ITALIC",
-					fontFamily: 'Helvetica',
-					fontGenericFamily: 'SANS_SERIF', // can be: "SANS_SERIF", "MONOSPACED_SANS_SERIF", "SERIF", "MONOSPACED_SERIF", "CASUAL", "CURSIVE", "SMALL_CAPITALS",
-					windowColor: '#00000000', // see http://dev.w3.org/csswg/css-color/#hex-notation
-					windowRoundedCornerRadius: 0, // radius in px
-					windowType: 'NONE' // can be: "NONE", "NORMAL", "ROUNDED_CORNERS"
-				}
-			};
+			var self = this;
+			var media;
 
 			var subtitle = streamModel.get('subFile');
-			var cover = {
-				title: streamModel.get('title'),
-				url: streamModel.get('cover')
-			};
+
 			if (subtitle) {
-				media.subtitles.push({
-					url: 'http:' + url.split(':')[1] + ':9999/subtitle.vtt',
-					name: 'Subtitles',
-					language: 'en-US'
-				});
+				media = {
+					url: url,
+					subtitles: [{
+						url: 'http:' + url.split(':')[1] + ':9999/subtitle.vtt',
+						name: 'Subtitles',
+						language: 'en-US'
+					}],
+					cover: {
+						title: streamModel.get('title'),
+						url: streamModel.get('cover')
+					},
+					subtitles_style: {
+						backgroundColor: '#00000000', // color of background - see http://dev.w3.org/csswg/css-color/#hex-notation
+						foregroundColor: AdvSettings.get('subtitle_color'), // color of text - see http://dev.w3.org/csswg/css-color/#hex-notation
+						edgeType: AdvSettings.get('subtitle_shadow') ? 'DROP_SHADOW' : 'OUTLINE', // border of text - can be: "NONE", "OUTLINE", "DROP_SHADOW", "RAISED", "DEPRESSED"
+						edgeColor: '#000000FF', // color of border - see http://dev.w3.org/csswg/css-color/#hex-notation
+						fontScale: 1.3, // size of the text - transforms into "font-size: " + (fontScale*100) +"%"
+						fontStyle: 'NORMAL', // can be: "NORMAL", "BOLD", "BOLD_ITALIC", "ITALIC",
+						fontFamily: 'Helvetica',
+						fontGenericFamily: 'SANS_SERIF', // can be: "SANS_SERIF", "MONOSPACED_SANS_SERIF", "SERIF", "MONOSPACED_SERIF", "CASUAL", "CURSIVE", "SMALL_CAPITALS",
+						windowColor: '#00000000', // see http://dev.w3.org/csswg/css-color/#hex-notation
+						windowRoundedCornerRadius: 0, // radius in px
+						windowType: 'NONE' // can be: "NONE", "NORMAL", "ROUNDED_CORNERS"
+					}
+				};
+			} else {
+				media = {
+					url: url,
+					cover: {
+						title: streamModel.get('title'),
+						url: streamModel.get('cover')
+					}
+				};
 			}
-			device.connect();
-			device.on('connected', function () {
-				device.play(media, function (err, status) {
+			console.log('chromecast: connecting to ' + device.host);
+
+			device.play(media, 0, function (err, status) {
+				if (err) {
+					console.log('chromecast.play error');
+				}
+				else {
 					console.log('Playing ' + url + ' on ' + name);
-				});
+					self.set('loadedMedia', status.media);
+				}
+			});
+			device.on('status', function (status) {
+				if (status.playerState === 'IDLE') {
+					console.log('chromecast.idle: listeners removed!');
+					device.removeAllListeners();
+				}
+				self._internalStatusUpdated(status);
 			});
 		},
 
@@ -66,19 +83,62 @@
 		},
 
 		stop: function () {
+			// Also stops player and closes connection.
 			this.get('device').stop(function () {});
 		},
 
+		seek: function (seconds) {
+			console.log('chromecast.seek %s', seconds);
+			this.get('device').seek(seconds, function (err, status) {
+				if (err) {
+					console.log('Chromecast.seek:Error', err);
+				}
+			});
+		},
+
+		seekTo: function (newCurrentTime) {
+			console.log('chromecast.seekTo %ss', newCurrentTime);
+			this.get('device').seekTo(newCurrentTime, function (err, status) {
+				if (err) {
+					console.log('Chromecast.seekTo:Error', err);
+				}
+			});
+		},
+
+		seekPercentage: function (percentage) {
+			console.log('chromecast.seekPercentage %s%', percentage.toFixed(2));
+			var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
+			this.seekTo(newCurrentTime.toFixed());
+		},
+
 		forward: function () {
-			this.get('device').seek(30, function () {});
+			this.seek(30);
 		},
 
 		backward: function () {
-			this.get('device').seek(-30, function () {});
+			this.seek(-30);
 		},
 
 		unpause: function () {
 			this.get('device').unpause(function () {});
+		},
+
+		updateStatus: function () {
+			var self = this;
+
+			this.get('device').getStatus(function (status) {
+				self._internalStatusUpdated(status);
+			});
+		},
+
+		_internalStatusUpdated: function (status) {
+			if (status.media === undefined) {
+				status.media = this.get('loadedMedia');
+			}
+			// If this is the active device, propagate the status event.
+			if (collection.selected.id === this.id) {
+				App.vent.trigger('device:status', status);
+			}
 		}
 	});
 

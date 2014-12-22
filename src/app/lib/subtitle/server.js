@@ -38,7 +38,9 @@
 				fs.readFile(vtt, {}, function (err, data) {
 					subData = data;
 					if (httpServer) {
-						stopServer(startListening(cb));
+						stopServer(function () {
+							startListening(cb);
+						});
 					} else {
 						startListening(cb);
 					}

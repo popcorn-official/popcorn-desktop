@@ -102,6 +102,9 @@
 			App.vent.on('player:close', _.bind(this.showViews, this));
 			App.vent.on('player:close', _.bind(this.Player.close, this.Player));
 
+			App.vent.on('vpn:connect', _.bind(this.connectVpn, this));
+			App.vent.on('vpn:disconnect', _.bind(this.disconnectVpn, this));
+
 			App.vent.on('updatePostersSizeStylesheet', _.bind(this.updatePostersSizeStylesheet, this));
 		},
 
@@ -125,7 +128,7 @@
 				.then(function () {
 					try {
 						require('fs').statSync('src/app/themes/' + Settings.theme + '.css');
-					} catch(e) {
+					} catch (e) {
 						Settings.theme = 'Official_-_Dark_theme';
 						AdvSettings.set('theme', 'Official_-_Dark_theme');
 					}
@@ -210,6 +213,23 @@
 				that.nativeWindow.focus();
 
 			});
+		},
+
+		connectVpn: function (e) {
+			App.vent.trigger('settings:close');
+            App.vent.trigger('show:closeDetail');
+            App.vent.trigger('movie:closeDetail');
+			this.Content.show(new App.View.VpnConnect());
+		},
+
+		disconnectVpn: function (e) {
+			App.VPN.disconnect().then(function () {
+				setTimeout(function () {
+					App.vent.trigger('movies:list');
+				}, 2000);
+			});
+
+			App.VpnConnexion = false;
 		},
 
 		// used in app to re-triger a api resync
@@ -320,7 +340,7 @@
 
 		syncTraktOnStart: function () {
 			if (Settings.syncOnStart) {
-                Database.deleteWatched();
+				Database.deleteWatched();
 				App.Trakt.sync();
 			}
 		},
@@ -368,8 +388,8 @@
 			var that = this;
 
 			App.db.getSetting({
-				key: 'postersWidth'
-			})
+					key: 'postersWidth'
+				})
 				.then(function (doc) {
 					var postersWidth = doc.value;
 					var postersHeight = Math.round(postersWidth * Settings.postersSizeRatio);

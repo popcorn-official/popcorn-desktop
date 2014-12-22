@@ -27,6 +27,10 @@
 			App.vent.on('device:stop', this.stop);
 			App.vent.on('device:forward', this.forward);
 			App.vent.on('device:backward', this.backward);
+			App.vent.on('device:seek', this.seek);
+			App.vent.on('device:seekTo', this.seekTo);
+			App.vent.on('device:seekPercentage', this.seekPercentage);
+			App.vent.on('device:status:update', this.updateStatus);
 			self = this;
 		},
 		list: function () {
@@ -49,25 +53,46 @@
 		backward: function () {
 			self.selected.backward();
 		},
+		seek: function (seconds) {
+			self.selected.seekBy(seconds);
+		},
+		seekTo: function (newCurrentTime) {
+			self.selected.seekTo(newCurrentTime);
+		},
+		seekPercentage: function (percentage) {
+			self.selected.seekPercentage(percentage);
+		},
+		updateStatus: function () {
+			self.selected.updateStatus();
+		},
 		startDevice: function (streamModel) {
 			if (!this.selected) {
 				this.selected = this.models[0];
 			}
+
+
 			/* SlashmanX: Just testing for now, 
 			 ** replaces localhost IP with network IP,
 			 ** will remove when new streamer implemented
+			 **
+			 ** ddaf: Copied getIPAddress from App.View.Settings.
+			 **       helps to filter vpn adapters.
 			 */
-			var os = require('os');
-			var interfaces = os.networkInterfaces();
-			var addresses = [];
-			for (var k in interfaces) {
-				for (var k2 in interfaces[k]) {
-					var address = interfaces[k][k2];
-					if (address.family === 'IPv4' && !address.internal) {
-						streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', address.address);
-						addresses.push(address.address);
+			var ip, alias = 0;
+			var ifaces = require('os').networkInterfaces();
+			for (var dev in ifaces) {
+				ifaces[dev].forEach(function (details) {
+					if (details.family === 'IPv4') {
+						if (!/(loopback|vmware|internal|hamachi|vboxnet)/gi.test(dev.toLowerCase())) {
+							if (details.address.substring(0, 8) === '192.168.' ||
+								details.address.substring(0, 7) === '172.16.' ||
+								details.address.substring(0, 5) === '10.0.'
+							) {
+								streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', details.address);
+							}
+						}
 					}
-				}
+				});
 			}
 
 			return this.selected.play(streamModel);

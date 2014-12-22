@@ -22,6 +22,9 @@
 		play: function (streamModel) {
 			var url = streamModel.attributes.src;
 			this.device.play(url);
+		},
+		stop: function () {
+			this.device.stop(function () {});
 		}
 	});
 

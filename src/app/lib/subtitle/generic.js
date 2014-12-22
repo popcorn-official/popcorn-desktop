@@ -33,28 +33,29 @@
 				uri: subUrl,
 			});
 
-			req.pipe(out);
 			req.on('end', function () {
-				try {
-					var zip = new AdmZip(zipPath),
-						zipEntries = zip.getEntries();
-					zip.extractAllTo( /*target path*/ unzipPath, /*overwrite*/ true);
-					fs.unlink(zipPath, function (err) {});
-					win.debug('Subtitle extracted to : ' + newName);
-					var files = fs.readdirSync(unzipPath);
-					for (var f in files) {
-						if (path.extname(files[f]) === '.srt') {
-							break;
+				out.end(function () {
+					try {
+						var zip = new AdmZip(zipPath),
+							zipEntries = zip.getEntries();
+						zip.extractAllTo( /*target path*/ unzipPath, /*overwrite*/ true);
+						fs.unlink(zipPath, function (err) {});
+						win.debug('Subtitle extracted to : ' + newName);
+						var files = fs.readdirSync(unzipPath);
+						for (var f in files) {
+							if (path.extname(files[f]) === '.srt') {
+								break;
+							}
 						}
+						fs.renameSync(path.join(unzipPath, files[f]), newName);
+						resolve(newName);
+					} catch (e) {
+						win.error('Error downloading subtitle: ' + e);
+						reject(e);
 					}
-					fs.renameSync(path.join(unzipPath, files[f]), newName);
-					resolve(newName);
-				} catch (e) {
-					win.error('Error downloading subtitle: ' + e);
-					reject();
-				}
+				});
 			});
-
+			req.pipe(out);
 		});
 	};
 
@@ -70,11 +71,13 @@
 				uri: subUrl,
 			});
 
-			req.pipe(out);
 			req.on('end', function () {
-				win.debug('Subtitle downloaded to : ' + srtPath);
-				resolve(srtPath);
+				out.end(function () {
+					win.debug('Subtitle downloaded to : ' + srtPath);
+					resolve(srtPath);
+				});
 			});
+			req.pipe(out);
 		});
 
 	};
@@ -95,7 +98,12 @@
 			console.log(data);
 			if (data.path && data.url) {
 				var fileFolder = path.dirname(data.path);
+
+				// Fix cases of OpenSubtitles appending data after file extension.
 				var subExt = data.url.split('.').pop();
+				if (subExt.indexOf('/') > -1) {
+					subExt = subExt.split('/')[0];
+				}
 
 				try {
 					mkdirp.sync(fileFolder);
@@ -103,17 +111,29 @@
 					// Ignore EEXIST
 				}
 				if (subExt === 'zip') {
+
 					downloadZip(data)
 						.then(function (location) {
 							App.vent.trigger('subtitle:downloaded', location);
+						})
+						.catch(function (error) {
+							App.vent.trigger('subtitle:downloaded', null);
 						});
+
 				} else if (subExt === 'srt') {
+
 					downloadSRT(data)
 						.then(function (location) {
 							App.vent.trigger('subtitle:downloaded', location);
+						})
+						.catch(function (error) {
+							App.vent.trigger('subtitle:downloaded', null);
 						});
+				} else {
+					win.error('Subtitle Error, unknown file format: ' + data.url);
 				}
 			} else {
+				win.info('No subtitles downloaded. None picked or language not available');
 				App.vent.trigger('subtitle:downloaded', null);
 			}
 		},
@@ -137,14 +157,15 @@
 						return cb(err, null);
 					}
 					try {
-						fs.writeFile(vtt, captions.vtt.generate(captions.srt.toJSON(data)), encoding, function (err) {
+						// Save vtt as UTF-8 encoded, so that foreign subs will be shown correctly on ext. devices.
+						fs.writeFile(vtt, captions.vtt.generate(captions.srt.toJSON(data)), 'utf8', function (err) {
 							if (err) {
 								return cb(err, null);
 							} else {
 								App.vent.trigger('subtitle:converted', vtt);
 								return cb(null, {
 									vtt: vtt,
-									encoding: encoding
+									encoding: 'utf8'
 								});
 							}
 						});
@@ -153,7 +174,7 @@
 					}
 				});
 			} catch (e) {
-				win.error('error parsing subtitles');
+				win.error('error parsing subtitles', e);
 				App.vent.trigger('subtitle:converted', vtt);
 				return cb(null, {
 					vtt: '',

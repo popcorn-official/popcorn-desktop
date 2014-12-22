@@ -94,7 +94,7 @@
 									q480 = '';
 
 								if (episodeData.first_aired !== undefined) {
-									first_aired = moment.unix(episodeData.first_aired).lang(Settings.language).format("LLLL");
+									first_aired = moment.unix(episodeData.first_aired).locale(Settings.language).format("LLLL");
 								}
 								if(episodeData.torrents["480p"]) {
 									q480 = episodeData.torrents["480p"].url;

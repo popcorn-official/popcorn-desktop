@@ -4,6 +4,7 @@
 	var Loading = Backbone.Marionette.ItemView.extend({
 		template: '#loading-tpl',
 		className: 'app-overlay',
+		extPlayerStatusUpdater: null,
 
 		ui: {
 			stateTextDownload: '.text_download',
@@ -26,14 +27,20 @@
 			player: '.player-name',
 			streaming: '.external-play',
 			controls: '.player-controls',
-			cancel_button: '.cancel-button'
+			cancel_button: '.cancel-button',
+
+			playingbarBox: '.playing-progressbar',
+			playingbar: '#playingbar-contents'
 		},
 
 		events: {
 			'click .cancel-button': 'cancelStreaming',
 			'click .pause': 'pauseStreaming',
 			'click .stop': 'stopStreaming',
-			'click .play': 'resumeStreaming'
+			'click .play': 'resumeStreaming',
+			'click .forward': 'forwardStreaming',
+			'click .backward': 'backwardStreaming',
+			'click .playing-progressbar': 'seekStreaming'
 		},
 
 		initialize: function () {
@@ -75,6 +82,7 @@
 			this.initKeyboardShortcuts();
 		},
 		onStateUpdate: function () {
+			var self = this;
 			var state = this.model.get('state');
 			var streamInfo = this.model.get('streamInfo');
 			win.info('Loading torrent:', state);
@@ -89,7 +97,14 @@
 				this.ui.stateTextDownload.hide();
 				if (streamInfo.get('player') && streamInfo.get('player').get('type') === 'chromecast') {
 					this.ui.controls.css('visibility', 'visible');
+					this.ui.playingbarBox.css('visibility', 'visible');
+					this.ui.playingbar.css('width', '0%');
+					this.ui.progressbar.hide();
 					this.ui.cancel_button.hide();
+
+					// Update gui on status update.
+					// uses listenTo so event is unsubscribed automatically when loading view closes.
+					this.listenTo(App.vent, 'device:status', this.onDeviceStatus);
 				}
 			}
 		},
@@ -119,7 +134,39 @@
 			}
 		},
 
+		onDeviceStatus: function (status) {
+			//console.log('device status: ', status);
+			if (status.media !== undefined && status.media.duration !== undefined) {
+				// Update playingbar width
+				var playedPercent = status.currentTime / status.media.duration * 100;
+				this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
+				console.log('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
+					status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
+			}
+			if (!this.extPlayerStatusUpdater && status.playerState === 'PLAYING') {
+				// First PLAYING state. Start requesting device status update every 5 sec
+				this.extPlayerStatusUpdater = setInterval(function () {
+					App.vent.trigger('device:status:update');
+				}, 5000);
+			}
+			if (this.extPlayerStatusUpdater && status.playerState === 'IDLE') {
+				// Media started streaming and is now finished playing
+				this.cancelStreaming();
+			}
+		},
+
 		cancelStreaming: function () {
+
+			// call stop if we play externally
+			if (this.model.get('state') === 'playingExternally') {
+				if (this.extPlayerStatusUpdater) {
+					clearInterval(this.extPlayerStatusUpdater);
+				}
+				console.log('Stopping external device');
+				App.vent.trigger('device:stop');
+			}
+
+			console.log('Closing loading view');
 			App.vent.trigger('stream:stop');
 			App.vent.trigger('player:close');
 			App.vent.trigger('torrentcache:stop');
@@ -137,8 +184,23 @@
 		},
 
 		stopStreaming: function () {
-			App.vent.trigger('device:stop');
 			this.cancelStreaming();
+		},
+
+		forwardStreaming: function () {
+			console.log('clicked forward');
+			App.vent.trigger('device:forward');
+		},
+
+		backwardStreaming: function () {
+			console.log('clicked backward');
+			App.vent.trigger('device:backward');
+		},
+
+		seekStreaming: function (e) {
+			var percentClicked = e.offsetX / e.currentTarget.clientWidth * 100;
+			console.log('clicked seek (%s%)', percentClicked.toFixed(2));
+			App.vent.trigger('device:seekPercentage', percentClicked);
 		},
 
 		onClose: function () {
