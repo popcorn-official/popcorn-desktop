@@ -43,21 +43,6 @@
 
 			this.client.pause();
 		},
-		seekTo: function (newCurrentTime) {
-			console.log('Dlna.seekTo %ss', newCurrentTime);
-			this.get('device').seekTo(newCurrentTime, function (err, status) {
-				if (err) {
-					console.log('Chromecast.seekTo:Error', err);
-				}
-			});
-		},
-
-		seekPercentage: function (percentage) {
-			console.log('Dlna.seekPercentage %s%', percentage.toFixed(2));
-			var newCurrentTime = this.client.GetMediaInfo(function (res) {}) / 100 * percentage;
-			this.seekTo(newCurrentTime.toFixed());
-		},
-
 		forward: function () {
 
 			this.client.seek(30);
