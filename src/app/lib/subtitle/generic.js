@@ -132,6 +132,7 @@
 						});
 				} else {
 					win.error('Subtitle Error, unknown file format: ' + data.url);
+					App.vent.trigger('subtitle:downloaded', null);
 				}
 			} else {
 				win.info('No subtitles downloaded. None picked or language not available');
