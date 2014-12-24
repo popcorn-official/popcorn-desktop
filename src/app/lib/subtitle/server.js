@@ -3,6 +3,7 @@
 	var httpServer;
 	var PORT = 9999;
 	var subData = '';
+	var encoding = 'utf8';
 	var http = require('http');
 	var iconv = require('iconv-lite');
 
@@ -12,8 +13,9 @@
 		}
 
 		res.writeHead(200, {
-			'Content-Type': 'text/vtt'
+			'Content-Type': 'text/vtt;charset='+ encoding
 		});
+		win.debug('SubtitlesServer: served vtt with encoding: '+ encoding);
 		res.end(subData);
 	});
 
@@ -23,6 +25,7 @@
 
 	function stopServer(cb) {
 		httpServer.close(function () {
+			httpServer = null;
 			if (cb) {
 				cb();
 			}
@@ -33,25 +36,25 @@
 		start: function (data, cb) {
 			iconv.extendNodeEncodings();
 			var vtt = data.vtt;
-			var encoding = data.encoding;
+			var vttEnc = data.encoding;
 			try {
 				fs.readFile(vtt, {}, function (err, data) {
+					win.debug('SubtitlesServer: Updated vtt data');
 					subData = data;
-					if (httpServer) {
-						stopServer(function () {
-							startListening(cb);
-						});
-					} else {
+					encoding = vttEnc || 'utf8';
+					if (!httpServer) {
 						startListening(cb);
 					}
 				});
 			} catch (e) {
-				win.error('Error Reading vtt');
+				win.error('Error Reading vtt', e);
 			}
 		},
 
 		stop: function () {
-			stopServer();
+			if (httpServer) {
+				stopServer();
+			}
 		}
 	};
 	App.Subtitles.Server = SubtitlesServer;
