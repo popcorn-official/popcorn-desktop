@@ -24,9 +24,8 @@
 			this.attributes.id = this.makeID(this.device.location);
 		},
 		play: function (streamModel) {
-			var url = streamModel.attributes.src;
-
-			this.client.load(url, {
+			var url = streamModel.get('src');
+			this.client.load(url + 'video.mp4', {
 				autoplay: true
 			}, function (err, result) {
 				if (err) {
