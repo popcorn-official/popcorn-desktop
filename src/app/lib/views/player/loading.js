@@ -17,7 +17,7 @@
 			progressTextSeeds: '.value_seeds',
 
 			seedStatus: '.seed_status',
-			downloadPercent: '.download_percent',
+			bufferPercent: '.buffer_percent',
 
 			downloadSpeed: '.download_speed',
 			uploadSpeed: '.upload_speed',
@@ -119,11 +119,11 @@
 
 			this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
 			this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
-			this.ui.downloadPercent.text(streamInfo.get('percent').toFixed() + '%');
+			this.ui.bufferPercent.text(streamInfo.get('buffer_percent').toFixed() + '%');
 
 			this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
 			this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
-			this.ui.progressbar.css('width', streamInfo.get('percent').toFixed() + '%');
+			this.ui.progressbar.css('width', streamInfo.get('buffer_percent').toFixed() + '%');
 
 			if (streamInfo.get('title') !== '') {
 				this.ui.title.text(streamInfo.get('title'));
