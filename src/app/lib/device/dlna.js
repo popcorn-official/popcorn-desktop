@@ -58,29 +58,16 @@
 		}
 
 	});
-
-	function filterDevice(device) {
-		var type = device.deviceType.replace('urn:schemas-upnp-org:device:', '');
-		type = (type.split(':')[0]);
-
-		if (type !== 'MediaRenderer') {
-			return null;
-		}
-		return device;
-	}
+	cp.search('urn:schemas-upnp-org:device:MediaRenderer:1');
 
 
 	cp.on('device', function (device) {
-		if (!filterDevice(device)) {
-			return;
-		}
 		collection.add(new Dlna({
 			device: device
 		}));
 	});
 
 
-	cp.search();
 
 	App.Device.Dlna = Dlna;
 })(window.App);
