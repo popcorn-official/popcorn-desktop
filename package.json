@@ -59,7 +59,7 @@
 		"sha1": "1.1.0",
 		"tar": "^1.0.3",
 		"temp": "^0.8.1",
-		"torrent-health": "*",
+		"torrent-health": "https://github.com/xeoncore/torrent-health/archive/0.1.1.tar.gz",
 		"underscore": "^1.6.0"
 	},
 	"devDependencies": {
