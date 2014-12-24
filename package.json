@@ -29,8 +29,7 @@
 	"dependencies": {
 		"URIjs": "^1.13.2",
 		"adm-zip": "https://github.com/xeoncore/adm-zip/archive/78f820330c776bca72aad3f22d127b357f57a609.tar.gz",
-		"airplay-js": "0.2.5",
-		"airplay-xbmc": "0.2.9",
+		"airplay-js": "git+https://git.popcorntime.io/stash/scm/mir/node-airplay-js.git",
 		"async": "0.9.0",
 		"chromecast-js": "git+https://git.popcorntime.io/stash/scm/mir/chromecast-js.git",
 		"dlna-js": "git+https://git.popcorntime.io/stash/scm/mir/dlna-js.git",
