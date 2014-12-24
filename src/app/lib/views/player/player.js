@@ -52,7 +52,11 @@
 		},
 
 		updateDownloaded: function () {
-			this.ui.downloaded.text(this.model.get('downloadedFormatted') + ' (' + this.model.get('downloadedPercent').toFixed(0) + '%)');
+            if (this.model.get('downloadedPercent').toFixed(0) < 100) {
+			 this.ui.downloaded.text(this.model.get('downloadedFormatted') + ' (' + this.model.get('downloadedPercent').toFixed(0) + '%)');
+            } else {
+                this.ui.downloaded.text(i18n.__('Done'));
+            }
 		},
 
 		closePlayer: function () {

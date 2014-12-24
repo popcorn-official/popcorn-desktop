@@ -59,6 +59,10 @@
 
 			var downloaded_percent = 0;
 			var final_downloaded_percent = 100 / this.get('size') * downloaded;
+            
+            if (final_downloaded_percent >= 100) {
+                final_downloaded_percent = 100;
+            }
 
 			this.set('pieces', swarm.piecesGot);
 			this.set('downloaded', downloaded);
