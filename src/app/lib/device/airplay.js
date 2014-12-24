@@ -17,7 +17,7 @@
 		initialize: function (attrs) {
 			this.device = attrs.device;
 			this.attributes.name = this.device.name || this.device.serverInfo.model;
-			this.attributes.id = this.makeID(this.device.serverInfo.deviceId);
+			this.attributes.id = this.makeID(this.device.serverInfo.macAddress || this.device.serverInfo.deviceId );
 		},
 		play: function (streamModel) {
 			var url = streamModel.attributes.src;
@@ -43,7 +43,5 @@
 			model.destroy();
 		}
 	});
-	browser.getDeviceById();
-
 	App.Device.Airplay = Airplay;
 })(window.App);
