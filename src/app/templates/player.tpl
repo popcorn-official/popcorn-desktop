@@ -11,7 +11,8 @@
 				<div class="arrow-up"></div>
 				<span class="speed-info-player"><%= i18n.__("Download") %>:&nbsp;</span><span class="download_speed_player">0 B/s</span><br>
 				<span class="speed-info-player"><%= i18n.__("Upload") %>:&nbsp;</span><span class="upload_speed_player">0 B/s</span><br>
-				<span class="speed-info-player"><%= i18n.__("Active Peers") %>:&nbsp;</span><span class="active_peers_player">0</span>
+				<span class="speed-info-player"><%= i18n.__("Active Peers") %>:&nbsp;</span><span class="active_peers_player">0</span><br>
+				<span class="speed-info-player"><%= i18n.__("Downloaded") %>:&nbsp;</span><span class="downloaded_player">0</span>
 			</div>
 		</div>
 	</div>
@@ -24,12 +25,11 @@
 </div>
 <%
 	var subArray = [];
-	for (var lang in subtitle) {
-		var langcode = lang == "pb"? "pt-br" : lang;
+	for (var langcode in subtitle) {
 		subArray.push({
 			"language": langcode,
 			"languageName": (App.Localization.langcodes[langcode] !== undefined ? App.Localization.langcodes[langcode].nativeName : langcode),
-			"sub": subtitle[lang]
+			"sub": subtitle[langcode]
 		});
 	}
 	subArray.sort(function (sub1, sub2) {

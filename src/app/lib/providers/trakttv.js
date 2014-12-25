@@ -14,31 +14,31 @@
 		PT_VERSION = AdvSettings.get('version');
 
 	function TraktTv() {
-		App.Providers.CacheProviderV2.call(this, 'metadata');
+			App.Providers.CacheProviderV2.call(this, 'metadata');
 
-		this.authenticated = false;
-		this._credentials = {
-			username: '',
-			password: ''
-		};
+			this.authenticated = false;
+			this._credentials = {
+				username: '',
+				password: ''
+			};
 
-		this.watchlist = App.Providers.get('Watchlist');
+			this.watchlist = App.Providers.get('Watchlist');
 
-		// Login with stored credentials
-		if (AdvSettings.get('traktUsername') !== '' && AdvSettings.get('traktPassword') !== '') {
-			this._authenticationPromise = this.authenticate(AdvSettings.get('traktUsername'), AdvSettings.get('traktPassword'), true);
+			// Login with stored credentials
+			if (AdvSettings.get('traktUsername') !== '' && AdvSettings.get('traktPassword') !== '') {
+				this._authenticationPromise = this.authenticate(AdvSettings.get('traktUsername'), AdvSettings.get('traktPassword'), true);
+			}
+
+			var self = this;
+			// Bind all "sub" method calls to TraktTv
+			_.each(this.movie, function (method, key) {
+				self.movie[key] = method.bind(self);
+			});
+			_.each(this.show, function (method, key) {
+				self.show[key] = method.bind(self);
+			});
 		}
-
-		var self = this;
-		// Bind all "sub" method calls to TraktTv
-		_.each(this.movie, function (method, key) {
-			self.movie[key] = method.bind(self);
-		});
-		_.each(this.show, function (method, key) {
-			self.show[key] = method.bind(self);
-		});
-	}
-	// Inherit the Cache Provider
+		// Inherit the Cache Provider
 	inherits(TraktTv, App.Providers.CacheProviderV2);
 
 	function MergePromises(promises) {
@@ -85,8 +85,10 @@
 		request(requestUri.toString(), {
 			json: true
 		}, function (err, res, body) {
-			if (err || !body || res.statusCode >= 400) {
+			if (err || !body) {
 				defer.reject(err);
+			} else if (res.statusCode >= 400) {
+				defer.resolve({});
 			} else {
 				defer.resolve(body);
 			}
@@ -154,7 +156,7 @@
 					password: preHashed ? password : sha1(password)
 				};
 				self.authenticated = true;
-                App.vent.trigger('system:traktAuthenticated');
+				App.vent.trigger('system:traktAuthenticated');
 				// Store the credentials (hashed ofc)
 				AdvSettings.set('traktUsername', self._credentials.username);
 				AdvSettings.set('traktPassword', self._credentials.password);
@@ -226,7 +228,7 @@
 
 			if (Array.isArray(movie)) {
 				if (movie.length === 0) {
-					return Q.resolve(true);
+					return Q(true);
 				}
 
 				movie = movie.map(function (val) {

@@ -136,13 +136,20 @@
 		};
 
 		App.vent.on('subtitle:downloaded', function (sub) {
-			stateModel.get('streamInfo').set('subFile', sub);
-			App.vent.trigger('subtitle:convert', {
-				path: sub,
-				language: torrent.defaultSubtitle
-			}, function (err, res) {
-				App.Subtitles.Server.start(res);
-			});
+			if (sub) {
+				stateModel.get('streamInfo').set('subFile', sub);
+				App.vent.trigger('subtitle:convert', {
+					path: sub,
+					language: torrent.defaultSubtitle
+				}, function (err, res) {
+					if (err) {
+						win.error('error converting subtitles', err);
+						stateModel.get('streamInfo').set('subFile', null);
+					} else {
+						App.Subtitles.Server.start(res);
+					}
+				});
+			}
 			downloadedSubtitles = true;
 		});
 
@@ -449,6 +456,7 @@
 			hasSubtitles = false;
 			downloadedSubtitles = false;
 			subtitleDownloading = false;
+			App.vent.off('subtitle:downloaded');
 			win.info('Streaming cancelled');
 		}
 	};

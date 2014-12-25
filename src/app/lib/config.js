@@ -36,7 +36,7 @@
 			'date',
 			'year',
 			'rating',
-            'alphabet'
+			'alphabet'
 		],
 
 		sorters_tv: [

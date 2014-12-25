@@ -5,6 +5,7 @@
 	var AdmZip = require('adm-zip');
 	var fdialogs = require('node-webkit-fdialogs');
 	var fs = require('fs');
+	var waitComplete;
 
 	var that;
 
@@ -40,7 +41,12 @@
 			'click #syncTrakt': 'syncTrakt',
 			'click .qr-code': 'generateQRcode',
 			'click #qrcode-overlay': 'closeModal',
-			'click #qrcode-close': 'closeModal'
+			'click #qrcode-close': 'closeModal',
+			'click .install-vpn': 'installVpn',
+			'click #disableVpnPerm': 'disableVpnPerm',
+			'click .connect-vpn': 'connectVpn',
+			'click .disconnect-vpn': 'disconnectVpn',
+			'click .create-vpn': 'registerVpn'
 		},
 
 		onShow: function () {
@@ -116,6 +122,7 @@
 			$('.filter-bar').show();
 			$('#header').removeClass('header-shadow');
 			$('#movie-detail').show();
+			clearInterval(waitComplete);
 		},
 
 		closeSettings: function () {
@@ -170,7 +177,7 @@
 				}
 				var tvapiep = AdvSettings.get('tvshowAPI');
 				tvapiep.url = value;
-				tvapiep.skipVerification = true;
+				tvapiep.skip = true;
 				AdvSettings.set('tvshowAPI', tvapiep);
 				that.ui.success_alert.show().delay(3000).fadeOut(400);
 				return;
@@ -199,6 +206,8 @@
 			case 'syncOnStart':
 			case 'subtitle_shadows':
 			case 'playNextEpisodeAuto':
+			case 'automaticUpdating':
+			case 'events':
 				value = field.is(':checked');
 				break;
 			case 'httpApiUsername':
@@ -209,6 +218,9 @@
 			case 'connectionLimit':
 			case 'dhtLimit':
 			case 'streamPort':
+			case 'subtitle_color':
+			case 'vpnUsername':
+			case 'vpnPassword':
 				value = field.val();
 				break;
 			case 'traktUsername':
@@ -216,15 +228,6 @@
 				return;
 			case 'tmpLocation':
 				value = path.join(field.val(), 'Popcorn-Time');
-				break;
-			case 'subtitle_color':
-				//check if valid hex color
-				if (/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(field.val())) {
-					value = field.val();
-					break;
-				} else {
-					return;
-				}
 				break;
 			default:
 				win.warn('Setting not defined: ' + field.attr('name'));
@@ -241,12 +244,12 @@
 
 			//save to db
 			App.db.writeSetting({
-				key: field.attr('name'),
-				value: value
-			})
-			.then(function () {
-				that.ui.success_alert.show().delay(3000).fadeOut(400);
-			});
+					key: field.attr('name'),
+					value: value
+				})
+				.then(function () {
+					that.ui.success_alert.show().delay(3000).fadeOut(400);
+				});
 			that.syncSetting(field.attr('name'), value);
 		},
 		syncSetting: function (setting, value) {
@@ -287,6 +290,13 @@
 				break;
 			case 'start_screen':
 				AdvSettings.set('startScreen', value);
+				break;
+			case 'events':
+				if ($('.events').css('display') == "none") {
+					$('.events').css('display','block');
+				} else {
+					$('.events').css('display','none');
+				};	
 				break;
 			default:
 
@@ -332,9 +342,9 @@
 			App.Trakt.authenticated = false;
 
 			App.db.writeSetting({
-				key: 'traktUsername',
-				value: ''
-			})
+					key: 'traktUsername',
+					value: ''
+				})
 				.then(function () {
 					return App.db.writeSetting({
 						key: 'traktPassword',
@@ -580,23 +590,77 @@
 				});
 		},
 
+		installVpn: function (e) {
+
+			var btn = $(e.currentTarget);
+			var that = this;
+
+			that.alertMessageWait(i18n.__('We are installing VPN client'));
+			btn.text('Please wait...').addClass('disabled').prop('disabled', true);
+
+			App.VPN.install()
+				.then(function () {
+					that.alertMessageSuccess(false, btn, i18n.__('Install VPN Client'), i18n.__('VPN Client Installed'));
+
+					that.alertMessageWait(i18n.__('Please wait...'));
+
+					waitComplete = setInterval(function () {
+						var isInstalled = App.VPN.isInstalled();
+						if (isInstalled) {
+							clearInterval(waitComplete);
+							that.render();
+						}
+					}, 2000);
+				});
+		},
+
+		disableVpnPerm: function() {
+			$('#vpn').css('display','none');
+			AdvSettings.set('vpnDisabledPerm', true);
+		},
+
+		connectVpn: function () {
+			var self = this;
+			// we launch the process in bg ?
+			App.vent.trigger('vpn:connect');
+
+		},
+
+		disconnectVpn: function () {
+			var self = this;
+			// we launch the process in bg ?
+			App.VPN.disconnect().then(function () {
+				that.alertMessageSuccess(true);
+				setTimeout(function () {
+					self.render();
+				}, 2000);
+			});
+
+			App.VpnConnexion = false;
+			that.alertMessageSuccess(true);
+		},
+
+		registerVpn: function () {
+			gui.Shell.openExternal('https://vpn.ht/popcorntime');
+		},
+
 		getIPAddress: function () {
 			var ip, alias = 0;
 			var ifaces = require('os').networkInterfaces();
 			for (var dev in ifaces) {
-			  ifaces[dev].forEach(function(details){
-				if (details.family === 'IPv4') {
-					if(!/(loopback|vmware|internal|hamachi)/gi.test(dev + (alias ? ':' + alias : ''))){
-						if( details.address.substring(0, 8) === '192.168.' ||
-							details.address.substring(0, 7) === '172.16.' ||
-							details.address.substring(0, 5) === '10.0.'
-						) {
-							ip = details.address;
-							++alias;
+				ifaces[dev].forEach(function (details) {
+					if (details.family === 'IPv4') {
+						if (!/(loopback|vmware|internal|hamachi|vboxnet)/gi.test(dev + (alias ? ':' + alias : ''))) {
+							if (details.address.substring(0, 8) === '192.168.' ||
+								details.address.substring(0, 7) === '172.16.' ||
+								details.address.substring(0, 5) === '10.0.'
+							) {
+								ip = details.address;
+								++alias;
+							}
 						}
 					}
-				}
-			  });
+				});
 			}
 			return ip;
 		}

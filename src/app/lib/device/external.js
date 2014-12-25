@@ -35,11 +35,11 @@
 				}
 				cmd += getPlayerSubSwitch(this.get('id')) + '"' + subtitle + '" ';
 			}
-			if(getPlayerFilenameSwitch(this.get('id')) !== ''){
+			if (getPlayerFilenameSwitch(this.get('id')) !== '') {
 				// The video file is the biggest file in the torrent
-				var videoFile = _.sortBy(streamModel.attributes.torrent.info.files, function(file){
-	                return -file.length;
-	            })[0];
+				var videoFile = _.sortBy(streamModel.attributes.torrent.info.files, function (file) {
+					return -file.length;
+				})[0];
 				cmd += videoFile ? (getPlayerFilenameSwitch(this.get('id')) + '"' + videoFile.name + '" ') : '';
 			}
 			cmd += url;
@@ -152,12 +152,17 @@
 	var searchPaths = {
 		linux: ['/usr/bin', '/usr/local/bin'],
 		darwin: ['/Applications'],
-		win32: ['C:\\Program Files\\', 'C:\\Program Files (x86)\\']
+		win32: ['C:\\Program Files\\']
 	};
 
+    // Also search for Program Files x86
+	if (fs.existsSync('C:\\Program Files (x86)\\')) {
+		searchPaths.win32.push('C:\\Program Files (x86)\\');
+	}
+    
 	// Also search for ClickOnce applications
-	if(process.env.LOCALAPPDATA){
-		searchPaths.win32.push(process.env.LOCALAPPDATA+'\\Apps\\2.0\\');
+	if (fs.existsSync(process.env.LOCALAPPDATA + '\\Apps\\2.0\\')) {
+		searchPaths.win32.push(process.env.LOCALAPPDATA + '\\Apps\\2.0\\');
 	}
 
 	var folderName = '';
@@ -181,8 +186,8 @@
 				match = match[0];
 				var birthtime = d.stat.birthtime;
 				var previousBirthTime = birthtimes[match.name];
-				if(!previousBirthTime || birthtime > previousBirthTime){
-					if(!previousBirthTime){
+				if (!previousBirthTime || birthtime > previousBirthTime) {
+					if (!previousBirthTime) {
 						collection.add(new External({
 							id: match.name,
 							type: 'external-' + match.type,
@@ -191,7 +196,9 @@
 						}));
 						console.log('Found External Player: ' + app + ' in ' + d.fullParentDir);
 					} else {
-						collection.findWhere({ id: match.name }).set('path', d.fullPath);
+						collection.findWhere({
+							id: match.name
+						}).set('path', d.fullPath);
 						console.log('Updated External Player: ' + app + ' with more recent version found in ' + d.fullParentDir);
 					}
 					birthtimes[match.name] = birthtime;

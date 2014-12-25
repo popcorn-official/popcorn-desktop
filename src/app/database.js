@@ -139,12 +139,12 @@ var Database = {
 			multi: true
 		});
 	},
-    
-    deleteWatched: function () {
-        return db.watched.remove({}, {
-            multi: true
-        });
-    },
+
+	deleteWatched: function () {
+		return db.watched.remove({}, {
+			multi: true
+		});
+	},
 
 	// format: {page: page, keywords: title}
 	getBookmarks: function (data) {
@@ -501,10 +501,15 @@ var Database = {
 				App.Trakt = App.Config.getProvider('metadata');
 				// check update
 				var updater = new App.Updater();
+
 				updater.update()
 					.catch(function (err) {
 						win.error(err);
 					});
+
+				// we look if VPN is running
+				App.VPN.isRunning(true);
+
 			})
 			.catch(function (err) {
 				win.error('Error starting up');

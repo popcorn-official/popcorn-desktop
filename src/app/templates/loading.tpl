@@ -16,7 +16,7 @@
 
 			<!-- downloading info -->
 			<div class="loading-info">
-				<span class="download_percent"></span><br><br>
+				<span class="buffer_percent"></span><br><br>
 				
 				<span class="loading-info-text"><%= i18n.__("Download") %>:&nbsp;</span>
 					<span class="download_speed value">0 B/s</span><br>
@@ -31,6 +31,9 @@
 			<i class="fa fa-pause pause"></i>
 			<i class="fa fa-stop stop"></i>
 			<i class="fa fa-forward forward"></i>
+		</div>
+		<div class="playing-progressbar" style="visibility:hidden">
+			<div id="playingbar-contents"></div>
 		</div>
 		<div class="cancel-button"><div class="cancel-button-text"><%= i18n.__("Cancel") %></div></div>
 	</div>

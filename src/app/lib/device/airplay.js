@@ -17,11 +17,14 @@
 		initialize: function (attrs) {
 			this.device = attrs.device;
 			this.attributes.name = this.device.name || this.device.serverInfo.model;
-			this.attributes.id = this.makeID(this.device.serverInfo.deviceId);
+			this.attributes.id = this.makeID(this.device.serverInfo.macAddress || this.device.serverInfo.deviceId );
 		},
 		play: function (streamModel) {
 			var url = streamModel.attributes.src;
 			this.device.play(url);
+		},
+		stop: function () {
+			this.device.stop(function () {});
 		}
 	});
 
@@ -40,8 +43,5 @@
 			model.destroy();
 		}
 	});
-
-	browser.start();
-
 	App.Device.Airplay = Airplay;
 })(window.App);

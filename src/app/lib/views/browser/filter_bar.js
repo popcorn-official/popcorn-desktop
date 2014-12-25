@@ -29,7 +29,10 @@
 			'click .showAnime': 'showAnime',
 			'click #filterbar-favorites': 'showFavorites',
 			'click #filterbar-watchlist': 'showWatchlist',
-			'click .triggerUpdate': 'updateDB'
+			'click .triggerUpdate': 'updateDB',
+			'click .vpn-disconnect': 'vpnDisconnect',
+			'click .vpn-connect': 'vpnConnect',
+			'click .vpn-settings': 'vpnSettings'
 		},
 
 
@@ -65,7 +68,7 @@
 				$('#filterbar-watchlist').addClass('active');
 				break;
 			}
-            $('.sorters .dropdown-menu a:nth(0)').addClass('active');
+			$('.sorters .dropdown-menu a:nth(0)').addClass('active');
 			$('.genres .dropdown-menu a:nth(0)').addClass('active');
 			$('.types .dropdown-menu a:nth(0)').addClass('active');
 		},
@@ -150,6 +153,24 @@
 				}
 			});
 
+			// somwe styling for vpn
+			this.$('#filterbar-vpn-disconnect').hover(function () {
+				$(this).removeClass('fa-lock');
+				$(this).addClass('fa-unlock-alt');
+			}, function () {
+				$(this).removeClass('fa-unlock-alt');
+				$(this).addClass('fa-lock');
+			});
+
+			this.$('#filterbar-vpn-connect').hover(function () {
+				$(this).removeClass('fa-unlock-alt');
+				$(this).addClass('fa-lock');
+			}, function () {
+				$(this).removeClass('fa-lock');
+				$(this).addClass('fa-unlock-alt');
+			});
+
+
 		},
 
 		focusSearch: function () {
@@ -201,8 +222,8 @@
 
 			if (this.previousSort === sorter) {
 				this.model.set('order', this.model.get('order') * -1);
-            } else if (this.previousSort !== sorter && sorter === 'alphabet') {
-                this.model.set('order', this.model.get('order') * -1);
+			} else if (this.previousSort !== sorter && sorter === 'alphabet') {
+				this.model.set('order', this.model.get('order') * -1);
 			} else {
 				this.model.set('order', -1);
 			}
@@ -332,6 +353,21 @@
 		updateDB: function (e) {
 			e.preventDefault();
 			App.vent.trigger(this.type + ':update', []);
+		},
+
+		vpnDisconnect: function (e) {
+			e.preventDefault();
+			App.vent.trigger('vpn:disconnect');
+		},
+
+		vpnConnect: function (e) {
+			e.preventDefault();
+			App.vent.trigger('vpn:connect');
+		},
+
+		vpnSettings: function (e) {
+			e.preventDefault();
+			App.vent.trigger('settings:show');
 		}
 	});
 

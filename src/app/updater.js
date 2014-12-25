@@ -29,6 +29,7 @@
 		'RTcms0CPio56gg==\n' +
 		'-----END PUBLIC KEY-----\n';
 
+
 	function forcedBind(func, thisVar) {
 		return function () {
 			return func.apply(thisVar, arguments);
@@ -43,7 +44,7 @@
 		var self = this;
 
 		this.options = _.defaults(options || {}, {
-			endpoint: UPDATE_ENDPOINT,
+			endpoint: UPDATE_ENDPOINT + '?version=' + App.settings.version,
 			channel: 'beta'
 		});
 
@@ -57,18 +58,21 @@
 		var self = this;
 
 		if (!(!_.contains(fs.readdirSync('.'), '.git') || // Test Development
-			( // Test Windows
-				App.settings.os === 'windows' &&
-				process.cwd().indexOf(process.env.APPDATA) !== -1
-			) ||
-			( // Test Linux
-				App.settings.os === 'linux' &&
-				_.contains(fs.readdirSync('.'), 'package.nw')
-			) ||
-			( // Test Mac OS X
-				App.settings.os === 'mac' &&
-				process.cwd().indexOf('Resources/app.nw') !== -1
-			))) {
+			    !( // Settings update disabled
+					App.settings.automaticUpdating
+				) ||
+				( // Test Windows
+					App.settings.os === 'windows' &&
+					process.cwd().indexOf(process.env.APPDATA) !== -1
+				) ||
+				( // Test Linux
+					App.settings.os === 'linux' &&
+					_.contains(fs.readdirSync('.'), 'package.nw')
+				) ||
+				( // Test Mac OS X
+					App.settings.os === 'mac' &&
+					process.cwd().indexOf('Resources/app.nw') !== -1
+				))) {
 			win.debug('Not updating because we are running in a development environment');
 			defer.resolve(false);
 			return defer.promise;
@@ -177,7 +181,8 @@
 		var defer = Q.defer();
 
 		fs.rename(packageFile, path.join(outputDir, 'package.nw.old'), function (err) {
-			if (err) {
+			// errno 34 = ENOENT, file not found
+			if (err && err.errno !== 34) {
 				defer.reject(err);
 			} else {
 				fs.rename(downloadPath, packageFile, function (err) {
@@ -200,7 +205,7 @@
 						}
 					} else {
 						fs.unlink(path.join(outputDir, 'package.nw.old'), function (err) {
-							if (err) {
+							if (err && err.errno !== 34) {
 								// This is a non-fatal error, should we reject?
 								defer.reject(err);
 							} else {
