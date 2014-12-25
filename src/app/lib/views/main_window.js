@@ -155,6 +155,11 @@
 					} else {
 						that.showMovies();
 					}
+				
+					// do we celebrate events?
+					if (AdvSettings.get('events')) {
+						$('.events').css('display','block');
+					}
 
 					// Focus the window when the app opens
 					that.nativeWindow.focus();
