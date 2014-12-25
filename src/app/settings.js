@@ -80,8 +80,18 @@ Settings.tvshowAPI = {
 
 Settings.updateEndpoint = {
 	url: 'https://popcorntime.io/',
-	fingerprint: '32:74:8E:CC:19:3C:94:6A:4E:F8:EA:39:97:69:1C:0D:A8:69:D2:9D',
-	fallbacks: []
+	fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C',
+	fallbacks: [{
+		url: 'https://popcorntime.re/',
+		fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C'
+	},{
+		url: 'https://popcorntime.cc/',
+		fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C'
+	},{
+		url: 'https://its.pt/',
+		ssl: false,
+		fingerprint: /301/
+	}]
 };
 
 Settings.ytsAPI = {
