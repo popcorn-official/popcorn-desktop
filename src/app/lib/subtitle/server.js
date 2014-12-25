@@ -2,21 +2,31 @@
 	var server;
 	var httpServer;
 	var PORT = 9999;
-	var subData = '';
+	var subtitleData = {};
 	var encoding = 'utf8';
 	var http = require('http');
+	var path = require('path');
+	var url = require('url');
 	var iconv = require('iconv-lite');
 
 	server = http.createServer(function (req, res) {
+		var uri = url.parse(req.url);
+		var ext = path.extname(uri.pathname).substr(1);
 		if (req.headers.origin) {
 			res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
 		}
 
-		res.writeHead(200, {
-			'Content-Type': 'text/vtt;charset='+ encoding
-		});
-		win.debug('SubtitlesServer: served vtt with encoding: '+ encoding);
-		res.end(subData);
+		if(ext in subtitleData) {
+			res.writeHead(200, {
+				'Content-Type': 'text/' + ext + ';charset='+ encoding
+			});
+			res.end(subtitleData[ext]);
+			win.debug('SubtitlesServer: served vtt/srt with encoding: '+ encoding);
+		} else {
+			res.writeHead(404);
+			res.end();
+			win.error('SubtitlesServer: No subtitle with format %s available.', ext);
+		}
 	});
 
 	function startListening(cb) {
@@ -35,19 +45,31 @@
 	var SubtitlesServer = {
 		start: function (data, cb) {
 			iconv.extendNodeEncodings();
-			var vtt = data.vtt;
-			var vttEnc = data.encoding;
-			try {
-				fs.readFile(vtt, {}, function (err, data) {
-					win.debug('SubtitlesServer: Updated vtt data');
-					subData = data;
-					encoding = vttEnc || 'utf8';
-					if (!httpServer) {
-						startListening(cb);
+
+			encoding = data.encoding || 'utf8';
+			console.log(data.srt);
+			if(data.vtt) {
+				fs.readFile(data.vtt, function(err, data) {
+					if(err) {
+						win.error('SubtitlesServer: Unable to load VTT file');
+						return;
 					}
+					subtitleData['vtt'] = data;
 				});
-			} catch (e) {
-				win.error('Error Reading vtt', e);
+			}
+
+			if(data.srt) {
+				fs.readFile(data.srt, function(err, data) {
+					if(err) {
+						win.error('SubtitlesServer: Unable to load SRT file');
+						return;
+					}
+					subtitleData['srt'] = data;
+				});
+			}
+
+			if (!httpServer) {
+				startListening(cb);
 			}
 		},
 
