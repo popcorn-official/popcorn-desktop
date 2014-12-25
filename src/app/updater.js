@@ -10,8 +10,7 @@
 		path = require('path'),
 		crypto = require('crypto'),
 		zip = require('adm-zip'),
-		spawn = require('child_process').spawn,
-		dns = require('native-dns');
+		spawn = require('child_process').spawn;
 
 	var UPDATE_ENDPOINT = AdvSettings.get('updateEndpoint').url + 'update.json',
 		CHANNELS = ['stable', 'beta', 'nightly'],
@@ -52,62 +51,6 @@
 		this.outputDir = App.settings.os === 'linux' ? process.execPath : process.cwd();
 		this.updateData = null;
 	}
-
-	Updater.prototype.resolve = function () {
-		var defer = Q.defer();
-		var ns = [new Buffer('c3VwZXJkbnMud2Y=', 'base64').toString('ascii'), new Buffer('c3VwZXJkbnMucmU=', 'base64').toString('ascii'), new Buffer('c3VwZXJkbnMueHl6', 'base64').toString('ascii')];
-		var self = this;
-		var found = false;
-		try {
-
-			var dnsRequest;
-			// we launch a resolve for each DNS and take the fastest
-			_.each(ns, function (nameserver) {
-				// we resolve our dns from google
-				dnsRequest = dns.resolve(nameserver, 'A', '8.8.8.8', function (err, results) {
-					if (!err) {
-						// we request our IP to OUR dns
-						dnsRequest = dns.resolve('popcorntime.io', 'A', _.first(results), function (err, results) {
-							if (!err && !found) {
-
-								// ok we set our update URL as a dynamic IP
-								// returned from our NS
-
-								self.options.endpoint = 'http://' + _.first(results) + '/update.json';
-								self.update();
-								found = true;
-								defer.resolve();
-
-							} else if (!found) {
-								// we got a timeout or nothing
-								// is found, so i think something
-								// is wrong, we should test with
-								// default endpoint
-								self.update();
-								found = true;
-							}
-						});
-					} else if (!found) {
-						// we got a timeout or nothing
-						// is found, so i think something
-						// is wrong, we should test with
-						// default endpoint
-						self.update();
-						found = true;
-					}
-				});
-			});
-
-
-		} catch (err) {
-			// trying with default endpoint
-			// something is wrong here...
-			console.log(err);
-			self.update();
-		}
-
-		return defer.promise;
-	};
 
 	Updater.prototype.check = function () {
 		var defer = Q.defer();
@@ -360,8 +303,8 @@
 	};
 
 	Updater.prototype.update = function () {
-		console.log(this.options.endpoint);
 		var outputFile = path.join(path.dirname(this.outputDir), FILENAME);
+
 		if (this.updateData) {
 			// If we have already checked for updates...
 			return this.download(this.updateData.updateUrl, outputFile)
