@@ -415,6 +415,10 @@
 				<input class="settings-checkbox" name="automaticUpdating" id="cb5" type="checkbox" <%=(Settings.automaticUpdating? "checked='checked'":"")%>>
 				<label class="settings-label" for="cb5"><%= i18n.__("Activate automatic updating") %></label>
 			</span>
+			<span>
+				<input class="settings-checkbox" name="events" id="cb6" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
+				<label class="settings-label" for="cb6"><%= i18n.__("Celebrate various events") %></label>
+			</span>
 		</div>
 	</section>
 	<div class="btns advanced">
