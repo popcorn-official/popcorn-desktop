@@ -8,8 +8,8 @@
 	},
 	"license": "GPL-3.0",
 	"main": "app://host/src/app/index.html",
-	"version": "0.3.5-4",
-	"releaseName": "We're snowed in (Hotfix 4)",
+	"version": "0.3.6",
+	"releaseName": "The Christmas tree is up",
 	"scripts": {
 		"postinstall": "node_modules/.bin/bower install && grunt setup",
 		"postupdate": "node_modules/.bin/bower update && grunt setup",
@@ -29,10 +29,11 @@
 	"dependencies": {
 		"URIjs": "^1.13.2",
 		"adm-zip": "https://github.com/xeoncore/adm-zip/archive/78f820330c776bca72aad3f22d127b357f57a609.tar.gz",
-		"airplay-js": "0.2.5",
-		"airplay-xbmc": "0.2.9",
+		"airplay-js": "git+https://git.popcorntime.io/stash/scm/mir/node-airplay-js.git",
 		"async": "0.9.0",
 		"chromecast-js": "git+https://git.popcorntime.io/stash/scm/mir/chromecast-js.git",
+		"dlna-js": "git+https://git.popcorntime.io/stash/scm/mir/dlna-js.git",
+		"upnp-mediarenderer-client": "git+https://github.com/thibauts/node-upnp-mediarenderer-client.git",
 		"i18n": "0.5.0",
 		"iconv-lite": "^0.4.3",
 		"jschardet": "1.1.0",
@@ -46,7 +47,7 @@
 		"nedb": "^0.10.5",
 		"node-captions": "0.2.2",
 		"node-webkit-fdialogs": "latest",
-		"peerflix": "^0.21.0",
+		"peerflix": "git+https://git.popcorntime.io/stash/scm/mir/peerflix.git",
 		"popcorn-opensubtitles": "git+https://git.popcorntime.io/stash/scm/thrd/popcorn-opensubtitles.git#a7ad4445a2cc89e3f37d4fe4e6ac06186fd719ea",
 		"q": "^2.0.2",
 		"read-torrent": "1.0.0",
@@ -57,7 +58,7 @@
 		"sha1": "1.1.0",
 		"tar": "^1.0.3",
 		"temp": "^0.8.1",
-		"torrent-health": "*",
+		"torrent-health": "https://github.com/xeoncore/torrent-health/archive/0.1.1.tar.gz",
 		"underscore": "^1.6.0"
 	},
 	"devDependencies": {

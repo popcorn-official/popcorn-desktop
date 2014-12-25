@@ -8,6 +8,7 @@
 	var path = require('path');
 	var mkdirp = require('mkdirp');
 	var captions = require('node-captions');
+	var charsetDetect = require('jschardet');
 	var iconv = require('iconv-lite');
 	var Q = require('q');
 
@@ -30,7 +31,7 @@
 			var out = fs.createWriteStream(zipPath);
 			var req = request({
 				method: 'GET',
-				uri: subUrl,
+				uri: subUrl
 			});
 
 			req.on('end', function () {
@@ -68,7 +69,7 @@
 			var out = fs.createWriteStream(srtPath);
 			var req = request({
 				method: 'GET',
-				uri: subUrl,
+				uri: subUrl
 			});
 
 			req.on('end', function () {
@@ -95,7 +96,7 @@
 			win.error('Not implemented in parent model');
 		},
 		download: function (data) {
-			console.log(data);
+			console.log('subtitle.download', data);
 			if (data.path && data.url) {
 				var fileFolder = path.dirname(data.path);
 
@@ -131,6 +132,7 @@
 						});
 				} else {
 					win.error('Subtitle Error, unknown file format: ' + data.url);
+					App.vent.trigger('subtitle:downloaded', null);
 				}
 			} else {
 				win.info('No subtitles downloaded. None picked or language not available');
@@ -139,50 +141,54 @@
 		},
 		convert: function (data, cb) { // Converts .srt's to .vtt's
 			try {
-				var srt = data.path;
-				var vtt = srt.replace('.srt', '.vtt');
-				var lang = data.language;
-				var encoding = 'utf8';
-				iconv.extendNodeEncodings();
-				var langInfo = App.Localization.langcodes[lang] || {};
-				if (langInfo.encoding !== undefined) {
-					encoding = langInfo.encoding[0].replace('-', '');
-				}
-				win.debug(data);
-				win.debug('Encoding: ' + encoding);
-				captions.srt.read(srt, {
-					encoding: encoding
-				}, function (err, data) {
-					if (err) {
-						return cb(err, null);
-					}
-					try {
+				var srtPath = data.path;
+				var vttPath = srtPath.replace('.srt', '.vtt');
+				var srtData = fs.readFileSync(srtPath);
+				self.decode(srtData, data.language, function(srtDecodedData) {
+					captions.srt.parse(srtDecodedData, function (err, vttData) {
+						if (err) return cb(err, null);
 						// Save vtt as UTF-8 encoded, so that foreign subs will be shown correctly on ext. devices.
-						fs.writeFile(vtt, captions.vtt.generate(captions.srt.toJSON(data)), 'utf8', function (err) {
-							if (err) {
-								return cb(err, null);
-							} else {
-								App.vent.trigger('subtitle:converted', vtt);
-								return cb(null, {
-									vtt: vtt,
+						fs.writeFile(vttPath, captions.vtt.generate(captions.srt.toJSON(vttData)), 'utf8', function (err) {
+							if (err) return cb(err, null);
+							else {
+								cb(null, {
+									vtt: vttPath,
+									srt: srtPath, 
 									encoding: 'utf8'
 								});
 							}
 						});
-					} catch (e) {
-						win.error('Error writing vtt');
-					}
+					});
 				});
 			} catch (e) {
-				win.error('error parsing subtitles', e);
-				App.vent.trigger('subtitle:converted', vtt);
-				return cb(null, {
-					vtt: '',
-					encoding: 'utf8'
-				});
+				win.error('error converting subtitles', e);
+				cb(e, null);
 			}
-
 		},
+		// Handles charset encoding
+		decode: function (dataBuff, language, callback) {
+			var targetEncodingCharset = 'utf8';
+
+			var charset = charsetDetect.detect(dataBuff);
+			var detectedEncoding = charset.encoding;
+			win.debug("SUB charset detected: ", detectedEncoding);
+			// Do we need decoding?
+			if (detectedEncoding.toLowerCase().replace('-','') == targetEncodingCharset) {
+				callback(dataBuff.toString('utf8'));
+			// We do
+			} else {
+				var langInfo = App.Localization.langcodes[language] || {};
+				win.debug("SUB charsets expected for language '%s': ", language, langInfo.encoding);
+				if (langInfo.encoding !== undefined && langInfo.encoding.indexOf(detectedEncoding) < 0) {
+					// The detected encoding was unexepected to the language, so we'll use the most common
+					// encoding for that language instead.
+					detectedEncoding = langInfo.encoding[0];
+				}
+				win.debug("SUB charset used: ", detectedEncoding);
+				dataBuff = iconv.encode( iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset );
+				callback(dataBuff.toString('utf8'));
+			}
+		}
 
 	});
 

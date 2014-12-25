@@ -1,8 +1,8 @@
-var torrentHealth = require('torrent-health');
-var health_checked = false;
-
 (function (App) {
 	'use strict';
+
+	var torrentHealth = require('torrent-health');
+	var cancelTorrentHealth = function() {};
 
 	var resizeImage = App.Providers.Trakttv.resizeImage;
 
@@ -29,7 +29,6 @@ var health_checked = false;
 			'dblclick .tab-episode': 'dblclickEpisode',
 			'click #switch-hd-on': 'enableHD',
 			'click #switch-hd-off': 'disableHD',
-			'click .health-icon': 'getTorrentHealth',
 			'click .playerchoicemenu li a': 'selectPlayer',
 			'click .rating-container-tv': 'switchRating'
 		},
@@ -117,39 +116,25 @@ var health_checked = false;
 		},
 
 		initKeyboardShortcuts: function () {
-			Mousetrap.bind(['esc', 'backspace'], _this.closeDetails);
-
-			Mousetrap.bind('up', _this.previousEpisode);
-
-			Mousetrap.bind('down', _this.nextEpisode);
-
-			Mousetrap.bind(['ctrl+up', 'command+up'], _this.previousSeason);
-
-			Mousetrap.bind(['ctrl+down', 'command+down'], _this.nextSeason);
-
-			Mousetrap.bind(['enter', 'space'], _this.playEpisode);
-
 			Mousetrap.bind('q', _this.toggleQuality);
-
+			Mousetrap.bind('down', _this.nextEpisode);
+			Mousetrap.bind('up', _this.previousEpisode);
 			Mousetrap.bind('w', _this.toggleEpisodeWatched);
+			Mousetrap.bind(['enter', 'space'], _this.playEpisode);
+			Mousetrap.bind(['esc', 'backspace'], _this.closeDetails);
+			Mousetrap.bind(['ctrl+up', 'command+up'], _this.previousSeason);
+			Mousetrap.bind(['ctrl+down', 'command+down'], _this.nextSeason);
 		},
 
 		unbindKeyboardShortcuts: function () { // There should be a better way to do this
-			Mousetrap.unbind(['esc', 'backspace']);
-
-			Mousetrap.unbind('up');
-
-			Mousetrap.unbind('down');
-
-			Mousetrap.unbind(['ctrl+up', 'command+up']);
-
-			Mousetrap.unbind(['ctrl+down', 'command+down']);
-
-			Mousetrap.unbind(['enter', 'space']);
-
-			Mousetrap.unbind('q');
-
 			Mousetrap.unbind('w');
+			Mousetrap.unbind('q');
+			Mousetrap.unbind('up');
+			Mousetrap.unbind('down');
+			Mousetrap.unbind(['enter', 'space']);
+			Mousetrap.unbind(['esc', 'backspace']);
+			Mousetrap.unbind(['ctrl+up', 'command+up']);
+			Mousetrap.unbind(['ctrl+down', 'command+down']);
 		},
 
 		onShow: function () {
@@ -184,9 +169,7 @@ var health_checked = false;
 				bgCache = null;
 			};
 
-
 			this.selectNextEpisode();
-
 
 			_this.initKeyboardShortcuts();
 
@@ -493,7 +476,6 @@ var health_checked = false;
 				this.ui.qinfo.show();
 			}
 
-			_this.resetHealth();
 
 			$('.tab-episode.active').removeClass('active');
 			$elem.addClass('active');
@@ -513,6 +495,8 @@ var health_checked = false;
 			$('.startStreaming').attr('data-episode', $('.template-' + tvdbid + ' .episode').html());
 			$('.startStreaming').attr('data-season', $('.template-' + tvdbid + ' .season').html());
 			$('.startStreaming').attr('data-title', $('.template-' + tvdbid + ' .title').html());
+
+			_this.resetHealth();
 
 			this.ui.startStreaming.show();
 		},
@@ -661,48 +645,59 @@ var health_checked = false;
 		},
 
 		getTorrentHealth: function (e) {
-			if (health_checked) {
-				return;
-			}
 			var torrent = $('.startStreaming').attr('data-torrent');
-			health_checked = true;
 			$('.health-icon')
 				.removeClass('fa-circle')
 				.addClass('fa-spinner')
 				.addClass('fa-spin');
-			torrentHealth(torrent)
-				.then(function (res) {
-					var h = Common.calcHealth({
-						seed: res.seeds,
-						peer: res.peers
-					});
-					var health = Common.healthMap[h].capitalize();
-					var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
 
-					$('.health-icon').tooltip({
-							html: true
-						})
-						.removeClass('fa-spin')
-						.removeClass('fa-spinner')
-						.addClass('fa-circle')
-						.removeClass('Bad Medium Good Excellent')
-						.addClass(health)
-						.attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
-						.tooltip('fixTitle');
+			cancelTorrentHealth();
+
+			// Use fancy coding to cancel
+			// pending torrent-health's
+			var cancelled = false;
+			cancelTorrentHealth = function() {
+				cancelled = true;
+			}
+
+			torrentHealth(torrent, {
+				timeout: 2000,
+				blacklist: ['openbittorrent.com', 'publicbt.com', 'istole.it', '1337x.org', 'yify-torrents.com'],
+				forced: ['udp://open.demonii.com:1337/announce']
+			}).then(function (res) {
+				if(cancelled) return;
+
+				var h = Common.calcHealth({
+					seed: res.seeds,
+					peer: res.peers
 				});
+				var health = Common.healthMap[h].capitalize();
+				var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
+
+				$('.health-icon').tooltip({
+					html: true
+				})
+					.removeClass('fa-spin')
+					.removeClass('fa-spinner')
+					.addClass('fa-circle')
+					.removeClass('Bad Medium Good Excellent')
+					.addClass(health)
+					.attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
+					.tooltip('fixTitle');
+			});
 		},
 
 		resetHealth: function () {
 			$('.health-icon').tooltip({
-					html: true
-				})
+				html: true
+			})
 				.removeClass('fa-spin')
 				.removeClass('fa-spinner')
 				.addClass('fa-circle')
 				.removeClass('Bad Medium Good Excellent')
 				.attr('data-original-title', i18n.__('Health Unknown'))
 				.tooltip('fixTitle');
-			health_checked = false;
+			this.getTorrentHealth();
 		},
 
 		selectPlayer: function (e) {

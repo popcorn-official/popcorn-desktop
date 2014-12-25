@@ -487,7 +487,8 @@ var Database = {
 
 				return AdvSettings.checkApiEndpoints([
 					Settings.ytsAPI,
-					Settings.tvshowAPI
+					Settings.tvshowAPI,
+					Settings.updateEndpoint
 				]);
 			})
 			.then(function () {
@@ -501,7 +502,7 @@ var Database = {
 				// check update
 				var updater = new App.Updater();
 
-				updater.resolve()
+				updater.update()
 					.catch(function (err) {
 						win.error(err);
 					});

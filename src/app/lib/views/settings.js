@@ -207,6 +207,7 @@
 			case 'subtitle_shadows':
 			case 'playNextEpisodeAuto':
 			case 'automaticUpdating':
+			case 'events':
 				value = field.is(':checked');
 				break;
 			case 'httpApiUsername':
@@ -289,6 +290,13 @@
 				break;
 			case 'start_screen':
 				AdvSettings.set('startScreen', value);
+				break;
+			case 'events':
+				if ($('.events').css('display') == "none") {
+					$('.events').css('display','block');
+				} else {
+					$('.events').css('display','none');
+				};	
 				break;
 			default:
 

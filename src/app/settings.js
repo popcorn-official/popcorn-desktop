@@ -61,6 +61,7 @@ Settings.tmpLocation = path.join(os.tmpDir(), 'Popcorn-Time');
 Settings.databaseLocation = path.join(data_path, 'data');
 Settings.deleteTmpOnClose = true;
 Settings.automaticUpdating = true;
+Settings.events = true;
 
 Settings.vpn = false;
 Settings.vpnUsername = '';
@@ -79,8 +80,18 @@ Settings.tvshowAPI = {
 
 Settings.updateEndpoint = {
 	url: 'https://popcorntime.io/',
-	fingerprint: '32:74:8E:CC:19:3C:94:6A:4E:F8:EA:39:97:69:1C:0D:A8:69:D2:9D',
-	fallbacks: []
+	fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C',
+	fallbacks: [{
+		url: 'https://popcorntime.re/',
+		fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C'
+	},{
+		url: 'https://popcorntime.cc/',
+		fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C'
+	},{
+		url: 'https://its.pt/',
+		ssl: false,
+		fingerprint: /301/
+	}]
 };
 
 Settings.ytsAPI = {
@@ -89,10 +100,6 @@ Settings.ytsAPI = {
 	fallbacks: [{
 		url: 'https://yts.pm/api/',
 		fingerprint: 'B6:0A:11:A8:74:48:EB:B4:9A:9C:79:1A:DA:FA:72:BF:F8:8B:0A:B3'
-	}, {
-		url: 'http://yts.wf/api/',
-		ssl: false,
-		fingerprint: /YTS - The Official Home of YIFY Movie Torrent Downloads/
 	}, {
 		url: 'https://yts.io/api/',
 		fingerprint: '27:96:21:06:E3:2F:5D:3D:7D:46:13:EF:42:5B:AD:5E:C8:FD:DA:45'
@@ -106,9 +113,6 @@ Settings.ytsAPI = {
 	}, { // .wf is listed last due to lack of ECDSA support in nw0.9.2
 		url: 'https://yts.wf/api/',
 		fingerprint: '77:44:AC:40:4A:B8:A6:83:06:37:5C:56:16:B4:2C:30:B9:75:99:94'
-	}, { // .im is listed last due to lack of ECDSA support in nw0.9.2
-		url: 'https://yts.im/api/',
-		fingerprint: 'AF:67:49:6C:D5:6A:28:0D:BA:36:C0:12:7D:D9:6E:A7:10:3F:99:14'
 	}]
 };
 

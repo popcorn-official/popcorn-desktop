@@ -15,7 +15,8 @@
 			eyeInfo: '.eye-info-player',
 			downloadSpeed: '.download_speed_player',
 			uploadSpeed: '.upload_speed_player',
-			activePeers: '.active_peers_player'
+			activePeers: '.active_peers_player',
+			downloaded: '.downloaded_player'
 		},
 
 		events: {
@@ -33,6 +34,7 @@
 			this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
 			this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
 			this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
+			this.listenTo(this.model, 'change:downloaded', this.updateDownloaded);
 			this.video = false;
 			this.inFullscreen = win.isFullscreen;
 		},
@@ -47,6 +49,14 @@
 
 		updateActivePeers: function () {
 			this.ui.activePeers.text(this.model.get('active_peers'));
+		},
+
+		updateDownloaded: function () {
+            if (this.model.get('downloadedPercent').toFixed(0) < 100) {
+			 this.ui.downloaded.text(this.model.get('downloadedFormatted') + ' (' + this.model.get('downloadedPercent').toFixed(0) + '%)');
+            } else {
+                this.ui.downloaded.text(i18n.__('Done'));
+            }
 		},
 
 		closePlayer: function () {
