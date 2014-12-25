@@ -153,6 +153,7 @@
 							else {
 								cb(null, {
 									vtt: vttPath,
+									srt: srtPath, 
 									encoding: 'utf8'
 								});
 							}
