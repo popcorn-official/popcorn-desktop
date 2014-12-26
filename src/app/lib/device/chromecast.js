@@ -70,10 +70,6 @@
 				}
 			});
 			device.on('status', function (status) {
-				if (status.playerState === 'IDLE') {
-					console.log('chromecast.idle: listeners removed!');
-					device.removeAllListeners();
-				}
 				self._internalStatusUpdated(status);
 			});
 		},
@@ -84,7 +80,10 @@
 
 		stop: function () {
 			// Also stops player and closes connection.
-			this.get('device').stop(function () {});
+			this.get('device').stop(function () {
+				console.log('chromecast.idle: listeners removed!');
+				device.removeAllListeners();
+			});
 		},
 
 		seek: function (seconds) {
