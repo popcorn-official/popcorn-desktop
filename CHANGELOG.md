@@ -1,4 +1,46 @@
-## 0.3.4 Beta - It's Cold Outside - 06 October 2014
+## 0.3.6 Beta - The Christmas Tree Is Up - 25 December 2014
+
+Bugfixes:
+
+- Changed encoding of VTT Subtitles file to UTF-8. Fixes playback of all subtitle languages on external devices.
+- Fixed the bug where streams played on the wrong device when you have multiple AirPlay devices
+- Temporarily Fixed IP address in Media URL for external devices
+- Reworked the updater to use our DNS servers so it continues to work even with issues
+- Automatically close the player on Chromecast when media playback has finished
+- Fixed the Chromecast reconnection issue when stopping and starting a new session
+- Made further fixes to the "Waiting for Subtitles" bug
+- Reworked and fixed multiple issues with Chromecast Status-Updater
+- Updated the Chromecast module to use a refactored Chromecast-js
+- Added in a BitTorrent PeerID specific to Popcorn Time
+- Fixed problems with Watchtrailer, should fix issue PT-1333
+- Various other minor bugfixes
+
+New Features:
+
+- Torrent Health now automatically updates
+- Added an option to disable updates
+- Added a built in OpenVPN client
+- Small event's celebration
+- Added a 'download progress' status
+
+## 0.3.5 Beta - We're Snowden In - 09 november 2014
+
+- Automatically sync Trakt on start
+- New search bar
+- Custom color for subtitles
+- New window's width/height calculation
+- New official theme: 'FlaX'
+- PNG's optimization
+- You can now choose your player with external torrents/magnets
+
+- Fixed invalid Certificate Fingerprints in the app not verifying causing requests to fail
+- Caught when the "Theme" var in Database didn't exist upon upgrading
+- Fixed movies not loading because Trakt started replying with 404s
+- Fixing bookmarks that don't work on the list page for TV Shows and Anime
+- Remove "Blown up" look for Retina but leave it in place for QFHD due to it's size
+- Fixed the updater for Popcorn Time in linux
+
+## 0.3.4 Beta - It's Cold Outside - 06 october 2014
 
 After the introduction of the Remote Control API on 0.3.3,
 these remotes have been created by our awesome users go grab the one you
@@ -58,7 +100,6 @@ release notes:
   your DataBase on install. sorry, we'll be better next time.
 - We will not support auto-update for this release, sorry, we'll be better
   next time.
-
 
 ## 0.3.2 Beta - 12 june 2014
 
