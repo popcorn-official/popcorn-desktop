@@ -292,12 +292,15 @@
 								win.info(Object.keys(subs).length + ' subtitles found');
 							} else {
 								subtitles = null;
+								hasSubtitles = true;
+								downloadedSubtitles = true;
 								win.warn('No subtitles returned');
 							}
 							hasSubtitles = true;
 						}).catch(function (err) {
 							subtitles = null;
 							hasSubtitles = true;
+							downloadedSubtitles = true;
 							win.warn(err);
 						});
 					};
