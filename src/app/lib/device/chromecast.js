@@ -58,14 +58,15 @@
 					}
 				};
 			}
-			console.log('chromecast: connecting to ' + device.host);
+			win.info('chromecast: Play ' + url + ' on ' + name);
+			win.info('chromecast: > connecting to ' + device.host);
 
 			device.play(media, 0, function (err, status) {
 				if (err) {
-					console.log('chromecast.play error');
+					win.error('chromecast.play error');
 				}
 				else {
-					console.log('Playing ' + url + ' on ' + name);
+					win.info('Playing ' + url + ' on ' + name);
 					self.set('loadedMedia', status.media);
 				}
 			});
@@ -79,33 +80,34 @@
 		},
 
 		stop: function () {
+			var device = this.get('device');
 			// Also stops player and closes connection.
-			this.get('device').stop(function () {
-				console.log('chromecast.idle: listeners removed!');
+			device.stop(function () {
 				device.removeAllListeners();
+				win.info('chromecast stopped. listeners removed!');
 			});
 		},
 
 		seek: function (seconds) {
-			console.log('chromecast.seek %s', seconds);
+			win.info('chromecast.seek %s', seconds);
 			this.get('device').seek(seconds, function (err, status) {
 				if (err) {
-					console.log('Chromecast.seek:Error', err);
+					win.info('Chromecast.seek:Error', err);
 				}
 			});
 		},
 
 		seekTo: function (newCurrentTime) {
-			console.log('chromecast.seekTo %ss', newCurrentTime);
+			win.info('chromecast.seekTo %ss', newCurrentTime);
 			this.get('device').seekTo(newCurrentTime, function (err, status) {
 				if (err) {
-					console.log('Chromecast.seekTo:Error', err);
+					win.info('Chromecast.seekTo:Error', err);
 				}
 			});
 		},
 
 		seekPercentage: function (percentage) {
-			console.log('chromecast.seekPercentage %s%', percentage.toFixed(2));
+			win.info('chromecast.seekPercentage %s%', percentage.toFixed(2));
 			var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
 			this.seekTo(newCurrentTime.toFixed());
 		},
