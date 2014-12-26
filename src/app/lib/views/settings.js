@@ -596,7 +596,7 @@
 			var that = this;
 
 			that.alertMessageWait(i18n.__('We are installing VPN client'));
-			btn.text('Please wait...').addClass('disabled').prop('disabled', true);
+			btn.text(i18n.__('Please wait...')).addClass('disabled').prop('disabled', true);
 
 			App.VPN.install()
 				.then(function () {
