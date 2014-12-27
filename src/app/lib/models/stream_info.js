@@ -57,12 +57,16 @@
 				final_downloaded = (downloaded / Math.pow(1024, converted_downloaded)).toFixed(2) + ' ' + ['B', 'KB', 'MB', 'GB', 'TB'][converted_downloaded];
 			}
 
-			var downloaded_percent = 0;
 			var final_downloaded_percent = 100 / this.get('size') * downloaded;
             
             if (final_downloaded_percent >= 100) {
                 final_downloaded_percent = 100;
             }
+			
+			var downloadTimeLeft = Math.round((this.get('size') - swarm.downloaded) / swarm.downloadSpeed()); // time to wait before download complete
+			if (isNaN(downloadTimeLeft) || downloadTimeLeft < 0) {
+				downloadTimeLeft = 0;
+			}
 
 			this.set('pieces', swarm.piecesGot);
 			this.set('downloaded', downloaded);
@@ -73,6 +77,7 @@
 			this.set('downloadSpeed', final_download_speed); // variable for Download Speed
 			this.set('downloadedFormatted', final_downloaded); // variable for Downloaded
 			this.set('downloadedPercent', final_downloaded_percent); // variable for Downloaded percentage
+			this.set('time_left', downloadTimeLeft); // variable for time left before 100% downloaded
 
 			buffer_percent = downloaded / (BUFFERING_SIZE / 100);
 			if (buffer_percent >= 100) {
