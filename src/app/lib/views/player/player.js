@@ -56,6 +56,7 @@
 			 this.ui.downloaded.html(
 				 this.model.get('downloadedFormatted') + ' (' + this.model.get('downloadedPercent').toFixed(0) + '%)' // 120MB (10%)
 				 + '<br><p>' + this.remainingTime() + '</p>'); // 8 minute(s) remaining
+			 	$('.vjs-load-progress').css('width', this.model.get('downloadedPercent').toFixed(0)+'%');
             } else {
                 this.ui.downloaded.text(i18n.__('Done'));
             }
