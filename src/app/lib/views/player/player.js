@@ -53,7 +53,9 @@
 
 		updateDownloaded: function () {
             if (this.model.get('downloadedPercent').toFixed(0) < 100) {
-			 this.ui.downloaded.text(this.model.get('downloadedFormatted') + ' (' + this.model.get('downloadedPercent').toFixed(0) + '%)');
+			 this.ui.downloaded.html(
+				 this.model.get('downloadedFormatted') + ' (' + this.model.get('downloadedPercent').toFixed(0) + '%)' // 120MB (10%)
+				 + '<br><p>' + this.remainingTime() + '</p>'); // 8 minute(s) remaining
             } else {
                 this.ui.downloaded.text(i18n.__('Done'));
             }
@@ -349,6 +351,19 @@
 				next_episode_model = new Backbone.Model(next_episode);
 			}
 		},
+
+		remainingTime: function () {
+			var timeLeft = this.model.get('time_left');
+
+			if (timeLeft > 3600) {
+				return Math.round(timeLeft / 3600) + ' ' + i18n.__('hour(s) remaining');
+			} else if (timeLeft > 60) {
+				return Math.round(timeLeft / 60) + ' ' + i18n.__('minute(s) remaining');
+			} else {
+				return timeLeft + ' ' + i18n.__('second(s) remaining');
+			}
+		},
+
 		bindKeyboardShortcuts: function () {
 			var _this = this;
 
