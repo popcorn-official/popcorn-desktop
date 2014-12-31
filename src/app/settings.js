@@ -8,7 +8,7 @@ var Q = require('q'),
 var Settings = {};
 
 // User interface
-Settings.language = 'en';
+Settings.language = '';
 Settings.coversShowRating = false;
 Settings.watchedCovers = 'fade';
 Settings.showAdvancedSettings = false;
