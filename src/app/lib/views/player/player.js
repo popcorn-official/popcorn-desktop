@@ -104,7 +104,6 @@
 				event.preventDefault();
 			});
 
-
 			if (this.model.get('auto_play')) {
 
 				precachestarted = false;
@@ -286,6 +285,10 @@
 			$('.player-header-background').appendTo('div#video_player');
 
 			$('li:contains("subtitles off")').text(i18n.__('Disabled'));
+			
+			if (AdvSettings.get('alwaysFullscreen') && !this.inFullscreen) {
+				this.toggleFullscreen();
+			}
 		},
 
 		playNextNow: function () {

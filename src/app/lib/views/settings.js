@@ -208,6 +208,7 @@
 			case 'playNextEpisodeAuto':
 			case 'automaticUpdating':
 			case 'events':
+			case 'alwaysFullscreen':
 				value = field.is(':checked');
 				break;
 			case 'httpApiUsername':
