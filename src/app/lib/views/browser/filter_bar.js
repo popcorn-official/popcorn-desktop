@@ -368,6 +368,7 @@
 		vpnSettings: function (e) {
 			e.preventDefault();
 			App.vent.trigger('settings:show');
+			_.defer(function(){ $('#vpn')[0].scrollIntoView(true); });
 		}
 	});
 
