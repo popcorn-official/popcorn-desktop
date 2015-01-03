@@ -26,7 +26,8 @@
 		play: function (streamModel) {
 			var url = streamModel.get('src');
 			this.client.load(url + 'video.mp4', {
-				autoplay: true
+				autoplay: true,
+				contentType: 'video/mp4'
 			}, function (err, result) {
 				if (err) {
 					throw err;
@@ -79,7 +80,7 @@
 		}));
 	});
 
-	cp.search('urn:schemas-upnp-org:device:MediaRenderer:1');
+	cp.search();
 
 
 	App.Device.Dlna = Dlna;
