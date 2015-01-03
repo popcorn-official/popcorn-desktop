@@ -1,7 +1,6 @@
 (function (App) {
 	'use strict';
 
-	var _ = require('lodash');
 	var self;
 
 	var Device = Backbone.Model.extend({
