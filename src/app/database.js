@@ -508,7 +508,7 @@ var Database = {
 					});
 
 				// we look if VPN is running
-				App.VPN.isRunning(true);
+				//App.VPN.isRunning(true);
 
 			})
 			.catch(function (err) {

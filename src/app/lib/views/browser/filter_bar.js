@@ -367,7 +367,7 @@
 
 		vpnSettings: function (e) {
 			e.preventDefault();
-			App.vent.trigger('settings:show');
+			App.vent.trigger('vpn:connect');
 		}
 	});
 

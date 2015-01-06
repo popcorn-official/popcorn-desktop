@@ -155,7 +155,7 @@
 					} else {
 						that.showMovies();
 					}
-				
+
 					// do we celebrate events?
 					if (AdvSettings.get('events')) {
 						$('.events').css('display','block');
@@ -221,10 +221,7 @@
 		},
 
 		connectVpn: function (e) {
-			App.vent.trigger('settings:close');
-            App.vent.trigger('show:closeDetail');
-            App.vent.trigger('movie:closeDetail');
-			this.Content.show(new App.View.VpnConnect());
+			App.VPNClient.launch();
 		},
 
 		disconnectVpn: function (e) {
