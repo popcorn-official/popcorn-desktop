@@ -9,6 +9,7 @@
 	"license": "GPL-3.0",
 	"main": "app://host/src/app/index.html",
 	"version": "0.3.6",
+	"node-remote": "localhost:8080",
 	"releaseName": "The Christmas tree is up",
 	"scripts": {
 		"postinstall": "node_modules/.bin/bower install && grunt setup",
