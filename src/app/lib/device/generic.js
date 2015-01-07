@@ -82,8 +82,8 @@
 						if (!details.internal) ips.push(details.address);
 					});
 				}
-				win.info('DeviceIP: '+ deviceIp);
 				var deviceIp = this.selected.get('address');
+				win.info('DeviceIP: '+ deviceIp);
 				win.info('Available IPs: '+ JSON.stringify(ips));
 				var srcIp = _getClosestIP(ips, deviceIp);
 				win.info('> Picked for external playback: '+ srcIp);
