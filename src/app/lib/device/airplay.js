@@ -19,7 +19,7 @@
 			this.device = attrs.device;
 			this.attributes.id = this.makeID(this.device.serverInfo.macAddress || this.device.serverInfo.deviceId || '' + this.device.id );
 			this.attributes.name = this.device.name || this.device.serverInfo.model;
-			this.attributes.address = this.device.info;
+			this.attributes.address = this.device.info[0];
 		},
 		play: function (streamModel) {
 			var url = streamModel.attributes.src;
