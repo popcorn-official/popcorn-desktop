@@ -7,6 +7,7 @@
 		defaults: {
 			id: 'local',
 			type: 'local',
+			typeFamily: 'internal',
 			name: 'Popcorn Time'
 		},
 		play: function (streamModel) {
@@ -69,30 +70,25 @@
 				this.selected = this.models[0];
 			}
 
-			/* ddaf: Temporary IP fixes until 0.4.0 arrives.
-			 * Added private-IP and virtual adapter checks
+			/* ddaf:
+			 * If the device is external we correct src IP to the
+			 * best matching IP among all network adapters. Supports IPv4 and IPv6.
 			 */
-			var ips = [], ifaces = require('os').networkInterfaces();
-			for (var dev in ifaces) {
-				// Each device can have several IPs.
-				ifaces[dev].forEach(function (details) {
-					if (details.family === 'IPv4' && details.internal === false && _isPrivateIPAddress(details.address)
-						&& (!/(loopback|vmware|virtualbox|internal|hamachi|vboxnet)/g.test(dev.toLowerCase()))) {
-						ips.push(details.address);
-					}
-				});
-			}
-			var srcIp = ips[0];
-
-			// Experimental support for using Chromecast while on multiple private networks
-			if (this.selected.get('type') === 'chromecast' && ips.length > 1) {
-				var deviceIp = this.selected.get('device').config.addresses[0];
-				srcIp = _getClosestIP(ips, deviceIp);
-				win.info('Found internal IPs: '+ ips);
+			if (this.selected.get('typeFamily') === 'external') {
+				//console.warn('External Device ', this.selected);
+				var ips = [], ifaces = require('os').networkInterfaces();
+				for (var dev in ifaces) {
+					ifaces[dev].forEach(function (details) {
+						if (!details.internal) ips.push(details.address);
+					});
+				}
+				var deviceIp = this.selected.get('address');
+				var srcIp = _getClosestIP(ips, deviceIp);
+				streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', srcIp);
+				win.info('DeviceIP: '+ deviceIp);
+				win.info('Available IPs: '+ JSON.stringify(ips));
 				win.info('> Picked for external playback: '+ srcIp);
 			}
-			streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', srcIp);
-
 			return this.selected.play(streamModel);
 		},
 
@@ -103,26 +99,19 @@
 		}
 	});
 
-	var _isPrivateIPAddress = function(ip) {
-		// See http://en.wikipedia.org/wiki/Private_network#Private_IPv4_address_spaces
-		return (ip.substring(0, 8) === '192.168.') ||
-			(ip.substring(0, 3) === '10.') ||
-			(ip.substring(0, 4) === '172.'
-				&& 15 < parseInt(ip.split('.')[1])
-				&& parseInt(ip.split('.')[1]) < 32);
+	// Supports both IPv4 and IPv6 comparison
+	var _sequentialPartsInCommon = function(ip1, ip2) {
+		var separator = (ip1.indexOf('.') > -1) ? '.' : ':';
+		var ip2Parts = ip2.split(separator), partsCount = 0;
+		ip1.split(separator).every(function(ip1Part, idx) {
+			var isEqual = (ip1Part === ip2Parts[idx]);
+			if (isEqual) ++partsCount; return isEqual;
+		});
+		return partsCount;
 	};
 
 	var _getClosestIP = function(ips, targetIp) {
-		return _.max(ips, function(ip) { return _seqPartsInCommon(ip, targetIp) });
-	};
-
-	var _seqPartsInCommon = function(ip1, ip2) {
-		var ip2Parts = ip2.split('.'), s = 0;
-		ip1.split('.').every(function(ip1Part, idx) {
-			var res = (ip1Part === ip2Parts[idx]);
-			if (res) ++s; return res;
-		});
-		return s;
+		return _.max(ips, function(ip) { return _sequentialPartsInCommon(ip, targetIp) });
 	};
 
 	var collection = new DeviceCollection(new Device());
