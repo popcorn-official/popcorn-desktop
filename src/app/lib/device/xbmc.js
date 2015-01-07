@@ -17,7 +17,7 @@
 		makeID: makeID,
 		initialize: function (attrs) {
 			this.device = attrs.device;
-			this.attributes.address = this.device.info;
+			this.attributes.address = this.device.info[0];
 		}
 	});
 
