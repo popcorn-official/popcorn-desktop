@@ -23,7 +23,7 @@
 			this.client = new MediaRendererClient(this.device.location);
 			this.attributes.id = this.makeID(this.device.location);
 			this.attributes.name = this.device.friendlyName;
-			this.attributes.address = this.device.localAddress;
+			this.attributes.address = this.device.host;
 		},
 		play: function (streamModel) {
 			var url = streamModel.get('src');
