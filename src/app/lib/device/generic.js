@@ -82,12 +82,12 @@
 						if (!details.internal) ips.push(details.address);
 					});
 				}
-				var deviceIp = this.selected.get('address');
-				var srcIp = _getClosestIP(ips, deviceIp);
-				streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', srcIp);
 				win.info('DeviceIP: '+ deviceIp);
+				var deviceIp = this.selected.get('address');
 				win.info('Available IPs: '+ JSON.stringify(ips));
+				var srcIp = _getClosestIP(ips, deviceIp);
 				win.info('> Picked for external playback: '+ srcIp);
+				streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', srcIp);
 			}
 			return this.selected.play(streamModel);
 		},
