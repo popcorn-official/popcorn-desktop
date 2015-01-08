@@ -11,13 +11,15 @@
 
 	var Airplay = App.Device.Generic.extend({
 		defaults: {
-			type: 'airplay'
+			type: 'airplay',
+			typeFamily: 'external'
 		},
 		makeID: makeID,
 		initialize: function (attrs) {
 			this.device = attrs.device;
-			this.attributes.name = this.device.name || this.device.serverInfo.model;
 			this.attributes.id = this.makeID(this.device.serverInfo.macAddress || this.device.serverInfo.deviceId || '' + this.device.id );
+			this.attributes.name = this.device.name || this.device.serverInfo.model;
+			this.attributes.address = this.device.info[0];
 		},
 		play: function (streamModel) {
 			var url = streamModel.attributes.src;

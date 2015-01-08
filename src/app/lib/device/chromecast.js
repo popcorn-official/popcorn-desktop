@@ -1,27 +1,35 @@
 (function (App) {
 	'use strict';
 
-	var inherits = require('util').inherits;
-	var chromecast = require('chromecast-js');
-	var collection = App.Device.Collection;
+	var req = require('request'),
+	    inherits = require('util').inherits,
+	    chromecast = require('chromecast-js'),
+	    collection = App.Device.Collection;
 
 	var Chromecast = App.Device.Generic.extend({
 		defaults: {
 			type: 'chromecast',
+			typeFamily: 'external'
+		},
+
+		_makeID: function(baseID) {
+			return 'chromecast-' + baseID.replace(' ', '-');
+		},
+
+		initialize: function (attrs) {
+			this.device = attrs.device;
+			this.attributes.id = this._makeID(this.device.config.name);
+			this.attributes.name = this.device.config.name;
+			this.attributes.address = this.device.host;
 		},
 
 		play: function (streamModel) {
-			// "" So it behaves when spaces in path
-			// TODO: Subtitles
-			var url = streamModel.get('src');
-			var subtitles = null;
-			var name = this.get('name');
-			var device = this.get('device');
-			this.set('url', url);
 			var self = this;
-			var media;
-
 			var subtitle = streamModel.get('subFile');
+			var cover = streamModel.get('cover');
+			var url = streamModel.get('src');
+			this.attributes.url = url;
+			var media;
 
 			if (subtitle) {
 				media = {
@@ -58,19 +66,19 @@
 					}
 				};
 			}
-			win.info('chromecast: Play ' + url + ' on ' + name);
-			win.info('chromecast: > connecting to ' + device.host);
+			win.info('chromecast: Play ' + url + ' on \'' + this.get('name') +'\'');
+			win.info('chromecast: > connecting to ' + this.device.host);
 
-			device.play(media, 0, function (err, status) {
+			this.device.play(media, 0, function (err, status) {
 				if (err) {
-					win.error('chromecast.play error');
+					win.error('chromecast.play error: ', err);
 				}
 				else {
-					win.info('Playing ' + url + ' on ' + name);
+					win.info('Playing ' + url + ' on ' + self.get('name'));
 					self.set('loadedMedia', status.media);
 				}
 			});
-			device.on('status', function (status) {
+			this.device.on('status', function (status) {
 				self._internalStatusUpdated(status);
 			});
 		},
@@ -147,9 +155,6 @@
 
 	browser.on('deviceOn', function (device) {
 		collection.add(new Chromecast({
-			id: 'chromecast-' + device.config.name.replace(' ', '-'),
-			name: device.config.name,
-			type: 'chromecast',
 			device: device
 		}));
 	});
