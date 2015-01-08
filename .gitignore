@@ -38,3 +38,4 @@ dist/linux/linux-installer
 *.db
 *git.json
 openvpn
+openvpnht

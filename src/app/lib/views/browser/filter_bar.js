@@ -30,9 +30,7 @@
 			'click #filterbar-favorites': 'showFavorites',
 			'click #filterbar-watchlist': 'showWatchlist',
 			'click .triggerUpdate': 'updateDB',
-			'click .vpn-disconnect': 'vpnDisconnect',
-			'click .vpn-connect': 'vpnConnect',
-			'click .vpn-settings': 'vpnSettings'
+			'click .vpn-connect': 'vpnConnect'
 		},
 
 
@@ -355,17 +353,7 @@
 			App.vent.trigger(this.type + ':update', []);
 		},
 
-		vpnDisconnect: function (e) {
-			e.preventDefault();
-			App.vent.trigger('vpn:disconnect');
-		},
-
 		vpnConnect: function (e) {
-			e.preventDefault();
-			App.vent.trigger('vpn:connect');
-		},
-
-		vpnSettings: function (e) {
 			e.preventDefault();
 			App.vent.trigger('vpn:connect');
 		}

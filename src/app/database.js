@@ -507,8 +507,8 @@ var Database = {
 						win.error(err);
 					});
 
-				// we look if VPN is running
-				//App.VPN.isRunning(true);
+				// we look if VPN is connected
+				App.VPNClient.isRunning();
 
 			})
 			.catch(function (err) {
