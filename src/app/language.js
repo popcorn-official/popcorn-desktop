@@ -365,7 +365,9 @@ App.Localization.langcodes = {
 	},
 	'id': {
 		name: 'Indonesian',
-		nativeName: 'Bahasa Indonesia'
+		nativeName: 'Bahasa Indonesia',
+		subtitle: true,
+		encoding: ['UTF8'] /** NEED TEST **/
 	},
 	'ie': {
 		name: 'Interlingue',
