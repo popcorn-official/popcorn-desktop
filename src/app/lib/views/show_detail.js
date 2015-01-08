@@ -148,7 +148,7 @@
 				this.ui.bookmarkIcon.removeClass('selected');
 			}
 
-			$('.star-container-tv,.show-imdb-link,.magnet-link').tooltip();
+			$('.star-container-tv,.show-imdb-link,.show-magnet-link').tooltip();
 
 			var cbackground = $('.tv-cover').attr('data-bgr');
 			var coverCache = new Image();
