@@ -19,7 +19,8 @@
 			Disclaimer: '#disclaimer-container',
 			About: '#about-container',
 			Keyboard: '#keyboard-container',
-			Help: '#help-container'
+			Help: '#help-container',
+			TorrentCollection: '#torrent-collection-container'
 		},
 
 		ui: {
@@ -81,6 +82,10 @@
 			// Movies
 			App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
 			App.vent.on('movie:closeDetail', _.bind(this.closeMovieDetail, this.MovieDetail));
+			
+			// Torrent collection
+			App.vent.on('torrentCollection:show', _.bind(this.showTorrentCollection, this));
+			App.vent.on('torrentCollection:close', _.bind(this.TorrentCollection.close, this.TorrentCollection));
 
 			// Tv Shows
 			App.vent.on('show:showDetail', _.bind(this.showShowDetail, this));
@@ -277,6 +282,10 @@
 
 		showAbout: function (e) {
 			this.About.show(new App.View.About());
+		},
+
+		showTorrentCollection: function (e) {
+			this.TorrentCollection.show(new App.View.TorrentCollection());
 		},
 
 		showKeyboard: function (e) {
