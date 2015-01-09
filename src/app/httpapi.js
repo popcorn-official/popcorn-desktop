@@ -675,7 +675,7 @@
 
 	App.vent.on('initHttpApi', function () {
 		console.log('Reiniting server');
-		Q.call(initServer)
+		Q.fcall(initServer)
 			.then(function () {
 				server.enableAuth(Settings.httpApiUsername, Settings.httpApiPassword);
 				if (httpServer) {

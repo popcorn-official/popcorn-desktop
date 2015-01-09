@@ -15,7 +15,6 @@
 		getID: function () {
 			return this.id;
 		}
-
 	});
 
 	var DeviceCollection = Backbone.Collection.extend({
@@ -70,30 +69,29 @@
 				this.selected = this.models[0];
 			}
 
-
-			/* SlashmanX: Just testing for now, 
-			 ** replaces localhost IP with network IP,
-			 ** will remove when new streamer implemented
-			 **
-			 ** ddaf: Copied getIPAddress from App.View.Settings.
-			 **       helps to filter vpn adapters.
+			/* ddaf: Temporary IP fixes until 0.4.0 arrives.
+			 * Added private-IP and virtual adapter checks
 			 */
-			var ip, alias = 0;
-			var ifaces = require('os').networkInterfaces();
+			var ips = [], ifaces = require('os').networkInterfaces();
 			for (var dev in ifaces) {
+				// Each device can have several IPs.
 				ifaces[dev].forEach(function (details) {
-					if (details.family === 'IPv4') {
-						if (!/(loopback|vmware|internal|hamachi|vboxnet)/gi.test(dev.toLowerCase())) {
-							if (details.address.substring(0, 8) === '192.168.' ||
-								details.address.substring(0, 7) === '172.16.' ||
-								details.address.substring(0, 5) === '10.0.'
-							) {
-								streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', details.address);
-							}
-						}
+					if (details.family === 'IPv4' && details.internal === false && _isPrivateIPAddress(details.address)
+						&& (!/(loopback|vmware|virtualbox|internal|hamachi|vboxnet)/g.test(dev.toLowerCase()))) {
+						ips.push(details.address);
 					}
 				});
 			}
+			var srcIp = ips[0];
+
+			// Experimental support for using Chromecast while on multiple private networks
+			if (this.selected.get('type') === 'chromecast' && ips.length > 1) {
+				var deviceIp = this.selected.get('device').config.addresses[0];
+				srcIp = _getClosestIP(ips, deviceIp);
+				win.info('Found internal IPs: '+ ips);
+				win.info('> Picked for external playback: '+ srcIp);
+			}
+			streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', srcIp);
 
 			return this.selected.play(streamModel);
 		},
@@ -103,8 +101,29 @@
 				id: deviceID
 			});
 		}
-
 	});
+
+	var _isPrivateIPAddress = function(ip) {
+		// See http://en.wikipedia.org/wiki/Private_network#Private_IPv4_address_spaces
+		return (ip.substring(0, 8) === '192.168.') ||
+			(ip.substring(0, 3) === '10.') ||
+			(ip.substring(0, 4) === '172.'
+				&& 15 < parseInt(ip.split('.')[1])
+				&& parseInt(ip.split('.')[1]) < 32);
+	};
+
+	var _getClosestIP = function(ips, targetIp) {
+		return _.max(ips, function(ip) { return _seqPartsInCommon(ip, targetIp) });
+	};
+
+	var _seqPartsInCommon = function(ip1, ip2) {
+		var ip2Parts = ip2.split('.'), s = 0;
+		ip1.split('.').every(function(ip1Part, idx) {
+			var res = (ip1Part === ip2Parts[idx]);
+			if (res) ++s; return res;
+		});
+		return s;
+	};
 
 	var collection = new DeviceCollection(new Device());
 	collection.setDevice('local');

@@ -8,7 +8,7 @@ var Q = require('q'),
 var Settings = {};
 
 // User interface
-Settings.language = 'en';
+Settings.language = '';
 Settings.coversShowRating = false;
 Settings.watchedCovers = 'fade';
 Settings.showAdvancedSettings = false;
@@ -22,7 +22,7 @@ Settings.postersWidth = Settings.postersMinWidth;
 Settings.postersJump = [134, 154, 174, 194, 214, 234, 254, 274, 294];
 
 //Playback
-
+Settings.alwaysFullscreen = false;
 Settings.playNextEpisodeAuto = true;
 
 // Advanced UI

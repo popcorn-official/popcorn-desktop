@@ -493,7 +493,7 @@ var Database = {
 			})
 			.then(function () {
 				// set app language
-				detectLanguage(Settings.language);
+				setLanguage(Settings.language);
 				// set hardware settings and usefull stuff
 				return AdvSettings.setup();
 			})
