@@ -11,5 +11,6 @@
 			<% }); %>
 		</ul>
 	</div>
+	<div class="button store-torrent"><%= i18n.__("Store this torrent") %></div>
     <div class="button dropup" id="player-chooser2"></div>
 </div>

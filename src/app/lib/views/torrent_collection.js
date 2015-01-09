@@ -9,10 +9,7 @@
 			'click .close-icon': 'closeTorrentCollection'
 		},
 		
-		initialize: function () {
-			// count aquired torrents
-			var storedTorrents = this.getStoredTorrents();
-			
+		initialize: function () {			
 			App.vent.on('about:close', this.closeTorrentCollection);
 		},
 
@@ -25,16 +22,6 @@
 			});
 			console.log('Show torrent collection');
 			$('#movie-detail').hide();
-		},
-		
-		getStoredTorrents: function () {
-			var count = 0;
-			
-			// TODO: calculation
-			
-			if (count = 0) {
-				return false;
-			}
 		},
 
 		onClose: function () {

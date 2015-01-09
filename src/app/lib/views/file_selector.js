@@ -8,7 +8,8 @@
 
 		events: {
 			'click .close-icon': 'closeSelector',
-			'click .file-item': 'startStreaming'
+			'click .file-item': 'startStreaming',
+            'click .store-torrent': 'storeTorrent'
 		},
 
 		initialize: function () {
@@ -39,6 +40,21 @@
 			App.vent.trigger('stream:start', torrentStart);
 			App.vent.trigger('system:closeFileSelector');
 		},
+
+        storeTorrent: function () {
+            var fs = require('fs'),
+                file = AdvSettings.get('droppedTorrent'),
+                source = App.settings.tmpLocation + '/',
+                target = require('nw.gui').App.dataPath + '/TorrentCollection/';
+            
+            // create directory if needed
+            if (!fs.existsSync(target)) {
+                fs.mkdir(target);
+            }
+            
+            //save torrent 
+            fs.writeFileSync(target + file, fs.readFileSync(source + file));
+        },
 
 		closeSelector: function (e) {
 			Mousetrap.bind('backspace', function (e) {

@@ -8,7 +8,7 @@
 				<p class="notorrents-message"><%= i18n.__("Drop Magnet or .torrent")%></p>
 			</div>
 		<% } else { %>
-			
+			//todo
 		<% } %>
 	</div>
 </div>
