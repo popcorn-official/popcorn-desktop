@@ -19,6 +19,7 @@
 		onShow: function () {
 			App.Device.ChooserView('#player-chooser2').render();
 			this.$('#watch-now').text('');
+            this.isTorrentStored();
 
 			Mousetrap.bind(['esc', 'backspace'], function (e) {
 				_this.closeSelector(e);
@@ -40,6 +41,21 @@
 			App.vent.trigger('stream:start', torrentStart);
 			App.vent.trigger('system:closeFileSelector');
 		},
+        
+        isTorrentStored: function () {
+            var fs = require('fs'),
+                file = AdvSettings.get('droppedTorrent'),
+                target = require('nw.gui').App.dataPath + '/TorrentCollection/';
+            
+            // check if torrent stored
+            if (fs.existsSync(target + file)) {
+                $('.store-torrent').text(i18n.__('Remove this torrent'));
+                return true;
+            } else {
+                $('.store-torrent').text(i18n.__('Store this torrent'));
+                return false;
+            }
+        },
 
         storeTorrent: function () {
             var fs = require('fs'),
@@ -47,24 +63,13 @@
                 source = App.settings.tmpLocation + '/',
                 target = require('nw.gui').App.dataPath + '/TorrentCollection/';
 
-            // check if torrent stored
-            if (fs.existsSync(target + file)) {
-                
-                // remove the torrent
-                fs.unlinkSync(target + file);
-                $('.store-torrent').text(i18n.__('Store this torrent'));
-                
+            if (this.isTorrentStored()) {
+                fs.unlinkSync(target + file); // remove the torrent
             } else {
-                
-                // create directory if needed
-                if (!fs.existsSync(target)) {
-                    fs.mkdir(target);
-                }
-            
-                // save torrent 
-                fs.writeFileSync(target + file, fs.readFileSync(source + file));
-                $('.store-torrent').text(i18n.__('Remove this torrent'));
+                if (!fs.existsSync(target)) fs.mkdir(target); // create directory if needed
+                fs.writeFileSync(target + file, fs.readFileSync(source + file)); // save torrent 
             }
+            this.isTorrentStored(); // trigger button change
         },
 
 		closeSelector: function (e) {
