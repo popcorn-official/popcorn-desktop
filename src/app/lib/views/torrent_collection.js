@@ -1,6 +1,6 @@
 (function (App) {
 	'use strict';
-    
+
     var collection = path.join(require('nw.gui').App.dataPath + '/TorrentCollection/'),
 		files;
 
@@ -12,7 +12,7 @@
 			'click .close-icon': 'closeTorrentCollection',
 			'click .file-item': 'openFileSelector'
 		},
-		
+
 		initialize: function () {			
 			App.vent.on('about:close', this.closeTorrentCollection);
 			this.files = fs.readdirSync(collection);
@@ -33,15 +33,12 @@
 				$('.torrents-info').css('display','block');
 			}
 		},
-		
+
 		openFileSelector: function (e) {
 			var file = $(e.currentTarget).context.innerText;
-			var _file = file.substring(0, file.length-1);
-			// workaround for ENOENT error
-			//var tmpLocation = App.settings.tmpLocation + '/';
-			//fs.writeFileSync(tmpLocation + file, fs.readFileSync(collection + file));
+			var _file = file.substring(0, file.length-1); // workaround for ENOENT
 			
-			App.vent.trigger('about:close');
+			this.closeTorrentCollection();
 			handleTorrent(collection + _file);
 		},
 
