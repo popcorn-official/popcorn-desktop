@@ -1,8 +1,7 @@
 (function (App) {
 	'use strict';
     
-    var fs = require('fs'),
-        collection = require('nw.gui').App.dataPath + '/TorrentCollection/',
+    var collection = path.join(require('nw.gui').App.dataPath + '/TorrentCollection/'),
 		files;
 
 	var TorrentCollection = Backbone.Marionette.ItemView.extend({
@@ -10,7 +9,8 @@
 		className: 'torrent-collection',
 
 		events: {
-			'click .close-icon': 'closeTorrentCollection'
+			'click .close-icon': 'closeTorrentCollection',
+			'click .file-item': 'openFileSelector'
 		},
 		
 		initialize: function () {			
@@ -32,6 +32,17 @@
 				$('.notorrents-info').css('display','none');
 				$('.torrents-info').css('display','block');
 			}
+		},
+		
+		openFileSelector: function (e) {
+			var file = $(e.currentTarget).context.innerText;
+			var _file = file.substring(0, file.length-1);
+			// workaround for ENOENT error
+			//var tmpLocation = App.settings.tmpLocation + '/';
+			//fs.writeFileSync(tmpLocation + file, fs.readFileSync(collection + file));
+			
+			App.vent.trigger('about:close');
+			handleTorrent(collection + _file);
 		},
 
 		onClose: function () {
