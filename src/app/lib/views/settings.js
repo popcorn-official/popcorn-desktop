@@ -41,7 +41,8 @@
 			'click #syncTrakt': 'syncTrakt',
 			'click .qr-code': 'generateQRcode',
 			'click #qrcode-overlay': 'closeModal',
-			'click #qrcode-close': 'closeModal'
+			'click #qrcode-close': 'closeModal',
+			'click #disableVpnPerm': 'disableVpnPerm'
 		},
 
 		onShow: function () {
@@ -203,6 +204,7 @@
 			case 'playNextEpisodeAuto':
 			case 'automaticUpdating':
 			case 'events':
+			case 'alwaysFullscreen':
 				value = field.is(':checked');
 				break;
 			case 'httpApiUsername':
@@ -214,6 +216,8 @@
 			case 'dhtLimit':
 			case 'streamPort':
 			case 'subtitle_color':
+				value = field.val();
+				break;
 			case 'traktUsername':
 			case 'traktPassword':
 				return;
@@ -600,7 +604,12 @@
 				});
 			}
 			return ip;
-		}
+		},
+
+		disableVpnPerm: function() {
+			$('#vpn').css('display','none');
+			AdvSettings.set('vpnDisabledPerm', true);
+		},
 	});
 
 	App.View.Settings = Settings;
