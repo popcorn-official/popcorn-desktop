@@ -29,6 +29,7 @@
 			'click .showAnime': 'showAnime',
 			'click #filterbar-favorites': 'showFavorites',
 			'click #filterbar-watchlist': 'showWatchlist',
+			'click #filterbar-torrent-collection': 'showTorrentCollection',
 			'click .triggerUpdate': 'updateDB',
 			'click .vpn-disconnect': 'vpnDisconnect',
 			'click .vpn-connect': 'vpnConnect',
@@ -272,6 +273,10 @@
 
 		about: function (e) {
 			App.vent.trigger('about:show');
+		},
+
+		showTorrentCollection: function (e) {
+			App.vent.trigger('torrentCollection:show');
 		},
 
 		showShows: function (e) {

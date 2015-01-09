@@ -339,6 +339,7 @@
 		},
 
 		showFileSelector: function (fileModel) {
+            App.vent.trigger('about:close');
 			App.vent.trigger('stream:stop');
 			App.vent.trigger('player:close');
 			this.FileSelector.show(new App.View.FileSelector({
