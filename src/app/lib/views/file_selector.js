@@ -46,14 +46,25 @@
                 file = AdvSettings.get('droppedTorrent'),
                 source = App.settings.tmpLocation + '/',
                 target = require('nw.gui').App.dataPath + '/TorrentCollection/';
+
+            // check if torrent stored
+            if (fs.existsSync(target + file)) {
+                
+                // remove the torrent
+                fs.unlinkSync(target + file);
+                $('.store-torrent').text(i18n.__('Store this torrent'));
+                
+            } else {
+                
+                // create directory if needed
+                if (!fs.existsSync(target)) {
+                    fs.mkdir(target);
+                }
             
-            // create directory if needed
-            if (!fs.existsSync(target)) {
-                fs.mkdir(target);
+                // save torrent 
+                fs.writeFileSync(target + file, fs.readFileSync(source + file));
+                $('.store-torrent').text(i18n.__('Remove this torrent'));
             }
-            
-            //save torrent 
-            fs.writeFileSync(target + file, fs.readFileSync(source + file));
         },
 
 		closeSelector: function (e) {
