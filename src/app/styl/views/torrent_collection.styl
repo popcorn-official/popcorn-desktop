@@ -20,6 +20,7 @@
 		font-size 17px
 
 		.notorrents-info
+			display block
 			width 250px
 			height 250px
 			border 6px dashed $TextError
@@ -36,3 +37,37 @@
 			.notorrents-message
 				font-family $MainFontBold
 				font-size 20px
+
+		.torrents-info
+			display none
+			margin 0 auto
+			width 66%
+			height 60%
+			color $Text1
+			font-family $AlternateFont
+			font-size 17px
+			text-align center
+			box-shadow inset -3px 0px 10px $FileSelectorShadow
+			scrollable()
+
+			ul
+				li.file-item
+					border-bottom 1px solid rgba(255, 255, 255, 0.06)
+					background $FileSelectorBg
+					text-align left
+					margin 2px
+					cursor pointer
+					color $FileSelectorText
+
+					a
+						color $FileSelectorText
+						text-decoration blink
+						width 100%
+						display block
+						padding 10px 0 10px 40px
+						transition all 0.3s
+
+						&:hover
+							color $ButtonBgHover
+						&:active
+							color $ButtonBgActive

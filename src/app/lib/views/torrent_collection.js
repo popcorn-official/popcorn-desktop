@@ -1,5 +1,9 @@
 (function (App) {
 	'use strict';
+    
+    var fs = require('fs'),
+        collection = require('nw.gui').App.dataPath + '/TorrentCollection/',
+		files;
 
 	var TorrentCollection = Backbone.Marionette.ItemView.extend({
 		template: '#torrent-collection-tpl',
@@ -11,6 +15,7 @@
 		
 		initialize: function () {			
 			App.vent.on('about:close', this.closeTorrentCollection);
+			this.files = fs.readdirSync(collection);
 		},
 
 		onShow: function () {
@@ -22,6 +27,11 @@
 			});
 			console.log('Show torrent collection');
 			$('#movie-detail').hide();
+            
+            if (this.files[0]) {
+				$('.notorrents-info').css('display','none');
+				$('.torrents-info').css('display','block');
+			}
 		},
 
 		onClose: function () {
