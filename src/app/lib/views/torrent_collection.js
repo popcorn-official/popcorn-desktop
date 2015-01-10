@@ -30,6 +30,13 @@
 			console.log('Show torrent collection');
 			$('#movie-detail').hide();
 			this.render();
+
+			this.$('.tooltipped').tooltip({
+				delay: {
+					'show': 800,
+					'hide': 100
+				}
+			});
 		},
 		
 		onRender: function () {
