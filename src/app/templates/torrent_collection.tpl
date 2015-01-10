@@ -8,10 +8,12 @@
         </div>
         
         <div class="torrents-info">
-			<ul class = "file-list">
+			<ul class="file-list">
 				<% _.each(fs.readdirSync(require('nw.gui').App.dataPath + '/TorrentCollection/'), function(file, index) { %>
 					<li class="file-item" data-index="<%=file.index%>" data-file="<%=index%>">
 						<a><%=file%></a>
+						<i class="fa fa-trash-o item-delete"></i>
+						</a>
 					</li>
 				<% }); %>
 			</ul>

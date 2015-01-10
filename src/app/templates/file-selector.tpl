@@ -3,7 +3,7 @@
 
 	<div class="title"><%=i18n.__('Please select a file to play')%></div>
 	<div class="content">
-		<ul class = "file-list">
+		<ul class="file-list">
 			<% _.each(files, function(file, index) { %>
 				<li class="file-item" data-index="<%=file.index%>" data-file="<%=index%>">
 					<a><%=file.name %></a>

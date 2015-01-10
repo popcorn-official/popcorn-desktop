@@ -10,7 +10,8 @@
 
 		events: {
 			'click .close-icon': 'closeTorrentCollection',
-			'click .file-item': 'openFileSelector'
+			'click .file-item': 'openFileSelector',
+			'click .item-delete': 'deleteItem'
 		},
 
 		initialize: function () {			
@@ -28,8 +29,11 @@
 			});
 			console.log('Show torrent collection');
 			$('#movie-detail').hide();
-            
-            if (this.files[0]) {
+			this.render();
+		},
+		
+		onRender: function () {
+			if (this.files[0]) {
 				$('.notorrents-info').css('display','none');
 				$('.torrents-info').css('display','block');
 			}
@@ -49,6 +53,17 @@
             }
 
 			this.closeTorrentCollection();
+		},
+		
+		deleteItem: function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+
+			var _file = $(e.currentTarget.parentNode).context.innerText,
+				file = _file.substring(0, _file.length-1); // avoid ENOENT
+
+			fs.unlinkSync(collection + file);
+			this.render();
 		},
 
 		onClose: function () {
