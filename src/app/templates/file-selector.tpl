@@ -11,6 +11,10 @@
 			<% }); %>
 		</ul>
 	</div>
-	<div class="button store-torrent"></div>
+
+	<% if (Settings.allowTorrentStorage) { %>
+	   <div class="button store-torrent"></div>
+	<% } %>
+
     <div class="button dropup" id="player-chooser2"></div>
 </div>

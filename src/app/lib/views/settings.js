@@ -205,6 +205,7 @@
 			case 'automaticUpdating':
 			case 'events':
 			case 'alwaysFullscreen':
+			case 'allowTorrentStorage':
 				value = field.is(':checked');
 				break;
 			case 'httpApiUsername':
@@ -291,6 +292,14 @@
 					$('.events').css('display','block');
 				} else {
 					$('.events').css('display','none');
+				};
+				break;
+			case 'allowTorrentStorage':
+				if ($('#torrent_col').css('display') == "none") {
+					$('#torrent_col').css('display','block');
+				} else {
+					$('#torrent_col').css('display','none');
+					App.vent.trigger('torrentCollection:close');
 				};
 				break;
 			default:

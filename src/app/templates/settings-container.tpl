@@ -343,6 +343,10 @@
                     <%= i18n.__("Export Database") %>
                 </div>
 			</div>
+			<span>
+				<input class="settings-checkbox" name="allowTorrentStorage" id="allowTorrentStorage" type="checkbox" <%=(Settings.allowTorrentStorage? "checked='checked'":"")%>>
+				<label class="settings-label" for="allowTorrentStorage"><%= i18n.__("Allow torrents to be stored for further use") %></label>
+			</span>
 		</div>
 	</section>
     <section id="miscellaneous" class="advanced">

@@ -55,8 +55,6 @@
                 Settings.droppedMagnet = content;
     			handleTorrent(content);
             }
-
-			this.closeTorrentCollection();
 		},
 
 		deleteItem: function (e) {

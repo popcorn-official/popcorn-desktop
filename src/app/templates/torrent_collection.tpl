@@ -8,7 +8,13 @@
 
         <div class="torrents-info">
 			<ul class="file-list">
-				<% _.each(fs.readdirSync(require('nw.gui').App.dataPath + '/TorrentCollection/'), function(file, index) { %>
+				<% _.each(fs.readdirSync(require('nw.gui').App.dataPath + '/TorrentCollection/'), function(file, index) { 
+				   if (file.indexOf('.torrent') !== -1) {
+				   		var icon = "torrent-icon";
+				   } else { 
+				   		var icon = "magnet-icon";
+				   }
+				   %>
 					<li class="file-item" data-index="<%=file.index%>" data-file="<%=index%>">
 						<a><%=file%></a>
 						<i class="fa fa-trash-o item-delete tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Remove this torrent") %>"></i>
