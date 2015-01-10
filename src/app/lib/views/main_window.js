@@ -108,7 +108,6 @@
 			App.vent.on('player:close', _.bind(this.Player.close, this.Player));
 
 			App.vent.on('vpn:connect', _.bind(this.connectVpn, this));
-			App.vent.on('vpn:disconnect', _.bind(this.disconnectVpn, this));
 
 			App.vent.on('updatePostersSizeStylesheet', _.bind(this.updatePostersSizeStylesheet, this));
 		},
@@ -160,7 +159,7 @@
 					} else {
 						that.showMovies();
 					}
-				
+
 					// do we celebrate events?
 					if (AdvSettings.get('events')) {
 						$('.events').css('display','block');
@@ -226,20 +225,7 @@
 		},
 
 		connectVpn: function (e) {
-			App.vent.trigger('settings:close');
-            App.vent.trigger('show:closeDetail');
-            App.vent.trigger('movie:closeDetail');
-			this.Content.show(new App.View.VpnConnect());
-		},
-
-		disconnectVpn: function (e) {
-			App.VPN.disconnect().then(function () {
-				setTimeout(function () {
-					App.vent.trigger('movies:list');
-				}, 2000);
-			});
-
-			App.VpnConnexion = false;
+			App.VPNClient.launch();
 		},
 
 		// used in app to re-triger a api resync

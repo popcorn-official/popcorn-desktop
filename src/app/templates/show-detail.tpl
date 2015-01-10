@@ -44,6 +44,7 @@
 		<div class="episode-info-title"></div>
 		<div class="episode-info-number"></div>
 		<div data-toggle="tooltip" data-placement="left" title="<%=i18n.__("Health Unknown") %>" class="fa fa-circle health-icon None"></div>
+		<div data-toggle="tooltip" data-placement="left" title="<%=i18n.__("Magnet link") %>" class="fa fa-magnet show-magnet-link"></div>
 		<div class="episode-info-date"></div>
 		<div class="episode-info-description"></div>
 		<div class="show-quality-container">

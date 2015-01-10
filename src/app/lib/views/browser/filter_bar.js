@@ -31,9 +31,7 @@
 			'click #filterbar-watchlist': 'showWatchlist',
 			'click #filterbar-torrent-collection': 'showTorrentCollection',
 			'click .triggerUpdate': 'updateDB',
-			'click .vpn-disconnect': 'vpnDisconnect',
-			'click .vpn-connect': 'vpnConnect',
-			'click .vpn-settings': 'vpnSettings'
+			'click .vpn-connect': 'vpnConnect'
 		},
 
 
@@ -360,20 +358,9 @@
 			App.vent.trigger(this.type + ':update', []);
 		},
 
-		vpnDisconnect: function (e) {
-			e.preventDefault();
-			App.vent.trigger('vpn:disconnect');
-		},
-
 		vpnConnect: function (e) {
 			e.preventDefault();
 			App.vent.trigger('vpn:connect');
-		},
-
-		vpnSettings: function (e) {
-			e.preventDefault();
-			App.vent.trigger('settings:show');
-			_.defer(function(){ $('#vpn')[0].scrollIntoView(true); });
 		}
 	});
 

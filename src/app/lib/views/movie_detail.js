@@ -20,6 +20,7 @@
 			'click #switch-hd-off': 'disableHD',
 			'click .favourites-toggle': 'toggleFavourite',
 			'click .movie-imdb-link': 'openIMDb',
+			'click .magnet-link': 'openMagnet',
 			'click .sub-dropdown': 'toggleDropdown',
 			'click .sub-flag-icon': 'closeDropdown',
 			'click .playerchoicemenu li a': 'selectPlayer',
@@ -74,7 +75,7 @@
 
 			this.renderHealth();
 
-			$('.star-container,.movie-imdb-link,.q720,input').tooltip({
+			$('.star-container,.movie-imdb-link,.q720,input,.magnet-link').tooltip({
 				html: true
 			});
 
@@ -314,6 +315,20 @@
 
 		openIMDb: function () {
 			gui.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
+		},
+
+		openMagnet: function () {
+			var provider = this.model.get('provider'),
+				torrent = this.model.get('torrents')[this.model.get('quality')],
+				magnetLink;
+
+			if (provider == "Yts") { // Movies
+				magnetLink = torrent.magnet;
+			} else { // Anime
+				magnetLink = torrent.url;
+			}
+
+			gui.Shell.openExternal(magnetLink);
 		},
 
 		toggleQuality: function (e) {
