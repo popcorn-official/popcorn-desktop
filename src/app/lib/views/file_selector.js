@@ -19,17 +19,12 @@
             
             formatMagnet = function (link) {
                 // format magnet with Display Name
-                try {
-                    var index = link.indexOf('\&dn=') + 4, // keep display name
-                        _link = link.substring(index); // remove everything before dn
-                    _link = _link.split('\&'); // array of strings starting with &
-                    _link = _link[0]; // keep only the first (i.e: display name)
-                    link = _link.replace(/\+/g,'.') // replace + by .
-                    return link;
-                } catch (err) {
-                    win.error('This magnet lacks Display Name, it cannot be stored');
-                    return;
-                }
+                var index = link.indexOf('\&dn=') + 4, // keep display name
+                    _link = link.substring(index); // remove everything before dn
+                _link = _link.split('\&'); // array of strings starting with &
+                _link = _link[0]; // keep only the first (i.e: display name)
+                link = _link.replace(/\+/g,'.') // replace + by .
+                return link;
             }
 		},
 
@@ -61,10 +56,17 @@
         
         isTorrentStored: function () {
             var target = require('nw.gui').App.dataPath + '/TorrentCollection/';
-			if (!Settings.droppedTorrent && !Settings.droppedMagnet) { // bypass errors
+
+            // bypass errors
+			if (!Settings.droppedTorrent && !Settings.droppedMagnet) {
 				$('.store-torrent').hide();
 				return false;
-			}
+			} else if (Settings.droppedMagnet && Settings.droppedMagnet.indexOf('\&dn=') === -1) {
+                $('.store-torrent').text(i18n.__('Cannot be stored'));
+                $('.store-torrent').addClass('disabled').prop('disabled', true);
+                win.warn('Magnet lacks Display Name, unable to store it');
+                return false;
+            }
 
             if (Settings.droppedTorrent) {
                 var file = Settings.droppedTorrent;
