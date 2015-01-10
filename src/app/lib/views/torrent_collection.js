@@ -15,6 +15,7 @@
 
 		initialize: function () {			
 			App.vent.on('about:close', this.closeTorrentCollection);
+			if (!fs.existsSync(collection)) fs.mkdir(collection) //create directory
 			this.files = fs.readdirSync(collection);
 		},
 
@@ -38,6 +39,7 @@
 			var file = $(e.currentTarget).context.innerText;
 			var _file = file.substring(0, file.length-1); // workaround for ENOENT
 			
+			AdvSettings.set('droppedTorrent', _file);
 			this.closeTorrentCollection();
 			handleTorrent(collection + _file);
 		},
