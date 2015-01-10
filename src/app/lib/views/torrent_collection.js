@@ -36,10 +36,11 @@
 		},
 
 		openFileSelector: function (e) {
-			var file = $(e.currentTarget).context.innerText;
-			var _file = file.substring(0, file.length-1); // workaround for ENOENT
-			
-			AdvSettings.set('droppedTorrent', _file);
+			var file = $(e.currentTarget).context.innerText,
+				_file = file.substring(0, file.length-1); // avoid ENOENT
+
+			Settings.droppedTorrent = _file;
+
 			this.closeTorrentCollection();
 			handleTorrent(collection + _file);
 		},

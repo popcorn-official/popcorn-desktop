@@ -396,7 +396,7 @@ window.ondrop = function (e) {
 					window.alert('Error Loading File: ' + err);
 				} else {
 					if (file.name.indexOf('.torrent') !== -1) {
-						AdvSettings.set('droppedTorrent', file.name);
+						Settings.droppedTorrent = file.name;
 						handleTorrent(path.join(App.settings.tmpLocation, file.name));
 					} else if (file.name.indexOf('.srt') !== -1) {
 						AdvSettings.set('droppedSub', file.name);

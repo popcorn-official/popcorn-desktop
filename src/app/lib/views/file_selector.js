@@ -43,7 +43,12 @@
 		},
         
         isTorrentStored: function () {
-            var file = AdvSettings.get('droppedTorrent'),
+			if (!Settings.droppedTorrent) { // bypass errors
+				$('.store-torrent').hide();
+				return false;
+			}
+
+            var file = Settings.droppedTorrent,
                 target = require('nw.gui').App.dataPath + '/TorrentCollection/';
             
             // check if torrent stored
@@ -57,7 +62,7 @@
         },
 
         storeTorrent: function () {
-            var file = AdvSettings.get('droppedTorrent'),
+            var file = Settings.droppedTorrent,
                 source = App.settings.tmpLocation + '/',
                 target = require('nw.gui').App.dataPath + '/TorrentCollection/';
 
@@ -82,7 +87,7 @@
 		},
 
 		onClose: function () {
-			AdvSettings.set('droppedTorrent', 'none');
+			Settings.droppedTorrent = false;
 		},
 
 	});
