@@ -1,7 +1,9 @@
 (function (App) {
 	'use strict';
 
-	var _this;
+	var _this,
+        formatMagnet;
+
 	var FileSelector = Backbone.Marionette.ItemView.extend({
 		template: '#file-selector-tpl',
 		className: 'file-selector',
@@ -14,6 +16,21 @@
 
 		initialize: function () {
 			_this = this;
+            
+            formatMagnet = function (link) {
+                // format magnet with Display Name
+                try {
+                    var index = link.indexOf('\&dn=') + 4, // keep display name
+                        _link = link.substring(index); // remove everything before dn
+                    _link = _link.split('\&'); // array of strings starting with &
+                    _link = _link[0]; // keep only the first (i.e: display name)
+                    link = _link.replace(/\+/g,'.') // replace + by .
+                    return link;
+                } catch (err) {
+                    win.error('This magnet lacks Display Name, it cannot be stored');
+                    return;
+                }
+            }
 		},
 
 		onShow: function () {
@@ -43,13 +60,18 @@
 		},
         
         isTorrentStored: function () {
-			if (!Settings.droppedTorrent) { // bypass errors
+            var target = require('nw.gui').App.dataPath + '/TorrentCollection/';
+			if (!Settings.droppedTorrent && !Settings.droppedMagnet) { // bypass errors
 				$('.store-torrent').hide();
 				return false;
 			}
 
-            var file = Settings.droppedTorrent,
-                target = require('nw.gui').App.dataPath + '/TorrentCollection/';
+            if (Settings.droppedTorrent) {
+                var file = Settings.droppedTorrent;
+            } else if (Settings.droppedMagnet) {
+                var _file = Settings.droppedMagnet,
+                    file = formatMagnet(_file);
+            }
             
             // check if torrent stored
             if (!fs.existsSync(target + file)) {
@@ -62,15 +84,28 @@
         },
 
         storeTorrent: function () {
-            var file = Settings.droppedTorrent,
-                source = App.settings.tmpLocation + '/',
+            var source = App.settings.tmpLocation + '/',
                 target = require('nw.gui').App.dataPath + '/TorrentCollection/';
 
-            if (this.isTorrentStored()) {
-                fs.unlinkSync(target + file); // remove the torrent
-            } else {
-                if (!fs.existsSync(target)) fs.mkdir(target); // create directory if needed
-                fs.writeFileSync(target + file, fs.readFileSync(source + file)); // save torrent 
+            if (Settings.droppedTorrent) {
+                var file = Settings.droppedTorrent;
+
+                if (this.isTorrentStored()) {
+                    fs.unlinkSync(target + file); // remove the torrent
+                } else {
+                    if (!fs.existsSync(target)) fs.mkdir(target); // create directory if needed
+                    fs.writeFileSync(target + file, fs.readFileSync(source + file)); // save torrent 
+                }
+            } else if (Settings.droppedMagnet) {
+                var _file = Settings.droppedMagnet,
+                    file = formatMagnet(_file);
+                
+                if (this.isTorrentStored()) {
+                    fs.unlinkSync(target + file); // remove the magnet
+                } else {
+                    if (!fs.existsSync(target)) fs.mkdir(target); // create directory if needed
+                    fs.writeFileSync(target + file, _file); // save magnet link inside readable file
+                }
             }
             this.isTorrentStored(); // trigger button change
         },
@@ -88,6 +123,7 @@
 
 		onClose: function () {
 			Settings.droppedTorrent = false;
+			Settings.droppedMagnet = false;
 		},
 
 	});

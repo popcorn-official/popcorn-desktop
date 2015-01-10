@@ -36,13 +36,19 @@
 		},
 
 		openFileSelector: function (e) {
-			var file = $(e.currentTarget).context.innerText,
-				_file = file.substring(0, file.length-1); // avoid ENOENT
+			var _file = $(e.currentTarget).context.innerText,
+				file = _file.substring(0, _file.length-1); // avoid ENOENT
 
-			Settings.droppedTorrent = _file;
+            if (_file.indexOf('.torrent') !== -1) {
+                Settings.droppedTorrent = file;
+    			handleTorrent(collection + file);
+            } else { // assume magnet
+                var content = fs.readFileSync(collection + file, 'utf8');
+                Settings.droppedMagnet = content;
+    			handleTorrent(content);
+            }
 
 			this.closeTorrentCollection();
-			handleTorrent(collection + _file);
 		},
 
 		onClose: function () {
