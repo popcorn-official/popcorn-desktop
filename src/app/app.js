@@ -256,22 +256,7 @@ win.on('close', function () {
 	if (App.settings.deleteTmpOnClose) {
 		deleteFolder(App.settings.tmpLocation);
 	}
-
-	// check if vpn is running
-	// if yes we kill it
-	if (App.VPN.running) {
-		App.VPN.disconnect()
-			.then(function () {
-				win.close(true);
-			})
-			.catch(function () {
-				win.close(true);
-			});
-	} else {
-		win.close(true);
-	}
-
-
+	win.close(true);
 });
 
 String.prototype.capitalize = function () {
