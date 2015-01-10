@@ -44,6 +44,12 @@
 			this.info = attrs.info;
 			this.device = attrs.device;
 			this.client = new MediaRendererClient(this.device.LOCATION);
+// Test Purpose to know Device supported protocols
+			this.client.getSupportedProtocols(function(err, cap) {
+				if(err) throw err;
+				console.log(cap);
+			});
+
 			this.client.getDeviceDescription(function(err, description) {
 				if(err) throw err;
 				self.attributes.name = description.friendlyName;
@@ -52,6 +58,7 @@
 		},
 		play: function (streamModel) {
 			var url = streamModel.get('src');
+
 			this.client.load(url + 'video.mp4', {
 				autoplay: true,
 				contentType: 'video/mp4'
