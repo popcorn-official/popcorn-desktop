@@ -1,5 +1,4 @@
 <div class="torrent-collection-container">
-	<div class="fa fa-times close-icon"></div>
 	<div class="margintop"></div>
 	<div class="content">
         <div class="notorrents-info">

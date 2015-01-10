@@ -9,26 +9,22 @@
 		className: 'torrent-collection',
 
 		events: {
-			'click .close-icon': 'closeTorrentCollection',
 			'click .file-item': 'openFileSelector',
 			'click .item-delete': 'deleteItem'
 		},
 
 		initialize: function () {			
-			App.vent.on('about:close', this.closeTorrentCollection);
 			if (!fs.existsSync(collection)) fs.mkdir(collection) //create directory
 			this.files = fs.readdirSync(collection);
 		},
 
 		onShow: function () {
-			$('.filter-bar').hide();
-			$('#header').addClass('header-shadow');
-
 			Mousetrap.bind(['esc', 'backspace'], function (e) {
 				App.vent.trigger('torrentCollection:close');
 			});
 			console.log('Show torrent collection');
 			$('#movie-detail').hide();
+
 			this.render();
 
 			this.$('.tooltipped').tooltip({
@@ -78,9 +74,8 @@
 
 		onClose: function () {
 			Mousetrap.unbind(['esc', 'backspace']);
-			$('.filter-bar').show();
-			$('#header').removeClass('header-shadow');
 			$('#movie-detail').show();
+			$('#filterbar-torrent-collection').removeClass('active');
 		},
 
 		closeTorrentCollection: function () {
