@@ -5,7 +5,7 @@
             <i class="fa fa-download notorrents-icon"></i>
             <p class="notorrents-message"><%= i18n.__("Drop Magnet or .torrent")%></p>
         </div>
-        
+
         <div class="torrents-info">
 			<ul class="file-list">
 				<% _.each(fs.readdirSync(require('nw.gui').App.dataPath + '/TorrentCollection/'), function(file, index) { %>

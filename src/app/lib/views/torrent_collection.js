@@ -22,7 +22,7 @@
 			Mousetrap.bind(['esc', 'backspace'], function (e) {
 				App.vent.trigger('torrentCollection:close');
 			});
-			console.log('Show torrent collection');
+
 			$('#movie-detail').hide();
 			$('#nav-filters').hide();
 
@@ -35,7 +35,7 @@
 				}
 			});
 		},
-		
+
 		onRender: function () {
 			if (this.files[0]) {
 				$('.notorrents-info').css('display','none');
@@ -58,7 +58,7 @@
 
 			this.closeTorrentCollection();
 		},
-		
+
 		deleteItem: function (e) {
 			e.preventDefault();
 			e.stopPropagation();
@@ -67,7 +67,7 @@
 				file = _file.substring(0, _file.length-1); // avoid ENOENT
 
 			fs.unlinkSync(collection + file);
-			
+
 			// update collection
 			this.files = fs.readdirSync(collection); 
 			this.render();

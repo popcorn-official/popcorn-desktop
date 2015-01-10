@@ -16,7 +16,7 @@
 
 		initialize: function () {
 			_this = this;
-            
+
             formatMagnet = function (link) {
                 // format magnet with Display Name
                 var index = link.indexOf('\&dn=') + 4, // keep display name
@@ -38,7 +38,6 @@
 			});
 		},
 
-
 		startStreaming: function (e) {
 			var torrent = _this.model.get('torrent');
 			var file = parseInt($(e.currentTarget).attr('data-file'));
@@ -53,7 +52,7 @@
 			App.vent.trigger('stream:start', torrentStart);
 			App.vent.trigger('system:closeFileSelector');
 		},
-        
+
         isTorrentStored: function () {
             var target = require('nw.gui').App.dataPath + '/TorrentCollection/';
 
@@ -74,7 +73,7 @@
                 var _file = Settings.droppedMagnet,
                     file = formatMagnet(_file);
             }
-            
+
             // check if torrent stored
             if (!fs.existsSync(target + file)) {
                 $('.store-torrent').text(i18n.__('Store this torrent'));
@@ -101,7 +100,7 @@
             } else if (Settings.droppedMagnet) {
                 var _file = Settings.droppedMagnet,
                     file = formatMagnet(_file);
-                
+
                 if (this.isTorrentStored()) {
                     fs.unlinkSync(target + file); // remove the magnet
                 } else {
