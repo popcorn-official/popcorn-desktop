@@ -80,3 +80,21 @@
 
 						&:hover
 							color $ButtonBgHover
+
+					.item-icon
+						pointer-events none
+						position absolute
+						margin-top -26px
+						left calc(10% + 15px)
+						width 20px
+						height 20px
+						font-family FontAwesome
+						font-style normal
+						font-size 15px
+						color $FileSelectorText
+						opacity 0.7
+
+						&.torrent-icon:before
+							content: '\f016'
+						&.magnet-icon:before
+							content: '\f076'
