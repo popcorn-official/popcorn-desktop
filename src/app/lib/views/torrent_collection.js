@@ -63,6 +63,9 @@
 				file = _file.substring(0, _file.length-1); // avoid ENOENT
 
 			fs.unlinkSync(collection + file);
+			
+			// update collection
+			this.files = fs.readdirSync(collection); 
 			this.render();
 		},
 
