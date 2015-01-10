@@ -24,6 +24,7 @@
 			});
 			console.log('Show torrent collection');
 			$('#movie-detail').hide();
+			$('#nav-filters').hide();
 
 			this.render();
 
@@ -75,7 +76,7 @@
 		onClose: function () {
 			Mousetrap.unbind(['esc', 'backspace']);
 			$('#movie-detail').show();
-			$('#filterbar-torrent-collection').removeClass('active');
+			$('#nav-filters').show();
 		},
 
 		closeTorrentCollection: function () {
