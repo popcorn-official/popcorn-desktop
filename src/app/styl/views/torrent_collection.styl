@@ -7,12 +7,12 @@
 	opacity 1
 
 	.margintop
-		height 80px
+		height 100px
 
 	.content
 		margin 0 auto
-		width 80%
-		height calc(100% - 100px)
+		width 85%
+		height calc(100% - 140px)
 		color $TextError
 		font-weight 100
 		font-family $AlternateFont
@@ -56,17 +56,21 @@
 					border-bottom 1px solid rgba(255, 255, 255, 0.06)
 					background $FileSelectorBg
 					text-align left
-					margin 2px
 					cursor pointer
 					color $FileSelectorText
+					height 46px
+					padding-left 40px
+					padding-top 14px
+					padding-right 50px
 
 					a
 						color $FileSelectorText
 						text-decoration blink
 						width 100%
 						display block
-						padding 10px 0 10px 40px
 						transition all 0.3s
+						overflow hidden
+						text-overflow ellipsis
 
 						&:hover
 							color $ButtonBgHover
@@ -74,39 +78,37 @@
 							color $ButtonBgActive
 
 					.item-delete
-						position absolute
-						margin-top -26px
-						right calc(10% - 40px)
+						position relative
 						color: $TextError
 						transition all 0.3s
 						cursor pointer
+						left calc(100% + 25px)
+						top -15px
 
 						&:hover
 							color $ButtonBgHover
 
 					.item-rename
-						position absolute
-						margin-top -26px
-						right calc(10% - 20px)
+						position relative
 						color: $TextError
 						transition all 0.3s
 						cursor pointer
+						left calc(100% - 15px)
+						top -15px
 
 						&:hover
 							color $ButtonBgHover
 
 					.item-icon
 						pointer-events none
-						position absolute
-						margin-top -26px
-						left calc(10% + 15px)
-						width 20px
-						height 20px
+						position relative
 						font-family FontAwesome
 						font-style normal
 						font-size 15px
 						color $FileSelectorText
 						opacity 0.7
+						left -25px
+						margin-top -16px
 
 						&.torrent-icon:before
 							content: '\f016'
@@ -120,17 +122,20 @@
 
 			.collection-delete
 				position fixed
-				right 30px
-				bottom 20px
+				right 25px
+				bottom 15px
 				transition all 0.3s
 				cursor pointer
 				&:hover
 					color $ButtonBgHover
 			.collection-open
 				position fixed
-				right 55px
-				bottom 20px
+				right 50px
+				bottom 15px
 				transition all 0.3s
 				cursor pointer
 				&:hover
 					color $ButtonBgHover
+			/* override bootstrap */
+			.tooltip
+				min-width 150px

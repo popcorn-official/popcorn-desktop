@@ -49,7 +49,7 @@
 
 		openFileSelector: function (e) {
 			var _file = $(e.currentTarget).context.innerText,
-				file = _file.substring(0, _file.length-1); // avoid ENOENT
+				file = _file.substring(0, _file.length-2); // avoid ENOENT
 
             if (_file.indexOf('.torrent') !== -1) {
                 Settings.droppedTorrent = file;
@@ -67,7 +67,7 @@
 			e.stopPropagation();
 
 			var _file = $(e.currentTarget.parentNode).context.innerText,
-				file = _file.substring(0, _file.length-1); // avoid ENOENT
+				file = _file.substring(0, _file.length-2); // avoid ENOENT
 
 			fs.unlinkSync(collection + file);
 
@@ -82,7 +82,7 @@
 			e.stopPropagation();
 
 			var _file = $(e.currentTarget.parentNode).context.innerText,
-				file = _file.substring(0, _file.length-1); // avoid ENOENT
+				file = _file.substring(0, _file.length-2); // avoid ENOENT
 
 			if (file.endsWith('.torrent')) var type = 'torrent';
 
