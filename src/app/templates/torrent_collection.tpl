@@ -2,8 +2,10 @@
 	<div class="margintop"></div>
 	<div class="content">
         <div class="notorrents-info">
-            <i class="fa fa-download notorrents-icon"></i>
-            <p class="notorrents-message"><%= i18n.__("Drop Magnet or .torrent")%></p>
+			<div class="notorrents-frame">
+				<i class="fa fa-download notorrents-icon"></i>
+				<p class="notorrents-message"><%= i18n.__("Drop Magnet or .torrent")%></p>
+			</div>
         </div>
 
         <div class="torrents-info">
@@ -24,5 +26,10 @@
 				<% }); %>
 			</ul>
         </div>
+
+		<div class="collection-actions">
+			<div class="collection-delete fa fa-ban tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Flush entire collection") %>"></div>
+			<div class="collection-open fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Open Collection Directory") %>"></div>
+		</div>
 	</div>
 </div>

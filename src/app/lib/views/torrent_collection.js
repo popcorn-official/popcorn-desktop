@@ -10,7 +10,9 @@
 
 		events: {
 			'click .file-item': 'openFileSelector',
-			'click .item-delete': 'deleteItem'
+			'click .item-delete': 'deleteItem',
+			'click .collection-delete': 'clearCollection',
+			'click .collection-open': 'openCollection'
 		},
 
 		initialize: function () {			
@@ -39,6 +41,7 @@
 		onRender: function () {
 			if (this.files[0]) {
 				$('.notorrents-info').css('display','none');
+				$('.collection-actions').css('display','block');
 				$('.torrents-info').css('display','block');
 			}
 		},
@@ -69,6 +72,29 @@
 			// update collection
 			this.files = fs.readdirSync(collection); 
 			this.render();
+		},
+
+		clearCollection: function () {
+			if (fs.existsSync(collection)) {
+				fs.readdirSync(collection).forEach(
+					function(file,index){
+						var curPath = collection + "/" + file;
+
+						if(fs.lstatSync(curPath).isDirectory()) { // recurse
+							deleteFolderRecursive(curPath);
+						} else { // delete file
+							fs.unlinkSync(curPath);
+						}
+
+					});
+				fs.rmdirSync(collection);
+			}
+			App.vent.trigger('torrentCollection:show');
+		},
+
+		openCollection: function () {
+			console.log('Opening: ' + collection);
+			gui.Shell.openItem(collection);
 		},
 
 		onClose: function () {

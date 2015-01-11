@@ -20,22 +20,25 @@
 
 		.notorrents-info
 			display block
-			width 250px
-			height 250px
-			border 6px dashed $TextError
-			border-radius 25px
-			margin 0 auto
+			height 90%
 			margin-top 10%
-			text-align center
 
-			.notorrents-icon
-				font-size 140px
-				color $TextError
-				padding-top 20px
+			.notorrents-frame
+				border 6px dashed $TextError
+				margin 0 auto
+				width 250px
+				height 250px
+				border-radius 25px
+				text-align center
 
-			.notorrents-message
-				font-family $MainFontBold
-				font-size 20px
+				.notorrents-icon
+					font-size 140px
+					color $TextError
+					padding-top 20px
+
+				.notorrents-message
+					font-family $MainFontBold
+					font-size 20px
 
 		.torrents-info
 			display none
@@ -98,3 +101,25 @@
 							content: '\f016'
 						&.magnet-icon:before
 							content: '\f076'
+
+		.collection-actions
+			display none
+			position absolute
+			color $TextError
+
+			.collection-delete
+				position fixed
+				right 30px
+				bottom 20px
+				transition all 0.3s
+				cursor pointer
+				&:hover
+					color $ButtonBgHover
+			.collection-open
+				position fixed
+				right 55px
+				bottom 20px
+				transition all 0.3s
+				cursor pointer
+				&:hover
+					color $ButtonBgHover
