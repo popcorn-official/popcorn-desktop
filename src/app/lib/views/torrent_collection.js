@@ -11,6 +11,7 @@
 		events: {
 			'click .file-item': 'openFileSelector',
 			'click .item-delete': 'deleteItem',
+			'click .item-rename': 'renameItem',
 			'click .collection-delete': 'clearCollection',
 			'click .collection-open': 'openCollection'
 		},
@@ -72,6 +73,43 @@
 			// update collection
 			this.files = fs.readdirSync(collection); 
 			this.render();
+		},
+
+		renameItem: function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+
+			var _file = $(e.currentTarget.parentNode).context.innerText,
+				file = _file.substring(0, _file.length-1); // avoid ENOENT
+
+			if (file.endsWith('.torrent')) var type = 'torrent';
+
+			if (typeof type !== 'undefined') { //torrent
+				var newName = this.renameInput();
+				if (!newName.endsWith('.torrent')) newName += '.torrent';
+			} else { //magnet
+				var newName = this.renameInput();
+				if (newName.endsWith('.torrent')) newName = newName.replace('.torrent','');
+			}
+
+			if (!fs.existsSync(collection + newName) && newName) {
+				fs.renameSync(collection + file, collection + newName);
+			} else {
+				$('.notification_alert').show().text(i18n.__('This name is already taken')).delay(2500).fadeOut(400);
+			}
+
+			// update collection
+			this.files = fs.readdirSync(collection); 
+			this.render();
+		},
+
+		renameInput: function () {
+			var userInput = prompt(i18n.__('Enter new name') + '\n\n', '');
+			if (!userInput) {
+				return false;
+			} else {
+				return userInput;
+			}
 		},
 
 		clearCollection: function () {

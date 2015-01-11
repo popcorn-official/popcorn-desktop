@@ -24,7 +24,7 @@
 		},
 
 		ui: {
-			posterswidth_alert: '.posterswidth_alert'
+			posterswidth_alert: '.notification_alert'
 		},
 
 		events: {

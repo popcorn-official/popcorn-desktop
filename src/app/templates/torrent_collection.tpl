@@ -21,6 +21,7 @@
 				   } %>
 						<div class="item-icon <%=icon%>"></div>
 						<i class="fa fa-trash-o item-delete tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Remove this torrent") %>"></i>
+						<i class="fa fa-pencil item-rename tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Rename this torrent") %>"></i>
 						</a>
 					</li>
 				<% }); %>
