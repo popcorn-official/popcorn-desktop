@@ -86,11 +86,12 @@
 
 			if (file.endsWith('.torrent')) var type = 'torrent';
 
+			var newName = this.renameInput(file);
+			if (!newName) return;
+
 			if (typeof type !== 'undefined') { //torrent
-				var newName = this.renameInput(file);
 				if (!newName.endsWith('.torrent')) newName += '.torrent';
 			} else { //magnet
-				var newName = this.renameInput(file);
 				if (newName.endsWith('.torrent')) newName = newName.replace('.torrent','');
 			}
 
@@ -106,8 +107,8 @@
 		},
 
 		renameInput: function (oldName) {
-			var userInput = prompt(i18n.__('Enter new name') + '\n\n', oldName);
-			if (!userInput) {
+			var userInput = prompt(i18n.__('Enter new name'), oldName);
+			if (!userInput || userInput == oldName) {
 				return false;
 			} else {
 				return userInput;
