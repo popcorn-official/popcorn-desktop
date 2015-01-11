@@ -30,13 +30,6 @@
 			$('#nav-filters').hide();
 
 			this.render();
-
-			this.$('.tooltipped').tooltip({
-				delay: {
-					'show': 800,
-					'hide': 100
-				}
-			});
 		},
 
 		onRender: function () {
@@ -45,6 +38,13 @@
 				$('.collection-actions').css('display','block');
 				$('.torrents-info').css('display','block');
 			}
+
+			this.$('.tooltipped').tooltip({
+				delay: {
+					'show': 800,
+					'hide': 100
+				}
+			});
 		},
 
 		openFileSelector: function (e) {
@@ -62,6 +62,7 @@
 		},
 
 		deleteItem: function (e) {
+			this.$('.tooltip').css('display','none');
 			e.preventDefault();
 			e.stopPropagation();
 
@@ -76,6 +77,7 @@
 		},
 
 		renameItem: function (e) {
+			this.$('.tooltip').css('display','none');
 			e.preventDefault();
 			e.stopPropagation();
 
