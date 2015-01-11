@@ -57,6 +57,7 @@
             } else { // assume magnet
                 var content = fs.readFileSync(collection + file, 'utf8');
                 Settings.droppedMagnet = content;
+				Settings.droppedStoredMagnet = file;
     			handleTorrent(content);
             }
 		},

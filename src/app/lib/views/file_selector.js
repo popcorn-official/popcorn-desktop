@@ -69,10 +69,12 @@
 
             if (Settings.droppedTorrent) {
                 var file = Settings.droppedTorrent;
-            } else if (Settings.droppedMagnet) {
+            } else if (Settings.droppedMagnet && !Settings.droppedStoredMagnet) {
                 var _file = Settings.droppedMagnet,
                     file = formatMagnet(_file);
-            }
+            } else if (Settings.droppedMagnet && Settings.droppedStoredMagnet) {
+				var file = Settings.droppedStoredMagnet;
+			}
 
             // check if torrent stored
             if (!fs.existsSync(target + file)) {
@@ -102,6 +104,9 @@
                     file = formatMagnet(_file);
 
                 if (this.isTorrentStored()) {
+					if (Settings.droppedStoredMagnet) {
+						file = Settings.droppedStoredMagnet;
+					}
                     fs.unlinkSync(target + file); // remove the magnet
                 } else {
                     if (!fs.existsSync(target)) fs.mkdir(target); // create directory if needed
@@ -126,6 +131,7 @@
 		onClose: function () {
 			Settings.droppedTorrent = false;
 			Settings.droppedMagnet = false;
+			Settings.droppedStoredMagnet = false;
 		},
 
 	});
