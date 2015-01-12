@@ -133,6 +133,10 @@ App.addInitializer(function (options) {
 	if (ScreenResolution.QuadHD) {
 		zoom = 2;
 	}
+	if (ScreenResolution.UltraHD) {
+		zoom = 4;
+	}
+
 
 	var width = parseInt(localStorage.width ? localStorage.width : Settings.defaultWidth);
 	var height = parseInt(localStorage.height ? localStorage.height : Settings.defaultHeight);
