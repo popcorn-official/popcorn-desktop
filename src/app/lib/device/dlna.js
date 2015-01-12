@@ -27,8 +27,7 @@
 		play: function (streamModel) {
 			var url = streamModel.get('src');
 			this.client.load(url + 'video.mp4', {
-				autoplay: true,
-				contentType: 'video/mp4'
+				autoplay: true
 			}, function (err, result) {
 				if (err) {
 					throw err;
@@ -77,7 +76,6 @@
 			return;
 		}
 		var deviceId = makeID(device.uuid);
-		console.log(device);
 		if (collection.where({id: deviceId}).length === 0) {
 		collection.add(new Dlna({
 			id: deviceId,
