@@ -29,6 +29,7 @@
 			'click .showAnime': 'showAnime',
 			'click #filterbar-favorites': 'showFavorites',
 			'click #filterbar-watchlist': 'showWatchlist',
+			'click #filterbar-torrent-collection': 'showTorrentCollection',
 			'click .triggerUpdate': 'updateDB',
 			'click .vpn-connect': 'vpnConnect'
 		},
@@ -64,6 +65,9 @@
 			case 'Watchlist':
 			case 'watchlist':
 				$('#filterbar-watchlist').addClass('active');
+				break;
+			case 'Torrent-collection':
+				$('#filterbar-torrent-collection').addClass('active');
 				break;
 			}
 			$('.sorters .dropdown-menu a:nth(0)').addClass('active');
@@ -138,6 +142,10 @@
 					App.currentview = 'Watchlist';
 					App.previousview = 'movies';
 					break;
+				case 'Torrent-collection':
+					App.currentview = 'Torrent-collection';
+					App.previousview = 'movies';
+					break;
 				default:
 					App.currentview = 'movies';
 				}
@@ -177,6 +185,7 @@
 
 		search: function (e) {
 			App.vent.trigger('about:close');
+			App.vent.trigger('torrentCollection:close');
 			App.vent.trigger('movie:closeDetail');
 			e.preventDefault();
 			var searchvalue = this.ui.searchInput.val();
@@ -198,6 +207,7 @@
 			this.ui.searchInput.focus();
 
 			App.vent.trigger('about:close');
+			App.vent.trigger('torrentCollection:close');
 			App.vent.trigger('movie:closeDetail');
 
 			e.preventDefault();
@@ -213,6 +223,7 @@
 
 		sortBy: function (e) {
 			App.vent.trigger('about:close');
+			App.vent.trigger('torrentCollection:close');
 			this.$('.sorters .active').removeClass('active');
 			$(e.target).addClass('active');
 
@@ -236,6 +247,7 @@
 
 		changeType: function (e) {
 			App.vent.trigger('about:close');
+			App.vent.trigger('torrentCollection:close');
 			this.$('.types .active').removeClass('active');
 			$(e.target).addClass('active');
 
@@ -265,17 +277,33 @@
 		settings: function (e) {
 			App.vent.trigger('about:close');
 			App.vent.trigger('settings:show');
-			App.currentview = 'settings';
 		},
 
 		about: function (e) {
 			App.vent.trigger('about:show');
 		},
 
+		showTorrentCollection: function (e) {
+			e.preventDefault();
+
+			if (App.currentview !== 'Torrent-collection') {
+				App.previousview = App.currentview;
+				App.currentview = 'Torrent-collection';
+				App.vent.trigger('about:close');
+				App.vent.trigger('torrentCollection:show');
+				this.setactive('Torrent-collection');
+			} else {
+				App.currentview = App.previousview;
+				App.vent.trigger('torrentCollection:close');
+				this.setactive(App.currentview);
+			}
+		},
+
 		showShows: function (e) {
 			e.preventDefault();
 			App.currentview = 'shows';
 			App.vent.trigger('about:close');
+			App.vent.trigger('torrentCollection:close');
 			App.vent.trigger('shows:list', []);
 			this.setactive('TV Series');
 		},
@@ -284,6 +312,7 @@
 			e.preventDefault();
 			App.currentview = 'anime';
 			App.vent.trigger('about:close');
+			App.vent.trigger('torrentCollection:close');
 			App.vent.trigger('anime:list', []);
 			this.setactive('Anime');
 		},
@@ -293,6 +322,7 @@
 
 			App.currentview = 'movies';
 			App.vent.trigger('about:close');
+			App.vent.trigger('torrentCollection:close');
 			App.vent.trigger('movies:list', []);
 			this.setactive('Movies');
 		},
@@ -304,6 +334,7 @@
 				App.previousview = App.currentview;
 				App.currentview = 'Favorites';
 				App.vent.trigger('about:close');
+				App.vent.trigger('torrentCollection:close');
 				App.vent.trigger('favorites:list', []);
 				this.setactive('Favorites');
 			} else {
@@ -315,6 +346,7 @@
 
 				} else {
 					App.vent.trigger('about:close');
+					App.vent.trigger('torrentCollection:close');
 					App.vent.trigger('favorites:list', []);
 					this.setactive('Favorites');
 				}
@@ -330,6 +362,7 @@
 				App.previousview = App.currentview;
 				App.currentview = 'Watchlist';
 				App.vent.trigger('about:close');
+				App.vent.trigger('torrentCollection:close');
 				App.vent.trigger('watchlist:list', []);
 				this.setactive('Watchlist');
 			} else {
@@ -340,6 +373,7 @@
 
 				} else {
 					App.vent.trigger('about:close');
+					App.vent.trigger('torrentCollection:close');
 					App.vent.trigger('watchlist:list', []);
 					this.setactive('Watchlist');
 				}

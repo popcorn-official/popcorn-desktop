@@ -62,6 +62,7 @@ Settings.databaseLocation = path.join(data_path, 'data');
 Settings.deleteTmpOnClose = true;
 Settings.automaticUpdating = true;
 Settings.events = true;
+Settings.allowTorrentStorage = false;
 
 Settings.vpn = false;
 Settings.vpnUsername = '';
