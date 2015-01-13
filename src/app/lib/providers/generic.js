@@ -54,7 +54,15 @@
 		return cache[name];
 	}
 
+	function delProvider(name) {
+		if (cache[name]) {
+			win.info('Delete provider cache', name);
+			return delete cache[name];
+		}
+	}
+
 	App.Providers.get = getProvider;
+	App.Providers.delete = delProvider;
 	App.Providers.Generic = Provider;
 
 })(window.App);
