@@ -61,7 +61,7 @@
 								});
 						},
 						function (err) {
-							alert('Somethings wrong... try later');
+							alert(i18n.__('Error loading data, try again later...'));
 						});
 
 			} else {
