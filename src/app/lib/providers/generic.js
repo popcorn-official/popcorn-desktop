@@ -22,7 +22,13 @@
 
 	Provider.prototype._fetch = function (filters) {
 		filters.toString = this.toString;
-		return this.memfetch(filters);
+		var promise = this.memfetch(filters),
+			_this = this;
+		promise.catch(function (error) {
+			// Delete the cached result if we get an error so retry will work
+			_this.memfetch.delete(filters);
+		});
+		return promise;
 	};
 
 	Provider.prototype.toString = function (arg) {
