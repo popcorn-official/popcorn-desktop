@@ -180,6 +180,7 @@
 				var provider = App.Providers.get(this.model.get('provider'));
 				var data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
 					.catch(function () {
+						$('.spinner').hide();
 						alert(i18n.__('Error loading data, try again later...'));
 					})
 					.then(function (data) {
