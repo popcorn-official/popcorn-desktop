@@ -128,15 +128,17 @@ App.ViewStack = [];
 App.addInitializer(function (options) {
 	// this is the 'do things with resolutions and size initializer
 	var zoom = 0;
+
 	var screen = window.screen;
 
 	if (ScreenResolution.QuadHD) {
 		zoom = 2;
 	}
+	/*
 	if (ScreenResolution.UltraHD) {
 		zoom = 4;
 	}
-
+	*/
 
 	var width = parseInt(localStorage.width ? localStorage.width : Settings.defaultWidth);
 	var height = parseInt(localStorage.height ? localStorage.height : Settings.defaultHeight);
