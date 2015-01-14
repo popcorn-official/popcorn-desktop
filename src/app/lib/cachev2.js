@@ -37,17 +37,21 @@
 		var db = indexedDB.open(App.Config.cachev2.name, App.Config.cachev2.version);
 		db.onsuccess = function () {
 			self.db = this.result;
+			if(self.upgraded) {
+				self.gc();
+			}
 		};
 		db.onupgradeneeded = function () {
-			var self = this;
+			var result = this.result;
 			App.Config.cachev2.tables.forEach(function (tableName) {
-				if (_.contains(self.result.objectStoreNames, tableName)) {
+				if (_.contains(result.objectStoreNames, tableName)) {
 					return;
 				}
-				self.result.createObjectStore(tableName, {
+				result.createObjectStore(tableName, {
 					keyPath: '_id'
 				});
 			});
+			self.upgraded = true;
 		};
 		this._openPromise = WrapRequest(db).promise;
 	}

@@ -138,7 +138,7 @@
 
 		cachev2: {
 			name: 'cache',
-			version: 3,
+			version: 4,
 			tables: ['metadata']
 		},
 
