@@ -493,7 +493,7 @@ var Database = {
 			})
 			.then(function () {
 				// set app language
-				detectLanguage(Settings.language);
+				setLanguage(Settings.language);
 				// set hardware settings and usefull stuff
 				return AdvSettings.setup();
 			})
@@ -507,8 +507,8 @@ var Database = {
 						win.error(err);
 					});
 
-				// we look if VPN is running
-				App.VPN.isRunning(true);
+				// we look if VPN is connected
+				App.VPNClient.isRunning();
 
 			})
 			.catch(function (err) {

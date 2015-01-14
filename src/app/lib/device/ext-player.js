@@ -8,9 +8,9 @@
 	var collection = App.Device.Collection;
 	var child = require('child_process');
 
-	var External = App.Device.Generic.extend({
+	var ExtPlayer = App.Device.Generic.extend({
 		defaults: {
-			type: 'external',
+			type: 'ext-app',
 			name: i18n.__('External Player'),
 		},
 
@@ -51,23 +51,11 @@
 			});
 		},
 
-		pause: function () {
-			var cmd = path.normalize('"' + this.get('path') + '"');
-			cmd += ' ' + this.get('pause');
-			child.exec(cmd);
-		},
+		pause: function () {},
 
-		stop: function () {
-			var cmd = path.normalize('"' + this.get('path') + '"');
-			cmd += ' ' + this.get('stop');
-			child.exec(cmd);
-		},
+		stop: function () {},
 
-		unpause: function () {
-			var cmd = path.normalize('"' + this.get('path') + '"');
-			cmd += ' ' + this.get('unpause');
-			child.exec(cmd);
-		}
+		unpause: function () {}
 	});
 
 	function getPlayerName(loc) {
@@ -188,7 +176,7 @@
 				var previousBirthTime = birthtimes[match.name];
 				if (!previousBirthTime || birthtime > previousBirthTime) {
 					if (!previousBirthTime) {
-						collection.add(new External({
+						collection.add(new ExtPlayer({
 							id: match.name,
 							type: 'external-' + match.type,
 							name: match.name,
@@ -219,5 +207,5 @@
 		}
 	});
 
-	App.Device.External = External;
+	App.Device.ExtPlayer = ExtPlayer;
 })(window.App);

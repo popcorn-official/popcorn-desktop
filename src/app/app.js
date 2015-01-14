@@ -128,11 +128,17 @@ App.ViewStack = [];
 App.addInitializer(function (options) {
 	// this is the 'do things with resolutions and size initializer
 	var zoom = 0;
+
 	var screen = window.screen;
 
 	if (ScreenResolution.QuadHD) {
 		zoom = 2;
 	}
+	/*
+	if (ScreenResolution.UltraHD) {
+		zoom = 4;
+	}
+	*/
 
 	var width = parseInt(localStorage.width ? localStorage.width : Settings.defaultWidth);
 	var height = parseInt(localStorage.height ? localStorage.height : Settings.defaultHeight);
@@ -256,22 +262,7 @@ win.on('close', function () {
 	if (App.settings.deleteTmpOnClose) {
 		deleteFolder(App.settings.tmpLocation);
 	}
-
-	// check if vpn is running
-	// if yes we kill it
-	if (App.VPN.running) {
-		App.VPN.disconnect()
-			.then(function () {
-				win.close(true);
-			})
-			.catch(function () {
-				win.close(true);
-			});
-	} else {
-		win.close(true);
-	}
-
-
+	win.close(true);
 });
 
 String.prototype.capitalize = function () {
@@ -396,7 +387,7 @@ window.ondrop = function (e) {
 					window.alert('Error Loading File: ' + err);
 				} else {
 					if (file.name.indexOf('.torrent') !== -1) {
-						// startTorrentStream(path.join(App.settings.tmpLocation, file.name));
+						Settings.droppedTorrent = file.name;
 						handleTorrent(path.join(App.settings.tmpLocation, file.name));
 					} else if (file.name.indexOf('.srt') !== -1) {
 						AdvSettings.set('droppedSub', file.name);
@@ -411,6 +402,7 @@ window.ondrop = function (e) {
 
 	} else {
 		var data = e.dataTransfer.getData('text/plain');
+        Settings.droppedMagnet = data;
 		handleTorrent(data);
 		// if (data != null && data.substring(0, 8) === 'magnet:?') {
 		//     startTorrentStream(data);
@@ -439,6 +431,7 @@ $(document).on('paste', function (e) {
 	}
 	var data = (e.originalEvent || e).clipboardData.getData('text/plain');
 	e.preventDefault();
+    Settings.droppedMagnet = data;
 	handleTorrent(data);
 	return true;
 });

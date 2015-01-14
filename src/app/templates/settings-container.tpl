@@ -183,6 +183,10 @@
 	<section id="playback">
 		<div class="title"><%= i18n.__("Playback") %></div>
 		<div class="content">
+			<span class="advanced">
+				<input class="settings-checkbox" name="alwaysFullscreen" id="alwaysFullscreen" type="checkbox" <%=(Settings.alwaysFullscreen? "checked='checked'":"")%>>
+				<label class="settings-label" for="alwaysFullscreen"><%= i18n.__("Always start playing in fullscreen") %></label>
+			</span>
 			<span>
 				<input class="settings-checkbox" name="playNextEpisodeAuto" id="playNextEpisodeAuto" type="checkbox" <%=(Settings.playNextEpisodeAuto? "checked='checked'":"")%>>
 				<label class="settings-label" for="playNextEpisodeAuto"><%= i18n.__("Play next episode automatically") %></label>
@@ -232,64 +236,15 @@
 		</div>
 	</section>
 
-	<% if(App.VPN.isDisabled()) { %>
+	<% if(App.VPNClient.isDisabled()) { %>
 	<% } else { %>
 	<section id="vpn">
 		<div class="title"><%= i18n.__("VPN") %></div>
 		<div class="content">
 			<div class="vpn-options">
-				<% if(App.VPN.isInstalled()) { %>
-					<% if(App.VPN.running) { %>
-						<span>
-							<i class="fa fa-lock">&nbsp;&nbsp;</i><%= i18n.__("Secure connection") + '. ' + i18n.__("Your IP:") + ' ' + App.VPN.ip %>
-						</span>
-						<span class="vpn-buttons">
-							<div class="btn-settings database disconnect-vpn">
-			                	<%= i18n.__("Disconnect") %>
-			            	</div>
-						</span>
-					<% } else { %>
-						<span>
-							<%= i18n.__("VPN.ht client is installed")%>.
-							<a class="unauthtext install-vpn" href="#">
-								<%= i18n.__("Install again") %>
-							</a>
-						</span>
-						<span>
-							<p><%= i18n.__("Username") + ":" %></p>
-							<input type="text" size="50" id="vpnUsername" name="vpnUsername" value="<%= Settings.vpnUsername %>">
-						</span>
-						<span>
-							<p><%= i18n.__("Password") + ":" %></p>
-							<input type="password" size="50" id="vpnPassword" name="vpnPassword" value="<%= Settings.vpnPassword %>">
-						</span>
-						<span class="vpn-buttons">
-							<div class="btn-settings database connect-vpn">
-			            		<%= i18n.__("Connect") %>
-			            	</div>
-							<div class="btn-settings database create-vpn">
-		                		<%= i18n.__("Create Account") %>
-		            		</div>
-						</span>
-					<% } %>
-					
-				<% } else { %>
-					<span class="vpn-buttons">
-						<div class="btns database">
-							<div class="btn-settings database install-vpn">
-								<i class="fa fa-level-down">&nbsp;&nbsp;</i>
-								<%= i18n.__("Install VPN Client") %>
-							</div>
-							<div class="btn-settings database create-vpn">
-								<i class="fa fa-question-circle">&nbsp;&nbsp;</i>
-								<%= i18n.__("More Details") %>
-							</div>
-						</div>
-					</span>
-					<span>
-						<a id="disableVpnPerm" class="unauthtext" href="#"><%= i18n.__("Don't show me this VPN option anymore") %></a>
-					</span>
-				<% } %>
+				<span>
+					<a id="disableVpnPerm" class="unauthtext" href="#"><%= i18n.__("Don't show me this VPN option anymore") %></a>
+				</span>
 			</div>
 		</div>
 	</section>
@@ -388,6 +343,10 @@
                     <%= i18n.__("Export Database") %>
                 </div>
 			</div>
+			<span>
+				<input class="settings-checkbox" name="allowTorrentStorage" id="allowTorrentStorage" type="checkbox" <%=(Settings.allowTorrentStorage? "checked='checked'":"")%>>
+				<label class="settings-label" for="allowTorrentStorage"><%= i18n.__("Allow torrents to be stored for further use") %></label>
+			</span>
 		</div>
 	</section>
     <section id="miscellaneous" class="advanced">

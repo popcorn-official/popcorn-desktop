@@ -1,27 +1,35 @@
 (function (App) {
 	'use strict';
 
-	var inherits = require('util').inherits;
-	var chromecast = require('chromecast-js');
-	var collection = App.Device.Collection;
+	var req = require('request'),
+	    inherits = require('util').inherits,
+	    chromecast = require('chromecast-js'),
+	    collection = App.Device.Collection;
 
 	var Chromecast = App.Device.Generic.extend({
 		defaults: {
 			type: 'chromecast',
+			typeFamily: 'external'
+		},
+
+		_makeID: function(baseID) {
+			return 'chromecast-' + baseID.replace(' ', '-');
+		},
+
+		initialize: function (attrs) {
+			this.device = attrs.device;
+			this.attributes.id = this._makeID(this.device.config.name);
+			this.attributes.name = this.device.config.name;
+			this.attributes.address = this.device.host;
 		},
 
 		play: function (streamModel) {
-			// "" So it behaves when spaces in path
-			// TODO: Subtitles
-			var url = streamModel.get('src');
-			var subtitles = null;
-			var name = this.get('name');
-			var device = this.get('device');
-			this.set('url', url);
 			var self = this;
-			var media;
-
 			var subtitle = streamModel.get('subFile');
+			var cover = streamModel.get('cover');
+			var url = streamModel.get('src');
+			this.attributes.url = url;
+			var media;
 
 			if (subtitle) {
 				media = {
@@ -40,7 +48,7 @@
 						foregroundColor: AdvSettings.get('subtitle_color'), // color of text - see http://dev.w3.org/csswg/css-color/#hex-notation
 						edgeType: AdvSettings.get('subtitle_shadow') ? 'DROP_SHADOW' : 'OUTLINE', // border of text - can be: "NONE", "OUTLINE", "DROP_SHADOW", "RAISED", "DEPRESSED"
 						edgeColor: '#000000FF', // color of border - see http://dev.w3.org/csswg/css-color/#hex-notation
-						fontScale: 1.3, // size of the text - transforms into "font-size: " + (fontScale*100) +"%"
+						fontScale: ((parseFloat(AdvSettings.get('subtitle_size'))/28)*1.3).toFixed(1), // size of the text - transforms into "font-size: " + (fontScale*100) +"%"
 						fontStyle: 'NORMAL', // can be: "NORMAL", "BOLD", "BOLD_ITALIC", "ITALIC",
 						fontFamily: 'Helvetica',
 						fontGenericFamily: 'SANS_SERIF', // can be: "SANS_SERIF", "MONOSPACED_SANS_SERIF", "SERIF", "MONOSPACED_SERIF", "CASUAL", "CURSIVE", "SMALL_CAPITALS",
@@ -58,22 +66,19 @@
 					}
 				};
 			}
-			console.log('chromecast: connecting to ' + device.host);
+			win.info('chromecast: Play ' + url + ' on \'' + this.get('name') +'\'');
+			win.info('chromecast: > connecting to ' + this.device.host);
 
-			device.play(media, 0, function (err, status) {
+			this.device.play(media, 0, function (err, status) {
 				if (err) {
-					console.log('chromecast.play error');
+					win.error('chromecast.play error: ', err);
 				}
 				else {
-					console.log('Playing ' + url + ' on ' + name);
+					win.info('Playing ' + url + ' on ' + self.get('name'));
 					self.set('loadedMedia', status.media);
 				}
 			});
-			device.on('status', function (status) {
-				if (status.playerState === 'IDLE') {
-					console.log('chromecast.idle: listeners removed!');
-					device.removeAllListeners();
-				}
+			this.device.on('status', function (status) {
 				self._internalStatusUpdated(status);
 			});
 		},
@@ -83,30 +88,34 @@
 		},
 
 		stop: function () {
+			var device = this.get('device');
 			// Also stops player and closes connection.
-			this.get('device').stop(function () {});
+			device.stop(function () {
+				device.removeAllListeners();
+				win.info('chromecast stopped. listeners removed!');
+			});
 		},
 
 		seek: function (seconds) {
-			console.log('chromecast.seek %s', seconds);
+			win.info('chromecast.seek %s', seconds);
 			this.get('device').seek(seconds, function (err, status) {
 				if (err) {
-					console.log('Chromecast.seek:Error', err);
+					win.info('Chromecast.seek:Error', err);
 				}
 			});
 		},
 
 		seekTo: function (newCurrentTime) {
-			console.log('chromecast.seekTo %ss', newCurrentTime);
+			win.info('chromecast.seekTo %ss', newCurrentTime);
 			this.get('device').seekTo(newCurrentTime, function (err, status) {
 				if (err) {
-					console.log('Chromecast.seekTo:Error', err);
+					win.info('Chromecast.seekTo:Error', err);
 				}
 			});
 		},
 
 		seekPercentage: function (percentage) {
-			console.log('chromecast.seekPercentage %s%', percentage.toFixed(2));
+			win.info('chromecast.seekPercentage %s%', percentage.toFixed(2));
 			var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
 			this.seekTo(newCurrentTime.toFixed());
 		},
@@ -146,9 +155,6 @@
 
 	browser.on('deviceOn', function (device) {
 		collection.add(new Chromecast({
-			id: 'chromecast-' + device.config.name.replace(' ', '-'),
-			name: device.config.name,
-			type: 'chromecast',
 			device: device
 		}));
 	});

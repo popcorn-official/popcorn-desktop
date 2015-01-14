@@ -22,7 +22,13 @@
 
 	Provider.prototype._fetch = function (filters) {
 		filters.toString = this.toString;
-		return this.memfetch(filters);
+		var promise = this.memfetch(filters),
+			_this = this;
+		promise.catch(function (error) {
+			// Delete the cached result if we get an error so retry will work
+			_this.memfetch.delete(filters);
+		});
+		return promise;
 	};
 
 	Provider.prototype.toString = function (arg) {
@@ -54,7 +60,15 @@
 		return cache[name];
 	}
 
+	function delProvider(name) {
+		if (cache[name]) {
+			win.info('Delete provider cache', name);
+			return delete cache[name];
+		}
+	}
+
 	App.Providers.get = getProvider;
+	App.Providers.delete = delProvider;
 	App.Providers.Generic = Provider;
 
 })(window.App);

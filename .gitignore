@@ -37,4 +37,4 @@ dist/linux/linux-installer
 *.bat
 *.db
 *git.json
-openvpn
+*openvpn*

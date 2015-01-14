@@ -20,8 +20,16 @@
 
 	var ErrorView = Backbone.Marionette.ItemView.extend({
 		template: '#movie-error-tpl',
+		ui: {
+			retryButton: '.retry-button'
+		},
 		onBeforeRender: function () {
 			this.model.set('error', this.error);
+		},
+		onRender: function () {
+			if (this.retry) {
+				this.ui.retryButton.css('visibility', 'visible');
+			}
 		}
 	});
 
@@ -56,6 +64,7 @@
 			case 'anime':
 				if (this.collection.state === 'error') {
 					return ErrorView.extend({
+						retry: true,
 						error: i18n.__('Error loading data, try again later...')
 					});
 				} else {
@@ -68,6 +77,7 @@
 			case 'Favorites':
 				if (this.collection.state === 'error') {
 					return ErrorView.extend({
+						retry: true,
 						error: i18n.__('Error, database is probably corrupted. Try flushing the bookmarks in settings.')
 					});
 				} else {
@@ -79,6 +89,7 @@
 			case 'Watchlist':
 				if (this.collection.state === 'error') {
 					return ErrorView.extend({
+						retry: true,
 						error: i18n.__('This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.')
 					});
 				} else {

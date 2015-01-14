@@ -1,0 +1,37 @@
+.retry-button
+  bottom 300px
+  z-index 2
+  position absolute
+  cursor pointer
+  width 120px
+  height 35px
+  margin auto
+  left 0
+  right 0
+  -moz-border-radius 3px
+  -webkit-border-radius 3px
+  border-radius 3px
+  -moz-background-clip padding
+  -webkit-background-clip padding-box
+  background-clip padding-box
+  background-color $ButtonBg
+  -webkit-backface-visibility hidden
+  transition all .5s
+
+  &:hover
+    background: $ButtonBgHover
+    text-decoration: none
+
+  &:active
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+    background: $ButtonBgActive
+
+  .retry-button-text
+    -webkit-backface-visibility hidden
+    position relative
+    color #fff
+    font-family $MainFont, $Font, $AlternateFont
+    -webkit-font-smoothing antialiased
+    text-align center
+    top 12px
+    font-size 12px

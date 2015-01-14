@@ -7,6 +7,7 @@
 		defaults: {
 			id: 'local',
 			type: 'local',
+			typeFamily: 'internal',
 			name: 'Popcorn Time'
 		},
 		play: function (streamModel) {
@@ -15,7 +16,6 @@
 		getID: function () {
 			return this.id;
 		}
-
 	});
 
 	var DeviceCollection = Backbone.Collection.extend({
@@ -70,31 +70,25 @@
 				this.selected = this.models[0];
 			}
 
-
-			/* SlashmanX: Just testing for now, 
-			 ** replaces localhost IP with network IP,
-			 ** will remove when new streamer implemented
-			 **
-			 ** ddaf: Copied getIPAddress from App.View.Settings.
-			 **       helps to filter vpn adapters.
+			/* ddaf:
+			 * If the device is external we correct src IP to the
+			 * best matching IP among all network adapters. Supports IPv4 and IPv6.
 			 */
-			var ip, alias = 0;
-			var ifaces = require('os').networkInterfaces();
-			for (var dev in ifaces) {
-				ifaces[dev].forEach(function (details) {
-					if (details.family === 'IPv4') {
-						if (!/(loopback|vmware|internal|hamachi|vboxnet)/gi.test(dev.toLowerCase())) {
-							if (details.address.substring(0, 8) === '192.168.' ||
-								details.address.substring(0, 7) === '172.16.' ||
-								details.address.substring(0, 5) === '10.0.'
-							) {
-								streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', details.address);
-							}
-						}
-					}
-				});
+			if (this.selected.get('typeFamily') === 'external') {
+				//console.warn('External Device ', this.selected);
+				var ips = [], ifaces = require('os').networkInterfaces();
+				for (var dev in ifaces) {
+					ifaces[dev].forEach(function (details) {
+						if (!details.internal) ips.push(details.address);
+					});
+				}
+				var deviceIp = this.selected.get('address');
+				win.info('DeviceIP: '+ deviceIp);
+				win.info('Available IPs: '+ JSON.stringify(ips));
+				var srcIp = _getClosestIP(ips, deviceIp);
+				win.info('> Picked for external playback: '+ srcIp);
+				streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', srcIp);
 			}
-
 			return this.selected.play(streamModel);
 		},
 
@@ -103,8 +97,22 @@
 				id: deviceID
 			});
 		}
-
 	});
+
+	// Supports both IPv4 and IPv6 comparison
+	var _sequentialPartsInCommon = function(ip1, ip2) {
+		var separator = (ip1.indexOf('.') > -1) ? '.' : ':';
+		var ip2Parts = ip2.split(separator), partsCount = 0;
+		ip1.split(separator).every(function(ip1Part, idx) {
+			var isEqual = (ip1Part === ip2Parts[idx]);
+			if (isEqual) ++partsCount; return isEqual;
+		});
+		return partsCount;
+	};
+
+	var _getClosestIP = function(ips, targetIp) {
+		return _.max(ips, function(ip) { return _sequentialPartsInCommon(ip, targetIp) });
+	};
 
 	var collection = new DeviceCollection(new Device());
 	collection.setDevice('local');

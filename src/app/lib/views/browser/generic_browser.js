@@ -16,6 +16,9 @@
 			FilterBar: '.filter-bar-region',
 			ItemList: '.list-region'
 		},
+		events: {
+			'click .retry-button': 'onFilterChange'
+		},
 
 		initialize: function () {
 			this.filter = new App.Model.Filter(this.filters);

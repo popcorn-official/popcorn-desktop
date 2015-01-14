@@ -180,7 +180,7 @@
 				var provider = App.Providers.get(this.model.get('provider'));
 				var data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
 					.catch(function () {
-						alert('Somethings wrong... try later');
+						alert(i18n.__('Error loading data, try again later...'));
 					})
 					.then(function (data) {
 						data.provider = provider.name;
@@ -335,7 +335,7 @@
 									});
 							},
 							function (err) {
-								alert('Somethings wrong... try later');
+								alert(i18n.__('Error loading data, try again later...'));
 							});
 				}
 				break;

@@ -26,6 +26,7 @@
 			'click .tab-season': 'clickSeason',
 			'click .tab-episode': 'clickEpisode',
 			'click .show-imdb-link': 'openIMDb',
+			'click .show-magnet-link': 'openMagnet',
 			'dblclick .tab-episode': 'dblclickEpisode',
 			'click #switch-hd-on': 'enableHD',
 			'click #switch-hd-off': 'disableHD',
@@ -60,7 +61,7 @@
 								});
 						},
 						function (err) {
-							alert('Somethings wrong... try later');
+							alert(i18n.__('Error loading data, try again later...'));
 						});
 
 			} else {
@@ -147,7 +148,7 @@
 				this.ui.bookmarkIcon.removeClass('selected');
 			}
 
-			$('.star-container-tv,.show-imdb-link').tooltip();
+			$('.star-container-tv,.show-imdb-link,.show-magnet-link').tooltip();
 
 			var cbackground = $('.tv-cover').attr('data-bgr');
 			var coverCache = new Image();
@@ -258,6 +259,11 @@
 
 		openIMDb: function () {
 			gui.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
+		},
+
+		openMagnet: function () {
+			var torrentUrl = $('.startStreaming').attr('data-torrent');
+			gui.Shell.openExternal(torrentUrl);
 		},
 
 		switchRating: function () {

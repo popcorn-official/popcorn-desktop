@@ -11,9 +11,14 @@
 
 	var AirplayXBMC = App.Device.Airplay.extend({
 		defaults: {
-			type: 'airplay-xbmc'
+			type: 'airplay-xbmc',
+			typeFamily: 'external'
 		},
-		makeID: makeID
+		makeID: makeID,
+		initialize: function (attrs) {
+			this.device = attrs.device;
+			this.attributes.address = this.device.info[0];
+		}
 	});
 
 	browser.on('deviceOn', function (device) {
