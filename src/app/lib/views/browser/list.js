@@ -130,7 +130,7 @@
 			Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch);
 
 			Mousetrap.bind(['tab', 'shift+tab'], function (e, combo) {
-				if ((App.PlayerView === undefined || App.PlayerView.isClosed) && $('#about-container').children().length <= 0) {
+				if ((App.PlayerView === undefined || App.PlayerView.isClosed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0) {
 					if (combo === 'tab') {
 						switch (App.currentview) {
 						case 'movies':
@@ -162,7 +162,7 @@
 			});
 
 			Mousetrap.bind(['ctrl+1', 'ctrl+2', 'ctrl+3'], function (e, combo) {
-				if ((App.PlayerView === undefined || App.PlayerView.isClosed) && $('#about-container').children().length <= 0) {
+				if ((App.PlayerView === undefined || App.PlayerView.isClosed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0) {
 					switch (combo) {
 					case 'ctrl+1':
 						App.currentview = 'movies';
@@ -180,6 +180,19 @@
 					$('.source.show' + App.currentview.charAt(0).toUpperCase() + App.currentview.slice(1)).addClass('active');
 				}
 			});
+			
+			Mousetrap.bind(['`', 'b'], function () {
+				if ((App.PlayerView === undefined || App.PlayerView.isClosed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0) {
+					$('.favorites').click();
+				}
+			});
+
+			Mousetrap.bind('i', function () {
+				if ((App.PlayerView === undefined || App.PlayerView.isClosed) && $('#player').children().length <= 0) {
+					$('.about').click();
+				}
+			});
+
 		},
 
 		initPosterResizeKeys: function () {

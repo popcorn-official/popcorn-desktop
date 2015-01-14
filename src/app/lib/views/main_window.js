@@ -175,16 +175,6 @@
 				policy.ignore();
 			});
 
-			Mousetrap.bind('`', function () {
-				$('.favorites').click();
-			});
-
-			Mousetrap.bind('i', function () {
-				if (App.PlayerView === undefined || App.PlayerView.isClosed) {
-					$('.about').click();
-				}
-			});
-
 			App.vent.trigger('updatePostersSizeStylesheet');
 			App.vent.trigger('main:ready');
 
