@@ -252,6 +252,17 @@ var AdvSettings = {
 
 					defer.resolve();
 				});
+			}).on('error', function (error) {
+				if (endpoint.fallbacks.length) {
+					var fallback = endpoint.fallbacks.shift();
+					endpoint.ssl = undefined;
+					_.extend(endpoint, fallback);
+
+					AdvSettings.checkApiEndpoint(endpoint, defer);
+				} else {
+					// TODO: should reject here!
+					defer.resolve();
+				}
 			}).setTimeout(5000);
 		} else {
 			tls.connect(url.port || 443, url.hostname, {
