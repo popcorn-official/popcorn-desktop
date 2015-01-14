@@ -176,7 +176,8 @@
 				$(this).addClass('fa-unlock-alt');
 			});
 
-
+			// update VPN icon with cached status
+			App.VPNClient.setVPNStatusCached();
 		},
 
 		focusSearch: function () {
