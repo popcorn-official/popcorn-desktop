@@ -236,19 +236,17 @@
 		</div>
 	</section>
 
-	<% if(App.VPNClient.isDisabled()) { %>
-	<% } else { %>
 	<section id="vpn">
 		<div class="title"><%= i18n.__("VPN") %></div>
 		<div class="content">
 			<div class="vpn-options">
 				<span>
-					<a id="disableVpnPerm" class="unauthtext" href="#"><%= i18n.__("Don't show me this VPN option anymore") %></a>
+					<input class="settings-checkbox" name="vpnDisabledPerm" id="vpnDisabledPerm" type="checkbox" <%=(Settings.vpnDisabledPerm? "checked='checked'":"")%>>
+					<label class="settings-label" for="vpnDisabledPerm"><%= i18n.__("Hide VPN from the filter bar") %></label>
 				</span>
 			</div>
 		</div>
 	</section>
-	<% } %>
 
 	<section id="remote-control" class="advanced">
 		<div class="title"><%= i18n.__("Remote Control") %></div>

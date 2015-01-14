@@ -63,7 +63,7 @@
 	<% } else if(App.VPNClient.isDisabled()) { %>
 	<% } else { %>
 		<li>
-	        <i style="color:#CC0000" id="filterbar-vpn-settings" class="fa fa-unlock vpn-connect tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Setup VPN") %>"></i>
+	        <i style="color:#CC0000" id="filterbar-vpn-connect" class="fa fa-unlock-alt vpn-connect tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Connect VPN") %>"></i>
 	    </li>
 	<% } %>
 

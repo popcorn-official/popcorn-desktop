@@ -41,8 +41,7 @@
 			'click #syncTrakt': 'syncTrakt',
 			'click .qr-code': 'generateQRcode',
 			'click #qrcode-overlay': 'closeModal',
-			'click #qrcode-close': 'closeModal',
-			'click #disableVpnPerm': 'disableVpnPerm'
+			'click #qrcode-close': 'closeModal'
 		},
 
 		onShow: function () {
@@ -224,6 +223,10 @@
 				return;
 			case 'tmpLocation':
 				value = path.join(field.val(), 'Popcorn-Time');
+				break;
+			case 'vpnDisabledPerm':
+				$('.vpn-connect').toggle();
+				value = field.is(':checked');
 				break;
 			default:
 				win.warn('Setting not defined: ' + field.attr('name'));
@@ -613,12 +616,7 @@
 				});
 			}
 			return ip;
-		},
-
-		disableVpnPerm: function() {
-			$('#vpn').css('display','none');
-			AdvSettings.set('vpnDisabledPerm', true);
-		},
+		}
 	});
 
 	App.View.Settings = Settings;
