@@ -8,6 +8,7 @@ lib-cov
 *.gz
 
 .idea/
+*.iml
 
 node_modules/
 src/app/vendor
