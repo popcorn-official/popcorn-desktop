@@ -19,6 +19,7 @@
 		makeID: makeID,
 
 		initialize: function (attrs) {
+
 			this.device = attrs.device;
 			this.client = new MediaRendererClient(this.device.location);
 			this.attributes.name = this.device.friendlyName;
@@ -27,7 +28,8 @@
 		play: function (streamModel) {
 			var url = streamModel.get('src');
 			this.client.load(url + 'video.mp4', {
-				autoplay: true
+				autoplay: true,
+				contentType: 'video/vnd.dlna.mpeg-tts'
 			}, function (err, result) {
 				if (err) {
 					throw err;
@@ -87,8 +89,8 @@
 
 	setInterval(function() {
 		cp.search();
-	}, 10000)
-
+	}, 60000)
+	cp.search();
 
 	App.Device.Dlna = Dlna;
 })(window.App);
