@@ -51,23 +51,11 @@
 			});
 		},
 
-		pause: function () {
-			var cmd = path.normalize('"' + this.get('path') + '"');
-			cmd += ' ' + this.get('pause');
-			child.exec(cmd);
-		},
+		pause: function () {},
 
-		stop: function () {
-			var cmd = path.normalize('"' + this.get('path') + '"');
-			cmd += ' ' + this.get('stop');
-			child.exec(cmd);
-		},
+		stop: function () {},
 
-		unpause: function () {
-			var cmd = path.normalize('"' + this.get('path') + '"');
-			cmd += ' ' + this.get('unpause');
-			child.exec(cmd);
-		}
+		unpause: function () {}
 	});
 
 	function getPlayerName(loc) {
