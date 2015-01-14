@@ -120,7 +120,8 @@
                 }
             }
             this.isTorrentStored(); // trigger button change
-			App.vent.trigger('torrentCollection:show'); // refresh collection
+
+			if (App.currentview == 'Torrent-collection') App.vent.trigger('torrentCollection:show'); // refresh collection
         },
 
 		closeSelector: function (e) {
