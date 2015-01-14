@@ -79,17 +79,18 @@
 		}
 		var deviceId = makeID(device.uuid);
 		if (collection.where({id: deviceId}).length === 0) {
-		collection.add(new Dlna({
-			id: deviceId,
-			device: device
-		}));
-	};
+			collection.add(new Dlna({
+				id: deviceId,
+				device: device
+			}));
+		}
 	});
 
 
 	setInterval(function() {
 		cp.search();
-	}, 60000)
+	}, 60000);
+
 	cp.search();
 
 	App.Device.Dlna = Dlna;
