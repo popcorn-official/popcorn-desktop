@@ -23,9 +23,9 @@
                     _link = link.substring(index); // remove everything before dn
                 _link = _link.split('\&'); // array of strings starting with &
                 _link = _link[0]; // keep only the first (i.e: display name)
-                link = _link.replace(/\+/g,'.') // replace + by .
+                link = _link.replace(/\+/g,'.'); // replace + by .
                 return link;
-            }
+            };
 		},
 
 		onShow: function () {
@@ -66,14 +66,14 @@
                 win.warn('Magnet lacks Display Name, unable to store it');
                 return false;
             }
-
+			var file, _file;
             if (Settings.droppedTorrent) {
-                var file = Settings.droppedTorrent;
+                file = Settings.droppedTorrent;
             } else if (Settings.droppedMagnet && !Settings.droppedStoredMagnet) {
-                var _file = Settings.droppedMagnet,
-                    file = formatMagnet(_file);
+                _file = Settings.droppedMagnet,
+                file = formatMagnet(_file);
             } else if (Settings.droppedMagnet && Settings.droppedStoredMagnet) {
-				var file = Settings.droppedStoredMagnet;
+				file = Settings.droppedStoredMagnet;
 			}
 
             // check if torrent stored
@@ -88,20 +88,24 @@
 
         storeTorrent: function () {
             var source = App.settings.tmpLocation + '/',
-                target = require('nw.gui').App.dataPath + '/TorrentCollection/';
+                target = require('nw.gui').App.dataPath + '/TorrentCollection/',
+				file,
+				_file;
 
             if (Settings.droppedTorrent) {
-                var file = Settings.droppedTorrent;
+                file = Settings.droppedTorrent;
 
                 if (this.isTorrentStored()) {
                     fs.unlinkSync(target + file); // remove the torrent
                 } else {
-                    if (!fs.existsSync(target)) fs.mkdir(target); // create directory if needed
-                    fs.writeFileSync(target + file, fs.readFileSync(source + file)); // save torrent 
+                    if (!fs.existsSync(target)) {
+						 fs.mkdir(target); // create directory if needed
+					}
+                    fs.writeFileSync(target + file, fs.readFileSync(source + file)); // save torrent
                 }
             } else if (Settings.droppedMagnet) {
-                var _file = Settings.droppedMagnet,
-                    file = formatMagnet(_file);
+                _file = Settings.droppedMagnet,
+                file = formatMagnet(_file);
 
                 if (this.isTorrentStored()) {
 					if (Settings.droppedStoredMagnet) {
@@ -109,7 +113,9 @@
 					}
                     fs.unlinkSync(target + file); // remove the magnet
                 } else {
-                    if (!fs.existsSync(target)) fs.mkdir(target); // create directory if needed
+                    if (!fs.existsSync(target)) {
+						fs.mkdir(target); // create directory if needed
+					}
                     fs.writeFileSync(target + file, _file); // save magnet link inside readable file
                 }
             }

@@ -664,14 +664,17 @@
 			var cancelled = false;
 			cancelTorrentHealth = function() {
 				cancelled = true;
-			}
+			};
 
 			torrentHealth(torrent, {
 				timeout: 2000,
 				blacklist: ['openbittorrent.com', 'publicbt.com', 'istole.it', '1337x.org', 'yify-torrents.com'],
 				forced: ['udp://open.demonii.com:1337/announce']
 			}).then(function (res) {
-				if(cancelled) return;
+
+				if(cancelled) {
+					return;
+				}
 
 				var h = Common.calcHealth({
 					seed: res.seeds,

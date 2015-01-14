@@ -146,14 +146,17 @@
 				var srtData = fs.readFileSync(srtPath);
 				self.decode(srtData, data.language, function(srtDecodedData) {
 					captions.srt.parse(srtDecodedData, function (err, vttData) {
-						if (err) return cb(err, null);
+						if (err) {
+							return cb(err, null);
+						}
 						// Save vtt as UTF-8 encoded, so that foreign subs will be shown correctly on ext. devices.
 						fs.writeFile(vttPath, captions.vtt.generate(captions.srt.toJSON(vttData)), 'utf8', function (err) {
-							if (err) return cb(err, null);
-							else {
+							if (err) {
+								return cb(err, null);
+							} else {
 								cb(null, {
 									vtt: vttPath,
-									srt: srtPath, 
+									srt: srtPath,
 									encoding: 'utf8'
 								});
 							}
@@ -171,20 +174,20 @@
 
 			var charset = charsetDetect.detect(dataBuff);
 			var detectedEncoding = charset.encoding;
-			win.debug("SUB charset detected: ", detectedEncoding);
+			win.debug('SUB charset detected: ', detectedEncoding);
 			// Do we need decoding?
-			if (detectedEncoding.toLowerCase().replace('-','') == targetEncodingCharset) {
+			if (detectedEncoding.toLowerCase().replace('-','') === targetEncodingCharset) {
 				callback(dataBuff.toString('utf8'));
 			// We do
 			} else {
 				var langInfo = App.Localization.langcodes[language] || {};
-				win.debug("SUB charsets expected for language '%s': ", language, langInfo.encoding);
+				win.debug('SUB charsets expected for language \'%s\': ', language, langInfo.encoding);
 				if (langInfo.encoding !== undefined && langInfo.encoding.indexOf(detectedEncoding) < 0) {
 					// The detected encoding was unexepected to the language, so we'll use the most common
 					// encoding for that language instead.
 					detectedEncoding = langInfo.encoding[0];
 				}
-				win.debug("SUB charset used: ", detectedEncoding);
+				win.debug('SUB charset used: ', detectedEncoding);
 				dataBuff = iconv.encode( iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset );
 				callback(dataBuff.toString('utf8'));
 			}

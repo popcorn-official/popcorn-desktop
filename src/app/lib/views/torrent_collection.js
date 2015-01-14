@@ -16,8 +16,10 @@
 			'click .collection-open': 'openCollection'
 		},
 
-		initialize: function () {			
-			if (!fs.existsSync(collection)) fs.mkdir(collection) //create directory
+		initialize: function () {
+			if (!fs.existsSync(collection)) {
+				fs.mkdir(collection); //create directory
+			}
 			this.files = fs.readdirSync(collection);
 		},
 
@@ -53,12 +55,12 @@
 
             if (_file.indexOf('.torrent') !== -1) {
                 Settings.droppedTorrent = file;
-    			handleTorrent(collection + file);
+    			window.handleTorrent(collection + file);
             } else { // assume magnet
                 var content = fs.readFileSync(collection + file, 'utf8');
                 Settings.droppedMagnet = content;
 				Settings.droppedStoredMagnet = file;
-    			handleTorrent(content);
+    			window.handleTorrent(content);
             }
 		},
 
@@ -73,7 +75,7 @@
 			fs.unlinkSync(collection + file);
 
 			// update collection
-			this.files = fs.readdirSync(collection); 
+			this.files = fs.readdirSync(collection);
 			this.render();
 		},
 
@@ -83,17 +85,26 @@
 			e.stopPropagation();
 
 			var _file = $(e.currentTarget.parentNode).context.innerText,
-				file = _file.substring(0, _file.length-2); // avoid ENOENT
+				file = _file.substring(0, _file.length-2),  // avoid ENOENT
+				isTorrent = false;
 
-			if (file.endsWith('.torrent')) var type = 'torrent';
+			if (file.endsWith('.torrent')) {
+				isTorrent = 'torrent';
+			}
 
 			var newName = this.renameInput(file);
-			if (!newName) return;
+			if (!newName) {
+				return;
+			}
 
-			if (typeof type !== 'undefined') { //torrent
-				if (!newName.endsWith('.torrent')) newName += '.torrent';
+			if (isTorrent) { //torrent
+				if (!newName.endsWith('.torrent')) {
+					newName += '.torrent';
+				}
 			} else { //magnet
-				if (newName.endsWith('.torrent')) newName = newName.replace('.torrent','');
+				if (newName.endsWith('.torrent')) {
+					newName = newName.replace('.torrent','');
+				}
 			}
 
 			if (!fs.existsSync(collection + newName) && newName) {
@@ -103,13 +114,13 @@
 			}
 
 			// update collection
-			this.files = fs.readdirSync(collection); 
+			this.files = fs.readdirSync(collection);
 			this.render();
 		},
 
 		renameInput: function (oldName) {
 			var userInput = prompt(i18n.__('Enter new name'), oldName);
-			if (!userInput || userInput == oldName) {
+			if (!userInput || userInput === oldName) {
 				return false;
 			} else {
 				return userInput;
@@ -120,10 +131,12 @@
 			if (fs.existsSync(collection)) {
 				fs.readdirSync(collection).forEach(
 					function(file,index){
-						var curPath = collection + "/" + file;
+						var curPath = collection + '/' + file;
 
 						if(fs.lstatSync(curPath).isDirectory()) { // recurse
-							deleteFolderRecursive(curPath);
+							// @TODO: FUNCTION NOT FOUND ????
+							//deleteFolderRecursive(curPath);
+							fs.unlinkSync(curPath);
 						} else { // delete file
 							fs.unlinkSync(curPath);
 						}

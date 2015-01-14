@@ -291,19 +291,19 @@
 				AdvSettings.set('startScreen', value);
 				break;
 			case 'events':
-				if ($('.events').css('display') == "none") {
+				if ($('.events').css('display') === 'none') {
 					$('.events').css('display','block');
 				} else {
 					$('.events').css('display','none');
-				};
+				}
 				break;
 			case 'allowTorrentStorage':
-				if ($('#torrent_col').css('display') == "none") {
+				if ($('#torrent_col').css('display') === 'none') {
 					$('#torrent_col').css('display','block');
 				} else {
 					$('#torrent_col').css('display','none');
 					App.vent.trigger('torrentCollection:close');
-				};
+				}
 				break;
 			default:
 

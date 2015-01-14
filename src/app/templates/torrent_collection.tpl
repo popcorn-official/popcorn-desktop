@@ -13,10 +13,10 @@
 				<% _.each(fs.readdirSync(require('nw.gui').App.dataPath + '/TorrentCollection/'), function(file, index) { %>
 					<li class="file-item" data-index="<%=file.index%>" data-file="<%=index%>">
 						<a><%=file%></a>
-							
+
 				   <% if (file.indexOf('.torrent') !== -1) {
 				   		var icon = "torrent-icon";
-				   } else { 
+				   } else {
 				   		var icon = "magnet-icon";
 				   } %>
 						<div class="item-icon <%=icon%>"></div>

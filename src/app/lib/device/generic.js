@@ -79,7 +79,9 @@
 				var ips = [], ifaces = require('os').networkInterfaces();
 				for (var dev in ifaces) {
 					ifaces[dev].forEach(function (details) {
-						if (!details.internal) ips.push(details.address);
+						if (!details.internal) {
+							ips.push(details.address);
+						}
 					});
 				}
 				var deviceIp = this.selected.get('address');
@@ -105,13 +107,15 @@
 		var ip2Parts = ip2.split(separator), partsCount = 0;
 		ip1.split(separator).every(function(ip1Part, idx) {
 			var isEqual = (ip1Part === ip2Parts[idx]);
-			if (isEqual) ++partsCount; return isEqual;
+			if (isEqual) {
+				++partsCount; return isEqual;
+			}
 		});
 		return partsCount;
 	};
 
 	var _getClosestIP = function(ips, targetIp) {
-		return _.max(ips, function(ip) { return _sequentialPartsInCommon(ip, targetIp) });
+		return _.max(ips, function(ip) { return _sequentialPartsInCommon(ip, targetIp); });
 	};
 
 	var collection = new DeviceCollection(new Device());

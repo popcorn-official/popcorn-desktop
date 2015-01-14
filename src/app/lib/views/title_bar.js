@@ -36,25 +36,25 @@ var os = require('os');
 			fsTooltipPos: function () {
 				return App.Config.platform === 'darwin' ? 'left' : 'right';
 			},
-            
+
             events: function () {
 				var date = new Date();
-				var today = ("0" + (date.getMonth() +　1)).slice(-2) + ("0" + (date.getDate())).slice(-2);
-				if (today == "1231" || today == "0101") {
+				var today = ('0' + (date.getMonth() +　1)).slice(-2) + ('0' + (date.getDate())).slice(-2);
+				if (today === '1231' || today === '0101') {
 					return 'newyear';
-				} else if (today >= "1218" || today <= "0103") {
+				} else if (today >= '1218' || today <= '0103') {
                 	return 'xmas';
-				} else if (today >= "1027" && today <= "1103") {
+				} else if (today >= '1027' && today <= '1103') {
 					return 'halloween';
-				} else if (today == "0220") {
+				} else if (today === '0220') {
 					return 'pt_anniv';
-				} else if (today == "0224") {
+				} else if (today === '0224') {
 					return 'stvalentine';
-				} else if (today == "0317") {
+				} else if (today === '0317') {
 					return 'stpatrick';
-				} else if (today == "0401") {
+				} else if (today === '0401') {
 					return 'aprilsfool';
-				};
+				}
             }
 		},
 

@@ -24,10 +24,11 @@
 		return ip;
 	};
 	var ip= getIPAddress();
-	var ssdp = require('node-ssdp').Client
-	, client = new ssdp({
-		unicastHost: ip
-	})
+	var ssdp = require('node-ssdp').Client,
+		client = new ssdp({
+			unicastHost: ip
+		});
+
 	var makeID = function (baseID) {
 		return 'dlna-' + baseID.replace(':', '');
 	};
@@ -44,14 +45,18 @@
 			this.info = attrs.info;
 			this.device = attrs.device;
 			this.client = new MediaRendererClient(this.device.LOCATION);
-// Test Purpose to know Device supported protocols
+			// Test Purpose to know Device supported protocols
 			this.client.getSupportedProtocols(function(err, cap) {
-				if(err) throw err;
+				if (err) {
+					throw err;
+				}
 				console.log(cap);
 			});
 
 			this.client.getDeviceDescription(function(err, description) {
-				if(err) throw err;
+				if (err) {
+					throw err;
+				}
 				self.attributes.name = description.friendlyName;
 			});
 			self.attributes.address = this.info.address;
@@ -95,8 +100,8 @@
 	});
 
 	client.on('notify', function () {
-		console.log('Got a notification.')
-	})
+		console.log('Got a notification.');
+	});
 
 	client.on('response', function inResponse(headers, code, rinfo) {
 		var deviceId = makeID(headers.USN);
@@ -110,9 +115,8 @@
 	});
 
 	setInterval(function() {
-		client.search('urn:schemas-upnp-org:device:MediaRenderer:1')
-	}, 10000)
-
+		client.search('urn:schemas-upnp-org:device:MediaRenderer:1');
+	}, 10000);
 
 	App.Device.Dlna = Dlna;
 })(window.App);
