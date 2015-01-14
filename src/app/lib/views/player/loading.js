@@ -46,6 +46,9 @@
 		initialize: function () {
 			var _this = this;
 
+			App.vent.trigger('settings:close');
+			App.vent.trigger('about:close');
+
 			//If a child was removed from above this view
 			App.vent.on('viewstack:pop', function () {
 				if (_.last(App.ViewStack) === _this.className) {
