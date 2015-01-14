@@ -360,11 +360,11 @@
 			var timeLeft = this.model.get('time_left');
 
 			if (timeLeft > 3600) {
-				return Math.round(timeLeft / 3600) + ' ' + i18n.__('hour(s) remaining');
+				return i18n.__('%s hour(s) remaining', Math.round(timeLeft / 3600));
 			} else if (timeLeft > 60) {
-				return Math.round(timeLeft / 60) + ' ' + i18n.__('minute(s) remaining');
+				return i18n.__('%s minute(s) remaining', Math.round(timeLeft / 60));
 			} else {
-				return timeLeft + ' ' + i18n.__('second(s) remaining');
+				return i18n.__('%s second(s) remaining', timeLeft);
 			}
 		},
 
