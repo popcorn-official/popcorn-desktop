@@ -8,12 +8,12 @@
 	},
 	"license": "GPL-3.0",
 	"main": "app://host/src/app/index.html",
-	"version": "0.3.6",
+	"version": "0.3.7",
 	"node-remote": "client.vpn.ht",
 	"webkit": {
          "page-cache":false
     },
-	"releaseName": "The Christmas tree is up",
+	"releaseName": "The car wont start",
 	"scripts": {
 		"postinstall": "node_modules/.bin/bower install && grunt setup",
 		"postupdate": "node_modules/.bin/bower update && grunt setup",
