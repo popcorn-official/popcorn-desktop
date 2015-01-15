@@ -725,7 +725,7 @@
 		}
 	};
 
-	TraktTv.resizeImage = function (imageUrl, width) {
+	TraktTv.resizeImage = function (imageUrl, width, compat) {
 		var uri = URI(imageUrl);
 
 		// Don't resize images that don't come from trakt
@@ -734,12 +734,35 @@
 			return imageUrl;
 		}
 
-		var segments = uri.segment();
+		if(compat) {
+			var ext = uri.suffix(),
+				file = uri.filename().split('.' + ext)[0];
 
-		if (segments[0] === 'placeholder') {
-			return 'images/posterholder.png'.toString();
+			var existingIndex = 0;
+			if ((existingIndex = file.search('-\\d\\d\\d$')) !== -1) {
+				file = file.slice(0, existingIndex);
+			}
+
+			if (file === 'poster-dark') {
+				return 'images/posterholder.png'.toString();
+			} else {
+				return uri.filename(file + '-' + width + '.' + ext).toString();
+			}
 		} else {
-			segments[segments.length - 2] = width;
+			var segments = uri.segment();
+
+			// Don't resize images that don't come from trakt
+			//  eg. YTS Movie Covers
+			if (uri.domain() !== 'trakt.us') {
+				return imageUrl;
+			}
+
+			if (segments[0] === 'placeholder') {
+				return 'images/posterholder.png'.toString();
+			} else {
+				segments[segments.length - 2] = width;
+				return uri.segment(segments).toString();
+			}
 		}
 	};
 
