@@ -159,23 +159,6 @@
 				}
 			});
 
-			// somwe styling for vpn
-			this.$('#filterbar-vpn-disconnect').hover(function () {
-				$(this).removeClass('fa-lock');
-				$(this).addClass('fa-unlock-alt');
-			}, function () {
-				$(this).removeClass('fa-unlock-alt');
-				$(this).addClass('fa-lock');
-			});
-
-			this.$('#filterbar-vpn-connect').hover(function () {
-				$(this).removeClass('fa-unlock-alt');
-				$(this).addClass('fa-lock');
-			}, function () {
-				$(this).removeClass('fa-lock');
-				$(this).addClass('fa-unlock-alt');
-			});
-
 			// update VPN icon with cached status
 			App.VPNClient.setVPNStatusCached();
 		},
