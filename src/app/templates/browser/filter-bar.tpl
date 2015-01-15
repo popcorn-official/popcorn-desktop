@@ -56,17 +56,12 @@
 		</div>
 	</li>
 
-	<% if(App.VPNClient.connected) { %>
-		<li>
-	        <i style="color:#266E3E" id="filterbar-vpn-disconnect" class="fa fa-lock vpn-connect tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Disconnect VPN") %>"></i>
-	    </li>
-	<% } else if(App.VPNClient.isDisabled()) { %>
+	<% if(App.VPNClient.isDisabled()) { %>
 	<% } else { %>
 		<li>
-	        <i style="color:#CC0000" id="filterbar-vpn-connect" class="fa fa-unlock-alt vpn-connect tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Connect VPN") %>"></i>
-	    </li>
+			<i style="color:#CC0000" id="filterbar-vpn-connect" class="fa fa-unlock-alt vpn-connect tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Connect VPN") %>"></i>
+		</li>
 	<% } %>
-
     <li>
         <i id="filterbar-watchlist" class="fa fa-inbox watchlist tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Watchlist") %>"></i>
     </li>
