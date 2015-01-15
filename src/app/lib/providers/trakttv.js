@@ -740,11 +740,18 @@
 		if ((existingIndex = file.search('-\\d\\d\\d$')) !== -1) {
 			file = file.slice(0, existingIndex);
 		}
+		if (width < 400) {
+			var existingIndex = 0;
+			if ((existingIndex = uri.toString().search('walter')) == -1) {
+				file = file + '-300';
+			}
 
+			uri.pathname(uri.pathname().toString().replace(/original/,'thumb'));
+		}
 		if (file === 'poster-dark') {
 			return 'images/posterholder.png'.toString();
 		} else {
-			return uri.filename(file + '-' + width + '.' + ext).toString();
+			return uri.filename(file + '.' + ext).toString();
 		}
 	};
 
