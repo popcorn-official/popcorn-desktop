@@ -209,6 +209,17 @@ var AdvSettings = {
 		return Q();
 	},
 
+	getNextApiEndpoint: function (endpoint) {
+		if (endpoint.index < endpoint.proxies.length - 1) {
+			endpoint.index++;
+		} else {
+			endpoint.index = 0;
+		}
+		endpoint.ssl = undefined;
+		_.extend(endpoint, endpoint.proxies[endpoint.index]);
+		return endpoint;
+	},
+
 	checkApiEndpoints: function (endpoints) {
 		return Q.all(_.map(endpoints, function (endpoint) {
 			return AdvSettings.checkApiEndpoint(endpoint);
@@ -263,9 +274,8 @@ var AdvSettings = {
 			var fn = timeoutWrapper(request);
 			var timeout = setTimeout(fn, 5000);
 		} else {
-			tls.connect({
-				host: url.hostname,
-				port: 443,
+			tls.connect(443, url.hostname, {
+				servername: url.hostname,
 				rejectUnauthorized: false
 			}, function () {
 				this.setTimeout(0);
