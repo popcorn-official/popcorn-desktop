@@ -33,7 +33,11 @@
 </div>
 
 <p class="title" title="<%= title %>"><%= title %></p>
-<p class="year"><%= year %></p>
+<p class="year">
+	<% if (typeof year !== 'undefined') {%>
+		<%= year %>
+	<%} %>
+</p>
 
 <% if (typeof item_data !== 'undefined') {%>
 		<p class="seasons data">
