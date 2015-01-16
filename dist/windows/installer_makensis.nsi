@@ -79,6 +79,8 @@ RequestExecutionLevel user
 !define MUI_ABORTWARNING
 !define MUI_FINISHPAGE_LINK "${APP_URL}"
 !define MUI_FINISHPAGE_LINK_LOCATION "${APP_URL}"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\node-webkit\${APP_NAME}.exe"
+!define MUI_FINISHPAGE_RUN_PARAMETERS "."
 
 ;Define the pages
 !insertmacro MUI_PAGE_WELCOME
