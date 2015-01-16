@@ -128,22 +128,7 @@
 		},
 
 		clearCollection: function () {
-			if (fs.existsSync(collection)) {
-				fs.readdirSync(collection).forEach(
-					function(file,index){
-						var curPath = collection + '/' + file;
-
-						if(fs.lstatSync(curPath).isDirectory()) { // recurse
-							// @TODO: FUNCTION NOT FOUND ????
-							//deleteFolderRecursive(curPath);
-							fs.unlinkSync(curPath);
-						} else { // delete file
-							fs.unlinkSync(curPath);
-						}
-
-					});
-				fs.rmdirSync(collection);
-			}
+			deleteFolder(collection);
 			App.vent.trigger('torrentCollection:show');
 		},
 

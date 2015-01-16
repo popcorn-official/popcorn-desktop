@@ -130,6 +130,12 @@
 			this.Content.show(new App.View.InitModal());
 			App.db.initialize()
 				.then(function () {
+
+					// Create the System Temp Folder. This is used to store temporary data like movie files.
+					if (!fs.existsSync(Settings.tmpLocation)) {
+						fs.mkdir(Settings.tmpLocation);
+					}
+
 					try {
 						require('fs').statSync('src/app/themes/' + Settings.theme + '.css');
 					} catch (e) {
