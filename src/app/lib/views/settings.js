@@ -6,6 +6,7 @@
 	var fdialogs = require('node-webkit-fdialogs');
 	var fs = require('fs');
 	var waitComplete;
+	var oldTmpLocation;
 
 	var that;
 
@@ -69,6 +70,7 @@
 			if (App.settings.showAdvancedSettings) {
 				$('.advanced').css('display', 'flex');
 			}
+			oldTmpLocation = $('#faketmpLocation').val();
 		},
 
 		rightclick_field: function (e) {
@@ -160,6 +162,7 @@
 			var field = $(e.currentTarget);
 
 			var apiDataChanged = false;
+			var tmpLocationChanged = false;
 			switch (field.attr('name')) {
 			case 'httpApiPort':
 				apiDataChanged = true;
@@ -222,6 +225,7 @@
 			case 'traktPassword':
 				return;
 			case 'tmpLocation':
+				tmpLocationChanged = true;
 				value = path.join(field.val(), 'Popcorn-Time');
 				break;
 			case 'vpnDisabledPerm':
@@ -239,6 +243,11 @@
 
 			if (apiDataChanged) {
 				App.vent.trigger('initHttpApi');
+			}
+
+			// move tmp folder safely
+			if (tmpLocationChanged) {
+				that.moveTmpLocation(value);
 			}
 
 			//save to db
@@ -306,7 +315,6 @@
 				}
 				break;
 			default:
-
 			}
 
 		},
@@ -458,6 +466,18 @@
 		openTmpFolder: function () {
 			console.log('Opening: ' + App.settings['tmpLocation']);
 			gui.Shell.openItem(App.settings['tmpLocation']);
+		},
+
+		moveTmpLocation: function (location) {
+			if (!fs.existsSync(location)) {
+				fs.mkdir(location);
+			}
+			if (App.settings['deleteTmpOnClose']) {
+				deleteFolder(oldTmpLocation);
+			} else {
+				$('.notification_alert').show().text(i18n.__('You should save the content of the old directory, then delete it')).delay(5000).fadeOut(400);
+				gui.Shell.openItem(oldTmpLocation);
+			}
 		},
 
 		openDatabaseFolder: function () {

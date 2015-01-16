@@ -216,10 +216,6 @@ if(process.platform === 'win32' && parseFloat(os.release(), 10) > 6.1) {
 };
 
 */
-// Create the System Temp Folder. This is used to store temporary data like movie files.
-if (!fs.existsSync(App.settings.tmpLocation)) {
-	fs.mkdir(App.settings.tmpLocation);
-}
 
 var deleteFolder = function (path) {
 
