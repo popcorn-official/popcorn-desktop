@@ -28,6 +28,9 @@
 				Database.getMovie(movie.imdb_id)
 					.then(function (data) {
 							data.type = 'bookmarkedmovie';
+							if (/slurm.trakt.us/.test(data.image)) {
+								data.image = data.image.replace(/slurm.trakt.us/, 'walter.trakt.us');
+							}
 							deferred.resolve(data);
 						},
 						function (err) {
@@ -35,18 +38,45 @@
 						});
 			} else {
 				// its a tv show
+				var _data = null;
 				Database.getTVShowByImdb(movie.imdb_id)
 					.then(function (data) {
 						data.type = 'bookmarkedshow';
-						data.image = data.images.poster;
 						data.imdb = data.imdb_id;
 						// Fallback for old bookmarks without provider in database
 						if (typeof (data.provider) === 'undefined') {
 							data.provider = 'Eztv';
 						}
-						deferred.resolve(data);
+						// This is an old boxart, fetch the latest boxart
+						if (/slurm.trakt.us/.test(data.images.poster)) {
+							// Keep reference to old data in case of error
+							_data = data;
+							var provider = App.Providers.get(data.provider);
+							return provider.detail(data.imdb_id, data);
+						} else {
+							data.image = data.images.poster;
+							deferred.resolve(data);
+							return null;
+						}
 					}, function (err) {
 						deferred.reject(err);
+					}).then(function (data) {
+						if (data) {
+							// Cache new show and return
+							Database.updateTVShow(data);
+							data.type = 'bookmarkedshow';
+							data.imdb = data.imdb_id;
+							data.image = data.images.poster;
+							deferred.resolve(data);
+						}
+					}, function (err) {
+						// Show no longer exists on provider
+						// Scrub bookmark and TV show
+						// But return previous data one last time
+						// So error to erase database doesn't show
+						Database.deleteBookmark(_data.imdb_id);
+						Database.deleteTVShow(_data.imdb_id);
+						deferred.resolve(_data);
 					});
 			}
 

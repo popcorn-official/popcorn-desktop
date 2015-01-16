@@ -242,6 +242,10 @@ var Database = {
 		return db.tvshows.insert(data);
 	},
 
+	updateTVShow: function (data) {
+		return db.tvshows.update({imdb_id: data.imdb_id}, data);
+	},
+
 	// This calls the addTVShow method as we need to setup a blank episodes array for each
 	addTVShows: function (data) {
 		win.warn('this isnt called anywhere');
