@@ -1,3 +1,28 @@
+## 0.3.7 Beta - The Car Won't Start - 15 January 2015
+
+BugFixes:
+
+- Fall back to Sequential ID when AirPlay devices do not respond to ServerInfo queries
+- Rebuild the new built-in VPN Client
+- Renamed "External" to "ExtPlayer" to avoid confusion with non-local devices
+- Fix the movie cover resizing code and garbage collect the cache to ensure old metadata isn't used
+- Greatly improves the built-in DLNA detection
+- Fix retina display for Ultra HD screens
+- Properly hide the spinner in cases where an error occurs 
+- Always show the FileSelector if TorrentCol is active. Fixes PT-1575
+- Fix subtitle error handling in the streamer
+- Prevent the app from getting stuck on "Waiting for Subtitles" if subtitle discovery fails
+- Fix the HTTP API / Remote API
+- Improved IP-Detection for all external devices. Fixes PT-1440
+- Fix the issue where the Ukrainian flag was displayed instead of the Armenian flag
+- Fixed TV Show covers not showing up due to Trakt shutting down Slurm Image Server
+
+New Features:
+
+- Calculate the remaining time before stream download completion
+- Added a "Magnet" icon in the details pane to allow copying of the magnet link
+- Added the ability to save the .torrent files and magnet links in-app for later
+
 ## 0.3.6 Beta - The Christmas Tree Is Up - 25 December 2014
 
 Bugfixes:
