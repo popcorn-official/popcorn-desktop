@@ -83,8 +83,8 @@ Any other information you want to share that is relevant to the issue being repo
 
 Feature requests are welcome. Before you submit one be sure to have:
 
-1. Read the [Roadmap](https://github.com/popcorn-official/popcorn-app/wiki/RoadMap) and
-[Planned Features](https://github.com/popcorn-official/popcorn-app/wiki/Planned-Features) listing, **use the Jira search** and check the feature hasn't already been requested.
+1. Read the [Roadmap](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/RoadMap.md) and
+[Planned Features](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Planned-Features.md) listing, **use the Jira search** and check the feature hasn't already been requested.
 2. Take a moment to think about whether your idea fits with the scope and aims of the project, or if it might
 better fit being an app/plugin.
 3. Remember, it's up to *you* to make a strong case to convince the project's leaders of the merits of this
@@ -112,15 +112,15 @@ what's already there? Does it fit with the Roadmap?
 Pull requests are awesome. If you're looking to raise a PR for something which doesn't have an open issue, please think carefully about [raising an issue](#report-a-bug) which your PR can close, especially if you're fixing a bug. This makes it more likely that there will be enough information available for your PR to be properly tested and merged. To make sure your PR is accepted as quickly as possible, you should be sure to have read
 all the guidelines on:
 
-* [code standards](https://github.com/popcorn-official/popcorn-app/wiki/Code-Standards)
-* [commit messages](https://github.com/popcorn-official/popcorn-app/wiki/Git-Workflow#commit-messages)
-* [cleaning-up history](https://github.com/popcorn-official/popcorn-app/wiki/Git-Workflow#clean-up-history)
-* [not breaking the build](https://github.com/popcorn-official/popcorn-app/wiki/Git-Workflow#check-it-passes-the-tests)
+* [code standards](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Code-Standards.md)
+* [commit messages](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Git-Workflow.md#commit-messages)
+* [cleaning-up history](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Git-Workflow.md#clean-up-history)
+* [not breaking the build](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Git-Workflow.md#check-it-passes-the-tests)
 
 ##### Need Help?
 
 If you're not completely clear on how to submit / update / *do* Pull Requests, please check out our in depth
-[Git Workflow guide](http://github.com/popcorn-official/popcorn-app/wiki/Git-Workflow) for Popcorn Time.
+[Git Workflow guide](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Git-Workflow.md) for Popcorn Time.
 
 
 #### Checking out a Pull Request
@@ -133,7 +133,7 @@ repository to allow you to checkout pull requests in the same way as branches:
 <a name="translation"></a>
 ### Translation
 
-For translations please go to: [http://www.getlocalization.com/PopcornTime/](http://www.getlocalization.com/PopcornTime/)
+For translations please go to: [Transifex](https://www.transifex.com/projects/p/popcorn-time-app)
 
 
 <a name="core"></a>
@@ -150,7 +150,7 @@ For translations please go to: [http://www.getlocalization.com/PopcornTime/](htt
 1. cd into the project folder
 1. Run `npm install -g grunt-cli bower` - to make it possible to run grunt commands
 
-[complete documentation](https://github.com/popcorn-official/popcorn-app/wiki/Build-and-Debug).
+[complete documentation](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Build-and-Debug.md).
 
 ### Updating with the latest changes
 
@@ -161,7 +161,7 @@ Pulling down the latest changes from master will often require more than just a 
 
 ### Key Branches & Tags
 
-- **[master](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse?at=refs/heads/master)** is the bleeding edge development branch. All work on the next
+- **[0.4.0](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse?at=refs%2Fheads%2F0.4.0)** is the bleeding edge development branch. All work on the next
 release is here.
 
 

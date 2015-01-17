@@ -18,7 +18,7 @@ If you're comfortable getting up and running from a `git clone`, this method is 
 
 If you clone the GitHub repository, you will need to build a number of assets using grunt.
 
-The [stable](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse?at=refs/heads/master) branch which contains the latest release.
+The [master](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse?at=refs/heads/master) branch which contains the latest release.
 
 #### Quickstart:
 
