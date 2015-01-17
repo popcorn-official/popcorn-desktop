@@ -127,13 +127,6 @@ var Database = {
 		});
 	},
 
-	getBookmark: function (imdb_id) {
-		win.warn('what is this even supposed to do? It isn\'t used anywhere');
-		return promisifyDb(db.bookmarks.findOne({
-			imdb_id: imdb_id
-		}));
-	},
-
 	deleteBookmarks: function () {
 		return db.bookmarks.remove({}, {
 			multi: true
@@ -157,8 +150,6 @@ var Database = {
 	},
 
 	getAllBookmarks: function () {
-		win.warn('this used to use .exec after the find');
-
 		return promisifyDb(db.bookmarks.find({}))
 			.then(function (data) {
 				var bookmarks = [];
@@ -168,19 +159,6 @@ var Database = {
 
 				return bookmarks;
 			});
-	},
-
-	addMovies: function (data) {
-		win.warn('addTvShow in addMovies seems like a bug');
-		win.warn('this isnt called anywhere');
-
-		var promises = data.movies.map(function (movie) {
-			return Database.addTVShow({
-				movie: movie
-			});
-		});
-
-		return Q.all(promises);
 	},
 
 	markMoviesWatched: function (data) {
@@ -218,17 +196,6 @@ var Database = {
 		});
 	},
 
-	isMovieWatched: function (data) {
-		win.warn('this isn\'t used anywhere');
-
-		return promisifyDb(db.watched.find({
-				movie_id: data.imdb_id.toString()
-			}))
-			.then(function (data) {
-				return (data != null && data.length > 0);
-			});
-	},
-
 	getMoviesWatched: function () {
 		return promisifyDb(db.watched.find({
 			type: 'movie'
@@ -243,20 +210,9 @@ var Database = {
 	},
 
 	updateTVShow: function (data) {
-		return db.tvshows.update({imdb_id: data.imdb_id}, data);
-	},
-
-	// This calls the addTVShow method as we need to setup a blank episodes array for each
-	addTVShows: function (data) {
-		win.warn('this isnt called anywhere');
-
-		var promises = data.shows.map(function (show) {
-			return Database.addTVShow({
-				show: show
-			});
-		});
-
-		return Q.all(promises);
+		return db.tvshows.update({
+			imdb_id: data.imdb_id
+		}, data);
 	},
 
 	markEpisodeAsWatched: function (data) {
@@ -345,11 +301,6 @@ var Database = {
 		return promisifyDb(db.watched.find({
 			type: 'episode'
 		}));
-	},
-	// deprecated: moved to provider
-	// TODO: remove once is approved
-	getSubtitles: function (data) {
-		win.warn('This function is deprecated, also, nothing is currently using it.');
 	},
 
 	// Used in bookmarks
