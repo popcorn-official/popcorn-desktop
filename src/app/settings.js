@@ -69,6 +69,7 @@ Settings.vpnUsername = '';
 Settings.vpnPassword = '';
 
 Settings.tvshowAPI = {
+	url: 'http://eztvapi.re/',
 	index: 0,
 	proxies: [{
 		url: 'http://eztvapi.re/',
@@ -82,6 +83,7 @@ Settings.tvshowAPI = {
 };
 
 Settings.updateEndpoint = {
+	url: 'https://popcorntime.io/',
 	index: 0,
 	proxies: [{
 		url: 'https://popcorntime.io/',
@@ -100,6 +102,7 @@ Settings.updateEndpoint = {
 };
 
 Settings.ytsAPI = {
+	url: 'https://yts.re/api/',
 	index: 0,
 	proxies: [{
 		url: 'https://yts.re/api/',
