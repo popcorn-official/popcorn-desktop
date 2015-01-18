@@ -1,8 +1,7 @@
 (function (App) {
 	'use strict';
 
-    var fdialogs = require('node-webkit-fdialogs'),
-        collection = path.join(require('nw.gui').App.dataPath + '/TorrentCollection/'),
+    var collection = path.join(require('nw.gui').App.dataPath + '/TorrentCollection/'),
 		files;
 
 	var TorrentCollection = Backbone.Marionette.ItemView.extend({
