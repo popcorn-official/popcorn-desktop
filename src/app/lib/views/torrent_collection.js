@@ -1,7 +1,8 @@
 (function (App) {
 	'use strict';
 
-    var collection = path.join(require('nw.gui').App.dataPath + '/TorrentCollection/'),
+    var fdialogs = require('node-webkit-fdialogs'),
+        collection = path.join(require('nw.gui').App.dataPath + '/TorrentCollection/'),
 		files;
 
 	var TorrentCollection = Backbone.Marionette.ItemView.extend({
@@ -13,7 +14,9 @@
 			'click .item-delete': 'deleteItem',
 			'click .item-rename': 'renameItem',
 			'click .collection-delete': 'clearCollection',
-			'click .collection-open': 'openCollection'
+			'click .collection-open': 'openCollection',
+			'click .collection-import': 'importItem',
+			'click .notorrents-frame': 'importItem'
 		},
 
 		initialize: function () {
@@ -136,6 +139,23 @@
 			console.log('Opening: ' + collection);
 			gui.Shell.openItem(collection);
 		},
+
+		importItem: function () {
+			this.$('.tooltip').css('display','none');
+
+            var that = this;
+            var input = document.querySelector('.collection-import-hidden');
+            input.addEventListener("change", function(evt) {
+                var file = $('.collection-import-hidden')[0].files[0];
+                that.render();
+                window.ondrop({
+                    dataTransfer: { files: [ file ] },
+                    preventDefault: function () {}
+                });
+            }, false);
+
+            input.click();
+        },
 
 		onClose: function () {
 			Mousetrap.unbind(['esc', 'backspace']);
