@@ -70,9 +70,12 @@ Settings.vpnPassword = '';
 
 Settings.tvshowAPI = {
 	url: 'http://eztvapi.re/',
-	ssl: false,
-	fingerprint: /"status":"online"/,
-	fallbacks: [{
+	index: 0,
+	proxies: [{
+		url: 'http://eztvapi.re/',
+		ssl: false,
+		fingerprint: /"status":"online"/,
+	}, {
 		url: 'http://api.popcorntime.io/',
 		ssl: false,
 		fingerprint: /"status":"online"/
@@ -81,8 +84,11 @@ Settings.tvshowAPI = {
 
 Settings.updateEndpoint = {
 	url: 'https://popcorntime.io/',
-	fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C',
-	fallbacks: [{
+	index: 0,
+	proxies: [{
+		url: 'https://popcorntime.io/',
+		fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C',
+	}, {
 		url: 'https://popcorntime.re/',
 		fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C'
 	},{
@@ -97,20 +103,23 @@ Settings.updateEndpoint = {
 
 Settings.ytsAPI = {
 	url: 'https://yts.re/api/',
-	fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C',
-	fallbacks: [{
+	index: 0,
+	proxies: [{
+		url: 'https://yts.re/api/',
+		fingerprint: 'D4:7B:8A:2A:7B:E1:AA:40:C5:7E:53:DB:1B:0F:4F:6A:0B:AA:2C:6C',
+	}, {
 		url: 'https://yts.pm/api/',
 		fingerprint: 'B6:0A:11:A8:74:48:EB:B4:9A:9C:79:1A:DA:FA:72:BF:F8:8B:0A:B3'
 	}, {
 		url: 'https://yts.io/api/',
 		fingerprint: '27:96:21:06:E3:2F:5D:3D:7D:46:13:EF:42:5B:AD:5E:C8:FD:DA:45'
 	}, {
+		url: 'https://yts-proxy.net/api/',
+		fingerprint: '8E:49:5B:A9:2E:F1:AE:E8:A2:BB:E2:77:E9:C3:BC:D4:5D:4B:66:1F'
+	}, {
 		url: 'http://proxy.piratenpartij.nl/yts.re/api/',
 		ssl: false,
 		fingerprint: /Piratenpartij.nl Proxy/
-	}, {
-		url: 'https://yts-proxy.net/api/',
-		fingerprint: '8E:49:5B:A9:2E:F1:AE:E8:A2:BB:E2:77:E9:C3:BC:D4:5D:4B:66:1F'
 	}, { // .wf is listed last due to lack of ECDSA support in nw0.9.2
 		url: 'https://yts.wf/api/',
 		fingerprint: '77:44:AC:40:4A:B8:A6:83:06:37:5C:56:16:B4:2C:30:B9:75:99:94'
@@ -203,6 +212,17 @@ var AdvSettings = {
 		return Q();
 	},
 
+	getNextApiEndpoint: function (endpoint) {
+		if (endpoint.index < endpoint.proxies.length - 1) {
+			endpoint.index++;
+		} else {
+			endpoint.index = 0;
+		}
+		endpoint.ssl = undefined;
+		_.extend(endpoint, endpoint.proxies[endpoint.index]);
+		return endpoint;
+	},
+
 	checkApiEndpoints: function (endpoints) {
 		return Q.all(_.map(endpoints, function (endpoint) {
 			return AdvSettings.checkApiEndpoint(endpoint);
@@ -216,56 +236,48 @@ var AdvSettings = {
 
 		defer = defer || Q.defer();
 
-		if (endpoint.skip) {
-			win.debug('Skipping endpoint check for %s', endpoint.url);
-			return Q();
-		}
+		endpoint.ssl = undefined;
+		_.extend(endpoint, endpoint.proxies[endpoint.index]);
 
 		var url = uri.parse(endpoint.url);
 		win.debug('Checking %s endpoint', url.hostname);
 
 		if (endpoint.ssl === false) {
-			http.get({
-				hostname: url.hostname,
-				port: url.port || 80,
-				agent: false
-			}, function (res) {
-				res.on('data', function (body) {
-					res.removeAllListeners('data');
+			var timeoutWrapper = function(req) {
+				return function () {
+					win.warn('[%s] Endpoint timed out',
+						url.hostname);
+					req.abort();
+					tryNextEndpoint();
+				}
+			};
+			var request = http.get({ hostname: url.hostname }, function(res) {
+				res.once('data', function (body) {
+					clearTimeout(timeout);
+					res.removeAllListeners('error');
 					// Doesn't match the expected response
 					if (!_.isRegExp(endpoint.fingerprint) || !endpoint.fingerprint.test(body.toString('utf8'))) {
 						win.warn('[%s] Endpoint fingerprint %s does not match %s',
 							url.hostname,
 							endpoint.fingerprint,
 							body.toString('utf8'));
-						if (endpoint.fallbacks.length) {
-							var fallback = endpoint.fallbacks.shift();
-							endpoint.ssl = undefined;
-							_.extend(endpoint, fallback);
-
-							AdvSettings.checkApiEndpoint(endpoint, defer);
-							return;
-						} else {
-							// TODO: should reject here!
-						}
+						tryNextEndpoint();
+					} else {
+						defer.resolve();
 					}
-
-					defer.resolve();
+				}).once('error', function (e) {
+					win.warn('[%s] Endpoint failed [%s]',
+						url.hostname,
+						e.message);
+					clearTimeout(timeout);
+					tryNextEndpoint();
 				});
-			}).on('error', function (error) {
-				if (endpoint.fallbacks.length) {
-					var fallback = endpoint.fallbacks.shift();
-					endpoint.ssl = undefined;
-					_.extend(endpoint, fallback);
+			});
 
-					AdvSettings.checkApiEndpoint(endpoint, defer);
-				} else {
-					// TODO: should reject here!
-					defer.resolve();
-				}
-			}).setTimeout(5000);
+			var fn = timeoutWrapper(request);
+			var timeout = setTimeout(fn, 5000);
 		} else {
-			tls.connect(url.port || 443, url.hostname, {
+			tls.connect(443, url.hostname, {
 				servername: url.hostname,
 				rejectUnauthorized: false
 			}, function () {
@@ -280,52 +292,36 @@ var AdvSettings = {
 						url.hostname,
 						endpoint.fingerprint,
 						this.getPeerCertificate().fingerprint);
-					if (endpoint.fallbacks.length) {
-						var fallback = endpoint.fallbacks.shift();
-						endpoint.ssl = undefined;
-						_.extend(endpoint, fallback);
-
-						AdvSettings.checkApiEndpoint(endpoint, defer);
-					} else {
-						defer.resolve();
-					}
+					tryNextEndpoint();
 				} else {
 					defer.resolve();
 				}
 				this.end();
-			}).on('error', function (err) {
+			}).once('error', function (e) {
+				win.warn('[%s] Endpoint failed [%s]',
+					url.hostname,
+					e.message);
 				this.setTimeout(0);
-				// No SSL support. That's convincing >.<
-				win.warn('[%s] Endpoint does not support SSL, failing',
+				tryNextEndpoint();
+			}).once('timeout', function () {
+				win.warn('[%s] Endpoint timed out',
 					url.hostname);
-				if (endpoint.fallbacks.length) {
-					var fallback = endpoint.fallbacks.shift();
-					endpoint.ssl = undefined;
-					_.extend(endpoint, fallback);
-
-					AdvSettings.checkApiEndpoint(endpoint, defer);
-				} else {
-					// TODO: Should probably reject here
-					defer.resolve();
-				}
-				this.end();
-			}).on('timeout', function () {
 				this.removeAllListeners('error');
-				// Connection timed out, we'll say its not available
-				win.warn('[%s] Endpoint timed out, failing',
-					url.hostname);
-				if (endpoint.fallbacks.length) {
-					var fallback = endpoint.fallbacks.shift();
-					endpoint.ssl = undefined;
-					_.extend(endpoint, fallback);
-
-					AdvSettings.checkApiEndpoint(endpoint, defer);
-				} else {
-					// TODO: Should probably reject here
-					defer.resolve();
-				}
 				this.end();
-			}).setTimeout(5000); // Set 5 second timeout
+				tryNextEndpoint();
+			}).setTimeout(5000);
+		}
+
+		function tryNextEndpoint() {
+			if (endpoint.index < endpoint.proxies.length - 1) {
+				endpoint.index++;
+				AdvSettings.checkApiEndpoint(endpoint, defer);
+			} else {
+				endpoint.index = 0;
+				endpoint.ssl = undefined;
+				_.extend(endpoint, endpoint.proxies[endpoint.index]);
+				defer.resolve();
+			}
 		}
 
 		return defer.promise;

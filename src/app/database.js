@@ -441,7 +441,6 @@ var Database = {
 				App.vent.trigger('initHttpApi');
 
 				return AdvSettings.checkApiEndpoints([
-					Settings.ytsAPI,
 					Settings.tvshowAPI,
 					Settings.updateEndpoint
 				]);
