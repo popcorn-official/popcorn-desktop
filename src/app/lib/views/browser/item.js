@@ -181,7 +181,7 @@
 				var data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
 					.catch(function () {
 						$('.spinner').hide();
-						alert(i18n.__('Error loading data, try again later...'));
+						$('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
 					})
 					.then(function (data) {
 						data.provider = provider.name;
@@ -336,7 +336,7 @@
 									});
 							},
 							function (err) {
-								alert(i18n.__('Error loading data, try again later...'));
+								$('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
 							});
 				}
 				break;
