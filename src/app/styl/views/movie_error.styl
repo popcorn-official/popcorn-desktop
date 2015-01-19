@@ -1,37 +1,42 @@
-.retry-button
-  bottom 300px
-  z-index 2
-  position absolute
-  cursor pointer
-  width 120px
-  height 35px
-  margin auto
-  left 0
-  right 0
-  -moz-border-radius 3px
-  -webkit-border-radius 3px
-  border-radius 3px
-  -moz-background-clip padding
-  -webkit-background-clip padding-box
-  background-clip padding-box
-  background-color $ButtonBg
-  -webkit-backface-visibility hidden
-  transition all .5s
+#movie-error
+	.retry-button
+		position: absolute
+		cursor: pointer
+		height: 35px
+		top: 0
+		margin-top: 340px
+		margin-left: calc(50% - 50px)
+		border-radius: $ButtonRadius
+		background-clip: padding-box
+		background-color: $ButtonBg
+		padding: 0 15px
+		transition: background-color 0.5s
+		color: $ButtonText
+		font-family: $MainFont
+		font-smoothing: antialiased
+		text-align: center
+		font-size: 12px
+		line-height: 34px
 
-  &:hover
-    background: $ButtonBgHover
-    text-decoration: none
+		&:hover
+			background: $ButtonBgHover
+			text-decoration: none
 
-  &:active
-    box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-    background: $ButtonBgActive
+		&:active
+			box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+			background: $ButtonBgActive
 
-  .retry-button-text
-    -webkit-backface-visibility hidden
-    position relative
-    color #fff
-    font-family $MainFont, $Font, $AlternateFont
-    -webkit-font-smoothing antialiased
-    text-align center
-    top 12px
-    font-size 12px
+		.retry-button-text
+			margin-left: 12px
+			margin-right: 12px
+
+			&:after
+				content: ''
+				width: 70%
+				height: 100%
+				top: 0
+				left: 0
+				position: absolute
+
+			i
+				font-size: 14px

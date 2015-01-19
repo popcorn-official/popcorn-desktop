@@ -314,6 +314,11 @@
 					App.vent.trigger('torrentCollection:close');
 				}
 				break;
+			case 'movies_quality':
+				App.Providers.delete('Yts');
+				App.vent.trigger('movies:list');
+				App.vent.trigger('settings:show');
+				break;
 			default:
 			}
 

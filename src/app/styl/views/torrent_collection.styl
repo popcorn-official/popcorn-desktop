@@ -29,11 +29,20 @@
 				width 250px
 				height 250px
 				border-radius 25px
+				color $TextError
 				text-align center
+				transition all .3s
+				cursor pointer
+
+				&:hover
+					color $ButtonBgHover
+					border-color $ButtonBgHover
+				&:active
+					color $ButtonBgActive
+					border-color $ButtonBgActive
 
 				.notorrents-icon
 					font-size 140px
-					color $TextError
 					padding-top 20px
 
 				.notorrents-message
@@ -131,6 +140,14 @@
 			.collection-open
 				position fixed
 				right 50px
+				bottom 15px
+				transition all 0.3s
+				cursor pointer
+				&:hover
+					color $ButtonBgHover
+			.collection-import
+				position fixed
+				right 80px
 				bottom 15px
 				transition all 0.3s
 				cursor pointer

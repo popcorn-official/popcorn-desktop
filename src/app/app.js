@@ -206,17 +206,6 @@ App.addInitializer(function (options) {
 		.then(initApp);
 });
 
-/**
-* Windows 8 Fix
-* https://github.com/rogerwang/node-webkit/issues/1021#issuecomment-34358536
- # commented this line so we can watch movies withou the taskbar showing always
-
-if(process.platform === 'win32' && parseFloat(os.release(), 10) > 6.1) {
-	gui.Window.get().setMaximumSize(screen.availWidth + 15, screen.availHeight + 14);
-};
-
-*/
-
 var deleteFolder = function (path) {
 
 	if (typeof path !== 'string') {
@@ -318,11 +307,7 @@ if (process.platform === 'darwin') {
 	});
 }
 
-/**
- * Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
- */
-
-
+// Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
 window.ondragenter = function (e) {
 
 	$('#drop-mask').show();
@@ -356,14 +341,6 @@ var handleTorrent = function (torrent) {
 	App.Config.getProvider('torrentCache').resolve(torrent);
 };
 
-// var startTorrentStream = function(torrentFile) {
-//     var torrentStart = new Backbone.Model({
-//         torrent: torrentFile
-//     });
-//     $('.close-info-player').click();
-//     App.vent.trigger('stream:start', torrentStart);
-// };
-
 window.ondrop = function (e) {
 	e.preventDefault();
 	$('#drop-mask').hide();
@@ -380,7 +357,7 @@ window.ondrop = function (e) {
 
 			fs.writeFile(path.join(App.settings.tmpLocation, file.name), content, function (err) {
 				if (err) {
-					window.alert('Error Loading File: ' + err);
+					window.alert(i18n.__('Error Loading File') + ': ' + err);
 				} else {
 					if (file.name.indexOf('.torrent') !== -1) {
 						Settings.droppedTorrent = file.name;
@@ -398,48 +375,33 @@ window.ondrop = function (e) {
 
 	} else {
 		var data = e.dataTransfer.getData('text/plain');
-        Settings.droppedMagnet = data;
+		Settings.droppedMagnet = data;
 		handleTorrent(data);
-		// if (data != null && data.substring(0, 8) === 'magnet:?') {
-		//     startTorrentStream(data);
-		// }
 	}
 
 	return false;
 };
 
-/**
- * Paste Magnet Link to start stream
- */
-
+// Paste Magnet Link to start stream
 $(document).on('paste', function (e) {
-	// if (data.substring(0, 8) !== 'magnet:?' && (e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA')) {
-	//     return;
-	// } else {
-	//     e.preventDefault();
-	//     if (data != null && data.substring(0, 8) === 'magnet:?') {
-	//         startTorrentStream(data);
-	//     }
-	//     return true;
-	// }
+
 	if (e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA') {
 		return;
 	}
+
 	var data = (e.originalEvent || e).clipboardData.getData('text/plain');
 	e.preventDefault();
-    Settings.droppedMagnet = data;
+	Settings.droppedMagnet = data;
 	handleTorrent(data);
 	return true;
 });
 
-/**
- * Pass magnet link as last argument to start stream
- */
+
+// Pass magnet link as last argument to start stream
 var last_arg = gui.App.argv.pop();
 
 if (last_arg && (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0, 7) === 'http://' || last_arg.endsWith('.torrent'))) {
 	App.vent.on('main:ready', function () {
-		// startTorrentStream(last_arg);
 		handleTorrent(last_arg);
 	});
 }
@@ -449,9 +411,8 @@ if (gui.App.fullArgv.indexOf('-f') !== -1) {
 	win.enterFullscreen();
 }
 
-/**
- * Show 404 page on uncaughtException
- */
+
+// Show 404 page on uncaughtException
 process.on('uncaughtException', function (err) {
 	window.console.error(err, err.stack);
 });
