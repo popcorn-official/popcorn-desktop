@@ -59,6 +59,7 @@ CRCCheck on
 SetCompressor /SOLID lzma
 
 ;Default installation folder
+!insertmacro MUI_PAGE_DIRECTORY
 InstallDir "$LOCALAPPDATA\${APP_NAME}"
 
 ;Request application privileges
