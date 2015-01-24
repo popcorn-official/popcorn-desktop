@@ -201,7 +201,7 @@ module.exports = function (grunt) {
 
 		nodewebkit: {
 			options: {
-				version: '0.9.2',
+				version: '0.11.5',
 				build_dir: './build', // Where the build version of my node-webkit app is saved
 				keep_nw: true,
 				embed_nw: false,
