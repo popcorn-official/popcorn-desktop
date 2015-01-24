@@ -139,7 +139,7 @@
 
 	var searchPaths = {
 		linux: ['/usr/bin', '/usr/local/bin'],
-		darwin: ['/Applications'],
+		darwin: ['/Applications', process.env.HOME + '/Applications'],
 		win32: ['C:\\Program Files\\']
 	};
 

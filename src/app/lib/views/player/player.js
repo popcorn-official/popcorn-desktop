@@ -502,6 +502,21 @@
 				_this.toggleMouseDebug();
 			});
 
+			Mousetrap.bind('0', function (e) {
+				var v = $('video')[0];
+				window.resizeTo(v.videoWidth/2, v.videoHeight/2);
+			});
+
+			Mousetrap.bind('1', function (e) {
+				var v = $('video')[0];
+				window.resizeTo(v.videoWidth, v.videoHeight);
+			});
+
+			Mousetrap.bind('2', function (e) {
+				var v = $('video')[0];
+				window.resizeTo(v.videoWidth*2, v.videoHeight*2);
+			});
+
 			document.addEventListener('mousewheel', _this.mouseScroll);
 		},
 
@@ -563,6 +578,12 @@
 			Mousetrap.unbind(['l', 'shift+l', 'ctrl+l']);
 
 			Mousetrap.unbind('ctrl+d');
+
+			Mousetrap.unbind('0');
+
+			Mousetrap.unbind('1');
+
+			Mousetrap.unbind('2');
 
 			document.removeEventListener('mousewheel', _this.mouseScroll);
 		},
