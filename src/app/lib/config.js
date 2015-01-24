@@ -43,7 +43,8 @@
 			'popularity',
 			'updated',
 			'year',
-			'name'
+			'name',
+			'rating'
 		],
 
 		types_anime: [
