@@ -168,6 +168,7 @@
 				apiDataChanged = true;
 				value = parseInt(field.val());
 				break;
+			case 'ytsAPI':
 			case 'tvshowAPI':
 				value = field.val();
 				if (value.substr(-1) !== '/') {
@@ -314,6 +315,7 @@
 				}
 				break;
 			case 'movies_quality':
+			case 'ytsAPI':
 				App.Providers.delete('Yts');
 				App.vent.trigger('movies:list');
 				App.vent.trigger('settings:show');
