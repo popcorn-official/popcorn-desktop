@@ -651,6 +651,8 @@
 		},
 
 		getTorrentHealth: function (e) {
+			win.warn('torrentHealth disactivated until fix');
+			/*
 			var torrent = $('.startStreaming').attr('data-torrent');
 			$('.health-icon')
 				.removeClass('fa-circle')
@@ -693,7 +695,7 @@
 					.addClass(health)
 					.attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
 					.tooltip('fixTitle');
-			});
+			});*/
 		},
 
 		resetHealth: function () {
