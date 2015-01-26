@@ -87,6 +87,7 @@ vjs.TextTrack.prototype.load = function(){
             if (! Settings.subtitle_shadows) {
                 $('.vjs-text-track').css('text-shadow', 'none');
             }
+			$('.vjs-text-track').css('z-index','auto').css('position','relative').css('top', AdvSettings.get('playerSubPosition'));
 		});
 
 		// Fetches a raw subtitle, locally or remotely

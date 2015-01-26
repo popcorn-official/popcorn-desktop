@@ -23,7 +23,8 @@
 			'click .close-info-player': 'closePlayer',
 			'click .playnownext': 'playNextNow',
 			'click .vjs-fullscreen-control': 'toggleFullscreen',
-			'click .vjs-subtitles-button': 'toggleSubtitles'
+			'click .vjs-subtitles-button': 'toggleSubtitles',
+			'click .vjs-text-track': 'moveSubtitles'
 		},
 
 		isMovie: function () {
@@ -648,6 +649,10 @@
 		},
 
 		toggleSubtitles: function () {},
+		
+		moveSubtitles: function (e) {
+			AdvSettings.set('playerSubPosition', $('.vjs-text-track').css('top'));
+		},
 
 		leaveFullscreen: function () {
 			this.nativeWindow = require('nw.gui').Window.get();
