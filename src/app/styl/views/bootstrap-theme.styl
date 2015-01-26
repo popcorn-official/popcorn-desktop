@@ -58,11 +58,14 @@ ul.nav-hor > li
 
     & > li > a
         padding-left 10px
-        padding-right 10px
+        padding-right 25px
+        text-overflow ellipsis
+        overflow hidden
+        max-width 200px
 
         img
             height 20px
             width 20px
-            float right
-            margin-right -5px
+            position absolute
+            right 3px
             -webkit-filter: $PngLogo
