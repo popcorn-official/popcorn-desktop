@@ -6,6 +6,7 @@ Unicode True
 
 ;Include Modern UI
 !include "MUI2.nsh"
+!include "FileFunc.nsh"
 
 ;Check file paths
 !if /FILEEXISTS "..\..\package.json"
@@ -44,6 +45,8 @@ Unicode True
 !endif
 
 ;General Settings
+!define COMPANY_NAME "Popcorn Official"
+!define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
 Name "${APP_NAME}"
 Caption "${APP_NAME} v${PT_VERSION}"
 BrandingText "${APP_NAME} v${PT_VERSION}"
@@ -51,10 +54,10 @@ VIAddVersionKey "ProductName" "${APP_NAME}"
 VIAddVersionKey "ProductVersion" "v${PT_VERSION}"
 VIAddVersionKey "FileDescription" "${APP_NAME} v${PT_VERSION} Installer"
 VIAddVersionKey "FileVersion" "v${PT_VERSION}"
-VIAddVersionKey "CompanyName" "Popcorn Official"
+VIAddVersionKey "CompanyName" "${COMPANY_NAME}"
 VIAddVersionKey "LegalCopyright" "${APP_URL}"
 VIProductVersion "${PT_VERSION_CLEAN}.0"
-OutFile "${APP_NAME}-${PT_VERSION}-Setup.exe"
+OutFile "${APP_NAME}-${PT_VERSION}-Win-Setup.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 
@@ -348,6 +351,17 @@ Section ; Shortcuts
     Delete "$DESKTOP\${APP_NAME}.lnk"
     CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\node-webkit\${APP_NAME}.exe" "." "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
 
+    ;Add/remove programs uninstall entry
+    ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
+    IntFmt $0 "0x%08X" $0
+	WriteRegDWORD HKCU "${UNINSTALL_KEY}" "EstimatedSize" "$0"
+	WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\src\app\images\popcorntime.ico"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "${COMPANY_NAME}"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "URLInfoAbout" "${APP_URL}"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.popcorntime.io"
+
 SectionEnd
 
 ; Uninstaller
@@ -360,5 +374,6 @@ Section "uninstall"
     MessageBox MB_YESNO|MB_ICONQUESTION "$(removeDataFolder)" IDNO NoUninstallData
     RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
     NoUninstallData:
+    DeleteRegKey HKCU "${UNINSTALL_KEY}"
     
 SectionEnd
