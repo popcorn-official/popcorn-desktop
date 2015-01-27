@@ -39,22 +39,31 @@
 			_.each(_this.regionManager._regions, function (element, index) {
 				
 				element.on('show', function (view) {
-					console.log('element.show', view);
-					console.log('viewstack', App.ViewStack);
+					console.log('viewstack:push', view.className);
 					if (view.className) {
 						App.ViewStack.push(view.className);
 					}
 					App.vent.trigger('viewstack:push', view.className);
+
+					// console.log('viewstack.push.after', App.ViewStack);
 				});
 
+				/**
+				 * Marionette 2.x changed close to destroy, and doesn't pass along a view anymore.
+				 * TODO: Find better solution
+				 */
 				element.on('destroy', function (view) {
-					console.log('element.on(Destroy)', this.className);
-					console.log('viewstack', App.ViewStack);
-					App.ViewStack.pop();
-					if (view) {
-						console.log('viewstack:pop', view);
-						App.vent.trigger('viewstack:pop', view.className);
+					console.info('### destroy.view ###', view);
+					if (typeof view === 'undefined' && element.currentView !== null) {
+						view = element.currentView;
 					}
+					var viewName = (typeof view !== 'undefined' ? view.className : 'unknown');
+					App.ViewStack.pop();
+					App.vent.trigger('viewstack:pop', viewName);
+					console.log('viewstack:pop', viewName);
+					if (typeof element.currentView !== 'undefined') element.currentView.destroy();
+
+					// console.log('viewstack.pop.after', App.ViewStack);
 				});
 			});
 
