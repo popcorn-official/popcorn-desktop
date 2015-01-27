@@ -243,7 +243,7 @@ win.on('move', function (x, y) {
 });
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
-win.on('close', function () {
+win.on('destroy', function () {
 	if (App.settings.deleteTmpOnClose) {
 		deleteFolder(App.settings.tmpLocation);
 	}

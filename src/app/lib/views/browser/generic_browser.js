@@ -9,7 +9,7 @@
 	 *  * Show movie detail
 	 *  * Start playing a movie
 	 */
-	var PCTBrowser = Backbone.Marionette.Layout.extend({
+	var PCTBrowser = Backbone.Marionette.LayoutView.extend({
 		template: '#browser-tpl',
 		className: 'main-browser',
 		regions: {

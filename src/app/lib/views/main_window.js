@@ -3,7 +3,7 @@
 
 	var _this;
 
-	var MainWindow = Backbone.Marionette.Layout.extend({
+	var MainWindow = Backbone.Marionette.LayoutView.extend({
 		template: '#main-window-tpl',
 
 		id: 'main-window',
@@ -37,16 +37,24 @@
 			_this = this;
 
 			_.each(_this.regionManager._regions, function (element, index) {
+				
 				element.on('show', function (view) {
+					console.log('element.show', view);
+					console.log('viewstack', App.ViewStack);
 					if (view.className) {
 						App.ViewStack.push(view.className);
 					}
 					App.vent.trigger('viewstack:push', view.className);
 				});
 
-				element.on('close', function (view) {
+				element.on('destroy', function (view) {
+					console.log('element.on(Destroy)', this.className);
+					console.log('viewstack', App.ViewStack);
 					App.ViewStack.pop();
-					App.vent.trigger('viewstack:pop', view.className);
+					if (view) {
+						console.log('viewstack:pop', view);
+						App.vent.trigger('viewstack:pop', view.className);
+					}
 				});
 			});
 
@@ -62,21 +70,21 @@
 			App.vent.on('shows:init', _.bind(this.initShows, this));
 
 			// Add event to show disclaimer
-			App.vent.on('show:disclaimer', _.bind(this.showDisclaimer, this));
-			App.vent.on('close:disclaimer', _.bind(this.Disclaimer.close, this.Disclaimer));
+			App.vent.on('disclaimer:show', _.bind(this.showDisclaimer, this));
+			App.vent.on('disclaimer:close', _.bind(this.Disclaimer.destroy, this.Disclaimer));
 
 			// Add event to show about
 			App.vent.on('about:show', _.bind(this.showAbout, this));
-			App.vent.on('about:close', _.bind(this.About.close, this.About));
+			App.vent.on('about:close', _.bind(this.About.destroy, this.About));
 
 			// Keyboard
 			App.vent.on('keyboard:show', _.bind(this.showKeyboard, this));
-			App.vent.on('keyboard:close', _.bind(this.Keyboard.close, this.Keyboard));
+			App.vent.on('keyboard:close', _.bind(this.Keyboard.destroy, this.Keyboard));
 			App.vent.on('keyboard:toggle', _.bind(this.toggleKeyboard, this));
 
 			// Help
 			App.vent.on('help:show', _.bind(this.showHelp, this));
-			App.vent.on('help:close', _.bind(this.Help.close, this.Help));
+			App.vent.on('help:close', _.bind(this.Help.destroy, this.Help));
 			App.vent.on('help:toggle', _.bind(this.toggleHelp, this));
 
 			// Movies
@@ -85,7 +93,7 @@
 			
 			// Torrent collection
 			App.vent.on('torrentCollection:show', _.bind(this.showTorrentCollection, this));
-			App.vent.on('torrentCollection:close', _.bind(this.TorrentCollection.close, this.TorrentCollection));
+			App.vent.on('torrentCollection:close', _.bind(this.TorrentCollection.destroy, this.TorrentCollection));
 
 			// Tv Shows
 			App.vent.on('show:showDetail', _.bind(this.showShowDetail, this));
@@ -93,10 +101,10 @@
 
 			// Settings events
 			App.vent.on('settings:show', _.bind(this.showSettings, this));
-			App.vent.on('settings:close', _.bind(this.Settings.close, this.Settings));
+			App.vent.on('settings:close', _.bind(this.Settings.destroy, this.Settings));
 
 			App.vent.on('system:openFileSelector', _.bind(this.showFileSelector, this));
-			App.vent.on('system:closeFileSelector', _.bind(this.FileSelector.close, this.FileSelector));
+			App.vent.on('system:closeFileSelector', _.bind(this.FileSelector.destroy, this.FileSelector));
 
 			App.vent.on('system:traktAuthenticated', _.bind(this.syncTraktOnStart, this));
 
@@ -105,7 +113,7 @@
 			App.vent.on('stream:ready', _.bind(this.streamReady, this));
 			App.vent.on('stream:local', _.bind(this.showPlayer, this));
 			App.vent.on('player:close', _.bind(this.showViews, this));
-			App.vent.on('player:close', _.bind(this.Player.close, this.Player));
+			App.vent.on('player:close', _.bind(this.Player.destroy, this.Player));
 
 			App.vent.on('vpn:connect', _.bind(this.connectVpn, this));
 
@@ -152,7 +160,7 @@
 						that.showDisclaimer();
 					}
 
-					that.InitModal.close();
+					that.InitModal.destroy();
 
 					if (AdvSettings.get('startScreen') === 'Watchlist') {
 						that.showWatchlist();
@@ -187,22 +195,22 @@
 		},
 
 		showMovies: function (e) {
-			this.Settings.close();
-			this.MovieDetail.close();
+			this.Settings.destroy();
+			this.MovieDetail.destroy();
 
 			this.Content.show(new App.View.MovieBrowser());
 		},
 
 		showShows: function (e) {
-			this.Settings.close();
-			this.MovieDetail.close();
+			this.Settings.destroy();
+			this.MovieDetail.destroy();
 
 			this.Content.show(new App.View.ShowBrowser());
 		},
 
 		showAnime: function (e) {
-			this.Settings.close();
-			this.MovieDetail.close();
+			this.Settings.destroy();
+			this.MovieDetail.destroy();
 
 			this.Content.show(new App.View.AnimeBrowser());
 		},
@@ -212,7 +220,7 @@
 			App.vent.trigger('show:closeDetail');
 			this.Content.show(new App.View.InitModal());
 			App.db.syncDB(function () {
-				that.InitModal.close();
+				that.InitModal.destroy();
 				that.showShows();
 				// Focus the window when the app opens
 				that.nativeWindow.focus();
@@ -230,7 +238,7 @@
 			App.vent.trigger('settings:close');
 			this.Content.show(new App.View.InitModal());
 			App.db.initDB(function (err, data) {
-				that.InitModal.close();
+				that.InitModal.destroy();
 
 				if (!err) {
 					// we write our new update time
@@ -245,15 +253,15 @@
 		},
 
 		showFavorites: function (e) {
-			this.Settings.close();
-			this.MovieDetail.close();
+			this.Settings.destroy();
+			this.MovieDetail.destroy();
 
 			this.Content.show(new App.View.FavoriteBrowser());
 		},
 
 		showWatchlist: function (e) {
-			this.Settings.close();
-			this.MovieDetail.close();
+			this.Settings.destroy();
+			this.MovieDetail.destroy();
 
 			this.Content.show(new App.View.WatchlistBrowser());
 		},
@@ -305,7 +313,7 @@
 		},
 
 		closeMovieDetail: function (movieModel) {
-			_this.MovieDetail.close();
+			_this.MovieDetail.destroy();
 			App.vent.trigger('shortcuts:movies');
 		},
 
@@ -316,7 +324,7 @@
 		},
 
 		closeShowDetail: function (showModel) {
-			_this.MovieDetail.close();
+			_this.MovieDetail.destroy();
 			App.vent.trigger('shortcuts:shows');
 		},
 
@@ -348,7 +356,7 @@
 			// modal (tvshow/movie) detail open when
 			// the streaming start.
 			//
-			// this.MovieDetail.close();
+			// this.MovieDetail.destroy();
 			//
 			// uncomment previous line to close it
 

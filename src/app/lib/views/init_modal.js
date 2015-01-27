@@ -32,7 +32,7 @@
 			}, 7000);
 		},
 
-		onClose: function () {
+		onDestroy: function () {
 			clearTimeout(fixer);
 		},
 

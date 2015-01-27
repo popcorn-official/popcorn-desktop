@@ -117,7 +117,7 @@
 			server.expose('getplaying', function (args, opt, callback) {
 				var view = App.PlayerView;
 				var playing = false;
-				if (view !== undefined && !view.isClosed) {
+				if (view !== undefined && !view.isDestroyed) {
 					var result = {
 						playing: !view.player.paused(),
 						title: view.model.get('title'),
@@ -570,7 +570,7 @@
 			});
 
 			server.expose('getstreamurl', function (args, opt, callback) {
-				if (App.PlayerView !== undefined && !App.PlayerView.isClosed) {
+				if (App.PlayerView !== undefined && !App.PlayerView.isDestroyed) {
 					popcornCallback(callback, false, {
 						streamUrl: $('#video_player video') === undefined ? '' : $('#video_player video').attr('src')
 					});

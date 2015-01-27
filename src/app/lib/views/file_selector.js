@@ -135,7 +135,7 @@
 			App.vent.trigger('system:closeFileSelector');
 		},
 
-		onClose: function () {
+		onDestroy: function () {
 			Settings.droppedTorrent = false;
 			Settings.droppedMagnet = false;
 			Settings.droppedStoredMagnet = false;

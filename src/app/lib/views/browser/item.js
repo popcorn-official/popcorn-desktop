@@ -74,7 +74,7 @@
 			this.ui.coverImage.on('load', _.bind(this.showCover, this));
 		},
 
-		onClose: function () {
+		onDestroy: function () {
 			this.ui.coverImage.off('load');
 		},
 

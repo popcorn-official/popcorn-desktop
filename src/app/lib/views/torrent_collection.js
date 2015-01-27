@@ -156,7 +156,7 @@
             input.click();
         },
 
-		onClose: function () {
+		onDestroy: function () {
 			Mousetrap.unbind(['esc', 'backspace']);
 			$('#movie-detail').show();
 			$('#nav-filters').show();

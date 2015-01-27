@@ -111,7 +111,7 @@
 
 			return menu;
 		},
-		onClose: function () {
+		onDestroy: function () {
 			Mousetrap.bind('backspace', function (e) {
 				App.vent.trigger('show:closeDetail');
 				App.vent.trigger('movie:closeDetail');

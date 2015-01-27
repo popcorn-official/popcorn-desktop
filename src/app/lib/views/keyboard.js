@@ -17,7 +17,7 @@
 			});
 		},
 
-		onClose: function () {},
+		onDestroy: function () {},
 
 		closeKeyboard: function () {
 			App.vent.trigger('keyboard:close');

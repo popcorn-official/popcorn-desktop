@@ -211,7 +211,7 @@
 			App.vent.trigger('device:seekPercentage', percentClicked);
 		},
 
-		onClose: function () {
+		onDestroy: function () {
 			$('.filter-bar').show();
 			$('#header').removeClass('header-shadow');
 			Mousetrap.bind('esc', function (e) {

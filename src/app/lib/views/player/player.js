@@ -700,7 +700,7 @@
 			}
 		},
 
-		onClose: function () {
+		onDestroy: function () {
 			var _this = this;
 			if (this.model.get('type') === 'video/youtube') { // XXX Sammuel86 Trailer UI Show FIX/HACK -START
 				$('.trailer_mouse_catch').remove();

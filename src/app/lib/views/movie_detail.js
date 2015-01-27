@@ -114,7 +114,7 @@
 			this.initKeyboardShortcuts();
 		},
 
-		onClose: function () {
+		onDestroy: function () {
 
 			this.unbindKeyboardShortcuts();
 		},

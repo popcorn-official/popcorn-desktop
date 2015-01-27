@@ -36,7 +36,7 @@
 			$('.randomized-dyk').html(dyk);
 		},
 
-		onClose: function () {},
+		onDestroy: function () {},
 
 		closeHelp: function () {
 			App.vent.trigger('help:close');

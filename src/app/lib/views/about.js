@@ -26,7 +26,7 @@
 			$('#movie-detail').hide();
 		},
 
-		onClose: function () {
+		onDestroy: function () {
 			Mousetrap.unbind(['esc', 'backspace']);
 			$('.filter-bar').show();
 			$('#header').removeClass('header-shadow');

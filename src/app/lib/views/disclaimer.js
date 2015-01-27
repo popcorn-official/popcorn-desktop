@@ -19,7 +19,7 @@
 			e.preventDefault();
 			Mousetrap.unpause();
 			AdvSettings.set('disclaimerAccepted', 1);
-			App.vent.trigger('close:disclaimer', []);
+			App.vent.trigger('disclaimer:close');
 		},
 
 		closeApp: function (e) {
