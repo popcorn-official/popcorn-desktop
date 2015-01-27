@@ -3,8 +3,8 @@
 	"dependencies": {
 		"marionette": "~1.8.3",
 		"bootstrap": "~3.1.1",
-		"videojs": "4.6.1",
-		"videojs-youtube": "1.1.0",
+		"videojs": "4.11.4",
+		"videojs-youtube": "1.2.8", //TODO: Remove once 0.4.0 streamer is ported over.
 		"mousetrap": "~1.4.6",
 		"font-awesome": "~4.1.0"
 	},

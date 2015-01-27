@@ -213,9 +213,6 @@ vjs.TextTrackMenuItem.prototype.update = function(){
 };
 
 vjs.Player.prototype.onLoadStart = function() {
-  this.off('play', initFirstPlay);
-  this.one('play', initFirstPlay);
-
   if (this.error()) {
     this.error(null);
   }
