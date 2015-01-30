@@ -32,7 +32,8 @@ Settings.ratingStars = true; //trigger on click in details
 Settings.startScreen = 'Movies';
 Settings.lastTab = '';
 
-// Movies
+// Quality
+Settings.shows_default_quality = '720p';
 Settings.moviesShowQuality = false;
 Settings.movies_quality = 'all';
 
