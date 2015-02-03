@@ -1,10 +1,10 @@
 {
 	"name": "Popcorn-Time",
 	"homepage": "https://popcorntime.io",
-	"bugs": "https://git.popcorntime.io/jira/",
+	"bugs": "https://git.popcorntime.io/popcorntime/desktop/issues",
 	"repository": {
 		"type": "git",
-		"url": "https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse"
+		"url": "https://git.popcorntime.io/popcorntime/desktop.git"
 	},
 	"license": "GPL-3.0",
 	"main": "app://host/src/app/index.html",
@@ -33,10 +33,10 @@
 	"dependencies": {
 		"URIjs": "^1.13.2",
 		"adm-zip": "https://github.com/xeoncore/adm-zip/archive/78f820330c776bca72aad3f22d127b357f57a609.tar.gz",
-		"airplay-js": "git+https://git.popcorntime.io/stash/scm/mir/node-airplay-js.git",
+		"airplay-js": "git+https://git.popcorntime.io/mirrors/node-airplay-js.git",
 		"async": "0.9.0",
-		"chromecast-js": "git+https://git.popcorntime.io/stash/scm/mir/chromecast-js.git",
-		"dlna-js": "git+https://git.popcorntime.io/stash/scm/mir/dlna-js.git",
+		"chromecast-js": "git+https://git.popcorntime.io/mirrors/chromecast-js.git",
+		"dlna-js": "git+https://git.popcorntime.io/mirrors/dlna-js.git",
 		"upnp-mediarenderer-client": "git+https://github.com/thibauts/node-upnp-mediarenderer-client.git",
 		"i18n": "0.5.0",
 		"iconv-lite": "^0.4.3",
@@ -51,8 +51,8 @@
 		"nedb": "0.10.11",
 		"node-captions": "0.2.2",
 		"node-webkit-fdialogs": "latest",
-		"peerflix": "git+https://git.popcorntime.io/stash/scm/mir/peerflix.git",
-		"popcorn-opensubtitles": "git+https://git.popcorntime.io/stash/scm/thrd/popcorn-opensubtitles.git#a7ad4445a2cc89e3f37d4fe4e6ac06186fd719ea",
+		"peerflix": "git+https://git.popcorntime.io/mirrors/peerflix.git",
+		"popcorn-opensubtitles": "https://git.popcorntime.io/popcorntime/opensubtitles/repository/archive.zip?ref=a7ad4445a2cc89e3f37d4fe4e6ac06186fd719ea",
 		"q": "2.0.2",
 		"read-torrent": "1.0.0",
 		"readdirp": "*",
