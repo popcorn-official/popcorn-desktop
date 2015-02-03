@@ -456,32 +456,46 @@
 			}
 			var tvdbid = $elem.attr('data-id');
 			var torrents = {};
+			var quality;
 			torrents.q480 = $('.template-' + tvdbid + ' .q480').text();
 			torrents.q720 = $('.template-' + tvdbid + ' .q720').text();
-			torrents.quality = '480p';
-			if (torrents.q720 !== '') {
+
+			// Previous quality selection
+			if (Settings.shows_default_quality == '720p') {
+				if (torrents.q720 !== '') {
+					quality = '720p';
+				} else {
+					quality = '480p';
+				}
+			} else {
+				if (torrents.q480 !== '') {
+					quality = '480p';
+				} else {
+					quality = '720p';
+				}
+			}
+
+			// Select quality
+			if (quality == '720p') {
 				torrents.def = torrents.q720;
 				torrents.quality = '720p';
 			} else {
 				torrents.def = torrents.q480;
+				torrents.quality = '480p';
 			}
+
+			// Show/Hide the toggle in correct state
 			if (torrents.q480 !== '' && torrents.q720 !== '') {
-				if ($('#switch-hd-off').is(':checked')) {
-					torrents.def = torrents.q480;
-					torrents.quality = '480p';
+				if (!$('#switch-hd-off').is(':checked') && torrents.quality == '480p') {
+					document.getElementsByName('switch')[0].checked = true;
 				}
 				this.ui.qselector.show();
 				this.ui.qinfo.hide();
-			} else if (torrents.q720 !== '') {
-				this.ui.qselector.hide();
-				this.ui.qinfo.text('720p');
-				this.ui.qinfo.show();
 			} else {
 				this.ui.qselector.hide();
-				this.ui.qinfo.text('480p');
+				this.ui.qinfo.text(quality);
 				this.ui.qinfo.show();
 			}
-
 
 			$('.tab-episode.active').removeClass('active');
 			$elem.addClass('active');
@@ -513,6 +527,7 @@
 				torrent = $('.template-' + tvdbid + ' .q720').text();
 			$('.startStreaming').attr('data-torrent', torrent);
 			$('.startStreaming').attr('data-quality', '720p');
+			AdvSettings.set('shows_default_quality', '720p');
 			_this.resetHealth();
 			win.debug(torrent);
 		},
@@ -523,6 +538,7 @@
 				torrent = $('.template-' + tvdbid + ' .q480').text();
 			$('.startStreaming').attr('data-torrent', torrent);
 			$('.startStreaming').attr('data-quality', '480p');
+			AdvSettings.set('shows_default_quality', '480p');
 			_this.resetHealth();
 			win.debug(torrent);
 		},

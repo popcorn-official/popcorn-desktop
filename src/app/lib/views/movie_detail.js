@@ -62,7 +62,7 @@
 
 			var torrents = this.model.get('torrents');
 			if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
-				this.model.set('quality', '1080p');
+				this.model.set('quality', Settings.movies_default_quality);
 			} else if (torrents['1080p'] !== undefined) {
 				this.model.set('quality', '1080p');
 			} else if (torrents['720p'] !== undefined) {
@@ -71,6 +71,10 @@
 				this.model.set('quality', '480p');
 			} else if (torrents['HDRip'] !== undefined) {
 				this.model.set('quality', 'HDRip');
+			}
+
+			if (Settings.movies_default_quality == '720p' && torrents['720p'] !== undefined) {
+				document.getElementsByName('switch')[0].checked = true;
 			}
 
 			this.renderHealth();
@@ -227,6 +231,7 @@
 				torrents = this.model.get('torrents');
 				this.model.set('quality', '1080p');
 				win.debug(this.model.get('quality'));
+				AdvSettings.set('movies_default_quality', '1080p')
 			}
 		},
 
@@ -238,6 +243,7 @@
 				torrents = this.model.get('torrents');
 				this.model.set('quality', '720p');
 				win.debug(this.model.get('quality'));
+				AdvSettings.set('movies_default_quality', '720p');
 			}
 		},
 

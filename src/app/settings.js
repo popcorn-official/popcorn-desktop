@@ -32,7 +32,9 @@ Settings.ratingStars = true; //trigger on click in details
 Settings.startScreen = 'Movies';
 Settings.lastTab = '';
 
-// Movies
+// Quality
+Settings.shows_default_quality = '720p';
+Settings.movies_default_quality = '1080p';
 Settings.moviesShowQuality = false;
 Settings.movies_quality = 'all';
 
@@ -134,7 +136,8 @@ Settings.defaultWidth = Math.round(window.screen.availWidth * 0.8);
 Settings.defaultHeight = Math.round(window.screen.availHeight * 0.8);
 
 // Miscellaneous
-
+Settings.playerSubPosition = '0px';
+Settings.playerVolume = '1';
 Settings.tv_detail_jump_to = 'next';
 
 

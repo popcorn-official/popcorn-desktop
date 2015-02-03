@@ -168,17 +168,17 @@
 				apiDataChanged = true;
 				value = parseInt(field.val());
 				break;
+			case 'ytsAPI':
 			case 'tvshowAPI':
 				value = field.val();
 				if (value.substr(-1) !== '/') {
 					value += '/';
 				}
-				var tvapiep = AdvSettings.get('tvshowAPI');
-				tvapiep.url = value;
-				tvapiep.skip = true;
-				AdvSettings.set('tvshowAPI', tvapiep);
-				that.ui.success_alert.show().delay(3000).fadeOut(400);
-				return;
+				if (value.substr(0, 8) !== 'https://' && value.substr(0, 7) !== 'http://') {
+					value = 'http://' + value;
+				}
+				value = { url: value, index: 0, proxies: [''] };
+				break;
 			case 'subtitle_size':
 			case 'tv_detail_jump_to':
 			case 'subtitle_language':
@@ -315,7 +315,13 @@
 				}
 				break;
 			case 'movies_quality':
+			case 'ytsAPI':
 				App.Providers.delete('Yts');
+				App.vent.trigger('movies:list');
+				App.vent.trigger('settings:show');
+				break;
+			case 'tvshowAPI':
+				App.Providers.delete('Eztv');
 				App.vent.trigger('movies:list');
 				App.vent.trigger('settings:show');
 				break;

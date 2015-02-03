@@ -23,7 +23,8 @@
 			'click .close-info-player': 'closePlayer',
 			'click .playnownext': 'playNextNow',
 			'click .vjs-fullscreen-control': 'toggleFullscreen',
-			'click .vjs-subtitles-button': 'toggleSubtitles'
+			'click .vjs-subtitles-button': 'toggleSubtitles',
+			'click .vjs-text-track': 'moveSubtitles'
 		},
 
 		isMovie: function () {
@@ -289,6 +290,8 @@
 			if (AdvSettings.get('alwaysFullscreen') && !this.inFullscreen) {
 				this.toggleFullscreen();
 			}
+			
+			this.player.volume(AdvSettings.get('playerVolume'));
 		},
 
 		playNextNow: function () {
@@ -619,6 +622,7 @@
 		adjustVolume: function (i) {
 			var v = this.player.volume();
 			this.player.volume(v + i);
+			AdvSettings.set('playerVolume', this.player.volume());
 			this.displayOverlayMsg(i18n.__('Volume') + ': ' + this.player.volume().toFixed(1) * 100 + '%');
 			App.vent.trigger('volumechange');
 		},
@@ -645,6 +649,10 @@
 		},
 
 		toggleSubtitles: function () {},
+		
+		moveSubtitles: function (e) {
+			AdvSettings.set('playerSubPosition', $('.vjs-text-track').css('top'));
+		},
 
 		leaveFullscreen: function () {
 			this.nativeWindow = require('nw.gui').Window.get();
