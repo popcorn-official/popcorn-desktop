@@ -5,9 +5,9 @@
 	<img class="icon-title" src="/src/app/images/popcorn-time-logo.svg">
 	<div class="content">
 		<div class="title-version">
-			<a href='https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse/CHANGELOG.md' data-toggle="tooltip" data-placement="top" title=<%= i18n.__("Changelog") %> class='links'><%= App.settings.version %> "<%= App.settings.releaseName %>" Beta </a>
+			<a href='https://git.popcorntime.io/popcorntime/desktop/blob/master/CHANGELOG.md' data-toggle="tooltip" data-placement="top" title=<%= i18n.__("Changelog") %> class='links'><%= App.settings.version %> "<%= App.settings.releaseName %>" Beta </a>
 			<% if(App.git) { %>
-				- <small><i><%= App.git.branch %> (<a class="links" href="https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/commits/<%= App.git.commit %>"><%= App.git.commit.slice(0,8) %></a>)</i></small>
+				- <small><i><%= App.git.branch %> (<a class="links" href="https://git.popcorntime.io/popcorntime/desktop/commit/<%= App.git.commit %>"><%= App.git.commit.slice(0,8) %></a>)</i></small>
 			<% } %>
 		</div>
 		<div class="text-about">
