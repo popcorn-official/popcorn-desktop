@@ -22,7 +22,7 @@ There are lots and lots of ways to get involved, this document covers:
 If you're about to raise an issue because think you've found a problem with Popcorn Time, or you'd like to make a request
 for a new feature in the codebase, or any other reason… please read this first.
 
-The JIRA issue tracker is the preferred channel for [bug reports](#bugs),
+The GitLab issue tracker is the preferred channel for [bug reports](#bugs),
 [feature requests](#features), [change requests](#changes) and [submitting pull
 requests](#pull-requests), but please respect the following restrictions:
 
@@ -42,14 +42,14 @@ Good bug reports are extremely helpful - thank you!
 
 Guidelines for bug reports:
 
-1. **Use the JIRA issue search** &mdash; check if the issue has already been reported.
+1. **Use the GitLab issue search** &mdash; check if the issue has already been reported.
 
-2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or look for [closed issues](https://git.popcorntime.io/jira/issues/?jql=project%20%3D%20PT%20AND%20status%20in%20%28Resolved%2C%20Closed%29).
+2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or look for [closed issues](/popcorntime/desktop/issues?state=closed).
 
 3. **Include a screencast if relevant** - Is your issue about a design or front end feature or bug? The most helpful thing in the world is if we can *see* what you're talking about.
 Use [LICEcap](http://www.cockos.com/licecap/) to quickly and easily record a short screencast (24fps) and save it as an animated gif! Embed it directly into your Jira issue. Kapow.
 
-3. Use the Bug Report template below to start creating a bug report with the template automatically.
+3. Use the Bug Report template below to start creating a bug report with the template automatically or [click here](/popcorntime/desktop/issues/new?issue[title]=Bug%3A%20&issue[description]=%23%23%23%20Issue%20Summary%0A%0A%23%23%23%20Steps%20to%20Reproduce%0A%0A1.%20This%20is%20the%20first%20step%0A%0AThis%20is%20a%20bug%20because...%0A%0A%23%23%23%20Technical%20details%0A%0A*%20Popcorn%20Time%20Version%3A%20(stable%2Fmaster)%20-%20latest%20commit%3A%20%20INSERT%20COMMIT%20REF%0A*%20Downloaded%20from%3A%20%0A*%20Connection%3A%0A*%20OS%3A).
 
 A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment.
 
@@ -83,8 +83,8 @@ Any other information you want to share that is relevant to the issue being repo
 
 Feature requests are welcome. Before you submit one be sure to have:
 
-1. Read the [Roadmap](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/RoadMap.md) and
-[Planned Features](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Planned-Features.md) listing, **use the Jira search** and check the feature hasn't already been requested.
+1. Read the [Roadmap](/popcorntime/desktop/wikis/roadmap) and
+[Planned Features](/popcorntime/desktop/wikis/planned) listing, **use the Jira search** and check the feature hasn't already been requested.
 2. Take a moment to think about whether your idea fits with the scope and aims of the project, or if it might
 better fit being an app/plugin.
 3. Remember, it's up to *you* to make a strong case to convince the project's leaders of the merits of this
@@ -99,7 +99,7 @@ likely to be common.
 Change requests cover both architectural and functional changes to how Popcorn Time works. If you have an idea for a
 new or different dependency, a refactor, or an improvement to a feature, etc  - please be sure to:
 
-1. **Use the Jira search** and check someone else didn't get there first
+1. **Use the GitLab search** and check someone else didn't get there first
 2. Take a moment to think about the best way to make a case for, and explain what you're thinking. Are you sure
 this shouldn't really be a [bug report](#bug-reports) or a [feature request](#feature-requests)? Is it really one
 idea or is it many? What's the context? What problem are you solving? Why is what you are suggesting better than
@@ -112,22 +112,15 @@ what's already there? Does it fit with the Roadmap?
 Pull requests are awesome. If you're looking to raise a PR for something which doesn't have an open issue, please think carefully about [raising an issue](#report-a-bug) which your PR can close, especially if you're fixing a bug. This makes it more likely that there will be enough information available for your PR to be properly tested and merged. To make sure your PR is accepted as quickly as possible, you should be sure to have read
 all the guidelines on:
 
-* [code standards](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Code-Standards.md)
-* [commit messages](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Git-Workflow.md#commit-messages)
-* [cleaning-up history](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Git-Workflow.md#clean-up-history)
-* [not breaking the build](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Git-Workflow.md#check-it-passes-the-tests)
+* [code standards](/popcorntime/desktop/wikis/code-standards)
+* [commit messages](/popcorntime/desktop/wikis/git-workflow#commit-messages)
+* [cleaning-up history](/popcorntime/desktop/wikis/git-workflow#clean-up-history)
+* [not breaking the build](/popcorntime/desktop/wikis/git-workflow#check-it-passes-the-tests)
 
 ##### Need Help?
 
 If you're not completely clear on how to submit / update / *do* Pull Requests, please check out our in depth
-[Git Workflow guide](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Git-Workflow.md) for Popcorn Time.
-
-
-#### Checking out a Pull Request
-
-These are some [excellent instructions](https://gist.github.com/piscisaureus/3342247) on configuring your GitHub
-repository to allow you to checkout pull requests in the same way as branches:
-<https://gist.github.com/piscisaureus/3342247>.
+[Git Workflow guide](/popcorntime/desktop/wikis/git-workflow) for Popcorn Time.
 
 
 <a name="translation"></a>
@@ -150,7 +143,7 @@ For translations please go to: [Transifex](https://www.transifex.com/projects/p/
 1. cd into the project folder
 1. Run `npm install -g grunt-cli bower` - to make it possible to run grunt commands
 
-[complete documentation](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-wiki/browse/wiki/Build-and-Debug.md).
+[complete documentation](/popcorntime/desktop/wikis/build-debug).
 
 ### Updating with the latest changes
 
@@ -161,7 +154,7 @@ Pulling down the latest changes from master will often require more than just a 
 
 ### Key Branches & Tags
 
-- **[0.4.0](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse?at=refs%2Fheads%2F0.4.0)** is the bleeding edge development branch. All work on the next
+- **[0.4.0](/popcorntime/desktop/tree/0.4.0)** is the bleeding edge development branch. All work on the next
 release is here.
 
 
