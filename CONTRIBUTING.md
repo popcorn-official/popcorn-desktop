@@ -6,25 +6,22 @@ you get started quickly and easily.
 There are lots and lots of ways to get involved, this document covers:
 
 * [raising issues](#report-a-bug)
-    * [bug reports](#bugs)
-    * [feature requests](#features)
-    * [change requests](#changes)
+    * [bug reports](#bug-reports)
+    * [feature requests](#feature-requests)
+    * [change requests](#change-requests)
 * [working on Popcorn Time core](#core)
-    * [submitting pull requests](#pull-requests)
-* [testing and quality assurance](#testing)
-* [writing documentation](#documentation)
+    * [submitting pull requests](#submitting-pull-requests)
 * [translation](#translation)
 
 
-<a name="report-a-bug"></a>
 ## Report a bug
 
 If you're about to raise an issue because think you've found a problem with Popcorn Time, or you'd like to make a request
 for a new feature in the codebase, or any other reason… please read this first.
 
-The GitLab issue tracker is the preferred channel for [bug reports](#bugs),
-[feature requests](#features), [change requests](#changes) and [submitting pull
-requests](#pull-requests), but please respect the following restrictions:
+The GitLab issue tracker is the preferred channel for [bug reports](#bug-reports),
+[feature requests](#feature-requests), [change requests](#change-requests) and [submitting pull
+requests](#submitting-pull-requests), but please respect the following restrictions:
 
 * Please **search for existing issues**. Help us keep duplicate issues to a minimum by checking to see if someone
 has already reported your problem or requested your idea.
@@ -34,7 +31,6 @@ has already reported your problem or requested your idea.
 
 * Please **do not** derail or troll issues. Keep the discussion on topic and respect the opinions of others.
 
-<a name="bugs"></a>
 ### Bug Reports
 
 A bug is a _demonstrable problem_ that is caused by the code in the repository.
@@ -72,13 +68,12 @@ Any other information you want to share that is relevant to the issue being repo
 
 ### Technical details:
 
-* Popcorn Time Version: stable 0.3.2
+* Popcorn Time Version: stable 0.3.7
 * Downloaded from: popcorntime.io
 * Connection: 10mbs
 * OS: MAC OSX
 ```
 
-<a name="features"></a>
 ### Feature Requests
 
 Feature requests are welcome. Before you submit one be sure to have:
@@ -93,7 +88,6 @@ likely to be common.
 4. Clearly indicate whether this is a feature request for Core, or for packages.
 
 
-<a name="changes"></a>
 ### Change Requests
 
 Change requests cover both architectural and functional changes to how Popcorn Time works. If you have an idea for a
@@ -106,7 +100,6 @@ idea or is it many? What's the context? What problem are you solving? Why is wha
 what's already there? Does it fit with the Roadmap?
 
 
-<a name="pull-requests"></a>
 ### Submitting Pull Requests
 
 Pull requests are awesome. If you're looking to raise a PR for something which doesn't have an open issue, please think carefully about [raising an issue](#report-a-bug) which your PR can close, especially if you're fixing a bug. This makes it more likely that there will be enough information available for your PR to be properly tested and merged. To make sure your PR is accepted as quickly as possible, you should be sure to have read
@@ -123,13 +116,11 @@ If you're not completely clear on how to submit / update / *do* Pull Requests, p
 [Git Workflow guide](/popcorntime/desktop/wikis/git-workflow) for Popcorn Time.
 
 
-<a name="translation"></a>
 ### Translation
 
 For translations please go to: [Transifex](https://www.transifex.com/projects/p/popcorn-time-app)
 
 
-<a name="core"></a>
 ## Working on Popcorn Time Core
 
 **Pre-requisites:**
