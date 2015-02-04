@@ -29,7 +29,7 @@ The [master](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/brow
 
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
-Full instructions & troubleshooting tips can be found in the [Contributing Guide](https://git.popcorntime.io/stash/projects/PT/repos/popcorn-app/browse/CONTRIBUTING.md)
+Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md)
 
 <a name="community"></a>
 ## Community
