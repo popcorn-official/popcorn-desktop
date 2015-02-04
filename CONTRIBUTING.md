@@ -45,7 +45,7 @@ Guidelines for bug reports:
 3. **Include a screencast if relevant** - Is your issue about a design or front end feature or bug? The most helpful thing in the world is if we can *see* what you're talking about.
 Use [LICEcap](http://www.cockos.com/licecap/) to quickly and easily record a short screencast (24fps) and save it as an animated gif! Embed it directly into your Jira issue. Kapow.
 
-3. Use the Bug Report template below to start creating a bug report with the template automatically or [click here](/popcorntime/desktop/issues/new?issue[title]=Bug%3A%20&issue[description]=%23%23%23%20Issue%20Summary%0A%0A%23%23%23%20Steps%20to%20Reproduce%0A%0A1.%20This%20is%20the%20first%20step%0A%0AThis%20is%20a%20bug%20because...%0A%0A%23%23%23%20Technical%20details%0A%0A*%20Popcorn%20Time%20Version%3A%20(stable%2Fmaster)%20-%20latest%20commit%3A%20%20INSERT%20COMMIT%20REF%0A*%20Downloaded%20from%3A%20%0A*%20Connection%3A%0A*%20OS%3A).
+3. Use the Bug Report template below to start creating a bug report with the template automatically or [click here](http://bit.ly/1F6aC3w).
 
 A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment.
 
