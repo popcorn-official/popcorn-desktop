@@ -216,7 +216,7 @@ module.exports = function (grunt) {
 			src: ['./src/**', '!./src/app/styl/**',
 				'./node_modules/**', '!./node_modules/bower/**', '!./node_modules/*grunt*/**', '!./node_modules/stylus/**',
 				'!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**',
-				'./package.json', './README.md', './LICENSE.txt', './.git.json'
+				'./package.json', './README.md', './CHANGELOG.md', './LICENSE.txt', './.git.json'
 			]
 		},
 

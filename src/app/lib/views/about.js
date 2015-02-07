@@ -11,7 +11,8 @@
 
 		events: {
 			'click .close-icon': 'closeAbout',
-			'click .links': 'links'
+			'click .links': 'links',
+			'click #changelog': 'showChangelog'
 		},
 
 		onShow: function () {
@@ -21,7 +22,7 @@
 			Mousetrap.bind(['esc', 'backspace'], function (e) {
 				App.vent.trigger('about:close');
 			});
-			$('.links').tooltip();
+			$('.links,#changelog').tooltip();
 			console.log('Show about');
 			$('#movie-detail').hide();
 		},
@@ -34,13 +35,32 @@
 		},
 
 		closeAbout: function () {
-			App.vent.trigger('about:close');
+			if ($('.changelog-overlay').css('display') == 'block') {
+				this.closeChangelog();
+			} else {
+				App.vent.trigger('about:close');
+			}
 		},
 
 		links: function (e) {
 			e.preventDefault();
 			gui.Shell.openExternal($(e.currentTarget).attr('href'));
-		}
+		},
+
+		showChangelog: function () {
+			fs.readFile('./CHANGELOG.md', 'utf-8', function (err, contents) {
+				if (!err) {
+					$('.changelog-text').html(contents.replace(/\n/g, "<br />"));
+                    $('.changelog-overlay').show();
+				} else {
+					gui.Shell.openExternal('https://git.popcorntime.io/popcorntime/desktop/blob/master/CHANGELOG.md');
+				}
+			});
+		},
+
+        closeChangelog: function () {
+            $('.changelog-overlay').hide();
+        }
 
 	});
 

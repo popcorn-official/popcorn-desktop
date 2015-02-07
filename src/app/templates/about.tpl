@@ -5,7 +5,7 @@
 	<img class="icon-title" src="/src/app/images/popcorn-time-logo.svg">
 	<div class="content">
 		<div class="title-version">
-			<a href='https://git.popcorntime.io/popcorntime/desktop/blob/master/CHANGELOG.md' data-toggle="tooltip" data-placement="top" title=<%= i18n.__("Changelog") %> class='links'><%= App.settings.version %> "<%= App.settings.releaseName %>" Beta </a>
+			<a data-toggle="tooltip" data-placement="top" title=<%= i18n.__("Changelog") %> id='changelog'><%= App.settings.version %> "<%= App.settings.releaseName %>" Beta </a>
 			<% if(App.git) { %>
 				- <small><i><%= App.git.branch %> (<a class="links" href="https://git.popcorntime.io/popcorntime/desktop/commit/<%= App.git.commit %>"><%= App.git.commit.slice(0,8) %></a>)</i></small>
 			<% } %>
@@ -29,4 +29,8 @@
 			<%= i18n.__("Made with") %> <span style="color:#e74c3c;">&#10084;</span> <%= i18n.__("by a bunch of geeks from All Around The World") %>
 		</div>
 	</div>
+    <div class="changelog-overlay">
+        <div class="title"><%=i18n.__("Changelog")%></div>
+        <div class="changelog-text"></div>    
+    </div>
 </div>

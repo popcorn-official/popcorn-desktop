@@ -120,3 +120,31 @@
             position absolute
             left 0
             right 0
+
+    .changelog-overlay
+        background rgba(0,0,0,.8)
+        display none
+        position fixed
+        top 32px
+        width 100vw
+        height 100vh
+        z-index 2
+
+        .title
+            font-size 24px
+            padding 0 0 20px
+            margin-top 5vh
+            color #fff
+            font-family $AlternateFont
+            text-align center
+
+        .changelog-text
+            color #efefef
+            text-align justify
+            font-family $AlternateFont
+            width 70%
+            height 70%
+            margin 0 auto
+            margin-top 2vh
+            padding 0px 15px
+            scrollable()
