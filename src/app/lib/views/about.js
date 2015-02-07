@@ -51,7 +51,7 @@
 			fs.readFile('./CHANGELOG.md', 'utf-8', function (err, contents) {
 				if (!err) {
 					$('.changelog-text').html(contents.replace(/\n/g, "<br />"));
-                    $('.changelog-overlay').show();
+					$('.changelog-overlay').show();
 				} else {
 					gui.Shell.openExternal('https://git.popcorntime.io/popcorntime/desktop/blob/master/CHANGELOG.md');
 				}
