@@ -64,12 +64,14 @@ vjs.Player.prototype.listenForUserActivity = function(){
   });
 };
 
-vjs.TextTrack.prototype.adjustFontSize = function(){
-    if (this.player_.isFullscreen()) {
-        this.el_.style.fontSize = '140%';
-    } else {
-        this.el_.style.fontSize = '';
-    }
+vjs.Player.prototype.onFullscreenChange = function() {
+  if (this.isFullscreen()) {
+    this.addClass('vjs-fullscreen');
+	$('.vjs-text-track').css('font-size','140%');
+  } else {
+    this.removeClass('vjs-fullscreen');
+	$('.vjs-text-track').css('font-size','');
+  }
 };
 
 // This is a custom way of loading subtitles, since we can't use src (CORS blocks it and we can't disable it)
