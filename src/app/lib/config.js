@@ -33,7 +33,7 @@
 
 		sorters: [
 			'popularity',
-			'date',
+			'last added',
 			'year',
 			'rating',
 			'alphabet'

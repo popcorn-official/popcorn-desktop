@@ -11,7 +11,8 @@
 		events: {
 			'click .close-icon': 'closeSelector',
 			'click .file-item': 'startStreaming',
-            'click .store-torrent': 'storeTorrent'
+            'click .store-torrent': 'storeTorrent',
+			'click .playerchoicemenu li a': 'selectPlayer'
 		},
 
 		initialize: function () {
@@ -123,6 +124,12 @@
 
 			if (App.currentview == 'Torrent-collection') App.vent.trigger('torrentCollection:show'); // refresh collection
         },
+
+		selectPlayer: function (e) {
+			var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
+			_this.model.set('device', player);
+			AdvSettings.set('chosenPlayer', player);
+		},
 
 		closeSelector: function (e) {
 			Mousetrap.bind('backspace', function (e) {

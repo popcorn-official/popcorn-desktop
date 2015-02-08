@@ -188,6 +188,14 @@
 						$('.events').css('display','block');
 					}
 
+					// set player from settings
+					var players = App.Device.Collection.models;
+					for (var i in players) {
+						if (players[i].id == AdvSettings.get('chosenPlayer')) {
+							App.Device.Collection.setDevice(AdvSettings.get('chosenPlayer'));
+						}
+					}
+
 					// Focus the window when the app opens
 					that.nativeWindow.focus();
 

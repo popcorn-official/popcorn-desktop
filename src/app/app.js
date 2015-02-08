@@ -293,7 +293,14 @@ Mousetrap.bind(['?', '/', '\''], function (e) {
 	App.vent.trigger('keyboard:toggle');
 });
 Mousetrap.bind('shift+up shift+up shift+down shift+down shift+left shift+right shift+left shift+right shift+b shift+a', function () {
-	$('body').addClass('knm');
+	var body = $('body');
+
+	if(body.hasClass('knm')){
+		body.removeClass('knm');
+	}
+	else{
+		body.addClass('knm');
+	}
 });
 if (process.platform === 'darwin') {
 	Mousetrap.bind('command+ctrl+f', function (e) {

@@ -316,9 +316,11 @@ Section ; App Files
     SetOutPath "$INSTDIR"
     !ifdef WIN_PATHS
         File "..\..\package.json"
+        File "..\..\CHANGELOG.md"
         File /NONFATAL "..\..\.git.json"
     !else
         File "../../package.json"
+        File "../../CHANGELOG.md"
         File /NONFATAL "../../.git.json"
     !endif
 

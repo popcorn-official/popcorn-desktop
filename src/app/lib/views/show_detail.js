@@ -730,6 +730,7 @@
 		selectPlayer: function (e) {
 			var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
 			_this.model.set('device', player);
+			AdvSettings.set('chosenPlayer', player);
 		},
 
 
