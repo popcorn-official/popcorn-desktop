@@ -289,6 +289,10 @@
 			if (AdvSettings.get('alwaysFullscreen') && !this.inFullscreen) {
 				this.toggleFullscreen();
 			}
+			if (this.inFullscreen) {
+				this.player.isFullscreen(true);
+				this.player.trigger('fullscreenchange');
+			}
 			
 			this.player.volume(AdvSettings.get('playerVolume'));
 		},
