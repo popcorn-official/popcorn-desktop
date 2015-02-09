@@ -290,8 +290,8 @@
 				this.toggleFullscreen();
 			}
 			if (this.inFullscreen) {
-				this.player.isFullscreen(true);
-				this.player.trigger('fullscreenchange');
+				win.leaveFullscreen();
+				this.toggleFullscreen();
 			}
 			
 			this.player.volume(AdvSettings.get('playerVolume'));
@@ -382,7 +382,7 @@
 				_this.nativeWindow = require('nw.gui').Window.get();
 
 				if (_this.nativeWindow.isFullscreen) {
-					_this.leaveFullscreen();
+					_this.toggleFullscreen();
 				} else {
 					_this.closePlayer();
 				}
@@ -635,37 +635,13 @@
 		},
 
 		toggleFullscreen: function () {
-
-			this.nativeWindow = require('nw.gui').Window.get();
-
-			if (this.nativeWindow.isFullscreen) {
-				this.player.isFullscreen(false);
-				this.nativeWindow.leaveFullscreen();
-				this.nativeWindow.focus();
-			} else {
-				this.player.isFullscreen(true);
-				this.nativeWindow.enterFullscreen();
-				this.nativeWindow.focus();
-			}
-
-			this.player.trigger('fullscreenchange');
+			$('.vjs-fullscreen-control').click();
 		},
 
 		toggleSubtitles: function () {},
 		
 		moveSubtitles: function (e) {
 			AdvSettings.set('playerSubPosition', $('.vjs-text-track').css('top'));
-		},
-
-		leaveFullscreen: function () {
-			this.nativeWindow = require('nw.gui').Window.get();
-
-			if (this.nativeWindow.isFullscreen) {
-				this.player.isFullscreen(false);
-				this.player.trigger('fullscreenchange');
-				this.nativeWindow.leaveFullscreen();
-				this.nativeWindow.focus();
-			}
 		},
 
 		displayStreamURL: function () {
