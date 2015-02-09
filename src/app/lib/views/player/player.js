@@ -722,6 +722,9 @@
 			if (!this.dontTouchFS && !this.inFullscreen && win.isFullscreen) {
 				win.leaveFullscreen();
 			}
+			if (this.inFullscreen && !win.isFullscreen) {
+				$('.btn-os.fullscreen').removeClass('active');
+			}
 			_this.unbindKeyboardShortcuts();
 
 			App.vent.trigger('stream:stop');
