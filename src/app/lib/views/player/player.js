@@ -347,6 +347,11 @@
 				});
 				var next_episode = auto_play_data[idx + 1];
 
+				if (next_episode === undefined) {
+					win.debug('This is the last episode');
+					return;
+				}
+				
 				next_episode.auto_play = true;
 				next_episode.auto_id = parseInt(next_episode.season) * 100 + parseInt(next_episode.episode);
 				next_episode.auto_play_data = auto_play_data;
