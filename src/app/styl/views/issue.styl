@@ -1,0 +1,171 @@
+.issue-container 
+	z-index 15
+	height 100%
+	width 100%
+	position fixed
+	-webkit-user-select none
+	opacity 1
+
+	.overlay-content 
+		height 100%
+		width 100%
+		position absolute
+		background $BgColor1
+		opacity 0.95
+		z-index -1
+
+	h1 
+		font-family $AlternateFont
+		font-weight bold
+		font-size 20px
+
+		& + hr 
+			margin-top: 10px
+			margin-bottom: 10px
+
+
+	.content 
+		height: 95%
+		margin 0 auto
+		margin-top 60px
+		width 80%
+		max-width 900px
+		color $Text1
+		font-family $AlternateFont
+		font-size 15px
+
+		.issue-outer
+			scrollable()
+			height: calc(100% - 100px);
+			padding-right 10px
+			text-align justify
+
+			.report-info
+				margin-bottom 15px
+				font-weight bold
+	
+			#issue-auth
+				display block
+	
+				input
+					margin-bottom 5px
+	
+				p
+					font-size 13px
+					padding 5px
+					margin-top 70px
+
+				.note
+					font-size 11px !important
+					margin-left 5px
+					&:before
+						content: '- '
+
+			#issue-search
+				display none
+
+				.search-issue
+					margin-left 5px
+					cursor pointer
+
+				#issue-results
+					.issue-title
+						cursor pointer
+
+					.issue-details
+						display none
+						padding 10px
+						margin 5px 0px 15px 15px
+						width 80%
+						background rgba($Text1, .1)
+						font-size 12px
+
+						p
+							font-size 12px
+							color rgba($Text1,.9);
+		
+			#issue-form
+				display none
+			#issue-success
+				display none
+
+			.button
+				position relative
+				margin-top 13px
+				float left
+				padding-left 10px
+				padding-right 10px
+				margin-right 20px
+				border-radius $ButtonRadius
+				height 35px
+				background-color $ButtonBg
+				text-align center
+				color $SettingsButtonText
+				font-family $ButtonFont, $AlternateFont
+				font-size 12px
+				line-height 34px
+				cursor pointer
+				transition background-color .5s
+
+				&:hover
+					background: $ButtonBgHover
+					text-decoration: none
+
+				&:active
+					box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+					background: $ButtonBgActive
+
+			input[type="text"], input[type="password"], textarea
+				margin-top 10px
+				margin-bottom 20px
+				border 0 !important
+				line-height 15px
+				background-color $InputBoxBg
+				resize none
+				color $InputBoxText
+				font-family $Font, $AlternateFont
+				font-size 13px
+				padding-left 10px
+				cursor text
+				outline 0 !important
+
+			input[type="text"], input[type="password"]
+				height 30px
+	
+			textarea
+				height 35vh
+				scrollable();
+
+			h2
+				font-family $AlternateFont
+				font-weight bold
+				font-size 16px
+				line-height 22px
+				color $Text1
+				margin-top 15px
+
+				&.top
+					margin-top 5px
+
+			p
+				font-family $AlternateFont
+				font-size 15px
+				line-height 20px
+				color $Text1
+
+			li
+				margin-top 6px
+				line-height 18px
+				font-size 14px
+				font-family $AlternateFont
+
+			b
+				font-family $AlternateFont
+				font-weight: bold
+
+			.code
+				font-family monospace
+				font-size 13px
+
+			em
+				font-size .8em

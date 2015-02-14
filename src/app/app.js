@@ -54,6 +54,7 @@ win.error = function () {
 	var params = Array.prototype.slice.call(arguments, 1);
 	params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: red;', 'color: black;');
 	console.error.apply(console, params);
+	fs.appendFileSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'), '\n\n' + arguments[0]); // log errors;
 };
 
 
@@ -247,6 +248,9 @@ win.on('close', function () {
 	if (App.settings.deleteTmpOnClose) {
 		deleteFolder(App.settings.tmpLocation);
 	}
+	if (fs.existsSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'))) {
+		fs.unlinkSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'));
+	}
 	win.close(true);
 });
 
@@ -312,6 +316,10 @@ if (process.platform === 'darwin') {
 		win.toggleFullscreen();
 	});
 }
+Mousetrap.bind('f7', function (e) { // For testing only, remove it!
+	e.preventDefault();
+	App.vent.trigger('issue:new');
+});
 
 // Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
 window.ondragenter = function (e) {
@@ -426,5 +434,5 @@ if (gui.App.fullArgv.indexOf('-f') !== -1) {
 
 // Show 404 page on uncaughtException
 process.on('uncaughtException', function (err) {
-	window.console.error(err, err.stack);
+	win.error(err, err.stack);
 });
