@@ -354,9 +354,6 @@
 					//Try get subtitles for custom torrents
 					var title = model.get('title');
 
-					var minFiles = 1;
-					if (Settings.allowTorrentStorage) minFiles = 0; //Always open FileSelector
-
 					if (!title) { //From ctrl+v magnet or drag torrent
 						for (var f in torrent.files) {
 							torrent.files[f].index = f;
@@ -366,7 +363,7 @@
 								torrent.files[f] = null;
 							}
 						}
-						if (torrent.files && torrent.files.length > minFiles && !model.get('file_index') && model.get('file_index') !== 0) {
+						if (torrent.files && torrent.files.length > 0 && !model.get('file_index') && model.get('file_index') !== 0) {
 							torrent.files = $.grep(torrent.files, function (n) {
 								return (n);
 							});
