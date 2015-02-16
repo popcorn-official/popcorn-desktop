@@ -292,10 +292,6 @@
 				<input id="tvshowAPI" type="text" size="50" name="tvshowAPI" value="<%=Settings.tvshowAPI.url%>">
 			</span>
 			<span>
-				<p><%= i18n.__("Movies API Endpoint") + ":" %></p>
-				<input id="ytsAPI" type="text" size="50" name="ytsAPI" value="<%=Settings.ytsAPI.url%>">
-			</span>
-			<span>
 				<p><%= i18n.__("Connection Limit") + ":" %></p>
 				<input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
 			</span>

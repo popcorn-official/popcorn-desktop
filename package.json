@@ -10,9 +10,6 @@
 	"main": "app://host/src/app/index.html",
 	"version": "0.3.7-1",
 	"node-remote": "client.vpn.ht",
-	"webkit": {
-         "page-cache":false
-    },
 	"releaseName": "The car wont start",
 	"scripts": {
 		"postinstall": "node_modules/.bin/bower install && grunt setup",

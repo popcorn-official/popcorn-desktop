@@ -215,7 +215,7 @@
 
 			if (this.previousSort === sorter) {
 				this.model.set('order', this.model.get('order') * -1);
-			} else if (this.previousSort !== sorter && sorter === 'alphabet') {
+			} else if (this.previousSort !== sorter && sorter === 'title') {
 				this.model.set('order', this.model.get('order') * -1);
 			} else {
 				this.model.set('order', -1);

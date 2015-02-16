@@ -2,9 +2,9 @@
 
 Allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
-![Popcorn Time](http://i.imgur.com/MdZR313.gif)
+![Popcorn Time](https://i.imgur.com/MdZR313.gif)
 
-Visit the project's website at <http://popcorntime.io>.
+Visit the project's website at <https://popcorntime.io>.
 
 ***
 
@@ -37,8 +37,8 @@ Full instructions & troubleshooting tips can be found in the [Contributing Guide
 Keep track of Popcorn Time development and community activity.
 
 * Follow Popcorn Time on [Twitter](https://twitter.com/popcorntimetv), [Facebook](https://www.facebook.com/PopcornTimeTv) and [Google+](https://plus.google.com/+Getpopcorntime).
-* Read and subscribe to the [The Official Popcorn Time Blog](http://blog.popcorntime.io).
-* Join in discussions on the [Popcorn Time Forum](http://discuss.popcorntime.io)
+* Read and subscribe to the [The Official Popcorn Time Blog](https://blog.popcorntime.io).
+* Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.io)
 * Connect with us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime))
 
 
