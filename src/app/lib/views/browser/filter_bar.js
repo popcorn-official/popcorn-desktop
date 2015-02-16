@@ -24,6 +24,7 @@
 			'click .types .dropdown-menu a': 'changeType',
 			'click #filterbar-settings': 'settings',
 			'click #filterbar-about': 'about',
+			'click #filterbar-calendar': 'calendar',
 			'click .showMovies': 'showMovies',
 			'click .showShows': 'showShows',
 			'click .showAnime': 'showAnime',
@@ -146,6 +147,10 @@
 					App.currentview = 'Torrent-collection';
 					App.previousview = 'movies';
 					break;
+				case 'Calendar':
+					App.currentview = 'Watchlist';
+					App.previousview = 'movies';
+					break;
 				default:
 					App.currentview = 'movies';
 				}
@@ -265,6 +270,29 @@
 
 		about: function (e) {
 			App.vent.trigger('about:show');
+		},
+
+		calendar: function(e) {
+			e.preventDefault();
+			if (App.currentview !== 'Calendar') {
+				App.previousview = App.currentview;
+				App.currentview = 'Calendar';
+				App.vent.trigger('about:close');
+				App.vent.trigger('calendar:show', []);
+				this.setactive('Calendar');
+			} else {
+				if ($('#movie-detail').html().length === 0 && $('#about-container').html().length === 0) {
+					App.currentview = App.previousview;
+					App.vent.trigger('calendar:close');
+					App.vent.trigger(App.previousview.toLowerCase() + ':list', []);
+					this.setactive(App.currentview);
+				} else {
+					App.vent.trigger('about:close');
+					App.vent.trigger('calendar:show');
+					this.setactive('Calendar');
+				}
+			}
+			return false;
 		},
 
 		showTorrentCollection: function (e) {
