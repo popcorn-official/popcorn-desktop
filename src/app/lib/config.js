@@ -36,7 +36,7 @@
 			'last added',
 			'year',
 			'rating',
-			'alphabet'
+			'title'
 		],
 
 		sorters_tv: [
