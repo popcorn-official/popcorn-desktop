@@ -94,7 +94,7 @@ videojs.plugin('customSubtitles', function() {
       var that = this;
 
       App.vent.on('videojs:drop_sub', function() {
-        var subname = AdvSettings.get('droppedSub');
+        var subname = Settings.droppedSub;
         var subpath = path.join(App.settings.tmpLocation, subname);
         win.info("Subtitle dropped: " + subname);
         that.loadSubtitle(subpath);
