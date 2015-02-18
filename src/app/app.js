@@ -378,7 +378,7 @@ window.ondrop = function (e) {
 						Settings.droppedTorrent = file.name;
 						handleTorrent(path.join(App.settings.tmpLocation, file.name));
 					} else if (file.name.indexOf('.srt') !== -1) {
-						AdvSettings.set('droppedSub', file.name);
+						Settings.droppedSub = file.name;
 						App.vent.trigger('videojs:drop_sub');
 					}
 				}
