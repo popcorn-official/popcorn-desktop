@@ -380,6 +380,13 @@
 			}
 		},
 
+		scaleWindow: function (scale) {
+			var v = $('video')[0];
+			if (v.videoWidth && v.videoHeight) {
+				window.resizeTo(v.videoWidth * scale, v.videoHeight * scale);
+			}
+		},
+
 		bindKeyboardShortcuts: function () {
 			var _this = this;
 
@@ -515,18 +522,15 @@
 			});
 
 			Mousetrap.bind('0', function (e) {
-				var v = $('video')[0];
-				window.resizeTo(v.videoWidth/2, v.videoHeight/2);
+				_this.scaleWindow(0.5);
 			});
 
 			Mousetrap.bind('1', function (e) {
-				var v = $('video')[0];
-				window.resizeTo(v.videoWidth, v.videoHeight);
+				_this.scaleWindow(1);
 			});
 
 			Mousetrap.bind('2', function (e) {
-				var v = $('video')[0];
-				window.resizeTo(v.videoWidth*2, v.videoHeight*2);
+				_this.scaleWindow(2);
 			});
 
 			document.addEventListener('mousewheel', _this.mouseScroll);
