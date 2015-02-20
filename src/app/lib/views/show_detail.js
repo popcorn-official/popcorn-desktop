@@ -329,7 +329,7 @@
 			var season = $(e.currentTarget).attr('data-season');
 			var name = $(e.currentTarget).attr('data-title');
 
-			title += ' - ' + i18n.__('Season') + ' ' + season + ', ' + i18n.__('Episode') + ' ' + episode + ' - ' + name;
+			title += ' - ' + i18n.__('Season %s', season) + ', ' + i18n.__('Episode %s', episode) + ' - ' + name;
 			var epInfo = {
 				type: 'tvshow',
 				imdbid: that.model.get('imdb_id'),

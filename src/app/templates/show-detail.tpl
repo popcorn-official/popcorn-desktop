@@ -80,7 +80,7 @@
 					});
 					_.each(torrents, function(value, season) { %>
 						<li class="tab-season" data-tab="season-<%=season %>">
-							<a><%= i18n.__("Season") %>&nbsp;<%=season %></a>
+							<a><%= i18n.__("Season %s", season) %></a>
 						</li>
 					<% }); %>
 				</ul>
