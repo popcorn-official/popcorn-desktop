@@ -398,7 +398,7 @@
 											model.set('imdb_id', data.show.tvdb_id);
 											model.set('episode', sub_data.season);
 											model.set('season', sub_data.episode);
-											title = data.show.title + ' - ' + i18n.__('Season') + ' ' + data.episode.season + ', ' + i18n.__('Episode') + ' ' + data.episode.number + ' - ' + data.episode.title;
+											title = data.show.title + ' - ' + i18n.__('Season %s', data.episode.season) + ', ' + i18n.__('Episode %s', data.episode.number) + ' - ' + data.episode.title;
 										}
 										handleTorrent_fnc();
 									}).catch(function (err) {
