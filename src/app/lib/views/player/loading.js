@@ -134,7 +134,7 @@
 			this.ui.progressbar.css('width', streamInfo.get('buffer_percent').toFixed() + '%');
 
 			if (streamInfo.get('title') !== '') {
-				this.ui.title.text(streamInfo.get('title'));
+				this.ui.title.html(streamInfo.get('title'));
 			}
 			if (streamInfo.get('player') && streamInfo.get('player').get('type') !== 'local') {
 				this.ui.player.text(streamInfo.get('player').get('name'));
