@@ -29,7 +29,7 @@
 			</p>
 
 			<h2><%= i18n.__("How does Popcorn Time work?") %></h2>
-			<p><%= i18n.__("Popcorn Time streams video content through torrents. Our movies are provided by YTS (http://yts.re) and our TV Series by EZTV (http://eztv.ch), while getting all metadata from Trakt (http://trakt.tv). We don't host any content ourselves.") %><br>
+			<p><%= i18n.__("Popcorn Time streams video content through torrents. Our movies are provided by %s and our TV Series by %s, while getting all metadata from %s. We don't host any content ourselves.", 'YTS (http://yts.re)', 'EZTV (http://eztv.ch)', 'Trakt (http://trakt.tv)') %><br>
 			<%= i18n.__("Torrent streaming? Well, torrents use Bittorrent protocol, which basically means that you download small parts of the content from another user's computer, while sending the parts you already downloaded to another user. Then, you watch those parts, while the next ones are being downloaded in the background. This exchange allows the content to stay healthy.") %><br>
 			<%= i18n.__("Once the movie is fully downloaded, you continue to send parts to the other users. And everything is deleted from your computer when you close Popcorn Time. As simple as that.") %><br><br>
 			<%= i18n.__("The application itself is built with Node-Webkit, HTML, CSS and Javascript. It works like the Google Chrome browser, except that you host the biggest part of the code on your computer. Yes, Popcorn Time works on the same technology as a regular website, like... let's say Wikipedia, or Youtube!") %>
@@ -40,7 +40,7 @@
 				<li>1) Go to our website and create an account - <a href="https://git.popcorntime.io/users/sign_up">Click here</a></li>
 				<li>2) Click on "Issues", on the left side and then New Issue.</li>
 				<li>3) <b>Use the Gitlab issue filter to search</b> and check if the issue has already been reported.</li>
-				<li>4) <b>Check if the issue has been fixed</b> or look for closed issues - <a href="https://git.popcorntime.io/popcorntime/desktop/issues?assignee_id=&author_id=&label_name=&milestone_id=&scope=all&sort=newest&state=closed">Click here</a></li>
+				<li>4) <b>Check if the issue has been fixed</b> or look for closed issues - <a href="https://git.popcorntime.io/popcorntime/desktop/issues?state=closed">Click here</a></li>
 				<li>5) <b>Include a screenshot if relevant</b> - Is your issue about a design or front end feature or bug? The most helpful thing in the world is if we can see what you're talking about.</li>
 				<li>6) Use the Bug Report template below to start creating a bug report.</li><br>
 
@@ -68,7 +68,10 @@
 				* Popcorn Time Version: stable 0.3.7-2<br>
 				* Downloaded from: popcorntime.io<br>
 				* Connection: 10mbps<br>
-				* OS: MAC OSX</span>
+				* OS: MAC OSX<br>
+				<br>
+				### Console logs:<br>
+				Press F12 or CMD+0 and go to the 'console' tab. Take a screenshot or copy-paste the code. It usually indicates where is located the error you encounter and it's a useful information.</span>
 			</p>
 		</div>
 	</div>
