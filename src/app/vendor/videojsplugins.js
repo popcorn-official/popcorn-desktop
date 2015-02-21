@@ -101,6 +101,7 @@ videojs.plugin('customSubtitles', function() {
       });
 
       this.fileInput_.on('change', function() {
+		that.player_.play();
         if (this.value == '') return;
         that.loadSubtitle(this.value);
       });
@@ -110,6 +111,7 @@ videojs.plugin('customSubtitles', function() {
   });
 
   CustomTrackMenuItem.prototype.onClick = function() {
+	this.player_.pause();
     this.fileInput_.trigger('click'); // redirect to fileInput click
   }
 
