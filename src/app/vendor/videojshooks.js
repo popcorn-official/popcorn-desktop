@@ -85,6 +85,9 @@ vjs.TextTrack.prototype.load = function(){
 			win.info('Subtitle loaded!');
 			$('#video_player .vjs-text-track').css('display','inline-block').drags();
 			$('#video_player .vjs-text-track-display').css('font-size', Settings.subtitle_size);
+			if (this.player_.isFullscreen()) {
+				$('.vjs-text-track').css('font-size','140%');
+			}
             $('.vjs-subtitles').css('color', Settings.subtitle_color);
             if (! Settings.subtitle_shadows) {
                 $('.vjs-text-track').css('text-shadow', 'none');
