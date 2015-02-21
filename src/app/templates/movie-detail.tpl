@@ -56,7 +56,7 @@ if(typeof runtime === "undefined"){ runtime = "N/A"; };
 	<div class="bottom-container">
 
 		<div class="favourites-toggle"><%=i18n.__("Add to bookmarks") %></div>
-		<div class="watched-toggle"><%=i18n.__("Mark as Seen") %></div>
+		<div class="watched-toggle"><%=i18n.__("Not Seen") %></div>
 		<div class="sub-dropdown">
 		  <%= i18n.__("Subtitles") %>
 		  <div class="sub-flag-icon flag selected-lang none"></div>
