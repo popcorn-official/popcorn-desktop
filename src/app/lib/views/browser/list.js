@@ -234,7 +234,7 @@
 		},
 
 		onLoaded: function () {
-			console.timeEnd('App startup time');
+			win.debug('Popcorn Time %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)) // started in database.js;
 			this.checkEmpty();
 			var self = this;
 			this.addloadmore();

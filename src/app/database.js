@@ -10,7 +10,7 @@ var
 	data_path = require('nw.gui').App.dataPath,
 	TTL = 1000 * 60 * 60 * 24;
 
-console.time('App startup time');
+var startupTime = window.performance.now();
 console.debug('Database path: ' + data_path);
 
 process.env.TZ = 'America/New_York'; // set same api tz
