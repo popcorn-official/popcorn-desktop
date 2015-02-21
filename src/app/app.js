@@ -353,6 +353,7 @@ window.ondragenter = function (e) {
 };
 
 var handleTorrent = function (torrent) {
+	App.PlayerView.closePlayer();
 	App.Config.getProvider('torrentCache').resolve(torrent);
 };
 
@@ -372,6 +373,7 @@ window.ondrop = function (e) {
 
 			fs.writeFile(path.join(App.settings.tmpLocation, file.name), content, function (err) {
 				if (err) {
+					App.PlayerView.closePlayer();
 					window.alert(i18n.__('Error Loading File') + ': ' + err);
 				} else {
 					if (file.name.indexOf('.torrent') !== -1) {
