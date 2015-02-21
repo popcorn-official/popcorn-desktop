@@ -9,7 +9,8 @@
 
 		ui: {
 			selected_lang: '.selected-lang',
-			bookmarkIcon: '.favourites-toggle'
+			bookmarkIcon: '.favourites-toggle',
+			watchedIcon: '.watched-toggle'
 		},
 
 		events: {
@@ -19,6 +20,7 @@
 			'click #switch-hd-on': 'enableHD',
 			'click #switch-hd-off': 'disableHD',
 			'click .favourites-toggle': 'toggleFavourite',
+			'click .watched-toggle': 'toggleWatched',
 			'click .movie-imdb-link': 'openIMDb',
 			'click .magnet-link': 'openMagnet',
 			'click .sub-dropdown': 'toggleDropdown',
@@ -108,6 +110,9 @@
 
 			if (this.model.get('bookmarked') === true) {
 				this.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
+			}
+			if (this.model.get('watched') === true) {
+				this.ui.watchedIcon.addClass('selected').text(i18n.__('Mark as unseen'));
 			}
 
 			if (AdvSettings.get('ratingStars') === false) {
@@ -315,6 +320,33 @@
 						that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
 						App.userBookmarks.push(that.model.get('imdb_id'));
 						that.model.set('bookmarked', true);
+					});
+			}
+		},
+
+		toggleWatched: function (e) {
+
+			if (e.type) {
+				e.stopPropagation();
+				e.preventDefault();
+			}
+			var that = this;
+			if (this.model.get('watched') === true) {
+				Database.markMovieAsNotWatched({
+						imdb_id: this.model.get('imdb_id')
+					}, true)
+					.then(function () {
+						that.model.set('watched', false);
+						that.ui.watchedIcon.removeClass('selected').text(i18n.__('Mark as Seen'));
+					});
+			} else {
+				Database.markMovieAsWatched({
+						imdb_id: this.model.get('imdb_id'),
+						from_browser: true
+					}, true)
+					.then(function () {
+						that.model.set('watched', true);
+						that.ui.watchedIcon.addClass('selected').text(i18n.__('Mark as unseen'));
 					});
 			}
 		},

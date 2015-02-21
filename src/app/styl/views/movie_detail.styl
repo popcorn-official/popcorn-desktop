@@ -217,6 +217,7 @@
 				font-smoothing: antialiased
 				font-size: 12px
 				line-height: 17px
+				margin-right: 20px
 
 				&:before
 					content: "\f004"
@@ -248,7 +249,6 @@
 				&.selected
 					height: 18px
 					position: relative
-					width: 200px
 
 					&:before
 						content: "\f004"
@@ -262,6 +262,77 @@
 
 					&:after
 						content: "\f004"
+						font-family: FontAwesome
+						position: absolute
+						font-size: 18px
+						color: #FFF
+						left: 0
+						opacity: 0
+						transition: opacity 0.5s
+
+					&:hover
+						&:before
+							opacity: 0
+						&:after
+							opacity: 1
+
+			.watched-toggle
+				cursor: pointer
+				padding: 5px
+				padding-left: 24px
+				float: left
+				color: #FFF
+				height: 26px
+				position: relative
+				width: auto
+				font-family: $MainFont
+				font-smoothing: antialiased
+				font-size: 12px
+				line-height: 17px
+
+				&:before
+					content: "\f06e"
+					font-family: FontAwesome
+					position: absolute
+					font-size: 18px
+					color: #FFF
+					left: 0
+					opacity: 1
+					transition: opacity 0.5s
+
+				&:after 
+					content: "\f06e"
+					font-family: FontAwesome
+					position: absolute
+					font-size: 18px
+					color: $ButtonBgActive
+					left: 0
+					opacity: 0
+					transition: opacity 0.5s
+
+				&:hover
+					&:before
+						opacity: 0
+					&:after
+						opacity: 1
+
+
+				&.selected
+					height: 18px
+					position: relative
+
+					&:before
+						content: "\f06e"
+						font-family: FontAwesome
+						position: absolute
+						font-size: 18px
+						color: $FavoriteColor
+						left: 0
+						opacity: 1
+						transition: opacity 0.5s
+
+					&:after
+						content: "\f070"
 						font-family: FontAwesome
 						position: absolute
 						font-size: 18px
