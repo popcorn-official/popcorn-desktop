@@ -21,7 +21,7 @@
 			<a href='http://twitter.com/PopcornTimeTV' data-toggle="tooltip" data-placement="top" title="twitter.com/PopcornTimeTV" class='links twitter_icon'></span></a>
 			<a href='http://www.fb.com/PopcornTimeTV' data-toggle="tooltip" data-placement="top" title="fb.com/PopcornTimeTV" class='links facebook_icon'></span></a>
 			<a href='http://gplus.to/PopcornTimeTV' data-toggle="tooltip" data-placement="top" title="gplus.to/PopcornTimeTV" class='links google_icon'></span></a>
-			<a href='http://git.popcorntime.io'data-toggle="tooltip" data-placement="top" title="git.popcorntime.io" class='links stash_icon'></span></a>
+			<a href='http://git.popcorntime.io'data-toggle="tooltip" data-placement="top" title="git.popcorntime.io" class='links gitlab_icon'></span></a>
 			<a href='http://blog.popcorntime.io' data-toggle="tooltip" data-placement="top" title="blog.popcorntime.io" class='links blog_icon'></span></a>
 			<a href='http://discuss.popcorntime.io' data-toggle="tooltip" data-placement="top" title="discuss.popcorntime.io" class='links forum_icon'></span></a>
 		</div>
