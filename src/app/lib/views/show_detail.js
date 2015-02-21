@@ -352,7 +352,7 @@
 						defaultSubtitle: Settings.subtitle_language,
 						episode: value.episode,
 						season: value.season,
-						title: that.model.get('title') + ' - ' + i18n.__('Season') + ' ' + value.season + ', ' + i18n.__('Episode') + ' ' + value.episode + ' - ' + value.title,
+						title: that.model.get('title') + ' - ' + i18n.__('Season %s', value.season) + ', ' + i18n.__('Episode %s', value.episode) + ' - ' + value.title,
 						torrents: value.torrents,
 						extract_subtitle: {
 							type: 'tvshow',
@@ -499,7 +499,7 @@
 
 			$('.tab-episode.active').removeClass('active');
 			$elem.addClass('active');
-			$('.episode-info-number').text(i18n.__('Season') + ' ' + $('.template-' + tvdbid + ' .season').html() + ', ' + i18n.__('Episode') + ' ' + $('.template-' + tvdbid + ' .episode').html());
+			$('.episode-info-number').text(i18n.__('Season %s', $('.template-' + tvdbid + ' .season').html()) + ', ' + i18n.__('Episode %s', $('.template-' + tvdbid + ' .episode').html()));
 			$('.episode-info-title').text($('.template-' + tvdbid + ' .title').text());
 			$('.episode-info-date').text(i18n.__('Aired Date') + ': ' + $('.template-' + tvdbid + ' .date').html());
 			$('.episode-info-description').text($('.template-' + tvdbid + ' .overview').text());
