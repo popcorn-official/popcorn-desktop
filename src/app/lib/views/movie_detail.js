@@ -108,13 +108,31 @@
 			// switch to default subtitle
 			this.switchSubtitle(Settings.subtitle_language);
 
+			// Bookmarked / not bookmarked
 			if (this.model.get('bookmarked') === true) {
 				this.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
 			}
+			
+			// Seen / Unseen
 			if (this.model.get('watched') === true) {
-				this.ui.watchedIcon.addClass('selected').text(i18n.__('Mark as unseen'));
+				this.ui.watchedIcon.addClass('selected').text(i18n.__('Seen'));
 			}
+			var _this = this;
+			this.ui.watchedIcon.hover( function () {
+				if (_this.model.get('watched')) {
+					_this.ui.watchedIcon.text(i18n.__('Mark as unseen'));
+				} else {
+					_this.ui.watchedIcon.text(i18n.__('Mark as Seen'));
+				}
+			}, function () {
+				if (_this.model.get('watched')) {
+					_this.ui.watchedIcon.text(i18n.__('Seen'));
+				} else {
+					_this.ui.watchedIcon.text(i18n.__('Not Seen'));
+				}
+			});
 
+			// display stars or number
 			if (AdvSettings.get('ratingStars') === false) {
 				$('.star-container').addClass('hidden');
 				$('.number-container').removeClass('hidden');
@@ -337,7 +355,7 @@
 					}, true)
 					.then(function () {
 						that.model.set('watched', false);
-						that.ui.watchedIcon.removeClass('selected').text(i18n.__('Mark as Seen'));
+						that.ui.watchedIcon.removeClass('selected').text(i18n.__('Not Seen'));
 					});
 			} else {
 				Database.markMovieAsWatched({
@@ -346,7 +364,7 @@
 					}, true)
 					.then(function () {
 						that.model.set('watched', true);
-						that.ui.watchedIcon.addClass('selected').text(i18n.__('Mark as unseen'));
+						that.ui.watchedIcon.addClass('selected').text(i18n.__('Seen'));
 					});
 			}
 		},
