@@ -27,23 +27,23 @@
 					<li><b><%= i18n.__("Torrent health") %>:</b> <%= i18n.__("On the details of Movies/TV Series, you can find a little circle, colored in grey, red, yellow or green. Those colors refer to the health of the torrent. A green torrent will be downloaded quickly, while a red torrent may not be downloaded at all, or very slowly. The color grey represents an error in the health calculation for Movies, and needs to be clicked in TV Series in order to display the health.") %></li>
 				</ul>
 			</p>
-			
+
 			<h2><%= i18n.__("How does Popcorn Time work?") %></h2>
-			<p><%= i18n.__("Popcorn Time streams video content through torrents. Our movies are provided by YTS (http://yts.re) and our TV Series by EZTV (http://eztv.it), while getting all metadata from Trakt (http://trakt.tv). We don't host any content ourselves.") %><br>
+			<p><%= i18n.__("Popcorn Time streams video content through torrents. Our movies are provided by YTS (http://yts.re) and our TV Series by EZTV (http://eztv.ch), while getting all metadata from Trakt (http://trakt.tv). We don't host any content ourselves.") %><br>
 			<%= i18n.__("Torrent streaming? Well, torrents use Bittorrent protocol, which basically means that you download small parts of the content from another user's computer, while sending the parts you already downloaded to another user. Then, you watch those parts, while the next ones are being downloaded in the background. This exchange allows the content to stay healthy.") %><br>
 			<%= i18n.__("Once the movie is fully downloaded, you continue to send parts to the other users. And everything is deleted from your computer when you close Popcorn Time. As simple as that.") %><br><br>
 			<%= i18n.__("The application itself is built with Node-Webkit, HTML, CSS and Javascript. It works like the Google Chrome browser, except that you host the biggest part of the code on your computer. Yes, Popcorn Time works on the same technology as a regular website, like... let's say Wikipedia, or Youtube!") %>
 			</p>
-			
+
 			<h2><%= i18n.__("I found a bug, how do I report it?") %> <em>[English only]</em></h2>
 			<p>Here are the few simple steps to take:
-				<li>1) Go to our website and create an account - <a href="https://git.popcorntime.io/jira">Click here</a></li>
-				<li>2) Click on "Create", on top of the page.</li>
-				<li>3) <b>Use the JIRA issue search</b> and check if the issue has already been reported.</li>
-				<li>4) <b>Check if the issue has been fixed</b> or look for closed issues - <a href="https://git.popcorntime.io/jira/issues/?jql=project%20%3D%20PT%20AND%20issuetype%20%3D%20Bug%20AND%20status%20in%20%28Resolved%2C%20Closed%29">Click here</a></li>
+				<li>1) Go to our website and create an account - <a href="https://git.popcorntime.io/users/sign_up">Click here</a></li>
+				<li>2) Click on "Issues", on the left side and then New Issue.</li>
+				<li>3) <b>Use the Gitlab issue filter to search</b> and check if the issue has already been reported.</li>
+				<li>4) <b>Check if the issue has been fixed</b> or look for closed issues - <a href="https://git.popcorntime.io/popcorntime/desktop/issues?assignee_id=&author_id=&label_name=&milestone_id=&scope=all&sort=newest&state=closed">Click here</a></li>
 				<li>5) <b>Include a screenshot if relevant</b> - Is your issue about a design or front end feature or bug? The most helpful thing in the world is if we can see what you're talking about.</li>
 				<li>6) Use the Bug Report template below to start creating a bug report.</li><br>
-				
+
 				A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment.<br><br>
 
 				<span class="code">Template Example:<br>
@@ -65,7 +65,7 @@
 				Especially, why do you consider this to be a bug? What do you expect to happen instead?<br>
 				<br>
 				### Technical details:<br>
-				* Popcorn Time Version: stable 0.3.3<br>
+				* Popcorn Time Version: stable 0.3.7-2<br>
 				* Downloaded from: popcorntime.io<br>
 				* Connection: 10mbps<br>
 				* OS: MAC OSX</span>
