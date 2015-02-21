@@ -17,7 +17,7 @@
 		play: function (streamModel) {
 			// "" So it behaves when spaces in path
 			var url = streamModel.attributes.src;
-			var cmd = path.normalize('"' + this.get('path') + '" ' + getPlayerSwitches(this.get('id')) + ' ');
+			var cmd = path.normalize('"' + this.get('path') + '" ') + getPlayerSwitches(this.get('id')) + ' ';
 			var subtitle = streamModel.attributes.subFile || '';
 			if (subtitle !== '') {
 
