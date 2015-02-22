@@ -370,29 +370,21 @@ window.ondrop = function (e) {
 	var file = e.dataTransfer.files[0];
 
 	if (file != null && (file.name.indexOf('.torrent') !== -1 || file.name.indexOf('.srt') !== -1)) {
-		var reader = new FileReader();
 
-		reader.onload = function (event) {
-			var content = reader.result;
-
-			fs.writeFile(path.join(App.settings.tmpLocation, file.name), content, function (err) {
-				if (err) {
-					App.PlayerView.closePlayer();
-					window.alert(i18n.__('Error Loading File') + ': ' + err);
-				} else {
-					if (file.name.indexOf('.torrent') !== -1) {
-						Settings.droppedTorrent = file.name;
-						handleTorrent(path.join(App.settings.tmpLocation, file.name));
-					} else if (file.name.indexOf('.srt') !== -1) {
-						Settings.droppedSub = file.name;
-						App.vent.trigger('videojs:drop_sub');
-					}
+		fs.writeFile(path.join(App.settings.tmpLocation, file.name), fs.readFileSync(file.path), function (err) {
+			if (err) {
+				App.PlayerView.closePlayer();
+				window.alert(i18n.__('Error Loading File') + ': ' + err);
+			} else {
+				if (file.name.indexOf('.torrent') !== -1) {
+					Settings.droppedTorrent = file.name;
+					handleTorrent(path.join(App.settings.tmpLocation, file.name));
+				} else if (file.name.indexOf('.srt') !== -1) {
+					Settings.droppedSub = file.name;
+					App.vent.trigger('videojs:drop_sub');
 				}
-			});
-
-		};
-
-		reader.readAsBinaryString(file);
+			}
+		});
 
 	} else {
 		var data = e.dataTransfer.getData('text/plain');
