@@ -641,7 +641,7 @@
 
 		getProgress: function () {
 			if (!this.authenticated) {
-				console.log('Not Authenticated');
+				win.warn('Not Authenticated');
 				return Q.reject('Not Authenticated');
 			}
 

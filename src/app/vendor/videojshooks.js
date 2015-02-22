@@ -12,9 +12,9 @@ vjs.Player.prototype.debugMouse_ = false;
 vjs.Player.prototype.reportUserActivity = function(event){
   /** DEBUG MOUSE CTRL+D **/
   if(this.debugMouse_) {
-    console.log('');
-    console.log('Event fired at: '+ vjs.formatTime(this.player_.currentTime(), this.player_.duration()));
-    console.log(event);
+    win.debug('');
+    win.debug('Event fired at: '+ vjs.formatTime(this.player_.currentTime(), this.player_.duration()));
+    win.debug(event);
   }
   if(event !== undefined && event.type === 'mousemove'){
     if(event.webkitMovementX === 0 && event.webkitMovementY === 0) return;

@@ -158,7 +158,7 @@
 
 	async.each(searchPaths[process.platform], function (folderName, pathcb) {
 		folderName = path.resolve(folderName);
-		console.log('Scanning: ' + folderName);
+		win.info('Scanning: ' + folderName);
 		var appIndex = -1;
 		var fileStream = readdirp({
 			root: folderName,
@@ -182,12 +182,12 @@
 							name: match.name,
 							path: d.fullPath
 						}));
-						console.log('Found External Player: ' + app + ' in ' + d.fullParentDir);
+						win.info('Found External Player: ' + match.name + ' in ' + d.fullParentDir);
 					} else {
 						collection.findWhere({
 							id: match.name
 						}).set('path', d.fullPath);
-						console.log('Updated External Player: ' + app + ' with more recent version found in ' + d.fullParentDir);
+						win.info('Updated External Player: ' + app + ' with more recent version found in ' + d.fullParentDir);
 					}
 					birthtimes[match.name] = birthtime;
 				}

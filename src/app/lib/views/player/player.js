@@ -196,7 +196,7 @@
 								precachestarted = true;
 							}
 
-							console.log('Showing Auto Play message');
+							win.info('Showing Auto Play message');
 							autoplayisshown = true;
 							$('.playing_next').show();
 							$('.playing_next').appendTo('div#video_player');
@@ -210,7 +210,7 @@
 
 					} else {
 						if (autoplayisshown) {
-							console.log('Hiding Auto Play message');
+							win.info('Hiding Auto Play message');
 							$('.playing_next').hide();
 							$('.playing_next span').text('');
 							autoplayisshown = false;

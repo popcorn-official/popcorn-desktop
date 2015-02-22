@@ -473,7 +473,7 @@
 		},
 
 		openTmpFolder: function () {
-			console.log('Opening: ' + App.settings['tmpLocation']);
+			win.debug('Opening: ' + App.settings['tmpLocation']);
 			gui.Shell.openItem(App.settings['tmpLocation']);
 		},
 
@@ -490,7 +490,7 @@
 		},
 
 		openDatabaseFolder: function () {
-			console.log('Opening: ' + App.settings['databaseLocation']);
+			win.debug('Opening: ' + App.settings['databaseLocation']);
 			gui.Shell.openItem(App.settings['databaseLocation']);
 		},
 
@@ -506,7 +506,7 @@
 
 			fdialogs.saveFile(zip.toBuffer(), function (err, path) {
 				that.alertMessageWait(i18n.__('Exporting Database...'));
-				console.log('Database exported to:', path);
+				win.info('Database exported to:', path);
 				that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
 			});
 
@@ -527,7 +527,7 @@
 				} catch (err) {
 
 					that.alertMessageFailed(i18n.__('Invalid PCT Database File Selected'));
-					console.log('Failed to Import Database');
+					win.warn('Failed to Import Database');
 				}
 
 

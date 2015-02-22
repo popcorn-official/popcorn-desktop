@@ -652,7 +652,7 @@
 			sockets.push(socket);
 			socket.setTimeout(4000);
 			socket.on('close', function () {
-				console.log('socket closed');
+				win.info('HTTP API: socket closed');
 				sockets.splice(sockets.indexOf(socket), 1);
 			});
 		});
@@ -663,7 +663,7 @@
 			cb();
 		});
 		for (var i = 0; i < sockets.length; i++) {
-			console.log('socket #' + i + ' destroyed');
+			win.info('HTTP API: socket #' + i + ' destroyed');
 			sockets[i].destroy();
 		}
 	}
@@ -677,7 +677,7 @@
 	}
 
 	App.vent.on('initHttpApi', function () {
-		console.log('Reiniting server');
+		win.info('Initializing HTTP API server');
 		initServer().then(function () {
 			server.enableAuth(Settings.httpApiUsername, Settings.httpApiPassword);
 			if (httpServer) {

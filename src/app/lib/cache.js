@@ -11,11 +11,11 @@
 	// Update db
 	if (db.version !== cache.version) {
 		db.changeVersion(db.version, cache.version, function (tx) {
-			console.log('New database version');
+			win.debug('New database version');
 
 			_.each(cache.tables, function (table) {
 				tx.executeSql('DROP TABLE IF EXISTS ' + table, [], function () {
-					console.log('Create table ' + table);
+					win.debug('Create table ' + table);
 					tx.executeSql('CREATE TABLE ' + table + ' (' + tableStruct + ')');
 				}, function (tx, err) {
 					console.error(err);

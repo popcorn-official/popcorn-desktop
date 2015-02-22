@@ -268,7 +268,7 @@ Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function (e) {
 	win.showDevTools();
 });
 Mousetrap.bind(['shift+f10', 'f10', 'command+9'], function (e) {
-	console.log('Opening: ' + App.settings['tmpLocation']);
+	win.debug('Opening: ' + App.settings['tmpLocation']);
 	gui.Shell.openItem(App.settings['tmpLocation']);
 });
 Mousetrap.bind('mod+,', function (e) {
@@ -323,7 +323,7 @@ window.ondragenter = function (e) {
 	$('#drop-mask').on('dragenter',
 		function (e) {
 			$('.drop-indicator').show();
-			console.log('drag init');
+			win.debug('drag init');
 		});
 	$('#drop-mask').on('dragover',
 		function (e) {
@@ -336,7 +336,7 @@ window.ondragenter = function (e) {
 			clearTimeout(timeout);
 			timeout = setTimeout(function () {
 				if (!showDrag) {
-					console.log('drag aborted');
+					win.debug('drag aborted');
 					$('.drop-indicator').hide();
 					$('#drop-mask').hide();
 				}
@@ -352,7 +352,7 @@ var handleTorrent = function (torrent) {
 window.ondrop = function (e) {
 	e.preventDefault();
 	$('#drop-mask').hide();
-	console.log('drag completed');
+	win.debug('drag completed');
 	$('.drop-indicator').hide();
 
 	var file = e.dataTransfer.files[0];

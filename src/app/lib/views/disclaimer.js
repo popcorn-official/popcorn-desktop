@@ -12,7 +12,7 @@
 
 		initialize: function () {
 			Mousetrap.pause();
-			console.log('Show Disclaimer');
+			win.warn('Show Disclaimer');
 		},
 
 		acceptDisclaimer: function (e) {

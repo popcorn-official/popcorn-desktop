@@ -342,7 +342,6 @@ var Database = {
 	},
 
 	getSettings: function () {
-		win.debug('getSettings() fired');
 		return promisifyDb(db.settings.find({}));
 	},
 

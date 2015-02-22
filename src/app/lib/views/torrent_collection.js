@@ -135,7 +135,7 @@
 		},
 
 		openCollection: function () {
-			console.log('Opening: ' + collection);
+			win.debug('Opening: ' + collection);
 			gui.Shell.openItem(collection);
 		},
 

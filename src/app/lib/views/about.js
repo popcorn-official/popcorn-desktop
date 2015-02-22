@@ -23,7 +23,7 @@
 				App.vent.trigger('about:close');
 			});
 			$('.links,#changelog').tooltip();
-			console.log('Show about');
+			win.info('Show about');
 			$('#movie-detail').hide();
 		},
 
