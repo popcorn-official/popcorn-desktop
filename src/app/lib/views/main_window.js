@@ -39,15 +39,12 @@
 			_this = this;
 
 			_.each(_this.regionManager._regions, function (element, index) {
-				
+
 				element.on('show', function (view) {
-					console.log('viewstack:push', view.className);
 					if (view.className) {
 						App.ViewStack.push(view.className);
 					}
 					App.vent.trigger('viewstack:push', view.className);
-
-					// console.log('viewstack.push.after', App.ViewStack);
 				});
 
 				/**
@@ -55,18 +52,15 @@
 				 * TODO: Find better solution
 				 */
 				element.on('destroy', function (view) {
-					console.info('### destroy.view ###', view);
 					if (typeof view === 'undefined' && element.currentView !== null) {
 						view = element.currentView;
 					}
 					var viewName = (typeof view !== 'undefined' ? view.className : 'unknown');
 					App.ViewStack.pop();
 					App.vent.trigger('viewstack:pop', viewName);
-					console.log('viewstack:pop', viewName);
 					if (typeof element.currentView !== 'undefined') element.currentView.destroy();
-
-					// console.log('viewstack.pop.after', App.ViewStack);
 				});
+
 			});
 
 			this.nativeWindow = require('nw.gui').Window.get();
@@ -140,7 +134,7 @@
 		},
 
 		showSubtitles: function (model) {
-			console.log('Show subs', model);
+			win.debug('Show subs', model);
 			var s = new App.View.Subtitles({
 				model: model
 			});

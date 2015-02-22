@@ -122,7 +122,7 @@
 		var checkReady = function () {
 			if (stateModel.get('state') === 'ready') {
 
-				if (stateModel.get('state') === 'ready' && stateModel.get('streamInfo').get('player') !== 'local') {
+				if (stateModel.get('state') === 'ready' && stateModel.get('streamInfo').get('player').id !== 'local') {
 					stateModel.set('state', 'playingExternally');
 				}
 				streamInfo.set(torrent);
@@ -192,12 +192,12 @@
 			}
 			this.currentTorrent = model;
 
-			console.log(model);
+			win.debug('Preloading model:', model);
 			var torrent_url = model.get('torrent');
 
 			readTorrent(torrent_url, function (err, torrent) {
 
-				console.log(torrent);
+				win.debug('Preloading torrent:', torrent);
 				var tmpFilename = torrent.infoHash;
 				tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_'); // +'-'+ (new Date()*1);
 				var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
@@ -238,10 +238,10 @@
 					preload_engine.server.close();
 				}
 				preload_engine.destroy();
+				win.info('Preloading stopped');
 			}
 
 			preload_engine = null;
-			win.info('Preloading stoped');
 		}
 	};
 

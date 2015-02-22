@@ -143,12 +143,11 @@
 		},
 
 		onDeviceStatus: function (status) {
-			//console.log('device status: ', status);
 			if (status.media !== undefined && status.media.duration !== undefined) {
 				// Update playingbar width
 				var playedPercent = status.currentTime / status.media.duration * 100;
 				this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
-				console.log('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
+				win.debug('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
 					status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
 			}
 			if (!this.extPlayerStatusUpdater && status.playerState === 'PLAYING') {
@@ -170,11 +169,11 @@
 				if (this.extPlayerStatusUpdater) {
 					clearInterval(this.extPlayerStatusUpdater);
 				}
-				console.log('Stopping external device');
+				win.info('Stopping external device');
 				App.vent.trigger('device:stop');
 			}
 
-			console.log('Closing loading view');
+			win.info('Closing loading view');
 			App.vent.trigger('stream:stop');
 			App.vent.trigger('player:close');
 			App.vent.trigger('torrentcache:stop');
@@ -186,7 +185,7 @@
 		},
 
 		resumeStreaming: function () {
-			console.log('clicked play');
+			win.debug('clicked play');
 			App.vent.trigger('device:unpause');
 			$('.play').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
 		},
@@ -196,18 +195,18 @@
 		},
 
 		forwardStreaming: function () {
-			console.log('clicked forward');
+			win.debug('clicked forward');
 			App.vent.trigger('device:forward');
 		},
 
 		backwardStreaming: function () {
-			console.log('clicked backward');
+			win.debug('clicked backward');
 			App.vent.trigger('device:backward');
 		},
 
 		seekStreaming: function (e) {
 			var percentClicked = e.offsetX / e.currentTarget.clientWidth * 100;
-			console.log('clicked seek (%s%)', percentClicked.toFixed(2));
+			win.debug('clicked seek (%s%)', percentClicked.toFixed(2));
 			App.vent.trigger('device:seekPercentage', percentClicked);
 		},
 

@@ -149,7 +149,6 @@
 		initKeyboardShortcuts: function () {
 			Mousetrap.bind(['esc', 'backspace'], this.closeDetails);
 			Mousetrap.bind(['enter', 'space'], function (e) {
-				win.log('Enter click!');
 				$('#watch-now').click();
 			});
 			Mousetrap.bind('q', this.toggleQuality);

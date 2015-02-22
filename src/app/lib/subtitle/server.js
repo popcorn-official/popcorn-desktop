@@ -47,7 +47,7 @@
 			iconv.extendNodeEncodings();
 
 			encoding = data.encoding || 'utf8';
-			console.log(data.srt);
+			win.debug(data.srt);
 			if(data.vtt) {
 				fs.readFile(data.vtt, function(err, data) {
 					if(err) {

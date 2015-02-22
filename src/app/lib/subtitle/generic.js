@@ -96,7 +96,7 @@
 			win.error('Not implemented in parent model');
 		},
 		download: function (data) {
-			console.log('subtitle.download', data);
+			win.debug('subtitle.download', data);
 			if (data.path && data.url) {
 				var fileFolder = path.dirname(data.path);
 

@@ -19,7 +19,7 @@
 		var queryPromise = cachePromise.then(function (items) {
 				// Filter out cached subtitles
 				var cachedIds = _.keys(items);
-				win.info(cachedIds.length + ' cached ' + self.table);
+				win.debug(cachedIds.length + ' cached ' + self.table);
 				var filteredId = _.difference(ids, cachedIds);
 				return filteredId;
 			})
@@ -27,7 +27,7 @@
 
 		// Cache ysubs subtitles
 		queryPromise.then(function (items) {
-			win.info('Cache ' + _.keys(items).length + ' ' + self.table);
+			win.debug('Cache ' + _.keys(items).length + ' ' + self.table);
 			self.cache.setItems(items, self.ttl);
 		});
 
