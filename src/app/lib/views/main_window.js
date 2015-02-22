@@ -21,8 +21,7 @@
 			Keyboard: '#keyboard-container',
 			Help: '#help-container',
 			TorrentCollection: '#torrent-collection-container',
-			Issue: '#issue-container',
-			Calendar: '#calendar-container'
+			Issue: '#issue-container'
 		},
 
 		ui: {
@@ -95,10 +94,6 @@
 			// Issue
 			App.vent.on('issue:new', _.bind(this.showIssue, this));
 			App.vent.on('issue:close', _.bind(this.Issue.destroy, this.Issue));
-
-			// Calendar
-			App.vent.on('calendar:show', _.bind(this.showCalendar, this));
-			App.vent.on('calendar:close', _.bind(this.Calendar.destroy, this.Calendar));
 
 			// Movies
 			App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
@@ -293,10 +288,6 @@
 
 		showAbout: function (e) {
 			this.About.show(new App.View.About());
-		},
-
-		showCalendar: function(e) {
-			this.Calendar.show(new App.View.Calendar());
 		},
 
 		showTorrentCollection: function (e) {

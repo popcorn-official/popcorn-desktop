@@ -68,9 +68,6 @@
 	<li>
 		<i id="filterbar-favorites" class="fa fa-heart favorites tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Favorites") %>"></i>
 	</li>
-	<li>
-		<i id="filterbar-calendar" class="fa fa-calendar-o calendar tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Calendar") %>"></i>
-	</li>
 	<% if (Settings.allowTorrentStorage) { %>
 	<li id="torrent_col" style="display:block">
 	<% } else { %>
