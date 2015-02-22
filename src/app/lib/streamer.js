@@ -274,6 +274,7 @@
 					return;
 				}
 				if (err) {
+					win.error('Streamer:', err.message);
 					App.vent.trigger('error', err);
 					App.vent.trigger('stream:stop');
 					App.vent.trigger('player:close');
