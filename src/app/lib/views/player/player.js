@@ -35,6 +35,7 @@
 			this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
 			this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
 			this.listenTo(this.model, 'change:downloaded', this.updateDownloaded);
+											 
 			this.video = false;
 			this.inFullscreen = win.isFullscreen;
 		},
@@ -295,6 +296,15 @@
 			}
 			
 			this.player.volume(AdvSettings.get('playerVolume'));
+
+			var timeout;
+			$('.vjs-menu-content,.eye-info-player').hover( function () {
+				timeout = setInterval( function () {
+					App.PlayerView.player.userActive(true);
+				}, 100);
+			}, function () {
+				clearInterval(timeout);
+			});
 		},
 
 		playNextNow: function () {
