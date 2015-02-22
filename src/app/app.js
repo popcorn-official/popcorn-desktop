@@ -353,7 +353,11 @@ window.ondragenter = function (e) {
 };
 
 var handleTorrent = function (torrent) {
-	App.PlayerView.closePlayer();
+	try {
+		App.PlayerView.closePlayer();
+	} catch (err) {
+		// The player wasn't running
+	}
 	App.Config.getProvider('torrentCache').resolve(torrent);
 };
 
