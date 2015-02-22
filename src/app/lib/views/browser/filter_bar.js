@@ -43,7 +43,7 @@
 			if (AdvSettings.get('startScreen') === 'Last Open') {
 				AdvSettings.set('lastTab', set);
 			}
-
+			$('.right .search').show();
 			$('.filter-bar').find('.active').removeClass('active');
 			switch (set) {
 			case 'TV Series':
@@ -60,13 +60,16 @@
 				break;
 			case 'Favorites':
 			case 'favorites':
+				$('.right .search').hide();
 				$('#filterbar-favorites').addClass('active');
 				break;
 			case 'Watchlist':
 			case 'watchlist':
+				$('.right .search').hide();
 				$('#filterbar-watchlist').addClass('active');
 				break;
 			case 'Torrent-collection':
+				$('.right .search').hide();
 				$('#filterbar-torrent-collection').addClass('active');
 				break;
 			}
