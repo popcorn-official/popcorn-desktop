@@ -117,7 +117,11 @@
 						this.$el.addClass('watched');
 						break;
 					case 'hide':
-						this.$el.remove();
+						if ($('.search input').val()) {
+							this.$el.addClass('watched');
+						} else {
+							this.$el.remove();
+						}
 						break;
 					}
 				}
