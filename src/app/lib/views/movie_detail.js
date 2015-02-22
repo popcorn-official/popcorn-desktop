@@ -326,6 +326,7 @@
 					rating: this.model.get('rating'),
 					trailer: this.model.get('trailer'),
 					provider: this.model.get('provider'),
+					watched: this.model.get('watched'),
 				};
 
 				Database.addMovie(movie)
