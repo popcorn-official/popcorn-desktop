@@ -58,27 +58,34 @@
     }
     .details-info-player {
         display: none
-        width: 230px
+        width: 250px
         background: rgba(31,31,31,0.74)
-        color: #fff
         padding: 10px
-        font-family: sans-serif
-        font-size: 14px
         top: 32px
         position: absolute
         right: 45px
         border-radius: 2px
 
-        & > span {
-            margin-bottom: 5px
+        span {
+            position relative
+            color #fff
+            font-family $AlternateFont
+            -webkit-font-smoothing antialiased
             display: inline-box
-            margin-right: 3px
-        }
+            font-size 14px
+            line-height 16px
 
-        p {
-            text-align: center
-            padding-top: 6px
-            margin-bottom: -15px
+            &.loading-info-text {
+                float left
+            }
+            &.value {
+                float right
+            }
+            &.remaining {
+                margin-top: 10px
+                display: block
+                text-align: center
+            }
         }
     }
     .arrow-up {
