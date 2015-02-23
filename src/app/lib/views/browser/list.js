@@ -65,7 +65,7 @@
 				if (this.collection.state === 'error') {
 					return ErrorView.extend({
 						retry: true,
-						error: i18n.__('Error loading data, try again later...')
+						error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', '<a class="links" href="http://status.popcorntime.io/">http://status.popcorntime.io</a>')
 					});
 				} else {
 					return ErrorView.extend({

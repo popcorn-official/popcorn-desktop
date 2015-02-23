@@ -32,6 +32,7 @@
 			'dragover': 'preventDefault',
 			'drop': 'preventDefault',
 			'dragstart': 'preventDefault',
+			'click .links': 'links'
 		},
 
 		initialize: function () {
@@ -462,6 +463,11 @@
 						that.ui.posterswidth_alert.show().text(i18n.__('Posters Size') + ': ' + humanReadableWidth).delay(3000).fadeOut(400);
 					}
 				});
+		},
+
+		links: function (e) {
+			e.preventDefault();
+			gui.Shell.openExternal($(e.currentTarget).attr('href'));
 		}
 	});
 
