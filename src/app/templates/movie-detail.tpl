@@ -2,12 +2,7 @@
 if(typeof backdrop === "undefined"){ backdrop = ""; }; 
 if(typeof synopsis === "undefined"){ synopsis = "Synopsis not available."; }; 
 if(typeof runtime === "undefined"){ runtime = "N/A"; };
-if (genre.indexOf("/") >= 0) {
-  var str = genre.split(/[ / ]+/);
-  genre = i18n.__(str[0]) + " / " + i18n.__(str[1]);
-} else {
-  genre = i18n.__(genre);
-};
+for(var i = 0; i < genre.length; i++){ genre[i] = i18n.__(genre[i]); };
 %>
 
 <div data-bgr="<%= backdrop %>" class="backdrop"></div>
@@ -29,7 +24,7 @@ if (genre.indexOf("/") >= 0) {
 			<div class="dot"></div>
 			<div class="metaitem"><%= runtime %> min</div>
 			<div class="dot"></div>
-			<div class="metaitem"><%= genre %></div>
+			<div class="metaitem"><%= genre.join(" / ") %></div>				     
 			<div class="dot"></div>
 			<div data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Open IMDb page") %>" class="movie-imdb-link"></div>
 			<div class="dot"></div>
