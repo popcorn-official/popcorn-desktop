@@ -68,9 +68,11 @@ vjs.Player.prototype.onFullscreenChange = function() {
   if (this.isFullscreen()) {
     this.addClass('vjs-fullscreen');
 	$('.vjs-text-track').css('font-size','140%');
+	$('.state-info-player').css('font-size','65px');
   } else {
     this.removeClass('vjs-fullscreen');
 	$('.vjs-text-track').css('font-size','');
+	$('.state-info-player').css('font-size','50px');
   }
 };
 

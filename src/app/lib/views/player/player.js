@@ -7,6 +7,7 @@
 	var next_episode_model = false;
 	var remaining = false;
 	var createdRemaining = false;
+	var firstPlay = true;
 
 	var Player = Backbone.Marionette.ItemView.extend({
 		template: '#player-tpl',
@@ -18,14 +19,17 @@
 			downloadSpeed: '.download_speed_player',
 			uploadSpeed: '.upload_speed_player',
 			activePeers: '.active_peers_player',
-			downloaded: '.downloaded_player'
+			downloaded: '.downloaded_player',
+            pause: '.fa-pause',
+            play: '.fa-play'
 		},
 
 		events: {
 			'click .close-info-player': 'closePlayer',
 			'click .playnownext': 'playNextNow',
 			'click .vjs-subtitles-button': 'toggleSubtitles',
-			'click .vjs-text-track': 'moveSubtitles'
+			'click .vjs-text-track': 'moveSubtitles',
+            'click .vjs-play-control': 'togglePlay'
 		},
 
 		isMovie: function () {
@@ -267,6 +271,15 @@
 					}
 					_this.wasSeek = false;
 				} else {
+                    if (firstPlay) {
+                        firstPlay = false;
+                        return;
+                    }
+                    _this.ui.pause.hide().dequeue();
+                    _this.ui.play.appendTo('div#video_player');
+                    _this.ui.play.show().delay(1500).queue(function () {
+                        _this.ui.play.hide().dequeue();
+                    });                        
 					App.vent.trigger('player:play');
 				}
 			});
@@ -276,6 +289,11 @@
 					_this.wasSeek = true;
 				} else {
 					_this.wasSeek = false;
+                    _this.ui.play.hide().dequeue();
+                    _this.ui.pause.appendTo('div#video_player');
+                    _this.ui.pause.show().delay(1500).queue(function () {
+                        _this.ui.pause.hide().dequeue();
+                    });   
 					App.vent.trigger('player:pause');
 				}
 			});

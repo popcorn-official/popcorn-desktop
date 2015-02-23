@@ -1,4 +1,6 @@
 <div class="player-header-background vjs-control-bar">
+    <i class="state-info-player fa fa-play"></i>
+    <i class="state-info-player fa fa-pause"></i>
 	<div class="player-title"><%= title %></div>
 	<div class="details-player">
 		<% if(quality) { %>
