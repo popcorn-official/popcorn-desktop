@@ -67,8 +67,10 @@ vjs.Player.prototype.listenForUserActivity = function(){
 vjs.TextTrack.prototype.adjustFontSize = function(){
     if (this.player_.isFullscreen()) {
         this.el_.style.fontSize = '140%';
+        $('.state-info-player').css('font-size','65px');
     } else {
         this.el_.style.fontSize = '';
+        $('.state-info-player').css('font-size','50px');
     }
 };
 
