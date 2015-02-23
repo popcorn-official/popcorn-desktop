@@ -98,11 +98,11 @@
 
 			if (state === 'playingExternally') {
 				this.ui.stateTextDownload.hide();
+				this.ui.progressbar.hide();
 				if (streamInfo.get('player') && streamInfo.get('player').get('type') === 'chromecast') {
 					this.ui.controls.css('visibility', 'visible');
 					this.ui.playingbarBox.css('visibility', 'visible');
 					this.ui.playingbar.css('width', '0%');
-					this.ui.progressbar.hide();
 					this.ui.cancel_button.hide();
 
 					// Update gui on status update.
@@ -137,6 +137,10 @@
 				this.ui.title.html(streamInfo.get('title'));
 			}
 			if (streamInfo.get('player') && streamInfo.get('player').get('type') !== 'local') {
+				if (this.model.get('state') === 'playingExternally') {
+					this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
+					this.ui.stateTextDownload.text(i18n.__('Downloaded')).show();
+				}
 				this.ui.player.text(streamInfo.get('player').get('name'));
 				this.ui.streaming.css('visibility', 'visible');
 			}
