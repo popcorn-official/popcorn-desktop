@@ -106,6 +106,10 @@
 				// Stop weird Videojs errors
 			}
 
+			remaining = false;
+			createdRemaining = false;
+			firstPlay = true;
+
 			App.vent.trigger('player:close');
 			App.vent.trigger('preload:stop');
 
@@ -118,6 +122,7 @@
 			$('.filter-bar').show();
 			$('#player_drag').show();
 			_this = this;
+
 			// Double Click to toggle Fullscreen
 			$('#video_player').dblclick(function (event) {
 				_this.toggleFullscreen();
