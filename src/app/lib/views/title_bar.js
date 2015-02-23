@@ -48,7 +48,7 @@ var os = require('os');
 					return 'halloween';
 				} else if (today === '0220') {
 					return 'pt_anniv';
-				} else if (today === '0224') {
+				} else if (today === '0214') {
 					return 'stvalentine';
 				} else if (today === '0317') {
 					return 'stpatrick';
