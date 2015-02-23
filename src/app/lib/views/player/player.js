@@ -5,6 +5,8 @@
 	var autoplayisshown = false;
 	var precachestarted = false;
 	var next_episode_model = false;
+	var remaining = false;
+	var createdRemaining = false;
 
 	var Player = Backbone.Marionette.ItemView.extend({
 		template: '#player-tpl',
@@ -54,13 +56,25 @@
 
 		updateDownloaded: function () {
             if (this.model.get('downloadedPercent').toFixed(0) < 100) {
-			 this.ui.downloaded.html(
-				 this.model.get('downloadedFormatted') + ' (' + this.model.get('downloadedPercent').toFixed(0) + '%)' // 120MB (10%)
-				 + '<br><p>' + this.remainingTime() + '</p>'); // 8 minute(s) remaining
-			 	$('.vjs-load-progress').css('width', this.model.get('downloadedPercent').toFixed(0)+'%');
+                this.ui.downloaded.html(this.model.get('downloadedFormatted') + ' (' + this.model.get('downloadedPercent').toFixed(0) + '%)');
+                $('.vjs-load-progress').css('width', this.model.get('downloadedPercent').toFixed(0)+'%');
+                remaining = true;
+
+                if (!createdRemaining) { //we create it
+                    createdRemaining = true;
+                    $('.details-info-player').append('<br><span class="remaining">' + this.remainingTime() + '</span>');
+                } else { //we just update
+                    $('.remaining').html(this.remainingTime());
+                }
             } else {
                 this.ui.downloaded.text(i18n.__('Done'));
 				$('.vjs-load-progress').css('width', '100%');
+                remaining = false;
+            }
+
+            if (!remaining && createdRemaining) {
+                $('.remaining').remove();
+                createdRemaining = false;
             }
 		},
 
