@@ -225,5 +225,24 @@ vjs.Player.prototype.onLoadStart = function() {
   this.trigger('volumechange');
 };
 
+/**
+ * The custom progressbar we create. Updated in player.js
+ *
+ * @constructor
+ */
+vjs.LoadProgressBar = vjs.Component.extend({
+  init: function(player, options){
+    vjs.Component.call(this, player, options);
+    this.on(player, 'progress', this.update);
+  }
+});
+vjs.LoadProgressBar.prototype.createEl = function(){
+  return vjs.Component.prototype.createEl.call(this, 'div', {
+    className: 'vjs-load-progress',
+    innerHTML: '<span class="vjs-control-text"><span>' + this.localize('Loaded') + '</span>: 0%</span>'
+  });
+};
+vjs.LoadProgressBar.prototype.update = function(){ return; };
+
 // Remove videojs key listeners
 vjs.Button.prototype.onKeyPress = function(event){ return; };

@@ -114,7 +114,7 @@
 		streamInfo.set('title', torrent.title);
 		streamInfo.set('player', torrent.device);
 
-		statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 3000);
+		statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 1000);
 		stateModel.set('streamInfo', streamInfo);
 		stateModel.set('state', 'connecting');
 		watchState(stateModel);

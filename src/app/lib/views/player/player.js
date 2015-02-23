@@ -61,6 +61,7 @@
 			 	$('.vjs-load-progress').css('width', this.model.get('downloadedPercent').toFixed(0)+'%');
             } else {
                 this.ui.downloaded.text(i18n.__('Done'));
+				$('.vjs-load-progress').css('width', '100%');
             }
 		},
 
