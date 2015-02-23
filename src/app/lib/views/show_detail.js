@@ -76,6 +76,9 @@
 
 						// we'll make sure we dont have a cached show
 						Database.deleteTVShow(that.model.get('imdb_id'));
+						if (App.currentview == 'Favorites') {
+							App.vent.trigger('favorites:render');
+						}
 					});
 			}
 		},
