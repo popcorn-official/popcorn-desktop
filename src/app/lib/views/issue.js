@@ -1,6 +1,6 @@
 (function (App) {
 	'use strict';
-	
+
 	var PT_id = 13, //ID of project (got with gitlab.projects.all). 13 is for 'popcorntime/desktop'
 		PT_url = 'https://git.popcorntime.io/popcorntime/desktop/issues/', //Url of 'issues' of the above project
 		token;
@@ -44,11 +44,9 @@
 			gitlab.projects.issues.list(PT_id, function (data) {
 
 				//stores in 'results' all issues (id + title) containing the keyword
-				data.forEach ( function (item) {
-					issue_desc = 
-						item.description.toLowerCase() 
-						+ ' ' 
-						+ item.title.toLowerCase();
+				data.forEach(function (item) {
+					issue_desc =
+						item.description.toLowerCase() + ' ' + item.title.toLowerCase();
 
 					result = issue_desc.search(keyword.toLowerCase());
 					if (result !== -1) {
@@ -64,48 +62,38 @@
 				});
 
 				//interpret results
-				if (results.length == 0) {
+				if (results.length === 0) {
 					$('#issue-results').append('<p>' + i18n.__('No issues found...') + '</p>');
 				} else {
-					var newLine = function( id, title, description ) {
+					var newLine = function (id, title, description) {
 						$('#issue-results').append(
-							'<li>'
-							+ '<a class="issue-title">' + title + '</a>'
-							+ '<div class="issue-details">'
-								+ '<p>' + description + '</p>'
-								+ '<a class="links" href="' + PT_url + id + '">' + i18n.__('Open in your browser') + '</a>'
-							+ '</div>'
-							+ '</li>'
+							'<li>' + '<a class="issue-title">' + title + '</a>' + '<div class="issue-details">' + '<p>' + description + '</p>' + '<a class="links" href="' + PT_url + id + '">' + i18n.__('Open in your browser') + '</a>' + '</div>' + '</li>'
 						);
-					}
+					};
 					for (var i = 0; i < results.length; i++) {
-						results[i].description = results[i].description.replace('\n','<br>');
+						results[i].description = results[i].description.replace('\n', '<br>');
 						newLine(results[i].id, results[i].title, results[i].description);
 					}
 				}
 
 			});
-	
+
 		},
 
 		showIssueDetails: function (e) {
 			var elm = e.currentTarget.parentElement.children[1];
 			var visible = $(elm).css('display');
 
-			if (visible == 'none') {
+			if (visible === 'none') {
 				$(elm).show();
 			} else {
 				$(elm).hide();
 			}
 		},
 
-		getLogs: function() {
+		getLogs: function () {
 			if (fs.existsSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'))) {
-				return '\n\n---'
-					+ '\n\n**Error log:**'
-					+ '\n\n```'
-					+ fs.readFileSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'), 'utf-8') 
-					+ '\n\n```';
+				return '\n\n---' + '\n\n**Error log:**' + '\n\n```' + fs.readFileSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'), 'utf-8') + '\n\n```';
 			} else {
 				return false;
 			}
@@ -116,43 +104,37 @@
 			var release = os.release();
 
 			//win hack
-			if (platform == 'win32') {
-				switch (release.substring(0,3)) {
-					case '5.1':
-						release = 'Windows XP';
-						break;
-					case '6.0': 
-						release = 'Windows Vista';
-						break;
-					case '6.1':
-						release = 'Windows 7';
-						break;
-					case '6.2':
-						release = 'Windows 8';
-						break;
-					case '6.3':
-						release = 'Windows 8.1';
-						break;
-					case '10.0': 
-						release = 'Windows 10';
-						break;
-					default:
-						release = 'Uknown Windows: NT ' + release;
+			if (platform === 'win32') {
+				switch (release.substring(0, 3)) {
+				case '5.1':
+					release = 'Windows XP';
+					break;
+				case '6.0':
+					release = 'Windows Vista';
+					break;
+				case '6.1':
+					release = 'Windows 7';
+					break;
+				case '6.2':
+					release = 'Windows 8';
+					break;
+				case '6.3':
+					release = 'Windows 8.1';
+					break;
+				case '10.0':
+					release = 'Windows 10';
+					break;
+				default:
+					release = 'Uknown Windows: NT ' + release;
 				}
 			}
 
-			var cpu = os.cpus(),
-				cpu = cpu[0].model;
+			var cpu = os.cpus();
+			cpu = cpu[0].model;
 
-			var ram = Math.round(os.totalmem() / (1000*1000*1000)) + 'GB';
+			var ram = Math.round(os.totalmem() / (1000 * 1000 * 1000)) + 'GB';
 
-			return '\n\n---'
-				+ '\n\n**Environment:**'
-				+ '\n\nPopcorn Time version: ' + Settings.version 
-				+ '\n\nPlatform: ' + platform 
-				+ '\n\nOS: ' + release 
-				+ '\n\nCPU Model: ' + cpu 
-				+ '\n\nAvailable Memory: ' + ram;
+			return '\n\n---' + '\n\n**Environment:**' + '\n\nPopcorn Time version: ' + Settings.version + '\n\nPlatform: ' + platform + '\n\nOS: ' + release + '\n\nCPU Model: ' + cpu + '\n\nAvailable Memory: ' + ram;
 		},
 
 		reportBug: function (title, content, token) {
@@ -170,8 +152,7 @@
 			}
 
 			gitlab.issues.create(
-				PT_id, 
-				{
+				PT_id, {
 					title: title,
 					description: content,
 					labels: 'In-App Reporter'
@@ -192,7 +173,7 @@
 			);
 		},
 
-		login: function() {
+		login: function () {
 			var that = this;
 			this.getToken(function (data) {
 				if (data) {
@@ -214,7 +195,7 @@
 				token: 'sb1SeWoyoAWrGPTuQcNE' //public reporter token
 			});
 
-			gitlab.users.session(email, password, function(response) {
+			gitlab.users.session(email, password, function (response) {
 				callback(response.private_token);
 			});
 		},
@@ -222,7 +203,7 @@
 		submitIssue: function () {
 			var title = $('#issue-title').val();
 			var content = $('#issue-content').val();
-	
+
 			if (!title || !content) {
 				$('.notification_alert').show().text(i18n.__('Fields cannot be empty')).delay(2500).fadeOut(400);
 				return;
@@ -243,7 +224,7 @@
 			document.getElementById('issue-results').innerHTML = ''; //clear
 
 			var keyword = $('#issue-search-field').val();
-	
+
 			if (!keyword) {
 				$('.notification_alert').show().text(i18n.__('Fields cannot be empty')).delay(2500).fadeOut(400);
 				return;
@@ -251,13 +232,13 @@
 			this.searchGitLab(keyword);
 		},
 
-		newIssue: function() {
+		newIssue: function () {
 			$('#issue-search').hide();
 			$('#issue-form').show();
 		},
 
-		anonIssue: function() {
-			$('#issue-auth').hide()
+		anonIssue: function () {
+			$('#issue-auth').hide();
 			$('#issue-search').show();
 		},
 

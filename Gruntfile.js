@@ -1,15 +1,15 @@
-var getHost = function() {
-    return {
-        get linux() {
-            return process.platform === 'linux';
-        },
-        get windows() {
-            return process.platform === 'win32';
-        },
-        get mac() {
-            return process.platform === 'darwin';
-        },
-    };
+var getHost = function () {
+	return {
+		get linux() {
+			return process.platform === 'linux';
+		},
+		get windows() {
+			return process.platform === 'win32';
+		},
+		get mac() {
+			return process.platform === 'darwin';
+		},
+	};
 };
 
 var parseBuildPlatforms = function (argumentPlatform) {
@@ -36,7 +36,7 @@ var parseBuildPlatforms = function (argumentPlatform) {
 module.exports = function (grunt) {
 	"use strict";
 
-    var host = getHost();
+	var host = getHost();
 	var buildPlatforms = parseBuildPlatforms(grunt.option('platforms'));
 	var pkgJson = grunt.file.readJSON('package.json');
 	var currentVersion = pkgJson.version;
@@ -286,127 +286,127 @@ module.exports = function (grunt) {
 					'git pull origin master --force'
 				].join('&&')
 			},
-            setexecutable: {
-                command: function() {
-                    if(host.linux || host.mac) {
-                        return [
-                            'pct_rel="build/releases/Popcorn-Time"',
-                            'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app || : ',
-                            'chmod +x ${pct_rel}/linux*/Popcorn-Time/Popcorn-Time || : '
-                        ].join(' && ');
-                    } else {
-                        return 'echo ""'; // Not needed in Windows
-                    }
-                }
-            },
+			setexecutable: {
+				command: function () {
+					if (host.linux || host.mac) {
+						return [
+							'pct_rel="build/releases/Popcorn-Time"',
+							'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app || : ',
+							'chmod +x ${pct_rel}/linux*/Popcorn-Time/Popcorn-Time || : '
+						].join(' && ');
+					} else {
+						return 'echo ""'; // Not needed in Windows
+					}
+				}
+			},
 			packageLinux64: {
-                command: function() {
-                    if(host.linux || host.mac) {
-                        return [
-                            'cd build/releases/Popcorn-Time/linux64/Popcorn-Time',
-                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../Popcorn-Time-' + currentVersion + '-Linux-64.tar.xz"',
-                            'echo "Linux64 Sucessfully packaged" || echo "Linux64 failed to package"'
-                        ].join(' && ');
-                    } else { 
-                        return [
-                            'grunt compress:linux64',
-                            '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )' 
-                        ].join(' && ');
-                    }
-                }
-            },
-            packageLinux32: {
-                command: function() {
-                    if(host.linux || host.mac) {
-                        return [
-                            'cd build/releases/Popcorn-Time/linux32/Popcorn-Time',
-                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../Popcorn-Time-' + currentVersion + '-Linux-32.tar.xz"',
-                            'echo "Linux32 Sucessfully packaged" || echo "Linux32 failed to package"' 
-                        ].join(' && ');
-                    } else {
-                        return [
-                            'grunt compress:linux32',
-                            '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )' 
-                        ].join(' && ');
-                    }
-                }
-            },
-            packageWin: {
-                command: function() {
-                    if(host.linux || host.mac) {
-                        return [
-                            'cd build/releases/Popcorn-Time/win/Popcorn-Time',
-                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../Popcorn-Time-' + currentVersion + '-Win.tar.xz"',
-                            'echo "Windows Sucessfully packaged" || echo "Windows failed to package"' 
-                        ].join(' && ');
-                    } else {
-                        return [
-                            'grunt compress:windows' ,
-                            '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )' 
-                        ].join(' && ');
-                    }
-                }
-            },
-            packageMac: {
-                command: function() {
-                    if(host.linux || host.mac) {
-                        return [
-                            'cd build/releases/Popcorn-Time/mac/',
-                            'tar --exclude-vcs -c Popcorn-Time.app | $(command -v pxz || command -v xz) -T8 -7 > "Popcorn-Time-' + currentVersion + '-Mac.tar.xz"',
-                            'echo "Mac Sucessfully packaged" || echo "Mac failed to package"' 
-                        ].join(' && ');
-                    } else {
-                        return [
-                            'grunt compress:mac' ,
-                            '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )' 
-                        ].join(' && ');
-                    }
-                }
-            }
+				command: function () {
+					if (host.linux || host.mac) {
+						return [
+							'cd build/releases/Popcorn-Time/linux64/Popcorn-Time',
+							'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../Popcorn-Time-' + currentVersion + '-Linux-64.tar.xz"',
+							'echo "Linux64 Sucessfully packaged" || echo "Linux64 failed to package"'
+						].join(' && ');
+					} else {
+						return [
+							'grunt compress:linux64',
+							'( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
+						].join(' && ');
+					}
+				}
+			},
+			packageLinux32: {
+				command: function () {
+					if (host.linux || host.mac) {
+						return [
+							'cd build/releases/Popcorn-Time/linux32/Popcorn-Time',
+							'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../Popcorn-Time-' + currentVersion + '-Linux-32.tar.xz"',
+							'echo "Linux32 Sucessfully packaged" || echo "Linux32 failed to package"'
+						].join(' && ');
+					} else {
+						return [
+							'grunt compress:linux32',
+							'( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
+						].join(' && ');
+					}
+				}
+			},
+			packageWin: {
+				command: function () {
+					if (host.linux || host.mac) {
+						return [
+							'cd build/releases/Popcorn-Time/win/Popcorn-Time',
+							'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../Popcorn-Time-' + currentVersion + '-Win.tar.xz"',
+							'echo "Windows Sucessfully packaged" || echo "Windows failed to package"'
+						].join(' && ');
+					} else {
+						return [
+							'grunt compress:windows',
+							'( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
+						].join(' && ');
+					}
+				}
+			},
+			packageMac: {
+				command: function () {
+					if (host.linux || host.mac) {
+						return [
+							'cd build/releases/Popcorn-Time/mac/',
+							'tar --exclude-vcs -c Popcorn-Time.app | $(command -v pxz || command -v xz) -T8 -7 > "Popcorn-Time-' + currentVersion + '-Mac.tar.xz"',
+							'echo "Mac Sucessfully packaged" || echo "Mac failed to package"'
+						].join(' && ');
+					} else {
+						return [
+							'grunt compress:mac',
+							'( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
+						].join(' && ');
+					}
+				}
+			}
 		},
 
 		compress: {
-            linux32: {
-                options: {
-                    mode: 'tgz',
-                    archive: 'build/releases/Popcorn-Time/linux32/Popcorn-Time-' + currentVersion + '-Linux-32.tar.gz'
-                },
-                expand: true,
-                cwd: 'build/releases/Popcorn-Time/linux32/Popcorn-Time',
-                src: '**',
-                dest: 'Popcorn-Time'
-            },
-            linux64: {
-                options: {
-                    mode: 'tgz',
-                    archive: 'build/releases/Popcorn-Time/linux64/Popcorn-Time-' + currentVersion + '-Linux-64.tar.gz'
-                },
-                expand: true,
-                cwd: 'build/releases/Popcorn-Time/linux64/Popcorn-Time',
-                src: '**',
-                dest: 'Popcorn-Time'
-            },
-            mac: {
-                options: {
-                    mode: 'tgz',
-                    archive: 'build/releases/Popcorn-Time/mac/Popcorn-Time-' + currentVersion + '-Mac.tar.gz'
-                },
-                expand: true,
-                cwd: 'build/releases/Popcorn-Time/mac/',
-                src: '**',
-                dest: ''
-            },
-            windows: {
-                options: {
-                    mode: 'tgz',
-                    archive: 'build/releases/Popcorn-Time/win/Popcorn-Time-' + currentVersion + '-Win.tar.gz'
-                },
-                expand: true,
-                cwd: 'build/releases/Popcorn-Time/win/Popcorn-Time',
-                src: '**',
-                dest: 'Popcorn-Time'
-            }
-        },
+			linux32: {
+				options: {
+					mode: 'tgz',
+					archive: 'build/releases/Popcorn-Time/linux32/Popcorn-Time-' + currentVersion + '-Linux-32.tar.gz'
+				},
+				expand: true,
+				cwd: 'build/releases/Popcorn-Time/linux32/Popcorn-Time',
+				src: '**',
+				dest: 'Popcorn-Time'
+			},
+			linux64: {
+				options: {
+					mode: 'tgz',
+					archive: 'build/releases/Popcorn-Time/linux64/Popcorn-Time-' + currentVersion + '-Linux-64.tar.gz'
+				},
+				expand: true,
+				cwd: 'build/releases/Popcorn-Time/linux64/Popcorn-Time',
+				src: '**',
+				dest: 'Popcorn-Time'
+			},
+			mac: {
+				options: {
+					mode: 'tgz',
+					archive: 'build/releases/Popcorn-Time/mac/Popcorn-Time-' + currentVersion + '-Mac.tar.gz'
+				},
+				expand: true,
+				cwd: 'build/releases/Popcorn-Time/mac/',
+				src: '**',
+				dest: ''
+			},
+			windows: {
+				options: {
+					mode: 'tgz',
+					archive: 'build/releases/Popcorn-Time/win/Popcorn-Time-' + currentVersion + '-Win.tar.gz'
+				},
+				expand: true,
+				cwd: 'build/releases/Popcorn-Time/win/Popcorn-Time',
+				src: '**',
+				dest: 'Popcorn-Time'
+			}
+		},
 
 		clean: {
 			releases: ['build/releases/Popcorn-Time/**'],

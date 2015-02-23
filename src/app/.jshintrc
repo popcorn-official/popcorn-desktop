@@ -43,7 +43,10 @@
 		"Database": true,
 		"detectLanguage": true,
 		"Common": true,
-    "indexedDB": true,
+		"indexedDB": true,
+        "startupTime": true,
+        "os": true,
+        "deleteFolder": true,
 		
 		// Third party
 		"Backbone": true,

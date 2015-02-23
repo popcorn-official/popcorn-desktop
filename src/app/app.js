@@ -299,10 +299,9 @@ Mousetrap.bind(['?', '/', '\''], function (e) {
 Mousetrap.bind('shift+up shift+up shift+down shift+down shift+left shift+right shift+left shift+right shift+b shift+a', function () {
 	var body = $('body');
 
-	if(body.hasClass('knm')){
+	if (body.hasClass('knm')) {
 		body.removeClass('knm');
-	}
-	else{
+	} else {
 		body.addClass('knm');
 	}
 });

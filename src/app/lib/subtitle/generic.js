@@ -144,7 +144,7 @@
 				var srtPath = data.path;
 				var vttPath = srtPath.replace('.srt', '.vtt');
 				var srtData = fs.readFileSync(srtPath);
-				self.decode(srtData, data.language, function(srtDecodedData) {
+				self.decode(srtData, data.language, function (srtDecodedData) {
 					captions.srt.parse(srtDecodedData, function (err, vttData) {
 						if (err) {
 							return cb(err, null);
@@ -176,9 +176,9 @@
 			var detectedEncoding = charset.encoding;
 			win.debug('SUB charset detected: ', detectedEncoding);
 			// Do we need decoding?
-			if (detectedEncoding.toLowerCase().replace('-','') === targetEncodingCharset) {
+			if (detectedEncoding.toLowerCase().replace('-', '') === targetEncodingCharset) {
 				callback(dataBuff.toString('utf8'));
-			// We do
+				// We do
 			} else {
 				var langInfo = App.Localization.langcodes[language] || {};
 				win.debug('SUB charsets expected for language \'%s\': ', language, langInfo.encoding);
@@ -188,7 +188,7 @@
 					detectedEncoding = langInfo.encoding[0];
 				}
 				win.debug('SUB charset used: ', detectedEncoding);
-				dataBuff = iconv.encode( iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset );
+				dataBuff = iconv.encode(iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset);
 				callback(dataBuff.toString('utf8'));
 			}
 		}

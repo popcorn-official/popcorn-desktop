@@ -1,7 +1,7 @@
 (function (App) {
 	'use strict';
 
-    var collection = path.join(require('nw.gui').App.dataPath + '/TorrentCollection/'),
+	var collection = path.join(require('nw.gui').App.dataPath + '/TorrentCollection/'),
 		files;
 
 	var TorrentCollection = Backbone.Marionette.ItemView.extend({
@@ -38,9 +38,9 @@
 
 		onRender: function () {
 			if (this.files[0]) {
-				$('.notorrents-info').css('display','none');
-				$('.collection-actions').css('display','block');
-				$('.torrents-info').css('display','block');
+				$('.notorrents-info').css('display', 'none');
+				$('.collection-actions').css('display', 'block');
+				$('.torrents-info').css('display', 'block');
 			}
 
 			this.$('.tooltipped').tooltip({
@@ -53,26 +53,26 @@
 
 		openFileSelector: function (e) {
 			var _file = $(e.currentTarget).context.innerText,
-				file = _file.substring(0, _file.length-2); // avoid ENOENT
+				file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
-            if (_file.indexOf('.torrent') !== -1) {
-                Settings.droppedTorrent = file;
-    			window.handleTorrent(collection + file);
-            } else { // assume magnet
-                var content = fs.readFileSync(collection + file, 'utf8');
-                Settings.droppedMagnet = content;
+			if (_file.indexOf('.torrent') !== -1) {
+				Settings.droppedTorrent = file;
+				window.handleTorrent(collection + file);
+			} else { // assume magnet
+				var content = fs.readFileSync(collection + file, 'utf8');
+				Settings.droppedMagnet = content;
 				Settings.droppedStoredMagnet = file;
-    			window.handleTorrent(content);
-            }
+				window.handleTorrent(content);
+			}
 		},
 
 		deleteItem: function (e) {
-			this.$('.tooltip').css('display','none');
+			this.$('.tooltip').css('display', 'none');
 			e.preventDefault();
 			e.stopPropagation();
 
 			var _file = $(e.currentTarget.parentNode).context.innerText,
-				file = _file.substring(0, _file.length-2); // avoid ENOENT
+				file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
 			fs.unlinkSync(collection + file);
 
@@ -82,12 +82,12 @@
 		},
 
 		renameItem: function (e) {
-			this.$('.tooltip').css('display','none');
+			this.$('.tooltip').css('display', 'none');
 			e.preventDefault();
 			e.stopPropagation();
 
 			var _file = $(e.currentTarget.parentNode).context.innerText,
-				file = _file.substring(0, _file.length-2),  // avoid ENOENT
+				file = _file.substring(0, _file.length - 2), // avoid ENOENT
 				isTorrent = false;
 
 			if (file.endsWith('.torrent')) {
@@ -105,7 +105,7 @@
 				}
 			} else { //magnet
 				if (newName.endsWith('.torrent')) {
-					newName = newName.replace('.torrent','');
+					newName = newName.replace('.torrent', '');
 				}
 			}
 
@@ -140,21 +140,23 @@
 		},
 
 		importItem: function () {
-			this.$('.tooltip').css('display','none');
+			this.$('.tooltip').css('display', 'none');
 
-            var that = this;
-            var input = document.querySelector('.collection-import-hidden');
-            input.addEventListener("change", function(evt) {
-                var file = $('.collection-import-hidden')[0].files[0];
-                that.render();
-                window.ondrop({
-                    dataTransfer: { files: [ file ] },
-                    preventDefault: function () {}
-                });
-            }, false);
+			var that = this;
+			var input = document.querySelector('.collection-import-hidden');
+			input.addEventListener('change', function (evt) {
+				var file = $('.collection-import-hidden')[0].files[0];
+				that.render();
+				window.ondrop({
+					dataTransfer: {
+						files: [file]
+					},
+					preventDefault: function () {}
+				});
+			}, false);
 
-            input.click();
-        },
+			input.click();
+		},
 
 		onDestroy: function () {
 			Mousetrap.unbind(['esc', 'backspace']);

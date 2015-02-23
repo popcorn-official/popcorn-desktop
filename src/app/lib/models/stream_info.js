@@ -2,20 +2,20 @@
 	'use strict';
 
 	var StreamInfo = Backbone.Model.extend({
-		initialize: function() {
+		initialize: function () {
 			var engine = this.get('engine');
 
 			var self = this;
 
-			engine.once('ready', function() {
+			engine.once('ready', function () {
 				var size = 0;
-				engine.files.forEach(function(file) {
+				engine.files.forEach(function (file) {
 					size += file.length || 0;
 				});
 				self.set('size', size);
 			});
 
-			this.on('change:size', function() {
+			this.on('change:size', function () {
 				var size = self.get('size');
 				var converted_size = Math.floor(Math.log(size) / Math.log(1024));
 				var final_size = (size / Math.pow(1024, converted_size)).toFixed(2) + ' ' + ['B', 'KB', 'MB', 'GB', 'TB'][converted_size];
@@ -58,11 +58,11 @@
 			}
 
 			var final_downloaded_percent = 100 / this.get('size') * downloaded;
-            
-            if (final_downloaded_percent >= 100) {
-                final_downloaded_percent = 100;
-            }
-			
+
+			if (final_downloaded_percent >= 100) {
+				final_downloaded_percent = 100;
+			}
+
 			var downloadTimeLeft = Math.round((this.get('size') - swarm.downloaded) / swarm.downloadSpeed()); // time to wait before download complete
 			if (isNaN(downloadTimeLeft) || downloadTimeLeft < 0) {
 				downloadTimeLeft = 0;

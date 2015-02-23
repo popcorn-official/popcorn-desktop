@@ -20,8 +20,8 @@
 			uploadSpeed: '.upload_speed_player',
 			activePeers: '.active_peers_player',
 			downloaded: '.downloaded_player',
-            pause: '.fa-pause',
-            play: '.fa-play'
+			pause: '.fa-pause',
+			play: '.fa-play'
 		},
 
 		events: {
@@ -29,7 +29,7 @@
 			'click .playnownext': 'playNextNow',
 			'click .vjs-subtitles-button': 'toggleSubtitles',
 			'click .vjs-text-track': 'moveSubtitles',
-            'click .vjs-play-control': 'togglePlay'
+			'click .vjs-play-control': 'togglePlay'
 		},
 
 		isMovie: function () {
@@ -41,7 +41,7 @@
 			this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
 			this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
 			this.listenTo(this.model, 'change:downloaded', this.updateDownloaded);
-											 
+
 			this.video = false;
 			this.inFullscreen = win.isFullscreen;
 		},
@@ -59,27 +59,27 @@
 		},
 
 		updateDownloaded: function () {
-            if (this.model.get('downloadedPercent').toFixed(0) < 100) {
-                this.ui.downloaded.html(this.model.get('downloadedFormatted') + ' (' + this.model.get('downloadedPercent').toFixed(0) + '%)');
-                $('.vjs-load-progress').css('width', this.model.get('downloadedPercent').toFixed(0)+'%');
-                remaining = true;
+			if (this.model.get('downloadedPercent').toFixed(0) < 100) {
+				this.ui.downloaded.html(this.model.get('downloadedFormatted') + ' (' + this.model.get('downloadedPercent').toFixed(0) + '%)');
+				$('.vjs-load-progress').css('width', this.model.get('downloadedPercent').toFixed(0) + '%');
+				remaining = true;
 
-                if (!createdRemaining) { //we create it
-                    createdRemaining = true;
-                    $('.details-info-player').append('<br><span class="remaining">' + this.remainingTime() + '</span>');
-                } else { //we just update
-                    $('.remaining').html(this.remainingTime());
-                }
-            } else {
-                this.ui.downloaded.text(i18n.__('Done'));
+				if (!createdRemaining) { //we create it
+					createdRemaining = true;
+					$('.details-info-player').append('<br><span class="remaining">' + this.remainingTime() + '</span>');
+				} else { //we just update
+					$('.remaining').html(this.remainingTime());
+				}
+			} else {
+				this.ui.downloaded.text(i18n.__('Done'));
 				$('.vjs-load-progress').css('width', '100%');
-                remaining = false;
-            }
+				remaining = false;
+			}
 
-            if (!remaining && createdRemaining) {
-                $('.remaining').remove();
-                createdRemaining = false;
-            }
+			if (!remaining && createdRemaining) {
+				$('.remaining').remove();
+				createdRemaining = false;
+			}
 		},
 
 		closePlayer: function () {
@@ -271,15 +271,15 @@
 					}
 					_this.wasSeek = false;
 				} else {
-                    if (firstPlay) {
-                        firstPlay = false;
-                        return;
-                    }
-                    _this.ui.pause.hide().dequeue();
-                    _this.ui.play.appendTo('div#video_player');
-                    _this.ui.play.show().delay(1500).queue(function () {
-                        _this.ui.play.hide().dequeue();
-                    });                        
+					if (firstPlay) {
+						firstPlay = false;
+						return;
+					}
+					_this.ui.pause.hide().dequeue();
+					_this.ui.play.appendTo('div#video_player');
+					_this.ui.play.show().delay(1500).queue(function () {
+						_this.ui.play.hide().dequeue();
+					});
 					App.vent.trigger('player:play');
 				}
 			});
@@ -289,11 +289,11 @@
 					_this.wasSeek = true;
 				} else {
 					_this.wasSeek = false;
-                    _this.ui.play.hide().dequeue();
-                    _this.ui.pause.appendTo('div#video_player');
-                    _this.ui.pause.show().delay(1500).queue(function () {
-                        _this.ui.pause.hide().dequeue();
-                    });   
+					_this.ui.play.hide().dequeue();
+					_this.ui.pause.appendTo('div#video_player');
+					_this.ui.pause.show().delay(1500).queue(function () {
+						_this.ui.pause.hide().dequeue();
+					});
 					App.vent.trigger('player:pause');
 				}
 			});
@@ -319,7 +319,7 @@
 			$('.player-header-background').appendTo('div#video_player');
 
 			$('li:contains("subtitles off")').text(i18n.__('Disabled'));
-			
+
 			if (AdvSettings.get('alwaysFullscreen') && !this.inFullscreen) {
 				this.toggleFullscreen();
 			}
@@ -327,12 +327,12 @@
 				win.leaveFullscreen();
 				this.toggleFullscreen();
 			}
-			
+
 			this.player.volume(AdvSettings.get('playerVolume'));
 
 			var timeout;
-			$('.vjs-menu-content,.eye-info-player').hover( function () {
-				timeout = setInterval( function () {
+			$('.vjs-menu-content,.eye-info-player').hover(function () {
+				timeout = setInterval(function () {
 					App.PlayerView.player.userActive(true);
 				}, 100);
 			}, function () {
@@ -686,7 +686,7 @@
 		},
 
 		toggleSubtitles: function () {},
-		
+
 		moveSubtitles: function (e) {
 			AdvSettings.set('playerSubPosition', $('.vjs-text-track').css('top'));
 		},

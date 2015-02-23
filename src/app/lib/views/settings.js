@@ -176,7 +176,11 @@
 				if (value.substr(0, 8) !== 'https://' && value.substr(0, 7) !== 'http://') {
 					value = 'http://' + value;
 				}
-				value = { url: value, index: 0, proxies: [''] };
+				value = {
+					url: value,
+					index: 0,
+					proxies: ['']
+				};
 				break;
 			case 'subtitle_size':
 			case 'tv_detail_jump_to':
@@ -300,16 +304,16 @@
 				break;
 			case 'events':
 				if ($('.events').css('display') === 'none') {
-					$('.events').css('display','block');
+					$('.events').css('display', 'block');
 				} else {
-					$('.events').css('display','none');
+					$('.events').css('display', 'none');
 				}
 				break;
 			case 'allowTorrentStorage':
 				if ($('#torrent_col').css('display') === 'none') {
-					$('#torrent_col').css('display','block');
+					$('#torrent_col').css('display', 'block');
 				} else {
-					$('#torrent_col').css('display','none');
+					$('#torrent_col').css('display', 'none');
 					App.vent.trigger('torrentCollection:close');
 				}
 				break;

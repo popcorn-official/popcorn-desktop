@@ -1,4 +1,4 @@
-﻿(function (App) {
+(function (App) {
 	'use strict';
 	var dyks;
 

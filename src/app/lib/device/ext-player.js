@@ -143,11 +143,11 @@
 		win32: ['C:\\Program Files\\']
 	};
 
-    // Also search for Program Files x86
+	// Also search for Program Files x86
 	if (fs.existsSync('C:\\Program Files (x86)\\')) {
 		searchPaths.win32.push('C:\\Program Files (x86)\\');
 	}
-    
+
 	// Also search for ClickOnce applications
 	if (fs.existsSync(process.env.LOCALAPPDATA + '\\Apps\\2.0\\')) {
 		searchPaths.win32.push(process.env.LOCALAPPDATA + '\\Apps\\2.0\\');

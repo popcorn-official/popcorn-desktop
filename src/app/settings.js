@@ -94,10 +94,10 @@ Settings.updateEndpoint = {
 	}, {
 		url: 'https://popcorntime.re/',
 		fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C'
-	},{
+	}, {
 		url: 'https://popcorntime.cc/',
 		fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C'
-	},{
+	}, {
 		url: 'https://its.pt/',
 		ssl: false,
 		fingerprint: /301/
@@ -222,15 +222,17 @@ var AdvSettings = {
 		win.debug('Checking %s endpoint', url.hostname);
 
 		if (endpoint.ssl === false) {
-			var timeoutWrapper = function(req) {
+			var timeoutWrapper = function (req) {
 				return function () {
 					win.warn('[%s] Endpoint timed out',
 						url.hostname);
 					req.abort();
 					tryNextEndpoint();
-				}
+				};
 			};
-			var request = http.get({ hostname: url.hostname }, function(res) {
+			var request = http.get({
+				hostname: url.hostname
+			}, function (res) {
 				res.once('data', function (body) {
 					clearTimeout(timeout);
 					res.removeAllListeners('error');

@@ -2,9 +2,9 @@
 	'use strict';
 
 	var req = require('request'),
-	    inherits = require('util').inherits,
-	    chromecast = require('chromecast-js'),
-	    collection = App.Device.Collection;
+		inherits = require('util').inherits,
+		chromecast = require('chromecast-js'),
+		collection = App.Device.Collection;
 
 	var Chromecast = App.Device.Generic.extend({
 		defaults: {
@@ -12,7 +12,7 @@
 			typeFamily: 'external'
 		},
 
-		_makeID: function(baseID) {
+		_makeID: function (baseID) {
 			return 'chromecast-' + baseID.replace(' ', '-');
 		},
 
@@ -48,7 +48,7 @@
 						foregroundColor: AdvSettings.get('subtitle_color') + 'ff', // color of text - see http://dev.w3.org/csswg/css-color/#hex-notation
 						edgeType: AdvSettings.get('subtitle_shadow') ? 'DROP_SHADOW' : 'OUTLINE', // border of text - can be: "NONE", "OUTLINE", "DROP_SHADOW", "RAISED", "DEPRESSED"
 						edgeColor: '#000000FF', // color of border - see http://dev.w3.org/csswg/css-color/#hex-notation
-						fontScale: ((parseFloat(AdvSettings.get('subtitle_size'))/28)*1.3).toFixed(1), // size of the text - transforms into "font-size: " + (fontScale*100) +"%"
+						fontScale: ((parseFloat(AdvSettings.get('subtitle_size')) / 28) * 1.3).toFixed(1), // size of the text - transforms into "font-size: " + (fontScale*100) +"%"
 						fontStyle: 'NORMAL', // can be: "NORMAL", "BOLD", "BOLD_ITALIC", "ITALIC",
 						fontFamily: 'Helvetica',
 						fontGenericFamily: 'SANS_SERIF', // can be: "SANS_SERIF", "MONOSPACED_SANS_SERIF", "SERIF", "MONOSPACED_SERIF", "CASUAL", "CURSIVE", "SMALL_CAPITALS",
@@ -66,14 +66,13 @@
 					}
 				};
 			}
-			win.info('chromecast: Play ' + url + ' on \'' + this.get('name') +'\'');
+			win.info('chromecast: Play ' + url + ' on \'' + this.get('name') + '\'');
 			win.info('chromecast: > connecting to ' + this.device.host);
 
 			this.device.play(media, 0, function (err, status) {
 				if (err) {
 					win.error('chromecast.play error: ', err);
-				}
-				else {
+				} else {
 					win.info('Playing ' + url + ' on ' + self.get('name'));
 					self.set('loadedMedia', status.media);
 				}

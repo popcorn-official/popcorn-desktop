@@ -235,7 +235,7 @@
 
 		onLoaded: function () {
 			if (!isNaN(startupTime)) {
-				win.debug('Popcorn Time %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)) // started in database.js;
+				win.debug('Popcorn Time %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)); // started in database.js;
 				startupTime = 'none';
 			}
 			this.checkEmpty();

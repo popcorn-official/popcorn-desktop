@@ -58,7 +58,9 @@
 					var viewName = (typeof view !== 'undefined' ? view.className : 'unknown');
 					App.ViewStack.pop();
 					App.vent.trigger('viewstack:pop', viewName);
-					if (typeof element.currentView !== 'undefined') element.currentView.destroy();
+					if (typeof element.currentView !== 'undefined') {
+						element.currentView.destroy();
+					}
 				});
 
 			});
@@ -100,7 +102,7 @@
 			// Movies
 			App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
 			App.vent.on('movie:closeDetail', _.bind(this.closeMovieDetail, this.MovieDetail));
-			
+
 			// Torrent collection
 			App.vent.on('torrentCollection:show', _.bind(this.showTorrentCollection, this));
 			App.vent.on('torrentCollection:close', _.bind(this.TorrentCollection.destroy, this.TorrentCollection));
@@ -186,13 +188,13 @@
 
 					// do we celebrate events?
 					if (AdvSettings.get('events')) {
-						$('.events').css('display','block');
+						$('.events').css('display', 'block');
 					}
 
 					// set player from settings
 					var players = App.Device.Collection.models;
 					for (var i in players) {
-						if (players[i].id == AdvSettings.get('chosenPlayer')) {
+						if (players[i].id === AdvSettings.get('chosenPlayer')) {
 							App.Device.Collection.setDevice(AdvSettings.get('chosenPlayer'));
 						}
 					}
@@ -359,7 +361,7 @@
 		},
 
 		showFileSelector: function (fileModel) {
-            App.vent.trigger('about:close');
+			App.vent.trigger('about:close');
 			App.vent.trigger('stream:stop');
 			App.vent.trigger('player:close');
 			this.FileSelector.show(new App.View.FileSelector({
