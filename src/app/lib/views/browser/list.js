@@ -180,7 +180,7 @@
 					$('.source.show' + App.currentview.charAt(0).toUpperCase() + App.currentview.slice(1)).addClass('active');
 				}
 			});
-			
+
 			Mousetrap.bind(['`', 'b'], function () {
 				if ((App.PlayerView === undefined || App.PlayerView.isClosed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0) {
 					$('.favorites').click();
@@ -235,7 +235,7 @@
 
 		onLoaded: function () {
 			if (!isNaN(startupTime)) {
-				win.debug('Popcorn Time %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)) // started in database.js;
+				win.debug('Popcorn Time %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)); // started in database.js;
 				startupTime = 'none';
 			}
 			this.checkEmpty();

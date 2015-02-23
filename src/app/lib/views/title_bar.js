@@ -37,13 +37,13 @@ var os = require('os');
 				return App.Config.platform === 'darwin' ? 'left' : 'right';
 			},
 
-            events: function () {
+			events: function () {
 				var date = new Date();
-				var today = ('0' + (date.getMonth() +　1)).slice(-2) + ('0' + (date.getDate())).slice(-2);
+				var today = ('0' + (date.getMonth() + 　1)).slice(-2) + ('0' + (date.getDate())).slice(-2);
 				if (today === '1231' || today === '0101') {
 					return 'newyear';
 				} else if (today >= '1218' || today <= '0103') {
-                	return 'xmas';
+					return 'xmas';
 				} else if (today >= '1027' && today <= '1103') {
 					return 'halloween';
 				} else if (today === '0220') {
@@ -55,7 +55,7 @@ var os = require('os');
 				} else if (today === '0401') {
 					return 'aprilsfool';
 				}
-            }
+			}
 		},
 
 		maximize: function () {

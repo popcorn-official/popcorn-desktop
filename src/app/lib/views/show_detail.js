@@ -2,7 +2,7 @@
 	'use strict';
 
 	var torrentHealth = require('torrent-health');
-	var cancelTorrentHealth = function() {};
+	var cancelTorrentHealth = function () {};
 
 	var resizeImage = App.Providers.Trakttv.resizeImage;
 
@@ -76,7 +76,7 @@
 
 						// we'll make sure we dont have a cached show
 						Database.deleteTVShow(that.model.get('imdb_id'));
-						if (App.currentview == 'Favorites') {
+						if (App.currentview === 'Favorites') {
 							App.vent.trigger('favorites:render');
 						}
 					});
@@ -464,7 +464,7 @@
 			torrents.q720 = $('.template-' + tvdbid + ' .q720').text();
 
 			// Previous quality selection
-			if (Settings.shows_default_quality == '720p') {
+			if (Settings.shows_default_quality === '720p') {
 				if (torrents.q720 !== '') {
 					quality = '720p';
 				} else {
@@ -479,7 +479,7 @@
 			}
 
 			// Select quality
-			if (quality == '720p') {
+			if (quality === '720p') {
 				torrents.def = torrents.q720;
 				torrents.quality = '720p';
 			} else {
@@ -489,7 +489,7 @@
 
 			// Show/Hide the toggle in correct state
 			if (torrents.q480 !== '' && torrents.q720 !== '') {
-				if (!$('#switch-hd-off').is(':checked') && torrents.quality == '480p') {
+				if (!$('#switch-hd-off').is(':checked') && torrents.quality === '480p') {
 					document.getElementsByName('switch')[0].checked = true;
 				}
 				this.ui.qselector.show();
@@ -681,7 +681,7 @@
 			// Use fancy coding to cancel
 			// pending torrent-health's
 			var cancelled = false;
-			cancelTorrentHealth = function() {
+			cancelTorrentHealth = function () {
 				cancelled = true;
 			};
 
@@ -691,7 +691,7 @@
 				forced: ['udp://open.demonii.com:1337/announce']
 			}).then(function (res) {
 
-				if(cancelled) {
+				if (cancelled) {
 					return;
 				}
 
@@ -703,8 +703,8 @@
 				var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
 
 				$('.health-icon').tooltip({
-					html: true
-				})
+						html: true
+					})
 					.removeClass('fa-spin')
 					.removeClass('fa-spinner')
 					.addClass('fa-circle')
@@ -717,8 +717,8 @@
 
 		resetHealth: function () {
 			$('.health-icon').tooltip({
-				html: true
-			})
+					html: true
+				})
 				.removeClass('fa-spin')
 				.removeClass('fa-spinner')
 				.addClass('fa-circle')

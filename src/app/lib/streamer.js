@@ -355,7 +355,9 @@
 					var title = model.get('title');
 
 					var minFiles = 1;
-					if (Settings.allowTorrentStorage) minFiles = 0; //Always open FileSelector
+					if (Settings.allowTorrentStorage) {
+						minFiles = 0; //Always open FileSelector
+					}
 
 					if (!title) { //From ctrl+v magnet or drag torrent
 						for (var f in torrent.files) {

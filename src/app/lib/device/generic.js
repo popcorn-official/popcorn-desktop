@@ -76,7 +76,8 @@
 			 */
 			if (this.selected.get('typeFamily') === 'external') {
 				//console.warn('External Device ', this.selected);
-				var ips = [], ifaces = require('os').networkInterfaces();
+				var ips = [],
+					ifaces = require('os').networkInterfaces();
 				for (var dev in ifaces) {
 					ifaces[dev].forEach(function (details) {
 						if (!details.internal) {
@@ -85,10 +86,10 @@
 					});
 				}
 				var deviceIp = this.selected.get('address');
-				win.info('DeviceIP: '+ deviceIp);
-				win.info('Available IPs: '+ JSON.stringify(ips));
+				win.info('DeviceIP: ' + deviceIp);
+				win.info('Available IPs: ' + JSON.stringify(ips));
 				var srcIp = _getClosestIP(ips, deviceIp);
-				win.info('> Picked for external playback: '+ srcIp);
+				win.info('> Picked for external playback: ' + srcIp);
 				streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', srcIp);
 			}
 			return this.selected.play(streamModel);
@@ -102,20 +103,24 @@
 	});
 
 	// Supports both IPv4 and IPv6 comparison
-	var _sequentialPartsInCommon = function(ip1, ip2) {
+	var _sequentialPartsInCommon = function (ip1, ip2) {
 		var separator = (ip1.indexOf('.') > -1) ? '.' : ':';
-		var ip2Parts = ip2.split(separator), partsCount = 0;
-		ip1.split(separator).every(function(ip1Part, idx) {
+		var ip2Parts = ip2.split(separator),
+			partsCount = 0;
+		ip1.split(separator).every(function (ip1Part, idx) {
 			var isEqual = (ip1Part === ip2Parts[idx]);
 			if (isEqual) {
-				++partsCount; return isEqual;
+				++partsCount;
+				return isEqual;
 			}
 		});
 		return partsCount;
 	};
 
-	var _getClosestIP = function(ips, targetIp) {
-		return _.max(ips, function(ip) { return _sequentialPartsInCommon(ip, targetIp); });
+	var _getClosestIP = function (ips, targetIp) {
+		return _.max(ips, function (ip) {
+			return _sequentialPartsInCommon(ip, targetIp);
+		});
 	};
 
 	var collection = new DeviceCollection(new Device());

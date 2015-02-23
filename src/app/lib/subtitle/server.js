@@ -16,12 +16,12 @@
 			res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
 		}
 
-		if(ext in subtitleData) {
+		if (ext in subtitleData) {
 			res.writeHead(200, {
-				'Content-Type': 'text/' + ext + ';charset='+ encoding
+				'Content-Type': 'text/' + ext + ';charset=' + encoding
 			});
 			res.end(subtitleData[ext]);
-			win.debug('SubtitlesServer: served vtt/srt with encoding: '+ encoding);
+			win.debug('SubtitlesServer: served vtt/srt with encoding: ' + encoding);
 		} else {
 			res.writeHead(404);
 			res.end();
@@ -48,9 +48,9 @@
 
 			encoding = data.encoding || 'utf8';
 			win.debug(data.srt);
-			if(data.vtt) {
-				fs.readFile(data.vtt, function(err, data) {
-					if(err) {
+			if (data.vtt) {
+				fs.readFile(data.vtt, function (err, data) {
+					if (err) {
 						win.error('SubtitlesServer: Unable to load VTT file');
 						return;
 					}
@@ -58,9 +58,9 @@
 				});
 			}
 
-			if(data.srt) {
-				fs.readFile(data.srt, function(err, data) {
-					if(err) {
+			if (data.srt) {
+				fs.readFile(data.srt, function (err, data) {
+					if (err) {
 						win.error('SubtitlesServer: Unable to load SRT file');
 						return;
 					}

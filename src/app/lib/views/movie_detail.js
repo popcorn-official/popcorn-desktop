@@ -75,7 +75,7 @@
 				this.model.set('quality', 'HDRip');
 			}
 
-			if (Settings.movies_default_quality == '720p' && torrents['720p'] !== undefined) {
+			if (Settings.movies_default_quality === '720p' && torrents['720p'] !== undefined) {
 				document.getElementsByName('switch')[0].checked = true;
 			}
 
@@ -112,13 +112,13 @@
 			if (this.model.get('bookmarked') === true) {
 				this.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
 			}
-			
+
 			// Seen / Unseen
 			if (this.model.get('watched') === true) {
 				this.ui.watchedIcon.addClass('selected').text(i18n.__('Seen'));
 			}
 			var _this = this;
-			this.ui.watchedIcon.hover( function () {
+			this.ui.watchedIcon.hover(function () {
 				if (_this.model.get('watched')) {
 					_this.ui.watchedIcon.text(i18n.__('Mark as unseen'));
 				} else {
@@ -253,7 +253,7 @@
 				torrents = this.model.get('torrents');
 				this.model.set('quality', '1080p');
 				win.debug(this.model.get('quality'));
-				AdvSettings.set('movies_default_quality', '1080p')
+				AdvSettings.set('movies_default_quality', '1080p');
 			}
 		},
 
@@ -306,7 +306,7 @@
 						if (bookmark.length > 0) {
 							bookmark.parents('.bookmark-item').remove();
 						}
-						if (App.currentview == 'Favorites') {
+						if (App.currentview === 'Favorites') {
 							App.vent.trigger('favorites:render');
 						}
 					});
@@ -370,7 +370,7 @@
 						that.ui.watchedIcon.addClass('selected').text(i18n.__('Seen'));
 					});
 			}
-			if (App.currentview == 'Favorites') {
+			if (App.currentview === 'Favorites') {
 				App.vent.trigger('favorites:render');
 			}
 		},

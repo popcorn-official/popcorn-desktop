@@ -741,12 +741,12 @@
 			file = file.slice(0, existingIndex);
 		}
 		if (width < 400) {
-			var existingIndex = 0;
-			if ((existingIndex = uri.toString().search('walter')) == -1) {
+			existingIndex = 0;
+			if ((existingIndex = uri.toString().search('walter')) === -1) {
 				file = file + '-300';
 			}
 
-			uri.pathname(uri.pathname().toString().replace(/original/,'thumb'));
+			uri.pathname(uri.pathname().toString().replace(/original/, 'thumb'));
 		}
 		if (file === 'poster-dark') {
 			return 'images/posterholder.png'.toString();

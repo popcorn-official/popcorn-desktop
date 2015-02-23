@@ -78,7 +78,9 @@
 			return;
 		}
 		var deviceId = makeID(device.uuid);
-		if (collection.where({id: deviceId}).length === 0) {
+		if (collection.where({
+				id: deviceId
+			}).length === 0) {
 			collection.add(new Dlna({
 				id: deviceId,
 				device: device
@@ -87,7 +89,7 @@
 	});
 
 
-	setInterval(function() {
+	setInterval(function () {
 		cp.search();
 	}, 60000);
 

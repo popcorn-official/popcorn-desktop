@@ -58,7 +58,7 @@
 		var self = this;
 
 		if (!(!_.contains(fs.readdirSync('.'), '.git') || // Test Development
-			    ( // Settings update disabled
+				( // Settings update disabled
 					App.settings.automaticUpdating
 				) ||
 				( // Test Windows
