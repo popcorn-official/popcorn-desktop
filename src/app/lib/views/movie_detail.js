@@ -306,6 +306,9 @@
 						if (bookmark.length > 0) {
 							bookmark.parents('.bookmark-item').remove();
 						}
+						if (App.currentview == 'Favorites') {
+							App.vent.trigger('favorites:render');
+						}
 					});
 			} else {
 
@@ -366,6 +369,9 @@
 						that.model.set('watched', true);
 						that.ui.watchedIcon.addClass('selected').text(i18n.__('Seen'));
 					});
+			}
+			if (App.currentview == 'Favorites') {
+				App.vent.trigger('favorites:render');
 			}
 		},
 

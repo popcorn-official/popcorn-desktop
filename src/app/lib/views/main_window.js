@@ -69,6 +69,7 @@
 			App.vent.on('shows:list', _.bind(this.showShows, this));
 			App.vent.on('anime:list', _.bind(this.showAnime, this));
 			App.vent.on('favorites:list', _.bind(this.showFavorites, this));
+			App.vent.on('favorites:render', _.bind(this.renderFavorites, this));
 			App.vent.on('watchlist:list', _.bind(this.showWatchlist, this));
 			App.vent.on('shows:update', _.bind(this.updateShows, this));
 			App.vent.on('shows:init', _.bind(this.initShows, this));
@@ -273,6 +274,14 @@
 			this.MovieDetail.destroy();
 
 			this.Content.show(new App.View.FavoriteBrowser());
+		},
+
+		renderFavorites: function (e) {
+			this.Content.show(new App.View.FavoriteBrowser());
+			App.currentview = 'Favorites';
+			$('.right .search').hide();
+			$('.filter-bar').find('.active').removeClass('active');
+			$('#filterbar-favorites').addClass('active');
 		},
 
 		showWatchlist: function (e) {
