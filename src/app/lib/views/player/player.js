@@ -673,7 +673,8 @@
 			if ($(e.target).parents('.vjs-subtitles-button').length) {
 				return;
 			}
-			if (event.wheelDelta > 0) { // Scroll up
+			var mult = (Settings.os === 'mac') ? -1 : 1; // up/down invert
+			if ((event.wheelDelta * mult) > 0) { // Scroll up
 				_this.adjustVolume(0.1);
 			} else { // Scroll down
 				_this.adjustVolume(-0.1);
