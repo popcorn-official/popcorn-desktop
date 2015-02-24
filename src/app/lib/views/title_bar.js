@@ -62,37 +62,15 @@ var os = require('os');
 			if (this.nativeWindow.isFullscreen) {
 				this.nativeWindow.toggleFullscreen();
 			} else {
-				// workaround/patch until node-webkit and windows 8 maximise/unmaximize works correctly
-				if (process.platform === 'win32' && parseFloat(os.release(), 10) > 6.1) {
-					if (window.screen.availHeight <= this.nativeWindow.height) {
-						// unmaximise replacement
-						this.nativeWindow.resizeTo(win8w, win8h);
-						this.nativeWindow.moveTo(win8x, win8y);
+				if (window.screen.availHeight <= this.nativeWindow.height) {
+					this.nativeWindow.unmaximize();
+					if (process.platform === 'win32') {
 						$('.os-max').removeClass('os-is-max');
-					} else {
-						// maximise replacement - always happens first as we start in a window
-						win8x = this.nativeWindow.x;
-						win8y = this.nativeWindow.y;
-						win8h = this.nativeWindow.height;
-						win8w = this.nativeWindow.width;
-						$('.os-max').addClass('os-is-max');
-
-						// does not support multiple monitors - will always use primary
-						this.nativeWindow.moveTo(0, 0);
-						this.nativeWindow.resizeTo(window.screen.availWidth, window.screen.availHeight);
 					}
 				} else {
-					// end patch
-					if (window.screen.availHeight <= this.nativeWindow.height) {
-						this.nativeWindow.unmaximize();
-						if (process.platform === 'win32') {
-							$('.os-max').removeClass('os-is-max');
-						}
-					} else {
-						this.nativeWindow.maximize();
-						if (process.platform === 'win32') {
-							$('.os-max').addClass('os-is-max');
-						}
+					this.nativeWindow.maximize();
+					if (process.platform === 'win32') {
+						$('.os-max').addClass('os-is-max');
 					}
 				}
 			}
