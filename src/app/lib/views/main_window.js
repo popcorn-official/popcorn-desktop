@@ -173,16 +173,16 @@
 					}
 
 					that.InitModal.destroy();
-				
+
 					var lastOpen = (Settings.startScreen === 'Last Open') ? true : false;
 
-					if (Settings.startScreen === 'Watchlist' || (lastOpen &&  Settings.lastTab === 'Watchlist')) {
+					if (Settings.startScreen === 'Watchlist' || (lastOpen && Settings.lastTab === 'Watchlist')) {
 						that.showWatchlist();
-					} else if (Settings.startScreen === 'Favorites' || (lastOpen &&  Settings.lastTab === 'Favorites')) {
+					} else if (Settings.startScreen === 'Favorites' || (lastOpen && Settings.lastTab === 'Favorites')) {
 						that.showFavorites();
-					} else if (Settings.startScreen === 'TV Series' || (lastOpen &&  Settings.lastTab === 'TV Series')) {
+					} else if (Settings.startScreen === 'TV Series' || (lastOpen && Settings.lastTab === 'TV Series')) {
 						that.showShows();
-					} else if (Settings.startScreen === 'Anime' || (lastOpen &&  Settings.lastTab === 'Anime')) {
+					} else if (Settings.startScreen === 'Anime' || (lastOpen && Settings.lastTab === 'Anime')) {
 						that.showAnime();
 					} else {
 						that.showMovies();
