@@ -86,6 +86,7 @@ vjs.TextTrack.prototype.load = function(){
 			$('#video_player .vjs-text-track').css('display','inline-block').drags();
 			$('#video_player .vjs-text-track-display').css('font-size', Settings.subtitle_size);
             $('.vjs-subtitles').css('color', Settings.subtitle_color);
+            $('.vjs-subtitles').css('font-family', Settings.subtitle_font);
             if (! Settings.subtitle_shadows) {
                 $('.vjs-text-track').css('text-shadow', 'none');
             }
