@@ -466,6 +466,7 @@
 					if (typeof App.currentview !== 'undefined') {
 						that.ui.posterswidth_alert.show().text(i18n.__('Posters Size') + ': ' + humanReadableWidth).delay(3000).fadeOut(400);
 					}
+					$('.cover-image').css('width', Settings.postersWidth);
 				});
 		},
 

@@ -137,7 +137,10 @@
 				}
 				break;
 			}
-			this.ui.coverImage.remove();
+			var this_ = this;
+			this.ui.coverImage.delay(1500).queue( function() {
+				this_.ui.coverImage.css('width', Settings.postersWidth).show().css('opacity','1').dequeue();
+			});
 
 			this.ui.watchedIcon.tooltip({
 				title: this.ui.watchedIcon.hasClass('selected') ? i18n.__('Mark as unseen') : i18n.__('Mark as Seen')
