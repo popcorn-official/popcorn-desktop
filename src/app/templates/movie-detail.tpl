@@ -11,7 +11,7 @@ for(var i = 0; i < genre.length; i++){ genre[i] = i18n.__(genre[i]); };
 <div class="fa fa-times close-icon"></div>
 
 <section class="poster-box">
-	<img src="images/cover-placeholder.jpg" data-cover="<%= image %>" class="mcover-image" />
+	<img src="images/posterholder.png" data-cover="<%= image %>" class="mcover-image" />
 </section>
 
 <section class="content-box">
