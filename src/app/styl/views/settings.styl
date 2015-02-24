@@ -385,12 +385,9 @@
             border:0;
 
         &.settings-checkbox+label.settings-label
-            padding-left:20px;
             height:15px;
             display:inline-block;
             line-height:15px;
-            background-repeat:no-repeat;
-            background-position: 0 0;
             font-size:13px;
             font-family: $Font, $AlternateFont;
             vertical-align:middle;
@@ -398,10 +395,30 @@
             color:$SettingsText1
 
         &.settings-checkbox:checked+label.settings-label
-            background-position: 0 -15px;
+            &:after
+                opacity: 1;
 
     .settings-label
-        background-image url('../images/icons/checkbox.png')
+        &:before
+            content: '\f0c8';
+            font-family: "fontawesome";
+            font-size: 18px;
+            padding-right: 8px;
+            float: left
+            position: relative;
+            color: $CheckboxBg;
+        &:after
+            content: '\f00c';
+            font-family: "fontawesome";
+            font-size: 12px;
+            margin-right: -14px;
+            color: $CheckboxCheck;
+            position: relative;
+            float: left;
+            left: -21px;
+            opacity: 0;
+            transition: opacity .1s ease-in-out;
+            
 
     .settings-container-check-settings
         width 14px
