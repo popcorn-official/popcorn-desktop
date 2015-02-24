@@ -124,6 +124,24 @@
 				</div>
             </span>
 
+            <span class="advanced">
+				<div class="dropdown subtitles-font">
+					<p><%= i18n.__("Font") %>:</p>
+					<%
+						var arr_fonts = ["Open Sans", "Open Sans Bold", "Open Sans Semibold", "Georgia, serif", "Palatino Linotype, Book Antiqua, Palatino, serif", "Times New Roman, Times, serif", "Arial, Helvetica, sans-serif", "Arial Black, Gadget, sans-serif", "Comic Sans MS, cursive, sans-serif", "Impact, Charcoal, sans-serif", "Lucida Sans Unicode, Lucida Grande, sans-serif", "Tahoma, Geneva, sans-serif", "Trebuchet MS, Helvetica, sans-serif", "Verdana, Geneva, sans-serif", "Courier New, Courier, monospace", "Lucida Console, Monaco, monospace"];
+
+						var sub_fonts = "";
+						for(var key in arr_fonts) {
+					   		var split = arr_fonts[key].indexOf(",");
+					   		var displayFont = split !== -1 ? arr_fonts[key].slice(0,split) : arr_fonts[key]
+							sub_fonts += "<option "+(Settings.subtitle_font == arr_fonts[key]? "selected='selected'":"")+" value='"+arr_fonts[key]+"'>"+displayFont+"</option>";
+						}
+					%>
+					<select name="subtitle_font"><%=sub_fonts%></select>
+					<div class="dropdown-arrow"></div>
+				</div>
+            </span>
+
             <span>
 				<div class="dropdown subtitles-size">
 					<p><%= i18n.__("Size") %>:</p>
