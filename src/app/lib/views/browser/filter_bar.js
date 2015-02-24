@@ -40,7 +40,7 @@
 		},
 		setactive: function (set) {
 
-			if (AdvSettings.get('startScreen') === 'Last Open') {
+			if (Settings.startScreen === 'Last Open') {
 				AdvSettings.set('lastTab', set);
 			}
 			$('.right .search').show();
