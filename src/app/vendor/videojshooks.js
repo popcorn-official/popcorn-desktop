@@ -261,7 +261,7 @@ vjs.ErrorDisplay.prototype.update = function(){
 	if (this.player().error().message === 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.') {
 		this.contentEl_.innerHTML = i18n.__('The video playback encountered an issue. Please try an external player like %s to view this content.', suggestedExternal());
 	} else {
-		this.contentEl_.innerHTML = this.localize(this.player().error().message);
+		this.contentEl_.innerHTML = this.player().error().message;
 	}
   }
 };
