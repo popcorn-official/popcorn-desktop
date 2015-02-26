@@ -112,7 +112,7 @@
 			App.vent.trigger('player:close');
 			App.vent.trigger('preload:stop');
 
-			this.destroy();
+			this.close();
 		},
 
 		onShow: function () {
