@@ -106,6 +106,9 @@
 				// Stop weird Videojs errors
 			}
 
+			this.ui.pause.dequeue();
+			this.ui.play.dequeue();
+
 			remaining = false;
 			createdRemaining = false;
 			firstPlay = true;
