@@ -27,6 +27,7 @@
 		events: {
 			'click .close-info-player': 'closePlayer',
 			'click .playnownext': 'playNextNow',
+			'click .playnownextNOT': 'playNextNot',
 			'click .vjs-subtitles-button': 'toggleSubtitles',
 			'click .vjs-text-track': 'moveSubtitles',
 			'click .vjs-play-control': 'togglePlay'
@@ -200,9 +201,7 @@
 				// For now close player. In future we will check if auto-play etc and get next episode
 
 				if (_this.model.get('auto_play')) {
-
 					_this.playNextNow();
-
 				} else {
 					_this.closePlayer();
 				}
@@ -350,6 +349,14 @@
 
 			this.closePlayer();
 			App.vent.trigger('stream:start', next_episode_model);
+		},
+		playNextNot: function () {
+			win.info('Hiding Auto Play message');
+			$('.playing_next').hide();
+			$('.playing_next span').text('');
+			autoplayisshown ? false : true;
+
+			this.model.set('auto_play', false);
 		},
 		prossessNext: function () {
 			var episodes = _this.model.get('episodes');
