@@ -83,7 +83,6 @@
 		},
 
 		closePlayer: function () {
-			var that = this;
 			win.info('Player closed');
 			if (this._WatchingTimer) {
 				clearInterval(this._WatchingTimer);
@@ -112,6 +111,7 @@
 			App.vent.trigger('player:close');
 			App.vent.trigger('preload:stop');
 
+			this.destroy();
 		},
 
 		onShow: function () {
@@ -346,36 +346,10 @@
 		},
 
 		playNextNow: function () {
+			this.dontTouchFS = true; //XXX(xaiki): hack, don't touch fs state
 
-			var that = this;
-			win.info('Player closed');
-			if (this._WatchingTimer) {
-				clearInterval(this._WatchingTimer);
-			}
-			if (this._AutoPlayCheckTimer) {
-				clearInterval(this._AutoPlayCheckTimer);
-			}
-			// Check if >80% is watched to mark as watched by user  (maybe add value to settings
-			var type = (this.isMovie() ? 'movie' : 'show');
-			if (this.video.currentTime() / this.video.duration() >= 0.8) {
-				App.vent.trigger(type + ':watched', this.model.attributes, 'scrobble');
-			} else {
-				App.Trakt[type].cancelWatching();
-			}
-
-			try {
-				this.video.dispose();
-			} catch (e) {
-				// Stop weird Videojs errors
-			}
-
-			//XXX(xaiki): hack, don't touch fs state
-			that.dontTouchFS = true;
-
-			App.vent.trigger('preload:stop');
-			App.vent.trigger('player:close');
+			this.closePlayer();
 			App.vent.trigger('stream:start', next_episode_model);
-
 		},
 		prossessNext: function () {
 			var episodes = _this.model.get('episodes');
@@ -754,14 +728,6 @@
 				$('.btn-os.fullscreen').removeClass('active');
 			}
 			this.unbindKeyboardShortcuts();
-
-			App.vent.trigger('stream:stop');
-			if (this._WatchingTimer) {
-				clearInterval(this._WatchingTimer);
-			}
-			if (this._AutoPlayCheckTimer) {
-				clearInterval(this._AutoPlayCheckTimer);
-			}
 		}
 
 	});
