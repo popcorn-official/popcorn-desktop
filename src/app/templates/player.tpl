@@ -21,9 +21,11 @@
 </div>
 
 <div class="playing_next vjs-control-window">
-	<p><%= i18n.__("Playing Next Episode in") %>: <span id="nextCountdown">60</span>
+	<p><%= i18n.__("Playing Next Episode in") %>: 
+		<span id="nextCountdown">60</span>
 	</p>
 	<div class="auto-next-btn playnownext"><%= i18n.__("Play Now") %></div>
+	<div class="auto-next-btn playnownextNOT"><%= i18n.__("No thank you") %></div>
 </div>
 <%
 	var subArray = [];
