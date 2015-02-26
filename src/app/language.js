@@ -557,10 +557,6 @@ App.Localization.langcodes = {
 		name: 'Nauru',
 		nativeName: 'Ekakairũ Naoero'
 	},
-	'nb': {
-		name: 'Norwegian Bokmål',
-		nativeName: 'Norsk bokmål'
-	},
 	'nd': {
 		name: 'North Ndebele',
 		nativeName: 'isiNdebele'
@@ -583,9 +579,15 @@ App.Localization.langcodes = {
 		name: 'Norwegian Nynorsk',
 		nativeName: 'Norsk nynorsk'
 	},
+	'nb': {
+		name: 'Norwegian Bokmål',
+		nativeName: 'Norsk bokmål'
+	},
 	'no': {
 		name: 'Norwegian',
-		nativeName: 'Norsk'
+		nativeName: 'Norsk',
+		subtitle: true,
+		encoding: ['iso-8859-1'] // Tested
 	},
 	'nr': {
 		name: 'South Ndebele',
