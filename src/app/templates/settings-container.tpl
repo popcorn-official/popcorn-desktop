@@ -128,13 +128,48 @@
 				<div class="dropdown subtitles-font">
 					<p><%= i18n.__("Font") %>:</p>
 					<%
-						var arr_fonts = ["Open Sans", "Open Sans Bold", "Open Sans Semibold", "Georgia, serif", "Palatino Linotype, Book Antiqua, Palatino, serif", "Times New Roman, Times, serif", "Arial, Helvetica, sans-serif", "Arial Black, Gadget, sans-serif", "Comic Sans MS, cursive, sans-serif", "Impact, Charcoal, sans-serif", "Lucida Sans Unicode, Lucida Grande, sans-serif", "Tahoma, Geneva, sans-serif", "Trebuchet MS, Helvetica, sans-serif", "Verdana, Geneva, sans-serif", "Courier New, Courier, monospace", "Lucida Console, Monaco, monospace"];
+						var arr_fonts = [
+							{name:"Deja Vu Sans", id:"dejavusans"},
+							{name:"Droid Sans", id:"droidsans"},
+							{name:"Comic Sans MS", id:"comic"},
+							{name:"Georgia", id:"georgia"},
+							{name:"Geneva", id:"geneva"},
+							{name:"Helvetica", id:"helvetica"},
+							{name:"Lato", id:"lato"},
+							{name:"Montserrat", id:"montserrat"},
+							{name:"OpenDyslexic", id:"opendyslexic"},
+							{name:"Open Sans", id:"opensans"},
+							{name:"PT Sans",id:"pts"},
+							{name:"Tahoma", id:"tahoma"},
+							{name:"Trebuchet MS", id:"trebuc"},
+							{name:"Roboto",id:"roboto"},
+							{name:"Ubuntu", id:"ubuntu"},
+							{name:"Verdana", id:"verdana"},
+						];
+
+						var font_folder = path.resolve({
+							win32:  "/Windows/fonts",
+							darwin: "/Library/Fonts",
+							linux:  "/usr/share/fonts/truetype"
+						}[process.platform]);
+
+						var all_avail_fonts = fs.readdirSync(font_folder);
+					    var avail_fonts = ["Arial"];
+
+						for (var i in arr_fonts) {
+							for (var key in all_avail_fonts) {
+								var found = all_avail_fonts[key].toLowerCase();
+								var toFind = arr_fonts[i].id;
+								if (found.indexOf(toFind) != -1) {
+									avail_fonts.push(arr_fonts[i].name);
+									break;
+								}
+							}
+						}
 
 						var sub_fonts = "";
-						for(var key in arr_fonts) {
-					   		var split = arr_fonts[key].indexOf(",");
-					   		var displayFont = split !== -1 ? arr_fonts[key].slice(0,split) : arr_fonts[key]
-							sub_fonts += "<option "+(Settings.subtitle_font == arr_fonts[key]? "selected='selected'":"")+" value='"+arr_fonts[key]+"'>"+displayFont+"</option>";
+						for (var key in avail_fonts) {
+							sub_fonts += "<option "+(Settings.subtitle_font == avail_fonts[key]? "selected='selected'":"")+" value='"+avail_fonts[key]+",Arial'>"+avail_fonts[key]+"</option>";
 						}
 					%>
 					<select name="subtitle_font"><%=sub_fonts%></select>

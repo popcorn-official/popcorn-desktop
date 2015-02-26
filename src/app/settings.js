@@ -44,7 +44,7 @@ Settings.subtitle_language = 'none';
 Settings.subtitle_size = '28px';
 Settings.subtitle_color = '#ffffff';
 Settings.subtitle_shadows = 'true';
-Settings.subtitle_font = 'Arial, Helvetica, sans-serif';
+Settings.subtitle_font = 'Arial';
 
 // More options
 Settings.httpApiPort = 8008;
