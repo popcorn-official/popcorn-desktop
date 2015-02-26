@@ -140,18 +140,17 @@
 	var searchPaths = {
 		linux: ['/usr/bin', '/usr/local/bin'],
 		darwin: ['/Applications', process.env.HOME + '/Applications'],
-		win32: ['C:\\Program Files\\']
+		win32: [process.env.SystemDrive + '\\Program Files\\']
 	};
 
-	// Also search for Program Files x86
-	if (fs.existsSync('C:\\Program Files (x86)\\')) {
-		searchPaths.win32.push('C:\\Program Files (x86)\\');
-	}
+	var addPath = function (path) {
+		if (fs.existsSync(path)) {
+			searchPaths[process.platform].push(path);
+		}
+	};
 
-	// Also search for ClickOnce applications
-	if (fs.existsSync(process.env.LOCALAPPDATA + '\\Apps\\2.0\\')) {
-		searchPaths.win32.push(process.env.LOCALAPPDATA + '\\Apps\\2.0\\');
-	}
+	addPath(process.env.SystemDrive + '\\Program Files (x86)\\');
+	addPath(process.env.LOCALAPPDATA + '\\Apps\\2.0\\');
 
 	var folderName = '';
 	var birthtimes = {};
