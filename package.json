@@ -61,7 +61,8 @@
 		"temp": "^0.8.1",
 		"torrent-health": "https://github.com/xeoncore/torrent-health/archive/0.1.1.tar.gz",
 		"underscore": "^1.7.0",
-		"URIjs": "^1.14.1"
+		"URIjs": "^1.14.1",
+		"xmlbuilder": "^2.6.1"
 	},
 	"devDependencies": {
 		"bower": "1.3.12",
