@@ -177,6 +177,22 @@
 				</div>
             </span>
 
+            <span class="advanced">
+				<div class="dropdown subtitles-decoration">
+					<p><%= i18n.__("Decoration") %>:</p>
+					<%
+						var arr_deco = ["None", "Outline", "Opaque Background"];
+
+						var sub_deco = "";
+						for(var key in arr_deco) {
+							sub_deco += "<option "+(Settings.subtitle_decoration == arr_deco[key]? "selected='selected'":"")+" value='"+arr_deco[key]+"'>"+i18n.__(arr_deco[key])+"</option>";
+						}
+					%>
+					<select name="subtitle_decoration"><%=sub_deco%></select>
+					<div class="dropdown-arrow"></div>
+				</div>
+            </span>
+
             <span>
 				<div class="dropdown subtitles-size">
 					<p><%= i18n.__("Size") %>:</p>
@@ -205,11 +221,9 @@
                             <option>#00ffff</option>
                             <option>#00ff00</option>
                         </datalist>
-
-                    <input class="settings-checkbox" name="subtitle_shadows" id="subtitle_shadows" type="checkbox" <%=(Settings.subtitle_shadows? "checked='checked'":"")%>>
-				    <label class="settings-label" for="subtitle_shadows"><%= i18n.__("With Shadows") %></label>
                 </div>
 			</span>
+
 		</div>
 	</section>
 

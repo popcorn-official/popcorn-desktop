@@ -43,7 +43,7 @@ Settings.movies_quality = 'all';
 Settings.subtitle_language = 'none';
 Settings.subtitle_size = '28px';
 Settings.subtitle_color = '#ffffff';
-Settings.subtitle_shadows = 'true';
+Settings.subtitle_decoration = 'Outline';
 Settings.subtitle_font = 'Arial';
 
 // More options
