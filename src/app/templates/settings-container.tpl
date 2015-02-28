@@ -169,7 +169,7 @@
 
 						var sub_fonts = "";
 						for (var key in avail_fonts) {
-							sub_fonts += "<option "+(Settings.subtitle_font == avail_fonts[key]? "selected='selected'":"")+" value='"+avail_fonts[key]+",Arial'>"+avail_fonts[key]+"</option>";
+							sub_fonts += "<option "+(Settings.subtitle_font == avail_fonts[key]+",Arial"? "selected='selected'":"")+" value='"+avail_fonts[key]+",Arial'>"+avail_fonts[key]+"</option>";
 						}
 					%>
 					<select name="subtitle_font"><%=sub_fonts%></select>
