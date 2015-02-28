@@ -92,8 +92,10 @@ vjs.TextTrack.prototype.load = function(){
 			}
             $('.vjs-subtitles').css('color', Settings.subtitle_color);
             $('.vjs-subtitles').css('font-family', Settings.subtitle_font);
-            if (! Settings.subtitle_shadows) {
+            if (Settings.subtitle_decoration === 'None') {
                 $('.vjs-text-track').css('text-shadow', 'none');
+            } else if (Settings.subtitle_decoration === 'Opaque Background') {
+                $('.vjs-text-track').css('background', '#000');
             }
 			$('.vjs-text-track').css('z-index','auto').css('position','relative').css('top', AdvSettings.get('playerSubPosition'));
 		});

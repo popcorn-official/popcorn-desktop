@@ -185,6 +185,7 @@
 			case 'subtitle_size':
 			case 'tv_detail_jump_to':
 			case 'subtitle_language':
+			case 'subtitle_decoration':
 			case 'movies_quality':
 			case 'subtitle_font':
 			case 'start_screen':
@@ -206,7 +207,6 @@
 			case 'showAdvancedSettings':
 			case 'alwaysOnTop':
 			case 'syncOnStart':
-			case 'subtitle_shadows':
 			case 'playNextEpisodeAuto':
 			case 'automaticUpdating':
 			case 'events':
