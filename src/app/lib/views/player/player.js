@@ -165,7 +165,6 @@
 					$('.vjs-play-control').click();
 				});
 
-
 			} else {
 				this.video = videojs('video_player', {
 					nativeControlsForTouch: false,
@@ -280,6 +279,9 @@
 					_this.wasSeek = false;
 				} else {
 					if (firstPlay) {
+						if (_this.model.get('type') === 'video/youtube') {
+							document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('video-ads')[0].style.display = 'none'; // XXX hide ads hack
+						}
 						firstPlay = false;
 						return;
 					}
