@@ -3,8 +3,8 @@
 	"dependencies": {
 		"marionette": "~2.3.2",
 		"bootstrap": "~3.3.2",
-		"videojs": "4.11.4",
-		"videojs-youtube": "https://github.com/watdafox/videojs-youtube/archive/fc858ecc7338f81aceffaa7746281f3a2a13d284.tar.gz",
+		"video.js": "4.11.4",
+		"videojs-youtube": "https://github.com/eXon/videojs-youtube/archive/09c23463f188c3bee6c70b3d5156e89755cc3233.tar.gz",
 		"mousetrap": "~1.4.6",
 		"font-awesome": "~4.3.0"
 	},
@@ -12,7 +12,7 @@
 		"backbone": ["**/!(backbone.js)"],
 		"jquery": ["**/!(dist)"],
 		"font-awesome": ["less", "scss", ".*"],
-		"videojs": ["**/!(dist)"],
+		"video.js": ["**/!(dist)"],
 		"videojs-youtube": ["**/!(src)"],
 		"underscore": ["**/!(underscore.js)"],
 		"mousetrap": ["tests", ".gitignore", "./*!mousetrap.min.js"],

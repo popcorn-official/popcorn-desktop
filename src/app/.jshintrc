@@ -52,6 +52,6 @@
 		"Backbone": true,
 		"Mousetrap": true,
 		"_": true,
-		"videojs": true
+		"video.js": true
 	}
 }
