@@ -1,5 +1,5 @@
-﻿; Popcorn Time
-; Installer Source for NSIS 3.0 or higher
+﻿;Popcorn Time
+;Installer Source for NSIS 3.0 or higher
 
 ;Enable Unicode encoding
 Unicode True
@@ -326,9 +326,9 @@ Section ; App Files
 
     SetOutPath "$INSTDIR\node_modules"
     !ifdef WIN_PATHS
-        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" "..\..\node_modules\*.*"
+        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "..\..\node_modules\*.*"
     !else
-        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" "../../node_modules/*.*"
+        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "../../node_modules/*.*"
     !endif
 
     ;Create uninstaller
