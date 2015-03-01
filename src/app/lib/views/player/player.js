@@ -778,6 +778,7 @@
 				$('.btn-os.fullscreen').removeClass('active');
 			}
 			this.unbindKeyboardShortcuts();
+			App.vent.trigger('player:close');
 		}
 
 	});

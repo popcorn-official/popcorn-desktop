@@ -401,10 +401,10 @@
 		},
 
 		showViews: function (streamModel) {
-
 			this.Content.$el.show();
 			if (this.MovieDetail.$el !== undefined) {
 				this.MovieDetail.$el.show();
+				this.MovieDetail.el.firstElementChild.classList == "shows-container-contain" ? App.vent.trigger('shortcuts:shows'): App.vent.trigger('shortcuts:movies');
 			}
 			$(window).trigger('resize');
 		},

@@ -114,7 +114,7 @@
 			images.poster = resizeImage(images.poster, '300');
 			//}
 
-			App.vent.on('shortcuts:show', function () {
+			App.vent.on('shortcuts:shows', function () {
 				_this.initKeyboardShortcuts();
 			});
 		},
@@ -416,6 +416,7 @@
 			}
 			_this.unbindKeyboardShortcuts();
 			App.vent.trigger('show:closeDetail');
+			App.vent.trigger('shortcuts:movies');
 		},
 
 		clickSeason: function (e) {
