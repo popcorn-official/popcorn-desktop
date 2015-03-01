@@ -127,51 +127,58 @@
             <span class="advanced">
 				<div class="dropdown subtitles-font">
 					<p><%= i18n.__("Font") %>:</p>
-					<%
-						var arr_fonts = [
-							{name:"Deja Vu Sans", id:"dejavusans"},
-							{name:"Droid Sans", id:"droidsans"},
-							{name:"Comic Sans MS", id:"comic"},
-							{name:"Georgia", id:"georgia"},
-							{name:"Geneva", id:"geneva"},
-							{name:"Helvetica", id:"helvetica"},
-							{name:"Lato", id:"lato"},
-							{name:"Montserrat", id:"montserrat"},
-							{name:"OpenDyslexic", id:"opendyslexic"},
-							{name:"Open Sans", id:"opensans"},
-							{name:"PT Sans",id:"pts"},
-							{name:"Tahoma", id:"tahoma"},
-							{name:"Trebuchet MS", id:"trebuc"},
-							{name:"Roboto",id:"roboto"},
-							{name:"Ubuntu", id:"ubuntu"},
-							{name:"Verdana", id:"verdana"},
-						];
+                    <%
+                        var arr_fonts = [
+                            {name:"Deja Vu Sans", id:"dejavusans"},
+                            {name:"Droid Sans", id:"droidsans"},
+                            {name:"Comic Sans MS", id:"comic"},
+                            {name:"Georgia", id:"georgia"},
+                            {name:"Geneva", id:"geneva"},
+                            {name:"Helvetica", id:"helvetica"},
+                            {name:"Lato", id:"lato"},
+                            {name:"Montserrat", id:"montserrat"},
+                            {name:"OpenDyslexic", id:"opendyslexic"},
+                            {name:"Open Sans", id:"opensans"},
+                            {name:"PT Sans",id:"pts"},
+                            {name:"Tahoma", id:"tahoma"},
+                            {name:"Trebuchet MS", id:"trebuc"},
+                            {name:"Roboto",id:"roboto"},
+                            {name:"Ubuntu", id:"ubuntu"},
+                            {name:"Verdana", id:"verdana"},
+                        ];
 
-						var font_folder = path.resolve({
-							win32:  "/Windows/fonts",
-							darwin: "/Library/Fonts",
-							linux:  "/usr/share/fonts/truetype"
-						}[process.platform]);
+                        var font_folder = path.resolve({
+                            win32:  "/Windows/fonts",
+                            darwin: "/Library/Fonts",
+                            linux:  "/usr/share/fonts/truetype"
+                        }[process.platform]);
 
-						var all_avail_fonts = fs.readdirSync(font_folder);
-					    var avail_fonts = ["Arial"];
+                        var find_fonts = function () {
+                            try {
+                                return fs.readdirSync(font_folder);
+                            } catch (err) {
+                                return;
+                            }
+                        }
+                        var all_avail_fonts = find_fonts();
+                        var avail_fonts = ["Arial"];
 
-						for (var i in arr_fonts) {
-							for (var key in all_avail_fonts) {
-								var found = all_avail_fonts[key].toLowerCase();
-								var toFind = arr_fonts[i].id;
-								if (found.indexOf(toFind) != -1) {
-									avail_fonts.push(arr_fonts[i].name);
-									break;
-								}
-							}
-						}
+                        for (var i in arr_fonts) {
+                            for (var key in all_avail_fonts) {
+                                var found = all_avail_fonts[key].toLowerCase();
+                                var toFind = arr_fonts[i].id;
+                                if (found.indexOf(toFind) != -1) {
+                                    avail_fonts.push(arr_fonts[i].name);
+                                    break;
+                                }
+                            }
+                        }
 
-						var sub_fonts = "";
-						for (var key in avail_fonts) {
-							sub_fonts += "<option "+(Settings.subtitle_font == avail_fonts[key]+",Arial"? "selected='selected'":"")+" value='"+avail_fonts[key]+",Arial'>"+avail_fonts[key]+"</option>";
-						}
-					%>
+                        var sub_fonts = "";
+                        for (var key in avail_fonts) {
+                            sub_fonts += "<option "+(Settings.subtitle_font == avail_fonts[key]+",Arial"? "selected='selected'":"")+" value='"+avail_fonts[key]+",Arial'>"+avail_fonts[key]+"</option>";
+                        }
+                    %>
 					<select name="subtitle_font"><%=sub_fonts%></select>
 					<div class="dropdown-arrow"></div>
 				</div>
