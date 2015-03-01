@@ -4,7 +4,7 @@
 		"marionette": "~2.3.2",
 		"bootstrap": "~3.3.2",
 		"videojs": "4.11.4",
-		"videojs-youtube": "https://github.com/ddaf/videojs-youtube/archive/b97a5b6c8b327613b997c568656a83b79ff1ed31.tar.gz",
+		"videojs-youtube": "https://github.com/watdafox/videojs-youtube/archive/fc858ecc7338f81aceffaa7746281f3a2a13d284.tar.gz",
 		"mousetrap": "~1.4.6",
 		"font-awesome": "~4.3.0"
 	},
