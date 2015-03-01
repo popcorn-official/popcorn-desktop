@@ -122,69 +122,73 @@
 					<select name="subtitle_language"><%=sub_langs%></select>
 					<div class="dropdown-arrow"></div>
 				</div>
-            </span>
+			</span>
 
-            <span class="advanced">
+			<span class="advanced">
 				<div class="dropdown subtitles-font">
 					<p><%= i18n.__("Font") %>:</p>
-                    <%
-                        var arr_fonts = [
-                            {name:"Deja Vu Sans", id:"dejavusans"},
-                            {name:"Droid Sans", id:"droidsans"},
-                            {name:"Comic Sans MS", id:"comic"},
-                            {name:"Georgia", id:"georgia"},
-                            {name:"Geneva", id:"geneva"},
-                            {name:"Helvetica", id:"helvetica"},
-                            {name:"Lato", id:"lato"},
-                            {name:"Montserrat", id:"montserrat"},
-                            {name:"OpenDyslexic", id:"opendyslexic"},
-                            {name:"Open Sans", id:"opensans"},
-                            {name:"PT Sans",id:"pts"},
-                            {name:"Tahoma", id:"tahoma"},
-                            {name:"Trebuchet MS", id:"trebuc"},
-                            {name:"Roboto",id:"roboto"},
-                            {name:"Ubuntu", id:"ubuntu"},
-                            {name:"Verdana", id:"verdana"},
-                        ];
+					<%
+						var arr_fonts = [
+							{name:"Deja Vu Sans", id:"dejavusans"},
+							{name:"Droid Sans", id:"droidsans"},
+							{name:"Comic Sans MS", id:"comic"},
+							{name:"Georgia", id:"georgia"},
+							{name:"Geneva", id:"geneva"},
+							{name:"Helvetica", id:"helvetica"},
+							{name:"Lato", id:"lato"},
+							{name:"Montserrat", id:"montserrat"},
+							{name:"OpenDyslexic", id:"opendyslexic"},
+							{name:"Open Sans", id:"opensans"},
+							{name:"PT Sans",id:"pts"},
+							{name:"Tahoma", id:"tahoma"},
+							{name:"Trebuchet MS", id:"trebuc"},
+							{name:"Roboto",id:"roboto"},
+							{name:"Ubuntu", id:"ubuntu"},
+							{name:"Verdana", id:"verdana"},
+						];
 
-                        var font_folder = path.resolve({
-                            win32:  "/Windows/fonts",
-                            darwin: "/Library/Fonts",
-                            linux:  "/usr/share/fonts/truetype"
-                        }[process.platform]);
+						var font_folder = path.resolve({
+							win32:  "/Windows/fonts",
+							darwin: "/Library/Fonts",
+							linux:  "/usr/share/fonts"
+						}[process.platform]);
 
-                        var find_fonts = function () {
-                            try {
-                                return fs.readdirSync(font_folder);
-                            } catch (err) {
-                                return;
-                            }
-                        }
-                        var all_avail_fonts = find_fonts();
-                        var avail_fonts = ["Arial"];
+						var files = [];
+						var recursive = function (dir) {
+							if (fs.statSync(dir).isDirectory()) {
+								fs.readdirSync(dir).forEach(function (name) {
+									var newdir = path.join(dir, name);
+									recursive(newdir);
+								});
+							} else {
+								files.push(dir);
+							}
+						};
+						recursive(font_folder);
+						var avail_fonts = ["Arial"];
 
-                        for (var i in arr_fonts) {
-                            for (var key in all_avail_fonts) {
-                                var found = all_avail_fonts[key].toLowerCase();
-                                var toFind = arr_fonts[i].id;
-                                if (found.indexOf(toFind) != -1) {
-                                    avail_fonts.push(arr_fonts[i].name);
-                                    break;
-                                }
-                            }
-                        }
+						for (var i in arr_fonts) {
+							for (var key in files) {
+								var found = files[key].toLowerCase();
+								var toFind = arr_fonts[i].id;
+								if (found.indexOf(toFind) != -1) {
+									avail_fonts.push(arr_fonts[i].name);
+									break;
+								}
+							}
+						}
 
-                        var sub_fonts = "";
-                        for (var key in avail_fonts) {
-                            sub_fonts += "<option "+(Settings.subtitle_font == avail_fonts[key]+",Arial"? "selected='selected'":"")+" value='"+avail_fonts[key]+",Arial'>"+avail_fonts[key]+"</option>";
-                        }
-                    %>
+						var sub_fonts = "";
+						for (var key in avail_fonts) {
+							sub_fonts += "<option "+(Settings.subtitle_font == avail_fonts[key]+",Arial"? "selected='selected'":"")+" value='"+avail_fonts[key]+",Arial'>"+avail_fonts[key]+"</option>";
+						}
+					%>
 					<select name="subtitle_font"><%=sub_fonts%></select>
 					<div class="dropdown-arrow"></div>
 				</div>
-            </span>
+			</span>
 
-            <span class="advanced">
+			<span class="advanced">
 				<div class="dropdown subtitles-decoration">
 					<p><%= i18n.__("Decoration") %>:</p>
 					<%
@@ -198,9 +202,9 @@
 					<select name="subtitle_decoration"><%=sub_deco%></select>
 					<div class="dropdown-arrow"></div>
 				</div>
-            </span>
+			</span>
 
-            <span>
+			<span>
 				<div class="dropdown subtitles-size">
 					<p><%= i18n.__("Size") %>:</p>
 					<%
@@ -214,21 +218,21 @@
 					<select name="subtitle_size"><%=sub_sizes%></select>
 					<div class="dropdown-arrow"></div>
 				</div>
-            </span>
+			</span>
 
-            <span class="advanced">
-                <div class="subtitles-custom">
-                    <p><%= i18n.__("Color") + ":" %></p>
-                    <input class="colorsub" id="subtitles_color" type="color" size="7" name="subtitle_color" value="<%=Settings.subtitle_color%>" list="subs_colors">
-                        <datalist id="subs_colors">
-                            <option>#ffffff</option>
-                            <option>#ffff00</option>
-                            <option>#ff0000</option>
-                            <option>#ff00ff</option>
-                            <option>#00ffff</option>
-                            <option>#00ff00</option>
-                        </datalist>
-                </div>
+			<span class="advanced">
+				<div class="subtitles-custom">
+					<p><%= i18n.__("Color") + ":" %></p>
+					<input class="colorsub" id="subtitles_color" type="color" size="7" name="subtitle_color" value="<%=Settings.subtitle_color%>" list="subs_colors">
+						<datalist id="subs_colors">
+							<option>#ffffff</option>
+							<option>#ffff00</option>
+							<option>#ff0000</option>
+							<option>#ff00ff</option>
+							<option>#00ffff</option>
+							<option>#00ff00</option>
+						</datalist>
+				</div>
 			</span>
 
 		</div>
@@ -282,10 +286,10 @@
 							<i class="fa fa-refresh">&nbsp;&nbsp;</i>
 							<%= i18n.__("Sync With Trakt") %>
 						</div>
-                        <div class="sync-on-start">
-                            <input class="settings-checkbox" name="syncOnStart" id="syncOnStart" type="checkbox" <%=(Settings.syncOnStart? "checked='checked'":"")%>>
-                            <label class="settings-label" for="syncOnStart"><%= i18n.__("Automatically Sync on Start") %></label>
-                        </div>
+						<div class="sync-on-start">
+							<input class="settings-checkbox" name="syncOnStart" id="syncOnStart" type="checkbox" <%=(Settings.syncOnStart? "checked='checked'":"")%>>
+							<label class="settings-label" for="syncOnStart"><%= i18n.__("Automatically Sync on Start") %></label>
+						</div>
 					</span>
 				<% } else { %>
 					<span>
@@ -325,10 +329,10 @@
 	<section id="remote-control" class="advanced">
 		<div class="title"><%= i18n.__("Remote Control") %></div>
 		<div class="content">
-            <span>
-                <p><%= i18n.__("Local IP Address") + ":" %></p>
-                <input type="text" value="<%= Settings.ipAddress %>" readonly="readonly" size="20" />
-            </span>
+			<span>
+				<p><%= i18n.__("Local IP Address") + ":" %></p>
+				<input type="text" value="<%= Settings.ipAddress %>" readonly="readonly" size="20" />
+			</span>
 			<span>
 				<p><%= i18n.__("HTTP API Port") + ":" %></p>
 				<input id="httpApiPort" type="number" size="5" name="httpApiPort" value="<%=Settings.httpApiPort%>">
@@ -343,9 +347,9 @@
 			</span>
 			<div class="btns advanced database">
 				<div class="btn-settings database qr-code">
-                    <i class="fa fa-qrcode">&nbsp;&nbsp;</i>
-                    <%= i18n.__("Generate Pairing QR code") %>
-                </div>
+					<i class="fa fa-qrcode">&nbsp;&nbsp;</i>
+					<%= i18n.__("Generate Pairing QR code") %>
+				</div>
 			</div>
 			<div id="qrcode-overlay"></div>
 			<div id="qrcode-modal">
@@ -407,13 +411,13 @@
 			</span>
 			<div class="btns advanced database">
 				<div class="btn-settings database import-database">
-                    <i class="fa fa-level-down">&nbsp;&nbsp;</i>
-                    <%= i18n.__("Import Database") %>
-                </div>
+					<i class="fa fa-level-down">&nbsp;&nbsp;</i>
+					<%= i18n.__("Import Database") %>
+				</div>
 				<div class="btn-settings database export-database">
-                    <i class="fa fa-level-up">&nbsp;&nbsp;</i>
-                    <%= i18n.__("Export Database") %>
-                </div>
+					<i class="fa fa-level-up">&nbsp;&nbsp;</i>
+					<%= i18n.__("Export Database") %>
+				</div>
 			</div>
 			<span>
 				<input class="settings-checkbox" name="allowTorrentStorage" id="allowTorrentStorage" type="checkbox" <%=(Settings.allowTorrentStorage? "checked='checked'":"")%>>
@@ -421,7 +425,7 @@
 			</span>
 		</div>
 	</section>
-    <section id="miscellaneous" class="advanced">
+	<section id="miscellaneous" class="advanced">
 		<div class="title"><%= i18n.__("Miscellaneous") %></div>
 		<div class="content">
 			<span >
