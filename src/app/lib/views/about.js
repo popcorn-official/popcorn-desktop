@@ -11,7 +11,8 @@
 
 		events: {
 			'click .close-icon': 'closeAbout',
-			'click #changelog': 'showChangelog'
+			'click #changelog': 'showChangelog',
+			'click .title-issue': 'reportIssue'
 		},
 
 		onShow: function () {
@@ -50,6 +51,10 @@
 					gui.Shell.openExternal('https://git.popcorntime.io/popcorntime/desktop/blob/master/CHANGELOG.md');
 				}
 			});
+		},
+
+		reportIssue: function () {
+			App.vent.trigger('issue:new');
 		},
 
 		closeChangelog: function () {
