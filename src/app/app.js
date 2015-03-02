@@ -316,10 +316,6 @@ if (process.platform === 'darwin') {
 		win.toggleFullscreen();
 	});
 }
-Mousetrap.bind('f7', function (e) { // For testing only, remove it!
-	e.preventDefault();
-	App.vent.trigger('issue:new');
-});
 
 // Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
 window.ondragenter = function (e) {
