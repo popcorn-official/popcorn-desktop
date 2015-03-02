@@ -11,7 +11,6 @@
 
 		events: {
 			'click .close-icon': 'closeAbout',
-			'click .links': 'links',
 			'click #changelog': 'showChangelog',
 			'click .title-issue': 'reportIssue'
 		},
@@ -41,11 +40,6 @@
 			} else {
 				App.vent.trigger('about:close');
 			}
-		},
-
-		links: function (e) {
-			e.preventDefault();
-			gui.Shell.openExternal($(e.currentTarget).attr('href'));
 		},
 
 		showChangelog: function () {

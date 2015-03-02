@@ -15,7 +15,6 @@
 
 		events: {
 			'click .close-icon': 'closeIssue',
-			'click .links': 'links',
 			'click .submit-issue': 'submitIssue',
 			'click .search-issue': 'searchIssue',
 			'click .issue-title': 'showIssueDetails',
@@ -248,12 +247,7 @@
 
 		closeIssue: function () {
 			App.vent.trigger('issue:close');
-		},
-
-		links: function (e) {
-			e.preventDefault();
-			gui.Shell.openExternal($(e.currentTarget).attr('href'));
-		},
+		}
 
 	});
 
