@@ -110,48 +110,15 @@
 			}
 		},
 
-		getSpecs: function () {
-			var platform = os.platform();
-			var release = os.release();
-
-			//win hack
-			if (platform == 'win32') {
-				switch (release.substring(0,3)) {
-					case '5.1':
-						release = 'Windows XP';
-						break;
-					case '6.0': 
-						release = 'Windows Vista';
-						break;
-					case '6.1':
-						release = 'Windows 7';
-						break;
-					case '6.2':
-						release = 'Windows 8';
-						break;
-					case '6.3':
-						release = 'Windows 8.1';
-						break;
-					case '10.0': 
-						release = 'Windows 10';
-						break;
-					default:
-						release = 'Uknown Windows: NT ' + release;
-				}
-			}
+		getSpecs: function () {			
+			var release = require('os-name')(os.platform(), os.release());
 
 			var cpu = os.cpus(),
 				cpu = cpu[0].model;
 
 			var ram = Math.round(os.totalmem() / (1000*1000*1000)) + 'GB';
 
-			return '\n\n---'
-				+ '\n\n**Environment:**'
-				+ '\n\nPopcorn Time version: ' + Settings.version 
-				+ '\n\nPlatform: ' + platform 
-				+ '\n\nOS: ' + release 
-				+ '\n\nCPU Model: ' + cpu 
-				+ '\n\nAvailable Memory: ' + ram;
+			return '\n\n---' + '\n\n**Environment:**' + '\n\nPopcorn Time version: ' + Settings.version + '\n\nOS: ' + release + '\n\nCPU Model: ' + cpu + '\n\nAvailable Memory: ' + ram;
 		},
 
 		reportBug: function (title, content, token) {
