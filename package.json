@@ -48,6 +48,7 @@
 		"nedb": "1.1.1",
 		"node-captions": "0.3.0",
 		"node-webkit-fdialogs": "latest",
+		"os-name": "^1.0.3",
 		"peerflix": "git+https://git.popcorntime.io/mirrors/peerflix.git",
 		"popcorn-opensubtitles": "git+https://git.popcorntime.io/popcorntime/opensubtitles.git#2d1f7dbaa41a333092b4cbd065dd70423d73e704",
 		"q": "2.0.2",
