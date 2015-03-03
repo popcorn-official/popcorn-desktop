@@ -36,8 +36,8 @@
 
 		isMovie: function () {
 			if (this.model.get('tvdb_id') === undefined) {
-				if (this.model.get('type') === 'video/youtube') {
-					return 'trailer';
+				if (this.model.get('type') === 'video/youtube' || this.model.get('imdb_id') === undefined) {
+					return undefined;
 				} else {
 					return 'movie';
 				}
@@ -102,9 +102,9 @@
 			}
 			// Check if >80% is watched to mark as watched by user  (maybe add value to settings
 			var type = this.isMovie();
-			if (this.video.currentTime() / this.video.duration() >= 0.8 && type !== 'trailer') {
+			if (this.video.currentTime() / this.video.duration() >= 0.8 && type !== undefined) {
 				App.vent.trigger(type + ':watched', this.model.attributes, 'scrobble');
-			} else if (type !== 'trailer') {
+			} else if (type !== undefined) {
 				App.Trakt[type].cancelWatching();
 			}
 
@@ -356,6 +356,7 @@
 			}, function () {
 				clearInterval(timeout);
 			});
+win.warn('',this.isMovie());
 		},
 
 		playNextNow: function () {
