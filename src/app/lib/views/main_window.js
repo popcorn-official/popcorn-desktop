@@ -84,7 +84,7 @@
 
 			// Issue
 			App.vent.on('issue:new', _.bind(this.showIssue, this));
-			App.vent.on('issue:close', _.bind(this.Issue.destroy, this.Issue));
+			App.vent.on('issue:close', _.bind(this.Issue.close, this.Issue));
 
 			// Movies
 			App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
