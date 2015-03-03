@@ -287,7 +287,9 @@
 				} else {
 					if (firstPlay) {
 						if (_this.model.get('type') === 'video/youtube') {
-							document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('video-ads')[0].style.display = 'none'; // XXX hide ads hack
+							try {
+								document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('video-ads')[0].style.display = 'none'; // XXX hide ads hack
+							} catch(e) {}; //no ads
 						}
 						firstPlay = false;
 						return;
