@@ -35,7 +35,15 @@
 		},
 
 		isMovie: function () {
-			return this.model.get('tvdb_id') === undefined;
+			if (this.model.get('tvdb_id') === undefined) {
+				if (this.model.get('type') === 'video/youtube') {
+					return 'trailer';
+				} else {
+					return 'movie';
+				}
+			} else {
+				return 'show';
+			}
 		},
 
 		initialize: function () {
@@ -93,10 +101,10 @@
 				clearInterval(this._AutoPlayCheckTimer);
 			}
 			// Check if >80% is watched to mark as watched by user  (maybe add value to settings
-			var type = (this.isMovie() ? 'movie' : 'show');
-			if (this.video.currentTime() / this.video.duration() >= 0.8) {
+			var type = this.isMovie();
+			if (this.video.currentTime() / this.video.duration() >= 0.8 && type !== 'trailer') {
 				App.vent.trigger(type + ':watched', this.model.attributes, 'scrobble');
-			} else {
+			} else if (type !== 'trailer') {
 				App.Trakt[type].cancelWatching();
 			}
 
@@ -212,7 +220,7 @@
 			});
 
 			var checkAutoPlay = function () {
-				if (!_this.isMovie() && next_episode_model) {
+				if (_this.isMovie() === 'show' && next_episode_model) {
 					if ((_this.video.duration() - _this.video.currentTime()) < 60 && _this.video.currentTime() > 30) {
 
 						if (!autoplayisshown) {
@@ -249,10 +257,10 @@
 
 
 			var sendToTrakt = function () {
-				if (_this.isMovie()) {
+				if (_this.isMovie() === 'movie') {
 					win.debug('Reporting we are watching ' + _this.model.get('imdb_id') + ' ' + (_this.video.currentTime() / _this.video.duration() * 100 | 0) + '% ' + (_this.video.duration() / 60 | 0));
 					App.Trakt.movie.watching(_this.model.get('imdb_id'), _this.video.currentTime() / _this.video.duration() * 100 | 0, _this.video.duration() / 60 | 0);
-				} else {
+				} else if (_this.isMovie() === 'show') {
 					win.debug('Reporting we are watching ' + _this.model.get('tvdb_id') + ' ' + (_this.video.currentTime() / _this.video.duration() * 100 | 0) + '%');
 					App.Trakt.show.watching(_this.model.get('tvdb_id'), _this.model.get('season'), _this.model.get('episode'), _this.video.currentTime() / _this.video.duration() * 100 | 0, _this.video.duration() / 60 | 0);
 				}
@@ -312,9 +320,9 @@
 
 			// There was an issue with the video
 			player.on('error', function (error) {
-				if (_this.isMovie()) {
+				if (_this.isMovie() === 'movie') {
 					App.Trakt.movie.cancelWatching();
-				} else {
+				} else if (_this.isMovie() === 'show') {
 					App.Trakt.show.cancelWatching();
 				}
 				// TODO: user errors
