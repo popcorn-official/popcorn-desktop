@@ -355,7 +355,6 @@
 			}, function () {
 				clearInterval(timeout);
 			});
-win.warn('',this.isMovie());
 		},
 
 		playNextNow: function () {
