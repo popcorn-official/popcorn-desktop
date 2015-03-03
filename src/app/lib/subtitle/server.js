@@ -2,26 +2,35 @@
 	var server;
 	var httpServer;
 	var PORT = 9999;
-	var subtitleData = {};
+	var subtitlePath = {};
 	var encoding = 'utf8';
 	var http = require('http');
 	var path = require('path');
 	var url = require('url');
 	var iconv = require('iconv-lite');
+	var send = require('send');
 
 	server = http.createServer(function (req, res) {
 		var uri = url.parse(req.url);
 		var ext = path.extname(uri.pathname).substr(1);
-		if (req.headers.origin) {
-			res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-		}
+		var sub_path = subtitlePath[ext];
+		var sub_dir = path.dirname(sub_path);
+		var sub_uri = '/' + path.basename(sub_path);
 
-		if (ext in subtitleData) {
-			res.writeHead(200, {
-				'Content-Type': 'text/' + ext + ';charset=' + encoding
-			});
-			res.end(subtitleData[ext]);
+		var headers = function (res, path, stat) {
+			if (req.headers.origin) {
+				res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+			}
+			res.setHeader('Content-Type', 'text/' + ext + ';charset=' + encoding);
 			win.debug('SubtitlesServer: served vtt/srt with encoding: ' + encoding);
+		};
+
+		if (ext in subtitlePath) {
+			send(req, sub_uri, {
+					root: sub_dir
+				})
+				.on('headers', headers)
+				.pipe(res);
 		} else {
 			res.writeHead(404);
 			res.end();
@@ -54,8 +63,8 @@
 						win.error('SubtitlesServer: Unable to load VTT file');
 						return;
 					}
-					subtitleData['vtt'] = data;
 				});
+				subtitlePath['vtt'] = data.vtt;
 			}
 
 			if (data.srt) {
@@ -64,8 +73,8 @@
 						win.error('SubtitlesServer: Unable to load SRT file');
 						return;
 					}
-					subtitleData['srt'] = data;
 				});
+				subtitlePath['srt'] = data.srt;
 			}
 
 			if (!httpServer) {
