@@ -35,43 +35,20 @@
 			<%= i18n.__("The application itself is built with Node-Webkit, HTML, CSS and Javascript. It works like the Google Chrome browser, except that you host the biggest part of the code on your computer. Yes, Popcorn Time works on the same technology as a regular website, like... let's say Wikipedia, or Youtube!") %>
 			</p>
 
-			<h2><%= i18n.__("I found a bug, how do I report it?") %> <em>[English only]</em></h2>
-			<p>Here are the few simple steps to take:
-				<li>1) Go to our website and create an account - <a href="https://git.popcorntime.io/users/sign_up">Click here</a></li>
-				<li>2) Click on "Issues", on the left side and then New Issue.</li>
-				<li>3) <b>Use the Gitlab issue filter to search</b> and check if the issue has already been reported.</li>
-				<li>4) <b>Check if the issue has been fixed</b> or look for closed issues - <a href="https://git.popcorntime.io/popcorntime/desktop/issues?state=closed">Click here</a></li>
-				<li>5) <b>Include a screenshot if relevant</b> - Is your issue about a design or front end feature or bug? The most helpful thing in the world is if we can see what you're talking about.</li>
-				<li>6) Use the Bug Report template below to start creating a bug report.</li><br>
+			<h2><%= i18n.__("I found a bug, how do I report it?") %></h2>
+			<p>
+				<b>A) <%= i18n.__("First method") %></b><br>
+					<a id="in-app-reporter"><%= i18n.__("Use the in-app reporter") %></a><br>
+					<em><%= i18n.__("You can find it later on the About page") %></em>
+					<br><br>
 
-				A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment.<br><br>
-
-				<span class="code">Template Example:<br>
-				<br>
-				Short and descriptive example bug report summary (title)<br>
-				<br>
-				### Environment:<br>
-				<br>
-				The OS environment in which the issue occurs. <br>
-				<br>
-				### Steps to Reproduce:<br>
-				If suitable, include the steps required to reproduce the bug.<br>
-				<br>
-				1. This is the first step<br>
-				2. This is the second step<br>
-				3. Further steps, etc.<br>
-				<br>
-				Any other information you want to share that is relevant to the issue being reported.<br>
-				Especially, why do you consider this to be a bug? What do you expect to happen instead?<br>
-				<br>
-				### Technical details:<br>
-				* Popcorn Time Version: stable 0.3.7-2<br>
-				* Downloaded from: popcorntime.io<br>
-				* Connection: 10mbps<br>
-				* OS: MAC OSX<br>
-				<br>
-				### Console logs:<br>
-				Press F12 or CMD+0 and go to the 'console' tab. Take a screenshot or copy-paste the code. It usually indicates where is located the error you encounter and it's a useful information.</span>
+				<b>B) <%= i18n.__("Second method") %></b><br>
+					<%= i18n.__("You can create an account on our %s repository, and click on \'Issue\'.", '<a href="https://git.popcorntime.io/users/sign_up">GitLab</a>') %>
+						<li><%= i18n.__("Use the Gitlab issue filter to search and check if the issue has already been reported or is already fixed.") %></li>
+						<li><%= i18n.__("Include a screenshot if relevant - Is your issue about a design feature or a bug?") %></li>
+					<br>
+					<%= i18n.__("A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment.") %>
+				<br><br>
 			</p>
 		</div>
 	</div>

@@ -8,6 +8,7 @@
 
 		events: {
 			'click .close-icon': 'closeHelp',
+			'click #in-app-reporter': 'reportIssue'
 		},
 
 		initialize: function () {
@@ -33,6 +34,10 @@
 			});
 			var dyk = dyks[_.random(dyks.length - 1)];
 			$('.randomized-dyk').html(dyk);
+		},
+
+		reportIssue: function () {
+			App.vent.trigger('issue:new');
 		},
 
 		onClose: function () {},
