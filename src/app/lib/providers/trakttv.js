@@ -748,7 +748,7 @@
 
 			uri.pathname(uri.pathname().toString().replace(/original/, 'thumb'));
 		}
-		if (file === 'poster-dark') {
+		if (file === 'poster-300') {
 			return 'images/posterholder.png'.toString();
 		} else {
 			return uri.filename(file + '.' + ext).toString();
