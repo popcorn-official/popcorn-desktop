@@ -841,7 +841,9 @@ App.Localization.langcodes = {
 	},
 	'vi': {
 		name: 'Vietnamese',
-		nativeName: 'Tiếng Việt'
+		nativeName: 'Tiếng Việt',
+		subtitle: true,
+		encoding: ['Windows-1258'] /** NEED TEST **/
 	},
 	'vo': {
 		name: 'Volapük',
