@@ -37,14 +37,15 @@
 
 			<h2><%= i18n.__("I found a bug, how do I report it?") %></h2>
 			<p>
+				<em><%= i18n.__("Warning: Always use English when contacting us, or we might not understand you.") %></em><br><br>
 				<b>A) <%= i18n.__("First method") %></b><br>
 					<a id="in-app-reporter"><%= i18n.__("Use the in-app reporter") %></a><br>
 					<em><%= i18n.__("You can find it later on the About page") %></em>
 					<br><br>
 
 				<b>B) <%= i18n.__("Second method") %></b><br>
-					<%= i18n.__("You can create an account on our %s repository, and click on \'Issue\'.", '<a class="links" href="https://git.popcorntime.io/users/sign_up">GitLab</a>') %>
-						<li><%= i18n.__("Use the Gitlab issue filter to search and check if the issue has already been reported or is already fixed.") %></li>
+					<%= i18n.__("You can create an account on our %s repository, and click on %s.", '<a class="links" href="https://git.popcorntime.io/users/sign_up">GitLab</a>', '"Issues"') %>
+						<li><%= i18n.__("Use the %s issue filter to search and check if the issue has already been reported or is already fixed.", 'GitLab') %></li>
 						<li><%= i18n.__("Include a screenshot if relevant - Is your issue about a design feature or a bug?") %></li>
 					<br>
 					<%= i18n.__("A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment.") %>
