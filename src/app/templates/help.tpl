@@ -43,7 +43,7 @@
 					<br><br>
 
 				<b>B) <%= i18n.__("Second method") %></b><br>
-					<%= i18n.__("You can create an account on our %s repository, and click on \'Issue\'.", '<a href="https://git.popcorntime.io/users/sign_up">GitLab</a>') %>
+					<%= i18n.__("You can create an account on our %s repository, and click on \'Issue\'.", '<a class="links" href="https://git.popcorntime.io/users/sign_up">GitLab</a>') %>
 						<li><%= i18n.__("Use the Gitlab issue filter to search and check if the issue has already been reported or is already fixed.") %></li>
 						<li><%= i18n.__("Include a screenshot if relevant - Is your issue about a design feature or a bug?") %></li>
 					<br>
