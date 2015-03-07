@@ -122,6 +122,7 @@
 
 			App.vent.trigger('player:close');
 			App.vent.trigger('preload:stop');
+			App.vent.trigger('stream:stop');
 
 			this.destroy();
 		},
@@ -363,6 +364,7 @@
 			this.dontTouchFS = true; //XXX(xaiki): hack, don't touch fs state
 
 			this.closePlayer();
+			App.vent.trigger('stream:stop');
 			App.vent.trigger('stream:start', next_episode_model);
 		},
 		playNextNot: function () {
