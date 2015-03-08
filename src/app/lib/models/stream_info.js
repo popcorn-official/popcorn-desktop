@@ -1,5 +1,6 @@
 (function (App) {
 	'use strict';
+	var prettyBytes = require('pretty-bytes');
 
 	var StreamInfo = Backbone.Model.extend({
 		initialize: function () {
@@ -16,10 +17,7 @@
 			});
 
 			this.on('change:size', function () {
-				var size = self.get('size');
-				var converted_size = Math.floor(Math.log(size) / Math.log(1024));
-				var final_size = (size / Math.pow(1024, converted_size)).toFixed(2) + ' ' + ['B', 'KB', 'MB', 'GB', 'TB'][converted_size];
-				self.set('sizeFormatted', final_size);
+				self.set('sizeFormatted', prettyBytes(self.get('size')));
 			});
 
 			this.set('size', 0);
@@ -39,22 +37,19 @@
 			var upload_speed = swarm.uploadSpeed(); // upload speed
 			var final_upload_speed = '0 B/s';
 			if (!isNaN(upload_speed) && upload_speed !== 0) {
-				converted_speed = Math.floor(Math.log(upload_speed) / Math.log(1024));
-				final_upload_speed = (upload_speed / Math.pow(1024, converted_speed)).toFixed(2) + ' ' + ['B', 'KB', 'MB', 'GB', 'TB'][converted_speed] + '/s';
+				final_upload_speed = prettyBytes(upload_speed) + '/s';
 			}
 
 			var download_speed = swarm.downloadSpeed(); // download speed
 			var final_download_speed = '0 B/s';
 			if (!isNaN(download_speed) && download_speed !== 0) {
-				converted_speed = Math.floor(Math.log(download_speed) / Math.log(1024));
-				final_download_speed = (download_speed / Math.pow(1024, converted_speed)).toFixed(2) + ' ' + ['B', 'KB', 'MB', 'GB', 'TB'][converted_speed] + '/s';
+				final_download_speed = prettyBytes(download_speed) + '/s';
 			}
 
 			var downloaded = swarm.downloaded || 0; // downloaded
 			var final_downloaded = '0 B';
 			if (downloaded !== 0) {
-				converted_downloaded = Math.floor(Math.log(downloaded) / Math.log(1024));
-				final_downloaded = (downloaded / Math.pow(1024, converted_downloaded)).toFixed(2) + ' ' + ['B', 'KB', 'MB', 'GB', 'TB'][converted_downloaded];
+				final_downloaded = prettyBytes(downloaded);
 			}
 
 			var final_downloaded_percent = 100 / this.get('size') * downloaded;
