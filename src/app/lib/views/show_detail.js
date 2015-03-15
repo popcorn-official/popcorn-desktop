@@ -32,7 +32,7 @@
 			'click #switch-hd-off': 'disableHD',
 			'click .playerchoicemenu li a': 'selectPlayer',
 			'click .rating-container-tv': 'switchRating',
-			'click #health': 'resetHealth'
+			'click .health-icon': 'resetHealth'
 		},
 
 		toggleFavorite: function (e) {
@@ -697,7 +697,7 @@
 					return;
 				}
 				if(res.seeds === 0) {
-					$('#health').click();
+					$('.health-icon').click();
 				} else {
 					var h = Common.calcHealth({
 						seed: res.seeds,
