@@ -62,7 +62,7 @@
 		"sha1": "1.1.0",
 		"tar": "^1.0.3",
 		"temp": "^0.8.1",
-		"torrent-health": "https://github.com/xeoncore/torrent-health/archive/0.1.1.tar.gz",
+		"torrent-health": "git+https://git.popcorntime.io/mirrors/torrent-health.git",
 		"underscore": "^1.7.0",
 		"URIjs": "^1.14.1",
 		"xmlbuilder": "^2.6.1"
