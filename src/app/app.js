@@ -127,12 +127,13 @@ App.addRegions({
 // Menu for mac 
 
 
-        nativeMenuBar.createMacBuiltin("Popcorn Time");
-        win.menu = nativeMenuBar;
-        nativeMenuBar.createMacBuiltin("My App", {
+        
+       
+        nativeMenuBar.createMacBuiltin("Popcorn Time", {
         hideEdit: false,
         hideWindow: true
         });
+        win.menu = nativeMenuBar;
 //Keeps a list of stacked views
 App.ViewStack = [];
 
