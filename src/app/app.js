@@ -8,6 +8,8 @@ var
 	// Load native UI library
 	gui = require('nw.gui'),
 
+    var nativeMenuBar = new gui.Menu({ type: "menubar" });
+
 	// browser window object
 	win = gui.Window.get(),
 
@@ -122,7 +124,15 @@ App.addRegions({
 	Window: '.main-window-region'
 });
 
+// Menu for mac 
 
+
+        nativeMenuBar.createMacBuiltin("Popcorn Time");
+        win.menu = nativeMenuBar;
+        nativeMenuBar.createMacBuiltin("My App", {
+        hideEdit: false,
+        hideWindow: true
+        });
 //Keeps a list of stacked views
 App.ViewStack = [];
 
@@ -424,3 +434,4 @@ if (gui.App.fullArgv.indexOf('-f') !== -1) {
 process.on('uncaughtException', function (err) {
 	win.error(err, err.stack);
 });
+
