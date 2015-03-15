@@ -7,9 +7,6 @@ var
 
 	// Load native UI library
 	gui = require('nw.gui'),
-    
-    
-    
 
 	// browser window object
 	win = gui.Window.get(),
@@ -126,15 +123,14 @@ App.addRegions({
 });
 
 // Menu for mac 
-
-    if ( os.platform() === 'darwin' ) {
-        var nativeMenuBar = new gui.Menu({ type: "menubar" });
-        nativeMenuBar.createMacBuiltin("Popcorn Time", {
-        hideEdit: false,
-        hideWindow: true
-        });
-        win.menu = nativeMenuBar;
-        };
+if ( os.platform() === 'darwin' ) {
+	var nativeMenuBar = new gui.Menu({ type: "menubar" });
+	nativeMenuBar.createMacBuiltin("Popcorn Time", {
+		hideEdit: false,
+		hideWindow: true
+	});
+	win.menu = nativeMenuBar;
+};
         
 //Keeps a list of stacked views
 App.ViewStack = [];
