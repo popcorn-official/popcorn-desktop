@@ -1,6 +1,10 @@
 <div class="torrent-collection-container">
 	<div class="margintop"></div>
 	<div class="content">
+
+        <input id="kat-input" size="30" type="text" name="keyword" placeholder="<%= i18n.__('Enter keywords') %>">
+        <i class="fa fa-search kat-search"></i>
+
         <div class="notorrents-info">
 			<div class="notorrents-frame">
 				<i class="fa fa-download notorrents-icon"></i>
@@ -26,6 +30,12 @@
 					</li>
 				<% }); %>
 			</ul>
+        </div>
+
+        <div class="katsearch-info">
+			<p class="kat-back">BACK</p>
+            <ul class="file-list">
+            </ul>
         </div>
 
 		<div class="collection-actions">

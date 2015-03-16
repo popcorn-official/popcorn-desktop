@@ -10,12 +10,15 @@
 
 		events: {
 			'click .file-item': 'openFileSelector',
+			'click .result-item': 'katOpen',
 			'click .item-delete': 'deleteItem',
 			'click .item-rename': 'renameItem',
 			'click .collection-delete': 'clearCollection',
 			'click .collection-open': 'openCollection',
 			'click .collection-import': 'importItem',
-			'click .notorrents-frame': 'importItem'
+			'click .notorrents-frame': 'importItem',
+			'click .kat-search': 'katSearch',
+			'click .kat-back': 'katClose'
 		},
 
 		initialize: function () {
@@ -49,6 +52,55 @@
 					'hide': 100
 				}
 			});
+		},
+
+		katSearch: function () {
+			var that = this;
+
+			require('katsearcher-x')({
+				name: $('#kat-input').val()
+			}, function (err, result) {
+				if (!err) {
+
+					result.forEach( function (item) {
+						var title = item.torrentData.title,
+							magnet = item.torrentData.magnetURI,
+							size = require('pretty-bytes')(
+								parseInt(item.torrentData.fileSize)
+							);
+
+						that.katAddItem(title, magnet, size);
+					});
+
+					$('.notorrents-info,.torrents-info').hide();
+					$('.katsearch-info').show();
+
+				} else {
+					if (err.message = 'File not found') {
+						$('.notification_alert').show().text(i18n.__('No results found')).delay(2500).fadeOut(400);
+					} else {
+						win.error('katsearcher-x', err);
+					}
+				}
+			});
+		},
+
+		katAddItem: function (title, dataTorrent, size) {				
+			$('.katsearch-info>ul.file-list').append(
+				'<li class="result-item" data-file="' + dataTorrent + '">' + title + ' (' + size + ')' + '</li>'
+			);
+		},
+
+		katOpen: function (e) {
+			var file = $(e.currentTarget).context.dataset.file;
+			Settings.droppedMagnet = file;
+			window.handleTorrent(file);
+		},
+
+		katClose: function () {
+			$('.katsearch-info>ul.file-list').html('');
+			$('.katsearch-info').hide();
+			this.render();
 		},
 
 		openFileSelector: function (e) {
