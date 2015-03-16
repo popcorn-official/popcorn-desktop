@@ -2,8 +2,10 @@
 	<div class="margintop"></div>
 	<div class="content">
 
-        <input id="kat-input" size="30" type="text" name="keyword" placeholder="<%= i18n.__('Enter keywords') %>">
-        <i class="fa fa-search kat-search"></i>
+		<div class="katsearch">
+			<input id="kat-input" size="30" type="text" name="keyword" placeholder="<%= i18n.__('Search on %s', 'Kickass') %>">
+			<i class="fa fa-search kat-search"></i>
+		</div>
 
         <div class="notorrents-info">
 			<div class="notorrents-frame">
@@ -33,7 +35,7 @@
         </div>
 
         <div class="katsearch-info">
-			<p class="kat-back">BACK</p>
+			<i class="fa fa-arrow-circle-left kat-back"></i>
             <ul class="file-list">
             </ul>
         </div>

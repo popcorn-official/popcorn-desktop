@@ -18,6 +18,33 @@
 		font-family $AlternateFont
 		font-size 17px
 
+		.katsearch
+			position relative
+			top -10px
+			width 256px
+			margin 0 auto
+
+			input[type="text"]
+				border 0 !important
+				line-height 16px
+				background-color $InputBoxBg
+				resize none
+				color $InputBoxText
+				font-family $Font, $AlternateFont
+				font-size 13px
+				padding-left 10px
+				cursor text
+				outline 0 !important
+				height 30px
+
+			.kat-search
+				margin-left 5px
+				cursor pointer
+				transition color .3s
+
+				&:hover
+					color: $ButtonBgHover
+
 		.notorrents-info
 			display block
 			height 90%
@@ -53,13 +80,25 @@
 		.katsearch-info
 			display none
 			margin 0 auto
-			height 100%
+			height calc(100% - 30px)
 			color $Text1
 			font-family $AlternateFont
 			font-size 17px
 			text-align center
 			box-shadow inset -3px 0px 10px $FileSelectorShadow
 			scrollable()
+
+			.kat-back
+				position fixed
+				font-size 25px
+				color $TextError
+				cursor pointer
+				right 7%
+				top 92px
+				transition color .3s
+
+				&:hover
+					color $Text1
 
 			ul
 				li.file-item,
@@ -81,6 +120,7 @@
 						display block
 						transition all 0.3s
 						overflow hidden
+						white-space nowrap
 						text-overflow ellipsis
 
 						&:hover
@@ -88,7 +128,8 @@
 						&:active
 							color $ButtonBgActive
 
-					.item-delete
+					.item-delete,
+					.item-rename
 						position relative
 						color: $TextError
 						transition all 0.3s
@@ -100,15 +141,7 @@
 							color $ButtonBgHover
 
 					.item-rename
-						position relative
-						color: $TextError
-						transition all 0.3s
-						cursor pointer
 						left calc(100% - 15px)
-						top -15px
-
-						&:hover
-							color $ButtonBgHover
 
 					.item-icon
 						pointer-events none
@@ -125,6 +158,17 @@
 							content: '\f016'
 						&.magnet-icon:before
 							content: '\f076'
+
+					.kat-size
+						position relative
+						color: $TextError
+						font-style normal
+						font-size .9em
+						left calc(100% - 32px)
+						top -15px
+
+				li.result-item a
+					width calc(100% - 50px)
 
 		.collection-actions
 			display none

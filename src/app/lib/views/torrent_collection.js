@@ -56,38 +56,51 @@
 
 		katSearch: function () {
 			var that = this;
+			$('.katsearch-info>ul.file-list').html('');
+			
+			$('.kat-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
 
 			require('katsearcher-x')({
-				name: $('#kat-input').val()
+				name: $('#kat-input').val(),
+				limit: 25,
+				minSeeds: 40,
 			}, function (err, result) {
 				if (!err) {
-
+					win.debug('Kickass search: %s results', result.length);
 					result.forEach( function (item) {
 						var title = item.torrentData.title,
 							magnet = item.torrentData.magnetURI,
+							seeds = item.torrentData.seeds,
 							size = require('pretty-bytes')(
 								parseInt(item.torrentData.fileSize)
 							);
 
-						that.katAddItem(title, magnet, size);
+						that.katAddItem(title, magnet, size, seeds);
 					});
 
+					that.$('.tooltipped').tooltip({
+						delay: {
+							'show': 50,
+							'hide': 50
+						}
+					});
 					$('.notorrents-info,.torrents-info').hide();
+					$('.kat-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
 					$('.katsearch-info').show();
 
 				} else {
-					if (err.message = 'File not found') {
-						$('.notification_alert').show().text(i18n.__('No results found')).delay(2500).fadeOut(400);
-					} else {
-						win.error('katsearcher-x', err);
-					}
+					$('.katsearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>')
+
+					$('.kat-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
+					$('.notorrents-info,.torrents-info').hide();
+					$('.katsearch-info').show();
 				}
 			});
 		},
 
-		katAddItem: function (title, dataTorrent, size) {				
+		katAddItem: function (title, dataTorrent, size, seeds) {				
 			$('.katsearch-info>ul.file-list').append(
-				'<li class="result-item" data-file="' + dataTorrent + '">' + title + ' (' + size + ')' + '</li>'
+				'<li class="result-item" data-file="' + dataTorrent + '"><a>' + title + '</a><div class="item-icon magnet-icon"></div><i class="kat-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Seeds:') + ' ' + seeds + '">' + size + '</i></li>'
 			);
 		},
 
