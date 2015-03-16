@@ -60,6 +60,26 @@
 			}
 			this.model.set('watched', watched);
 			this.model.set('bookmarked', bookmarked);
+
+			var date = new Date();
+			var today = ('0' + (date.getMonth() + 　1)).slice(-2) + ('0' + (date.getDate())).slice(-2);
+			if (today === '0401') { //april's fool
+				var title = this.model.get('title');
+				var titleArray = title.split(' ');
+				var modified = false;
+				var toModify;
+				if (titleArray.length !== 1) {
+					for (var i = 0; i < titleArray.length; i++) {
+						if (titleArray[i].length > 3 && !modified) {
+							if (Math.floor((Math.random() * 10) + 1) > 5) { //random
+								titleArray[i] = 'Popcorn';
+								modified = true;
+							}
+						}
+					}
+				}
+				this.model.set('title', titleArray.join(' '));
+			}
 		},
 
 		onShow: function () {
