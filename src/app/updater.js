@@ -280,7 +280,7 @@
 
 		var $restart = $('.btn.restart'),
 			$chnglog = $('.btn.chnglog'),
-            $closenotif = $('.closenotif');
+			$closenotif = $('.closenotif');
 
 		$restart.on('click', function () {
 			var argv = gui.App.fullArgv;
