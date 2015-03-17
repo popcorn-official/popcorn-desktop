@@ -272,13 +272,15 @@
 			'<h1>' + this.updateData.title + ' Installed</h1>' +
 			'<p>&nbsp;- ' + this.updateData.description + '</p>' +
 			'<span class="btn-grp">' +
-			'<a class="btn chnglog">Changelog</a>' +
-			'<a class="btn restart">Restart Now</a>' +
-			'</span>'
+			'<a class="btn chnglog">' + i18n.__('Changelog') + '</a>' +
+			'<a class="btn restart">' + i18n.__('Restart Now') + '</a>' +
+			'</span>' +
+			'<i class="fa fa-close closenotif">'
 		).addClass('blue');
 
 		var $restart = $('.btn.restart'),
-			$chnglog = $('.btn.chnglog');
+			$chnglog = $('.btn.chnglog'),
+            $closenotif = $('.closenotif');
 
 		$restart.on('click', function () {
 			var argv = gui.App.fullArgv;
@@ -297,6 +299,11 @@
 				$changelog.hide();
 			});
 			$changelog.show();
+		});
+
+		$closenotif.on('click', function () {
+			$('body').removeClass('has-notification');
+			$el.hide();
 		});
 
 		$('body').addClass('has-notification');
