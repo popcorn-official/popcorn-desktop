@@ -3,8 +3,10 @@
 	<div class="content">
 
 		<div class="katsearch">
-			<input id="kat-input" size="30" type="text" name="keyword" placeholder="<%= i18n.__('Search on %s', 'Kickass') %>">
-			<i class="fa fa-search kat-search"></i>
+			<form id="kat-form">
+				<input id="kat-input" size="30" type="text" name="keyword" placeholder="<%= i18n.__('Search on %s', 'Kickass') %>">
+				<i class="fa fa-search kat-search"></i>
+			</form>
 		</div>
 
         <div class="notorrents-info">

@@ -18,6 +18,7 @@
 			'click .collection-import': 'importItem',
 			'click .notorrents-frame': 'importItem',
 			'click .kat-search': 'katSearch',
+			'submit #kat-form': 'katSearch',
 			'click .kat-back': 'katClose'
 		},
 
@@ -54,7 +55,8 @@
 			});
 		},
 
-		katSearch: function () {
+		katSearch: function (e) {
+            e.preventDefault();
 			var that = this;
 			$('.katsearch-info>ul.file-list').html('');
 			
