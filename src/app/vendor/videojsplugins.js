@@ -88,7 +88,7 @@ videojs.plugin('customSubtitles', function() {
         mode: function(){ return false; }
       };
 
-      this.fileInput_ = $('<input type="file" accept=".srt" style="display: none;">');
+      this.fileInput_ = $('<input type="file" accept=".srt, .ssa, .ass" style="display: none;">');
       $(this.el()).append(this.fileInput_);
 
       var that = this;

@@ -125,6 +125,94 @@ vjs.TextTrack.prototype.load = function(){
 			}
 		}
 
+		//transcode .ass or .ssa
+		function ass2srt(file, callback) {
+			var readline = require('readline'),
+				counter = null,
+
+				//input
+				ass = /([^\\]+)$/.exec(file)[1],
+				assPath = file.substr(0, file.indexOf(ass)),
+
+				//output
+				srt = ass.replace('.ass','.srt').replace('.ssa','.srt'),
+				srtPath = Settings.tmpLocation,
+
+				//elements
+				dialog, begin_time, end_time;
+
+			win.debug('SSA SUB detected', ass);
+
+			var rl = readline.createInterface({
+			  input : fs.createReadStream(path.join(assPath, ass)),
+			  output: process.stdout,
+			  terminal: false
+			});
+			rl.on('line',function(line){
+
+				//detect where are each elements
+				if (line.indexOf('Format:') !== -1) {
+					var ssaFormat = line.split(',');
+
+					for (var i = 0; i < ssaFormat.length; i++) {
+						switch (ssaFormat[i]) {
+							case 'Text':
+							case ' Text':
+								dialog = i;
+								break;
+							case 'Start':
+							case ' Start':
+								begin_time = i;
+								break;
+							case 'End':
+							case ' End':
+								end_time = i;
+								break;
+							default:
+						}
+					}
+
+					if (dialog && begin_time && end_time) {
+						win.debug('SSA SUB formatting detected!');
+					}
+					return; //we have the elms spots, move on to the next line
+				}
+
+				//not a dialog line
+				if (line.indexOf('Dialogue:') === -1) return;
+
+				//SRT needs a number for each subtitle
+				counter += 1;
+
+				//parse SSA
+				var line_ = line.split(',');
+
+				var parsedBeginTime = line_[begin_time];
+				var parsedEndTime = line_[end_time];
+				var parsedDialog = line_[dialog];
+				parsedDialog = parsedDialog.replace('{\\i1}','<i>').replace('{\\i0}','</i>'); //italics
+				parsedDialog = parsedDialog.replace('{\\b1}','<b>').replace('{\\b0}','</b>'); //bold
+				parsedDialog = parsedDialog.replace('\\N', '\n'); //return to line
+				parsedDialog = parsedDialog.replace(/{.*?}/g, ''); //remove leftovers brackets 
+
+				//SRT formatting
+				var parsedLine = 
+					counter + '\n' +
+					parsedBeginTime + ' --> ' + parsedEndTime + '\n' +
+					parsedDialog;
+
+				fs.appendFileSync(path.join(srtPath, srt), '\n\n' + parsedLine);
+			});
+			fs.readFile(path.join(srtPath, srt), function(err, dataBuff) {
+				if (!err) {
+					win.debug('SSA SUB transcoded to SRT', srt);
+					callback(dataBuff);
+				} else {
+					win.warn('SSA transcoding failed', err.stack);
+				}
+			});
+		}
+
 		// Decompress zip
 		function decompress(dataBuff, callback) {
 			try {
@@ -176,6 +264,10 @@ vjs.TextTrack.prototype.load = function(){
 			var path = require('path');
 			if (path.extname(this_.src_) === '.zip') {
 				decompress(dataBuf, function(dataBuf) {
+					decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
+				});
+			} else if (path.extname(this_.src_) === '.ass' || path.extname(this_.src_) === '.ssa') {
+				ass2srt(this_.src_, function(dataBuf) {
 					decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
 				});
 			} else {
