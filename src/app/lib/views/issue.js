@@ -104,17 +104,9 @@
 			var cpu = os.cpus();
 			cpu = cpu[0].model;
 
-			var build = function () {
-				try {
-					return ' ' + App.git.branch + ' ' + App.git.commit.slice(0,8);
-				} catch (e) {
-					return;
-				}
-			};
-
 			var ram = Math.round(os.totalmem() / (1000 * 1000 * 1000)) + 'GB';
 
-			return '\n\n---' + '\n\n**Environment:**' + '\n\nPopcorn Time version: ' + Settings.version + build() + '\n\nOS: ' + release + '\n\nCPU Model: ' + cpu + '\n\nAvailable Memory: ' + ram;
+			return '\n\n---' + '\n\n**Environment:**' + '\n\nPopcorn Time version: ' + Settings.version + ' ' + App.git.commit.slice(0,8) + '\n\nOS: ' + release + '\n\nCPU Model: ' + cpu + '\n\nAvailable Memory: ' + ram;
             
 		},
 
