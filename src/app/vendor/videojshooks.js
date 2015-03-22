@@ -129,6 +129,7 @@ vjs.TextTrack.prototype.load = function(){
 		function ass2srt(file, callback) {
 			var readline = require('readline'),
 				counter = null,
+				lastBeginTime,
 
 				//input
 				ass = /([^\\]+)$/.exec(file)[1],
@@ -141,6 +142,8 @@ vjs.TextTrack.prototype.load = function(){
 				//elements
 				dialog, begin_time, end_time;
 
+
+			fs.writeFileSync(path.join(srtPath, srt), '') //create or delete content;
 			win.debug('SSA SUB detected', ass);
 
 			var rl = readline.createInterface({
@@ -195,6 +198,13 @@ vjs.TextTrack.prototype.load = function(){
 				parsedDialog = parsedDialog.replace('\\N', '\n'); //return to line
 				parsedDialog = parsedDialog.replace(/{.*?}/g, ''); //remove leftovers brackets 
 
+				//keep only the last lang
+				if (parsedBeginTime < lastBeginTime) {
+					counter = 1;
+					fs.writeFileSync(path.join(srtPath, srt), '');
+					win.debug('SSA SUB contains multiple tracks, keeping only the last');
+				}
+
 				//SRT formatting
 				var parsedLine = 
 					counter + '\n' +
@@ -202,15 +212,19 @@ vjs.TextTrack.prototype.load = function(){
 					parsedDialog;
 
 				fs.appendFileSync(path.join(srtPath, srt), '\n\n' + parsedLine);
+				lastBeginTime = parsedBeginTime;
 			});
-			fs.readFile(path.join(srtPath, srt), function(err, dataBuff) {
-				if (!err) {
-					win.debug('SSA SUB transcoded to SRT', srt);
-					callback(dataBuff);
-				} else {
-					win.warn('SSA transcoding failed', err.stack);
-				}
-			});
+
+			setTimeout(function () {
+				fs.readFile(path.join(srtPath, srt), function(err, dataBuff) {
+					if (!err) {
+						win.debug('SSA SUB transcoded to SRT', srt);
+						callback(dataBuff);
+					} else {
+						win.warn('SSA transcoding failed', err.stack);
+					}
+				});
+			}, 2000);
 		}
 
 		// Decompress zip
