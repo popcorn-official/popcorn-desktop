@@ -153,7 +153,14 @@
 
 					// Create the System Temp Folder. This is used to store temporary data like movie files.
 					if (!fs.existsSync(Settings.tmpLocation)) {
-						fs.mkdir(Settings.tmpLocation);
+						fs.mkdir(Settings.tmpLocation, function (err) {
+							if (!err || err.errno === '-4075') {
+								//success
+							} else {
+								Settings.tmpLocation = path.join(os.tmpDir(), 'Popcorn-Time');
+								fs.mkdir(Settings.tmpLocation);
+							}
+						});
 					}
 
 					try {
