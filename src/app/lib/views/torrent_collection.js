@@ -142,6 +142,7 @@
 				file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
 			fs.unlinkSync(collection + file);
+			win.debug('Torrent Collection: deleted', file);
 
 			// update collection
 			this.files = fs.readdirSync(collection);
@@ -178,6 +179,7 @@
 
 			if (!fs.existsSync(collection + newName) && newName) {
 				fs.renameSync(collection + file, collection + newName);
+				win.debug('Torrent Collection: renamed', file, 'to', newName);
 			} else {
 				$('.notification_alert').show().text(i18n.__('This name is already taken')).delay(2500).fadeOut(400);
 			}
@@ -198,6 +200,7 @@
 
 		clearCollection: function () {
 			deleteFolder(collection);
+			win.debug('Torrent Collection: deleted all', collection);
 			App.vent.trigger('torrentCollection:show');
 		},
 
