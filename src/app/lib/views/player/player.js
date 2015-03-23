@@ -676,8 +676,6 @@
 		adjustVolume: function (i) {
 			var v = this.player.volume();
 			this.player.volume(v + i);
-			AdvSettings.set('playerVolume', this.player.volume());
-			this.displayOverlayMsg(i18n.__('Volume') + ': ' + this.player.volume().toFixed(1) * 100 + '%');
 			App.vent.trigger('volumechange');
 		},
 

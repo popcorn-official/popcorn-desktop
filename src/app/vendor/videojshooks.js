@@ -357,6 +357,27 @@ vjs.LoadProgressBar.prototype.createEl = function(){
 };
 vjs.LoadProgressBar.prototype.update = function(){ return; };
 
+vjs.Player.prototype.volume = function(percentAsDecimal){
+	var vol;
+
+	if (percentAsDecimal !== undefined) {
+		vol = Math.max(0, Math.min(1, parseFloat(percentAsDecimal))); // Force value to between 0 and 1
+		this.cache_.volume = vol;
+		this.techCall('setVolume', vol);
+		vjs.setLocalStorage('volume', vol);
+
+		//let's save this bad boy
+		AdvSettings.set('playerVolume', vol.toFixed(1));
+		App.PlayerView.displayOverlayMsg(i18n.__('Volume') + ': ' + vol.toFixed(1) * 100 + '%');
+
+		return this;
+	}
+
+	// Default to 1 when returning current volume.
+	vol = parseFloat(this.techGet('volume'));
+	return (isNaN(vol)) ? 1 : vol;
+};
+
 //Display our own error
 var suggestedExternal = function () {
 	var link = '<a href="http://www.videolan.org/vlc/" class="links">VLC</a>';
