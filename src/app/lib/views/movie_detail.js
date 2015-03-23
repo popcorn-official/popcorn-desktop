@@ -353,26 +353,14 @@
 			}
 			var that = this;
 			if (this.model.get('watched') === true) {
-				Database.markMovieAsNotWatched({
-						imdb_id: this.model.get('imdb_id')
-					}, true)
-					.then(function () {
-						that.model.set('watched', false);
-						that.ui.watchedIcon.removeClass('selected').text(i18n.__('Not Seen'));
-					});
+				that.model.set('watched', false);
+				that.ui.watchedIcon.removeClass('selected').text(i18n.__('Not Seen'));
 			} else {
-				Database.markMovieAsWatched({
-						imdb_id: this.model.get('imdb_id'),
-						from_browser: true
-					}, true)
-					.then(function () {
-						that.model.set('watched', true);
-						that.ui.watchedIcon.addClass('selected').text(i18n.__('Seen'));
-					});
+				that.model.set('watched', true);
+				that.ui.watchedIcon.addClass('selected').text(i18n.__('Seen'));
 			}
-			if (App.currentview === 'Favorites') {
-				App.vent.trigger('favorites:render');
-			}
+
+			$('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-watched').click();
 		},
 
 		openIMDb: function () {
