@@ -58,7 +58,7 @@
 				.catch(function (err) {
 					self.state = 'error';
 					self.trigger('loaded', self, self.state);
-					win.error(err.message, err.stack);
+					win.error('FavoriteCollection.fetch()', err);
 				});
 		},
 

@@ -275,7 +275,6 @@
 				}
 				if (err) {
 					win.error('Streamer:', err.message);
-					App.vent.trigger('error', err);
 					App.vent.trigger('stream:stop');
 					App.vent.trigger('player:close');
 				} else {
@@ -302,7 +301,7 @@
 							subtitles = null;
 							hasSubtitles = true;
 							downloadedSubtitles = true;
-							win.warn(err);
+							win.error('subtitleProvider.fetch()', err);
 						});
 					};
 
@@ -400,8 +399,9 @@
 										}
 										handleTorrent_fnc();
 									}).catch(function (err) {
-										win.warn(err);
+										win.error('App.Trakt.show.episodeSummary()', err);
 										getSubtitles(sub_data);
+										handleTorrent_fnc(); //try and force play
 									});
 								} else {
 									getSubtitles(sub_data);

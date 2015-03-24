@@ -18,7 +18,7 @@
 					win.debug('Create table ' + table);
 					tx.executeSql('CREATE TABLE ' + table + ' (' + tableStruct + ')');
 				}, function (tx, err) {
-					console.error(err);
+					win.error('Ceating db table', err);
 				});
 			});
 		});
@@ -70,7 +70,7 @@
 
 					deferred.resolve(cachedData);
 				}, function (tx, err) {
-					console.error(err);
+					win.error('Expired data cleaning', err);
 					deferred.resolve([]);
 				});
 			});
@@ -103,7 +103,7 @@
 							tx.executeSql(query, [id, data, ttl, now]);
 						});
 					}, function (err) {
-						console.error(err);
+						win.error('db.transaction()', err);
 					});
 				});
 		},

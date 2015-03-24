@@ -622,7 +622,7 @@
 					});
 				})
 				.catch(function (err) {
-					win.error(err);
+					win.error('App.Trakt.sync()', err);
 					$('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red').delay(3000).queue(function () {
 						$('#syncTrakt').removeClass('red').prop('disabled', false);
 						document.getElementById('syncTrakt').innerHTML = oldHTML;

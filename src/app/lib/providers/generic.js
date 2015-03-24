@@ -38,7 +38,7 @@
 	function getProvider(name) {
 		if (!name) {
 			/* XXX(xaiki): this is for debug purposes, will it bite us later ? */
-			console.error('dumping provider cache');
+			win.error('dumping provider cache');
 			return cache;
 		}
 
@@ -49,7 +49,7 @@
 
 		var provider = App.Providers[name];
 		if (!provider) {
-			console.error('couldn\'t find provider', name);
+			win.error('couldn\'t find provider', name);
 			return null;
 		}
 

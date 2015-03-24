@@ -318,7 +318,7 @@
 			if (value.tvdb_id === _this.model.get('tvdb_id')) {
 				$('#watched-' + value.season + '-' + value.episode).toggleClass('true', state);
 			} else {
-				console.error('something fishy happened with the watched signal', this.model, value);
+				win.error('something fishy happened with the watched signal', this.model, value);
 			}
 		},
 

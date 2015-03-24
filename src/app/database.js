@@ -457,7 +457,7 @@ var Database = {
 
 				updater.update()
 					.catch(function (err) {
-						win.error(err);
+						win.error('updater.update()', err);
 					});
 
 				// we look if VPN is connected
@@ -465,8 +465,7 @@ var Database = {
 
 			})
 			.catch(function (err) {
-				win.error('Error starting up');
-				win.error(err);
+				win.error('Error starting up', err);
 			});
 	}
 };

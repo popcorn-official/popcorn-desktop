@@ -221,7 +221,7 @@ vjs.TextTrack.prototype.load = function(){
 						win.debug('SSA SUB transcoded to SRT', srt);
 						callback(dataBuff);
 					} else {
-						win.warn('SSA transcoding failed', err.stack);
+						win.warn('SSA transcoding failed', err);
 					}
 				});
 			}, 2000);

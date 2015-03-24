@@ -198,7 +198,7 @@
 	}, function (err) {
 
 		if (err) {
-			console.error(err);
+			win.error('External players Scan', err);
 			return;
 		} else {
 			win.info('External players Scan Finished');

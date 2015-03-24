@@ -111,7 +111,7 @@
 					.catch(function (err) {
 						self.state = 'error';
 						self.trigger('loaded', self, self.state);
-						win.error(err.message, err.stack);
+						win.error('PopCollection.fetch() : torrentPromises mapping', err);
 					});
 
 				return deferred.promise;
