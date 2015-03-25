@@ -1,3 +1,31 @@
+BugFixes: 
+- Fullscreen consistent while playing
+- Multi-screen support
+- Windows 8.1 : the app doesn't go under the taskbar anymore
+- " & " in titles are now correctly handled
+- Local subtitles should now always load correctly
+- UI fixes
+- More descriptive error messages and logs
+- Fix "Open the app in last-open tab"
+- Mac OS: fix mousewheel inverted
+- Mac OS: Menu support
+- Fix some issues with Keyboard navigation
+- Allow to hide the updater notification
+- Fix an issue corrupting cache if used on an external HDD
+
+New Features: 
+- NW 11.5
+- Cancel "Play Next Episode"
+- Select your subtitles Font, and/or add a solid background to them.
+- New subtitles for: Norwegian, Vietnamese
+- Report bugs & issues from within the app
+- Mark as seen/unseen in Movie Details screen
+- No more ads from Youtube
+- Stream subtitles with DLNA/UPnP
+- Search Kickass and save some torrents for later
+- Allow SSA/ASS subtitles (needs testing)
+- The app will now remember: last chosen quality, player, subtitles position, volume
+
 ## 0.3.7 Beta - The Car Won't Start - 15 January 2015
 
 BugFixes:
