@@ -105,7 +105,7 @@ vjs.TextTrack.prototype.load = function(){
 			var request = require('request');
 
 			// Fetches Locally
-			if (fs.existsSync(subtitle_url)) {
+			if (fs.existsSync(path.join(subtitle_url))) {
 				fs.readFile(subtitle_url, function(error, data) {
 					if(!error){
 						callback(data);
