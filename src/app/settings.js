@@ -66,7 +66,11 @@ Settings.databaseLocation = path.join(data_path, 'data');
 Settings.deleteTmpOnClose = true;
 Settings.automaticUpdating = true;
 Settings.events = true;
-Settings.allowTorrentStorage = true;
+
+// Features
+Settings.activateTorrentCollection = true;
+Settings.activateWatchlist = true;
+Settings.activateVpn = true;
 
 Settings.vpn = false;
 Settings.vpnUsername = '';

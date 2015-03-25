@@ -314,15 +314,21 @@
 		</div>
 	</section>
 
-	<section id="vpn">
-		<div class="title"><%= i18n.__("VPN") %></div>
+	<section id="features">
+		<div class="title"><%= i18n.__("Features") %></div>
 		<div class="content">
-			<div class="vpn-options">
-				<span>
-					<input class="settings-checkbox" name="vpnDisabledPerm" id="vpnDisabledPerm" type="checkbox" <%=(Settings.vpnDisabledPerm? "checked='checked'":"")%>>
-					<label class="settings-label" for="vpnDisabledPerm"><%= i18n.__("Hide VPN from the filter bar") %></label>
-				</span>
-			</div>
+			<span>
+				<input class="settings-checkbox" name="activateTorrentCollection" id="activateTorrentCollection" type="checkbox" <%=(Settings.activateTorrentCollection? "checked='checked'":"")%>>
+				<label class="settings-label" for="activateTorrentCollection"><%= i18n.__("Torrent Collection") %></label>
+			</span>
+			<span>
+				<input class="settings-checkbox" name="activateWatchlist" id="activateWatchlist" type="checkbox" <%=(Settings.activateWatchlist? "checked='checked'":"")%>>
+				<label class="settings-label" for="activateWatchlist"><%= i18n.__("Watchlist") %></label>
+			</span>
+			<span>
+				<input class="settings-checkbox" name="activateVpn" id="activateVpn" type="checkbox" <%=(Settings.activateVpn? "checked='checked'":"")%>>
+				<label class="settings-label" for="activateVpn"><%= i18n.__("VPN") %></label>
+			</span>
 		</div>
 	</section>
 
@@ -419,10 +425,6 @@
 					<%= i18n.__("Export Database") %>
 				</div>
 			</div>
-			<span>
-				<input class="settings-checkbox" name="allowTorrentStorage" id="allowTorrentStorage" type="checkbox" <%=(Settings.allowTorrentStorage? "checked='checked'":"")%>>
-				<label class="settings-label" for="allowTorrentStorage"><%= i18n.__("Allow torrents to be stored for further use") %></label>
-			</span>
 		</div>
 	</section>
 	<section id="miscellaneous" class="advanced">

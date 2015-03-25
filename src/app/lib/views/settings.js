@@ -211,7 +211,8 @@
 			case 'automaticUpdating':
 			case 'events':
 			case 'alwaysFullscreen':
-			case 'allowTorrentStorage':
+			case 'activateTorrentCollection':
+			case 'activateWatchlist':
 				value = field.is(':checked');
 				break;
 			case 'httpApiUsername':
@@ -232,7 +233,7 @@
 				tmpLocationChanged = true;
 				value = path.join(field.val(), 'Popcorn-Time');
 				break;
-			case 'vpnDisabledPerm':
+			case 'activateVpn':
 				$('.vpn-connect').toggle();
 				value = field.is(':checked');
 				break;
@@ -310,12 +311,21 @@
 					$('.events').css('display', 'none');
 				}
 				break;
-			case 'allowTorrentStorage':
+			case 'activateTorrentCollection':
 				if ($('#torrent_col').css('display') === 'none') {
 					$('#torrent_col').css('display', 'block');
 				} else {
 					$('#torrent_col').css('display', 'none');
 					App.vent.trigger('torrentCollection:close');
+				}
+				break;
+			case 'activateWatchlist':
+				if ($('#watchlist').css('display') === 'none') {
+					$('#watchlist').css('display', 'block');
+				} else {
+					$('#watchlist').css('display', 'none');
+					App.vent.trigger('movies:list');
+					App.vent.trigger('settings:show');
 				}
 				break;
 			case 'movies_quality':
