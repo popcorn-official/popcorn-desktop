@@ -123,15 +123,17 @@ App.addRegions({
 });
 
 // Menu for mac 
-if ( os.platform() === 'darwin' ) {
-	var nativeMenuBar = new gui.Menu({ type: "menubar" });
-	nativeMenuBar.createMacBuiltin("Popcorn Time", {
+if (os.platform() === 'darwin') {
+	var nativeMenuBar = new gui.Menu({
+		type: 'menubar'
+	});
+	nativeMenuBar.createMacBuiltin('Popcorn Time', {
 		hideEdit: false,
 		hideWindow: true
 	});
 	win.menu = nativeMenuBar;
-};
-        
+}
+
 //Keeps a list of stacked views
 App.ViewStack = [];
 
@@ -433,4 +435,3 @@ if (gui.App.fullArgv.indexOf('-f') !== -1) {
 process.on('uncaughtException', function (err) {
 	win.error(err, err.stack);
 });
-

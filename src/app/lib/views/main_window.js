@@ -423,8 +423,8 @@
 			this.Content.$el.show();
 			try {
 				this.MovieDetail.$el.show();
-				this.MovieDetail.el.firstElementChild.classList == "shows-container-contain" ? App.vent.trigger('shortcuts:shows'): App.vent.trigger('shortcuts:movies');
-			} catch (err) {};
+				this.MovieDetail.el.firstElementChild.classList === 'shows-container-contain' ? App.vent.trigger('shortcuts:shows') : App.vent.trigger('shortcuts:movies');
+			} catch (err) {}
 			$(window).trigger('resize');
 		},
 

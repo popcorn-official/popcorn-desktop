@@ -98,7 +98,7 @@
 			}
 		},
 
-		getSpecs: function () {			
+		getSpecs: function () {
 			var release = require('os-name')(os.platform(), os.release());
 
 			var cpu = os.cpus();
@@ -106,8 +106,8 @@
 
 			var ram = Math.round(os.totalmem() / (1000 * 1000 * 1000)) + 'GB';
 
-			return '\n\n---' + '\n\n**Environment:**' + '\n\nPopcorn Time version: ' + Settings.version + ' ' + App.git.commit.slice(0,8) + '\n\nOS: ' + release + '\n\nCPU Model: ' + cpu + '\n\nAvailable Memory: ' + ram;
-            
+			return '\n\n---' + '\n\n**Environment:**' + '\n\nPopcorn Time version: ' + Settings.version + ' ' + App.git.commit.slice(0, 8) + '\n\nOS: ' + release + '\n\nCPU Model: ' + cpu + '\n\nAvailable Memory: ' + ram;
+
 		},
 
 		reportBug: function (title, content, token) {

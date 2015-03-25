@@ -683,7 +683,7 @@
 			// Use fancy coding to cancel
 			// pending torrent-health's
 			var cancelled = false;
-			cancelTorrentHealth = function() {
+			cancelTorrentHealth = function () {
 				cancelled = true;
 			};
 
@@ -693,10 +693,10 @@
 				forced: ['udp://open.demonii.com:1337/announce']
 			}).then(function (res) {
 
-				if(cancelled) {
+				if (cancelled) {
 					return;
 				}
-				if(res.seeds === 0) {
+				if (res.seeds === 0) {
 					$('.health-icon').click();
 				} else {
 					var h = Common.calcHealth({
@@ -707,8 +707,8 @@
 					var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
 
 					$('.health-icon').tooltip({
-						html: true
-					})
+							html: true
+						})
 						.removeClass('fa-spin')
 						.removeClass('fa-spinner')
 						.addClass('fa-circle')

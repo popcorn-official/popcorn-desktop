@@ -44,7 +44,7 @@
 						url: streamModel.get('cover')
 					},
 					subtitles_style: {
-						backgroundColor: AdvSettings.get('subtitle_decoration') === 'Opaque Background' ?  '#000000FF' : '#00000000', // color of background - see http://dev.w3.org/csswg/css-color/#hex-notation
+						backgroundColor: AdvSettings.get('subtitle_decoration') === 'Opaque Background' ? '#000000FF' : '#00000000', // color of background - see http://dev.w3.org/csswg/css-color/#hex-notation
 						foregroundColor: AdvSettings.get('subtitle_color') + 'ff', // color of text - see http://dev.w3.org/csswg/css-color/#hex-notation
 						edgeType: AdvSettings.get('subtitle_decoration') === 'Outline' ? 'OUTLINE' : 'NONE', // border of text - can be: "NONE", "OUTLINE", "DROP_SHADOW", "RAISED", "DEPRESSED"
 						edgeColor: '#000000FF', // color of border - see http://dev.w3.org/csswg/css-color/#hex-notation

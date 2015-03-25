@@ -56,10 +56,10 @@
 		},
 
 		katSearch: function (e) {
-            e.preventDefault();
+			e.preventDefault();
 			var that = this;
 			$('.katsearch-info>ul.file-list').html('');
-			
+
 			$('.kat-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
 
 			require('katsearcher-x')({
@@ -69,7 +69,7 @@
 			}, function (err, result) {
 				if (!err) {
 					win.debug('Kickass search: %s results', result.length);
-					result.forEach( function (item) {
+					result.forEach(function (item) {
 						var title = item.torrentData.title,
 							magnet = item.torrentData.magnetURI,
 							seeds = item.torrentData.seeds,
@@ -91,7 +91,7 @@
 					$('.katsearch-info').show();
 
 				} else {
-					$('.katsearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>')
+					$('.katsearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>');
 
 					$('.kat-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
 					$('.notorrents-info,.torrents-info').hide();
@@ -100,7 +100,7 @@
 			});
 		},
 
-		katAddItem: function (title, dataTorrent, size, seeds) {				
+		katAddItem: function (title, dataTorrent, size, seeds) {
 			$('.katsearch-info>ul.file-list').append(
 				'<li class="result-item" data-file="' + dataTorrent + '"><a>' + title + '</a><div class="item-icon magnet-icon"></div><i class="kat-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Seeds:') + ' ' + seeds + '">' + size + '</i></li>'
 			);

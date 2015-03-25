@@ -158,7 +158,7 @@
 				break;
 			}
 			var this_ = this;
-			this.ui.coverImage.delay(1500).queue( function() {
+			this.ui.coverImage.delay(1500).queue(function () {
 				this_.ui.coverImage.css('width', Settings.postersWidth).addClass('fadein').dequeue();
 			});
 
