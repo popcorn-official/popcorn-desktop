@@ -104,6 +104,7 @@ videojs.plugin('customSubtitles', function() {
 		that.player_.play();
         if (this.value == '') return;
         that.loadSubtitle(this.value);
+		this.value = null; //reset
       });
 
       vjs.TextTrackMenuItem.call(this, player, options);
@@ -116,7 +117,13 @@ videojs.plugin('customSubtitles', function() {
   }
 
   CustomTrackMenuItem.prototype.loadSubtitle = function(filePath) {
-    // TODO Delete old track
+
+    //clean tracks
+    var tracks = this.player_.textTracks() || [];
+    for (var i = 0; i < tracks.length; ++i) {
+        $(tracks[i].el()).remove();
+	}
+
     this.track = this.player_.addTextTrack('subtitles', i18n.__("Custom..."), '00', { src: filePath });
     vjs.TextTrackMenuItem.prototype.onClick.call(this); // redirect to TextTrackMenuItem.onClick
   }
