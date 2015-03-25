@@ -265,9 +265,13 @@ vjs.TextTrack.prototype.load = function(){
 					// The detected encoding was unexepected to the language, so we'll use the most common
 					// encoding for that language instead.
 					detectedEncoding = langInfo.encoding[0];
+					dataBuff = iconv.encode( iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset );
+				} else {
+					// fallback to utf8
+					dataBuff = iconv.decode(dataBuff, detectedEncoding);
+					detectedEncoding = 'UTF-8';
 				}
 				win.debug("SUB charset used: "+detectedEncoding);
-				dataBuff = iconv.encode( iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset );
 				callback(dataBuff.toString('utf-8'));
 			}
 		}

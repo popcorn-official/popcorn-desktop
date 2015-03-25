@@ -121,7 +121,10 @@ videojs.plugin('customSubtitles', function() {
     //clean tracks
     var tracks = this.player_.textTracks() || [];
     for (var i = 0; i < tracks.length; ++i) {
-        $(tracks[i].el()).remove();
+		if (tracks[i].id_.indexOf('vjs_subtitles_00') !== -1) {
+        	$(tracks[i].el()).remove();
+			return;
+		}
 	}
 
     this.track = this.player_.addTextTrack('subtitles', i18n.__("Custom..."), '00', { src: filePath });
