@@ -148,7 +148,7 @@
 				autoplayisshown = false;
 				next_episode_model = false;
 
-				_this.prossessNext();
+				_this.processNext();
 			}
 			if (this.model.get('type') === 'video/youtube') {
 
@@ -365,7 +365,9 @@
 
 			this.closePlayer();
 			App.vent.trigger('stream:stop');
-			App.vent.trigger('stream:start', next_episode_model);
+			if (next_episode_model) {
+				App.vent.trigger('stream:start', next_episode_model);
+			}
 		},
 		playNextNot: function () {
 			win.info('Hiding Auto Play message');
@@ -375,13 +377,14 @@
 
 			this.model.set('auto_play', false);
 		},
-		prossessNext: function () {
+		processNext: function () {
 			var episodes = _this.model.get('episodes');
 
 			if (_this.model.get('auto_id') !== episodes[episodes.length - 1]) {
 
 				var auto_play_data = _this.model.get('auto_play_data');
 				var current_quality = _this.model.get('quality');
+				var tvdb = _this.model.get('tvdb_id');
 				var idx;
 
 				_.find(auto_play_data, function (data, dataIdx) {
@@ -394,6 +397,7 @@
 
 				next_episode.auto_play = true;
 				next_episode.auto_id = parseInt(next_episode.season) * 100 + parseInt(next_episode.episode);
+				next_episode.tvdb_id = tvdb;
 				next_episode.auto_play_data = auto_play_data;
 				next_episode.episodes = episodes;
 				next_episode.quality = current_quality;
