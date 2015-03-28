@@ -35,6 +35,12 @@
 				}
 				cmd += getPlayerSubSwitch(this.get('id')) + '"' + subtitle + '" ';
 			}
+			if (getPlayerFS(this.get('id')) !== '') {
+				// Start player fullscreen if available and asked
+				if (Settings.alwaysFullscreen) {
+					cmd += getPlayerFS(this.get('id')) + ' ';
+				}
+			}
 			if (getPlayerFilenameSwitch(this.get('id')) !== '') {
 				// The video file is the biggest file in the torrent
 				var videoFile = _.sortBy(streamModel.attributes.torrent.info.files, function (file) {
@@ -82,12 +88,18 @@
 		return players[name].switches || '';
 	}
 
+	function getPlayerFS(loc) {
+		var name = getPlayerName(loc);
+		return players[name].fs || '';
+	}
+
 	var players = {
 		'VLC': {
 			type: 'vlc',
 			cmd: '/Contents/MacOS/VLC',
 			switches: '--no-video-title-show',
 			subswitch: '--sub-file=',
+			fs: '-f',
 			stop: 'vlc://quit',
 			pause: 'vlc://pause'
 		},
@@ -100,33 +112,39 @@
 			type: 'mplayer',
 			cmd: '/Contents/Resources/Binaries/mpextended.mpBinaries/Contents/MacOS/mplayer',
 			switches: '-font "/Library/Fonts/Arial Bold.ttf"',
-			subswitch: '-sub '
+			subswitch: '-sub ',
+			fs: '-fs',
 		},
 		'mplayer': {
 			type: 'mplayer',
 			cmd: 'mplayer',
 			switches: '-really-quiet',
-			subswitch: '-sub '
+			subswitch: '-sub ',
+			fs: '-fs',
 		},
 		'mpv': {
 			type: 'mpv',
 			switches: '',
-			subswitch: '--sub-file='
+			subswitch: '--sub-file=',
+			fs: '--fs'
 		},
 		'MPC-HC': {
 			type: 'mpc-hc',
 			switches: '',
-			subswitch: '/sub '
+			subswitch: '/sub ',
+			fs: '/fullscreen'
 		},
 		'MPC-HC64': {
 			type: 'mpc-hc',
 			switches: '',
-			subswitch: '/sub '
+			subswitch: '/sub ',
+			fs: '/fullscreen'
 		},
 		'SMPlayer': {
 			type: 'smplayer',
 			switches: '',
 			subswitch: '-sub ',
+			fs: '-fs',
 			stop: 'smplayer -send-action quit',
 			pause: 'smplayer -send-action pause'
 		},
