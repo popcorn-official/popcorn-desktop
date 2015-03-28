@@ -16,7 +16,9 @@ Unicode True
     ;File does NOT exist!
 !endif
 
-;Parse Gruntfile.js
+; ------------------- ;
+;  Parse Gruntfile.js ;
+; ------------------- ;
 !ifdef WIN_PATHS
     !searchparse /file "..\..\Gruntfile.js" "version: '" APP_NW "',"
 !else
@@ -44,6 +46,9 @@ Unicode True
     !searchparse /file "../../package.json" '"name": "' DATA_FOLDER '",'
 !endif
 
+; ------------------- ;
+;      Settings       ;
+; ------------------- ;
 ;General Settings
 !define COMPANY_NAME "Popcorn Official"
 !define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
@@ -67,6 +72,9 @@ InstallDir "$LOCALAPPDATA\${APP_NAME}"
 ;Request application privileges
 RequestExecutionLevel user
 
+; ------------------- ;
+;     UI Settings     ;
+; ------------------- ;
 ;Define UI settings
 !ifdef WIN_PATHS
     !define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
@@ -88,6 +96,7 @@ RequestExecutionLevel user
 ;Define the pages
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "LICENSE.txt"
+!insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
 
@@ -159,6 +168,9 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Vietnamese"
 !insertmacro MUI_LANGUAGE "Welsh"
 
+; ------------------- ;
+;    Localization     ;
+; ------------------- ;
 LangString removeDataFolder ${LANG_ENGLISH} "Remove all databases and configuration files?"
 LangString removeDataFolder ${LANG_Afrikaans} "Alle databasisse en opset lêers verwyder?" 
 LangString removeDataFolder ${LANG_Albanian} "Hiq të gjitha bazat e të dhënave dhe fotografi konfigurimit?" 
@@ -221,25 +233,71 @@ LangString removeDataFolder ${LANG_Uzbek} "Remove all databases and configuratio
 LangString removeDataFolder ${LANG_Vietnamese} "Loại bỏ tất cả các cơ sở dữ liệu và các tập tin cấu hình?" 
 LangString removeDataFolder ${LANG_Welsh} "Tynnwch yr holl gronfeydd data a ffeiliau cyfluniad?" 
 
-Function .onInit ; check for previous version (needed for 0.3.2 that was in ProgramFiles)
- 
-  ReadRegStr $0 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn-Time" "InstallLocation"
-  ReadRegStr $1 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn-Time" "UninstallString"
-  ReadRegStr $2 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn-Time" "DisplayVersion"
-  StrCmp $0 "" done
- 
-  MessageBox MB_YESNO|MB_ICONQUESTION "${APP_NAME} $2 is already installed in $0. \
-  $\n$\nThe new version will be installed in $\"$INSTDIR$\". \
-  $\n$\n$\nDo you want to uninstall ${APP_NAME} $2 ?" \
-  IDYES uninstall IDNO done
+LangString noRoot ${LANG_ENGLISH} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Afrikaans} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Albanian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Arabic} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Asturian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Basque} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Belarusian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Bosnian} "Installation directory cannot require admin privileges" 
+LangString noRoot ${LANG_Breton} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Bulgarian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Catalan} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Croatian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Czech} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Danish} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Dutch} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Esperanto} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Estonian} "Installation directory cannot require admin privileges" 
+LangString noRoot ${LANG_Farsi} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Finnish} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_French} "Le répertoire d'installation ne peut être un répertoire administrateur"
+LangString noRoot ${LANG_Galician} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_German} "Installation directory cannot require admin privileges" 
+LangString noRoot ${LANG_Greek} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Hebrew} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Hungarian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Icelandic} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Indonesian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Irish} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Italian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Japanese} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Korean} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Kurdish} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Latvian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Lithuanian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Luxembourgish} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Macedonian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Malay} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Mongolian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Norwegian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_NorwegianNynorsk} "Installation directory cannot require admin privileges" 
+LangString noRoot ${LANG_Pashto} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Polish} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Portuguese} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_PortugueseBR} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Romanian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Russian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Serbian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_SerbianLatin} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_SimpChinese} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Slovak} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Slovenian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Spanish} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_SpanishInternational} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Swedish} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Thai} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_TradChinese} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Turkish} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Ukrainian} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Uzbek} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Vietnamese} "Installation directory cannot require admin privileges"
+LangString noRoot ${LANG_Welsh} "Installation directory cannot require admin privileges"
 
-uninstall:
-  ClearErrors
-  ExecShell "" "$1"
-
-done:
-FunctionEnd
-
+; ------------------- ;
+;    Install code     ;
+; ------------------- ;
 Section ; Node Webkit Files
 
     ;Delete existing install
@@ -336,6 +394,9 @@ Section ; App Files
 
 SectionEnd
 
+; ------------------- ;
+;      Shortcuts      ;
+; ------------------- ;
 Section ; Shortcuts
 
     ;Working Directory
@@ -366,7 +427,9 @@ Section ; Shortcuts
 
 SectionEnd
 
-; Uninstaller
+; ------------------- ;
+;     Uninstaller     ;
+; ------------------- ;
 Section "uninstall" 
 
     RMDir /r "$INSTDIR"
@@ -380,3 +443,72 @@ Section "uninstall"
 	DeleteRegKey HKCU "Software\Chromium" ;workaround for NW leftovers
     
 SectionEnd
+
+; ------------------- ;
+;  Check if writable  ;
+; ------------------- ;
+Function IsWritable
+
+  !define IsWritable `!insertmacro IsWritableCall`
+ 
+  !macro IsWritableCall _PATH _RESULT
+    Push `${_PATH}`
+    Call IsWritable
+    Pop ${_RESULT}
+  !macroend
+ 
+  Exch $R0
+  Push $R1
+ 
+start:
+  StrLen $R1 $R0
+  StrCmp $R1 0 exit
+  ${GetFileAttributes} $R0 "DIRECTORY" $R1
+  StrCmp $R1 1 direxists
+  ${GetParent} $R0 $R0
+  Goto start
+ 
+direxists:
+  ${GetFileAttributes} $R0 "DIRECTORY" $R1
+  StrCmp $R1 0 ok
+
+  StrCmp $R0 $PROGRAMFILES64 notok
+  StrCmp $R0 $WINDIR notok
+
+  ${GetFileAttributes} $R0 "READONLY" $R1
+
+  Goto exit
+
+notok:
+  StrCpy $R1 1
+  Goto exit
+
+ok:
+  StrCpy $R1 0
+ 
+exit:
+  Exch
+  Pop $R0
+  Exch $R1
+ 
+FunctionEnd
+
+; ------------------- ;
+;  Check install dir  ;
+; ------------------- ;
+Function .onVerifyInstDir
+
+  Push $R1
+  ${IsWritable} $INSTDIR $R1
+  IntCmp $R1 0 pathgood
+  Pop $R1
+  MessageBox MB_OK|MB_USERICON "$(noRoot)" IDOK true
+  Abort
+true:
+  ;TODO: close browser
+  Abort
+
+pathgood:
+  Pop $R1
+
+FunctionEnd
