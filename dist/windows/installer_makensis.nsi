@@ -306,10 +306,12 @@ Section ; Node Webkit Files
         File "..\..\build\cache\win\${APP_NW}\*.dll"
         File "/oname=${APP_NAME}.exe" "..\..\build\cache\win\${APP_NW}\nw.exe"
         File "..\..\build\cache\win\${APP_NW}\nw.pak"
+        File /r "..\..\build\cache\win\${APP_NW}\locales"
     !else
         File "../../build/cache/win/${APP_NW}/*.dll"
         File "/oname=${APP_NAME}.exe" "../../build/cache/win/${APP_NW}/nw.exe"
         File "../../build/cache/win/${APP_NW}/nw.pak"
+        File /r "../../build/cache/win/${APP_NW}/locales"
     !endif
 
     !ifdef DATFILES
