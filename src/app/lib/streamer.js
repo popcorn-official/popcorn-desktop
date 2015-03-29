@@ -100,6 +100,7 @@
 		});
 
 		engine.swarm.piecesGot = 0;
+		engine.swarm.cachedDownload = 0;
 		engine.on('verify', function (index) {
 			engine.swarm.piecesGot += 1;
 		});
@@ -129,6 +130,9 @@
 
 				// we need subtitle in the player
 				streamInfo.set('subtitle', subtitles != null ? subtitles : torrent.subtitle);
+
+				// clear downloaded so change:downloaded gets triggered for the first time
+				streamInfo.set('downloaded', 0);
 
 				App.vent.trigger('stream:ready', streamInfo);
 				stateModel.destroy();
@@ -165,8 +169,10 @@
 			}
 		});
 
-		// not used anymore
-		engine.on('ready', function () {});
+		// piecesGot before ready means the cache we already have
+		engine.on('ready', function () {
+			engine.swarm.cachedDownload = engine.swarm.piecesGot * (engine.torrent.pieceLength || 0);
+		});
 
 		engine.on('uninterested', function () {
 			if (engine) {

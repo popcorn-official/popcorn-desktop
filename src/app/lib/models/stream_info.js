@@ -47,20 +47,25 @@
 			}
 
 			var downloaded = swarm.downloaded || 0; // downloaded
+			if (swarm.cachedDownload) {
+				downloaded += swarm.cachedDownload;
+			}
 			var final_downloaded = '0 B';
+			var final_downloaded_percent = 0;
 			if (downloaded !== 0) {
 				final_downloaded = prettyBytes(downloaded);
+				final_downloaded_percent = 100 / this.get('size') * downloaded;
 			}
-
-			var final_downloaded_percent = 100 / this.get('size') * downloaded;
 
 			if (final_downloaded_percent >= 100) {
 				final_downloaded_percent = 100;
 			}
 
-			var downloadTimeLeft = Math.round((this.get('size') - swarm.downloaded) / swarm.downloadSpeed()); // time to wait before download complete
+			var downloadTimeLeft = Math.round((this.get('size') - downloaded) / swarm.downloadSpeed()); // time to wait before download complete
 			if (isNaN(downloadTimeLeft) || downloadTimeLeft < 0) {
 				downloadTimeLeft = 0;
+			} else if (!isFinite(downloadTimeLeft)) { // infinite
+				downloadTimeLeft = undefined;
 			}
 
 			this.set('pieces', swarm.piecesGot);

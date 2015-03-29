@@ -415,11 +415,14 @@
 		remainingTime: function () {
 			var timeLeft = this.model.get('time_left');
 
-			if (timeLeft > 3600) {
+			
+			if (timeLeft === undefined) {
+				return i18n.__('Unknown time remaining');
+			} else if (timeLeft > 3600) {
 				return i18n.__('%s hour(s) remaining', Math.round(timeLeft / 3600));
 			} else if (timeLeft > 60) {
 				return i18n.__('%s minute(s) remaining', Math.round(timeLeft / 60));
-			} else {
+			} else if (timeLeft <= 60) {
 				return i18n.__('%s second(s) remaining', timeLeft);
 			}
 		},
