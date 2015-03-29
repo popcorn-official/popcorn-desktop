@@ -58,12 +58,22 @@
 		katSearch: function (e) {
 			e.preventDefault();
 			var that = this;
+			var input = $('#kat-input').val();
+			var current = $('.katsearch-info>ul.file-list').html();
+
+			if (input === '' && current === '') {
+				return;
+			} else if (input === '' && current !== '') {
+				this.katClose();
+				return;
+			}
+
 			$('.katsearch-info>ul.file-list').html('');
 
 			$('.kat-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
 
 			require('katsearcher-x')({
-				name: $('#kat-input').val(),
+				name: input,
 				limit: 25,
 				minSeeds: 40,
 			}, function (err, result) {
