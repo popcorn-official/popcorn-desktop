@@ -41,7 +41,7 @@
 							zipEntries = zip.getEntries();
 						zip.extractAllTo( /*target path*/ unzipPath, /*overwrite*/ true);
 						fs.unlink(zipPath, function (err) {});
-						win.debug('Subtitle extracted to : ' + newName);
+						win.debug('Subtitles extracted to : ' + newName);
 						var files = fs.readdirSync(unzipPath);
 						for (var f in files) {
 							if (path.extname(files[f]) === '.srt') {
@@ -74,7 +74,7 @@
 
 			req.on('end', function () {
 				out.end(function () {
-					win.debug('Subtitle downloaded to : ' + srtPath);
+					win.debug('Subtitles downloaded to : ' + srtPath);
 					resolve(srtPath);
 				});
 			});
@@ -96,7 +96,7 @@
 			win.error('Not implemented in parent model');
 		},
 		download: function (data) {
-			win.debug('subtitle.download', data);
+			win.debug('Subtitles download data', data);
 			if (data.path && data.url) {
 				var fileFolder = path.dirname(data.path);
 
@@ -181,7 +181,7 @@
 				// We do
 			} else {
 				var langInfo = App.Localization.langcodes[language] || {};
-				win.debug('SUB charsets expected for language \'%s\': ', language, langInfo.encoding);
+				win.debug('SUB charset expected for \'%s\': ', language, langInfo.encoding);
 				if (langInfo.encoding !== undefined && langInfo.encoding.indexOf(detectedEncoding) < 0) {
 					// The detected encoding was unexepected to the language, so we'll use the most common
 					// encoding for that language instead.

@@ -330,7 +330,7 @@ window.ondragenter = function (e) {
 	$('#drop-mask').on('dragenter',
 		function (e) {
 			$('.drop-indicator').show();
-			win.debug('drag init');
+			win.debug('Drag init');
 		});
 	$('#drop-mask').on('dragover',
 		function (e) {
@@ -343,7 +343,7 @@ window.ondragenter = function (e) {
 			clearTimeout(timeout);
 			timeout = setTimeout(function () {
 				if (!showDrag) {
-					win.debug('drag aborted');
+					win.debug('Drag aborted');
 					$('.drop-indicator').hide();
 					$('#drop-mask').hide();
 				}
@@ -363,7 +363,7 @@ var handleTorrent = function (torrent) {
 window.ondrop = function (e) {
 	e.preventDefault();
 	$('#drop-mask').hide();
-	win.debug('drag completed');
+	win.debug('Drag completed');
 	$('.drop-indicator').hide();
 
 	var file = e.dataTransfer.files[0];

@@ -86,10 +86,10 @@
 					});
 				}
 				var deviceIp = this.selected.get('address');
-				win.info('DeviceIP: ' + deviceIp);
+				win.info('Device IP: ' + deviceIp);
 				win.info('Available IPs: ' + JSON.stringify(ips));
 				var srcIp = _getClosestIP(ips, deviceIp);
-				win.info('> Picked for external playback: ' + srcIp);
+				win.info('%s picked for external playback', srcIp);
 				streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', srcIp);
 			}
 			return this.selected.play(streamModel);

@@ -56,7 +56,7 @@
 			iconv.extendNodeEncodings();
 
 			encoding = data.encoding || 'utf8';
-			win.debug(data.srt);
+			win.debug('SubtitleServer: loading', data.srt || data.vtt);
 			if (data.vtt) {
 				fs.readFile(data.vtt, function (err, data) {
 					if (err) {

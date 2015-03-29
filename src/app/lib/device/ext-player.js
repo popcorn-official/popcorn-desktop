@@ -28,7 +28,7 @@
 					//var targetEncodingCharset = 'utf8';
 					var charset = charsetDetect.detect(dataBuff);
 					var detectedEncoding = charset.encoding;
-					win.debug('Subtitle charset detected: %s', detectedEncoding);
+					win.debug('Subtitles charset detected: %s', detectedEncoding);
 					if (detectedEncoding.toLowerCase() === 'utf-8') {
 						cmd += '-utf8 ';
 					}
@@ -216,10 +216,10 @@
 	}, function (err) {
 
 		if (err) {
-			win.error('External players Scan', err);
+			win.error('External Players: scan', err);
 			return;
 		} else {
-			win.info('External players Scan Finished');
+			win.info('External Players: scan finished');
 			return;
 		}
 	});

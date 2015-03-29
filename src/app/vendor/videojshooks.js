@@ -84,7 +84,7 @@ vjs.TextTrack.prototype.load = function(){
 		this.readyState_ = 1;
 
 		this.on('loaded', function(){
-			win.info('Subtitle loaded!');
+			win.info('Subtitles loaded!');
 			$('#video_player .vjs-text-track').css('display','inline-block').drags();
 			$('#video_player .vjs-text-track-display').css('font-size', Settings.subtitle_size);
 			if (this.player_.isFullscreen()) {

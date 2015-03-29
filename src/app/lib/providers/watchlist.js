@@ -179,7 +179,7 @@
 	};
 
 	Watchlist.prototype.inhibit = function (flag) {
-		win.info('Watchlist - inhibit: ', flag);
+		win.info('Watchlist - Inhibit: ', flag);
 
 		this.inhibited = flag;
 	};

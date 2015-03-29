@@ -527,25 +527,23 @@
 		},
 
 		enableHD: function () {
-			win.info('HD Enabled');
 			var tvdbid = $('.startStreaming').attr('data-episodeid'),
 				torrent = $('.template-' + tvdbid + ' .q720').text();
 			$('.startStreaming').attr('data-torrent', torrent);
 			$('.startStreaming').attr('data-quality', '720p');
 			AdvSettings.set('shows_default_quality', '720p');
 			_this.resetHealth();
-			win.debug(torrent);
+			win.debug('HD Enabled', torrent);
 		},
 
 		disableHD: function () {
-			win.info('HD Disabled');
 			var tvdbid = $('.startStreaming').attr('data-episodeid'),
 				torrent = $('.template-' + tvdbid + ' .q480').text();
 			$('.startStreaming').attr('data-torrent', torrent);
 			$('.startStreaming').attr('data-quality', '480p');
 			AdvSettings.set('shows_default_quality', '480p');
 			_this.resetHealth();
-			win.debug(torrent);
+			win.debug('HD Disabled', torrent);
 		},
 
 		nextEpisode: function (e) {

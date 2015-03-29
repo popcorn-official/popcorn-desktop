@@ -186,7 +186,7 @@
 			this.subtitle_selected = lang;
 			this.ui.selected_lang.removeClass().addClass('flag toggle selected-lang').addClass(this.subtitle_selected);
 
-			win.info('Subtitle: ' + this.subtitle_selected);
+			win.info('Subtitles: ' + this.subtitle_selected);
 		},
 
 		startStreaming: function () {
@@ -247,24 +247,22 @@
 
 		enableHD: function () {
 			var torrents = this.model.get('torrents');
-			win.info('HD Enabled');
 
 			if (torrents['1080p'] !== undefined) {
 				torrents = this.model.get('torrents');
 				this.model.set('quality', '1080p');
-				win.debug(this.model.get('quality'));
+				win.debug('HD Enabled', this.model.get('quality'));
 				AdvSettings.set('movies_default_quality', '1080p');
 			}
 		},
 
 		disableHD: function () {
 			var torrents = this.model.get('torrents');
-			win.info('HD Disabled');
 
 			if (torrents['720p'] !== undefined) {
 				torrents = this.model.get('torrents');
 				this.model.set('quality', '720p');
-				win.debug(this.model.get('quality'));
+				win.debug('HD Disabled', this.model.get('quality'));
 				AdvSettings.set('movies_default_quality', '720p');
 			}
 		},

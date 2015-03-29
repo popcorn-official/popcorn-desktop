@@ -46,7 +46,6 @@
 					});
 
 					if (_.isEmpty(movies)) {
-						win.debug('hasMore = false');
 						self.hasMore = false;
 					}
 
@@ -63,7 +62,6 @@
 		},
 
 		fetchMore: function () {
-			win.debug('fetchMore');
 			this.filter.page += 1;
 			this.fetch();
 		}

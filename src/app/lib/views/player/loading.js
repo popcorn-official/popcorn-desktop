@@ -189,7 +189,7 @@
 		},
 
 		resumeStreaming: function () {
-			win.debug('clicked play');
+			win.debug('Play triggered');
 			App.vent.trigger('device:unpause');
 			$('.play').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
 		},
@@ -199,18 +199,18 @@
 		},
 
 		forwardStreaming: function () {
-			win.debug('clicked forward');
+			win.debug('Forward triggered');
 			App.vent.trigger('device:forward');
 		},
 
 		backwardStreaming: function () {
-			win.debug('clicked backward');
+			win.debug('Backward triggered');
 			App.vent.trigger('device:backward');
 		},
 
 		seekStreaming: function (e) {
 			var percentClicked = e.offsetX / e.currentTarget.clientWidth * 100;
-			win.debug('clicked seek (%s%)', percentClicked.toFixed(2));
+			win.debug('Seek (%s%) triggered', percentClicked.toFixed(2));
 			App.vent.trigger('device:seekPercentage', percentClicked);
 		},
 

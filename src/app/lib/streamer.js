@@ -53,7 +53,7 @@
 			// subtitleDownloading is needed cos this is called every 300ms
 
 			if (stateModel.get('streamInfo').get('torrent').defaultSubtitle && stateModel.get('streamInfo').get('torrent').defaultSubtitle !== 'none' && hasSubtitles && subtitles != null && engine.files[0] && !downloadedSubtitles && !subtitleDownloading) {
-				win.debug('downloading subtitle');
+				win.debug('Downloading subtitles');
 				subtitleDownloading = true;
 				App.vent.trigger('subtitle:download', {
 					url: subtitles[stateModel.get('streamInfo').get('torrent').defaultSubtitle],
@@ -288,7 +288,7 @@
 					var extractSubtitle = model.get('extract_subtitle');
 
 					var getSubtitles = function (data) {
-						win.debug('Subtitle data request:', data);
+						win.debug('Subtitles data request:', data);
 
 						var subtitleProvider = App.Config.getProvider('tvshowsubtitle');
 

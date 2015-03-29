@@ -257,12 +257,15 @@
 
 
 			var sendToTrakt = function () {
+				var percent = _this.video.currentTime() / _this.video.duration() * 100 | 0,
+					total = _this.video.duration() / 60 | 0;
+
 				if (_this.isMovie() === 'movie') {
-					win.debug('Reporting we are watching ' + _this.model.get('imdb_id') + ' ' + (_this.video.currentTime() / _this.video.duration() * 100 | 0) + '% ' + (_this.video.duration() / 60 | 0));
-					App.Trakt.movie.watching(_this.model.get('imdb_id'), _this.video.currentTime() / _this.video.duration() * 100 | 0, _this.video.duration() / 60 | 0);
+					win.debug('Reporting we are watching ' + _this.model.get('title') + ' ' + percent + '% ');
+					App.Trakt.movie.watching(_this.model.get('imdb_id'), percent, total);
 				} else if (_this.isMovie() === 'show') {
-					win.debug('Reporting we are watching ' + _this.model.get('tvdb_id') + ' ' + (_this.video.currentTime() / _this.video.duration() * 100 | 0) + '%');
-					App.Trakt.show.watching(_this.model.get('tvdb_id'), _this.model.get('season'), _this.model.get('episode'), _this.video.currentTime() / _this.video.duration() * 100 | 0, _this.video.duration() / 60 | 0);
+					win.debug('Reporting we are watching ' + _this.model.get('title') + ' ' + percent + '%');
+					App.Trakt.show.watching(_this.model.get('tvdb_id'), _this.model.get('season'), _this.model.get('episode'), percent, total);
 				}
 			};
 
