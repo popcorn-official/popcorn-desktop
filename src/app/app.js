@@ -316,17 +316,10 @@ Mousetrap.bind('shift+up shift+up shift+down shift+down shift+left shift+right s
 		body.addClass('knm');
 	}
 });
-if (process.platform === 'darwin') {
-	Mousetrap.bind('command+ctrl+f', function (e) {
-		e.preventDefault();
-		win.toggleFullscreen();
-	});
-} else {
-	Mousetrap.bind('ctrl+alt+f', function (e) {
-		e.preventDefault();
-		win.toggleFullscreen();
-	});
-}
+Mousetrap.bind(['command+ctrl+f', 'ctrl+alt+f'], function (e) {
+	e.preventDefault();
+	win.toggleFullscreen();
+});
 
 // Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
 window.ondragenter = function (e) {

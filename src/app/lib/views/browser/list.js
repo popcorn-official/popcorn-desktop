@@ -129,6 +129,10 @@
 
 			Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch);
 
+			Mousetrap(document.querySelector('input')).bind(['ctrl+f', 'command+f', 'esc'], function(e, combo) {
+				$('.search input').blur();
+			});
+
 			Mousetrap.bind(['tab', 'shift+tab'], function (e, combo) {
 				if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0) {
 					if (combo === 'tab') {
