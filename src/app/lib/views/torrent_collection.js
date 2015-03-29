@@ -1,7 +1,8 @@
 (function (App) {
 	'use strict';
 
-	var collection = path.join(require('nw.gui').App.dataPath + '/TorrentCollection/'),
+	var clipboard = gui.Clipboard.get(),
+		collection = path.join(require('nw.gui').App.dataPath + '/TorrentCollection/'),
 		files;
 
 	var TorrentCollection = Backbone.Marionette.ItemView.extend({
@@ -19,7 +20,8 @@
 			'click .notorrents-frame': 'importItem',
 			'click .kat-search': 'katSearch',
 			'submit #kat-form': 'katSearch',
-			'click .kat-back': 'katClose'
+			'click .kat-back': 'katClose',
+			'contextmenu #kat-input': 'rightclick_search'
 		},
 
 		initialize: function () {
@@ -126,6 +128,45 @@
 			$('.katsearch-info>ul.file-list').html('');
 			$('.katsearch-info').hide();
 			this.render();
+		},
+
+		rightclick_search: function (e) {
+			e.stopPropagation();
+			var search_menu = new this.context_Menu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'));
+			search_menu.popup(e.originalEvent.x, e.originalEvent.y);
+		},
+
+		context_Menu: function (cutLabel, copyLabel, pasteLabel) {
+			var gui = require('nw.gui'),
+				menu = new gui.Menu(),
+
+				cut = new gui.MenuItem({
+					label: cutLabel || 'Cut',
+					click: function () {
+						document.execCommand('cut');
+					}
+				}),
+
+				copy = new gui.MenuItem({
+					label: copyLabel || 'Copy',
+					click: function () {
+						document.execCommand('copy');
+					}
+				}),
+
+				paste = new gui.MenuItem({
+					label: pasteLabel || 'Paste',
+					click: function () {
+						var text = clipboard.get('text');
+						$('#kat-input').val(text);
+					}
+				});
+
+			menu.append(cut);
+			menu.append(copy);
+			menu.append(paste);
+
+			return menu;
 		},
 
 		openFileSelector: function (e) {
