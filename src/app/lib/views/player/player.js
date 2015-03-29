@@ -577,6 +577,21 @@
 				_this.scaleWindow(2);
 			});
 
+			// multimedia keys
+			// Change when mousetrap can be extended
+			$('body').bind('keydown', function (e) {
+				win.warn('keydown', e.keyCode);
+				if (e.keyCode === 179) {
+					$('.vjs-play-control').click();
+				} else if (e.keyCode === 177) {
+					_this.seek(-10);
+				} else if (e.keyCode === 176) {
+					_this.seek(10);
+				} else if (e.keyCode === 178) {
+					_this.closePlayer();
+				}
+			});
+
 			document.addEventListener('mousewheel', _this.mouseScroll);
 		},
 
@@ -644,6 +659,10 @@
 			Mousetrap.unbind('1');
 
 			Mousetrap.unbind('2');
+
+			// multimedia keys
+			// Change when mousetrap can be extended
+			$('body').unbind('keydown');
 
 			document.removeEventListener('mousewheel', _this.mouseScroll);
 		},
