@@ -343,12 +343,16 @@ module.exports = function (grunt) {
 				command: function () {
 					if (host.linux || host.mac) {
 						return [
+							'cp build/cache/win/<%= nodewebkit.options.version %>/icudtl.dat build/releases/Popcorn-Time/win/Popcorn-Time',
+							'cp -r build/cache/win/<%= nodewebkit.options.version %>/locales build/releases/Popcorn-Time/win/Popcorn-Time',
 							'cd build/releases/Popcorn-Time/win/Popcorn-Time',
 							'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../Popcorn-Time-' + currentVersion + '-Win.tar.xz"',
 							'echo "Windows Sucessfully packaged" || echo "Windows failed to package"'
 						].join(' && ');
 					} else {
 						return [
+							'cp build/cache/win/<%= nodewebkit.options.version %>/icudtl.dat build/releases/Popcorn-Time/win/Popcorn-Time',
+							'cp -r build/cache/win/<%= nodewebkit.options.version %>/locales build/releases/Popcorn-Time/win/Popcorn-Time',
 							'grunt compress:windows',
 							'( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
 						].join(' && ');
