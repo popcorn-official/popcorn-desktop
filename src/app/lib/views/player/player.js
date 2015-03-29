@@ -583,7 +583,6 @@
 			// multimedia keys
 			// Change when mousetrap can be extended
 			$('body').bind('keydown', function (e) {
-				win.warn('keydown', e.keyCode);
 				if (e.keyCode === 179) {
 					$('.vjs-play-control').click();
 				} else if (e.keyCode === 177) {
