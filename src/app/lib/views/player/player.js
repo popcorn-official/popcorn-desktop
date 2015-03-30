@@ -261,10 +261,10 @@
 					total = _this.video.duration() / 60 | 0;
 
 				if (_this.isMovie() === 'movie') {
-					win.debug('Reporting we are watching ' + _this.model.get('title') + ' ' + percent + '% ');
+					win.debug('Reporting we are watching \'' + _this.model.get('imdb_id') + '\' (' + percent + '% of ' + total + ' min)');
 					App.Trakt.movie.watching(_this.model.get('imdb_id'), percent, total);
 				} else if (_this.isMovie() === 'show') {
-					win.debug('Reporting we are watching ' + _this.model.get('title') + ' ' + percent + '%');
+					win.debug('Reporting we are watching \'' + _this.model.get('tvdb_id') + '\' (' + percent + '% of ' + total + ' min)');
 					App.Trakt.show.watching(_this.model.get('tvdb_id'), _this.model.get('season'), _this.model.get('episode'), percent, total);
 				}
 			};
