@@ -260,6 +260,7 @@ vjs.TextTrack.prototype.load = function(){
 			} else {
 				if (!language && Settings.subtitle_language) {
 					language = Settings.subtitle_language;
+					win.debug('SUB charset: using subtitles_language setting ('+language+') as default');
 				}
 				var iconv = require('iconv-lite');
 				var langInfo = App.Localization.langcodes[language] || {};
@@ -271,6 +272,7 @@ vjs.TextTrack.prototype.load = function(){
 					dataBuff = iconv.encode( iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset );
 				} else {
 					// fallback to utf8
+					win.debug('SUB charset: fallback to utf-8');
 					dataBuff = iconv.decode(dataBuff, detectedEncoding);
 					detectedEncoding = 'UTF-8';
 				}
