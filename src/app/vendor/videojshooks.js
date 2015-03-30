@@ -258,6 +258,9 @@ vjs.TextTrack.prototype.load = function(){
 				callback(dataBuff.toString('utf-8'));
 			// We do
 			} else {
+				if (!language && Settings.subtitle_language) {
+					language = Settings.subtitle_language;
+				}
 				var iconv = require('iconv-lite');
 				var langInfo = App.Localization.langcodes[language] || {};
 				win.debug("SUB charset expected: "+langInfo.encoding);
