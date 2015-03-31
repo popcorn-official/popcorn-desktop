@@ -125,84 +125,99 @@ vjs.TextTrack.prototype.load = function(){
 			}
 		}
 
-		//transcode .ass or .ssa
-		function ass2srt(file, callback) {
+		//transcode .ass, .ssa, .txt
+		function convert2srt(file, ext, callback) {
 			var readline = require('readline'),
 				counter = null,
 				lastBeginTime,
 
 				//input
-				ass = /([^\\]+)$/.exec(file)[1],
-				assPath = file.substr(0, file.indexOf(ass)),
+				orig = /([^\\]+)$/.exec(file)[1],
+				origPath = file.substr(0, file.indexOf(orig)),
 
 				//output
-				srt = ass.replace('.ass','.srt').replace('.ssa','.srt'),
+				srt = orig.replace(ext,'.srt'),
 				srtPath = Settings.tmpLocation,
 
 				//elements
 				dialog, begin_time, end_time;
 
+			var formatSeconds = function (seconds) {
+				var date = new Date(1970,0,1);
+				date.setSeconds(seconds);
+				return date.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
+			}
 
 			fs.writeFileSync(path.join(srtPath, srt), '') //create or delete content;
-			win.debug('SSA SUB detected', ass);
+			win.debug('SUB format can be converted:', orig);
 
 			var rl = readline.createInterface({
-			  input : fs.createReadStream(path.join(assPath, ass)),
+			  input : fs.createReadStream(path.join(origPath, orig)),
 			  output: process.stdout,
 			  terminal: false
 			});
 			rl.on('line',function(line){
 
-				//detect where are each elements
-				if (line.indexOf('Format:') !== -1) {
-					var ssaFormat = line.split(',');
 
-					for (var i = 0; i < ssaFormat.length; i++) {
-						switch (ssaFormat[i]) {
-							case 'Text':
-							case ' Text':
-								dialog = i;
-								break;
-							case 'Start':
-							case ' Start':
-								begin_time = i;
-								break;
-							case 'End':
-							case ' End':
-								end_time = i;
-								break;
-							default:
+				//parse SSA
+				if (ext === '.ssa' || ext === '.ass') {
+					if (line.indexOf('Format:') !== -1) {
+						var ssaFormat = line.split(',');
+
+						for (var i = 0; i < ssaFormat.length; i++) {
+							switch (ssaFormat[i]) {
+								case 'Text':
+								case ' Text':
+									dialog = i;
+									break;
+								case 'Start':
+								case ' Start':
+									begin_time = i;
+									break;
+								case 'End':
+								case ' End':
+									end_time = i;
+									break;
+								default:
+							}
 						}
+
+						if (dialog && begin_time && end_time) {
+							win.debug('SUB formatted in \'ssa\'');
+						}
+						return; //we have the elms spots, move on to the next line
 					}
 
-					if (dialog && begin_time && end_time) {
-						win.debug('SSA SUB formatting detected!');
-					}
-					return; //we have the elms spots, move on to the next line
+					if (line.indexOf('Dialogue:') === -1) return; //not a dialog line
+
+					var line_ = line.split(',');
+
+					var parsedBeginTime = line_[begin_time];
+					var parsedEndTime = line_[end_time];
+					var parsedDialog = line_[dialog];
+					parsedDialog = parsedDialog.replace('{\\i1}','<i>').replace('{\\i0}','</i>'); //italics
+					parsedDialog = parsedDialog.replace('{\\b1}','<b>').replace('{\\b0}','</b>'); //bold
+					parsedDialog = parsedDialog.replace('\\N', '\n'); //return to line
+					parsedDialog = parsedDialog.replace(/{.*?}/g, ''); //remove leftovers brackets 
 				}
 
-				//not a dialog line
-				if (line.indexOf('Dialogue:') === -1) return;
+				//parse TXT
+				if (ext === '.txt') {
+					var line_ = line.split('}');
+
+					var parsedBeginTime = formatSeconds(line_[0].replace('{', '') / 25);
+					var parsedEndTime = formatSeconds(line_[1].replace('{', '') / 25);
+					var parsedDialog = line_[2].replace('|', '\n');
+				}
 
 				//SRT needs a number for each subtitle
 				counter += 1;
-
-				//parse SSA
-				var line_ = line.split(',');
-
-				var parsedBeginTime = line_[begin_time];
-				var parsedEndTime = line_[end_time];
-				var parsedDialog = line_[dialog];
-				parsedDialog = parsedDialog.replace('{\\i1}','<i>').replace('{\\i0}','</i>'); //italics
-				parsedDialog = parsedDialog.replace('{\\b1}','<b>').replace('{\\b0}','</b>'); //bold
-				parsedDialog = parsedDialog.replace('\\N', '\n'); //return to line
-				parsedDialog = parsedDialog.replace(/{.*?}/g, ''); //remove leftovers brackets 
 
 				//keep only the last lang
 				if (parsedBeginTime < lastBeginTime) {
 					counter = 1;
 					fs.writeFileSync(path.join(srtPath, srt), '');
-					win.debug('SSA SUB contains multiple tracks, keeping only the last');
+					win.debug('SUB contains multiple tracks, keeping only the last');
 				}
 
 				//SRT formatting
@@ -218,10 +233,10 @@ vjs.TextTrack.prototype.load = function(){
 			setTimeout(function () {
 				fs.readFile(path.join(srtPath, srt), function(err, dataBuff) {
 					if (!err) {
-						win.debug('SSA SUB transcoded to SRT', srt);
+						win.debug('SUB transcoded to SRT:', srt);
 						callback(dataBuff);
 					} else {
-						win.warn('SSA transcoding failed', err);
+						win.warn('SUB transcoding failed', err);
 					}
 				});
 			}, 2000);
@@ -289,8 +304,8 @@ vjs.TextTrack.prototype.load = function(){
 				decompress(dataBuf, function(dataBuf) {
 					decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
 				});
-			} else if (path.extname(this_.src_) === '.ass' || path.extname(this_.src_) === '.ssa') {
-				ass2srt(this_.src_, function(dataBuf) {
+			} else if (path.extname(this_.src_) === '.ass' || path.extname(this_.src_) === '.ssa' || path.extname(this_.src_) === '.txt') {
+				convert2srt(this_.src_, path.extname(this_.src_), function(dataBuf) {
 					decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
 				});
 			} else {
