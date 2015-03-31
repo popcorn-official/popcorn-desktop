@@ -125,7 +125,7 @@ vjs.TextTrack.prototype.load = function(){
 			}
 		}
 
-		//transcode .ass, .ssa, .txt
+		//transcode .ass, .ssa, .txt to SRT
 		function convert2srt(file, ext, callback) {
 			var readline = require('readline'),
 				counter = null,
@@ -158,9 +158,13 @@ vjs.TextTrack.prototype.load = function(){
 			});
 			rl.on('line',function(line){
 
+				//detect encoding
+				var charset = require('jschardet').detect(line);
+				var encoding = charset.encoding;
 
 				//parse SSA
 				if (ext === '.ssa' || ext === '.ass') {
+					encoding = 'utf-8';
 					if (line.indexOf('Format:') !== -1) {
 						var ssaFormat = line.split(',');
 
@@ -226,7 +230,7 @@ vjs.TextTrack.prototype.load = function(){
 					parsedBeginTime + ' --> ' + parsedEndTime + '\n' +
 					parsedDialog;
 
-				fs.appendFileSync(path.join(srtPath, srt), '\n\n' + parsedLine);
+				fs.appendFileSync(path.join(srtPath, srt), '\n\n' + parsedLine, encoding);
 				lastBeginTime = parsedBeginTime;
 			});
 
