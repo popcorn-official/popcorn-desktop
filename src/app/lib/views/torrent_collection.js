@@ -26,7 +26,8 @@
 
 		initialize: function () {
 			if (!fs.existsSync(collection)) {
-				fs.mkdir(collection); //create directory
+				fs.mkdirSync(collection);
+				win.debug('TorrentCollection: data directory created');
 			}
 			this.files = fs.readdirSync(collection);
 		},
