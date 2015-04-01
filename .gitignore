@@ -33,7 +33,7 @@ app.nw
 
 src/app/css/app.css
 *.sublime-*
-dist/windows/*.exe
+dist/windows/*-Setup.exe
 dist/linux/linux-installer
 *.bat
 *.db
