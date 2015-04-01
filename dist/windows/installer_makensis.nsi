@@ -227,7 +227,7 @@ LangString noRoot ${LANG_Albanian} "Ju nuk mund të instaloni Popcorn Time në n
 LangString noRoot ${LANG_Arabic} " لا يمكنك تثبيت Popcorn Time في مجلد يتطلب صلاحيات مدير"
 LangString noRoot ${LANG_Belarusian} "Вы не можаце ўсталяваць Popcorn Time ў каталогу, які патрабуе правоў адміністратара"
 LangString noRoot ${LANG_Bosnian} "Nemoguće instalirati Popcorn Time u direktorij koji zahtjeva administrativnu dozvolu" 
-LangString noRoot ${LANG_Bulgarian} "Не можете да инсталирате Popcorn Time в директория, която изисква администраторски права"
+LangString noRoot ${LANG_Bulgarian} "Не може да инсталирате Popcorn Time в директория, изискваща администраторски права"
 LangString noRoot ${LANG_Catalan} "No es pot installar Popcorn Time en un directori que requereix permisos d'administrador"
 LangString noRoot ${LANG_Croatian} "Nemoguće instalirati Popcorn Time u mapi koja zahtjeva administrativnu dozvolu"
 LangString noRoot ${LANG_Czech} "Nelze nainstalovat Popcorn Time v adresáři, který vyžaduje oprávnění správce"
