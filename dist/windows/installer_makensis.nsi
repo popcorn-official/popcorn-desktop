@@ -238,7 +238,7 @@ LangString noRoot ${LANG_Finnish} "Et voi asentaa Popcorn Time hakemistossa, jok
 LangString noRoot ${LANG_French} "Popcorn Time ne peut être installé dans un répertoire nécessitant un accès administrateur"
 LangString noRoot ${LANG_Galician} "Non podes instalar Popcorn Time nun directorio que precisa ter acceso de administrador"
 LangString noRoot ${LANG_German} "Sie können Popcorn Time nicht in einem Verzeichnis, das über Administratorrechte zum Installieren der benötigten" 
-LangString noRoot ${LANG_Greek} Δεν μπορείτε να εγκαταστήσετε το Popcorn Time σε ένα φάκελο που απαιτεί δικαιώματα διαχειριστή"
+LangString noRoot ${LANG_Greek} "Δεν μπορείτε να εγκαταστήσετε το Popcorn Time σε ένα φάκελο που απαιτεί δικαιώματα διαχειριστή"
 LangString noRoot ${LANG_Hebrew} "אין באפשרותכם להתקין את Popcorn Time בתיקייה שדורשת הרשאות מנהל"
 LangString noRoot ${LANG_Hungarian} "Nem lehet telepíteni a Popcorn Time egy könyvtárban, amely előírja a rendszergazdai jogosultsággal"
 LangString noRoot ${LANG_Icelandic} "Þú getur ekki sett Popcorn Time í möppu sem þarfnast stjórnenda réttindi"
@@ -268,10 +268,10 @@ LangString noRoot ${LANG_Spanish} "Popcorn Time no puede ser instalado en un dir
 LangString noRoot ${LANG_SpanishInternational} "Popcorn Time no puede ser instalado en un directorio que requiera permisos de administrador"
 LangString noRoot ${LANG_Swedish} "Popcorn Time kan inte installeras i en mapp som kräver administratörsbehörighet"
 LangString noRoot ${LANG_Thai} "คุณไม่สามารถติดตั้ง Popcorn Time ในไดเรกทอรีที่ต้องใช้สิทธิ์ของผู้ดูแล"
-LangString noRoot ${LANG_TradChinese} "你不能把PopCorn Time安装到一个需要管理员权限的目录"
-LangString noRoot ${LANG_Turkish} "PopcornTime'ı yönetici izinleri gerektiren bir dizine kuramazsınız"
+LangString noRoot ${LANG_TradChinese} "你不能把Popcorn Time安装到一个需要管理员权限的目录"
+LangString noRoot ${LANG_Turkish} "Popcorn Time'ı yönetici izinleri gerektiren bir dizine kuramazsınız"
 LangString noRoot ${LANG_Ukrainian} "Ви не можете встановити Popcorn Time в каталозі, який вимагає прав адміністратора"
-LangString noRoot ${LANG_Vietnamese} "BBạn không thể cài đặt Popcorn time trong một thư mục yêu cầu quyền quản trị admin"
+LangString noRoot ${LANG_Vietnamese} "Bạn không thể cài đặt Popcorn time trong một thư mục yêu cầu quyền quản trị admin"
 LangString noRoot ${LANG_Welsh} "Ni allwch osod Popcorn Time mewn cyfeiriadur sy'n gofyn caniatâd gweinyddwr"
 
 ; ------------------- ;
