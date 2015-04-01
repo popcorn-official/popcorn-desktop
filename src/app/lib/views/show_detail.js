@@ -20,6 +20,7 @@
 
 		events: {
 			'click .favourites-toggle': 'toggleFavorite',
+			'click .show-watched-toggle': 'markShowAsWatched',
 			'click .watched': 'toggleWatched',
 			'click #watch-now': 'startStreaming',
 			'click .close-icon': 'closeDetails',
@@ -118,6 +119,8 @@
 			App.vent.on('shortcuts:shows', function () {
 				_this.initKeyboardShortcuts();
 			});
+
+			this.isShowWatched();
 		},
 
 		initKeyboardShortcuts: function () {
@@ -300,6 +303,55 @@
 						App.vent.trigger('show:watched', value, 'seen');
 					}
 				});
+		},
+
+		isShowWatched: function () {
+			var tvdb_id = _this.model.get('tvdb_id');
+			var imdb_id = _this.model.get('imdb_id');
+
+			var episodes = this.model.get('episodes');
+			episodes.forEach( function (episode, index, array) {
+				var value = {
+					tvdb_id: tvdb_id,
+					imdb_id: imdb_id,
+					season: episode.season,
+					episode: episode.episode,
+					from_browser: true
+				};
+				Database.checkEpisodeWatched(value)
+					.then(function (watched) {
+						if (!watched) {
+							$('.show-watched-toggle').show();
+						}
+					});
+			});
+		},
+
+		markShowAsWatched: function () {
+			$('.show-watched-toggle').addClass('selected');
+
+			var tvdb_id = _this.model.get('tvdb_id');
+			var imdb_id = _this.model.get('imdb_id');
+
+			var episodes = this.model.get('episodes');
+			episodes.forEach( function (episode, index, array) {
+				var value = {
+					tvdb_id: tvdb_id,
+					imdb_id: imdb_id,
+					season: episode.season,
+					episode: episode.episode,
+					from_browser: true
+				};
+				Database.checkEpisodeWatched(value)
+					.then(function (watched) {
+						if (!watched) {
+							App.vent.trigger('show:watched', value, 'seen');
+							if (index === array.length - 1) {
+								$('.show-watched-toggle').hide();
+							}
+						}
+					});
+			});
 		},
 
 		onWatched: function (value, channel) {

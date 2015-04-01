@@ -213,6 +213,48 @@
 		overflow hidden
 		scrollable()
 
+	.show-watched-toggle
+		cursor: pointer
+		padding-left: 24px
+		right: 45px
+		text-align: right
+		z-index: 3
+		color: #FFF
+		height: 18px
+		top: 194px
+		position: absolute
+		font-family: $MainFont
+		font-smoothing: antialiased
+		font-size: 12px
+		line-height: 17px
+		display: none
+
+		&:before
+			content: "\f070"
+			font-family: FontAwesome
+			position: absolute
+			font-size: 18px
+			color: #FFF
+			left: 0
+			opacity: 1
+			transition: opacity 0.5s
+
+		&:after 
+			content: "\f00c"
+			font-family: FontAwesome
+			position: absolute
+			font-size: 20px
+			color: #299000
+			left: 0
+			opacity: 0
+			transition: opacity 0.5s
+
+		&:hover, &.selected
+			&:before
+				opacity: 0
+			&:after
+				opacity: 1
+
 	.favourites-toggle 
 		cursor: pointer
 		padding-left: 24px
@@ -222,7 +264,6 @@
 		height: 18px
 		top: 194px
 		position: absolute
-		width: 200px
 		font-family: $MainFont
 		font-smoothing: antialiased
 		font-size: 12px

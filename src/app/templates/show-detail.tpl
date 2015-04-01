@@ -36,6 +36,7 @@
 		</div>
 		<div class="tv-overview"><%= synopsis %></div>
 		<div class="favourites-toggle"><%=i18n.__("Add to bookmarks") %></div>
+		<div class="show-watched-toggle"><%=i18n.__("Mark as Seen") %></div>
 	</div>
 </div>
 
