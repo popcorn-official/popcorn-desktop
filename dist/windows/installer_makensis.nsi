@@ -477,16 +477,26 @@ FunctionEnd
 ; ------------------- ;
 ;  Check install dir  ;
 ; ------------------- ;
+Function CloseBrowseForFolderDialog
+	!ifmacrodef "_P<>" ; NSIS 3+
+		System::Call 'USER32::GetActiveWindow()p.r0'
+		${If} $0 P<> $HwndParent
+	!else
+		System::Call 'USER32::GetActiveWindow()i.r0'
+		${If} $0 <> $HwndParent
+	!endif
+		SendMessage $0 ${WM_CLOSE} 0 0
+		${EndIf}
+FunctionEnd
+
 Function .onVerifyInstDir
 
   Push $R1
   ${IsWritable} $INSTDIR $R1
   IntCmp $R1 0 pathgood
   Pop $R1
-  MessageBox MB_OK|MB_USERICON "$(noRoot)" IDOK true
-  Abort
-true:
-  ;TODO: close browser
+  Call CloseBrowseForFolderDialog
+  MessageBox MB_OK|MB_USERICON "$(noRoot)"
   Abort
 
 pathgood:
