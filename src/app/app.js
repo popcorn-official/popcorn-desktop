@@ -351,6 +351,57 @@ window.ondragenter = function (e) {
 		});
 };
 
+var isVideo = function (file) {
+    var ext = path.extname(file).toLowerCase();
+    switch (ext) {
+        case '.mp4':
+        case '.avi':
+        case '.mov':
+        case '.mkv':
+            return true;
+            break;
+        default:
+            return false;
+    }
+}
+
+var handleVideoFile = function (file) {
+    // look for subtitles
+    var checkSubs = function () {
+        var _ext = path.extname(file.name);
+        var toFind = file.path.replace(_ext, '.srt');
+
+        if (fs.existsSync(path.join(toFind))) {
+            return {local: path.join(toFind)};
+        } else {
+            return null;
+        }
+    }
+
+    // try to get a quality
+    var checkQuality = function () {
+        if (file.name.indexOf('1080p') !== -1 || file.name.toLowerCase().indexOf('fulllhd') !== -1) {
+            return '1080p';
+        } else if (file.name.indexOf('720p') !== -1) {
+            return '720p';
+        } else {
+            return false;
+        }
+    }
+
+    // streamer model
+    var localVideo = new Backbone.Model({
+        src: path.join(file.path),
+        title: file.name,
+        type: 'video/mp4',
+        subtitle: checkSubs(),
+        defaultSubtitle: 'local',
+        quality: checkQuality()
+    });
+    win.debug('Trying to play local file', localVideo.get('src'), localVideo.attributes);
+    App.vent.trigger('stream:ready', localVideo);
+}
+
 var handleTorrent = function (torrent) {
 	try {
 		App.PlayerView.closePlayer();
@@ -385,7 +436,9 @@ window.ondrop = function (e) {
 			}
 		});
 
-	} else {
+	} else if (isVideo(file.name)) {
+        handleVideoFile(file);
+    } else {
 		var data = e.dataTransfer.getData('text/plain');
 		Settings.droppedMagnet = data;
 		handleTorrent(data);
@@ -416,6 +469,17 @@ if (last_arg && (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0
 	App.vent.on('app:started', function () {
 		handleTorrent(last_arg);
 	});
+}
+
+// Play local files
+if (last_arg && (isVideo(last_arg))) {
+    App.vent.on('app:started', function () {
+        var fileModel = {
+            path: last_arg,
+            name: /([^\\]+)$/.exec(last_arg)[1]
+        };
+        handleVideoFile(fileModel);
+    });
 }
 
 // -f argument to open in fullscreen
