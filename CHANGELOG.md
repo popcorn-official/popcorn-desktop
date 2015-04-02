@@ -1,4 +1,5 @@
 BugFixes: 
+
 - Fullscreen consistent while playing
 - Multi-screen support
 - Windows 8.1 : the app doesn't go under the taskbar anymore
@@ -12,8 +13,11 @@ BugFixes:
 - Fix some issues with Keyboard navigation
 - Allow to hide the updater notification
 - Fix an issue corrupting cache if used on an external HDD
+- Improvements in subtitle encoding
+- Autoplay fixes
 
 New Features: 
+
 - NW 11.5
 - Cancel "Play Next Episode"
 - Select your subtitles Font, and/or add a solid background to them.
@@ -23,8 +27,15 @@ New Features:
 - No more ads from Youtube
 - Stream subtitles with DLNA/UPnP
 - Search Kickass and save some torrents for later
-- Allow SSA/ASS subtitles (needs testing)
+- Allow SSA/ASS subtitles, along with TXT (mostly Chinese & Polish - needs testing)
 - The app will now remember: last chosen quality, player, subtitles position, volume
+- Mark an entire TV Series as watched
+- Choose the application install directory (provided that it doesn't need admin rights)
+- Play local video files in PT Player (mp4, avi, mov, mkv)
+- Windows: launcher allowing to use PT as default for torrents/magnets/video files
+- Support for multimedia keys
+- Launch external players in Fullscreen
+- 
 
 ## 0.3.7 Beta - The Car Won't Start - 15 January 2015
 
