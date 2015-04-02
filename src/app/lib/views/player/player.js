@@ -107,6 +107,14 @@
 				App.Trakt[type].cancelWatching();
 			}
 
+			// remember position
+			if (this.video.currentTime() / this.video.duration() < 0.8) {
+				AdvSettings.set('lastWatchedTitle', this.model.get('title'));
+				AdvSettings.set('lastWatchedTime', this.video.currentTime() - 5);
+			} else {
+				AdvSettings.set('lastWatchedTime', false);
+			}
+
 			try {
 				this.video.dispose();
 			} catch (e) {
@@ -275,7 +283,15 @@
 				if (_this.model.get('auto_play')) {
 					_this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
 				}
-
+			});
+			
+			player.on('loadeddata', function () {
+				// resume position
+				if (AdvSettings.get('lastWatchedTitle') === _this.model.get('title') && AdvSettings.get('lastWatchedTime') > 0) {
+					var position = AdvSettings.get('lastWatchedTime');
+					win.debug('Resuming position to', position.toFixed(), 'secs');
+					player.currentTime(position);
+				}
 			});
 
 			player.on('play', function () {
@@ -419,7 +435,6 @@
 		remainingTime: function () {
 			var timeLeft = this.model.get('time_left');
 
-			
 			if (timeLeft === undefined) {
 				return i18n.__('Unknown time remaining');
 			} else if (timeLeft > 3600) {
