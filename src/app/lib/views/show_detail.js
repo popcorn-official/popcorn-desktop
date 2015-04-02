@@ -120,7 +120,6 @@
 				_this.initKeyboardShortcuts();
 			});
 
-			this.isShowWatched();
 		},
 
 		initKeyboardShortcuts: function () {
@@ -186,6 +185,7 @@
 				$('.number-container-tv').removeClass('hidden');
 			}
 
+			this.isShowWatched();
 		},
 
 		selectNextEpisode: function () {
