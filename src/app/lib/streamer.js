@@ -363,9 +363,11 @@
 					if (!title) { //From ctrl+v magnet or drag torrent
 						for (var f in torrent.files) {
 							torrent.files[f].index = f;
-							if (!torrent.files[f].name.endsWith('.avi') &&
-								!torrent.files[f].name.endsWith('.mp4') &&
-								!torrent.files[f].name.endsWith('.mkv')) {
+							if (!torrent.files[f].name.toLowerCase().endsWith('.avi') &&
+								!torrent.files[f].name.toLowerCase().endsWith('.mp4') &&
+								!torrent.files[f].name.toLowerCase().endsWith('.mkv') &&
+								!torrent.files[f].name.toLowerCase().endsWith('.mov') &&
+								!torrent.files[f].name.toLowerCase().endsWith('.wmv')) {
 								torrent.files[f] = null;
 							}
 						}
