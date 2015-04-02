@@ -342,6 +342,7 @@
 			$('.player-header-background').appendTo('div#video_player');
 
 			$('li:contains("subtitles off")').text(i18n.__('Disabled'));
+			$('li:contains("local")').text(i18n.__('Subtitles'));
 
 			if (AdvSettings.get('alwaysFullscreen') && !this.inFullscreen) {
 				this.toggleFullscreen();
