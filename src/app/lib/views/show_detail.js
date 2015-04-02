@@ -131,10 +131,14 @@
 			Mousetrap.bind(['esc', 'backspace'], _this.closeDetails);
 			Mousetrap.bind(['ctrl+up', 'command+up'], _this.previousSeason);
 			Mousetrap.bind(['ctrl+down', 'command+down'], _this.nextSeason);
+			Mousetrap.bind('f', function () {
+				$('.favourites-toggle').click();
+			});
 		},
 
 		unbindKeyboardShortcuts: function () { // There should be a better way to do this
 			Mousetrap.unbind('w');
+			Mousetrap.unbind('f');
 			Mousetrap.unbind('q');
 			Mousetrap.unbind('up');
 			Mousetrap.unbind('down');

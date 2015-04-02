@@ -13,12 +13,20 @@
 						<th><%= i18n.__("Global shortcuts") %></th>
 					</tr>
 					<tr>
-						<td><span class="key">?</span></td>
+						<td><span class="key">?</span>/<span class="key">/</span></td>
 						<td><%= i18n.__("Open this screen") %></td>
 					</tr>
 					<tr>
 						<td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">,</span></td>
 						<td><%= i18n.__("Open Settings") %></td>
+					</tr>
+					<tr>
+						<td><span class="key">`</span>/<span class="key">B</span></td>
+						<td><%= i18n.__("Open Favorites") %></td>
+					</tr>
+					<tr>
+						<td><span class="key">I</span></td>
+						<td><%= i18n.__("Open About") %></td>
 					</tr>
 					<tr>
 						<td><span class="key control">TAB</span></td>
@@ -52,6 +60,14 @@
 						<td><span class="key">W</span></td>
 						<td><%= i18n.__("Mark as Seen") %></td>
 					</tr>
+					<tr>
+						<td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key control">ALT</span>+<span class="key">F</span></td>
+						<td><%= i18n.__("Toggle Fullscreen") %></td>
+					</tr>
+					<tr>
+						<td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">F</span></td>
+						<td><%= i18n.__("Search") %></td>
+					</tr>
 				</tbody>
 				<tbody>
 					<tr>
@@ -61,6 +77,10 @@
 					<tr>
 						<td><span class="key">Q</span></td>
 						<td><%= i18n.__("Toggle Quality") %></td>
+					</tr>
+					<tr>
+						<td><span class="key">F</span></td>
+						<td><%= i18n.__("Add Item to Favorites") %></td>
 					</tr>
 					<tr>
 						<td><span class="key enter"><%= i18n.__("enter") %></span>/<span class="key spacebar"><%= i18n.__("space") %></span></td></td>
@@ -76,6 +96,10 @@
 					<tr>
 						<td><span class="key">Q</span></td>
 						<td><%= i18n.__("Toggle Quality") %></td>
+					</tr>
+					<tr>
+						<td><span class="key">F</span></td>
+						<td><%= i18n.__("Add Item to Favorites") %></td>
 					</tr>
 					<tr>
 						<td><span class="key">W</span></td>
@@ -121,11 +145,7 @@
 						<td><%= i18n.__("Exit Fullscreen") %></td>
 					</tr>
 					<tr>
-						<td><span class="key spacebar"><%= i18n.__("space") %></span></td>
-						<td><%= i18n.__("Play/Pause") %></td>
-					</tr>
-					<tr>
-						<td><span class="key">p</span></td>
+						<td><span class="key spacebar"><%= i18n.__("space") %></span>/<span class="key">p</span></td>
 						<td><%= i18n.__("Play/Pause") %></td>
 					</tr>
 					<tr>
