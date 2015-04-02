@@ -436,7 +436,7 @@ window.ondrop = function (e) {
 			}
 		});
 
-	} else if (isVideo(file.name)) {
+	} else if (file != null && isVideo(file.name)) {
         handleVideoFile(file);
     } else {
 		var data = e.dataTransfer.getData('text/plain');
