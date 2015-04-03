@@ -493,7 +493,14 @@ gui.App.on('open', function(cmd) {
     if (os.platform() == 'win32') {
         file = cmd.split('"');
         file = file[file.length - 2];
+    } else {
+        file = cmd.split(' /');
+        file = '/' + file;
+    }
+
+    if (file) {
         win.debug('File loaded:', file);
+
         if (isVideo(file)) {
             var fileModel = {
                 path: file,
@@ -503,8 +510,6 @@ gui.App.on('open', function(cmd) {
         } else if (file.endsWith('.torrent')) {
             handleTorrent(file);
         }
-    } else {
-        console.log(cmd);
     }
 });
 
