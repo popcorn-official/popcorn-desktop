@@ -389,6 +389,12 @@ var handleVideoFile = function (file) {
         }
     }
 
+	try {
+		App.PlayerView.closePlayer();
+	} catch (err) {
+		// The player wasn't running
+	}
+
     // streamer model
     var localVideo = new Backbone.Model({
         src: path.join(file.path),
@@ -481,6 +487,26 @@ if (last_arg && (isVideo(last_arg))) {
         handleVideoFile(fileModel);
     });
 }
+
+gui.App.on('open', function(cmd) {
+    var file;
+    if (os.platform() == 'win32') {
+        file = cmd.split('"');
+        file = file[file.length - 2];
+        win.debug('File loaded:', file);
+        if (isVideo(file)) {
+            var fileModel = {
+                path: file,
+                name: /([^\\]+)$/.exec(file)[1]
+            };
+            handleVideoFile(fileModel);
+        } else if (file.endsWith('.torrent')) {
+            handleTorrent(file);
+        }
+    } else {
+        console.log(cmd);
+    }
+});
 
 // -f argument to open in fullscreen
 if (gui.App.fullArgv.indexOf('-f') !== -1) {
