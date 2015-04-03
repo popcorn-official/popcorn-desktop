@@ -495,6 +495,7 @@ gui.App.on('open', function(cmd) {
         file = file[file.length - 2];
     } else {
         file = cmd.split(' /');
+        file = file[file.length - 1];
         file = '/' + file;
     }
 
