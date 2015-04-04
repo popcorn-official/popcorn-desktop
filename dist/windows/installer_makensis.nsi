@@ -264,7 +264,7 @@ LangString noRoot ${LANG_Russian} "Popcorn Time не может быть уст�
 LangString noRoot ${LANG_Serbian} "Ви не можете инсталирати ПопцорнТиме у директоријуму која захтева администраторске дозволе"
 LangString noRoot ${LANG_SerbianLatin} "Ne možete da instalirate Popcorn Time u direktorijum koji zahteva administartorsku dozvolu"
 LangString noRoot ${LANG_SimpChinese} "你不能把PopCorn Time安装到一个需要管理员权限的目录"
-LangString noRoot ${LANG_Slovak} "Nemožno nainštalovať Popcorn Time v adresári, ktorý vyžaduje oprávnenia správcu"
+LangString noRoot ${LANG_Slovak} "Nemôžete inštalovať Popcorn Time do zložky, ktorá vyžaduje administrátorské povolenia"
 LangString noRoot ${LANG_Slovenian} "Ne morete namestiti Popcorn Time v imeniku, ki zahteva skrbniška dovoljenja"
 LangString noRoot ${LANG_Spanish} "Popcorn Time no puede ser instalado en un directorio que requiera permisos de administrador"
 LangString noRoot ${LANG_SpanishInternational} "Popcorn Time no puede ser instalado en un directorio que requiera permisos de administrador"
