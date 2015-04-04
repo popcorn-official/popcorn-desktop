@@ -256,7 +256,7 @@ LangString noRoot ${LANG_Malay} "Anda tidak boleh memasang Popcorn Time dalam di
 LangString noRoot ${LANG_Mongolian} "Та администратор зөвшөөрөл шаарддаг сан дахь Popcorn Time суулгаж чадахгүй байгаа"
 LangString noRoot ${LANG_Norwegian} "Popcorn Time kan ikke installeres i en mappe som krever administratorrettigheter"
 LangString noRoot ${LANG_NorwegianNynorsk} "Popcorn Time kan ikke installeres i en mappe som krever administratorrettigheter" 
-LangString noRoot ${LANG_Polish} "Nie można zainstalować Popcorn Time w katalogu, który wymaga uprawnień administratora"
+LangString noRoot ${LANG_Polish} "Nie można zainstalować Popcorn Time w katalogu wymagającym uprawnień administratora"
 LangString noRoot ${LANG_Portuguese} "Não é possível instalar o Popcorn Time numa pasta que requer permissões administrativas"
 LangString noRoot ${LANG_PortugueseBR} "Popcorn Time não poderá ser instalado em um diretório que requer permissões de administrador"
 LangString noRoot ${LANG_Romanian} "Nu puteți instala Popcorn Time într-un director care necesită permisiuni de administrator"
