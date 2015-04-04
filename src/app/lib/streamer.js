@@ -293,7 +293,7 @@
 						var subtitleProvider = App.Config.getProvider('tvshowsubtitle');
 
 						subtitleProvider.fetch(data).then(function (subs) {
-							if (Object.keys(subs).length > 0) {
+							if (subs && Object.keys(subs).length > 0) {
 								subtitles = subs;
 								win.info(Object.keys(subs).length + ' subtitles found');
 							} else {
