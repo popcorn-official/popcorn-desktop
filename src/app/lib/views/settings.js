@@ -211,6 +211,7 @@
 			case 'automaticUpdating':
 			case 'events':
 			case 'alwaysFullscreen':
+			case 'minimizeToTray':
 			case 'activateTorrentCollection':
 			case 'activateWatchlist':
 				value = field.is(':checked');

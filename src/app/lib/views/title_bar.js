@@ -77,7 +77,28 @@ var os = require('os');
 		},
 
 		minimize: function () {
-			this.nativeWindow.minimize();
+			var that = this.nativeWindow;
+			if (AdvSettings.get('minimizeToTray')) {
+				that.hide();
+
+				var openTray = function () {
+					that.show();
+					tray.remove();
+				};
+
+				var tray = new gui.Tray({ title: 'Popcorn Time', icon: 'src/app/images/icon.png' });
+				tray.tooltip = 'Popcorn Time';
+
+				tray.on('click', function () {
+					openTray();
+				});
+
+				require('nw.gui').App.on('open', function (cmd) {
+					openTray();
+				});
+			} else {
+				that.minimize();
+			}
 		},
 
 		closeWindow: function () {

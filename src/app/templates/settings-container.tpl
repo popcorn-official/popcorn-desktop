@@ -456,6 +456,10 @@
 				<input class="settings-checkbox" name="events" id="cb6" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
 				<label class="settings-label" for="cb6"><%= i18n.__("Celebrate various events") %></label>
 			</span>
+			<span>
+				<input class="settings-checkbox" name="minimizeToTray" id="minimizeToTray" type="checkbox" <%=(Settings.minimizeToTray? "checked='checked'":"")%>>
+				<label class="settings-label" for="minimizeToTray"><%= i18n.__("Minimize to Tray") %></label>
+			</span>
 		</div>
 	</section>
 	<div class="btns advanced">
