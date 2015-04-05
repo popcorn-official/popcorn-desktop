@@ -31,11 +31,8 @@
 
         initialize: function () {
             var _this = this;
-            this.model.set('backdrop', resizeImage(this.model.get('backdrop'), '940'));
-            if ((ScreenResolution.SD || ScreenResolution.HD) && !ScreenResolution.Retina) {
-                // Screen Resolution of 720p or less is fine to have 300x450px image
-                this.model.set('image', resizeImage(this.model.get('image'), '300'));
-            }
+            this.model.set('backdrop', resizeImage(this.model.get('backdrop')));
+            this.model.set('image', resizeImage(this.model.get('image')));
 
             //Handle keyboard shortcuts when other views are appended or removed
 
@@ -53,7 +50,6 @@
                 }
             });
 
-            // this.initKeyboardShortcuts();
             this.model.on('change:quality', this.renderHealth, this);
         },
 

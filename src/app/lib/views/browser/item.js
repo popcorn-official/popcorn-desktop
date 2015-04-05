@@ -46,16 +46,16 @@
             switch (itemtype) {
             case 'bookmarkedshow':
                 watched = App.watchedShows.indexOf(imdb) !== -1;
-                this.model.set('image', resizeImage(img, '300'));
+                this.model.set('image', resizeImage(img, 'thumb'));
                 break;
             case 'show':
                 watched = App.watchedShows.indexOf(imdb) !== -1;
-                images.poster = resizeImage(img, '300');
+                images.poster = resizeImage(img, 'thumb');
                 break;
             case 'bookmarkedmovie':
             case 'movie':
                 watched = App.watchedMovies.indexOf(imdb) !== -1;
-                this.model.set('image', resizeImage(img, '300'));
+                this.model.set('image', resizeImage(img, 'thumb'));
                 break;
             }
             this.model.set('watched', watched);

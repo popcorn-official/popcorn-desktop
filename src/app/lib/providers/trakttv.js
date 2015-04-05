@@ -734,10 +734,10 @@
         }
     };
 
-    TraktTv.resizeImage = function (imageUrl, width) {
+    TraktTv.resizeImage = function(imageUrl, size) {
         var uri = URI(imageUrl),
-            ext = uri.suffix(),
-            file = uri.filename().split('.' + ext)[0];
+        ext = uri.suffix(),
+        file = uri.filename().split('.' + ext)[0];
 
         // Don't resize images that don't come from trakt
         //  eg. YTS Movie Covers
@@ -749,15 +749,33 @@
         if ((existingIndex = file.search('-\\d\\d\\d$')) !== -1) {
             file = file.slice(0, existingIndex);
         }
-        if (width < 400) {
-            existingIndex = 0;
-            if ((existingIndex = uri.toString().search('walter')) === -1) {
-                file = file + '-300';
-            }
 
-            uri.pathname(uri.pathname().toString().replace(/original/, 'thumb'));
+        // reset
+        uri.pathname(uri.pathname().toString().replace(/thumb|medium/, 'original'));
+
+        if (!size) {
+            if (ScreenResolution.SD || ScreenResolution.HD) {
+                uri.pathname(uri.pathname().toString().replace(/original/, 'thumb'));
+            } else if (ScreenResolution.FullHD) {
+                uri.pathname(uri.pathname().toString().replace(/original/, 'medium'));
+            } else if (ScreenResolution.QuadHD || ScreenResolution.UltraHD || ScreenResolution.Retina) {
+                //keep original
+            } else {
+                //default to medium
+                win.debug('ScreenResolution unknown, using \'medium\' image size')
+                uri.pathname(uri.pathname().toString().replace(/original/, 'medium'));
+            }
+        } else {
+            if (size === 'thumb') {
+                uri.pathname(uri.pathname().toString().replace(/original/, 'thumb'));
+            } else if (size === 'medium') {
+                uri.pathname(uri.pathname().toString().replace(/original/, 'medium'));
+            } else {
+                //keep original
+            }
         }
-        if (file === 'poster-300') {
+
+        if (imageUrl === undefined) {
             return 'images/posterholder.png'.toString();
         } else {
             return uri.filename(file + '.' + ext).toString();
