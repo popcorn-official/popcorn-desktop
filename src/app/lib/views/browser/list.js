@@ -6,6 +6,9 @@
     var _this;
 
     function elementInViewport(container, element) {
+        if (element.length === 0) {
+            return;
+        }
         var $container = $(container),
             $el = $(element);
 
@@ -272,7 +275,7 @@
 
         checkEmpty: function () {
             // if load more is visible onLoaded, fetch more results
-            if (isVisible($('#load-more-item')) && App.currentview === 'movies') {
+            if (elementInViewport(this.$el, $('#load-more-item')) && App.currentview === 'movies') {
                 this.collection.fetchMore();
             }
         },

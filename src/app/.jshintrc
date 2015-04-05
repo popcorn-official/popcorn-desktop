@@ -47,7 +47,6 @@
         "startupTime": true,
         "os": true,
         "deleteFolder": true,
-        "isVisible": true,
         "isVideo": true,
 		
 		// Third party
