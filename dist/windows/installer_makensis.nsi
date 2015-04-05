@@ -51,7 +51,6 @@ Unicode True
 ; ------------------- ;
 ;General Settings
 !define COMPANY_NAME "Popcorn Official"
-!define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
 Name "${APP_NAME}"
 Caption "${APP_NAME} v${PT_VERSION}"
 BrandingText "${APP_NAME} v${PT_VERSION}"
@@ -73,6 +72,7 @@ InstallDir "$LOCALAPPDATA\${APP_NAME}"
 RequestExecutionLevel user
 
 !define APP_LAUNCHER "Popcorn Time Launcher.exe"
+!define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
 
 ; ------------------- ;
 ;     UI Settings     ;
@@ -400,14 +400,20 @@ Section ; Shortcuts
     ;Add/remove programs uninstall entry
     ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
     IntFmt $0 "0x%08X" $0
-	WriteRegDWORD HKCU "${UNINSTALL_KEY}" "EstimatedSize" "$0"
-	WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
+    WriteRegDWORD HKCU "${UNINSTALL_KEY}" "EstimatedSize" "$0"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\src\app\images\popcorntime.ico"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "${COMPANY_NAME}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallString" "$INSTDIR"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "URLInfoAbout" "${APP_URL}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.popcorntime.io"
+
+    ;File association
+    WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}" "FriendlyAppName" "${APP_NAME}"
+    WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}\shell\open\command" "" '"$INSTDIR\${APP_LAUNCHER}" "%1"'
+
+    System::Call "shell32::SHChangeNotify(i,i,i,i) (0x08000000, 0x1000, 0, 0)"
 
 SectionEnd
 
@@ -424,7 +430,8 @@ Section "uninstall"
     RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
     NoUninstallData:
     DeleteRegKey HKCU "${UNINSTALL_KEY}"
-	DeleteRegKey HKCU "Software\Chromium" ;workaround for NW leftovers
+    DeleteRegKey HKCU "Software\Chromium" ;workaround for NW leftovers
+    DeleteRegKey HKCU "Software\Classes\Applications\${APP_LAUNCHER}" ;file association
     
 SectionEnd
 
