@@ -26,8 +26,8 @@
     OpenSubtitles.prototype.fetch = function (queryParams) {
         return openSRT.searchEpisode(queryParams, userAgent)
             .then(function (data) {
-                if (data.constructor === Object) {
-                    formatForPopcorn(data);
+                if (typeof data === 'object') {
+                    return formatForPopcorn(data);
                 } else {
                     return null;
                 }
