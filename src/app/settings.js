@@ -1,8 +1,8 @@
 var Q = require('q'),
-	os = require('os'),
-	path = require('path'),
-	_ = require('underscore'),
-	data_path = require('nw.gui').App.dataPath;
+    os = require('os'),
+    path = require('path'),
+    _ = require('underscore'),
+    data_path = require('nw.gui').App.dataPath;
 
 /** Default settings **/
 var Settings = {};
@@ -78,36 +78,36 @@ Settings.vpnUsername = '';
 Settings.vpnPassword = '';
 
 Settings.tvshowAPI = {
-	url: 'http://eztvapi.re/',
-	index: 0,
-	proxies: [{
-		url: 'http://eztvapi.re/',
-		ssl: false,
-		fingerprint: /"status":"online"/,
-	}, {
-		url: 'http://api.popcorntime.io/',
-		ssl: false,
-		fingerprint: /"status":"online"/
-	}]
+    url: 'http://eztvapi.re/',
+    index: 0,
+    proxies: [{
+        url: 'http://eztvapi.re/',
+        ssl: false,
+        fingerprint: /"status":"online"/,
+    }, {
+        url: 'http://api.popcorntime.io/',
+        ssl: false,
+        fingerprint: /"status":"online"/
+    }]
 };
 
 Settings.updateEndpoint = {
-	url: 'https://popcorntime.io/',
-	index: 0,
-	proxies: [{
-		url: 'https://popcorntime.io/',
-		fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C',
-	}, {
-		url: 'https://popcorntime.re/',
-		fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C'
-	}, {
-		url: 'https://popcorntime.cc/',
-		fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C'
-	}, {
-		url: 'https://its.pt/',
-		ssl: false,
-		fingerprint: /301/
-	}]
+    url: 'https://popcorntime.io/',
+    index: 0,
+    proxies: [{
+        url: 'https://popcorntime.io/',
+        fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C',
+    }, {
+        url: 'https://popcorntime.re/',
+        fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C'
+    }, {
+        url: 'https://popcorntime.cc/',
+        fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C'
+    }, {
+        url: 'https://its.pt/',
+        ssl: false,
+        fingerprint: /301/
+    }]
 };
 
 // App Settings
@@ -124,215 +124,215 @@ Settings.tv_detail_jump_to = 'next';
 
 
 var ScreenResolution = {
-	get SD() {
-		return window.screen.width < 1280 || window.screen.height < 720;
-	},
-	get HD() {
-		return window.screen.width >= 1280 && window.screen.width < 1920 || window.screen.height >= 720 && window.screen.height < 1080;
-	},
-	get FullHD() {
-		return window.screen.width >= 1920 && window.screen.width < 2000 || window.screen.height >= 1080 && window.screen.height < 1600;
-	},
-	get UltraHD() {
-		return window.screen.width >= 2000 || window.screen.height >= 1600;
-	},
-	get QuadHD() {
-		return window.screen.width >= 3000 || window.screen.height >= 1800;
-	},
-	get Standard() {
-		return window.devicePixelRatio <= 1;
-	},
-	get Retina() {
-		return window.devicePixelRatio > 1;
-	}
+    get SD() {
+        return window.screen.width < 1280 || window.screen.height < 720;
+    },
+    get HD() {
+        return window.screen.width >= 1280 && window.screen.width < 1920 || window.screen.height >= 720 && window.screen.height < 1080;
+    },
+    get FullHD() {
+        return window.screen.width >= 1920 && window.screen.width < 2000 || window.screen.height >= 1080 && window.screen.height < 1600;
+    },
+    get UltraHD() {
+        return window.screen.width >= 2000 || window.screen.height >= 1600;
+    },
+    get QuadHD() {
+        return window.screen.width >= 3000 || window.screen.height >= 1800;
+    },
+    get Standard() {
+        return window.devicePixelRatio <= 1;
+    },
+    get Retina() {
+        return window.devicePixelRatio > 1;
+    }
 };
 
 var AdvSettings = {
 
-	get: function (variable) {
-		if (typeof Settings[variable] !== 'undefined') {
-			return Settings[variable];
-		}
+    get: function (variable) {
+        if (typeof Settings[variable] !== 'undefined') {
+            return Settings[variable];
+        }
 
-		return false;
-	},
+        return false;
+    },
 
-	set: function (variable, newValue) {
-		Database.writeSetting({
-				key: variable,
-				value: newValue
-			})
-			.then(function () {
-				Settings[variable] = newValue;
-			});
-	},
+    set: function (variable, newValue) {
+        Database.writeSetting({
+                key: variable,
+                value: newValue
+            })
+            .then(function () {
+                Settings[variable] = newValue;
+            });
+    },
 
-	setup: function () {
-		AdvSettings.performUpgrade();
-		return AdvSettings.getHardwareInfo();
-	},
+    setup: function () {
+        AdvSettings.performUpgrade();
+        return AdvSettings.getHardwareInfo();
+    },
 
-	getHardwareInfo: function () {
-		if (/64/.test(process.arch)) {
-			AdvSettings.set('arch', 'x64');
-		} else {
-			AdvSettings.set('arch', 'x86');
-		}
+    getHardwareInfo: function () {
+        if (/64/.test(process.arch)) {
+            AdvSettings.set('arch', 'x64');
+        } else {
+            AdvSettings.set('arch', 'x86');
+        }
 
-		switch (process.platform) {
-		case 'darwin':
-			AdvSettings.set('os', 'mac');
-			break;
-		case 'win32':
-			AdvSettings.set('os', 'windows');
-			break;
-		case 'linux':
-			AdvSettings.set('os', 'linux');
-			break;
-		default:
-			AdvSettings.set('os', 'unknown');
-			break;
-		}
+        switch (process.platform) {
+        case 'darwin':
+            AdvSettings.set('os', 'mac');
+            break;
+        case 'win32':
+            AdvSettings.set('os', 'windows');
+            break;
+        case 'linux':
+            AdvSettings.set('os', 'linux');
+            break;
+        default:
+            AdvSettings.set('os', 'unknown');
+            break;
+        }
 
-		return Q();
-	},
+        return Q();
+    },
 
-	getNextApiEndpoint: function (endpoint) {
-		if (endpoint.index < endpoint.proxies.length - 1) {
-			endpoint.index++;
-		} else {
-			endpoint.index = 0;
-		}
-		endpoint.ssl = undefined;
-		_.extend(endpoint, endpoint.proxies[endpoint.index]);
-		return endpoint;
-	},
+    getNextApiEndpoint: function (endpoint) {
+        if (endpoint.index < endpoint.proxies.length - 1) {
+            endpoint.index++;
+        } else {
+            endpoint.index = 0;
+        }
+        endpoint.ssl = undefined;
+        _.extend(endpoint, endpoint.proxies[endpoint.index]);
+        return endpoint;
+    },
 
-	checkApiEndpoints: function (endpoints) {
-		return Q.all(_.map(endpoints, function (endpoint) {
-			return AdvSettings.checkApiEndpoint(endpoint);
-		}));
-	},
+    checkApiEndpoints: function (endpoints) {
+        return Q.all(_.map(endpoints, function (endpoint) {
+            return AdvSettings.checkApiEndpoint(endpoint);
+        }));
+    },
 
-	checkApiEndpoint: function (endpoint, defer) {
-		var tls = require('tls'),
-			http = require('http'),
-			uri = require('url');
+    checkApiEndpoint: function (endpoint, defer) {
+        var tls = require('tls'),
+            http = require('http'),
+            uri = require('url');
 
-		defer = defer || Q.defer();
+        defer = defer || Q.defer();
 
-		endpoint.ssl = undefined;
-		_.extend(endpoint, endpoint.proxies[endpoint.index]);
+        endpoint.ssl = undefined;
+        _.extend(endpoint, endpoint.proxies[endpoint.index]);
 
-		var url = uri.parse(endpoint.url);
-		win.debug('Checking %s endpoint', url.hostname);
+        var url = uri.parse(endpoint.url);
+        win.debug('Checking %s endpoint', url.hostname);
 
-		if (endpoint.ssl === false) {
-			var timeoutWrapper = function (req) {
-				return function () {
-					win.warn('[%s] Endpoint timed out',
-						url.hostname);
-					req.abort();
-					tryNextEndpoint();
-				};
-			};
-			var request = http.get({
-				hostname: url.hostname
-			}, function (res) {
-				res.once('data', function (body) {
-					clearTimeout(timeout);
-					res.removeAllListeners('error');
-					// Doesn't match the expected response
-					if (!_.isRegExp(endpoint.fingerprint) || !endpoint.fingerprint.test(body.toString('utf8'))) {
-						win.warn('[%s] Endpoint fingerprint %s does not match %s',
-							url.hostname,
-							endpoint.fingerprint,
-							body.toString('utf8'));
-						tryNextEndpoint();
-					} else {
-						defer.resolve();
-					}
-				}).once('error', function (e) {
-					win.warn('[%s] Endpoint failed [%s]',
-						url.hostname,
-						e.message);
-					clearTimeout(timeout);
-					tryNextEndpoint();
-				});
-			});
+        if (endpoint.ssl === false) {
+            var timeoutWrapper = function (req) {
+                return function () {
+                    win.warn('[%s] Endpoint timed out',
+                        url.hostname);
+                    req.abort();
+                    tryNextEndpoint();
+                };
+            };
+            var request = http.get({
+                hostname: url.hostname
+            }, function (res) {
+                res.once('data', function (body) {
+                    clearTimeout(timeout);
+                    res.removeAllListeners('error');
+                    // Doesn't match the expected response
+                    if (!_.isRegExp(endpoint.fingerprint) || !endpoint.fingerprint.test(body.toString('utf8'))) {
+                        win.warn('[%s] Endpoint fingerprint %s does not match %s',
+                            url.hostname,
+                            endpoint.fingerprint,
+                            body.toString('utf8'));
+                        tryNextEndpoint();
+                    } else {
+                        defer.resolve();
+                    }
+                }).once('error', function (e) {
+                    win.warn('[%s] Endpoint failed [%s]',
+                        url.hostname,
+                        e.message);
+                    clearTimeout(timeout);
+                    tryNextEndpoint();
+                });
+            });
 
-			var fn = timeoutWrapper(request);
-			var timeout = setTimeout(fn, 5000);
-		} else {
-			tls.connect(443, url.hostname, {
-				servername: url.hostname,
-				rejectUnauthorized: false
-			}, function () {
-				this.setTimeout(0);
-				this.removeAllListeners('error');
-				if (!this.authorized ||
-					this.authorizationError ||
-					this.getPeerCertificate().fingerprint !== endpoint.fingerprint) {
-					// "These are not the certificates you're looking for..."
-					// Seems like they even got a certificate signed for us :O
-					win.warn('[%s] Endpoint fingerprint %s does not match %s',
-						url.hostname,
-						endpoint.fingerprint,
-						this.getPeerCertificate().fingerprint);
-					tryNextEndpoint();
-				} else {
-					defer.resolve();
-				}
-				this.end();
-			}).once('error', function (e) {
-				win.warn('[%s] Endpoint failed [%s]',
-					url.hostname,
-					e.message);
-				this.setTimeout(0);
-				tryNextEndpoint();
-			}).once('timeout', function () {
-				win.warn('[%s] Endpoint timed out',
-					url.hostname);
-				this.removeAllListeners('error');
-				this.end();
-				tryNextEndpoint();
-			}).setTimeout(5000);
-		}
+            var fn = timeoutWrapper(request);
+            var timeout = setTimeout(fn, 5000);
+        } else {
+            tls.connect(443, url.hostname, {
+                servername: url.hostname,
+                rejectUnauthorized: false
+            }, function () {
+                this.setTimeout(0);
+                this.removeAllListeners('error');
+                if (!this.authorized ||
+                    this.authorizationError ||
+                    this.getPeerCertificate().fingerprint !== endpoint.fingerprint) {
+                    // "These are not the certificates you're looking for..."
+                    // Seems like they even got a certificate signed for us :O
+                    win.warn('[%s] Endpoint fingerprint %s does not match %s',
+                        url.hostname,
+                        endpoint.fingerprint,
+                        this.getPeerCertificate().fingerprint);
+                    tryNextEndpoint();
+                } else {
+                    defer.resolve();
+                }
+                this.end();
+            }).once('error', function (e) {
+                win.warn('[%s] Endpoint failed [%s]',
+                    url.hostname,
+                    e.message);
+                this.setTimeout(0);
+                tryNextEndpoint();
+            }).once('timeout', function () {
+                win.warn('[%s] Endpoint timed out',
+                    url.hostname);
+                this.removeAllListeners('error');
+                this.end();
+                tryNextEndpoint();
+            }).setTimeout(5000);
+        }
 
-		function tryNextEndpoint() {
-			if (endpoint.index < endpoint.proxies.length - 1) {
-				endpoint.index++;
-				AdvSettings.checkApiEndpoint(endpoint, defer);
-			} else {
-				endpoint.index = 0;
-				endpoint.ssl = undefined;
-				_.extend(endpoint, endpoint.proxies[endpoint.index]);
-				defer.resolve();
-			}
-		}
+        function tryNextEndpoint() {
+            if (endpoint.index < endpoint.proxies.length - 1) {
+                endpoint.index++;
+                AdvSettings.checkApiEndpoint(endpoint, defer);
+            } else {
+                endpoint.index = 0;
+                endpoint.ssl = undefined;
+                _.extend(endpoint, endpoint.proxies[endpoint.index]);
+                defer.resolve();
+            }
+        }
 
-		return defer.promise;
-	},
+        return defer.promise;
+    },
 
-	performUpgrade: function () {
-		// This gives the official version (the package.json one)
-		gui = require('nw.gui');
-		var currentVersion = gui.App.manifest.version;
+    performUpgrade: function () {
+        // This gives the official version (the package.json one)
+        gui = require('nw.gui');
+        var currentVersion = gui.App.manifest.version;
 
-		if (currentVersion !== AdvSettings.get('version')) {
-			// Nuke the DB if there's a newer version
-			// Todo: Make this nicer so we don't lose all the cached data
-			var cacheDb = openDatabase('cachedb', '', 'Cache database', 50 * 1024 * 1024);
+        if (currentVersion !== AdvSettings.get('version')) {
+            // Nuke the DB if there's a newer version
+            // Todo: Make this nicer so we don't lose all the cached data
+            var cacheDb = openDatabase('cachedb', '', 'Cache database', 50 * 1024 * 1024);
 
-			cacheDb.transaction(function (tx) {
-				tx.executeSql('DELETE FROM subtitle');
-				tx.executeSql('DELETE FROM metadata');
-			});
+            cacheDb.transaction(function (tx) {
+                tx.executeSql('DELETE FROM subtitle');
+                tx.executeSql('DELETE FROM metadata');
+            });
 
-			// Add an upgrade flag
-			window.__isUpgradeInstall = true;
-		}
-		AdvSettings.set('version', currentVersion);
-		AdvSettings.set('releaseName', gui.App.manifest.releaseName);
-	},
+            // Add an upgrade flag
+            window.__isUpgradeInstall = true;
+        }
+        AdvSettings.set('version', currentVersion);
+        AdvSettings.set('releaseName', gui.App.manifest.releaseName);
+    },
 };

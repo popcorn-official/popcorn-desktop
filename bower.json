@@ -1,24 +1,24 @@
 {
-	"name": "popcorn-time",
-	"dependencies": {
-		"marionette": "~2.3.2",
-		"bootstrap": "~3.3.2",
-		"video.js": "4.11.4",
-		"videojs-youtube": "1.2.9",
-		"mousetrap": "~1.5.1",
-		"font-awesome": "~4.3.0"
-	},
-	"dependenciesIgnore": {
-		"backbone": ["**/!(backbone.js)"],
-		"jquery": ["**/!(dist)"],
-		"font-awesome": ["less", "scss", ".*"],
-		"video.js": ["**/!(dist)"],
-		"videojs-youtube": ["**/!(src)"],
-		"underscore": ["**/!(underscore.js)"],
-		"mousetrap": ["tests", ".gitignore", "./*!mousetrap.min.js"],
-		"marionette": ["**/!(lib)"],
-		"backbone.babysitter": ["**/!(lib)"],
-		"backbone.wreqr": ["**/!(lib)"],
-		"bootstrap": ["**/!(dist)"]
-	}
+    "name": "popcorn-time",
+    "dependencies": {
+        "marionette": "~2.3.2",
+        "bootstrap": "~3.3.2",
+        "video.js": "4.11.4",
+        "videojs-youtube": "1.2.9",
+        "mousetrap": "~1.5.1",
+        "font-awesome": "~4.3.0"
+    },
+    "dependenciesIgnore": {
+        "backbone": ["**/!(backbone.js)"],
+        "jquery": ["**/!(dist)"],
+        "font-awesome": ["less", "scss", ".*"],
+        "video.js": ["**/!(dist)"],
+        "videojs-youtube": ["**/!(src)"],
+        "underscore": ["**/!(underscore.js)"],
+        "mousetrap": ["tests", ".gitignore", "./*!mousetrap.min.js"],
+        "marionette": ["**/!(lib)"],
+        "backbone.babysitter": ["**/!(lib)"],
+        "backbone.wreqr": ["**/!(lib)"],
+        "bootstrap": ["**/!(dist)"]
+    }
 }

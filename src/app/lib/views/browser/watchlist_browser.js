@@ -1,9 +1,9 @@
 (function (App) {
-	'use strict';
+    'use strict';
 
-	var WatchlistBrowser = App.View.PCTBrowser.extend({
-		collectionModel: App.Model.WatchlistCollection
-	});
+    var WatchlistBrowser = App.View.PCTBrowser.extend({
+        collectionModel: App.Model.WatchlistCollection
+    });
 
-	App.View.WatchlistBrowser = WatchlistBrowser;
+    App.View.WatchlistBrowser = WatchlistBrowser;
 })(window.App);
