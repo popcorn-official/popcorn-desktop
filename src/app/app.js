@@ -243,6 +243,17 @@ var deleteFolder = function (path) {
 	}
 };
 
+var isVisible = function (elm) {
+	if (elm.length === 0) return;
+
+    var vpH = $(window).height(), // Viewport Height
+        st = $(window).scrollTop(), // Scroll Top
+        y = $(elm).offset().top,
+        elementHeight = $(elm).height();
+
+    return ((y < (vpH + st)) && (y > (st - elementHeight)));
+}
+
 win.on('resize', function (width, height) {
 	localStorage.width = Math.round(width);
 	localStorage.height = Math.round(height);

@@ -238,12 +238,6 @@
 		},
 
 		onLoaded: function () {
-			if (!isNaN(startupTime)) {
-				win.debug('Popcorn Time %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)); // started in database.js;
-				startupTime = 'none';
-				App.vent.trigger('app:started');
-			}
-			this.checkEmpty();
 			var self = this;
 			this.addloadmore();
 
@@ -270,10 +264,17 @@
 			});
 			$('.items').attr('tabindex', '1');
 			_.defer(function () {
+				self.checkEmpty();
 				self.$('.items:first').focus();
 			});
 
+		},
 
+		checkEmpty: function () {
+			// if load more is visible onLoaded, fetch more results
+			if (isVisible($('#load-more-item')) && App.currentview === 'movies') {
+				this.collection.fetchMore();
+			}
 		},
 
 		addloadmore: function () {
