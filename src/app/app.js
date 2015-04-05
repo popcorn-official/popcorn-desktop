@@ -244,15 +244,17 @@ var deleteFolder = function (path) {
 };
 
 var isVisible = function (elm) {
-	if (elm.length === 0) return;
+	if (elm.length === 0) {
+		return;
+	}
 
-    var vpH = $(window).height(), // Viewport Height
-        st = $(window).scrollTop(), // Scroll Top
-        y = $(elm).offset().top,
-        elementHeight = $(elm).height();
+	var vpH = $(window).height(), // Viewport Height
+		st = $(window).scrollTop(), // Scroll Top
+		y = $(elm).offset().top,
+		elementHeight = $(elm).height();
 
-    return ((y < (vpH + st)) && (y > (st - elementHeight)));
-}
+	return ((y < (vpH + st)) && (y > (st - elementHeight)));
+};
 
 win.on('resize', function (width, height) {
 	localStorage.width = Math.round(width);
@@ -363,42 +365,43 @@ window.ondragenter = function (e) {
 };
 
 var isVideo = function (file) {
-    var ext = path.extname(file).toLowerCase();
-    switch (ext) {
-        case '.mp4':
-        case '.avi':
-        case '.mov':
-        case '.mkv':
-            return true;
-            break;
-        default:
-            return false;
-    }
-}
+	var ext = path.extname(file).toLowerCase();
+	switch (ext) {
+	case '.mp4':
+	case '.avi':
+	case '.mov':
+	case '.mkv':
+		return true;
+	default:
+		return false;
+	}
+};
 
 var handleVideoFile = function (file) {
-    // look for subtitles
-    var checkSubs = function () {
-        var _ext = path.extname(file.name);
-        var toFind = file.path.replace(_ext, '.srt');
+	// look for subtitles
+	var checkSubs = function () {
+		var _ext = path.extname(file.name);
+		var toFind = file.path.replace(_ext, '.srt');
 
-        if (fs.existsSync(path.join(toFind))) {
-            return {local: path.join(toFind)};
-        } else {
-            return null;
-        }
-    }
+		if (fs.existsSync(path.join(toFind))) {
+			return {
+				local: path.join(toFind)
+			};
+		} else {
+			return null;
+		}
+	};
 
-    // try to get a quality
-    var checkQuality = function () {
-        if (file.name.indexOf('1080p') !== -1 || file.name.toLowerCase().indexOf('fulllhd') !== -1) {
-            return '1080p';
-        } else if (file.name.indexOf('720p') !== -1) {
-            return '720p';
-        } else {
-            return false;
-        }
-    }
+	// try to get a quality
+	var checkQuality = function () {
+		if (file.name.indexOf('1080p') !== -1 || file.name.toLowerCase().indexOf('fulllhd') !== -1) {
+			return '1080p';
+		} else if (file.name.indexOf('720p') !== -1) {
+			return '720p';
+		} else {
+			return false;
+		}
+	};
 
 	try {
 		App.PlayerView.closePlayer();
@@ -406,18 +409,18 @@ var handleVideoFile = function (file) {
 		// The player wasn't running
 	}
 
-    // streamer model
-    var localVideo = new Backbone.Model({
-        src: path.join(file.path),
-        title: file.name,
-        type: 'video/mp4',
-        subtitle: checkSubs(),
-        defaultSubtitle: 'local',
-        quality: checkQuality()
-    });
-    win.debug('Trying to play local file', localVideo.get('src'), localVideo.attributes);
-    App.vent.trigger('stream:ready', localVideo);
-}
+	// streamer model
+	var localVideo = new Backbone.Model({
+		src: path.join(file.path),
+		title: file.name,
+		type: 'video/mp4',
+		subtitle: checkSubs(),
+		defaultSubtitle: 'local',
+		quality: checkQuality()
+	});
+	win.debug('Trying to play local file', localVideo.get('src'), localVideo.attributes);
+	App.vent.trigger('stream:ready', localVideo);
+};
 
 var handleTorrent = function (torrent) {
 	try {
@@ -454,8 +457,8 @@ window.ondrop = function (e) {
 		});
 
 	} else if (file != null && isVideo(file.name)) {
-        handleVideoFile(file);
-    } else {
+		handleVideoFile(file);
+	} else {
 		var data = e.dataTransfer.getData('text/plain');
 		Settings.droppedMagnet = data;
 		handleTorrent(data);
@@ -490,39 +493,39 @@ if (last_arg && (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0
 
 // Play local files
 if (last_arg && (isVideo(last_arg))) {
-    App.vent.on('app:started', function () {
-        var fileModel = {
-            path: last_arg,
-            name: /([^\\]+)$/.exec(last_arg)[1]
-        };
-        handleVideoFile(fileModel);
-    });
+	App.vent.on('app:started', function () {
+		var fileModel = {
+			path: last_arg,
+			name: /([^\\]+)$/.exec(last_arg)[1]
+		};
+		handleVideoFile(fileModel);
+	});
 }
 
-gui.App.on('open', function(cmd) {
-    var file;
-    if (os.platform() == 'win32') {
-        file = cmd.split('"');
-        file = file[file.length - 2];
-    } else {
-        file = cmd.split(' /');
-        file = file[file.length - 1];
-        file = '/' + file;
-    }
+gui.App.on('open', function (cmd) {
+	var file;
+	if (os.platform() === 'win32') {
+		file = cmd.split('"');
+		file = file[file.length - 2];
+	} else {
+		file = cmd.split(' /');
+		file = file[file.length - 1];
+		file = '/' + file;
+	}
 
-    if (file) {
-        win.debug('File loaded:', file);
+	if (file) {
+		win.debug('File loaded:', file);
 
-        if (isVideo(file)) {
-            var fileModel = {
-                path: file,
-                name: /([^\\]+)$/.exec(file)[1]
-            };
-            handleVideoFile(fileModel);
-        } else if (file.endsWith('.torrent')) {
-            handleTorrent(file);
-        }
-    }
+		if (isVideo(file)) {
+			var fileModel = {
+				path: file,
+				name: /([^\\]+)$/.exec(file)[1]
+			};
+			handleVideoFile(fileModel);
+		} else if (file.endsWith('.torrent')) {
+			handleTorrent(file);
+		}
+	}
 });
 
 // -f argument to open in fullscreen

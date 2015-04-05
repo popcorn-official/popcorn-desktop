@@ -86,7 +86,10 @@ var os = require('os');
 					tray.remove();
 				};
 
-				var tray = new gui.Tray({ title: 'Popcorn Time', icon: 'src/app/images/icon.png' });
+				var tray = new gui.Tray({
+					title: 'Popcorn Time',
+					icon: 'src/app/images/icon.png'
+				});
 				tray.tooltip = 'Popcorn Time';
 
 				var menu = new gui.Menu();

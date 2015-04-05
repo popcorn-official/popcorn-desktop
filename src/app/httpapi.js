@@ -279,7 +279,7 @@
 						$('.imgplayerchoice').attr('src', el.children('img').attr('src'));
 						popcornCallback(callback, false);
 					} else {
-						App.Device.Collection.models.forEach(function (item){ 
+						App.Device.Collection.models.forEach(function (item) {
 							if (item.id === args[0]) {
 								App.Device.Collection.setDevice(args[0]);
 								popcornCallback(callback, false);

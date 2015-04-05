@@ -26,12 +26,12 @@
 	OpenSubtitles.prototype.fetch = function (queryParams) {
 		return openSRT.searchEpisode(queryParams, userAgent)
 			.then(function (data) {
-                if (data.constructor === Object) {
-                    formatForPopcorn(data);
-                } else {
-                    return null;
-                }
-             });
+				if (data.constructor === Object) {
+					formatForPopcorn(data);
+				} else {
+					return null;
+				}
+			});
 	};
 
 

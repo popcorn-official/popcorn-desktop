@@ -47,11 +47,13 @@
         "startupTime": true,
         "os": true,
         "deleteFolder": true,
+        "isVisible": true,
+        "isVideo": true,
 		
 		// Third party
 		"Backbone": true,
 		"Mousetrap": true,
 		"_": true,
-		"video.js": true
+		"videojs": true
 	}
 }

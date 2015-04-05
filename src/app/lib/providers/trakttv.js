@@ -173,25 +173,25 @@
 		return Q()
 			.then(function () {
 				return Q.all([that.movie.sync()]);
-			})
-
-			/* WAITING FOR V2
-			/* only movies sync with the old v1
-			/* watchlist doesn't work
-
-			.then(function () {
-				that.watchlist.inhibit(true);
-			})
-			.then(function () {
-				return Q.all([that.show.sync(), that.movie.sync()]);
-			})
-			.then(function () {
-				that.watchlist.inhibit(false);
-			})
-			.then(function () {
-				return that.watchlist.fetchWatchlist();
 			});
-			********/
+
+		/* WAITING FOR V2
+		/* only movies sync with the old v1
+		/* watchlist doesn't work
+
+		.then(function () {
+			that.watchlist.inhibit(true);
+		})
+		.then(function () {
+			return Q.all([that.show.sync(), that.movie.sync()]);
+		})
+		.then(function () {
+			that.watchlist.inhibit(false);
+		})
+		.then(function () {
+			return that.watchlist.fetchWatchlist();
+		});
+		********/
 	};
 
 	TraktTv.prototype.movie = {

@@ -129,7 +129,7 @@
 
 			Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch);
 
-			Mousetrap(document.querySelector('input')).bind(['ctrl+f', 'command+f', 'esc'], function(e, combo) {
+			Mousetrap(document.querySelector('input')).bind(['ctrl+f', 'command+f', 'esc'], function (e, combo) {
 				$('.search input').blur();
 			});
 

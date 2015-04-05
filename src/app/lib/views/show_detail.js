@@ -217,8 +217,12 @@
 									parseInt(value.episode));
 							}
 						);
-						episodesSeen.sort(function (a,b) { return a - b; });
-						episodes.sort(function (a,b) { return a - b; });
+						episodesSeen.sort(function (a, b) {
+							return a - b;
+						});
+						episodes.sort(function (a, b) {
+							return a - b;
+						});
 						var first = episodes[0];
 						var last = episodes[episodes.length - 1];
 						var unseen = episodes.filter(function (item) {
@@ -314,7 +318,7 @@
 			var imdb_id = _this.model.get('imdb_id');
 
 			var episodes = this.model.get('episodes');
-			episodes.forEach( function (episode, index, array) {
+			episodes.forEach(function (episode, index, array) {
 				var value = {
 					tvdb_id: tvdb_id,
 					imdb_id: imdb_id,
@@ -338,7 +342,7 @@
 			var imdb_id = _this.model.get('imdb_id');
 
 			var episodes = this.model.get('episodes');
-			episodes.forEach( function (episode, index, array) {
+			episodes.forEach(function (episode, index, array) {
 				var value = {
 					tvdb_id: tvdb_id,
 					imdb_id: imdb_id,
@@ -431,7 +435,9 @@
 					episodes_data.push(epaInfo);
 					episodes.push(parseInt(value.season) * 100 + parseInt(value.episode));
 				});
-				episodes.sort(function(a,b) { return a - b; });
+				episodes.sort(function (a, b) {
+					return a - b;
+				});
 				episodes_data = _.sortBy(episodes_data, 'id');
 
 				if (parseInt(season) * 100 + parseInt(episode) !== episodes[episodes.length - 1]) {

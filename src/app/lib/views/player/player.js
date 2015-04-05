@@ -284,7 +284,7 @@
 					_this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
 				}
 			});
-			
+
 			player.on('loadeddata', function () {
 				// resume position
 				if (AdvSettings.get('lastWatchedTitle') === _this.model.get('title') && AdvSettings.get('lastWatchedTime') > 0) {
