@@ -149,7 +149,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         githooks: {
             all: {
-                'pre-commit': 'jsbeautifier:verify jshint',
+                'pre-commit': 'jsbeautifier jshint',
             }
         },
 

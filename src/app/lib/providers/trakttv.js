@@ -734,10 +734,10 @@
         }
     };
 
-    TraktTv.resizeImage = function(imageUrl, size) {
+    TraktTv.resizeImage = function (imageUrl, size) {
         var uri = URI(imageUrl),
-        ext = uri.suffix(),
-        file = uri.filename().split('.' + ext)[0];
+            ext = uri.suffix(),
+            file = uri.filename().split('.' + ext)[0];
 
         // Don't resize images that don't come from trakt
         //  eg. YTS Movie Covers
@@ -762,7 +762,7 @@
                 //keep original
             } else {
                 //default to medium
-                win.debug('ScreenResolution unknown, using \'medium\' image size')
+                win.debug('ScreenResolution unknown, using \'medium\' image size');
                 uri.pathname(uri.pathname().toString().replace(/original/, 'medium'));
             }
         } else {
