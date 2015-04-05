@@ -741,7 +741,11 @@
 
         // Don't resize images that don't come from trakt
         //  eg. YTS Movie Covers
-        if (uri.domain() !== 'trakt.us') {
+        if (imageUrl.indexOf('placeholders/original/fanart') !== -1) {
+            return 'images/bg-header.jpg'.toString();
+        } else if (imageUrl.indexOf('placeholders/original/poster') !== -1) {
+            return 'images/posterholder.png'.toString();
+        } else if (uri.domain() !== 'trakt.us') {
             return imageUrl;
         }
 
