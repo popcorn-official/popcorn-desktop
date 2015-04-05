@@ -85,9 +85,9 @@
         request(requestUri.toString(), {
             json: true
         }, function (err, res, body) {
-            if (err || !body) {
+            if (err) {
                 defer.reject(err);
-            } else if (res.statusCode >= 400) {
+            } else if (res.statusCode >= 400 || !body) {
                 defer.resolve({});
             } else {
                 defer.resolve(body);
