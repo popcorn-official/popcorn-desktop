@@ -9,7 +9,7 @@
 
 							var select_category = "";
 							for(var key in arr_categories) {
-								select_category += "<option "+(Settings.onelinesearch_category == arr_categories[key]? "selected='selected'":"")+" value='"+arr_categories[key]+"'>"+i18n.__(arr_categories[key])+"</option>";
+								select_category += "<option "+(Settings.OnlineSearchCategory == arr_categories[key]? "selected='selected'":"")+" value='"+arr_categories[key]+"'>"+i18n.__(arr_categories[key])+"</option>";
 							}
 						%>
 					<select name="online-category"><%=select_category%></select>

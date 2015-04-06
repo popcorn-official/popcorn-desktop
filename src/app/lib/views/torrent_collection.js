@@ -64,6 +64,7 @@
             var strike = require('strike-api');
             var input = $('#online-input').val();
             var category = $('.online-categories > select').val();
+            AdvSettings.set('OnlineSearchCategory', category);
             if (category === 'TV Series') {
                 category = 'TV';
             }
