@@ -198,12 +198,12 @@
             }
             this.currentTorrent = model;
 
-            win.debug('Preloading model:', model);
+            win.debug('Preloading model:', model.get('title'));
             var torrent_url = model.get('torrent');
 
             readTorrent(torrent_url, function (err, torrent) {
 
-                win.debug('Preloading torrent:', torrent);
+                win.debug('Preloading torrent:', torrent.name);
                 var tmpFilename = torrent.infoHash;
                 tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_'); // +'-'+ (new Date()*1);
                 var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
