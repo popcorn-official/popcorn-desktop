@@ -16,7 +16,7 @@
                 i18n.__('You can paste magnet links anywhere in Popcorn Time with CTRL+V.'),
                 i18n.__('You can drag & drop a .torrent file into Popcorn Time.'),
                 i18n.__('The Popcorn Time project started in February 2014 and has already had 150 people that contributed more than 3000 times to it\'s development in August 2014.'),
-                i18n.__('If a subtitle for a TV series is missing, you can add it on <a class="link" href="http://opensubtitles.org">opensubtitles.org</a>. And the same way for a movie, but on <a class="link" href="http://yifysubtitles.com">yifysubtitles.com</a>.'),
+                i18n.__('If a subtitle for a TV series is missing, you can add it on %s. And the same way for a movie, but on %s.', '<a class="links" href="http://opensubtitles.org">opensubtitles.org</a>', '<a class="links" href="http://yifysubtitles.com">yifysubtitles.com</a>'),
                 i18n.__('If you\'re experiencing connection drop issues, try to reduce the DHT Limit in settings.'),
                 i18n.__('If you search \"1998\", you can see all the movies or TV series that came out that year.'),
                 i18n.__('You can login to Trakt.tv to save all your watched items, and synchronize them across multiple devices.'),
