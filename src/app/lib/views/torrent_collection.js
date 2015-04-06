@@ -122,9 +122,9 @@
         },
 
         onlineAddItem: function (item) {
-            var ratio = (item.seeds / item.peers).toFixed(2);
+            var ratio = item.peers > 0 ? item.seeds / item.peers : +item.seeds;
             $('.onlinesearch-info>ul.file-list').append(
-                '<li class="result-item" data-file="' + item.magnet + '"><a>' + item.title + '</a><div class="item-icon magnet-icon"></div><i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">' + item.size + '</i></li>'
+                '<li class="result-item" data-file="' + item.magnet + '"><a>' + item.title + '</a><div class="item-icon magnet-icon"></div><i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">' + item.size + '</i></li>'
             );
         },
 
