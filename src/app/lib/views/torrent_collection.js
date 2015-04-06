@@ -44,6 +44,7 @@
         },
 
         onRender: function () {
+            $('#online-input').focus();
             if (this.files[0]) {
                 $('.notorrents-info').css('display', 'none');
                 $('.collection-actions').css('display', 'block');
@@ -290,6 +291,7 @@
         },
 
         onDestroy: function () {
+            $('#filterbar-torrent-collection').click();
             Mousetrap.unbind(['esc', 'backspace']);
             $('#movie-detail').show();
             $('#nav-filters').show();
