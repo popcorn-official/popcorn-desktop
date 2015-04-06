@@ -34,7 +34,7 @@
 
         onShow: function () {
             Mousetrap.bind(['esc', 'backspace'], function (e) {
-                App.vent.trigger('torrentCollection:close');
+                $('#filterbar-torrent-collection').click();
             });
 
             $('#movie-detail').hide();
@@ -291,7 +291,6 @@
         },
 
         onDestroy: function () {
-            $('#filterbar-torrent-collection').click();
             Mousetrap.unbind(['esc', 'backspace']);
             $('#movie-detail').show();
             $('#nav-filters').show();
