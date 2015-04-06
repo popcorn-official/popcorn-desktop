@@ -11,17 +11,17 @@
 
         events: {
             'click .file-item': 'openFileSelector',
-            'click .result-item': 'katOpen',
+            'click .result-item': 'onlineOpen',
             'click .item-delete': 'deleteItem',
             'click .item-rename': 'renameItem',
             'click .collection-delete': 'clearCollection',
             'click .collection-open': 'openCollection',
             'click .collection-import': 'importItem',
             'click .notorrents-frame': 'importItem',
-            'click .kat-search': 'katSearch',
-            'submit #kat-form': 'katSearch',
-            'click .kat-back': 'katClose',
-            'contextmenu #kat-input': 'rightclick_search'
+            'click .online-search': 'onlineSearch',
+            'submit #online-form': 'onlineSearch',
+            'click .online-back': 'onlineClose',
+            'contextmenu #online-input': 'rightclick_search'
         },
 
         initialize: function () {
@@ -58,76 +58,84 @@
             });
         },
 
-        katSearch: function (e) {
+        onlineSearch: function (e) {
             e.preventDefault();
             var that = this;
-            var input = $('#kat-input').val();
-            var current = $('.katsearch-info>ul.file-list').html();
+            var strike = require('strike-api');
+            var input = $('#online-input').val();
+            var category = $('.online-categories > select').val();
+            if (category === 'TV Series') {
+                category = 'TV';
+            }
+            var current = $('.onlinesearch-info > ul.file-list').html();
 
             if (input === '' && current === '') {
                 return;
             } else if (input === '' && current !== '') {
-                this.katClose();
+                this.onlineClose();
                 return;
             }
 
-            $('.katsearch-info>ul.file-list').html('');
+            $('.onlinesearch-info>ul.file-list').html('');
 
-            $('.kat-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
+            $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
 
-            require('katsearcher-x')({
-                name: input,
-                limit: 25,
-                minSeeds: 40,
-            }, function (err, result) {
-                if (!err) {
-                    win.debug('Kickass search: %s results', result.length);
-                    result.forEach(function (item) {
-                        var title = item.torrentData.title,
-                            magnet = item.torrentData.magnetURI,
-                            seeds = item.torrentData.seeds,
-                            size = require('pretty-bytes')(
-                                parseInt(item.torrentData.fileSize)
-                            );
+            strike.search(input, category).then(function (result) {
+                win.debug('Strike search: %s results', result.results);
+                result.torrents.forEach(function (item) {
+                    var itemModel = {
+                        title: item.torrent_title,
+                        magnet: item.magnet_uri,
+                        seeds: item.seeds,
+                        peers: item.leeches,
+                        size: require('pretty-bytes')(parseInt(item.size))
+                    };
 
-                        that.katAddItem(title, magnet, size, seeds);
-                    });
+                    that.onlineAddItem(itemModel);
+                });
 
-                    that.$('.tooltipped').tooltip({
-                        delay: {
-                            'show': 50,
-                            'hide': 50
-                        }
-                    });
-                    $('.notorrents-info,.torrents-info').hide();
-                    $('.kat-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
-                    $('.katsearch-info').show();
-
+                that.$('.tooltipped').tooltip({
+                    html: true,
+                    delay: {
+                        'show': 50,
+                        'hide': 50
+                    }
+                });
+                $('.notorrents-info,.torrents-info').hide();
+                $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
+                $('.onlinesearch-info').show();
+            }).catch(function (err) {
+                win.debug('Strike search failed:', err.message);
+                var error;
+                if (err.message === 'Not Found') {
+                    error = 'No results found';
                 } else {
-                    $('.katsearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>');
-
-                    $('.kat-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
-                    $('.notorrents-info,.torrents-info').hide();
-                    $('.katsearch-info').show();
+                    error = 'Failed!';
                 }
+                $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__(error) + '</div>');
+
+                $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
+                $('.notorrents-info,.torrents-info').hide();
+                $('.onlinesearch-info').show();
             });
         },
 
-        katAddItem: function (title, dataTorrent, size, seeds) {
-            $('.katsearch-info>ul.file-list').append(
-                '<li class="result-item" data-file="' + dataTorrent + '"><a>' + title + '</a><div class="item-icon magnet-icon"></div><i class="kat-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Seeds:') + ' ' + seeds + '">' + size + '</i></li>'
+        onlineAddItem: function (item) {
+            var ratio = (item.seeds / item.peers).toFixed(2);
+            $('.onlinesearch-info>ul.file-list').append(
+                '<li class="result-item" data-file="' + item.magnet + '"><a>' + item.title + '</a><div class="item-icon magnet-icon"></div><i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">' + item.size + '</i></li>'
             );
         },
 
-        katOpen: function (e) {
+        onlineOpen: function (e) {
             var file = $(e.currentTarget).context.dataset.file;
             Settings.droppedMagnet = file;
             window.handleTorrent(file);
         },
 
-        katClose: function () {
-            $('.katsearch-info>ul.file-list').html('');
-            $('.katsearch-info').hide();
+        onlineClose: function () {
+            $('.onlinesearch-info>ul.file-list').html('');
+            $('.onlinesearch-info').hide();
             this.render();
         },
 
@@ -159,7 +167,7 @@
                     label: pasteLabel || 'Paste',
                     click: function () {
                         var text = clipboard.get('text');
-                        $('#kat-input').val(text);
+                        $('#online-input').val(text);
                     }
                 });
 

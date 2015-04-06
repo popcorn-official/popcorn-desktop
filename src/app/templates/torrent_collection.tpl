@@ -2,10 +2,22 @@
 	<div class="margintop"></div>
 	<div class="content">
 
-		<div class="katsearch">
-			<form id="kat-form">
-				<input id="kat-input" size="30" type="text" name="keyword" placeholder="<%= i18n.__('Search on %s', 'Kickass') %>">
-				<i class="fa fa-search kat-search"></i>
+		<div class="onlinesearch">
+				<div class="dropdown online-categories">
+						<%
+							var arr_categories = ["Movies","TV Series","Anime"];
+
+							var select_category = "";
+							for(var key in arr_categories) {
+								select_category += "<option "+(Settings.onelinesearch_category == arr_categories[key]? "selected='selected'":"")+" value='"+arr_categories[key]+"'>"+i18n.__(arr_categories[key])+"</option>";
+							}
+						%>
+					<select name="online-category"><%=select_category%></select>
+					<div class="dropdown-arrow"></div>
+				</div>
+			<form id="online-form">
+				<input id="online-input" size="30" type="text" name="keyword" placeholder="<%= i18n.__('Search on %s', 'Strike') %>">
+				<i class="fa fa-search online-search"></i>
 			</form>
 		</div>
 
@@ -36,8 +48,8 @@
 			</ul>
         </div>
 
-        <div class="katsearch-info">
-			<i class="fa fa-arrow-circle-left kat-back"></i>
+        <div class="onlinesearch-info">
+			<i class="fa fa-arrow-circle-left online-back"></i>
             <ul class="file-list">
             </ul>
         </div>

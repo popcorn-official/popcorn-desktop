@@ -18,10 +18,11 @@
 		font-family $AlternateFont
 		font-size 17px
 
-		.katsearch
+		.onlinesearch
 			position relative
 			top -10px
-			width 256px
+			padding-left 100px
+			width 356px
 			margin 0 auto
 
 			input[type="text"]
@@ -37,13 +38,53 @@
 				outline 0 !important
 				height 30px
 
-			.kat-search
+			.online-search
 				margin-left 5px
 				cursor pointer
 				transition color .3s
 
 				&:hover
 					color: $ButtonBgHover
+
+			.dropdown
+				position absolute
+				margin-top 9px
+				margin-left -88px
+
+				select
+					position relative
+					padding-left 5px
+					border 0 !important
+					-webkit-appearance none
+					height 30px
+					width 85px
+					line-height 25px
+					margin-top -9px
+					background-color $InputBoxBg
+					cursor pointer
+					color $InputBoxText
+					font-family $Font, $AlternateFont
+					font-size 13px
+					float left
+					outline 0
+					padding-right 15px
+
+				option
+					background $InputBoxBg
+					border 0 !important
+					outline 0
+
+				.dropdown-arrow
+					width 0
+					height 0
+					border-left 4px solid transparent
+					border-right 4px solid transparent
+					border-top 5px solid $Text2
+					top 4px
+					margin-left -13px
+					position relative
+					float left
+					cursor pointer
 
 		.notorrents-info
 			display block
@@ -77,7 +118,7 @@
 					font-size 20px
 
 		.torrents-info,
-		.katsearch-info
+		.onlinesearch-info
 			display none
 			margin 0 auto
 			height calc(100% - 30px)
@@ -88,7 +129,7 @@
 			box-shadow inset -3px 0px 10px $FileSelectorShadow
 			scrollable()
 
-			.kat-back
+			.online-back
 				position fixed
 				font-size 25px
 				color $TextError
@@ -159,7 +200,7 @@
 						&.magnet-icon:before
 							content: '\f076'
 
-					.kat-size
+					.online-size
 						position relative
 						color: $TextError
 						font-style normal
