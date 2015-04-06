@@ -277,8 +277,6 @@
         checkFetchMore: function () {
             // if load more is visible onLoaded, fetch more results
             if (elementInViewport(this.$el, $('#load-more-item')) && App.currentview === 'movies') {
-                $('#load-more-item').hide();
-                this.ui.spinner.show();
                 this.collection.fetchMore();
             }
         },
