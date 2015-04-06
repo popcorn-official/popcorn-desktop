@@ -241,6 +241,7 @@
         },
 
         onLoaded: function () {
+            this.checkEmpty();
             var self = this;
             this.addloadmore();
 
@@ -267,13 +268,13 @@
             });
             $('.items').attr('tabindex', '1');
             _.defer(function () {
-                self.checkEmpty();
+                self.checkFetchMore();
                 self.$('.items:first').focus();
             });
 
         },
 
-        checkEmpty: function () {
+        checkFetchMore: function () {
             // if load more is visible onLoaded, fetch more results
             if (elementInViewport(this.$el, $('#load-more-item')) && App.currentview === 'movies') {
                 $('#load-more-item').hide();
