@@ -406,7 +406,11 @@ var handleVideoFile = function (file) {
         quality: checkQuality()
     });
     win.debug('Trying to play local file', localVideo.get('src'), localVideo.attributes);
+
+    var tmpPlayer = App.Device.Collection.selected.attributes.id;
+    App.Device.Collection.setDevice('local');
     App.vent.trigger('stream:ready', localVideo);
+    App.Device.Collection.setDevice(tmpPlayer);
 };
 
 var handleTorrent = function (torrent) {
