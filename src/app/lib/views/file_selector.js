@@ -48,7 +48,8 @@
             var torrentStart = new Backbone.Model({
                 torrent: torrent,
                 torrent_read: true,
-                file_index: actualIndex
+                file_index: actualIndex,
+                device: App.Device.Collection.selected
             });
             App.vent.trigger('stream:start', torrentStart);
             App.vent.trigger('system:closeFileSelector');
