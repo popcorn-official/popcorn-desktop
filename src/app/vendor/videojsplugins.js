@@ -123,7 +123,8 @@ videojs.plugin('customSubtitles', function() {
     for (var i = 0; i < tracks.length; ++i) {
 		if (tracks[i].id_.indexOf('vjs_subtitles_00') !== -1) {
         	$(tracks[i].el()).remove();
-			return;
+            tracks.splice(i, 1);
+			break;
 		}
 	}
 
