@@ -277,7 +277,7 @@ vjs.TextTrack.prototype.load = function(){
 				callback(dataBuff.toString('utf-8'));
 			// We do
 			} else {
-				if (!language && Settings.subtitle_language) {
+				if (!language && Settings.subtitle_language !== 'none') {
 					language = Settings.subtitle_language;
 					win.debug('SUB charset: using subtitles_language setting ('+language+') as default');
 				}
