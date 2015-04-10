@@ -1,11 +1,11 @@
 {
     "name": "popcorn-time",
     "dependencies": {
-        "marionette": "~2.3.2",
-        "bootstrap": "~3.3.2",
+        "marionette": "~2.4.1",
+        "bootstrap": "~3.3.4",
         "video.js": "4.11.4",
-        "videojs-youtube": "1.2.9",
-        "mousetrap": "~1.5.1",
+        "videojs-youtube": "1.2.10",
+        "mousetrap": "~1.5.2",
         "font-awesome": "~4.3.0"
     },
     "dependenciesIgnore": {

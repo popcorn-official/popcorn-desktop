@@ -70,7 +70,7 @@
                         retry: true,
                         error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', '<a class="links" href="http://status.popcorntime.io/">http://status.popcorntime.io</a>')
                     });
-                } else {
+                } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
                         error: i18n.__('No ' + App.currentview + ' found...')
                     });
@@ -83,7 +83,7 @@
                         retry: true,
                         error: i18n.__('Error, database is probably corrupted. Try flushing the bookmarks in settings.')
                     });
-                } else {
+                } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
                         error: i18n.__('No ' + App.currentview + ' found...')
                     });
@@ -95,7 +95,7 @@
                         retry: true,
                         error: i18n.__('This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.')
                     });
-                } else {
+                } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
                         error: i18n.__('No ' + App.currentview + ' found...')
                     });
