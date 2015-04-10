@@ -6,7 +6,6 @@
 
     var readTorrent = require('read-torrent');
     var peerflix = require('peerflix');
-    var mime = require('mime');
     var path = require('path');
     var crypto = require('crypto');
 
@@ -161,9 +160,6 @@
             if (engine) {
                 streamInfo.set('src', 'http://127.0.0.1:' + engine.server.address().port + '/');
                 streamInfo.set('type', 'video/mp4');
-
-                // TEST for custom NW
-                //streamInfo.set('type', mime.lookup(engine.server.index.name));
                 stateModel.on('change:state', checkReady);
                 checkReady();
             }
@@ -363,11 +359,7 @@
                     if (!title) { //From ctrl+v magnet or drag torrent
                         for (var f in torrent.files) {
                             torrent.files[f].index = f;
-                            if (!torrent.files[f].name.toLowerCase().endsWith('.avi') &&
-                                !torrent.files[f].name.toLowerCase().endsWith('.mp4') &&
-                                !torrent.files[f].name.toLowerCase().endsWith('.mkv') &&
-                                !torrent.files[f].name.toLowerCase().endsWith('.mov') &&
-                                !torrent.files[f].name.toLowerCase().endsWith('.wmv')) {
+                            if (!isVideo(torrent.files[f].name)) {
                                 torrent.files[f] = null;
                             }
                         }
@@ -445,8 +437,6 @@
             si.set('type', 'video/mp4');
             si.set('device', model.get('device'));
 
-            // Test for Custom NW
-            //si.set('type', mime.lookup(url));
             si.set('src', [{
                 type: 'video/mp4',
                 src: url

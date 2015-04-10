@@ -6,10 +6,9 @@
         fs = require('fs'),
         Q = require('q'),
         _ = require('underscore'),
-        rm = require('rimraf'),
         path = require('path'),
         crypto = require('crypto'),
-        zip = require('adm-zip'),
+        AdmZip = require('adm-zip'),
         spawn = require('child_process').spawn;
 
     var UPDATE_ENDPOINT = AdvSettings.get('updateEndpoint').url + 'update.json',
@@ -143,7 +142,7 @@
         var installDir = path.dirname(downloadPath);
         var defer = Q.defer();
 
-        var pack = new zip(downloadPath);
+        var pack = new AdmZip(downloadPath);
         pack.extractAllToAsync(installDir, true, function (err) {
             if (err) {
                 defer.reject(err);
@@ -211,11 +210,11 @@
             installDir = path.join(outputDir, 'app.nw');
         var defer = Q.defer();
 
-        rm(installDir, function (err) {
+        fs.rmdir(installDir, function (err) {
             if (err) {
                 defer.reject(err);
             } else {
-                var pack = new zip(downloadPath);
+                var pack = new AdmZip(downloadPath);
                 pack.extractAllToAsync(installDir, true, function (err) {
                     if (err) {
                         defer.reject(err);

@@ -26,9 +26,6 @@ var
     // i18n module (translations)
     i18n = require('i18n'),
 
-    // Mime type parsing
-    mime = require('mime'),
-
     moment = require('moment'),
 
     Q = require('q');
@@ -358,6 +355,7 @@ var isVideo = function (file) {
     case '.avi':
     case '.mov':
     case '.mkv':
+    case '.wmv':
         return true;
     default:
         return false;

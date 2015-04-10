@@ -1,8 +1,7 @@
 (function (App) {
     'use strict';
 
-    var req = require('request'),
-        inherits = require('util').inherits,
+    var inherits = require('util').inherits,
         chromecast = require('chromecast-js'),
         collection = App.Device.Collection;
 
