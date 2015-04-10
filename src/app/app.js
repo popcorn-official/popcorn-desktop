@@ -377,17 +377,6 @@ var handleVideoFile = function (file) {
         }
     };
 
-    // try to get a quality
-    var checkQuality = function () {
-        if (file.name.indexOf('1080p') !== -1 || file.name.toLowerCase().indexOf('fulllhd') !== -1) {
-            return '1080p';
-        } else if (file.name.indexOf('720p') !== -1) {
-            return '720p';
-        } else {
-            return false;
-        }
-    };
-
     try {
         App.PlayerView.closePlayer();
     } catch (err) {
@@ -401,7 +390,7 @@ var handleVideoFile = function (file) {
         type: 'video/mp4',
         subtitle: checkSubs(),
         defaultSubtitle: 'local',
-        quality: checkQuality()
+        quality: false
     });
     win.debug('Trying to play local file', localVideo.get('src'), localVideo.attributes);
 
@@ -409,6 +398,7 @@ var handleVideoFile = function (file) {
     App.Device.Collection.setDevice('local');
     App.vent.trigger('stream:ready', localVideo);
     App.Device.Collection.setDevice(tmpPlayer);
+    $('.eye-info-player').hide();
 };
 
 var handleTorrent = function (torrent) {
