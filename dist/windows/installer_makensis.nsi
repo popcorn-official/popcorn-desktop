@@ -71,7 +71,7 @@ InstallDir "$LOCALAPPDATA\${APP_NAME}"
 ;Request application privileges
 RequestExecutionLevel user
 
-!define APP_LAUNCHER "Popcorn Time Launcher.exe"
+!define APP_LAUNCHER "Popcorn Time.exe"
 !define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
 
 ; ------------------- ;
@@ -92,8 +92,7 @@ RequestExecutionLevel user
 !define MUI_ABORTWARNING
 !define MUI_FINISHPAGE_LINK "${APP_URL}"
 !define MUI_FINISHPAGE_LINK_LOCATION "${APP_URL}"
-!define MUI_FINISHPAGE_RUN "$INSTDIR\node-webkit\${APP_NAME}.exe"
-!define MUI_FINISHPAGE_RUN_PARAMETERS "."
+!define MUI_FINISHPAGE_RUN "$INSTDIR\${APP_LAUNCHER}"
 
 ;Define the pages
 !insertmacro MUI_PAGE_WELCOME
@@ -285,7 +284,7 @@ Section ; Node Webkit Files
     RMDir /r "$INSTDIR"
 
     ;Set output path to InstallDir
-    SetOutPath "$INSTDIR\node-webkit"
+    SetOutPath "$INSTDIR"
 
     ;Check to see if this nw uses datfiles
     !ifdef WIN_PATHS
@@ -306,12 +305,12 @@ Section ; Node Webkit Files
     ;Add the files
     !ifdef WIN_PATHS
         File "..\..\build\cache\win\${APP_NW}\*.dll"
-        File "/oname=${APP_NAME}.exe" "..\..\build\cache\win\${APP_NW}\nw.exe"
+        File "..\..\build\cache\win\${APP_NW}\nw.exe"
         File "..\..\build\cache\win\${APP_NW}\nw.pak"
         File /r "..\..\build\cache\win\${APP_NW}\locales"
     !else
         File "../../build/cache/win/${APP_NW}/*.dll"
-        File "/oname=${APP_NAME}.exe" "../../build/cache/win/${APP_NW}/nw.exe"
+        File "../../build/cache/win/${APP_NW}/nw.exe"
         File "../../build/cache/win/${APP_NW}/nw.pak"
         File /r "../../build/cache/win/${APP_NW}/locales"
     !endif
@@ -362,7 +361,7 @@ Section ; App Files
         File /NONFATAL "..\..\.git.json"
     !else
         File "../../package.json"
-		File "../../dist/windows/${APP_LAUNCHER}"
+        File "../../dist/windows/${APP_LAUNCHER}"
         File "../../CHANGELOG.md"
         File /NONFATAL "../../.git.json"
     !endif
@@ -390,12 +389,12 @@ Section ; Shortcuts
     ;Start Menu Shortcut
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     CreateDirectory "$SMPROGRAMS\${APP_NAME}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\${APP_LAUNCHER}" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
     CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "Uninstall ${APP_NAME}"
 
     ;Desktop Shortcut
     Delete "$DESKTOP\${APP_NAME}.lnk"
-    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${APP_LAUNCHER}" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
+    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
 
     ;Add/remove programs uninstall entry
     ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2

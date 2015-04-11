@@ -12,16 +12,13 @@ Else
 End If
 
 'set executable'
-executable = "\node-webkit\Popcorn Time.exe"
+executable = "\nw.exe"
 
 'set app path'
 path = WshShell.RegRead("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn Time\InstallString")
 
-'set package.json argument'
-package = chr(34) & path & chr(34)
-
 'set command'
-command = chr(34) & path & executable & chr(34) & " " & package
+command = chr(34) & path & executable & chr(34)
 
 'launch the app'
 WshShell.Exec( command & " " & arg)
