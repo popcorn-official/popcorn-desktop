@@ -405,13 +405,17 @@
 
                 var lang = args[0];
                 if (App.ViewStack[App.ViewStack.length - 1] === 'player') {
-                    var tracks = App.PlayerView.player.textTracks();
-                    for (var trackIndex = 0; trackIndex < tracks.length; trackIndex++) {
-                        var track = tracks[trackIndex];
-                        if (track.language() === lang) {
-                            // Disable the previous active track and enable the new one.
-                            App.PlayerView.player.showTextTrack(track.id(), track.kind());
-                            break;
+                    if (lang === 'no-subs') {
+                        $('.vjs-menu-item')[0].click();
+                    } else {
+                        var tracks = App.PlayerView.player.textTracks();
+                        for (var trackIndex = 0; trackIndex < tracks.length; trackIndex++) {
+                            var track = tracks[trackIndex];
+                            if (track.language() === lang) {
+                                // Disable the previous active track and enable the new one.
+                                App.PlayerView.player.showTextTrack(track.id(), track.kind());
+                                break;
+                            }
                         }
                     }
                 }
