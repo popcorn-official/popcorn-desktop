@@ -210,7 +210,7 @@
             installDir = path.join(outputDir, 'app.nw');
         var defer = Q.defer();
 
-        fs.rmdir(installDir, function (err) {
+        deleteFolder(installDir, function (err) {
             if (err) {
                 defer.reject(err);
             } else {
