@@ -6,6 +6,7 @@
         fs = require('fs'),
         Q = require('q'),
         _ = require('underscore'),
+        rimraf = require('rimraf'),
         path = require('path'),
         crypto = require('crypto'),
         AdmZip = require('adm-zip'),
@@ -210,7 +211,7 @@
             installDir = path.join(outputDir, 'app.nw');
         var defer = Q.defer();
 
-        deleteFolder(installDir, function (err) {
+        rimraf(installDir, function (err) {
             if (err) {
                 defer.reject(err);
             } else {

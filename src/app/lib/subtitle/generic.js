@@ -6,6 +6,7 @@
     var fs = require('fs');
     var async = require('async');
     var path = require('path');
+    var mkdirp = require('mkdirp');
     var captions = require('node-captions');
     var charsetDetect = require('jschardet');
     var iconv = require('iconv-lite');
@@ -106,7 +107,7 @@
                 }
 
                 try {
-                    fs.mkdirp(fileFolder);
+                    mkdirp.sync(fileFolder);
                 } catch (e) {
                     // Ignore EEXIST
                 }
