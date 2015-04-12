@@ -735,6 +735,10 @@
     };
 
     TraktTv.resizeImage = function (imageUrl, size) {
+        if (imageUrl === undefined) {
+            return imageUrl;
+        }
+
         var uri = URI(imageUrl),
             ext = uri.suffix(),
             file = uri.filename().split('.' + ext)[0];

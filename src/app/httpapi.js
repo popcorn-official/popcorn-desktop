@@ -15,9 +15,9 @@
                 }
             });
 
-////////////////////
-////// UTILS ///////
-////////////////////
+            ////////////////////
+            ////// UTILS ///////
+            ////////////////////
             server.expose('listennotifications', function (args, opt, callback) {
                 var timeout;
                 var startTime = (new Date()).getTime();
@@ -89,9 +89,9 @@
                 });
             });
 
-////////////////////
-///// STANDARD /////
-////////////////////
+            ////////////////////
+            ///// STANDARD /////
+            ////////////////////
             server.expose('up', function (args, opt, callback) {
                 Mousetrap.trigger('up');
                 popcornCallback(callback);
@@ -122,9 +122,9 @@
                 popcornCallback(callback);
             });
 
-////////////////////
-///// LIST ITEM ////
-////////////////////
+            ////////////////////
+            ///// LIST ITEM ////
+            ////////////////////
             server.expose('togglefavourite', function (args, opt, callback) {
                 Mousetrap.trigger('f');
                 popcornCallback(callback);
@@ -196,9 +196,9 @@
                 }
             });
 
-////////////////////
-////// BROWSER /////
-////////////////////
+            ////////////////////
+            ////// BROWSER /////
+            ////////////////////
             server.expose('showslist', function (args, opt, callback) {
                 $('.source.showShows').click();
                 popcornCallback(callback);
@@ -295,9 +295,9 @@
                 });
             });
 
-////////////////////
-////// DETAILS /////
-////////////////////
+            ////////////////////
+            ////// DETAILS /////
+            ////////////////////
             server.expose('togglequality', function (args, opt, callback) {
                 Mousetrap.trigger('q');
                 popcornCallback(callback);
@@ -334,7 +334,7 @@
                 }
             });
 
-           server.expose('startstream', function (args, opt, callback) {
+            server.expose('startstream', function (args, opt, callback) {
                 if (args.imdb_id === undefined || args.torrent_url === undefined || args.backdrop === undefined || args.subtitle === undefined || args.selected_subtitle === undefined || args.title === undefined || args.quality === undefined || args.type === undefined) {
                     popcornCallback(callback, 'Arguments missing');
                 } else {
@@ -424,9 +424,9 @@
                 popcornCallback(callback);
             });
 
-////////////////////
-///// FILTERBAR ////
-////////////////////
+            ////////////////////
+            ///// FILTERBAR ////
+            ////////////////////
             server.expose('getgenres', function (args, opt, callback) {
                 switch (App.currentview) {
                 case 'shows':
@@ -552,9 +552,9 @@
                 $('#watch-trailer').click();
             });
 
-////////////////////
-////// PLAYER //////
-////////////////////
+            ////////////////////
+            ////// PLAYER //////
+            ////////////////////
             server.expose('volume', function (args, opt, callback) {
                 var volume = 1;
                 var view = App.PlayerView;
@@ -670,9 +670,9 @@
                 }
             });
 
-////////////////////
-//////// END ///////
-////////////////////
+            ////////////////////
+            //////// END ///////
+            ////////////////////
             return resolve();
         });
     };
