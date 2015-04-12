@@ -389,11 +389,12 @@
             var episode = $(e.currentTarget).attr('data-episode');
             var season = $(e.currentTarget).attr('data-season');
             var name = $(e.currentTarget).attr('data-title');
+            var imdbid = that.model.get('imdb_id').indexOf('mal') === -1 ? that.model.get('imdb_id') : null; //fix for anime
 
             title += ' - ' + i18n.__('Season %s', season) + ', ' + i18n.__('Episode %s', episode) + ' - ' + name;
             var epInfo = {
                 type: 'tvshow',
-                imdbid: that.model.get('imdb_id'),
+                imdbid: imdbid,
                 tvdbid: that.model.get('tvdb_id'),
                 season: season,
                 episode: episode
