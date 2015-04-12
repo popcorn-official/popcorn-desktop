@@ -128,10 +128,8 @@
             createdRemaining = false;
             firstPlay = true;
 
-            if (!precachestarted) {
-                App.vent.trigger('preload:stop');
-                App.vent.trigger('stream:stop');
-            }
+            App.vent.trigger('preload:stop');
+            App.vent.trigger('stream:stop');
 
             this.destroy();
         },
