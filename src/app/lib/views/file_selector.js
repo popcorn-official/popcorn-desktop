@@ -24,7 +24,8 @@
                     _link = link.substring(index); // remove everything before dn
                 _link = _link.split('\&'); // array of strings starting with &
                 _link = _link[0]; // keep only the first (i.e: display name)
-                link = _link.replace(/\+/g, '.'); // replace + by .
+                _link = _link.replace(/\+/g, '.'); // replace + by .
+                link = _link.replace(/%5B/g, '[').replace(/%5D/g, ']');
                 return link;
             };
         },
