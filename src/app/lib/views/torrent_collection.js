@@ -261,7 +261,7 @@
         },
 
         clearCollection: function () {
-            require('rimraf').sync(collection);
+            deleteFolder(collection);
             win.debug('Torrent Collection: delete all', collection);
             App.vent.trigger('torrentCollection:show');
         },

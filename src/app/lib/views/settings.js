@@ -498,7 +498,7 @@
                 fs.mkdir(location);
             }
             if (App.settings['deleteTmpOnClose']) {
-                require('rimraf').sync(oldTmpLocation);
+                deleteFolder(oldTmpLocation);
             } else {
                 $('.notification_alert').show().text(i18n.__('You should save the content of the old directory, then delete it')).delay(5000).fadeOut(400);
                 gui.Shell.openItem(oldTmpLocation);
