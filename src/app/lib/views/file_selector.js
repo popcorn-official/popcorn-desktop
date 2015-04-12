@@ -153,6 +153,10 @@
             Settings.droppedTorrent = false;
             Settings.droppedMagnet = false;
             Settings.droppedStoredMagnet = false;
+
+            //Clean TorrentCache
+            App.Providers.TorrentCache().clearTmpDir();
+            App.Providers.TorrentCache()._checkTmpDir();
         },
 
     });
