@@ -140,7 +140,6 @@
         },
 
         onDestroy: function () {
-
             this.unbindKeyboardShortcuts();
         },
 

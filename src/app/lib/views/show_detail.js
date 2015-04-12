@@ -471,13 +471,7 @@
         },
 
         closeDetails: function (e) {
-            if (e.type) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            _this.unbindKeyboardShortcuts();
             App.vent.trigger('show:closeDetail');
-            App.vent.trigger('shortcuts:list');
         },
 
         clickSeason: function (e) {
@@ -797,6 +791,9 @@
             AdvSettings.set('chosenPlayer', player);
         },
 
+        onDestroy: function () {
+            this.unbindKeyboardShortcuts();
+        }
 
     });
 

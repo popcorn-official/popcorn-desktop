@@ -41,7 +41,7 @@
             _.each(_this.regionManager._regions, function (element, index) {
 
                 element.on('show', function (view) {
-                    if (view.className) {
+                    if (view.className && App.ViewStack[0] !== view.className) {
                         App.ViewStack.push(view.className);
                     }
                     App.vent.trigger('viewstack:push', view.className);
@@ -60,6 +60,9 @@
                     App.vent.trigger('viewstack:pop', viewName);
                     if (typeof element.currentView !== 'undefined') {
                         element.currentView.destroy();
+                    }
+                    if (!App.ViewStack[0]) {
+                        App.ViewStack = ['main-browser'];
                     }
                 });
 
@@ -366,6 +369,7 @@
 
         closeShowDetail: function (showModel) {
             _this.MovieDetail.destroy();
+            App.vent.trigger('shortcuts:list');
         },
 
         showFileSelector: function (fileModel) {
@@ -423,8 +427,19 @@
             this.Content.$el.show();
             try {
                 this.MovieDetail.$el.show();
-                this.MovieDetail.el.firstElementChild.classList[0] === 'shows-container-contain' ? App.vent.trigger('shortcuts:shows') : App.vent.trigger('shortcuts:movies');
-            } catch (err) {}
+
+                var detailWin = this.MovieDetail.el.firstElementChild.classList[0];
+
+                if (detailWin === 'shows-container-contain') {
+                    App.vent.trigger('shortcuts:shows');
+                    App.ViewStack = ['main-browser', 'shows-container-contain', 'app-overlay'];
+                } else {
+                    App.vent.trigger('shortcuts:movies');
+                    App.ViewStack = ['main-browser', 'movie-detail', 'app-overlay'];
+                }
+            } catch (err) {
+                App.ViewStack = ['main-browser', 'app-overlay'];
+            }
             $(window).trigger('resize');
         },
 
