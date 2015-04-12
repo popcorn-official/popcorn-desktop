@@ -131,9 +131,6 @@
 
         onlineOpen: function (e) {
             var file = $(e.currentTarget).context.dataset.file;
-            var tmpPath = path.join(App.settings.tmpLocation, 'TorrentCache');
-            deleteFolder(tmpPath);
-            fs.mkdirSync(tmpPath);
             Settings.droppedMagnet = file;
             window.handleTorrent(file);
         },
@@ -186,10 +183,6 @@
         openFileSelector: function (e) {
             var _file = $(e.currentTarget).context.innerText,
                 file = _file.substring(0, _file.length - 2); // avoid ENOENT
-
-            var tmpPath = path.join(App.settings.tmpLocation, 'TorrentCache');
-            deleteFolder(tmpPath);
-            fs.mkdirSync(tmpPath);
 
             if (_file.indexOf('.torrent') !== -1) {
                 Settings.droppedTorrent = file;
