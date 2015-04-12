@@ -381,7 +381,7 @@
             } else {
                 $('#switch-hd-off').trigger('click');
             }
-            App.vent.emit('qualitychange');
+            App.vent.trigger('qualitychange');
 
             if (e.type) {
                 e.preventDefault();
