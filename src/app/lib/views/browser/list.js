@@ -109,7 +109,7 @@
             this.listenTo(this.collection, 'loading', this.onLoading);
             this.listenTo(this.collection, 'loaded', this.onLoaded);
 
-            App.vent.on('shortcuts:movies', _this.initKeyboardShortcuts);
+            App.vent.on('shortcuts:list', _this.initKeyboardShortcuts);
             _this.initKeyboardShortcuts();
 
             _this.initPosterResizeKeys();

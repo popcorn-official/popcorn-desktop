@@ -129,7 +129,6 @@
             firstPlay = true;
 
             if (!precachestarted) {
-                App.vent.trigger('player:close');
                 App.vent.trigger('preload:stop');
                 App.vent.trigger('stream:stop');
             }

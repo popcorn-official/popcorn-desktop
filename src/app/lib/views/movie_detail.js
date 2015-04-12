@@ -50,6 +50,8 @@
                 }
             });
 
+            App.vent.on('shortcuts:movies', _this.initKeyboardShortcuts);
+
             this.model.on('change:quality', this.renderHealth, this);
         },
 

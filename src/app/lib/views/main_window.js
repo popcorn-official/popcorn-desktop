@@ -355,7 +355,7 @@
 
         closeMovieDetail: function (movieModel) {
             _this.MovieDetail.destroy();
-            App.vent.trigger('shortcuts:movies');
+            App.vent.trigger('shortcuts:list');
         },
 
         showShowDetail: function (showModel) {
@@ -423,7 +423,7 @@
             this.Content.$el.show();
             try {
                 this.MovieDetail.$el.show();
-                this.MovieDetail.el.firstElementChild.classList === 'shows-container-contain' ? App.vent.trigger('shortcuts:shows') : App.vent.trigger('shortcuts:movies');
+                this.MovieDetail.el.firstElementChild.classList[0] === 'shows-container-contain' ? App.vent.trigger('shortcuts:shows') : App.vent.trigger('shortcuts:movies');
             } catch (err) {}
             $(window).trigger('resize');
         },

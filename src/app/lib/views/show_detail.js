@@ -477,7 +477,7 @@
             }
             _this.unbindKeyboardShortcuts();
             App.vent.trigger('show:closeDetail');
-            App.vent.trigger('shortcuts:movies');
+            App.vent.trigger('shortcuts:list');
         },
 
         clickSeason: function (e) {
