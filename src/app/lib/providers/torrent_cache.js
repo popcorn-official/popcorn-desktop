@@ -3,6 +3,8 @@
     var peerflix = require('peerflix'),
         Q = require('q'),
         path = require('path'),
+        mkdirp = require('mkdirp'),
+        rimraf = require('rimraf'),
         fs = require('fs'),
         request = require('request'),
         zlib = require('zlib'),
@@ -27,7 +29,7 @@
 
     pmod.clearTmpDir = function () {
         var self = this;
-        deleteFolder(tpmDir, function (err) {
+        rimraf(tpmDir, function (err) {
             if (err) {
                 win.error('TorrentCache.clearTmpDir()', err);
             }
@@ -36,7 +38,7 @@
     };
 
     pmod._checkTmpDir = function () {
-        fs.mkdirp(tpmDir, function (err) {
+        mkdirp(tpmDir, function (err) {
             if (err) {
                 win.error('TorrentCache._checkTmpDir()', err);
             }

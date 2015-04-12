@@ -215,31 +215,6 @@ App.addInitializer(function (options) {
         .then(initApp);
 });
 
-var deleteFolder = function (path) {
-
-    if (typeof path !== 'string') {
-        return;
-    }
-
-    try {
-        var files = [];
-        if (fs.existsSync(path)) {
-            files = fs.readdirSync(path);
-            files.forEach(function (file, index) {
-                var curPath = path + '\/' + file;
-                if (fs.lstatSync(curPath).isDirectory()) {
-                    deleteFolder(curPath);
-                } else {
-                    fs.unlinkSync(curPath);
-                }
-            });
-            fs.rmdirSync(path);
-        }
-    } catch (err) {
-        win.error('deleteFolder()', err);
-    }
-};
-
 win.on('resize', function (width, height) {
     localStorage.width = Math.round(width);
     localStorage.height = Math.round(height);
@@ -254,7 +229,7 @@ win.on('move', function (x, y) {
 // Wipe the tmpFolder when closing the app (this frees up disk space)
 win.on('close', function () {
     if (App.settings.deleteTmpOnClose) {
-        deleteFolder(App.settings.tmpLocation);
+        require('rimraf').sync(App.settings.tmpLocation);
     }
     if (fs.existsSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'))) {
         fs.unlinkSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'));
