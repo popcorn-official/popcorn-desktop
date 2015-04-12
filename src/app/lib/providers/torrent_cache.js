@@ -27,7 +27,7 @@
 
     pmod.clearTmpDir = function () {
         var self = this;
-        fs.rmdir(tpmDir, function (err) {
+        deleteFolder(tpmDir, function (err) {
             if (err) {
                 win.error('TorrentCache.clearTmpDir()', err);
             }
