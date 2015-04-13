@@ -41,7 +41,7 @@
                     return 'movie';
                 }
             } else {
-                return 'show';
+                return 'episode';
             }
         },
 
@@ -99,16 +99,12 @@
             if (this._AutoPlayCheckTimer) {
                 clearInterval(this._AutoPlayCheckTimer);
             }
-            // Check if >80% is watched to mark as watched by user  (maybe add value to settings
-            var type = this.isMovie();
-            if (this.video.currentTime() / this.video.duration() >= 0.8 && type !== undefined) {
-                App.vent.trigger(type + ':watched', this.model.attributes, 'scrobble');
-            } else if (type !== undefined) {
-                App.Trakt[type].cancelWatching();
-            }
+
+            this.sendToTrakt('stop');
 
             // remember position
-            if (this.video.currentTime() / this.video.duration() < 0.8) {
+            var progress = _this.video.currentTime() / _this.video.duration() * 100 | 0;
+            if (progress < 80) {
                 AdvSettings.set('lastWatchedTitle', this.model.get('title'));
                 AdvSettings.set('lastWatchedTime', this.video.currentTime() - 5);
             } else {
@@ -227,7 +223,7 @@
             });
 
             var checkAutoPlay = function () {
-                if (_this.isMovie() === 'show' && next_episode_model) {
+                if (_this.isMovie() === 'episode' && next_episode_model) {
                     if ((_this.video.duration() - _this.video.currentTime()) < 60 && _this.video.currentTime() > 30) {
 
                         if (!autoplayisshown) {
@@ -262,23 +258,7 @@
                 }
             };
 
-
-            var sendToTrakt = function () {
-                var percent = _this.video.currentTime() / _this.video.duration() * 100 | 0,
-                    total = _this.video.duration() / 60 | 0;
-
-                if (_this.isMovie() === 'movie') {
-                    win.debug('Reporting we are watching \'' + _this.model.get('imdb_id') + '\' (' + percent + '% of ' + total + ' min)');
-                    App.Trakt.movie.watching(_this.model.get('imdb_id'), percent, total);
-                } else if (_this.isMovie() === 'show') {
-                    win.debug('Reporting we are watching \'' + _this.model.get('tvdb_id') + '\' (' + percent + '% of ' + total + ' min)');
-                    App.Trakt.show.watching(_this.model.get('tvdb_id'), _this.model.get('season'), _this.model.get('episode'), percent, total);
-                }
-            };
-
             player.one('play', function () {
-                player.one('durationchange', sendToTrakt);
-                _this._WatchingTimer = setInterval(sendToTrakt, 10 * 60 * 1000); // 10 minutes
                 if (_this.model.get('auto_play')) {
                     _this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
                 }
@@ -291,6 +271,7 @@
                     win.debug('Resuming position to', position.toFixed(), 'secs');
                     player.currentTime(position);
                 }
+                _this.sendToTrakt('start');
             });
 
             player.on('play', function () {
@@ -298,7 +279,6 @@
                 $(window).trigger('resize');
 
                 if (_this.wasSeek) {
-                    sendToTrakt();
                     if (_this.model.get('auto_play')) {
                         checkAutoPlay();
                     }
@@ -320,6 +300,8 @@
                     });
                     App.vent.trigger('player:play');
                 }
+
+                _this.sendToTrakt('start');
             });
 
             player.on('pause', function () {
@@ -333,6 +315,7 @@
                         _this.ui.pause.hide().dequeue();
                     });
                     App.vent.trigger('player:pause');
+                    _this.sendToTrakt('pause');
                 }
             });
 
@@ -340,11 +323,7 @@
 
             // There was an issue with the video
             player.on('error', function (error) {
-                if (_this.isMovie() === 'movie') {
-                    App.Trakt.movie.cancelWatching();
-                } else if (_this.isMovie() === 'show') {
-                    App.Trakt.show.cancelWatching();
-                }
+                _this.sendToTrakt('stop');
                 // TODO: user errors
                 if (_this.model.get('type') === 'video/youtube') {
                     setTimeout(function () {
@@ -377,6 +356,13 @@
             }, function () {
                 clearInterval(timeout);
             });
+        },
+
+        sendToTrakt: function (method) {
+            var type = _this.isMovie();
+            var id = type === 'movie' ? _this.model.get('imdb_id'): _this.model.get('episode_id');
+            var progress = _this.video.currentTime() / _this.video.duration() * 100 | 0;
+            App.Trakt.scrobble(method, type, id, progress);
         },
 
         playNextNow: function () {

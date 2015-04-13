@@ -320,6 +320,7 @@
                             title: title,
                             tvdb_id: model.get('tvdb_id'),
                             imdb_id: model.get('imdb_id'),
+                            episode_id: model.get('episode_id'),
                             episode: model.get('episode'),
                             season: model.get('season'),
                             file_index: model.get('file_index'),

@@ -319,12 +319,34 @@
                     }
                 });
             })
-            .catch (function (err) {
+            .catch(function (err) {
                 defer.reject(err);
             });
         return defer.promise;
     };
 
+    TraktTv.prototype.scrobble = function (action, type, id, progress) {
+        if (type === 'movie') {
+            return this.post('scrobble/' + action, {
+                movie: {
+                    ids: {
+                        imdb: id
+                    }
+                },
+                progress: progress
+            });
+        }
+        if (type === 'episode') {
+            return this.post('scrobble/' + action, {
+                episode: {
+                    ids: {
+                        tvdb: id
+                    }
+                },
+                progress: progress
+            });
+        }
+    };
     /*
      *  General
      * FUNCTIONS
@@ -385,58 +407,6 @@
             return uri.filename(file + '.' + ext).toString();
         }
     };
-
-    function onShowWatched(show, channel) {
-        win.debug('Mark TV Show as watched, on channel:', channel);
-        switch (channel) {
-        case 'scrobble':
-            App.Trakt.show
-                .scrobble(show.tvdb_id, show.season, show.episode, 100);
-            break;
-        case 'seen':
-            /* falls through */
-        default:
-            App.Trakt.show
-                .episodeSeen(show.tvdb_id, show);
-            break;
-        }
-    }
-
-    function onShowUnWatched(show, channel) {
-        win.debug('Mark TV Show as unwatched, on channel:', channel);
-        switch (channel) {
-        case 'scrobble':
-            App.Trakt.show
-                .scrobble(show.tvdb_id, show.season, show.episode, 0);
-            break;
-        case 'seen':
-            /* falls through */
-        default:
-            App.Trakt.show
-                .episodeUnseen(show.tvdb_id, show);
-            break;
-        }
-    }
-
-    function onMoviesWatched(movie, channel) {
-        win.debug('Mark Movie as watched, on channel:', channel);
-        switch (channel) {
-        case 'scrobble':
-            App.Trakt.movie
-                .scrobble(movie.imdb_id, 100);
-            break;
-        case 'seen':
-            /* falls through */
-        default:
-            App.Trakt.movie
-                .seen(movie.imdb_id);
-            break;
-        }
-    }
-
-    App.vent.on('show:watched', onShowWatched);
-    App.vent.on('show:unwatched', onShowUnWatched);
-    App.vent.on('movie:watched', onMoviesWatched);
 
     App.Providers.Trakttv = TraktTv;
 

@@ -380,7 +380,6 @@
         },
 
         startStreaming: function (e) {
-
             if (e.type) {
                 e.preventDefault();
             }
@@ -389,6 +388,7 @@
             var episode = $(e.currentTarget).attr('data-episode');
             var season = $(e.currentTarget).attr('data-season');
             var name = $(e.currentTarget).attr('data-title');
+            var episode_id = $(e.currentTarget).attr('data-episodeid');
             var imdbid = that.model.get('imdb_id').indexOf('mal') === -1 ? that.model.get('imdb_id') : null; //fix for anime
 
             title += ' - ' + i18n.__('Season %s', season) + ', ' + i18n.__('Episode %s', episode) + ' - ' + name;
@@ -396,6 +396,7 @@
                 type: 'tvshow',
                 imdbid: imdbid,
                 tvdbid: that.model.get('tvdb_id'),
+                episode_id: episode_id,
                 season: season,
                 episode: episode
             };
@@ -423,7 +424,8 @@
                             season: value.season,
                             episode: value.episode
                         },
-                        tvdb_id: value.tvdb_id,
+                        episode_id: value.tvdb_id,
+                        tvdb_id: that.model.get('tvdb_id'),
                         imdb_id: that.model.get('imdb_id'),
                         device: App.Device.Collection.selected,
                         cover: that.model.get('images').poster,
@@ -451,6 +453,7 @@
                 type: 'episode',
                 tvdb_id: that.model.get('tvdb_id'),
                 imdb_id: that.model.get('imdb_id'),
+                episode_id: episode_id,
                 episode: episode,
                 season: season,
                 title: title,
