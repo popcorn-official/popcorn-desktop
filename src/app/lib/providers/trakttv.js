@@ -142,6 +142,38 @@
                 }
                 return self.callv1(['movie/summaries.json', '{KEY}', ids.join(','), 'full']);
             });
+        },
+        getWatched: function () {
+            return this.call('sync/watched/movies')
+                .then(function (data) {
+                    return data;
+                });
+        },
+        sync: function () {
+            return Q.all([this.movie.syncFrom()]);
+        },
+        syncFrom: function () {
+            return this.movie.getWatched()
+                .then(function (data) {
+                    var watched = [];
+
+                    if (data) {
+                        var movie;
+                        for (var m in data) {
+                            movie = data[m].movie;
+                            watched.push({
+                                movie_id: movie.ids.imdb.toString(),
+                                date: new Date(),
+                                type: 'movie'
+                            });
+                        }
+                    }
+
+                    return watched;
+                })
+                .then(function (traktWatched) {
+                    return Database.markMoviesWatched(traktWatched);
+                });
         }
     };
 
@@ -172,6 +204,7 @@
                     }
                 });
         }
+
     };
 
     /*
@@ -325,6 +358,15 @@
         return defer.promise;
     };
 
+    TraktTv.prototype.sync = function () {
+        var that = this;
+
+        return Q()
+            .then(function () {
+                return Q.all([that.movie.sync()]);
+            });
+    };
+
     TraktTv.prototype.scrobble = function (action, type, id, progress) {
         if (type === 'movie') {
             return this.post('scrobble/' + action, {
@@ -352,7 +394,9 @@
         var defer = Q.defer();
 
         if (type === 'movie') {
-            this.call('sync/playback/movies', {limit: 50}).then(function (results) {
+            this.call('sync/playback/movies', {
+                limit: 50
+            }).then(function (results) {
                 results.forEach(function (result) {
                     if (result.movie.ids.imdb.toString() === id) {
                         defer.resolve(result.progress);
@@ -364,7 +408,9 @@
         }
 
         if (type === 'episode') {
-            this.call('sync/playback/episodes', {limit: 50}).then(function (results) {
+            this.call('sync/playback/episodes', {
+                limit: 50
+            }).then(function (results) {
                 results.forEach(function (result) {
                     if (result.episode.ids.tvdb.toString() === id) {
                         defer.resolve(result.progress);
@@ -377,7 +423,7 @@
 
         return defer.promise;
     };
-    
+
 
     /*
      *  General
