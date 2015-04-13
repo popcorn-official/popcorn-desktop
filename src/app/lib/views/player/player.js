@@ -103,8 +103,7 @@
             this.sendToTrakt('stop');
 
             // remember position
-            var progress = _this.video.currentTime() / _this.video.duration() * 100 | 0;
-            if (progress < 80) {
+            if (this.video.currentTime() / this.video.duration() < 0.8) {
                 AdvSettings.set('lastWatchedTitle', this.model.get('title'));
                 AdvSettings.set('lastWatchedTime', this.video.currentTime() - 5);
             } else {
@@ -270,7 +269,18 @@
                     var position = AdvSettings.get('lastWatchedTime');
                     win.debug('Resuming position to', position.toFixed(), 'secs');
                     player.currentTime(position);
+                } else if (AdvSettings.get('traktPlayback')) {
+                    var type = _this.isMovie();
+                    var id = type === 'movie' ? _this.model.get('imdb_id') : _this.model.get('episode_id');
+                    App.Trakt.playback(type, id).then(function (position_percent) {
+                        var total = _this.video.duration();
+                        var position = (position_percent / 100) * total;
+                        win.debug('Resuming position to', position.toFixed(), 'secs (reported by Trakt)');
+                        player.currentTime(position);
+                    });
                 }
+
+                // alert Trakt
                 _this.sendToTrakt('start');
             });
 
@@ -360,7 +370,7 @@
 
         sendToTrakt: function (method) {
             var type = _this.isMovie();
-            var id = type === 'movie' ? _this.model.get('imdb_id'): _this.model.get('episode_id');
+            var id = type === 'movie' ? _this.model.get('imdb_id') : _this.model.get('episode_id');
             var progress = _this.video.currentTime() / _this.video.duration() * 100 | 0;
             App.Trakt.scrobble(method, type, id, progress);
         },

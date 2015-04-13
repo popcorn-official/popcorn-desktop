@@ -205,7 +205,8 @@
             case 'coversShowRating':
             case 'showAdvancedSettings':
             case 'alwaysOnTop':
-            case 'syncOnStart':
+            case 'traktSyncOnStart':
+            case 'traktPlayback':
             case 'playNextEpisodeAuto':
             case 'automaticUpdating':
             case 'events':

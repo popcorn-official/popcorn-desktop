@@ -195,7 +195,7 @@
             url: requestUri.toString(),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': AdvSettings.get('traktToken'),
+                'Authorization': 'Bearer ' + AdvSettings.get('traktToken'),
                 'trakt-api-version': '2',
                 'trakt-api-key': CLIENT_ID
             }
@@ -347,6 +347,38 @@
             });
         }
     };
+
+    TraktTv.prototype.playback = function (type, id) {
+        var defer = Q.defer();
+
+        if (type === 'movie') {
+            this.call('sync/playback/movies', {limit: 50}).then(function (results) {
+                results.forEach(function (result) {
+                    if (result.movie.ids.imdb.toString() === id) {
+                        defer.resolve(result.progress);
+                    }
+                });
+            }).catch(function (err) {
+                defer.reject(err);
+            });
+        }
+
+        if (type === 'episode') {
+            this.call('sync/playback/episodes', {limit: 50}).then(function (results) {
+                results.forEach(function (result) {
+                    if (result.episode.ids.tvdb.toString() === id) {
+                        defer.resolve(result.progress);
+                    }
+                });
+            }).catch(function (err) {
+                defer.reject(err);
+            });
+        }
+
+        return defer.promise;
+    };
+    
+
     /*
      *  General
      * FUNCTIONS

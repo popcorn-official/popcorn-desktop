@@ -287,10 +287,14 @@
 							<%= i18n.__("Sync With Trakt") %>
 						</div>
 						<div class="sync-on-start">
-							<input class="settings-checkbox" name="syncOnStart" id="syncOnStart" type="checkbox" <%=(Settings.syncOnStart? "checked='checked'":"")%>>
-							<label class="settings-label" for="syncOnStart"><%= i18n.__("Automatically Sync on Start") %></label>
+							<input class="settings-checkbox" name="traktSyncOnStart" id="traktSyncOnStart" type="checkbox" <%=(Settings.traktSyncOnStart? "checked='checked'":"")%>>
+							<label class="settings-label" for="traktSyncOnStart"><%= i18n.__("Automatically Sync on Start") %></label>
 						</div>
 					</span-->
+                    <span>
+                        <input class="settings-checkbox" name="traktPlayback" id="traktPlayback" type="checkbox" <%=(Settings.traktPlayback? "checked='checked'":"")%>>
+                        <label class="settings-label" for="traktPlayback"><%= i18n.__("Resume Playback") %></label>
+                    </span>
 				<% } else { %>
 					<span>
 						<%= i18n.__("Connect to %s to automatically 'scrobble' episodes you watch in %s", "Trakt.tv", "Popcorn Time") %>

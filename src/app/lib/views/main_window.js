@@ -388,7 +388,7 @@
         },
 
         syncTraktOnStart: function () {
-            if (Settings.syncOnStart) {
+            if (Settings.traktSyncOnStart) {
                 Database.deleteWatched();
                 App.Trakt.sync();
             }
