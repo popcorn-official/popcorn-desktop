@@ -141,7 +141,6 @@
             .segment(endpoint)
             .addQuery(getVariables);
 
-        console.log(requestUri.toString());
         request({
             method: 'GET',
             url: requestUri.toString(),
@@ -173,7 +172,6 @@
         var requestUri = API_ENDPOINT.clone()
             .segment(endpoint);
 
-        console.log(requestUri.toString());
         request({
             method: 'POST',
             url: requestUri.toString(),
@@ -563,24 +561,56 @@
         }
     };
 
-    function onShowWatched(show) {
-        win.debug('Mark Episode as watched');
-        App.Trakt.show.episodeSeen(show.episode_id);
+    function onShowWatched(show, channel) {
+        win.debug('Mark Episode as watched on channel:', channel);
+        switch (channel) {
+            case 'database':
+                break;
+            case 'seen':
+                /* falls through */
+            default: 
+                App.Trakt.show.episodeSeen(show.episode_id);
+                break;
+        }
     }
 
-    function onShowUnWatched(show) {
-        win.debug('Mark Episode as unwatched');
-        App.Trakt.show.episodeUnseen(show.episode_id);
+    function onShowUnWatched(show, channel) {
+        win.debug('Mark Episode as unwatched on channel:', channel);
+        switch (channel) {
+            case 'database':
+                break;
+            case 'seen':
+                /* falls through */
+            default: 
+                App.Trakt.show.episodeUnseen(show.episode_id);
+                break;
+        }
     }
 
-    function onMoviesWatched(movie) {
-        win.debug('Mark Movie as watched');
-        App.Trakt.movie.seen(movie.imdb_id);
+    function onMoviesWatched(movie, channel) {
+        win.debug('Mark Movie as watched on channel:', channel);
+        switch (channel) {
+            case 'database':
+                break;
+            case 'seen':
+                /* falls through */
+            default: 
+                App.Trakt.movie.seen(movie.imdb_id);
+                break;
+        }
     }
 
-    function onMoviesUnWatched(movie) {
-        win.debug('Mark Movie as unwatched');
-        App.Trakt.movie.unseen(movie.imdb_id);
+    function onMoviesUnWatched(movie, channel) {
+        win.debug('Mark Movie as unwatched on channel:', channel);
+        switch (channel) {
+            case 'database':
+                break;
+            case 'seen':
+                /* falls through */
+            default: 
+                App.Trakt.movie.unseen(movie.imdb_id);
+                break;
+        }
     }
 
     App.vent.on('show:watched', onShowWatched);

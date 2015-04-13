@@ -391,7 +391,7 @@ var Database = {
         App.vent.on('show:watched', _.bind(this.markEpisodeAsWatched, this));
         App.vent.on('show:unwatched', _.bind(this.markEpisodeAsNotWatched, this));
         App.vent.on('movie:watched', _.bind(this.markMovieAsWatched, this));
-        App.vent.on('movie:watched', _.bind(this.markMovieAsNotWatched, this));
+        App.vent.on('movie:unwatched', _.bind(this.markMovieAsNotWatched, this));
 
         // we'll intiatlize our settings and our API SSL Validation
         // we build our settings array

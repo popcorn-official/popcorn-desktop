@@ -102,6 +102,14 @@
 
             this.sendToTrakt('stop');
 
+            var type = this.isMovie();
+            if (type === 'episode') {
+                type = 'show';
+            }
+            if (this.video.currentTime() / this.video.duration() >= 0.8 && type !== undefined) {
+                App.vent.trigger(type + ':watched', this.model.attributes, 'database');
+            }
+
             // remember position
             if (this.video.currentTime() / this.video.duration() < 0.8) {
                 AdvSettings.set('lastWatchedTitle', this.model.get('title'));

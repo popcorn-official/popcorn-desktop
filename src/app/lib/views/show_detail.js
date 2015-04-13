@@ -341,11 +341,12 @@
             var tvdb_id = _this.model.get('tvdb_id');
             var imdb_id = _this.model.get('imdb_id');
 
-            var episodes = this.model.get('episodes');
+            var episodes = _this.model.get('episodes');
             episodes.forEach(function (episode, index, array) {
                 var value = {
                     tvdb_id: tvdb_id,
                     imdb_id: imdb_id,
+                    episode_id: episode.tvdb_id,
                     season: episode.season,
                     episode: episode.episode,
                     from_browser: true
@@ -354,9 +355,7 @@
                     .then(function (watched) {
                         if (!watched) {
                             App.vent.trigger('show:watched', value, 'seen');
-                            if (index === array.length - 1) {
-                                $('.show-watched-toggle').hide();
-                            }
+                            $('.show-watched-toggle').hide();
                         }
                     });
             });
