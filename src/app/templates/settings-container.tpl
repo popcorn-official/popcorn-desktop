@@ -281,7 +281,7 @@
 						<%= i18n.__("You are currently connected to %s", "Trakt.tv") %>.
 						<a id="unauthTrakt" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
 					</span>
-					<span>
+					<!--span>
 						<div class="btn-settings syncTrakt" id="syncTrakt">
 							<i class="fa fa-refresh">&nbsp;&nbsp;</i>
 							<%= i18n.__("Sync With Trakt") %>
@@ -290,7 +290,7 @@
 							<input class="settings-checkbox" name="syncOnStart" id="syncOnStart" type="checkbox" <%=(Settings.syncOnStart? "checked='checked'":"")%>>
 							<label class="settings-label" for="syncOnStart"><%= i18n.__("Automatically Sync on Start") %></label>
 						</div>
-					</span>
+					</span-->
 				<% } else { %>
 					<span>
 						<%= i18n.__("Connect to %s to automatically 'scrobble' episodes you watch in %s", "Trakt.tv", "Popcorn Time") %>

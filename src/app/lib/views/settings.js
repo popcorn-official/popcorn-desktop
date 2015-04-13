@@ -340,67 +340,65 @@
 
         },
 
-		connectTrakt: function (e) {
-			var self = this;
+        connectTrakt: function (e) {
+            var self = this;
 
-			if (AdvSettings.get('traktTokenRefresh') !== '') {
-				return;
-			}
+            if (AdvSettings.get('traktTokenRefresh') !== '') {
+                return;
+            }
 
-			$('#authTrakt > i').css('visibility', 'hidden');
-			$('.loading-spinner').show();
+            $('#authTrakt > i').css('visibility', 'hidden');
+            $('.loading-spinner').show();
 
-			App.Trakt.authenticate().then(function (valid) {
-				if (valid) {
-					win.debug('Trakt authentified');
-					$('.loading-spinner').delay(2500).queue(function () {
-						$('.loading-spinner').hide();
-						self.render().dequeue;
-					});
-				} else {
-					$('.loading-spinner').hide();
-					$('#authTrakt > i').css('visibility', 'visible');
-				}
-			}).catch(function (err) {
-				win.debug('Trakt', err);
-				$('#authTrakt > i').css('visibility', 'visible');
-				$('.loading-spinner').hide();
-			});
-		},
+            App.Trakt.authenticate().then(function (valid) {
+                if (valid) {
+                    win.debug('Trakt authentified');
+                    $('.loading-spinner').hide();
+                    self.render();
+                } else {
+                    $('.loading-spinner').hide();
+                    $('#authTrakt > i').css('visibility', 'visible');
+                }
+            }).catch(function (err) {
+                win.debug('Trakt', err);
+                $('#authTrakt > i').css('visibility', 'visible');
+                $('.loading-spinner').hide();
+            });
+        },
 
-		disconnectTrakt: function (e) {
-			var self = this;
+        disconnectTrakt: function (e) {
+            var self = this;
 
-			App.settings['traktToken'] = '';
-			App.settings['traktTokenRefresh'] = '';
-			App.settings['traktTokenTTL'] = '';
-			App.Trakt.authenticated = false;
+            App.settings['traktToken'] = '';
+            App.settings['traktTokenRefresh'] = '';
+            App.settings['traktTokenTTL'] = '';
+            App.Trakt.authenticated = false;
 
-			App.db.writeSetting({
-					key: 'traktToken',
-					value: ''
-				})
-				.then(function () {
-					return App.db.writeSetting({
-						key: 'traktTokenRefresh',
-						value: ''
-					});
-				})
-				.then(function () {
-					return App.db.writeSetting({
-						key: 'traktTokenTTL',
-						value: ''
-					});
-				})
-				.then(function () {
-					self.ui.success_alert.show().delay(3000).fadeOut(400);
-				});
+            App.db.writeSetting({
+                    key: 'traktToken',
+                    value: ''
+                })
+                .then(function () {
+                    return App.db.writeSetting({
+                        key: 'traktTokenRefresh',
+                        value: ''
+                    });
+                })
+                .then(function () {
+                    return App.db.writeSetting({
+                        key: 'traktTokenTTL',
+                        value: ''
+                    });
+                })
+                .then(function () {
+                    self.ui.success_alert.show().delay(3000).fadeOut(400);
+                });
 
-			_.defer(function () {
-				App.Trakt = App.Providers.get('Trakttv');
-				self.render();
-			});
-		},
+            _.defer(function () {
+                App.Trakt = App.Providers.get('Trakttv');
+                self.render();
+            });
+        },
 
         flushBookmarks: function (e) {
             var that = this;
