@@ -278,7 +278,7 @@
 			<div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
 				<% if(App.Trakt.authenticated) { %>
 					<span>
-						<%= i18n.__("You are currently authenticated to Trakt.tv as") %> <%= Settings.traktUsername %>.
+						<%= i18n.__("You are currently connected to %s", "Trakt.tv") %>.
 						<a id="unauthTrakt" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
 					</span>
 					<span>
@@ -293,21 +293,14 @@
 					</span>
 				<% } else { %>
 					<span>
-						<%= i18n.__("Enter your Trakt.tv details here to automatically 'scrobble' episodes you watch in Popcorn Time") %>
+						<%= i18n.__("Connect to %s to automatically 'scrobble' episodes you watch in %s", "Trakt.tv", "Popcorn Time") %>
 					</span>
 					<span>
-						<p><%= i18n.__("Username") + ":" %></p>
-						<input type="text" size="50" id="traktUsername" name="traktUsername">
-							<div class="loading-spinner" style="display: none"></div>
-							<div class="valid-tick" style="display: none"></div>
-							<div class="invalid-cross" style="display: none"></div>
-					</span>
-					<span>
-						<p><%= i18n.__("Password") + ":" %></p>
-						<input type="password" size="50" id="traktPassword" name="traktPassword">
-					</span>
-					<span>
-						<em><%= i18n.__("Popcorn Time stores an encrypted hash of your password in your local database") %></em>
+                        <div class="btn-settings syncTrakt" id="authTrakt">
+                            <i class="fa fa-user-plus">&nbsp;&nbsp;</i>
+                            <%= i18n.__("Connect To Trakt") %>
+                        </div>
+                        <div class="loading-spinner" style="display: none"></div>
 					</span>
 				<% } %>
 			</div>

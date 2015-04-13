@@ -155,59 +155,29 @@
         #trakt-tv
             .trakt-options
                 color $SettingsText1
-                
+
                 a
                     display inline-block
-            
+
                 .unauthtext
                     margin-left 5px
                     color $ButtonBgActive
                     &:hover{ color: $ButtonBgHover; }
-            
+
                 .loading-spinner
                     animation-duration 0.75s
                     animation-iteration-count infinite
                     animation-name rotate-forever
                     animation-timing-function linear
-                    width 20px
-                    height 20px
-                    border 4px solid #2d75df
+                    width 15px
+                    height 15px
+                    border 3px solid #2d75df
                     border-right-color transparent
                     border-radius 50%
                     display inline-flex
-                    margin-left -27px
-                    margin-top -9px
-            
-                .invalid-cross
-                    width 20px
-                    height 20px
-                    display inline-flex
-                    margin-left -27px
-            
-                    &:before
-                        content "\2573"
-                        font-family Arial
-                        font-size 12px
-                        font-weight bolder
-                        text-shadow 0 0 10px #EE3030
-                        color #EE3030
-            
-                .valid-tick
-                    width 20px
-                    height 20px
-                    display inline-flex
-                    margin-left -27px
-                    margin-top -9px
-            
-                    &:before
-                        content "\2714"
-                        font-family Arial
-                        font-size 17px
-                        font-weight bold
-                        text-shadow 0 0 10px #4EEE30
-                        color #4EEE30
-                        position relative
-                        top 2px
+                    position absolute
+                    left 0
+                    margin-left 20px
             
                 .syncTrakt
                     margin-bottom: 15px

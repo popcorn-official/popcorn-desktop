@@ -52,8 +52,9 @@ Settings.httpApiUsername = 'popcorn';
 Settings.httpApiPassword = 'popcorn';
 
 // User settings (not set here, just init'd)
-Settings.traktUsername = '';
-Settings.traktPassword = '';
+Settings.traktToken = '';
+Settings.traktTokenRefresh = '';
+Settings.traktTokenTTL = '';
 Settings.traktTvVersion = '0.0.2';
 Settings.syncOnStart = false;
 

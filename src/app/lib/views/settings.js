@@ -35,8 +35,7 @@
             'click .open-database-folder': 'openDatabaseFolder',
             'click .export-database': 'exportDatabase',
             'click .import-database': 'inportDatabase',
-            'keyup #traktUsername': 'checkTraktLogin',
-            'keyup #traktPassword': 'checkTraktLogin',
+            'click #authTrakt': 'connectTrakt',
             'click #unauthTrakt': 'disconnectTrakt',
             'change #tmpLocation': 'updateCacheDirectory',
             'click #syncTrakt': 'syncTrakt',
@@ -227,9 +226,6 @@
             case 'subtitle_color':
                 value = field.val();
                 break;
-            case 'traktUsername':
-            case 'traktPassword':
-                return;
             case 'tmpLocation':
                 tmpLocationChanged = true;
                 value = path.join(field.val(), 'Popcorn-Time');
@@ -343,63 +339,68 @@
             }
 
         },
-        checkTraktLogin: _.debounce(function (e) {
-            var self = this;
-            var username = document.querySelector('#traktUsername').value;
-            var password = document.querySelector('#traktPassword').value;
 
-            if (username === '' || password === '') {
-                return;
-            }
+		connectTrakt: function (e) {
+			var self = this;
 
-            $('.invalid-cross').hide();
-            $('.valid-tick').hide();
-            $('.loading-spinner').show();
-            // trakt.authenticate automatically saves the username and pass on success!
-            App.Trakt.authenticate(username, password).then(function (valid) {
-                $('.loading-spinner').hide();
-                // Stop multiple requests interfering with each other
-                $('.invalid-cross').hide();
-                $('.valid-tick').hide();
-                if (valid) {
-                    $('.valid-tick').show().delay(2000).queue(function () {
-                        self.render().dequeue;
-                    });
-                } else {
-                    $('.invalid-cross').show();
-                }
-            }).catch(function (err) {
-                $('.loading-spinner').hide();
-                $('.invalid-cross').show();
-            });
-        }, 750),
+			if (AdvSettings.get('traktTokenRefresh') !== '') {
+				return;
+			}
 
-        disconnectTrakt: function (e) {
-            var self = this;
+			$('#authTrakt > i').css('visibility', 'hidden');
+			$('.loading-spinner').show();
 
-            App.settings['traktUsername'] = '';
-            App.settings['traktPassword'] = '';
-            App.Trakt.authenticated = false;
+			App.Trakt.authenticate().then(function (valid) {
+				if (valid) {
+					win.debug('Trakt authentified');
+					$('.loading-spinner').delay(2500).queue(function () {
+						$('.loading-spinner').hide();
+						self.render().dequeue;
+					});
+				} else {
+					$('.loading-spinner').hide();
+					$('#authTrakt > i').css('visibility', 'visible');
+				}
+			}).catch(function (err) {
+				win.debug('Trakt', err);
+				$('#authTrakt > i').css('visibility', 'visible');
+				$('.loading-spinner').hide();
+			});
+		},
 
-            App.db.writeSetting({
-                    key: 'traktUsername',
-                    value: ''
-                })
-                .then(function () {
-                    return App.db.writeSetting({
-                        key: 'traktPassword',
-                        value: ''
-                    });
-                })
-                .then(function () {
-                    self.ui.success_alert.show().delay(3000).fadeOut(400);
-                });
+		disconnectTrakt: function (e) {
+			var self = this;
 
-            _.defer(function () {
-                App.Trakt = App.Providers.get('Trakttv');
-                self.render();
-            });
-        },
+			App.settings['traktToken'] = '';
+			App.settings['traktTokenRefresh'] = '';
+			App.settings['traktTokenTTL'] = '';
+			App.Trakt.authenticated = false;
+
+			App.db.writeSetting({
+					key: 'traktToken',
+					value: ''
+				})
+				.then(function () {
+					return App.db.writeSetting({
+						key: 'traktTokenRefresh',
+						value: ''
+					});
+				})
+				.then(function () {
+					return App.db.writeSetting({
+						key: 'traktTokenTTL',
+						value: ''
+					});
+				})
+				.then(function () {
+					self.ui.success_alert.show().delay(3000).fadeOut(400);
+				});
+
+			_.defer(function () {
+				App.Trakt = App.Providers.get('Trakttv');
+				self.render();
+			});
+		},
 
         flushBookmarks: function (e) {
             var that = this;
