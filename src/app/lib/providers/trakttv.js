@@ -303,6 +303,12 @@
                 return self.callv1(['movie/summaries.json', '{KEY}', ids.join(','), 'full']);
             });
         },
+        seen: function (movie) {
+            return Q.reject('Not done yet');
+        },
+        unseen: function (movie) {
+            return Q.reject('Not done yet');
+        },
         getWatched: function () {
             return this.call('sync/watched/movies')
                 .then(function (data) {
@@ -360,6 +366,12 @@
                         return undefined;
                     }
                 });
+        },
+        episodeSeen: function (id, episode) {
+            return Q.reject('Not done yet');
+        },
+        episodeUnseen: function (id, episode) {
+            return Q.reject('Not done yet');
         },
         getWatched: function () {
             return this.call('sync/watched/shows')

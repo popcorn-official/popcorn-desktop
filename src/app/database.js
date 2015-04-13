@@ -223,8 +223,6 @@ var Database = {
                     App.watchedShows.push(data.imdb_id.toString());
                 }
             }).then(function () {
-
-
                 return db.watched.insert({
                     tvdb_id: data.tvdb_id.toString(),
                     imdb_id: data.imdb_id.toString(),
@@ -233,13 +231,11 @@ var Database = {
                     type: 'episode',
                     date: new Date()
                 });
-
             })
 
         .then(function () {
             App.vent.trigger('show:watched:' + data.tvdb_id, data);
         });
-
 
     },
 
