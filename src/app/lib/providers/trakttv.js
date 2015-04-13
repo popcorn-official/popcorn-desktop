@@ -203,8 +203,54 @@
                         return undefined;
                     }
                 });
-        }
+        },
+        getWatched: function () {
+            return this.call('sync/watched/shows')
+                .then(function (data) {
+                    return data;
+                });
+        },
+        sync: function () {
+            return Q.all([this.show.syncFrom()]);
+        },
+        syncFrom: function () {
+            return this.show.getWatched()
+                .then(function (data) {
+                    // Format them for insertion
+                    var watched = [];
 
+                    if (data) {
+                        var show;
+                        var season;
+                        for (var d in data) {
+                            show = data[d];
+                            for (var s in show.seasons) {
+                                season = show.seasons[s];
+                                for (var e in season.episodes) {
+                                    try { //some shows don't return IMDB
+                                        watched.push({
+                                            tvdb_id: show.show.ids.tvdb.toString(),
+                                            show_imdb_id: show.show.ids.imdb.toString(),
+                                            season: season.number.toString(),
+                                            episode: season.episodes[e].number.toString(),
+                                            type: 'episode',
+                                            date: new Date()
+                                        });
+                                    } catch (e) {
+                                        win.error('Error syncing show', show.show.title);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    return watched;
+                })
+                .then(function (traktWatched) {
+                    // Insert them locally
+                    return Database.markEpisodesWatched(traktWatched);
+                });
+        }
     };
 
     /*
@@ -363,7 +409,7 @@
 
         return Q()
             .then(function () {
-                return Q.all([that.movie.sync()]);
+                return Q.all([that.movie.sync(), that.show.sync()]);
             });
     };
 
