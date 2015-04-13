@@ -236,6 +236,9 @@
                     }, true)
                     .then(function () {
                         that.model.set('watched', false);
+                        App.vent.trigger('movie:unwatched', {
+                            imdb_id: that.model.get('imdb_id')
+                        });
                     });
             } else {
                 this.ui.watchedIcon.addClass('selected');
@@ -253,6 +256,9 @@
                     }, true)
                     .then(function () {
                         that.model.set('watched', true);
+                        App.vent.trigger('movie:watched', {
+                            imdb_id: that.model.get('imdb_id')
+                        });
                     });
 
             }

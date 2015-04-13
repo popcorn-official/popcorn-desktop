@@ -164,11 +164,8 @@ var Database = {
         return db.watched.insert(data);
     },
 
-    markMovieAsWatched: function (data, trakt) {
+    markMovieAsWatched: function (data) {
         if (data.imdb_id) {
-            if (trakt !== false) {
-                App.Trakt.movie.seen(data.imdb_id);
-            }
             App.watchedMovies.push(data.imdb_id);
 
             return db.watched.insert({
@@ -183,10 +180,7 @@ var Database = {
         return Q();
     },
 
-    markMovieAsNotWatched: function (data, trakt) {
-        if (trakt !== false) {
-            App.Trakt.movie.unseen(data.imdb_id);
-        }
+    markMovieAsNotWatched: function (data) {
 
         App.watchedMovies.splice(App.watchedMovies.indexOf(data.imdb_id), 1);
 
@@ -243,14 +237,7 @@ var Database = {
         return db.watched.insert(data);
     },
 
-    markEpisodeAsNotWatched: function (data, trakt) {
-        if (trakt !== false) {
-            App.Trakt.show.episodeUnseen(data.tvdb_id, {
-                season: data.season,
-                episode: data.episode
-            });
-        }
-
+    markEpisodeAsNotWatched: function (data) {
         return promisifyDb(db.watched.find({
                 tvdb_id: data.tvdb_id.toString()
             }))
@@ -318,15 +305,6 @@ var Database = {
     getTVShowByImdb: function (imdb_id) {
         return promisifyDb(db.tvshows.findOne({
             imdb_id: imdb_id
-        }));
-    },
-
-    // TO BE REWRITTEN TO USE TRAKT INSTEAD
-    getImdbByTVShow: function (tvshow) {
-        win.warn('this isn\'t used anywhere');
-
-        return promisifyDb(db.tvshows.findOne({
-            title: tvshow
         }));
     },
 
@@ -413,6 +391,7 @@ var Database = {
         App.vent.on('show:watched', _.bind(this.markEpisodeAsWatched, this));
         App.vent.on('show:unwatched', _.bind(this.markEpisodeAsNotWatched, this));
         App.vent.on('movie:watched', _.bind(this.markMovieAsWatched, this));
+        App.vent.on('movie:watched', _.bind(this.markMovieAsNotWatched, this));
 
         // we'll intiatlize our settings and our API SSL Validation
         // we build our settings array

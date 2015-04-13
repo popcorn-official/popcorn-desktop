@@ -303,11 +303,23 @@
                 return self.callv1(['movie/summaries.json', '{KEY}', ids.join(','), 'full']);
             });
         },
-        seen: function (movie) {
-            return Q.reject('Not done yet');
+        seen: function (id) {
+            return this.post('sync/history', {
+                movies: [{
+                    ids: {
+                        imdb: id
+                    }
+                }]
+            });
         },
-        unseen: function (movie) {
-            return Q.reject('Not done yet');
+        unseen: function (id) {
+            return this.post('sync/history/remove', {
+                movies: [{
+                    ids: {
+                        imdb: id
+                    }
+                }]
+            });
         },
         getWatched: function () {
             return this.call('sync/watched/movies')
@@ -367,11 +379,23 @@
                     }
                 });
         },
-        episodeSeen: function (id, episode) {
-            return Q.reject('Not done yet');
+        episodeSeen: function (id) {
+            return this.post('sync/history', {
+                episodes: [{
+                    ids: {
+                        tvdb: id
+                    }
+                }]
+            });
         },
-        episodeUnseen: function (id, episode) {
-            return Q.reject('Not done yet');
+        episodeUnseen: function (id) {
+            return this.post('sync/history/remove', {
+                episodes: [{
+                    ids: {
+                        tvdb: id
+                    }
+                }]
+            });
         },
         getWatched: function () {
             return this.call('sync/watched/shows')
@@ -538,6 +562,31 @@
             return uri.filename(file + '.' + ext).toString();
         }
     };
+
+    function onShowWatched(show) {
+        win.debug('Mark Episode as watched');
+        App.Trakt.show.episodeSeen(show.episode_id);
+    }
+
+    function onShowUnWatched(show) {
+        win.debug('Mark Episode as unwatched');
+        App.Trakt.show.episodeUnseen(show.episode_id);
+    }
+
+    function onMoviesWatched(movie) {
+        win.debug('Mark Movie as watched');
+        App.Trakt.movie.seen(movie.imdb_id);
+    }
+
+    function onMoviesUnWatched(movie) {
+        win.debug('Mark Movie as unwatched');
+        App.Trakt.movie.unseen(movie.imdb_id);
+    }
+
+    App.vent.on('show:watched', onShowWatched);
+    App.vent.on('show:unwatched', onShowUnWatched);
+    App.vent.on('movie:watched', onMoviesWatched);
+    App.vent.on('movie:unwatched', onMoviesUnWatched);
 
     App.Providers.Trakttv = TraktTv;
 

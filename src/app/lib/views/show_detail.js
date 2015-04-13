@@ -292,22 +292,25 @@
 
         toggleWatched: function (e) {
             var edata = e.currentTarget.id.split('-');
-            var value = {
-                tvdb_id: _this.model.get('tvdb_id'),
-                imdb_id: _this.model.get('imdb_id'),
-                season: edata[1],
-                episode: edata[2],
-                from_browser: true
-            };
+            setTimeout(function () {
+                var value = {
+                    tvdb_id: _this.model.get('tvdb_id'),
+                    imdb_id: _this.model.get('imdb_id'),
+                    episode_id: $('#watch-now').attr('data-episodeid'),
+                    season: edata[1],
+                    episode: edata[2],
+                    from_browser: true
+                };
 
-            Database.checkEpisodeWatched(value)
-                .then(function (watched) {
-                    if (watched) {
-                        App.vent.trigger('show:unwatched', value, 'seen');
-                    } else {
-                        App.vent.trigger('show:watched', value, 'seen');
-                    }
-                });
+                Database.checkEpisodeWatched(value)
+                    .then(function (watched) {
+                        if (watched) {
+                            App.vent.trigger('show:unwatched', value, 'seen');
+                        } else {
+                            App.vent.trigger('show:watched', value, 'seen');
+                        }
+                    });
+            }, 100);
         },
 
         isShowWatched: function () {
