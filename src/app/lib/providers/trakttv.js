@@ -287,10 +287,10 @@
     };
 
     TraktTv.prototype.movie = {
-        summary/* still v1 */: function (id) {
+        summary /* still v1 */ : function (id) {
             return this.callv1(['movie/summary.json', '{KEY}', id]);
         },
-        listSummary/* still v1 */: function (ids) {
+        listSummary /* still v1 */ : function (ids) {
             if (_.isEmpty(ids)) {
                 return Q([]);
             }
@@ -335,10 +335,10 @@
     };
 
     TraktTv.prototype.show = {
-        summary/* still v1 */: function (id) {
+        summary /* still v1 */ : function (id) {
             return this.callv1(['show/summary.json', '{KEY}', id]);
         },
-        listSummary/* still v1 */: function (ids) {
+        listSummary /* still v1 */ : function (ids) {
             if (_.isEmpty(ids)) {
                 return Q([]);
             }
@@ -351,7 +351,7 @@
                 return self.callv1(['show/summaries.json', '{KEY}', ids.join(','), 'full']);
             });
         },
-        episodeSummary/* still v1 */: function (id, season, episode) {
+        episodeSummary /* still v1 */ : function (id, season, episode) {
             return this.callv1(['show/episode/summary.json', '{KEY}', id, season, episode])
                 .then(function (data) {
                     if (data.show && data.episode) {
@@ -378,10 +378,10 @@
                         var season;
                         for (var d in data) {
                             show = data[d];
-                            for (var s in show.seasons) {
-                                season = show.seasons[s];
-                                for (var e in season.episodes) {
-                                    try { //some shows don't return IMDB
+                            try { //some shows don't return IMDB
+                                for (var s in show.seasons) {
+                                    season = show.seasons[s];
+                                    for (var e in season.episodes) {
                                         watched.push({
                                             tvdb_id: show.show.ids.tvdb.toString(),
                                             imdb_id: show.show.ids.imdb.toString(),
@@ -390,10 +390,11 @@
                                             type: 'episode',
                                             date: new Date()
                                         });
-                                    } catch (e) {
-                                        win.warn('Error syncing show:', show.show.title);
                                     }
                                 }
+                            } catch (e) {
+                                win.warn('Cannot sync a show (' + show.show.title + '), the error is:', e.message);
+                                break;
                             }
                         }
                     }

@@ -624,6 +624,8 @@
             var oldHTML = document.getElementById('syncTrakt').innerHTML;
             $('#syncTrakt').text(i18n.__('Syncing...')).addClass('disabled').prop('disabled', true);
 
+            Database.deleteWatched(); // Reset before sync
+
             App.Trakt.sync()
                 .then(function () {
                     $('#syncTrakt').text(i18n.__('Done')).removeClass('disabled').addClass('green').delay(3000).queue(function () {
