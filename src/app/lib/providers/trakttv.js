@@ -564,52 +564,52 @@
     function onShowWatched(show, channel) {
         win.debug('Mark Episode as watched on channel:', channel);
         switch (channel) {
-            case 'database':
-                break;
-            case 'seen':
-                /* falls through */
-            default: 
-                App.Trakt.show.episodeSeen(show.episode_id);
-                break;
+        case 'database':
+            break;
+        case 'seen':
+            /* falls through */
+        default:
+            App.Trakt.show.episodeSeen(show.episode_id);
+            break;
         }
     }
 
     function onShowUnWatched(show, channel) {
         win.debug('Mark Episode as unwatched on channel:', channel);
         switch (channel) {
-            case 'database':
-                break;
-            case 'seen':
-                /* falls through */
-            default: 
-                App.Trakt.show.episodeUnseen(show.episode_id);
-                break;
+        case 'database':
+            break;
+        case 'seen':
+            /* falls through */
+        default:
+            App.Trakt.show.episodeUnseen(show.episode_id);
+            break;
         }
     }
 
     function onMoviesWatched(movie, channel) {
         win.debug('Mark Movie as watched on channel:', channel);
         switch (channel) {
-            case 'database':
-                break;
-            case 'seen':
-                /* falls through */
-            default: 
-                App.Trakt.movie.seen(movie.imdb_id);
-                break;
+        case 'database':
+            break;
+        case 'seen':
+            /* falls through */
+        default:
+            App.Trakt.movie.seen(movie.imdb_id);
+            break;
         }
     }
 
     function onMoviesUnWatched(movie, channel) {
         win.debug('Mark Movie as unwatched on channel:', channel);
         switch (channel) {
-            case 'database':
-                break;
-            case 'seen':
-                /* falls through */
-            default: 
-                App.Trakt.movie.unseen(movie.imdb_id);
-                break;
+        case 'database':
+            break;
+        case 'seen':
+            /* falls through */
+        default:
+            App.Trakt.movie.unseen(movie.imdb_id);
+            break;
         }
     }
 
