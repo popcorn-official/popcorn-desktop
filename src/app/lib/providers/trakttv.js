@@ -439,6 +439,29 @@
                     // Insert them locally
                     return Database.markEpisodesWatched(traktWatched);
                 });
+        },
+        calendar: function (startDate) {
+            var endpoint = 'calendars/my/shows';
+
+            if (startDate) {
+                endpoint += '/' + startDate;
+            }
+                
+            return this.call(endpoint)
+                .then(function (item) {
+                    var calendar = [];
+                    for (var i in item) {
+                        calendar.push({
+                            show_title: item[i].show.title,
+                            show_id: item[i].show.ids.imdb,
+                            aired: item[i].first_aired.split('T')[0],
+                            episode_title: item[i].episode.title,
+                            season: item[i].episode.season,
+                            episode: item[i].episode.number,
+                        });
+                    }
+                    return calendar;
+                });
         }
     };
 
