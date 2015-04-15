@@ -436,13 +436,6 @@ var Database = {
 
                 // we look if VPN is connected
                 App.VPNClient.isRunning();
-
-                if (!isNaN(startupTime)) {
-                    win.debug('Popcorn Time %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)); // started in database.js;
-                    startupTime = 'none';
-                    App.vent.trigger('app:started');
-                }
-
             })
             .catch(function (err) {
                 win.error('Error starting up', err);

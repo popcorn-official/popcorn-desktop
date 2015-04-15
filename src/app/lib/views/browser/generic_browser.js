@@ -43,6 +43,12 @@
             this.ItemList.show(new App.View.List({
                 collection: this.collection
             }));
+
+            if (!isNaN(startupTime)) {
+                win.debug('Popcorn Time %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)); // started in database.js;
+                startupTime = 'none';
+                App.vent.trigger('app:started');
+            }
         },
         onFilterChange: function () {
 
