@@ -425,10 +425,12 @@
                 next_episode.episodes = episodes;
                 next_episode.quality = current_quality;
 
-                if (next_episode.torrents[current_quality].url) {
+                if (next_episode.torrents[current_quality] !== undefined && next_episode.torrents[current_quality].url) {
                     next_episode.torrent = next_episode.torrents[current_quality].url;
                 } else {
-                    next_episode.torrent = next_episode[next_episode.torrents.length - 1].url; //select highest quality available if user selected not found
+                    console.log(next_episode.torrents);
+                    console.log(next_episode.torrents.constructor.length);
+                    next_episode.torrent = next_episode.torrents[next_episode.torrents.constructor.length - 1].url; //select highest quality available if user selected not found
                 }
 
                 next_episode_model = new Backbone.Model(next_episode);

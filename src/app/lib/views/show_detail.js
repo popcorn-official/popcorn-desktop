@@ -422,7 +422,7 @@
                         extract_subtitle: {
                             type: 'tvshow',
                             imdbid: that.model.get('imdb_id'),
-                            tvdbid: value.tvdb_id,
+                            tvdbid: value.tvdb_id.toString(),
                             season: value.season,
                             episode: value.episode
                         },
