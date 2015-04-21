@@ -652,7 +652,7 @@
                         isFullscreen: nativeWindow.isFullscreen
                     };
 
-                    if (result.movie) {
+                    if (result.movie && result.movie !== undefined) {
                         result['imdb_id'] = view.model.get('imdb_id');
                     } else if (result.movie === undefined) {
                         result['imdb_id'] = false;
