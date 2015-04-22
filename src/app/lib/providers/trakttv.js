@@ -445,7 +445,7 @@
             if (startDate) {
                 endpoint += '/' + startDate;
             }
-                
+
             return this.call(endpoint)
                 .then(function (item) {
                     var calendar = [];
