@@ -237,9 +237,16 @@
                                     }
                                 });
 
-                                var next_episode = episodes[idx + 1];
-                                episode = next_episode % 100;
-                                season = (next_episode - episode) / 100;
+                                if (!idx) {
+                                    // switch back to firstUnwatched method if idx not found
+                                    unseen.push(first);
+                                    episode = unseen[0] % 100;
+                                    season = (unseen[0] - episode) / 100;
+                                } else {
+                                    var next_episode = episodes[idx + 1];
+                                    episode = next_episode % 100;
+                                    season = (next_episode - episode) / 100;
+                                }
                             } else {
                                 episode = lastSeen % 100;
                                 season = (lastSeen - episode) / 100;
