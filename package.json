@@ -46,7 +46,7 @@
         "node-captions": "0.3.8",
         "node-webkit-fdialogs": "latest",
         "os-name": "^1.0.3",
-        "peerflix": "0.29.2",
+        "peerflix": "git+https://git.popcorntime.io/mirrors/peerflix.git",
         "popcorn-opensubtitles": "git+https://git.popcorntime.io/popcorntime/opensubtitles.git#ebb786a9d72820d479b9d0b2268f48453898ba3c",
         "pretty-bytes": "1.0.4",
         "q": "2.0.3",
