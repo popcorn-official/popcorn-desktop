@@ -5,8 +5,7 @@
         URI = require('URIjs'),
         Q = require('q'),
         _ = require('underscore'),
-        inherits = require('util').inherits,
-        sha1 = require('sha1');
+        inherits = require('util').inherits;
 
     // Trakt v1 for metadata
     var API_ENDPOINT_v1 = URI('https://api.trakt.tv/'),
