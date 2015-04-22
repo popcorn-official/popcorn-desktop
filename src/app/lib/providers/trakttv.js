@@ -411,9 +411,9 @@
                         var season;
                         for (var d in data) {
                             show = data[d];
-                            try { //some shows don't return IMDB
-                                for (var s in show.seasons) {
-                                    season = show.seasons[s];
+                            for (var s in show.seasons) {
+                                season = show.seasons[s];
+                                try { //some shows don't return IMDB
                                     for (var e in season.episodes) {
                                         watched.push({
                                             tvdb_id: show.show.ids.tvdb.toString(),
@@ -424,10 +424,10 @@
                                             date: new Date()
                                         });
                                     }
+                                } catch (e) {
+                                    win.warn('Cannot sync a show (' + show.show.title + '), the problem is: ' + e.message + '. Continuing sync without this show...');
+                                    break;
                                 }
-                            } catch (e) {
-                                win.warn('Cannot sync a show (' + show.show.title + '), the error is:', e.message);
-                                break;
                             }
                         }
                     }
