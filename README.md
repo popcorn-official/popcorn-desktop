@@ -1,8 +1,8 @@
-# [Popcorn Time](https://git.popcorntime.io/popcorntime/desktop/tree/master) [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-app.svg)](https://david-dm.org/popcorn-official/popcorn-app) [![Build Status](https://travis-ci.org/popcorn-official/popcorn-app.svg?branch=dev-0.3)](https://travis-ci.org/popcorn-official/popcorn-app)
+# [Popcorn Time](https://git.popcorntime.io/popcorntime/desktop/tree/master) [![Build Status](http://ci.popcorntime.io/job/Popcorn-Time/badge/icon)](http://ci.popcorntime.io/job/Popcorn-Time/)
 
 Allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
-![Popcorn Time](https://i.imgur.com/MdZR313.gif)
+![Popcorn Time](http://i.imgur.com/EoO0bc0.gif)
 
 Visit the project's website at <https://popcorntime.io>.
 
@@ -16,7 +16,7 @@ Want to report a bug, request a feature, contribute or translate Popcorn Time? C
 
 If you're comfortable getting up and running from a `git clone`, this method is for you.
 
-If you clone the GitHub repository, you will need to build a number of assets using grunt.
+If you clone the GitLab repository, you will need to build a number of assets using grunt.
 
 The [master](https://git.popcorntime.io/popcorntime/desktop/tree/master) branch which contains the latest release.
 
