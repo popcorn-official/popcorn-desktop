@@ -56,6 +56,7 @@ Settings.traktToken = '';
 Settings.traktTokenRefresh = '';
 Settings.traktTokenTTL = '';
 Settings.traktTvVersion = '0.0.2';
+Settings.traktLastSync = '';
 Settings.traktSyncOnStart = false;
 Settings.traktPlayback = false;
 

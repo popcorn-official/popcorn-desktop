@@ -353,7 +353,6 @@
 
             App.Trakt.authenticate().then(function (valid) {
                 if (valid) {
-                    win.debug('Trakt authentified');
                     $('.loading-spinner').hide();
                     self.render();
                 } else {

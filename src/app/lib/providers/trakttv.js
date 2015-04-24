@@ -10,8 +10,8 @@
     // Trakt v1 for metadata
     var API_ENDPOINT_v1 = URI('https://api.trakt.tv/'),
         API_KEY_v1 = '515a27ba95fbd83f20690e5c22bceaff0dfbde7c',
-        API_PLUGIN_VERSION = AdvSettings.get('traktTvVersion'),
-        PT_VERSION = AdvSettings.get('version');
+        API_PLUGIN_VERSION = Settings.traktTvVersion,
+        PT_VERSION = Settings.version;
 
     // Trakt v2
     var API_ENDPOINT = URI('https://api-v2launch.trakt.tv'),
@@ -26,31 +26,6 @@
 
         this.watchlist = App.Providers.get('Watchlist');
 
-        // Refresh token on startup
-        // TODO: use traktTokenTTL to calc when to refresh
-        if (AdvSettings.get('traktTokenRefresh') !== '') {
-            this._authenticationPromise = this.post('oauth/token', {
-                refresh_token: AdvSettings.get('traktTokenRefresh'),
-                client_id: CLIENT_ID,
-                client_secret: CLIENT_SECRET,
-                grant_type: 'refresh_token'
-            }).then(function (data) {
-                if (data.access_token && data.expires_in && data.refresh_token) {
-                    self.authenticated = true;
-                    App.vent.trigger('system:traktAuthenticated');
-                    AdvSettings.set('traktToken', data.access_token);
-                    AdvSettings.set('traktTokenTTL', data.expires_in);
-                    AdvSettings.set('traktTokenRefresh', data.refresh_token);
-                    return true;
-                } else {
-                    AdvSettings.set('traktToken', '');
-                    AdvSettings.set('traktTokenTTL', '');
-                    AdvSettings.set('traktTokenRefresh', '');
-                    return false;
-                }
-            });
-        }
-
         var self = this;
         // Bind all "sub" method calls to TraktTv
         _.each(this.movie, function (method, key) {
@@ -59,6 +34,11 @@
         _.each(this.show, function (method, key) {
             self.show[key] = method.bind(self);
         });
+
+        // Refresh token on startup if needed
+        setTimeout(function () {
+            self.checkToken();
+        }, 500);
     }
 
     // Inherit the Cache Provider
@@ -70,8 +50,36 @@
         });
     }
 
-    TraktTv.prototype.isAuthenticating = function () {
-        return this._authenticationPromise && this._authenticationPromise.isPending();
+    TraktTv.prototype.checkToken = function () {
+        var self = this;
+        var today = new Date();
+        if (Settings.traktTokenTTL <= today.valueOf() && Settings.traktTokenRefresh !== '') {
+            win.debug('Trakt: refreshing access token');
+            this._authenticationPromise = self.post('oauth/token', {
+                refresh_token: Settings.traktTokenRefresh,
+                client_id: CLIENT_ID,
+                client_secret: CLIENT_SECRET,
+                grant_type: 'refresh_token'
+            }).then(function (data) {
+                if (data.access_token && data.expires_in && data.refresh_token) {
+                    Settings.traktToken = data.access_token;
+                    AdvSettings.set('traktToken', data.access_token);
+                    AdvSettings.set('traktTokenRefresh', data.refresh_token);
+                    AdvSettings.set('traktTokenTTL', today.valueOf() + data.expires_in);
+                    self.authenticated = true;
+                    App.vent.trigger('system:traktAuthenticated');
+                    return true;
+                } else {
+                    AdvSettings.set('traktToken', '');
+                    AdvSettings.set('traktTokenTTL', '');
+                    AdvSettings.set('traktTokenRefresh', '');
+                    return false;
+                }
+            });
+        } else if (Settings.traktToken !== '') {
+            this.authenticated = true;
+            App.vent.trigger('system:traktAuthenticated');
+        }
     };
 
     TraktTv.prototype.cache = function (key, ids, func) {
@@ -145,7 +153,7 @@
             url: requestUri.toString(),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + AdvSettings.get('traktToken'),
+                'Authorization': 'Bearer ' + Settings.traktToken,
                 'trakt-api-version': '2',
                 'trakt-api-key': CLIENT_ID
             }
@@ -176,7 +184,7 @@
             url: requestUri.toString(),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + AdvSettings.get('traktToken'),
+                'Authorization': 'Bearer ' + Settings.traktToken,
                 'trakt-api-version': '2',
                 'trakt-api-key': CLIENT_ID
             },
@@ -254,11 +262,13 @@
                     grant_type: 'authorization_code'
                 }).then(function (data) {
                     if (data.access_token && data.expires_in && data.refresh_token) {
+                        Settings.traktToken = data.access_token;
+                        AdvSettings.set('traktToken', data.access_token);
+                        AdvSettings.set('traktTokenRefresh', data.refresh_token);
+                        var today = new Date();
+                        AdvSettings.set('traktTokenTTL', today.valueOf() + data.expires_in);
                         self.authenticated = true;
                         App.vent.trigger('system:traktAuthenticated');
-                        AdvSettings.set('traktToken', data.access_token);
-                        AdvSettings.set('traktTokenTTL', data.expires_in);
-                        AdvSettings.set('traktTokenRefresh', data.refresh_token);
                         defer.resolve(true);
                     } else {
                         AdvSettings.set('traktToken', '');
@@ -276,9 +286,11 @@
 
     TraktTv.prototype.sync = function () {
         var that = this;
+        var now = new Date();
 
         return Q()
             .then(function () {
+                AdvSettings.set('traktLastSync', now.valueOf());
                 return Q.all([that.movie.sync(), that.show.sync()]);
             });
     };
@@ -344,6 +356,7 @@
                     return watched;
                 })
                 .then(function (traktWatched) {
+                    win.debug('Trakt: marked %s movie(s) as watched', traktWatched.length);
                     return Database.markMoviesWatched(traktWatched);
                 });
         }
@@ -436,6 +449,7 @@
                 })
                 .then(function (traktWatched) {
                     // Insert them locally
+                    win.debug('Trakt: marked %s episode(s) as watched', traktWatched.length);
                     return Database.markEpisodesWatched(traktWatched);
                 });
         },

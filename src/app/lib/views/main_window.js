@@ -121,7 +121,7 @@
             App.vent.on('system:openFileSelector', _.bind(this.showFileSelector, this));
             App.vent.on('system:closeFileSelector', _.bind(this.FileSelector.destroy, this.FileSelector));
 
-            App.vent.on('system:traktAuthenticated', _.bind(this.syncTraktOnStart, this));
+            App.vent.on('system:traktAuthenticated', _.bind(this.traktAuthenticated, this));
 
             // Stream events
             App.vent.on('stream:started', _.bind(this.streamStarted, this));
@@ -387,8 +387,10 @@
             }));
         },
 
-        syncTraktOnStart: function () {
-            if (Settings.traktSyncOnStart) {
+        traktAuthenticated: function () {
+            win.debug('Trakt: authenticated');
+            var now = new Date();
+            if (Settings.traktSyncOnStart && Settings.traktLastSync + 1200 > now.valueOf()) {
                 Database.deleteWatched();
                 App.Trakt.sync();
             }
