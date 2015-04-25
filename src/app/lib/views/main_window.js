@@ -389,8 +389,9 @@
 
         traktAuthenticated: function () {
             win.debug('Trakt: authenticated');
-            var now = new Date();
-            if (Settings.traktSyncOnStart && Settings.traktLastSync + 1200 > now.valueOf()) {
+
+            //only refresh every 20min
+            if (Settings.traktSyncOnStart && (Settings.traktLastSync + 1200000 < new Date().valueOf())) {
                 Database.deleteWatched();
                 App.Trakt.sync();
             }

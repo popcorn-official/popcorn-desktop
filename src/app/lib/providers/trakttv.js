@@ -52,8 +52,7 @@
 
     TraktTv.prototype.checkToken = function () {
         var self = this;
-        var today = new Date();
-        if (Settings.traktTokenTTL <= today.valueOf() && Settings.traktTokenRefresh !== '') {
+        if (Settings.traktTokenTTL <= new Date().valueOf() && Settings.traktTokenRefresh !== '') {
             win.debug('Trakt: refreshing access token');
             this._authenticationPromise = self.post('oauth/token', {
                 refresh_token: Settings.traktTokenRefresh,
@@ -65,7 +64,7 @@
                     Settings.traktToken = data.access_token;
                     AdvSettings.set('traktToken', data.access_token);
                     AdvSettings.set('traktTokenRefresh', data.refresh_token);
-                    AdvSettings.set('traktTokenTTL', today.valueOf() + data.expires_in);
+                    AdvSettings.set('traktTokenTTL', new Date().valueOf() + data.expires_in * 1000);
                     self.authenticated = true;
                     App.vent.trigger('system:traktAuthenticated');
                     return true;
@@ -265,8 +264,7 @@
                         Settings.traktToken = data.access_token;
                         AdvSettings.set('traktToken', data.access_token);
                         AdvSettings.set('traktTokenRefresh', data.refresh_token);
-                        var today = new Date();
-                        AdvSettings.set('traktTokenTTL', today.valueOf() + data.expires_in);
+                        AdvSettings.set('traktTokenTTL', new Date().valueOf() + data.expires_in * 1000);
                         self.authenticated = true;
                         App.vent.trigger('system:traktAuthenticated');
                         defer.resolve(true);
@@ -286,11 +284,10 @@
 
     TraktTv.prototype.sync = function () {
         var that = this;
-        var now = new Date();
 
         return Q()
             .then(function () {
-                AdvSettings.set('traktLastSync', now.valueOf());
+                AdvSettings.set('traktLastSync', new Date().valueOf());
                 return Q.all([that.movie.sync(), that.show.sync()]);
             });
     };
