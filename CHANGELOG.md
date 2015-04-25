@@ -15,6 +15,11 @@ BugFixes:
 - Fix an issue corrupting cache if used on an external HDD
 - Improvements in subtitle encoding
 - Autoplay fixes
+- Trakt.tv is back!
+- Torrenting enhanced (finding more peers and better seeding)
+- Remote control (httpapi) fixes
+- Open TV Details "jump to" fixed
+- More subtitles results for TV Series
 
 New Features: 
 
@@ -26,7 +31,7 @@ New Features:
 - Mark as seen/unseen in Movie Details screen
 - No more ads from Youtube
 - Stream subtitles with DLNA/UPnP
-- Search Kickass and save some torrents for later
+- Search Strike (torrent portal) and save some torrents for later
 - Allow SSA/ASS subtitles, along with TXT (mostly Chinese & Polish - needs testing)
 - The app will now remember: last chosen quality, player, subtitles position, volume
 - Mark an entire TV Series as watched
@@ -35,7 +40,7 @@ New Features:
 - Windows: launcher allowing to use PT as default for torrents/magnets/video files
 - Support for multimedia keys
 - Launch external players in Fullscreen
-- 
+- Minimize to tray
 
 ## 0.3.7 Beta - The Car Won't Start - 15 January 2015
 
