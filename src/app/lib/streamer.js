@@ -387,16 +387,16 @@
                                             win.warn('Unable to fetch data from Trakt.tv');
                                             getSubtitles(sub_data);
                                         } else {
-                                            $('.loading-background').css('background-image', 'url(' + data.show.images.fanart + ')');
-                                            sub_data.imdbid = data.show.imdb_id;
-                                            sub_data.season = data.episode.season.toString();
-                                            sub_data.episode = data.episode.number.toString();
+                                            $('.loading-background').css('background-image', 'url(' + data.images.screenshot.full + ')');
+                                            sub_data.imdbid = data.ids.imdb;
+                                            sub_data.season = data.season.toString();
+                                            sub_data.episode = data.number.toString();
                                             getSubtitles(sub_data);
-                                            model.set('tvdb_id', data.show.tvdb_id);
-                                            model.set('imdb_id', data.show.tvdb_id);
+                                            model.set('tvdb_id', data.ids.tvdb);
+                                            model.set('imdb_id', data.ids.tvdb);
                                             model.set('episode', sub_data.season);
                                             model.set('season', sub_data.episode);
-                                            title = data.show.title + ' - ' + i18n.__('Season %s', data.episode.season) + ', ' + i18n.__('Episode %s', data.episode.number) + ' - ' + data.episode.title;
+                                            title = tvshowname.replace(/-/g,' ') + ' - ' + i18n.__('Season %s', data.season) + ', ' + i18n.__('Episode %s', data.number) + ' - ' + data.title;
                                         }
                                         handleTorrent_fnc();
                                     }).catch(function (err) {

@@ -293,8 +293,17 @@
     };
 
     TraktTv.prototype.movie = {
-        summary /* still v1 */ : function (id) {
-            return this.callv1(['movie/summary.json', '{KEY}', id]);
+        summary: function (id) {
+            return this.call('movies/' + id);
+        },
+        aliases: function (id) {
+            return this.call('movies/' + id + '/aliases');
+        },
+        translations: function (id, lang) {
+            return this.call('movies/' + id + '/translations/' + lang);
+        },
+        comments: function (id) {
+            return this.call('movies/' + id + '/comments');
         },
         listSummary /* still v1 */ : function (ids) {
             if (_.isEmpty(ids)) {
@@ -360,8 +369,17 @@
     };
 
     TraktTv.prototype.show = {
-        summary /* still v1 */ : function (id) {
-            return this.callv1(['show/summary.json', '{KEY}', id]);
+        summary: function (id) {
+            return this.call('shows/' + id);
+        },
+        aliases: function (id) {
+            return this.call('shows/' + id + '/aliases');
+        },
+        translations: function (id, lang) {
+            return this.call('shows/' + id + '/translations/' + lang);
+        },
+        comments: function (id) {
+            return this.call('shows/' + id + '/comments');
         },
         listSummary /* still v1 */ : function (ids) {
             if (_.isEmpty(ids)) {
@@ -376,15 +394,9 @@
                 return self.callv1(['show/summaries.json', '{KEY}', ids.join(','), 'full']);
             });
         },
-        episodeSummary /* still v1 */ : function (id, season, episode) {
-            return this.callv1(['show/episode/summary.json', '{KEY}', id, season, episode])
-                .then(function (data) {
-                    if (data.show && data.episode) {
-                        return data;
-                    } else {
-                        return undefined;
-                    }
-                });
+        episodeSummary: function (id, season, episode) {
+            var self = this;
+            return this.call('shows/' + id + '/seasons/' + season + '/episodes/' + episode, { extended: 'full,images' });
         },
         episodeSeen: function (id) {
             return this.post('sync/history', {
