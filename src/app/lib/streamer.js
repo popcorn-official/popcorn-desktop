@@ -421,7 +421,7 @@
             // HACK(xaiki): we need to go through parse torrent
             // if we have a torrent and not an http source, this
             // is fragile as shit.
-            if (typeof (torrentUrl) === 'string' && torrentUrl.substring(0, 7) === 'http://' && !torrentUrl.match('\\.torrent')) {
+            if (typeof (torrentUrl) === 'string' && torrentUrl.substring(0, 7) === 'http://' && !torrentUrl.match('\\.torrent') && !torrentUrl.match('\\.php?')) {
                 return Streamer.startStream(model, torrentUrl, stateModel);
             } else if (!torrent_read) {
                 readTorrent(torrentUrl, doTorrent);
