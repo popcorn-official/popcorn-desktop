@@ -735,7 +735,7 @@
             );
         },
 
-        getTorrentHealth: function (e) {
+         getTorrentHealth: function (e) {
             var torrent = $('.startStreaming').attr('data-torrent');
             $('.health-icon')
                 .removeClass('fa-circle')
@@ -751,37 +751,47 @@
                 cancelled = true;
             };
 
-            torrentHealth(torrent, {
-                timeout: 500,
-                blacklist: ['openbittorrent.com', 'publicbt.com', 'istole.it', '1337x.org', 'yify-torrents.com'],
-                forced: ['udp://open.demonii.com:1337/announce']
-            }).then(function (res) {
+            if (torrent.substring(0, 8) === 'magnet:?') {
+                // if 'magnet:?' is because eztv sends back links, not magnets
+                torrentHealth(torrent, {
+                    timeout: 500,
+                    blacklist: ['openbittorrent.com', 'publicbt.com', 'istole.it', '1337x.org', 'yify-torrents.com'],
+                    forced: ['udp://open.demonii.com:1337/announce']
+                }).then(function (res) {
 
-                if (cancelled) {
-                    return;
-                }
-                if (res.seeds === 0) {
-                    $('.health-icon').click();
-                } else {
-                    var h = Common.calcHealth({
-                        seed: res.seeds,
-                        peer: res.peers
-                    });
-                    var health = Common.healthMap[h].capitalize();
-                    var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
+                    if (cancelled) {
+                        return;
+                    }
+                    if (res.seeds === 0) {
+                        $('.health-icon').click();
+                    } else {
+                        var h = Common.calcHealth({
+                            seed: res.seeds,
+                            peer: res.peers
+                        });
+                        var health = Common.healthMap[h].capitalize();
+                        var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
 
-                    $('.health-icon').tooltip({
-                            html: true
-                        })
-                        .removeClass('fa-spin')
-                        .removeClass('fa-spinner')
-                        .addClass('fa-circle')
-                        .removeClass('Bad Medium Good Excellent')
-                        .addClass(health)
-                        .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
-                        .tooltip('fixTitle');
-                }
-            });
+                        $('.health-icon').tooltip({
+                                html: true
+                            })
+                            .removeClass('fa-spin')
+                            .removeClass('fa-spinner')
+                            .addClass('fa-circle')
+                            .removeClass('Bad Medium Good Excellent')
+                            .addClass(health)
+                            .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
+                            .tooltip('fixTitle');
+                    }
+                });
+            } else {
+                $('.health-icon').tooltip({
+                        html: true
+                    })
+                    .removeClass('fa-spin')
+                    .removeClass('fa-spinner')
+                    .addClass('fa-circle');
+            }
         },
 
         resetHealth: function () {
