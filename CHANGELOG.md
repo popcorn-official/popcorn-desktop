@@ -23,7 +23,7 @@ BugFixes:
 
 New Features: 
 
-- NW 11.5
+- Node Webkit 12.1 (now known as nw.js)
 - Cancel "Play Next Episode"
 - Select your subtitles Font, and/or add a solid background to them.
 - New subtitles for: Norwegian, Vietnamese
