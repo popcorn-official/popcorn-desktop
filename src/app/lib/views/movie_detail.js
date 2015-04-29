@@ -22,7 +22,7 @@
             'click .favourites-toggle': 'toggleFavourite',
             'click .watched-toggle': 'toggleWatched',
             'click .movie-imdb-link': 'openIMDb',
-            'click .magnet-link': 'openMagnet',
+            'mousedown .magnet-link': 'openMagnet',
             'click .sub-dropdown': 'toggleDropdown',
             'click .sub-flag-icon': 'closeDropdown',
             'click .playerchoicemenu li a': 'selectPlayer',
@@ -362,7 +362,7 @@
             gui.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
         },
 
-        openMagnet: function () {
+        openMagnet: function (e) {
             var provider = this.model.get('provider'),
                 torrent = this.model.get('torrents')[this.model.get('quality')],
                 magnetLink;
@@ -372,8 +372,13 @@
             } else { // Anime
                 magnetLink = torrent.url;
             }
-
-            gui.Shell.openExternal(magnetLink);
+            if (e.button === 2) { //if right click on magnet link
+                var clipboard = gui.Clipboard.get();
+                clipboard.set(magnetLink, 'text'); //copy link to clipboard
+                $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+            } else {
+                gui.Shell.openExternal(magnetLink);
+            }
         },
 
         toggleQuality: function (e) {

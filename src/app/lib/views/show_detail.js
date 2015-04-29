@@ -27,7 +27,7 @@
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
             'click .show-imdb-link': 'openIMDb',
-            'click .show-magnet-link': 'openMagnet',
+            'mousedown .show-magnet-link': 'openMagnet',
             'dblclick .tab-episode': 'dblclickEpisode',
             'click #switch-hd-on': 'enableHD',
             'click #switch-hd-off': 'disableHD',
@@ -280,9 +280,15 @@
             gui.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
         },
 
-        openMagnet: function () {
+        openMagnet: function (e) {
             var torrentUrl = $('.startStreaming').attr('data-torrent');
-            gui.Shell.openExternal(torrentUrl);
+            if (e.button === 2) { //if right click on magnet link
+                var clipboard = gui.Clipboard.get();
+                clipboard.set(torrentUrl, 'text'); //copy link to clipboard
+                $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+            } else {
+                gui.Shell.openExternal(torrentUrl);
+            }
         },
 
         switchRating: function () {
@@ -735,7 +741,7 @@
             );
         },
 
-         getTorrentHealth: function (e) {
+        getTorrentHealth: function (e) {
             var torrent = $('.startStreaming').attr('data-torrent');
             $('.health-icon')
                 .removeClass('fa-circle')
