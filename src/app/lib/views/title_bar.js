@@ -10,10 +10,6 @@ var os = require('os');
         'linux': ['min', 'max', 'close']
     };
 
-    // workaround/patch until node-webkit and windows 8 maximise/unmaximize works correctly
-    // vars initialised by first maximise call
-    var win8x, win8y, win8h, win8w;
-
     var TitleBar = Backbone.Marionette.ItemView.extend({
         template: '#header-tpl',
 
