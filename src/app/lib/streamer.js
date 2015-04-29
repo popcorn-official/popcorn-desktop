@@ -52,7 +52,6 @@
             // subtitleDownloading is needed cos this is called every 300ms
 
             if (stateModel.get('streamInfo').get('torrent').defaultSubtitle && stateModel.get('streamInfo').get('torrent').defaultSubtitle !== 'none' && hasSubtitles && subtitles != null && engine.files[0] && !downloadedSubtitles && !subtitleDownloading) {
-                win.debug('Downloading subtitles');
                 subtitleDownloading = true;
                 App.vent.trigger('subtitle:download', {
                     url: subtitles[stateModel.get('streamInfo').get('torrent').defaultSubtitle],
@@ -122,7 +121,7 @@
         var checkReady = function () {
             if (stateModel.get('state') === 'ready') {
 
-                if (stateModel.get('state') === 'ready' && stateModel.get('streamInfo').get('player') !== 'local') {
+                if (stateModel.get('state') === 'ready' && stateModel.get('streamInfo').get('player').id !== 'local') {
                     stateModel.set('state', 'playingExternally');
                 }
                 streamInfo.set(torrent);

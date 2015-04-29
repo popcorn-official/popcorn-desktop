@@ -53,7 +53,7 @@
     TraktTv.prototype.checkToken = function () {
         var self = this;
         if (Settings.traktTokenTTL <= new Date().valueOf() && Settings.traktTokenRefresh !== '') {
-            win.debug('Trakt: refreshing access token');
+            win.info('Trakt: refreshing access token');
             this._authenticationPromise = self.post('oauth/token', {
                 refresh_token: Settings.traktTokenRefresh,
                 client_id: CLIENT_ID,

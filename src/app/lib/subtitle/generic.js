@@ -96,8 +96,8 @@
             win.error('Not implemented in parent model');
         },
         download: function (data) {
-            win.debug('Subtitles download url:', data.url);
             if (data.path && data.url) {
+                win.debug('Subtitles download url:', data.url);
                 var fileFolder = path.dirname(data.path);
 
                 // Fix cases of OpenSubtitles appending data after file extension.
