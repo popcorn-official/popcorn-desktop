@@ -396,7 +396,9 @@
         },
         episodeSummary: function (id, season, episode) {
             var self = this;
-            return this.call('shows/' + id + '/seasons/' + season + '/episodes/' + episode, { extended: 'full,images' });
+            return this.call('shows/' + id + '/seasons/' + season + '/episodes/' + episode, {
+                extended: 'full,images'
+            });
         },
         episodeSeen: function (id) {
             return this.post('sync/history', {
