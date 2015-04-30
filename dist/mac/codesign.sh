@@ -20,14 +20,14 @@ echo "### remove previous dmg"
 rm -rf ${build}/*.dmg
 
 echo "### signing frameworks"
-codesign --force --verify --verbose --sign "${identity}" "${app}/Contents/Frameworks/node-webkit Framework.framework/node-webkit Framework"
-codesign --force --verify --verbose --sign "${identity}" "${app}/Contents/Frameworks/node-webkit Helper EH.app/"
-codesign --force --verify --verbose --sign "${identity}" "${app}/Contents/Frameworks/node-webkit Helper NP.app/"
-codesign --force --verify --verbose --sign "${identity}" "${app}/Contents/Frameworks/node-webkit Helper.app/"
+codesign --force --verify --verbose --sign "${identity}" "${app}/Contents/Frameworks/nwjs Framework.framework/nwjs Framework"
+codesign --force --verify --verbose --sign "${identity}" "${app}/Contents/Frameworks/nwjs Helper EH.app/"
+codesign --force --verify --verbose --sign "${identity}" "${app}/Contents/Frameworks/nwjs Helper NP.app/"
+codesign --force --verify --verbose --sign "${identity}" "${app}/Contents/Frameworks/nwjs Helper.app/"
 codesign --force --verify --verbose --sign "${identity}" "${app}/Contents/Frameworks/crash_inspector"
 
 echo "### signing webkit"
-codesign --force --verify --verbose --sign "${identity}" "${app}/Contents/MacOS/node-webkit"
+codesign --force --verify --verbose --sign "${identity}" "${app}/Contents/MacOS/nwjs"
 
 echo "### signing app"
 codesign --force --verify --verbose --sign "${identity}" "${app}"
