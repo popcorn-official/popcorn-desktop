@@ -212,8 +212,9 @@
         gui.App.addOriginAccessWhitelistEntry(API_URI, 'app', 'host', true);
         window.loginWindow = gui.Window.open(OAUTH_URI + '&redirect_uri=' + encodeURIComponent(REDIRECT_URI), {
             position: 'center',
-            frame: true,
             focus: true,
+            title: 'Trakt.tv',
+            icon: 'src/app/images/icon.png',
             toolbar: false,
             resizable: false,
             show_in_taskbar: false,
@@ -225,8 +226,12 @@
             url = window.loginWindow.window.document.URL;
 
             if (url.indexOf('&') === -1 && url.indexOf('auth/signin') === -1) {
-                url = url.split('/');
-                url = url[url.length - 1];
+                if (url.indexOf('oauth/authorize/') !== -1) {
+                    url = url.split('/');
+                    url = url[url.length - 1];
+                } else {
+                    gui.Shell.openExternal(url);
+                }
                 this.close(true);
             } else {
                 url = false;
@@ -240,7 +245,7 @@
                 AdvSettings.set('traktToken', '');
                 AdvSettings.set('traktTokenTTL', '');
                 AdvSettings.set('traktTokenRefresh', '');
-                defer.reject('window closed without exchange token');
+                defer.reject('Trakt window closed without exchange token');
             }
         });
 

@@ -241,6 +241,35 @@ var deleteFolder = function (path) {
     }
 };
 
+var deleteCookies = function () {
+    var nwWin = gui.Window.get();
+    nwWin.cookies.getAll({}, function (cookies) {
+        if (cookies.length > 0) {
+            win.debug('Removing ' + cookies.length + ' cookies...');
+            for (var i = 0; i < cookies.length; i++) {
+                removeCookie(cookies[i]);
+            }
+        }
+    });
+
+    function removeCookie(cookie) {
+        var lurl = 'http' + (cookie.secure ? 's' : '') + '://' + cookie.domain + cookie.path;
+        nwWin.cookies.remove({
+            url: lurl,
+            name: cookie.name
+        }, function (result) {
+            if (result) {
+                if (!result.name) {
+                    result = result[0];
+                }
+                win.debug('cookie removed: ' + result.name + ' ' + result.url);
+            } else {
+                win.error('cookie removal failed');
+            }
+        });
+    }
+};
+
 win.on('resize', function (width, height) {
     localStorage.width = Math.round(width);
     localStorage.height = Math.round(height);

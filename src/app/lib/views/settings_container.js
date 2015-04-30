@@ -428,8 +428,8 @@
 
             Database.resetSettings()
                 .then(function () {
-                    that.alertMessageSuccess(true);
                     AdvSettings.set('disclaimerAccepted', 1);
+                    that.alertMessageSuccess(true);
                 });
         },
 
@@ -445,6 +445,7 @@
 
             Database.deleteDatabases()
                 .then(function () {
+                    deleteCookies();
                     that.alertMessageSuccess(true);
                 });
         },
