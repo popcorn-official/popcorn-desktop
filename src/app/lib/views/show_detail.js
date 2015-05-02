@@ -759,10 +759,9 @@
 
             if (torrent.substring(0, 8) === 'magnet:?') {
                 // if 'magnet:?' is because eztv sends back links, not magnets
+                torrent = torrent.split('&tr')[0] + '&tr=udp://open.demonii.com:1337/announce';
                 torrentHealth(torrent, {
-                    timeout: 500,
-                    blacklist: ['openbittorrent.com', 'publicbt.com', 'istole.it', '1337x.org', 'yify-torrents.com'],
-                    forced: ['udp://open.demonii.com:1337/announce']
+                    timeout: 500
                 }).then(function (res) {
 
                     if (cancelled) {
