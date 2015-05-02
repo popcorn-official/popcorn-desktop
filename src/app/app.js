@@ -347,7 +347,7 @@ Mousetrap.bind(['command+ctrl+f', 'ctrl+alt+f'], function (e) {
     e.preventDefault();
     win.toggleFullscreen();
 });
-Mousetrap.bind('shift+b', function(e) {
+Mousetrap.bind('shift+b', function (e) {
     if (!ScreenResolution.SD) {
         if (App.settings.bigPicture) {
             win.zoomLevel = Settings.noBigPicture || 0;

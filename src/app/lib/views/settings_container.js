@@ -353,6 +353,7 @@
                     $('input#bigPicture.settings-checkbox').attr('checked', false);
                     $('.notification_alert').show().text(i18n.__('Big Picture Mode is unavailable on your current screen resolution')).delay(2500).fadeOut(400);
                 }
+                break;
             default:
             }
 

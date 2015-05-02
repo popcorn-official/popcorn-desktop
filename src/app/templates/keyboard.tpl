@@ -65,6 +65,10 @@
 						<td><%= i18n.__("Toggle Fullscreen") %></td>
 					</tr>
 					<tr>
+						<td><span class="key shiftleft"><%= i18n.__("shift") %></span>+<span class="key">B</span></td>
+						<td><%= i18n.__("Big Picture Mode") %></td>
+					</tr>
+					<tr>
 						<td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">F</span></td>
 						<td><%= i18n.__("Search") %></td>
 					</tr>
