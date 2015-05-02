@@ -124,7 +124,7 @@
         },
         'mpv': {
             type: 'mpv',
-            switches: '',
+            switches: '--profile=pseudo-gui',
             subswitch: '--sub-file=',
             fs: '--fs'
         },
