@@ -70,6 +70,7 @@ Settings.deleteTmpOnClose = true;
 Settings.automaticUpdating = true;
 Settings.events = true;
 Settings.minimizeToTray = false;
+Settings.bigPicture = false;
 
 // Features
 Settings.activateTorrentCollection = true;

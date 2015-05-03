@@ -212,6 +212,7 @@
             case 'events':
             case 'alwaysFullscreen':
             case 'minimizeToTray':
+            case 'bigPicture':
             case 'activateTorrentCollection':
             case 'activateWatchlist':
                 value = field.is(':checked');
@@ -336,6 +337,22 @@
                 App.vent.trigger('movies:list');
                 App.vent.trigger('settings:show');
                 break;
+            case 'bigPicture':
+                if (!ScreenResolution.SD) {
+                    if (App.settings.bigPicture) {
+                        win.maximize();
+                        AdvSettings.set('noBigPicture', win.zoomLevel);
+                        var zoom = ScreenResolution.HD ? 2 : 3;
+                        win.zoomLevel = zoom;
+                    } else {
+                        win.zoomLevel = AdvSettings.get('noBigPicture') || 0;
+                    }
+                } else {
+                    AdvSettings.set('bigPicture', false);
+                    win.info('Setting changed: bigPicture - true');
+                    $('input#bigPicture.settings-checkbox').attr('checked', false);
+                    $('.notification_alert').show().text(i18n.__('Big Picture Mode is unavailable on your current screen resolution')).delay(2500).fadeOut(400);
+                }
             default:
             }
 

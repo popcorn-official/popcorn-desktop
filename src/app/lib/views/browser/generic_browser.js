@@ -49,6 +49,9 @@
                 startupTime = 'none';
                 App.vent.trigger('app:started');
             }
+            if (Settings.bigPicture) {
+                win.zoomLevel = 3;
+            }
         },
         onFilterChange: function () {
 

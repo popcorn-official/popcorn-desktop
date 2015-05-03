@@ -347,6 +347,22 @@ Mousetrap.bind(['command+ctrl+f', 'ctrl+alt+f'], function (e) {
     e.preventDefault();
     win.toggleFullscreen();
 });
+Mousetrap.bind('shift+b', function(e) {
+    if (!ScreenResolution.SD) {
+        if (App.settings.bigPicture) {
+            win.zoomLevel = Settings.noBigPicture || 0;
+            AdvSettings.set('bigPicture', false);
+        } else {
+            win.maximize();
+            AdvSettings.set('noBigPicture', win.zoomLevel);
+            AdvSettings.set('bigPicture', true);
+            var zoom = ScreenResolution.HD ? 2 : 3;
+            win.zoomLevel = zoom;
+        }
+    } else {
+        $('.notification_alert').show().text(i18n.__('Big Picture Mode is unavailable on your current screen resolution')).delay(2500).fadeOut(400);
+    }
+});
 
 // Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
 window.ondragenter = function (e) {

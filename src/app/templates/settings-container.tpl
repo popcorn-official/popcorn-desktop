@@ -457,6 +457,10 @@
 				<input class="settings-checkbox" name="minimizeToTray" id="minimizeToTray" type="checkbox" <%=(Settings.minimizeToTray? "checked='checked'":"")%>>
 				<label class="settings-label" for="minimizeToTray"><%= i18n.__("Minimize to Tray") %></label>
 			</span>
+			<span>
+				<input class="settings-checkbox" name="bigPicture" id="bigPicture" type="checkbox" <%=(Settings.bigPicture? "checked='checked'":"")%>>
+				<label class="settings-label" for="bigPicture"><%= i18n.__("Big Picture Mode") %></label>
+			</span>
 		</div>
 	</section>
 	<div class="btns advanced">
