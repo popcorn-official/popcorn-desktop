@@ -93,10 +93,6 @@
         return players[name].fs || '';
     }
 
-    var mpvSwitches;
-    if (process.platform === 'win32')
-        mpvSwitches = '--profile=pseudo-gui';
-
     var players = {
         'VLC': {
             type: 'vlc',
@@ -128,7 +124,7 @@
         },
         'mpv': {
             type: 'mpv',
-            switches: mpvSwitches,
+            switches: '--no-terminal',
             subswitch: '--sub-file=',
             fs: '--fs'
         },
