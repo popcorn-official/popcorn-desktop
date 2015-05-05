@@ -759,7 +759,12 @@
 
             if (torrent.substring(0, 8) === 'magnet:?') {
                 // if 'magnet:?' is because eztv sends back links, not magnets
-                torrent = torrent.split('&tr')[0] + '&tr=udp://open.demonii.com:1337/announce';
+
+                torrent = torrent.split('&tr')[0] 
+                    + '&tr=udp://tracker.openbittorrent.com:80/announce'
+                    + '&tr=udp://open.demonii.com:1337/announce'
+                    + '&tr=udp://tracker.coppersurfer.tk:6969';
+
                 torrentHealth(torrent, {
                     timeout: 500
                 }).then(function (res) {
