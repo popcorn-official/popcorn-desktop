@@ -12,8 +12,8 @@
     "node-remote": "client.vpn.ht",
     "releaseName": "The car wont start",
     "scripts": {
-        "postinstall": "node_modules/.bin/bower install && grunt setup",
-        "postupdate": "node_modules/.bin/bower update && grunt setup",
+        "postinstall": "node_modules/.bin/bower install --config.interactive=false && grunt setup",
+        "postupdate": "node_modules/.bin/bower update --config.interactive=false && grunt setup",
         "test": "grunt --verbose"
     },
     "window": {
