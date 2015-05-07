@@ -26,7 +26,7 @@
 	"laxbreak" : true,
 	"loopfunc" : true,
 	"indent"   : 4,
-  "newcap"   : false,
+	"newcap"   : false,
 	
 	// Globals
 	"globals": {
@@ -49,6 +49,8 @@
         "deleteFolder": true,
         "deleteCookies": true,
         "isVideo": true,
+        "promisifyDb": true,
+        "db": true,
 		
 		// Third party
 		"Backbone": true,

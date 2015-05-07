@@ -57,8 +57,8 @@ Settings.traktTokenRefresh = '';
 Settings.traktTokenTTL = '';
 Settings.traktTvVersion = '0.0.2';
 Settings.traktLastSync = '';
-Settings.traktSyncOnStart = false;
-Settings.traktPlayback = false;
+Settings.traktSyncOnStart = true;
+Settings.traktPlayback = true;
 
 // Advanced options
 Settings.connectionLimit = 100;

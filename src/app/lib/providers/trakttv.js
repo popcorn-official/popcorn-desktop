@@ -469,11 +469,11 @@
                     return Database.markEpisodesWatched(traktWatched);
                 });
         },
-        calendar: function (startDate) {
+        getCalendar: function (startDate, days) {
             var endpoint = 'calendars/my/shows';
 
-            if (startDate) {
-                endpoint += '/' + startDate;
+            if (startDate && days) {
+                endpoint += '/' + startDate + '/' + days;
             }
 
             return this.call(endpoint)

@@ -58,7 +58,7 @@
                         deferred.resolve(doc.value || []);
                     } else {
                         win.info('Watchlist - Fetching new watchlist');
-                        App.Trakt.show.getProgress()
+                        App.Trakt.show.getCalendar(moment().subtract(31, 'days').format('YYYY-MM-DD'), 30)
                             .then(function (data) {
                                 App.db.writeSetting({
                                         key: 'watchlist',
@@ -83,21 +83,13 @@
 
         items.forEach(function (show) {
             var deferred = Q.defer();
-            //If has no next episode or next episode is not aired, go to next one
-            if (!show.next_episode || (Math.round(new Date().getTime() / 1000) < show.next_episode.first_aired)) {
-                return;
-            }
-
-            //Check if not seen on local DB
-            var episode = {
-                tvdb_id: show.show.tvdb_id,
-                imdb_id: show.show.imdb_id,
-                season: show.next_episode.season,
-                episode: show.next_episode.number
-            };
-            Database.checkEpisodeWatched(episode)
-                .then(function (watched) {
-                    if (watched) {
+            promisifyDb(db.watched.find({
+                    imdb_id: show.show_id.toString(),
+                    season: show.season.toString(),
+                    episode: show.episode.toString()
+                }))
+                .then(function (data) {
+                    if (data != null && data.length > 0) {
                         deferred.resolve(null);
                     } else {
                         deferred.resolve(show);
@@ -107,21 +99,20 @@
             filtered.push(deferred.promise);
         });
 
-        return Q.allSettled(filtered);
+        return Q.all(filtered);
     };
 
     var formatForPopcorn = function (items) {
         var showList = [];
 
         items.forEach(function (show) {
-            show = show.value;
             if (show === null) {
                 return;
             }
 
             var deferred = Q.defer();
             //Try to find it on the shows database and attach the next_episode info
-            Database.getTVShowByImdb(show.show.imdb_id)
+            Database.getTVShowByImdb(show.show_id)
                 .then(function (data) {
                     if (data != null) {
                         data.type = 'show';
@@ -135,7 +126,7 @@
                         deferred.resolve(data);
                     } else {
                         //If not found, then get the details from Eztv and add it to the DB
-                        data = Eztv.detail(show.show.imdb_id, show)
+                        data = Eztv.detail(show.show_id, show)
                             .then(function (data) {
                                 if (data) {
                                     data.provider = 'Eztv';
@@ -149,6 +140,9 @@
                                 } else {
                                     deferred.resolve(false);
                                 }
+                            })
+                            .catch(function (error) {
+                                deferred.resolve(false);
                             });
                     }
                 });
@@ -191,7 +185,7 @@
 
         var deferred = Q.defer();
         win.info('Watchlist - Fetching new watchlist');
-        App.Trakt.show.getProgress()
+        App.Trakt.show.getCalendar(moment().subtract(31, 'days').format('YYYY-MM-DD'), 30)
             .then(function (data) {
                 App.db.writeSetting({
                         key: 'watchlist',
