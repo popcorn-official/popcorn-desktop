@@ -126,7 +126,7 @@
                         deferred.resolve(data);
                     } else {
                         //If not found, then get the details from Eztv and add it to the DB
-                        data = Eztv.detail(show.show_id, show)
+                        data = Eztv.detail(show.show_id, show, false)
                             .then(function (data) {
                                 if (data) {
                                     data.provider = 'Eztv';

@@ -93,9 +93,6 @@
 
         closePlayer: function () {
             win.info('Player closed');
-            if (this._WatchingTimer) {
-                clearInterval(this._WatchingTimer);
-            }
             if (this._AutoPlayCheckTimer) {
                 clearInterval(this._AutoPlayCheckTimer);
             }
@@ -131,6 +128,7 @@
             createdRemaining = false;
             firstPlay = true;
 
+            App.vent.trigger('player:close');
             App.vent.trigger('preload:stop');
             App.vent.trigger('stream:stop');
 
@@ -282,7 +280,7 @@
                     var id = type === 'movie' ? _this.model.get('imdb_id') : _this.model.get('episode_id');
                     App.Trakt.playback(type, id).then(function (position_percent) {
                         var total = _this.video.duration();
-                        var position = (position_percent / 100) * total;
+                        var position = (position_percent / 100) * total | 0;
                         win.debug('Resuming position to', position.toFixed(), 'secs (reported by Trakt)');
                         player.currentTime(position);
                     });
