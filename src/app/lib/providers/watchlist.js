@@ -83,18 +83,23 @@
 
         items.forEach(function (show) {
             var deferred = Q.defer();
-            promisifyDb(db.watched.find({
-                    imdb_id: show.show_id.toString(),
-                    season: show.season.toString(),
-                    episode: show.episode.toString()
-                }))
-                .then(function (data) {
-                    if (data != null && data.length > 0) {
-                        deferred.resolve(null);
-                    } else {
-                        deferred.resolve(show);
-                    }
-                });
+
+            if (show.show_id) {
+                promisifyDb(db.watched.find({
+                        imdb_id: show.show_id.toString(),
+                        season: show.season.toString(),
+                        episode: show.episode.toString()
+                    }))
+                    .then(function (data) {
+                        if (data != null && data.length > 0) {
+                            deferred.resolve(null);
+                        } else {
+                            deferred.resolve(show);
+                        }
+                    });
+            } else {
+               deferred.resolve(null);
+            }
 
             filtered.push(deferred.promise);
         });
