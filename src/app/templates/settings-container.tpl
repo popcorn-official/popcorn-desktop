@@ -463,9 +463,9 @@
 			</span>
 		</div>
 	</section>
-	<div class="btns advanced">
-		<div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
-		<div class="btn-settings flush-subtitles"><%= i18n.__("Flush subtitles cache") %></div>
+	<div class="btns">
+		<div class="btn-settings flush-bookmarks advanced"><%= i18n.__("Flush bookmarks database") %></div>
+		<div class="btn-settings flush-subtitles advanced"><%= i18n.__("Flush subtitles cache") %></div>
 		<div class="btn-settings flush-databases"><%= i18n.__("Flush all databases") %></div>
 		<div class="btn-settings default-settings"><%= i18n.__("Reset to Default Settings") %></div>
 	</div>

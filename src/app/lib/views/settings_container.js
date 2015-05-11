@@ -580,7 +580,7 @@
 
         areYouSure: function (btn, waitDesc) {
             if (!btn.hasClass('confirm')) {
-                btn.addClass('confirm').css('width', btn.css('width')).text(i18n.__('Are you sure?'));
+                btn.addClass('confirm red').css('width', btn.css('width')).text(i18n.__('Are you sure?'));
                 return false;
             }
             btn.text(waitDesc).addClass('disabled').prop('disabled', true);
@@ -613,7 +613,7 @@
                 // Hide notification after 2 seconds
                 $el.append('<p>' + successDesc + '.</p>');
                 setTimeout(function () {
-                    btn.text(btnText).removeClass('confirm disabled').prop('disabled', false);
+                    btn.text(btnText).removeClass('confirm red disabled').prop('disabled', false);
                     $('body').removeClass('has-notification');
                     $el.hide();
                 }, 3000);
