@@ -84,7 +84,7 @@
         items.forEach(function (show) {
             var deferred = Q.defer();
 
-            if (show.show_id) {
+            if (show.show_id && show.season !== 0) {
                 promisifyDb(db.watched.find({
                         imdb_id: show.show_id.toString(),
                         season: show.season.toString(),
