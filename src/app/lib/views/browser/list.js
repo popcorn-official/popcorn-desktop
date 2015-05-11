@@ -162,6 +162,7 @@
                         }
                     }
 
+                    App.vent.trigger('torrentCollection:close');
                     App.vent.trigger(App.currentview + ':list', []);
                     $('.filter-bar').find('.active').removeClass('active');
                     $('.source.show' + App.currentview.charAt(0).toUpperCase() + App.currentview.slice(1)).addClass('active');
@@ -182,6 +183,7 @@
                         break;
                     }
 
+                    App.vent.trigger('torrentCollection:close');
                     App.vent.trigger(App.currentview + ':list', []);
                     $('.filter-bar').find('.active').removeClass('active');
                     $('.source.show' + App.currentview.charAt(0).toUpperCase() + App.currentview.slice(1)).addClass('active');
