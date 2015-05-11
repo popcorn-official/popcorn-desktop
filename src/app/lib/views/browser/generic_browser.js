@@ -17,7 +17,8 @@
             ItemList: '.list-region'
         },
         events: {
-            'click .retry-button': 'onFilterChange'
+            'click .retry-button': 'onFilterChange',
+			'click .online-search': 'onlineSearch'
         },
 
         initialize: function () {
@@ -66,6 +67,27 @@
                 collection: this.collection
             }));
         },
+		onlineSearch: function () {
+			switch(App.currentview) {
+				case 'movies':
+					Settings.OnlineSearchCategory = 'Movies';
+					break;
+				case 'shows':
+					Settings.OnlineSearchCategory = 'TV Series';
+					break;
+				case 'anime':
+					Settings.OnlineSearchCategory = 'Anime';
+					break;
+				default:
+			}
+
+			if (!Settings.activateTorrentCollection) {
+				AdvSettings.set('activateTorrentCollection', true);
+				$('#torrent_col').css('display', 'block');
+			}
+
+			$('#filterbar-torrent-collection').click();
+		},
 
         focusSearch: function (e) {
             this.bar.focusSearch();

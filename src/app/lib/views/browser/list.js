@@ -24,14 +24,27 @@
     var ErrorView = Backbone.Marionette.ItemView.extend({
         template: '#movie-error-tpl',
         ui: {
-            retryButton: '.retry-button'
+            retryButton: '.retry-button',
+            onlineSearch: '.online-search'
         },
         onBeforeRender: function () {
             this.model.set('error', this.error);
         },
         onRender: function () {
             if (this.retry) {
-                this.ui.retryButton.css('visibility', 'visible');
+                switch(App.currentview) {
+                    case 'movies':
+                    case 'shows':
+                    case 'anime':
+                        this.ui.onlineSearch.css('visibility', 'visible');
+                        this.ui.retryButton.css('visibility', 'visible');
+                        break;
+                    case 'Watchlist':
+                        this.ui.retryButton.css('visibility', 'visible');
+                        this.ui.retryButton.css('margin-left', 'calc(50% - 100px)');
+                        break;
+                    default:
+                }
             }
         }
     });
