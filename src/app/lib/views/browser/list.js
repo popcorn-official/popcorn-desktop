@@ -32,18 +32,18 @@
         },
         onRender: function () {
             if (this.retry) {
-                switch(App.currentview) {
-                    case 'movies':
-                    case 'shows':
-                    case 'anime':
-                        this.ui.onlineSearch.css('visibility', 'visible');
-                        this.ui.retryButton.css('visibility', 'visible');
-                        break;
-                    case 'Watchlist':
-                        this.ui.retryButton.css('visibility', 'visible');
-                        this.ui.retryButton.css('margin-left', 'calc(50% - 100px)');
-                        break;
-                    default:
+                switch (App.currentview) {
+                case 'movies':
+                case 'shows':
+                case 'anime':
+                    this.ui.onlineSearch.css('visibility', 'visible');
+                    this.ui.retryButton.css('visibility', 'visible');
+                    break;
+                case 'Watchlist':
+                    this.ui.retryButton.css('visibility', 'visible');
+                    this.ui.retryButton.css('margin-left', 'calc(50% - 100px)');
+                    break;
+                default:
                 }
             }
         }
