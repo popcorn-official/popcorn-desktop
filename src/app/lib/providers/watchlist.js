@@ -58,7 +58,7 @@
                         deferred.resolve(doc.value || []);
                     } else {
                         win.info('Watchlist - Fetching new watchlist');
-                        App.Trakt.show.getCalendar(moment().subtract(31, 'days').format('YYYY-MM-DD'), 30)
+                        App.Trakt.show.getCalendar(moment().subtract(30, 'days').format('YYYY-MM-DD'), 30)
                             .then(function (data) {
                                 App.db.writeSetting({
                                         key: 'watchlist',
@@ -98,7 +98,7 @@
                         }
                     });
             } else {
-               deferred.resolve(null);
+                deferred.resolve(null);
             }
 
             filtered.push(deferred.promise);
@@ -190,7 +190,7 @@
 
         var deferred = Q.defer();
         win.info('Watchlist - Fetching new watchlist');
-        App.Trakt.show.getCalendar(moment().subtract(31, 'days').format('YYYY-MM-DD'), 30)
+        App.Trakt.show.getCalendar(moment().subtract(30, 'days').format('YYYY-MM-DD'), 30)
             .then(function (data) {
                 App.db.writeSetting({
                         key: 'watchlist',
