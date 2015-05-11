@@ -319,13 +319,8 @@
                 }
                 break;
             case 'activateWatchlist':
-                if ($('#watchlist').css('display') === 'none') {
-                    $('#watchlist').css('display', 'block');
-                } else {
-                    $('#watchlist').css('display', 'none');
-                    App.vent.trigger('movies:list');
-                    App.vent.trigger('settings:show');
-                }
+                App.vent.trigger('movies:list');
+                App.vent.trigger('settings:show');
                 break;
             case 'movies_quality':
                 App.Providers.delete('Yts');
