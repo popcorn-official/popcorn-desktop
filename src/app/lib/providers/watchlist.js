@@ -141,26 +141,23 @@
                                     Database.addTVShow(data)
                                         .then(function (idata) {
                                             deferred.resolve(data);
+                                        })
+                                        .fail(function (err) {
+                                            deferred.resolve(null);
                                         });
                                 } else {
-                                    deferred.resolve(false);
+                                    deferred.resolve(null);
                                 }
                             })
                             .catch(function (error) {
-                                deferred.resolve(false);
+                                deferred.resolve(null);
                             });
                     }
                 });
             showList.push(deferred.promise);
         });
 
-        return Q.all(showList)
-            .then(function (res) {
-                return {
-                    results: _.filter(res, Boolean),
-                    hasMore: false
-                };
-            });
+        return Q.all(showList);
     };
 
     Watchlist.prototype.extractIds = function (items) {
@@ -170,7 +167,13 @@
     Watchlist.prototype.fetch = function (filters) {
         return queryTorrents(filters)
             .then(filterShows)
-            .then(formatForPopcorn);
+            .then(formatForPopcorn)
+            .then(function (shows) {
+                return {
+                    results: _.filter(shows, Boolean),
+                    hasMore: false
+                };
+            });
     };
 
     Watchlist.prototype.detail = function (torrent_id, old_data, callback) {
