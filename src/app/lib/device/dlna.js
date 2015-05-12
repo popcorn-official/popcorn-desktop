@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var UpnpC = require('dlna-js').ControlPoint;
+    /*var UpnpC = require('dlna-js').ControlPoint;
     var MediaRendererClient = require('upnp-mediarenderer-client');
     var xmlb = require('xmlbuilder');
     var collection = App.Device.Collection;
@@ -167,5 +167,6 @@
 
     cp.search();
 
-    App.Device.Dlna = Dlna;
+    App.Device.Dlna = Dlna;*/
+    win.warn('DLNA disabled');
 })(window.App);
