@@ -1,9 +1,8 @@
 (function (App) {
     'use strict';
 
-    /*var browser = require('airplay-js').createBrowser();
-
-    var collection = App.Device.Collection;
+    var browser = require('airplay-js').createBrowser(),
+        collection = App.Device.Collection;
 
     var makeID = function (baseID) {
         return 'airplay-' + baseID.replace(':', '');
@@ -45,6 +44,7 @@
             model.destroy();
         }
     });
-    App.Device.Airplay = Airplay;*/
-    win.warn('AirPlay disabled');
+
+    App.Device.Airplay = Airplay;
+
 })(window.App);
