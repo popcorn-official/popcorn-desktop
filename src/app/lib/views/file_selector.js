@@ -30,6 +30,10 @@
             };
         },
 
+        onBeforeRender: function () {
+            this.bitsnoopRequest(this.model.get('torrent').infoHash);
+        },
+
         onShow: function () {
             App.Device.ChooserView('#player-chooser2').render();
             this.$('#watch-now').text('');
@@ -37,6 +41,39 @@
 
             Mousetrap.bind(['esc', 'backspace'], function (e) {
                 _this.closeSelector(e);
+            });
+        },
+
+        bitsnoopRequest: function (hash) {
+            var endpoint = 'http://bitsnoop.com/api/fakeskan.php?hash=',
+                torrentStatus = false;
+
+            request({
+                method: 'GET',
+                url: endpoint + hash,
+                headers: {
+                    'User-Agent': 'request'
+                }
+            }, function (error, response, body) {
+                if (error || response.statusCode > 400) {
+                    torrentStatus = '%s could not verify this torrent';
+                } else {
+                    switch (body) {
+                    case 'ERROR':
+                    case 'NOTFOUND':
+                        torrentStatus = '%s could not verify this torrent';
+                        break;
+                    case 'BAD':
+                    case 'FAKE':
+                        torrentStatus = '%s reported this torrent as fake';
+                        break;
+                    default:
+                    }
+                }
+
+                if (torrentStatus) {
+                    $('.fakescan').text(i18n.__(torrentStatus, 'FakeScan')).show();
+                }
             });
         },
 

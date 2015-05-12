@@ -12,6 +12,8 @@
 		</ul>
 	</div>
 
+    <div class="fakescan"></div>
+
 	<% if (Settings.activateTorrentCollection) { %>
 	   <div class="button store-torrent"></div>
 	<% } %>
