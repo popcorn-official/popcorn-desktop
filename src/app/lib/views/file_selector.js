@@ -72,7 +72,7 @@
                 }
 
                 if (torrentStatus) {
-                    $('.fakescan').text(i18n.__(torrentStatus, 'FakeScan')).show();
+                    $('.fakeskan').text(i18n.__(torrentStatus, 'FakeSkan')).show();
                 }
             });
         },
