@@ -291,10 +291,19 @@
         var that = this;
 
         return Q()
+			.then(function () {
+				that.watchlist.inhibit(true);
+			})
             .then(function () {
                 AdvSettings.set('traktLastSync', new Date().valueOf());
                 return Q.all([that.movie.sync(), that.show.sync()]);
-            });
+            })
+			.then(function () {
+				that.watchlist.inhibit(false);
+			})
+			.then(function () {
+				return that.watchlist.fetchWatchlist();
+			});
     };
 
     TraktTv.prototype.movie = {
