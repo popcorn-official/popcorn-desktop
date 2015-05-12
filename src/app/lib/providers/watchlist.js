@@ -142,7 +142,7 @@
                                         .then(function (idata) {
                                             deferred.resolve(data);
                                         })
-                                        .fail(function (err) {
+                                        .catch(function (err) {
                                             deferred.resolve(null);
                                         });
                                 } else {
