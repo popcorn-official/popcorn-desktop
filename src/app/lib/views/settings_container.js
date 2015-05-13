@@ -1,14 +1,11 @@
 (function (App) {
     'use strict';
-    var clipboard = gui.Clipboard.get();
-
-    var AdmZip = require('adm-zip');
-    var fdialogs = require('node-webkit-fdialogs');
-    var fs = require('fs');
-    var waitComplete;
-    var oldTmpLocation;
-
-    var that;
+    var clipboard = gui.Clipboard.get(),
+        AdmZip = require('adm-zip'),
+        fdialogs = require('node-webkit-fdialogs'),
+        waitComplete,
+        oldTmpLocation,
+        that;
 
     var Settings = Backbone.Marionette.ItemView.extend({
         template: '#settings-container-tpl',
@@ -17,7 +14,7 @@
         ui: {
             success_alert: '.success_alert',
             fakeTempDir: '#faketmpLocation',
-            tempDir: '#tmpLocation',
+            tempDir: '#tmpLocation'
         },
 
         events: {
@@ -34,7 +31,7 @@
             'click .open-tmp-folder': 'openTmpFolder',
             'click .open-database-folder': 'openDatabaseFolder',
             'click .export-database': 'exportDatabase',
-            'click .import-database': 'inportDatabase',
+            'click .import-database': 'importDatabase',
             'click #authTrakt': 'connectTrakt',
             'click #unauthTrakt': 'disconnectTrakt',
             'change #tmpLocation': 'updateCacheDirectory',
@@ -45,8 +42,10 @@
         },
 
         onShow: function () {
-
+            that = this;
             this.render();
+
+            AdvSettings.set('ipAddress', this.getIPAddress());
 
             $('.filter-bar').hide();
             $('#movie-detail').hide();
@@ -57,12 +56,10 @@
                     'hide': 100
                 }
             });
+
             Mousetrap.bind('backspace', function (e) {
                 App.vent.trigger('settings:close');
             });
-            that = this;
-
-            AdvSettings.set('ipAddress', this.getIPAddress());
         },
 
         onRender: function () {
@@ -110,6 +107,7 @@
 
             return menu;
         },
+
         onDestroy: function () {
             Mousetrap.bind('backspace', function (e) {
                 App.vent.trigger('show:closeDetail');
@@ -126,15 +124,13 @@
         },
 
         generateQRcode: function () {
-
-            var QRCodeInfo = {
-                ip: AdvSettings.get('ipAddress'),
-                port: $('#httpApiPort').val(),
-                user: $('#httpApiUsername').val(),
-                pass: $('#httpApiPassword').val()
-            };
-            var qrcodecanvus = document.getElementById('qrcode');
-            qrcodecanvus.width = qrcodecanvus.width;
+            var qrcodecanvus = document.getElementById('qrcode'),
+                QRCodeInfo = {
+                    ip: AdvSettings.get('ipAddress'),
+                    port: $('#httpApiPort').val(),
+                    user: $('#httpApiUsername').val(),
+                    pass: $('#httpApiPassword').val()
+                };
             $('#qrcode').qrcode({
                 'text': JSON.stringify(QRCodeInfo)
             });
@@ -154,14 +150,12 @@
         },
 
         saveSetting: function (e) {
-            var value = false;
-            var data = {};
+            var value = false,
+                apiDataChanged = false,
+                tmpLocationChanged = false,
+                field = $(e.currentTarget),
+                data = {};
 
-            // get active field
-            var field = $(e.currentTarget);
-
-            var apiDataChanged = false;
-            var tmpLocationChanged = false;
             switch (field.attr('name')) {
             case 'httpApiPort':
                 apiDataChanged = true;
@@ -256,16 +250,16 @@
 
             //save to db
             App.db.writeSetting({
-                    key: field.attr('name'),
-                    value: value
-                })
-                .then(function () {
-                    that.ui.success_alert.show().delay(3000).fadeOut(400);
-                });
+                key: field.attr('name'),
+                value: value
+            }).then(function () {
+                that.ui.success_alert.show().delay(3000).fadeOut(400);
+            });
+
             that.syncSetting(field.attr('name'), value);
         },
-        syncSetting: function (setting, value) {
 
+        syncSetting: function (setting, value) {
             switch (setting) {
             case 'coversShowRating':
                 if (value) {
@@ -351,12 +345,9 @@
                 break;
             default:
             }
-
         },
 
         connectTrakt: function (e) {
-            var self = this;
-
             if (AdvSettings.get('traktTokenRefresh') !== '') {
                 return;
             }
@@ -364,64 +355,59 @@
             $('#authTrakt > i').css('visibility', 'hidden');
             $('.loading-spinner').show();
 
-            App.Trakt.authenticate().then(function (valid) {
-                if (valid) {
-                    $('.loading-spinner').hide();
-                    self.render();
-                } else {
-                    $('.loading-spinner').hide();
+            App.Trakt.authenticate()
+                .then(function (valid) {
+                    if (valid) {
+                        $('.loading-spinner').hide();
+                        that.render();
+                    } else {
+                        $('.loading-spinner').hide();
+                        $('#authTrakt > i').css('visibility', 'visible');
+                    }
+                }).catch(function (err) {
+                    win.debug('Trakt', err);
                     $('#authTrakt > i').css('visibility', 'visible');
-                }
-            }).catch(function (err) {
-                win.debug('Trakt', err);
-                $('#authTrakt > i').css('visibility', 'visible');
-                $('.loading-spinner').hide();
-            });
+                    $('.loading-spinner').hide();
+                });
         },
 
         disconnectTrakt: function (e) {
-            var self = this;
-
             App.settings['traktToken'] = '';
             App.settings['traktTokenRefresh'] = '';
             App.settings['traktTokenTTL'] = '';
             App.Trakt.authenticated = false;
 
             App.db.writeSetting({
-                    key: 'traktToken',
+                key: 'traktToken',
+                value: ''
+            }).then(function () {
+                return App.db.writeSetting({
+                    key: 'traktTokenRefresh',
                     value: ''
-                })
-                .then(function () {
-                    return App.db.writeSetting({
-                        key: 'traktTokenRefresh',
-                        value: ''
-                    });
-                })
-                .then(function () {
-                    return App.db.writeSetting({
-                        key: 'traktTokenTTL',
-                        value: ''
-                    });
-                })
-                .then(function () {
-                    self.ui.success_alert.show().delay(3000).fadeOut(400);
                 });
+            }).then(function () {
+                return App.db.writeSetting({
+                    key: 'traktTokenTTL',
+                    value: ''
+                });
+            }).then(function () {
+                that.ui.success_alert.show().delay(3000).fadeOut(400);
+            });
 
             _.defer(function () {
                 App.Trakt = App.Providers.get('Trakttv');
-                self.render();
+                that.render();
             });
         },
 
         flushBookmarks: function (e) {
-            var that = this;
             var btn = $(e.currentTarget);
 
-            if (!that.areYouSure(btn, i18n.__('Flushing bookmarks...'))) {
+            if (!this.areYouSure(btn, i18n.__('Flushing bookmarks...'))) {
                 return;
             }
 
-            that.alertMessageWait(i18n.__('We are flushing your database'));
+            this.alertMessageWait(i18n.__('We are flushing your database'));
 
             Database.deleteBookmarks()
                 .then(function () {
@@ -430,14 +416,13 @@
         },
 
         resetSettings: function (e) {
-            var that = this;
             var btn = $(e.currentTarget);
 
-            if (!that.areYouSure(btn, i18n.__('Resetting...'))) {
+            if (!this.areYouSure(btn, i18n.__('Resetting...'))) {
                 return;
             }
 
-            that.alertMessageWait(i18n.__('We are resetting the settings'));
+            this.alertMessageWait(i18n.__('We are resetting the settings'));
 
             Database.resetSettings()
                 .then(function () {
@@ -447,14 +432,13 @@
         },
 
         flushAllDatabase: function (e) {
-            var that = this;
             var btn = $(e.currentTarget);
 
-            if (!that.areYouSure(btn, i18n.__('Flushing...'))) {
+            if (!this.areYouSure(btn, i18n.__('Flushing...'))) {
                 return;
             }
 
-            that.alertMessageWait(i18n.__('We are flushing your databases'));
+            this.alertMessageWait(i18n.__('We are flushing your databases'));
 
             Database.deleteDatabases()
                 .then(function () {
@@ -464,14 +448,13 @@
         },
 
         flushAllSubtitles: function (e) {
-            var that = this;
             var btn = $(e.currentTarget);
 
-            if (!that.areYouSure(btn, i18n.__('Flushing...'))) {
+            if (!this.areYouSure(btn, i18n.__('Flushing...'))) {
                 return;
             }
 
-            that.alertMessageWait(i18n.__('We are flushing your subtitle cache'));
+            this.alertMessageWait(i18n.__('We are flushing your subtitle cache'));
 
             var cache = new App.Cache('subtitle');
             cache.flushTable()
@@ -497,8 +480,7 @@
         },
 
         showCacheDirectoryDialog: function () {
-            var that = this;
-            that.ui.tempDir.click();
+            this.ui.tempDir.click();
         },
 
         openTmpFolder: function () {
@@ -524,7 +506,6 @@
         },
 
         exportDatabase: function (e) {
-            var that = this;
             var zip = new AdmZip();
             var btn = $(e.currentTarget);
             var databaseFiles = fs.readdirSync(App.settings['databaseLocation']);
@@ -541,36 +522,24 @@
 
         },
 
-        inportDatabase: function () {
-            var that = this;
-
+        importDatabase: function () {
             fdialogs.readFile(function (err, content, path) {
-
                 that.alertMessageWait(i18n.__('Importing Database...'));
-
                 try {
                     var zip = new AdmZip(content);
-
                     zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
                     that.alertMessageSuccess(true);
                 } catch (err) {
-
                     that.alertMessageFailed(i18n.__('Invalid PCT Database File Selected'));
                     win.warn('Failed to Import Database');
                 }
-
-
             });
-
-
         },
 
         updateCacheDirectory: function (e) {
-            // feel free to improve/change radically!
-            var that = this;
             var field = $('#tmpLocation');
-            that.ui.fakeTempDir.val = field.val();
-            that.render();
+            this.ui.fakeTempDir.val = field.val();
+            this.render();
         },
 
         areYouSure: function (btn, waitDesc) {
@@ -587,12 +556,10 @@
 
             $el.removeClass().addClass('red').show();
             $el.html('<h1>' + i18n.__('Please wait') + '...</h1><p>' + waitDesc + '.</p>');
-
             $('body').addClass('has-notification');
         },
 
         alertMessageSuccess: function (btnRestart, btn, btnText, successDesc) {
-            var that = this;
             var $el = $('#notification');
 
             $el.removeClass().addClass('green');
@@ -616,7 +583,6 @@
         },
 
         alertMessageFailed: function (errorDesc) {
-
             var $el = $('#notification');
 
             $el.html('<h1>' + i18n.__('Error') + '</h1>');
@@ -624,36 +590,49 @@
             // Hide notification after 5 seconds
             $el.append('<p>' + errorDesc + '.</p>');
             setTimeout(function () {
-
                 $('body').removeClass('has-notification');
                 $el.hide();
-
             }, 5000);
-
         },
 
         syncTrakt: function () {
-
             var oldHTML = document.getElementById('syncTrakt').innerHTML;
-            $('#syncTrakt').text(i18n.__('Syncing...')).addClass('disabled').prop('disabled', true);
+            $('#syncTrakt')
+                .text(i18n.__('Syncing...'))
+                .addClass('disabled')
+                .prop('disabled', true);
 
             Database.deleteWatched(); // Reset before sync
 
             App.Trakt.sync()
                 .then(function () {
-                    $('#syncTrakt').text(i18n.__('Done')).removeClass('disabled').addClass('green').delay(3000).queue(function () {
-                        $('#syncTrakt').removeClass('green').prop('disabled', false);
-                        document.getElementById('syncTrakt').innerHTML = oldHTML;
-                        $('#syncTrakt').dequeue();
-                    });
+                    $('#syncTrakt')
+                        .text(i18n.__('Done'))
+                        .removeClass('disabled')
+                        .addClass('green')
+                        .delay(3000)
+                        .queue(function () {
+                            $('#syncTrakt')
+                                .removeClass('green')
+                                .prop('disabled', false);
+                            document.getElementById('syncTrakt').innerHTML = oldHTML;
+                            $('#syncTrakt').dequeue();
+                        });
                 })
                 .catch(function (err) {
                     win.error('App.Trakt.sync()', err);
-                    $('#syncTrakt').text(i18n.__('Error')).removeClass('disabled').addClass('red').delay(3000).queue(function () {
-                        $('#syncTrakt').removeClass('red').prop('disabled', false);
-                        document.getElementById('syncTrakt').innerHTML = oldHTML;
-                        $('#syncTrakt').dequeue();
-                    });
+                    $('#syncTrakt')
+                        .text(i18n.__('Error'))
+                        .removeClass('disabled')
+                        .addClass('red')
+                        .delay(3000)
+                        .queue(function () {
+                            $('#syncTrakt')
+                                .removeClass('red')
+                                .prop('disabled', false);
+                            document.getElementById('syncTrakt').innerHTML = oldHTML;
+                            $('#syncTrakt').dequeue();
+                        });
                 });
         },
 

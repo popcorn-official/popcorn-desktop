@@ -334,7 +334,7 @@
 		<div class="content">
 			<span>
 				<p><%= i18n.__("Local IP Address") + ":" %></p>
-				<input type="text" value="<%= Settings.ipAddress %>" readonly="readonly" size="20" />
+				<input type="text" id="settingsIpAddr" value="<%= Settings.ipAddress %>" readonly="readonly" size="20" />
 			</span>
 			<span>
 				<p><%= i18n.__("HTTP API Port") + ":" %></p>
