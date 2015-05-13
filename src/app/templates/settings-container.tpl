@@ -208,7 +208,7 @@
 				<div class="dropdown subtitles-size">
 					<p><%= i18n.__("Size") %>:</p>
 					<%
-						var arr_sizes = ["24px","26px","28px","30px","32px","34px","36px","38px","48px","50px","52px","54px","56px","58px","60px"];
+						var arr_sizes = ["20px","22px","24px","26px","28px","30px","32px","34px","36px","38px","48px","50px","52px","54px","56px","58px","60px"];
 
 						var sub_sizes = "";
 						for(var key in arr_sizes) {
