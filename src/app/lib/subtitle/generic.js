@@ -29,11 +29,16 @@
             unzipPath = unzipPath.substring(0, unzipPath.lastIndexOf(path.sep));
 
             var out = fs.createWriteStream(zipPath);
+
             var req = request({
                 method: 'GET',
                 uri: subUrl
             });
 
+            req.on('error', function (e) {
+                win.error('Error downloading subtitle: ' + e);
+                reject(e);
+            });
             req.on('end', function () {
                 out.end(function () {
                     try {
