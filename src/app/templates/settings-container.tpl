@@ -129,12 +129,14 @@
 					<p><%= i18n.__("Font") %>:</p>
 					<%
 						var arr_fonts = [
+							{name:"AljazeeraMedExtOf", id:"aljazeera"},
 							{name:"Deja Vu Sans", id:"dejavusans"},
 							{name:"Droid Sans", id:"droidsans"},
 							{name:"Comic Sans MS", id:"comic"},
 							{name:"Georgia", id:"georgia"},
 							{name:"Geneva", id:"geneva"},
 							{name:"Helvetica", id:"helvetica"},
+							{name:"Khalid Art", id:"khalid"},
 							{name:"Lato", id:"lato"},
 							{name:"Montserrat", id:"montserrat"},
 							{name:"OpenDyslexic", id:"opendyslexic"},
