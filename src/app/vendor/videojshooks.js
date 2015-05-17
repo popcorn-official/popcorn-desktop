@@ -282,7 +282,11 @@ vjs.TextTrack.prototype.load = function(){
 			win.debug('SUB charset detected: '+detectedEncoding);
 			// Do we need decoding?
 			if (detectedEncoding.toLowerCase().replace('-','') == targetEncodingCharset) {
-				parse(dataBuff.toString('utf-8'));
+				try {
+                    parse(dataBuff.toString('utf-8'));
+                } catch (e) {
+                    callback(dataBuff.toString('utf-8'));
+                }
 			// We do
 			} else {
 				if (!language && Settings.subtitle_language !== 'none') {
@@ -304,7 +308,11 @@ vjs.TextTrack.prototype.load = function(){
 					detectedEncoding = 'UTF-8';
 				}
 				win.debug("SUB charset used: "+detectedEncoding);
-				parse(dataBuff.toString('utf-8'));
+				try {
+                    parse(dataBuff.toString('utf-8'));
+                } catch (e) {
+                    callback(dataBuff.toString('utf-8'));
+                }
 			}
 		}
 
