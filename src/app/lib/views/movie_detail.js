@@ -73,7 +73,7 @@
                 this.model.set('quality', 'HDRip');
             }
 
-            if (Settings.movies_default_quality === '720p' && torrents['720p'] !== undefined) {
+            if (Settings.movies_default_quality === '720p' && torrents['720p'] !== undefined && document.getElementsByName('switch')[0] !== undefined) {
                 document.getElementsByName('switch')[0].checked = true;
             }
 
