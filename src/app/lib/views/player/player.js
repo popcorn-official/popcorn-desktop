@@ -271,16 +271,13 @@
 
             player.one('play', function () {
                 if (_this.model.get('type') === 'video/youtube') {
-                    $('.vjs-quality-button').hover(
-                        function () {
-                            $('.trailer_mouse_catch').hide();
-                        },
-                        function () {
-                            $('.trailer_mouse_catch').show();
-                        }
-                    );
+                    // XXX quality fix
+                    $('.vjs-quality-button .vjs-menu-content').remove();
+                    $('.vjs-quality-button').css('cursor', 'default');
+
+                    // XXX hide watermark
                     try {
-                        document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('html5-watermark')[0].style.opacity = 0; // XXX hide watermark
+                        document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('html5-watermark')[0].style.opacity = 0;
                     } catch (e) {}
                 }
 
