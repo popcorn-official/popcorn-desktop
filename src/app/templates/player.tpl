@@ -19,7 +19,7 @@
 		</div>
 	</div>
 </div>
-
+<div class="trailer_mouse_catch"></div>
 <div class="playing_next vjs-control-window">
 	<p><%= i18n.__("Playing Next Episode in") %>: 
 		<span id="nextCountdown">60</span>

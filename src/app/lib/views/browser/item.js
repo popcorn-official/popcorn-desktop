@@ -80,7 +80,7 @@
         },
 
         onShow: function () {
- 			this.ui.coverImage.on('load', _.bind(this.showCover, this));
+            this.ui.coverImage.on('load', _.bind(this.showCover, this));
         },
 
         onRender: function () {
@@ -88,7 +88,7 @@
             if (itemtype === 'show' || itemtype === 'bookmarkedshow' || itemtype === 'historyshow') {
                 this.ui.watchedIcon.remove();
             }
-           
+
         },
 
         onDestroy: function () {
@@ -327,7 +327,7 @@
                             that.model.set('bookmarked', false);
                         });
                 } else {
-                	this.ui.bookmarkIcon.addClass('selected');
+                    this.ui.bookmarkIcon.addClass('selected');
                     var movie = {
                         imdb_id: this.model.get('imdb_id'),
                         image: this.model.get('image'),
@@ -362,7 +362,7 @@
                     Database.deleteBookmark(this.model.get('imdb_id'))
                         .then(function () {
                             win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
-                         
+
                             App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
 
                             // we'll make sure we dont have a cached show

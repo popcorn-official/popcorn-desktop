@@ -160,8 +160,6 @@
             }
             if (this.model.get('type') === 'video/youtube') {
 
-                $('<div/>').appendTo('#main-window').addClass('trailer_mouse_catch'); // XXX Sammuel86 Trailer UI Show FIX/HACK
-
                 this.video = videojs('video_player', {
                     techOrder: ['youtube'],
                     forceSSL: true,
@@ -172,14 +170,22 @@
                 });
                 this.ui.eyeInfo.hide();
 
-                $('.trailer_mouse_catch').show().mousemove(function (event) { // XXX Sammuel86 Trailer UI Show FIX/HACK
-                    if (!_this.player.userActive()) {
-                        _this.player.userActive(true);
-                    }
-                });
-                $('.trailer_mouse_catch').click(function () { // XXX Sammuel86 Trailer UI Show FIX/HACK
-                    $('.vjs-play-control').click();
-                });
+                 // XXX Sammuel86 Trailer UI Show FIX/HACK
+                $('.trailer_mouse_catch')
+                    .show().appendTo('div#video_player')
+                    .mousemove(function (event) {
+                        if (!_this.player.userActive()) {
+                            _this.player.userActive(true);
+                        }
+                    })
+                    .click(function (event) {
+                        $('.vjs-play-control').click();
+                        event.preventDefault();
+                    })
+                    .dblclick(function (event) {
+                        _this.toggleFullscreen();
+                        event.preventDefault();
+                    });
 
             } else {
                 this.video = videojs('video_player', {
@@ -264,6 +270,20 @@
             };
 
             player.one('play', function () {
+                if (_this.model.get('type') === 'video/youtube') {
+                    $('.vjs-quality-button').hover(
+                        function () {
+                            $('.trailer_mouse_catch').hide();
+                        },
+                        function () {
+                            $('.trailer_mouse_catch').show();
+                        }
+                    );
+                    try {
+                        document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('html5-watermark')[0].style.opacity = 0; // XXX hide watermark
+                    } catch (e) {}
+                }
+
                 if (_this.model.get('auto_play')) {
                     _this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
                 }
