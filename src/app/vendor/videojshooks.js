@@ -434,6 +434,10 @@ var suggestedExternal = function () {
 };
 vjs.ErrorDisplay.prototype.update = function(){
   if (this.player().error()) {
+    $('.vjs-error-display').dblclick(function (event) {
+        App.PlayerView.toggleFullscreen();
+        event.preventDefault();
+    });
 	if (this.player().error().message === 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.') {
 		this.contentEl_.innerHTML = i18n.__('The video playback encountered an issue. Please try an external player like %s to view this content.', suggestedExternal());
 	} else {
