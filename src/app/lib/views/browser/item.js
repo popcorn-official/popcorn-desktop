@@ -24,9 +24,6 @@
             bookmarkIcon: '.actions-favorites',
             watchedIcon: '.actions-watched'
         },
-        modelEvents: {
-            'change': 'render'
-        },
         events: {
             'click .actions-favorites': 'toggleFavorite',
             'click .actions-watched': 'toggleWatched',
@@ -83,7 +80,7 @@
         },
 
         onShow: function () {
-
+ 			this.ui.coverImage.on('load', _.bind(this.showCover, this));
         },
 
         onRender: function () {
@@ -91,7 +88,7 @@
             if (itemtype === 'show' || itemtype === 'bookmarkedshow' || itemtype === 'historyshow') {
                 this.ui.watchedIcon.remove();
             }
-            this.ui.coverImage.on('load', _.bind(this.showCover, this));
+           
         },
 
         onDestroy: function () {
@@ -158,6 +155,15 @@
                 }
                 break;
             }
+
+
+            this.ui.watchedIcon.tooltip({
+                title: this.ui.watchedIcon.hasClass('selected') ? i18n.__('Mark as unseen') : i18n.__('Mark as Seen')
+            });
+            this.ui.bookmarkIcon.tooltip({
+                title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from bookmarks') : i18n.__('Add to bookmarks')
+            });
+
             var this_ = this;
 
             var coverCache = new Image();
@@ -175,12 +181,6 @@
 
             this.ui.coverImage.remove();
 
-            this.ui.watchedIcon.tooltip({
-                title: this.ui.watchedIcon.hasClass('selected') ? i18n.__('Mark as unseen') : i18n.__('Mark as Seen')
-            });
-            this.ui.bookmarkIcon.tooltip({
-                title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from bookmarks') : i18n.__('Add to bookmarks')
-            });
         },
 
         showDetail: function (e) {
@@ -327,6 +327,7 @@
                             that.model.set('bookmarked', false);
                         });
                 } else {
+                	this.ui.bookmarkIcon.addClass('selected');
                     var movie = {
                         imdb_id: this.model.get('imdb_id'),
                         image: this.model.get('image'),
@@ -357,10 +358,11 @@
             case 'show':
                 if (this.model.get('bookmarked') === true) {
                     this.ui.bookmarkIcon.removeClass('selected');
+                    this.model.set('bookmarked', false);
                     Database.deleteBookmark(this.model.get('imdb_id'))
                         .then(function () {
                             win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
-                            that.model.set('bookmarked', false);
+                         
                             App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
 
                             // we'll make sure we dont have a cached show
@@ -368,6 +370,7 @@
                         });
                 } else {
                     this.model.set('bookmarked', true);
+                    this.ui.bookmarkIcon.addClass('selected');
                     var provider = App.Providers.get(this.model.get('provider'));
                     var data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
                         .then(function (data) {
