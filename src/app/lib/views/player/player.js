@@ -170,7 +170,7 @@
                 });
                 this.ui.eyeInfo.hide();
 
-                 // XXX Sammuel86 Trailer UI Show FIX/HACK
+                // XXX Sammuel86 Trailer UI Show FIX/HACK
                 $('.trailer_mouse_catch')
                     .show().appendTo('div#video_player')
                     .mousemove(function (event) {

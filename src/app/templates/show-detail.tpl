@@ -51,8 +51,8 @@
 		<div class="show-quality-container">
 			<div class="quality-selector">
 				<div id="q480" class="q480">480p</div>
-				<div id="q720" style="margin-left: 35px" class="q720">720p</div>
-				<div id="q1080" style="margin-left: 70px" class="q1080">1080p</div>
+				<div id="q720" class="q720">720p</div>
+				<div id="q1080" class="q1080">1080p</div>
 			</div>
 		</div>
 		<div class="movie-btn-watch-episode">
