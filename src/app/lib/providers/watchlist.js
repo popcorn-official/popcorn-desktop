@@ -21,8 +21,8 @@
                 if (doc) {
                     var d = moment.unix(doc.value);
 
-                    if (Math.abs(now.diff(d, 'days')) >= 1) {
-                        win.info('Watchlist - Last fetched more than 1 day');
+                    if (Math.abs(now.diff(d, 'hours')) >= 12) {
+                        win.info('Watchlist - last update was %s hour(s) ago', Math.abs(now.diff(d, 'hours')));
                         App.db.writeSetting({
                                 key: 'watchlist-fetched',
                                 value: now.unix()
@@ -32,11 +32,12 @@
                             });
 
                     } else {
-                        win.info('Watchlist - Last fetch is fresh');
+                        // Last fetch is fresh (< 12h)
+                        win.info('Watchlist - next update in %s hour(s)', 12 - Math.abs(now.diff(d, 'hours')));
                         fetchWatchlist(false);
                     }
                 } else {
-                    win.info('Watchlist - No last fetch, fetch again');
+                    // No last fetch, fetch again
                     App.db.writeSetting({
                             key: 'watchlist-fetched',
                             value: now.unix()
@@ -54,7 +55,7 @@
                 })
                 .then(function (doc) {
                     if (doc && !update) {
-                        win.info('Watchlist - Returning cached watchlist');
+                        // Returning cached watchlist
                         deferred.resolve(doc.value || []);
                     } else {
                         win.info('Watchlist - Fetching new watchlist');

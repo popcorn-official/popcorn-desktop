@@ -291,7 +291,7 @@
                         <input class="settings-checkbox" name="traktPlayback" id="traktPlayback" type="checkbox" <%=(Settings.traktPlayback? "checked='checked'":"")%>>
                         <label class="settings-label" for="traktPlayback"><%= i18n.__("Resume Playback") %></label>
                     </span>
-					<span>
+					<span class="advanced">
 						<div class="btn-settings syncTrakt" id="syncTrakt">
 							<i class="fa fa-refresh">&nbsp;&nbsp;</i>
 							<%= i18n.__("Sync With Trakt") %>
