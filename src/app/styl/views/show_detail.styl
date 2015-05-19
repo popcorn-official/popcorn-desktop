@@ -645,86 +645,17 @@
 			z-index: 2;
 
 		.quality-selector
-			display: none
-
 			.q720
-				margin-left: 60px;
-
-			.switch
-				top: 1px;
-				margin-left: 30px;
+				margin-left: 35px
+			.q1080
+				margin-left: 70px
+			.active
+				color: rgba(43, 110, 210, 0.84)
+			.disabled
+				color: gray
 
 		.quality-info
 			display: none
-
-		.switch
-			background transparent
-			border-radius 32px
-			display block
-			height 12px
-			position absolute
-			margin-left 30px
-			//top 312px
-			width 25px
-			border 2px solid $ShowText1
-			cursor pointer
-			z-index 2
-
-			label
-				font-family $Font, $AlternateFont
-				font-size 11px
-				color $Text1
-				font-weight bold
-				transition color 0.2s ease
-				transition color 0.2s ease
-				width 20px
-				cursor pointer
-
-				&:nth-of-type(1)
-					left -38px
-					position absolute
-					text-align right
-
-				&:nth-of-type(2)
-					position absolute
-					right -30px
-					text-align left
-			input
-				height 7px
-				left -27px
-				opacity 0
-				position absolute
-				top -4px
-				width 79px
-				z-index 2
-				cursor pointer
-
-				&:checked
-					z-index 0
-
-					& ~ label
-
-						&:nth-of-type(1)
-							color $ButtonBgActive
-
-						&:nth-of-type(2)
-							color $Text1
-
-					& ~ .toggle
-						left 0px
-
-				& ~ :checked
-
-					& ~ label
-
-						&:nth-of-type(1)
-							color $Text1
-
-						&:nth-of-type(2)
-							color $ButtonBgActive
-
-					& ~ .toggle
-						left 11px
 
 		.toggle
 			transition left 0.2s ease

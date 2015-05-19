@@ -50,15 +50,10 @@
 		<div class="episode-info-description"></div>
 		<div class="show-quality-container">
 			<div class="quality-selector">
-				<div class="q480">480p</div>
-				<div class="q720">720p</div>
-				<div class="quality switch white">
-					<input type="radio" name="switch" id="switch-hd-off" >
-					<input type="radio" name="switch" id="switch-hd-on" checked >
-					<span class="toggle"></span>
-				</div>
+				<div id="q480" class="q480">480p</div>
+				<div id="q720" style="margin-left: 35px" class="q720">720p</div>
+				<div id="q1080" style="margin-left: 70px" class="q1080">1080p</div>
 			</div>
-			<div class="quality-info"></div>
 		</div>
 		<div class="movie-btn-watch-episode">
 			<div class="button dropup" id="player-chooser"></div>
@@ -92,9 +87,9 @@
 						<ul>
 							<% _.each(value, function(episodeData, episode) {
 								var first_aired = '',
+									q1080 = '',
 									q720 = '',
 									q480 = '';
-
 								if (episodeData.first_aired !== undefined) {
 									first_aired = moment.unix(episodeData.first_aired).locale(Settings.language).format("LLLL");
 								}
@@ -103,6 +98,9 @@
 								}
 								if(episodeData.torrents["720p"]) {
 									q720 = episodeData.torrents["720p"].url;
+								}
+								if(episodeData.torrents["1080p"]) {
+									q1080 = episodeData.torrents["1080p"].url;
 								}
 
 							%>
@@ -124,6 +122,7 @@
 										<span class="overview"><%=episodeData.overview %></span>
 										<span class="q480"><%=q480 %></span>
 										<span class="q720"><%=q720 %></span>
+										<span class="q1080"><%=q1080 %></span>
 									</div>
 								</li>
 							<% }); %>

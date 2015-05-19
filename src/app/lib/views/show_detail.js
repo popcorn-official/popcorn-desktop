@@ -1,8 +1,8 @@
-(function (App) {
+(function(App) {
     'use strict';
 
     var torrentHealth = require('torrent-health');
-    var cancelTorrentHealth = function () {};
+    var cancelTorrentHealth = function() {};
 
     var resizeImage = App.Providers.Trakttv.resizeImage;
 
@@ -13,7 +13,9 @@
 
         ui: {
             startStreaming: '#watch-now',
-            qselector: '.quality-selector',
+            q1080p: '#q1080',
+            q720p: '#q720',
+            q480p: '#q480',
             qinfo: '.quality-info',
             bookmarkIcon: '.favourites-toggle'
         },
@@ -29,14 +31,15 @@
             'click .show-imdb-link': 'openIMDb',
             'mousedown .show-magnet-link': 'openMagnet',
             'dblclick .tab-episode': 'dblclickEpisode',
-            'click #switch-hd-on': 'enableHD',
-            'click #switch-hd-off': 'disableHD',
+            'click .q1080': 'toggleShowQuality',
+            'click .q720': 'toggleShowQuality',
+            'click .q480': 'toggleShowQuality',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .rating-container-tv': 'switchRating',
             'click .health-icon': 'resetHealth'
         },
 
-        toggleFavorite: function (e) {
+        toggleFavorite: function(e) {
 
             if (e.type) {
                 e.preventDefault();
@@ -49,20 +52,20 @@
 
                 var provider = App.Providers.get(this.model.get('provider'));
                 var data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
-                    .then(function (data) {
+                    .then(function(data) {
                             data.provider = that.model.get('provider');
                             Database.addTVShow(data)
-                                .then(function (idata) {
+                                .then(function(idata) {
                                     return Database.addBookmark(that.model.get('imdb_id'), 'tvshow');
                                 })
-                                .then(function () {
+                                .then(function() {
                                     win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
                                     that.model.set('bookmarked', true);
                                     that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
                                     App.userBookmarks.push(that.model.get('imdb_id'));
                                 });
                         },
-                        function (err) {
+                        function(err) {
                             $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                         });
 
@@ -71,7 +74,7 @@
                 bookmarked = false;
 
                 Database.deleteBookmark(this.model.get('imdb_id'))
-                    .then(function () {
+                    .then(function() {
                         win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
                         that.model.set('bookmarked', false);
                         App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
@@ -86,20 +89,20 @@
         },
 
 
-        initialize: function () {
+        initialize: function() {
             _this = this;
-
+            this.renameUntitled();
             //Handle keyboard shortcuts when other views are appended or removed
 
             //If a child was removed from above this view
-            App.vent.on('viewstack:pop', function () {
+            App.vent.on('viewstack:pop', function() {
                 if (_.last(App.ViewStack) === _this.className) {
                     _this.initKeyboardShortcuts();
                 }
             });
 
             //If a child was added above this view
-            App.vent.on('viewstack:push', function () {
+            App.vent.on('viewstack:push', function() {
                 if (_.last(App.ViewStack) !== _this.className) {
                     _this.unbindKeyboardShortcuts();
                 }
@@ -113,13 +116,26 @@
             images.fanart = resizeImage(images.fanart);
             images.poster = resizeImage(images.poster, 'thumb');
 
-            App.vent.on('shortcuts:shows', function () {
+            App.vent.on('shortcuts:shows', function() {
                 _this.initKeyboardShortcuts();
             });
 
         },
-
-        initKeyboardShortcuts: function () {
+        renameUntitled: function() {
+            var episodes = this.model.get('episodes');
+            for (var i = 0; i < episodes.length; i++) {
+                if (!episodes[i].title) {
+                    episodes[i].title = 'Untitled';
+                }
+                if (!episodes[i].overview) {
+                    episodes[i].overview = 'No overview available.';
+                }
+                if (!episodes[i].first_aired) {
+                    episodes[i].first_aired = 'Unknown';
+                }
+            }
+        },
+        initKeyboardShortcuts: function() {
             Mousetrap.bind('q', _this.toggleQuality);
             Mousetrap.bind('down', _this.nextEpisode);
             Mousetrap.bind('up', _this.previousEpisode);
@@ -128,12 +144,12 @@
             Mousetrap.bind(['esc', 'backspace'], _this.closeDetails);
             Mousetrap.bind(['ctrl+up', 'command+up'], _this.previousSeason);
             Mousetrap.bind(['ctrl+down', 'command+down'], _this.nextSeason);
-            Mousetrap.bind('f', function () {
+            Mousetrap.bind('f', function() {
                 $('.favourites-toggle').click();
             });
         },
 
-        unbindKeyboardShortcuts: function () { // There should be a better way to do this
+        unbindKeyboardShortcuts: function() { // There should be a better way to do this
             Mousetrap.unbind('w');
             Mousetrap.unbind('f');
             Mousetrap.unbind('q');
@@ -145,7 +161,8 @@
             Mousetrap.unbind(['ctrl+down', 'command+down']);
         },
 
-        onShow: function () {
+        onShow: function() {
+            console.log(this.model);
             App.Device.ChooserView('#player-chooser').render();
             bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
 
@@ -160,7 +177,7 @@
             var cbackground = $('.tv-cover').attr('data-bgr');
             var coverCache = new Image();
             coverCache.src = cbackground;
-            coverCache.onload = function () {
+            coverCache.onload = function() {
                 $('.tv-cover')
                     .css('background-image', 'url(' + cbackground + ')')
                     .addClass('fadein');
@@ -170,7 +187,7 @@
             var background = $('.tv-poster-background').attr('data-bgr');
             var bgCache = new Image();
             bgCache.src = background;
-            bgCache.onload = function () {
+            bgCache.onload = function() {
                 $('.tv-poster-background')
                     .css('background-image', 'url(' + background + ')')
                     .addClass('fadein');
@@ -189,12 +206,12 @@
             this.isShowWatched();
         },
 
-        selectNextEpisode: function () {
+        selectNextEpisode: function() {
 
             var episodesSeen = [];
             Database.getEpisodesWatched(this.model.get('tvdb_id'))
-                .then(function (data) {
-                    _.each(data, function (value, state) {
+                .then(function(data) {
+                    _.each(data, function(value, state) {
                         // we'll mark episode already watched
                         _this.markWatched(value, true);
                         // store all watched episode
@@ -209,20 +226,20 @@
                         //get all episode
                         var episodes = [];
                         _.each(_this.model.get('episodes'),
-                            function (value, currentepisode) {
+                            function(value, currentepisode) {
                                 episodes.push(parseInt(value.season) * 100 +
                                     parseInt(value.episode));
                             }
                         );
-                        episodesSeen.sort(function (a, b) {
+                        episodesSeen.sort(function(a, b) {
                             return a - b;
                         });
-                        episodes.sort(function (a, b) {
+                        episodes.sort(function(a, b) {
                             return a - b;
                         });
                         var first = episodes[0];
                         var last = episodes[episodes.length - 1];
-                        var unseen = episodes.filter(function (item) {
+                        var unseen = episodes.filter(function(item) {
                             return episodesSeen.indexOf(item) === -1;
                         });
                         if (AdvSettings.get('tv_detail_jump_to') !== 'firstUnwatched') {
@@ -230,7 +247,7 @@
 
                             if (lastSeen !== episodes[episodes.length - 1]) {
                                 var idx;
-                                _.find(episodes, function (data, dataIdx) {
+                                _.find(episodes, function(data, dataIdx) {
                                     if (data === lastSeen) {
                                         idx = dataIdx;
                                         return true;
@@ -276,11 +293,11 @@
                 });
         },
 
-        openIMDb: function () {
+        openIMDb: function() {
             gui.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
         },
 
-        openMagnet: function (e) {
+        openMagnet: function(e) {
             var torrentUrl = $('.startStreaming').attr('data-torrent');
             if (e.button === 2) { //if right click on magnet link
                 var clipboard = gui.Clipboard.get();
@@ -291,7 +308,7 @@
             }
         },
 
-        switchRating: function () {
+        switchRating: function() {
             if ($('.number-container-tv').hasClass('hidden')) {
                 $('.number-container-tv').removeClass('hidden');
                 $('.star-container-tv').addClass('hidden');
@@ -303,9 +320,9 @@
             }
         },
 
-        toggleWatched: function (e) {
+        toggleWatched: function(e) {
             var edata = e.currentTarget.id.split('-');
-            setTimeout(function () {
+            setTimeout(function() {
                 var value = {
                     tvdb_id: _this.model.get('tvdb_id'),
                     imdb_id: _this.model.get('imdb_id'),
@@ -316,7 +333,7 @@
                 };
 
                 Database.checkEpisodeWatched(value)
-                    .then(function (watched) {
+                    .then(function(watched) {
                         if (watched) {
                             App.vent.trigger('show:unwatched', value, 'seen');
                         } else {
@@ -326,12 +343,12 @@
             }, 100);
         },
 
-        isShowWatched: function () {
+        isShowWatched: function() {
             var tvdb_id = _this.model.get('tvdb_id');
             var imdb_id = _this.model.get('imdb_id');
 
             var episodes = this.model.get('episodes');
-            episodes.forEach(function (episode, index, array) {
+            episodes.forEach(function(episode, index, array) {
                 var value = {
                     tvdb_id: tvdb_id,
                     imdb_id: imdb_id,
@@ -340,7 +357,7 @@
                     from_browser: true
                 };
                 Database.checkEpisodeWatched(value)
-                    .then(function (watched) {
+                    .then(function(watched) {
                         if (!watched) {
                             $('.show-watched-toggle').show();
                         }
@@ -348,14 +365,14 @@
             });
         },
 
-        markShowAsWatched: function () {
+        markShowAsWatched: function() {
             $('.show-watched-toggle').addClass('selected');
 
             var tvdb_id = _this.model.get('tvdb_id');
             var imdb_id = _this.model.get('imdb_id');
 
             var episodes = _this.model.get('episodes');
-            episodes.forEach(function (episode, index, array) {
+            episodes.forEach(function(episode, index, array) {
                 var value = {
                     tvdb_id: tvdb_id,
                     imdb_id: imdb_id,
@@ -365,7 +382,7 @@
                     from_browser: true
                 };
                 Database.checkEpisodeWatched(value)
-                    .then(function (watched) {
+                    .then(function(watched) {
                         if (!watched) {
                             App.vent.trigger('show:watched', value, 'seen');
                             $('.show-watched-toggle').hide();
@@ -374,17 +391,17 @@
             });
         },
 
-        onWatched: function (value, channel) {
+        onWatched: function(value, channel) {
             this.markWatched(value, true);
 
             this.selectNextEpisode();
         },
 
-        onUnWatched: function (value, channel) {
+        onUnWatched: function(value, channel) {
             this.markWatched(value, false);
         },
 
-        markWatched: function (value, state) {
+        markWatched: function(value, state) {
             state = (state === undefined) ? true : state;
             // we should never get any shows that aren't us, but you know, just in case.
             if (value.tvdb_id === _this.model.get('tvdb_id')) {
@@ -394,7 +411,7 @@
             }
         },
 
-        startStreaming: function (e) {
+        startStreaming: function(e) {
             if (e.type) {
                 e.preventDefault();
             }
@@ -423,7 +440,7 @@
             var auto_play = false;
 
             if (AdvSettings.get('playNextEpisodeAuto')) {
-                _.each(this.model.get('episodes'), function (value) {
+                _.each(this.model.get('episodes'), function(value) {
                     var epaInfo = {
                         id: parseInt(value.season) * 100 + parseInt(value.episode),
                         backdrop: that.model.get('images').fanart,
@@ -450,7 +467,7 @@
                     episodes_data.push(epaInfo);
                     episodes.push(parseInt(value.season) * 100 + parseInt(value.episode));
                 });
-                episodes.sort(function (a, b) {
+                episodes.sort(function(a, b) {
                     return a - b;
                 });
                 episodes_data = _.sortBy(episodes_data, 'id');
@@ -488,11 +505,11 @@
             App.vent.trigger('stream:start', torrentStart);
         },
 
-        closeDetails: function (e) {
+        closeDetails: function(e) {
             App.vent.trigger('show:closeDetail');
         },
 
-        clickSeason: function (e) {
+        clickSeason: function(e) {
             if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -500,7 +517,7 @@
             this.selectSeason($(e.currentTarget));
         },
 
-        clickEpisode: function (e) {
+        clickEpisode: function(e) {
             if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -508,7 +525,7 @@
             this.selectEpisode($(e.currentTarget));
         },
 
-        dblclickEpisode: function (e) {
+        dblclickEpisode: function(e) {
             if (e.type) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -517,7 +534,7 @@
             $('.startStreaming').trigger('click');
         },
         // Helper Function
-        selectSeason: function ($elem) {
+        selectSeason: function($elem) {
             $('.tab-season.active').removeClass('active');
             $elem.addClass('active');
             $('.tab-episodes').hide();
@@ -527,7 +544,7 @@
             this.selectEpisode($('.tab-episodes.' + $elem.attr('data-tab') + ' li:first'));
         },
 
-        selectEpisode: function ($elem) {
+        selectEpisode: function($elem) {
             if ($elem.length === 0) {
                 return;
             }
@@ -536,24 +553,65 @@
             var quality;
             torrents.q480 = $('.template-' + tvdbid + ' .q480').text();
             torrents.q720 = $('.template-' + tvdbid + ' .q720').text();
+            torrents.q1080 = $('.template-' + tvdbid + ' .q1080').text();
+            this.ui.q1080p.removeClass('active');
+            this.ui.q720p.removeClass('active');
+            this.ui.q480p.removeClass('active');
 
-            // Previous quality selection
-            if (Settings.shows_default_quality === '720p') {
-                if (torrents.q720 !== '') {
-                    quality = '720p';
-                } else {
-                    quality = '480p';
-                }
+
+            if (!torrents.q480) {
+                this.ui.q480p.addClass('disabled');
             } else {
-                if (torrents.q480 !== '') {
-                    quality = '480p';
-                } else {
-                    quality = '720p';
-                }
+                this.ui.q480p.removeClass('disabled');
+            }
+            if (!torrents.q720) {
+                this.ui.q720p.addClass('disabled');
+            } else {
+                this.ui.q720p.removeClass('disabled');
+            }
+            if (!torrents.q1080) {
+                this.ui.q1080p.addClass('disabled');
+            } else {
+                this.ui.q1080p.removeClass('disabled');
             }
 
+            switch (Settings.shows_default_quality) {
+                case '1080p':
+                    if (torrents.q1080) {
+                        quality = '1080p';
+                    } else if (torrents.q720) {
+                        quality = '720p';
+                    } else if (torrents.q480) {
+                        quality = '480p';
+                    }
+                    break;
+                case '720p':
+                    if (torrents.q720) {
+                        quality = '720p';
+                    } else if (torrents.q480) {
+                        quality = '480p';
+                    } else if (torrents.q1080) {
+                        quality = '1080p';
+                    }
+                    break;
+                case '480p':
+                    if (torrents.q480) {
+                        quality = '480p';
+                    } else if (torrents.q720) {
+                        quality = '720p';
+                    } else if (torrents.q1080) {
+                        quality = '1080p';
+                    }
+                    break;
+            }
+
+
+
             // Select quality
-            if (quality === '720p') {
+            if (quality === '1080p') {
+                torrents.def = torrents.q1080;
+                torrents.quality = '1080p';
+            } else if (quality === '720p') {
                 torrents.def = torrents.q720;
                 torrents.quality = '720p';
             } else {
@@ -561,18 +619,17 @@
                 torrents.quality = '480p';
             }
 
-            // Show/Hide the toggle in correct state
-            if (torrents.q480 !== '' && torrents.q720 !== '') {
-                if (!$('#switch-hd-off').is(':checked') && torrents.quality === '480p') {
-                    document.getElementsByName('switch')[0].checked = true;
-                }
-                this.ui.qselector.show();
-                this.ui.qinfo.hide();
-            } else {
-                this.ui.qselector.hide();
-                this.ui.qinfo.text(quality);
-                this.ui.qinfo.show();
+
+
+
+            if (torrents.q1080) {
+                this.ui.q1080p.addClass('active');
+            } else if (torrents.q720) {
+                this.ui.q1080p.addClass('active');
+            } else if (torrents.q480) {
+                this.ui.q1080p.addClass('active');
             }
+
 
             $('.tab-episode.active').removeClass('active');
             $elem.addClass('active');
@@ -597,28 +654,26 @@
 
             this.ui.startStreaming.show();
         },
+        toggleShowQuality: function(e) {
+            if ($(e.currentTarget).hasClass('disabled'))
+                return;
+            var quality = $(e.currentTarget);
+            console.log(quality.text());
 
-        enableHD: function () {
+            this.ui.q1080p.removeClass('active');
+            this.ui.q720p.removeClass('active');
+            this.ui.q480p.removeClass('active');
+            $(e.currentTarget).addClass('active');
+
             var tvdbid = $('.startStreaming').attr('data-episodeid'),
-                torrent = $('.template-' + tvdbid + ' .q720').text();
+                torrent = $('.template-' + tvdbid + ' .' + quality.attr('id')).text();
             $('.startStreaming').attr('data-torrent', torrent);
-            $('.startStreaming').attr('data-quality', '720p');
-            AdvSettings.set('shows_default_quality', '720p');
+            $('.startStreaming').attr('data-quality', quality.text());
+            AdvSettings.set('shows_default_quality', quality.text());
             _this.resetHealth();
-            win.debug('HD Enabled', torrent);
         },
 
-        disableHD: function () {
-            var tvdbid = $('.startStreaming').attr('data-episodeid'),
-                torrent = $('.template-' + tvdbid + ' .q480').text();
-            $('.startStreaming').attr('data-torrent', torrent);
-            $('.startStreaming').attr('data-quality', '480p');
-            AdvSettings.set('shows_default_quality', '480p');
-            _this.resetHealth();
-            win.debug('HD Disabled', torrent);
-        },
-
-        nextEpisode: function (e) {
+        nextEpisode: function(e) {
             var index = $('.tab-episode.active').index();
             if (index === $('.tab-episode:visible').length - 1) {
                 return;
@@ -636,7 +691,7 @@
 
         },
 
-        previousEpisode: function (e) {
+        previousEpisode: function(e) {
             var index = $('.tab-episode.active').index();
             if (index === 0) {
                 return;
@@ -654,7 +709,7 @@
 
         },
 
-        nextSeason: function (e) {
+        nextSeason: function(e) {
             var index = $('.tab-season.active').index();
             if (index === $('.tab-season').length - 1) {
                 return;
@@ -671,7 +726,7 @@
             }
         },
 
-        previousSeason: function (e) {
+        previousSeason: function(e) {
             var index = $('.tab-season.active').index();
             if (index === 0) {
                 return;
@@ -689,7 +744,7 @@
 
         },
 
-        playEpisode: function (e) {
+        playEpisode: function(e) {
             $('.startStreaming').trigger('click');
 
             if (e.type) {
@@ -698,7 +753,7 @@
             }
         },
 
-        toggleQuality: function (e) {
+        toggleQuality: function(e) {
 
             if ($('.quality').is(':visible')) {
                 if ($('#switch-hd-off').is(':checked')) {
@@ -711,20 +766,20 @@
 
         },
 
-        toggleEpisodeWatched: function (e) {
+        toggleEpisodeWatched: function(e) {
             var data = {};
             data.currentTarget = $('.tab-episode.active .watched')[0];
             _this.toggleWatched(data);
         },
 
 
-        isElementVisible: function (el) {
+        isElementVisible: function(el) {
             var eap,
                 rect = el.getBoundingClientRect(),
                 docEl = document.documentElement,
                 vWidth = window.innerWidth || docEl.clientWidth,
                 vHeight = window.innerHeight || docEl.clientHeight,
-                efp = function (x, y) {
+                efp = function(x, y) {
                     return document.elementFromPoint(x, y);
                 },
                 contains = 'contains' in el ? 'contains' : 'compareDocumentPosition',
@@ -741,7 +796,7 @@
             );
         },
 
-        getTorrentHealth: function (e) {
+        getTorrentHealth: function(e) {
             var torrent = $('.startStreaming').attr('data-torrent');
             $('.health-icon')
                 .removeClass('fa-circle')
@@ -753,7 +808,7 @@
             // Use fancy coding to cancel
             // pending torrent-health's
             var cancelled = false;
-            cancelTorrentHealth = function () {
+            cancelTorrentHealth = function() {
                 cancelled = true;
             };
 
@@ -764,7 +819,7 @@
 
                 torrentHealth(torrent, {
                     timeout: 500
-                }).then(function (res) {
+                }).then(function(res) {
 
                     if (cancelled) {
                         return;
@@ -780,8 +835,8 @@
                         var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
 
                         $('.health-icon').tooltip({
-                                html: true
-                            })
+                            html: true
+                        })
                             .removeClass('fa-spin')
                             .removeClass('fa-spinner')
                             .addClass('fa-circle')
@@ -793,18 +848,18 @@
                 });
             } else {
                 $('.health-icon').tooltip({
-                        html: true
-                    })
+                    html: true
+                })
                     .removeClass('fa-spin')
                     .removeClass('fa-spinner')
                     .addClass('fa-circle');
             }
         },
 
-        resetHealth: function () {
+        resetHealth: function() {
             $('.health-icon').tooltip({
-                    html: true
-                })
+                html: true
+            })
                 .removeClass('fa-spin')
                 .removeClass('fa-spinner')
                 .addClass('fa-circle')
@@ -814,13 +869,13 @@
             this.getTorrentHealth();
         },
 
-        selectPlayer: function (e) {
+        selectPlayer: function(e) {
             var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
             _this.model.set('device', player);
             AdvSettings.set('chosenPlayer', player);
         },
 
-        onDestroy: function () {
+        onDestroy: function() {
             this.unbindKeyboardShortcuts();
         }
 
