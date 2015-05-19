@@ -220,14 +220,6 @@ App.Localization.langcodes = {
 		subtitle: true,
 		encoding: ['iso-8859-1'] // Tested
 	},
-	'en-gb': {
-		name: 'English (United Kingdom)',
-		nativeName: 'English (United Kingdom)'
-	},
-	'en@pirate': {
-		name: 'English (Pirate)',
-		nativeName: 'English (Pirate)'
-	},
 	'eo': {
 		name: 'Esperanto',
 		nativeName: 'Esperanto'
