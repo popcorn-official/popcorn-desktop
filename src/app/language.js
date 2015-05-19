@@ -1,5 +1,5 @@
 // Detect the language and update the global Language file
-setLanguage = function (preferredLanguage) {
+var setLanguage = function (preferredLanguage) {
 
     if (!preferredLanguage) {
         // we are still on default

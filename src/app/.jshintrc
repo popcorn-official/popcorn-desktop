@@ -51,7 +51,6 @@
         "isVideo": true,
         "promisifyDb": true,
         "db": true,
-        "setLanguage": true,
 
         // Third party
         "Backbone": true,
