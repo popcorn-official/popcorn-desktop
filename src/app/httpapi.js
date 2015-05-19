@@ -687,11 +687,9 @@
         httpServer = server.listen(Settings.httpApiPort);
 
         httpServer.on('connection', function (socket) {
-            win.info('HTTP API: socket open');
             sockets.push(socket);
             socket.setTimeout(4000);
             socket.on('close', function () {
-                win.info('HTTP API: socket closed');
                 sockets.splice(sockets.indexOf(socket), 1);
             });
         });
