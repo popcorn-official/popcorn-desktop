@@ -1,5 +1,5 @@
 // Detect the language and update the global Language file
-var setLanguage = function (preferredLanguage) {
+setLanguage = function (preferredLanguage) {
 
     if (!preferredLanguage) {
         // we are still on default
@@ -219,14 +219,6 @@ App.Localization.langcodes = {
         nativeName: 'English',
         subtitle: true,
         encoding: ['iso-8859-1'] // Tested
-    },
-    'en-gb': {
-        name: 'English (United Kingdom)',
-        nativeName: 'English (United Kingdom)'
-    },
-    'en@pirate': {
-        name: 'English (Pirate)',
-        nativeName: 'English (Pirate)'
     },
     'eo': {
         name: 'Esperanto',
