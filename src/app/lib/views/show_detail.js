@@ -611,23 +611,15 @@
             if (quality === '1080p') {
                 torrents.def = torrents.q1080;
                 torrents.quality = '1080p';
+                this.ui.q1080p.addClass('active');
             } else if (quality === '720p') {
                 torrents.def = torrents.q720;
                 torrents.quality = '720p';
+                this.ui.q720p.addClass('active');
             } else {
                 torrents.def = torrents.q480;
                 torrents.quality = '480p';
-            }
-
-
-
-
-            if (torrents.q1080) {
-                this.ui.q1080p.addClass('active');
-            } else if (torrents.q720) {
-                this.ui.q1080p.addClass('active');
-            } else if (torrents.q480) {
-                this.ui.q1080p.addClass('active');
+                this.ui.q480p.addClass('active');
             }
 
 
