@@ -23,13 +23,7 @@
 
                     if (Math.abs(now.diff(d, 'hours')) >= 12) {
                         win.info('Watchlist - last update was %s hour(s) ago', Math.abs(now.diff(d, 'hours')));
-                        App.db.writeSetting({
-                                key: 'watchlist-fetched',
-                                value: now.unix()
-                            })
-                            .then(function () {
-                                fetchWatchlist(true);
-                            });
+                        fetchWatchlist(true);
 
                     } else {
                         // Last fetch is fresh (< 12h)
@@ -38,13 +32,7 @@
                     }
                 } else {
                     // No last fetch, fetch again
-                    App.db.writeSetting({
-                            key: 'watchlist-fetched',
-                            value: now.unix()
-                        })
-                        .then(function () {
-                            fetchWatchlist(true);
-                        });
+                    fetchWatchlist(true);
                 }
             });
 
@@ -65,6 +53,10 @@
                                         key: 'watchlist',
                                         value: data
                                     })
+                                    .then(App.db.writeSetting({
+                                        key: 'watchlist-fetched',
+                                        value: now.unix()
+                                    }))
                                     .then(function () {
                                         deferred.resolve(data || []);
                                     });
@@ -188,6 +180,7 @@
     };
 
     Watchlist.prototype.fetchWatchlist = function () {
+        var now = moment();
         if (this.inhibited) {
             return Q(true);
         }
@@ -200,6 +193,10 @@
                         key: 'watchlist',
                         value: data
                     })
+                    .then(App.db.writeSetting({
+                        key: 'watchlist-fetched',
+                        value: now.unix()
+                    }))
                     .then(function () {
                         deferred.resolve(data || []);
                     });
