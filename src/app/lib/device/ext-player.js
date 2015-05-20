@@ -156,9 +156,9 @@
     });
 
     var searchPaths = {
-        linux: ['/usr/bin', '/usr/local/bin'],
-        darwin: ['/Applications', process.env.HOME + '/Applications'],
-        win32: [process.env.SystemDrive + '\\Program Files\\']
+        linux: [],
+        darwin: [],
+        win32: []
     };
 
     var addPath = function (path) {
@@ -167,6 +167,13 @@
         }
     };
 
+    // linux
+    addPath('/usr/bin');
+    addPath('/usr/local/bin');
+    // darwin
+    addPath('/Applications', process.env.HOME + '/Applications');
+    // win32
+    addPath(process.env.SystemDrive + '\\Program Files\\');
     addPath(process.env.SystemDrive + '\\Program Files (x86)\\');
     addPath(process.env.LOCALAPPDATA + '\\Apps\\2.0\\');
 
