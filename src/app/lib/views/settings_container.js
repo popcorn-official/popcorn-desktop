@@ -606,6 +606,9 @@
 
             App.Trakt.sync()
                 .then(function () {
+                    App.Providers.get('Watchlist').fetchWatchlist();
+                })
+                .then(function () {
                     $('#syncTrakt')
                         .text(i18n.__('Done'))
                         .removeClass('disabled')

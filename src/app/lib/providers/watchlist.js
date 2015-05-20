@@ -4,9 +4,7 @@
     var Q = require('q');
     var Eztv = App.Providers.get('Eztv');
 
-    var Watchlist = function () {
-        this.inhibited = false;
-    };
+    var Watchlist = function () {};
     Watchlist.prototype.constructor = Watchlist;
 
     var queryTorrents = function (filters) {
@@ -173,19 +171,10 @@
         return Eztv.detail(torrent_id, old_data, callback);
     };
 
-    Watchlist.prototype.inhibit = function (flag) {
-        win.info('Watchlist - Inhibit: ', flag);
-
-        this.inhibited = flag;
-    };
-
     Watchlist.prototype.fetchWatchlist = function () {
         var now = moment();
-        if (this.inhibited) {
-            return Q(true);
-        }
-
         var deferred = Q.defer();
+
         win.info('Watchlist - Fetching new watchlist');
         App.Trakt.show.getCalendar(moment().subtract(31, 'days').format('YYYY-MM-DD'), 30)
             .then(function (data) {
