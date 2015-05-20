@@ -51,10 +51,12 @@
                                         key: 'watchlist',
                                         value: data
                                     })
-                                    .then(App.db.writeSetting({
-                                        key: 'watchlist-fetched',
-                                        value: now.unix()
-                                    }))
+                                    .then(function () {
+                                        App.db.writeSetting({
+                                            key: 'watchlist-fetched',
+                                            value: now.unix()
+                                        });
+                                    })
                                     .then(function () {
                                         deferred.resolve(data || []);
                                     });
@@ -182,10 +184,12 @@
                         key: 'watchlist',
                         value: data
                     })
-                    .then(App.db.writeSetting({
-                        key: 'watchlist-fetched',
-                        value: now.unix()
-                    }))
+                    .then(function () {
+                        App.db.writeSetting({
+                            key: 'watchlist-fetched',
+                            value: now.unix()
+                        });
+                    })
                     .then(function () {
                         deferred.resolve(data || []);
                     });
