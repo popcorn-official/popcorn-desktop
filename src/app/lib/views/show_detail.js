@@ -177,8 +177,16 @@
             var coverCache = new Image();
             coverCache.src = cbackground;
             coverCache.onload = function () {
+                try {
+                    $('.tv-cover')
+                        .css('background-image', 'url(' + cbackground + ')')
+                        .addClass('fadein');
+                } catch (e) {}
+                coverCache = null;
+            };
+            coverCache.onerror = function () {
                 $('.tv-cover')
-                    .css('background-image', 'url(' + cbackground + ')')
+                    .css('background-image', 'url("images/posterholder.png")')
                     .addClass('fadein');
                 coverCache = null;
             };
@@ -187,8 +195,16 @@
             var bgCache = new Image();
             bgCache.src = background;
             bgCache.onload = function () {
+                try {
+                    $('.tv-poster-background')
+                        .css('background-image', 'url(' + background + ')')
+                        .addClass('fadein');
+                } catch (e) {}
+                bgCache = null;
+            };
+            bgCache.onerror = function () {
                 $('.tv-poster-background')
-                    .css('background-image', 'url(' + background + ')')
+                    .css('background-image', 'url("images/bg-header.jpg")')
                     .addClass('fadein');
                 bgCache = null;
             };
