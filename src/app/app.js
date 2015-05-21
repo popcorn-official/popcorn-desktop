@@ -281,6 +281,19 @@ win.on('move', function (x, y) {
 
 });
 
+var delCache = function () {
+    var reqDB = window.indexedDB.webkitGetDatabaseNames();
+    reqDB.onsuccess = function (db) {
+        if (db.timeStamp && (new Date().valueOf() - db.timeStamp > 259200000)) { // 3 days old
+            window.indexedDB.deleteDatabase('cache');
+            win.close(true);
+        } else {
+            win.close(true);
+        }
+    };
+    win.close(true);
+};
+
 // Wipe the tmpFolder when closing the app (this frees up disk space)
 win.on('close', function () {
     if (App.settings.deleteTmpOnClose) {
@@ -289,7 +302,11 @@ win.on('close', function () {
     if (fs.existsSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'))) {
         fs.unlinkSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'));
     }
-    win.close(true);
+    try {
+        delCache();
+    } catch (e) {
+        win.close(true);
+    }
 });
 
 String.prototype.capitalize = function () {
