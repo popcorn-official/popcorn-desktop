@@ -75,44 +75,7 @@ var os = require('os');
         minimize: function () {
             var that = this.nativeWindow;
             if (AdvSettings.get('minimizeToTray')) {
-                that.hide();
-
-                var openFromTray = function () {
-                    that.show();
-                    tray.remove();
-                };
-
-                var tray = new gui.Tray({
-                    title: 'Popcorn Time',
-                    icon: 'src/app/images/icon.png'
-                });
-                tray.tooltip = 'Popcorn Time';
-
-                var menu = new gui.Menu();
-                menu.append(new gui.MenuItem({
-                    type: 'normal',
-                    label: i18n.__('Restore'),
-                    click: function () {
-                        openFromTray();
-                    }
-                }));
-                menu.append(new gui.MenuItem({
-                    type: 'normal',
-                    label: i18n.__('Close'),
-                    click: function () {
-                        that.close();
-                    }
-                }));
-
-                tray.menu = menu;
-
-                tray.on('click', function () {
-                    openFromTray();
-                });
-
-                require('nw.gui').App.on('open', function (cmd) {
-                    openFromTray();
-                });
+                minimizeToTray();
             } else {
                 that.minimize();
             }

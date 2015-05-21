@@ -49,6 +49,7 @@
         "deleteFolder": true,
         "deleteCookies": true,
         "isVideo": true,
+        "minimizeToTray": true,
         "promisifyDb": true,
         "db": true,
 

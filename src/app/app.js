@@ -394,6 +394,47 @@ window.ondragenter = function (e) {
         });
 };
 
+var minimizeToTray = function () {
+    win.hide();
+
+    var openFromTray = function () {
+        win.show();
+        tray.remove();
+    };
+
+    var tray = new gui.Tray({
+        title: 'Popcorn Time',
+        icon: 'src/app/images/icon.png'
+    });
+    tray.tooltip = 'Popcorn Time';
+
+    var menu = new gui.Menu();
+    menu.append(new gui.MenuItem({
+        type: 'normal',
+        label: i18n.__('Restore'),
+        click: function () {
+            openFromTray();
+        }
+    }));
+    menu.append(new gui.MenuItem({
+        type: 'normal',
+        label: i18n.__('Close'),
+        click: function () {
+            win.close();
+        }
+    }));
+
+    tray.menu = menu;
+
+    tray.on('click', function () {
+        openFromTray();
+    });
+
+    require('nw.gui').App.on('open', function (cmd) {
+        openFromTray();
+    });
+};
+
 var isVideo = function (file) {
     var ext = path.extname(file).toLowerCase();
     switch (ext) {
@@ -556,6 +597,12 @@ gui.App.on('open', function (cmd) {
 // -f argument to open in fullscreen
 if (gui.App.fullArgv.indexOf('-f') !== -1) {
     win.enterFullscreen();
+}
+// -m argument to open minimized to tray
+if (gui.App.fullArgv.indexOf('-m') !== -1) {
+    App.vent.on('app:started', function () {
+        minimizeToTray();
+    });
 }
 
 
