@@ -171,7 +171,8 @@
     addPath('/usr/bin');
     addPath('/usr/local/bin');
     // darwin
-    addPath('/Applications', process.env.HOME + '/Applications');
+    addPath('/Applications');
+    addPath(process.env.HOME + '/Applications');
     // win32
     addPath(process.env.SystemDrive + '\\Program Files\\');
     addPath(process.env.SystemDrive + '\\Program Files (x86)\\');
