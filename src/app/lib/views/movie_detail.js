@@ -91,11 +91,15 @@
             var bgCache = new Image();
             bgCache.src = backgroundUrl;
             bgCache.onload = function () {
-                $('.backdrop').css('background-image', 'url(' + backgroundUrl + ')').addClass('fadein');
+                try {
+                    $('.backdrop').css('background-image', 'url(' + backgroundUrl + ')').addClass('fadein');
+                } catch (e) {}
                 bgCache = null;
             };
             bgCache.onerror = function () {
-                $('.backdrop').css('background-image', 'url(images/bg-header.jpg)').addClass('fadein');
+                try {
+                    $('.backdrop').css('background-image', 'url(images/bg-header.jpg)').addClass('fadein');
+                } catch (e) {}
                 bgError = true;
                 bgCache = null;
             };
@@ -105,12 +109,16 @@
             var coverCache = new Image();
             coverCache.src = coverUrl;
             coverCache.onload = function () {
-                $('.mcover-image').attr('src', coverUrl).addClass('fadein');
+                try {
+                    $('.mcover-image').attr('src', coverUrl).addClass('fadein');
+                } catch (e) {}
                 coverCache = null;
             };
             coverCache.onerror = function () {
                 if (bgError) {
-                    $('.mcover-image').attr('src', 'images/posterholder.png').addClass('fadein');
+                    try {
+                        $('.mcover-image').attr('src', 'images/posterholder.png').addClass('fadein');
+                    } catch (e) {}
                     bgError = false;
                 }
                 coverCache = null;

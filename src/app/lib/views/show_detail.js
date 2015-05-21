@@ -185,9 +185,11 @@
                 coverCache = null;
             };
             coverCache.onerror = function () {
-                $('.tv-cover')
-                    .css('background-image', 'url("images/posterholder.png")')
-                    .addClass('fadein');
+                try {
+                    $('.tv-cover')
+                        .css('background-image', 'url("images/posterholder.png")')
+                        .addClass('fadein');
+                } catch (e) {}
                 coverCache = null;
             };
 
@@ -203,9 +205,11 @@
                 bgCache = null;
             };
             bgCache.onerror = function () {
-                $('.tv-poster-background')
-                    .css('background-image', 'url("images/bg-header.jpg")')
-                    .addClass('fadein');
+                try {
+                    $('.tv-poster-background')
+                        .css('background-image', 'url("images/bg-header.jpg")')
+                        .addClass('fadein');
+                } catch (e) {}
                 bgCache = null;
             };
 

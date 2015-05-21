@@ -175,7 +175,9 @@
                 coverCache = null;
             };
             coverCache.onerror = function () {
-                this_.ui.cover.css('background-image', 'url("images/posterholder.png")').addClass('fadein');
+                try {
+                    this_.ui.cover.css('background-image', 'url("images/posterholder.png")').addClass('fadein');
+                } catch (e) {}
                 coverCache = null;
             };
 
