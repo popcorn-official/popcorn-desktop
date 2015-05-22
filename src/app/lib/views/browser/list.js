@@ -256,6 +256,7 @@
         },
 
         onLoaded: function () {
+            App.vent.trigger('list:loaded');
             this.checkEmpty();
             var self = this;
             this.addloadmore();

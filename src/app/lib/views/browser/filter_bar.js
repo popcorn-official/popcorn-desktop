@@ -24,6 +24,7 @@
             'click .types .dropdown-menu a': 'changeType',
             'click #filterbar-settings': 'settings',
             'click #filterbar-about': 'about',
+            'click #filterbar-random': 'randomMovie',
             'click .showMovies': 'showMovies',
             'click .showShows': 'showShows',
             'click .showAnime': 'showAnime',
@@ -44,6 +45,7 @@
                 AdvSettings.set('lastTab', set);
             }
             $('.right .search').show();
+            $('#filterbar-random').hide();
             $('.filter-bar').find('.active').removeClass('active');
             switch (set) {
             case 'TV Series':
@@ -52,6 +54,7 @@
                 break;
             case 'Movies':
             case 'movies':
+                $('#filterbar-random').show();
                 $('.source.showMovies').addClass('active');
                 break;
             case 'Anime':
@@ -383,6 +386,33 @@
         vpnConnect: function (e) {
             e.preventDefault();
             App.vent.trigger('vpn:connect');
+        },
+
+        randomMovie: function (e) {
+            e.preventDefault();
+
+            var that = this;
+            $('.spinner').show();
+
+            App.Providers.get('Yts').random()
+                .then(function (data) {
+                    that.model.set({
+                        isRandom: true,
+                        keywords: data.imdb_code,
+                        genre: ''
+                    });
+                    App.vent.trigger('movie:closeDetail');
+                    App.vent.on('list:loaded', function () {
+                        if (that.model.get('isRandom')) {
+                            $('.main-browser .items .cover')[0].click();
+                            that.model.set('isRandom', false);
+                        }
+                    });
+                })
+                .catch(function () {
+                    $('.spinner').hide();
+                    $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
+                });
         }
     });
 

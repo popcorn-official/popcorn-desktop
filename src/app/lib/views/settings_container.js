@@ -209,6 +209,7 @@
             case 'bigPicture':
             case 'activateTorrentCollection':
             case 'activateWatchlist':
+            case 'activateRandomize':
                 value = field.is(':checked');
                 break;
             case 'httpApiUsername':
@@ -312,6 +313,7 @@
                     App.vent.trigger('torrentCollection:close');
                 }
                 break;
+            case 'activateRandomize':
             case 'activateWatchlist':
                 App.vent.trigger('movies:list');
                 App.vent.trigger('settings:show');

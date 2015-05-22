@@ -58,51 +58,6 @@
 			border-top-left-radius: 0
 			border-top-right-radius: 0
 
-	.posters-width
-		margin 13px 5px 0 5px
-
-		.fa
-			color $FilterBarIcon-PosterWidth
-			cursor default
-			margin-top 0
-			vertical-align middle
-		i
-			margin 0
-
-		.posters-width--small
-			font-size 14px
-
-		.posters-width--large
-			font-size 16px
-
-		input
-			-webkit-appearance: none;
-			display inline-block
-			vertical-align middle
-			margin 0 5px
-			margin-top 1px
-			width 60px
-			border-radius: 5px;
-			background-color: $FilterBarIcon-PosterWidth
-			height: 4px;
-			cursor: pointer
-
-		input:focus,
-		input:active
-				outline none
-
-		input::-webkit-slider-thumb
-			transition: background-color 0.5s;
-			-webkit-appearance: none
-			border-radius: 20px
-			background-color: $FilterBarIcon
-			height: 14px
-			width: 14px
-
-		input:hover::-webkit-slider-thumb
-			background-color: $FilterBarIconHover
-			cursor: pointer
-
 	i
 		transition: color 0.5s;
 		margin: 10px 5px 0;
@@ -127,8 +82,10 @@
 
 			&.about
 				color: $FilterBarIconHover
+
 	.clear
 		display: none;
+
 	.search
 		form
 			&:before

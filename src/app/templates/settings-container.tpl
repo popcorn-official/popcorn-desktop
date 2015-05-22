@@ -328,6 +328,10 @@
 				<input class="settings-checkbox" name="activateVpn" id="activateVpn" type="checkbox" <%=(Settings.activateVpn? "checked='checked'":"")%>>
 				<label class="settings-label" for="activateVpn"><%= i18n.__("VPN") %></label>
 			</span>
+			<span>
+				<input class="settings-checkbox" name="activateRandomize" id="activateRandomize" type="checkbox" <%=(Settings.activateRandomize? "checked='checked'":"")%>>
+				<label class="settings-label" for="activateRandomize"><%= i18n.__("Randomize Button for Movies") %></label>
+			</span>
 		</div>
 	</section>
 

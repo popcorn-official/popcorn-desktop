@@ -76,6 +76,7 @@ Settings.bigPicture = false;
 Settings.activateTorrentCollection = true;
 Settings.activateWatchlist = true;
 Settings.activateVpn = true;
+Settings.activateRandomize = true;
 
 Settings.vpn = false;
 Settings.vpnUsername = '';
