@@ -321,7 +321,7 @@ vjs.TextTrack.prototype.load = function () {
             try {
                 this_.parseCues(data);
             } catch (e) {
-                win.error(e);
+                win.error('Error reading subtitles timing, file seems corrupted', e);
                 subsParams();
             }
         };
