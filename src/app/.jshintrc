@@ -58,6 +58,7 @@
         "Mousetrap": true,
         "_": true,
         "request": true,
-        "videojs": true
+        "videojs": true,
+        "vjs": true
     }
 }

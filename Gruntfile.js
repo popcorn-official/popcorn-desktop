@@ -159,11 +159,11 @@ module.exports = function (grunt) {
             },
 
             default: {
-                src: ["src/app/lib/**/*.js", "src/app/*.js", "*.js", "*.json"],
+                src: ["src/app/lib/*.js", "src/app/lib/**/*.js", "src/app/*.js", "src/app/vendor/videojshooks.js", "src/app/vendor/videojsplugins.js", "*.js", "*.json"],
             },
 
             verify: {
-                src: ["src/app/lib/**/*.js", "src/app/*.js", "*.js", "*.json"],
+                src: ["src/app/lib/*.js", "src/app/lib/**/*.js", "src/app/*.js", "src/app/vendor/videojshooks.js", "src/app/vendor/videojsplugins.js", "*.js", "*.json"],
                 options: {
                     mode: 'VERIFY_ONLY'
                 }
@@ -265,7 +265,7 @@ module.exports = function (grunt) {
                 options: {
                     jshintrc: 'src/app/.jshintrc'
                 },
-                src: ['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js']
+                src: ['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', 'src/app/*.js']
             }
         },
 
