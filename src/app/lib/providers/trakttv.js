@@ -352,12 +352,16 @@
                     if (data) {
                         var movie;
                         for (var m in data) {
-                            movie = data[m].movie;
-                            watched.push({
-                                movie_id: movie.ids.imdb.toString(),
-                                date: new Date(),
-                                type: 'movie'
-                            });
+                            try { //some movies don't have imdbid
+                                movie = data[m].movie;
+                                watched.push({
+                                    movie_id: movie.ids.imdb.toString(),
+                                    date: new Date(),
+                                    type: 'movie'
+                                });
+                            } catch (e) {
+                                win.warn('Cannot sync a movie (' + data[m].movie.title + '), the problem is: ' + e.message + '. Continuing sync without this movie...');
+                            }
                         }
                     }
 
