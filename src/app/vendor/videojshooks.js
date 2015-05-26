@@ -270,9 +270,10 @@ vjs.TextTrack.prototype.load = function(){
 			var targetEncodingCharset = 'utf8';
 
             var parse = function (strings) {
-                strings = strings.replace(/\{.*\}/g, ''); // {/pos(x,y)}
-                strings = strings.replace(/(- |==|sync).*[\s\S].*[\s\S].*[\s\S].*[\s\S].*\.(com|org|net|edu)/ig, ''); // various teams
-                strings = strings.replace(/.*[\s\S].*[\s\S].*opensubtitles.*/ig, ''); // opensubs "contact us" ads
+                strings = strings
+                    .replace(/\{.*\}/g, '') // {/pos(x,y)}
+                    .replace(/(- |==|sync).*[\s\S].*[\s\S].*[\s\S].*[\s\S].*\.(com|org|net|edu)/ig, '') // various teams
+                    .replace(/[^0-9][\s\S][^0-9\W].*[\s\S].*[\s\S].*opensubtitles.*/ig, ''); // opensubs "contact us" ads
 
                 callback(strings);
             }
@@ -282,11 +283,7 @@ vjs.TextTrack.prototype.load = function(){
 			win.debug('SUB charset detected: '+detectedEncoding);
 			// Do we need decoding?
 			if (detectedEncoding.toLowerCase().replace('-','') == targetEncodingCharset) {
-				try {
-                    parse(dataBuff.toString('utf-8'));
-                } catch (e) {
-                    callback(dataBuff.toString('utf-8'));
-                }
+                parse(dataBuff.toString('utf-8'));
 			// We do
 			} else {
 				if (!language && Settings.subtitle_language !== 'none') {
@@ -308,11 +305,7 @@ vjs.TextTrack.prototype.load = function(){
 					detectedEncoding = 'UTF-8';
 				}
 				win.debug("SUB charset used: "+detectedEncoding);
-				try {
-                    parse(dataBuff.toString('utf-8'));
-                } catch (e) {
-                    callback(dataBuff.toString('utf-8'));
-                }
+                parse(dataBuff.toString('utf-8'));
 			}
 		}
 
