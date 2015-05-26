@@ -83,13 +83,13 @@ vjs.Player.prototype.onFullscreenChange = function () {
 vjs.TextTrack.prototype.load = function () {
     // Only load if not loaded yet.
     if (this.readyState_ === 0) {
+        var this_ = this;
         this.readyState_ = 1;
 
-        this.on('loaded', function () {
-            win.info('Subtitles loaded!');
+        var subsParams = function () {
             $('#video_player .vjs-text-track').css('display', 'inline-block').drags();
             $('#video_player .vjs-text-track-display').css('font-size', Settings.subtitle_size);
-            if (this.player_.isFullscreen()) {
+            if (win.isFullscreen) {
                 $('.vjs-text-track').css('font-size', '140%');
             }
             $('.vjs-subtitles').css('color', Settings.subtitle_color);
@@ -100,7 +100,7 @@ vjs.TextTrack.prototype.load = function () {
                 $('.vjs-text-track').css('background', '#000');
             }
             $('.vjs-text-track').css('z-index', 'auto').css('position', 'relative').css('top', AdvSettings.get('playerSubPosition'));
-        });
+        };
 
         // Fetches a raw subtitle, locally or remotely
         var get_subtitle = function (subtitle_url, callback) {
@@ -317,24 +317,35 @@ vjs.TextTrack.prototype.load = function () {
             }
         };
 
+        var vjsBind = function (data) {
+            try {
+                this_.parseCues(data);
+            } catch (e) {
+                win.error(e);
+                subsParams();
+            }
+        };
+
+        this.on('loaded', function () {
+            win.info('Subtitles loaded!');
+            subsParams();
+        });
+
         // Get it, Unzip it, Decode it, Send it
-        var this_ = this;
         get_subtitle(this.src_, function (dataBuf) {
             var path = require('path');
             if (path.extname(this_.src_) === '.zip') {
                 decompress(dataBuf, function (dataBuf) {
-                    decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
+                    decode(dataBuf, this_.language(), vjsBind);
                 });
             } else if (path.extname(this_.src_) === '.ass' || path.extname(this_.src_) === '.ssa' || path.extname(this_.src_) === '.txt') {
                 convert2srt(this_.src_, path.extname(this_.src_), function (dataBuf) {
-                    decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
+                    decode(dataBuf, this_.language(), vjsBind);
                 });
             } else {
-                decode(dataBuf, this_.language(), vjs.bind(this_, this_.parseCues));
+                decode(dataBuf, this_.language(), vjsBind);
             }
         });
-
-        // TODO: Error Handling when an invalid .srt file is loaded.
 
     }
 
