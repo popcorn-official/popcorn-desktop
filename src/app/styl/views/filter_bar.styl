@@ -4,9 +4,7 @@
     opacity: .97
     height: 35px
     background-color: $FilterBarBg
-    -webkit-user-select: none;
-
-.filter-bar
+    -webkit-user-select: none
     position: absolute
     top: $TitleHeight
     height: $FilterBarHeight
@@ -59,10 +57,10 @@
             border-top-right-radius: 0
 
     i
-        transition: color 0.5s;
-        margin: 10px 5px 0;
-        color: $FilterBarIcon;
-        font-size: 1.5em;
+        transition: color 0.5s
+        margin: 10px 5px 0
+        color: $FilterBarIcon
+        font-size: 1.5em
         &:hover
             color: $FilterBarIconHover
             cursor: pointer
@@ -84,7 +82,7 @@
                 color: $FilterBarIconHover
 
     .clear
-        display: none;
+        display: none
 
     .search
         form
@@ -94,25 +92,25 @@
                 font-style: normal
                 transition color 0.5s
                 color: $FilterBarIcon
-                position: absolute;
-                top:11px;
-                left: 7px;
-                z-index: 2;
-                font-size: 1.4em;
+                position: absolute
+                top:11px
+                left: 7px
+                z-index: 2
+                font-size: 1.4em
 
             &.edited .clear
-                display: block;
-                font-weight: bold;
+                display: block
+                font-weight: bold
                 transition color 0.5s
                 color: $FilterBarIcon
-                position: absolute;
-                top:8px;
-                right: 5px;
-                padding: 3px 5px;
-                font-size: 1.2em;
+                position: absolute
+                top:8px
+                right: 5px
+                padding: 3px 5px
+                font-size: 1.2em
 
             &.edited input, input:focus
-                width: 130px;
+                width: 130px
                 background-color: $SearchBoxBg
                 color: $FilterBarText
 
@@ -141,7 +139,7 @@
                 transition width 0.5s
 
                 &:focus
-                    cursor: auto;
+                    cursor: auto
                     &:before
                         color: $FilterBarIconHover //this doesn't work for some reason
 
