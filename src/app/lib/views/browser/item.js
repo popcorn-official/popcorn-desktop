@@ -288,6 +288,7 @@
             e.stopPropagation();
             e.preventDefault();
             var that = this;
+            var provider = App.Providers.get(this.model.get('provider'));
 
             switch (this.model.get('type')) {
             case 'bookmarkedshow':
@@ -331,31 +332,40 @@
                         });
                 } else {
                     this.ui.bookmarkIcon.addClass('selected');
-                    var movie = {
-                        imdb_id: this.model.get('imdb_id'),
-                        image: this.model.get('image'),
-                        torrents: this.model.get('torrents'),
-                        title: this.model.get('title'),
-                        genre: this.model.get('genre'),
-                        synopsis: this.model.get('synopsis'),
-                        runtime: this.model.get('runtime'),
-                        year: this.model.get('year'),
-                        health: this.model.get('health'),
-                        subtitle: this.model.get('subtitle'),
-                        backdrop: this.model.get('backdrop'),
-                        rating: this.model.get('rating'),
-                        trailer: this.model.get('trailer'),
-                        provider: this.model.get('provider'),
-                    };
-
-                    Database.addMovie(movie)
-                        .then(function () {
-                            return Database.addBookmark(that.model.get('imdb_id'), 'movie');
+                    provider.detail(this.model.get('imdb_id'), this.model.attributes)
+                        .catch(function () {
+                            that.ui.bookmarkIcon.removeClass('selected');
+                            $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                         })
-                        .then(function () {
-                            win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
-                            that.model.set('bookmarked', true);
+                        .then(function (info) {
+                            var movie = {
+                                imdb_id: info.imdb_id,
+                                image: info.image,
+                                trakt_image: info.trakt_image,
+                                torrents: info.torrents,
+                                title: info.title,
+                                genre: info.genre,
+                                synopsis: info.synopsis,
+                                runtime: info.runtime,
+                                year: info.year,
+                                health: false,
+                                subtitle: info.subtitle,
+                                backdrop: info.backdrop,
+                                rating: info.rating,
+                                trailer: info.trailer,
+                                provider: provider.name
+                            };
+
+                            Database.addMovie(movie)
+                                .then(function () {
+                                    return Database.addBookmark(that.model.get('imdb_id'), 'movie');
+                                })
+                                .then(function () {
+                                    win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+                                    that.model.set('bookmarked', true);
+                                });
                         });
+
                 }
                 break;
             case 'show':
@@ -372,10 +382,8 @@
                             Database.deleteTVShow(that.model.get('imdb_id'));
                         });
                 } else {
-                    this.model.set('bookmarked', true);
                     this.ui.bookmarkIcon.addClass('selected');
-                    var provider = App.Providers.get(this.model.get('provider'));
-                    var data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
+                    provider.detail(this.model.get('imdb_id'), this.model.attributes)
                         .then(function (data) {
                                 data.provider = that.model.get('provider');
                                 Database.addTVShow(data)
@@ -389,6 +397,7 @@
                                     });
                             },
                             function (err) {
+                                that.ui.bookmarkIcon.removeClass('selected');
                                 $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                             });
                 }
