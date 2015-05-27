@@ -193,6 +193,7 @@
                 var SelectedMovie = new Backbone.Model({
                     imdb_id: this.model.get('imdb_id'),
                     image: this.model.get('image'),
+                    trakt_image: this.model.get('trakt_image'),
                     torrents: this.model.get('torrents'),
                     title: this.model.get('title'),
                     genre: this.model.get('genre'),

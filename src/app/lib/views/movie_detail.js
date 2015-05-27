@@ -32,7 +32,7 @@
         initialize: function () {
             var _this = this;
             this.model.set('backdrop', resizeImage(this.model.get('backdrop')));
-            this.model.set('image', resizeImage(this.model.get('image')));
+            this.model.set('trakt_image', resizeImage(this.model.get('trakt_image')));
 
             //Handle keyboard shortcuts when other views are appended or removed
 
@@ -218,7 +218,7 @@
                 quality: this.model.get('quality'),
                 type: 'movie',
                 device: App.Device.Collection.selected,
-                cover: this.model.get('image')
+                cover: this.model.get('trakt_image')
             });
             App.vent.trigger('stream:start', torrentStart);
         },
@@ -333,6 +333,7 @@
                 var movie = {
                     imdb_id: this.model.get('imdb_id'),
                     image: this.model.get('image'),
+                    trakt_image: this.model.get('trakt_image'),
                     torrents: this.model.get('torrents'),
                     title: this.model.get('title'),
                     synopsis: this.model.get('synopsis'),
