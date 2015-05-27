@@ -335,6 +335,7 @@ Mousetrap.bind('mod+,', function (e) {
     App.vent.trigger('settings:show');
 });
 Mousetrap.bind('f11', function (e) {
+    Settings.deleteTmpOnClose = false;
     var spawn = require('child_process').spawn,
         argv = gui.App.fullArgv,
         CWD = process.cwd();
