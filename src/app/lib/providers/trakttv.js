@@ -7,12 +7,6 @@
         _ = require('underscore'),
         inherits = require('util').inherits;
 
-    // Trakt v1 for metadata
-    var API_ENDPOINT_v1 = URI('https://api.trakt.tv/'),
-        API_KEY_v1 = '515a27ba95fbd83f20690e5c22bceaff0dfbde7c',
-        API_PLUGIN_VERSION = Settings.traktTvVersion,
-        PT_VERSION = Settings.version;
-
     // Trakt v2
     var API_ENDPOINT = URI('https://api-v2launch.trakt.tv'),
         CLIENT_ID = 'c7e20abc718e46fc75399dd6688afca9ac83cd4519c9cb1fba862b37b8640e89',
@@ -90,46 +84,6 @@
                 func(nonCachedIds).then(self.store.bind(self, key))
             ]);
         });
-    };
-
-    /*
-     * Trakt v1
-     * METHODS
-     */
-
-    TraktTv.prototype.callv1 = function (endpoint, getVariables) {
-        var defer = Q.defer();
-
-        getVariables = getVariables || {};
-
-        if (Array.isArray(endpoint)) {
-            endpoint = endpoint.map(function (val) {
-                if (val === '{KEY}') {
-                    return API_KEY_v1;
-                }
-                return val.toString();
-            });
-        } else {
-            endpoint = endpoint.replace('{KEY}', API_KEY_v1);
-        }
-
-        var requestUri = API_ENDPOINT_v1.clone()
-            .segment(endpoint)
-            .addQuery(getVariables);
-
-        request(requestUri.toString(), {
-            json: true
-        }, function (err, res, body) {
-            if (err) {
-                defer.reject(err);
-            } else if (res.statusCode >= 400 || !body) {
-                defer.resolve({});
-            } else {
-                defer.resolve(body);
-            }
-        });
-
-        return defer.promise;
     };
 
     /*
@@ -296,7 +250,9 @@
 
     TraktTv.prototype.movie = {
         summary: function (id) {
-            return this.call('movies/' + id);
+            return this.call('movies/' + id, {
+                extended: 'full,images'
+            });
         },
         aliases: function (id) {
             return this.call('movies/' + id + '/aliases');
@@ -306,19 +262,6 @@
         },
         comments: function (id) {
             return this.call('movies/' + id + '/comments');
-        },
-        listSummary /* still v1 */ : function (ids) {
-            if (_.isEmpty(ids)) {
-                return Q([]);
-            }
-
-            var self = this;
-            return this.cache('imdb_id', ids, function (ids) {
-                if (_.isEmpty(ids)) {
-                    return Q([]);
-                }
-                return self.callv1(['movie/summaries.json', '{KEY}', ids.join(','), 'full']);
-            });
         },
         seen: function (id) {
             return this.post('sync/history', {
@@ -386,19 +329,6 @@
         },
         comments: function (id) {
             return this.call('shows/' + id + '/comments');
-        },
-        listSummary /* still v1 */ : function (ids) {
-            if (_.isEmpty(ids)) {
-                return Q([]);
-            }
-
-            var self = this;
-            return this.cache(ids, function (ids) {
-                if (_.isEmpty(ids)) {
-                    return Q([]);
-                }
-                return self.callv1(['show/summaries.json', '{KEY}', ids.join(','), 'full']);
-            });
         },
         episodeSummary: function (id, season, episode) {
             var self = this;

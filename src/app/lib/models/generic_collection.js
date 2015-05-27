@@ -30,7 +30,6 @@
             self.trigger('loading', self);
 
             var subtitle = this.providers.subtitle;
-            var metadata = this.providers.metadata;
             var torrents = this.providers.torrents;
 
             /* XXX(xaiki): provider hack
@@ -51,21 +50,15 @@
                 if (subtitle) {
                     promises.push(idsPromise.then(_.bind(subtitle.fetch, subtitle)));
                 }
-                if (metadata) {
-                    promises.push(idsPromise.then(_.bind(metadata.movie.listSummary, metadata)));
-                }
 
                 Q.all(promises)
-                    .spread(function (torrents, subtitles, metadatas) {
+                    .spread(function (torrents, subtitles) {
                         // If a new request was started...
                         _.each(torrents.results, function (movie) {
                             var id = movie[self.popid];
                             /* XXX(xaiki): check if we already have this
                              * torrent if we do merge our torrents with the
-                             * ones we already have and update, we don't
-                             * need to go through metadata, and we just lost
-                             * a trakt call for nothing. this should really
-                             * be handled in the YTS provider/API.
+                             * ones we already have and update.
                              */
                             var model = self.get(id);
                             if (model) {
@@ -79,30 +72,6 @@
 
                             if (subtitles) {
                                 movie.subtitle = subtitles[id];
-                            }
-
-                            if (metadatas) {
-                                var whash = {};
-                                whash[self.popid] = id;
-
-                                var info = _.findWhere(metadatas, whash);
-
-                                if (info) {
-                                    _.extend(movie, {
-                                        synopsis: info.overview,
-                                        genres: info.genres,
-                                        certification: info.certification,
-                                        runtime: info.runtime,
-                                        tagline: info.tagline,
-                                        title: info.title,
-                                        trailer: info.trailer,
-                                        year: info.year,
-                                        image: info.images.poster,
-                                        backdrop: info.images.fanart
-                                    });
-                                } else {
-                                    win.warn('Unable to find %s on Trakt.tv', id);
-                                }
                             }
                         });
 
