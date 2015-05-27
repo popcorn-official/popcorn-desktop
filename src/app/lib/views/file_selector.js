@@ -45,8 +45,7 @@
         },
 
         bitsnoopRequest: function (hash) {
-            var endpoint = 'http://bitsnoop.com/api/fakeskan.php?hash=',
-                torrentStatus = false;
+            var endpoint = 'http://bitsnoop.com/api/fakeskan.php?hash=';
 
             request({
                 method: 'GET',
@@ -55,24 +54,10 @@
                     'User-Agent': 'request'
                 }
             }, function (error, response, body) {
-                if (error || response.statusCode > 400) {
-                    torrentStatus = '%s could not verify this torrent';
-                } else {
-                    switch (body) {
-                    case 'ERROR':
-                    case 'NOTFOUND':
-                        torrentStatus = '%s could not verify this torrent';
-                        break;
-                    case 'BAD':
-                    case 'FAKE':
-                        torrentStatus = '%s reported this torrent as fake';
-                        break;
-                    default:
+                if (!error && response.statusCode <= 400) {
+                    if (body === 'FAKE') {
+                        $('.fakeskan').text(i18n.__('%s reported this torrent as fake', 'FakeSkan')).show();
                     }
-                }
-
-                if (torrentStatus) {
-                    $('.fakeskan').text(i18n.__(torrentStatus, 'FakeSkan')).show();
                 }
             });
         },
