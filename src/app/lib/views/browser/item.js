@@ -193,7 +193,6 @@
                 var SelectedMovie = new Backbone.Model({
                     imdb_id: this.model.get('imdb_id'),
                     image: this.model.get('image'),
-                    trakt_image: this.model.get('trakt_image'),
                     torrents: this.model.get('torrents'),
                     title: this.model.get('title'),
                     genre: this.model.get('genre'),
@@ -222,7 +221,7 @@
                 this.model.set('health', false);
                 $('.spinner').show();
                 var provider = App.Providers.get(this.model.get('provider'));
-                var data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
+                var data = provider.detail(this.model.get('yts_id'), this.model.attributes)
                     .catch(function () {
                         $('.spinner').hide();
                         $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
@@ -332,7 +331,7 @@
                         });
                 } else {
                     this.ui.bookmarkIcon.addClass('selected');
-                    provider.detail(this.model.get('imdb_id'), this.model.attributes)
+                    provider.detail(this.model.get('yts_id'), this.model.attributes)
                         .catch(function () {
                             that.ui.bookmarkIcon.removeClass('selected');
                             $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
@@ -341,7 +340,6 @@
                             var movie = {
                                 imdb_id: info.imdb_id,
                                 image: info.image,
-                                trakt_image: info.trakt_image,
                                 torrents: info.torrents,
                                 title: info.title,
                                 genre: info.genre,
