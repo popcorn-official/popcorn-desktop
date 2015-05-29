@@ -482,6 +482,14 @@
         return defer.promise;
     };
 
+    TraktTv.prototype.search = function (query, type, year) {
+        return this.call('search', {
+            query: query,
+            type: type,
+            year: year
+        });
+    };
+
 
     /*
      *  General
