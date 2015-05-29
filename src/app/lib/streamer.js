@@ -167,7 +167,9 @@
 
         // piecesGot before ready means the cache we already have
         engine.on('ready', function () {
-            engine.swarm.cachedDownload = engine.swarm.piecesGot * (engine.torrent.pieceLength || 0);
+            if (engine) {
+                engine.swarm.cachedDownload = engine.swarm.piecesGot * (engine.torrent.pieceLength || 0);
+            }
         });
 
         engine.on('uninterested', function () {
@@ -498,6 +500,10 @@
         stop: function () {
             this.stop_ = true;
             if (engine) {
+                // update ratio
+                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + engine.swarm.downloaded);
+                AdvSettings.set('totalUploaded', Settings.totalUploaded + engine.swarm.uploaded);
+
                 if (engine.server._handle) {
                     engine.server.close();
                 }

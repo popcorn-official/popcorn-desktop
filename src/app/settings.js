@@ -78,6 +78,11 @@ Settings.activateWatchlist = true;
 Settings.activateVpn = true;
 Settings.activateRandomize = true;
 
+// Ratio
+Settings.totalDownloaded = 0;
+Settings.totalUploaded = 0;
+
+// VPN
 Settings.vpn = false;
 Settings.vpnUsername = '';
 Settings.vpnPassword = '';

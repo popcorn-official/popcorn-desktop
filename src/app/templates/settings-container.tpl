@@ -19,7 +19,7 @@
         <div class="content">
             <span>
                 <div class="dropdown subtitles-language">
-                    <p><%= i18n.__("Default Language") %>:</p>
+                    <p><%= i18n.__("Default Language") %></p>
                     <%
                         var langs = "";
                         for(var key in App.Localization.allTranslations) {
@@ -37,7 +37,7 @@
 
             <span>
                 <div class="dropdown pct-theme">
-                    <p><%= i18n.__("Theme") %>:</p>
+                    <p><%= i18n.__("Theme") %></p>
                     <%
                         var themes = "";
                         var theme_files = fs.readdirSync('./src/app/themes/');
@@ -55,7 +55,7 @@
 
             <span class="advanced">
                 <div class="dropdown start-screen">
-                    <p><%= i18n.__("Start Screen") %>:</p>
+                    <p><%= i18n.__("Start Screen") %></p>
                         <%
                             var arr_screens = ["Movies","TV Series","Favorites","Anime", "Watchlist", "Last Open"];
 
@@ -81,7 +81,7 @@
 
             <span class="advanced">
                 <div class="dropdown watchedCovers">
-                    <p><%= i18n.__("Watched Items") %>:</p>
+                    <p><%= i18n.__("Watched Items") %></p>
                         <%
                             var watch_type = {
                                 "none": "Show",
@@ -107,7 +107,7 @@
         <div class="content">
             <span>
                 <div class="dropdown subtitles-language-default">
-                    <p><%= i18n.__("Default Subtitle") %>:</p>
+                    <p><%= i18n.__("Default Subtitle") %></p>
                     <%
                         var sub_langs = "<option "+(Settings.subtitle_language == "none"? "selected='selected'":"")+" value='none'>" +
                                             i18n.__("Disabled") + "</option>";
@@ -126,7 +126,7 @@
 
             <span class="advanced">
                 <div class="dropdown subtitles-font">
-                    <p><%= i18n.__("Font") %>:</p>
+                    <p><%= i18n.__("Font") %></p>
                     <%
                         var arr_fonts = [
                             {name:"AljazeeraMedExtOf", id:"aljazeera"},
@@ -194,7 +194,7 @@
 
             <span class="advanced">
                 <div class="dropdown subtitles-decoration">
-                    <p><%= i18n.__("Decoration") %>:</p>
+                    <p><%= i18n.__("Decoration") %></p>
                     <%
                         var arr_deco = ["None", "Outline", "Opaque Background"];
 
@@ -210,7 +210,7 @@
 
             <span>
                 <div class="dropdown subtitles-size">
-                    <p><%= i18n.__("Size") %>:</p>
+                    <p><%= i18n.__("Size") %></p>
                     <%
                         var arr_sizes = ["20px","22px","24px","26px","28px","30px","32px","34px","36px","38px","48px","50px","52px","54px","56px","58px","60px"];
 
@@ -226,7 +226,7 @@
 
             <span class="advanced">
                 <div class="subtitles-custom">
-                    <p><%= i18n.__("Color") + ":" %></p>
+                    <p><%= i18n.__("Color") %></p>
                     <input class="colorsub" id="subtitles_color" type="color" size="7" name="subtitle_color" value="<%=Settings.subtitle_color%>" list="subs_colors">
                         <datalist id="subs_colors">
                             <option>#ffffff</option>
@@ -247,7 +247,7 @@
         <div class="content">
             <span>
                 <div class="dropdown movies-quality">
-                    <p><%= i18n.__("Only list movies in") %>:</p>
+                    <p><%= i18n.__("Only list movies in") %></p>
                     <select name="movies_quality">
                         <option <%=(Settings.movies_quality == "all"? "selected='selected'":"") %> value="all"><%= i18n.__("All") %></option>
                         <option <%=(Settings.movies_quality == "1080p"? "selected='selected'":"") %> value="1080p">1080p</option>
@@ -341,19 +341,19 @@
         <div class="title"><%= i18n.__("Remote Control") %></div>
         <div class="content">
             <span>
-                <p><%= i18n.__("Local IP Address") + ":" %></p>
+                <p><%= i18n.__("Local IP Address") %></p>
                 <input type="text" id="settingsIpAddr" value="<%= Settings.ipAddress %>" readonly="readonly" size="20" />
             </span>
             <span>
-                <p><%= i18n.__("HTTP API Port") + ":" %></p>
+                <p><%= i18n.__("HTTP API Port") %></p>
                 <input id="httpApiPort" type="number" size="5" name="httpApiPort" value="<%=Settings.httpApiPort%>">
             </span>
             <span>
-                <p><%= i18n.__("HTTP API Username") + ":" %></p>
+                <p><%= i18n.__("HTTP API Username") %></p>
                 <input id="httpApiUsername" type="text" size="50" name="httpApiUsername" value="<%=Settings.httpApiUsername%>">
             </span>
             <span>
-                <p><%= i18n.__("HTTP API Password") + ":" %></p>
+                <p><%= i18n.__("HTTP API Password") %></p>
                 <input id="httpApiPassword" type="text" size="50" name="httpApiPassword" value="<%=Settings.httpApiPassword%>">
             </span>
             <div class="btns advanced database">
@@ -377,20 +377,30 @@
         <div class="title"><%= i18n.__("Connection") %></div>
         <div class="content">
             <span>
-                <p><%= i18n.__("TV Show API Endpoint") + ":" %></p>
+                <p><%= i18n.__("TV Show API Endpoint") %></p>
                 <input id="tvshowAPI" type="text" size="50" name="tvshowAPI" value="<%=Settings.tvshowAPI.url%>">
             </span>
             <span>
-                <p><%= i18n.__("Connection Limit") + ":" %></p>
+                <p><%= i18n.__("Connection Limit") %></p>
                 <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
             </span>
             <span>
-                <p><%= i18n.__("DHT Limit") + ":" %></p>
+                <p><%= i18n.__("DHT Limit") %></p>
                 <input type="text" id="dhtLimit" size="20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
             </span>
             <span>
-                <p><%= i18n.__("Port to stream on") + ":" %></p>
+                <p><%= i18n.__("Port to stream on") %></p>
                 <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
+            </span>
+            <span id="overallRatio">
+                <p><%= i18n.__("Overall Ratio") %></p>
+                <% var overallRatio = function () {
+                    var ratio = (Settings.totalUploaded / Settings.totalDownloaded).toFixed(2);
+                    isNaN(ratio) ? ratio = i18n.__("None") : ratio;
+                    return ratio;
+                   }
+                %>
+                <input type="text" size="20" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;<em><%= require('pretty-bytes')(Settings.totalDownloaded) %><i class="fa fa-arrow-circle-down"></i><%= require('pretty-bytes')(Settings.totalUploaded) %><i class="fa fa-arrow-circle-up"></i></em>
             </span>
         </div>
     </section>
@@ -399,7 +409,7 @@
         <div class="title"><%= i18n.__("Cache Directory") %></div>
         <div class="content">
             <span>
-                <p><%= i18n.__("Cache Directory") %>: </p>
+                <p><%= i18n.__("Cache Directory") %></p>
                 <input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="65" />
                 <i class="open-tmp-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Cache Directory") %>"></i>
                 <input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
@@ -415,7 +425,7 @@
         <div class="title"><%= i18n.__("Database") %></div>
         <div class="content">
             <span>
-                <p><%= i18n.__("Database Directory") %>: </p>
+                <p><%= i18n.__("Database Directory") %></p>
                 <input type="text" placeholder="<%= i18n.__("Database Directory") %>" id="fakedatabaseLocation" value="<%= Settings.databaseLocation %>" readonly="readonly" size="65" />
                 <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
                 <input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
@@ -437,7 +447,7 @@
         <div class="content">
             <span >
                 <div class="dropdown tv_detail_jump_to">
-                    <p><%= i18n.__("When Opening TV Series Detail Jump To") %>:</p>
+                    <p><%= i18n.__("When Opening TV Series Detail Jump To") %></p>
                         <%
                             var tv_detail_jump_to = {
                                 "firstUnwatched": "First Unwatched Episode",
