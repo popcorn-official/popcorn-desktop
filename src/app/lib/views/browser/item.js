@@ -221,7 +221,7 @@
                 this.model.set('health', false);
                 $('.spinner').show();
                 var provider = App.Providers.get(this.model.get('provider'));
-                var data = provider.detail(this.model.get('yts_id'), this.model.attributes)
+                var data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
                     .catch(function () {
                         $('.spinner').hide();
                         $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
