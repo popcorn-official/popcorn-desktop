@@ -25,7 +25,8 @@
                 _link = _link.split('\&'); // array of strings starting with &
                 _link = _link[0]; // keep only the first (i.e: display name)
                 _link = _link.replace(/\+/g, '.'); // replace + by .
-                link = _link.replace(/%5B/g, '[').replace(/%5D/g, ']');
+                _link = _link.replace(/%5B/g, '[').replace(/%5D/g, ']');
+                link = _link.replace(/%28/g, '(').replace(/%29/g, ')');
                 return link;
             };
         },
