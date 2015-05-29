@@ -3,6 +3,7 @@
 
     var torrentHealth = require('torrent-health');
     var cancelTorrentHealth = function () {};
+    var torrentHealthRestarted = null;
 
     var resizeImage = App.Providers.Trakttv.resizeImage;
 
@@ -808,10 +809,6 @@
 
         getTorrentHealth: function (e) {
             var torrent = $('.startStreaming').attr('data-torrent');
-            $('.health-icon')
-                .removeClass('fa-circle')
-                .addClass('fa-spinner')
-                .addClass('fa-spin');
 
             cancelTorrentHealth();
 
@@ -827,16 +824,16 @@
 
                 torrent = torrent.split('&tr')[0] + '&tr=udp://tracker.openbittorrent.com:80/announce' + '&tr=udp://open.demonii.com:1337/announce' + '&tr=udp://tracker.coppersurfer.tk:6969';
 
-                torrentHealth(torrent, {
-                    timeout: 500
-                }).then(function (res) {
+                torrentHealth(torrent).then(function (res) {
 
                     if (cancelled) {
                         return;
                     }
-                    if (res.seeds === 0) {
+                    if (res.seeds === 0 && torrentHealthRestarted < 5) {
+                        torrentHealthRestarted++;
                         $('.health-icon').click();
                     } else {
+                        torrentHealthRestarted = 0;
                         var h = Common.calcHealth({
                             seed: res.seeds,
                             peer: res.peers
@@ -847,22 +844,12 @@
                         $('.health-icon').tooltip({
                                 html: true
                             })
-                            .removeClass('fa-spin')
-                            .removeClass('fa-spinner')
-                            .addClass('fa-circle')
                             .removeClass('Bad Medium Good Excellent')
                             .addClass(health)
                             .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
                             .tooltip('fixTitle');
                     }
                 });
-            } else {
-                $('.health-icon').tooltip({
-                        html: true
-                    })
-                    .removeClass('fa-spin')
-                    .removeClass('fa-spinner')
-                    .addClass('fa-circle');
             }
         },
 
@@ -870,9 +857,6 @@
             $('.health-icon').tooltip({
                     html: true
                 })
-                .removeClass('fa-spin')
-                .removeClass('fa-spinner')
-                .addClass('fa-circle')
                 .removeClass('Bad Medium Good Excellent')
                 .attr('data-original-title', i18n.__('Health Unknown'))
                 .tooltip('fixTitle');
