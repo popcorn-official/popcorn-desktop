@@ -397,11 +397,11 @@
                                 }
                                 if (se_re != null) {
                                     // function in case it's a movie (or not, it also handles errors)
-                                    var tryMovie = function (tvshowname) { 
+                                    var tryMovie = function (tvshowname) {
                                         var moviename = tvshowname;
                                         App.Trakt.search(moviename, 'movie')
                                             .then(function (summary) {
-                                                if (!summary) {
+                                                if (!summary || summary.length === 0) {
                                                     win.warn('Unable to fetch data from Trakt.tv');
                                                     getSubtitles(sub_data);
                                                 } else {
@@ -421,7 +421,7 @@
                                     };
 
                                     // we're going to start by assuming it's a TV Series
-                                    var tvshowname = $.trim(se_re[1].replace(/[\.]/g, ' ')).replace(/[^\w ]+/g, '').replace(/ +/g, '-').replace(/\-$/, '');
+                                    var tvshowname = $.trim(se_re[1].replace(/[\.]/g, ' ')).replace(/[^\w ]+/g, '').replace(/ +/g, '-').replace(/_/g, '-').replace(/\-$/, '');
                                     App.Trakt.show.summary(tvshowname)
                                         .then(function (summary) {
                                             if (!summary) {
