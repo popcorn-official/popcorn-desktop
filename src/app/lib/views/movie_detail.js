@@ -53,6 +53,7 @@
 
         onShow: function () {
             win.info('Show movie detail (' + this.model.get('imdb_id') + ')');
+            this.handleAnime();
 
             App.Device.ChooserView('#player-chooser').render();
 
@@ -153,6 +154,15 @@
             }
 
             this.initKeyboardShortcuts();
+        },
+
+        handleAnime: function () {
+            if (this.model.get('imdb_id').indexOf('mal') === -1) {
+                return;
+            }
+
+            $('.movie-imdb-link, .rating-container, .magnet-link, .health-icon').hide();
+            $('.dot').css('opacity', 0);
         },
 
         onDestroy: function () {

@@ -187,6 +187,8 @@
 
         showDetail: function (e) {
             e.preventDefault();
+            var provider = App.Providers.get(this.model.get('provider'));
+            var data;
             var type = this.model.get('type');
             switch (type) {
             case 'bookmarkedmovie':
@@ -221,8 +223,7 @@
                 var Type = type.charAt(0).toUpperCase() + type.slice(1);
                 this.model.set('health', false);
                 $('.spinner').show();
-                var provider = App.Providers.get(this.model.get('provider'));
-                var data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
+                data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
                     .catch(function () {
                         $('.spinner').hide();
                         $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
@@ -288,6 +289,8 @@
             e.stopPropagation();
             e.preventDefault();
             var that = this;
+            var provider = App.Providers.get(this.model.get('provider'));
+            var data;
 
             switch (this.model.get('type')) {
             case 'bookmarkedshow':
@@ -331,32 +334,73 @@
                         });
                 } else {
                     this.ui.bookmarkIcon.addClass('selected');
-                    var movie = {
-                        imdb_id: this.model.get('imdb_id'),
-                        image: this.model.get('image'),
-                        cover: this.model.get('cover'),
-                        torrents: this.model.get('torrents'),
-                        title: this.model.get('title'),
-                        genre: this.model.get('genre'),
-                        synopsis: this.model.get('synopsis'),
-                        runtime: this.model.get('runtime'),
-                        year: this.model.get('year'),
-                        health: this.model.get('health'),
-                        subtitle: this.model.get('subtitle'),
-                        backdrop: this.model.get('backdrop'),
-                        rating: this.model.get('rating'),
-                        trailer: this.model.get('trailer'),
-                        provider: this.model.get('provider'),
-                    };
 
-                    Database.addMovie(movie)
-                        .then(function () {
-                            return Database.addBookmark(that.model.get('imdb_id'), 'movie');
-                        })
-                        .then(function () {
-                            win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
-                            that.model.set('bookmarked', true);
-                        });
+                    if (this.model.get('imdb_id').indexOf('mal') !== -1 && this.model.get('item_data') === 'Movie') {
+                        // Anime
+                        data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
+                            .catch(function () {
+                                $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
+                            })
+                            .then(function (data) {
+                                var movie = {
+                                    imdb_id: data.imdb_id,
+                                    image: data.image,
+                                    cover: data.cover,
+                                    torrents: {}, //
+                                    title: data.title,
+                                    genre: {}, //
+                                    synopsis: data.synopsis,
+                                    runtime: data.runtime,
+                                    year: data.year,
+                                    health: false,
+                                    subtitle: data.subtitle,
+                                    backdrop: undefined,
+                                    rating: data.rating,
+                                    trailer: false,
+                                    provider: that.model.get('provider'),
+                                };
+                                movie.torrents = data.torrents;
+                                movie.genre = data.genre;
+
+                                Database.addMovie(movie)
+                                    .then(function (idata) {
+                                        return Database.addBookmark(that.model.get('imdb_id'), 'movie');
+                                    })
+                                    .then(function () {
+                                        win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+                                        that.model.set('bookmarked', true);
+                                        App.userBookmarks.push(that.model.get('imdb_id'));
+                                    });
+                            });
+                    } else {
+                        // Movie
+                        var movie = {
+                            imdb_id: this.model.get('imdb_id'),
+                            image: this.model.get('image'),
+                            cover: this.model.get('cover'),
+                            torrents: this.model.get('torrents'),
+                            title: this.model.get('title'),
+                            genre: this.model.get('genre'),
+                            synopsis: this.model.get('synopsis'),
+                            runtime: this.model.get('runtime'),
+                            year: this.model.get('year'),
+                            health: this.model.get('health'),
+                            subtitle: this.model.get('subtitle'),
+                            backdrop: this.model.get('backdrop'),
+                            rating: this.model.get('rating'),
+                            trailer: this.model.get('trailer'),
+                            provider: this.model.get('provider'),
+                        };
+
+                        Database.addMovie(movie)
+                            .then(function () {
+                                return Database.addBookmark(that.model.get('imdb_id'), 'movie');
+                            })
+                            .then(function () {
+                                win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+                                that.model.set('bookmarked', true);
+                            });
+                    }
                 }
                 break;
             case 'show':
@@ -375,8 +419,7 @@
                 } else {
                     this.model.set('bookmarked', true);
                     this.ui.bookmarkIcon.addClass('selected');
-                    var provider = App.Providers.get(this.model.get('provider'));
-                    var data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
+                    data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
                         .then(function (data) {
                                 data.provider = that.model.get('provider');
                                 Database.addTVShow(data)
