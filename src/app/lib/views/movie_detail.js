@@ -1,8 +1,6 @@
 (function (App) {
     'use strict';
 
-    var resizeImage = App.Providers.Trakttv.resizeImage;
-
     App.View.MovieDetail = Backbone.Marionette.ItemView.extend({
         template: '#movie-detail-tpl',
         className: 'movie-detail',
@@ -31,8 +29,6 @@
 
         initialize: function () {
             var _this = this;
-            this.model.set('backdrop', resizeImage(this.model.get('backdrop')));
-            this.model.set('image', resizeImage(this.model.get('image')));
 
             //Handle keyboard shortcuts when other views are appended or removed
 
@@ -77,6 +73,10 @@
                 document.getElementsByName('switch')[0].checked = true;
             }
 
+            if (!this.model.get('trailer')) {
+                $('#watch-trailer').hide();
+            }
+
             this.renderHealth();
 
             $('.star-container,.movie-imdb-link,.q720,input,.magnet-link').tooltip({
@@ -87,7 +87,6 @@
 
             var backgroundUrl = $('.backdrop').attr('data-bgr');
 
-            var bgError = false;
             var bgCache = new Image();
             bgCache.src = backgroundUrl;
             bgCache.onload = function () {
@@ -100,7 +99,6 @@
                 try {
                     $('.backdrop').css('background-image', 'url(images/bg-header.jpg)').addClass('fadein');
                 } catch (e) {}
-                bgError = true;
                 bgCache = null;
             };
 
@@ -115,12 +113,9 @@
                 coverCache = null;
             };
             coverCache.onerror = function () {
-                if (bgError) {
-                    try {
-                        $('.mcover-image').attr('src', 'images/posterholder.png').addClass('fadein');
-                    } catch (e) {}
-                    bgError = false;
-                }
+                try {
+                    $('.mcover-image').attr('src', this.model.get('image')).addClass('fadein');
+                } catch (e) {}
                 coverCache = null;
             };
 
@@ -218,7 +213,7 @@
                 quality: this.model.get('quality'),
                 type: 'movie',
                 device: App.Device.Collection.selected,
-                cover: this.model.get('image')
+                cover: this.model.get('cover')
             });
             App.vent.trigger('stream:start', torrentStart);
         },
@@ -333,6 +328,7 @@
                 var movie = {
                     imdb_id: this.model.get('imdb_id'),
                     image: this.model.get('image'),
+                    cover: this.model.get('cover'),
                     torrents: this.model.get('torrents'),
                     title: this.model.get('title'),
                     synopsis: this.model.get('synopsis'),

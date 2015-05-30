@@ -1,5 +1,5 @@
 var
-    async = require('async'),
+async = require('async'),
     zlib = require('zlib'),
     Datastore = require('nedb'),
     path = require('path'),

@@ -197,6 +197,7 @@
             case 'moviesShowQuality':
             case 'deleteTmpOnClose':
             case 'coversShowRating':
+            case 'translateSynopsis':
             case 'showAdvancedSettings':
             case 'alwaysOnTop':
             case 'traktSyncOnStart':
@@ -319,6 +320,7 @@
                 App.vent.trigger('settings:show');
                 break;
             case 'movies_quality':
+            case 'translateSynopsis':
                 App.Providers.delete('Yts');
                 App.vent.trigger('movies:list');
                 App.vent.trigger('settings:show');

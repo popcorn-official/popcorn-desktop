@@ -70,6 +70,10 @@
             </span>
 
             <span class="advanced">
+                <input class="settings-checkbox" name="translateSynopsis" id="translateSynopsis" type="checkbox" <%=(Settings.translateSynopsis? "checked='checked'":"")%>>
+                <label class="settings-label" for="translateSynopsis"><%= i18n.__("Translate Synopsis") %></label>
+            </span>
+            <span class="advanced">
                 <input class="settings-checkbox" name="coversShowRating" id="cb3" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
                 <label class="settings-label" for="cb3"><%= i18n.__("Show rating over covers") %></label>
             </span>
