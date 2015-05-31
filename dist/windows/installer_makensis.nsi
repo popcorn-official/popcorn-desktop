@@ -52,12 +52,12 @@ Unicode True
 ;General Settings
 !define COMPANY_NAME "Popcorn Official"
 Name "${APP_NAME}"
-Caption "${APP_NAME} v${PT_VERSION}"
-BrandingText "${APP_NAME} v${PT_VERSION}"
+Caption "${APP_NAME} ${PT_VERSION}"
+BrandingText "${APP_NAME} ${PT_VERSION}"
 VIAddVersionKey "ProductName" "${APP_NAME}"
-VIAddVersionKey "ProductVersion" "v${PT_VERSION}"
-VIAddVersionKey "FileDescription" "${APP_NAME} v${PT_VERSION} Installer"
-VIAddVersionKey "FileVersion" "v${PT_VERSION}"
+VIAddVersionKey "ProductVersion" "${PT_VERSION}"
+VIAddVersionKey "FileDescription" "${APP_NAME} ${PT_VERSION} Installer"
+VIAddVersionKey "FileVersion" "${PT_VERSION}"
 VIAddVersionKey "CompanyName" "${COMPANY_NAME}"
 VIAddVersionKey "LegalCopyright" "${APP_URL}"
 VIProductVersion "${PT_VERSION_CLEAN}.0"
@@ -92,7 +92,11 @@ RequestExecutionLevel user
 !define MUI_ABORTWARNING
 !define MUI_FINISHPAGE_LINK "${APP_URL}"
 !define MUI_FINISHPAGE_LINK_LOCATION "${APP_URL}"
-!define MUI_FINISHPAGE_RUN "$INSTDIR\${APP_LAUNCHER}"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\nw.exe"
+!define MUI_FINISHPAGE_SHOWREADME ""
+!define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
+!define MUI_FINISHPAGE_SHOWREADME_TEXT "$(desktopShortcut)"
+!define MUI_FINISHPAGE_SHOWREADME_FUNCTION finishpageaction
 
 ;Define the pages
 !insertmacro MUI_PAGE_WELCOME
@@ -221,7 +225,7 @@ LangString removeDataFolder ${LANG_Vietnamese} "Loại bỏ tất cả các cơ 
 LangString removeDataFolder ${LANG_Welsh} "Tynnwch yr holl gronfeydd data a ffeiliau cyfluniad?" 
 
 LangString noRoot ${LANG_ENGLISH} "You cannot install Popcorn Time in a directory that requires administrator permissions"
-LangString noRoot ${LANG_Afrikaans} "Jy kan nie Popcorn Time in 'n gids wat vereis administrateur regte installeer"
+LangString noRoot ${LANG_Afrikaans} "Jy kan nie Popcorn Time installeer in 'n gids wat administrateur regte vereis"
 LangString noRoot ${LANG_Albanian} "Ju nuk mund të instaloni Popcorn Time në një directory që kërkon lejet e administratorit"
 LangString noRoot ${LANG_Arabic} " لا يمكنك تثبيت Popcorn Time في مجلد يتطلب صلاحيات مدير"
 LangString noRoot ${LANG_Belarusian} "Вы не можаце ўсталяваць Popcorn Time ў каталогу, які патрабуе правоў адміністратара"
@@ -274,6 +278,61 @@ LangString noRoot ${LANG_Turkish} "Popcorn Time'ı yönetici izinleri gerektiren
 LangString noRoot ${LANG_Ukrainian} "Ви не можете встановити Popcorn Time в каталозі, який вимагає прав адміністратора"
 LangString noRoot ${LANG_Vietnamese} "Bạn không thể cài đặt Popcorn time trong một thư mục yêu cầu quyền quản trị admin"
 LangString noRoot ${LANG_Welsh} "Ni gallwch gosod Popcorn Time mewn cyfarwyddiadur sydd angen caniatad gweinyddol"
+
+LangString desktopShortcut ${LANG_ENGLISH} "Desktop Shortcut"
+LangString desktopShortcut ${LANG_Afrikaans} "Snelkoppeling op die lessenaar (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Albanian} "Shkurtore desktop (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Arabic} "إختصار سطح المكتب"
+LangString desktopShortcut ${LANG_Belarusian} "ярлык Працоўнага Стала (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Bosnian} "Prečac Radne Površine"
+LangString desktopShortcut ${LANG_Bulgarian} "Икона на десктоп"
+LangString desktopShortcut ${LANG_Catalan} "Drecera d'escriptori"
+LangString desktopShortcut ${LANG_Croatian} "Prečac na radnoj površini (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Czech} "Odkaz na ploše"
+LangString desktopShortcut ${LANG_Danish} "Genvej til skrivebord"
+LangString desktopShortcut ${LANG_Dutch} "Bureaublad-snelkoppeling"
+LangString desktopShortcut ${LANG_Esperanto} "Labortablo ŝparvojo (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Estonian} "Otsetee töölaual"
+LangString desktopShortcut ${LANG_Farsi} "(Desktop Shortcut) میانبر دسک تاپ"
+LangString desktopShortcut ${LANG_Finnish} "Työpöydän pikakuvake"
+LangString desktopShortcut ${LANG_French} "Placer un raccourci sur le bureau"
+LangString desktopShortcut ${LANG_Galician} "Atallo de escritorio"
+LangString desktopShortcut ${LANG_German} "Desktopsymbol"
+LangString desktopShortcut ${LANG_Greek} "Συντόμευση επιφάνειας εργασίας"
+LangString desktopShortcut ${LANG_Hebrew} "קיצורי דרך על שולחן העבודה"
+LangString desktopShortcut ${LANG_Hungarian} "Asztali ikon"
+LangString desktopShortcut ${LANG_Icelandic} "Flýtileið (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Indonesian} "Desktop Shortcut"
+LangString desktopShortcut ${LANG_Irish} "Aicearra deisce (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Italian} "Collegati sul desktop"
+LangString desktopShortcut ${LANG_Japanese} "デスクトップショートカット"
+LangString desktopShortcut ${LANG_Korean} "바탕화면 바로가기"
+LangString desktopShortcut ${LANG_Latvian} "Desktop īsceļu (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Lithuanian} "Darbalaukio nuoroda"
+LangString desktopShortcut ${LANG_Macedonian} "Десктоп кратенка (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Malay} "Pintasan Desktop"
+LangString desktopShortcut ${LANG_Mongolian} "Ширээний товчлохын (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Norwegian} "Skrivebordssnarvei"
+LangString desktopShortcut ${LANG_NorwegianNynorsk} "Skrivebordssnarvei"
+LangString desktopShortcut ${LANG_Polish} "Ikona na pulpicie"
+LangString desktopShortcut ${LANG_Portuguese} "Atalho do Ambiente de Trabalho"
+LangString desktopShortcut ${LANG_PortugueseBR} "Atalho da Área de Trabalho"
+LangString desktopShortcut ${LANG_Romanian} "Scurtătură desktop"
+LangString desktopShortcut ${LANG_Russian} "Ярлык на рабочем столе"
+LangString desktopShortcut ${LANG_Serbian} "Пречица на радној површини"
+LangString desktopShortcut ${LANG_SerbianLatin} "Desktop Shortcut"
+LangString desktopShortcut ${LANG_SimpChinese} "桌面快捷方式"
+LangString desktopShortcut ${LANG_Slovak} "Odkaz na pracovnej ploche"
+LangString desktopShortcut ${LANG_Slovenian} "Bližnjica na namizju"
+LangString desktopShortcut ${LANG_Spanish} "Acceso directo en el Escritorio"
+LangString desktopShortcut ${LANG_SpanishInternational} "Acceso directo en el Escritorio"
+LangString desktopShortcut ${LANG_Swedish} "Genväg på skrivbordet"
+LangString desktopShortcut ${LANG_Thai} "ไอคอนตรงพื้นโต๊ะ"
+LangString desktopShortcut ${LANG_TradChinese} "桌面捷徑"
+LangString desktopShortcut ${LANG_Turkish} "Masaüstü Kısayolu"
+LangString desktopShortcut ${LANG_Ukrainian} "Ярлик на робочому столі"
+LangString desktopShortcut ${LANG_Vietnamese} "Lối tắt trên màn (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Welsh} "Llwybr Byr ar y Bwrdd Gwaith"
 
 ; ------------------- ;
 ;    Install code     ;
@@ -394,7 +453,6 @@ Section ; Shortcuts
 
     ;Desktop Shortcut
     Delete "$DESKTOP\${APP_NAME}.lnk"
-    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
 
     ;Add/remove programs uninstall entry
     ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
@@ -511,4 +569,11 @@ Function .onVerifyInstDir
 pathgood:
   Pop $R1
 
+FunctionEnd
+
+; ------------------ ;
+;  Desktop Shortcut  ;
+; ------------------ ;
+Function finishpageaction
+    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
 FunctionEnd

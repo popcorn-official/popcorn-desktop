@@ -14,21 +14,21 @@
 
     var self;
 
-	var findSrt = function (input) {
-		var files = fs.readdirSync(input);
-		for (var f in files) {
-			var stats = fs.lstatSync(path.join(input, files[f]));
-			if (path.extname(files[f]) === '.srt' && stats.isFile()) {
-				return path.join(input, files[f]);
-			}
-			if (stats.isDirectory()) {
-				var found = findSrt(path.join(input, files[f]));
-				if (found) {
-					return found;
-				}
-			}
-		}
-	};
+    var findSrt = function (input) {
+        var files = fs.readdirSync(input);
+        for (var f in files) {
+            var stats = fs.lstatSync(path.join(input, files[f]));
+            if (path.extname(files[f]) === '.srt' && stats.isFile()) {
+                return path.join(input, files[f]);
+            }
+            if (stats.isDirectory()) {
+                var found = findSrt(path.join(input, files[f]));
+                if (found) {
+                    return found;
+                }
+            }
+        }
+    };
 
     var downloadZip = function (data) {
         return Q.Promise(function (resolve, reject) {
