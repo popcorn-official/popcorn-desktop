@@ -14,6 +14,22 @@
 
     var self;
 
+	var findSrt = function (input) {
+		var files = fs.readdirSync(input);
+		for (var f in files) {
+			var stats = fs.lstatSync(path.join(input, files[f]));
+			if (path.extname(files[f]) === '.srt' && stats.isFile()) {
+				return path.join(input, files[f]);
+			}
+			if (stats.isDirectory()) {
+				var found = findSrt(path.join(input, files[f]));
+				if (found) {
+					return found;
+				}
+			}
+		}
+	};
+
     var downloadZip = function (data) {
         return Q.Promise(function (resolve, reject) {
             var filePath = data.path;
@@ -47,13 +63,8 @@
                         zip.extractAllTo( /*target path*/ unzipPath, /*overwrite*/ true);
                         fs.unlink(zipPath, function (err) {});
                         win.debug('Subtitles extracted to : ' + newName);
-                        var files = fs.readdirSync(unzipPath);
-                        for (var f in files) {
-                            if (path.extname(files[f]) === '.srt') {
-                                break;
-                            }
-                        }
-                        fs.renameSync(path.join(unzipPath, files[f]), newName);
+                        var found = findSrt(unzipPath);
+                        fs.renameSync(found, newName);
                         resolve(newName);
                     } catch (e) {
                         win.error('Error downloading subtitle: ' + e);
