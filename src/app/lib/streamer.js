@@ -113,6 +113,7 @@
         streamInfo.set('torrent', torrent);
         streamInfo.set('title', torrent.title);
         streamInfo.set('player', torrent.device);
+        streamInfo.set('file_index', torrent.file_index);
 
         statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 1000);
         stateModel.set('streamInfo', streamInfo);

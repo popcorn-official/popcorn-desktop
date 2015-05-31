@@ -10,9 +10,15 @@
 
             engine.once('ready', function () {
                 var size = 0;
-                engine.files.forEach(function (file) {
-                    size += file.length || 0;
-                });
+
+                if (self.get('file_index')) {
+                    size = engine.files[self.get('file_index')].length; // torrent with multi-files
+                } else {
+                    engine.files.forEach(function (file) { // pct torrent
+                        size += file.length || 0;
+                    });
+                }
+
                 self.set('size', size);
             });
 
