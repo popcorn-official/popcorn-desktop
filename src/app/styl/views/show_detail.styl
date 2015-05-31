@@ -27,32 +27,31 @@
         background-size 134px 197px
         background-repeat no-repeat
         border-radius 4px
-        transition: opacity .50s ease
         opacity 0
         background-color $ShowBgColor1
         &.fadein
-            transition: opacity .5s ease;
+            transition: opacity .3s ease-in;
             opacity: 1
 
     .tv-poster-background
         position absolute
-        width 100%
-        height calc(100% - 65px)
+        width 100vw
+        height 100vh
         z-index 1
         background-repeat no-repeat
-        background-position center
+        background-position-x 50%
+        background-position-y -33px
         opacity 0
-        transition: opacity .50s ease
         background-size cover
         &.fadein
-            transition: opacity .5s ease;
+            transition: opacity .3s ease-in;
             opacity: 1
 
         .tv-poster-overlay
             position absolute
             width 100%
             height 100%
-            opacity .6
+            opacity 0.65
             background-color #000
             z-index 2
 
