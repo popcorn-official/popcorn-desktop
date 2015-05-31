@@ -10,8 +10,7 @@
         getProviders: function () {
             return {
                 torrents: App.Config.getProvider('movie'),
-                subtitle: App.Config.getProvider('subtitle'),
-                metadata: App.Trakt
+                subtitle: App.Config.getProvider('subtitle')
             };
         }
     });
