@@ -20,6 +20,13 @@ BugFixes:
 - Remote control (httpapi) fixes
 - Open TV Details "jump to" fixed
 - More subtitles results for TV Series
+- Download progress in the player now works for single file taken out of multifile torrents
+- Images positionning in Movies & TV Series details
+- Anime: fixes an issue where series got no episodes & movies no links
+- Subtitles: most external torrents should be matched with subtitles now
+- Arabic fonts (aljazeera & khalid art) can now be used to correctly display arabic subtitles
+- Fix most issues with remotes.
+- Fix the Popcorn Time player when watching trailers.
 
 New Features: 
 
@@ -27,7 +34,7 @@ New Features:
 - Cancel "Play Next Episode"
 - Select your subtitles Font, and/or add a solid background to them.
 - New subtitles for: Norwegian, Vietnamese
-- Report bugs & issues from within the app
+- Report bugs & issues from within the app (open the 'About' page)
 - Mark as seen/unseen in Movie Details screen
 - No more ads from Youtube
 - Stream subtitles with DLNA/UPnP
@@ -41,6 +48,13 @@ New Features:
 - Support for multimedia keys
 - Launch external players in Fullscreen
 - Minimize to tray
+- Translated synopsis (overview) for TV Series & Movies
+- Calculation of the P2P exchange ratio of the entire app traffic
+- FakeSkan (bitsnoop) will now warn you if an external torrent was flagged as "fake"
+- "Randomize" button allowing to open a random movie
+- Start Popcorn Time minimized with "-m" flag
+- 1080p TV Shows are here !
+- "Big Picture Mode" will allow you to read Popcorn Time's texts from your couch
 
 ## 0.3.7 Beta - The Car Won't Start - 15 January 2015
 
