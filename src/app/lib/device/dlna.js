@@ -134,9 +134,9 @@
 
 
     browser.onDevice(function (device) {
-      device.onError(function (err) {
-          console.log(err);
-      });
+        device.onError(function (err) {
+            console.log(err);
+        });
 
         console.log(device.host);
         if (collection.where({
@@ -150,8 +150,8 @@
     });
 
     setInterval(function () {
-		browser.start();
-	}, 60000);
+        browser.start();
+    }, 60000);
 
     browser.start();
 

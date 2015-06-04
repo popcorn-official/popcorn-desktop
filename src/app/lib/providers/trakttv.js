@@ -481,7 +481,7 @@
         }
     };
 
-    TraktTv.prototype.lastActivities = function ()  {
+    TraktTv.prototype.lastActivities = function () {
         var defer = Q.defer();
         this.call('sync/last_activities')
             .then(function (data) {
