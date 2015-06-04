@@ -55,8 +55,6 @@
             win.info('Show movie detail (' + this.model.get('imdb_id') + ')');
             this.handleAnime();
 
-            App.Device.ChooserView('#player-chooser').render();
-
             var torrents = this.model.get('torrents');
             if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
                 this.model.set('quality', Settings.movies_default_quality);
@@ -91,15 +89,11 @@
             var bgCache = new Image();
             bgCache.src = backgroundUrl;
             bgCache.onload = function () {
-                try {
-                    $('.backdrop').css('background-image', 'url(' + backgroundUrl + ')').addClass('fadein');
-                } catch (e) {}
+                $('.backdrop').css('background-image', 'url(' + backgroundUrl + ')').addClass('fadein');
                 bgCache = null;
             };
             bgCache.onerror = function () {
-                try {
-                    $('.backdrop').css('background-image', 'url(images/bg-header.jpg)').addClass('fadein');
-                } catch (e) {}
+                $('.backdrop').css('background-image', 'url(images/bg-header.jpg)').addClass('fadein');
                 bgCache = null;
             };
 
@@ -108,15 +102,11 @@
             var coverCache = new Image();
             coverCache.src = coverUrl;
             coverCache.onload = function () {
-                try {
-                    $('.mcover-image').attr('src', coverUrl).addClass('fadein');
-                } catch (e) {}
+                $('.mcover-image').attr('src', coverUrl).addClass('fadein');
                 coverCache = null;
             };
             coverCache.onerror = function () {
-                try {
-                    $('.mcover-image').attr('src', this.model.get('image')).addClass('fadein');
-                } catch (e) {}
+                $('.mcover-image').attr('src', this.model.get('image')).addClass('fadein');
                 coverCache = null;
             };
 
@@ -154,6 +144,8 @@
             }
 
             this.initKeyboardShortcuts();
+
+            App.Device.ChooserView('#player-chooser').render();
         },
 
         handleAnime: function () {
