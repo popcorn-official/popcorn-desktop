@@ -138,7 +138,7 @@
             win.error(err);
         });
 
-        win.debug('DLNA device found:', device.host);
+        win.info('Found DLNA Device: %s at %s', device.name, device.host);
         if (collection.where({
                 id: device.host
             }).length === 0) {
@@ -153,6 +153,7 @@
         browser.start();
     }, 60000);
 
+    win.info('Scanning: local network for DLNA devices');
     browser.start();
 
     App.Device.Dlna = Dlna;
