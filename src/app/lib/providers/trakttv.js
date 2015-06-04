@@ -28,6 +28,9 @@
         _.each(this.show, function (method, key) {
             self.show[key] = method.bind(self);
         });
+        _.each(this.recommendations, function (method, key) {
+            self.recommendations[key] = method.bind(self);
+        });
 
         // Refresh token on startup if needed
         setTimeout(function () {
@@ -360,6 +363,15 @@
                     return data;
                 });
         },
+        watchedProgress: function (id) {
+            if (!id) {
+                return Q();
+            }
+            return this.call('shows/' + id + '/progress/watched')
+                .then(function (data) {
+                    return data;
+                });
+        },
         sync: function () {
             return this.show.getWatched()
                 .then(function (data) {
@@ -400,6 +412,12 @@
                     return Database.markEpisodesWatched(traktWatched);
                 });
         },
+        recentlyUpdated: function (startDate) {
+            return this.call('shows/updates/' + startDate)
+                .then(function (data) {
+                    return data;
+                });
+        },
         getCalendar: function (startDate, days) {
             var endpoint = 'calendars/my/shows';
 
@@ -425,6 +443,21 @@
         }
     };
 
+    TraktTv.prototype.recommendations = {
+        movies: function () {
+            return this.call('recommendations/movies')
+                .then(function (data) {
+                    return data;
+                });
+        },
+        shows: function () {
+            return this.call('recommendations/shows')
+                .then(function (data) {
+                    return data;
+                });
+        },
+    };
+
     TraktTv.prototype.scrobble = function (action, type, id, progress) {
         if (type === 'movie') {
             return this.post('scrobble/' + action, {
@@ -446,6 +479,15 @@
                 progress: progress
             });
         }
+    };
+
+    TraktTv.prototype.lastActivities = function ()  {
+        var defer = Q.defer();
+        this.call('sync/last_activities')
+            .then(function (data) {
+                defer.resolve(data);
+            });
+        return defer.promise;
     };
 
     TraktTv.prototype.playback = function (type, id) {
