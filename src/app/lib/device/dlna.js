@@ -135,10 +135,10 @@
 
     browser.onDevice(function (device) {
         device.onError(function (err) {
-            console.log(err);
+            win.error(err);
         });
 
-        console.log(device.host);
+        win.debug('DLNA device found:', device.host);
         if (collection.where({
                 id: device.host
             }).length === 0) {
