@@ -423,13 +423,13 @@
 
                                     // we're going to start by assuming it's a TV Series
                                     var tvshowname = $.trim(se_re[1].replace(/[\.]/g, ' ')).replace(/[^\w ]+/g, '').replace(/ +/g, '-').replace(/_/g, '-').replace(/\-$/, '');
-                                    App.Trakt.show.summary(tvshowname)
+                                    App.Trakt.shows.summary(tvshowname)
                                         .then(function (summary) {
                                             if (!summary) {
                                                 win.warn('Unable to fetch data from Trakt.tv');
                                                 getSubtitles(sub_data);
                                             } else {
-                                                App.Trakt.show.episodeSummary(tvshowname, se_re[2], se_re[3])
+                                                App.Trakt.episodes.summary(tvshowname, se_re[2], se_re[3])
                                                     .then(function (episodeSummary) {
                                                         if (!episodeSummary) {
                                                             win.warn('Unable to fetch data from Trakt.tv');

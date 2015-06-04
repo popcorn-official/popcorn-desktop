@@ -359,7 +359,7 @@
             $('#authTrakt > i').css('visibility', 'hidden');
             $('.loading-spinner').show();
 
-            App.Trakt.authenticate()
+            App.Trakt.authentication.authenticate()
                 .then(function (valid) {
                     if (valid) {
                         $('.loading-spinner').hide();
@@ -608,7 +608,7 @@
 
             Database.deleteWatched(); // Reset before sync
 
-            App.Trakt.sync()
+            App.Trakt.syncTrakt.all()
                 .then(function () {
                     App.Providers.get('Watchlist').fetchWatchlist();
                 })
@@ -627,7 +627,7 @@
                         });
                 })
                 .catch(function (err) {
-                    win.error('App.Trakt.sync()', err);
+                    win.error('App.Trakt.syncTrakt.all()', err);
                     $('#syncTrakt')
                         .text(i18n.__('Error'))
                         .removeClass('disabled')

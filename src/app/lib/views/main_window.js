@@ -391,7 +391,7 @@
             win.info('Trakt: authenticated');
             if (Settings.traktSyncOnStart && (Settings.traktLastSync + 1200000 < new Date().valueOf())) { //only refresh every 20min
                 Database.deleteWatched();
-                App.Trakt.sync();
+                App.Trakt.syncTrakt.all();
             }
         },
 

@@ -135,7 +135,9 @@
             win.error(err);
         });
 
-        if (collection.where({id: device.host}).length === 0) {
+        if (collection.where({
+                id: device.host
+            }).length === 0) {
             win.info('Found DLNA Device: %s at %s', device.name, device.host);
             collection.add(new Dlna({
                 id: device.host,
