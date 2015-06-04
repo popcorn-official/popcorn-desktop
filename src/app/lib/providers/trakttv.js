@@ -49,7 +49,7 @@
 
         // Refresh token on startup if needed
         setTimeout(function () {
-            self.checkToken();
+            self.authentication.checkToken();
         }, 500);
     }
 
@@ -489,12 +489,11 @@
      * FUNCTIONS
      */
 
-    TraktTv.syncTrakt = {
+    TraktTv.prototype.syncTrakt = {
         all: function () {
-            var that = this;
-
+            var self = this;
             AdvSettings.set('traktLastSync', new Date().valueOf());
-            return Q.all([that.syncTrakt.movies(), that.syncTrakt.shows()]);
+            return Q.all([self.syncTrakt.movies(), self.syncTrakt.shows()]);
         },
         movies: function () {
             return this.sync.getWatched('movies')
