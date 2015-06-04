@@ -18,12 +18,12 @@
         makeID: makeID,
 
         initialize: function (attrs) {
-
             this.device = attrs.device;
             this.client = new MediaRendererClient(this.device.xml);
             this.attributes.name = this.device.name;
             this.attributes.address = this.device.host;
         },
+
         play: function (streamModel) {
             var url = streamModel.get('src');
             var url_video = url;
@@ -107,29 +107,26 @@
 
             });
         },
-        stop: function () {
 
+        stop: function () {
             this.client.stop();
         },
-        pause: function () {
 
+        pause: function () {
             this.client.pause();
         },
-        forward: function () {
 
+        forward: function () {
             this.client.seek(30);
         },
 
         backward: function () {
-
             this.client.seek(-30);
         },
 
         unpause: function () {
-
             this.client.play();
         }
-
     });
 
 
@@ -138,10 +135,8 @@
             win.error(err);
         });
 
-        win.info('Found DLNA Device: %s at %s', device.name, device.host);
-        if (collection.where({
-                id: device.host
-            }).length === 0) {
+        if (collection.where({id: device.host}).length === 0) {
+            win.info('Found DLNA Device: %s at %s', device.name, device.host);
             collection.add(new Dlna({
                 id: device.host,
                 device: device
@@ -153,7 +148,7 @@
         browser.start();
     }, 60000);
 
-    win.info('Scanning: local network for DLNA devices');
+    win.info('Scanning: Local Network for DLNA devices');
     browser.start();
 
     App.Device.Dlna = Dlna;
