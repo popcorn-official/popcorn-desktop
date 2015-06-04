@@ -163,7 +163,6 @@
         },
 
         onShow: function () {
-            App.Device.ChooserView('#player-chooser').render();
             bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
 
             if (bookmarked) {
@@ -224,6 +223,7 @@
             }
 
             this.isShowWatched();
+            App.Device.ChooserView('#player-chooser').render();
         },
 
         selectNextEpisode: function () {

@@ -20,5 +20,8 @@
         "backbone.babysitter": ["**/!(lib)"],
         "backbone.wreqr": ["**/!(lib)"],
         "bootstrap": ["**/!(dist)"]
+    },
+    "resolutions": {
+        "underscore": ">=1.5.0"
     }
 }

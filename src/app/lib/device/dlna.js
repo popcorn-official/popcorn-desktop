@@ -1,12 +1,10 @@
 (function (App) {
     'use strict';
-
-    /*var UpnpC = require('dlna-js').ControlPoint;
+    var Browser = require('nodecast-js');
     var MediaRendererClient = require('upnp-mediarenderer-client');
     var xmlb = require('xmlbuilder');
     var collection = App.Device.Collection;
-    var control = UpnpC.UpnpControlPoint;
-    var cp = new control();
+    var browser = new Browser();
 
     var makeID = function (baseID) {
         return 'dlna-' + baseID.replace('-', '');
@@ -20,15 +18,15 @@
         makeID: makeID,
 
         initialize: function (attrs) {
-
             this.device = attrs.device;
-            this.client = new MediaRendererClient(this.device.location);
-            this.attributes.name = this.device.friendlyName;
+            this.client = new MediaRendererClient(this.device.xml);
+            this.attributes.name = this.device.name;
             this.attributes.address = this.device.host;
         },
+
         play: function (streamModel) {
             var url = streamModel.get('src');
-            var url_video = url + 'video.mp4';
+            var url_video = url;
             var url_subtitle = 'http:' + url.split(':')[1] + ':9999/video.srt';
             var metadata = null;
             var subtitle = streamModel.get('subFile');
@@ -101,7 +99,7 @@
             this.client.load(url_video, {
                 metadata: metadata,
                 autoplay: true,
-                contentType: 'video/vnd.dlna.mpeg-tts'
+
             }, function (err, result) {
                 if (err) {
                     throw err;
@@ -109,64 +107,49 @@
 
             });
         },
-        stop: function () {
 
+        stop: function () {
             this.client.stop();
         },
-        pause: function () {
 
+        pause: function () {
             this.client.pause();
         },
-        forward: function () {
 
+        forward: function () {
             this.client.seek(30);
         },
 
         backward: function () {
-
             this.client.seek(-30);
         },
 
         unpause: function () {
-
             this.client.play();
         }
-
     });
 
-    function filterDevice(device) {
-        var type = device.deviceType.replace('urn:schemas-upnp-org:device:', '');
-        type = (type.split(':')[0]);
 
-        if (type !== 'MediaRenderer') {
-            return null;
-        }
-        return device;
-    }
+    browser.onDevice(function (device) {
+        device.onError(function (err) {
+            win.error(err);
+        });
 
-
-    cp.on('device', function (device) {
-        if (!filterDevice(device)) {
-            return;
-        }
-        var deviceId = makeID(device.uuid);
-        if (collection.where({
-                id: deviceId
-            }).length === 0) {
+        if (collection.where({id: device.host}).length === 0) {
+            win.info('Found DLNA Device: %s at %s', device.name, device.host);
             collection.add(new Dlna({
-                id: deviceId,
+                id: device.host,
                 device: device
             }));
         }
     });
 
-
     setInterval(function () {
-        cp.search();
+        browser.start();
     }, 60000);
 
-    cp.search();
+    win.info('Scanning: Local Network for DLNA devices');
+    browser.start();
 
-    App.Device.Dlna = Dlna;*/
-    win.warn('DLNA disabled');
+    App.Device.Dlna = Dlna;
 })(window.App);
