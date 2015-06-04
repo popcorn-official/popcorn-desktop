@@ -1,24 +1,53 @@
 {
-    "name": "popcorn-time",
-    "dependencies": {
-        "marionette": "~2.4.1",
-        "bootstrap": "~3.3.4",
-        "video.js": "4.11.4",
-        "videojs-youtube": "1.2.10",
-        "mousetrap": "~1.5.2",
-        "font-awesome": "~4.3.0"
-    },
-    "dependenciesIgnore": {
-        "backbone": ["**/!(backbone.js)"],
-        "jquery": ["**/!(dist)"],
-        "font-awesome": ["less", "scss", ".*"],
-        "video.js": ["**/!(dist)"],
-        "videojs-youtube": ["**/!(src)"],
-        "underscore": ["**/!(underscore.js)"],
-        "mousetrap": ["tests", ".gitignore", "./*!mousetrap.min.js"],
-        "marionette": ["**/!(lib)"],
-        "backbone.babysitter": ["**/!(lib)"],
-        "backbone.wreqr": ["**/!(lib)"],
-        "bootstrap": ["**/!(dist)"]
-    }
+  "name": "popcorn-time",
+  "dependencies": {
+    "marionette": "~2.4.1",
+    "bootstrap": "~3.3.4",
+    "video.js": "4.11.4",
+    "videojs-youtube": "1.2.10",
+    "mousetrap": "~1.5.2",
+    "font-awesome": "~4.3.0"
+  },
+  "dependenciesIgnore": {
+    "backbone": [
+      "**/!(backbone.js)"
+    ],
+    "jquery": [
+      "**/!(dist)"
+    ],
+    "font-awesome": [
+      "less",
+      "scss",
+      ".*"
+    ],
+    "video.js": [
+      "**/!(dist)"
+    ],
+    "videojs-youtube": [
+      "**/!(src)"
+    ],
+    "underscore": [
+      "**/!(underscore.js)"
+    ],
+    "mousetrap": [
+      "tests",
+      ".gitignore",
+      "./*!mousetrap.min.js"
+    ],
+    "marionette": [
+      "**/!(lib)"
+    ],
+    "backbone.babysitter": [
+      "**/!(lib)"
+    ],
+    "backbone.wreqr": [
+      "**/!(lib)"
+    ],
+    "bootstrap": [
+      "**/!(dist)"
+    ]
+  },
+  "resolutions": {
+    "underscore": ">=1.5.0"
+  }
 }
