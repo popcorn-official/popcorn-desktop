@@ -570,7 +570,7 @@
         }
     };
 
-    TraktTv.resizeImage = function (imageUrl, size) {
+    TraktTv.prototype.resizeImage = function (imageUrl, size) {
         if (imageUrl === undefined) {
             return imageUrl;
         }

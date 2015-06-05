@@ -5,8 +5,6 @@
     var cancelTorrentHealth = function () {};
     var torrentHealthRestarted = null;
 
-    var resizeImage = App.Providers.Trakttv.resizeImage;
-
     var _this, bookmarked;
     var ShowDetail = Backbone.Marionette.ItemView.extend({
         template: '#show-detail-tpl',
@@ -114,8 +112,8 @@
                 _.bind(this.onUnWatched, this));
 
             var images = this.model.get('images');
-            images.fanart = resizeImage(images.fanart);
-            images.poster = resizeImage(images.poster, 'thumb');
+            images.fanart = App.Trakt.resizeImage(images.fanart);
+            images.poster = App.Trakt.resizeImage(images.poster, 'thumb');
 
             App.vent.on('shortcuts:shows', function () {
                 _this.initKeyboardShortcuts();
