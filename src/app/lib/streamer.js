@@ -422,7 +422,13 @@
                                     };
 
                                     // we're going to start by assuming it's a TV Series
-                                    var tvshowname = $.trim(se_re[1].replace(/[\.]/g, ' ')).replace(/[^\w ]+/g, '').replace(/ +/g, '-').replace(/_/g, '-').replace(/\-$/, '');
+                                    var tvshowname = $.trim(se_re[1].replace(/[\.]/g, ' '))
+                                                            .replace(/^\[.*\]/, '')     // starts with brackets
+                                                            .replace(/[^\w ]+/g, '')    // remove brackets
+                                                            .replace(/ +/g, '-')        // has spaces
+                                                            .replace(/_/g, '-')         // has '_'
+                                                            .replace(/\-$/, '')         // ends with '-'
+                                                            .replace(/^./, '');         // starts with '.'
                                     App.Trakt.shows.summary(tvshowname)
                                         .then(function (summary) {
                                             if (!summary) {
