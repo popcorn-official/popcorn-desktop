@@ -359,7 +359,7 @@
             $('#authTrakt > i').css('visibility', 'hidden');
             $('.loading-spinner').show();
 
-            App.Trakt.authentication.authenticate()
+            App.Trakt.oauth.authenticate()
                 .then(function (valid) {
                     if (valid) {
                         $('.loading-spinner').hide();
