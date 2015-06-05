@@ -178,7 +178,7 @@
                     win.setAlwaysOnTop(App.settings.alwaysOnTop);
 
                     // we check if the disclaimer is accepted
-                    if (!AdvSettings.get('disclaimerAccepted')) {
+                    if (!Settings.disclaimerAccepted) {
                         that.showDisclaimer();
                     }
 
@@ -199,15 +199,15 @@
                     }
 
                     // do we celebrate events?
-                    if (AdvSettings.get('events')) {
+                    if (Settings.events) {
                         $('.events').css('display', 'block');
                     }
 
                     // set player from settings
                     var players = App.Device.Collection.models;
                     for (var i in players) {
-                        if (players[i].id === AdvSettings.get('chosenPlayer')) {
-                            App.Device.Collection.setDevice(AdvSettings.get('chosenPlayer'));
+                        if (players[i].id === Settings.chosenPlayer) {
+                            App.Device.Collection.setDevice(Settings.chosenPlayer);
                         }
                     }
 

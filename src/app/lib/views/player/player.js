@@ -288,11 +288,11 @@
 
             player.on('loadeddata', function () {
                 // resume position
-                if (AdvSettings.get('lastWatchedTitle') === _this.model.get('title') && AdvSettings.get('lastWatchedTime') > 0) {
-                    var position = AdvSettings.get('lastWatchedTime');
+                if (Settings.lastWatchedTitle === _this.model.get('title') && Settings.lastWatchedTime > 0) {
+                    var position = Settings.lastWatchedTime;
                     win.debug('Resuming position to', position.toFixed(), 'secs');
                     player.currentTime(position);
-                } else if (AdvSettings.get('traktPlayback')) {
+                } else if (Settings.traktPlayback) {
                     var type = _this.isMovie();
                     var id = type === 'movie' ? _this.model.get('imdb_id') : _this.model.get('episode_id');
                     App.Trakt.sync.playback(type, id).then(function (position_percent) {
@@ -371,7 +371,7 @@
             $('#video_player li:contains("subtitles off")').text(i18n.__('Disabled'));
             $('#video_player li:contains("local")').text(i18n.__('Subtitles'));
 
-            if (AdvSettings.get('alwaysFullscreen') && !this.inFullscreen) {
+            if (Settings.alwaysFullscreen && !this.inFullscreen) {
                 this.toggleFullscreen();
             }
             if (this.inFullscreen) {
@@ -379,7 +379,7 @@
                 this.toggleFullscreen();
             }
 
-            this.player.volume(AdvSettings.get('playerVolume'));
+            this.player.volume(Settings.playerVolume);
 
             var timeout;
             $('.vjs-menu-content,.eye-info-player').hover(function () {

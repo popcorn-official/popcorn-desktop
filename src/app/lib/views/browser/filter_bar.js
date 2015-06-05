@@ -122,10 +122,10 @@
 
             var activetab;
 
-            if (AdvSettings.get('startScreen') === 'Last Open') {
-                activetab = AdvSettings.get('lastTab');
+            if (Settings.startScreen === 'Last Open') {
+                activetab = Settings.lastTab;
             } else {
-                activetab = AdvSettings.get('startScreen');
+                activetab = Settings.startScreen;
             }
 
             if (typeof App.currentview === 'undefined') {

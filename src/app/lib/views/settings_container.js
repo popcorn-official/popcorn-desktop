@@ -126,7 +126,7 @@
         generateQRcode: function () {
             var qrcodecanvus = document.getElementById('qrcode'),
                 QRCodeInfo = {
-                    ip: AdvSettings.get('ipAddress'),
+                    ip: Settings.ipAddress,
                     port: $('#httpApiPort').val(),
                     user: $('#httpApiUsername').val(),
                     pass: $('#httpApiPassword').val()
@@ -338,7 +338,7 @@
                         var zoom = ScreenResolution.HD ? 2 : 3;
                         win.zoomLevel = zoom;
                     } else {
-                        win.zoomLevel = AdvSettings.get('noBigPicture') || 0;
+                        win.zoomLevel = Settings.noBigPicture || 0;
                     }
                 } else {
                     AdvSettings.set('bigPicture', false);
@@ -352,7 +352,7 @@
         },
 
         connectTrakt: function (e) {
-            if (AdvSettings.get('traktTokenRefresh') !== '') {
+            if (Settings.traktTokenRefresh !== '') {
                 return;
             }
 

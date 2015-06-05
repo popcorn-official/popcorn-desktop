@@ -74,7 +74,7 @@ var os = require('os');
 
         minimize: function () {
             var that = this.nativeWindow;
-            if (AdvSettings.get('minimizeToTray')) {
+            if (Settings.minimizeToTray) {
                 minimizeToTray();
             } else {
                 that.minimize();

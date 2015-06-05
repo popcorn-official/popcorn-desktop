@@ -138,13 +138,14 @@
             });
 
             // display stars or number
-            if (AdvSettings.get('ratingStars') === false) {
+            if (!Settings.ratingStars) {
                 $('.star-container').addClass('hidden');
                 $('.number-container').removeClass('hidden');
             }
 
             this.initKeyboardShortcuts();
 
+            App.Device.Collection.setDevice(Settings.chosenPlayer);
             App.Device.ChooserView('#player-chooser').render();
         },
 
@@ -417,7 +418,9 @@
         selectPlayer: function (e) {
             var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
             this.model.set('device', player);
-            AdvSettings.set('chosenPlayer', player);
+            if (!player.match(/[0-9]+.[0-9]+.[0-9]+.[0-9]/ig)) {
+                AdvSettings.set('chosenPlayer', player);
+            }
         }
 
     });

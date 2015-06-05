@@ -215,12 +215,14 @@
 
             _this.initKeyboardShortcuts();
 
-            if (AdvSettings.get('ratingStars') === false) {
+            if (!Settings.ratingStars) {
                 $('.star-container-tv').addClass('hidden');
                 $('.number-container-tv').removeClass('hidden');
             }
 
             this.isShowWatched();
+
+            App.Device.Collection.setDevice(Settings.chosenPlayer);
             App.Device.ChooserView('#player-chooser').render();
         },
 
@@ -260,7 +262,7 @@
                         var unseen = episodes.filter(function (item) {
                             return episodesSeen.indexOf(item) === -1;
                         });
-                        if (AdvSettings.get('tv_detail_jump_to') !== 'firstUnwatched') {
+                        if (Settings.tv_detail_jump_to !== 'firstUnwatched') {
                             var lastSeen = episodesSeen[episodesSeen.length - 1];
 
                             if (lastSeen !== episodes[episodes.length - 1]) {
@@ -457,7 +459,7 @@
             var selected_quality = $(e.currentTarget).attr('data-quality');
             var auto_play = false;
 
-            if (AdvSettings.get('playNextEpisodeAuto') && this.model.get('imdb_id').indexOf('mal') === -1) {
+            if (Settings.playNextEpisodeAuto && this.model.get('imdb_id').indexOf('mal') === -1) {
                 _.each(this.model.get('episodes'), function (value) {
                     var epaInfo = {
                         id: parseInt(value.season) * 100 + parseInt(value.episode),
@@ -518,7 +520,7 @@
                 auto_id: parseInt(season) * 100 + parseInt(episode),
                 auto_play_data: episodes_data
             });
-            win.info('Playing next episode automatically:', AdvSettings.get('playNextEpisodeAuto'));
+            win.info('Playing next episode automatically:', Settings.playNextEpisodeAuto);
             _this.unbindKeyboardShortcuts();
             App.vent.trigger('stream:start', torrentStart);
         },
@@ -864,7 +866,9 @@
         selectPlayer: function (e) {
             var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
             _this.model.set('device', player);
-            AdvSettings.set('chosenPlayer', player);
+            if (!player.match(/[0-9]+.[0-9]+.[0-9]+.[0-9]/ig)) {
+                AdvSettings.set('chosenPlayer', player);
+            }
         },
 
         onDestroy: function () {
