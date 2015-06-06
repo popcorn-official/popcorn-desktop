@@ -180,9 +180,6 @@ var AdvSettings = {
 
     setup: function () {
         AdvSettings.performUpgrade();
-        if (Settings.disclaimerAccepted !== 1) {
-            AdvSettings.set('httpApiPassword', ('' + Math.random()).substring(2, 6));
-        }
         return AdvSettings.getHardwareInfo();
     },
 
