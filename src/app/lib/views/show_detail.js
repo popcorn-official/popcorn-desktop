@@ -221,6 +221,8 @@
             }
 
             this.isShowWatched();
+
+            App.Device.Collection.setDevice(Settings.chosenPlayer);
             App.Device.ChooserView('#player-chooser').render();
         },
 
@@ -864,7 +866,9 @@
         selectPlayer: function (e) {
             var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
             _this.model.set('device', player);
-            AdvSettings.set('chosenPlayer', player);
+            if (!player.match(/[0-9]+.[0-9]+.[0-9]+.[0-9]/ig)) {
+                AdvSettings.set('chosenPlayer', player);
+            }
         },
 
         onDestroy: function () {
