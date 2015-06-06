@@ -428,7 +428,7 @@
                                                             .replace(/ +/g, '-')        // has spaces
                                                             .replace(/_/g, '-')         // has '_'
                                                             .replace(/\-$/, '')         // ends with '-'
-                                                            .replace(/^./, '');         // starts with '.'
+                                                            .replace(/^\./, '');         // starts with '.'
                                     App.Trakt.shows.summary(tvshowname)
                                         .then(function (summary) {
                                             if (!summary) {
