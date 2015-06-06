@@ -333,7 +333,7 @@ var AdvSettings = {
         gui = require('nw.gui');
         var currentVersion = gui.App.manifest.version;
 
-        if (currentVersion !== Settings.version) {
+        if (currentVersion !== AdvSettings.get('version')) {
             // Nuke the DB if there's a newer version
             // Todo: Make this nicer so we don't lose all the cached data
             var cacheDb = openDatabase('cachedb', '', 'Cache database', 50 * 1024 * 1024);

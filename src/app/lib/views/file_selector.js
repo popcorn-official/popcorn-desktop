@@ -36,15 +36,13 @@
         },
 
         onShow: function () {
+            App.Device.ChooserView('#player-chooser2').render();
+            this.$('#watch-now').text('');
             this.isTorrentStored();
 
             Mousetrap.bind(['esc', 'backspace'], function (e) {
                 _this.closeSelector(e);
             });
-
-            App.Device.Collection.setDevice(Settings.chosenPlayer);
-            App.Device.ChooserView('#player-chooser2').render();
-            this.$('#watch-now').text('');
         },
 
         bitsnoopRequest: function (hash) {
@@ -161,9 +159,7 @@
         selectPlayer: function (e) {
             var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
             _this.model.set('device', player);
-            if (!player.match(/[0-9]+.[0-9]+.[0-9]+.[0-9]/ig)) {
-                AdvSettings.set('chosenPlayer', player);
-            }
+            AdvSettings.set('chosenPlayer', player);
         },
 
         closeSelector: function (e) {

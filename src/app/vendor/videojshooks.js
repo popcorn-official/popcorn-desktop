@@ -99,7 +99,7 @@ vjs.TextTrack.prototype.load = function () {
             } else if (Settings.subtitle_decoration === 'Opaque Background') {
                 $('.vjs-text-track').css('background', '#000');
             }
-            $('.vjs-text-track').css('z-index', 'auto').css('position', 'relative').css('top', Settings.playerSubPosition);
+            $('.vjs-text-track').css('z-index', 'auto').css('position', 'relative').css('top', AdvSettings.get('playerSubPosition'));
         };
 
         // Fetches a raw subtitle, locally or remotely
