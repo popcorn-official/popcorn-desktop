@@ -375,7 +375,7 @@
             this.player.volume(AdvSettings.get('playerVolume'));
 
             var timeout;
-            $('.vjs-menu-content,.eye-info-player').hover(function () {
+            $('.vjs-menu-content, .eye-info-player, .playing_next').hover(function () {
                 timeout = setInterval(function () {
                     App.PlayerView.player.userActive(true);
                 }, 100);
@@ -395,6 +395,7 @@
             this.dontTouchFS = true; //XXX(xaiki): hack, don't touch fs state
 
             this.closePlayer();
+            App.vent.trigger('stream:stop');
             if (next_episode_model) {
                 App.vent.trigger('stream:start', next_episode_model);
             }

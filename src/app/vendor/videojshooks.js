@@ -466,13 +466,17 @@ vjs.Button.prototype.onKeyPress = function (event) {
 };
 
 // Dispose needs to clear currentTimeInterval to avoid vdata error (https://github.com/videojs/video.js/issues/1484#issuecomment-55245716)
-vjs.MediaTechController.prototype.dispose = function() {
-  // Turn off any manual progress or timeupdate tracking
-  if (this.manualProgress) { this.manualProgressOff(); }
+vjs.MediaTechController.prototype.dispose = function () {
+    // Turn off any manual progress or timeupdate tracking
+    if (this.manualProgress) {
+        this.manualProgressOff();
+    }
 
-  if (this.manualTimeUpdates) { this.manualTimeUpdatesOff(); }
+    if (this.manualTimeUpdates) {
+        this.manualTimeUpdatesOff();
+    }
 
-  clearInterval(this.currentTimeInterval);
+    clearInterval(this.currentTimeInterval);
 
-  vjs.Component.prototype.dispose.call(this);
+    vjs.Component.prototype.dispose.call(this);
 };
