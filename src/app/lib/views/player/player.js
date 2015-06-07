@@ -115,12 +115,6 @@
                 AdvSettings.set('lastWatchedTime', false);
             }
 
-            try {
-                this.video.dispose();
-            } catch (e) {
-                // Stop weird Videojs errors
-            }
-
             this.ui.pause.dequeue();
             this.ui.play.dequeue();
 
@@ -128,7 +122,6 @@
             createdRemaining = false;
             firstPlay = true;
 
-            App.vent.trigger('player:close');
             App.vent.trigger('preload:stop');
             App.vent.trigger('stream:stop');
 
@@ -402,7 +395,6 @@
             this.dontTouchFS = true; //XXX(xaiki): hack, don't touch fs state
 
             this.closePlayer();
-            App.vent.trigger('stream:stop');
             if (next_episode_model) {
                 App.vent.trigger('stream:start', next_episode_model);
             }
@@ -801,7 +793,6 @@
         onDestroy: function () {
             if (this.model.get('type') === 'video/youtube') { // XXX Sammuel86 Trailer UI Show FIX/HACK -START
                 $('.trailer_mouse_catch').remove();
-                this.closePlayer();
             }
             $('#player_drag').hide();
             $('#header').show();
@@ -813,6 +804,9 @@
             }
             this.unbindKeyboardShortcuts();
             App.vent.trigger('player:close');
+
+            var vjsPlayer = document.getElementById('video_player');
+            videojs(vjsPlayer).dispose();
         }
 
     });
