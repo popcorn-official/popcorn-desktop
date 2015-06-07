@@ -9,7 +9,7 @@
         <div class="tv-dot"></div>
         <div class="tv-runtime"><%= runtime %> min</div>
         <div class="tv-dot"></div>
-        <div class="tv-status"><%= status !== undefined ? i18n.__(status) : "N/A" %></div>
+        <div class="tv-status"><%= status !== undefined ? i18n.__(status.capitalizeEach()) : i18n.__("N/A") %></div>
         <div class="tv-dot"></div>
         <div class="tv-genre"><%= i18n.__(genres[0]) %></div>
         <div class="tv-dot"></div>
@@ -43,7 +43,7 @@
 <div class="episode-base">
     <div class="episode-info">
         <div class="episode-info-title"></div>
-        <div class="episode-info-number"></div>
+        <div class.capitalizeEach()="episode-info-number"></div>
         <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__("Health Unknown") %>" class="fa fa-circle health-icon None"></div>
         <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__("Magnet link") %>" class="fa fa-magnet show-magnet-link"></div>
         <div class="episode-info-date"></div>
