@@ -21,7 +21,8 @@
             Keyboard: '#keyboard-container',
             Help: '#help-container',
             TorrentCollection: '#torrent-collection-container',
-            Issue: '#issue-container'
+            Issue: '#issue-container',
+            Notification: '#notification'
         },
 
         ui: {
@@ -118,6 +119,9 @@
             App.vent.on('settings:show', _.bind(this.showSettings, this));
             App.vent.on('settings:close', _.bind(this.Settings.destroy, this.Settings));
 
+            App.vent.on('notification:show', _.bind(this.showNotification, this));
+            App.vent.on('notification:close', _.bind(this.closeNotification, this));
+
             App.vent.on('system:openFileSelector', _.bind(this.showFileSelector, this));
             App.vent.on('system:closeFileSelector', _.bind(this.FileSelector.destroy, this.FileSelector));
 
@@ -131,6 +135,7 @@
             App.vent.on('player:close', _.bind(this.Player.destroy, this.Player));
 
             App.vent.on('vpn:connect', _.bind(this.connectVpn, this));
+            App.vent.on('restartPopcornTime', _.bind(this.restartPopcornTime, this));
 
             App.vent.on('updatePostersSizeStylesheet', _.bind(this.updatePostersSizeStylesheet, this));
         },
@@ -361,6 +366,16 @@
             App.vent.trigger('shortcuts:list');
         },
 
+        showNotification: function (notificationModel) {
+            this.Notification.show(new App.View.Notification({
+                model: notificationModel
+            }));
+        },
+
+        closeNotification: function () {
+            this.Notification.close();
+        },
+
         showShowDetail: function (showModel) {
             this.MovieDetail.show(new App.View.ShowDetail({
                 model: showModel
@@ -495,6 +510,20 @@
         links: function (e) {
             e.preventDefault();
             gui.Shell.openExternal($(e.currentTarget).attr('href'));
+        },
+
+        restartPopcornTime: function () {
+            var spawn = require('child_process').spawn,
+                argv = gui.App.fullArgv,
+                CWD = process.cwd();
+
+            argv.push(CWD);
+            spawn(process.execPath, argv, {
+                cwd: CWD,
+                detached: true,
+                stdio: ['ignore', 'ignore', 'ignore']
+            }).unref();
+            gui.App.quit();
         }
     });
 

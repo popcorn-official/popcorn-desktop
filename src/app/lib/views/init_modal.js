@@ -42,23 +42,9 @@
 
             var cache = new App.Cache('subtitle');
             cache.flushTable()
+                .then(Database.deleteDatabases)
                 .then(function () {
-
-                    Database.deleteDatabases()
-                        .then(function () {
-                            var spawn = require('child_process').spawn,
-                                argv = gui.App.fullArgv,
-                                CWD = process.cwd();
-
-                            argv.push(CWD);
-                            spawn(process.execPath, argv, {
-                                cwd: CWD,
-                                detached: true,
-                                stdio: ['ignore', 'ignore', 'ignore']
-                            }).unref();
-                            gui.App.quit();
-
-                        });
+                    App.vent.trigger('restartPopcornTime');
                 });
 
         },
