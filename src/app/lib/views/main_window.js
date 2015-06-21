@@ -122,6 +122,7 @@
             App.vent.on('system:closeFileSelector', _.bind(this.FileSelector.destroy, this.FileSelector));
 
             App.vent.on('system:traktAuthenticated', _.bind(this.traktAuthenticated, this));
+            App.vent.on('system:tvstAuthenticated', _.bind(this.tvstAuthenticated, this));
 
             // Stream events
             App.vent.on('stream:started', _.bind(this.streamStarted, this));
@@ -393,6 +394,10 @@
                 Database.deleteWatched();
                 App.Trakt.syncTrakt.all();
             }
+        },
+
+        tvstAuthenticated: function () {
+            win.info('TVShow Time: authenticated');
         },
 
         streamStarted: function (stateModel) {

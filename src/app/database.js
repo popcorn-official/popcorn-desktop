@@ -426,6 +426,7 @@ var Database = {
             })
             .then(function () {
                 App.Trakt = App.Config.getProvider('metadata');
+                App.TVShowTime = App.Config.getProvider('tvst');
                 // check update
                 var updater = new App.Updater();
 

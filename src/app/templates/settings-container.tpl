@@ -319,6 +319,28 @@
         </div>
     </section>
 
+	<section id="tvshowtime">
+		<div class="title">TVShow Time</div>
+		<div class="content">
+			<div class="tvshowtime-options <%= App.TVShowTime.authenticated ? " authenticated" : "" %>">
+				<% if(App.TVShowTime.authenticated) { %>
+                    <span>
+                        <%= i18n.__("You are currently connected to %s", "TVShow Time") %>.
+                        <a id="disconnect-tvst" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
+                    </span>
+				<% } else { %>
+                    <span>
+                        <div class="btn-settings" id="connect-with-tvst">
+                            <i class="fa fa-user-plus">&nbsp;&nbsp;</i>
+                            <%= i18n.__("Connect To %s", "TVShow Time") %>
+                        </div>
+                        <div class="tvst-loading-spinner" style="display: none"></div>
+                    </span>
+				<% } %>
+			</div>
+		</div>
+	</section>
+
     <section id="features">
         <div class="title"><%= i18n.__("Features") %></div>
         <div class="content">
