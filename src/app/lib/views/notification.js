@@ -27,8 +27,6 @@
             });
         },
 
-        onClose: function () {},
-
         closeNotification: function () {
             App.vent.trigger('notification:close');
         }
