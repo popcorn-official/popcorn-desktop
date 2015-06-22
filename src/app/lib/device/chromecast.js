@@ -133,7 +133,10 @@
         updateStatus: function () {
             var self = this;
 
-            this.get('device').getStatus(function (status) {
+            this.get('device').getStatus(function (err, status) {
+                if (err) {
+                    return win.info('Chromecast.updateStatus:Error', err);
+                }
                 self._internalStatusUpdated(status);
             });
         },
