@@ -663,6 +663,7 @@
                 break;
             }
             $('.watched-toggle').addClass('selected').text(i18n.__('Seen'));
+            App.MovieDetailView.model.set('watched', true);
             break;
         case 'seen':
             /* falls through */
