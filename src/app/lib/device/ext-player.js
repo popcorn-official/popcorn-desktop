@@ -51,6 +51,10 @@
             cmd += url;
             win.info('Launching External Player: ' + cmd);
             child.exec(cmd, function (error, stdout, stderr) {
+                if (streamModel.attributes.device.id === 'Bomi') {
+                    // don't stop on exit, because Bomi could be already running in background and the command ends while the stream should continue
+                    return;
+                }
                 App.vent.trigger('player:close');
                 App.vent.trigger('stream:stop');
                 App.vent.trigger('preload:stop');
@@ -148,6 +152,12 @@
             stop: 'smplayer -send-action quit',
             pause: 'smplayer -send-action pause'
         },
+        'Bomi': {
+            type: 'bomi',
+            switches: '',
+            subswitch: '--set-subtitle ',
+            fs: '--action window/enter-fs'
+        }
     };
 
     /* map name back into the object as we use it in match */
