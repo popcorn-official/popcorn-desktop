@@ -254,7 +254,10 @@
                 quality: false,
                 title: this.model.get('title')
             });
+            var tmpPlayer = App.Device.Collection.selected.attributes.id;
+            App.Device.Collection.setDevice('local');
             App.vent.trigger('stream:ready', trailer);
+            App.Device.Collection.setDevice(tmpPlayer);
         },
 
         closeDetails: function () {
