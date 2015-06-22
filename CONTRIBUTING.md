@@ -40,10 +40,10 @@ Guidelines for bug reports:
 
 1. **Use the GitLab issue search** &mdash; check if the issue has already been reported.
 
-2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or look for [closed issues](/popcorntime/desktop/issues?state=closed).
+2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or look for [closed issues](../../../../popcorntime/desktop/issues?state=closed).
 
 3. **Include a screencast if relevant** - Is your issue about a design or front end feature or bug? The most helpful thing in the world is if we can *see* what you're talking about.
-Use [LICEcap](http://www.cockos.com/licecap/) to quickly and easily record a short screencast (24fps) and save it as an animated gif! Embed it directly into your Jira issue. Kapow.
+Use [LICEcap](http://www.cockos.com/licecap/) to quickly and easily record a short screencast (24fps) and save it as an animated gif! Embed it directly into your Gitlab issue. Kapow.
 
 3. Use the Bug Report template below to start creating a bug report with the template automatically or [click here](http://bit.ly/1F6aC3w).
 
@@ -78,8 +78,8 @@ Any other information you want to share that is relevant to the issue being repo
 
 Feature requests are welcome. Before you submit one be sure to have:
 
-1. Read the [Roadmap](/popcorntime/desktop/wikis/roadmap) and
-[Planned Features](/popcorntime/desktop/wikis/planned) listing, **use the Jira search** and check the feature hasn't already been requested.
+1. Read the [Roadmap](../../../../popcorntime/desktop/wikis/roadmap) and
+[Planned Features](../../../../popcorntime/desktop/wikis/planned) listing, **use the Jira search** and check the feature hasn't already been requested.
 2. Take a moment to think about whether your idea fits with the scope and aims of the project, or if it might
 better fit being an app/plugin.
 3. Remember, it's up to *you* to make a strong case to convince the project's leaders of the merits of this
@@ -105,15 +105,15 @@ what's already there? Does it fit with the Roadmap?
 Pull requests are awesome. If you're looking to raise a PR for something which doesn't have an open issue, please think carefully about [raising an issue](#report-a-bug) which your PR can close, especially if you're fixing a bug. This makes it more likely that there will be enough information available for your PR to be properly tested and merged. To make sure your PR is accepted as quickly as possible, you should be sure to have read
 all the guidelines on:
 
-* [code standards](/popcorntime/desktop/wikis/code-standards)
-* [commit messages](/popcorntime/desktop/wikis/git-workflow#commit-messages)
-* [cleaning-up history](/popcorntime/desktop/wikis/git-workflow#clean-up-history)
-* [not breaking the build](/popcorntime/desktop/wikis/git-workflow#check-it-passes-the-tests)
+* [code standards](../../../../popcorntime/desktop/wikis/code-standards)
+* [commit messages](../../../../popcorntime/desktop/wikis/git-workflow#commit-messages)
+* [cleaning-up history](../../../../popcorntime/desktop/wikis/git-workflow#clean-up-history)
+* [not breaking the build](../../../../popcorntime/desktop/wikis/git-workflow#check-it-passes-the-tests)
 
 ##### Need Help?
 
 If you're not completely clear on how to submit / update / *do* Pull Requests, please check out our in depth
-[Git Workflow guide](/popcorntime/desktop/wikis/git-workflow) for Popcorn Time.
+[Git Workflow guide](../../../../popcorntime/desktop/wikis/git-workflow) for Popcorn Time.
 
 
 ### Translation
@@ -134,7 +134,7 @@ For translations please go to: [Transifex](https://www.transifex.com/projects/p/
 1. cd into the project folder
 1. Run `npm install -g grunt-cli bower` - to make it possible to run grunt commands
 
-[complete documentation](/popcorntime/desktop/wikis/build-debug).
+[complete documentation](../../../../popcorntime/desktop/wikis/build-debug).
 
 ### Updating with the latest changes
 
@@ -142,11 +142,6 @@ Pulling down the latest changes from master will often require more than just a 
 
  * `npm install` - fetch any new dependencies
  * `grunt stylus` - rebuild the css files
-
-### Key Branches & Tags
-
-- **[0.4.0](/popcorntime/desktop/tree/0.4.0)** is the bleeding edge development branch. All work on the next
-release is here.
 
 
 ## Contributor License Agreement
