@@ -27,6 +27,18 @@ The [master](https://git.popcorntime.io/popcorntime/desktop/tree/master) branch 
 1. `grunt build`
 1. `grunt start`
 
+if you have trouble running after building with the above method, you can try this :
+
+1. `git clone git:your-fork-here`
+1. `npm install -g bower grunt-cli` you may need to run this as `sudo npm install -g bower grunt-cli`
+1. `cd desktop`
+1. `npm install` again it is possible you may need to run as `sudo`
+1. `bower install` if prompted for underscore version make sure to choose a version greater than 1.8.1 when entering your selection, make sure to use the ! before the number of your choice, like ` !3 `
+1. `grunt lang`
+1. `grunt nodewebkit`
+1. `grunt css`
+1. `grunt start`
+
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
 Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md)
