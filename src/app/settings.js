@@ -52,7 +52,7 @@ Settings.httpApiPort = 8008;
 Settings.httpApiUsername = 'popcorn';
 Settings.httpApiPassword = 'popcorn';
 
-// User settings (not set here, just init'd)
+// Trakt.tv
 Settings.traktToken = '';
 Settings.traktTokenRefresh = '';
 Settings.traktTokenTTL = '';
@@ -60,6 +60,9 @@ Settings.traktTvVersion = '0.0.2';
 Settings.traktLastSync = '';
 Settings.traktSyncOnStart = true;
 Settings.traktPlayback = true;
+
+// TVShow Time
+Settings.tvstAccessToken = '';
 
 // Advanced options
 Settings.connectionLimit = 100;
