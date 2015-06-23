@@ -233,7 +233,7 @@ var AdvSettings = {
                     }
                     fs.unlinkSync(path.join(process.env.SystemRoot, 'popcorntime.txt'));
                     AdvSettings.set('admin', true);
-                    $('.notification_alert').show().text(i18n.__('Popcorn Time is not supposed to be run as administrator')).delay(6000).fadeOut(400);
+                    $('.notification_alert').show().text(i18n.__('%s is not supposed to be run as administrator', 'Popcorn Time')).delay(6000).fadeOut(400);
                 });
             } catch (e) {
                 win.error('Couldn\'t check admin privileges, continuing');
