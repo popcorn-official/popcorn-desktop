@@ -184,6 +184,9 @@
         },
         comments: function (id) {
             return this.get('movies/' + id + '/comments');
+        },
+        related: function (id) {
+            return this.get('movies/' + id + '/related');
         }
     };
 
@@ -260,6 +263,9 @@
                 .then(function (data) {
                     return data;
                 });
+        },
+        related: function (id) {
+            return this.get('shows/' + id + '/related');
         }
     };
 
