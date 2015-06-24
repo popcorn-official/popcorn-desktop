@@ -160,6 +160,6 @@ cd $cwd
 dpkg-deb --build $package_name
 
 ### CLEAN
-cd ../../../
+cd ../../../../
 mv $cwd/popcorn-time*.deb dist/linux
 rm -rf build/releases/deb-package
