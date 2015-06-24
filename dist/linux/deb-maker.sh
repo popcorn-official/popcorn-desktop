@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # launch 'deb-make.sh 0.12.1 linux32' for example
 
 nw=$1
@@ -37,21 +36,37 @@ cp -r src $cwd/$package_name/opt/Popcorn-Time/
 cp package.json $cwd/$package_name/opt/Popcorn-Time/
 cp LICENSE.txt $cwd/$package_name/opt/Popcorn-Time/
 cp CHANGELOG.md $cwd/$package_name/opt/Popcorn-Time/
-#TODO:clean src/app
 
 #node_modules
 cp -r node_modules $cwd/$package_name/opt/Popcorn-Time/node_modules
-#TODO:clean node_modules
 
 #icon
 cp src/app/images/icon.png $cwd/$package_name/usr/share/icons/popcorntime.png
+
+### CLEAN
+shopt -s globstar
+cd $cwd/$package_name/opt/Popcorn-Time
+rm -rf node_modules/bower/** 
+rm -rf node_modules/*grunt*/** 
+rm -rf node_modules/stylus/** 
+rm -rf ./**/test*/** 
+rm -rf ./**/doc*/** 
+rm -rf ./**/example*/** 
+rm -rf ./**/demo*/** 
+rm -rf ./**/bin/** 
+rm -rf ./**/build/** 
+rm -rf src/app/styl/**
+rm -rf **/*.*~
+cd ../../../../../../../
+
+### CREATE FILES
 
 #desktop
 echo "[Desktop Entry]
 Comment=Watch Movies and TV Shows instantly
 Name=Popcorn Time
 Exec=/opt/Popcorn-Time/Popcorn-Time
-Icon=popcorntime.png
+Icon=popcorntime
 MimeType=application/x-bittorrent;x-scheme-handler/magnet;
 StartupNotify=false
 Categories=AudioVideo;Video;Network;Player;P2P;
@@ -62,16 +77,18 @@ Type=Application
 mkdir -p $cwd/$package_name/DEBIAN
 
 #control
+size=$((`du -s $PWD | cut -f1` / 1024))
 echo "
 Package: $name
 Version: $version
 Section: web
 Priority: optional
 Architecture: $real_arch
+Installed-Size: $size
 Depends:
 Maintainer: Popcorn Time Official <hello@popcorntime.io>
 Description: Popcorn Time
- Watch Movies and TV Series instantly
+ Watch Movies and TV Shows instantly
 " > $cwd/$package_name/DEBIAN/control
 
 #copyright
@@ -80,7 +97,7 @@ Upstream-Name: Popcorn Time
 Source: popcorntime.io
 
 Files: *
-Copyright: 2014 Popcorn Time and the contributors <hello@popcorntime.io>
+Copyright: 2015 Popcorn Time and the contributors <hello@popcorntime.io>
 License: GPL-3.0+
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -135,25 +152,11 @@ rm -rf /usr/share/icons/popcorntime.png
 rm -rf /usr/share/applications/popcorn-time.desktop
 " > $cwd/$package_name/DEBIAN/prerm
 
-### CLEAN
-shopt -s globstar
-cd $cwd/$package_name/opt/Popcorn-Time
-rm -rf node_modules/bower/** 
-rm -rf node_modules/*grunt*/** 
-rm -rf node_modules/stylus/** 
-rm -rf ./**/test*/** 
-rm -rf ./**/doc*/** 
-rm -rf ./**/example*/** 
-rm -rf ./**/demo*/** 
-rm -rf ./**/bin/** 
-rm -rf ./**/build/** 
-rm -rf **/*.*~
-cd ../../../../../../../
-
 
 ### PERMISSIONS
 chmod 0644 $cwd/$package_name/usr/share/applications/popcorn-time.desktop
 chmod -R 0755 $cwd/$package_name/DEBIAN
+chown -R root:root $cwd/$package_name
 
 ### BUILD
 cd $cwd
