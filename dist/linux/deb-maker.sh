@@ -120,6 +120,7 @@ License: GPL-3+
  Public License version 3 can be found in \`/usr/share/common-licenses/GPL-3'." > $cwd/$package_name/DEBIAN/copyright
 
 #postinstall script
+#0777 is bad, but it allows to update & install vpn, and it's only 1 directory
 echo "#!/bin/sh
 set -e
 
@@ -127,13 +128,13 @@ set -e
 if [ -x /usr/bin/desktop-file-install ]; then
 	desktop-file-install /usr/share/applications/popcorn-time.desktop
 else
-	sudo chmod +x /usr/share/applications/popcorn-time.desktop
+	chmod +x /usr/share/applications/popcorn-time.desktop
 fi
 
 # Work-around for My App not being executable:
 if [ -e /opt/Popcorn-Time/Popcorn-Time ]; then
 	chmod +x /opt/Popcorn-Time/Popcorn-Time
-	sudo chown -R \$USER:\$USER /opt/Popcorn-Time
+	chmod -R 777 /opt/Popcorn-Time
 fi
 
 if [ ! -e /lib/$(arch)-linux-gnu/libudev.so.1 ]; then
