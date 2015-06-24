@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # launch 'deb-make.sh 0.12.1 linux32' for example
 
 nw=$1
@@ -13,6 +13,9 @@ name="popcorn-time"
 read -n 9 revision <<< ` git log -1 --pretty=oneline`
 version=$(sed -n 's|\s*\"version\"\:\ \"\(.*\)\"\,|\1|p' package.json)
 package_name=${name}_${version}_${arch}-${revision}
+
+### RESET
+sudo rm -rf build/releases/deb-package || rm -rf build/releases/deb-package
 
 ### SOURCE TREE
 #create package dir
@@ -77,7 +80,7 @@ Type=Application
 mkdir -p $cwd/$package_name/DEBIAN
 
 #control
-size=$((`du -s $PWD | cut -f1` / 1024))
+size=$((`du -sb $cwd/$package_name | cut -f1` / 1024))
 echo "
 Package: $name
 Version: $version
@@ -92,13 +95,14 @@ Description: Popcorn Time
 " > $cwd/$package_name/DEBIAN/control
 
 #copyright
-echo "Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: Popcorn Time
-Source: popcorntime.io
+echo "Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0
+Upstream-Name: Popcorn-Time
+Upstream-Contact: Popcorn Time Official <hello@popcorntime.io>
+Source: https://git.popcorntime.io
 
 Files: *
-Copyright: 2015 Popcorn Time and the contributors <hello@popcorntime.io>
-License: GPL-3.0+
+Copyright: © 2015, Popcorn Time and the contributors <hello@popcorntime.io>
+License: GPL-3+
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
@@ -110,11 +114,10 @@ License: GPL-3.0+
  GNU General Public License for more details.
  .
  You should have received a copy of the GNU General Public License
- along with this program. If not, see <http://www.gnu.org/licenses/>.
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  .
  On Debian systems, the complete text of the GNU General
- Public License version 3 can be found in \"/usr/share/common-licenses/GPL-3\".
-" > $cwd/$package_name/DEBIAN/copyright
+ Public License version 3 can be found in \`/usr/share/common-licenses/GPL-3'." > $cwd/$package_name/DEBIAN/copyright
 
 #postinstall script
 echo "#!/bin/sh
@@ -156,7 +159,7 @@ rm -rf /usr/share/applications/popcorn-time.desktop
 ### PERMISSIONS
 chmod 0644 $cwd/$package_name/usr/share/applications/popcorn-time.desktop
 chmod -R 0755 $cwd/$package_name/DEBIAN
-chown -R root:root $cwd/$package_name
+sudo chown -R root:root $cwd/$package_name || chown -R root:root $cwd/$package_name
 
 ### BUILD
 cd $cwd
@@ -165,4 +168,4 @@ dpkg-deb --build $package_name
 ### CLEAN
 cd ../../../../
 mv $cwd/popcorn-time*.deb dist/linux
-rm -rf build/releases/deb-package
+sudo rm -rf build/releases/deb-package || rm -rf build/releases/deb-package

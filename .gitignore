@@ -35,6 +35,7 @@ src/app/css/app.css
 *.sublime-*
 dist/windows/*-Setup.exe
 dist/linux/linux-installer
+dist/linux/*.deb
 *.bat
 *.db
 *git.json
