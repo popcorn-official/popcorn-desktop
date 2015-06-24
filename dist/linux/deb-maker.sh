@@ -162,11 +162,9 @@ echo "#!/bin/sh
 set -e
 
 #remove config and db
-case \$1 in
-	purge)
-		rm -rf /home/\$USER/.config/Popcorn-Time
-		;;
-esac
+if [ \"\$1\" = purge ]; then
+	rm -rf $HOME/.config/Popcorn-Time
+fi
 " > $cwd/$package_name/DEBIAN/postrm
 
 ### PERMISSIONS
