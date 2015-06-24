@@ -15,7 +15,7 @@ version=$(sed -n 's|\s*\"version\"\:\ \"\(.*\)\"\,|\1|p' package.json)
 package_name=${name}_${version}-${revision}_${real_arch}
 
 ### RESET
-sudo rm -rf build/releases/deb-package || rm -rf build/releases/deb-package
+rm -rf build/releases/deb-package
 
 ### SOURCE TREE
 #create package dir
@@ -154,18 +154,20 @@ rm -rf /usr/share/icons/popcorntime.png
 #remove desktop
 rm -rf /usr/share/applications/popcorn-time.desktop
 " > $cwd/$package_name/DEBIAN/prerm
+#TODO: remove db on --purge
 
 
 ### PERMISSIONS
 chmod 0644 $cwd/$package_name/usr/share/applications/popcorn-time.desktop
 chmod -R 0755 $cwd/$package_name/DEBIAN
-sudo chown -R root:root $cwd/$package_name || chown -R root:root $cwd/$package_name
+sudo chown -R root:root $cwd/$package_name 2> /dev/null
 
 ### BUILD
 cd $cwd
 dpkg-deb --build $package_name
+sudo chown -R $USER:$USER $cwd/$package_name 2> /dev/null
 
 ### CLEAN
 cd ../../../../
 mv $cwd/popcorn-time*.deb dist/linux
-sudo rm -rf build/releases/deb-package || rm -rf build/releases/deb-package
+rm -rf build/releases/deb-package
