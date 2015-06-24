@@ -163,7 +163,7 @@ set -e
 
 #remove config and db
 if [ \"\$1\" = purge ]; then
-	rm -rf $HOME/.config/Popcorn-Time
+	rm -rf \$HOME/.config/Popcorn-Time
 fi
 " > $cwd/$package_name/DEBIAN/postrm
 
