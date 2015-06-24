@@ -305,7 +305,10 @@ module.exports = function (grunt) {
                         return [
                             'cp build/cache/linux64/<%= nodewebkit.options.version %>/icudtl.dat build/releases/Popcorn-Time/linux64/Popcorn-Time',
                             'cp -r build/cache/linux64/<%= nodewebkit.options.version %>/locales build/releases/Popcorn-Time/linux64/Popcorn-Time',
+                            'cp dist/linux/linux-installer build/releases/Popcorn-Time/linux64/Popcorn-Time/install',
+                            'cp dist/linux/popcorntime.png build/releases/Popcorn-Time/linux64/Popcorn-Time',
                             'cd build/releases/Popcorn-Time/linux64/Popcorn-Time',
+                            'chmod +x install',
                             'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../Popcorn-Time-' + currentVersion + '-Linux-64.tar.xz"',
                             'echo "Linux64 Sucessfully packaged" || echo "Linux64 failed to package"'
                         ].join(' && ');
@@ -313,6 +316,8 @@ module.exports = function (grunt) {
                         return [
                             'cp build/cache/linux64/<%= nodewebkit.options.version %>/icudtl.dat build/releases/Popcorn-Time/linux64/Popcorn-Time',
                             'cp -r build/cache/linux64/<%= nodewebkit.options.version %>/locales build/releases/Popcorn-Time/linux64/Popcorn-Time',
+                            'cp dist/linux/linux-installer build/releases/Popcorn-Time/linux64/Popcorn-Time/install',
+                            'cp dist/linux/popcorntime.png build/releases/Popcorn-Time/linux64/Popcorn-Time',
                             'grunt compress:linux64',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
                         ].join(' && ');
@@ -325,7 +330,10 @@ module.exports = function (grunt) {
                         return [
                             'cp build/cache/linux32/<%= nodewebkit.options.version %>/icudtl.dat build/releases/Popcorn-Time/linux32/Popcorn-Time',
                             'cp -r build/cache/linux32/<%= nodewebkit.options.version %>/locales build/releases/Popcorn-Time/linux32/Popcorn-Time',
+                            'cp dist/linux/linux-installer build/releases/Popcorn-Time/linux32/Popcorn-Time/install',
+                            'cp dist/linux/popcorntime.png build/releases/Popcorn-Time/linux32/Popcorn-Time',
                             'cd build/releases/Popcorn-Time/linux32/Popcorn-Time',
+                            'chmod +x install',
                             'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../Popcorn-Time-' + currentVersion + '-Linux-32.tar.xz"',
                             'echo "Linux32 Sucessfully packaged" || echo "Linux32 failed to package"'
                         ].join(' && ');
@@ -333,6 +341,8 @@ module.exports = function (grunt) {
                         return [
                             'cp build/cache/linux32/<%= nodewebkit.options.version %>/icudtl.dat build/releases/Popcorn-Time/linux32/Popcorn-Time',
                             'cp -r build/cache/linux32/<%= nodewebkit.options.version %>/locales build/releases/Popcorn-Time/linux32/Popcorn-Time',
+                            'cp dist/linux/linux-installer build/releases/Popcorn-Time/linux32/Popcorn-Time/install',
+                            'cp dist/linux/popcorntime.png build/releases/Popcorn-Time/linux32/Popcorn-Time',
                             'grunt compress:linux32',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
                         ].join(' && ');

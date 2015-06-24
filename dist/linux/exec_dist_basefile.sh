@@ -11,6 +11,30 @@ at: $current
 exit 1 
 }
 
+#progressbar on download
+progressfilt ()
+{
+    local flag=false c count cr=$'\r' nl=$'\n'
+    while IFS='' read -d '' -rn 1 c
+    do
+        if $flag
+        then
+            printf '%c' "$c"
+        else
+            if [[ $c != $cr && $c != $nl ]]
+            then
+                count=0
+            else
+                ((count++))
+                if ((count > 1))
+                then
+                    flag=true
+                fi
+            fi
+        fi
+    done
+}
+
 #Get current architecture
 current="1:Set architecture"
 if [[ $(arch) == "x86_64" ]] ; then
@@ -25,6 +49,7 @@ func_error
 #Variables
 version="PT_VERSION"
 tos="https://popcorntime.io/tos"
+downloadlink="http://cdn.popcorntime.io/build/Popcorn-Time-$version-Linux-$arch.tar.gz"
 
 #Disclaimer
 clear
@@ -35,14 +60,13 @@ Popcorn Time $version - Linux $arch bits
 Please read our Terms of service:
 	$tos
 
-This installer will install Popcorn Time in:
+This installer will download and install Popcorn Time in:
 	~/.Popcorn-Time
 	~/.local/share/applications
-	~/.local/share/icons
 "
 
-{ read -p "To continue, type 'I agree': " r </dev/tty ; if [ "$r" != "I agree" ] || [ ! "$r" ] ; then echo "
-Did not get the user agreement. Exiting." && exit 0 ; fi ; }
+{ read -p "If you agree with our ToS, type 'I agree': " r </dev/tty ; if [ "$r" != "I agree" ] || [ ! "$r" ] ; then echo "
+The Terms of Service haven't been accepted." && exit 0 ; fi ; }
 
 #if agreed, start install
 clear
@@ -50,34 +74,37 @@ echo "
 Popcorn Time $version - Linux $arch bits
 =================================="
 
-#extract archive
-current="1: Copy files"
+#download in temp and install in home
+current="2:Get archive"
 echo "
-- Copying files to ~/.Popcorn-Time"
-mkdir -p "$HOME/.Popcorn-Time"
-cp -r locales icudtl.dat libffmpegsumo.so nw.pak Popcorn-Time "$HOME/.Popcorn-Time" &> /dev/null && error=0 || error=1
-
-#move icon
-mkdir -p "$HOME/.local/share/icons"
-cp popcorntime.png "$HOME/.local/share/icons/popcorntime.png" &> /dev/null && error=0 || error=1
-
+- Downloading and extracting the archive...
+"
+wget --progress=bar:force -O /tmp/popcorntime.tar.gz $downloadlink 2>&1 | progressfilt && error=0 || error=1
 func_error
+
+#extract archive
+current="3:Extract archive"
+mkdir -p "$HOME/.Popcorn-Time"
+tar -xf /tmp/popcorntime.tar.gz -C /tmp --overwrite --preserve-permissions && error=0 || error=1
+cp /tmp/Popcorn-Time/* "$HOME/.Popcorn-Time" &> /dev/null && error=0 || error=1
+func_error
+
+#download icon and install in home
+wget -O "$HOME/.Popcorn-Time/icon.png" http://i.imgur.com/BhQu7He.png &> /dev/null
 
 #create .desktop in home
 echo "
 - Creating new configuration files..."
 
-current="2: Desktop file"
-mkdir -p "$HOME/.local/share/applications"
-
+current="4:Desktop file"
 echo "[Desktop Entry]
 Comment=Watch Movies and TV Shows instantly
 Name=Popcorn Time
 Exec=$HOME/.Popcorn-Time/Popcorn-Time
-Icon=popcorntime.png
+Icon=$HOME/.Popcorn-Time/icon.png
 MimeType=application/x-bittorrent;x-scheme-handler/magnet;
 StartupNotify=false
-Categories=AudioVideo;Video;Network;Player;P2P;
+Categories=AudioVideo;Player;
 Type=Application" > "$HOME/.local/share/applications/Popcorn-Time.desktop" && error=0 || error=1
 func_error
 
@@ -88,7 +115,7 @@ if [ ! -e /lib/$(arch)-linux-gnu/libudev.so.1 ]; then
 fi
 
 #chmod .desktop
-current="3: Chmod files"
+current="5:Chmod files"
 chmod +x "$HOME/.Popcorn-Time/Popcorn-Time/Popcorn-Time" &> /dev/null && error=0 || error=1
 chmod +x "$HOME/.local/share/applications/Popcorn-Time.desktop" &> /dev/null && error=0 || error=1
 func_error
@@ -100,7 +127,6 @@ echo "How to uninstall Popcorn Time ?
 1) Main application:
 - Delete ~/.Popcorn-Time
 - Delete ~/.local/share/applications/Popcorn-Time.desktop
-- Delete ~/.local/share/icons/popcorntime.png
 
 2) Configuration files and databases:
 - Delete ~/.config/Popcorn-Time" > "$HOME/.Popcorn-Time/Uninstall.txt"
