@@ -118,7 +118,9 @@ module.exports = function (grunt) {
 
     grunt.registerTask('package', [
         'shell:packageLinux64',
+        'shell:packageDEBLinux64',
         'shell:packageLinux32',
+        'shell:packageDEBLinux32',
         'shell:packageWin',
         'shell:packageMac'
     ]);
@@ -345,6 +347,34 @@ module.exports = function (grunt) {
                             'cp dist/linux/popcorntime.png build/releases/Popcorn-Time/linux32/Popcorn-Time',
                             'grunt compress:linux32',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
+                        ].join(' && ');
+                    }
+                }
+            },
+            packageDEBLinux32: {
+                command: function () {
+                    if (host.linux) {
+                        return [
+                            'sh dist/linux/deb-maker.sh <%= nodewebkit.options.version %> linux32',
+                            'echo "Linux32 Debian Package successfully built" || echo "Linux32 failed to create the Debian Package"'
+                        ].join(' && ');
+                    } else {
+                        return [
+                            'echo "Building debian package is not supported on Windows or Mac"'
+                        ].join(' && ');
+                    }
+                }
+            },
+            packageDEBLinux64: {
+                command: function () {
+                    if (host.linux) {
+                        return [
+                            'sh dist/linux/deb-maker.sh <%= nodewebkit.options.version %> linux64',
+                            'echo "Linux64 Debian Package successfully built" || echo "Linux64 failed to create the Debian Package"'
+                        ].join(' && ');
+                    } else {
+                        return [
+                            'echo "Building debian package is not supported on Windows or Mac"'
                         ].join(' && ');
                     }
                 }
