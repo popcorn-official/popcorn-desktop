@@ -12,7 +12,7 @@ cwd="build/releases/deb-package/$arch"
 name="popcorn-time"
 read -n 9 revision <<< ` git log -1 --pretty=oneline`
 version=$(sed -n 's|\s*\"version\"\:\ \"\(.*\)\"\,|\1|p' package.json)
-package_name=${name}_${version}_${arch}-${revision}
+package_name=${name}_${version}-${revision}_${real_arch}
 
 ### RESET
 sudo rm -rf build/releases/deb-package || rm -rf build/releases/deb-package
