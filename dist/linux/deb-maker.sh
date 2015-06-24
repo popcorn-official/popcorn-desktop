@@ -133,6 +133,7 @@ fi
 # Work-around for My App not being executable:
 if [ -e /opt/Popcorn-Time/Popcorn-Time ]; then
 	chmod +x /opt/Popcorn-Time/Popcorn-Time
+	chown -R \$USER:\$USER /opt/Popcorn-Time
 fi
 
 if [ ! -e /lib/$(arch)-linux-gnu/libudev.so.1 ]; then
@@ -154,8 +155,18 @@ rm -rf /usr/share/icons/popcorntime.png
 #remove desktop
 rm -rf /usr/share/applications/popcorn-time.desktop
 " > $cwd/$package_name/DEBIAN/prerm
-#TODO: remove db on --purge
 
+#post-remove script if purge
+echo "#!/bin/sh
+set -e
+
+#remove config and db
+case \$1 in
+	purge)
+		rm -rf /home/\$USER/.config/Popcorn-Time
+		;;
+esac
+" > $cwd/$package_name/DEBIAN/postrm
 
 ### PERMISSIONS
 chmod 0644 $cwd/$package_name/usr/share/applications/popcorn-time.desktop
