@@ -127,13 +127,13 @@ set -e
 if [ -x /usr/bin/desktop-file-install ]; then
 	desktop-file-install /usr/share/applications/popcorn-time.desktop
 else
-	chmod +x /usr/share/applications/popcorn-time.desktop
+	sudo chmod +x /usr/share/applications/popcorn-time.desktop
 fi
 
 # Work-around for My App not being executable:
 if [ -e /opt/Popcorn-Time/Popcorn-Time ]; then
 	chmod +x /opt/Popcorn-Time/Popcorn-Time
-	chown -R \$USER:\$USER /opt/Popcorn-Time
+	sudo chown -R \$USER:\$USER /opt/Popcorn-Time
 fi
 
 if [ ! -e /lib/$(arch)-linux-gnu/libudev.so.1 ]; then
