@@ -55,6 +55,8 @@ New Features:
 - Start Popcorn Time minimized with "-m" flag
 - 1080p TV Shows are here !
 - "Big Picture Mode" will allow you to read Popcorn Time's texts from your couch
+- Windows: launching as administrator will now display a warning to the user recommending them not to.
+- TVShow Time integration
 
 ## 0.3.7 Beta - The Car Won't Start - 15 January 2015
 
