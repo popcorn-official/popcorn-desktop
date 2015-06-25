@@ -140,7 +140,7 @@ fi
 
 if [ ! -e /lib/$(arch)-linux-gnu/libudev.so.1 ]; then
 	ln -s /lib/$(arch)-linux-gnu/libudev.so.0 /opt/Popcorn-Time/libudev.so.1
-	sed -i 's,Exec=,Exec=env LD_LIBRARY_PATH=/opt/Popcorn-Time ,g' /usr/local/share/applications/popcorn-time.desktop
+	sed -i 's,Exec=,Exec=env LD_LIBRARY_PATH=/opt/Popcorn-Time ,g' /usr/share/applications/popcorn-time.desktop
 fi
 " > $cwd/$package_name/DEBIAN/postinst
 
