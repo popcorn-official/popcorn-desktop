@@ -17,6 +17,8 @@ package_name=${name}_${version}-${revision}_${real_arch}
 ### RESET
 rm -rf build/releases/deb-package
 
+build_pt () {
+
 ### SOURCE TREE
 #create package dir
 mkdir -p $cwd/$package_name
@@ -131,9 +133,8 @@ else
 	chmod +x /usr/share/applications/popcorn-time.desktop
 fi
 
-# Work-around for My App not being executable:
+# set permissions for updates
 if [ -e /opt/Popcorn-Time/Popcorn-Time ]; then
-	chmod +x /opt/Popcorn-Time/Popcorn-Time
 	chmod -R 777 /opt/Popcorn-Time
 fi
 
@@ -170,14 +171,22 @@ fi
 ### PERMISSIONS
 chmod 0644 $cwd/$package_name/usr/share/applications/popcorn-time.desktop
 chmod -R 0755 $cwd/$package_name/DEBIAN
-sudo chown -R root:root $cwd/$package_name 2> /dev/null
+chown -R root:root $cwd/$package_name 2> /dev/null || echo "'chown -R root:root' failed, continuing..."
 
 ### BUILD
 cd $cwd
 dpkg-deb --build $package_name
-sudo chown -R $USER:$USER $cwd/$package_name 2> /dev/null
 
 ### CLEAN
 cd ../../../../
 mv $cwd/popcorn-time*.deb dist/linux
+}
+
+
+if [ -e /usr/bin/fakeroot ] && [ "$3" != "--fakeroot" ]; then
+	echo "'fakeroot' was found on the machine"
+	fakeroot bash $0 $1 $2 --fakeroot
+else
+	build_pt
+fi
 rm -rf build/releases/deb-package
