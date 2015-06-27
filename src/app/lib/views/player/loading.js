@@ -64,6 +64,7 @@
             });
 
             win.info('Loading torrent');
+
             this.listenTo(this.model, 'change:state', this.onStateUpdate);
         },
 
@@ -89,6 +90,8 @@
             var state = this.model.get('state');
             var streamInfo = this.model.get('streamInfo');
             win.info('Loading torrent:', state);
+
+            this.checkFreeSpace(this.model.get('streamInfo').get('size'));
 
             this.ui.stateTextDownload.text(i18n.__(state));
 
@@ -212,6 +215,44 @@
             var percentClicked = e.offsetX / e.currentTarget.clientWidth * 100;
             win.debug('Seek (%s%) triggered', percentClicked.toFixed(2));
             App.vent.trigger('device:seekPercentage', percentClicked);
+        },
+
+        checkFreeSpace: function (size) {
+            var size = size / (1024 * 1024 * 1024);
+            var reserved = size * 20 / 100;
+            reserved = reserved > 0.25 ? 0.25: reserved;
+            var minspace = size + reserved;
+
+            if (process.platform === 'win32') {
+                var drive = Settings.tmpLocation.substr(0,2);
+
+                var exec = require('child_process').exec;
+                var cmd = 'wmic logicaldisk "' + drive +'" get freespace';
+
+                exec(cmd, function(error, stdout, stderr) {
+                    if (error) return;
+
+                    var stdoutObj = stdout.split('\n');
+                    var freespace = stdoutObj[1].replace(/\D/g, '') / (1024*1024*1024);
+                    if (freespace < minspace) {
+                        $('#player .warning-nospace').css('display', 'block');
+                    }
+                });
+            } else {
+                var path = Settings.tmpLocation;
+
+                var exec = require('child_process').exec;
+                var cmd = 'df -Pk "' + path + '" | awk \'NR==2 {print $4}\'';
+
+                exec(cmd, function(error, stdout, stderr) {
+                    if (error) return;
+
+                    var freespace = stdout.replace(/\D/g, '') / (1024*1024);
+                    if (freespace < minspace) {
+                        $('#player .warning-nospace').css('display', 'block');
+                    }
+                });
+            }
         },
 
         onDestroy: function () {
