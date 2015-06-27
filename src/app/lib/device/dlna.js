@@ -146,10 +146,6 @@
         }
     });
 
-    setInterval(function () {
-        browser.start();
-    }, 60000);
-
     win.info('Scanning: Local Network for DLNA devices');
     browser.start();
 
