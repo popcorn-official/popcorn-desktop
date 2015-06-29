@@ -10,6 +10,7 @@
             <div id="issue-auth">
                 <div class="report-info">
                     <%= i18n.__("Log in into your GitLab account") %>
+                    <a class="links" href="https://git.popcorntime.io/users/sign_in"><%= i18n.__("Create Account") %></a>
                 </div>
                 <input id="issue-email" type="text" name="gitusername" placeholder="<%= i18n.__('Email') %>">
                 <br>
@@ -48,7 +49,7 @@
                 <input id="issue-title" size="35" type="text" name="title" placeholder="<%= i18n.__('The title of the issue') %>">
 
                 <h2><%= i18n.__("Description") %></h2>
-                <p style="font-size: 12px"><%= i18n.__("200 characters minimum") %></p>
+                <p style="font-size: 12px"><%= i18n.__("200 characters minimum") %> <span id="issue-length">(0/200)</span></p>
                 <textarea id="issue-content" wrap="hard"rows="12" cols="100" name="description" placeholder="<%= i18n.__('A short description of the issue. If suitable, include the steps required to reproduce the bug.') %>"></textarea>
 
                 <div class="button submit-issue"><%= i18n.__("Submit") %></div>

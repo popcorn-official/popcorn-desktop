@@ -25,6 +25,15 @@
         },
 
         onShow: function () {
+            $('#issue-content').on('keyup', function (e) {
+                var userInput = document.getElementById('issue-content').value.length;
+                if (userInput > 200) {
+                    $('#issue-length').hide();
+                } else {
+                    $('#issue-length').show().text('(' + userInput + '/200)');
+                }
+            });
+
             Mousetrap.bind(['esc', 'backspace'], function (e) {
                 App.vent.trigger('issue:close');
             });
