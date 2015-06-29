@@ -13,7 +13,7 @@
                 </div>
                 <input id="issue-email" type="text" name="gitusername" placeholder="<%= i18n.__('Email') %>">
                 <br>
-                <input id="issue-pw" type="password" name="gitpassword" placeholder="<%= i18n.__('Password') %>">
+                <input id="issue-pw" type="password" name="gitpassword" placeholder="<%= i18n.__('Password') %>"> <i class="fa fa-spinner fa-spin issue-loading-icon"></i>
                 <br>
                 <div class="button login-issue"><%= i18n.__("Log in") %></div>
                 <div class="button anonymous-issue"><%= i18n.__("Report anonymously") %></div>
