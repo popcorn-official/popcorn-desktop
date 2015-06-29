@@ -25,6 +25,11 @@
         },
 
         onShow: function () {
+            if (AdvSettings.get('gitlabPassword') && AdvSettings.get('gitlabMail')) {
+                $('#issue-email').val(AdvSettings.get('gitlabMail')),
+                $('#issue-pw').val(AdvSettings.get('gitlabPassword'));
+            }
+
             $('#issue-content').on('keyup', function (e) {
                 var userInput = document.getElementById('issue-content').value.length;
                 if (userInput > 200) {
@@ -176,6 +181,8 @@
                 if (data) {
                     token = data;
                     win.debug('GitLab API: auth success');
+                    AdvSettings.set('gitlabMail', $('#issue-email').val());
+                    AdvSettings.set('gitlabPassword', $('#issue-pw').val());
                     $('#issue-auth .issue-loading-icon').hide();
                     that.anonIssue();
                 } else {
