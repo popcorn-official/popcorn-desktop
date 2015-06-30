@@ -27,7 +27,7 @@
         onShow: function () {
             if (AdvSettings.get('gitlabPassword') && AdvSettings.get('gitlabMail')) {
                 $('#issue-email').val(AdvSettings.get('gitlabMail')),
-                $('#issue-pw').val(AdvSettings.get('gitlabPassword'));
+                    $('#issue-pw').val(AdvSettings.get('gitlabPassword'));
             }
 
             $('#issue-content').on('keyup', function (e) {
@@ -88,10 +88,10 @@
 
                 //interpret results
                 if (results.length === 0) {
-                    $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search')
+                    $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search');
                     $('#issue-results').append('<p>' + i18n.__('No issues found...') + '</p>');
                 } else {
-                    $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search')
+                    $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search');
                     var newLine = function (id, title, description) {
                         $('#issue-results').append(
                             '<li>' + '<a class="issue-title">' + title + '</a>' + '<div class="issue-details">' + '<p>' + description + '</p>' + '<a class="links" href="' + PT_url + id + '">' + i18n.__('Open in your browser') + '</a>' + '</div>' + '</li>'

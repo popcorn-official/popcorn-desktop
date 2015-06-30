@@ -31,7 +31,7 @@
                 win.debug('TorrentCollection: data directory created');
             }
             this.files = fs.readdirSync(collection);
-            this.searchEngine =  Settings.onlineSearchEngine || 'Strike';
+            this.searchEngine = Settings.onlineSearchEngine || 'Strike';
         },
 
         onShow: function () {
@@ -79,7 +79,7 @@
         },
 
         onlineSearch: function (e) {
-            if (e) { 
+            if (e) {
                 e.preventDefault();
             }
             var that = this;
@@ -118,7 +118,7 @@
                             peers: item.peers,
                             size: require('pretty-bytes')(parseInt(item.size))
                         };
-                        
+
                         that.onlineAddItem(itemModel);
                     });
 
