@@ -21,9 +21,33 @@
         .onlinesearch
             position relative
             top -10px
-            padding-left 100px
-            width 356px
+            padding-left 170px
+            width 430px
             margin 0 auto
+
+            .engine-selector
+                position absolute
+                margin-left -160px
+
+                div
+                    width 30px
+                    height 30px
+                    opacity .3
+                    float left
+                    cursor pointer
+                    transition opacity .1s ease-in
+
+                    &#kat-icon
+                        background url('../images/icons/kickasstorrents.png')
+                        background-size contain
+
+                    &#strike-icon
+                        -webkit-filter $PngLogo_BgColo1
+                        background url('../images/icons/getstrike.png')
+                        background-size contain
+
+                    &.active
+                        opacity 1
 
             input[type="text"]
                 border 0 !important

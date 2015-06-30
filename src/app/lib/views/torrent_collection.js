@@ -19,6 +19,7 @@
             'click .collection-import': 'importItem',
             'click .notorrents-frame': 'importItem',
             'click .online-search': 'onlineSearch',
+            'click .engine-icon': 'changeEngine',
             'submit #online-form': 'onlineSearch',
             'click .online-back': 'onlineClose',
             'contextmenu #online-input': 'rightclick_search'
@@ -30,6 +31,7 @@
                 win.debug('TorrentCollection: data directory created');
             }
             this.files = fs.readdirSync(collection);
+            this.searchEngine =  Settings.onlineSearchEngine || 'Strike';
         },
 
         onShow: function () {
@@ -44,6 +46,8 @@
         },
 
         onRender: function () {
+            $('.engine-icon').removeClass('active');
+            $('#' + this.searchEngine.toLowerCase() + '-icon').addClass('active');
             $('#online-input').focus();
             if (this.files[0]) {
                 $('.notorrents-info').css('display', 'none');
@@ -59,10 +63,26 @@
             });
         },
 
-        onlineSearch: function (e) {
+        changeEngine: function (e) {
             e.preventDefault();
+
+            Settings.onlineSearchEngine = this.searchEngine = e.currentTarget.dataset.id;
+            AdvSettings.set('onlineSearchEngine', this.searchEngine);
+
+            if ($('#online-input').val().length !== 0) {
+                $('.engine-icon').removeClass('active');
+                $('#' + this.searchEngine.toLowerCase() + '-icon').addClass('active');
+                this.onlineSearch();
+            } else {
+                this.render();
+            }
+        },
+
+        onlineSearch: function (e) {
+            if (e) { 
+                e.preventDefault();
+            }
             var that = this;
-            var strike = require('strike-api');
             var input = $('#online-input').val();
             var category = $('.online-categories > select').val();
             AdvSettings.set('OnlineSearchCategory', category);
@@ -82,44 +102,93 @@
 
             $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
 
-            strike.search(input, category).then(function (result) {
-                win.debug('Strike search: %s results', result.results);
-                result.torrents.forEach(function (item) {
-                    var itemModel = {
-                        title: item.torrent_title,
-                        magnet: item.magnet_uri,
-                        seeds: item.seeds,
-                        peers: item.leeches,
-                        size: require('pretty-bytes')(parseInt(item.size))
-                    };
+            if (this.searchEngine === 'KAT') {
 
-                    that.onlineAddItem(itemModel);
-                });
+                var kat = require('kat-api');
+                kat.search({
+                    query: input,
+                    category: category
+                }).then(function (results) {
+                    win.debug('KAT search: %s results', results.length);
+                    results.forEach(function (item) {
+                        var itemModel = {
+                            title: item.title,
+                            magnet: 'magnet:?xt=urn:btih:' + item.hash + '&dn=' + item.title.replace(/[^a-z|^0-9]/gi, '+').replace(/\++/g, '+').toLowerCase() + '&tr=udp%3A%2F%2Ftracker.publicbt.com%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337',
+                            seeds: item.seeds,
+                            peers: item.peers,
+                            size: require('pretty-bytes')(parseInt(item.size))
+                        };
+                        
+                        that.onlineAddItem(itemModel);
+                    });
 
-                that.$('.tooltipped').tooltip({
-                    html: true,
-                    delay: {
-                        'show': 50,
-                        'hide': 50
+                    that.$('.tooltipped').tooltip({
+                        html: true,
+                        delay: {
+                            'show': 50,
+                            'hide': 50
+                        }
+                    });
+                    $('.notorrents-info,.torrents-info').hide();
+                    $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
+                    $('.onlinesearch-info').show();
+                }).catch(function (err) {
+                    win.debug('KAT search failed:', err.message);
+                    var error;
+                    if (err.message === 'No results') {
+                        error = 'No results found';
+                    } else {
+                        error = 'Failed!';
                     }
-                });
-                $('.notorrents-info,.torrents-info').hide();
-                $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
-                $('.onlinesearch-info').show();
-            }).catch(function (err) {
-                win.debug('Strike search failed:', err.message);
-                var error;
-                if (err.message === 'Not Found') {
-                    error = 'No results found';
-                } else {
-                    error = 'Failed!';
-                }
-                $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__(error) + '</div>');
+                    $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__(error) + '</div>');
 
-                $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
-                $('.notorrents-info,.torrents-info').hide();
-                $('.onlinesearch-info').show();
-            });
+                    $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
+                    $('.notorrents-info,.torrents-info').hide();
+                    $('.onlinesearch-info').show();
+                });
+
+            } else {
+
+                var strike = require('strike-api');
+                strike.search(input, category).then(function (result) {
+                    win.debug('Strike search: %s results', result.results);
+                    result.torrents.forEach(function (item) {
+                        var itemModel = {
+                            title: item.torrent_title,
+                            magnet: item.magnet_uri,
+                            seeds: item.seeds,
+                            peers: item.leeches,
+                            size: require('pretty-bytes')(parseInt(item.size))
+                        };
+
+                        that.onlineAddItem(itemModel);
+                    });
+
+                    that.$('.tooltipped').tooltip({
+                        html: true,
+                        delay: {
+                            'show': 50,
+                            'hide': 50
+                        }
+                    });
+                    $('.notorrents-info,.torrents-info').hide();
+                    $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
+                    $('.onlinesearch-info').show();
+                }).catch(function (err) {
+                    win.debug('Strike search failed:', err.message);
+                    var error;
+                    if (err.message === 'Not Found') {
+                        error = 'No results found';
+                    } else {
+                        error = 'Failed!';
+                    }
+                    $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__(error) + '</div>');
+
+                    $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
+                    $('.notorrents-info,.torrents-info').hide();
+                    $('.onlinesearch-info').show();
+                });
+            }
         },
 
         onlineAddItem: function (item) {

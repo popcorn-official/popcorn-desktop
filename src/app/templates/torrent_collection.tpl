@@ -3,20 +3,24 @@
     <div class="content">
 
         <div class="onlinesearch">
-                <div class="dropdown online-categories">
-                        <%
-                            var arr_categories = ["Movies","TV Series","Anime"];
+            <div class="engine-selector">
+                <div id="strike-icon" data-id="Strike" class="engine-icon"></div>
+                <div id="kat-icon" data-id="KAT" class="engine-icon"></div>
+            </div>
+            <div class="dropdown online-categories">
+                    <%
+                        var arr_categories = ["Movies","TV Series","Anime"];
 
-                            var select_category = "";
-                            for(var key in arr_categories) {
-                                select_category += "<option "+(Settings.OnlineSearchCategory == arr_categories[key]? "selected='selected'":"")+" value='"+arr_categories[key]+"'>"+i18n.__(arr_categories[key])+"</option>";
-                            }
-                        %>
-                    <select name="online-category"><%=select_category%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
+                        var select_category = "";
+                        for(var key in arr_categories) {
+                            select_category += "<option "+(Settings.OnlineSearchCategory == arr_categories[key]? "selected='selected'":"")+" value='"+arr_categories[key]+"'>"+i18n.__(arr_categories[key])+"</option>";
+                        }
+                    %>
+                <select name="online-category"><%=select_category%></select>
+                <div class="dropdown-arrow"></div>
+            </div>
             <form id="online-form">
-                <input id="online-input" size="30" type="text" name="keyword" placeholder="<%= i18n.__('Search on %s', 'Strike') %>">
+                <input id="online-input" autocomplete="off" size="30" type="text" name="keyword" placeholder="<%= i18n.__('Search on %s', Settings.onlineSearchEngine || 'Strike') %>">
                 <i class="fa fa-search online-search"></i>
             </form>
         </div>
