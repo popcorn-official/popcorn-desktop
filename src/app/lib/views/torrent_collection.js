@@ -107,13 +107,14 @@
                 var kat = require('kat-api');
                 kat.search({
                     query: input,
+                    min_seeds: 10,
                     category: category
-                }).then(function (results) {
-                    win.debug('KAT search: %s results', results.length);
-                    results.forEach(function (item) {
+                }).then(function (data) {
+                    win.debug('KAT search: %s results', data.results.length);
+                    data.results.forEach(function (item) {
                         var itemModel = {
                             title: item.title,
-                            magnet: 'magnet:?xt=urn:btih:' + item.hash + '&dn=' + item.title.replace(/[^a-z|^0-9]/gi, '+').replace(/\++/g, '+').toLowerCase() + '&tr=udp%3A%2F%2Ftracker.publicbt.com%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337',
+                            magnet: item.magnet,
                             seeds: item.seeds,
                             peers: item.peers,
                             size: require('pretty-bytes')(parseInt(item.size))
