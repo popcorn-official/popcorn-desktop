@@ -1,3 +1,5 @@
+## 0.X.X Beta - Unnamed - not out
+
 BugFixes: 
 
 - Fullscreen consistent while playing
@@ -38,7 +40,7 @@ New Features:
 - Mark as seen/unseen in Movie Details screen
 - No more ads from Youtube
 - Stream subtitles with DLNA/UPnP
-- Search Strike (torrent portal) and save some torrents for later
+- Search Strike or KickassTorrents (torrent portals) and save some torrents for later
 - Allow SSA/ASS subtitles, along with TXT (mostly Chinese & Polish - needs testing)
 - The app will now remember: last chosen quality, player, subtitles position, volume
 - Mark an entire TV Series as watched
