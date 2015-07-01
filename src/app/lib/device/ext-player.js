@@ -144,6 +144,18 @@
             subswitch: '/sub ',
             fs: '/fullscreen'
         },
+        'MPC-BE': {
+            type: 'mpc-be',
+            switches: '',
+            subswitch: '/sub ',
+            fs: '/fullscreen'
+        },
+        'MPC-BE64': {
+            type: 'mpc-be',
+            switches: '',
+            subswitch: '/sub ',
+            fs: '/fullscreen'
+        },
         'SMPlayer': {
             type: 'smplayer',
             switches: '',
