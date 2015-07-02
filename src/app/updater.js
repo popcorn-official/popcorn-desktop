@@ -44,9 +44,7 @@
         var self = this;
 
         this.options = _.defaults(options || {}, {
-            endpoint: UPDATE_ENDPOINT
-                + '?version=' + App.settings.version
-                + '&nwversion=' + process.versions['node-webkit'],
+            endpoint: UPDATE_ENDPOINT + '?version=' + App.settings.version + '&nwversion=' + process.versions['node-webkit'],
             channel: 'beta'
         });
 

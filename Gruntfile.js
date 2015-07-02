@@ -216,15 +216,16 @@ module.exports = function (grunt) {
                 download_url: 'http://get.popcorntime.io/nw/'
             },
             src: ['./src/**', '!./src/app/styl/**',
-		  './node_modules/**', '!./node_modules/bower/**',
-		  '!./node_modules/*grunt*/**', '!./node_modules/stylus/**',
-		  '!./node_modules/nw-gyp/**',  '!./node_modules/**/*.bin',
-		  '!./node_modules/**/*.c', '!./node_modules/**/*.h',
-		  '!./node_modules/**/Makefile', '!./node_modules/**/*.h',
-		  '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**',
-                  '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**',
-		  './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt',
-                  './.git.json']
+                './node_modules/**', '!./node_modules/bower/**',
+                '!./node_modules/*grunt*/**', '!./node_modules/stylus/**',
+                '!./node_modules/nw-gyp/**', '!./node_modules/**/*.bin',
+                '!./node_modules/**/*.c', '!./node_modules/**/*.h',
+                '!./node_modules/**/Makefile', '!./node_modules/**/*.h',
+                '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**',
+                '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**',
+                './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt',
+                './.git.json'
+            ]
         },
 
         exec: {
