@@ -605,11 +605,11 @@
 
             if (btnRestart) {
                 notificationModel.set('showRestart', true);
-                notificationModel.set('body', i18n.__('Please restart your application') + '.');
+                notificationModel.set('body', i18n.__('Please restart your application'));
             } else {
                 // Hide notification after 3 seconds
                 setTimeout(function () {
-                    btn.text(btnText).removeClass('confirm disabled').prop('disabled', false);
+                    btn.text(btnText).removeClass('confirm red disabled').prop('disabled', false);
                     App.vent.trigger('notification:close');
                 }, 3000);
             }
