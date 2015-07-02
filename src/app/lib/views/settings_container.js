@@ -513,17 +513,7 @@
         },
 
         restartApplication: function () {
-            var spawn = require('child_process').spawn,
-                argv = gui.App.fullArgv,
-                CWD = process.cwd();
-
-            argv.push(CWD);
-            spawn(process.execPath, argv, {
-                cwd: CWD,
-                detached: true,
-                stdio: ['ignore', 'ignore', 'ignore']
-            }).unref();
-            gui.App.quit();
+            App.vent.trigger('restartPopcornTime');
         },
 
         showCacheDirectoryDialog: function () {
@@ -599,46 +589,45 @@
         },
 
         alertMessageWait: function (waitDesc) {
-            var $el = $('#notification');
-
-            $el.removeClass().addClass('red').show();
-            $el.html('<h1>' + i18n.__('Please wait') + '...</h1><p>' + waitDesc + '.</p>');
-            $('body').addClass('has-notification');
+            App.vent.trigger('notification:show', new App.Model.Notification({
+                title: i18n.__('Please wait') + '...',
+                body: waitDesc + '.',
+                type: 'danger'
+            }));
         },
 
         alertMessageSuccess: function (btnRestart, btn, btnText, successDesc) {
-            var $el = $('#notification');
-
-            $el.removeClass().addClass('green');
-            $el.html('<h1>' + i18n.__('Success') + '</h1>');
+            var notificationModel = new App.Model.Notification({
+                title: i18n.__('Success'),
+                body: successDesc,
+                type: 'success'
+            });
 
             if (btnRestart) {
-                // Add restart button
-                $el.append('<p>' + i18n.__('Please restart your application') + '.</p><span class="btn-grp"><a class="btn restart">' + i18n.__('Restart') + '</a></span>');
-                $('.btn.restart').on('click', function () {
-                    that.restartApplication();
-                });
+                notificationModel.set('showRestart', true);
+                notificationModel.set('body', i18n.__('Please restart your application') + '.');
             } else {
-                // Hide notification after 2 seconds
-                $el.append('<p>' + successDesc + '.</p>');
+                // Hide notification after 3 seconds
                 setTimeout(function () {
-                    btn.text(btnText).removeClass('confirm red disabled').prop('disabled', false);
-                    $('body').removeClass('has-notification');
-                    $el.hide();
+                    btn.text(btnText).removeClass('confirm disabled').prop('disabled', false);
+                    App.vent.trigger('notification:close');
                 }, 3000);
             }
+
+            // Open the notification
+            App.vent.trigger('notification:show', notificationModel);
         },
 
         alertMessageFailed: function (errorDesc) {
-            var $el = $('#notification');
-
-            $el.html('<h1>' + i18n.__('Error') + '</h1>');
+            App.vent.trigger('notification:show', new App.Model.Notification({
+                title: i18n.__('Error'),
+                body: errorDesc + '.',
+                type: 'danger'
+            }));
 
             // Hide notification after 5 seconds
-            $el.append('<p>' + errorDesc + '.</p>');
             setTimeout(function () {
-                $('body').removeClass('has-notification');
-                $el.hide();
+                App.vent.trigger('notification:close');
             }, 5000);
         },
 

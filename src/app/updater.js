@@ -255,47 +255,27 @@
 
     Updater.prototype.displayNotification = function () {
         var self = this;
-        var $el = $('#notification');
-        $el.html(
-            '<h1>' + this.updateData.title + ' Installed</h1>' +
-            '<p>&nbsp;- ' + this.updateData.description + '</p>' +
-            '<span class="btn-grp">' +
-            '<a class="btn chnglog">' + i18n.__('Changelog') + '</a>' +
-            '<a class="btn restart">' + i18n.__('Restart Now') + '</a>' +
-            '</span>' +
-            '<i class="fa fa-close closenotif">'
-        ).addClass('blue');
 
-        var $restart = $('.btn.restart'),
-            $chnglog = $('.btn.chnglog'),
-            $closenotif = $('.closenotif');
-
-        $restart.on('click', function () {
-            var argv = gui.App.fullArgv;
-            argv.push(self.outputDir);
-            spawn(process.execPath, argv, {
-                cwd: self.outputDir,
-                detached: true,
-                stdio: ['ignore', 'ignore', 'ignore']
-            }).unref();
-            gui.App.quit();
-        });
-
-        $chnglog.on('click', function () {
-            var $changelog = $('#changelog-container').html(_.template($('#changelog-tpl').html())(this.updateData));
+        function onChangelogClick() {
+            var $changelog = $('#changelog-container').html(_.template($('#changelog-tpl').html())(self.updateData));
             $changelog.find('.btn-close').on('click', function () {
                 $changelog.hide();
             });
             $changelog.show();
-        });
+        }
 
-        $closenotif.on('click', function () {
-            $('body').removeClass('has-notification');
-            $el.hide();
-        });
-
-        $('body').addClass('has-notification');
+        App.vent.trigger('notification:show', new App.Model.Notification({
+            title: this.updateData.title + ' Installed',
+            body: this.updateData.description,
+            showRestart: true,
+            type: 'info',
+            buttons: [{
+                title: 'Changelog',
+                action: onChangelogClick
+            }]
+        }));
     };
+
 
     Updater.prototype.update = function () {
         var outputFile = path.join(path.dirname(this.outputDir), FILENAME);
