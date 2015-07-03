@@ -11,15 +11,28 @@
             type: 'info'
         },
 
+        // Added 'showRestart' option here since we'll use it more than once.
         initialize: function () {
-            // Added 'showRestart' option here since we'll use it more than once
-            if (this.get('showRestart')) {
-                var buttons = this.get('buttons').concat([{
-                    title: i18n.__('Restart Popcorn Time'),
-                    action: this.restartPopcornTime
-                }]);
-                this.set('buttons', buttons);
-            }
+            this.toggleShowRestart();
+            // If this property is changed after init, add/remove the button.
+            this.on('change:showRestart', this.toggleShowRestart.bind(this));
+        },
+
+        addShowRestart: function () {
+            this.set('buttons', this.get('buttons').concat([{
+                title: i18n.__('Restart'),
+                action: this.restartPopcornTime
+            }]));
+        },
+
+        removeShowRestart: function () {
+            this.set('buttons', this.get('buttons').filter(function(b) {
+                return b.title !== i18n.__('Restart');
+            }));
+        },
+
+        toggleShowRestart: function (){
+            this[(this.get('showRestart') ? 'add' : 'remove') + 'ShowRestart']();
         },
 
         restartPopcornTime: function () {
