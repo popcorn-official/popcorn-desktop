@@ -81,6 +81,7 @@ Settings.activateTorrentCollection = true;
 Settings.activateWatchlist = true;
 Settings.activateVpn = true;
 Settings.activateRandomize = true;
+Settings.onlineSearchEngine = 'KAT';
 
 // Ratio
 Settings.totalDownloaded = 0;
