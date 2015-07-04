@@ -416,9 +416,16 @@
 
         traktAuthenticated: function () {
             win.info('Trakt: authenticated');
-            if (Settings.traktSyncOnStart && (Settings.traktLastSync + 1200000 < new Date().valueOf())) { //only refresh every 20min
-                Database.deleteWatched();
-                App.Trakt.syncTrakt.all();
+            if (Settings.traktSyncOnStart && (Settings.traktLastSync + 1800000 < new Date().valueOf())) { //only refresh every 30min
+                App.Trakt.sync.lastActivities()
+                    .then(function (activities) { // check if new activities
+                        var lastActivities = activities.movies.watched_at > activities.episodes.watched_at ? activities.movies.watched_at : activities.episodes.watched_at;
+                        if (lastActivities > Settings.traktLastActivities) {
+                            AdvSettings.set('traktLastActivities', lastActivities);
+                            Database.deleteWatched();
+                            App.Trakt.syncTrakt.all();
+                        }
+                    });
             }
         },
 
