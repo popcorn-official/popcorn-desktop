@@ -498,10 +498,13 @@
     };
 
     TraktTv.prototype.syncTrakt = {
+        isSyncing: function () {
+            return this.syncing && this.syncing.isPending();
+        },
         all: function () {
             var self = this;
             AdvSettings.set('traktLastSync', new Date().valueOf());
-            return Q.all([self.syncTrakt.movies(), self.syncTrakt.shows()]);
+            return this.syncing = Q.all([self.syncTrakt.movies(), self.syncTrakt.shows()]);
         },
         movies: function () {
             return this.sync.getWatched('movies')
