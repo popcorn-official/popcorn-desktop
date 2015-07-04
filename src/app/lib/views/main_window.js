@@ -309,7 +309,18 @@
             this.Settings.destroy();
             this.MovieDetail.destroy();
 
-            this.Content.show(new App.View.WatchlistBrowser());
+            var that = this;
+            $('#nav-filters, .search, .items').hide();
+            $('.spinner').show();
+            
+            function waitForSync() {
+                if (!App.Trakt.syncTrakt.isSyncing()) {
+                    that.Content.show(new App.View.WatchlistBrowser());
+                } else {
+                    setTimeout(waitForSync, 500);
+                }
+            }
+            waitForSync();
         },
 
         showDisclaimer: function (e) {
