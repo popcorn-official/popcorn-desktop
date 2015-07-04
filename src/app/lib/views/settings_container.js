@@ -581,7 +581,7 @@
 
         areYouSure: function (btn, waitDesc) {
             if (!btn.hasClass('confirm')) {
-                btn.addClass('confirm red').css('width', btn.css('width')).text(i18n.__('Are you sure?'));
+                btn.addClass('confirm warning').css('width', btn.css('width')).text(i18n.__('Are you sure?'));
                 return false;
             }
             btn.text(waitDesc).addClass('disabled').prop('disabled', true);
@@ -609,7 +609,7 @@
             } else {
                 // Hide notification after 3 seconds
                 setTimeout(function () {
-                    btn.text(btnText).removeClass('confirm red disabled').prop('disabled', false);
+                    btn.text(btnText).removeClass('confirm warning disabled').prop('disabled', false);
                     App.vent.trigger('notification:close');
                 }, 3000);
             }
@@ -663,11 +663,11 @@
                     $('#syncTrakt')
                         .text(i18n.__('Error'))
                         .removeClass('disabled')
-                        .addClass('red')
+                        .addClass('warning')
                         .delay(3000)
                         .queue(function () {
                             $('#syncTrakt')
-                                .removeClass('red')
+                                .removeClass('warning')
                                 .prop('disabled', false);
                             document.getElementById('syncTrakt').innerHTML = oldHTML;
                             $('#syncTrakt').dequeue();

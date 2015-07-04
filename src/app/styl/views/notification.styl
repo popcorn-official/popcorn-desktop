@@ -14,8 +14,8 @@
     text-align center
     line-height 27px
     padding 9px 15px
-    color #fff
-    border 1px solid rgba(0,0,0,.7)
+    color $NotificationText
+    border 1px solid rgba($NotificationBorderColor,.7)
     transition all .5s
 
     &:empty
@@ -25,19 +25,19 @@
         opacity 1
 
     &.info
-        background #3498DB
+        background $NotificationInfo
 
     &.success
-        background #27AE60
+        background $NotificationSuccess
 
     &.warning
-        background #dbb756
+        background $NotificationWarning
 
     &.orange
-        background #f07f53
+        background $NotificationOrange
 
     &.error
-        background #f15153
+        background $NotificationError
 
     .close
         position absolute
@@ -56,17 +56,20 @@
         margin-left auto
 
     .btn
-        background rgba(0, 0, 0, 0.4)
-        color #fff
+        background $NotificationBtn
+        opacity .4
+        color $NotificationBtnText
         transition all .5s
 
         &:hover
-            background rgba(0,0,0,0.6)
+            background $NotificationBtn
+            opacity .6
 
         &:active
             box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
             box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-            background rgba(0,0,0,0.7)
+            background $NotificationBtn
+            opacity .7
 
     .btn.chnglog
         margin-right 5px
