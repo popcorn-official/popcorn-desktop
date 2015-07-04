@@ -312,7 +312,7 @@
             var that = this;
             $('#nav-filters, .search, .items').hide();
             $('.spinner').show();
-            
+
             function waitForSync() {
                 if (!App.Trakt.syncTrakt.isSyncing()) {
                     that.Content.show(new App.View.WatchlistBrowser());

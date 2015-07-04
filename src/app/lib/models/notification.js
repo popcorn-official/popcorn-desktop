@@ -26,12 +26,12 @@
         },
 
         removeShowRestart: function () {
-            this.set('buttons', this.get('buttons').filter(function(b) {
+            this.set('buttons', this.get('buttons').filter(function (b) {
                 return b.title !== i18n.__('Restart');
             }));
         },
 
-        toggleShowRestart: function (){
+        toggleShowRestart: function () {
             this[(this.get('showRestart') ? 'add' : 'remove') + 'ShowRestart']();
         },
 
