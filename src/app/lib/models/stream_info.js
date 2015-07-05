@@ -1,6 +1,6 @@
 (function (App) {
     'use strict';
-    var prettyBytes = require('pretty-bytes');
+    var fileSize = require('file-size');
 
     var StreamInfo = Backbone.Model.extend({
         initialize: function () {
@@ -23,7 +23,7 @@
             });
 
             this.on('change:size', function () {
-                self.set('sizeFormatted', prettyBytes(self.get('size')));
+                self.set('sizeFormatted', fileSize(self.get('size')).human('jedec'));
             });
 
             this.set('size', 0);
@@ -43,13 +43,13 @@
             var upload_speed = swarm.uploadSpeed(); // upload speed
             var final_upload_speed = '0 B/s';
             if (!isNaN(upload_speed) && upload_speed !== 0) {
-                final_upload_speed = prettyBytes(upload_speed) + '/s';
+                final_upload_speed = fileSize(upload_speed).human('jedec') + '/s';
             }
 
             var download_speed = swarm.downloadSpeed(); // download speed
             var final_download_speed = '0 B/s';
             if (!isNaN(download_speed) && download_speed !== 0) {
-                final_download_speed = prettyBytes(download_speed) + '/s';
+                final_download_speed = fileSize(download_speed).human('jedec') + '/s';
             }
 
             var downloaded = swarm.downloaded || 0; // downloaded
@@ -59,7 +59,7 @@
             var final_downloaded = '0 B';
             var final_downloaded_percent = 0;
             if (downloaded !== 0) {
-                final_downloaded = prettyBytes(downloaded);
+                final_downloaded = fileSize(downloaded).human('jedec');
                 final_downloaded_percent = 100 / this.get('size') * downloaded;
             }
 
