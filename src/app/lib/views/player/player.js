@@ -247,13 +247,13 @@
                         }
 
                         var count = Math.round(_this.video.duration() - _this.video.currentTime());
-                        $('.playing_next span').text(count + ' ' + i18n.__('Seconds'));
+                        $('.playing_next #nextCountdown').text(count);
 
                     } else {
                         if (autoplayisshown) {
                             win.info('Hiding Auto Play message');
                             $('.playing_next').hide();
-                            $('.playing_next span').text('');
+                            $('.playing_next #nextCountdown').text('');
                             autoplayisshown = false;
                         }
 
@@ -275,6 +275,13 @@
                 }
 
                 if (_this.model.get('auto_play')) {
+                    // autoplay player div
+                    var matcher = next_episode_model.get('title').split(/\s-\s/i);
+                    $('.playing_next_poster').attr('src', _this.model.get('cover'));
+                    $('.playing_next_show').text(matcher[0]);
+                    $('.playing_next_episode').text(matcher[2]);
+                    $('.playing_next_number').text(i18n.__('Season %s', next_episode_model.get('season')) + ', ' + i18n.__('Episode %s', next_episode_model.get('episode')));
+
                     _this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
                 }
             });
@@ -403,7 +410,7 @@
         playNextNot: function () {
             win.info('Hiding Auto Play message');
             $('.playing_next').hide();
-            $('.playing_next span').text('');
+            $('.playing_next #nextCountdown').text('');
             autoplayisshown ? false : true;
 
             this.model.set('auto_play', false);

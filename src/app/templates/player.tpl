@@ -21,11 +21,23 @@
 </div>
 <div class="trailer_mouse_catch"></div>
 <div class="playing_next vjs-control-window">
-    <p><%= i18n.__("Playing Next Episode in") %>: 
-        <span id="nextCountdown">60</span>
-    </p>
-    <div class="auto-next-btn playnownext"><%= i18n.__("Play Now") %></div>
-    <div class="auto-next-btn playnownextNOT"><%= i18n.__("No thank you") %></div>
+    <div class="pn_poster">
+        <img class="playing_next_poster" src="images/posterholder.png">
+    </div>
+    <div class="pn_epinfo">
+        <p class="playing_next_show"></p>
+        <p class="playing_next_episode"></p>
+        <p class="playing_next_number"></p>
+    </div>
+    <div class="pn_counter">
+        <p class="playing_next_countertext"><%= i18n.__("Playing Next") %></p>
+        <p id="nextCountdown">60</p>
+    </div>
+    <div class="pn_btns">
+        <div class="auto-next-btn playnownextNOT"><%= i18n.__("No thank you") %></div>
+        <div class="playing_next_btnspacing"></div>
+        <div class="auto-next-btn playnownext"><%= i18n.__("Play Now") %></div>
+    </div>
 </div>
 <%
     var subArray = [];
