@@ -146,7 +146,7 @@
 
         providers: {
             movie: ['Yts'],
-            tvshow: ['Eztv'],
+            tvshow: ['TVApi'],
             anime: ['Haruhichan'],
             subtitle: 'YSubs',
             metadata: 'Trakttv',

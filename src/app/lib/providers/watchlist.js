@@ -2,7 +2,7 @@
 (function (App) {
     'use strict';
     var Q = require('q');
-    var Eztv = App.Providers.get('Eztv');
+    var TVApi = App.Providers.get('TVApi');
 
     var Watchlist = function () {};
     Watchlist.prototype.constructor = Watchlist;
@@ -119,15 +119,15 @@
                         data.next_episode = show.next_episode;
                         // Fallback for old bookmarks without provider in database
                         if (typeof (data.provider) === 'undefined') {
-                            data.provider = 'Eztv';
+                            data.provider = 'TVApi';
                         }
                         deferred.resolve(data);
                     } else {
-                        //If not found, then get the details from Eztv and add it to the DB
-                        data = Eztv.detail(show.show_id, show, false)
+                        //If not found, then get the details from TVApi and add it to the DB
+                        data = TVApi.detail(show.show_id, show, false)
                             .then(function (data) {
                                 if (data) {
-                                    data.provider = 'Eztv';
+                                    data.provider = 'TVApi';
                                     data.type = 'show';
                                     data.next_episode = show.next_episode;
 
@@ -170,7 +170,7 @@
     };
 
     Watchlist.prototype.detail = function (torrent_id, old_data, callback) {
-        return Eztv.detail(torrent_id, old_data, callback);
+        return TVApi.detail(torrent_id, old_data, callback);
     };
 
     Watchlist.prototype.fetchWatchlist = function () {
