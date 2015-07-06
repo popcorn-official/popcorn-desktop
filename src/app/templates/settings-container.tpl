@@ -426,7 +426,7 @@
                     return ratio;
                    }
                 %>
-                <input type="text" size="20" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;<em><%= require('file-size')(Settings.totalDownloaded).human('jedec') %><i class="fa fa-arrow-circle-down"></i><%= require('file-size')(Settings.totalUploaded).human('jedec') %><i class="fa fa-arrow-circle-up"></i></em>
+                <input type="text" size="20" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;<em><%= Common.fileSize(Settings.totalDownloaded) %><i class="fa fa-arrow-circle-down"></i><%= Common.fileSize(Settings.totalUploaded) %><i class="fa fa-arrow-circle-up"></i></em>
             </span>
         </div>
     </section>

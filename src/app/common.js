@@ -62,3 +62,32 @@ Common.copyFile = function (source, target, cb) {
 
     rd.pipe(wr);
 };
+
+Common.fileSize = function (num, base) {
+    // MIT Licensed by Sindre Sorhus - https://github.com/sindresorhus/pretty-bytes
+
+    base = base || 1024;
+    if (typeof num !== 'number' || isNaN(num)) {
+        win.error(new TypeError('Common.fileSize expected a number'));
+        return;
+    }
+
+    var exponent;
+    var unit;
+    var neg = num < 0;
+    var units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    if (neg) {
+        num = -num;
+    }
+
+    if (num < 1) {
+        return (neg ? '-' : '') + num + ' B';
+    }
+
+    exponent = Math.min(Math.floor(Math.log(num) / Math.log(base)), units.length - 1);
+    num = (num / Math.pow(base, exponent)).toFixed(2) * 1;
+    unit = units[exponent];
+
+    return (neg ? '-' : '') + num + ' ' + unit;
+};

@@ -117,7 +117,7 @@
                             magnet: item.magnet,
                             seeds: item.seeds,
                             peers: item.peers,
-                            size: require('file-size')(parseInt(item.size)).human('jedec')
+                            size: Common.fileSize(parseInt(item.size))
                         };
 
                         that.onlineAddItem(itemModel);
@@ -159,7 +159,7 @@
                             magnet: item.magnet_uri,
                             seeds: item.seeds,
                             peers: item.leeches,
-                            size: require('file-size')(parseInt(item.size)).human('jedec')
+                            size: Common.fileSize(parseInt(item.size))
                         };
 
                         that.onlineAddItem(itemModel);
