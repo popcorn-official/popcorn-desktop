@@ -63,28 +63,31 @@ Common.copyFile = function (source, target, cb) {
     rd.pipe(wr);
 };
 
-Common.fileSize = function (num, base) {
-    // MIT Licensed by Sindre Sorhus - https://github.com/sindresorhus/pretty-bytes
-    if (isNaN(parseInt(num)) || (base && isNaN(parseInt(base)))) {
+Common.fileSize = function (num) {
+    if (isNaN(num)) {
         win.error(new TypeError('Common.fileSize: expected a number'));
         return;
     }
 
     num = parseInt(num);
-    base = parseInt(base) || 1024;
-    var exponent;
-    var unit, units;
+
+    var exponent, unit, units, base;
     var neg = num < 0;
-    switch(base) {
-        case 1000:
-            units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-            break;
-        case 1024:
+
+    switch (os.platform()) {
+        case 'linux':
+            base = 1024;
             units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
             break;
+        case 'win32':
+            base = 1024;
+            units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+            break;
+        case 'darwin':
+            /* falls through */
         default:
-            win.error(new TypeError('Common.fileSize: base should be 1000 or 1024'));
-            return;
+            base = 1000;
+            units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     }
 
     if (neg) {
@@ -92,12 +95,23 @@ Common.fileSize = function (num, base) {
     }
 
     if (num < 1) {
-        return (neg ? '-' : '') + num + ' B';
+        unit = units[0];
+        if (Settings.language === 'fr') {
+            unit = unit.replace('B', 'o');
+        }
+        return (neg ? '-' : '') + num + ' ' + unit;
     }
 
     exponent = Math.min(Math.floor(Math.log(num) / Math.log(base)), units.length - 1);
     num = (num / Math.pow(base, exponent)).toFixed(2) * 1;
     unit = units[exponent];
 
+    var matcher = Settings.language.match(/sq|es|hy|az|be|qu|pt|bs|ca|bg|hr|cs|da|et|fo|fi|fr|de|ka|el|hu|is|id|it|kk|lv|lt|mn|nl|nn|nb|no|pl|ro|ru|sr|sk|sl|sv|tr|uk|uz|vi/);
+    if (matcher !== null) {
+        num = num.toString().replace('.', ',');
+    }
+    if (Settings.language === 'fr') {
+        unit = unit.replace('B', 'o');
+    }
     return (neg ? '-' : '') + num + ' ' + unit;
 };
