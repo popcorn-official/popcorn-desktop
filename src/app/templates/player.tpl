@@ -35,7 +35,6 @@
     </div>
     <div class="pn_btns">
         <div class="auto-next-btn playnownextNOT"><%= i18n.__("No thank you") %></div>
-        <div class="playing_next_btnspacing"></div>
         <div class="auto-next-btn playnownext"><%= i18n.__("Play Now") %></div>
     </div>
 </div>

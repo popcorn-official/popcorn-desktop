@@ -110,7 +110,7 @@
     .playing_next {
         color: #fff
         z-index: 23
-        bottom: 70px !important
+        bottom: 10vh !important
         width: 400px;
         height: 140px;
         padding: 10px
@@ -119,7 +119,6 @@
         display: none
         background-color: rgba(0, 0, 0, 0.54) !important
         overflow: hidden
-        font-family: $MainFont;
         
         .pn_poster {
             width: 90px;
@@ -137,15 +136,16 @@
             text-align: left;
             
             .playing_next_show {
-                font-size: 16px;
+                font-size: 15px;
+                font-weight: bold;
                 line-height: 20px;
             }
             .playing_next_episode {
-                font-size: 12px;
+                font-size: 11px;
                 line-height: 14px;
             }
             .playing_next_number {
-                font-size: 18px;
+                font-size: 17px;
                 margin-top: 18px;
             }
         }
@@ -162,8 +162,7 @@
 
             #nextCountdown {
                 color: rgb(0, 143, 255);
-                font-size: 36px;
-                font-family: $MainFont;
+                font-size: 38px;
                 text-align: center;
                 margin-top: 6px;
             }
@@ -176,7 +175,8 @@
             .auto-next-btn {
                 position relative
                 float left
-                margin 3px 15px 0px 15px
+                margin-top 3px
+                margin-left 15px
                 padding 12px
 
                 border-radius $ButtonRadius
@@ -184,7 +184,7 @@
                 text-align center
                 color $SettingsButtonText
                 font-family $ButtonFont, $AlternateFont
-                font-size 13px
+                font-size 12px
                 cursor pointer
                 transition background-color .5s
                 &:hover {
