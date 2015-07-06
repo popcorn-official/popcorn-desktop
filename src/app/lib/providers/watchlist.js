@@ -117,8 +117,8 @@
                         data.image = data.images.poster;
                         data.imdb = data.imdb_id;
                         data.next_episode = show.next_episode;
-                        // Fallback for old bookmarks without provider in database
-                        if (typeof (data.provider) === 'undefined') {
+                        // Fallback for old bookmarks without provider in database or marked as Eztv
+                        if (typeof (data.provider) === 'undefined' || data.provider === 'Eztv') {
                             data.provider = 'TVApi';
                         }
                         deferred.resolve(data);
