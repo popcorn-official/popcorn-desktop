@@ -44,6 +44,7 @@
             'updated',
             'year',
             'name',
+            'trending',
             'rating'
         ],
 
