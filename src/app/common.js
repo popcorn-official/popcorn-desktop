@@ -65,17 +65,27 @@ Common.copyFile = function (source, target, cb) {
 
 Common.fileSize = function (num, base) {
     // MIT Licensed by Sindre Sorhus - https://github.com/sindresorhus/pretty-bytes
-
-    base = base || 1024;
-    if (typeof num !== 'number' || isNaN(num)) {
-        win.error(new TypeError('Common.fileSize expected a number'));
+    if (isNaN(parseInt(num)) || (base && isNaN(parseInt(base)))) {
+        win.error(new TypeError('Common.fileSize: expected a number'));
         return;
     }
 
+    num = parseInt(num);
+    base = parseInt(base) || 1024;
     var exponent;
-    var unit;
+    var unit, units;
     var neg = num < 0;
-    var units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    switch(base) {
+        case 1000:
+            units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+            break;
+        case 1024:
+            units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+            break;
+        default:
+            win.error(new TypeError('Common.fileSize: base should be 1000 or 1024'));
+            return;
+    }
 
     if (neg) {
         num = -num;
