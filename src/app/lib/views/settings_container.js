@@ -648,11 +648,11 @@
                     $('#syncTrakt')
                         .text(i18n.__('Done'))
                         .removeClass('disabled')
-                        .addClass('green')
+                        .addClass('ok')
                         .delay(3000)
                         .queue(function () {
                             $('#syncTrakt')
-                                .removeClass('green')
+                                .removeClass('ok')
                                 .prop('disabled', false);
                             document.getElementById('syncTrakt').innerHTML = oldHTML;
                             $('#syncTrakt').dequeue();
