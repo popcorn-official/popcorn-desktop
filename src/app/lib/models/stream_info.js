@@ -40,13 +40,13 @@
             var buffer_percent = 0;
 
             var upload_speed = swarm.uploadSpeed(); // upload speed
-            var final_upload_speed = '0 B/s';
+            var final_upload_speed = Common.fileSize(0) + '/s';
             if (!isNaN(upload_speed) && upload_speed !== 0) {
                 final_upload_speed = Common.fileSize(upload_speed) + '/s';
             }
 
             var download_speed = swarm.downloadSpeed(); // download speed
-            var final_download_speed = '0 B/s';
+            var final_download_speed = Common.fileSize(0) + '/s';
             if (!isNaN(download_speed) && download_speed !== 0) {
                 final_download_speed = Common.fileSize(download_speed) + '/s';
             }
@@ -55,7 +55,7 @@
             if (swarm.cachedDownload) {
                 downloaded += swarm.cachedDownload;
             }
-            var final_downloaded = '0 B';
+            var final_downloaded = Common.fileSize(0);
             var final_downloaded_percent = 0;
             if (downloaded !== 0) {
                 final_downloaded = Common.fileSize(downloaded);

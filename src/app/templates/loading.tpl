@@ -19,9 +19,9 @@
                 <span class="buffer_percent"></span><br><br>
                 
                 <span class="loading-info-text"><%= i18n.__("Download") %>:&nbsp;</span>
-                <span class="download_speed value">0 B/s</span><br>
+                <span class="download_speed value"><%= Common.fileSize(0) %>/s</span><br>
                 <span class="loading-info-text"><%= i18n.__("Upload") %>:&nbsp;</span>
-                <span class="upload_speed value">0 B/s</span><br>
+                <span class="upload_speed value"><%= Common.fileSize(0) %>/s</span><br>
                 <span class="loading-info-text"><%= i18n.__("Active Peers") %>:&nbsp;</span>
                 <span class="value_peers value">0</span>
             </div>

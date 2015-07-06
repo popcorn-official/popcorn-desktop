@@ -81,15 +81,15 @@ for(var i = 0; i < genre.length; i++){ genre[i] = i18n.__(genre[i]); };
                 <div class="q720">720p</div>
                 <div class="q1080">1080p</div>
                 <div class="quality switch white">
-                    <input data-toogle="tooltip" data-placement="top" title="720p - <%= torrents['720p'].filesize %><br>1080p - <%= torrents['1080p'].filesize %>" type="radio" name="switch" id="switch-hd-off" >
-                    <input data-toogle="tooltip" data-placement="top" title="720p - <%= torrents['720p'].filesize %><br>1080p - <%= torrents['1080p'].filesize %>" type="radio" name="switch" id="switch-hd-on" checked >
+                    <input data-toogle="tooltip" data-placement="top" title="720p - <%= Common.fileSize(torrents['720p'].size) %><br>1080p - <%= Common.fileSize(torrents['1080p'].size) %>" type="radio" name="switch" id="switch-hd-off" >
+                    <input data-toogle="tooltip" data-placement="top" title="720p - <%= Common.fileSize(torrents['720p'].size) %><br>1080p - <%= Common.fileSize(torrents['1080p'].size) %>" type="radio" name="switch" id="switch-hd-on" checked >
                     <span class="toggle"></span>
                 </div>
             <% } else { %>
                 <% if (torrents["720p"] !== undefined) { %>
-                    <div data-toogle="tooltip" data-placement="top" title="<%= torrents['720p'].filesize %>" class="q720">720p</div>
+                    <div data-toogle="tooltip" data-placement="top" title="<%= Common.fileSize(torrents['720p'].size) %>" class="q720">720p</div>
                 <% }else if (torrents["1080p"] !== undefined) { %>
-                    <div data-toogle="tooltip" data-placement="top" title="<%= torrents['1080p'].filesize %>" class="q720">1080p</div>
+                    <div data-toogle="tooltip" data-placement="top" title="<%= Common.fileSize(torrents['1080p'].size) %>" class="q720">1080p</div>
                 <% } else { %>HDRip<% } %> 
             <% } %>
         </div>
