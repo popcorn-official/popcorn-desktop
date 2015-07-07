@@ -34,6 +34,7 @@ app.nw
 src/app/css/app.css
 *.sublime-*
 dist/windows/*-Setup.exe
+dist/windows/update.exe
 dist/linux/linux-installer
 dist/linux/*.deb
 *.bat

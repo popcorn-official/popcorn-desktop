@@ -1,5 +1,5 @@
 ﻿;Popcorn Time
-;Installer Source for NSIS 3.0 or higher
+;Updater Source for NSIS 3.0 or higher
 
 ;Enable Unicode encoding
 Unicode True
@@ -56,12 +56,12 @@ Caption "${APP_NAME} ${PT_VERSION}"
 BrandingText "${APP_NAME} ${PT_VERSION}"
 VIAddVersionKey "ProductName" "${APP_NAME}"
 VIAddVersionKey "ProductVersion" "${PT_VERSION}"
-VIAddVersionKey "FileDescription" "${APP_NAME} ${PT_VERSION} Installer"
+VIAddVersionKey "FileDescription" "${APP_NAME} ${PT_VERSION} Updater"
 VIAddVersionKey "FileVersion" "${PT_VERSION}"
 VIAddVersionKey "CompanyName" "${COMPANY_NAME}"
 VIAddVersionKey "LegalCopyright" "${APP_URL}"
 VIProductVersion "${PT_VERSION_CLEAN}.0"
-OutFile "${APP_NAME}-${PT_VERSION}-Win-Setup.exe"
+OutFile "update.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 
@@ -99,9 +99,6 @@ RequestExecutionLevel user
 !define MUI_FINISHPAGE_SHOWREADME_FUNCTION finishpageaction
 
 ;Define the pages
-!insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "LICENSE.txt"
-!insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
 
@@ -337,6 +334,7 @@ LangString desktopShortcut ${LANG_Welsh} "Llwybr Byr ar y Bwrdd Gwaith"
 ; ------------------- ;
 ;    Install code     ;
 ; ------------------- ;
+
 Function .onInit ; check for previous version
     ReadRegStr $0 HKCU "${UNINSTALL_KEY}" "InstallString"
     StrCmp $0 "" done
@@ -498,85 +496,6 @@ Section "uninstall"
     DeleteRegKey HKCU "Software\Classes\Applications\${APP_LAUNCHER}" ;file association
     
 SectionEnd
-
-; ------------------- ;
-;  Check if writable  ;
-; ------------------- ;
-Function IsWritable
-
-  !define IsWritable `!insertmacro IsWritableCall`
- 
-  !macro IsWritableCall _PATH _RESULT
-    Push `${_PATH}`
-    Call IsWritable
-    Pop ${_RESULT}
-  !macroend
- 
-  Exch $R0
-  Push $R1
- 
-start:
-  StrLen $R1 $R0
-  StrCmp $R1 0 exit
-  ${GetFileAttributes} $R0 "DIRECTORY" $R1
-  StrCmp $R1 1 direxists
-  ${GetParent} $R0 $R0
-  Goto start
- 
-direxists:
-  ${GetFileAttributes} $R0 "DIRECTORY" $R1
-  StrCmp $R1 0 ok
-
-  StrCmp $R0 $PROGRAMFILES64 notok
-  StrCmp $R0 $WINDIR notok
-
-  ${GetFileAttributes} $R0 "READONLY" $R1
-
-  Goto exit
-
-notok:
-  StrCpy $R1 1
-  Goto exit
-
-ok:
-  StrCpy $R1 0
- 
-exit:
-  Exch
-  Pop $R0
-  Exch $R1
- 
-FunctionEnd
-
-; ------------------- ;
-;  Check install dir  ;
-; ------------------- ;
-Function CloseBrowseForFolderDialog
-	!ifmacrodef "_P<>" ; NSIS 3+
-		System::Call 'USER32::GetActiveWindow()p.r0'
-		${If} $0 P<> $HwndParent
-	!else
-		System::Call 'USER32::GetActiveWindow()i.r0'
-		${If} $0 <> $HwndParent
-	!endif
-		SendMessage $0 ${WM_CLOSE} 0 0
-		${EndIf}
-FunctionEnd
-
-Function .onVerifyInstDir
-
-  Push $R1
-  ${IsWritable} $INSTDIR $R1
-  IntCmp $R1 0 pathgood
-  Pop $R1
-  Call CloseBrowseForFolderDialog
-  MessageBox MB_OK|MB_USERICON "$(noRoot)"
-  Abort
-
-pathgood:
-  Pop $R1
-
-FunctionEnd
 
 ; ------------------ ;
 ;  Desktop Shortcut  ;
