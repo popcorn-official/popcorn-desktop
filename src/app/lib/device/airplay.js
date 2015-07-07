@@ -30,7 +30,6 @@
     });
 
 
-
     browser.on('deviceOn', function (device) {
 
         collection.add(new Airplay({
@@ -47,8 +46,8 @@
             model.destroy();
         }
     });
-        win.info('Scanning: Local Network for Airplay devices');
-browser.start();
+    win.info('Scanning: Local Network for Airplay devices');
+    browser.start();
     App.Device.Airplay = Airplay;
 
 })(window.App);

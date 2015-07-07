@@ -75,19 +75,19 @@ Common.fileSize = function (num) {
     var neg = num < 0;
 
     switch (os.platform()) {
-        case 'linux':
-            base = 1024;
-            units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-            break;
-        case 'win32':
-            base = 1024;
-            units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-            break;
-        case 'darwin':
-            /* falls through */
-        default:
-            base = 1000;
-            units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    case 'linux':
+        base = 1024;
+        units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+        break;
+    case 'win32':
+        base = 1024;
+        units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        break;
+    case 'darwin':
+        /* falls through */
+    default:
+        base = 1000;
+        units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     }
 
     if (neg) {
