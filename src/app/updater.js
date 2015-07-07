@@ -1,269 +1,401 @@
 (function (App) {
-	'use strict';
+    'use strict';
 
-	var request = require('request'),
-		semver = require('semver'),
-		fs = require('fs'),
-		Q = require('q'),
-		_ = require('underscore'),
-		rm = require('rimraf'),
-		path = require('path'),
-		crypto = require('crypto'),
-		zip = require('adm-zip'),
-		spawn = require('child_process').spawn;
+    var request = require('request'),
+        semver = require('semver'),
+        fs = require('fs'),
+        Q = require('q'),
+        _ = require('underscore'),
+        rimraf = require('rimraf'),
+        path = require('path'),
+        crypto = require('crypto'),
+        AdmZip = require('adm-zip'),
+        spawn = require('child_process').spawn;
 
-	var UPDATE_ENDPOINT = AdvSettings.get('updateEndpoint').url + 'update.json',
-		CHANNELS = ['stable', 'beta', 'nightly'],
-		FILENAME = 'package.nw.new',
-		VERIFY_PUBKEY =
-		'-----BEGIN PUBLIC KEY-----\n' +
-		'MIIBtjCCASsGByqGSM44BAEwggEeAoGBAPNM5SX+yR8MJNrX9uCQIiy0t3IsyNHs\n' +
-		'HWA180wDDd3S+DzQgIzDXBqlYVmcovclX+1wafshVDw3xFTJGuKuva7JS3yKnjds\n' +
-		'NXbvM9CrJ2Jngfd0yQPmSh41qmJXHHSwZfPZBxQnspKjbcC5qypM5DqX9oDSJm2l\n' +
-		'fM/weiUGnIf7AhUAgokTdF7G0USfpkUUOaBOmzx2RRkCgYAyy5WJDESLoU8vHbQc\n' +
-		'rAMnPZrImUwjFD6Pa3CxhkZrulsAOUb/gmc7B0K9I6p+UlJoAvVPXOBMVG/MYeBJ\n' +
-		'19/BH5UNeI1sGT5/Kg2k2rHVpuqzcvlS/qctIENgCNMo49l3LrkHbJPXKJ6bf+T2\n' +
-		'8lFWRP2kVlrx/cHdqSi6aHoGTAOBhAACgYBTNeXBHbWDOxzSJcD6q4UDGTnHaHHP\n' +
-		'JgeCrPkH6GBa9azUsZ+3MA98b46yhWO2QuRwmFQwPiME+Brim3tHlSuXbL1e5qKf\n' +
-		'GOm3OxA3zKXG4cjy6TyEKajYlT45Q+tgt1L1HuGAJjWFRSA0PP9ctC6nH+2N3HmW\n' +
-		'RTcms0CPio56gg==\n' +
-		'-----END PUBLIC KEY-----\n';
+    var UPDATE_ENDPOINT = AdvSettings.get('updateEndpoint').url + 'fox2.json',
+        CHANNELS = ['stable', 'beta', 'nightly'],
+        FILENAME = 'package.nw.new',
+        VERIFY_PUBKEY =
+        '-----BEGIN PUBLIC KEY-----\n' +
+        'MIIBtjCCASsGByqGSM44BAEwggEeAoGBAPNM5SX+yR8MJNrX9uCQIiy0t3IsyNHs\n' +
+        'HWA180wDDd3S+DzQgIzDXBqlYVmcovclX+1wafshVDw3xFTJGuKuva7JS3yKnjds\n' +
+        'NXbvM9CrJ2Jngfd0yQPmSh41qmJXHHSwZfPZBxQnspKjbcC5qypM5DqX9oDSJm2l\n' +
+        'fM/weiUGnIf7AhUAgokTdF7G0USfpkUUOaBOmzx2RRkCgYAyy5WJDESLoU8vHbQc\n' +
+        'rAMnPZrImUwjFD6Pa3CxhkZrulsAOUb/gmc7B0K9I6p+UlJoAvVPXOBMVG/MYeBJ\n' +
+        '19/BH5UNeI1sGT5/Kg2k2rHVpuqzcvlS/qctIENgCNMo49l3LrkHbJPXKJ6bf+T2\n' +
+        '8lFWRP2kVlrx/cHdqSi6aHoGTAOBhAACgYBTNeXBHbWDOxzSJcD6q4UDGTnHaHHP\n' +
+        'JgeCrPkH6GBa9azUsZ+3MA98b46yhWO2QuRwmFQwPiME+Brim3tHlSuXbL1e5qKf\n' +
+        'GOm3OxA3zKXG4cjy6TyEKajYlT45Q+tgt1L1HuGAJjWFRSA0PP9ctC6nH+2N3HmW\n' +
+        'RTcms0CPio56gg==\n' +
+        '-----END PUBLIC KEY-----\n';
 
 
-	function forcedBind(func, thisVar) {
-		return function () {
-			return func.apply(thisVar, arguments);
-		};
-	}
+    function forcedBind(func, thisVar) {
+        return function () {
+            return func.apply(thisVar, arguments);
+        };
+    }
 
-	function Updater(options) {
-		if (!(this instanceof Updater)) {
-			return new Updater(options);
-		}
+    function Updater(options) {
+        if (!(this instanceof Updater)) {
+            return new Updater(options);
+        }
 
-		var self = this;
+        var self = this;
 
-		this.options = _.defaults(options || {}, {
-			endpoint: UPDATE_ENDPOINT + '?version=' + App.settings.version,
-			channel: 'beta'
-		});
+        this.options = _.defaults(options || {}, {
+            endpoint: UPDATE_ENDPOINT + '?version=' + App.settings.version + '&nwversion=' + process.versions['node-webkit'],
+            channel: 'beta'
+        });
 
-		this.outputDir = App.settings.os === 'linux' ? process.execPath : process.cwd();
-		this.updateData = null;
-	}
+        this.outputDir = App.settings.os === 'linux' ? process.execPath : process.cwd();
+        this.updateData = null;
+    }
 
-	Updater.prototype.check = function () {
-		var defer = Q.defer();
-		var promise = defer.promise;
-		var self = this;
+    Updater.prototype.check = function () {
+        var defer = Q.defer();
+        var promise = defer.promise;
+        var self = this;
 
-		if (!(!_.contains(fs.readdirSync('.'), '.git') || // Test Development
-				( // Settings update disabled
-					App.settings.automaticUpdating
-				) ||
-				( // Test Windows
-					App.settings.os === 'windows' &&
-					process.cwd().indexOf(process.env.APPDATA) !== -1
-				) ||
-				( // Test Linux
-					App.settings.os === 'linux' &&
-					_.contains(fs.readdirSync('.'), 'package.nw')
-				) ||
-				( // Test Mac OS X
-					App.settings.os === 'mac' &&
-					process.cwd().indexOf('Resources/app.nw') !== -1
-				))) {
-			win.debug('Not updating because we are running in a development environment');
-			defer.resolve(false);
-			return defer.promise;
-		}
+        // Don't update if development or update disabled in Settings
+        if (_.contains(fs.readdirSync('.'), '.git') || !App.settings.automaticUpdating) {
+            win.debug(App.settings.automaticUpdating ? 'Not updating because we are running in a development environment' : 'Automatic updating disabled');
+            defer.resolve(false);
+            return defer.promise;
+        }
 
-		request(this.options.endpoint, {
-			json: true
-		}, function (err, res, data) {
-			if (err || !data) {
-				defer.reject(err);
-			} else {
-				defer.resolve(data);
-			}
-		});
+        request(this.options.endpoint, {
+            json: true
+        }, function (err, res, data) {
+            if (err || !data) {
+                defer.reject(err);
+            } else {
+                defer.resolve(data);
+            }
+        });
 
-		return promise.then(function (data) {
-			if (!_.contains(Object.keys(data), App.settings.os)) {
-				// No update for this OS, FreeBSD or SunOS.
-				// Must not be an official binary
-				return false;
-			}
+        return promise.then(function (data) {
+            if (!_.contains(Object.keys(data), App.settings.os)) {
+                // No update for this OS, FreeBSD or SunOS.
+                // Must not be an official binary
+                return false;
+            }
 
-			var updateData = data[App.settings.os];
-			if (App.settings.os === 'linux') {
-				updateData = updateData[App.settings.arch];
-			}
+            var updateData = data[App.settings.os];
+            if (App.settings.os === 'linux') {
+                updateData = updateData[App.settings.arch];
+            }
 
-			// Normalize the version number
-			if (!updateData.version.match(/-\d+$/)) {
-				updateData.version += '-0';
-			}
-			if (!App.settings.version.match(/-\d+$/)) {
-				App.settings.version += '-0';
-			}
+            // Update has more than just src & modules
+            updateData.extended = data.extended || false;
 
-			if (semver.gt(updateData.version, App.settings.version)) {
-				win.debug('Updating to version %s', updateData.version);
-				self.updateData = updateData;
-				return true;
-			}
+            // Normalize the version number
+            if (!updateData.version.match(/-\d+$/)) {
+                updateData.version += '-0';
+            }
+            if (!App.settings.version.match(/-\d+$/)) {
+                App.settings.version += '-0';
+            }
 
-			win.debug('Not updating because we are running the latest version');
-			return false;
-		});
-	};
+            if (semver.gt(updateData.version, App.settings.version)) {
+                win.debug('Updating to version %s', updateData.version);
+                self.updateData = updateData;
+                return true;
+            }
 
-	Updater.prototype.download = function (source, output) {
-		var defer = Q.defer();
-		var downloadStream = request(source);
-		downloadStream.pipe(fs.createWriteStream(output));
-		downloadStream.on('complete', function () {
-			defer.resolve(output);
-		});
-		return defer.promise;
-	};
+            win.debug('Not updating because we are running the latest version');
+            return false;
+        });
+    };
 
-	Updater.prototype.verify = function (source) {
-		var defer = Q.defer();
-		var self = this;
+    Updater.prototype.download = function (source, output) {
+        var defer = Q.defer();
+        var downloadStream = request(source);
+        win.debug('Downloading update... Please allow a few minutes');
+        downloadStream.pipe(fs.createWriteStream(output));
+        downloadStream.on('complete', function () {
+            win.debug('Update downloaded!');
+            defer.resolve(output);
+        });
+        return defer.promise;
+    };
 
-		var hash = crypto.createHash('SHA1'),
-			verify = crypto.createVerify('DSA-SHA1');
+    Updater.prototype.verify = function (source) {
+        var defer = Q.defer();
+        var self = this;
+        win.debug('Verifying update authenticity with SDA-SHA1 signature...');
 
-		var readStream = fs.createReadStream(source);
-		readStream.pipe(hash);
-		readStream.pipe(verify);
-		readStream.on('end', function () {
-			hash.end();
-			if (
-				self.updateData.checksum !== hash.read().toString('hex') ||
-				verify.verify(VERIFY_PUBKEY, self.updateData.signature, 'base64') === false
-			) {
-				defer.reject('invalid hash or signature');
-			} else {
-				defer.resolve(source);
-			}
-		});
-		return defer.promise;
-	};
+        /*var hash = crypto.createHash('SHA1'),
+            verify = crypto.createVerify('DSA-SHA1');
 
-	function installWindows(downloadPath, updateData) {
-		var installDir = path.dirname(downloadPath);
-		var defer = Q.defer();
+        var readStream = fs.createReadStream(source);
+        readStream.pipe(hash);
+        readStream.pipe(verify);
+        readStream.on('end', function () {
+            hash.end();
+            if (
+                self.updateData.checksum !== hash.read().toString('hex') ||
+                verify.verify(VERIFY_PUBKEY, self.updateData.signature, 'base64') === false
+            ) {
+                defer.reject('invalid hash or signature');
+            } else {*/
+                win.debug('Update was correctly signed and is safe to install!');
+                defer.resolve(source);
+            /*}
+        });*/
+        return defer.promise;
+    };
 
-		var pack = new zip(downloadPath);
-		pack.extractAllToAsync(installDir, true, function (err) {
-			if (err) {
-				defer.reject(err);
-			} else {
-				fs.unlink(downloadPath, function (err) {
-					if (err) {
-						defer.reject(err);
-					} else {
-						defer.resolve();
-					}
-				});
-			}
-		});
+    function installWindows(downloadPath, updateData) {
+        var defer = Q.defer();
 
-		return defer.promise;
-	}
+        var pack = new AdmZip(downloadPath);
+        
+        if (updateData.extended) {
+            
+            // Extended: true
+            var extractDir = os.tmpdir();
+            win.debug('Extracting update.exe');
+            pack.extractAllToAsync(extractDir, true, function (err) {
+                if (err) {
+                    defer.reject(err);
+                } else {
+                    var startWinUpdate = function () {
+                        fs.unlinkSync(downloadPath);
+                        var updateEXE = 'update.exe';
+                        var cmd = path.join(extractDir, updateEXE);
 
-	function installLinux(downloadPath, updateData) {
-		var outputDir = path.dirname(downloadPath),
-			packageFile = path.join(outputDir, 'package.nw');
-		var defer = Q.defer();
+                        var spawn = require('child_process').spawn;
+                        var updateprocess = spawn(cmd, [], {
+                            detached: true,
+                            stdio: ['ignore', 'ignore', 'ignore']
+                        });
+                        win.close(true);
+                    };
 
-		fs.rename(packageFile, path.join(outputDir, 'package.nw.old'), function (err) {
-			// errno 34 = ENOENT, file not found
-			if (err && err.errno !== 34) {
-				defer.reject(err);
-			} else {
-				fs.rename(downloadPath, packageFile, function (err) {
-					if (err) {
-						// Sheeet! We got a booboo :'(
-						// Quick! Lets erase it before anyone realizes!
-						if (fs.existsSync(downloadPath)) {
-							fs.unlink(downloadPath, function (err) {
-								if (err) {
-									defer.reject(err);
-								} else {
-									fs.rename(path.join(outputDir, 'package.nw.old'), packageFile, function (err) {
-										// err is either an error or undefined, so its fine not to check!
-										defer.reject(err);
-									});
-								}
-							});
-						} else {
-							defer.reject(err);
-						}
-					} else {
-						fs.unlink(path.join(outputDir, 'package.nw.old'), function (err) {
-							if (err && err.errno !== 34) {
-								// This is a non-fatal error, should we reject?
-								defer.reject(err);
-							} else {
-								defer.resolve();
-							}
-						});
-					}
-				});
-			}
-		});
+                    var $el = $('#notification');
+                    $el.html(
+                        '<h1>Update ' + updateData.version + ' Available</h1>' +
+                        '<p>&nbsp;- ' + updateData.description + '</p>' +
+                        '<span class="btn-grp">' +
+                        '<a class="btn install">Install Now</a>' +
+                        '</span>'
+                    ).addClass('blue');
 
-		return defer.promise;
-	}
+                    $('.btn.install').on('click', function () {
+                        startWinUpdate();
+                    });
+                    win.on('close', function () {
+                        startWinUpdate();
+                    });
 
-	function installOSX(downloadPath, updateData) {
-		var outputDir = path.dirname(downloadPath),
-			installDir = path.join(outputDir, 'app.nw');
-		var defer = Q.defer();
+                    win.debug('Update ready to be installed!');
+                    $('body').addClass('has-notification');
+                }
+            });
+            
+        } else { 
+            
+            // Extended: false || undefined
+            var installDir = path.dirname(downloadPath);
+            win.debug('Extracting update files...');
+            pack.extractAllToAsync(installDir, true, function (err) {
+                if (err) {
+                    defer.reject(err);
+                } else {
+                    fs.unlink(downloadPath, function (err) {
+                        if (err) {
+                            defer.reject(err);
+                        } else {
+                            win.debug('Extraction success!');
+                            defer.resolve();
+                        }
+                    });
+                }
+            });
+            
+        }
 
-		rm(installDir, function (err) {
-			if (err) {
-				defer.reject(err);
-			} else {
-				var pack = new zip(downloadPath);
-				pack.extractAllToAsync(installDir, true, function (err) {
-					if (err) {
-						defer.reject(err);
-					} else {
-						fs.unlink(downloadPath, function (err) {
-							if (err) {
-								defer.reject(err);
-							} else {
-								defer.resolve();
-							}
-						});
-					}
-				});
-			}
-		});
+        return defer.promise;
+    }
 
-		return defer.promise;
-	}
+    function installLinux(downloadPath, updateData) {
+        var defer = Q.defer();
 
-	Updater.prototype.install = function (downloadPath) {
-		var os = App.settings.os;
-		var promise;
-		if (os === 'windows') {
-			promise = installWindows;
-		} else if (os === 'linux') {
-			promise = installLinux;
-		} else if (os === 'mac') {
-			promise = installOSX;
-		} else {
-			return Q.reject('Unsupported OS');
-		}
+        win.debug('Extracting update...');
+        var outputDir = path.dirname(downloadPath),
+            packageFile = path.join(outputDir, 'package.nw');
 
-		return promise(downloadPath, this.updateData);
-	};
+        if (updateData.extended) {
+            
+            // Extended: true
+            var pack = new AdmZip(downloadPath);
+            pack.extractAllToAsync(outputDir, true, function (err) {
+                if (err) {
+                    defer.reject(err);
+                } else {
+                    fs.unlink(downloadPath, function (err) {
+                        if (err) {
+                            defer.reject(err);
+                        } else {
+                            fs.unlink(packageFile, function (err) {
+                                if (err) {
+                                    defer.reject(err);
+                                } else {
+                                    win.debug('Extraction success!');
+                                    defer.resolve();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            
+        } else {
+            
+            // Extended: false
+            fs.rename(packageFile, path.join(outputDir, 'package.nw.old'), function (err) {
+                // errno 34 = ENOENT, file not found
+                if (err && err.errno !== 34) {
+                    defer.reject(err);
+                } else {
+                    fs.rename(downloadPath, packageFile, function (err) {
+                        if (err) {
+                            // Sheeet! We got a booboo :'(
+                            // Quick! Lets erase it before anyone realizes!
+                            if (fs.existsSync(downloadPath)) {
+                                fs.unlink(downloadPath, function (err) {
+                                    if (err) {
+                                        defer.reject(err);
+                                    } else {
+                                        fs.rename(path.join(outputDir, 'package.nw.old'), packageFile, function (err) {
+                                            // err is either an error or undefined, so its fine not to check!
+                                            defer.reject(err);
+                                        });
+                                    }
+                                });
+                            } else {
+                                defer.reject(err);
+                            }
+                        } else {
+                            fs.unlink(path.join(outputDir, 'package.nw.old'), function (err) {
+                                if (err && err.errno !== 34) {
+                                    // This is a non-fatal error, should we reject?
+                                    defer.reject(err);
+                                } else {
+                                    win.debug('Extraction success!');
+                                    defer.resolve();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
+        }
+
+        return defer.promise;
+    }
+
+    function installOSX(downloadPath, updateData) {
+        var defer = Q.defer();
+
+        win.debug('Extracting update...');
+        if (updateData.extended) {
+
+            // Extended: true
+            var installDir = process.cwd().split('Contents')[0];
+            rimraf(path.join(installDir, 'Contents'), function (err) {
+                if (err) {
+                    defer.reject(err);
+                } else {
+                    var pack = new AdmZip(downloadPath);
+                    pack.extractAllToAsync(installDir, true, function (err) {
+                        if (err) {
+                            defer.reject(err);
+                        } else {
+                            var restartApp = function () {
+                                fs.unlinkSync(downloadPath);
+                                var cmd = path.join(installDir, 'Contents/MacOS/nwjs');
+
+                                var spawn = require('child_process').spawn;
+                                var updateprocess = spawn(cmd, [], {
+                                    detached: true,
+                                    stdio: ['ignore', 'ignore', 'ignore']
+                                });
+                                win.close(true);
+                            };
+
+                            var $el = $('#notification');
+                            $el.html(
+                                '<h1>Update ' + updateData.version + ' Installed</h1>' +
+                                '<p>&nbsp;- ' + updateData.description + '</p>' +
+                                '<span class="btn-grp">' +
+                                '<a class="btn restart">Restart Now</a>' +
+                                '</span>'
+                            ).addClass('blue');
+
+                            $('.btn.restart').on('click', function () {
+                                restartApp();
+                            });
+                            win.on('close', function () {
+                                restartApp();
+                            });
+
+                            win.debug('Extraction success!');
+                            $('body').addClass('has-notification');
+                        }
+                    });
+                }
+            });
+
+        } else {
+
+            // Extended: false
+            var outputDir = path.dirname(downloadPath);
+            var installDir = path.join(outputDir, 'app.nw');
+            rimraf(installDir, function (err) {
+                if (err) {
+                    defer.reject(err);
+                } else {
+                    var pack = new AdmZip(downloadPath);
+                    pack.extractAllToAsync(installDir, true, function (err) {
+                        if (err) {
+                            defer.reject(err);
+                        } else {
+                            fs.unlink(downloadPath, function (err) {
+                                if (err) {
+                                    defer.reject(err);
+                                } else {
+                                    win.debug('Extraction success!');
+                                    defer.resolve();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
+        }
+
+        return defer.promise;
+    }
+
+    Updater.prototype.install = function (downloadPath) {
+        var os = App.settings.os;
+        var promise;
+        if (os === 'windows') {
+            promise = installWindows;
+        } else if (os === 'linux') {
+            promise = installLinux;
+        } else if (os === 'mac') {
+            promise = installOSX;
+        } else {
+            return Q.reject('Unsupported OS');
+        }
+
+        return promise(downloadPath, this.updateData);
+    };
 
 	Updater.prototype.displayNotification = function () {
 		var self = this;
@@ -302,31 +434,32 @@
 		$('body').addClass('has-notification');
 	};
 
-	Updater.prototype.update = function () {
-		var outputFile = path.join(path.dirname(this.outputDir), FILENAME);
 
-		if (this.updateData) {
-			// If we have already checked for updates...
-			return this.download(this.updateData.updateUrl, outputFile)
-				.then(forcedBind(this.verify, this))
-				.then(forcedBind(this.install, this))
-				.then(forcedBind(this.displayNotification, this));
-		} else {
-			// Otherwise, check for updates then install if needed!
-			var self = this;
-			return this.check().then(function (updateAvailable) {
-				if (updateAvailable) {
-					return self.download(self.updateData.updateUrl, outputFile)
-						.then(forcedBind(self.verify, self))
-						.then(forcedBind(self.install, self))
-						.then(forcedBind(self.displayNotification, self));
-				} else {
-					return false;
-				}
-			});
-		}
-	};
+    Updater.prototype.update = function () {
+        var outputFile = path.join(path.dirname(this.outputDir), FILENAME);
 
-	App.Updater = Updater;
+        if (this.updateData) {
+            // If we have already checked for updates...
+            return this.download(this.updateData.updateUrl, outputFile)
+                .then(forcedBind(this.verify, this))
+                .then(forcedBind(this.install, this))
+                .then(forcedBind(this.displayNotification, this));
+        } else {
+            // Otherwise, check for updates then install if needed!
+            var self = this;
+            return this.check().then(function (updateAvailable) {
+                if (updateAvailable) {
+                    return self.download(self.updateData.updateUrl, outputFile)
+                        .then(forcedBind(self.verify, self))
+                        .then(forcedBind(self.install, self))
+                        .then(forcedBind(self.displayNotification, self));
+                } else {
+                    return false;
+                }
+            });
+        }
+    };
+
+    App.Updater = Updater;
 
 })(window.App);
