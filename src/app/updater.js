@@ -10,9 +10,10 @@
         path = require('path'),
         crypto = require('crypto'),
         AdmZip = require('adm-zip'),
+        tar = require('tar'),
         spawn = require('child_process').spawn;
 
-    var UPDATE_ENDPOINT = AdvSettings.get('updateEndpoint').url + 'update.json',
+    var UPDATE_ENDPOINT = AdvSettings.get('updateEndpoint').url + 'update2.json',
         CHANNELS = ['stable', 'beta', 'nightly'],
         FILENAME = 'package.nw.new',
         VERIFY_PUBKEY =
@@ -86,6 +87,9 @@
                 updateData = updateData[App.settings.arch];
             }
 
+            // Update has more than just src & modules
+            updateData.extended = data.extended || false;
+
             // Normalize the version number
             if (!updateData.version.match(/-\d+$/)) {
                 updateData.version += '-0';
@@ -108,8 +112,10 @@
     Updater.prototype.download = function (source, output) {
         var defer = Q.defer();
         var downloadStream = request(source);
+        win.debug('Downloading update... Please allow a few minutes');
         downloadStream.pipe(fs.createWriteStream(output));
         downloadStream.on('complete', function () {
+            win.debug('Update downloaded!');
             defer.resolve(output);
         });
         return defer.promise;
@@ -118,6 +124,7 @@
     Updater.prototype.verify = function (source) {
         var defer = Q.defer();
         var self = this;
+        win.debug('Verifying update authenticity with SDA-SHA1 signature...');
 
         var hash = crypto.createHash('SHA1'),
             verify = crypto.createVerify('DSA-SHA1');
@@ -133,6 +140,7 @@
             ) {
                 defer.reject('invalid hash or signature');
             } else {
+                win.debug('Update was correctly signed and is safe to install!');
                 defer.resolve(source);
             }
         });
@@ -140,97 +148,211 @@
     };
 
     function installWindows(downloadPath, updateData) {
-        var installDir = path.dirname(downloadPath);
         var defer = Q.defer();
 
         var pack = new AdmZip(downloadPath);
-        pack.extractAllToAsync(installDir, true, function (err) {
-            if (err) {
-                defer.reject(err);
-            } else {
-                fs.unlink(downloadPath, function (err) {
-                    if (err) {
-                        defer.reject(err);
-                    } else {
-                        defer.resolve();
-                    }
-                });
-            }
-        });
+
+        if (updateData.extended) {
+
+            // Extended: true
+            var extractDir = os.tmpdir();
+            win.debug('Extracting update.exe');
+            pack.extractAllToAsync(extractDir, true, function (err) {
+                if (err) {
+                    defer.reject(err);
+                } else {
+                    var startWinUpdate = function () {
+                        fs.unlinkSync(downloadPath);
+                        var updateEXE = 'update.exe';
+                        var cmd = path.join(extractDir, updateEXE);
+
+                        var updateprocess = spawn(cmd, [], {
+                            detached: true,
+                            stdio: ['ignore', 'ignore', 'ignore']
+                        });
+                        win.close(true);
+                    };
+
+                    App.vent.trigger('notification:show', new App.Model.Notification({
+                        title: 'Update ' + this.updateData.version + ' Installed',
+                        body: this.updateData.description,
+                        showRestart: false,
+                        type: 'info',
+                        buttons: [{
+                            title: 'Update Now',
+                            action: startWinUpdate
+                        }]
+                    }));
+                    win.on('close', function () {
+                        startWinUpdate();
+                    });
+
+                    win.debug('Extraction success!');
+                    win.debug('Update ready to be installed!');
+                }
+            });
+
+        } else {
+
+            // Extended: false || undefined
+            var installDir = path.dirname(downloadPath);
+
+            win.debug('Extracting update files...');
+            pack.extractAllToAsync(installDir, true, function (err) {
+                if (err) {
+                    defer.reject(err);
+                } else {
+                    fs.unlink(downloadPath, function (err) {
+                        if (err) {
+                            defer.reject(err);
+                        } else {
+                            win.debug('Extraction success!');
+                            defer.resolve();
+                        }
+                    });
+                }
+            });
+
+        }
 
         return defer.promise;
     }
 
     function installLinux(downloadPath, updateData) {
-        var outputDir = path.dirname(downloadPath),
-            packageFile = path.join(outputDir, 'package.nw');
         var defer = Q.defer();
 
-        fs.rename(packageFile, path.join(outputDir, 'package.nw.old'), function (err) {
-            // errno 34 = ENOENT, file not found
-            if (err && err.errno !== 34) {
-                defer.reject(err);
-            } else {
-                fs.rename(downloadPath, packageFile, function (err) {
-                    if (err) {
-                        // Sheeet! We got a booboo :'(
-                        // Quick! Lets erase it before anyone realizes!
-                        if (fs.existsSync(downloadPath)) {
-                            fs.unlink(downloadPath, function (err) {
-                                if (err) {
-                                    defer.reject(err);
-                                } else {
-                                    fs.rename(path.join(outputDir, 'package.nw.old'), packageFile, function (err) {
-                                        // err is either an error or undefined, so its fine not to check!
-                                        defer.reject(err);
-                                    });
-                                }
-                            });
-                        } else {
+        win.debug('Extracting update...');
+        var outputDir = path.dirname(downloadPath),
+            packageFile = path.join(outputDir, 'package.nw');
+
+        if (updateData.extended) {
+
+            // Extended: true
+            var updateTAR = path.join(os.tmpdir(), 'update.tar');
+
+            var pack = new AdmZip(downloadPath);
+            pack.extractAllToAsync(os.tmpdir(), true, function (err) { //extract tar from zip
+                if (err) {
+                    defer.reject(err);
+                } else {
+                    rimraf(outputDir, function (err) { //delete old app
+                        if (err) {
                             defer.reject(err);
+                        } else {
+                            var extractor = tar.Extract({path: outputDir}) //extract files from tar
+                                .on('error', function(err) {
+                                    defer.reject(err);
+                                })
+                                .on('end', function() {
+                                    App.vent.trigger('notification:show', new App.Model.Notification({
+                                        title: 'Update ' + this.updateData.version + ' Installed',
+                                        body: this.updateData.description,
+                                        showRestart: true,
+                                        type: 'info'
+                                    }));
+
+                                    win.debug('Extraction success!');
+                                });
+                            fs.createReadStream(updateTAR)
+                                .on('error', function (err) {
+                                    defer.reject(err);
+                                })
+                                .pipe(extractor);
                         }
-                    } else {
-                        fs.unlink(path.join(outputDir, 'package.nw.old'), function (err) {
-                            if (err && err.errno !== 34) {
-                                // This is a non-fatal error, should we reject?
-                                defer.reject(err);
-                            } else {
-                                defer.resolve();
-                            }
-                        });
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+
+        } else {
+
+            // Extended: false
+            var installDir = path.dirname(downloadPath);
+
+            win.debug('Extracting update files...');
+            pack.extractAllToAsync(installDir, true, function (err) {
+                if (err) {
+                    defer.reject(err);
+                } else {
+                    fs.unlink(downloadPath, function (err) {
+                        if (err) {
+                            defer.reject(err);
+                        } else {
+                            win.debug('Extraction success!');
+                            defer.resolve();
+                        }
+                    });
+                }
+            });
+
+        }
 
         return defer.promise;
     }
 
     function installOSX(downloadPath, updateData) {
-        var outputDir = path.dirname(downloadPath),
-            installDir = path.join(outputDir, 'app.nw');
         var defer = Q.defer();
 
-        rimraf(installDir, function (err) {
-            if (err) {
-                defer.reject(err);
-            } else {
-                var pack = new AdmZip(downloadPath);
-                pack.extractAllToAsync(installDir, true, function (err) {
-                    if (err) {
-                        defer.reject(err);
-                    } else {
-                        fs.unlink(downloadPath, function (err) {
-                            if (err) {
-                                defer.reject(err);
-                            } else {
-                                defer.resolve();
-                            }
-                        });
-                    }
-                });
-            }
-        });
+        win.debug('Extracting update...');
+        if (updateData.extended) {
+
+            // Extended: true
+            var installDir = process.cwd().split('Contents')[0];
+            var updateTAR = path.join(os.tmpdir(), 'update.tar');
+
+            var pack = new AdmZip(downloadPath);
+            pack.extractAllToAsync(os.tmpdir(), true, function (err) { //extract tar from zip
+                if (err) {
+                    defer.reject(err);
+                } else {
+                    rimraf(path.join(installDir, 'Contents'), function (err) { //delete old app
+                        if (err) {
+                            defer.reject(err);
+                        } else {
+                            var extractor = tar.Extract({path: installDir}) //extract files from tar
+                                .on('error', function(err) {
+                                    defer.reject(err);
+                                })
+                                .on('end', function() {
+                                    App.vent.trigger('notification:show', new App.Model.Notification({
+                                        title: 'Update ' + this.updateData.version + ' Installed',
+                                        body: this.updateData.description,
+                                        showRestart: true,
+                                        type: 'info'
+                                    }));
+
+                                    win.debug('Extraction success!');
+                                });
+                            fs.createReadStream(updateTAR)
+                                .on('error', function(err) {
+                                    defer.reject(err);
+                                })
+                                .pipe(extractor);
+                        }
+                    });
+                }
+            });
+
+        } else {
+
+            // Extended: false
+            var outputDir = path.dirname(downloadPath);
+          
+            var pack = new AdmZip(downloadPath);
+            pack.extractAllToAsync(outputDir, true, function (err) {
+                if (err) {
+                    defer.reject(err);
+                } else {
+                    fs.unlink(downloadPath, function (err) {
+                        if (err) {
+                            defer.reject(err);
+                        } else {
+                            win.debug('Extraction success!');
+                            defer.resolve();
+                        }
+                    });
+                }
+            });
+        }
 
         return defer.promise;
     }
