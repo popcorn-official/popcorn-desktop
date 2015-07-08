@@ -276,7 +276,9 @@
                                     $('body').addClass('has-notification');
                                 });
                             fs.createReadStream(updateTAR)
-                                .on('error', onError)
+                                .on('error', function (err) {
+                                    defer.reject(err);
+                                })
                                 .pipe(extractor);
                         }
                     });
