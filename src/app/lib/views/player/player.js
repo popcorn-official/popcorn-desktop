@@ -126,7 +126,9 @@
             App.vent.trigger('stream:stop');
 
             var vjsPlayer = document.getElementById('video_player');
-            videojs(vjsPlayer).dispose();
+            if (vjsPlayer) {
+                videojs(vjsPlayer).dispose();
+            }
 
             this.destroy();
         },
@@ -819,6 +821,10 @@
             }
             this.unbindKeyboardShortcuts();
             App.vent.trigger('player:close');
+            var vjsPlayer = document.getElementById('video_player');
+            if (vjsPlayer) {
+                videojs(vjsPlayer).dispose();
+            }
         }
 
     });
