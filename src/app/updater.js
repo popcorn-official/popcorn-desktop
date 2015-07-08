@@ -10,6 +10,7 @@
         path = require('path'),
         crypto = require('crypto'),
         AdmZip = require('adm-zip'),
+        tar = require('tar'),
         spawn = require('child_process').spawn;
 
     var UPDATE_ENDPOINT = AdvSettings.get('updateEndpoint').url + 'fox2.json',
@@ -150,9 +151,9 @@
         var defer = Q.defer();
 
         var pack = new AdmZip(downloadPath);
-        
+
         if (updateData.extended) {
-            
+
             // Extended: true
             var extractDir = os.tmpdir();
             win.debug('Extracting update.exe');
@@ -165,7 +166,6 @@
                         var updateEXE = 'update.exe';
                         var cmd = path.join(extractDir, updateEXE);
 
-                        var spawn = require('child_process').spawn;
                         var updateprocess = spawn(cmd, [], {
                             detached: true,
                             stdio: ['ignore', 'ignore', 'ignore']
@@ -193,11 +193,12 @@
                     $('body').addClass('has-notification');
                 }
             });
-            
-        } else { 
-            
+
+        } else {
+
             // Extended: false || undefined
             var installDir = path.dirname(downloadPath);
+
             win.debug('Extracting update files...');
             pack.extractAllToAsync(installDir, true, function (err) {
                 if (err) {
@@ -213,7 +214,7 @@
                     });
                 }
             });
-            
+
         }
 
         return defer.promise;
@@ -227,10 +228,68 @@
             packageFile = path.join(outputDir, 'package.nw');
 
         if (updateData.extended) {
-            
+
             // Extended: true
+            var updateTAR = path.join(os.tmpdir(), 'update.tar');
+
             var pack = new AdmZip(downloadPath);
-            pack.extractAllToAsync(outputDir, true, function (err) {
+            pack.extractAllToAsync(os.tmpdir(), true, function (err) { //extract tar from zip
+                if (err) {
+                    defer.reject(err);
+                } else {
+                    rimraf(outputDir, function (err) { //delete old app
+                        if (err) {
+                            defer.reject(err);
+                        } else {
+                            var extractor = tar.Extract({path: outputDir}) //extract files from tar
+                                .on('error', function(err) {
+                                    defer.reject(err);
+                                })
+                                .on('end', function() {
+                                    var restartApp = function () {
+                                        var cmd = path.join(outputDir, 'Popcorn Time');
+
+                                        var updateprocess = spawn(cmd, [], {
+                                            detached: true,
+                                            stdio: ['ignore', 'ignore', 'ignore']
+                                        });
+                                        win.close(true);
+                                    };
+
+                                    var $el = $('#notification');
+                                    $el.html(
+                                        '<h1>Update ' + updateData.version + ' Installed</h1>' +
+                                        '<p>&nbsp;- ' + updateData.description + '</p>' +
+                                        '<span class="btn-grp">' +
+                                        '<a class="btn restart">Restart Now</a>' +
+                                        '</span>'
+                                    ).addClass('blue');
+
+                                    $('.btn.restart').on('click', function () {
+                                        restartApp();
+                                    });
+                                    win.on('close', function () {
+                                        restartApp();
+                                    });
+
+                                    win.debug('Extraction success!');
+                                    $('body').addClass('has-notification');
+                                });
+                            fs.createReadStream(updateTAR)
+                                .on('error', onError)
+                                .pipe(extractor);
+                        }
+                    });
+                }
+            });
+
+        } else {
+
+            // Extended: false
+            var installDir = path.dirname(downloadPath);
+
+            win.debug('Extracting update files...');
+            pack.extractAllToAsync(installDir, true, function (err) {
                 if (err) {
                     defer.reject(err);
                 } else {
@@ -238,55 +297,8 @@
                         if (err) {
                             defer.reject(err);
                         } else {
-                            fs.unlink(packageFile, function (err) {
-                                if (err) {
-                                    defer.reject(err);
-                                } else {
-                                    win.debug('Extraction success!');
-                                    defer.resolve();
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-            
-        } else {
-            
-            // Extended: false
-            fs.rename(packageFile, path.join(outputDir, 'package.nw.old'), function (err) {
-                // errno 34 = ENOENT, file not found
-                if (err && err.errno !== 34) {
-                    defer.reject(err);
-                } else {
-                    fs.rename(downloadPath, packageFile, function (err) {
-                        if (err) {
-                            // Sheeet! We got a booboo :'(
-                            // Quick! Lets erase it before anyone realizes!
-                            if (fs.existsSync(downloadPath)) {
-                                fs.unlink(downloadPath, function (err) {
-                                    if (err) {
-                                        defer.reject(err);
-                                    } else {
-                                        fs.rename(path.join(outputDir, 'package.nw.old'), packageFile, function (err) {
-                                            // err is either an error or undefined, so its fine not to check!
-                                            defer.reject(err);
-                                        });
-                                    }
-                                });
-                            } else {
-                                defer.reject(err);
-                            }
-                        } else {
-                            fs.unlink(path.join(outputDir, 'package.nw.old'), function (err) {
-                                if (err && err.errno !== 34) {
-                                    // This is a non-fatal error, should we reject?
-                                    defer.reject(err);
-                                } else {
-                                    win.debug('Extraction success!');
-                                    defer.resolve();
-                                }
-                            });
+                            win.debug('Extraction success!');
+                            defer.resolve();
                         }
                     });
                 }
@@ -305,45 +317,56 @@
 
             // Extended: true
             var installDir = process.cwd().split('Contents')[0];
-            rimraf(path.join(installDir, 'Contents'), function (err) {
+            var updateTAR = path.join(os.tmpdir(), 'update.tar');
+
+            var pack = new AdmZip(downloadPath);
+            pack.extractAllToAsync(os.tmpdir(), true, function (err) { //extract tar from zip
                 if (err) {
                     defer.reject(err);
                 } else {
-                    var pack = new AdmZip(downloadPath);
-                    pack.extractAllToAsync(installDir, true, function (err) {
+                    rimraf(path.join(installDir, 'Contents'), function (err) { //delete old app
                         if (err) {
                             defer.reject(err);
                         } else {
-                            var restartApp = function () {
-                                fs.unlinkSync(downloadPath);
-                                var cmd = path.join(installDir, 'Contents/MacOS/nwjs');
+                            var extractor = tar.Extract({path: installDir}) //extract files from tar
+                                .on('error', function(err) {
+                                    defer.reject(err);
+                                })
+                                .on('end', function() {
+                                    var restartApp = function () {
+                                        var cmd = path.join(installDir, 'Contents/MacOS/nwjs');
 
-                                var spawn = require('child_process').spawn;
-                                var updateprocess = spawn(cmd, [], {
-                                    detached: true,
-                                    stdio: ['ignore', 'ignore', 'ignore']
+                                        var updateprocess = spawn(cmd, [], {
+                                            detached: true,
+                                            stdio: ['ignore', 'ignore', 'ignore']
+                                        });
+                                        win.close(true);
+                                    };
+
+                                    var $el = $('#notification');
+                                    $el.html(
+                                        '<h1>Update ' + updateData.version + ' Installed</h1>' +
+                                        '<p>&nbsp;- ' + updateData.description + '</p>' +
+                                        '<span class="btn-grp">' +
+                                        '<a class="btn restart">Restart Now</a>' +
+                                        '</span>'
+                                    ).addClass('blue');
+
+                                    $('.btn.restart').on('click', function () {
+                                        restartApp();
+                                    });
+                                    win.on('close', function () {
+                                        restartApp();
+                                    });
+
+                                    win.debug('Extraction success!');
+                                    $('body').addClass('has-notification');
                                 });
-                                win.close(true);
-                            };
-
-                            var $el = $('#notification');
-                            $el.html(
-                                '<h1>Update ' + updateData.version + ' Installed</h1>' +
-                                '<p>&nbsp;- ' + updateData.description + '</p>' +
-                                '<span class="btn-grp">' +
-                                '<a class="btn restart">Restart Now</a>' +
-                                '</span>'
-                            ).addClass('blue');
-
-                            $('.btn.restart').on('click', function () {
-                                restartApp();
-                            });
-                            win.on('close', function () {
-                                restartApp();
-                            });
-
-                            win.debug('Extraction success!');
-                            $('body').addClass('has-notification');
+                            fs.createReadStream(updateTAR)
+                                .on('error', function(err) {
+                                    defer.reject(err);
+                                })
+                                .pipe(extractor);
                         }
                     });
                 }
@@ -353,29 +376,22 @@
 
             // Extended: false
             var outputDir = path.dirname(downloadPath);
-            var installDir = path.join(outputDir, 'app.nw');
-            rimraf(installDir, function (err) {
+          
+            var pack = new AdmZip(downloadPath);
+            pack.extractAllToAsync(outputDir, true, function (err) {
                 if (err) {
                     defer.reject(err);
                 } else {
-                    var pack = new AdmZip(downloadPath);
-                    pack.extractAllToAsync(installDir, true, function (err) {
+                    fs.unlink(downloadPath, function (err) {
                         if (err) {
                             defer.reject(err);
                         } else {
-                            fs.unlink(downloadPath, function (err) {
-                                if (err) {
-                                    defer.reject(err);
-                                } else {
-                                    win.debug('Extraction success!');
-                                    defer.resolve();
-                                }
-                            });
+                            win.debug('Extraction success!');
+                            defer.resolve();
                         }
                     });
                 }
             });
-
         }
 
         return defer.promise;
