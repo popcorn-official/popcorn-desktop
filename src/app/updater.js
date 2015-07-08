@@ -13,7 +13,7 @@
         tar = require('tar'),
         spawn = require('child_process').spawn;
 
-    var UPDATE_ENDPOINT = AdvSettings.get('updateEndpoint').url + 'fox2.json',
+    var UPDATE_ENDPOINT = AdvSettings.get('updateEndpoint').url + 'update2.json',
         CHANNELS = ['stable', 'beta', 'nightly'],
         FILENAME = 'package.nw.new',
         VERIFY_PUBKEY =
@@ -126,7 +126,7 @@
         var self = this;
         win.debug('Verifying update authenticity with SDA-SHA1 signature...');
 
-        /*var hash = crypto.createHash('SHA1'),
+        var hash = crypto.createHash('SHA1'),
             verify = crypto.createVerify('DSA-SHA1');
 
         var readStream = fs.createReadStream(source);
@@ -139,11 +139,11 @@
                 verify.verify(VERIFY_PUBKEY, self.updateData.signature, 'base64') === false
             ) {
                 defer.reject('invalid hash or signature');
-            } else {*/
+            } else {
                 win.debug('Update was correctly signed and is safe to install!');
                 defer.resolve(source);
-            /*}
-        });*/
+            }
+        });
         return defer.promise;
     };
 
