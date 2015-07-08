@@ -247,7 +247,7 @@
                                 })
                                 .on('end', function() {
                                     var restartApp = function () {
-                                        var cmd = path.join(outputDir, 'Popcorn Time');
+                                        var cmd = path.join(outputDir, 'Popcorn-Time');
 
                                         var updateprocess = spawn(cmd, [], {
                                             detached: true,
