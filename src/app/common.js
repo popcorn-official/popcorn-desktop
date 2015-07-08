@@ -65,7 +65,6 @@ Common.copyFile = function (source, target, cb) {
 
 Common.fileSize = function (num) {
     if (isNaN(num)) {
-        win.error(new TypeError('Common.fileSize: expected a number'));
         return;
     }
 
