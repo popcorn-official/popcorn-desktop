@@ -1,33 +1,33 @@
 (function (App) {
-	'use strict';
+    'use strict';
 
-	var DisclaimerModal = Backbone.Marionette.ItemView.extend({
-		template: '#disclaimer-tpl',
-		className: 'disclaimer',
+    var DisclaimerModal = Backbone.Marionette.ItemView.extend({
+        template: '#disclaimer-tpl',
+        className: 'disclaimer',
 
-		events: {
-			'click .btn-accept': 'acceptDisclaimer',
-			'click .btn-close': 'closeApp',
-		},
+        events: {
+            'click .btn-accept': 'acceptDisclaimer',
+            'click .btn-close': 'closeApp',
+        },
 
-		initialize: function () {
-			Mousetrap.pause();
-			win.warn('Show Disclaimer');
-		},
+        initialize: function () {
+            Mousetrap.pause();
+            win.warn('Show Disclaimer');
+        },
 
-		acceptDisclaimer: function (e) {
-			e.preventDefault();
-			Mousetrap.unpause();
-			AdvSettings.set('disclaimerAccepted', 1);
-			App.vent.trigger('close:disclaimer', []);
-		},
+        acceptDisclaimer: function (e) {
+            e.preventDefault();
+            Mousetrap.unpause();
+            AdvSettings.set('disclaimerAccepted', 1);
+            App.vent.trigger('disclaimer:close');
+        },
 
-		closeApp: function (e) {
-			e.preventDefault();
-			gui.App.quit();
-		}
+        closeApp: function (e) {
+            e.preventDefault();
+            gui.App.quit();
+        }
 
-	});
+    });
 
-	App.View.DisclaimerModal = DisclaimerModal;
+    App.View.DisclaimerModal = DisclaimerModal;
 })(window.App);

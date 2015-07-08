@@ -1,9 +1,9 @@
 (function (App) {
-	'use strict';
+    'use strict';
 
-	var FavoriteBrowser = App.View.PCTBrowser.extend({
-		collectionModel: App.Model.FavoriteCollection
-	});
+    var FavoriteBrowser = App.View.PCTBrowser.extend({
+        collectionModel: App.Model.FavoriteCollection
+    });
 
-	App.View.FavoriteBrowser = FavoriteBrowser;
+    App.View.FavoriteBrowser = FavoriteBrowser;
 })(window.App);

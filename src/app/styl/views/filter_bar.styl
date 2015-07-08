@@ -1,195 +1,151 @@
 .filter-bar
-	z-index: 10
-	width: 100%
-	opacity: .97
-	height: 35px
-	background-color: $FilterBarBg
-	-webkit-user-select: none;
+    z-index: 10
+    width: 100%
+    opacity: .97
+    height: 35px
+    background-color: $FilterBarBg
+    -webkit-user-select: none
+    position: absolute
+    top: $TitleHeight
+    height: $FilterBarHeight
+    box-shadow: $TopBarShadow
 
-.filter-bar
-	position: absolute
-	top: $TitleHeight
-	height: $FilterBarHeight
-	box-shadow: $TopBarShadow
+    .source
+        box-sizing: content-box
+        color: $FilterBarText
+        text-align: center
+        cursor: pointer
+        height: 20px
+        margin-top: 10px
+        padding: 0px 15px 1px 18px
 
-	.source
-		box-sizing: content-box
-		color: $FilterBarText
-		text-align: center
-		cursor: pointer
-		height: 20px
-		padding: 10px 15px 1px 18px
+        &:hover
+            color: $FilterBarTextHover
 
-		&:hover
-			color: $FilterBarTextHover
+        &.active
+            border-bottom: 4px solid $FilterBarActive
 
-		&.active
-			border-bottom: 4px solid $FilterBarActive
+    .nav.filters
+        float: left
+        margin-left: 10px
 
-	.nav.filters
-		float: left
-		margin-left: 10px
+    .nav.right
+        margin-right: 5px
 
-	.nav.right
-		margin-right: 5px
+    .filter
+        padding: 10px 0 0
+        margin-left: 20px
 
-	.filter
-		padding: 10px 0 0
-		margin-left: 20px
+        & > a
+            display: inline-block
+            padding: 0
+            color: $FilterBarText
+            background-color: transparent !important
 
-		& > a
-			display: inline-block
-			padding: 0
-			color: $FilterBarText
-			background-color: transparent !important
+            &:hover
+                color: $FilterBarTextHover
+        .value
+            color: $FilterBarActive
+            padding-left: 10px
 
-			&:hover
-				color: $FilterBarTextHover
-		.value
-			color: $FilterBarActive
-			padding-left: 10px
+        .dropdown-menu
+            font-size: 0.9em
+            scrollable()
+            max-height: 445px
+            margin-top: 11px
+            border-top-left-radius: 0
+            border-top-right-radius: 0
 
-		.dropdown-menu
-			font-size: 0.9em
-			scrollable()
-			max-height: 445px
-			margin-top: 11px
-			border-top-left-radius: 0
-			border-top-right-radius: 0
+    i
+        transition: color 0.5s
+        margin: 10px 5px 0
+        color: $FilterBarIcon
+        font-size: 1.5em
+        &:hover
+            color: $FilterBarIconHover
+            cursor: pointer
 
-	.posters-width
-		margin 13px 5px 0 5px
+        &.active
+            &.favorites
+                color: $FavoriteColor
+                &:hover
+                    color darken($FavoriteColor, 10)
+                    transition all .5s
+                    
+            &.watchlist
+                color: $FilterBarActive
 
-		.fa
-			color $FilterBarIcon-PosterWidth
-			cursor default
-			margin-top 0
-			vertical-align middle
-		i
-			margin 0
+            &.torrent-collection
+                color: $FilterBarActive
 
-		.posters-width--small
-			font-size 14px
+            &.about
+                color: $FilterBarIconHover
 
-		.posters-width--large
-			font-size 16px
+    .clear
+        display: none
 
-		input
-			-webkit-appearance: none;
-			display inline-block
-			vertical-align middle
-			margin 0 5px
-			margin-top 1px
-			width 60px
-			border-radius: 5px;
-			background-color: $FilterBarIcon-PosterWidth
-			height: 4px;
-			cursor: pointer
+    .search
+        form
+            &:before
+                content: '\f002'
+                font-family: FontAwesome
+                font-style: normal
+                transition color 0.5s
+                color: $FilterBarIcon
+                position: absolute
+                top:11px
+                left: 7px
+                z-index: 2
+                font-size: 1.4em
 
-		input:focus,
-		input:active
-				outline none
+            &.edited .clear
+                display: block
+                font-weight: bold
+                transition color 0.5s
+                color: $FilterBarIcon
+                position: absolute
+                top:8px
+                right: 5px
+                padding: 3px 5px
+                font-size: 1.2em
 
-		input::-webkit-slider-thumb
-			transition: background-color 0.5s;
-			-webkit-appearance: none
-			border-radius: 20px
-			background-color: $FilterBarIcon
-			height: 14px
-			width: 14px
+            &.edited input, input:focus
+                width: 130px
+                background-color: $SearchBoxBg
+                color: $FilterBarText
 
-		input:hover::-webkit-slider-thumb
-			background-color: $FilterBarIconHover
-			cursor: pointer
+            &.edited, &:hover
+                cursor: pointer
+                &:before
+                    color: $FilterBarIconHover
 
-	i
-		transition: color 0.5s;
-		margin: 10px 5px 0;
-		color: $FilterBarIcon;
-		font-size: 1.5em;
-		&:hover
-			color: $FilterBarIconHover
-			cursor: pointer
+            input
+                line-height normal
+                -webkit-app-region no-drag
+                outline none
+                cursor text
+                width 0px
+                height 18px
+                position relative
+                background $FilterBarBg no-repeat right center
+                background-position right 3px center
+                border solid 0px
+                margin 8px 3px 0
+                padding 1px 2px 3px
+                padding-left 25px
+                border-radius 10em
+                -webkit-appearance textfield
+                -webkit-box-sizing content-box
+                transition width 0.5s
 
-		&.active
-			&.favorites
-				color: $FavoriteColor
-				&:hover
-					color darken($FavoriteColor, 10)
-					transition all .5s
-					
-			&.watchlist
-				color: $FilterBarActive
+                &:focus
+                    cursor: auto
+                    &:before
+                        color: $FilterBarIconHover //this doesn't work for some reason
 
-			&.torrent-collection
-				color: $FilterBarActive
+                &::-moz-placeholder,
+                &::-webkit-input-placeholder
+                    color: transparent
 
-			&.about
-				color: $FilterBarIconHover
-	.clear
-		display: none;
-	.search
-		form
-			&:before
-				content: '\f002'
-				font-family: FontAwesome
-				font-style: normal
-				transition color 0.5s
-				color: $FilterBarIcon
-				position: absolute;
-				top:11px;
-				left: 7px;
-				z-index: 2;
-				font-size: 1.4em;
-
-			&.edited .clear
-				display: block;
-				font-weight: bold;
-				transition color 0.5s
-				color: $FilterBarIcon
-				position: absolute;
-				top:8px;
-				right: 5px;
-				padding: 3px 5px;
-				font-size: 1.2em;
-
-			&.edited input, input:focus
-				width: 130px;
-				background-color: $SearchBoxBg
-				color: $FilterBarText
-
-			&.edited, &:hover
-				cursor: pointer
-				&:before
-					color: $FilterBarIconHover
-
-			input
-				line-height normal
-				-webkit-app-region no-drag
-				outline none
-				cursor text
-				width 0px
-				height 18px
-				position relative
-				background $FilterBarBg no-repeat right center
-				background-position right 3px center
-				border solid 0px
-				margin 8px 3px 0
-				padding 1px 2px 3px
-				padding-left 25px
-				border-radius 10em
-				-webkit-appearance textfield
-				-webkit-box-sizing content-box
-				transition width 0.5s
-
-				&:focus
-					cursor: auto;
-					&:before
-						color: $FilterBarIconHover //this doesn't work for some reason
-
-				&::-moz-placeholder,
-				&::-webkit-input-placeholder
-					color: transparent
-
-				&:focus::-webkit-input-placeholder
-					color: rgba($FilterBarText,.7)
+                &:focus::-webkit-input-placeholder
+                    color: rgba($FilterBarText,.7)

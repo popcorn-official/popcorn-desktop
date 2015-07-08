@@ -1,3 +1,67 @@
+## 0.3.8 Beta - There's nothing on TV
+
+BugFixes: 
+
+- Fullscreen consistent while playing
+- Multi-screen support
+- Windows 8.1 : the app doesn't go under the taskbar anymore
+- " & " in titles are now correctly handled
+- Local subtitles should now always load correctly
+- UI fixes
+- More descriptive error messages and logs
+- Fix "Open the app in last-open tab"
+- Mac OS: fix mousewheel inverted
+- Mac OS: Menu support
+- Fix some issues with Keyboard navigation
+- Allow to hide the updater notification
+- Fix an issue corrupting cache if used on an external HDD
+- Improvements in subtitle encoding
+- Autoplay fixes
+- Trakt.tv is back!
+- Torrenting enhanced (finding more peers and better seeding)
+- Remote control (httpapi) fixes
+- Open TV Details "jump to" fixed
+- More subtitles results for TV Series
+- Download progress in the player now works for single file taken out of multifile torrents
+- Images positionning in Movies & TV Series details
+- Anime: fixes an issue where series got no episodes & movies no links
+- Subtitles: most external torrents should be matched with subtitles now
+- Arabic fonts (aljazeera & khalid art) can now be used to correctly display arabic subtitles
+- Fix most issues with remotes.
+- Fix the Popcorn Time player when watching trailers.
+
+New Features: 
+
+- Node Webkit 12.1 (now known as nw.js)
+- Cancel "Play Next Episode"
+- Select your subtitles Font, and/or add a solid background to them.
+- New subtitles for: Norwegian, Vietnamese
+- Report bugs & issues from within the app (open the 'About' page)
+- Mark as seen/unseen in Movie Details screen
+- No more ads from Youtube
+- Stream subtitles with DLNA/UPnP
+- Search Strike or KickassTorrents (torrent portals) and save some torrents for later
+- Allow SSA/ASS subtitles, along with TXT (mostly Chinese & Polish - needs testing)
+- The app will now remember: last chosen quality, player, subtitles position, volume
+- Mark an entire TV Series as watched
+- Choose the application install directory (provided that it doesn't need admin rights)
+- Play local video files in PT Player (mp4, avi, mov, mkv)
+- Windows: launcher allowing to use PT as default for torrents/magnets/video files
+- Support for multimedia keys
+- Launch external players in Fullscreen
+- Minimize to tray
+- Translated synopsis (overview) for TV Series & Movies
+- Calculation of the P2P exchange ratio of the entire app traffic
+- FakeSkan (bitsnoop) will now warn you if an external torrent was flagged as "fake"
+- "Randomize" button allowing to open a random movie
+- Start Popcorn Time minimized with "-m" flag
+- 1080p TV Shows are here !
+- "Big Picture Mode" will allow you to read Popcorn Time's texts from your couch
+- TVShow Time integration
+- Display a warning if the HDD is almost full
+- Sort by "Trending" on movies & tv shows
+- Correctly display the sizes for your OS and language (ex: 32.5MiB in Linux English, 32.5Mo on Windows Spanish, 34.1MB in OSX English)
+
 ## 0.3.7 Beta - The Car Won't Start - 15 January 2015
 
 BugFixes:

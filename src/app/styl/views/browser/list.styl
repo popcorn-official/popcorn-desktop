@@ -1,99 +1,99 @@
 .list
-	height: 100%
-	width: calc(100% - 5px)
-	fixed: top left
-	text-align: center
-	scrollable()
+    height: 100%
+    width: calc(100% - 5px)
+    fixed: top left
+    text-align: center
+    scrollable()
 
-	&::-webkit-scrollbar-track
-		margin-top: $HeaderHeight
-	
+    &::-webkit-scrollbar-track
+        margin-top: $HeaderHeight
+    
 
-	.items_show
-		padding-top: $HeaderHeight
-		-webkit-user-select: none;
-		text-align: left
-		display: flex
-		flex-direction: row
-		flex-wrap: wrap
-		justify-content: space-between
-		align-content: flex-start
-		align-items: flex-start
-		width: calc(50% - 5px)
-		height: 100%
-		float: left
-		background: rgba(138, 138, 138, 0.14)
-		scrollable()
+    .items_show
+        padding-top: $HeaderHeight
+        -webkit-user-select: none;
+        text-align: left
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        justify-content: space-between
+        align-content: flex-start
+        align-items: flex-start
+        width: calc(50% - 5px)
+        height: 100%
+        float: left
+        background: rgba(138, 138, 138, 0.14)
+        scrollable()
 
-		&::-webkit-scrollbar-track
-			margin-top: $HeaderHeight
+        &::-webkit-scrollbar-track
+            margin-top: $HeaderHeight
 
-		.title_history
-			color: $Text1
-			padding: 25px 10px 10px
-			font-size: 1.2em
-			text-align: left
+        .title_history
+            color: $Text1
+            padding: 25px 10px 10px
+            font-size: 1.2em
+            text-align: left
 
-		.items
-			padding-top: 0
+        .items
+            padding-top: 0
 
-	.items_movie
-		padding-top: $HeaderHeight
-		-webkit-user-select: none;
-		text-align: left
-		display: flex
-		flex-direction: row
-		flex-wrap: wrap
-		justify-content: space-between
-		align-content: flex-start
-		align-items: flex-start
-		width: calc(50% - 5px)
-		height: 100%
-		float: left
-		scrollable()
+    .items_movie
+        padding-top: $HeaderHeight
+        -webkit-user-select: none;
+        text-align: left
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        justify-content: space-between
+        align-content: flex-start
+        align-items: flex-start
+        width: calc(50% - 5px)
+        height: 100%
+        float: left
+        scrollable()
 
-		&::-webkit-scrollbar-track
-			margin-top: $HeaderHeight
+        &::-webkit-scrollbar-track
+            margin-top: $HeaderHeight
 
-		.title_history
-			color: $Text1
-			padding: 25px 10px 10px
-			font-size: 1.2em
-			text-align: left
+        .title_history
+            color: $Text1
+            padding: 25px 10px 10px
+            font-size: 1.2em
+            text-align: left
 
-		.items
-			padding-top: 0
-	.items
-		padding-top: $HeaderHeight
-		-webkit-user-select: none;
-		text-align: left
-		display: flex
-		flex-direction: row
-		flex-wrap: wrap
-		justify-content: space-between
-		align-content: flex-start
-		align-items: flex-start
-		width: calc(100% - 5px)
+        .items
+            padding-top: 0
+    .items
+        padding-top: $HeaderHeight
+        -webkit-user-select: none;
+        text-align: left
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        justify-content: space-between
+        align-content: flex-start
+        align-items: flex-start
+        width: calc(100% - 5px)
 
-	.error
-		font-size: 1.5em;
-		text-align: center;
-		margin-top: 180px;
-		width: 80%
-		margin-left: 10%
-		position: absolute
-		color: $TextError;
-		font-weight: bold;
+    .error
+        font-size: 1.5em;
+        text-align: center;
+        margin-top: 180px;
+        width: 80%
+        margin-left: 10%
+        position: absolute
+        color: $TextError;
+        font-weight: bold;
 
-	> .spinner
-		position: fixed;
-		width: 100%;
-		height: 100%;
-		background: rgba(0, 0, 0, 0.5) center center no-repeat;
-		pointer-events: all;
-		z-index: 1;
-		
+    > .spinner
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5) center center no-repeat;
+        pointer-events: all;
+        z-index: 1;
+        
 
-		.loading-container
-			margin: 180px auto 0px
-			opacity: .8;
+        .loading-container
+            margin: 180px auto 0px
+            opacity: .8;

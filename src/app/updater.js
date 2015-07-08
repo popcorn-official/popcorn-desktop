@@ -173,24 +173,22 @@
                         win.close(true);
                     };
 
-                    var $el = $('#notification');
-                    $el.html(
-                        '<h1>Update ' + updateData.version + ' Available</h1>' +
-                        '<p>&nbsp;- ' + updateData.description + '</p>' +
-                        '<span class="btn-grp">' +
-                        '<a class="btn install">Install Now</a>' +
-                        '</span>'
-                    ).addClass('blue');
-
-                    $('.btn.install').on('click', function () {
-                        startWinUpdate();
-                    });
+                    App.vent.trigger('notification:show', new App.Model.Notification({
+                        title: 'Update ' + this.updateData.version + ' Installed',
+                        body: this.updateData.description,
+                        showRestart: false,
+                        type: 'info',
+                        buttons: [{
+                            title: 'Update Now',
+                            action: startWinUpdate
+                        }]
+                    }));
                     win.on('close', function () {
                         startWinUpdate();
                     });
 
+                    win.debug('Extraction success!');
                     win.debug('Update ready to be installed!');
-                    $('body').addClass('has-notification');
                 }
             });
 
@@ -241,39 +239,21 @@
                         if (err) {
                             defer.reject(err);
                         } else {
-                            var extractor = tar.Extract({path: outputDir}) //extract files from tar
-                                .on('error', function(err) {
+                            var extractor = tar.Extract({
+                                    path: outputDir
+                                }) //extract files from tar
+                                .on('error', function (err) {
                                     defer.reject(err);
                                 })
-                                .on('end', function() {
-                                    var restartApp = function () {
-                                        var cmd = path.join(outputDir, 'Popcorn-Time');
-
-                                        var updateprocess = spawn(cmd, [], {
-                                            detached: true,
-                                            stdio: ['ignore', 'ignore', 'ignore']
-                                        });
-                                        win.close(true);
-                                    };
-
-                                    var $el = $('#notification');
-                                    $el.html(
-                                        '<h1>Update ' + updateData.version + ' Installed</h1>' +
-                                        '<p>&nbsp;- ' + updateData.description + '</p>' +
-                                        '<span class="btn-grp">' +
-                                        '<a class="btn restart">Restart Now</a>' +
-                                        '</span>'
-                                    ).addClass('blue');
-
-                                    $('.btn.restart').on('click', function () {
-                                        restartApp();
-                                    });
-                                    win.on('close', function () {
-                                        restartApp();
-                                    });
+                                .on('end', function () {
+                                    App.vent.trigger('notification:show', new App.Model.Notification({
+                                        title: 'Update ' + this.updateData.version + ' Installed',
+                                        body: this.updateData.description,
+                                        showRestart: true,
+                                        type: 'info'
+                                    }));
 
                                     win.debug('Extraction success!');
-                                    $('body').addClass('has-notification');
                                 });
                             fs.createReadStream(updateTAR)
                                 .on('error', function (err) {
@@ -330,42 +310,24 @@
                         if (err) {
                             defer.reject(err);
                         } else {
-                            var extractor = tar.Extract({path: installDir}) //extract files from tar
-                                .on('error', function(err) {
+                            var extractor = tar.Extract({
+                                    path: installDir
+                                }) //extract files from tar
+                                .on('error', function (err) {
                                     defer.reject(err);
                                 })
-                                .on('end', function() {
-                                    var restartApp = function () {
-                                        var cmd = path.join(installDir, 'Contents/MacOS/nwjs');
-
-                                        var updateprocess = spawn(cmd, [], {
-                                            detached: true,
-                                            stdio: ['ignore', 'ignore', 'ignore']
-                                        });
-                                        win.close(true);
-                                    };
-
-                                    var $el = $('#notification');
-                                    $el.html(
-                                        '<h1>Update ' + updateData.version + ' Installed</h1>' +
-                                        '<p>&nbsp;- ' + updateData.description + '</p>' +
-                                        '<span class="btn-grp">' +
-                                        '<a class="btn restart">Restart Now</a>' +
-                                        '</span>'
-                                    ).addClass('blue');
-
-                                    $('.btn.restart').on('click', function () {
-                                        restartApp();
-                                    });
-                                    win.on('close', function () {
-                                        restartApp();
-                                    });
+                                .on('end', function () {
+                                    App.vent.trigger('notification:show', new App.Model.Notification({
+                                        title: 'Update ' + this.updateData.version + ' Installed',
+                                        body: this.updateData.description,
+                                        showRestart: true,
+                                        type: 'info'
+                                    }));
 
                                     win.debug('Extraction success!');
-                                    $('body').addClass('has-notification');
                                 });
                             fs.createReadStream(updateTAR)
-                                .on('error', function(err) {
+                                .on('error', function (err) {
                                     defer.reject(err);
                                 })
                                 .pipe(extractor);
@@ -378,7 +340,7 @@
 
             // Extended: false
             var outputDir = path.dirname(downloadPath);
-          
+
             var pack = new AdmZip(downloadPath);
             pack.extractAllToAsync(outputDir, true, function (err) {
                 if (err) {
@@ -415,43 +377,56 @@
         return promise(downloadPath, this.updateData);
     };
 
-	Updater.prototype.displayNotification = function () {
-		var self = this;
-		var $el = $('#notification');
-		$el.html(
-			'<h1>' + this.updateData.title + ' Installed</h1>' +
-			'<p>&nbsp;- ' + this.updateData.description + '</p>' +
-			'<span class="btn-grp">' +
-			'<a class="btn chnglog">Changelog</a>' +
-			'<a class="btn restart">Restart Now</a>' +
-			'</span>'
-		).addClass('blue');
+    Updater.prototype.displayNotification = function () {
+        var self = this;
 
-		var $restart = $('.btn.restart'),
-			$chnglog = $('.btn.chnglog');
+        function onChangelogClick() {
+            var $changelog = $('#changelog-container').html(_.template($('#changelog-tpl').html())(self.updateData));
+            $changelog.find('.btn-close').on('click', function () {
+                $changelog.hide();
+            });
+            $changelog.show();
+        }
 
-		$restart.on('click', function () {
-			var argv = gui.App.fullArgv;
-			argv.push(self.outputDir);
-			spawn(process.execPath, argv, {
-				cwd: self.outputDir,
-				detached: true,
-				stdio: ['ignore', 'ignore', 'ignore']
-			}).unref();
-			gui.App.quit();
-		});
+        App.vent.trigger('notification:show', new App.Model.Notification({
+            title: this.updateData.title + ' Installed',
+            body: this.updateData.description,
+            showRestart: true,
+            type: 'info',
+            buttons: [{
+                title: 'Changelog',
+                action: onChangelogClick
+            }]
+        }));
+    };
 
-		$chnglog.on('click', function () {
-			var $changelog = $('#changelog-container').html(_.template($('#changelog-tpl').html())(this.updateData));
-			$changelog.find('.btn-close').on('click', function () {
-				$changelog.hide();
-			});
-			$changelog.show();
-		});
 
-		$('body').addClass('has-notification');
-	};
+    Updater.prototype.update = function () {
+        var outputFile = path.join(path.dirname(this.outputDir), FILENAME);
 
+        if (this.updateData) {
+            // If we have already checked for updates...
+            return this.download(this.updateData.updateUrl, outputFile)
+                .then(forcedBind(this.verify, this))
+                .then(forcedBind(this.install, this))
+                .then(forcedBind(this.displayNotification, this));
+        } else {
+            // Otherwise, check for updates then install if needed!
+            var self = this;
+            return this.check().then(function (updateAvailable) {
+                if (updateAvailable) {
+                    return self.download(self.updateData.updateUrl, outputFile)
+                        .then(forcedBind(self.verify, self))
+                        .then(forcedBind(self.install, self))
+                        .then(forcedBind(self.displayNotification, self));
+                } else {
+                    return false;
+                }
+            });
+        }
+    };
+
+    App.Updater = Updater;
 
     Updater.prototype.update = function () {
         var outputFile = path.join(path.dirname(this.outputDir), FILENAME);

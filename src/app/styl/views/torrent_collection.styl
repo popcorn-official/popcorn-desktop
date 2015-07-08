@@ -1,158 +1,269 @@
 .torrent-collection-container
-	height 100%
-	width 100%
-	position fixed
-	background-color $BgColor1
-	-webkit-user-select none
-	opacity 1
+    height 100%
+    width 100%
+    position fixed
+    background-color $BgColor1
+    -webkit-user-select none
+    opacity 1
 
-	.margintop
-		height 100px
+    .margintop
+        height 100px
 
-	.content
-		margin 0 auto
-		width 85%
-		height calc(100% - 140px)
-		color $TextError
-		font-weight 100
-		font-family $AlternateFont
-		font-size 17px
+    .content
+        margin 0 auto
+        width 85%
+        height calc(100% - 140px)
+        color $TextError
+        font-weight 100
+        font-family $AlternateFont
+        font-size 17px
 
-		.notorrents-info
-			display block
-			height 90%
-			margin-top 10%
+        .onlinesearch
+            position relative
+            top -10px
+            padding-left 170px
+            width 430px
+            margin 0 auto
 
-			.notorrents-frame
-				border 6px dashed $TextError
-				margin 0 auto
-				width 250px
-				height 250px
-				border-radius 25px
-				color $TextError
-				text-align center
-				transition all .3s
-				cursor pointer
+            .engine-selector
+                position absolute
+                margin-left -160px
 
-				&:hover
-					color $ButtonBgHover
-					border-color $ButtonBgHover
-				&:active
-					color $ButtonBgActive
-					border-color $ButtonBgActive
+                div
+                    width 30px
+                    height 30px
+                    opacity .3
+                    float left
+                    cursor pointer
+                    transition opacity .1s ease-in
 
-				.notorrents-icon
-					font-size 140px
-					padding-top 20px
+                    &#kat-icon
+                        background url('../images/icons/kickasstorrents.png')
+                        background-size contain
 
-				.notorrents-message
-					font-family $MainFontBold
-					font-size 20px
+                    &#strike-icon
+                        -webkit-filter $PngLogo_BgColo1
+                        background url('../images/icons/getstrike.png')
+                        background-size contain
 
-		.torrents-info
-			display none
-			margin 0 auto
-			height 100%
-			color $Text1
-			font-family $AlternateFont
-			font-size 17px
-			text-align center
-			box-shadow inset -3px 0px 10px $FileSelectorShadow
-			scrollable()
+                    &.active
+                        opacity 1
 
-			ul
-				li.file-item
-					border-bottom 1px solid rgba(255, 255, 255, 0.06)
-					background $FileSelectorBg
-					text-align left
-					cursor pointer
-					color $FileSelectorText
-					height 46px
-					padding-left 40px
-					padding-top 14px
-					padding-right 50px
+            input[type="text"]
+                border 0 !important
+                line-height 16px
+                background-color $InputBoxBg
+                resize none
+                color $InputBoxText
+                font-family $Font, $AlternateFont
+                font-size 13px
+                padding-left 10px
+                cursor text
+                outline 0 !important
+                height 30px
 
-					a
-						color $FileSelectorText
-						text-decoration blink
-						width 100%
-						display block
-						transition all 0.3s
-						overflow hidden
-						text-overflow ellipsis
+            .online-search
+                margin-left 5px
+                cursor pointer
+                transition color .3s
 
-						&:hover
-							color $ButtonBgHover
-						&:active
-							color $ButtonBgActive
+                &:hover
+                    color: $ButtonBgHover
 
-					.item-delete
-						position relative
-						color: $TextError
-						transition all 0.3s
-						cursor pointer
-						left calc(100% + 25px)
-						top -15px
+            .dropdown
+                position absolute
+                margin-top 9px
+                margin-left -88px
 
-						&:hover
-							color $ButtonBgHover
+                select
+                    position relative
+                    padding-left 5px
+                    border 0 !important
+                    -webkit-appearance none
+                    height 30px
+                    width 85px
+                    line-height 25px
+                    margin-top -9px
+                    background-color $InputBoxBg
+                    cursor pointer
+                    color $InputBoxText
+                    font-family $Font, $AlternateFont
+                    font-size 13px
+                    float left
+                    outline 0
+                    padding-right 15px
 
-					.item-rename
-						position relative
-						color: $TextError
-						transition all 0.3s
-						cursor pointer
-						left calc(100% - 15px)
-						top -15px
+                option
+                    background $InputBoxBg
+                    border 0 !important
+                    outline 0
 
-						&:hover
-							color $ButtonBgHover
+                .dropdown-arrow
+                    width 0
+                    height 0
+                    border-left 4px solid transparent
+                    border-right 4px solid transparent
+                    border-top 5px solid $Text2
+                    top 4px
+                    margin-left -13px
+                    position relative
+                    float left
+                    cursor pointer
 
-					.item-icon
-						pointer-events none
-						position relative
-						font-family FontAwesome
-						font-style normal
-						font-size 15px
-						color $FileSelectorText
-						opacity 0.7
-						left -25px
-						margin-top -16px
+        .notorrents-info
+            display block
+            height 90%
+            margin-top 10%
 
-						&.torrent-icon:before
-							content: '\f016'
-						&.magnet-icon:before
-							content: '\f076'
+            .notorrents-frame
+                border 6px dashed $TextError
+                margin 0 auto
+                width 250px
+                height 250px
+                border-radius 25px
+                color $TextError
+                text-align center
+                transition all .3s
+                cursor pointer
 
-		.collection-actions
-			display none
-			position absolute
-			color $TextError
+                &:hover
+                    color $ButtonBgHover
+                    border-color $ButtonBgHover
+                &:active
+                    color $ButtonBgActive
+                    border-color $ButtonBgActive
 
-			.collection-delete
-				position fixed
-				right 25px
-				bottom 15px
-				transition all 0.3s
-				cursor pointer
-				&:hover
-					color $ButtonBgHover
-			.collection-open
-				position fixed
-				right 50px
-				bottom 15px
-				transition all 0.3s
-				cursor pointer
-				&:hover
-					color $ButtonBgHover
-			.collection-import
-				position fixed
-				right 80px
-				bottom 15px
-				transition all 0.3s
-				cursor pointer
-				&:hover
-					color $ButtonBgHover
-			/* override bootstrap */
-			.tooltip
-				min-width 150px
+                .notorrents-icon
+                    font-size 140px
+                    padding-top 20px
+
+                .notorrents-message
+                    font-family $MainFontBold
+                    font-size 20px
+
+        .torrents-info,
+        .onlinesearch-info
+            display none
+            margin 0 auto
+            height calc(100% - 30px)
+            color $Text1
+            font-family $AlternateFont
+            font-size 17px
+            text-align center
+            box-shadow inset -3px 0px 10px $FileSelectorShadow
+            scrollable()
+
+            .online-back
+                position fixed
+                font-size 25px
+                color $TextError
+                cursor pointer
+                right 7%
+                top 92px
+                transition color .3s
+
+                &:hover
+                    color $Text1
+
+            ul
+                li.file-item,
+                li.result-item
+                    border-bottom 1px solid rgba(255, 255, 255, 0.06)
+                    background $FileSelectorBg
+                    text-align left
+                    cursor pointer
+                    color $FileSelectorText
+                    height 46px
+                    padding-left 40px
+                    padding-top 14px
+                    padding-right 50px
+
+                    a
+                        color $FileSelectorText
+                        text-decoration blink
+                        width 100%
+                        display block
+                        transition all 0.3s
+                        overflow hidden
+                        white-space nowrap
+                        text-overflow ellipsis
+
+                        &:hover
+                            color $ButtonBgHover
+                        &:active
+                            color $ButtonBgActive
+
+                    .item-delete,
+                    .item-rename
+                        position relative
+                        color: $TextError
+                        transition all 0.3s
+                        cursor pointer
+                        left calc(100% + 25px)
+                        top -15px
+
+                        &:hover
+                            color $ButtonBgHover
+
+                    .item-rename
+                        left calc(100% - 15px)
+
+                    .item-icon
+                        pointer-events none
+                        position relative
+                        font-family FontAwesome
+                        font-style normal
+                        font-size 15px
+                        color $FileSelectorText
+                        opacity 0.7
+                        left -25px
+                        margin-top -16px
+
+                        &.torrent-icon:before
+                            content: '\f016'
+                        &.magnet-icon:before
+                            content: '\f076'
+
+                    .online-size
+                        position relative
+                        color: $TextError
+                        font-style normal
+                        font-size .9em
+                        left calc(100% - 35px)
+                        top -15px
+
+                li.result-item a
+                    width calc(100% - 50px)
+
+        .collection-actions
+            display none
+            position absolute
+            color $TextError
+
+            .collection-delete
+                position fixed
+                right 25px
+                bottom 15px
+                transition all 0.3s
+                cursor pointer
+                &:hover
+                    color $ButtonBgHover
+            .collection-open
+                position fixed
+                right 50px
+                bottom 15px
+                transition all 0.3s
+                cursor pointer
+                &:hover
+                    color $ButtonBgHover
+            .collection-import
+                position fixed
+                right 80px
+                bottom 15px
+                transition all 0.3s
+                cursor pointer
+                &:hover
+                    color $ButtonBgHover
+            /* override bootstrap */
+            .tooltip
+                min-width 150px

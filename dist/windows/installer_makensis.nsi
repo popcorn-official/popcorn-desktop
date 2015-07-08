@@ -16,7 +16,9 @@ Unicode True
     ;File does NOT exist!
 !endif
 
-;Parse Gruntfile.js
+; ------------------- ;
+;  Parse Gruntfile.js ;
+; ------------------- ;
 !ifdef WIN_PATHS
     !searchparse /file "..\..\Gruntfile.js" "version: '" APP_NW "',"
 !else
@@ -44,16 +46,18 @@ Unicode True
     !searchparse /file "../../package.json" '"name": "' DATA_FOLDER '",'
 !endif
 
+; ------------------- ;
+;      Settings       ;
+; ------------------- ;
 ;General Settings
 !define COMPANY_NAME "Popcorn Official"
-!define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
 Name "${APP_NAME}"
-Caption "${APP_NAME} v${PT_VERSION}"
-BrandingText "${APP_NAME} v${PT_VERSION}"
+Caption "${APP_NAME} ${PT_VERSION}"
+BrandingText "${APP_NAME} ${PT_VERSION}"
 VIAddVersionKey "ProductName" "${APP_NAME}"
-VIAddVersionKey "ProductVersion" "v${PT_VERSION}"
-VIAddVersionKey "FileDescription" "${APP_NAME} v${PT_VERSION} Installer"
-VIAddVersionKey "FileVersion" "v${PT_VERSION}"
+VIAddVersionKey "ProductVersion" "${PT_VERSION}"
+VIAddVersionKey "FileDescription" "${APP_NAME} ${PT_VERSION} Installer"
+VIAddVersionKey "FileVersion" "${PT_VERSION}"
 VIAddVersionKey "CompanyName" "${COMPANY_NAME}"
 VIAddVersionKey "LegalCopyright" "${APP_URL}"
 VIProductVersion "${PT_VERSION_CLEAN}.0"
@@ -67,6 +71,12 @@ InstallDir "$LOCALAPPDATA\${APP_NAME}"
 ;Request application privileges
 RequestExecutionLevel user
 
+!define APP_LAUNCHER "Popcorn Time.exe"
+!define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
+
+; ------------------- ;
+;     UI Settings     ;
+; ------------------- ;
 ;Define UI settings
 !ifdef WIN_PATHS
     !define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
@@ -82,12 +92,16 @@ RequestExecutionLevel user
 !define MUI_ABORTWARNING
 !define MUI_FINISHPAGE_LINK "${APP_URL}"
 !define MUI_FINISHPAGE_LINK_LOCATION "${APP_URL}"
-!define MUI_FINISHPAGE_RUN "$INSTDIR\node-webkit\${APP_NAME}.exe"
-!define MUI_FINISHPAGE_RUN_PARAMETERS "."
+!define MUI_FINISHPAGE_RUN "$INSTDIR\nw.exe"
+!define MUI_FINISHPAGE_SHOWREADME ""
+!define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
+!define MUI_FINISHPAGE_SHOWREADME_TEXT "$(desktopShortcut)"
+!define MUI_FINISHPAGE_SHOWREADME_FUNCTION finishpageaction
 
 ;Define the pages
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "LICENSE.txt"
+!insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
 
@@ -101,11 +115,8 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Afrikaans"
 !insertmacro MUI_LANGUAGE "Albanian"
 !insertmacro MUI_LANGUAGE "Arabic"
-!insertmacro MUI_LANGUAGE "Asturian"
-!insertmacro MUI_LANGUAGE "Basque"
 !insertmacro MUI_LANGUAGE "Belarusian"
 !insertmacro MUI_LANGUAGE "Bosnian"
-!insertmacro MUI_LANGUAGE "Breton"
 !insertmacro MUI_LANGUAGE "Bulgarian"
 !insertmacro MUI_LANGUAGE "Catalan"
 !insertmacro MUI_LANGUAGE "Croatian"
@@ -128,16 +139,13 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Italian"
 !insertmacro MUI_LANGUAGE "Japanese"
 !insertmacro MUI_LANGUAGE "Korean"
-!insertmacro MUI_LANGUAGE "Kurdish"
 !insertmacro MUI_LANGUAGE "Latvian"
 !insertmacro MUI_LANGUAGE "Lithuanian"
-!insertmacro MUI_LANGUAGE "Luxembourgish"
 !insertmacro MUI_LANGUAGE "Macedonian"
 !insertmacro MUI_LANGUAGE "Malay"
 !insertmacro MUI_LANGUAGE "Mongolian"
 !insertmacro MUI_LANGUAGE "Norwegian"
 !insertmacro MUI_LANGUAGE "NorwegianNynorsk"
-!insertmacro MUI_LANGUAGE "Pashto"
 !insertmacro MUI_LANGUAGE "Polish"
 !insertmacro MUI_LANGUAGE "Portuguese"
 !insertmacro MUI_LANGUAGE "PortugueseBR"
@@ -155,19 +163,18 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "TradChinese"
 !insertmacro MUI_LANGUAGE "Turkish"
 !insertmacro MUI_LANGUAGE "Ukrainian"
-!insertmacro MUI_LANGUAGE "Uzbek"
 !insertmacro MUI_LANGUAGE "Vietnamese"
 !insertmacro MUI_LANGUAGE "Welsh"
 
+; ------------------- ;
+;    Localization     ;
+; ------------------- ;
 LangString removeDataFolder ${LANG_ENGLISH} "Remove all databases and configuration files?"
 LangString removeDataFolder ${LANG_Afrikaans} "Alle databasisse en opset lêers verwyder?" 
 LangString removeDataFolder ${LANG_Albanian} "Hiq të gjitha bazat e të dhënave dhe fotografi konfigurimit?" 
 LangString removeDataFolder ${LANG_Arabic} "إزالة كافة قواعد البيانات وملفات التكوين؟" 
-LangString removeDataFolder ${LANG_Asturian} "Remove all databases and configuration files?" 
-LangString removeDataFolder ${LANG_Basque} "Remove all databases and configuration files?" 
 LangString removeDataFolder ${LANG_Belarusian} "Выдаліць усе базы дадзеных і файлы канфігурацыі?" 
 LangString removeDataFolder ${LANG_Bosnian} "Uklonite sve baze podataka i konfiguracijske datoteke?" 
-LangString removeDataFolder ${LANG_Breton} "Remove all databases and configuration files?" 
 LangString removeDataFolder ${LANG_Bulgarian} "Премахнете всички бази данни и конфигурационни файлове?" 
 LangString removeDataFolder ${LANG_Catalan} "Eliminar totes les bases de dades i arxius de configuració?" 
 LangString removeDataFolder ${LANG_Croatian} "Uklonite sve baze podataka i konfiguracijske datoteke?" 
@@ -190,23 +197,20 @@ LangString removeDataFolder ${LANG_Irish} "Bain na bunachair shonraí agus comha
 LangString removeDataFolder ${LANG_Italian} "Rimuovere tutti i database ei file di configurazione?" 
 LangString removeDataFolder ${LANG_Japanese} "すべてのデータベースと設定ファイルを削除しますか？" 
 LangString removeDataFolder ${LANG_Korean} "모든 데이터베이스와 구성 파일을 삭제 하시겠습니까?" 
-LangString removeDataFolder ${LANG_Kurdish} "Remove all databases and configuration files?" 
 LangString removeDataFolder ${LANG_Latvian} "Noņemt visas datu bāzes un konfigurācijas failus?" 
 LangString removeDataFolder ${LANG_Lithuanian} "Pašalinti visas duombazes ir konfigūravimo failus?" 
-LangString removeDataFolder ${LANG_Luxembourgish} "Remove all databases and configuration files?" 
 LangString removeDataFolder ${LANG_Macedonian} "Отстрани ги сите бази на податоци и конфигурациските датотеки?" 
 LangString removeDataFolder ${LANG_Malay} "Buang semua pangkalan data dan fail-fail konfigurasi?" 
 LangString removeDataFolder ${LANG_Mongolian} "Бүх өгөгдлийн сангууд болон тохиргооны файлуудыг устгана?" 
 LangString removeDataFolder ${LANG_Norwegian} "Fjern alle databaser og konfigurasjonsfiler?" 
-LangString removeDataFolder ${LANG_NorwegianNynorsk} "Remove all databases and configuration files?" 
-LangString removeDataFolder ${LANG_Pashto} "Remove all databases and configuration files?" 
+LangString removeDataFolder ${LANG_NorwegianNynorsk} "Fjern alle databaser og konfigurasjonsfiler?" 
 LangString removeDataFolder ${LANG_Polish} "Usuń wszystkie bazy danych i plików konfiguracyjnych?" 
 LangString removeDataFolder ${LANG_Portuguese} "Remova todos os bancos de dados e arquivos de configuração?" 
-LangString removeDataFolder ${LANG_PortugueseBR} "Remove all databases and configuration files?" 
+LangString removeDataFolder ${LANG_PortugueseBR} "Remova todos os bancos de dados e arquivos de configuração?" 
 LangString removeDataFolder ${LANG_Romanian} "Elimina toate bazele de date și fișierele de configurare?" 
 LangString removeDataFolder ${LANG_Russian} "Удалить все базы данных и файлы конфигурации?" 
 LangString removeDataFolder ${LANG_Serbian} "Уклоните све базе података и конфигурационе фајлове?" 
-LangString removeDataFolder ${LANG_SerbianLatin} "Remove all databases and configuration files?" 
+LangString removeDataFolder ${LANG_SerbianLatin} "Uklonite sve baze podataka i datoteke za konfiguraciju ?" 
 LangString removeDataFolder ${LANG_SimpChinese} "删除所有数据库和配置文件？" 
 LangString removeDataFolder ${LANG_Slovak} "Odstráňte všetky databázy a konfiguračných súborov?" 
 LangString removeDataFolder ${LANG_Slovenian} "Odstranite vse podatkovne baze in konfiguracijske datoteke?" 
@@ -217,26 +221,126 @@ LangString removeDataFolder ${LANG_Thai} "ลบฐานข้อมูลท�
 LangString removeDataFolder ${LANG_TradChinese} "刪除所有數據庫和配置文件？" 
 LangString removeDataFolder ${LANG_Turkish} "Tüm veritabanlarını ve yapılandırma dosyaları çıkarın?" 
 LangString removeDataFolder ${LANG_Ukrainian} "Видалити всі бази даних і файли конфігурації?" 
-LangString removeDataFolder ${LANG_Uzbek} "Remove all databases and configuration files?" 
 LangString removeDataFolder ${LANG_Vietnamese} "Loại bỏ tất cả các cơ sở dữ liệu và các tập tin cấu hình?" 
 LangString removeDataFolder ${LANG_Welsh} "Tynnwch yr holl gronfeydd data a ffeiliau cyfluniad?" 
 
-Function .onInit ; check for previous version (needed for 0.3.2 that was in ProgramFiles)
- 
-  ReadRegStr $0 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn-Time" "InstallLocation"
-  ReadRegStr $1 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn-Time" "UninstallString"
-  ReadRegStr $2 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn-Time" "DisplayVersion"
-  StrCmp $0 "" done
- 
-  MessageBox MB_YESNO|MB_ICONQUESTION "${APP_NAME} $2 is already installed in $0. \
-  $\n$\nThe new version will be installed in $\"$INSTDIR$\". \
-  $\n$\n$\nDo you want to uninstall ${APP_NAME} $2 ?" \
-  IDYES uninstall IDNO done
+LangString noRoot ${LANG_ENGLISH} "You cannot install Popcorn Time in a directory that requires administrator permissions"
+LangString noRoot ${LANG_Afrikaans} "Jy kan nie Popcorn Time installeer in 'n gids wat administrateur regte vereis"
+LangString noRoot ${LANG_Albanian} "Ju nuk mund të instaloni Popcorn Time në një directory që kërkon lejet e administratorit"
+LangString noRoot ${LANG_Arabic} " لا يمكنك تثبيت Popcorn Time في مجلد يتطلب صلاحيات مدير"
+LangString noRoot ${LANG_Belarusian} "Вы не можаце ўсталяваць Popcorn Time ў каталогу, які патрабуе правоў адміністратара"
+LangString noRoot ${LANG_Bosnian} "Nemoguće instalirati Popcorn Time u direktorij koji zahtjeva administrativnu dozvolu" 
+LangString noRoot ${LANG_Bulgarian} "Не може да инсталирате Popcorn Time в директория, изискваща администраторски права"
+LangString noRoot ${LANG_Catalan} "No es pot instal·lar Popcorn Time en un directori que requereix permisos d'administrador"
+LangString noRoot ${LANG_Croatian} "Nemoguće instalirati Popcorn Time u mapi koja zahtjeva administrativnu dozvolu"
+LangString noRoot ${LANG_Czech} "Nelze nainstalovat Popcorn Time v adresáři, který vyžaduje oprávnění správce"
+LangString noRoot ${LANG_Danish} "Popcorn Time kan ikke installeres til denne sti, da det kræver administratorrettigheder"
+LangString noRoot ${LANG_Dutch} "Popcorn Time kan niet worden geïnstalleerd in een map die beheerdersrechten vereist"
+LangString noRoot ${LANG_Esperanto} "Vi ne povas instali Popcorn Time en dosierujo kiu postulas administranto permesojn"
+LangString noRoot ${LANG_Estonian} "Popcorn Time`i ei ole võimalik installida kataloogi mis nõuab administraatori õiguseid" 
+LangString noRoot ${LANG_Farsi} "در یک دایرکتوری که نیاز به مجوز مدیر نصب Popcorn Time  کنید شما می توانید "
+LangString noRoot ${LANG_Finnish} "Et voi asentaa Popcorn Time hakemistossa, joka vaatii järjestelmänvalvojan oikeudet"
+LangString noRoot ${LANG_French} "Popcorn Time ne peut être installé dans un répertoire nécessitant un accès administrateur"
+LangString noRoot ${LANG_Galician} "Popcorn Time non se pode instalar nun directorio que requira permisos de administrador"
+LangString noRoot ${LANG_German} "Popcorn Time kann nicht in einem Ordner installiert werden für den Administratorrechte benötigt werden" 
+LangString noRoot ${LANG_Greek} "Δεν μπορείτε να εγκαταστήσετε το Popcorn Time σε ένα φάκελο που απαιτεί δικαιώματα διαχειριστή"
+LangString noRoot ${LANG_Hebrew} "אין באפשרותכם להתקין את Popcorn Time בתיקייה שדורשת הרשאות מנהל"
+LangString noRoot ${LANG_Hungarian} "A Popcorn Time nem telepíthető olyan mappába, amely adminisztrátori hozzáférést igényel"
+LangString noRoot ${LANG_Icelandic} "Þú getur ekki sett Popcorn Time í möppu sem þarfnast stjórnenda réttindi"
+LangString noRoot ${LANG_Indonesian} "Anda tidak bisa menginstall Popcorn Time pada direktori yang memerlukan ijin dari Administrator"
+LangString noRoot ${LANG_Irish} "Ní féidir leat a shuiteáil Popcorn Time i eolaire go n-éilíonn ceadanna riarthóir"
+LangString noRoot ${LANG_Italian} "Non puoi installare Popcorn Time in una cartella che richiede i permessi d'amministratore"
+LangString noRoot ${LANG_Japanese} "アドミニストレータの聴許が必要なディレクトリには 'Popcorn Time'をインストールできません。"
+LangString noRoot ${LANG_Korean} "관리자 권한이 요구되는 위치에 Popcorn Time을 설치 할 수 없습니다"
+LangString noRoot ${LANG_Latvian} "Jūs nevarat instalēt Popcorn Time direktorijā, kas prasa administratora atļaujas"
+LangString noRoot ${LANG_Lithuanian} "Jūs negalite įdiegti Popcorn Time į katalogą, kad reikia administratoriaus teisių"
+LangString noRoot ${LANG_Macedonian} "Не можете да инсталирате Popcorn Time во директориумот со која се бара администратор дозволи"
+LangString noRoot ${LANG_Malay} "Anda tidak boleh memasang Popcorn Time dalam direktori yang memerlukan keizinan pentadbir"
+LangString noRoot ${LANG_Mongolian} "Та администратор зөвшөөрөл шаарддаг сан дахь Popcorn Time суулгаж чадахгүй байгаа"
+LangString noRoot ${LANG_Norwegian} "Popcorn Time kan ikke installeres i en mappe som krever administratorrettigheter"
+LangString noRoot ${LANG_NorwegianNynorsk} "Popcorn Time kan ikke installeres i en mappe som krever administratorrettigheter" 
+LangString noRoot ${LANG_Polish} "Nie można zainstalować Popcorn Time w katalogu wymagającym uprawnień administratora"
+LangString noRoot ${LANG_Portuguese} "Não é possível instalar o Popcorn Time numa pasta que requer permissões administrativas"
+LangString noRoot ${LANG_PortugueseBR} "Popcorn Time não poderá ser instalado em um diretório que requer permissões de administrador"
+LangString noRoot ${LANG_Romanian} "Nu puteți instala Popcorn Time într-un director care necesită permisiuni de administrator"
+LangString noRoot ${LANG_Russian} "Popcorn Time не может быть установлена в директорию требующей полномочия Администратора"
+LangString noRoot ${LANG_Serbian} "Ви не можете инсталирати ПопцорнТиме у директоријуму која захтева администраторске дозволе"
+LangString noRoot ${LANG_SerbianLatin} "Ne možete da instalirate Popcorn Time u direktorijum koji zahteva administartorsku dozvolu"
+LangString noRoot ${LANG_SimpChinese} "你不能把PopCorn Time安装到一个需要管理员权限的目录"
+LangString noRoot ${LANG_Slovak} "Nemôžete inštalovať Popcorn Time do zložky, ktorá vyžaduje administrátorské povolenia"
+LangString noRoot ${LANG_Slovenian} "Ne morete namestiti Popcorn Time v imeniku, ki zahteva skrbniška dovoljenja"
+LangString noRoot ${LANG_Spanish} "Popcorn Time no puede ser instalado en un directorio que requiera permisos de administrador"
+LangString noRoot ${LANG_SpanishInternational} "Popcorn Time no puede ser instalado en un directorio que requiera permisos de administrador"
+LangString noRoot ${LANG_Swedish} "Popcorn Time kan inte installeras i en mapp som kräver administratörsbehörighet"
+LangString noRoot ${LANG_Thai} "คุณไม่สามารถติดตั้ง Popcorn Time ในโฟลเดอร์ ที่ต้องใช้สิทธิ์ของ Administrator"
+LangString noRoot ${LANG_TradChinese} "你不能把Popcorn Time安装到一个需要管理员权限的目录"
+LangString noRoot ${LANG_Turkish} "Popcorn Time'ı yönetici izinleri gerektiren bir dizine kuramazsınız"
+LangString noRoot ${LANG_Ukrainian} "Ви не можете встановити Popcorn Time в каталозі, який вимагає прав адміністратора"
+LangString noRoot ${LANG_Vietnamese} "Bạn không thể cài đặt Popcorn time trong một thư mục yêu cầu quyền quản trị admin"
+LangString noRoot ${LANG_Welsh} "Ni gallwch gosod Popcorn Time mewn cyfarwyddiadur sydd angen caniatad gweinyddol"
 
-uninstall:
-  ClearErrors
-  ExecShell "" "$1"
+LangString desktopShortcut ${LANG_ENGLISH} "Desktop Shortcut"
+LangString desktopShortcut ${LANG_Afrikaans} "Snelkoppeling op die lessenaar (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Albanian} "Shkurtore desktop (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Arabic} "إختصار سطح المكتب"
+LangString desktopShortcut ${LANG_Belarusian} "ярлык Працоўнага Стала (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Bosnian} "Prečac Radne Površine"
+LangString desktopShortcut ${LANG_Bulgarian} "Икона на десктоп"
+LangString desktopShortcut ${LANG_Catalan} "Drecera d'escriptori"
+LangString desktopShortcut ${LANG_Croatian} "Prečac na radnoj površini (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Czech} "Odkaz na ploše"
+LangString desktopShortcut ${LANG_Danish} "Genvej til skrivebord"
+LangString desktopShortcut ${LANG_Dutch} "Bureaublad-snelkoppeling"
+LangString desktopShortcut ${LANG_Esperanto} "Labortablo ŝparvojo (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Estonian} "Otsetee töölaual"
+LangString desktopShortcut ${LANG_Farsi} "(Desktop Shortcut) میانبر دسک تاپ"
+LangString desktopShortcut ${LANG_Finnish} "Työpöydän pikakuvake"
+LangString desktopShortcut ${LANG_French} "Placer un raccourci sur le bureau"
+LangString desktopShortcut ${LANG_Galician} "Atallo de escritorio"
+LangString desktopShortcut ${LANG_German} "Desktopsymbol"
+LangString desktopShortcut ${LANG_Greek} "Συντόμευση επιφάνειας εργασίας"
+LangString desktopShortcut ${LANG_Hebrew} "קיצורי דרך על שולחן העבודה"
+LangString desktopShortcut ${LANG_Hungarian} "Asztali ikon"
+LangString desktopShortcut ${LANG_Icelandic} "Flýtileið (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Indonesian} "Desktop Shortcut"
+LangString desktopShortcut ${LANG_Irish} "Aicearra deisce (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Italian} "Collegati sul desktop"
+LangString desktopShortcut ${LANG_Japanese} "デスクトップショートカット"
+LangString desktopShortcut ${LANG_Korean} "바탕화면 바로가기"
+LangString desktopShortcut ${LANG_Latvian} "Desktop īsceļu (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Lithuanian} "Darbalaukio nuoroda"
+LangString desktopShortcut ${LANG_Macedonian} "Десктоп кратенка (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Malay} "Pintasan Desktop"
+LangString desktopShortcut ${LANG_Mongolian} "Ширээний товчлохын (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Norwegian} "Skrivebordssnarvei"
+LangString desktopShortcut ${LANG_NorwegianNynorsk} "Skrivebordssnarvei"
+LangString desktopShortcut ${LANG_Polish} "Ikona na pulpicie"
+LangString desktopShortcut ${LANG_Portuguese} "Atalho do Ambiente de Trabalho"
+LangString desktopShortcut ${LANG_PortugueseBR} "Atalho da Área de Trabalho"
+LangString desktopShortcut ${LANG_Romanian} "Scurtătură desktop"
+LangString desktopShortcut ${LANG_Russian} "Ярлык на рабочем столе"
+LangString desktopShortcut ${LANG_Serbian} "Пречица на радној површини"
+LangString desktopShortcut ${LANG_SerbianLatin} "Desktop Shortcut"
+LangString desktopShortcut ${LANG_SimpChinese} "桌面快捷方式"
+LangString desktopShortcut ${LANG_Slovak} "Odkaz na pracovnej ploche"
+LangString desktopShortcut ${LANG_Slovenian} "Bližnjica na namizju"
+LangString desktopShortcut ${LANG_Spanish} "Acceso directo en el Escritorio"
+LangString desktopShortcut ${LANG_SpanishInternational} "Acceso directo en el Escritorio"
+LangString desktopShortcut ${LANG_Swedish} "Genväg på skrivbordet"
+LangString desktopShortcut ${LANG_Thai} "ไอคอนตรงพื้นโต๊ะ"
+LangString desktopShortcut ${LANG_TradChinese} "桌面捷徑"
+LangString desktopShortcut ${LANG_Turkish} "Masaüstü Kısayolu"
+LangString desktopShortcut ${LANG_Ukrainian} "Ярлик на робочому столі"
+LangString desktopShortcut ${LANG_Vietnamese} "Lối tắt trên màn (Desktop Shortcut)"
+LangString desktopShortcut ${LANG_Welsh} "Llwybr Byr ar y Bwrdd Gwaith"
 
+; ------------------- ;
+;    Install code     ;
+; ------------------- ;
+Function .onInit ; check for previous version
+    ReadRegStr $0 HKCU "${UNINSTALL_KEY}" "InstallString"
+    StrCmp $0 "" done
+    StrCpy $INSTDIR $0
 done:
 FunctionEnd
 
@@ -246,7 +350,7 @@ Section ; Node Webkit Files
     RMDir /r "$INSTDIR"
 
     ;Set output path to InstallDir
-    SetOutPath "$INSTDIR\node-webkit"
+    SetOutPath "$INSTDIR"
 
     ;Check to see if this nw uses datfiles
     !ifdef WIN_PATHS
@@ -267,12 +371,14 @@ Section ; Node Webkit Files
     ;Add the files
     !ifdef WIN_PATHS
         File "..\..\build\cache\win\${APP_NW}\*.dll"
-        File "/oname=${APP_NAME}.exe" "..\..\build\cache\win\${APP_NW}\nw.exe"
+        File "..\..\build\cache\win\${APP_NW}\nw.exe"
         File "..\..\build\cache\win\${APP_NW}\nw.pak"
+        File /r "..\..\build\cache\win\${APP_NW}\locales"
     !else
         File "../../build/cache/win/${APP_NW}/*.dll"
-        File "/oname=${APP_NAME}.exe" "../../build/cache/win/${APP_NW}/nw.exe"
+        File "../../build/cache/win/${APP_NW}/nw.exe"
         File "../../build/cache/win/${APP_NW}/nw.pak"
+        File /r "../../build/cache/win/${APP_NW}/locales"
     !endif
 
     !ifdef DATFILES
@@ -316,10 +422,12 @@ Section ; App Files
     SetOutPath "$INSTDIR"
     !ifdef WIN_PATHS
         File "..\..\package.json"
+        File "..\..\dist\windows\${APP_LAUNCHER}"
         File "..\..\CHANGELOG.md"
         File /NONFATAL "..\..\.git.json"
     !else
         File "../../package.json"
+        File "../../dist/windows/${APP_LAUNCHER}"
         File "../../CHANGELOG.md"
         File /NONFATAL "../../.git.json"
     !endif
@@ -336,37 +444,46 @@ Section ; App Files
 
 SectionEnd
 
+; ------------------- ;
+;      Shortcuts      ;
+; ------------------- ;
 Section ; Shortcuts
 
     ;Working Directory
     SetOutPath "$INSTDIR"
-    
-    CreateShortCut "$INSTDIR\${APP_NAME}.lnk" "$INSTDIR\node-webkit\${APP_NAME}.exe" "." "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME}"
 
     ;Start Menu Shortcut
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     CreateDirectory "$SMPROGRAMS\${APP_NAME}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\node-webkit\${APP_NAME}.exe" "." "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
     CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "Uninstall ${APP_NAME}"
 
     ;Desktop Shortcut
     Delete "$DESKTOP\${APP_NAME}.lnk"
-    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\node-webkit\${APP_NAME}.exe" "." "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
 
     ;Add/remove programs uninstall entry
     ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
     IntFmt $0 "0x%08X" $0
-	WriteRegDWORD HKCU "${UNINSTALL_KEY}" "EstimatedSize" "$0"
-	WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
+    WriteRegDWORD HKCU "${UNINSTALL_KEY}" "EstimatedSize" "$0"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\src\app\images\popcorntime.ico"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "${COMPANY_NAME}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallString" "$INSTDIR"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "URLInfoAbout" "${APP_URL}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.popcorntime.io"
 
+    ;File association
+    WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}" "FriendlyAppName" "${APP_NAME}"
+    WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}\shell\open\command" "" '"$INSTDIR\${APP_LAUNCHER}" "%1"'
+
+    System::Call "shell32::SHChangeNotify(i,i,i,i) (0x08000000, 0x1000, 0, 0)"
+
 SectionEnd
 
-; Uninstaller
+; ------------------- ;
+;     Uninstaller     ;
+; ------------------- ;
 Section "uninstall" 
 
     RMDir /r "$INSTDIR"
@@ -377,5 +494,93 @@ Section "uninstall"
     RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
     NoUninstallData:
     DeleteRegKey HKCU "${UNINSTALL_KEY}"
+    DeleteRegKey HKCU "Software\Chromium" ;workaround for NW leftovers
+    DeleteRegKey HKCU "Software\Classes\Applications\${APP_LAUNCHER}" ;file association
     
 SectionEnd
+
+; ------------------- ;
+;  Check if writable  ;
+; ------------------- ;
+Function IsWritable
+
+  !define IsWritable `!insertmacro IsWritableCall`
+ 
+  !macro IsWritableCall _PATH _RESULT
+    Push `${_PATH}`
+    Call IsWritable
+    Pop ${_RESULT}
+  !macroend
+ 
+  Exch $R0
+  Push $R1
+ 
+start:
+  StrLen $R1 $R0
+  StrCmp $R1 0 exit
+  ${GetFileAttributes} $R0 "DIRECTORY" $R1
+  StrCmp $R1 1 direxists
+  ${GetParent} $R0 $R0
+  Goto start
+ 
+direxists:
+  ${GetFileAttributes} $R0 "DIRECTORY" $R1
+  StrCmp $R1 0 ok
+
+  StrCmp $R0 $PROGRAMFILES64 notok
+  StrCmp $R0 $WINDIR notok
+
+  ${GetFileAttributes} $R0 "READONLY" $R1
+
+  Goto exit
+
+notok:
+  StrCpy $R1 1
+  Goto exit
+
+ok:
+  StrCpy $R1 0
+ 
+exit:
+  Exch
+  Pop $R0
+  Exch $R1
+ 
+FunctionEnd
+
+; ------------------- ;
+;  Check install dir  ;
+; ------------------- ;
+Function CloseBrowseForFolderDialog
+	!ifmacrodef "_P<>" ; NSIS 3+
+		System::Call 'USER32::GetActiveWindow()p.r0'
+		${If} $0 P<> $HwndParent
+	!else
+		System::Call 'USER32::GetActiveWindow()i.r0'
+		${If} $0 <> $HwndParent
+	!endif
+		SendMessage $0 ${WM_CLOSE} 0 0
+		${EndIf}
+FunctionEnd
+
+Function .onVerifyInstDir
+
+  Push $R1
+  ${IsWritable} $INSTDIR $R1
+  IntCmp $R1 0 pathgood
+  Pop $R1
+  Call CloseBrowseForFolderDialog
+  MessageBox MB_OK|MB_USERICON "$(noRoot)"
+  Abort
+
+pathgood:
+  Pop $R1
+
+FunctionEnd
+
+; ------------------ ;
+;  Desktop Shortcut  ;
+; ------------------ ;
+Function finishpageaction
+    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
+FunctionEnd

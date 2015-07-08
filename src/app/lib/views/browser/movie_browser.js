@@ -1,13 +1,13 @@
 (function (App) {
-	'use strict';
+    'use strict';
 
-	var MovieBrowser = App.View.PCTBrowser.extend({
-		collectionModel: App.Model.MovieCollection,
-		filters: {
-			genres: App.Config.genres,
-			sorters: App.Config.sorters
-		}
-	});
+    var MovieBrowser = App.View.PCTBrowser.extend({
+        collectionModel: App.Model.MovieCollection,
+        filters: {
+            genres: App.Config.genres,
+            sorters: App.Config.sorters
+        }
+    });
 
-	App.View.MovieBrowser = MovieBrowser;
+    App.View.MovieBrowser = MovieBrowser;
 })(window.App);

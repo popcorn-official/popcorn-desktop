@@ -1,57 +1,64 @@
 {
-	// Environments
-	"browser"  : true,
-	"node"     : true,
-	"jquery"   : true,
-	"devel"    : true,
-	
-	// Options
-	"curly"    : true,
-	"bitwise"  : false,
-	"immed"    : true,
-	"latedef"  : true,
-	"nonbsp"   : true,
-	"nonew"    : true,
-	"validthis": true,
-	"debug"    : true,
-	"boss"     : true,
-	"eqeqeq"   : true,
-	"expr"     : true,
-	"eqnull"   : true,
-	"quotmark" : "single",
-	"trailing" : true,
-	"sub"      : true,
-	"trailing" : true,
-	"undef"    : true,
-	"laxbreak" : true,
-	"loopfunc" : true,
-	"indent"   : 4,
-  "newcap"   : false,
-	
-	// Globals
-	"globals": {
-		// App
-		"App": true,
-		"win": true,
-		"i18n": true,
-		"gui": true,
-		"fs": true,
-		"path": true,
-		"Settings": true,
-		"AdvSettings": true,
-		"ScreenResolution": true,
-		"Database": true,
-		"detectLanguage": true,
-		"Common": true,
-		"indexedDB": true,
+    // Environments
+    "browser"  : true,
+    "node"     : true,
+    "jquery"   : true,
+    "devel"    : true,
+
+    // Options
+    "curly"    : true,
+    "bitwise"  : false,
+    "immed"    : true,
+    "latedef"  : true,
+    "nonbsp"   : true,
+    "nonew"    : true,
+    "validthis": true,
+    "debug"    : true,
+    "boss"     : true,
+    "eqeqeq"   : true,
+    "expr"     : true,
+    "eqnull"   : true,
+    "quotmark" : "single",
+    "trailing" : true,
+    "sub"      : true,
+    "trailing" : true,
+    "undef"    : true,
+    "laxbreak" : true,
+    "loopfunc" : true,
+    "indent"   : 4,
+    "newcap"   : false,
+
+    // Globals
+    "globals": {
+        // App
+        "App": true,
+        "win": true,
+        "i18n": true,
+        "gui": true,
+        "fs": true,
+        "path": true,
+        "Settings": true,
+        "AdvSettings": true,
+        "ScreenResolution": true,
+        "Database": true,
+        "detectLanguage": true,
+        "Common": true,
+        "indexedDB": true,
         "startupTime": true,
         "os": true,
         "deleteFolder": true,
-		
-		// Third party
-		"Backbone": true,
-		"Mousetrap": true,
-		"_": true,
-		"videojs": true
-	}
+        "deleteCookies": true,
+        "isVideo": true,
+        "minimizeToTray": true,
+        "promisifyDb": true,
+        "db": true,
+
+        // Third party
+        "Backbone": true,
+        "Mousetrap": true,
+        "_": true,
+        "request": true,
+        "videojs": true,
+        "vjs": true
+    }
 }

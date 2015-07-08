@@ -1,242 +1,265 @@
 (function (App) {
-	'use strict';
-	
-	var PT_id = 13, //ID of project (got with gitlab.projects.all). 13 is for 'popcorntime/desktop'
-		PT_url = 'https://git.popcorntime.io/popcorntime/desktop/issues/', //Url of 'issues' of the above project
-		token;
+    'use strict';
 
-	var Issue = Backbone.Marionette.ItemView.extend({
-		template: '#issue-tpl',
-		className: 'issue',
+    var PT_id = 13, //ID of project (got with gitlab.projects.all). 13 is for 'popcorntime/desktop'
+        PT_url = 'https://git.popcorntime.io/popcorntime/desktop/issues/', //Url of 'issues' of the above project
+        token;
 
-		ui: {
-			success_alert: '.success_alert'
-		},
+    var Issue = Backbone.Marionette.ItemView.extend({
+        template: '#issue-tpl',
+        className: 'issue',
 
-		events: {
-			'click .close-icon': 'closeIssue',
-			'click .submit-issue': 'submitIssue',
-			'click .search-issue': 'searchIssue',
-			'click .issue-title': 'showIssueDetails',
-			'click .found-issue': 'closeIssue',
-			'click .notfound-issue': 'newIssue',
-			'click .anonymous-issue': 'anonIssue',
-			'click .login-issue': 'login'
-		},
+        ui: {
+            success_alert: '.success_alert'
+        },
 
-		onShow: function () {
-			Mousetrap.bind(['esc', 'backspace'], function (e) {
-				App.vent.trigger('issue:close');
-			});
-		},
+        events: {
+            'click .close-icon': 'closeIssue',
+            'click .submit-issue': 'submitIssue',
+            'click .search-issue': 'searchIssue',
+            'click .issue-title': 'showIssueDetails',
+            'click .found-issue': 'closeIssue',
+            'click .notfound-issue': 'newIssue',
+            'click .anonymous-issue': 'anonIssue',
+            'click .login-issue': 'login'
+        },
 
-		searchGitLab: function (keyword) {
+        onShow: function () {
+            if (AdvSettings.get('gitlabPassword') && AdvSettings.get('gitlabMail')) {
+                $('#issue-email').val(AdvSettings.get('gitlabMail')),
+                    $('#issue-pw').val(AdvSettings.get('gitlabPassword'));
+            }
 
-			var gitlab = require('gitlab')({
-				url: 'https://git.popcorntime.io/',
-				token: 'sb1SeWoyoAWrGPTuQcNE' //public reporter token
-			});
-			var issue_desc,
-				result,
-				results = [];
+            $('#issue-content').on('keyup', function (e) {
+                var userInput = document.getElementById('issue-content').value.length;
+                if (userInput > 200) {
+                    $('#issue-length').hide();
+                } else {
+                    $('#issue-length').show().text('(' + userInput + '/200)');
+                }
+            });
 
-			gitlab.projects.issues.list(PT_id, function (data) {
+            Mousetrap.bind(['esc', 'backspace'], function (e) {
+                App.vent.trigger('issue:close');
+            });
+            Mousetrap(document.getElementById('issue-pw')).bind(['enter'], function (e, combo) {
+                $('.login-issue').click();
+            });
+            Mousetrap(document.getElementById('issue-email')).bind(['enter'], function (e, combo) {
+                $('.login-issue').click();
+            });
+            Mousetrap(document.getElementById('issue-search-field')).bind(['enter'], function (e, combo) {
+                $('.search-issue').click();
+            });
+        },
 
-				//stores in 'results' all issues (id + title) containing the keyword
-				data.forEach ( function (item) {
-					issue_desc = 
-						item.description.toLowerCase() 
-						+ ' ' 
-						+ item.title.toLowerCase();
+        searchGitLab: function (keyword) {
 
-					result = issue_desc.search(keyword.toLowerCase());
-					if (result !== -1) {
-						results.push({
-							id: item.iid,
-							title: item.title,
-							description: item.description
-						});
-						return;
-					} else {
-						return;
-					}
-				});
+            var gitlab = require('gitlab')({
+                url: 'https://git.popcorntime.io/',
+                token: 'sb1SeWoyoAWrGPTuQcNE' //public reporter token
+            });
+            var issue_desc,
+                result,
+                results = [];
 
-				//interpret results
-				if (results.length == 0) {
-					$('#issue-results').append('<p>' + i18n.__('No issues found...') + '</p>');
-				} else {
-					var newLine = function( id, title, description ) {
-						$('#issue-results').append(
-							'<li>'
-							+ '<a class="issue-title">' + title + '</a>'
-							+ '<div class="issue-details">'
-								+ '<p>' + description + '</p>'
-								+ '<a class="links" href="' + PT_url + id + '">' + i18n.__('Open in your browser') + '</a>'
-							+ '</div>'
-							+ '</li>'
-						);
-					}
-					for (var i = 0; i < results.length; i++) {
-						results[i].description = results[i].description.replace('\n','<br>');
-						newLine(results[i].id, results[i].title, results[i].description);
-					}
-				}
+            gitlab.projects.issues.list(PT_id, function (data) {
 
-			});
-	
-		},
+                //stores in 'results' all issues (id + title) containing the keyword
+                data.forEach(function (item) {
+                    if (item.state === 'closed') {
+                        return;
+                    }
+                    issue_desc =
+                        item.description.toLowerCase() + ' ' + item.title.toLowerCase();
 
-		showIssueDetails: function (e) {
-			var elm = e.currentTarget.parentElement.children[1];
-			var visible = $(elm).css('display');
+                    result = issue_desc.search(keyword.toLowerCase());
+                    if (result !== -1) {
+                        results.push({
+                            id: item.iid,
+                            title: item.title,
+                            description: item.description
+                        });
+                        return;
+                    } else {
+                        return;
+                    }
+                });
 
-			if (visible == 'none') {
-				$(elm).show();
-			} else {
-				$(elm).hide();
-			}
-		},
+                //interpret results
+                if (results.length === 0) {
+                    $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search');
+                    $('#issue-results').append('<p>' + i18n.__('No issues found...') + '</p>');
+                } else {
+                    $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search');
+                    var newLine = function (id, title, description) {
+                        $('#issue-results').append(
+                            '<li>' + '<a class="issue-title">' + title + '</a>' + '<div class="issue-details">' + '<p>' + description + '</p>' + '<a class="links" href="' + PT_url + id + '">' + i18n.__('Open in your browser') + '</a>' + '</div>' + '</li>'
+                        );
+                    };
+                    for (var i = 0; i < results.length; i++) {
+                        results[i].description = results[i].description.replace('\n', '<br>');
+                        newLine(results[i].id, results[i].title, results[i].description);
+                    }
+                }
 
-		getLogs: function() {
-			if (fs.existsSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'))) {
-				return '\n\n---'
-					+ '\n\n**Error log:**'
-					+ '\n\n```'
-					+ fs.readFileSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'), 'utf-8') 
-					+ '\n\n```';
-			} else {
-				return false;
-			}
-		},
+            });
 
-		getSpecs: function () {			
-			var release = require('os-name')(os.platform(), os.release());
+        },
 
-			var cpu = os.cpus(),
-				cpu = cpu[0].model;
+        showIssueDetails: function (e) {
+            var elm = e.currentTarget.parentElement.children[1];
+            var visible = $(elm).css('display');
 
-			var ram = Math.round(os.totalmem() / (1000*1000*1000)) + 'GB';
+            if (visible === 'none') {
+                $(elm).show();
+            } else {
+                $(elm).hide();
+            }
+        },
 
-			return '\n\n---' + '\n\n**Environment:**' + '\n\nPopcorn Time version: ' + Settings.version + '\n\nOS: ' + release + '\n\nCPU Model: ' + cpu + '\n\nAvailable Memory: ' + ram;
-		},
+        getLogs: function () {
+            if (fs.existsSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'))) {
+                return '\n\n---' + '\n\n**Error log:**' + '\n\n```' + fs.readFileSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'), 'utf-8') + '\n\n```';
+            } else {
+                return false;
+            }
+        },
 
-		reportBug: function (title, content, token) {
+        getSpecs: function () {
+            var release = require('os-name')(os.platform(), os.release());
 
-			var gitlab = require('gitlab')({
-				url: 'https://git.popcorntime.io/',
-				token: token //Private token
-			});
-			var issue_id = false;
+            var cpu = os.cpus();
+            cpu = cpu[0].model;
 
-			content += this.getSpecs(); //add OS, version, etc.
+            var ram = Math.round(os.totalmem() / (1000 * 1000 * 1000)) + 'GB';
 
-			if (this.getLogs()) {
-				content += this.getLogs(); //add error logs
-			}
+            return '\n\n---' + '\n\n**Environment:**' + '\n\nPopcorn Time version: ' + Settings.version + ' ' + App.git.commit.slice(0, 8) + '\n\nOS: ' + release + '\n\nCPU Model: ' + cpu + '\n\nAvailable Memory: ' + ram;
 
-			gitlab.issues.create(
-				PT_id, 
-				{
-					title: title,
-					description: content,
-					labels: 'In-App Reporter'
-				},
-				function (callback) {
+        },
 
-					issue_id = PT_url + callback.iid;
+        reportBug: function (title, content, token) {
 
-					win.debug('Issue created:', issue_id);
+            var gitlab = require('gitlab')({
+                url: 'https://git.popcorntime.io/',
+                token: token //Private token
+            });
+            var issue_id = false;
 
-					document.getElementById('issue-url').href = issue_id;
-					$('#issue-url').text(issue_id);
+            content += this.getSpecs(); //add OS, version, etc.
 
-					$('#issue-form').hide();
-					$('#issue-success').show();
+            if (this.getLogs()) {
+                content += this.getLogs(); //add error logs
+            }
 
-				}
-			);
-		},
+            gitlab.issues.create(
+                PT_id, {
+                    title: title,
+                    description: content,
+                    labels: 'In-App Reporter'
+                },
+                function (callback) {
 
-		login: function() {
-			var that = this;
-			this.getToken(function (data) {
-				if (data) {
-					token = data;
-					win.debug('GitLab API: auth success');
-					that.anonIssue();
-				} else {
-					$('.notification_alert').show().text(i18n.__('Invalid credentials')).delay(2500).fadeOut(400);
-				}
-			});
-		},
+                    issue_id = PT_url + callback.iid;
 
-		getToken: function (callback) {
-			var email = $('#issue-email').val(),
-				password = $('#issue-pw').val();
+                    win.debug('Issue created:', issue_id);
 
-			var gitlab = require('gitlab')({
-				url: 'https://git.popcorntime.io/',
-				token: 'sb1SeWoyoAWrGPTuQcNE' //public reporter token
-			});
+                    document.getElementById('issue-url').href = issue_id;
+                    $('#issue-url').text(issue_id);
 
-			gitlab.users.session(email, password, function(response) {
-				callback(response.private_token);
-			});
-		},
+                    $('#issue-form').hide();
+                    $('#issue-success').show();
 
-		submitIssue: function () {
-			var title = $('#issue-title').val();
-			var content = $('#issue-content').val();
-	
-			if (!title || !content) {
-				$('.notification_alert').show().text(i18n.__('Fields cannot be empty')).delay(2500).fadeOut(400);
-				return;
-			}
-			if (content.length < 200) {
-				$('.notification_alert').show().text(i18n.__('200 characters minimum')).delay(2500).fadeOut(400);
-				return;
-			}
+                }
+            );
+        },
 
-			if (token) {
-				this.reportBug(title, content, token);
-			} else {
-				this.reportBug(title, content, 'sb1SeWoyoAWrGPTuQcNE');
-			}
-		},
+        login: function () {
+            var that = this;
+            $('#issue-auth .issue-loading-icon').show();
+            this.getToken(function (data) {
+                if (data) {
+                    token = data;
+                    win.debug('GitLab API: auth success');
+                    AdvSettings.set('gitlabMail', $('#issue-email').val());
+                    AdvSettings.set('gitlabPassword', $('#issue-pw').val());
+                    $('#issue-auth .issue-loading-icon').hide();
+                    that.anonIssue();
+                } else {
+                    $('#issue-auth .issue-loading-icon').hide();
+                    $('.notification_alert').show().text(i18n.__('Invalid credentials')).delay(2500).fadeOut(400);
+                }
+            });
+        },
 
-		searchIssue: function () {
-			document.getElementById('issue-results').innerHTML = ''; //clear
+        getToken: function (callback) {
+            var email = $('#issue-email').val(),
+                password = $('#issue-pw').val();
 
-			var keyword = $('#issue-search-field').val();
-	
-			if (!keyword) {
-				$('.notification_alert').show().text(i18n.__('Fields cannot be empty')).delay(2500).fadeOut(400);
-				return;
-			}
-			this.searchGitLab(keyword);
-		},
+            var gitlab = require('gitlab')({
+                url: 'https://git.popcorntime.io/',
+                token: 'sb1SeWoyoAWrGPTuQcNE' //public reporter token
+            });
 
-		newIssue: function() {
-			$('#issue-search').hide();
-			$('#issue-form').show();
-		},
+            gitlab.users.session(email, password, function (response) {
+                callback(response.private_token);
+            });
+        },
 
-		anonIssue: function() {
-			$('#issue-auth').hide()
-			$('#issue-search').show();
-		},
+        submitIssue: function () {
+            var title = $('#issue-title').val();
+            var content = $('#issue-content').val();
 
-		onClose: function () {
-			Mousetrap.unbind(['esc', 'backspace']);
-		},
+            if (!title || !content) {
+                $('.notification_alert').show().text(i18n.__('Fields cannot be empty')).delay(2500).fadeOut(400);
+                return;
+            }
+            if (content.length < 200) {
+                $('.notification_alert').show().text(i18n.__('200 characters minimum')).delay(2500).fadeOut(400);
+                return;
+            }
 
-		closeIssue: function () {
-			App.vent.trigger('issue:close');
-		}
+            if (token) {
+                this.reportBug(title, content, token);
+            } else {
+                this.reportBug(title, content, 'sb1SeWoyoAWrGPTuQcNE');
+            }
+        },
 
-	});
+        searchIssue: function () {
+            $('.search-issue').removeClass('fa-search').addClass('fa-spinner fa-spin');
+            document.getElementById('issue-results').innerHTML = ''; //clear
 
-	App.View.Issue = Issue;
+            var keyword = $('#issue-search-field').val();
+
+            if (!keyword) {
+                $('.notification_alert').show().text(i18n.__('Fields cannot be empty')).delay(2500).fadeOut(400);
+                $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search');
+                return;
+            }
+            this.searchGitLab(keyword);
+        },
+
+        newIssue: function () {
+            $('#issue-search').hide();
+            $('#issue-form').show();
+        },
+
+        anonIssue: function () {
+            $('#issue-auth').hide();
+            $('#issue-search').show();
+        },
+
+        onDestroy: function () {
+            Mousetrap.unbind(['esc', 'backspace']);
+        },
+
+        closeIssue: function () {
+            App.vent.trigger('issue:close');
+        }
+
+    });
+
+    App.View.Issue = Issue;
 
 })(window.App);

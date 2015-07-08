@@ -1,74 +1,72 @@
 (function (App) {
-	'use strict';
+    'use strict';
 
-	var Q = require('q');
+    var Q = require('q');
 
-	var FavoriteCollection = Backbone.Collection.extend({
-		model: App.Model.Movie,
+    var FavoriteCollection = Backbone.Collection.extend({
+        model: App.Model.Movie,
 
-		initialize: function (models, options) {
-			this.providers = {
-				torrent: App.Providers.get('Favorites')
-			};
+        initialize: function (models, options) {
+            this.providers = {
+                torrent: App.Providers.get('Favorites')
+            };
 
-			options = options || {};
-			options.filter = options.filter || new App.Model.Filter();
+            options = options || {};
+            options.filter = options.filter || new App.Model.Filter();
 
-			this.filter = _.defaults(_.clone(options.filter.attributes), {
-				page: 1
-			});
-			this.hasMore = true;
+            this.filter = _.defaults(_.clone(options.filter.attributes), {
+                page: 1
+            });
+            this.hasMore = true;
 
-			Backbone.Collection.prototype.initialize.apply(this, arguments);
-		},
+            Backbone.Collection.prototype.initialize.apply(this, arguments);
+        },
 
-		fetch: function () {
-			var self = this;
+        fetch: function () {
+            var self = this;
 
-			if (this.state === 'loading' && !this.hasMore) {
-				return;
-			}
+            if (this.state === 'loading' && !this.hasMore) {
+                return;
+            }
 
-			this.state = 'loading';
-			self.trigger('loading', self);
+            this.state = 'loading';
+            self.trigger('loading', self);
 
-			var torrent = this.providers.torrent;
-			var torrentPromise = torrent.fetch(this.filter);
+            var torrent = this.providers.torrent;
+            var torrentPromise = torrent.fetch(this.filter);
 
-			var idsPromise = torrentPromise.then(_.bind(torrent.extractIds, torrent));
+            var idsPromise = torrentPromise.then(_.bind(torrent.extractIds, torrent));
 
-			return Q.all([torrentPromise])
-				.spread(function (movies) {
+            return Q.all([torrentPromise])
+                .spread(function (movies) {
 
-					// If a new request was started...
-					_.each(movies, function (movie) {
-						var id = movie.imdb_id;
-					});
+                    // If a new request was started...
+                    _.each(movies, function (movie) {
+                        var id = movie.imdb_id;
+                    });
 
-					if (_.isEmpty(movies)) {
-						win.debug('hasMore = false');
-						self.hasMore = false;
-					}
+                    if (_.isEmpty(movies)) {
+                        self.hasMore = false;
+                    }
 
-					self.add(movies);
-					self.trigger('sync', self);
-					self.state = 'loaded';
-					self.trigger('loaded', self, self.state);
-				})
-				.catch(function (err) {
-					self.state = 'error';
-					self.trigger('loaded', self, self.state);
-					win.error(err.message, err.stack);
-				});
-		},
+                    self.add(movies);
+                    self.trigger('sync', self);
+                    self.state = 'loaded';
+                    self.trigger('loaded', self, self.state);
+                })
+                .catch(function (err) {
+                    self.state = 'error';
+                    self.trigger('loaded', self, self.state);
+                    win.error('FavoriteCollection.fetch()', err);
+                });
+        },
 
-		fetchMore: function () {
-			win.debug('fetchMore');
-			this.filter.page += 1;
-			this.fetch();
-		}
+        fetchMore: function () {
+            this.filter.page += 1;
+            this.fetch();
+        }
 
-	});
+    });
 
-	App.Model.FavoriteCollection = FavoriteCollection;
+    App.Model.FavoriteCollection = FavoriteCollection;
 })(window.App);

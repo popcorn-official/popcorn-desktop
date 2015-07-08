@@ -111,14 +111,107 @@
         color: #fff
         z-index: 23
         bottom: 10vh !important
+        width: 450px;
+        height: 140px;
         padding: 10px
         font-size: 20px
         left: 3vw !important
         display: none
-        background-color: rgba(0, 0, 0, 0.48) !important
+        background-color: rgba(0, 0, 0, 0.54) !important
         overflow: hidden
+        
+        .pn_poster {
+            width: 90px;
+            height: 120px;
+            float: left;
 
-        span {
+            .playing_next_poster {
+                width: 80px;
+            }
+        }
+        .pn_epinfo {
+            width: 235px;
+            height: 80px;
+            float: left;
+            text-align: left;
+            
+            .playing_next_show {
+                font-size: 15px;
+                font-weight: bold;
+                line-height: 20px;
+                overflow: hidden; 
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .playing_next_episode {
+                font-size: 11px;
+                line-height: 14px;
+                overflow: hidden; 
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .playing_next_number {
+                font-size: 17px;
+                margin-top: 18px;
+                overflow: hidden; 
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .pn_counter {
+            width: 105px;
+            height: 80px;
+            float: left;
+
+            .playing_next_countertext {
+                font-size: 11px;
+                text-align: center;
+                text-transform: uppercase;
+            }
+
+            #nextCountdown {
+                color: rgb(0, 143, 255);
+                font-size: 38px;
+                text-align: center;
+                margin-top: 6px;
+            }
+        }
+        .pn_btns {
+            width: 340px;
+            height: 40px;
+            float: left;
+
+            .auto-next-btn {
+                position relative
+                float left
+                margin-top 3px
+                margin-left 15px
+                padding 12px
+
+                border-radius $ButtonRadius
+                background-color $ButtonBg
+                text-align center
+                color $SettingsButtonText
+                font-family $ButtonFont, $AlternateFont
+                font-size 12px
+                cursor pointer
+                transition background-color .5s
+                &:hover {
+                    background-color $ButtonBgHover
+                    color $SettingsButtonTextHover
+                    text-decoration none
+                }
+                &:active{
+                    box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+                    background: $ButtonBgActive
+                }
+            }
+
+        }
+        
+    }
+
+/*        span {
             font-weight: bold
             color: rgb(0, 143, 255)
         }
@@ -163,7 +256,7 @@
             box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
             background: $ButtonBgActive
         }
-    }
+    }*/
 }
 
 .player-title {

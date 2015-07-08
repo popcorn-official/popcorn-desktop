@@ -25,7 +25,6 @@
 	<script id="movie-detail-tpl" src="templates/movie-detail.tpl" type="text/x-template"></script>
 	<script id="show-detail-tpl" src="templates/show-detail.tpl" type="text/x-template"></script>
 	<script id="player-tpl" src="templates/player.tpl" type="text/x-template"></script>
-	<script id="player-subtitles" src="templates/player-subtitles.tpl" type="text/x-template"></script>
 	<script id="player-chooser-tpl" src="templates/player-chooser.tpl" type="text/x-template"></script>
 	<script id="loading-tpl" src="templates/loading.tpl" type="text/x-template"></script>
 	<script id="initializing-tpl" src="templates/initializing.tpl" type="text/x-template"></script>
@@ -35,6 +34,7 @@
 	<script id="issue-tpl" src="templates/issue.tpl" type="text/x-template"></script>
 	<script id="torrent-collection-tpl" src="templates/torrent_collection.tpl" type="text/x-template"></script>
 	<script id="keyboard-tpl" src="templates/keyboard.tpl" type="text/x-template"></script>
+	<script id="notification-tpl" src="templates/notification.tpl" type="text/x-template"></script>
 
 	<!-- 3rd party Dependencies -->
 	<script src="vendor/jquery/dist/jquery.js"></script>
@@ -46,7 +46,7 @@
 	<script src="vendor/bootstrap/dist/js/bootstrap.js"></script>
 	<script src="vendor/mousetrap/mousetrap.min.js"></script>
 	<script src="vendor/mousetrap/plugins/pause/mousetrap-pause.min.js"></script>
-	<script src="vendor/videojs/dist/video-js/video.dev.js"></script>
+	<script src="vendor/video.js/dist/video-js/video.dev.js"></script>
 
 	<!-- Other dependencies -->
 	<script src="vendor/videojshooks.js"></script>
@@ -86,6 +86,7 @@
   	<script src="lib/models/anime_collection.js"></script>
 	<script src="lib/models/favorite_collection.js"></script>
   	<script src="lib/models/watchlist_collection.js"></script>
+	<script src="lib/models/notification.js"></script>
 
 	<!-- Data Sources -->
 	<script src="lib/cache.js"></script>
@@ -95,8 +96,9 @@
 	<script src="lib/providers/cache_providerv2.js"></script>
 	<script src="lib/providers/ysubs.js"></script>
 	<script src="lib/providers/trakttv.js"></script>
+    <script src="lib/providers/tvshowtime.js"></script>
 	<script src="lib/providers/yts.js"></script>
-	<script src="lib/providers/eztv.js"></script>
+	<script src="lib/providers/tvapi.js"></script>
   	<script src="lib/providers/haruhichan.js"></script>
 	<script src="lib/providers/favorites.js"></script>
   	<script src="lib/providers/watchlist.js"></script>
@@ -111,7 +113,7 @@
 	<script src="lib/views/movie_detail.js"></script>
 	<script src="lib/views/show_detail.js"></script>
 
-	<script src="lib/views/settings.js"></script>
+	<script src="lib/views/settings_container.js"></script>
 	<script src="lib/views/init_modal.js"></script>
 	<script src="lib/views/vpn_connect.js"></script>
 	<script src="lib/views/disclaimer.js"></script>
@@ -121,6 +123,7 @@
 	<script src="lib/views/help.js"></script>
 	<script src="lib/views/issue.js"></script>
 	<script src="lib/views/keyboard.js"></script>
+	<script src="lib/views/notification.js"></script>
 	<script src="lib/views/player/loading.js"></script>
 	<script src="lib/views/player/player.js"></script>
 

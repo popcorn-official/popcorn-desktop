@@ -155,63 +155,73 @@
         #trakt-tv
             .trakt-options
                 color $SettingsText1
-                
+
                 a
                     display inline-block
-            
+
                 .unauthtext
                     margin-left 5px
                     color $ButtonBgActive
                     &:hover{ color: $ButtonBgHover; }
-            
+
                 .loading-spinner
                     animation-duration 0.75s
                     animation-iteration-count infinite
                     animation-name rotate-forever
                     animation-timing-function linear
-                    width 20px
-                    height 20px
-                    border 4px solid #2d75df
+                    width 15px
+                    height 15px
+                    border 3px solid #2d75df
                     border-right-color transparent
                     border-radius 50%
                     display inline-flex
-                    margin-left -27px
-                    margin-top -9px
-            
-                .invalid-cross
-                    width 20px
-                    height 20px
-                    display inline-flex
-                    margin-left -27px
-            
-                    &:before
-                        content "\2573"
-                        font-family Arial
-                        font-size 12px
-                        font-weight bolder
-                        text-shadow 0 0 10px #EE3030
-                        color #EE3030
-            
-                .valid-tick
-                    width 20px
-                    height 20px
-                    display inline-flex
-                    margin-left -27px
-                    margin-top -9px
-            
-                    &:before
-                        content "\2714"
-                        font-family Arial
-                        font-size 17px
-                        font-weight bold
-                        text-shadow 0 0 10px #4EEE30
-                        color #4EEE30
-                        position relative
-                        top 2px
+                    position absolute
+                    left 0
+                    margin-left 20px
             
                 .syncTrakt
                     margin-bottom: 15px
                     margin-top: -10px
+
+        #tvshowtime
+            .tvshowtime-options
+                margin-bottom 35px
+
+                a
+                    display inline-block
+
+                .unauthtext
+                    margin-left 5px
+                    color $ButtonBgActive
+                    &:hover{ color: $ButtonBgHover; }
+
+                #connect-with-tvst
+                    margin-top -12px
+
+                .tvst-loading-spinner
+                    animation-duration 0.75s
+                    animation-iteration-count infinite
+                    animation-name rotate-forever
+                    animation-timing-function linear
+                    width 15px
+                    height 15px
+                    border 3px solid #2d75df
+                    border-right-color transparent
+                    border-radius 50%
+                    display inline-flex
+                    position absolute
+                    left 0
+                    margin-left 20px
+                    margin-top -2px
+
+        #connection
+            #overallRatio
+                pointer-events: none
+                -webkit-user-select: none
+                
+                i
+                    padding-left: 4px
+                    padding-right: 8px
 
         #cache
             .open-tmp-folder
@@ -275,10 +285,10 @@
                 &:active
                     background-color $ButtonBgDisabled
 
-            &.green
-                background-color #27AE60
-            &.red
-                background-color #F15153
+            &.ok
+                background-color $ButtonBgOk
+            &.warning
+                background-color $ButtonBgWarning
             &:active
                 box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
                 background: $ButtonBgActive
@@ -365,6 +375,10 @@
         outline 0 !important
 		
         &#fakedatabaseLocation
+            pointer-events: none
+            -webkit-user-select: none;
+
+        &#fakedatabaseLocation,&#settingsIpAddr
             pointer-events: none
             -webkit-user-select: none;
 

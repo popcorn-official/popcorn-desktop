@@ -1,29 +1,29 @@
 (function (App) {
-	'use strict';
+    'use strict';
 
-	var Movie = Backbone.Model.extend({
-		events: {
-			'change:torrents': 'updateHealth',
-		},
+    var Movie = Backbone.Model.extend({
+        events: {
+            'change:torrents': 'updateHealth',
+        },
 
-		idAttribute: 'imdb_id',
+        idAttribute: 'imdb_id',
 
-		initialize: function () {
-			this.updateHealth();
-		},
+        initialize: function () {
+            this.updateHealth();
+        },
 
-		updateHealth: function () {
-			var torrents = this.get('torrents');
+        updateHealth: function () {
+            var torrents = this.get('torrents');
 
-			_.each(torrents, function (torrent) {
-				torrent.health = Common.healthMap[Common.calcHealth(torrent)];
-			});
+            _.each(torrents, function (torrent) {
+                torrent.health = Common.healthMap[Common.calcHealth(torrent)];
+            });
 
-			this.set('torrents', torrents, {
-				silent: true
-			});
-		}
-	});
+            this.set('torrents', torrents, {
+                silent: true
+            });
+        }
+    });
 
-	App.Model.Movie = Movie;
+    App.Model.Movie = Movie;
 })(window.App);

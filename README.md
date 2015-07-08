@@ -1,8 +1,8 @@
-# [Popcorn Time](https://git.popcorntime.io/popcorntime/desktop/tree/master) [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-app.svg)](https://david-dm.org/popcorn-official/popcorn-app) [![Build Status](http://ci.popcorntime.io/job/Popcorn-Time/badge/icon)](http://ci.popcorntime.io/job/Popcorn-Time/)
+# [Popcorn Time](https://git.popcorntime.io/popcorntime/desktop/tree/master) [![Build Status](http://ci.popcorntime.io/job/Popcorn-Time/badge/icon)](http://ci.popcorntime.io/job/Popcorn-Time/)
 
 Allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
-![Popcorn Time](https://i.imgur.com/MdZR313.gif)
+![Popcorn Time](http://i.imgur.com/EoO0bc0.gif)
 
 Visit the project's website at <https://popcorntime.io>.
 
@@ -16,7 +16,7 @@ Want to report a bug, request a feature, contribute or translate Popcorn Time? C
 
 If you're comfortable getting up and running from a `git clone`, this method is for you.
 
-If you clone the GitHub repository, you will need to build a number of assets using grunt.
+If you clone the GitLab repository, you will need to build a number of assets using grunt.
 
 The [master](https://git.popcorntime.io/popcorntime/desktop/tree/master) branch which contains the latest release.
 
@@ -25,6 +25,17 @@ The [master](https://git.popcorntime.io/popcorntime/desktop/tree/master) branch 
 1. `npm install -g grunt-cli bower`
 1. `npm install`
 1. `grunt build`
+1. `grunt start`
+
+If you encounter trouble with the above method, you can try:
+
+1. `npm install -g bower grunt-cli` (Linux: you may need to run with `sudo`)
+1. `cd desktop`
+1. `npm install`
+1. `bower install`
+1. `grunt lang`
+1. `grunt nodewebkit`
+1. `grunt css`
 1. `grunt start`
 
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.

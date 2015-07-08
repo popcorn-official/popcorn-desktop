@@ -1,18 +1,16 @@
 (function (App) {
-	'use strict';
+    'use strict';
 
-	var AnimeCollection = App.Model.Collection.extend({
-		model: App.Model.Movie,
-		popid: 'mal_id',
-		type: 'animes',
-		getProviders: function () {
-			return {
-				torrents: App.Config.getProvider('anime'),
-				//         subtitle: App.Config.getProvider('subtitle'),
-				//         metadata: App.Trakt
-			};
-		},
-	});
+    var AnimeCollection = App.Model.Collection.extend({
+        model: App.Model.Movie,
+        popid: 'mal_id',
+        type: 'animes',
+        getProviders: function () {
+            return {
+                torrents: App.Config.getProvider('anime')
+            };
+        },
+    });
 
-	App.Model.AnimeCollection = AnimeCollection;
+    App.Model.AnimeCollection = AnimeCollection;
 })(window.App);

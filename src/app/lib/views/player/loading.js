@@ -1,228 +1,274 @@
 (function (App) {
-	'use strict';
+    'use strict';
 
-	var Loading = Backbone.Marionette.ItemView.extend({
-		template: '#loading-tpl',
-		className: 'app-overlay',
-		extPlayerStatusUpdater: null,
+    var Loading = Backbone.Marionette.ItemView.extend({
+        template: '#loading-tpl',
+        className: 'app-overlay',
+        extPlayerStatusUpdater: null,
 
-		ui: {
-			stateTextDownload: '.text_download',
-			progressTextDownload: '.value_download',
+        ui: {
+            stateTextDownload: '.text_download',
+            progressTextDownload: '.value_download',
 
-			stateTextPeers: '.text_peers',
-			progressTextPeers: '.value_peers',
+            stateTextPeers: '.text_peers',
+            progressTextPeers: '.value_peers',
 
-			stateTextSeeds: '.text_seeds',
-			progressTextSeeds: '.value_seeds',
+            stateTextSeeds: '.text_seeds',
+            progressTextSeeds: '.value_seeds',
 
-			seedStatus: '.seed_status',
-			bufferPercent: '.buffer_percent',
+            seedStatus: '.seed_status',
+            bufferPercent: '.buffer_percent',
 
-			downloadSpeed: '.download_speed',
-			uploadSpeed: '.upload_speed',
-			progressbar: '#loadingbar-contents',
+            downloadSpeed: '.download_speed',
+            uploadSpeed: '.upload_speed',
+            progressbar: '#loadingbar-contents',
 
-			title: '.title',
-			player: '.player-name',
-			streaming: '.external-play',
-			controls: '.player-controls',
-			cancel_button: '.cancel-button',
+            title: '.title',
+            player: '.player-name',
+            streaming: '.external-play',
+            controls: '.player-controls',
+            cancel_button: '.cancel-button',
 
-			playingbarBox: '.playing-progressbar',
-			playingbar: '#playingbar-contents'
-		},
+            playingbarBox: '.playing-progressbar',
+            playingbar: '#playingbar-contents'
+        },
 
-		events: {
-			'click .cancel-button': 'cancelStreaming',
-			'click .pause': 'pauseStreaming',
-			'click .stop': 'stopStreaming',
-			'click .play': 'resumeStreaming',
-			'click .forward': 'forwardStreaming',
-			'click .backward': 'backwardStreaming',
-			'click .playing-progressbar': 'seekStreaming'
-		},
+        events: {
+            'click .cancel-button': 'cancelStreaming',
+            'click .pause': 'pauseStreaming',
+            'click .stop': 'stopStreaming',
+            'click .play': 'resumeStreaming',
+            'click .forward': 'forwardStreaming',
+            'click .backward': 'backwardStreaming',
+            'click .playing-progressbar': 'seekStreaming'
+        },
 
-		initialize: function () {
-			var _this = this;
+        initialize: function () {
+            var _this = this;
 
-			App.vent.trigger('settings:close');
-			App.vent.trigger('about:close');
+            App.vent.trigger('settings:close');
+            App.vent.trigger('about:close');
 
-			//If a child was removed from above this view
-			App.vent.on('viewstack:pop', function () {
-				if (_.last(App.ViewStack) === _this.className) {
-					_this.initKeyboardShortcuts();
-				}
-			});
+            //If a child was removed from above this view
+            App.vent.on('viewstack:pop', function () {
+                if (_.last(App.ViewStack) === _this.className) {
+                    _this.initKeyboardShortcuts();
+                }
+            });
 
-			//If a child was added above this view
-			App.vent.on('viewstack:push', function () {
-				if (_.last(App.ViewStack) !== _this.className) {
-					_this.unbindKeyboardShortcuts();
-				}
-			});
+            //If a child was added above this view
+            App.vent.on('viewstack:push', function () {
+                if (_.last(App.ViewStack) !== _this.className) {
+                    _this.unbindKeyboardShortcuts();
+                }
+            });
 
-			win.info('Loading torrent');
-			this.listenTo(this.model, 'change:state', this.onStateUpdate);
-		},
+            win.info('Loading torrent');
 
-		initKeyboardShortcuts: function () {
-			var _this = this;
-			Mousetrap.bind(['esc', 'backspace'], function (e) {
-				_this.cancelStreaming();
-			});
-		},
+            this.listenTo(this.model, 'change:state', this.onStateUpdate);
+        },
 
-		unbindKeyboardShortcuts: function () {
-			Mousetrap.unbind(['esc', 'backspace']);
-		},
+        initKeyboardShortcuts: function () {
+            var _this = this;
+            Mousetrap.bind(['esc', 'backspace'], function (e) {
+                _this.cancelStreaming();
+            });
+        },
 
-		onShow: function () {
-			$('.filter-bar').hide();
-			$('#header').addClass('header-shadow');
+        unbindKeyboardShortcuts: function () {
+            Mousetrap.unbind(['esc', 'backspace']);
+        },
 
-			this.initKeyboardShortcuts();
-		},
-		onStateUpdate: function () {
-			var self = this;
-			var state = this.model.get('state');
-			var streamInfo = this.model.get('streamInfo');
-			win.info('Loading torrent:', state);
+        onShow: function () {
+            $('.filter-bar').hide();
+            $('#header').addClass('header-shadow');
 
-			this.ui.stateTextDownload.text(i18n.__(state));
+            this.initKeyboardShortcuts();
+        },
+        onStateUpdate: function () {
+            var self = this;
+            var state = this.model.get('state');
+            var streamInfo = this.model.get('streamInfo');
+            win.info('Loading torrent:', state);
 
-			if (state === 'downloading') {
-				this.listenTo(this.model.get('streamInfo'), 'change:downloaded', this.onProgressUpdate);
-			}
+            this.checkFreeSpace(this.model.get('streamInfo').get('size'));
 
-			if (state === 'playingExternally') {
-				this.ui.stateTextDownload.hide();
-				this.ui.progressbar.hide();
-				if (streamInfo.get('player') && streamInfo.get('player').get('type') === 'chromecast') {
-					this.ui.controls.css('visibility', 'visible');
-					this.ui.playingbarBox.css('visibility', 'visible');
-					this.ui.playingbar.css('width', '0%');
-					this.ui.cancel_button.hide();
+            this.ui.stateTextDownload.text(i18n.__(state));
 
-					// Update gui on status update.
-					// uses listenTo so event is unsubscribed automatically when loading view closes.
-					this.listenTo(App.vent, 'device:status', this.onDeviceStatus);
-				}
-				// The 'downloading' state is not always sent, eg when playing canceling and replaying
-				// Start listening here instead when playing externally
-				this.listenTo(this.model.get('streamInfo'), 'change:downloaded', this.onProgressUpdate);
-				// The first progress update can take some time, so force updating the UI immediately
-				this.onProgressUpdate();
-			}
-		},
+            if (state === 'downloading') {
+                this.listenTo(this.model.get('streamInfo'), 'change:downloaded', this.onProgressUpdate);
+            }
 
-		onProgressUpdate: function () {
+            if (state === 'playingExternally') {
+                this.ui.stateTextDownload.hide();
+                this.ui.progressbar.hide();
+                if (streamInfo.get('player') && streamInfo.get('player').get('type') === 'chromecast') {
+                    this.ui.controls.css('visibility', 'visible');
+                    this.ui.playingbarBox.css('visibility', 'visible');
+                    this.ui.playingbar.css('width', '0%');
+                    this.ui.cancel_button.hide();
 
-			// TODO: Translate peers / seeds in the template
-			this.ui.seedStatus.css('visibility', 'visible');
-			var streamInfo = this.model.get('streamInfo');
-			var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
-			this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
+                    // Update gui on status update.
+                    // uses listenTo so event is unsubscribed automatically when loading view closes.
+                    this.listenTo(App.vent, 'device:status', this.onDeviceStatus);
+                }
+                // The 'downloading' state is not always sent, eg when playing canceling and replaying
+                // Start listening here instead when playing externally
+                this.listenTo(this.model.get('streamInfo'), 'change:downloaded', this.onProgressUpdate);
+                // The first progress update can take some time, so force updating the UI immediately
+                this.onProgressUpdate();
+            }
+        },
 
-			this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
-			this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
-			this.ui.bufferPercent.text(streamInfo.get('buffer_percent').toFixed() + '%');
+        onProgressUpdate: function () {
 
-			this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
-			this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
-			this.ui.progressbar.css('width', streamInfo.get('buffer_percent').toFixed() + '%');
+            // TODO: Translate peers / seeds in the template
+            this.ui.seedStatus.css('visibility', 'visible');
+            var streamInfo = this.model.get('streamInfo');
+            var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
+            this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
 
-			if (streamInfo.get('title') !== '') {
-				this.ui.title.html(streamInfo.get('title'));
-			}
-			if (streamInfo.get('player') && streamInfo.get('player').get('type') !== 'local') {
-				if (this.model.get('state') === 'playingExternally') {
-					this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
-					this.ui.stateTextDownload.text(i18n.__('Downloaded')).show();
-				}
-				this.ui.player.text(streamInfo.get('player').get('name'));
-				this.ui.streaming.css('visibility', 'visible');
-			}
-		},
+            this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
+            this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
+            this.ui.bufferPercent.text(streamInfo.get('buffer_percent').toFixed() + '%');
 
-		onDeviceStatus: function (status) {
-			if (status.media !== undefined && status.media.duration !== undefined) {
-				// Update playingbar width
-				var playedPercent = status.currentTime / status.media.duration * 100;
-				this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
-				win.debug('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
-					status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
-			}
-			if (!this.extPlayerStatusUpdater && status.playerState === 'PLAYING') {
-				// First PLAYING state. Start requesting device status update every 5 sec
-				this.extPlayerStatusUpdater = setInterval(function () {
-					App.vent.trigger('device:status:update');
-				}, 5000);
-			}
-			if (this.extPlayerStatusUpdater && status.playerState === 'IDLE') {
-				// Media started streaming and is now finished playing
-				this.cancelStreaming();
-			}
-		},
+            this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
+            this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
+            this.ui.progressbar.css('width', streamInfo.get('buffer_percent').toFixed() + '%');
 
-		cancelStreaming: function () {
+            if (streamInfo.get('title') !== '') {
+                this.ui.title.html(streamInfo.get('title'));
+            }
+            if (streamInfo.get('player') && streamInfo.get('player').get('type') !== 'local') {
+                if (this.model.get('state') === 'playingExternally') {
+                    this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
+                    this.ui.stateTextDownload.text(i18n.__('Downloaded')).show();
+                }
+                this.ui.player.text(streamInfo.get('player').get('name'));
+                this.ui.streaming.css('visibility', 'visible');
+            }
+        },
 
-			// call stop if we play externally
-			if (this.model.get('state') === 'playingExternally') {
-				if (this.extPlayerStatusUpdater) {
-					clearInterval(this.extPlayerStatusUpdater);
-				}
-				win.info('Stopping external device');
-				App.vent.trigger('device:stop');
-			}
+        onDeviceStatus: function (status) {
+            if (status.media !== undefined && status.media.duration !== undefined) {
+                // Update playingbar width
+                var playedPercent = status.currentTime / status.media.duration * 100;
+                this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
+                win.debug('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
+                    status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
+            }
+            if (!this.extPlayerStatusUpdater && status.playerState === 'PLAYING') {
+                // First PLAYING state. Start requesting device status update every 5 sec
+                this.extPlayerStatusUpdater = setInterval(function () {
+                    App.vent.trigger('device:status:update');
+                }, 5000);
+            }
+            if (this.extPlayerStatusUpdater && status.playerState === 'IDLE') {
+                // Media started streaming and is now finished playing
+                this.cancelStreaming();
+            }
+        },
 
-			win.info('Closing loading view');
-			App.vent.trigger('stream:stop');
-			App.vent.trigger('player:close');
-			App.vent.trigger('torrentcache:stop');
-		},
+        cancelStreaming: function () {
 
-		pauseStreaming: function () {
-			App.vent.trigger('device:pause');
-			$('.pause').removeClass('fa-pause').removeClass('pause').addClass('fa-play').addClass('play');
-		},
+            // call stop if we play externally
+            if (this.model.get('state') === 'playingExternally') {
+                if (this.extPlayerStatusUpdater) {
+                    clearInterval(this.extPlayerStatusUpdater);
+                }
+                win.info('Stopping external device');
+                App.vent.trigger('device:stop');
+            }
 
-		resumeStreaming: function () {
-			win.debug('clicked play');
-			App.vent.trigger('device:unpause');
-			$('.play').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
-		},
+            win.info('Closing loading view');
+            App.vent.trigger('stream:stop');
+            App.vent.trigger('player:close');
+            App.vent.trigger('torrentcache:stop');
+        },
 
-		stopStreaming: function () {
-			this.cancelStreaming();
-		},
+        pauseStreaming: function () {
+            App.vent.trigger('device:pause');
+            $('.pause').removeClass('fa-pause').removeClass('pause').addClass('fa-play').addClass('play');
+        },
 
-		forwardStreaming: function () {
-			win.debug('clicked forward');
-			App.vent.trigger('device:forward');
-		},
+        resumeStreaming: function () {
+            win.debug('Play triggered');
+            App.vent.trigger('device:unpause');
+            $('.play').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
+        },
 
-		backwardStreaming: function () {
-			win.debug('clicked backward');
-			App.vent.trigger('device:backward');
-		},
+        stopStreaming: function () {
+            this.cancelStreaming();
+        },
 
-		seekStreaming: function (e) {
-			var percentClicked = e.offsetX / e.currentTarget.clientWidth * 100;
-			win.debug('clicked seek (%s%)', percentClicked.toFixed(2));
-			App.vent.trigger('device:seekPercentage', percentClicked);
-		},
+        forwardStreaming: function () {
+            win.debug('Forward triggered');
+            App.vent.trigger('device:forward');
+        },
 
-		onClose: function () {
-			$('.filter-bar').show();
-			$('#header').removeClass('header-shadow');
-			Mousetrap.bind('esc', function (e) {
-				App.vent.trigger('show:closeDetail');
-				App.vent.trigger('movie:closeDetail');
-			});
-		}
-	});
+        backwardStreaming: function () {
+            win.debug('Backward triggered');
+            App.vent.trigger('device:backward');
+        },
 
-	App.View.Loading = Loading;
+        seekStreaming: function (e) {
+            var percentClicked = e.offsetX / e.currentTarget.clientWidth * 100;
+            win.debug('Seek (%s%) triggered', percentClicked.toFixed(2));
+            App.vent.trigger('device:seekPercentage', percentClicked);
+        },
+
+        checkFreeSpace: function (size) {
+            size = size / (1024 * 1024 * 1024);
+            var reserved = size * 20 / 100;
+            reserved = reserved > 0.25 ? 0.25 : reserved;
+            var minspace = size + reserved;
+
+            var exec = require('child_process').exec,
+                cmd;
+
+            if (process.platform === 'win32') {
+                var drive = Settings.tmpLocation.substr(0, 2);
+
+                cmd = 'wmic logicaldisk "' + drive + '" get freespace';
+
+                exec(cmd, function (error, stdout, stderr) {
+                    if (error) {
+                        return;
+                    }
+
+                    var stdoutObj = stdout.split('\n');
+                    var freespace = stdoutObj[1].replace(/\D/g, '') / (1024 * 1024 * 1024);
+                    if (freespace < minspace) {
+                        $('#player .warning-nospace').css('display', 'block');
+                    }
+                });
+            } else {
+                var path = Settings.tmpLocation;
+
+                cmd = 'df -Pk "' + path + '" | awk \'NR==2 {print $4}\'';
+
+                exec(cmd, function (error, stdout, stderr) {
+                    if (error) {
+                        return;
+                    }
+
+                    var freespace = stdout.replace(/\D/g, '') / (1024 * 1024);
+                    if (freespace < minspace) {
+                        $('#player .warning-nospace').css('display', 'block');
+                    }
+                });
+            }
+        },
+
+        onDestroy: function () {
+            $('.filter-bar').show();
+            $('#header').removeClass('header-shadow');
+            Mousetrap.bind('esc', function (e) {
+                App.vent.trigger('show:closeDetail');
+                App.vent.trigger('movie:closeDetail');
+            });
+        }
+    });
+
+    App.View.Loading = Loading;
 })(window.App);

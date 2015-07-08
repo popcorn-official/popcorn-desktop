@@ -60,6 +60,27 @@
         font-family $AlternateFont
         text-align center
 
+    .fakeskan
+        display none
+        position absolute
+        width 66%
+        left 17%
+        text-align center
+        padding 5px 0px
+        background rgba(0,0,0,.2)
+        margin-top -28px
+        color $Text1
+        font-family $AlternateFont
+        font-size 13px
+        line-height 16px
+
+        &:before
+            content '\f071'
+            color $WarningColor
+            font-family "fontawesome"
+            font-size 16px
+            padding-right 8px
+
     .content
         margin 0 auto
         width 66%

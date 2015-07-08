@@ -1,812 +1,704 @@
 (function (App) {
-	'use strict';
-
-	var request = require('request'),
-		URI = require('URIjs'),
-		Q = require('q'),
-		_ = require('underscore'),
-		inherits = require('util').inherits,
-		sha1 = require('sha1');
-
-	var API_ENDPOINT = URI('https://api.trakt.tv/'),
-		API_KEY = '515a27ba95fbd83f20690e5c22bceaff0dfbde7c',
-		API_PLUGIN_VERSION = AdvSettings.get('traktTvVersion'),
-		PT_VERSION = AdvSettings.get('version');
-
-	function TraktTv() {
-			App.Providers.CacheProviderV2.call(this, 'metadata');
-
-			this.authenticated = false;
-			this._credentials = {
-				username: '',
-				password: ''
-			};
-
-			this.watchlist = App.Providers.get('Watchlist');
-
-			// Login with stored credentials
-			if (AdvSettings.get('traktUsername') !== '' && AdvSettings.get('traktPassword') !== '') {
-				this._authenticationPromise = this.authenticate(AdvSettings.get('traktUsername'), AdvSettings.get('traktPassword'), true);
-			}
-
-			var self = this;
-			// Bind all "sub" method calls to TraktTv
-			_.each(this.movie, function (method, key) {
-				self.movie[key] = method.bind(self);
-			});
-			_.each(this.show, function (method, key) {
-				self.show[key] = method.bind(self);
-			});
-		}
-		// Inherit the Cache Provider
-	inherits(TraktTv, App.Providers.CacheProviderV2);
-
-	function MergePromises(promises) {
-		return Q.all(promises).then(function (results) {
-			return _.unique(_.flatten(results));
-		});
-	}
-
-	TraktTv.prototype.isAuthenticating = function () {
-		return this._authenticationPromise && this._authenticationPromise.isPending();
-	};
-
-	TraktTv.prototype.cache = function (key, ids, func) {
-		var self = this;
-		return this.fetch(ids).then(function (items) {
-			var nonCachedIds = _.difference(ids, _.pluck(items, key));
-			return MergePromises([
-				Q(items),
-				func(nonCachedIds).then(self.store.bind(self, key))
-			]);
-		});
-	};
-
-	TraktTv.prototype.call = function (endpoint, getVariables) {
-		var defer = Q.defer();
-
-		getVariables = getVariables || {};
-
-		if (Array.isArray(endpoint)) {
-			endpoint = endpoint.map(function (val) {
-				if (val === '{KEY}') {
-					return API_KEY;
-				}
-				return val.toString();
-			});
-		} else {
-			endpoint = endpoint.replace('{KEY}', API_KEY);
-		}
-
-		var requestUri = API_ENDPOINT.clone()
-			.segment(endpoint)
-			.addQuery(getVariables);
-
-		request(requestUri.toString(), {
-			json: true
-		}, function (err, res, body) {
-			if (err || !body) {
-				defer.reject(err);
-			} else if (res.statusCode >= 400) {
-				defer.resolve({});
-			} else {
-				defer.resolve(body);
-			}
-		});
-
-		return defer.promise;
-	};
-
-	TraktTv.prototype.post = function (endpoint, postVariables) {
-		var defer = Q.defer();
-
-		postVariables = postVariables || {};
-
-		if (Array.isArray(endpoint)) {
-			endpoint = endpoint.map(function (val) {
-				if (val === '{KEY}') {
-					return API_KEY;
-				}
-				return val.toString();
-			});
-		} else {
-			endpoint = endpoint.replace('{KEY}', API_KEY);
-		}
-
-		var requestUri = API_ENDPOINT.clone()
-			.segment(endpoint);
-
-		if (postVariables.username === undefined) {
-			if (this.authenticated && this._credentials.username !== '') {
-				postVariables.username = this._credentials.username;
-			}
-		}
-		if (postVariables.password === undefined) {
-			if (this.authenticated && this._credentials.password !== '') {
-				postVariables.password = this._credentials.password;
-			}
-		}
-
-		request(requestUri.toString(), {
-			method: 'post',
-			body: postVariables,
-			json: true
-		}, function (err, res, body) {
-			if (err || !body || res.statusCode >= 400) {
-				defer.reject(err);
-			} else {
-				defer.resolve(body);
-			}
-		});
-
-		return defer.promise;
-	};
-
-	TraktTv.prototype.authenticate = function (username, password, preHashed) {
-		preHashed = preHashed || false;
-
-		var self = this;
-		return this._authenticationPromise = this.post('account/test/{KEY}', {
-			username: username,
-			password: preHashed ? password : sha1(password)
-		}).then(function (data) {
-			if (data.status === 'success') {
-				self._credentials = {
-					username: username,
-					password: preHashed ? password : sha1(password)
-				};
-				self.authenticated = true;
-				App.vent.trigger('system:traktAuthenticated');
-				// Store the credentials (hashed ofc)
-				AdvSettings.set('traktUsername', self._credentials.username);
-				AdvSettings.set('traktPassword', self._credentials.password);
-				return true;
-			} else {
-				return false;
-			}
-		});
-	};
-
-	TraktTv.prototype.sync = function () {
-		var that = this;
-
-		return Q()
-			.then(function () {
-				that.watchlist.inhibit(true);
-			})
-			.then(function () {
-				return Q.all([that.show.sync(), that.movie.sync()]);
-			})
-			.then(function () {
-				that.watchlist.inhibit(false);
-			})
-			.then(function () {
-				return that.watchlist.fetchWatchlist();
-			});
-	};
-
-	TraktTv.prototype.movie = {
-		summary: function (id) {
-			return this.call(['movie/summary.json', '{KEY}', id]);
-		},
-		listSummary: function (ids) {
-			if (_.isEmpty(ids)) {
-				return Q([]);
-			}
-
-			var self = this;
-			return this.cache('imdb_id', ids, function (ids) {
-				if (_.isEmpty(ids)) {
-					return Q([]);
-				}
-				return self.call(['movie/summaries.json', '{KEY}', ids.join(','), 'full']);
-			});
-		},
-		scrobble: function (imdb, progress, duration) {
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			return this.post('movie/scrobble/{KEY}', {
-				imdb_id: imdb,
-				progress: progress,
-				duration: duration,
-				plugin_version: API_PLUGIN_VERSION,
-				media_center_version: PT_VERSION
-			}).then(function (data) {
-				if (data.status === 'success') {
-					return true;
-				} else {
-					return false;
-				}
-			});
-		},
-		seen: function (movie) {
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			if (Array.isArray(movie)) {
-				if (movie.length === 0) {
-					return Q(true);
-				}
-
-				movie = movie.map(function (val) {
-					return {
-						imdb_id: val
-					};
-				});
-			} else {
-				movie = [{
-					imdb_id: movie
-				}];
-			}
-
-			return this.post('movie/seen/{KEY}', {
-				movies: movie
-			}).then(function (data) {
-				if (data.status === 'success') {
-					return true;
-				} else {
-					return false;
-				}
-			});
-		},
-		unseen: function (movie) {
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			if (Array.isArray(movie)) {
-				if (movie.length === 0) {
-					return Q.resolve(true);
-				}
-
-				movie = movie.map(function (val) {
-					return {
-						imdb_id: val
-					};
-				});
-			} else {
-				movie = [{
-					imdb_id: movie
-				}];
-			}
-
-			return this.post('movie/unseen/{KEY}', {
-				movies: movie
-			}).then(function (data) {
-				if (data.status === 'success') {
-					return true;
-				} else {
-					return false;
-				}
-			});
-		},
-		watching: function (imdb, progress, duration) {
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			return this.post('movie/watching/{KEY}', {
-				imdb_id: imdb,
-				progress: progress,
-				duration: duration,
-				plugin_version: API_PLUGIN_VERSION,
-				media_center_version: PT_VERSION
-			}).then(function (data) {
-				if (data.status === 'success') {
-					return true;
-				} else {
-					return false;
-				}
-			});
-		},
-		cancelWatching: function () {
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			return this.post('movie/cancelwatching/{KEY}')
-				.then(function (data) {
-					if (data.status === 'success') {
-						return true;
-					} else {
-						return false;
-					}
-				});
-		},
-		library: function (movie) {
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			if (Array.isArray(movie)) {
-				if (movie.length === 0) {
-					return Q.resolve(true);
-				}
-
-				movie = movie.map(function (val) {
-					return {
-						imdb_id: val
-					};
-				});
-			} else {
-				movie = [{
-					imdb_id: movie
-				}];
-			}
-
-			return this.post('movie/library/{KEY}', {
-				movies: movie
-			}).then(function (data) {
-				if (data.status === 'success') {
-					return true;
-				} else {
-					return false;
-				}
-			});
-		},
-		unLibrary: function (movie) {
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			if (Array.isArray(movie)) {
-				if (movie.length === 0) {
-					return Q.resolve(true);
-				}
-
-				movie = movie.map(function (val) {
-					return {
-						imdb_id: val
-					};
-				});
-			} else {
-				movie = [{
-					imdb_id: movie
-				}];
-			}
-
-			return this.post('movie/unlibrary/{KEY}', {
-				movies: movie
-			}).then(function (data) {
-				if (data.status === 'success') {
-					return true;
-				} else {
-					return false;
-				}
-			});
-		},
-		getWatched: function () {
-			return this.call(['user/library/movies/watched.json', '{KEY}', this._credentials.username])
-				.then(function (data) {
-					return data;
-				});
-		},
-
-		sync: function () {
-			return Q.all([this.movie.syncFrom(), this.movie.syncTo()]);
-		},
-
-		syncFrom: function () {
-			return this.movie.getWatched()
-				.then(function (data) {
-					var watched = [];
-
-					if (data) {
-						var movie;
-						for (var m in data) {
-							movie = data[m];
-							watched.push({
-								movie_id: movie.imdb_id.toString(),
-								date: new Date(),
-								type: 'movie'
-							});
-						}
-					}
-
-					return watched;
-				})
-				.then(function (traktWatched) {
-					return Database.markMoviesWatched(traktWatched);
-				});
-		},
-
-		syncTo: function () {
-			return Database.getMoviesWatched()
-				.then(function (results) {
-					return results.map(function (item) {
-						return item.movie_id;
-					});
-				})
-				.then((function (movieIds) { // jshint ignore:line
-					return this.movie.seen(movieIds);
-				}).bind(this));
-		}
-	};
-
-	TraktTv.prototype.show = {
-		summary: function (id) {
-			return this.call(['show/summary.json', '{KEY}', id]);
-		},
-		listSummary: function (ids) {
-			if (_.isEmpty(ids)) {
-				return Q([]);
-			}
-
-			var self = this;
-			return this.cache(ids, function (ids) {
-				if (_.isEmpty(ids)) {
-					return Q([]);
-				}
-				return self.call(['show/summaries.json', '{KEY}', ids.join(','), 'full']);
-			});
-		},
-		episodeSummary: function (id, season, episode) {
-			return this.call(['show/episode/summary.json', '{KEY}', id, season, episode])
-				.then(function (data) {
-					if (data.show && data.episode) {
-						return data;
-					} else {
-						return undefined;
-					}
-				});
-		},
-		scrobble: function (tvdb, season, episode, progress, duration) {
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			return this.post('show/scrobble/{KEY}', {
-				tvdb_id: tvdb,
-				season: season,
-				episode: episode,
-				progress: progress,
-				duration: duration,
-				plugin_version: API_PLUGIN_VERSION,
-				media_center_version: PT_VERSION
-			}).then(function (data) {
-				if (data.status === 'success') {
-					return true;
-				} else {
-					return false;
-				}
-			});
-		},
-		episodeSeen: function (id, episode) {
-			var that = this;
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			var data = {};
-
-			if (/^tt/.test(id)) {
-				data.imdb_id = id;
-			} else {
-				data.tvdb_id = id;
-			}
-
-			if (!Array.isArray(episode)) {
-				if (episode.length === 0) {
-					return Q.resolve(true);
-				}
-
-				episode = [{
-					season: episode.season,
-					episode: episode.episode
-				}];
-			}
-
-			data.episodes = episode;
-
-			return this.post('show/episode/seen/{KEY}', data)
-				.then(function (data) {
-					if (data.status === 'success') {
-						that.watchlist.fetchWatchlist();
-						return true;
-					} else {
-						return false;
-					}
-				});
-		},
-		episodeUnseen: function (id, episode) {
-			var that = this;
-
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			var data = {};
-
-			if (/^tt/.test(id)) {
-				data.imdb_id = id;
-			} else {
-				data.tvdb_id = id;
-			}
-
-			if (!Array.isArray(episode)) {
-				if (episode.length === 0) {
-					return Q.resolve(true);
-				}
-
-				episode = [{
-					season: episode.season,
-					episode: episode.episode
-				}];
-			}
-
-			data.episodes = episode;
-
-			return this.post('show/episode/unseen/{KEY}', data)
-				.then(function (data) {
-					if (data.status === 'success') {
-						that.watchlist.fetchWatchlist();
-						return true;
-					} else {
-						return false;
-					}
-				});
-		},
-		watching: function (tvdb, season, episode, progress, duration) {
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			return this.post('show/watching/{KEY}', {
-				tvdb_id: tvdb,
-				season: season,
-				episode: episode,
-				progress: progress,
-				duration: duration,
-				plugin_version: API_PLUGIN_VERSION,
-				media_center_version: PT_VERSION
-			}).then(function (data) {
-				if (data.status === 'success') {
-					return true;
-				} else {
-					return false;
-				}
-			});
-		},
-		cancelWatching: function () {
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			return this.post('show/cancelwatching/{KEY}')
-				.then(function (data) {
-					if (data.status === 'success') {
-						return true;
-					} else {
-						return false;
-					}
-				});
-		},
-		library: function (show) {
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			if (/^tt/.test(show)) {
-				show = {
-					imdb_id: show
-				};
-			} else {
-				show = {
-					tvdb_id: show
-				};
-			}
-
-			return this.post('show/library/{KEY}', show)
-				.then(function (data) {
-					if (data.status === 'success') {
-						return true;
-					} else {
-						return false;
-					}
-				});
-		},
-		unLibrary: function (show) {
-			if (!this.authenticated) {
-				return Q.reject('Not Authenticated');
-			}
-
-			if (/^tt/.test(show)) {
-				show = {
-					imdb_id: show
-				};
-			} else {
-				show = {
-					tvdb_id: show
-				};
-			}
-
-			return this.post('show/unlibrary/{KEY}', show)
-				.then(function (data) {
-					if (data.status === 'success') {
-						return true;
-					} else {
-						return false;
-					}
-				});
-		},
-		getWatched: function () {
-			return this.call(['user/library/shows/watched.json', '{KEY}', this._credentials.username])
-				.then(function (data) {
-					return data;
-				});
-		},
-
-		getProgress: function () {
-			if (!this.authenticated) {
-				win.warn('Not Authenticated');
-				return Q.reject('Not Authenticated');
-			}
-
-			return App.Trakt.call(['user/progress/watched.json', '{KEY}', this._credentials.username])
-				.then(function (data) {
-					return data;
-				});
-		},
-
-		sync: function () {
-			return Q.all([this.show.syncFrom(), this.show.syncTo()]);
-		},
-
-		syncFrom: function () {
-			return this.show.getWatched()
-				.then(function (data) {
-					// Format them for insertion
-					var watched = [];
-
-					if (data) {
-						var show;
-						var season;
-						for (var d in data) {
-							show = data[d];
-							for (var s in show.seasons) {
-								season = show.seasons[s];
-								for (var e in season.episodes) {
-									watched.push({
-										tvdb_id: show.tvdb_id.toString(),
-										show_imdb_id: show.imdb_id.toString(),
-										season: season.season.toString(),
-										episode: season.episodes[e].toString(),
-										type: 'episode',
-										date: new Date()
-									});
-								}
-							}
-						}
-					}
-
-					return watched;
-				})
-				.then(function (traktWatched) {
-					// Insert them locally
-					return Database.markEpisodesWatched(traktWatched);
-				});
-		},
-
-		syncTo: function () {
-			var self = this;
-
-			return Database.getAllEpisodesWatched()
-				.then(function (results) {
-					return results.reduce(function (prev, current) {
-						if (current.tvdb_id) {
-							if (!prev[current.tvdb_id]) {
-								prev[current.tvdb_id] = {
-									tvdb_id: current.tvdb_id,
-									episode: []
-								};
-							}
-
-							prev[current.tvdb_id].episode.push({
-								season: current.season,
-								episode: current.episode
-							});
-						}
-
-						return prev;
-					}, {});
-				})
-				.then(function (shows) {
-
-					var promises = Object.keys(shows).map(function (showId) {
-						var show = shows[showId];
-						return self.show.episodeSeen(show.tvdb_id, show.episode);
-					});
-
-					return Q.all(promises);
-				});
-		}
-	};
-
-	TraktTv.resizeImage = function (imageUrl, width) {
-		var uri = URI(imageUrl),
-			ext = uri.suffix(),
-			file = uri.filename().split('.' + ext)[0];
-
-		// Don't resize images that don't come from trakt
-		//  eg. YTS Movie Covers
-		if (uri.domain() !== 'trakt.us') {
-			return imageUrl;
-		}
-
-		var existingIndex = 0;
-		if ((existingIndex = file.search('-\\d\\d\\d$')) !== -1) {
-			file = file.slice(0, existingIndex);
-		}
-		if (width < 400) {
-			existingIndex = 0;
-			if ((existingIndex = uri.toString().search('walter')) === -1) {
-				file = file + '-300';
-			}
-
-			uri.pathname(uri.pathname().toString().replace(/original/, 'thumb'));
-		}
-		if (file === 'poster-dark') {
-			return 'images/posterholder.png'.toString();
-		} else {
-			return uri.filename(file + '.' + ext).toString();
-		}
-	};
-
-	function onShowWatched(show, channel) {
-		win.debug('Mark TV Show as watched, on channel:', channel);
-		switch (channel) {
-		case 'scrobble':
-			App.Trakt.show
-				.scrobble(show.tvdb_id, show.season, show.episode, 100);
-			break;
-		case 'seen':
-			/* falls through */
-		default:
-			App.Trakt.show
-				.episodeSeen(show.tvdb_id, show);
-			break;
-		}
-	}
-
-	function onShowUnWatched(show, channel) {
-		win.debug('Mark TV Show as unwatched, on channel:', channel);
-		switch (channel) {
-		case 'scrobble':
-			App.Trakt.show
-				.scrobble(show.tvdb_id, show.season, show.episode, 0);
-			break;
-		case 'seen':
-			/* falls through */
-		default:
-			App.Trakt.show
-				.episodeUnseen(show.tvdb_id, show);
-			break;
-		}
-	}
-
-	function onMoviesWatched(movie, channel) {
-		win.debug('Mark Movie as watched, on channel:', channel);
-		switch (channel) {
-		case 'scrobble':
-			App.Trakt.movie
-				.scrobble(movie.imdb_id, 100);
-			break;
-		case 'seen':
-			/* falls through */
-		default:
-			App.Trakt.movie
-				.seen(movie.imdb_id);
-			break;
-		}
-	}
-
-	App.vent.on('show:watched', onShowWatched);
-	App.vent.on('show:unwatched', onShowUnWatched);
-	App.vent.on('movie:watched', onMoviesWatched);
-
-	App.Providers.Trakttv = TraktTv;
-
+    'use strict';
+
+    var request = require('request'),
+        URI = require('URIjs'),
+        Q = require('q'),
+        _ = require('underscore'),
+        inherits = require('util').inherits;
+
+    var API_ENDPOINT = URI('https://api-v2launch.trakt.tv'),
+        CLIENT_ID = 'c7e20abc718e46fc75399dd6688afca9ac83cd4519c9cb1fba862b37b8640e89',
+        CLIENT_SECRET = '476cf15ed52542c2c8dc502821280aa5f61a012db57f1ed1f479aaf88ab385cb',
+        REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob';
+
+    function TraktTv() {
+        App.Providers.CacheProviderV2.call(this, 'metadata');
+
+        this.authenticated = false;
+
+        var self = this;
+        // Bind all "sub" method calls to TraktTv
+        _.each(this.calendars, function (method, key) {
+            self.calendars[key] = method.bind(self);
+        });
+        _.each(this.movies, function (method, key) {
+            self.movies[key] = method.bind(self);
+        });
+        _.each(this.recommendations, function (method, key) {
+            self.recommendations[key] = method.bind(self);
+        });
+        _.each(this.shows, function (method, key) {
+            self.shows[key] = method.bind(self);
+        });
+        _.each(this.episodes, function (method, key) {
+            self.episodes[key] = method.bind(self);
+        });
+        _.each(this.sync, function (method, key) {
+            self.sync[key] = method.bind(self);
+        });
+
+        // Bind all custom functions to TraktTv
+        _.each(this.oauth, function (method, key) {
+            self.oauth[key] = method.bind(self);
+        });
+        _.each(this.syncTrakt, function (method, key) {
+            self.syncTrakt[key] = method.bind(self);
+        });
+
+        // Refresh token on startup if needed
+        setTimeout(function () {
+            self.oauth.checkToken();
+        }, 500);
+    }
+
+    /*
+     * Cache
+     */
+
+    inherits(TraktTv, App.Providers.CacheProviderV2);
+
+    function MergePromises(promises) {
+        return Q.all(promises).then(function (results) {
+            return _.unique(_.flatten(results));
+        });
+    }
+
+    TraktTv.prototype.cache = function (key, ids, func) {
+        var self = this;
+        return this.fetch(ids).then(function (items) {
+            var nonCachedIds = _.difference(ids, _.pluck(items, key));
+            return MergePromises([
+                Q(items),
+                func(nonCachedIds).then(self.store.bind(self, key))
+            ]);
+        });
+    };
+
+    /*
+     * Trakt v2
+     * METHODS (http://docs.trakt.apiary.io/)
+     */
+
+    TraktTv.prototype.get = function (endpoint, getVariables) {
+        var defer = Q.defer();
+
+        getVariables = getVariables || {};
+
+
+        var requestUri = API_ENDPOINT.clone()
+            .segment(endpoint)
+            .addQuery(getVariables);
+
+        request({
+            method: 'GET',
+            url: requestUri.toString(),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + Settings.traktToken,
+                'trakt-api-version': '2',
+                'trakt-api-key': CLIENT_ID
+            }
+        }, function (error, response, body) {
+            if (error || !body) {
+                defer.reject(error);
+            } else if (response.statusCode >= 400) {
+                defer.resolve({});
+            } else {
+                defer.resolve(JSON.parse(body));
+            }
+        });
+
+
+        return defer.promise;
+    };
+
+    TraktTv.prototype.post = function (endpoint, postVariables) {
+        var defer = Q.defer();
+
+        postVariables = postVariables || {};
+
+        var requestUri = API_ENDPOINT.clone()
+            .segment(endpoint);
+
+        request({
+            method: 'POST',
+            url: requestUri.toString(),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + Settings.traktToken,
+                'trakt-api-version': '2',
+                'trakt-api-key': CLIENT_ID
+            },
+            body: JSON.stringify(postVariables)
+        }, function (error, response, body) {
+            if (error || !body) {
+                defer.reject(error);
+            } else if (response.statusCode >= 400) {
+                defer.resolve({});
+            } else {
+                defer.resolve(JSON.parse(body));
+            }
+        });
+
+        return defer.promise;
+    };
+
+    TraktTv.prototype.calendars = {
+        myShows: function (startDate, days) {
+            var endpoint = 'calendars/my/shows';
+
+            if (startDate && days) {
+                endpoint += '/' + startDate + '/' + days;
+            }
+
+            return this.get(endpoint)
+                .then(function (item) {
+                    var calendar = [];
+                    for (var i in item) {
+                        calendar.push({
+                            show_title: item[i].show.title,
+                            show_id: item[i].show.ids.imdb,
+                            aired: item[i].first_aired.split('T')[0],
+                            episode_title: item[i].episode.title,
+                            season: item[i].episode.season,
+                            episode: item[i].episode.number,
+                        });
+                    }
+                    return calendar;
+                });
+        }
+    };
+
+    TraktTv.prototype.movies = {
+        summary: function (id) {
+            return this.get('movies/' + id, {
+                extended: 'full,images'
+            });
+        },
+        aliases: function (id) {
+            return this.get('movies/' + id + '/aliases');
+        },
+        translations: function (id, lang) {
+            return this.get('movies/' + id + '/translations/' + lang);
+        },
+        comments: function (id) {
+            return this.get('movies/' + id + '/comments');
+        },
+        related: function (id) {
+            return this.get('movies/' + id + '/related');
+        }
+    };
+
+    TraktTv.prototype.recommendations = {
+        movies: function () {
+            return this.get('recommendations/movies')
+                .then(function (data) {
+                    return data;
+                });
+        },
+        shows: function () {
+            return this.get('recommendations/shows')
+                .then(function (data) {
+                    return data;
+                });
+        }
+    };
+
+    TraktTv.prototype.scrobble = function (action, type, id, progress) {
+        if (type === 'movie') {
+            return this.post('scrobble/' + action, {
+                movie: {
+                    ids: {
+                        imdb: id
+                    }
+                },
+                progress: progress
+            });
+        }
+        if (type === 'episode') {
+            return this.post('scrobble/' + action, {
+                episode: {
+                    ids: {
+                        tvdb: id
+                    }
+                },
+                progress: progress
+            });
+        }
+    };
+
+    TraktTv.prototype.search = function (query, type, year) {
+        return this.get('search', {
+            query: query,
+            type: type,
+            year: year
+        });
+    };
+
+    TraktTv.prototype.shows = {
+        summary: function (id) {
+            return this.get('shows/' + id);
+        },
+        aliases: function (id) {
+            return this.get('shows/' + id + '/aliases');
+        },
+        translations: function (id, lang) {
+            return this.get('shows/' + id + '/translations/' + lang);
+        },
+        comments: function (id) {
+            return this.get('shows/' + id + '/comments');
+        },
+        watchedProgress: function (id) {
+            if (!id) {
+                return Q();
+            }
+            return this.get('shows/' + id + '/progress/watched')
+                .then(function (data) {
+                    return data;
+                });
+        },
+        updates: function (startDate) {
+            return this.get('shows/updates/' + startDate)
+                .then(function (data) {
+                    return data;
+                });
+        },
+        related: function (id) {
+            return this.get('shows/' + id + '/related');
+        }
+    };
+
+    TraktTv.prototype.episodes = {
+        summary: function (id, season, episode) {
+            return this.get('shows/' + id + '/seasons/' + season + '/episodes/' + episode, {
+                extended: 'full,images'
+            });
+        }
+    };
+
+    TraktTv.prototype.sync = {
+        lastActivities: function () {
+            var defer = Q.defer();
+            this.get('sync/last_activities')
+                .then(function (data) {
+                    defer.resolve(data);
+                });
+            return defer.promise;
+        },
+        playback: function (type, id) {
+            var defer = Q.defer();
+
+            if (type === 'movie') {
+                this.get('sync/playback/movies', {
+                    limit: 50
+                }).then(function (results) {
+                    results.forEach(function (result) {
+                        if (result.movie.ids.imdb.toString() === id) {
+                            defer.resolve(result.progress);
+                        }
+                    });
+                }).catch(function (err) {
+                    defer.reject(err);
+                });
+            }
+
+            if (type === 'episode') {
+                this.get('sync/playback/episodes', {
+                    limit: 50
+                }).then(function (results) {
+                    results.forEach(function (result) {
+                        if (result.episode.ids.tvdb.toString() === id) {
+                            defer.resolve(result.progress);
+                        }
+                    });
+                }).catch(function (err) {
+                    defer.reject(err);
+                });
+            }
+
+            return defer.promise;
+        },
+        getWatched: function (type) {
+            if (type === 'movies') {
+                return this.get('sync/watched/movies')
+                    .then(function (data) {
+                        return data;
+                    });
+            }
+            if (type === 'shows') {
+                return this.get('sync/watched/shows')
+                    .then(function (data) {
+                        return data;
+                    });
+            }
+        },
+        addToHistory: function (type, id) {
+            if (type === 'movie') {
+                return this.post('sync/history', {
+                    movies: [{
+                        ids: {
+                            imdb: id
+                        }
+                    }]
+                });
+            }
+            if (type === 'episode') {
+                return this.post('sync/history', {
+                    episodes: [{
+                        ids: {
+                            tvdb: id
+                        }
+                    }]
+                });
+            }
+        },
+        removeFromHistory: function (type, id) {
+            if (type === 'movie') {
+                return this.post('sync/history/remove', {
+                    movies: [{
+                        ids: {
+                            imdb: id
+                        }
+                    }]
+                });
+            }
+            if (type === 'episode') {
+                return this.post('sync/history/remove', {
+                    episodes: [{
+                        ids: {
+                            tvdb: id
+                        }
+                    }]
+                });
+            }
+        },
+    };
+
+    /*
+     *  General
+     * FUNCTIONS
+     */
+
+    TraktTv.prototype.oauth = {
+        authenticate: function () {
+            var defer = Q.defer();
+            var self = this;
+
+            this.oauth.authorize()
+                .then(function (token) {
+                    self.post('oauth/token', {
+                        code: token,
+                        client_id: CLIENT_ID,
+                        client_secret: CLIENT_SECRET,
+                        redirect_uri: REDIRECT_URI,
+                        grant_type: 'authorization_code'
+                    }).then(function (data) {
+                        if (data.access_token && data.expires_in && data.refresh_token) {
+                            Settings.traktToken = data.access_token;
+                            AdvSettings.set('traktToken', data.access_token);
+                            AdvSettings.set('traktTokenRefresh', data.refresh_token);
+                            AdvSettings.set('traktTokenTTL', new Date().valueOf() + data.expires_in * 1000);
+                            self.authenticated = true;
+                            App.vent.trigger('system:traktAuthenticated');
+                            defer.resolve(true);
+                        } else {
+                            AdvSettings.set('traktToken', '');
+                            AdvSettings.set('traktTokenTTL', '');
+                            AdvSettings.set('traktTokenRefresh', '');
+                            defer.reject('sent back no token');
+                        }
+                    });
+                })
+                .catch(function (err) {
+                    defer.reject(err);
+                });
+            return defer.promise;
+        },
+        authorize: function () {
+            var defer = Q.defer();
+            var url = false;
+
+            var API_URI = 'http://trakt.tv';
+            var OAUTH_URI = API_URI + '/oauth/authorize?response_type=code&client_id=' + CLIENT_ID;
+
+            var gui = require('nw.gui');
+            gui.App.addOriginAccessWhitelistEntry(API_URI, 'app', 'host', true);
+            window.loginWindow = gui.Window.open(OAUTH_URI + '&redirect_uri=' + encodeURIComponent(REDIRECT_URI), {
+                position: 'center',
+                focus: true,
+                title: 'Trakt.tv',
+                icon: 'src/app/images/icon.png',
+                toolbar: false,
+                resizable: false,
+                show_in_taskbar: false,
+                width: 600,
+                height: 600
+            });
+
+            window.loginWindow.on('loaded', function () {
+                url = window.loginWindow.window.document.URL;
+
+                if (url.indexOf('&') === -1 && url.indexOf('auth/signin') === -1) {
+                    if (url.indexOf('oauth/authorize/') !== -1) {
+                        url = url.split('/');
+                        url = url[url.length - 1];
+                    } else {
+                        gui.Shell.openExternal(url);
+                    }
+                    this.close(true);
+                } else {
+                    url = false;
+                }
+            });
+
+            window.loginWindow.on('closed', function () {
+                if (url) {
+                    defer.resolve(url);
+                } else {
+                    AdvSettings.set('traktToken', '');
+                    AdvSettings.set('traktTokenTTL', '');
+                    AdvSettings.set('traktTokenRefresh', '');
+                    defer.reject('Trakt window closed without exchange token');
+                }
+            });
+
+            return defer.promise;
+        },
+        checkToken: function () {
+            var self = this;
+            if (Settings.traktTokenTTL <= new Date().valueOf() && Settings.traktTokenRefresh !== '') {
+                win.info('Trakt: refreshing access token');
+                this._authenticationPromise = self.post('oauth/token', {
+                    refresh_token: Settings.traktTokenRefresh,
+                    client_id: CLIENT_ID,
+                    client_secret: CLIENT_SECRET,
+                    grant_type: 'refresh_token'
+                }).then(function (data) {
+                    if (data.access_token && data.expires_in && data.refresh_token) {
+                        Settings.traktToken = data.access_token;
+                        AdvSettings.set('traktToken', data.access_token);
+                        AdvSettings.set('traktTokenRefresh', data.refresh_token);
+                        AdvSettings.set('traktTokenTTL', new Date().valueOf() + data.expires_in * 1000);
+                        self.authenticated = true;
+                        App.vent.trigger('system:traktAuthenticated');
+                        return true;
+                    } else {
+                        AdvSettings.set('traktToken', '');
+                        AdvSettings.set('traktTokenTTL', '');
+                        AdvSettings.set('traktTokenRefresh', '');
+                        return false;
+                    }
+                });
+            } else if (Settings.traktToken !== '') {
+                this.authenticated = true;
+                App.vent.trigger('system:traktAuthenticated');
+            }
+        }
+    };
+
+    TraktTv.prototype.syncTrakt = {
+        isSyncing: function () {
+            return this.syncing && this.syncing.isPending();
+        },
+        all: function () {
+            var self = this;
+            AdvSettings.set('traktLastSync', new Date().valueOf());
+            return this.syncing = Q.all([self.syncTrakt.movies(), self.syncTrakt.shows()]);
+        },
+        movies: function () {
+            return this.sync.getWatched('movies')
+                .then(function (data) {
+                    var watched = [];
+
+                    if (data) {
+                        var movie;
+                        for (var m in data) {
+                            try { //some movies don't have imdbid
+                                movie = data[m].movie;
+                                watched.push({
+                                    movie_id: movie.ids.imdb.toString(),
+                                    date: new Date(),
+                                    type: 'movie'
+                                });
+                            } catch (e) {
+                                win.warn('Cannot sync a movie (' + data[m].movie.title + '), the problem is: ' + e.message + '. Continuing sync without this movie...');
+                            }
+                        }
+                    }
+
+                    return watched;
+                })
+                .then(function (traktWatched) {
+                    win.debug('Trakt: marked %s movie(s) as watched', traktWatched.length);
+                    return Database.markMoviesWatched(traktWatched);
+                });
+        },
+        shows: function () {
+            return this.sync.getWatched('shows')
+                .then(function (data) {
+                    // Format them for insertion
+                    var watched = [];
+
+                    if (data) {
+                        var show;
+                        var season;
+                        for (var d in data) {
+                            show = data[d];
+                            for (var s in show.seasons) {
+                                season = show.seasons[s];
+                                try { //some shows don't return IMDB
+                                    for (var e in season.episodes) {
+                                        watched.push({
+                                            tvdb_id: show.show.ids.tvdb.toString(),
+                                            imdb_id: show.show.ids.imdb.toString(),
+                                            season: season.number.toString(),
+                                            episode: season.episodes[e].number.toString(),
+                                            type: 'episode',
+                                            date: new Date()
+                                        });
+                                    }
+                                } catch (e) {
+                                    win.warn('Cannot sync a show (' + show.show.title + '), the problem is: ' + e.message + '. Continuing sync without this show...');
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    return watched;
+                })
+                .then(function (traktWatched) {
+                    // Insert them locally
+                    win.debug('Trakt: marked %s episode(s) as watched', traktWatched.length);
+                    return Database.markEpisodesWatched(traktWatched);
+                });
+        }
+    };
+
+    TraktTv.prototype.resizeImage = function (imageUrl, size) {
+        if (imageUrl === undefined) {
+            return imageUrl;
+        }
+
+        var uri = URI(imageUrl),
+            ext = uri.suffix(),
+            file = uri.filename().split('.' + ext)[0];
+
+        // Don't resize images that don't come from trakt
+        //  eg. YTS Movie Covers
+        if (imageUrl.indexOf('placeholders/original/fanart') !== -1) {
+            return 'images/bg-header.jpg'.toString();
+        } else if (imageUrl.indexOf('placeholders/original/poster') !== -1) {
+            return 'images/posterholder.png'.toString();
+        } else if (uri.domain() !== 'trakt.us') {
+            return imageUrl;
+        }
+
+        var existingIndex = 0;
+        if ((existingIndex = file.search('-\\d\\d\\d$')) !== -1) {
+            file = file.slice(0, existingIndex);
+        }
+
+        // reset
+        uri.pathname(uri.pathname().toString().replace(/thumb|medium/, 'original'));
+
+        if (!size) {
+            if (ScreenResolution.SD || ScreenResolution.HD) {
+                uri.pathname(uri.pathname().toString().replace(/original/, 'thumb'));
+            } else if (ScreenResolution.FullHD) {
+                uri.pathname(uri.pathname().toString().replace(/original/, 'medium'));
+            } else if (ScreenResolution.QuadHD || ScreenResolution.UltraHD || ScreenResolution.Retina) {
+                //keep original
+            } else {
+                //default to medium
+                win.debug('ScreenResolution unknown, using \'medium\' image size');
+                uri.pathname(uri.pathname().toString().replace(/original/, 'medium'));
+            }
+        } else {
+            if (size === 'thumb') {
+                uri.pathname(uri.pathname().toString().replace(/original/, 'thumb'));
+            } else if (size === 'medium') {
+                uri.pathname(uri.pathname().toString().replace(/original/, 'medium'));
+            } else {
+                //keep original
+            }
+        }
+
+        if (imageUrl === undefined) {
+            return 'images/posterholder.png'.toString();
+        } else {
+            return uri.filename(file + '.' + ext).toString();
+        }
+    };
+
+    function onShowWatched(show, channel) {
+        win.debug('Mark Episode as watched on channel:', channel);
+        switch (channel) {
+        case 'database':
+            break;
+        case 'seen':
+            /* falls through */
+        default:
+            App.Trakt.sync.addToHistory('episode', show.episode_id);
+            break;
+        }
+    }
+
+    function onShowUnWatched(show, channel) {
+        win.debug('Mark Episode as unwatched on channel:', channel);
+        switch (channel) {
+        case 'database':
+            break;
+        case 'seen':
+            /* falls through */
+        default:
+            App.Trakt.sync.removeFromHistory('episode', show.episode_id);
+            break;
+        }
+    }
+
+    function onMoviesWatched(movie, channel) {
+        win.debug('Mark Movie as watched on channel:', channel);
+        switch (channel) {
+        case 'database':
+            switch (Settings.watchedCovers) {
+            case 'fade':
+                $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"] .actions-watched').addClass('selected');
+                $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]').addClass('watched');
+                break;
+            case 'hide':
+                $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]').remove();
+                break;
+            }
+            $('.watched-toggle').addClass('selected').text(i18n.__('Seen'));
+            App.MovieDetailView.model.set('watched', true);
+            break;
+        case 'seen':
+            /* falls through */
+        default:
+            App.Trakt.sync.addToHistory('movie', movie.imdb_id);
+            break;
+        }
+    }
+
+    function onMoviesUnWatched(movie, channel) {
+        win.debug('Mark Movie as unwatched on channel:', channel);
+        switch (channel) {
+        case 'database':
+            break;
+        case 'seen':
+            /* falls through */
+        default:
+            App.Trakt.sync.removeFromHistory('movie', movie.imdb_id);
+            break;
+        }
+    }
+
+    App.vent.on('show:watched', onShowWatched);
+    App.vent.on('show:unwatched', onShowUnWatched);
+    App.vent.on('movie:watched', onMoviesWatched);
+    App.vent.on('movie:unwatched', onMoviesUnWatched);
+
+    App.Providers.Trakttv = TraktTv;
 })(window.App);

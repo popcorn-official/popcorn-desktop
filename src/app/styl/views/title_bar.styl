@@ -1,207 +1,210 @@
 #header
-	z-index: 10
-	position: absolute
-	top: 0
-	width: 100%
-	opacity: .97
-	height: $TitleHeight
-	background-color: $TitleBarBg
-	padding: 13px 0 0
-	text-align: center
-	-webkit-app-region: drag
+    z-index: 10
+    position: absolute
+    top: 0
+    width: 100%
+    opacity: .97
+    height: $TitleHeight
+    background-color: $TitleBarBg
+    padding: 13px 0 0
+    text-align: center
+    -webkit-app-region: drag
 
-	h1
-		color: $TitleBarText
-		font-size: 0.9em
-		top: -3px
-		position: relative
+    .tooltip
+        white-space: nowrap
 
-	.btn-set
-		position: absolute;
-		left: 15px;
-		z-index: 10;
+    h1
+        color: $TitleBarText
+        font-size: 0.9em
+        top: -3px
+        position: relative
 
-	// Changes the min/max/close button position depending on OS
-	nav
-		-webkit-app-region: no-drag
+    .btn-set
+        position: absolute;
+        left: 15px;
+        z-index: 10;
 
-		&.darwin
-			position: absolute;
-			left: 15px;
+    // Changes the min/max/close button position depending on OS
+    nav
+        -webkit-app-region: no-drag
 
-		&.fs-darwin
-			top: 0px;
-			right: 7px;
-			left: initial;
+        &.darwin
+            position: absolute;
+            left: 15px;
 
-		&.win32,
-		&.linux
-			right: 7px;
-			left: initial;
+        &.fs-darwin
+            top: 0px;
+            right: 7px;
+            left: initial;
 
-		&.fs-win32,
-		&.fs-linux
-			position: absolute;
-			left: 2px;
-			top: 2px;
+        &.win32,
+        &.linux
+            right: 7px;
+            left: initial;
 
-	.btn-os
-		float: left
-		margin: 0 6px 0 0
-		background-color: #000
-		background-size: 77px 12px
-		background-image: url('../images/icons/topbar_sprite.png')
-		border-radius: 30px
-		border: 0
-		color: transparent
-		display: inline-block
-		font-size: 10px
-		height: 12px
-		padding: 0
-		text-align: center
-		width: 12px
-		cursor: pointer
+        &.fs-win32,
+        &.fs-linux
+            position: absolute;
+            left: 2px;
+            top: 2px;
 
-		&.os-min
-			background-position: 0px 0px;
-		&.os-max
-			background-position: -13px 0px;
-		&.os-close
-			background-position: -26px 0px;
+    .btn-os
+        float: left
+        margin: 0 6px 0 0
+        background-color: #000
+        background-size: 77px 12px
+        background-image: url('../images/icons/topbar_sprite.png')
+        border-radius: 30px
+        border: 0
+        color: transparent
+        display: inline-block
+        font-size: 10px
+        height: 12px
+        padding: 0
+        text-align: center
+        width: 12px
+        cursor: pointer
 
-		&.os-min:hover
-			background-position: -39px 0px;
-		&.os-max:hover
-			background-position: -52px 0px;
-		&.os-close:hover
-			background-position: -65px 0px;
+        &.os-min
+            background-position: 0px 0px;
+        &.os-max
+            background-position: -13px 0px;
+        &.os-close
+            background-position: -26px 0px;
 
-		&.fullscreen
-			color:$FullScreenButton;
-			background: transparent;
-			margin:0;
-			z-index: 10;
-			width:30px;
-			height:28px;
-			border-radius:0;
-			display:block;
+        &.os-min:hover
+            background-position: -39px 0px;
+        &.os-max:hover
+            background-position: -52px 0px;
+        &.os-close:hover
+            background-position: -65px 0px;
 
-		&.fullscreen::before
-			content: "\e000";
-			font-family: VideoJS;
-			font-size: 1.85em;
-			line-height: 0.2em;
-			background: none;
-			display:block;
-			text-shadow: 0 1px 0 rgba(255,255,255,0.1)
+        &.fullscreen
+            color:$FullScreenButton;
+            background: transparent;
+            margin:0;
+            z-index: 10;
+            width:30px;
+            height:28px;
+            border-radius:0;
+            display:block;
 
-		&.fullscreen.active::before
-			content: "\e00B";
+        &.fullscreen::before
+            content: "\e000";
+            font-family: VideoJS;
+            font-size: 1.85em;
+            line-height: 0.2em;
+            background: none;
+            display:block;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.1)
 
-		&.fullscreen:hover
-			color:$FullScreenButtonHover;
+        &.fullscreen.active::before
+            content: "\e00B";
 
-	.btn-set.win32
-		background-size: auto auto
-		top: 6px
-		right: 3px
-		.btn-os
-			float: left
-			margin: 0 2px 0 0
-			background: #000
-			-webkit-border-radius: 0px
-			border-radius: 0px
-			border: 0
-			color: transparent
-			display: inline-block
-			font-size: 10px
-			height: 16px
-			padding: 0
-			text-align: center
-			width: 20px
-			cursor: pointer
-			background: url("../images/icons/topbar_sprite_win.png")
-			-webkit-filter $PngLogo
-			&.os-close
-				background-position -40px 0px
-			&.os-max
-				background-position -20px 0px
-				&.os-is-max
-					background-position -120px 0px
-			&.os-min
-				background-position 0px 0px
-			&.os-close:hover
-				background-position -100px 0px
-				-webkit-filter brightness(1)
-			&.os-max:hover
-				background-position -80px 0px
-				-webkit-filter brightness(1)
-				&.os-is-max:hover
-					background-position -140px 0px
-			&.os-min:hover
-				background-position -60px 0px
-				-webkit-filter brightness(1)
+        &.fullscreen:hover
+            color:$FullScreenButtonHover;
+
+    .btn-set.win32
+        background-size: auto auto
+        top: 6px
+        right: 3px
+        .btn-os
+            float: left
+            margin: 0 2px 0 0
+            background: #000
+            -webkit-border-radius: 0px
+            border-radius: 0px
+            border: 0
+            color: transparent
+            display: inline-block
+            font-size: 10px
+            height: 16px
+            padding: 0
+            text-align: center
+            width: 20px
+            cursor: pointer
+            background: url("../images/icons/topbar_sprite_win.png")
+            -webkit-filter $PngLogo
+            &.os-close
+                background-position -40px 0px
+            &.os-max
+                background-position -20px 0px
+                &.os-is-max
+                    background-position -120px 0px
+            &.os-min
+                background-position 0px 0px
+            &.os-close:hover
+                background-position -100px 0px
+                -webkit-filter brightness(1)
+            &.os-max:hover
+                background-position -80px 0px
+                -webkit-filter brightness(1)
+                &.os-is-max:hover
+                    background-position -140px 0px
+            &.os-min:hover
+                background-position -60px 0px
+                -webkit-filter brightness(1)
 
 
-	.btn-set.darwin
-		.btn-os
-			background-image: none
-			background-repeat: no-repeat
-			&.os-close
-				background-color: #FC5753
-			&.os-max
-				background-color: #33C748
-			&.os-min
-				background-color: #FDBC40
+    .btn-set.darwin
+        .btn-os
+            background-image: none
+            background-repeat: no-repeat
+            &.os-close
+                background-color: #FC5753
+            &.os-max
+                background-color: #33C748
+            &.os-min
+                background-color: #FDBC40
 
-		&:hover
-			.btn-os
-				background-image: url('../images/icons/topbar_sprite.png')
-				&.os-min
-					background-position: -39px 0px;
-				&.os-max
-					background-position: -52px 0px;
-				&.os-close
-					background-position: -65px 0px;
+        &:hover
+            .btn-os
+                background-image: url('../images/icons/topbar_sprite.png')
+                &.os-min
+                    background-position: -39px 0px;
+                &.os-max
+                    background-position: -52px 0px;
+                &.os-close
+                    background-position: -65px 0px;
 
 .header-shadow 
-	box-shadow: $TopBarShadow
+    box-shadow: $TopBarShadow
 
 .events
-	width: 28px
-	height: 28px
-	position: absolute
-	top: -6px
-	left: calc(50% + 52px)
-	display: none;
+    width: 28px
+    height: 28px
+    position: absolute
+    top: -6px
+    left: calc(50% + 52px)
+    display: none;
 
-	&.img-newyear
-		background: URL('../images/events/newyear.png')
-		background-repeat: no-repeat
-		background-size: 28px 28px
-	&.img-pt_anniv
-		background: URL('../images/events/pt_anniv.png')
-		background-repeat: no-repeat
-		background-size: 28px 28px
-	&.img-halloween
-		background: URL('../images/events/halloween.png')
-		background-repeat: no-repeat
-		background-size: 28px 28px
-	&.img-stvalentine
-		background: URL('../images/events/stvalentine.png')
-		background-repeat: no-repeat
-		background-size: 48px 28px
-		width: 48px
-		height: 28px
-	&.img-stpatrick
-		background: URL('../images/events/stpatrick.png')
-		background-repeat: no-repeat
-		background-size: 28px 28px
-	&.img-aprilsfool
-		background: URL('../images/events/aprilsfool.png')
-		background-repeat: no-repeat
-		background-size: 28px 28px
-	&.img-xmas
-		background: URL('../images/events/xmas.png')
-		background-repeat: no-repeat
-		background-size: 28px 28px
+    &.img-newyear
+        background: URL('../images/events/newyear.png')
+        background-repeat: no-repeat
+        background-size: 28px 28px
+    &.img-pt_anniv
+        background: URL('../images/events/pt_anniv.png')
+        background-repeat: no-repeat
+        background-size: 28px 28px
+    &.img-halloween
+        background: URL('../images/events/halloween.png')
+        background-repeat: no-repeat
+        background-size: 28px 28px
+    &.img-stvalentine
+        background: URL('../images/events/stvalentine.png')
+        background-repeat: no-repeat
+        background-size: 48px 28px
+        width: 48px
+        height: 28px
+    &.img-stpatrick
+        background: URL('../images/events/stpatrick.png')
+        background-repeat: no-repeat
+        background-size: 28px 28px
+    &.img-aprilsfool
+        background: URL('../images/events/aprilsfool.png')
+        background-repeat: no-repeat
+        background-size: 28px 28px
+    &.img-xmas
+        background: URL('../images/events/xmas.png')
+        background-repeat: no-repeat
+        background-size: 28px 28px

@@ -1,14 +1,14 @@
 (function (App) {
-	'use strict';
+    'use strict';
 
-	var AnimeBrowser = App.View.PCTBrowser.extend({
-		collectionModel: App.Model.AnimeCollection,
-		filters: {
-			genres: App.Config.genres_anime,
-			sorters: App.Config.sorters_tv,
-			types: App.Config.types_anime
-		}
-	});
+    var AnimeBrowser = App.View.PCTBrowser.extend({
+        collectionModel: App.Model.AnimeCollection,
+        filters: {
+            genres: App.Config.genres_anime,
+            sorters: App.Config.sorters_tv,
+            types: App.Config.types_anime
+        }
+    });
 
-	App.View.AnimeBrowser = AnimeBrowser;
+    App.View.AnimeBrowser = AnimeBrowser;
 })(window.App);

@@ -5,10 +5,10 @@
 </div>
 <ul class="dropdown-menu playerchoicemenu" role="menu">
   <% _.each(items, function(item){ %>
-	<li id ="player-<%= item.id %>">
-	  <a href="#"> <%= item.name %>
-		<img class="playerchoiceicon" src="images/icons/<%= item.type %>-icon.png"/>
-	</a>
-	</li>
+    <li id ="player-<%= item.id %>">
+      <a href="#"> <%= item.name %>
+        <img class="playerchoiceicon" src="images/icons/<%= item.type %>-icon.png"/>
+    </a>
+    </li>
   <% }); %>
 </ul>
