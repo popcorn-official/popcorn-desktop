@@ -1,4 +1,4 @@
-## 0.X.X Beta - Unnamed - not out
+## 0.3.8 Beta - There's nothing on TV
 
 BugFixes: 
 
@@ -59,6 +59,8 @@ New Features:
 - "Big Picture Mode" will allow you to read Popcorn Time's texts from your couch
 - TVShow Time integration
 - Display a warning if the HDD is almost full
+- Sort by "Trending" on movies & tv shows
+- Correctly display the sizes for your OS and language (ex: 32.5MiB in Linux English, 32.5Mo on Windows Spanish, 34.1MB in OSX English)
 
 ## 0.3.7 Beta - The Car Won't Start - 15 January 2015
 
