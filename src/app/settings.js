@@ -104,6 +104,10 @@ Settings.tvshowAPI = {
         url: 'http://api.popcorntime.io/',
         ssl: false,
         fingerprint: /"status":"online"/
+    }, {
+        url: 'http://tv.ytspt.re/',
+        ssl: false,
+        fingerprint: /"status":"online"/
     }]
 };
 

@@ -57,9 +57,9 @@
             App.vent.trigger('issue:new');
         },
 
-		closeChangelog: function () {
-			$('.changelog-overlay').hide();
-		}
+        closeChangelog: function () {
+            $('.changelog-overlay').hide();
+        }
 
     });
 

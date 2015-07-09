@@ -81,8 +81,8 @@
             App.vent.trigger('system:closeFileSelector');
         },
 
-		isTorrentStored: function () {
-			var target = require('nw.gui').App.dataPath + '/TorrentCollection/';
+        isTorrentStored: function () {
+            var target = require('nw.gui').App.dataPath + '/TorrentCollection/';
 
             // bypass errors
             if (!Settings.droppedTorrent && !Settings.droppedMagnet) {
@@ -120,8 +120,8 @@
                 file,
                 _file;
 
-			if (Settings.droppedTorrent) {
-				file = Settings.droppedTorrent;
+            if (Settings.droppedTorrent) {
+                file = Settings.droppedTorrent;
 
                 if (this.isTorrentStored()) {
                     fs.unlinkSync(target + file); // remove the torrent

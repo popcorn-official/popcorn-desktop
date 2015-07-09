@@ -223,14 +223,14 @@
 
         win.debug('Extracting update...');
         var outputDir = path.dirname(downloadPath),
-            packageFile = path.join(outputDir, 'package.nw');
+            packageFile = path.join(outputDir, 'package.nw'),
+            pack = new AdmZip(downloadPath);
 
         if (updateData.extended) {
 
             // Extended: true
             var updateTAR = path.join(os.tmpdir(), 'update.tar');
 
-            var pack = new AdmZip(downloadPath);
             pack.extractAllToAsync(os.tmpdir(), true, function (err) { //extract tar from zip
                 if (err) {
                     defer.reject(err);
@@ -270,7 +270,6 @@
             // Extended: false
             var installDir = path.dirname(downloadPath);
 
-            win.debug('Extracting update files...');
             pack.extractAllToAsync(installDir, true, function (err) {
                 if (err) {
                     defer.reject(err);
@@ -293,6 +292,7 @@
 
     function installOSX(downloadPath, updateData) {
         var defer = Q.defer();
+        var pack = new AdmZip(downloadPath);
 
         win.debug('Extracting update...');
         if (updateData.extended) {
@@ -301,7 +301,6 @@
             var installDir = process.cwd().split('Contents')[0];
             var updateTAR = path.join(os.tmpdir(), 'update.tar');
 
-            var pack = new AdmZip(downloadPath);
             pack.extractAllToAsync(os.tmpdir(), true, function (err) { //extract tar from zip
                 if (err) {
                     defer.reject(err);
@@ -341,7 +340,6 @@
             // Extended: false
             var outputDir = path.dirname(downloadPath);
 
-            var pack = new AdmZip(downloadPath);
             pack.extractAllToAsync(outputDir, true, function (err) {
                 if (err) {
                     defer.reject(err);
