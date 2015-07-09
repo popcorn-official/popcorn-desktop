@@ -57,10 +57,6 @@
             App.vent.trigger('issue:new');
         },
 
-		reportIssue: function () {
-			App.vent.trigger('issue:new');
-		},
-
 		closeChangelog: function () {
 			$('.changelog-overlay').hide();
 		}
