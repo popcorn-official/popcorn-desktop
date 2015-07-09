@@ -13,7 +13,7 @@
         tar = require('tar'),
         spawn = require('child_process').spawn;
 
-    var UPDATE_ENDPOINT = AdvSettings.get('updateEndpoint').url + 'update2.json',
+    var UPDATE_ENDPOINT = AdvSettings.get('updateEndpoint').url + 'update3.json',
         CHANNELS = ['stable', 'beta', 'nightly'],
         FILENAME = 'package.nw.new',
         VERIFY_PUBKEY =
