@@ -7,12 +7,17 @@
 
     var URL = false;
     var TVApi = function () {
-        var Client = require('node-tvdb');
-        var tvdb = new Client('7B95D15E1BE1D75A');
-        tvdb.getLanguages()
-            .then(function (langlist) {
-                AdvSettings.set('tvdbLangs', langlist);
-            });
+        try {
+            var Client = require('node-tvdb');
+            var tvdb = new Client('7B95D15E1BE1D75A');
+            tvdb.getLanguages()
+                .then(function (langlist) {
+                    AdvSettings.set('tvdbLangs', langlist);
+                });
+        } catch (e) {
+            AdvSettings.set('tvdbLangs', false);
+            win.warn('Something went wrong with TVDB, overviews can\'t be translated.');
+        }
         TVApi.super_.call(this);
     };
 
@@ -100,34 +105,35 @@
                         }
                         if (!langAvailable) {
                             resolve(data);
-                        }
+                        } else {
 
-                        var reqTimeout = setTimeout(function () {
-                            resolve(data);
-                        }, 2000);
+                            var reqTimeout = setTimeout(function () {
+                                resolve(data);
+                            }, 2000);
 
-                        var Client = require('node-tvdb');
-                        var tvdb = new Client('7B95D15E1BE1D75A', Settings.language);
-                        win.info('Request to TVDB API: \'%s\' - %s', old_data.title, App.Localization.langcodes[Settings.language].name);
-                        tvdb.getSeriesAllById(old_data.tvdb_id)
-                            .then(function (localization) {
-                                clearTimeout(reqTimeout);
-                                _.extend(data, {
-                                    synopsis: localization.Overview
-                                });
-                                for (var i = 0; i < localization.Episodes.length; i++) {
-                                    for (var j = 0; j < data.episodes.length; j++) {
-                                        if (localization.Episodes[i].id.toString() === data.episodes[j].tvdb_id.toString()) {
-                                            data.episodes[j].overview = localization.Episodes[i].Overview;
-                                            break;
+                            var Client = require('node-tvdb');
+                            var tvdb = new Client('7B95D15E1BE1D75A', Settings.language);
+                            win.info('Request to TVDB API: \'%s\' - %s', old_data.title, App.Localization.langcodes[Settings.language].name);
+                            tvdb.getSeriesAllById(old_data.tvdb_id)
+                                .then(function (localization) {
+                                    clearTimeout(reqTimeout);
+                                    _.extend(data, {
+                                        synopsis: localization.Overview
+                                    });
+                                    for (var i = 0; i < localization.Episodes.length; i++) {
+                                        for (var j = 0; j < data.episodes.length; j++) {
+                                            if (localization.Episodes[i].id.toString() === data.episodes[j].tvdb_id.toString()) {
+                                                data.episodes[j].overview = localization.Episodes[i].Overview;
+                                                break;
+                                            }
                                         }
                                     }
-                                }
-                                resolve(data);
-                            })
-                            .catch(function (error) {
-                                resolve(data);
-                            });
+                                    resolve(data);
+                                })
+                                .catch(function (error) {
+                                    resolve(data);
+                                });
+                        }
                     } else {
                         resolve(data);
                     }
