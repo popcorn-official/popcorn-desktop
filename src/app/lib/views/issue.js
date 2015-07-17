@@ -20,7 +20,7 @@
             'click .issue-title': 'showIssueDetails',
             'click .found-issue': 'closeIssue',
             'click .notfound-issue': 'newIssue',
-            'click .anonymous-issue': 'anonIssue',
+            //'click .anonymous-issue': 'anonIssue',
             'click .login-issue': 'login'
         },
 
