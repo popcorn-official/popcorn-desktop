@@ -96,6 +96,9 @@
             if (this._AutoPlayCheckTimer) {
                 clearInterval(this._AutoPlayCheckTimer);
             }
+            if (this._ShowUIonHover) {
+                clearInterval(this._ShowUIonHover);
+            }
 
             this.sendToTrakt('stop');
 
@@ -390,13 +393,12 @@
 
             this.player.volume(AdvSettings.get('playerVolume'));
 
-            var timeout;
             $('.vjs-menu-content, .eye-info-player, .playing_next').hover(function () {
-                timeout = setInterval(function () {
+                _this._ShowUIonHover = setInterval(function () {
                     App.PlayerView.player.userActive(true);
                 }, 100);
             }, function () {
-                clearInterval(timeout);
+                clearInterval(_this._ShowUIonHover);
             });
         },
 
