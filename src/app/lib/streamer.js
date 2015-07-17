@@ -123,7 +123,7 @@
         var checkReady = function () {
             if (stateModel.get('state') === 'ready') {
 
-                if (stateModel.get('state') === 'ready' && stateModel.get('streamInfo').get('player').id !== 'local') {
+                if (stateModel.get('state') === 'ready' && stateModel.get('streamInfo').get('player') && stateModel.get('streamInfo').get('player').id !== 'local') {
                     stateModel.set('state', 'playingExternally');
                 }
                 streamInfo.set(torrent);
