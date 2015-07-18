@@ -218,6 +218,9 @@
         },
 
         checkFreeSpace: function (size) {
+            if (!size) {
+                return;
+            }
             size = size / (1024 * 1024 * 1024);
             var reserved = size * 20 / 100;
             reserved = reserved > 0.25 ? 0.25 : reserved;
