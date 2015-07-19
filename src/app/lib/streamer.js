@@ -92,14 +92,8 @@
             tracker : true,
             trackers: [
                        'udp://tracker.openbittorrent.com:80',
-                       'http://tracker.yify-torrents.com',
-                       'udp://tracker.publicbt.org:80',
                        'udp://tracker.coppersurfer.tk:6969',
-                       'udp://tracker.leechers-paradise.org:6969',
-                       'udp://open.demonii.com:1337',
-                       'udp://p4p.arenabg.ch:1337',
-                       'udp://p4p.arenabg.com:1337',
-                       'udp://tracker.ccc.de:80'
+                       'udp://open.demonii.com:1337'
                    ],
             port: parseInt(Settings.streamPort, 10) || 0,
             tmp: App.settings.tmpLocation,
