@@ -399,6 +399,13 @@
                                         if (se_re !== null) {
                                             se_re[3] = se_re[2].substr(1, 2);
                                             se_re[2] = se_re[2].substr(0, 1);
+                                        } else {
+                                            se_re = title.replace(/\[|\]|\(|\)/, '').match(/.*?0*(\d+)?[xE]0*(\d+)/i);
+                                            if (se_re !== null) {
+                                                se_re[3] = se_re[2];
+                                                se_re[2] = se_re[1];
+                                                se_re[1] = se_re[0].replace(/0*(\d+)?[xE]0*(\d+)/i, '');
+                                            }
                                         }
                                     }
                                 }
