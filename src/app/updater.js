@@ -13,8 +13,7 @@
         tar = require('tar'),
         spawn = require('child_process').spawn;
 
-    var UPDATE_ENDPOINT = AdvSettings.get('updateEndpoint').url + 'update3.json',
-        CHANNELS = ['stable', 'beta', 'nightly'],
+    var CHANNELS = ['stable', 'beta', 'nightly'],
         FILENAME = 'package.nw.new',
         VERIFY_PUBKEY =
         '-----BEGIN PUBLIC KEY-----\n' +
@@ -45,7 +44,7 @@
         var self = this;
 
         this.options = _.defaults(options || {}, {
-            endpoint: UPDATE_ENDPOINT + '?version=' + App.settings.version + '&nwversion=' + process.versions['node-webkit'],
+            endpoint: AdvSettings.get('updateEndpoint').url + 'update3.json' + '?version=' + App.settings.version + '&nwversion=' + process.versions['node-webkit'],
             channel: 'beta'
         });
 
