@@ -139,6 +139,11 @@
         },
 
         reportBug: function (title, content, token) {
+            var that = this;
+            if (this.isReporting) {
+                return;
+            }
+            this.isReporting = true;
 
             var gitlab = require('gitlab')({
                 url: 'https://git.popcorntime.io/',
@@ -169,6 +174,7 @@
 
                     $('#issue-form').hide();
                     $('#issue-success').show();
+                    that.isReporting = false;
 
                 }
             );
