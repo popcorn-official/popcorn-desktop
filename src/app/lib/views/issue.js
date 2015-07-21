@@ -31,7 +31,7 @@
             }
 
             $('#issue-content').on('keyup', function (e) {
-                var userInput = document.getElementById('issue-content').value.length;
+                var userInput = document.getElementById('issue-content').value.replace(/(\w|\W)\1{3}/igm, '').length;
                 if (userInput > 200) {
                     $('#issue-length').hide();
                 } else {
@@ -220,7 +220,7 @@
                 $('.notification_alert').show().text(i18n.__('Fields cannot be empty')).delay(2500).fadeOut(400);
                 return;
             }
-            if (content.length < 200) {
+            if (content.replace(/(\w|\W)\1{3}/igm, '').length < 200) {
                 $('.notification_alert').show().text(i18n.__('200 characters minimum')).delay(2500).fadeOut(400);
                 return;
             }
