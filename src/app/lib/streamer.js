@@ -443,6 +443,9 @@
                                         .replace(/\-$/, '') // ends with '-'
                                         .replace(/^\./, '') // starts with '.'
                                         .replace(/^\-/, ''); // starts with '-'
+                                    if (!tvshowname || tvshowname.length == 0) {
+                                        tvshowname = title;
+                                    }
                                     App.Trakt.shows.summary(tvshowname)
                                         .then(function (summary) {
                                             if (!summary) {
