@@ -386,6 +386,26 @@
                             model.set('defaultSubtitle', Settings.subtitle_language);
                             var sub_data = {};
                             if (torrent.name) { // sometimes magnets don't have names for some reason
+
+                                // inject title if missing
+                                if (torrent.info && torrent.info.name) {
+                                    var torrent_name = torrent.info.name.toString();
+
+                                    var to_re = torrent_name.match(/.*?(complete.series|complete.season|s\d+|season|\[|hdtv|\W\s)/i);
+                                    var torrentparsed;
+                                    if (to_re === null || to_re[0] === '') {
+                                        torrentparsed = torrent_name;
+                                    } else {
+                                        torrentparsed = to_re[0].replace(to_re[1], '');
+                                    }
+
+                                    var torrent_regx = new RegExp(torrentparsed.split(/\W/)[0], 'ig');
+                                    var torrent_match = torrent.name.match(torrent_regx);
+                                    if (torrent_match === null) {
+                                        torrent.name = torrentparsed + ' ' + torrent.name;
+                                    }
+                                }
+
                                 title = $.trim(torrent.name.replace('[rartv]', '').replace('[PublicHD]', '').replace('[ettv]', '').replace('[eztv]', '')).replace(/[\s]/g, '.');
                                 sub_data.filename = title;
                                 var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i); // regex try (ex: title.s01e01)
