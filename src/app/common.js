@@ -121,14 +121,13 @@ Common.matchTorrent = function (file, torrent) {
 
     var checkTraktSearch = function (trakt, filename) {
         return Q.Promise(function (resolve, reject) {
-            var error;
             var traktObj = trakt
-                .replace(/\W/gi, '')
+                .match(/[\w+\s+]+/ig)[0]
                 .split(' ');
             traktObj.forEach(function (word) {
                 if (word.length >= 4) {
                     var regxp = new RegExp(word.slice(0,3), 'ig');
-                    if (filename.match(regxp) === null) {
+                    if (filename.replace(/\W/ig, '').match(regxp) === null) {
                         return reject(new Error('Trakt search result did not match the filename'));
                     }
                 }
@@ -138,15 +137,14 @@ Common.matchTorrent = function (file, torrent) {
     };
 
     var searchMovie = function (title) {
-        console.log('searching for movie:', title);
         return Q.Promise(function (resolve, reject) {
 
             // find a matching movie
+            console.log('search movie', title);
             App.Trakt.search(title, 'movie')
                 .then(function (summary) {
 
                     if (!summary || summary.length === 0) {
-                        console.log('fail, no movie summary');
                         reject(new Error('Unable to fetch data from Trakt.tv'));
                     } else {
                         checkTraktSearch(summary[0].movie.title, data.filename)
@@ -166,37 +164,30 @@ Common.matchTorrent = function (file, torrent) {
 
                 })
                 .catch(function (err) {
-                    console.log('fail', err);
                     reject(new Error('An error occured while trying to get subtitles'));
                 });
         });
     };
 
     var searchEpisode = function (title, season, episode) {
-        console.log('searching for episode');
         return Q.Promise(function (resolve, reject) {
             if (!title || !season || !episode) {
-                console.log('not searching for episode as regex didnt matched season+ep');
                 return reject(new Error('Title, season and episode need to be passed'));
             }
 
-            console.log('searching for a show');
             // find a matching show
             App.Trakt.shows.summary(title)
                 .then(function (summary) {
 
                     if (!summary || summary.length === 0) {
-                        console.log('fail, no show summary');
                         return reject(new Error('Unable to fetch data from Trakt.tv'));
                     } else {
 
-                        console.log('searching for specific episode');
                         // find the corresponding episode
                         App.Trakt.episodes.summary(title, season, episode)
                             .then(function (episodeSummary) {
 
                                 if (!episodeSummary) {
-                                    console.log('fail: no episodeSummary');
                                     return reject(new Error('Unable to fetch data from Trakt.tv'));
                                 } else {
                                     data.show = {};
@@ -215,24 +206,20 @@ Common.matchTorrent = function (file, torrent) {
                                 }
 
                             }).catch(function (err) {
-                                console.log('fail', err);
                                 reject(new Error('An error occured while trying to get subtitles'));
                             });
                     }
 
                 })
                 .catch(function (err) {
-                    console.log('fail', err);
                     reject(new Error('An error occured while trying to get subtitles'));
                 });
         });
     };
 
     var injectTorrent = function (file, torrent) {
-        console.log('injecting torrent name', file);
         return Q.Promise(function (resolve, reject) {
             if (!torrent) {
-                console.log('no torrent passed, continuing:', file);
                 resolve(file);
             }
             var torrentparsed;
@@ -250,13 +237,12 @@ Common.matchTorrent = function (file, torrent) {
             if (torrent_match === null) {
                 file = torrentparsed + ' ' + file;
             }
-            console.log('injecting torrent name done:', file);
+
             resolve(file);
         });
     };
 
     var formatTitle = function (title) {
-        console.log('formatting title');
         return Q.Promise(function (resolve, reject) {
             var formatted = {};
 
@@ -286,8 +272,6 @@ Common.matchTorrent = function (file, torrent) {
                             formatted.title = se_re[0].replace(/0*(\d+)?[xE]0*(\d+)/i, '');
                         } else {
                             // nothing worked :(
-                            console.log('no matches for format title');
-                            //reject(new Error('No matches found for episode and season'));
                         }
                     }
                 }
@@ -307,21 +291,18 @@ Common.matchTorrent = function (file, torrent) {
 
             // just in case
             if (!formatted.title || formatted.title.length == 0) {
-                console.log('something wierd happened when formatting the title...');
                 formatted.title = title;
             }
 
-            console.log('title is formatted');
             // return :)
             resolve(formatted);
         });
     };
 
-    console.log('start function');
+    // function starts here
     if (!file && !torrent) {
 
         // reject on missing input
-        console.log('error: file name is missing');
         defer.reject(new Error('File name is required'));
 
     } else {
