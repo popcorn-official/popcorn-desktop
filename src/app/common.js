@@ -140,7 +140,6 @@ Common.matchTorrent = function (file, torrent) {
         return Q.Promise(function (resolve, reject) {
 
             // find a matching movie
-            console.log('search movie', title);
             App.Trakt.search(title, 'movie')
                 .then(function (summary) {
 
