@@ -62,7 +62,7 @@
         "temp": "^0.8.1",
         "torrent-health": "git+https://git.popcorntime.io/mirrors/torrent-health.git",
         "underscore": "^1.8.3",
-        "upnp-mediarenderer-client": "git+https://github.com/thibauts/node-upnp-mediarenderer-client.git",
+        "upnp-mediarenderer-client": "^1.2.1",
         "URIjs": "^1.15.0",
         "xmlbuilder": "^2.6.2"
     },
