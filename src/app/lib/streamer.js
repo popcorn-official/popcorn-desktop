@@ -89,12 +89,12 @@
         engine = peerflix(torrent.info, {
             connections: parseInt(Settings.connectionLimit, 10) || 100, // Max amount of peers to be connected to.
             dht: true || 50,
-            tracker : true,
+            tracker: true,
             trackers: [
-                       'udp://tracker.openbittorrent.com:80',
-                       'udp://tracker.coppersurfer.tk:6969',
-                       'udp://open.demonii.com:1337'
-                   ],
+                'udp://tracker.openbittorrent.com:80',
+                'udp://tracker.coppersurfer.tk:6969',
+                'udp://open.demonii.com:1337'
+            ],
             port: parseInt(Settings.streamPort, 10) || 0,
             tmp: App.settings.tmpLocation,
             path: tmpFile, // we'll have a different file name for each stream also if it's same torrent in same session
@@ -401,26 +401,26 @@
                                             handleTorrent_fnc();
                                         } else {
                                             switch (res.type) {
-                                                case 'movie':
-                                                    $('.loading-background').css('background-image', 'url(' + res.movie.image + ')');
-                                                    sub_data.imdbid = res.movie.imdbid;
-                                                    model.set('imdb_id', sub_data.imdbid);
-                                                    title = res.movie.title;
-                                                    break;
-                                                case 'episode':
-                                                    $('.loading-background').css('background-image', 'url(' + res.show.episode.image + ')');
-                                                    sub_data.imdbid = res.show.imdbid;
-                                                    sub_data.season = res.show.episode.season;
-                                                    sub_data.episode = res.show.episode.episode;
-                                                    model.set('tvdb_id', res.show.tvdbid);
-                                                    model.set('episode_id', res.show.episode.tvdbid);
-                                                    model.set('imdb_id', res.show.imdbid);
-                                                    model.set('episode', sub_data.season);
-                                                    model.set('season', sub_data.episode);
-                                                    title = res.show.title + ' - ' + i18n.__('Season %s', res.show.episode.season) + ', ' + i18n.__('Episode %s', res.show.episode.episode) + ' - ' + res.show.episode.title;
-                                                    break;
-                                                default:
-                                                    sub_data.filename = res.filename;
+                                            case 'movie':
+                                                $('.loading-background').css('background-image', 'url(' + res.movie.image + ')');
+                                                sub_data.imdbid = res.movie.imdbid;
+                                                model.set('imdb_id', sub_data.imdbid);
+                                                title = res.movie.title;
+                                                break;
+                                            case 'episode':
+                                                $('.loading-background').css('background-image', 'url(' + res.show.episode.image + ')');
+                                                sub_data.imdbid = res.show.imdbid;
+                                                sub_data.season = res.show.episode.season;
+                                                sub_data.episode = res.show.episode.episode;
+                                                model.set('tvdb_id', res.show.tvdbid);
+                                                model.set('episode_id', res.show.episode.tvdbid);
+                                                model.set('imdb_id', res.show.imdbid);
+                                                model.set('episode', sub_data.season);
+                                                model.set('season', sub_data.episode);
+                                                title = res.show.title + ' - ' + i18n.__('Season %s', res.show.episode.season) + ', ' + i18n.__('Episode %s', res.show.episode.episode) + ' - ' + res.show.episode.title;
+                                                break;
+                                            default:
+                                                sub_data.filename = res.filename;
                                             }
                                             getSubtitles(sub_data);
                                             handleTorrent_fnc();

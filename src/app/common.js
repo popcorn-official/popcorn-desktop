@@ -127,7 +127,7 @@ Common.matchTorrent = function (file, torrent) {
                 .split(' ');
             traktObj.forEach(function (word) {
                 if (word.length >= 4) {
-                    var regxp = new RegExp(word.slice(0,3), 'ig');
+                    var regxp = new RegExp(word.slice(0, 3), 'ig');
                     if (filename.replace(/\W/ig, '').match(regxp) === null) {
                         return reject(new Error('Trakt search result did not match the filename'));
                     }
@@ -148,7 +148,7 @@ Common.matchTorrent = function (file, torrent) {
                         reject(new Error('Unable to fetch data from Trakt.tv'));
                     } else {
                         checkTraktSearch(summary[0].movie.title, data.filename)
-                            .then( function () {
+                            .then(function () {
                                 data.movie = {};
                                 data.type = 'movie';
                                 data.movie.image = summary[0].movie.images.fanart.medium;
@@ -156,7 +156,7 @@ Common.matchTorrent = function (file, torrent) {
                                 data.movie.title = summary[0].movie.title;
                                 resolve(data);
                             })
-                            .catch( function (err) {
+                            .catch(function (err) {
                                 data.error = err.message;
                                 resolve(data);
                             });
@@ -344,4 +344,4 @@ Common.matchTorrent = function (file, torrent) {
     }
 
     return defer.promise;
- };
+};
