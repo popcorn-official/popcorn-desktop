@@ -28,7 +28,7 @@
         "position": "center"
     },
     "dependencies": {
-        "adm-zip": "https://github.com/xeoncore/adm-zip/archive/7b9391c766d4962c6b37ece94cb51920ecd22e55.tar.gz",
+        "adm-zip": "0.4.7",
         "airplay-js": "git+https://git.popcorntime.io/mirrors/node-airplay-js.git",
         "async": "0.9.0",
         "chromecast-js": "git+https://git.popcorntime.io/mirrors/chromecast-js.git",
@@ -37,7 +37,7 @@
         "iconv-lite": "^0.4.7",
         "jschardet": "1.1.1",
         "json-rpc2": "^0.8.1",
-        "kat-api": "git+https://git.popcorntime.io/popcorntime/kat-api.git",
+        "kat-api": "^0.0.3",
         "memoizee": "^0.3.8",
         "mkdirp": "*",
         "moment": "^2.10.2",
