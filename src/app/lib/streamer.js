@@ -369,8 +369,10 @@
                     if (!title) { //From ctrl+v magnet or drag torrent
                         for (var f in torrent.files) {
                             torrent.files[f].index = f;
-                            if (!isVideo(torrent.files[f].name)) {
-                                torrent.files[f] = null;
+                            if (isVideo(torrent.files[f].name)) {
+                                torrent.files[f].display = true;
+                            } else {
+                                torrent.files[f].display = false;
                             }
                         }
                         if (torrent.files && torrent.files.length > 0 && !model.get('file_index') && model.get('file_index') !== 0) {
