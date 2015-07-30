@@ -1,6 +1,7 @@
 var Common = {};
 var crypt = require('crypto');
 var fs = require('fs');
+var Q = require('q');
 Common.healthMap = {
     0: 'bad',
     1: 'medium',
@@ -289,7 +290,7 @@ Common.matchTorrent = function (file, torrent) {
                 .replace(/^\-/, ''); // starts with '-'
 
             // just in case
-            if (!formatted.title || formatted.title.length == 0) {
+            if (!formatted.title || formatted.title.length === 0) {
                 formatted.title = title;
             }
 

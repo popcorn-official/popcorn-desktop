@@ -420,7 +420,7 @@
                                                     title = res.show.title + ' - ' + i18n.__('Season %s', res.show.episode.season) + ', ' + i18n.__('Episode %s', res.show.episode.episode) + ' - ' + res.show.episode.title;
                                                     break;
                                                 default:
-                                                    sub_data.filename = res.filename
+                                                    sub_data.filename = res.filename;
                                             }
                                             getSubtitles(sub_data);
                                             handleTorrent_fnc();
