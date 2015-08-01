@@ -232,15 +232,22 @@
             if (process.platform === 'win32') {
                 var drive = Settings.tmpLocation.substr(0, 2);
 
-                cmd = 'wmic logicaldisk "' + drive + '" get freespace';
+                cmd = 'dir ' + drive;
 
                 exec(cmd, function (error, stdout, stderr) {
                     if (error) {
                         return;
                     }
-
-                    var stdoutObj = stdout.split('\n');
-                    var freespace = stdoutObj[1].replace(/\D/g, '') / (1024 * 1024 * 1024);
+                    var stdoutParse = stdout.split('\n');
+                    stdoutParse = stdoutParse[stdoutParse.length - 1] !== '' ? stdoutParse[stdoutParse.length - 1]:stdoutParse[stdoutParse.length - 2];
+                    stdoutParse = stdoutParse.split(' ');
+                    stdoutParse.forEach(function (obj) {
+                        if (obj.match(/\d+(\.|\,)/) !== null) {
+                            stdoutParse = obj;
+                            return;
+                        }
+                    });
+                    var freespace = stdoutParse.replace(/\D/g, '') / (1024 * 1024 * 1024);
                     if (freespace < minspace) {
                         $('#player .warning-nospace').css('display', 'block');
                     }
