@@ -206,6 +206,9 @@
     };
 
     TraktTv.prototype.scrobble = function (action, type, id, progress) {
+        if (isAnime(id)) {
+            return;
+        }
         if (type === 'movie') {
             return this.post('scrobble/' + action, {
                 movie: {
@@ -334,6 +337,9 @@
             }
         },
         addToHistory: function (type, id) {
+            if (isAnime(id)) {
+                return;
+            }
             if (type === 'movie') {
                 return this.post('sync/history', {
                     movies: [{
@@ -354,6 +360,9 @@
             }
         },
         removeFromHistory: function (type, id) {
+            if (isAnime(id)) {
+                return;
+            }
             if (type === 'movie') {
                 return this.post('sync/history/remove', {
                     movies: [{
@@ -691,6 +700,15 @@
         default:
             App.Trakt.sync.removeFromHistory('movie', movie.imdb_id);
             break;
+        }
+    }
+
+    var isAnime = function(id) {
+        id = id.toString();
+        if (id.indexOf('mal') > -1 || id.indexOf('-') > -1) {
+            return true;
+        } else {
+            return false;
         }
     }
 
