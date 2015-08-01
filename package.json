@@ -60,7 +60,7 @@
         "strike-api": "0.2.0",
         "tar": "^1.0.3",
         "temp": "^0.8.1",
-        "torrent-health": "git+https://git.popcorntime.io/mirrors/torrent-health.git",
+        "torrent-tracker-health": "^0.1.4",
         "underscore": "^1.8.3",
         "upnp-mediarenderer-client": "^1.2.1",
         "URIjs": "^1.15.0",
