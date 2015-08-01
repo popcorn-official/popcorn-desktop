@@ -397,6 +397,7 @@
                                         if (res.error) {
                                             win.warn(res.error);
                                             sub_data.filename = res.filename;
+                                            title = res.filename;
                                             getSubtitles(sub_data);
                                             handleTorrent_fnc();
                                         } else {

@@ -206,7 +206,7 @@
     };
 
     TraktTv.prototype.scrobble = function (action, type, id, progress) {
-        if (isAnime(id)) {
+        if (!isValid(id)) {
             return;
         }
         if (type === 'movie') {
@@ -337,7 +337,7 @@
             }
         },
         addToHistory: function (type, id) {
-            if (isAnime(id)) {
+            if (!isValid(id)) {
                 return;
             }
             if (type === 'movie') {
@@ -360,7 +360,7 @@
             }
         },
         removeFromHistory: function (type, id) {
-            if (isAnime(id)) {
+            if (!isValid(id)) {
                 return;
             }
             if (type === 'movie') {
@@ -703,14 +703,13 @@
         }
     }
 
-    var isAnime = function(id) {
-        id = id.toString();
-        if (id.indexOf('mal') > -1 || id.indexOf('-') > -1) {
-            return true;
-        } else {
+    var isValid = function (id) {
+        if (!id || id.toString().indexOf('mal') > -1 || id.toString().indexOf('-') > -1) {
             return false;
+        } else {
+            return true;
         }
-    }
+    };
 
     App.vent.on('show:watched', onShowWatched);
     App.vent.on('show:unwatched', onShowUnWatched);
