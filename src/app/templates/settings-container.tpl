@@ -50,7 +50,7 @@
                                 var third_party_files = fs.readdirSync('./src/app/themes/third_party');
                                 for (var k in third_party_files) {
                                     if (third_party_files[k].indexOf('_theme') > -1) {
-                                        themes += "<option " + (Settings.theme == third_party_files[k].slice(0, -4)? "selected='selected'" : "") + " value='" + 'third_party\/' + third_party_files[k].slice(0, -4) + "'>" +
+                                        themes += "<option " + (Settings.theme == 'third_party\/' + third_party_files[k].slice(0, -4)? "selected='selected'" : "") + " value='" + 'third_party\/' + third_party_files[k].slice(0, -4) + "'>" +
                                         third_party_files[k].slice(0, -10).split('_').join(' '); + "</option>";
                                     }
                                 }
