@@ -1,4 +1,4 @@
-# [Popcorn Time](https://git.popcorntime.io/popcorntime/desktop/tree/master) [![Build Status](http://ci.popcorntime.io/job/Popcorn-Time/badge/icon)](http://ci.popcorntime.io/job/Popcorn-Time/)
+# [Popcorn Time](https://git.popcorntime.io/popcorntime/desktop/tree/master) [![Build Status](http://ci.popcorntime.io/job/Popcorn-Desktop/badge/icon)](http://ci.popcorntime.io/job/Popcorn-Desktop/)
 
 Allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 

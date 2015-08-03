@@ -94,14 +94,14 @@ Settings.vpnUsername = '';
 Settings.vpnPassword = '';
 
 Settings.tvshowAPI = {
-    url: 'http://eztvapi.re/',
+    url: 'https://eztvapi.re/',
     index: 0,
     proxies: [{
-        url: 'http://eztvapi.re/',
+        url: 'https://eztvapi.re/',
         ssl: false,
         fingerprint: /"status":"online"/,
     }, {
-        url: 'http://api.popcorntime.io/',
+        url: 'https://api.popcorntime.io/',
         ssl: false,
         fingerprint: /"status":"online"/
     }, {

@@ -88,7 +88,13 @@
 
         engine = peerflix(torrent.info, {
             connections: parseInt(Settings.connectionLimit, 10) || 100, // Max amount of peers to be connected to.
-            dht: parseInt(Settings.dhtLimit, 10) || 50,
+            dht: true || 50,
+            tracker: true,
+            trackers: [
+                'udp://tracker.openbittorrent.com:80',
+                'udp://tracker.coppersurfer.tk:6969',
+                'udp://open.demonii.com:1337'
+            ],
             port: parseInt(Settings.streamPort, 10) || 0,
             tmp: App.settings.tmpLocation,
             path: tmpFile, // we'll have a different file name for each stream also if it's same torrent in same session
@@ -123,7 +129,7 @@
         var checkReady = function () {
             if (stateModel.get('state') === 'ready') {
 
-                if (stateModel.get('state') === 'ready' && stateModel.get('streamInfo').get('player').id !== 'local') {
+                if (stateModel.get('state') === 'ready' && stateModel.get('streamInfo').get('player') && stateModel.get('streamInfo').get('player').id !== 'local') {
                     stateModel.set('state', 'playingExternally');
                 }
                 streamInfo.set(torrent);
@@ -363,8 +369,10 @@
                     if (!title) { //From ctrl+v magnet or drag torrent
                         for (var f in torrent.files) {
                             torrent.files[f].index = f;
-                            if (!isVideo(torrent.files[f].name)) {
-                                torrent.files[f] = null;
+                            if (isVideo(torrent.files[f].name)) {
+                                torrent.files[f].display = true;
+                            } else {
+                                torrent.files[f].display = false;
                             }
                         }
                         if (torrent.files && torrent.files.length > 0 && !model.get('file_index') && model.get('file_index') !== 0) {
@@ -380,94 +388,53 @@
                             model.set('defaultSubtitle', Settings.subtitle_language);
                             var sub_data = {};
                             if (torrent.name) { // sometimes magnets don't have names for some reason
-                                title = $.trim(torrent.name.replace('[rartv]', '').replace('[PublicHD]', '').replace('[ettv]', '').replace('[eztv]', '')).replace(/[\s]/g, '.');
-                                sub_data.filename = title;
-                                var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i); // regex try (ex: title.s01e01)
-                                if (se_re === null) { // if fails
-                                    se_re = title.match(/(.*)(\d\d\d\d)+\W/i); // try another regex (ex: title.0101)
-                                    if (se_re !== null) {
-                                        se_re[3] = se_re[2].substr(2, 4);
-                                        se_re[2] = se_re[2].substr(0, 2);
-                                    } else {
-                                        se_re = title.match(/(.*)(\d\d\d)+\W/i); // try a last one (ex: title.101)
-                                        if (se_re !== null) {
-                                            se_re[3] = se_re[2].substr(1, 2);
-                                            se_re[2] = se_re[2].substr(0, 1);
-                                        }
-                                    }
+                                var torrentMetadata;
+                                if (torrent.info && torrent.info.name) {
+                                    torrentMetadata = torrent.info.name.toString();
                                 }
-                                if (se_re != null) {
-                                    // function in case it's a movie (or not, it also handles errors)
-                                    var tryMovie = function (tvshowname) {
-                                        var moviename = tvshowname;
-                                        App.Trakt.search(moviename, 'movie')
-                                            .then(function (summary) {
-                                                if (!summary || summary.length === 0) {
-                                                    win.warn('Unable to fetch data from Trakt.tv');
-                                                    getSubtitles(sub_data);
-                                                } else {
-                                                    $('.loading-background').css('background-image', 'url(' + summary[0].movie.images.fanart.medium + ')');
-                                                    sub_data.imdbid = summary[0].movie.ids.imdb;
-                                                    getSubtitles(sub_data);
-                                                    model.set('imdb_id', sub_data.imdbid);
-                                                    title = summary[0].movie.title;
-                                                }
-                                                handleTorrent_fnc();
-                                            }).catch(function (err) {
-                                                // Ok then, it's not a tv show, it's not a movie. I give up, deal with it.
-                                                win.error('An error occured while trying to get subtitles', err);
-                                                getSubtitles(sub_data);
-                                                handleTorrent_fnc(); //try and force play
-                                            });
-                                    };
-
-                                    // we're going to start by assuming it's a TV Series
-                                    var tvshowname = $.trim(se_re[1].replace(/[\.]/g, ' '))
-                                        .replace(/^\[.*\]/, '') // starts with brackets
-                                        .replace(/[^\w ]+/g, '') // remove brackets
-                                        .replace(/ +/g, '-') // has spaces
-                                        .replace(/_/g, '-') // has '_'
-                                        .replace(/\-$/, '') // ends with '-'
-                                        .replace(/^\./, '') // starts with '.'
-                                        .replace(/^\-/, ''); // starts with '-'
-                                    App.Trakt.shows.summary(tvshowname)
-                                        .then(function (summary) {
-                                            if (!summary) {
-                                                win.warn('Unable to fetch data from Trakt.tv');
-                                                getSubtitles(sub_data);
-                                            } else {
-                                                App.Trakt.episodes.summary(tvshowname, se_re[2], se_re[3])
-                                                    .then(function (episodeSummary) {
-                                                        if (!episodeSummary) {
-                                                            win.warn('Unable to fetch data from Trakt.tv');
-                                                            getSubtitles(sub_data);
-                                                        } else {
-                                                            $('.loading-background').css('background-image', 'url(' + episodeSummary.images.screenshot.full + ')');
-                                                            sub_data.imdbid = summary.ids.imdb;
-                                                            sub_data.season = episodeSummary.season.toString();
-                                                            sub_data.episode = episodeSummary.number.toString();
-                                                            getSubtitles(sub_data);
-                                                            model.set('tvdb_id', summary.ids.tvdb);
-                                                            model.set('episode_id', episodeSummary.ids.tvdb);
-                                                            model.set('imdb_id', summary.ids.imdb);
-                                                            model.set('episode', sub_data.season);
-                                                            model.set('season', sub_data.episode);
-                                                            title = summary.title + ' - ' + i18n.__('Season %s', episodeSummary.season) + ', ' + i18n.__('Episode %s', episodeSummary.number) + ' - ' + episodeSummary.title;
-                                                        }
-                                                        handleTorrent_fnc();
-                                                    }).catch(function (err) {
-                                                        // It might be a movie with the name of a TV Series ? Messy hollywood !
-                                                        tryMovie(tvshowname);
-                                                    });
+                                Common.matchTorrent(torrent.name, torrentMetadata)
+                                    .then(function (res) {
+                                        if (res.error) {
+                                            win.warn(res.error);
+                                            sub_data.filename = res.filename;
+                                            title = res.filename;
+                                            getSubtitles(sub_data);
+                                            handleTorrent_fnc();
+                                        } else {
+                                            switch (res.type) {
+                                            case 'movie':
+                                                $('.loading-background').css('background-image', 'url(' + res.movie.image + ')');
+                                                sub_data.imdbid = res.movie.imdbid;
+                                                model.set('imdb_id', sub_data.imdbid);
+                                                title = res.movie.title;
+                                                break;
+                                            case 'episode':
+                                                $('.loading-background').css('background-image', 'url(' + res.show.episode.image + ')');
+                                                sub_data.imdbid = res.show.imdbid;
+                                                sub_data.season = res.show.episode.season;
+                                                sub_data.episode = res.show.episode.episode;
+                                                model.set('tvdb_id', res.show.tvdbid);
+                                                model.set('episode_id', res.show.episode.tvdbid);
+                                                model.set('imdb_id', res.show.imdbid);
+                                                model.set('episode', sub_data.season);
+                                                model.set('season', sub_data.episode);
+                                                title = res.show.title + ' - ' + i18n.__('Season %s', res.show.episode.season) + ', ' + i18n.__('Episode %s', res.show.episode.episode) + ' - ' + res.show.episode.title;
+                                                break;
+                                            default:
+                                                sub_data.filename = res.filename;
                                             }
-                                        }).catch(function (err) {
-                                            // It might be a movie ? Let's try that !
-                                            tryMovie(tvshowname);
-                                        });
-                                } else {
-                                    getSubtitles(sub_data);
-                                    handleTorrent_fnc();
-                                }
+                                            getSubtitles(sub_data);
+                                            handleTorrent_fnc();
+                                        }
+                                    })
+                                    .catch(function (err) {
+                                        title = $.trim(torrent.name.replace('[rartv]', '').replace('[PublicHD]', '').replace('[ettv]', '').replace('[eztv]', '')).replace(/[\s]/g, '.');
+                                        sub_data.filename = title;
+                                        win.error('An error occured while trying to get subtitles', err);
+                                        getSubtitles(sub_data);
+                                        handleTorrent_fnc(); //try and force play
+                                    });
+
                             } else {
                                 hasSubtitles = true;
                                 handleTorrent_fnc();

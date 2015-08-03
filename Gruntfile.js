@@ -181,8 +181,8 @@ module.exports = function (grunt) {
                     paths: ['src/app/styl']
                 },
                 expand: true,
-                cwd: 'src/app/styl/third_party',
-                src: '*.styl',
+                cwd: 'src/app/styl',
+                src: 'third_party/*.styl',
                 dest: 'src/app/themes/',
                 ext: '.css'
             },
