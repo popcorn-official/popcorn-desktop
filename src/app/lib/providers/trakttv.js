@@ -206,6 +206,9 @@
     };
 
     TraktTv.prototype.scrobble = function (action, type, id, progress) {
+        if (!isValid(id)) {
+            return;
+        }
         if (type === 'movie') {
             return this.post('scrobble/' + action, {
                 movie: {
@@ -334,6 +337,9 @@
             }
         },
         addToHistory: function (type, id) {
+            if (!isValid(id)) {
+                return;
+            }
             if (type === 'movie') {
                 return this.post('sync/history', {
                     movies: [{
@@ -354,6 +360,9 @@
             }
         },
         removeFromHistory: function (type, id) {
+            if (!isValid(id)) {
+                return;
+            }
             if (type === 'movie') {
                 return this.post('sync/history/remove', {
                     movies: [{
@@ -431,7 +440,6 @@
                 icon: 'src/app/images/icon.png',
                 toolbar: false,
                 resizable: false,
-                show_in_taskbar: false,
                 width: 600,
                 height: 600
             });
@@ -694,6 +702,14 @@
             break;
         }
     }
+
+    var isValid = function (id) {
+        if (!id || id.toString().indexOf('mal') > -1 || id.toString().indexOf('-') > -1) {
+            return false;
+        } else {
+            return true;
+        }
+    };
 
     App.vent.on('show:watched', onShowWatched);
     App.vent.on('show:unwatched', onShowUnWatched);

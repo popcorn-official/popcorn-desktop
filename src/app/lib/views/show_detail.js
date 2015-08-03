@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var torrentHealth = require('torrent-health');
+    var torrentHealth = require('torrent-tracker-health');
     var cancelTorrentHealth = function () {};
     var torrentHealthRestarted = null;
 
@@ -813,7 +813,7 @@
             cancelTorrentHealth();
 
             // Use fancy coding to cancel
-            // pending torrent-health's
+            // pending torrent-tracker-health's
             var cancelled = false;
             cancelTorrentHealth = function () {
                 cancelled = true;

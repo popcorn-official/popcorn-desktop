@@ -28,7 +28,7 @@
         "position": "center"
     },
     "dependencies": {
-        "adm-zip": "https://github.com/xeoncore/adm-zip/archive/7b9391c766d4962c6b37ece94cb51920ecd22e55.tar.gz",
+        "adm-zip": "0.4.7",
         "airplay-js": "git+https://git.popcorntime.io/mirrors/node-airplay-js.git",
         "async": "0.9.0",
         "chromecast-js": "git+https://git.popcorntime.io/mirrors/chromecast-js.git",
@@ -37,7 +37,7 @@
         "iconv-lite": "^0.4.7",
         "jschardet": "1.1.1",
         "json-rpc2": "^0.8.1",
-        "kat-api": "git+https://git.popcorntime.io/popcorntime/kat-api.git",
+        "kat-api": "^0.0.3",
         "memoizee": "^0.3.8",
         "mkdirp": "*",
         "moment": "^2.10.2",
@@ -49,7 +49,7 @@
         "node-webkit-fdialogs": "latest",
         "os-name": "^1.0.3",
         "peerflix": "git+https://git.popcorntime.io/mirrors/peerflix.git",
-        "opensubtitles-api": "git+https://git.popcorntime.io/popcorntime/opensubtitles-api.git",
+        "opensubtitles-api": "^0.0.3",
         "q": "2.0.3",
         "read-torrent": "1.3.0",
         "readdirp": "*",
@@ -60,9 +60,9 @@
         "strike-api": "0.2.0",
         "tar": "^1.0.3",
         "temp": "^0.8.1",
-        "torrent-health": "git+https://git.popcorntime.io/mirrors/torrent-health.git",
+        "torrent-tracker-health": "^0.1.4",
         "underscore": "^1.8.3",
-        "upnp-mediarenderer-client": "git+https://github.com/thibauts/node-upnp-mediarenderer-client.git",
+        "upnp-mediarenderer-client": "^1.2.1",
         "URIjs": "^1.15.0",
         "xmlbuilder": "^2.6.2"
     },
