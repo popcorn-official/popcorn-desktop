@@ -105,7 +105,7 @@
             } else if (response.statusCode >= 400) {
                 defer.resolve({});
             } else {
-                defer.resolve(JSON.parse(body));
+                defer.resolve(Common.sanitize(JSON.parse(body)));
             }
         });
 
@@ -137,7 +137,7 @@
             } else if (response.statusCode >= 400) {
                 defer.resolve({});
             } else {
-                defer.resolve(JSON.parse(body));
+                defer.resolve(Common.sanitize(JSON.parse(body)));
             }
         });
 

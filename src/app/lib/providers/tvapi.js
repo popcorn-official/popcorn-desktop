@@ -72,7 +72,7 @@
                         entry.type = 'show';
                     });
                     deferred.resolve({
-                        results: data,
+                        results: Common.sanitize(data),
                         hasMore: true
                     });
                 }
@@ -111,6 +111,7 @@
                         reject(err);
 
                     } else {
+                        data = Common.sanitize(data);
                         // we cache our new element or translate synopsis
 
                         if (Settings.translateSynopsis && Settings.language !== 'en') {
@@ -146,7 +147,7 @@
                                                 }
                                             }
                                         }
-                                        resolve(data);
+                                        resolve(Common.sanitize(data));
                                     })
                                     .catch(function (error) {
                                         resolve(data);
