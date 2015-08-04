@@ -47,29 +47,6 @@
             params.sort = filters.sorter;
         }
 
-        /*var url = AdvSettings.get('tvshowAPI').url + 'shows/' + filters.page + '?' + querystring.stringify(params).replace(/%25%20/g, '%20');
-        win.info('Request to TVApi', url);
-        request({
-            url: url,
-            json: true
-        }, function (error, response, data) {
-            if (error || response.statusCode >= 400) {
-                deferred.reject(error);
-            } else if (!data || (data.error && data.error !== 'No movies found')) {
-                var err = data ? data.error : 'No data returned';
-                win.error('API error:', err);
-                deferred.reject(err);
-            } else {
-                data.forEach(function (entry) {
-                    entry.type = 'show';
-                });
-                deferred.resolve({
-                    results: data,
-                    hasMore: true
-                });
-            }
-        });*/
-
         function get (index) {
             var options = {
                 url: Settings.tvshowAPI[index].url + 'shows/' + filters.page + '?' + querystring.stringify(params).replace(/%25%20/g, '%20'),
