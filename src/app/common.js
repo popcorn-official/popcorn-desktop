@@ -346,26 +346,30 @@ Common.matchTorrent = function (file, torrent) {
  };
 
 Common.sanitize = function (input) {
-    function recurse(initial) {
-        var result = {};
-        for (prop in initial) {
-            if ({}.hasOwnProperty.call(initial, prop)) {
-                result[prop] = initial[prop];
-                if (initial[prop].constructor === Object) {
-                    result[prop] = recurse(initial[prop]);
-                }
-                else if (initial[prop].constructor === Array) {
-                    for (var i = 0; i < initial[prop].length; i++) {
-                        result[prop][i] = require('sanitizer').sanitize(initial[prop][i]);
-                    }
-                }
-                else if (initial[prop].constructor === String) {
-                    result[prop] = require('sanitizer').sanitize(initial[prop]);
-                }
+    function sanitizeString(string) {
+        return require('sanitizer').sanitize(string);
+    }
+    function sanitizeObject(obj) {
+        var result = obj;
+        for (var prop in obj) {
+            result[prop] = obj[prop];
+            if (obj[prop].constructor === Object || obj[prop].constructor === Array) {
+                result[prop] = sanitizeObject(obj[prop]);
+            }
+            else if (obj[prop].constructor === String) {
+                result[prop] = sanitizeString(obj[prop]);
             }
         }
         return result;
     }
-    var output = recurse(input);
+
+    var output = input;
+    if (input.constructor === Object || input.constructor === Array) {
+        output = sanitizeObject(input);
+    }
+    else if (input.constructor === String) {
+        output = sanitizeString(input);
+    }
+
     return output;
 };
