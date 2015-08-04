@@ -208,7 +208,7 @@
             });
 
             gitlab.users.session(email, password, function (response) {
-                callback(Common.sanitize(response.private_token));
+                callback(response.private_token);
             });
         },
 
