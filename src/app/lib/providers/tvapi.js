@@ -47,7 +47,7 @@
             params.sort = filters.sorter;
         }
 
-        var url = AdvSettings.get('tvshowAPI').url + 'shows/' + filters.page + '?' + querystring.stringify(params).replace(/%25%20/g, '%20');
+        /*var url = AdvSettings.get('tvshowAPI').url + 'shows/' + filters.page + '?' + querystring.stringify(params).replace(/%25%20/g, '%20');
         win.info('Request to TVApi', url);
         request({
             url: url,
@@ -68,7 +68,40 @@
                     hasMore: true
                 });
             }
-        });
+        });*/
+
+        function get (index) {
+            var options = {
+                url: Settings.tvshowAPI[index].url + 'shows/' + filters.page + '?' + querystring.stringify(params).replace(/%25%20/g, '%20'),
+                json: true
+            }
+            var req = jQuery.extend(true, {}, Settings.tvshowAPI[index], options);
+            win.info('Request to TVApi', req.url);
+            request(req, function (err, res, data) {
+                if (err || res.statusCode >= 400) {
+                    win.warn('TVAPI endpoint \'%s\' failed.', Settings.ytsAPI[index].uri);
+                    if (index + 1 >= Settings.tvshowAPI.length) {
+                        return deferred.reject(err || 'Status Code is above 400');
+                    } else {
+                        get(index+1);
+                    }
+                    return;
+                } else if (!data || (data.error && data.error !== 'No movies found')) {
+                    err = data ? data.status_message : 'No data returned';
+                    win.error('API error:', err);
+                    return deferred.reject(err);
+                } else {
+                    data.forEach(function (entry) {
+                        entry.type = 'show';
+                    });
+                    deferred.resolve({
+                        results: data,
+                        hasMore: true
+                    });
+                }
+            });
+        }
+        get(0);
 
         return deferred.promise;
     };
