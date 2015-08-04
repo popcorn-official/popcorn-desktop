@@ -344,3 +344,28 @@ Common.matchTorrent = function (file, torrent) {
 
     return defer.promise;
  };
+
+Common.sanitize = function (input) {
+    function recurse(initial) {
+        var result = {};
+        for (prop in initial) {
+            if ({}.hasOwnProperty.call(initial, prop)) {
+                result[prop] = initial[prop];
+                if (initial[prop].constructor === Object) {
+                    result[prop] = recurse(initial[prop]);
+                }
+                else if (initial[prop].constructor === Array) {
+                    for (var i = 0; i < initial[prop].length; i++) {
+                        result[prop][i] = require('sanitizer').sanitize(initial[prop][i]);
+                    }
+                }
+                else if (initial[prop].constructor === String) {
+                    result[prop] = require('sanitizer').sanitize(initial[prop]);
+                }
+            }
+        }
+        return result;
+    }
+    var output = recurse(input);
+    return output;
+};
