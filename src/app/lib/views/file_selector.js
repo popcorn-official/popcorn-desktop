@@ -26,7 +26,8 @@
                 _link = _link[0]; // keep only the first (i.e: display name)
                 _link = _link.replace(/\+/g, '.'); // replace + by .
                 _link = _link.replace(/%5B/g, '[').replace(/%5D/g, ']');
-                link = _link.replace(/%28/g, '(').replace(/%29/g, ')');
+                _link = _link.replace(/%28/g, '(').replace(/%29/g, ')');
+                link = _link.replace(/\W$/, ''); // remove trailing non-word char
                 return link;
             };
         },

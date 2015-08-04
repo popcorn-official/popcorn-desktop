@@ -17,12 +17,12 @@
                 <input id="issue-pw" type="password" name="gitpassword" placeholder="<%= i18n.__('Password') %>"> <i class="fa fa-spinner fa-spin issue-loading-icon"></i>
                 <br>
                 <div class="button login-issue"><%= i18n.__("Log in") %></div>
-                <div class="button anonymous-issue"><%= i18n.__("Report anonymously") %></div>
-                <p>
+                <!--div class="button anonymous-issue"><%= i18n.__("Report anonymously") %></div-->
+                <!--p>
                     <%= i18n.__("Note regarding anonymous reports:") %><br>
                     <span class="note"><%= i18n.__("You will not be able to edit or delete your report once sent.") %></span><br>
                     <span class="note"><%= i18n.__("If any additionnal information is required, the report might be closed, as you won't be able to provide them.") %></span>
-                </p>
+                </p-->
             </div>
 
             <div id="issue-search">
@@ -42,7 +42,8 @@
             <div id="issue-form">
                 <div class="report-info">
                     <p><%= i18n.__("Step 2: Report a new issue") %></p>
-                    <em><%= i18n.__("Note: please don't use this form to contact us. It is limited to bug reports only.") %></em>
+                    <em><%= i18n.__("Note: please don't use this form to contact us. It is limited to bug reports only.") %></em><br>
+                    <em><%= i18n.__("Warning: Always use English when contacting us, or we might not understand you.") %></em>
                 </div>
 
                 <h2><%= i18n.__("Title") %></h2>

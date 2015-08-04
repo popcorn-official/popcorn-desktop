@@ -3,11 +3,11 @@
 
     var Notification = Backbone.Model.extend({
         defaults: {
-            body: i18n.__('Notification Body'),
+            body: 'Notification Body',
             buttons: [],
             showClose: true,
             showRestart: false,
-            title: i18n.__('Notification Title'),
+            title: 'Notification Title',
             type: 'info'
         },
 

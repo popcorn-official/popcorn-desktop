@@ -427,7 +427,6 @@
                     icon: 'src/app/images/icon.png',
                     toolbar: false,
                     resizable: false,
-                    show_in_taskbar: false,
                     width: 600,
                     height: 600
                 });
