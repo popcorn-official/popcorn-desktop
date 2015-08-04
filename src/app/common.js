@@ -353,10 +353,10 @@ Common.sanitize = function (input) {
         var result = obj;
         for (var prop in obj) {
             result[prop] = obj[prop];
-            if (obj[prop].constructor === Object || obj[prop].constructor === Array) {
+            if (obj[prop] && (obj[prop].constructor === Object || obj[prop].constructor === Array)) {
                 result[prop] = sanitizeObject(obj[prop]);
             }
-            else if (obj[prop].constructor === String) {
+            else if (obj[prop] && obj[prop].constructor === String) {
                 result[prop] = sanitizeString(obj[prop]);
             }
         }
@@ -364,10 +364,10 @@ Common.sanitize = function (input) {
     }
 
     var output = input;
-    if (input.constructor === Object || input.constructor === Array) {
+    if (input && (input.constructor === Object || input.constructor === Array)) {
         output = sanitizeObject(input);
     }
-    else if (input.constructor === String) {
+    else if (input && input.constructor === String) {
         output = sanitizeString(input);
     }
 
