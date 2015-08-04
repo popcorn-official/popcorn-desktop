@@ -64,7 +64,7 @@
                 results = [];
 
             gitlab.projects.issues.list(PT_id, function (data) {
-
+                data = Common.sanitize(data);
                 //stores in 'results' all issues (id + title) containing the keyword
                 data.forEach(function (item) {
                     if (item.state === 'closed') {
@@ -164,7 +164,7 @@
                     labels: 'In-App Reporter'
                 },
                 function (callback) {
-
+                    callback = Common.sanitize(callback);
                     issue_id = PT_url + callback.iid;
 
                     win.debug('Issue created:', issue_id);
@@ -208,7 +208,7 @@
             });
 
             gitlab.users.session(email, password, function (response) {
-                callback(response.private_token);
+                callback(Common.sanitize(response.private_token));
             });
         },
 

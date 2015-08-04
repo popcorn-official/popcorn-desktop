@@ -75,7 +75,7 @@
             allSubs[imdbId] = filteredSubtitle;
         });
 
-        return allSubs;
+        return Common.sanitize(allSubs);
     };
 
     YSubs.prototype.query = function (ids) {
