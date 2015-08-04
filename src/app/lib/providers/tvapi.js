@@ -4,7 +4,6 @@
     var request = require('request');
     var Q = require('q');
     var inherits = require('util').inherits;
-    var sanitizer = require('sanitizer');
 
     var URL = false;
     var TVApi = function () {
@@ -114,7 +113,7 @@
                             .then(function (localization) {
                                 clearTimeout(reqTimeout);
                                 _.extend(data, {
-                                    synopsis: sanitizer.sanitize(localization.Overview)
+                                    synopsis: localization.Overview
                                 });
                                 for (var i = 0; i < localization.Episodes.length; i++) {
                                     for (var j = 0; j < data.episodes.length; j++) {
