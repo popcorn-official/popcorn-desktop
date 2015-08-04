@@ -413,7 +413,10 @@
         <div class="content">
             <span>
                 <p><%= i18n.__("TV Show API Endpoint") %></p>
-                <input id="tvshowAPI" type="text" size="50" name="tvshowAPI" value="<%=Settings.tvshowAPI.url%>">
+                    <input id="tvshowAPI" type="text" size="50" name="tvshowAPI" value="<%=Settings.tvshowAPI[0].url%>">
+                    <% if (Settings.tvshowAPI.length <= 1) { %>
+                    &nbsp;&nbsp;<i class="reset-tvshowAPI fa fa-undo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__('Reset to Default Settings') %>"></i>
+                    <% } %>
             </span>
             <span>
                 <p><%= i18n.__("Connection Limit") %></p>
