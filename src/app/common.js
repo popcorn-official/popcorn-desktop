@@ -345,3 +345,32 @@ Common.matchTorrent = function (file, torrent) {
 
     return defer.promise;
 };
+
+Common.sanitize = function (input) {
+    function sanitizeString(string) {
+        return require('sanitizer').sanitize(string);
+    }
+    function sanitizeObject(obj) {
+        var result = obj;
+        for (var prop in obj) {
+            result[prop] = obj[prop];
+            if (obj[prop] && (obj[prop].constructor === Object || obj[prop].constructor === Array)) {
+                result[prop] = sanitizeObject(obj[prop]);
+            }
+            else if (obj[prop] && obj[prop].constructor === String) {
+                result[prop] = sanitizeString(obj[prop]);
+            }
+        }
+        return result;
+    }
+
+    var output = input;
+    if (input && (input.constructor === Object || input.constructor === Array)) {
+        output = sanitizeObject(input);
+    }
+    else if (input && input.constructor === String) {
+        output = sanitizeString(input);
+    }
+
+    return output;
+};
