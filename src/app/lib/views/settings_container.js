@@ -36,6 +36,7 @@
             'click #unauthTrakt': 'disconnectTrakt',
             'click #connect-with-tvst': 'connectWithTvst',
             'click #disconnect-tvst': 'disconnectTvst',
+            'click .reset-tvshowAPI': 'resetTVShowAPI',
             'change #tmpLocation': 'updateCacheDirectory',
             'click #syncTrakt': 'syncTrakt',
             'click .qr-code': 'generateQRcode',
@@ -125,6 +126,31 @@
             App.vent.trigger('settings:close');
         },
 
+        resetTVShowAPI: function () {
+            var value = [
+                {
+                    url: 'https://eztvapi.re/',
+                    strictSSL: true
+                }, {
+                    url: 'https://api.popcorntime.io/',
+                    strictSSL: true
+                }, {
+                    url: 'http://tv.ytspt.re/',
+                    strictSSL: false
+                }
+            ];
+            App.settings['tvshowAPI'] = value;
+            //save to db
+            App.db.writeSetting({
+                key: 'tvshowAPI',
+                value: value
+            }).then(function () {
+                that.ui.success_alert.show().delay(3000).fadeOut(400);
+            });
+
+            that.syncSetting('tvshowAPI', value);
+        },
+
         generateQRcode: function () {
             var qrcodecanvus = document.getElementById('qrcode'),
                 QRCodeInfo = {
@@ -171,11 +197,10 @@
                 if (value.substr(0, 8) !== 'https://' && value.substr(0, 7) !== 'http://') {
                     value = 'http://' + value;
                 }
-                value = {
+                value = [{
                     url: value,
-                    index: 0,
-                    proxies: ['']
-                };
+                    strictSSL: value.substr(0, 8) === 'https://'
+                }];
                 break;
             case 'subtitle_size':
             case 'tv_detail_jump_to':
