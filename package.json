@@ -49,7 +49,7 @@
         "node-webkit-fdialogs": "latest",
         "os-name": "^1.0.3",
         "peerflix": "git+https://git.popcorntime.io/mirrors/peerflix.git",
-        "opensubtitles-api": "^0.0.3",
+        "opensubtitles-api": "^1.0.0",
         "q": "2.0.3",
         "read-torrent": "1.3.0",
         "readdirp": "*",
