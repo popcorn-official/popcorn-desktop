@@ -683,28 +683,28 @@
             _this.resetHealth();
         },
         toggleQuality: function (e) {
-			var qualities = {
-				q480p: {
-					active: _this.ui.q480p.hasClass('active'),
-					next: 'q720p'
-				},
-				q720p: {
-					active: _this.ui.q720p.hasClass('active'),
-					next: 'q1080p'
-				},
-				q1080p: {
-					active: _this.ui.q1080p.hasClass('active'),
-					next: 'q480p'
-				},
-			};
+            var qualities = {
+                q480p: {
+                    active: _this.ui.q480p.hasClass('active'),
+                    next: 'q720p'
+                },
+                q720p: {
+                    active: _this.ui.q720p.hasClass('active'),
+                    next: 'q1080p'
+                },
+                q1080p: {
+                    active: _this.ui.q1080p.hasClass('active'),
+                    next: 'q480p'
+                },
+            };
 
-			for (var q in qualities) {
-				if (qualities[q].active) {
-					var fake_e = {};
-					fake_e.currentTarget = $(_this.ui[qualities[q].next]);
-					_this.toggleShowQuality(fake_e);
-				}
-			}
+            for (var q in qualities) {
+                if (qualities[q].active) {
+                    var fake_e = {};
+                    fake_e.currentTarget = $(_this.ui[qualities[q].next]);
+                    _this.toggleShowQuality(fake_e);
+                }
+            }
         },
 
         nextEpisode: function (e) {

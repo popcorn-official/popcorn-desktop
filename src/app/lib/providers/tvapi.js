@@ -47,11 +47,11 @@
             params.sort = filters.sorter;
         }
 
-        function get (index) {
+        function get(index) {
             var options = {
                 url: Settings.tvshowAPI[index].url + 'shows/' + filters.page + '?' + querystring.stringify(params).replace(/%25%20/g, '%20'),
                 json: true
-            }
+            };
             var req = jQuery.extend(true, {}, Settings.tvshowAPI[index], options);
             win.info('Request to TVApi', req.url);
             request(req, function (err, res, data) {
@@ -60,7 +60,7 @@
                     if (index + 1 >= Settings.tvshowAPI.length) {
                         return deferred.reject(err || 'Status Code is above 400');
                     } else {
-                        get(index+1);
+                        get(index + 1);
                     }
                     return;
                 } else if (!data || (data.error && data.error !== 'No movies found')) {
@@ -88,20 +88,20 @@
         debug === undefined ? debug = true : '';
         return Q.Promise(function (resolve, reject) {
 
-            function get (index) {
+            function get(index) {
                 var options = {
                     url: Settings.tvshowAPI[index].url + 'show/' + torrent_id,
                     json: true
-                }
+                };
                 var req = jQuery.extend(true, {}, Settings.tvshowAPI[index], options);
                 win.info('Request to TVApi', req.url);
                 request(req, function (error, response, data) {
                     if (error || response.statusCode >= 400) {
                         win.warn('TVAPI endpoint \'%s\' failed.', Settings.tvshowAPI[index].url);
                         if (index + 1 >= Settings.tvshowAPI.length) {
-                            return deferred.reject(error || 'Status Code is above 400');
+                            return reject(error || 'Status Code is above 400');
                         } else {
-                            get(index+1);
+                            get(index + 1);
                         }
                         return;
                     } else if (!data || (data.error && data.error !== 'No data returned') || data.episodes.length === 0) {

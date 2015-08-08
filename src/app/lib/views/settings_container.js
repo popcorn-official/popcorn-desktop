@@ -127,18 +127,16 @@
         },
 
         resetTVShowAPI: function () {
-            var value = [
-                {
-                    url: 'https://eztvapi.re/',
-                    strictSSL: true
-                }, {
-                    url: 'https://api.popcorntime.io/',
-                    strictSSL: true
-                }, {
-                    url: 'http://tv.ytspt.re/',
-                    strictSSL: false
-                }
-            ];
+            var value = [{
+                url: 'https://eztvapi.re/',
+                strictSSL: true
+            }, {
+                url: 'https://api.popcorntime.io/',
+                strictSSL: true
+            }, {
+                url: 'http://tv.ytspt.re/',
+                strictSSL: false
+            }];
             App.settings['tvshowAPI'] = value;
             //save to db
             App.db.writeSetting({
