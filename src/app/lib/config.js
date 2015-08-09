@@ -32,8 +32,8 @@
         ],
 
         sorters: [
-            'trending',
             'popularity',
+            'trending',
             'last added',
             'year',
             'title',
@@ -41,8 +41,8 @@
         ],
 
         sorters_tv: [
-            'trending',
             'popularity',
+            'trending',
             'updated',
             'year',
             'name',
