@@ -36,7 +36,7 @@
             'click #unauthTrakt': 'disconnectTrakt',
             'click #connect-with-tvst': 'connectWithTvst',
             'click #disconnect-tvst': 'disconnectTvst',
-            'click .reset-tvshowAPI': 'resetTVShowAPI',
+            'click .reset-tvAPI': 'resetTVShowAPI',
             'change #tmpLocation': 'updateCacheDirectory',
             'click #syncTrakt': 'syncTrakt',
             'click .qr-code': 'generateQRcode',
@@ -137,16 +137,16 @@
                 url: 'http://tv.ytspt.re/',
                 strictSSL: false
             }];
-            App.settings['tvshowAPI'] = value;
+            App.settings['tvAPI'] = value;
             //save to db
             App.db.writeSetting({
-                key: 'tvshowAPI',
+                key: 'tvAPI',
                 value: value
             }).then(function () {
                 that.ui.success_alert.show().delay(3000).fadeOut(400);
             });
 
-            that.syncSetting('tvshowAPI', value);
+            that.syncSetting('tvAPI', value);
         },
 
         generateQRcode: function () {
@@ -187,7 +187,7 @@
                 apiDataChanged = true;
                 value = parseInt(field.val());
                 break;
-            case 'tvshowAPI':
+            case 'tvAPI':
                 value = field.val();
                 if (value.substr(-1) !== '/') {
                     value += '/';
@@ -350,7 +350,7 @@
                 App.vent.trigger('movies:list');
                 App.vent.trigger('settings:show');
                 break;
-            case 'tvshowAPI':
+            case 'tvAPI':
                 App.Providers.delete('TVApi');
                 App.vent.trigger('movies:list');
                 App.vent.trigger('settings:show');

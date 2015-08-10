@@ -49,15 +49,15 @@
 
         function get(index) {
             var options = {
-                url: Settings.tvshowAPI[index].url + 'shows/' + filters.page + '?' + querystring.stringify(params).replace(/%25%20/g, '%20'),
+                url: Settings.tvAPI[index].url + 'shows/' + filters.page + '?' + querystring.stringify(params).replace(/%25%20/g, '%20'),
                 json: true
             };
-            var req = jQuery.extend(true, {}, Settings.tvshowAPI[index], options);
+            var req = jQuery.extend(true, {}, Settings.tvAPI[index], options);
             win.info('Request to TVApi', req.url);
             request(req, function (err, res, data) {
                 if (err || res.statusCode >= 400) {
-                    win.warn('TVAPI endpoint \'%s\' failed.', Settings.tvshowAPI[index].url);
-                    if (index + 1 >= Settings.tvshowAPI.length) {
+                    win.warn('TVAPI endpoint \'%s\' failed.', Settings.tvAPI[index].url);
+                    if (index + 1 >= Settings.tvAPI.length) {
                         return deferred.reject(err || 'Status Code is above 400');
                     } else {
                         get(index + 1);
@@ -90,15 +90,15 @@
 
             function get(index) {
                 var options = {
-                    url: Settings.tvshowAPI[index].url + 'show/' + torrent_id,
+                    url: Settings.tvAPI[index].url + 'show/' + torrent_id,
                     json: true
                 };
-                var req = jQuery.extend(true, {}, Settings.tvshowAPI[index], options);
+                var req = jQuery.extend(true, {}, Settings.tvAPI[index], options);
                 win.info('Request to TVApi', req.url);
                 request(req, function (error, response, data) {
                     if (error || response.statusCode >= 400) {
-                        win.warn('TVAPI endpoint \'%s\' failed.', Settings.tvshowAPI[index].url);
-                        if (index + 1 >= Settings.tvshowAPI.length) {
+                        win.warn('TVAPI endpoint \'%s\' failed.', Settings.tvAPI[index].url);
+                        if (index + 1 >= Settings.tvAPI.length) {
                             return reject(error || 'Status Code is above 400');
                         } else {
                             get(index + 1);

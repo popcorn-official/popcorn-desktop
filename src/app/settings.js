@@ -93,7 +93,7 @@ Settings.vpn = false;
 Settings.vpnUsername = '';
 Settings.vpnPassword = '';
 
-Settings.tvshowAPI = [{
+Settings.tvAPI = [{
     url: 'https://eztvapi.re/',
     strictSSL: true
 }, {
