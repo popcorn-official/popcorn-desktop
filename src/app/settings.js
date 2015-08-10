@@ -93,23 +93,35 @@ Settings.vpn = false;
 Settings.vpnUsername = '';
 Settings.vpnPassword = '';
 
-Settings.tvshowAPI = {
+Settings.tvshowAPI = [{
     url: 'https://eztvapi.re/',
-    index: 0,
-    proxies: [{
-        url: 'https://eztvapi.re/',
-        ssl: false,
-        fingerprint: /"status":"online"/,
-    }, {
-        url: 'https://api.popcorntime.io/',
-        ssl: false,
-        fingerprint: /"status":"online"/
-    }, {
-        url: 'http://tv.ytspt.re/',
-        ssl: false,
-        fingerprint: /"status":"online"/
-    }]
-};
+    strictSSL: true
+}, {
+    url: 'https://api.popcorntime.io/',
+    strictSSL: true
+}, {
+    url: 'http://tv.ytspt.re/',
+    strictSSL: false
+}];
+
+Settings.ytsAPI = [{
+    uri: 'https://yts.to/',
+    strictSSL: true
+}, {
+    uri: 'https://cloudflare.com/',
+    headers: {
+        'Host': 'xor.image.yt',
+        'User-Agent': 'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/3.8.0'
+    },
+    strictSSL: true
+}, {
+    uri: 'http://cloudflare.com/',
+    headers: {
+        'Host': 'xor.image.yt',
+        'User-Agent': 'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/3.8.0'
+    },
+    strictSSL: false
+}];
 
 Settings.updateEndpoint = {
     url: 'https://popcorntime.re/',

@@ -239,17 +239,13 @@
                         return;
                     }
                     var stdoutParse = stdout.split('\n');
-                    stdoutParse = stdoutParse[stdoutParse.length - 1] !== '' ? stdoutParse[stdoutParse.length - 1]:stdoutParse[stdoutParse.length - 2];
-                    stdoutParse = stdoutParse.split(' ');
-                    stdoutParse.forEach(function (obj) {
-                        if (obj.match(/\d+(\.|\,)/) !== null) {
-                            stdoutParse = obj;
-                            return;
+                    stdoutParse = stdoutParse[stdoutParse.length - 1] !== '' ? stdoutParse[stdoutParse.length - 1] : stdoutParse[stdoutParse.length - 2];
+                    var regx = stdoutParse.match(/\d{1,3}(\.|\,|\s)\d{3}.*(\.|\,|\s)\d{3}\s/); // will match at least 1MB.
+                    if (regx !== null) {
+                        var freespace = regx[0].replace(/\D/g, '') / (1024 * 1024 * 1024);
+                        if (freespace < minspace) {
+                            $('#player .warning-nospace').css('display', 'block');
                         }
-                    });
-                    var freespace = stdoutParse.replace(/\D/g, '') / (1024 * 1024 * 1024);
-                    if (freespace < minspace) {
-                        $('#player .warning-nospace').css('display', 'block');
                     }
                 });
             } else {

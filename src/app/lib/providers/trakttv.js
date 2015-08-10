@@ -428,7 +428,7 @@
             var defer = Q.defer();
             var url = false;
 
-            var API_URI = 'http://trakt.tv';
+            var API_URI = 'https://trakt.tv';
             var OAUTH_URI = API_URI + '/oauth/authorize?response_type=code&client_id=' + CLIENT_ID;
 
             var gui = require('nw.gui');

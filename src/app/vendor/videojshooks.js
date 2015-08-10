@@ -278,6 +278,7 @@ vjs.TextTrack.prototype.load = function () {
             var targetEncodingCharset = 'utf8';
 
             var parse = function (strings) {
+                //callback(strings)
                 strings = strings
                     .replace(/\{.*\}/g, '') // {/pos(x,y)}
                     .replace(/(- |==|sync).*[\s\S].*[\s\S].*[\s\S].*[\s\S].*\.(com|org|net|edu)/ig, '') // various teams

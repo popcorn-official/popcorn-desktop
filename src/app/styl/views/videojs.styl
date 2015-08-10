@@ -413,10 +413,11 @@
                 line-height: 1.4em;
                 font-size: 1.2em;
                 text-align: center;
+				color: #fff;
                 outline: 0;
                 &.vjs-selected {
-                    color: #2d75df;
-                    background-color: #151517;
+                    color: $ButtonText;
+                    background-color: $PlayerColor;
                     outline: 0;
                 }
                 &.vjs-menu-title {
@@ -740,7 +741,8 @@
 .vjs-popcorn-skin .vjs-menu-button ul li:hover,
 .vjs-popcorn-skin .vjs-menu-button ul li.vjs-selected:focus,
 .vjs-popcorn-skin .vjs-menu-button ul li.vjs-selected:hover {
-    color: #2d75df;
+	background: lighten($PlayerColor, 3);
+    color: $ButtonText;
 }
 
 .vjs-popcorn-skin .vjs-captions-button:focus .vjs-control-content:before,

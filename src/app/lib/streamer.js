@@ -406,6 +406,7 @@
                                             case 'movie':
                                                 $('.loading-background').css('background-image', 'url(' + res.movie.image + ')');
                                                 sub_data.imdbid = res.movie.imdbid;
+                                                model.set('quality', res.quality);
                                                 model.set('imdb_id', sub_data.imdbid);
                                                 title = res.movie.title;
                                                 break;
@@ -414,6 +415,7 @@
                                                 sub_data.imdbid = res.show.imdbid;
                                                 sub_data.season = res.show.episode.season;
                                                 sub_data.episode = res.show.episode.episode;
+                                                model.set('quality', res.quality);
                                                 model.set('tvdb_id', res.show.tvdbid);
                                                 model.set('episode_id', res.show.episode.tvdbid);
                                                 model.set('imdb_id', res.show.imdbid);
@@ -428,7 +430,7 @@
                                         }
                                     })
                                     .catch(function (err) {
-                                        win.error('An error occured while trying to get subtitles', err);
+                                        win.error('An error occured while trying to get metadata and subtitles', err);
                                         getSubtitles(sub_data);
                                         handleTorrent_fnc(); //try and force play
                                     });
