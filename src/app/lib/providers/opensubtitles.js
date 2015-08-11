@@ -23,7 +23,7 @@
     };
 
     OpenSubtitles.prototype.fetch = function (queryParams) {
-        var openSRT = new OS('Popcorn Time v1');
+        var openSRT = new OS('Popcorn Time v' + (Settings.version || 1), (Settings.opensubtitlesUsername || ''), (Settings.opensubtitlesPassword || ''));
         return openSRT.search(queryParams)
             .then(formatForPopcorn);
     };
