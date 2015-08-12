@@ -262,7 +262,6 @@
             case 'opensubtitlesUsername':
             case 'opensubtitlesPassword':
                 return;
-                break;
             default:
                 win.warn('Setting not defined: ' + field.attr('name'));
             }
@@ -482,7 +481,7 @@
                 OS = require('opensubtitles-api');
 
             $('.opensubtitles-options .invalid-cross').hide();
-            
+
             if (usn !== '' && pw !== '') {
                 $('.opensubtitles-options .loading-spinner').show();
                 var OpenSubtitles = new OS('Popcorn Time v' + (Settings.version || 1), usn, Common.md5(pw));
@@ -495,7 +494,7 @@
                             AdvSettings.set('opensubtitlesAuthenticated', true);
                             $('.opensubtitles-options .loading-spinner').hide();
                             $('.opensubtitles-options .valid-tick').show();
-                            win.info('Setting changed: opensubtitlesAuthenticated - true')
+                            win.info('Setting changed: opensubtitlesAuthenticated - true');
                             return;
                         } else {
                             throw new Error('no token returned by OpenSubtitles');
@@ -510,9 +509,9 @@
             } else {
                 $('.opensubtitles-options .invalid-cross').show();
             }
-            
+
         },
-        
+
         disconnectOpensubtitles: function (e) {
             var self = this;
             AdvSettings.set('opensubtitlesUsername', '');
