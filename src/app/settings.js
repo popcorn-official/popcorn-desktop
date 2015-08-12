@@ -65,6 +65,11 @@ Settings.traktPlayback = true;
 // TVShow Time
 Settings.tvstAccessToken = '';
 
+// OpenSubtitles
+Settings.opensubtitlesAuthenticated = false;
+Settings.opensubtitlesUsername = '';
+Settings.opensubtitlesPassword = '';
+
 // Advanced options
 Settings.connectionLimit = 100;
 Settings.dhtLimit = 500;

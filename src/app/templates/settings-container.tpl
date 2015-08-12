@@ -290,7 +290,7 @@
     </section>
 
     <section id="trakt-tv">
-        <div class="title"><%= i18n.__("Trakt.tv") %></div>
+        <div class="title">Trakt.tv</div>
         <div class="content">
             <div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
                 <% if(App.Trakt.authenticated) { %>
@@ -349,6 +349,41 @@
 			</div>
 		</div>
 	</section>
+
+    <section id="opensubtitles">
+        <div class="title">OpenSubtitles</div>
+        <div class="content">
+            <div class="opensubtitles-options">
+                <% if(Settings.opensubtitlesAuthenticated) { %>
+                    <span>
+                        <%= i18n.__("You are currently connected to %s", "OpenSubtitles") %>.
+                        <a id="unauthOpensubtitles" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
+                    </span>
+                <% } else { %>
+					<span>
+						<p><%= i18n.__("Username") %></p>
+						<input type="text" size="50" id="opensubtitlesUsername" name="opensubtitlesUsername">
+                        <div class="loading-spinner" style="display: none"></div>
+                        <div class="valid-tick" style="display: none"></div>
+                        <div class="invalid-cross" style="display: none"></div>
+					</span>
+					<span>
+						<p><%= i18n.__("Password") %></p>
+						<input type="password" size="50" id="opensubtitlesPassword" name="opensubtitlesPassword">
+					</span>
+                    <span>
+                        <div class="btn-settings" id="authOpensubtitles">
+                            <i class="fa fa-user-plus">&nbsp;&nbsp;</i>
+                            <%= i18n.__("Connect To %s", "OpenSubtitles") %>
+                        </div>
+                    </span>
+					<span>
+						<em><%= i18n.__("Popcorn Time stores an encrypted hash of your password in your local database") %></em>
+					</span>
+                <% } %>
+            </div>
+        </div>
+    </section>
 
     <section id="features">
         <div class="title"><%= i18n.__("Features") %></div>
