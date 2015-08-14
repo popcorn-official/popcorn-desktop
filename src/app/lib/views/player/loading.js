@@ -106,7 +106,7 @@
                     this.ui.controls.css('visibility', 'visible');
                     this.ui.playingbarBox.css('visibility', 'visible');
                     this.ui.playingbar.css('width', '0%');
-                    this.ui.cancel_button.hide();
+                  
 
                     // Update gui on status update.
                     // uses listenTo so event is unsubscribed automatically when loading view closes.
