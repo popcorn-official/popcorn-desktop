@@ -190,6 +190,10 @@
                 genre: ''
             });
 
+            this.$('.genres .active').removeClass('active');
+            $($('.genres li a')[0]).addClass('active')
+            this.ui.genreValue.text(i18n.__('All'));
+
             this.ui.searchInput.blur();
 
             if (searchvalue === '') {
@@ -212,9 +216,12 @@
                 genre: ''
             });
 
+            this.$('.genres .active').removeClass('active');
+            $($('.genres li a')[0]).addClass('active')
+            this.ui.genreValue.text(i18n.__('All'));
+
             this.ui.searchInput.val('');
             this.ui.searchForm.removeClass('edited');
-
         },
 
         sortBy: function (e) {
