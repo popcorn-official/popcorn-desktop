@@ -420,7 +420,16 @@
                     data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
                         .then(function (data) {
                                 data.provider = that.model.get('provider');
-                                Database.addTVShow(data)
+                                promisifyDb(db.tvshows.find({
+                                        imdb_id: that.model.get('imdb_id').toString(),
+                                    }))
+                                    .then(function (res) {
+                                        if (res != null && res.length > 0) {
+                                            return Database.updateTVShow(data);
+                                        } else {
+                                            return Database.addTVShow(data);
+                                        }
+                                    })
                                     .then(function (idata) {
                                         return Database.addBookmark(that.model.get('imdb_id'), 'tvshow');
                                     })
@@ -428,11 +437,13 @@
                                         win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
                                         that.model.set('bookmarked', true);
                                         App.userBookmarks.push(that.model.get('imdb_id'));
+                                    }).catch(function(err){
+                                        win.error(err);
                                     });
-                            },
-                            function (err) {
-                                $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
-                            });
+                        }).catch(function (err) {
+                            win.error(err);
+                            $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
+                        });
                 }
                 break;
 
