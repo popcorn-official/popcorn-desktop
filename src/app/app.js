@@ -51,7 +51,7 @@ win.error = function () {
     var params = Array.prototype.slice.call(arguments, 1);
     params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: red;', 'color: black;');
     console.error.apply(console, params);
-    fs.appendFileSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'), '\n\n' + arguments[0]); // log errors;
+    fs.appendFileSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'), '\n\n' + (arguments[0].stack || arguments[0])); // log errors;
 };
 
 

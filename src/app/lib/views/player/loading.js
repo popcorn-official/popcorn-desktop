@@ -106,7 +106,7 @@
                     this.ui.controls.css('visibility', 'visible');
                     this.ui.playingbarBox.css('visibility', 'visible');
                     this.ui.playingbar.css('width', '0%');
-                    this.ui.cancel_button.hide();
+                  
 
                     // Update gui on status update.
                     // uses listenTo so event is unsubscribed automatically when loading view closes.
@@ -232,24 +232,20 @@
             if (process.platform === 'win32') {
                 var drive = Settings.tmpLocation.substr(0, 2);
 
-                cmd = 'dir ' + drive;
+                cmd = 'dir /-C ' + drive;
 
                 exec(cmd, function (error, stdout, stderr) {
                     if (error) {
                         return;
                     }
                     var stdoutParse = stdout.split('\n');
-                    stdoutParse = stdoutParse[stdoutParse.length - 1] !== '' ? stdoutParse[stdoutParse.length - 1]:stdoutParse[stdoutParse.length - 2];
-                    stdoutParse = stdoutParse.split(' ');
-                    stdoutParse.forEach(function (obj) {
-                        if (obj.match(/\d+(\.|\,)/) !== null) {
-                            stdoutParse = obj;
-                            return;
+                    stdoutParse = stdoutParse[stdoutParse.length - 1] !== '' ? stdoutParse[stdoutParse.length - 1] : stdoutParse[stdoutParse.length - 2];
+                    var regx = stdoutParse.match(/(\d+)/g);
+                    if (regx !== null) {
+                        var freespace = regx[regx.length - 1] / (1024 * 1024 * 1024);
+                        if (freespace < minspace) {
+                            $('#player .warning-nospace').css('display', 'block');
                         }
-                    });
-                    var freespace = stdoutParse.replace(/\D/g, '') / (1024 * 1024 * 1024);
-                    if (freespace < minspace) {
-                        $('#player .warning-nospace').css('display', 'block');
                     }
                 });
             } else {

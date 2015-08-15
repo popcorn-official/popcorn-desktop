@@ -206,13 +206,13 @@ Common.matchTorrent = function (file, torrent) {
                                 }
 
                             }).catch(function (err) {
-                                reject(new Error('An error occured while trying to get subtitles'));
+                                reject(new Error('Error while looking for metadata to get subtitles'));
                             });
                     }
 
                 })
                 .catch(function (err) {
-                    reject(new Error('An error occured while trying to get subtitles'));
+                    reject(new Error('Error while looking for metadata to get subtitles'));
                 });
         });
     };
@@ -299,6 +299,30 @@ Common.matchTorrent = function (file, torrent) {
         });
     };
 
+    var injectQuality = function (title) {
+        // 480p
+        if (title.match(/480[pix]/i)) {
+            return '480p';
+        }
+        // 720p
+        if (title.match(/720[pix]/i) && !title.match(/dvdrip|dvd\Wrip/i)) {
+            return '720p';
+        }
+        // 1080p
+        if (title.match(/1080[pix]/i)) {
+            return '1080p';
+        }
+
+        // not found, trying harder
+        if (title.match(/DSR|DVDRIP|DVD\WRIP/i)) {
+            return '480p';
+        }
+        if (title.match(/hdtv/i) && !title.match(/720[pix]/i)) {
+            return '480p';
+        }
+        return false;
+    };
+
     // function starts here
     if (!file && !torrent) {
 
@@ -312,6 +336,11 @@ Common.matchTorrent = function (file, torrent) {
             .then(function (parsed) {
                 var title = $.trim(parsed.replace(/\[rartv\]/i, '').replace(/\[PublicHD\]/i, '').replace(/\[ettv\]/i, '').replace(/\[eztv\]/i, '')).replace(/[\s]/g, '.');
                 data.filename = file;
+
+                var quality = injectQuality(file);
+                if (quality) {
+                    data.quality = quality;
+                }
 
                 formatTitle(parsed)
                     .then(function (obj) {
@@ -344,4 +373,32 @@ Common.matchTorrent = function (file, torrent) {
     }
 
     return defer.promise;
+};
+
+Common.sanitize = function (input) {
+    function sanitizeString(string) {
+        return require('sanitizer').sanitize(string);
+    }
+
+    function sanitizeObject(obj) {
+        var result = obj;
+        for (var prop in obj) {
+            result[prop] = obj[prop];
+            if (obj[prop] && (obj[prop].constructor === Object || obj[prop].constructor === Array)) {
+                result[prop] = sanitizeObject(obj[prop]);
+            } else if (obj[prop] && obj[prop].constructor === String) {
+                result[prop] = sanitizeString(obj[prop]);
+            }
+        }
+        return result;
+    }
+
+    var output = input;
+    if (input && (input.constructor === Object || input.constructor === Array)) {
+        output = sanitizeObject(input);
+    } else if (input && input.constructor === String) {
+        output = sanitizeString(input);
+    }
+
+    return output;
 };
