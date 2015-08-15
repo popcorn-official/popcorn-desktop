@@ -20,7 +20,7 @@
         for (var lang in data) {
             data[lang] = data[lang].url;
         }
-        return data;
+        return Common.sanitize(data);
     };
 
     OpenSubtitles.prototype.fetch = function (queryParams) {

@@ -56,12 +56,14 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('css', [
-        'officalcss'
+        'stylus:official'
     ]);
 
     grunt.registerTask('themes', [
         'shell:themes',
-        'unofficalcss'
+        'clean:css',
+        'stylus:official',
+        'stylus:third_party'
     ]);
 
     grunt.registerTask('js', [
@@ -69,10 +71,10 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('build', [
-        'css',
         'injectgit',
         'bower_clean',
         'lang',
+        'themes',
         'nodewebkit',
         'shell:setexecutable'
     ]);
@@ -107,14 +109,6 @@ module.exports = function (grunt) {
             grunt.log.writeln('OS not supported.');
         }
     });
-
-    grunt.registerTask('officalcss', [
-        'stylus:offical'
-    ]);
-    grunt.registerTask('unofficalcss', [
-        'clean:css',
-        'stylus:third_party'
-    ]);
 
     grunt.registerTask('package', [
         'shell:packageLinux64',
@@ -186,7 +180,7 @@ module.exports = function (grunt) {
                 dest: 'src/app/themes/',
                 ext: '.css'
             },
-            offical: {
+            official: {
                 options: {
                     'resolve url': true,
                     use: ['nib'],

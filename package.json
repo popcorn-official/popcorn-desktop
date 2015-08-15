@@ -8,7 +8,7 @@
     },
     "license": "GPL-3.0",
     "main": "app://host/src/app/index.html",
-    "version": "0.3.8-2",
+    "version": "0.3.8-3",
     "node-remote": "client.vpn.ht",
     "releaseName": "There's nothing on TV",
     "scripts": {
@@ -55,6 +55,7 @@
         "readdirp": "*",
         "request": "^2.55.0",
         "rimraf": "2.2.8",
+        "sanitizer": "^0.1.2",
         "semver": "^4.3.3",
         "send": "0.12.2",
         "strike-api": "0.2.0",
