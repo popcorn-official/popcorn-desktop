@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[popcorn-time-app.desktop]
+file_filter = src/app/language/<lang>.json
+source_lang = en
+source_file = src/app/language/en.json
+type = KEYVALUEJSON
+minimum_perc = 80
