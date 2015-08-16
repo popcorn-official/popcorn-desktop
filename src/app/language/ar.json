@@ -483,8 +483,8 @@
     "Canceled": "تم إلغاؤه",
     "N/A": "غير معروف",
     "%s is not supposed to be run as administrator": "لا يجدر بـ %s أن يُشغَّل باسم المدير",
-    "Your disk is almost full.": "Your disk is almost full.",
-    "You need to make more space available on your disk by deleting files.": "You need to make more space available on your disk by deleting files.",
-    "Playing Next": "Playing Next",
-    "Trending": "Trending"
+    "Your disk is almost full.": "قرص التخزين ممتلئ تقريبا.",
+    "You need to make more space available on your disk by deleting files.": "قم بحذف بعض الملفات حتى تحصل على مساحة أكثر.",
+    "Playing Next": "التالي",
+    "Trending": "الأكثر رواجا"
 }
