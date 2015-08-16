@@ -10,10 +10,11 @@
         className: 'torrent-collection',
 
         events: {
-            'click .file-item': 'openFileSelector',
-            'click .result-item': 'onlineOpen',
-            'click .item-delete': 'deleteItem',
-            'click .item-rename': 'renameItem',
+            'mousedown .file-item': 'openFileSelector',
+            'mousedown .result-item': 'onlineOpen',
+            'mousedown .item-delete': 'deleteItem',
+            'mousedown .item-rename': 'renameItem',
+            'mousedown .magnet-icon': 'openMagnet',
             'click .collection-delete': 'clearCollection',
             'click .collection-open': 'openCollection',
             'click .collection-import': 'importItem',
@@ -195,7 +196,7 @@
         onlineAddItem: function (item) {
             var ratio = item.peers > 0 ? item.seeds / item.peers : +item.seeds;
             $('.onlinesearch-info>ul.file-list').append(
-                '<li class="result-item" data-file="' + item.magnet + '"><a>' + item.title + '</a><div class="item-icon magnet-icon"></div><i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">' + item.size + '</i></li>'
+                '<li class="result-item" data-file="' + item.magnet + '"><a>' + item.title + '</a><div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="right" title="' + i18n.__('Magnet link') + '"></div><i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">' + item.size + '</i></li>'
             );
         },
 
@@ -262,6 +263,33 @@
                 Settings.droppedMagnet = content;
                 Settings.droppedStoredMagnet = file;
                 window.handleTorrent(content);
+            }
+        },
+
+        openMagnet: function (e) {
+            this.$('.tooltip').css('display', 'none');
+            e.preventDefault();
+            e.stopPropagation();
+
+            var magnetLink,
+                gui = require('nw.gui');
+
+            if ($(e.currentTarget.parentNode).context.className === 'file-item') {
+                // stored
+                var _file = $(e.currentTarget.parentNode).context.innerText,
+                    file = _file.substring(0, _file.length - 2); // avoid ENOENT
+                magnetLink = fs.readFileSync(collection + file, 'utf8');
+            } else {
+                // search result
+                magnetLink = $(e.currentTarget.parentNode).context.attributes['data-file'].value;
+            }
+
+            if (e.button === 2) { //if right click on magnet link
+                var clipboard = gui.Clipboard.get();
+                clipboard.set(magnetLink, 'text'); //copy link to clipboard
+                $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+            } else {
+                gui.Shell.openExternal(magnetLink);
             }
         },
 
