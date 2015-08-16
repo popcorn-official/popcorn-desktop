@@ -53,7 +53,7 @@ App.Localization.filterSubtitle = function (langs) {
     return filteredLang;
 };
 
-App.Localization.allTranslations = ['en', 'ar', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'el', 'es', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'it', 'ko', 'lt', 'mk', 'ms', 'nb', 'nl', 'nn', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tr', 'uk', 'zh-cn', 'zh-tw'];
+App.Localization.allTranslations = ['en', 'ar', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'el', 'es', 'es_MX', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'it', 'ko', 'lt', 'mk', 'ms', 'nb', 'nl', 'nn', 'pl', 'pt', 'pt_BR', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tr', 'uk', 'zh_CN', 'zh_TW'];
 
 App.Localization.langcodes = {
     'aa': {
@@ -231,11 +231,11 @@ App.Localization.langcodes = {
         encoding: ['iso-8859-1'], // Tested
         keywords: ['@TSF', 'aRGENTeaM']
     },
-    'es-ar': {
+    'es_AR': {
         name: 'Spanish (Argentina)',
         nativeName: 'Español (Argentina)'
     },
-    'es-mx': {
+    'es_MX': {
         name: 'Spanish (Mexico)',
         nativeName: 'Español (México)'
     },
@@ -637,7 +637,7 @@ App.Localization.langcodes = {
         subtitle: true,
         encoding: ['iso-8859-1'] // Tested
     },
-    'pt-br': {
+    'pt_BR': {
         name: 'Portuguese (Brazil)',
         nativeName: 'Português (Brasil)',
         subtitle: true,
@@ -871,11 +871,11 @@ App.Localization.langcodes = {
         subtitle: true,
         encoding: ['GB18030'] /** Seems to work best. Tested: UTF8/UTF16/CP936/GB2312/GB2313/GB18030/Windows936/Big5 **/
     },
-    'zh-cn': {
+    'zh_CN': {
         name: 'Chinese (simplified)',
         nativeName: '简体中文'
     },
-    'zh-tw': {
+    'zh_TW': {
         name: 'Chinese (traditional)',
         nativeName: '正體中文'
     }

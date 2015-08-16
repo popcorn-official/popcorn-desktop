@@ -104,7 +104,7 @@
     "Sci-Fi": "Znanstveno-fantastični",
     "Short": "Kratki",
     "War": "Ratni",
-    "Last Added": "Najnovije",
+    "Last Added": "Najnovijemu",
     "Rating": "Ocjeni",
     "Open IMDb page": "Otvori IMDb stranicu",
     "Health false": "Zdravlje netočno",
@@ -163,7 +163,7 @@
     "waitingForSubtitles": "Čekanje podnaslova",
     "Play Now": "Pogledajte odmah",
     "Seconds": "Sekundi",
-    "You are currently authenticated to Trakt.tv as": "Trenutačno ste autentificirani na Trakt.tv kao",
+    "You are currently authenticated to Trakt.tv as": "Trenutačno ste ovjereni na Trakt.tv kao",
     "You are currently connected to %s": "Trenutačno ste povezani s %s",
     "Disconnect account": "Odspoji račun",
     "Sync With Trakt": "Uskladi s Traktom",
@@ -486,5 +486,5 @@
     "Your disk is almost full.": "Vaš disk će uskoro biti popunjen.",
     "You need to make more space available on your disk by deleting files.": "Morate osloboditi više slobodnog prostora na vašem disku brisanjem datoteka.",
     "Playing Next": "Sljedeća epizoda za",
-    "Trending": "U trendu"
+    "Trending": "Trendu"
 }
