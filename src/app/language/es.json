@@ -482,7 +482,7 @@
     "In Production": "En Producción",
     "Canceled": "Canceladas",
     "N/A": "No Disponible",
-    "%s is not supposed to be run as administrator": "%s no se supone que se pueda ejecutar como administrador",
+    "%s is not supposed to be run as administrator": "%s is not supposed to be run as administrator",
     "Your disk is almost full.": "Tu disco duro está casi lleno.",
     "You need to make more space available on your disk by deleting files.": "Es necesario que dispongas de más espacio disponible en el disco eliminando archivos.",
     "Playing Next": "Reproducir Siguiente",

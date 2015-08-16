@@ -478,13 +478,13 @@
     "Randomize Button for Movies": "Filmler için Rastgele Butonu",
     "Overall Ratio": "Toplam Oran",
     "Translate Synopsis": "Özeti Çevir",
-    "Returning Series": "Devam eden dizi",
+    "Returning Series": "Dönüş yapan dizi",
     "In Production": "In Production",
     "Canceled": "İptal edildi",
     "N/A": "Yok",
-    "%s is not supposed to be run as administrator": "%s yönetici olarak çalıştırmalısın",
-    "Your disk is almost full.": "Bilgisayarınızdaki alan dolmuş durumda",
+    "%s is not supposed to be run as administrator": "%s is not supposed to be run as administrator",
+    "Your disk is almost full.": "Your disk is almost full.",
     "You need to make more space available on your disk by deleting files.": "You need to make more space available on your disk by deleting files.",
-    "Playing Next": "Sıradaki Oynatılıyor",
-    "Trending": "Popüler"
+    "Playing Next": "Playing Next",
+    "Trending": "Trending"
 }

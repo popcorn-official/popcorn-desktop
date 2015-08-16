@@ -484,7 +484,7 @@
     "N/A": "n.v.t.",
     "%s is not supposed to be run as administrator": "Het is niet de bedoeling %s als administrator uit te voeren",
     "Your disk is almost full.": "Je harde schijf is bijna vol.",
-    "You need to make more space available on your disk by deleting files.": "Maak ruimte vrij op je harde schijf door bestanden te verwijderen.",
+    "You need to make more space available on your disk by deleting files.": "Je moet ruimte op de schijf vrijmaken door bestanden te verwijderen.",
     "Playing Next": "Volgende aflevering",
     "Trending": "Trending"
 }

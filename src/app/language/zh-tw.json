@@ -281,7 +281,7 @@
     "This application is entirely written in HTML5, CSS3 and Javascript.": "這個軟體是使用 HTML5、CSS3、和 Javascript 撰寫而成。",
     "You can find out more about a movie or a TV series? Just click the IMDb icon.": "想瞭解更多關於電影或電視劇的資訊嗎？請點選 IMDb 的圖示。",
     "Clicking twice on a \"Sort By\" filter reverses the order of the list.": "連點兩次「排序」篩選器可以反轉排序的順序。",
-    "Switch to next tab": "切換至下一個分頁",
+    "Switch to next tab": "切換至下一個頁籤",
     "Switch to previous tab": "切換至上一個頁籤",
     "Switch to corresponding tab": "Switch to corresponding tab",
     "through": "透過",
@@ -485,6 +485,6 @@
     "%s is not supposed to be run as administrator": "%s 無法以系統管理員身份執行",
     "Your disk is almost full.": "您的硬碟空間不足。",
     "You need to make more space available on your disk by deleting files.": "You need to make more space available on your disk by deleting files.",
-    "Playing Next": "準備播放下一集",
+    "Playing Next": "Playing Next",
     "Trending": "Trending"
 }
