@@ -209,11 +209,12 @@
                         left calc(100% - 15px)
 
                     .item-icon
-                        pointer-events none
                         position relative
                         font-family FontAwesome
                         font-style normal
                         font-size 15px
+                        height 15px
+                        width 15px
                         color $FileSelectorText
                         opacity 0.7
                         left -25px
@@ -223,6 +224,10 @@
                             content: '\f016'
                         &.magnet-icon:before
                             content: '\f076'
+
+                        &.magnet-icon:hover
+                            cursor pointer
+                            opacity 1
 
                     .online-size
                         position relative
