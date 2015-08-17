@@ -236,6 +236,7 @@
             case 'activateTorrentCollection':
             case 'activateWatchlist':
             case 'activateRandomize':
+            case 'rememberFilters':
                 value = field.is(':checked');
                 break;
             case 'httpApiUsername':
