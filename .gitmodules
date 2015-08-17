@@ -1,6 +1,3 @@
 [submodule "src/app/styl/third_party"]
 	path = src/app/styl/third_party
 	url = https://git.popcorntime.io/popcorntime/themes.git
-[submodule "src/app/language"]
-	path = src/app/language
-	url = https://git.popcorntime.io/popcorntime/desktop-i18n.git

@@ -106,7 +106,7 @@
                     this.ui.controls.css('visibility', 'visible');
                     this.ui.playingbarBox.css('visibility', 'visible');
                     this.ui.playingbar.css('width', '0%');
-                    this.ui.cancel_button.hide();
+
 
                     // Update gui on status update.
                     // uses listenTo so event is unsubscribed automatically when loading view closes.
@@ -232,7 +232,7 @@
             if (process.platform === 'win32') {
                 var drive = Settings.tmpLocation.substr(0, 2);
 
-                cmd = 'dir ' + drive;
+                cmd = 'dir /-C ' + drive;
 
                 exec(cmd, function (error, stdout, stderr) {
                     if (error) {
@@ -240,9 +240,9 @@
                     }
                     var stdoutParse = stdout.split('\n');
                     stdoutParse = stdoutParse[stdoutParse.length - 1] !== '' ? stdoutParse[stdoutParse.length - 1] : stdoutParse[stdoutParse.length - 2];
-                    var regx = stdoutParse.match(/\d{1,3}(\.|\,|\s)\d{3}.*(\.|\,|\s)\d{3}\s/); // will match at least 1MB.
+                    var regx = stdoutParse.match(/(\d+)/g);
                     if (regx !== null) {
-                        var freespace = regx[0].replace(/\D/g, '') / (1024 * 1024 * 1024);
+                        var freespace = regx[regx.length - 1] / (1024 * 1024 * 1024);
                         if (freespace < minspace) {
                             $('#player .warning-nospace').css('display', 'block');
                         }
