@@ -76,9 +76,15 @@
                 $('#filterbar-torrent-collection').addClass('active');
                 break;
             }
-            $('.sorters .dropdown-menu a:nth(0)').addClass('active');
-            $('.genres .dropdown-menu a:nth(0)').addClass('active');
-            $('.types .dropdown-menu a:nth(0)').addClass('active');
+
+            if (Settings.rememberFilters) {
+                this.fixFilter();
+            } else {
+                $('.sorters .dropdown-menu a:nth(0)').addClass('active');
+                $('.genres .dropdown-menu a:nth(0)').addClass('active');
+                $('.types .dropdown-menu a:nth(0)').addClass('active');
+            }
+
         },
         rightclick_search: function (e) {
             e.stopPropagation();
@@ -128,6 +134,7 @@
                 activetab = AdvSettings.get('startScreen');
             }
 
+
             if (typeof App.currentview === 'undefined') {
 
                 switch (activetab) {
@@ -173,12 +180,29 @@
 
             // update VPN icon with cached status
             App.VPNClient.setVPNStatusCached();
+
+            if (Settings.rememberFilters) {
+                this.fixFilter();
+            }
+
+
         },
 
         focusSearch: function () {
             this.$('.search input').focus();
         },
+        fixFilter: function () {
 
+            $('.genres .active').removeClass('active');
+            $('.sorters .active').removeClass('active');
+
+            var genre = $('.genres .value').text();
+            var sorter = $('.sorters .value').text();
+
+            $('.genres li').find('[data-value="' + genre.toLowerCase() + '"]').addClass('active');
+            $('.sorters li').find('[data-value="' + sorter.toLowerCase() + '"]').addClass('active');
+
+        },
         search: function (e) {
             App.vent.trigger('about:close');
             App.vent.trigger('torrentCollection:close');
@@ -191,6 +215,7 @@
             });
 
             this.$('.genres .active').removeClass('active');
+
             $($('.genres li a')[0]).addClass('active');
             this.ui.genreValue.text(i18n.__('All'));
 

@@ -13,7 +13,7 @@
             </a>
             <ul class="dropdown-menu">
                 <% _.each(types, function(c) { %>
-                    <li><a href="#" data-value="<%= c %>"><%= i18n.__(c) %></a></li>
+                    <li><a href="#" data-value="<%= c.toLowerCase() %>"><%= i18n.__(c) %></a></li>
                 <% }); %>
             </ul>
         </li>
@@ -27,7 +27,7 @@
             </a>
             <ul class="dropdown-menu">
                 <% _.each(genres, function(c) { %>
-                    <li><a href="#" data-value="<%= c %>"><%= i18n.__(c.capitalizeEach()) %></a></li>
+                    <li><a href="#" data-value="<%= c.toLowerCase() %>"><%= i18n.__(c.capitalizeEach()) %></a></li>
                 <% }); %>
             </ul>
         </li>
@@ -40,7 +40,7 @@
             </a>
             <ul class="dropdown-menu">
                 <% _.each(sorters, function(c) { %>
-                    <li><a href="#" data-value="<%= c %>"><%= i18n.__(c.capitalizeEach()) %></a></li>
+                    <li><a href="#" data-value="<%= c.toLowerCase() %>"><%= i18n.__(c.capitalizeEach()) %></a></li>
                 <% }); %>
             </ul>
         </li>
