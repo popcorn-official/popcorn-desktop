@@ -33,6 +33,7 @@ Settings.theme = 'Official_-_Dark_theme';
 Settings.ratingStars = true; //trigger on click in details
 Settings.startScreen = 'Movies';
 Settings.lastTab = '';
+Settings.rememberFilters = false;
 
 // Quality
 Settings.shows_default_quality = '720p';

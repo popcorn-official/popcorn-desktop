@@ -35,6 +35,10 @@
         },
 
         onShow: function () {
+            if (Settings.rememberFilters) {
+                this.filter.set(this.getSavedFilter());
+            }
+
             this.bar = new App.View.FilterBar({
                 model: this.filter
             });
@@ -56,6 +60,7 @@
             }
         },
         onFilterChange: function () {
+            this.saveFilter();
 
             this.collection = new this.collectionModel([], {
                 filter: this.filter
@@ -91,6 +96,40 @@
 
         focusSearch: function (e) {
             this.bar.focusSearch();
+        },
+
+        currentView: function () {
+            var view = App.currentview;
+
+            if (!view) {
+                var activetab;
+                var tabs = {
+                    'TV Series': 'shows',
+                    'Movies': 'movies',
+                    'Anime': 'anime'
+                };
+
+                if (AdvSettings.get('startScreen') === 'Last Open') {
+                    activetab = AdvSettings.get('lastTab');
+                } else {
+                    activetab = AdvSettings.get('startScreen');
+                }
+
+                view = tabs[activetab] || 'movies';
+            }
+
+            return view;
+        },
+
+        saveFilter: function () {
+            var filters = AdvSettings.get('filters') || {};
+            filters[this.currentView()] = this.filter.pick('sorter', 'genre', 'type', 'order');
+            AdvSettings.set('filters', filters);
+        },
+
+        getSavedFilter: function () {
+            var filters = AdvSettings.get('filters') || {};
+            return filters[this.currentView()] || this.filter.pick('sorter', 'genre', 'type', 'order');
         }
     });
 
