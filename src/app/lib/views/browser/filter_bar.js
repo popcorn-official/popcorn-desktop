@@ -78,7 +78,12 @@
             }
 
             if (Settings.rememberFilters) {
-                this.fixFilter();
+                try {
+                    this.fixFilter();
+                } catch (e) {
+
+                }
+
             } else {
                 $('.sorters .dropdown-menu a:nth(0)').addClass('active');
                 $('.genres .dropdown-menu a:nth(0)').addClass('active');
@@ -182,7 +187,9 @@
             App.VPNClient.setVPNStatusCached();
 
             if (Settings.rememberFilters) {
-                this.fixFilter();
+                try {
+                    this.fixFilter();
+                } catch (e) {}
             }
 
 
@@ -264,6 +271,7 @@
             } else {
                 this.model.set('order', -1);
             }
+
             this.ui.sorterValue.text(i18n.__(sorter.capitalizeEach()));
 
             this.model.set({
@@ -294,7 +302,9 @@
             $(e.target).addClass('active');
 
             var genre = $(e.target).attr('data-value');
-            this.ui.genreValue.text(i18n.__(genre));
+
+
+            this.ui.genreValue.text(i18n.__(genre.capitalizeEach()));
 
             this.model.set({
                 keyword: '',
