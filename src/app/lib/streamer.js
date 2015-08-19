@@ -73,16 +73,7 @@
         var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
         subtitles = torrent.subtitle;
 
-        var version = require('semver').parse(App.settings.version);
-        var torrentVersion = '';
-        torrentVersion += version.major;
-        torrentVersion += version.minor;
-        torrentVersion += version.patch;
-        torrentVersion += version.prerelease.length ? version.prerelease[0] : 0;
-        var torrentPeerId = '-PT';
-        torrentPeerId += torrentVersion;
-        torrentPeerId += '-';
-        torrentPeerId += crypto.pseudoRandomBytes(6).toString('hex');
+        var torrentPeerId = crypto.pseudoRandomBytes(10).toString('hex');
 
         win.debug('Streaming movie to %s', tmpFile);
 
@@ -214,16 +205,7 @@
                 var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
                 subtitles = torrent.subtitle;
 
-                var version = require('semver').parse(App.settings.version);
-                var torrentVersion = '';
-                torrentVersion += version.major;
-                torrentVersion += version.minor;
-                torrentVersion += version.patch;
-                torrentVersion += version.prerelease.length ? version.prerelease[0] : 0;
-                var torrentPeerId = '-PT';
-                torrentPeerId += torrentVersion;
-                torrentPeerId += '-';
-                torrentPeerId += crypto.pseudoRandomBytes(6).toString('hex');
+                var torrentPeerId = crypto.pseudoRandomBytes(10).toString('hex');
 
                 win.debug('Preloading movie to %s', tmpFile);
 
