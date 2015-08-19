@@ -22,7 +22,7 @@
         <li class="dropdown filter genres">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <%= i18n.__("Genre") %>
-                    <span class="value"><%= i18n.__(genre.capitalizeEach()) %></span>
+                    <span data-value="<%= genre %>" class="value"><%= i18n.__(genre.capitalizeEach()) %></span>
                     <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
@@ -35,7 +35,7 @@
         <li class="dropdown filter sorters">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <%= i18n.__("Sort by") %>
-                    <span class="value"><%= i18n.__(sorter.capitalizeEach()) %></span>
+                    <span data-value="<%= sorter %>" class="value"><%= i18n.__(sorter.capitalizeEach()) %></span>
                     <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">

@@ -196,8 +196,8 @@
             $('.genres .active').removeClass('active');
             $('.sorters .active').removeClass('active');
 
-            var genre = $('.genres .value').text();
-            var sorter = $('.sorters .value').text();
+            var genre = $('.genres .value').data('value');
+            var sorter = $('.sorters .value').data('value');
 
             $('.genres li').find('[data-value="' + genre.toLowerCase() + '"]').addClass('active');
             $('.sorters li').find('[data-value="' + sorter.toLowerCase() + '"]').addClass('active');
