@@ -1,4 +1,4 @@
-(function (App) {
+(function(App) {
     'use strict';
     var clipboard = gui.Clipboard.get();
 
@@ -36,10 +36,10 @@
         },
 
 
-        focus: function (e) {
+        focus: function(e) {
             e.focus();
         },
-        setactive: function (set) {
+        setactive: function(set) {
 
             if (Settings.startScreen === 'Last Open') {
                 AdvSettings.set('lastTab', set);
@@ -48,33 +48,33 @@
             $('#filterbar-random').hide();
             $('.filter-bar').find('.active').removeClass('active');
             switch (set) {
-            case 'TV Series':
-            case 'shows':
-                $('.source.showShows').addClass('active');
-                break;
-            case 'Movies':
-            case 'movies':
-                $('#filterbar-random').show();
-                $('.source.showMovies').addClass('active');
-                break;
-            case 'Anime':
-            case 'anime':
-                $('.source.showAnime').addClass('active');
-                break;
-            case 'Favorites':
-            case 'favorites':
-                $('.right .search').hide();
-                $('#filterbar-favorites').addClass('active');
-                break;
-            case 'Watchlist':
-            case 'watchlist':
-                $('.right .search').hide();
-                $('#filterbar-watchlist').addClass('active');
-                break;
-            case 'Torrent-collection':
-                $('.right .search').hide();
-                $('#filterbar-torrent-collection').addClass('active');
-                break;
+                case 'TV Series':
+                case 'shows':
+                    $('.source.showShows').addClass('active');
+                    break;
+                case 'Movies':
+                case 'movies':
+                    $('#filterbar-random').show();
+                    $('.source.showMovies').addClass('active');
+                    break;
+                case 'Anime':
+                case 'anime':
+                    $('.source.showAnime').addClass('active');
+                    break;
+                case 'Favorites':
+                case 'favorites':
+                    $('.right .search').hide();
+                    $('#filterbar-favorites').addClass('active');
+                    break;
+                case 'Watchlist':
+                case 'watchlist':
+                    $('.right .search').hide();
+                    $('#filterbar-watchlist').addClass('active');
+                    break;
+                case 'Torrent-collection':
+                    $('.right .search').hide();
+                    $('#filterbar-torrent-collection').addClass('active');
+                    break;
             }
 
             if (Settings.rememberFilters) {
@@ -91,33 +91,33 @@
             }
 
         },
-        rightclick_search: function (e) {
+        rightclick_search: function(e) {
             e.stopPropagation();
             var search_menu = new this.context_Menu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'));
             search_menu.popup(e.originalEvent.x, e.originalEvent.y);
         },
 
-        context_Menu: function (cutLabel, copyLabel, pasteLabel) {
+        context_Menu: function(cutLabel, copyLabel, pasteLabel) {
             var gui = require('nw.gui'),
                 menu = new gui.Menu(),
 
                 cut = new gui.MenuItem({
                     label: cutLabel || 'Cut',
-                    click: function () {
+                    click: function() {
                         document.execCommand('cut');
                     }
                 }),
 
                 copy = new gui.MenuItem({
                     label: copyLabel || 'Copy',
-                    click: function () {
+                    click: function() {
                         document.execCommand('copy');
                     }
                 }),
 
                 paste = new gui.MenuItem({
                     label: pasteLabel || 'Paste',
-                    click: function () {
+                    click: function() {
                         var text = clipboard.get('text');
                         $('#searchbox').val(text);
                     }
@@ -129,7 +129,7 @@
 
             return menu;
         },
-        onShow: function () {
+        onShow: function() {
 
             var activetab;
 
@@ -143,29 +143,29 @@
             if (typeof App.currentview === 'undefined') {
 
                 switch (activetab) {
-                case 'TV Series':
-                    App.currentview = 'shows';
-                    break;
-                case 'Movies':
-                    App.currentview = 'movies';
-                    break;
-                case 'Anime':
-                    App.currentview = 'anime';
-                    break;
-                case 'Favorites':
-                    App.currentview = 'Favorites';
-                    App.previousview = 'movies';
-                    break;
-                case 'Watchlist':
-                    App.currentview = 'Watchlist';
-                    App.previousview = 'movies';
-                    break;
-                case 'Torrent-collection':
-                    App.currentview = 'Torrent-collection';
-                    App.previousview = 'movies';
-                    break;
-                default:
-                    App.currentview = 'movies';
+                    case 'TV Series':
+                        App.currentview = 'shows';
+                        break;
+                    case 'Movies':
+                        App.currentview = 'movies';
+                        break;
+                    case 'Anime':
+                        App.currentview = 'anime';
+                        break;
+                    case 'Favorites':
+                        App.currentview = 'Favorites';
+                        App.previousview = 'movies';
+                        break;
+                    case 'Watchlist':
+                        App.currentview = 'Watchlist';
+                        App.previousview = 'movies';
+                        break;
+                    case 'Torrent-collection':
+                        App.currentview = 'Torrent-collection';
+                        App.previousview = 'movies';
+                        break;
+                    default:
+                        App.currentview = 'movies';
                 }
                 this.setactive(App.currentview);
             }
@@ -195,10 +195,10 @@
 
         },
 
-        focusSearch: function () {
+        focusSearch: function() {
             this.$('.search input').focus();
         },
-        fixFilter: function () {
+        fixFilter: function() {
 
             $('.genres .active').removeClass('active');
             $('.sorters .active').removeClass('active');
@@ -206,11 +206,11 @@
             var genre = $('.genres .value').data('value');
             var sorter = $('.sorters .value').data('value');
 
-            $('.genres li').find('[data-value="' + genre.toLowerCase() + '"]').addClass('active');
-            $('.sorters li').find('[data-value="' + sorter.toLowerCase() + '"]').addClass('active');
+            $('.genres li').find('[data-value="' + genre + '"]').addClass('active');
+            $('.sorters li').find('[data-value="' + sorter + '"]').addClass('active');
 
         },
-        search: function (e) {
+        search: function(e) {
             App.vent.trigger('about:close');
             App.vent.trigger('torrentCollection:close');
             App.vent.trigger('movie:closeDetail');
@@ -235,7 +235,7 @@
             }
         },
 
-        clearSearch: function (e) {
+        clearSearch: function(e) {
             this.ui.searchInput.focus();
 
             App.vent.trigger('about:close');
@@ -256,7 +256,7 @@
             this.ui.searchForm.removeClass('edited');
         },
 
-        sortBy: function (e) {
+        sortBy: function(e) {
             App.vent.trigger('about:close');
             App.vent.trigger('torrentCollection:close');
             this.$('.sorters .active').removeClass('active');
@@ -281,7 +281,7 @@
             this.previousSort = sorter;
         },
 
-        changeType: function (e) {
+        changeType: function(e) {
             App.vent.trigger('about:close');
             App.vent.trigger('torrentCollection:close');
             this.$('.types .active').removeClass('active');
@@ -296,7 +296,7 @@
             });
         },
 
-        changeGenre: function (e) {
+        changeGenre: function(e) {
             App.vent.trigger('about:close');
             this.$('.genres .active').removeClass('active');
             $(e.target).addClass('active');
@@ -312,16 +312,16 @@
             });
         },
 
-        settings: function (e) {
+        settings: function(e) {
             App.vent.trigger('about:close');
             App.vent.trigger('settings:show');
         },
 
-        about: function (e) {
+        about: function(e) {
             App.vent.trigger('about:show');
         },
 
-        showTorrentCollection: function (e) {
+        showTorrentCollection: function(e) {
             e.preventDefault();
 
             if (App.currentview !== 'Torrent-collection') {
@@ -337,7 +337,7 @@
             }
         },
 
-        showShows: function (e) {
+        showShows: function(e) {
             e.preventDefault();
             App.currentview = 'shows';
             App.vent.trigger('about:close');
@@ -346,7 +346,7 @@
             this.setactive('TV Series');
         },
 
-        showAnime: function (e) {
+        showAnime: function(e) {
             e.preventDefault();
             App.currentview = 'anime';
             App.vent.trigger('about:close');
@@ -355,7 +355,7 @@
             this.setactive('Anime');
         },
 
-        showMovies: function (e) {
+        showMovies: function(e) {
             e.preventDefault();
 
             App.currentview = 'movies';
@@ -365,7 +365,7 @@
             this.setactive('Movies');
         },
 
-        showFavorites: function (e) {
+        showFavorites: function(e) {
             e.preventDefault();
 
             if (App.currentview !== 'Favorites') {
@@ -393,7 +393,7 @@
 
         },
 
-        showWatchlist: function (e) {
+        showWatchlist: function(e) {
             e.preventDefault();
 
             if (App.currentview !== 'Watchlist') {
@@ -420,22 +420,22 @@
             return false;
         },
 
-        updateDB: function (e) {
+        updateDB: function(e) {
             e.preventDefault();
             App.vent.trigger(this.type + ':update', []);
         },
 
-        vpnConnect: function (e) {
+        vpnConnect: function(e) {
             e.preventDefault();
             App.vent.trigger('vpn:connect');
         },
 
-        randomMovie: function () {
+        randomMovie: function() {
             var that = this;
             $('.spinner').show();
 
             App.Providers.get('Yts').random()
-                .then(function (data) {
+                .then(function(data) {
                     if (App.watchedMovies.indexOf(data.imdb_code) !== -1) {
                         that.randomMovie();
                         return;
@@ -446,14 +446,14 @@
                         genre: ''
                     });
                     App.vent.trigger('movie:closeDetail');
-                    App.vent.on('list:loaded', function () {
+                    App.vent.on('list:loaded', function() {
                         if (that.model.get('isRandom')) {
                             $('.main-browser .items .cover')[0].click();
                             that.model.set('isRandom', false);
                         }
                     });
                 })
-                .catch(function (err) {
+                .catch(function(err) {
                     $('.spinner').hide();
                     $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                 });
