@@ -75,7 +75,8 @@
                         results.push({
                             id: item.iid,
                             title: item.title,
-                            description: item.description
+                            description: item.description,
+                            labels: item.labels
                         });
                         return;
                     } else {
@@ -90,14 +91,15 @@
                     $('#issue-search .button.notfound-issue').show();
                 } else {
                     $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search');
-                    var newLine = function (id, title, description) {
+                    var newLine = function (id, title, description, labels) {
                         $('#issue-results').append(
-                            '<li>' + '<a class="issue-title">' + title + ' [#' + id + ']' + '</a>' + '<div class="issue-details">' + '<p>' + description + '</p>' + '<a class="links" href="' + PT_url + id + '">' + i18n.__('Open in your browser') + '</a>' + '</div>' + '</li>'
+                            '<li>' + '<a class="issue-title">' + title + '</a>' + '<small>&nbsp;#' + id + '&nbsp;-&nbsp;' + labels + '</small>' + '<div class="issue-details">' + '<p>' + description + '</p>' + '<a class="links" href="' + PT_url + id + '">' + i18n.__('Open in your browser') + '</a>' + '</div>' + '</li>'
                         );
                     };
                     for (var i = 0; i < results.length; i++) {
-                        results[i].description = require('markdown').markdown.toHTML(results[i].description).replace(/\<a href/g, '<a class="links" href');
-                        newLine(results[i].id, results[i].title, results[i].description);
+                        results[i].description = require('markdown').markdown.toHTML(results[i].description).replace(/\<a href/g, '<a class="links" href').replace(/\<em\>|\<\/em\>/g, '_');
+                        results[i].labels = results[i].labels.length !== 0 ? results[i].labels.join(', ') : 'Uncategorized';
+                        newLine(results[i].id, results[i].title, results[i].description, results[i].labels);
                     }
                     $('#issue-search .button').show();
                 }
@@ -107,7 +109,7 @@
         },
 
         showIssueDetails: function (e) {
-            var elm = e.currentTarget.parentElement.children[1];
+            var elm = e.currentTarget.parentElement.children[2];
             var visible = $(elm).css('display');
 
             if (visible === 'none') {
