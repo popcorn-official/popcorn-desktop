@@ -63,13 +63,10 @@
                 result,
                 results = [];
 
-            gitlab.projects.issues.list(PT_id, function (data) {
+            gitlab.projects.issues.list(PT_id, {state:'opened'}, function (data) {
                 data = Common.sanitize(data);
                 //stores in 'results' all issues (id + title) containing the keyword
                 data.forEach(function (item) {
-                    if (item.state === 'closed') {
-                        return;
-                    }
                     issue_desc =
                         item.description.toLowerCase() + ' ' + item.title.toLowerCase();
 
