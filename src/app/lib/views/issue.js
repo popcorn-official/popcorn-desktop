@@ -57,7 +57,7 @@
 
             var gitlab = require('gitlab')({
                 url: 'https://git.popcorntime.io/',
-                token: 'sb1SeWoyoAWrGPTuQcNE' //public reporter token
+                token: token || 'sb1SeWoyoAWrGPTuQcNE' //public reporter token
             });
             var issue_desc,
                 result,
@@ -227,11 +227,7 @@
                 return;
             }
 
-            if (token) {
-                this.reportBug(title, content, token);
-            } else {
-                this.reportBug(title, content, 'sb1SeWoyoAWrGPTuQcNE');
-            }
+            this.reportBug(title, content, (token || 'sb1SeWoyoAWrGPTuQcNE'));
         },
 
         searchIssue: function () {
