@@ -90,6 +90,7 @@
                 if (results.length === 0) {
                     $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search');
                     $('#issue-results').append('<p>' + i18n.__('No issues found...') + '</p>');
+                    $('#issue-search .button.notfound-issue').show();
                 } else {
                     $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search');
                     var newLine = function (id, title, description) {
@@ -101,6 +102,7 @@
                         results[i].description = results[i].description.replace('\n', '<br>');
                         newLine(results[i].id, results[i].title, results[i].description);
                     }
+                    $('#issue-search .button').show();
                 }
 
             });
