@@ -92,7 +92,7 @@
                     $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search');
                     var newLine = function (id, title, description) {
                         $('#issue-results').append(
-                            '<li>' + '<a class="issue-title">' + title + '</a>' + '<div class="issue-details">' + '<p>' + description + '</p>' + '<a class="links" href="' + PT_url + id + '">' + i18n.__('Open in your browser') + '</a>' + '</div>' + '</li>'
+                            '<li>' + '<a class="issue-title">' + title + ' [#' + id + ']' + '</a>' + '<div class="issue-details">' + '<p>' + description + '</p>' + '<a class="links" href="' + PT_url + id + '">' + i18n.__('Open in your browser') + '</a>' + '</div>' + '</li>'
                         );
                     };
                     for (var i = 0; i < results.length; i++) {
