@@ -96,7 +96,7 @@
                         );
                     };
                     for (var i = 0; i < results.length; i++) {
-                        results[i].description = results[i].description.replace('\n', '<br>');
+                        results[i].description = require('markdown').markdown.toHTML(results[i].description).replace(/\<a href/g, '<a class="links" href');
                         newLine(results[i].id, results[i].title, results[i].description);
                     }
                     $('#issue-search .button').show();
