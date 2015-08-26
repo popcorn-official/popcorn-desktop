@@ -425,8 +425,6 @@
             // we should never get any shows that aren't us, but you know, just in case.
             if (value.tvdb_id === _this.model.get('tvdb_id')) {
                 $('#watched-' + value.season + '-' + value.episode).toggleClass('true', state);
-            } else {
-                win.error('something fishy happened with the watched signal', this.model, value);
             }
         },
 
