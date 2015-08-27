@@ -165,6 +165,8 @@
                         if (err) {
                             return cb(err, null);
                         }
+                        // Overwrite srt with UTF-8 encoding
+                        fs.writeFile(srtPath, srtDecodedData, 'utf8');
                         // Save vtt as UTF-8 encoded, so that foreign subs will be shown correctly on ext. devices.
                         fs.writeFile(vttPath, captions.vtt.generate(captions.srt.toJSON(vttData)), 'utf8', function (err) {
                             if (err) {
