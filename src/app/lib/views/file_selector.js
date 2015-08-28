@@ -78,7 +78,7 @@
                 file_index: actualIndex,
                 device: App.Device.Collection.selected
             });
-            App.MovieDetailView.closeDetails();
+            try { App.MovieDetailView.closeDetails(); } catch(e) {}
             App.vent.trigger('stream:start', torrentStart);
             App.vent.trigger('system:closeFileSelector');
         },
