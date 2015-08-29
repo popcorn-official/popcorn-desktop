@@ -82,7 +82,7 @@
         "grunt-jsbeautifier": "*",
         "grunt-node-webkit-builder": "0.1.x",
         "grunt-shell": "^1.1.2",
-        "load-grunt-tasks": "3.1.0",
+        "load-grunt-tasks": "3.2.0",
         "nw-gyp": "^0.12.4",
         "stylus": "0.50.0"
     }
