@@ -81,11 +81,11 @@ RequestExecutionLevel user
 !ifdef WIN_PATHS
     !define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
     !define MUI_ICON "..\..\src\app\images\popcorntime.ico"
-    !define MUI_UNICON "..\..\src\app\images\popcorntime.ico"
+    !define MUI_UNICON "..\..\src\app\images\popcorntime_uninstall.ico"
 !else
     !define MUI_UI_HEADERIMAGE_RIGHT "../../src/app/images/icon.png"
-    !define MUI_ICON "../../src/app/images\popcorntime.ico"
-    !define MUI_UNICON "../../src/app/images\popcorntime.ico"
+    !define MUI_ICON "../../src/app/images/popcorntime.ico"
+    !define MUI_UNICON "../../src/app/images/popcorntime_uninstall.ico"
 !endif
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
@@ -399,7 +399,7 @@ Section ; Shortcuts
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     CreateDirectory "$SMPROGRAMS\${APP_NAME}"
     CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "Uninstall ${APP_NAME}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\popcorntime_uninstall.ico" "" "" "" "Uninstall ${APP_NAME}"
 
     ;Desktop Shortcut
     Delete "$DESKTOP\${APP_NAME}.lnk"
