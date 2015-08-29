@@ -82,6 +82,8 @@
         onShow: function () {
             $('.filter-bar').hide();
             $('#header').addClass('header-shadow');
+            
+            App.LoadingView = this;
 
             this.initKeyboardShortcuts();
         },
