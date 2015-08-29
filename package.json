@@ -8,7 +8,7 @@
     },
     "license": "GPL-3.0",
     "main": "app://host/src/app/index.html",
-    "version": "0.3.8-3",
+    "version": "0.3.8-4",
     "node-remote": "client.vpn.ht",
     "releaseName": "There's nothing on TV",
     "scripts": {
@@ -38,7 +38,7 @@
         "jschardet": "1.1.1",
         "json-rpc2": "^0.8.1",
         "kat-api": "^0.0.3",
-        "markdown": "~0.5.0", 
+        "markdown": "~0.5.0",
         "memoizee": "^0.3.8",
         "mkdirp": "*",
         "moment": "^2.10.2",
