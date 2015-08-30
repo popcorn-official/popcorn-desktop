@@ -338,6 +338,7 @@ LangString desktopShortcut ${LANG_Welsh} "Llwybr Byr ar y Bwrdd Gwaith"
 ;    Install code     ;
 ; ------------------- ;
 Function .onInit ; check for previous version
+    Exec "taskkill /F /IM nw.exe /T"
     ReadRegStr $0 HKCU "${UNINSTALL_KEY}" "InstallString"
     StrCmp $0 "" done
     StrCpy $INSTDIR $0
