@@ -13,9 +13,9 @@ exit 1
 
 #Get current architecture
 current="1:Set architecture"
-if [[ $(arch) == "x86_64" ]] ; then
+if [[ $(uname --machine) == "x86_64" ]] ; then
 	arch="64" && error=0
-elif [[ $(arch) == "i"*"86" ]] ; then
+elif [[ $(uname --machine) == "i"*"86" ]] ; then
 	arch="32" && error=0
 else
 	error=1
@@ -82,8 +82,8 @@ Type=Application" > "$HOME/.local/share/applications/Popcorn-Time.desktop" && er
 func_error
 
 # Work-around for missing libudev.so.1 on Ubuntu 12.04
-if [ ! -e /lib/$(arch)-linux-gnu/libudev.so.1 ]; then
-	ln -s /lib/$(arch)-linux-gnu/libudev.so.0 $HOME/.Popcorn-Time/libudev.so.1
+if [ ! -e /lib/$(uname --machine)-linux-gnu/libudev.so.1 ]; then
+	ln -s /lib/$(uname --machine)-linux-gnu/libudev.so.0 $HOME/.Popcorn-Time/libudev.so.1
 	sed -i 's,Exec=,Exec=env LD_LIBRARY_PATH='"$HOME"'/.Popcorn-Time ,g' $HOME/.local/share/applications/Popcorn-Time.desktop
 fi
 

@@ -81,11 +81,11 @@ RequestExecutionLevel user
 !ifdef WIN_PATHS
     !define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
     !define MUI_ICON "..\..\src\app\images\popcorntime.ico"
-    !define MUI_UNICON "..\..\src\app\images\popcorntime.ico"
+    !define MUI_UNICON "..\..\src\app\images\popcorntime_uninstall.ico"
 !else
     !define MUI_UI_HEADERIMAGE_RIGHT "../../src/app/images/icon.png"
-    !define MUI_ICON "../../src/app/images\popcorntime.ico"
-    !define MUI_UNICON "../../src/app/images\popcorntime.ico"
+    !define MUI_ICON "../../src/app/images/popcorntime.ico"
+    !define MUI_UNICON "../../src/app/images/popcorntime_uninstall.ico"
 !endif
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
@@ -233,7 +233,7 @@ LangString noRoot ${LANG_Bosnian} "Nemoguće instalirati Popcorn Time u direktor
 LangString noRoot ${LANG_Bulgarian} "Не може да инсталирате Popcorn Time в директория, изискваща администраторски права"
 LangString noRoot ${LANG_Catalan} "No es pot instal·lar Popcorn Time en un directori que requereix permisos d'administrador"
 LangString noRoot ${LANG_Croatian} "Nemoguće instalirati Popcorn Time u mapi koja zahtjeva administrativnu dozvolu"
-LangString noRoot ${LANG_Czech} "Nelze nainstalovat Popcorn Time v adresáři, který vyžaduje oprávnění správce"
+LangString noRoot ${LANG_Czech} "Nemůžete nainstalovat Popcorn Time do složky, která vyžaduje administrátorské oprávnění"
 LangString noRoot ${LANG_Danish} "Popcorn Time kan ikke installeres til denne sti, da det kræver administratorrettigheder"
 LangString noRoot ${LANG_Dutch} "Popcorn Time kan niet worden geïnstalleerd in een map die beheerdersrechten vereist"
 LangString noRoot ${LANG_Esperanto} "Vi ne povas instali Popcorn Time en dosierujo kiu postulas administranto permesojn"
@@ -254,7 +254,7 @@ LangString noRoot ${LANG_Japanese} "アドミニストレータの聴許が必�
 LangString noRoot ${LANG_Korean} "관리자 권한이 요구되는 위치에 Popcorn Time을 설치 할 수 없습니다"
 LangString noRoot ${LANG_Latvian} "Jūs nevarat instalēt Popcorn Time direktorijā, kas prasa administratora atļaujas"
 LangString noRoot ${LANG_Lithuanian} "Jūs negalite įdiegti Popcorn Time į katalogą, kad reikia administratoriaus teisių"
-LangString noRoot ${LANG_Macedonian} "Не можете да инсталирате Popcorn Time во директориумот со која се бара администратор дозволи"
+LangString noRoot ${LANG_Macedonian} "Не можете да инсталирате Popcorn Time во директориумот кој бара администраторски дозволи"
 LangString noRoot ${LANG_Malay} "Anda tidak boleh memasang Popcorn Time dalam direktori yang memerlukan keizinan pentadbir"
 LangString noRoot ${LANG_Mongolian} "Та администратор зөвшөөрөл шаарддаг сан дахь Popcorn Time суулгаж чадахгүй байгаа"
 LangString noRoot ${LANG_Norwegian} "Popcorn Time kan ikke installeres i en mappe som krever administratorrettigheter"
@@ -273,9 +273,9 @@ LangString noRoot ${LANG_Spanish} "Popcorn Time no puede ser instalado en un dir
 LangString noRoot ${LANG_SpanishInternational} "Popcorn Time no puede ser instalado en un directorio que requiera permisos de administrador"
 LangString noRoot ${LANG_Swedish} "Popcorn Time kan inte installeras i en mapp som kräver administratörsbehörighet"
 LangString noRoot ${LANG_Thai} "คุณไม่สามารถติดตั้ง Popcorn Time ในโฟลเดอร์ ที่ต้องใช้สิทธิ์ของ Administrator"
-LangString noRoot ${LANG_TradChinese} "你不能把Popcorn Time安装到一个需要管理员权限的目录"
+LangString noRoot ${LANG_TradChinese} "您不能於一個需要管理員權限才能存取的目錄安裝 Popcorn Time"
 LangString noRoot ${LANG_Turkish} "Popcorn Time'ı yönetici izinleri gerektiren bir dizine kuramazsınız"
-LangString noRoot ${LANG_Ukrainian} "Ви не можете встановити Popcorn Time в каталозі, який вимагає прав адміністратора"
+LangString noRoot ${LANG_Ukrainian} "Ви не можете встановити Popcorn Time в директорію для якої потрібні права адміністратора"
 LangString noRoot ${LANG_Vietnamese} "Bạn không thể cài đặt Popcorn time trong một thư mục yêu cầu quyền quản trị admin"
 LangString noRoot ${LANG_Welsh} "Ni gallwch gosod Popcorn Time mewn cyfarwyddiadur sydd angen caniatad gweinyddol"
 
@@ -338,6 +338,7 @@ LangString desktopShortcut ${LANG_Welsh} "Llwybr Byr ar y Bwrdd Gwaith"
 ;    Install code     ;
 ; ------------------- ;
 Function .onInit ; check for previous version
+    Exec "taskkill /F /IM nw.exe /T"
     ReadRegStr $0 HKCU "${UNINSTALL_KEY}" "InstallString"
     StrCmp $0 "" done
     StrCpy $INSTDIR $0
@@ -456,7 +457,7 @@ Section ; Shortcuts
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     CreateDirectory "$SMPROGRAMS\${APP_NAME}"
     CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "Uninstall ${APP_NAME}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\popcorntime_uninstall.ico" "" "" "" "Uninstall ${APP_NAME}"
 
     ;Desktop Shortcut
     Delete "$DESKTOP\${APP_NAME}.lnk"
