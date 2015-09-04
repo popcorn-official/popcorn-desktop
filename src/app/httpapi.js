@@ -557,6 +557,32 @@
             });
 
             ////////////////////
+            ////// LOADING /////
+            ////////////////////
+            server.expose('getloading', function (args, opt, callback) {
+                var view = App.LoadingView;
+                var loading = false;
+                if (view !== undefined && !view.isDestroyed) {
+                    var streamInfo = view.model.get('streamInfo');
+
+                    var result = {
+                        activePeers: streamInfo.get('active_peers'),
+                        downloadSpeed: streamInfo.get('downloadSpeed'),
+                        uploadSpeed: streamInfo.get('uploadSpeed'),
+                        bufferPercent: streamInfo.get('buffer_percent'),
+                        title: streamInfo.get('title'),
+                        loading: true
+                    };
+
+                    popcornCallback(callback, false, result);
+                } else {
+                    popcornCallback(callback, false, {
+                        'loading': false
+                    });
+                }
+            });
+
+            ////////////////////
             ////// PLAYER //////
             ////////////////////
             server.expose('volume', function (args, opt, callback) {

@@ -93,6 +93,11 @@
             </span>
 
             <span class="advanced">
+                <input class="settings-checkbox" name="rememberFilters" id="cb7" type="checkbox" <%=(Settings.rememberFilters? "checked='checked'":"")%>>
+                <label class="settings-label" for="cb7"><%= i18n.__("Remember Filters") %></label>
+            </span>
+
+            <span class="advanced">
                 <div class="dropdown watchedCovers">
                     <p><%= i18n.__("Watched Items") %></p>
                         <%

@@ -670,17 +670,19 @@
         win.debug('Mark Movie as watched on channel:', channel);
         switch (channel) {
         case 'database':
-            switch (Settings.watchedCovers) {
-            case 'fade':
-                $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"] .actions-watched').addClass('selected');
-                $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]').addClass('watched');
-                break;
-            case 'hide':
-                $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]').remove();
-                break;
-            }
-            $('.watched-toggle').addClass('selected').text(i18n.__('Seen'));
-            App.MovieDetailView.model.set('watched', true);
+            try {
+                switch (Settings.watchedCovers) {
+                case 'fade':
+                    $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"] .actions-watched').addClass('selected');
+                    $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]').addClass('watched');
+                    break;
+                case 'hide':
+                    $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]').remove();
+                    break;
+                }
+                $('.watched-toggle').addClass('selected').text(i18n.__('Seen'));
+                App.MovieDetailView.model.set('watched', true);
+            } catch (e) {}
             break;
         case 'seen':
             /* falls through */

@@ -103,6 +103,8 @@
 
             $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
 
+            var index = 0;
+
             if (this.searchEngine === 'KAT') {
 
                 var kat = require('kat-api');
@@ -118,10 +120,12 @@
                             magnet: item.magnet,
                             seeds: item.seeds,
                             peers: item.peers,
-                            size: Common.fileSize(parseInt(item.size))
+                            size: Common.fileSize(parseInt(item.size)),
+                            index: index
                         };
 
                         that.onlineAddItem(itemModel);
+                        index++;
                     });
 
                     that.$('.tooltipped').tooltip({
@@ -160,10 +164,12 @@
                             magnet: item.magnet_uri,
                             seeds: item.seeds,
                             peers: item.leeches,
-                            size: Common.fileSize(parseInt(item.size))
+                            size: Common.fileSize(parseInt(item.size)),
+                            index: index
                         };
 
                         that.onlineAddItem(itemModel);
+                        index++;
                     });
 
                     that.$('.tooltipped').tooltip({
@@ -196,8 +202,18 @@
         onlineAddItem: function (item) {
             var ratio = item.peers > 0 ? item.seeds / item.peers : +item.seeds;
             $('.onlinesearch-info>ul.file-list').append(
-                '<li class="result-item" data-file="' + item.magnet + '"><a>' + item.title + '</a><div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="right" title="' + i18n.__('Magnet link') + '"></div><i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">' + item.size + '</i></li>'
+                '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '"><a>' + item.title + '</a><div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="right" title="' + i18n.__('Magnet link') + '"></div><i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">' + item.size + '</i></li>'
             );
+            if (item.seeds === 0) { // recalc the peers/seeds
+                var torrent = item.magnet.split('&tr')[0] + '&tr=udp://tracker.openbittorrent.com:80/announce' + '&tr=udp://open.demonii.com:1337/announce' + '&tr=udp://tracker.coppersurfer.tk:6969';
+                require('torrent-tracker-health')(torrent, {
+                    timeout: 1000
+                }).then(function (res) {
+                    //console.log('torrent index %s: %s -> %s (seeds)', item.index, item.seeds, res.seeds)
+                    ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
+                    $('.result-item[data-index=' + item.index + '] i').attr('data-original-title', i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers);
+                });
+            }
         },
 
         onlineOpen: function (e) {
