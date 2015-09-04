@@ -57,19 +57,16 @@
 
             var gitlab = require('gitlab')({
                 url: 'https://git.popcorntime.io/',
-                token: 'sb1SeWoyoAWrGPTuQcNE' //public reporter token
+                token: token || 'sb1SeWoyoAWrGPTuQcNE' //public reporter token
             });
             var issue_desc,
                 result,
                 results = [];
 
-            gitlab.projects.issues.list(PT_id, function (data) {
+            gitlab.projects.issues.list(PT_id, {state:'opened'}, function (data) {
                 data = Common.sanitize(data);
                 //stores in 'results' all issues (id + title) containing the keyword
                 data.forEach(function (item) {
-                    if (item.state === 'closed') {
-                        return;
-                    }
                     issue_desc =
                         item.description.toLowerCase() + ' ' + item.title.toLowerCase();
 
@@ -78,7 +75,8 @@
                         results.push({
                             id: item.iid,
                             title: item.title,
-                            description: item.description
+                            description: item.description,
+                            labels: item.labels
                         });
                         return;
                     } else {
@@ -90,17 +88,20 @@
                 if (results.length === 0) {
                     $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search');
                     $('#issue-results').append('<p>' + i18n.__('No issues found...') + '</p>');
+                    $('#issue-search .button.notfound-issue').show();
                 } else {
                     $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search');
-                    var newLine = function (id, title, description) {
+                    var newLine = function (id, title, description, labels) {
                         $('#issue-results').append(
-                            '<li>' + '<a class="issue-title">' + title + '</a>' + '<div class="issue-details">' + '<p>' + description + '</p>' + '<a class="links" href="' + PT_url + id + '">' + i18n.__('Open in your browser') + '</a>' + '</div>' + '</li>'
+                            '<li>' + '<a class="issue-title">' + title + '</a>' + '<small>&nbsp;#' + id + '&nbsp;-&nbsp;' + labels + '</small>' + '<div class="issue-details">' + '<p>' + description + '</p>' + '<a class="links" href="' + PT_url + id + '">' + i18n.__('Open in your browser') + '</a>' + '</div>' + '</li>'
                         );
                     };
                     for (var i = 0; i < results.length; i++) {
-                        results[i].description = results[i].description.replace('\n', '<br>');
-                        newLine(results[i].id, results[i].title, results[i].description);
+                        results[i].description = require('markdown').markdown.toHTML(results[i].description).replace(/\<a href/g, '<a class="links" href').replace(/\<em\>|\<\/em\>/g, '_');
+                        results[i].labels = results[i].labels.length !== 0 ? results[i].labels.join(', ') : 'Uncategorized';
+                        newLine(results[i].id, results[i].title, results[i].description, results[i].labels);
                     }
+                    $('#issue-search .button').show();
                 }
 
             });
@@ -108,7 +109,7 @@
         },
 
         showIssueDetails: function (e) {
-            var elm = e.currentTarget.parentElement.children[1];
+            var elm = e.currentTarget.parentElement.children[2];
             var visible = $(elm).css('display');
 
             if (visible === 'none') {
@@ -225,11 +226,7 @@
                 return;
             }
 
-            if (token) {
-                this.reportBug(title, content, token);
-            } else {
-                this.reportBug(title, content, 'sb1SeWoyoAWrGPTuQcNE');
-            }
+            this.reportBug(title, content, (token || 'sb1SeWoyoAWrGPTuQcNE'));
         },
 
         searchIssue: function () {

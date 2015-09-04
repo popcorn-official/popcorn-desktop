@@ -323,10 +323,10 @@ String.prototype.endsWith = function (suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 // Developer Shortcuts
-Mousetrap.bind(['shift+f12', 'f12', 'command+0'], function (e) {
+Mousetrap.bindGlobal(['shift+f12', 'f12', 'command+0'], function (e) {
     win.showDevTools();
 });
-Mousetrap.bind(['shift+f10', 'f10', 'command+9'], function (e) {
+Mousetrap.bindGlobal(['shift+f10', 'f10', 'command+9'], function (e) {
     win.debug('Opening: ' + App.settings['tmpLocation']);
     gui.Shell.openItem(App.settings['tmpLocation']);
 });
@@ -334,7 +334,7 @@ Mousetrap.bind('mod+,', function (e) {
     App.vent.trigger('about:close');
     App.vent.trigger('settings:show');
 });
-Mousetrap.bind('f11', function (e) {
+Mousetrap.bindGlobal('f11', function (e) {
     Settings.deleteTmpOnClose = false;
     App.vent.trigger('restartPopcornTime');
 });
@@ -351,7 +351,7 @@ Mousetrap.bind('shift+up shift+up shift+down shift+down shift+left shift+right s
         body.addClass('knm');
     }
 });
-Mousetrap.bind(['command+ctrl+f', 'ctrl+alt+f'], function (e) {
+Mousetrap.bindGlobal(['command+ctrl+f', 'ctrl+alt+f'], function (e) {
     e.preventDefault();
     win.toggleFullscreen();
 });

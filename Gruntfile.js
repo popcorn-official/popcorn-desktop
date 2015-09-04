@@ -85,6 +85,7 @@ module.exports = function (grunt) {
         'clean:dist',
         'clean:update',
         'build',
+        'clean:nwjs',
         'exec:codesign', // mac
         'exec:createDmg', // mac
         'exec:createWinInstall',
@@ -197,7 +198,7 @@ module.exports = function (grunt) {
 
         nodewebkit: {
             options: {
-                version: '0.12.1',
+                version: '0.12.2',
                 build_dir: './build', // Where the build version of my node-webkit app is saved
                 keep_nw: true,
                 embed_nw: false,
@@ -464,7 +465,8 @@ module.exports = function (grunt) {
             releases: ['build/releases/Popcorn-Time/**'],
             css: ['src/app/themes/**'],
             dist: ['dist/windows/*-Setup.exe', 'dist/mac/*.dmg'],
-            update: ['build/updater/*.*']
+            update: ['build/updater/*.*'],
+            nwjs: ['build/cache/**/<%= nodewebkit.options.version %>/*pdf*', 'build/cache/**/<%= nodewebkit.options.version %>/*credits*']
         },
 
         watch: {
