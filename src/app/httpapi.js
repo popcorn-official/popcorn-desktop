@@ -555,7 +555,7 @@
 
                 $('#watch-trailer').click();
             });
-            
+
             ////////////////////
             ////// LOADING /////
             ////////////////////
@@ -564,7 +564,7 @@
                 var loading = false;
                 if (view !== undefined && !view.isDestroyed) {
                     var streamInfo = view.model.get('streamInfo');
-                    
+
                     var result = {
                         activePeers: streamInfo.get('active_peers'),
                         downloadSpeed: streamInfo.get('downloadSpeed'),
@@ -573,7 +573,7 @@
                         title: streamInfo.get('title'),
                         loading: true
                     };
-                    
+
                     popcornCallback(callback, false, result);
                 } else {
                     popcornCallback(callback, false, {

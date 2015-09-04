@@ -102,7 +102,7 @@
             $('.onlinesearch-info>ul.file-list').html('');
 
             $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
-            
+
             var index = 0;
 
             if (this.searchEngine === 'KAT') {

@@ -86,10 +86,10 @@
         },
 
         stop: function () {
-          win.info('Closing Chromecast Casting');
-          App.vent.trigger('stream:stop');
-          App.vent.trigger('player:close');
-          App.vent.trigger('torrentcache:stop');
+            win.info('Closing Chromecast Casting');
+            App.vent.trigger('stream:stop');
+            App.vent.trigger('player:close');
+            App.vent.trigger('torrentcache:stop');
             var device = this.get('device');
             // Also stops player and closes connection.
             device.stop(function () {

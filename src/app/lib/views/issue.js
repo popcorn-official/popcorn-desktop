@@ -63,7 +63,9 @@
                 result,
                 results = [];
 
-            gitlab.projects.issues.list(PT_id, {state:'opened'}, function (data) {
+            gitlab.projects.issues.list(PT_id, {
+                state: 'opened'
+            }, function (data) {
                 data = Common.sanitize(data);
                 //stores in 'results' all issues (id + title) containing the keyword
                 data.forEach(function (item) {
@@ -97,7 +99,7 @@
                         );
                     };
                     for (var i = 0; i < results.length; i++) {
-                        results[i].description = require('markdown').markdown.toHTML(results[i].description).replace(/\<a href/g, '<a class="links" href').replace(/\<em\>|\<\/em\>/g, '_');
+                        results[i].description = require('markdown').markdown.toHTML(results[i].description).replace(/<a href/g, '<a class="links" href').replace(/<em>|<\/em>/g, '_');
                         results[i].labels = results[i].labels.length !== 0 ? results[i].labels.join(', ') : 'Uncategorized';
                         newLine(results[i].id, results[i].title, results[i].description, results[i].labels);
                     }
