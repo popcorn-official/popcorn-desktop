@@ -248,6 +248,9 @@ var AdvSettings = {
     },
 
     checkApiEndpoint: function (endpoint, defer) {
+        if (Settings.automaticUpdating === false) {
+            return;
+        }
         var tls = require('tls'),
             http = require('http'),
             uri = require('url');

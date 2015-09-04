@@ -70,6 +70,9 @@ Here are the currently supported procedures, the arguments they require, and the
 `gettypes()`
  * Gets the available sorters for the current tab. Responds with the array of sorters with the key 'types' in the main object.
 
+`getloading()`
+ * Gets information about the current loading video. Responds with the main object which contains the current buffer state, download speed, upload speed, active peers and title.
+
 `getplaying()`
  * Gets information about the current playing video. Responds with the main object which contains the current playing state, download speed, upload speed, active peers, volume, title, quality, current time, duration, movie (true/false), imdb id (if movie = true), tvdb id (if movie = false), season (if movie = false) and episode (if movie = false).
 

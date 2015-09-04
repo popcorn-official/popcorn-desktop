@@ -196,6 +196,9 @@
                         that.showWatchlist();
                     } else if (Settings.startScreen === 'Favorites' || (lastOpen && Settings.lastTab === 'Favorites')) {
                         that.showFavorites();
+                    } else if (Settings.startScreen === 'Torrent-collection' || (lastOpen && Settings.lastTab === 'Torrent-collection')) {
+                        that.showMovies(); //needed because Torrentcollection isnt a real collection
+                        that.showTorrentCollection();
                     } else if (Settings.startScreen === 'TV Series' || (lastOpen && Settings.lastTab === 'TV Series')) {
                         that.showShows();
                     } else if (Settings.startScreen === 'Anime' || (lastOpen && Settings.lastTab === 'Anime')) {
