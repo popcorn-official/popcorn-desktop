@@ -64,8 +64,12 @@
                         fs.unlink(zipPath, function (err) {});
                         win.debug('Subtitles extracted to : ' + newName);
                         var found = findSrt(unzipPath);
-                        fs.renameSync(found, newName);
-                        resolve(newName);
+                        if (found) {
+                            fs.renameSync(found, newName);
+                            resolve(newName);
+                        } else {
+                            throw 'no SRT file in the downloaded archive';
+                        }
                     } catch (e) {
                         win.error('Error downloading subtitle: ' + e);
                         reject(e);
