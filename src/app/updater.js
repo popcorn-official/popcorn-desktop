@@ -148,7 +148,6 @@
 
     function installWindows(downloadPath, updateData) {
         var defer = Q.defer();
-
         var pack = new AdmZip(downloadPath);
 
         if (updateData.extended) {
@@ -173,8 +172,8 @@
                     };
 
                     App.vent.trigger('notification:show', new App.Model.Notification({
-                        title: 'Update ' + this.updateData.version + ' Installed',
-                        body: this.updateData.description,
+                        title: 'Update ' + (updateData.version || 'Hotfix') + ' Installed',
+                        body: (updateData.description || 'Auto update'),
                         showRestart: false,
                         type: 'info',
                         buttons: [{
@@ -396,34 +395,6 @@
             }]
         }));
     };
-
-
-    Updater.prototype.update = function () {
-        var outputFile = path.join(path.dirname(this.outputDir), FILENAME);
-
-        if (this.updateData) {
-            // If we have already checked for updates...
-            return this.download(this.updateData.updateUrl, outputFile)
-                .then(forcedBind(this.verify, this))
-                .then(forcedBind(this.install, this))
-                .then(forcedBind(this.displayNotification, this));
-        } else {
-            // Otherwise, check for updates then install if needed!
-            var self = this;
-            return this.check().then(function (updateAvailable) {
-                if (updateAvailable) {
-                    return self.download(self.updateData.updateUrl, outputFile)
-                        .then(forcedBind(self.verify, self))
-                        .then(forcedBind(self.install, self))
-                        .then(forcedBind(self.displayNotification, self));
-                } else {
-                    return false;
-                }
-            });
-        }
-    };
-
-    App.Updater = Updater;
 
     Updater.prototype.update = function () {
         var outputFile = path.join(path.dirname(this.outputDir), FILENAME);
