@@ -245,8 +245,8 @@
                                 })
                                 .on('end', function () {
                                     App.vent.trigger('notification:show', new App.Model.Notification({
-                                        title: 'Update ' + this.updateData.version + ' Installed',
-                                        body: this.updateData.description,
+                                        title: 'Update ' + (updateData.version || 'Hotfix') + ' Installed',
+                                        body: (updateData.description || 'Auto update'),
                                         showRestart: true,
                                         type: 'info'
                                     }));
@@ -315,8 +315,8 @@
                                 })
                                 .on('end', function () {
                                     App.vent.trigger('notification:show', new App.Model.Notification({
-                                        title: 'Update ' + this.updateData.version + ' Installed',
-                                        body: this.updateData.description,
+                                        title: 'Update ' + (updateData.version || 'Hotfix') + ' Installed',
+                                        body: (updateData.description || 'Auto update'),
                                         showRestart: true,
                                         type: 'info'
                                     }));
