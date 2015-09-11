@@ -112,9 +112,6 @@
             App.vent.on('subtitle:convert', this.convert);
             self = this;
         },
-        get: function (data) {
-            win.error('Not implemented in parent model');
-        },
         download: function (data) {
             if (data.path && data.url) {
                 win.debug('Subtitles download url:', data.url);

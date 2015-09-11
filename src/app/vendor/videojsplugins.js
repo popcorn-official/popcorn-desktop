@@ -149,6 +149,7 @@ videojs.plugin('customSubtitles', function () {
         this.track = this.player_.addTextTrack('subtitles', i18n.__('Custom...'), '00', {
             src: filePath
         });
+        App.vent.trigger('customSubtitles:added', filePath);
         vjs.TextTrackMenuItem.prototype.onClick.call(this); // redirect to TextTrackMenuItem.onClick
     };
 

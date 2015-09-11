@@ -18,6 +18,7 @@
                     });
                 }
 
+                self.set('videoFile', path.join(engine.path, engine.server.index.path));
                 self.set('size', size);
             });
 

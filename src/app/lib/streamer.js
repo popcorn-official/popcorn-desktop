@@ -368,7 +368,9 @@
                             App.vent.trigger('system:openFileSelector', fileModel);
                         } else {
                             model.set('defaultSubtitle', Settings.subtitle_language);
-                            var sub_data = {};
+                            var sub_data = {
+                                filename: torrent.name
+                            };
                             if (torrent.name) { // sometimes magnets don't have names for some reason
                                 var torrentMetadata;
                                 if (torrent.info && torrent.info.name) {
@@ -378,7 +380,6 @@
                                     .then(function (res) {
                                         if (res.error) {
                                             win.warn(res.error);
-                                            sub_data.filename = res.filename;
                                             title = res.filename;
                                             getSubtitles(sub_data);
                                             handleTorrent_fnc();
@@ -405,15 +406,12 @@
                                                 title = res.show.title + ' - ' + i18n.__('Season %s', res.show.episode.season) + ', ' + i18n.__('Episode %s', res.show.episode.episode) + ' - ' + res.show.episode.title;
                                                 break;
                                             default:
-                                                sub_data.filename = res.filename;
                                             }
                                             getSubtitles(sub_data);
                                             handleTorrent_fnc();
                                         }
                                     })
                                     .catch(function (err) {
-                                        title = $.trim(torrent.name.replace('[rartv]', '').replace('[PublicHD]', '').replace('[ettv]', '').replace('[eztv]', '')).replace(/[\s]/g, '.');
-                                        sub_data.filename = title;
                                         win.error('An error occured while trying to get metadata and subtitles', err);
                                         getSubtitles(sub_data);
                                         handleTorrent_fnc(); //try and force play
