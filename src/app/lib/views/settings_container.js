@@ -238,6 +238,7 @@
             case 'activateTorrentCollection':
             case 'activateWatchlist':
             case 'activateRandomize':
+            case 'opensubtitlesAutoUpload':
             case 'rememberFilters':
                 value = field.is(':checked');
                 break;

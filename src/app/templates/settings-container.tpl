@@ -386,6 +386,10 @@
 						<em><%= i18n.__("Popcorn Time stores an encrypted hash of your password in your local database") %></em>
 					</span>
                 <% } %>
+                <span class="advanced">
+                    <input class="settings-checkbox" name="opensubtitlesAutoUpload" id="opensubtitlesAutoUpload" type="checkbox" <%=(Settings.opensubtitlesAutoUpload? "checked='checked'":"")%>>
+                    <label class="settings-label" for="opensubtitlesAutoUpload"><%= i18n.__("Automatic Subtitle Uploading") %></label>
+                </span>
             </div>
         </div>
     </section>
