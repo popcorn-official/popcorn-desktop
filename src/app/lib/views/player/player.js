@@ -114,7 +114,7 @@
                             return;
                         }
                         win.debug('OpenSubtitles - Subtitles successfully uploaded', data);
-                    }).catch(function(err) {
+                    }).catch(function (err) {
                         win.warn('OpenSubtitles: could not upload subtitles', err);
                     });
                 }
