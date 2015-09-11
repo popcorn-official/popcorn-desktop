@@ -28,6 +28,11 @@
             .then(formatForPopcorn);
     };
 
+    OpenSubtitles.prototype.upload = function (queryParams) {
+        var openSRT = new OS('Popcorn Time v' + (Settings.version || 1), Settings.opensubtitlesUsername, Settings.opensubtitlesPassword);
+        return openSRT.upload(queryParams);
+    };
+
     App.Providers.OpenSubtitles = OpenSubtitles;
 
 })(window.App);

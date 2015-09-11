@@ -91,6 +91,34 @@
             }
         },
 
+        uploadSubtitles: function () {
+            var self = this;
+            // verify custom subtitles not modified
+            if (this.customSubtitles && !this.customSubtitles.modified) {
+                var real_elapsedTime = (Date.now() - this.customSubtitles.added_at) / 1000;
+                var player_elapsedTime = this.video.currentTime() - this.customSubtitles.timestamp;
+                var perc_elapsedTime = player_elapsedTime / this.video.duration();
+
+                // verify was played long enough
+                if (real_elapsedTime >= player_elapsedTime && perc_elapsedTime >= 0.7) {
+                    var upload = {
+                        subpath: this.model.get('subFile'),
+                        path: this.model.get('videoFile'),
+                        imdbid: this.model.get('imdb_id')
+                    };
+
+                    win.debug('OpenSubtitles - Uploading subtitles', upload);
+
+                    var subtitleProvider = App.Config.getProvider('tvshowsubtitle');
+                    subtitleProvider.upload(upload).then(function (data) {
+                        win.debug('OpenSubtitles - Subtitles successfully uploaded', data);
+                    }).catch(function(err) {
+                        win.warn('OpenSubtitles: could not upload subtitles', err);
+                    });
+                }
+            }
+        },
+
         closePlayer: function () {
             win.info('Player closed');
             if (this._AutoPlayCheckTimer) {
@@ -100,6 +128,7 @@
                 clearInterval(this._ShowUIonHover);
             }
 
+            this.uploadSubtitles();
             this.sendToTrakt('stop');
 
             var type = this.isMovie();
@@ -232,6 +261,17 @@
                     _this.closePlayer();
                 }
 
+            });
+
+            App.vent.on('customSubtitles:added', function () {
+                _this.customSubtitles = {
+                    added_at: Date.now(),
+                    timestamp: _this.video.currentTime(),
+                    modified: false
+                };
+                $('#video_player li:contains("' + i18n.__('Disabled') + '")').on('click', function () {
+                    _this.customSubtitles = undefined;
+                });
             });
 
             var checkAutoPlay = function () {
@@ -776,6 +816,9 @@
             var o = this.player.options()['trackTimeOffset'];
             this.player.options()['trackTimeOffset'] = (o + s);
             this.displayOverlayMsg(i18n.__('Subtitles Offset') + ': ' + (-this.player.options()['trackTimeOffset'].toFixed(1)) + ' ' + i18n.__('secs'));
+            if (this.customSubtitles) {
+                this.customSubtitles.modified = true;
+            }
         },
 
         adjustPlaybackRate: function (rate, delta) {
