@@ -67,6 +67,7 @@ Settings.traktPlayback = true;
 Settings.tvstAccessToken = '';
 
 // OpenSubtitles
+Settings.opensubtitlesAutoUpload = true;
 Settings.opensubtitlesAuthenticated = false;
 Settings.opensubtitlesUsername = '';
 Settings.opensubtitlesPassword = '';
