@@ -109,8 +109,9 @@ Here are the currently supported procedures, the arguments they require, and the
 `clearsearch()`
  * Clear the search field.
 
-`startstream(string imdb_id, string torrent_url, string backdrop, [subtitles], string selected_subtitle, string title == undefined, string quality, string type)`
+`startstream(string imdb_id, string torrent_url, string backdrop, [subtitles], string selected_subtitle, string title == undefined, string quality, string type, string tvdb_id == undefined, number season == undefined, number episode == undefined, string episode_id == undefined, object epInfo == undefined)`
  * Start the torrent stream with the given values.
+ * Parameter epInfo is used to fetch subtitles from various providers and should be defined as { type: string (eg. 'tvshow'), imdbid: string, tvdbid: string, episode_id: string (usually equals tvdbid), season: number, episode: number }
 
 `seek(double amount)`
  * Seek through the video by the given time amount in seconds.
