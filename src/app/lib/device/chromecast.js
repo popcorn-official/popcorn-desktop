@@ -12,7 +12,7 @@
         },
 
         _makeID: function (baseID) {
-            return 'chromecast-' + baseID.replace(' ', '-');
+            return 'chromecast-' + Common.md5(baseID);
         },
 
         initialize: function (attrs) {
