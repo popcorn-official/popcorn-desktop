@@ -20,6 +20,23 @@
     </div>
 </div>
 <div class="trailer_mouse_catch"></div>
+<div class="verify-metadata vjs-control-window">
+    <div class="vm_poster">
+        <img class="verifmeta_poster" src="images/posterholder.png">
+    </div>
+    <div class="vm_epinfo">
+        <p class="verifmeta_show"></p>
+        <p class="verifmeta_episode"></p>
+        <p class="verifmeta_number"></p>
+    </div>
+    <div class="vm_box">
+        <p class="verifmeta_boxtext"><%= i18n.__("Currently watching") %></p>
+    </div>
+    <div class="vm_btns">
+        <div class="vm-btn verifmetaFALSE"><%= i18n.__("No, it's not that") %></div>
+        <div class="vm-btn verifmetaTRUE"><%= i18n.__("Correct") %></div>
+    </div>
+</div>
 <div class="playing_next vjs-control-window">
     <div class="pn_poster">
         <img class="playing_next_poster" src="images/posterholder.png">

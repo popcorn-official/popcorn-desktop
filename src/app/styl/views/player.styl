@@ -210,6 +210,102 @@
         }
         
     }
+    .verify-metadata {
+        color: #fff
+        z-index: 23
+        bottom: 10vh !important
+        width: 450px;
+        height: 140px;
+        padding: 10px
+        font-size: 20px
+        left: 3vw !important
+        display: none
+        background-color: rgba(0, 0, 0, 0.54) !important
+        overflow: hidden
+        
+        .vm_poster {
+            width: 90px;
+            height: 120px;
+            float: left;
+
+            .verifmeta_poster {
+                width: 80px;
+            }
+        }
+        .vm_epinfo {
+            width: 235px;
+            height: 80px;
+            float: left;
+            text-align: left;
+            
+            .verifmeta_show {
+                font-size: 15px;
+                font-weight: bold;
+                line-height: 20px;
+                overflow: hidden; 
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .verifmeta_episode {
+                font-size: 11px;
+                line-height: 14px;
+                overflow: hidden; 
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .verifmeta_number {
+                font-size: 17px;
+                margin-top: 18px;
+                overflow: hidden; 
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .vm_box {
+            width: 105px;
+            height: 80px;
+            float: left;
+
+            .verifmeta_boxtext {
+                font-size: 11px;
+                text-align: center;
+                text-transform: uppercase;
+            }
+        }
+        .vm_btns {
+            width: 340px;
+            height: 40px;
+            float: left;
+
+            .vm-btn {
+                position relative
+                float left
+                margin-top 3px
+                margin-left 15px
+                padding 12px
+
+                border-radius $ButtonRadius
+                background-color $ButtonBg
+                text-align center
+                color $SettingsButtonText
+                font-family $ButtonFont, $AlternateFont
+                font-size 12px
+                cursor pointer
+                transition background-color .5s
+                &:hover {
+                    background-color $ButtonBgHover
+                    color $SettingsButtonTextHover
+                    text-decoration none
+                }
+                &:active{
+                    box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+                    background: $ButtonBgActive
+                }
+            }
+
+        }
+        
+    }
 
 /*        span {
             font-weight: bold

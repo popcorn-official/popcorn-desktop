@@ -28,6 +28,8 @@
             'click .close-info-player': 'closePlayer',
             'click .playnownext': 'playNextNow',
             'click .playnownextNOT': 'playNextNot',
+            'click .verifmetaTRUE': 'verifyMetadata',
+            'click .verifmetaFALSE': 'wrongMetadata',
             'click .vjs-subtitles-button': 'toggleSubtitles',
             'click .vjs-text-track': 'moveSubtitles',
             'click .vjs-play-control': 'togglePlay'
@@ -137,7 +139,7 @@
             if (type === 'episode') {
                 type = 'show';
             }
-            if (this.video.currentTime() / this.video.duration() >= 0.8 && type !== undefined) {
+            if (this.video.currentTime() / this.video.duration() >= 0.8 && type !== undefined && this.model.get('metadataCheckRequired') !== false) {
                 App.vent.trigger(type + ':watched', this.model.attributes, 'database');
             }
 
@@ -276,6 +278,25 @@
                     _this.customSubtitles = undefined;
                 });
             });
+
+            if (this.model.get('metadataCheckRequired')) {
+                var matcher = this.model.get('title').split(/\s-\s/i);
+                $('.verifmeta_poster').attr('src', this.model.get('poster'));
+                $('.verifmeta_show').text(matcher[0]);
+                if (this.model.get('episode')) {
+                    $('.verifmeta_episode').text(matcher[2]);
+                    $('.verifmeta_number').text(i18n.__('Season %s', this.model.get('season')) + ', ' + i18n.__('Episode %s', this.model.get('episode')));
+                } else {
+                    $('.verifmeta_episode').text(this.model.get('year'));
+                }
+
+                // display it
+                $('.verify-metadata').show();
+                $('.verify-metadata').appendTo('div#video_player');
+                if (!_this.player.userActive()) {
+                    _this.player.userActive(true);
+                }
+            }
 
             var checkAutoPlay = function () {
                 if (_this.isMovie() === 'episode' && next_episode_model) {
@@ -436,7 +457,7 @@
 
             this.player.volume(AdvSettings.get('playerVolume'));
 
-            $('.vjs-menu-content, .eye-info-player, .playing_next').hover(function () {
+            $('.vjs-menu-content, .eye-info-player, .playing_next, .verify_metadata').hover(function () {
                 _this._ShowUIonHover = setInterval(function () {
                     App.PlayerView.player.userActive(true);
                 }, 100);
@@ -515,6 +536,46 @@
                 return i18n.__('%s minute(s) remaining', Math.round(timeLeft / 60));
             } else if (timeLeft <= 60) {
                 return i18n.__('%s second(s) remaining', timeLeft);
+            }
+        },
+
+        verifyMetadata: function () {
+            $('.verify-metadata').hide();
+        },
+        
+        wrongMetadata: function () {
+            $('.verify-metadata').hide();
+            
+            // stop trakt
+            this.sendToTrakt('stop');
+            
+            // remove wrong metadata
+            var title = path.basename(this.model.get('src'));
+            this.model.set('imdb_id', false);
+            this.model.set('cover', false);
+            this.model.set('title', title);
+            this.model.set('season', false);
+            this.model.set('episode', false);
+            this.model.set('tvdb_id', false);
+            this.model.set('episode_id', false);
+            this.model.set('metadataCheckRequired', false);
+            $('.player-title').text(title);
+
+            // remove subtitles
+            var subs = this.model.get('subtitle');
+            if (subs && subs.local) {
+                var tmpLoc = subs.local;
+                this.model.set('subtitle', {
+                    local: tmpLoc
+                });
+            }
+
+            var item;
+            for (var i = $('.vjs-subtitles-button .vjs-menu-item').length - 1; i > 0; i--) {
+                item = $('.vjs-subtitles-button .vjs-menu-item')[i];
+                if (item.innerText !== i18n.__('Subtitles') && item.innerText !== i18n.__('Custom...') && item.innerText !== i18n.__('Disabled')) {
+                    item.remove();
+                }
             }
         },
 

@@ -151,7 +151,9 @@ Common.matchTorrent = function (file, torrent) {
                             .then(function () {
                                 data.movie = {};
                                 data.type = 'movie';
+                                data.movie.year = summary[0].movie.year;
                                 data.movie.image = summary[0].movie.images.fanart.medium;
+                                data.movie.poster = summary[0].movie.images.poster.thumb;
                                 data.movie.imdbid = summary[0].movie.ids.imdb;
                                 data.movie.title = summary[0].movie.title;
                                 resolve(data);
@@ -182,6 +184,8 @@ Common.matchTorrent = function (file, torrent) {
                     if (!summary || summary.length === 0) {
                         return reject(new Error('Unable to fetch data from Trakt.tv'));
                     } else {
+                        data.show = {};
+                        data.show.poster = summary.images.poster.thumb;
 
                         // find the corresponding episode
                         App.Trakt.episodes.summary(title, season, episode)
@@ -190,9 +194,9 @@ Common.matchTorrent = function (file, torrent) {
                                 if (!episodeSummary) {
                                     return reject(new Error('Unable to fetch data from Trakt.tv'));
                                 } else {
-                                    data.show = {};
                                     data.show.episode = {};
                                     data.type = 'episode';
+                                    data.year = episodeSummary.first_aired.split('-')[0]
                                     data.show.episode.image = episodeSummary.images.screenshot.full;
                                     data.show.imdbid = summary.ids.imdb;
                                     data.show.episode.season = episodeSummary.season.toString();

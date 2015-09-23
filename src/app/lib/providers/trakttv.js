@@ -241,7 +241,9 @@
 
     TraktTv.prototype.shows = {
         summary: function (id) {
-            return this.get('shows/' + id);
+            return this.get('shows/' + id, {
+                extended: 'full,images'
+            });
         },
         aliases: function (id) {
             return this.get('shows/' + id + '/aliases');
