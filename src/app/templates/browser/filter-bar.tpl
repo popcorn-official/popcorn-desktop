@@ -1,7 +1,7 @@
 <ul class="nav nav-hor left">
-    <li class="source active showMovies providerinfo" data-toggle="tooltip" data-placement="top" title="YTS"><%= i18n.__("Movies") %></li>
-    <li class="source showShows providerinfo" data-toggle="tooltip" data-placement="top" title="TVApi"><%= i18n.__("TV Series") %></li>
-        <li class="source showAnime providerinfo" data-toggle="tooltip" data-placement="top" title="Haruhichan"><%= i18n.__("Anime") %></li>
+    <li class="source active showMovies providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.providers.movie %>"><%= i18n.__("Movies") %></li>
+    <li class="source showShows providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.providers.tvshow %>"><%= i18n.__("TV Series") %></li>
+    <li class="source showAnime providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.providers.anime %>"><%= i18n.__("Anime") %></li>
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">
     <% if(typeof type !== 'undefined'){ %>
