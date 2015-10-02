@@ -230,6 +230,8 @@
                         data.provider = provider.name;
                         $('.spinner').hide();
                         App.vent.trigger(type + ':showDetail', new App.Model[Type](data));
+                    }).catch(function (err) {
+                        console.error (err);
                     });
                 break;
 
