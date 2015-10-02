@@ -330,7 +330,7 @@
                             <i class="fa fa-user-plus">&nbsp;&nbsp;</i>
                             <%= i18n.__("Connect To %s", "Trakt") %>
                         </div>
-                        <div class="loading-spinner" style="display: none"></div>
+                        <div class="trakt-loading-spinner" style="display: none"></div>
                     </span>
                 <% } %>
             </div>

@@ -390,21 +390,21 @@
             }
 
             $('#authTrakt > i').css('visibility', 'hidden');
-            $('.loading-spinner').show();
+            $('.trakt-loading-spinner').show();
 
             App.Trakt.oauth.authenticate()
                 .then(function (valid) {
                     if (valid) {
-                        $('.loading-spinner').hide();
+                        $('.trakt-loading-spinner').hide();
                         that.render();
                     } else {
-                        $('.loading-spinner').hide();
+                        $('.trakt-loading-spinner').hide();
                         $('#authTrakt > i').css('visibility', 'visible');
                     }
                 }).catch(function (err) {
                     win.debug('Trakt', err);
                     $('#authTrakt > i').css('visibility', 'visible');
-                    $('.loading-spinner').hide();
+                    $('.trakt-loading-spinner').hide();
                 });
         },
 
