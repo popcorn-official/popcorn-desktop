@@ -165,7 +165,7 @@
         },
 
         providers: {
-            movie: ['Yts'],
+            movie: ['Yts', 'Vodo'],
             tvshow: ['TVApi'],
             anime: ['Haruhichan'],
             subtitle: 'YSubs',
