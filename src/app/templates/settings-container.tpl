@@ -256,6 +256,10 @@
                         </datalist>
                 </div>
             </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="subtitles_bold" id="subsbold" type="checkbox" <%=(Settings.subtitles_bold? "checked='checked'":"")%>>
+                <label class="settings-label" for="subsbold"><%= i18n.__("Bold") %></label>
+            </span>
 
         </div>
     </section>

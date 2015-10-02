@@ -239,6 +239,7 @@
             case 'activateWatchlist':
             case 'activateRandomize':
             case 'opensubtitlesAutoUpload':
+            case 'subtitles_bold':
             case 'rememberFilters':
                 value = field.is(':checked');
                 break;

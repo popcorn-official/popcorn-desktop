@@ -101,6 +101,9 @@ vjs.TextTrack.prototype.load = function () {
             } else if (Settings.subtitle_decoration === 'See-through Background') {
                 $('.vjs-text-track').css('background', 'rgba(0,0,0,.5)');
             }
+            if (Settings.subtitles_bold) {
+                $('.vjs-text-track').css('font-weight', 'bold');
+            }
             $('.vjs-text-track').css('z-index', 'auto').css('position', 'relative').css('top', AdvSettings.get('playerSubPosition'));
         };
 
