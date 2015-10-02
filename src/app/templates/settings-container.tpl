@@ -214,7 +214,7 @@
                 <div class="dropdown subtitles-decoration">
                     <p><%= i18n.__("Decoration") %></p>
                     <%
-                        var arr_deco = ["None", "Outline", "Opaque Background"];
+                        var arr_deco = ["None", "Outline", "Opaque Background", "See-through Background"];
 
                         var sub_deco = "";
                         for(var key in arr_deco) {

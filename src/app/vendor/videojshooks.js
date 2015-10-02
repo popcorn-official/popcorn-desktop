@@ -98,6 +98,8 @@ vjs.TextTrack.prototype.load = function () {
                 $('.vjs-text-track').css('text-shadow', 'none');
             } else if (Settings.subtitle_decoration === 'Opaque Background') {
                 $('.vjs-text-track').css('background', '#000');
+            } else if (Settings.subtitle_decoration === 'See-through Background') {
+                $('.vjs-text-track').css('background', 'rgba(0,0,0,.5)');
             }
             $('.vjs-text-track').css('z-index', 'auto').css('position', 'relative').css('top', AdvSettings.get('playerSubPosition'));
         };
