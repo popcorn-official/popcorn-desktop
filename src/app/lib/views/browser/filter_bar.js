@@ -28,6 +28,7 @@
             'click .showMovies': 'showMovies',
             'click .showShows': 'showShows',
             'click .showAnime': 'showAnime',
+            'click .showIndie': 'showIndie',
             'click #filterbar-favorites': 'showFavorites',
             'click #filterbar-watchlist': 'showWatchlist',
             'click #filterbar-torrent-collection': 'showTorrentCollection',
@@ -59,6 +60,10 @@
             case 'Anime':
             case 'anime':
                 $('.source.showAnime').addClass('active');
+                break;
+            case 'Indie':
+            case 'indie':
+                $('.source.showIndie').addClass('active');
                 break;
             case 'Favorites':
             case 'favorites':
@@ -148,6 +153,9 @@
                     break;
                 case 'Anime':
                     App.currentview = 'anime';
+                    break;
+                case 'Indie':
+                    App.currentview = 'indie';
                     break;
                 case 'Favorites':
                     App.currentview = 'Favorites';
@@ -353,6 +361,15 @@
             App.vent.trigger('torrentCollection:close');
             App.vent.trigger('anime:list', []);
             this.setactive('Anime');
+        },
+
+        showIndie: function (e) {
+            e.preventDefault();
+            App.currentview = 'indie';
+            App.vent.trigger('about:close');
+            App.vent.trigger('torrentCollection:close');
+            App.vent.trigger('indie:list', []);
+            this.setactive('Indie');
         },
 
         showMovies: function (e) {

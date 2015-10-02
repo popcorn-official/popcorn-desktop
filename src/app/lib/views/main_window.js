@@ -73,6 +73,7 @@
             App.vent.on('movies:list', _.bind(this.showMovies, this));
             App.vent.on('shows:list', _.bind(this.showShows, this));
             App.vent.on('anime:list', _.bind(this.showAnime, this));
+            App.vent.on('indie:list', _.bind(this.showIndie, this));
             App.vent.on('favorites:list', _.bind(this.showFavorites, this));
             App.vent.on('favorites:render', _.bind(this.renderFavorites, this));
             App.vent.on('watchlist:list', _.bind(this.showWatchlist, this));
@@ -253,6 +254,13 @@
             this.MovieDetail.destroy();
 
             this.Content.show(new App.View.AnimeBrowser());
+        },
+
+        showIndie: function (e) {
+            this.Settings.destroy();
+            this.MovieDetail.destroy();
+
+            this.Content.show(new App.View.IndieBrowser());
         },
 
         updateShows: function (e) {
