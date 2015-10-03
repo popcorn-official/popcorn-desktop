@@ -196,7 +196,7 @@ Common.matchTorrent = function (file, torrent) {
                                 } else {
                                     data.show.episode = {};
                                     data.type = 'episode';
-                                    data.year = episodeSummary.first_aired.split('-')[0]
+                                    data.year = episodeSummary.first_aired.split('-')[0];
                                     data.show.episode.image = episodeSummary.images.screenshot.full;
                                     data.show.imdbid = summary.ids.imdb;
                                     data.show.episode.season = episodeSummary.season.toString();

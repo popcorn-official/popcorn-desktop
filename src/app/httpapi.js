@@ -348,7 +348,7 @@
                         quality: args.quality,
                         type: args.type,
                         device: App.Device.Collection.selected
-                    }
+                    };
                     if (args.tvdb_id) { model.tvdb_id = args.tvdb_id; }
                     if (args.season) { model.season = args.season; }
                     if (args.episode) { model.episode = args.episode; }

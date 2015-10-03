@@ -514,7 +514,7 @@ var handleVideoFile = function (file) {
     Common.matchTorrent(path.basename(file.path))
         .then(function(res) {
             if (!res || res.error) {
-                throw new Error('matchTorrent failed')
+                throw new Error('matchTorrent failed');
             }
 
             playObj.metadataCheckRequired = true;
