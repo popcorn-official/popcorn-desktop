@@ -486,5 +486,12 @@
     "Your disk is almost full.": "Votre disque dur est presque plein.",
     "You need to make more space available on your disk by deleting files.": "Vous devez libérer de l'espace sur votre disque dur en supprimant des fichiers.",
     "Playing Next": "Épisode suivant",
-    "Trending": "Tendance"
+    "Trending": "Tendance",
+    "Remember Filters": "Se souvenir du choix du filtrage",
+    "Automatic Subtitle Uploading": "Téléversement automatique des sous-titres",
+    "See-through Background": "Arrière-plan semi-transparent",
+    "Bold": "Gras",
+    "Currently watching": "Vous regardez",
+    "No, it's not that": "Non, ce n'est pas ça",
+    "Correct": "Exact"
 }
