@@ -542,13 +542,13 @@
         verifyMetadata: function () {
             $('.verify-metadata').hide();
         },
-        
+
         wrongMetadata: function () {
             $('.verify-metadata').hide();
-            
+
             // stop trakt
             this.sendToTrakt('stop');
-            
+
             // remove wrong metadata
             var title = path.basename(this.model.get('src'));
             this.model.set('imdb_id', false);

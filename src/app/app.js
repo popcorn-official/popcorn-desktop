@@ -459,7 +459,7 @@ var isVideo = function (file) {
 
 var handleVideoFile = function (file) {
     $('.spinner').show();
-    
+
     // look for local subtitles
     var checkSubs = function () {
         var _ext = path.extname(file.name);
@@ -498,7 +498,7 @@ var handleVideoFile = function (file) {
     // close the player if needed
     try {
         App.PlayerView.closePlayer();
-    } catch (err) { }
+    } catch (err) {}
 
     // init our objects
     var playObj = {
@@ -512,7 +512,7 @@ var handleVideoFile = function (file) {
 
     // try to figure out what movie/episode we're playing
     Common.matchTorrent(path.basename(file.path))
-        .then(function(res) {
+        .then(function (res) {
             if (!res || res.error) {
                 throw new Error('matchTorrent failed');
             }
@@ -565,27 +565,27 @@ var handleVideoFile = function (file) {
                     playObj.subtitle = checkSubs();
                 });
         })
-        .catch(function(err) {
+        .catch(function (err) {
             playObj.title = file.name;
             playObj.quality = false;
             playObj.defaultSubtitle = 'local';
             playObj.subtitle = checkSubs();
         })
 
-        // once we've checked everything, we start playing.
-        .finally(function () {
-            $('.spinner').hide();
+    // once we've checked everything, we start playing.
+    .finally(function () {
+        $('.spinner').hide();
 
-            var localVideo = new Backbone.Model(playObj); // streamer model
-            win.debug('Trying to play local file', localVideo.get('src'), localVideo.attributes);
+        var localVideo = new Backbone.Model(playObj); // streamer model
+        win.debug('Trying to play local file', localVideo.get('src'), localVideo.attributes);
 
-            var tmpPlayer = App.Device.Collection.selected.attributes.id;
-            App.Device.Collection.setDevice('local');
-            App.vent.trigger('stream:ready', localVideo); // start stream
-            App.Device.Collection.setDevice(tmpPlayer);
+        var tmpPlayer = App.Device.Collection.selected.attributes.id;
+        App.Device.Collection.setDevice('local');
+        App.vent.trigger('stream:ready', localVideo); // start stream
+        App.Device.Collection.setDevice(tmpPlayer);
 
-            $('.eye-info-player').hide();
-        });
+        $('.eye-info-player').hide();
+    });
 };
 
 var handleTorrent = function (torrent) {
