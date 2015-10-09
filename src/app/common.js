@@ -327,6 +327,20 @@ Common.matchTorrent = function (file, torrent) {
         return false;
     };
 
+    var checkApostrophy = function (obj) {
+        var title = obj.title;
+        var matcher = obj.title.match(/\w{2}s-/gi);
+        if (matcher !== null) {
+            obj.alt_titles = {};
+            obj.alt_titles[0] = obj.title;
+            delete obj.title;
+            for (var i = 0; i < matcher.length; i++) {
+                obj.alt_titles[i + 1] = title.replace(matcher[i], matcher[i].substring(0,2)+'-s-');
+            }
+        }
+        return obj;
+    };
+
     // function starts here
     if (!file && !torrent) {
 
@@ -338,7 +352,6 @@ Common.matchTorrent = function (file, torrent) {
         // inject torrent title if not in filename
         injectTorrent(file, torrent)
             .then(function (parsed) {
-                var title = $.trim(parsed.replace(/\[rartv\]/i, '').replace(/\[PublicHD\]/i, '').replace(/\[ettv\]/i, '').replace(/\[eztv\]/i, '')).replace(/[\s]/g, '.');
                 data.filename = file;
 
                 var quality = injectQuality(file);
@@ -347,23 +360,48 @@ Common.matchTorrent = function (file, torrent) {
                 }
 
                 formatTitle(parsed)
+                    .then(checkApostrophy)
                     .then(function (obj) {
-                        searchEpisode(obj.title, obj.season, obj.episode)
-                            .then(function (result) {
-                                result.filename = data.filename;
-                                defer.resolve(result);
-                            })
-                            .catch(function (error) {
-                                searchMovie(obj.title)
+                        if (obj.title) {
+                            searchEpisode(obj.title, obj.season, obj.episode)
+                                .then(function (result) {
+                                    result.filename = data.filename;
+                                    defer.resolve(result);
+                                })
+                                .catch(function (error) {
+                                    searchMovie(obj.title)
+                                        .then(function (result) {
+                                            result.filename = data.filename;
+                                            defer.resolve(result);
+                                        })
+                                        .catch(function (error) {
+                                            data.error = error.message;
+                                            defer.resolve(data);
+                                        });
+                                });
+                        } else {
+                            for (var i = 0; i < Object.keys(obj.alt_titles).length; i++) {
+                                var title = obj.alt_titles[i];
+                                searchEpisode(title, obj.season, obj.episode)
                                     .then(function (result) {
                                         result.filename = data.filename;
                                         defer.resolve(result);
                                     })
                                     .catch(function (error) {
-                                        data.error = error.message;
-                                        defer.resolve(data);
+                                        searchMovie(title)
+                                            .then(function (result) {
+                                                result.filename = data.filename;
+                                                defer.resolve(result);
+                                            })
+                                            .catch(function (error) {
+                                                if (i === obj.alt_titles.length - 1) {
+                                                    data.error = error.message;
+                                                    defer.resolve(data);
+                                                }
+                                            });
                                     });
-                            });
+                            }
+                        }
                     })
                     .catch(function (error) {
                         data.error = error.message;
