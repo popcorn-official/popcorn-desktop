@@ -52,6 +52,8 @@
         "minimizeToTray": true,
         "promisifyDb": true,
         "db": true,
+        "Q": true,
+        "request": true,
 
         // Third party
         "Backbone": true,

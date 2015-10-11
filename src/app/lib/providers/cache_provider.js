@@ -1,8 +1,6 @@
 (function (App) {
     'use strict';
 
-    var Q = require('q');
-
     var CacheProvider = function (table, ttl) {
         this.table = table;
         this.cache = new App.Cache(table);

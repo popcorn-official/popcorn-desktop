@@ -1,8 +1,6 @@
 (function (App) {
     'use strict';
 
-    var Q = require('q');
-
     var PopCollection = Backbone.Collection.extend({
         popid: 'imdb_id',
         initialize: function (models, options) {

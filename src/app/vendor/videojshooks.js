@@ -109,7 +109,6 @@ vjs.TextTrack.prototype.load = function () {
 
         // Fetches a raw subtitle, locally or remotely
         var get_subtitle = function (subtitle_url, callback) {
-            var request = require('request');
 
             // Fetches Locally
             if (fs.existsSync(path.join(subtitle_url))) {

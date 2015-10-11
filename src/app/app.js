@@ -28,7 +28,9 @@ var
 
     moment = require('moment'),
 
-    Q = require('q');
+    Q = require('q'),
+
+    request = require('request');
 
 // Special Debug Console Calls!
 win.log = console.log.bind(console);

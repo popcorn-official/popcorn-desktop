@@ -1,9 +1,7 @@
 (function (App) {
     'use strict';
 
-    var request = require('request'),
-        URI = require('URIjs'),
-        Q = require('q'),
+    var URI = require('URIjs'),
         _ = require('underscore'),
         inherits = require('util').inherits;
 

@@ -1,7 +1,6 @@
 (function (App) {
     'use strict';
     var OS = require('opensubtitles-api');
-    var Q = require('q');
 
     var OpenSubtitles = function () {};
     OpenSubtitles.prototype.constructor = OpenSubtitles;

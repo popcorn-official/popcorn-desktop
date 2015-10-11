@@ -1,8 +1,6 @@
 (function (App) {
     'use strict';
 
-    var Q = require('q');
-
     var cache = App.Config.cache;
     var db = openDatabase(cache.name, '', cache.desc, cache.size);
 

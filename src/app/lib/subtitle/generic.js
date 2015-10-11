@@ -1,7 +1,6 @@
 (function (App) {
     'use strict';
 
-    var request = require('request');
     var AdmZip = require('adm-zip');
     var fs = require('fs');
     var async = require('async');
@@ -10,7 +9,6 @@
     var captions = require('node-captions');
     var charsetDetect = require('jschardet');
     var iconv = require('iconv-lite');
-    var Q = require('q');
 
     var self;
 

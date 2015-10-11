@@ -1,8 +1,6 @@
 (function (App) {
     'use strict';
 
-    var Q = require('q');
-
     var FavoriteCollection = Backbone.Collection.extend({
         model: App.Model.Movie,
 

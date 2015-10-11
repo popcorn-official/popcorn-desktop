@@ -1,10 +1,8 @@
 (function (App) {
     'use strict';
 
-    var request = require('request'),
-        semver = require('semver'),
+    var semver = require('semver'),
         fs = require('fs'),
-        Q = require('q'),
         _ = require('underscore'),
         rimraf = require('rimraf'),
         path = require('path'),

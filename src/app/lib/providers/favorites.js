@@ -1,6 +1,5 @@
 (function (App) {
     'use strict';
-    var Q = require('q');
 
     var Favorites = function () {};
     Favorites.prototype.constructor = Favorites;

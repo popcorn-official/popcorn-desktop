@@ -5,7 +5,6 @@
     var lang;
     var nativeWindow = require('nw.gui').Window.get();
     var httpServer;
-    var Q = require('q');
 
     var initServer = function () {
         return Q.Promise(function (resolve, reject) {
