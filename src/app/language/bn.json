@@ -486,5 +486,12 @@
     "Your disk is almost full.": "আপনার ডিস্কটি প্রায় পরিপূর্ণ।",
     "You need to make more space available on your disk by deleting files.": "আপনাকে আপনার ডিস্কের কিছু ফাইল মুছে ফেলার মাধ্যমে জায়গা বাড়াতে হবে।",
     "Playing Next": "পরবর্তী চালানো হচ্ছে",
-    "Trending": "প্রবণতা"
+    "Trending": "প্রবণতা",
+    "Remember Filters": "ফিল্টারগুলোকে মনে রাখুন",
+    "Automatic Subtitle Uploading": "স্বয়ংক্রিয় সাবটাইটেল আপলোড",
+    "See-through Background": "পটভূমির মধ্য দিয়ে দেখুন",
+    "Bold": "গাঢ়",
+    "Currently watching": "এখন দেখছেন",
+    "No, it's not that": "না, এটি সেটি নয়",
+    "Correct": "সঠিক"
 }

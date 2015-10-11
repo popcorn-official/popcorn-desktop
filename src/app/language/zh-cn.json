@@ -482,9 +482,16 @@
     "In Production": "拍摄中",
     "Canceled": "已被砍",
     "N/A": "不适用",
-    "%s is not supposed to be run as administrator": "不应该以管理员身份运行  %s",
+    "%s is not supposed to be run as administrator": "不该以管理员身份运行  %s",
     "Your disk is almost full.": "您的硬盘快满了。",
     "You need to make more space available on your disk by deleting files.": "您需要删除一些文件以提供更多可用空间。",
     "Playing Next": "正在播放下一集",
-    "Trending": "流行"
+    "Trending": "流行",
+    "Remember Filters": "记住筛选器",
+    "Automatic Subtitle Uploading": "自动上传字幕",
+    "See-through Background": "See-through Background",
+    "Bold": "Bold",
+    "Currently watching": "Currently watching",
+    "No, it's not that": "No, it's not that",
+    "Correct": "Correct"
 }

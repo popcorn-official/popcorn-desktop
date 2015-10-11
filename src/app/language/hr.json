@@ -478,7 +478,7 @@
     "Randomize Button for Movies": "Tipka za naizmjenični odabir filmova",
     "Overall Ratio": "Ukupan omjer",
     "Translate Synopsis": "Prevedi sadržaj",
-    "Returning Series": "Serija se ponovno snima",
+    "Returning Series": "Serija trenutno ide",
     "In Production": "U produkciji",
     "Canceled": "Otkazano",
     "N/A": "Nepoznato",
@@ -486,5 +486,12 @@
     "Your disk is almost full.": "Vaš disk će uskoro biti popunjen.",
     "You need to make more space available on your disk by deleting files.": "Morate osloboditi više slobodnog prostora na vašem disku brisanjem datoteka.",
     "Playing Next": "Sljedeća epizoda za",
-    "Trending": "Trendu"
+    "Trending": "Trendu",
+    "Remember Filters": "Zapamti filtere",
+    "Automatic Subtitle Uploading": "Automatsko slanje titla",
+    "See-through Background": "Prozirna pozadina",
+    "Bold": "Podebljano",
+    "Currently watching": "Trenutno gledate",
+    "No, it's not that": "Ne, to nije to",
+    "Correct": "Ispravno"
 }

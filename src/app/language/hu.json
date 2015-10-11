@@ -456,7 +456,7 @@
     "Use the %s issue filter to search and check if the issue has already been reported or is already fixed.": "Használd a(z) %s hibaszűrőt hogy ellenőrizd, jelentette-e már valaki a hibát, vagy esetleg már ki is lett javítva.",
     "Include a screenshot if relevant - Is your issue about a design feature or a bug?": "Mellékelj képernyőképet is, ha az fontos - A felülettel van problémád, vagy pedig a program működésével?",
     "A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment.": "Egy jó hibabejelentés után nem kell másoknak megtalálni téged, hogy több információhoz jussanak. Mellékelj részleteket a futtatási környezetről is.",
-    "Warning: Always use English when contacting us, or we might not understand you.": "Figyelem: Minden esetben angolul írj nekünk, ellenkező esetben lehet, hogy nem fogunk érteni.",
+    "Warning: Always use English when contacting us, or we might not understand you.": "Figyelem: Minden esetben angolul írj nekünk, ellenkező esetben lehet, hogy nem fogjuk érteni.",
     "Search on %s": "Search on %s",
     "No results found": "Nincs találat",
     "Invalid credentials": "Érvénytelen hitelesítő adatok",
@@ -486,5 +486,12 @@
     "Your disk is almost full.": "A lemez majdnem megtelt.",
     "You need to make more space available on your disk by deleting files.": "Több rendelkezésre álló helyet kell felszabadítani a lemezen fájlok törlésével.",
     "Playing Next": "Következő lejátszása",
-    "Trending": "Felkapott"
+    "Trending": "Felkapott",
+    "Remember Filters": "Szűrők megjegyzése",
+    "Automatic Subtitle Uploading": "Automatikus Felirat Feltöltés",
+    "See-through Background": "Átlátható háttér",
+    "Bold": "Félkövér",
+    "Currently watching": "Jelenleg nézett",
+    "No, it's not that": "Nem, ez nem az",
+    "Correct": "Helyes"
 }

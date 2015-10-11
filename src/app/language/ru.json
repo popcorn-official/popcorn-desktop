@@ -453,7 +453,7 @@
     "You can find it later on the About page": "Вы можете найти это позже в разделе «О программе»",
     "Second method": "Второй метод",
     "You can create an account on our %s repository, and click on %s.": "Вы можете создать аккаунт в нашем %s репозитории, затем нажать на %s.",
-    "Use the %s issue filter to search and check if the issue has already been reported or is already fixed.": "Use the %s issue filter to search and check if the issue has already been reported or is already fixed.",
+    "Use the %s issue filter to search and check if the issue has already been reported or is already fixed.": "Используйте %s фильтр ошибок для поиска и проверки на то, что ошибка уже сообщена или уже решена.",
     "Include a screenshot if relevant - Is your issue about a design feature or a bug?": "Приложите скриншот при необходимости — если Вы хотите предложить новую функцию или сообщить об ошибке?",
     "A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment.": "Хороший отчёт об ошибке не должен предлагать другим разыскивать вас для получения дополнительной информации. Убедитесь, что указали информацию о вашем окружении.",
     "Warning: Always use English when contacting us, or we might not understand you.": "Внимание: всегда пишите нам по-английски, иначе мы не сможем вас понять.",
@@ -486,5 +486,12 @@
     "Your disk is almost full.": "Ваш диск почти заполнен.",
     "You need to make more space available on your disk by deleting files.": "Необходимо освободить место на диске, удалив ненужные файлы.",
     "Playing Next": "Воспроизвести следующую",
-    "Trending": "Трендовые"
+    "Trending": "Трендовые",
+    "Remember Filters": "Запомнить фильтры",
+    "Automatic Subtitle Uploading": "Автоматическая загрузка субтитров",
+    "See-through Background": "Прозрачный фон",
+    "Bold": "Жирный",
+    "Currently watching": "Текущий просмотр",
+    "No, it's not that": "Нет, это не то",
+    "Correct": "Правильно"
 }

@@ -479,12 +479,19 @@
     "Overall Ratio": "Toplam Oran",
     "Translate Synopsis": "Özeti Çevir",
     "Returning Series": "Devam eden dizi",
-    "In Production": "In Production",
+    "In Production": "Üretimde",
     "Canceled": "İptal edildi",
     "N/A": "Yok",
     "%s is not supposed to be run as administrator": "%s yönetici olarak çalıştırmalısın",
     "Your disk is almost full.": "Bilgisayarınızdaki alan dolmuş durumda",
-    "You need to make more space available on your disk by deleting files.": "You need to make more space available on your disk by deleting files.",
+    "You need to make more space available on your disk by deleting files.": "Dosyalarınızı silerek diskinizde daha fazla yer açmalısınız.",
     "Playing Next": "Sıradaki Oynatılıyor",
-    "Trending": "Popüler"
+    "Trending": "Popüler",
+    "Remember Filters": "Filtreleri Hatırla",
+    "Automatic Subtitle Uploading": "Automatic Subtitle Uploading",
+    "See-through Background": "See-through Background",
+    "Bold": "Bold",
+    "Currently watching": "Currently watching",
+    "No, it's not that": "No, it's not that",
+    "Correct": "Correct"
 }

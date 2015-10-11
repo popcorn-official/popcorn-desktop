@@ -223,7 +223,7 @@
     "Seek Backward": "Rückwärts spulen",
     "Decrease Volume": "Lautstärke verringern",
     "Show Stream URL": "Stream-URL anzeigen",
-    "TV Show Detail": "TV-Sendungsinformationen",
+    "TV Show Detail": "Fernsehsendungsinformationen",
     "Toggle Watched": "Gesehen umschalten",
     "Select Next Episode": "Nächste Folge auswählen",
     "Select Previous Episode": "Vorherige Folge auswählen",
@@ -484,7 +484,14 @@
     "N/A": "N/V",
     "%s is not supposed to be run as administrator": "%s soll nicht als Administrator ausgeführt werden",
     "Your disk is almost full.": "Ihre Festplatte ist fast voll.",
-    "You need to make more space available on your disk by deleting files.": "You need to make more space available on your disk by deleting files.",
-    "Playing Next": "Playing Next",
-    "Trending": "Trending"
+    "You need to make more space available on your disk by deleting files.": "Löschen Sie Daten auf Ihrer Festplatte um mehr Speicherplatz zur verfügung zu stellen.",
+    "Playing Next": "Nächste wiedergeben",
+    "Trending": "Wiederkehrend",
+    "Remember Filters": "Filter merken",
+    "Automatic Subtitle Uploading": "Automatisches Untertitelhochladen",
+    "See-through Background": "Durchsichtiger Hintergrund",
+    "Bold": "Fett",
+    "Currently watching": "Aktuell ansehend",
+    "No, it's not that": "Nein, dass ist es nicht",
+    "Correct": "Richtig"
 }

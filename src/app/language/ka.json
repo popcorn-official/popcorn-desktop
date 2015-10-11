@@ -486,5 +486,12 @@
     "Your disk is almost full.": "თქვენი დისკი თითქმის სავსეა.",
     "You need to make more space available on your disk by deleting files.": "თქვენ ფაილების წაშლით უნდა გაანთავისუფლოთ მეტი ადგილი თქვენს დისკზე.",
     "Playing Next": "შემდეგ ირთვება",
-    "Trending": "ტენდენციური"
+    "Trending": "ტენდენციური",
+    "Remember Filters": "Remember Filters",
+    "Automatic Subtitle Uploading": "Automatic Subtitle Uploading",
+    "See-through Background": "See-through Background",
+    "Bold": "Bold",
+    "Currently watching": "Currently watching",
+    "No, it's not that": "No, it's not that",
+    "Correct": "Correct"
 }

@@ -294,7 +294,7 @@
     "Open this screen": "فتح هذه الشاشة",
     "Open Settings": "فتح الإعدادات",
     "Posters Size": "حجم الصورة",
-    "This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.": "الميزه تعمل فقط في حالة ان كان لديك حساب TarkTv متصل, من فضلك توجه الى قائمة الإعدادات وأدخل بياناتك",
+    "This feature only works if you have your TraktTv account synced. Please go to Settings and enter your credentials.": "الميزه تعمل فقط في حالة ان كان لديك حساب TraktTv متصل, من فضلك توجه الى قائمة الإعدادات وأدخل بياناتك",
     "Last Open": "آخرُ فتْح",
     "Exporting Database...": "يجري تصدير قاعدة البيانات...",
     "Database Successfully Exported": "تم تصدير قاعدة البيانات بنجاح",
@@ -486,5 +486,12 @@
     "Your disk is almost full.": "قرص التخزين ممتلئ تقريبا.",
     "You need to make more space available on your disk by deleting files.": "قم بحذف بعض الملفات حتى تحصل على مساحة أكثر.",
     "Playing Next": "التالي",
-    "Trending": "الأكثر رواجا"
+    "Trending": "الأكثر رواجا",
+    "Remember Filters": "Remember Filters",
+    "Automatic Subtitle Uploading": "Automatic Subtitle Uploading",
+    "See-through Background": "See-through Background",
+    "Bold": "Bold",
+    "Currently watching": "Currently watching",
+    "No, it's not that": "No, it's not that",
+    "Correct": "Correct"
 }

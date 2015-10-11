@@ -460,7 +460,7 @@
     "Search on %s": "Wyszukaj w %s",
     "No results found": "Nic nie znaleziono",
     "Invalid credentials": "Nieprawidłowe uwierzytelnienie",
-    "Open Favorites": "Otwórz ulubione",
+    "Open Favorites": "Otwórz Ulubione",
     "Open About": "Otwórz o programie",
     "Minimize to Tray": "Zminimalizuj",
     "Close": "Zamknij",
@@ -485,6 +485,13 @@
     "%s is not supposed to be run as administrator": "%s nie powinien być uruchamiany jako administrator",
     "Your disk is almost full.": "Twój dysk jest prawie pełny.",
     "You need to make more space available on your disk by deleting files.": "Musisz zrobić więcej dostępnego miejsca na dysku poprzez usunięcie plików.",
-    "Playing Next": "Playing Next",
-    "Trending": "Trending"
+    "Playing Next": "Następny odcinek",
+    "Trending": "Zyskujące popularność",
+    "Remember Filters": "Remember Filters",
+    "Automatic Subtitle Uploading": "Automatic Subtitle Uploading",
+    "See-through Background": "See-through Background",
+    "Bold": "Bold",
+    "Currently watching": "Currently watching",
+    "No, it's not that": "No, it's not that",
+    "Correct": "Correct"
 }

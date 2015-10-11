@@ -390,7 +390,7 @@
     "Downloaded": "Alla laetud",
     "Loading stuck ? Click here !": "Ei lae lõpuni? Vajuta siia!",
     "Torrent Collection": "Torrentite kollektsioon",
-    "Drop Magnet or .torrent": "Lohista Magnet või .torrent",
+    "Drop Magnet or .torrent": "Lohista siia Magnet või .torrent",
     "Remove this torrent": "Eemalda see torrent",
     "Rename this torrent": "Muuda torrenti nime",
     "Flush entire collection": "Tühjenda terve kollektsioon",
@@ -486,5 +486,12 @@
     "Your disk is almost full.": "Sinu kõvaketta maht on peaaegu täis.",
     "You need to make more space available on your disk by deleting files.": "Sa pead kõvakettale ruumi juurde tegema. Selleks kustuta mõned failid.",
     "Playing Next": "Mängib järgmisena",
-    "Trending": "Trend"
+    "Trending": "Trend",
+    "Remember Filters": "Jäta filtrid meelde",
+    "Automatic Subtitle Uploading": "Automaatne subtiitrite ülesse laadimine",
+    "See-through Background": "Läbipaistev taust",
+    "Bold": "Jäme",
+    "Currently watching": "Hetkel vaatad",
+    "No, it's not that": "Ei, see ei ole see.",
+    "Correct": "Õige."
 }
