@@ -391,7 +391,7 @@ Common.matchTorrent = function (file, torrent) {
                                                 defer.resolve(result);
                                             })
                                             .catch(function (error) {
-                                                if (i === obj.alt_titles.length - 1) {
+                                                if (i === Object.keys(obj.alt_titles).length) {
                                                     data.error = error.message;
                                                     defer.resolve(data);
                                                 }
