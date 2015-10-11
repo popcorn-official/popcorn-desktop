@@ -293,6 +293,12 @@ Section ; Node Webkit Files
     ;Delete existing install
     RMDir /r "$INSTDIR"
 
+    ;Delete cache
+    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\Cache"
+    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\GPUCache"
+    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\databases"
+    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\Local Storage"
+
     ;Set output path to InstallDir
     SetOutPath "$INSTDIR"
 
