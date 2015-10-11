@@ -55,7 +55,7 @@
         "read-torrent": "1.3.0",
         "readdirp": "*",
         "request": "2.x.x",
-        "rimraf": "2.2.8",
+        "rimraf": "2.x.x",
         "sanitizer": "0.x.x",
         "semver": "4.x.x",
         "send": "0.12.2",
