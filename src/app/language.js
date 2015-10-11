@@ -24,8 +24,6 @@ var setLanguage = function (preferredLanguage) {
 };
 
 App.Localization.detectLocale = function () {
-
-    var fs = require('fs');
     // The full OS language (with localization, like 'en-uk')
     var pureLanguage = navigator.language.toLowerCase();
     // The global language name (without localization, like 'en')

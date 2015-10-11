@@ -1,9 +1,3 @@
-var Q = require('q'),
-    os = require('os'),
-    path = require('path'),
-    _ = require('underscore'),
-    data_path = require('nw.gui').App.dataPath;
-
 /** Default settings **/
 var Settings = {};
 
@@ -112,17 +106,17 @@ Settings.tvAPI = [{
 }];
 
 Settings.ytsAPI = [{
-    uri: 'https://yts.to/',
+    url: 'https://yts.to/',
     strictSSL: true
 }, {
-    uri: 'https://cloudflare.com/',
+    url: 'https://cloudflare.com/',
     headers: {
         'Host': 'xor.image.yt',
         'User-Agent': 'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/3.8.0'
     },
     strictSSL: true
 }, {
-    uri: 'http://cloudflare.com/',
+    url: 'http://cloudflare.com/',
     headers: {
         'Host': 'xor.image.yt',
         'User-Agent': 'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/3.8.0'
@@ -257,29 +251,26 @@ var AdvSettings = {
         if (Settings.automaticUpdating === false) {
             return;
         }
-        var tls = require('tls'),
-            http = require('http'),
-            uri = require('url');
 
         defer = defer || Q.defer();
 
         endpoint.ssl = undefined;
         _.extend(endpoint, endpoint.proxies[endpoint.index]);
 
-        var url = uri.parse(endpoint.url);
-        win.debug('Checking %s endpoint', url.hostname);
+        var _url = url.parse(endpoint.url);
+        win.debug('Checking %s endpoint', _url.hostname);
 
         if (endpoint.ssl === false) {
             var timeoutWrapper = function (req) {
                 return function () {
                     win.warn('[%s] Endpoint timed out',
-                        url.hostname);
+                        _url.hostname);
                     req.abort();
                     tryNextEndpoint();
                 };
             };
             var request = http.get({
-                hostname: url.hostname
+                hostname: _url.hostname
             }, function (res) {
                 res.once('data', function (body) {
                     clearTimeout(timeout);
@@ -287,7 +278,7 @@ var AdvSettings = {
                     // Doesn't match the expected response
                     if (!_.isRegExp(endpoint.fingerprint) || !endpoint.fingerprint.test(body.toString('utf8'))) {
                         win.warn('[%s] Endpoint fingerprint %s does not match %s',
-                            url.hostname,
+                            _url.hostname,
                             endpoint.fingerprint,
                             body.toString('utf8'));
                         tryNextEndpoint();
@@ -296,7 +287,7 @@ var AdvSettings = {
                     }
                 }).once('error', function (e) {
                     win.warn('[%s] Endpoint failed [%s]',
-                        url.hostname,
+                        _url.hostname,
                         e.message);
                     clearTimeout(timeout);
                     tryNextEndpoint();
@@ -306,8 +297,8 @@ var AdvSettings = {
             var fn = timeoutWrapper(request);
             var timeout = setTimeout(fn, 5000);
         } else {
-            tls.connect(443, url.hostname, {
-                servername: url.hostname,
+            tls.connect(443, _url.hostname, {
+                servername: _url.hostname,
                 rejectUnauthorized: false
             }, function () {
                 this.setTimeout(0);
@@ -318,7 +309,7 @@ var AdvSettings = {
                     // "These are not the certificates you're looking for..."
                     // Seems like they even got a certificate signed for us :O
                     win.warn('[%s] Endpoint fingerprint %s does not match %s',
-                        url.hostname,
+                        _url.hostname,
                         endpoint.fingerprint,
                         this.getPeerCertificate().fingerprint);
                     tryNextEndpoint();
@@ -328,13 +319,13 @@ var AdvSettings = {
                 this.end();
             }).once('error', function (e) {
                 win.warn('[%s] Endpoint failed [%s]',
-                    url.hostname,
+                    _url.hostname,
                     e.message);
                 this.setTimeout(0);
                 tryNextEndpoint();
             }).once('timeout', function () {
                 win.warn('[%s] Endpoint timed out',
-                    url.hostname);
+                    _url.hostname);
                 this.removeAllListeners('error');
                 this.end();
                 tryNextEndpoint();
@@ -358,7 +349,6 @@ var AdvSettings = {
 
     performUpgrade: function () {
         // This gives the official version (the package.json one)
-        gui = require('nw.gui');
         var currentVersion = gui.App.manifest.version;
 
         if (currentVersion !== AdvSettings.get('version')) {

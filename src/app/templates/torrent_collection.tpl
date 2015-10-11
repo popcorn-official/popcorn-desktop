@@ -34,7 +34,7 @@
 
         <div class="torrents-info">
             <ul class="file-list">
-                <% _.each(fs.readdirSync(require('nw.gui').App.dataPath + '/TorrentCollection/'), function(file, index) { %>
+                <% _.each(fs.readdirSync(data_path + '/TorrentCollection/'), function(file, index) { %>
                     <li class="file-item" data-index="<%=file.index%>" data-file="<%=index%>">
                         <a><%=file%></a>
 

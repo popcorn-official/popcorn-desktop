@@ -1,16 +1,6 @@
 (function (App) {
     'use strict';
 
-    var semver = require('semver'),
-        fs = require('fs'),
-        _ = require('underscore'),
-        rimraf = require('rimraf'),
-        path = require('path'),
-        crypto = require('crypto'),
-        AdmZip = require('adm-zip'),
-        tar = require('tar'),
-        spawn = require('child_process').spawn;
-
     var CHANNELS = ['stable', 'beta', 'nightly'],
         FILENAME = 'package.nw.new',
         VERIFY_PUBKEY =
@@ -123,8 +113,8 @@
         var self = this;
         win.debug('Verifying update authenticity with SDA-SHA1 signature...');
 
-        var hash = crypto.createHash('SHA1'),
-            verify = crypto.createVerify('DSA-SHA1');
+        var hash = crypt.createHash('SHA1'),
+            verify = crypt.createVerify('DSA-SHA1');
 
         var readStream = fs.createReadStream(source);
         readStream.pipe(hash);
@@ -162,7 +152,7 @@
                         var updateEXE = 'update.exe';
                         var cmd = path.join(extractDir, updateEXE);
 
-                        var updateprocess = spawn(cmd, [], {
+                        var updateprocess = child.spawn(cmd, [], {
                             detached: true,
                             stdio: ['ignore', 'ignore', 'ignore']
                         });

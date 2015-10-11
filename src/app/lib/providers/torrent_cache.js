@@ -1,12 +1,6 @@
 (function (App) {
     'use strict';
-    var peerflix = require('peerflix'),
-        path = require('path'),
-        mkdirp = require('mkdirp'),
-        rimraf = require('rimraf'),
-        fs = require('fs'),
-        zlib = require('zlib'),
-        safeMagetTID = null,
+    var safeMagetTID = null,
         stateModel = null;
 
 

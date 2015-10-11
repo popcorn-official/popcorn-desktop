@@ -1,37 +1,3 @@
-var
-// Minimum percentage to open video
-    MIN_PERCENTAGE_LOADED = 0.5,
-
-    // Minimum bytes loaded to open video
-    MIN_SIZE_LOADED = 10 * 1024 * 1024,
-
-    // Load native UI library
-    gui = require('nw.gui'),
-
-    // browser window object
-    win = gui.Window.get(),
-
-    // os object
-    os = require('os'),
-
-    // path object
-    path = require('path'),
-
-    // fs object
-    fs = require('fs'),
-
-    // url object
-    url = require('url'),
-
-    // i18n module (translations)
-    i18n = require('i18n'),
-
-    moment = require('moment'),
-
-    Q = require('q'),
-
-    request = require('request');
-
 // Special Debug Console Calls!
 win.log = console.log.bind(console);
 win.debug = function () {
@@ -53,13 +19,11 @@ win.error = function () {
     var params = Array.prototype.slice.call(arguments, 1);
     params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: red;', 'color: black;');
     console.error.apply(console, params);
-    fs.appendFileSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'), '\n\n' + (arguments[0].stack || arguments[0])); // log errors;
+    fs.appendFileSync(path.join(data_path, 'logs.txt'), '\n\n' + (arguments[0].stack || arguments[0])); // log errors;
 };
 
 
 if (gui.App.fullArgv.indexOf('--reset') !== -1) {
-
-    var data_path = require('nw.gui').App.dataPath;
 
     localStorage.clear();
 
@@ -244,8 +208,7 @@ var deleteFolder = function (path) {
 };
 
 var deleteCookies = function () {
-    var nwWin = gui.Window.get();
-    nwWin.cookies.getAll({}, function (cookies) {
+    win.cookies.getAll({}, function (cookies) {
         if (cookies.length > 0) {
             win.debug('Removing ' + cookies.length + ' cookies...');
             for (var i = 0; i < cookies.length; i++) {
@@ -256,7 +219,7 @@ var deleteCookies = function () {
 
     function removeCookie(cookie) {
         var lurl = 'http' + (cookie.secure ? 's' : '') + '://' + cookie.domain + cookie.path;
-        nwWin.cookies.remove({
+        win.cookies.remove({
             url: lurl,
             name: cookie.name
         }, function (result) {
@@ -301,8 +264,8 @@ win.on('close', function () {
     if (App.settings.deleteTmpOnClose) {
         deleteFolder(App.settings.tmpLocation);
     }
-    if (fs.existsSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'))) {
-        fs.unlinkSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'));
+    if (fs.existsSync(path.join(data_path, 'logs.txt'))) {
+        fs.unlinkSync(path.join(data_path, 'logs.txt'));
     }
     try {
         delCache();
@@ -440,7 +403,7 @@ var minimizeToTray = function () {
         openFromTray();
     });
 
-    require('nw.gui').App.on('open', function (cmd) {
+    gui.App.on('open', function (cmd) {
         openFromTray();
     });
 };

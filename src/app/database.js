@@ -1,12 +1,5 @@
-var
-async = require('async'),
-    zlib = require('zlib'),
-    Datastore = require('nedb'),
-    path = require('path'),
-    Q = require('q'),
-
+var Datastore = require('nedb'),
     db = {},
-    data_path = require('nw.gui').App.dataPath,
     TTL = 1000 * 60 * 60 * 24;
 
 var startupTime = window.performance.now();

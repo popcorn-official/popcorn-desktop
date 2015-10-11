@@ -228,15 +228,14 @@
             reserved = reserved > 0.25 ? 0.25 : reserved;
             var minspace = size + reserved;
 
-            var exec = require('child_process').exec,
-                cmd;
+            var cmd;
 
             if (process.platform === 'win32') {
                 var drive = Settings.tmpLocation.substr(0, 2);
 
                 cmd = 'dir /-C ' + drive;
 
-                exec(cmd, function (error, stdout, stderr) {
+                child.exec(cmd, function (error, stdout, stderr) {
                     if (error) {
                         return;
                     }
@@ -255,7 +254,7 @@
 
                 cmd = 'df -Pk "' + path + '" | awk \'NR==2 {print $4}\'';
 
-                exec(cmd, function (error, stdout, stderr) {
+                child.exec(cmd, function (error, stdout, stderr) {
                     if (error) {
                         return;
                     }

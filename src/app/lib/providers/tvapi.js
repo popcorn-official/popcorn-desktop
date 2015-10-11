@@ -1,7 +1,5 @@
 (function (App) {
     'use strict';
-    var querystring = require('querystring');
-    var inherits = require('util').inherits;
 
     var URL = false;
     var TVApi = function () {

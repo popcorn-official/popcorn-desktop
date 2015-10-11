@@ -2,7 +2,7 @@
     'use strict';
 
     var clipboard = gui.Clipboard.get(),
-        collection = path.join(require('nw.gui').App.dataPath + '/TorrentCollection/'),
+        collection = path.join(data_path + '/TorrentCollection/'),
         files;
 
     var TorrentCollection = Backbone.Marionette.ItemView.extend({
@@ -235,8 +235,7 @@
         },
 
         context_Menu: function (cutLabel, copyLabel, pasteLabel) {
-            var gui = require('nw.gui'),
-                menu = new gui.Menu(),
+            var menu = new gui.Menu(),
 
                 cut = new gui.MenuItem({
                     label: cutLabel || 'Cut',
@@ -287,8 +286,7 @@
             e.preventDefault();
             e.stopPropagation();
 
-            var magnetLink,
-                gui = require('nw.gui');
+            var magnetLink;
 
             if ($(e.currentTarget.parentNode).context.className === 'file-item') {
                 // stored

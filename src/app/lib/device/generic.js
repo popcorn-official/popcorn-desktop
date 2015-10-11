@@ -77,7 +77,7 @@
             if (this.selected.get('typeFamily') === 'external') {
                 //console.warn('External Device ', this.selected);
                 var ips = [],
-                    ifaces = require('os').networkInterfaces();
+                    ifaces = os.networkInterfaces();
                 for (var dev in ifaces) {
                     ifaces[dev].forEach(function (details) {
                         if (!details.internal) {

@@ -1,10 +1,6 @@
 (function (App) {
     'use strict';
 
-    var URI = require('URIjs'),
-        _ = require('underscore'),
-        inherits = require('util').inherits;
-
     var API_ENDPOINT = URI('https://api-v2launch.trakt.tv'),
         CLIENT_ID = 'c7e20abc718e46fc75399dd6688afca9ac83cd4519c9cb1fba862b37b8640e89',
         CLIENT_SECRET = '476cf15ed52542c2c8dc502821280aa5f61a012db57f1ed1f479aaf88ab385cb',
@@ -431,7 +427,6 @@
             var API_URI = 'https://trakt.tv';
             var OAUTH_URI = API_URI + '/oauth/authorize?response_type=code&client_id=' + CLIENT_ID;
 
-            var gui = require('nw.gui');
             gui.App.addOriginAccessWhitelistEntry(API_URI, 'app', 'host', true);
             window.loginWindow = gui.Window.open(OAUTH_URI + '&redirect_uri=' + encodeURIComponent(REDIRECT_URI), {
                 position: 'center',
