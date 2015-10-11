@@ -1,13 +1,7 @@
 (function (App) {
     'use strict';
 
-    var request = require('request'),
-        inherits = require('util').inherits,
-        _ = require('lodash'),
-        Q = require('q'),
-        querystring = require('querystring'),
-        apiUrl = 'http://vodo.net/popcorn',
-        Datastore = require('nedb'),
+    var apiUrl = 'http://vodo.net/popcorn',
         db = new Datastore();
 
     function Vodo() {
@@ -28,7 +22,6 @@
             if (movie.Quality === '3D') {
                 return;
             }
-            var largeCover = movie.CoverImage;
             var imdb = movie.ImdbCode;
 
             // Calc torrent health
@@ -52,11 +45,12 @@
                     year: movie.MovieYear,
                     genre: [movie.Genre],
                     rating: movie.MovieRating,
-                    image: largeCover,
-                    backdrop: largeCover,
+                    image: movie.CoverImage,
+                    cover: movie.CoverImage,
+                    backdrop: movie.CoverImage,
                     torrents: torrents,
-                    synopsis: 'The film tells a story of a divorced couple trying to raise their young son. The story follows the boy for twelve years, from first grade at age 6 through 12th grade at age 17-18, and examines his relationship with his parents as he grows.',
-                    tagline: '12 years in the making.',
+                    trailer: false,
+                    synopsis: movie.Synopsis,
                     type: 'movie'
                 };
 
@@ -124,7 +118,7 @@
     Vodo.prototype.updateAPI = function () {
         var self = this;
         var defer = Q.defer();
-        console.log('requesting', apiUrl);
+        win.info('Request to Vodo', apiUrl);
         request({
                 uri: apiUrl,
                 strictSSL: false,
@@ -132,7 +126,6 @@
                 timeout: 10000
             },
             function (err, res, data) {
-                console.log('got data');
                 /*
                  data = _.map (helpers.formatForPopcorn(data), function (item) {
                  item.rating = item.rating.percentage * Math.log(item.rating.votes);
@@ -141,12 +134,11 @@
                  */
                 db.insert(formatForPopcorn(data.downloads), function (err, newDocs) {
                     if (err) {
-                        console.error('Error inserting', err);
+                        win.error('Vodo.updateAPI(): Error inserting', err);
                     }
 
-                    console.log('db loaded', newDocs.length);
                     db.find({}).limit(2).exec(function (err, docs) {
-                        console.log('FIND ---->', err, docs);
+                        //win.debug('FIND ---->', err, docs);
                     });
                     defer.resolve(newDocs);
                 });
@@ -189,7 +181,6 @@
         var sortOpts = {};
         sortOpts[params.sort] = params.order;
 
-        console.log(findOpts, sortOpts);
         self.fetchPromise.then(function () {
             db.find(findOpts)
                 .sort(sortOpts)
@@ -200,7 +191,6 @@
                         entry.type = 'movie';
                     });
 
-                    console.error('returning', docs);
                     return defer.resolve({
                         results: docs,
                         hasMore: docs.length ? true : false
