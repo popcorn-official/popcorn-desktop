@@ -49,8 +49,9 @@
                     cover: movie.CoverImage,
                     backdrop: movie.CoverImage,
                     torrents: torrents,
+                    subtitle: {}, // TODO
                     trailer: false,
-                    synopsis: movie.Synopsis,
+                    synopsis: movie.Synopsis || 'No synopsis available.',
                     type: 'movie'
                 };
 
