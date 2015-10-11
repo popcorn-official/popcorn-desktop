@@ -5,8 +5,8 @@
         collectionModel: App.Model.IndieCollection,
         filters: {
             genres: App.Config.genres_indie,
-            sorters: App.Config.sorters_tv,
-            types: App.Config.types_indie
+            sorters: App.Config.sorters_indie
+            //types: App.Config.types_indie
         }
     });
 

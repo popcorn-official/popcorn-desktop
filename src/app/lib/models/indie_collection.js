@@ -3,7 +3,7 @@
 
     var IndieCollection = App.Model.Collection.extend({
         model: App.Model.Movie,
-        popid: 'mal_id',
+        popid: 'imdb_id',
         type: 'indies',
         getProviders: function () {
             return {

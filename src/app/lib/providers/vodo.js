@@ -74,45 +74,8 @@
         tabName: 'Vodo',
         type: 'movie',
         /* should be removed */
-        subtitle: 'ysubs',
+        //subtitle: 'ysubs',
         metadata: 'trakttv:movie-metadata'
-    };
-
-    Vodo.prototype.filters = {
-        genres: [
-            'All',
-            'Action',
-            'Adventure',
-            'Animation',
-            'Biography',
-            'Comedy',
-            'Crime',
-            'Documentary',
-            'Drama',
-            'Family',
-            'Fantasy',
-            'Film-Noir',
-            'History',
-            'Horror',
-            'Music',
-            'Musical',
-            'Mystery',
-            'Romance',
-            'Sci-Fi',
-            'Short',
-            'Sport',
-            'Thriller',
-            'War',
-            'Western'
-        ],
-        sorters: [
-            'popularity',
-            'date',
-            'year',
-            'rating',
-            'alphabet'
-        ],
-        types: []
     };
 
     Vodo.prototype.updateAPI = function () {

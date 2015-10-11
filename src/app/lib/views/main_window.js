@@ -203,6 +203,8 @@
                         that.showShows();
                     } else if (Settings.startScreen === 'Anime' || (lastOpen && Settings.lastTab === 'Anime')) {
                         that.showAnime();
+                    } else if (Settings.startScreen === 'Indie' || (lastOpen && Settings.lastTab === 'Indie')) {
+                        that.showIndie();
                     } else {
                         that.showMovies();
                     }
