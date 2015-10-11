@@ -1,7 +1,6 @@
 /* globals moment*/
 (function (App) {
     'use strict';
-    var Q = require('q');
     var TVApi = App.Providers.get('TVApi');
 
     var Watchlist = function () {};

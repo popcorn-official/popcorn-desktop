@@ -1,10 +1,6 @@
 (function (context) {
     'use strict';
 
-    var _ = require('underscore');
-    var request = require('request');
-    var Q = require('q');
-
     var baseUrl = 'http://api.yifysubtitles.com/subs/';
     var mirrorUrl = 'http://api.ysubs.com/subs/';
     var prefix = 'http://www.yifysubtitles.com';

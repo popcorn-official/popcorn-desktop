@@ -1,7 +1,6 @@
 (function (App) {
     'use strict';
     var clipboard = gui.Clipboard.get(),
-        AdmZip = require('adm-zip'),
         fdialogs = require('node-webkit-fdialogs'),
         waitComplete,
         oldTmpLocation,
@@ -81,8 +80,7 @@
         },
 
         context_Menu: function (cutLabel, copyLabel, pasteLabel, field) {
-            var gui = require('nw.gui'),
-                menu = new gui.Menu(),
+            var menu = new gui.Menu(),
 
                 cut = new gui.MenuItem({
                     label: cutLabel || 'Cut',
@@ -449,7 +447,6 @@
                 self.render();
             });
             App.TVShowTime.authenticate(function (activateUri) {
-                var gui = require('nw.gui');
                 gui.App.addOriginAccessWhitelistEntry(activateUri, 'app', 'host', true);
                 window.loginWindow = gui.Window.open(activateUri, {
                     position: 'center',
@@ -753,7 +750,7 @@
 
         getIPAddress: function () {
             var ip, alias = 0;
-            var ifaces = require('os').networkInterfaces();
+            var ifaces = os.networkInterfaces();
             for (var dev in ifaces) {
                 ifaces[dev].forEach(function (details) {
                     if (details.family === 'IPv4') {

@@ -122,8 +122,8 @@
         },
 
         getLogs: function () {
-            if (fs.existsSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'))) {
-                return '\n\n---' + '\n\n**Error log:**' + '\n\n```' + fs.readFileSync(path.join(require('nw.gui').App.dataPath, 'logs.txt'), 'utf-8') + '\n\n```';
+            if (fs.existsSync(path.join(data_path, 'logs.txt'))) {
+                return '\n\n---' + '\n\n**Error log:**' + '\n\n```' + fs.readFileSync(path.join(data_path, 'logs.txt'), 'utf-8') + '\n\n```';
             } else {
                 return false;
             }

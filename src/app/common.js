@@ -1,7 +1,4 @@
 var Common = {};
-var crypt = require('crypto');
-var fs = require('fs');
-var Q = require('q');
 Common.healthMap = {
     0: 'bad',
     1: 'medium',
@@ -335,7 +332,7 @@ Common.matchTorrent = function (file, torrent) {
             obj.alt_titles[0] = obj.title;
             delete obj.title;
             for (var i = 0; i < matcher.length; i++) {
-                obj.alt_titles[i + 1] = title.replace(matcher[i], matcher[i].substring(0,2)+'-s-');
+                obj.alt_titles[i + 1] = title.replace(matcher[i], matcher[i].substring(0, 2) + '-s-');
             }
         }
         return obj;

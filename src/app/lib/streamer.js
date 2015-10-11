@@ -5,9 +5,6 @@
     var BUFFERING_SIZE = 10 * 1024 * 1024;
 
     var readTorrent = require('read-torrent');
-    var peerflix = require('peerflix');
-    var path = require('path');
-    var crypto = require('crypto');
 
     var engine = null;
     var preload_engine = null;
@@ -73,7 +70,7 @@
         var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
         subtitles = torrent.subtitle;
 
-        var torrentPeerId = crypto.pseudoRandomBytes(10).toString('hex');
+        var torrentPeerId = crypt.pseudoRandomBytes(10).toString('hex');
 
         win.debug('Streaming movie to %s', tmpFile);
 
@@ -205,7 +202,7 @@
                 var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
                 subtitles = torrent.subtitle;
 
-                var torrentPeerId = crypto.pseudoRandomBytes(10).toString('hex');
+                var torrentPeerId = crypt.pseudoRandomBytes(10).toString('hex');
 
                 win.debug('Preloading movie to %s', tmpFile);
 

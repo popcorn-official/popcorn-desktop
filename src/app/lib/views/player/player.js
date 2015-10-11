@@ -591,7 +591,7 @@
 
             // add ESC toggle when full screen, go back when not
             Mousetrap.bind('esc', function (e) {
-                _this.nativeWindow = require('nw.gui').Window.get();
+                _this.nativeWindow = win;
 
                 if (_this.nativeWindow.isFullscreen) {
                     _this.toggleFullscreen();
@@ -871,7 +871,7 @@
         },
 
         displayStreamURL: function () {
-            var clipboard = require('nw.gui').Clipboard.get();
+            var clipboard = gui.Clipboard.get();
             clipboard.set($('#video_player video').attr('src'), 'text');
             this.displayOverlayMsg(i18n.__('URL of this stream was copied to the clipboard'));
         },

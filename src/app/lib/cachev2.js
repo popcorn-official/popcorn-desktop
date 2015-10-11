@@ -1,8 +1,6 @@
 (function (App) {
     'use strict';
 
-    var Q = require('q');
-
     // Wraps a IndexedDB Request in a promise
     function WrapRequest(deferred, request) {
         if (request === undefined) {

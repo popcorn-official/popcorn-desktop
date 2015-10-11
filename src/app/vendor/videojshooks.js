@@ -109,7 +109,6 @@ vjs.TextTrack.prototype.load = function () {
 
         // Fetches a raw subtitle, locally or remotely
         var get_subtitle = function (subtitle_url, callback) {
-            var request = require('request');
 
             // Fetches Locally
             if (fs.existsSync(path.join(subtitle_url))) {
@@ -163,7 +162,7 @@ vjs.TextTrack.prototype.load = function () {
             rl.on('line', function (line) {
 
                 //detect encoding
-                var charset = require('jschardet').detect(line);
+                var charset = charsetDetect.detect(line);
                 var encoding = charset.encoding;
                 var line_, parsedBeginTime, parsedEndTime, parsedDialog;
 
@@ -262,7 +261,6 @@ vjs.TextTrack.prototype.load = function () {
         // Decompress zip
         var decompress = function (dataBuff, callback) {
             try {
-                var AdmZip = require('adm-zip');
                 var zip = new AdmZip(dataBuff);
                 var zipEntries = zip.getEntries();
                 // TODO: Shouldn't we look for only 1 file ???
@@ -279,7 +277,6 @@ vjs.TextTrack.prototype.load = function () {
 
         // Handles charset encoding
         var decode = function (dataBuff, language, callback) {
-            var charsetDetect = require('jschardet');
             var targetEncodingCharset = 'utf8';
 
             var parse = function (strings) {
@@ -303,7 +300,6 @@ vjs.TextTrack.prototype.load = function () {
                     language = Settings.subtitle_language;
                     win.debug('SUB charset: using subtitles_language setting (' + language + ') as default');
                 }
-                var iconv = require('iconv-lite');
                 var langInfo = App.Localization.langcodes[language] || {};
                 win.debug('SUB charset expected:', langInfo.encoding);
                 if (langInfo.encoding !== undefined && langInfo.encoding.indexOf(detectedEncoding) < 0) {
@@ -338,7 +334,6 @@ vjs.TextTrack.prototype.load = function () {
 
         // Get it, Unzip it, Decode it, Send it
         get_subtitle(this.src_, function (dataBuf) {
-            var path = require('path');
             if (path.extname(this_.src_) === '.zip') {
                 decompress(dataBuf, function (dataBuf) {
                     decode(dataBuf, this_.language(), vjsBind);

@@ -69,8 +69,6 @@
 
             });
 
-            this.nativeWindow = require('nw.gui').Window.get();
-
             // Application events
             App.vent.on('movies:list', _.bind(this.showMovies, this));
             App.vent.on('shows:list', _.bind(this.showShows, this));
@@ -152,7 +150,7 @@
         onShow: function () {
             this.Header.show(new App.View.TitleBar());
             // Set the app title (for Windows mostly)
-            this.nativeWindow.title = App.Config.title;
+            win.title = App.Config.title;
 
             // Show loading modal on startup
             var that = this;
@@ -173,7 +171,7 @@
                     }
 
                     try {
-                        require('fs').statSync('src/app/themes/' + Settings.theme + '.css');
+                        fs.statSync('src/app/themes/' + Settings.theme + '.css');
                     } catch (e) {
                         Settings.theme = 'Official_-_Dark_theme';
                         AdvSettings.set('theme', 'Official_-_Dark_theme');
@@ -221,12 +219,12 @@
                     }
 
                     // Focus the window when the app opens
-                    that.nativeWindow.focus();
+                    win.focus();
 
                 });
 
             // Cancel all new windows (Middle clicks / New Tab)
-            this.nativeWindow.on('new-win-policy', function (frame, url, policy) {
+            win.on('new-win-policy', function (frame, url, policy) {
                 policy.ignore();
             });
 
@@ -264,7 +262,7 @@
                 that.InitModal.destroy();
                 that.showShows();
                 // Focus the window when the app opens
-                that.nativeWindow.focus();
+                win.focus();
 
             });
         },
@@ -288,7 +286,7 @@
 
                 App.vent.trigger('shows:list');
                 // Focus the window when the app opens
-                that.nativeWindow.focus();
+                win.focus();
 
             });
         },
@@ -539,12 +537,11 @@
         },
 
         restartPopcornTime: function () {
-            var spawn = require('child_process').spawn,
-                argv = gui.App.fullArgv,
+            var argv = gui.App.fullArgv,
                 CWD = process.cwd();
 
             argv.push(CWD);
-            spawn(process.execPath, argv, {
+            child.spawn(process.execPath, argv, {
                 cwd: CWD,
                 detached: true,
                 stdio: ['ignore', 'ignore', 'ignore']

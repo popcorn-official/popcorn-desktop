@@ -3,9 +3,7 @@
     var rpc = require('json-rpc2');
     var server;
     var lang;
-    var nativeWindow = require('nw.gui').Window.get();
     var httpServer;
-    var Q = require('q');
 
     var initServer = function () {
         return Q.Promise(function (resolve, reject) {
@@ -56,7 +54,7 @@
 
                 //Listen for seek position change
                 App.vent.on('fullscreenchange', function () {
-                    events['fullscreen'] = nativeWindow.isFullscreen;
+                    events['fullscreen'] = win.isFullscreen;
                     reinitTimeout();
                 });
 
@@ -289,9 +287,8 @@
             });
 
             server.expose('getfullscreen', function (args, opt, callback) {
-                nativeWindow = require('nw.gui').Window.get();
                 popcornCallback(callback, false, {
-                    'fullscreen': nativeWindow.isFullscreen
+                    'fullscreen': win.isFullscreen
                 });
             });
 
@@ -637,7 +634,7 @@
             server.expose('togglefullscreen', function (args, opt, callback) {
                 Mousetrap.trigger('f');
                 popcornCallback(callback, false, {
-                    'fullscreen': nativeWindow.isFullscreen
+                    'fullscreen': win.isFullscreen
                 });
             });
 
@@ -691,7 +688,7 @@
                         duration: App.PlayerView.player.duration(),
                         streamUrl: $('#video_player video') === undefined ? '' : $('#video_player video').attr('src'),
                         selectedSubtitle: '',
-                        isFullscreen: nativeWindow.isFullscreen
+                        isFullscreen: win.isFullscreen
                     };
 
                     if (result.movie && result.movie !== undefined) {

@@ -1,12 +1,8 @@
 (function (App) {
     'use strict';
 
-    var path = require('path');
-    var fs = require('fs');
     var readdirp = require('readdirp');
-    var async = require('async');
     var collection = App.Device.Collection;
-    var child = require('child_process');
 
     var ExtPlayer = App.Device.Generic.extend({
         defaults: {
@@ -24,10 +20,8 @@
                 if ((this.get('id') === 'mplayer') || (this.get('id') === 'MPlayer OSX Extended')) {
                     //detect charset
                     var dataBuff = fs.readFileSync(subtitle);
-                    var charsetDetect = require('jschardet');
                     //var targetEncodingCharset = 'utf8';
-                    var charset = charsetDetect.detect(dataBuff);
-                    var detectedEncoding = charset.encoding;
+                    var detectedEncoding = charsetDetect.detect(dataBuff).encoding;
                     win.debug('Subtitles charset detected: %s', detectedEncoding);
                     if (detectedEncoding.toLowerCase() === 'utf-8') {
                         cmd += '-utf8 ';
