@@ -49,6 +49,11 @@
             'rating'
         ],
 
+        sorters_anime: [
+            'popularity',
+            'name'
+        ],
+
         types_anime: [
             'All',
             'Movies',

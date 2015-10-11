@@ -8,12 +8,12 @@
         <li class="dropdown filter types">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <%= i18n.__("Type") %>
-                    <span class="value"><%= i18n.__(type.capitalizeEach()) %></span>
+                    <span class="value" data-value="<%= type %>"><%= i18n.__(type) %></span>
                     <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
                 <% _.each(types, function(c) { %>
-                    <li><a href="#" data-value="<%= c.toLowerCase() %>"><%= i18n.__(c) %></a></li>
+                    <li><a href="#" data-value="<%= c %>"><%= i18n.__(c) %></a></li>
                 <% }); %>
             </ul>
         </li>

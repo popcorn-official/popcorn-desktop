@@ -35,7 +35,6 @@
             'click .vpn-connect': 'vpnConnect'
         },
 
-
         focus: function (e) {
             e.focus();
         },
@@ -201,12 +200,15 @@
 
             $('.genres .active').removeClass('active');
             $('.sorters .active').removeClass('active');
+            $('.types .active').removeClass('active');
 
             var genre = $('.genres .value').data('value');
             var sorter = $('.sorters .value').data('value');
+            var type = $('.types .value').data('value');
 
             $('.genres li').find('[data-value="' + genre + '"]').addClass('active');
             $('.sorters li').find('[data-value="' + sorter + '"]').addClass('active');
+            $('.types li').find('[data-value="' + type + '"]').addClass('active');
 
         },
         search: function (e) {
