@@ -55,7 +55,7 @@ current="1: Copy files"
 echo "
 - Copying files to ~/.Popcorn-Time"
 mkdir -p "$HOME/.Popcorn-Time"
-cp -r locales node_modules src .git.json CHANGELOG.md icudtl.dat libffmpegsumo.so LICENSE.txt nw.pak package.json Popcorn-Time README.md "$HOME/.Popcorn-Time" &> /dev/null && error=0 || error=1
+cp -r locales node_modules src .git.json CHANGELOG.md icudtl.dat libffmpegsumo.so LICENSE.txt nw.pak package.nw package.json Popcorn-Time README.md "$HOME/.Popcorn-Time" &> /dev/null && error=0 || error=1
 
 #move icon
 mkdir -p "$HOME/.local/share/icons"
