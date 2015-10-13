@@ -521,3 +521,11 @@ vjs.MediaTechController.prototype.dispose = function () {
 
     vjs.Component.prototype.dispose.call(this);
 };
+// Custom hasData function to not error if el==null (vdata error)
+vjs.prototype.hasData = function(el){
+    if (!el) {
+        return;
+    }
+    var id = el[vjs.expando];
+    return !(!id || vjs.isEmpty(vjs.cache[id]));
+};
