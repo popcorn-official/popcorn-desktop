@@ -435,8 +435,8 @@
                 icon: 'src/app/images/icon.png',
                 toolbar: false,
                 resizable: false,
-                width: 600,
-                height: 600
+                width: 580,
+                height: 640
             });
 
             window.loginWindow.on('loaded', function () {
