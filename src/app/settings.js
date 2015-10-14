@@ -106,14 +106,12 @@ Settings.tvAPI = [{
 }];
 
 Settings.ytsAPI = [{
-    url: 'https://yts.to/',
-    strictSSL: true
-}, {
     url: 'https://cloudflare.com/',
     headers: {
         'Host': 'xor.image.yt',
         'User-Agent': 'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/3.8.0'
     },
+    ext: 'ppt',
     strictSSL: true
 }, {
     url: 'http://cloudflare.com/',
@@ -121,7 +119,12 @@ Settings.ytsAPI = [{
         'Host': 'xor.image.yt',
         'User-Agent': 'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/3.8.0'
     },
+    ext: 'ppt',
     strictSSL: false
+}, {
+    url: 'https://yts.to/',
+    ext: 'json',
+    strictSSL: true
 }];
 
 Settings.updateEndpoint = {
