@@ -72,7 +72,8 @@
         types_fav: [
             'All',
             'Movies',
-            'TV'
+            'TV',
+            'Anime'
         ],
 
         genres_anime: [

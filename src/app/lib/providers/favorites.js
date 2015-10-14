@@ -53,6 +53,30 @@
             });
         }
 
+        if (filters.type !== 'All') {
+            var matched = [];
+            for (var i in sorted) {
+                if (sorted[i].imdb_id.indexOf('mal') !== -1) {
+                    matched.push(sorted[i]);
+                }
+            }
+
+            if (filters.type === 'Anime') {
+                sorted = matched;
+            } else {
+                function remove(arr, item) {
+                    for(var i = arr.length; i--;) {
+                        if(arr[i] === item) {
+                            arr.splice(i, 1);
+                        }
+                    }
+                }
+                for (var k in matched) {
+                    remove(sorted, matched[k]);
+                }
+            }
+        }
+
         if (filters.keywords) {
             var query = filters.keywords.toLowerCase();
             var matched = [];
