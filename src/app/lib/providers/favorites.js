@@ -14,6 +14,81 @@
                 });
     };
 
+    var sort = function (items, filters) {
+        var sorted = [],
+            matched;
+
+        if (filters.sorter === 'title') {
+            sorted = items.sort(function (a, b) {
+                var A = a.title.toLowerCase();
+                var B = b.title.toLowerCase();
+                if (A < B) {
+                    return -1 * filters.order;
+                } else if (A > B) {
+                    return 1 * filters.order;
+                } else {
+                    return 0;
+                }
+            });
+        }
+
+        if (filters.sorter === 'rating') {
+            sorted = items.sort(function (a, b) {
+                var a_rating = a.type === 'bookmarkedmovie' ? a.rating : (a.rating.percentage / 10);
+                var b_rating = b.type === 'bookmarkedmovie' ? b.rating : (b.rating.percentage / 10);
+                return filters.order === -1 ? b_rating - a_rating : a_rating - b_rating;
+            });
+        }
+
+        if (filters.sorter === 'year') {
+            sorted = items.sort(function (a, b) {
+                return filters.order === -1 ? b.year - a.year : a.year - b.year;
+            });
+        }
+
+        if (filters.sorter === 'watched items') {
+            sorted = items.sort(function (a, b) {
+                var a_watched = App[a.type === 'bookmarkedmovie' ? 'watchedMovies' : 'watchedShows'].indexOf(a.imdb_id) !== -1;
+                var b_watched = App[b.type === 'bookmarkedmovie' ? 'watchedMovies' : 'watchedShows'].indexOf(b.imdb_id) !== -1;
+                return filters.order === -1 ? a_watched - b_watched : b_watched - a_watched;
+            });
+        }
+
+        if (filters.type !== 'All') {
+            matched = [];
+            for (var i in sorted) {
+                if (sorted[i].imdb_id.indexOf('mal') !== -1) {
+                    matched.push(sorted[i]);
+                }
+            }
+
+            if (filters.type === 'Anime') {
+                sorted = matched;
+            } else {
+                for (var j in matched) {
+                    for (var k = sorted.length; k--;) {
+                        if (sorted[k] === matched[j]) {
+                            sorted.splice(k, 1);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (filters.keywords) {
+            var query = filters.keywords.toLowerCase();
+            matched = [];
+            for (var l in sorted) {
+                if (sorted[l].title.toLowerCase().indexOf(query) !== -1) {
+                    matched.push(sorted[l]);
+                }
+            }
+            sorted = matched;
+        }
+
+        return sorted;
+    };
+
     var formatForPopcorn = function (items) {
         var movieList = [];
 
@@ -90,8 +165,21 @@
     };
 
     Favorites.prototype.fetch = function (filters) {
-        return queryTorrents(filters)
-            .then(formatForPopcorn);
+        var params = {
+            page: filters.page
+        };
+        if (filters.type === 'TV') {
+            params.type = 'tvshow';
+        }
+        if (filters.type === 'Movies') {
+            params.type = 'movie';
+        }
+
+        return queryTorrents(params)
+            .then(formatForPopcorn)
+            .then(function (items) {
+                return sort(items, filters);
+            });
     };
 
     App.Providers.Favorites = Favorites;

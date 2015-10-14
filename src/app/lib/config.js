@@ -49,6 +49,13 @@
             'rating'
         ],
 
+        sorters_fav: [
+            'watched items',
+            'year',
+            'title',
+            'rating'
+        ],
+
         sorters_anime: [
             'popularity',
             'name'
@@ -60,6 +67,13 @@
             'TV',
             'OVA',
             'ONA'
+        ],
+
+        types_fav: [
+            'All',
+            'Movies',
+            'TV',
+            'Anime'
         ],
 
         genres_anime: [
