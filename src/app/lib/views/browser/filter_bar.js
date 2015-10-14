@@ -62,7 +62,6 @@
                 break;
             case 'Favorites':
             case 'favorites':
-                $('.right .search').hide();
                 $('#filterbar-favorites').addClass('active');
                 break;
             case 'Watchlist':
