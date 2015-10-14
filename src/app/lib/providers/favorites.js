@@ -15,7 +15,8 @@
     };
 
     var sort = function (items, filters) {
-        var sorted = [];
+        var sorted = [],
+            matched;
 
         if (filters.sorter === 'title') {
             sorted = items.sort(function (a, b) {
@@ -33,28 +34,28 @@
 
         if (filters.sorter === 'rating') {
             sorted = items.sort(function (a, b) {
-                var a_rating = a.type == 'bookmarkedmovie' ? a.rating : (a.rating.percentage / 10);
-                var b_rating = b.type == 'bookmarkedmovie' ? b.rating : (b.rating.percentage / 10);
-                return filters.order == -1 ? b_rating - a_rating : a_rating - b_rating;
+                var a_rating = a.type === 'bookmarkedmovie' ? a.rating : (a.rating.percentage / 10);
+                var b_rating = b.type === 'bookmarkedmovie' ? b.rating : (b.rating.percentage / 10);
+                return filters.order === -1 ? b_rating - a_rating : a_rating - b_rating;
             });
         }
 
         if (filters.sorter === 'year') {
             sorted = items.sort(function (a, b) {
-                return filters.order == -1 ? b.year - a.year : a.year - b.year;
+                return filters.order === -1 ? b.year - a.year : a.year - b.year;
             });
         }
 
         if (filters.sorter === 'watched items') {
             sorted = items.sort(function (a, b) {
-                var a_watched = App[a.type == 'bookmarkedmovie' ? 'watchedMovies':'watchedShows'].indexOf(a.imdb_id) !== -1;
-                var b_watched = App[b.type == 'bookmarkedmovie' ? 'watchedMovies':'watchedShows'].indexOf(b.imdb_id) !== -1;
-                return filters.order == -1 ? a_watched - b_watched : b_watched - a_watched;
+                var a_watched = App[a.type === 'bookmarkedmovie' ? 'watchedMovies' : 'watchedShows'].indexOf(a.imdb_id) !== -1;
+                var b_watched = App[b.type === 'bookmarkedmovie' ? 'watchedMovies' : 'watchedShows'].indexOf(b.imdb_id) !== -1;
+                return filters.order === -1 ? a_watched - b_watched : b_watched - a_watched;
             });
         }
 
         if (filters.type !== 'All') {
-            var matched = [];
+            matched = [];
             for (var i in sorted) {
                 if (sorted[i].imdb_id.indexOf('mal') !== -1) {
                     matched.push(sorted[i]);
@@ -64,25 +65,22 @@
             if (filters.type === 'Anime') {
                 sorted = matched;
             } else {
-                function remove(arr, item) {
-                    for(var i = arr.length; i--;) {
-                        if(arr[i] === item) {
-                            arr.splice(i, 1);
+                for (var j in matched) {
+                    for (var k = sorted.length; k--;) {
+                        if (sorted[k] === matched[j]) {
+                            sorted.splice(k, 1);
                         }
                     }
-                }
-                for (var k in matched) {
-                    remove(sorted, matched[k]);
                 }
             }
         }
 
         if (filters.keywords) {
             var query = filters.keywords.toLowerCase();
-            var matched = [];
-            for (var i in sorted) {
-                if (sorted[i].title.toLowerCase().indexOf(query) !== -1) {
-                    matched.push(sorted[i]);
+            matched = [];
+            for (var l in sorted) {
+                if (sorted[l].title.toLowerCase().indexOf(query) !== -1) {
+                    matched.push(sorted[l]);
                 }
             }
             sorted = matched;
@@ -176,7 +174,7 @@
         if (filters.type === 'Movies') {
             params.type = 'movie';
         }
-        
+
         return queryTorrents(params)
             .then(formatForPopcorn)
             .then(function (items) {
