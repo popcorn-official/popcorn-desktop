@@ -235,17 +235,6 @@ var deleteCookies = function () {
     }
 };
 
-win.on('resize', function (width, height) {
-    localStorage.width = Math.round(width);
-    localStorage.height = Math.round(height);
-});
-
-win.on('move', function (x, y) {
-    localStorage.posX = Math.round(x);
-    localStorage.posY = Math.round(y);
-
-});
-
 var delCache = function () {
     var reqDB = window.indexedDB.webkitGetDatabaseNames();
     reqDB.onsuccess = function (db) {
@@ -258,6 +247,20 @@ var delCache = function () {
     };
     win.close(true);
 };
+
+win.on('resize', function (width, height) {
+    localStorage.width = Math.round(width);
+    localStorage.height = Math.round(height);
+});
+
+win.on('move', function (x, y) {
+    localStorage.posX = Math.round(x);
+    localStorage.posY = Math.round(y);
+});
+
+win.on('enter-fullscreen', function () {
+    App.vent.trigger('window:focus');
+});
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
 win.on('close', function () {
@@ -369,10 +372,12 @@ window.ondragenter = function (e) {
 
 var minimizeToTray = function () {
     win.hide();
+    win.isTray = true;
 
     var openFromTray = function () {
         win.show();
         tray.remove();
+        win.isTray = false;
     };
 
     var tray = new gui.Tray({
@@ -659,6 +664,13 @@ gui.App.on('open', function (cmd) {
     }
 });
 
+// When win.focus() doesn't do it's job right, play dirty.
+App.vent.on('window:focus', function () {
+    win.setAlwaysOnTop(true);
+    win.focus();
+    win.setAlwaysOnTop(Settings.alwaysOnTop);
+});
+
 // -f argument to open in fullscreen
 if (gui.App.fullArgv.indexOf('-f') !== -1) {
     win.enterFullscreen();
@@ -669,7 +681,6 @@ if (gui.App.fullArgv.indexOf('-m') !== -1) {
         minimizeToTray();
     });
 }
-
 
 // On uncaught exceptions, log to console.
 process.on('uncaughtException', function (err) {

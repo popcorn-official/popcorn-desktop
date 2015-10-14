@@ -178,8 +178,9 @@
                     }
 
                     $('link#theme').attr('href', 'themes/' + Settings.theme + '.css');
-                    // Always on top
-                    win.setAlwaysOnTop(App.settings.alwaysOnTop);
+
+                    // focus win. also handles AlwaysOnTop
+                    App.vent.trigger('window:focus');
 
                     // we check if the disclaimer is accepted
                     if (!AdvSettings.get('disclaimerAccepted')) {
