@@ -18,8 +18,8 @@ var
     rimraf = require('rimraf'),
 
     // Compression
-    tar = require('tar');
-AdmZip = require('adm-zip'),
+    tar = require('tar'),
+    AdmZip = require('adm-zip'),
     zlib = require('zlib'),
 
     // Encoding/Decoding
@@ -43,7 +43,7 @@ AdmZip = require('adm-zip'),
     URI = require('URIjs'),
 
     // Torrent engines
-    peerflix = require('peerflix');
+    peerflix = require('peerflix'),
 
-// NodeJS
-child = require('child_process');
+    // NodeJS
+    child = require('child_process');
