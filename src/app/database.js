@@ -137,6 +137,10 @@ var Database = {
         var byPage = 50;
         var offset = page * byPage;
         var query = {};
+        
+        if (data.type) {
+            query.type = data.type;
+        }
 
         return promisifyDb(db.bookmarks.find(query).skip(offset).limit(byPage));
     },

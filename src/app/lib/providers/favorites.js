@@ -90,7 +90,17 @@
     };
 
     Favorites.prototype.fetch = function (filters) {
-        return queryTorrents(filters)
+        var params = {
+            page: filters.page
+        };
+        if (filters.type === 'TV') {
+            params.type = 'tvshow';
+        }
+        if (filters.type === 'Movies') {
+            params.type = 'movie';
+        }
+        
+        return queryTorrents(params)
             .then(formatForPopcorn);
     };
 
