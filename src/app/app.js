@@ -488,6 +488,7 @@ var handleVideoFile = function (file) {
             }
 
             playObj.metadataCheckRequired = true;
+            playObj.videoFile = file.path;
             switch (res.type) {
             case 'movie':
                 playObj.title = res.movie.title;
@@ -538,6 +539,7 @@ var handleVideoFile = function (file) {
         .catch(function (err) {
             playObj.title = file.name;
             playObj.quality = false;
+            playObj.videoFile = file.path;
             playObj.defaultSubtitle = 'local';
             playObj.subtitle = checkSubs();
         })

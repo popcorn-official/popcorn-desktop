@@ -445,7 +445,11 @@
             $('.player-header-background').appendTo('div#video_player');
 
             $('#video_player li:contains("subtitles off")').text(i18n.__('Disabled'));
-            $('#video_player li:contains("local")').text(i18n.__('Subtitles'));
+            $('#video_player li:contains("local")').text(i18n.__('Local'));
+
+            if (this.model.get('defaultSubtitle') === 'local') {
+                App.vent.trigger('customSubtitles:added', _this.model.get('subtitle').local);
+            }
 
             if (AdvSettings.get('alwaysFullscreen') && !this.inFullscreen) {
                 this.toggleFullscreen();
