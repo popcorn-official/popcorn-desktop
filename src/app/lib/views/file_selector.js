@@ -46,6 +46,10 @@
             App.Device.Collection.setDevice(Settings.chosenPlayer);
             App.Device.ChooserView('#player-chooser2').render();
             this.$('#watch-now').text('');
+
+            if (!$.trim( $('.file-selector-container .file-list').html() ).length) {
+                $('.file-selector-container .file-list').html('<li style="margin-top: 30px">' + i18n.__('No results found') + '</li>');
+            }
         },
 
         bitsnoopRequest: function (hash) {
