@@ -336,7 +336,12 @@ Mousetrap.bind('shift+b', function (e) {
             win.zoomLevel = zoom;
         }
     } else {
-        $('.notification_alert').show().text(i18n.__('Big Picture Mode is unavailable on your current screen resolution')).delay(2500).fadeOut(400);
+        App.vent.trigger('notification:show', new App.Model.Notification({
+            title: i18n.__('Big Picture Mode'),
+            body: i18n.__('Big Picture Mode is unavailable on your current screen resolution'),
+            showRestart: false,
+            type: 'error'
+        }));
     }
 });
 
@@ -457,6 +462,14 @@ var handleVideoFile = function (file) {
                     resolve(subs);
                 } else {
                     win.warn('No subtitles returned');
+                    if (Settings.subtitle_language !== 'none') {
+                        App.vent.trigger('notification:show', new App.Model.Notification({
+                            title: i18n.__('No subtitles found'),
+                            body: i18n.__('Try again later or drop a subtitle in the player'),
+                            showRestart: false,
+                            type: 'warning'
+                        }));
+                    }
                     reject(new Error('No subtitles returned'));
                 }
             }).catch(function (err) {

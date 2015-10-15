@@ -140,6 +140,12 @@
                         });
                 } else {
                     win.error('Subtitle Error, unknown file format: ' + data.url);
+                    App.vent.trigger('notification:show', new App.Model.Notification({
+                        title: i18n.__('Subtitle error: unknown file format'),
+                        body: i18n.__('Try another subtitle or drop one in the player'),
+                        showRestart: false,
+                        type: 'error'
+                    }));
                     App.vent.trigger('subtitle:downloaded', null);
                 }
             } else {
@@ -174,7 +180,6 @@
                     });
                 });
             } catch (e) {
-                win.error('error converting subtitles', e);
                 cb(e, null);
             }
         },

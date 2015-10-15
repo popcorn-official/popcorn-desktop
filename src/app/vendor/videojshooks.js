@@ -324,6 +324,12 @@ vjs.TextTrack.prototype.load = function () {
             } catch (e) {
                 win.error('Error reading subtitles timing, file seems corrupted', e);
                 subsParams();
+                App.vent.trigger('notification:show', new App.Model.Notification({
+                    title: i18n.__('Error reading subtitles timing, file seems corrupted'),
+                    body: i18n.__('Try another subtitle or drop one in the player'),
+                    showRestart: false,
+                    type: 'error'
+                }));
             }
         };
 

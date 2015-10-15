@@ -493,5 +493,11 @@
 	"Bold": "Bold",
 	"Currently watching": "Currently watching",
 	"No, it's not that": "No, it's not that",
-	"Correct": "Correct"
+	"Correct": "Correct",
+	"Error converting subtitle": "Error converting subtitle",
+	"Try another subtitle or drop one in the player": "Try another subtitle or drop one in the player",
+	"Local": "Local",
+	"Error reading subtitles timing, file seems corrupted": "Error reading subtitles timing, file seems corrupted",
+	"No subtitles found": "No subtitles found",
+	"Try again later or drop a subtitle in the player": "Try again later or drop a subtitle in the player"
 }

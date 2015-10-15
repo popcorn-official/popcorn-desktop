@@ -143,6 +143,12 @@
                     if (err) {
                         win.error('error converting subtitles', err);
                         stateModel.get('streamInfo').set('subFile', null);
+                        App.vent.trigger('notification:show', new App.Model.Notification({
+                            title: i18n.__('Error converting subtitle'),
+                            body: i18n.__('Try another subtitle or drop one in the player'),
+                            showRestart: false,
+                            type: 'error'
+                        }));
                     } else {
                         App.Subtitles.Server.start(res);
                     }
@@ -285,6 +291,14 @@
                                 hasSubtitles = true;
                                 downloadedSubtitles = true;
                                 win.warn('No subtitles returned');
+                                if (Settings.subtitle_language !== 'none') {
+                                    App.vent.trigger('notification:show', new App.Model.Notification({
+                                        title: i18n.__('No subtitles found'),
+                                        body: i18n.__('Try again later or drop a subtitle in the player'),
+                                        showRestart: false,
+                                        type: 'warning'
+                                    }));
+                                }
                             }
                             hasSubtitles = true;
                         }).catch(function (err) {
