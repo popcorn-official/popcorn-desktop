@@ -149,7 +149,15 @@
                     App.vent.trigger('subtitle:downloaded', null);
                 }
             } else {
-                win.info('No subtitles downloaded. None picked or language not available');
+                if (Settings.subtitle_language !== 'none') {
+                    win.info('No subtitles downloaded. None picked or language not available');
+                    App.vent.trigger('notification:show', new App.Model.Notification({
+                        title: i18n.__('No subtitles found'),
+                        body: i18n.__('Try again later or drop a subtitle in the player'),
+                        showRestart: false,
+                        type: 'warning'
+                    }));
+                }
                 App.vent.trigger('subtitle:downloaded', null);
             }
         },
