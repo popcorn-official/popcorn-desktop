@@ -141,7 +141,7 @@
                 } else {
                     win.error('Subtitle Error, unknown file format: ' + data.url);
                     App.vent.trigger('notification:show', new App.Model.Notification({
-                        title: i18n.__('Subtitle error: unknown file format'),
+                        title: i18n.__('Unknown subtitle format'),
                         body: i18n.__('Try another subtitle or drop one in the player'),
                         showRestart: false,
                         type: 'error'

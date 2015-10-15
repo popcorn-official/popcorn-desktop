@@ -325,7 +325,7 @@ vjs.TextTrack.prototype.load = function () {
                 win.error('Error reading subtitles timing, file seems corrupted', e);
                 subsParams();
                 App.vent.trigger('notification:show', new App.Model.Notification({
-                    title: i18n.__('Error reading subtitles timing, file seems corrupted'),
+                    title: i18n.__('Error reading subtitle timings, file seems corrupted'),
                     body: i18n.__('Try another subtitle or drop one in the player'),
                     showRestart: false,
                     type: 'error'
@@ -458,7 +458,7 @@ vjs.ErrorDisplay.prototype.update = function () {
             App.PlayerView.toggleFullscreen();
             event.preventDefault();
         });
-        if (this.player().error().message === 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.') {
+        if (this.player().error().message === 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.' || this.player().error().message === 'The video could not be loaded, either because the server or network failed or because the format is not supported.') {
             this.contentEl_.innerHTML = i18n.__('The video playback encountered an issue. Please try an external player like %s to view this content.', suggestedExternal());
         } else {
             this.contentEl_.innerHTML = this.localize(this.player().error().message);
