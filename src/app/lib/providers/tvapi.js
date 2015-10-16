@@ -46,7 +46,8 @@
         function get(index) {
             var options = {
                 url: Settings.tvAPI[index].url + 'shows/' + filters.page + '?' + querystring.stringify(params).replace(/%25%20/g, '%20'),
-                json: true
+                json: true,
+                gzip: true
             };
             var req = jQuery.extend(true, {}, Settings.tvAPI[index], options);
             win.info('Request to TVApi', req.url);
@@ -87,7 +88,8 @@
             function get(index) {
                 var options = {
                     url: Settings.tvAPI[index].url + 'show/' + torrent_id,
-                    json: true
+                    json: true,
+                    gzip: true
                 };
                 var req = jQuery.extend(true, {}, Settings.tvAPI[index], options);
                 win.info('Request to TVApi', req.url);
