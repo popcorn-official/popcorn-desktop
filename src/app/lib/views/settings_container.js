@@ -507,7 +507,7 @@
                     }).delay(1000).then(function () {
                         self.render();
                     }).catch(function (err) {
-                        win.error(err);
+                        win.error('OpenSubtitles.login()', err);
                         $('.opensubtitles-options .loading-spinner').hide();
                         $('.opensubtitles-options .invalid-cross').show();
                     });

@@ -438,10 +438,10 @@
                                     that.model.set('bookmarked', true);
                                     App.userBookmarks.push(that.model.get('imdb_id'));
                                 }).catch(function (err) {
-                                    win.error(err);
+                                    win.error('promisifyDb()', err);
                                 });
                         }).catch(function (err) {
-                            win.error(err);
+                            win.error('provider.detail()', err);
                             $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                         });
                 }

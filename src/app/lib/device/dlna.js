@@ -132,7 +132,7 @@
 
     browser.onDevice(function (device) {
         device.onError(function (err) {
-            win.error(err);
+            win.error('DNLA device error', err);
         });
 
         if (collection.where({

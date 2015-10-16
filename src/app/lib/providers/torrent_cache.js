@@ -263,7 +263,7 @@
             App.vent.trigger('stream:start', torrentStart);
         },
         handleError: function (err, torrent) {
-            win.error(err, torrent);
+            win.error('TorrentCache.handleError(): ' + err, torrent);
             handlers.updateState('Error resolving torrent.');
         },
         updateState: function (state) {
