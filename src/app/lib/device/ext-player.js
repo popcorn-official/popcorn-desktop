@@ -17,7 +17,7 @@
             var subtitle = streamModel.attributes.subFile || '';
             if (subtitle !== '') {
 
-                if ((this.get('id') === 'mplayer') || (this.get('id') === 'MPlayer OSX Extended')) {
+                if (this.get('id') === 'MPlayer OSX Extended') {
                     //detect charset
                     var dataBuff = fs.readFileSync(subtitle);
                     //var targetEncodingCharset = 'utf8';
@@ -116,7 +116,7 @@
         'mplayer': {
             type: 'mplayer',
             cmd: 'mplayer',
-            switches: '-really-quiet',
+            switches: '--really-quiet',
             subswitch: '-sub ',
             fs: '-fs',
         },
