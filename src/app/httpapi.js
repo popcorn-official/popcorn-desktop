@@ -748,7 +748,6 @@
         if (result === undefined) {
             result = {};
         }
-        App.vent.trigger('notification:close'); //hack while nothing is done for notification
         result['popcornVersion'] = App.settings.version;
         callback(err, result);
     }

@@ -379,7 +379,8 @@
                         title: i18n.__('Big Picture Mode'),
                         body: i18n.__('Big Picture Mode is unavailable on your current screen resolution'),
                         showRestart: false,
-                        type: 'error'
+                        type: 'error',
+                        autoclose: true
                     }));
                 }
                 break;
@@ -685,11 +686,7 @@
                 notificationModel.set('showRestart', true);
                 notificationModel.set('body', i18n.__('Please restart your application'));
             } else {
-                // Hide notification after 3 seconds
-                setTimeout(function () {
-                    btn.text(btnText).removeClass('confirm warning disabled').prop('disabled', false);
-                    App.vent.trigger('notification:close');
-                }, 3000);
+                notificationModel.attributes.autoclose = 4000;
             }
 
             // Open the notification
@@ -700,13 +697,9 @@
             App.vent.trigger('notification:show', new App.Model.Notification({
                 title: i18n.__('Error'),
                 body: errorDesc + '.',
-                type: 'danger'
+                type: 'danger',
+                autoclose: true
             }));
-
-            // Hide notification after 5 seconds
-            setTimeout(function () {
-                App.vent.trigger('notification:close');
-            }, 5000);
         },
 
         syncTrakt: function () {

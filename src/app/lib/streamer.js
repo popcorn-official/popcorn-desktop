@@ -147,7 +147,8 @@
                             title: i18n.__('Error converting subtitle'),
                             body: i18n.__('Try another subtitle or drop one in the player'),
                             showRestart: false,
-                            type: 'error'
+                            type: 'error',
+                            autoclose: true
                         }));
                     } else {
                         App.Subtitles.Server.start(res);
@@ -296,7 +297,8 @@
                                         title: i18n.__('No subtitles found'),
                                         body: i18n.__('Try again later or drop a subtitle in the player'),
                                         showRestart: false,
-                                        type: 'warning'
+                                        type: 'warning',
+                                        autoclose: true
                                     }));
                                 }
                             }

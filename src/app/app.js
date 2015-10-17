@@ -340,7 +340,8 @@ Mousetrap.bind('shift+b', function (e) {
             title: i18n.__('Big Picture Mode'),
             body: i18n.__('Big Picture Mode is unavailable on your current screen resolution'),
             showRestart: false,
-            type: 'error'
+            type: 'error',
+            autoclose: true
         }));
     }
 });
@@ -467,7 +468,8 @@ var handleVideoFile = function (file) {
                             title: i18n.__('No subtitles found'),
                             body: i18n.__('Try again later or drop a subtitle in the player'),
                             showRestart: false,
-                            type: 'warning'
+                            type: 'warning',
+                            autoclose: true
                         }));
                     }
                     reject(new Error('No subtitles returned'));

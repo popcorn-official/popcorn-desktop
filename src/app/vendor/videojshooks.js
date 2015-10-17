@@ -328,7 +328,8 @@ vjs.TextTrack.prototype.load = function () {
                     title: i18n.__('Error reading subtitle timings, file seems corrupted'),
                     body: i18n.__('Try another subtitle or drop one in the player'),
                     showRestart: false,
-                    type: 'error'
+                    type: 'error',
+                    autoclose: true
                 }));
             }
         };
