@@ -235,7 +235,7 @@
             $('.search-issue').removeClass('fa-search').addClass('fa-spinner fa-spin');
             document.getElementById('issue-results').innerHTML = ''; //clear
 
-            var keyword = $('#issue-search-field').val();
+            var keyword = $('#issue-search-field').val().replace(/\W/g, ' ').replace(/\s\s+/g, ' ');
 
             if (!keyword) {
                 $('.notification_alert').show().text(i18n.__('Fields cannot be empty')).delay(2500).fadeOut(400);
