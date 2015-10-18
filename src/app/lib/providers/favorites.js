@@ -137,10 +137,11 @@
                     }).then(function (data) {
                         if (data) {
                             // Cache new show and return
-                            Database.updateTVShow(data);
+                            Database.deleteBookmark(_data.imdb_id);
+                            Database.deleteTVShow(_data.imdb_id);
+                            Database.addTVShow(data);
+                            Database.addBookmark(data.imdb_id, 'tvshow');
                             data.type = 'bookmarkedshow';
-                            data.imdb = data.imdb_id;
-                            data.image = data.images.poster;
                             deferred.resolve(data);
                         }
                     }, function (err) {
