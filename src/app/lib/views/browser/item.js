@@ -302,11 +302,6 @@
                         return Database.deleteMovie(that.model.get('imdb_id'));
                     })
                     .then(function () {
-                        var bookmark = $('.bookmark-item .' + that.model.get('imdb_id'));
-                        if (bookmark.length > 0) {
-                            bookmark.parents('.bookmark-item').remove();
-                        }
-
                         // we'll delete this element from our list view
                         $(e.currentTarget).closest('li').animate({
                             paddingLeft: '0px',
@@ -316,14 +311,10 @@
                         }, 500, function () {
                             $(this).remove();
                             $('.items').append($('<li/>').addClass('item ghost'));
-                            if ($('.items li').length === 0) {
-                                App.vent.trigger('movies:list', []);
+                            if ($('.items li[data-imdb-id]').length === 0) {
+                                App.vent.trigger('favorites:render');
                             }
                         });
-                        // we'll delete item in Favorites view
-                        if (App.currentview === 'Favorites') {
-                            App.vent.trigger('favorites:render');
-                        }
                     });
                 break;
 
@@ -423,13 +414,8 @@
 
                             // we'll make sure we dont have a cached show
                             Database.deleteTVShow(that.model.get('imdb_id'));
-                            if (App.currentview === 'Favorites') {
-                                App.vent.trigger('favorites:render');
-                            }
                         });
                 } else {
-                    this.model.set('bookmarked', true);
-                    this.ui.bookmarkIcon.addClass('selected');
                     data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
                         .then(function (data) {
                             data.provider = that.model.get('provider');
@@ -448,6 +434,7 @@
                                 })
                                 .then(function () {
                                     win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+                                    that.ui.bookmarkIcon.addClass('selected');
                                     that.model.set('bookmarked', true);
                                     App.userBookmarks.push(that.model.get('imdb_id'));
                                 }).catch(function (err) {
