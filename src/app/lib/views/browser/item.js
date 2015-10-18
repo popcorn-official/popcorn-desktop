@@ -295,11 +295,16 @@
             case 'bookmarkedmovie':
                 Database.deleteBookmark(this.model.get('imdb_id'))
                     .then(function () {
-                        App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
                         win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
-                        if (that.model.get('type') === 'movie') {
-                            // we'll make sure we dont have a cached movie
-                            Database.deleteMovie(that.model.get('imdb_id'));
+                        App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
+                    })
+                    .then(function () {
+                        return Database.deleteMovie(that.model.get('imdb_id'));
+                    })
+                    .then(function () {
+                        var bookmark = $('.bookmark-item .' + that.model.get('imdb_id'));
+                        if (bookmark.length > 0) {
+                            bookmark.parents('.bookmark-item').remove();
                         }
 
                         // we'll delete this element from our list view
@@ -315,6 +320,10 @@
                                 App.vent.trigger('movies:list', []);
                             }
                         });
+                        // we'll delete item in Favorites view
+                        if (App.currentview === 'Favorites') {
+                            App.vent.trigger('favorites:render');
+                        }
                     });
                 break;
 
@@ -396,6 +405,7 @@
                             })
                             .then(function () {
                                 win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+                                App.userBookmarks.push(that.model.get('imdb_id'));
                                 that.model.set('bookmarked', true);
                             });
                     }
@@ -413,6 +423,9 @@
 
                             // we'll make sure we dont have a cached show
                             Database.deleteTVShow(that.model.get('imdb_id'));
+                            if (App.currentview === 'Favorites') {
+                                App.vent.trigger('favorites:render');
+                            }
                         });
                 } else {
                     this.model.set('bookmarked', true);
