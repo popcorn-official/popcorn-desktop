@@ -45,7 +45,7 @@ Full instructions & troubleshooting tips can be found in the [Contributing Guide
 
 Keep track of Butter development and community activity.
 
-* Follow Butter on [Twitter](https://twitter.com/butterproject), [Facebook](https://www.facebook.com/butterproject) and [Google+](https://plus.google.com/+ButterProject).
+* Follow Butter on [Twitter](https://twitter.com/butterproject), [Facebook](https://www.facebook.com/ButterProjectOrg/) and [Google+](https://plus.google.com/communities/111003619134556931561).
 * Read and subscribe to the [The Official Butter Blog](https://github.com/butterproject/blog).
 * Join in discussions on the [Butter Forum](https://discuss.butterproject.org)
 * Connect with us on IRC at `#butterproject` on freenode ([web access](http://webchat.freenode.net/?channels=butterproject))
