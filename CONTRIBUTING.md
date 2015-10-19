@@ -118,7 +118,7 @@ If you're not completely clear on how to submit / update / *do* Pull Requests, p
 
 ### Translation
 
-For translations please go to: [Transifex](https://www.transifex.com/projects/p/butter-app)
+For translations please go to: [Transifex](https://www.transifex.com/butterproject/butter/)
 
 
 ## Working on Butter Core
