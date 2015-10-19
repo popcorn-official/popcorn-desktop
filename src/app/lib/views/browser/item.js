@@ -295,13 +295,13 @@
             case 'bookmarkedmovie':
                 Database.deleteBookmark(this.model.get('imdb_id'))
                     .then(function () {
-                        App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
                         win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
-                        if (that.model.get('type') === 'movie') {
-                            // we'll make sure we dont have a cached movie
-                            Database.deleteMovie(that.model.get('imdb_id'));
-                        }
-
+                        App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
+                    })
+                    .then(function () {
+                        return Database.deleteMovie(that.model.get('imdb_id'));
+                    })
+                    .then(function () {
                         // we'll delete this element from our list view
                         $(e.currentTarget).closest('li').animate({
                             paddingLeft: '0px',
@@ -311,8 +311,8 @@
                         }, 500, function () {
                             $(this).remove();
                             $('.items').append($('<li/>').addClass('item ghost'));
-                            if ($('.items li').length === 0) {
-                                App.vent.trigger('movies:list', []);
+                            if ($('.items li[data-imdb-id]').length === 0) {
+                                App.vent.trigger('favorites:render');
                             }
                         });
                     });
@@ -396,6 +396,7 @@
                             })
                             .then(function () {
                                 win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+                                App.userBookmarks.push(that.model.get('imdb_id'));
                                 that.model.set('bookmarked', true);
                             });
                     }
@@ -415,8 +416,6 @@
                             Database.deleteTVShow(that.model.get('imdb_id'));
                         });
                 } else {
-                    this.model.set('bookmarked', true);
-                    this.ui.bookmarkIcon.addClass('selected');
                     data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
                         .then(function (data) {
                             data.provider = that.model.get('provider');
@@ -435,6 +434,7 @@
                                 })
                                 .then(function () {
                                     win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+                                    that.ui.bookmarkIcon.addClass('selected');
                                     that.model.set('bookmarked', true);
                                     App.userBookmarks.push(that.model.get('imdb_id'));
                                 }).catch(function (err) {
