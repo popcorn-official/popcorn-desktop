@@ -1,8 +1,5 @@
 <ul class="nav nav-hor left">
     <li class="source active showMovies providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.providers.movie %>"><%= i18n.__("Movies") %></li>
-    <li class="source showShows providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.providers.tvshow %>"><%= i18n.__("TV Series") %></li>
-    <li class="source showAnime providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.providers.anime %>"><%= i18n.__("Anime") %></li>
-    <li class="source showIndie providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.providers.indie %>"><%= i18n.__("Indie") %></li>
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">
     <% if(typeof type !== 'undefined'){ %>
