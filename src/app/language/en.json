@@ -499,6 +499,8 @@
 	"Local": "Local",
 	"Error reading subtitle timings, file seems corrupted": "Error reading subtitle timings, file seems corrupted",
 	"No subtitles found": "No subtitles found",
-	"Try again later or drop a subtitle in the player": "Try again later or drop a subtitle in the player", 
-    "Unknown subtitle format": "Unknown subtitle format"
+	"Try again later or drop a subtitle in the player": "Try again later or drop a subtitle in the player",
+	"Unknown subtitle format": "Unknown subtitle format",
+	"Initializing %s. Please Wait...": "Initializing %s. Please Wait...",
+	"": ""
 }

@@ -242,7 +242,7 @@ module.exports = function (grunt) {
                 cmd: 'sh dist/mac/codesign.sh || echo "Codesign failed, likely caused by not being run on mac, continuing"'
             },
             createDmg: {
-                cmd: 'dist/mac/yoursway-create-dmg/create-dmg --volname "' + projectName + '-' + currentVersion + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "'+ projectName + +'" 240 110 ./build/releases/'+ projectName + '/mac/'+ projectName + '-' + currentVersion + '-Mac.dmg ./build/releases/'+ projectName + '/mac/ || echo "Create dmg failed, likely caused by not being run on mac, continuing"'
+                cmd: 'dist/mac/yoursway-create-dmg/create-dmg --volname "' + projectName + '-' + currentVersion + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "' + projectName + +'" 240 110 ./build/releases/' + projectName + '/mac/' + projectName + '-' + currentVersion + '-Mac.dmg ./build/releases/' + projectName + '/mac/ || echo "Create dmg failed, likely caused by not being run on mac, continuing"'
             },
             createWinInstall: {
                 cmd: 'makensis dist/windows/installer_makensis.nsi',
@@ -295,9 +295,9 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'pct_rel="build/releases/'+projectName+'"',
-                            'chmod -R +x ${pct_rel}/mac/'+projectName+'.app || : ',
-                            'chmod +x ${pct_rel}/linux*/'+projectName+'/'+projectName+' || : '
+                            'pct_rel="build/releases/' + projectName + '"',
+                            'chmod -R +x ${pct_rel}/mac/' + projectName + '.app || : ',
+                            'chmod +x ${pct_rel}/linux*/' + projectName + '/' + projectName + ' || : '
                         ].join(' && ');
                     } else {
                         return 'echo ""'; // Not needed in Windows
@@ -308,21 +308,21 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'cp build/cache/linux64/<%= nodewebkit.options.version %>/icudtl.dat build/releases/'+projectName+'/linux64/'+projectName,
-                            'cp -r build/cache/linux64/<%= nodewebkit.options.version %>/locales build/releases/'+projectName+'/linux64/'+projectName,
-                            'cp dist/linux/linux-installer build/releases/'+projectName+'/linux64/'+projectName+'/install',
-                            'cp dist/linux/butter.png build/releases/'+projectName+'/linux64/'+projectName,
-                            'cd build/releases/'+projectName+'/linux64/'+projectName,
+                            'cp build/cache/linux64/<%= nodewebkit.options.version %>/icudtl.dat build/releases/' + projectName + '/linux64/' + projectName,
+                            'cp -r build/cache/linux64/<%= nodewebkit.options.version %>/locales build/releases/' + projectName + '/linux64/' + projectName,
+                            'cp dist/linux/linux-installer build/releases/' + projectName + '/linux64/' + projectName + '/install',
+                            'cp dist/linux/butter.png build/releases/' + projectName + '/linux64/' + projectName,
+                            'cd build/releases/' + projectName + '/linux64/' + projectName,
                             'chmod +x install',
-                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../'+projectName+'-' + currentVersion + '-Linux-64.tar.xz"',
+                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../' + projectName + '-' + currentVersion + '-Linux-64.tar.xz"',
                             'echo "Linux64 Sucessfully packaged" || echo "Linux64 failed to package"'
                         ].join(' && ');
                     } else {
                         return [
-                            'cp build/cache/linux64/<%= nodewebkit.options.version %>/icudtl.dat build/releases/'+projectName+'/linux64/'+projectName,
-                            'cp -r build/cache/linux64/<%= nodewebkit.options.version %>/locales build/releases/'+projectName+'/linux64/'+projectName,
-                            'cp dist/linux/linux-installer build/releases/'+projectName+'/linux64/'+projectName+'/install',
-                            'cp dist/linux/butter.png build/releases/'+projectName+'/linux64/'+projectName,
+                            'cp build/cache/linux64/<%= nodewebkit.options.version %>/icudtl.dat build/releases/' + projectName + '/linux64/' + projectName,
+                            'cp -r build/cache/linux64/<%= nodewebkit.options.version %>/locales build/releases/' + projectName + '/linux64/' + projectName,
+                            'cp dist/linux/linux-installer build/releases/' + projectName + '/linux64/' + projectName + '/install',
+                            'cp dist/linux/butter.png build/releases/' + projectName + '/linux64/' + projectName,
                             'grunt compress:linux64',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
                         ].join(' && ');
@@ -333,21 +333,21 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'cp build/cache/linux32/<%= nodewebkit.options.version %>/icudtl.dat build/releases/'+projectName+'/linux32/'+projectName,
-                            'cp -r build/cache/linux32/<%= nodewebkit.options.version %>/locales build/releases/'+projectName+'/linux32/'+projectName,
-                            'cp dist/linux/linux-installer build/releases/'+projectName+'/linux32/'+projectName+'/install',
-                            'cp dist/linux/butter.png build/releases/'+projectName+'/linux32/'+projectName,
-                            'cd build/releases/'+projectName+'/linux32/'+projectName,
+                            'cp build/cache/linux32/<%= nodewebkit.options.version %>/icudtl.dat build/releases/' + projectName + '/linux32/' + projectName,
+                            'cp -r build/cache/linux32/<%= nodewebkit.options.version %>/locales build/releases/' + projectName + '/linux32/' + projectName,
+                            'cp dist/linux/linux-installer build/releases/' + projectName + '/linux32/' + projectName + '/install',
+                            'cp dist/linux/butter.png build/releases/' + projectName + '/linux32/' + projectName,
+                            'cd build/releases/' + projectName + '/linux32/' + projectName,
                             'chmod +x install',
-                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../'+projectName+'-' + currentVersion + '-Linux-32.tar.xz"',
+                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../' + projectName + '-' + currentVersion + '-Linux-32.tar.xz"',
                             'echo "Linux32 Sucessfully packaged" || echo "Linux32 failed to package"'
                         ].join(' && ');
                     } else {
                         return [
-                            'cp build/cache/linux32/<%= nodewebkit.options.version %>/icudtl.dat build/releases/'+projectName+'/linux32/'+projectName,
-                            'cp -r build/cache/linux32/<%= nodewebkit.options.version %>/locales build/releases/'+projectName+'/linux32/'+projectName,
-                            'cp dist/linux/linux-installer build/releases/'+projectName+'/linux32/'+projectName+'/install',
-                            'cp dist/linux/butter.png build/releases/'+projectName+'/linux32/'+projectName,
+                            'cp build/cache/linux32/<%= nodewebkit.options.version %>/icudtl.dat build/releases/' + projectName + '/linux32/' + projectName,
+                            'cp -r build/cache/linux32/<%= nodewebkit.options.version %>/locales build/releases/' + projectName + '/linux32/' + projectName,
+                            'cp dist/linux/linux-installer build/releases/' + projectName + '/linux32/' + projectName + '/install',
+                            'cp dist/linux/butter.png build/releases/' + projectName + '/linux32/' + projectName,
                             'grunt compress:linux32',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
                         ].join(' && ');
@@ -386,16 +386,16 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'cp build/cache/win/<%= nodewebkit.options.version %>/icudtl.dat build/releases/'+projectName+'/win/'+projectName,
-                            'cp -r build/cache/win/<%= nodewebkit.options.version %>/locales build/releases/'+projectName+'/win/'+projectName,
-                            'cd build/releases/'+projectName+'/win/'+projectName,
-                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../'+projectName+'-' + currentVersion + '-Win.tar.xz"',
+                            'cp build/cache/win/<%= nodewebkit.options.version %>/icudtl.dat build/releases/' + projectName + '/win/' + projectName,
+                            'cp -r build/cache/win/<%= nodewebkit.options.version %>/locales build/releases/' + projectName + '/win/' + projectName,
+                            'cd build/releases/' + projectName + '/win/' + projectName,
+                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../' + projectName + '-' + currentVersion + '-Win.tar.xz"',
                             'echo "Windows Sucessfully packaged" || echo "Windows failed to package"'
                         ].join(' && ');
                     } else {
                         return [
-                            'cp build/cache/win/<%= nodewebkit.options.version %>/icudtl.dat build/releases/'+projectName+'/win/'+projectName,
-                            'cp -r build/cache/win/<%= nodewebkit.options.version %>/locales build/releases/'+projectName+'/win/'+projectName,
+                            'cp build/cache/win/<%= nodewebkit.options.version %>/icudtl.dat build/releases/' + projectName + '/win/' + projectName,
+                            'cp -r build/cache/win/<%= nodewebkit.options.version %>/locales build/releases/' + projectName + '/win/' + projectName,
                             'grunt compress:windows',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
                         ].join(' && ');
@@ -406,8 +406,8 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'cd build/releases/'+projectName+'/mac/',
-                            'tar --exclude-vcs -c '+projectName+'.app | $(command -v pxz || command -v xz) -T8 -7 > "'+projectName+'-' + currentVersion + '-Mac.tar.xz"',
+                            'cd build/releases/' + projectName + '/mac/',
+                            'tar --exclude-vcs -c ' + projectName + '.app | $(command -v pxz || command -v xz) -T8 -7 > "' + projectName + '-' + currentVersion + '-Mac.tar.xz"',
                             'echo "Mac Sucessfully packaged" || echo "Mac failed to package"'
                         ].join(' && ');
                     } else {
@@ -424,47 +424,47 @@ module.exports = function (grunt) {
             linux32: {
                 options: {
                     mode: 'tgz',
-                    archive: 'build/releases/'+projectName+'/linux32/'+projectName+'-' + currentVersion + '-Linux-32.tar.gz'
+                    archive: 'build/releases/' + projectName + '/linux32/' + projectName + '-' + currentVersion + '-Linux-32.tar.gz'
                 },
                 expand: true,
-                cwd: 'build/releases/'+projectName+'/linux32/'+projectName,
+                cwd: 'build/releases/' + projectName + '/linux32/' + projectName,
                 src: '**',
                 dest: projectName
             },
             linux64: {
                 options: {
                     mode: 'tgz',
-                    archive: 'build/releases/'+projectName+'/linux64/'+projectName+'-' + currentVersion + '-Linux-64.tar.gz'
+                    archive: 'build/releases/' + projectName + '/linux64/' + projectName + '-' + currentVersion + '-Linux-64.tar.gz'
                 },
                 expand: true,
-                cwd: 'build/releases/'+projectName+'/linux64/'+projectName,
+                cwd: 'build/releases/' + projectName + '/linux64/' + projectName,
                 src: '**',
                 dest: projectName
             },
             mac: {
                 options: {
                     mode: 'tgz',
-                    archive: 'build/releases/'+projectName+'/mac/'+projectName+'-' + currentVersion + '-Mac.tar.gz'
+                    archive: 'build/releases/' + projectName + '/mac/' + projectName + '-' + currentVersion + '-Mac.tar.gz'
                 },
                 expand: true,
-                cwd: 'build/releases/'+projectName+'/mac/',
+                cwd: 'build/releases/' + projectName + '/mac/',
                 src: '**',
                 dest: projectName
             },
             windows: {
                 options: {
                     mode: 'tgz',
-                    archive: 'build/releases/'+projectName+'/win/'+projectName+'-' + currentVersion + '-Win.tar.gz'
+                    archive: 'build/releases/' + projectName + '/win/' + projectName + '-' + currentVersion + '-Win.tar.gz'
                 },
                 expand: true,
-                cwd: 'build/releases/'+projectName+'/win/'+projectName,
+                cwd: 'build/releases/' + projectName + '/win/' + projectName,
                 src: '**',
                 dest: projectName
             }
         },
 
         clean: {
-            releases: ['build/releases/'+projectName+'/**'],
+            releases: ['build/releases/' + projectName + '/**'],
             css: ['src/app/themes/**'],
             dist: ['dist/windows/*-Setup.exe', 'dist/mac/*.dmg'],
             update: ['build/updater/*.*'],

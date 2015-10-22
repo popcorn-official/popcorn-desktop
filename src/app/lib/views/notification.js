@@ -29,10 +29,10 @@
             this.autoClose(this.model.get('autoclose'));
         },
 
-        autoClose: function(timeout) {
+        autoClose: function (timeout) {
             var _this = this;
             if (!timeout) return;
-            
+
             timeout = timeout === true ? 6000 : timeout;
 
             setTimeout(function () {

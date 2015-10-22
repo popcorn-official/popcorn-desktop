@@ -137,7 +137,7 @@ var Database = {
         var byPage = 50;
         var offset = page * byPage;
         var query = {};
-        
+
         if (data.type) {
             query.type = data.type;
         }
