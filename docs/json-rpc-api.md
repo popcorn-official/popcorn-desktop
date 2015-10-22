@@ -1,10 +1,10 @@
-Popcorn time JSON-RPC 2 Api
+Butter JSON-RPC 2 Api
 =========================
 
-The JSON-RPC api built into the popcorn time app is an interface other programs can use to communicate with popcorn time.
+The JSON-RPC api built into the Butter app is an interface other programs can use to communicate with Butter.
 It uses basic http authentication and opens an endpoint port, both of which that you can set up in popocorn time's settings view.
 
-Every response is an object containing the version of Popcorn Time in the key 'popcornVersion'.
+Every response is an object containing the version of Butter in the key 'butterVersion'.
 
 Here are the currently supported procedures, the arguments they require, and the response they send:
 

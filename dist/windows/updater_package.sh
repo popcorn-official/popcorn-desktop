@@ -6,7 +6,7 @@ case ${OSTYPE} in *darwin*)
     ;;
 esac
 basedir="$(dirname $(readlink -f ${0}))/../.."
-windir="${basedir}/build/releases/Popcorn-Time/win"
+windir="${basedir}/build/releases/Butter/win"
 outdir="${basedir}/build/updater/win"
 
 rm -rf "${outdir}"
@@ -23,7 +23,7 @@ rm -rf "${basedir}/node_modules/grunt"
 if [ "${POP_NEW_NW}" = "TRUE" ]; then
    echo "Copying compiled files"
    mkdir -p "${outdir}/node-webkit/"
-   cp -r "${windir}/Popcorn-Time/*" "${outdir}/node-webkit/"
+   cp -r "${windir}/Butter/*" "${outdir}/node-webkit/"
 fi
 
 cp "${basedir}/package.json" "${outdir}"
@@ -33,4 +33,4 @@ cd ${outdir}
 vers=$(sed -n "s|\s*\"version\"\:\ \"\(.*\)\"\,|\1|p" "${basedir}/package.json")
 
 echo "Zipping Files"
-tar --exclude-vcs -caf "../Popcorn-Time-${vers}-Update-Win.tar.xz" .
+tar --exclude-vcs -caf "../Butter-${vers}-Update-Win.tar.xz" .

@@ -44,7 +44,7 @@
             cache.flushTable()
                 .then(Database.deleteDatabases)
                 .then(function () {
-                    App.vent.trigger('restartPopcornTime');
+                    App.vent.trigger('restartButter');
                 });
 
         },

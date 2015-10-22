@@ -67,7 +67,7 @@
                     for (var i = 0; i < titleArray.length; i++) {
                         if (titleArray[i].length > 3 && !modified) {
                             if (Math.floor((Math.random() * 10) + 1) > 5) { //random
-                                titleArray[i] = 'Popcorn';
+                                titleArray[i] = Settings.projectName;
                                 modified = true;
                             }
                         }
@@ -228,7 +228,7 @@
                         $('.spinner').hide();
                         App.vent.trigger(type + ':showDetail', new App.Model[Type](data));
                     }).catch(function (err) {
-                        console. (err)
+                        console.(err)
                         $('.spinner').hide();
                         $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                     })

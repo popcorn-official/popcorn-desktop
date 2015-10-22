@@ -90,7 +90,7 @@ if (os.platform() === 'darwin') {
     var nativeMenuBar = new gui.Menu({
         type: 'menubar'
     });
-    nativeMenuBar.createMacBuiltin('Popcorn Time', {
+    nativeMenuBar.createMacBuiltin(Settings.projectName, {
         hideEdit: false,
         hideWindow: true
     });
@@ -304,7 +304,7 @@ Mousetrap.bind('mod+,', function (e) {
 });
 Mousetrap.bindGlobal('f11', function (e) {
     Settings.deleteTmpOnClose = false;
-    App.vent.trigger('restartPopcornTime');
+    App.vent.trigger('restartButter');
 });
 Mousetrap.bind(['?', '/', '\''], function (e) {
     e.preventDefault();
@@ -387,10 +387,10 @@ var minimizeToTray = function () {
     };
 
     var tray = new gui.Tray({
-        title: 'Popcorn Time',
+        title: Settings.projectName,
         icon: 'src/app/images/icon.png'
     });
-    tray.tooltip = 'Popcorn Time';
+    tray.tooltip = Settings.projectName;
 
     var menu = new gui.Menu();
     menu.append(new gui.MenuItem({

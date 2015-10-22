@@ -128,14 +128,11 @@
 
         resetTVShowAPI: function () {
             var value = [{
-                url: 'https://eztvapi.re/',
+                url: 'https:///',
                 strictSSL: true
             }, {
-                url: 'https://api.popcorntime.io/',
+                url: 'https:///',
                 strictSSL: true
-            }, {
-                url: 'http://tv.ytspt.re/',
-                strictSSL: false
             }];
             App.settings['tvAPI'] = value;
             //save to db
@@ -254,11 +251,7 @@
                 break;
             case 'tmpLocation':
                 tmpLocationChanged = true;
-                value = path.join(field.val(), 'Popcorn-Time');
-                break;
-            case 'activateVpn':
-                $('.vpn-connect').toggle();
-                value = field.is(':checked');
+                value = path.join(field.val(), Settings.projectName);
                 break;
             case 'opensubtitlesUsername':
             case 'opensubtitlesPassword':
@@ -490,7 +483,7 @@
 
             if (usn !== '' && pw !== '') {
                 $('.opensubtitles-options .loading-spinner').show();
-                var OpenSubtitles = new OS('Popcorn Time v' + (Settings.version || 1), usn, Common.md5(pw));
+                var OpenSubtitles = new OS(Settings.projectName + ' v' + (Settings.version || 1), usn, Common.md5(pw));
 
                 OpenSubtitles.login()
                     .then(function (res) {
@@ -592,7 +585,7 @@
         },
 
         restartApplication: function () {
-            App.vent.trigger('restartPopcornTime');
+            App.vent.trigger('restartButter');
         },
 
         showCacheDirectoryDialog: function () {

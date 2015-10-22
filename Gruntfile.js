@@ -1,3 +1,5 @@
+var projectName = 'Butter';
+
 var getHost = function () {
     return {
         get linux() {
@@ -202,7 +204,7 @@ module.exports = function (grunt) {
                 build_dir: './build', // Where the build version of my node-webkit app is saved
                 keep_nw: true,
                 embed_nw: false,
-                mac_icns: './src/app/images/popcorntime.icns', // Path to the Mac icon file
+                mac_icns: './src/app/images/butter.icns', // Path to the Mac icon file
                 macZip: buildPlatforms.win, // Zip nw for mac in windows. Prevent path too long if build all is used.
                 mac: buildPlatforms.mac,
                 win: buildPlatforms.win,
@@ -240,7 +242,7 @@ module.exports = function (grunt) {
                 cmd: 'sh dist/mac/codesign.sh || echo "Codesign failed, likely caused by not being run on mac, continuing"'
             },
             createDmg: {
-                cmd: 'dist/mac/yoursway-create-dmg/create-dmg --volname "Popcorn Time ' + currentVersion + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "Popcorn-Time" 240 110 ./build/releases/Popcorn-Time/mac/Popcorn-Time-' + currentVersion + '-Mac.dmg ./build/releases/Popcorn-Time/mac/ || echo "Create dmg failed, likely caused by not being run on mac, continuing"'
+                cmd: 'dist/mac/yoursway-create-dmg/create-dmg --volname "' + projectName + ' + currentVersion + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "'+ projectName + +'" 240 110 ./build/releases/'+ projectName + '/mac/'+ projectName + '-' + currentVersion + '-Mac.dmg ./build/releases/'+ projectName + '/mac/ || echo "Create dmg failed, likely caused by not being run on mac, continuing"'
             },
             createWinInstall: {
                 cmd: 'makensis dist/windows/installer_makensis.nsi',
@@ -293,9 +295,9 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'pct_rel="build/releases/Popcorn-Time"',
-                            'chmod -R +x ${pct_rel}/mac/Popcorn-Time.app || : ',
-                            'chmod +x ${pct_rel}/linux*/Popcorn-Time/Popcorn-Time || : '
+                            'pct_rel="build/releases/'+projectName+'"',
+                            'chmod -R +x ${pct_rel}/mac/'+projectName++'.app || : ',
+                            'chmod +x ${pct_rel}/linux*/'+projectName+'/'+projectName+' || : '
                         ].join(' && ');
                     } else {
                         return 'echo ""'; // Not needed in Windows
@@ -306,21 +308,21 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'cp build/cache/linux64/<%= nodewebkit.options.version %>/icudtl.dat build/releases/Popcorn-Time/linux64/Popcorn-Time',
-                            'cp -r build/cache/linux64/<%= nodewebkit.options.version %>/locales build/releases/Popcorn-Time/linux64/Popcorn-Time',
-                            'cp dist/linux/linux-installer build/releases/Popcorn-Time/linux64/Popcorn-Time/install',
-                            'cp dist/linux/popcorntime.png build/releases/Popcorn-Time/linux64/Popcorn-Time',
-                            'cd build/releases/Popcorn-Time/linux64/Popcorn-Time',
+                            'cp build/cache/linux64/<%= nodewebkit.options.version %>/icudtl.dat build/releases/'+projectName+'/linux64/'+projectName,
+                            'cp -r build/cache/linux64/<%= nodewebkit.options.version %>/locales build/releases/'+projectName+'/linux64/'+projectName,
+                            'cp dist/linux/linux-installer build/releases/'+projectName+'/linux64/'+projectName+'/install',
+                            'cp dist/linux/butter.png build/releases/'+projectName+'/linux64/'+projectName,
+                            'cd build/releases/'+projectName+'/linux64/'+projectName,
                             'chmod +x install',
-                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../Popcorn-Time-' + currentVersion + '-Linux-64.tar.xz"',
+                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../'+projectName+'-' + currentVersion + '-Linux-64.tar.xz"',
                             'echo "Linux64 Sucessfully packaged" || echo "Linux64 failed to package"'
                         ].join(' && ');
                     } else {
                         return [
-                            'cp build/cache/linux64/<%= nodewebkit.options.version %>/icudtl.dat build/releases/Popcorn-Time/linux64/Popcorn-Time',
-                            'cp -r build/cache/linux64/<%= nodewebkit.options.version %>/locales build/releases/Popcorn-Time/linux64/Popcorn-Time',
-                            'cp dist/linux/linux-installer build/releases/Popcorn-Time/linux64/Popcorn-Time/install',
-                            'cp dist/linux/popcorntime.png build/releases/Popcorn-Time/linux64/Popcorn-Time',
+                            'cp build/cache/linux64/<%= nodewebkit.options.version %>/icudtl.dat build/releases/'+projectName+'/linux64/'+projectName,
+                            'cp -r build/cache/linux64/<%= nodewebkit.options.version %>/locales build/releases/'+projectName+'/linux64/'+projectName,
+                            'cp dist/linux/linux-installer build/releases/'+projectName+'/linux64/'+projectName+'/install',
+                            'cp dist/linux/butter.png build/releases/'+projectName+'/linux64/'+projectName,
                             'grunt compress:linux64',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
                         ].join(' && ');
@@ -331,21 +333,21 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'cp build/cache/linux32/<%= nodewebkit.options.version %>/icudtl.dat build/releases/Popcorn-Time/linux32/Popcorn-Time',
-                            'cp -r build/cache/linux32/<%= nodewebkit.options.version %>/locales build/releases/Popcorn-Time/linux32/Popcorn-Time',
-                            'cp dist/linux/linux-installer build/releases/Popcorn-Time/linux32/Popcorn-Time/install',
-                            'cp dist/linux/popcorntime.png build/releases/Popcorn-Time/linux32/Popcorn-Time',
-                            'cd build/releases/Popcorn-Time/linux32/Popcorn-Time',
+                            'cp build/cache/linux32/<%= nodewebkit.options.version %>/icudtl.dat build/releases/'+projectName+'/linux32/'+projectName,
+                            'cp -r build/cache/linux32/<%= nodewebkit.options.version %>/locales build/releases/'+projectName+'/linux32/'+projectName,
+                            'cp dist/linux/linux-installer build/releases/'+projectName+'/linux32/'+projectName+'/install',
+                            'cp dist/linux/butter.png build/releases/'+projectName+'/linux32/'+projectName,
+                            'cd build/releases/'+projectName+'/linux32/'+projectName,
                             'chmod +x install',
-                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../Popcorn-Time-' + currentVersion + '-Linux-32.tar.xz"',
+                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../'+projectName+'-' + currentVersion + '-Linux-32.tar.xz"',
                             'echo "Linux32 Sucessfully packaged" || echo "Linux32 failed to package"'
                         ].join(' && ');
                     } else {
                         return [
-                            'cp build/cache/linux32/<%= nodewebkit.options.version %>/icudtl.dat build/releases/Popcorn-Time/linux32/Popcorn-Time',
-                            'cp -r build/cache/linux32/<%= nodewebkit.options.version %>/locales build/releases/Popcorn-Time/linux32/Popcorn-Time',
-                            'cp dist/linux/linux-installer build/releases/Popcorn-Time/linux32/Popcorn-Time/install',
-                            'cp dist/linux/popcorntime.png build/releases/Popcorn-Time/linux32/Popcorn-Time',
+                            'cp build/cache/linux32/<%= nodewebkit.options.version %>/icudtl.dat build/releases/'+projectName+'/linux32/'+projectName,
+                            'cp -r build/cache/linux32/<%= nodewebkit.options.version %>/locales build/releases/'+projectName+'/linux32/'+projectName,
+                            'cp dist/linux/linux-installer build/releases/'+projectName+'/linux32/'+projectName+'/install',
+                            'cp dist/linux/butter.png build/releases/'+projectName+'/linux32/'+projectName,
                             'grunt compress:linux32',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
                         ].join(' && ');
@@ -384,16 +386,16 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'cp build/cache/win/<%= nodewebkit.options.version %>/icudtl.dat build/releases/Popcorn-Time/win/Popcorn-Time',
-                            'cp -r build/cache/win/<%= nodewebkit.options.version %>/locales build/releases/Popcorn-Time/win/Popcorn-Time',
-                            'cd build/releases/Popcorn-Time/win/Popcorn-Time',
-                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../Popcorn-Time-' + currentVersion + '-Win.tar.xz"',
+                            'cp build/cache/win/<%= nodewebkit.options.version %>/icudtl.dat build/releases/'+projectName+'/win/'+projectName,
+                            'cp -r build/cache/win/<%= nodewebkit.options.version %>/locales build/releases/'+projectName+'/win/'+projectName,
+                            'cd build/releases/'+projectName+'/win/'+projectName,
+                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../'+projectName+'-' + currentVersion + '-Win.tar.xz"',
                             'echo "Windows Sucessfully packaged" || echo "Windows failed to package"'
                         ].join(' && ');
                     } else {
                         return [
-                            'cp build/cache/win/<%= nodewebkit.options.version %>/icudtl.dat build/releases/Popcorn-Time/win/Popcorn-Time',
-                            'cp -r build/cache/win/<%= nodewebkit.options.version %>/locales build/releases/Popcorn-Time/win/Popcorn-Time',
+                            'cp build/cache/win/<%= nodewebkit.options.version %>/icudtl.dat build/releases/'+projectName+'/win/'+projectName,
+                            'cp -r build/cache/win/<%= nodewebkit.options.version %>/locales build/releases/'+projectName+'/win/'+projectName,
                             'grunt compress:windows',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
                         ].join(' && ');
@@ -404,8 +406,8 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'cd build/releases/Popcorn-Time/mac/',
-                            'tar --exclude-vcs -c Popcorn-Time.app | $(command -v pxz || command -v xz) -T8 -7 > "Popcorn-Time-' + currentVersion + '-Mac.tar.xz"',
+                            'cd build/releases/'+projectName+'/mac/',
+                            'tar --exclude-vcs -c '+projectName+'.app | $(command -v pxz || command -v xz) -T8 -7 > "'+projectName+'-' + currentVersion + '-Mac.tar.xz"',
                             'echo "Mac Sucessfully packaged" || echo "Mac failed to package"'
                         ].join(' && ');
                     } else {
@@ -422,47 +424,47 @@ module.exports = function (grunt) {
             linux32: {
                 options: {
                     mode: 'tgz',
-                    archive: 'build/releases/Popcorn-Time/linux32/Popcorn-Time-' + currentVersion + '-Linux-32.tar.gz'
+                    archive: 'build/releases/'+projectName+'/linux32/'+projectName+'-' + currentVersion + '-Linux-32.tar.gz'
                 },
                 expand: true,
-                cwd: 'build/releases/Popcorn-Time/linux32/Popcorn-Time',
+                cwd: 'build/releases/'+projectName+'/linux32/'+projectName,
                 src: '**',
-                dest: 'Popcorn-Time'
+                dest: projectName
             },
             linux64: {
                 options: {
                     mode: 'tgz',
-                    archive: 'build/releases/Popcorn-Time/linux64/Popcorn-Time-' + currentVersion + '-Linux-64.tar.gz'
+                    archive: 'build/releases/'+projectName+'/linux64/'+projectName+'-' + currentVersion + '-Linux-64.tar.gz'
                 },
                 expand: true,
-                cwd: 'build/releases/Popcorn-Time/linux64/Popcorn-Time',
+                cwd: 'build/releases/'+projectName+'/linux64/'+projectName,
                 src: '**',
-                dest: 'Popcorn-Time'
+                dest: projectName
             },
             mac: {
                 options: {
                     mode: 'tgz',
-                    archive: 'build/releases/Popcorn-Time/mac/Popcorn-Time-' + currentVersion + '-Mac.tar.gz'
+                    archive: 'build/releases/'+projectName+'/mac/'+projectName+'-' + currentVersion + '-Mac.tar.gz'
                 },
                 expand: true,
-                cwd: 'build/releases/Popcorn-Time/mac/',
+                cwd: 'build/releases/'+projectName+'/mac/',
                 src: '**',
-                dest: ''
+                dest: projectName
             },
             windows: {
                 options: {
                     mode: 'tgz',
-                    archive: 'build/releases/Popcorn-Time/win/Popcorn-Time-' + currentVersion + '-Win.tar.gz'
+                    archive: 'build/releases/'+projectName+'/win/'+projectName+'-' + currentVersion + '-Win.tar.gz'
                 },
                 expand: true,
-                cwd: 'build/releases/Popcorn-Time/win/Popcorn-Time',
+                cwd: 'build/releases/'+projectName+'/win/'+projectName,
                 src: '**',
-                dest: 'Popcorn-Time'
+                dest: projectName
             }
         },
 
         clean: {
-            releases: ['build/releases/Popcorn-Time/**'],
+            releases: ['build/releases/'+projectName+'/**'],
             css: ['src/app/themes/**'],
             dist: ['dist/windows/*-Setup.exe', 'dist/mac/*.dmg'],
             update: ['build/updater/*.*'],

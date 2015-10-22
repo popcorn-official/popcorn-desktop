@@ -323,7 +323,7 @@
                     </span>
                 <% } else { %>
                     <span>
-                        <%= i18n.__("Connect to %s to automatically 'scrobble' episodes you watch in %s", "Trakt.tv", "Popcorn Time") %>
+                        <%= i18n.__("Connect to %s to automatically 'scrobble' episodes you watch in %s", "Trakt.tv", Settings.projectName) %>
                     </span>
                     <span>
                         <div class="btn-settings syncTrakt" id="authTrakt">
@@ -387,7 +387,7 @@
                         </div>
                     </span>
 					<span>
-						<em><%= i18n.__("Popcorn Time stores an encrypted hash of your password in your local database") %></em>
+						<em><%= i18n.__("%s stores an encrypted hash of your password in your local database", Settings.projectName) %></em>
 					</span>
                 <% } %>
                 <span class="advanced">
@@ -408,10 +408,6 @@
             <span>
                 <input class="settings-checkbox" name="activateWatchlist" id="activateWatchlist" type="checkbox" <%=(Settings.activateWatchlist? "checked='checked'":"")%>>
                 <label class="settings-label" for="activateWatchlist"><%= i18n.__("Watchlist") %></label>
-            </span>
-            <span>
-                <input class="settings-checkbox" name="activateVpn" id="activateVpn" type="checkbox" <%=(Settings.activateVpn? "checked='checked'":"")%>>
-                <label class="settings-label" for="activateVpn"><%= i18n.__("VPN") %></label>
             </span>
             <span>
                 <input class="settings-checkbox" name="activateRandomize" id="activateRandomize" type="checkbox" <%=(Settings.activateRandomize? "checked='checked'":"")%>>

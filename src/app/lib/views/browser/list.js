@@ -81,7 +81,7 @@
                 if (this.collection.state === 'error') {
                     return ErrorView.extend({
                         retry: true,
-                        error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', '<a class="links" href="http://status.popcorntime.io/">http://status.popcorntime.io</a>')
+                        error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', '<a class="links" href="' + Settings.statusUrl + '">' + Settings.statusUrl '</a>')
                     });
                 } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({

@@ -4,7 +4,7 @@
     <%= i18n.__("Made with") %> <span style="color:#e74c3c;">&#10084;</span> <%= i18n.__("by a bunch of geeks from All Around The World") %>
 </div>
 <div class="text-begin">
-    <div class="init-text"><%= i18n.__("Initializing PopcornTime. Please Wait...") %></div>
+    <div class="init-text"><%= i18n.__("Initializing %s. Please Wait...", Settings.projectName) %></div>
     <div class="init-progressbar">
         <div id="initbar-contents"></div>
     </div>

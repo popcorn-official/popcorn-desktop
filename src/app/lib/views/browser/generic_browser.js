@@ -50,7 +50,7 @@
             }));
 
             if (!isNaN(startupTime)) {
-                win.debug('Popcorn Time %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)); // started in database.js;
+                win.debug('Butter %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)); // started in database.js;
                 startupTime = 'none';
                 if (Settings.bigPicture) {
                     var zoom = ScreenResolution.HD ? 2 : 3;

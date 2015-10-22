@@ -1,5 +1,5 @@
 {
-    "name": "popcorn-time",
+    "name": "butter",
     "dependencies": {
         "marionette": "~2.4.1",
         "bootstrap": "~3.3.4",

@@ -1,5 +1,19 @@
 /** Default settings **/
-var Settings = {};
+var Settings = {
+    projectName: 'Butter',
+    projectUrl: 'https://butterproject.org',
+    projectTwitter: 'butterproject',
+    projectFacebook: 'ButterProjectOrg',
+    projectGooglePlus: 'ButterProject',
+    projectBlog: 'https://butterproject.github.com/butter/blog',
+    projectForum: 'https://butterproject.github.com/butter/forum',
+
+    statusUrl: 'https://status.butterproject.org',
+    changelogUrl: 'https://butterproject.github.com/butter/',
+    issuesUrl: 'https://butterproject.github.com/butter/issues',
+    sourceUrl: 'https://butterproject.github.com/butter/',
+    commitUrl: 'https://butterproject.github.com/butter/commit/'
+};
 
 // User interface
 Settings.language = '';
@@ -44,8 +58,8 @@ Settings.subtitle_font = 'Arial';
 
 // More options
 Settings.httpApiPort = 8008;
-Settings.httpApiUsername = 'popcorn';
-Settings.httpApiPassword = 'popcorn';
+Settings.httpApiUsername = 'butter';
+Settings.httpApiPassword = 'butter';
 
 // Trakt.tv
 Settings.traktToken = '';
@@ -70,7 +84,7 @@ Settings.opensubtitlesPassword = '';
 Settings.connectionLimit = 100;
 Settings.dhtLimit = 500;
 Settings.streamPort = 0; // 0 = Random
-Settings.tmpLocation = path.join(os.tmpDir(), 'Popcorn-Time');
+Settings.tmpLocation = path.join(os.tmpDir(), Settings.projectName);
 Settings.databaseLocation = path.join(data_path, 'data');
 Settings.deleteTmpOnClose = true;
 Settings.automaticUpdating = true;
@@ -81,7 +95,6 @@ Settings.bigPicture = false;
 // Features
 Settings.activateTorrentCollection = true;
 Settings.activateWatchlist = true;
-Settings.activateVpn = true;
 Settings.activateRandomize = true;
 Settings.onlineSearchEngine = 'KAT';
 
@@ -89,60 +102,15 @@ Settings.onlineSearchEngine = 'KAT';
 Settings.totalDownloaded = 0;
 Settings.totalUploaded = 0;
 
-// VPN
-Settings.vpn = false;
-Settings.vpnUsername = '';
-Settings.vpnPassword = '';
-
-Settings.tvAPI = [{
-    url: 'https://eztvapi.re/',
-    strictSSL: true
-}, {
-    url: 'https://api.popcorntime.io/',
-    strictSSL: true
-}, {
-    url: 'http://tv.ytspt.re/',
-    strictSSL: false
-}];
-
-Settings.ytsAPI = [{
-    url: 'https://cloudflare.com/',
-    headers: {
-        'Host': 'xor.image.yt',
-        'User-Agent': 'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/3.8.0'
-    },
-    ext: 'ppt',
-    strictSSL: true
-}, {
-    url: 'http://cloudflare.com/',
-    headers: {
-        'Host': 'xor.image.yt',
-        'User-Agent': 'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/3.8.0'
-    },
-    ext: 'ppt',
-    strictSSL: false
-}, {
-    url: 'https://yts.to/',
-    ext: 'json',
-    strictSSL: true
-}];
-
 Settings.updateEndpoint = {
-    url: 'https://popcorntime.re/',
+    url: 'https://butterproject.org/',
     index: 0,
     proxies: [{
-        url: 'https://popcorntime.re/',
-        fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C',
+        url: 'https://butterproject.org/',
+        fingerprint: '',
     }, {
-        url: 'https://popcorntime.io/',
-        fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C'
-    }, {
-        url: 'https://popcorntime.cc/',
-        fingerprint: '30:A6:BA:6C:19:A4:D5:C3:5A:E8:F1:56:C6:B4:E1:DC:EF:DD:EC:8C'
-    }, {
-        url: 'https://its.pt/',
-        ssl: false,
-        fingerprint: /301/
+        url: 'https://butterproject.github.com/butter/updates',
+        fingerprint: ''
     }]
 };
 

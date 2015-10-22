@@ -8,7 +8,7 @@
             id: 'local',
             type: 'local',
             typeFamily: 'internal',
-            name: 'Popcorn Time'
+            name: 'Butter'
         },
         play: function (streamModel) {
             App.vent.trigger('stream:local', streamModel);

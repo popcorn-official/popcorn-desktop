@@ -23,20 +23,20 @@ fi
 func_error
 
 #Variables
-version="PT_VERSION"
-tos="https://popcorntime.io/tos"
+version="BT_VERSION"
+tos="https://butterproject.github.com/butter/tos"
 
 #Disclaimer
 clear
 echo "
-Popcorn Time $version - Linux $arch bits
+Butter $version - Linux $arch bits
 ==================================
 
 Please read our Terms of service:
 	$tos
 
-This installer will install Popcorn Time in:
-	~/.Popcorn-Time
+This installer will install Butter in:
+	~/.Butter
 	~/.local/share/applications
 	~/.local/share/icons
 "
@@ -47,19 +47,19 @@ Did not get the user agreement. Exiting." && exit 0 ; fi ; }
 #if agreed, start install
 clear
 echo "
-Popcorn Time $version - Linux $arch bits
+Butter $version - Linux $arch bits
 =================================="
 
 #extract archive
 current="1: Copy files"
 echo "
-- Copying files to ~/.Popcorn-Time"
-mkdir -p "$HOME/.Popcorn-Time"
-cp -r locales node_modules src .git.json CHANGELOG.md icudtl.dat libffmpegsumo.so LICENSE.txt nw.pak package.nw package.json Popcorn-Time README.md "$HOME/.Popcorn-Time" &> /dev/null && error=0 || error=1
+- Copying files to ~/.Butter"
+mkdir -p "$HOME/.Butter"
+cp -r locales node_modules src .git.json CHANGELOG.md icudtl.dat libffmpegsumo.so LICENSE.txt nw.pak package.nw package.json Butter README.md "$HOME/.Butter" &> /dev/null && error=0 || error=1
 
 #move icon
 mkdir -p "$HOME/.local/share/icons"
-cp popcorntime.png "$HOME/.local/share/icons/popcorntime.png" &> /dev/null && error=0 || error=1
+cp butter.png "$HOME/.local/share/icons/butter.png" &> /dev/null && error=0 || error=1
 
 func_error
 
@@ -72,42 +72,42 @@ mkdir -p "$HOME/.local/share/applications"
 
 echo "[Desktop Entry]
 Comment=Watch Movies and TV Shows instantly
-Name=Popcorn Time
-Exec=$HOME/.Popcorn-Time/Popcorn-Time
-Icon=popcorntime.png
+Name=Butter
+Exec=$HOME/.Butter/Butter
+Icon=butter.png
 MimeType=application/x-bittorrent;x-scheme-handler/magnet;
 StartupNotify=false
 Categories=AudioVideo;Video;Network;Player;P2P;
-Type=Application" > "$HOME/.local/share/applications/Popcorn-Time.desktop" && error=0 || error=1
+Type=Application" > "$HOME/.local/share/applications/Butter.desktop" && error=0 || error=1
 func_error
 
 # Work-around for missing libudev.so.1 on Ubuntu 12.04
 if [ ! -e /lib/$(uname --machine)-linux-gnu/libudev.so.1 ]; then
-	ln -s /lib/$(uname --machine)-linux-gnu/libudev.so.0 $HOME/.Popcorn-Time/libudev.so.1
-	sed -i 's,Exec=,Exec=env LD_LIBRARY_PATH='"$HOME"'/.Popcorn-Time ,g' $HOME/.local/share/applications/Popcorn-Time.desktop
+	ln -s /lib/$(uname --machine)-linux-gnu/libudev.so.0 $HOME/.Butter/libudev.so.1
+	sed -i 's,Exec=,Exec=env LD_LIBRARY_PATH='"$HOME"'/.Butter ,g' $HOME/.local/share/applications/Butter.desktop
 fi
 
 #chmod .desktop
 current="3: Chmod files"
-chmod +x "$HOME/.Popcorn-Time/Popcorn-Time/Popcorn-Time" &> /dev/null && error=0 || error=1
-chmod +x "$HOME/.local/share/applications/Popcorn-Time.desktop" &> /dev/null && error=0 || error=1
+chmod +x "$HOME/.Butter/Butter/Butter" &> /dev/null && error=0 || error=1
+chmod +x "$HOME/.local/share/applications/Butter.desktop" &> /dev/null && error=0 || error=1
 func_error
 
 #uninstaller
-echo "How to uninstall Popcorn Time ?
+echo "How to uninstall Butter ?
 ===============================
 
 1) Main application:
-- Delete ~/.Popcorn-Time
-- Delete ~/.local/share/applications/Popcorn-Time.desktop
-- Delete ~/.local/share/icons/popcorntime.png
+- Delete ~/.Butter
+- Delete ~/.local/share/applications/Butter.desktop
+- Delete ~/.local/share/icons/butter.png
 
 2) Configuration files and databases:
-- Delete ~/.config/Popcorn-Time" > "$HOME/.Popcorn-Time/Uninstall.txt"
+- Delete ~/.config/Butter" > "$HOME/.Butter/Uninstall.txt"
 
 #installation success
 echo "
 
-Popcorn Time is now installed in:
-	«$HOME/.Popcorn-Time»
+Butter is now installed in:
+	«$HOME/.Butter»
 "

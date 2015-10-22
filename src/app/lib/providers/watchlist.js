@@ -99,7 +99,7 @@
         return Q.all(filtered);
     };
 
-    var formatForPopcorn = function (items) {
+    var formatForButter = function (items) {
         var showList = [];
 
         items.forEach(function (show) {
@@ -159,7 +159,7 @@
     Watchlist.prototype.fetch = function (filters) {
         return queryTorrents(filters)
             .then(filterShows)
-            .then(formatForPopcorn)
+            .then(formatForButter)
             .then(function (shows) {
                 return {
                     results: _.filter(shows, Boolean),

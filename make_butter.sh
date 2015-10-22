@@ -3,22 +3,22 @@
 ## Version 0.1.1
 ##
 ## Usage
-## ./make_popcorn.sh [url]
+## ./make_butter.sh [url]
 ##
-## The script make_popcorn.sh allows you to clone, setup, and build a version of popcorn time
+## The script make_butter.sh allows you to clone, setup, and build a version of Butter
 ## The [url] handle is optional and allows you to pick what repository you wish to clone
 ## If you use 'ssh' in the place of the optional [url] parameter, it will clone via ssh instead of http
 ##
 ## Optionally, you can also pass in a specific branch to build or clone, by making url contain a branch specifier
-## ./make_popcorn.sh '-b release/0.3.4 https://git.popcorntime.io/popcorntime/desktop.git'
+## ./make_butter.sh '-b release/0.3.4 https://github.com/butterproject/butter'
 ##
 
 
 clone_repo="True"
 if [ -z "${1}" ]; then
-    clone_url="https://git.popcorntime.io/popcorntime/desktop.git"
+    clone_url="https://github.com/butterproject/butter.git"
 elif [ "${1}" = "ssh" ]; then
-    clone_url="ssh://git@git.popcorntime.io:popcorntime/desktop.git"
+    clone_url="ssh://git@github.com:butterproject/butter.git"
 else
     clone_url="${1}"
 fi
@@ -36,17 +36,17 @@ execsudo() {
 
 clone_command() {
     if git clone ${clone_url} ${dir}; then
-        echo "Cloned Popcorn Time successfully"
+        echo "Cloned Butter successfully"
     else
-        echo "Popcorn Time encountered an error and could not be cloned"
+        echo "Butter encountered an error and could not be cloned"
         exit 2
     fi
 }
 
 if [ -e ".git/config" ]; then
     dat=`cat .git/config | grep 'url'`
-    case ${dat} in *popcorn-app*)
-        echo "You appear to be inside of a Popcorn Time repository already, not cloning"
+    case ${dat} in *butter*)
+        echo "You appear to be inside of a Butter repository already, not cloning"
         clone_repo="False"
         ;;
     *)
@@ -68,7 +68,7 @@ if [ -e ".git/config" ]; then
             fi
         done
         if [ "$rd_cln" = "no" ]; then
-            echo "You appear to be inside of a Popcorn Time repository already, not cloning"
+            echo "You appear to be inside of a Butter repository already, not cloning"
             clone_repo="False"
         else
             echo "You've chosen to clone inside the current directory"
@@ -77,12 +77,12 @@ if [ -e ".git/config" ]; then
     esac
 fi
 if [ "${clone_repo}" = "True" ]; then
-    echo "Cloning Popcorn Time"
-    read -p "Where do you wish to clone popcorn time to? [popcorn-app] " dir
+    echo "Cloning Butter"
+    read -p "Where do you wish to clone butter to? [butter] " dir
     if [ -z "${dir}" ]; then
-        dir='popcorn-app'
+        dir='butter'
     elif [ "${dir}" = "/" ]; then
-        dir='popcorn-app'
+        dir='butter'
     fi
     if [ ! -d "${dir}" ]; then
         clone_command
@@ -123,7 +123,7 @@ fi
 try="True"
 tries=0
 while [ "${try}" = "True" ]; do
-    read -p "Do you wish to install the required dependencies for Popcorn Time and setup for building? (yes/no) [yes] " rd_dep
+    read -p "Do you wish to install the required dependencies for Butter and setup for building? (yes/no) [yes] " rd_dep
     if [ -z "${rd_dep}" ]; then
         rd_dep="yes"
     fi
@@ -182,14 +182,14 @@ if [ "${rd_dep}" = "yes" ]; then
         exit 4
     fi
 
-    echo "Successfully setup for Popcorn Time"
+    echo "Successfully setup for Butter"
 fi
 
 if grunt build; then
-    echo "Popcorn Time built successfully!"
+    echo "Butter built successfully!"
     echo "Run 'grunt start' from inside the repository to launch the app"
     echo "Enjoy!"
 else
-    echo "Popcorn Time encountered an error and couldn't be built"
+    echo "Butter encountered an error and couldn't be built"
     exit 5
 fi

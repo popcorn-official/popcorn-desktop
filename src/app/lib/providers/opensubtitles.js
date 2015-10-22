@@ -13,7 +13,7 @@
         return data;
     };
 
-    var formatForPopcorn = function (data) {
+    var formatForButter = function (data) {
         data = normalizeLangCodes(data);
         for (var lang in data) {
             data[lang] = data[lang].url;
@@ -22,13 +22,13 @@
     };
 
     OpenSubtitles.prototype.fetch = function (queryParams) {
-        var openSRT = new OS('Popcorn Time v' + (Settings.version || 1), Settings.opensubtitlesUsername, Settings.opensubtitlesPassword);
+        var openSRT = new OS('Butter Time v' + (Settings.version || 1), Settings.opensubtitlesUsername, Settings.opensubtitlesPassword);
         return openSRT.search(queryParams)
-            .then(formatForPopcorn);
+            .then(formatForButter);
     };
 
     OpenSubtitles.prototype.upload = function (queryParams) {
-        var openSRT = new OS('Popcorn Time v' + (Settings.version || 1), Settings.opensubtitlesUsername, Settings.opensubtitlesPassword);
+        var openSRT = new OS('Butter v' + (Settings.version || 1), Settings.opensubtitlesUsername, Settings.opensubtitlesPassword);
         return openSRT.upload(queryParams);
     };
 

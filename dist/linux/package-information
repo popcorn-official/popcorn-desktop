@@ -59,7 +59,7 @@ MimeType=application/x-bittorrent;x-scheme-handler/magnet;
 StartupNotify=false
 Type=Application"
 
-#Specific rules for Popcorn-Time
+#Specific rules for Butter
 rules="#!/usr/bin/make -f
 
 DEB_BUILD_GNU_TYPE ?= \$(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
@@ -94,11 +94,11 @@ install: build
 	dh_installdirs
 
 ifeq (\$(DEB_HOST_ARCH),amd64)
-	cp -arf 64/usr \$(CURDIR)/debian/popcorn-time/
-	cp -arf 64/opt \$(CURDIR)/debian/popcorn-time/
+	cp -arf 64/usr \$(CURDIR)/debian/butter/
+	cp -arf 64/opt \$(CURDIR)/debian/butter/
 else
-	cp -arf 32/usr \$(CURDIR)/debian/popcorn-time/
-	cp -arf 32/opt \$(CURDIR)/debian/popcorn-time/
+	cp -arf 32/usr \$(CURDIR)/debian/butter/
+	cp -arf 32/opt \$(CURDIR)/debian/butter/
 endif
 
 # Build architecture-independent files here.
@@ -128,11 +128,11 @@ binary: binary-indep binary-arch
 
 #A text file formatted following http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 copyright="Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: Popcorn Time
-Source: popcorntime.io
+Upstream-Name: Butter
+Source: https://github.com/butterproject/butter
 
 Files: *
-Copyright: 2014 Popcorn Time and the contributors <hello@popcorntime.io>
+Copyright: 2014 Butter Project and the contributors <butter@xaiki.net>
 License: GPL-3.0+
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -177,7 +177,7 @@ set -e
 
 # Work-around Menu item not being created on first installation
 if [ -x /usr/bin/desktop-file-install ]; then
-    desktop-file-install /usr/share/applications/popcorn-time.desktop > /dev/null 2>&1
+    desktop-file-install /usr/share/applications/butter.desktop > /dev/null 2>&1
 fi
 
 # Work-around for My App not being executable:

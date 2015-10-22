@@ -134,8 +134,7 @@
             App.vent.on('player:close', _.bind(this.showViews, this));
             App.vent.on('player:close', _.bind(this.Player.destroy, this.Player));
 
-            App.vent.on('vpn:connect', _.bind(this.connectVpn, this));
-            App.vent.on('restartPopcornTime', _.bind(this.restartPopcornTime, this));
+            App.vent.on('restartButter', _.bind(this.restartButter, this));
 
             App.vent.on('updatePostersSizeStylesheet', _.bind(this.updatePostersSizeStylesheet, this));
         },
@@ -165,7 +164,7 @@
                             if (!err || err.errno === '-4075') {
                                 //success
                             } else {
-                                Settings.tmpLocation = path.join(os.tmpDir(), 'Popcorn-Time');
+                                Settings.tmpLocation = path.join(os.tmpDir(), Settings.projectName);
                                 fs.mkdir(Settings.tmpLocation);
                             }
                         });
@@ -276,10 +275,6 @@
                 win.focus();
 
             });
-        },
-
-        connectVpn: function (e) {
-            App.VPNClient.launch();
         },
 
         // used in app to re-triger a api resync
@@ -547,7 +542,7 @@
             gui.Shell.openExternal($(e.currentTarget).attr('href'));
         },
 
-        restartPopcornTime: function () {
+        restartButter: function () {
             var argv = gui.App.fullArgv,
                 CWD = process.cwd();
 

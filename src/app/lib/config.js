@@ -2,7 +2,7 @@
     'use strict';
 
     var Config = {
-        title: 'Popcorn Time',
+        title: Settings.projectName,
         platform: process.platform,
         genres: [
             'All',

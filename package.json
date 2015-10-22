@@ -1,15 +1,14 @@
 {
-    "name": "Popcorn-Time",
-    "homepage": "https://popcorntime.io",
-    "bugs": "https://git.popcorntime.io/popcorntime/desktop/issues",
+    "name": "Butter",
+    "homepage": "https://butterproject.github.com/butter",
+    "bugs": "https://github.com/butterproject/butter/issues",
     "repository": {
         "type": "git",
-        "url": "https://git.popcorntime.io/popcorntime/desktop.git"
+        "url": "https://github.com/butterproject/butter.git"
     },
     "license": "GPL-3.0",
     "main": "app://host/src/app/index.html",
     "version": "0.3.8-5",
-    "node-remote": "client.vpn.ht",
     "releaseName": "There's nothing on TV",
     "scripts": {
         "postinstall": "node_modules/.bin/bower install --config.interactive=false && grunt setup",
@@ -17,7 +16,7 @@
         "test": "grunt --verbose"
     },
     "window": {
-        "title": "Popcorn Time",
+        "title": "Butter",
         "icon": "src/app/images/icon.png",
         "toolbar": false,
         "frame": false,

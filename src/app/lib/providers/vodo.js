@@ -13,7 +13,7 @@
     }
     inherits(Vodo, App.Providers.Generic);
 
-    function formatForPopcorn(items) {
+    function formatForButter(items) {
         var results = {};
         var movieFetch = {};
         movieFetch.results = [];
@@ -91,12 +91,12 @@
             },
             function (err, res, data) {
                 /*
-                 data = _.map (helpers.formatForPopcorn(data), function (item) {
+                 data = _.map (helpers.formatForButter(data), function (item) {
                  item.rating = item.rating.percentage * Math.log(item.rating.votes);
                  return item;
                  });
                  */
-                db.insert(formatForPopcorn(data.downloads), function (err, newDocs) {
+                db.insert(formatForButter(data.downloads), function (err, newDocs) {
                     if (err) {
                         win.error('Vodo.updateAPI(): Error inserting', err);
                     }

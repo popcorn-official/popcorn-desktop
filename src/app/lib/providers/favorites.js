@@ -89,7 +89,7 @@
         return sorted;
     };
 
-    var formatForPopcorn = function (items) {
+    var formatForButter = function (items) {
         var movieList = [];
 
         items.forEach(function (movie) {
@@ -177,7 +177,7 @@
         }
 
         return queryTorrents(params)
-            .then(formatForPopcorn)
+            .then(formatForButter)
             .then(function (items) {
                 return sort(items, filters);
             });

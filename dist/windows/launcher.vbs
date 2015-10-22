@@ -15,7 +15,7 @@ End If
 executable = "\nw.exe"
 
 'set app path'
-path = WshShell.RegRead("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\Popcorn Time\InstallString")
+path = WshShell.RegRead("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\Butter\InstallString")
 
 'set command'
 command = chr(34) & path & executable & chr(34)

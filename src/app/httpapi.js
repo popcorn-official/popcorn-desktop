@@ -22,7 +22,7 @@
                 var events = {};
 
                 var emitEvents = function () {
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'events': events
                     });
                 };
@@ -78,11 +78,11 @@
             });
 
             server.expose('ping', function (args, opt, callback) {
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('getviewstack', function (args, opt, callback) {
-                popcornCallback(callback, false, {
+                butterCallback(callback, false, {
                     'viewstack': App.ViewStack
                 });
             });
@@ -92,32 +92,32 @@
             ////////////////////
             server.expose('up', function (args, opt, callback) {
                 Mousetrap.trigger('up');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('down', function (args, opt, callback) {
                 Mousetrap.trigger('down');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('left', function (args, opt, callback) {
                 Mousetrap.trigger('left');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('right', function (args, opt, callback) {
                 Mousetrap.trigger('right');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('enter', function (args, opt, callback) {
                 Mousetrap.trigger('enter');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('back', function (args, opt, callback) {
                 Mousetrap.trigger('backspace');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             ////////////////////
@@ -125,12 +125,12 @@
             ////////////////////
             server.expose('togglefavourite', function (args, opt, callback) {
                 Mousetrap.trigger('f');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('togglewatched', function (args, opt, callback) {
                 Mousetrap.trigger('w');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('setselection', function (args, opt, callback) {
@@ -138,12 +138,12 @@
                 if (args.length > 0) {
                     index = parseFloat(args[0]);
                 } else {
-                    popcornCallback(callback, 'Arguments missing');
+                    butterCallback(callback, 'Arguments missing');
                 }
 
                 App.Window.currentView.Content.currentView.ItemList.currentView.selectIndex(index);
 
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('getselection', function (args, opt, callback) {
@@ -159,13 +159,13 @@
                     }
                     var result = App.Window.currentView.Content.currentView.ItemList.currentView.collection.models[index];
                     if (result === undefined) {
-                        popcornCallback(callback, 'Index not found');
+                        butterCallback(callback, 'Index not found');
                     }
 
                     var type = result.get('type');
                     switch (type) {
                     case 'movie':
-                        popcornCallback(callback, false, result.attributes);
+                        butterCallback(callback, false, result.attributes);
                         break;
                     case 'show':
                     case 'anime':
@@ -175,7 +175,7 @@
                             .then(function (resolve, reject) {
                                 data.provider = provider.name;
                                 result = new App.Model[type.charAt(0).toUpperCase() + type.slice(1)](data);
-                                popcornCallback(callback, false, result.attributes);
+                                butterCallback(callback, false, result.attributes);
                             });
 
                         break;
@@ -190,7 +190,7 @@
                             }
                         });
                     }
-                    popcornCallback(callback, false, model);
+                    butterCallback(callback, false, model);
                 }
             });
 
@@ -199,46 +199,46 @@
             ////////////////////
             server.expose('showslist', function (args, opt, callback) {
                 $('.source.showShows').click();
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('movieslist', function (args, opt, callback) {
                 $('.source.showMovies').click();
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('animelist', function (args, opt, callback) {
                 $('.source.showAnime').click();
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('showwatchlist', function (args, opt, callback) {
                 $('#filterbar-watchlist').click();
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('showfavourites', function (args, opt, callback) {
                 $('#filterbar-favorites').click();
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('showsettings', function (args, opt, callback) {
                 $('#filterbar-settings').click();
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('showabout', function (args, opt, callback) {
                 $('#filterbar-about').click();
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('toggletab', function (args, opt, callback) {
                 Mousetrap.trigger('tab');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('getcurrenttab', function (args, opt, callback) {
-                popcornCallback(callback, false, {
+                butterCallback(callback, false, {
                     'tab': App.currentview
                 });
             });
@@ -255,7 +255,7 @@
                             result = collection.models;
                             if (result.length >= size) {
                                 result = result.slice((page - 1) * 50, size);
-                                popcornCallback(callback, false, {
+                                butterCallback(callback, false, {
                                     'type': result[0].get('type'),
                                     'list': result,
                                     'page': page,
@@ -268,7 +268,7 @@
                         collection.fetchMore();
                     } else {
                         result = result.slice((page - 1) * 50, size);
-                        popcornCallback(callback, false, {
+                        butterCallback(callback, false, {
                             'type': result[0].get('type'),
                             'list': result,
                             'page': page,
@@ -277,7 +277,7 @@
                     }
                 } else {
                     page = App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page;
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'type': result[0].get('type'),
                         'list': result,
                         'page': page,
@@ -287,7 +287,7 @@
             });
 
             server.expose('getfullscreen', function (args, opt, callback) {
-                popcornCallback(callback, false, {
+                butterCallback(callback, false, {
                     'fullscreen': win.isFullscreen
                 });
             });
@@ -297,13 +297,13 @@
             ////////////////////
             server.expose('togglequality', function (args, opt, callback) {
                 Mousetrap.trigger('q');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('getplayers', function (args, opt, callback) {
                 var players = App.Device.Collection.models;
 
-                popcornCallback(callback, false, {
+                butterCallback(callback, false, {
                     'players': players
                 });
             });
@@ -316,24 +316,24 @@
                         $('.playerchoicemenu li a.active').removeClass('active');
                         el.addClass('active');
                         $('.imgplayerchoice').attr('src', el.children('img').attr('src'));
-                        popcornCallback(callback, false);
+                        butterCallback(callback, false);
                     } else {
                         App.Device.Collection.models.forEach(function (item) {
                             if (item.id === args[0]) {
                                 App.Device.Collection.setDevice(args[0]);
-                                popcornCallback(callback, false);
+                                butterCallback(callback, false);
                             }
                         });
-                        popcornCallback(callback, 'Player ID invalid');
+                        butterCallback(callback, 'Player ID invalid');
                     }
                 } else {
-                    popcornCallback(callback, 'Arguments missing');
+                    butterCallback(callback, 'Arguments missing');
                 }
             });
 
             server.expose('startstream', function (args, opt, callback) {
                 if (args.imdb_id === undefined || args.torrent_url === undefined || args.backdrop === undefined || args.subtitle === undefined || args.selected_subtitle === undefined || args.title === undefined || args.quality === undefined || args.type === undefined) {
-                    popcornCallback(callback, 'Arguments missing');
+                    butterCallback(callback, 'Arguments missing');
                 } else {
                     var model = {
                         imdb_id: args.imdb_id,
@@ -363,29 +363,29 @@
                     }
                     var torrentStart = new Backbone.Model(model);
                     App.vent.trigger('stream:start', torrentStart);
-                    popcornCallback(callback);
+                    butterCallback(callback);
                 }
             });
 
             server.expose('previousseason', function (args, opt, callback) {
                 Mousetrap.trigger('ctrl+up');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('nextseason', function (args, opt, callback) {
                 Mousetrap.trigger('ctrl+down');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('selectepisode', function (args, opt, callback) {
                 if (args.length <= 0) {
-                    popcornCallback(callback, 'Arguments missing');
+                    butterCallback(callback, 'Arguments missing');
                     return;
                 }
 
                 var movieView = App.Window.currentView.MovieDetail.currentView;
                 if (movieView === undefined || movieView.model === undefined || movieView.model.type === 'movie') {
-                    popcornCallback(callback, 'View not open');
+                    butterCallback(callback, 'View not open');
                     return;
                 }
 
@@ -395,16 +395,16 @@
                 $('li[data-tab=season-' + season + ']').click();
                 $('.season-' + season + '.current li')[episode].click();
 
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('getsubtitles', function (args, opt, callback) {
                 if (App.ViewStack[App.ViewStack.length - 1] === 'player') {
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'subtitles': _.keys(App.PlayerView.model.get('subtitle'))
                     });
                 } else {
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'subtitles': _.keys(App.MovieDetailView.model.get('subtitle'))
                     });
                 }
@@ -412,7 +412,7 @@
 
             server.expose('setsubtitle', function (args, opt, callback) {
                 if (args.length <= 0) {
-                    popcornCallback(callback, 'Arguments missing');
+                    butterCallback(callback, 'Arguments missing');
                     return;
                 }
 
@@ -438,7 +438,7 @@
                     App.MovieDetailView.switchSubtitle(lang);
                 }
 
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             ////////////////////
@@ -447,22 +447,22 @@
             server.expose('getgenres', function (args, opt, callback) {
                 switch (App.currentview) {
                 case 'shows':
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'genres': App.Config.genres_tv
                     });
                     break;
                 case 'anime':
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'genres': App.Config.genres_anime
                     });
                     break;
                 case 'movies':
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'genres': App.Config.genres
                     });
                     break;
                 default:
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'genres': []
                     });
                     break;
@@ -473,17 +473,17 @@
                 switch (App.currentview) {
                 case 'shows':
                 case 'anime':
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'sorters': App.Config.sorters_tv
                     });
                     break;
                 case 'movies':
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'sorters': App.Config.sorters
                     });
                     break;
                 default:
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'sorters': []
                     });
                     break;
@@ -493,12 +493,12 @@
             server.expose('gettypes', function (args, opt, callback) {
                 switch (App.currentview) {
                 case 'anime':
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'types': App.Config.types_anime
                     });
                     break;
                 default:
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'types': []
                     });
                     break;
@@ -507,7 +507,7 @@
 
             server.expose('filtergenre', function (args, opt, callback) {
                 if (args.length <= 0) {
-                    popcornCallback(callback, 'Arguments missing');
+                    butterCallback(callback, 'Arguments missing');
                     return;
                 }
 
@@ -515,12 +515,12 @@
                     return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
                 }).click();
 
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('filtersorter', function (args, opt, callback) {
                 if (args.length <= 0) {
-                    popcornCallback(callback, 'Arguments missing');
+                    butterCallback(callback, 'Arguments missing');
                     return;
                 }
 
@@ -528,12 +528,12 @@
                     return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
                 }).click();
 
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('filtertype', function (args, opt, callback) {
                 if (args.length <= 0) {
-                    popcornCallback(callback, 'Arguments missing');
+                    butterCallback(callback, 'Arguments missing');
                     return;
                 }
 
@@ -541,28 +541,28 @@
                     return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
                 }).click();
 
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('filtersearch', function (args, opt, callback) {
                 if (args.length <= 0) {
-                    popcornCallback(callback, 'Arguments missing');
+                    butterCallback(callback, 'Arguments missing');
                     return;
                 }
 
                 $('#searchbox').val(args[0]);
                 $('.search form').submit();
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('clearsearch', function (args, opt, callback) {
                 $('.search .clear').click();
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('watchtrailer', function (args, opt, callback) {
                 if (App.ViewStack[App.ViewStack.length - 1] !== 'movie-detail') {
-                    popcornCallback(callback, 'View not open');
+                    butterCallback(callback, 'View not open');
                     return;
                 }
 
@@ -587,9 +587,9 @@
                         loading: true
                     };
 
-                    popcornCallback(callback, false, result);
+                    butterCallback(callback, false, result);
                 } else {
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'loading': false
                     });
                 }
@@ -613,34 +613,34 @@
                             view.player.muted(true);
                         }
                     }
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         volume: App.PlayerView.player.volume()
                     });
                     return;
                 }
-                popcornCallback(callback, 'Can\'t change volume, player is not open.');
+                butterCallback(callback, 'Can\'t change volume, player is not open.');
             });
 
             server.expose('toggleplaying', function (args, opt, callback) {
                 Mousetrap.trigger('space');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('togglemute', function (args, opt, callback) {
                 Mousetrap.trigger('m');
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('togglefullscreen', function (args, opt, callback) {
                 Mousetrap.trigger('f');
-                popcornCallback(callback, false, {
+                butterCallback(callback, false, {
                     'fullscreen': win.isFullscreen
                 });
             });
 
             server.expose('seek', function (args, opt, callback) {
                 if (args.length <= 0) {
-                    popcornCallback(callback, 'Arguments missing');
+                    butterCallback(callback, 'Arguments missing');
                     return;
                 }
 
@@ -649,26 +649,26 @@
                 if (view !== undefined && view.player !== undefined && args !== undefined) {
                     App.PlayerView.seek(args);
                 }
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('subtitleoffset', function (args, opt, callback) {
                 if (args.length <= 0) {
-                    popcornCallback(callback, 'Arguments missing');
+                    butterCallback(callback, 'Arguments missing');
                     return;
                 }
                 App.PlayerView.adjustSubtitleOffset(parseFloat(args[0]));
-                popcornCallback(callback);
+                butterCallback(callback);
             });
 
             server.expose('getstreamurl', function (args, opt, callback) {
                 if (App.PlayerView !== undefined && !App.PlayerView.isDestroyed) {
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         streamUrl: $('#video_player video') === undefined ? '' : $('#video_player video').attr('src')
                     });
                     return;
                 }
-                popcornCallback(callback, 'Cannot get stream URL: no video playing.');
+                butterCallback(callback, 'Cannot get stream URL: no video playing.');
             });
 
             server.expose('getplaying', function (args, opt, callback) {
@@ -705,9 +705,9 @@
                         result.selectedSubtitle = App.PlayerView.player.textTrackDisplay.children()[0].language();
                     }
 
-                    popcornCallback(callback, false, result);
+                    butterCallback(callback, false, result);
                 } else {
-                    popcornCallback(callback, false, {
+                    butterCallback(callback, false, {
                         'playing': false
                     });
                 }
@@ -744,11 +744,11 @@
         }
     }
 
-    function popcornCallback(callback, err, result) {
+    function butterCallback(callback, err, result) {
         if (result === undefined) {
             result = {};
         }
-        result['popcornVersion'] = App.settings.version;
+        result['butterVersion'] = App.settings.version;
         callback(err, result);
     }
 

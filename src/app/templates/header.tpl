@@ -8,6 +8,6 @@
     <button class="btn-os fullscreen tooltipped" data-toggle="tooltip" data-placement="<%= fsTooltipPos() %>" title="<%= i18n.__("Toggle Fullscreen") %>"></button>
 </nav>
 <h1>
-    Popcorn Time 
+    <%= Settings.projectName %>
     <div class="events img-<%= events() %>">
 </h1>

@@ -21,7 +21,7 @@
         addShowRestart: function () {
             this.set('buttons', this.get('buttons').concat([{
                 title: i18n.__('Restart'),
-                action: this.restartPopcornTime
+                action: this.restartButter
             }]));
         },
 
@@ -35,8 +35,8 @@
             this[(this.get('showRestart') ? 'add' : 'remove') + 'ShowRestart']();
         },
 
-        restartPopcornTime: function () {
-            App.vent.trigger('restartPopcornTime');
+        restartButter: function () {
+            App.vent.trigger('restartButter');
         }
     });
 

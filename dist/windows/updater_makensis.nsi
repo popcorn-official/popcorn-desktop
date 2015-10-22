@@ -1,4 +1,4 @@
-﻿;Popcorn Time
+﻿;Butter
 ;Updater Source for NSIS 3.0 or higher
 
 ;Enable Unicode encoding
@@ -50,7 +50,7 @@ Unicode True
 ;      Settings       ;
 ; ------------------- ;
 ;General Settings
-!define COMPANY_NAME "Popcorn Official"
+!define COMPANY_NAME "Butter Project"
 Name "${APP_NAME}"
 Caption "${APP_NAME} ${PT_VERSION}"
 BrandingText "${APP_NAME} ${PT_VERSION}"
@@ -71,7 +71,7 @@ InstallDir "$LOCALAPPDATA\${APP_NAME}"
 ;Request application privileges
 RequestExecutionLevel user
 
-!define APP_LAUNCHER "Popcorn Time.exe"
+!define APP_LAUNCHER "Butter.exe"
 !define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
 
 ; ------------------- ;
@@ -80,12 +80,12 @@ RequestExecutionLevel user
 ;Define UI settings
 !ifdef WIN_PATHS
     !define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
-    !define MUI_ICON "..\..\src\app\images\popcorntime.ico"
-    !define MUI_UNICON "..\..\src\app\images\popcorntime_uninstall.ico"
+    !define MUI_ICON "..\..\src\app\images\butter.ico"
+    !define MUI_UNICON "..\..\src\app\images\butter_uninstall.ico"
 !else
     !define MUI_UI_HEADERIMAGE_RIGHT "../../src/app/images/icon.png"
-    !define MUI_ICON "../../src/app/images/popcorntime.ico"
-    !define MUI_UNICON "../../src/app/images/popcorntime_uninstall.ico"
+    !define MUI_ICON "../../src/app/images/butter.ico"
+    !define MUI_UNICON "../../src/app/images/butter_uninstall.ico"
 !endif
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
@@ -405,8 +405,8 @@ Section ; Shortcuts
     ;Start Menu Shortcut
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     CreateDirectory "$SMPROGRAMS\${APP_NAME}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\popcorntime_uninstall.ico" "" "" "" "Uninstall ${APP_NAME}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\butter.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\butter_uninstall.ico" "" "" "" "Uninstall ${APP_NAME}"
 
     ;Desktop Shortcut
     Delete "$DESKTOP\${APP_NAME}.lnk"
@@ -416,12 +416,12 @@ Section ; Shortcuts
     IntFmt $0 "0x%08X" $0
     WriteRegDWORD HKCU "${UNINSTALL_KEY}" "EstimatedSize" "$0"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\src\app\images\popcorntime.ico"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\src\app\images\butter.ico"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "${COMPANY_NAME}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallString" "$INSTDIR"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "URLInfoAbout" "${APP_URL}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.popcorntime.io"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.butter.io"
 
     ;File association
     WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}" "FriendlyAppName" "${APP_NAME}"
@@ -453,5 +453,5 @@ SectionEnd
 ;  Desktop Shortcut  ;
 ; ------------------ ;
 Function finishpageaction
-    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\popcorntime.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
+    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\butter.ico" "" "" "" "${APP_NAME} ${PT_VERSION}"
 FunctionEnd

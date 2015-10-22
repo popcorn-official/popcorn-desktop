@@ -6,7 +6,7 @@
         filters: {
             genres: App.Config.genres_indie,
             sorters: App.Config.sorters_indie
-            //types: App.Config.types_indie
+                //types: App.Config.types_indie
         }
     });
 

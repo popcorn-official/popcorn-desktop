@@ -1,8 +1,8 @@
 (function (App) {
     'use strict';
 
-    var PT_id = 13, //ID of project (got with gitlab.projects.all). 13 is for 'popcorntime/desktop'
-        PT_url = 'https://git.popcorntime.io/popcorntime/desktop/issues/', //Url of 'issues' of the above project
+    var PT_id = 13, //ID of project (got with gitlab.projects.all). 13 is for 'butterproject/butter'
+        PT_url = Settings.issuesUrl, //Url of 'issues' of the above project
         token;
 
     var Issue = Backbone.Marionette.ItemView.extend({
@@ -56,7 +56,7 @@
         searchGitLab: function (keyword) {
 
             var gitlab = require('gitlab')({
-                url: 'https://git.popcorntime.io/',
+                url: Settings.sourceUrl,
                 token: token || 'sb1SeWoyoAWrGPTuQcNE' //public reporter token
             });
             var issue_desc,
@@ -137,7 +137,7 @@
 
             var ram = Math.round(os.totalmem() / (1000 * 1000 * 1000)) + 'GB';
 
-            return '\n\n---' + '\n\n**Environment:**' + '\n\nPopcorn Time version: ' + Settings.version + ' ' + App.git.commit.slice(0, 8) + '\n\nOS: ' + release + '\n\nCPU Model: ' + cpu + '\n\nAvailable Memory: ' + ram;
+            return '\n\n---' + '\n\n**Environment:**' + '\n\n' + Settings.projectName + ' version: ' + Settings.version + ' ' + App.git.commit.slice(0, 8) + '\n\nOS: ' + release + '\n\nCPU Model: ' + cpu + '\n\nAvailable Memory: ' + ram;
 
         },
 
@@ -149,7 +149,7 @@
             this.isReporting = true;
 
             var gitlab = require('gitlab')({
-                url: 'https://git.popcorntime.io/',
+                url: Settings.projectUrl,
                 token: token //Private token
             });
             var issue_id = false;
@@ -206,7 +206,7 @@
                 password = $('#issue-pw').val();
 
             var gitlab = require('gitlab')({
-                url: 'https://git.popcorntime.io/',
+                url: Settings.projectUrl,
                 token: 'sb1SeWoyoAWrGPTuQcNE' //public reporter token
             });
 

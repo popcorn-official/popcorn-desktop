@@ -1,3 +1,9 @@
+## 0.4.0 Alpha - Adding a bit of Butter - 19 October 2015
+
+- Split from the popcorntime.io project.
+- Remove all providers but vodo.
+- open butterproject on github
+
 ## 0.3.8 Beta - There's nothing on TV - 09 July 2015
 
 BugFixes: 

@@ -9,7 +9,8 @@ else
   real_arch="amd64"
 fi
 cwd="build/releases/deb-package/$arch"
-name="popcorn-time"
+name="butter"
+projectName="Butter"
 read -n 9 revision <<< ` git log -1 --pretty=oneline`
 version=$(sed -n 's|\s*\"version\"\:\ \"\(.*\)\"\,|\1|p' package.json)
 package_name=${name}_${version}-${revision}_${real_arch}
@@ -25,32 +26,32 @@ mkdir -p $cwd/$package_name
 
 #create dir tree
 mkdir -p $cwd/$package_name/usr/share/applications #desktop
-mkdir -p $cwd/$package_name/opt/Popcorn-Time #app files
+mkdir -p $cwd/$package_name/opt/$projectName #app files
 mkdir -p $cwd/$package_name/usr/share/icons #icon
 
 ### COPY FILES
 #base
-cp -r build/cache/$arch/$nw/locales $cwd/$package_name/opt/Popcorn-Time/
-cp build/cache/$arch/$nw/icudtl.dat $cwd/$package_name/opt/Popcorn-Time/
-cp build/cache/$arch/$nw/libffmpegsumo.so $cwd/$package_name/opt/Popcorn-Time/
-cp build/cache/$arch/$nw/nw $cwd/$package_name/opt/Popcorn-Time/Popcorn-Time
-cp build/cache/$arch/$nw/nw.pak $cwd/$package_name/opt/Popcorn-Time/
+cp -r build/cache/$arch/$nw/locales $cwd/$package_name/opt/$projectName/
+cp build/cache/$arch/$nw/icudtl.dat $cwd/$package_name/opt/$projectName/
+cp build/cache/$arch/$nw/libffmpegsumo.so $cwd/$package_name/opt/$projectName/
+cp build/cache/$arch/$nw/nw $cwd/$package_name/opt/$projectName/$projectName
+cp build/cache/$arch/$nw/nw.pak $cwd/$package_name/opt/$projectName/
 
 #src
-cp -r src $cwd/$package_name/opt/Popcorn-Time/
-cp package.json $cwd/$package_name/opt/Popcorn-Time/
-cp LICENSE.txt $cwd/$package_name/opt/Popcorn-Time/
-cp CHANGELOG.md $cwd/$package_name/opt/Popcorn-Time/
+cp -r src $cwd/$package_name/opt/$projectName/
+cp package.json $cwd/$package_name/opt/$projectName/
+cp LICENSE.txt $cwd/$package_name/opt/$projectName/
+cp CHANGELOG.md $cwd/$package_name/opt/$projectName/
 
 #node_modules
-cp -r node_modules $cwd/$package_name/opt/Popcorn-Time/node_modules
+cp -r node_modules $cwd/$package_name/opt/$projectName/node_modules
 
 #icon
-cp src/app/images/icon.png $cwd/$package_name/usr/share/icons/popcorntime.png
+cp src/app/images/posterholder.png $cwd/$package_name/usr/share/icons/butter.png
 
 ### CLEAN
 shopt -s globstar
-cd $cwd/$package_name/opt/Popcorn-Time
+cd $cwd/$package_name/opt/$projectName
 rm -rf node_modules/bower/** 
 rm -rf node_modules/*grunt*/** 
 rm -rf node_modules/stylus/** 
@@ -69,14 +70,14 @@ cd ../../../../../../../
 #desktop
 echo "[Desktop Entry]
 Comment=Watch Movies and TV Shows instantly
-Name=Popcorn Time
-Exec=/opt/Popcorn-Time/Popcorn-Time
-Icon=popcorntime
+Name=$projectName
+Exec=/opt/$projectName/$projectName
+Icon=butter
 MimeType=application/x-bittorrent;x-scheme-handler/magnet;
 StartupNotify=false
 Categories=AudioVideo;Video;Network;Player;P2P;
 Type=Application
-" > $cwd/$package_name/usr/share/applications/popcorn-time.desktop
+" > $cwd/$package_name/usr/share/applications/$name.desktop
 
 ### DEBIAN
 mkdir -p $cwd/$package_name/DEBIAN
@@ -91,19 +92,19 @@ Priority: optional
 Architecture: $real_arch
 Installed-Size: $size
 Depends:
-Maintainer: Popcorn Time Official <hello@popcorntime.io>
-Description: Popcorn Time
+Maintainer: $projectName Project <butter@xaiki.net>
+Description: $projectName
  Watch Movies and TV Shows instantly
 " > $cwd/$package_name/DEBIAN/control
 
 #copyright
 echo "Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0
-Upstream-Name: Popcorn-Time
-Upstream-Contact: Popcorn Time Official <hello@popcorntime.io>
-Source: https://git.popcorntime.io
+Upstream-Name: $projectName
+Upstream-Contact: $projectName Project <butter@xaiki.net>
+Source: https://github.com/butterproject/butter
 
 Files: *
-Copyright: © 2015, Popcorn Time and the contributors <hello@popcorntime.io>
+Copyright: © 2015, $projectName Project and the contributors <butter@xaiki.net>
 License: GPL-3+
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -128,19 +129,19 @@ set -e
 
 # Work-around Menu item not being created on first installation
 if [ -x /usr/bin/desktop-file-install ]; then
-	desktop-file-install /usr/share/applications/popcorn-time.desktop
+	desktop-file-install /usr/share/applications/$name.desktop
 else
-	chmod +x /usr/share/applications/popcorn-time.desktop
+	chmod +x /usr/share/applications/$name.desktop
 fi
 
 # set permissions for updates
-if [ -e /opt/Popcorn-Time/Popcorn-Time ]; then
-	chmod -R 777 /opt/Popcorn-Time
+if [ -e /opt/$projectName/$projectName ]; then
+	chmod -R 777 /opt/$projectName
 fi
 
 if [ ! -e /lib/$(arch)-linux-gnu/libudev.so.1 ]; then
-	ln -s /lib/$(arch)-linux-gnu/libudev.so.0 /opt/Popcorn-Time/libudev.so.1
-	sed -i 's,Exec=,Exec=env LD_LIBRARY_PATH=/opt/Popcorn-Time ,g' /usr/share/applications/popcorn-time.desktop
+	ln -s /lib/$(arch)-linux-gnu/libudev.so.0 /opt/$projectName/libudev.so.1
+	sed -i 's,Exec=,Exec=env LD_LIBRARY_PATH=/opt/$projectName ,g' /usr/share/applications/$name.desktop
 fi
 " > $cwd/$package_name/DEBIAN/postinst
 
@@ -149,13 +150,13 @@ echo "#!/bin/sh
 set -e
 
 #remove app files
-rm -rf /opt/Popcorn-Time
+rm -rf /opt/$projectName
 
 #remove icon
-rm -rf /usr/share/icons/popcorntime.png
+rm -rf /usr/share/icons/butter.png
 
 #remove desktop
-rm -rf /usr/share/applications/popcorn-time.desktop
+rm -rf /usr/share/applications/$name.desktop
 " > $cwd/$package_name/DEBIAN/prerm
 
 #post-remove script if purge
@@ -164,12 +165,12 @@ set -e
 
 #remove config and db
 if [ \"\$1\" = purge ]; then
-	rm -rf \$HOME/.config/Popcorn-Time
+	rm -rf \$HOME/.config/$projectName
 fi
 " > $cwd/$package_name/DEBIAN/postrm
 
 ### PERMISSIONS
-chmod 0644 $cwd/$package_name/usr/share/applications/popcorn-time.desktop
+chmod 0644 $cwd/$package_name/usr/share/applications/$name.desktop
 chmod -R 0755 $cwd/$package_name/DEBIAN
 chown -R root:root $cwd/$package_name 2> /dev/null || echo "'chown -R root:root' failed, continuing..."
 
@@ -179,7 +180,7 @@ dpkg-deb --build $package_name
 
 ### CLEAN
 cd ../../../../
-mv $cwd/popcorn-time*.deb dist/linux
+mv $cwd/$name*.deb dist/linux
 }
 
 
