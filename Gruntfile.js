@@ -242,7 +242,7 @@ module.exports = function (grunt) {
                 cmd: 'sh dist/mac/codesign.sh || echo "Codesign failed, likely caused by not being run on mac, continuing"'
             },
             createDmg: {
-                cmd: 'dist/mac/yoursway-create-dmg/create-dmg --volname "' + projectName + ' + currentVersion + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "'+ projectName + +'" 240 110 ./build/releases/'+ projectName + '/mac/'+ projectName + '-' + currentVersion + '-Mac.dmg ./build/releases/'+ projectName + '/mac/ || echo "Create dmg failed, likely caused by not being run on mac, continuing"'
+                cmd: 'dist/mac/yoursway-create-dmg/create-dmg --volname "' + projectName + '-' + currentVersion + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "'+ projectName + +'" 240 110 ./build/releases/'+ projectName + '/mac/'+ projectName + '-' + currentVersion + '-Mac.dmg ./build/releases/'+ projectName + '/mac/ || echo "Create dmg failed, likely caused by not being run on mac, continuing"'
             },
             createWinInstall: {
                 cmd: 'makensis dist/windows/installer_makensis.nsi',
@@ -296,7 +296,7 @@ module.exports = function (grunt) {
                     if (host.linux || host.mac) {
                         return [
                             'pct_rel="build/releases/'+projectName+'"',
-                            'chmod -R +x ${pct_rel}/mac/'+projectName++'.app || : ',
+                            'chmod -R +x ${pct_rel}/mac/'+projectName+'.app || : ',
                             'chmod +x ${pct_rel}/linux*/'+projectName+'/'+projectName+' || : '
                         ].join(' && ');
                     } else {
