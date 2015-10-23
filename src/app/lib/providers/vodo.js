@@ -1,3 +1,4 @@
+/* global Datastore */
 (function (App) {
     'use strict';
 

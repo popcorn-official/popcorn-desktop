@@ -31,7 +31,9 @@
 
         autoClose: function (timeout) {
             var _this = this;
-            if (!timeout) return;
+            if (!timeout) {
+                return;
+            }
 
             timeout = timeout === true ? 6000 : timeout;
 
