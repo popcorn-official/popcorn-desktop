@@ -62,7 +62,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('themes', [
-        /*'shell:themes',*/
+        'shell:themes',
         'clean:css',
         'stylus:official',
         'stylus:third_party'
@@ -75,12 +75,10 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'injectgit',
         'bower_clean',
-        /*'lang',*/
         'themes',
         'nwjs',
         'shell:setexecutable'
     ]);
-    grunt.registerTask('lang', ['shell:language']);
 
     grunt.registerTask('dist', [
         'clean:releases',
@@ -278,17 +276,7 @@ module.exports = function (grunt) {
             themes: {
                 command: [
                     'git submodule init',
-                    'cd src/app/styl/third_party/',
-                    'git submodule update --init',
-                    'git pull origin master --force'
-                ].join('&&')
-            },
-            language: {
-                command: [
-                    'git submodule init',
-                    'cd src/app/language/',
-                    'git submodule update --init',
-                    'git pull origin master --force'
+                    'git submodule update'
                 ].join('&&')
             },
             setexecutable: {
