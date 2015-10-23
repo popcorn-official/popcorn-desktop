@@ -206,9 +206,10 @@
         },
 
         startStreaming: function () {
+            var torrent = this.model.get('torrents')[this.model.get('quality')]
             var torrentStart = new Backbone.Model({
                 imdb_id: this.model.get('imdb_id'),
-                torrent: this.model.get('torrents')[this.model.get('quality')].magnet,
+                torrent: torrent,
                 backdrop: this.model.get('backdrop'),
                 subtitle: this.model.get('subtitle'),
                 defaultSubtitle: this.subtitle_selected,
