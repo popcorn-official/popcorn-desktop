@@ -62,7 +62,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('themes', [
-        'shell:themes',
+        /*'shell:themes',*/
         'clean:css',
         'stylus:official',
         'stylus:third_party'
@@ -75,7 +75,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'injectgit',
         'bower_clean',
-        'lang',
+        /*'lang',*/
         'themes',
         'nwjs',
         'shell:setexecutable'
@@ -236,7 +236,7 @@ module.exports = function (grunt) {
                 cmd: '"build/cache/linux32/<%= nwjs.options.version %>/nw" .'
             },
             linux64: {
-                cmd: '"build/cache/linux64/<%= nwjs.options.version %>/nw" .'
+                cmd: '"build/' + projectName + '/linux64/' + projectName + '" .'
             },
             codesign: {
                 cmd: 'sh dist/mac/codesign.sh || echo "Codesign failed, likely caused by not being run on mac, continuing"'
@@ -464,7 +464,7 @@ module.exports = function (grunt) {
         },
 
         clean: {
-            releases: ['build/releases/' + projectName + '/**'],
+            releases: ['build/' + projectName + '/**'],
             css: ['src/app/themes/**'],
             dist: ['dist/windows/*-Setup.exe', 'dist/mac/*.dmg'],
             update: ['build/updater/*.*'],
