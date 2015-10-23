@@ -246,6 +246,7 @@
         start: function (model) {
             var torrent = model.get('torrent');
             var torrentUrl = torrent.url?torrent.url:torrent.magnet;
+
             var torrent_read = false;
             if (model.get('torrent_read')) {
                 torrent_read = true;

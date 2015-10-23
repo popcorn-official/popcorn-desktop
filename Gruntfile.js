@@ -77,7 +77,7 @@ module.exports = function (grunt) {
         'bower_clean',
         'lang',
         'themes',
-        'nodewebkit',
+        'nwjs',
         'shell:setexecutable'
     ]);
     grunt.registerTask('lang', ['shell:language']);
@@ -198,9 +198,9 @@ module.exports = function (grunt) {
             }
         },
 
-        nodewebkit: {
+        nwjs: {
             options: {
-                version: '0.12.2',
+                version: '0.12.3',
                 build_dir: './build', // Where the build version of my node-webkit app is saved
                 keep_nw: true,
                 embed_nw: false,
@@ -210,7 +210,7 @@ module.exports = function (grunt) {
                 win: buildPlatforms.win,
                 linux32: buildPlatforms.linux32,
                 linux64: buildPlatforms.linux64,
-                download_url: 'http://get.popcorntime.io/nw/'
+                download_url: 'http://dl.nwjs.io/'
             },
             src: ['./src/**', '!./src/app/styl/**',
                 './node_modules/**', '!./node_modules/bower/**',
@@ -227,16 +227,16 @@ module.exports = function (grunt) {
 
         exec: {
             win: {
-                cmd: '"build/cache/win/<%= nodewebkit.options.version %>/nw.exe" .'
+                cmd: '"build/cache/win/<%= nwjs.options.version %>/nw.exe" .'
             },
             mac: {
-                cmd: 'build/cache/mac/<%= nodewebkit.options.version %>/node-webkit.app/Contents/MacOS/nwjs .'
+                cmd: 'build/cache/mac/<%= nwjs.options.version %>/node-webkit.app/Contents/MacOS/nwjs .'
             },
             linux32: {
-                cmd: '"build/cache/linux32/<%= nodewebkit.options.version %>/nw" .'
+                cmd: '"build/cache/linux32/<%= nwjs.options.version %>/nw" .'
             },
             linux64: {
-                cmd: '"build/cache/linux64/<%= nodewebkit.options.version %>/nw" .'
+                cmd: '"build/cache/linux64/<%= nwjs.options.version %>/nw" .'
             },
             codesign: {
                 cmd: 'sh dist/mac/codesign.sh || echo "Codesign failed, likely caused by not being run on mac, continuing"'
@@ -308,8 +308,8 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'cp build/cache/linux64/<%= nodewebkit.options.version %>/icudtl.dat build/releases/' + projectName + '/linux64/' + projectName,
-                            'cp -r build/cache/linux64/<%= nodewebkit.options.version %>/locales build/releases/' + projectName + '/linux64/' + projectName,
+                            'cp build/cache/linux64/<%= nwjs.options.version %>/icudtl.dat build/releases/' + projectName + '/linux64/' + projectName,
+                            'cp -r build/cache/linux64/<%= nwjs.options.version %>/locales build/releases/' + projectName + '/linux64/' + projectName,
                             'cp dist/linux/linux-installer build/releases/' + projectName + '/linux64/' + projectName + '/install',
                             'cp dist/linux/butter.png build/releases/' + projectName + '/linux64/' + projectName,
                             'cd build/releases/' + projectName + '/linux64/' + projectName,
@@ -319,8 +319,8 @@ module.exports = function (grunt) {
                         ].join(' && ');
                     } else {
                         return [
-                            'cp build/cache/linux64/<%= nodewebkit.options.version %>/icudtl.dat build/releases/' + projectName + '/linux64/' + projectName,
-                            'cp -r build/cache/linux64/<%= nodewebkit.options.version %>/locales build/releases/' + projectName + '/linux64/' + projectName,
+                            'cp build/cache/linux64/<%= nwjs.options.version %>/icudtl.dat build/releases/' + projectName + '/linux64/' + projectName,
+                            'cp -r build/cache/linux64/<%= nwjs.options.version %>/locales build/releases/' + projectName + '/linux64/' + projectName,
                             'cp dist/linux/linux-installer build/releases/' + projectName + '/linux64/' + projectName + '/install',
                             'cp dist/linux/butter.png build/releases/' + projectName + '/linux64/' + projectName,
                             'grunt compress:linux64',
@@ -333,8 +333,8 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'cp build/cache/linux32/<%= nodewebkit.options.version %>/icudtl.dat build/releases/' + projectName + '/linux32/' + projectName,
-                            'cp -r build/cache/linux32/<%= nodewebkit.options.version %>/locales build/releases/' + projectName + '/linux32/' + projectName,
+                            'cp build/cache/linux32/<%= nwjs.options.version %>/icudtl.dat build/releases/' + projectName + '/linux32/' + projectName,
+                            'cp -r build/cache/linux32/<%= nwjs.options.version %>/locales build/releases/' + projectName + '/linux32/' + projectName,
                             'cp dist/linux/linux-installer build/releases/' + projectName + '/linux32/' + projectName + '/install',
                             'cp dist/linux/butter.png build/releases/' + projectName + '/linux32/' + projectName,
                             'cd build/releases/' + projectName + '/linux32/' + projectName,
@@ -344,8 +344,8 @@ module.exports = function (grunt) {
                         ].join(' && ');
                     } else {
                         return [
-                            'cp build/cache/linux32/<%= nodewebkit.options.version %>/icudtl.dat build/releases/' + projectName + '/linux32/' + projectName,
-                            'cp -r build/cache/linux32/<%= nodewebkit.options.version %>/locales build/releases/' + projectName + '/linux32/' + projectName,
+                            'cp build/cache/linux32/<%= nwjs.options.version %>/icudtl.dat build/releases/' + projectName + '/linux32/' + projectName,
+                            'cp -r build/cache/linux32/<%= nwjs.options.version %>/locales build/releases/' + projectName + '/linux32/' + projectName,
                             'cp dist/linux/linux-installer build/releases/' + projectName + '/linux32/' + projectName + '/install',
                             'cp dist/linux/butter.png build/releases/' + projectName + '/linux32/' + projectName,
                             'grunt compress:linux32',
@@ -358,7 +358,7 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux) {
                         return [
-                            'sh dist/linux/deb-maker.sh <%= nodewebkit.options.version %> linux32',
+                            'sh dist/linux/deb-maker.sh <%= nwjs.options.version %> linux32',
                             'echo "Linux32 Debian Package successfully built" || echo "Linux32 failed to create the Debian Package"'
                         ].join(' && ');
                     } else {
@@ -372,7 +372,7 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux) {
                         return [
-                            'sh dist/linux/deb-maker.sh <%= nodewebkit.options.version %> linux64',
+                            'sh dist/linux/deb-maker.sh <%= nwjs.options.version %> linux64',
                             'echo "Linux64 Debian Package successfully built" || echo "Linux64 failed to create the Debian Package"'
                         ].join(' && ');
                     } else {
@@ -386,16 +386,16 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'cp build/cache/win/<%= nodewebkit.options.version %>/icudtl.dat build/releases/' + projectName + '/win/' + projectName,
-                            'cp -r build/cache/win/<%= nodewebkit.options.version %>/locales build/releases/' + projectName + '/win/' + projectName,
+                            'cp build/cache/win/<%= nwjs.options.version %>/icudtl.dat build/releases/' + projectName + '/win/' + projectName,
+                            'cp -r build/cache/win/<%= nwjs.options.version %>/locales build/releases/' + projectName + '/win/' + projectName,
                             'cd build/releases/' + projectName + '/win/' + projectName,
                             'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../' + projectName + '-' + currentVersion + '-Win.tar.xz"',
                             'echo "Windows Sucessfully packaged" || echo "Windows failed to package"'
                         ].join(' && ');
                     } else {
                         return [
-                            'cp build/cache/win/<%= nodewebkit.options.version %>/icudtl.dat build/releases/' + projectName + '/win/' + projectName,
-                            'cp -r build/cache/win/<%= nodewebkit.options.version %>/locales build/releases/' + projectName + '/win/' + projectName,
+                            'cp build/cache/win/<%= nwjs.options.version %>/icudtl.dat build/releases/' + projectName + '/win/' + projectName,
+                            'cp -r build/cache/win/<%= nwjs.options.version %>/locales build/releases/' + projectName + '/win/' + projectName,
                             'grunt compress:windows',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
                         ].join(' && ');
@@ -468,7 +468,7 @@ module.exports = function (grunt) {
             css: ['src/app/themes/**'],
             dist: ['dist/windows/*-Setup.exe', 'dist/mac/*.dmg'],
             update: ['build/updater/*.*'],
-            nwjs: ['build/cache/**/<%= nodewebkit.options.version %>/*pdf*', 'build/cache/**/<%= nodewebkit.options.version %>/*credits*']
+            nwjs: ['build/cache/**/<%= nwjs.options.version %>/*pdf*', 'build/cache/**/<%= nwjs.options.version %>/*credits*']
         },
 
         watch: {
