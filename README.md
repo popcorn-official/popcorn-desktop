@@ -46,7 +46,7 @@ Full instructions & troubleshooting tips can be found in the [Contributing Guide
 Keep track of Butter development and community activity.
 
 * Follow Butter on [Twitter](https://twitter.com/butterproject), [Facebook](https://www.facebook.com/ButterProjectOrg/) and [Google+](https://plus.google.com/communities/111003619134556931561).
-* Read and subscribe to the [The Official Butter Blog](https://github.com/butterproject/blog).
+* Read and subscribe to [The Official Butter Blog](https://github.com/butterproject/blog).
 * Join in discussions on the [Butter Forum](https://discuss.butterproject.org)
 * Connect with us on IRC at `#butterproject` on freenode ([web access](http://webchat.freenode.net/?channels=butterproject))
 
@@ -61,15 +61,15 @@ Releases will be numbered with the following format:
 
 Constructed with the following guidelines:
 
-* A new *major* release indicates a large change where backwards compatibility is broken.
-* A new *minor* release indicates a normal change that maintains backwards compatibility.
+* A new *major* release indicates a large change where backward compatibility is broken.
+* A new *minor* release indicates a normal change that maintains backward compatibility.
 * A new *patch* release indicates a bugfix or small change which does not affect compatibility.
 * A new *build* release indicates this is a pre-release of the version.
 
 
 ***
 
-If you distribute a copy or make a fork of the project, you have to credit this project as source.
+If you distribute a copy or make a fork of the project, you have to credit this project as the source.
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
@@ -80,6 +80,4 @@ You should have received a copy of the GNU General Public License along with thi
 ***
 
 Copyright (c) 2015 Butter Project - Released under the
-[GPL v3 license](LICENSE.tx
-
-t).
+[GPL v3 license](LICENSE.txt).
