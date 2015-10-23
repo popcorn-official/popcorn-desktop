@@ -13,7 +13,8 @@
   "scripts": {
     "postinstall": "node_modules/.bin/bower install --config.interactive=false && grunt setup",
     "postupdate": "node_modules/.bin/bower update --config.interactive=false && grunt setup",
-    "test": "grunt --verbose"
+    "test": "grunt --verbose",
+    "start": "nw"
   },
   "window": {
     "title": "Butter",
@@ -27,6 +28,7 @@
     "position": "center"
   },
   "dependencies": {
+    "URIjs": "1.x.x",
     "adm-zip": "0.4.7",
     "airplay-js": "git+https://github.com/guerrerocarlos/node-airplay-js.git",
     "async": "0.9.0",
@@ -44,12 +46,13 @@
     "mv": "2.x.x",
     "nedb": "1.1.2",
     "node-captions": "0.3.8",
-    "nodecast-js": "git+https://github.com/gyzerok/nodecast-js",
     "node-tvdb": "1.3.1",
     "node-webkit-fdialogs": "latest",
+    "nodecast-js": "git+https://github.com/gyzerok/nodecast-js",
+    "nw": "^0.12.3",
+    "opensubtitles-api": "1.x.x",
     "os-name": "1.x.x",
     "peerflix": "git+https://github.com/mafintosh/peerflix.git",
-    "opensubtitles-api": "1.x.x",
     "q": "2.0.3",
     "read-torrent": "1.3.0",
     "readdirp": "*",
@@ -64,7 +67,6 @@
     "torrent-tracker-health": "0.x.x",
     "underscore": "1.x.x",
     "upnp-mediarenderer-client": "1.x.x",
-    "URIjs": "1.x.x",
     "xmlbuilder": "2.x.x"
   },
   "devDependencies": {
