@@ -201,7 +201,7 @@ module.exports = function (grunt) {
         nwjs: {
             options: {
                 version: '0.12.3',
-                build_dir: './build', // Where the build version of my node-webkit app is saved
+                build_dir: './build', // Where the build version of my nwjs app is saved
                 keep_nw: true,
                 embed_nw: false,
                 mac_icns: './src/app/images/butter.icns', // Path to the Mac icon file
@@ -230,7 +230,7 @@ module.exports = function (grunt) {
                 cmd: '"build/cache/win/<%= nwjs.options.version %>/nw.exe" .'
             },
             mac: {
-                cmd: 'build/cache/mac/<%= nwjs.options.version %>/node-webkit.app/Contents/MacOS/nwjs .'
+                cmd: 'build/cache/mac/<%= nwjs.options.version %>/nwjs.app/Contents/MacOS/nwjs .'
             },
             linux32: {
                 cmd: '"build/cache/linux32/<%= nwjs.options.version %>/nw" .'
