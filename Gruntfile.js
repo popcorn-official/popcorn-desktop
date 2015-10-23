@@ -456,7 +456,7 @@ module.exports = function (grunt) {
             css: ['src/app/themes/**'],
             dist: ['dist/windows/*-Setup.exe', 'dist/mac/*.dmg'],
             update: ['build/updater/*.*'],
-            nwjs: ['build/cache/**/<%= nwjs.options.version %>/*pdf*', 'build/cache/**/<%= nwjs.options.version %>/*credits*']
+            nwjs: ['cache/**/<%= nwjs.options.version %>/*pdf*', 'cache/**/<%= nwjs.options.version %>/*credits*']
         },
 
         watch: {
