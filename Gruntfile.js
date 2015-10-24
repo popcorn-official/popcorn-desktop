@@ -22,12 +22,16 @@ var parseBuildPlatforms = function (argumentPlatform) {
     // Do some scrubbing to make it easier to match in the regexes bellow
     inputPlatforms = inputPlatforms.replace("darwin", "mac");
     inputPlatforms = inputPlatforms.replace(/;ia|;x|;arm/, "");
+    if (process.arch === "x64") {
+        inputPlatforms = inputPlatforms.replace("32", "64");
+    }
 
     var buildAll = /^all$/.test(inputPlatforms);
 
     var buildPlatforms = {
         mac: /mac/.test(inputPlatforms) || buildAll,
-        win: /win/.test(inputPlatforms) || buildAll,
+        win32: /win32/.test(inputPlatforms) || buildAll,
+        win64: /win64/.test(inputPlatforms) || buildAll,
         linux32: /linux32/.test(inputPlatforms) || buildAll,
         linux64: /linux64/.test(inputPlatforms) || buildAll
     };
@@ -101,8 +105,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask('start', function () {
         var start = parseBuildPlatforms();
-        if (start.win) {
-            grunt.task.run('exec:win');
+        if (start.win32) {
+            grunt.task.run('exec:win32');
+        } else if (start.win64) {
+            grunt.task.run('exec:win64');
         } else if (start.mac) {
             grunt.task.run('exec:mac');
         } else if (start.linux32) {
@@ -208,7 +214,8 @@ module.exports = function (grunt) {
                 mac_icns: './src/app/images/butter.icns', // Path to the Mac icon file
                 macZip: buildPlatforms.win, // Zip nw for mac in windows. Prevent path too long if build all is used.
                 mac: buildPlatforms.mac,
-                win: buildPlatforms.win,
+                win32: buildPlatforms.win32,
+                win64: buildPlatforms.win64,
                 linux32: buildPlatforms.linux32,
                 linux64: buildPlatforms.linux64,
                 download_url: 'http://dl.nwjs.io/'
@@ -227,11 +234,14 @@ module.exports = function (grunt) {
         },
 
         exec: {
-            win: {
-                cmd: '"build/cache/win/<%= nwjs.options.version %>/nw.exe" .'
+            win32: {
+                cmd: '"cache/<%= nwjs.options.version %>/win32/nw.exe" .'
+            },
+            win64: {
+                cmd: '"cache/<%= nwjs.options.version %>/win64/nw.exe" .'
             },
             mac: {
-                cmd: 'build/cache/mac/<%= nwjs.options.version %>/nwjs.app/Contents/MacOS/nwjs .'
+                cmd: 'cache/mac/<%= nwjs.options.version %>/nwjs.app/Contents/MacOS/nwjs .'
             },
             linux32: {
                 cmd: '"build/' + projectName + '/linux32/' + projectName + '" .'
