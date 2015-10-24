@@ -5,4 +5,4 @@ before_install: npm install -g grunt-cli grunt bower
 after_success : grunt dist
 notifications:
   email: true
-  irc: "chat.freenode.net#vpnht"
+  irc: "chat.freenode.net#butterdev"
