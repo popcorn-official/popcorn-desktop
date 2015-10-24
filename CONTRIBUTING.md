@@ -79,7 +79,7 @@ Any other information you want to share that is relevant to the issue being repo
 Feature requests are welcome. Before you submit one be sure to have:
 
 1. Read the [Roadmap](https://github.com/butterproject/butter/tree/master/docs/RoadMap.md) and
-[Planned Features](https://github.com/butterproject/butter/tree/master/docs/Planned-Features.md) listing, **use the Jira search** and check the feature hasn't already been requested.
+[Planned Features](https://github.com/butterproject/butter/tree/master/docs/Planned-Features.md) listing, **use the Github Issues search** and check the feature hasn't already been requested.
 2. Take a moment to think about whether your idea fits with the scope and aims of the project, or if it might
 better fit being an app/plugin.
 3. Remember, it's up to *you* to make a strong case to convince the project's leaders of the merits of this
