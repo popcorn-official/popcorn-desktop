@@ -22,12 +22,17 @@ var parseBuildPlatforms = function (argumentPlatform) {
     // Do some scrubbing to make it easier to match in the regexes bellow
     inputPlatforms = inputPlatforms.replace("darwin", "mac");
     inputPlatforms = inputPlatforms.replace(/;ia|;x|;arm/, "");
+    if (process.arch === "x64") {
+        inputPlatforms = inputPlatforms.replace("32", "64");
+    }
 
     var buildAll = /^all$/.test(inputPlatforms);
 
     var buildPlatforms = {
-        mac: /mac/.test(inputPlatforms) || buildAll,
-        win: /win/.test(inputPlatforms) || buildAll,
+        mac32: /mac/.test(inputPlatforms) || buildAll,
+        mac64: /mac/.test(inputPlatforms) || buildAll,
+        win32: /win32/.test(inputPlatforms) || buildAll,
+        win64: /win64/.test(inputPlatforms) || buildAll,
         linux32: /linux32/.test(inputPlatforms) || buildAll,
         linux64: /linux64/.test(inputPlatforms) || buildAll
     };
@@ -101,11 +106,15 @@ module.exports = function (grunt) {
 
     grunt.registerTask('start', function () {
         var start = parseBuildPlatforms();
-        if (start.win) {
-            grunt.task.run('exec:win');
-        } else if (start.mac) {
-            grunt.task.run('exec:mac');
-        } else if (start.linux32) {
+        if (start.win32) {
+            grunt.task.run('exec:win32');
+        } else if (start.win64) {
+            grunt.task.run('exec:win64');
+        } else if (start.mac32) {
+            grunt.task.run('exec:mac32');
+        } else if (start.mac64) {
+            grunt.task.run('exec:mac64');
+        }  else if (start.linux32) {
             grunt.task.run('exec:linux32');
         } else if (start.linux64) {
             grunt.task.run('exec:linux64');
@@ -119,8 +128,10 @@ module.exports = function (grunt) {
         'shell:packageDEBLinux64',
         'shell:packageLinux32',
         'shell:packageDEBLinux32',
-        'shell:packageWin',
-        'shell:packageMac'
+        'shell:packageWin32',
+        'shell:packageWin64',
+        'shell:packageMac32',
+        'shell:packageMac64',
     ]);
 
     grunt.registerTask('injectgit', function () {
@@ -207,8 +218,10 @@ module.exports = function (grunt) {
                 embed_nw: false,
                 mac_icns: './src/app/images/butter.icns', // Path to the Mac icon file
                 macZip: buildPlatforms.win, // Zip nw for mac in windows. Prevent path too long if build all is used.
-                mac: buildPlatforms.mac,
-                win: buildPlatforms.win,
+                mac32: buildPlatforms.mac32,
+				mac64: buildPlatforms.mac64,
+                win32: buildPlatforms.win32,
+                win64: buildPlatforms.win64,
                 linux32: buildPlatforms.linux32,
                 linux64: buildPlatforms.linux64,
                 download_url: 'http://dl.nwjs.io/'
@@ -227,11 +240,17 @@ module.exports = function (grunt) {
         },
 
         exec: {
-            win: {
-                cmd: '"build/cache/win/<%= nwjs.options.version %>/nw.exe" .'
+            win32: {
+                cmd: '"cache/<%= nwjs.options.version %>/win32/nw.exe" .'
             },
-            mac: {
-                cmd: 'build/cache/mac/<%= nwjs.options.version %>/nwjs.app/Contents/MacOS/nwjs .'
+            win64: {
+                cmd: '"cache/<%= nwjs.options.version %>/win64/nw.exe" .'
+            },
+            mac32: {
+                cmd: 'cache/mac/<%= nwjs.options.version %>/osx32/nwjs.app/Contents/MacOS/nwjs .'
+            },           
+			mac64: {
+                cmd: 'cache/mac/<%= nwjs.options.version %>/osx64/nwjs.app/Contents/MacOS/nwjs .'
             },
             linux32: {
                 cmd: '"build/' + projectName + '/linux32/' + projectName + '" .'
@@ -379,37 +398,73 @@ module.exports = function (grunt) {
                     }
                 }
             },
-            packageWin: {
+            packageWin32: {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'cp build/cache/win/<%= nwjs.options.version %>/icudtl.dat build/releases/' + projectName + '/win/' + projectName,
-                            'cp -r build/cache/win/<%= nwjs.options.version %>/locales build/releases/' + projectName + '/win/' + projectName,
-                            'cd build/releases/' + projectName + '/win/' + projectName,
+                            'cp build/cache/win32/<%= nwjs.options.version %>/icudtl.dat build/releases/' + projectName + '/win32/' + projectName,
+                            'cp -r build/cache/win32/<%= nwjs.options.version %>/locales build/releases/' + projectName + '/win32/' + projectName,
+                            'cd build/releases/' + projectName + '/win32/' + projectName,
                             'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../' + projectName + '-' + currentVersion + '-Win.tar.xz"',
                             'echo "Windows Sucessfully packaged" || echo "Windows failed to package"'
                         ].join(' && ');
                     } else {
                         return [
-                            'cp build/cache/win/<%= nwjs.options.version %>/icudtl.dat build/releases/' + projectName + '/win/' + projectName,
-                            'cp -r build/cache/win/<%= nwjs.options.version %>/locales build/releases/' + projectName + '/win/' + projectName,
-                            'grunt compress:windows',
+                            'cp build/cache/win32/<%= nwjs.options.version %>/icudtl.dat build/releases/' + projectName + '/win32/' + projectName,
+                            'cp -r build/cache/win32/<%= nwjs.options.version %>/locales build/releases/' + projectName + '/win32/' + projectName,
+                            'grunt compress:windows32',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
                         ].join(' && ');
                     }
                 }
             },
-            packageMac: {
+            packageWin64: {
+                command: function () {
+                    if (host.linux || host.mac) {
+                        return [
+                            'cp build/cache/win64/<%= nwjs.options.version %>/icudtl.dat build/releases/' + projectName + '/win64/' + projectName,
+                            'cp -r build/cache/win64/<%= nwjs.options.version %>/locales build/releases/' + projectName + '/win64/' + projectName,
+                            'cd build/releases/' + projectName + '/win64/' + projectName,
+                            'tar --exclude-vcs -c . | $(command -v pxz || command -v xz) -T8 -7 > "../' + projectName + '-' + currentVersion + '-Win.tar.xz"',
+                            'echo "Windows Sucessfully packaged" || echo "Windows failed to package"'
+                        ].join(' && ');
+                    } else {
+                        return [
+                            'cp build/cache/win64/<%= nwjs.options.version %>/icudtl.dat build/releases/' + projectName + '/win64/' + projectName,
+                            'cp -r build/cache/win64/<%= nwjs.options.version %>/locales build/releases/' + projectName + '/win64/' + projectName,
+                            'grunt compress:windows64',
+                            '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
+                        ].join(' && ');
+                    }
+                }
+            },
+            packageMac32: {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
                             'cd build/releases/' + projectName + '/mac/',
-                            'tar --exclude-vcs -c ' + projectName + '.app | $(command -v pxz || command -v xz) -T8 -7 > "' + projectName + '-' + currentVersion + '-Mac.tar.xz"',
+                            'tar --exclude-vcs -c ' + projectName + '.app | $(command -v pxz || command -v xz) -T8 -7 > "' + projectName + '-' + currentVersion + '-Mac32.tar.xz"',
                             'echo "Mac Sucessfully packaged" || echo "Mac failed to package"'
                         ].join(' && ');
                     } else {
                         return [
-                            'grunt compress:mac',
+                            'grunt compress:mac32',
+                            '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
+                        ].join(' && ');
+                    }
+                }
+            },
+			packageMac64: {
+                command: function () {
+                    if (host.linux || host.mac) {
+                        return [
+                            'cd build/releases/' + projectName + '/mac/',
+                            'tar --exclude-vcs -c ' + projectName + '.app | $(command -v pxz || command -v xz) -T8 -7 > "' + projectName + '-' + currentVersion + '-Mac64.tar.xz"',
+                            'echo "Mac Sucessfully packaged" || echo "Mac failed to package"'
+                        ].join(' && ');
+                    } else {
+                        return [
+                            'grunt compress:mac64',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
                         ].join(' && ');
                     }
@@ -438,23 +493,43 @@ module.exports = function (grunt) {
                 src: '**',
                 dest: projectName
             },
-            mac: {
+            mac32: {
                 options: {
                     mode: 'tgz',
-                    archive: 'build/releases/' + projectName + '/mac/' + projectName + '-' + currentVersion + '-Mac.tar.gz'
+                    archive: 'build/releases/' + projectName + '/mac32/' + projectName + '-' + currentVersion + '-Mac.tar.gz'
                 },
                 expand: true,
-                cwd: 'build/releases/' + projectName + '/mac/',
+                cwd: 'build/releases/' + projectName + '/mac32/',
                 src: '**',
                 dest: projectName
             },
-            windows: {
+            mac64: {
                 options: {
                     mode: 'tgz',
-                    archive: 'build/releases/' + projectName + '/win/' + projectName + '-' + currentVersion + '-Win.tar.gz'
+                    archive: 'build/releases/' + projectName + '/mac64/' + projectName + '-' + currentVersion + '-Mac.tar.gz'
                 },
                 expand: true,
-                cwd: 'build/releases/' + projectName + '/win/' + projectName,
+                cwd: 'build/releases/' + projectName + '/mac64/',
+                src: '**',
+                dest: projectName
+            },
+            windows32: {
+                options: {
+                    mode: 'tgz',
+                    archive: 'build/releases/' + projectName + '/win32/' + projectName + '-' + currentVersion + '-Win.tar.gz'
+                },
+                expand: true,
+                cwd: 'build/releases/' + projectName + '/win32/' + projectName,
+                src: '**',
+                dest: projectName
+            },
+            windows64: {
+                options: {
+                    mode: 'tgz',
+                    archive: 'build/releases/' + projectName + '/win64/' + projectName + '-' + currentVersion + '-Win.tar.gz'
+                },
+                expand: true,
+                cwd: 'build/releases/' + projectName + '/win64/' + projectName,
                 src: '**',
                 dest: projectName
             }
