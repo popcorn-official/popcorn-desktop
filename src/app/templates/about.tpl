@@ -2,7 +2,7 @@
     <div class="fa fa-times close-icon"></div>
     <div class="overlay-content"></div>
     <div class="margintop"></div>
-    <img class="icon-title" src="/src/app/images/popcorn-time-logo.svg">
+    <img class="icon-title" src="/src/app/images/butter-logo.svg">
     <div class="content">
 
         <div class="title-version">
