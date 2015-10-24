@@ -114,7 +114,7 @@ module.exports = function (grunt) {
             grunt.task.run('exec:mac32');
         } else if (start.mac64) {
             grunt.task.run('exec:mac64');
-        }  else if (start.linux32) {
+        } else if (start.linux32) {
             grunt.task.run('exec:linux32');
         } else if (start.linux64) {
             grunt.task.run('exec:linux64');
@@ -219,7 +219,7 @@ module.exports = function (grunt) {
                 mac_icns: './src/app/images/butter.icns', // Path to the Mac icon file
                 macZip: buildPlatforms.win, // Zip nw for mac in windows. Prevent path too long if build all is used.
                 mac32: buildPlatforms.mac32,
-				mac64: buildPlatforms.mac64,
+                mac64: buildPlatforms.mac64,
                 win32: buildPlatforms.win32,
                 win64: buildPlatforms.win64,
                 linux32: buildPlatforms.linux32,
@@ -247,10 +247,10 @@ module.exports = function (grunt) {
                 cmd: '"cache/<%= nwjs.options.version %>/win64/nw.exe" .'
             },
             mac32: {
-                cmd: 'cache/mac/<%= nwjs.options.version %>/osx32/nwjs.app/Contents/MacOS/nwjs .'
-            },           
-			mac64: {
-                cmd: 'cache/mac/<%= nwjs.options.version %>/osx64/nwjs.app/Contents/MacOS/nwjs .'
+                cmd: 'cache/<%= nwjs.options.version %>/osx32/nwjs.app/Contents/MacOS/nwjs .'
+            },
+            mac64: {
+                cmd: 'cache/<%= nwjs.options.version %>/osx64/nwjs.app/Contents/MacOS/nwjs .'
             },
             linux32: {
                 cmd: '"build/' + projectName + '/linux32/' + projectName + '" .'
@@ -454,7 +454,7 @@ module.exports = function (grunt) {
                     }
                 }
             },
-			packageMac64: {
+            packageMac64: {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
