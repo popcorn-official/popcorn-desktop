@@ -62,7 +62,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('themes', [
-        /*'shell:themes',*/
+        'shell:themes',
         'clean:css',
         'stylus:official',
         'stylus:third_party'
@@ -80,6 +80,7 @@ module.exports = function (grunt) {
         'nwjs',
         'shell:setexecutable'
     ]);
+
     grunt.registerTask('lang', ['shell:language']);
 
     grunt.registerTask('dist', [
@@ -233,7 +234,7 @@ module.exports = function (grunt) {
                 cmd: 'build/cache/mac/<%= nwjs.options.version %>/nwjs.app/Contents/MacOS/nwjs .'
             },
             linux32: {
-                cmd: '"build/cache/linux32/<%= nwjs.options.version %>/nw" .'
+                cmd: '"build/' + projectName + '/linux32/' + projectName + '" .'
             },
             linux64: {
                 cmd: '"build/' + projectName + '/linux64/' + projectName + '" .'
@@ -278,17 +279,13 @@ module.exports = function (grunt) {
             themes: {
                 command: [
                     'git submodule init',
-                    'cd src/app/styl/third_party/',
-                    'git submodule update --init',
-                    'git pull origin master --force'
+                    'git submodule update'
                 ].join('&&')
             },
             language: {
                 command: [
                     'git submodule init',
-                    'cd src/app/language/',
-                    'git submodule update --init',
-                    'git pull origin master --force'
+                    'git submodule update'
                 ].join('&&')
             },
             setexecutable: {
@@ -468,7 +465,7 @@ module.exports = function (grunt) {
             css: ['src/app/themes/**'],
             dist: ['dist/windows/*-Setup.exe', 'dist/mac/*.dmg'],
             update: ['build/updater/*.*'],
-            nwjs: ['build/cache/**/<%= nwjs.options.version %>/*pdf*', 'build/cache/**/<%= nwjs.options.version %>/*credits*']
+            nwjs: ['cache/**/<%= nwjs.options.version %>/*pdf*', 'cache/**/<%= nwjs.options.version %>/*credits*']
         },
 
         watch: {
