@@ -75,10 +75,13 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'injectgit',
         'bower_clean',
+        /*'lang',*/
         'themes',
         'nwjs',
         'shell:setexecutable'
     ]);
+
+    grunt.registerTask('lang', ['shell:language']);
 
     grunt.registerTask('dist', [
         'clean:releases',
@@ -274,6 +277,12 @@ module.exports = function (grunt) {
 
         shell: {
             themes: {
+                command: [
+                    'git submodule init',
+                    'git submodule update'
+                ].join('&&')
+            },
+            language: {
                 command: [
                     'git submodule init',
                     'git submodule update'
