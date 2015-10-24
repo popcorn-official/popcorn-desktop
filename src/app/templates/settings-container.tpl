@@ -298,6 +298,7 @@
         </div>
     </section>
 
+    <% if(App.Trakt) { %>
     <section id="trakt-tv">
         <div class="title">Trakt.tv</div>
         <div class="content">
@@ -336,7 +337,9 @@
             </div>
         </div>
     </section>
+    <% } %>
 
+    <% if(App.TVShowTime) { %>
 	<section id="tvshowtime">
 		<div class="title">TVShow Time</div>
 		<div class="content">
@@ -358,6 +361,7 @@
 			</div>
 		</div>
 	</section>
+    <% } %>
 
     <section id="opensubtitles">
         <div class="title">OpenSubtitles</div>
@@ -455,6 +459,7 @@
     <section id="connection" class="advanced">
         <div class="title"><%= i18n.__("Connection") %></div>
         <div class="content">
+            <% if(Settings.tvAPI) { %>
             <span>
                 <p><%= i18n.__("TV Show API Endpoint") %></p>
                     <input id="tvAPI" type="text" size="50" name="tvAPI" value="<%=Settings.tvAPI[0].url%>">
@@ -462,6 +467,7 @@
                     &nbsp;&nbsp;<i class="reset-tvAPI fa fa-undo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__('Reset to Default Settings') %>"></i>
                     <% } %>
             </span>
+            <% } %>
             <span>
                 <p><%= i18n.__("Connection Limit") %></p>
                 <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
