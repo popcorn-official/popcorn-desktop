@@ -57,7 +57,7 @@ if [ -e ".git/config" ]; then
             if [ -z "${rd_cln}" ]; then
                 rd_cln='no'
             fi
-            tries=$((${tries}+1))
+            tries=$((tries+1))
             if [ "${rd_cln}" = "yes" ] || [ "${rd_cln}" = "no" ]; then
                 try="False"
             elif [ "$tries" -ge "3" ]; then
@@ -95,7 +95,7 @@ if [ "${clone_repo}" = "True" ]; then
             if [ -z "${rd_ans}" ]; then
                 rd_ans='no'
             fi
-            tries=$((${tries}+1))
+            tries=$((tries+1))
             if [ "${rd_ans}" = "yes" ] || [ "${rd_ans}" = "no" ]; then
                 try="False"
             elif [ "$tries" -ge "3" ]; then
@@ -127,7 +127,7 @@ while [ "${try}" = "True" ]; do
     if [ -z "${rd_dep}" ]; then
         rd_dep="yes"
     fi
-    tries=$((${tries}+1))
+    tries=$((tries+1))
     if [ "${rd_dep}" = "yes" ] || [ "${rd_dep}" = "no" ]; then
         try="False"
     elif [ "$tries" -ge "3" ]; then
