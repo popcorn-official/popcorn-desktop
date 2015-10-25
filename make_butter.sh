@@ -15,16 +15,16 @@
 
 
 clone_repo="True"
-if [ -z "${1}" ]; then
+if [ -z "$1" ]; then
     clone_url="https://github.com/butterproject/butter.git"
-elif [ "${1}" = "ssh" ]; then
+elif [ "$1" = "ssh" ]; then
     clone_url="ssh://git@github.com:butterproject/butter.git"
 else
-    clone_url="${1}"
+    clone_url="$1"
 fi
 
 execsudo() {
-    case ${OSTYPE} in msys*)
+    case $OSTYPE in msys*)
        echo $OSTYPE
        $1
        ;;
@@ -35,7 +35,7 @@ execsudo() {
 }
 
 clone_command() {
-    if git clone ${clone_url} ${dir}; then
+    if git clone $clone_url $dir; then
         echo "Cloned Butter successfully"
     else
         echo "Butter encountered an error and could not be cloned"
@@ -45,20 +45,20 @@ clone_command() {
 
 if [ -e ".git/config" ]; then
     dat=$(grep url .git/config)
-    case ${dat} in *butter*)
+    case $dat in *butter*)
         echo "You appear to be inside of a Butter repository already, not cloning"
         clone_repo="False"
         ;;
     *)
         try="True"
         tries=0
-        while [ "${try}" = "True" ]; do
+        while [ "$try" = "True" ]; do
             read -p "Looks like we are inside a git repository, do you wish to clone inside it? (yes/no) [no] " rd_cln
-            if [ -z "${rd_cln}" ]; then
+            if [ -z "$rd_cln" ]; then
                 rd_cln='no'
             fi
             tries=$((tries+1))
-            if [ "${rd_cln}" = "yes" ] || [ "${rd_cln}" = "no" ]; then
+            if [ "$rd_cln" = "yes" ] || [ "$rd_cln" = "no" ]; then
                 try="False"
             elif [ "$tries" -ge "3" ]; then
                 echo "No valid input, exiting"
@@ -76,27 +76,27 @@ if [ -e ".git/config" ]; then
         ;;
     esac
 fi
-if [ "${clone_repo}" = "True" ]; then
+if [ "$clone_repo" = "True" ]; then
     echo "Cloning Butter"
     read -p "Where do you wish to clone butter to? [butter] " dir
-    if [ -z "${dir}" ]; then
+    if [ -z "$dir" ]; then
         dir='butter'
-    elif [ "${dir}" = "/" ]; then
+    elif [ "$dir" = "/" ]; then
         dir='butter'
     fi
-    if [ ! -d "${dir}" ]; then
+    if [ ! -d "$dir" ]; then
         clone_command
 
     else
         try="True"
         tries=0
         while [ "$try" = "True" ]; do
-            read -p "Directory ${dir} already exists, do you wish to delete it and redownload? (yes/no) [no] " rd_ans
-            if [ -z "${rd_ans}" ]; then
+            read -p "Directory $dir already exists, do you wish to delete it and redownload? (yes/no) [no] " rd_ans
+            if [ -z "$rd_ans" ]; then
                 rd_ans='no'
             fi
             tries=$((tries+1))
-            if [ "${rd_ans}" = "yes" ] || [ "${rd_ans}" = "no" ]; then
+            if [ "$rd_ans" = "yes" ] || [ "$rd_ans" = "no" ]; then
                 try="False"
             elif [ "$tries" -ge "3" ]; then
                 echo "No valid input, exiting"
@@ -105,14 +105,14 @@ if [ "${clone_repo}" = "True" ]; then
                 echo "Not a valid answer, please try again"
             fi
         done
-        if [ "${rd_ans}" = "yes" ]; then
+        if [ "$rd_ans" = "yes" ]; then
             echo "Removing old directory"
-            if [ "${dir}" != "." ] || [ "${dir}" != "$PWD" ]; then
+            if [ "$dir" != "." ] || [ "$dir" != "$PWD" ]; then
                 echo "Cleaning up from inside the destination directory"
-                sudo rm -rf ${dir}/*
+                sudo rm -rf $dir/*
             else
                 echo "Cleaning up from outside the destination directory"
-                sudo rm -rf ${dir}
+                sudo rm -rf $dir
             fi
             clone_command
         else
@@ -122,13 +122,13 @@ if [ "${clone_repo}" = "True" ]; then
 fi
 try="True"
 tries=0
-while [ "${try}" = "True" ]; do
+while [ "$try" = "True" ]; do
     read -p "Do you wish to install the required dependencies for Butter and setup for building? (yes/no) [yes] " rd_dep
-    if [ -z "${rd_dep}" ]; then
+    if [ -z "$rd_dep" ]; then
         rd_dep="yes"
     fi
     tries=$((tries+1))
-    if [ "${rd_dep}" = "yes" ] || [ "${rd_dep}" = "no" ]; then
+    if [ "$rd_dep" = "yes" ] || [ "$rd_dep" = "no" ]; then
         try="False"
     elif [ "$tries" -ge "3" ]; then
         echo "No valid input, exiting"
@@ -138,13 +138,13 @@ while [ "${try}" = "True" ]; do
     fi
 done
 
-if [ -z "${dir}" ]; then
+if [ -z "$dir" ]; then
     dir="."
 fi
-cd ${dir}
-echo "Switched to ${PWD}"
+cd $dir
+echo "Switched to $PWD"
 
-if [ "${rd_dep}" = "yes" ]; then
+if [ "$rd_dep" = "yes" ]; then
     echo "Installing global dependencies"
     if execsudo "npm install -g bower grunt-cli"; then
         echo "Global dependencies installed successfully!"
@@ -162,7 +162,7 @@ if [ "${rd_dep}" = "yes" ]; then
     fi
 
     curh=$HOME
-    case ${OSTYPE} in msys*)
+    case $OSTYPE in msys*)
         ;;
         *)
         if execsudo "chown -R $USER ." && execsudo "chown -R $USER $curh/.cache"; then
