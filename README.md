@@ -1,5 +1,7 @@
 # [Butter](https://github.com/butterproject/butter)
 
+[![Build Status](https://travis-ci.org/butterproject/butter.svg?branch=master)](https://travis-ci.org/butterproject/butter)
+
 Allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
 Visit the project's website at <https://butterproject.org>.
