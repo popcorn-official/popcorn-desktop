@@ -1,15 +1,15 @@
 /** Default settings **/
 var Settings = {
     projectName: 'Butter',
-    projectUrl: 'https://butterproject.org',
+    projectUrl: 'http://butterproject.org',
     projectTwitter: 'butterproject',
     projectFacebook: 'ButterProjectOrg',
     projectGooglePlus: 'ButterProject',
-    projectBlog: 'https://butterproject.github.com/butter/blog',
-    projectForum: 'https://butterproject.github.com/butter/forum',
+    projectBlog: 'https://butterproject.github.io/butter/blog',
+    projectForum: 'https://butterproject.github.io/butter/forum',
 
     statusUrl: 'https://status.butterproject.org',
-    changelogUrl: 'https://butterproject.github.com/butter/',
+    changelogUrl: 'https://butterproject.github.io/butter/',
     issuesUrl: 'https://github.com/butterproject/butter/issues',
     sourceUrl: 'https://github.com/butterproject/butter/',
     commitUrl: 'https://github.com/butterproject/butter/commit'

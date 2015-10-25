@@ -24,7 +24,7 @@ func_error
 
 #Variables
 version="BT_VERSION"
-tos="https://butterproject.github.com/butter/tos"
+tos="https://butterproject.github.io/tos.html"
 
 #Disclaimer
 clear
