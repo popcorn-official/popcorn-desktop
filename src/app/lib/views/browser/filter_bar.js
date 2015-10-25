@@ -442,7 +442,7 @@
             var that = this;
             $('.spinner').show();
 
-            App.Providers.get('Yts').random()
+            App.Providers.get('Vodo').random()
                 .then(function (data) {
                     if (App.watchedMovies.indexOf(data.imdb_code) !== -1) {
                         that.randomMovie();
@@ -466,6 +466,7 @@
                     $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                 });
         }
+
     });
 
     App.View.FilterBar = App.View.FilterBar.extend({
