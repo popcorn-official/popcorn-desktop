@@ -44,7 +44,7 @@ clone_command() {
 }
 
 if [ -e ".git/config" ]; then
-    dat=`cat .git/config | grep 'url'`
+    dat=$(grep url .git/config)
     case ${dat} in *butter*)
         echo "You appear to be inside of a Butter repository already, not cloning"
         clone_repo="False"
