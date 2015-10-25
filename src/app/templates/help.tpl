@@ -44,8 +44,8 @@
                     <br><br>
 
                 <b>B) <%= i18n.__("Second method") %></b><br>
-                    <%= i18n.__("You can create an account on our %s repository, and click on %s.", '<a class="links" href="<%= Settings.sourceUrl %>">GitLab</a>', '"Issues"') %>
-                        <li><%= i18n.__("Use the %s issue filter to search and check if the issue has already been reported or is already fixed.", 'GitLab') %></li>
+                    <%= i18n.__('You can create an account on our <a class="links" href="%s">GitHub</a> repository, and click on "Issues".', Settings.issuesUrl) %>
+                        <li><%= i18n.__("Use the %s issue filter to search and check if the issue has already been reported or is already fixed.", 'GitHub') %></li>
                         <li><%= i18n.__("Include a screenshot if relevant - Is your issue about a design feature or a bug?") %></li>
                     <br>
                     <%= i18n.__("A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment.") %>

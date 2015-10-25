@@ -14,7 +14,7 @@ Want to report a bug, request a feature, contribute or translate Butter? Check o
 
 If you're comfortable getting up and running from a `git clone`, this method is for you.
 
-If you clone the GitLab repository, you will need to build a number of assets using grunt.
+If you clone the GitHub repository, you will need to build a number of assets using grunt.
 
 The [master](https://github.com/butterproject/butter) branch which contains the latest release.
 

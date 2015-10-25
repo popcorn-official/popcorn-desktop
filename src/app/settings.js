@@ -10,9 +10,9 @@ var Settings = {
 
     statusUrl: 'https://status.butterproject.org',
     changelogUrl: 'https://butterproject.github.com/butter/',
-    issuesUrl: 'https://butterproject.github.com/butter/issues',
-    sourceUrl: 'https://butterproject.github.com/butter/',
-    commitUrl: 'https://butterproject.github.com/butter/commit/'
+    issuesUrl: 'https://github.com/butterproject/butter/issues',
+    sourceUrl: 'https://github.com/butterproject/butter/',
+    commitUrl: 'https://github.com/butterproject/butter/commit'
 };
 
 // User interface
