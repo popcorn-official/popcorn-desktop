@@ -2,7 +2,7 @@
 (function (App) {
     'use strict';
 
-    var apiUrl = 'http://vodo.net/popcorn',
+    var apiUrl = 'http://butter.vodo.net/popcorn',
         db = new Datastore();
 
     function Vodo() {
@@ -162,6 +162,38 @@
                     });
                 });
         });
+
+        return defer.promise;
+    };
+
+    Vodo.prototype.random = function () {
+        var defer = Q.defer();
+
+        function get(index) {
+            var options = {
+                uri: apiUrl + Math.round((new Date()).valueOf() / 1000),
+                json: true,
+                timeout: 10000
+            };
+            var req = jQuery.extend(true, {}, apiUrl[index], options);
+            request(req, function (err, res, data) {
+                if (err || res.statusCode >= 400 || (data && !data.data)) {
+                    win.warn('Vodo API endpoint \'%s\' failed.', apiUrl);
+                    if (index + 1 >= apiUrl.length) {
+                        return defer.reject(err || 'Status Code is above 400');
+                    } else {
+                        get(index + 1);
+                    }
+                    return;
+                } else if (!data || data.status === 'error') {
+                    err = data ? data.status_message : 'No data returned';
+                    return defer.reject(err);
+                } else {
+                    return defer.resolve(Common.sanitize(data.data));
+                }
+            });
+        }
+        get(0);
 
         return defer.promise;
     };
