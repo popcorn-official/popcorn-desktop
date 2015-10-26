@@ -4,7 +4,7 @@
 
 Allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
 
-Visit the project's website at <https://butterproject.org>.
+Visit the project's website at <http://butterproject.org>.
 
 ***
 
