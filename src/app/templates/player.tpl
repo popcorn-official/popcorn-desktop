@@ -82,7 +82,6 @@
         subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" '+ imDefault +' />';
     }
 %>
-<video id="video_player" width="100%" height="100%" class="video-js vjs-popcorn-skin" controls preload="auto" autoplay >
-    <source src="<%= src %>" type="<%= type %>" />
-    <%=subtracks%>
-</video>
+<div id="video_player" width="100%" height="100%" class="video-js vjs-popcorn-skin">
+
+</div>

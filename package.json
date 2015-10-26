@@ -1,6 +1,6 @@
 {
   "name": "Butter",
-  "homepage": "https://butterproject.github.io/",
+  "homepage": "https://butterproject.github.com/butter",
   "bugs": "https://github.com/butterproject/butter/issues",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
   "window": {
     "title": "Butter",
     "icon": "src/app/images/icon.png",
-    "toolbar": true,
+    "toolbar": false,
     "frame": false,
     "min_width": 960,
     "min_height": 520,
@@ -47,7 +47,7 @@
     "node-captions": "0.3.8",
     "node-tvdb": "1.3.1",
     "node-webkit-fdialogs": "latest",
-    "nodecast-js": "^0.1.2",
+    "nodecast-js": "git+https://github.com/gyzerok/nodecast-js",
     "nw": "^0.12.3",
     "opensubtitles-api": "1.x.x",
     "os-name": "1.x.x",

@@ -8,6 +8,7 @@
     var remaining = false;
     var createdRemaining = false;
     var firstPlay = true;
+    var wcjs = require("wcjs-player");
 
     var Player = Backbone.Marionette.ItemView.extend({
         template: '#player-tpl',
@@ -161,9 +162,9 @@
             App.vent.trigger('preload:stop');
             App.vent.trigger('stream:stop');
 
-            var vjsPlayer = document.getElementById('video_player');
-            if (vjsPlayer) {
-                videojs(vjsPlayer).dispose();
+            var videoPlayer = new wcjs ("#video_player").addPlayer({ autoplay: true})
+            if (videoPlayer) {
+                videojs(videoPlayer).dispose();
             }
 
             this.destroy();
@@ -192,6 +193,7 @@
 
                 _this.processNext();
             }
+            var player;
             if (this.model.get('type') === 'video/youtube') {
 
                 this.video = videojs('video_player', {
@@ -222,41 +224,13 @@
                     });
 
             } else {
-                this.video = videojs('video_player', {
-                    nativeControlsForTouch: false,
-                    trackTimeOffset: 0,
-                    plugins: {
-                        biggerSubtitle: {},
-                        smallerSubtitle: {},
-                        customSubtitles: {},
-                        progressTips: {}
-                    }
-                });
+                player = this.player =new  wcjs('#video_player').addPlayer({ autoplay: true});
+                player.addPlaylist(this.model.get('src'))
             }
-            var player = this.video.player();
-            this.player = player;
+            debugger
             App.PlayerView = this;
 
-            /* The following is a hack to make VideoJS listen to
-                        mouseup instead of mousedown for pause/play on the
-                        video element. Stops video pausing/playing when
-                        dragged. TODO: #fixit! /XC                        */
-            this.player.tech.off('mousedown');
-            this.player.tech.on('mouseup', function (event) {
-                if (event.target.origEvent) {
-                    if (!event.target.origEvent.originalEvent.defaultPrevented) {
-                        _this.player.tech.onClick(event);
-                    }
-                    // clean up after ourselves
-                    delete event.target.origEvent;
-                } else {
-                    _this.player.tech.onClick(event);
-                }
-            });
-            // Force custom controls
-            player.usingNativeControls(false);
-
-            player.on('ended', function () {
+            player.onEnded(function () {
                 // For now close player. In future we will check if auto-play etc and get next episode
 
                 if (_this.model.get('auto_play')) {
@@ -934,9 +908,9 @@
             }
             this.unbindKeyboardShortcuts();
             App.vent.trigger('player:close');
-            var vjsPlayer = document.getElementById('video_player');
-            if (vjsPlayer) {
-                videojs(vjsPlayer).dispose();
+            var videoPlayer = document.getElementById('video_player');
+            if (videoPlayer) {
+                videojs(videoPlayer).dispose();
             }
         }
 
