@@ -156,18 +156,32 @@
 			peer: peers
 		};
 
-
+                console.error (movie);
 		return {
+                        type:     'movie',
 			imdb:     id,
 			title:    metadata.title[0],
+                        genre:    metadata.collection,
                         year: 	  year,
 			rating:   rating,
                         runtime:  runtime,
 			image:    movie.misc.image,
+                        cover:    movie.misc.image,
 			torrents: torrents,
-                        synopsis: metadata.description
+                        synopsis: metadata.description,
+                        subtitle: {} // TODO
+
 		};
 	};
+
+        Archive.prototype.config = {
+                uniqueId: 'imdb_id',
+                tabName: 'Archive.org',
+                type: 'movie',
+                /* should be removed */
+                //subtitle: 'ysubs',
+                metadata: 'trakttv:movie-metadata'
+        };
 
 	Archive.prototype.extractIds = function(items) {
 		return _.pluck(items.results, 'imdb');
@@ -177,6 +191,10 @@
 		return queryTorrents(filters)
 			.then(queryDetails);
 	};
+
+        Archive.prototype.detail = function (torrent_id, old_data) {
+                return Q(old_data);
+        };
 
 	App.Providers.Archive = Archive;
 
