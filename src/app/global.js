@@ -40,7 +40,7 @@ var
 
     // Web
     querystring = require('querystring'),
-    URI = require('URIjs'),
+    URI = require('urijs'),
 
     // Torrent engines
     peerflix = require('peerflix'),
