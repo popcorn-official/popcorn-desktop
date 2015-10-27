@@ -19,7 +19,7 @@
     "window": {
         "title": "Butter",
         "icon": "src/app/images/icon.png",
-        "toolbar": true,
+        "toolbar": false,
         "frame": false,
         "min_width": 960,
         "min_height": 520,
