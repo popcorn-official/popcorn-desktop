@@ -494,5 +494,10 @@
 	"Correct": "Correct",
 	"Initializing %s. Please Wait...": "Initializing %s. Please Wait...",
 	"Indie": "Indie",
-	"%s stores an encrypted hash of your password in your local database": "%s stores an encrypted hash of your password in your local database"
+	"%s stores an encrypted hash of your password in your local database": "%s stores an encrypted hash of your password in your local database",
+	"sci-fi": "sci-fi",
+	"dance,opera,ballet": "dance,opera,ballet",
+	"feature_films": "feature_films",
+	"moviesandfilms": "moviesandfilms",
+	"Comedy_Films": "Comedy_Films"
 }

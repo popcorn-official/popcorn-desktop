@@ -200,7 +200,7 @@
         },
 
         providers: {
-            movie: ['Vodo'],
+            movie: ['Vodo', 'Archive'],
             subtitle: 'YSubs',
             metadata: 'Trakttv',
             tvst: 'TVShowTime',
