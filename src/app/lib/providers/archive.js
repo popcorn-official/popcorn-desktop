@@ -19,7 +19,8 @@
                 query    += ' AND year'; // this is actually: has year
 //                query    += ' AND avg_rating'; // this is actually: has year
 
-                var sort = 'downloads';
+                //                var sort = 'downloads';
+                var sort = 'avg_rating';
 
 		var params = {
                         output: 'json',
