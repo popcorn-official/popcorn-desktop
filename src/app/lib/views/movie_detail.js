@@ -150,7 +150,8 @@
         },
 
         handleAnime: function () {
-            if (this.model.get('imdb_id').indexOf('mal') === -1) {
+            var id = this.model.get('imdb_id');
+            if (id && id.indexOf('mal') === -1) {
                 return;
             }
 
