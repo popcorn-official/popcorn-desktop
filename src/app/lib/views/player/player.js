@@ -54,7 +54,6 @@
             this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
             this.listenTo(this.model, 'change:downloaded', this.updateDownloaded);
 
-            this.video = false;
             this.inFullscreen = win.isFullscreen;
         },
 
@@ -98,8 +97,8 @@
             // verify custom subtitles not modified
             if (AdvSettings.get('opensubtitlesAutoUpload') && this.customSubtitles && !this.customSubtitles.modified) {
                 var real_elapsedTime = (Date.now() - this.customSubtitles.added_at) / 1000;
-                var player_elapsedTime = this.video.currentTime() - this.customSubtitles.timestamp;
-                var perc_elapsedTime = player_elapsedTime / this.video.duration();
+                var player_elapsedTime = this.player.time() - this.customSubtitles.timestamp;
+                var perc_elapsedTime = player_elapsedTime / this.player.length();
 
                 // verify was played long enough
                 if (real_elapsedTime >= player_elapsedTime && perc_elapsedTime >= 0.7) {
@@ -140,14 +139,14 @@
             if (type === 'episode') {
                 type = 'show';
             }
-            if (this.video.currentTime() / this.video.duration() >= 0.8 && type !== undefined && this.model.get('metadataCheckRequired') !== false) {
+            if (this.player.time() / this.player.length() >= 0.8 && type !== undefined && this.model.get('metadataCheckRequired') !== false) {
                 App.vent.trigger(type + ':watched', this.model.attributes, 'database');
             }
 
             // remember position
-            if (this.video.currentTime() / this.video.duration() < 0.8) {
+            if (this.player.time() / this.player.length() < 0.8) {
                 AdvSettings.set('lastWatchedTitle', this.model.get('title'));
-                AdvSettings.set('lastWatchedTime', this.video.currentTime() - 5);
+                AdvSettings.set('lastWatchedTime', this.player.time() - 5);
             } else {
                 AdvSettings.set('lastWatchedTime', false);
             }
@@ -162,9 +161,9 @@
             App.vent.trigger('preload:stop');
             App.vent.trigger('stream:stop');
 
-            var videoPlayer = new wcjs ("#video_player").addPlayer({ autoplay: true})
-            if (videoPlayer) {
-                videojs(videoPlayer).dispose();
+            if (this.player) {
+                this.player.stop()
+                delete this.player;
             }
 
             this.destroy();
@@ -195,7 +194,7 @@
             }
             var player;
             if (this.model.get('type') === 'video/youtube') {
-
+/*
                 this.video = videojs('video_player', {
                     techOrder: ['youtube'],
                     forceSSL: true,
@@ -222,7 +221,7 @@
                         _this.toggleFullscreen();
                         event.preventDefault();
                     });
-
+*/
             } else {
                 player = this.player =new  wcjs('#video_player').addPlayer({ autoplay: true});
                 player.addPlaylist(this.model.get('src'))
@@ -245,7 +244,7 @@
                 _this.customSubtitles = {
                     subPath: subpath,
                     added_at: Date.now(),
-                    timestamp: _this.video.currentTime(),
+                    timestamp: _this.player.time(),
                     modified: false
                 };
                 $('#video_player li:contains("' + i18n.__('Disabled') + '")').on('click', function () {
@@ -274,7 +273,7 @@
 
             var checkAutoPlay = function () {
                 if (_this.isMovie() === 'episode' && next_episode_model) {
-                    if ((_this.video.duration() - _this.video.currentTime()) < 60 && _this.video.currentTime() > 30) {
+                    if ((_this.player.length() - _this.player.time()) < 60 && _this.player.time() > 30) {
 
                         if (!autoplayisshown) {
 
@@ -292,7 +291,7 @@
                             }
                         }
 
-                        var count = Math.round(_this.video.duration() - _this.video.currentTime());
+                        var count = Math.round(_this.player.length() - _this.player.time());
                         $('.playing_next #nextCountdown').text(count);
 
                     } else {
@@ -344,7 +343,7 @@
                     var type = _this.isMovie();
                     var id = type === 'movie' ? _this.model.get('imdb_id') : _this.model.get('episode_id');
                     App.Trakt.sync.playback(type, id).then(function (position_percent) {
-                        var total = _this.video.duration();
+                        var total = _this.player.length();
                         var position = (position_percent / 100) * total | 0;
                         if (position > 0) {
                             win.debug('Resuming position to', position.toFixed(), 'secs (reported by Trakt)');
@@ -447,7 +446,7 @@
         sendToTrakt: function (method) {
             var type = _this.isMovie();
             var id = type === 'movie' ? _this.model.get('imdb_id') : _this.model.get('episode_id');
-            var progress = _this.video.currentTime() / _this.video.duration() * 100 | 0;
+            var progress = _this.player.time() / _this.player.length() * 100 | 0;
             App.Trakt.scrobble(method, type, id, progress);
         },
 
@@ -908,9 +907,9 @@
             }
             this.unbindKeyboardShortcuts();
             App.vent.trigger('player:close');
-            var videoPlayer = document.getElementById('video_player');
-            if (videoPlayer) {
-                videojs(videoPlayer).dispose();
+            if (this.player) {
+                this.player.stop()
+                delete this.player
             }
         }
 
