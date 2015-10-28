@@ -46,22 +46,23 @@
                 var idsPromise = torrentsPromise.then(_.bind(torrentProvider.extractIds, torrentProvider));
                 var promises = [
                     torrentsPromise,
-                    subtitle?idsPromise.then(_.bind(subtitle.fetch, subtitle)):true,
-                    metadata?idsPromise.then(function (ids) {
-                        return Q.allSettled(_.map (ids, function (id) {
-                            return metadata.movies.summary (id)
-                        }))
-                    }):true
+                    subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)) : true,
+                    metadata ? idsPromise.then(function (ids) {
+                        return Q.allSettled(_.map(ids, function (id) {
+                            return metadata.movies.summary(id);
+                        }));
+                    }) : true
                 ];
 
                 Q.all(promises)
                     .spread(function (torrents, subtitles, metadatas) {
                         // If a new request was started...
-                        metadatas = _.map (metadatas, function (m) {
-                            if (! m || ! m.value)
-                                return {}
-                            m = m.value
-                            console.log (m)
+                        metadatas = _.map(metadatas, function (m) {
+                            if (!m || !m.value) {
+                                return {};
+                            }
+
+                            m = m.value;
                             m.id = m.ids.imdb;
                             return m;
                         });
@@ -87,7 +88,9 @@
                             }
 
                             if (metadatas) {
-                                var info = _.findWhere(metadatas, {id: id});
+                                var info = _.findWhere(metadatas, {
+                                    id: id
+                                });
 
                                 if (info) {
                                     _.extend(movie, {
@@ -110,8 +113,9 @@
                                         }
                                     }
 
-                                    if (info.images.fanart)
+                                    if (info.images.fanart) {
                                         movie.backdrop = info.images.full;
+                                    }
                                 } else {
                                     win.warn('Unable to find %s on Trakt.tv', id);
                                 }
@@ -132,15 +136,14 @@
             var torrentPromises = _.map(torrents, function (rawData) {
                 return getDataFromProvider(rawData).then(function (torrents) {
                     self.add(torrents.results);
-                    self.hasMore = _.pluck(torrents, 'hasMore')[0];
+                    self.hasMore = true;
                     self.trigger('sync', self);
-                }).catch (function (err) {
-                    console.error ('err', err)
-                })
+                }).catch(function (err) {
+                    console.error('err', err);
+                });
             });
 
             Q.all(torrentPromises).done(function (torrents) {
-                console.log ('all torrent done')
                 self.state = 'loaded';
                 self.trigger('loaded', self, self.state);
             });
