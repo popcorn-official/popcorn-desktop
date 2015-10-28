@@ -42,7 +42,7 @@
                 })[0];
                 cmd += videoFile ? (getPlayerFilenameSwitch(this.get('id')) + '"' + videoFile.name + '" ') : '';
             }
-            cmd += url;
+            cmd += getPlayerUrlSwitch(this.get('id')) + url;
             win.info('Launching External Player: ' + cmd);
             child.exec(cmd, function (error, stdout, stderr) {
                 if (streamModel.attributes.device.id === 'Bomi') {
@@ -75,6 +75,11 @@
         var name = getPlayerName(loc);
         return players[name].filenameswitch || '';
     }
+    
+    function getPlayerUrlSwitch(loc) {
+        var name = getPlayerName(loc);
+        return players[name].urlswitch || '';
+    }
 
     function getPlayerCmd(loc) {
         var name = getPlayerName(loc);
@@ -105,6 +110,14 @@
             type: 'fleex-player',
             cmd: '/Contents/MacOS/Fleex player',
             filenameswitch: '-file-name '
+        },
+        'MPlayerX': {
+            type: 'mplayer',
+            cmd: '/Contents/MacOS/MPlayerX',
+            switches: '-font "/Library/Fonts/Arial Bold.ttf"',
+            urlswitch: '-url ',
+            subswitch: '-sub ',
+            fs: '-fs',
         },
         'MPlayer OSX Extended': {
             type: 'mplayer',
