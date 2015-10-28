@@ -5,11 +5,11 @@ var Settings = {
     projectTwitter: 'butterproject',
     projectFacebook: 'ButterProjectOrg',
     projectGooglePlus: 'ButterProject',
-    projectBlog: 'https://butterproject.github.io/butter/blog',
-    projectForum: 'https://butterproject.github.io/butter/forum',
+    projectBlog: 'http://blog.butterproject.org/',
+    projectForum: 'http://discuss.butterproject.org/',
 
     statusUrl: 'https://status.butterproject.org',
-    changelogUrl: 'https://butterproject.github.io/butter/',
+    changelogUrl: 'https://github.com/butterproject/butter-desktop/commits/master',
     issuesUrl: 'https://github.com/butterproject/butter-desktop/issues',
     sourceUrl: 'https://github.com/butterproject/butter-desktop/',
     commitUrl: 'https://github.com/butterproject/butter-desktop/commit'
@@ -109,7 +109,7 @@ Settings.updateEndpoint = {
         url: 'https://butterproject.org/',
         fingerprint: '',
     }, {
-        url: 'https://butterproject.github.com/butter/updates',
+        url: 'https://butterproject.github.io/',
         fingerprint: ''
     }]
 };
