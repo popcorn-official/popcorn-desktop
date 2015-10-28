@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/butterproject/butter.svg?branch=master)](https://travis-ci.org/butterproject/butter)
 
-Allow any computer user to watch movies easily streaming from torrents, without any particular knowledge.
+Allow any user to easily watch movies through torrent streaming, without any prerequisites.
 
 Visit the project's website at <http://butterproject.org>.
 
@@ -10,7 +10,7 @@ Visit the project's website at <http://butterproject.org>.
 
 ## Getting Involved
 
-Want to report a bug, request a feature, contribute or translate Butter? Check out our in-depth guide to [Contributing to Butter](CONTRIBUTING.md). We need all the help we can get! You can also join in with our [community](README.md#community) to keep up-to-date and meet other Butterrs.
+Want to report a bug, request a feature, contribute to or translate Butter? Check out our in-depth guide to [Contributing to Butter](CONTRIBUTING.md). We need all the help we can get! You can also join our [community](README.md#community) to keep up-to-date and meet other Butterrs.
 
 ## Getting Started
 
