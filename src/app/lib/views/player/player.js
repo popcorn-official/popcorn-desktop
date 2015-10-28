@@ -8,7 +8,7 @@
     var remaining = false;
     var createdRemaining = false;
     var firstPlay = true;
-    var wcjs = require("wcjs-player");
+    var wcjs = require('wcjs-player');
 
     var Player = Backbone.Marionette.ItemView.extend({
         template: '#player-tpl',
@@ -162,7 +162,7 @@
             App.vent.trigger('stream:stop');
 
             if (this.player) {
-                this.player.stop()
+                this.player.stop();
                 delete this.player;
             }
 
@@ -224,9 +224,8 @@
 */
             } else {
                 player = this.player =new  wcjs('#video_player').addPlayer({ autoplay: true});
-                player.addPlaylist(this.model.get('src'))
+                player.addPlaylist(this.model.get('src'));
             }
-            debugger
             App.PlayerView = this;
 
             player.onEnded(function () {
@@ -306,7 +305,7 @@
                     }
                 }
             };
-
+/*
             player.one('play', function () {
                 if (_this.model.get('type') === 'video/youtube') {
                     // XXX quality fix
@@ -332,8 +331,8 @@
                     _this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
                 }
             });
-
-            player.on('loadeddata', function () {
+*/
+            player.onOpening(function () {
                 // resume position
                 if (AdvSettings.get('lastWatchedTitle') === _this.model.get('title') && AdvSettings.get('lastWatchedTime') > 0) {
                     var position = AdvSettings.get('lastWatchedTime');
@@ -356,7 +355,7 @@
                 _this.sendToTrakt('start');
             });
 
-            player.on('play', function () {
+            player.onPlaying(function () {
                 // Trigger a resize so the subtitles are adjusted
                 $(window).trigger('resize');
 
@@ -386,7 +385,7 @@
                 _this.sendToTrakt('start');
             });
 
-            player.on('pause', function () {
+            player.onPaused(function () {
                 if (_this.player.scrubbing) {
                     _this.wasSeek = true;
                 } else {
@@ -404,7 +403,7 @@
             _this.bindKeyboardShortcuts();
 
             // There was an issue with the video
-            player.on('error', function (error) {
+            player.onError(function (error) {
                 _this.sendToTrakt('stop');
                 // TODO: user errors
                 if (_this.model.get('type') === 'video/youtube') {
@@ -908,8 +907,8 @@
             this.unbindKeyboardShortcuts();
             App.vent.trigger('player:close');
             if (this.player) {
-                this.player.stop()
-                delete this.player
+                this.player.stop();
+                delete this.player;
             }
         }
 
