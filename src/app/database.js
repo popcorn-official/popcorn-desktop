@@ -264,7 +264,7 @@ var Database = {
                 episode: data.episode.toString()
             }))
             .then(function (data) {
-                return (data != null && data.length > 0);
+                return (data !== null && data.length > 0);
             });
     },
 
@@ -395,7 +395,7 @@ var Database = {
         return Database.getUserInfo()
             .then(Database.getSettings)
             .then(function (data) {
-                if (data != null) {
+                if (data !== null) {
                     for (var key in data) {
                         Settings[data[key].key] = data[key].value;
                     }
