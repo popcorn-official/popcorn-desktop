@@ -57,6 +57,15 @@
                 Q.all(promises)
                     .spread(function (torrents, subtitles, metadatas) {
                         // If a new request was started...
+                        metadatas = _.map (metadatas, function (m) {
+                            if (! m || ! m.value)
+                                return {}
+                            m = m.value
+                            console.log (m)
+                            m.id = m.ids.imdb;
+                            return m;
+                        });
+
                         _.each(torrents.results, function (movie) {
                             var id = movie[self.popid];
                             /* XXX(xaiki): check if we already have this
@@ -78,10 +87,7 @@
                             }
 
                             if (metadatas) {
-                                var whash = {};
-                                whash[self.popid] = id;
-
-                                var info = _.findWhere(metadatas, whash);
+                                var info = _.findWhere(metadatas, {id: id});
 
                                 if (info) {
                                     _.extend(movie, {
@@ -93,9 +99,14 @@
                                         title: info.title,
                                         trailer: info.trailer,
                                         year: info.year,
-                                        image: info.images.poster,
-                                        backdrop: info.images.fanart
+                                        images: info.images
                                     });
+
+
+                                    if (info.images.poster)
+                                        movie.image = info.images.poster;
+                                    if (info.images.fanart)
+                                        movie.backdrop = info.images.fanart
                                 } else {
                                     win.warn('Unable to find %s on Trakt.tv', id);
                                 }
@@ -115,7 +126,6 @@
 
             var torrentPromises = _.map(torrents, function (rawData) {
                 return getDataFromProvider(rawData).then(function (torrents) {
-                    console.log ('got torrents', torrents)
                     self.add(torrents.results);
                     self.hasMore = _.pluck(torrents, 'hasMore')[0];
                     self.trigger('sync', self);
