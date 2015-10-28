@@ -101,7 +101,7 @@ Description: $projectName
 echo "Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0
 Upstream-Name: $projectName
 Upstream-Contact: $projectName Project <butter@xaiki.net>
-Source: https://github.com/butterproject/butter
+Source: https://github.com/butterproject/butter-desktop
 
 Files: *
 Copyright: © 2015, $projectName Project and the contributors <butter@xaiki.net>

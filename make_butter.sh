@@ -10,15 +10,15 @@
 ## If you use 'ssh' in the place of the optional [url] parameter, it will clone via ssh instead of http
 ##
 ## Optionally, you can also pass in a specific branch to build or clone, by making url contain a branch specifier
-## ./make_butter.sh '-b release/0.3.4 https://github.com/butterproject/butter'
+## ./make_butter.sh '-b release/0.3.4 https://github.com/butterproject/butter-desktop'
 ##
 
 
 clone_repo="True"
 if [ -z "$1" ]; then
-    clone_url="https://github.com/butterproject/butter.git"
+    clone_url="https://github.com/butterproject/butter-desktop.git"
 elif [ "$1" = "ssh" ]; then
-    clone_url="ssh://git@github.com:butterproject/butter.git"
+    clone_url="ssh://git@github.com:butterproject/butter-desktop.git"
 else
     clone_url="$1"
 fi

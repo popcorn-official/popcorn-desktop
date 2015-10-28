@@ -1,6 +1,6 @@
-# [Butter](https://github.com/butterproject/butter)
+# [Butter](https://github.com/butterproject/butter-desktop)
 
-[![Build Status](https://travis-ci.org/butterproject/butter.svg?branch=master)](https://travis-ci.org/butterproject/butter)
+[![Build Status](https://travis-ci.org/butterproject/butter-desktop.svg?branch=master)](https://travis-ci.org/butterproject/butter-desktop)
 
 Allow any user to easily watch movies through torrent streaming, without any prerequisites.
 
@@ -18,7 +18,7 @@ If you're comfortable getting up and running from a `git clone`, this method is 
 
 If you clone the GitHub repository, you will need to build a number of assets using grunt.
 
-The [master](https://github.com/butterproject/butter) branch which contains the latest release.
+The [master](https://github.com/butterproject/butter-desktop) branch which contains the latest release.
 
 #### Quickstart:
 
