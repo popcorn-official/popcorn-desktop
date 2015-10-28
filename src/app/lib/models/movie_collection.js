@@ -8,6 +8,7 @@
         getProviders: function () {
             return {
                 torrents: App.Config.getProvider('movie'),
+                metadata: App.Config.getProvider('metadata'),
                 subtitle: App.Config.getProvider('subtitle')
             };
         }

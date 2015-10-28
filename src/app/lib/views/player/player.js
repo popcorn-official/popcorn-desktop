@@ -8,6 +8,7 @@
     var remaining = false;
     var createdRemaining = false;
     var firstPlay = true;
+    var wcjs = require('wcjs-player');
 
     var Player = Backbone.Marionette.ItemView.extend({
         template: '#player-tpl',
@@ -53,7 +54,6 @@
             this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
             this.listenTo(this.model, 'change:downloaded', this.updateDownloaded);
 
-            this.video = false;
             this.inFullscreen = win.isFullscreen;
         },
 
@@ -97,8 +97,8 @@
             // verify custom subtitles not modified
             if (AdvSettings.get('opensubtitlesAutoUpload') && this.customSubtitles && !this.customSubtitles.modified) {
                 var real_elapsedTime = (Date.now() - this.customSubtitles.added_at) / 1000;
-                var player_elapsedTime = this.video.currentTime() - this.customSubtitles.timestamp;
-                var perc_elapsedTime = player_elapsedTime / this.video.duration();
+                var player_elapsedTime = this.player.time() - this.customSubtitles.timestamp;
+                var perc_elapsedTime = player_elapsedTime / this.player.length();
 
                 // verify was played long enough
                 if (real_elapsedTime >= player_elapsedTime && perc_elapsedTime >= 0.7) {
@@ -139,14 +139,14 @@
             if (type === 'episode') {
                 type = 'show';
             }
-            if (this.video.currentTime() / this.video.duration() >= 0.8 && type !== undefined && this.model.get('metadataCheckRequired') !== false) {
+            if (this.player.time() / this.player.length() >= 0.8 && type !== undefined && this.model.get('metadataCheckRequired') !== false) {
                 App.vent.trigger(type + ':watched', this.model.attributes, 'database');
             }
 
             // remember position
-            if (this.video.currentTime() / this.video.duration() < 0.8) {
+            if (this.player.time() / this.player.length() < 0.8) {
                 AdvSettings.set('lastWatchedTitle', this.model.get('title'));
-                AdvSettings.set('lastWatchedTime', this.video.currentTime() - 5);
+                AdvSettings.set('lastWatchedTime', this.player.time() - 5);
             } else {
                 AdvSettings.set('lastWatchedTime', false);
             }
@@ -161,9 +161,9 @@
             App.vent.trigger('preload:stop');
             App.vent.trigger('stream:stop');
 
-            var vjsPlayer = document.getElementById('video_player');
-            if (vjsPlayer) {
-                videojs(vjsPlayer).dispose();
+            if (this.player) {
+                this.player.stop();
+                delete this.player;
             }
 
             this.destroy();
@@ -192,8 +192,9 @@
 
                 _this.processNext();
             }
+            var player;
             if (this.model.get('type') === 'video/youtube') {
-
+/*
                 this.video = videojs('video_player', {
                     techOrder: ['youtube'],
                     forceSSL: true,
@@ -220,43 +221,14 @@
                         _this.toggleFullscreen();
                         event.preventDefault();
                     });
-
+*/
             } else {
-                this.video = videojs('video_player', {
-                    nativeControlsForTouch: false,
-                    trackTimeOffset: 0,
-                    plugins: {
-                        biggerSubtitle: {},
-                        smallerSubtitle: {},
-                        customSubtitles: {},
-                        progressTips: {}
-                    }
-                });
+                player = this.player =new  wcjs('#video_player').addPlayer({ autoplay: true});
+                player.addPlaylist(this.model.get('src'));
             }
-            var player = this.video.player();
-            this.player = player;
             App.PlayerView = this;
 
-            /* The following is a hack to make VideoJS listen to
-                        mouseup instead of mousedown for pause/play on the
-                        video element. Stops video pausing/playing when
-                        dragged. TODO: #fixit! /XC                        */
-            this.player.tech.off('mousedown');
-            this.player.tech.on('mouseup', function (event) {
-                if (event.target.origEvent) {
-                    if (!event.target.origEvent.originalEvent.defaultPrevented) {
-                        _this.player.tech.onClick(event);
-                    }
-                    // clean up after ourselves
-                    delete event.target.origEvent;
-                } else {
-                    _this.player.tech.onClick(event);
-                }
-            });
-            // Force custom controls
-            player.usingNativeControls(false);
-
-            player.on('ended', function () {
+            player.onEnded(function () {
                 // For now close player. In future we will check if auto-play etc and get next episode
 
                 if (_this.model.get('auto_play')) {
@@ -271,7 +243,7 @@
                 _this.customSubtitles = {
                     subPath: subpath,
                     added_at: Date.now(),
-                    timestamp: _this.video.currentTime(),
+                    timestamp: _this.player.time(),
                     modified: false
                 };
                 $('#video_player li:contains("' + i18n.__('Disabled') + '")').on('click', function () {
@@ -300,7 +272,7 @@
 
             var checkAutoPlay = function () {
                 if (_this.isMovie() === 'episode' && next_episode_model) {
-                    if ((_this.video.duration() - _this.video.currentTime()) < 60 && _this.video.currentTime() > 30) {
+                    if ((_this.player.length() - _this.player.time()) < 60 && _this.player.time() > 30) {
 
                         if (!autoplayisshown) {
 
@@ -318,7 +290,7 @@
                             }
                         }
 
-                        var count = Math.round(_this.video.duration() - _this.video.currentTime());
+                        var count = Math.round(_this.player.length() - _this.player.time());
                         $('.playing_next #nextCountdown').text(count);
 
                     } else {
@@ -333,7 +305,7 @@
                     }
                 }
             };
-
+/*
             player.one('play', function () {
                 if (_this.model.get('type') === 'video/youtube') {
                     // XXX quality fix
@@ -359,8 +331,8 @@
                     _this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
                 }
             });
-
-            player.on('loadeddata', function () {
+*/
+            player.onOpening(function () {
                 // resume position
                 if (AdvSettings.get('lastWatchedTitle') === _this.model.get('title') && AdvSettings.get('lastWatchedTime') > 0) {
                     var position = AdvSettings.get('lastWatchedTime');
@@ -370,7 +342,7 @@
                     var type = _this.isMovie();
                     var id = type === 'movie' ? _this.model.get('imdb_id') : _this.model.get('episode_id');
                     App.Trakt.sync.playback(type, id).then(function (position_percent) {
-                        var total = _this.video.duration();
+                        var total = _this.player.length();
                         var position = (position_percent / 100) * total | 0;
                         if (position > 0) {
                             win.debug('Resuming position to', position.toFixed(), 'secs (reported by Trakt)');
@@ -383,7 +355,7 @@
                 _this.sendToTrakt('start');
             });
 
-            player.on('play', function () {
+            player.onPlaying(function () {
                 // Trigger a resize so the subtitles are adjusted
                 $(window).trigger('resize');
 
@@ -413,7 +385,7 @@
                 _this.sendToTrakt('start');
             });
 
-            player.on('pause', function () {
+            player.onPaused(function () {
                 if (_this.player.scrubbing) {
                     _this.wasSeek = true;
                 } else {
@@ -431,7 +403,7 @@
             _this.bindKeyboardShortcuts();
 
             // There was an issue with the video
-            player.on('error', function (error) {
+            player.onError(function (error) {
                 _this.sendToTrakt('stop');
                 // TODO: user errors
                 if (_this.model.get('type') === 'video/youtube') {
@@ -473,7 +445,7 @@
         sendToTrakt: function (method) {
             var type = _this.isMovie();
             var id = type === 'movie' ? _this.model.get('imdb_id') : _this.model.get('episode_id');
-            var progress = _this.video.currentTime() / _this.video.duration() * 100 | 0;
+            var progress = _this.player.time() / _this.player.length() * 100 | 0;
             App.Trakt.scrobble(method, type, id, progress);
         },
 
@@ -934,9 +906,9 @@
             }
             this.unbindKeyboardShortcuts();
             App.vent.trigger('player:close');
-            var vjsPlayer = document.getElementById('video_player');
-            if (vjsPlayer) {
-                videojs(vjsPlayer).dispose();
+            if (this.player) {
+                this.player.stop();
+                delete this.player;
             }
         }
 

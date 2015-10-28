@@ -103,6 +103,21 @@
         },
 
         showCover: function () {
+            var getBestImage = function (model) {
+                var images = model.get('images');
+                var image = model.get('image');
+                var cover = model.get('cover');
+                if (images && images.poster) {
+                    return images.poster.medium;
+                } else if (image) {
+                    return image;
+                } else if (cover) {
+                    return cover;
+                }
+
+                return null;
+            };
+
             var coverUrl;
             var itemtype = this.model.get('type');
             switch (itemtype) {
@@ -124,7 +139,7 @@
                 this.ui.bookmarkIcon.addClass('selected');
                 break;
             case 'movie':
-                coverUrl = this.model.get('image');
+                coverUrl = getBestImage(this.model);
 
                 if (this.model.get('watched')) {
                     this.ui.watchedIcon.addClass('selected');
@@ -223,7 +238,7 @@
                 $('.spinner').show();
                 data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
                     .then(function (data) {
-                        console.log(data);
+                        console.log(data, Type);
                         data.provider = provider.name;
                         $('.spinner').hide();
                         App.vent.trigger(type + ':showDetail', new App.Model[Type](data));
