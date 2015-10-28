@@ -28,6 +28,7 @@
             self.trigger('loading', self);
 
             var subtitle = this.providers.subtitle;
+            var metadata = this.providers.metadata;
             var torrents = this.providers.torrents;
 
             /* XXX(xaiki): provider hack
@@ -41,16 +42,20 @@
             function getDataFromProvider(torrentProvider) {
                 var deferred = Q.defer();
 
-                var promises = [torrentProvider.fetch(self.filter)];
-
-                var idsPromise = promises[0].then(_.bind(torrentProvider.extractIds, torrentProvider));
-
-                if (subtitle) {
-                    promises.push(idsPromise.then(_.bind(subtitle.fetch, subtitle)));
-                }
+                var torrentsPromise = torrentProvider.fetch(self.filter);
+                var idsPromise = torrentsPromise.then(_.bind(torrentProvider.extractIds, torrentProvider));
+                var promises = [
+                    torrentsPromise,
+                    subtitle?idsPromise.then(_.bind(subtitle.fetch, subtitle)):true,
+                    metadata?idsPromise.then(function (ids) {
+                        return _.map (ids, function (id) {
+                            return metadata.movies.summary (id)
+                        })
+                    }):true
+                ];
 
                 Q.all(promises)
-                    .spread(function (torrents, subtitles) {
+                    .spread(function (torrents, subtitles, metadatas) {
                         // If a new request was started...
                         _.each(torrents.results, function (movie) {
                             var id = movie[self.popid];
@@ -71,6 +76,30 @@
                             if (subtitles) {
                                 movie.subtitle = subtitles[id];
                             }
+
+                            if (metadatas) {
+                                var whash = {};
+                                whash[self.popid] = id;
+
+                                var info = _.findWhere(metadatas, whash);
+
+                                if (info) {
+                                    _.extend(movie, {
+                                        synopsis: info.overview,
+                                        genres: info.genres,
+                                        certification: info.certification,
+                                        runtime: info.runtime,
+                                        tagline: info.tagline,
+                                        title: info.title,
+                                        trailer: info.trailer,
+                                        year: info.year,
+                                        image: info.images.poster,
+                                        backdrop: info.images.fanart
+                                    });
+                                } else {
+                                    win.warn('Unable to find %s on Trakt.tv', id);
+                                }
+                            }
                         });
 
                         return deferred.resolve(torrents);
@@ -90,6 +119,8 @@
                     self.add(torrents.results);
                     self.hasMore = _.pluck(torrents, 'hasMore')[0];
                     self.trigger('sync', self);
+                }).catch (function (err) {
+                    console.error ('err', err)
                 })
             });
 
