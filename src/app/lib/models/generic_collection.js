@@ -38,7 +38,7 @@
              * provider declare a unique id, and then lookthem up in
              * a hash.
              */
-            var torrentPromises = _.map(torrents, function (torrentProvider, pid) { //XXX(xaiki): provider hack
+            function getDataFromProvider(torrentProvider) {
                 var deferred = Q.defer();
 
                 var promises = [torrentProvider.fetch(self.filter)];
@@ -82,14 +82,19 @@
                     });
 
                 return deferred.promise;
+            }
+
+            var torrentPromises = _.map(torrents, function (rawData) {
+                return getDataFromProvider(rawData).then(function (torrents) {
+                    console.log ('got torrents', torrents)
+                    self.add(torrents.results);
+                    self.hasMore = _.pluck(torrents, 'hasMore')[0];
+                    self.trigger('sync', self);
+                })
             });
 
             Q.all(torrentPromises).done(function (torrents) {
-                _.forEach(torrents, function (t) {
-                    self.add(t.results);
-                });
-                self.hasMore = _.pluck(torrents, 'hasMore')[0];
-                self.trigger('sync', self);
+                console.log ('all torrent done')
                 self.state = 'loaded';
                 self.trigger('loaded', self, self.state);
             });
