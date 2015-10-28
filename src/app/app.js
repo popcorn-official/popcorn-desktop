@@ -295,8 +295,8 @@ Mousetrap.bindGlobal(['shift+f12', 'f12', 'command+0'], function (e) {
     win.showDevTools();
 });
 Mousetrap.bindGlobal(['shift+f10', 'f10', 'command+9'], function (e) {
-    win.debug('Opening: ' + App.settings['tmpLocation']);
-    gui.Shell.openItem(App.settings['tmpLocation']);
+    win.debug('Opening: ' + App.settings.tmpLocation);
+    gui.Shell.openItem(App.settings.tmpLocation);
 });
 Mousetrap.bind('mod+,', function (e) {
     App.vent.trigger('about:close');
@@ -592,7 +592,7 @@ window.ondrop = function (e) {
 
     var file = e.dataTransfer.files[0];
 
-    if (file != null && (file.name.indexOf('.torrent') !== -1 || file.name.indexOf('.srt') !== -1)) {
+    if (file !== null && (file.name.indexOf('.torrent') !== -1 || file.name.indexOf('.srt') !== -1)) {
 
         fs.writeFile(path.join(App.settings.tmpLocation, file.name), fs.readFileSync(file.path), function (err) {
             if (err) {
@@ -609,7 +609,7 @@ window.ondrop = function (e) {
             }
         });
 
-    } else if (file != null && isVideo(file.name)) {
+    } else if (file !== null && isVideo(file.name)) {
         handleVideoFile(file);
     } else {
         var data = e.dataTransfer.getData('text/plain');
