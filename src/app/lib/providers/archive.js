@@ -207,7 +207,7 @@
 			imdb:     id,
                         imdb_id:  id,
 			title:    movie.Title,
-                        genre:    movie.Genre,
+                        genre:    [movie.Genre],
                         year: 	  year,
 			rating:   rating,
                         runtime:  runtime,
