@@ -48,9 +48,9 @@
                     torrentsPromise,
                     subtitle?idsPromise.then(_.bind(subtitle.fetch, subtitle)):true,
                     metadata?idsPromise.then(function (ids) {
-                        return _.map (ids, function (id) {
+                        return Q.allSettled(_.map (ids, function (id) {
                             return metadata.movies.summary (id)
-                        })
+                        }))
                     }):true
                 ];
 
