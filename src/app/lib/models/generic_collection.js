@@ -103,10 +103,15 @@
                                     });
 
 
-                                    if (info.images.poster)
+                                    if (info.images.poster) {
                                         movie.image = info.images.poster;
+                                        if (!movie.cover) {
+                                            movie.cover = movie.image.full;
+                                        }
+                                    }
+
                                     if (info.images.fanart)
-                                        movie.backdrop = info.images.fanart
+                                        movie.backdrop = info.images.full;
                                 } else {
                                     win.warn('Unable to find %s on Trakt.tv', id);
                                 }
