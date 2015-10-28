@@ -11,16 +11,14 @@
 	Archive.prototype.constructor = Archive;
 
 	var queryTorrents = function(filters) {
-		var deferred = Q.defer();
-
                 var query = 'collection:moviesandfilms'; // OR mediatype:movies)';
                 query    += ' AND -mediatype:collection';
                 query    += ' AND format:"Archive BitTorrent"';
                 query    += ' AND year'; // this is actually: has year
 //                query    += ' AND avg_rating'; // this is actually: has year
 
-                //                var sort = 'downloads';
-                var sort = 'avg_rating';
+                var sort = 'downloads';
+                //var sort = 'avg_rating';
 
 		var params = {
                         output: 'json',
@@ -57,50 +55,81 @@
 			params.quality = Settings.movies_quality;
 		}
 
-                var url = URL + '?sort[]=' + sort + '&' +  querystring.stringify(params);
-                win.info('Request to ARCHIVE.org API');
-		win.debug(url);
+                return deferRequest (URL + '?sort[]=' + sort, params, true)
+                        .then(function (data) {
+                                return data.response.docs
+                        })
+                        .catch (function (err) {
+	                        win.error('ARCHIVE.org error:', err);
+                        })
+        };
 
- 		request({url: url, json: true}, function(error, response, data) {
+        var deferRequest = function (url, params, hasQuestionMark) {
+                var d = Q.defer();
+
+                if (params != undefined)  {
+                        url += hasQuestionMark?'&':'?';
+                        url += querystring.stringify (params);
+                }
+
+                console.log ('deferRequest', url, params, querystring.stringify(params));
+		request({url: url, json: true}, function(error, response, data) {
 			if(error) {
-				deferred.reject(error);
+				d.reject(error);
 			} else if(!data || (data.error && data.error !== 'No movies found')) {
 				var err = data? data.error: 'No data returned';
-				win.error('ARCHIVE.org error:', err);
-				deferred.reject(err);
+				d.reject(err);
 			} else {
-				deferred.resolve(data.response.docs || []);
+				d.resolve(data || []);
 			}
 		});
 
-		return deferred.promise;
-        };
+                return d.promise
+        }
 
-        var queryDetails = function (items) {
+        var queryDetails = function(id, movie) {
+
+                var url = baseURL + 'details/' + movie.aid + '?output=json';
+                win.info('Request to ARCHIVE.org API');
+		win.debug(url);
+                return deferRequest (url).then (function (data) {
+                        return formatDetails(data, movie);
+                })
+                        .catch (function (err) {
+                                win.error ('Archive.org error', err)
+                        })
+        }
+
+        var paramsToQuery = function (params) {
+                return _.map(params, function (v, k) {
+                        return k + "=" + v
+                }).join('&');
+        }
+
+        var queryOMDb = function (item) {
+                var params = {
+                        t: item.title,
+                        r: 'json',
+                        tomatoes: true
+                }
+
+                var url = 'http://www.omdbapi.com/'
+                return deferRequest(url, params).then (function (data) {
+                        data.archive = item
+                        return data;
+                })
+        }
+
+        var queryOMDbBulk = function (items) {
+                console.error ('before details', items)
                 var deferred = Q.defer();
-	        var promises = _.map(items, function(movie) {
-                        var d = Q.defer();
-
-                        var url = baseURL + 'details/' + movie.identifier + '?output=json';
-                        win.info('Request to ARCHIVE.org API');
-		        win.debug(url);
-
-		        request({url: url, json: true}, function(error, response, data) {
-			        if(error) {
-				        d.reject(error);
-			        } else if(!data || (data.error && data.error !== 'No movies found')) {
-				        var err = data? data.error: 'No data returned';
-				        win.error('ARCHIVE.org error:', err);
-				d.reject(err);
-			        } else {
-				        d.resolve(formatForPopcorn(data || []));
-			        }
-		        });
-
-		        return d.promise;
+	        var promises = _.map(items, function (item) {
+                        return queryOMDb(item)
+                                .then(formatOMDbforButter)
                 });
 
                 Q.all(promises).done(function (data) {
+                        console.error ('queryOMDbbulk', data)
                         deferred.resolve ({hasMore: (data.length < 50),
                                            results: data});
                 });
@@ -108,10 +137,24 @@
                 return deferred.promise;
         };
 
-        var formatForPopcorn = function (movie) {
+        function exctractYear (movie) {
+                var metadata = movie.metadata;
+                if (metadata.hasOwnProperty('year')) {
+                        return metadata.year[0];
+                } else if (metadata.hasOwnProperty('date')) {
+                        return metadata.date[0];
+                } else if (metadata.hasOwnProperty('addeddate')) {
+                        return metadata.addeddate[0];
+                }
+
+                return 'UNKNOWN';
+        }
+
+
+        var formatDetails = function (movie, old) {
 		var id = movie.metadata.identifier[0];
                 var metadata = movie.metadata;
-                
+
                 /* HACK (xaiki): archive.org, get your data straight !#$!
                  *
                  * We need all this because data doesn't come reliably tagged =/
@@ -119,20 +162,6 @@
                 var mp4s = _.filter(movie.files, function (file, k) { 
                         return k.endsWith('.mp4');
                 });
-                var runtime = Math.floor(moment.duration(Number(mp4s[0].length)*1000).asMinutes());
-
-                console.log (runtime, movie);
-                var year;
-
-                if (metadata.hasOwnProperty('year')) {
-                        year = metadata.year[0];
-                } else if (metadata.hasOwnProperty('date')) {
-                        year = metadata.date[0];
-                } else if (metadata.hasOwnProperty('addeddate')) {
-                        year = metadata.addeddate[0];
-                } else {
-                        year = 'UNKNOWN';
-                }
 
                 var rating = 0;
                 if (movie.hasOwnProperty('reviews')) {
@@ -157,22 +186,39 @@
 			peer: peers
 		};
 
-                console.error (movie);
+                old.torrents = torrents;
+                old.health   = {}
+
+                return old
+	};
+
+        var formatOMDbforButter = function (movie) {
+		var id = movie.imdbID
+                var metadata = movie.archive.metadata;
+                var runtime = movie.Runtime
+                var year = movie.Year;
+                var rating = movie.imdbRating;
+
+                movie.Quality = '480p'; // XXX
+
 		return {
                         type:     'movie',
+                        aid:      movie.archive.identifier,
 			imdb:     id,
-			title:    metadata.title[0],
-                        genre:    metadata.collection,
+                        imdb_id:  id,
+			title:    movie.Title,
+                        genre:    movie.Genre,
                         year: 	  year,
 			rating:   rating,
                         runtime:  runtime,
-			image:    movie.misc.image,
-                        cover:    movie.misc.image,
-			torrents: torrents,
-                        synopsis: metadata.description,
+			image:    undefined,
+                        cover:    undefined,
+                        images:  {
+                                poster: undefined
+                        },
+                        synopsis: movie.Plot,
                         subtitle: {} // TODO
-
-		};
+	        };
 	};
 
         Archive.prototype.config = {
@@ -190,11 +236,11 @@
 
 	Archive.prototype.fetch = function(filters) {
 		return queryTorrents(filters)
-			.then(queryDetails);
+			.then(queryOMDbBulk)
 	};
 
         Archive.prototype.detail = function (torrent_id, old_data) {
-                return Q(old_data);
+                return queryDetails(torrent_id, old_data)
         };
 
 	App.Providers.Archive = Archive;
