@@ -53,6 +53,7 @@
 
         onShow: function () {
             win.info('Show movie detail (' + this.model.get('imdb_id') + ')');
+            var self = this;
             this.handleAnime();
 
             var torrents = this.model.get('torrents');
@@ -106,7 +107,7 @@
                 coverCache = null;
             };
             coverCache.onerror = function () {
-                $('.mcover-image').attr('src', this.model.get('image')).addClass('fadein');
+                $('.mcover-image').attr('src', self.model.get('image')).addClass('fadein');
                 coverCache = null;
             };
 
