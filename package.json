@@ -1,10 +1,10 @@
 {
   "name": "Butter",
-  "homepage": "https://butterproject.github.com/butter",
-  "bugs": "https://github.com/butterproject/butter/issues",
+  "homepage": "http://butterproject.org/",
+  "bugs": "https://github.com/butterproject/butter-desktop/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/butterproject/butter.git"
+    "url": "https://github.com/butterproject/butter-desktop.git"
   },
   "license": "GPL-3.0",
   "main": "app://host/src/app/index.html",

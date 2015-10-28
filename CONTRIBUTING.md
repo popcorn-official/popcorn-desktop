@@ -27,7 +27,7 @@ requests](#submitting-pull-requests), but please respect the following restricti
 has already reported your problem or requested your idea.
 
 * Please **do not** use the issue tracker for personal support requests (use
-  [the github issues](http://github.com/butterproject/butter/issues) or IRC - #butterproject on freenode).
+  [the github issues](http://github.com/butterproject/butter-desktop/issues) or IRC - #butterproject on freenode).
 
 * Please **do not** derail or troll issues. Keep the discussion on topic and respect the opinions of others.
 
@@ -40,7 +40,7 @@ Guidelines for bug reports:
 
 1. **Use the GitHub issue search** &mdash; check if the issue has already been reported.
 
-2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or look for [closed issues](https://github.com/butterproject/butter/issues?q=is%3Aissue+is%3Aclosed).
+2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or look for [closed issues](https://github.com/butterproject/butter-desktop/issues?q=is%3Aissue+is%3Aclosed).
 
 3. **Include a screencast if relevant** - Is your issue about a design or front end feature or bug? The most helpful thing in the world is if we can *see* what you're talking about.
 Use [LICEcap](http://www.cockos.com/licecap/) to quickly and easily record a short screencast (24fps) and save it as an animated gif! Embed it directly into your GitHub issue. Kapow.
@@ -78,8 +78,8 @@ Any other information you want to share that is relevant to the issue being repo
 
 Feature requests are welcome. Before you submit one be sure to have:
 
-1. Read the [Roadmap](https://github.com/butterproject/butter/tree/master/docs/RoadMap.md) and
-[Planned Features](https://github.com/butterproject/butter/tree/master/docs/Planned-Features.md) listing, **use the Github Issues search** and check the feature hasn't already been requested.
+1. Read the [Roadmap](https://github.com/butterproject/butter-desktop/tree/master/docs/RoadMap.md) and
+[Planned Features](https://github.com/butterproject/butter-desktop/tree/master/docs/Planned-Features.md) listing, **use the Github Issues search** and check the feature hasn't already been requested.
 2. Take a moment to think about whether your idea fits with the scope and aims of the project, or if it might
 better fit being an app/plugin.
 3. Remember, it's up to *you* to make a strong case to convince the project's leaders of the merits of this
@@ -105,15 +105,15 @@ what's already there? Does it fit with the Roadmap?
 Pull requests are awesome. If you're looking to raise a PR for something which doesn't have an open issue, please think carefully about [raising an issue](#report-a-bug) which your PR can close, especially if you're fixing a bug. This makes it more likely that there will be enough information available for your PR to be properly tested and merged. To make sure your PR is accepted as quickly as possible, you should be sure to have read
 all the guidelines on:
 
-* [code standards](https://github.com/butterproject/butter/tree/master/docs/Code-Standards.md)
-* [commit messages](https://github.com/butterproject/butter/tree/master/docs/Git-Workflow.md#commit-messages)
-* [cleaning-up history](https://github.com/butterproject/butter/tree/master/docs/Git-Workflow.md#clean-up-history)
-* [not breaking the build](https://github.com/butterproject/butter/tree/master/docs/Git-Workflow.md#check-it-passes-the-tests)
+* [code standards](https://github.com/butterproject/butter-desktop/tree/master/docs/Code-Standards.md)
+* [commit messages](https://github.com/butterproject/butter-desktop/tree/master/docs/Git-Workflow.md#commit-messages)
+* [cleaning-up history](https://github.com/butterproject/butter-desktop/tree/master/docs/Git-Workflow.md#clean-up-history)
+* [not breaking the build](https://github.com/butterproject/butter-desktop/tree/master/docs/Git-Workflow.md#check-it-passes-the-tests)
 
 ##### Need Help?
 
 If you're not completely clear on how to submit / update / *do* Pull Requests, please check out our in depth
-[Git Workflow guide](https://github.com/butterproject/butter/tree/master/docs/Git-Workflow.md) for Butter.
+[Git Workflow guide](https://github.com/butterproject/butter-desktop/tree/master/docs/Git-Workflow.md) for Butter.
 
 
 ### Translation
@@ -134,7 +134,7 @@ For translations please go to: [Transifex](https://www.transifex.com/butterproje
 1. cd into the project folder
 1. Run `npm install -g grunt-cli bower` - to make it possible to run grunt commands
 
-[complete documentation](https://github.com/butterproject/butter/tree/master/docs/Build-Debug.md).
+[complete documentation](https://github.com/butterproject/butter-desktop/tree/master/docs/Build-Debug.md).
 
 ### Updating with the latest changes
 

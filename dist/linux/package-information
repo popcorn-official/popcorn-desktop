@@ -129,7 +129,7 @@ binary: binary-indep binary-arch
 #A text file formatted following http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 copyright="Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: Butter
-Source: https://github.com/butterproject/butter
+Source: https://github.com/butterproject/butter-desktop
 
 Files: *
 Copyright: 2014 Butter Project and the contributors <butter@xaiki.net>
