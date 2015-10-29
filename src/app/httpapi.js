@@ -42,25 +42,25 @@
 
                 //Listen for seek position change
                 App.vent.on('seekchange', function () {
-                    events['seek'] = App.PlayerView.player.currentTime();
+                    events.seek = App.PlayerView.player.currentTime();
                     reinitTimeout();
                 });
 
                 //Listen for volume change
                 App.vent.on('volumechange', function () {
-                    events['volumechange'] = App.PlayerView.player.volume();
+                    events.volumechange = App.PlayerView.player.volume();
                     reinitTimeout();
                 });
 
                 //Listen for seek position change
                 App.vent.on('fullscreenchange', function () {
-                    events['fullscreen'] = win.isFullscreen;
+                    events.fullscreen = win.isFullscreen;
                     reinitTimeout();
                 });
 
                 //Listen for playing change
                 var playingChange = function () {
-                    events['playing'] = !App.PlayerView.player.paused();
+                    events.playing = !App.PlayerView.player.paused();
                     reinitTimeout();
                 };
 
@@ -69,7 +69,7 @@
 
                 //Listen for view stack change
                 var emitViewChange = function () {
-                    events['viewstack'] = App.ViewStack;
+                    events.viewstack = App.ViewStack;
                     reinitTimeout();
                 };
 
@@ -692,13 +692,13 @@
                     };
 
                     if (result.movie && result.movie !== undefined) {
-                        result['imdb_id'] = view.model.get('imdb_id');
+                        result.imdb_id = view.model.get('imdb_id');
                     } else if (result.movie === undefined) {
-                        result['imdb_id'] = false;
+                        result.imdb_id = false;
                     } else {
-                        result['tvdb_id'] = view.model.get('tvdb_id');
-                        result['season'] = view.model.get('season');
-                        result['episode'] = view.model.get('episode');
+                        result.tvdb_id = view.model.get('tvdb_id');
+                        result.season = view.model.get('season');
+                        result.episode = view.model.get('episode');
                     }
 
                     if (App.PlayerView.player.textTrackDisplay.children().length > 0) {
@@ -748,7 +748,7 @@
         if (result === undefined) {
             result = {};
         }
-        result['butterVersion'] = App.settings.version;
+        result.butterVersion = App.settings.version;
         callback(err, result);
     }
 
