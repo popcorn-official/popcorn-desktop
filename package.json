@@ -51,7 +51,7 @@
     "nw": "^0.12.3",
     "opensubtitles-api": "1.x.x",
     "os-name": "1.x.x",
-    "peerflix": "git+https://github.com/mafintosh/peerflix.git",
+    "peerflix": "^0.32.1",
     "q": "2.0.3",
     "read-torrent": "1.3.0",
     "readdirp": "*",
