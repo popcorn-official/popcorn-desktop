@@ -223,7 +223,7 @@
                     });
 */
             } else {
-                player = this.player =new  wcjs('#video_player').addPlayer({ autoplay: true});
+                player = this.player =new  wcjs('#video_player').addPlayer({ autoplay: true, attach: '#webchimera'});
                 player.addPlaylist(this.model.get('src'));
             }
             App.PlayerView = this;
