@@ -182,29 +182,7 @@ App.addInitializer(function (options) {
 });
 
 var deleteFolder = function (path) {
-
-    if (typeof path !== 'string') {
-        return;
-    }
-
-    try {
-        var files = [];
-        if (fs.existsSync(path)) {
-            files = fs.readdirSync(path);
-            files.forEach(function (file, index) {
-                var curPath = path + '\/' + file;
-                if (fs.lstatSync(curPath).isDirectory()) {
-                    deleteFolder(curPath);
-                } else {
-                    fs.unlinkSync(curPath);
-
-                }
-            });
-            fs.rmdirSync(path);
-        }
-    } catch (err) {
-        win.error('deleteFolder()', err);
-    }
+    rimraf(path, function(){});
 };
 
 var deleteCookies = function () {
