@@ -194,36 +194,39 @@
             }
             var player;
             if (this.model.get('type') === 'video/youtube') {
-/*
-                this.video = videojs('video_player', {
-                    techOrder: ['youtube'],
-                    forceSSL: true,
-                    ytcontrols: false,
-                    quality: '720p'
-                }).ready(function () {
-                    this.addClass('vjs-has-started');
-                });
-                this.ui.eyeInfo.hide();
+                /*
+                                this.video = videojs('video_player', {
+                                    techOrder: ['youtube'],
+                                    forceSSL: true,
+                                    ytcontrols: false,
+                                    quality: '720p'
+                                }).ready(function () {
+                                    this.addClass('vjs-has-started');
+                                });
+                                this.ui.eyeInfo.hide();
 
-                // XXX Sammuel86 Trailer UI Show FIX/HACK
-                $('.trailer_mouse_catch')
-                    .show().appendTo('div#video_player')
-                    .mousemove(function (event) {
-                        if (!_this.player.userActive()) {
-                            _this.player.userActive(true);
-                        }
-                    })
-                    .click(function (event) {
-                        $('.vjs-play-control').click();
-                        event.preventDefault();
-                    })
-                    .dblclick(function (event) {
-                        _this.toggleFullscreen();
-                        event.preventDefault();
-                    });
-*/
+                                // XXX Sammuel86 Trailer UI Show FIX/HACK
+                                $('.trailer_mouse_catch')
+                                    .show().appendTo('div#video_player')
+                                    .mousemove(function (event) {
+                                        if (!_this.player.userActive()) {
+                                            _this.player.userActive(true);
+                                        }
+                                    })
+                                    .click(function (event) {
+                                        $('.vjs-play-control').click();
+                                        event.preventDefault();
+                                    })
+                                    .dblclick(function (event) {
+                                        _this.toggleFullscreen();
+                                        event.preventDefault();
+                                    });
+                */
             } else {
-                player = this.player =new  wcjs('#video_player').addPlayer({ autoplay: true});
+                player = this.player = new wcjs('#video_player').addPlayer({
+                    autoplay: true,
+                    attach: '#webchimera'
+                });
                 player.addPlaylist(this.model.get('src'));
             }
             App.PlayerView = this;
@@ -305,33 +308,33 @@
                     }
                 }
             };
-/*
-            player.one('play', function () {
-                if (_this.model.get('type') === 'video/youtube') {
-                    // XXX quality fix
-                    $('.vjs-quality-button .vjs-menu-content').remove();
-                    $('.vjs-quality-button').css('cursor', 'default');
+            /*
+                        player.one('play', function () {
+                            if (_this.model.get('type') === 'video/youtube') {
+                                // XXX quality fix
+                                $('.vjs-quality-button .vjs-menu-content').remove();
+                                $('.vjs-quality-button').css('cursor', 'default');
 
-                    // XXX hide watermark
-                    try {
-                        document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('html5-watermark')[0].style.opacity = 0;
-                    } catch (e) {}
-                }
+                                // XXX hide watermark
+                                try {
+                                    document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('html5-watermark')[0].style.opacity = 0;
+                                } catch (e) {}
+                            }
 
-                if (_this.model.get('auto_play')) {
-                    if (_this.isMovie() === 'episode' && next_episode_model) {
-                        // autoplay player div
-                        var matcher = next_episode_model.get('title').split(/\s-\s/i);
-                        $('.playing_next_poster').attr('src', _this.model.get('cover'));
-                        $('.playing_next_show').text(matcher[0]);
-                        $('.playing_next_episode').text(matcher[2]);
-                        $('.playing_next_number').text(i18n.__('Season %s', next_episode_model.get('season')) + ', ' + i18n.__('Episode %s', next_episode_model.get('episode')));
-                    }
+                            if (_this.model.get('auto_play')) {
+                                if (_this.isMovie() === 'episode' && next_episode_model) {
+                                    // autoplay player div
+                                    var matcher = next_episode_model.get('title').split(/\s-\s/i);
+                                    $('.playing_next_poster').attr('src', _this.model.get('cover'));
+                                    $('.playing_next_show').text(matcher[0]);
+                                    $('.playing_next_episode').text(matcher[2]);
+                                    $('.playing_next_number').text(i18n.__('Season %s', next_episode_model.get('season')) + ', ' + i18n.__('Episode %s', next_episode_model.get('episode')));
+                                }
 
-                    _this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
-                }
-            });
-*/
+                                _this._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
+                            }
+                        });
+            */
             player.onOpening(function () {
                 // resume position
                 if (AdvSettings.get('lastWatchedTitle') === _this.model.get('title') && AdvSettings.get('lastWatchedTime') > 0) {
