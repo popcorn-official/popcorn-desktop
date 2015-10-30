@@ -311,9 +311,9 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
-                            'pct_rel="build/releases/' + projectName + '"',
-                            'chmod -R +x ${pct_rel}/mac/' + projectName + '.app || : ',
-                            'chmod +x ${pct_rel}/linux*/' + projectName + '/' + projectName + ' || : '
+                            'pct_rel="build/' + projectName + '"',
+                            'chmod -R +x ${pct_rel}/osx*/' + projectName + '.app || : ',
+                            'chmod +x ${pct_rel}/linux*/' + projectName + ' || : '
                         ].join(' && ');
                     } else {
                         return 'echo ""'; // Not needed in Windows
