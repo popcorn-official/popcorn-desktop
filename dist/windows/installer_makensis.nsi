@@ -7,7 +7,7 @@ Unicode True
 ;Include Modern UI
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
-
+ 
 ;Check file paths
 !if /FILEEXISTS "..\..\package.json"
     ;File exists!
@@ -61,7 +61,7 @@ VIAddVersionKey "FileVersion" "${PT_VERSION}"
 VIAddVersionKey "CompanyName" "${COMPANY_NAME}"
 VIAddVersionKey "LegalCopyright" "${APP_URL}"
 VIProductVersion "${PT_VERSION_CLEAN}.0"
-OutFile "${APP_NAME}-${PT_VERSION}-Win-Setup.exe"
+OutFile "${APP_NAME}-${PT_VERSION}-${ARCH}-Setup.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 
@@ -338,7 +338,7 @@ LangString desktopShortcut ${LANG_Welsh} "Llwybr Byr ar y Bwrdd Gwaith"
 ;    Install code     ;
 ; ------------------- ;
 Function .onInit ; check for previous version
-    Exec "taskkill /F /IM nw.exe /T"
+    Exec "taskkill /F /IM nw.exe /T" ;<-TODO: can't we get better?
     ReadRegStr $0 HKCU "${UNINSTALL_KEY}" "InstallString"
     StrCmp $0 "" done
     StrCpy $INSTDIR $0
@@ -348,7 +348,7 @@ FunctionEnd
 Section ; Node Webkit Files
 
     ;Delete existing install
-    RMDir /r "$INSTDIR"
+    RMDir /r "\\?\$INSTDIR"
     
     ;Delete cache
     RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\Cache"
@@ -357,13 +357,13 @@ Section ; Node Webkit Files
     RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\Local Storage"
 
     ;Set output path to InstallDir
-    SetOutPath "$INSTDIR"
+    SetOutPath "\\?\$INSTDIR"
 
     ;Check to see if this nw uses datfiles
     !ifdef WIN_PATHS
-        !define DATPATH "..\..\build\cache\win\${APP_NW}\"
+        !define DATPATH "..\..\cache\${APP_NW}\${ARCH}\"
     !else
-        !define DATPATH "../../build/cache/win/${APP_NW}/"
+        !define DATPATH "../../cache/${APP_NW}/${ARCH}/"
     !endif
 
     !ifdef DATPATH
@@ -377,15 +377,15 @@ Section ; Node Webkit Files
     
     ;Add the files
     !ifdef WIN_PATHS
-        File "..\..\build\cache\win\${APP_NW}\*.dll"
-        File "..\..\build\cache\win\${APP_NW}\nw.exe"
-        File "..\..\build\cache\win\${APP_NW}\nw.pak"
-        File /r "..\..\build\cache\win\${APP_NW}\locales"
+        File "..\..\cache\${APP_NW}\${ARCH}\*.dll"
+        File "..\..\cache\${APP_NW}\${ARCH}\nw.exe"
+        File "..\..\cache\${APP_NW}\${ARCH}\nw.pak"
+        File /r "..\..\cache\${APP_NW}\${ARCH}\locales"
     !else
-        File "../../build/cache/win/${APP_NW}/*.dll"
-        File "../../build/cache/win/${APP_NW}/nw.exe"
-        File "../../build/cache/win/${APP_NW}/nw.pak"
-        File /r "../../build/cache/win/${APP_NW}/locales"
+        File "../../cache/${APP_NW}/${ARCH}/*.dll"
+        File "../../cache/${APP_NW}/${ARCH}/nw.exe"
+        File "../../cache/${APP_NW}/${ARCH}/nw.pak"
+        File /r "../../cache/${APP_NW}/${ARCH}/locales"
     !endif
 
     !ifdef DATFILES
@@ -397,7 +397,7 @@ SectionEnd
 Section ; App Files
 
     ;Set output path to InstallDir
-    SetOutPath "$INSTDIR\src\app"
+    SetOutPath "\\?\$INSTDIR\src\app"
 
     ;Add the files
     !ifdef WIN_PATHS
@@ -426,20 +426,20 @@ Section ; App Files
         File /oname=License.txt "../../dist/windows/LICENSE.txt"
     !endif
 
-    SetOutPath "$INSTDIR"
+    SetOutPath "\\?\$INSTDIR"
     !ifdef WIN_PATHS
         File "..\..\package.json"
-        File "..\..\dist\windows\${APP_LAUNCHER}"
+        File "..\..\build\Butter\${ARCH}\${APP_LAUNCHER}"
         File "..\..\CHANGELOG.md"
         File /NONFATAL "..\..\.git.json"
     !else
         File "../../package.json"
-        File "../../dist/windows/${APP_LAUNCHER}"
+        File "../../build/Butter/${ARCH}/${APP_LAUNCHER}"
         File "../../CHANGELOG.md"
         File /NONFATAL "../../.git.json"
     !endif
 
-    SetOutPath "$INSTDIR\node_modules"
+    SetOutPath "\\?\$INSTDIR\node_modules"
     !ifdef WIN_PATHS
         File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "..\..\node_modules\*.*"
     !else
@@ -447,7 +447,7 @@ Section ; App Files
     !endif
 
     ;Create uninstaller
-    WriteUninstaller "$INSTDIR\Uninstall.exe"
+    WriteUninstaller "\\?\$INSTDIR\Uninstall.exe"
 
 SectionEnd
 
@@ -457,7 +457,7 @@ SectionEnd
 Section ; Shortcuts
 
     ;Working Directory
-    SetOutPath "$INSTDIR"
+    SetOutPath "\\?\$INSTDIR"
 
     ;Start Menu Shortcut
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
@@ -478,7 +478,7 @@ Section ; Shortcuts
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallString" "$INSTDIR"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "URLInfoAbout" "${APP_URL}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.butter.io"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.butterproject.org"
 
     ;File association
     WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}" "FriendlyAppName" "${APP_NAME}"
@@ -493,7 +493,7 @@ SectionEnd
 ; ------------------- ;
 Section "uninstall" 
 
-    RMDir /r "$INSTDIR"
+    RMDir /r "\\?\$INSTDIR"
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     Delete "$DESKTOP\${APP_NAME}.lnk"
     
