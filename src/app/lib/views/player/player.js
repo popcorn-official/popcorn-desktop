@@ -225,7 +225,8 @@
             } else {
                 player = this.player = new wcjs('#video_player').addPlayer({
                     autoplay: true,
-                    attach: '#webchimera'
+                    attach: '#webchimera',
+                    customCSS: 'css/wcjs-butter.css'
                 });
                 player.addPlaylist(this.model.get('src'));
             }
@@ -340,7 +341,7 @@
                 if (AdvSettings.get('lastWatchedTitle') === _this.model.get('title') && AdvSettings.get('lastWatchedTime') > 0) {
                     var position = AdvSettings.get('lastWatchedTime');
                     win.debug('Resuming position to', position.toFixed(), 'secs');
-                    player.currentTime(position);
+                    player.time(position);
                 } else if (AdvSettings.get('traktPlayback')) {
                     var type = _this.isMovie();
                     var id = type === 'movie' ? _this.model.get('imdb_id') : _this.model.get('episode_id');
@@ -349,7 +350,7 @@
                         var position = (position_percent / 100) * total | 0;
                         if (position > 0) {
                             win.debug('Resuming position to', position.toFixed(), 'secs (reported by Trakt)');
-                            player.currentTime(position);
+                            player.time(position);
                         }
                     });
                 }
@@ -811,8 +812,8 @@
         },
 
         seek: function (s) {
-            var t = this.player.currentTime();
-            this.player.currentTime(t + s);
+            var t = this.player.time();
+            this.player.time(t + s);
             this.player.trigger('mousemove'); //hack, make controls show
             App.vent.trigger('seekchange');
         },
