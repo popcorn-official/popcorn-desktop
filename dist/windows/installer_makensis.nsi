@@ -7,7 +7,7 @@ Unicode True
 ;Include Modern UI
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
- 
+
 ;Check file paths
 !if /FILEEXISTS "..\..\package.json"
     ;File exists!
@@ -71,7 +71,7 @@ InstallDir "$LOCALAPPDATA\${APP_NAME}"
 ;Request application privileges
 RequestExecutionLevel user
 
-!define APP_LAUNCHER "Butter.exe"
+!define APP_LAUNCHER "${APP_NAME}.exe"
 !define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
 
 ; ------------------- ;
@@ -224,60 +224,60 @@ LangString removeDataFolder ${LANG_Ukrainian} "Видалити всі бази 
 LangString removeDataFolder ${LANG_Vietnamese} "Loại bỏ tất cả các cơ sở dữ liệu và các tập tin cấu hình?" 
 LangString removeDataFolder ${LANG_Welsh} "Tynnwch yr holl gronfeydd data a ffeiliau cyfluniad?" 
 
-LangString noRoot ${LANG_ENGLISH} "You cannot install Butter in a directory that requires administrator permissions"
-LangString noRoot ${LANG_Afrikaans} "Jy kan nie Butter installeer in 'n gids wat administrateur regte vereis"
-LangString noRoot ${LANG_Albanian} "Ju nuk mund të instaloni Butter në një directory që kërkon lejet e administratorit"
-LangString noRoot ${LANG_Arabic} " لا يمكنك تثبيت Butter في مجلد يتطلب صلاحيات مدير"
-LangString noRoot ${LANG_Belarusian} "Вы не можаце ўсталяваць Butter ў каталогу, які патрабуе правоў адміністратара"
-LangString noRoot ${LANG_Bosnian} "Nemoguće instalirati Butter u direktorij koji zahtjeva administrativnu dozvolu"
-LangString noRoot ${LANG_Bulgarian} "Не може да инсталирате Butter в директория, изискваща администраторски права"
-LangString noRoot ${LANG_Catalan} "No es pot instal·lar Butter en un directori que requereix permisos d'administrador"
-LangString noRoot ${LANG_Croatian} "Nemoguće instalirati Butter u mapi koja zahtjeva administrativnu dozvolu"
-LangString noRoot ${LANG_Czech} "Nemůžete nainstalovat Butter do složky, která vyžaduje administrátorské oprávnění"
-LangString noRoot ${LANG_Danish} "Butter kan ikke installeres til denne sti, da det kræver administratorrettigheder"
-LangString noRoot ${LANG_Dutch} "Butter kan niet worden geïnstalleerd in een map die beheerdersrechten vereist"
-LangString noRoot ${LANG_Esperanto} "Vi ne povas instali Butter en dosierujo kiu postulas administranto permesojn"
-LangString noRoot ${LANG_Estonian} "Butter`i ei ole võimalik installida kataloogi mis nõuab administraatori õiguseid"
-LangString noRoot ${LANG_Farsi} "در یک دایرکتوری که نیاز به مجوز مدیر نصب Butter  کنید شما می توانید "
-LangString noRoot ${LANG_Finnish} "Et voi asentaa Butter hakemistossa, joka vaatii järjestelmänvalvojan oikeudet"
-LangString noRoot ${LANG_French} "Butter ne peut être installé dans un répertoire nécessitant un accès administrateur"
-LangString noRoot ${LANG_Galician} "Butter non se pode instalar nun directorio que requira permisos de administrador"
-LangString noRoot ${LANG_German} "Butter kann nicht in einem Ordner installiert werden für den Administratorrechte benötigt werden"
-LangString noRoot ${LANG_Greek} "Δεν μπορείτε να εγκαταστήσετε το Butter σε ένα φάκελο που απαιτεί δικαιώματα διαχειριστή"
-LangString noRoot ${LANG_Hebrew} "אין באפשרותכם להתקין את Butter בתיקייה שדורשת הרשאות מנהל"
-LangString noRoot ${LANG_Hungarian} "A Butter nem telepíthető olyan mappába, amely adminisztrátori hozzáférést igényel"
-LangString noRoot ${LANG_Icelandic} "Þú getur ekki sett Butter í möppu sem þarfnast stjórnenda réttindi"
-LangString noRoot ${LANG_Indonesian} "Anda tidak bisa menginstall Butter pada direktori yang memerlukan ijin dari Administrator"
-LangString noRoot ${LANG_Irish} "Ní féidir leat a shuiteáil Butter i eolaire go n-éilíonn ceadanna riarthóir"
-LangString noRoot ${LANG_Italian} "Non puoi installare Butter in una cartella che richiede i permessi d'amministratore"
-LangString noRoot ${LANG_Japanese} "アドミニストレータの聴許が必要なディレクトリには 'Butter'をインストールできません。"
-LangString noRoot ${LANG_Korean} "관리자 권한이 요구되는 위치에 Butter을 설치 할 수 없습니다"
-LangString noRoot ${LANG_Latvian} "Jūs nevarat instalēt Butter direktorijā, kas prasa administratora atļaujas"
-LangString noRoot ${LANG_Lithuanian} "Jūs negalite įdiegti Butter į katalogą, kad reikia administratoriaus teisių"
-LangString noRoot ${LANG_Macedonian} "Не можете да инсталирате Butter во директориумот кој бара администраторски дозволи"
-LangString noRoot ${LANG_Malay} "Anda tidak boleh memasang Butter dalam direktori yang memerlukan keizinan pentadbir"
-LangString noRoot ${LANG_Mongolian} "Та администратор зөвшөөрөл шаарддаг сан дахь Butter суулгаж чадахгүй байгаа"
-LangString noRoot ${LANG_Norwegian} "Butter kan ikke installeres i en mappe som krever administratorrettigheter"
-LangString noRoot ${LANG_NorwegianNynorsk} "Butter kan ikke installeres i en mappe som krever administratorrettigheter"
-LangString noRoot ${LANG_Polish} "Nie można zainstalować Butter w katalogu wymagającym uprawnień administratora"
-LangString noRoot ${LANG_Portuguese} "Não é possível instalar o Butter numa pasta que requer permissões administrativas"
-LangString noRoot ${LANG_PortugueseBR} "Butter não poderá ser instalado em um diretório que requer permissões de administrador"
-LangString noRoot ${LANG_Romanian} "Nu puteți instala Butter într-un director care necesită permisiuni de administrator"
-LangString noRoot ${LANG_Russian} "Butter не может быть установлена в директорию требующей полномочия Администратора"
+LangString noRoot ${LANG_ENGLISH} "You cannot install ${APP_NAME} in a directory that requires administrator permissions"
+LangString noRoot ${LANG_Afrikaans} "Jy kan nie ${APP_NAME} installeer in 'n gids wat administrateur regte vereis"
+LangString noRoot ${LANG_Albanian} "Ju nuk mund të instaloni ${APP_NAME} në një directory që kërkon lejet e administratorit"
+LangString noRoot ${LANG_Arabic} " لا يمكنك تثبيت ${APP_NAME} في مجلد يتطلب صلاحيات مدير"
+LangString noRoot ${LANG_Belarusian} "Вы не можаце ўсталяваць ${APP_NAME} ў каталогу, які патрабуе правоў адміністратара"
+LangString noRoot ${LANG_Bosnian} "Nemoguće instalirati ${APP_NAME} u direktorij koji zahtjeva administrativnu dozvolu"
+LangString noRoot ${LANG_Bulgarian} "Не може да инсталирате ${APP_NAME} в директория, изискваща администраторски права"
+LangString noRoot ${LANG_Catalan} "No es pot instal·lar ${APP_NAME} en un directori que requereix permisos d'administrador"
+LangString noRoot ${LANG_Croatian} "Nemoguće instalirati ${APP_NAME} u mapi koja zahtjeva administrativnu dozvolu"
+LangString noRoot ${LANG_Czech} "Nemůžete nainstalovat ${APP_NAME} do složky, která vyžaduje administrátorské oprávnění"
+LangString noRoot ${LANG_Danish} "${APP_NAME} kan ikke installeres til denne sti, da det kræver administratorrettigheder"
+LangString noRoot ${LANG_Dutch} "${APP_NAME} kan niet worden geïnstalleerd in een map die beheerdersrechten vereist"
+LangString noRoot ${LANG_Esperanto} "Vi ne povas instali ${APP_NAME} en dosierujo kiu postulas administranto permesojn"
+LangString noRoot ${LANG_Estonian} "${APP_NAME}`i ei ole võimalik installida kataloogi mis nõuab administraatori õiguseid"
+LangString noRoot ${LANG_Farsi} "در یک دایرکتوری که نیاز به مجوز مدیر نصب ${APP_NAME}  کنید شما می توانید "
+LangString noRoot ${LANG_Finnish} "Et voi asentaa ${APP_NAME} hakemistossa, joka vaatii järjestelmänvalvojan oikeudet"
+LangString noRoot ${LANG_French} "${APP_NAME} ne peut être installé dans un répertoire nécessitant un accès administrateur"
+LangString noRoot ${LANG_Galician} "${APP_NAME} non se pode instalar nun directorio que requira permisos de administrador"
+LangString noRoot ${LANG_German} "${APP_NAME} kann nicht in einem Ordner installiert werden für den Administratorrechte benötigt werden"
+LangString noRoot ${LANG_Greek} "Δεν μπορείτε να εγκαταστήσετε το ${APP_NAME} σε ένα φάκελο που απαιτεί δικαιώματα διαχειριστή"
+LangString noRoot ${LANG_Hebrew} "אין באפשרותכם להתקין את ${APP_NAME} בתיקייה שדורשת הרשאות מנהל"
+LangString noRoot ${LANG_Hungarian} "A ${APP_NAME} nem telepíthető olyan mappába, amely adminisztrátori hozzáférést igényel"
+LangString noRoot ${LANG_Icelandic} "Þú getur ekki sett ${APP_NAME} í möppu sem þarfnast stjórnenda réttindi"
+LangString noRoot ${LANG_Indonesian} "Anda tidak bisa menginstall ${APP_NAME} pada direktori yang memerlukan ijin dari Administrator"
+LangString noRoot ${LANG_Irish} "Ní féidir leat a shuiteáil ${APP_NAME} i eolaire go n-éilíonn ceadanna riarthóir"
+LangString noRoot ${LANG_Italian} "Non puoi installare ${APP_NAME} in una cartella che richiede i permessi d'amministratore"
+LangString noRoot ${LANG_Japanese} "アドミニストレータの聴許が必要なディレクトリには '${APP_NAME}'をインストールできません。"
+LangString noRoot ${LANG_Korean} "관리자 권한이 요구되는 위치에 ${APP_NAME}을 설치 할 수 없습니다"
+LangString noRoot ${LANG_Latvian} "Jūs nevarat instalēt ${APP_NAME} direktorijā, kas prasa administratora atļaujas"
+LangString noRoot ${LANG_Lithuanian} "Jūs negalite įdiegti ${APP_NAME} į katalogą, kad reikia administratoriaus teisių"
+LangString noRoot ${LANG_Macedonian} "Не можете да инсталирате ${APP_NAME} во директориумот кој бара администраторски дозволи"
+LangString noRoot ${LANG_Malay} "Anda tidak boleh memasang ${APP_NAME} dalam direktori yang memerlukan keizinan pentadbir"
+LangString noRoot ${LANG_Mongolian} "Та администратор зөвшөөрөл шаарддаг сан дахь ${APP_NAME} суулгаж чадахгүй байгаа"
+LangString noRoot ${LANG_Norwegian} "${APP_NAME} kan ikke installeres i en mappe som krever administratorrettigheter"
+LangString noRoot ${LANG_NorwegianNynorsk} "${APP_NAME} kan ikke installeres i en mappe som krever administratorrettigheter"
+LangString noRoot ${LANG_Polish} "Nie można zainstalować ${APP_NAME} w katalogu wymagającym uprawnień administratora"
+LangString noRoot ${LANG_Portuguese} "Não é possível instalar o ${APP_NAME} numa pasta que requer permissões administrativas"
+LangString noRoot ${LANG_PortugueseBR} "${APP_NAME} não poderá ser instalado em um diretório que requer permissões de administrador"
+LangString noRoot ${LANG_Romanian} "Nu puteți instala ${APP_NAME} într-un director care necesită permisiuni de administrator"
+LangString noRoot ${LANG_Russian} "${APP_NAME} не может быть установлена в директорию требующей полномочия Администратора"
 LangString noRoot ${LANG_Serbian} "Ви не можете инсталирати ПопцорнТиме у директоријуму која захтева администраторске дозволе"
-LangString noRoot ${LANG_SerbianLatin} "Ne možete da instalirate Butter u direktorijum koji zahteva administartorsku dozvolu"
-LangString noRoot ${LANG_SimpChinese} "你不能把Butter安装到一个需要管理员权限的目录"
-LangString noRoot ${LANG_Slovak} "Nemôžete inštalovať Butter do zložky, ktorá vyžaduje administrátorské povolenia"
-LangString noRoot ${LANG_Slovenian} "Ne morete namestiti Butter v imeniku, ki zahteva skrbniška dovoljenja"
-LangString noRoot ${LANG_Spanish} "Butter no puede ser instalado en un directorio que requiera permisos de administrador"
-LangString noRoot ${LANG_SpanishInternational} "Butter no puede ser instalado en un directorio que requiera permisos de administrador"
-LangString noRoot ${LANG_Swedish} "Butter kan inte installeras i en mapp som kräver administratörsbehörighet"
-LangString noRoot ${LANG_Thai} "คุณไม่สามารถติดตั้ง Butter ในโฟลเดอร์ ที่ต้องใช้สิทธิ์ของ Administrator"
-LangString noRoot ${LANG_TradChinese} "您不能於一個需要管理員權限才能存取的目錄安裝 Butter"
-LangString noRoot ${LANG_Turkish} "Butter'ı yönetici izinleri gerektiren bir dizine kuramazsınız"
-LangString noRoot ${LANG_Ukrainian} "Ви не можете встановити Butter в директорію для якої потрібні права адміністратора"
-LangString noRoot ${LANG_Vietnamese} "Bạn không thể cài đặt Butter trong một thư mục yêu cầu quyền quản trị admin"
-LangString noRoot ${LANG_Welsh} "Ni gallwch gosod Butter mewn cyfarwyddiadur sydd angen caniatad gweinyddol"
+LangString noRoot ${LANG_SerbianLatin} "Ne možete da instalirate ${APP_NAME} u direktorijum koji zahteva administartorsku dozvolu"
+LangString noRoot ${LANG_SimpChinese} "你不能把${APP_NAME}安装到一个需要管理员权限的目录"
+LangString noRoot ${LANG_Slovak} "Nemôžete inštalovať ${APP_NAME} do zložky, ktorá vyžaduje administrátorské povolenia"
+LangString noRoot ${LANG_Slovenian} "Ne morete namestiti ${APP_NAME} v imeniku, ki zahteva skrbniška dovoljenja"
+LangString noRoot ${LANG_Spanish} "${APP_NAME} no puede ser instalado en un directorio que requiera permisos de administrador"
+LangString noRoot ${LANG_SpanishInternational} "${APP_NAME} no puede ser instalado en un directorio que requiera permisos de administrador"
+LangString noRoot ${LANG_Swedish} "${APP_NAME} kan inte installeras i en mapp som kräver administratörsbehörighet"
+LangString noRoot ${LANG_Thai} "คุณไม่สามารถติดตั้ง ${APP_NAME} ในโฟลเดอร์ ที่ต้องใช้สิทธิ์ของ Administrator"
+LangString noRoot ${LANG_TradChinese} "您不能於一個需要管理員權限才能存取的目錄安裝 ${APP_NAME}"
+LangString noRoot ${LANG_Turkish} "${APP_NAME}'ı yönetici izinleri gerektiren bir dizine kuramazsınız"
+LangString noRoot ${LANG_Ukrainian} "Ви не можете встановити ${APP_NAME} в директорію для якої потрібні права адміністратора"
+LangString noRoot ${LANG_Vietnamese} "Bạn không thể cài đặt ${APP_NAME} trong một thư mục yêu cầu quyền quản trị admin"
+LangString noRoot ${LANG_Welsh} "Ni gallwch gosod ${APP_NAME} mewn cyfarwyddiadur sydd angen caniatad gweinyddol"
 
 LangString desktopShortcut ${LANG_ENGLISH} "Desktop Shortcut"
 LangString desktopShortcut ${LANG_Afrikaans} "Snelkoppeling op die lessenaar (Desktop Shortcut)"
@@ -335,18 +335,39 @@ LangString desktopShortcut ${LANG_Vietnamese} "Lối tắt trên màn (Desktop S
 LangString desktopShortcut ${LANG_Welsh} "Llwybr Byr ar y Bwrdd Gwaith"
 
 ; ------------------- ;
+;    Check Process    ;
+; ------------------- ;
+!macro isRunning un
+    Function ${un}isRunning
+        FindWindow $0 "" "${APP_NAME}"
+        StrCmp $0 0 notRunning
+        MessageBox MB_YESNO|MB_ICONEXCLAMATION "${APP_NAME} is currently running.$\r$\nDo you want to close it now?" /SD IDYES IDNO userQuit
+            SendMessage $0 ${WM_CLOSE} "" "${APP_NAME}"
+            ;SendMessage $0 ${WM_DESTROY} "" "${APP_NAME}"
+            Goto notRunning
+        userQuit:
+            Abort
+        notRunning:
+    FunctionEnd
+!macroend
+!insertmacro isRunning ""
+!insertmacro isRunning "un."
+
+; ------------------- ;
 ;    Install code     ;
 ; ------------------- ;
 Function .onInit ; check for previous version
-    Exec "taskkill /F /IM nw.exe /T" ;<-TODO: can't we get better?
+    Call isRunning
     ReadRegStr $0 HKCU "${UNINSTALL_KEY}" "InstallString"
     StrCmp $0 "" done
     StrCpy $INSTDIR $0
-done:
+    done:
 FunctionEnd
 
-Section ; Node Webkit Files
-
+; ------------------- ;
+;  Node Webkit Files  ;
+; ------------------- ;
+Section
     ;Delete existing install
     RMDir /r "\\?\$INSTDIR"
     
@@ -391,11 +412,12 @@ Section ; Node Webkit Files
     !ifdef DATFILES
         File "${DATPATH}*.dat"
     !endif
-
 SectionEnd
 
-Section ; App Files
-
+; ------------------- ;
+;      App Files      ;
+; ------------------- ;
+Section
     ;Set output path to InstallDir
     SetOutPath "\\?\$INSTDIR\src\app"
 
@@ -429,12 +451,12 @@ Section ; App Files
     SetOutPath "\\?\$INSTDIR"
     !ifdef WIN_PATHS
         File "..\..\package.json"
-        File "..\..\build\Butter\${ARCH}\${APP_LAUNCHER}"
+        File "..\..\build\${APP_NAME}\${ARCH}\${APP_LAUNCHER}"
         File "..\..\CHANGELOG.md"
         File /NONFATAL "..\..\.git.json"
     !else
         File "../../package.json"
-        File "../../build/Butter/${ARCH}/${APP_LAUNCHER}"
+        File "../../build/${APP_NAME}/${ARCH}/${APP_LAUNCHER}"
         File "../../CHANGELOG.md"
         File /NONFATAL "../../.git.json"
     !endif
@@ -448,14 +470,12 @@ Section ; App Files
 
     ;Create uninstaller
     WriteUninstaller "\\?\$INSTDIR\Uninstall.exe"
-
 SectionEnd
 
 ; ------------------- ;
 ;      Shortcuts      ;
 ; ------------------- ;
-Section ; Shortcuts
-
+Section
     ;Working Directory
     SetOutPath "\\?\$INSTDIR"
 
@@ -484,75 +504,62 @@ Section ; Shortcuts
     WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}" "FriendlyAppName" "${APP_NAME}"
     WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}\shell\open\command" "" '"$INSTDIR\${APP_LAUNCHER}" "%1"'
 
+    ;Refresh shell icons
     System::Call "shell32::SHChangeNotify(i,i,i,i) (0x08000000, 0x1000, 0, 0)"
-
 SectionEnd
 
 ; ------------------- ;
 ;     Uninstaller     ;
 ; ------------------- ;
 Section "uninstall" 
-
+    Call un.isRunning
     RMDir /r "\\?\$INSTDIR"
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     Delete "$DESKTOP\${APP_NAME}.lnk"
     
     MessageBox MB_YESNO|MB_ICONQUESTION "$(removeDataFolder)" IDNO NoUninstallData
-    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
+        RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
     NoUninstallData:
-    DeleteRegKey HKCU "${UNINSTALL_KEY}"
-    DeleteRegKey HKCU "Software\Chromium" ;workaround for NW leftovers
-    DeleteRegKey HKCU "Software\Classes\Applications\${APP_LAUNCHER}" ;file association
-    
+        DeleteRegKey HKCU "${UNINSTALL_KEY}"
+        DeleteRegKey HKCU "Software\Chromium" ;workaround for NW leftovers
+        DeleteRegKey HKCU "Software\Classes\Applications\${APP_LAUNCHER}" ;file association
 SectionEnd
 
 ; ------------------- ;
 ;  Check if writable  ;
 ; ------------------- ;
 Function IsWritable
-
-  !define IsWritable `!insertmacro IsWritableCall`
- 
-  !macro IsWritableCall _PATH _RESULT
-    Push `${_PATH}`
-    Call IsWritable
-    Pop ${_RESULT}
-  !macroend
- 
-  Exch $R0
-  Push $R1
- 
-start:
-  StrLen $R1 $R0
-  StrCmp $R1 0 exit
-  ${GetFileAttributes} $R0 "DIRECTORY" $R1
-  StrCmp $R1 1 direxists
-  ${GetParent} $R0 $R0
-  Goto start
- 
-direxists:
-  ${GetFileAttributes} $R0 "DIRECTORY" $R1
-  StrCmp $R1 0 ok
-
-  StrCmp $R0 $PROGRAMFILES64 notok
-  StrCmp $R0 $WINDIR notok
-
-  ${GetFileAttributes} $R0 "READONLY" $R1
-
-  Goto exit
-
-notok:
-  StrCpy $R1 1
-  Goto exit
-
-ok:
-  StrCpy $R1 0
- 
-exit:
-  Exch
-  Pop $R0
-  Exch $R1
- 
+    !define IsWritable `!insertmacro IsWritableCall`
+    !macro IsWritableCall _PATH _RESULT
+        Push `${_PATH}`
+        Call IsWritable
+        Pop ${_RESULT}
+    !macroend
+    Exch $R0
+    Push $R1
+    start:
+        StrLen $R1 $R0
+        StrCmp $R1 0 exit
+        ${GetFileAttributes} $R0 "DIRECTORY" $R1
+        StrCmp $R1 1 direxists
+        ${GetParent} $R0 $R0
+        Goto start
+    direxists:
+        ${GetFileAttributes} $R0 "DIRECTORY" $R1
+        StrCmp $R1 0 ok
+        StrCmp $R0 $PROGRAMFILES64 notok
+        StrCmp $R0 $WINDIR notok
+        ${GetFileAttributes} $R0 "READONLY" $R1
+        Goto exit
+    notok:
+        StrCpy $R1 1
+        Goto exit
+    ok:
+        StrCpy $R1 0
+    exit:
+        Exch
+        Pop $R0
+        Exch $R1
 FunctionEnd
 
 ; ------------------- ;
@@ -571,18 +578,15 @@ Function CloseBrowseForFolderDialog
 FunctionEnd
 
 Function .onVerifyInstDir
-
-  Push $R1
-  ${IsWritable} $INSTDIR $R1
-  IntCmp $R1 0 pathgood
-  Pop $R1
-  Call CloseBrowseForFolderDialog
-  MessageBox MB_OK|MB_USERICON "$(noRoot)"
-  Abort
-
-pathgood:
-  Pop $R1
-
+    Push $R1
+    ${IsWritable} $INSTDIR $R1
+    IntCmp $R1 0 pathgood
+    Pop $R1
+    Call CloseBrowseForFolderDialog
+    MessageBox MB_OK|MB_USERICON "$(noRoot)"
+        Abort
+    pathgood:
+        Pop $R1
 FunctionEnd
 
 ; ------------------ ;
