@@ -354,28 +354,13 @@ Section
 
     ;Set output path to InstallDir
     SetOutPath "\\?\$INSTDIR"
-
-    ;Check to see if this nw uses datfiles
-    !define DATPATH "..\..\cache\${APP_NW}\${ARCH}\"
-
-    !ifdef DATPATH
-        !if /FILEEXISTS "${DATPATH}icudtl.dat"
-            ;File exists!
-            !define DATFILES
-        !else
-            ;File does NOT exist!
-        !endif
-    !endif
     
     ;Add the files
     File "..\..\cache\${APP_NW}\${ARCH}\*.dll"
     File "..\..\cache\${APP_NW}\${ARCH}\nw.exe"
     File "..\..\cache\${APP_NW}\${ARCH}\nw.pak"
     File /r "..\..\cache\${APP_NW}\${ARCH}\locales"
-
-    !ifdef DATFILES
-        File "${DATPATH}*.dat"
-    !endif
+    File /nonfatal "..\..\cache\${APP_NW}\${ARCH}\*.dat"
 SectionEnd
 
 ; ------------------- ;
