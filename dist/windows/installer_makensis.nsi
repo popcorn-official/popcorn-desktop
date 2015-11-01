@@ -1,6 +1,7 @@
 ﻿;Butter
 ;Installer Source for NSIS 3.0 or higher
 
+
 ;Enable Unicode encoding
 Unicode True
 
@@ -19,7 +20,9 @@ Unicode True
 ; ------------------- ;
 !searchparse /file "..\..\Gruntfile.js" "version: '" APP_NW "',"
 
-;Parse package.json
+; ------------------- ;
+; Parse package.json  ;
+; ------------------- ;
 !searchparse /file "..\..\package.json" '"name": "' APP_NAME '",'
 !searchreplace APP_NAME "${APP_NAME}" "-" " "
 !searchparse /file "..\..\package.json" '"version": "' PT_VERSION '",'
@@ -142,7 +145,7 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Welsh"
 
 ; ------------------- ;
-;    Localization     ;
+;    Localisation     ;
 ; ------------------- ;
 LangString removeDataFolder ${LANG_ENGLISH} "Remove all databases and configuration files?"
 LangString removeDataFolder ${LANG_Afrikaans} "Alle databasisse en opset lêers verwyder?" 
@@ -354,7 +357,7 @@ Section
 
     ;Set output path to InstallDir
     SetOutPath "\\?\$INSTDIR"
-    
+
     ;Add the files
     File "..\..\cache\${APP_NW}\${ARCH}\*.dll"
     File "..\..\cache\${APP_NW}\${ARCH}\nw.exe"
@@ -381,15 +384,21 @@ Section
     File /r /x ".*" /x "test*" /x "example*" "..\..\src\app\vendor"
     File "..\..\src\app\index.html"
     File "..\..\src\app\*.js"
-    File /oname=License.txt "..\..\dist\windows\LICENSE.txt"
+    File /oname=License.txt "LICENSE.txt"
 
+    ;Set output path to InstallDir
     SetOutPath "\\?\$INSTDIR"
+
+    ;Add the files
     File "..\..\package.json"
     File "..\..\build\${APP_NAME}\${ARCH}\${APP_LAUNCHER}"
     File "..\..\CHANGELOG.md"
-    File /NONFATAL "..\..\.git.json"
+    File /nonfatal "..\..\.git.json"
 
+    ;Set output path to InstallDir
     SetOutPath "\\?\$INSTDIR\node_modules"
+
+    ;Add the files
     !ifdef UNIX_PATHS
         File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "../../node_modules/*.*"
     !else
