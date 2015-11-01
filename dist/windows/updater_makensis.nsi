@@ -1,6 +1,7 @@
 ﻿;Butter
 ;Updater Source for NSIS 3.0 or higher
 
+
 ;Enable Unicode encoding
 Unicode True
 
@@ -8,43 +9,26 @@ Unicode True
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
 
-;Check file paths
-!if /FILEEXISTS "..\..\package.json"
-    ;File exists!
-    !define WIN_PATHS
-!else
-    ;File does NOT exist!
+;Detect paths style
+!if /FILEEXISTS "../../package.json"
+    ;Unix-style paths detected!
+    !define UNIX_PATHS
 !endif
 
 ; ------------------- ;
 ;  Parse Gruntfile.js ;
 ; ------------------- ;
-!ifdef WIN_PATHS
-    !searchparse /file "..\..\Gruntfile.js" "version: '" APP_NW "',"
-!else
-    !searchparse /file "../../Gruntfile.js" "version: '" APP_NW "',"
-!endif
+!searchparse /file "..\..\Gruntfile.js" "version: '" APP_NW "',"
 
-;Parse package.json
-!ifdef WIN_PATHS
-    !searchparse /file "..\..\package.json" '"name": "' APP_NAME '",'
-!else
-    !searchparse /file "../../package.json" '"name": "' APP_NAME '",'
-!endif
+; ------------------- ;
+; Parse package.json  ;
+; ------------------- ;
+!searchparse /file "..\..\package.json" '"name": "' APP_NAME '",'
 !searchreplace APP_NAME "${APP_NAME}" "-" " "
-!ifdef WIN_PATHS
-    !searchparse /file "..\..\package.json" '"version": "' PT_VERSION '",'
-!else
-    !searchparse /file "../../package.json" '"version": "' PT_VERSION '",'
-!endif
+!searchparse /file "..\..\package.json" '"version": "' PT_VERSION '",'
 !searchreplace PT_VERSION_CLEAN "${PT_VERSION}" "-" ".0"
-!ifdef WIN_PATHS
-    !searchparse /file "..\..\package.json" '"homepage": "' APP_URL '",'
-    !searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '",'
-!else
-    !searchparse /file "../../package.json" '"homepage": "' APP_URL '",'
-    !searchparse /file "../../package.json" '"name": "' DATA_FOLDER '",'
-!endif
+!searchparse /file "..\..\package.json" '"homepage": "' APP_URL '",'
+!searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '",'
 
 ; ------------------- ;
 ;      Settings       ;
@@ -71,22 +55,16 @@ InstallDir "$LOCALAPPDATA\${APP_NAME}"
 ;Request application privileges
 RequestExecutionLevel user
 
-!define APP_LAUNCHER "Butter.exe"
+!define APP_LAUNCHER "${APP_NAME}.exe"
 !define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
 
 ; ------------------- ;
 ;     UI Settings     ;
 ; ------------------- ;
 ;Define UI settings
-!ifdef WIN_PATHS
-    !define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
-    !define MUI_ICON "..\..\src\app\images\butter.ico"
-    !define MUI_UNICON "..\..\src\app\images\butter_uninstall.ico"
-!else
-    !define MUI_UI_HEADERIMAGE_RIGHT "../../src/app/images/icon.png"
-    !define MUI_ICON "../../src/app/images/butter.ico"
-    !define MUI_UNICON "../../src/app/images/butter_uninstall.ico"
-!endif
+!define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
+!define MUI_ICON "..\..\src\app\images\butter.ico"
+!define MUI_UNICON "..\..\src\app\images\butter_uninstall.ico"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
 !define MUI_ABORTWARNING
@@ -164,7 +142,7 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Welsh"
 
 ; ------------------- ;
-;    Localization     ;
+;    Localisation     ;
 ; ------------------- ;
 LangString removeDataFolder ${LANG_ENGLISH} "Remove all databases and configuration files?"
 LangString removeDataFolder ${LANG_Afrikaans} "Alle databasisse en opset lêers verwyder?" 
@@ -277,21 +255,41 @@ LangString desktopShortcut ${LANG_Vietnamese} "Lối tắt trên màn (Desktop S
 LangString desktopShortcut ${LANG_Welsh} "Llwybr Byr ar y Bwrdd Gwaith"
 
 ; ------------------- ;
+;    Check Process    ;
+; ------------------- ;
+!macro isRunning un
+    Function ${un}isRunning
+        FindWindow $0 "" "${APP_NAME}"
+        StrCmp $0 0 notRunning
+        MessageBox MB_YESNO|MB_ICONEXCLAMATION "${APP_NAME} is currently running.$\r$\nDo you want to close it now?" /SD IDYES IDNO userQuit
+            SendMessage $0 ${WM_CLOSE} "" "${APP_NAME}"
+            ;SendMessage $0 ${WM_DESTROY} "" "${APP_NAME}"
+            Goto notRunning
+        userQuit:
+            Abort
+        notRunning:
+    FunctionEnd
+!macroend
+!insertmacro isRunning ""
+!insertmacro isRunning "un."
+
+; ------------------- ;
 ;    Install code     ;
 ; ------------------- ;
-
 Function .onInit ; check for previous version
-    Exec "taskkill /F /IM nw.exe /T"
+    Call isRunning
     ReadRegStr $0 HKCU "${UNINSTALL_KEY}" "InstallString"
     StrCmp $0 "" done
     StrCpy $INSTDIR $0
-done:
+    done:
 FunctionEnd
 
-Section ; Node Webkit Files
-
+; ------------------- ;
+;  Node Webkit Files  ;
+; ------------------- ;
+Section
     ;Delete existing install
-    RMDir /r "$INSTDIR"
+    RMDir /r "\\?\$INSTDIR"
 
     ;Delete cache
     RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\Cache"
@@ -300,107 +298,66 @@ Section ; Node Webkit Files
     RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\Local Storage"
 
     ;Set output path to InstallDir
-    SetOutPath "$INSTDIR"
+    SetOutPath "\\?\$INSTDIR"
 
-    ;Check to see if this nw uses datfiles
-    !ifdef WIN_PATHS
-        !define DATPATH "..\..\build\cache\win\${APP_NW}\"
-    !else
-        !define DATPATH "../../build/cache/win/${APP_NW}/"
-    !endif
-
-    !ifdef DATPATH
-        !if /FILEEXISTS "${DATPATH}icudtl.dat"
-            ;File exists!
-            !define DATFILES
-        !else
-            ;File does NOT exist!
-        !endif
-    !endif
-    
     ;Add the files
-    !ifdef WIN_PATHS
-        File "..\..\build\cache\win\${APP_NW}\*.dll"
-        File "..\..\build\cache\win\${APP_NW}\nw.exe"
-        File "..\..\build\cache\win\${APP_NW}\nw.pak"
-        File /r "..\..\build\cache\win\${APP_NW}\locales"
-    !else
-        File "../../build/cache/win/${APP_NW}/*.dll"
-        File "../../build/cache/win/${APP_NW}/nw.exe"
-        File "../../build/cache/win/${APP_NW}/nw.pak"
-        File /r "../../build/cache/win/${APP_NW}/locales"
-    !endif
-
-    !ifdef DATFILES
-        File "${DATPATH}*.dat"
-    !endif
-
+    File "..\..\cache\${APP_NW}\${ARCH}\*.dll"
+    File "..\..\cache\${APP_NW}\${ARCH}\nw.exe"
+    File "..\..\cache\${APP_NW}\${ARCH}\nw.pak"
+    File /r "..\..\cache\${APP_NW}\${ARCH}\locales"
+    File /nonfatal "..\..\cache\${APP_NW}\${ARCH}\*.dat"
 SectionEnd
 
-Section ; App Files
-
+; ------------------- ;
+;      App Files      ;
+; ------------------- ;
+Section
     ;Set output path to InstallDir
-    SetOutPath "$INSTDIR\src\app"
+    SetOutPath "\\?\$INSTDIR\src\app"
 
     ;Add the files
-    !ifdef WIN_PATHS
-        File /r "..\..\src\app\css"
-        File /r "..\..\src\app\fonts"
-        File /r "..\..\src\app\images"
-        File /r "..\..\src\app\language"
-        File /r "..\..\src\app\lib"
-        File /r "..\..\src\app\templates"
-        File /r "..\..\src/app\themes"
-        File /r /x ".*" /x "test*" /x "example*" "..\..\src\app\vendor"
-        File "..\..\src\app\index.html"
-        File "..\..\src\app\*.js"
-        File /oname=License.txt "..\..\dist\windows\LICENSE.txt"
-    !else
-        File /r "../../src/app/css"
-        File /r "../../src/app/fonts"
-        File /r "../../src/app/images"
-        File /r "../../src/app/language"
-        File /r "../../src/app/lib"
-        File /r "../../src/app/templates"
-        File /r "../../src/app/themes"
-        File /r /x ".*" /x "test*" /x "example*" "../../src/app/vendor"
-        File "../../src/app/index.html"
-        File "../../src/app/*.js"
-        File /oname=License.txt "../../dist/windows/LICENSE.txt"
-    !endif
+    File /r "..\..\src\app\css"
+    File /r "..\..\src\app\fonts"
+    File /r "..\..\src\app\images"
+    File /r "..\..\src\app\language"
+    File /r "..\..\src\app\lib"
+    File /r "..\..\src\app\templates"
+    File /r "..\..\src/app\themes"
+    File /r /x ".*" /x "test*" /x "example*" "..\..\src\app\vendor"
+    File "..\..\src\app\index.html"
+    File "..\..\src\app\*.js"
+    File /oname=License.txt "LICENSE.txt"
 
-    SetOutPath "$INSTDIR"
-    !ifdef WIN_PATHS
-        File "..\..\package.json"
-        File "..\..\dist\windows\${APP_LAUNCHER}"
-        File "..\..\CHANGELOG.md"
-        File /NONFATAL "..\..\.git.json"
-    !else
-        File "../../package.json"
-        File "../../dist/windows/${APP_LAUNCHER}"
-        File "../../CHANGELOG.md"
-        File /NONFATAL "../../.git.json"
-    !endif
+    ;Set output path to InstallDir
+    SetOutPath "\\?\$INSTDIR"
 
-    SetOutPath "$INSTDIR\node_modules"
-    !ifdef WIN_PATHS
-        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "..\..\node_modules\*.*"
-    !else
+    ;Add the files
+    File "..\..\package.json"
+    File "..\..\build\${APP_NAME}\${ARCH}\${APP_LAUNCHER}"
+    File "..\..\CHANGELOG.md"
+    File /nonfatal "..\..\.git.json"
+
+    ;Set output path to InstallDir
+    SetOutPath "\\?\$INSTDIR\node_modules"
+
+    ;Add the files
+    !ifdef UNIX_PATHS
         File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "../../node_modules/*.*"
+    !else
+        !searchreplace node_modules ${__FILEDIR__} "\dist\windows" "\node_modules"
+        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "\\?\${node_modules}\*.*"
     !endif
 
     ;Create uninstaller
-    WriteUninstaller "$INSTDIR\Uninstall.exe"
-
+    WriteUninstaller "\\?\$INSTDIR\Uninstall.exe"
 SectionEnd
 
 ; ------------------- ;
 ;      Shortcuts      ;
 ; ------------------- ;
-Section ; Shortcuts
-
+Section
     ;Working Directory
-    SetOutPath "$INSTDIR"
+    SetOutPath "\\?\$INSTDIR"
 
     ;Start Menu Shortcut
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
@@ -421,32 +378,31 @@ Section ; Shortcuts
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallString" "$INSTDIR"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "URLInfoAbout" "${APP_URL}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.butter.io"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.butterproject.org"
 
     ;File association
     WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}" "FriendlyAppName" "${APP_NAME}"
     WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}\shell\open\command" "" '"$INSTDIR\${APP_LAUNCHER}" "%1"'
 
+    ;Refresh shell icons
     System::Call "shell32::SHChangeNotify(i,i,i,i) (0x08000000, 0x1000, 0, 0)"
-
 SectionEnd
 
 ; ------------------- ;
 ;     Uninstaller     ;
 ; ------------------- ;
 Section "uninstall" 
-
-    RMDir /r "$INSTDIR"
+    Call un.isRunning
+    RMDir /r "\\?\$INSTDIR"
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     Delete "$DESKTOP\${APP_NAME}.lnk"
     
     MessageBox MB_YESNO|MB_ICONQUESTION "$(removeDataFolder)" IDNO NoUninstallData
-    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
+        RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
     NoUninstallData:
-    DeleteRegKey HKCU "${UNINSTALL_KEY}"
-    DeleteRegKey HKCU "Software\Chromium" ;workaround for NW leftovers
-    DeleteRegKey HKCU "Software\Classes\Applications\${APP_LAUNCHER}" ;file association
-    
+        DeleteRegKey HKCU "${UNINSTALL_KEY}"
+        DeleteRegKey HKCU "Software\Chromium" ;workaround for NW leftovers
+        DeleteRegKey HKCU "Software\Classes\Applications\${APP_LAUNCHER}" ;file association
 SectionEnd
 
 ; ------------------ ;
