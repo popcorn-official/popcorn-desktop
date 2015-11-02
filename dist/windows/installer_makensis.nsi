@@ -1,6 +1,7 @@
 ﻿;Butter
 ;Installer Source for NSIS 3.0 or higher
 
+
 ;Enable Unicode encoding
 Unicode True
 
@@ -8,43 +9,26 @@ Unicode True
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
 
-;Check file paths
-!if /FILEEXISTS "..\..\package.json"
-    ;File exists!
-    !define WIN_PATHS
-!else
-    ;File does NOT exist!
+;Detect paths style
+!if /FILEEXISTS "../../package.json"
+    ;Unix-style paths detected!
+    !define UNIX_PATHS
 !endif
 
 ; ------------------- ;
 ;  Parse Gruntfile.js ;
 ; ------------------- ;
-!ifdef WIN_PATHS
-    !searchparse /file "..\..\Gruntfile.js" "version: '" APP_NW "',"
-!else
-    !searchparse /file "../../Gruntfile.js" "version: '" APP_NW "',"
-!endif
+!searchparse /file "..\..\Gruntfile.js" "version: '" APP_NW "',"
 
-;Parse package.json
-!ifdef WIN_PATHS
-    !searchparse /file "..\..\package.json" '"name": "' APP_NAME '",'
-!else
-    !searchparse /file "../../package.json" '"name": "' APP_NAME '",'
-!endif
+; ------------------- ;
+; Parse package.json  ;
+; ------------------- ;
+!searchparse /file "..\..\package.json" '"name": "' APP_NAME '",'
 !searchreplace APP_NAME "${APP_NAME}" "-" " "
-!ifdef WIN_PATHS
-    !searchparse /file "..\..\package.json" '"version": "' PT_VERSION '",'
-!else
-    !searchparse /file "../../package.json" '"version": "' PT_VERSION '",'
-!endif
+!searchparse /file "..\..\package.json" '"version": "' PT_VERSION '",'
 !searchreplace PT_VERSION_CLEAN "${PT_VERSION}" "-" ".0"
-!ifdef WIN_PATHS
-    !searchparse /file "..\..\package.json" '"homepage": "' APP_URL '",'
-    !searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '",'
-!else
-    !searchparse /file "../../package.json" '"homepage": "' APP_URL '",'
-    !searchparse /file "../../package.json" '"name": "' DATA_FOLDER '",'
-!endif
+!searchparse /file "..\..\package.json" '"homepage": "' APP_URL '",'
+!searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '",'
 
 ; ------------------- ;
 ;      Settings       ;
@@ -78,15 +62,9 @@ RequestExecutionLevel user
 ;     UI Settings     ;
 ; ------------------- ;
 ;Define UI settings
-!ifdef WIN_PATHS
-    !define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
-    !define MUI_ICON "..\..\src\app\images\butter.ico"
-    !define MUI_UNICON "..\..\src\app\images\butter_uninstall.ico"
-!else
-    !define MUI_UI_HEADERIMAGE_RIGHT "../../src/app/images/icon.png"
-    !define MUI_ICON "../../src/app/images/butter.ico"
-    !define MUI_UNICON "../../src/app/images/butter_uninstall.ico"
-!endif
+!define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
+!define MUI_ICON "..\..\src\app\images\butter.ico"
+!define MUI_UNICON "..\..\src\app\images\butter_uninstall.ico"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
 !define MUI_ABORTWARNING
@@ -167,7 +145,7 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Welsh"
 
 ; ------------------- ;
-;    Localization     ;
+;    Localisation     ;
 ; ------------------- ;
 LangString removeDataFolder ${LANG_ENGLISH} "Remove all databases and configuration files?"
 LangString removeDataFolder ${LANG_Afrikaans} "Alle databasisse en opset lêers verwyder?" 
@@ -380,38 +358,12 @@ Section
     ;Set output path to InstallDir
     SetOutPath "\\?\$INSTDIR"
 
-    ;Check to see if this nw uses datfiles
-    !ifdef WIN_PATHS
-        !define DATPATH "..\..\cache\${APP_NW}\${ARCH}\"
-    !else
-        !define DATPATH "../../cache/${APP_NW}/${ARCH}/"
-    !endif
-
-    !ifdef DATPATH
-        !if /FILEEXISTS "${DATPATH}icudtl.dat"
-            ;File exists!
-            !define DATFILES
-        !else
-            ;File does NOT exist!
-        !endif
-    !endif
-    
     ;Add the files
-    !ifdef WIN_PATHS
-        File "..\..\cache\${APP_NW}\${ARCH}\*.dll"
-        File "..\..\cache\${APP_NW}\${ARCH}\nw.exe"
-        File "..\..\cache\${APP_NW}\${ARCH}\nw.pak"
-        File /r "..\..\cache\${APP_NW}\${ARCH}\locales"
-    !else
-        File "../../cache/${APP_NW}/${ARCH}/*.dll"
-        File "../../cache/${APP_NW}/${ARCH}/nw.exe"
-        File "../../cache/${APP_NW}/${ARCH}/nw.pak"
-        File /r "../../cache/${APP_NW}/${ARCH}/locales"
-    !endif
-
-    !ifdef DATFILES
-        File "${DATPATH}*.dat"
-    !endif
+    File "..\..\cache\${APP_NW}\${ARCH}\*.dll"
+    File "..\..\cache\${APP_NW}\${ARCH}\nw.exe"
+    File "..\..\cache\${APP_NW}\${ARCH}\nw.pak"
+    File /r "..\..\cache\${APP_NW}\${ARCH}\locales"
+    File /nonfatal "..\..\cache\${APP_NW}\${ARCH}\*.dat"
 SectionEnd
 
 ; ------------------- ;
@@ -422,51 +374,36 @@ Section
     SetOutPath "\\?\$INSTDIR\src\app"
 
     ;Add the files
-    !ifdef WIN_PATHS
-        File /r "..\..\src\app\css"
-        File /r "..\..\src\app\fonts"
-        File /r "..\..\src\app\images"
-        File /r "..\..\src\app\language"
-        File /r "..\..\src\app\lib"
-        File /r "..\..\src\app\templates"
-        File /r "..\..\src/app\themes"
-        File /r /x ".*" /x "test*" /x "example*" "..\..\src\app\vendor"
-        File "..\..\src\app\index.html"
-        File "..\..\src\app\*.js"
-        File /oname=License.txt "..\..\dist\windows\LICENSE.txt"
-    !else
-        File /r "../../src/app/css"
-        File /r "../../src/app/fonts"
-        File /r "../../src/app/images"
-        File /r "../../src/app/language"
-        File /r "../../src/app/lib"
-        File /r "../../src/app/templates"
-        File /r "../../src/app/themes"
-        File /r /x ".*" /x "test*" /x "example*" "../../src/app/vendor"
-        File "../../src/app/index.html"
-        File "../../src/app/*.js"
-        File /oname=License.txt "../../dist/windows/LICENSE.txt"
-    !endif
+    File /r "..\..\src\app\css"
+    File /r "..\..\src\app\fonts"
+    File /r "..\..\src\app\images"
+    File /r "..\..\src\app\language"
+    File /r "..\..\src\app\lib"
+    File /r "..\..\src\app\templates"
+    File /r "..\..\src/app\themes"
+    File /r /x ".*" /x "test*" /x "example*" "..\..\src\app\vendor"
+    File "..\..\src\app\index.html"
+    File "..\..\src\app\*.js"
+    File /oname=License.txt "LICENSE.txt"
 
+    ;Set output path to InstallDir
     SetOutPath "\\?\$INSTDIR"
-    !ifdef WIN_PATHS
-        File "..\..\package.json"
-        File "..\..\build\${APP_NAME}\${ARCH}\${APP_LAUNCHER}"
-        File "..\..\CHANGELOG.md"
-        File /NONFATAL "..\..\.git.json"
-    !else
-        File "../../package.json"
-        File "../../build/${APP_NAME}/${ARCH}/${APP_LAUNCHER}"
-        File "../../CHANGELOG.md"
-        File /NONFATAL "../../.git.json"
-    !endif
 
+    ;Add the files
+    File "..\..\package.json"
+    File "..\..\build\${APP_NAME}\${ARCH}\${APP_LAUNCHER}"
+    File "..\..\CHANGELOG.md"
+    File /nonfatal "..\..\.git.json"
+
+    ;Set output path to InstallDir
     SetOutPath "\\?\$INSTDIR\node_modules"
-    !ifdef WIN_PATHS
+
+    ;Add the files
+    !ifdef UNIX_PATHS
+        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "../../node_modules/*.*"
+    !else
         !searchreplace node_modules ${__FILEDIR__} "\dist\windows" "\node_modules"
         File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "\\?\${node_modules}\*.*"
-    !else
-        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "../../node_modules/*.*"
     !endif
 
     ;Create uninstaller
