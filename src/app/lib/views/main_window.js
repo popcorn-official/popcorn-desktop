@@ -155,7 +155,7 @@
             var status = new Backbone.Model({
                 status: i18n.__('Init Database'),
                 done: 0.05
-            })
+            });
             // Show loading modal on startup
             var that = this;
             this.Content.show(new App.View.InitModal({
@@ -167,7 +167,7 @@
                     status.set({
                         status: i18n.__('Create Temp Folder'),
                         done: 0.25
-                    })
+                    });
 
                     // Create the System Temp Folder. This is used to store temporary data like movie files.
                     if (!fs.existsSync(Settings.tmpLocation)) {

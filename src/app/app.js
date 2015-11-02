@@ -182,7 +182,7 @@ App.addInitializer(function (options) {
 });
 
 var deleteFolder = function (path) {
-    rimraf(path, function(){});
+    rimraf(path, function () {});
 };
 
 var deleteCookies = function () {
