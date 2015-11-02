@@ -23,7 +23,7 @@
         return 'UNKNOWN';
     }
 
-    var extractRating = function (movie) {
+    function extractRating(movie) {
         if (movie.hasOwnProperty('reviews')) {
             return movie.reviews.info.avg_rating;
         }
@@ -31,7 +31,7 @@
         return 0;
     }
 
-    var formatOMDbforButter = function (movie) {
+    function formatOMDbforButter(movie) {
         var id = movie.imdbID;
         var runtime = movie.Runtime;
         var year = movie.Year;
@@ -57,9 +57,9 @@
             synopsis: movie.Plot,
             subtitle: {} // TODO
         };
-    };
+    }
 
-    var formatDetails = function (movie, old) {
+    function formatDetails(movie, old) {
         var id = movie.metadata.identifier[0];
         /* HACK (xaiki): archive.org, get your data straight !#$!
          *
@@ -90,9 +90,9 @@
         old.health = false;
 
         return old;
-    };
+    }
 
-    var formatArchiveForButter = function (movie) {
+    function formatArchiveForButter(movie) {
         var id = movie.metadata.identifier[0];
         var metadata = movie.metadata;
 
@@ -184,7 +184,7 @@
     };
 
     var queryDetails = function (id, movie) {
-        var id = movie.aid || id;
+        id = movie.aid || id;
         var url = baseURL + 'details/' + id + '?output=json';
         win.info('Request to ARCHIVE.org API');
         win.debug(url);
@@ -205,9 +205,9 @@
 
         var url = 'http://www.omdbapi.com/';
         return deferRequest(url, params).then(function (data) {
-            if (data.Error)
+            if (data.Error) {
                 throw new Error(data);
-
+            }
             data.archive = item;
             return data;
         });
@@ -220,9 +220,9 @@
             return queryOMDb(item)
                 .then(formatOMDbforButter)
                 .catch(function (err) {
-                    console.error("no data on OMDB, going back to archive", err, item)
+                    console.error('no data on OMDB, going back to archive', err, item);
                     return queryDetails(item.identifier, item)
-                        .then(formatArchiveForButter)
+                        .then(formatArchiveForButter);
                 });
         });
 
@@ -258,7 +258,7 @@
     Archive.prototype.detail = function (torrent_id, old_data) {
         return queryDetails(torrent_id, old_data)
             .then(function (data) {
-                return formatDetails(data, old_data)
+                return formatDetails(data, old_data);
             });
     };
 
