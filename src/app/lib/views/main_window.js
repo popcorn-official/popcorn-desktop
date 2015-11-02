@@ -152,11 +152,22 @@
             // Set the app title (for Windows mostly)
             win.title = App.Config.title;
 
+            var status = new Backbone.Model({
+                status: i18n.__('Init Database'),
+                done: 0.05
+            })
             // Show loading modal on startup
             var that = this;
-            this.Content.show(new App.View.InitModal());
-            App.db.initialize()
+            this.Content.show(new App.View.InitModal({
+                model: status
+            }));
+
+            App.db.initialize(status)
                 .then(function () {
+                    status.set({
+                        status: i18n.__('Create Temp Folder'),
+                        done: 0.25
+                    })
 
                     // Create the System Temp Folder. This is used to store temporary data like movie files.
                     if (!fs.existsSync(Settings.tmpLocation)) {
@@ -170,6 +181,11 @@
                         });
                     }
 
+                    status.set({
+                        status: i18n.__('Set System Theme'),
+                        done: 0.30
+                    });
+
                     try {
                         fs.statSync('src/app/themes/' + Settings.theme + '.css');
                     } catch (e) {
@@ -182,10 +198,20 @@
                     // focus win. also handles AlwaysOnTop
                     App.vent.trigger('window:focus');
 
+                    status.set({
+                        status: i18n.__('Disclaimer'),
+                        done: 0.50
+                    });
+
                     // we check if the disclaimer is accepted
                     if (!AdvSettings.get('disclaimerAccepted')) {
                         that.showDisclaimer();
                     }
+
+                    status.set({
+                        status: i18n.__('Done'),
+                        done: 1
+                    });
 
                     that.InitModal.destroy();
 
