@@ -9,7 +9,7 @@ There are lots and lots of ways to get involved, this document covers:
     * [bug reports](#bug-reports)
     * [feature requests](#feature-requests)
     * [change requests](#change-requests)
-* [working on Butter core](#core)
+* [working on Butter core](#working-on-butter-core)
     * [submitting pull requests](#submitting-pull-requests)
 * [translation](#translation)
 
