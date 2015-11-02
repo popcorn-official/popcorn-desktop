@@ -198,7 +198,7 @@
 
     var queryOMDb = function (item) {
         var params = {
-            t: item.title,
+            t: item.title.replace(/\s+\([0-9]+\)/, ''),
             r: 'json',
             tomatoes: true
         };
