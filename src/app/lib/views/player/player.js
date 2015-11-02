@@ -225,7 +225,8 @@
             } else {
                 player = this.player = new wcjs('#video_player').addPlayer({
                     autoplay: true,
-                    attach: '#webchimera',
+                    attach: true,
+                    id: '#webchimera',
                     customCSS: 'css/wcjs-butter.css'
                 });
                 player.addPlaylist(this.model.get('src'));
