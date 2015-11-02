@@ -1,8 +1,8 @@
 (function (App) {
     'use strict';
 
-    var PT_id = 13, //ID of project (got with gitlab.projects.all). 13 is for 'butterproject/butter'
-        PT_url = Settings.issuesUrl, //Url of 'issues' of the above project
+    var BT_id = 13, //ID of project (got with gitlab.projects.all). 13 is for 'butterproject/butter'
+        BT_url = Settings.issuesUrl, //Url of 'issues' of the above project
         token;
 
     var Issue = Backbone.Marionette.ItemView.extend({
@@ -63,7 +63,7 @@
                 result,
                 results = [];
 
-            gitlab.projects.issues.list(PT_id, {
+            gitlab.projects.issues.list(BT_id, {
                 state: 'opened'
             }, function (data) {
                 data = Common.sanitize(data);
@@ -95,7 +95,7 @@
                     $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search');
                     var newLine = function (id, title, description, labels) {
                         $('#issue-results').append(
-                            '<li>' + '<a class="issue-title">' + title + '</a>' + '<small>&nbsp;#' + id + '&nbsp;-&nbsp;' + labels + '</small>' + '<div class="issue-details">' + '<p>' + description + '</p>' + '<a class="links" href="' + PT_url + id + '">' + i18n.__('Open in your browser') + '</a>' + '</div>' + '</li>'
+                            '<li>' + '<a class="issue-title">' + title + '</a>' + '<small>&nbsp;#' + id + '&nbsp;-&nbsp;' + labels + '</small>' + '<div class="issue-details">' + '<p>' + description + '</p>' + '<a class="links" href="' + BT_url + id + '">' + i18n.__('Open in your browser') + '</a>' + '</div>' + '</li>'
                         );
                     };
                     for (var i = 0; i < results.length; i++) {
@@ -161,14 +161,14 @@
             }
 
             gitlab.issues.create(
-                PT_id, {
+                BT_id, {
                     title: title,
                     description: content,
                     labels: 'In-App Reporter'
                 },
                 function (callback) {
                     callback = Common.sanitize(callback);
-                    issue_id = PT_url + callback.iid;
+                    issue_id = BT_url + callback.iid;
 
                     win.debug('Issue created:', issue_id);
 
