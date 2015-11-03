@@ -10,7 +10,7 @@ Unicode True
 !include "FileFunc.nsh"
 
 ;Detect paths style
-!if /FILEEXISTS "../../package.json"
+!if /fileexists "../../package.json"
     ;Unix-style paths detected!
     !define UNIX_PATHS
 !endif
@@ -29,6 +29,19 @@ Unicode True
 !searchreplace BT_VERSION_CLEAN "${BT_VERSION}" "-" ".0"
 !searchparse /file "..\..\package.json" '"homepage": "' APP_URL '",'
 !searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '",'
+
+; ------------------- ;
+;    Architecture     ;
+; ------------------- ;
+;Default to detected platform build if 
+;not defined by -DARCH= argument
+!ifndef ARCH
+    !if /fileexists "..\..\build\${APP_NAME}\win64\*.*"
+        !define ARCH "win64"
+    !else
+        !define ARCH "win32"
+    !endif
+!endif
 
 ; ------------------- ;
 ;      Settings       ;
@@ -373,7 +386,7 @@ Section
     IntFmt $0 "0x%08X" $0
     WriteRegDWORD HKCU "${UNINSTALL_KEY}" "EstimatedSize" "$0"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayVersion" "${PT_VERSION}"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayVersion" "${BT_VERSION}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\src\app\images\butter.ico"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "${COMPANY_NAME}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
