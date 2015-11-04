@@ -3,6 +3,13 @@
     var memoize = require('memoizee');
     var cache = {};
 
+    App.ProviderTypes = {
+        'tvshow': 'TV Series',
+        'movie': 'Movies',
+        'anime': 'Anime',
+        'indie': 'Indie'
+    };
+
     var Provider = function () {
         var memopts = {
             maxAge: 10 * 60 * 1000,
@@ -54,10 +61,14 @@
         }
 
         win.info('Spawning new provider', name);
-        cache[name] = new provider();
+        var p = cache[name] = new provider();
+
+        if (p && p.config && p.config.type)
+            App.TabTypes[p.config.type] = App.ProviderTypes[p.config.type];
+
         //HACK(xaiki): set the provider name in the returned object.
-        cache[name].name = name;
-        return cache[name];
+        p.name = name;
+        return p;
     }
 
     function delProvider(name) {
@@ -71,4 +82,6 @@
     App.Providers.delete = delProvider;
     App.Providers.Generic = Provider;
 
+
+    App.TabTypes = {}
 })(window.App);

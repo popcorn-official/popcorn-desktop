@@ -1,5 +1,7 @@
 <ul class="nav nav-hor left">
-    <li class="source active showMovies providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.providers.movie %>"><%= i18n.__("Movies") %></li>
+    <% _.each (App.TabTypes, function (name, type) { %>
+    <li class="source <%= type %>TabShow providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.providers[type] %>"><%= i18n.__(name) %></li>
+    <% }); %>
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">
     <% if(typeof type !== 'undefined'){ %>

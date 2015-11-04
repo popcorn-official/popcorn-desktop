@@ -198,17 +198,17 @@
             ////// BROWSER /////
             ////////////////////
             server.expose('showslist', function (args, opt, callback) {
-                $('.source.showShows').click();
+                $('.source.tvshowTabShow').click();
                 butterCallback(callback);
             });
 
             server.expose('movieslist', function (args, opt, callback) {
-                $('.source.showMovies').click();
+                $('.source.movieTabShow').click();
                 butterCallback(callback);
             });
 
             server.expose('animelist', function (args, opt, callback) {
-                $('.source.showAnime').click();
+                $('.source.animeTabShow').click();
                 butterCallback(callback);
             });
 

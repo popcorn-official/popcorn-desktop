@@ -25,10 +25,10 @@
             'click #filterbar-settings': 'settings',
             'click #filterbar-about': 'about',
             'click #filterbar-random': 'randomMovie',
-            'click .showMovies': 'showMovies',
-            'click .showShows': 'showShows',
-            'click .showAnime': 'showAnime',
-            'click .showIndie': 'showIndie',
+            'click .movieTabShow': 'movieTabShow',
+            'click .tvshowTabShow': 'tvshowTabShow',
+            'click .animeTabShow': 'animeTabShow',
+            'click .indieTabShow': 'indieTabShow',
             'click #filterbar-favorites': 'showFavorites',
             'click #filterbar-watchlist': 'showWatchlist',
             'click #filterbar-torrent-collection': 'showTorrentCollection',
@@ -49,20 +49,20 @@
             switch (set) {
             case 'TV Series':
             case 'shows':
-                $('.source.showShows').addClass('active');
+                $('.source.tvshowTabShow').addClass('active');
                 break;
             case 'Movies':
             case 'movies':
                 $('#filterbar-random').show();
-                $('.source.showMovies').addClass('active');
+                $('.source.movieTabShow').addClass('active');
                 break;
             case 'Anime':
             case 'anime':
-                $('.source.showAnime').addClass('active');
+                $('.source.animeTabShow').addClass('active');
                 break;
             case 'Indie':
             case 'indie':
-                $('.source.showIndie').addClass('active');
+                $('.source.indieTabShow').addClass('active');
                 break;
             case 'Favorites':
             case 'favorites':
@@ -341,7 +341,7 @@
             }
         },
 
-        showShows: function (e) {
+        tvshowTabShow: function (e) {
             e.preventDefault();
             App.currentview = 'shows';
             App.vent.trigger('about:close');
@@ -350,7 +350,7 @@
             this.setactive('TV Series');
         },
 
-        showAnime: function (e) {
+        animeTabShow: function (e) {
             e.preventDefault();
             App.currentview = 'anime';
             App.vent.trigger('about:close');
@@ -359,7 +359,7 @@
             this.setactive('Anime');
         },
 
-        showIndie: function (e) {
+        indieTabShow: function (e) {
             e.preventDefault();
             App.currentview = 'indie';
             App.vent.trigger('about:close');
@@ -368,7 +368,7 @@
             this.setactive('Indie');
         },
 
-        showMovies: function (e) {
+        movieTabShow: function (e) {
             e.preventDefault();
 
             App.currentview = 'movies';
