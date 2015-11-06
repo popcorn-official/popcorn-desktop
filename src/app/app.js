@@ -574,7 +574,7 @@ window.ondrop = function (e) {
         var data = e.dataTransfer.getData('text/plain');
         Settings.droppedMagnet = data;
         handleTorrent(data);
-        return false
+        return false;
     }
 
     if (file.name.indexOf('.torrent') !== -1 ||
@@ -595,10 +595,10 @@ window.ondrop = function (e) {
         });
     } else if (isVideo(file.name)) {
         handleVideoFile(file);
-        return false
+        return false;
     }
 
-    console.error ('could not handle', e)
+    console.error ('could not handle', e);
     return false;
 };
 

@@ -63,8 +63,9 @@
         win.info('Spawning new provider', name);
         var p = cache[name] = new provider();
 
-        if (p && p.config && p.config.type)
+        if (p && p.config && p.config.type) {
             App.TabTypes[p.config.type] = App.ProviderTypes[p.config.type];
+        }
 
         //HACK(xaiki): set the provider name in the returned object.
         p.name = name;
@@ -82,6 +83,5 @@
     App.Providers.delete = delProvider;
     App.Providers.Generic = Provider;
 
-
-    App.TabTypes = {}
+    App.TabTypes = {};
 })(window.App);
