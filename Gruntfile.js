@@ -310,11 +310,14 @@ module.exports = function (grunt) {
             setexecutable: {
                 command: function () {
                     if (host.linux || host.mac) {
-                        return [
-                            'pct_rel="build/' + projectName + '"',
-                            'chmod -R +x ${pct_rel}/osx*/' + projectName + '.app || : ',
-                            'chmod +x ${pct_rel}/linux*/' + projectName + ' || : '
-                        ].join(' && ');
+                        var cmds = ['pct_rel="build/' + projectName + '"'];
+                        if (buildPlatforms.mac32 || buildPlatforms.mac64) {
+                            cmds.push('chmod -R +x ${pct_rel}/osx*/' + projectName + '.app || : ');
+                        }
+                        if (buildPlatforms.linux32 || buildPlatforms.linux64) {
+                            cmds.push('chmod +x ${pct_rel}/linux*/' + projectName + ' || : ');
+                        }
+                        return cmds.join(' && ');
                     } else {
                         return 'echo ""'; // Not needed in Windows
                     }
