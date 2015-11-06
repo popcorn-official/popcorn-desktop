@@ -570,8 +570,15 @@ window.ondrop = function (e) {
 
     var file = e.dataTransfer.files[0];
 
-    if (file !== null && (file.name.indexOf('.torrent') !== -1 || file.name.indexOf('.srt') !== -1)) {
+    if (! file) {
+        var data = e.dataTransfer.getData('text/plain');
+        Settings.droppedMagnet = data;
+        handleTorrent(data);
+        return false
+    }
 
+    if (file.name.indexOf('.torrent') !== -1 ||
+        file.name.indexOf('.srt') !== -1) {
         fs.writeFile(path.join(App.settings.tmpLocation, file.name), fs.readFileSync(file.path), function (err) {
             if (err) {
                 App.PlayerView.closePlayer();
@@ -586,15 +593,12 @@ window.ondrop = function (e) {
                 }
             }
         });
-
-    } else if (file !== null && isVideo(file.name)) {
+    } else if (isVideo(file.name)) {
         handleVideoFile(file);
-    } else {
-        var data = e.dataTransfer.getData('text/plain');
-        Settings.droppedMagnet = data;
-        handleTorrent(data);
+        return false
     }
 
+    console.error ('could not handle', e)
     return false;
 };
 

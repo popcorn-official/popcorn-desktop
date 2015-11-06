@@ -93,7 +93,7 @@ Settings.minimizeToTray = false;
 Settings.bigPicture = false;
 
 // Features
-Settings.activateTorrentCollection = true;
+Settings.activateTorrentCollection = false;
 Settings.activateWatchlist = true;
 Settings.activateRandomize = true;
 Settings.onlineSearchEngine = 'KAT';
