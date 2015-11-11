@@ -69,7 +69,7 @@
     "upnp-mediarenderer-client": "1.x.x",
     "urijs": "1.x.x",
     "wcjs-player": "git+https://github.com/butterproject/wcjs-player.git",
-    "xmlbuilder": "3.1.0"
+    "xmlbuilder": "4.1.0"
   },
   "devDependencies": {
     "bower": "1.6.5",
