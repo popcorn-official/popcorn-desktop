@@ -50,7 +50,7 @@
     "node-webkit-fdialogs": "latest",
     "nodecast-js": "git+https://github.com/gyzerok/nodecast-js",
     "nw": "^0.12.3",
-    "opensubtitles-api": "1.x.x",
+    "opensubtitles-api": "2.x.x",
     "os-name": "1.x.x",
     "peerflix": "^0.32.1",
     "q": "2.0.3",
