@@ -483,11 +483,15 @@
 
             if (usn !== '' && pw !== '') {
                 $('.opensubtitles-options .loading-spinner').show();
-                var OpenSubtitles = new OS(Settings.projectName + ' v' + (Settings.version || 1), usn, Common.md5(pw));
+                var OpenSubtitles = new OS({
+                    useragent: Settings.projectName + ' v' + (Settings.version || 1),
+                    username: usn,
+                    password: Common.md5(pw)
+                });
 
                 OpenSubtitles.login()
-                    .then(function (res) {
-                        if (res.token) {
+                    .then(function (token) {
+                        if (token) {
                             AdvSettings.set('opensubtitlesUsername', usn);
                             AdvSettings.set('opensubtitlesPassword', Common.md5(pw));
                             AdvSettings.set('opensubtitlesAuthenticated', true);
