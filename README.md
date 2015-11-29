@@ -12,7 +12,7 @@ Visit the project's website at <http://butterproject.org>.
 
 ## Getting Involved
 
-Want to report a bug, request a feature, contribute to or translate Butter? Check out our in-depth guide to [Contributing to Butter](CONTRIBUTING.md). We need all the help we can get! You can also join our [community](README.md#community) to keep up-to-date and meet other Butterrs.
+Want to report a bug, request a feature, contribute to or translate Butter? Check out our in-depth guide to [Contributing to Butter](CONTRIBUTING.md#contributing-to-butter). We need all the help we can get! You can also join our [community](README.md#community) to keep up-to-date and meet other Butterrs.
 
 ## Getting Started
 
@@ -42,7 +42,7 @@ If you encounter trouble with the above method, you can try:
 
 Optionally, you may simply run `./make_butter.sh` if you are on a linux or mac based operating system.
 
-Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md)
+Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-butter)
 
 <a name="community"></a>
 ## Community
