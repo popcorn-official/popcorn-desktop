@@ -71,7 +71,7 @@
     "xmlbuilder": "4.1.0"
   },
   "devDependencies": {
-    "bower": "1.6.5",
+    "bower": "1.6.6",
     "grunt": "0.4.5",
     "grunt-bower-clean": "0.x.x",
     "grunt-contrib-clean": "0.x.x",
