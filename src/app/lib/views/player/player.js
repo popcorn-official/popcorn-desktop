@@ -512,11 +512,11 @@
             if (timeLeft === undefined) {
                 return i18n.__('Unknown time remaining');
             } else if (timeLeft > 3600) {
-                return i18n.__('%s hour(s) remaining', Math.round(timeLeft / 3600));
+                return i18n.__n('%d hour remaining', Math.round(timeLeft / 3600));
             } else if (timeLeft > 60) {
-                return i18n.__('%s minute(s) remaining', Math.round(timeLeft / 60));
+                return i18n.__n('%d minute remaining', Math.round(timeLeft / 60));
             } else if (timeLeft <= 60) {
-                return i18n.__('%s second(s) remaining', timeLeft);
+                return i18n.__n('%d second remaining', timeLeft);
             }
         },
 
