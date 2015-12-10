@@ -570,7 +570,7 @@ window.ondrop = function (e) {
 
     var file = e.dataTransfer.files[0];
 
-    if (! file) {
+    if (!file) {
         var data = e.dataTransfer.getData('text/plain');
         Settings.droppedMagnet = data;
         handleTorrent(data);
@@ -598,7 +598,7 @@ window.ondrop = function (e) {
         return false;
     }
 
-    console.error ('could not handle', e);
+    console.error('could not handle', e);
     return false;
 };
 

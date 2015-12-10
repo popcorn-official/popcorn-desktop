@@ -75,7 +75,7 @@
         var name = getPlayerName(loc);
         return players[name].filenameswitch || '';
     }
-    
+
     function getPlayerUrlSwitch(loc) {
         var name = getPlayerName(loc);
         return players[name].urlswitch || '';

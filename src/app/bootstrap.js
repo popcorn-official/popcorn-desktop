@@ -2,7 +2,7 @@
     'use strict';
     App.start();
 
-    _.keys(App.ProviderTypes).forEach (function (p) {
+    _.keys(App.ProviderTypes).forEach(function (p) {
         App.Config.getProvider(p);
     });
 
