@@ -87,6 +87,6 @@
         "grunt-shell": "1.x.x",
         "load-grunt-tasks": "3.3.0",
         "nw-gyp": "0.x.x",
-        "stylus": "0.52.4"
+        "stylus": "0.53.0"
     }
 }
