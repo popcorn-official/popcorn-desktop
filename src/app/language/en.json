@@ -401,18 +401,9 @@
 	"Hide VPN from the filter bar": "Hide VPN from the filter bar",
 	"Magnet link": "Magnet link",
 	"Error resolving torrent.": "Error resolving torrent.",
-	"%d hour remaining": {
-		"one": "%d hour remaining",
-		"other": "%d hours remaining"
-	},
-	"%d minute remaining": {
-		"one": "%d minute remaining",
-		"other": "%d minutes remaining"
-	},
-	"%d second remaining": {
-		"one": "%d second remaining",
-		"other": "%d seconds remaining"
-	},
+	"%s hour(s) remaining": "%s hour(s) remaining",
+	"%s minute(s) remaining": "%s minute(s) remaining",
+	"%s second(s) remaining": "%s second(s) remaining",
 	"Unknown time remaining": "Unknown time remaining",
 	"Set player window to video resolution": "Set player window to video resolution",
 	"Set player window to double of video resolution": "Set player window to double of video resolution",
@@ -512,13 +503,5 @@
 	"Create Temp Folder": "Create Temp Folder",
 	"Set System Theme": "Set System Theme",
 	"Disclaimer": "Disclaimer",
-	"Action, Family, Sci-Fi": "Action, Family, Sci-Fi",
-	"indie,drama,filesharing": "indie,drama,filesharing",
-	"drama,suspense,teen,voodoo,supernatural": "drama,suspense,teen,voodoo,supernatural",
-	"Drama, Mystery, Thriller": "Drama, Mystery, Thriller",
-	"indie,horror": "indie,horror",
-	"drama,teen,horror": "drama,teen,horror",
-	"gangs,documentary,britain": "gangs,documentary,britain",
-	"Drama, History, War": "Drama, History, War",
-	"Local": "Local"
+	"politics,documentary,corruption": "politics,documentary,corruption"
 }

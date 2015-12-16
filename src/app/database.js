@@ -392,7 +392,8 @@ var Database = {
 
         // we'll intiatlize our settings and our API SSL Validation
         // we build our settings array
-        return Database.getUserInfo()
+        return App.bootstrapPromise
+            .then(Database.getUserInfo)
             .then(Database.getSettings)
             .then(function (data) {
                 if (data !== null) {
