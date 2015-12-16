@@ -1,14 +1,9 @@
 (function (App) {
     'use strict';
     var memoize = require('memoizee');
+    var fs=require('fs');
     var cache = {};
 
-    App.ProviderTypes = {
-        'tvshow': 'TV Series',
-        'movie': 'Movies',
-        'anime': 'Anime',
-        'indie': 'Indie'
-    };
 
     var Provider = function () {
         var memopts = {
@@ -41,6 +36,16 @@
     Provider.prototype.toString = function (arg) {
         return JSON.stringify(this);
     };
+
+    App.Providers.Generic = Provider;
+
+    App.ProviderTypes = {
+        'tvshow': 'TV Series',
+        'movie': 'Movies',
+        'anime': 'Anime',
+        'indie': 'Indie'
+    };
+
 
     function getProvider(name) {
         if (!name) {
@@ -81,7 +86,5 @@
 
     App.Providers.get = getProvider;
     App.Providers.delete = delProvider;
-    App.Providers.Generic = Provider;
-
     App.TabTypes = {};
 })(window.App);

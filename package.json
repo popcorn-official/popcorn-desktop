@@ -38,7 +38,6 @@
     "iconv-lite": "0.x.x",
     "jschardet": "1.4.1",
     "json-rpc2": "1.0.2",
-    "kat-api": "0.x.x",
     "markdown": "0.5.x",
     "memoizee": "0.x.x",
     "mkdirp": "*",
@@ -50,7 +49,7 @@
     "node-webkit-fdialogs": "latest",
     "nodecast-js": "git+https://github.com/gyzerok/nodecast-js",
     "nw": "^0.12.3",
-    "opensubtitles-api": "1.x.x",
+    "opensubtitles-api": "^2.3.x",
     "os-name": "1.x.x",
     "peerflix": "^0.32.1",
     "q": "2.0.3",
@@ -68,7 +67,6 @@
     "underscore": "1.x.x",
     "upnp-mediarenderer-client": "1.x.x",
     "urijs": "1.x.x",
-    "wcjs-player": "git+https://github.com/butterproject/wcjs-player.git",
     "xmlbuilder": "4.1.0"
   },
   "devDependencies": {
