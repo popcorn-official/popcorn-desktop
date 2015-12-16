@@ -1,7 +1,9 @@
 (function (App) {
     'use strict';
 
-    var Favorites = function () {};
+    var Favorites = function () {
+        this.name = 'Favorites';
+    };
     Favorites.prototype.constructor = Favorites;
 
     var queryTorrents = function (filters) {
@@ -183,6 +185,6 @@
             });
     };
 
-    App.Providers.Favorites = Favorites;
+    App.Providers.install(Favorites);
 
 })(window.App);

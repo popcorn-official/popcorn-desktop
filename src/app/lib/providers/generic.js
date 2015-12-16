@@ -2,8 +2,7 @@
     'use strict';
     var memoize = require('memoizee');
     var fs=require('fs');
-    var cache = {};
-
+    var cache = App.Providers._cache = {};
 
     var Provider = function () {
         var memopts = {
@@ -84,7 +83,17 @@
         }
     }
 
+    function installProvider(PO) {
+        var PI = new PO();
+        if (!PI.name) {
+            console.error (PO, PI, 'doesnt have a name')
+        }
+        App.Providers._cache[PI.name] = PI;
+    }
+
     App.Providers.get = getProvider;
     App.Providers.delete = delProvider;
+    App.Providers.install = installProvider;
+
     App.TabTypes = {};
 })(window.App);

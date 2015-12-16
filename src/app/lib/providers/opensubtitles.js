@@ -37,6 +37,6 @@
         return openSRT.upload(queryParams);
     };
 
-    App.Providers.OpenSubtitles = OpenSubtitles;
+    App.Providers.install(OpenSubtitles);
 
 })(window.App);
