@@ -10,6 +10,7 @@
             return new Vodo();
         }
 
+        this.name = 'Vodo';
         App.Providers.Generic.call(this);
     }
     inherits(Vodo, App.Providers.Generic);
@@ -202,5 +203,5 @@
         return Q(old_data);
     };
 
-    App.Providers.Vodo = Vodo;
+    App.Providers.install(Vodo);
 })(window.App);

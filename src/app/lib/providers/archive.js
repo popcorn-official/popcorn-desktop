@@ -4,7 +4,9 @@
     var moment = require('moment');
     var deferRequest = require('defer-request');
 
-    var Archive = function () {};
+    var Archive = function () {
+        this.name = 'Archive' 
+    };
 
     var baseURL = 'https://archive.org/';
     var URL = baseURL + 'advancedsearch.php';
@@ -262,6 +264,5 @@
             });
     };
 
-    App.Providers.Archive = Archive;
-
+    App.Providers.install(Archive);
 })(window.App);

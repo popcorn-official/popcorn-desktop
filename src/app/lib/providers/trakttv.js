@@ -7,6 +7,8 @@
         REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob';
 
     function TraktTv() {
+        this.name = 'Trakttv';
+
         App.Providers.CacheProviderV2.call(this, 'metadata');
 
         this.authenticated = false;

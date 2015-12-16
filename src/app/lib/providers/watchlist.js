@@ -3,7 +3,9 @@
     'use strict';
     var TVApi = App.Providers.get('TVApi');
 
-    var Watchlist = function () {};
+    var Watchlist = function () {
+        this.name = 'Watchlist';
+    };
     Watchlist.prototype.constructor = Watchlist;
 
     var queryTorrents = function (filters) {
@@ -200,6 +202,6 @@
         return deferred.promise;
     };
 
-    App.Providers.Watchlist = Watchlist;
+    App.Providers.install(Watchlist)
 
 })(window.App);

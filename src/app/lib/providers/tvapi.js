@@ -1,12 +1,10 @@
 (function (App) {
     'use strict';
-    var querystring = require('querystring');
-    var request = require('request');
-    var Q = require('q');
-    var inherits = require('util').inherits;
 
     var URL = false;
     var TVApi = function () {
+        this.name = 'TVApi';
+        
         try {
             var Client = require('node-tvdb');
             var tvdb = new Client('7B95D15E1BE1D75A');
@@ -50,12 +48,9 @@
         function get(index) {
             var options = {
                 url: Settings.tvAPI[index].url + 'shows/' + filters.page + '?' + querystring.stringify(params).replace(/%25%20/g, '%20'),
-                json: true
+                json: true,
+                gzip: true
             };
-			
-			tvApiServer = Settings.tvAPI[index].url;
-			document.getElementById('TVApi').setAttribute('data-original-title', tvApiServer);
-			
             var req = jQuery.extend(true, {}, Settings.tvAPI[index], options);
             win.info('Request to TVApi', req.url);
             request(req, function (err, res, data) {
@@ -72,7 +67,6 @@
                     win.error('API error:', err);
                     return deferred.reject(err);
                 } else {
-					document.getElementById('TVApi').setAttribute('data-original-title', tvApiServer)
                     data.forEach(function (entry) {
                         entry.type = 'show';
                     });
@@ -96,9 +90,9 @@
             function get(index) {
                 var options = {
                     url: Settings.tvAPI[index].url + 'show/' + torrent_id,
-                    json: true
+                    json: true,
+                    gzip: true
                 };
-				document.getElementById('TVApi').setAttribute('data-original-title', tvApiServer);
                 var req = jQuery.extend(true, {}, Settings.tvAPI[index], options);
                 win.info('Request to TVApi', req.url);
                 request(req, function (error, response, data) {
@@ -181,6 +175,5 @@
         return queryTorrent(torrent_id, old_data, debug);
     };
 
-    App.Providers.TVApi = TVApi;
-
+    App.Providers.install(TVApi);
 })(window.App);

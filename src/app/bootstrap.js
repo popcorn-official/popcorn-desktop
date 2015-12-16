@@ -6,43 +6,54 @@
     var Q = require ('q');
     var fs = require('fs');
 
-    var appPath = '';
-    var providerPath = './src/app/lib/providers/';
+    function loadProviders() {
+        var appPath = '';
+        var providerPath = './src/app/lib/providers/';
 
-    var files = fs.readdirSync(providerPath);
-    var deferred = files.map (function (file) {
-        if (! file.match(/\.js$/))
-            return
+        var files = fs.readdirSync(providerPath);
 
-        if (file.match(/generic.js$/))
-            return
+        return files.map (function (file) {
+            if (! file.match(/\.js$/))
+                return null;
 
-        console.log ('loading', file);
+            if (file.match(/generic.js$/))
+                return null;
 
-        var q = Q.defer();
+            console.log ('loading', file);
 
-        var head = document.getElementsByTagName('head')[0];
-        var script = document.createElement('script');
+            var q = Q.defer();
 
-        script.type = 'text/javascript';
-        script.src = 'lib/providers/' + file;
+            var head = document.getElementsByTagName('head')[0];
+            var script = document.createElement('script');
 
-        script.onload = function () {
-            console.log ('loaded', file)
-            q.resolve(file);
-        };
+            script.type = 'text/javascript';
+            script.src = 'lib/providers/' + file;
 
-        head.appendChild(script);
-        return q.promise;
-    }).filter (function (q) { return q});
+            script.onload = function () {
+                console.log ('loaded', file)
+                q.resolve(file);
+            };
 
-    App.bootstrapPromise = Q.all(deferred).then(function (values) {
-        console.log ('got done', values)
-        return _.keys(App.ProviderTypes).map(function (p) {
-            return App.Config.getProvider(p);
-        });
-    }).then(function (providers) {
-        console.log ('loaded', providers)
-    })
+            head.appendChild(script);
+
+            return q.promise;
+        }).filter (function (q) { return q});
+    }
+
+    function initProviders() {
+        debugger
+    }
+
+    var deferred = loadProviders();
+    App.bootstrapPromise = Q.all(deferred)
+        .then(initProviders)
+        .then(function (values) {
+            return _.keys(App.ProviderTypes).map(function (p) {
+                return App.Config.getProvider(p);
+            });
+        })
+        .then(function (providers) {
+            console.log ('loaded', providers)
+        })
 
 })(window.App);

@@ -2,7 +2,9 @@
     'use strict';
     var OS = require('opensubtitles-api');
 
-    var OpenSubtitles = function () {};
+    var OpenSubtitles = function () {
+        this.name = 'OpenSubtitles';
+    };
     OpenSubtitles.prototype.constructor = OpenSubtitles;
 
     var normalizeLangCodes = function (data) {
@@ -32,6 +34,6 @@
         return openSRT.upload(queryParams);
     };
 
-    App.Providers.OpenSubtitles = OpenSubtitles;
+    App.Providers.install(OpenSubtitles);
 
 })(window.App);

@@ -2,6 +2,7 @@
     'use strict';
 
     var CacheProvider = function (table, ttl) {
+        this.name = 'CacheProviderV2';
         this._table = table;
         this._cache = new App.CacheV2(table);
         this.ttl = ttl;
