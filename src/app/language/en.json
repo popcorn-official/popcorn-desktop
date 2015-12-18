@@ -401,9 +401,18 @@
 	"Hide VPN from the filter bar": "Hide VPN from the filter bar",
 	"Magnet link": "Magnet link",
 	"Error resolving torrent.": "Error resolving torrent.",
-	"%s hour(s) remaining": "%s hour(s) remaining",
-	"%s minute(s) remaining": "%s minute(s) remaining",
-	"%s second(s) remaining": "%s second(s) remaining",
+	"%d hour remaining": {
+		"one": "%d hour remaining",
+		"other": "%d hours remaining"
+	},
+	"%d minute remaining": {
+		"one": "%d minute remaining",
+		"other": "%d minutes remaining"
+	},
+	"%d second remaining": {
+		"one": "%d second remaining",
+		"other": "%d seconds remaining"
+	},
 	"Unknown time remaining": "Unknown time remaining",
 	"Set player window to video resolution": "Set player window to video resolution",
 	"Set player window to double of video resolution": "Set player window to double of video resolution",
