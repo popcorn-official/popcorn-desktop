@@ -116,18 +116,8 @@
             });
         },
 
-        unbindKeyboardShortcuts: function () { // There should be a better way to do this
-            Mousetrap.unbind('w');
-            Mousetrap.unbind('f');
-            Mousetrap.unbind('q');
-            Mousetrap.unbind('up');
-            Mousetrap.unbind('down');
-            Mousetrap.unbind(['enter', 'space']);
-            Mousetrap.unbind(['esc', 'backspace']);
-            Mousetrap.unbind(['ctrl+up', 'command+up']);
-            Mousetrap.unbind(['ctrl+down', 'command+down']);
-        },
-
+        unbindKeyboardShortcuts: Mousetrap.reset,
+        
         onShow: function () {
             bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
 
