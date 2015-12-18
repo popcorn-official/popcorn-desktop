@@ -69,7 +69,7 @@
         "urijs": "1.x.x",
         "wcjs-prebuilt": "*",
         "wcjs-player": "git+https://github.com/butterproject/wcjs-player.git",
-        "xmlbuilder": "4.1.0"
+        "xmlbuilder": "4.2.0"
     },
     "devDependencies": {
         "bower": "1.7.1",
