@@ -85,7 +85,7 @@
         "grunt-jsbeautifier": "*",
         "grunt-nw-builder": "^2.0.0",
         "grunt-shell": "1.x.x",
-        "load-grunt-tasks": "3.3.0",
+        "load-grunt-tasks": "3.4.0",
         "nw-gyp": "0.x.x",
         "stylus": "0.53.0"
     }
