@@ -10,7 +10,6 @@
             return new Vodo();
         }
 
-        this.name = 'Vodo';
         App.Providers.Generic.call(this);
     }
     inherits(Vodo, App.Providers.Generic);
@@ -73,6 +72,7 @@
     };
 
     Vodo.prototype.config = {
+        name: 'Vodo',
         uniqueId: 'imdb_id',
         tabName: 'Vodo',
         type: 'movie',

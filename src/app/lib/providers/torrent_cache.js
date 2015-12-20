@@ -3,7 +3,6 @@
     var safeMagetTID = null,
         stateModel = null;
 
-
     /**
      * takes care that magnet and .torr urls always return actual torrent file
      */
@@ -11,10 +10,13 @@
         MAGNET_RESOLVE_TIMEOUT = 60 * 1000; // let's give max a minute to resolve a magnet uri
 
     var mod = function () {
-        this.name = 'TorrentCache';
         this._checkTmpDir();
     },
         pmod = mod.prototype;
+
+    pmod.config = {
+        name: 'TorrentCache'
+    }
 
     pmod.getTmpDir = function () {
         return tpmDir;

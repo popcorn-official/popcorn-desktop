@@ -3,6 +3,7 @@
     var memoize = require('memoizee');
     var fs=require('fs');
     var cache = App.Providers._cache = {};
+    var registry = App.Providers._registry = {};
 
     var Provider = function () {
         var memopts = {
@@ -49,8 +50,14 @@
     function getProvider(name) {
         if (!name) {
             /* XXX(xaiki): this is for debug purposes, will it bite us later ? */
-            win.error('dumping provider cache');
+            win.error('asked for an empty provider, this should never happen, dumping provider cache and registry', cache, registry);
             return cache;
+        }
+
+        var tokenize = name.split('?')
+        var config = {
+            name: tokenize.shift(),
+            args: querystring.parse(tokenize.join('?'))
         }
 
         if (cache[name]) {
@@ -58,14 +65,14 @@
             return cache[name];
         }
 
-        var provider = App.Providers[name];
+        var provider = registry[config.name];
         if (!provider) {
-            win.error('couldn\'t find provider', name);
+            win.error('couldn\'t find provider', config.name);
             return null;
         }
 
         win.info('Spawning new provider', name);
-        var p = cache[name] = new provider();
+        var p = cache[name] = new provider(config.args);
 
         if (p && p.config && p.config.type) {
             App.TabTypes[p.config.type] = App.ProviderTypes[p.config.type];
@@ -84,11 +91,18 @@
     }
 
     function installProvider(PO) {
-        var PI = new PO();
-        if (!PI.name) {
-            console.error (PO, PI, 'doesnt have a name')
+        var name = PO.prototype.config?PO.prototype.config.name:null;
+
+        if (!name) {
+            return console.error (PO, PO.prototype.config, 'doesnt have a name')
         }
-        App.Providers._cache[PI.name] = PI;
+
+        if (registry[name]) {
+            return console.error ('double definition of', name, PO, PO.prototype.config, 'is the same as', registry[name]);
+        }
+
+        console.log ('added', name, 'to provider registry')
+        registry[name] = PO;
     }
 
     App.Providers.get = getProvider;

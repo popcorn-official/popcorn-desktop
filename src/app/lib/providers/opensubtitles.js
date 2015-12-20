@@ -11,6 +11,9 @@
         });
     };
     OpenSubtitles.prototype.constructor = OpenSubtitles;
+    OpenSubtitles.prototype.config = {
+        name: 'OpenSubtitles'
+    }
 
     var normalizeLangCodes = function (data) {
         if ('pb' in data) {

@@ -3,10 +3,11 @@
     'use strict';
     var TVApi = App.Providers.get('TVApi');
 
-    var Watchlist = function () {
-        this.name = 'Watchlist';
-    };
+    var Watchlist = function () {};
     Watchlist.prototype.constructor = Watchlist;
+    Watchlist.prototype.config = {
+        name: 'Watchlist'
+    }
 
     var queryTorrents = function (filters) {
         var deferred = Q.defer();
