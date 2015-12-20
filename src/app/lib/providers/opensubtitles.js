@@ -2,10 +2,11 @@
     'use strict';
     var OS = require('opensubtitles-api');
 
-    var OpenSubtitles = function () {
-        this.name = 'OpenSubtitles';
-    };
+    var OpenSubtitles = function () {};
     OpenSubtitles.prototype.constructor = OpenSubtitles;
+    OpenSubtitles.prototype.config = {
+        name: 'OpenSubtitles'
+    }
 
     var normalizeLangCodes = function (data) {
         if ('pb' in data) {

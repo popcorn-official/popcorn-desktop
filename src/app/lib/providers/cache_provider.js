@@ -2,11 +2,14 @@
     'use strict';
 
     var CacheProvider = function (table, ttl) {
-        this.name = 'CacheProvider';
         this.table = table;
         this.cache = new App.Cache(table);
         this.ttl = ttl;
     };
+
+    CacheProvider.prototype.config = {
+        name: 'CacheProvider'
+    }
 
     // TODO: Duplicate cache entry
     CacheProvider.prototype.fetch = function (ids) {

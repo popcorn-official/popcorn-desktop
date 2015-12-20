@@ -4,8 +4,8 @@
     var moment = require('moment');
     var deferRequest = require('defer-request');
 
-    var Archive = function () {
-        this.name = 'Archive' 
+    var Archive = function (args) {
+        console.log ('got args', args)
     };
 
     var baseURL = 'https://archive.org/';
@@ -240,6 +240,7 @@
     };
 
     Archive.prototype.config = {
+        name: 'Archive',
         uniqueId: 'imdb_id',
         tabName: 'Archive.org',
         type: 'movie',

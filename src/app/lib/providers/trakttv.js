@@ -7,8 +7,6 @@
         REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob';
 
     function TraktTv() {
-        this.name = 'Trakttv';
-
         App.Providers.CacheProviderV2.call(this, 'metadata');
 
         this.authenticated = false;
@@ -58,6 +56,10 @@
         return Q.all(promises).then(function (results) {
             return _.unique(_.flatten(results));
         });
+    }
+
+    TraktTv.prototype.config = {
+        name: 'Trakttv'
     }
 
     TraktTv.prototype.cache = function (key, ids, func) {
@@ -716,4 +718,5 @@
     App.vent.on('movie:unwatched', onMoviesUnWatched);
 
     App.Providers.Trakttv = TraktTv;
+    App.Providers.install(TraktTv)
 })(window.App);

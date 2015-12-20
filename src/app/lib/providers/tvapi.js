@@ -3,8 +3,6 @@
 
     var URL = false;
     var TVApi = function () {
-        this.name = 'TVApi';
-        
         try {
             var Client = require('node-tvdb');
             var tvdb = new Client('7B95D15E1BE1D75A');
@@ -20,6 +18,10 @@
     };
 
     inherits(TVApi, App.Providers.Generic);
+
+    TVApi.prototype.config = {
+        name: 'TVApi'
+    }
 
     var queryTorrents = function (filters) {
 

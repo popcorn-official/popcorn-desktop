@@ -2,11 +2,15 @@
     'use strict';
 
     var CacheProvider = function (table, ttl) {
-        this.name = 'CacheProviderV2';
         this._table = table;
         this._cache = new App.CacheV2(table);
         this.ttl = ttl;
     };
+
+    CacheProvider.prototype.config = {
+        name: 'CacheProviderV2'
+    }
+
 
     CacheProvider.prototype.fetch = function (ids) {
         var self = this;
