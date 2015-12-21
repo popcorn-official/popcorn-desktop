@@ -40,13 +40,8 @@
         }).filter (function (q) { return q});
     }
 
-    function initProviders() {
-        debugger
-    }
-
     var deferred = loadProviders();
     App.bootstrapPromise = Q.all(deferred)
-        .then(initProviders)
         .then(function (values) {
             return _.keys(App.ProviderTypes).map(function (p) {
                 return App.Config.getProvider(p);
