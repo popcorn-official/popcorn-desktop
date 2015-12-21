@@ -133,14 +133,16 @@
                 return deferred.promise;
             }
 
-            var torrentPromises = _.map(torrents, function (rawData) {
-                return getDataFromProvider(rawData).then(function (torrents) {
-                    self.add(torrents.results);
-                    self.hasMore = true;
-                    self.trigger('sync', self);
-                }).catch(function (err) {
-                    console.error('err', err);
-                });
+            var torrentPromises = _.map(torrents, function (torrentProvider) {
+                return getDataFromProvider(torrentProvider)
+                    .then(function (torrents) {
+                        self.add(torrents.results);
+                        self.hasMore = true;
+                        self.trigger('sync', self);
+                    })
+                    .catch(function (err) {
+                        console.error('provider error err', err);
+                    });
             });
 
             Q.all(torrentPromises).done(function (torrents) {
