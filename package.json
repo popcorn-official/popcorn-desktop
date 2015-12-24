@@ -43,7 +43,7 @@
         "mkdirp": "*",
         "moment": "2.x.x",
         "mv": "2.x.x",
-        "nedb": "1.5.0",
+        "nedb": "1.5.1",
         "node-captions": "0.4.6",
         "node-tvdb": "1.6.0",
         "node-webkit-fdialogs": "latest",
