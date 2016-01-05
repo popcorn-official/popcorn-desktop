@@ -1,11 +1,8 @@
 <div class="torrent-collection-container">
     <div class="margintop"></div>
     <div class="content">
-        <h1>Torrent Collection is disabled in this Butter build</h1>
-    </div>
-    <div class="content" style="display: none;">
 
-        <div class="onlinesearch">
+        <!--div class="onlinesearch">
             <div class="engine-selector">
                 <div id="strike-icon" data-id="Strike" class="engine-icon"></div>
                 <div id="kat-icon" data-id="KAT" class="engine-icon"></div>
@@ -26,7 +23,7 @@
                 <input id="online-input" autocomplete="off" size="30" type="text" name="keyword" placeholder="<%= i18n.__('Search on %s', Settings.onlineSearchEngine) %>">
                 <i class="fa fa-search online-search"></i>
             </form>
-        </div>
+        </div-->
 
         <div class="notorrents-info">
             <div class="notorrents-frame">

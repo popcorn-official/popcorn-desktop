@@ -47,9 +47,9 @@
         },
 
         onRender: function () {
-            $('.engine-icon').removeClass('active');
+            /*$('.engine-icon').removeClass('active');
             $('#' + this.searchEngine.toLowerCase() + '-icon').addClass('active');
-            $('#online-input').focus();
+            $('#online-input').focus();*/
             if (this.files[0]) {
                 $('.notorrents-info').css('display', 'none');
                 $('.collection-actions').css('display', 'block');
@@ -204,7 +204,7 @@
                 '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '"><a>' + item.title + '</a><div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="right" title="' + i18n.__('Magnet link') + '"></div><i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">' + item.size + '</i></li>'
             );
             if (item.seeds === 0) { // recalc the peers/seeds
-                var torrent = item.magnet.split('&tr')[0] + '&tr=udp://tracker.openbittorrent.com:80/announce' + '&tr=udp://open.demonii.com:1337/announce' + '&tr=udp://tracker.coppersurfer.tk:6969';
+                var torrent = item.magnet.split('&tr')[0] + '&tr=udp://tracker.openbittorrent.com:80/announce' + '&tr=udp://9.rarbg.com:2710/announce' + '&tr=udp://tracker.coppersurfer.tk:6969'+ '&tr=udp://tracker.publicbt.com:80/announce';
                 require('torrent-tracker-health')(torrent, {
                     timeout: 1000
                 }).then(function (res) {
