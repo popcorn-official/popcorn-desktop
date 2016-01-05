@@ -483,7 +483,11 @@
 
             if (usn !== '' && pw !== '') {
                 $('.opensubtitles-options .loading-spinner').show();
-                var OpenSubtitles = new OS(Settings.projectName + ' v' + (Settings.version || 1), usn, Common.md5(pw));
+                var OpenSubtitles = new OS({
+                    useragent: 'OSTestUserAgent',//TODO: register UA 'Butter v' + (Settings.version || 1),
+                    username: usn,
+                    password: Common.md5(pw)
+                });
 
                 OpenSubtitles.login()
                     .then(function (res) {

@@ -81,7 +81,8 @@
             trackers: [
                 'udp://tracker.openbittorrent.com:80',
                 'udp://tracker.coppersurfer.tk:6969',
-                'udp://open.demonii.com:1337'
+                'udp://9.rarbg.com:2710/announce',
+                'udp://tracker.publicbt.com:80/announce'
             ],
             port: parseInt(Settings.streamPort, 10) || 0,
             tmp: App.settings.tmpLocation,
@@ -245,7 +246,7 @@
     var Streamer = {
         start: function (model) {
             var torrent = model.get('torrent');
-            var torrentUrl = torrent.url ? torrent.url : torrent.magnet;
+            var torrentUrl = torrent.url || torrent.magnet || torrent;
 
             var torrent_read = false;
             if (model.get('torrent_read')) {

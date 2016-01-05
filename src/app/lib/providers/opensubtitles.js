@@ -2,7 +2,14 @@
     'use strict';
     var OS = require('opensubtitles-api');
 
-    var OpenSubtitles = function () {};
+    var OpenSubtitles = function () {
+        openSRT = new OS({
+            useragent: 'OSTestUserAgent',//TODO: register UA 'Butter v' + (Settings.version || 1),
+            username: Settings.opensubtitlesUsername,
+            password: Settings.opensubtitlesPassword
+        });
+    };
+
     OpenSubtitles.prototype.constructor = OpenSubtitles;
     OpenSubtitles.prototype.config = {
         name: 'OpenSubtitles'
