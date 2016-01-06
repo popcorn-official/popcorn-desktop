@@ -47,7 +47,7 @@
     "node-captions": "0.4.6",
     "node-tvdb": "1.6.0",
     "node-webkit-fdialogs": "latest",
-    "nodecast-js": "git+https://github.com/gyzerok/nodecast-js",
+    "nodecast-js": "^1.0.1",
     "nw": "^0.12.3",
     "opensubtitles-api": "^2.3.x",
     "os-name": "1.x.x",
