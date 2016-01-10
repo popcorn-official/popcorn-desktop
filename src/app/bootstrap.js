@@ -49,7 +49,9 @@
 
         return packages.map(function(p) {
             console.log ('loading npm provider', p);
-            return Q(require(p)(App))
+            var provider = require(p)
+
+            return Q(App.Providers.install(provider))
         })
     }
 
