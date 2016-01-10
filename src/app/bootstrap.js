@@ -6,7 +6,7 @@
     var Q = require ('q');
     var fs = require('fs');
 
-    function loadProviders() {
+    function loadLocalProviders() {
         var appPath = '';
         var providerPath = './src/app/lib/providers/';
 
@@ -19,7 +19,7 @@
             if (file.match(/generic.js$/))
                 return null;
 
-            console.log ('loading', file);
+            console.log ('loading local provider', file);
 
             var q = Q.defer();
 
@@ -40,15 +40,31 @@
         }).filter (function (q) { return q});
     }
 
-    var deferred = loadProviders();
-    App.bootstrapPromise = Q.all(deferred)
+    function loadNpmProviders() {
+        var config = require('../../package.json')
+
+        var packages = Object.keys(config.dependencies).filter(function (p) {
+            return p.match(/butter-provider-/)
+        })
+
+        return packages.map(function(p) {
+            console.log ('loading npm provider', p);
+            return Q(require(p)(App))
+        })
+    }
+
+    function loadProviders() {
+        return loadLocalProviders().concat(loadNpmProviders())
+    }
+
+    App.bootstrapPromise = Q.all(loadProviders())
         .then(function (values) {
             return _.keys(App.ProviderTypes).map(function (p) {
                 return App.Config.getProvider(p);
             });
         })
-        .then(function (providers) {
-            console.log ('loaded', providers)
+        .then(function (provider) {
+            console.log ('loaded', provider)
         })
 
 })(window.App);
