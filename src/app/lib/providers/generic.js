@@ -7,7 +7,7 @@
     App.Providers.Generic = require('butter-provider');
 
     App.ProviderTypes = {
-        'tvshow': 'TV Series',
+        'tvshow': 'Series',
         'movie': 'Movies',
         'anime': 'Anime',
         'indie': 'Indie'
