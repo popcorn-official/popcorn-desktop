@@ -69,12 +69,7 @@
         <div class="tabs-base">
             <div class="tabs-seasons">
                 <ul>
-                    <% var torrents = {};
-                    _.each(episodes, function(value, currentEpisode) {
-                        if (!torrents[value.season]) torrents[value.season] = {};
-                        torrents[value.season][value.episode] = value;
-                    });
-                    _.each(torrents, function(value, season) { %>
+                    <%_.each(torrents, function(value, season) { %>
                         <li class="tab-season" data-tab="season-<%=season %>">
                             <a><%= i18n.__("Season %s", season) %></a>
                         </li>

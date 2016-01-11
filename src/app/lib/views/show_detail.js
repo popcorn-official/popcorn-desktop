@@ -87,6 +87,13 @@
                 _this.initKeyboardShortcuts();
             });
 
+            var torrents = {};
+            _.each(this.model.get('episodes'), function(value, currentEpisode) {
+                if (!torrents[value.season]) torrents[value.season] = {};
+                torrents[value.season][value.episode] = value;
+            });
+            this.model.set('torrents', torrents);
+            this.model.set('seasonCount', Object.keys(torrents).length);
         },
         renameUntitled: function () {
             var episodes = this.model.get('episodes');
