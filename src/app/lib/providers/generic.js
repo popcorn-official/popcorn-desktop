@@ -50,6 +50,7 @@
     function getProvider(name) {
         if (!name) {
             /* XXX(xaiki): this is for debug purposes, will it bite us later ? */
+            /* XXX(vankasteelj): it did. */
             win.error('asked for an empty provider, this should never happen, dumping provider cache and registry', cache, registry);
             return cache;
         }

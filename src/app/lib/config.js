@@ -211,12 +211,16 @@
 
         getProvider: function (type) {
             var provider = App.Config.providers[type];
-            if (provider instanceof Array) {
+            if (!provider) {
+                console.warn('Provider type: \'%s\' isn\'t defined in App.Config.providers', type);
+                return;
+            } else if (provider instanceof Array) {
                 return _.map(provider, function (t) {
                     return App.Providers.get(t);
                 });
+            } else {
+                return App.Providers.get(provider);
             }
-            return App.Providers.get(provider);
         }
     };
 
