@@ -1,3 +1,50 @@
+.show-detail-container
+  height: 100%
+  display: flex
+  flex-direction: column
+
+.show-detail-header
+  flex: 1
+  display: flex
+o
+.show-detail-header-image
+  flex: 1
+
+.show-detail-header-info
+  flex: 4
+
+.show-detail-info
+  flex: 2
+  display: flex
+
+.show-detail-seasons
+  flex: 1
+  background-color: red
+
+.show-detail-episodes
+  flex: 4
+  display: flex
+  background-color: green
+
+.show-detail-episodes-list
+  flex: 1
+  background-color: yellow
+
+.show-detail-right-container
+  display: flex
+  flex: 1
+  flex-direction: column
+
+.show-detail-episode-info
+  display: flex
+  flex: 6
+  background-color: blue
+
+.show-detail-play-now
+  height: 100px
+  flex: 1
+  color: green
+
 .shows-container-contain
     background-color $BgColor1
     height 100%
@@ -59,6 +106,7 @@
     height 100%
     width 100%
     position absolute
+    padding 25px
 
     .tv-dot
         position relative
@@ -74,7 +122,6 @@
 
     .tv-title
         top 21px
-        left 198px
         position relative
         z-index 3
         color #fff
@@ -86,7 +133,6 @@
     .tv-year
         margin-top 35px
         position relative
-        margin-left 198px
         float left
         color #fff
         width auto
@@ -198,7 +244,6 @@
 
     .tv-overview
         margin-top 60px
-        margin-left 198px
         z-index 3
         position relative
         color #fff
@@ -258,7 +303,6 @@
     .favourites-toggle 
         cursor: pointer
         padding-left: 24px
-        margin-left: 198px
         z-index: 3
         color: #FFF
         height: 18px
@@ -417,7 +461,7 @@
 .tabs-episodes
     position relative
     z-index 2
-    width: 48%
+    width: 100%
     height calc(100% - 350px)
     display: inline-block
     direction rtl
@@ -497,7 +541,6 @@
     height 60px
     font-size 23px
     padding 20px 0
-    position fixed
     top 280px
     z-index 3
     background $ShowBgColor1
@@ -511,18 +554,15 @@
         display inline-block
 
 .episode-info
+    width  100%
     background-color $EpisodeDetailsBg
-    float right
-    width 44%
+
     color $ShowText1
     padding 20px 30px 30px 20px
-    height 100%
+
     font-family $MainFont
     line-height initial
-    position fixed
-    margin-left auto
-    margin-right auto
-    right 0
+
     z-index 4
 
     p
@@ -668,12 +708,6 @@
         width 38%
 
 @media all and (min-width: 700px) and (max-width: 1300px)
-    .episode-info
-        width 36%
-
-    .tabs-episodes
-        width 47%
-
     .episode-info-title
         font-size 18px
 
