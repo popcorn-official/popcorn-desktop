@@ -202,7 +202,7 @@
         providers: {
             movie: ['vodo', 'archive'],
             tvshow: ['ccc'],
-            subtitle: 'YSubs',
+            subtitle: 'OpenSubtitles',
             metadata: 'Trakttv',
             tvst: 'TVShowTime',
 
