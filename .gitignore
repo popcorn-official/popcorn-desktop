@@ -14,7 +14,6 @@ lib-cov
 node_modules/
 src/app/vendor
 src/app/themes
-src/app/language
 build/
 
 pids
