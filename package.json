@@ -28,8 +28,9 @@
     "position": "center"
   },
   "dependencies": {
-      "butter-provider-ccc": "*",
-      "butter-provider-vodo": "*",
+      "butter-provider-ccc": "https://github.com/butterproviders/butter-provider-ccc",
+      "butter-provider-vodo": "https://github.com/butterproviders/butter-provider-vodo",
+      "butter-provider-archive": "https://github.com/butterproviders/butter-provider-archive",
     "adm-zip": "0.4.7",
     "airplay-js": "git+https://github.com/guerrerocarlos/node-airplay-js.git",
     "async": "1.5.0",
