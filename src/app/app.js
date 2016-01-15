@@ -433,7 +433,7 @@ var handleVideoFile = function (file) {
         return Q.Promise(function (resolve, reject) {
             win.debug('Subtitles data request:', subdata);
 
-            var subtitleProvider = App.Config.getProvider('tvshowsubtitle');
+            var subtitleProvider = App.Config.getProvider('subtitle');
 
             subtitleProvider.fetch(subdata).then(function (subs) {
                 if (subs && Object.keys(subs).length > 0) {

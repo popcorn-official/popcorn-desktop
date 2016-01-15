@@ -201,18 +201,17 @@
 
         providers: {
             movie: ['Vodo', 'Archive'],
-            subtitle: 'YSubs',
+            subtitle: 'OpenSubtitles',
             metadata: 'Trakttv',
             tvst: 'TVShowTime',
 
-            tvshowsubtitle: 'OpenSubtitles',
             torrentCache: 'TorrentCache'
         },
 
         getProvider: function (type) {
             var provider = App.Config.providers[type];
             if (!provider) {
-                console.warn('Provider type: \'%s\' isn\'t defined in App.Config.providers', type);
+                win.warn('Provider type: \'%s\' isn\'t defined in App.Config.providers', type);
                 return;
             } else if (provider instanceof Array) {
                 return _.map(provider, function (t) {
