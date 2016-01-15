@@ -1,7 +1,6 @@
 (function (App) {
     'use strict';
-    var OS = require('opensubtitles-api'),
-        openSRT;
+    var OS = require('opensubtitles-api'), openSRT;
 
     var OpenSubtitles = function () {
         openSRT = new OS({
@@ -10,6 +9,7 @@
             password: Settings.opensubtitlesPassword
         });
     };
+
     OpenSubtitles.prototype.constructor = OpenSubtitles;
     OpenSubtitles.prototype.config = {
         name: 'OpenSubtitles'

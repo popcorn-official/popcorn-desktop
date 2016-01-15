@@ -65,8 +65,8 @@
                 return App.Config.getProvider(p);
             });
         })
-        .then(function (provider) {
-            console.log ('loaded', provider)
+        .then(function (providers) {
+            console.log ('loaded', providers)
         })
 
 })(window.App);

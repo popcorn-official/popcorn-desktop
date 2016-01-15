@@ -12,7 +12,7 @@
     var mod = function () {
         this._checkTmpDir();
     },
-        pmod = mod.prototype;
+    pmod = mod.prototype;
 
     pmod.config = {
         name: 'TorrentCache'
@@ -284,5 +284,7 @@
     App.Providers.TorrentCache = function () {
         return singleton;
     };
+
+    App.Providers.install(mod);
 
 })(window.App);
