@@ -49,7 +49,7 @@
             title: movie.Title,
             genre: [movie.Genre],
             year: year,
-            rating: rating,
+            rating: rating == 'N/A' ? undefined : rating,
             runtime: runtime,
             image: undefined,
             cover: undefined,
@@ -109,7 +109,7 @@
             moment.duration(Number(mp4s[0].length) * 1000).asMinutes()
         );
 
-        console.log(runtime, movie);
+        console.debug('formatArchiveForButter', runtime, movie);
         var year = exctractYear(movie);
         var rating = extractRating(movie);
 

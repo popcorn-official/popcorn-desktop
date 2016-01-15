@@ -117,7 +117,7 @@
                                         movie.backdrop = info.images.full;
                                     }
                                 } else {
-                                    win.warn('Unable to find %s on Trakt.tv', id);
+                                    win.warn('Unable to find %s (%s) on Trakt.tv', id, movie.title);
                                 }
                             }
                         });
