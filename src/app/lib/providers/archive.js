@@ -208,7 +208,7 @@
         var url = 'http://www.omdbapi.com/';
         return deferRequest(url, params).then(function (data) {
             if (data.Error) {
-                throw new Error(data);
+                throw new Error(data.Error);
             }
             data.archive = item;
             return data;
@@ -216,20 +216,20 @@
     };
 
     var queryOMDbBulk = function (items) {
-        console.error('before details', items);
+        console.debug('before details', items);
         var deferred = Q.defer();
         var promises = _.map(items, function (item) {
             return queryOMDb(item)
                 .then(formatOMDbforButter)
                 .catch(function (err) {
-                    console.error('no data on OMDB, going back to archive', err, item);
+                    console.warn('no data on OMDB, going back to archive', err, item);
                     return queryDetails(item.identifier, item)
                         .then(formatArchiveForButter);
                 });
         });
 
         Q.all(promises).done(function (data) {
-            console.error('queryOMDbbulk', data);
+            console.debug('queryOMDbbulk', data);
             deferred.resolve({
                 hasMore: (data.length < 50),
                 results: data
