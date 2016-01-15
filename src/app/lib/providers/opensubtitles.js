@@ -1,6 +1,6 @@
 (function (App) {
     'use strict';
-    var OS = require('opensubtitles-api');
+    var OS = require('opensubtitles-api'), openSRT;
 
     var OpenSubtitles = function () {
         openSRT = new OS({
@@ -32,13 +32,11 @@
     };
 
     OpenSubtitles.prototype.fetch = function (queryParams) {
-        var openSRT = new OS('Butter Time v' + (Settings.version || 1), Settings.opensubtitlesUsername, Settings.opensubtitlesPassword);
         return openSRT.search(queryParams)
             .then(formatForButter);
     };
 
     OpenSubtitles.prototype.upload = function (queryParams) {
-        var openSRT = new OS('Butter v' + (Settings.version || 1), Settings.opensubtitlesUsername, Settings.opensubtitlesPassword);
         return openSRT.upload(queryParams);
     };
 
