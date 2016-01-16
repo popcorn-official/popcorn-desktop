@@ -221,6 +221,12 @@
             } else {
                 return App.Providers.get(provider);
             }
+        },
+
+        getProviderNames: function (type) {
+            return this.getProvider(type).map(function (p) {
+                return p.config.tabName
+            })
         }
     };
 
