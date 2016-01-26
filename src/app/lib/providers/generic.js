@@ -21,10 +21,18 @@
             return cache;
         }
 
-        var tokenize = name.split('?')
+        var tokenize = name.split('?');
+
+        // XXX:reimplement querystring.parse to not escape
+        var args = {}
+        tokenize[1] && tokenize[1].split('&').map(function (v){
+            var m = v.split('=')
+            args[m[0]]= m[1]
+        })
+
         var config = {
-            name: tokenize.shift(),
-            args: querystring.parse(tokenize.join('?'))
+            name: tokenize[0],
+            args: args
         }
 
         if (cache[name]) {
