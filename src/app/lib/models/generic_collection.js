@@ -56,6 +56,7 @@
 
                 Q.all(promises)
                     .spread(function (torrents, subtitles, metadatas) {
+                        console.log ('torrents', torrents, subtitles, metadatas)
                         // If a new request was started...
                         metadatas = _.map(metadatas, function (m) {
                             if (!m || !m.value) {

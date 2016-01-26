@@ -29,6 +29,7 @@
   },
   "dependencies": {
       "butter-provider-ccc": "*",
+      "butter-provider-youtube": "*",
       "butter-provider-vodo": "*",
       "butter-provider-archive": "*",
     "adm-zip": "0.4.7",

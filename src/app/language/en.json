@@ -503,5 +503,18 @@
 	"Create Temp Folder": "Create Temp Folder",
 	"Set System Theme": "Set System Theme",
 	"Disclaimer": "Disclaimer",
-	"politics,documentary,corruption": "politics,documentary,corruption"
+	"politics,documentary,corruption": "politics,documentary,corruption",
+	"Series": "Series",
+	"Finished": "Finished",
+	"Event": "Event",
+	"hohoSeries": "hohoSeries",
+	"hohoMovies": "hohoMovies",
+	"Biography, Comedy, Drama": "Biography, Comedy, Drama",
+	"%d hour remaining": {
+		"one": "%d hour remaining",
+		"other": 13
+	},
+	"thriller,conspiracy,indie": "thriller,conspiracy,indie",
+	"Animation, Comedy, Fantasy": "Animation, Comedy, Fantasy",
+	"blah": "blah"
 }
