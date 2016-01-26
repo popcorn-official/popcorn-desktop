@@ -227,7 +227,20 @@
             return this.getProvider(type).map(function (p) {
                 return p.config.tabName
             })
+        },
+
+        getFiltredProviderNames: function (type)  {
+            var ret = {};
+            this.getProviderNames(type).map(function (n) {
+                ret[n]=ret[n]?ret[n]+1:1;
+            });
+
+            return _.map(ret, function (v, k) {
+                console.log ('key', k, 'value', v)
+                return k.concat((v>1)?':'+v:'');
+            })
         }
+
     };
 
     App.Config = Config;
