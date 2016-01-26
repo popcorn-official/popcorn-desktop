@@ -46,7 +46,7 @@
             return null;
         }
 
-        win.info('Spawning new provider', name);
+        win.info('Spawning new provider', name, config);
         var p = cache[name] = new provider(config.args);
 
         if (p && p.config && p.config.type) {
