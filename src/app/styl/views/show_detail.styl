@@ -7,6 +7,8 @@
   flex: 1
   display: flex
   background: #000
+  min-height: 220px
+  max-height: 300px
 
 .show-detail-header-image
   flex: 1
@@ -54,11 +56,9 @@
 .show-detail-episodes
   flex: 4
   display: flex
-  background-color: green
 
 .show-detail-episodes-list
   flex: 1
-  background-color: yellow
 
 .show-detail-right-container
   display: flex
@@ -283,7 +283,9 @@
         font-size 12px
         line-height 22px
         max-width 78%
-        max-height 88px
+        max-height: 88px
+        min-height: 88px
+        margin-bottom: 5px
         padding-right 15px
         overflow hidden
         scrollable()
@@ -336,8 +338,8 @@
         z-index: 3
         color: #FFF
         height: 18px
-        top: 194px
-        position: absolute
+        bottom: 0
+        position: relative
         font-family: $MainFont
         font-smoothing: antialiased
         font-size: 12px
@@ -694,10 +696,10 @@
 
 @media all and (min-width: 1300px)
     .episode-info
-        width 46%
+        /*width 46%*/
 
     .tabs-episodes
-        width 38%
+        /*width 38%*/
 
 @media all and (min-width: 700px) and (max-width: 1300px)
     .episode-info-title
