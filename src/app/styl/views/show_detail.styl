@@ -72,7 +72,9 @@
   background-color: blue
 
 .show-detail-play-now
+  min-height: 50px
   max-height: 50px
+  z-index: 4
   flex: 1
   background: green
 
@@ -596,9 +598,9 @@
         line-height 18px
         text-align justify
         margin-top 14px
-        height calc(100% - 390px)
         overflow-y auto
         padding 2px 15px 5px 0
+        word-wrap: break-word
         scrollable()
 
     .movie-btn-watch-episode
