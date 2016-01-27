@@ -6,7 +6,8 @@
 .show-detail-header
   flex: 1
   display: flex
-o
+  background: #000
+
 .show-detail-header-image
   flex: 1
 
@@ -17,9 +18,38 @@ o
   flex: 2
   display: flex
 
+  ul
+    list-style none
+
+    li:nth-child(odd)
+      background-color $ShowBgColor2
+
+    li:hover
+      background $EpisodeSelectorHover
+      transition all .3s
+
+    li.active
+      background-color $EpisodeSelectorBg
+      position relative
+
+      .watched
+        right 19px
+
+      &:after
+        content ""
+        position absolute
+        top 0px
+        right -12px
+        width 0
+        height 0
+        border-color transparent transparent transparent $EpisodeSelectorBg
+        border-style solid
+        border-width 16px 6px 17px 6px
+
 .show-detail-seasons
-  flex: 1
-  background-color: red
+  /*flex: 1
+  background-color: red*/
+  min-width: 180px
 
 .show-detail-episodes
   flex: 4
@@ -387,43 +417,9 @@ o
     .season-episode-container
         padding-top 50px
 
-.tabs-base
-    position absolute
-    width 100%
-    height 100%
-    background $ShowBgColor1
-    z-index 3
-
-    ul
-        list-style none
-
-        li:nth-child(odd)
-            background-color $ShowBgColor2
-
-        li:hover
-            background $EpisodeSelectorHover
-
-        li.active
-            background-color $EpisodeSelectorBg
-            position relative
-
-            .watched
-                right 19px
-
-            &:after
-                content ""
-                position absolute
-                top 0px
-                right -12px
-                width 0
-                height 0
-                border-color transparent transparent transparent $EpisodeSelectorBg
-                border-style solid
-                border-width 16px 6px 17px 6px
-
 .tabs-seasons
     cursor pointer
-    margin-top 10px
+    /*margin-top 10px*/
     margin-left 30px
     padding-right: 12px
     height: calc(100% - 350px)
@@ -448,7 +444,7 @@ o
             font-family sans-serif
             font-size 15px
             margin-left -10px
-            border-left 1px solid $ShowBgColor1
+            /*border-left 1px solid $ShowBgColor1*/
             margin 1px
                 
         li.active a
@@ -456,6 +452,9 @@ o
         
         li.active span
             right 11px
+
+    .tab-season
+      min-width 100px
 
 .tabs-episodes
     position relative
@@ -535,19 +534,13 @@ o
                 color $EpisodeSelectorText
 
 .display-base-title
-    width 100%
     color $ShowText1
     height 60px
     font-size 23px
     padding 20px 0
-    top 280px
-    z-index 3
-    background $ShowBgColor1
 
     .episode-list-seasons
-        display inline-block
         margin-left: 30px
-        width: 13%
 
     .episode-list-episodes
         display inline-block
