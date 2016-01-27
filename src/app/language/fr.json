@@ -495,9 +495,12 @@
 	"No, it's not that": "Non, ce n'est pas ça",
 	"Correct": "Exact",
 	"Initializing %s. Please Wait...": "Démarrage de %s. Veuillez patienter…",
-	"Init Database": "Init Database",
-	"Status: %s ...": "Status: %s ...",
-	"Create Temp Folder": "Create Temp Folder",
-	"Set System Theme": "Set System Theme",
-	"Disclaimer": "Disclaimer"
+	"Init Database": "Init. base de données",
+	"Status: %s ...": "Status : %s ...",
+	"Create Temp Folder": "Créer Dossier Temporaire",
+	"Set System Theme": "Définir le thème du système",
+	"Disclaimer": "Disclaimer",
+	"Series": "Séries",
+	"Finished": "Finished",
+	"blah": "blah"
 }
