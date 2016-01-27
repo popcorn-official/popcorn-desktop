@@ -52,6 +52,7 @@
   /*flex: 1
   background-color: red*/
   min-width: 180px
+  max-width: 200px
   height: 100vh
 
 .show-detail-episodes
@@ -545,6 +546,9 @@
 
     .episode-list-seasons
         margin-left: 30px
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
 
     .episode-list-episodes
         display inline-block
