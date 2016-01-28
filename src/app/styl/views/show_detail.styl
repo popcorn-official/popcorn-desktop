@@ -41,7 +41,7 @@
         right -12px
         width 0
         height 0
-        border-color transparent transparent transparent $EpisodeSelectorBg
+        border-color $ShowBgColor1 $ShowBgColor1 $ShowBgColor1 $EpisodeSelectorBg
         border-style solid
         border-width 16px 6px 17px 6px
 
@@ -49,7 +49,6 @@
   /*flex: 1
   background-color: red*/
   min-width: 180px
-  max-width: 200px
   height: 100vh
 
 .show-detail-episodes
@@ -426,7 +425,9 @@
     /*margin-top 10px*/
     margin-left 30px
     padding-right: 12px
+    color: $SaisonListText
     height: calc(100% - 325px)
+    max-width: 20vw
     display: inline-block
     position relative
     direction rtl
@@ -449,16 +450,26 @@
             font-size 15px
             margin-left -10px
             /*border-left 1px solid $ShowBgColor1*/
-            margin 1px
+            margin 1px 0px 1px 1px
+
+        li a
+            overflow-x: hidden;
+            text-overflow: ellipsis;
                 
         li.active a
-            color $EpisodeSelectorText
+            color $SaisonListText
         
         li.active span
             right 11px
 
     .tab-season
-      min-width 100px
+        min-width 100px
+        white-space nowrap
+        overflow: hidden;
+        text-overflow: ellipsis;
+        
+    .tab-season.active
+        overflow: visible;
 
 .tabs-episodes
     position relative
@@ -544,6 +555,7 @@
     padding 20px 0
 
     .episode-list-seasons
+        max-width: 20vw
         margin-left: 30px
         overflow: hidden;
         white-space: nowrap;
