@@ -1,16 +1,40 @@
 <div class="show-detail-container">
     <div class="fa fa-times close-icon"></div>
 
-    <section class="show-header">
-        <div class="sh-poster"></div>
+    <section class="show-header" data-bgr="<%= images.fanart %>">
+        <div class="sh-poster" data-bgr="<%= images.poster %>"></div>
         <div class="sh-metadata">
-            <div class="shm-title"></div>
-            <div class="shm-infos"></div>
-            <div class="shm-synopsis"></div>
+            <div class="shm-title"><%= title %></div>
+            <div class="shm-infos">
+                <div class="shmi-year"><%= year %></div>
+                <div class="shmi-runtime"><%= runtime %> min</div>
+                <div class="shmi-status"><%= status !== undefined ? i18n.__(status.capitalizeEach()) : i18n.__("N/A") %></div>
+                <div class="shmi-genre"><%= genres.length > 0 && genres[0] !== undefined ? i18n.__(genres[0]) : i18n.__("N/A") %></div>
+                <div class="shmi-imdb" data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Open IMDb page") %>"></div>
+                <div class="shmi-rating">
+                    <% p_rating = Math.round(rating.percentage) / 20;%>
+                    <div data-toggle="tooltip" data-placement="right" title="<%= Math.round(rating.percentage) / 10 %> /10" class="star-container-tv">
+                        <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
+                        <i class="fa fa-star rating-star"></i>
+                        <% }; %>
+                        <% if (p_rating % 1 > 0) { %>
+                        <span class = "fa-stack rating-star-half-container">
+                            <i class="fa fa-star fa-stack-1x rating-star-half-empty"></i>
+                            <i class="fa fa-star-half fa-stack-1x rating-star-half"></i>
+                        </span>
+                        <% }; %>
+                        <% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
+                        <i class="fa fa-star rating-star-empty"></i>
+                        <% }; %>
+                    </div>
+                    <div class="number-container-tv hidden"><%= Math.round(rating.percentage) / 10 %> <em>/10</em></div>
+                </div>
+            </div>
+            <div class="shm-synopsis"><%= synopsis %></div>
         </div>
         <div class="sh-actions">
-            <div class="sha-bookmark"></div>
-            <div class="sha-watched"></div>
+            <div class="sha-bookmark"><%=i18n.__("Add to bookmarks") %></div>
+            <div class="sha-watched"><%=i18n.__("Mark as Seen") %></div>
         </div>
     </section>
 
