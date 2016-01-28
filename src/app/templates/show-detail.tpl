@@ -1,5 +1,45 @@
 <div class="show-detail-container">
     <div class="fa fa-times close-icon"></div>
+
+    <section class="show-header">
+        <div class="sh-poster"></div>
+        <div class="sh-metadata">
+            <div class="shm-title"></div>
+            <div class="shm-infos"></div>
+            <div class="shm-synopsis"></div>
+        </div>
+        <div class="sh-actions">
+            <div class="sha-bookmark"></div>
+            <div class="sha-watched"></div>
+        </div>
+    </section>
+
+    <section class="show-details">
+        <div class="sd-seasons">
+            <div class="sds-title"></div>
+            <div class="sds-list"></div>
+        </div>
+        <div class="sd-episodes">
+            <div class="sde-title"></div>
+            <div class="sde-list"></div>
+        </div>
+        <div class="sd-overview">
+            <div class="sdo-infos">
+                <div class="sdoi-title"></div>
+                <div class="sdoi-aired"></div>
+                <div class="sdoi-links"></div>
+                <div class="sdoi-synopsis"></div>
+            </div>
+            <div class="sdo-watch">
+                <div class="sdow-quality"></div>
+                <div class="sdow-watchnow"></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!--<div class="show-detail-container">
+    <div class="fa fa-times close-icon"></div>
     <div class="show-detail-header">
         <div data-bgr="<%= images.fanart %>" class="tv-poster-background"><div class="tv-poster-overlay"></div></div>
         <div class="show-detail-header-image">
@@ -95,7 +135,7 @@
                                 <i id="watched-<%=episodeData.season%>-<%=episodeData.episode%>" class="fa fa-eye watched"></i>
 
 
-                                <!-- hidden template so we can save a DB query -->
+                                <!-- hidden template so we can save a DB query --/>
                                 <div class="template-<%=episodeData.tvdb_id %>" style="display:none">
                                     <span class="title"><%=episodeData.title %></span>
                                     <span class="date"><%=first_aired %></span>
@@ -109,9 +149,9 @@
                             </li>
                             <% }); %>
                         </ul>
-                    </div><!--End tabs-episode-->
+                    </div>
                     <% }); %>
-                </div><!--End tabs-episode-base-->
+                </div>
             </div>
             <div class="show-detail-right-container">
                 <div class="show-detail-episode-info">
@@ -141,6 +181,4 @@
         </div>
     </div>
 </div>
-
-
-
+-->
