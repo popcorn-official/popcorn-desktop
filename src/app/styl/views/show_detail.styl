@@ -1,4 +1,262 @@
+.show-detail-container
+    display: flex
+    position: relative
+    background: red /* DEV */
 
+    .sdc-content
+        margin-top: 67px
+        background: green /* DEV */
+
+    .show-header
+        width: calc(100vw - 17px)
+        /*height: 25vh TODO: responsive header (especially poster)*/
+        min-height: 215px
+        background: black /* DEV */
+
+        .sh-poster
+            float: left
+            width: 198px
+            height: 100%
+
+            .tv-cover
+                position relative
+                margin-left 32px
+                margin-top 10px
+                width 134px
+                height 197px
+                box-shadow 0px 0px 10px
+                z-index 3
+                background-size auto
+                background-position center
+                background-repeat no-repeat
+                border-radius 4px
+                opacity 0
+                background-color $ShowBgColor1
+                &.fadein
+                    transition: opacity .3s ease-in;
+                    opacity: 1
+
+        .sh-metadata
+            float: left
+            height: 195px
+            width: calc(100% - 198px)
+            padding-top: 10px
+            padding-right: 45px
+            color white /* DEV */
+
+            .shm-title
+                color #fff
+                font-family $MainFont
+                -webkit-font-smoothing antialiased
+                font-size 34px
+                margin-bottom 8px
+
+            .shm-infos
+                div
+                    float: left
+                    font-size: 11px
+                    font-family $Font
+
+                div.shmi-imdb
+                    cursor: pointer
+                    background: url(../images/icons/imdb.png) no-repeat
+                    width: 27px
+                    height: 16px
+                    position: relative
+                    top: -2px
+
+                div.shmi-rating
+                    cursor: pointer
+
+                    .hidden
+                        display: none
+
+                    .number-container-tv
+                        position: relative
+                        font-size: 12px
+                        font-family: $MainFontBold
+                        color: #FFF
+
+                        em
+                            font-size: 0.8em
+
+                    .star-container-tv
+                        position relative
+                        opacity 1
+
+                        .rating-star
+                            color #ffc900
+                            font-size 11px
+                            padding-right: 3px
+
+                        .rating-star-half
+                            color #ffc900
+                            font-size 11px
+                            margin-left -4px
+                            padding-right: 3px
+
+                        .rating-star-half-empty
+                            color #a3a5a7
+                            font-size 11px
+                            margin-left: -3px
+
+                        .rating-star-empty
+                            color #a3a5a7
+                            font-size 11px
+                            padding-right: 3px
+
+                        .rating-star-half-container
+                            width 1em
+                            height 1em
+                            line-height 1em
+                            margin-top 2px
+                            margin-right: -3px
+
+                span.dot
+                    margin 4.5px 10px 0 10px
+                    float left
+                    width 3px
+                    height 3px
+                    border-radius 2px
+                    background-clip padding-box
+                    background-color #dbdbdd
+                    cursor default
+
+        .sh-actions
+            float: left
+            width: calc(100% - 198px)
+            height: 20px
+
+            .sha-bookmark
+                float: left
+                cursor: pointer
+                padding-left: 24px
+                //z-index: 3
+                color: #FFF
+                //height: 18px
+                //bottom: 0
+                position: relative
+                font-family: $MainFont
+                font-smoothing: antialiased
+                font-size: 12px
+                line-height: 17px
+                &:before
+                    content: "\f004"
+                    font-family: FontAwesome
+                    position: absolute
+                    font-size: 18px
+                    color: #FFF
+                    top: 0
+                    left: 0
+                    bottom: 0
+                    right: 0
+                    opacity: 1
+                    transition: opacity 0.5s
+
+                &:after
+                    content: "\f004"
+                    font-family: FontAwesome
+                    position: absolute
+                    font-size: 18px
+                    color: $ButtonBgActive
+                    top: 0
+                    left: 0
+                    bottom: 0
+                    right: 0
+                    opacity: 0
+                    transition: opacity 0.5s
+
+                &:hover
+                    &:before
+                        opacity: 0
+
+                    &:after
+                        opacity: 1
+
+                &.selected
+                    height: 18px
+                    width: 200px
+                    &:before
+                        content: "\f004"
+                        font-family: FontAwesome
+                        position: absolute
+                        font-size: 18px
+                        color: $FavoriteColor
+                        top: 0
+                        left: 0
+                        bottom: 0
+                        right: 0
+                        opacity: 1
+                        transition: opacity 0.5s
+
+                    &:after
+                        content: "\f004"
+                        font-family: FontAwesome
+                        position: absolute
+                        font-size: 18px
+                        color: #FFF
+                        top: 0
+                        left: 0
+                        bottom: 0
+                        right: 0
+                        opacity: 0
+                        transition: opacity 0.5s
+
+                    &:hover
+                        &:before
+                            opacity: 0
+
+                        &:after
+                            opacity: 1
+
+            .sha-watched
+                float: right
+                //padding-right: 45px
+                cursor: pointer
+                padding-left: 24px
+                right: 45px
+                //text-align: right
+                //z-index: 3
+                color: #FFF
+                //height: 18px
+                //top: 194px
+                position: absolute
+                font-family: $MainFont
+                font-smoothing: antialiased
+                font-size: 12px
+                line-height: 17px
+                //display: none
+
+                &:before
+                    content: "\f070"
+                    font-family: FontAwesome
+                    position: absolute
+                    font-size: 18px
+                    color: #FFF
+                    left: 0
+                    opacity: 1
+                    transition: opacity 0.5s
+
+                &:after
+                    content: "\f00c"
+                    font-family: FontAwesome
+                    position: absolute
+                    font-size: 20px
+                    color: #299000
+                    left: 0
+                    opacity: 0
+                    transition: opacity 0.5s
+
+                &:hover, &.selected
+                    &:before
+                        opacity: 0
+                    &:after
+                        opacity: 1
+
+
+    .show-details
+        width: calc(100vw - 17px)
+        background: blue /* DEV */
 
 /*.show-detail-container
   height: 100%
