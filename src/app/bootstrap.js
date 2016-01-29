@@ -41,25 +41,36 @@
     }
 
     function loadNpmProviders() {
+        return loadFromNPM (/butter-provider-/, App.Providers.install)
+    }
+
+    function loadNpmSettings() {
+        return Q.all(loadFromNPM (/butter-settings-/, function (settings) {
+            Settings = _.extend(Settings, settings);
+        }))
+    }
+
+    function loadFromNPM(regex, fn) {
         var config = require('../../package.json')
 
         var packages = Object.keys(config.dependencies).filter(function (p) {
-            return p.match(/butter-provider-/)
+            return p.match(regex)
         })
 
         return packages.map(function(p) {
-            console.log ('loading npm provider', p);
-            var provider = require(p)
+            console.log ('loading npm', regex, p);
+            var P = require(p)
 
-            return Q(App.Providers.install(provider))
+            return Q(fn(P))
         })
     }
 
     function loadProviders() {
-        return loadLocalProviders().concat(loadNpmProviders())
+        return Q.all(loadLocalProviders().concat(loadNpmProviders()))
     }
 
-    App.bootstrapPromise = Q.all(loadProviders())
+    App.bootstrapPromise = loadNpmSettings()
+        .then(loadProviders)
         .then(function (values) {
             return _.keys(App.ProviderTypes).map(function (type) {
                 return App.Config.getProviderForType(type);
