@@ -15,7 +15,8 @@
             q1080p: '#q1080',
             q720p: '#q720',
             q480p: '#q480',
-            bookmarkIcon: '.sha-bookmark'
+            bookmarkIcon: '.sha-bookmark',
+            seasonTab: '.sd-seasons'
         },
 
         events: {
@@ -183,6 +184,10 @@
             if (AdvSettings.get('ratingStars') === false) {
                 $('.star-container-tv').addClass('hidden');
                 $('.number-container-tv').removeClass('hidden');
+            }
+
+            if (AdvSettings.get('hideSeasons') && this.model.get('seasonCount') < 2) {
+                this.ui.seasonTab.hide();
             }
 
             this.isShowWatched();
