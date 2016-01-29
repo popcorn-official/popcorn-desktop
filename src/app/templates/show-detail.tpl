@@ -2,9 +2,12 @@
     <div class="fa fa-times close-icon"></div>
 
     <div class="sdc-content">
-    <section class="show-header" data-bgr="<%= images.fanart %>">
+    <section class="show-header">
+        <div class="sh-cover">
+            <div class="shc-img" data-bgr="<%= images.fanart %>"></div>
+        </div>
         <div class="sh-poster">
-            <div class="tv-cover" data-bgr="<%= images.poster %>"></div>
+            <div class="shp-img" data-bgr="<%= images.poster %>"></div>
         </div>
         <div class="sh-metadata">
             <div class="shm-title"><%= title %></div>

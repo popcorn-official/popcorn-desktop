@@ -11,21 +11,34 @@
         width: calc(100vw - 17px)
         /*height: 25vh TODO: responsive header (especially poster)*/
         min-height: 215px
-        background: black /* DEV */
+
+        .sh-cover
+            .shc-img
+                position: absolute
+                min-height: 215px
+                width: calc(100vw - 17px)
+                background-repeat: no-repeat
+                background-size: cover
+                background-position: center
+                -webkit-filter: brightness(0.6)
+                background-color $ShowBgColor1
+                opacity: 0
+                &.fadein
+                    transition: opacity .3s ease-in;
+                    opacity: 1
 
         .sh-poster
             float: left
             width: 198px
             height: 100%
 
-            .tv-cover
+            .shp-img
                 position relative
                 margin-left 32px
                 margin-top 10px
                 width 134px
                 height 197px
                 box-shadow 0px 0px 10px
-                z-index 3
                 background-size auto
                 background-position center
                 background-repeat no-repeat
@@ -38,6 +51,7 @@
 
         .sh-metadata
             float: left
+            position: relative
             height: 195px
             width: calc(100% - 198px)
             padding-top: 10px
@@ -55,7 +69,8 @@
                 div
                     float: left
                     font-size: 11px
-                    font-family $Font
+                    font-family: $MainFontBold
+                    -webkit-font-smoothing: antialiased
 
                 div.shmi-imdb
                     cursor: pointer
@@ -122,8 +137,22 @@
                     background-color #dbdbdd
                     cursor default
 
+            .shm-synopsis
+                float: left
+                text-align: justify
+                font-family: $MainFont
+                -webkit-font-smoothing: antialiased
+                font-size: 12px
+                line-height: 18px
+                max-height: 107px
+                padding-right: 8px
+                margin-top: 8px
+                overflow: hidden
+                scrollable()
+
         .sh-actions
             float: left
+            position: relative
             width: calc(100% - 198px)
             height: 20px
 
@@ -131,10 +160,7 @@
                 float: left
                 cursor: pointer
                 padding-left: 24px
-                //z-index: 3
                 color: #FFF
-                //height: 18px
-                //bottom: 0
                 position: relative
                 font-family: $MainFont
                 font-smoothing: antialiased
@@ -211,21 +237,16 @@
 
             .sha-watched
                 float: right
-                //padding-right: 45px
                 cursor: pointer
                 padding-left: 24px
                 right: 45px
-                //text-align: right
-                //z-index: 3
                 color: #FFF
-                //height: 18px
-                //top: 194px
                 position: absolute
                 font-family: $MainFont
                 font-smoothing: antialiased
                 font-size: 12px
                 line-height: 17px
-                //display: none
+                display: none
 
                 &:before
                     content: "\f070"

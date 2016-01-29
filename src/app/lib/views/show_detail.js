@@ -136,12 +136,12 @@
 
             $('.star-container-tv,.show-imdb-link,.show-magnet-link').tooltip();
 
-            var cbackground = $('.tv-cover').attr('data-bgr');
+            var cbackground = $('.shp-img').attr('data-bgr');
             var coverCache = new Image();
             coverCache.src = cbackground;
             coverCache.onload = function () {
                 try {
-                    $('.tv-cover')
+                    $('.shp-img')
                         .css('background-image', 'url(' + cbackground + ')')
                         .addClass('fadein');
                 } catch (e) {}
@@ -149,19 +149,19 @@
             };
             coverCache.onerror = function () {
                 try {
-                    $('.tv-cover')
+                    $('.shp-img')
                         .css('background-image', 'url("images/posterholder.png")')
                         .addClass('fadein');
                 } catch (e) {}
                 coverCache = null;
             };
 
-            var background = $('.tv-poster-background').attr('data-bgr');
+            var background = $('.shc-img').attr('data-bgr');
             var bgCache = new Image();
             bgCache.src = background;
             bgCache.onload = function () {
                 try {
-                    $('.tv-poster-background')
+                    $('.shc-img')
                         .css('background-image', 'url(' + background + ')')
                         .addClass('fadein');
                 } catch (e) {}
@@ -169,7 +169,7 @@
             };
             bgCache.onerror = function () {
                 try {
-                    $('.tv-poster-background')
+                    $('.shc-img')
                         .css('background-image', 'url("images/bg-header.jpg")')
                         .addClass('fadein');
                 } catch (e) {}
