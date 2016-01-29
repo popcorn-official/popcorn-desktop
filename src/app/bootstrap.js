@@ -41,28 +41,32 @@
     }
 
     function loadNpmProviders() {
-        return loadFromNPM (/butter-provider-/, App.Providers.install)
+        return loadFromPackageJSON (/butter-provider-/, App.Providers.install)
     }
 
     function loadNpmSettings() {
-        return Q.all(loadFromNPM (/butter-settings-/, function (settings) {
+        return Q.all(loadFromPackageJSON (/butter-settings-/, function (settings) {
             Settings = _.extend(Settings, settings);
         }))
     }
 
-    function loadFromNPM(regex, fn) {
+    function loadFromPackageJSON(regex, fn) {
         var config = require('../../package.json')
 
         var packages = Object.keys(config.dependencies).filter(function (p) {
             return p.match(regex)
         })
 
-        return packages.map(function(p) {
-            console.log ('loading npm', regex, p);
-            var P = require(p)
-
-            return Q(fn(P))
+        return packages.map(function(name) {
+            console.log ('loading npm', regex, name);
+            return loadFromNPM(name, fn)
         })
+    }
+
+    function loadFromNPM(name, fn)  {
+        var P = require(name)
+
+        return Q(fn(P))
     }
 
     function loadProviders() {
