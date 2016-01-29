@@ -2,12 +2,11 @@
     display: flex
     position: fixed
     width: 100%
+    background: $BgColor1
     flex-direction: column
-    background: red /* DEV */
 
     .sdc-content
         margin-top: 67px
-        background: green /* DEV */
 
     .show-header
         width: 100vw
@@ -58,7 +57,6 @@
             width: calc(100% - 198px)
             padding-top: 10px
             padding-right: 45px
-            color white /* DEV */
 
             .shm-title
                 color #fff
@@ -73,6 +71,7 @@
                     float: left
                     font-size: 11px
                     font-family: $MainFontBold
+                    color: #fff
                     -webkit-font-smoothing: antialiased
 
                 div.shmi-imdb
@@ -141,6 +140,7 @@
                     cursor default
 
             .shm-synopsis
+                color: #fff
                 float: left
                 text-align: justify
                 font-family: $MainFont
@@ -284,7 +284,6 @@
         height: calc(100vh - 282px)
         display: flex
         flex-direction: row
-        color: #FFF /*DEV*/
 
         ul
             height: calc(100vh - 335px)
@@ -361,6 +360,7 @@
                 text-overflow: ellipsis
                 margin-bottom: 15px
                 margin-top: 2px
+                color: $ShowText1
 
         .sd-seasons
             min-width: 180px
@@ -444,6 +444,7 @@
                         text-overflow: ellipsis
 
                 .sdoi-synopsis
+                    color: $ShowText1
                     font-size: 13px
                     line-height: 18px
                     text-align: justify
