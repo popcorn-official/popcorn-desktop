@@ -1,6 +1,8 @@
 .show-detail-container
     display: flex
-    position: relative
+    position: fixed
+    width: 100%
+    flex-direction: column
     background: red /* DEV */
 
     .sdc-content
@@ -8,7 +10,7 @@
         background: green /* DEV */
 
     .show-header
-        width: calc(100vw - 17px)
+        width: 100vw
         /*height: 25vh TODO: responsive header (especially poster)*/
         min-height: 215px
 
@@ -16,7 +18,7 @@
             .shc-img
                 position: absolute
                 min-height: 215px
-                width: calc(100vw - 17px)
+                width: 100vw
                 background-repeat: no-repeat
                 background-size: cover
                 background-position: center
@@ -60,10 +62,11 @@
 
             .shm-title
                 color #fff
-                font-family $MainFont
+                font-family $Font
                 -webkit-font-smoothing antialiased
-                font-size 34px
-                margin-bottom 8px
+                font-size 28px
+                margin-bottom 10px
+                margin-top: 5px
 
             .shm-infos
                 div
@@ -128,7 +131,7 @@
                             margin-right: -3px
 
                 span.dot
-                    margin 4.5px 10px 0 10px
+                    margin 4.5px 15px 0 15px
                     float left
                     width 3px
                     height 3px
@@ -143,7 +146,7 @@
                 font-family: $MainFont
                 -webkit-font-smoothing: antialiased
                 font-size: 12px
-                line-height: 18px
+                line-height: 22px
                 max-height: 107px
                 padding-right: 8px
                 margin-top: 8px
@@ -276,55 +279,118 @@
 
 
     .show-details
-        width: calc(100vw - 17px)
-        background: blue /* DEV */
+        width: 100vw
+        background: $ShowBgColor1
+        height: calc(100vh - 282px)
+        display: flex
+        flex-direction: row
+        color: #FFF /*DEV*/
 
-/*.show-detail-container
-  height: 100%
-  display: flex
-  flex-direction: column
+        ul
+            height: calc(100vh - 330px)
+            margin-left: 10px
+            cursor: pointer
+            direction: rtl
+            scrollable()
 
-.show-detail-header
-  flex: 1
-  display: flex
-  background: #000
-  min-height: 220px
-  max-height: 300px
+            li
+                padding: 0px 15px
+                margin: 1px 0px 1px 1px
+                float: left
+                width: calc(100% - 7px)
 
-.show-detail-header-image
-  flex: 1
+                .watched
+                    padding 9px 0
+                    color: $ShowWatchedIcon_false
+                    transition color .5s
 
-.show-detail-header-info
-  flex: 4
+                    &:hover
+                        color: $ShowWatchedIcon_hover
 
-.show-detail-info
-  flex: 2
-  display: flex
+                    &.true
+                        color: $ShowWatchedIcon_true
 
-  ul
-    list-style none
+            li:nth-child(odd)
+                background-color $ShowBgColor2
 
-    li:nth-child(odd)
-      background-color $ShowBgColor2
+            li:hover
+                background $EpisodeSelectorHover
 
-    li:hover
-      background $EpisodeSelectorHover
-      transition all .3s
+            li.active
+                background-color $EpisodeSelectorBg
+                position relative
 
-    li.active
-      background-color $EpisodeSelectorBg
-      position relative
+                &:after
+                    content ""
+                    position absolute
+                    top 0px
+                    right -12px
+                    width 0
+                    height 0
+                    border-color $ShowBgColor1 $ShowBgColor1 $ShowBgColor1 $EpisodeSelectorBg
+                    border-style solid
+                    border-width 16px 6px 17px 6px
 
-      &:after
-        content ""
-        position absolute
-        top 0px
-        right -12px
-        width 0
-        height 0
-        border-color $ShowBgColor1 $ShowBgColor1 $ShowBgColor1 $EpisodeSelectorBg
-        border-style solid
-        border-width 16px 6px 17px 6px
+            a
+                text-decoration: none
+                font-size: 15px
+                line-height: 34px
+                font-weight: normal
+                float: left
+                flex-direction: row
+                direction: ltr
+
+                span
+                    float: left
+                    margin: 0px 15px 0px 5px
+
+                div
+                    float: left
+                    white-space: nowrap
+                    border-left: 1px solid $ShowBgColor1
+                    padding-left: 15px
+                    max-width: 31vw
+                    text-align: left
+                    overflow: hidden
+                    text-overflow: ellipsis
+
+        .sd-seasons, .sd-episodes
+            .sds-title, .sde-title
+                font-size: 24px
+                overflow: hidden
+                text-overflow: ellipsis
+                margin-bottom: 10px
+
+        .sd-seasons
+            min-width: 180px
+            max-width: 180px
+            padding: 10px
+
+            .sds-list ul a
+                color: $SaisonListText
+                font-family: $AlternateFont
+
+        .sd-episodes
+            flex-grow: 2
+            padding: 10px
+
+            .sde-list ul li a
+                color: $EpisodeListText
+                font-family: $MainFont
+
+            .sde-list ul li.active a
+                color: $EpisodeSelectorText
+
+        .sd-overview
+            background: $ShowBgColor2
+            flex-grow: 1
+            flex-shrink: 0
+            width: 35vw
+            min-width: 350px
+            padding: 10px
+
+
+/*
 
 .show-detail-seasons
   /*flex: 1
@@ -365,335 +431,6 @@
     position fixed
     padding-top: 40px
 
-.tv-poster
-    position fixed
-    width 100%
-    height 100%
-    top 0
-    margin-top 65px
-    z-index 3
-    overflow hidden
-    background #17181b
-
-    .tv-cover
-        position relative
-        float left
-        margin-left 32px
-        margin-top 10px
-        width 134px
-        height 197px
-        box-shadow 0px 0px 10px
-        z-index 3
-        background-size 134px 197px
-        background-repeat no-repeat
-        border-radius 4px
-        opacity 0
-        background-color $ShowBgColor1
-        &.fadein
-            transition: opacity .3s ease-in;
-            opacity: 1
-
-    .tv-poster-background
-        position absolute
-        width 100vw
-        height 100vh
-        z-index 1
-        background-repeat no-repeat
-        background-position-x 50%
-        background-position-y -33px
-        opacity 0
-        background-size cover
-        &.fadein
-            transition: opacity .3s ease-in;
-            opacity: 1
-
-        .tv-poster-overlay
-            position absolute
-            width 100%
-            height 100%
-            opacity 0.65
-            background-color #000
-            z-index 2
-
-.tv-meta-data
-    width 100%
-    position absolute
-    padding 25px
-
-    .tv-dot
-        position relative
-        z-index 3
-        margin 39.5px 15px 0 15px
-        float left
-        width 3px
-        height 3px
-        border-radius 2px
-        background-clip padding-box
-        background-color #dbdbdd
-        cursor default
-
-    .tv-title
-        top 21px
-        position relative
-        z-index 3
-        color #fff
-        width 452px
-        font-family $Font
-        -webkit-font-smoothing antialiased
-        font-size 22px
-
-    .tv-year
-        margin-top 35px
-        position relative
-        float left
-        color #fff
-        width auto
-        height auto
-        font-family $MainFontBold
-        -webkit-font-smoothing antialiased
-        font-size 11px
-        cursor default
-        z-index 3
-
-    .tv-runtime
-        margin-top 35px
-        z-index 3
-        position relative
-        float left
-        color #fff
-        font-family $MainFontBold
-        -webkit-font-smoothing antialiased
-        font-size 11px
-        cursor default
-
-    .tv-status
-        margin-top 35px
-        z-index 3
-        position relative
-        float left
-        color #fff
-        font-family $MainFontBold
-        -webkit-font-smoothing antialiased
-        font-size 11px
-        cursor default
-
-    .tv-genre
-        margin-top 35px
-        position relative
-        z-index 3
-        float left
-        color #fff
-        font-family: $MainFontBold
-        -webkit-font-smoothing antialiased
-        font-size 11px
-        cursor default
-
-    .show-imdb-link
-        z-index 3
-        margin-top: 33px
-        width: 27px
-        float: left
-        height: 16px
-        position: relative
-        cursor: pointer
-        background: url(../images/icons/imdb.png) no-repeat
-
-    .rating-container-tv
-        .hidden
-            display: none
-
-        .number-container-tv
-            width: auto
-            float: left
-            position: relative
-            font-size: 12px
-            font-family: $MainFontBold
-            color: #FFF
-            cursor: pointer
-            margin-top 30px
-            top: 5px
-            z-index 3
-
-            em
-                font-size: 0.8em
-
-        .star-container-tv
-            z-index 3
-            position relative
-            top 1px
-            opacity 1
-            float left
-            margin-top 30px
-            cursor: pointer
-
-            .rating-star
-                color #ffc900
-                font-size 11px
-                padding-right: 3px
-
-            .rating-star-half
-                color #ffc900
-                font-size 11px
-                margin-left -4px
-                padding-right: 3px
-
-            .rating-star-half-empty
-                color #a3a5a7
-                font-size 11px
-                margin-left: -3px
-
-            .rating-star-empty
-                color #a3a5a7
-                font-size 11px
-                padding-right: 3px
-
-            .rating-star-half-container
-                width 1em
-                height 1em
-                line-height 1em
-                margin-top 2px
-                margin-right: -3px
-
-    .tv-overview
-        margin-top 60px
-        z-index 3
-        position relative
-        color #fff
-        text-align justify
-        font-family $MainFont
-        -webkit-font-smoothing: antialiased
-        font-size 12px
-        line-height 22px
-        max-width 78%
-        max-height: 88px
-        min-height: 88px
-        margin-bottom: 5px
-        padding-right 15px
-        overflow hidden
-        scrollable()
-
-    .show-watched-toggle
-        cursor: pointer
-        padding-left: 24px
-        right: 45px
-        text-align: right
-        z-index: 3
-        color: #FFF
-        height: 18px
-        top: 194px
-        position: absolute
-        font-family: $MainFont
-        font-smoothing: antialiased
-        font-size: 12px
-        line-height: 17px
-        display: none
-
-        &:before
-            content: "\f070"
-            font-family: FontAwesome
-            position: absolute
-            font-size: 18px
-            color: #FFF
-            left: 0
-            opacity: 1
-            transition: opacity 0.5s
-
-        &:after 
-            content: "\f00c"
-            font-family: FontAwesome
-            position: absolute
-            font-size: 20px
-            color: #299000
-            left: 0
-            opacity: 0
-            transition: opacity 0.5s
-
-        &:hover, &.selected
-            &:before
-                opacity: 0
-            &:after
-                opacity: 1
-
-    .favourites-toggle 
-        cursor: pointer
-        padding-left: 24px
-        z-index: 3
-        color: #FFF
-        height: 18px
-        bottom: 0
-        position: relative
-        font-family: $MainFont
-        font-smoothing: antialiased
-        font-size: 12px
-        line-height: 17px
-        &:before 
-            content: "\f004"
-            font-family: FontAwesome
-            position: absolute
-            font-size: 18px
-            color: #FFF
-            top: 0
-            left: 0
-            bottom: 0
-            right: 0
-            opacity: 1
-            transition: opacity 0.5s
-        
-        &:after 
-            content: "\f004"
-            font-family: FontAwesome
-            position: absolute
-            font-size: 18px
-            color: $ButtonBgActive
-            top: 0
-            left: 0
-            bottom: 0
-            right: 0
-            opacity: 0
-            transition: opacity 0.5s
-        
-        &:hover 
-            &:before 
-                opacity: 0
-            
-            &:after 
-                opacity: 1
-        
-        &.selected 
-            height: 18px
-            width: 200px
-            &:before 
-                content: "\f004"
-                font-family: FontAwesome
-                position: absolute
-                font-size: 18px
-                color: $FavoriteColor
-                top: 0
-                left: 0
-                bottom: 0
-                right: 0
-                opacity: 1
-                transition: opacity 0.5s
-            
-            &:after 
-                content: "\f004"
-                font-family: FontAwesome
-                position: absolute
-                font-size: 18px
-                color: #FFF
-                top: 0
-                left: 0
-                bottom: 0
-                right: 0
-                opacity: 0
-                transition: opacity 0.5s
-            
-            &:hover 
-                &:before 
-                    opacity: 0
-                
-                &:after 
-                    opacity: 1
 
 .episode-base
     margin-top 240px
