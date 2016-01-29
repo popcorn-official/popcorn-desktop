@@ -24,7 +24,7 @@
                     <span class="dot"></span>
                 <div class="shmi-rating">
                     <% p_rating = Math.round(rating.percentage) / 20;%>
-                    <div data-toggle="tooltip" data-placement="right" title="<%= Math.round(rating.percentage) / 10 %> /10" class="star-container-tv">
+                    <div data-toggle="tooltip" data-placement="right" title="<%= Math.round(rating.percentage) / 10 %>/10" class="star-container-tv">
                         <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
                         <i class="fa fa-star rating-star"></i>
                         <% }; %>
@@ -38,7 +38,7 @@
                         <i class="fa fa-star rating-star-empty"></i>
                         <% }; %>
                     </div>
-                    <div class="number-container-tv hidden"><%= Math.round(rating.percentage) / 10 %> <em>/10</em></div>
+                    <div class="number-container-tv hidden"><%= Math.round(rating.percentage) / 10 %><em>/10</em></div>
                 </div>
             </div>
             <div class="shm-synopsis"><%= synopsis %></div>

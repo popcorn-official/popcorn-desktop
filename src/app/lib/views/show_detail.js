@@ -15,25 +15,25 @@
             q1080p: '#q1080',
             q720p: '#q720',
             q480p: '#q480',
-            bookmarkIcon: '.favourites-toggle'
+            bookmarkIcon: '.sha-bookmark'
         },
 
         events: {
-            'click .favourites-toggle': 'toggleFavorite',
-            'click .show-watched-toggle': 'markShowAsWatched',
+            'click .sha-bookmark': 'toggleFavorite',
+            'click .sha-watched': 'markShowAsWatched',
             'click .watched': 'toggleWatched',
             'click #watch-now': 'startStreaming',
             'click .close-icon': 'closeDetails',
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
-            'click .show-imdb-link': 'openIMDb',
+            'click .shmi-imdb': 'openIMDb',
             'mousedown .show-magnet-link': 'openMagnet',
             'dblclick .tab-episode': 'dblclickEpisode',
             'click .q1080': 'toggleShowQuality',
             'click .q720': 'toggleShowQuality',
             'click .q480': 'toggleShowQuality',
             'click .playerchoicemenu li a': 'selectPlayer',
-            'click .rating-container-tv': 'switchRating',
+            'click .shmi-rating': 'switchRating',
             'click .health-icon': 'resetHealth'
         },
 
@@ -119,7 +119,7 @@
             Mousetrap.bind(['ctrl+up', 'command+up'], _this.previousSeason);
             Mousetrap.bind(['ctrl+down', 'command+down'], _this.nextSeason);
             Mousetrap.bind('f', function () {
-                $('.favourites-toggle').click();
+                $('.sha-bookmark').click();
             });
         },
 
@@ -134,7 +134,7 @@
                 this.ui.bookmarkIcon.removeClass('selected');
             }
 
-            $('.star-container-tv,.show-imdb-link,.show-magnet-link').tooltip();
+            $('.star-container-tv,.shmi-imdb,.show-magnet-link').tooltip();
 
             var cbackground = $('.shp-img').attr('data-bgr');
             var coverCache = new Image();
@@ -344,14 +344,14 @@
                 Database.checkEpisodeWatched(value)
                     .then(function (watched) {
                         if (!watched) {
-                            $('.show-watched-toggle').show();
+                            $('.sha-watched').show();
                         }
                     });
             });
         },
 
         markShowAsWatched: function () {
-            $('.show-watched-toggle').addClass('selected');
+            $('.sha-watched').addClass('selected');
 
             var tvdb_id = _this.model.get('tvdb_id');
             var imdb_id = _this.model.get('imdb_id');
@@ -370,7 +370,7 @@
                     .then(function (watched) {
                         if (!watched) {
                             App.vent.trigger('show:watched', value, 'seen');
-                            $('.show-watched-toggle').hide();
+                            $('.sha-watched').hide();
                         }
                     });
             });
