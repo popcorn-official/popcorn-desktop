@@ -1,8 +1,6 @@
 <div class="show-detail-container">
     <div class="fa fa-times close-icon"></div>
 
-    <div class="sdc-content">
-
     <section class="show-header">
         <div class="sh-cover">
             <div class="shc-img" data-bgr="<%= images.fanart %>"></div>
@@ -139,5 +137,4 @@
         </div>
     </section>
 
-    </div>
 </div>
