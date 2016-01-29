@@ -7,7 +7,7 @@
         type: 'indies',
         getProviders: function () {
             return {
-                torrents: App.Config.getProvider('indie')
+                torrents: App.Config.getProviderForType('indie')
             };
         },
     });

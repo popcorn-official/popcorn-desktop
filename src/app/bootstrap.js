@@ -61,8 +61,8 @@
 
     App.bootstrapPromise = Q.all(loadProviders())
         .then(function (values) {
-            return _.keys(App.ProviderTypes).map(function (p) {
-                return App.Config.getProvider(p);
+            return _.keys(App.ProviderTypes).map(function (type) {
+                return App.Config.getProviderForType(type);
             });
         })
         .then(function (providers) {

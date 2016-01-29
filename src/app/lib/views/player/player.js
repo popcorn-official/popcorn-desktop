@@ -110,7 +110,7 @@
 
                     win.debug('OpenSubtitles - Uploading subtitles', upload);
 
-                    var subtitleProvider = App.Config.getProvider('subtitle');
+                    var subtitleProvider = App.Config.getProviderForType('subtitle');
                     subtitleProvider.upload(upload).then(function (data) {
                         if (data.alreadyindb) {
                             return;

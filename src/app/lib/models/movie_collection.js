@@ -7,9 +7,9 @@
         type: 'movies',
         getProviders: function () {
             return {
-                torrents: App.Config.getProvider('movie'),
-                metadata: App.Config.getProvider('metadata')
-                //subtitle: App.Config.getProvider('subtitle')
+                torrents: App.Config.getProviderForType('movie'),
+                metadata: App.Config.getProviderForType('metadata'),
+                subtitle: App.Config.getProviderForType('subtitle')
             };
         }
     });

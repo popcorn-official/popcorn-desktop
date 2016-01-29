@@ -198,38 +198,12 @@
             version: 5,
             tables: ['metadata']
         },
-
-        providers: {
-            movie: ['vodo'],
-            tvshow: [
-                'youtube?channel=HolaSoyGerman',
-                'youtube?channel=JulianSerrano7',
-                'youtube?channel=LasCronicasDeAlfredo',
-                'youtube?channel=maritobaracus',
-                'youtube?channel=petercapusottotv&titleRegex=[0-9]+[aª] +Temporada',
-                'youtube?channel=sincodificar2',
-                'youtube?channel=lady16makeup',
-                'youtube?channel=werevertumorro',
-                'youtube?channel=DrossRotzank',
-                'youtube?channel=DeiGamer',
-                'youtube?channel=ReinoMariaElenaWalsh',
-                'youtube?channel=LucasCastelvlogs',
-                'youtube?channel=thedevilwearsvitton',
-                'youtube?channel=elbananeropuntocom',
-                    ],
-            subtitle: 'OpenSubtitles',
-            metadata: 'Trakttv',
-            tvst: 'TVShowTime',
-
-            torrentCache: 'TorrentCache'
-        },
-
-        getProvider: function (type) {
-            var provider = App.Config.providers[type];
+        getProviderForType: function (type) {
+            var provider = Settings.providers[type];
             if (!provider) {
                 win.warn('Provider type: \'%s\' isn\'t defined in App.Config.providers', type);
                 return;
-            } else if (provider instanceof Array) {
+            } else if (provider instanceof Array || typeof provider === "object") {
                 return _.map(provider, function (t) {
                     return App.Providers.get(t);
                 });
@@ -238,15 +212,15 @@
             }
         },
 
-        getProviderNames: function (type) {
-            return this.getProvider(type).map(function (p) {
+        getProviderNameForType: function (type) {
+            return this.getProviderForType(type).map(function (p) {
                 return p.config.tabName
             })
         },
 
         getFiltredProviderNames: function (type)  {
             var ret = {};
-            this.getProviderNames(type).map(function (n) {
+            this.getProviderNameForType(type).map(function (n) {
                 ret[n]=ret[n]?ret[n]+1:1;
             });
 

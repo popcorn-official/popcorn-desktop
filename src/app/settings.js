@@ -1,6 +1,6 @@
 /** Default settings **/
 var Settings = {
-    projectName: 'MINC Butter',
+    projectName: 'Butter',
     projectUrl: 'http://butterproject.org',
     projectTwitter: 'butterproject',
     projectFacebook: 'ButterProjectOrg',
@@ -14,6 +14,32 @@ var Settings = {
     sourceUrl: 'https://github.com/butterproject/butter-desktop/',
     commitUrl: 'https://github.com/butterproject/butter-desktop/commit'
 };
+
+Settings.providers = {
+    movie: ['vodo', 'archive'],
+    tvshow: [
+        'ccc',
+        'youtube?channel=HolaSoyGerman',
+        'youtube?channel=JulianSerrano7',
+        'youtube?channel=LasCronicasDeAlfredo',
+        'youtube?channel=maritobaracus',
+        'youtube?channel=petercapusottotv&titleRegex=[0-9]+[aª] +Temporada',
+        'youtube?channel=sincodificar2',
+        'youtube?channel=lady16makeup',
+        'youtube?channel=werevertumorro',
+        'youtube?channel=DrossRotzank',
+        'youtube?channel=DeiGamer',
+        'youtube?channel=ReinoMariaElenaWalsh',
+        'youtube?channel=LucasCastelvlogs',
+        'youtube?channel=thedevilwearsvitton',
+        'youtube?channel=elbananeropuntocom',
+    ],
+    subtitle: 'OpenSubtitles',
+    metadata: 'Trakttv',
+    tvst: 'TVShowTime',
+
+    torrentCache: 'TorrentCache'
+}
 
 // User interface
 Settings.language = '';

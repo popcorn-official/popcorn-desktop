@@ -433,7 +433,7 @@ var handleVideoFile = function (file) {
         return Q.Promise(function (resolve, reject) {
             win.debug('Subtitles data request:', subdata);
 
-            var subtitleProvider = App.Config.getProvider('subtitle');
+            var subtitleProvider = App.Config.getProviderForType('subtitle');
 
             subtitleProvider.fetch(subdata).then(function (subs) {
                 if (subs && Object.keys(subs).length > 0) {
@@ -559,7 +559,7 @@ var handleTorrent = function (torrent) {
     } catch (err) {
         // The player wasn't running
     }
-    App.Config.getProvider('torrentCache').resolve(torrent);
+    App.Config.getProviderForType('torrentCache').resolve(torrent);
 };
 
 window.ondrop = function (e) {

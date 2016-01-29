@@ -7,7 +7,7 @@
         type: 'shows',
         getProviders: function () {
             return {
-                torrents: App.Config.getProvider('tvshow')
+                torrents: App.Config.getProviderForType('tvshow')
             };
         },
     });
