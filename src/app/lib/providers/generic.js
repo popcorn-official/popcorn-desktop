@@ -13,6 +13,10 @@
         'indie': 'Indie'
     };
 
+    function getProviderFromRegistry(name){
+        return registry[name];
+    }
+
     function getProvider(name) {
         if (!name) {
             /* XXX(xaiki): this is for debug purposes, will it bite us later ? */
@@ -40,10 +44,15 @@
             return cache[name];
         }
 
-        var provider = registry[config.name];
+        var provider = getProviderFromRegistry(config.name)
         if (!provider) {
-            win.error('couldn\'t find provider', config.name);
-            return null;
+            if (installProvider(require('butter-provider-' + config.name))) {
+                win.warn ('I loaded', config.name, 'from npm but you didn\'t add it to your package.json');
+                provider = getProviderFromRegistry(config.name)
+            } else {
+                win.error('couldn\'t find provider', config.name);
+                return null;
+            }
         }
 
         win.info('Spawning new provider', name, config);
@@ -78,11 +87,15 @@
 
         console.log ('added', name, 'to provider registry')
         registry[name] = PO;
+
+        return name;
     }
 
     App.Providers.get = getProvider;
     App.Providers.delete = delProvider;
     App.Providers.install = installProvider;
+
+    App.Providers.getFromRegistry = getProviderFromRegistry;
 
     App.TabTypes = {};
 })(window.App);
