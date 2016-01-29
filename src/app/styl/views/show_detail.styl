@@ -19,7 +19,7 @@
                 background-repeat: no-repeat
                 background-size: cover
                 background-position: center
-                -webkit-filter: brightness(0.6)
+                -webkit-filter: blur(60px) brightness(0.7)
                 background-color $ShowBgColor1
                 opacity: 0
                 &.fadein
@@ -279,6 +279,7 @@
 
     .show-details
         width: 100vw
+        z-index: 1
         background: $ShowBgColor1
         height: calc(100vh - 282px)
         display: flex
@@ -347,7 +348,7 @@
                     white-space: nowrap
                     border-left: 1px solid $ShowBgColor1
                     padding-left: 30px
-                    max-width: calc(60vw - 255px)
+                    max-width: calc(60vw - 265px)
                     text-align: left
                     overflow: hidden
                     text-overflow: ellipsis
@@ -363,8 +364,8 @@
                 color: $ShowText1
 
         .sd-seasons
-            min-width: 160px
-            max-width: 220px
+            min-width: 165px
+            max-width: 165px
             flex-shrink: 1
             flex-grow: 1
             padding: 10px
