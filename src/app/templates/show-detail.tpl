@@ -115,13 +115,13 @@
         <div class="sd-overview">
             <div class="sdo-infos">
                 <div class="sdoi-title"></div>
+                <div class="sdoi-links">
+                    <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__("Magnet link") %>" class="fa fa-magnet magnet-icon"></div>
+                    <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__("Health Unknown") %>" class="fa fa-circle health-icon None"></div>
+                </div>
                 <div class="sdoi-aired">
                     <div class="sdoi-number"></div>
                     <div class="sdoi-date"></div>
-                </div>
-                <div class="sdoi-links">
-                    <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__("Health Unknown") %>" class="fa fa-circle health-icon None"></div>
-                    <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__("Magnet link") %>" class="fa fa-magnet magnet-icon"></div>
                 </div>
                 <div class="sdoi-synopsis"></div>
             </div>

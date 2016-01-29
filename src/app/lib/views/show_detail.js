@@ -27,7 +27,7 @@
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
             'click .shmi-imdb': 'openIMDb',
-            'mousedown .show-magnet-link': 'openMagnet',
+            'mousedown .magnet-icon': 'openMagnet',
             'dblclick .tab-episode': 'dblclickEpisode',
             'click .q1080': 'toggleShowQuality',
             'click .q720': 'toggleShowQuality',
@@ -134,7 +134,7 @@
                 this.ui.bookmarkIcon.removeClass('selected');
             }
 
-            $('.star-container-tv,.shmi-imdb,.show-magnet-link').tooltip();
+            $('.star-container-tv,.shmi-imdb,.magnet-icon').tooltip();
 
             var cbackground = $('.shp-img').attr('data-bgr');
             var coverCache = new Image();
@@ -607,13 +607,13 @@
 
             $('.tab-episode.active').removeClass('active');
             $elem.addClass('active');
-            $('.episode-info-number').text(i18n.__('Season %s', $('.template-' + tvdbid + ' .season').html()) + ', ' + i18n.__('Episode %s', $('.template-' + tvdbid + ' .episode').html()));
-            $('.episode-info-title').text($('.template-' + tvdbid + ' .title').text());
-            $('.episode-info-date').text(i18n.__('Aired Date') + ': ' + $('.template-' + tvdbid + ' .date').html());
-            $('.episode-info-description').text($('.template-' + tvdbid + ' .overview').text());
+            $('.sdoi-number').text(i18n.__('Season %s', $('.template-' + tvdbid + ' .season').html()) + ', ' + i18n.__('Episode %s', $('.template-' + tvdbid + ' .episode').html()));
+            $('.sdoi-title').text($('.template-' + tvdbid + ' .title').text());
+            $('.sdoi-date').text(i18n.__('Aired Date') + ': ' + $('.template-' + tvdbid + ' .date').html());
+            $('.sdoi-synopsis').text($('.template-' + tvdbid + ' .overview').text());
 
             //pull the scroll always to top
-            $('.episode-info-description').scrollTop(0);
+            $('.sdoi-synopsis').scrollTop(0);
 
             $('.startStreaming').attr('data-torrent', torrents.def);
             $('.startStreaming').attr('data-quality', torrents.quality);
