@@ -53,7 +53,7 @@
         .sh-metadata
             float: left
             position: relative
-            height: 195px
+            height: 194px
             width: calc(100% - 198px)
             padding-top: 10px
             padding-right: 45px
@@ -63,7 +63,7 @@
                 font-family $Font
                 -webkit-font-smoothing antialiased
                 font-size 28px
-                margin-bottom 10px
+                margin-bottom 8px
                 margin-top: 5px
 
             .shm-infos
@@ -285,9 +285,13 @@
         display: flex
         flex-direction: row
 
+        &>div:first-child
+            padding-left: 32px
+        &>div:last-child
+            padding-right: 32px
+
         ul
-            height: calc(100vh - 335px)
-            margin-left: 10px
+            height: calc(100vh - 340px)
             cursor: pointer
             direction: rtl
             scrollable()
@@ -358,18 +362,22 @@
                 font-size: 24px
                 overflow: hidden
                 text-overflow: ellipsis
+                white-space: nowrap
                 margin-bottom: 15px
                 margin-top: 2px
                 color: $ShowText1
 
         .sd-seasons
-            min-width: 180px
-            max-width: 180px
+            min-width: 160px
+            max-width: 220px
+            flex-shrink: 1
+            flex-grow: 1
             padding: 10px
 
             .sds-list ul a
                 color: $SaisonListText
                 font-family: $AlternateFont
+                white-space: nowrap
 
         .sd-episodes
             flex-grow: 2
@@ -402,7 +410,7 @@
 
                 .sdoi-links
                     position: absolute
-                    right: 18px
+                    right: 30px
                     margin-top: -6px
 
                     &>div
@@ -458,7 +466,7 @@
                 padding: 10px 0
 
                 .sdow-quality
-                    margin-top: 25px
+                    margin-top: 24px
                     float: left
 
                     div
