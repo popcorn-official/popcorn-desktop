@@ -122,143 +122,129 @@
     };
 
     function installWindows(downloadPath, updateData) {
-        var defer = Q.defer();
         var pack = new AdmZip(downloadPath);
 
-        if (updateData.extended) {
-
-            // Extended: true
-            var extractDir = os.tmpdir();
-            win.debug('Extracting update.exe');
-            pack.extractAllToAsync(extractDir, true, function (err) {
-                if (err) {
-                    defer.reject(err);
-                } else {
-                    var startWinUpdate = function () {
-                        fs.unlinkSync(downloadPath);
-                        var updateEXE = 'update.exe';
-                        var cmd = path.join(extractDir, updateEXE);
-
-                        var updateprocess = child.spawn(cmd, [], {
-                            detached: true,
-                            stdio: ['ignore', 'ignore', 'ignore']
-                        });
-                        win.close(true);
-                    };
-
-                    App.vent.trigger('notification:show', new App.Model.Notification({
-                        title: 'Update ' + (updateData.version || 'Hotfix') + ' Installed',
-                        body: (updateData.description || 'Auto update'),
-                        showRestart: false,
-                        type: 'info',
-                        buttons: [{
-                            title: 'Update Now',
-                            action: startWinUpdate
-                        }]
-                    }));
-                    win.on('close', function () {
-                        startWinUpdate();
-                    });
-
-                    win.debug('Extraction success!');
-                    win.debug('Update ready to be installed!');
-                }
-            });
-
-        } else {
-
-            // Extended: false || undefined
-            var installDir = path.dirname(downloadPath);
-
-            win.debug('Extracting update files...');
-            pack.extractAllToAsync(installDir, true, function (err) {
-                if (err) {
-                    defer.reject(err);
-                } else {
-                    fs.unlink(downloadPath, function (err) {
-                        if (err) {
-                            defer.reject(err);
-                        } else {
-                            win.debug('Extraction success!');
-                            defer.resolve();
-                        }
-                    });
-                }
-            });
-
+        if (!updateData.extended) {
+            return extractSimple(pack, downloadPath);
         }
+
+        var defer = Q.defer();
+
+
+        // Extended: true
+        var extractDir = os.tmpdir();
+        win.debug('Extracting update.exe');
+        pack.extractAllToAsync(extractDir, true, function (err) {
+            if (err) {
+                defer.reject(err);
+            } else {
+                var startWinUpdate = function () {
+                    fs.unlinkSync(downloadPath);
+                    var updateEXE = 'update.exe';
+                    var cmd = path.join(extractDir, updateEXE);
+
+                    var updateprocess = child.spawn(cmd, [], {
+                        detached: true,
+                        stdio: ['ignore', 'ignore', 'ignore']
+                    });
+                    win.close(true);
+                };
+
+                App.vent.trigger('notification:show', new App.Model.Notification({
+                    title: 'Update ' + (updateData.version || 'Hotfix') + ' Installed',
+                    body: (updateData.description || 'Auto update'),
+                    showRestart: false,
+                    type: 'info',
+                    buttons: [{
+                        title: 'Update Now',
+                        action: startWinUpdate
+                    }]
+                }));
+                win.on('close', function () {
+                    startWinUpdate();
+                });
+
+                win.debug('Extraction success!');
+                win.debug('Update ready to be installed!');
+            }
+        });
 
         return defer.promise;
     }
 
     function installUnix(downloadPath, outputDir, updateData) {
-        var defer = Q.defer();
-
         win.debug('Extracting update...');
+
         var packageFile = path.join(outputDir, 'package.nw'),
             pack = new AdmZip(downloadPath);
 
-        if (updateData.extended) {
-
-            // Extended: true
-            var updateTAR = path.join(os.tmpdir(), 'update.tar');
-
-            pack.extractAllToAsync(os.tmpdir(), true, function (err) { //extract tar from zip
-                if (err) {
-                    defer.reject(err);
-                } else {
-                    var delDir = process.cwd().match('Contents') ? path.join(outputDir, 'Contents') : outputDir;
-                    rimraf(delDir, function (err) { //delete old app
-                        if (err) {
-                            defer.reject(err);
-                        } else {
-                            var extractor = tar.Extract({
-                                    path: outputDir
-                                }) //extract files from tar
-                                .on('error', function (err) {
-                                    defer.reject(err);
-                                })
-                                .on('end', function () {
-                                    App.vent.trigger('notification:show', new App.Model.Notification({
-                                        title: 'Update ' + (updateData.version || 'Hotfix') + ' Installed',
-                                        body: (updateData.description || 'Auto update'),
-                                        showRestart: true,
-                                        type: 'info'
-                                    }));
-
-                                    win.debug('Extraction success!');
-                                });
-                            fs.createReadStream(updateTAR)
-                                .on('error', function (err) {
-                                    defer.reject(err);
-                                })
-                                .pipe(extractor);
-                        }
-                    });
-                }
-            });
-
-        } else {
-
-            // Extended: false
-            var installDir = path.dirname(downloadPath);
-
-            pack.extractAllToAsync(installDir, true, function (err) {
-                if (err) {
-                    defer.reject(err);
-                } else {
-                    fs.unlink(downloadPath, function (err) {
-                        if (err) {
-                            defer.reject(err);
-                        } else {
-                            win.debug('Extraction success!');
-                            defer.resolve();
-                        }
-                    });
-                }
-            });
-
+        if (!updateData.extended) {
+            return extractSimple(pack, downloadPath);
         }
+
+        var defer = Q.defer();
+
+        // Extended: true
+        var extractDir = os.tmpdir();
+        var updateTAR = path.join(extractDir, 'update.tar');
+
+        pack.extractAllToAsync(extractDir, true, function (err) { //extract tar from zip
+            if (err) {
+                defer.reject(err);
+            } else {
+                var delDir = process.cwd().match('Contents') ? path.join(outputDir, 'Contents') : outputDir;
+                rimraf(delDir, function (err) { //delete old app
+                    if (err) {
+                        defer.reject(err);
+                    } else {
+                        var extractor = tar.Extract({
+                                path: outputDir
+                            }) //extract files from tar
+                            .on('error', function (err) {
+                                defer.reject(err);
+                            })
+                            .on('end', function () {
+                                App.vent.trigger('notification:show', new App.Model.Notification({
+                                    title: 'Update ' + (updateData.version || 'Hotfix') + ' Installed',
+                                    body: (updateData.description || 'Auto update'),
+                                    showRestart: true,
+                                    type: 'info'
+                                }));
+
+                                win.debug('Extraction success!');
+                            });
+                        fs.createReadStream(updateTAR)
+                            .on('error', function (err) {
+                                defer.reject(err);
+                            })
+                            .pipe(extractor);
+                    }
+                });
+            }
+        });
+
+        return defer.promise;
+    }
+
+    function extractSimple(pack, downloadPath) {
+        // Extended: false
+        var installDir = path.dirname(downloadPath);
+        var defer = Q.defer();
+
+        pack.extractAllToAsync(installDir, true, function (err) {
+            if (err) {
+                defer.reject(err);
+            } else {
+                fs.unlink(downloadPath, function (err) {
+                    if (err) {
+                        defer.reject(err);
+                    } else {
+                        win.debug('Extraction success!');
+                        defer.resolve();
+                    }
+                });
+            }
+        });
 
         return defer.promise;
     }
