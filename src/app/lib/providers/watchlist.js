@@ -7,7 +7,7 @@
     Watchlist.prototype.constructor = Watchlist;
     Watchlist.prototype.config = {
         name: 'Watchlist'
-    }
+    };
 
     var queryTorrents = function (filters) {
         var deferred = Q.defer();
@@ -203,6 +203,6 @@
         return deferred.promise;
     };
 
-    App.Providers.install(Watchlist)
+    App.Providers.install(Watchlist);
 
 })(window.App);

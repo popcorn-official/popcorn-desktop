@@ -89,8 +89,10 @@
             });
 
             var torrents = {};
-            _.each(this.model.get('episodes'), function(value, currentEpisode) {
-                if (!torrents[value.season]) torrents[value.season] = {};
+            _.each(this.model.get('episodes'), function (value, currentEpisode) {
+                if (!torrents[value.season]) {
+                    torrents[value.season] = {};
+                }
                 torrents[value.season][value.episode] = value;
             });
             this.model.set('torrents', torrents);
@@ -125,7 +127,7 @@
         },
 
         unbindKeyboardShortcuts: Mousetrap.reset,
-        
+
         onShow: function () {
             bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
 
@@ -789,7 +791,7 @@
             if (torrent.substring(0, 8) === 'magnet:?') {
                 // if 'magnet:?' is because TVApi sends back links, not magnets
 
-                torrent = torrent.split('&tr')[0] + '&tr=udp://tracker.openbittorrent.com:80/announce' + '&tr=udp://9.rarbg.com:2710/announce' + '&tr=udp://tracker.coppersurfer.tk:6969'+ '&tr=udp://tracker.publicbt.com:80/announce';
+                torrent = torrent.split('&tr')[0] + '&tr=udp://tracker.openbittorrent.com:80/announce' + '&tr=udp://9.rarbg.com:2710/announce' + '&tr=udp://tracker.coppersurfer.tk:6969' + '&tr=udp://tracker.publicbt.com:80/announce';
 
                 torrentHealth(torrent, {
                     timeout: 1000

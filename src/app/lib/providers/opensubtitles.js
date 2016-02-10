@@ -1,10 +1,11 @@
 (function (App) {
     'use strict';
-    var OS = require('opensubtitles-api'), openSRT;
+    var OS = require('opensubtitles-api'),
+        openSRT;
 
     var OpenSubtitles = function () {
         openSRT = new OS({
-            useragent: 'OSTestUserAgent',//TODO: register UA 'Butter v' + (Settings.version || 1),
+            useragent: 'OSTestUserAgent', //TODO: register UA 'Butter v' + (Settings.version || 1),
             username: Settings.opensubtitlesUsername,
             password: Settings.opensubtitlesPassword
         });
@@ -13,7 +14,7 @@
     OpenSubtitles.prototype.constructor = OpenSubtitles;
     OpenSubtitles.prototype.config = {
         name: 'OpenSubtitles'
-    }
+    };
 
     var normalizeLangCodes = function (data) {
         if ('pb' in data) {

@@ -109,7 +109,7 @@
                 var cover = model.get('cover');
                 if (images && images.poster && images.poster.medium) {
                     return images.poster.medium;
-                } else if (image && typeof image === 'String') {
+                } else if (image && image instanceof String) {
                     return image;
                 } else if (cover) {
                     return cover;

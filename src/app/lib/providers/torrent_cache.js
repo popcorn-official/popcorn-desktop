@@ -10,13 +10,13 @@
         MAGNET_RESOLVE_TIMEOUT = 60 * 1000; // let's give max a minute to resolve a magnet uri
 
     var mod = function () {
-        this._checkTmpDir();
-    },
-    pmod = mod.prototype;
+            this._checkTmpDir();
+        },
+        pmod = mod.prototype;
 
     pmod.config = {
         name: 'TorrentCache'
-    }
+    };
 
     pmod.getTmpDir = function () {
         return tpmDir;

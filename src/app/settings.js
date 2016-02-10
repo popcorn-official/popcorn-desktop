@@ -39,7 +39,7 @@ Settings.providers = {
     tvst: 'TVShowTime',
 
     torrentCache: 'TorrentCache'
-}
+};
 
 // User interface
 Settings.language = '';

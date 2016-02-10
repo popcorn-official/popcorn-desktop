@@ -1,13 +1,11 @@
 (function (App) {
     'use strict';
 
-    var Favorites = function () {
-    };
+    var Favorites = function () {};
     Favorites.prototype.constructor = Favorites;
     Favorites.prototype.config = {
         name: 'Favorites'
-    }
-
+    };
 
     var queryTorrents = function (filters) {
         return App.db.getBookmarks(filters)

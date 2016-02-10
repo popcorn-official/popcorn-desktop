@@ -9,7 +9,7 @@
 
     CacheProvider.prototype.config = {
         name: 'CacheProvider'
-    }
+    };
 
     // TODO: Duplicate cache entry
     CacheProvider.prototype.fetch = function (ids) {

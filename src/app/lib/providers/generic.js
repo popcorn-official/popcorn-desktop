@@ -1,6 +1,6 @@
 (function (App) {
     'use strict';
-    var fs=require('fs');
+    var fs = require('fs');
     var cache = App.Providers._cache = {};
     var registry = App.Providers._registry = {};
 
@@ -13,7 +13,7 @@
         'indie': 'Indie'
     };
 
-    function getProviderFromRegistry(name){
+    function getProviderFromRegistry(name) {
         return registry[name];
     }
 
@@ -32,11 +32,11 @@
             return cache[name];
         }
 
-        var provider = getProviderFromRegistry(config.name)
+        var provider = getProviderFromRegistry(config.name);
         if (!provider) {
             if (installProvider(require('butter-provider-' + config.name))) {
-                win.warn ('I loaded', config.name, 'from npm but you didn\'t add it to your package.json');
-                provider = getProviderFromRegistry(config.name)
+                win.warn('I loaded', config.name, 'from npm but you didn\'t add it to your package.json');
+                provider = getProviderFromRegistry(config.name);
             } else {
                 win.error('couldn\'t find provider', config.name);
                 return null;
@@ -63,17 +63,17 @@
     }
 
     function installProvider(PO) {
-        var name = PO.prototype.config?PO.prototype.config.name:null;
+        var name = PO.prototype.config ? PO.prototype.config.name : null;
 
         if (!name) {
-            return console.error (PO, PO.prototype.config, 'doesnt have a name')
+            return console.error(PO, PO.prototype.config, 'doesnt have a name');
         }
 
         if (registry[name]) {
-            return console.error ('double definition of', name, PO, PO.prototype.config, 'is the same as', registry[name]);
+            return console.error('double definition of', name, PO, PO.prototype.config, 'is the same as', registry[name]);
         }
 
-        console.log ('added', name, 'to provider registry')
+        console.log('added', name, 'to provider registry');
         registry[name] = PO;
 
         return name;

@@ -21,7 +21,7 @@
 
     TVApi.prototype.config = {
         name: 'TVApi'
-    }
+    };
 
     var queryTorrents = function (filters) {
 

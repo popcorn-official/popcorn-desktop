@@ -203,7 +203,7 @@
             if (!provider) {
                 win.warn('Provider type: \'%s\' isn\'t defined in App.Config.providers', type);
                 return;
-            } else if (provider instanceof Array || typeof provider === "object") {
+            } else if (provider instanceof Array || typeof provider === 'object') {
                 return _.map(provider, function (t) {
                     return App.Providers.get(t);
                 });
@@ -214,20 +214,19 @@
 
         getProviderNameForType: function (type) {
             return this.getProviderForType(type).map(function (p) {
-                return p.config.tabName
-            })
+                return p.config.tabName;
+            });
         },
 
-        getFiltredProviderNames: function (type)  {
+        getFiltredProviderNames: function (type) {
             var ret = {};
             this.getProviderNameForType(type).map(function (n) {
-                ret[n]=ret[n]?ret[n]+1:1;
+                ret[n] = ret[n] ? ret[n] + 1 : 1;
             });
 
             return _.map(ret, function (v, k) {
-                console.log ('key', k, 'value', v)
-                return k.concat((v>1)?':'+v:'');
-            })
+                return k.concat((v > 1) ? ':' + v : '');
+            });
         }
 
     };

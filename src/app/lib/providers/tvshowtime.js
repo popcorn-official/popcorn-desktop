@@ -29,7 +29,7 @@
 
     TVShowTime.prototype.config = {
         name: 'TVShowTime'
-    }
+    };
 
     TVShowTime.prototype.post = function (endpoint, postVariables) {
         var defer = Q.defer();

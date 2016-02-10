@@ -60,7 +60,7 @@
 
     TraktTv.prototype.config = {
         name: 'Trakttv'
-    }
+    };
 
     TraktTv.prototype.cache = function (key, ids, func) {
         var self = this;
@@ -718,5 +718,5 @@
     App.vent.on('movie:unwatched', onMoviesUnWatched);
 
     App.Providers.Trakttv = TraktTv;
-    App.Providers.install(TraktTv)
+    App.Providers.install(TraktTv);
 })(window.App);
