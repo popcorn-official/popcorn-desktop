@@ -25,7 +25,7 @@
             return cache;
         }
 
-        var config = App.Providers.Generic.parseArgs(name);
+        var config = App.Providers.Generic.prototype.parseArgs(name);
 
         if (cache[name]) {
             win.info('Returning cached provider', name);
