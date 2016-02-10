@@ -58,7 +58,7 @@
                     .spread(function (torrents, subtitles, metadatas) {
                         // If a new request was started...
                         metadatas = _.map(metadatas, function (m) {
-                            if (!m || !m.value) {
+                            if (!m || !m.value || !m.value.ids) {
                                 return {};
                             }
 
