@@ -191,12 +191,11 @@
         return defer.promise;
     }
 
-    function installLinux(downloadPath, updateData) {
+    function installUnix(downloadPath, outputDir, updateData) {
         var defer = Q.defer();
 
         win.debug('Extracting update...');
-        var outputDir = path.dirname(downloadPath),
-            packageFile = path.join(outputDir, 'package.nw'),
+        var packageFile = path.join(outputDir, 'package.nw'),
             pack = new AdmZip(downloadPath);
 
         if (updateData.extended) {
@@ -208,7 +207,8 @@
                 if (err) {
                     defer.reject(err);
                 } else {
-                    rimraf(outputDir, function (err) { //delete old app
+                    var delDir = process.cwd().match('Contents') ? path.join(outputDir, 'Contents') : outputDir;
+                    rimraf(delDir, function (err) { //delete old app
                         if (err) {
                             defer.reject(err);
                         } else {
@@ -263,73 +263,14 @@
         return defer.promise;
     }
 
+    function installLinux(downloadPath, updateData) {
+        return installUnix(downloadPath, path.dirname(downloadPath), updateData);
+    }
+
     function installOSX(downloadPath, updateData) {
-        var defer = Q.defer();
-        var pack = new AdmZip(downloadPath);
+        var outputDir = updateData.extended ? process.cwd().split('Contents')[0] : path.dirname(downloadPath);
 
-        win.debug('Extracting update...');
-        if (updateData.extended) {
-
-            // Extended: true
-            var installDir = process.cwd().split('Contents')[0];
-            var updateTAR = path.join(os.tmpdir(), 'update.tar');
-
-            pack.extractAllToAsync(os.tmpdir(), true, function (err) { //extract tar from zip
-                if (err) {
-                    defer.reject(err);
-                } else {
-                    rimraf(path.join(installDir, 'Contents'), function (err) { //delete old app
-                        if (err) {
-                            defer.reject(err);
-                        } else {
-                            var extractor = tar.Extract({
-                                    path: installDir
-                                }) //extract files from tar
-                                .on('error', function (err) {
-                                    defer.reject(err);
-                                })
-                                .on('end', function () {
-                                    App.vent.trigger('notification:show', new App.Model.Notification({
-                                        title: 'Update ' + (updateData.version || 'Hotfix') + ' Installed',
-                                        body: (updateData.description || 'Auto update'),
-                                        showRestart: true,
-                                        type: 'info'
-                                    }));
-
-                                    win.debug('Extraction success!');
-                                });
-                            fs.createReadStream(updateTAR)
-                                .on('error', function (err) {
-                                    defer.reject(err);
-                                })
-                                .pipe(extractor);
-                        }
-                    });
-                }
-            });
-
-        } else {
-
-            // Extended: false
-            var outputDir = path.dirname(downloadPath);
-
-            pack.extractAllToAsync(outputDir, true, function (err) {
-                if (err) {
-                    defer.reject(err);
-                } else {
-                    fs.unlink(downloadPath, function (err) {
-                        if (err) {
-                            defer.reject(err);
-                        } else {
-                            win.debug('Extraction success!');
-                            defer.resolve();
-                        }
-                    });
-                }
-            });
-        }
-
-        return defer.promise;
+        return installUnix(downloadPath, outputDir, updateData);
     }
 
     Updater.prototype.install = function (downloadPath) {
