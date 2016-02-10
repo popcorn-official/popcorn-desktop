@@ -28,6 +28,7 @@
     "position": "center"
   },
   "dependencies": {
+        "butter-provider": "git+https://github.com/butterproviders/butter-provider",
       "butter-provider-ccc": "git+https://github.com/butterproviders/butter-provider-ccc",
       "butter-provider-youtube": "git+https://github.com/butterproviders/butter-provider-youtube",
       "butter-provider-vodo": "git+https://github.com/butterproviders/butter-provider-vodo",
