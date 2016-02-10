@@ -28,10 +28,10 @@
     "position": "center"
   },
   "dependencies": {
-      "butter-provider-ccc": "*",
-      "butter-provider-youtube": "*",
-      "butter-provider-vodo": "*",
-      "butter-provider-archive": "*",
+      "butter-provider-ccc": "git+https://github.com/butterproviders/butter-provider-ccc",
+      "butter-provider-youtube": "git+https://github.com/butterproviders/butter-provider-youtube",
+      "butter-provider-vodo": "git+https://github.com/butterproviders/butter-provider-vodo",
+      "butter-provider-archive": "git+https://github.com/butterproviders/butter-provider-archive",
     "adm-zip": "0.4.7",
     "airplay-js": "git+https://github.com/guerrerocarlos/node-airplay-js.git",
     "async": "1.5.0",
