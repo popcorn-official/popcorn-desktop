@@ -80,9 +80,20 @@
     App.bootstrapPromise = loadNpmSettings()
         .then(loadProviders)
         .then(function (values) {
-            return _.keys(App.ProviderTypes).map(function (type) {
-                return App.Config.getProviderForType(type);
-            });
+            return _.filter(_.keys(App.ProviderTypes).map(function (type) {
+                return {
+                    provider: App.Config.getProviderForType(type),
+                    type: type
+                }
+            }), function (p) {
+                return p.provider
+            })
+        })
+        .then(function (providers) {
+            _.each(providers, function (p) {
+                App.TabTypes[p.type] = App.ProviderTypes[p.type]
+            })
+            return providers;
         })
         .then(function (providers) {
             console.log('loaded', providers);
