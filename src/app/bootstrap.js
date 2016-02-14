@@ -84,15 +84,18 @@
                 return {
                     provider: App.Config.getProviderForType(type),
                     type: type
-                }
+                };
             }), function (p) {
-                return p.provider
-            })
+                return p.provider;
+            });
         })
         .then(function (providers) {
+            App.TabTypes = {};
+
             _.each(providers, function (p) {
-                App.TabTypes[p.type] = App.ProviderTypes[p.type]
-            })
+                App.TabTypes[p.type] = App.ProviderTypes[p.type];
+            });
+
             return providers;
         })
         .then(function (providers) {

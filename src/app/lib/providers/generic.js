@@ -80,6 +80,4 @@
     App.Providers.install = installProvider;
 
     App.Providers.getFromRegistry = getProviderFromRegistry;
-
-    App.TabTypes = {};
 })(window.App);
