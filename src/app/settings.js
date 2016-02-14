@@ -53,6 +53,10 @@ Settings.providers = {
     torrentCache: 'TorrentCache'
 };
 
+Settings.tabs = {
+    order: ['movie', 'tvshow', 'anime', 'indie']
+};
+
 // User interface
 Settings.language = '';
 Settings.translateSynopsis = true;

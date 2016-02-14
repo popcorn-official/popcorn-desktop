@@ -198,6 +198,18 @@
             version: 5,
             tables: ['metadata']
         },
+
+        getTabTypes: function () {
+            return _.filter(_.map(Settings.tabs.order, function (t) {
+                return {
+                    name: App.TabTypes[t],
+                    type: t
+                };
+            }), function (t) {
+                return t.name;
+            });
+        },
+
         getProviderForType: function (type) {
             var provider = Settings.providers[type];
             if (!provider) {
