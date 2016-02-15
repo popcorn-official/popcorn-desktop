@@ -212,6 +212,12 @@
 
         getProviderForType: function (type) {
             var provider = Settings.providers[type];
+            if (typeof provider !== 'string') {
+                if (provider.uri) {
+                    provider = provider.uri
+                }
+            }
+
             if (!provider) {
                 win.warn('Provider type: \'%s\' isn\'t defined in App.Config.providers', type);
                 return;

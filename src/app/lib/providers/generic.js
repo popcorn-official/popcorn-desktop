@@ -6,13 +6,6 @@
 
     App.Providers.Generic = require('butter-provider');
 
-    App.ProviderTypes = {
-        'tvshow': 'Series',
-        'movie': 'Movies',
-        'anime': 'Anime',
-        'indie': 'Indie'
-    };
-
     function getProviderFromRegistry(name) {
         return registry[name];
     }

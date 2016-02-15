@@ -80,7 +80,7 @@
     App.bootstrapPromise = loadNpmSettings()
         .then(loadProviders)
         .then(function (values) {
-            return _.filter(_.keys(App.ProviderTypes).map(function (type) {
+            return _.filter(_.keys(Settings.providers).map(function (type) {
                 return {
                     provider: App.Config.getProviderForType(type),
                     type: type
@@ -93,7 +93,17 @@
             App.TabTypes = {};
 
             _.each(providers, function (p) {
-                App.TabTypes[p.type] = App.ProviderTypes[p.type];
+                var name = Settings.providers[p.type]
+                if (name.name) {
+                    name = name.name;
+                } else {
+                    console.error ('warning', 'provider', p,
+                                   'did not declare a name in Settings',
+                                   'will use type as name, but it\'s sub-ideal.');
+                    name = p.type.capitalize();
+                }
+
+                App.TabTypes[p.type] = name;
             });
 
             return providers;

@@ -28,29 +28,35 @@ var Settings = {
 };
 
 Settings.providers = {
-    movie: ['vodo', 'archive'],
-    tvshow: [
-        'ccc',
-        'youtube?channel=HolaSoyGerman',
-        'youtube?channel=JulianSerrano7',
-        'youtube?channel=LasCronicasDeAlfredo',
-        'youtube?channel=maritobaracus',
-        'youtube?channel=petercapusottotv&titleRegex=[0-9]+[aª] +Temporada',
-        'youtube?channel=sincodificar2',
-        'youtube?channel=lady16makeup',
-        'youtube?channel=werevertumorro',
-        'youtube?channel=DrossRotzank',
-        'youtube?channel=DeiGamer',
-        'youtube?channel=ReinoMariaElenaWalsh',
-        'youtube?channel=LucasCastelvlogs',
-        'youtube?channel=thedevilwearsvitton',
-        'youtube?channel=elbananeropuntocom',
-    ],
+    movie: {
+        name: 'Movies',
+        uri: ['stremio?auth={"url":"http://api8.herokuapp.com","key":"423f59935153f2f5d2db0f6c9b812592b61b3737"}&url=http://localhost:9005']
+    },
+    tvshow: {
+        name: 'Series',
+        uri: [
+            'ccc',
+            'youtube?channel=HolaSoyGerman',
+            'youtube?channel=JulianSerrano7',
+            'youtube?channel=LasCronicasDeAlfredo',
+            'youtube?channel=maritobaracus',
+            'youtube?channel=petercapusottotv&titleRegex=[0-9]+[aª] +Temporada',
+            'youtube?channel=sincodificar2',
+            'youtube?channel=lady16makeup',
+            'youtube?channel=werevertumorro',
+            'youtube?channel=DrossRotzank',
+            'youtube?channel=DeiGamer',
+            'youtube?channel=ReinoMariaElenaWalsh',
+            'youtube?channel=LucasCastelvlogs',
+            'youtube?channel=thedevilwearsvitton',
+            'youtube?channel=elbananeropuntocom',
+        ]
+    },
     subtitle: 'OpenSubtitles',
     metadata: 'Trakttv',
     tvst: 'TVShowTime',
 
-    torrentCache: 'TorrentCache'
+    torrentCache: 'TorrentCache',
 };
 
 Settings.tabs = {
