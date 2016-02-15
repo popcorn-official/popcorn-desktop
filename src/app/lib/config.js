@@ -200,21 +200,22 @@
         },
 
         getTabTypes: function () {
-            return _.filter(_.map(Settings.tabs.order, function (t) {
+            return _.sortBy(_.filter(_.map(Settings.providers, function (p, t) {
                 return {
-                    name: App.TabTypes[t],
+                    name: p.name,
+                    order: p.order,
                     type: t
                 };
-            }), function (t) {
-                return t.name;
-            });
+            }), function (p) {
+                return p.name && p.order;
+            }), 'order');
         },
 
         getProviderForType: function (type) {
             var provider = Settings.providers[type];
             if (typeof provider !== 'string') {
                 if (provider.uri) {
-                    provider = provider.uri
+                    provider = provider.uri;
                 }
             }
 
