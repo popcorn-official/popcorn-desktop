@@ -203,11 +203,11 @@
             return _.sortBy(_.filter(_.map(Settings.providers, function (p, t) {
                 return {
                     name: p.name,
-                    order: p.order,
+                    order: p.order || 1,
                     type: t
                 };
             }), function (p) {
-                return p.name && p.order;
+                return p.name;
             }), 'order');
         },
 
