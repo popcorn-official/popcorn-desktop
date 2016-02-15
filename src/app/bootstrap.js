@@ -92,18 +92,25 @@
         .then(function (providers) {
             App.TabTypes = {};
 
-            _.each(providers, function (p) {
-                var name = Settings.providers[p.type]
-                if (name.name) {
-                    name = name.name;
-                } else {
-                    console.error ('warning', 'provider', p,
-                                   'did not declare a name in Settings',
-                                   'will use type as name, but it\'s sub-ideal.');
-                    name = p.type.capitalize();
+            _.each(providers, function (provider) {
+                var p = Settings.providers[provider.type];
+                if (!p.name) {
+                    var uri = p.uri || p;
+                    var order = p.order || 1;
+
+                    console.error('warning', 'provider', p,
+                        'did not declare a name in Settings',
+                        'will use type as name, but it\'s sub-ideal.');
+                    p.name = p.type.capitalize();
+
+                    Settings.providers[p.type] = {
+                        uri: uri,
+                        order: order,
+                        name: p.name
+                    };
                 }
 
-                App.TabTypes[p.type] = name;
+                App.TabTypes[provider.type] = p.name;
             });
 
             return providers;
