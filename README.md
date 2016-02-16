@@ -1,4 +1,4 @@
-# [Butter](https://github.com/butterproject/butter-desktop)
+# [Popcorn Time](https://github.com/butterproject/butter-desktop)
 
 [![Build Status](https://travis-ci.org/butterproject/butter-desktop.svg?branch=master)](https://travis-ci.org/butterproject/butter-desktop)
 [![Dependency Status](https://david-dm.org/butterproject/butter-desktop.svg)](https://david-dm.org/butterproject/butter-desktop)
@@ -12,7 +12,7 @@ Visit the project's website at <http://butterproject.org>.
 
 ## Getting Involved
 
-Want to report a bug, request a feature, contribute to or translate Butter? Check out our in-depth guide to [Contributing to Butter](CONTRIBUTING.md#contributing-to-butter). We need all the help we can get! You can also join our [community](README.md#community) to keep up-to-date and meet other Butterrs.
+Want to report a bug, request a feature, contribute to or translate Popcorn Time? Check out our in-depth guide to [Contributing to Popcorn Time](CONTRIBUTING.md#contributing-to-butter). We need all the help we can get! You can also join our [community](README.md#community) to keep up-to-date and meet other Butterrs.
 
 ## Getting Started
 
@@ -47,21 +47,21 @@ Full instructions & troubleshooting tips can be found in the [Contributing Guide
 <a name="community"></a>
 ## Community
 
-Keep track of Butter development and community activity.
+Keep track of Popcorn Time development and community activity.
 
-* Follow Butter on [Twitter] (https://twitter.com/butterproject), [Facebook] (https://www.facebook.com/ButterProjectOrg/) and [Google+](https://plus.google.com/communities/111003619134556931561).
-* Read and subscribe to [The Official Butter Blog](http://blog.butterproject.org).
-* Join in discussions on the [Butter Forum](http://discuss.butterproject.org)
+* Follow Popcorn Time on [Twitter] (https://twitter.com/butterproject), [Facebook] (https://www.facebook.com/ButterProjectOrg/) and [Google+](https://plus.google.com/communities/111003619134556931561).
+* Read and subscribe to [The Official Popcorn Time Blog](http://blog.butterproject.org).
+* Join in discussions on the [Popcorn Time Forum](http://discuss.butterproject.org)
 * Connect with us on IRC at `#butterproject` on freenode ([web access](http://webchat.freenode.net/?channels=butterproject))
 
 ##Screenshots
-![Butter](https://cloud.githubusercontent.com/assets/8317250/10714437/b1e1dc8c-7b32-11e5-9c25-d9fbd5b2f3bd.png)
-![Debugging Butter](https://cloud.githubusercontent.com/assets/8317250/10714430/add70234-7b32-11e5-9be7-1de539d865ba.png)
+![Popcorn Time](https://cloud.githubusercontent.com/assets/8317250/10714437/b1e1dc8c-7b32-11e5-9c25-d9fbd5b2f3bd.png)
+![Debugging Popcorn Time](https://cloud.githubusercontent.com/assets/8317250/10714430/add70234-7b32-11e5-9be7-1de539d865ba.png)
 
 
 ## Versioning
 
-For transparency and insight into our release cycle, and for striving to maintain backward compatibility, Butter will be maintained according to the [Semantic Versioning](http://semver.org/) guidelines as much as possible.
+For transparency and insight into our release cycle, and for striving to maintain backward compatibility, Popcorn Time will be maintained according to the [Semantic Versioning](http://semver.org/) guidelines as much as possible.
 
 Releases will be numbered with the following format:
 
@@ -87,5 +87,5 @@ You should have received a copy of the GNU General Public License along with thi
 
 ***
 
-Copyright (c) 2015 Butter Project - Released under the
+Copyright (c) 2015 Popcorn Time Project - Released under the
 [GPL v3 license](LICENSE.txt).
