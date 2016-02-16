@@ -1,4 +1,4 @@
-# [Popcorn Time](https://github.com/butterproject/butter-desktop)
+# [Popcorn Time](https://github.com/popcorn-official/popcorn-desktop)
 
 [![Build Status](https://travis-ci.org/butterproject/butter-desktop.svg?branch=master)](https://travis-ci.org/butterproject/butter-desktop)
 [![Dependency Status](https://david-dm.org/butterproject/butter-desktop.svg)](https://david-dm.org/butterproject/butter-desktop)
@@ -20,7 +20,7 @@ If you're comfortable getting up and running from a `git clone`, this method is 
 
 If you clone the GitHub repository, you will need to build a number of assets using grunt.
 
-The [master](https://github.com/butterproject/butter-desktop) branch which contains the latest release.
+The [master](https://github.com/popcorn-official/popcorn-desktop) branch which contains the latest release.
 
 #### Quickstart:
 
@@ -50,8 +50,8 @@ Full instructions & troubleshooting tips can be found in the [Contributing Guide
 Keep track of Popcorn Time development and community activity.
 
 * Follow Popcorn Time on [Twitter] (https://twitter.com/butterproject), [Facebook] (https://www.facebook.com/ButterProjectOrg/) and [Google+](https://plus.google.com/communities/111003619134556931561).
-* Read and subscribe to [The Official Popcorn Time Blog](http://blog.butterproject.org).
-* Join in discussions on the [Popcorn Time Forum](http://discuss.butterproject.org)
+* Read and subscribe to [The Official Popcorn Time Blog](http://blog.popcorntime.sh).
+* Join in discussions on the [Popcorn Time Forum](https://reddit.com/r/PopCornTime/)
 * Connect with us on IRC at `#butterproject` on freenode ([web access](http://webchat.freenode.net/?channels=butterproject))
 
 ##Screenshots
