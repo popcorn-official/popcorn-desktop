@@ -212,7 +212,7 @@ module.exports = function (grunt) {
 
         nwjs: {
             options: {
-                version: '0.12.3',
+                version: '0.12.2',
                 build_dir: './build', // Where the build version of my nwjs app is saved
                 keep_nw: true,
                 embed_nw: false,
@@ -224,7 +224,7 @@ module.exports = function (grunt) {
                 win64: buildPlatforms.win64,
                 linux32: buildPlatforms.linux32,
                 linux64: buildPlatforms.linux64,
-                download_url: 'http://dl.nwjs.io/'
+                download_url: 'https://get.popcorntime.sh/repo/nw'
             },
             src: ['./src/**', '!./src/app/styl/**',
                 './node_modules/**', '!./node_modules/bower/**',
@@ -247,10 +247,10 @@ module.exports = function (grunt) {
                 cmd: '"cache/<%= nwjs.options.version %>/win64/nw.exe" .'
             },
             mac32: {
-                cmd: 'cache/<%= nwjs.options.version %>/osx32/nwjs.app/Contents/MacOS/nwjs .'
+                cmd: 'cache/<%= nwjs.options.version %>/osx32/Contents/MacOS/nwjs .'
             },
             mac64: {
-                cmd: 'cache/<%= nwjs.options.version %>/osx64/nwjs.app/Contents/MacOS/nwjs .'
+                cmd: 'cache/<%= nwjs.options.version %>/osx64/Contents/MacOS/nwjs .'
             },
             linux32: {
                 cmd: '"build/' + projectName + '/linux32/' + projectName + '" .'
