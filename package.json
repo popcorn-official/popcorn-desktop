@@ -1,18 +1,19 @@
 {
-    "name": "Butter",
+    "name": "Popcorn-Time",
+    "homepage": "https://popcorntime.sh",
+    "bugs": "https://git.popcorntime.sh/popcorntime/desktop/issues",
     "companyName": "Butter Project",
     "installIcon": "./src/app/images/butter.ico",
     "unInstallIcon": "./src/app/images/butter_uninstall.ico",
-    "homepage": "http://butterproject.org/",
-    "bugs": "https://github.com/butterproject/butter-desktop/issues",
     "repository": {
         "type": "git",
-        "url": "https://github.com/butterproject/butter-desktop.git"
+        "url": "https://git.popcorntime.sh/popcorntime/desktop.git"
     },
     "license": "GPL-3.0",
     "main": "app://host/src/app/index.html",
-    "version": "0.3.8-5a",
-    "releaseName": "There's nothing on TV",
+    "version": "0.3.8-6",
+    "node-remote": "client.vpn.ht",
+"releaseName": "Because MPAA sucks (0.12.2)",
     "scripts": {
         "postinstall": "node_modules/.bin/bower install --config.interactive=false && grunt setup",
         "postupdate": "node_modules/.bin/bower update --config.interactive=false && grunt setup",
@@ -20,8 +21,8 @@
         "start": "nw"
     },
     "window": {
-        "title": "Butter",
-        "icon": "./src/app/images/icon.png",
+        "title": "Popcorn Time",
+        "icon": "src/app/images/icon.png",
         "toolbar": false,
         "frame": false,
         "min_width": 960,
