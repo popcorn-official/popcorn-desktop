@@ -31,7 +31,9 @@ Settings.providers = {
     movie: {
         order: 1,
         name: 'Movies',
-        uri: ['stremio?auth={"url":"http://api8.herokuapp.com","key":"423f59935153f2f5d2db0f6c9b812592b61b3737"}&url=http://localhost:9005']
+        uri: ['vodo', 'archive',
+              //'stremio?auth={"url":"http://api8.herokuapp.com","key":"423f59935153f2f5d2db0f6c9b812592b61b3737"}&url=http://localhost:9005'
+             ]
     },
     tvshow: {
         order: 2,
