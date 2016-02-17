@@ -1,4 +1,4 @@
-var projectName = 'Butter';
+var projectName = 'Popcorn-Time';
 
 var getHost = function () {
     return {
@@ -29,8 +29,8 @@ var parseBuildPlatforms = function (argumentPlatform) {
     var buildAll = /^all$/.test(inputPlatforms);
 
     var buildPlatforms = {
-        mac32: /mac/.test(inputPlatforms) || buildAll,
-        mac64: /mac/.test(inputPlatforms) || buildAll,
+        osx32: /mac/.test(inputPlatforms) || buildAll,
+        osx64: /mac/.test(inputPlatforms) || buildAll,
         win32: /win32/.test(inputPlatforms) || buildAll,
         win64: /win64/.test(inputPlatforms) || buildAll,
         linux32: /linux32/.test(inputPlatforms) || buildAll,
@@ -81,9 +81,7 @@ module.exports = function (grunt) {
         'injectgit',
         'bower_clean',
         /*'lang',*/
-        'themes',
-        'nwjs',
-        'shell:setexecutable'
+        'themes'
     ]);
 
     grunt.registerTask('lang', ['shell:language']);
@@ -94,10 +92,11 @@ module.exports = function (grunt) {
         'clean:update',
         'build',
         'clean:nwjs',
+        'exec:Gulpe',
+        'exec:pruneProduction',
         'exec:codesign', // mac
         'exec:createDmg', // mac
         'exec:createWinInstall',
-        'exec:pruneProduction',
         'exec:createLinuxInstall',
         'exec:createWinUpdate',
         'package' // all platforms
@@ -110,10 +109,10 @@ module.exports = function (grunt) {
             grunt.task.run('exec:win32');
         } else if (start.win64) {
             grunt.task.run('exec:win64');
-        } else if (start.mac32) {
-            grunt.task.run('exec:mac32');
-        } else if (start.mac64) {
-            grunt.task.run('exec:mac64');
+        } else if (start.osx32) {
+            grunt.task.run('exec:osx32');
+        } else if (start.osx64) {
+            grunt.task.run('exec:osx64');
         } else if (start.linux32) {
             grunt.task.run('exec:linux32');
         } else if (start.linux64) {
@@ -130,8 +129,8 @@ module.exports = function (grunt) {
         'shell:packageDEBLinux32',
         'shell:packageWin32',
         'shell:packageWin64',
-        'shell:packageMac32',
-        'shell:packageMac64',
+        'shell:packageosx32',
+        'shell:packageosx64',
     ]);
 
     grunt.registerTask('injectgit', function () {
@@ -209,7 +208,6 @@ module.exports = function (grunt) {
                 ext: '.css'
             }
         },
-
         nwjs: {
             options: {
                 version: '0.12.2',
@@ -246,10 +244,10 @@ module.exports = function (grunt) {
             win64: {
                 cmd: '"cache/<%= nwjs.options.version %>/win64/nw.exe" .'
             },
-            mac32: {
+            osx32: {
                 cmd: 'cache/<%= nwjs.options.version %>/osx32/Contents/MacOS/nwjs .'
             },
-            mac64: {
+            osx64: {
                 cmd: 'cache/<%= nwjs.options.version %>/osx64/Contents/MacOS/nwjs .'
             },
             linux32: {
@@ -276,6 +274,9 @@ module.exports = function (grunt) {
             },
             pruneProduction: {
                 cmd: 'npm prune --production'
+            },
+            Gulpe: {
+                cmd: 'gulp build -p osx32,linux32,linux64,win32'
             }
         },
 
@@ -311,7 +312,7 @@ module.exports = function (grunt) {
                 command: function () {
                     if (host.linux || host.mac) {
                         var cmds = ['pct_rel="build/' + projectName + '"'];
-                        if (buildPlatforms.mac32 || buildPlatforms.mac64) {
+                        if (buildPlatforms.osx32 || buildPlatforms.osx64) {
                             cmds.push('chmod -R +x ${pct_rel}/osx*/' + projectName + '.app || : ');
                         }
                         if (buildPlatforms.linux32 || buildPlatforms.linux64) {
@@ -441,33 +442,33 @@ module.exports = function (grunt) {
                     }
                 }
             },
-            packageMac32: {
+            packageosx32: {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
                             'cd build/releases/' + projectName + '/mac/',
-                            'tar --exclude-vcs -c ' + projectName + '.app | $(command -v pxz || command -v xz) -T8 -7 > "' + projectName + '-' + currentVersion + '-Mac32.tar.xz"',
+                            'tar --exclude-vcs -c ' + projectName + '.app | $(command -v pxz || command -v xz) -T8 -7 > "' + projectName + '-' + currentVersion + '-osx32.tar.xz"',
                             'echo "Mac Sucessfully packaged" || echo "Mac failed to package"'
                         ].join(' && ');
                     } else {
                         return [
-                            'grunt compress:mac32',
+                            'grunt compress:osx32',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
                         ].join(' && ');
                     }
                 }
             },
-            packageMac64: {
+            packageosx64: {
                 command: function () {
                     if (host.linux || host.mac) {
                         return [
                             'cd build/releases/' + projectName + '/mac/',
-                            'tar --exclude-vcs -c ' + projectName + '.app | $(command -v pxz || command -v xz) -T8 -7 > "' + projectName + '-' + currentVersion + '-Mac64.tar.xz"',
+                            'tar --exclude-vcs -c ' + projectName + '.app | $(command -v pxz || command -v xz) -T8 -7 > "' + projectName + '-' + currentVersion + '-osx64.tar.xz"',
                             'echo "Mac Sucessfully packaged" || echo "Mac failed to package"'
                         ].join(' && ');
                     } else {
                         return [
-                            'grunt compress:mac64',
+                            'grunt compress:osx64',
                             '( echo "Compressed sucessfully" ) || ( echo "Failed to compress" )'
                         ].join(' && ');
                     }
@@ -496,23 +497,23 @@ module.exports = function (grunt) {
                 src: '**',
                 dest: projectName
             },
-            mac32: {
+            osx32: {
                 options: {
                     mode: 'tgz',
-                    archive: 'build/releases/' + projectName + '/mac32/' + projectName + '-' + currentVersion + '-Mac.tar.gz'
+                    archive: 'build/releases/' + projectName + '/osx32/' + projectName + '-' + currentVersion + '-Mac.tar.gz'
                 },
                 expand: true,
-                cwd: 'build/releases/' + projectName + '/mac32/',
+                cwd: 'build/releases/' + projectName + '/osx32/',
                 src: '**',
                 dest: projectName
             },
-            mac64: {
+            osx64: {
                 options: {
                     mode: 'tgz',
-                    archive: 'build/releases/' + projectName + '/mac64/' + projectName + '-' + currentVersion + '-Mac.tar.gz'
+                    archive: 'build/releases/' + projectName + '/osx64/' + projectName + '-' + currentVersion + '-Mac.tar.gz'
                 },
                 expand: true,
-                cwd: 'build/releases/' + projectName + '/mac64/',
+                cwd: 'build/releases/' + projectName + '/osx64/',
                 src: '**',
                 dest: projectName
             },
