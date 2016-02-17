@@ -94,12 +94,8 @@ module.exports = function (grunt) {
         'clean:nwjs',
         'exec:Gulpe',
         'exec:pruneProduction',
-        'exec:codesign', // mac
-        'exec:createDmg', // mac
         'exec:createWinInstall',
-        'exec:createLinuxInstall',
-        'exec:createWinUpdate',
-        'package' // all platforms
+        'exec:createWinUpdate'
     ]);
 
 
