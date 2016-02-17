@@ -79,6 +79,9 @@
         "xmlbuilder": "4.1.0"
     },
     "devDependencies": {
+	"del": "^2.2.0",
+	"gulp": "^3.9.0",
+	"yargs": "^3.31.0",
         "bower": "1.6.5",
         "grunt": "0.4.5",
         "grunt-bower-clean": "0.x.x",
