@@ -11,10 +11,10 @@
     "version": "0.3.8-5a",
     "releaseName": "There's nothing on TV",
     "scripts": {
-        "postinstall": "node_modules/.bin/bower install --config.interactive=false && grunt setup",
-        "postupdate": "node_modules/.bin/bower update --config.interactive=false && grunt setup",
+        "postinstall": "node_modules/.bin/bower install --config.interactive=false",
+        "postupdate": "node_modules/.bin/bower update --config.interactive=false",
         "test": "grunt --verbose",
-        "start": "nw"
+        "start": "glup run"
     },
     "window": {
         "title": "Butter",
@@ -75,21 +75,10 @@
         "xmlbuilder": "4.1.0"
     },
     "devDependencies": {
-        "bower": "1.6.5",
-        "grunt": "0.4.5",
-        "grunt-bower-clean": "0.x.x",
-        "grunt-contrib-clean": "0.x.x",
-        "grunt-contrib-compress": "0.x.x",
-        "grunt-contrib-jshint": "0.x.x",
-        "grunt-contrib-stylus": "0.22.0",
-        "grunt-contrib-watch": "0.6.x",
-        "grunt-exec": "0.4.x",
-        "grunt-githooks": "0.x.x",
-        "grunt-jsbeautifier": "*",
-        "grunt-nw-builder": "^2.0.0",
-        "grunt-shell": "1.x.x",
-        "load-grunt-tasks": "3.3.0",
-        "nw-gyp": "0.x.x",
-        "stylus": "0.52.4"
+        "del": "^2.2.0",
+        "gulp": "^3.9.0",
+        "nw-builder": "^2.0.2",
+        "nw-gyp": "^0.12.4",
+        "yargs": "^3.31.0"
     }
 }
