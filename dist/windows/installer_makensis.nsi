@@ -1,5 +1,6 @@
-;Butter
+;Popcorn Time
 ;Installer Source for NSIS 3.0 or higher
+
 
 ;Enable Unicode encoding
 Unicode True
@@ -23,26 +24,10 @@ Unicode True
 ; Parse package.json  ;
 ; ------------------- ;
 !searchparse /file "..\..\package.json" '"name": "' APP_NAME '",'
-!searchreplace APP_NAME "${APP_NAME}" "-" " "
-!searchparse /file "..\..\package.json" '"companyName": "' COMPANY_NAME '",'
 !searchparse /file "..\..\package.json" '"version": "' BT_VERSION '",'
 !searchreplace BT_VERSION_CLEAN "${BT_VERSION}" "-" ".0"
 !searchparse /file "..\..\package.json" '"homepage": "' APP_URL '",'
 !searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '",'
-
-!searchparse /file "..\..\package.json" '"installIcon": "' MUI_ICON '",'
-!searchreplace MUI_ICON_LOCAL_PATH "${MUI_ICON}" "/" "\"
-!searchreplace MUI_ICON "${MUI_ICON_LOCAL_PATH}" "./" "..\..\"
-!searchreplace MUI_ICON_LOCAL_PATH "${MUI_ICON_LOCAL_PATH}" ".\" ""
-
-!searchparse /file "..\..\package.json" '"unInstallIcon": "' MUI_UNICON '",'
-!searchreplace MUI_UNICON_LOCAL_PATH "${MUI_UNICON}" "/" "\"
-!searchreplace MUI_UNICON "${MUI_UNICON_LOCAL_PATH}" "./" "..\..\"
-!searchreplace MUI_UNICON_LOCAL_PATH "${MUI_UNICON_LOCAL_PATH}" ".\" ""
-
-!searchparse /file "..\..\package.json" '"icon": "' MUI_UI_HEADERIMAGE_RIGHT '",'
-!searchreplace MUI_UI_HEADERIMAGE_RIGHT "${MUI_UI_HEADERIMAGE_RIGHT}" "./" "..\..\"
-!searchreplace MUI_UI_HEADERIMAGE_RIGHT "${MUI_UI_HEADERIMAGE_RIGHT}" "/" "\"
 
 ; ------------------- ;
 ;    Architecture     ;
@@ -61,6 +46,7 @@ Unicode True
 ;      Settings       ;
 ; ------------------- ;
 ;General Settings
+!define COMPANY_NAME "Popcorn Time"
 Name "${APP_NAME}"
 Caption "${APP_NAME} ${BT_VERSION}"
 BrandingText "${APP_NAME} ${BT_VERSION}"
@@ -88,6 +74,9 @@ RequestExecutionLevel user
 ;     UI Settings     ;
 ; ------------------- ;
 ;Define UI settings
+!define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
+!define MUI_ICON "..\..\src\app\images\butter.ico"
+!define MUI_UNICON "..\..\src\app\images\butter_uninstall.ico"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
 !define MUI_ABORTWARNING
@@ -443,8 +432,8 @@ Section
     ;Start Menu Shortcut
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     CreateDirectory "$SMPROGRAMS\${APP_NAME}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME} ${BT_VERSION}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "Uninstall ${APP_NAME}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\butter.ico" "" "" "" "${APP_NAME} ${BT_VERSION}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\butter_uninstall.ico" "" "" "" "Uninstall ${APP_NAME}"
 
     ;Desktop Shortcut
     Delete "$DESKTOP\${APP_NAME}.lnk"
@@ -455,7 +444,7 @@ Section
     WriteRegDWORD HKCU "${UNINSTALL_KEY}" "EstimatedSize" "$0"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayVersion" "${BT_VERSION}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\${MUI_ICON_LOCAL_PATH}"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\src\app\images\butter.ico"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "${COMPANY_NAME}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallString" "$INSTDIR"
@@ -555,5 +544,5 @@ FunctionEnd
 ;  Desktop Shortcut  ;
 ; ------------------ ;
 Function finishpageaction
-    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME} ${BT_VERSION}"
+    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\butter.ico" "" "" "" "${APP_NAME} ${BT_VERSION}"
 FunctionEnd
