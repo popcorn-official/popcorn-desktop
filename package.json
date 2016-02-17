@@ -1,5 +1,8 @@
 {
     "name": "Butter",
+    "companyName": "Butter Project",
+    "installIcon": "./src/app/images/butter.ico",
+    "unInstallIcon": "./src/app/images/butter_uninstall.ico",
     "homepage": "http://butterproject.org/",
     "bugs": "https://github.com/butterproject/butter-desktop/issues",
     "repository": {
@@ -18,7 +21,7 @@
     },
     "window": {
         "title": "Butter",
-        "icon": "src/app/images/icon.png",
+        "icon": "./src/app/images/icon.png",
         "toolbar": false,
         "frame": false,
         "min_width": 960,
