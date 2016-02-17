@@ -32,10 +32,12 @@
     },
     "dependencies": {
         "butter-provider": "git+https://github.com/butterproviders/butter-provider",
-        "butter-provider-ccc": "git+https://github.com/butterproviders/butter-provider-ccc",
-        "butter-provider-youtube": "git+https://github.com/butterproviders/butter-provider-youtube",
+-        "butter-settings-popcorntime.io": "git+https://github.com/hackhackhack/butter-s
+ettings-popcorn",
+        "butter-provider-yts": "git+https://github.com/hackhackhack/butter-provider-yts",
+        "butter-provider-tvapi": "git+https://github.com/hackhackhack/butter-provider-tvapi",
+        "butter-provider-haruhichan": "git+https://github.com/hackhackhack/butter-provider-haruhichan",
         "butter-provider-vodo": "git+https://github.com/butterproviders/butter-provider-vodo",
-        "butter-provider-archive": "git+https://github.com/butterproviders/butter-provider-archive",
         "adm-zip": "0.4.7",
         "airplay-js": "git+https://github.com/guerrerocarlos/node-airplay-js.git",
         "async": "1.5.0",
