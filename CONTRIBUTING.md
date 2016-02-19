@@ -113,7 +113,7 @@ all the guidelines on:
 ##### Need Help?
 
 If you're not completely clear on how to submit / update / *do* Pull Requests, please check out our in depth
-[Git Workflow guide](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Git-Workflow.md) for Popcorn Time.
+[Git Workflow guide](https://github.com/popcorn-official/popcorn-desktop/blob/master/docs/Git-Workflow.md#git-workflow) for Popcorn Time.
 
 
 ### Translation
