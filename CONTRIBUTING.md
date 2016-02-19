@@ -1,4 +1,4 @@
-# Contributing to Butter
+# Contributing to Popcorn Time
 
 So you're interested in giving us a hand? That's awesome! We've put together some brief guidelines that should help
 you get started quickly and easily.
@@ -9,14 +9,14 @@ There are lots and lots of ways to get involved, this document covers:
     * [bug reports](#bug-reports)
     * [feature requests](#feature-requests)
     * [change requests](#change-requests)
-* [working on Butter core](#working-on-butter-core)
+* [working on Popcorn Time core](#working-on-popcorn-time-core)
     * [submitting pull requests](#submitting-pull-requests)
 * [translation](#translation)
 
 
 ## Report a bug
 
-If you're about to raise an issue because think you've found a problem with Butter, or you'd like to make a request
+If you're about to raise an issue because think you've found a problem with Popcorn Time, or you'd like to make a request
 for a new feature in the codebase, or any other reason… please read this first.
 
 The GitHub issue tracker is the preferred channel for [bug reports](#bug-reports),
@@ -27,7 +27,7 @@ requests](#submitting-pull-requests), but please respect the following restricti
 has already reported your problem or requested your idea.
 
 * Please **do not** use the issue tracker for personal support requests (use
-  [the github issues](http://github.com/butterproject/butter-desktop/issues) or IRC - #butterproject on freenode).
+  [the github issues](https://github.com/popcorn-official/popcorn-desktop/issues) or IRC - #popcorntime on freenode).
 
 * Please **do not** derail or troll issues. Keep the discussion on topic and respect the opinions of others.
 
@@ -40,7 +40,7 @@ Guidelines for bug reports:
 
 1. **Use the GitHub issue search** &mdash; check if the issue has already been reported.
 
-2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or look for [closed issues](https://github.com/butterproject/butter-desktop/issues?q=is%3Aissue+is%3Aclosed).
+2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or look for [closed issues](https://github.com/popcorn-official/popcorn-desktop/issues?q=is%3Aissue+is%3Aclosed).
 
 3. **Include a screencast if relevant** - Is your issue about a design or front end feature or bug? The most helpful thing in the world is if we can *see* what you're talking about.
 Use [LICEcap](http://www.cockos.com/licecap/) to quickly and easily record a short screencast (24fps) and save it as an animated gif! Embed it directly into your GitHub issue. Kapow.
@@ -68,8 +68,8 @@ Any other information you want to share that is relevant to the issue being repo
 
 ### Technical details:
 
-* Butter Version: stable 0.3.7
-* Downloaded from: butterproject.org
+* Popcorn Time Version: stable 0.3.7
+* Downloaded from: popcorntime.sh
 * Connection: 10mbs
 * OS: MAC OSX
 ```
@@ -78,8 +78,8 @@ Any other information you want to share that is relevant to the issue being repo
 
 Feature requests are welcome. Before you submit one be sure to have:
 
-1. Read the [Roadmap](https://github.com/butterproject/butter-desktop/tree/master/docs/RoadMap.md) and
-[Planned Features](https://github.com/butterproject/butter-desktop/tree/master/docs/Planned-Features.md) listing, **use the Github Issues search** and check the feature hasn't already been requested.
+1. Read the [Roadmap](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/RoadMap.md) and
+[Planned Features](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Planned-Features.md) listing, **use the Github Issues search** and check the feature hasn't already been requested.
 2. Take a moment to think about whether your idea fits with the scope and aims of the project, or if it might
 better fit being an app/plugin.
 3. Remember, it's up to *you* to make a strong case to convince the project's leaders of the merits of this
@@ -90,7 +90,7 @@ likely to be common.
 
 ### Change Requests
 
-Change requests cover both architectural and functional changes to how Butter works. If you have an idea for a
+Change requests cover both architectural and functional changes to how Popcorn Time works. If you have an idea for a
 new or different dependency, a refactor, or an improvement to a feature, etc  - please be sure to:
 
 1. **Use the GitHub search** and check someone else didn't get there first
@@ -105,15 +105,15 @@ what's already there? Does it fit with the Roadmap?
 Pull requests are awesome. If you're looking to raise a PR for something which doesn't have an open issue, please think carefully about [raising an issue](#report-a-bug) which your PR can close, especially if you're fixing a bug. This makes it more likely that there will be enough information available for your PR to be properly tested and merged. To make sure your PR is accepted as quickly as possible, you should be sure to have read
 all the guidelines on:
 
-* [code standards](https://github.com/butterproject/butter-desktop/tree/master/docs/Code-Standards.md)
-* [commit messages](https://github.com/butterproject/butter-desktop/tree/master/docs/Git-Workflow.md#commit-messages)
-* [cleaning-up history](https://github.com/butterproject/butter-desktop/tree/master/docs/Git-Workflow.md#clean-up-history)
-* [not breaking the build](https://github.com/butterproject/butter-desktop/tree/master/docs/Git-Workflow.md#check-it-passes-the-tests)
+* [code standards](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Code-Standards.md)
+* [commit messages](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Git-Workflow.md#commit-messages)
+* [cleaning-up history](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Git-Workflow.md#clean-up-history)
+* [not breaking the build](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Git-Workflow.md#check-it-passes-the-tests)
 
 ##### Need Help?
 
 If you're not completely clear on how to submit / update / *do* Pull Requests, please check out our in depth
-[Git Workflow guide](https://github.com/butterproject/butter-desktop/tree/master/docs/Git-Workflow.md) for Butter.
+[Git Workflow guide](https://github.com/popcorn-official/popcorn-desktop/blob/master/docs/Git-Workflow.md#git-workflow) for Popcorn Time.
 
 
 ### Translation
@@ -121,7 +121,7 @@ If you're not completely clear on how to submit / update / *do* Pull Requests, p
 For translations please go to: [Transifex](https://www.transifex.com/butterproject/public/)
 
 
-## Working on Butter Core
+## Working on Popcorn Time Core
 
 **Pre-requisites:**
 
@@ -134,7 +134,7 @@ For translations please go to: [Transifex](https://www.transifex.com/butterproje
 1. cd into the project folder
 1. Run `npm install -g grunt-cli bower` - to make it possible to run grunt commands
 
-[complete documentation](https://github.com/butterproject/butter-desktop/tree/master/docs/Build-Debug.md).
+[complete documentation](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Build-Debug.md).
 
 ### Updating with the latest changes
 
@@ -146,7 +146,7 @@ Pulling down the latest changes from master will often require more than just a 
 
 ## Contributor License Agreement
 
-By contributing your code to Butter you grant the Butter Project a non-exclusive, irrevocable, worldwide,
+By contributing your code to Popcorn Time you grant the Popcorn Time Project a non-exclusive, irrevocable, worldwide,
 royalty-free, sublicenseable, transferable license under all of Your relevant intellectual property rights
 (including copyright, patent, and any other rights), to use, copy, prepare derivative works of, distribute and
 publicly perform and display the Contributions on any licensing terms, including without limitation:
@@ -163,7 +163,7 @@ claims, or has the right to claim, any right in any invention or patent related 
 represent that You are not legally obligated, whether by entering into an agreement or otherwise, in any way that
 conflicts with the terms of this license.
 
-The Butter Project acknowledges that, except as explicitly described in this Agreement, any Contribution which
+The Popcorn Time Project acknowledges that, except as explicitly described in this Agreement, any Contribution which
 you provide is on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED,
 INCLUDING, WITHOUT LIMITATION, ANY WARRANTIES OR CONDITIONS OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS
 FOR A PARTICULAR PURPOSE.
