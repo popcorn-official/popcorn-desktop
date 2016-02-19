@@ -54,6 +54,8 @@
         "moment": "2.x.x",
         "mv": "2.x.x",
         "nedb": "1.4.0",
+        "kat-api": "0.0.3",
+        "rarbg-api": "0.0.1",
         "node-captions": "0.4.6",
         "node-tvdb": "1.6.0",
         "node-webkit-fdialogs": "latest",
