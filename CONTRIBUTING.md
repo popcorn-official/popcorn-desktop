@@ -9,7 +9,7 @@ There are lots and lots of ways to get involved, this document covers:
     * [bug reports](#bug-reports)
     * [feature requests](#feature-requests)
     * [change requests](#change-requests)
-* [working on Butter core](#working-on-butter-core)
+* [working on Popcorn Time core](#working-on-popcornt-time-core)
     * [submitting pull requests](#submitting-pull-requests)
 * [translation](#translation)
 
@@ -113,7 +113,7 @@ all the guidelines on:
 ##### Need Help?
 
 If you're not completely clear on how to submit / update / *do* Pull Requests, please check out our in depth
-[Git Workflow guide](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Git-Workflow.md) for Butter.
+[Git Workflow guide](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Git-Workflow.md) for Popcorn Time.
 
 
 ### Translation
@@ -121,7 +121,7 @@ If you're not completely clear on how to submit / update / *do* Pull Requests, p
 For translations please go to: [Transifex](https://www.transifex.com/butterproject/public/)
 
 
-## Working on Butter Core
+## Working on Popcorn Time Core
 
 **Pre-requisites:**
 

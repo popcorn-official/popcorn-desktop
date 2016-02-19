@@ -6,13 +6,13 @@
 
 Allow any user to easily watch movies through torrent streaming, without any prerequisites.
 
-Visit the project's website at <http://butterproject.org>.
+Visit the project's website at <https://popcorntime.sh>.
 
 ***
 
 ## Getting Involved
 
-Want to report a bug, request a feature, contribute to or translate Popcorn Time? Check out our in-depth guide to [Contributing to Popcorn Time](CONTRIBUTING.md#contributing-to-butter). We need all the help we can get! You can also join our [community](README.md#community) to keep up-to-date and meet other Butterrs.
+Want to report a bug, request a feature, contribute to or translate Popcorn Time? Check out our in-depth guide to [Contributing to Popcorn Time](CONTRIBUTING.md#contributing-to-popcorn-time). We need all the help we can get! You can also join our [community](README.md#community) to keep up-to-date and meet other developers.
 
 ## Getting Started
 
@@ -42,17 +42,17 @@ If you encounter trouble with the above method, you can try:
 
 Optionally, you may simply run `./make_butter.sh` if you are on a linux or mac based operating system.
 
-Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-butter)
+Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-popcorn-time)
 
 <a name="community"></a>
 ## Community
 
 Keep track of Popcorn Time development and community activity.
 
-* Follow Popcorn Time on [Twitter] (https://twitter.com/butterproject), [Facebook] (https://www.facebook.com/ButterProjectOrg/) and [Google+](https://plus.google.com/communities/111003619134556931561).
+* Follow Popcorn Time on [Twitter] (https://twitter.com/popcorntimetv), [Facebook] (https://www.facebook.com/PopcornTimeTv) and [Google+](https://plus.google.com/communities/111003619134556931561).
 * Read and subscribe to [The Official Popcorn Time Blog](http://blog.popcorntime.sh).
 * Join in discussions on the [Popcorn Time Forum](https://reddit.com/r/PopCornTime/)
-* Connect with us on IRC at `#butterproject` on freenode ([web access](http://webchat.freenode.net/?channels=butterproject))
+* Connect with us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime))
 
 ##Screenshots
 ![Popcorn Time](https://cloud.githubusercontent.com/assets/8317250/10714437/b1e1dc8c-7b32-11e5-9c25-d9fbd5b2f3bd.png)
