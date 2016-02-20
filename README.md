@@ -25,9 +25,10 @@ The [master](https://github.com/popcorn-official/popcorn-desktop) branch which c
 #### Quickstart:
 
 1. `npm install -g grunt-cli bower`
-1. `npm install`
-1. `grunt build`
-1. `grunt start`
+2. `npm install`
+3. `grunt build`
+4. `gulp build`
+5. `grunt start`
 
 If you encounter trouble with the above method, you can try:
 
