@@ -121,6 +121,29 @@
         return defer.promise;
     };
 
+    function extractSimple(pack, downloadPath) {
+        // Extended: false
+        var installDir = path.dirname(downloadPath);
+        var defer = Q.defer();
+
+        pack.extractAllToAsync(installDir, true, function (err) {
+            if (err) {
+                defer.reject(err);
+            } else {
+                fs.unlink(downloadPath, function (err) {
+                    if (err) {
+                        defer.reject(err);
+                    } else {
+                        win.debug('Extraction success!');
+                        defer.resolve();
+                    }
+                });
+            }
+        });
+
+        return defer.promise;
+    }
+
     function installWindows(downloadPath, updateData) {
         var pack = new AdmZip(downloadPath);
 
@@ -218,29 +241,6 @@
                                 defer.reject(err);
                             })
                             .pipe(extractor);
-                    }
-                });
-            }
-        });
-
-        return defer.promise;
-    }
-
-    function extractSimple(pack, downloadPath) {
-        // Extended: false
-        var installDir = path.dirname(downloadPath);
-        var defer = Q.defer();
-
-        pack.extractAllToAsync(installDir, true, function (err) {
-            if (err) {
-                defer.reject(err);
-            } else {
-                fs.unlink(downloadPath, function (err) {
-                    if (err) {
-                        defer.reject(err);
-                    } else {
-                        win.debug('Extraction success!');
-                        defer.resolve();
                     }
                 });
             }

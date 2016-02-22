@@ -21,7 +21,7 @@
     var watchState = function (stateModel) {
 
 
-        if (engine != null) {
+        if (engine !== null) {
 
             var swarm = engine.swarm;
             var state = 'connecting';
@@ -190,59 +190,6 @@
 
     };
 
-
-    var Preload = {
-        start: function (model) {
-
-            if (Streamer.currentTorrent && model.get('torrent') === Streamer.currentTorrent.get('torrent')) {
-                return;
-            }
-            this.currentTorrent = model;
-
-            win.debug('Preloading model:', model.get('title'));
-            var torrent_url = model.get('torrent');
-
-            readTorrent(torrent_url, function (err, torrent) {
-
-                win.debug('Preloading torrent:', torrent.name);
-                var tmpFilename = torrent.infoHash;
-                tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_'); // +'-'+ (new Date()*1);
-                var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
-                subtitles = torrent.subtitle;
-
-                var torrentPeerId = crypt.pseudoRandomBytes(10).toString('hex');
-
-                win.debug('Preloading movie to %s', tmpFile);
-
-                preload_engine = peerflix(torrent_url, {
-                    connections: parseInt(Settings.connectionLimit, 10) || 100, // Max amount of peers to be connected to.
-                    dht: parseInt(Settings.dhtLimit, 10) || 50,
-                    port: 0,
-                    tmp: App.settings.tmpLocation,
-                    path: tmpFile, // we'll have a different file name for each stream also if it's same torrent in same session
-                    index: torrent.file_index,
-                    id: torrentPeerId
-                });
-
-            });
-
-
-        },
-
-        stop: function () {
-
-            if (preload_engine) {
-                if (preload_engine.server._handle) {
-                    preload_engine.server.close();
-                }
-                preload_engine.destroy();
-                win.info('Preloading stopped');
-            }
-
-            preload_engine = null;
-        }
-    };
-
     var Streamer = {
         start: function (model) {
             var torrent = model.get('torrent');
@@ -324,7 +271,7 @@
                             info: torrent,
                             subtitle: model.get('subtitle'),
                             defaultSubtitle: model.get('defaultSubtitle'),
-                            title: title,
+                            title: model.get('title'),
                             tvdb_id: model.get('tvdb_id'),
                             imdb_id: model.get('imdb_id'),
                             episode_id: model.get('episode_id'),
@@ -491,6 +438,58 @@
             subtitleDownloading = false;
             App.vent.off('subtitle:downloaded');
             win.info('Streaming cancelled');
+        }
+    };
+
+    var Preload = {
+        start: function (model) {
+
+            if (Streamer.currentTorrent && model.get('torrent') === Streamer.currentTorrent.get('torrent')) {
+                return;
+            }
+            this.currentTorrent = model;
+
+            win.debug('Preloading model:', model.get('title'));
+            var torrent_url = model.get('torrent');
+
+            readTorrent(torrent_url, function (err, torrent) {
+
+                win.debug('Preloading torrent:', torrent.name);
+                var tmpFilename = torrent.infoHash;
+                tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_'); // +'-'+ (new Date()*1);
+                var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
+                subtitles = torrent.subtitle;
+
+                var torrentPeerId = crypt.pseudoRandomBytes(10).toString('hex');
+
+                win.debug('Preloading movie to %s', tmpFile);
+
+                preload_engine = peerflix(torrent_url, {
+                    connections: parseInt(Settings.connectionLimit, 10) || 100, // Max amount of peers to be connected to.
+                    dht: parseInt(Settings.dhtLimit, 10) || 50,
+                    port: 0,
+                    tmp: App.settings.tmpLocation,
+                    path: tmpFile, // we'll have a different file name for each stream also if it's same torrent in same session
+                    index: torrent.file_index,
+                    id: torrentPeerId
+                });
+
+            });
+
+
+        },
+
+        stop: function () {
+
+            if (preload_engine) {
+                if (preload_engine.server._handle) {
+                    preload_engine.server.close();
+                }
+                preload_engine.destroy();
+                win.info('Preloading stopped');
+            }
+
+            preload_engine = null;
         }
     };
 
