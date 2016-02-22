@@ -80,6 +80,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'injectgit',
         'bower_clean',
+        'exec:Gulpe',
         /*'lang',*/
         'themes'
     ]);
