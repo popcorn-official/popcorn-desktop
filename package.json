@@ -51,7 +51,7 @@
         "markdown": "0.5.x",
         "memoizee": "0.x.x",
         "mkdirp": "*",
-        "moment": "2.x.x",
+        "moment": "^2.x.x",
         "mv": "2.x.x",
         "nedb": "1.4.0",
         "kat-api": "git+https://github.com/team-pct/kat-api",
