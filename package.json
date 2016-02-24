@@ -77,21 +77,21 @@
         "xmlbuilder": "4.1.0"
     },
     "devDependencies": {
-        "bower": "1.6.5",
+        "bower": "1.7.x",
         "grunt": "0.4.5",
         "grunt-bower-clean": "0.x.x",
-        "grunt-contrib-clean": "0.x.x",
-        "grunt-contrib-compress": "0.x.x",
-        "grunt-contrib-jshint": "0.x.x",
-        "grunt-contrib-stylus": "0.22.0",
+        "grunt-contrib-clean": "1.x.x",
+        "grunt-contrib-compress": "1.x.x",
+        "grunt-contrib-jshint": "1.x.x",
+        "grunt-contrib-stylus": "1.x.x",
         "grunt-contrib-watch": "0.6.x",
         "grunt-exec": "0.4.x",
         "grunt-githooks": "0.x.x",
         "grunt-jsbeautifier": "*",
         "grunt-nw-builder": "^2.0.0",
         "grunt-shell": "1.x.x",
-        "load-grunt-tasks": "3.3.0",
+        "load-grunt-tasks": "3.x.x",
         "nw-gyp": "0.x.x",
-        "stylus": "0.52.4"
+        "stylus": "0.x.x"
     }
 }
