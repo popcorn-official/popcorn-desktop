@@ -186,15 +186,6 @@ var deleteFolder = function (path) {
 };
 
 var deleteCookies = function () {
-    win.cookies.getAll({}, function (cookies) {
-        if (cookies.length > 0) {
-            win.debug('Removing ' + cookies.length + ' cookies...');
-            for (var i = 0; i < cookies.length; i++) {
-                removeCookie(cookies[i]);
-            }
-        }
-    });
-
     function removeCookie(cookie) {
         var lurl = 'http' + (cookie.secure ? 's' : '') + '://' + cookie.domain + cookie.path;
         win.cookies.remove({
@@ -211,6 +202,15 @@ var deleteCookies = function () {
             }
         });
     }
+
+    win.cookies.getAll({}, function (cookies) {
+        if (cookies.length > 0) {
+            win.debug('Removing ' + cookies.length + ' cookies...');
+            for (var i = 0; i < cookies.length; i++) {
+                removeCookie(cookies[i]);
+            }
+        }
+    });
 };
 
 var delCache = function () {
@@ -358,16 +358,17 @@ var minimizeToTray = function () {
     win.hide();
     win.isTray = true;
 
+    var tray = new gui.Tray({
+        title: Settings.projectName,
+        icon: 'src/app/images/icon.png'
+    });
+
     var openFromTray = function () {
         win.show();
         tray.remove();
         win.isTray = false;
     };
 
-    var tray = new gui.Tray({
-        title: Settings.projectName,
-        icon: 'src/app/images/icon.png'
-    });
     tray.tooltip = Settings.projectName;
 
     var menu = new gui.Menu();
