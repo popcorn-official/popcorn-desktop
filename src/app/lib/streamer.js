@@ -228,6 +228,9 @@
                     // did we need to extract subtitle ?
                     var extractSubtitle = model.get('extract_subtitle');
 
+                    // used to rgx title to get subtitles for custom torrents
+                    var title = model.get('title');
+
                     var getSubtitles = function (data) {
                         win.debug('Subtitles data request:', data);
 
@@ -307,9 +310,6 @@
                     if (model.get('type') === 'movie') {
                         hasSubtitles = true;
                     }
-
-                    //Try get subtitles for custom torrents
-                    var title = model.get('title');
 
                     if (!title) { //From ctrl+v magnet or drag torrent
                         for (var f in torrent.files) {
