@@ -44,14 +44,10 @@
         });
     }
 
-    function loadNpmProviders() {
-        return loadFromPackageJSON(/butter-provider-/, App.Providers.install);
-    }
+    function loadFromNPM(name, fn) {
+        var P = require(name);
 
-    function loadNpmSettings() {
-        return Q.all(loadFromPackageJSON(/butter-settings-/, function (settings) {
-            Settings = _.extend(Settings, settings);
-        }));
+        return Q(fn(P));
     }
 
     function loadFromPackageJSON(regex, fn) {
@@ -67,10 +63,14 @@
         });
     }
 
-    function loadFromNPM(name, fn) {
-        var P = require(name);
+    function loadNpmProviders() {
+        return loadFromPackageJSON(/butter-provider-/, App.Providers.install);
+    }
 
-        return Q(fn(P));
+    function loadNpmSettings() {
+        return Q.all(loadFromPackageJSON(/butter-settings-/, function (settings) {
+            Settings = _.extend(Settings, settings);
+        }));
     }
 
     function loadProviders() {
