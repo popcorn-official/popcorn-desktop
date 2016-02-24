@@ -32,8 +32,8 @@ Settings.providers = {
         order: 1,
         name: 'Movies',
         uri: ['vodo', 'archive',
-              //'stremio?auth={"url":"http://api8.herokuapp.com","key":"423f59935153f2f5d2db0f6c9b812592b61b3737"}&url=http://localhost:9005'
-             ]
+          //'stremio?auth={"url":"http://api8.herokuapp.com","key":"423f59935153f2f5d2db0f6c9b812592b61b3737"}&url=http://localhost:9005'
+        ]
     },
     tvshow: {
         order: 2,
@@ -280,6 +280,18 @@ var AdvSettings = {
         var _url = url.parse(endpoint.url);
         win.debug('Checking %s endpoint', _url.hostname);
 
+        function tryNextEndpoint() {
+            if (endpoint.index < endpoint.proxies.length - 1) {
+                endpoint.index++;
+                AdvSettings.checkApiEndpoint(endpoint, defer);
+            } else {
+                endpoint.index = 0;
+                endpoint.ssl = undefined;
+                _.extend(endpoint, endpoint.proxies[endpoint.index]);
+                defer.resolve();
+            }
+        }
+
         if (endpoint.ssl === false) {
             var timeoutWrapper = function (req) {
                 return function () {
@@ -350,18 +362,6 @@ var AdvSettings = {
                 this.end();
                 tryNextEndpoint();
             }).setTimeout(5000);
-        }
-
-        function tryNextEndpoint() {
-            if (endpoint.index < endpoint.proxies.length - 1) {
-                endpoint.index++;
-                AdvSettings.checkApiEndpoint(endpoint, defer);
-            } else {
-                endpoint.index = 0;
-                endpoint.ssl = undefined;
-                _.extend(endpoint, endpoint.proxies[endpoint.index]);
-                defer.resolve();
-            }
         }
 
         return defer.promise;
