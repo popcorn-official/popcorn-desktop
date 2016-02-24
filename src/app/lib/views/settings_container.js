@@ -6,7 +6,7 @@
         oldTmpLocation,
         that;
 
-    var Settings = Backbone.Marionette.ItemView.extend({
+    var SettingsContainer = Backbone.Marionette.ItemView.extend({
         template: '#settings-container-tpl',
         className: 'settings-container-contain',
 
@@ -765,5 +765,5 @@
         }
     });
 
-    App.View.Settings = Settings;
+    App.View.Settings = SettingsContainer;
 })(window.App);
