@@ -293,19 +293,10 @@ var AdvSettings = {
         }
 
         if (endpoint.ssl === false) {
-            var timeoutWrapper = function (req) {
-                return function () {
-                    win.warn('[%s] Endpoint timed out',
-                        _url.hostname);
-                    req.abort();
-                    tryNextEndpoint();
-                };
-            };
             var request = http.get({
                 hostname: _url.hostname
             }, function (res) {
                 res.once('data', function (body) {
-                    clearTimeout(timeout);
                     res.removeAllListeners('error');
                     // Doesn't match the expected response
                     if (!_.isRegExp(endpoint.fingerprint) || !endpoint.fingerprint.test(body.toString('utf8'))) {
@@ -321,13 +312,14 @@ var AdvSettings = {
                     win.warn('[%s] Endpoint failed [%s]',
                         _url.hostname,
                         e.message);
-                    clearTimeout(timeout);
                     tryNextEndpoint();
                 });
+            }).setTimeout(5000, function () {
+				win.warn('[%s] Endpoint timed out',
+					_url.hostname);
+				request.abort();
+				tryNextEndpoint();
             });
-
-            var fn = timeoutWrapper(request);
-            var timeout = setTimeout(fn, 5000);
         } else {
             tls.connect(443, _url.hostname, {
                 servername: _url.hostname,
