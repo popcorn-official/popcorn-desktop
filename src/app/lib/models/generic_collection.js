@@ -127,7 +127,7 @@
                 this.state = 'loading';
                 self.trigger('loading', self);
 
-                var subtitle = App.Providers.get('ysubs');
+                var subtitle;
                 var metadata = this.providers.metadata;
                 var torrents = this.providers.torrents;
 
