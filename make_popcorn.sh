@@ -3,14 +3,14 @@
 ## Version 0.1.1
 ##
 ## Usage
-## ./make_butter.sh [url]
+## ./make_popcorn.sh [url]
 ##
-## The script make_butter.sh allows you to clone, setup, and build a version of Popcorn Time
+## The script make_popcorn.sh allows you to clone, setup, and build a version of Popcorn Time
 ## The [url] handle is optional and allows you to pick what repository you wish to clone
 ## If you use 'ssh' in the place of the optional [url] parameter, it will clone via ssh instead of http
 ##
 ## Optionally, you can also pass in a specific branch to build or clone, by making url contain a branch specifier
-## ./make_butter.sh '-b release/0.3.4 https://github.com/popcorn-official/popcorn-desktop'
+## ./make_popcorn.sh '-b release/0.3.4 https://github.com/popcorn-official/popcorn-desktop'
 ##
 
 
@@ -45,7 +45,7 @@ clone_command() {
 
 if [ -e ".git/config" ]; then
     dat=$(grep url .git/config)
-    case $dat in *butter*)
+    case $dat in *popcorn*)
         echo "You appear to be inside of a Popcorn Time repository already, not cloning"
         clone_repo="False"
         ;;
@@ -78,11 +78,11 @@ if [ -e ".git/config" ]; then
 fi
 if [ "$clone_repo" = "True" ]; then
     echo "Cloning Popcorn Time"
-    read -p "Where do you wish to clone Popcorn Time to? [butter] " dir
+    read -p "Where do you wish to clone Popcorn Time to? [popcorn] " dir
     if [ -z "$dir" ]; then
-        dir='butter'
+        dir='popcorn'
     elif [ "$dir" = "/" ]; then
-        dir='butter'
+        dir='popcorn'
     fi
     if [ ! -d "$dir" ]; then
         clone_command
