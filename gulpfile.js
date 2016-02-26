@@ -1,6 +1,5 @@
 var gulp = require('gulp');
 var NwBuilder = require('nw-builder');
-var os = require('os');
 var argv = require('yargs')
     .alias('p', 'platforms')
     .argv;
