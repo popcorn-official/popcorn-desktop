@@ -36,7 +36,6 @@
         "butter-provider-yts": "git+https://github.com/hackhackhack/butter-provider-yts",
         "butter-provider-tvapi": "git+https://github.com/hackhackhack/butter-provider-tvapi",
         "butter-provider-haruhichan": "git+https://github.com/hackhackhack/butter-provider-haruhichan",
-
         "butter-provider-vodo": "git+https://github.com/butterproviders/butter-provider-vodo",
         "adm-zip": "0.4.7",
         "airplay-js": "git+https://github.com/guerrerocarlos/node-airplay-js.git",
@@ -79,10 +78,8 @@
         "xmlbuilder": "4.1.0"
     },
     "devDependencies": {
-	"del": "^2.2.0",
-	"gulp": "^3.9.0",
-	"yargs": "^3.31.0",
         "bower": "1.6.5",
+        "del": "^2.2.0",
         "grunt": "0.4.5",
         "grunt-bower-clean": "0.x.x",
         "grunt-contrib-clean": "0.x.x",
@@ -93,13 +90,15 @@
         "grunt-exec": "0.4.x",
         "grunt-githooks": "0.x.x",
         "grunt-jsbeautifier": "*",
-	"del": "^2.2.0",
-	"gulp": "^3.9.0",
-	"nw-builder": "^2.0.2",
-	"nw-gyp": "^0.12.4",
-	"yargs": "^3.31.0",
         "grunt-shell": "1.x.x",
+        "gulp": "^3.9.0",
+        "gulp-stylus": "^2.3.0",
         "load-grunt-tasks": "3.3.0",
-        "stylus": "0.52.4"
+        "nib": "^1.1.0",
+        "nw-builder": "^2.0.2",
+        "nw-gyp": "^0.12.4",
+        "run-sequence": "^1.1.5",
+        "stylus": "0.52.4",
+        "yargs": "^3.31.0"
     }
 }
