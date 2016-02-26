@@ -6,6 +6,14 @@
         CLIENT_SECRET = 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1',
         REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob';
 
+    var isValid = function (id) {
+        if (!id || id.toString().indexOf('mal') > -1 || id.toString().indexOf('-') > -1) {
+            return false;
+        } else {
+            return true;
+        }
+    };
+
     function TraktTv() {
         App.Providers.CacheProviderV2.call(this, 'metadata');
 
@@ -584,8 +592,8 @@
     };
 
     TraktTv.prototype.resizeImage = function (imageUrl, size) {
-        if (imageUrl === undefined) {
-            return imageUrl;
+        if (imageUrl === undefined || imageUrl === null) {
+            return 'images/posterholder.png'.toString();
         }
 
         var uri = URI(imageUrl),
@@ -632,12 +640,9 @@
             }
         }
 
-        if (imageUrl === undefined) {
-            return 'images/posterholder.png'.toString();
-        } else {
-            return uri.filename(file + '.' + ext).toString();
-        }
+        return uri.filename(file + '.' + ext).toString();
     };
+
 
     function onShowWatched(show, channel) {
         win.debug('Mark Episode as watched on channel:', channel);
@@ -703,14 +708,6 @@
             break;
         }
     }
-
-    var isValid = function (id) {
-        if (!id || id.toString().indexOf('mal') > -1 || id.toString().indexOf('-') > -1) {
-            return false;
-        } else {
-            return true;
-        }
-    };
 
     App.vent.on('show:watched', onShowWatched);
     App.vent.on('show:unwatched', onShowUnWatched);

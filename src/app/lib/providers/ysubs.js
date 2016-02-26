@@ -20,6 +20,53 @@
 
         App.Providers.CacheProvider.call(this, 'subtitle', TTL);
     };
+    
+        // Language mapping to match PT langcodes
+    var languageMapping = {
+        'albanian': 'sq',
+        'arabic': 'ar',
+        'bengali': 'bn',
+        'brazilian-portuguese': 'pt-br',
+        'bulgarian': 'bg',
+        'bosnian': 'bs',
+        'chinese': 'zh',
+        'croatian': 'hr',
+        'czech': 'cs',
+        'danish': 'da',
+        'dutch': 'nl',
+        'english': 'en',
+        'estonian': 'et',
+        'farsi-persian': 'fa',
+        'finnish': 'fi',
+        'french': 'fr',
+        'german': 'de',
+        'greek': 'el',
+        'hebrew': 'he',
+        'hungarian': 'hu',
+        'indonesian': 'id',
+        'italian': 'it',
+        'japanese': 'ja',
+        'korean': 'ko',
+        'lithuanian': 'lt',
+        'macedonian': 'mk',
+        'malay': 'ms',
+        'norwegian': 'no',
+        'polish': 'pl',
+        'portuguese': 'pt',
+        'romanian': 'ro',
+        'russian': 'ru',
+        'serbian': 'sr',
+        'slovenian': 'sl',
+        'spanish': 'es',
+        'swedish': 'sv',
+        'thai': 'th',
+        'turkish': 'tr',
+        'urdu': 'ur',
+        'ukrainian': 'uk',
+        'vietnamese': 'vi'
+    };
+
+
 
     YSubs.prototype = Object.create(App.Providers.CacheProvider.prototype);
     YSubs.prototype.constructor = YSubs;
@@ -89,55 +136,11 @@
     };
 
     YSubs.prototype.query = function (ids) {
-        console.error('query', ids)
+        console.error('query', ids);
         return Q.when(querySubtitles(ids))
             .then(formatForPopcorn);
     };
 
-    // Language mapping to match PT langcodes
-    var languageMapping = {
-        'albanian': 'sq',
-        'arabic': 'ar',
-        'bengali': 'bn',
-        'brazilian-portuguese': 'pt-br',
-        'bulgarian': 'bg',
-        'bosnian': 'bs',
-        'chinese': 'zh',
-        'croatian': 'hr',
-        'czech': 'cs',
-        'danish': 'da',
-        'dutch': 'nl',
-        'english': 'en',
-        'estonian': 'et',
-        'farsi-persian': 'fa',
-        'finnish': 'fi',
-        'french': 'fr',
-        'german': 'de',
-        'greek': 'el',
-        'hebrew': 'he',
-        'hungarian': 'hu',
-        'indonesian': 'id',
-        'italian': 'it',
-        'japanese': 'ja',
-        'korean': 'ko',
-        'lithuanian': 'lt',
-        'macedonian': 'mk',
-        'malay': 'ms',
-        'norwegian': 'no',
-        'polish': 'pl',
-        'portuguese': 'pt',
-        'romanian': 'ro',
-        'russian': 'ru',
-        'serbian': 'sr',
-        'slovenian': 'sl',
-        'spanish': 'es',
-        'swedish': 'sv',
-        'thai': 'th',
-        'turkish': 'tr',
-        'urdu': 'ur',
-        'ukrainian': 'uk',
-        'vietnamese': 'vi'
-    };
 
 
     App.Providers.install(YSubs);

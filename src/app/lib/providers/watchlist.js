@@ -13,30 +13,6 @@
         var deferred = Q.defer();
         var now = moment();
 
-        //Checked when last fetched
-        App.db.getSetting({
-                key: 'watchlist-fetched'
-            })
-            .then(function (doc) {
-                if (doc) {
-                    var d = moment.unix(doc.value);
-
-                    if (Math.abs(now.diff(d, 'hours')) >= 12) {
-                        win.info('Watchlist - last update was %s hour(s) ago', Math.abs(now.diff(d, 'hours')));
-                        fetchWatchlist(true);
-
-                    } else {
-                        // Last fetch is fresh (< 12h)
-                        win.info('Watchlist - next update in %s hour(s)', 12 - Math.abs(now.diff(d, 'hours')));
-                        fetchWatchlist(false);
-                    }
-                } else {
-                    // No last fetch, fetch again
-                    fetchWatchlist(true);
-                }
-            });
-
-
         function fetchWatchlist(update) {
             App.db.getSetting({
                     key: 'watchlist'
@@ -69,6 +45,29 @@
                     }
                 });
         }
+
+        //Checked when last fetched
+        App.db.getSetting({
+                key: 'watchlist-fetched'
+            })
+            .then(function (doc) {
+                if (doc) {
+                    var d = moment.unix(doc.value);
+
+                    if (Math.abs(now.diff(d, 'hours')) >= 12) {
+                        win.info('Watchlist - last update was %s hour(s) ago', Math.abs(now.diff(d, 'hours')));
+                        fetchWatchlist(true);
+
+                    } else {
+                        // Last fetch is fresh (< 12h)
+                        win.info('Watchlist - next update in %s hour(s)', 12 - Math.abs(now.diff(d, 'hours')));
+                        fetchWatchlist(false);
+                    }
+                } else {
+                    // No last fetch, fetch again
+                    fetchWatchlist(true);
+                }
+            });
 
         return deferred.promise;
     };

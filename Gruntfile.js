@@ -81,7 +81,8 @@ module.exports = function (grunt) {
         'injectgit',
         'bower_clean',
         /*'lang',*/
-        'themes'
+        'themes',
+        'exec:Gulpe'
     ]);
 
     grunt.registerTask('lang', ['shell:language']);
@@ -90,7 +91,9 @@ module.exports = function (grunt) {
         'clean:releases',
         'clean:dist',
         'clean:update',
-        'build',
+        'injectgit',
+        'bower_clean',
+        'themes',
         'clean:nwjs',
         'exec:Gulpe',
         'exec:pruneProduction',

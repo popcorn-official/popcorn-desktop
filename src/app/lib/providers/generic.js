@@ -6,6 +6,30 @@
 
     App.Providers.Generic = require('butter-provider');
 
+    function delProvider(name) {
+        if (cache[name]) {
+            win.info('Delete provider cache', name);
+            return delete cache[name];
+        }
+    }
+
+    function installProvider(PO) {
+        var name = PO.prototype.config ? PO.prototype.config.name : null;
+
+        if (!name) {
+            return console.error(PO, PO.prototype.config, 'doesnt have a name');
+        }
+
+        if (registry[name]) {
+            return console.error('double definition of', name, PO, PO.prototype.config, 'is the same as', registry[name]);
+        }
+
+        console.log('added', name, 'to provider registry');
+        registry[name] = PO;
+
+        return name;
+    }
+
     function getProviderFromRegistry(name) {
         return registry[name];
     }
@@ -42,30 +66,6 @@
         //HACK(xaiki): set the provider name in the returned object.
         p.name = name;
         return p;
-    }
-
-    function delProvider(name) {
-        if (cache[name]) {
-            win.info('Delete provider cache', name);
-            return delete cache[name];
-        }
-    }
-
-    function installProvider(PO) {
-        var name = PO.prototype.config ? PO.prototype.config.name : null;
-
-        if (!name) {
-            return console.error(PO, PO.prototype.config, 'doesnt have a name');
-        }
-
-        if (registry[name]) {
-            return console.error('double definition of', name, PO, PO.prototype.config, 'is the same as', registry[name]);
-        }
-
-        console.log('added', name, 'to provider registry');
-        registry[name] = PO;
-
-        return name;
     }
 
     App.Providers.get = getProvider;
