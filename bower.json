@@ -1,12 +1,12 @@
 {
-    "name": "butter",
+    "name": "popcorntime",
     "dependencies": {
         "marionette": "~2.4.1",
-        "bootstrap": "~3.3.4",
+        "bootstrap": "~3.3.6",
         "video.js": "4.11.4",
         "videojs-youtube": "1.2.10",
         "mousetrap": "~1.5.2",
-        "font-awesome": "~4.3.0"
+        "font-awesome": "~4.5.0"
     },
     "dependenciesIgnore": {
         "backbone": ["**/!(backbone.js)"],
