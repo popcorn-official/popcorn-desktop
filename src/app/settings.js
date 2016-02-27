@@ -1,6 +1,6 @@
 /** Default settings **/
 var Settings = {
-    projectName: 'Butter',
+    projectName: 'Popcorn Time',
     projectUrl: 'http://butterproject.org',
     projectTwitter: 'butterproject',
     projectFacebook: 'ButterProjectOrg',
