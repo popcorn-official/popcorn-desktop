@@ -35,7 +35,7 @@ If you encounter trouble with the above method, you can try:
 4. `gulp css`
 5. `gulp nw:run`
 
-Optionally, you may simply run `./make_butter.sh` if you are on a linux or mac based operating system.
+Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
 Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-popcorn-time)
 

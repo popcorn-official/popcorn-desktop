@@ -7,7 +7,7 @@
   "bugs": "https://github.com/popcorn-official/popcorn-desktop/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/popcorn-official/popcorn-desktop/butter-desktop.git"
+    "url": "https://github.com/popcorn-official/popcorn-desktop.git"
   },
   "license": "GPL-3.0",
   "main": "app://host/src/app/index.html",
