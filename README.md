@@ -24,24 +24,18 @@ The [master](https://github.com/popcorn-official/popcorn-desktop) branch which c
 
 #### Quickstart:
 
-1. `npm install -g grunt-cli bower`
-2. `npm install`
-3. `grunt build`
-4. `gulp build`
-5. `grunt start`
+1. `npm install`
+2. `npm start`
 
 If you encounter trouble with the above method, you can try:
 
-1. `npm install -g bower grunt-cli` (Linux: you may need to run with `sudo`)
-1. `cd desktop`
-1. `npm install`
-1. `bower install`
-1. `grunt lang`
-1. `grunt nwjs`
-1. `grunt css`
-1. `grunt start`
+1. `npm install -g bower gulp` (Linux: you may need to run with `sudo`)
+2. `npm install`
+3. `bower install`
+4. `gulp css`
+5. `gulp nw:run`
 
-Optionally, you may simply run `./make_butter.sh` if you are on a linux or mac based operating system.
+Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
 Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-popcorn-time)
 

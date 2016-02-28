@@ -442,7 +442,7 @@
             var that = this;
             $('.spinner').show();
 
-            App.Providers.get('Vodo').random()
+            App.Providers.get('yts').random()
                 .then(function (data) {
                     if (App.watchedMovies.indexOf(data.imdb_code) !== -1) {
                         that.randomMovie();
