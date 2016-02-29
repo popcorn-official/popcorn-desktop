@@ -344,6 +344,7 @@
                 $(this).is(':visible') ? visibleItems++ : hiddenItems++;
             });
             var itemsInLastRow = visibleItems % itemsPerRow;*/
+            NUM_MOVIES_IN_ROW = itemsPerRow;
             var itemsInLastRow = $('.items .item').length % itemsPerRow;
             var ghostsToAdd = itemsPerRow - itemsInLastRow;
             while (ghostsToAdd > 0) {
