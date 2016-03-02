@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-  - "0.12"
-before_install: npm install -g grunt-cli grunt bower
-after_success : grunt build
+  - "5.7.0"
+before_install: npm install -g gulp bower
+after_success : gulp build
 notifications:
   email: true
   irc: "chat.freenode.net#popcorntime"
