@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - "5.7.0"
-before_install: npm install -g gulp bower
+before_install: npm install -g gulp bower grunt grunt-cli
 after_success : gulp build
 notifications:
   email: true
