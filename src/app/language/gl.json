@@ -487,12 +487,12 @@
     "You need to make more space available on your disk by deleting files.": "Tes que borrar algúns arquivos para facer un pouco de espazo no teu disco.",
     "Playing Next": "Seguinte en cargar",
     "Trending": "Na onda",
-    "Remember Filters": "Remember Filters",
-    "Automatic Subtitle Uploading": "Automatic Subtitle Uploading",
+    "Remember Filters": "Recorcodar filtros",
+    "Automatic Subtitle Uploading": "Carga automática dos subtítulos",
     "See-through Background": "See-through Background",
-    "Bold": "Bold",
-    "Currently watching": "Currently watching",
-    "No, it's not that": "No, it's not that",
-    "Correct": "Correct",
-    "Initializing %s. Please Wait...": "Initializing %s. Please Wait..."
+    "Bold": "Negrita",
+    "Currently watching": "Actualmente viendo",
+    "No, it's not that": "Non, non é iso",
+    "Correct": "Correcto",
+    "Initializing %s. Please Wait...": "Iniciandose %s. Espere Por Favor..."
 }
