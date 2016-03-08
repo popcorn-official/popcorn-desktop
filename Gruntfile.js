@@ -213,7 +213,7 @@ module.exports = function (grunt) {
         },
         nwjs: {
             options: {
-                version: '0.12.2',
+                version: '0.12.3',
                 build_dir: './build', // Where the build version of my nwjs app is saved
                 keep_nw: true,
                 embed_nw: false,
