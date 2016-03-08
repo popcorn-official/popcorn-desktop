@@ -26,7 +26,7 @@
                         <i class="fa fa-star rating-star-empty"></i>
                     <% }; %>
                 </div>
-                <div class="rating-value"><%= rating %>/10</div>
+                <div class="rating-value"><%= parseFloat(rating).toFixed(1) %>/10</div>
             </div>
         <%} %>
     </div>
