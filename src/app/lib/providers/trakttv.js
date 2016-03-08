@@ -390,6 +390,9 @@
                 });
             }
         },
+        getWatchlist: function (type) {
+            return this.get('sync/watchlist/' + type);
+        }
     };
 
     /*

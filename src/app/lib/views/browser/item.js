@@ -35,7 +35,7 @@
                 bookmarked = App.userBookmarks.indexOf(imdb) !== -1,
                 itemtype = this.model.get('type'),
                 images = this.model.get('images'),
-                img = (images) ? images.poster : this.model.get('image'),
+                img = (images && typeof images.poster !== 'object') ? images.poster : this.model.get('image'),
                 watched, cached, that = this;
 
             switch (itemtype) {
