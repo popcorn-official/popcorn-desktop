@@ -136,7 +136,6 @@
     };
 
     YSubs.prototype.query = function (ids) {
-        console.error('query', ids);
         return Q.when(querySubtitles(ids))
             .then(formatForPopcorn);
     };
