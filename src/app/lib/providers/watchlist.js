@@ -9,7 +9,7 @@
         name: 'Watchlist'
     };
 
-    var days = 100; // total days to retrieve calendar
+    var days = 30; // total days to retrieve calendar
 
     var queryTorrents = function (filters) {
         var deferred = Q.defer();
@@ -30,14 +30,14 @@
                 } else {
                     var show_watchlist, movie_watchlist, watchlist;
                     console.info('Watchlist - Fetching new watchlist');
-                    App.Trakt.calendars.myShows(moment().subtract(days, 'days').format('YYYY-MM-DD'), days)
+                    App.Trakt.calendars.myShows(moment().subtract(days, 'days').format('YYYY-MM-DD'), days+1)
                         .then(function (data) {
                             show_watchlist = data;
                             return App.Trakt.sync.getWatchlist('movies');
                         })
                         .then(function (data) {
                             movie_watchlist = data;
-                            watchlist = $.extend([], show_watchlist, movie_watchlist);
+                            watchlist = show_watchlist.concat(movie_watchlist);
                             return App.db.writeSetting({
                                 key: 'watchlist',
                                 value: watchlist
