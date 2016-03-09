@@ -150,6 +150,37 @@
         return defer.promise;
     };
 
+    TraktTv.prototype.delete = function (endpoint, getVariables) {
+        var defer = Q.defer();
+
+        getVariables = getVariables || {};
+
+
+        var requestUri = API_ENDPOINT.clone()
+            .segment(endpoint)
+            .addQuery(getVariables);
+
+        request({
+            method: 'DELETE',
+            url: requestUri.toString(),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + Settings.traktToken,
+                'trakt-api-version': '2',
+                'trakt-api-key': CLIENT_ID
+            }
+        }, function (error, response, body) {
+            if (error) {
+                defer.reject(error);
+            } else {
+                defer.resolve({});
+            }
+        });
+
+
+        return defer.promise;
+    };
+
     TraktTv.prototype.calendars = {
         myShows: function (startDate, days) {
             var endpoint = 'calendars/my/shows';
@@ -198,23 +229,24 @@
 
     TraktTv.prototype.recommendations = {
         movies: function () {
-            return this.get('recommendations/movies')
-                .then(function (data) {
-                    return data;
-                });
+            return this.get('recommendations/movies', {
+                extended: 'full,images'
+            });
+        },
+        hideMovie: function (id) {
+            return this.delete('recommendations/movies/' + id);
         },
         shows: function () {
-            return this.get('recommendations/shows')
-                .then(function (data) {
-                    return data;
-                });
-        }
+            return this.get('recommendations/shows', {
+                extended: 'full,images'
+            });
+        },
+        hideShow: function (id) {
+            return this.delete('recommendations/shows/' + id);
+        },
     };
 
     TraktTv.prototype.scrobble = function (action, type, id, progress) {
-        if (!isValid(id)) {
-            return;
-        }
         if (type === 'movie') {
             return this.post('scrobble/' + action, {
                 movie: {
@@ -264,10 +296,7 @@
             if (!id) {
                 return Q();
             }
-            return this.get('shows/' + id + '/progress/watched')
-                .then(function (data) {
-                    return data;
-                });
+            return this.get('shows/' + id + '/progress/watched');
         },
         updates: function (startDate) {
             return this.get('shows/updates/' + startDate)
@@ -345,9 +374,6 @@
             }
         },
         addToHistory: function (type, id) {
-            if (!isValid(id)) {
-                return;
-            }
             if (type === 'movie') {
                 return this.post('sync/history', {
                     movies: [{
@@ -368,9 +394,6 @@
             }
         },
         removeFromHistory: function (type, id) {
-            if (!isValid(id)) {
-                return;
-            }
             if (type === 'movie') {
                 return this.post('sync/history/remove', {
                     movies: [{
@@ -395,6 +418,15 @@
         }
     };
 
+    TraktTv.prototype.users = {
+        hiddenItems: function (type) {
+            return this.get('users/hidden/' + type)
+                .then(function (data) {
+                    return data;
+                });
+        }
+    };
+
     /*
      *  General
      * FUNCTIONS
@@ -416,6 +448,11 @@
                     }).then(function (data) {
                         if (data.access_token && data.expires_in && data.refresh_token) {
                             Settings.traktToken = data.access_token;
+                            trakt.import_token({
+                                expires: new Date().valueOf() + data.expires_in * 1000,
+                                access_token: data.access_token,
+                                refresh_token: data.refresh_token
+                            });
                             AdvSettings.set('traktToken', data.access_token);
                             AdvSettings.set('traktTokenRefresh', data.refresh_token);
                             AdvSettings.set('traktTokenTTL', new Date().valueOf() + data.expires_in * 1000);
@@ -486,7 +523,7 @@
         checkToken: function () {
             var self = this;
             if (Settings.traktTokenTTL <= new Date().valueOf() && Settings.traktTokenRefresh !== '') {
-                win.info('Trakt: refreshing access token');
+                console.info('Trakt: refreshing access token');
                 this._authenticationPromise = self.post('oauth/token', {
                     refresh_token: Settings.traktTokenRefresh,
                     client_id: CLIENT_ID,
@@ -495,6 +532,11 @@
                 }).then(function (data) {
                     if (data.access_token && data.expires_in && data.refresh_token) {
                         Settings.traktToken = data.access_token;
+                        trakt.import_token({
+                            expires: new Date().valueOf() + data.expires_in * 1000,
+                            access_token: data.access_token,
+                            refresh_token: data.refresh_token
+                        });
                         AdvSettings.set('traktToken', data.access_token);
                         AdvSettings.set('traktTokenRefresh', data.refresh_token);
                         AdvSettings.set('traktTokenTTL', new Date().valueOf() + data.expires_in * 1000);
@@ -510,6 +552,11 @@
                 });
             } else if (Settings.traktToken !== '') {
                 this.authenticated = true;
+                trakt.import_token({
+                    expires: Settings.traktTokenTTL,
+                    access_token: Settings.traktToken,
+                    refresh_token: Settings.traktTokenRefresh
+                });
                 App.vent.trigger('system:traktAuthenticated');
             }
         }
@@ -540,7 +587,7 @@
                                     type: 'movie'
                                 });
                             } catch (e) {
-                                win.warn('Cannot sync a movie (' + data[m].movie.title + '), the problem is: ' + e.message + '. Continuing sync without this movie...');
+                                console.warn('Cannot sync a movie (' + data[m].movie.title + '), the problem is: ' + e.message + '. Continuing sync without this movie...');
                             }
                         }
                     }
@@ -548,7 +595,7 @@
                     return watched;
                 })
                 .then(function (traktWatched) {
-                    win.debug('Trakt: marked %s movie(s) as watched', traktWatched.length);
+                    console.debug('Trakt: marked %s movie(s) as watched', traktWatched.length);
                     return Database.markMoviesWatched(traktWatched);
                 });
         },
@@ -577,7 +624,7 @@
                                         });
                                     }
                                 } catch (e) {
-                                    win.warn('Cannot sync a show (' + show.show.title + '), the problem is: ' + e.message + '. Continuing sync without this show...');
+                                    console.warn('Cannot sync a show (' + show.show.title + '), the problem is: ' + e.message + '. Continuing sync without this show...');
                                     break;
                                 }
                             }
@@ -588,7 +635,7 @@
                 })
                 .then(function (traktWatched) {
                     // Insert them locally
-                    win.debug('Trakt: marked %s episode(s) as watched', traktWatched.length);
+                    console.debug('Trakt: marked %s episode(s) as watched', traktWatched.length);
                     return Database.markEpisodesWatched(traktWatched);
                 });
         }
@@ -654,6 +701,13 @@
         win.debug('Mark Episode as watched on channel:', channel);
         switch (channel) {
         case 'database':
+            setTimeout(function () {
+                App.Providers.get('Watchlist').fetch({
+                    update: show.imdb_id
+                }).then(function () {
+                    App.vent.trigger('watchlist:list');
+                });
+            }, 2000);
             break;
         case 'seen':
             /* falls through */

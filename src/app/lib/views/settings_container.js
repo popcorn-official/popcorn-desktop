@@ -710,7 +710,7 @@
 
             App.Trakt.syncTrakt.all()
                 .then(function () {
-                    App.Providers.get('Watchlist').fetch();
+                    App.Providers.get('Watchlist').fetch({force:true});
                 })
                 .then(function () {
                     $('#syncTrakt')
