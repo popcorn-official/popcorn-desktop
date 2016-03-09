@@ -8,14 +8,14 @@
         var idsPromise = torrentsPromise.then(_.bind(torrentProvider.extractIds, torrentProvider));
         var promises = [
             torrentsPromise,
-            
-            subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)) : true,
+
+            ysubs ? idsPromise.then(_.bind(ysubs.fetch, ysubs)) : true,
             metadata ? idsPromise.then(function (ids) {
                 return Q.allSettled(_.map(ids, function (id) {
                     return metadata.movies.summary(id);
                 }));
             }) : true,
-            ysubs ? idsPromise.then(_.bind(ysubs.fetch, ysubs)) : true,
+
         ];
 
         console.log('pre all', promises);
@@ -53,7 +53,7 @@
                     movie.provider = torrentProvider.name;
 
                     if (subtitles) {
-                    
+
                         movie.subtitle = subtitles[id];
                     }
 
@@ -143,7 +143,7 @@
                  * provider declare a unique id, and then lookthem up in
                  * a hash.
                  */
-                console.log('pre---', ysubs , subtitle , metadata, torrents);
+                console.log('pre---', ysubs, subtitle, metadata, torrents);
 
                 var torrentPromises = _.map(torrents, function (torrentProvider) {
                     return getDataFromProvider(torrentProvider, ysubs, subtitle, metadata, self)
