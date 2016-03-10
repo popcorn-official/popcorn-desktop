@@ -2,8 +2,14 @@
 (function (App) {
     'use strict';
     var TVApi = App.Providers.get('TVApi');
-
-    var Watchlist = function () {};
+    var memoize = require('memoizee');
+    var Watchlist = function () {
+        this.fetch = memoize(this._fetch.bind(this), {
+            maxAge: 30 * 1000, // 30sec
+            preFetch: 0.5, // recache every 15sec
+            primitive: true
+        });
+    };
     Watchlist.prototype.constructor = Watchlist;
     Watchlist.prototype.config = {
         name: 'Watchlist'
@@ -24,8 +30,12 @@
             }
         })).then(function () {
             arranged = arrange.sort(function(a, b){
-                if(a.episode_aired > b.episode_aired) return -1;
-                if(a.episode_aired < b.episode_aired) return 1;
+                if(a.episode_aired > b.episode_aired) {
+                    return -1;
+                }
+                if(a.episode_aired < b.episode_aired) {
+                    return 1;
+                }
                 return 0;
             });
             console.log('rearranged shows by air date');//debug
@@ -35,11 +45,10 @@
 
     var format = function (items) {
         var itemList = [];
-        console.log('format') //debug
+        console.log('format'); //debug
 
         return Promise.all(items.map(function (item) {
             if (item.next_episode) {
-                console.log(item)
                 if(moment(item.next_episode.first_aired).fromNow().indexOf('in') !== -1) {
                     console.warn('"%s" is not released yet, not showing', item.show.title + ' ' + item.next_episode.season + 'x' + item.next_episode.number);
                 } else {
@@ -167,7 +176,7 @@
         return {};
     };
 
-    Watchlist.prototype.fetch = function (filters) {
+    Watchlist.prototype._fetch = function (filters) {
         return new Promise(function (resolve, reject) {
             if (filters && typeof filters !== 'function' && (filters.force || filters.update)) {
                 if (filters.update && localStorage.watchlist_update_shows) {
