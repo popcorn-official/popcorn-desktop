@@ -46,6 +46,7 @@
         "minimizeToTray": true,
         "promisifyDb": true,
         "db": true,
+        "Promise": true,
 
         // Global variables
         "_": true,
@@ -77,6 +78,7 @@
         "URI": true,
         "peerflix": true,
         "child": true,
+        "trakt": true,
 
         // Third party
         "Backbone": true,
