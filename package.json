@@ -14,6 +14,7 @@
   "version": "0.3.8-5a",
   "releaseName": "There's nothing on TV",
   "scripts": {
+    "prestart": "npm install",
     "postinstall": "node_modules/.bin/bower install --config.interactive=false && grunt setup",
     "postupdate": "node_modules/.bin/bower update --config.interactive=false && grunt setup",
     "test": "grunt --verbose",
