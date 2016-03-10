@@ -24,8 +24,7 @@ The [master](https://github.com/butterproject/butter-desktop) branch which conta
 
 #### Quickstart:
 
-1. `npm install -g grunt-cli bower`
-1. `npm install`
+1. `npm start`
 1. `grunt build`
 1. `grunt start`
 
