@@ -2,8 +2,14 @@
 (function (App) {
     'use strict';
     var TVApi = App.Providers.get('TVApi');
-
-    var Watchlist = function () {};
+    var memoize = require('memoizee');
+    var Watchlist = function () {
+        this.fetch = memoize(this._fetch.bind(this), {
+            maxAge: 30 * 1000, // 30sec
+            preFetch: 0.5, // recache every 15sec
+            primitive: true
+        });
+    };
     Watchlist.prototype.constructor = Watchlist;
     Watchlist.prototype.config = {
         name: 'Watchlist'
@@ -170,7 +176,7 @@
         return {};
     };
 
-    Watchlist.prototype.fetch = function (filters) {
+    Watchlist.prototype._fetch = function (filters) {
         return new Promise(function (resolve, reject) {
             if (filters && typeof filters !== 'function' && (filters.force || filters.update)) {
                 if (filters.update && localStorage.watchlist_update_shows) {
