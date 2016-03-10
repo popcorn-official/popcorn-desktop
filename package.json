@@ -60,7 +60,7 @@
     "nodecast-js": "^1.0.1",
     "opensubtitles-api": "^2.3.x",
     "os-name": "1.x.x",
-    "peerflix-pct": "^0.32.1",
+    "peerflix": "git+https://github.com/popcorn-official/peerflix.git",
     "q": "2.0.3",
     "read-torrent": "1.3.0",
     "readdirp": "*",
