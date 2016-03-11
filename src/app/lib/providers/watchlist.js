@@ -193,7 +193,7 @@
                 }
             } else {
                 // cache is 4 hours
-                if (!localStorage.watchlist_cached || localStorage.watchlist_fetched_time + 14400000 < Date.now()) {
+                if (!localStorage.watchlist_cached || parseInt(localStorage.watchlist_fetched_time) + 14400000 < Date.now()) {
                     console.debug('Watchlist - no watchlist cached or cache expired');
                     if (App.Trakt.authenticated) {
                         return App.Providers.get('Watchlist').fetch({force:true}).then(resolve).catch(reject);
