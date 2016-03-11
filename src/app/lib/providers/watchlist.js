@@ -2,8 +2,14 @@
 (function (App) {
     'use strict';
     var TVApi = App.Providers.get('TVApi');
-
-    var Watchlist = function () {};
+    var memoize = require('memoizee');
+    var Watchlist = function () {
+        this.fetch = memoize(this._fetch.bind(this), {
+            maxAge: 30 * 1000, // 30sec
+            preFetch: 0.5, // recache every 15sec
+            primitive: true
+        });
+    };
     Watchlist.prototype.constructor = Watchlist;
     Watchlist.prototype.config = {
         name: 'Watchlist'
@@ -170,7 +176,7 @@
         return {};
     };
 
-    Watchlist.prototype.fetch = function (filters) {
+    Watchlist.prototype._fetch = function (filters) {
         return new Promise(function (resolve, reject) {
             if (filters && typeof filters !== 'function' && (filters.force || filters.update)) {
                 if (filters.update && localStorage.watchlist_update_shows) {
@@ -187,7 +193,7 @@
                 }
             } else {
                 // cache is 4 hours
-                if (!localStorage.watchlist_cached || localStorage.watchlist_fetched_time + 14400000 < Date.now()) {
+                if (!localStorage.watchlist_cached || parseInt(localStorage.watchlist_fetched_time) + 14400000 < Date.now()) {
                     console.debug('Watchlist - no watchlist cached or cache expired');
                     if (App.Trakt.authenticated) {
                         return App.Providers.get('Watchlist').fetch({force:true}).then(resolve).catch(reject);
