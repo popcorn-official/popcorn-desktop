@@ -66,7 +66,7 @@
             }
             win.info('Chromecast: play ' + url + ' on \'' + this.get('name') + '\'');
             win.info('Chromecast: connecting to ' + this.device.host);
-            this.device.connect()
+            this.device.connect();
   			this.device.on('connected', function(){
   				self.device.play(media, 0, function (err, status) {
   					if (err) {
