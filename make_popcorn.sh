@@ -188,6 +188,7 @@ fi
 if grunt build; then
     echo "Popcorn Time built successfully!"
     ./Create-Desktop-Entry
+    echo "Run 'grunt start' from inside the repository to launch the app"
     echo "Enjoy!"
 else
     echo "Popcorn Time encountered an error and couldn't be built"
