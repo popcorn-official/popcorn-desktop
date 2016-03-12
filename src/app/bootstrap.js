@@ -51,9 +51,9 @@
     }
 
     function loadFromPackageJSON(regex, fn) {
-        var config = require('../../package.json');
+        App.Npm = require('../../package.json');
 
-        var packages = Object.keys(config.dependencies).filter(function (p) {
+        var packages = Object.keys(App.Npm.dependencies).filter(function (p) {
             return p.match(regex);
         });
 
