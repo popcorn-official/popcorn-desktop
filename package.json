@@ -38,6 +38,7 @@
     "butter-provider-haruhichan": "git+https://github.com/hackhackhack/butter-provider-haruhichan",
     "butter-provider-vodo": "git+https://github.com/butterproviders/butter-provider-vodo",
     "popcorn-txt-api": "git+https://github.com/hackhackhack/popcorn-txt-api",
+    "butter-provider-ysubs": "git+https://github.com/hackhackhack/butter-provider-ysubs",
     "adm-zip": "0.4.7",
     "airplay-js": "git+https://github.com/guerrerocarlos/node-airplay-js.git",
     "async": "1.5.0",
