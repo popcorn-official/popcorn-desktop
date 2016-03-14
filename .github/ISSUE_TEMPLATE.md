@@ -1,6 +1,11 @@
-Version:  
-Download date:  
-  
+Operating System Version:
+<!-- OS X 10.11? Windows 10? Linux?-->
+
+Popcorn Time Version:
+<!-- What version of Popcorn Time are you running? -->
+
+Download date:
+<!-- When did you install Popcorn Time? -->
 
 #### Expected Behaviour
 <!-- What did you think the app was going to do? -->
