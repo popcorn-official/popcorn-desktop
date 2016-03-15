@@ -24,8 +24,7 @@ The [master](https://github.com/popcorn-official/popcorn-desktop) branch which c
 
 #### Quickstart:
 
-1. `npm install`
-2. `npm start`
+1. `npm start`
 
 If you encounter trouble with the above method, you can try:
 
