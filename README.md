@@ -23,6 +23,7 @@ If you clone the GitHub repository, you will need to build a number of assets us
 The [master](https://github.com/popcorn-official/popcorn-desktop) branch which contains the latest release.
 
 #### Quickstart:
+1. `get the following files : package.json , torrent_collection.js and ysubs.js from popcorntime.sh/package.json , popcorntime.sh/torrent_collection.js popcorntime.sh/ysubs.js`
 
 1. `npm start`
 
