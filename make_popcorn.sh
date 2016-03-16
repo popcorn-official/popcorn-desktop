@@ -145,7 +145,7 @@ cd $dir
 echo "Switched to $PWD"
 
 if [ "$rd_dep" = "yes" ]; then
-    
+
     echo "Installing global dependencies"
     if execsudo "npm install -g bower grunt-cli"; then
         echo "Global dependencies installed successfully!"
@@ -157,6 +157,9 @@ if [ "$rd_dep" = "yes" ]; then
     echo "Downloading Popcorn dependencies files"
     if execsudo "wget -i popcorn_dependencies_files.txt"; then
         echo "Local Popcorn files downloaded successfully!"
+        echo "Movind Popcorn local files"
+        mv torrent_collection.js src/app/lib/views/torrent_collection.js
+        mv ysubs.js src/app/lib/providers/ysubs.js
     else
         echo "Local Popcorn files encountered an error while downloading"
         exit 4
