@@ -1,7 +1,6 @@
 /* globals moment*/
 (function (App) {
     'use strict';
-    var TVApi = App.Providers.get('TVApi');
     var memoize = require('memoizee');
     var Watchlist = function () {
         this.fetch = memoize(this._fetch.bind(this), {
@@ -16,20 +15,21 @@
     };
 
     var rearrange = function (items) {
-        var no_arrange = [],
-            arrange = [],
-            arranged;
+        var movies = [],
+            arranged_movies,
+            shows = [],
+            arranged_shows;
 
         return Promise.all(items.map(function (item) {
             if (item) {
                 if (item.first_aired) {
-                    arrange.push(item);
+                    shows.push(item);
                 } else {
-                    no_arrange.push(item);
+                    movies.push(item);
                 }
             }
         })).then(function () {
-            arranged = arrange.sort(function(a, b){
+            arranged_shows = shows.sort(function(a, b){
                 if(a.episode_aired > b.episode_aired) {
                     return -1;
                 }
@@ -39,7 +39,19 @@
                 return 0;
             });
             console.log('rearranged shows by air date');//debug
-            return arranged.concat(no_arrange);
+
+            arranged_movies = movies.sort(function(a, b){
+                if(a.listed_at < b.listed_at) {
+                    return -1;
+                }
+                if(a.listed_at > b.listed_at) {
+                    return 1;
+                }
+                return 0;
+            });
+            console.log('rearranged movies by watchlist addition date');//debug
+            
+            return arranged_shows.concat(movies);
         });
     };
 
@@ -77,6 +89,7 @@
                     } else {
                         var movie = item.movie;
                         movie.type = 'movie';
+                        movie.listed_at = item.listed_at;
                         movie.imdb_id = item.movie.ids.imdb;
                         movie.rating = item.movie.rating;
                         movie.title = item.movie.title;
