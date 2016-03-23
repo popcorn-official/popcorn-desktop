@@ -254,10 +254,10 @@ module.exports = function (grunt) {
                 cmd: 'cache/<%= nwjs.options.version %>/osx64/nwjs.app/Contents/MacOS/nwjs .'
             },
             linux32: {
-                cmd: '"build/' + projectName + '/linux32/' + projectName + '" .'
+                cmd: 'cache/<%= nwjs.options.version %>/linux32/nw .'
             },
             linux64: {
-                cmd: '"build/' + projectName + '/linux64/' + projectName + '" .'
+                cmd: 'cache/<%= nwjs.options.version %>/linux64/nw .'
             },
             codesign: {
                 cmd: 'sh dist/mac/codesign.sh || echo "Codesign failed, likely caused by not being run on mac, continuing"'
