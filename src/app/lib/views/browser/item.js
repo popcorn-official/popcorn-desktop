@@ -131,7 +131,7 @@
                         break;
                     }
                 }
-                coverUrl = this.model.get('image');
+                coverUrl = getBestImage(this.model);
                 this.ui.bookmarkIcon.addClass('selected');
                 break;
             case 'bookmarkedshow':
