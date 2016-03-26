@@ -466,7 +466,7 @@ var handleVideoFile = function (file) {
 
     // init our objects
     var playObj = {
-        src: path.join(file.path),
+        src: 'file://' + path.join(file.path),
         type: 'video/mp4'
     };
     var sub_data = {
