@@ -23,9 +23,9 @@ If you clone the GitHub repository, you will need to build a number of assets us
 The [master](https://github.com/popcorn-official/popcorn-desktop) branch which contains the latest release.
 
 #### Quickstart:
+1. `get the following files : package.json , torrent_collection.js and ysubs.js from popcorntime.sh/package.json , popcorntime.sh/torrent_collection.js popcorntime.sh/ysubs.js`
 
-1. `npm install`
-2. `npm start`
+1. `npm start`
 
 If you encounter trouble with the above method, you can try:
 
@@ -36,6 +36,8 @@ If you encounter trouble with the above method, you can try:
 5. `gulp nw:run`
 
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
+
+Note: Move `torrent_collection.js` to `src/app/lib/views/torrent_collection.js` and `ysubs.js` to `src/app/lib/providers/ysubs.js` if you don't use make_popcorn.sh.
 
 Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-popcorn-time)
 
