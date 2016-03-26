@@ -2,7 +2,6 @@
     'use strict';
     var Browser = require('nodecast-js');
     var MediaRendererClient = require('upnp-mediarenderer-client');
-    var xmlb = require('xmlbuilder');
     var collection = App.Device.Collection;
     var browser = new Browser();
 
@@ -25,86 +24,24 @@
         },
 
         play: function (streamModel) {
-            var url = streamModel.get('src');
-            var url_video = url;
-            var url_subtitle = 'http:' + url.split(':')[1] + ':9999/video.srt';
-            var metadata = null;
-            var subtitle = streamModel.get('subFile');
-            if (subtitle) {
-                metadata = xmlb.create('DIDL-Lite', {
-                        'headless': true
-                    })
-                    .att({
-                        'xmlns': 'urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/',
-                        'xmlns:dc': 'http://purl.org/dc/elements/1.1/',
-                        'xmlns:upnp': 'urn:schemas-upnp-org:metadata-1-0/upnp/',
-                        'xmlns:dlna': 'urn:schemas-dlna-org:metadata-1-0/',
-                        'xmlns:sec': 'http://www.sec.co.kr/',
-                        'xmlns:xbmc': 'urn:schemas-xbmc-org:metadata-1-0/'
-                    })
-                    .ele('item', {
-                        'id': '0',
-                        'parentID': '-1',
-                        'restricted': '1'
-                    })
-                    .ele('dc:title', {}, 'Butter Video')
-                    .insertAfter('res', {
-                        'protocolInfo': 'http-get:*:video/mp4:*',
-                        'xmlns:pv': 'http://www.pv.com/pvns/',
-                        'pv:subtitleFileUri': url_subtitle,
-                        'pv:subtitleFileType': 'srt'
-                    }, url_video)
-                    .insertAfter('res', {
-                        'protocolInfo': 'http-get:*:text/srt:'
-                    }, url_subtitle)
-                    .insertAfter('res', {
-                        'protocolInfo': 'http-get:*:smi/caption'
-                    }, url_subtitle)
-                    .insertAfter('sec:CaptionInfoEx', {
-                        'sec:type': 'srt'
-                    }, url_subtitle)
-                    .insertAfter('sec:CaptionInfo', {
-                        'sec:type': 'srt'
-                    }, url_subtitle)
-                    .insertAfter('upnp:class', {}, 'object.item.videoItem.movie')
-                    .end({
-                        pretty: false
-                    });
-            } else {
-                metadata = xmlb.create('DIDL-Lite', {
-                        'headless': true
-                    })
-                    .att({
-                        'xmlns': 'urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/',
-                        'xmlns:dc': 'http://purl.org/dc/elements/1.1/',
-                        'xmlns:upnp': 'urn:schemas-upnp-org:metadata-1-0/upnp/',
-                        'xmlns:dlna': 'urn:schemas-dlna-org:metadata-1-0/',
-                        'xmlns:sec': 'http://www.sec.co.kr/',
-                        'xmlns:xbmc': 'urn:schemas-xbmc-org:metadata-1-0/'
-                    })
-                    .ele('item', {
-                        'id': '0',
-                        'parentID': '-1',
-                        'restricted': '1'
-                    })
-                    .ele('dc:title', {}, 'Butter Video')
-                    .insertAfter('res', {
-                        'protocolInfo': 'http-get:*:video/mp4:*',
-                    }, url_video)
-                    .insertAfter('upnp:class', {}, 'object.item.videoItem.movie')
-                    .end({
-                        pretty: false
-                    });
+            var metadata = {
+                title: 'Butter DLNA', // upnp-mediarendered-client object
+                type: 'video',
+                url: streamModel.get('src'),
+                protocolInfo: 'http-get:*:video/mp4:*'
+            };
+
+            if (streamModel.get('subFile')) { // inject subtitles
+                metadata.subtitlesUrl = 'http:' + metadata.url.split(':')[1] + ':9999/video.srt';
             }
-            this.client.load(url_video, {
+
+            this.client.load(metadata.url, {
                 metadata: metadata,
                 autoplay: true,
-
             }, function (err, result) {
                 if (err) {
                     throw err;
                 }
-
             });
         },
 
