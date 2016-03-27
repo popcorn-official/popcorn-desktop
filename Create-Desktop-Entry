@@ -18,7 +18,7 @@ create_desktop_entry() {
 	echo "Type=Application" >> $DESKTOP_FILE
 	echo "Name=$NAME" >> $DESKTOP_FILE
 	echo "Icon=$ICON_PATH" >> $DESKTOP_FILE
-	echo "Exec=\"$EXECUTABLE\"" >> $DESKTOP_FILE
+	echo "Exec=\"$EXECUTABLE\" -- %u" >> $DESKTOP_FILE
 	echo "Comment=$COMMENT" >> $DESKTOP_FILE
 	echo "Categories=Multimedia;" >> $DESKTOP_FILE
 	echo "Terminal=false" >> $DESKTOP_FILE
