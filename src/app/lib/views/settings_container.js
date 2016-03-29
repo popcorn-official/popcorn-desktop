@@ -441,28 +441,11 @@
             $('.tvst-loading-spinner').show();
 
             App.vent.on('system:tvstAuthenticated', function () {
-                window.loginWindow.close();
                 $('.tvst-loading-spinner').hide();
                 self.render();
             });
             App.TVShowTime.authenticate(function (activateUri) {
-                gui.App.addOriginAccessWhitelistEntry(activateUri, 'app', 'host', true);
-                window.loginWindow = gui.Window.open(activateUri, {
-                    position: 'center',
-                    focus: true,
-                    title: 'TVShow Time',
-                    icon: 'src/app/images/icon.png',
-                    toolbar: false,
-                    resizable: false,
-                    width: 600,
-                    height: 600
-                });
-
-                window.loginWindow.on('closed', function () {
-                    $('.tvst-loading-spinner').hide();
-                    $('#connect-with-tvst > i').css('visibility', 'visible');
-                });
-
+                gui.Shell.openExternal(activateUri);
             });
         },
 
