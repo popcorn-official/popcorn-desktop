@@ -331,7 +331,10 @@
                             <i class="fa fa-user-plus">&nbsp;&nbsp;</i>
                             <%= i18n.__("Connect To %s", "Trakt") %>
                         </div>
-                        <div class="trakt-loading-spinner" style="display: none"></div>
+                        <div id="authTraktCode" style="display:none">
+                            <%= i18n.__("Code:")%>    
+                            <input type="text" size="20" readonly/>
+                        </div>
                     </span>
                 <% } %>
             </div>

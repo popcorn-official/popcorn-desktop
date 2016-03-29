@@ -437,85 +437,23 @@
             var defer = Q.defer();
             var self = this;
 
-            this.oauth.authorize()
-                .then(function (token) {
-                    self.post('oauth/token', {
-                        code: token,
-                        client_id: CLIENT_ID,
-                        client_secret: CLIENT_SECRET,
-                        redirect_uri: REDIRECT_URI,
-                        grant_type: 'authorization_code'
-                    }).then(function (data) {
-                        if (data.access_token && data.expires_in && data.refresh_token) {
-                            Settings.traktToken = data.access_token;
-                            trakt.import_token({
-                                expires: new Date().valueOf() + data.expires_in * 1000,
-                                access_token: data.access_token,
-                                refresh_token: data.refresh_token
-                            });
-                            AdvSettings.set('traktToken', data.access_token);
-                            AdvSettings.set('traktTokenRefresh', data.refresh_token);
-                            AdvSettings.set('traktTokenTTL', new Date().valueOf() + data.expires_in * 1000);
-                            self.authenticated = true;
-                            App.vent.trigger('system:traktAuthenticated');
-                            defer.resolve(true);
-                        } else {
-                            AdvSettings.set('traktToken', '');
-                            AdvSettings.set('traktTokenTTL', '');
-                            AdvSettings.set('traktTokenRefresh', '');
-                            defer.reject('sent back no token');
-                        }
-                    });
-                })
-                .catch(function (err) {
-                    defer.reject(err);
-                });
-            return defer.promise;
-        },
-        authorize: function () {
-            var defer = Q.defer();
-            var url = false;
-
-            var API_URI = 'https://trakt.tv';
-            var OAUTH_URI = API_URI + '/oauth/authorize?response_type=code&client_id=' + CLIENT_ID;
-
-            gui.App.addOriginAccessWhitelistEntry(API_URI, 'app', 'host', true);
-            window.loginWindow = gui.Window.open(OAUTH_URI + '&redirect_uri=' + encodeURIComponent(REDIRECT_URI), {
-                position: 'center',
-                focus: true,
-                title: 'Trakt.tv',
-                icon: 'src/app/images/icon.png',
-                toolbar: false,
-                resizable: false,
-                width: 580,
-                height: 640
-            });
-
-            window.loginWindow.on('loaded', function () {
-                url = window.loginWindow.window.document.URL;
-
-                if (url.indexOf('&') === -1 && url.indexOf('auth/signin') === -1) {
-                    if (url.indexOf('oauth/authorize/') !== -1) {
-                        url = url.split('/');
-                        url = url[url.length - 1];
-                    } else {
-                        gui.Shell.openExternal(url);
-                    }
-                    this.close(true);
-                } else {
-                    url = false;
-                }
-            });
-
-            window.loginWindow.on('closed', function () {
-                if (url) {
-                    defer.resolve(url);
-                } else {
-                    AdvSettings.set('traktToken', '');
-                    AdvSettings.set('traktTokenTTL', '');
-                    AdvSettings.set('traktTokenRefresh', '');
-                    defer.reject('Trakt window closed without exchange token');
-                }
+            trakt.get_codes().then(function(poll) {
+                $('#authTraktCode input').val(poll.user_code);
+                gui.Shell.openExternal(poll.verification_url);
+                return trakt.poll_access(poll);
+            }).then(function (auth) {
+                trakt.import_token(auth);
+                AdvSettings.set('traktToken', auth.access_token);
+                AdvSettings.set('traktTokenRefresh', auth.refresh_token);
+                AdvSettings.set('traktTokenTTL', auth.expires_in);
+                self.authenticated = true;
+                App.vent.trigger('system:traktAuthenticated');
+                defer.resolve(true);
+            }).catch(function (err) {
+                AdvSettings.set('traktToken', '');
+                AdvSettings.set('traktTokenTTL', '');
+                AdvSettings.set('traktTokenRefresh', '');
+                defer.reject(err);
             });
 
             return defer.promise;

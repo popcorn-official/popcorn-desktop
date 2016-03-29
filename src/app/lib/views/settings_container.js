@@ -386,23 +386,11 @@
                 return;
             }
 
-            $('#authTrakt > i').css('visibility', 'hidden');
-            $('.trakt-loading-spinner').show();
-
+            $('#authTrakt').hide();
+            $('#authTraktCode').show();
+            
             App.Trakt.oauth.authenticate()
-                .then(function (valid) {
-                    if (valid) {
-                        $('.trakt-loading-spinner').hide();
-                        that.render();
-                    } else {
-                        $('.trakt-loading-spinner').hide();
-                        $('#authTrakt > i').css('visibility', 'visible');
-                    }
-                }).catch(function (err) {
-                    win.debug('Trakt', err);
-                    $('#authTrakt > i').css('visibility', 'visible');
-                    $('.trakt-loading-spinner').hide();
-                });
+                .finally(that.render);
         },
 
         disconnectTrakt: function (e) {
