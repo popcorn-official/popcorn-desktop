@@ -81,8 +81,10 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'injectgit',
         'bower_clean',
-        /*'lang',*/
-        'themes',
+        /* submodules unused atm
+        'lang',
+        'themes',*/
+        'css',
         'nwjs',
         'shell:setexecutable'
     ]);
