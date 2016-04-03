@@ -44,20 +44,16 @@
         });
     }
 
-    function loadNpmProviders() {
-        return loadFromPackageJSON(/butter-provider-/, App.Providers.install);
-    }
+    function loadFromNPM(name, fn) {
+        var P = require(name);
 
-    function loadNpmSettings() {
-        return Q.all(loadFromPackageJSON(/butter-settings-/, function (settings) {
-            Settings = _.extend(Settings, settings);
-        }));
+        return Q(fn(P));
     }
 
     function loadFromPackageJSON(regex, fn) {
-        var config = require('../../package.json');
+        App.Npm = require('../../package.json');
 
-        var packages = Object.keys(config.dependencies).filter(function (p) {
+        var packages = Object.keys(App.Npm.dependencies).filter(function (p) {
             return p.match(regex);
         });
 
@@ -67,10 +63,14 @@
         });
     }
 
-    function loadFromNPM(name, fn) {
-        var P = require(name);
+    function loadNpmProviders() {
+        return loadFromPackageJSON(/butter-provider-/, App.Providers.install);
+    }
 
-        return Q(fn(P));
+    function loadNpmSettings() {
+        return Q.all(loadFromPackageJSON(/butter-settings-/, function (settings) {
+            Settings = _.extend(Settings, settings);
+        }));
     }
 
     function loadProviders() {

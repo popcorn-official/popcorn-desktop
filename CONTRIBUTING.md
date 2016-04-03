@@ -16,7 +16,7 @@ There are lots and lots of ways to get involved, this document covers:
 
 ## Report a bug
 
-If you're about to raise an issue because think you've found a problem with Butter, or you'd like to make a request
+If you're about to raise an issue because you think that you've found a problem with Butter, or you'd like to make a request
 for a new feature in the codebase, or any other reason… please read this first.
 
 The GitHub issue tracker is the preferred channel for [bug reports](#bug-reports),

@@ -214,7 +214,7 @@
         getProviderForType: function (type) {
             var provider = Settings.providers[type];
             if (typeof provider !== 'string') {
-                if (provider.uri) {
+                if (provider && provider.uri) {
                     provider = provider.uri;
                 }
             }

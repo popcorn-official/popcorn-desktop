@@ -105,55 +105,6 @@
 
             var index = 0;
 
-            if (this.searchEngine === 'KAT') {
-
-                var kat = require('kat-api');
-                kat.search({
-                    query: input,
-                    category: category
-                }).then(function (data) {
-                    win.debug('KAT search: %s results', data.results.length);
-                    data.results.forEach(function (item) {
-                        var itemModel = {
-                            title: item.title,
-                            magnet: item.magnet,
-                            seeds: item.seeds,
-                            peers: item.peers,
-                            size: Common.fileSize(parseInt(item.size)),
-                            index: index
-                        };
-
-                        that.onlineAddItem(itemModel);
-                        index++;
-                    });
-
-                    that.$('.tooltipped').tooltip({
-                        html: true,
-                        delay: {
-                            'show': 50,
-                            'hide': 50
-                        }
-                    });
-                    $('.notorrents-info,.torrents-info').hide();
-                    $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
-                    $('.onlinesearch-info').show();
-                }).catch(function (err) {
-                    win.debug('KAT search failed:', err.message);
-                    var error;
-                    if (err.message === 'No results') {
-                        error = 'No results found';
-                    } else {
-                        error = 'Failed!';
-                    }
-                    $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__(error) + '</div>');
-
-                    $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
-                    $('.notorrents-info,.torrents-info').hide();
-                    $('.onlinesearch-info').show();
-                });
-
-            } else {
-
                 var strike = require('strike-api');
                 strike.search(input, category).then(function (result) {
                     win.debug('Strike search: %s results', result.results);
@@ -195,7 +146,7 @@
                     $('.notorrents-info,.torrents-info').hide();
                     $('.onlinesearch-info').show();
                 });
-            }
+            
         },
 
         onlineAddItem: function (item) {
@@ -204,9 +155,10 @@
                 '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '"><a>' + item.title + '</a><div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="right" title="' + i18n.__('Magnet link') + '"></div><i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">' + item.size + '</i></li>'
             );
             if (item.seeds === 0) { // recalc the peers/seeds
-                var torrent = item.magnet.split('&tr')[0] + '&tr=udp://tracker.openbittorrent.com:80/announce' + '&tr=udp://9.rarbg.com:2710/announce' + '&tr=udp://tracker.coppersurfer.tk:6969' + '&tr=udp://tracker.publicbt.com:80/announce';
-                require('torrent-tracker-health')(torrent, {
-                    timeout: 1000
+                require('torrent-tracker-health')(item.magnet, {
+                    timeout: 1000,
+                    blacklist: Settings.trackers.blacklisted,
+                    force: Settings.trackers.forced
                 }).then(function (res) {
                     //console.log('torrent index %s: %s -> %s (seeds)', item.index, item.seeds, res.seeds)
                     ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;

@@ -288,7 +288,8 @@ Common.matchTorrent = function (file, torrent) {
                 .replace(/\-$/, '') // ends with '-'
                 .replace(/\s.$/, '') // ends with ' '
                 .replace(/^\./, '') // starts with '.'
-                .replace(/^\-/, ''); // starts with '-'
+                .replace(/^\-/, '') // starts with '-'
+                .toLowerCase(); // lowercase
 
             // just in case
             if (!formatted.title || formatted.title.length === 0) {
@@ -391,7 +392,7 @@ Common.matchTorrent = function (file, torrent) {
                                                 defer.resolve(result);
                                             })
                                             .catch(function (error) {
-                                                if (i === Object.keys(obj.alt_titles).length) {
+                                                if (i === Object.keys(obj.alt_titles).length + 1) {
                                                     data.error = error.message;
                                                     defer.resolve(data);
                                                 }

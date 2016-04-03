@@ -333,28 +333,23 @@
         },
 
         AddGhostsToBottomRow: function () {
-            var divsInLastRow, divsInRow, to_add;
             $('.ghost').remove();
-            divsInRow = 0;
-            $('.items .item').each(function () {
-                if ($(this).prev().length > 0) {
-                    if ($(this).position().top !== $(this).prev().position().top) {
-                        return false;
-                    }
-                    divsInRow++;
-                } else {
-                    divsInRow++;
-                }
+            var listWidth = $('.items').width();
+            var itemWidth = $('.items .item').width() + (2 * parseInt($('.items .item').css('margin')));
+            var itemsPerRow = parseInt(listWidth / itemWidth);
+            /* in case we .hide() items at some point:
+            var visibleItems = 0;
+            var hiddenItems = 0;
+            $('.item').each(function () {
+                $(this).is(':visible') ? visibleItems++ : hiddenItems++;
             });
-            divsInLastRow = $('.items .item').length % divsInRow;
-            if (divsInLastRow === 0) {
-                divsInLastRow = -Math.abs(Math.round($('.items').width() / $('.item').outerWidth(true)) - divsInRow);
-            }
-            NUM_MOVIES_IN_ROW = divsInRow;
-            to_add = divsInRow - divsInLastRow;
-            while (to_add > 0) {
+            var itemsInLastRow = visibleItems % itemsPerRow;*/
+            NUM_MOVIES_IN_ROW = itemsPerRow;
+            var itemsInLastRow = $('.items .item').length % itemsPerRow;
+            var ghostsToAdd = itemsPerRow - itemsInLastRow;
+            while (ghostsToAdd > 0) {
                 $('.items').append($('<li/>').addClass('item ghost'));
-                to_add--;
+                ghostsToAdd--;
             }
         },
         onScroll: function () {

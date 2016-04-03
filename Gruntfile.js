@@ -48,6 +48,7 @@ module.exports = function (grunt) {
     var pkgJson = grunt.file.readJSON('package.json');
     var currentVersion = pkgJson.version;
 
+	require('time-grunt')(grunt);
     require('load-grunt-tasks')(grunt);
 
     grunt.registerTask('default', [
@@ -80,8 +81,10 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'injectgit',
         'bower_clean',
-        /*'lang',*/
-        'themes',
+        /* submodules unused atm
+        'lang',
+        'themes',*/
+        'css',
         'nwjs',
         'shell:setexecutable'
     ]);
@@ -253,10 +256,10 @@ module.exports = function (grunt) {
                 cmd: 'cache/<%= nwjs.options.version %>/osx64/nwjs.app/Contents/MacOS/nwjs .'
             },
             linux32: {
-                cmd: '"build/' + projectName + '/linux32/' + projectName + '" .'
+                cmd: 'cache/<%= nwjs.options.version %>/linux32/nw .'
             },
             linux64: {
-                cmd: '"build/' + projectName + '/linux64/' + projectName + '" .'
+                cmd: 'cache/<%= nwjs.options.version %>/linux64/nw .'
             },
             codesign: {
                 cmd: 'sh dist/mac/codesign.sh || echo "Codesign failed, likely caused by not being run on mac, continuing"'

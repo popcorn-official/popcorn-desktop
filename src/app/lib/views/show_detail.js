@@ -789,14 +789,12 @@
             };
 
             if (torrent.substring(0, 8) === 'magnet:?') {
-                // if 'magnet:?' is because TVApi sends back links, not magnets
-
-                torrent = torrent.split('&tr')[0] + '&tr=udp://tracker.openbittorrent.com:80/announce' + '&tr=udp://9.rarbg.com:2710/announce' + '&tr=udp://tracker.coppersurfer.tk:6969' + '&tr=udp://tracker.publicbt.com:80/announce';
-
+                // if 'magnet:?' is because api sometimes sends back links, not magnets
                 torrentHealth(torrent, {
-                    timeout: 1000
+                    timeout: 1000,
+                    blacklist: Settings.trackers.blacklisted,
+                    force: Settings.trackers.forced
                 }).then(function (res) {
-
                     if (cancelled) {
                         return;
                     }

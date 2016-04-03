@@ -7,10 +7,6 @@
         this.ttl = ttl;
     };
 
-    CacheProvider.prototype.config = {
-        name: 'CacheProvider'
-    };
-
     // TODO: Duplicate cache entry
     CacheProvider.prototype.fetch = function (ids) {
         var self = this;

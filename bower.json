@@ -9,12 +9,12 @@
         "font-awesome": "~4.3.0"
     },
     "dependenciesIgnore": {
-        "backbone": ["**/!(backbone.js)"],
+        "backbone": ["**/!(backbone-min.js)"],
         "jquery": ["**/!(dist)"],
         "font-awesome": ["less", "scss", ".*"],
         "video.js": ["**/!(dist)"],
         "videojs-youtube": ["**/!(src)"],
-        "underscore": ["**/!(underscore.js)"],
+        "underscore": ["**/!(underscore-min.js)"],
         "mousetrap": ["tests", ".gitignore", "./*!mousetrap.min.js"],
         "marionette": ["**/!(lib)"],
         "backbone.babysitter": ["**/!(lib)"],

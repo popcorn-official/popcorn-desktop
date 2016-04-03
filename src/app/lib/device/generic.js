@@ -3,6 +3,27 @@
 
     var self;
 
+    // Supports both IPv4 and IPv6 comparison
+    var _sequentialPartsInCommon = function (ip1, ip2) {
+        var separator = (ip1.indexOf('.') > -1) ? '.' : ':';
+        var ip2Parts = ip2.split(separator),
+            partsCount = 0;
+        ip1.split(separator).every(function (ip1Part, idx) {
+            var isEqual = (ip1Part === ip2Parts[idx]);
+            if (isEqual) {
+                ++partsCount;
+                return isEqual;
+            }
+        });
+        return partsCount;
+    };
+
+    var _getClosestIP = function (ips, targetIp) {
+        return _.max(ips, function (ip) {
+            return _sequentialPartsInCommon(ip, targetIp);
+        });
+    };
+
     var Device = Backbone.Model.extend({
         defaults: {
             id: 'local',
@@ -101,27 +122,6 @@
             });
         }
     });
-
-    // Supports both IPv4 and IPv6 comparison
-    var _sequentialPartsInCommon = function (ip1, ip2) {
-        var separator = (ip1.indexOf('.') > -1) ? '.' : ':';
-        var ip2Parts = ip2.split(separator),
-            partsCount = 0;
-        ip1.split(separator).every(function (ip1Part, idx) {
-            var isEqual = (ip1Part === ip2Parts[idx]);
-            if (isEqual) {
-                ++partsCount;
-                return isEqual;
-            }
-        });
-        return partsCount;
-    };
-
-    var _getClosestIP = function (ips, targetIp) {
-        return _.max(ips, function (ip) {
-            return _sequentialPartsInCommon(ip, targetIp);
-        });
-    };
 
     var collection = new DeviceCollection(new Device());
     collection.setDevice('local');
