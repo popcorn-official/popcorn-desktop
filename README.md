@@ -24,28 +24,17 @@ The [master](https://github.com/butterproject/butter-desktop) branch which conta
 
 #### Quickstart with `npm start`:
 
-1. `npm install -g grunt-cli bower`
-2. `npm start` (this runs `npm install && grunt build && grunt start` for you)
+1. `npm install -g gulp-cli bower`
+2. `npm start` (this runs `npm install && gulp build && gulp run` for you)
 
 If you want to use the more granular control over whats getting run, use this: 
 
 #### Quickstart:
 
-1. `npm install -g grunt-cli bower`
+1. `npm install -g gulp-cli bower`
 2. `npm install`
-3. `grunt build`
-4. `grunt start`
-
-If you encounter trouble with the above method, you can try:
-
-1. `npm install -g bower grunt-cli` (Linux: you may need to run with `sudo`)
-1. `cd desktop`
-1. `npm install`
-1. `bower install`
-1. `grunt lang`
-1. `grunt nwjs`
-1. `grunt css`
-1. `grunt start`
+3. `gulp build`
+4. `gulp run`
 
 Optionally, you may simply run `./make_butter.sh` if you are on a Linux or Mac based operating system.
 

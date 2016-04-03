@@ -1,60 +1,63 @@
-var availablePlatforms = [
-    'linux32',
-    'linux64',
-    'win32',
-    'osx64'
-];
-
+/* variables */
 var nwVersion = '0.12.3';
-
+var availablePlatforms = ['linux32', 'linux64', 'win32', 'osx64'];
 
 /* gulpfile */
 var gulp = require('gulp'),
     nwBuilder = require('nw-builder'),
+    yargs = require('yargs'),
+    nib = require('nib'),
+    stylus = require('gulp-stylus'),
     currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
-    argv = require('yargs').argv,
+    pkJson = require('./package.json'),
     parsePlatforms = function () {
-        var req = argv.platforms.split(','), avail = [];
+        var req = yargs.argv.platforms.split(','), avail = [];
         for (var pl in req) {
             if (availablePlatforms.indexOf(req[pl]) !== -1) {
                 avail.push(req[pl]);
             }
         }
-        return avail;
+        return req[0] === 'all' ? availablePlatforms : avail;
     };
 
 var nw = new nwBuilder({
     files: [],
-    version: nwVersion,
-    platforms: argv.platforms ? parsePlatforms() : [currentPlatform()],
-    buildType: 'versioned',
+    zip: false,
     macIcns: './src/app/images/butter.icns',
-    quiet: true
+    version: nwVersion,
+    platforms: yargs.argv.platforms ? parsePlatforms() : [currentPlatform()],
 }).on('log', console.log);
 
-// link default task to 'build'
-gulp.task('default', ['build']);
+/* gulp tasks */
+gulp.task('default', ['run']);
+gulp.task('build', ['css', 'nwjs']);
 
-gulp.task('build', function () {
-    nw.options.files = ['./src/**', '!./src/app/styl/**',
-        './node_modules/**', '!./node_modules/bower/**',
-        '!./node_modules/*grunt*/**', '!./node_modules/stylus/**',
-        '!./node_modules/nw-gyp/**', '!./node_modules/**/*.bin',
-        '!./node_modules/**/*.c', '!./node_modules/**/*.h',
-        '!./node_modules/**/Makefile', '!./node_modules/**/*.h',
-        '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**',
-        '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**',
-        './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt',
-        './.git.json'
-    ];
+gulp.task('nwjs', function () { // download and compile nwjs
+    // required files
+    nw.options.files = ['./src/**', '!./src/app/styl/**', './node_modules/**', '!./node_modules/**/*.bin', './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt', './.git.json'];
+    // remove junk files
+    nw.options.files = nw.options.files.concat(['!./node_modules/**/*.c', '!./node_modules/**/*.h', '!./node_modules/**/Makefile', '!./node_modules/**/*.h', '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**']);
+    // remove devdeps
+    for (var dep in pkJson.devDependencies) {
+        nw.options.files = nw.options.files.concat(['!./node_modules/'+dep+'/**']);
+    }
+
     return nw.build().catch(function(error) {
         console.error(error);
     });
 });
 
-gulp.task('run', function () {
+gulp.task('run', function () { // run nwjs
     nw.options.files = './**';
     return nw.run().catch(function(error) {
         console.error(error);
     });
+});
+
+gulp.task('css', function () { // compile styl
+    return gulp.src('src/app/styl/*.styl')
+        .pipe(stylus({
+            use: nib()
+        }))
+        .pipe(gulp.dest('src/app/themes/'));
 });

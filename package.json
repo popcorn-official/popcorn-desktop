@@ -14,11 +14,10 @@
   "version": "0.3.8-5a",
   "releaseName": "There's nothing on TV",
   "scripts": {
-    "prestart": "npm install && grunt build && grunt start",
-    "postinstall": "node_modules/.bin/bower install --config.interactive=false && grunt setup",
-    "postupdate": "node_modules/.bin/bower update --config.interactive=false && grunt setup",
-    "test": "grunt --verbose",
-    "start": "nw"
+    "prestart": "npm install && gulp build && gulp run",
+    "postinstall": "node_modules/.bin/bower install --config.interactive=false",
+    "postupdate": "node_modules/.bin/bower update --config.interactive=false",
+    "start": "gulp"
   },
   "window": {
     "title": "Butter",
@@ -76,11 +75,13 @@
     "trakt.tv-ondeck": "0.x",
     "underscore": "1.x.x",
     "upnp-mediarenderer-client": "1.x.x",
-    "urijs": "1.x.x"
+    "urijs": "1.x.x",
+    "xmlbuilder": "4.1.0"
   },
   "devDependencies": {
-    "bower": "1.7.x",
-    "stylus": "0.x.x",
+    "gulp-stylus": "^2.3.1",
+    "nib": "^1.1.0",
+    "stylus": "^0.54.2",
     "gulp": "^3.9.0",
     "nw-builder": "^2.0.2",
     "yargs": "^3.31.0"
