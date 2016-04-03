@@ -14,10 +14,9 @@
   "version": "0.3.8-5a",
   "releaseName": "There's nothing on TV",
   "scripts": {
-    "prestart": "npm install && gulp build && gulp run",
-    "postinstall": "node_modules/.bin/bower install --config.interactive=false",
+    "postinstall": "node_modules/.bin/bower install --config.interactive=false && node_modules/.bin/gulp build",
     "postupdate": "node_modules/.bin/bower update --config.interactive=false",
-    "start": "gulp"
+    "start": "node_modules/.bin/gulp run"
   },
   "window": {
     "title": "Butter",
@@ -79,6 +78,7 @@
     "xmlbuilder": "4.1.0"
   },
   "devDependencies": {
+    "bower": "^1.7.7",
     "gulp-stylus": "^2.3.1",
     "nib": "^1.1.0",
     "stylus": "^0.54.2",
