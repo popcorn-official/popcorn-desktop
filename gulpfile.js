@@ -7,6 +7,7 @@ var gulp = require('gulp'),
     nwBuilder = require('nw-builder'),
     yargs = require('yargs'),
     nib = require('nib'),
+    fs = require('fs'),
     stylus = require('gulp-stylus'),
     currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
     pkJson = require('./package.json'),
@@ -30,7 +31,7 @@ var nw = new nwBuilder({
 
 /* gulp tasks */
 gulp.task('default', ['run']);
-gulp.task('build', ['css', 'nwjs']);
+gulp.task('build', ['injectgit', 'css', 'nwjs']);
 
 gulp.task('nwjs', function () { // download and compile nwjs
     // required files
@@ -45,6 +46,20 @@ gulp.task('nwjs', function () { // download and compile nwjs
     return nw.build().catch(function(error) {
         console.error(error);
     });
+});
+
+gulp.task('injectgit', function () { // create .git.json
+    try {
+        var gitBranch = fs.readdirSync('.git/refs/heads')[0],
+            currCommit = fs.readFileSync('.git/refs/heads/'+gitBranch).toString().replace('\n','');
+
+        fs.writeFileSync('.git.json', JSON.stringify({
+            branch: gitBranch,
+            commit: currCommit
+        }));
+    } catch (e) {
+        console.log(e)
+    }
 });
 
 gulp.task('run', function () { // run nwjs
