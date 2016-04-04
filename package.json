@@ -1,8 +1,8 @@
 {
   "name": "Butter",
   "companyName": "Butter Project",
-  "installIcon": "./src/app/images/butter.ico",
-  "unInstallIcon": "./src/app/images/butter_uninstall.ico",
+  "installIcon": "src/app/images/butter.ico",
+  "unInstallIcon": "src/app/images/butter_uninstall.ico",
   "homepage": "http://butterproject.org/",
   "bugs": "https://github.com/butterproject/butter-desktop/issues",
   "repository": {
@@ -14,13 +14,16 @@
   "version": "0.3.8-5a",
   "releaseName": "There's nothing on TV",
   "scripts": {
-    "postinstall": "node_modules/.bin/bower install --config.interactive=false && node_modules/.bin/gulp build",
-    "postupdate": "node_modules/.bin/bower update --config.interactive=false",
-    "start": "node_modules/.bin/gulp run"
+    "postinstall": "node_modules/.bin/bower install --config.interactive=false",
+    "postupdate": "node_modules/.bin/bower update --config.interactive=false"
+  },
+  "engines": {
+    "npm": ">= 3.0.0",
+    "node": ">= 0.12.0"  
   },
   "window": {
     "title": "Butter",
-    "icon": "./src/app/images/icon.png",
+    "icon": "src/app/images/icon.png",
     "toolbar": false,
     "frame": false,
     "min_width": 960,
@@ -80,6 +83,8 @@
   "devDependencies": {
     "bower": "^1.7.7",
     "gulp-stylus": "^2.3.1",
+    "gulp-tar": "^1.8.0",
+    "gulp-gzip": "^1.2.0",
     "nib": "^1.1.0",
     "stylus": "^0.54.2",
     "gulp": "^3.9.0",

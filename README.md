@@ -24,8 +24,10 @@ The [master](https://github.com/butterproject/butter-desktop) branch which conta
 
 #### Quickstart:
 
+    npm install -g gulp-cli
     npm install
-    npm start
+    gulp build
+    gulp run
 
 Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-butter)
 
