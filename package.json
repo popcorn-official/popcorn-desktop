@@ -90,6 +90,7 @@
         "gulp-tar": "^1.8.0",
         "gulp-gzip": "^1.2.0",
         "gulp-jshint": "^2.0.0",
+        "gulp-jsbeautifier": "^2.0.3",
         "gulp-filter": "^4.0.0",
         "nib": "^1.1.0",
         "nw-builder": "^2.0.2",

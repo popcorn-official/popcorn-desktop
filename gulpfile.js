@@ -15,6 +15,7 @@ var gulp = require('gulp'),
     filter = require('gulp-filter'),
     stylus = require('gulp-stylus'),
     jshint = require('gulp-jshint'),
+    beautify = require('gulp-jsbeautifier'),
     runSequence = require('run-sequence'),
     guppy = require('git-guppy')(gulp),
 
@@ -299,6 +300,15 @@ gulp.task('jshint', function () {
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter('default'))
         .pipe(jshint.reporter('fail'));
+});
+
+// beautify code, keep commits readable (tweak in .jsbeautifyrc)
+gulp.task('jsbeautifier', function () {
+    return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', '*.js', '*.json'])
+        .pipe(beautify({
+            config: '.jsbeautifyrc'
+        }))
+        .pipe(beautify.reporter());
 });
 
 //setexecutable?
