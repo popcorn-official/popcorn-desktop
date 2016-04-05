@@ -1,134 +1,238 @@
-/* variables */
+/************ 
+* variables *
+************/
 var nwVersion = '0.12.3';
 var availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'];
+var releasesDir = 'build';
 
-/* gulpfile */
+
+/*************** 
+* dependencies *
+***************/
 var gulp = require('gulp'),
-    nwBuilder = require('nw-builder'),
-    yargs = require('yargs'),
-    nib = require('nib'),
     tar = require('gulp-tar'),
     gzip = require('gulp-gzip'),
     stylus = require('gulp-stylus'),
+    runSequence = require('run-sequence'),
+
+    nwBuilder = require('nw-builder'),
+    currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
+
+    yargs = require('yargs'),
+    nib = require('nib'),
+
     fs = require('fs'),
     path = require('path'),
     exec = require('child_process').exec,
-    currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
-    pkJson = require('./package.json'),
-    parsePlatforms = function () {
-        var req = yargs.argv.platforms.split(','), avail = [];
+    spawn = require('child_process').spawn,
+    pkJson = require('./package.json');
+
+
+/***********
+*  custom  *
+***********/
+var parsePlatforms = function () {
+    if (yargs.argv.platforms) {
+        var req = yargs.argv.platforms.split(','),
+            avail = [];
         for (var pl in req) {
             if (availablePlatforms.indexOf(req[pl]) !== -1) {
                 avail.push(req[pl]);
             }
         }
         return req[0] === 'all' ? availablePlatforms : avail;
-    },
-    nw = new nwBuilder({
-        files: [],
-        zip: false,
-        macIcns: './src/app/images/butter.icns',
-        version: nwVersion,
-        platforms: yargs.argv.platforms ? parsePlatforms() : [currentPlatform()],
-    }).on('log', console.log);
+    } else {
+        return [currentPlatform()];
+    }
+};
 
-/* gulp tasks */
-gulp.task('default', ['run']);
-gulp.task('build', ['injectgit', 'css', 'nwjs']);
-gulp.task('dist', ['build', 'compress', 'createWinInstall']);
+var log = function () {
+    console.log.apply(console, arguments);
+};
 
-gulp.task('nwjs', function () { // download and compile nwjs
+var nw = new nwBuilder({
+    files: [],
+    zip: false,
+    macIcns: './src/app/images/butter.icns',
+    version: nwVersion,
+    platforms: parsePlatforms(),
+}).on('log', console.log);
+
+
+/************* 
+* gulp tasks *
+*************/
+// start app in development
+gulp.task('run', function() {
+    nw.options.files = './**';
+    return nw.run().catch(log);
+});
+
+// build app from sources
+gulp.task('build', function (callback) {
+    runSequence('injectgit', 'css', 'nwjs', callback);
+});
+
+// create redistribuable packages
+gulp.task('dist', function (callback) {
+    runSequence('injectgit', 'css', 'nwjs', 'compress', 'nsis', callback);
+});
+
+// download and compile nwjs
+gulp.task('nwjs', function() {
     // required files
     nw.options.files = ['./src/**', '!./src/app/styl/**', './node_modules/**', '!./node_modules/**/*.bin', './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt', './.git.json'];
     // remove junk files
     nw.options.files = nw.options.files.concat(['!./node_modules/**/*.c', '!./node_modules/**/*.h', '!./node_modules/**/Makefile', '!./node_modules/**/*.h', '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**']);
     // remove devdeps
     for (var dep in pkJson.devDependencies) {
-        nw.options.files = nw.options.files.concat(['!./node_modules/'+dep+'/**']);
+        nw.options.files = nw.options.files.concat(['!./node_modules/' + dep + '/**']);
     }
 
-    return nw.build().catch(function(error) {
-        console.error(error);
-    });
+    return nw.build().catch(log);
 });
 
-gulp.task('injectgit', function () { // create .git.json
-    try {
-        var gitBranch = fs.readdirSync('.git/refs/heads')[0],
-            currCommit = fs.readFileSync('.git/refs/heads/'+gitBranch).toString().replace('\n','');
 
-        fs.writeFileSync('.git.json', JSON.stringify({
+// create .git.json (used in 'About')
+gulp.task('injectgit', function() {
+    return new Promise(function (resolve, reject) {
+        var gitBranch, currCommit;
+
+        try {
+            gitBranch = fs.readdirSync('.git/refs/heads')[0];
+            currCommit = fs.readFileSync('.git/refs/heads/' + gitBranch).toString().replace('\n', '');
+        } catch (error) {
+            console.log(error);
+            console.log('Injectgit task failed, were sources cloned from git?');
+            return resolve();
+        }
+
+        fs.writeFile('.git.json', JSON.stringify({
             branch: gitBranch,
             commit: currCommit
-        }));
-    } catch (error) {
-        console.error(error);
-    }
-});
-
-gulp.task('run', function () { // run nwjs
-    nw.options.files = './**';
-    return nw.run().catch(function(error) {
-        console.error(error);
+        }), function (error) {
+            if (error) {
+                console.log(error);
+                console.log('Injectgit task failed, %s couldn\'t be written', path.join(process.cwd(), '.git.jon'));
+            } else {
+                console.log('Branch:', gitBranch);
+                console.log('Commit:', currCommit.substr(0,8));
+            }
+            resolve();
+        });
     });
 });
 
-gulp.task('css', function () { // compile styl
-    return gulp.src('src/app/styl/*.styl')
+// compile styl files
+gulp.task('css', function() {
+
+    var sources = 'src/app/styl/*.styl',
+        cssdest = 'src/app/themes/';
+
+    console.log('Compiling styl files in ' + path.join(process.cwd(), cssdest));
+
+    return gulp.src(sources)
         .pipe(stylus({
             use: nib()
         }))
-        .pipe(gulp.dest('src/app/themes/'));
+        .pipe(gulp.dest(cssdest));
 });
 
-gulp.task('createWinInstall', function () { // compile nsis installer
-    return Promise.all(nw.options.platforms.map(function (platform) {
-        if(platform.match(/osx|linux/) !== null) return; // nsis is for win
-        exec('makensis /DARCH=' + platform + ' dist/windows/installer_makensis.nsi || echo "Create win install failed"', function (error, stdout, stderr) {
-            console.log(stdout);
-        });
-        return;
-    })).catch(function (error) {
-        console.error(error);
-    });
+// compile nsis installer
+gulp.task('nsis', function() {
+    return Promise.all(nw.options.platforms.map(function(platform) {
 
-});
+        // nsis is for win only
+        if (platform.match(/osx|linux/) !== null) return;
 
-gulp.task('compress', function () { // package in tgz
-    return Promise.all(nw.options.platforms.map(function (platform) {
-        if (platform.indexOf('win') !== -1) return; // don't package win, use createWinInstall
-        
-        if (currentPlatform().indexOf('win') !== -1) { // compress with gulp on windows
-            return gulp.src(path.join('./build', pkJson.name, platform) + '/**')
-                .pipe(tar(pkJson.name+'-'+pkJson.version+'_'+platform+'.tar'))
-                .pipe(gzip())
-                .pipe(gulp.dest('build'));
-        } else { // compress with tar on unix*
+        return new Promise(function(resolve, reject) {
+            console.log('Packaging nsis for: %s', platform);
 
-            // using the right directory
-            var platformCwd = platform.indexOf('linux') !== -1 ? '.' : pkJson.name+'.app';
+            var child = spawn('makensis', [
+                '-DARCH=' + platform,
+                '-DOUTDIR=' + path.join(process.cwd(), releasesDir),
+                'dist/windows/installer_makensis.nsi'
+            ]);
 
-            // list of commands
-            var commands = [
-                'cd ' + path.join('./build', pkJson.name, platform),
-                'tar --exclude-vcs -c '+platformCwd+' | $(command -v pxz || command -v xz) -T8 -7 > "../../'+pkJson.name+'-'+pkJson.version+'_'+platform+'.tar.xz"',
-                'pl='+platform,
-                'echo "$pl sucessfully packaged" || echo "$pl failed to package"'
-            ].join(' && ');
-
-            exec(commands, function (error, stdout, stderr) {
-                console.log(stdout);
+            // display log only on failed build
+            var nsisLogs = [];
+            child.stdout.on('data', function (buf) {
+                nsisLogs.push(buf.toString());
             });
-            return;
-        }
 
-    })).catch(function (error) {
-        console.error(error);
-    });
+            child.on('close', function (exitCode) {
+                if (!exitCode) {
+                    console.log('%s packaged in', platform, path.join(process.cwd(), releasesDir));
+                } else {
+                    if (nsisLogs.length) {
+                        console.log(nsisLogs.join('\n'));
+                    }
+                    console.log('%s failed to package', platform);
+                }
+                resolve();
+            });
+
+            child.on('error', function (error) {
+                console.log(error);
+                console.log(platform+' failed to package');
+                resolve();
+            });
+        });
+    })).catch(log);
+});
+
+// package in tgz (win) or in xz (unix)
+gulp.task('compress', function() {
+    return Promise.all(nw.options.platforms.map(function(platform) {
+
+        // don't package win, use nsis
+        if (platform.indexOf('win') !== -1) return;
+
+        return new Promise(function(resolve, reject) {
+             console.log('Packaging tar for: %s', platform);
+
+            var sources = path.join('build', pkJson.name, platform);
+
+            // compress with gulp on windows
+            if (currentPlatform().indexOf('win') !== -1) {
+
+                return gulp.src(sources + '/**')
+                    .pipe(tar(pkJson.name + '-' + pkJson.version + '_' + platform + '.tar'))
+                    .pipe(gzip())
+                    .pipe(gulp.dest(releasesDir));
+
+            // compress with tar on unix*
+            } else {
+
+                // using the right directory
+                var platformCwd = platform.indexOf('linux') !== -1 ? '' : pkJson.name + '.app';
+
+                // list of commands
+                var commands = [
+                    'tar --exclude-vcs -c ' + path.join(sources, platformCwd) + ' | $(command -v pxz || command -v xz) -T8 -7 > "'+ path.join(releasesDir, pkJson.name + '-' + pkJson.version + '_' + platform + '.tar.xz') + '"',
+                    'echo "'+platform+' packaged in '+path.join(process.cwd(), releasesDir)+'" || echo "'+platform+' failed to package"'
+                ].join(' && ');
+
+                // TODO: use spawn, not exec
+                exec(commands, function(error, stdout, stderr) {
+                    if (error || stderr) {
+                        console.log(error || stderr);
+                        console.log('%s failed to package', platform);
+                        resolve();
+                    } else {
+                        console.log(stdout);
+                        resolve();
+                    }
+                });
+            }
+        });
+    })).catch(log);
 });
 
 //setexecutable?
 //build-deb
+//clean
+//bower_clean
 
 
 /*gulp.task('codesign', function () {

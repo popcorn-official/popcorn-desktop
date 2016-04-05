@@ -1,4 +1,4 @@
-﻿;Installer Source for NSIS 3.0 or higher
+;Installer Source for NSIS 3.0 or higher
 
 ;Enable Unicode encoding
 Unicode True
@@ -38,6 +38,15 @@ Unicode True
         !define ARCH "win32"
     !endif
 !endif
+
+; ------------------- ;
+;  OUTDIR (installer) ;
+; ------------------- ;
+;Default to ../../build if not defined by -DOUTDIR= argument
+!ifndef OUTDIR
+    !define OUTDIR "../../build"
+!endif
+
 ; ------------------- ;
 ;      Settings       ;
 ; ------------------- ;
@@ -52,7 +61,7 @@ VIAddVersionKey "FileVersion" "${APP_VERSION}"
 VIAddVersionKey "CompanyName" "${COMPANY_NAME}"
 VIAddVersionKey "LegalCopyright" "${APP_URL}"
 VIProductVersion "${APP_VERSION_CLEAN}.0"
-OutFile "../../build/${APP_NAME}-${APP_VERSION}-${ARCH}-Setup.exe"
+OutFile "${OUTDIR}/${APP_NAME}-${APP_VERSION}-${ARCH}-Setup.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 
@@ -501,4 +510,4 @@ FunctionEnd
 ; ------------------ ;
 Function finishpageaction
     CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${APP_LAUNCHER}" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME} ${APP_VERSION}"
-FunctionEnd
+FunctionEnd   
