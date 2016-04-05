@@ -129,13 +129,14 @@ gulp.task('css', function() {
     var sources = 'src/app/styl/*.styl',
         cssdest = 'src/app/themes/';
 
-    console.log('Compiling styl files in ' + path.join(process.cwd(), cssdest));
-
     return gulp.src(sources)
         .pipe(stylus({
             use: nib()
         }))
-        .pipe(gulp.dest(cssdest));
+        .pipe(gulp.dest(cssdest))
+        .on('end', function () {
+            console.log('Stylus files compiled in %s', path.join(process.cwd(), cssdest));
+        });
 });
 
 // compile nsis installer
@@ -199,7 +200,10 @@ gulp.task('compress', function() {
                 return gulp.src(sources + '/**')
                     .pipe(tar(pkJson.name + '-' + pkJson.version + '_' + platform + '.tar'))
                     .pipe(gzip())
-                    .pipe(gulp.dest(releasesDir));
+                    .pipe(gulp.dest(releasesDir))
+                    .on('end', function () {
+                        console.log('%s packaged in %s', platform, path.join(process.cwd(), releasesDir));
+                    });
 
             // compress with tar on unix*
             } else {
@@ -213,14 +217,13 @@ gulp.task('compress', function() {
                     'echo "'+platform+' packaged in '+path.join(process.cwd(), releasesDir)+'" || echo "'+platform+' failed to package"'
                 ].join(' && ');
 
-                // TODO: use spawn, not exec
                 exec(commands, function(error, stdout, stderr) {
                     if (error || stderr) {
                         console.log(error || stderr);
                         console.log('%s failed to package', platform);
                         resolve();
                     } else {
-                        console.log(stdout);
+                        console.log(stdout.replace('\n', ''));
                         resolve();
                     }
                 });
