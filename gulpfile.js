@@ -18,6 +18,7 @@ var gulp = require('gulp'),
     beautify = require('gulp-jsbeautifier'),
     runSequence = require('run-sequence'),
     guppy = require('git-guppy')(gulp),
+    del = require('del'),
 
     nwBuilder = require('nw-builder'),
     currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
@@ -307,7 +308,7 @@ gulp.task('compress', function () {
     })).catch(log);
 });
 
-// prevent commiting if conditions aren't met (bypass with `git commit -n`)
+// prevent commiting if conditions aren't met and force beautify (bypass with `git commit -n`)
 gulp.task('pre-commit', function () {
     var lintfilter = filter(['*.js'], {
             restore: true
@@ -336,7 +337,7 @@ gulp.task('pre-commit', function () {
         .pipe(gulp.dest('./'));
 });
 
-// check if sources contain potential coding issues (tweak in .jshintrc)
+// check entire sources for potential coding issues (tweak in .jshintrc)
 gulp.task('jshint', function () {
     return gulp.src(['gulpfile.js', 'src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', 'src/app/*.js'])
         .pipe(jshint('.jshintrc'))
@@ -344,7 +345,7 @@ gulp.task('jshint', function () {
         .pipe(jshint.reporter('fail'));
 });
 
-// beautify code (tweak in .jsbeautifyrc)
+// beautify entire code (tweak in .jsbeautifyrc)
 gulp.task('jsbeautifier', function () {
     return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', '*.js', '*.json'], {
             base: './'
@@ -354,6 +355,15 @@ gulp.task('jsbeautifier', function () {
         }))
         .pipe(beautify.reporter())
         .pipe(gulp.dest('./'));
+});
+
+gulp.task('clean:build', function () {
+    return del(['build', 'src/app/themes'])
+        .then(function (paths) {
+            if (paths.length) {
+                console.log('Deleted files and folders:\n'+ paths.join('\n'));
+            }
+        });
 });
 
 //setexecutable?

@@ -82,6 +82,7 @@
     },
     "devDependencies": {
         "bower": "^1.7.7",
+        "del": "^2.2.0",
         "jshint": "^2.9.1",
         "git-guppy": "^0.2.1",
         "guppy-pre-commit": "^0.3.0",
