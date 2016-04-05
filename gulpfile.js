@@ -75,7 +75,7 @@ gulp.task('build', function (callback) {
 
 // create redistribuable packages
 gulp.task('dist', function (callback) {
-    runSequence('injectgit', 'css', 'nwjs', 'compress', 'deb', 'nsis', callback);
+    runSequence('compress', 'deb', 'nsis', callback);
 });
 
 // download and compile nwjs
@@ -282,7 +282,6 @@ gulp.task('compress', function() {
 });
 
 //setexecutable?
-//build-deb
 //clean
 //bower_clean
 //jshint
