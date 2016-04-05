@@ -293,8 +293,12 @@ gulp.task('compress', function() {
 
 // prevent commiting if conditions aren't met (bypass with `git commit -n`)
 gulp.task('pre-commit', function () {
-    var lintfilter = filter(['*.js']),
-        beautifyfilter = filter(['*.js', '*.json']);
+    var lintfilter = filter(['*.js'], {
+            restore: true
+        }),
+        beautifyfilter = filter(['*.js', '*.json'], {
+            restore: true
+        });
     
     return gulp.src(guppy.src('pre-commit'), { base: './' })
         // verify lint
@@ -306,12 +310,12 @@ gulp.task('pre-commit', function () {
         // beautify
         .pipe(beautifyfilter)
         .pipe(beautify({
-            config: '.jsbeautifyrc'
+        config: '.jsbeautifyrc'
         }))
         .pipe(beautify.reporter())
         .pipe(beautifyfilter.restore)
         // commit
-        .pipe(gulp.dest('./'))
+        .pipe(gulp.dest('./'));
 });
 
 // check if sources contain potential coding issues (tweak in .jshintrc)
@@ -322,7 +326,7 @@ gulp.task('jshint', function () {
         .pipe(jshint.reporter('fail'));
 });
 
-// beautify code, keep commits readable (tweak in .jsbeautifyrc)
+// beautify code (tweak in .jsbeautifyrc)
 gulp.task('jsbeautifier', function () {
     return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', '*.js', '*.json'], { base: './' })
         .pipe(beautify({
