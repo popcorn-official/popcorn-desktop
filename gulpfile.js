@@ -1,14 +1,14 @@
 /************ 
-* variables *
-************/
+ * variables *
+ ************/
 var nwVersion = '0.12.3';
 var availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'];
 var releasesDir = 'build';
 
 
 /*************** 
-* dependencies *
-***************/
+ * dependencies *
+ ***************/
 var gulp = require('gulp'),
     tar = require('gulp-tar'),
     gzip = require('gulp-gzip'),
@@ -33,8 +33,8 @@ var gulp = require('gulp'),
 
 
 /***********
-*  custom  *
-***********/
+ *  custom  *
+ ***********/
 var parsePlatforms = function () {
     if (yargs.argv.platforms) {
         var req = yargs.argv.platforms.split(','),
@@ -64,10 +64,10 @@ var nw = new nwBuilder({
 
 
 /************* 
-* gulp tasks *
-*************/
+ * gulp tasks *
+ *************/
 // start app in development
-gulp.task('run', function() {
+gulp.task('run', function () {
     nw.options.files = './**';
     return nw.run().catch(log);
 });
@@ -83,7 +83,7 @@ gulp.task('dist', function (callback) {
 });
 
 // download and compile nwjs
-gulp.task('nwjs', function() {
+gulp.task('nwjs', function () {
     // required files
     nw.options.files = ['./src/**', '!./src/app/styl/**', './node_modules/**', '!./node_modules/**/*.bin', './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt', './.git.json'];
     // remove junk files
@@ -98,7 +98,7 @@ gulp.task('nwjs', function() {
 
 
 // create .git.json (used in 'About')
-gulp.task('injectgit', function() {
+gulp.task('injectgit', function () {
     return new Promise(function (resolve, reject) {
         var gitBranch, currCommit;
 
@@ -120,7 +120,7 @@ gulp.task('injectgit', function() {
                 console.log('Injectgit task failed, %s couldn\'t be written', path.join(process.cwd(), '.git.jon'));
             } else {
                 console.log('Branch:', gitBranch);
-                console.log('Commit:', currCommit.substr(0,8));
+                console.log('Commit:', currCommit.substr(0, 8));
             }
             resolve();
         });
@@ -128,7 +128,7 @@ gulp.task('injectgit', function() {
 });
 
 // compile styl files
-gulp.task('css', function() {
+gulp.task('css', function () {
 
     var sources = 'src/app/styl/*.styl',
         cssdest = 'src/app/themes/';
@@ -144,15 +144,15 @@ gulp.task('css', function() {
 });
 
 // compile nsis installer
-gulp.task('nsis', function() {
-    return Promise.all(nw.options.platforms.map(function(platform) {
+gulp.task('nsis', function () {
+    return Promise.all(nw.options.platforms.map(function (platform) {
 
         // nsis is for win only
         if (platform.match(/osx|linux/) !== null) {
             return;
         }
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             console.log('Packaging nsis for: %s', platform);
 
             var child = spawn('makensis', [
@@ -181,7 +181,7 @@ gulp.task('nsis', function() {
 
             child.on('error', function (error) {
                 console.log(error);
-                console.log(platform+' failed to package nsis');
+                console.log(platform + ' failed to package nsis');
                 resolve();
             });
         });
@@ -189,8 +189,8 @@ gulp.task('nsis', function() {
 });
 
 // compile debian packages
-gulp.task('deb', function() {
-    return Promise.all(nw.options.platforms.map(function(platform) {
+gulp.task('deb', function () {
+    return Promise.all(nw.options.platforms.map(function (platform) {
 
         // deb is for linux only
         if (platform.match(/osx|win/) !== null) {
@@ -201,7 +201,7 @@ gulp.task('deb', function() {
             return;
         }
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             console.log('Packaging deb for: %s', platform);
 
             var child = spawn('bash', [
@@ -232,7 +232,7 @@ gulp.task('deb', function() {
 
             child.on('error', function (error) {
                 console.log(error);
-                console.log(platform+' failed to package deb');
+                console.log(platform + ' failed to package deb');
                 resolve();
             });
         });
@@ -240,16 +240,16 @@ gulp.task('deb', function() {
 });
 
 // package in tgz (win) or in xz (unix)
-gulp.task('compress', function() {
-    return Promise.all(nw.options.platforms.map(function(platform) {
+gulp.task('compress', function () {
+    return Promise.all(nw.options.platforms.map(function (platform) {
 
         // don't package win, use nsis
         if (platform.indexOf('win') !== -1) {
             return;
         }
 
-        return new Promise(function(resolve, reject) {
-             console.log('Packaging tar for: %s', platform);
+        return new Promise(function (resolve, reject) {
+            console.log('Packaging tar for: %s', platform);
 
             var sources = path.join('build', pkJson.name, platform);
 
@@ -264,7 +264,7 @@ gulp.task('compress', function() {
                         console.log('%s tar packaged in %s', platform, path.join(process.cwd(), releasesDir));
                     });
 
-            // compress with tar on unix*
+                // compress with tar on unix*
             } else {
 
                 // using the right directory
@@ -272,11 +272,11 @@ gulp.task('compress', function() {
 
                 // list of commands
                 var commands = [
-                    'tar --exclude-vcs -c ' + path.join(sources, platformCwd) + ' | $(command -v pxz || command -v xz) -T8 -7 > "'+ path.join(releasesDir, pkJson.name + '-' + pkJson.version + '_' + platform + '.tar.xz') + '"',
-                    'echo "'+platform+' tar packaged in '+path.join(process.cwd(), releasesDir)+'" || echo "'+platform+' failed to package tar"'
+                    'tar --exclude-vcs -c ' + path.join(sources, platformCwd) + ' | $(command -v pxz || command -v xz) -T8 -7 > "' + path.join(releasesDir, pkJson.name + '-' + pkJson.version + '_' + platform + '.tar.xz') + '"',
+                    'echo "' + platform + ' tar packaged in ' + path.join(process.cwd(), releasesDir) + '" || echo "' + platform + ' failed to package tar"'
                 ].join(' && ');
 
-                exec(commands, function(error, stdout, stderr) {
+                exec(commands, function (error, stdout, stderr) {
                     if (error || stderr) {
                         console.log(error || stderr);
                         console.log('%s failed to package tar', platform);
@@ -299,8 +299,10 @@ gulp.task('pre-commit', function () {
         beautifyfilter = filter(['*.js', '*.json'], {
             restore: true
         });
-    
-    return gulp.src(guppy.src('pre-commit'), { base: './' })
+
+    return gulp.src(guppy.src('pre-commit'), {
+            base: './'
+        })
         // verify lint
         .pipe(lintfilter)
         .pipe(jshint('.jshintrc'))
@@ -310,7 +312,7 @@ gulp.task('pre-commit', function () {
         // beautify
         .pipe(beautifyfilter)
         .pipe(beautify({
-        config: '.jsbeautifyrc'
+            config: '.jsbeautifyrc'
         }))
         .pipe(beautify.reporter())
         .pipe(beautifyfilter.restore)
@@ -328,7 +330,9 @@ gulp.task('jshint', function () {
 
 // beautify code (tweak in .jsbeautifyrc)
 gulp.task('jsbeautifier', function () {
-    return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', '*.js', '*.json'], { base: './' })
+    return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', '*.js', '*.json'], {
+            base: './'
+        })
         .pipe(beautify({
             config: '.jsbeautifyrc'
         }))
@@ -336,10 +340,22 @@ gulp.task('jsbeautifier', function () {
         .pipe(gulp.dest('./'));
 });
 
+// default is help, because we can!
+gulp.task('default', function () {
+    console.log('\nBasic usage:');
+    console.log(' gulp run\tStart the application in dev mode');
+    console.log(' gulp build\tBuild the application');
+    console.log(' gulp dist\tCreate a redistribuable package');
+    console.log('\nAvailable options:');
+    console.log(' --platforms=<platform>');
+    console.log('\tArguments: '+availablePlatforms+',all');
+    console.log('\tExample:   `grunt build dist --platforms=all`');
+    console.log('\nUse `gulp --tasks` to show the task dependency tree of gulpfile.js\n');
+});
+
 //setexecutable?
 //clean
 //bower_clean
-//jsbeautifier
 
 
 /*gulp.task('codesign', function () {
