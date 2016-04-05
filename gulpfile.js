@@ -79,7 +79,20 @@ gulp.task('build', function (callback) {
 
 // create redistribuable packages
 gulp.task('dist', function (callback) {
-    runSequence('compress', 'deb', 'nsis', callback);
+    runSequence('build', 'compress', 'deb', 'nsis', callback);
+});
+
+// default is help, because we can!
+gulp.task('default', function () {
+    console.log('\nBasic usage:');
+    console.log(' gulp run\tStart the application in dev mode');
+    console.log(' gulp build\tBuild the application');
+    console.log(' gulp dist\tCreate a redistribuable package');
+    console.log('\nAvailable options:');
+    console.log(' --platforms=<platform>');
+    console.log('\tArguments: ' + availablePlatforms + ',all');
+    console.log('\tExample:   `grunt build --platforms=all`');
+    console.log('\nUse `gulp --tasks` to show the task dependency tree of gulpfile.js\n');
 });
 
 // download and compile nwjs
@@ -149,6 +162,7 @@ gulp.task('nsis', function () {
 
         // nsis is for win only
         if (platform.match(/osx|linux/) !== null) {
+            console.log('No `nsis` task for', platform);
             return;
         }
 
@@ -194,6 +208,7 @@ gulp.task('deb', function () {
 
         // deb is for linux only
         if (platform.match(/osx|win/) !== null) {
+            console.log('No `deb` task for:', platform);
             return;
         }
         if (currentPlatform().indexOf('linux') === -1) {
@@ -245,6 +260,7 @@ gulp.task('compress', function () {
 
         // don't package win, use nsis
         if (platform.indexOf('win') !== -1) {
+            console.log('No `compress` task for:', platform);
             return;
         }
 
@@ -307,7 +323,7 @@ gulp.task('pre-commit', function () {
         .pipe(lintfilter)
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter('default'))
-        .pipe(jshint.reporter('fail'))
+        .pipe(jshint.reporter('fail')) // TODO: prevent the 'throw err' message log on jshint error, it's annoying
         .pipe(lintfilter.restore)
         // beautify
         .pipe(beautifyfilter)
@@ -338,19 +354,6 @@ gulp.task('jsbeautifier', function () {
         }))
         .pipe(beautify.reporter())
         .pipe(gulp.dest('./'));
-});
-
-// default is help, because we can!
-gulp.task('default', function () {
-    console.log('\nBasic usage:');
-    console.log(' gulp run\tStart the application in dev mode');
-    console.log(' gulp build\tBuild the application');
-    console.log(' gulp dist\tCreate a redistribuable package');
-    console.log('\nAvailable options:');
-    console.log(' --platforms=<platform>');
-    console.log('\tArguments: '+availablePlatforms+',all');
-    console.log('\tExample:   `grunt build dist --platforms=all`');
-    console.log('\nUse `gulp --tasks` to show the task dependency tree of gulpfile.js\n');
 });
 
 //setexecutable?
