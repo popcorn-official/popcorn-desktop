@@ -12,7 +12,7 @@ var gulp = require('gulp'),
     stylus = require('gulp-stylus'),
     fs = require('fs'),
     path = require('path'),
-    exec = require('child_process').exec,,
+    exec = require('child_process').exec,
     currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
     pkJson = require('./package.json'),
     parsePlatforms = function () {
@@ -97,10 +97,31 @@ gulp.task('createWinInstall', function () { // compile nsis installer
 gulp.task('compress', function () { // package in tgz
     return Promise.all(nw.options.platforms.map(function (platform) {
         if (platform.indexOf('win') !== -1) return; // don't package win, use createWinInstall
-        return gulp.src(path.join('./build', pkJson.name, platform) + '/**')
-            .pipe(tar(pkJson.name+'-'+pkJson.version+'_'+platform+'.tar'))
-            .pipe(gzip())
-            .pipe(gulp.dest('build'));
+        
+        if (currentPlatform().indexOf('win') !== -1) { // compress with gulp on windows
+            return gulp.src(path.join('./build', pkJson.name, platform) + '/**')
+                .pipe(tar(pkJson.name+'-'+pkJson.version+'_'+platform+'.tar'))
+                .pipe(gzip())
+                .pipe(gulp.dest('build'));
+        } else { // compress with tar on unix*
+
+            // using the right directory
+            var platformCwd = platform.indexOf('linux') !== -1 ? '.' : pkJson.name+'.app';
+
+            // list of commands
+            var commands = [
+                'cd ' + path.join('./build', pkJson.name, platform),
+                'tar --exclude-vcs -c '+platformCwd+' | $(command -v pxz || command -v xz) -T8 -7 > "../../'+pkJson.name+'-'+pkJson.version+'_'+platform+'.tar.xz"',
+                'pl='+platform,
+                'echo "$pl sucessfully packaged" || echo "$pl failed to package"'
+            ].join(' && ');
+
+            exec(commands, function (error, stdout, stderr) {
+                console.log(stdout);
+            });
+            return;
+        }
+
     })).catch(function (error) {
         console.error(error);
     });
