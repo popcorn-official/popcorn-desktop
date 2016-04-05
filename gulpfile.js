@@ -12,8 +12,11 @@ var releasesDir = 'build';
 var gulp = require('gulp'),
     tar = require('gulp-tar'),
     gzip = require('gulp-gzip'),
+    filter = require('gulp-filter'),
     stylus = require('gulp-stylus'),
+    jshint = require('gulp-jshint'),
     runSequence = require('run-sequence'),
+    guppy = require('git-guppy')(gulp),
 
     nwBuilder = require('nw-builder'),
     currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
@@ -144,7 +147,9 @@ gulp.task('nsis', function() {
     return Promise.all(nw.options.platforms.map(function(platform) {
 
         // nsis is for win only
-        if (platform.match(/osx|linux/) !== null) return;
+        if (platform.match(/osx|linux/) !== null) {
+            return;
+        }
 
         return new Promise(function(resolve, reject) {
             console.log('Packaging nsis for: %s', platform);
@@ -187,7 +192,9 @@ gulp.task('deb', function() {
     return Promise.all(nw.options.platforms.map(function(platform) {
 
         // deb is for linux only
-        if (platform.match(/osx|win/) !== null) return;
+        if (platform.match(/osx|win/) !== null) {
+            return;
+        }
         if (currentPlatform().indexOf('linux') === -1) {
             console.log('Packaging deb is only possible on linux');
             return;
@@ -236,7 +243,9 @@ gulp.task('compress', function() {
     return Promise.all(nw.options.platforms.map(function(platform) {
 
         // don't package win, use nsis
-        if (platform.indexOf('win') !== -1) return;
+        if (platform.indexOf('win') !== -1) {
+            return;
+        }
 
         return new Promise(function(resolve, reject) {
              console.log('Packaging tar for: %s', platform);
@@ -281,10 +290,20 @@ gulp.task('compress', function() {
     })).catch(log);
 });
 
+// prevent commiting if conditions aren't met (bypass with `git commit -n`)
+gulp.task('pre-commit', ['jshint']);
+
+// check if sources contain potential coding issues (tweak in .jshintrc)
+gulp.task('jshint', function () {
+    return gulp.src(['gulpfile.js', 'src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', 'src/app/*.js'])
+        .pipe(jshint('.jshintrc'))
+        .pipe(jshint.reporter('default'))
+        .pipe(jshint.reporter('fail'));
+});
+
 //setexecutable?
 //clean
 //bower_clean
-//jshint
 //jsbeautifier
 
 
