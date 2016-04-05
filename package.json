@@ -79,7 +79,7 @@
     "urijs": "1.x.x"
   },
   "devDependencies": {
-    "bower": "1.7.x",
+    "bower": "1.7.9",
     "grunt": "0.4.5",
     "grunt-bower-clean": "0.x.x",
     "grunt-contrib-clean": "1.x.x",
