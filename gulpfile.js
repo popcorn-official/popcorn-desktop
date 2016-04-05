@@ -75,7 +75,7 @@ gulp.task('build', function (callback) {
 
 // create redistribuable packages
 gulp.task('dist', function (callback) {
-    runSequence('injectgit', 'css', 'nwjs', 'compress', 'nsis', callback);
+    runSequence('injectgit', 'css', 'nwjs', 'compress', 'deb', 'nsis', callback);
 });
 
 // download and compile nwjs
@@ -163,19 +163,68 @@ gulp.task('nsis', function() {
 
             child.on('close', function (exitCode) {
                 if (!exitCode) {
-                    console.log('%s packaged in', platform, path.join(process.cwd(), releasesDir));
+                    console.log('%s nsis packaged in', platform, path.join(process.cwd(), releasesDir));
                 } else {
                     if (nsisLogs.length) {
                         console.log(nsisLogs.join('\n'));
                     }
-                    console.log('%s failed to package', platform);
+                    console.log('%s failed to package nsis', platform);
                 }
                 resolve();
             });
 
             child.on('error', function (error) {
                 console.log(error);
-                console.log(platform+' failed to package');
+                console.log(platform+' failed to package nsis');
+                resolve();
+            });
+        });
+    })).catch(log);
+});
+
+// compile debian packages
+gulp.task('deb', function() {
+    return Promise.all(nw.options.platforms.map(function(platform) {
+
+        // deb is for linux only
+        if (platform.match(/osx|win/) !== null) return;
+        if (currentPlatform().indexOf('linux') === -1) {
+            console.log('Packaging deb is only possible on linux');
+            return;
+        }
+
+        return new Promise(function(resolve, reject) {
+            console.log('Packaging deb for: %s', platform);
+
+            var child = spawn('bash', [
+                'dist/linux/deb-maker.sh',
+                nwVersion,
+                platform,
+                pkJson.name,
+                releasesDir
+            ]);
+
+            // display log only on failed build
+            var debLogs = [];
+            child.stdout.on('data', function (buf) {
+                debLogs.push(buf.toString());
+            });
+
+            child.on('close', function (exitCode) {
+                if (!exitCode) {
+                    console.log('%s deb packaged in', platform, path.join(process.cwd(), releasesDir));
+                } else {
+                    if (debLogs.length) {
+                        console.log(debLogs.join('\n'));
+                    }
+                    console.log('%s failed to package deb', platform);
+                }
+                resolve();
+            });
+
+            child.on('error', function (error) {
+                console.log(error);
+                console.log(platform+' failed to package deb');
                 resolve();
             });
         });
@@ -202,7 +251,7 @@ gulp.task('compress', function() {
                     .pipe(gzip())
                     .pipe(gulp.dest(releasesDir))
                     .on('end', function () {
-                        console.log('%s packaged in %s', platform, path.join(process.cwd(), releasesDir));
+                        console.log('%s tar packaged in %s', platform, path.join(process.cwd(), releasesDir));
                     });
 
             // compress with tar on unix*
@@ -214,13 +263,13 @@ gulp.task('compress', function() {
                 // list of commands
                 var commands = [
                     'tar --exclude-vcs -c ' + path.join(sources, platformCwd) + ' | $(command -v pxz || command -v xz) -T8 -7 > "'+ path.join(releasesDir, pkJson.name + '-' + pkJson.version + '_' + platform + '.tar.xz') + '"',
-                    'echo "'+platform+' packaged in '+path.join(process.cwd(), releasesDir)+'" || echo "'+platform+' failed to package"'
+                    'echo "'+platform+' tar packaged in '+path.join(process.cwd(), releasesDir)+'" || echo "'+platform+' failed to package tar"'
                 ].join(' && ');
 
                 exec(commands, function(error, stdout, stderr) {
                     if (error || stderr) {
                         console.log(error || stderr);
-                        console.log('%s failed to package', platform);
+                        console.log('%s failed to package tar', platform);
                         resolve();
                     } else {
                         console.log(stdout.replace('\n', ''));
@@ -236,6 +285,8 @@ gulp.task('compress', function() {
 //build-deb
 //clean
 //bower_clean
+//jshint
+//jsbeautifier
 
 
 /*gulp.task('codesign', function () {
