@@ -292,7 +292,27 @@ gulp.task('compress', function() {
 });
 
 // prevent commiting if conditions aren't met (bypass with `git commit -n`)
-gulp.task('pre-commit', ['jshint']);
+gulp.task('pre-commit', function () {
+    var lintfilter = filter(['*.js']),
+        beautifyfilter = filter(['*.js', '*.json']);
+    
+    return gulp.src(guppy.src('pre-commit'), { base: './' })
+        // verify lint
+        .pipe(lintfilter)
+        .pipe(jshint('.jshintrc'))
+        .pipe(jshint.reporter('default'))
+        .pipe(jshint.reporter('fail'))
+        .pipe(lintfilter.restore)
+        // beautify
+        .pipe(beautifyfilter)
+        .pipe(beautify({
+            config: '.jsbeautifyrc'
+        }))
+        .pipe(beautify.reporter())
+        .pipe(beautifyfilter.restore)
+        // commit
+        .pipe(gulp.dest('./'))
+});
 
 // check if sources contain potential coding issues (tweak in .jshintrc)
 gulp.task('jshint', function () {
@@ -304,11 +324,12 @@ gulp.task('jshint', function () {
 
 // beautify code, keep commits readable (tweak in .jsbeautifyrc)
 gulp.task('jsbeautifier', function () {
-    return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', '*.js', '*.json'])
+    return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', '*.js', '*.json'], { base: './' })
         .pipe(beautify({
             config: '.jsbeautifyrc'
         }))
-        .pipe(beautify.reporter());
+        .pipe(beautify.reporter())
+        .pipe(gulp.dest('./'));
 });
 
 //setexecutable?
