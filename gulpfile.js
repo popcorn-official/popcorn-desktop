@@ -80,7 +80,7 @@ gulp.task('dist', function (callback) {
 });
 
 // clean gulp-created files
-gulp.task('clean', ['clean:dist', 'clean:build','clean:css']);
+gulp.task('clean', ['clean:dist', 'clean:build', 'clean:css']);
 
 // default is help, because we can!
 gulp.task('default', function () {
