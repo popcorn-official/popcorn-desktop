@@ -84,15 +84,17 @@ gulp.task('clean', ['clean:dist', 'clean:build', 'clean:css']);
 
 // default is help, because we can!
 gulp.task('default', function () {
-    console.log('\nBasic usage:');
-    console.log(' gulp run\tStart the application in dev mode');
-    console.log(' gulp build\tBuild the application');
-    console.log(' gulp dist\tCreate a redistribuable package');
-    console.log('\nAvailable options:');
-    console.log(' --platforms=<platform>');
-    console.log('\tArguments: ' + availablePlatforms + ',all');
-    console.log('\tExample:   `grunt build --platforms=all`');
-    console.log('\nUse `gulp --tasks` to show the task dependency tree of gulpfile.js\n');
+    console.log([
+        '\nBasic usage:',
+        ' gulp run\tStart the application in dev mode',
+        ' gulp build\tBuild the application',
+        ' gulp dist\tCreate a redistribuable package',
+        '\nAvailable options:',
+        ' --platforms=<platform>',
+        '\tArguments: ' + availablePlatforms + ',all',
+        '\tExample:   `grunt build --platforms=all`',
+        '\nUse `gulp --tasks` to show the task dependency tree of gulpfile.js\n'
+    ].join('\n'));
 });
 
 // download and compile nwjs
