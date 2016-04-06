@@ -47,7 +47,7 @@
                         'parentID': '-1',
                         'restricted': '1'
                     })
-                    .ele('dc:title', {}, 'Butter Video')
+                    .ele('dc:title', {}, streamModel.get('title'))
                     .insertAfter('res', {
                         'protocolInfo': 'http-get:*:video/mp4:*',
                         'xmlns:pv': 'http://www.pv.com/pvns/',
@@ -87,7 +87,7 @@
                         'parentID': '-1',
                         'restricted': '1'
                     })
-                    .ele('dc:title', {}, 'Butter Video')
+                    .ele('dc:title', {}, streamModel.get('title'))
                     .insertAfter('res', {
                         'protocolInfo': 'http-get:*:video/mp4:*',
                     }, url_video)
