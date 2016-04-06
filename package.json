@@ -93,6 +93,7 @@
         "gulp-jshint": "^2.0.0",
         "gulp-jsbeautifier": "^2.0.3",
         "gulp-filter": "^4.0.0",
+        "gulp-load-plugins": "^1.2.0",
         "nib": "^1.1.0",
         "nw-builder": "^2.0.2",
         "run-sequence": "^1.1.5",

@@ -10,12 +10,7 @@ var releasesDir = 'build';
  * dependencies *
  ***************/
 var gulp = require('gulp'),
-    tar = require('gulp-tar'),
-    gzip = require('gulp-gzip'),
-    filter = require('gulp-filter'),
-    stylus = require('gulp-stylus'),
-    jshint = require('gulp-jshint'),
-    beautify = require('gulp-jsbeautifier'),
+    glp = require('gulp-load-plugins')(),
     runSequence = require('run-sequence'),
     guppy = require('git-guppy')(gulp),
     del = require('del'),
@@ -57,6 +52,7 @@ var log = function () {
 
 var nw = new nwBuilder({
     files: [],
+    buildDir: releasesDir,
     zip: false,
     macIcns: './src/app/images/butter.icns',
     version: nwVersion,
@@ -82,6 +78,9 @@ gulp.task('build', function (callback) {
 gulp.task('dist', function (callback) {
     runSequence('build', 'compress', 'deb', 'nsis', callback);
 });
+
+// clean gulp-created files
+gulp.task('clean', ['clean:dist', 'clean:build','clean:css']);
 
 // default is help, because we can!
 gulp.task('default', function () {
@@ -148,7 +147,7 @@ gulp.task('css', function () {
         cssdest = 'src/app/themes/';
 
     return gulp.src(sources)
-        .pipe(stylus({
+        .pipe(glp.stylus({
             use: nib()
         }))
         .pipe(gulp.dest(cssdest))
@@ -274,8 +273,8 @@ gulp.task('compress', function () {
             if (currentPlatform().indexOf('win') !== -1) {
 
                 return gulp.src(sources + '/**')
-                    .pipe(tar(pkJson.name + '-' + pkJson.version + '_' + platform + '.tar'))
-                    .pipe(gzip())
+                    .pipe(glp.tar(pkJson.name + '-' + pkJson.version + '_' + platform + '.tar'))
+                    .pipe(glp.gzip())
                     .pipe(gulp.dest(releasesDir))
                     .on('end', function () {
                         console.log('%s tar packaged in %s', platform, path.join(process.cwd(), releasesDir));
@@ -285,11 +284,12 @@ gulp.task('compress', function () {
             } else {
 
                 // using the right directory
-                var platformCwd = platform.indexOf('linux') !== -1 ? '' : pkJson.name + '.app';
+                var platformCwd = platform.indexOf('linux') !== -1 ? '.' : pkJson.name + '.app';
 
                 // list of commands
                 var commands = [
-                    'tar --exclude-vcs -c ' + path.join(sources, platformCwd) + ' | $(command -v pxz || command -v xz) -T8 -7 > "' + path.join(releasesDir, pkJson.name + '-' + pkJson.version + '_' + platform + '.tar.xz') + '"',
+                    'cd ' + sources,
+                    'tar --exclude-vcs -c ' + platformCwd + ' | $(command -v pxz || command -v xz) -T8 -7 > "' + path.join(process.cwd(), releasesDir, pkJson.name + '-' + pkJson.version + '_' + platform + '.tar.xz') + '"',
                     'echo "' + platform + ' tar packaged in ' + path.join(process.cwd(), releasesDir) + '" || echo "' + platform + ' failed to package tar"'
                 ].join(' && ');
 
@@ -310,10 +310,10 @@ gulp.task('compress', function () {
 
 // prevent commiting if conditions aren't met and force beautify (bypass with `git commit -n`)
 gulp.task('pre-commit', function () {
-    var lintfilter = filter(['*.js'], {
+    var lintfilter = glp.filter(['*.js'], {
             restore: true
         }),
-        beautifyfilter = filter(['*.js', '*.json'], {
+        beautifyfilter = glp.filter(['*.js', '*.json'], {
             restore: true
         });
 
@@ -322,16 +322,16 @@ gulp.task('pre-commit', function () {
         })
         // verify lint
         .pipe(lintfilter)
-        .pipe(jshint('.jshintrc'))
-        .pipe(jshint.reporter('default'))
-        .pipe(jshint.reporter('fail')) // TODO: prevent the 'throw err' message log on jshint error, it's annoying
+        .pipe(glp.jshint('.jshintrc'))
+        .pipe(glp.jshint.reporter('default'))
+        .pipe(glp.jshint.reporter('fail')) // TODO: prevent the 'throw err' message log on jshint error, it's annoying
         .pipe(lintfilter.restore)
         // beautify
         .pipe(beautifyfilter)
-        .pipe(beautify({
+        .pipe(glp.jsbeautifier({
             config: '.jsbeautifyrc'
         }))
-        .pipe(beautify.reporter())
+        .pipe(glp.jsbeautifier.reporter())
         .pipe(beautifyfilter.restore)
         // commit
         .pipe(gulp.dest('./'));
@@ -340,9 +340,9 @@ gulp.task('pre-commit', function () {
 // check entire sources for potential coding issues (tweak in .jshintrc)
 gulp.task('jshint', function () {
     return gulp.src(['gulpfile.js', 'src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', 'src/app/*.js'])
-        .pipe(jshint('.jshintrc'))
-        .pipe(jshint.reporter('default'))
-        .pipe(jshint.reporter('fail'));
+        .pipe(glp.jshint('.jshintrc'))
+        .pipe(glp.jshint.reporter('default'))
+        .pipe(glp.jshint.reporter('fail'));
 });
 
 // beautify entire code (tweak in .jsbeautifyrc)
@@ -350,18 +350,45 @@ gulp.task('jsbeautifier', function () {
     return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', '*.js', '*.json'], {
             base: './'
         })
-        .pipe(beautify({
+        .pipe(glp.jsbeautifier({
             config: '.jsbeautifyrc'
         }))
-        .pipe(beautify.reporter())
+        .pipe(glp.jsbeautifier.reporter())
         .pipe(gulp.dest('./'));
 });
 
+// clean build files (nwjs)
 gulp.task('clean:build', function () {
-    return del(['build', 'src/app/themes'])
+    return del([path.join(releasesDir, pkJson.name)])
         .then(function (paths) {
             if (paths.length) {
-                console.log('Deleted files and folders:\n'+ paths.join('\n'));
+                console.log('Deleted build files:\n' + paths.join('\n'));
+            } else {
+                console.log('Nothing to delete');
+            }
+        });
+});
+
+// clean dist files (dist)
+gulp.task('clean:dist', function () {
+    return del([path.join(releasesDir, '*.*')])
+        .then(function (paths) {
+            if (paths.length) {
+                console.log('Deleted distribuables:\n' + paths.join('\n'));
+            } else {
+                console.log('Nothing to delete');
+            }
+        });
+});
+
+// clean compiled css
+gulp.task('clean:css', function () {
+    return del(['src/app/themes'])
+        .then(function (paths) {
+            if (paths.length) {
+                console.log('Deleted css files:\n' + paths.join('\n'));
+            } else {
+                console.log('Nothing to delete');
             }
         });
 });
