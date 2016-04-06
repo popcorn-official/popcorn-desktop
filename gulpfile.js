@@ -46,6 +46,26 @@ var parsePlatforms = function () {
     }
 };
 
+var parseReqDeps = function () {
+    return new Promise(function (resolve, reject) {
+        var depList = [];
+        var child = spawn('npm', ['ls', '--production=true', '--parseable=true']);
+        child.stdout.on('data', function (buf) {
+            depList = buf.toString().split('\n').filter(function (n) {
+                // remove empty or soon-to-be empty
+                return n.replace(process.cwd().toString(), '');
+            });
+        });
+        child.on('close', function (exitCode) {
+            return Promise.all(depList.map(function (str) {
+                // format for nw-builder
+                return str.replace(process.cwd().toString(), '.') + '/**';
+            })).then(resolve);
+        });
+        child.on('error', reject);
+    });
+};
+
 var log = function () {
     console.log.apply(console, arguments);
 };
@@ -99,16 +119,16 @@ gulp.task('default', function () {
 
 // download and compile nwjs
 gulp.task('nwjs', function () {
-    // required files
-    nw.options.files = ['./src/**', '!./src/app/styl/**', './node_modules/**', '!./node_modules/**/*.bin', './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt', './.git.json'];
-    // remove junk files
-    nw.options.files = nw.options.files.concat(['!./node_modules/**/*.c', '!./node_modules/**/*.h', '!./node_modules/**/Makefile', '!./node_modules/**/*.h', '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**']);
-    // remove devdeps
-    for (var dep in pkJson.devDependencies) {
-        nw.options.files = nw.options.files.concat(['!./node_modules/' + dep + '/**']);
-    }
+    return parseReqDeps().then(function (requiredDeps) {
+        // required files
+        nw.options.files = ['./src/**', '!./src/app/styl/**', './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt', './.git.json'];
+        // add node_modules
+        nw.options.files = nw.options.files.concat(requiredDeps);
+        // remove junk files
+        nw.options.files = nw.options.files.concat(['!./node_modules/**/*.bin', '!./node_modules/**/*.c', '!./node_modules/**/*.h', '!./node_modules/**/Makefile', '!./node_modules/**/*.h', '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**']);
 
-    return nw.build().catch(log);
+        return nw.build();
+    }).catch(log);
 });
 
 

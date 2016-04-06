@@ -18,8 +18,8 @@
         "postupdate": "node_modules/.bin/bower update --config.interactive=false"
     },
     "engines": {
-        "npm": ">= 3.0.0",
-        "node": ">= 0.12.0"
+        "npm": ">=3.0.0",
+        "node": ">=0.12.0"
     },
     "window": {
         "title": "Butter",
