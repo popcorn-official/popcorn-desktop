@@ -27,6 +27,7 @@
     "loopfunc" : true,
     "indent"   : 4,
     "newcap"   : false,
+    "esversion" : 6,
 
     // Globals
     "globals": {
