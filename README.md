@@ -22,32 +22,12 @@ After you clone the GitHub repository, you will need to build a number of assets
 
 The [master](https://github.com/butterproject/butter-desktop) branch which contains the latest release.
 
-#### Quickstart with `npm start`:
-
-1. `npm install -g grunt-cli bower`
-2. `npm start` (this runs `npm install && grunt build && grunt start` for you)
-
-If you want to use the more granular control over whats getting run, use this: 
-
 #### Quickstart:
 
-1. `npm install -g grunt-cli bower`
-2. `npm install`
-3. `grunt build`
-4. `grunt start`
-
-If you encounter trouble with the above method, you can try:
-
-1. `npm install -g bower grunt-cli` (Linux: you may need to run with `sudo`)
-1. `cd desktop`
-1. `npm install`
-1. `bower install`
-1. `grunt lang`
-1. `grunt nwjs`
-1. `grunt css`
-1. `grunt start`
-
-Optionally, you may simply run `./make_butter.sh` if you are on a Linux or Mac based operating system.
+    npm install -g gulp-cli
+    npm install
+    gulp build
+    gulp run
 
 Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-butter)
 

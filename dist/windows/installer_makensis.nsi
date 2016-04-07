@@ -1,4 +1,3 @@
-;Butter
 ;Installer Source for NSIS 3.0 or higher
 
 ;Enable Unicode encoding
@@ -8,47 +7,30 @@ Unicode True
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
 
-;Detect paths style
-!if /fileexists "../../package.json"
-    ;Unix-style paths detected!
-    !define UNIX_PATHS
-!endif
-
 ; ------------------- ;
-;  Parse Gruntfile.js ;
-; ------------------- ;
-!searchparse /file "..\..\Gruntfile.js" "version: '" APP_NW "',"
-
-; ------------------- ;
-; Parse package.json  ;
+;  Parse package.json ;
 ; ------------------- ;
 !searchparse /file "..\..\package.json" '"name": "' APP_NAME '",'
 !searchreplace APP_NAME "${APP_NAME}" "-" " "
 !searchparse /file "..\..\package.json" '"companyName": "' COMPANY_NAME '",'
-!searchparse /file "..\..\package.json" '"version": "' BT_VERSION '",'
-!searchreplace BT_VERSION_CLEAN "${BT_VERSION}" "-" ".0"
+!searchparse /file "..\..\package.json" '"version": "' APP_VERSION '",'
+!searchreplace APP_VERSION_CLEAN "${APP_VERSION}" "-" ".0"
 !searchparse /file "..\..\package.json" '"homepage": "' APP_URL '",'
 !searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '",'
 
-!searchparse /file "..\..\package.json" '"installIcon": "' MUI_ICON '",'
-!searchreplace MUI_ICON_LOCAL_PATH "${MUI_ICON}" "/" "\"
-!searchreplace MUI_ICON "${MUI_ICON_LOCAL_PATH}" "./" "..\..\"
-!searchreplace MUI_ICON_LOCAL_PATH "${MUI_ICON_LOCAL_PATH}" ".\" ""
-
-!searchparse /file "..\..\package.json" '"unInstallIcon": "' MUI_UNICON '",'
-!searchreplace MUI_UNICON_LOCAL_PATH "${MUI_UNICON}" "/" "\"
-!searchreplace MUI_UNICON "${MUI_UNICON_LOCAL_PATH}" "./" "..\..\"
-!searchreplace MUI_UNICON_LOCAL_PATH "${MUI_UNICON_LOCAL_PATH}" ".\" ""
-
-!searchparse /file "..\..\package.json" '"icon": "' MUI_UI_HEADERIMAGE_RIGHT '",'
-!searchreplace MUI_UI_HEADERIMAGE_RIGHT "${MUI_UI_HEADERIMAGE_RIGHT}" "./" "..\..\"
-!searchreplace MUI_UI_HEADERIMAGE_RIGHT "${MUI_UI_HEADERIMAGE_RIGHT}" "/" "\"
+!searchparse /file "..\..\package.json" '"installIcon": "' _MUI_ICON '",'
+!searchparse /file "..\..\package.json" '"unInstallIcon": "' _MUI_UNICON '",'
+!searchparse /file "..\..\package.json" '"icon": "' HEADERIMAGE_RIGHT '",'
+!define MUI_ICON "..\..\${_MUI_ICON}"
+!define MUI_UNICON "..\..\${_MUI_UNICON}"
+!define MUI_UI_HEADERIMAGE_RIGHT="..\..\${HEADERIMAGE_RIGHT}"
+!searchreplace MUI_ICON_LOCAL_PATH "${_MUI_ICON}" "/" "\"
+!searchreplace MUI_UNICON_LOCAL_PATH "${_MUI_UNICON}" "/" "\"
 
 ; ------------------- ;
 ;    Architecture     ;
 ; ------------------- ;
-;Default to detected platform build if 
-;not defined by -DARCH= argument
+;Default to detected platform build if not defined by -DARCH= argument
 !ifndef ARCH
     !if /fileexists "..\..\build\${APP_NAME}\win64\*.*"
         !define ARCH "win64"
@@ -58,20 +40,28 @@ Unicode True
 !endif
 
 ; ------------------- ;
+;  OUTDIR (installer) ;
+; ------------------- ;
+;Default to ../../build if not defined by -DOUTDIR= argument
+!ifndef OUTDIR
+    !define OUTDIR "../../build"
+!endif
+
+; ------------------- ;
 ;      Settings       ;
 ; ------------------- ;
 ;General Settings
 Name "${APP_NAME}"
-Caption "${APP_NAME} ${BT_VERSION}"
-BrandingText "${APP_NAME} ${BT_VERSION}"
+Caption "${APP_NAME} ${APP_VERSION}"
+BrandingText "${APP_NAME} ${APP_VERSION}"
 VIAddVersionKey "ProductName" "${APP_NAME}"
-VIAddVersionKey "ProductVersion" "${BT_VERSION}"
-VIAddVersionKey "FileDescription" "${APP_NAME} ${BT_VERSION} Installer"
-VIAddVersionKey "FileVersion" "${BT_VERSION}"
+VIAddVersionKey "ProductVersion" "${APP_VERSION}"
+VIAddVersionKey "FileDescription" "${APP_NAME} ${APP_VERSION} Installer"
+VIAddVersionKey "FileVersion" "${APP_VERSION}"
 VIAddVersionKey "CompanyName" "${COMPANY_NAME}"
 VIAddVersionKey "LegalCopyright" "${APP_URL}"
-VIProductVersion "${BT_VERSION_CLEAN}.0"
-OutFile "${APP_NAME}-${BT_VERSION}-${ARCH}-Setup.exe"
+VIProductVersion "${APP_VERSION_CLEAN}.0"
+OutFile "${OUTDIR}/${APP_NAME}-${APP_VERSION}-${ARCH}-Setup.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 
@@ -93,7 +83,7 @@ RequestExecutionLevel user
 !define MUI_ABORTWARNING
 !define MUI_FINISHPAGE_LINK "${APP_URL}"
 !define MUI_FINISHPAGE_LINK_LOCATION "${APP_URL}"
-!define MUI_FINISHPAGE_RUN "$INSTDIR\nw.exe"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\${APP_LAUNCHER}"
 !define MUI_FINISHPAGE_SHOWREADME ""
 !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
 !define MUI_FINISHPAGE_SHOWREADME_TEXT "$(desktopShortcut)"
@@ -168,7 +158,7 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Welsh"
 
 ; ------------------- ;
-;    Localisation     ;
+;    Localization     ;
 ; ------------------- ;
 LangString removeDataFolder ${LANG_ENGLISH} "Remove all databases and configuration files?"
 LangString removeDataFolder ${LANG_Afrikaans} "Alle databasisse en opset lêers verwyder?" 
@@ -230,7 +220,7 @@ LangString noRoot ${LANG_Afrikaans} "Jy kan nie ${APP_NAME} installeer in 'n gid
 LangString noRoot ${LANG_Albanian} "Ju nuk mund të instaloni ${APP_NAME} në një directory që kërkon lejet e administratorit"
 LangString noRoot ${LANG_Arabic} " لا يمكنك تثبيت ${APP_NAME} في مجلد يتطلب صلاحيات مدير"
 LangString noRoot ${LANG_Belarusian} "Вы не можаце ўсталяваць ${APP_NAME} ў каталогу, які патрабуе правоў адміністратара"
-LangString noRoot ${LANG_Bosnian} "Nemoguće instalirati ${APP_NAME} u direktorij koji zahtjeva administrativnu dozvolu"
+LangString noRoot ${LANG_Bosnian} "Nemoguće instalirati ${APP_NAME} u direktorij koji zahtjeva administrativnu dozvolu" 
 LangString noRoot ${LANG_Bulgarian} "Не може да инсталирате ${APP_NAME} в директория, изискваща администраторски права"
 LangString noRoot ${LANG_Catalan} "No es pot instal·lar ${APP_NAME} en un directori que requereix permisos d'administrador"
 LangString noRoot ${LANG_Croatian} "Nemoguće instalirati ${APP_NAME} u mapi koja zahtjeva administrativnu dozvolu"
@@ -238,12 +228,12 @@ LangString noRoot ${LANG_Czech} "Nemůžete nainstalovat ${APP_NAME} do složky,
 LangString noRoot ${LANG_Danish} "${APP_NAME} kan ikke installeres til denne sti, da det kræver administratorrettigheder"
 LangString noRoot ${LANG_Dutch} "${APP_NAME} kan niet worden geïnstalleerd in een map die beheerdersrechten vereist"
 LangString noRoot ${LANG_Esperanto} "Vi ne povas instali ${APP_NAME} en dosierujo kiu postulas administranto permesojn"
-LangString noRoot ${LANG_Estonian} "${APP_NAME}`i ei ole võimalik installida kataloogi mis nõuab administraatori õiguseid"
+LangString noRoot ${LANG_Estonian} "${APP_NAME}`i ei ole võimalik installida kataloogi mis nõuab administraatori õiguseid" 
 LangString noRoot ${LANG_Farsi} "در یک دایرکتوری که نیاز به مجوز مدیر نصب ${APP_NAME}  کنید شما می توانید "
 LangString noRoot ${LANG_Finnish} "Et voi asentaa ${APP_NAME} hakemistossa, joka vaatii järjestelmänvalvojan oikeudet"
 LangString noRoot ${LANG_French} "${APP_NAME} ne peut être installé dans un répertoire nécessitant un accès administrateur"
 LangString noRoot ${LANG_Galician} "${APP_NAME} non se pode instalar nun directorio que requira permisos de administrador"
-LangString noRoot ${LANG_German} "${APP_NAME} kann nicht in einem Ordner installiert werden für den Administratorrechte benötigt werden"
+LangString noRoot ${LANG_German} "${APP_NAME} kann nicht in einem Ordner installiert werden für den Administratorrechte benötigt werden" 
 LangString noRoot ${LANG_Greek} "Δεν μπορείτε να εγκαταστήσετε το ${APP_NAME} σε ένα φάκελο που απαιτεί δικαιώματα διαχειριστή"
 LangString noRoot ${LANG_Hebrew} "אין באפשרותכם להתקין את ${APP_NAME} בתיקייה שדורשת הרשאות מנהל"
 LangString noRoot ${LANG_Hungarian} "A ${APP_NAME} nem telepíthető olyan mappába, amely adminisztrátori hozzáférést igényel"
@@ -259,7 +249,7 @@ LangString noRoot ${LANG_Macedonian} "Не можете да инсталира�
 LangString noRoot ${LANG_Malay} "Anda tidak boleh memasang ${APP_NAME} dalam direktori yang memerlukan keizinan pentadbir"
 LangString noRoot ${LANG_Mongolian} "Та администратор зөвшөөрөл шаарддаг сан дахь ${APP_NAME} суулгаж чадахгүй байгаа"
 LangString noRoot ${LANG_Norwegian} "${APP_NAME} kan ikke installeres i en mappe som krever administratorrettigheter"
-LangString noRoot ${LANG_NorwegianNynorsk} "${APP_NAME} kan ikke installeres i en mappe som krever administratorrettigheter"
+LangString noRoot ${LANG_NorwegianNynorsk} "${APP_NAME} kan ikke installeres i en mappe som krever administratorrettigheter" 
 LangString noRoot ${LANG_Polish} "Nie można zainstalować ${APP_NAME} w katalogu wymagającym uprawnień administratora"
 LangString noRoot ${LANG_Portuguese} "Não é possível instalar o ${APP_NAME} numa pasta que requer permissões administrativas"
 LangString noRoot ${LANG_PortugueseBR} "${APP_NAME} não poderá ser instalado em um diretório que requer permissões de administrador"
@@ -365,72 +355,37 @@ Function .onInit ; check for previous version
     done:
 FunctionEnd
 
-; ------------------- ;
-;  Node Webkit Files  ;
-; ------------------- ;
+; ----------- ;
+;  App Files  ;
+; ----------- ;
 Section
+
+    ;Save DB
+    CreateDirectory "$TEMP\app_DT"
+    CreateDirectory "$TEMP\app_TC"
+    CopyFiles "$INSTDIR\data\*.*" "$TEMP\app_DT"
+    CopyFiles "$INSTDIR\TorrentCollection\*.*" "$TEMP\app_TC"
+
     ;Delete existing install
-    RMDir /r "\\?\$INSTDIR"
+    RMDir /r "$INSTDIR"
+
+    CreateDirectory "$INSTDIR"
+    CreateDirectory "$INSTDIR\data"
+    CreateDirectory "$INSTDIR\TorrentCollection"
+    CopyFiles "$TEMP\app_DT\*.*" "$INSTDIR\data"
+    CopyFiles "$TEMP\app_TC\*.*" "$INSTDIR\TorrentCollection"
+    RMDir /r "$TEMP\app_DT"
+    RMDir /r "$TEMP\app_TC"
+
+    ;Set output path to InstallDir
+    SetOutPath "$INSTDIR"
     
-    ;Delete cache
-    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\Cache"
-    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\GPUCache"
-    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\databases"
-    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\Local Storage"
-
-    ;Set output path to InstallDir
-    SetOutPath "\\?\$INSTDIR"
-
     ;Add the files
-    File "..\..\cache\${APP_NW}\${ARCH}\*.dll"
-    File "..\..\cache\${APP_NW}\${ARCH}\nw.exe"
-    File "..\..\cache\${APP_NW}\${ARCH}\nw.pak"
-    File /r "..\..\cache\${APP_NW}\${ARCH}\locales"
-    File /nonfatal "..\..\cache\${APP_NW}\${ARCH}\*.dat"
-SectionEnd
-
-; ------------------- ;
-;      App Files      ;
-; ------------------- ;
-Section
-    ;Set output path to InstallDir
-    SetOutPath "\\?\$INSTDIR\src\app"
-
-    ;Add the files
-    File /r "..\..\src\app\css"
-    File /r "..\..\src\app\fonts"
-    File /r "..\..\src\app\images"
-    File /r "..\..\src\app\language"
-    File /r "..\..\src\app\lib"
-    File /r "..\..\src\app\templates"
-    File /r "..\..\src/app\themes"
-    File /r /x ".*" /x "test*" /x "example*" "..\..\src\app\vendor"
-    File "..\..\src\app\index.html"
-    File "..\..\src\app\*.js"
-    File /oname=License.txt "LICENSE.txt"
-
-    ;Set output path to InstallDir
-    SetOutPath "\\?\$INSTDIR"
-
-    ;Add the files
-    File "..\..\package.json"
-    File "..\..\build\${APP_NAME}\${ARCH}\${APP_LAUNCHER}"
-    File "..\..\CHANGELOG.md"
-    File /nonfatal "..\..\.git.json"
-
-    ;Set output path to InstallDir
-    SetOutPath "\\?\$INSTDIR\node_modules"
-
-    ;Add the files
-    !ifdef UNIX_PATHS
-        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "../../node_modules/*.*"
-    !else
-        !searchreplace node_modules ${__FILEDIR__} "\dist\windows" "\node_modules"
-        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "\\?\${node_modules}\*.*"
-    !endif
+    File /r "..\..\build\${APP_NAME}\${ARCH}\*"
 
     ;Create uninstaller
-    WriteUninstaller "\\?\$INSTDIR\Uninstall.exe"
+    WriteUninstaller "$INSTDIR\Uninstall.exe"
+
 SectionEnd
 
 ; ------------------- ;
@@ -438,13 +393,13 @@ SectionEnd
 ; ------------------- ;
 Section
     ;Working Directory
-    SetOutPath "\\?\$INSTDIR"
+    SetOutPath "$INSTDIR"
 
     ;Start Menu Shortcut
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     CreateDirectory "$SMPROGRAMS\${APP_NAME}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME} ${BT_VERSION}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "Uninstall ${APP_NAME}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\${APP_LAUNCHER}" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME} ${APP_VERSION}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\${MUI_UNICON_LOCAL_PATH}" "" "" "" "Uninstall ${APP_NAME}"
 
     ;Desktop Shortcut
     Delete "$DESKTOP\${APP_NAME}.lnk"
@@ -454,17 +409,17 @@ Section
     IntFmt $0 "0x%08X" $0
     WriteRegDWORD HKCU "${UNINSTALL_KEY}" "EstimatedSize" "$0"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayVersion" "${BT_VERSION}"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayVersion" "${APP_VERSION}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\${MUI_ICON_LOCAL_PATH}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "${COMPANY_NAME}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallString" "$INSTDIR"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "URLInfoAbout" "${APP_URL}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.butterproject.org"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "${APP_URL}"
 
     ;File association
-    WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}" "FriendlyAppName" "${APP_NAME}"
-    WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}\shell\open\command" "" '"$INSTDIR\${APP_LAUNCHER}" "%1"'
+    WriteRegStr HKCU "Software\Classes\Applications\${APP_NAME}" "FriendlyAppName" "${APP_NAME}"
+    WriteRegStr HKCU "Software\Classes\Applications\${APP_NAME}\shell\open\command" "" '"$INSTDIR\${APP_LAUNCHER}" "%1"'
 
     ;Refresh shell icons
     System::Call "shell32::SHChangeNotify(i,i,i,i) (0x08000000, 0x1000, 0, 0)"
@@ -475,7 +430,7 @@ SectionEnd
 ; ------------------- ;
 Section "uninstall" 
     Call un.isRunning
-    RMDir /r "\\?\$INSTDIR"
+    RMDir /r "$INSTDIR"
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     Delete "$DESKTOP\${APP_NAME}.lnk"
     
@@ -483,8 +438,7 @@ Section "uninstall"
         RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
     NoUninstallData:
         DeleteRegKey HKCU "${UNINSTALL_KEY}"
-        DeleteRegKey HKCU "Software\Chromium" ;workaround for NW leftovers
-        DeleteRegKey HKCU "Software\Classes\Applications\${APP_LAUNCHER}" ;file association
+        DeleteRegKey HKCU "Software\Classes\Applications\${APP_NAME}" ;file association
 SectionEnd
 
 ; ------------------- ;
@@ -555,5 +509,5 @@ FunctionEnd
 ;  Desktop Shortcut  ;
 ; ------------------ ;
 Function finishpageaction
-    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME} ${BT_VERSION}"
-FunctionEnd
+    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${APP_LAUNCHER}" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME} ${APP_VERSION}"
+FunctionEnd   
