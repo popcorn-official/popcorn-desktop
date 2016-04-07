@@ -32,18 +32,19 @@ var gulp = require('gulp'),
  *  custom  *
  ***********/
 var parsePlatforms = function () {
-    if (yargs.argv.platforms) {
-        var req = yargs.argv.platforms.split(','),
-            avail = [];
-        for (var pl in req) {
-            if (availablePlatforms.indexOf(req[pl]) !== -1) {
-                avail.push(req[pl]);
-            }
-        }
-        return req[0] === 'all' ? availablePlatforms : avail;
-    } else {
+    if (! yargs.argv.platforms) {
         return [currentPlatform()];
+
     }
+
+    var req = yargs.argv.platforms.split(','),
+        avail = [];
+    for (var pl in req) {
+        if (availablePlatforms.indexOf(req[pl]) !== -1) {
+            avail.push(req[pl]);
+        }
+    }
+    return req[0] === 'all' ? availablePlatforms : avail;
 };
 
 var parseReqDeps = function () {
