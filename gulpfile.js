@@ -49,7 +49,8 @@ var parsePlatforms = function () {
 var parseReqDeps = function () {
     return new Promise(function (resolve, reject) {
         var depList = [];
-        var child = spawn('npm', ['ls', '--production=true', '--parseable=true']);
+        var npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+        var child = spawn(npm, ['ls', '--production=true', '--parseable=true']);
         child.stdout.on('data', function (buf) {
             depList = buf.toString().split('\n').filter(function (n) {
                 // remove empty or soon-to-be empty
@@ -180,6 +181,8 @@ gulp.task('css', function () {
 
 // compile nsis installer
 gulp.task('nsis', function () {
+    var makensis = process.platform === 'win32' ? 'makensis.exe' : 'makensis';
+
     return Promise.all(nw.options.platforms.map(function (platform) {
 
         // nsis is for win only
@@ -191,7 +194,7 @@ gulp.task('nsis', function () {
         return new Promise(function (resolve, reject) {
             console.log('Packaging nsis for: %s', platform);
 
-            var child = spawn('makensis', [
+            var child = spawn(makensis, [
                 '-DARCH=' + platform,
                 '-DOUTDIR=' + path.join(process.cwd(), releasesDir),
                 'dist/windows/installer_makensis.nsi'
