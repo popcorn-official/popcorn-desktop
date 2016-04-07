@@ -1,8 +1,8 @@
 /************ 
  * variables *
  ************/
-var nwVersion = '0.12.3';
-var availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'];
+var nwVersion = '0.12.2';
+var availablePlatforms = ['linux32', 'linux64', 'win32', 'osx32'];
 var releasesDir = 'build';
 
 
@@ -32,18 +32,29 @@ var gulp = require('gulp'),
  *  custom  *
  ***********/
 var parsePlatforms = () => {
-    if (!yargs.argv.platforms) {
-        return [currentPlatform()];
+    var platforms = yargs.argv.platforms || currentPlatform();
 
-    }
-
-    var req = yargs.argv.platforms.split(','),
+    var req = platforms.split(','),
         avail = [];
     for (var pl in req) {
         if (availablePlatforms.indexOf(req[pl]) !== -1) {
             avail.push(req[pl]);
         }
     }
+
+    // for osx and win, 32-bits works on 64, if needed
+    if (availablePlatforms.indexOf('win64') === -1 && req.indexOf('win64') !== -1) {
+        avail.push('win32');
+    }
+    if (availablePlatforms.indexOf('osx64') === -1  && req.indexOf('osx64') !== -1) {
+        avail.push('osx32');
+    }
+
+    // remove duplicates
+    avail.filter((item, pos) => {
+        return avail.indexOf(item) === pos;
+    });
+
     return req[0] === 'all' ? availablePlatforms : avail;
 };
 
@@ -79,6 +90,7 @@ var nw = new nwBuilder({
     macIcns: './src/app/images/butter.icns',
     version: nwVersion,
     platforms: parsePlatforms(),
+    downloadUrl: 'https://raw.githubusercontent.com/butterproject/nwjs-prebuilt/master/'
 }).on('log', console.log);
 
 
