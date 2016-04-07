@@ -32,18 +32,19 @@ var gulp = require('gulp'),
  *  custom  *
  ***********/
 var parsePlatforms = function () {
-    if (yargs.argv.platforms) {
-        var req = yargs.argv.platforms.split(','),
-            avail = [];
-        for (var pl in req) {
-            if (availablePlatforms.indexOf(req[pl]) !== -1) {
-                avail.push(req[pl]);
-            }
-        }
-        return req[0] === 'all' ? availablePlatforms : avail;
-    } else {
+    if (!yargs.argv.platforms) {
         return [currentPlatform()];
+
     }
+
+    var req = yargs.argv.platforms.split(','),
+        avail = [];
+    for (var pl in req) {
+        if (availablePlatforms.indexOf(req[pl]) !== -1) {
+            avail.push(req[pl]);
+        }
+    }
+    return req[0] === 'all' ? availablePlatforms : avail;
 };
 
 var parseReqDeps = function () {
@@ -188,7 +189,7 @@ gulp.task('nsis', function () {
         // nsis is for win only
         if (platform.match(/osx|linux/) !== null) {
             console.log('No `nsis` task for', platform);
-            return;
+            return null;
         }
 
         return new Promise(function (resolve, reject) {
@@ -234,11 +235,11 @@ gulp.task('deb', function () {
         // deb is for linux only
         if (platform.match(/osx|win/) !== null) {
             console.log('No `deb` task for:', platform);
-            return;
+            return null;
         }
         if (currentPlatform().indexOf('linux') === -1) {
             console.log('Packaging deb is only possible on linux');
-            return;
+            return null;
         }
 
         return new Promise(function (resolve, reject) {
@@ -286,7 +287,7 @@ gulp.task('compress', function () {
         // don't package win, use nsis
         if (platform.indexOf('win') !== -1) {
             console.log('No `compress` task for:', platform);
-            return;
+            return null;
         }
 
         return new Promise(function (resolve, reject) {
