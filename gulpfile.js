@@ -386,31 +386,31 @@ gulp.task('jsbeautifier', () => {
 var logDeleted = what => (
     paths => {
         paths.length ?
-            console.log('Deleted ',what, ':\n', paths.join('\n')) :
+            console.log('Deleted ', what, ':\n', paths.join('\n')) :
             console.log('Nothing to delete');
     }
 );
 
 var deleteAndLog = (path, what) => (
     () => (
-         del(path)
-             .then(logDeleted(what))
+        del(path)
+        .then(logDeleted(what))
     )
 );
 
 // clean build files (nwjs)
 gulp.task('clean:build',
-          deleteAndLog([path.join(releasesDir, pkJson.name)], 'build files' )
+    deleteAndLog([path.join(releasesDir, pkJson.name)], 'build files')
 );
 
 // clean dist files (dist)
 gulp.task('clean:dist',
-          deleteAndLog([path.join(releasesDir, '*.*')], 'distribuables')
+    deleteAndLog([path.join(releasesDir, '*.*')], 'distribuables')
 );
 
 // clean compiled css
 gulp.task('clean:css',
-          deleteAndLog(['src/app/themes'], 'css files')
+    deleteAndLog(['src/app/themes'], 'css files')
 );
 
 //setexecutable?
