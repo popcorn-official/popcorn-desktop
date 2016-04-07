@@ -31,7 +31,7 @@ var gulp = require('gulp'),
 /***********
  *  custom  *
  ***********/
-var parsePlatforms = () =>  {
+var parsePlatforms = () => {
     if (!yargs.argv.platforms) {
         return [currentPlatform()];
 
@@ -59,7 +59,7 @@ var parseReqDeps = () => {
             });
         });
         child.on('close', (exitCode) => {
-            return Promise.all(depList.map((str) =>{
+            return Promise.all(depList.map((str) => {
                 // format for nw-builder
                 return str.replace(process.cwd().toString(), '.') + '/**';
             })).then(resolve);
@@ -383,41 +383,35 @@ gulp.task('jsbeautifier', () => {
         .pipe(gulp.dest('./'));
 });
 
+var logDeleted = what => (
+    paths => {
+        paths.length ?
+            console.log('Deleted ',what, ':\n', paths.join('\n')) :
+            console.log('Nothing to delete');
+    }
+);
+
+var deleteAndLog = (path, what) => (
+    () => (
+         del(path)
+             .then(logDeleted(what))
+    )
+);
+
 // clean build files (nwjs)
-gulp.task('clean:build', () => {
-    return del([path.join(releasesDir, pkJson.name)])
-        .then((paths) => {
-            if (paths.length) {
-                console.log('Deleted build files:\n' + paths.join('\n'));
-            } else {
-                console.log('Nothing to delete');
-            }
-        });
-});
+gulp.task('clean:build',
+          deleteAndLog([path.join(releasesDir, pkJson.name)], 'build files' )
+);
 
 // clean dist files (dist)
-gulp.task('clean:dist', () => {
-    return del([path.join(releasesDir, '*.*')])
-        .then((paths) => {
-            if (paths.length) {
-                console.log('Deleted distribuables:\n' + paths.join('\n'));
-            } else {
-                console.log('Nothing to delete');
-            }
-        });
-});
+gulp.task('clean:dist',
+          deleteAndLog([path.join(releasesDir, '*.*')], 'distribuables')
+);
 
 // clean compiled css
-gulp.task('clean:css', () => {
-    return del(['src/app/themes'])
-        .then((paths) => {
-            if (paths.length) {
-                console.log('Deleted css files:\n' + paths.join('\n'));
-            } else {
-                console.log('Nothing to delete');
-            }
-        });
-});
+gulp.task('clean:css',
+          deleteAndLog(['src/app/themes'], 'css files')
+);
 
 //setexecutable?
 //clean
