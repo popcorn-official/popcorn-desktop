@@ -32,7 +32,7 @@ var gulp = require('gulp'),
  *  custom  *
  ***********/
 var parsePlatforms = function () {
-    if (! yargs.argv.platforms) {
+    if (!yargs.argv.platforms) {
         return [currentPlatform()];
 
     }
