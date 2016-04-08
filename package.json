@@ -85,7 +85,7 @@
         "bower": "^1.7.7",
         "del": "^2.2.0",
         "jshint": "^2.9.1",
-        "git-guppy": "^1.1.0",
+        "jshint-stylish": "^2.1.0",
         "git-rev": "^0.2.1",
         "gulp": "^3.9.0",
         "gulp-stylus": "^2.3.1",
