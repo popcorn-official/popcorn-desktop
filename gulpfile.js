@@ -199,7 +199,6 @@ gulp.task('injectgit', () => {
 
 // compile styl files
 gulp.task('css', () => {
-
     const sources = 'src/app/styl/*.styl',
         dest = 'src/app/themes/';
 
@@ -215,8 +214,6 @@ gulp.task('css', () => {
 
 // compile nsis installer
 gulp.task('nsis', () => {
-    const makensis = process.platform === 'win32' ? 'makensis.exe' : 'makensis';
-
     return Promise.all(nw.options.platforms.map((platform) => {
 
         // nsis is for win only
@@ -227,6 +224,9 @@ gulp.task('nsis', () => {
 
         return new Promise((resolve, reject) => {
             console.log('Packaging nsis for: %s', platform);
+
+            // spawn isn't exec
+            const makensis = process.platform === 'win32' ? 'makensis.exe' : 'makensis';
 
             const child = spawn(makensis, [
                 '-DARCH=' + platform,
@@ -262,6 +262,7 @@ gulp.task('nsis', () => {
 });
 
 // compile debian packages
+// TODO: https://www.npmjs.com/package/nobin-debian-installer
 gulp.task('deb', () => {
     return Promise.all(nw.options.platforms.map((platform) => {
 
@@ -372,12 +373,8 @@ gulp.task('compress', () => {
 
 // prevent commiting if conditions aren't met and force beautify (bypass with `git commit -n`)
 gulp.task('pre-commit', () => {
-    const lintfilter = glp.filter(['*.js'], {
-            restore: true
-        }),
-        beautifyfilter = glp.filter(['*.js', '*.json'], {
-            restore: true
-        });
+    const lintfilter = glp.filter(['*.js'], {restore: true}),
+        beautifyfilter = glp.filter(['*.js', '*.json'], {restore: true});
 
     return gulp.src(guppy.src('pre-commit'), {
             base: './'
@@ -434,11 +431,11 @@ gulp.task('clean:css',
     deleteAndLog(['src/app/themes'], 'css files')
 );
 
+//TODO:
 //setexecutable?
-//clean
 //bower_clean
 
-
+//TODO: test and tweak
 /*gulp.task('codesign', () => {
     exec('sh dist/mac/codesign.sh || echo "Codesign failed, likely caused by not being run on mac, continuing"', (error, stdout, stderr) => {
         console.log(stdout);
