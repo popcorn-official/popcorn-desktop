@@ -284,6 +284,7 @@ gulp.task('deb', () => {
                 nwVersion,
                 platform,
                 pkJson.name,
+                pkJson.version,
                 releasesDir
             ]);
 

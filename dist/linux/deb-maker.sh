@@ -1,12 +1,13 @@
 #!/bin/bash
 # launch 'deb-maker.sh <nw version> <platform> <app-name> <destination>'
-# 'deb-maker.sh 0.12.1 linux32 MyApplication build' for example
+# 'deb-maker.sh 0.12.1 linux32 MyApplication 0.0.1 build' for example
 
 nw=$1
 arch=$2
 projectName=$3
 name=${projectName,,} #tolowercase
-builddir=$4
+version=$4
+builddir=$5
 if [[ $arch == *"32"* ]]; then
   real_arch="i386"
 else
@@ -14,7 +15,6 @@ else
 fi
 cwd="$builddir/tmp-deb-$arch"
 read -n 9 revision <<< ` git log -1 --pretty=oneline`
-version=$(sed -n 's|\s*\"version\"\:\ \"\(.*\)\"\,|\1|p' package.json)
 package_name=${name}_${version}-${revision}_${real_arch}
 
 ### RESET
@@ -158,9 +158,9 @@ rm -rf $cwd
 }
 
 
-if [ -e /usr/bin/fakeroot ] && [ "$5" != "--fakeroot" ]; then
+if [ -e /usr/bin/fakeroot ] && [ "$6" != "--fakeroot" ]; then
 	echo "'fakeroot' was found on the machine"
-	fakeroot bash $0 $1 $2 $3 $4 --fakeroot
+	fakeroot bash $0 $1 $2 $3 $4 $5 --fakeroot
 else
 	build_pt
 fi
