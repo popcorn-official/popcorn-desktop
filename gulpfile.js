@@ -380,12 +380,7 @@ gulp.task('compress', () => {
 
 // prevent commiting if conditions aren't met and force beautify (bypass with `git commit -n`)
 gulp.task('pre-commit', () => {
-    const lintfilter = glp.filter(['*.js'], {
-            restore: true
-        }),
-        beautifyfilter = glp.filter(['*.js', '*.json'], {
-            restore: true
-        });
+    const lintfilter = glp.filter(['*.js']);
 
     return gulp.src(guppy.src('pre-commit'), {
             base: './'
@@ -395,14 +390,6 @@ gulp.task('pre-commit', () => {
         .pipe(glp.jshint('.jshintrc'))
         .pipe(glp.jshint.reporter('default'))
         .pipe(glp.jshint.reporter('fail')) // TODO: prevent the 'throw err' message log on jshint error, it's annoying
-        .pipe(lintfilter.restore)
-        // beautify
-        .pipe(beautifyfilter)
-        .pipe(glp.jsbeautifier({
-            config: '.jsbeautifyrc'
-        }))
-        .pipe(glp.jsbeautifier.reporter())
-        .pipe(beautifyfilter.restore)
         // commit
         .pipe(gulp.dest('./'));
 });
