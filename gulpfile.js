@@ -14,7 +14,6 @@ const nwVersion = '0.12.2',
 const gulp = require('gulp'),
     glp = require('gulp-load-plugins')(),
     runSequence = require('run-sequence'),
-    guppy = require('git-guppy')(gulp),
     del = require('del'),
 
     nwBuilder = require('nw-builder'),
@@ -379,26 +378,13 @@ gulp.task('compress', () => {
 });
 
 // prevent commiting if conditions aren't met and force beautify (bypass with `git commit -n`)
-gulp.task('pre-commit', () => {
-    const lintfilter = glp.filter(['*.js']);
-
-    return gulp.src(guppy.src('pre-commit'), {
-            base: './'
-        })
-        // verify lint
-        .pipe(lintfilter)
-        .pipe(glp.jshint('.jshintrc'))
-        .pipe(glp.jshint.reporter('default'))
-        .pipe(glp.jshint.reporter('fail')) // TODO: prevent the 'throw err' message log on jshint error, it's annoying
-        // commit
-        .pipe(gulp.dest('./'));
-});
+gulp.task('pre-commit', ['jshint']);
 
 // check entire sources for potential coding issues (tweak in .jshintrc)
 gulp.task('jshint', () => {
     return gulp.src(['gulpfile.js', 'src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', 'src/app/*.js'])
         .pipe(glp.jshint('.jshintrc'))
-        .pipe(glp.jshint.reporter('default'))
+        .pipe(glp.jshint.reporter('jshint-stylish'))
         .pipe(glp.jshint.reporter('fail'));
 });
 
