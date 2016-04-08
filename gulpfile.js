@@ -149,10 +149,6 @@ function promiseCallback(fn) {
 // create .git.json (used in 'About')
 gulp.task('injectgit', () => {
     return Promise.all([promiseCallback(git.branch), promiseCallback(git.long)])
-        .then(gitInfo => ({
-            branch: gitInfo[0],
-            commit: gitInfo[1]
-        }))
         .then(gitInfo => (
             new Promise((resolve, reject) => {
                 fs.writeFile('.git.json', JSON.stringify({
@@ -170,8 +166,8 @@ gulp.task('injectgit', () => {
             })
         ))
         .then(gitInfo => {
-            console.log('Branch:', gitInfo.branch);
-            console.log('Commit:', gitInfo.commit.substr(0, 8));
+            console.log('Branch:', gitInfo[0]);
+            console.log('Commit:', gitInfo[1].substr(0, 8));
         })
         .catch(e => {
             console.error('ignoring error in inject git');
