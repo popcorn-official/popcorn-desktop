@@ -99,6 +99,6 @@
         "nw-builder": "^2.0.2",
         "run-sequence": "^1.1.5",
         "stylus": "^0.54.2",
-        "yargs": "^3.31.0"
+        "yargs": "^4.4.0"
     }
 }

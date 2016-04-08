@@ -1,8 +1,10 @@
 language: node_js
 node_js:
   - "4"
-before_install: npm install -g gulp-cli
-after_success : gulp dist
+before_install: 
+  - if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
+  - npm install -g gulp-cli
+after_success : gulp build
 notifications:
   email: true
   irc: "chat.freenode.net#butterdev"
