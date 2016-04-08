@@ -33,6 +33,7 @@ const gulp = require('gulp'),
 /***********
  *  custom  *
  ***********/
+// returns an array of platforms that should be built
 const parsePlatforms = () => {
     const requestedPlatforms = (yargs.argv.platforms || currentPlatform()).split(','),
         validPlatforms = [];
@@ -59,6 +60,7 @@ const parsePlatforms = () => {
     return requestedPlatforms[0] === 'all' ? availablePlatforms : validPlatforms;
 };
 
+// returns an array of paths with the node_modules to include in builds
 const parseReqDeps = () => {
     return new Promise((resolve, reject) => {
         exec('npm ls --production=true --parseable=true', (error, stdout, stderr) => {
@@ -85,24 +87,23 @@ const parseReqDeps = () => {
     });
 };
 
+// console.log for thenable promises
 const log = () => {
     console.log.apply(console, arguments);
 };
 
-const logDeleted = what => (
-    paths => {
-        paths.length ?
-            console.log('Deleted ', what, ':\n', paths.join('\n')) :
-            console.log('Nothing to delete');
-    }
-);
-
+// del wrapper for `clean` tasks
 const deleteAndLog = (path, what) => (
     () => (
-        del(path).then(logDeleted(what))
+        del(path).then(paths => {
+            paths.length ?
+                console.log('Deleted', what, ':\n', paths.join('\n')) :
+                console.log('Nothing to delete');
+        })
     )
 );
 
+// nw-builder configuration
 const nw = new nwBuilder({
     files: [],
     buildDir: releasesDir,
