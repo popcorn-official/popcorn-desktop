@@ -99,10 +99,9 @@ function promiseCallback(fn) {
     let args = Array.prototype.slice.call(arguments, 1);
     return new Promise((resolve, reject) => {
         fn.apply(this, args.concat([res => {
-            if (res) {
-                return resolve(res);
-            }
-            return reject(res);
+            return res ?
+                resolve(res) :
+                reject(res);
         }]));
     });
 }
@@ -191,7 +190,7 @@ gulp.task('injectgit', () => {
                 commit: gitInfo[1]
             }), (error) => {
                 return error ?
-                    reject(error):
+                    reject(error) :
                     resolve(gitInfo);
             });
         })
