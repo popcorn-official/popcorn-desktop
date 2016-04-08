@@ -6,5 +6,5 @@ before_install:
   - npm install -g gulp-cli
 after_success : gulp build
 notifications:
-  email: true
+  email: false
   irc: "chat.freenode.net#butterdev"
