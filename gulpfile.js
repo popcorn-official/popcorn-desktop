@@ -374,8 +374,12 @@ gulp.task('compress', () => {
 
 // prevent commiting if conditions aren't met and force beautify (bypass with `git commit -n`)
 gulp.task('pre-commit', () => {
-    const lintfilter = glp.filter(['*.js'], {restore: true}),
-        beautifyfilter = glp.filter(['*.js', '*.json'], {restore: true});
+    const lintfilter = glp.filter(['*.js'], {
+            restore: true
+        }),
+        beautifyfilter = glp.filter(['*.js', '*.json'], {
+            restore: true
+        });
 
     return gulp.src(guppy.src('pre-commit'), {
             base: './'
@@ -431,6 +435,11 @@ gulp.task('clean:dist',
 gulp.task('clean:css',
     deleteAndLog(['src/app/themes'], 'css files')
 );
+
+// travis tests
+gulp.task('test', (callback) => {
+    runSequence('jshint', 'injectgit', 'css', callback);
+});
 
 //TODO:
 //setexecutable?
