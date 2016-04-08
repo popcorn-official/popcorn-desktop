@@ -133,15 +133,17 @@ gulp.task('nwjs', () => {
     }).catch(log);
 });
 
-function promiseCallback (fn) {
+function promiseCallback(fn) {
     //XXX(xaiki): use ES6 rest params for much cleaner code...
-    var args =  Array.prototype.slice.call(arguments, 1);
-    return new Promise ((resolve, reject) => {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return new Promise((resolve, reject) => {
         fn.apply(this, args.concat([res => {
-            if (res) return resolve(res);
+            if (res) {
+                return resolve(res);
+            }
             return reject(res);
-        }]))
-    })
+        }]));
+    });
 }
 
 // create .git.json (used in 'About')
@@ -152,18 +154,18 @@ gulp.task('injectgit', () => {
             commit: gitInfo[1]
         }))
         .then(gitInfo => (
-            new Promise ((resolve, reject) => {
+            new Promise((resolve, reject) => {
                 fs.writeFile('.git.json', JSON.stringify({
                     branch: gitInfo[0],
                     commit: gitInfo[1]
                 }), (error) => {
                     if (error) {
-                        return reject ({
-                            msg: 'Injectgit task failed, %s couldn\'t be written ' +  path.join(process.cwd() + '.git.json'),
+                        return reject({
+                            msg: 'Injectgit task failed, %s couldn\'t be written ' + path.join(process.cwd() + '.git.json'),
                             err: error
-                        })
+                        });
                     }
-                    return resolve (gitInfo);
+                    return resolve(gitInfo);
                 });
             })
         ))
@@ -172,9 +174,9 @@ gulp.task('injectgit', () => {
             console.log('Commit:', gitInfo.commit.substr(0, 8));
         })
         .catch(e => {
-            console.error ('ignoring error in inject git');
-            console.error ('got', e.msg, e.err);
-        })
+            console.error('ignoring error in inject git');
+            console.error('got', e.msg, e.err);
+        });
 });
 
 // compile styl files
