@@ -1,15 +1,17 @@
-/************ 
- * variables *
- ************/
-var nwVersion = '0.12.2';
-var availablePlatforms = ['linux32', 'linux64', 'win32', 'osx32'];
-var releasesDir = 'build';
+'use strict';
+
+/******** 
+ * setup *
+ ********/
+const nwVersion = '0.12.2',
+    availablePlatforms = ['linux32', 'linux64', 'win32', 'osx32'],
+    releasesDir = 'build';
 
 
 /*************** 
  * dependencies *
  ***************/
-var gulp = require('gulp'),
+const gulp = require('gulp'),
     glp = require('gulp-load-plugins')(),
     runSequence = require('run-sequence'),
     guppy = require('git-guppy')(gulp),
@@ -31,59 +33,77 @@ var gulp = require('gulp'),
 /***********
  *  custom  *
  ***********/
-var parsePlatforms = () => {
-    var platforms = yargs.argv.platforms || currentPlatform();
+const parsePlatforms = () => {
+    const requestedPlatforms = (yargs.argv.platforms || currentPlatform()).split(','),
+        validPlatforms = [];
 
-    var req = platforms.split(','),
-        avail = [];
-    for (var pl in req) {
-        if (availablePlatforms.indexOf(req[pl]) !== -1) {
-            avail.push(req[pl]);
+    for (let i in requestedPlatforms) {
+        if (availablePlatforms.indexOf(requestedPlatforms[i]) !== -1) {
+            validPlatforms.push(requestedPlatforms[i]);
         }
     }
 
     // for osx and win, 32-bits works on 64, if needed
-    if (availablePlatforms.indexOf('win64') === -1 && req.indexOf('win64') !== -1) {
-        avail.push('win32');
+    if (availablePlatforms.indexOf('win64') === -1 && requestedPlatforms.indexOf('win64') !== -1) {
+        validPlatforms.push('win32');
     }
-    if (availablePlatforms.indexOf('osx64') === -1  && req.indexOf('osx64') !== -1) {
-        avail.push('osx32');
+    if (availablePlatforms.indexOf('osx64') === -1 && requestedPlatforms.indexOf('osx64') !== -1) {
+        validPlatforms.push('osx32');
     }
 
     // remove duplicates
-    avail.filter((item, pos) => {
-        return avail.indexOf(item) === pos;
+    validPlatforms.filter((item, pos) => {
+        return validPlatforms.indexOf(item) === pos;
     });
 
-    return req[0] === 'all' ? availablePlatforms : avail;
+    return requestedPlatforms[0] === 'all' ? availablePlatforms : validPlatforms;
 };
 
-var parseReqDeps = () => {
+const parseReqDeps = () => {
     return new Promise((resolve, reject) => {
-        var depList = [];
-        var npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-        var child = spawn(npm, ['ls', '--production=true', '--parseable=true']);
-        child.stdout.on('data', (buf) => {
-            depList = buf.toString().split('\n').filter((n) => {
+        exec('npm ls --production=true --parseable=true', (error, stdout, stderr) => {
+            if (error || stderr) {
+                reject(error || stderr);
+            } else {
+                // build array
+                let npmList = stdout.split('\n');
+
                 // remove empty or soon-to-be empty
-                return n.replace(process.cwd().toString(), '');
-            });
-        });
-        child.on('close', (exitCode) => {
-            return Promise.all(depList.map((str) => {
+                npmList = npmList.filter((line) => {
+                    return line.replace(process.cwd().toString(), '');
+                });
+
                 // format for nw-builder
-                return str.replace(process.cwd().toString(), '.') + '/**';
-            })).then(resolve);
+                npmList = npmList.map((line) => {
+                    return line.replace(process.cwd(), '.') + '/**';
+                });
+
+                // return
+                resolve(npmList);
+            }
         });
-        child.on('error', reject);
     });
 };
 
-var log = () => {
+const log = () => {
     console.log.apply(console, arguments);
 };
 
-var nw = new nwBuilder({
+const logDeleted = what => (
+    paths => {
+        paths.length ?
+            console.log('Deleted ', what, ':\n', paths.join('\n')) :
+            console.log('Nothing to delete');
+    }
+);
+
+const deleteAndLog = (path, what) => (
+    () => (
+        del(path).then(logDeleted(what))
+    )
+);
+
+const nw = new nwBuilder({
     files: [],
     buildDir: releasesDir,
     zip: false,
@@ -149,7 +169,7 @@ gulp.task('nwjs', () => {
 // create .git.json (used in 'About')
 gulp.task('injectgit', () => {
     return new Promise((resolve, reject) => {
-        var gitBranch, currCommit;
+        let gitBranch, currCommit;
 
         try {
             gitBranch = fs.readdirSync('.git/refs/heads')[0];
@@ -179,22 +199,22 @@ gulp.task('injectgit', () => {
 // compile styl files
 gulp.task('css', () => {
 
-    var sources = 'src/app/styl/*.styl',
-        cssdest = 'src/app/themes/';
+    const sources = 'src/app/styl/*.styl',
+        dest = 'src/app/themes/';
 
     return gulp.src(sources)
         .pipe(glp.stylus({
             use: nib()
         }))
-        .pipe(gulp.dest(cssdest))
+        .pipe(gulp.dest(dest))
         .on('end', () => {
-            console.log('Stylus files compiled in %s', path.join(process.cwd(), cssdest));
+            console.log('Stylus files compiled in %s', path.join(process.cwd(), dest));
         });
 });
 
 // compile nsis installer
 gulp.task('nsis', () => {
-    var makensis = process.platform === 'win32' ? 'makensis.exe' : 'makensis';
+    const makensis = process.platform === 'win32' ? 'makensis.exe' : 'makensis';
 
     return Promise.all(nw.options.platforms.map((platform) => {
 
@@ -207,14 +227,14 @@ gulp.task('nsis', () => {
         return new Promise((resolve, reject) => {
             console.log('Packaging nsis for: %s', platform);
 
-            var child = spawn(makensis, [
+            const child = spawn(makensis, [
                 '-DARCH=' + platform,
                 '-DOUTDIR=' + path.join(process.cwd(), releasesDir),
                 'dist/windows/installer_makensis.nsi'
             ]);
 
             // display log only on failed build
-            var nsisLogs = [];
+            const nsisLogs = [];
             child.stdout.on('data', (buf) => {
                 nsisLogs.push(buf.toString());
             });
@@ -257,7 +277,7 @@ gulp.task('deb', () => {
         return new Promise((resolve, reject) => {
             console.log('Packaging deb for: %s', platform);
 
-            var child = spawn('bash', [
+            const child = spawn('bash', [
                 'dist/linux/deb-maker.sh',
                 nwVersion,
                 platform,
@@ -266,8 +286,11 @@ gulp.task('deb', () => {
             ]);
 
             // display log only on failed build
-            var debLogs = [];
+            const debLogs = [];
             child.stdout.on('data', (buf) => {
+                debLogs.push(buf.toString());
+            });
+            child.stderr.on('data', (buf) => {
                 debLogs.push(buf.toString());
             });
 
@@ -285,7 +308,7 @@ gulp.task('deb', () => {
 
             child.on('error', (error) => {
                 console.log(error);
-                console.log(platform + ' failed to package deb');
+                console.log('%s failed to package deb', platform);
                 resolve();
             });
         });
@@ -305,7 +328,7 @@ gulp.task('compress', () => {
         return new Promise((resolve, reject) => {
             console.log('Packaging tar for: %s', platform);
 
-            var sources = path.join('build', pkJson.name, platform);
+            const sources = path.join('build', pkJson.name, platform);
 
             // compress with gulp on windows
             if (currentPlatform().indexOf('win') !== -1) {
@@ -322,10 +345,10 @@ gulp.task('compress', () => {
             } else {
 
                 // using the right directory
-                var platformCwd = platform.indexOf('linux') !== -1 ? '.' : pkJson.name + '.app';
+                const platformCwd = platform.indexOf('linux') !== -1 ? '.' : pkJson.name + '.app';
 
                 // list of commands
-                var commands = [
+                const commands = [
                     'cd ' + sources,
                     'tar --exclude-vcs -c ' + platformCwd + ' | $(command -v pxz || command -v xz) -T8 -7 > "' + path.join(process.cwd(), releasesDir, pkJson.name + '-' + pkJson.version + '_' + platform + '.tar.xz') + '"',
                     'echo "' + platform + ' tar packaged in ' + path.join(process.cwd(), releasesDir) + '" || echo "' + platform + ' failed to package tar"'
@@ -348,7 +371,7 @@ gulp.task('compress', () => {
 
 // prevent commiting if conditions aren't met and force beautify (bypass with `git commit -n`)
 gulp.task('pre-commit', () => {
-    var lintfilter = glp.filter(['*.js'], {
+    const lintfilter = glp.filter(['*.js'], {
             restore: true
         }),
         beautifyfilter = glp.filter(['*.js', '*.json'], {
@@ -394,21 +417,6 @@ gulp.task('jsbeautifier', () => {
         .pipe(glp.jsbeautifier.reporter())
         .pipe(gulp.dest('./'));
 });
-
-var logDeleted = what => (
-    paths => {
-        paths.length ?
-            console.log('Deleted ', what, ':\n', paths.join('\n')) :
-            console.log('Nothing to delete');
-    }
-);
-
-var deleteAndLog = (path, what) => (
-    () => (
-        del(path)
-        .then(logDeleted(what))
-    )
-);
 
 // clean build files (nwjs)
 gulp.task('clean:build',
