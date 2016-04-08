@@ -22,6 +22,7 @@ const gulp = require('gulp'),
 
     yargs = require('yargs'),
     nib = require('nib'),
+    git = require('git-rev'),
 
     fs = require('fs'),
     path = require('path'),
@@ -91,6 +92,20 @@ const parseReqDeps = () => {
 const log = () => {
     console.log.apply(console, arguments);
 };
+
+// handle callbacks
+function promiseCallback(fn) {
+    // use ES6 rest params for much cleaner code
+    let args = Array.prototype.slice.call(arguments, 1);
+    return new Promise((resolve, reject) => {
+        fn.apply(this, args.concat([res => {
+            if (res) {
+                return resolve(res);
+            }
+            return reject(res);
+        }]));
+    });
+}
 
 // del wrapper for `clean` tasks
 const deleteAndLog = (path, what) => (
@@ -169,31 +184,23 @@ gulp.task('nwjs', () => {
 
 // create .git.json (used in 'About')
 gulp.task('injectgit', () => {
-    return new Promise((resolve, reject) => {
-        let gitBranch, currCommit;
-
-        try {
-            gitBranch = fs.readdirSync('.git/refs/heads')[0];
-            currCommit = fs.readFileSync('.git/refs/heads/' + gitBranch).toString().replace('\n', '');
-        } catch (error) {
-            console.log(error);
-            console.log('Injectgit task failed, were sources cloned from git?');
-            return resolve();
-        }
-
-        fs.writeFile('.git.json', JSON.stringify({
-            branch: gitBranch,
-            commit: currCommit
-        }), (error) => {
-            if (error) {
-                console.log(error);
-                console.log('Injectgit task failed, %s couldn\'t be written', path.join(process.cwd(), '.git.jon'));
-            } else {
-                console.log('Branch:', gitBranch);
-                console.log('Commit:', currCommit.substr(0, 8));
-            }
-            resolve();
-        });
+    return Promise.all([promiseCallback(git.branch), promiseCallback(git.long)]).then(gitInfo => (
+        new Promise((resolve, reject) => {
+            fs.writeFile('.git.json', JSON.stringify({
+                branch: gitInfo[0],
+                commit: gitInfo[1]
+            }), (error) => {
+                return error ?
+                    reject(error):
+                    resolve(gitInfo);
+            });
+        })
+    )).then(gitInfo => {
+        console.log('Branch:', gitInfo[0]);
+        console.log('Commit:', gitInfo[1].substr(0, 8));
+    }).catch(error => {
+        console.log(error);
+        console.log('Injectgit task failed');
     });
 });
 
