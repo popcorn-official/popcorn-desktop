@@ -82,7 +82,7 @@
         "xmlbuilder": "4.1.0"
     },
     "devDependencies": {
-        "bower": "^1.7.7",
+        "bower": "^1.7.9",
         "del": "^2.2.0",
         "jshint": "^2.9.1",
         "jshint-stylish": "^2.1.0",
