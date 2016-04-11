@@ -1,3 +1,3 @@
 [submodule "src/app/styl/third_party"]
 	path = src/app/styl/third_party
-	url = git@github.com:popcorn-official/popcorn-desktop-themes.git
+	url = https://github.com/popcorn-official/popcorn-desktop-themes.git
