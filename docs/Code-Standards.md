@@ -19,7 +19,7 @@ Coding isn't only about writing working lines, it's also creating code that can 
  * [Comments](#comments)
  * [Variable and function names](#variable-and-function-names)
  * [Callbacks vs. Promises](#callbacks-vs-promises)
- * [Files names](#file-names)
+ * [Filenames](#file-names)
 
 ***
 
@@ -34,7 +34,7 @@ We encourage the use of:
 - **comments**
 - **descriptive variable names**
 
-The ability for another developer to read the code and understand it at first sight is paramont above code length concerns.
+The ability for another developer to read the code and understand it at first sight is paramount above code length concerns.
 
 &#9745; Correct:
 ```js
@@ -79,18 +79,18 @@ We encourage the use of existing modules, if it fits a particular need and isn't
 
 #### Creating modules
 If you can, creating a module that will be re-usable and useful outside of the project is a great addition to the open-source world.
-Be warry of how you host it: don't publish it on your name if you don't intend to maintain it. Prefer asking the project to host and maintain it. Otherwise your code might (and probably will) break.
+Be wary of how you host it: don't publish it on your name if you don't intend to maintain it. Prefer asking the project to host and maintain it. Otherwise your code might (and probably will) break.
 
 ***
 
 ## JavaScript
 
 #### Formatting JavaScript
-The use of whitespace should follow human language writing conventions, with blank lines between ideas and groupes of code, for readability.
+The use of whitespace should follow human language writing conventions, with blank lines between ideas and groups of code, for readability.
 
 - **Open braces** are preceded by a single space and appear on the same line as the preceding argument.
 - **Close braces** appear at the same indentation as the statement containing the opening brace.
-- There are no space characters bewteen **parentheses** and their content.
+- There are no space characters between **parentheses** and their content.
 - Use **semicolons**.
 - Each **comma** and **colon** are followed by a single space.
 - **Binary** and **ternary operators** have a single space on each side.
@@ -154,7 +154,7 @@ You should simply follow this example:
     }
 ```
 
-As a convention, if there is something that will require attention soon, or that does not perfectly work as it, you can use the keyword `TODO` in the comment, with an explaination on what should be done and why.
+As a convention, if there is something that will require attention soon, or that does not perfectly work as it, you can use the keyword `TODO` in the comment, with an explanation on what should be done and why.
 
 
 #### Variable and function names
@@ -183,8 +183,8 @@ Callbacks are dead, stop writing them. We want **thenable Promises**, to avoid t
 However, you should not use Promises everywhere: some functions will run perfectly fine while being sync and they should be kept that way. What you should do, is use Promises instead of callbacks, when async is required. That's it.
 
 
-#### File names
-The files names should always be lowercase, using underscore to space it, for example `drag_drop.js`
+#### Filenames
+The filenames should always be lowercase, using underscore to space it, for example `drag_drop.js`
 
 ***
 
