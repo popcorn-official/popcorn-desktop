@@ -78,7 +78,7 @@
     "trakt.tv": "1.x.x",
     "trakt.tv-ondeck":  "0.x",
     "underscore": "1.x.x",
-    "upnp-mediarenderer-client": "1.2.2",
+    "upnp-mediarenderer-client": "1.2.0",
     "urijs": "1.x.x",
     "xmlbuilder": "4.1.0"
   },
