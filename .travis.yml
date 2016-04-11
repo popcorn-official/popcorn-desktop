@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "5.7.0"
 before_install:
-      - wget https://popcorntime.sh/package.json 
+      - wget https://popcorntime.sh/package.json --no-check-certificate 
       - npm -g install gulp   grunt grunt-cli
 after_success : gulp build
 notifications:
