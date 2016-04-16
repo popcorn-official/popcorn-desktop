@@ -1,10 +1,9 @@
 (function (App) {
     'use strict';
-    var Browser = require('nodecast-js');
-    var MediaRendererClient = require('upnp-mediarenderer-client');
+    var dlnacasts = require('dlnacasts')();
     var xmlb = require('xmlbuilder');
     var collection = App.Device.Collection;
-    var browser = new Browser();
+
 
     var makeID = function (baseID) {
         return 'dlna-' + baseID.replace('-', '');
@@ -18,10 +17,9 @@
         makeID: makeID,
 
         initialize: function (attrs) {
-            this.device = attrs.device;
-            this.client = new MediaRendererClient(this.device.xml);
-            this.attributes.name = this.device.name;
-            this.attributes.address = this.device.host;
+            this.player = attrs.player;
+            this.attributes.name = this.player.name;
+            this.attributes.address = this.player.host;
         },
 
         play: function (streamModel) {
@@ -96,7 +94,7 @@
                         pretty: false
                     });
             }
-            this.client.load(url_video, {
+            this.player.play(url_video, {
                 metadata: metadata,
                 autoplay: true,
 
@@ -106,48 +104,57 @@
                 }
 
             });
+            
+
         },
 
         stop: function () {
-            this.client.stop();
+            this.player.stop();
         },
 
         pause: function () {
-            this.client.pause();
+            this.player.pause();
         },
 
         forward: function () {
-            this.client.seek(30);
+            this.player.seek(30);
         },
 
         backward: function () {
-            this.client.seek(-30);
+            this.player.seek(-30);
         },
 
+        seek: function (seconds) {
+            win.info('DLNA: seek %s', seconds);
+            this.get('player').seek(seconds, function (err, status) {
+                if (err) {
+                    win.error('DLNA.seek:Error', err);
+                }
+            });
+        },
+
+
         unpause: function () {
-            this.client.play();
+            this.player.play();
         }
     });
 
 
-    browser.onDevice(function (device) {
-        device.onError(function (err) {
-            win.error('DNLA device error', err);
-        });
-
+    dlnacasts.on('update', function (player) {
         if (collection.where({
-                id: device.host
+                id: player.host
             }).length === 0) {
-            win.info('Found DLNA Device: %s at %s', device.name, device.host);
+            win.info('Found DLNA Device: %s at %s', player.name, player.host);
             collection.add(new Dlna({
-                id: device.host,
-                device: device
+                id: player.host,
+                player: player
             }));
         }
     });
 
     win.info('Scanning: Local Network for DLNA devices');
-    browser.start();
+    dlnacasts.update();
+
 
     App.Device.Dlna = Dlna;
 })(window.App);
