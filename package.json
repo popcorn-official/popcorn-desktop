@@ -41,7 +41,7 @@
     "adm-zip": "0.4.7",
     "airplay-js": "git+https://github.com/guerrerocarlos/node-airplay-js.git",
     "async": "1.5.0",
-    "chromecast-js": "git+https://github.com/alxhotel/chromecast-js.git",
+    "chromecasts": "git+https://github.com/mafintosh/chromecasts.git",
     "kat-api": "git+https://github.com/team-pct/kat-api",
     "rarbg-api": "git+https://github.com/team-pct/rarbg-api",
     "defer-request": "0.0.2",
