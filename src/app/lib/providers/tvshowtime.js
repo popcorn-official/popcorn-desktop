@@ -34,7 +34,7 @@
                 token: ''
             };
         }
-    }
+    };
 
     TVShowTime.prototype.post = function (endpoint, postVariables) {
         var defer = Q.defer();
