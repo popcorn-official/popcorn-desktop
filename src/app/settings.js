@@ -315,10 +315,10 @@ var AdvSettings = {
                     tryNextEndpoint();
                 });
             }).setTimeout(5000, function () {
-				win.warn('[%s] Endpoint timed out',
-					_url.hostname);
-				request.abort();
-				tryNextEndpoint();
+                win.warn('[%s] Endpoint timed out',
+                    _url.hostname);
+                request.abort();
+                tryNextEndpoint();
             });
         } else {
             tls.connect(443, _url.hostname, {

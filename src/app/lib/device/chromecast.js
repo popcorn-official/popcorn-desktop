@@ -122,7 +122,7 @@
         },
 
         unpause: function () {
-            this.get('device').resume(function () {});
+            this.get('device').unpause(function () {});
         },
 
         updateStatus: function () {
