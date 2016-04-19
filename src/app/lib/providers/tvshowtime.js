@@ -18,7 +18,7 @@
     };
 
     // Try to restore token from settings and auth to tvst api
-    TVShowTime.prototype.restoreToken = function() {
+    TVShowTime.prototype.restoreToken = function () {
         var tvstAccessToken = AdvSettings.get('tvstAccessToken');
 
         if (tvstAccessToken !== '') {

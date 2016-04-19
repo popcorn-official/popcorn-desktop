@@ -20,8 +20,8 @@
 
         App.Providers.CacheProvider.call(this, 'subtitle', TTL);
     };
-    
-        // Language mapping to match PT langcodes
+
+    // Language mapping to match PT langcodes
     var languageMapping = {
         'albanian': 'sq',
         'arabic': 'ar',
@@ -65,7 +65,6 @@
         'ukrainian': 'uk',
         'vietnamese': 'vi'
     };
-
 
 
     YSubs.prototype = Object.create(App.Providers.CacheProvider.prototype);
@@ -139,7 +138,6 @@
         return Q.when(querySubtitles(ids))
             .then(formatForPopcorn);
     };
-
 
 
     App.Providers.install(YSubs);
