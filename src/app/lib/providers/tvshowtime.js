@@ -7,9 +7,20 @@
         API_CLIENT_SECRET = 'ghmK6ueMJjQLHBwsaao1tw3HUF7JVp_GQTwDwhCn';
 
     function TVShowTime() {
-        App.Providers.CacheProviderV2.call(this, 'metadata');
+        App.Providers.CacheProviderV2.call(this, 'tvst');
+        this.restoreToken();
+    }
+    // Inherit the Cache Provider
+    inherits(TVShowTime, App.Providers.CacheProviderV2);
 
+    TVShowTime.prototype.config = {
+        name: 'TVShowTime'
+    };
+
+    // Try to restore token from settings and auth to tvst api
+    TVShowTime.prototype.restoreToken = function() {
         var tvstAccessToken = AdvSettings.get('tvstAccessToken');
+
         if (tvstAccessToken !== '') {
             this.authenticated = true;
             App.vent.trigger('system:tvstAuthenticated');
@@ -24,12 +35,6 @@
             };
         }
     }
-    // Inherit the Cache Provider
-    inherits(TVShowTime, App.Providers.CacheProviderV2);
-
-    TVShowTime.prototype.config = {
-        name: 'TVShowTime'
-    };
 
     TVShowTime.prototype.post = function (endpoint, postVariables) {
         var defer = Q.defer();
