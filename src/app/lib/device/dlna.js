@@ -51,16 +51,10 @@
                 self.set('loadedMedia', status.media);
               }
             });
-<<<<<<< HEAD
-
-
-        },
-=======
     this.player.on('status', function (status) {
                   self._internalStatusUpdated(status);
               });
           },
->>>>>>> upstream/development
 
         stop: function () {
             this.player.stop();
