@@ -55,7 +55,7 @@
     "moment": ">=2.11.2",
     "mv": "2.x.x",
     "nedb": "1.4.0",
-    "node-captions": "0.4.6",
+    "node-captions": "git+https://github.com/brai4u/node-captions.git",
     "node-tvdb": "1.6.x",
     "node-webkit-fdialogs": "latest",
     "dlnacasts": "^0.0.3",
