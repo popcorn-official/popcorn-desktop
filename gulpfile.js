@@ -134,7 +134,7 @@ const nw = new nwBuilder({
 // start app in development
 gulp.task('run', () => {
     nw.options.files = './**';
-    return nw.run().catch(log);
+    return nw.run();
 });
 
 // build app from sources
