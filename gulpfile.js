@@ -347,6 +347,7 @@ gulp.task('compress', () => {
                     .pipe(gulp.dest(releasesDir))
                     .on('end', () => {
                         console.log('%s tar packaged in %s', platform, path.join(process.cwd(), releasesDir));
+                        resolve();
                     });
 
                 // compress with tar on unix*
