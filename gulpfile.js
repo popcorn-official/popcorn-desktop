@@ -133,7 +133,7 @@ const nw = new nwBuilder({
  *************/
 // start app in development
 gulp.task('run', () => {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         let platform = parsePlatforms()[0],
             bin = path.join('cache', nwVersion, platform);        
 
