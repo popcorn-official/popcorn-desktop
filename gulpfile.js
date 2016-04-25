@@ -133,8 +133,48 @@ const nw = new nwBuilder({
  *************/
 // start app in development
 gulp.task('run', () => {
-    nw.options.files = './**';
-    return nw.run();
+    return new Promise(function (resolve, reject) {
+        let platform = parsePlatforms()[0],
+            bin = path.join('cache', nwVersion, platform);        
+
+        // path to nw binary
+        switch(platform.slice(0,3)) {
+            case 'osx':
+                bin += '/nwjs.app/Contents/MacOS/nwjs';
+                break;
+            case 'lin':
+                bin += '/nw';
+                break;
+            case 'win':
+                bin += '/nw.exe';
+                break;
+            default: 
+                reject(new Error('Unsupported %s platform', platform));
+        }
+
+        console.log('Running %s from cache', platform);
+
+        // spawn cached binary with package.json, toggle dev flag
+        const child = spawn(bin, ['.', '--development']);
+
+        // nwjs console speaks to stderr
+        child.stderr.on('data', (buf) => {
+            console.log(buf.toString());
+        });
+
+        child.on('close', (exitCode) => {
+            console.log('%s exited with code %d', pkJson.name, exitCode);
+            resolve();
+        });
+
+        child.on('error', (error) => {
+            // nw binary most probably missing
+            if (error.code === 'ENOENT') {
+                console.log('%s is not available in cache. Try running `gulp build` beforehand', platform);
+            }
+            reject(error);
+        });
+    });
 });
 
 // build app from sources
