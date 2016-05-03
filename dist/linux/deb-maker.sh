@@ -44,7 +44,7 @@ cp src/app/images/icon.png $cwd/$package_name/usr/share/icons/butter.png
 echo "[Desktop Entry]
 Comment=Watch Movies and TV Shows instantly
 Name=$projectName
-Exec=/opt/$projectName/$projectName
+Exec=/opt/$projectName/$projectName %U
 Icon=butter
 MimeType=application/x-bittorrent;x-scheme-handler/magnet;
 StartupNotify=false

@@ -97,8 +97,8 @@
             // verify custom subtitles not modified
             if (AdvSettings.get('opensubtitlesAutoUpload') && this.customSubtitles && !this.customSubtitles.modified) {
                 var real_elapsedTime = (Date.now() - this.customSubtitles.added_at) / 1000;
-                var player_elapsedTime = this.player.time() - this.customSubtitles.timestamp;
-                var perc_elapsedTime = player_elapsedTime / this.player.length();
+                var player_elapsedTime = this.video.currentTime() - this.customSubtitles.timestamp;
+                var perc_elapsedTime = player_elapsedTime / this.video.duration();
 
                 // verify was played long enough
                 if (real_elapsedTime >= player_elapsedTime && perc_elapsedTime >= 0.7) {
@@ -271,7 +271,7 @@
                 _this.customSubtitles = {
                     subPath: subpath,
                     added_at: Date.now(),
-                    timestamp: _this.player.time(),
+                    timestamp: _this.video.currentTime(),
                     modified: false
                 };
                 $('#video_player li:contains("' + i18n.__('Disabled') + '")').on('click', function () {
