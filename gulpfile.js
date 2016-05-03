@@ -124,7 +124,6 @@ const nw = new nwBuilder({
     macIcns: './src/app/images/butter.icns',
     version: nwVersion,
     platforms: parsePlatforms(),
-    currentPlatform: parsePlatforms()[0],
     downloadUrl: 'https://raw.githubusercontent.com/butterproject/nwjs-prebuilt/master/'
 }).on('log', console.log);
 
