@@ -553,6 +553,7 @@ var handleVideoFile = function (file) {
         App.Device.Collection.setDevice(tmpPlayer);
 
         $('.eye-info-player').hide();
+        $('.vjs-load-progress').css('width', '100%');
     });
 };
 
