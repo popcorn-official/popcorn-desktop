@@ -282,9 +282,9 @@
             if (this.model.get('metadataCheckRequired')) {
                 var matcher = this.model.get('title').split(/\s-\s/i);
                 $('.verifmeta_poster').attr('src', this.model.get('poster'));
-                $('.verifmeta_show').text(matcher[0]);
+                $('.verifmeta_show').html(matcher[0]);
                 if (this.model.get('episode')) {
-                    $('.verifmeta_episode').text(matcher[2]);
+                    $('.verifmeta_episode').html(matcher[2]);
                     $('.verifmeta_number').text(i18n.__('Season %s', this.model.get('season')) + ', ' + i18n.__('Episode %s', this.model.get('episode')));
                 } else {
                     $('.verifmeta_episode').text(this.model.get('year'));
