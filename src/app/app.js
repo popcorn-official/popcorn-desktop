@@ -531,7 +531,9 @@ var handleVideoFile = function (file) {
                 });
         })
         .catch(function (err) {
-            playObj.title = file.name;
+            if (!playObj.title) {
+                playObj.title = file.name;
+            }
             playObj.quality = false;
             playObj.videoFile = file.path;
             playObj.defaultSubtitle = 'local';
