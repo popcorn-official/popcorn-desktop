@@ -490,8 +490,8 @@
                 });
 
                 OpenSubtitles.login()
-                    .then(function (token) {
-                        if (token) {
+                    .then(function (obj) {
+                        if (obj.token) {
                             AdvSettings.set('opensubtitlesUsername', usn);
                             AdvSettings.set('opensubtitlesPassword', Common.md5(pw));
                             AdvSettings.set('opensubtitlesAuthenticated', true);
