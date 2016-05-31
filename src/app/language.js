@@ -23,6 +23,12 @@ var setLanguage = function (preferredLanguage) {
     });
 };
 
+
+App.Localization.nativeName = function (lang) {
+    var codes = App.Localization.langcodes
+    return codes[lang]?codes[lang].nativeName:'No native Name for: '+lang;
+}
+
 App.Localization.detectLocale = function () {
     // The full OS language (with localization, like 'en-uk')
     var pureLanguage = navigator.language.toLowerCase();
