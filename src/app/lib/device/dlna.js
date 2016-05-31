@@ -1,9 +1,9 @@
 (function (App) {
     'use strict';
-    var Browser = require('nodecast-js');
-    var MediaRendererClient = require('upnp-mediarenderer-client');
+    var dlnacasts = require('dlnacasts')();
+    var xmlb = require('xmlbuilder');
     var collection = App.Device.Collection;
-    var browser = new Browser();
+
 
     var makeID = function (baseID) {
         return 'dlna-' + baseID.replace('-', '');
@@ -17,74 +17,124 @@
         makeID: makeID,
 
         initialize: function (attrs) {
-            this.device = attrs.device;
-            this.client = new MediaRendererClient(this.device.xml);
-            this.attributes.name = this.device.name;
-            this.attributes.address = this.device.host;
+            this.player = attrs.player;
+            this.attributes.name = this.player.name;
+            this.attributes.address = this.player.host;
         },
 
         play: function (streamModel) {
-            var metadata = {
-                title: 'Butter DLNA', // upnp-mediarendered-client object
-                type: 'video',
-                url: streamModel.get('src'),
-                protocolInfo: 'http-get:*:video/mp4:*'
-            };
-
-            if (streamModel.get('subFile')) { // inject subtitles
-                metadata.subtitlesUrl = 'http:' + metadata.url.split(':')[1] + ':9999/video.srt';
+            var url = streamModel.get('src');
+            var self = this;
+            var media;
+            var url_video = url;
+            var url_subtitle = 'http:' + url.split(':')[1] + ':9999/video.srt';
+            var metadata = null;
+            var subtitle = streamModel.get('subFile');
+            if (subtitle) {
+                media = {
+                    title: streamModel.get('title'),
+                    subtitles: ['http:' + url.split(':')[1] + ':9999/subtitle.vtt'],
+                };
+            } else {
+                media = {
+                    title: streamModel.get('title')
+                };
             }
+            win.info('DLNA: play ' + url + ' on \'' + this.get('name') + '\'');
+            win.info('DLNA: connecting to ' + this.player.host);
 
-            this.client.load(metadata.url, {
-                metadata: metadata,
-                autoplay: true,
-            }, function (err, result) {
+            self.player.play(url_video, media , function (err, status) {
+              if (err) {
+                win.error('DLNA.play error: ', err);
+              } else {
+                win.info('Playing ' + url + ' on ' + self.get('name'));
+                self.set('loadedMedia', status.media);
+              }
+            });
+    this.player.on('status', function (status) {
+                  self._internalStatusUpdated(status);
+              });
+          },
+
+        stop: function () {
+            this.player.stop();
+        },
+
+        pause: function () {
+            this.player.pause();
+        },
+
+        forward: function () {
+            this.player.seek(30);
+        },
+
+        backward: function () {
+            this.player.seek(-30);
+        },
+
+        seek: function (seconds) {
+            win.info('DLNA: seek %s', seconds);
+            this.get('player').seek(seconds, function (err, status) {
                 if (err) {
-                    throw err;
+                    win.error('DLNA.seek:Error', err);
+                }
+            });
+        },
+        seekTo: function (newCurrentTime) {
+            win.info('DLNA: seek to %ss', newCurrentTime);
+            this.get('player').seek(newCurrentTime, function (err, status) {
+                if (err) {
+                    win.error('DLNA.seek:Error', err);
                 }
             });
         },
 
-        stop: function () {
-            this.client.stop();
-        },
-
-        pause: function () {
-            this.client.pause();
-        },
-
-        forward: function () {
-            this.client.seek(30);
-        },
-
-        backward: function () {
-            this.client.seek(-30);
+        seekPercentage: function (percentage) {
+            win.info('DLNA: seek percentage %s%', percentage.toFixed(2));
+            var newCurrentTime = this.player._status.duration / 100 * percentage;
+            this.seekTo(newCurrentTime.toFixed());
         },
 
         unpause: function () {
-            this.client.play();
+            this.player.play();
+        },
+        updateStatus: function () {
+            var self = this;
+            this.get('player').status(function (err, status) {
+                if (err) {
+                    return win.info('DLNA.updateStatus:Error', err);
+                }
+                self._internalStatusUpdated(status);
+            });
+        },
+
+        _internalStatusUpdated: function (status) {
+          if (status  === undefined) {
+              status = this.player._status;
+          }
+            // If this is the active device, propagate the status event.
+            if (collection.selected.id === this.id) {
+                App.vent.trigger('device:status', status);
+            }
         }
     });
 
 
-    browser.onDevice(function (device) {
-        device.onError(function (err) {
-            win.error('DNLA device error', err);
-        });
-
+    dlnacasts.on('update', function (player) {
         if (collection.where({
-                id: device.host
+                id: player.host
             }).length === 0) {
-            win.info('Found DLNA Device: %s at %s', device.name, device.host);
+            win.info('Found DLNA Device: %s at %s', player.name, player.host);
             collection.add(new Dlna({
-                id: device.host,
-                device: device
+                id: player.host,
+                player: player
             }));
         }
     });
 
     win.info('Scanning: Local Network for DLNA devices');
-    browser.start();
+    dlnacasts.update();
+
 
     App.Device.Dlna = Dlna;
 })(window.App);

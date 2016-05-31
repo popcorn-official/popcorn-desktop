@@ -1,6 +1,6 @@
 'use strict';
 
-/******** 
+/********
  * setup *
  ********/
 const nwVersion = '0.12.2',
@@ -8,7 +8,7 @@ const nwVersion = '0.12.2',
     releasesDir = 'build';
 
 
-/*************** 
+/***************
  * dependencies *
  ***************/
 const gulp = require('gulp'),
@@ -123,19 +123,19 @@ const nw = new nwBuilder({
     zip: false,
     macIcns: './src/app/images/butter.icns',
     version: nwVersion,
-    platforms: parsePlatforms(),
-    downloadUrl: 'https://raw.githubusercontent.com/butterproject/nwjs-prebuilt/master/'
+    downloadUrl: 'https://get.popcorntime.sh/repo/nw/',
+    platforms: parsePlatforms()
 }).on('log', console.log);
 
 
-/************* 
+/*************
  * gulp tasks *
  *************/
 // start app in development
 gulp.task('run', () => {
     return new Promise((resolve, reject) => {
         let platform = parsePlatforms()[0],
-            bin = path.join('cache', nwVersion, platform);        
+            bin = path.join('cache', nwVersion, platform);
 
         // path to nw binary
         switch(platform.slice(0,3)) {
@@ -148,7 +148,7 @@ gulp.task('run', () => {
             case 'win':
                 bin += '/nw.exe';
                 break;
-            default: 
+            default:
                 reject(new Error('Unsupported %s platform', platform));
         }
 
@@ -216,7 +216,9 @@ gulp.task('nwjs', () => {
         nw.options.files = nw.options.files.concat(['!./node_modules/**/*.bin', '!./node_modules/**/*.c', '!./node_modules/**/*.h', '!./node_modules/**/Makefile', '!./node_modules/**/*.h', '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**']);
 
         return nw.build();
-    }).catch(log);
+    }).catch(function (error) {
+        console.error(error);
+    });
 });
 
 
