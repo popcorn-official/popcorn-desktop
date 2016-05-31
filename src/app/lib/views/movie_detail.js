@@ -6,7 +6,6 @@
         className: 'movie-detail',
 
         ui: {
-            selected_lang: '.selected-lang',
             bookmarkIcon: '.favourites-toggle',
             watchedIcon: '.watched-toggle'
         },
