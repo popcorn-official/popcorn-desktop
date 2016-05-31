@@ -392,7 +392,7 @@ Section
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallString" "$INSTDIR"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "URLInfoAbout" "${APP_URL}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.butterproject.org"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://www.reddit.com/r/ButterProject"
 
     ;File association
     WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}" "FriendlyAppName" "${APP_NAME}"
