@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    App.View.MovieDetail = Backbone.Marionette.ItemView.extend({
+    App.View.MovieDetail = Backbone.Marionette.LayoutView.extend({
         template: '#movie-detail-tpl',
         className: 'movie-detail',
 
@@ -21,10 +21,13 @@
             'click .watched-toggle': 'toggleWatched',
             'click .movie-imdb-link': 'openIMDb',
             'mousedown .magnet-link': 'openMagnet',
-            'click .sub-dropdown': 'toggleDropdown',
-            'click .sub-flag-icon': 'closeDropdown',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .rating-container': 'switchRating'
+        },
+
+        regions: {
+            SubDropdown: '#subs-dropdown',
+            AudioDropdown: '#audio-dropdown'
         },
 
         initialize: function () {
@@ -84,6 +87,24 @@
             });
 
             App.MovieDetailView = this;
+
+            this.AudioDropdown.show (new App.View.LangDropdown({
+                model: new App.Model.Lang({
+                    type: 'audio',
+                    title: _('Audio Language'),
+                    values: self.model.get('audios'),
+                    handler: self.switchAudio,
+                })
+            }))
+
+            this.SubDropdown.show (new App.View.LangDropdown({
+                model: new App.Model.Lang({
+                    type: 'sub',
+                    title: _('Subtitle'),
+                    values: self.model.get('subtitle'),
+                    handler: self.switchSubtitle,
+                })
+            }))
 
             var backgroundUrl = $('.backdrop').attr('data-bgr');
 
@@ -222,30 +243,6 @@
                 cover: this.model.get('cover')
             });
             App.vent.trigger('stream:start', torrentStart);
-        },
-
-        toggleDropdown: function (e) {
-            if ($('.sub-dropdown').is('.open')) {
-                this.closeDropdown(e);
-                return false;
-            } else {
-                $('.sub-dropdown').addClass('open');
-                $('.sub-dropdown-arrow').addClass('down');
-            }
-            var self = this;
-            $('.flag-container').fadeIn();
-        },
-
-        closeDropdown: function (e) {
-            e.preventDefault();
-            $('.flag-container').fadeOut();
-            $('.sub-dropdown').removeClass('open');
-            $('.sub-dropdown-arrow').removeClass('down');
-
-            var value = $(e.currentTarget).attr('data-lang');
-            if (value) {
-                this.switchSubtitle(value);
-            }
         },
 
         playTrailer: function () {
