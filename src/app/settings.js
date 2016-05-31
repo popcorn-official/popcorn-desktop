@@ -6,7 +6,7 @@ var Settings = {
     projectFacebook: 'ButterProjectOrg',
     projectGooglePlus: 'ButterProject',
     projectBlog: 'http://blog.butterproject.org/',
-    projectForum: 'http://discuss.butterproject.org/',
+    projectForum: 'https://www.reddit.com/r/ButterProject',
 
     statusUrl: 'https://status.butterproject.org',
     changelogUrl: 'https://github.com/butterproject/butter-desktop/commits/master',
