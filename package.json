@@ -51,7 +51,7 @@
         "async": "1.5.x",
         "gitlab": "1.4.1",
         "defer-request": "0.0.2",
-        "chromecasts": "git+https://github.com/mafintosh/chromecasts.git",
+        "chromecasts-pct": "*",
         "kat-api": "git+https://github.com/team-pct/kat-api",
         "rarbg-api": "git+https://github.com/team-pct/rarbg-api",
         "i18n": "0.x.x",

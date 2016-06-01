@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var chromecasts = require('chromecasts')(),
+    var chromecasts = require('chromecasts-pct')(),
         collection = App.Device.Collection;
 
     var Chromecast = App.Device.Generic.extend({
