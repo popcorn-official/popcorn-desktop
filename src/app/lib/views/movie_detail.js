@@ -95,7 +95,7 @@
                     values: self.model.get('audios'),
                     handler: self.switchAudio,
                 })
-            }))
+            }));
 
             this.SubDropdown.show (new App.View.LangDropdown({
                 model: new App.Model.Lang({
@@ -104,7 +104,7 @@
                     values: self.model.get('subtitle'),
                     handler: self.switchSubtitle,
                 })
-            }))
+            }));
 
             var backgroundUrl = $('.backdrop').attr('data-bgr');
 
