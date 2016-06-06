@@ -21,7 +21,6 @@
         },
         toggleDropdown: function (e) {
             console.log ('dropdown', this);
-            var values = this.model.get('values');
             var el = $(this.el);
             if (el.find('.dropdown').is('.open')) {
                 this.closeDropdown(e);
