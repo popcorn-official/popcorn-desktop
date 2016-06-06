@@ -25,8 +25,8 @@ var setLanguage = function (preferredLanguage) {
 
 
 App.Localization.nativeName = function (lang) {
-    var codes = App.Localization.langcodes
-    return codes[lang]?codes[lang].nativeName:'No native Name for: '+lang;
+    var codes = App.Localization.langcodes;
+    return codes[lang]?codes[lang].nativeName:lang;
 }
 
 App.Localization.detectLocale = function () {
