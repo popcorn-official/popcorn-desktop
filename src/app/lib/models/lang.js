@@ -5,5 +5,5 @@
         defaults: {
             selected: 'none'
         }
-    })
-})(window.App)
+    });
+})(window.App);
