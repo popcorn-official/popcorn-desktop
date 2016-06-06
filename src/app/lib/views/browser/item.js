@@ -165,6 +165,34 @@
             var itemtype = realtype.replace('bookmarked', '');
             var modelType = itemtype.charAt(0).toUpperCase() + itemtype.slice(1); // 'Movie', 'Show'
             var provider = this.model.get('provider');
+            var data;
+            var type = this.model.get('type');
+            switch (type) {
+            case 'bookmarkedmovie':
+                this.model.set('bookmarked', true)
+                App.vent.trigger('movie:showDetail', this.model);
+                break;
+
+            case 'bookmarkedshow':
+                type = 'show';
+                /* falls through */
+            case 'show':
+            case 'movie':
+                var Type = type.charAt(0).toUpperCase() + type.slice(1);
+                this.model.set('health', false);
+                $('.spinner').show();
+                data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
+                    .then(function (data) {
+                        console.log(data, Type);
+                        data.provider = provider.name;
+                        $('.spinner').hide();
+                        App.vent.trigger(type + ':showDetail', new App.Model[Type](data));
+                    }).catch(function (err) {
+                        console.error(err);
+                        $('.spinner').hide();
+                        $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
+                    });
+                break;
 
             // bookmarked movies are cached
             if (realtype === 'bookmarkedmovie') {
