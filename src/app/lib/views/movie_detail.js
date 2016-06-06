@@ -229,21 +229,34 @@
         },
 
         startStreaming: function () {
-            var torrent = this.model.get('torrents')[this.model.get('quality')];
-            var torrentStart = new Backbone.Model({
-                imdb_id: this.model.get('imdb_id'),
-                torrent: torrent,
-                backdrop: this.model.get('backdrop'),
-                subtitle: this.model.get('subtitle'),
-                defaultSubtitle: this.subtitle_selected,
-                title: this.model.get('title'),
-                quality: this.model.get('quality'),
-                type: 'movie',
-                device: App.Device.Collection.selected,
-                cover: this.model.get('cover')
-            });
-            App.vent.trigger('stream:start', torrentStart);
-        },
+             var provider = this.model.get('provider');
+             var quality = this.model.get('quality');
+             var lang = this.model.get('lang');
+             var defaultTorrent = this.model.get('torrents')[quality];
+
+             var filters =  {
+                 quality: quality,
+                 lang: lang
+             };
+
+             var torrent = provider
+                 .resolveStream(defaultTorrent, filters, this.model.attributes);
+
+             var torrentStart = new Backbone.Model({
+                 imdb_id: this.model.get('imdb_id'),
+                 torrent: torrent,
+                 backdrop: this.model.get('backdrop'),
+                 subtitle: this.model.get('subtitle'),
+                 defaultSubtitle: this.subtitle_selected,
+                 title: this.model.get('title'),
+                 quality: quality,
+                 lang: lang,
+                 type: 'movie',
+                 device: App.Device.Collection.selected,
+                 cover: this.model.get('cover')
+             });
+             App.vent.trigger('stream:start', torrentStart);
+         },
 
         playTrailer: function () {
 
