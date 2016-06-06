@@ -52,7 +52,8 @@
 
                         return;
                     }
-                    movie.provider = torrentProvider.name;
+
+                    movie.provider = torrentProvider;
 
                     if (subtitles) {
                         movie.subtitle = subtitles[id];
