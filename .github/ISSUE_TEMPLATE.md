@@ -15,7 +15,7 @@ Download date:
 <!-- What does the app do instead? -->
 ...
 
-#### Steps to repoduce the behaviour
+#### Steps to reproduce the behaviour
 <!-- What steps do we need to take to find the same bug that you found? -->
 
 1. ...
