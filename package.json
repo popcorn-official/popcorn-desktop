@@ -54,12 +54,12 @@
     "mkdirp": "*",
     "moment": ">=2.11.2",
     "mv": "2.x.x",
-    "nedb": "1.4.0",
+    "nedb": "1.8.0",
     "node-captions": "0.4.6",
-    "node-tvdb": "1.6.x",
+    "node-tvdb": "2.0.1",
     "node-webkit-fdialogs": "latest",
-    "dlnacasts": "^0.0.3",
-    "opensubtitles-api": "^2.3.x",
+    "dlnacasts": "^0.1.0",
+    "opensubtitles-api": "^3.1.0",
     "os-name": "1.x.x",
     "peerflix": "git+https://github.com/popcorn-official/peerflix.git",
     "q": "2.0.3",
@@ -72,12 +72,12 @@
     "send": "0.13.x",
     "tar": "2.2.1",
     "temp": "0.x.x",
-    "torrent-tracker-health": "0.x.x",
+    "torrent-tracker-health": "1.0.0",
     "trakt.tv": "1.x.x",
     "trakt.tv-ondeck":  "0.x",
     "underscore": "1.x.x",
     "urijs": "1.x.x",
-    "xmlbuilder": "4.1.0"
+    "xmlbuilder": "8.2.2"
   },
   "devDependencies": {
     "bower": "1.7.x",
@@ -102,6 +102,6 @@
     "nw-gyp": "0.x.x",
     "run-sequence": "^1.1.5",
     "stylus": "0.x.x",
-    "yargs": "^3.31.0"
+    "yargs": "^4.7.1"
   }
 }
