@@ -231,7 +231,7 @@
         startStreaming: function () {
              var provider = this.model.get('provider');
              var quality = this.model.get('quality');
-             var lang = this.model.get('lang');
+             var lang = this.model.get('audios');
              var defaultTorrent = this.model.get('torrents')[quality];
 
              var filters =  {
@@ -250,7 +250,7 @@
                  defaultSubtitle: this.subtitle_selected,
                  title: this.model.get('title'),
                  quality: quality,
-                 lang: lang,
+                 audios: audios,
                  type: 'movie',
                  device: App.Device.Collection.selected,
                  cover: this.model.get('cover')

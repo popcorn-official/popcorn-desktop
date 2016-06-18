@@ -3,7 +3,7 @@
         <%= title %>
         <div class="selected-lang flag-icon flag none" title="<%= App.Localization.nativeName(selected) %>"></div>
         <div class="dropdown-arrow"></div>
-    </div>                                            
+    </div>
     <div class="flag-container">
         <div class="flag-icon flag none" data-lang="none" title="<%= i18n.__('Disable') %>"></div>
         <% for(var lang in values){ %>

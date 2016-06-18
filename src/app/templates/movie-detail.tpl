@@ -1,10 +1,10 @@
-<%  
-if(typeof backdrop === "undefined"){ backdrop = ""; }; 
-if(typeof synopsis === "undefined"){ synopsis = "Synopsis not available."; }; 
+<%
+if(typeof backdrop === "undefined"){ backdrop = ""; };
+if(typeof synopsis === "undefined"){ synopsis = "Synopsis not available."; };
 if(typeof runtime === "undefined"){ runtime = "N/A"; };
 if (genre) {
     for(var i = 0; i < genre.length; i++) {
-        genre[i] = i18n.__(genre[i]); 
+        genre[i] = i18n.__(genre[i]);
     }
 } else {
     var genre = [undefined];
@@ -85,7 +85,7 @@ if (genre) {
                     <div data-toogle="tooltip" data-placement="top" title="<%= Common.fileSize(torrents['720p'].size) %>" class="q720">720p</div>
                 <% }else if (torrents["1080p"] !== undefined) { %>
                     <div data-toogle="tooltip" data-placement="top" title="<%= Common.fileSize(torrents['1080p'].size) %>" class="q720">1080p</div>
-                <% } else { %>HDRip<% } %> 
+                <% } else { %>HDRip<% } %>
             <% } %>
         </div>
 
