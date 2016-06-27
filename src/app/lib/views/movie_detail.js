@@ -87,12 +87,14 @@
 
             App.MovieDetailView = this;
 
+            var audios = self.model.get('audios')
             this.AudioDropdown.show (new App.View.LangDropdown({
                 model: new App.Model.Lang({
                     type: 'audio',
                     title: _('Audio Language'),
-                    values: self.model.get('audios'),
-                    handler: self.switchAudio,
+                    selected: self.model.get('defaultAudio') || 'en',
+                    values: audios,
+                    handler: self.switchAudio.bind(self),
                 })
             }));
 
@@ -100,8 +102,9 @@
                 model: new App.Model.Lang({
                     type: 'sub',
                     title: _('Subtitle'),
+                    selected: self.model.get('defaultSubtitle'),
                     values: self.model.get('subtitle'),
-                    handler: self.switchSubtitle,
+                    handler: self.switchSubtitle.bind(self),
                 })
             }));
 
