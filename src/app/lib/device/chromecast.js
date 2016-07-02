@@ -24,6 +24,7 @@
         play: function (streamModel) {
             var self = this;
             var subtitle = streamModel.get('subFile');
+            var title = streamModel.get('title').substring(0,50);
             var cover = streamModel.get('cover');
             var url = streamModel.get('src');
             var attr= streamModel.attributes;
@@ -32,7 +33,7 @@
 
             if (subtitle) {
                 media = {
-                    title: streamModel.get('title'),
+                    title: title,
                     images: streamModel.get('cover'),
                     subtitles: ['http:' + url.split(':')[1] + ':9999/subtitle.vtt'],
 
@@ -53,7 +54,7 @@
             } else {
                 media = {
                     images: cover,
-                    title: streamModel.get('title')
+                    title: title
                 };
             }
             win.info('Chromecast: play ' + url + ' on \'' + this.get('name') + '\'');
