@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "butter-provider": "git+https://github.com/butterproviders/butter-provider",
-    "butter-settings-popcorntime.io": "git+https://github.com/popcorn-official/butter-settings-popcorn",
+    "butter-settings-popcorntime.io": "git+https://github.com/popcorn-official/butter-settings-popcorn@6b8075e0065efbe7276e4a469ca00dbc43c2aaa9",
     "butter-provider-yts": "git+https://github.com/team-pct/butter-provider-yts",
     "butter-provider-tvapi": "git+https://github.com/team-pct/butter-provider-tvapi",
     "butter-provider-haruhichan": "git+https://github.com/hackhackhack/butter-provider-haruhichan",
