@@ -359,7 +359,7 @@
             }
             if (e.button === 2) { //if right click on magnet link
                 var clipboard = gui.Clipboard.get();
-                clipboard.set(magnetLink, 'text'); //copy link to clipboard
+                clipboard.set(magnetLink.replace(/&amp;/gi, '&'), 'text'); //copy link to clipboard
                 $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
             } else {
                 gui.Shell.openExternal(magnetLink);
