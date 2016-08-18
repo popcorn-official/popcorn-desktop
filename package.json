@@ -40,7 +40,7 @@
         "butter-provider-movies": "git+https://github.com/ChrisAlderson/butter-provider-movies",
         "butter-provider-ysubs": "git+https://github.com/hackhackhack/butter-provider-ysubs",
         "butter-provider-tvapi": "git+https://github.com/team-pct/butter-provider-tvapi",
-        "butter-provider-haruhichan": "git+https://github.com/hackhackhack/butter-provider-haruhichan",
+        "butter-provider-anime": "git+https://github.com/ChrisAlderson/butter-provider-anime",
         "butter-provider-vodo": "git+https://github.com/butterproviders/butter-provider-vodo",
         "popcorn-txt-api": "git+https://github.com/hackhackhack/popcorn-txt-api",
         "butter-provider-vodo": "git+https://github.com/butterproviders/butter-provider-vodo",

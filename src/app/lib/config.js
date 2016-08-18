@@ -58,7 +58,8 @@
 
         sorters_anime: [
             'popularity',
-            'name'
+            'name',
+            'year'
         ],
 
         types_anime: [

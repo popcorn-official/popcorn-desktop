@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    App.View.MovieDetail = Backbone.Marionette.LayoutView.extend({
+    App.View.MovieDetail = Backbone.Marionette.ItemView.extend({
         template: '#movie-detail-tpl',
         className: 'movie-detail',
 
@@ -25,10 +25,10 @@
             'click .rating-container': 'switchRating'
         },
 
-        regions: {
-            SubDropdown: '#subs-dropdown',
-            AudioDropdown: '#audio-dropdown'
-        },
+        // regions: {
+        //     SubDropdown: '#subs-dropdown',
+        //     AudioDropdown: '#audio-dropdown'
+        // },
 
         initialize: function () {
             var _this = this;
@@ -88,23 +88,23 @@
 
             App.MovieDetailView = this;
 
-            this.AudioDropdown.show (new App.View.LangDropdown({
-                model: new App.Model.Lang({
-                    type: 'audio',
-                    title: _('Audio Language'),
-                    values: self.model.get('audios'),
-                    handler: self.switchAudio,
-                })
-            }));
-
-            this.SubDropdown.show (new App.View.LangDropdown({
-                model: new App.Model.Lang({
-                    type: 'sub',
-                    title: _('Subtitle'),
-                    values: self.model.get('subtitle'),
-                    handler: self.switchSubtitle,
-                })
-            }));
+            // this.AudioDropdown.show (new App.View.LangDropdown({
+            //     model: new App.Model.Lang({
+            //         type: 'audio',
+            //         title: _('Audio Language'),
+            //         values: self.model.get('audios'),
+            //         handler: self.switchAudio,
+            //     })
+            // }));
+            //
+            // this.SubDropdown.show (new App.View.LangDropdown({
+            //     model: new App.Model.Lang({
+            //         type: 'sub',
+            //         title: _('Subtitle'),
+            //         values: self.model.get('subtitle'),
+            //         handler: self.switchSubtitle,
+            //     })
+            // }));
 
             var backgroundUrl = $('.backdrop').attr('data-bgr');
 
@@ -229,34 +229,73 @@
         },
 
         startStreaming: function () {
-             var provider = this.model.get('provider');
-             var quality = this.model.get('quality');
-             var lang = this.model.get('audios');
-             var defaultTorrent = this.model.get('torrents')[quality];
+          var torrent = this.model.get('torrents')[this.model.get('quality')];
+            var torrentStart = new Backbone.Model({
+                imdb_id: this.model.get('imdb_id'),
+                torrent: torrent,
+                backdrop: this.model.get('backdrop'),
+                subtitle: this.model.get('subtitle'),
+                defaultSubtitle: this.subtitle_selected,
+                title: this.model.get('title'),
+                quality: this.model.get('quality'),
+                type: 'movie',
+                device: App.Device.Collection.selected,
+                cover: this.model.get('cover')
+            });
+            App.vent.trigger('stream:start', torrentStart);
 
-             var filters =  {
-                 quality: quality,
-                 lang: lang
-             };
-
-             var torrent = provider
-                 .resolveStream(defaultTorrent, filters, this.model.attributes);
-
-             var torrentStart = new Backbone.Model({
-                 imdb_id: this.model.get('imdb_id'),
-                 torrent: torrent,
-                 backdrop: this.model.get('backdrop'),
-                 subtitle: this.model.get('subtitle'),
-                 defaultSubtitle: this.subtitle_selected,
-                 title: this.model.get('title'),
-                 quality: quality,
-                 audios: audios,
-                 type: 'movie',
-                 device: App.Device.Collection.selected,
-                 cover: this.model.get('cover')
-             });
-             App.vent.trigger('stream:start', torrentStart);
+            //  var provider = this.model.get('provider');
+            //  var quality = this.model.get('quality');
+            //  var lang = this.model.get('audios');
+            //  var defaultTorrent = this.model.get('torrents')[quality];
+             //
+            //  var filters =  {
+            //      quality: quality,
+            //      lang: lang
+            //  };
+             //
+            //  var torrent = provider
+            //      .resolveStream(defaultTorrent, filters, this.model.attributes);
+             //
+            //  var torrentStart = new Backbone.Model({
+            //      imdb_id: this.model.get('imdb_id'),
+            //      torrent: torrent,
+            //      backdrop: this.model.get('backdrop'),
+            //      subtitle: this.model.get('subtitle'),
+            //      defaultSubtitle: this.subtitle_selected,
+            //      title: this.model.get('title'),
+            //      quality: quality,
+            //      audios: audios,
+            //      type: 'movie',
+            //      device: App.Device.Collection.selected,
+            //      cover: this.model.get('cover')
+            //  });
+            //  App.vent.trigger('stream:start', torrentStart);
          },
+
+         toggleDropdown: function (e) {
+            if ($('.sub-dropdown').is('.open')) {
+                this.closeDropdown(e);
+                return false;
+            } else {
+                $('.sub-dropdown').addClass('open');
+                $('.sub-dropdown-arrow').addClass('down');
+            }
+            var self = this;
+            $('.flag-container').fadeIn();
+        },
+
+        closeDropdown: function (e) {
+            e.preventDefault();
+            $('.flag-container').fadeOut();
+            $('.sub-dropdown').removeClass('open');
+            $('.sub-dropdown-arrow').removeClass('down');
+
+            var value = $(e.currentTarget).attr('data-lang');
+            if (value) {
+                this.switchSubtitle(value);
+            }
+        },
 
         playTrailer: function () {
 

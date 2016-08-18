@@ -535,5 +535,18 @@
 	"Unknown subtitle format": "Unknown subtitle format",
 	"Try another subtitle or drop one in the player": "Try another subtitle or drop one in the player",
 	"animation": "animation",
-	"family": "family"
+	"family": "family",
+	"show": "show",
+	"movie": "movie",
+	"Anime API Endpoint": "Anime API Endpoint",
+	"Movie API Endpoint": "Movie API Endpoint",
+	"%s minute remaining": {
+		"one": "%s minute remaining",
+		"other": "%s minutes remaining"
+	},
+	"%s second remaining": {
+		"one": "%s second remaining",
+		"other": "%s seconds remaining"
+	},
+	"Finished Airing": "Finished Airing"
 }
