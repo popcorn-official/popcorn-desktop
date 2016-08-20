@@ -25,6 +25,8 @@
 
       .flag
         top: -22px
+      .open .flag
+        top: 0px
       .dropdown-arrow
           width: 0
           height: 0
@@ -48,8 +50,13 @@
         display: block
         background: rgba(20, 24, 26, 0.6)
         opacity: 0
+        max-height: 0
+        max-width: 0
+        transition: all 1s
   .open .flag-container
-          opacity: 1
+        opacity: 1
+        max-height: 100%
+        max-width: 32vw
 
   .flag
         margin: 3px
