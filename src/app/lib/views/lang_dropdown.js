@@ -36,7 +36,6 @@
             this.model.set('values', newLangs);
             this.values = newLangs;
             this.render();
-            debugger
         },
 
         setLang: function (value) {
