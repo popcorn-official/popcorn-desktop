@@ -14,24 +14,29 @@
         initialize: function () {
             this.type = this.model.get('type');
             this.handler = this.model.get('handler');
-            this.selected = this.model.get('selected') || 'none';
+            this.selected = this.model.get('selected');
+            this.values = this.model.get('values');
+
+            if (!this.selected && this.values) {
+                var values = Object.keys(this.values)
+                if (values.length) {
+                    this.selected = values.pop();
+                }
+            }
         },
         onShow: function () {
             if (this.selected !== 'none') {
-                console.log ('got lang', this.selected)
                 this.setLang(this.selected)
             }
 
         },
         setLang: function (value) {
-            console.log ('setting to', value);
             this.model.set('selected', value);
             this.ui.selected.removeClass().addClass('flag toggle selected-lang').addClass(value);
             App.vent.trigger(this.type + ':lang', value);
             this.handler(value);
         },
         toggleDropdown: function (e) {
-            console.log ('dropdown-container', this);
             var el = $(this.el);
             if (el.find('.dropdown-container').is('.open')) {
                 this.closeDropdown(e);

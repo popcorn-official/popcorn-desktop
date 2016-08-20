@@ -94,9 +94,9 @@
                 model: new App.Model.Lang({
                     type: 'audio',
                     title: _('Audio Language'),
-                    selected: self.model.get('defaultAudio') || 'en',
-                    values: audios,
-                    handler: self.switchAudio.bind(self),
+                    selected: self.model.get('defaultAudio'),
+                    values: audios || {en: undefined},
+                    handler: self.switchAudio.bind(self)
                 })
             }));
 
@@ -105,7 +105,7 @@
                     type: 'sub',
                     title: _('Subtitle'),
                     selected: self.model.get('defaultSubtitle'),
-                    values: self.model.get('subtitle'),
+                    values: objectAssign({}, {none: undefined}, self.model.get('subtitle')),
                     handler: self.switchSubtitle.bind(self),
                 })
             }));

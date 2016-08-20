@@ -5,6 +5,9 @@ var
     inherits = require('util').inherits,
     Q = require('q'),
 
+    // es6 pollyfills
+    objectAssign = require('es6-object-assign').assign,
+
     // Machine readable
     os = require('os'),
     moment = require('moment'),
