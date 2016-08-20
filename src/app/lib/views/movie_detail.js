@@ -25,14 +25,15 @@
         },
 
         regions: {
-            SubDropdownRegion: '#subs-dropdown',
-            AudioDropdownRegion: '#audio-dropdown'
+            SubDropdown: '#subs-dropdown',
+            AudioDropdown: '#audio-dropdown'
         },
 
         initialize: function () {
             var _this = this;
 
             //Handle keyboard shortcuts when other views are appended or removed
+            this.models = {}; // internal models
 
             //If a child was removed from above this view
             App.vent.on('viewstack:pop', function () {
@@ -91,7 +92,7 @@
             App.MovieDetailView = this;
 
             var audios = self.model.get('audios')
-            this.AudioDropdown = new App.View.LangDropdown({
+            this.models.audio = new App.View.LangDropdown({
                 model: new App.Model.Lang({
                     type: 'audio',
                     title: _('Audio Language'),
@@ -100,9 +101,9 @@
                     handler: self.switchAudio.bind(self)
                 })
             })
-            this.AudioDropdownRegion.show (this.AudioDropdown);
+            this.AudioDropdown.show (this.models.audio);
 
-            this.SubDropdown = new App.View.LangDropdown({
+            this.models.subs = new App.View.LangDropdown({
                 model: new App.Model.Lang({
                     type: 'sub',
                     title: _('Subtitle'),
@@ -111,7 +112,7 @@
                     handler: self.switchSubtitle.bind(self),
                 })
             })
-            this.SubDropdownRegion.show (this.SubDropdown);
+            this.SubDropdown.show (this.models.subs);
 
             var backgroundUrl = $('.backdrop').attr('data-bgr');
 
@@ -189,6 +190,7 @@
         },
 
         loadSubtitles: function () {
+            var self = this;
             console.warn(this.model.attributes);
 
             var subProvider = App.Config.getProviderForType('subtitle');
@@ -202,6 +204,7 @@
                 if (subs && Object.keys(subs).length > 0) {
                     console.info(Object.keys(subs).length + ' subtitles found');
                     console.warn(subs);
+                    self.models.subs.updateLangs(subs);
                 } else {
                     console.warn('No subtitles returned');
                 }

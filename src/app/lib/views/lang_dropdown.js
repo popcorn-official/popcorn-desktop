@@ -12,6 +12,8 @@
         },
 
         initialize: function () {
+            var self = this;
+
             this.type = this.model.get('type');
             this.handler = this.model.get('handler');
             this.selected = this.model.get('selected');
@@ -30,6 +32,13 @@
             }
 
         },
+        updateLangs: function (newLangs) {
+            this.model.set('values', newLangs);
+            this.values = newLangs;
+            this.render();
+            debugger
+        },
+
         setLang: function (value) {
             this.model.set('selected', value);
             this.ui.selected.removeClass().addClass('flag toggle selected-lang').addClass(value);
