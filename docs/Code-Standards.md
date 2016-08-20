@@ -20,7 +20,7 @@ Coding isn't only about writing working lines, it's also creating code that can 
  * [Variable and function names](#variable-and-function-names)
  * [Callbacks vs. Promises](#callbacks-vs-promises)
  * [Filenames](#file-names)
-* [Providers](#providers)
+* [Providers, Streamers, Components](#providers-streamers-components)
 
 ***
 
@@ -189,8 +189,11 @@ The filenames should always be lowercase, using underscore to space it, for exam
 
 ***
 
-## Providers
-For the provider documentation, please see https://github.com/butterproviders/butter-provider
+## Providers, streamers, components
+For the provider documentation, please see :
+* https://github.com/butterproviders/butter-provider
+* https://github.com/buttercomponents/butter-component-builder
+* https://github.com/butterstreamers
 
 ***
 
