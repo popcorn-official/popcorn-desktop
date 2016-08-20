@@ -2,7 +2,7 @@
 
 ## Commit Messages
 
-1. The **first line should always be 50 characters or less** and that it should be followed by a blank line.
+1. The **first line of message should always be 50 characters or less** and that it should be followed by a blank line.
 
 2. Never use the `-m <msg>` / `--message=<msg>` flag to git commit.
 
@@ -13,16 +13,16 @@
   A more useful commit message might be:
 
   ```
-Redirect user to the requested page after login
+    Redirect user to the requested page after login
 
-https://trello.com/path/to/relevant/card
+    https://trello.com/path/to/relevant/card
 
-Users were being redirected to the home page after login, which is less
-useful than redirecting to the page they had originally requested before
-being redirected to the login form.
+    Users were being redirected to the home page after login, which is less
+    useful than redirecting to the page they had originally requested before
+    being redirected to the login form.
 
-* Store requested path in a session variable
-* Redirect to the stored location after successfully logging in the user
+    * Store requested path in a session variable
+    * Redirect to the stored location after successfully logging in the user
 ```
 
 3. A git commit should answer the following questions:
@@ -33,19 +33,19 @@ being redirected to the login form.
 
   * **How does it address the issue?**
   
-    Describe, at a high level, what was done to affect change. `Introduce a red/black tree to increase search speed` or `Remove <troublesome X>, which was causing <specific description of issue introduced by Y>` are good examples.
+    Describe, at a high level, what was done to affect change. Some good examples:
+    - `Introduce a red/black tree to increase search speed`  
+    - `Remove <troublesome X>, which was causing <specific description of issue introduced by Y>`
 
   * **What side effects does this change have?**
   
     This is the most important question to answer, as it can point out problems where you are making too many changes in one commit or branch. One or two bullet points for related changes may be okay, but five or six are likely indicators of a commit that is doing too many things.
 
-## Clean Up History
-
-`TODO`
-
 ## Check It Passes The Tests
 
-`TODO`
+Testing your code before submitting a PR is very important. Rebuild then try to open the application and manually check if everything is working.
+
+To launch the automated tests, type : `npm test`. It'll launch a serie of tests in console.
 
 ***
 
