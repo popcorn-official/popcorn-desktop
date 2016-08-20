@@ -204,7 +204,7 @@
                 if (subs && Object.keys(subs).length > 0) {
                     console.info(Object.keys(subs).length + ' subtitles found');
                     console.warn(subs);
-                    self.models.subs.updateLangs(subs);
+                    self.models.subs.updateLangs(objectAssign({}, {none: undefined}, subs));
                 } else {
                     console.warn('No subtitles returned');
                 }
