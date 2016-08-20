@@ -45,7 +45,7 @@
 
 Testing your code before submitting a PR is very important. Rebuild then try to open the application and manually check if everything is working.
 
-To launch the automated tests, just commit. It'll automatically pass JSHINT validation. Further tests might come. 
+To launch the automated tests, type : `npm test`. It'll launch a serie of tests in console.
 
 ***
 

@@ -120,21 +120,13 @@ If you're not completely clear on how to submit / update / *do* Pull Requests, p
 
 For translations please go to: [Transifex](https://www.transifex.com/butterproject/public/)
 
+## Installation / Setup Instructions
 
-## Working on Butter Core
-
-**Pre-requisites:**
-
-* Node 0.10.x
-
-### Installation / Setup Instructions
-
-1. Check you have the pre-requisites listed above!
 1. Clone the git repo
 1. cd into the project folder
-1. Run `npm install -g grunt-cli bower` - to make it possible to run grunt commands
+1. Run `npm install -g gulp-cli` - to make it possible to run grunt commands
 
-[complete documentation](https://github.com/butterproject/butter-desktop/tree/master/docs/Build-Debug.md).
+[Complete documentation](docs/Build-Debug.md).
 
 ### Updating with the latest changes
 
