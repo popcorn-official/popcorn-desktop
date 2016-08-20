@@ -41,13 +41,11 @@
   
     This is the most important question to answer, as it can point out problems where you are making too many changes in one commit or branch. One or two bullet points for related changes may be okay, but five or six are likely indicators of a commit that is doing too many things.
 
-## Clean Up History
-
-`TODO`
-
 ## Check It Passes The Tests
 
-`TODO`
+Testing your code before submitting a PR is very important. Rebuild then try to open the application and manually check if everything is working.
+
+To launch the automated tests, just commit. It'll automatically pass JSHINT validation. Further tests might come. 
 
 ***
 

@@ -20,6 +20,7 @@ Coding isn't only about writing working lines, it's also creating code that can 
  * [Variable and function names](#variable-and-function-names)
  * [Callbacks vs. Promises](#callbacks-vs-promises)
  * [Filenames](#file-names)
+* [Providers](#providers)
 
 ***
 
@@ -185,6 +186,11 @@ However, you should not use Promises everywhere: some functions will run perfect
 
 #### Filenames
 The filenames should always be lowercase, using underscore to space it, for example `drag_drop.js`
+
+***
+
+## Providers
+For the provider documentation, please see https://github.com/butterproviders/butter-provider
 
 ***
 

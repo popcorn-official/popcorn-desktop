@@ -12,7 +12,6 @@ You want to build the sources yourself? Great! This little guide will help you a
  * [Build and run from sources](#build-from-sources)
  * [Create redistribuable packages](#create-redistribuable-packages)
  * [Keep your sources up-to-date](#keep-your-sources-up-to-date)
-* [Video tutorial (Windows)](#video-tutorial-windows)
 
 ***
 
@@ -103,6 +102,3 @@ With `git`, you can stay up-to-date easily and track the upstream modifications.
         gulp run
 
 ***
-
-## Video tutorial (Windows)
-TODO.
