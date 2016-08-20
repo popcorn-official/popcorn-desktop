@@ -108,7 +108,8 @@
                     type: 'sub',
                     title: _('Subtitle'),
                     selected: self.model.get('defaultSubtitle'),
-                    values: objectAssign({}, {none: undefined}, self.model.get('subtitle')),
+                    hasNull: true,
+                    values: self.model.get('subtitle'),
                     handler: self.switchSubtitle.bind(self),
                 })
             })
@@ -204,7 +205,7 @@
                 if (subs && Object.keys(subs).length > 0) {
                     console.info(Object.keys(subs).length + ' subtitles found');
                     console.warn(subs);
-                    self.models.subs.updateLangs(objectAssign({}, {none: undefined}, subs));
+                    self.models.subs.updateLangs(subs);
                 } else {
                     console.warn('No subtitles returned');
                 }

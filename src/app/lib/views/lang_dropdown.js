@@ -18,6 +18,12 @@
             this.handler = this.model.get('handler');
             this.selected = this.model.get('selected');
             this.values = this.model.get('values');
+            this.hasNull = this.model.get('hasNull');
+
+            if (this.hasNull) {
+                this.values = objectAssign ({}, {none: undefined}, this.values);
+                this.model.set('values', this.values);
+            }
 
             if (!this.selected && this.values) {
                 var values = Object.keys(this.values)
@@ -33,6 +39,9 @@
 
         },
         updateLangs: function (newLangs) {
+            if (this.hasNull) {
+                newLangs = objectAssign ({}, {none: undefined}, newLangs);
+            }
             this.model.set('values', newLangs);
             this.values = newLangs;
             this.render();
