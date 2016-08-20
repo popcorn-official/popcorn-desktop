@@ -11,8 +11,7 @@
 
         events: {
             'click .close-icon': 'closeAbout',
-            'click #changelog': 'showChangelog',
-            'click .title-issue': 'reportIssue'
+            'click #changelog': 'showChangelog'
         },
 
         onShow: function () {
@@ -51,10 +50,6 @@
                     gui.Shell.openExternal(Settings.changelogUrl);
                 }
             });
-        },
-
-        reportIssue: function () {
-            App.vent.trigger('issue:new');
         },
 
         closeChangelog: function () {

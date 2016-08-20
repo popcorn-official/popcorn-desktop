@@ -12,10 +12,6 @@
             <% } %>
         </div>
 
-        <div class="title-issue">
-            <a><%= i18n.__("Report an issue") %></a>
-        </div>
-
         <div class="text-about">
             <div class="full-text">
                 <%= i18n.__("%s is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.", Settings.projectName) %><br/>

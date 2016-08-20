@@ -44,7 +44,6 @@
         "airplay-js": "git+https://github.com/guerrerocarlos/node-airplay-js.git",
         "async": "1.5.x",
         "chromecast-js": "git+https://github.com/captainyarr/chromecast-js.git",
-        "gitlab": "1.4.1",
         "defer-request": "0.0.2",
         "i18n": "0.x.x",
         "iconv-lite": "0.x.x",
