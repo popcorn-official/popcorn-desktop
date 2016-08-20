@@ -49,6 +49,8 @@
             });
 
             App.vent.on('shortcuts:movies', _this.initKeyboardShortcuts);
+            App.vent.on('sub:lang',   _this.switchSubtitle.bind(_this));
+            App.vent.on('audio:lang', _this.switchAudio.bind(_this));
 
             this.model.on('change:quality', this.renderHealth, this);
         },
@@ -221,11 +223,36 @@
             this.subtitle_selected = lang;
             // this.ui.selected_lang.removeClass().addClass('flag toggle selected-lang').addClass(this.subtitle_selected);
 
-            console.log('Subtitles: ' + this.subtitle_selected);
+            console.info('Subtitles: ' + this.subtitle_selected);
+        },
+
+        switchAudio: function (lang) {
+            var audios = this.model.get('audios');
+
+            if (audios === undefined || audios[lang] === undefined) {
+                lang = 'none';
+            }
+
+            this.audio_selected = lang;
+
+            console.info('Audios: ' + this.audio_selected);
         },
 
         startStreaming: function () {
-            var torrent = this.model.get('torrents')[this.model.get('quality')];
+            var providerName = this.model.get('provider');
+            var provider = App.Providers.get(providerName);
+            var quality = this.model.get('quality');
+            var lang = this.model.get('lang');
+            var defaultTorrent = this.model.get('torrents')[quality];
+
+            var filters =  {
+                quality: quality,
+                lang: lang
+            };
+
+            var torrent = provider
+                .resolveStream(defaultTorrent, filters, this.model.attributes);
+
             var torrentStart = new Backbone.Model({
                 imdb_id: this.model.get('imdb_id'),
                 torrent: torrent,
@@ -233,7 +260,8 @@
                 subtitle: this.model.get('subtitle'),
                 defaultSubtitle: this.subtitle_selected,
                 title: this.model.get('title'),
-                quality: this.model.get('quality'),
+                quality: quality,
+                lang: lang,
                 type: 'movie',
                 device: App.Device.Collection.selected,
                 cover: this.model.get('cover')
