@@ -7,7 +7,7 @@
             selected: '.selected-lang',
         },
         events: {
-            'click .dropdown': 'toggleDropdown',
+            'click .dropdown-title': 'toggleDropdown',
             'click .flag-icon': 'closeDropdown',
         },
 

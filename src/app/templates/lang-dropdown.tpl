@@ -1,6 +1,6 @@
 <div class="dropdown-container">
     <div class="dropdown-title">
-        <%= title %>
+        <span><%= title %></span>
         <div class="selected-lang flag-icon flag none" title="<%= App.Localization.nativeName(selected) %>"></div>
         <div class="dropdown-arrow"></div>
     </div>
