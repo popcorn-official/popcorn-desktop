@@ -1,14 +1,14 @@
 {
-  "name": "Popcorn-Time",
-  "companyName": "Popcorn Time",
-  "installIcon": "./src/app/images/popcorntime.ico",
-  "unInstallIcon": "./src/app/images/butter_uninstall.ico",
-  "homepage": "http://popcorntime.sh/",
-  "bugs": "https://github.com/popcorn-official/popcorn-desktop/issues",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/popcorn-official/popcorn-desktop.git"
-  },
+    "name": "Popcorn-Time",
+    "companyName": "Popcorn Time",
+    "installIcon": "./src/app/images/popcorntime.ico",
+    "unInstallIcon": "./src/app/images/butter_uninstall.ico",
+    "homepage": "http://popcorntime.sh/",
+    "bugs": "https://github.com/popcorn-official/popcorn-desktop/issues",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/popcorn-official/popcorn-desktop.git"
+    },
     "license": "GPL-3.0",
     "main": "app://host/src/app/index.html",
     "version": "0.3.9",
@@ -44,7 +44,7 @@
         "butter-provider-vodo": "git+https://github.com/butterproviders/butter-provider-vodo",
         "popcorn-txt-api": "git+https://github.com/hackhackhack/popcorn-txt-api",
         "butter-provider-vodo": "git+https://github.com/butterproviders/butter-provider-vodo",
-        "butter-provider-archive": "git+https://github.com/butterproviders/butter-provider-archive",
+        "popcorn-txt-api": "git+https://github.com/hackhackhack/popcorn-txt-api",
         "adm-zip": "0.4.7",
         "dlnacasts": "^0.1.0",
         "airplay-js": "git+https://github.com/guerrerocarlos/node-airplay-js.git",

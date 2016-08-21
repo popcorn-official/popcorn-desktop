@@ -23,11 +23,17 @@ If you clone the GitHub repository, you will need to build a number of assets us
 The [master](https://github.com/popcorn-official/popcorn-desktop) branch which contains the latest release.
 
 #### Quickstart:
+
 1. `gulp run`
 
 If you encounter trouble with the above method, you can try:
 
-1. `npm install -g bower gulp gulp-cli` (Linux: you may need to run with `sudo`)
+1. `npm start`
+
+If you encounter trouble with the above method, you can try:
+
+1. `npm install -g bower gulp` (Linux: you may need to run with `sudo`)
+
 2. `npm install`
 3. `bower install`
 4. `gulp css`
@@ -47,7 +53,7 @@ Keep track of Popcorn Time development and community activity.
 * Join in discussions on the [Popcorn Time Forum](https://reddit.com/r/PopCornTime/)
 * Connect with us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime))
 
-##Screenshots
+## Screenshots
 ![Popcorn Time](https://cloud.githubusercontent.com/assets/8317250/10714437/b1e1dc8c-7b32-11e5-9c25-d9fbd5b2f3bd.png)
 ![Debugging Popcorn Time](https://cloud.githubusercontent.com/assets/8317250/10714430/add70234-7b32-11e5-9be7-1de539d865ba.png)
 
@@ -80,5 +86,4 @@ You should have received a copy of the GNU General Public License along with thi
 
 ***
 
-Copyright (c) 2016 Popcorn Time Project - Released under the
-[GPL v3 license](LICENSE.txt).
+Copyright (c) 2016 Popcorn Time Project - Released under the [GPL v3 license](LICENSE.txt).

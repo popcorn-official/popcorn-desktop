@@ -274,7 +274,7 @@
                             info: torrent,
                             subtitle: model.get('subtitle'),
                             defaultSubtitle: model.get('defaultSubtitle'),
-                            title: title,
+                            title: model.get('title'),
                             tvdb_id: model.get('tvdb_id'),
                             imdb_id: model.get('imdb_id'),
                             episode_id: model.get('episode_id'),

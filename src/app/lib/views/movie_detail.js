@@ -229,13 +229,18 @@
         },
 
         startStreaming: function () {
-          var torrent = this.model.get('torrents')[this.model.get('quality')];
+            var movieInfo = {
+                type: 'movie',
+                imdbid: this.model.get('imdb_id')
+            };
+            var torrent = this.model.get('torrents')[this.model.get('quality')];
             var torrentStart = new Backbone.Model({
                 imdb_id: this.model.get('imdb_id'),
                 torrent: torrent,
                 backdrop: this.model.get('backdrop'),
                 subtitle: this.model.get('subtitle'),
-                defaultSubtitle: this.subtitle_selected,
+                defaultSubtitle: this.subtitle_selected, //originally: this.subtitle_selected,
+                extract_subtitle: movieInfo,
                 title: this.model.get('title'),
                 quality: this.model.get('quality'),
                 type: 'movie',
@@ -403,7 +408,7 @@
             }
             if (e.button === 2) { //if right click on magnet link
                 var clipboard = gui.Clipboard.get();
-                clipboard.set(magnetLink, 'text'); //copy link to clipboard
+                clipboard.set(magnetLink.replace(/&amp;/gi, '&'), 'text'); //copy link to clipboard
                 $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
             } else {
                 gui.Shell.openExternal(magnetLink);

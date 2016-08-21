@@ -548,5 +548,9 @@
 		"one": "%s second remaining",
 		"other": "%s seconds remaining"
 	},
-	"Finished Airing": "Finished Airing"
+	"Finished Airing": "Finished Airing",
+	"mystery": "mystery",
+	"romance": "romance",
+	"Currently Airing": "Currently Airing",
+	"documentary": "documentary"
 }

@@ -13,7 +13,7 @@
                 return Q.allSettled(_.map(ids, function (id) {
                     return metadata.movies.summary(id);
                 }));
-            }) : true
+            }) : true,
         ];
 
         console.log('pre all', promises);
