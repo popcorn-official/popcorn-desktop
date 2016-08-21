@@ -8,6 +8,7 @@
     display: flex
     flex-direction: column
     .dropdown-title
+      display: flex
       position: relative
       height: 26px
       width: auto
@@ -21,37 +22,46 @@
       padding: 5px
       padding-right: 13px
 
+      span
+        flex: 2
+        margin-right: 20px
+        white-space: nowrap
+
       .selected-lang
-          position: absolute
+        position: relative
+        top: -5px
+
       .dropdown-arrow
-          width: 0
-          height: 0
-          border-left: 4px solid transparent
-          border-right: 4px solid transparent
-          top: 10px
-          position: absolute
-          right: 5px
-          border-top: 5px solid #c4c6c8
-          border-bottom: none
-          &.down
-            border-bottom: 5px solid #c4c6c8
-            border-top: none
+        width: 0
+        height: 0
+        border-left: 4px solid transparent
+        border-right: 4px solid transparent
+        margin-top: 5px
+        border-top: 5px solid #c4c6c8
+        border-bottom: none
+        &.down
+          border-bottom: 5px solid #c4c6c8
+          border-top: none
 
   .flag-container
+        display: flex
+        flex-direction: row-reverse
+        flex-wrap: wrap
         position: relative
         z-index: 3
         overflow-x: hidden
         overflow-y: hidden
-        display: block
         background: rgba(20, 24, 26, 0.6)
         opacity: 0
         max-height: 0
         max-width: 0
-        transition: all 1s
+        padding-right: 23px
+        transition: all 0.4s, max-height 0.4s ease 0.4s
+
   .open .flag-container
         opacity: 1
         max-height: 100%
-        max-width: 32vw
+        max-width: 15vw
 
   .flag
         margin: 3px
