@@ -1,12 +1,16 @@
 .dropdowns-container 
   display: flex
   flex-direction: row
+  flex-wrap: wrap
+  justify-content: flex-end
+
   .open .dropdown-title
     background-color: rgba($ButtonBgActive,0.6);
     border-radius: 5px 5px 0 0;
   .dropdown-container
     display: flex
     flex-direction: column
+
     .dropdown-title
       display: flex
       position: relative

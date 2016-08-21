@@ -4,36 +4,22 @@
     App.View.MovieDetail = Backbone.Marionette.LayoutView.extend({
         template: '#movie-detail-tpl',
         className: 'movie-detail',
-
-        ui: {
-            bookmarkIcon: '.favourites-toggle',
-            watchedIcon: '.watched-toggle'
-        },
-
         events: {
-            'click #watch-now': 'startStreaming',
-            'click #watch-trailer': 'playTrailer',
             'click .close-icon': 'closeDetails',
-            'click #switch-hd-on': 'enableHD',
-            'click #switch-hd-off': 'disableHD',
-            'click .favourites-toggle': 'toggleFavourite',
-            'click .watched-toggle': 'toggleWatched',
             'click .movie-imdb-link': 'openIMDb',
             'mousedown .magnet-link': 'openMagnet',
-            'click .playerchoicemenu li a': 'selectPlayer',
             'click .rating-container': 'switchRating'
         },
 
         regions: {
-            SubDropdown: '#subs-dropdown',
-            AudioDropdown: '#audio-dropdown'
+            PlayControl: '#play-control'
         },
 
         initialize: function () {
             var _this = this;
 
             //Handle keyboard shortcuts when other views are appended or removed
-            this.models = {}; // internal models
+            this.views = {}; // internal models
 
             //If a child was removed from above this view
             App.vent.on('viewstack:pop', function () {
@@ -49,41 +35,17 @@
                 }
             });
 
-            App.vent.on('shortcuts:movies', _this.initKeyboardShortcuts);
-            App.vent.on('sub:lang',   _this.switchSubtitle.bind(_this));
-            App.vent.on('audio:lang', _this.switchAudio.bind(_this));
-
-            this.model.on('change:quality', this.renderHealth, this);
+            App.vent.on('change:quality', function (quality) {
+                _this.model.set('quality', quality);
+                _this.renderHealth();
+            })
         },
 
         onShow: function () {
             console.log('Show movie detail (' + this.model.get('imdb_id') + ')');
             var self = this;
             this.handleAnime();
-            this.loadSubtitles();
-
-            var torrents = this.model.get('torrents');
-            if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
-                this.model.set('quality', Settings.movies_default_quality);
-            } else if (torrents['1080p'] !== undefined) {
-                this.model.set('quality', '1080p');
-            } else if (torrents['720p'] !== undefined) {
-                this.model.set('quality', '720p');
-            } else if (torrents['480p'] !== undefined) {
-                this.model.set('quality', '480p');
-            } else if (torrents['HDRip'] !== undefined) {
-                this.model.set('quality', 'HDRip');
-            }
-
-            if (Settings.movies_default_quality === '720p' && torrents['720p'] !== undefined && document.getElementsByName('switch')[0] !== undefined) {
-                document.getElementsByName('switch')[0].checked = true;
-            }
-
-            if (!this.model.get('trailer')) {
-                $('#watch-trailer').hide();
-            }
-
-            this.renderHealth();
+            this.loadMovieSubtitles();
 
             $('.star-container,.movie-imdb-link,.q720,input,.magnet-link').tooltip({
                 html: true
@@ -91,29 +53,10 @@
 
             App.MovieDetailView = this;
 
-            var audios = self.model.get('audios')
-            this.models.audio = new App.View.LangDropdown({
-                model: new App.Model.Lang({
-                    type: 'audio',
-                    title: _('Audio Language'),
-                    selected: self.model.get('defaultAudio'),
-                    values: audios || {en: undefined},
-                    handler: self.switchAudio.bind(self)
-                })
-            })
-            this.AudioDropdown.show (this.models.audio);
-
-            this.models.subs = new App.View.LangDropdown({
-                model: new App.Model.Lang({
-                    type: 'sub',
-                    title: _('Subtitle'),
-                    selected: self.model.get('defaultSubtitle'),
-                    hasNull: true,
-                    values: self.model.get('subtitle'),
-                    handler: self.switchSubtitle.bind(self),
-                })
-            })
-            this.SubDropdown.show (this.models.subs);
+            this.views.play = new App.View.PlayControl({
+                model: this.model
+            });
+            this.PlayControl.show(this.views.play)
 
             var backgroundUrl = $('.backdrop').attr('data-bgr');
 
@@ -141,33 +84,6 @@
                 coverCache = null;
             };
 
-            // switch to default subtitle
-            this.switchSubtitle(Settings.subtitle_language);
-
-            // Bookmarked / not bookmarked
-            if (this.model.get('bookmarked') === true) {
-                this.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
-            }
-
-            // Seen / Unseen
-            if (this.model.get('watched') === true) {
-                this.ui.watchedIcon.addClass('selected').text(i18n.__('Seen'));
-            }
-            var _this = this;
-            this.ui.watchedIcon.hover(function () {
-                if (_this.model.get('watched')) {
-                    _this.ui.watchedIcon.text(i18n.__('Mark as unseen'));
-                } else {
-                    _this.ui.watchedIcon.text(i18n.__('Mark as Seen'));
-                }
-            }, function () {
-                if (_this.model.get('watched')) {
-                    _this.ui.watchedIcon.text(i18n.__('Seen'));
-                } else {
-                    _this.ui.watchedIcon.text(i18n.__('Not Seen'));
-                }
-            });
-
             // display stars or number
             if (AdvSettings.get('ratingStars') === false) {
                 $('.star-container').addClass('hidden');
@@ -175,9 +91,6 @@
             }
 
             this.initKeyboardShortcuts();
-
-            App.Device.Collection.setDevice(Settings.chosenPlayer);
-            App.Device.ChooserView('#player-chooser').render();
         },
 
         handleAnime: function () {
@@ -190,7 +103,7 @@
             $('.dot').css('opacity', 0);
         },
 
-        loadSubtitles: function () {
+        loadMovieSubtitles: function () {
             var self = this;
             console.warn(this.model.attributes);
 
@@ -205,7 +118,7 @@
                 if (subs && Object.keys(subs).length > 0) {
                     console.info(Object.keys(subs).length + ' subtitles found');
                     console.warn(subs);
-                    self.models.subs.updateLangs(subs);
+                    App.vent.trigger('update:subtitles', subs);
                 } else {
                     console.warn('No subtitles returned');
                 }
@@ -240,101 +153,8 @@
             AdvSettings.set('ratingStars', $('.number-container').hasClass('hidden'));
         },
 
-        switchSubtitle: function (lang) {
-            var subtitles = this.model.get('subtitle');
-
-            if (subtitles === undefined || subtitles[lang] === undefined) {
-                lang = 'none';
-            }
-
-            this.subtitle_selected = lang;
-            // this.ui.selected_lang.removeClass().addClass('flag toggle selected-lang').addClass(this.subtitle_selected);
-
-            console.info('Subtitles: ' + this.subtitle_selected);
-        },
-
-        switchAudio: function (lang) {
-            var audios = this.model.get('audios');
-
-            if (audios === undefined || audios[lang] === undefined) {
-                lang = 'none';
-            }
-
-            this.audio_selected = lang;
-
-            console.info('Audios: ' + this.audio_selected);
-        },
-
-        startStreaming: function () {
-            var providerName = this.model.get('provider');
-            var provider = App.Providers.get(providerName);
-            var quality = this.model.get('quality');
-            var lang = this.model.get('lang');
-            var defaultTorrent = this.model.get('torrents')[quality];
-
-            var filters =  {
-                quality: quality,
-                lang: lang
-            };
-
-            var torrent = provider
-                .resolveStream(defaultTorrent, filters, this.model.attributes);
-
-            var torrentStart = new Backbone.Model({
-                imdb_id: this.model.get('imdb_id'),
-                torrent: torrent,
-                backdrop: this.model.get('backdrop'),
-                subtitle: this.model.get('subtitle'),
-                defaultSubtitle: this.subtitle_selected,
-                title: this.model.get('title'),
-                quality: quality,
-                lang: lang,
-                type: 'movie',
-                device: App.Device.Collection.selected,
-                cover: this.model.get('cover')
-            });
-            App.vent.trigger('stream:start', torrentStart);
-        },
-
-        playTrailer: function () {
-
-            var trailer = new Backbone.Model({
-                src: this.model.get('trailer'),
-                type: 'video/youtube',
-                subtitle: null,
-                quality: false,
-                title: this.model.get('title')
-            });
-            var tmpPlayer = App.Device.Collection.selected.attributes.id;
-            App.Device.Collection.setDevice('local');
-            App.vent.trigger('stream:ready', trailer);
-            App.Device.Collection.setDevice(tmpPlayer);
-        },
-
         closeDetails: function () {
             App.vent.trigger('movie:closeDetail');
-        },
-
-        enableHD: function () {
-            var torrents = this.model.get('torrents');
-
-            if (torrents['1080p'] !== undefined) {
-                torrents = this.model.get('torrents');
-                this.model.set('quality', '1080p');
-                console.log('HD Enabled', this.model.get('quality'));
-                AdvSettings.set('movies_default_quality', '1080p');
-            }
-        },
-
-        disableHD: function () {
-            var torrents = this.model.get('torrents');
-
-            if (torrents['720p'] !== undefined) {
-                torrents = this.model.get('torrents');
-                this.model.set('quality', '720p');
-                console.log('HD Disabled', this.model.get('quality'));
-                AdvSettings.set('movies_default_quality', '720p');
-            }
         },
 
         renderHealth: function () {
@@ -349,41 +169,6 @@
                 .addClass(health)
                 .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + torrent.seed + ' - ' + i18n.__('Peers:') + ' ' + torrent.peer)
                 .tooltip('fixTitle');
-        },
-
-
-        toggleFavourite: function (e) {
-            if (e.type) {
-                e.stopPropagation();
-                e.preventDefault();
-            }
-            var that = this;
-            if (this.model.get('bookmarked') === true) {
-                that.ui.bookmarkIcon.removeClass('selected').text(i18n.__('Add to bookmarks'));
-                that.model.set('bookmarked', false);
-            } else {
-                that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
-                that.model.set('bookmarked', true);
-            }
-            $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-favorites').click();
-        },
-
-        toggleWatched: function (e) {
-
-            if (e.type) {
-                e.stopPropagation();
-                e.preventDefault();
-            }
-            var that = this;
-            if (this.model.get('watched') === true) {
-                that.model.set('watched', false);
-                that.ui.watchedIcon.removeClass('selected').text(i18n.__('Not Seen'));
-            } else {
-                that.model.set('watched', true);
-                that.ui.watchedIcon.addClass('selected').text(i18n.__('Seen'));
-            }
-
-            $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-watched').click();
         },
 
         openIMDb: function () {
@@ -408,28 +193,5 @@
                 nw.Shell.openExternal(magnetLink);
             }
         },
-
-        toggleQuality: function (e) {
-            if ($('#switch-hd-off').is(':checked')) {
-                $('#switch-hd-on').trigger('click');
-            } else {
-                $('#switch-hd-off').trigger('click');
-            }
-            App.vent.trigger('qualitychange');
-
-            if (e.type) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        },
-
-        selectPlayer: function (e) {
-            var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
-            this.model.set('device', player);
-            if (!player.match(/[0-9]+.[0-9]+.[0-9]+.[0-9]/ig)) {
-                AdvSettings.set('chosenPlayer', player);
-            }
-        }
-
     });
 })(window.App);
