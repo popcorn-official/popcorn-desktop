@@ -51,7 +51,7 @@ Unicode True
 ;      Settings       ;
 ; ------------------- ;
 ;General Settings
-!define COMPANY_NAME "Popcorn Time"
+;!define COMPANY_NAME "Popcorn Time"
 Name "${APP_NAME}"
 Caption "${APP_NAME} ${APP_VERSION}"
 BrandingText "${APP_NAME} ${APP_VERSION}"
@@ -514,4 +514,4 @@ FunctionEnd
 ; ------------------ ;
 Function finishpageaction
     CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${APP_LAUNCHER}" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME} ${APP_VERSION}"
-FunctionEnd   
+FunctionEnd���
