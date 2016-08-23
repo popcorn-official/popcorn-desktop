@@ -14,7 +14,7 @@
     "version": "0.3.9",
     "releaseName": "Popcorn is Love",
     "scripts": {
-        "postinstall": "node_modules/.bin/bower install --config.interactive=false",
+        "postinstall": "node_modules/.bin/bower install --config.interactive=false && npm run postupdate",
         "postupdate": "node_modules/.bin/bower update --config.interactive=false",
         "test": "gulp test"
     },
