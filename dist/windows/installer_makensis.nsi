@@ -11,7 +11,7 @@ Unicode True
 ;  Parse package.json ;
 ; ------------------- ;
 !searchparse /file "..\..\package.json" '"name": "' APP_NAME '",'
-!searchreplace APP_NAME "${APP_NAME}" "-" " "
+;!searchreplace APP_NAME "${APP_NAME}" "-" " "
 !searchparse /file "..\..\package.json" '"companyName": "' COMPANY_NAME '",'
 !searchparse /file "..\..\package.json" '"version": "' APP_VERSION '",'
 !searchreplace APP_VERSION_CLEAN "${APP_VERSION}" "-" ".0"
@@ -51,7 +51,6 @@ Unicode True
 ;      Settings       ;
 ; ------------------- ;
 ;General Settings
-;!define COMPANY_NAME "Popcorn Time"
 Name "${APP_NAME}"
 Caption "${APP_NAME} ${APP_VERSION}"
 BrandingText "${APP_NAME} ${APP_VERSION}"
@@ -79,9 +78,7 @@ RequestExecutionLevel user
 ;     UI Settings     ;
 ; ------------------- ;
 ;Define UI settings
-!define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
-!define MUI_ICON "..\..\src\app\images\butter.ico"
-!define MUI_UNICON "..\..\src\app\images\butter_uninstall.ico"
+
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
 !define MUI_ABORTWARNING
@@ -514,4 +511,4 @@ FunctionEnd
 ; ------------------ ;
 Function finishpageaction
     CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${APP_LAUNCHER}" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME} ${APP_VERSION}"
-FunctionEnd���
+FunctionEnd
