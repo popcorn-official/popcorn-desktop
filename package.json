@@ -95,7 +95,7 @@
         "gulp-load-plugins": "^1.2.0",
         "guppy-pre-commit": "^0.3.0",
         "nib": "^1.1.0",
-        "nw-builder": "2.2.0",
+        "nw-builder": "3.0.0",
         "run-sequence": "^1.1.5",
         "stylus": "^0.54.2",
         "yargs": "^4.4.0"
