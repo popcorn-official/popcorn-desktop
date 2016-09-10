@@ -87,11 +87,6 @@ const parseReqDeps = () => {
     });
 };
 
-// console.log for thenable promises
-const log = () => {
-    console.log.apply(console, arguments);
-};
-
 // handle callbacks
 function promiseCallback(fn) {
     // use ES6 rest params for much cleaner code
@@ -216,7 +211,7 @@ gulp.task('nwjs', () => {
         nw.options.files = nw.options.files.concat(['!./node_modules/**/*.bin', '!./node_modules/**/*.c', '!./node_modules/**/*.h', '!./node_modules/**/Makefile', '!./node_modules/**/*.h', '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**']);
 
         return nw.build();
-    }).catch(log);
+    }).catch(console.log.bind(console));
 });
 
 
@@ -303,7 +298,7 @@ gulp.task('nsis', () => {
                 resolve();
             });
         });
-    })).catch(log);
+    })).catch(console.log.bind(console));
 });
 
 // compile debian packages
@@ -360,7 +355,7 @@ gulp.task('deb', () => {
                 resolve();
             });
         });
-    })).catch(log);
+    })).catch(console.log.bind(console));
 });
 
 // package in tgz (win) or in xz (unix)
@@ -415,7 +410,7 @@ gulp.task('compress', () => {
                 });
             }
         });
-    })).catch(log);
+    })).catch(console.log.bind(console));
 });
 
 // prevent commiting if conditions aren't met and force beautify (bypass with `git commit -n`)
