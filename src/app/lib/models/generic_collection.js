@@ -81,7 +81,9 @@
                             }
 
                             if (info.images.fanart) {
-                                movie.backdrop = info.images.full;
+                                if (!movie.backdrop) {
+                                  movie.backdrop = info.images.fanart.full;
+                                }
                             }
                         } else {
                             win.warn('Unable to find %s (%s) on Trakt.tv', id, movie.title);
