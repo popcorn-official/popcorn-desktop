@@ -229,7 +229,7 @@
         },
 
         onlineOpen: function (e) {
-            var file = $(e.currentTarget).context.dataset.file;
+            var file = e.currentTarget.dataset.file;
             Settings.droppedMagnet = file;
             window.handleTorrent(file);
         },
