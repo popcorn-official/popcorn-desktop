@@ -21,6 +21,8 @@
             'click .watched-toggle': 'toggleWatched',
             'click .movie-imdb-link': 'openIMDb',
             'mousedown .magnet-link': 'openMagnet',
+            'click .sub-dropdown': 'toggleDropdown',
+            'click .sub-flag-icon': 'closeDropdown',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .rating-container': 'switchRating'
         },
