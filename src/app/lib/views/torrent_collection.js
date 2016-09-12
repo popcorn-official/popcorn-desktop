@@ -279,7 +279,7 @@
         },
 
         openFileSelector: function (e) {
-            var _file = $(e.currentTarget).context.innerText,
+            var _file = e.currentTarget.innerText,
                 file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
             if (_file.indexOf('.torrent') !== -1) {
@@ -300,14 +300,14 @@
 
             var magnetLink;
 
-            if ($(e.currentTarget.parentNode).context.className === 'file-item') {
+            if (e.currentTarget.parentNode.className === 'file-item') {
                 // stored
-                var _file = $(e.currentTarget.parentNode).context.innerText,
+                var _file = e.currentTarget.parentNode.innerText,
                     file = _file.substring(0, _file.length - 2); // avoid ENOENT
                 magnetLink = fs.readFileSync(collection + file, 'utf8');
             } else {
                 // search result
-                magnetLink = $(e.currentTarget.parentNode).context.attributes['data-file'].value;
+                magnetLink = e.currentTarget.parentNode.attributes['data-file'].value;
             }
 
             if (e.button === 2) { //if right click on magnet link
@@ -324,7 +324,7 @@
             e.preventDefault();
             e.stopPropagation();
 
-            var _file = $(e.currentTarget.parentNode).context.innerText,
+            var _file = e.currentTarget.parentNode.innerText,
                 file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
             fs.unlinkSync(collection + file);
@@ -340,7 +340,7 @@
             e.preventDefault();
             e.stopPropagation();
 
-            var _file = $(e.currentTarget.parentNode).context.innerText,
+            var _file = e.currentTarget.parentNode.innerText,
                 file = _file.substring(0, _file.length - 2), // avoid ENOENT
                 isTorrent = false;
 
