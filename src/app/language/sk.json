@@ -119,7 +119,7 @@
     "Changelog": "Changelog",
     "Butter! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Butter je výsledkom mnohých vývojárov a dizajnérov, ktorí dali dokopy niekoľko API so zámerom urobiť pozeranie torrent filmov tak jednoduché, ako je to len možné.",
     "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "Sme opensourcový projekt. Sme z celého sveta. Milujeme filmy. A chlapče, milujeme popcorn.",
-    "Invalid Database File Selected": "Bol vybraný nesprávny súbor PCT databázy",
+    "Invalid PCT Database File Selected": "Bol vybraný nesprávny súbor PCT databázy",
     "Health Unknown": "Zdravie Neznáme",
     "Episodes": "Epizódy",
     "Episode %s": "Epizóda %s",

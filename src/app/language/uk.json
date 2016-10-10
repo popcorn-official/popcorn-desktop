@@ -1,4 +1,4 @@
-﻿{
+{
     "External Player": "Зовнішній програвач",
     "Made with": "Зроблено за допомогою",
     "by a bunch of geeks from All Around The World": "купою розумників з усіх куточків світу",
@@ -119,7 +119,7 @@
     "Changelog": "Список змін",
     "Butter! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Butter! — співпраці багатьох розробників і дизайнерів, які поєднали багато засобів, щоб максимально спростити перегляд фільмів через торренти.",
     "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "Ми — проект з відкритим кодом. Ми по цілому світу. Ми любимо фільми. І як же сильно ми любимо попкорн...",
-    "Invalid Database File Selected": "Вибраний неправильний файл бази даних PCT",
+    "Invalid PCT Database File Selected": "Вибраний неправильний файл бази даних PCT",
     "Health Unknown": "Невідомий стан",
     "Episodes": "Серії",
     "Episode %s": "Серії",

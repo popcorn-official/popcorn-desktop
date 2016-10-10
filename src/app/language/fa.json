@@ -1,4 +1,4 @@
-﻿{
+{
     "External Player": "پلیر خارجی",
     "Made with": "برنامه‌نویسی شده با",
     "by a bunch of geeks from All Around The World": "توسط چند گیک کامپیوتر از همه جای دنیا",
@@ -119,7 +119,7 @@
     "Changelog": "فهرست تغییرات",
     "Butter! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "را با هم ترکیب کرده تا لذت تماشای فیلم‌های تورنت را تا جای ممکن ساده کنند API نتیجه‌ی زحمات توسعه‌دهندگان و طراحان بسیاری‌ست که تعدادی Butter",
     "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "ما یک پروژه‌ی متن‌باز هستیم. ما از همه جای دنیا می‌آییم. فیلم‌هامون رو دوست داریم. و پسر، نمیدونی چقدر عاشق پاپکورن‌یم!",
-    "Invalid Database File Selected": "نمی‌باشد Butter فایل انتخاب شده، پایگاه داده‌ی",
+    "Invalid PCT Database File Selected": "نمی‌باشد Butter فایل انتخاب شده، پایگاه داده‌ی",
     "Health Unknown": "سلامت نامعلوم",
     "Episodes": "قسمت‌ها",
     "Episode %s": "%s قسمت",

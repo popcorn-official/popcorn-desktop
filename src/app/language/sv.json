@@ -119,7 +119,7 @@
     "Changelog": "Changelog",
     "Butter! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Butter! är resultatet av många utvecklare och designers som har slagit ihop ett gäng API's tillsammans för att göra upplevelsen av att titta på torrent så enkelt som möjligt.",
     "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "Vi är ett open source-projekt. Vi är från hela världen. Vi älskar våra filmer. Oh boy, vad vi älskar popcorn.",
-    "Invalid Database File Selected": "Ogiltig PCT databas fil markerad",
+    "Invalid PCT Database File Selected": "Ogiltig PCT databas fil markerad",
     "Health Unknown": "Hälsa okänd",
     "Episodes": "Episoder",
     "Episode %s": "Avsnitt %s",

@@ -119,7 +119,7 @@
     "Changelog": "Változások listája",
     "Butter! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "A Butter! számtalan fejlesztő és dizájner munkájának eredménye, akik összeraktak pár API-t, hogy a torrentes filmnézés élményét a lehető legegyszerűbbé tegyék.",
     "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "Projektünk nyílt forráskódú. A világ minden pontjáról vannak közreműködőink. Szeretjük a filmeket, és legfőképp a popcornt.",
-    "Invalid Database File Selected": "Érvénytelen PCT adatbázisfájl lett kiválasztva",
+    "Invalid PCT Database File Selected": "Érvénytelen PCT adatbázisfájl lett kiválasztva",
     "Health Unknown": "Állapot ismeretlen",
     "Episodes": "Epizódok",
     "Episode %s": "Epizód %s",

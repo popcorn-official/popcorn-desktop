@@ -1,4 +1,4 @@
-﻿{
+{
     "External Player": "Спољни плејер",
     "Made with": "Од",
     "by a bunch of geeks from All Around The World": ", направила гомила штребера из целог света",
@@ -119,7 +119,7 @@
     "Changelog": "Списак&nbsp;измена",
     "Butter! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Butter! је настао када су се окупили програмери и дизајнери, који су спојили гомиле АПИ-ја да искуство гледања торент филмова буде што једноставније.",
     "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "Пројекат смо отвореног кода. Из целог смо света. Волимо наше филмове. А брате, волимо и кокице.",
-    "Invalid Database File Selected": "Одабран је неважећи ПЦТ фајл базе података",
+    "Invalid PCT Database File Selected": "Одабран је неважећи ПЦТ фајл базе података",
     "Health Unknown": "непознато стање",
     "Episodes": "Епизоде",
     "Episode %s": "%s. епизода",

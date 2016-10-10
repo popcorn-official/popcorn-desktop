@@ -1,4 +1,4 @@
-﻿{
+{
     "External Player": "Εξωτερικό πρόγραμμα αναπαραγωγής πολυμέσων",
     "Made with": "Δημιουργήθηκε με",
     "by a bunch of geeks from All Around The World": "από άτομα απ' όλο τον κόσμο",
@@ -119,7 +119,7 @@
     "Changelog": "Αρχείο αλλαγών",
     "Butter! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Το Butter είναι το αποτέλεσμα πολλών προγραμματιστών και σχεδιαστών που χρησιμοποίησαν αρκετά API για να γίνει η εμπειρία της προβολής ταινιών μέσω torrent όσο το δυνατόν απλούστερη.",
     "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "Είμαστε ένα έργο ανοικτού κώδικα. Είμαστε από όλο τον κόσμο. Αγαπάμε τις ταινίες μας. Και φυσικά.. αγαπάμε το ποπκόρν.",
-    "Invalid Database File Selected": "Επιλέχθηκε μη έγκυρο αρχείο βάσης δεδομένων PCT",
+    "Invalid PCT Database File Selected": "Επιλέχθηκε μη έγκυρο αρχείο βάσης δεδομένων PCT",
     "Health Unknown": "Υγεία άγνωστη",
     "Episodes": "Επεισόδια",
     "Episode %s": "Επεισόδιο %s",
