@@ -1,4 +1,4 @@
-{
+﻿{
     "External Player": "外部播放器",
     "Made with": "由一群來自世界各地的技客以",
     "by a bunch of geeks from All Around The World": "開發",
@@ -119,7 +119,7 @@
     "Changelog": "Changelog",
     "Butter! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Butter! 是許多開發者與設計師們努力的成果，希望能讓觀賞 Torrent 電影的經驗簡單易用。",
     "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "這是一個開放源碼的專案，我們來自於世界各地。我們熱愛電影。當然，我們也超愛爆米花。",
-    "Invalid PCT Database File Selected": "已選擇無效的 PCT 資料庫檔案",
+    "Invalid Database File Selected": "已選擇無效的 PCT 資料庫檔案",
     "Health Unknown": "健康狀況未知",
     "Episodes": "集",
     "Episode %s": "第 %s 集",

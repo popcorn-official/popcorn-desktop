@@ -119,7 +119,7 @@
     "Changelog": "Muutosloki",
     "Butter! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Butter on monen kehittäjän ja suunnittelijan yhteistyön tulos. Tarkoitus on tehdä torrent-elokuvien katsomisesta mahdollisimman yksinkertaista!",
     "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "Olemme avoimeen lähdekoodiin perustuva projekti. Toimimme kaikkialla maailmassa. Rakastamme elokuviamme ja voi kuinka rakastammekaan popcornia.",
-    "Invalid PCT Database File Selected": "Virheellinen PCT-tietokantatiedosto valittu!",
+    "Invalid Database File Selected": "Virheellinen PCT-tietokantatiedosto valittu!",
     "Health Unknown": "Saatavuus: tuntematon",
     "Episodes": "jaksot",
     "Episode %s": "Jakso %s",

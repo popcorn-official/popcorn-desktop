@@ -643,7 +643,7 @@
                     zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
                     that.alertMessageSuccess(true);
                 } catch (err) {
-                    that.alertMessageFailed(i18n.__('Invalid PCT Database File Selected'));
+                    that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
                     win.warn('Failed to Import Database');
                 }
             });

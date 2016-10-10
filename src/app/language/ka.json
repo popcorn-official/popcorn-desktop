@@ -1,4 +1,4 @@
-{
+﻿{
     "External Player": "გარე დამკვრელი",
     "Made with": "დამზადებულია",
     "by a bunch of geeks from All Around The World": "-ით გიკების მიერ მთელი მსოფლიოდან",
@@ -119,7 +119,7 @@
     "Changelog": "ცვლილებათა სია",
     "Butter! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Butter! არის უამრავი დეველოპერის და დიზაინერის მიერ რამდენიმე API-ის შეერთების შედეგი იმისათვის, რომ ტორენტ ფილმების ყურება რაც შეიძლება გამარტივდეს.",
     "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "ჩვენ ღია წყაროს პროექტი ვართ. ჩვენ მთელი მსოფლიოდან ვართ. ჩვენ ჩვენი ფილმები გვიყვარს. და მეგობარო, პოპკორნი ხომ გვიყვარს და გვიყვარს.",
-    "Invalid PCT Database File Selected": "არჩეულია არასწორი PCT მონაცემთა ბაზის ფაილი",
+    "Invalid Database File Selected": "არჩეულია არასწორი PCT მონაცემთა ბაზის ფაილი",
     "Health Unknown": "სტატუსი: უცნობი",
     "Episodes": "ეპიზოდები",
     "Episode %s": "%s ეპიზოდი",

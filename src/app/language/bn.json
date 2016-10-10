@@ -1,4 +1,4 @@
-{
+﻿{
     "External Player": "বাহ্যিক প্লেয়ার",
     "Made with": "এটি",
     "by a bunch of geeks from All Around The World": "সারা বিশ্বের চারদিক থেকে একগুচ্ছ রঙ্গ দ্বারা তৈরি",
@@ -119,7 +119,7 @@
     "Changelog": "পরিবর্তনলগ",
     "Butter! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "বাটার! অনেক অনেক উন্নয়নকারী এবং নকশাকারীর কাজের ফলাফল যা যতটা সম্ভব সহজে টরেন্ট চলচ্চিত্র দেখার অভিজ্ঞতা দিতে একসঙ্গে একগুচ্ছ API স্থাপন করে।",
     "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "আমরা একটি ওপেন সোর্স প্রকল্প। আমরা বিশ্বের সব জায়গা থেকে এসেছি। আমরা আমাদের চলচ্চিত্র ভালোবাসি।",
-    "Invalid PCT Database File Selected": "অকার্যকর PCT ডাটাবেস ফাইল নির্বাচন করা হয়েছে",
+    "Invalid Database File Selected": "অকার্যকর PCT ডাটাবেস ফাইল নির্বাচন করা হয়েছে",
     "Health Unknown": "স্বাস্থ্য অজানা",
     "Episodes": "পর্ব",
     "Episode %s": "পর্ব %s",

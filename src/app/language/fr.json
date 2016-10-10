@@ -119,7 +119,7 @@
 	"Changelog": "Historique des modifications",
 	"Butter! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Butter est le fruit de nombreux développeurs et de graphistes qui ont rassemblé plusieurs API dans le but de rendre l'expérience du streaming via torrent la plus simple possible.",
 	"We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "Nous construisons ce projet en open source depuis les quatre coins du monde. Nous adorons le cinéma… et le popcorn !",
-	"Invalid PCT Database File Selected": "Fichier de base de données Butter sélectionné invalide",
+	"Invalid Database File Selected": "Fichier de base de données Butter sélectionné invalide",
 	"Health Unknown": "Santé - inconnue",
 	"Episodes": "Épisodes",
 	"Episode %s": "Épisode %s",

@@ -1,4 +1,4 @@
-{
+﻿{
     "External Player": "נגן מדיה חיצוני",
     "Made with": "נבנה עם",
     "by a bunch of geeks from All Around The World": "על ידי חבורת גיקים מרחבי העולם",
@@ -119,7 +119,7 @@
     "Changelog": "שינויים בגרסה",
     "Butter! is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "Butter! היא התוצר של הרבה מתכנתים ומעצבים ששילבו כמה כלים ביחד על מנת לפשט ככל האפשר את חווית הצפייה בסרטים וסדרות דרך טורנטים.",
     "We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.": "אנחנו פרויקט קוד פתוח, אנחנו מכל העולם, אנחנו אוהבים סרטים וסדרות, אנחנו אוהבים פופקורן.",
-    "Invalid PCT Database File Selected": "קובץ PCT שנבחר שגוי",
+    "Invalid Database File Selected": "קובץ PCT שנבחר שגוי",
     "Health Unknown": "תקינות לא ידועה",
     "Episodes": "פרקים",
     "Episode %s": "פרק %s",
