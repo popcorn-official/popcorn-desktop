@@ -3,7 +3,7 @@
 /******** 
  * setup *
  ********/
-const nwVersion = '0.18.0-sdk',
+const nwVersion = '0.18.0',
     availablePlatforms = ['linux32', 'linux64', 'win32', 'osx32'],
     releasesDir = 'build';
 
