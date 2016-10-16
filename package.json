@@ -20,9 +20,8 @@
     },
     "engines": {
         "npm": ">=3.0.0",
-        "node": ">=0.12.0"
+        "node": ">=4.4.0"
     },
-    "js-flags": "--harmony --harmony_arrow_functions",
     "window": {
         "title": "Butter",
         "icon": "src/app/images/icon.png",
