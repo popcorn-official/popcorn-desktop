@@ -485,7 +485,6 @@
                 focus: true,
                 title: 'Trakt.tv',
                 icon: 'src/app/images/icon.png',
-                toolbar: false,
                 resizable: false,
                 width: 580,
                 height: 640

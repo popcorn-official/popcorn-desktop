@@ -452,7 +452,6 @@
                     focus: true,
                     title: 'TVShow Time',
                     icon: 'src/app/images/icon.png',
-                    toolbar: false,
                     resizable: false,
                     width: 600,
                     height: 600

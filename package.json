@@ -25,7 +25,6 @@
     "window": {
         "title": "Popcorn Time",
         "icon": "src/app/images/icon.png",
-        "toolbar": false,
         "frame": false,
         "min_width": 960,
         "min_height": 520,
