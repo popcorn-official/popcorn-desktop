@@ -629,7 +629,7 @@
             // https://github.com/exos/node-webkit-fdialogs/issues/9
             var exportDialog = new fdialogs.FDialog({
                 type: 'save',
-                window: nw.Window.get().window
+                window: gui.Window.get().window
             });
 
             exportDialog.saveFile(zip.toBuffer(), function (err, path) {
@@ -643,7 +643,7 @@
             // https://github.com/exos/node-webkit-fdialogs/issues/9
             var importDialog = new fdialogs.FDialog({
                 type: 'open',
-                window: nw.Window.get().window
+                window: gui.Window.get().window
             });
 
             importDialog.readFile(function (err, content, path) {
