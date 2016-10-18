@@ -4,7 +4,7 @@
  * setup *
  ********/
 const nwVersion = '0.18.1',
-    availablePlatforms = ['linux32', 'linux64', 'win32', 'osx32'],
+    availablePlatforms = ['linux32', 'linux64', 'win32', 'osx64'],
     releasesDir = 'build';
 
 
