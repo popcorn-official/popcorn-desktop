@@ -449,8 +449,8 @@
                 self.render();
             });
             App.TVShowTime.authenticate(function (activateUri) {
-                gui.App.addOriginAccessWhitelistEntry(activateUri, 'app', 'host', true);
-                window.loginWindow = gui.Window.open(activateUri, {
+                nw.App.addOriginAccessWhitelistEntry(activateUri, 'app', 'host', true);
+                window.loginWindow = nw.Window.open(activateUri, {
                     position: 'center',
                     focus: true,
                     title: 'TVShow Time',
@@ -631,7 +631,7 @@
             // https://github.com/exos/node-webkit-fdialogs/issues/9
             var exportDialog = new fdialogs.FDialog({
                 type: 'save',
-                window: gui.Window.get().window
+                window: nw.Window.get().window
             });
 
             exportDialog.saveFile(zip.toBuffer(), function (err, path) {
@@ -645,7 +645,7 @@
             // https://github.com/exos/node-webkit-fdialogs/issues/9
             var importDialog = new fdialogs.FDialog({
                 type: 'open',
-                window: gui.Window.get().window
+                window: nw.Window.get().window
             });
 
             importDialog.readFile(function (err, content, path) {
