@@ -443,14 +443,10 @@
             $('#connect-with-tvst > i').css('visibility', 'hidden');
             $('.tvst-loading-spinner').show();
 
-            App.vent.on('system:tvstAuthenticated', function () {
-                window.loginWindow.close();
-                $('.tvst-loading-spinner').hide();
-                self.render();
-            });
+
             App.TVShowTime.authenticate(function (activateUri) {
                 nw.App.addOriginAccessWhitelistEntry(activateUri, 'app', 'host', true);
-                window.loginWindow = nw.Window.open(activateUri, {
+                nw.Window.open(activateUri, {
                     position: 'center',
                     focus: true,
                     title: 'TVShow Time',
@@ -458,12 +454,18 @@
                     resizable: false,
                     width: 600,
                     height: 600
-                });
+                }, function(loginWindow) {
+                  App.vent.on('system:tvstAuthenticated', function () {
+                      loginWindow.close();
+                      $('.tvst-loading-spinner').hide();
+                      self.render();
+                  });
 
-                window.loginWindow.on('closed', function () {
+                  loginWindow.on('closed', function () {
                     $('.tvst-loading-spinner').hide();
                     $('#connect-with-tvst > i').css('visibility', 'visible');
-                });
+                  });
+                }).focus();
             });
         },
 
