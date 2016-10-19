@@ -301,15 +301,9 @@
         },
 
         switchRating: function () {
-            if ($('.number-container-tv').hasClass('hidden')) {
-                $('.number-container-tv').removeClass('hidden');
-                $('.star-container-tv').addClass('hidden');
-                AdvSettings.set('ratingStars', false);
-            } else {
-                $('.number-container-tv').addClass('hidden');
-                $('.star-container-tv').removeClass('hidden');
-                AdvSettings.set('ratingStars', true);
-            }
+            $('.number-container-tv').toggleClass('hidden');
+            $('.star-container-tv').toggleClass('hidden');
+            AdvSettings.set('ratingStars', $('.number-container-tv').hasClass('hidden'));
         },
 
         toggleWatched: function (e) {
