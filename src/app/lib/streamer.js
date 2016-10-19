@@ -48,7 +48,7 @@
             // and when the selected lang or default lang is set
             // subtitleDownloading is needed cos this is called every 300ms
 
-            if (stateModel.get('streamInfo').get('torrent').defaultSubtitle && stateModel.get('streamInfo').get('torrent').defaultSubtitle !== 'none' && hasSubtitles && subtitles != null && engine.files[0] && !downloadedSubtitles && !subtitleDownloading) {
+            if (stateModel.get('streamInfo').get('torrent').defaultSubtitle && stateModel.get('streamInfo').get('torrent').defaultSubtitle !== 'none' && hasSubtitles && subtitles !== null && engine.files[0] && !downloadedSubtitles && !subtitleDownloading) {
                 subtitleDownloading = true;
                 App.vent.trigger('subtitle:download', {
                     url: subtitles[stateModel.get('streamInfo').get('torrent').defaultSubtitle],
@@ -124,7 +124,7 @@
                 streamInfo.set(torrent);
 
                 // we need subtitle in the player
-                streamInfo.set('subtitle', subtitles != null ? subtitles : torrent.subtitle);
+                streamInfo.set('subtitle', subtitles !== null ? subtitles : torrent.subtitle);
 
                 // clear downloaded so change:downloaded gets triggered for the first time
                 streamInfo.set('downloaded', 0);
