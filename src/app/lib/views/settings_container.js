@@ -483,7 +483,7 @@
             if (usn !== '' && pw !== '') {
                 $('.opensubtitles-options .loading-spinner').show();
                 var OpenSubtitles = new OS({
-                    useragent: 'OSTestUserAgent', //TODO: register UA 'Butter v' + (Settings.version || 1),
+                    useragent: 'Popcorn Time NodeJS', //TODO: register UA 'Butter v' + (Settings.version || 1),
                     username: usn,
                     password: Common.md5(pw)
                 });
