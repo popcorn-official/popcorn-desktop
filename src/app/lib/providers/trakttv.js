@@ -514,7 +514,7 @@
                       defer.reject('Trakt window closed without exchange token');
                   }
               });
-            }).focus();
+            });
 
             return defer.promise;
         },
