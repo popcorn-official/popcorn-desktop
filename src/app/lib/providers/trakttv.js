@@ -437,6 +437,7 @@
             var defer = Q.defer();
             var self = this;
 
+<<<<<<< HEAD
             this.oauth.authorize()
                 .then(function (token) {
                     self.post('oauth/token', {
@@ -515,6 +516,25 @@
                     AdvSettings.set('traktTokenRefresh', '');
                     defer.reject('Trakt window closed without exchange token');
                 }
+=======
+            trakt.get_codes().then(function(poll) {
+                $('#authTraktCode input').val(poll.user_code);
+                nw.Shell.openExternal(poll.verification_url);
+                return trakt.poll_access(poll);
+            }).then(function (auth) {
+                trakt.import_token(auth);
+                AdvSettings.set('traktToken', auth.access_token);
+                AdvSettings.set('traktTokenRefresh', auth.refresh_token);
+                AdvSettings.set('traktTokenTTL', auth.expires_in);
+                self.authenticated = true;
+                App.vent.trigger('system:traktAuthenticated');
+                defer.resolve(true);
+            }).catch(function (err) {
+                AdvSettings.set('traktToken', '');
+                AdvSettings.set('traktTokenTTL', '');
+                AdvSettings.set('traktTokenRefresh', '');
+                defer.reject(err);
+>>>>>>> a383973... nw.js => 0.13 migration due to architecture Changes
             });
 
             return defer.promise;
