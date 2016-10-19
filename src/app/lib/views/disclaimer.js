@@ -24,7 +24,7 @@
 
         closeApp: function (e) {
             e.preventDefault();
-            nw.App.quit();
+            gui.App.quit();
         }
 
     });

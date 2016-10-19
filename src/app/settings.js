@@ -373,7 +373,7 @@ var AdvSettings = {
 
     performUpgrade: function () {
         // This gives the official version (the package.json one)
-        var currentVersion = nw.App.manifest.version;
+        var currentVersion = gui.App.manifest.version;
 
         if (currentVersion !== AdvSettings.get('version')) {
             // Nuke the DB if there's a newer version
@@ -389,6 +389,6 @@ var AdvSettings = {
             window.__isUpgradeInstall = true;
         }
         AdvSettings.set('version', currentVersion);
-        AdvSettings.set('releaseName', nw.App.manifest.releaseName);
+        AdvSettings.set('releaseName', gui.App.manifest.releaseName);
     },
 };

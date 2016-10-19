@@ -1,6 +1,6 @@
 (function (App) {
     'use strict';
-    var clipboard = nw.Clipboard.get();
+    var clipboard = gui.Clipboard.get();
 
     App.View.FilterBar = Backbone.Marionette.ItemView.extend({
         className: 'filter-bar',
@@ -100,23 +100,23 @@
         },
 
         context_Menu: function (cutLabel, copyLabel, pasteLabel) {
-            var menu = new nw.Menu(),
+            var menu = new gui.Menu(),
 
-                cut = new nw.MenuItem({
+                cut = new gui.MenuItem({
                     label: cutLabel || 'Cut',
                     click: function () {
                         document.execCommand('cut');
                     }
                 }),
 
-                copy = new nw.MenuItem({
+                copy = new gui.MenuItem({
                     label: copyLabel || 'Copy',
                     click: function () {
                         document.execCommand('copy');
                     }
                 }),
 
-                paste = new nw.MenuItem({
+                paste = new gui.MenuItem({
                     label: pasteLabel || 'Paste',
                     click: function () {
                         var text = clipboard.get('text');

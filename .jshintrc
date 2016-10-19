@@ -32,7 +32,6 @@
     // Globals
     "globals": {
         // App
-        "nw": true,
         "App": true,
         "Settings": true,
         "AdvSettings": true,

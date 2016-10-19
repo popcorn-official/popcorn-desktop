@@ -48,7 +48,7 @@
                     $('.changelog-text').html(contents.replace(/\n/g, '<br />'));
                     $('.changelog-overlay').show();
                 } else {
-                    nw.Shell.openExternal(Settings.changelogUrl);
+                    gui.Shell.openExternal(Settings.changelogUrl);
                 }
             });
         },
