@@ -183,15 +183,9 @@
         },
 
         switchRating: function () {
-            if ($('.number-container').hasClass('hidden')) {
-                $('.number-container').removeClass('hidden');
-                $('.star-container').addClass('hidden');
-                AdvSettings.set('ratingStars', false);
-            } else {
-                $('.number-container').addClass('hidden');
-                $('.star-container').removeClass('hidden');
-                AdvSettings.set('ratingStars', true);
-            }
+            $('.number-container').toggleClass('hidden');
+            $('.star-container').toggleClass('hidden');
+            AdvSettings.set('ratingStars', $('.number-container').hasClass('hidden'));
         },
 
         switchSubtitle: function (lang) {
