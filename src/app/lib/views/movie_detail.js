@@ -409,13 +409,8 @@
                 magnetLink = torrent.url;
             }
             if (e.button === 2) { //if right click on magnet link
-<<<<<<< HEAD
-                var clipboard = gui.Clipboard.get();
-                clipboard.set(magnetLink.replace(/&amp;/gi, '&'), 'text'); //copy link to clipboard
-=======
                 var clipboard = nw.Clipboard.get();
                 clipboard.set(magnetLink, 'text'); //copy link to clipboard
->>>>>>> a383973... nw.js => 0.13 migration due to architecture Changes
                 $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
             } else {
                 nw.Shell.openExternal(magnetLink);

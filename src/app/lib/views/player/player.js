@@ -828,11 +828,7 @@
         },
 
         displayStreamURL: function () {
-<<<<<<< HEAD
-            var clipboard = require('nw.gui').Clipboard.get();
-=======
             var clipboard = nw.Clipboard.get();
->>>>>>> a383973... nw.js => 0.13 migration due to architecture Changes
             clipboard.set($('#video_player video').attr('src'), 'text');
             this.displayOverlayMsg(i18n.__('URL of this stream was copied to the clipboard'));
         },

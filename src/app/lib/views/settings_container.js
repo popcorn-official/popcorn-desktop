@@ -386,13 +386,11 @@
                 return;
             }
 
-<<<<<<< HEAD
             $('#authTrakt > i').css('visibility', 'hidden');
             $('.trakt-loading-spinner').show();
-=======
-            $('#authTrakt').hide();
-            $('#authTraktCode').show();
->>>>>>> a383973... nw.js => 0.13 migration due to architecture Changes
+
+            // $('#authTrakt').hide();
+            // $('#authTraktCode').show();
 
             App.Trakt.oauth.authenticate()
                 .then(function (valid) {
@@ -451,7 +449,6 @@
                 self.render();
             });
             App.TVShowTime.authenticate(function (activateUri) {
-<<<<<<< HEAD
                 gui.App.addOriginAccessWhitelistEntry(activateUri, 'app', 'host', true);
                 window.loginWindow = gui.Window.open(activateUri, {
                     position: 'center',
@@ -467,10 +464,6 @@
                     $('.tvst-loading-spinner').hide();
                     $('#connect-with-tvst > i').css('visibility', 'visible');
                 });
-
-=======
-                nw.Shell.openExternal(activateUri);
->>>>>>> a383973... nw.js => 0.13 migration due to architecture Changes
             });
         },
 
