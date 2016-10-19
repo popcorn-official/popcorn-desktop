@@ -462,8 +462,8 @@
                   });
 
                   loginWindow.on('closed', function () {
-                    $('.tvst-loading-spinner').hide();
-                    $('#connect-with-tvst > i').css('visibility', 'visible');
+                      $('.tvst-loading-spinner').hide();
+                      $('#connect-with-tvst > i').css('visibility', 'visible');
                   });
                 }).focus();
             });
