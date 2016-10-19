@@ -875,7 +875,7 @@
         },
 
         displayStreamURL: function () {
-            var clipboard = gui.Clipboard.get();
+            var clipboard = nw.Clipboard.get();
             clipboard.set($('#video_player video').attr('src'), 'text');
             this.displayOverlayMsg(i18n.__('URL of this stream was copied to the clipboard'));
         },
