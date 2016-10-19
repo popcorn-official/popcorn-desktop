@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var clipboard = gui.Clipboard.get(),
+    var clipboard = nw.Clipboard.get(),
         collection = path.join(data_path + '/TorrentCollection/');
 
     var TorrentCollection = Backbone.Marionette.ItemView.extend({
@@ -247,23 +247,23 @@
         },
 
         context_Menu: function (cutLabel, copyLabel, pasteLabel) {
-            var menu = new gui.Menu(),
+            var menu = new nw.Menu(),
 
-                cut = new gui.MenuItem({
+                cut = new nw.MenuItem({
                     label: cutLabel || 'Cut',
                     click: function () {
                         document.execCommand('cut');
                     }
                 }),
 
-                copy = new gui.MenuItem({
+                copy = new nw.MenuItem({
                     label: copyLabel || 'Copy',
                     click: function () {
                         document.execCommand('copy');
                     }
                 }),
 
-                paste = new gui.MenuItem({
+                paste = new nw.MenuItem({
                     label: pasteLabel || 'Paste',
                     click: function () {
                         var text = clipboard.get('text');
@@ -311,11 +311,11 @@
             }
 
             if (e.button === 2) { //if right click on magnet link
-                var clipboard = gui.Clipboard.get();
+                var clipboard = nw.Clipboard.get();
                 clipboard.set(magnetLink, 'text'); //copy link to clipboard
                 $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
             } else {
-                gui.Shell.openExternal(magnetLink);
+                nw.Shell.openExternal(magnetLink);
             }
         },
 
@@ -392,7 +392,7 @@
 
         openCollection: function () {
             console.debug('Opening: ' + collection);
-            gui.Shell.openItem(collection);
+            nw.Shell.openItem(collection);
         },
 
         importItem: function () {
