@@ -5,72 +5,6 @@
 
     var self;
 
-    var findSrt = function (input) {
-        var files = fs.readdirSync(input);
-        for (var f in files) {
-            var stats = fs.lstatSync(path.join(input, files[f]));
-            if (path.extname(files[f]) === '.srt' && stats.isFile()) {
-                return path.join(input, files[f]);
-            }
-            if (stats.isDirectory()) {
-                var found = findSrt(path.join(input, files[f]));
-                if (found) {
-                    return found;
-                }
-            }
-        }
-    };
-
-    var downloadZip = function (data) {
-        return Q.Promise(function (resolve, reject) {
-            var filePath = data.path;
-            var subUrl = data.url;
-
-            var fileFolder = path.dirname(filePath);
-            var fileExt = path.extname(filePath);
-            var newName = filePath.substring(0, filePath.lastIndexOf(fileExt)) + '.srt';
-
-            var zipPath = filePath.substring(0, filePath.lastIndexOf(fileExt)) + '.zip';
-
-            var unzipPath = filePath.substring(0, filePath.lastIndexOf(fileExt));
-            unzipPath = unzipPath.substring(0, unzipPath.lastIndexOf(path.sep));
-
-            var out = fs.createWriteStream(zipPath);
-
-            var req = request({
-                method: 'GET',
-                uri: subUrl
-            });
-
-            req.on('error', function (e) {
-                win.error('Error downloading subtitle: ' + e);
-                reject(e);
-            });
-            req.on('end', function () {
-                out.end(function () {
-                    try {
-                        var zip = new AdmZip(zipPath),
-                            zipEntries = zip.getEntries();
-                        zip.extractAllTo( /*target path*/ unzipPath, /*overwrite*/ true);
-                        fs.unlink(zipPath, function (err) {});
-                        win.debug('Subtitles extracted to : ' + newName);
-                        var found = findSrt(unzipPath);
-                        if (found) {
-                            fs.renameSync(found, newName);
-                            resolve(newName);
-                        } else {
-                            throw 'no SRT file in the downloaded archive';
-                        }
-                    } catch (e) {
-                        win.error('Error downloading subtitle: ' + e);
-                        reject(e);
-                    }
-                });
-            });
-            req.pipe(out);
-        });
-    };
-
     var downloadSRT = function (data, callback) {
         return Q.Promise(function (resolve, reject) {
             var filePath = data.path;
@@ -119,17 +53,7 @@
                 } catch (e) {
                     // Ignore EEXIST
                 }
-                if (subExt === 'zip') {
-
-                    downloadZip(data)
-                        .then(function (location) {
-                            App.vent.trigger('subtitle:downloaded', location);
-                        })
-                        .catch(function (error) {
-                            App.vent.trigger('subtitle:downloaded', null);
-                        });
-
-                } else if (subExt === 'srt') {
+              if (data) {
 
                     downloadSRT(data)
                         .then(function (location) {
