@@ -159,7 +159,6 @@ if [ "$rd_dep" = "yes" ]; then
         echo "Local Popcorn files downloaded successfully!"
         echo "Moving Popcorn local files"
         mv torrent_collection.js src/app/lib/views/torrent_collection.js
-        mv ysubs.js src/app/lib/providers/ysubs.js
     else
         echo "Local Popcorn files encountered an error while downloading"
         exit 4
