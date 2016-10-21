@@ -210,7 +210,7 @@
                 torrent: torrent,
                 backdrop: this.model.get('backdrop'),
                 subtitle: this.model.get('subtitle'),
-                defaultSubtitle: this.subtitle_selected, //originally: this.subtitle_selected,
+                defaultSubtitle: Settings.subtitle_language, //originally: this.subtitle_selected,
                 extract_subtitle: movieInfo,
                 title: this.model.get('title'),
                 quality: this.model.get('quality'),
