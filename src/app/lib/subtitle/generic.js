@@ -77,8 +77,10 @@
                             if (error) {
                                 reject(error);
                             } else {
-                                var subtitle_content = buffer.toString(charsetDetect.detect(buffer)['encoding']);
-                                fs.writeFileSync(fpath+'.srt', subtitle_content);
+                                var charset = charsetDetect.detect(buffer);
+                                var denc = charset.encoding;
+                                var subtitle_content = buffer.toString(denc);
+                                fs.writeFileSync(fpath+'.srt', subtitle_content, {encoding: denc});
                                 resolve(fpath+'.srt');
                             }
                         });
