@@ -33,6 +33,7 @@
     };
 
     OpenSubtitles.prototype.fetch = function (queryParams) {
+        queryParams.extensions = ['srt'];
         return openSRT.search(queryParams)
             .then(formatForButter);
     };
