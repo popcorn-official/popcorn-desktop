@@ -5,7 +5,7 @@
 
     var OpenSubtitles = function () {
         openSRT = new OS({
-            useragent: 'Popcorn Time NodeJS', //TODO: register UA 'Butter v' + (Settings.version || 1),
+            useragent: 'Popcorn Time NodeJS', 
             username: Settings.opensubtitlesUsername,
             password: Settings.opensubtitlesPassword
         });
@@ -33,6 +33,7 @@
     };
 
     OpenSubtitles.prototype.fetch = function (queryParams) {
+        queryParams.extensions = ['srt'];
         return openSRT.search(queryParams)
             .then(formatForButter);
     };
