@@ -44,7 +44,7 @@
         "popcorn-txt-api": "git+https://github.com/hackhackhack/popcorn-txt-api",
         "adm-zip": "0.4.7",
         "dlnacasts": "0.1.0",
-        "airplay-js": "git+https://github.com/guerrerocarlos/node-airplay-js.git",
+        "airplayer": "2.0.0",
         "async": "2.1.2",
         "gitlab": "1.4.1",
         "defer-request": "0.0.2",

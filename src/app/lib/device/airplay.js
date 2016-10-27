@@ -1,7 +1,8 @@
 (function (App) {
     'use strict';
 
-    var browser = require('airplay-js').createBrowser(),
+    var airplayer = require('airplayer'),
+        list = airplayer(),
         collection = App.Device.Collection;
 
     var makeID = function (baseID) {
@@ -18,36 +19,34 @@
             this.device = attrs.device;
             this.attributes.id = this.makeID(this.device.serverInfo.macAddress || this.device.serverInfo.deviceId || '' + this.device.id);
             this.attributes.name = this.device.name || this.device.serverInfo.model;
-            this.attributes.address = this.device.info[0];
+            this.attributes.address = this.device.host;
         },
         play: function (streamModel) {
             var url = streamModel.attributes.src;
             this.device.play(url);
         },
         stop: function () {
-            this.device.stop(function () {});
+            this.device.destroy();
+        },
+        pause: function () {
+            this.device.pause();
+        },
+        unpause: function () {
+            this.device.resume();
         }
     });
 
 
-    browser.on('deviceOn', function (device) {
-
+    list.on('update', function (player) {
+        win.info('Found Apple TV Device Device: %s at %s', player.name, player.host);
+        player.host = "172.20.10.14";
         collection.add(new Airplay({
-            device: device
+            device: player
         }));
     });
 
-    browser.on('deviceOff', function (device) {
 
-        var model = collection.get({
-            id: makeID(device.id)
-        });
-        if (model) {
-            model.destroy();
-        }
-    });
     win.info('Scanning: Local Network for Airplay devices');
-    browser.start();
     App.Device.Airplay = Airplay;
 
 })(window.App);
