@@ -32,7 +32,7 @@
 
             if (subtitle) {
                 media = {
-                    title: streamModel.get('title'),
+                    title: streamModel.get('title').substring(0,50),
                     images: streamModel.get('cover'),
                     subtitles: ['http:' + url.split(':')[1] + ':9999/subtitle.vtt'],
 
@@ -53,7 +53,7 @@
             } else {
                 media = {
                     images: cover,
-                    title: streamModel.get('title')
+                    title: streamModel.get('title').substring(0,50)
                 };
             }
             win.info('Chromecast: play ' + url + ' on \'' + this.get('name') + '\'');
