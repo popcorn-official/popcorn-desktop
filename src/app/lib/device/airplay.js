@@ -39,7 +39,6 @@
 
     list.on('update', function (player) {
         win.info('Found Apple TV Device Device: %s at %s', player.name, player.host);
-        player.host = "172.20.10.14";
         collection.add(new Airplay({
             device: player
         }));
