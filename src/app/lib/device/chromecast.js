@@ -150,6 +150,7 @@
 win.info('Scanning: Local Network for Chromecast devices');
 chromecasts.update();
 chromecasts.on('update', function (player) {
+    win.info('Found Chromecast Device Device: %s at %s', player.name, player.host);
           collection.add(new Chromecast({
             device: player
         }));
