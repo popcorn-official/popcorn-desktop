@@ -1,6 +1,6 @@
 (function (App) {
     'use strict';
-    var clipboard = gui.Clipboard.get();
+    var clipboard = nw.Clipboard.get();
 
     App.View.FilterBar = Backbone.Marionette.ItemView.extend({
         className: 'filter-bar',
@@ -100,23 +100,23 @@
         },
 
         context_Menu: function (cutLabel, copyLabel, pasteLabel) {
-            var menu = new gui.Menu(),
+            var menu = new nw.Menu(),
 
-                cut = new gui.MenuItem({
+                cut = new nw.MenuItem({
                     label: cutLabel || 'Cut',
                     click: function () {
                         document.execCommand('cut');
                     }
                 }),
 
-                copy = new gui.MenuItem({
+                copy = new nw.MenuItem({
                     label: copyLabel || 'Copy',
                     click: function () {
                         document.execCommand('copy');
                     }
                 }),
 
-                paste = new gui.MenuItem({
+                paste = new nw.MenuItem({
                     label: pasteLabel || 'Paste',
                     click: function () {
                         var text = clipboard.get('text');
@@ -442,7 +442,7 @@
             var that = this;
             $('.spinner').show();
 
-            App.Providers.get('yts').random()
+            App.Providers.get('MovieApi').random()
                 .then(function (data) {
                     if (App.watchedMovies.indexOf(data.imdb_code) !== -1) {
                         that.randomMovie();

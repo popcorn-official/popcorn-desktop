@@ -32,8 +32,8 @@
         ],
 
         sorters: [
-            'popularity',
             'trending',
+            'popularity',
             'last added',
             'year',
             'title',
@@ -41,8 +41,8 @@
         ],
 
         sorters_tv: [
-            'popularity',
             'trending',
+            'popularity',
             'updated',
             'year',
             'name',
@@ -58,7 +58,8 @@
 
         sorters_anime: [
             'popularity',
-            'name'
+            'name',
+            'year'
         ],
 
         types_anime: [
@@ -214,7 +215,7 @@
         getProviderForType: function (type) {
             var provider = Settings.providers[type];
             if (typeof provider !== 'string') {
-                if (provider.uri) {
+                if (provider && provider.uri) {
                     provider = provider.uri;
                 }
             }

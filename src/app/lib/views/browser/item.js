@@ -177,24 +177,39 @@
                 title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from bookmarks') : i18n.__('Add to bookmarks')
             });
 
-            var this_ = this;
+            // try to cache cover img
+            this.cacheCover(coverUrl);
+
+            this.ui.coverImage.remove();
+
+        },
+
+        cacheCover: function(coverUrl) {
+
+            var _this = this;
 
             var coverCache = new Image();
             coverCache.src = coverUrl;
             coverCache.onload = function () {
                 try {
-                    this_.ui.cover.css('background-image', 'url(' + coverUrl + ')').addClass('fadein');
+                    _this.ui.cover.css('background-image', 'url(' + coverUrl + ')').addClass('fadein');
                 } catch (e) {}
                 coverCache = null;
             };
             coverCache.onerror = function () {
+
+                var pattern = /^https:\/\//;
+
+                // if we got an error, try again without https
+                if (pattern.test(coverUrl)) {
+                    return _this.cacheCover(coverUrl.replace(pattern, 'http://'));
+                }
+
                 try {
-                    this_.ui.cover.css('background-image', 'url("images/posterholder.png")').addClass('fadein');
+                    _this.ui.cover.css('background-image', 'url("images/posterholder.png")').addClass('fadein');
                 } catch (e) {}
                 coverCache = null;
             };
-
-            this.ui.coverImage.remove();
 
         },
 

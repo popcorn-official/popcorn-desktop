@@ -1,6 +1,4 @@
-;Popcorn Time
 ;Installer Source for NSIS 3.0 or higher
-
 
 ;Enable Unicode encoding
 Unicode True
@@ -9,31 +7,30 @@ Unicode True
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
 
-;Detect paths style
-!if /fileexists "../../package.json"
-    ;Unix-style paths detected!
-    !define UNIX_PATHS
-!endif
-
 ; ------------------- ;
-;  Parse Gruntfile.js ;
-; ------------------- ;
-!searchparse /file "..\..\Gruntfile.js" "version: '" APP_NW "',"
-
-; ------------------- ;
-; Parse package.json  ;
+;  Parse package.json ;
 ; ------------------- ;
 !searchparse /file "..\..\package.json" '"name": "' APP_NAME '",'
-!searchparse /file "..\..\package.json" '"version": "' BT_VERSION '",'
-!searchreplace BT_VERSION_CLEAN "${BT_VERSION}" "-" ".0"
+;!searchreplace APP_NAME "${APP_NAME}" "-" " "
+!searchparse /file "..\..\package.json" '"companyName": "' COMPANY_NAME '",'
+!searchparse /file "..\..\package.json" '"version": "' APP_VERSION '",'
+!searchreplace APP_VERSION_CLEAN "${APP_VERSION}" "-" ".0"
 !searchparse /file "..\..\package.json" '"homepage": "' APP_URL '",'
 !searchparse /file "..\..\package.json" '"name": "' DATA_FOLDER '",'
+
+!searchparse /file "..\..\package.json" '"installIcon": "' _MUI_ICON '",'
+!searchparse /file "..\..\package.json" '"unInstallIcon": "' _MUI_UNICON '",'
+!searchparse /file "..\..\package.json" '"icon": "' HEADERIMAGE_RIGHT '",'
+!define MUI_ICON "..\..\${_MUI_ICON}"
+!define MUI_UNICON "..\..\${_MUI_UNICON}"
+!define MUI_UI_HEADERIMAGE_RIGHT="..\..\${HEADERIMAGE_RIGHT}"
+!searchreplace MUI_ICON_LOCAL_PATH "${_MUI_ICON}" "/" "\"
+!searchreplace MUI_UNICON_LOCAL_PATH "${_MUI_UNICON}" "/" "\"
 
 ; ------------------- ;
 ;    Architecture     ;
 ; ------------------- ;
-;Default to detected platform build if 
-;not defined by -DARCH= argument
+;Default to detected platform build if not defined by -DARCH= argument
 !ifndef ARCH
     !if /fileexists "..\..\build\${APP_NAME}\win64\*.*"
         !define ARCH "win64"
@@ -43,21 +40,28 @@ Unicode True
 !endif
 
 ; ------------------- ;
+;  OUTDIR (installer) ;
+; ------------------- ;
+;Default to ../../build if not defined by -DOUTDIR= argument
+!ifndef OUTDIR
+    !define OUTDIR "../../build"
+!endif
+
+; ------------------- ;
 ;      Settings       ;
 ; ------------------- ;
 ;General Settings
-!define COMPANY_NAME "Popcorn Time"
 Name "${APP_NAME}"
-Caption "${APP_NAME} ${BT_VERSION}"
-BrandingText "${APP_NAME} ${BT_VERSION}"
+Caption "${APP_NAME} ${APP_VERSION}"
+BrandingText "${APP_NAME} ${APP_VERSION}"
 VIAddVersionKey "ProductName" "${APP_NAME}"
-VIAddVersionKey "ProductVersion" "${BT_VERSION}"
-VIAddVersionKey "FileDescription" "${APP_NAME} ${BT_VERSION} Installer"
-VIAddVersionKey "FileVersion" "${BT_VERSION}"
+VIAddVersionKey "ProductVersion" "${APP_VERSION}"
+VIAddVersionKey "FileDescription" "${APP_NAME} ${APP_VERSION} Installer"
+VIAddVersionKey "FileVersion" "${APP_VERSION}"
 VIAddVersionKey "CompanyName" "${COMPANY_NAME}"
 VIAddVersionKey "LegalCopyright" "${APP_URL}"
-VIProductVersion "${BT_VERSION_CLEAN}.0"
-OutFile "${APP_NAME}-${BT_VERSION}-${ARCH}-Setup.exe"
+VIProductVersion "${APP_VERSION_CLEAN}.0"
+OutFile "${OUTDIR}/${APP_NAME}-${APP_VERSION}-${ARCH}-Setup.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 
@@ -74,15 +78,13 @@ RequestExecutionLevel user
 ;     UI Settings     ;
 ; ------------------- ;
 ;Define UI settings
-!define MUI_UI_HEADERIMAGE_RIGHT "..\..\src\app\images\icon.png"
-!define MUI_ICON "..\..\src\app\images\butter.ico"
-!define MUI_UNICON "..\..\src\app\images\butter_uninstall.ico"
+
 !define MUI_WELCOMEFINISHPAGE_BITMAP "installer-image.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "uninstaller-image.bmp"
 !define MUI_ABORTWARNING
 !define MUI_FINISHPAGE_LINK "${APP_URL}"
 !define MUI_FINISHPAGE_LINK_LOCATION "${APP_URL}"
-!define MUI_FINISHPAGE_RUN "$INSTDIR\nw.exe"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\${APP_LAUNCHER}"
 !define MUI_FINISHPAGE_SHOWREADME ""
 !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
 !define MUI_FINISHPAGE_SHOWREADME_TEXT "$(desktopShortcut)"
@@ -157,62 +159,62 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "Welsh"
 
 ; ------------------- ;
-;    Localisation     ;
+;    Localization     ;
 ; ------------------- ;
 LangString removeDataFolder ${LANG_ENGLISH} "Remove all databases and configuration files?"
-LangString removeDataFolder ${LANG_Afrikaans} "Alle databasisse en opset lêers verwyder?" 
-LangString removeDataFolder ${LANG_Albanian} "Hiq të gjitha bazat e të dhënave dhe fotografi konfigurimit?" 
-LangString removeDataFolder ${LANG_Arabic} "إزالة كافة قواعد البيانات وملفات التكوين؟" 
-LangString removeDataFolder ${LANG_Belarusian} "Выдаліць усе базы дадзеных і файлы канфігурацыі?" 
-LangString removeDataFolder ${LANG_Bosnian} "Uklonite sve baze podataka i konfiguracijske datoteke?" 
-LangString removeDataFolder ${LANG_Bulgarian} "Премахнете всички бази данни и конфигурационни файлове?" 
-LangString removeDataFolder ${LANG_Catalan} "Eliminar totes les bases de dades i arxius de configuració?" 
-LangString removeDataFolder ${LANG_Croatian} "Uklonite sve baze podataka i konfiguracijske datoteke?" 
-LangString removeDataFolder ${LANG_Czech} "Odstraňte všechny databáze a konfiguračních souborů?" 
-LangString removeDataFolder ${LANG_Danish} "Fjern alle databaser og konfigurationsfiler?" 
-LangString removeDataFolder ${LANG_Dutch} "Verwijder alle databases en configuratiebestanden?" 
-LangString removeDataFolder ${LANG_Esperanto} "Forigi la tuta datumbazojn kaj agordaj dosieroj?" 
-LangString removeDataFolder ${LANG_Estonian} "Eemalda kõik andmebaasid ja konfiguratsioonifailid?" 
-LangString removeDataFolder ${LANG_Farsi} "حذف تمام پایگاه داده ها و فایل های پیکربندی؟" 
-LangString removeDataFolder ${LANG_Finnish} "Poista kaikki tietokannat ja asetustiedostot?" 
-LangString removeDataFolder ${LANG_French} "Supprimer toutes les bases de données et les fichiers de configuration ?" 
-LangString removeDataFolder ${LANG_Galician} "Eliminar todos os bancos de datos e arquivos de configuración?" 
-LangString removeDataFolder ${LANG_German} "Alle Datenbanken und Konfigurationsdateien zu entfernen?" 
-LangString removeDataFolder ${LANG_Greek} "Αφαιρέστε όλες τις βάσεις δεδομένων και τα αρχεία διαμόρφωσης;" 
-LangString removeDataFolder ${LANG_Hebrew} "הסר את כל קבצי תצורת מסדי נתונים ו" 
-LangString removeDataFolder ${LANG_Hungarian} "Vegye ki az összes adatbázisok és konfigurációs fájlok?" 
-LangString removeDataFolder ${LANG_Icelandic} "Fjarlægja allar gagnagrunna og stillingar skrá?" 
-LangString removeDataFolder ${LANG_Indonesian} "Hapus semua database dan file konfigurasi?" 
-LangString removeDataFolder ${LANG_Irish} "Bain na bunachair shonraí agus comhaid cumraíochta?" 
-LangString removeDataFolder ${LANG_Italian} "Rimuovere tutti i database ei file di configurazione?" 
-LangString removeDataFolder ${LANG_Japanese} "すべてのデータベースと設定ファイルを削除しますか？" 
-LangString removeDataFolder ${LANG_Korean} "모든 데이터베이스와 구성 파일을 삭제 하시겠습니까?" 
-LangString removeDataFolder ${LANG_Latvian} "Noņemt visas datu bāzes un konfigurācijas failus?" 
-LangString removeDataFolder ${LANG_Lithuanian} "Pašalinti visas duombazes ir konfigūravimo failus?" 
-LangString removeDataFolder ${LANG_Macedonian} "Отстрани ги сите бази на податоци и конфигурациските датотеки?" 
-LangString removeDataFolder ${LANG_Malay} "Buang semua pangkalan data dan fail-fail konfigurasi?" 
-LangString removeDataFolder ${LANG_Mongolian} "Бүх өгөгдлийн сангууд болон тохиргооны файлуудыг устгана?" 
-LangString removeDataFolder ${LANG_Norwegian} "Fjern alle databaser og konfigurasjonsfiler?" 
-LangString removeDataFolder ${LANG_NorwegianNynorsk} "Fjern alle databaser og konfigurasjonsfiler?" 
-LangString removeDataFolder ${LANG_Polish} "Usuń wszystkie bazy danych i plików konfiguracyjnych?" 
-LangString removeDataFolder ${LANG_Portuguese} "Remova todos os bancos de dados e arquivos de configuração?" 
-LangString removeDataFolder ${LANG_PortugueseBR} "Remova todos os bancos de dados e arquivos de configuração?" 
-LangString removeDataFolder ${LANG_Romanian} "Elimina toate bazele de date și fișierele de configurare?" 
-LangString removeDataFolder ${LANG_Russian} "Удалить все базы данных и файлы конфигурации?" 
-LangString removeDataFolder ${LANG_Serbian} "Уклоните све базе података и конфигурационе фајлове?" 
-LangString removeDataFolder ${LANG_SerbianLatin} "Uklonite sve baze podataka i datoteke za konfiguraciju ?" 
-LangString removeDataFolder ${LANG_SimpChinese} "删除所有数据库和配置文件？" 
-LangString removeDataFolder ${LANG_Slovak} "Odstráňte všetky databázy a konfiguračných súborov?" 
-LangString removeDataFolder ${LANG_Slovenian} "Odstranite vse podatkovne baze in konfiguracijske datoteke?" 
-LangString removeDataFolder ${LANG_Spanish} "Eliminar todas las bases de datos y archivos de configuración?" 
-LangString removeDataFolder ${LANG_SpanishInternational} "Eliminar todas las bases de datos y archivos de configuración?" 
-LangString removeDataFolder ${LANG_Swedish} "Ta bort alla databaser och konfigurationsfiler?" 
-LangString removeDataFolder ${LANG_Thai} "ลบฐานข้อมูลทั้งหมดและแฟ้มการกำหนดค่า?" 
-LangString removeDataFolder ${LANG_TradChinese} "刪除所有數據庫和配置文件？" 
-LangString removeDataFolder ${LANG_Turkish} "Tüm veritabanlarını ve yapılandırma dosyaları çıkarın?" 
-LangString removeDataFolder ${LANG_Ukrainian} "Видалити всі бази даних і файли конфігурації?" 
-LangString removeDataFolder ${LANG_Vietnamese} "Loại bỏ tất cả các cơ sở dữ liệu và các tập tin cấu hình?" 
-LangString removeDataFolder ${LANG_Welsh} "Tynnwch yr holl gronfeydd data a ffeiliau cyfluniad?" 
+LangString removeDataFolder ${LANG_Afrikaans} "Alle databasisse en opset lêers verwyder?"
+LangString removeDataFolder ${LANG_Albanian} "Hiq të gjitha bazat e të dhënave dhe fotografi konfigurimit?"
+LangString removeDataFolder ${LANG_Arabic} "إزالة كافة قواعد البيانات وملفات التكوين؟"
+LangString removeDataFolder ${LANG_Belarusian} "Выдаліць усе базы дадзеных і файлы канфігурацыі?"
+LangString removeDataFolder ${LANG_Bosnian} "Uklonite sve baze podataka i konfiguracijske datoteke?"
+LangString removeDataFolder ${LANG_Bulgarian} "Премахнете всички бази данни и конфигурационни файлове?"
+LangString removeDataFolder ${LANG_Catalan} "Eliminar totes les bases de dades i arxius de configuració?"
+LangString removeDataFolder ${LANG_Croatian} "Uklonite sve baze podataka i konfiguracijske datoteke?"
+LangString removeDataFolder ${LANG_Czech} "Odstraňte všechny databáze a konfiguračních souborů?"
+LangString removeDataFolder ${LANG_Danish} "Fjern alle databaser og konfigurationsfiler?"
+LangString removeDataFolder ${LANG_Dutch} "Verwijder alle databases en configuratiebestanden?"
+LangString removeDataFolder ${LANG_Esperanto} "Forigi la tuta datumbazojn kaj agordaj dosieroj?"
+LangString removeDataFolder ${LANG_Estonian} "Eemalda kõik andmebaasid ja konfiguratsioonifailid?"
+LangString removeDataFolder ${LANG_Farsi} "حذف تمام پایگاه داده ها و فایل های پیکربندی؟"
+LangString removeDataFolder ${LANG_Finnish} "Poista kaikki tietokannat ja asetustiedostot?"
+LangString removeDataFolder ${LANG_French} "Supprimer toutes les bases de données et les fichiers de configuration ?"
+LangString removeDataFolder ${LANG_Galician} "Eliminar todos os bancos de datos e arquivos de configuración?"
+LangString removeDataFolder ${LANG_German} "Alle Datenbanken und Konfigurationsdateien zu entfernen?"
+LangString removeDataFolder ${LANG_Greek} "Αφαιρέστε όλες τις βάσεις δεδομένων και τα αρχεία διαμόρφωσης;"
+LangString removeDataFolder ${LANG_Hebrew} "הסר את כל קבצי תצורת מסדי נתונים ו"
+LangString removeDataFolder ${LANG_Hungarian} "Vegye ki az összes adatbázisok és konfigurációs fájlok?"
+LangString removeDataFolder ${LANG_Icelandic} "Fjarlægja allar gagnagrunna og stillingar skrá?"
+LangString removeDataFolder ${LANG_Indonesian} "Hapus semua database dan file konfigurasi?"
+LangString removeDataFolder ${LANG_Irish} "Bain na bunachair shonraí agus comhaid cumraíochta?"
+LangString removeDataFolder ${LANG_Italian} "Rimuovere tutti i database ei file di configurazione?"
+LangString removeDataFolder ${LANG_Japanese} "すべてのデータベースと設定ファイルを削除しますか？"
+LangString removeDataFolder ${LANG_Korean} "모든 데이터베이스와 구성 파일을 삭제 하시겠습니까?"
+LangString removeDataFolder ${LANG_Latvian} "Noņemt visas datu bāzes un konfigurācijas failus?"
+LangString removeDataFolder ${LANG_Lithuanian} "Pašalinti visas duombazes ir konfigūravimo failus?"
+LangString removeDataFolder ${LANG_Macedonian} "Отстрани ги сите бази на податоци и конфигурациските датотеки?"
+LangString removeDataFolder ${LANG_Malay} "Buang semua pangkalan data dan fail-fail konfigurasi?"
+LangString removeDataFolder ${LANG_Mongolian} "Бүх өгөгдлийн сангууд болон тохиргооны файлуудыг устгана?"
+LangString removeDataFolder ${LANG_Norwegian} "Fjern alle databaser og konfigurasjonsfiler?"
+LangString removeDataFolder ${LANG_NorwegianNynorsk} "Fjern alle databaser og konfigurasjonsfiler?"
+LangString removeDataFolder ${LANG_Polish} "Usuń wszystkie bazy danych i plików konfiguracyjnych?"
+LangString removeDataFolder ${LANG_Portuguese} "Remova todos os bancos de dados e arquivos de configuração?"
+LangString removeDataFolder ${LANG_PortugueseBR} "Remova todos os bancos de dados e arquivos de configuração?"
+LangString removeDataFolder ${LANG_Romanian} "Elimina toate bazele de date și fișierele de configurare?"
+LangString removeDataFolder ${LANG_Russian} "Удалить все базы данных и файлы конфигурации?"
+LangString removeDataFolder ${LANG_Serbian} "Уклоните све базе података и конфигурационе фајлове?"
+LangString removeDataFolder ${LANG_SerbianLatin} "Uklonite sve baze podataka i datoteke za konfiguraciju ?"
+LangString removeDataFolder ${LANG_SimpChinese} "删除所有数据库和配置文件？"
+LangString removeDataFolder ${LANG_Slovak} "Odstráňte všetky databázy a konfiguračných súborov?"
+LangString removeDataFolder ${LANG_Slovenian} "Odstranite vse podatkovne baze in konfiguracijske datoteke?"
+LangString removeDataFolder ${LANG_Spanish} "Eliminar todas las bases de datos y archivos de configuración?"
+LangString removeDataFolder ${LANG_SpanishInternational} "Eliminar todas las bases de datos y archivos de configuración?"
+LangString removeDataFolder ${LANG_Swedish} "Ta bort alla databaser och konfigurationsfiler?"
+LangString removeDataFolder ${LANG_Thai} "ลบฐานข้อมูลทั้งหมดและแฟ้มการกำหนดค่า?"
+LangString removeDataFolder ${LANG_TradChinese} "刪除所有數據庫和配置文件？"
+LangString removeDataFolder ${LANG_Turkish} "Tüm veritabanlarını ve yapılandırma dosyaları çıkarın?"
+LangString removeDataFolder ${LANG_Ukrainian} "Видалити всі бази даних і файли конфігурації?"
+LangString removeDataFolder ${LANG_Vietnamese} "Loại bỏ tất cả các cơ sở dữ liệu và các tập tin cấu hình?"
+LangString removeDataFolder ${LANG_Welsh} "Tynnwch yr holl gronfeydd data a ffeiliau cyfluniad?"
 
 LangString noRoot ${LANG_ENGLISH} "You cannot install ${APP_NAME} in a directory that requires administrator permissions"
 LangString noRoot ${LANG_Afrikaans} "Jy kan nie ${APP_NAME} installeer in 'n gids wat administrateur regte vereis"
@@ -354,72 +356,37 @@ Function .onInit ; check for previous version
     done:
 FunctionEnd
 
-; ------------------- ;
-;  Node Webkit Files  ;
-; ------------------- ;
+; ----------- ;
+;  App Files  ;
+; ----------- ;
 Section
+
+    ;Save DB
+    CreateDirectory "$TEMP\app_DT"
+    CreateDirectory "$TEMP\app_TC"
+    CopyFiles "$INSTDIR\data\*.*" "$TEMP\app_DT"
+    CopyFiles "$INSTDIR\TorrentCollection\*.*" "$TEMP\app_TC"
+
     ;Delete existing install
-    RMDir /r "\\?\$INSTDIR"
-    
-    ;Delete cache
-    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\Cache"
-    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\GPUCache"
-    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\databases"
-    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}\Local Storage"
+    RMDir /r "$INSTDIR"
+
+    CreateDirectory "$INSTDIR"
+    CreateDirectory "$INSTDIR\data"
+    CreateDirectory "$INSTDIR\TorrentCollection"
+    CopyFiles "$TEMP\app_DT\*.*" "$INSTDIR\data"
+    CopyFiles "$TEMP\app_TC\*.*" "$INSTDIR\TorrentCollection"
+    RMDir /r "$TEMP\app_DT"
+    RMDir /r "$TEMP\app_TC"
 
     ;Set output path to InstallDir
-    SetOutPath "\\?\$INSTDIR"
+    SetOutPath "$INSTDIR"
 
     ;Add the files
-    File "..\..\cache\${APP_NW}\${ARCH}\*.dll"
-    File "..\..\cache\${APP_NW}\${ARCH}\nw.exe"
-    File "..\..\cache\${APP_NW}\${ARCH}\nw.pak"
-    File /r "..\..\cache\${APP_NW}\${ARCH}\locales"
-    File /nonfatal "..\..\cache\${APP_NW}\${ARCH}\*.dat"
-SectionEnd
-
-; ------------------- ;
-;      App Files      ;
-; ------------------- ;
-Section
-    ;Set output path to InstallDir
-    SetOutPath "\\?\$INSTDIR\src\app"
-
-    ;Add the files
-    File /r "..\..\src\app\css"
-    File /r "..\..\src\app\fonts"
-    File /r "..\..\src\app\images"
-    File /r "..\..\src\app\language"
-    File /r "..\..\src\app\lib"
-    File /r "..\..\src\app\templates"
-    File /r "..\..\src/app\themes"
-    File /r /x ".*" /x "test*" /x "example*" "..\..\src\app\vendor"
-    File "..\..\src\app\index.html"
-    File "..\..\src\app\*.js"
-    File /oname=License.txt "LICENSE.txt"
-
-    ;Set output path to InstallDir
-    SetOutPath "\\?\$INSTDIR"
-
-    ;Add the files
-    File "..\..\package.json"
-    File "..\..\build\${APP_NAME}\${ARCH}\${APP_LAUNCHER}"
-    File "..\..\CHANGELOG.md"
-    File /nonfatal "..\..\.git.json"
-
-    ;Set output path to InstallDir
-    SetOutPath "\\?\$INSTDIR\node_modules"
-
-    ;Add the files
-    !ifdef UNIX_PATHS
-        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "../../node_modules/*.*"
-    !else
-        !searchreplace node_modules ${__FILEDIR__} "\dist\windows" "\node_modules"
-        File /r /x "*grunt*" /x "stylus" /x "nw-gyp" /x "bower" /x ".bin" /x "bin" /x "test"  /x "test*" /x "example*" /x ".*" /x "*.md" /x "*.gz" /x "benchmark*" /x "*.markdown" "\\?\${node_modules}\*.*"
-    !endif
+    File /r "..\..\build\${APP_NAME}\${ARCH}\*"
 
     ;Create uninstaller
-    WriteUninstaller "\\?\$INSTDIR\Uninstall.exe"
+    WriteUninstaller "$INSTDIR\Uninstall.exe"
+
 SectionEnd
 
 ; ------------------- ;
@@ -427,13 +394,13 @@ SectionEnd
 ; ------------------- ;
 Section
     ;Working Directory
-    SetOutPath "\\?\$INSTDIR"
+    SetOutPath "$INSTDIR"
 
     ;Start Menu Shortcut
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     CreateDirectory "$SMPROGRAMS\${APP_NAME}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\butter.ico" "" "" "" "${APP_NAME} ${BT_VERSION}"
-    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\src\app\images\butter_uninstall.ico" "" "" "" "Uninstall ${APP_NAME}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\${APP_LAUNCHER}" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME} ${APP_VERSION}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\${MUI_UNICON_LOCAL_PATH}" "" "" "" "Uninstall ${APP_NAME}"
 
     ;Desktop Shortcut
     Delete "$DESKTOP\${APP_NAME}.lnk"
@@ -443,17 +410,17 @@ Section
     IntFmt $0 "0x%08X" $0
     WriteRegDWORD HKCU "${UNINSTALL_KEY}" "EstimatedSize" "$0"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayVersion" "${BT_VERSION}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\src\app\images\butter.ico"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayVersion" "${APP_VERSION}"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\${MUI_ICON_LOCAL_PATH}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "${COMPANY_NAME}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallString" "$INSTDIR"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "URLInfoAbout" "${APP_URL}"
-    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "https://discuss.butterproject.org"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "${APP_URL}"
 
     ;File association
-    WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}" "FriendlyAppName" "${APP_NAME}"
-    WriteRegStr HKCU "Software\Classes\Applications\${APP_LAUNCHER}\shell\open\command" "" '"$INSTDIR\${APP_LAUNCHER}" "%1"'
+    WriteRegStr HKCU "Software\Classes\Applications\${APP_NAME}" "FriendlyAppName" "${APP_NAME}"
+    WriteRegStr HKCU "Software\Classes\Applications\${APP_NAME}\shell\open\command" "" '"$INSTDIR\${APP_LAUNCHER}" "%1"'
 
     ;Refresh shell icons
     System::Call "shell32::SHChangeNotify(i,i,i,i) (0x08000000, 0x1000, 0, 0)"
@@ -462,18 +429,17 @@ SectionEnd
 ; ------------------- ;
 ;     Uninstaller     ;
 ; ------------------- ;
-Section "uninstall" 
+Section "uninstall"
     Call un.isRunning
-    RMDir /r "\\?\$INSTDIR"
+    RMDir /r "$INSTDIR"
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     Delete "$DESKTOP\${APP_NAME}.lnk"
-    
+
     MessageBox MB_YESNO|MB_ICONQUESTION "$(removeDataFolder)" IDNO NoUninstallData
         RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
     NoUninstallData:
         DeleteRegKey HKCU "${UNINSTALL_KEY}"
-        DeleteRegKey HKCU "Software\Chromium" ;workaround for NW leftovers
-        DeleteRegKey HKCU "Software\Classes\Applications\${APP_LAUNCHER}" ;file association
+        DeleteRegKey HKCU "Software\Classes\Applications\${APP_NAME}" ;file association
 SectionEnd
 
 ; ------------------- ;
@@ -544,5 +510,5 @@ FunctionEnd
 ;  Desktop Shortcut  ;
 ; ------------------ ;
 Function finishpageaction
-    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\nw.exe" "" "$INSTDIR\src\app\images\butter.ico" "" "" "" "${APP_NAME} ${BT_VERSION}"
+    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${APP_LAUNCHER}" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME} ${APP_VERSION}"
 FunctionEnd

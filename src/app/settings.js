@@ -63,6 +63,18 @@ Settings.providers = {
     torrentCache: 'TorrentCache',
 };
 
+Settings.trackers = {
+    blacklisted: [
+        'demonii'
+    ],
+    forced: [
+        'udp://tracker.coppersurfer.tk:6969/announce',
+        'udp://glotorrents.pw:6969/announce',
+        'udp://exodus.desync.com:6969/announce',
+        'udp://tracker.opentrackr.org:1337/announce'
+    ]
+};
+
 // User interface
 Settings.language = '';
 Settings.translateSynopsis = true;
@@ -361,7 +373,7 @@ var AdvSettings = {
 
     performUpgrade: function () {
         // This gives the official version (the package.json one)
-        var currentVersion = gui.App.manifest.version;
+        var currentVersion = nw.App.manifest.version;
 
         if (currentVersion !== AdvSettings.get('version')) {
             // Nuke the DB if there's a newer version
@@ -377,6 +389,6 @@ var AdvSettings = {
             window.__isUpgradeInstall = true;
         }
         AdvSettings.set('version', currentVersion);
-        AdvSettings.set('releaseName', gui.App.manifest.releaseName);
+        AdvSettings.set('releaseName', nw.App.manifest.releaseName);
     },
 };

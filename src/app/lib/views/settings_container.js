@@ -1,6 +1,6 @@
 (function (App) {
     'use strict';
-    var clipboard = gui.Clipboard.get(),
+    var clipboard = nw.Clipboard.get(),
         fdialogs = require('node-webkit-fdialogs'),
         waitComplete,
         oldTmpLocation,
@@ -80,23 +80,23 @@
         },
 
         context_Menu: function (cutLabel, copyLabel, pasteLabel, field) {
-            var menu = new gui.Menu(),
+            var menu = new nw.Menu(),
 
-                cut = new gui.MenuItem({
+                cut = new nw.MenuItem({
                     label: cutLabel || 'Cut',
                     click: function () {
                         document.execCommand('cut');
                     }
                 }),
 
-                copy = new gui.MenuItem({
+                copy = new nw.MenuItem({
                     label: copyLabel || 'Copy',
                     click: function () {
                         document.execCommand('copy');
                     }
                 }),
 
-                paste = new gui.MenuItem({
+                paste = new nw.MenuItem({
                     label: pasteLabel || 'Paste',
                     click: function () {
                         var text = clipboard.get('text');
@@ -389,6 +389,9 @@
             $('#authTrakt > i').css('visibility', 'hidden');
             $('.trakt-loading-spinner').show();
 
+            // $('#authTrakt').hide();
+            // $('#authTraktCode').show();
+
             App.Trakt.oauth.authenticate()
                 .then(function (valid) {
                     if (valid) {
@@ -440,29 +443,29 @@
             $('#connect-with-tvst > i').css('visibility', 'hidden');
             $('.tvst-loading-spinner').show();
 
-            App.vent.on('system:tvstAuthenticated', function () {
-                window.loginWindow.close();
-                $('.tvst-loading-spinner').hide();
-                self.render();
-            });
+
             App.TVShowTime.authenticate(function (activateUri) {
-                gui.App.addOriginAccessWhitelistEntry(activateUri, 'app', 'host', true);
-                window.loginWindow = gui.Window.open(activateUri, {
+                nw.App.addOriginAccessWhitelistEntry(activateUri, 'app', 'host', true);
+                nw.Window.open(activateUri, {
                     position: 'center',
                     focus: true,
                     title: 'TVShow Time',
                     icon: 'src/app/images/icon.png',
-                    toolbar: false,
                     resizable: false,
                     width: 600,
                     height: 600
-                });
+                }, function(loginWindow) {
+                  App.vent.on('system:tvstAuthenticated', function () {
+                      loginWindow.close();
+                      $('.tvst-loading-spinner').hide();
+                      self.render();
+                  });
 
-                window.loginWindow.on('closed', function () {
-                    $('.tvst-loading-spinner').hide();
-                    $('#connect-with-tvst > i').css('visibility', 'visible');
-                });
-
+                  loginWindow.on('closed', function () {
+                      $('.tvst-loading-spinner').hide();
+                      $('#connect-with-tvst > i').css('visibility', 'visible');
+                  });
+                }).focus();
             });
         },
 
@@ -484,14 +487,14 @@
             if (usn !== '' && pw !== '') {
                 $('.opensubtitles-options .loading-spinner').show();
                 var OpenSubtitles = new OS({
-                    useragent: 'OSTestUserAgent', //TODO: register UA 'Butter v' + (Settings.version || 1),
+                    useragent: 'Popcorn Time NodeJS', //TODO: register UA 'Butter v' + (Settings.version || 1),
                     username: usn,
                     password: Common.md5(pw)
                 });
 
                 OpenSubtitles.login()
-                    .then(function (token) {
-                        if (token) {
+                    .then(function (obj) {
+                        if (obj.token) {
                             AdvSettings.set('opensubtitlesUsername', usn);
                             AdvSettings.set('opensubtitlesPassword', Common.md5(pw));
                             AdvSettings.set('opensubtitlesAuthenticated', true);
@@ -598,7 +601,7 @@
 
         openTmpFolder: function () {
             win.debug('Opening: ' + App.settings['tmpLocation']);
-            gui.Shell.openItem(App.settings['tmpLocation']);
+            nw.Shell.openItem(App.settings['tmpLocation']);
         },
 
         moveTmpLocation: function (location) {
@@ -609,13 +612,13 @@
                 deleteFolder(oldTmpLocation);
             } else {
                 $('.notification_alert').show().text(i18n.__('You should save the content of the old directory, then delete it')).delay(5000).fadeOut(400);
-                gui.Shell.openItem(oldTmpLocation);
+                nw.Shell.openItem(oldTmpLocation);
             }
         },
 
         openDatabaseFolder: function () {
             win.debug('Opening: ' + App.settings['databaseLocation']);
-            gui.Shell.openItem(App.settings['databaseLocation']);
+            nw.Shell.openItem(App.settings['databaseLocation']);
         },
 
         exportDatabase: function (e) {
@@ -627,16 +630,27 @@
                 zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
             });
 
-            fdialogs.saveFile(zip.toBuffer(), function (err, path) {
+            // https://github.com/exos/node-webkit-fdialogs/issues/9
+            var exportDialog = new fdialogs.FDialog({
+                type: 'save',
+                window: nw.Window.get().window
+            });
+
+            exportDialog.saveFile(zip.toBuffer(), function (err, path) {
                 that.alertMessageWait(i18n.__('Exporting Database...'));
                 win.info('Database exported to:', path);
                 that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
             });
-
         },
 
         importDatabase: function () {
-            fdialogs.readFile(function (err, content, path) {
+            // https://github.com/exos/node-webkit-fdialogs/issues/9
+            var importDialog = new fdialogs.FDialog({
+                type: 'open',
+                window: nw.Window.get().window
+            });
+
+            importDialog.readFile(function (err, content, path) {
                 that.alertMessageWait(i18n.__('Importing Database...'));
                 try {
                     var zip = new AdmZip(content);

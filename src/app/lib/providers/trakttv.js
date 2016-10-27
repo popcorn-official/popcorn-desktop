@@ -479,43 +479,41 @@
             var API_URI = 'https://trakt.tv';
             var OAUTH_URI = API_URI + '/oauth/authorize?response_type=code&client_id=' + CLIENT_ID;
 
-            gui.App.addOriginAccessWhitelistEntry(API_URI, 'app', 'host', true);
-            window.loginWindow = gui.Window.open(OAUTH_URI + '&redirect_uri=' + encodeURIComponent(REDIRECT_URI), {
+            nw.App.addOriginAccessWhitelistEntry(API_URI, 'app', 'host', true);
+            nw.Window.open(OAUTH_URI + '&redirect_uri=' + encodeURIComponent(REDIRECT_URI), {
                 position: 'center',
-                focus: true,
                 title: 'Trakt.tv',
                 icon: 'src/app/images/icon.png',
-                toolbar: false,
                 resizable: false,
                 width: 580,
                 height: 640
-            });
+            }, function(loginWindow) {
+              loginWindow.on('loaded', function () {
+                  url = loginWindow.window.document.URL;
 
-            window.loginWindow.on('loaded', function () {
-                url = window.loginWindow.window.document.URL;
+                  if (url.indexOf('&') === -1 && url.indexOf('auth/signin') === -1) {
+                      if (url.indexOf('oauth/authorize/') !== -1) {
+                          url = url.split('/');
+                          url = url[url.length - 1];
+                      } else {
+                          nw.Shell.openExternal(url);
+                      }
+                      this.close(true);
+                  } else {
+                      url = false;
+                  }
+              });
 
-                if (url.indexOf('&') === -1 && url.indexOf('auth/signin') === -1) {
-                    if (url.indexOf('oauth/authorize/') !== -1) {
-                        url = url.split('/');
-                        url = url[url.length - 1];
-                    } else {
-                        gui.Shell.openExternal(url);
-                    }
-                    this.close(true);
-                } else {
-                    url = false;
-                }
-            });
-
-            window.loginWindow.on('closed', function () {
-                if (url) {
-                    defer.resolve(url);
-                } else {
-                    AdvSettings.set('traktToken', '');
-                    AdvSettings.set('traktTokenTTL', '');
-                    AdvSettings.set('traktTokenRefresh', '');
-                    defer.reject('Trakt window closed without exchange token');
-                }
+              loginWindow.on('closed', function () {
+                  if (url) {
+                      defer.resolve(url);
+                  } else {
+                      AdvSettings.set('traktToken', '');
+                      AdvSettings.set('traktTokenTTL', '');
+                      AdvSettings.set('traktTokenRefresh', '');
+                      defer.reject('Trakt window closed without exchange token');
+                  }
+              });
             });
 
             return defer.promise;

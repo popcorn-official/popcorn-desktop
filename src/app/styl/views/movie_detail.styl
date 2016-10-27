@@ -24,6 +24,7 @@
         opacity: 0
         background-position-x 50%
         background-position-y -33px
+        -webkit-filter: blur(15px) brightness(0.7)
         background-repeat: no-repeat
         background-size: cover
         &.fadein
@@ -70,7 +71,7 @@
                 font-smoothing: antialiased
 
             .metadatas
-                top: 15px     
+                top: 15px
                 height: 20px
                 position: relative
 
@@ -234,7 +235,7 @@
                     opacity: 1
                     transition: opacity 0.5s
 
-                &:after 
+                &:after
                     content: "\f004"
                     font-family: FontAwesome
                     position: absolute
@@ -305,7 +306,7 @@
                     opacity: 1
                     transition: opacity 0.5s
 
-                &:after 
+                &:after
                     content: "\f00c"
                     font-family: FontAwesome
                     position: absolute
@@ -399,10 +400,10 @@
                 display: none
                 height: auto
                 background: rgba(20, 24, 26, 0.6)
-                
+
                 .flag
                     height: 16px;
-                
+
 
             .flag
                 margin: 3px
@@ -530,7 +531,7 @@
                 .startStreaming
                     margin-left: 12px
                     margin-right: 12px
-                    
+
                     &:after
                         content: ''
                         width: 70%

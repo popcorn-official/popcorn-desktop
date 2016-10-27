@@ -208,7 +208,7 @@ vjs.TextTrack.prototype.load = function () {
                     parsedDialog = parsedDialog.replace('{\\i1}', '<i>').replace('{\\i0}', '</i>'); //italics
                     parsedDialog = parsedDialog.replace('{\\b1}', '<b>').replace('{\\b0}', '</b>'); //bold
                     parsedDialog = parsedDialog.replace('\\N', '\n'); //return to line
-                    parsedDialog = parsedDialog.replace(/{.*?}/g, ''); //remove leftovers brackets 
+                    parsedDialog = parsedDialog.replace(/{.*?}/g, ''); //remove leftovers brackets
                 }
 
                 //parse TXT
@@ -292,7 +292,7 @@ vjs.TextTrack.prototype.load = function () {
             var detectedEncoding = charset.encoding;
             win.debug('SUB charset detected: ' + detectedEncoding);
             // Do we need decoding?
-            if (detectedEncoding.toLowerCase().replace('-', '') === targetEncodingCharset) {
+            if (detectedEncoding && detectedEncoding.toLowerCase().replace('-', '') === targetEncodingCharset) {
                 parse(dataBuff.toString('utf-8'));
                 // We do
             } else {
@@ -375,7 +375,7 @@ vjs.TextTrackMenuItem = vjs.MenuItem.extend({
 
         this.player_.on(track.kind() + 'trackchange', vjs.bind(this, this.update));
 
-        // Popcorn Time Fix 
+        // Popcorn Time Fix
         // Allowing us to send a default language
         if (track.dflt()) {
             this.player_.showTextTrack(this.track.id_, this.track.kind());

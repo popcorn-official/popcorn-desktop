@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var clipboard = gui.Clipboard.get(),
+    var clipboard = nw.Clipboard.get(),
         collection = path.join(data_path + '/TorrentCollection/');
 
     var TorrentCollection = Backbone.Marionette.ItemView.extend({
@@ -216,9 +216,10 @@
                 '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '"><a>' + item.title + '</a><div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="right" title="' + i18n.__('Magnet link') + '"></div><i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">' + item.size + '</i></li>'
             );
             if (item.seeds === 0) { // recalc the peers/seeds
-                var torrent = item.magnet.split('&tr')[0] + '&tr=udp://tracker.openbittorrent.com:80/announce' + '&tr=udp://9.rarbg.com:2710/announce' + '&tr=udp://tracker.coppersurfer.tk:6969' + '&tr=udp://tracker.publicbt.com:80/announce';
-                require('torrent-tracker-health')(torrent, {
-                    timeout: 1000
+                require('torrent-tracker-health')(item.magnet, {
+                    timeout: 1000,
+                    blacklist: Settings.trackers.blacklisted,
+                    force: Settings.trackers.forced
                 }).then(function (res) {
                     //console.log('torrent index %s: %s -> %s (seeds)', item.index, item.seeds, res.seeds)
                     ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
@@ -228,7 +229,7 @@
         },
 
         onlineOpen: function (e) {
-            var file = $(e.currentTarget).context.dataset.file;
+            var file = e.currentTarget.dataset.file;
             Settings.droppedMagnet = file;
             window.handleTorrent(file);
         },
@@ -246,23 +247,23 @@
         },
 
         context_Menu: function (cutLabel, copyLabel, pasteLabel) {
-            var menu = new gui.Menu(),
+            var menu = new nw.Menu(),
 
-                cut = new gui.MenuItem({
+                cut = new nw.MenuItem({
                     label: cutLabel || 'Cut',
                     click: function () {
                         document.execCommand('cut');
                     }
                 }),
 
-                copy = new gui.MenuItem({
+                copy = new nw.MenuItem({
                     label: copyLabel || 'Copy',
                     click: function () {
                         document.execCommand('copy');
                     }
                 }),
 
-                paste = new gui.MenuItem({
+                paste = new nw.MenuItem({
                     label: pasteLabel || 'Paste',
                     click: function () {
                         var text = clipboard.get('text');
@@ -278,7 +279,7 @@
         },
 
         openFileSelector: function (e) {
-            var _file = $(e.currentTarget).context.innerText,
+            var _file = e.currentTarget.innerText,
                 file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
             if (_file.indexOf('.torrent') !== -1) {
@@ -299,22 +300,22 @@
 
             var magnetLink;
 
-            if ($(e.currentTarget.parentNode).context.className === 'file-item') {
+            if (e.currentTarget.parentNode.className === 'file-item') {
                 // stored
-                var _file = $(e.currentTarget.parentNode).context.innerText,
+                var _file = e.currentTarget.parentNode.innerText,
                     file = _file.substring(0, _file.length - 2); // avoid ENOENT
                 magnetLink = fs.readFileSync(collection + file, 'utf8');
             } else {
                 // search result
-                magnetLink = $(e.currentTarget.parentNode).context.attributes['data-file'].value;
+                magnetLink = e.currentTarget.parentNode.attributes['data-file'].value;
             }
 
             if (e.button === 2) { //if right click on magnet link
-                var clipboard = gui.Clipboard.get();
+                var clipboard = nw.Clipboard.get();
                 clipboard.set(magnetLink, 'text'); //copy link to clipboard
                 $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
             } else {
-                gui.Shell.openExternal(magnetLink);
+                nw.Shell.openExternal(magnetLink);
             }
         },
 
@@ -323,7 +324,7 @@
             e.preventDefault();
             e.stopPropagation();
 
-            var _file = $(e.currentTarget.parentNode).context.innerText,
+            var _file = e.currentTarget.parentNode.innerText,
                 file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
             fs.unlinkSync(collection + file);
@@ -339,7 +340,7 @@
             e.preventDefault();
             e.stopPropagation();
 
-            var _file = $(e.currentTarget.parentNode).context.innerText,
+            var _file = e.currentTarget.parentNode.innerText,
                 file = _file.substring(0, _file.length - 2), // avoid ENOENT
                 isTorrent = false;
 
@@ -391,7 +392,7 @@
 
         openCollection: function () {
             console.debug('Opening: ' + collection);
-            gui.Shell.openItem(collection);
+            nw.Shell.openItem(collection);
         },
 
         importItem: function () {

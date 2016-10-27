@@ -48,7 +48,7 @@
             // and when the selected lang or default lang is set
             // subtitleDownloading is needed cos this is called every 300ms
 
-            if (stateModel.get('streamInfo').get('torrent').defaultSubtitle && stateModel.get('streamInfo').get('torrent').defaultSubtitle !== 'none' && hasSubtitles && subtitles != null && engine.files[0] && !downloadedSubtitles && !subtitleDownloading) {
+            if (stateModel.get('streamInfo').get('torrent').defaultSubtitle && stateModel.get('streamInfo').get('torrent').defaultSubtitle !== 'none' && hasSubtitles && subtitles !== null && engine.files[0] && !downloadedSubtitles && !subtitleDownloading) {
                 subtitleDownloading = true;
                 App.vent.trigger('subtitle:download', {
                     url: subtitles[stateModel.get('streamInfo').get('torrent').defaultSubtitle],
@@ -68,7 +68,7 @@
         var tmpFilename = torrent.info.infoHash;
         tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_'); // +'-'+ (new Date()*1);
         var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
-        subtitles = torrent.subtitle;
+        subtitles = [];
 
         var torrentPeerId = crypt.pseudoRandomBytes(10).toString('hex');
 
@@ -124,7 +124,7 @@
                 streamInfo.set(torrent);
 
                 // we need subtitle in the player
-                streamInfo.set('subtitle', subtitles != null ? subtitles : torrent.subtitle);
+                streamInfo.set('subtitle', subtitles !== null ? subtitles : torrent.subtitle);
 
                 // clear downloaded so change:downloaded gets triggered for the first time
                 streamInfo.set('downloaded', 0);
@@ -228,6 +228,9 @@
                     // did we need to extract subtitle ?
                     var extractSubtitle = model.get('extract_subtitle');
 
+                    // used to rgx title to get subtitles for custom torrents
+                    var title = model.get('title');
+
                     var getSubtitles = function (data) {
                         win.debug('Subtitles data request:', data);
 
@@ -307,9 +310,6 @@
                     if (model.get('type') === 'movie') {
                         hasSubtitles = true;
                     }
-
-                    //Try get subtitles for custom torrents
-                    var title = model.get('title');
 
                     if (!title) { //From ctrl+v magnet or drag torrent
                         for (var f in torrent.files) {

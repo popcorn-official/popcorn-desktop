@@ -1,21 +1,19 @@
 (function (App) {
     'use strict';
 
-    var getDataFromProvider = function (torrentProvider, ysubs, subtitle, metadata, self) {
+    var getDataFromProvider = function (torrentProvider, subtitle, metadata, self) {
         var deferred = Q.defer();
 
         var torrentsPromise = torrentProvider.fetch(self.filter);
         var idsPromise = torrentsPromise.then(_.bind(torrentProvider.extractIds, torrentProvider));
         var promises = [
             torrentsPromise,
-
-            ysubs ? idsPromise.then(_.bind(ysubs.fetch, ysubs)) : true,
+            subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)) : true,
             metadata ? idsPromise.then(function (ids) {
                 return Q.allSettled(_.map(ids, function (id) {
                     return metadata.movies.summary(id);
                 }));
             }) : true,
-
         ];
 
         console.log('pre all', promises);
@@ -53,7 +51,6 @@
                     movie.provider = torrentProvider.name;
 
                     if (subtitles) {
-
                         movie.subtitle = subtitles[id];
                     }
 
@@ -64,7 +61,7 @@
 
                         if (info) {
                             _.extend(movie, {
-                                synopsis: movie.synopsis,
+                                synopsis: info.overview,
                                 genres: info.genres,
                                 certification: info.certification,
                                 runtime: info.runtime,
@@ -83,8 +80,15 @@
                                 }
                             }
 
-                            if (info.images.fanart) {
+
+                            if (info.images.full) {
                                 movie.backdrop = info.images.full;
+                            } else if (info.images.fanart && info.images.fanart.full) {
+                                movie.backdrop = info.images.fanart.full;
+                            } else if (movie.cover) {
+                                movie.backdrop = movie.cover;
+                            } else {
+                                movie.backdrop = 'images/bg-header.jpg';
                             }
                         } else {
                             win.warn('Unable to find %s (%s) on Trakt.tv', id, movie.title);
@@ -130,8 +134,7 @@
                 this.state = 'loading';
                 self.trigger('loading', self);
 
-                var subtitle;
-                var ysubs = App.Providers.get('ysubs');
+                var subtitle = this.providers.subtitle;
                 var metadata = this.providers.metadata;
                 var torrents = this.providers.torrents;
 
@@ -143,10 +146,10 @@
                  * provider declare a unique id, and then lookthem up in
                  * a hash.
                  */
-                console.log('pre---', ysubs, subtitle, metadata, torrents);
+                console.log('pre---', subtitle, metadata, torrents);
 
                 var torrentPromises = _.map(torrents, function (torrentProvider) {
-                    return getDataFromProvider(torrentProvider, ysubs, subtitle, metadata, self)
+                    return getDataFromProvider(torrentProvider, subtitle, metadata, self)
                         .then(function (torrents) {
                             self.add(torrents.results);
                             self.hasMore = true;

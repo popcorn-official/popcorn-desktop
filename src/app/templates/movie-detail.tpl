@@ -1,10 +1,10 @@
-<%  
-if(typeof backdrop === "undefined"){ backdrop = ""; }; 
-if(typeof synopsis === "undefined"){ synopsis = "Synopsis not available."; }; 
+<%
+if(typeof backdrop === "undefined"){ backdrop = ""; };
+if(typeof synopsis === "undefined"){ synopsis = "Synopsis not available."; };
 if(typeof runtime === "undefined"){ runtime = "N/A"; };
 if (genre) {
     for(var i = 0; i < genre.length; i++) {
-        genre[i] = i18n.__(genre[i]); 
+        genre[i] = i18n.__(genre[i]);
     }
 } else {
     var genre = [undefined];
@@ -64,22 +64,9 @@ if (genre) {
 
         <div class="favourites-toggle"><%=i18n.__("Add to bookmarks") %></div>
         <div class="watched-toggle"><%=i18n.__("Not Seen") %></div>
-        <div class="sub-dropdown">
-          <%= i18n.__("Subtitles") %>
-          <div class="sub-flag-icon flag selected-lang none"></div>
-          <div class="sub-dropdown-arrow"></div>
-        </div>                                            
-        <div class="flag-container">
-                  <div class="sub-flag-icon flag none" data-lang="none" title="<%= i18n.__("Disabled") %>"></div>
-                  <% for(var lang in subtitle){ %>
-                      <div class="sub-flag-icon flag <%= lang %>" data-lang="<%= lang %>" title="<%= App.Localization.langcodes[lang].nativeName %>"></div>
-                   <% } %>
-        </div>
-        
         <br>
-        
+
         <div class="button dropup" id="player-chooser"></div>
-        
         <div id="watch-trailer" class="button"><%=i18n.__("Watch Trailer") %></div>
 
         <div class="movie-quality-container">
@@ -96,7 +83,7 @@ if (genre) {
                     <div data-toogle="tooltip" data-placement="top" title="<%= Common.fileSize(torrents['720p'].size) %>" class="q720">720p</div>
                 <% }else if (torrents["1080p"] !== undefined) { %>
                     <div data-toogle="tooltip" data-placement="top" title="<%= Common.fileSize(torrents['1080p'].size) %>" class="q720">1080p</div>
-                <% } else { %>HDRip<% } %> 
+                <% } else { %>HDRip<% } %>
             <% } %>
         </div>
 

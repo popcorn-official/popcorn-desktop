@@ -1,22 +1,24 @@
 #!/bin/bash
-# launch 'deb-make.sh 0.12.1 linux32' for example
+# launch 'deb-maker.sh <nw version> <platform> <app-name> <destination>'
+# 'deb-maker.sh 0.12.1 linux32 MyApplication 0.0.1 build' for example
 
 nw=$1
 arch=$2
+projectName=$3
+name=${projectName,,} #tolowercase
+version=$4
+builddir=$5
 if [[ $arch == *"32"* ]]; then
   real_arch="i386"
 else
   real_arch="amd64"
 fi
-cwd="build/releases/deb-package/$arch"
-name="butter"
-projectName="Butter"
+cwd="$builddir/tmp-deb-$arch"
 read -n 9 revision <<< ` git log -1 --pretty=oneline`
-version=$(sed -n 's|\s*\"version\"\:\ \"\(.*\)\"\,|\1|p' package.json)
 package_name=${name}_${version}-${revision}_${real_arch}
 
 ### RESET
-rm -rf build/releases/deb-package
+rm -rf $cwd
 
 build_pt () {
 
@@ -31,39 +33,10 @@ mkdir -p $cwd/$package_name/usr/share/icons #icon
 
 ### COPY FILES
 #base
-cp -r build/cache/$arch/$nw/locales $cwd/$package_name/opt/$projectName/
-cp build/cache/$arch/$nw/icudtl.dat $cwd/$package_name/opt/$projectName/
-cp build/cache/$arch/$nw/libffmpegsumo.so $cwd/$package_name/opt/$projectName/
-cp build/cache/$arch/$nw/nw $cwd/$package_name/opt/$projectName/$projectName
-cp build/cache/$arch/$nw/nw.pak $cwd/$package_name/opt/$projectName/
-
-#src
-cp -r src $cwd/$package_name/opt/$projectName/
-cp package.json $cwd/$package_name/opt/$projectName/
-cp LICENSE.txt $cwd/$package_name/opt/$projectName/
-cp CHANGELOG.md $cwd/$package_name/opt/$projectName/
-
-#node_modules
-cp -r node_modules $cwd/$package_name/opt/$projectName/node_modules
+cp -r $builddir/$projectName/$arch/* $cwd/$package_name/opt/$projectName/
 
 #icon
-cp src/app/images/posterholder.png $cwd/$package_name/usr/share/icons/butter.png
-
-### CLEAN
-shopt -s globstar
-cd $cwd/$package_name/opt/$projectName
-rm -rf node_modules/bower/** 
-rm -rf node_modules/*grunt*/** 
-rm -rf node_modules/stylus/** 
-rm -rf ./**/test*/** 
-rm -rf ./**/doc*/** 
-rm -rf ./**/example*/** 
-rm -rf ./**/demo*/** 
-rm -rf ./**/bin/** 
-rm -rf ./**/build/** 
-rm -rf src/app/styl/**
-rm -rf **/*.*~
-cd ../../../../../../../
+cp src/app/images/icon.png $cwd/$package_name/usr/share/icons/butter.png
 
 ### CREATE FILES
 
@@ -71,7 +44,7 @@ cd ../../../../../../../
 echo "[Desktop Entry]
 Comment=Watch Movies and TV Shows instantly
 Name=$projectName
-Exec=/opt/$projectName/$projectName
+Exec=/opt/$projectName/$projectName %U
 Icon=butter
 MimeType=application/x-bittorrent;x-scheme-handler/magnet;
 StartupNotify=false
@@ -179,15 +152,15 @@ cd $cwd
 dpkg-deb --build $package_name
 
 ### CLEAN
-cd ../../../../
-mv $cwd/$name*.deb dist/linux
+cd ../..
+mv $cwd/$name*.deb $builddir
+rm -rf $cwd
 }
 
 
-if [ -e /usr/bin/fakeroot ] && [ "$3" != "--fakeroot" ]; then
+if [ -e /usr/bin/fakeroot ] && [ "$6" != "--fakeroot" ]; then
 	echo "'fakeroot' was found on the machine"
-	fakeroot bash $0 $1 $2 --fakeroot
+	fakeroot bash $0 $1 $2 $3 $4 $5 --fakeroot
 else
 	build_pt
 fi
-rm -rf build/releases/deb-package

@@ -23,7 +23,7 @@ win.error = function () {
 };
 
 
-if (gui.App.fullArgv.indexOf('--reset') !== -1) {
+if (nw.App.fullArgv.indexOf('--reset') !== -1) {
 
     localStorage.clear();
 
@@ -87,7 +87,7 @@ App.addRegions({
 
 // Menu for mac
 if (os.platform() === 'darwin') {
-    var nativeMenuBar = new gui.Menu({
+    var nativeMenuBar = new nw.Menu({
         type: 'menubar'
     });
     nativeMenuBar.createMacBuiltin(Settings.projectName, {
@@ -274,7 +274,7 @@ Mousetrap.bindGlobal(['shift+f12', 'f12', 'command+0'], function (e) {
 });
 Mousetrap.bindGlobal(['shift+f10', 'f10', 'command+9'], function (e) {
     win.debug('Opening: ' + App.settings.tmpLocation);
-    gui.Shell.openItem(App.settings.tmpLocation);
+    nw.Shell.openItem(App.settings.tmpLocation);
 });
 Mousetrap.bind('mod+,', function (e) {
     App.vent.trigger('about:close');
@@ -358,7 +358,7 @@ var minimizeToTray = function () {
     win.hide();
     win.isTray = true;
 
-    var tray = new gui.Tray({
+    var tray = new nw.Tray({
         title: Settings.projectName,
         icon: 'src/app/images/icon.png'
     });
@@ -371,15 +371,15 @@ var minimizeToTray = function () {
 
     tray.tooltip = Settings.projectName;
 
-    var menu = new gui.Menu();
-    menu.append(new gui.MenuItem({
+    var menu = new nw.Menu();
+    menu.append(new nw.MenuItem({
         type: 'normal',
         label: i18n.__('Restore'),
         click: function () {
             openFromTray();
         }
     }));
-    menu.append(new gui.MenuItem({
+    menu.append(new nw.MenuItem({
         type: 'normal',
         label: i18n.__('Close'),
         click: function () {
@@ -393,7 +393,7 @@ var minimizeToTray = function () {
         openFromTray();
     });
 
-    gui.App.on('open', function (cmd) {
+    nw.App.on('open', function (cmd) {
         openFromTray();
     });
 };
@@ -466,7 +466,7 @@ var handleVideoFile = function (file) {
 
     // init our objects
     var playObj = {
-        src: path.join(file.path),
+        src: 'file://' + path.join(file.path),
         type: 'video/mp4'
     };
     var sub_data = {
@@ -531,7 +531,9 @@ var handleVideoFile = function (file) {
                 });
         })
         .catch(function (err) {
-            playObj.title = file.name;
+            if (!playObj.title) {
+                playObj.title = file.name;
+            }
             playObj.quality = false;
             playObj.videoFile = file.path;
             playObj.defaultSubtitle = 'local';
@@ -551,6 +553,7 @@ var handleVideoFile = function (file) {
         App.Device.Collection.setDevice(tmpPlayer);
 
         $('.eye-info-player').hide();
+        $('.vjs-load-progress').css('width', '100%');
     });
 };
 
@@ -619,7 +622,7 @@ $(document).on('paste', function (e) {
 
 
 // Pass magnet link as last argument to start stream
-var last_arg = gui.App.argv.pop();
+var last_arg = nw.App.argv.pop();
 
 if (last_arg && (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0, 7) === 'http://' || last_arg.endsWith('.torrent'))) {
     App.vent.on('app:started', function () {
@@ -638,7 +641,7 @@ if (last_arg && (isVideo(last_arg))) {
     });
 }
 
-gui.App.on('open', function (cmd) {
+nw.App.on('open', function (cmd) {
     var file;
     if (os.platform() === 'win32') {
         file = cmd.split('"');
@@ -672,11 +675,11 @@ App.vent.on('window:focus', function () {
 });
 
 // -f argument to open in fullscreen
-if (gui.App.fullArgv.indexOf('-f') !== -1) {
+if (nw.App.fullArgv.indexOf('-f') !== -1) {
     win.enterFullscreen();
 }
 // -m argument to open minimized to tray
-if (gui.App.fullArgv.indexOf('-m') !== -1) {
+if (nw.App.fullArgv.indexOf('-m') !== -1) {
     App.vent.on('app:started', function () {
         minimizeToTray();
     });

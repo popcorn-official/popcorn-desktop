@@ -21,8 +21,6 @@
             'click .watched-toggle': 'toggleWatched',
             'click .movie-imdb-link': 'openIMDb',
             'mousedown .magnet-link': 'openMagnet',
-            'click .sub-dropdown': 'toggleDropdown',
-            'click .sub-flag-icon': 'closeDropdown',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .rating-container': 'switchRating'
         },
@@ -183,15 +181,9 @@
         },
 
         switchRating: function () {
-            if ($('.number-container').hasClass('hidden')) {
-                $('.number-container').removeClass('hidden');
-                $('.star-container').addClass('hidden');
-                AdvSettings.set('ratingStars', false);
-            } else {
-                $('.number-container').addClass('hidden');
-                $('.star-container').removeClass('hidden');
-                AdvSettings.set('ratingStars', true);
-            }
+            $('.number-container').toggleClass('hidden');
+            $('.star-container').toggleClass('hidden');
+            AdvSettings.set('ratingStars', $('.number-container').hasClass('hidden'));
         },
 
         switchSubtitle: function (lang) {
@@ -218,7 +210,7 @@
                 torrent: torrent,
                 backdrop: this.model.get('backdrop'),
                 subtitle: this.model.get('subtitle'),
-                defaultSubtitle: this.subtitle_selected, //originally: this.subtitle_selected,
+                defaultSubtitle: Settings.subtitle_language, //originally: this.subtitle_selected,
                 extract_subtitle: movieInfo,
                 title: this.model.get('title'),
                 quality: this.model.get('quality'),
@@ -227,31 +219,7 @@
                 cover: this.model.get('cover')
             });
             App.vent.trigger('stream:start', torrentStart);
-        },
-
-        toggleDropdown: function (e) {
-            if ($('.sub-dropdown').is('.open')) {
-                this.closeDropdown(e);
-                return false;
-            } else {
-                $('.sub-dropdown').addClass('open');
-                $('.sub-dropdown-arrow').addClass('down');
-            }
-            var self = this;
-            $('.flag-container').fadeIn();
-        },
-
-        closeDropdown: function (e) {
-            e.preventDefault();
-            $('.flag-container').fadeOut();
-            $('.sub-dropdown').removeClass('open');
-            $('.sub-dropdown-arrow').removeClass('down');
-
-            var value = $(e.currentTarget).attr('data-lang');
-            if (value) {
-                this.switchSubtitle(value);
-            }
-        },
+         },
 
         playTrailer: function () {
 
@@ -344,7 +312,7 @@
         },
 
         openIMDb: function () {
-            gui.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
+            nw.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
         },
 
         openMagnet: function (e) {
@@ -358,11 +326,11 @@
                 magnetLink = torrent.url;
             }
             if (e.button === 2) { //if right click on magnet link
-                var clipboard = gui.Clipboard.get();
-                clipboard.set(magnetLink.replace(/&amp;/gi, '&'), 'text'); //copy link to clipboard
+                var clipboard = nw.Clipboard.get();
+                clipboard.set(magnetLink, 'text'); //copy link to clipboard
                 $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
             } else {
-                gui.Shell.openExternal(magnetLink);
+                nw.Shell.openExternal(magnetLink);
             }
         },
 
