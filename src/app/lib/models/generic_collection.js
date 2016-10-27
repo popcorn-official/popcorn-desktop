@@ -13,7 +13,7 @@
                 return Q.allSettled(_.map(ids, function (id) {
                     return metadata.movies.summary(id);
                 }));
-            }) : true,
+            }) : true
         ];
 
         console.log('pre all', promises);
@@ -59,40 +59,7 @@
                             id: id
                         });
 
-                        if (info) {
-                            _.extend(movie, {
-                                synopsis: info.overview,
-                                genres: info.genres,
-                                certification: info.certification,
-                                runtime: info.runtime,
-                                tagline: info.tagline,
-                                title: info.title,
-                                trailer: info.trailer,
-                                year: info.year,
-                                images: info.images
-                            });
 
-
-                            if (info.images.poster) {
-                                movie.image = info.images.poster;
-                                if (!movie.cover) {
-                                    movie.cover = movie.image.full;
-                                }
-                            }
-
-
-                            if (info.images.full) {
-                                movie.backdrop = info.images.full;
-                            } else if (info.images.fanart && info.images.fanart.full) {
-                                movie.backdrop = info.images.fanart.full;
-                            } else if (movie.cover) {
-                                movie.backdrop = movie.cover;
-                            } else {
-                                movie.backdrop = 'images/bg-header.jpg';
-                            }
-                        } else {
-                            win.warn('Unable to find %s (%s) on Trakt.tv', id, movie.title);
-                        }
                     }
                 });
 
@@ -134,7 +101,7 @@
                 this.state = 'loading';
                 self.trigger('loading', self);
 
-                var subtitle = this.providers.subtitle;
+                var subtitle; //TODO: var subtitle = App.Providers.get('ysubs');
                 var metadata = this.providers.metadata;
                 var torrents = this.providers.torrents;
 
