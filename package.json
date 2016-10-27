@@ -41,7 +41,7 @@
         "butter-provider-vodo": "git+https://github.com/butterproviders/butter-provider-vodo",
         "butter-provider-archive": "git+https://github.com/butterproviders/butter-provider-archive",
         "adm-zip": "0.4.7",
-        "airplay-js": "git+https://github.com/guerrerocarlos/node-airplay-js.git",
+        "airplayer": "2.0.0",
         "async": "2.0.1",
         "chromecast-js": "git+https://github.com/captainyarr/chromecast-js.git",
         "defer-request": "0.0.2",
