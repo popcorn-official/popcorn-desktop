@@ -91,6 +91,36 @@
             }
         },
 
+        uploadSubtitles: function () {
+            // verify custom subtitles not modified
+            if (AdvSettings.get('opensubtitlesAutoUpload') && this.customSubtitles && !this.customSubtitles.modified) {
+                var real_elapsedTime = (Date.now() - this.customSubtitles.added_at) / 1000;
+                var player_elapsedTime = this.video.currentTime() - this.customSubtitles.timestamp;
+                var perc_elapsedTime = player_elapsedTime / this.video.duration();
+
+                // verify was played long enough
+                if (real_elapsedTime >= player_elapsedTime && perc_elapsedTime >= 0.7) {
+                    var upload = {
+                        subpath: this.customSubtitles.subPath,
+                        path: this.model.get('videoFile'),
+                        imdbid: this.model.get('imdb_id')
+                    };
+
+                    win.debug('OpenSubtitles - Uploading subtitles', upload);
+
+                    var subtitleProvider = App.Config.getProviderForType('subtitle');
+                    subtitleProvider.upload(upload).then(function (data) {
+                        if (data.alreadyindb) {
+                            return;
+                        }
+                        win.debug('OpenSubtitles - Subtitles successfully uploaded', data);
+                    }).catch(function (err) {
+                        win.warn('OpenSubtitles: could not upload subtitles', err);
+                    });
+                }
+            }
+        },
+
         closePlayer: function () {
             win.info('Player closed');
             if (this._AutoPlayCheckTimer) {
@@ -233,6 +263,37 @@
                 }
 
             });
+
+            App.vent.on('customSubtitles:added', function (subpath) {
+                _this.customSubtitles = {
+                    subPath: subpath,
+                    added_at: Date.now(),
+                    timestamp: _this.video.currentTime(),
+                    modified: false
+                };
+                $('#video_player li:contains("' + i18n.__('Disabled') + '")').on('click', function () {
+                    _this.customSubtitles = undefined;
+                });
+            });
+
+            if (this.model.get('metadataCheckRequired')) {
+                var matcher = this.model.get('title').split(/\s-\s/i);
+                $('.verifmeta_poster').attr('src', this.model.get('poster'));
+                $('.verifmeta_show').html(matcher[0]);
+                if (this.model.get('episode')) {
+                    $('.verifmeta_episode').html(matcher[2]);
+                    $('.verifmeta_number').text(i18n.__('Season %s', this.model.get('season')) + ', ' + i18n.__('Episode %s', this.model.get('episode')));
+                } else {
+                    $('.verifmeta_episode').text(this.model.get('year'));
+                }
+
+                // display it
+                $('.verify-metadata').show();
+                $('.verify-metadata').appendTo('div#video_player');
+                if (!_this.player.userActive()) {
+                    _this.player.userActive(true);
+                }
+            }
 
             var checkAutoPlay = function () {
                 if (_this.isMovie() === 'episode' && next_episode_model) {
@@ -767,7 +828,7 @@
         },
 
         displayStreamURL: function () {
-            var clipboard = require('nw.gui').Clipboard.get();
+            var clipboard = nw.Clipboard.get();
             clipboard.set($('#video_player video').attr('src'), 'text');
             this.displayOverlayMsg(i18n.__('URL of this stream was copied to the clipboard'));
         },

@@ -147,7 +147,7 @@ echo "Switched to $PWD"
 if [ "$rd_dep" = "yes" ]; then
 
     echo "Installing global dependencies"
-    if execsudo "npm install -g bower grunt-cli"; then
+    if execsudo "npm install -g bower gulp gulp-cli"; then
         echo "Global dependencies installed successfully!"
     else
         echo "Global dependencies encountered an error while installing"
@@ -159,7 +159,6 @@ if [ "$rd_dep" = "yes" ]; then
         echo "Local Popcorn files downloaded successfully!"
         echo "Moving Popcorn local files"
         mv torrent_collection.js src/app/lib/views/torrent_collection.js
-        mv ysubs.js src/app/lib/providers/ysubs.js
     else
         echo "Local Popcorn files encountered an error while downloading"
         exit 4
@@ -197,10 +196,10 @@ if [ "$rd_dep" = "yes" ]; then
     echo "Successfully setup for Popcorn Time"
 fi
 
-if grunt build; then
+if gulp build; then
     echo "Popcorn Time built successfully!"
     ./Create-Desktop-Entry
-    echo "Run 'grunt start' from inside the repository to launch the app"
+    echo "Run 'gulp run' from inside the repository to launch the app"
     echo "Enjoy!"
 else
     echo "Popcorn Time encountered an error and couldn't be built"

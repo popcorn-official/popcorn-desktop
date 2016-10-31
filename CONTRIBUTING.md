@@ -16,8 +16,7 @@ There are lots and lots of ways to get involved, this document covers:
 
 ## Report a bug
 
-If you're about to raise an issue because think you've found a problem with Popcorn Time, or you'd like to make a request
-for a new feature in the codebase, or any other reason… please read this first.
+If you're about to raise an issue because think you've found a problem with Popcorn Time, or you'd like to make a request for a new feature in the codebase, or any other reason… please read this first.
 
 The GitHub issue tracker is the preferred channel for [bug reports](#bug-reports),
 [feature requests](#feature-requests), [change requests](#change-requests) and [submitting pull
@@ -45,7 +44,7 @@ Guidelines for bug reports:
 3. **Include a screencast if relevant** - Is your issue about a design or front end feature or bug? The most helpful thing in the world is if we can *see* what you're talking about.
 Use [LICEcap](http://www.cockos.com/licecap/) to quickly and easily record a short screencast (24fps) and save it as an animated gif! Embed it directly into your GitHub issue. Kapow.
 
-3. Use the Bug Report template below to start creating a bug report with the template automatically or [click here](http://bit.ly/1MhADoe). 
+3. Use the Bug Report template below to start creating a bug report with the template automatically or [click here](http://bit.ly/1MhADoe).
 
 A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment.
 
@@ -55,7 +54,7 @@ Short and descriptive example bug report summary (title)
 
 ### Environment
 
-The OS environment in which the issue occurs. 
+The OS environment in which the issue occurs.
 
 ### Steps to Reproduce
 If suitable, include the steps required to reproduce the bug.

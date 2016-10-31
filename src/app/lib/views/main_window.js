@@ -565,11 +565,11 @@
 
         links: function (e) {
             e.preventDefault();
-            gui.Shell.openExternal($(e.currentTarget).attr('href'));
+            nw.Shell.openExternal($(e.currentTarget).attr('href'));
         },
 
         restartButter: function () {
-            var argv = gui.App.fullArgv,
+            var argv = nw.App.fullArgv,
                 CWD = process.cwd();
 
             argv.push(CWD);
@@ -578,7 +578,7 @@
                 detached: true,
                 stdio: ['ignore', 'ignore', 'ignore']
             }).unref();
-            gui.App.quit();
+            nw.App.quit();
         }
     });
 

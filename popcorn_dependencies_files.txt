@@ -1,3 +1,0 @@
-https://popcorntime.sh/package.json
-https://popcorntime.sh/torrent_collection.js
-https://popcorntime.sh/ysubs.js

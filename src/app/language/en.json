@@ -516,5 +516,41 @@
 	},
 	"thriller,conspiracy,indie": "thriller,conspiracy,indie",
 	"Animation, Comedy, Fantasy": "Animation, Comedy, Fantasy",
-	"blah": "blah"
+	"blah": "blah",
+	"action": "action",
+	"adventure": "adventure",
+	"science-fiction": "science-fiction",
+	"thriller": "thriller",
+	"fantasy": "fantasy",
+	"crime": "crime",
+	"drama": "drama",
+	"war": "war",
+	"reality": "reality",
+	"comedy": "comedy",
+	"Local": "Local",
+	"%s hour remaining": {
+		"one": "%s hour remaining",
+		"other": "%s hours remaining"
+	},
+	"Unknown subtitle format": "Unknown subtitle format",
+	"Try another subtitle or drop one in the player": "Try another subtitle or drop one in the player",
+	"animation": "animation",
+	"family": "family",
+	"show": "show",
+	"movie": "movie",
+	"Anime API Endpoint": "Anime API Endpoint",
+	"Movie API Endpoint": "Movie API Endpoint",
+	"%s minute remaining": {
+		"one": "%s minute remaining",
+		"other": "%s minutes remaining"
+	},
+	"%s second remaining": {
+		"one": "%s second remaining",
+		"other": "%s seconds remaining"
+	},
+	"Finished Airing": "Finished Airing",
+	"mystery": "mystery",
+	"romance": "romance",
+	"Currently Airing": "Currently Airing",
+	"documentary": "documentary"
 }

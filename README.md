@@ -23,21 +23,23 @@ If you clone the GitHub repository, you will need to build a number of assets us
 The [master](https://github.com/popcorn-official/popcorn-desktop) branch which contains the latest release.
 
 #### Quickstart:
-1. `get the following files : package.json , torrent_collection.js and ysubs.js from popcorntime.sh/package.json , popcorntime.sh/torrent_collection.js popcorntime.sh/ysubs.js`
+
+1. `gulp run`
+
+If you encounter trouble with the above method, you can try:
 
 1. `npm start`
 
 If you encounter trouble with the above method, you can try:
 
 1. `npm install -g bower gulp` (Linux: you may need to run with `sudo`)
+
 2. `npm install`
 3. `bower install`
 4. `gulp css`
 5. `gulp nw:run`
 
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
-
-Note: Move `torrent_collection.js` to `src/app/lib/views/torrent_collection.js` and `ysubs.js` to `src/app/lib/providers/ysubs.js` if you don't use make_popcorn.sh.
 
 Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-popcorn-time)
 
@@ -46,12 +48,12 @@ Full instructions & troubleshooting tips can be found in the [Contributing Guide
 
 Keep track of Popcorn Time development and community activity.
 
-* Follow Popcorn Time on [Twitter] (https://twitter.com/popcorntimetv), [Facebook] (https://www.facebook.com/PopcornTimeTv) and [Google+](https://plus.google.com/communities/111003619134556931561).
+* Follow Popcorn Time on [Twitter] (https://twitter.com/popcorntimetv), [Facebook] (https://www.facebook.com/PopcornTimeDotSh) and [Google+](https://plus.google.com/+popcorntimesh).
 * Read and subscribe to [The Official Popcorn Time Blog](http://blog.popcorntime.sh).
 * Join in discussions on the [Popcorn Time Forum](https://reddit.com/r/PopCornTime/)
 * Connect with us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime))
 
-##Screenshots
+## Screenshots
 ![Popcorn Time](https://cloud.githubusercontent.com/assets/8317250/10714437/b1e1dc8c-7b32-11e5-9c25-d9fbd5b2f3bd.png)
 ![Debugging Popcorn Time](https://cloud.githubusercontent.com/assets/8317250/10714430/add70234-7b32-11e5-9be7-1de539d865ba.png)
 
@@ -84,5 +86,4 @@ You should have received a copy of the GNU General Public License along with thi
 
 ***
 
-Copyright (c) 2015 Popcorn Time Project - Released under the
-[GPL v3 license](LICENSE.txt).
+Copyright (c) 2016 Popcorn Time Project - Released under the [GPL v3 license](LICENSE.txt).

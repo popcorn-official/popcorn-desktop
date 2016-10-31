@@ -286,30 +286,24 @@
         },
 
         openIMDb: function () {
-            gui.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
+            nw.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
         },
 
         openMagnet: function (e) {
             var torrentUrl = $('.startStreaming').attr('data-torrent');
             if (e.button === 2) { //if right click on magnet link
-                var clipboard = gui.Clipboard.get();
+                var clipboard = nw.Clipboard.get();
                 clipboard.set(torrentUrl, 'text'); //copy link to clipboard
                 $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
             } else {
-                gui.Shell.openExternal(torrentUrl);
+                nw.Shell.openExternal(torrentUrl);
             }
         },
 
         switchRating: function () {
-            if ($('.number-container-tv').hasClass('hidden')) {
-                $('.number-container-tv').removeClass('hidden');
-                $('.star-container-tv').addClass('hidden');
-                AdvSettings.set('ratingStars', false);
-            } else {
-                $('.number-container-tv').addClass('hidden');
-                $('.star-container-tv').removeClass('hidden');
-                AdvSettings.set('ratingStars', true);
-            }
+            $('.number-container-tv').toggleClass('hidden');
+            $('.star-container-tv').toggleClass('hidden');
+            AdvSettings.set('ratingStars', $('.number-container-tv').hasClass('hidden'));
         },
 
         toggleWatched: function (e) {
@@ -789,14 +783,12 @@
             };
 
             if (torrent.substring(0, 8) === 'magnet:?') {
-                // if 'magnet:?' is because TVApi sends back links, not magnets
-
-                torrent = torrent.split('&tr')[0] + '&tr=udp://tracker.openbittorrent.com:80/announce' + '&tr=udp://9.rarbg.com:2710/announce' + '&tr=udp://tracker.coppersurfer.tk:6969' + '&tr=udp://tracker.publicbt.com:80/announce';
-
+                // if 'magnet:?' is because api sometimes sends back links, not magnets
                 torrentHealth(torrent, {
-                    timeout: 1000
+                    timeout: 1000,
+                    blacklist: Settings.trackers.blacklisted,
+                    force: Settings.trackers.forced
                 }).then(function (res) {
-
                     if (cancelled) {
                         return;
                     }
