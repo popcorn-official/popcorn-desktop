@@ -17,7 +17,7 @@
         makeID: makeID,
         initialize: function (attrs) {
             this.device = attrs.device;
-            this.attributes.id = this.makeID(this.device.serverInfo.macAddress || this.device.serverInfo.deviceId || '' + this.device.id);
+            this.attributes.id = this.makeID(this.device.host);
             this.attributes.name = this.device.name || this.device.serverInfo.model;
             this.attributes.address = this.device.host;
         },
@@ -38,7 +38,7 @@
 
 
     list.on('update', function (player) {
-        win.info('Found Apple TV Device Device: %s at %s', player.name, player.host);
+        win.info('Found A Device Device: %s at %s', player.name, player.host);
         collection.add(new Airplay({
             device: player
         }));

@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var chromecasts = require('chromecasts-pct')(),
+    var chromecasts = require('chromecasts')(),
         collection = App.Device.Collection;
 
     var Chromecast = App.Device.Generic.extend({
@@ -36,7 +36,7 @@
                     images: streamModel.get('cover'),
                     subtitles: ['http:' + url.split(':')[1] + ':9999/subtitle.vtt'],
 
-                    subtitles_style: {
+                    textTrackStyle: {
                         backgroundColor: AdvSettings.get('subtitle_decoration') === 'Opaque Background' ? '#000000FF' : '#00000000', // color of background - see http://dev.w3.org/csswg/css-color/#hex-notation
                         foregroundColor: AdvSettings.get('subtitle_color') + 'ff', // color of text - see http://dev.w3.org/csswg/css-color/#hex-notation
                         edgeType: AdvSettings.get('subtitle_decoration') === 'Outline' ? 'OUTLINE' : 'NONE', // border of text - can be: "NONE", "OUTLINE", "DROP_SHADOW", "RAISED", "DEPRESSED"
@@ -141,7 +141,7 @@
             }
             // If this is the active device, propagate the status event.
             if (collection.selected.id === this.id) {
-              console.log(status);
+  
                 App.vent.trigger('device:status', status);
             }
         }
