@@ -19,7 +19,7 @@
         var self = this;
 
         this.options = _.defaults(options || {}, {
-            endpoint: AdvSettings.get('updateEndpoint').url + 'update3.json' + '?version=' + App.settings.version + '&nwversion=' + process.versions['node-webkit'],
+            endpoint: AdvSettings.get('updateEndpoint').url + 'updatemagnet.json' + '?version=' + App.settings.version + '&nwversion=' + process.versions['node-webkit'],
             channel: 'beta'
         });
 
@@ -33,11 +33,7 @@
         var self = this;
 
         // Don't update if development or update disabled in Settings
-        if (_.contains(fs.readdirSync('.'), '.git') || !App.settings.automaticUpdating) {
-            win.debug(App.settings.automaticUpdating ? 'Not updating because we are running in a development environment' : 'Automatic updating disabled');
-            defer.resolve(false);
-            return defer.promise;
-        }
+
 
         request(this.options.endpoint, {
             json: true
@@ -85,12 +81,15 @@
 
     Updater.prototype.download = function (source, output) {
         var defer = Q.defer();
-        var downloadStream = request(source);
-        win.debug('Downloading update... Please allow a few minutes');
-        downloadStream.pipe(fs.createWriteStream(output));
-        downloadStream.on('complete', function () {
-            win.debug('Update downloaded!');
-            defer.resolve(output);
+        var WebTorrent = require('webtorrent');
+        var client = new WebTorrent();
+        console.log(output);
+        client.add(source, { path: output }, function (torrent) {
+            win.debug('Downloading update... Please allow a few minutes');
+            torrent.on('done', function () {
+                win.debug('Update downloaded!');
+                defer.resolve(path.join(output, torrent.files[0].name));
+            })
         });
         return defer.promise;
     };
