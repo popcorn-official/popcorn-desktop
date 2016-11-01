@@ -79,15 +79,23 @@
         });
     };
 
-    Updater.prototype.download = function (source, output) {
+    Updater.prototype.download = function (source, outputDir) {
         var defer = Q.defer();
         var WebTorrent = require('webtorrent');
         var client = new WebTorrent();
-        client.add(source, { path: output }, function (torrent) {
+        client.on('error', function (err) {
+          defer.reject(err);
+        win.debug('ERROR: ' + err.message);
+      });
+        client.add(source, { path: outputDir }, function (torrent) {
           win.debug('Downloading update... Please allow a few minutes');
+          torrent.on('error', function (err) {
+            win.debug('ERROR' + err.message);
+            defer.reject(err);
+            });
           torrent.on('done', function () {
             win.debug('Update downloaded!');
-            defer.resolve(path.join(output, torrent.files[0].name));
+            defer.resolve(path.join(outputDir, torrent.name));
           });
         });
         return defer.promise;
