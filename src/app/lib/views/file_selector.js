@@ -74,10 +74,9 @@
             var torrent = _this.model.get('torrent');
             var file = parseInt($(e.currentTarget).attr('data-file'));
             var actualIndex = parseInt($(e.currentTarget).attr('data-index'));
-            torrent.name = torrent.files[file].name;
 
             var torrentStart = new Backbone.Model({
-                torrent: torrent,
+                torrent: torrent.magnetURI,
                 torrent_read: true,
                 file_index: actualIndex,
                 device: App.Device.Collection.selected
