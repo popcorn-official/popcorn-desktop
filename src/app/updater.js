@@ -83,16 +83,15 @@
         var defer = Q.defer();
         var WebTorrent = require('webtorrent');
         var client = new WebTorrent();
-        console.log(output);
         client.add(source, { path: output }, function (torrent) {
-            win.debug('Downloading update... Please allow a few minutes');
-            torrent.on('done', function () {
-                win.debug('Update downloaded!');
-                defer.resolve(path.join(output, torrent.files[0].name));
-            })
+          win.debug('Downloading update... Please allow a few minutes');
+          torrent.on('done', function () {
+            win.debug('Update downloaded!');
+            defer.resolve(path.join(output, torrent.files[0].name));
+          });
         });
         return defer.promise;
-    };
+      };
 
     Updater.prototype.verify = function (source) {
         var defer = Q.defer();
