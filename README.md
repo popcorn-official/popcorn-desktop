@@ -28,10 +28,6 @@ The [master](https://github.com/popcorn-official/popcorn-desktop) branch which c
 
 If you encounter trouble with the above method, you can try:
 
-1. `npm start`
-
-If you encounter trouble with the above method, you can try:
-
 1. `npm install -g bower gulp` (Linux: you may need to run with `sudo`)
 
 2. `npm install`
