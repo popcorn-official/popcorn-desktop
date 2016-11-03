@@ -101,7 +101,7 @@
 
             var index = 0;
 
-            if (this.searchEngine === 'KAT') {
+            if (this.searchEngine === 'ExtraTorrent') {
 
                 var ExtraTorrentAPI = require('extratorrent-api');
                 var extra = new ExtraTorrentAPI();
