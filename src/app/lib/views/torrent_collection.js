@@ -116,7 +116,7 @@
                           magnet: item.magnet,
                           seeds: item.seeds,
                           peers: item.peers,
-                          size: Common.fileSize(parseInt(item.size)),
+                          size: item.size,
                           index: index
                         };
 
