@@ -48,8 +48,7 @@ var
     }),
 
     // Torrent engines
-
-
+    WebTorrent = require('webtorrent'),
 
     // NodeJS
     child = require('child_process');
