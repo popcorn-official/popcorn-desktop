@@ -5,7 +5,7 @@
         <div class="onlinesearch">
             <div class="engine-selector">
                 <div id="rarbg-icon" data-id="RARBG" class="engine-icon"></div>
-                <div id="kat-icon" data-id="KAT" class="engine-icon"></div>
+                <div id="extratorrent-icon" data-id="ExtraTorrent" class="engine-icon"></div>
             </div>
             <div class="dropdown online-categories">
                     <%
