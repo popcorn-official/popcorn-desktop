@@ -79,6 +79,7 @@
         "querystring": true,
         "URI": true,
         "child": true,
+        "WebTorrent": true,
         "trakt": true,
 
         // Third party
