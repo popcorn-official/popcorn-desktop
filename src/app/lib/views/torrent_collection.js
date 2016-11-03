@@ -141,7 +141,7 @@
                         $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>');
                     }
                 }).catch(function (err) {
-                    console.debug('KAT search failed:', err.message);
+                    console.debug('ExtraTorrent search failed:', err.message);
                     var error;
                     if (err.message === 'No results') {
                         error = 'No results found';
