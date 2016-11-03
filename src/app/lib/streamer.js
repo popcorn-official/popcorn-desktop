@@ -1,8 +1,6 @@
 (function (App) {
     'use strict';
 
-  var WebTorrent = require('webtorrent');
-
     var BUFFERING_SIZE = 10 * 1024 * 1024;
 
     var DEFAULT_SERVER_PORT = 8888;
