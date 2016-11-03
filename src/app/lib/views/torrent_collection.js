@@ -103,20 +103,21 @@
 
             if (this.searchEngine === 'KAT') {
 
-                var kat = require('kat-api');
-                kat.search({
-                    query: input.toLocaleLowerCase(),
-                    category: category.toLocaleLowerCase() //IT IS BUGGED ATM
-                }).then(function (data) {
-                    console.debug('KAT search: %s results', data.results.length);
+                var ExtraTorrentAPI = require('extratorrent-api');
+                var extra = new ExtraTorrentAPI();
+                extra.search({
+                    with_words: input.toLocaleLowerCase(),
+                    category: category.toLocaleLowerCase()
+                }).then(function(data) {
+                    console.debug('ExtraTorrent search: %s results', data.results.length);
                     data.results.forEach(function (item) {
                         var itemModel = {
-                            title: item.title,
-                            magnet: item.magnet,
-                            seeds: item.seeds,
-                            peers: item.peers,
-                            size: Common.fileSize(parseInt(item.size)),
-                            index: index
+                          title: item.title,
+                          magnet: item.magnet,
+                          seeds: item.seeds,
+                          peers: item.peers,
+                          size: Common.fileSize(parseInt(item.size)),
+                          index: index
                         };
 
                         if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
@@ -153,7 +154,6 @@
                     $('.notorrents-info,.torrents-info').hide();
                     $('.onlinesearch-info').show();
                 });
-
             } else {
 
                 var rarbg = require('rarbg-api');
