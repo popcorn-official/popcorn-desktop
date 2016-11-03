@@ -268,6 +268,15 @@
         return installUnix(downloadPath, outputDir, updateData);
     }
 
+    function alertMessageFailed(errorDesc) {
+        App.vent.trigger('notification:show', new App.Model.Notification({
+            title: i18n.__('Error'),
+            body: errorDesc + '.',
+            type: 'danger',
+            autoclose: true
+        }));
+    }
+
     Updater.prototype.install = function (downloadPath) {
         var os = App.settings.os;
         var promise;
@@ -315,7 +324,10 @@
             return this.download(this.updateData.updateUrl, outputFile)
                 .then(forcedBind(this.verify, this))
                 .then(forcedBind(this.install, this))
-                .then(forcedBind(this.displayNotification, this));
+                .then(forcedBind(this.displayNotification, this))
+                .catch(function(err) {
+                  alertMessageFailed(i18n.__('Something went wrong downloading the update'));
+                });
         } else {
             // Otherwise, check for updates then install if needed!
             var self = this;
@@ -324,7 +336,10 @@
                     return self.download(self.updateData.updateUrl, outputFile)
                         .then(forcedBind(self.verify, self))
                         .then(forcedBind(self.install, self))
-                        .then(forcedBind(self.displayNotification, self));
+                        .then(forcedBind(self.displayNotification, self))
+                        .catch(function(err) {
+                          alertMessageFailed(i18n.__('Something went wrong downloading the update'));
+                        });
                 } else {
                     return false;
                 }
