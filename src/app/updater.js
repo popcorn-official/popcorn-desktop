@@ -81,7 +81,6 @@
 
     Updater.prototype.download = function (source, outputDir) {
         var defer = Q.defer();
-        var WebTorrent = require('webtorrent');
         var client = new WebTorrent();
 
         client.on('error', function (err) {
