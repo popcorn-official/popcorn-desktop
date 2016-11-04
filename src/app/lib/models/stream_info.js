@@ -80,6 +80,11 @@
             this.set('active_peers', torrent.numPeers);
             this.set('total_peers', torrent.numPeers);
 
+            var title = torrentModel.get('title');
+            if (title !== '') {
+                this.set('title', title);
+            }
+
             this.set('uploadSpeed', final_upload_speed); // variable for Upload Speed
             this.set('downloadSpeed', final_download_speed); // variable for Download Speed
             this.set('downloadedFormatted', final_downloaded); // variable for Downloaded
