@@ -38,8 +38,6 @@
             'click #authOpensubtitles': 'connectOpensubtitles',
             'click #unauthOpensubtitles': 'disconnectOpensubtitles',
             'click .reset-tvAPI': 'resetTVShowAPI',
-            'click .reset-MovieApi': 'resetTVShowAPI',
-            'click .reset-AnimeApi': 'resetAnimeApi',
             'change #tmpLocation': 'updateCacheDirectory',
             'click #syncTrakt': 'syncTrakt',
             'click .qr-code': 'generateQRcode',
@@ -147,44 +145,6 @@
 
             that.syncSetting('tvAPI', value);
         },
-        resetMovieApi: function () {
-            var value = [{
-                url: 'https:///',
-                strictSSL: true
-            }, {
-                url: 'https:///',
-                strictSSL: true
-            }];
-            App.settings['MovieApi'] = value;
-            //save to db
-            App.db.writeSetting({
-                key: 'MovieApi',
-                value: value
-            }).then(function () {
-                that.ui.success_alert.show().delay(3000).fadeOut(400);
-            });
-
-            that.syncSetting('MovieApi', value);
-        },
-        resetAnimeApi: function () {
-            var value = [{
-                url: 'https:///',
-                strictSSL: true
-            }, {
-                url: 'https:///',
-                strictSSL: true
-            }];
-            App.settings['AnimeApi'] = value;
-            //save to db
-            App.db.writeSetting({
-                key: 'AnimeApi',
-                value: value
-            }).then(function () {
-                that.ui.success_alert.show().delay(3000).fadeOut(400);
-            });
-
-            that.syncSetting('AnimeApi', value);
-        },
 
         generateQRcode: function () {
             var qrcodecanvus = document.getElementById('qrcode'),
@@ -266,7 +226,6 @@
             case 'traktPlayback':
             case 'playNextEpisodeAuto':
             case 'automaticUpdating':
-            case 'UpdateSeed':
             case 'UpdateSeed':
             case 'events':
             case 'alwaysFullscreen':
