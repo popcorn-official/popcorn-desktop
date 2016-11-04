@@ -76,8 +76,8 @@
         "request": true,
         "querystring": true,
         "URI": true,
-        "peerflix": true,
         "child": true,
+        "WebTorrent": true,
         "trakt": true,
 
         // Third party
