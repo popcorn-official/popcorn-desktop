@@ -1,7 +1,8 @@
 (function (App) {
     'use strict';
 
-    var CHANNELS = ['stable', 'beta', 'nightly'],
+    var client = new WebTorrent(),
+        CHANNELS = ['stable', 'beta', 'nightly'],
         FILENAME = 'package.nw.new',
         VERIFY_PUBKEY = Settings.updateKey;
 
@@ -73,7 +74,17 @@
                 self.updateData = updateData;
                 return true;
             }
+            if (App.settings.UpdateSeed) {
+              client.add(updateData.updateUrl, { path: os.tmpdir() }, function (torrent) {
+                torrent.on('error', function (err) {
+                    win.debug('ERROR' + err.message);
+                });
+                torrent.on('done', function () {
+                    win.debug('Seeding the Current Update!');
+                });
+              });
 
+            }
             win.debug('Not updating because we are running the latest version');
             return false;
         });
@@ -81,7 +92,6 @@
 
     Updater.prototype.download = function (source, outputDir) {
         var defer = Q.defer();
-        var client = new WebTorrent();
 
         client.on('error', function (err) {
           win.debug('ERROR: ' + err.message);
