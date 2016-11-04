@@ -68,7 +68,7 @@
                 final_downloaded_percent = 100;
             }
 
-            var downloadTimeLeft = torrent.timeRemaining; // time to wait before download complete
+            var downloadTimeLeft = parseInt(torrent.timeRemaining / 1000, 10); // time to wait before download complete
             if (isNaN(downloadTimeLeft) || downloadTimeLeft < 0) {
                 downloadTimeLeft = 0;
             } else if (!isFinite(downloadTimeLeft)) { // infinite
@@ -79,6 +79,11 @@
             this.set('downloaded', downloaded);
             this.set('active_peers', torrent.numPeers);
             this.set('total_peers', torrent.numPeers);
+
+            var title = torrentModel.get('title');
+            if (title !== '') {
+                this.set('title', title);
+            }
 
             this.set('uploadSpeed', final_upload_speed); // variable for Upload Speed
             this.set('downloadSpeed', final_download_speed); // variable for Download Speed
