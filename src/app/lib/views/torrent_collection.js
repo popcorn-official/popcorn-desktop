@@ -101,22 +101,23 @@
 
             var index = 0;
 
-            if (this.searchEngine === 'KAT') {
+            if (this.searchEngine === 'ExtraTorrent') {
 
-                var kat = require('kat-api');
-                kat.search({
-                    query: input.toLocaleLowerCase(),
-                    category: category.toLocaleLowerCase() //IT IS BUGGED ATM
-                }).then(function (data) {
-                    console.debug('KAT search: %s results', data.results.length);
+                var ExtraTorrentAPI = require('extratorrent-api');
+                var extra = new ExtraTorrentAPI();
+                extra.search({
+                    with_words: input.toLocaleLowerCase(),
+                    category: category.toLocaleLowerCase()
+                }).then(function(data) {
+                    console.debug('ExtraTorrent search: %s results', data.results.length);
                     data.results.forEach(function (item) {
                         var itemModel = {
-                            title: item.title,
-                            magnet: item.magnet,
-                            seeds: item.seeds,
-                            peers: item.peers,
-                            size: Common.fileSize(parseInt(item.size)),
-                            index: index
+                          title: item.title,
+                          magnet: item.magnet,
+                          seeds: item.seeds,
+                          peers: item.peers,
+                          size: item.size,
+                          index: index
                         };
 
                         if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
@@ -140,7 +141,7 @@
                         $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>');
                     }
                 }).catch(function (err) {
-                    console.debug('KAT search failed:', err.message);
+                    console.debug('ExtraTorrent search failed:', err.message);
                     var error;
                     if (err.message === 'No results') {
                         error = 'No results found';
@@ -153,7 +154,6 @@
                     $('.notorrents-info,.torrents-info').hide();
                     $('.onlinesearch-info').show();
                 });
-
             } else {
 
                 var rarbg = require('rarbg-api');
