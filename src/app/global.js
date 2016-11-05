@@ -45,7 +45,12 @@ var
     trakt = new Trakt({
         client_id: '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2',
         client_secret: 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1',
-        plugins: ['ondeck']
+        plugins: ['ondeck', 'images'],
+        options: {
+            images: {
+                smallerImages: true
+            }
+        }
     }),
 
     // Torrent engines
