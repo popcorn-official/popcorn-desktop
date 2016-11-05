@@ -81,8 +81,9 @@
                 _.bind(this.onUnWatched, this));
 
             var images = this.model.get('images');
-            images.fanart = App.Trakt.resizeImage(images.fanart);
-            images.poster = App.Trakt.resizeImage(images.poster, 'thumb');
+            if (images && !images.fanart) {
+                images.fanart = images.backdrop;
+            }
 
             App.vent.on('shortcuts:shows', function () {
                 _this.initKeyboardShortcuts();

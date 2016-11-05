@@ -41,11 +41,11 @@
             switch (itemtype) {
             case 'bookmarkedshow':
                 watched = App.watchedShows.indexOf(imdb) !== -1;
-                this.model.set('image', App.Trakt.resizeImage(img, 'thumb'));
+                this.model.set('image', img);
                 break;
             case 'show':
                 watched = App.watchedShows.indexOf(imdb) !== -1;
-                images.poster = App.Trakt.resizeImage(img, 'thumb');
+                images.poster = img;
                 break;
             case 'bookmarkedmovie':
             case 'movie':
