@@ -3,8 +3,6 @@
 
     var BUFFERING_SIZE = 10 * 1024 * 1024;
 
-    var DEFAULT_SERVER_PORT = 8888;
-
     var WebTorrentStreamer = function () {
 
         // WebTorrent instance
@@ -29,9 +27,6 @@
         // Interval controller for StreamInfo view, which keeps showing ratio/download/upload info.
         // See models/stream_info.js
         this.updateStatsInterval = null;
-
-        // Http server to stream video
-        this.server = null;
 
     };
 
@@ -80,11 +75,6 @@
 
             App.vent.off('subtitle:downloaded');
 
-            if (this.server) {
-                this.server.close();
-                this.server = null;
-            }
-
             win.info('Streaming cancelled.');
         },
 
@@ -96,7 +86,6 @@
                     maxConns: parseInt(Settings.connectionLimit, 10) || 100,
                     tracker: {
                         peerId: crypt.pseudoRandomBytes(10).toString('hex'),
-                        port: parseInt(Settings.streamPort, 10) || 0,
                         announce: [
                             'udp://tracker.openbittorrent.com:80',
                             'udp://tracker.coppersurfer.tk:6969',
@@ -228,6 +217,15 @@
 
             this.streamInfo = new App.Model.StreamInfo();
             this.streamInfo.set('torrentModel', this.torrentModel);
+
+            // compatibility
+            this.streamInfo.set('title', this.torrentModel.get('title'));
+            this.streamInfo.set('player', this.torrentModel.get('device'));
+            this.streamInfo.set('device', this.torrentModel.get('device'));
+            this.streamInfo.set('quality', this.torrentModel.get('quality'));
+            this.streamInfo.set('defaultSubtitle', this.torrentModel.get('defaultSubtitle'));
+            // end compatibility
+
             this.stateModel.set('streamInfo', this.streamInfo);
 
             this.streamInfo.selectFile();
@@ -236,8 +234,21 @@
 
             this.stateModel.set('state', 'startingDownload');
 
-            this.server = torrent.createServer();
-            this.server.listen(DEFAULT_SERVER_PORT);
+            var serverPort, serverCreated = false;
+
+            while (!serverCreated) {
+
+                serverPort = this.__generatePortNumber();
+
+                try {
+                    win.info('Trying to create stream server on port: ', serverPort);
+                    torrent.createServer().listen(serverPort);
+                    serverCreated = true;
+                } catch (e) {
+                    win.info('Could not listen on port: ', serverPort);
+                }
+
+            }
 
             this.stateModel.set('state', 'downloading');
 
@@ -252,13 +263,6 @@
                 if (this.streamInfo.get('player') && this.streamInfo.get('player').id !== 'local') {
                     this.stateModel.set('state', 'playingExternally');
                 }
-
-                // compatibility
-                this.streamInfo.set('title', this.torrentModel.get('title'));
-                this.streamInfo.set('player', this.torrentModel.get('device'));
-                this.streamInfo.set('quality', this.torrentModel.get('quality'));
-                this.streamInfo.set('defaultSubtitle', this.torrentModel.get('defaultSubtitle'));
-                // end compatibility
 
                 this.streamInfo.set('downloaded', 0);
 
@@ -279,17 +283,20 @@
             });
 
             // set location to player
-            this.streamInfo.set('src', 'http://127.0.0.1:' + DEFAULT_SERVER_PORT + '/' + fileIndex);
+            this.streamInfo.set('src', 'http://127.0.0.1:' + serverPort + '/' + fileIndex);
             this.streamInfo.set('type', 'video/mp4');
 
             this.__handleSubtitles(torrent.files[fileIndex]);
 
             // when download size reaches BUFFERING_SIZE, we set state as 'ready'
-            torrent.on('download', function () {
+            var onDownload = function() {
 
                 if (torrent.downloaded <= BUFFERING_SIZE) {
                     return;
                 }
+
+                // once torrent is "ready" we dont need this check anymore
+                torrent.removeListener('download', onDownload);
 
                 this.bufferReady = true;
 
@@ -299,7 +306,9 @@
 
                 return this.stateModel.set('state', 'ready');
 
-            }.bind(this));
+            }.bind(this);
+
+            torrent.on('download', onDownload);
 
         },
 
@@ -436,6 +445,13 @@
             }
 
             return keywords;
+        },
+
+        // generate an port number between 1024 and 65000
+        __generatePortNumber: function() {
+            var min = 1024, max = 65000;
+
+            return Math.floor(Math.random() * (max - min)) + min;
         }
     };
 
