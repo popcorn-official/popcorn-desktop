@@ -228,6 +228,15 @@
 
             this.streamInfo = new App.Model.StreamInfo();
             this.streamInfo.set('torrentModel', this.torrentModel);
+
+            // compatibility
+            this.streamInfo.set('title', this.torrentModel.get('title'));
+            this.streamInfo.set('player', this.torrentModel.get('device'));
+            this.streamInfo.set('device', this.torrentModel.get('device'));
+            this.streamInfo.set('quality', this.torrentModel.get('quality'));
+            this.streamInfo.set('defaultSubtitle', this.torrentModel.get('defaultSubtitle'));
+            // end compatibility
+
             this.stateModel.set('streamInfo', this.streamInfo);
 
             this.streamInfo.selectFile();
@@ -252,13 +261,6 @@
                 if (this.streamInfo.get('player') && this.streamInfo.get('player').id !== 'local') {
                     this.stateModel.set('state', 'playingExternally');
                 }
-
-                // compatibility
-                this.streamInfo.set('title', this.torrentModel.get('title'));
-                this.streamInfo.set('player', this.torrentModel.get('device'));
-                this.streamInfo.set('quality', this.torrentModel.get('quality'));
-                this.streamInfo.set('defaultSubtitle', this.torrentModel.get('defaultSubtitle'));
-                // end compatibility
 
                 this.streamInfo.set('downloaded', 0);
 
@@ -285,7 +287,7 @@
             this.__handleSubtitles(torrent.files[fileIndex]);
 
             // when download size reaches BUFFERING_SIZE, we set state as 'ready'
-            torrent.on('download', function () {
+            var onDownload = function() {
 
                 if (torrent.downloaded <= BUFFERING_SIZE) {
                     return;
@@ -297,9 +299,12 @@
                     return this.stateModel.set('state', 'waitingForSubtitles');
                 }
 
+                torrent.removeListener('download', onDownload);
                 return this.stateModel.set('state', 'ready');
 
-            }.bind(this));
+            }.bind(this);
+
+            torrent.on('download', onDownload);
 
         },
 
