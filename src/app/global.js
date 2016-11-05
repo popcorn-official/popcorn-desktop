@@ -49,6 +49,8 @@ var
         options: {
             images: {
                 smallerImages: true
+                /*Todo*
+                fanartApiKey: <api key>*/
             }
         }
     }),

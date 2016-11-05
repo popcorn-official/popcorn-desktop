@@ -349,14 +349,12 @@
                                         } else {
                                             switch (res.type) {
                                             case 'movie':
-                                                $('.loading-background').css('background-image', 'url(' + res.movie.image + ')');
                                                 sub_data.imdbid = res.movie.imdbid;
                                                 model.set('quality', res.quality);
                                                 model.set('imdb_id', sub_data.imdbid);
                                                 title = res.movie.title;
                                                 break;
                                             case 'episode':
-                                                $('.loading-background').css('background-image', 'url(' + res.show.episode.image + ')');
                                                 sub_data.imdbid = res.show.imdbid;
                                                 sub_data.season = res.show.episode.season;
                                                 sub_data.episode = res.show.episode.episode;
@@ -370,8 +368,17 @@
                                                 break;
                                             default:
                                             }
+                                            model.set('metadataCheckRequired', true);
                                             getSubtitles(sub_data);
-                                            handleTorrent_fnc();
+
+                                            trakt.images.get({
+                                                type: res.type,
+                                                imdb: model.get('imdb_id')
+                                            }).then(function (img) {
+                                                $('.loading-background').css('background-image', 'url(' + img.background + ')');
+                                                model.set('image', img.poster);
+                                                handleTorrent_fnc(); 
+                                            });
                                         }
                                     })
                                     .catch(function (err) {
