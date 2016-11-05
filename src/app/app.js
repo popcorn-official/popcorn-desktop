@@ -488,7 +488,6 @@ var handleVideoFile = function (file) {
                 playObj.title = res.movie.title;
                 playObj.quality = res.quality;
                 playObj.imdb_id = res.movie.imdbid;
-                playObj.poster = res.movie.poster;
                 playObj.year = res.movie.year;
 
                 sub_data.imdbid = res.movie.imdbid;
@@ -498,7 +497,6 @@ var handleVideoFile = function (file) {
                 playObj.quality = res.quality;
                 playObj.season = res.show.episode.season;
                 playObj.episode = res.show.episode.episode;
-                playObj.poster = res.show.poster;
                 playObj.tvdb_id = res.show.tvdbid;
                 playObj.imdb_id = res.show.imdbid;
                 playObj.episode_id = res.show.episode.tvdbid;
@@ -511,24 +509,27 @@ var handleVideoFile = function (file) {
             }
 
             // try to get subtitles for that movie/episode
-            return getSubtitles(sub_data)
-                .then(function (subtitles) {
-                    var localsub = checkSubs();
-                    if (localsub !== null) {
-                        subtitles = jQuery.extend({}, subtitles, localsub);
-                    }
-                    playObj.subtitle = subtitles;
+            return trakt.images.get({imdb: playObj.imdb_id, type: res.type}).then(function (img) {
+                playObj.poster = img.poster;
+                return getSubtitles(sub_data);
+            })
+            .then(function (subtitles) {
+                var localsub = checkSubs();
+                if (localsub !== null) {
+                    subtitles = jQuery.extend({}, subtitles, localsub);
+                }
+                playObj.subtitle = subtitles;
 
-                    if (localsub !== null) {
-                        playObj.defaultSubtitle = 'local';
-                    } else {
-                        playObj.defaultSubtitle = 'none';
-                    }
-                })
-                .catch(function (err) {
+                if (localsub !== null) {
                     playObj.defaultSubtitle = 'local';
-                    playObj.subtitle = checkSubs();
-                });
+                } else {
+                    playObj.defaultSubtitle = 'none';
+                }
+            })
+            .catch(function (err) {
+                playObj.defaultSubtitle = 'local';
+                playObj.subtitle = checkSubs();
+            });
         })
         .catch(function (err) {
             if (!playObj.title) {
