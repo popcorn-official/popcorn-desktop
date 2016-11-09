@@ -553,5 +553,8 @@
 	"romance": "romance",
 	"Currently Airing": "Currently Airing",
 	"documentary": "documentary",
-	"Something went wrong downloading the update": "Something went wrong downloading the update"
+	"Something went wrong downloading the update": "Something went wrong downloading the update",
+	"Activate Update seeding": "Activate Update seeding",
+	"Disable Anime Tab": "Disable Anime Tab",
+	"Disable Indie Tab": "Disable Indie Tab"
 }
