@@ -635,6 +635,11 @@ $(document).on('paste', function (e) {
     return true;
 });
 
+// nwjs sdk flavor has an invasive context menu
+$(document).on('contextmenu', function(e) {
+    e.preventDefault();
+});
+
 // Pass magnet link as last argument to start stream
 var last_arg = nw.App.argv.pop();
 
