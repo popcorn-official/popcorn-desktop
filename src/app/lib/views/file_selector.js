@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var _this,
+    var that,
         formatMagnet;
 
     var FileSelector = Backbone.Marionette.ItemView.extend({
@@ -16,7 +16,7 @@
         },
 
         initialize: function () {
-            _this = this;
+            that = this;
 
             formatMagnet = function (link) {
                 // format magnet with Display Name
@@ -40,7 +40,7 @@
             this.isTorrentStored();
 
             Mousetrap.bind(['esc', 'backspace'], function (e) {
-                _this.closeSelector(e);
+                that.closeSelector(e);
             });
 
             App.Device.Collection.setDevice(Settings.chosenPlayer);
@@ -71,20 +71,16 @@
         },
 
         startStreaming: function (e) {
-            var torrent = _this.model.get('torrent');
+            var torrent = that.model.get('torrent');
             var file = parseInt($(e.currentTarget).attr('data-file'));
             var actualIndex = parseInt($(e.currentTarget).attr('data-index'));
-            torrent.name = torrent.files[file].name;
 
             var torrentStart = new Backbone.Model({
-                torrent: torrent,
+                torrent: torrent.magnetURI,
                 torrent_read: true,
                 file_index: actualIndex,
                 device: App.Device.Collection.selected
             });
-            try {
-                App.MovieDetailView.closeDetails();
-            } catch (e) {}
             App.vent.trigger('stream:start', torrentStart);
             App.vent.trigger('system:closeFileSelector');
         },
@@ -99,7 +95,7 @@
             } else if (Settings.droppedMagnet && Settings.droppedMagnet.indexOf('\&dn=') === -1) {
                 $('.store-torrent').text(i18n.__('Cannot be stored'));
                 $('.store-torrent').addClass('disabled').prop('disabled', true);
-                win.warn('Magnet lacks Display Name, unable to store it');
+                console.warn('Magnet lacks Display Name, unable to store it');
                 return false;
             }
             var file, _file;
@@ -133,13 +129,13 @@
 
                 if (this.isTorrentStored()) {
                     fs.unlinkSync(target + file); // remove the torrent
-                    win.debug('Torrent Collection: deleted', file);
+                    console.debug('Torrent Collection: deleted', file);
                 } else {
                     if (!fs.existsSync(target)) {
                         fs.mkdir(target); // create directory if needed
                     }
                     fs.writeFileSync(target + file, fs.readFileSync(source + file)); // save torrent
-                    win.debug('Torrent Collection: added', file);
+                    console.debug('Torrent Collection: added', file);
                 }
             } else if (Settings.droppedMagnet) {
                 _file = Settings.droppedMagnet,
@@ -150,38 +146,33 @@
                         file = Settings.droppedStoredMagnet;
                     }
                     fs.unlinkSync(target + file); // remove the magnet
-                    win.debug('Torrent Collection: deleted', file);
+                    console.debug('Torrent Collection: deleted', file);
                 } else {
                     if (!fs.existsSync(target)) {
                         fs.mkdir(target); // create directory if needed
                     }
                     fs.writeFileSync(target + file, _file); // save magnet link inside readable file
-                    win.debug('Torrent Collection: added', file);
+                    console.debug('Torrent Collection: added', file);
                 }
             }
             this.isTorrentStored(); // trigger button change
 
-            if (App.currentview === 'Torrent-collection') {
+            if (App.currentview === 'Torrent Collection') {
                 App.vent.trigger('torrentCollection:show'); // refresh collection
             }
         },
 
         selectPlayer: function (e) {
             var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
-            _this.model.set('device', player);
+            that.model.set('device', player);
             if (!player.match(/[0-9]+.[0-9]+.[0-9]+.[0-9]/ig)) {
                 AdvSettings.set('chosenPlayer', player);
             }
         },
 
         closeSelector: function (e) {
-            Mousetrap.bind('backspace', function (e) {
-                App.vent.trigger('show:closeDetail');
-                App.vent.trigger('movie:closeDetail');
-            });
             $('.filter-bar').show();
             $('#header').removeClass('header-shadow');
-            $('#movie-detail').show();
             App.vent.trigger('system:closeFileSelector');
         },
 
