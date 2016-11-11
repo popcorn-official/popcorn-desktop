@@ -44,34 +44,34 @@
         },
 
         initialize: function () {
-            var _this = this;
+            var that = this;
 
             App.vent.trigger('settings:close');
             App.vent.trigger('about:close');
 
             //If a child was removed from above this view
             App.vent.on('viewstack:pop', function () {
-                if (_.last(App.ViewStack) === _this.className) {
-                    _this.initKeyboardShortcuts();
+                if (_.last(App.ViewStack) === that.className) {
+                    that.initKeyboardShortcuts();
                 }
             });
 
             //If a child was added above this view
             App.vent.on('viewstack:push', function () {
-                if (_.last(App.ViewStack) !== _this.className) {
-                    _this.unbindKeyboardShortcuts();
+                if (_.last(App.ViewStack) !== that.className) {
+                    that.unbindKeyboardShortcuts();
                 }
             });
 
-            win.info('Loading torrent');
+            console.info('Loading torrent');
 
             this.listenTo(this.model, 'change:state', this.onStateUpdate);
         },
 
         initKeyboardShortcuts: function () {
-            var _this = this;
+            var that = this;
             Mousetrap.bind(['esc', 'backspace'], function (e) {
-                _this.cancelStreaming();
+                that.cancelStreaming();
             });
         },
 
@@ -87,17 +87,20 @@
 
             this.initKeyboardShortcuts();
         },
+
         onStateUpdate: function () {
             var self = this;
             var state = this.model.get('state');
             var streamInfo = this.model.get('streamInfo');
-            win.info('Loading torrent:', state);
+            console.info('Loading torrent:', state);
 
-            this.checkFreeSpace(this.model.get('streamInfo').get('size'));
+            if (streamInfo) {
+                this.checkFreeSpace(streamInfo.get('size'));
+            }
 
             this.ui.stateTextDownload.text(i18n.__(state));
 
-            if (state === 'downloading') {
+            if (state === 'downloading' || state === 'startingDownload') {
                 this.listenTo(this.model.get('streamInfo'), 'change:downloaded', this.onProgressUpdate);
             }
 
@@ -124,7 +127,6 @@
 
         onProgressUpdate: function () {
 
-            // TODO: Translate peers / seeds in the template
             this.ui.seedStatus.css('visibility', 'visible');
             var streamInfo = this.model.get('streamInfo');
             var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
@@ -132,11 +134,10 @@
 
             this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
             this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
-            this.ui.bufferPercent.text(streamInfo.get('buffer_percent').toFixed() + '%');
+            this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
 
             this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
             this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
-            this.ui.progressbar.css('width', streamInfo.get('buffer_percent').toFixed() + '%');
 
             if (streamInfo.get('title') !== '') {
                 this.ui.title.html(streamInfo.get('title'));
@@ -156,7 +157,7 @@
                 // Update playingbar width
                 var playedPercent = status.currentTime / status.media.duration * 100;
                 this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
-                win.debug('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
+                console.debug('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
                     status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
             }
             if (!this.extPlayerStatusUpdater && status.playerState === 'PLAYING') {
@@ -178,11 +179,11 @@
                 if (this.extPlayerStatusUpdater) {
                     clearInterval(this.extPlayerStatusUpdater);
                 }
-                win.info('Stopping external device');
+                console.info('Stopping external device');
                 App.vent.trigger('device:stop');
             }
 
-            win.info('Closing loading view');
+            console.info('Closing loading view');
             App.vent.trigger('stream:stop');
             App.vent.trigger('player:close');
             App.vent.trigger('torrentcache:stop');
@@ -194,7 +195,7 @@
         },
 
         resumeStreaming: function () {
-            win.debug('Play triggered');
+            console.debug('Play triggered');
             App.vent.trigger('device:unpause');
             $('.play').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
         },
@@ -204,18 +205,18 @@
         },
 
         forwardStreaming: function () {
-            win.debug('Forward triggered');
+            console.debug('Forward triggered');
             App.vent.trigger('device:forward');
         },
 
         backwardStreaming: function () {
-            win.debug('Backward triggered');
+            console.debug('Backward triggered');
             App.vent.trigger('device:backward');
         },
 
         seekStreaming: function (e) {
             var percentClicked = e.offsetX / e.currentTarget.clientWidth * 100;
-            win.debug('Seek (%s%) triggered', percentClicked.toFixed(2));
+            console.debug('Seek (%s%) triggered', percentClicked.toFixed(2));
             App.vent.trigger('device:seekPercentage', percentClicked);
         },
 
@@ -270,10 +271,6 @@
         onDestroy: function () {
             $('.filter-bar').show();
             $('#header').removeClass('header-shadow');
-            Mousetrap.bind('esc', function (e) {
-                App.vent.trigger('show:closeDetail');
-                App.vent.trigger('movie:closeDetail');
-            });
         }
     });
 
