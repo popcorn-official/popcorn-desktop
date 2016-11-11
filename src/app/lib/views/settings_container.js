@@ -244,7 +244,6 @@
                 value = field.val();
                 break;
             case 'connectionLimit':
-            case 'dhtLimit':
             case 'streamPort':
             case 'subtitle_color':
                 value = field.val();
