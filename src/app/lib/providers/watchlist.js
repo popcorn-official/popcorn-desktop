@@ -57,6 +57,7 @@
 
     var format = function (items) {
         var itemList = [];
+        var itemList2 = [];
         console.log('format'); //debug
 
         return Promise.all(items.map(function (item) {
@@ -73,7 +74,6 @@
                     show.episode_aired = item.next_episode.first_aired;
                     show.imdb_id = item.show.ids.imdb;
                     show.tvdb_id = item.show.ids.tvdb;
-                    show.image = item.show.images.poster.thumb;
                     show.rating = item.show.rating;
                     show.title = item.show.title;
                     show.trailer = item.show.trailer;
@@ -95,14 +95,25 @@
                         movie.title = item.movie.title;
                         movie.trailer = item.movie.trailer;
                         movie.year = item.movie.year;
-                        movie.image = item.movie.images.poster.thumb;
 
                         itemList.push(movie);
                     }
                 }
             }
         })).then(function () {
-            return itemList;
+            return Promise.all(itemList.map(function (item) {
+                return trakt.images.get(item).then(function (imgUrl) {
+                    var newItem = item;
+                    newItem.images = {
+                        poster: imgUrl.poster,
+                        backdrop: imgUrl.background
+                    };
+                    newItem.image = imgUrl.poster;
+                    itemList2.push(newItem);
+                });
+            }));
+        }).then(function () {
+            return itemList2;
         });
     };
 
