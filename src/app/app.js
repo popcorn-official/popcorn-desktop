@@ -569,20 +569,13 @@ var handleTorrent = function (torrent) {
 window.ondrop = function (e) {
     e.preventDefault();
     $('#drop-mask').hide();
-    win.debug('Drag completed');
+    console.debug('Drag completed');
     $('.drop-indicator').hide();
 
     var file = e.dataTransfer.files[0];
 
-    if (!file) {
-        var data = e.dataTransfer.getData('text/plain');
-        Settings.droppedMagnet = data;
-        handleTorrent(data);
-        return false;
-    }
+    if (file != null && (file.name.indexOf('.torrent') !== -1 || file.name.indexOf('.srt') !== -1)) {
 
-    if (file.name.indexOf('.torrent') !== -1 ||
-        file.name.indexOf('.srt') !== -1) {
         fs.writeFile(path.join(App.settings.tmpLocation, file.name), fs.readFileSync(file.path), function (err) {
             if (err) {
                 App.PlayerView.closePlayer();
@@ -597,12 +590,15 @@ window.ondrop = function (e) {
                 }
             }
         });
-    } else if (isVideo(file.name)) {
+
+    } else if (file != null && isVideo(file.name)) {
         handleVideoFile(file);
-        return false;
+    } else {
+        var data = e.dataTransfer.getData('text/plain');
+        Settings.droppedMagnet = data;
+        handleTorrent(data);
     }
 
-    console.error('could not handle', e);
     return false;
 };
 
@@ -615,11 +611,11 @@ $(document).on('paste', function (e) {
 
     var data = (e.originalEvent || e).clipboardData.getData('text/plain');
     e.preventDefault();
+
     Settings.droppedMagnet = data;
     handleTorrent(data);
     return true;
 });
-
 
 // Pass magnet link as last argument to start stream
 var last_arg = nw.App.argv.pop();
