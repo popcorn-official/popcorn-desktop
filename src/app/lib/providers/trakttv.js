@@ -439,7 +439,7 @@
 
             trakt.get_codes().then(function(poll) {
                 $('#authTraktCode input').val(poll.user_code);
-                gui.Shell.openExternal(poll.verification_url);
+                nw.Shell.openExternal(poll.verification_url);
                 return trakt.poll_access(poll);
             }).then(function (auth) {
                 trakt.import_token(auth);
