@@ -271,6 +271,10 @@
         onDestroy: function () {
             $('.filter-bar').show();
             $('#header').removeClass('header-shadow');
+            Mousetrap.bind('esc', function (e) {
+                App.vent.trigger('show:closeDetail');
+                App.vent.trigger('movie:closeDetail');
+            });
         }
     });
 
