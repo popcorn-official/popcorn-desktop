@@ -1,501 +1,493 @@
 (function (App) {
     'use strict';
 
-    var STREAM_PORT = 21584; // 'PT'!
-    var BUFFERING_SIZE = 10 * 1024 * 1024;
+    var WebTorrentStreamer = function () {
+        // WebTorrent instance
+        this.webtorrent = null;
 
-    var readTorrent = require('read-torrent');
+        // Torrent Backbone Model
+        this.torrentModel = null;
 
-    var engine = null;
-    var preload_engine = null;
-    var statsUpdater = null;
-    var active = function (wire) {
-        return !wire.peerChoking;
-    };
-    var subtitles = null;
-    var hasSubtitles = false;
-    var downloadedSubtitles = false;
-    var subtitleDownloading = false;
+        // State Backbone Model
+        this.stateModel = null;
 
+        // Stream Info Backbone Model, which keeps showing ratio/download/upload info.
+        // See models/stream_info.js
+        this.streamInfo = null;
 
-    var watchState = function (stateModel) {
+        // Interval controller for StreamInfo view, which keeps showing ratio/download/upload info.
+        // See models/stream_info.js
+        this.updateStatsInterval = null;
 
+        // Boolean to indicate if subtitles are already downloaded and ready to use
+        this.subtitleReady = false;
 
-        if (engine !== null) {
-
-            var swarm = engine.swarm;
-            var state = 'connecting';
-
-            if ((swarm.downloaded > BUFFERING_SIZE || (swarm.piecesGot * (engine.torrent !== null ? engine.torrent.pieceLength : 0)) > BUFFERING_SIZE)) {
-                state = 'ready';
-            } else if (swarm.downloaded || swarm.piecesGot > 0) {
-                state = 'downloading';
-            } else if (swarm.wires.length) {
-                state = 'startingDownload';
-            }
-            if (state === 'ready' && (!hasSubtitles || (hasSubtitles && !downloadedSubtitles))) {
-                state = 'waitingForSubtitles';
-            }
-
-            stateModel.set('state', state);
-
-            if (state !== 'ready') {
-                _.delay(watchState, 100, stateModel);
-            }
-
-            // This is way too big, should be fixed but basically
-            // We only download subtitle once file is ready (to get path)
-            // and when the selected lang or default lang is set
-            // subtitleDownloading is needed cos this is called every 300ms
-
-            if (stateModel.get('streamInfo').get('torrent').defaultSubtitle && stateModel.get('streamInfo').get('torrent').defaultSubtitle !== 'none' && hasSubtitles && subtitles != null && engine.files[0] && !downloadedSubtitles && !subtitleDownloading) {
-                subtitleDownloading = true;
-                App.vent.trigger('subtitle:download', {
-                    url: subtitles[stateModel.get('streamInfo').get('torrent').defaultSubtitle],
-                    path: path.join(engine.path, engine.files[0].path)
-                });
-            }
-
-            // No need to download subtitles
-            if (!stateModel.get('streamInfo').get('torrent').defaultSubtitle || stateModel.get('streamInfo').get('torrent').defaultSubtitle === 'none') {
-                downloadedSubtitles = true;
-            }
-        }
+        // Boolean to indicate if the video file is ready
+        this.canPlay = false;
     };
 
-    var handleTorrent = function (torrent, stateModel) {
+    WebTorrentStreamer.prototype = {
 
-        var tmpFilename = torrent.info.infoHash;
-        tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_'); // +'-'+ (new Date()*1);
-        var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
-        subtitles = torrent.subtitle;
-
-        var torrentPeerId = crypt.pseudoRandomBytes(10).toString('hex');
-
-        win.debug('Streaming movie to %s', tmpFile);
-
-        engine = peerflix(torrent.info, {
-            connections: parseInt(Settings.connectionLimit, 10) || 100, // Max amount of peers to be connected to.
-            dht: true || 50,
-            tracker: true,
-            trackers: [
-                'udp://tracker.openbittorrent.com:80',
-                'udp://tracker.coppersurfer.tk:6969',
-                'udp://9.rarbg.com:2710/announce',
-                'udp://tracker.publicbt.com:80/announce'
-            ],
-            port: parseInt(Settings.streamPort, 10) || 0,
-            tmp: App.settings.tmpLocation,
-            path: tmpFile, // we'll have a different file name for each stream also if it's same torrent in same session
-            buffer: (1.5 * 1024 * 1024).toString(), // create a buffer on torrent-stream
-            index: torrent.file_index,
-            name: torrent.info.infoHash,
-            id: torrentPeerId
-        });
-
-        engine.swarm.piecesGot = 0;
-        engine.swarm.cachedDownload = 0;
-        engine.on('verify', function (index) {
-            engine.swarm.piecesGot += 1;
-        });
-
-        var streamInfo = new App.Model.StreamInfo({
-            engine: engine
-        });
-
-        // Fix for loading modal
-        streamInfo.updateStats(engine);
-        streamInfo.set('torrent', torrent);
-        streamInfo.set('title', torrent.title);
-        streamInfo.set('player', torrent.device);
-        streamInfo.set('file_index', torrent.file_index);
-
-        statsUpdater = setInterval(_.bind(streamInfo.updateStats, streamInfo, engine), 1000);
-        stateModel.set('streamInfo', streamInfo);
-        stateModel.set('state', 'connecting');
-        watchState(stateModel);
-
-        var checkReady = function () {
-            if (stateModel.get('state') === 'ready') {
-
-                if (stateModel.get('state') === 'ready' && stateModel.get('streamInfo').get('player') && stateModel.get('streamInfo').get('player').id !== 'local') {
-                    stateModel.set('state', 'playingExternally');
-                }
-                streamInfo.set(torrent);
-
-                // we need subtitle in the player
-                streamInfo.set('subtitle', subtitles != null ? subtitles : torrent.subtitle);
-
-                // clear downloaded so change:downloaded gets triggered for the first time
-                streamInfo.set('downloaded', 0);
-
-                App.vent.trigger('stream:ready', streamInfo);
-                stateModel.destroy();
-            }
-        };
-
-        App.vent.on('subtitle:downloaded', function (sub) {
-            if (sub) {
-                stateModel.get('streamInfo').set('subFile', sub);
-                App.vent.trigger('subtitle:convert', {
-                    path: sub,
-                    language: torrent.defaultSubtitle
-                }, function (err, res) {
-                    if (err) {
-                        win.error('error converting subtitles', err);
-                        stateModel.get('streamInfo').set('subFile', null);
-                        App.vent.trigger('notification:show', new App.Model.Notification({
-                            title: i18n.__('Error converting subtitle'),
-                            body: i18n.__('Try another subtitle or drop one in the player'),
-                            showRestart: false,
-                            type: 'error',
-                            autoclose: true
-                        }));
-                    } else {
-                        App.Subtitles.Server.start(res);
-                    }
-                });
-            }
-            downloadedSubtitles = true;
-        });
-
-        engine.server.on('listening', function () {
-            if (engine) {
-                streamInfo.set('src', 'http://127.0.0.1:' + engine.server.address().port + '/');
-                streamInfo.set('type', 'video/mp4');
-                stateModel.on('change:state', checkReady);
-                checkReady();
-            }
-        });
-
-        // piecesGot before ready means the cache we already have
-        engine.on('ready', function () {
-            if (engine) {
-                engine.swarm.cachedDownload = engine.swarm.piecesGot * (engine.torrent.pieceLength || 0);
-            }
-        });
-
-        engine.on('uninterested', function () {
-            if (engine) {
-                engine.swarm.pause();
+        // wrapper for handling a torrent
+        start: function(model) {
+            // if webtorrent is created/running, we stop/destroy it
+            if (this.webtorrent) {
+                this.stop();
             }
 
-        });
+            this.setModels(model);
 
-        engine.on('interested', function () {
-            if (engine) {
-                engine.swarm.resume();
+            this.fetchTorrent(this.torrentModel.get('torrent')).then(function (torrent) {
+                this.handleTorrent(torrent);
+                this.watchState();
+                this.handleStreamInfo();
+
+                return this.createServer();
+            }.bind(this)).then(this.waitForBuffer.bind(this)).catch(this.handleErrors.bind(this));
+        },
+
+        // kill the streamer
+        stop: function() {
+            if (this.webtorrent) {
+                // update ratio
+                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.torrentModel.get('torrent').downloaded);
+                AdvSettings.set('totalUploaded', Settings.totalUploaded + this.torrentModel.get('torrent').uploaded);
+
+                this.webtorrent.destroy();
             }
-        });
 
-    };
+            this.webtorrent = null;
+            this.torrentModel = null;
+            this.stateModel = null;
+            this.streamInfo = null;
+            this.subtitleReady = false;
+            this.canPlay = false;
 
-    var Streamer = {
-        start: function (model) {
-            var torrent = model.get('torrent');
-            var torrentUrl = torrent.magnet || torrent.url || torrent;
+            clearInterval(this.updateStatsInterval);
+            this.updateStatsInterval = null;
 
-            var torrent_read = false;
-            if (model.get('torrent_read')) {
-                torrent_read = true;
+            App.vent.off('subtitle:downloaded');
+
+            console.info('Streaming cancelled');
+        },
+
+        handleErrors: function (reason) {
+            if (reason !== 'cancelled') {
+                console.error(reason);
             }
+        },
 
-            var stateModel = new Backbone.Model({
+        setModels: function (model) {
+            this.torrentModel = model;
+            this.streamInfo = new App.Model.StreamInfo();
+
+            this.stateModel = new Backbone.Model({
                 state: 'connecting',
-                backdrop: model.get('backdrop'),
+                backdrop: this.torrentModel.get('backdrop'),
                 title: '',
                 player: '',
                 show_controls: false
             });
-            App.vent.trigger('stream:started', stateModel);
 
-            if (engine) {
-                Streamer.stop();
-            }
+            App.vent.trigger('stream:started', this.stateModel);
 
-            this.stop_ = false;
-            var that = this;
-            var doTorrent = function (err, torrent) {
-                // Return if streaming was cancelled while loading torrent
-                if (that.stop_) {
+            // when state get 'ready' value
+            // we emit 'stream:ready' to players
+            this.stateModel.on('change:state', function() {
+
+                if (this.stateModel.get('state') !== 'ready') {
                     return;
                 }
-                if (err) {
-                    win.error('Streamer:', err.message);
-                    App.vent.trigger('stream:stop');
-                    App.vent.trigger('player:close');
-                } else {
-                    // did we need to extract subtitle ?
-                    var extractSubtitle = model.get('extract_subtitle');
 
-                    // used to rgx title to get subtitles for custom torrents
-                    var title = model.get('title');
-
-                    var getSubtitles = function (data) {
-                        win.debug('Subtitles data request:', data);
-
-                        var subtitleProvider = App.Config.getProviderForType('subtitle');
-
-                        subtitleProvider.fetch(data).then(function (subs) {
-                            if (subs && Object.keys(subs).length > 0) {
-                                subtitles = subs;
-                                win.info(Object.keys(subs).length + ' subtitles found');
-                            } else {
-                                subtitles = null;
-                                hasSubtitles = true;
-                                downloadedSubtitles = true;
-                                win.warn('No subtitles returned');
-                                if (Settings.subtitle_language !== 'none') {
-                                    App.vent.trigger('notification:show', new App.Model.Notification({
-                                        title: i18n.__('No subtitles found'),
-                                        body: i18n.__('Try again later or drop a subtitle in the player'),
-                                        showRestart: false,
-                                        type: 'warning',
-                                        autoclose: true
-                                    }));
-                                }
-                            }
-                            hasSubtitles = true;
-                        }).catch(function (err) {
-                            subtitles = null;
-                            hasSubtitles = true;
-                            downloadedSubtitles = true;
-                            win.error('subtitleProvider.fetch()', err);
-                        });
-                    };
-
-                    var handleTorrent_fnc = function () {
-                        // TODO: We should passe the movie / tvshow imdbid instead
-                        // and read from the player
-                        // so from there we can use the previous next etc
-                        // and use all available function with the right imdb id
-
-                        var torrentInfo = {
-                            info: torrent,
-                            subtitle: model.get('subtitle'),
-                            defaultSubtitle: model.get('defaultSubtitle'),
-                            title: title,
-                            tvdb_id: model.get('tvdb_id'),
-                            imdb_id: model.get('imdb_id'),
-                            episode_id: model.get('episode_id'),
-                            episode: model.get('episode'),
-                            season: model.get('season'),
-                            file_index: model.get('file_index'),
-                            quality: model.get('quality'),
-                            device: model.get('device'),
-                            cover: model.get('cover'),
-                            episodes: model.get('episodes'),
-                            auto_play: model.get('auto_play'),
-                            auto_id: model.get('auto_id'),
-                            auto_play_data: model.get('auto_play_data')
-                        };
-
-                        handleTorrent(torrentInfo, stateModel);
-                    };
-
-                    if (typeof extractSubtitle === 'object') {
-                        extractSubtitle.filename = torrent.name;
-
-                        var subskw = [];
-                        for (var key in App.Localization.langcodes) {
-                            if (App.Localization.langcodes[key].keywords !== undefined) {
-                                subskw[key] = App.Localization.langcodes[key].keywords;
-                            }
-                        }
-                        extractSubtitle.keywords = subskw;
-
-                        getSubtitles(extractSubtitle);
-                    }
-
-                    if (model.get('type') === 'movie') {
-                        hasSubtitles = true;
-                    }
-
-                    if (!title) { //From ctrl+v magnet or drag torrent
-                        for (var f in torrent.files) {
-                            torrent.files[f].index = f;
-                            if (isVideo(torrent.files[f].name)) {
-                                torrent.files[f].display = true;
-                            } else {
-                                torrent.files[f].display = false;
-                            }
-                        }
-                        if (torrent.files && torrent.files.length > 0 && !model.get('file_index') && model.get('file_index') !== 0) {
-                            torrent.files = $.grep(torrent.files, function (n) {
-                                return (n);
-                            });
-                            var fileModel = new Backbone.Model({
-                                torrent: torrent,
-                                files: torrent.files
-                            });
-                            App.vent.trigger('system:openFileSelector', fileModel);
-                        } else {
-                            model.set('defaultSubtitle', Settings.subtitle_language);
-                            var sub_data = {
-                                filename: torrent.name
-                            };
-                            if (torrent.name) { // sometimes magnets don't have names for some reason
-                                var torrentMetadata;
-                                if (torrent.info && torrent.info.name) {
-                                    torrentMetadata = torrent.info.name.toString();
-                                }
-                                Common.matchTorrent(torrent.name, torrentMetadata)
-                                    .then(function (res) {
-                                        if (res.error) {
-                                            win.warn(res.error);
-                                            title = res.filename;
-                                            getSubtitles(sub_data);
-                                            handleTorrent_fnc();
-                                        } else {
-                                            switch (res.type) {
-                                            case 'movie':
-                                                $('.loading-background').css('background-image', 'url(' + res.movie.image + ')');
-                                                sub_data.imdbid = res.movie.imdbid;
-                                                model.set('quality', res.quality);
-                                                model.set('imdb_id', sub_data.imdbid);
-                                                title = res.movie.title;
-                                                break;
-                                            case 'episode':
-                                                $('.loading-background').css('background-image', 'url(' + res.show.episode.image + ')');
-                                                sub_data.imdbid = res.show.imdbid;
-                                                sub_data.season = res.show.episode.season;
-                                                sub_data.episode = res.show.episode.episode;
-                                                model.set('quality', res.quality);
-                                                model.set('tvdb_id', res.show.tvdbid);
-                                                model.set('episode_id', res.show.episode.tvdbid);
-                                                model.set('imdb_id', res.show.imdbid);
-                                                model.set('episode', sub_data.episode);
-                                                model.set('season', sub_data.season);
-                                                title = res.show.title + ' - ' + i18n.__('Season %s', res.show.episode.season) + ', ' + i18n.__('Episode %s', res.show.episode.episode) + ' - ' + res.show.episode.title;
-                                                break;
-                                            default:
-                                            }
-                                            getSubtitles(sub_data);
-                                            handleTorrent_fnc();
-                                        }
-                                    })
-                                    .catch(function (err) {
-                                        win.error('An error occured while trying to get metadata and subtitles', err);
-                                        getSubtitles(sub_data);
-                                        handleTorrent_fnc(); //try and force play
-                                    });
-
-                            } else {
-                                hasSubtitles = true;
-                                handleTorrent_fnc();
-                            }
-                        }
-                    } else {
-                        handleTorrent_fnc();
-                    }
+                if (this.streamInfo.get('player') && this.streamInfo.get('player').id !== 'local') {
+                    this.stateModel.set('state', 'playingExternally');
                 }
-            };
-            // HACK(xaiki): we need to go through parse torrent
-            // if we have a torrent and not an http source, this
-            // is fragile as shit.
-            if (typeof (torrentUrl) === 'string' && torrentUrl.substring(0, 7) === 'http://' && !torrentUrl.match('\\.torrent') && !torrentUrl.match('\\.php?')) {
-                return Streamer.startStream(model, torrentUrl, stateModel);
-            } else if (!torrent_read) {
-                readTorrent(torrentUrl, doTorrent);
-            } else {
-                doTorrent(null, model.get('torrent'));
-            }
 
+                App.vent.trigger('stream:ready', this.streamInfo);
+                this.stateModel.destroy();
 
-        },
-        startStream: function (model, url, stateModel) {
-            var si = new App.Model.StreamInfo({});
-            si.set('title', url);
-            si.set('subtitle', {});
-            si.set('type', 'video/mp4');
-            si.set('device', model.get('device'));
-
-            si.set('src', [{
-                type: 'video/mp4',
-                src: url
-            }]);
-            App.vent.trigger('stream:ready', si);
+            }.bind(this));
         },
 
-        stop: function () {
-            this.stop_ = true;
-            if (engine) {
-                // update ratio
-                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + engine.swarm.downloaded);
-                AdvSettings.set('totalUploaded', Settings.totalUploaded + engine.swarm.uploaded);
+        // fire webtorrent and resolve the torrent
+        fetchTorrent: function(torrentInfo) {
+            return new Promise(function (resolve, reject) {
 
-                if (engine.server._handle) {
-                    engine.server.close();
-                }
-                engine.destroy();
-            }
-            clearInterval(statsUpdater);
-            statsUpdater = null;
-            engine = null;
-            subtitles = null; // reset subtitles to make sure they will not be used in next session.
-            hasSubtitles = false;
-            downloadedSubtitles = false;
-            subtitleDownloading = false;
-            App.vent.off('subtitle:downloaded');
-            win.info('Streaming cancelled');
-        }
-    };
+                var client = this.getWebTorrentInstance();
 
-    var Preload = {
-        start: function (model) {
+                // handles magnet and hosted torrents
+                var uri = torrentInfo.magnet || torrentInfo.url || torrentInfo;
 
-            if (Streamer.currentTorrent && model.get('torrent') === Streamer.currentTorrent.get('torrent')) {
-                return;
-            }
-            this.currentTorrent = model;
-
-            win.debug('Preloading model:', model.get('title'));
-            var torrent_url = model.get('torrent');
-
-            readTorrent(torrent_url, function (err, torrent) {
-
-                win.debug('Preloading torrent:', torrent.name);
-                var tmpFilename = torrent.infoHash;
-                tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_'); // +'-'+ (new Date()*1);
-                var tmpFile = path.join(App.settings.tmpLocation, tmpFilename);
-                subtitles = torrent.subtitle;
-
-                var torrentPeerId = crypt.pseudoRandomBytes(10).toString('hex');
-
-                win.debug('Preloading movie to %s', tmpFile);
-
-                preload_engine = peerflix(torrent_url, {
-                    connections: parseInt(Settings.connectionLimit, 10) || 100, // Max amount of peers to be connected to.
-                    dht: parseInt(Settings.dhtLimit, 10) || 50,
-                    port: 0,
-                    tmp: App.settings.tmpLocation,
-                    path: tmpFile, // we'll have a different file name for each stream also if it's same torrent in same session
-                    index: torrent.file_index,
-                    id: torrentPeerId
+                var torrent = client.add(uri, {
+                    path: App.settings.tmpLocation
                 });
 
-            });
+                torrent.on('metadata', function () {
+                    this.torrentModel.set('torrent', torrent);
+                    resolve(torrent);
+                }.bind(this));
 
+                client.on('error', function (error) {
+                    console.error('WebTorrent fatal error', error);
+                    this.stop();
+                    reject(error);
+                }.bind(this));
 
+            }.bind(this));
         },
 
-        stop: function () {
+        // present the user with file selector
+        openFileSelector: function (torrent) {
+            var supported = ['.mp4', '.m4v', '.avi', '.mov', '.mkv', '.wmv'];
 
-            if (preload_engine) {
-                if (preload_engine.server._handle) {
-                    preload_engine.server.close();
-                }
-                preload_engine.destroy();
-                win.info('Preloading stopped');
+            // hide non-video files from selection and set index
+            for (var f in torrent.files) {
+                torrent.files[f].index = f;
+                torrent.files[f].display = supported.indexOf(path.extname(torrent.files[f].name).toLowerCase()) !== -1;
             }
 
-            preload_engine = null;
-        }
+            var fileModel = new Backbone.Model({
+                torrent: torrent,
+                files: torrent.files
+            });
+            App.vent.trigger('system:openFileSelector', fileModel);
+        },
+
+        lookForImages: function (metadatas) {
+            trakt.images.get({
+                type: metadatas.type === 'movie' ? 'movie' : 'show',
+                imdb: metadatas.type === 'movie' ? metadatas.movie.ids.imdb : metadatas.show.ids.imdb,
+                tvdb: metadatas.type === 'movie' ? false : metadatas.show.ids.tvdb,
+                tmdb: metadatas.type === 'movie' ? metadatas.movie.ids.tmdb : false
+            }).then(function (img) {
+                // TODO: no jquery here, it's a loading.js stuff: make a onchange event there.
+                $('.loading-background').css('background-image', 'url(' + img.background + ')');
+                this.torrentModel.set('backdrop', img.background);
+                this.torrentModel.set('poster', img.poster);
+            }.bind(this));
+        },
+
+        // try to gather media metadata and manipulate torrentModel
+        lookForMetadata: function (torrent) {
+            var fileName = this.torrentModel.get('video_file').name;
+
+            trakt.matcher.match({
+                filename: fileName,
+                torrent: torrent.name
+            }).then(function(metadatas) {
+                var props = {};
+
+                var qualities = {
+                    SD: '480p',
+                    HD: '720p',
+                    FHD: '1080p'
+                };
+                props.quality = qualities[metadatas.quality] || false;
+
+                // populating torrentModel with the new data
+                switch (metadatas.type) {
+                    case 'movie':
+                        props.imdb_id = metadatas.movie.ids.imdb;
+                        props.title = metadatas.movie.title;
+                        break;
+                    case 'episode':
+                        props.tvdb_id = metadatas.show.ids.tvdb;
+                        props.episode_id = metadatas.episode.ids.tvdb;
+                        props.imdb_id = metadatas.show.ids.imdb;
+                        props.episode = metadatas.episode.number;
+                        props.season = metadatas.episode.season;
+                        props.title = metadatas.show.title + ' - ' + i18n.__('Season %s', metadatas.episode.season) + ', ' + i18n.__('Episode %s', metadatas.episode.number) + ' - ' + metadatas.episode.title;
+                        break;
+                    default:
+                        throw 'trakt.matcher.match failed';
+                }
+
+                this.torrentModel.set(props);
+                this.lookForImages(metadatas);
+                this.handleSubtitles();
+
+            }.bind(this)).catch(function(err) {
+                console.error('An error occured while trying to get metadata', err);
+                this.torrentModel.set('title', fileName);
+                this.handleSubtitles();
+            }.bind(this));
+        },
+
+        // set video file name & index
+        selectFile: function (torrent) {
+            var fileIndex = parseInt(this.torrentModel.get('file_index'));
+            var fileSize = 0;
+
+            // set fileSize
+            if (!fileIndex && parseInt(fileIndex) !== 0) {
+                // if no fileIndex set, get the largest
+                fileIndex = 0;
+                for (var i in torrent.files) {
+                    if (fileSize < torrent.files[i].length) {
+                        fileSize = torrent.files[i].length;
+                        fileIndex = i;
+                    }
+                }
+            } else {
+                // else use the correct size
+                fileSize = torrent.files[fileIndex].length;
+            }
+
+            // deselect files, webtorrent api
+            // as of november 2016, need to remove all torrent,
+            //  then add wanted file, it's a bug: https://github.com/feross/webtorrent/issues/164
+            torrent.deselect(0, torrent.pieces.length - 1, false); // Remove default selection (whole torrent)
+            for (var f in torrent.files) { // Add selection
+                var file = torrent.files[f];
+                if (f === parseInt(fileIndex)) {
+                    file.select();
+                } else {
+                    file.deselect();
+                }
+            }
+
+            this.torrentModel.set('video_file', {
+                name: path.basename(torrent.files[fileIndex].path),
+                size: fileSize,
+                index: fileIndex,
+                path: path.join(torrent.path, torrent.files[fileIndex].path)
+            });
+        },
+
+        // determine if the torrent is already formatted or if we need to use the file selector
+        handleTorrent: function (torrent) {
+            var isFormatted = Boolean(this.torrentModel.get('title')); // was formatted (from Details)
+            var isRead = Boolean(this.torrentModel.get('torrent_read')); // comes from file selector
+            if (isFormatted) {
+                this.selectFile(torrent);
+                this.handleSubtitles();
+            } else {
+                if (isRead) {
+                    this.selectFile(torrent);
+                    this.lookForMetadata(torrent);
+                } else {
+                    this.openFileSelector(torrent);
+                    throw 'cancelled';
+                }
+            }
+            return;
+        },
+
+        createServer: function (port) {
+            return new Promise(function (resolve) {
+                var serverPort = parseInt((port || Settings.streamPort), 10);
+                if (!serverPort) {
+                    serverPort = this.generatePortNumber();
+                }
+
+                try {
+                    this.torrentModel.get('torrent').createServer().listen(serverPort);
+
+                    var url = 'http://127.0.0.1:' + serverPort + '/' + this.torrentModel.get('video_file').index;
+
+                    this.streamInfo.set('src', url);
+                    this.streamInfo.set('type', 'video/mp4');
+
+                    resolve(url);
+                } catch (e) {
+                    setTimeout(function () {
+                        return this.createServer(0).then(resolve);
+                    }.bind(this), 100);
+                }
+            }.bind(this));
+        },
+
+        updateStreamInfo: function () {                 
+            this.streamInfo.set({
+                title: this.torrentModel.get('title'),
+                player: this.torrentModel.get('device'),
+                quality: this.torrentModel.get('quality'),
+                defaultSubtitle: this.torrentModel.get('defaultSubtitle'),
+                videoFile: this.torrentModel.get('video_file').path,
+                size: this.torrentModel.get('video_file').size
+            });
+        },
+
+        handleStreamInfo: function () {
+            this.streamInfo.set('torrentModel', this.torrentModel);
+            this.updateStatsInterval = setInterval(this.streamInfo.updateStats.bind(this.streamInfo), 1000);
+
+            this.updateStreamInfo();
+            this.torrentModel.on('change', this.updateStreamInfo.bind(this));
+        },
+
+        // dummy element to fire stream:start
+        waitForBuffer: function (url) {
+            var video = document.createElement('video');
+
+            video.style.display = 'none';
+            video.volume = 0;
+            video.src = url;
+
+            document.body.append(video);
+
+            video.play().then(function () {
+                this.canPlay = true;
+                video.remove();
+                video = null;
+            }.bind(this)).catch(function (error) {
+                console.warn(error); //todo: catch the correct error and avoid erroring on server destroy (stream:stop while still loading the play())
+                video.remove();
+                video = null;
+            });
+        },
+
+        watchState: function () {
+            if (!this.webtorrent) {
+                return;
+            }
+            var torrentModel = this.torrentModel.get('torrent');
+            var state = 'connecting'; // default state
+
+            if (this.canPlay || torrentModel.done) {
+                state = 'ready'; // file can be played
+            } else if (torrentModel.downloaded) {
+                if (torrentModel.downloadSpeed) {
+                    state = 'downloading'; // is actively downloading
+                } else {
+                    state = 'startingDownload'; // is verifying pieces
+                }
+            }
+
+            if (state === 'ready' && !this.subtitleReady) {
+                state = 'waitingForSubtitles'; // can be played but subs aren't there yet
+            }
+        
+            this.stateModel.set('state', state);
+
+            if (state !== 'ready') {
+                _.delay(this.watchState.bind(this), 100);
+            }
+        },
+
+        onSubtitlesFound: function (subs) {
+            var subtitles = subs || this.torrentModel.get('subtitle');
+            var total = Object.keys(subtitles).length;
+            var defaultSubtitle = this.torrentModel.get('defaultSubtitle');
+
+            console.info(total + ' subtitles found');
+            this.streamInfo.set('subtitle', subtitles);
+
+            if (defaultSubtitle !== 'none') {
+                if (total === 0) {
+                    App.vent.trigger('notification:show', new App.Model.Notification({
+                        title: i18n.__('No subtitles found'),
+                        body: i18n.__('Try again later or drop a subtitle in the player'),
+                        showRestart: false,
+                        type: 'warning',
+                        autoclose: true
+                    }));
+                } else {
+                    // after downloaded subtitles, we set the srt file to streamInfo
+                    App.vent.on('subtitle:downloaded', function(subtitlePath) {
+                        if (subtitlePath) {
+                            this.streamInfo.set('subFile', subtitlePath);
+                            App.vent.trigger('subtitle:convert', {
+                                path: subtitlePath,
+                                language: defaultSubtitle
+                            }, function(err, res) {
+                                if (err) {
+                                    console.error('error converting subtitles', err);
+                                    this.streamInfo.set('subFile', null);
+                                    App.vent.trigger('notification:show', new App.Model.Notification({
+                                        title: i18n.__('Error converting subtitle'),
+                                        body: i18n.__('Try another subtitle or drop one in the player'),
+                                        showRestart: false,
+                                        type: 'error',
+                                        autoclose: true
+                                    }));
+                                } else {
+                                    App.Subtitles.Server.start(res);
+                                }
+                            }.bind(this));
+                        }
+
+                        this.subtitleReady = true;
+                    }.bind(this));
+
+                    App.vent.trigger('subtitle:download', {
+                        url: subtitles[defaultSubtitle],
+                        path: this.torrentModel.get('video_file').path
+                    });
+                }
+            } else {
+                this.subtitleReady = true;
+            }
+        },
+
+        handleSubtitles: function () {
+            // set default subtitle language (passed by a view or settings)
+            var defaultSubtitle = this.torrentModel.get('defaultSubtitle') || Settings.subtitle_language;
+            this.torrentModel.set('defaultSubtitle', defaultSubtitle);        
+
+            var subtitleProvider = App.Config.getProviderForType('subtitle');
+
+            subtitleProvider
+                .fetch(this.buildSubtitleQuery())
+                .then(this.onSubtitlesFound.bind(this))
+                .catch(function (err) {
+                    this.subtitleReady = true;
+                    console.error('subtitleProvider.fetch()', err);
+                }.bind(this));
+
+            return;
+        },
+
+        buildSubtitleQuery: function () {
+            var queryData = {};
+
+            var extractSubtitle = this.torrentModel.get('extract_subtitle');
+            if (typeof extractSubtitle === 'object') {
+                queryData = extractSubtitle;
+            }
+
+            queryData.filename = this.torrentModel.get('video_file').name;
+
+            if (this.torrentModel.get('imdb_id')) {
+                queryData.imdbid = this.torrentModel.get('imdb_id');
+            }
+
+            if (this.torrentModel.get('season')) {
+                queryData.season = this.torrentModel.get('season');
+            }
+
+            if (this.torrentModel.get('episode')) {
+                queryData.episode = this.torrentModel.get('episode');
+            }
+
+            return queryData;
+        },
+
+        // find a random port
+        generatePortNumber: function() {
+            var min = 1024, max = 65535;
+
+            return Math.floor(Math.random() * (max - min)) + min;
+        },
+
+        // never duplicate webtorrent
+        getWebTorrentInstance: function() {
+            if (this.webtorrent === null) {
+                this.webtorrent = new WebTorrent({
+                    maxConns: parseInt(Settings.connectionLimit, 10) || 55,
+                    tracker: {
+                        wrtc: false, // disable webrtc
+                        announce: Settings.trackers.forced
+                    }
+                });
+            }
+            return this.webtorrent;
+        },
     };
 
-    App.vent.on('preload:start', Preload.start);
-    App.vent.on('preload:stop', Preload.stop);
-    App.vent.on('stream:start', Streamer.start);
-    App.vent.on('stream:stop', Streamer.stop);
+    var streamer = new WebTorrentStreamer();
+
+    App.vent.on('stream:start', streamer.start.bind(streamer));
+    App.vent.on('stream:stop', streamer.stop.bind(streamer));
 
 })(window.App);
