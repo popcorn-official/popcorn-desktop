@@ -292,7 +292,7 @@ vjs.TextTrack.prototype.load = function () {
             var detectedEncoding = charset.encoding;
             win.debug('SUB charset detected: ' + detectedEncoding);
             // Do we need decoding?
-            if (detectedEncoding.toLowerCase().replace('-', '') === targetEncodingCharset) {
+            if (detectedEncoding && detectedEncoding.toLowerCase().replace('-', '') === targetEncodingCharset) {
                 parse(dataBuff.toString('utf-8'));
                 // We do
             } else {
