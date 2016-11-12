@@ -45,6 +45,7 @@
         "async": "2.0.1",
         "chromecast-js": "git+https://github.com/captainyarr/chromecast-js.git",
         "defer-request": "0.0.2",
+        "dlnacasts": "0.1.0",
         "i18n": "0.x.x",
         "iconv-lite": "0.x.x",
         "jschardet": "1.4.1",
@@ -76,7 +77,6 @@
         "trakt.tv-matcher": "1.x.x",
         "trakt.tv-images": "1.x.x",
         "underscore": "1.x.x",
-        "upnp-mediarenderer-client": "1.x.x",
         "urijs": "1.x.x",
         "webtorrent": "0.x.x"
     },
