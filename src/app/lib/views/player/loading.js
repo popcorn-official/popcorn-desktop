@@ -119,8 +119,6 @@
                 // The 'downloading' state is not always sent, eg when playing canceling and replaying
                 // Start listening here instead when playing externally
                 this.listenTo(this.model.get('streamInfo'), 'change:downloaded', this.onProgressUpdate);
-                // The first progress update can take some time, so force updating the UI immediately
-                //this.onProgressUpdate();
             }
         },
 
