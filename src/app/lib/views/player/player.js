@@ -410,7 +410,7 @@
                         progressTips: {}
                     }
                 }).ready(function () {		
-	                    that.playerWasReady = Date.now();
+                    that.playerWasReady = Date.now();
                 });
             }
             this.player = this.video.player();

@@ -72,7 +72,7 @@
                 uploadSpeed: final_upload_speed,
                 downloadSpeed: final_download_speed,
                 downloadedFormatted: final_downloaded,
-                downloadedPercent: final_downloaded_percent,
+                downloadedPercent: (final_downloaded_percent || 0),
                 time_left: downloadTimeLeft,
             });
         }

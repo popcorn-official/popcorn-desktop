@@ -19,11 +19,17 @@
         // See models/stream_info.js
         this.updateStatsInterval = null;
 
+        // video dummy element
+        this.video = null;
+
         // Boolean to indicate if subtitles are already downloaded and ready to use
         this.subtitleReady = false;
 
         // Boolean to indicate if the video file is ready
         this.canPlay = false;
+
+        // Boolean to indicate if the process was interrupted
+        this.stopped = true;
     };
 
     WebTorrentStreamer.prototype = {
@@ -52,8 +58,14 @@
                 // update ratio
                 AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.torrentModel.get('torrent').downloaded);
                 AdvSettings.set('totalUploaded', Settings.totalUploaded + this.torrentModel.get('torrent').uploaded);
-
                 this.webtorrent.destroy();
+            }
+
+            if (this.video) {
+                this.video.pause();
+                this.video.src = '';
+                this.video.load();
+                this.video = null;
             }
 
             this.webtorrent = null;
@@ -62,6 +74,7 @@
             this.streamInfo = null;
             this.subtitleReady = false;
             this.canPlay = false;
+            this.stopped = true;
 
             clearInterval(this.updateStatsInterval);
             this.updateStatsInterval = null;
@@ -72,7 +85,7 @@
         },
 
         handleErrors: function (reason) {
-            if (reason !== 'cancelled') {
+            if (!this.stopped) {
                 win.error(reason);
             }
         },
@@ -135,6 +148,10 @@
 
         // try to gather media metadata and manipulate torrentModel
         lookForMetadata: function (torrent) {
+            if (this.stopped) {
+                return;
+            }
+
             var fileName = this.torrentModel.get('video_file').name;
 
             trakt.matcher.match({
@@ -234,7 +251,8 @@
                     this.lookForMetadata(torrent);
                 } else {
                     this.openFileSelector(torrent);
-                    throw 'cancelled';
+                    this.stopped = true;
+                    throw 'interrupt';
                 }
             }
             return;
@@ -274,25 +292,33 @@
 
         // dummy element to fire stream:start
         waitForBuffer: function (url) {
-            var video = document.createElement('video');
+            this.video = document.createElement('video');
 
-            video.volume = 0;
-            video.src = url;
+            this.video.volume = 0;
+            this.video.src = url;
 
-            video.play().then(function () {
+            this.video.play().then(function () {
                 this.canPlay = true;
-                video.pause();
-                video.src = '';
-                video.load();
+                this.video.pause();
+                this.video.src = '';
+                this.video.load();
             }.bind(this)).catch(function (error) {
-                win.warn(error); //todo: catch the correct error and avoid erroring on server destroy (stream:stop while still loading the play())
-                video.pause();
-                video.src = '';
-                video.load();
-            });
+                //catch the correct error and avoid erroring on server destroy (stream:stop while still loading the play())
+                if (!this.stopped) {
+                    win.error('Can\'t play video %s: %s, code %d', url, error.name, error.code);
+                    // TODO: set state to error
+                    // TODO: once we have a global option for extplayer, loads it instead
+                    // for now, we ignore that so we can display error in the player:
+                    this.canPlay = true;
+                    this.video.pause();
+                    this.video.src = '';
+                    this.video.load();
+                }
+            }.bind(this));
         },
 
         setModels: function (model) {
+            this.stopped = false;
             this.torrentModel = model;
             this.streamInfo = new App.Model.StreamInfo();
 
@@ -318,7 +344,7 @@
 
             var state = 'connecting'; // default state
 
-            if (this.canPlay || torrentModel.done) {
+            if (this.canPlay) {
                 if (player && player.id !== 'local') {
                     state = 'playingExternally'; // file ready to be streamed to external player
                 } else {
@@ -347,6 +373,10 @@
         },
 
         onSubtitlesFound: function (subs) {
+            if (this.stopped) {
+                return;
+            }
+
             var subtitles = subs || this.torrentModel.get('subtitle');
             var total = Object.keys(subtitles).length;
             var defaultSubtitle = this.torrentModel.get('defaultSubtitle');
@@ -402,6 +432,9 @@
         },
 
         handleSubtitles: function () {
+            if (this.stopped) {
+                return;
+            }
             // set default subtitle language (passed by a view or settings)
             var defaultSubtitle = this.torrentModel.get('defaultSubtitle') || Settings.subtitle_language;
             this.torrentModel.set('defaultSubtitle', defaultSubtitle);        
@@ -420,6 +453,10 @@
         },
 
         buildSubtitleQuery: function () {
+            if (this.stopped) {
+                return;
+            }
+
             var queryData = {};
 
             var extractSubtitle = this.torrentModel.get('extract_subtitle');
