@@ -32,6 +32,7 @@
     // Globals
     "globals": {
         // App
+        "nw": true,
         "App": true,
         "Settings": true,
         "AdvSettings": true,
@@ -77,7 +78,7 @@
         "request": true,
         "querystring": true,
         "URI": true,
-        "peerflix": true,
+        "WebTorrent": true,
         "child": true,
         "trakt": true,
 

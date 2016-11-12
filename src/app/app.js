@@ -23,7 +23,7 @@ win.error = function () {
 };
 
 
-if (gui.App.fullArgv.indexOf('--reset') !== -1) {
+if (nw.App.fullArgv.indexOf('--reset') !== -1) {
 
     localStorage.clear();
 
@@ -87,7 +87,7 @@ App.addRegions({
 
 // Menu for mac
 if (os.platform() === 'darwin') {
-    var nativeMenuBar = new gui.Menu({
+    var nativeMenuBar = new nw.Menu({
         type: 'menubar'
     });
     nativeMenuBar.createMacBuiltin(Settings.projectName, {
@@ -274,7 +274,7 @@ Mousetrap.bindGlobal(['shift+f12', 'f12', 'command+0'], function (e) {
 });
 Mousetrap.bindGlobal(['shift+f10', 'f10', 'command+9'], function (e) {
     win.debug('Opening: ' + App.settings.tmpLocation);
-    gui.Shell.openItem(App.settings.tmpLocation);
+    nw.Shell.openItem(App.settings.tmpLocation);
 });
 Mousetrap.bind('mod+,', function (e) {
     App.vent.trigger('about:close');
@@ -358,7 +358,7 @@ var minimizeToTray = function () {
     win.hide();
     win.isTray = true;
 
-    var tray = new gui.Tray({
+    var tray = new nw.Tray({
         title: Settings.projectName,
         icon: 'src/app/images/icon.png'
     });
@@ -371,15 +371,15 @@ var minimizeToTray = function () {
 
     tray.tooltip = Settings.projectName;
 
-    var menu = new gui.Menu();
-    menu.append(new gui.MenuItem({
+    var menu = new nw.Menu();
+    menu.append(new nw.MenuItem({
         type: 'normal',
         label: i18n.__('Restore'),
         click: function () {
             openFromTray();
         }
     }));
-    menu.append(new gui.MenuItem({
+    menu.append(new nw.MenuItem({
         type: 'normal',
         label: i18n.__('Close'),
         click: function () {
@@ -393,7 +393,7 @@ var minimizeToTray = function () {
         openFromTray();
     });
 
-    gui.App.on('open', function (cmd) {
+    nw.App.on('open', function (cmd) {
         openFromTray();
     });
 };
@@ -464,89 +464,107 @@ var handleVideoFile = function (file) {
         App.PlayerView.closePlayer();
     } catch (err) {}
 
-    // init our objects
-    var playObj = {
-        src: 'file://' + path.join(file.path),
-        type: 'video/mp4'
-    };
-    var sub_data = {
-        filename: path.basename(file.path),
-        path: file.path
-    };
+    return new Promise(function (resolve, reject) {
 
-    // try to figure out what movie/episode we're playing
-    Common.matchTorrent(path.basename(file.path))
-        .then(function (res) {
-            if (!res || res.error) {
-                throw new Error('matchTorrent failed');
-            }
+        // init our objects
+        var playObj = {
+            src: 'file://' + path.join(file.path),
+            type: 'video/mp4'
+        };
+        var sub_data = {
+            filename: path.basename(file.path),
+            path: file.path
+        };
 
-            playObj.metadataCheckRequired = true;
-            playObj.videoFile = file.path;
-            switch (res.type) {
-            case 'movie':
-                playObj.title = res.movie.title;
-                playObj.quality = res.quality;
-                playObj.imdb_id = res.movie.imdbid;
-                playObj.year = res.movie.year;
+        trakt.matcher.match({
+            path: file.path
+        }).then(function (res) {
+            return trakt.images.get(res[res.type]).then(function (img) {
+                switch (res.quality) {
+                    case 'SD':
+                        res.quality = '480p';
+                        break;
+                    case 'HD':
+                        res.quality = '720p';
+                        break;
+                    case 'FHD':
+                        res.quality = '1080p';
+                        break;
+                    default:
+                }
+                switch (res.type) {
+                    case 'movie':
+                        playObj.title = res.movie.title;
+                        playObj.quality = res.quality;
+                        playObj.imdb_id = res.movie.ids.imdb;
+                        playObj.poster = img.poster;
+                        playObj.backdrop = img.background;
+                        playObj.year = res.movie.year;
 
-                sub_data.imdbid = res.movie.imdbid;
-                break;
-            case 'episode':
-                playObj.title = res.show.title + ' - ' + i18n.__('Season %s', res.show.episode.season) + ', ' + i18n.__('Episode %s', res.show.episode.episode) + ' - ' + res.show.episode.title;
-                playObj.quality = res.quality;
-                playObj.season = res.show.episode.season;
-                playObj.episode = res.show.episode.episode;
-                playObj.tvdb_id = res.show.tvdbid;
-                playObj.imdb_id = res.show.imdbid;
-                playObj.episode_id = res.show.episode.tvdbid;
+                        sub_data.imdbid = res.movie.ids.imdb;
+                        break;
+                    case 'episode':
+                        playObj.title = res.show.title + ' - ' + i18n.__('Season %s', res.episode.season) + ', ' + i18n.__('Episode %s', res.episode.number) + ' - ' + res.episode.title;
+                        playObj.quality = res.quality;
+                        playObj.season = res.episode.season;
+                        playObj.episode = res.episode.number;
+                        playObj.poster = img.poster;
+                        playObj.backdrop = img.background;
+                        playObj.tvdb_id = res.show.ids.tvdb;
+                        playObj.imdb_id = res.show.ids.imdb;
+                        playObj.episode_id = res.episode.ids.tvdb;
 
-                sub_data.imdbid = res.show.imdbid;
-                sub_data.season = res.show.episode.season;
-                sub_data.episode = res.show.episode.episode;
-                break;
-            default:
-            }
+                        sub_data.imdbid = res.show.ids.imdb;
+                        sub_data.season = res.episode.season;
+                        sub_data.episode = res.episode.number;
+                        break;
+                    default:
+                        throw new Error('trakt.matcher.match failed');
+                }
 
-            // try to get subtitles for that movie/episode
-            return trakt.images.get({imdb: playObj.imdb_id, type: res.type}).then(function (img) {
-                playObj.poster = img.poster;
+                playObj.metadataCheckRequired = true;
+                playObj.videoFile = file.path;
+
+                // try to get subtitles for that movie/episode
                 return getSubtitles(sub_data);
-            })
-            .then(function (subtitles) {
-                var localsub = checkSubs();
-                if (localsub !== null) {
-                    subtitles = jQuery.extend({}, subtitles, localsub);
-                }
-                playObj.subtitle = subtitles;
-
-                if (localsub !== null) {
-                    playObj.defaultSubtitle = 'local';
-                } else {
-                    playObj.defaultSubtitle = 'none';
-                }
-            })
-            .catch(function (err) {
-                playObj.defaultSubtitle = 'local';
-                playObj.subtitle = checkSubs();
             });
-        })
-        .catch(function (err) {
+
+        }).then(function (subtitles) {
+            var localsub = checkSubs();
+            if (localsub !== null) {
+                subtitles = jQuery.extend({}, subtitles, localsub);
+            }
+            playObj.subtitle = subtitles;
+
+            if (localsub !== null) {
+                playObj.defaultSubtitle = 'local';
+            } else {
+                playObj.defaultSubtitle = 'none';
+            }
+            resolve(playObj);
+        }).catch(function (err) {
+            console.log('error', err);
+            var localsub = checkSubs();
+            if (localsub !== null) {
+                playObj.defaultSubtitle = 'local';
+            } else {
+                playObj.defaultSubtitle = 'none';
+            }
+
             if (!playObj.title) {
                 playObj.title = file.name;
             }
             playObj.quality = false;
             playObj.videoFile = file.path;
-            playObj.defaultSubtitle = 'local';
-            playObj.subtitle = checkSubs();
-        })
+            playObj.subtitle = localsub;
 
-    // once we've checked everything, we start playing.
-    .finally(function () {
+            resolve(playObj);
+        });
+    }).then(function (play) {
         $('.spinner').hide();
 
-        var localVideo = new Backbone.Model(playObj); // streamer model
-        win.debug('Trying to play local file', localVideo.get('src'), localVideo.attributes);
+        var localVideo = new Backbone.Model(play); // streamer model
+        console.debug('Trying to play local file', localVideo.get('src'), localVideo.attributes);
 
         var tmpPlayer = App.Device.Collection.selected.attributes.id;
         App.Device.Collection.setDevice('local');
@@ -570,20 +588,13 @@ var handleTorrent = function (torrent) {
 window.ondrop = function (e) {
     e.preventDefault();
     $('#drop-mask').hide();
-    win.debug('Drag completed');
+    console.debug('Drag completed');
     $('.drop-indicator').hide();
 
     var file = e.dataTransfer.files[0];
 
-    if (!file) {
-        var data = e.dataTransfer.getData('text/plain');
-        Settings.droppedMagnet = data;
-        handleTorrent(data);
-        return false;
-    }
+    if (file != null && (file.name.indexOf('.torrent') !== -1 || file.name.indexOf('.srt') !== -1)) {
 
-    if (file.name.indexOf('.torrent') !== -1 ||
-        file.name.indexOf('.srt') !== -1) {
         fs.writeFile(path.join(App.settings.tmpLocation, file.name), fs.readFileSync(file.path), function (err) {
             if (err) {
                 App.PlayerView.closePlayer();
@@ -598,12 +609,15 @@ window.ondrop = function (e) {
                 }
             }
         });
-    } else if (isVideo(file.name)) {
+
+    } else if (file != null && isVideo(file.name)) {
         handleVideoFile(file);
-        return false;
+    } else {
+        var data = e.dataTransfer.getData('text/plain');
+        Settings.droppedMagnet = data;
+        handleTorrent(data);
     }
 
-    console.error('could not handle', e);
     return false;
 };
 
@@ -616,14 +630,19 @@ $(document).on('paste', function (e) {
 
     var data = (e.originalEvent || e).clipboardData.getData('text/plain');
     e.preventDefault();
+
     Settings.droppedMagnet = data;
     handleTorrent(data);
     return true;
 });
 
+// nwjs sdk flavor has an invasive context menu
+$(document).on('contextmenu', function(e) {
+    e.preventDefault();
+});
 
 // Pass magnet link as last argument to start stream
-var last_arg = gui.App.argv.pop();
+var last_arg = nw.App.argv.pop();
 
 if (last_arg && (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0, 7) === 'http://' || last_arg.endsWith('.torrent'))) {
     App.vent.on('app:started', function () {
@@ -642,7 +661,7 @@ if (last_arg && (isVideo(last_arg))) {
     });
 }
 
-gui.App.on('open', function (cmd) {
+nw.App.on('open', function (cmd) {
     var file;
     if (os.platform() === 'win32') {
         file = cmd.split('"');
@@ -676,11 +695,11 @@ App.vent.on('window:focus', function () {
 });
 
 // -f argument to open in fullscreen
-if (gui.App.fullArgv.indexOf('-f') !== -1) {
+if (nw.App.fullArgv.indexOf('-f') !== -1) {
     win.enterFullscreen();
 }
 // -m argument to open minimized to tray
-if (gui.App.fullArgv.indexOf('-m') !== -1) {
+if (nw.App.fullArgv.indexOf('-m') !== -1) {
     App.vent.on('app:started', function () {
         minimizeToTray();
     });

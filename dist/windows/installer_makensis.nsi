@@ -1,4 +1,4 @@
-;Installer Source for NSIS 3.0 or higher
+﻿;Installer Source for NSIS 3.0 or higher
 
 ;Enable Unicode encoding
 Unicode True
@@ -510,4 +510,4 @@ FunctionEnd
 ; ------------------ ;
 Function finishpageaction
     CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${APP_LAUNCHER}" "" "$INSTDIR\${MUI_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME} ${APP_VERSION}"
-FunctionEnd   
+FunctionEnd   
