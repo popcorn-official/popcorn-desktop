@@ -304,7 +304,12 @@
                 quality: this.torrentModel.get('quality'),
                 defaultSubtitle: this.torrentModel.get('defaultSubtitle'),
                 videoFile: this.torrentModel.get('video_file').path,
-                size: this.torrentModel.get('video_file').size
+                size: this.torrentModel.get('video_file').size,
+                tvdb_id: this.torrentModel.get('tvdb_id'),
+                imdb_id: this.torrentModel.get('imdb_id'),
+                episode_id: this.torrentModel.get('episode_id'),
+                episode: this.torrentModel.get('episode'),
+                season: this.torrentModel.get('season')
             });
         },
 
