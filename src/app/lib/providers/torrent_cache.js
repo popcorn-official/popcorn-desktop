@@ -136,11 +136,7 @@
     };
 
     pmod._checkTmpDir = function () {
-        mkdirp(tpmDir, function (err) {
-            if (err) {
-                win.error('TorrentCache._checkTmpDir()', err);
-            }
-        });
+        mkdirp(tpmDir);
     };
 
     pmod.getType = function (torrent) {
