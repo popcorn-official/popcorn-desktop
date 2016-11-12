@@ -68,12 +68,12 @@
 
             App.vent.off('subtitle:downloaded');
 
-            console.info('Streaming cancelled');
+            win.info('Streaming cancelled');
         },
 
         handleErrors: function (reason) {
             if (reason !== 'cancelled') {
-                console.error(reason);
+                win.error(reason);
             }
         },
 
@@ -96,7 +96,7 @@
                 }.bind(this));
 
                 client.on('error', function (error) {
-                    console.error('WebTorrent fatal error', error);
+                    win.error('WebTorrent fatal error', error);
                     this.stop();
                     reject(error);
                 }.bind(this));
@@ -173,7 +173,7 @@
                 this.handleSubtitles();
 
             }.bind(this)).catch(function(err) {
-                console.error('An error occured while trying to get metadata', err);
+                win.error('An error occured while trying to get metadata', err);
                 this.torrentModel.set('title', fileName);
                 this.handleSubtitles();
             }.bind(this));
@@ -285,7 +285,7 @@
                 video.src = '';
                 video.load();
             }.bind(this)).catch(function (error) {
-                console.warn(error); //todo: catch the correct error and avoid erroring on server destroy (stream:stop while still loading the play())
+                win.warn(error); //todo: catch the correct error and avoid erroring on server destroy (stream:stop while still loading the play())
                 video.pause();
                 video.src = '';
                 video.load();
@@ -351,7 +351,7 @@
             var total = Object.keys(subtitles).length;
             var defaultSubtitle = this.torrentModel.get('defaultSubtitle');
 
-            console.info(total + ' subtitles found');
+            win.info(total + ' subtitles found');
             this.streamInfo.set('subtitle', subtitles);
 
             if (defaultSubtitle !== 'none') {
@@ -373,7 +373,7 @@
                                 language: defaultSubtitle
                             }, function(err, res) {
                                 if (err) {
-                                    console.error('error converting subtitles', err);
+                                    win.error('error converting subtitles', err);
                                     this.streamInfo.set('subFile', null);
                                     App.vent.trigger('notification:show', new App.Model.Notification({
                                         title: i18n.__('Error converting subtitle'),
@@ -413,7 +413,7 @@
                 .then(this.onSubtitlesFound.bind(this))
                 .catch(function (err) {
                     this.subtitleReady = true;
-                    console.error('subtitleProvider.fetch()', err);
+                    win.error('subtitleProvider.fetch()', err);
                 }.bind(this));
 
             return;

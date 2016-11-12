@@ -106,24 +106,24 @@
                         imdbid: this.model.get('imdb_id')
                     };
 
-                    console.debug('OpenSubtitles - Uploading subtitles', upload);
+                    win.debug('OpenSubtitles - Uploading subtitles', upload);
 
                     var subtitleProvider = App.Config.getProviderForType('subtitle');
                     subtitleProvider.upload(upload).then(function (data) {
                         if (data.alreadyindb) {
-                            console.debug('OpenSubtitles - Already in DB', data);
+                            win.debug('OpenSubtitles - Already in DB', data);
                             return;
                         }
-                        console.debug('OpenSubtitles - Subtitles successfully uploaded', data);
+                        win.debug('OpenSubtitles - Subtitles successfully uploaded', data);
                     }).catch(function (err) {
-                        console.warn('OpenSubtitles: could not upload subtitles', err);
+                        win.warn('OpenSubtitles: could not upload subtitles', err);
                     });
                 }
             }
         },
 
         closePlayer: function () {
-            console.info('Player closed');
+            win.info('Player closed');
             if (this._AutoPlayCheckTimer) {
                 clearInterval(this._AutoPlayCheckTimer);
             }
@@ -189,7 +189,7 @@
                             this.precachestarted = true;
                         }
 
-                        console.info('Showing Auto Play message');
+                        win.info('Showing Auto Play message');
                         this.autoplayisshown = true;
                         $('.playing_next').show();
                         $('.playing_next').appendTo('div#video_player');
@@ -204,7 +204,7 @@
                 } else {
 
                     if (this.autoplayisshown) {
-                        console.info('Hiding Auto Play message');
+                        win.info('Hiding Auto Play message');
                         $('.playing_next').hide();
                         $('.playing_next #nextCountdown').text('');
                         this.autoplayisshown = false;
@@ -241,7 +241,7 @@
         },
 
         onPlayerReady: function () {
-            console.debug('Player - data loaded in %sms', (Date.now() - this.playerWasReady));
+            win.debug('Player - data loaded in %sms', (Date.now() - this.playerWasReady));
 
             // set volume
             this.player.volume(Settings.playerVolume);
@@ -249,7 +249,7 @@
             // resume position
             if (Settings.lastWatchedTitle === this.model.get('title') && Settings.lastWatchedTime > 0) {
                 var position = Settings.lastWatchedTime;
-                console.debug('Resuming position to', position.toFixed(), 'secs');
+                win.debug('Resuming position to', position.toFixed(), 'secs');
                 this.player.currentTime(position);
             } else if (Settings.traktPlayback) {
                 var type = this.isMovie();
@@ -258,7 +258,7 @@
                     var total = this.video.duration();
                     var position = (position_percent / 100) * total | 0;
                     if (position > 0) {
-                        console.debug('Resuming position to', position.toFixed(), 'secs (reported by Trakt)');
+                        win.debug('Resuming position to', position.toFixed(), 'secs (reported by Trakt)');
                         this.player.currentTime(position);
                     }
                 }.bind(this));
@@ -321,7 +321,7 @@
                     App.vent.trigger('player:close');
                 }, 2000);
             }
-            console.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
+            win.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
         },
 
         metadataCheck: function () {
@@ -348,7 +348,7 @@
         onShow: function () {
             $('#header').removeClass('header-shadow').hide();
             // Test to make sure we have title
-            console.info('Watching:', this.model.get('title'));
+            win.info('Watching:', this.model.get('title'));
             $('.filter-bar').show();
             $('#player_drag').show();
             var that = this;
@@ -509,7 +509,7 @@
             }
         },
         playNextNot: function () {
-            console.info('Hiding Auto Play message');
+            win.info('Hiding Auto Play message');
             $('.playing_next').hide();
             $('.playing_next #nextCountdown').text('');
             this.autoplayisshown ? false : true;

@@ -461,7 +461,7 @@
         checkToken: function () {
             var self = this;
             if (Settings.traktTokenTTL <= new Date().valueOf() && Settings.traktTokenRefresh !== '') {
-                console.info('Trakt: refreshing access token');
+                win.info('Trakt: refreshing access token');
                 this._authenticationPromise = self.post('oauth/token', {
                     refresh_token: Settings.traktTokenRefresh,
                     client_id: CLIENT_ID,
@@ -525,7 +525,7 @@
                                     type: 'movie'
                                 });
                             } catch (e) {
-                                console.warn('Cannot sync a movie (' + data[m].movie.title + '), the problem is: ' + e.message + '. Continuing sync without this movie...');
+                                win.warn('Cannot sync a movie (' + data[m].movie.title + '), the problem is: ' + e.message + '. Continuing sync without this movie...');
                             }
                         }
                     }
@@ -533,7 +533,7 @@
                     return watched;
                 })
                 .then(function (traktWatched) {
-                    console.debug('Trakt: marked %s movie(s) as watched', traktWatched.length);
+                    win.debug('Trakt: marked %s movie(s) as watched', traktWatched.length);
                     return Database.markMoviesWatched(traktWatched);
                 });
         },
@@ -562,7 +562,7 @@
                                         });
                                     }
                                 } catch (e) {
-                                    console.warn('Cannot sync a show (' + show.show.title + '), the problem is: ' + e.message + '. Continuing sync without this show...');
+                                    win.warn('Cannot sync a show (' + show.show.title + '), the problem is: ' + e.message + '. Continuing sync without this show...');
                                     break;
                                 }
                             }
@@ -573,7 +573,7 @@
                 })
                 .then(function (traktWatched) {
                     // Insert them locally
-                    console.debug('Trakt: marked %s episode(s) as watched', traktWatched.length);
+                    win.debug('Trakt: marked %s episode(s) as watched', traktWatched.length);
                     return Database.markEpisodesWatched(traktWatched);
                 });
         }

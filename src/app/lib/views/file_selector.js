@@ -95,7 +95,7 @@
             } else if (Settings.droppedMagnet && Settings.droppedMagnet.indexOf('\&dn=') === -1) {
                 $('.store-torrent').text(i18n.__('Cannot be stored'));
                 $('.store-torrent').addClass('disabled').prop('disabled', true);
-                console.warn('Magnet lacks Display Name, unable to store it');
+                win.warn('Magnet lacks Display Name, unable to store it');
                 return false;
             }
             var file, _file;
@@ -129,13 +129,13 @@
 
                 if (this.isTorrentStored()) {
                     fs.unlinkSync(target + file); // remove the torrent
-                    console.debug('Torrent Collection: deleted', file);
+                    win.debug('Torrent Collection: deleted', file);
                 } else {
                     if (!fs.existsSync(target)) {
                         fs.mkdir(target); // create directory if needed
                     }
                     fs.writeFileSync(target + file, fs.readFileSync(source + file)); // save torrent
-                    console.debug('Torrent Collection: added', file);
+                    win.debug('Torrent Collection: added', file);
                 }
             } else if (Settings.droppedMagnet) {
                 _file = Settings.droppedMagnet,
@@ -146,13 +146,13 @@
                         file = Settings.droppedStoredMagnet;
                     }
                     fs.unlinkSync(target + file); // remove the magnet
-                    console.debug('Torrent Collection: deleted', file);
+                    win.debug('Torrent Collection: deleted', file);
                 } else {
                     if (!fs.existsSync(target)) {
                         fs.mkdir(target); // create directory if needed
                     }
                     fs.writeFileSync(target + file, _file); // save magnet link inside readable file
-                    console.debug('Torrent Collection: added', file);
+                    win.debug('Torrent Collection: added', file);
                 }
             }
             this.isTorrentStored(); // trigger button change
