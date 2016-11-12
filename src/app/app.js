@@ -519,7 +519,7 @@ var handleVideoFile = function (file) {
                         sub_data.episode = res.episode.number;
                         break;
                     default:
-                        throw new Error('matchTorrent failed');
+                        throw new Error('trakt.matcher.match failed');
                 }
 
                 playObj.metadataCheckRequired = true;
