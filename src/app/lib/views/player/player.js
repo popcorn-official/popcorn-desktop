@@ -33,8 +33,6 @@
             this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
             this.listenTo(this.model, 'change:downloaded', this.updateDownloaded);
 
-            this.video = false;
-            this.player = null;
             this.inFullscreen = win.isFullscreen;		
             this.playerWasReady = false;		
 
@@ -156,8 +154,6 @@
             this.remaining = false;
             this.createdRemaining = false;
             this.firstPlay = true;
-            this.player = null;
-            this.video = false;
 
             App.vent.trigger('preload:stop');
             App.vent.trigger('stream:stop');
