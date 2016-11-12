@@ -326,7 +326,7 @@
                 state: 'connecting',
                 backdrop: this.torrentModel.get('backdrop'),
                 title: '',
-                player: '',
+                device: '',
                 show_controls: false,
                 streamInfo: this.streamInfo
             });
@@ -340,7 +340,7 @@
             }
 
             var torrentModel = this.torrentModel.get('torrent');
-            var player = this.streamInfo.get('player');
+            var player = this.streamInfo.get('device');
 
             var state = 'connecting'; // default state
 

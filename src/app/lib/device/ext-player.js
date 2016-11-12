@@ -162,7 +162,7 @@
             cmd += getPlayerUrlSwitch(this.get('id')) + url;
             win.info('Launching External Player: ' + cmd);
             child.exec(cmd, function (error, stdout, stderr) {
-                if (streamModel.attributes.player.id === 'Bomi') {
+                if (streamModel.attributes.device.id === 'Bomi') {
                     // don't stop on exit, because Bomi could be already running in background and the command ends while the stream should continue
                     return;
                 }

@@ -7,7 +7,7 @@
 
             this.set({
                 title: torrentModel.get('title'),
-                player: torrentModel.get('device'),
+                device: torrentModel.get('device'),
                 quality: torrentModel.get('quality'),
                 defaultSubtitle: torrentModel.get('defaultSubtitle'),
                 videoFile: torrentModel.get('video_file').path,
