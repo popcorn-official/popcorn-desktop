@@ -77,38 +77,6 @@
             }
         },
 
-        setModels: function (model) {
-            this.torrentModel = model;
-            this.streamInfo = new App.Model.StreamInfo();
-
-            this.stateModel = new Backbone.Model({
-                state: 'connecting',
-                backdrop: this.torrentModel.get('backdrop'),
-                title: '',
-                player: '',
-                show_controls: false
-            });
-
-            App.vent.trigger('stream:started', this.stateModel);
-
-            // when state get 'ready' value
-            // we emit 'stream:ready' to players
-            this.stateModel.on('change:state', function() {
-
-                if (this.stateModel.get('state') !== 'ready') {
-                    return;
-                }
-
-                if (this.streamInfo.get('player') && this.streamInfo.get('player').id !== 'local') {
-                    this.stateModel.set('state', 'playingExternally');
-                }
-
-                App.vent.trigger('stream:ready', this.streamInfo);
-                this.stateModel.destroy();
-
-            }.bind(this));
-        },
-
         // fire webtorrent and resolve the torrent
         fetchTorrent: function(torrentInfo) {
             return new Promise(function (resolve, reject) {
@@ -160,8 +128,6 @@
                 tvdb: metadatas.type === 'movie' ? false : metadatas.show.ids.tvdb,
                 tmdb: metadatas.type === 'movie' ? metadatas.movie.ids.tmdb : false
             }).then(function (img) {
-                // TODO: no jquery here, it's a loading.js stuff: make a onchange event there.
-                $('.loading-background').css('background-image', 'url(' + img.background + ')');
                 this.torrentModel.set('backdrop', img.background);
                 this.torrentModel.set('poster', img.poster);
             }.bind(this));
@@ -258,6 +224,7 @@
         handleTorrent: function (torrent) {
             var isFormatted = Boolean(this.torrentModel.get('title')); // was formatted (from Details)
             var isRead = Boolean(this.torrentModel.get('torrent_read')); // comes from file selector
+
             if (isFormatted) {
                 this.selectFile(torrent);
                 this.handleSubtitles();
@@ -297,28 +264,12 @@
             }.bind(this));
         },
 
-        updateStreamInfo: function () {                 
-            this.streamInfo.set({
-                title: this.torrentModel.get('title'),
-                player: this.torrentModel.get('device'),
-                quality: this.torrentModel.get('quality'),
-                defaultSubtitle: this.torrentModel.get('defaultSubtitle'),
-                videoFile: this.torrentModel.get('video_file').path,
-                size: this.torrentModel.get('video_file').size,
-                tvdb_id: this.torrentModel.get('tvdb_id'),
-                imdb_id: this.torrentModel.get('imdb_id'),
-                episode_id: this.torrentModel.get('episode_id'),
-                episode: this.torrentModel.get('episode'),
-                season: this.torrentModel.get('season')
-            });
-        },
-
         handleStreamInfo: function () {
             this.streamInfo.set('torrentModel', this.torrentModel);
             this.updateStatsInterval = setInterval(this.streamInfo.updateStats.bind(this.streamInfo), 1000);
 
-            this.updateStreamInfo();
-            this.torrentModel.on('change', this.updateStreamInfo.bind(this));
+            this.streamInfo.updateInfos();
+            this.torrentModel.on('change', this.streamInfo.updateInfos.bind(this.streamInfo));
         },
 
         // dummy element to fire stream:start
@@ -342,15 +293,38 @@
             });
         },
 
+        setModels: function (model) {
+            this.torrentModel = model;
+            this.streamInfo = new App.Model.StreamInfo();
+
+            this.stateModel = new Backbone.Model({
+                state: 'connecting',
+                backdrop: this.torrentModel.get('backdrop'),
+                title: '',
+                player: '',
+                show_controls: false,
+                streamInfo: this.streamInfo
+            });
+
+            App.vent.trigger('stream:started', this.stateModel);
+        },
+
         watchState: function () {
             if (!this.webtorrent) {
                 return;
             }
+
             var torrentModel = this.torrentModel.get('torrent');
+            var player = this.streamInfo.get('player');
+
             var state = 'connecting'; // default state
 
             if (this.canPlay || torrentModel.done) {
-                state = 'ready'; // file can be played
+                if (player && player.id !== 'local') {
+                    state = 'playingExternally'; // file ready to be streamed to external player
+                } else {
+                    state = 'ready'; // file can be played
+                }
             } else if (torrentModel.downloaded) {
                 if (torrentModel.downloadSpeed) {
                     state = 'downloading'; // is actively downloading
@@ -365,7 +339,10 @@
         
             this.stateModel.set('state', state);
 
-            if (state !== 'ready') {
+            if (state === 'ready' || state === 'playingExternally') {
+                App.vent.trigger('stream:ready', this.streamInfo);
+                this.stateModel.destroy();
+            } else {
                 _.delay(this.watchState.bind(this), 100);
             }
         },

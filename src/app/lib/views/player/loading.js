@@ -18,6 +18,7 @@
 
             seedStatus: '.seed_status',
             bufferPercent: '.buffer_percent',
+            loadingInfos: '.loading-info',
 
             downloadSpeed: '.download_speed',
             uploadSpeed: '.upload_speed',
@@ -94,20 +95,18 @@
             var streamInfo = this.model.get('streamInfo');
             console.info('Loading torrent:', state);
 
-            if (streamInfo) {
-                this.checkFreeSpace(streamInfo.get('size'));
-            }
-
             this.ui.stateTextDownload.text(i18n.__(state));
 
-            if (state === 'downloading' || state === 'startingDownload') {
+            this.listenTo(this.model.get('streamInfo'), 'change', this.onInfosUpdate);
+
+            if (state === 'downloading') {
                 this.listenTo(this.model.get('streamInfo'), 'change:downloaded', this.onProgressUpdate);
             }
 
             if (state === 'playingExternally') {
                 this.ui.stateTextDownload.hide();
                 this.ui.progressbar.hide();
-                if (streamInfo.get('player') && streamInfo.get('player').get('type') === 'chromecast') {
+                if (streamInfo && streamInfo.get('player') && streamInfo.get('player').get('type') === 'chromecast') {
                     this.ui.controls.css('visibility', 'visible');
                     this.ui.playingbarBox.css('visibility', 'visible');
                     this.ui.playingbar.css('width', '0%');
@@ -125,10 +124,31 @@
             }
         },
 
-        onProgressUpdate: function () {
+        onInfosUpdate: function () {
+            var streamInfo = this.model.get('streamInfo');
 
             this.ui.seedStatus.css('visibility', 'visible');
+
+            if (streamInfo.get('size') && !this.firstUpdate) {
+                this.ui.loadingInfos.hide();
+                this.checkFreeSpace(streamInfo.get('size'));
+                this.firstUpdate = true;
+            }
+            if (streamInfo.get('backdrop')) {
+                $('.loading-background').css('background-image', 'url(' + streamInfo.get('backdrop') + ')');
+            }
+            if (streamInfo.get('title') !== '') {
+                this.ui.title.html(streamInfo.get('title'));
+            }
+            if (streamInfo.get('player') && streamInfo.get('player').get('type') !== 'local') {
+                this.ui.player.text(streamInfo.get('player').get('name'));
+                this.ui.streaming.css('visibility', 'visible');
+            }
+        },
+
+        onProgressUpdate: function () {
             var streamInfo = this.model.get('streamInfo');
+
             var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
             this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
 
@@ -139,16 +159,11 @@
             this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
             this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
 
-            if (streamInfo.get('title') !== '') {
-                this.ui.title.html(streamInfo.get('title'));
-            }
-            if (streamInfo.get('player') && streamInfo.get('player').get('type') !== 'local') {
-                if (this.model.get('state') === 'playingExternally') {
-                    this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
-                    this.ui.stateTextDownload.text(i18n.__('Downloaded')).show();
-                }
-                this.ui.player.text(streamInfo.get('player').get('name'));
-                this.ui.streaming.css('visibility', 'visible');
+            this.ui.loadingInfos.show();
+
+            if (this.model.get('state') === 'playingExternally') {
+                this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
+                this.ui.stateTextDownload.text(i18n.__('Downloaded')).show();
             }
         },
 

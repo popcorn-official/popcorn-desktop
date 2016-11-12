@@ -2,7 +2,25 @@
     'use strict';
 
     var StreamInfo = Backbone.Model.extend({
-        initialize: function () {},
+        updateInfos: function () {
+            var torrentModel = this.get('torrentModel');
+
+            this.set({
+                title: torrentModel.get('title'),
+                player: torrentModel.get('device'),
+                quality: torrentModel.get('quality'),
+                defaultSubtitle: torrentModel.get('defaultSubtitle'),
+                videoFile: torrentModel.get('video_file').path,
+                size: torrentModel.get('video_file').size,
+                poster: torrentModel.get('poster'),
+                backdrop: torrentModel.get('backdrop'),
+                tvdb_id: torrentModel.get('tvdb_id'),
+                imdb_id: torrentModel.get('imdb_id'),
+                episode_id: torrentModel.get('episode_id'),
+                episode: torrentModel.get('episode'),
+                season: torrentModel.get('season')
+            });
+        },
 
         updateStats: function () {
             var torrentModel = this.get('torrentModel'),
