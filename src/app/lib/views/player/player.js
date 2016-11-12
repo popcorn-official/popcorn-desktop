@@ -33,7 +33,8 @@
             this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
             this.listenTo(this.model, 'change:downloaded', this.updateDownloaded);
 
-            this.video = false;		
+            this.video = false;
+            this.player = null;
             this.inFullscreen = win.isFullscreen;		
             this.playerWasReady = false;		
 
@@ -155,6 +156,8 @@
             this.remaining = false;
             this.createdRemaining = false;
             this.firstPlay = true;
+            this.player = null;
+            this.video = false;
 
             App.vent.trigger('preload:stop');
             App.vent.trigger('stream:stop');
@@ -165,6 +168,181 @@
             }
 
             this.destroy();
+        },
+
+        onPlayerEnded: function () {
+            if (this.model.get('auto_play')) {
+                this.playNextNow();
+            } else {
+                this.closePlayer();
+            }
+        },
+
+        checkAutoPlay: function () {
+            if (this.isMovie() === 'episode' && this.next_episode_model) {
+                if ((this.video.duration() - this.video.currentTime()) < 60 && this.video.currentTime() > 30) {
+
+                    if (!this.autoplayisshown) {
+
+                        if (!this.precachestarted) {
+                            App.vent.trigger('preload:start', this.next_episode_model);
+                            this.precachestarted = true;
+                        }
+
+                        console.info('Showing Auto Play message');
+                        this.autoplayisshown = true;
+                        $('.playing_next').show();
+                        $('.playing_next').appendTo('div#video_player');
+                        if (!this.player.userActive()) {
+                            this.player.userActive(true);
+                        }
+                    }
+
+                    var count = Math.round(this.video.duration() - this.video.currentTime());
+                    $('.playing_next #nextCountdown').text(count);
+
+                } else {
+
+                    if (this.autoplayisshown) {
+                        console.info('Hiding Auto Play message');
+                        $('.playing_next').hide();
+                        $('.playing_next #nextCountdown').text('');
+                        this.autoplayisshown = false;
+                    }
+
+                }
+            }
+        },
+
+        onPlayerFirstPlay: function () {
+            if (this.model.get('type') === 'video/youtube') {
+                // XXX quality fix
+                $('.vjs-quality-button .vjs-menu-content').remove();
+                $('.vjs-quality-button').css('cursor', 'default');
+
+                // XXX hide watermark
+                try {
+                    document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('html5-watermark')[0].style.opacity = 0;
+                } catch (e) {}
+            }
+
+            if (this.model.get('auto_play')) {
+                if (this.isMovie() === 'episode' && this.next_episode_model) {
+                    // autoplay player div
+                    var matcher = this.next_episode_model.get('title').split(/\s-\s/i);
+                    $('.playing_next_poster').attr('src', this.model.get('cover'));
+                    $('.playing_next_show').text(matcher[0]);
+                    $('.playing_next_episode').text(matcher[2]);
+                    $('.playing_next_number').text(i18n.__('Season %s', this.next_episode_model.get('season')) + ', ' + i18n.__('Episode %s', this.next_episode_model.get('episode')));
+                }
+
+                this._AutoPlayCheckTimer = setInterval(this.checkAutoPlay, 10 * 100 * 1); // every 1 sec
+            }
+        },
+
+        onPlayerReady: function () {
+            console.debug('Player - data loaded in %sms', (Date.now() - this.playerWasReady));
+
+            // set volume
+            this.player.volume(Settings.playerVolume);
+
+            // resume position
+            if (Settings.lastWatchedTitle === this.model.get('title') && Settings.lastWatchedTime > 0) {
+                var position = Settings.lastWatchedTime;
+                console.debug('Resuming position to', position.toFixed(), 'secs');
+                this.player.currentTime(position);
+            } else if (Settings.traktPlayback) {
+                var type = this.isMovie();
+                var id = type === 'movie' ? this.model.get('imdb_id') : this.model.get('episode_id');
+                App.Trakt.sync.playback(type, id).then(function (position_percent) {
+                    var total = this.video.duration();
+                    var position = (position_percent / 100) * total | 0;
+                    if (position > 0) {
+                        console.debug('Resuming position to', position.toFixed(), 'secs (reported by Trakt)');
+                        this.player.currentTime(position);
+                    }
+                }.bind(this));
+            }
+
+            // alert Trakt
+            this.sendToTrakt('start');
+        },
+
+        onPlayerPlay: function () {
+            // Trigger a resize so the subtitles are adjusted
+            $(window).trigger('resize');
+
+            if (this.wasSeek) {
+                if (this.model.get('auto_play')) {
+                    this.checkAutoPlay();
+                }
+                this.wasSeek = false;
+            } else {
+                if (this.firstPlay) {
+                    if (this.model.get('type') === 'video/youtube') {
+                        try {
+                            document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('video-ads')[0].style.display = 'none'; // XXX hide ads hack
+                        } catch (e) {} //no ads
+                    }
+                    this.firstPlay = false;
+                    return;
+                }
+                this.ui.pause.hide().dequeue();
+                this.ui.play.appendTo('div#video_player');
+                this.ui.play.show().delay(1500).queue(function () {
+                    this.ui.play.hide().dequeue();
+                }.bind(this));
+                App.vent.trigger('player:play');
+            }
+
+            this.sendToTrakt('start');
+        },
+
+        onPlayerPause: function () {
+            if (this.player.scrubbing) {
+                this.wasSeek = true;
+            } else {
+                this.wasSeek = false;
+                this.ui.play.hide().dequeue();
+                this.ui.pause.appendTo('div#video_player');
+                this.ui.pause.show().delay(1500).queue(function () {
+                    this.ui.pause.hide().dequeue();
+                }.bind(this));
+                App.vent.trigger('player:pause');
+                this.sendToTrakt('pause');
+            }
+        },
+
+        onPlayerError: function (error) {
+            this.sendToTrakt('stop');
+            // TODO: user errors
+            if (this.model.get('type') === 'video/youtube') {
+                setTimeout(function () {
+                    App.vent.trigger('player:close');
+                }, 2000);
+            }
+            console.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
+        },
+
+        metadataCheck: function () {
+            if (this.model.get('metadataCheckRequired')) {
+                var matcher = this.model.get('title').split(/\s-\s/i);
+                $('.verifmeta_poster').attr('src', this.model.get('poster'));
+                $('.verifmeta_show').html(matcher[0]);
+                if (this.model.get('episode')) {
+                    $('.verifmeta_episode').html(matcher[2]);
+                    $('.verifmeta_number').text(i18n.__('Season %s', this.model.get('season')) + ', ' + i18n.__('Episode %s', this.model.get('episode')));
+                } else {
+                    $('.verifmeta_episode').text(this.model.get('year'));
+                }
+
+                // display it
+                $('.verify-metadata').show();
+                $('.verify-metadata').appendTo('div#video_player');
+                if (!this.player.userActive()) {
+                    this.player.userActive(true);
+                }
+            }
         },
 
         onShow: function () {
@@ -190,6 +368,8 @@
 
                 this.processNext();
             }
+
+            // start videojs engine
             if (this.model.get('type') === 'video/youtube') {
 
                 this.video = videojs('video_player', {
@@ -233,14 +413,14 @@
 	                    that.playerWasReady = Date.now();
                 });
             }
-            var player = this.video.player();
-            this.player = player;
+            this.player = this.video.player();
             App.PlayerView = this;
 
             /* The following is a hack to make VideoJS listen to
-                        mouseup instead of mousedown for pause/play on the
-                        video element. Stops video pausing/playing when
-                        dragged. TODO: #fixit! /XC                        */
+             *  mouseup instead of mousedown for pause/play on the
+             *  video element. Stops video pausing/playing when
+             *  dragged. TODO: #fixit!
+             */
             this.player.tech.off('mousedown');
             this.player.tech.on('mouseup', function (event) {
                 if (event.target.origEvent) {
@@ -253,20 +433,11 @@
                     that.player.tech.onClick(event);
                 }
             });
+
             // Force custom controls
-            player.usingNativeControls(false);
+            this.player.usingNativeControls(false);
 
-            player.on('ended', function () {
-                // For now close player. In future we will check if auto-play etc and get next episode
-
-                if (that.model.get('auto_play')) {
-                    that.playNextNow();
-                } else {
-                    that.closePlayer();
-                }
-
-            });
-
+            // Local subtitle hack
             App.vent.on('customSubtitles:added', function (subpath) {
                 that.customSubtitles = {
                     subPath: subpath,
@@ -279,170 +450,15 @@
                 });
             });
 
-            if (this.model.get('metadataCheckRequired')) {
-                var matcher = this.model.get('title').split(/\s-\s/i);
-                $('.verifmeta_poster').attr('src', this.model.get('poster'));
-                $('.verifmeta_show').html(matcher[0]);
-                if (this.model.get('episode')) {
-                    $('.verifmeta_episode').html(matcher[2]);
-                    $('.verifmeta_number').text(i18n.__('Season %s', this.model.get('season')) + ', ' + i18n.__('Episode %s', this.model.get('episode')));
-                } else {
-                    $('.verifmeta_episode').text(this.model.get('year'));
-                }
-
-                // display it
-                $('.verify-metadata').show();
-                $('.verify-metadata').appendTo('div#video_player');
-                if (!this.player.userActive()) {
-                    this.player.userActive(true);
-                }
-            }
-
-            var checkAutoPlay = function () {
-                if (that.isMovie() === 'episode' && that.next_episode_model) {
-                    if ((that.video.duration() - that.video.currentTime()) < 60 && that.video.currentTime() > 30) {
-
-                        if (!that.autoplayisshown) {
-
-                            if (!that.precachestarted) {
-                                App.vent.trigger('preload:start', that.next_episode_model);
-                                that.precachestarted = true;
-                            }
-
-                            console.info('Showing Auto Play message');
-                            that.autoplayisshown = true;
-                            $('.playing_next').show();
-                            $('.playing_next').appendTo('div#video_player');
-                            if (!that.player.userActive()) {
-                                that.player.userActive(true);
-                            }
-                        }
-
-                        var count = Math.round(that.video.duration() - that.video.currentTime());
-                        $('.playing_next #nextCountdown').text(count);
-
-                    } else {
-
-                        if (that.autoplayisshown) {
-                            console.info('Hiding Auto Play message');
-                            $('.playing_next').hide();
-                            $('.playing_next #nextCountdown').text('');
-                            that.autoplayisshown = false;
-                        }
-
-                    }
-                }
-            };
-
-            player.one('play', function () {
-                if (that.model.get('type') === 'video/youtube') {
-                    // XXX quality fix
-                    $('.vjs-quality-button .vjs-menu-content').remove();
-                    $('.vjs-quality-button').css('cursor', 'default');
-
-                    // XXX hide watermark
-                    try {
-                        document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('html5-watermark')[0].style.opacity = 0;
-                    } catch (e) {}
-                }
-
-                if (that.model.get('auto_play')) {
-                    if (that.isMovie() === 'episode' && that.next_episode_model) {
-                        // autoplay player div
-                        var matcher = that.next_episode_model.get('title').split(/\s-\s/i);
-                        $('.playing_next_poster').attr('src', that.model.get('cover'));
-                        $('.playing_next_show').text(matcher[0]);
-                        $('.playing_next_episode').text(matcher[2]);
-                        $('.playing_next_number').text(i18n.__('Season %s', that.next_episode_model.get('season')) + ', ' + i18n.__('Episode %s', that.next_episode_model.get('episode')));
-                    }
-
-                    that._AutoPlayCheckTimer = setInterval(checkAutoPlay, 10 * 100 * 1); // every 1 sec
-                }
-            });
-
-            player.on('loadeddata', function () {
-                console.debug('Player - data loaded in %sms', (Date.now() - that.playerWasReady));
-
-                // resume position
-                if (Settings.lastWatchedTitle === that.model.get('title') && Settings.lastWatchedTime > 0) {
-                    var position = Settings.lastWatchedTime;
-                    console.debug('Resuming position to', position.toFixed(), 'secs');
-                    player.currentTime(position);
-                } else if (Settings.traktPlayback) {
-                    var type = that.isMovie();
-                    var id = type === 'movie' ? that.model.get('imdb_id') : that.model.get('episode_id');
-                    App.Trakt.sync.playback(type, id).then(function (position_percent) {
-                        var total = that.video.duration();
-                        var position = (position_percent / 100) * total | 0;
-                        if (position > 0) {
-                            console.debug('Resuming position to', position.toFixed(), 'secs (reported by Trakt)');
-                            player.currentTime(position);
-                        }
-                    });
-                }
-
-                // alert Trakt
-                that.sendToTrakt('start');
-            });
-
-            player.on('play', function () {
-                // Trigger a resize so the subtitles are adjusted
-                $(window).trigger('resize');
-
-                if (that.wasSeek) {
-                    if (that.model.get('auto_play')) {
-                        checkAutoPlay();
-                    }
-                    that.wasSeek = false;
-                } else {
-                    if (that.firstPlay) {
-                        if (that.model.get('type') === 'video/youtube') {
-                            try {
-                                document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('video-ads')[0].style.display = 'none'; // XXX hide ads hack
-                            } catch (e) {} //no ads
-                        }
-                        that.firstPlay = false;
-                        return;
-                    }
-                    that.ui.pause.hide().dequeue();
-                    that.ui.play.appendTo('div#video_player');
-                    that.ui.play.show().delay(1500).queue(function () {
-                        that.ui.play.hide().dequeue();
-                    });
-                    App.vent.trigger('player:play');
-                }
-
-                that.sendToTrakt('start');
-            });
-
-            player.on('pause', function () {
-                if (that.player.scrubbing) {
-                    that.wasSeek = true;
-                } else {
-                    that.wasSeek = false;
-                    that.ui.play.hide().dequeue();
-                    that.ui.pause.appendTo('div#video_player');
-                    that.ui.pause.show().delay(1500).queue(function () {
-                        that.ui.pause.hide().dequeue();
-                    });
-                    App.vent.trigger('player:pause');
-                    that.sendToTrakt('pause');
-                }
-            });
+            this.player.on('ended', this.onPlayerEnded.bind(this));
+            this.player.one('play', this.onPlayerFirstPlay.bind(this));
+            this.player.on('loadeddata', this.onPlayerReady.bind(this));
+            this.player.on('play', this.onPlayerPlay.bind(this));
+            this.player.on('pause', this.onPlayerPause.bind(this));
+            this.player.on('error', this.onPlayerError.bind(this));
 
             this.bindKeyboardShortcuts();
-
-            // There was an issue with the video
-            player.on('error', function (error) {
-                that.sendToTrakt('stop');
-                // TODO: user errors
-                if (that.model.get('type') === 'video/youtube') {
-                    setTimeout(function () {
-                        App.vent.trigger('player:close');
-                    }, 2000);
-                }
-                console.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
-            });
+            this.metadataCheck();
 
             $('.player-header-background').appendTo('div#video_player');
 
@@ -453,6 +469,7 @@
                 App.vent.trigger('customSubtitles:added', this.model.get('subtitle').local);
             }
 
+            // set fullscreen state & previous state
             if (Settings.alwaysFullscreen && !this.inFullscreen) {
                 this.toggleFullscreen();
             }
@@ -461,11 +478,10 @@
                 this.toggleFullscreen();
             }
 
-            this.player.volume(Settings.playerVolume);
-
+            // don't hide controls when hovering following classes:
             $('.vjs-menu-content, .eye-info-player, .playing_next, .verify_metadata').hover(function () {
                 that._ShowUIonHover = setInterval(function () {
-                    App.PlayerView.player.userActive(true);
+                    that.player.userActive(true);
                 }, 100);
             }, function () {
                 clearInterval(that._ShowUIonHover);
@@ -757,7 +773,7 @@
                 }
             });
 
-            document.addEventListener('mousewheel', this.mouseScroll);
+            document.addEventListener('mousewheel', this.mouseScroll.bind(this));
         },
 
         unbindKeyboardShortcuts: function () {
