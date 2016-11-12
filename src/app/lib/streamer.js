@@ -276,20 +276,19 @@
         waitForBuffer: function (url) {
             var video = document.createElement('video');
 
-            video.style.display = 'none';
             video.volume = 0;
             video.src = url;
 
-            document.body.append(video);
-
             video.play().then(function () {
                 this.canPlay = true;
-                video.remove();
-                video = null;
+                video.pause();
+                video.src = '';
+                video.load();
             }.bind(this)).catch(function (error) {
                 console.warn(error); //todo: catch the correct error and avoid erroring on server destroy (stream:stop while still loading the play())
-                video.remove();
-                video = null;
+                video.pause();
+                video.src = '';
+                video.load();
             });
         },
 
