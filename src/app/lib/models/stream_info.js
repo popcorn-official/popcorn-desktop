@@ -10,6 +10,7 @@
                 device: torrentModel.get('device'),
                 quality: torrentModel.get('quality'),
                 defaultSubtitle: torrentModel.get('defaultSubtitle'),
+                subtitle: torrentModel.get('subtitle'),
                 videoFile: torrentModel.get('video_file').path,
                 size: torrentModel.get('video_file').size,
                 poster: torrentModel.get('poster'),

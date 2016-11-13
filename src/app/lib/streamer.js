@@ -382,7 +382,7 @@
             var defaultSubtitle = this.torrentModel.get('defaultSubtitle');
 
             win.info(total + ' subtitles found');
-            this.streamInfo.set('subtitle', subtitles);
+            this.torrentModel.set('subtitle', subtitles);
 
             if (defaultSubtitle !== 'none') {
                 if (total === 0) {
