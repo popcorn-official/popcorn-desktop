@@ -42,7 +42,7 @@
         "butter-provider-archive": "git+https://github.com/butterproviders/butter-provider-archive",
         "adm-zip": "0.4.7",
         "airplayer": "2.0.0",
-        "async": "2.0.1",
+        "async": "2.x.x",
         "chromecasts": "1.9.0",
         "defer-request": "0.0.2",
         "dlnacasts": "0.1.0",
