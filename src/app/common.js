@@ -151,6 +151,9 @@ Common.normalize = (function () {
     }
 
     return function (str) {
+        if (!str) {
+            return;
+        }
         var ret = [];
         for (var i = 0, j = str.length; i < j; i++) {
             var c = str.charAt(i);
