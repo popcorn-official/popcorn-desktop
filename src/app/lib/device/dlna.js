@@ -46,6 +46,7 @@
             self.player.play(url_video, media, function(err, status) {
                 if (err) {
                     win.error('DLNA.play error: ', err);
+                    self.player.stop();
                 } else {
                     win.info('Playing ' + url + ' on ' + self.get('name'));
                     self.set('loadedMedia', status.media);

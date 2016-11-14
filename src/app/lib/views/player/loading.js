@@ -106,7 +106,7 @@
             if (state === 'playingExternally') {
                 this.ui.stateTextDownload.hide();
                 this.ui.progressbar.hide();
-                if (streamInfo && streamInfo.get('player') && streamInfo.get('player').get('type') === 'chromecast') {
+                if (streamInfo && streamInfo.get('device') && (streamInfo.get('device').get('type') === 'chromecast' || streamInfo.get('device').get('type') === 'dlna')) {
                     this.ui.controls.css('visibility', 'visible');
                     this.ui.playingbarBox.css('visibility', 'visible');
                     this.ui.playingbar.css('width', '0%');
