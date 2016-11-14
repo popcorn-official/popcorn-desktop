@@ -71,7 +71,10 @@ Settings.trackers = {
         'udp://tracker.coppersurfer.tk:6969/announce',
         'udp://glotorrents.pw:6969/announce',
         'udp://exodus.desync.com:6969/announce',
-        'udp://tracker.opentrackr.org:1337/announce'
+        'udp://tracker.opentrackr.org:1337/announce',
+        'udp://9.rarbg.com:2710/announce',
+        'udp://tracker.openbittorrent.com:80',
+        'udp://tracker.publicbt.com:80/announce'
     ]
 };
 
@@ -142,8 +145,7 @@ Settings.opensubtitlesUsername = '';
 Settings.opensubtitlesPassword = '';
 
 // Advanced options
-Settings.connectionLimit = 100;
-Settings.dhtLimit = 500;
+Settings.connectionLimit = 55;
 Settings.streamPort = 0; // 0 = Random
 Settings.tmpLocation = path.join(os.tmpDir(), Settings.projectName);
 Settings.databaseLocation = path.join(data_path, 'data');
@@ -373,7 +375,7 @@ var AdvSettings = {
 
     performUpgrade: function () {
         // This gives the official version (the package.json one)
-        var currentVersion = gui.App.manifest.version;
+        var currentVersion = nw.App.manifest.version;
 
         if (currentVersion !== AdvSettings.get('version')) {
             // Nuke the DB if there's a newer version
@@ -389,6 +391,6 @@ var AdvSettings = {
             window.__isUpgradeInstall = true;
         }
         AdvSettings.set('version', currentVersion);
-        AdvSettings.set('releaseName', gui.App.manifest.releaseName);
+        AdvSettings.set('releaseName', nw.App.manifest.releaseName);
     },
 };

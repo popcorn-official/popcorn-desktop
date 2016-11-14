@@ -3,7 +3,7 @@
 /******** 
  * setup *
  ********/
-const nwVersion = '0.12.2',
+const nwVersion = '0.18.6',
     availablePlatforms = ['linux32', 'linux64', 'win32', 'osx32'],
     releasesDir = 'build';
 
@@ -118,8 +118,9 @@ const nw = new nwBuilder({
     zip: false,
     macIcns: './src/app/images/butter.icns',
     version: nwVersion,
+    withFFmpeg: true,
     platforms: parsePlatforms(),
-    downloadUrl: 'https://raw.githubusercontent.com/butterproject/nwjs-prebuilt/master/'
+    downloadUrl: 'http://builds.butterproject.org/nw/'
 }).on('log', console.log);
 
 

@@ -331,7 +331,10 @@
                             <i class="fa fa-user-plus">&nbsp;&nbsp;</i>
                             <%= i18n.__("Connect To %s", "Trakt") %>
                         </div>
-                        <div class="trakt-loading-spinner" style="display: none"></div>
+                        <div id="authTraktCode" style="display:none">
+                            <%= i18n.__("Code:")%>    
+                            <input type="text" size="20" readonly/>
+                        </div>
                     </span>
                 <% } %>
             </div>
@@ -471,10 +474,6 @@
             <span>
                 <p><%= i18n.__("Connection Limit") %></p>
                 <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
-            </span>
-            <span>
-                <p><%= i18n.__("DHT Limit") %></p>
-                <input type="text" id="dhtLimit" size="20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
             </span>
             <span>
                 <p><%= i18n.__("Port to stream on") %></p>

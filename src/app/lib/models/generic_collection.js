@@ -16,12 +16,12 @@
             }) : true
         ];
 
-        console.log('pre all', promises);
+        //console.log('pre all', promises);
 
         Q.all(promises)
             .spread(function (torrents, subtitles, metadatas) {
 
-                console.log('post all', torrents, subtitles, metadatas);
+                //console.log('post all', torrents, subtitles, metadatas);
 
                 // If a new request was started...
                 metadatas = _.map(metadatas, function (m) {
@@ -145,7 +145,7 @@
                  * provider declare a unique id, and then lookthem up in
                  * a hash.
                  */
-                console.log('pre---', subtitle, metadata, torrents);
+                //console.log('pre---', subtitle, metadata, torrents);
 
                 var torrentPromises = _.map(torrents, function (torrentProvider) {
                     return getDataFromProvider(torrentProvider, subtitle, metadata, self)
@@ -155,7 +155,7 @@
                             self.trigger('sync', self);
                         })
                         .catch(function (err) {
-                            console.error('provider error err', err);
+                            win.error('provider error err', err);
                         });
                 });
 
@@ -164,7 +164,7 @@
                     self.trigger('loaded', self, self.state);
                 });
             } catch (e) {
-                console.error('cached error', e);
+                win.error('cached error', e);
             }
         },
 
