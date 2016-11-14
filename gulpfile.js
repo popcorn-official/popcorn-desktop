@@ -4,6 +4,7 @@
  * setup *
  ********/
 const nwVersion = '0.18.6',
+    nwFlavor = 'sdk',
     availablePlatforms = ['linux32', 'linux64', 'win32', 'osx32'],
     releasesDir = 'build';
 
@@ -114,6 +115,7 @@ const deleteAndLog = (path, what) => (
 // nw-builder configuration
 const nw = new nwBuilder({
     files: [],
+    flavor: nwFlavor,
     buildDir: releasesDir,
     zip: false,
     macIcns: './src/app/images/butter.icns',
@@ -131,7 +133,7 @@ const nw = new nwBuilder({
 gulp.task('run', () => {
     return new Promise((resolve, reject) => {
         let platform = parsePlatforms()[0],
-            bin = path.join('cache', nwVersion, platform);        
+            bin = path.join('cache', nwVersion + '-' + nwFlavor, platform);        
 
         // path to nw binary
         switch(platform.slice(0,3)) {
