@@ -883,5 +883,6 @@ App.Localization.langcodes = {
 i18n.configure({
     defaultLocale: App.Localization.detectLocale(),
     locales: App.Localization.allTranslations,
-    directory: './src/app/language'
+    directory: './src/app/language',
+    updateFiles: false
 });
