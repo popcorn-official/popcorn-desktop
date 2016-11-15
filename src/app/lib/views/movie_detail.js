@@ -360,7 +360,6 @@
                   if (err) {
                     win.debug(err);
                   }
-                  console.log(res);
                   if (cancelled) {
                         return;
                     }
