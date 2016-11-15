@@ -18,6 +18,7 @@
         "postupdate": "node_modules/.bin/bower update --config.interactive=false",
         "test": "gulp test"
     },
+    "chromium-args": "--enable-node-worker",
     "engines": {
         "npm": ">=3.0.0",
         "node": ">=0.12.0"
