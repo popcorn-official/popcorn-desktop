@@ -18,6 +18,7 @@
 
             seedStatus: '.seed_status',
             bufferPercent: '.buffer_percent',
+            loadingInfos: '.loading-info',
 
             downloadSpeed: '.download_speed',
             uploadSpeed: '.upload_speed',
@@ -44,22 +45,22 @@
         },
 
         initialize: function () {
-            var _this = this;
+            var that = this;
 
             App.vent.trigger('settings:close');
             App.vent.trigger('about:close');
 
             //If a child was removed from above this view
             App.vent.on('viewstack:pop', function () {
-                if (_.last(App.ViewStack) === _this.className) {
-                    _this.initKeyboardShortcuts();
+                if (_.last(App.ViewStack) === that.className) {
+                    that.initKeyboardShortcuts();
                 }
             });
 
             //If a child was added above this view
             App.vent.on('viewstack:push', function () {
-                if (_.last(App.ViewStack) !== _this.className) {
-                    _this.unbindKeyboardShortcuts();
+                if (_.last(App.ViewStack) !== that.className) {
+                    that.unbindKeyboardShortcuts();
                 }
             });
 
@@ -69,9 +70,9 @@
         },
 
         initKeyboardShortcuts: function () {
-            var _this = this;
+            var that = this;
             Mousetrap.bind(['esc', 'backspace'], function (e) {
-                _this.cancelStreaming();
+                that.cancelStreaming();
             });
         },
 
@@ -87,15 +88,16 @@
 
             this.initKeyboardShortcuts();
         },
+
         onStateUpdate: function () {
             var self = this;
             var state = this.model.get('state');
             var streamInfo = this.model.get('streamInfo');
             win.info('Loading torrent:', state);
 
-            this.checkFreeSpace(this.model.get('streamInfo').get('size'));
-
             this.ui.stateTextDownload.text(i18n.__(state));
+
+            this.listenTo(this.model.get('streamInfo'), 'change', this.onInfosUpdate);
 
             if (state === 'downloading') {
                 this.listenTo(this.model.get('streamInfo'), 'change:downloaded', this.onProgressUpdate);
@@ -104,11 +106,11 @@
             if (state === 'playingExternally') {
                 this.ui.stateTextDownload.hide();
                 this.ui.progressbar.hide();
-                if (streamInfo.get('player') && streamInfo.get('player').get('type') === 'chromecast' | streamInfo.get('player').get('type') === 'dlna') {
+                if (streamInfo && streamInfo.get('device') && (streamInfo.get('device').get('type') === 'chromecast' || streamInfo.get('device').get('type') === 'dlna')) {
+                    this.ui.cancel_button.css('visibility', 'hidden');
                     this.ui.controls.css('visibility', 'visible');
                     this.ui.playingbarBox.css('visibility', 'visible');
                     this.ui.playingbar.css('width', '0%');
-
 
                     // Update gui on status update.
                     // uses listenTo so event is unsubscribed automatically when loading view closes.
@@ -117,57 +119,61 @@
                 // The 'downloading' state is not always sent, eg when playing canceling and replaying
                 // Start listening here instead when playing externally
                 this.listenTo(this.model.get('streamInfo'), 'change:downloaded', this.onProgressUpdate);
-                // The first progress update can take some time, so force updating the UI immediately
-                this.onProgressUpdate();
             }
         },
 
-        onProgressUpdate: function () {
-
-            // TODO: Translate peers / seeds in the template
-            this.ui.seedStatus.css('visibility', 'visible');
+        onInfosUpdate: function () {
             var streamInfo = this.model.get('streamInfo');
-            var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
-            this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
 
-            this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
-            this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
-            this.ui.bufferPercent.text(streamInfo.get('buffer_percent').toFixed() + '%');
+            this.ui.seedStatus.css('visibility', 'visible');
 
-            this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
-            this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
-            this.ui.progressbar.css('width', streamInfo.get('buffer_percent').toFixed() + '%');
-
+            if (streamInfo.get('size') && !this.firstUpdate) {
+                this.ui.loadingInfos.hide();
+                this.checkFreeSpace(streamInfo.get('size'));
+                this.firstUpdate = true;
+            }
+            if (streamInfo.get('backdrop')) {
+                $('.loading-background').css('background-image', 'url(' + streamInfo.get('backdrop') + ')');
+            }
             if (streamInfo.get('title') !== '') {
                 this.ui.title.html(streamInfo.get('title'));
             }
             if (streamInfo.get('player') && streamInfo.get('player').get('type') !== 'local') {
-                if (this.model.get('state') === 'playingExternally') {
-                    this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
-                    this.ui.stateTextDownload.text(i18n.__('Downloaded')).show();
-                }
                 this.ui.player.text(streamInfo.get('player').get('name'));
                 this.ui.streaming.css('visibility', 'visible');
             }
         },
 
+        onProgressUpdate: function () {
+            var streamInfo = this.model.get('streamInfo');
+
+            var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
+            this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
+
+            this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
+            this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
+            this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
+
+            this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
+            this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
+
+            this.ui.loadingInfos.show();
+
+            if (this.model.get('state') === 'playingExternally') {
+                this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
+                this.ui.stateTextDownload.text(i18n.__('Downloaded')).show();
+            }
+        },
+
         onDeviceStatus: function (status) {
-          var streamInfo = this.model.get('streamInfo');
-            if (status.media !== undefined  && status.media.duration !== undefined && streamInfo.get('player').get('type') === 'chromecast' )
-            {
-               // Update playingbar width
-               var playedPercent = status.currentTime / status.media.duration * 100;
-               this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
-               win.debug('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
-                   status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
-           }
-            if (status.playerState !== undefined  &&  status.duration !== undefined && streamInfo.get('player').get('type') === 'dlna')
-             {
+            if (status.media !== undefined && status.media.duration !== undefined) {
                 // Update playingbar width
-                var playedPercent2 = status.currentTime / status.duration * 100;
-                this.ui.playingbar.css('width', playedPercent2.toFixed(1) + '%');
+                var playedPercent = status.currentTime / status.media.duration * 100;
+                this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
                 win.debug('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
-                    status.currentTime.toFixed(1), status.duration.toFixed(), playedPercent2.toFixed(1));
+                    status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
+            } else {
+                this.ui.playingbarBox.hide();
             }
             if (!this.extPlayerStatusUpdater && status.playerState === 'PLAYING') {
                 // First PLAYING state. Start requesting device status update every 5 sec
