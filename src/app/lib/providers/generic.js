@@ -17,14 +17,14 @@
         var name = PO.prototype.config ? PO.prototype.config.name : null;
 
         if (!name) {
-            return console.error(PO, PO.prototype.config, 'doesnt have a name');
+            return win.error(PO, PO.prototype.config, 'doesnt have a name');
         }
 
         if (registry[name]) {
-            return console.error('double definition of', name, PO, PO.prototype.config, 'is the same as', registry[name]);
+            return win.error('double definition of', name, PO, PO.prototype.config, 'is the same as', registry[name]);
         }
 
-        console.log('added', name, 'to provider registry');
+        win.debug('added', name, 'to provider registry');
         registry[name] = PO;
 
         return name;

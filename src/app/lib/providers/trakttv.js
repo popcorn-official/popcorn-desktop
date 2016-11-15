@@ -437,83 +437,23 @@
             var defer = Q.defer();
             var self = this;
 
-            this.oauth.authorize()
-                .then(function (token) {
-                    self.post('oauth/token', {
-                        code: token,
-                        client_id: CLIENT_ID,
-                        client_secret: CLIENT_SECRET,
-                        redirect_uri: REDIRECT_URI,
-                        grant_type: 'authorization_code'
-                    }).then(function (data) {
-                        if (data.access_token && data.expires_in && data.refresh_token) {
-                            Settings.traktToken = data.access_token;
-                            trakt.import_token({
-                                expires: new Date().valueOf() + data.expires_in * 1000,
-                                access_token: data.access_token,
-                                refresh_token: data.refresh_token
-                            });
-                            AdvSettings.set('traktToken', data.access_token);
-                            AdvSettings.set('traktTokenRefresh', data.refresh_token);
-                            AdvSettings.set('traktTokenTTL', new Date().valueOf() + data.expires_in * 1000);
-                            self.authenticated = true;
-                            App.vent.trigger('system:traktAuthenticated');
-                            defer.resolve(true);
-                        } else {
-                            AdvSettings.set('traktToken', '');
-                            AdvSettings.set('traktTokenTTL', '');
-                            AdvSettings.set('traktTokenRefresh', '');
-                            defer.reject('sent back no token');
-                        }
-                    });
-                })
-                .catch(function (err) {
-                    defer.reject(err);
-                });
-            return defer.promise;
-        },
-        authorize: function () {
-            var defer = Q.defer();
-            var url = false;
-
-            var API_URI = 'https://trakt.tv';
-            var OAUTH_URI = API_URI + '/oauth/authorize?response_type=code&client_id=' + CLIENT_ID;
-
-            nw.App.addOriginAccessWhitelistEntry(API_URI, 'app', 'host', true);
-            nw.Window.open(OAUTH_URI + '&redirect_uri=' + encodeURIComponent(REDIRECT_URI), {
-                position: 'center',
-                title: 'Trakt.tv',
-                icon: 'src/app/images/icon.png',
-                resizable: false,
-                width: 580,
-                height: 640
-            }, function(loginWindow) {
-              loginWindow.on('loaded', function () {
-                  url = loginWindow.window.document.URL;
-
-                  if (url.indexOf('&') === -1 && url.indexOf('auth/signin') === -1) {
-                      if (url.indexOf('oauth/authorize/') !== -1) {
-                          url = url.split('/');
-                          url = url[url.length - 1];
-                      } else {
-                          nw.Shell.openExternal(url);
-                      }
-                      this.close(true);
-                  } else {
-                      url = false;
-                  }
-              });
-
-              loginWindow.on('closed', function () {
-                  if (url) {
-                      defer.resolve(url);
-                  } else {
-                      AdvSettings.set('traktToken', '');
-                      AdvSettings.set('traktTokenTTL', '');
-                      AdvSettings.set('traktTokenRefresh', '');
-                      defer.reject('Trakt window closed without exchange token');
-                  }
-              });
+            trakt.get_codes().then(function(poll) {
+                $('#authTraktCode input').val(poll.user_code);
+                nw.Shell.openExternal(poll.verification_url);
+                return trakt.poll_access(poll);
+            }).then(function (auth) {
+                trakt.import_token(auth);
+                AdvSettings.set('traktToken', auth.access_token);
+                AdvSettings.set('traktTokenRefresh', auth.refresh_token);
+                AdvSettings.set('traktTokenTTL', auth.expires_in);
+                self.authenticated = true;
+                App.vent.trigger('system:traktAuthenticated');
+                defer.resolve(true);
+            }).catch(function (err) {
+                AdvSettings.set('traktToken', '');
+                AdvSettings.set('traktTokenTTL', '');
+                AdvSettings.set('traktTokenRefresh', '');
+                defer.reject(err);
             });
 
             return defer.promise;
@@ -521,7 +461,7 @@
         checkToken: function () {
             var self = this;
             if (Settings.traktTokenTTL <= new Date().valueOf() && Settings.traktTokenRefresh !== '') {
-                console.info('Trakt: refreshing access token');
+                win.info('Trakt: refreshing access token');
                 this._authenticationPromise = self.post('oauth/token', {
                     refresh_token: Settings.traktTokenRefresh,
                     client_id: CLIENT_ID,
@@ -585,7 +525,7 @@
                                     type: 'movie'
                                 });
                             } catch (e) {
-                                console.warn('Cannot sync a movie (' + data[m].movie.title + '), the problem is: ' + e.message + '. Continuing sync without this movie...');
+                                win.warn('Cannot sync a movie (' + data[m].movie.title + '), the problem is: ' + e.message + '. Continuing sync without this movie...');
                             }
                         }
                     }
@@ -593,7 +533,7 @@
                     return watched;
                 })
                 .then(function (traktWatched) {
-                    console.debug('Trakt: marked %s movie(s) as watched', traktWatched.length);
+                    win.debug('Trakt: marked %s movie(s) as watched', traktWatched.length);
                     return Database.markMoviesWatched(traktWatched);
                 });
         },
@@ -622,7 +562,7 @@
                                         });
                                     }
                                 } catch (e) {
-                                    console.warn('Cannot sync a show (' + show.show.title + '), the problem is: ' + e.message + '. Continuing sync without this show...');
+                                    win.warn('Cannot sync a show (' + show.show.title + '), the problem is: ' + e.message + '. Continuing sync without this show...');
                                     break;
                                 }
                             }
@@ -633,64 +573,11 @@
                 })
                 .then(function (traktWatched) {
                     // Insert them locally
-                    console.debug('Trakt: marked %s episode(s) as watched', traktWatched.length);
+                    win.debug('Trakt: marked %s episode(s) as watched', traktWatched.length);
                     return Database.markEpisodesWatched(traktWatched);
                 });
         }
     };
-
-    TraktTv.prototype.resizeImage = function (imageUrl, size) {
-        if (imageUrl === undefined || imageUrl === null) {
-            return 'images/posterholder.png'.toString();
-        }
-
-        var uri = URI(imageUrl),
-            ext = uri.suffix(),
-            file = uri.filename().split('.' + ext)[0];
-
-        // Don't resize images that don't come from trakt
-        //  eg. YTS Movie Covers
-        if (imageUrl.indexOf('placeholders/original/fanart') !== -1) {
-            return 'images/bg-header.jpg'.toString();
-        } else if (imageUrl.indexOf('placeholders/original/poster') !== -1) {
-            return 'images/posterholder.png'.toString();
-        } else if (uri.domain() !== 'trakt.us') {
-            return imageUrl;
-        }
-
-        var existingIndex = 0;
-        if ((existingIndex = file.search('-\\d\\d\\d$')) !== -1) {
-            file = file.slice(0, existingIndex);
-        }
-
-        // reset
-        uri.pathname(uri.pathname().toString().replace(/thumb|medium/, 'original'));
-
-        if (!size) {
-            if (ScreenResolution.SD || ScreenResolution.HD) {
-                uri.pathname(uri.pathname().toString().replace(/original/, 'thumb'));
-            } else if (ScreenResolution.FullHD) {
-                uri.pathname(uri.pathname().toString().replace(/original/, 'medium'));
-            } else if (ScreenResolution.QuadHD || ScreenResolution.UltraHD || ScreenResolution.Retina) {
-                //keep original
-            } else {
-                //default to medium
-                win.debug('ScreenResolution unknown, using \'medium\' image size');
-                uri.pathname(uri.pathname().toString().replace(/original/, 'medium'));
-            }
-        } else {
-            if (size === 'thumb') {
-                uri.pathname(uri.pathname().toString().replace(/original/, 'thumb'));
-            } else if (size === 'medium') {
-                uri.pathname(uri.pathname().toString().replace(/original/, 'medium'));
-            } else {
-                //keep original
-            }
-        }
-
-        return uri.filename(file + '.' + ext).toString();
-    };
-
 
     function onShowWatched(show, channel) {
         win.debug('Mark Episode as watched on channel:', channel);
