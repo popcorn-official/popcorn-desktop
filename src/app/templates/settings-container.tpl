@@ -86,10 +86,18 @@
                 <input class="settings-checkbox" name="coversShowRating" id="cb3" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
                 <label class="settings-label" for="cb3"><%= i18n.__("Show rating over covers") %></label>
             </span>
-
             <span class="advanced">
                 <input class="settings-checkbox" name="alwaysOnTop" id="cb4" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
                 <label class="settings-label" for="cb4"><%= i18n.__("Always On Top") %></label>
+            </span>
+
+            <span class="advanced">
+                <input class="settings-checkbox" name="animeTabDisable" id="animeTabDisable" type="checkbox" <%=(Settings.animeTabDisable ? "checked='checked'":"")%>>
+                <label class="settings-label" for="animeTabDisable"><%= i18n.__("Disable Anime Tab") %></label>
+            </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="indieTabDisable" id="indieTabDisable" type="checkbox" <%=(Settings.indieTabDisable ? "checked='checked'":"")%>>
+                <label class="settings-label" for="indieTabDisable"><%= i18n.__("Disable Indie Tab") %></label>
             </span>
 
             <span class="advanced">

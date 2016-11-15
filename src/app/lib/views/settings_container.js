@@ -237,6 +237,8 @@
             case 'opensubtitlesAutoUpload':
             case 'subtitles_bold':
             case 'rememberFilters':
+            case 'animeTabDisable':
+            case 'indieTabDisable':
                 value = field.is(':checked');
                 break;
             case 'httpApiUsername':
@@ -288,6 +290,10 @@
 
         syncSetting: function (setting, value) {
             switch (setting) {
+            case 'indieTabDisable':
+            case 'animeTabDisable':
+              App.vent.trigger('filter-bar:render');
+              break;
             case 'coversShowRating':
                 if (value) {
                     $('.rating').show();
