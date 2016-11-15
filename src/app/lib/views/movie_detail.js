@@ -1,5 +1,9 @@
 (function (App) {
     'use strict';
+    // Torrent Health
+    var torrentHealth = require('webtorrent-health'),
+    cancelTorrentHealth = function () {},
+    torrentHealthRestarted = null;
 
     App.View.MovieDetail = Backbone.Marionette.ItemView.extend({
         template: '#movie-detail-tpl',
@@ -22,7 +26,8 @@
             'click .movie-imdb-link': 'openIMDb',
             'mousedown .magnet-link': 'openMagnet',
             'click .playerchoicemenu li a': 'selectPlayer',
-            'click .rating-container': 'switchRating'
+            'click .rating-container': 'switchRating',
+            'click .health-icon': 'resetHealth'
         },
 
         initialize: function () {
@@ -46,7 +51,7 @@
 
             App.vent.on('shortcuts:movies', _this.initKeyboardShortcuts);
 
-            this.model.on('change:quality', this.renderHealth, this);
+            this.model.on('change:quality', this.resetHealth(), this);
         },
 
         onShow: function () {
@@ -75,7 +80,7 @@
                 $('#watch-trailer').hide();
             }
 
-            this.renderHealth();
+            this.getTorrentHealth();
 
             $('.star-container,.movie-imdb-link,.q720,input,.magnet-link').tooltip({
                 html: true
@@ -248,6 +253,7 @@
                 this.model.set('quality', '1080p');
                 win.debug('HD Enabled', this.model.get('quality'));
                 AdvSettings.set('movies_default_quality', '1080p');
+                this.resetHealth();
             }
         },
 
@@ -259,23 +265,9 @@
                 this.model.set('quality', '720p');
                 win.debug('HD Disabled', this.model.get('quality'));
                 AdvSettings.set('movies_default_quality', '720p');
+                this.resetHealth();
             }
         },
-
-        renderHealth: function () {
-            var torrent = this.model.get('torrents')[this.model.get('quality')];
-            var health = torrent.health.capitalize();
-            var ratio = torrent.peer > 0 ? torrent.seed / torrent.peer : +torrent.seed;
-
-            $('.health-icon').tooltip({
-                    html: true
-                })
-                .removeClass('Bad Medium Good Excellent')
-                .addClass(health)
-                .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + torrent.seed + ' - ' + i18n.__('Peers:') + ' ' + torrent.peer)
-                .tooltip('fixTitle');
-        },
-
 
         toggleFavourite: function (e) {
             if (e.type) {
@@ -346,6 +338,65 @@
                 e.preventDefault();
                 e.stopPropagation();
             }
+        },
+
+        getTorrentHealth: function (e) {
+            var torrent = this.model.get('torrents')[this.model.get('quality')];
+
+            cancelTorrentHealth();
+
+            // Use fancy coding to cancel
+            // pending torrent-tracker-health's
+            var cancelled = false;
+            cancelTorrentHealth = function () {
+                cancelled = true;
+            };
+            if (torrent) {
+            torrentHealth(torrent.url, {
+                    timeout: 2000,
+                    blacklist: Settings.trackers.blacklisted,
+                    trackers: Settings.trackers.forced
+                }, function (err, res) {
+                  if (err) {
+                    win.debug(err);
+                  }
+                  console.log(res);
+                  if (cancelled) {
+                        return;
+                    }
+                    if (res.seeds === 0 && torrentHealthRestarted < 5) {
+                        torrentHealthRestarted++;
+                        $('.health-icon').click();
+                    } else {
+                        torrentHealthRestarted = 0;
+                        var h = Common.calcHealth({
+                            seed: res.seeds,
+                            peer: res.peers
+                        });
+                        var health = Common.healthMap[h].capitalize();
+                        var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
+
+                        $('.health-icon').tooltip({
+                                html: true
+                            })
+                            .removeClass('Bad Medium Good Excellent')
+                            .addClass(health)
+                            .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
+                            .tooltip('fixTitle');
+                    }
+                });
+                }
+
+        },
+
+        resetHealth: function () {
+            $('.health-icon').tooltip({
+                    html: true
+                })
+                .removeClass('Bad Medium Good Excellent')
+                .attr('data-original-title', i18n.__('Health Unknown'))
+                .tooltip('fixTitle');
+            this.getTorrentHealth();
         },
 
         selectPlayer: function (e) {
