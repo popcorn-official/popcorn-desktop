@@ -543,7 +543,7 @@ var handleVideoFile = function (file) {
             }
             resolve(playObj);
         }).catch(function (err) {
-            console.log('error', err);
+            win.warn('trakt.matcher.match error:', err);
             var localsub = checkSubs();
             if (localsub !== null) {
                 playObj.defaultSubtitle = 'local';
