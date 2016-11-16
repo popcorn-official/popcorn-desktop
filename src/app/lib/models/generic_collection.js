@@ -90,7 +90,7 @@
                                 movie.backdrop = 'images/bg-header.jpg';
                             }
                         } else {
-                            win.warn('Unable to find %s (%s) on Trakt.tv', id, movie.title);
+                            //console.log('Unable to find %s (%s) on Trakt.tv', id, movie.title); //debug
                         }
                     }
                 });
