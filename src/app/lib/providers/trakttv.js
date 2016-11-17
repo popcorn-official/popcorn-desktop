@@ -453,6 +453,7 @@
 
             trakt.get_codes().then(function(poll) {
                 $('#authTraktCode input').val(poll.user_code);
+                nw.Clipboard.get().set(poll.user_code);
                 nw.Shell.openExternal(poll.verification_url);
                 return trakt.poll_access(poll);
             }).then(function (auth) {
