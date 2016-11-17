@@ -37,7 +37,7 @@ var Settings = {
         client_secret: 'ghmK6ueMJjQLHBwsaao1tw3HUF7JVp_GQTwDwhCn'
     },
     fanart: {
-        api_key: 'a3c13d3f5a36201ae3951707f342fd08'
+        api_key: '8104b601679c3ec23e7d3e4d93ddb46f'
     },
     tvdb: {
         api_key: '80A769280C71D83B'
