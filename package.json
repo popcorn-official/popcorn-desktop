@@ -71,7 +71,7 @@
         "strike-api": "0.2.0",
         "tar": "2.2.1",
         "temp": "0.x.x",
-        "torrent-tracker-health": "1.x.x",
+        "webtorrent-health": "1.x.x",
         "trakt.tv": "2.x.x",
         "trakt.tv-ondeck": "0.x.x",
         "trakt.tv-matcher": "1.x.x",

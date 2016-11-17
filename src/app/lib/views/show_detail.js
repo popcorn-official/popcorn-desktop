@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var torrentHealth = require('torrent-tracker-health');
+    var torrentHealth = require('webtorrent-health');
     var cancelTorrentHealth = function () {};
     var torrentHealthRestarted = null;
 
@@ -777,7 +777,7 @@
             cancelTorrentHealth();
 
             // Use fancy coding to cancel
-            // pending torrent-tracker-health's
+            // pending webtorrent-health's
             var cancelled = false;
             cancelTorrentHealth = function () {
                 cancelled = true;
@@ -787,10 +787,9 @@
                 // if 'magnet:?' is because api sometimes sends back links, not magnets
                 torrentHealth(torrent, {
                     timeout: 1000,
-                    blacklist: Settings.trackers.blacklisted,
-                    force: Settings.trackers.forced
-                }).then(function (res) {
-                    if (cancelled) {
+                    trackers: Settings.trackers.forced
+                }, function (err, res) {
+                    if (cancelled || err) {
                         return;
                     }
                     if (res.seeds === 0 && torrentHealthRestarted < 5) {

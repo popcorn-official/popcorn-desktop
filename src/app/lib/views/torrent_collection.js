@@ -155,12 +155,13 @@
                 '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '"><a>' + item.title + '</a><div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="right" title="' + i18n.__('Magnet link') + '"></div><i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">' + item.size + '</i></li>'
             );
             if (item.seeds === 0) { // recalc the peers/seeds
-                require('torrent-tracker-health')(item.magnet, {
+                require('webtorrent-health')(item.magnet, {
                     timeout: 1000,
-                    blacklist: Settings.trackers.blacklisted,
-                    force: Settings.trackers.forced
-                }).then(function (res) {
-                    //console.log('torrent index %s: %s -> %s (seeds)', item.index, item.seeds, res.seeds)
+                    trackers: Settings.trackers.forced
+                }, function (err, res) {
+                    if (err) {
+                        return;
+                    }
                     ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
                     $('.result-item[data-index=' + item.index + '] i').attr('data-original-title', i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers);
                 });
