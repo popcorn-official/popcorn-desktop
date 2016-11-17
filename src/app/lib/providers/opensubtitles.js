@@ -5,7 +5,7 @@
 
     var OpenSubtitles = function () {
         openSRT = new OS({
-            useragent: 'Butter v' + (Settings.version || 1),
+            useragent: Settings.opensubtitles.useragent + ' v' + (Settings.version || 1),
             username: Settings.opensubtitlesUsername,
             password: Settings.opensubtitlesPassword
         });
