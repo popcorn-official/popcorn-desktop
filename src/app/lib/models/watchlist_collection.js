@@ -7,7 +7,7 @@
             this.hasMore = false;
             this.providers = {
                 torrents: [App.Providers.get('Watchlist')]
-            }
+            };
         },
         fetchMore: function () {
             return;
