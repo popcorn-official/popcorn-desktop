@@ -3,12 +3,14 @@
 
     var WatchlistCollection = App.Model.Collection.extend({
         model: App.Model.Movie,
-        hasMore: false,
-
-        getProviders: function () {
-            return {
+        initialize: function () {
+            this.hasMore = false;
+            this.providers = {
                 torrents: [App.Providers.get('Watchlist')]
-            };
+            }
+        },
+        fetchMore: function () {
+            return;
         }
 
     });
