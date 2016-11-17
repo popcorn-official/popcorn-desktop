@@ -29,7 +29,7 @@
             id: 'local',
             type: 'local',
             typeFamily: 'internal',
-            name: 'Butter'
+            name: Settings.projectName
         },
         play: function (streamModel) {
             App.vent.trigger('stream:local', streamModel);
