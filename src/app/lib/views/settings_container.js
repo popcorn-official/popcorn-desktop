@@ -64,6 +64,12 @@
             Mousetrap.bind('backspace', function (e) {
                 App.vent.trigger('settings:close');
             });
+
+            // connect opensubs on enter
+            var osMousetrap = new Mousetrap(document.getElementById('opensubtitlesPassword'));
+            osMousetrap.bind('enter', function (e) {
+                this.connectOpensubtitles();
+            }.bind(this));
         },
 
         onRender: function () {
