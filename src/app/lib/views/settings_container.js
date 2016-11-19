@@ -387,44 +387,18 @@
         },
 
         connectTrakt: function (e) {
-            if (AdvSettings.get('traktTokenRefresh') !== '') {
-                return;
+            if (!Settings.traktStatus) {
+                $('#authTrakt').hide();
+                $('#authTraktCode').show();
+
+                App.Trakt.authenticate().then(this.render).catch(this.render);
             }
-
-            $('#authTrakt').hide();
-            $('#authTraktCode').show();
-
-            App.Trakt.oauth.authenticate()
-                .finally(that.render);
         },
 
         disconnectTrakt: function (e) {
-            App.settings['traktToken'] = '';
-            App.settings['traktTokenRefresh'] = '';
-            App.settings['traktTokenTTL'] = '';
-            App.Trakt.authenticated = false;
-
-            App.db.writeSetting({
-                key: 'traktToken',
-                value: ''
-            }).then(function () {
-                return App.db.writeSetting({
-                    key: 'traktTokenRefresh',
-                    value: ''
-                });
-            }).then(function () {
-                return App.db.writeSetting({
-                    key: 'traktTokenTTL',
-                    value: ''
-                });
-            }).then(function () {
-                that.ui.success_alert.show().delay(3000).fadeOut(400);
-            });
-
-            _.defer(function () {
-                App.Trakt = App.Providers.get('Trakttv');
-                that.render();
-            });
+            App.Trakt.disconnect();
+            this.ui.success_alert.show().delay(3000).fadeOut(400);
+            this.render();
         },
 
         connectWithTvst: function () {
@@ -694,10 +668,7 @@
 
             Database.deleteWatched(); // Reset before sync
 
-            App.Trakt.syncTrakt.all()
-                .then(function () {
-                    App.Providers.get('Watchlist').fetch({force:true});
-                })
+            App.Trakt.syncAll(true)
                 .then(function () {
                     $('#syncTrakt')
                         .text(i18n.__('Done'))
@@ -713,7 +684,7 @@
                         });
                 })
                 .catch(function (err) {
-                    win.error('App.Trakt.syncTrakt.all()', err);
+                    win.error('App.Trakt.syncAll()', err);
                     $('#syncTrakt')
                         .text(i18n.__('Error'))
                         .removeClass('disabled')

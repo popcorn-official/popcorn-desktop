@@ -476,10 +476,10 @@ var handleVideoFile = function (file) {
             path: file.path
         };
 
-        trakt.matcher.match({
+        App.Trakt.client.matcher.match({
             path: file.path
         }).then(function (res) {
-            return trakt.images.get(res[res.type]).then(function (img) {
+            return App.Trakt.client.images.get(res[res.type]).then(function (img) {
                 switch (res.quality) {
                     case 'SD':
                         res.quality = '480p';
