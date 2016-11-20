@@ -40,7 +40,7 @@ var Settings = {
         api_key: '8104b601679c3ec23e7d3e4d93ddb46f'
     },
     tvdb: {
-        api_key: '80A769280C71D83B'
+        api_key: '9845B685B799009C'
     },
     tmdb: {
         api_key: '1a83b1ecd56e3ac0e509b553b68c77a9'
