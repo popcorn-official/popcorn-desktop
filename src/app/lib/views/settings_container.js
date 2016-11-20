@@ -64,6 +64,12 @@
             Mousetrap.bind('backspace', function (e) {
                 App.vent.trigger('settings:close');
             });
+
+            // connect opensubs on enter
+            var osMousetrap = new Mousetrap(document.getElementById('opensubtitlesPassword'));
+            osMousetrap.bind('enter', function (e) {
+                this.connectOpensubtitles();
+            }.bind(this));
         },
 
         onRender: function () {
@@ -226,7 +232,6 @@
             case 'traktPlayback':
             case 'playNextEpisodeAuto':
             case 'automaticUpdating':
-            case 'UpdateSeed':
             case 'events':
             case 'alwaysFullscreen':
             case 'minimizeToTray':
@@ -237,8 +242,6 @@
             case 'opensubtitlesAutoUpload':
             case 'subtitles_bold':
             case 'rememberFilters':
-            case 'animeTabDisable':
-            case 'indieTabDisable':
                 value = field.is(':checked');
                 break;
             case 'httpApiUsername':
@@ -247,7 +250,6 @@
                 value = field.val();
                 break;
             case 'connectionLimit':
-            case 'dhtLimit':
             case 'streamPort':
             case 'subtitle_color':
                 value = field.val();
@@ -290,10 +292,6 @@
 
         syncSetting: function (setting, value) {
             switch (setting) {
-            case 'indieTabDisable':
-            case 'animeTabDisable':
-              App.vent.trigger('filter-bar:render');
-              break;
             case 'coversShowRating':
                 if (value) {
                     $('.rating').show();
@@ -393,26 +391,11 @@
                 return;
             }
 
-            $('#authTrakt > i').css('visibility', 'hidden');
-            $('.trakt-loading-spinner').show();
-
-            // $('#authTrakt').hide();
-            // $('#authTraktCode').show();
+            $('#authTrakt').hide();
+            $('#authTraktCode').show();
 
             App.Trakt.oauth.authenticate()
-                .then(function (valid) {
-                    if (valid) {
-                        $('.trakt-loading-spinner').hide();
-                        that.render();
-                    } else {
-                        $('.trakt-loading-spinner').hide();
-                        $('#authTrakt > i').css('visibility', 'visible');
-                    }
-                }).catch(function (err) {
-                    win.debug('Trakt', err);
-                    $('#authTrakt > i').css('visibility', 'visible');
-                    $('.trakt-loading-spinner').hide();
-                });
+                .finally(that.render);
         },
 
         disconnectTrakt: function (e) {
@@ -450,29 +433,12 @@
             $('#connect-with-tvst > i').css('visibility', 'hidden');
             $('.tvst-loading-spinner').show();
 
-
+            App.vent.on('system:tvstAuthenticated', function () {
+                $('.tvst-loading-spinner').hide();
+                self.render();
+            });
             App.TVShowTime.authenticate(function (activateUri) {
-                nw.App.addOriginAccessWhitelistEntry(activateUri, 'app', 'host', true);
-                nw.Window.open(activateUri, {
-                    position: 'center',
-                    focus: true,
-                    title: 'TVShow Time',
-                    icon: 'src/app/images/icon.png',
-                    resizable: false,
-                    width: 600,
-                    height: 600
-                }, function(loginWindow) {
-                  App.vent.on('system:tvstAuthenticated', function () {
-                      loginWindow.close();
-                      $('.tvst-loading-spinner').hide();
-                      self.render();
-                  });
-
-                  loginWindow.on('closed', function () {
-                      $('.tvst-loading-spinner').hide();
-                      $('#connect-with-tvst > i').css('visibility', 'visible');
-                  });
-                }).focus();
+                nw.Shell.openExternal(activateUri);
             });
         },
 
@@ -494,7 +460,7 @@
             if (usn !== '' && pw !== '') {
                 $('.opensubtitles-options .loading-spinner').show();
                 var OpenSubtitles = new OS({
-                    useragent: 'Popcorn Time NodeJS', //TODO: register UA 'Butter v' + (Settings.version || 1),
+                    useragent: Settings.opensubtitles.useragent + ' v' + (Settings.version || 1),
                     username: usn,
                     password: Common.md5(pw)
                 });
@@ -642,29 +608,28 @@
                 type: 'save',
                 window: nw.Window.get().window
             });
-
             exportDialog.saveFile(zip.toBuffer(), function (err, path) {
                 that.alertMessageWait(i18n.__('Exporting Database...'));
                 win.info('Database exported to:', path);
                 that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
             });
+
         },
 
         importDatabase: function () {
-            // https://github.com/exos/node-webkit-fdialogs/issues/9
-            var importDialog = new fdialogs.FDialog({
-                type: 'open',
-                window: nw.Window.get().window
-            });
-
-            importDialog.readFile(function (err, content, path) {
+          // https://github.com/exos/node-webkit-fdialogs/issues/9
+          var importDialog = new fdialogs.FDialog({
+              type: 'open',
+              window: nw.Window.get().window
+          });
+          importDialog.readFile(function (err, content, path) {
                 that.alertMessageWait(i18n.__('Importing Database...'));
                 try {
                     var zip = new AdmZip(content);
                     zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
                     that.alertMessageSuccess(true);
                 } catch (err) {
-                    that.alertMessageFailed(i18n.__('Invalid PCT Database File Selected'));
+                    that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
                     win.warn('Failed to Import Database');
                 }
             });

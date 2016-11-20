@@ -77,6 +77,7 @@
                     show.rating = item.show.rating;
                     show.title = item.show.title;
                     show.trailer = item.show.trailer;
+                    show.unseen = item.unseen;
 
                     itemList.push(show);
                 }
