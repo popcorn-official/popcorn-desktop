@@ -41,7 +41,6 @@ var
     querystring = require('querystring'),
     URI = require('urijs'),
     Trakt = require('trakt.tv'),
-    trakt = false,
 
     // Torrent engines
     WebTorrent = require('webtorrent'),

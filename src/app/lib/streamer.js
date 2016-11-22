@@ -135,7 +135,7 @@
         },
 
         lookForImages: function (metadatas) {
-            trakt.images.get({
+            App.Trakt.client.images.get({
                 type: metadatas.type === 'movie' ? 'movie' : 'show',
                 imdb: metadatas.type === 'movie' ? metadatas.movie.ids.imdb : metadatas.show.ids.imdb,
                 tvdb: metadatas.type === 'movie' ? false : metadatas.show.ids.tvdb,
@@ -154,7 +154,7 @@
 
             var fileName = this.torrentModel.get('video_file').name;
 
-            trakt.matcher.match({
+            App.Trakt.client.matcher.match({
                 filename: fileName,
                 torrent: torrent.name
             }).then(function(metadatas) {

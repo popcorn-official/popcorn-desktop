@@ -81,7 +81,6 @@
         "WebTorrent": true,
         "child": true,
         "Trakt": true,
-        "trakt": true,
 
         // Third party
         "Backbone": true,

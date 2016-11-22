@@ -30,7 +30,7 @@ var Settings = {
     },
     trakttv: {
         client_id: '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2',
-        client_secret: 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1',
+        client_secret: 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1'
     },
     tvshowtime: {
         client_id: 'iM2Vxlwr93imH7nwrTEZ',
@@ -146,12 +146,9 @@ Settings.httpApiUsername = 'butter';
 Settings.httpApiPassword = 'butter';
 
 // Trakt.tv
-Settings.traktToken = '';
-Settings.traktTokenRefresh = '';
-Settings.traktTokenTTL = '';
-Settings.traktTvVersion = '0.0.2';
-Settings.traktLastSync = '';
-Settings.traktLastActivities = '';
+Settings.traktStatus = false;
+Settings.traktLastSync = false;
+Settings.traktLastActivities = false;
 Settings.traktSyncOnStart = true;
 Settings.traktPlayback = true;
 

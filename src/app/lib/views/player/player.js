@@ -250,7 +250,7 @@
             } else if (Settings.traktPlayback) {
                 var type = this.isMovie();
                 var id = type === 'movie' ? this.model.get('imdb_id') : this.model.get('episode_id');
-                App.Trakt.sync.playback(type, id).then(function (position_percent) {
+                App.Trakt.getPlayback(type, id).then(function (position_percent) {
                     var total = this.video.duration();
                     var position = (position_percent / 100) * total | 0;
                     if (position > 0) {
