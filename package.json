@@ -77,7 +77,7 @@
         "trakt.tv-images": "1.x.x",
         "underscore": "1.x.x",
         "urijs": "1.x.x",
-        "webtorrent": "0.x.x"
+        "webtorrent": "^0.98.0"
     },
     "devDependencies": {
         "bower": "^1.7.9",

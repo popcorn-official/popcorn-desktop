@@ -42,9 +42,7 @@
                 final_download_speed = Common.fileSize(download_speed) + '/s';
             }
 
-            var downloaded = torrent.downloaded || 0; // downloaded
-            //TODO: once https://github.com/feross/webtorrent/pull/974 is merged, rather use below code:
-            //var downloaded = torrent.files[torrentModel.get('video_file').index].downloaded || 0; // downloaded
+            var downloaded = torrent.files[torrentModel.get('video_file').index].downloaded || 0; // downloaded
 
 
             var final_downloaded = Common.fileSize(0);
