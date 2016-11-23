@@ -1,6 +1,4 @@
 // Special Debug Console Calls!
-var localStorage = window.localStorage || {};
-
 win.log = console.log.bind(console);
 win.debug = function () {
     var params = Array.prototype.slice.call(arguments, 1);
