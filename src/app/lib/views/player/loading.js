@@ -106,7 +106,7 @@
             if (state === 'playingExternally') {
                 this.ui.stateTextDownload.hide();
                 this.ui.progressbar.hide();
-                if (streamInfo && streamInfo.get('device') && (streamInfo.get('device').get('type') === 'chromecast' || streamInfo.get('device').get('type') === 'dlna')) {
+                if (streamInfo && streamInfo.get('device')) {
                     this.ui.cancel_button.css('visibility', 'hidden');
                     this.ui.controls.css('visibility', 'visible');
                     this.ui.playingbarBox.css('visibility', 'visible');
@@ -172,7 +172,7 @@
                 this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
                 win.debug('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
                     status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
-            } 
+            }
             if (!this.extPlayerStatusUpdater && status.playerState === 'PLAYING') {
                 // First PLAYING state. Start requesting device status update every 5 sec
                 this.extPlayerStatusUpdater = setInterval(function () {
