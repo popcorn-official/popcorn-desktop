@@ -80,7 +80,7 @@
         "URI": true,
         "child": true,
         "WebTorrent": true,
-        "trakt": true,
+        "Trakt": true,
 
         // Third party
         "Backbone": true,
