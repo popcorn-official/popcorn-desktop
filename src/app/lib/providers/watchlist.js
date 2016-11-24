@@ -103,7 +103,7 @@
             }
         })).then(function () {
             return Promise.all(itemList.map(function (item) {
-                return trakt.images.get(item).then(function (imgUrl) {
+                return App.Trakt.client.images.get(item).then(function (imgUrl) {
                     var newItem = item;
                     newItem.images = {
                         poster: imgUrl.poster,
@@ -126,7 +126,7 @@
 
         var watchlist = [];
 
-        return trakt.ondeck.getAll().then(function (tv) {
+        return App.Trakt.client.ondeck.getAll().then(function (tv) {
             //console.log('shows fetched'); //debug
             // store update data
             localStorage.watchlist_update_shows = JSON.stringify(tv);
@@ -134,7 +134,7 @@
             // add tv show to watchlist
             watchlist = watchlist.concat(tv.shows);
 
-            return trakt.sync.watchlist.get({
+            return App.Trakt.client.sync.watchlist.get({
                 extended: 'full',
                 type: 'movies'
             });
@@ -170,7 +170,7 @@
 
         var watchlist = [];
 
-        return trakt.ondeck.updateOne(update_data, id).then(function (tv) {
+        return App.Trakt.client.ondeck.updateOne(update_data, id).then(function (tv) {
             //console.log('shows updated'); //debug
             // store update data
             localStorage.watchlist_update_shows = JSON.stringify(tv);
@@ -235,6 +235,22 @@
             }
         });
     };
+
+    function onShowWatched(show, channel) {
+        if (channel === 'database') {
+            setTimeout(function() {
+                App.Providers.get('Watchlist').fetch({
+                    update: show.imdb_id
+                }).then(function() {
+                    if (App.currentview === 'Watchlist') {
+                        App.vent.trigger('watchlist:list');
+                    }
+                });
+            }, 3000);
+        }
+    }
+
+    App.vent.on('show:watched', onShowWatched);
 
     App.Providers.install(Watchlist);
 

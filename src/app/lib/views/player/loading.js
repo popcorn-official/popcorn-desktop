@@ -172,9 +172,7 @@
                 this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
                 win.debug('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
                     status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
-            } else {
-                this.ui.playingbarBox.hide();
-            }
+            } 
             if (!this.extPlayerStatusUpdater && status.playerState === 'PLAYING') {
                 // First PLAYING state. Start requesting device status update every 5 sec
                 this.extPlayerStatusUpdater = setInterval(function () {
