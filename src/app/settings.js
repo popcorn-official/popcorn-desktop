@@ -173,10 +173,10 @@ Settings.minimizeToTray = false;
 Settings.bigPicture = false;
 
 // Features
-Settings.activateTorrentCollection = false;
+Settings.activateTorrentCollection = true;
 Settings.activateWatchlist = true;
 Settings.activateRandomize = true;
-Settings.onlineSearchEngine = 'KAT';
+Settings.onlineSearchEngine = 'ExtraTorrent';
 
 // Ratio
 Settings.totalDownloaded = 0;
