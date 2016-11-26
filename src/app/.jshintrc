@@ -78,6 +78,7 @@
         "URI": true,
         "child": true,
         "WebTorrent": true,
+        "torrentCollection": true,
         "trakt": true,
 
         // Third party
