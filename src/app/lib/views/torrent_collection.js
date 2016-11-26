@@ -367,7 +367,7 @@
         },
 
         onlineOpen: function (e) {
-            var file = $(e.currentTarget).context.dataset.file;
+            var file = e.currentTarget.dataset.file;
             Settings.droppedMagnet = file;
             window.handleTorrent(file);
         },
@@ -438,14 +438,14 @@
 
             var magnetLink;
 
-            if ($(e.currentTarget.parentNode).context.className === 'file-item') {
+            if (e.currentTarget.parentNode.className === 'file-item') {
                 // stored
-                var _file = $(e.currentTarget.parentNode).context.innerText,
+                var _file = e.currentTarget.parentNode.innerText,
                     file = _file.substring(0, _file.length - 2); // avoid ENOENT
                 magnetLink = fs.readFileSync(collection + file, 'utf8');
             } else {
                 // search result
-                magnetLink = $(e.currentTarget.parentNode).context.attributes['data-file'].value;
+                magnetLink = e.currentTarget.parentNode.attributes['data-file'].value;
             }
 
             if (e.button === 2) { //if right click on magnet link
