@@ -1,6 +1,7 @@
 (function (App) {
     'use strict';
-    var clipboard = nw.Clipboard.get();
+    var clipboard = nw.Clipboard.get(),
+        ButterProvider = require('butter-provider');
 
     App.View.FilterBar = Backbone.Marionette.ItemView.extend({
         className: 'filter-bar',
@@ -442,7 +443,12 @@
             var that = this;
             $('.spinner').show();
 
-            App.Providers.get('Vodo').random()
+            function randomArray(a) {
+                return a[Math.ceil(Math.random(a.length))]
+            }
+
+            var provider = randomArray(App.Providers.getByType(ButterProvider.TabType.MOVIE))
+            provider.random()
                 .then(function (data) {
                     if (App.watchedMovies.indexOf(data.imdb_code) !== -1) {
                         that.randomMovie();
