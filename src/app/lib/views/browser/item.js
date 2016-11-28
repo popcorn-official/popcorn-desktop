@@ -30,27 +30,21 @@
         },
 
         initialize: function () {
-
             var imdb = this.model.get('imdb_id'),
                 bookmarked = App.userBookmarks.indexOf(imdb) !== -1,
                 itemtype = this.model.get('type'),
-                images = this.model.get('images'),
-                img = (images && typeof images.poster !== 'object') ? images.poster : this.model.get('image'),
                 watched, cached, that = this;
 
             switch (itemtype) {
             case 'bookmarkedshow':
                 watched = App.watchedShows.indexOf(imdb) !== -1;
-                this.model.set('image', img);
                 break;
             case 'show':
                 watched = App.watchedShows.indexOf(imdb) !== -1;
-                images.poster = img;
                 break;
             case 'bookmarkedmovie':
             case 'movie':
                 watched = App.watchedMovies.indexOf(imdb) !== -1;
-                this.model.set('image', img);
                 break;
             }
             this.model.set('watched', watched);
@@ -103,73 +97,51 @@
         },
 
         showCover: function () {
-            var getBestImage = function (model) {
-                var images = model.get('images');
-                var image = model.get('image');
-                var cover = model.get('cover');
-                if (images && images.poster && images.poster.medium) {
-                    return images.poster.medium;
-                } else if (image && image instanceof String) {
-                    return image;
-                } else if (cover) {
-                    return cover;
-                }
-
-                return 'images/posterholder.png';
-            };
-
-            var coverUrl;
             var itemtype = this.model.get('type');
             switch (itemtype) {
-            case 'bookmarkedmovie':
-                if (this.model.get('watched')) {
-                    this.ui.watchedIcon.addClass('selected');
-                    switch (Settings.watchedCovers) {
-                    case 'fade':
-                    case 'hide':
-                        this.$el.addClass('watched');
-                        break;
-                    }
-                }
-                coverUrl = getBestImage(this.model);
-                this.ui.bookmarkIcon.addClass('selected');
-                break;
-            case 'bookmarkedshow':
-                coverUrl = this.model.get('image');
-                this.ui.bookmarkIcon.addClass('selected');
-                break;
-            case 'movie':
-                coverUrl = getBestImage(this.model);
-
-                if (this.model.get('watched')) {
-                    this.ui.watchedIcon.addClass('selected');
-                    switch (Settings.watchedCovers) {
-                    case 'fade':
-                        this.$el.addClass('watched');
-                        break;
-                    case 'hide':
-                        if ($('.search input').val()) {
+                case 'bookmarkedmovie':
+                    if (this.model.get('watched')) {
+                        this.ui.watchedIcon.addClass('selected');
+                        switch (Settings.watchedCovers) {
+                        case 'fade':
+                        case 'hide':
                             this.$el.addClass('watched');
-                        } else {
-                            this.$el.remove();
+                            break;
                         }
-                        break;
                     }
-                }
-                if (this.model.get('bookmarked')) {
                     this.ui.bookmarkIcon.addClass('selected');
-                }
-                break;
-            case 'show':
-                coverUrl = this.model.get('images').poster;
-
-                if (this.model.get('bookmarked')) {
+                    break;
+                case 'bookmarkedshow':
                     this.ui.bookmarkIcon.addClass('selected');
-                }
-                break;
+                    break;
+                case 'movie':
+                    if (this.model.get('watched')) {
+                        this.ui.watchedIcon.addClass('selected');
+                        switch (Settings.watchedCovers) {
+                        case 'fade':
+                            this.$el.addClass('watched');
+                            break;
+                        case 'hide':
+                            if ($('.search input').val()) {
+                                this.$el.addClass('watched');
+                            } else {
+                                this.$el.remove();
+                            }
+                            break;
+                        }
+                    }
+                    if (this.model.get('bookmarked')) {
+                        this.ui.bookmarkIcon.addClass('selected');
+                    }
+                    break;
+                case 'show':
+                    if (this.model.get('bookmarked')) {
+                        this.ui.bookmarkIcon.addClass('selected');
+                    }
+                    break;
             }
 
-
+            // tooltip icons
             this.ui.watchedIcon.tooltip({
                 title: this.ui.watchedIcon.hasClass('selected') ? i18n.__('Mark as unseen') : i18n.__('Mark as Seen')
             });
@@ -177,25 +149,25 @@
                 title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from bookmarks') : i18n.__('Add to bookmarks')
             });
 
-            var this_ = this;
+            // images
+            var noimg = 'images/posterholder.png';
+            var coverUrl = function () {
+                var images = this.model.get('images') || {};
+                var poster = this.model.get('cover') || this.model.get('image');
+                return images.poster || poster || noimg;
+            }.bind(this)();
 
             var coverCache = new Image();
             coverCache.src = coverUrl;
-            coverCache.onload = function () {
-                try {
-                    this_.ui.cover.css('background-image', 'url(' + coverUrl + ')').addClass('fadein');
-                } catch (e) {}
-                coverCache = null;
-            };
             coverCache.onerror = function () {
-                try {
-                    this_.ui.cover.css('background-image', 'url("images/posterholder.png")').addClass('fadein');
-                } catch (e) {}
-                coverCache = null;
-            };
+                // in case the img download fails or url is 404
+                this.ui.cover.css('background-image', 'url(' + noimg + ')').addClass('fadein');
+            }.bind(this);
+            coverCache.onload = function () {
+                this.ui.cover.css('background-image', 'url(' + coverUrl + ')').addClass('fadein');
+            }.bind(this);
 
             this.ui.coverImage.remove();
-
         },
 
         showDetail: function (e) {
