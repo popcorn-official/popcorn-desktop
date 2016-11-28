@@ -22,7 +22,7 @@ function dbInit(name) {
 }
 
 var dbNames = ['bookmarks', 'settings', 'shows', 'movies', 'watched'];
-dbNames.map(dbInit)
+dbNames.map(dbInit);
 
 // Create unique indexes for the various id's for shows and movies
 db.shows.ensureIndex({
