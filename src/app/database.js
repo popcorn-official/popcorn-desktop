@@ -7,45 +7,29 @@ console.debug('Database path: ' + data_path);
 
 process.env.TZ = 'America/New_York'; // set same api tz
 
-db.bookmarks = new Datastore({
-    filename: path.join(data_path, 'data/bookmarks.db'),
-    autoload: true
-});
-db.settings = new Datastore({
-    filename: path.join(data_path, 'data/settings.db'),
-    autoload: true
-});
-db.tvshows = new Datastore({
-    filename: path.join(data_path, 'data/shows.db'),
-    autoload: true
-});
-db.movies = new Datastore({
-    filename: path.join(data_path, 'data/movies.db'),
-    autoload: true
-});
-db.watched = new Datastore({
-    filename: path.join(data_path, 'data/watched.db'),
-    autoload: true
-});
-
 function promisifyDatastore(datastore) {
     datastore.insert = Q.denodeify(datastore.insert, datastore);
     datastore.update = Q.denodeify(datastore.update, datastore);
     datastore.remove = Q.denodeify(datastore.remove, datastore);
 }
 
-promisifyDatastore(db.bookmarks);
-promisifyDatastore(db.settings);
-promisifyDatastore(db.tvshows);
-promisifyDatastore(db.movies);
-promisifyDatastore(db.watched);
+function dbInit(name) {
+    db[name] = new Datastore({
+        filename: path.join(data_path, 'data/'+ name +'.db'),
+        autoload: true
+    });
+    promisifyDatastore(db[name]);
+}
+
+var dbNames = ['bookmarks', 'settings', 'shows', 'movies', 'watched'];
+dbNames.map(dbInit)
 
 // Create unique indexes for the various id's for shows and movies
-db.tvshows.ensureIndex({
+db.shows.ensureIndex({
     fieldName: 'imdb_id',
     unique: true
 });
-db.tvshows.ensureIndex({
+db.shows.ensureIndex({
     fieldName: 'tvdb_id',
     unique: true
 });
