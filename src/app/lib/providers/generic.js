@@ -36,8 +36,8 @@
 
     function getProviderFromCacheByType(type) {
         return _.filter(cache, function (p) {
-            return p.config.type === type
-        })
+            return p.config.type === type;
+        });
     }
 
     function getProvider(name) {

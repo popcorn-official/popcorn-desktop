@@ -444,10 +444,10 @@
             $('.spinner').show();
 
             function randomArray(a) {
-                return a[Math.floor(Math.random(a.length))]
+                return a[Math.floor(Math.random(a.length))];
             }
 
-            var provider = randomArray(App.Providers.getByType(ButterProvider.TabType.MOVIE))
+            var provider = randomArray(App.Providers.getByType(ButterProvider.TabType.MOVIE));
             provider.random()
                 .then(function (data) {
                     if (App.watchedMovies.indexOf(data.imdb_code) !== -1) {
