@@ -11,7 +11,7 @@
             subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)) : true,
             metadata ? idsPromise.then(function (ids) {
                 return Q.allSettled(_.map(ids, function (id) {
-                    return metadata.getMetadatas(id);
+                    return metadata.getMetadata(id);
                 }));
             }) : true
         ];

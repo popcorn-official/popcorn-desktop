@@ -213,7 +213,7 @@
             return this.client.sync.history[call](post);
         },
 
-        getMetadatas: function (id) {
+        getMetadata: function (id) {
             if (!id) {
                 return;
             }
