@@ -34,6 +34,12 @@
         return registry[name];
     }
 
+    function getProviderFromRegistryByType(type) {
+        return _.filter(registry, function (p) {
+            return p.config.type === type
+        })
+    }
+
     function getProvider(name) {
         if (!name) {
             /* XXX(xaiki): this is for debug purposes, will it bite us later ? */
@@ -73,4 +79,5 @@
     App.Providers.install = installProvider;
 
     App.Providers.getFromRegistry = getProviderFromRegistry;
+    App.Providers.getByType = getProviderFromRegistryByType;
 })(window.App);
