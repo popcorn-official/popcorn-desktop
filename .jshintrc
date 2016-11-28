@@ -80,6 +80,7 @@
         "URI": true,
         "child": true,
         "WebTorrent": true,
+        "torrentCollection": true,
         "Trakt": true,
 
         // Third party

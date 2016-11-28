@@ -57,6 +57,7 @@ var
 
     // Torrent engines
     WebTorrent = require('webtorrent'),
+    torrentCollection = require('TorrentCollection'),
 
     // NodeJS
     child = require('child_process');
