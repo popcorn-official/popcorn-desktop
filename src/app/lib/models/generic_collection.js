@@ -11,7 +11,7 @@
             subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)) : true,
             metadata ? idsPromise.then(function (ids) {
                 return Q.allSettled(_.map(ids, function (id) {
-                    return metadata.movies.summary(id);
+                    return metadata.getMetadatas(id);
                 }));
             }) : true
         ];
@@ -71,24 +71,6 @@
                                 year: info.year,
                                 images: info.images
                             });
-
-
-                            if (info.images.poster) {
-                                movie.image = info.images.poster;
-                                if (!movie.cover) {
-                                    movie.cover = movie.image.full;
-                                }
-                            }
-
-                            if (info.images.full) {
-                                movie.backdrop = info.images.full;
-                            } else if (info.images.fanart && info.images.fanart.full) {
-                                movie.backdrop = info.images.fanart.full;
-                            } else if (movie.cover) {
-                                movie.backdrop = movie.cover;
-                            } else {
-                                movie.backdrop = 'images/bg-header.jpg';
-                            }
                         } else {
                             //console.log('Unable to find %s (%s) on Trakt.tv', id, movie.title); //debug
                         }

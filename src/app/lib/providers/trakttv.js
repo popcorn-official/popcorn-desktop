@@ -211,7 +211,24 @@
             post[type] = [item];
 
             return this.client.sync.history[call](post);
-        }
+        },
+
+        getMetadatas: function (id) {
+            if (!id) {
+                return;
+            }
+
+            var item;
+            return this.client.movies.summary({id: id, extended: 'full'}).then(function (md) {
+                item = md;
+                return this.client.images.get(md);
+            }.bind(this)).then(function (img) {
+                item.images = img;
+                return item;
+            }).catch(function (err) {
+                return item;
+            });
+        },
     };
 
     function onWatched(item, channel) {
