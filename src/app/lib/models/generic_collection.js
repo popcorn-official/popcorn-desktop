@@ -8,12 +8,12 @@
         var idsPromise = torrentsPromise.then(_.bind(torrentProvider.extractIds, torrentProvider));
         var promises = [
             torrentsPromise,
-            subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)) : true,
+            subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)).catch(function () { return false; }) : true,
             metadata ? idsPromise.then(function (ids) {
                 return Q.allSettled(_.map(ids, function (id) {
                     return metadata.getMetadata(id);
                 }));
-            }) : true
+            }).catch(function () { return false; }) : true
         ];
 
         //console.log('pre all', promises);
