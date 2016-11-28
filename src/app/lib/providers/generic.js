@@ -34,8 +34,8 @@
         return registry[name];
     }
 
-    function getProviderFromRegistryByType(type) {
-        return _.filter(registry, function (p) {
+    function getProviderFromCacheByType(type) {
+        return _.filter(cache, function (p) {
             return p.config.type === type
         })
     }
@@ -79,5 +79,5 @@
     App.Providers.install = installProvider;
 
     App.Providers.getFromRegistry = getProviderFromRegistry;
-    App.Providers.getByType = getProviderFromRegistryByType;
+    App.Providers.getByType = getProviderFromCacheByType;
 })(window.App);

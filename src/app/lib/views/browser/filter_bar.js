@@ -444,7 +444,7 @@
             $('.spinner').show();
 
             function randomArray(a) {
-                return a[Math.ceil(Math.random(a.length))]
+                return a[Math.floor(Math.random(a.length))]
             }
 
             var provider = randomArray(App.Providers.getByType(ButterProvider.TabType.MOVIE))
