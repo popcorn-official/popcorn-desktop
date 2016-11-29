@@ -72,9 +72,10 @@
         },
 
         setModelStates: function () {
-            // Watched state
             var imdb = this.model.get('imdb_id');
             var itemtype = this.model.get('type');
+
+            // Watched state
             var watched = false;
 
             if (itemtype.match('movie')) {
@@ -97,7 +98,7 @@
                 this.ui.bookmarkIcon.addClass('selected');
             }
 
-            if (itemtype.match('movie') && this.model.get('watched')) {
+            if (this.model.get('watched') && !itemtype.match('show')) {
                 this.ui.watchedIcon.addClass('selected');
 
                 switch (Settings.watchedCovers) {
@@ -105,7 +106,7 @@
                         this.$el.addClass('watched');
                         break;
                     case 'hide':
-                        if ($('.search input').val()) {
+                        if ($('.search input').val() || itemtype.match('bookmarked')) {
                             this.$el.addClass('watched');
                         } else {
                             this.$el.remove();
@@ -137,7 +138,7 @@
             coverCache.src = coverUrl;
 
             coverCache.onload = function () {
-                if (coverUrl.indexOf('.gif') !== -1) { // freez gifs
+                if (coverUrl.indexOf('.gif') !== -1) { // freeze gifs
                     var c = document.createElement('canvas');
                     var w  = c.width = coverCache.width;
                     var h = c.height = coverCache.height;
@@ -196,45 +197,90 @@
             var dbCall = watched ? 'markMovieAsWatched' : 'markMovieAsNotWatched';
             var appEvent = watched ? 'movie:watched' : 'movie:unwatched';
 
-            // set watched state
-            this.model.set('watched', watched);
-
             // add/delete db item
             Database[dbCall]({
                 imdb_id: imdb,
                 from_browser: true
-            }, true);
+            }, true).then(function () {
+                // set watched state
+                this.model.set('watched', watched);
 
-            // reset cover state to default
-            this.ui.watchedIcon.removeClass('selected');
-            this.$el.removeClass('watched');
+                // reset cover state to default
+                this.ui.watchedIcon.removeClass('selected');
+                this.$el.removeClass('watched');
 
-            // set cover state
-            this.setCoverStates();
-            this.setTooltips();
+                // set cover state
+                this.setCoverStates();
+                this.setTooltips();
 
-            // event propagation
-            App.vent.trigger(appEvent, {
-                imdb_id: imdb
-            }, 'seen');
+                // event propagation
+                App.vent.trigger(appEvent, {
+                    imdb_id: imdb
+                }, 'seen');
+            }.bind(this));
+        },
+
+        addBookmarked: function () {
+            var imdb = this.model.get('imdb_id');
+            var itemtype = this.model.get('type');
+            var provider = App.Providers.get(this.model.get('provider'));
+
+            return provider.detail(imdb, this.model.attributes).then(function (data) {
+                data.provider = provider.name;
+
+                if (itemtype === 'show') {
+                    promisifyDb(db.shows.find({
+                        imdb_id: imdb.toString(),
+                    })).then(function (res) {
+                        if (res != null && res.length > 0) {
+                            return Database.updateTVShow(data);
+                        } else {
+                            return Database.addTVShow(data);
+                        }
+                    });
+                } else {
+                    return Database.addMovie(data);
+                }
+            }).then(function () {
+                return Database.addBookmark(imdb, itemtype);
+            }).then(function () {
+                console.log('Bookmark added (' + imdb + ')');
+            }.bind(this));
+        },
+
+        removeBookmarked: function () {
+            var imdb = this.model.get('imdb_id');
+            var itemtype = this.model.get('type');
+            var dbCall = (function () {
+                if (itemtype.match('show')) {
+                    return 'deleteTVShow';
+                } else {
+                    return 'deleteMovie';
+                }
+            }());
+
+            return Database.deleteBookmark(imdb).then(function () {
+                console.log('Bookmark deleted (' + imdb + ')');
+                return Database[dbCall](imdb);
+            });
         },
 
         toggleFavorite: function (e) {
             e.stopPropagation();
             e.preventDefault();
 
-            var that = this;
-            var provider = App.Providers.get(this.model.get('provider'));
-            var data;
+            var itemtype = this.model.get('type');
+            var bookmarked = this.model.get('bookmarked');
 
-            switch (this.model.get('type')) {
-                case 'bookmarkedshow':
-                case 'bookmarkedmovie':
-                    Database.deleteBookmark(this.model.get('imdb_id')).then(function () {
-                        console.log('Bookmark deleted (' + that.model.get('imdb_id') + ')');
-                        App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
-                        return Database.deleteMovie(that.model.get('imdb_id'));
-                    }).then(function () {
+            if (bookmarked) {
+                this.removeBookmarked().then(function () {
+
+                    this.model.set('bookmarked', false);
+                    this.ui.bookmarkIcon.removeClass('selected');
+                    this.setCoverStates();
+                    this.setTooltips();
+
+                    if (itemtype.match('bookmarked')) {
                         // we'll delete this element from our list view
                         $(e.currentTarget).closest('li').animate({
                             paddingLeft: '0px',
@@ -248,142 +294,22 @@
                                 App.vent.trigger('favorites:render');
                             }
                         });
-                    });
-                    break;
-
-                case 'movie':
-                    if (this.model.get('bookmarked')) {
-                        this.ui.bookmarkIcon.removeClass('selected');
-                        Database.deleteBookmark(this.model.get('imdb_id'))
-                            .then(function () {
-                                console.log('Bookmark deleted (' + that.model.get('imdb_id') + ')');
-                                // we'll make sure we dont have a cached movie
-                                return Database.deleteMovie(that.model.get('imdb_id'));
-                            })
-                            .then(function () {
-                                that.model.set('bookmarked', false);
-                            });
-                    } else {
-                        this.ui.bookmarkIcon.addClass('selected');
-
-                        if (this.model.get('imdb_id').indexOf('mal') !== -1 && this.model.get('item_data') === 'Movie') {
-                            // Anime
-                            data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
-                                .catch(function () {
-                                    $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
-                                })
-                                .then(function (data) {
-                                    var movie = {
-                                        imdb_id: data.imdb_id,
-                                        image: data.image,
-                                        cover: data.cover,
-                                        torrents: data.torrents,
-                                        title: data.title,
-                                        genre: data.genre,
-                                        synopsis: data.synopsis,
-                                        runtime: data.runtime,
-                                        year: data.year,
-                                        health: that.model.get('health'),
-                                        subtitle: data.subtitle,
-                                        backdrop: undefined,
-                                        rating: data.rating,
-                                        trailer: false,
-                                        provider: that.model.get('provider'),
-                                    };
-
-                                    Database.addMovie(movie)
-                                        .then(function (idata) {
-                                            return Database.addBookmark(that.model.get('imdb_id'), 'movie');
-                                        })
-                                        .then(function () {
-                                            console.log('Bookmark added (' + that.model.get('imdb_id') + ')');
-                                            that.model.set('bookmarked', true);
-                                            App.userBookmarks.push(that.model.get('imdb_id'));
-                                        });
-                                });
-                        } else {
-                            // Movie
-                            var movie = {
-                                imdb_id: this.model.get('imdb_id'),
-                                image: this.model.get('image'),
-                                cover: this.model.get('cover'),
-                                images: this.model.get('images'),
-                                torrents: this.model.get('torrents'),
-                                title: this.model.get('title'),
-                                genre: this.model.get('genre'),
-                                synopsis: this.model.get('synopsis'),
-                                runtime: this.model.get('runtime'),
-                                year: this.model.get('year'),
-                                health: this.model.get('health'),
-                                subtitle: this.model.get('subtitle'),
-                                backdrop: this.model.get('backdrop'),
-                                rating: this.model.get('rating'),
-                                trailer: this.model.get('trailer'),
-                                provider: this.model.get('provider'),
-                            };
-
-                            Database.addMovie(movie)
-                                .then(function () {
-                                    return Database.addBookmark(that.model.get('imdb_id'), 'movie');
-                                })
-                                .then(function () {
-                                    console.log('Bookmark added (' + that.model.get('imdb_id') + ')');
-                                    App.userBookmarks.push(that.model.get('imdb_id'));
-                                    that.model.set('bookmarked', true);
-                                });
-                        }
                     }
-                    break;
-                case 'show':
-                    if (this.model.get('bookmarked') === true) {
-                        this.ui.bookmarkIcon.removeClass('selected');
-                        this.model.set('bookmarked', false);
-                        Database.deleteBookmark(this.model.get('imdb_id'))
-                            .then(function () {
-                                console.log('Bookmark deleted (' + that.model.get('imdb_id') + ')');
+                }.bind(this));
+            } else {
+                this.ui.bookmarkIcon.addClass('selected');
 
-                                App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
-
-                                // we'll make sure we dont have a cached show
-                                Database.deleteTVShow(that.model.get('imdb_id'));
-                            });
-                    } else {
-                        data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
-                            .then(function (data) {
-                                data.provider = that.model.get('provider');
-                                promisifyDb(db.tvshows.find({
-                                        imdb_id: that.model.get('imdb_id').toString(),
-                                    }))
-                                    .then(function (res) {
-                                        if (res != null && res.length > 0) {
-                                            return Database.updateTVShow(data);
-                                        } else {
-                                            return Database.addTVShow(data);
-                                        }
-                                    })
-                                    .then(function (idata) {
-                                        return Database.addBookmark(that.model.get('imdb_id'), 'tvshow');
-                                    })
-                                    .then(function () {
-                                        console.log('Bookmark added (' + that.model.get('imdb_id') + ')');
-                                        that.ui.bookmarkIcon.addClass('selected');
-                                        that.model.set('bookmarked', true);
-                                        App.userBookmarks.push(that.model.get('imdb_id'));
-                                    }).catch(function (err) {
-                                        console.error('promisifyDb()', err);
-                                    });
-                            }).catch(function (err) {
-                                console.error('provider.detail()', err);
-                                $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
-                            });
-                    }
-                    break;
-
+                this.addBookmarked().then(function () {
+                    this.model.set('bookmarked', true);
+                    this.setCoverStates();
+                    this.setTooltips();
+                }.bind(this)).catch(function (err) {
+                    console.error('item.addBookmarked failed:', err);
+                    $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
+                    this.ui.bookmarkIcon.removeClass('selected');
+                }.bind(this));
             }
-
-            this.setTooltips();
         }
-
     });
 
     App.View.Item = Item;
