@@ -8,11 +8,19 @@
         var idsPromise = torrentsPromise.then(_.bind(torrentProvider.extractIds, torrentProvider));
         var promises = [
             torrentsPromise,
-            subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)) : true,
+
+            subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)).catch(function (err) {
+                console.error('Cannot fetch subtitles (%s):', torrentProvider.name, err);
+                return false;
+            }) : true,
+
             metadata ? idsPromise.then(function (ids) {
                 return Q.allSettled(_.map(ids, function (id) {
                     return metadata.getMetadata(id);
                 }));
+            }).catch(function (err) {
+                console.error('Cannot fetch metadata (%s):', torrentProvider.name, err);
+                return false;
             }) : true
         ];
 
@@ -82,7 +90,7 @@
             .catch(function (err) {
                 self.state = 'error';
                 self.trigger('loaded', self, self.state);
-                win.error('PopCollection.fetch() : torrentPromises mapping', err);
+                console.error('PopCollection.fetch() : torrentPromises mapping', err);
             });
 
         return deferred.promise;
@@ -137,7 +145,7 @@
                             self.trigger('sync', self);
                         })
                         .catch(function (err) {
-                            win.error('provider error err', err);
+                            console.error('provider error err', err);
                         });
                 });
 
@@ -146,7 +154,7 @@
                     self.trigger('loaded', self, self.state);
                 });
             } catch (e) {
-                win.error('cached error', e);
+                console.error('cached error', e);
             }
         },
 
