@@ -179,7 +179,7 @@ var Database = {
     /*******************************
      *******     SHOWS       ********
      *******************************/
-    addTVShow: function (data) {
+    addNewTVShow: function (data) {
         return db.shows.insert(data);
     },
 
@@ -187,6 +187,18 @@ var Database = {
         return db.shows.update({
             imdb_id: data.imdb_id
         }, data);
+    },
+
+    addTVShow: function (data) {
+        return promisifyDb(db.shows.find({
+            imdb_id: data.imdb_id
+        })).then(function (res) {
+            if (res != null && res.length > 0) {
+                return Database.updateTVShow(data);
+            } else {
+                return Database.addNewTVShow(data);
+            }
+        });
     },
 
     markEpisodeAsWatched: function (data) {

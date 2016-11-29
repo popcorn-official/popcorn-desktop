@@ -228,19 +228,15 @@
             return provider.detail(imdb, this.model.attributes).then(function (data) {
                 data.provider = provider.name;
 
-                if (itemtype === 'show') {
-                    promisifyDb(db.shows.find({
-                        imdb_id: imdb.toString(),
-                    })).then(function (res) {
-                        if (res != null && res.length > 0) {
-                            return Database.updateTVShow(data);
-                        } else {
-                            return Database.addTVShow(data);
-                        }
-                    });
-                } else {
-                    return Database.addMovie(data);
-                }
+                var dbCall = (function () {
+                    if (itemtype === 'show') {
+                        return 'addTVShow';
+                    } else {
+                        return 'addMovie';
+                    }
+                }());
+
+                return Database[dbCall](data);
             }).then(function () {
                 return Database.addBookmark(imdb, itemtype);
             }).then(function () {
