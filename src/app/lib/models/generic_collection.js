@@ -10,7 +10,7 @@
             torrentsPromise,
 
             subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)).catch(function (err) {
-                win.warn('Cannot fetch subtitles (%s):', torrentProvider.name, err);
+                console.error('Cannot fetch subtitles (%s):', torrentProvider.name, err);
                 return false;
             }) : true,
 
@@ -19,7 +19,7 @@
                     return metadata.getMetadata(id);
                 }));
             }).catch(function (err) {
-                win.warn('Cannot fetch metadata (%s):', torrentProvider.name, err);
+                console.error('Cannot fetch metadata (%s):', torrentProvider.name, err);
                 return false;
             }) : true
         ];
@@ -90,7 +90,7 @@
             .catch(function (err) {
                 self.state = 'error';
                 self.trigger('loaded', self, self.state);
-                win.error('PopCollection.fetch() : torrentPromises mapping', err);
+                console.error('PopCollection.fetch() : torrentPromises mapping', err);
             });
 
         return deferred.promise;
@@ -145,7 +145,7 @@
                             self.trigger('sync', self);
                         })
                         .catch(function (err) {
-                            win.error('provider error err', err);
+                            console.error('provider error err', err);
                         });
                 });
 
@@ -154,7 +154,7 @@
                     self.trigger('loaded', self, self.state);
                 });
             } catch (e) {
-                win.error('cached error', e);
+                console.error('cached error', e);
             }
         },
 
