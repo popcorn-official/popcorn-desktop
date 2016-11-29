@@ -9,14 +9,14 @@
     // Update db
     if (db.version !== cache.version) {
         db.changeVersion(db.version, cache.version, function (tx) {
-            win.debug('New database version');
+            console.log('New database version');
 
             _.each(cache.tables, function (table) {
                 tx.executeSql('DROP TABLE IF EXISTS ' + table, [], function () {
-                    win.debug('Create table ' + table);
+                    console.log('Create table ' + table);
                     tx.executeSql('CREATE TABLE ' + table + ' (' + tableStruct + ')');
                 }, function (tx, err) {
-                    win.error('Ceating db table', err);
+                    console.error('Ceating db table', err);
                 });
             });
         });
@@ -68,7 +68,7 @@
 
                     deferred.resolve(cachedData);
                 }, function (tx, err) {
-                    win.error('Expired data cleaning', err);
+                    console.error('Expired data cleaning', err);
                     deferred.resolve([]);
                 });
             });
@@ -101,7 +101,7 @@
                             tx.executeSql(query, [id, data, ttl, now]);
                         });
                     }, function (err) {
-                        win.error('db.transaction()', err);
+                        console.error('db.transaction()', err);
                     });
                 });
         },

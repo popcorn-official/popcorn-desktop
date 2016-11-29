@@ -17,7 +17,7 @@
         var queryPromise = cachePromise.then(function (items) {
                 // Filter out cached subtitles
                 var cachedIds = _.keys(items);
-                win.debug(cachedIds.length + ' cached ' + self.table);
+                console.log('%d cached in %s', cachedIds.length, self.table);
                 var filteredId = _.difference(ids, cachedIds);
                 return filteredId;
             })
@@ -25,7 +25,7 @@
 
         // Cache ysubs subtitles
         queryPromise.then(function (items) {
-            win.debug('Cache ' + _.keys(items).length + ' ' + self.table);
+            console.log('Cache %d in %s', _.keys(items).length, self.table);
             self.cache.setItems(items, self.ttl);
         });
 

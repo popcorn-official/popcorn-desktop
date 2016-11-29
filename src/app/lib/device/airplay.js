@@ -38,14 +38,14 @@
 
 
     list.on('update', function (player) {
-        win.info('Found Apple TV Device Device: %s at %s', player.name, player.host);
+        console.info('Found Apple TV Device Device: %s at %s', player.name, player.host);
         collection.add(new Airplay({
             device: player
         }));
     });
 
 
-    win.info('Scanning: Local Network for Airplay devices');
+    console.info('Scanning: Local Network for Airplay devices');
     App.Device.Airplay = Airplay;
 
 })(window.App);

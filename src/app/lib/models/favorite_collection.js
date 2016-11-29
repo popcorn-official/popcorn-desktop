@@ -55,7 +55,7 @@
                 .catch(function (err) {
                     self.state = 'error';
                     self.trigger('loaded', self, self.state);
-                    win.error('FavoriteCollection.fetch()', err);
+                    console.error('FavoriteCollection.fetch()', err);
                 });
         },
 

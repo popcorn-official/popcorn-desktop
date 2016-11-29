@@ -15,13 +15,13 @@
         var self = this;
         if (this._cache._openPromise.isFulfilled()) {
             return this._cache.getMultiple(ids).then(function (items) {
-                win.debug('Loaded ' + items.length + ' items from the ' + self._table + ' cache!');
+                console.log('Loaded %d items from the %s cache!', items.length, self._table);
                 return items;
             });
         } else {
             return this._cache._openPromise.then(function () {
                 return self._cache.getMultiple(ids).then(function (items) {
-                    win.debug('Loaded ' + items.length + ' items from the ' + self._table + ' cache!');
+                    console.log('Loaded %d items from the %s cache!', items.length, self._table);
                     return items;
                 });
             });
@@ -31,7 +31,7 @@
     CacheProvider.prototype.store = function (key, items) {
         var promises = [];
         var self = this;
-        win.debug('Stored ' + items.length + ' items in the ' + this._table + ' cache!');
+        console.log('Stored %d items in the %s cache!', items.length, this._table);
         _.each(items, function (item) {
             if (!item[key]) {
                 return;

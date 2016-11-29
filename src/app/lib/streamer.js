@@ -81,12 +81,12 @@
 
             App.vent.off('subtitle:downloaded');
 
-            win.info('Streaming cancelled');
+            console.info('Streaming cancelled');
         },
 
         handleErrors: function (reason) {
             if (!this.stopped) {
-                win.error(reason);
+                console.error(reason);
             }
         },
 
@@ -109,7 +109,7 @@
                 }.bind(this));
 
                 client.on('error', function (error) {
-                    win.error('WebTorrent fatal error', error);
+                    console.error('WebTorrent fatal error', error);
                     this.stop();
                     reject(error);
                 }.bind(this));
@@ -190,7 +190,7 @@
                 this.handleSubtitles();
 
             }.bind(this)).catch(function(err) {
-                win.error('An error occured while trying to get metadata', err);
+                console.error('An error occured while trying to get metadata', err);
                 this.torrentModel.set('title', fileName);
                 this.handleSubtitles();
             }.bind(this));
@@ -305,7 +305,7 @@
             }.bind(this)).catch(function (error) {
                 //catch the correct error and avoid erroring on server destroy (stream:stop while still loading the play())
                 if (!this.stopped) {
-                    win.error('Can\'t play video %s: %s, code %d', url, error.name, error.code);
+                    console.error('Can\'t play video %s: %s, code %d', url, error.name, error.code);
                     // TODO: set state to error
                     // TODO: once we have a global option for extplayer, loads it instead
                     // for now, we ignore that so we can display error in the player:
@@ -381,7 +381,7 @@
             var total = Object.keys(subtitles).length;
             var defaultSubtitle = this.torrentModel.get('defaultSubtitle');
 
-            win.info(total + ' subtitles found');
+            console.info(total + ' subtitles found');
             this.torrentModel.set('subtitle', subtitles);
 
             if (defaultSubtitle !== 'none') {
@@ -403,7 +403,7 @@
                                 language: defaultSubtitle
                             }, function(err, res) {
                                 if (err) {
-                                    win.error('error converting subtitles', err);
+                                    console.error('error converting subtitles', err);
                                     this.streamInfo.set('subFile', null);
                                     App.vent.trigger('notification:show', new App.Model.Notification({
                                         title: i18n.__('Error converting subtitle'),
@@ -447,7 +447,7 @@
                 .then(this.onSubtitlesFound.bind(this))
                 .catch(function (err) {
                     this.subtitleReady = true;
-                    win.error('subtitleProvider.fetch()', err);
+                    console.error('subtitleProvider.fetch()', err);
                 }.bind(this));
 
             return;

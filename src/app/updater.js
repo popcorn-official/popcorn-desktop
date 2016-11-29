@@ -34,7 +34,7 @@
 
         // Don't update if development or update disabled in Settings
         if (_.contains(fs.readdirSync('.'), '.git') || !App.settings.automaticUpdating) {
-            win.debug(App.settings.automaticUpdating ? 'Not updating because we are running in a development environment' : 'Automatic updating disabled');
+            console.info(App.settings.automaticUpdating ? 'Not updating because we are running in a development environment' : 'Automatic updating disabled');
             defer.resolve(false);
             return defer.promise;
         }
@@ -73,12 +73,12 @@
             }
 
             if (semver.gt(updateData.version, App.settings.version)) {
-                win.debug('Updating to version %s', updateData.version);
+                console.info('Updating to version %s', updateData.version);
                 self.updateData = updateData;
                 return true;
             }
 
-            win.debug('Not updating because we are running the latest version');
+            console.info('Not updating because we are running the latest version');
             return false;
         });
     };
@@ -86,10 +86,10 @@
     Updater.prototype.download = function (source, output) {
         var defer = Q.defer();
         var downloadStream = request(source);
-        win.debug('Downloading update... Please allow a few minutes');
+        console.info('Downloading update... Please allow a few minutes');
         downloadStream.pipe(fs.createWriteStream(output));
         downloadStream.on('complete', function () {
-            win.debug('Update downloaded!');
+            console.log('Update downloaded!');
             defer.resolve(output);
         });
         return defer.promise;
@@ -98,7 +98,7 @@
     Updater.prototype.verify = function (source) {
         var defer = Q.defer();
         var self = this;
-        win.debug('Verifying update authenticity with SDA-SHA1 signature...');
+        console.log('Verifying update authenticity with SDA-SHA1 signature...');
 
         var hash = crypt.createHash('SHA1'),
             verify = crypt.createVerify('DSA-SHA1');
@@ -114,7 +114,7 @@
             ) {
                 defer.reject('invalid hash or signature');
             } else {
-                win.debug('Update was correctly signed and is safe to install!');
+                console.log('Update was correctly signed and is safe to install!');
                 defer.resolve(source);
             }
         });
@@ -134,7 +134,7 @@
                     if (err) {
                         defer.reject(err);
                     } else {
-                        win.debug('Extraction success!');
+                        console.log('Extraction success!');
                         defer.resolve();
                     }
                 });
@@ -156,7 +156,7 @@
 
         // Extended: true
         var extractDir = os.tmpdir();
-        win.debug('Extracting update.exe');
+        console.log('Extracting update.exe');
         pack.extractAllToAsync(extractDir, true, function (err) {
             if (err) {
                 defer.reject(err);
@@ -187,8 +187,8 @@
                     startWinUpdate();
                 });
 
-                win.debug('Extraction success!');
-                win.debug('Update ready to be installed!');
+                console.log('Extraction success!');
+                console.info('Update ready to be installed!');
             }
         });
 
@@ -196,7 +196,7 @@
     }
 
     function installUnix(downloadPath, outputDir, updateData) {
-        win.debug('Extracting update...');
+        console.log('Extracting update...');
 
         var packageFile = path.join(outputDir, 'package.nw'),
             pack = new AdmZip(downloadPath);
@@ -234,7 +234,7 @@
                                     type: 'info'
                                 }));
 
-                                win.debug('Extraction success!');
+                                console.log('Extraction success!');
                             });
                         fs.createReadStream(updateTAR)
                             .on('error', function (err) {

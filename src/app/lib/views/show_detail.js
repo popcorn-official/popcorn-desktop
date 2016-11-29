@@ -485,7 +485,7 @@
                 auto_id: parseInt(season) * 100 + parseInt(episode),
                 auto_play_data: episodes_data
             });
-            win.info('Playing next episode automatically:', AdvSettings.get('playNextEpisodeAuto'));
+            console.log('Playing next episode automatically:', AdvSettings.get('playNextEpisodeAuto'));
             _this.unbindKeyboardShortcuts();
             App.vent.trigger('stream:start', torrentStart);
         },

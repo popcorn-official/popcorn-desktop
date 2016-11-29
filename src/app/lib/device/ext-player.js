@@ -139,7 +139,7 @@
                     var dataBuff = fs.readFileSync(subtitle);
                     //var targetEncodingCharset = 'utf8';
                     var detectedEncoding = charsetDetect.detect(dataBuff).encoding;
-                    win.debug('Subtitles charset detected: %s', detectedEncoding);
+                    console.log('Subtitles charset detected: %s', detectedEncoding);
                     if (detectedEncoding.toLowerCase() === 'utf-8') {
                         cmd += '-utf8 ';
                     }
@@ -160,7 +160,7 @@
                 cmd += videoFile ? (getPlayerFilenameSwitch(this.get('id')) + '"' + videoFile.name + '" ') : '';
             }
             cmd += getPlayerUrlSwitch(this.get('id')) + url;
-            win.info('Launching External Player: ' + cmd);
+            console.info('Launching External Player: ' + cmd);
             child.exec(cmd, function (error, stdout, stderr) {
                 if (streamModel.attributes.device.id === 'Bomi') {
                     // don't stop on exit, because Bomi could be already running in background and the command ends while the stream should continue
@@ -183,6 +183,8 @@
     _.each(players, function (v, k) {
         players[k].name = k;
     });
+
+    console.info('Scanning: Local Folders for External players');
 
     var searchPaths = {
         linux: [],
@@ -212,7 +214,7 @@
 
     async.each(searchPaths[process.platform], function (folderName, pathcb) {
         folderName = path.resolve(folderName);
-        win.info('Scanning: ' + folderName);
+        //console.log('Scanning: ' + folderName);
         var appIndex = -1;
         var fileStream = readdirp({
             root: folderName,
@@ -236,12 +238,12 @@
                             name: match.name,
                             path: d.fullPath
                         }));
-                        win.info('Found External Player: ' + match.name + ' in ' + d.fullParentDir);
+                        console.info('Found External Player: ' + match.name + ' in ' + d.fullParentDir);
                     } else {
                         collection.findWhere({
                             id: match.name
                         }).set('path', d.fullPath);
-                        win.info('Updated External Player: ' + app + ' with more recent version found in ' + d.fullParentDir);
+                        console.log('Updated External Player: ' + app + ' with more recent version found in ' + d.fullParentDir);
                     }
                     birthtimes[match.name] = birthtime;
                 }
@@ -253,10 +255,10 @@
     }, function (err) {
 
         if (err) {
-            win.error('External Players: scan', err);
+            console.error('External Players: scan', err);
             return;
         } else {
-            win.info('External Players: scan finished');
+            //console.log('External Players: scan finished');
             return;
         }
     });

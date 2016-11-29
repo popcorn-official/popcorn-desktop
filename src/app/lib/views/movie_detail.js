@@ -54,7 +54,7 @@
         },
 
         onShow: function () {
-            win.info('Show movie detail (' + this.model.get('imdb_id') + ')');
+            console.log('Show movie detail (' + this.model.get('imdb_id') + ')');
             var self = this;
             this.handleAnime();
 
@@ -218,7 +218,7 @@
             this.subtitle_selected = lang;
             this.ui.selected_lang.removeClass().addClass('flag toggle selected-lang').addClass(this.subtitle_selected);
 
-            win.info('Subtitles: ' + this.subtitle_selected);
+            console.log('Subtitles: ' + this.subtitle_selected);
         },
 
         startStreaming: function () {
@@ -263,7 +263,7 @@
             if (torrents['1080p'] !== undefined) {
                 torrents = this.model.get('torrents');
                 this.model.set('quality', '1080p');
-                win.debug('HD Enabled', this.model.get('quality'));
+                console.log('HD Enabled', this.model.get('quality'));
                 AdvSettings.set('movies_default_quality', '1080p');
             }
         },
@@ -274,7 +274,7 @@
             if (torrents['720p'] !== undefined) {
                 torrents = this.model.get('torrents');
                 this.model.set('quality', '720p');
-                win.debug('HD Disabled', this.model.get('quality'));
+                console.log('HD Disabled', this.model.get('quality'));
                 AdvSettings.set('movies_default_quality', '720p');
             }
         },
