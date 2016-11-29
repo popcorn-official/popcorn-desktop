@@ -1,8 +1,10 @@
 // compatibility calls for now
-win.info = console.warn.bind(console);
-win.debug = console.warn.bind(console);
-win.error = console.warn.bind(console);
-win.warn = console.warn.bind(console);
+
+win.info = win.debug = win.error = win.warn = function () {     
+    var params = Array.prototype.slice.call(arguments, 1);
+    params.unshift('(Deprecated win.log call) ' + arguments[0]);
+    console.warn.apply(console, params);
+};
 
 if (nw.App.fullArgv.indexOf('--reset') !== -1) {
 
