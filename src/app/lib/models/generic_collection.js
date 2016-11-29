@@ -8,12 +8,20 @@
         var idsPromise = torrentsPromise.then(_.bind(torrentProvider.extractIds, torrentProvider));
         var promises = [
             torrentsPromise,
-            subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)).catch(function () { return false; }) : true,
+
+            subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)).catch(function (err) {
+                win.warn('Cannot fetch subtitles (%s):', torrentProvider.name, err);
+                return false;
+            }) : true,
+
             metadata ? idsPromise.then(function (ids) {
                 return Q.allSettled(_.map(ids, function (id) {
                     return metadata.getMetadata(id);
                 }));
-            }).catch(function () { return false; }) : true
+            }).catch(function (err) {
+                win.warn('Cannot fetch metadata (%s):', torrentProvider.name, err);
+                return false;
+            }) : true
         ];
 
         //console.log('pre all', promises);
