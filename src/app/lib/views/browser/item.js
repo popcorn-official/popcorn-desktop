@@ -182,7 +182,7 @@
                 // load details
                 App.vent.trigger(itemtype + ':showDetail', new App.Model[modelType](data));
             }).catch(function (err) {
-                console.error("error showing detail:", err);
+                console.error('error showing detail:', err);
                 $('.spinner').hide();
                 $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
             });
