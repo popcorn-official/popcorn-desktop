@@ -40,15 +40,15 @@
                     title: Common.normalize(streamModel.get('title'))
                 };
             }
-            win.info('DLNA: play ' + url + ' on \'' + this.get('name') + '\'');
-            win.info('DLNA: connecting to ' + this.player.host);
+            console.log('DLNA: play ' + url + ' on \'' + this.get('name') + '\'');
+            console.log('DLNA: connecting to ' + this.player.host);
 
             self.player.play(url_video, media, function(err, status) {
                 if (err) {
-                    win.error('DLNA.play error: ', err);
+                    console.error('DLNA.play error: ', err);
                     self.player.stop();
                 } else {
-                    win.info('Playing ' + url + ' on ' + self.get('name'));
+                    console.log('Playing ' + url + ' on ' + self.get('name'));
                     self.set('loadedMedia', status.media);
                 }
             });
@@ -74,24 +74,24 @@
         },
 
         seek: function(seconds) {
-            win.info('DLNA: seek %s', seconds);
+            console.log('DLNA: seek %s', seconds);
             this.get('player').seek(seconds, function(err, status) {
                 if (err) {
-                    win.error('DLNA.seek:Error', err);
+                    console.error('DLNA.seek:Error', err);
                 }
             });
         },
         seekTo: function(newCurrentTime) {
-            win.info('DLNA: seek to %ss', newCurrentTime);
+            console.log('DLNA: seek to %ss', newCurrentTime);
             this.get('player').seek(newCurrentTime, function(err, status) {
                 if (err) {
-                    win.error('DLNA.seek:Error', err);
+                    console.error('DLNA.seek:Error', err);
                 }
             });
         },
 
         seekPercentage: function(percentage) {
-            win.info('DLNA: seek percentage %s%', percentage.toFixed(2));
+            console.log('DLNA: seek percentage %s%', percentage.toFixed(2));
             var newCurrentTime = this.player._status.duration / 100 * percentage;
             this.seekTo(newCurrentTime.toFixed());
         },
@@ -103,7 +103,7 @@
             var self = this;
             this.get('player').status(function(err, status) {
                 if (err) {
-                    return win.info('DLNA.updateStatus:Error', err);
+                    return console.log('DLNA.updateStatus:Error', err);
                 }
                 self._internalStatusUpdated(status);
             });
@@ -125,7 +125,7 @@
         if (collection.where({
                 id: player.host
             }).length === 0) {
-            win.info('Found DLNA Device: %s at %s', player.name, player.host);
+            console.info('Found DLNA Device: %s at %s', player.name, player.host);
             collection.add(new Dlna({
                 id: player.host,
                 player: player
@@ -133,7 +133,7 @@
         }
     });
 
-    win.info('Scanning: Local Network for DLNA devices');
+    console.info('Scanning: Local Network for DLNA devices');
     dlnacasts.update();
 
 

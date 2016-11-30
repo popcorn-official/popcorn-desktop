@@ -87,11 +87,11 @@
         },
         handlemagnet: function (filePath, torrent) {
             var deferred = Q.defer();
+            console.log('Passed magnet:', [torrent]);
             deferred.resolve(torrent);
             return deferred.promise;
         },
         handleSuccess: function (filePath) {
-            win.debug('TorrentCache.handleSuccess() ' + filePath + ' stopped: ' + !stateModel);
             if (!stateModel) {
                 return;
             }
@@ -102,7 +102,7 @@
             App.vent.trigger('stream:start', torrentStart);
         },
         handleError: function (err, torrent) {
-            win.error('TorrentCache.handleError(): ' + err, torrent);
+            console.error('TorrentCache.handleError(): ' + err, torrent);
             handlers.updateState('Error resolving torrent.');
         },
         updateState: function (state) {
@@ -129,7 +129,7 @@
         var self = this;
         rimraf(tpmDir, function (err) {
             if (err) {
-                win.error('TorrentCache.clearTmpDir()', err);
+                console.error('TorrentCache.clearTmpDir()', err);
             }
             self._checkTmpDir();
         });

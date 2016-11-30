@@ -50,7 +50,7 @@
             }));
 
             if (!isNaN(startupTime)) {
-                win.debug('%s %s startup time: %sms', Settings.projectName, Settings.version, (window.performance.now() - startupTime).toFixed(3)); // started in database.js;
+                console.info('%s %s startup time: %sms', Settings.projectName, Settings.version, (window.performance.now() - startupTime).toFixed()); // started in database.js;
                 startupTime = 'none';
                 if (Settings.bigPicture) {
                     var zoom = ScreenResolution.HD ? 2 : 3;

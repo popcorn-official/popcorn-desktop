@@ -3,7 +3,7 @@ var Datastore = require('nedb'),
     TTL = 1000 * 60 * 60 * 24;
 
 var startupTime = window.performance.now();
-console.debug('Database path: ' + data_path);
+console.info('Database path: ' + data_path);
 
 process.env.TZ = 'America/New_York'; // set same api tz
 
@@ -156,7 +156,7 @@ var Database = {
             });
         }
 
-        win.warn('This shouldn\'t be called');
+        console.error('This shouldn\'t be called');
 
         return Q();
     },
@@ -275,7 +275,7 @@ var Database = {
 
     // Used in bookmarks
     getTVShow: function (data) {
-        win.warn('this isn\'t used anywhere');
+        console.error('this isn\'t used anywhere');
 
         return promisifyDb(db.tvshows.findOne({
             _id: data.tvdb_id
@@ -385,7 +385,7 @@ var Database = {
                         Settings[data[key].key] = data[key].value;
                     }
                 } else {
-                    win.warn('is it possible to get here');
+                    console.error('is it possible to get here');
                 }
 
                 // new install?
@@ -417,12 +417,12 @@ var Database = {
 
                 updater.update()
                     .catch(function (err) {
-                        win.error('updater.update()', err);
+                        console.error('updater.update()', err);
                     });
 
             })
             .catch(function (err) {
-                win.error('Error starting up', err);
+                console.error('Error starting up', err);
             });
     }
 };

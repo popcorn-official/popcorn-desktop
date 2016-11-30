@@ -262,9 +262,9 @@
             case 'opensubtitlesPassword':
                 return;
             default:
-                win.warn('Setting not defined: ' + field.attr('name'));
+                console.error('Setting not defined: ' + field.attr('name'));
             }
-            win.info('Setting changed: ' + field.attr('name') + ' - ' + value);
+            console.log('Setting changed: ' + field.attr('name') + ' - ' + value);
 
 
             // update active session
@@ -371,7 +371,7 @@
                     }
                 } else {
                     AdvSettings.set('bigPicture', false);
-                    win.info('Setting changed: bigPicture - true');
+                    console.log('Setting changed: bigPicture - true');
                     $('input#bigPicture.settings-checkbox').attr('checked', false);
                     App.vent.trigger('notification:show', new App.Model.Notification({
                         title: i18n.__('Big Picture Mode'),
@@ -447,7 +447,7 @@
                             AdvSettings.set('opensubtitlesAuthenticated', true);
                             $('.opensubtitles-options .loading-spinner').hide();
                             $('.opensubtitles-options .valid-tick').show();
-                            win.info('Setting changed: opensubtitlesAuthenticated - true');
+                            console.log('Setting changed: opensubtitlesAuthenticated - true');
                             return;
                         } else {
                             throw new Error('no token returned by OpenSubtitles');
@@ -455,7 +455,7 @@
                     }).delay(1000).then(function () {
                         self.render();
                     }).catch(function (err) {
-                        win.error('OpenSubtitles.login()', err);
+                        console.error('OpenSubtitles.login()', err);
                         $('.opensubtitles-options .loading-spinner').hide();
                         $('.opensubtitles-options .invalid-cross').show();
                     });
@@ -547,7 +547,7 @@
         },
 
         openTmpFolder: function () {
-            win.debug('Opening: ' + App.settings['tmpLocation']);
+            console.info('Opening: %s', App.settings['tmpLocation']);
             nw.Shell.openItem(App.settings['tmpLocation']);
         },
 
@@ -564,7 +564,7 @@
         },
 
         openDatabaseFolder: function () {
-            win.debug('Opening: ' + App.settings['databaseLocation']);
+            console.info('Opening: %s', App.settings['databaseLocation']);
             nw.Shell.openItem(App.settings['databaseLocation']);
         },
 
@@ -584,7 +584,7 @@
             });
             exportDialog.saveFile(zip.toBuffer(), function (err, path) {
                 that.alertMessageWait(i18n.__('Exporting Database...'));
-                win.info('Database exported to:', path);
+                console.info('Database exported to:', path);
                 that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
             });
 
@@ -603,8 +603,8 @@
                     zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
                     that.alertMessageSuccess(true);
                 } catch (err) {
+                    console.error('Failed to Import Database', err);
                     that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
-                    win.warn('Failed to Import Database');
                 }
             });
         },
@@ -684,7 +684,7 @@
                         });
                 })
                 .catch(function (err) {
-                    win.error('App.Trakt.syncAll()', err);
+                    console.error('App.Trakt.syncAll()', err);
                     $('#syncTrakt')
                         .text(i18n.__('Error'))
                         .removeClass('disabled')

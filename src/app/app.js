@@ -1,27 +1,10 @@
-// Special Debug Console Calls!
-win.log = console.log.bind(console);
-win.debug = function () {
+// compatibility calls for now
+
+win.info = win.debug = win.error = win.warn = function () {     
     var params = Array.prototype.slice.call(arguments, 1);
-    params.unshift('%c[%cDEBUG%c] %c' + arguments[0], 'color: black;', 'color: green;', 'color: black;', 'color: blue;');
-    console.debug.apply(console, params);
-};
-win.info = function () {
-    var params = Array.prototype.slice.call(arguments, 1);
-    params.unshift('[%cINFO%c] ' + arguments[0], 'color: blue;', 'color: black;');
-    console.info.apply(console, params);
-};
-win.warn = function () {
-    var params = Array.prototype.slice.call(arguments, 1);
-    params.unshift('[%cWARNING%c] ' + arguments[0], 'color: orange;', 'color: black;');
+    params.unshift('(Deprecated win.log call) ' + arguments[0]);
     console.warn.apply(console, params);
 };
-win.error = function () {
-    var params = Array.prototype.slice.call(arguments, 1);
-    params.unshift('%c[%cERROR%c] ' + arguments[0], 'color: black;', 'color: red;', 'color: black;');
-    console.error.apply(console, params);
-    fs.appendFileSync(path.join(data_path, 'logs.txt'), '\n\n' + (arguments[0].stack || arguments[0])); // log errors;
-};
-
 
 if (nw.App.fullArgv.indexOf('--reset') !== -1) {
 
@@ -122,25 +105,25 @@ App.addInitializer(function (options) {
 
     // reset app width when the width is bigger than the available width
     if (screen.availWidth < width) {
-        win.info('Window too big, resetting width');
+        console.log('Window too big, resetting width');
         width = screen.availWidth;
     }
 
     // reset app height when the width is bigger than the available height
     if (screen.availHeight < height) {
-        win.info('Window too big, resetting height');
+        console.log('Window too big, resetting height');
         height = screen.availHeight;
     }
 
     // reset x when the screen width is smaller than the window x-position + the window width
     if (x < 0 || (x + width) > screen.width) {
-        win.info('Window out of view, recentering x-pos');
+        console.log('Window out of view, recentering x-pos');
         x = Math.round((screen.availWidth - width) / 2);
     }
 
     // reset y when the screen height is smaller than the window y-position + the window height
     if (y < 0 || (y + height) > screen.height) {
-        win.info('Window out of view, recentering y-pos');
+        console.log('Window out of view, recentering y-pos');
         y = Math.round((screen.availHeight - height) / 2);
     }
 
@@ -196,16 +179,16 @@ var deleteCookies = function () {
                 if (!result.name) {
                     result = result[0];
                 }
-                win.debug('cookie removed: ' + result.name + ' ' + result.url);
+                console.log('Cookie removed:', result.name, result.url);
             } else {
-                win.error('cookie removal failed');
+                console.error('Cookie removal failed', cookie.name);
             }
         });
     }
 
     win.cookies.getAll({}, function (cookies) {
         if (cookies.length > 0) {
-            win.debug('Removing ' + cookies.length + ' cookies...');
+            console.log('Removing %d cookies...', cookies.length);
             for (var i = 0; i < cookies.length; i++) {
                 removeCookie(cookies[i]);
             }
@@ -273,7 +256,7 @@ Mousetrap.bindGlobal(['shift+f12', 'f12', 'command+0'], function (e) {
     win.showDevTools();
 });
 Mousetrap.bindGlobal(['shift+f10', 'f10', 'command+9'], function (e) {
-    win.debug('Opening: ' + App.settings.tmpLocation);
+    console.info('Opening: %s', App.settings.tmpLocation);
     nw.Shell.openItem(App.settings.tmpLocation);
 });
 Mousetrap.bind('mod+,', function (e) {
@@ -333,7 +316,6 @@ window.ondragenter = function (e) {
     $('#drop-mask').on('dragenter',
         function (e) {
             $('.drop-indicator').show();
-            win.debug('Drag init');
         });
     $('#drop-mask').on('dragover',
         function (e) {
@@ -346,7 +328,6 @@ window.ondragenter = function (e) {
             clearTimeout(timeout);
             timeout = setTimeout(function () {
                 if (!showDrag) {
-                    win.debug('Drag aborted');
                     $('.drop-indicator').hide();
                     $('#drop-mask').hide();
                 }
@@ -432,16 +413,16 @@ var handleVideoFile = function (file) {
     // get subtitles from provider
     var getSubtitles = function (subdata) {
         return Q.Promise(function (resolve, reject) {
-            win.debug('Subtitles data request:', subdata);
+            console.log('Subtitles data request:', subdata);
 
             var subtitleProvider = App.Config.getProviderForType('subtitle');
 
             subtitleProvider.fetch(subdata).then(function (subs) {
                 if (subs && Object.keys(subs).length > 0) {
-                    win.info(Object.keys(subs).length + ' subtitles found');
+                    console.info(Object.keys(subs).length + ' subtitles found');
                     resolve(subs);
                 } else {
-                    win.warn('No subtitles returned');
+                    console.warn('No subtitles returned');
                     if (Settings.subtitle_language !== 'none') {
                         App.vent.trigger('notification:show', new App.Model.Notification({
                             title: i18n.__('No subtitles found'),
@@ -543,7 +524,7 @@ var handleVideoFile = function (file) {
             }
             resolve(playObj);
         }).catch(function (err) {
-            win.warn('trakt.matcher.match error:', err);
+            console.warn('trakt.matcher.match error:', err);
             var localsub = checkSubs();
             if (localsub !== null) {
                 playObj.defaultSubtitle = 'local';
@@ -673,7 +654,7 @@ nw.App.on('open', function (cmd) {
     }
 
     if (file) {
-        win.debug('File loaded:', file);
+        console.info('File loaded: %s', file);
 
         if (isVideo(file)) {
             var fileModel = {
@@ -716,5 +697,5 @@ process.on('uncaughtException', function (err) {
             $('.notification_alert').show().html('An error occured with the localization in ' + currentLocale).delay(4000).fadeOut(400);
         }
     } catch (e) {}
-    win.error(err, err.stack);
+    console.error(err, err.stack);
 });

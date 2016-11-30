@@ -16,7 +16,7 @@
         },
 
         initialize: function () {
-            win.info('Loading DB');
+            console.info('Loading DB');
         },
 
         onShow: function () {

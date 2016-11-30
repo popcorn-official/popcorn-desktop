@@ -64,7 +64,7 @@
                 }
             });
 
-            win.info('Loading torrent');
+            console.info('Loading torrent');
 
             this.listenTo(this.model, 'change:state', this.onStateUpdate);
         },
@@ -93,7 +93,7 @@
             var self = this;
             var state = this.model.get('state');
             var streamInfo = this.model.get('streamInfo');
-            win.info('Loading torrent:', state);
+            console.log('Loading torrent:', state);
 
             this.ui.stateTextDownload.text(i18n.__(state));
 
@@ -170,7 +170,7 @@
                 // Update playingbar width
                 var playedPercent = status.currentTime / status.media.duration * 100;
                 this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
-                win.debug('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
+                console.log('ExternalStream: %s: %ss / %ss (%s%)', status.playerState,
                     status.currentTime.toFixed(1), status.media.duration.toFixed(), playedPercent.toFixed(1));
             } else {
                 this.ui.playingbarBox.hide();
@@ -194,11 +194,11 @@
                 if (this.extPlayerStatusUpdater) {
                     clearInterval(this.extPlayerStatusUpdater);
                 }
-                win.info('Stopping external device');
+                console.info('Stopping external device');
                 App.vent.trigger('device:stop');
             }
 
-            win.info('Closing loading view');
+            console.info('Closing loading view');
             App.vent.trigger('stream:stop');
             App.vent.trigger('player:close');
             App.vent.trigger('torrentcache:stop');
@@ -210,7 +210,7 @@
         },
 
         resumeStreaming: function () {
-            win.debug('Play triggered');
+            console.log('Play triggered');
             App.vent.trigger('device:unpause');
             $('.play').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
         },
@@ -220,18 +220,18 @@
         },
 
         forwardStreaming: function () {
-            win.debug('Forward triggered');
+            console.log('Forward triggered');
             App.vent.trigger('device:forward');
         },
 
         backwardStreaming: function () {
-            win.debug('Backward triggered');
+            console.log('Backward triggered');
             App.vent.trigger('device:backward');
         },
 
         seekStreaming: function (e) {
             var percentClicked = e.offsetX / e.currentTarget.clientWidth * 100;
-            win.debug('Seek (%s%) triggered', percentClicked.toFixed(2));
+            console.log('Seek (%s%) triggered', percentClicked.toFixed(2));
             App.vent.trigger('device:seekPercentage', percentClicked);
         },
 

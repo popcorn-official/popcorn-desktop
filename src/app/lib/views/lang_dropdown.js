@@ -16,11 +16,8 @@
             this.handler = this.model.get('handler');
             this.selected = this.model.get('selected') || 'None';
         },
-        onShow: function () {
-            console.log ('show', this);
-        },
+
         toggleDropdown: function (e) {
-            console.log ('dropdown', this);
             var el = $(this.el);
             if (el.find('.dropdown').is('.open')) {
                 this.closeDropdown(e);
@@ -41,7 +38,6 @@
 
             var value = $(e.currentTarget).attr('data-lang');
             if (value) {
-                console.log ('setting to', value);
                 this.model.set('selected', value);
                 this.ui.selected.removeClass().addClass('flag toggle selected-lang').addClass(value);
                 App.vent.trigger(this.type + ':lang', value);

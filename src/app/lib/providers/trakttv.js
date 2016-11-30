@@ -44,7 +44,7 @@
                 return true;
             }.bind(this)).catch(function(err) {
                 AdvSettings.set('traktStatus', false);
-                win.error('Trakt: authentication failed', err);
+                console.error('Trakt: authentication failed', err);
                 return err;
             });
         },
@@ -56,7 +56,7 @@
                     AdvSettings.set('traktStatus', auth);
                     this.onReady();
                 }.bind(this)).catch(function(err) {
-                    win.error('Trakt: auto sign-in failed', err);
+                    console.error('Trakt: auto sign-in failed', err);
                     this.disconnect();
                 }.bind(this));
             }
@@ -85,13 +85,13 @@
                             type: 'movie'
                         });
                     } else {
-                        win.warn('Cannot sync a movie (' + movie.title + '), no IMDB id provided by Trakt');
+                        console.warn('Cannot sync a movie (' + movie.title + '), no IMDB id provided by Trakt');
                     }
                 }
-                win.debug('Trakt: marked %s movie(s) as watched', watchedMovies.length);
+                console.info('Trakt: marked %s movie(s) as watched', watchedMovies.length);
                 return Database.markMoviesWatched(watchedMovies);
             }).catch(function(error) {
-                win.warn('Trakt: unable to sync movies', error);
+                console.error('Trakt: unable to sync movies', error);
                 return watchedMovies;
             });
         },
@@ -118,14 +118,14 @@
                             }
                         }
                     } else {
-                        win.warn('Cannot sync a show (' + show.show.title + '), no IMDB/TVDB ids provided by Trakt');
+                        console.warn('Cannot sync a show (' + show.show.title + '), no IMDB/TVDB ids provided by Trakt');
                     }
                 }
 
-                win.debug('Trakt: marked %s episode(s) as watched', watchedEpisodes.length);
+                console.info('Trakt: marked %s episode(s) as watched', watchedEpisodes.length);
                 return Database.markEpisodesWatched(watchedEpisodes);
             }).catch(function(error) {
-                win.warn('Trakt: unable to sync shows', error);
+                console.error('Trakt: unable to sync shows', error);
                 return watchedEpisodes;
             });
         },
@@ -141,7 +141,7 @@
                 AdvSettings.set('traktLastSync', Date.now());
                 return true;
             }).catch(function(error) {
-                win.error('Trakt: sync failed', error);
+                console.error('Trakt: sync failed', error);
                 return error;
             });
         },

@@ -238,12 +238,11 @@
                 $('.spinner').show();
                 data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
                     .then(function (data) {
-                        //console.log(data, Type);
                         data.provider = provider.name;
                         $('.spinner').hide();
                         App.vent.trigger(type + ':showDetail', new App.Model[Type](data));
                     }).catch(function (err) {
-                        win.error(err);
+                        console.error('Provider.detail()', err);
                         $('.spinner').hide();
                         $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                     });
@@ -311,7 +310,7 @@
             case 'bookmarkedmovie':
                 Database.deleteBookmark(this.model.get('imdb_id'))
                     .then(function () {
-                        win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
+                        console.log('Bookmark deleted (' + that.model.get('imdb_id') + ')');
                         App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
                     })
                     .then(function () {
@@ -339,7 +338,7 @@
                     this.ui.bookmarkIcon.removeClass('selected');
                     Database.deleteBookmark(this.model.get('imdb_id'))
                         .then(function () {
-                            win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
+                            console.log('Bookmark deleted (' + that.model.get('imdb_id') + ')');
                             // we'll make sure we dont have a cached movie
                             return Database.deleteMovie(that.model.get('imdb_id'));
                         })
@@ -381,7 +380,7 @@
                                         return Database.addBookmark(that.model.get('imdb_id'), 'movie');
                                     })
                                     .then(function () {
-                                        win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+                                        console.log('Bookmark added (' + that.model.get('imdb_id') + ')');
                                         that.model.set('bookmarked', true);
                                         App.userBookmarks.push(that.model.get('imdb_id'));
                                     });
@@ -411,7 +410,7 @@
                                 return Database.addBookmark(that.model.get('imdb_id'), 'movie');
                             })
                             .then(function () {
-                                win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+                                console.log('Bookmark added (' + that.model.get('imdb_id') + ')');
                                 App.userBookmarks.push(that.model.get('imdb_id'));
                                 that.model.set('bookmarked', true);
                             });
@@ -424,7 +423,7 @@
                     this.model.set('bookmarked', false);
                     Database.deleteBookmark(this.model.get('imdb_id'))
                         .then(function () {
-                            win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
+                            console.log('Bookmark deleted (' + that.model.get('imdb_id') + ')');
 
                             App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
 
@@ -449,15 +448,15 @@
                                     return Database.addBookmark(that.model.get('imdb_id'), 'tvshow');
                                 })
                                 .then(function () {
-                                    win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
+                                    console.log('Bookmark added (' + that.model.get('imdb_id') + ')');
                                     that.ui.bookmarkIcon.addClass('selected');
                                     that.model.set('bookmarked', true);
                                     App.userBookmarks.push(that.model.get('imdb_id'));
                                 }).catch(function (err) {
-                                    win.error('promisifyDb()', err);
+                                    console.error('promisifyDb()', err);
                                 });
                         }).catch(function (err) {
-                            win.error('provider.detail()', err);
+                            console.error('provider.detail()', err);
                             $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                         });
                 }

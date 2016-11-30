@@ -8,7 +8,7 @@
 
     function delProvider(name) {
         if (cache[name]) {
-            win.info('Delete provider cache', name);
+            console.log('Delete provider cache', name);
             return delete cache[name];
         }
     }
@@ -17,14 +17,14 @@
         var name = PO.prototype.config ? PO.prototype.config.name : null;
 
         if (!name) {
-            return win.error(PO, PO.prototype.config, 'doesnt have a name');
+            return console.error(PO, PO.prototype.config, 'doesnt have a name');
         }
 
         if (registry[name]) {
-            return win.error('double definition of', name, PO, PO.prototype.config, 'is the same as', registry[name]);
+            return console.error('double definition of', name, PO, PO.prototype.config, 'is the same as', registry[name]);
         }
 
-        win.debug('added', name, 'to provider registry');
+        //console.log('Added %s to provider registry', name);
         registry[name] = PO;
 
         return name;
@@ -44,29 +44,28 @@
         if (!name) {
             /* XXX(xaiki): this is for debug purposes, will it bite us later ? */
             /* XXX(vankasteelj): it did. */
-            win.error('asked for an empty provider, this should never happen, dumping provider cache and registry', cache, registry);
+            console.error('Asked for an empty provider, this should never happen, dumping provider cache and registry', cache, registry);
             return cache;
         }
 
         var config = App.Providers.Generic.prototype.parseArgs(name);
 
         if (cache[name]) {
-            win.info('Returning cached provider', name);
             return cache[name];
         }
 
         var provider = getProviderFromRegistry(config.name);
         if (!provider) {
             if (installProvider(require('butter-provider-' + config.name))) {
-                win.warn('I loaded', config.name, 'from npm but you didn\'t add it to your package.json');
+                console.warn('I loaded', config.name, 'from npm but you didn\'t add it to your package.json');
                 provider = getProviderFromRegistry(config.name);
             } else {
-                win.error('couldn\'t find provider', config.name);
+                console.error('Couldn\'t find provider', config.name);
                 return null;
             }
         }
 
-        win.info('Spawning new provider', name, config);
+        //console.log('Spawning new provider', name, config);
         var p = cache[name] = new provider(config.args);
 
         //HACK(xaiki): set the provider name in the returned object.

@@ -220,7 +220,7 @@
             }
 
             if (!provider) {
-                win.warn('Provider type: \'%s\' isn\'t defined in App.Config.providers', type);
+                console.error('Provider type: \'%s\' isn\'t defined in App.Config.providers', type);
                 return;
             } else if (provider instanceof Array || typeof provider === 'object') {
                 return _.map(provider, function (t) {

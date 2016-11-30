@@ -138,14 +138,6 @@
             App.vent.on('updatePostersSizeStylesheet', _.bind(this.updatePostersSizeStylesheet, this));
         },
 
-        showSubtitles: function (model) {
-            win.debug('Show subtitles', model);
-            var s = new App.View.Subtitles({
-                model: model
-            });
-            s.render();
-        },
-
         onShow: function () {
             this.Header.show(new App.View.TitleBar());
             // Set the app title (for Windows mostly)
@@ -440,7 +432,7 @@
         },
 
         tvstAuthenticated: function () {
-            win.info('TVShow Time: authenticated');
+            console.info('TVShow Time: authenticated');
         },
 
         streamStarted: function (stateModel) {

@@ -309,7 +309,7 @@ var AdvSettings = {
         _.extend(endpoint, endpoint.proxies[endpoint.index]);
 
         var _url = url.parse(endpoint.url);
-        win.debug('Checking %s endpoint', _url.hostname);
+        console.log('Checking endpoint: %s', _url.hostname);
 
         function tryNextEndpoint() {
             if (endpoint.index < endpoint.proxies.length - 1) {
@@ -331,7 +331,7 @@ var AdvSettings = {
                     res.removeAllListeners('error');
                     // Doesn't match the expected response
                     if (!_.isRegExp(endpoint.fingerprint) || !endpoint.fingerprint.test(body.toString('utf8'))) {
-                        win.warn('[%s] Endpoint fingerprint %s does not match %s',
+                        console.error('[%s] Endpoint fingerprint %s does not match %s',
                             _url.hostname,
                             endpoint.fingerprint,
                             body.toString('utf8'));
@@ -340,13 +340,13 @@ var AdvSettings = {
                         defer.resolve();
                     }
                 }).once('error', function (e) {
-                    win.warn('[%s] Endpoint failed [%s]',
+                    console.warn('[%s] Endpoint failed [%s]',
                         _url.hostname,
                         e.message);
                     tryNextEndpoint();
                 });
             }).setTimeout(5000, function () {
-				win.warn('[%s] Endpoint timed out',
+				console.warn('[%s] Endpoint timed out',
 					_url.hostname);
 				request.abort();
 				tryNextEndpoint();
@@ -363,7 +363,7 @@ var AdvSettings = {
                     this.getPeerCertificate().fingerprint !== endpoint.fingerprint) {
                     // "These are not the certificates you're looking for..."
                     // Seems like they even got a certificate signed for us :O
-                    win.warn('[%s] Endpoint fingerprint %s does not match %s',
+                    console.error('[%s] Endpoint fingerprint %s does not match %s',
                         _url.hostname,
                         endpoint.fingerprint,
                         this.getPeerCertificate().fingerprint);
@@ -373,13 +373,13 @@ var AdvSettings = {
                 }
                 this.end();
             }).once('error', function (e) {
-                win.warn('[%s] Endpoint failed [%s]',
+                console.warn('[%s] Endpoint failed [%s]',
                     _url.hostname,
                     e.message);
                 this.setTimeout(0);
                 tryNextEndpoint();
             }).once('timeout', function () {
-                win.warn('[%s] Endpoint timed out',
+                console.warn('[%s] Endpoint timed out',
                     _url.hostname);
                 this.removeAllListeners('error');
                 this.end();

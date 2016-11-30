@@ -29,7 +29,7 @@
         initialize: function () {
             if (!fs.existsSync(collection)) {
                 fs.mkdirSync(collection);
-                win.debug('TorrentCollection: data directory created');
+                console.log('TorrentCollection: data directory created');
             }
             this.files = fs.readdirSync(collection);
             this.searchEngine = Settings.onlineSearchEngine;
@@ -107,7 +107,7 @@
 
                 var strike = require('strike-api');
                 strike.search(input, category).then(function (result) {
-                    win.debug('Strike search: %s results', result.results);
+                    console.info('Strike search: %d results', result.results);
                     result.torrents.forEach(function (item) {
                         var itemModel = {
                             title: item.torrent_title,
@@ -133,7 +133,7 @@
                     $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
                     $('.onlinesearch-info').show();
                 }).catch(function (err) {
-                    win.debug('Strike search failed:', err.message);
+                    console.error('Strike search failed:', err.message);
                     var error;
                     if (err.message === 'Not Found') {
                         error = 'No results found';
@@ -268,7 +268,7 @@
                 file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
             fs.unlinkSync(collection + file);
-            win.debug('Torrent Collection: deleted', file);
+            console.log('Torrent Collection: deleted', file);
 
             // update collection
             this.files = fs.readdirSync(collection);
@@ -305,7 +305,7 @@
 
             if (!fs.existsSync(collection + newName) && newName) {
                 fs.renameSync(collection + file, collection + newName);
-                win.debug('Torrent Collection: renamed', file, 'to', newName);
+                console.log('Torrent Collection: renamed', file, 'to', newName);
             } else {
                 $('.notification_alert').show().text(i18n.__('This name is already taken')).delay(2500).fadeOut(400);
             }
@@ -326,12 +326,12 @@
 
         clearCollection: function () {
             deleteFolder(collection);
-            win.debug('Torrent Collection: delete all', collection);
+            console.log('Torrent Collection: delete all', collection);
             App.vent.trigger('torrentCollection:show');
         },
 
         openCollection: function () {
-            win.debug('Opening: ' + collection);
+            console.info('Opening: %s', collection);
             nw.Shell.openItem(collection);
         },
 

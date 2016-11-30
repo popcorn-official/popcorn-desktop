@@ -55,14 +55,14 @@
                     title: streamModel.get('title').substring(0,50)
                 };
             }
-            win.info('Chromecast: play ' + url + ' on \'' + this.get('name') + '\'');
-            win.info('Chromecast: connecting to ' + this.device.host);
+            console.log('Chromecast: play ' + url + ' on \'' + this.get('name') + '\'');
+            console.log('Chromecast: connecting to ' + this.device.host);
 
             self.device.play(url, media, function (err, status) {
                 if (err) {
-                    win.error('chromecast.play error: ', err);
+                    console.error('chromecast.play error: ', err);
                 } else {
-                    win.info('Playing ' + url + ' on ' + self.get('name'));
+                    console.log('Playing ' + url + ' on ' + self.get('name'));
                     self.set('loadedMedia', status.media);
                 }
             });
@@ -76,7 +76,7 @@
         },
 
         stop: function () {
-            win.info('Closing Chromecast Casting');
+            console.log('Closing Chromecast Casting');
             App.vent.trigger('stream:stop');
             App.vent.trigger('player:close');
             App.vent.trigger('torrentcache:stop');
@@ -84,30 +84,30 @@
             // Also stops player and closes connection.
             device.stop(function () {
                 device.removeAllListeners();
-                win.info('Chromecast: stopped. Listeners removed!');
+                console.log('Chromecast: stopped. Listeners removed!');
             });
         },
 
         seek: function (seconds) {
-            win.info('Chromecast: seek %s', seconds);
+            console.log('Chromecast: seek %s', seconds);
             this.get('device').seek(seconds, function (err, status) {
                 if (err) {
-                    win.error('Chromecast.seek:Error', err);
+                    console.error('Chromecast.seek:Error', err);
                 }
             });
         },
 
         seekTo: function (newCurrentTime) {
-            win.info('Chromecast: seek to %ss', newCurrentTime);
+            console.log('Chromecast: seek to %ss', newCurrentTime);
             this.get('device').seek(newCurrentTime, function (err, status) {
                 if (err) {
-                    win.error('Chromecast.seekTo:Error', err);
+                    console.error('Chromecast.seekTo:Error', err);
                 }
             });
         },
 
         seekPercentage: function (percentage) {
-            win.info('Chromecast: seek percentage %s%', percentage.toFixed(2));
+            console.log('Chromecast: seek percentage %s%', percentage.toFixed(2));
             var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
             this.seekTo(newCurrentTime.toFixed());
         },
@@ -128,7 +128,7 @@
             var self = this;
             this.get('device').status(function (err, status) {
                 if (err) {
-                    return win.info('Chromecast.updateStatus:Error', err);
+                    return console.error('Chromecast.updateStatus:Error', err);
                 }
                 self._internalStatusUpdated(status);
             });
@@ -146,10 +146,10 @@
         }
     });
 
-    win.info('Scanning: Local Network for Chromecast devices');
+    console.info('Scanning: Local Network for Chromecast devices');
     chromecasts.update();
     chromecasts.on('update', function (player) {
-      win.info('Found Chromecast Device Device: %s at %s', player.name, player.host);
+      console.info('Found Chromecast Device Device: %s at %s', player.name, player.host);
       collection.add(new Chromecast({
         device: player
       }));

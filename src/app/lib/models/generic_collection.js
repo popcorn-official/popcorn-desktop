@@ -24,12 +24,8 @@
             }) : true
         ];
 
-        //console.log('pre all', promises);
-
         Q.all(promises)
             .spread(function (torrents, subtitles, metadatas) {
-
-                //console.log('post all', torrents, subtitles, metadatas);
 
                 // If a new request was started...
                 metadatas = _.map(metadatas, function (m) {
@@ -62,7 +58,7 @@
                         movie.subtitle = subtitles[id];
                     }
 
-                    if (metadatas) {
+                    if (metadatas && id) {
                         var info = _.findWhere(metadatas, {
                             id: id
                         });
@@ -80,7 +76,7 @@
                                 images: info.images
                             });
                         } else {
-                            //console.log('Unable to find %s (%s) on Trakt.tv', id, movie.title); //debug
+                            console.log('No extra infos found for %s (%s)', movie.title, id);
                         }
                     }
                 });
@@ -135,7 +131,6 @@
                  * provider declare a unique id, and then lookthem up in
                  * a hash.
                  */
-                //console.log('pre---', subtitle, metadata, torrents);
 
                 var torrentPromises = _.map(torrents, function (torrentProvider) {
                     return getDataFromProvider(torrentProvider, subtitle, metadata, self)
