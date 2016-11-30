@@ -179,14 +179,26 @@ var Database = {
     /*******************************
      *******     SHOWS       ********
      *******************************/
-    addTVShow: function (data) {
-        return db.tvshows.insert(data);
+    addNewTVShow: function (data) {
+        return db.shows.insert(data);
     },
 
     updateTVShow: function (data) {
-        return db.tvshows.update({
+        return db.shows.update({
             imdb_id: data.imdb_id
         }, data);
+    },
+
+    addTVShow: function (data) {
+        return promisifyDb(db.shows.find({
+            imdb_id: data.imdb_id
+        })).then(function (res) {
+            if (res != null && res.length > 0) {
+                return Database.updateTVShow(data);
+            } else {
+                return Database.addNewTVShow(data);
+            }
+        });
     },
 
     markEpisodeAsWatched: function (data) {
@@ -268,7 +280,7 @@ var Database = {
 
     // Used in bookmarks
     deleteTVShow: function (imdb_id) {
-        return db.tvshows.remove({
+        return db.shows.remove({
             imdb_id: imdb_id
         });
     },
@@ -277,14 +289,14 @@ var Database = {
     getTVShow: function (data) {
         console.error('this isn\'t used anywhere');
 
-        return promisifyDb(db.tvshows.findOne({
+        return promisifyDb(db.shows.findOne({
             _id: data.tvdb_id
         }));
     },
 
     // Used in bookmarks
     getTVShowByImdb: function (imdb_id) {
-        return promisifyDb(db.tvshows.findOne({
+        return promisifyDb(db.shows.findOne({
             imdb_id: imdb_id
         }));
     },

@@ -1,5 +1,4 @@
 <%
-    if (typeof image === 'undefined') { var image = images.poster; }
     if (typeof rating === 'object') { var rating = rating.percentage /10; }
 %>
 

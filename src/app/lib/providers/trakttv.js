@@ -207,7 +207,7 @@
             var item = {ids: {}};
             var idType = type === 'movies' ? 'imdb' : 'tvdb';
 
-            item.id[idType] = id;
+            item.ids[idType] = id;
             post[type] = [item];
 
             return this.client.sync.history[call](post);
@@ -235,7 +235,7 @@
         if (channel === 'seen') {
             var type = item.episode_id ? 'episodes' : 'movies';
             var id = item.episode_id ? item.episode_id : item.imdb_id;
-            App.Trakt.client.sync.wrapHistory('add', type, id);
+            App.Trakt.wrapHistory('add', type, id);
         }
     }
 
@@ -243,7 +243,7 @@
         if (channel === 'seen') {
             var type = item.episode_id ? 'episodes' : 'movies';
             var id = item.episode_id ? item.episode_id : item.imdb_id;
-            App.Trakt.client.sync.wrapHistory('remove', type, id);
+            App.Trakt.wrapHistory('remove', type, id);
         }
     }
 

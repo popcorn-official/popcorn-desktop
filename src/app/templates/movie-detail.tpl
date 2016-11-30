@@ -1,5 +1,6 @@
 <%  
 if(typeof backdrop === "undefined"){ backdrop = ""; }; 
+if(typeof health === "undefined"){ health = false; };
 if(typeof synopsis === "undefined"){ synopsis = "Synopsis not available."; }; 
 if(typeof runtime === "undefined"){ runtime = "N/A"; };
 if (genre) {
