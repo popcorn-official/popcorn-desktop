@@ -216,7 +216,7 @@
             }
 
             this.subtitle_selected = lang;
-            this.ui.selected_lang.removeClass().addClass('flag toggle selected-lang').addClass(this.subtitle_selected);
+            // this.ui.selected_lang.removeClass().addClass('flag toggle selected-lang').addClass(this.subtitle_selected);
 
             console.log('Subtitles: ' + this.subtitle_selected);
         },
