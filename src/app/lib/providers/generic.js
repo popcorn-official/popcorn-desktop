@@ -24,7 +24,7 @@
             return console.error('double definition of', name, PO, PO.prototype.config, 'is the same as', registry[name]);
         }
 
-        //console.log('Added %s to provider registry', name);
+        console.log('Added %s to provider registry', name);
         registry[name] = PO;
 
         return name;
@@ -65,7 +65,7 @@
             }
         }
 
-        //console.log('Spawning new provider', name, config);
+        console.log('Spawning new provider', name, config);
         var p = cache[name] = new provider(config.args);
 
         //HACK(xaiki): set the provider name in the returned object.
