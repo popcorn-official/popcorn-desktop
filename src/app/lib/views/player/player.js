@@ -264,6 +264,29 @@
             this.sendToTrakt('start');
         },
 
+        showPlayIcon: function () {
+            if (this.ui.play.is(':visible')) {
+                return;
+            }
+            this.ui.pause.hide().dequeue();
+            this.ui.play.appendTo('div#video_player');
+            this.ui.play.show().delay(1500).queue(function () {
+                this.ui.play.hide().dequeue();
+            }.bind(this));
+        },
+
+        showPauseIcon: function () {
+            if (this.ui.pause.is(':visible')) {
+                return;
+            }
+
+            this.ui.play.hide().dequeue();
+            this.ui.pause.appendTo('div#video_player');
+            this.ui.pause.show().delay(1500).queue(function () {
+                this.ui.pause.hide().dequeue();
+            }.bind(this));
+        },
+
         onPlayerPlay: function () {
             // Trigger a resize so the subtitles are adjusted
             $(window).trigger('resize');
@@ -283,11 +306,7 @@
                     this.firstPlay = false;
                     return;
                 }
-                this.ui.pause.hide().dequeue();
-                this.ui.play.appendTo('div#video_player');
-                this.ui.play.show().delay(1500).queue(function () {
-                    this.ui.play.hide().dequeue();
-                }.bind(this));
+                this.showPlayIcon();
                 App.vent.trigger('player:play');
             }
 
@@ -299,11 +318,7 @@
                 this.wasSeek = true;
             } else {
                 this.wasSeek = false;
-                this.ui.play.hide().dequeue();
-                this.ui.pause.appendTo('div#video_player');
-                this.ui.pause.show().delay(1500).queue(function () {
-                    this.ui.pause.hide().dequeue();
-                }.bind(this));
+                this.showPauseIcon();
                 App.vent.trigger('player:pause');
                 this.sendToTrakt('pause');
             }
@@ -403,14 +418,10 @@
             this.player = this.video.player();
             App.PlayerView = this;
 
-            /* The following is a hack to make VideoJS listen to
-             *  mouseup instead of mousedown for pause/play on the
-             *  video element.
-             */
+            // better handle click/dblclick events for play/pause/fs
             this.player.tech.off('mousedown');
             this.player.tech.on('mouseup', this.onClick.bind(this));
             $('#video_player').dblclick(this.onDbClick.bind(this));
-            this.player.clicks = 0;
 
             // Force custom controls
             this.player.usingNativeControls(false);
@@ -467,24 +478,29 @@
         },
 
         onClick: function (e) {
-            var initial = this.player.clicks++;
+            if (!this.player.click) {
+                this.player.click = {};
+                this.player.click.count = 0;
+            }
 
-            if (!initial) { // it's the first time we click
+            this.player.click.count++;
+
+            if (this.player.click.count === 1) { // it's the first time we click
                 setTimeout(function () { // wait for double click
-                    if (!this.player.dbclick) { // if we didn't catch dbclick
+                    if (!this.player.click.dblclick) { // if we didn't catch dbclick
                         $('.vjs-play-control').click();
                     }
-                    this.player.clicks = 0;
-                    this.player.dbclick = false;
-                }.bind(this), 400);
+                    this.player.click.count = 0;
+                    this.player.click.dblclick = false;
+                }.bind(this), 300);
             } else { // we already clicked, reset
-                this.player.clicks = 0;
-                this.player.dbclick = false;
+                this.player.click.count = 0;
+                this.player.click.dblclick = false;
             }
         },
 
         onDbClick: function (e) {
-            this.player.dbclick = true;
+            this.player.click.dblclick = true;
             this.toggleFullscreen();
         },
 
