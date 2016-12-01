@@ -5,7 +5,8 @@
  ********/
 const nwVersion = '0.18.6',
     availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'],
-    releasesDir = 'build';
+    releasesDir = 'build',
+    nwFlavor = 'sdk';
 
 
 /***************
@@ -123,6 +124,7 @@ const nw = new nwBuilder({
     zip: false,
     macIcns: './src/app/images/butter.icns',
     version: nwVersion,
+    flavor: nwFlavor,
     downloadUrl: 'https://get.popcorntime.sh/repo/nw/',
     platforms: parsePlatforms()
 }).on('log', console.log);
@@ -135,7 +137,7 @@ const nw = new nwBuilder({
 gulp.task('run', () => {
     return new Promise((resolve, reject) => {
         let platform = parsePlatforms()[0],
-            bin = path.join('cache', nwVersion, platform);
+            bin = path.join('cache', nwVersion + '-' + nwFlavor, platform);
 
         // path to nw binary
         switch(platform.slice(0,3)) {
