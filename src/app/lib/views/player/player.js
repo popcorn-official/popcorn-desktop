@@ -265,25 +265,17 @@
         },
 
         showPlayIcon: function () {
-            if (this.ui.play.is(':visible')) {
+            var wasPlaying = this.player.paused();
+            var showIcon = wasPlaying ? 'pause' : 'play';
+            var hideIcon = wasPlaying ? 'play' : 'pause';
+
+            if (this.ui[showIcon].is(':visible')) {
                 return;
             }
-            this.ui.pause.hide().dequeue();
-            this.ui.play.appendTo('div#video_player');
-            this.ui.play.show().delay(1500).queue(function () {
-                this.ui.play.hide().dequeue();
-            }.bind(this));
-        },
-
-        showPauseIcon: function () {
-            if (this.ui.pause.is(':visible')) {
-                return;
-            }
-
-            this.ui.play.hide().dequeue();
-            this.ui.pause.appendTo('div#video_player');
-            this.ui.pause.show().delay(1500).queue(function () {
-                this.ui.pause.hide().dequeue();
+            this.ui[hideIcon].hide().dequeue();
+            this.ui[showIcon].appendTo('div#video_player');
+            this.ui[showIcon].show().delay(1500).queue(function () {
+                this.ui[showIcon].hide().dequeue();
             }.bind(this));
         },
 
@@ -318,7 +310,7 @@
                 this.wasSeek = true;
             } else {
                 this.wasSeek = false;
-                this.showPauseIcon();
+                this.showPlayIcon();
                 App.vent.trigger('player:pause');
                 this.sendToTrakt('pause');
             }
