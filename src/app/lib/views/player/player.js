@@ -347,13 +347,6 @@
             $('#player_drag').show();
             var that = this;
 
-            // Double Click to toggle Fullscreen
-            $('#video_player').dblclick(function (event) {
-                that.toggleFullscreen();
-                // Stop any mouseup events pausing video
-                event.preventDefault();
-            });
-
             if (this.model.get('auto_play')) {
 
                 this.precachestarted = false;
@@ -412,21 +405,12 @@
 
             /* The following is a hack to make VideoJS listen to
              *  mouseup instead of mousedown for pause/play on the
-             *  video element. Stops video pausing/playing when
-             *  dragged. TODO: #fixit!
+             *  video element.
              */
             this.player.tech.off('mousedown');
-            this.player.tech.on('mouseup', function (event) {
-                if (event.target.origEvent) {
-                    if (!event.target.origEvent.originalEvent.defaultPrevented) {
-                        that.player.tech.onClick(event);
-                    }
-                    // clean up after ourselves
-                    delete event.target.origEvent;
-                } else {
-                    that.player.tech.onClick(event);
-                }
-            });
+            this.player.tech.on('mouseup', this.onClick.bind(this));
+            $('#video_player').dblclick(this.onDbClick.bind(this));
+            this.player.clicks = 0;
 
             // Force custom controls
             this.player.usingNativeControls(false);
@@ -480,6 +464,28 @@
             }, function () {
                 clearInterval(that._ShowUIonHover);
             });
+        },
+
+        onClick: function (e) {
+            var initial = this.player.clicks++;
+
+            if (!initial) { // it's the first time we click
+                setTimeout(function () { // wait for double click
+                    if (!this.player.dbclick) { // if we didn't catch dbclick
+                        $('.vjs-play-control').click();
+                    }
+                    this.player.clicks = 0;
+                    this.player.dbclick = false;
+                }.bind(this), 400);
+            } else { // we already clicked, reset
+                this.player.clicks = 0;
+                this.player.dbclick = false;
+            }
+        },
+
+        onDbClick: function (e) {
+            this.player.dbclick = true;
+            this.toggleFullscreen();
         },
 
         sendToTrakt: function (method) {
