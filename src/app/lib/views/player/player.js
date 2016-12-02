@@ -414,7 +414,7 @@
             this.player = this.video.player();
 
             // Better handle click/dblclick events for play/pause/fs
-            this.player.click = {count: 0, dblclick: false}; // init conf
+            this.player.click = 0;
             this.player.tech.off('mousedown'); // stop listening to default ev
             this.player.tech.on('mouseup', this.onClick.bind(this));
             $('#video_player').dblclick(this.onDbClick.bind(this));
@@ -476,25 +476,23 @@
         },
 
         onClick: function (e) {
-            this.player.click.count++;
-
-            if (this.player.click.count === 1) { // it's the first time we click
-                setTimeout(function () { // wait for double click
-                    if (!this.player.click.dblclick) { // if we didn't catch dbclick
-                        $('.vjs-play-control').click();
-                    }
-                    this.player.click.count = 0;
-                    this.player.click.dblclick = false;
-                }.bind(this), dblclick_delay);
-            } else { // we already clicked, reset
-                this.player.click.count = 0;
-                this.player.click.dblclick = false;
+            if (this.player.click) {
+                return this.player.click = 0;
             }
+
+            this.player.click++;
+
+            return setTimeout(function () { // wait for double click
+                if (this.player.click) { // if we didn't catch dbclick
+                    $('.vjs-play-control').click();
+                    this.player.click = 0;
+                }
+            }.bind(this), dblclick_delay);
         },
 
-        onDbClick: function (e) {
-            this.player.click.dblclick = true;
+        onDbClick: function(e) {
             this.toggleFullscreen();
+            this.player.click = 0;
         },
 
         sendToTrakt: function (method) {
