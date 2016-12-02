@@ -1,6 +1,9 @@
 (function (App) {
     'use strict';
 
+    var dblclick_timeout = 300,
+        notif_displaytime = 3000;
+
     var Player = Backbone.Marionette.ItemView.extend({
         template: '#player-tpl',
         className: 'player',
@@ -484,7 +487,7 @@
                     }
                     this.player.click.count = 0;
                     this.player.click.dblclick = false;
-                }.bind(this), 300);
+                }.bind(this), dblclick_timeout);
             } else { // we already clicked, reset
                 this.player.click.count = 0;
                 this.player.click.dblclick = false;
@@ -939,14 +942,14 @@
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, 3000));
+                }, notif_displaytime));
             } else {
                 $(this.player.el()).append('<div class =\'vjs-overlay vjs-overlay-top-left\'>' + message + '</div>');
                 $.data(this, 'overlayTimer', setTimeout(function () {
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, 3000));
+                }, notif_displaytime));
             }
         },
 
