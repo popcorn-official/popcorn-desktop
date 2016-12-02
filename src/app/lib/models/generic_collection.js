@@ -12,7 +12,7 @@
             subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)).catch(function (err) {
                 console.error('Cannot fetch subtitles (%s):', torrentProvider.name, err);
                 return false;
-            }) : true,
+            }) : false,
 
             metadata ? idsPromise.then(function (ids) {
                 return Q.allSettled(_.map(ids, function (id) {
@@ -21,7 +21,7 @@
             }).catch(function (err) {
                 console.error('Cannot fetch metadata (%s):', torrentProvider.name, err);
                 return false;
-            }) : true
+            }) : false
         ];
 
         Q.all(promises)
@@ -58,7 +58,7 @@
                         movie.subtitle = subtitles[id];
                     }
 
-                    if (metadatas && id) {
+                    if (metadatas.length && id) {
                         var info = _.findWhere(metadatas, {
                             id: id
                         });
