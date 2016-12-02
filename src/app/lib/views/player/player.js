@@ -1,6 +1,9 @@
 (function (App) {
     'use strict';
 
+    var dblclick_delay = 300,
+        notif_displaytime = 3000;
+
     var Player = Backbone.Marionette.ItemView.extend({
         template: '#player-tpl',
         className: 'player',
@@ -245,7 +248,7 @@
             // resume position
             if (Settings.lastWatchedTitle === this.model.get('title') && Settings.lastWatchedTime > 0) {
                 var position = Settings.lastWatchedTime;
-                console.info('Resuming position to %d secs', position.toFixed());
+                console.info('Resuming position to %s secs', position.toFixed());
                 this.player.currentTime(position);
             } else if (Settings.traktPlayback) {
                 var type = this.isMovie();
@@ -254,7 +257,7 @@
                     var total = this.video.duration();
                     var position = (position_percent / 100) * total | 0;
                     if (position > 0) {
-                        console.info('Resuming position to %d secs (reported by Trakt)', position.toFixed());
+                        console.info('Resuming position to %s secs (reported by Trakt)', position.toFixed());
                         this.player.currentTime(position);
                     }
                 }.bind(this));
@@ -262,6 +265,21 @@
 
             // alert Trakt
             this.sendToTrakt('start');
+        },
+
+        showPlayIcon: function () {
+            var wasPlaying = this.player.paused();
+            var showIcon = wasPlaying ? 'pause' : 'play';
+            var hideIcon = wasPlaying ? 'play' : 'pause';
+
+            if (this.ui[showIcon].is(':visible')) {
+                return;
+            }
+            this.ui[hideIcon].hide().dequeue();
+            this.ui[showIcon].appendTo('div#video_player');
+            this.ui[showIcon].show().delay(1500).queue(function () {
+                this.ui[showIcon].hide().dequeue();
+            }.bind(this));
         },
 
         onPlayerPlay: function () {
@@ -283,11 +301,7 @@
                     this.firstPlay = false;
                     return;
                 }
-                this.ui.pause.hide().dequeue();
-                this.ui.play.appendTo('div#video_player');
-                this.ui.play.show().delay(1500).queue(function () {
-                    this.ui.play.hide().dequeue();
-                }.bind(this));
+                this.showPlayIcon();
                 App.vent.trigger('player:play');
             }
 
@@ -299,11 +313,7 @@
                 this.wasSeek = true;
             } else {
                 this.wasSeek = false;
-                this.ui.play.hide().dequeue();
-                this.ui.pause.appendTo('div#video_player');
-                this.ui.pause.show().delay(1500).queue(function () {
-                    this.ui.pause.hide().dequeue();
-                }.bind(this));
+                this.showPlayIcon();
                 App.vent.trigger('player:pause');
                 this.sendToTrakt('pause');
             }
@@ -346,13 +356,6 @@
             $('.filter-bar').show();
             $('#player_drag').show();
             var that = this;
-
-            // Double Click to toggle Fullscreen
-            $('#video_player').dblclick(function (event) {
-                that.toggleFullscreen();
-                // Stop any mouseup events pausing video
-                event.preventDefault();
-            });
 
             if (this.model.get('auto_play')) {
 
@@ -407,26 +410,14 @@
                     that.playerWasReady = Date.now();
                 });
             }
-            this.player = this.video.player();
-            App.PlayerView = this;
 
-            /* The following is a hack to make VideoJS listen to
-             *  mouseup instead of mousedown for pause/play on the
-             *  video element. Stops video pausing/playing when
-             *  dragged. TODO: #fixit!
-             */
-            this.player.tech.off('mousedown');
-            this.player.tech.on('mouseup', function (event) {
-                if (event.target.origEvent) {
-                    if (!event.target.origEvent.originalEvent.defaultPrevented) {
-                        that.player.tech.onClick(event);
-                    }
-                    // clean up after ourselves
-                    delete event.target.origEvent;
-                } else {
-                    that.player.tech.onClick(event);
-                }
-            });
+            this.player = this.video.player();
+
+            // Better handle click/dblclick events for play/pause/fs
+            this.player.click = 0;
+            this.player.tech.off('mousedown'); // stop listening to default ev
+            this.player.tech.on('mouseup', this.onClick.bind(this));
+            $('#video_player').dblclick(this.onDbClick.bind(this));
 
             // Force custom controls
             this.player.usingNativeControls(false);
@@ -450,6 +441,8 @@
             this.player.on('play', this.onPlayerPlay.bind(this));
             this.player.on('pause', this.onPlayerPause.bind(this));
             this.player.on('error', this.onPlayerError.bind(this));
+
+            App.PlayerView = this;
 
             this.bindKeyboardShortcuts();
             this.metadataCheck();
@@ -480,6 +473,26 @@
             }, function () {
                 clearInterval(that._ShowUIonHover);
             });
+        },
+
+        onClick: function (e) {
+            if (this.player.click) {
+                return this.player.click = 0;
+            }
+
+            this.player.click++;
+
+            return setTimeout(function () { // wait for double click
+                if (this.player.click) { // if we didn't catch dbclick
+                    $('.vjs-play-control').click();
+                    this.player.click = 0;
+                }
+            }.bind(this), dblclick_delay);
+        },
+
+        onDbClick: function(e) {
+            this.toggleFullscreen();
+            this.player.click = 0;
         },
 
         sendToTrakt: function (method) {
@@ -925,14 +938,14 @@
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, 3000));
+                }, notif_displaytime));
             } else {
                 $(this.player.el()).append('<div class =\'vjs-overlay vjs-overlay-top-left\'>' + message + '</div>');
                 $.data(this, 'overlayTimer', setTimeout(function () {
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, 3000));
+                }, notif_displaytime));
             }
         },
 
