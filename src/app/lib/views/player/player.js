@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var dblclick_timeout = 300,
+    var dblclick_delay = 300,
         notif_displaytime = 3000;
 
     var Player = Backbone.Marionette.ItemView.extend({
@@ -248,7 +248,7 @@
             // resume position
             if (Settings.lastWatchedTitle === this.model.get('title') && Settings.lastWatchedTime > 0) {
                 var position = Settings.lastWatchedTime;
-                console.info('Resuming position to %d secs', position.toFixed());
+                console.info('Resuming position to %s secs', position.toFixed());
                 this.player.currentTime(position);
             } else if (Settings.traktPlayback) {
                 var type = this.isMovie();
@@ -257,7 +257,7 @@
                     var total = this.video.duration();
                     var position = (position_percent / 100) * total | 0;
                     if (position > 0) {
-                        console.info('Resuming position to %d secs (reported by Trakt)', position.toFixed());
+                        console.info('Resuming position to %s secs (reported by Trakt)', position.toFixed());
                         this.player.currentTime(position);
                     }
                 }.bind(this));
@@ -410,11 +410,12 @@
                     that.playerWasReady = Date.now();
                 });
             }
-            this.player = this.video.player();
-            App.PlayerView = this;
 
-            // better handle click/dblclick events for play/pause/fs
-            this.player.tech.off('mousedown');
+            this.player = this.video.player();
+
+            // Better handle click/dblclick events for play/pause/fs
+            this.player.click = {count: 0, dblclick: false}; // init conf
+            this.player.tech.off('mousedown'); // stop listening to default ev
             this.player.tech.on('mouseup', this.onClick.bind(this));
             $('#video_player').dblclick(this.onDbClick.bind(this));
 
@@ -440,6 +441,8 @@
             this.player.on('play', this.onPlayerPlay.bind(this));
             this.player.on('pause', this.onPlayerPause.bind(this));
             this.player.on('error', this.onPlayerError.bind(this));
+
+            App.PlayerView = this;
 
             this.bindKeyboardShortcuts();
             this.metadataCheck();
@@ -473,11 +476,6 @@
         },
 
         onClick: function (e) {
-            if (!this.player.click) {
-                this.player.click = {};
-                this.player.click.count = 0;
-            }
-
             this.player.click.count++;
 
             if (this.player.click.count === 1) { // it's the first time we click
@@ -487,7 +485,7 @@
                     }
                     this.player.click.count = 0;
                     this.player.click.dblclick = false;
-                }.bind(this), dblclick_timeout);
+                }.bind(this), dblclick_delay);
             } else { // we already clicked, reset
                 this.player.click.count = 0;
                 this.player.click.dblclick = false;
