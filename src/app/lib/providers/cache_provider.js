@@ -11,7 +11,9 @@
     CacheProvider.prototype.fetch = function (ids) {
         var self = this;
         ids = _.map(ids, function (id) {
-            return id.toString();
+            if (id) {
+                return id.toString();
+            }
         });
         var cachePromise = this.cache.getItems(ids);
         var queryPromise = cachePromise.then(function (items) {
