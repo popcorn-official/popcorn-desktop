@@ -38,7 +38,7 @@
             App.vent.on('change:quality', function (quality) {
                 _this.model.set('quality', quality);
                 _this.renderHealth();
-            })
+            });
         },
 
         onShow: function () {
@@ -56,7 +56,7 @@
             this.views.play = new App.View.PlayControl({
                 model: this.model
             });
-            this.PlayControl.show(this.views.play)
+            this.PlayControl.show(this.views.play);
 
             var backgroundUrl = $('.backdrop').attr('data-bgr');
 

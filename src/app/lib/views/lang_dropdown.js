@@ -1,6 +1,8 @@
 (function (App){
     'use strict';
 
+    var objectAssign = require('es6-object-assign');
+
     App.View.LangDropdown = Backbone.Marionette.ItemView.extend({
         template: '#lang-dropdown-tpl',
         ui: {
@@ -26,7 +28,7 @@
             }
 
             if (!this.selected && this.values) {
-                var values = Object.keys(this.values)
+                var values = Object.keys(this.values);
                 if (values.length) {
                     this.selected = values.pop();
                 }
@@ -34,7 +36,7 @@
         },
         onShow: function () {
             if (this.selected !== 'none') {
-                this.setLang(this.selected)
+                this.setLang(this.selected);
             }
 
         },
@@ -72,7 +74,7 @@
             var value = $(e.currentTarget).attr('data-lang');
 
             if (value) {
-                this.setLang(value)
+                this.setLang(value);
             }
         },
     });

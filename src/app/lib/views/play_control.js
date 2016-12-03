@@ -29,7 +29,7 @@
             App.vent.on('audio:lang', _this.switchAudio.bind(_this));
             App.vent.on('update:subtitles', function (subs)  {
                 _this.views.subs.updateLangs(subs);
-            })
+            });
 
             this.model.on('change:quality', function () {
                 App.vent.trigger('change:quality', _this.model.get('quality'));
@@ -44,12 +44,12 @@
             var self = this;
 
             var torrents = this.model.get('torrents');
-            var quality = Settings.movies_default_quality
+            var quality = Settings.movies_default_quality;
             _.each(['1080p', '720p', '480p', 'HDRip'], function (q) {
                 if (torrents[q] !== undefined) {
-                    quality = q
+                    quality = q;
                 }
-            })
+            });
             this.model.set('quality', quality);
 
             if (Settings.movies_default_quality === '720p' && torrents['720p'] !== undefined && document.getElementsByName('switch')[0] !== undefined) {
@@ -60,7 +60,7 @@
                 $('#watch-trailer').hide();
             }
 
-            var audios = self.model.get('audios')
+            var audios = self.model.get('audios');
             this.views.audio = new App.View.LangDropdown({
                 model: new App.Model.Lang({
                     type: 'audio',
@@ -69,7 +69,7 @@
                     values: audios || {en: undefined},
                     handler: self.switchAudio.bind(self)
                 })
-            })
+            });
             this.AudioDropdown.show (this.views.audio);
 
             this.views.subs = new App.View.LangDropdown({
@@ -81,7 +81,7 @@
                     values: self.model.get('subtitle'),
                     handler: self.switchSubtitle.bind(self),
                 })
-            })
+            });
             this.SubDropdown.show (this.views.subs);
 
             // switch to default subtitle
