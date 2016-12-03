@@ -96,11 +96,11 @@
         },
 
         forward: function () {
-            this._seek(this.get('loadedMedia').currentTime + 30);
+            this.seekRelative(30);
         },
 
         backward: function () {
-            this._seek(this.get('loadedMedia').currentTime - 30);
+            this.seekRelative(-30);
         },
 
         unpause: function () {
@@ -115,6 +115,10 @@
                 }
                 self._internalStatusUpdated(status);
             });
+        },
+
+        seekRelative: function (time)  {
+            this._seek(this.get('loadedMedia').currentTime + time);
         },
 
         _seek: function (time) {
