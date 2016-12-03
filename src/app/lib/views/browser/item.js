@@ -122,7 +122,7 @@
         loadImage: function () {
             var noimg = 'images/posterholder.png';
 
-            var poster = this.model.get('poster');
+            var poster = this.model.get('poster') || noimg;
 
             var setImage = function (img) {
                 this.ui.cover.css('background-image', 'url(' + img + ')').addClass('fadein');
