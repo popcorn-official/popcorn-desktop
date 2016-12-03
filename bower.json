@@ -1,12 +1,12 @@
 {
     "name": "butter",
     "dependencies": {
-        "marionette": "~2.4.1",
-        "bootstrap": "~3.3.4",
+        "marionette": "^2.4.1",
+        "bootstrap": "~3.3.7",
         "video.js": "4.11.4",
         "videojs-youtube": "1.2.10",
-        "mousetrap": "~1.5.2",
-        "font-awesome": "~4.3.0"
+        "mousetrap": "~1.6.0",
+        "font-awesome": "^4.6.3"
     },
     "dependenciesIgnore": {
         "backbone": ["**/!(backbone-min.js)"],
@@ -22,6 +22,6 @@
         "bootstrap": ["**/!(dist)"]
     },
     "resolutions": {
-        "underscore": ">=1.5.0"
+        "underscore": ">=1.8.0"
     }
 }
