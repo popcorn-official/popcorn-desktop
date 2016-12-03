@@ -66,7 +66,7 @@ Common.fileSize = function (num) {
         return;
     }
 
-    num = parseInt(num);
+    num = parseInt(num) | 0;
 
     var exponent, unit, units, base;
     var neg = num < 0;
