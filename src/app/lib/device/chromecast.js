@@ -55,18 +55,20 @@
                     title: streamModel.get('title').substring(0,50)
                 };
             }
-            console.log('Chromecast: play ' + url + ' on \'' + this.get('name') + '\'');
-            console.log('Chromecast: connecting to ' + this.device.host);
+
+            console.log('Chromecast: play %s on %s', url, this.get('name'));
+            console.log('Chromecast: connecting to %s', this.device.host);
 
             self.device.play(url, media, function (err, status) {
                 if (err) {
-                    console.error('chromecast.play error: ', err);
+                    console.error('Chromecast.play() error: ', err);
                 } else {
-                    console.log('Playing ' + url + ' on ' + self.get('name'));
+                    console.log('Playing %s on %s', url, self.get('name'));
                     self.set('loadedMedia', status.media);
                 }
             });
-          this.device.on('status', function (status) {
+
+            this.device.on('status', function (status) {
                 self._internalStatusUpdated(status);
             });
         },
@@ -88,36 +90,17 @@
             });
         },
 
-        seek: function (seconds) {
-            console.log('Chromecast: seek %s', seconds);
-            this.get('device').seek(seconds, function (err, status) {
-                if (err) {
-                    console.error('Chromecast.seek:Error', err);
-                }
-            });
-        },
-
-        seekTo: function (newCurrentTime) {
-            console.log('Chromecast: seek to %ss', newCurrentTime);
-            this.get('device').seek(newCurrentTime, function (err, status) {
-                if (err) {
-                    console.error('Chromecast.seekTo:Error', err);
-                }
-            });
-        },
-
         seekPercentage: function (percentage) {
             console.log('Chromecast: seek percentage %s%', percentage.toFixed(2));
-            var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
-            this.seekTo(newCurrentTime.toFixed());
+            this._seek(this.get('loadedMedia').duration / 100 * percentage);
         },
 
         forward: function () {
-            this.seek(30);
+            this._seek(this.get('loadedMedia').currentTime + 30);
         },
 
         backward: function () {
-            this.seek(-30);
+            this._seek(this.get('loadedMedia').currentTime - 30);
         },
 
         unpause: function () {
@@ -131,6 +114,12 @@
                     return console.error('Chromecast.updateStatus:Error', err);
                 }
                 self._internalStatusUpdated(status);
+            });
+        },
+
+        _seek: function (time) {
+            this.get('device').seek(time, function (err, status) {
+                err ? console.error('Chromecast.seek() error:', err) : console.log('Chromecast, seeked to', time);
             });
         },
 
