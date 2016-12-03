@@ -45,6 +45,17 @@ Keep track of Butter development and community activity.
 ![Butter](https://cloud.githubusercontent.com/assets/8317250/10714437/b1e1dc8c-7b32-11e5-9c25-d9fbd5b2f3bd.png)
 ![Debugging Butter](https://cloud.githubusercontent.com/assets/8317250/10714430/add70234-7b32-11e5-9be7-1de539d865ba.png)
 
+## Supported codecs
+
+Butter currently support native decoding for the following codecs
+
+Linux and Mac
+
+* `aac, ac3, aac3, h264, mp1, mp2, mp3, mpeg4, mpegvideo, msmpeg4v1, msmpeg4v2, msmpeg4v3, hevc, flv, dca, flac`
+
+Windows
+
+* `aac, ac3, eac3, h264, mp1, mp2, mp3, mpeg4, mpegvideo, hevc, flv, dca, flac`
 
 ## Versioning
 
