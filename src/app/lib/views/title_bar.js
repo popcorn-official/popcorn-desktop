@@ -57,7 +57,7 @@
                 this.nativeWindow.toggleFullscreen();
             } else {
                 if (window.screen.availHeight <= this.nativeWindow.height) {
-                    this.nativeWindow.unmaximize();
+                    this.nativeWindow.restore();
                     if (process.platform === 'win32') {
                         $('.os-max').removeClass('os-is-max');
                     }

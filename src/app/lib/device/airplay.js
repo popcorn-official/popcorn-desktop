@@ -2,11 +2,12 @@
     'use strict';
 
     var airplayer = require('airplayer'),
+        netw = require('network-address'),
         list = airplayer(),
         collection = App.Device.Collection;
 
     var makeID = function (baseID) {
-        return 'airplay-' + baseID.replace(':', '');
+        return 'airplay-' + baseID.replace('.', '');
     };
 
     var Airplay = App.Device.Generic.extend({
@@ -17,13 +18,17 @@
         makeID: makeID,
         initialize: function (attrs) {
             this.device = attrs.device;
-            this.attributes.id = this.makeID(this.device.serverInfo.macAddress || this.device.serverInfo.deviceId || '' + this.device.id);
+            this.attributes.id = this.makeID(this.device.host);
             this.attributes.name = this.device.name || this.device.serverInfo.model;
-            this.attributes.address = this.device.host;
+            this.attributes.address = netw();
         },
         play: function (streamModel) {
             var url = streamModel.attributes.src;
-            this.device.play(url);
+            this.device.play(url, function (err, res) {
+                if (err) {
+                    console.error('Airplay.play() error:', err);
+                }
+            });
         },
         stop: function () {
             this.device.destroy();
