@@ -1,7 +1,7 @@
 (function (App){
     'use strict';
 
-    var objectAssign = require('es6-object-assign');
+    var objectAssign = require('es6-object-assign').assign;
 
     App.View.LangDropdown = Backbone.Marionette.ItemView.extend({
         template: '#lang-dropdown-tpl',
