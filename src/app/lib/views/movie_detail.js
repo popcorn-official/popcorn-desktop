@@ -105,12 +105,12 @@
                 })
             }));
 
-            var backgroundUrl = $('.backdrop').attr('data-bgr');
+            var backdropUrl = this.model.get('backdrop');
 
             var bgCache = new Image();
-            bgCache.src = backgroundUrl;
+            bgCache.src = backdropUrl;
             bgCache.onload = function () {
-                $('.backdrop').css('background-image', 'url(' + backgroundUrl + ')').addClass('fadein');
+                $('.backdrop').css('background-image', 'url(' + backdropUrl + ')').addClass('fadein');
                 bgCache = null;
             };
             bgCache.onerror = function () {
@@ -118,17 +118,17 @@
                 bgCache = null;
             };
 
-            var coverUrl = $('.mcover-image').attr('data-cover');
+            var poster = this.model.get('poster');
 
-            var coverCache = new Image();
-            coverCache.src = coverUrl;
-            coverCache.onload = function () {
-                $('.mcover-image').attr('src', coverUrl).addClass('fadein');
-                coverCache = null;
+            var posterCache = new Image();
+            posterCache.src = poster;
+            posterCache.onload = function () {
+                $('.mcover-image').attr('src', poster).addClass('fadein');
+                posterCache = null;
             };
-            coverCache.onerror = function () {
+            posterCache.onerror = function () {
                 $('.mcover-image').attr('src', self.model.get('image')).addClass('fadein');
-                coverCache = null;
+                posterCache = null;
             };
 
             // switch to default subtitle
@@ -226,6 +226,7 @@
             var torrentStart = new Backbone.Model({
                 imdb_id: this.model.get('imdb_id'),
                 torrent: torrent,
+                poster: this.model.get('poster'),
                 backdrop: this.model.get('backdrop'),
                 subtitle: this.model.get('subtitle'),
                 defaultSubtitle: this.subtitle_selected,
@@ -233,7 +234,6 @@
                 quality: this.model.get('quality'),
                 type: 'movie',
                 device: App.Device.Collection.selected,
-                cover: this.model.get('cover')
             });
             App.vent.trigger('stream:start', torrentStart);
         },

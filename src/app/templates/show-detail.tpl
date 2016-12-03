@@ -2,11 +2,11 @@
     <div class="fa fa-times close-icon"></div>
 
     <section class="show-header">
-        <div class="sh-cover">
-            <div class="shc-img" data-bgr="<%= images.fanart %>"></div>
+        <div class="sh-backdrop">
+            <div class="shb-img"></div>
         </div>
         <div class="sh-poster">
-            <div class="shp-img" data-bgr="<%= images.poster %>"></div>
+            <div class="shp-img"></div>
         </div>
         <div class="sh-metadata">
             <div class="shm-title"><%= title %></div>

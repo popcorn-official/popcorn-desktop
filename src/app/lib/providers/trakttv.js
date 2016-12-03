@@ -218,7 +218,8 @@
                 item = md;
                 return this.client.images.get(md);
             }.bind(this)).then(function (img) {
-                item.images = img;
+                item.backdrop = img.background;
+                item.poster = img.poster;
                 return item;
             }).catch(function (err) {
                 return item;

@@ -55,7 +55,6 @@
 
     var format = function (items) {
         var itemList = [];
-        var itemList2 = [];
 
         return Promise.all(items.map(function (item) {
             if (item.next_episode) {
@@ -97,19 +96,14 @@
                 }
             }
         })).then(function () {
-            return Promise.all(itemList.map(function (item) {
-                return App.Trakt.client.images.get(item).then(function (imgUrl) {
-                    var newItem = item;
-                    newItem.images = {
-                        poster: imgUrl.poster,
-                        backdrop: imgUrl.background
-                    };
-                    newItem.image = imgUrl.poster;
-                    itemList2.push(newItem);
+            return Promise.all(itemList.map(function (item, idx) {
+                return App.Trakt.client.images.get(item).then(function (imgs) {
+                    itemList[idx].poster = imgs.poster;
+                    itemList[idx].backdrop = imgs.background;
                 });
             }));
         }).then(function () {
-            return itemList2;
+            return itemList;
         });
     };
 
