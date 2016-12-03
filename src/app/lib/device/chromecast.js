@@ -77,6 +77,10 @@
             this.get('device').pause(function () {});
         },
 
+        unpause: function () {
+            this.get('device').resume(function () {});
+        },
+
         stop: function () {
             console.log('Closing Chromecast Casting');
             App.vent.trigger('stream:stop');
@@ -90,11 +94,6 @@
             });
         },
 
-        seekPercentage: function (percentage) {
-            console.log('Chromecast: seek percentage %s%', percentage.toFixed(2));
-            this._seek(this.get('loadedMedia').duration / 100 * percentage);
-        },
-
         forward: function () {
             this.seekRelative(30);
         },
@@ -103,8 +102,13 @@
             this.seekRelative(-30);
         },
 
-        unpause: function () {
-            this.get('device').resume(function () {});
+        seekPercentage: function (percentage) {
+            console.log('Chromecast: seek percentage %s%', percentage.toFixed(2));
+            this._seek(this.get('loadedMedia').duration / 100 * percentage);
+        },
+
+        seekRelative: function (time)  {
+            this._seek(this.get('loadedMedia').currentTime + time);
         },
 
         updateStatus: function () {
@@ -115,10 +119,6 @@
                 }
                 self._internalStatusUpdated(status);
             });
-        },
-
-        seekRelative: function (time)  {
-            this._seek(this.get('loadedMedia').currentTime + time);
         },
 
         _seek: function (time) {
