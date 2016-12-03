@@ -73,7 +73,8 @@
                                 title: info.title,
                                 trailer: info.trailer,
                                 year: info.year,
-                                images: info.images
+                                backdrop: info.backdrop,
+                                poster: info.poster
                             });
                         } else {
                             console.log('No extra infos found for %s (%s)', movie.title, id);

@@ -1,4 +1,4 @@
-<div class="loading-background"></div>
+<div class="loading-backdrop"></div>
 <div class="disclaimer-loading"></div>
 <img class="icon-disclaimer" src="/src/app/images/icon.png">
 <div class="disclaimer-state">
