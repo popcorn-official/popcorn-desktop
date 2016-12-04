@@ -105,9 +105,6 @@
                 Database.getMovie(movie.imdb_id)
                     .then(function (data) {
                             data.type = 'bookmarkedmovie';
-                            if (/slurm.trakt.us/.test(data.image)) {
-                                data.image = data.image.replace(/slurm.trakt.us/, 'walter.trakt.us');
-                            }
                             deferred.resolve(data);
                         },
                         function (err) {
@@ -124,17 +121,9 @@
                         if (typeof (data.provider) === 'undefined' || data.provider === 'Eztv') {
                             data.provider = 'TVApi';
                         }
-                        // This is an old boxart, fetch the latest boxart
-                        if (/slurm.trakt.us/.test(data.images.poster)) {
-                            // Keep reference to old data in case of error
-                            _data = data;
-                            var provider = App.Providers.get(data.provider);
-                            return provider.detail(data.imdb_id, data);
-                        } else {
-                            data.image = data.images.poster;
-                            deferred.resolve(data);
-                            return null;
-                        }
+
+                        deferred.resolve(data);
+                        return null;
                     }, function (err) {
                         deferred.reject(err);
                     }).then(function (data) {

@@ -22,52 +22,61 @@
         },
 
         initialize: function () {
-            var _this = this;
             this.views = {};
 
-            App.vent.on('sub:lang',   _this.switchSubtitle.bind(_this));
-            App.vent.on('audio:lang', _this.switchAudio.bind(_this));
+            App.vent.on('sub:lang',   this.switchSubtitle.bind(this));
+            App.vent.on('audio:lang', this.switchAudio.bind(this));
             App.vent.on('update:subtitles', function (subs)  {
-                _this.views.subs.updateLangs(subs);
-            });
+                this.views.subs.updateLangs(subs);
+            }.bind(this));
 
             this.model.on('change:quality', function () {
-                App.vent.trigger('change:quality', _this.model.get('quality'));
-            });
-
-
+                App.vent.trigger('change:quality', this.model.get('quality'));
+            }.bind(this));
         },
 
         onShow: function () {
-            console.info('Show play control (' + this.model.get('imdb_id') + ')');
+            this.hideUnused();
+            this.setQuality();
+            this.loadComponents();
+            this.setUiStates();
+        },
 
-            var self = this;
-
+        setQuality: function () {
             var torrents = this.model.get('torrents');
             var quality = Settings.movies_default_quality;
-            _.each(['1080p', '720p', '480p', 'HDRip'], function (q) {
+            ['1080p', '720p', '480p', 'HDRip'].forEach(function (q) {
                 if (torrents[q] !== undefined) {
                     quality = q;
                 }
             });
+
             this.model.set('quality', quality);
 
             if (Settings.movies_default_quality === '720p' && torrents['720p'] !== undefined && document.getElementsByName('switch')[0] !== undefined) {
                 document.getElementsByName('switch')[0].checked = true;
             }
+        },
+
+        hideUnused: function() {
+            if (!this.model.get('torrents')) { // no torrents
+                $('#player-chooser, #audio-dropdown, #subs-dropdown').hide();
+            }
 
             if (!this.model.get('trailer')) {
                 $('#watch-trailer').hide();
             }
+        },
 
-            var audios = self.model.get('audios');
+        loadComponents: function() {
+            var audios = this.model.get('audios');
             this.views.audio = new App.View.LangDropdown({
                 model: new App.Model.Lang({
                     type: 'audio',
                     title: _('Audio Language'),
-                    selected: self.model.get('defaultAudio'),
+                    selected: this.model.get('defaultAudio'),
                     values: audios || {en: undefined},
-                    handler: self.switchAudio.bind(self)
+                    handler: this.switchAudio.bind(this)
                 })
             });
             this.AudioDropdown.show (this.views.audio);
@@ -76,43 +85,62 @@
                 model: new App.Model.Lang({
                     type: 'sub',
                     title: _('Subtitle'),
-                    selected: self.model.get('defaultSubtitle'),
+                    selected: this.model.get('defaultSubtitle'),
                     hasNull: true,
-                    values: self.model.get('subtitle'),
-                    handler: self.switchSubtitle.bind(self),
+                    values: this.model.get('subtitle'),
+                    handler: this.switchSubtitle.bind(this)
                 })
             });
             this.SubDropdown.show (this.views.subs);
 
-            // switch to default subtitle
-            this.switchSubtitle(Settings.subtitle_language);
+            // player chooser
+            App.Device.Collection.setDevice(Settings.chosenPlayer);
+            App.Device.ChooserView('#player-chooser').render();
+        },
+
+        setUiStates: function () {
+            $('.star-container,.movie-imdb-link,.q720,input,.magnet-link').tooltip({
+                html: true
+            });
 
             // Bookmarked / not bookmarked
-            if (this.model.get('bookmarked') === true) {
-                this.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
+            if (this.model.get('bookmarked')) {
+                this.ui.bookmarkIcon.addClass('selected');
             }
 
             // Seen / Unseen
-            if (this.model.get('watched') === true) {
-                this.ui.watchedIcon.addClass('selected').text(i18n.__('Seen'));
+            if (this.model.get('watched')) {
+                this.ui.watchedIcon.addClass('selected');
             }
-            var _this = this;
-            this.ui.watchedIcon.hover(function () {
-                if (_this.model.get('watched')) {
-                    _this.ui.watchedIcon.text(i18n.__('Mark as unseen'));
-                } else {
-                    _this.ui.watchedIcon.text(i18n.__('Mark as Seen'));
-                }
-            }, function () {
-                if (_this.model.get('watched')) {
-                    _this.ui.watchedIcon.text(i18n.__('Seen'));
-                } else {
-                    _this.ui.watchedIcon.text(i18n.__('Not Seen'));
-                }
-            });
+            // display stars or number
+            if (!Settings.ratingStars) {
+                $('.star-container').addClass('hidden');
+                $('.number-container').removeClass('hidden');
+            }
 
-            App.Device.Collection.setDevice(Settings.chosenPlayer);
-            App.Device.ChooserView('#player-chooser').render();
+            // switch to default subtitle
+            this.switchSubtitle(Settings.subtitle_language);
+
+            this.setTooltips();
+        },
+
+        setTooltips: function () {
+            // watched state
+            var watched = this.model.get('watched');
+            var textWatched = watched ? 'Seen' : 'Not Seen';
+            var textWatchedHover = watched ? 'Mark as unseen' : 'Mark as Seen';
+            this.ui.watchedIcon.text(i18n.__(textWatched));
+
+            this.ui.watchedIcon.hover(function () {
+                this.ui.watchedIcon.text(i18n.__(textWatchedHover));
+            }.bind(this), function () {
+                this.ui.watchedIcon.text(i18n.__(textWatched));
+            }.bind(this));
+
+            // favorite state
+            var bookmarked = this.model.get('bookmarked');
+            var textBookmarked = bookmarked ? 'Remove from bookmarks' : 'Add to bookmarks';
+            this.ui.bookmarkIcon.text(i18n.__(textBookmarked));
         },
 
         switchSubtitle: function (lang) {
@@ -183,6 +211,7 @@
             App.vent.trigger('stream:ready', trailer);
             App.Device.Collection.setDevice(tmpPlayer);
         },
+        
         enableHD: function () {
             var torrents = this.model.get('torrents');
 
@@ -205,39 +234,21 @@
             }
         },
 
+
         toggleFavourite: function (e) {
-            if (e.type) {
-                e.stopPropagation();
-                e.preventDefault();
-            }
-            var that = this;
-            if (this.model.get('bookmarked') === true) {
-                that.ui.bookmarkIcon.removeClass('selected').text(i18n.__('Add to bookmarks'));
-                that.model.set('bookmarked', false);
-            } else {
-                that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
-                that.model.set('bookmarked', true);
-            }
             $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-favorites').click();
+            this.ui.bookmarkIcon.toggleClass('selected');
+            this.model.set('bookmarked', !this.model.get('bookmarked'));
+            this.setTooltips();
         },
 
         toggleWatched: function (e) {
-
-            if (e.type) {
-                e.stopPropagation();
-                e.preventDefault();
-            }
-            var that = this;
-            if (this.model.get('watched') === true) {
-                that.model.set('watched', false);
-                that.ui.watchedIcon.removeClass('selected').text(i18n.__('Not Seen'));
-            } else {
-                that.model.set('watched', true);
-                that.ui.watchedIcon.addClass('selected').text(i18n.__('Seen'));
-            }
-
             $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-watched').click();
+            this.ui.watchedIcon.toggleClass('selected');
+            this.model.set('watched', !this.model.get('watched'));
+            this.setTooltips();
         },
+
         toggleQuality: function (e) {
             if ($('#switch-hd-off').is(':checked')) {
                 $('#switch-hd-on').trigger('click');
@@ -247,7 +258,6 @@
 
             if (e.type) {
                 e.preventDefault();
-
                 e.stopPropagation();
             }
         },

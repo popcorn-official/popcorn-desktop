@@ -24,7 +24,7 @@
         play: function (streamModel) {
             var self = this;
             var subtitle = streamModel.get('subFile');
-            var cover = streamModel.get('cover');
+            var poster = streamModel.get('poster');
             var url = streamModel.get('src');
             var attr= streamModel.attributes;
             this.attributes.url = url;
@@ -33,7 +33,7 @@
             if (subtitle) {
                 media = {
                     title: streamModel.get('title').substring(0,50),
-                    images: streamModel.get('cover'),
+                    images: poster,
                     subtitles: ['http:' + url.split(':')[1] + ':9999/subtitle.vtt'],
                     textTrackStyle: {
                         backgroundColor: AdvSettings.get('subtitle_decoration') === 'Opaque Background' ? '#000000FF' : '#00000000', // color of background - see http://dev.w3.org/csswg/css-color/#hex-notation
@@ -51,7 +51,7 @@
                 };
             } else {
                 media = {
-                    images: cover,
+                    images: poster,
                     title: streamModel.get('title').substring(0,50)
                 };
             }

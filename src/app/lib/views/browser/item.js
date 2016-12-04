@@ -17,7 +17,6 @@
         },
 
         ui: {
-            coverImage: '.cover-image',
             cover: '.cover',
             bookmarkIcon: '.actions-favorites',
             watchedIcon: '.actions-watched'
@@ -123,32 +122,27 @@
         loadImage: function () {
             var noimg = 'images/posterholder.png';
 
-            var coverUrl = function () {
-                var images = this.model.get('images') || {};
-                var poster = this.model.get('cover');
-                return images.poster || poster || noimg;
-            }.bind(this)();
+            var poster = this.model.get('poster') || noimg;
 
             var setImage = function (img) {
                 this.ui.cover.css('background-image', 'url(' + img + ')').addClass('fadein');
-                this.ui.coverImage.remove();
             }.bind(this);
 
-            var coverCache = new Image();
-            coverCache.src = coverUrl;
+            var posterCache = new Image();
+            posterCache.src = poster;
 
-            coverCache.onload = function () {
-                if (coverUrl.indexOf('.gif') !== -1) { // freeze gifs
+            posterCache.onload = function () {
+                if (poster.indexOf('.gif') !== -1) { // freeze gifs
                     var c = document.createElement('canvas');
-                    var w  = c.width = coverCache.width;
-                    var h = c.height = coverCache.height;
+                    var w  = c.width = posterCache.width;
+                    var h = c.height = posterCache.height;
 
-                    c.getContext('2d').drawImage(coverCache, 0, 0, w, h);
-                    coverUrl = c.toDataURL();
+                    c.getContext('2d').drawImage(posterCache, 0, 0, w, h);
+                    poster = c.toDataURL();
                 }
-                setImage(coverUrl);
+                setImage(poster);
             };
-            coverCache.onerror = function (e) {
+            posterCache.onerror = function (e) {
                 setImage(noimg);
             };
         },
