@@ -73,7 +73,7 @@
             this.views.audio = new App.View.LangDropdown({
                 model: new App.Model.Lang({
                     type: 'audio',
-                    title: _('Audio Language'),
+                    title: i18n.__('Audio Language'),
                     selected: this.model.get('defaultAudio'),
                     values: audios || {en: undefined},
                     handler: this.switchAudio.bind(this)
@@ -84,7 +84,7 @@
             this.views.subs = new App.View.LangDropdown({
                 model: new App.Model.Lang({
                     type: 'sub',
-                    title: _('Subtitle'),
+                    title: i18n.__('Subtitle'),
                     selected: this.model.get('defaultSubtitle'),
                     hasNull: true,
                     values: this.model.get('subtitle'),
