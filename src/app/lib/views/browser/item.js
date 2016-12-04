@@ -167,7 +167,7 @@
 
             // display the spinner
             $('.spinner').show();
-            provider.detail(this.model.get('imdb_id'), this.model.attributes).then(function (data) {
+            return provider.detail(this.model.get('imdb_id'), this.model.attributes).then(function (data) {
                 $('.spinner').hide();
 
                 // inject provider's name
