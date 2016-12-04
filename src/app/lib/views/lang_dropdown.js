@@ -32,12 +32,13 @@
                 }
             }
         },
+
         onShow: function () {
             if (this.selected !== 'none') {
                 this.setLang(this.selected);
             }
-
         },
+
         updateLangs: function (newLangs) {
             if (this.hasNull) {
                 newLangs = Object.assign({}, {none: undefined}, newLangs);
@@ -53,6 +54,7 @@
             App.vent.trigger(this.type + ':lang', value);
             this.handler(value);
         },
+
         toggleDropdown: function (e) {
             var el = $(this.el);
             if (el.find('.dropdown-container').is('.open')) {
