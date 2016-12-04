@@ -4,7 +4,7 @@
     App.Model.Lang = Backbone.Model.extend({
         defaults: {
             hasNull: false,
-//            selected: 'none'
+            selected: undefined
         }
     });
 })(window.App);

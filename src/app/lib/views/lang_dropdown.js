@@ -34,7 +34,7 @@
         },
 
         onShow: function () {
-            if (this.selected !== 'none') {
+            if (this.selected && this.selected !== 'none') {
                 this.setLang(this.selected);
             }
         },
