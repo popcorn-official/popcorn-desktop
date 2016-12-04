@@ -268,6 +268,13 @@
             if (!player.match(/[0-9]+.[0-9]+.[0-9]+.[0-9]/ig)) {
                 AdvSettings.set('chosenPlayer', player);
             }
+        },
+
+        onDestroy: function () {
+            App.vent.off('sub:lang');
+            App.vent.off('audio:lang');
+            App.vent.off('update:subtitles');
+            this.model.off('change:quality');
         }
     });
 

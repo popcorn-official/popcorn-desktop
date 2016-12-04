@@ -41,7 +41,7 @@
             }.bind(this));
 
             App.vent.on('shortcuts:movies', this.initKeyboardShortcuts);
-            this.model.on('change:quality', this.renderHealth, this);
+            App.vent.on('change:quality', this.renderHealth, this);
         },
 
         onShow: function () {
@@ -122,6 +122,7 @@
         },
 
         onDestroy: function () {
+            App.vent.off('change:quality');
             this.unbindKeyboardShortcuts();
         },
 
