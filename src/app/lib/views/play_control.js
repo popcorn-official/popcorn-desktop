@@ -75,7 +75,7 @@
                     type: 'audio',
                     title: i18n.__('Audio Language'),
                     selected: this.model.get('defaultAudio'),
-                    values: audios || {en: undefined},
+                    values: audios || {en: undefined}
                 })
             });
             this.AudioDropdown.show (this.views.audio);
@@ -86,7 +86,7 @@
                     title: i18n.__('Subtitle'),
                     selected: this.model.get('defaultSubtitle'),
                     hasNull: true,
-                    values: this.model.get('subtitle'),
+                    values: this.model.get('subtitle')
                 })
             });
             this.SubDropdown.show (this.views.subs);
