@@ -7,7 +7,9 @@
 
         ui: {
             bookmarkIcon: '.favourites-toggle',
-            watchedIcon: '.watched-toggle'
+            watchedIcon: '.watched-toggle',
+            backdrop: '.backdrop',
+            poster: '.mcover-image'
         },
 
         events: {
@@ -30,35 +32,128 @@
         },
 
         initialize: function () {
-            var _this = this;
-
-            //Handle keyboard shortcuts when other views are appended or removed
-
             //If a child was removed from above this view
             App.vent.on('viewstack:pop', function () {
-                if (_.last(App.ViewStack) === _this.className) {
-                    _this.initKeyboardShortcuts();
+                if (_.last(App.ViewStack) === this.className) {
+                    this.initKeyboardShortcuts();
                 }
-            });
+            }.bind(this));
 
             //If a child was added above this view
             App.vent.on('viewstack:push', function () {
-                if (_.last(App.ViewStack) !== _this.className) {
-                    _this.unbindKeyboardShortcuts();
+                if (_.last(App.ViewStack) !== this.className) {
+                    this.unbindKeyboardShortcuts();
                 }
-            });
+            }.bind(this));
 
-            App.vent.on('shortcuts:movies', _this.initKeyboardShortcuts);
+            App.vent.on('shortcuts:movies', this.initKeyboardShortcuts);
 
             this.model.on('change:quality', this.renderHealth, this);
         },
 
         onShow: function () {
             console.log('Show movie detail (' + this.model.get('imdb_id') + ')');
-            var self = this;
-            this.handleAnime();
 
+            App.MovieDetailView = this;
+
+            this.hideUnused();
+            this.loadImages();
+            this.setQuality();
+            this.renderHealth();
+            this.loadComponents();
+            this.initKeyboardShortcuts();
+            this.setUiStates();
+        },
+
+        setUiStates: function () {
+            $('.star-container,.movie-imdb-link,.q720,input,.magnet-link').tooltip({
+                html: true
+            });
+
+            // Bookmarked / not bookmarked
+            if (this.model.get('bookmarked')) {
+                this.ui.bookmarkIcon.addClass('selected');
+            }
+
+            // Seen / Unseen
+            if (this.model.get('watched')) {
+                this.ui.watchedIcon.addClass('selected');
+            }
+
+            // display stars or number
+            if (!Settings.ratingStars) {
+                $('.star-container').addClass('hidden');
+                $('.number-container').removeClass('hidden');
+            }
+
+            // switch to default subtitle
+            this.switchSubtitle(Settings.subtitle_language);
+            
+            this.setTooltips();
+        },
+
+        toggleFavourite: function (e) {
+            $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-favorites').click();
+            this.ui.bookmarkIcon.toggleClass('selected');
+            this.model.set('bookmarked', !this.model.get('bookmarked'));
+            this.setTooltips();
+        },
+
+        toggleWatched: function (e) {
+            $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-watched').click();
+            this.ui.watchedIcon.toggleClass('selected');
+            this.model.set('watched', !this.model.get('watched'));
+            this.setTooltips();
+        },
+
+        setTooltips: function () {
+            // watched state
+            var watched = this.model.get('watched');
+            var textWatched = watched ? 'Seen' : 'Not Seen';
+            var textWatchedHover = watched ? 'Mark as unseen' : 'Mark as Seen';
+            this.ui.watchedIcon.text(i18n.__(textWatched));
+
+            this.ui.watchedIcon.hover(function () {
+                this.ui.watchedIcon.text(i18n.__(textWatchedHover));
+            }.bind(this), function () {
+                this.ui.watchedIcon.text(i18n.__(textWatched));
+            }.bind(this));
+            
+            // favorite state
+            var bookmarked = this.model.get('bookmarked');
+            var textBookmarked = bookmarked ? 'Remove from bookmarks' : 'Add to bookmarks';
+            this.ui.bookmarkIcon.text(i18n.__(textBookmarked));
+        },
+
+        loadComponents: function () {
+            // audio dropdown
+            this.AudioDropdown.show(new App.View.LangDropdown({
+                model: new App.Model.Lang({
+                    type: 'audio',
+                    title: _('Audio Language'),
+                    values: this.model.get('audios'),
+                    handler: this.switchAudio,
+                })
+            }));
+
+            // subs dropdown
+            this.SubDropdown.show(new App.View.LangDropdown({
+                model: new App.Model.Lang({
+                    type: 'sub',
+                    title: _('Subtitle'),
+                    values: this.model.get('subtitle'),
+                    handler: this.switchSubtitle,
+                })
+            }));
+
+            // player chooser
+            App.Device.Collection.setDevice(Settings.chosenPlayer);
+            App.Device.ChooserView('#player-chooser').render();
+        },
+
+        setQuality: function () {
             var torrents = this.model.get('torrents');
+
             if (torrents['720p'] !== undefined && torrents['1080p'] !== undefined) {
                 this.model.set('quality', Settings.movies_default_quality);
             } else if (torrents['1080p'] !== undefined) {
@@ -74,110 +169,67 @@
             if (Settings.movies_default_quality === '720p' && torrents['720p'] !== undefined && document.getElementsByName('switch')[0] !== undefined) {
                 document.getElementsByName('switch')[0].checked = true;
             }
-
-            if (!this.model.get('trailer')) {
-                $('#watch-trailer').hide();
-            }
-
-            this.renderHealth();
-
-            $('.star-container,.movie-imdb-link,.q720,input,.magnet-link').tooltip({
-                html: true
-            });
-
-            App.MovieDetailView = this;
-
-            this.AudioDropdown.show (new App.View.LangDropdown({
-                model: new App.Model.Lang({
-                    type: 'audio',
-                    title: _('Audio Language'),
-                    values: self.model.get('audios'),
-                    handler: self.switchAudio,
-                })
-            }));
-
-            this.SubDropdown.show (new App.View.LangDropdown({
-                model: new App.Model.Lang({
-                    type: 'sub',
-                    title: _('Subtitle'),
-                    values: self.model.get('subtitle'),
-                    handler: self.switchSubtitle,
-                })
-            }));
-
-            var backdropUrl = this.model.get('backdrop');
-
-            var bgCache = new Image();
-            bgCache.src = backdropUrl;
-            bgCache.onload = function () {
-                $('.backdrop').css('background-image', 'url(' + backdropUrl + ')').addClass('fadein');
-                bgCache = null;
-            };
-            bgCache.onerror = function () {
-                $('.backdrop').css('background-image', 'url(images/bg-header.jpg)').addClass('fadein');
-                bgCache = null;
-            };
-
-            var poster = this.model.get('poster');
-
-            var posterCache = new Image();
-            posterCache.src = poster;
-            posterCache.onload = function () {
-                $('.mcover-image').attr('src', poster).addClass('fadein');
-                posterCache = null;
-            };
-            posterCache.onerror = function () {
-                $('.mcover-image').attr('src', self.model.get('image')).addClass('fadein');
-                posterCache = null;
-            };
-
-            // switch to default subtitle
-            this.switchSubtitle(Settings.subtitle_language);
-
-            // Bookmarked / not bookmarked
-            if (this.model.get('bookmarked') === true) {
-                this.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
-            }
-
-            // Seen / Unseen
-            if (this.model.get('watched') === true) {
-                this.ui.watchedIcon.addClass('selected').text(i18n.__('Seen'));
-            }
-            var _this = this;
-            this.ui.watchedIcon.hover(function () {
-                if (_this.model.get('watched')) {
-                    _this.ui.watchedIcon.text(i18n.__('Mark as unseen'));
-                } else {
-                    _this.ui.watchedIcon.text(i18n.__('Mark as Seen'));
-                }
-            }, function () {
-                if (_this.model.get('watched')) {
-                    _this.ui.watchedIcon.text(i18n.__('Seen'));
-                } else {
-                    _this.ui.watchedIcon.text(i18n.__('Not Seen'));
-                }
-            });
-
-            // display stars or number
-            if (AdvSettings.get('ratingStars') === false) {
-                $('.star-container').addClass('hidden');
-                $('.number-container').removeClass('hidden');
-            }
-
-            this.initKeyboardShortcuts();
-
-            App.Device.Collection.setDevice(Settings.chosenPlayer);
-            App.Device.ChooserView('#player-chooser').render();
         },
 
-        handleAnime: function () {
+        loadImages: function () {
+            var noimg = 'images/posterholder.png';
+            var nobg = 'images/bg-header.jpg';
+
+            var setImage = {
+                poster: function (img) {
+                    this.ui.poster.attr('src', (img || noimg)).addClass('fadein');
+                }.bind(this),
+                backdrop: function (img) {
+                    this.ui.backdrop.css('background-image', 'url(' + (img || nobg) + ')').addClass('fadein');
+                }.bind(this)
+            };
+
+            var loadImage = function (img, type) {
+                var cache = new Image();
+                cache.src = img;
+
+                cache.onload = function () {
+                    if (img.indexOf('.gif') !== -1) { // freeze gifs
+                        var c = document.createElement('canvas');
+                        var w  = c.width = img.width;
+                        var h = c.height = img.height;
+
+                        c.getContext('2d').drawImage(cache, 0, 0, w, h);
+                        img = c.toDataURL();
+                    }
+                    setImage[type](img);
+                };
+
+                cache.onerror = function (e) {
+                    setImage[type](null);
+                };
+            };
+
+            var p = this.model.get('poster') || noimg;
+            var b = this.model.get('backdrop') || this.model.get('poster') || nobg;
+
+            loadImage(p, 'poster');
+            loadImage(b, 'backdrop');
+        },
+
+        hideUnused: function () {
             var id = this.model.get('imdb_id');
-            if (id && id.indexOf('mal') === -1) {
-                return;
+
+            if (!this.model.get('torrents')) { // no torrents
+                $('#player-chooser, #audio-dropdown, #subs-dropdown, .magnet-link, .health-icon').hide();
             }
 
-            $('.movie-imdb-link, .rating-container, .magnet-link, .health-icon').hide();
-            $('.dot').css('opacity', 0);
+            if (!this.model.get('rating')) { // no ratings
+                $('.rating-container').hide();
+            }
+
+            if (!id || (id && ['mal', 'ccc'].indexOf(id) === -1)) { // if anime
+                $('.movie-imdb-link').hide();
+            }
+
+            if (!this.model.get('trailer')) { // no trailer
+                $('#watch-trailer').hide();
+            }
         },
 
         onDestroy: function () {
@@ -239,7 +291,6 @@
         },
 
         playTrailer: function () {
-
             var trailer = new Backbone.Model({
                 src: this.model.get('trailer'),
                 type: 'video/youtube',
@@ -291,41 +342,6 @@
                 .addClass(health)
                 .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + torrent.seed + ' - ' + i18n.__('Peers:') + ' ' + torrent.peer)
                 .tooltip('fixTitle');
-        },
-
-
-        toggleFavourite: function (e) {
-            if (e.type) {
-                e.stopPropagation();
-                e.preventDefault();
-            }
-            var that = this;
-            if (this.model.get('bookmarked') === true) {
-                that.ui.bookmarkIcon.removeClass('selected').text(i18n.__('Add to bookmarks'));
-                that.model.set('bookmarked', false);
-            } else {
-                that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
-                that.model.set('bookmarked', true);
-            }
-            $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-favorites').click();
-        },
-
-        toggleWatched: function (e) {
-
-            if (e.type) {
-                e.stopPropagation();
-                e.preventDefault();
-            }
-            var that = this;
-            if (this.model.get('watched') === true) {
-                that.model.set('watched', false);
-                that.ui.watchedIcon.removeClass('selected').text(i18n.__('Not Seen'));
-            } else {
-                that.model.set('watched', true);
-                that.ui.watchedIcon.addClass('selected').text(i18n.__('Seen'));
-            }
-
-            $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-watched').click();
         },
 
         openIMDb: function () {
