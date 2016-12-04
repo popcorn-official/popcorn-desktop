@@ -1,8 +1,6 @@
 (function (App){
     'use strict';
 
-    var objectAssign = require('es6-object-assign').assign;
-
     App.View.LangDropdown = Backbone.Marionette.ItemView.extend({
         template: '#lang-dropdown-tpl',
         ui: {
@@ -23,7 +21,7 @@
             this.hasNull = this.model.get('hasNull');
 
             if (this.hasNull) {
-                this.values = objectAssign ({}, {none: undefined}, this.values);
+                this.values = Object.assign({}, {none: undefined}, this.values);
                 this.model.set('values', this.values);
             }
 
@@ -42,7 +40,7 @@
         },
         updateLangs: function (newLangs) {
             if (this.hasNull) {
-                newLangs = objectAssign ({}, {none: undefined}, newLangs);
+                newLangs = Object.assign({}, {none: undefined}, newLangs);
             }
             this.model.set('values', newLangs);
             this.values = newLangs;
