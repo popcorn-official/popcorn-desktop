@@ -295,7 +295,10 @@
                 if (this.firstPlay) {
                     if (this.model.get('type') === 'video/youtube') {
                         try {
-                            document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('video-ads')[0].style.display = 'none'; // XXX hide ads hack
+                            document.getElementById('video_player_youtube_api')
+                                .contentWindow.document
+                                .getElementsByClassName('video-ads')[0]
+                                .style.display = 'none'; // XXX hide ads hack
                         } catch (e) {} //no ads
                     }
                     this.firstPlay = false;
@@ -379,22 +382,16 @@
                 });
                 this.ui.eyeInfo.hide();
 
-                // XXX Sammuel86 Trailer UI Show FIX/HACK
+                // Trailer UI Show FIX/HACK
                 $('.trailer_mouse_catch')
                     .show().appendTo('div#video_player')
                     .mousemove(function (event) {
                         if (!that.player.userActive()) {
                             that.player.userActive(true);
                         }
-                    })
-                    .click(function (event) {
-                        $('.vjs-play-control').click();
-                        event.preventDefault();
-                    })
-                    .dblclick(function (event) {
-                        that.toggleFullscreen();
-                        event.preventDefault();
-                    });
+                    }).click(function (event) {
+                        this.onClick();
+                    }.bind(this));
 
             } else {
                 this.video = videojs('video_player', {
@@ -781,7 +778,7 @@
                 }
             });
 
-            document.addEventListener('mousewheel', this.mouseScroll.bind(this));
+            $('body').bind('mousewheel', this.mouseScroll.bind(this));
         },
 
         unbindKeyboardShortcuts: function () {
@@ -852,7 +849,7 @@
             // Change when mousetrap can be extended
             $('body').unbind('keydown');
 
-            document.removeEventListener('mousewheel', this.mouseScroll);
+            $('body').unbind('mousewheel');
         },
 
         toggleMouseDebug: function () {
@@ -951,8 +948,8 @@
         },
 
         onDestroy: function () {
-            if (this.model.get('type') === 'video/youtube') { // XXX Sammuel86 Trailer UI Show FIX/HACK -START
-                $('.trailer_mouse_catch').remove();
+            if (this.model.get('type') === 'video/youtube') { 
+                $('.trailer_mouse_catch').remove(); // Trailer UI Show FIX/HACK
             }
             $('#player_drag').hide();
             $('#header').show();
@@ -963,6 +960,7 @@
                 $('.btn-os.fullscreen').removeClass('active');
             }
             this.unbindKeyboardShortcuts();
+            App.vent.off('customSubtitles:added');
             App.vent.trigger('player:close');
             var vjsPlayer = document.getElementById('video_player');
             if (vjsPlayer) {
