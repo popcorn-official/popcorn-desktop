@@ -15,7 +15,6 @@
             var self = this;
 
             this.type = this.model.get('type');
-            this.handler = this.model.get('handler');
             this.selected = this.model.get('selected');
             this.values = this.model.get('values');
             this.hasNull = this.model.get('hasNull');
@@ -52,7 +51,6 @@
             this.model.set('selected', value);
             this.ui.selected.removeClass().addClass('flag toggle selected-lang').addClass(value);
             App.vent.trigger(this.type + ':lang', value);
-            this.handler(value);
         },
 
         toggleDropdown: function (e) {

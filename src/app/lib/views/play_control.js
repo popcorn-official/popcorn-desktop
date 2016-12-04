@@ -76,7 +76,6 @@
                     title: i18n.__('Audio Language'),
                     selected: this.model.get('defaultAudio'),
                     values: audios || {en: undefined},
-                    handler: this.switchAudio.bind(this)
                 })
             });
             this.AudioDropdown.show (this.views.audio);
@@ -88,7 +87,6 @@
                     selected: this.model.get('defaultSubtitle'),
                     hasNull: true,
                     values: this.model.get('subtitle'),
-                    handler: this.switchSubtitle.bind(this)
                 })
             });
             this.SubDropdown.show (this.views.subs);
