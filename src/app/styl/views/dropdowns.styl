@@ -1,166 +1,105 @@
-.dropdowns-container 
+.lang-dropdown
   display: flex
-  flex-direction: row
+  align-items: center
+
+.flag-container
+  display: flex
   flex-wrap: wrap
-  justify-content: flex-end
+  max-width: 100%
 
-  .open .dropdown-title
-    background-color: rgba($ButtonBgActive,0.6);
-    border-radius: 5px 5px 0 0;
-  .dropdown-container
-    display: flex
-    flex-direction: column
-
-    .dropdown-title
-      display: flex
-      position: relative
-      height: 26px
-      width: auto
-      margin-right: 2%
-      color: #FFF
-      font-family: $MainFont
-      font-smoothing: antialiased
-      font-size: 12px
-      line-height: 17px
-      cursor pointer
-      padding: 5px
-      padding-right: 13px
-
-      span
-        flex: 2
-        margin-right: 20px
-        white-space: nowrap
-
-      .selected-lang
-        position: relative
-        top: -5px
-        pointer-events: none
-
-      .dropdown-arrow
-        width: 0
-        height: 0
-        border-left: 4px solid transparent
-        border-right: 4px solid transparent
-        margin-top: 5px
-        border-top: 5px solid #c4c6c8
-        border-bottom: none
-        &.down
-          border-bottom: 5px solid #c4c6c8
-          border-top: none
-
-  .flag-container
-        display: flex
-        flex-direction: row-reverse
-        flex-wrap: wrap
-        position: relative
-        z-index: 3
-        overflow-x: hidden
-        overflow-y: hidden
-        background: rgba(20, 24, 26, 0.6)
-        opacity: 0
-        max-height: 0
-        max-width: 0
-        padding-right: 23px
-        transition: all 0.4s, max-height 0.4s ease 0.4s
-
-  .open .flag-container
-        opacity: 1
-        max-height: 100%
-        max-width: 15vw
-
-  .flag
-        margin: 3px
-        background-image: url("../images/flags/none.png")
-        background-size: 24px 24px
-        background-position: center
-        cursor: pointer
-        width: 24px
-        height: 22px
-        &.NA
-          background-image: url("../images/flags/none.png")
-        &.toggle
-            top: -6px
-            border-radius: 0
-            background-color: transparent
-        &.ar
-            background-image: url("../images/flags/arabic.png")
-        &.hy
-            background-image: url("../images/flags/armenian.png")
-        &.eu
-            background-image: url("../images/flags/basque.png")
-        &.bn
-            background-image: url("../images/flags/bengali.png")
-        &.bs
-              background-image: url("../images/flags/bosnian.png")
-        &.pt-br
-            background-image: url("../images/flags/brazilian.png")
-        &.bg
-            background-image: url("../images/flags/bulgarian.png")
-        &.zh
-            background-image: url("../images/flags/chinese.png")
-        &.hr
-            background-image: url("../images/flags/croatian.png")
-        &.cs
-            background-image: url("../images/flags/czech.png")
-        &.da
-            background-image: url("../images/flags/danish.png")
-        &.nl
-            background-image: url("../images/flags/dutch.png")
-        &.en
-            background-image: url("../images/flags/english.png")
-        &.et
-            background-image: url("../images/flags/estonian.png")
-        &.fa
-            background-image: url("../images/flags/farsi.png")
-        &.fi
-            background-image: url("../images/flags/finnish.png")
-        &.fr
-            background-image: url("../images/flags/french.png")
-        &.de
-            background-image: url("../images/flags/german.png")
-        &.el
-            background-image: url("../images/flags/greek.png")
-        &.he
-            background-image: url("../images/flags/hebrew.png")
-        &.hu
-            background-image: url("../images/flags/hungarian.png")
-        &.it
-            background-image: url("../images/flags/italian.png")
-        &.id
-            background-image: url("../images/flags/indonesian.png")
-        &.lv
-            background-image: url("../images/flags/latvian.png")
-        &.lt
-            background-image: url("../images/flags/lithuanian.png")
-        &.mt
-            background-image: url("../images/flags/maltese.png")
-        &.no
-            background-image: url("../images/flags/norwegian.png")
-        &.pl
-            background-image: url("../images/flags/polish.png")
-        &.pt
-            background-image: url("../images/flags/portuguese.png")
-        &.ro
-            background-image: url("../images/flags/romanian.png")
-        &.ru
-            background-image: url("../images/flags/russian.png")
-        &.sr
-            background-image: url("../images/flags/serbian.png")
-        &.sk
-            background-image: url("../images/flags/slovak.png")
-        &.sl
-            background-image: url("../images/flags/slovenian.png")
-        &.es
-            background-image: url("../images/flags/spanish.png")
-        &.sv
-            background-image: url("../images/flags/swedish.png")
-        &.th
-            background-image: url("../images/flags/thai.png")
-        &.tr
-            background-image: url("../images/flags/turkish.png")
-        &.uk
-            background-image: url("../images/flags/ukrainian.png")
-        &.vi
-            background-image: url("../images/flags/vietnamese.png")
+.flag
+  margin: 3px
+  background-image: url("../images/flags/none.png")
+  background-size: 24px 24px
+  background-position: center
+  cursor: pointer
+  width: 24px
+  height: 22px
+  &.NA
+    background-image: url("../images/flags/none.png")
+  &.toggle
+      top: -6px
+      border-radius: 0
+      background-color: transparent
+  &.ar
+      background-image: url("../images/flags/arabic.png")
+  &.hy
+      background-image: url("../images/flags/armenian.png")
+  &.eu
+      background-image: url("../images/flags/basque.png")
+  &.bn
+      background-image: url("../images/flags/bengali.png")
+  &.bs
+      background-image: url("../images/flags/bosnian.png")
+  &.pt-br
+      background-image: url("../images/flags/brazilian.png")
+  &.bg
+      background-image: url("../images/flags/bulgarian.png")
+  &.zh
+      background-image: url("../images/flags/chinese.png")
+  &.hr
+      background-image: url("../images/flags/croatian.png")
+  &.cs
+      background-image: url("../images/flags/czech.png")
+  &.da
+      background-image: url("../images/flags/danish.png")
+  &.nl
+      background-image: url("../images/flags/dutch.png")
+  &.en
+      background-image: url("../images/flags/english.png")
+  &.et
+      background-image: url("../images/flags/estonian.png")
+  &.fa
+      background-image: url("../images/flags/farsi.png")
+  &.fi
+      background-image: url("../images/flags/finnish.png")
+  &.fr
+      background-image: url("../images/flags/french.png")
+  &.de
+      background-image: url("../images/flags/german.png")
+  &.el
+      background-image: url("../images/flags/greek.png")
+  &.he
+      background-image: url("../images/flags/hebrew.png")
+  &.hu
+      background-image: url("../images/flags/hungarian.png")
+  &.it
+      background-image: url("../images/flags/italian.png")
+  &.id
+      background-image: url("../images/flags/indonesian.png")
+  &.lv
+      background-image: url("../images/flags/latvian.png")
+  &.lt
+      background-image: url("../images/flags/lithuanian.png")
+  &.mt
+      background-image: url("../images/flags/maltese.png")
+  &.no
+      background-image: url("../images/flags/norwegian.png")
+  &.pl
+      background-image: url("../images/flags/polish.png")
+  &.pt
+      background-image: url("../images/flags/portuguese.png")
+  &.ro
+      background-image: url("../images/flags/romanian.png")
+  &.ru
+      background-image: url("../images/flags/russian.png")
+  &.sr
+      background-image: url("../images/flags/serbian.png")
+  &.sk
+      background-image: url("../images/flags/slovak.png")
+  &.sl
+      background-image: url("../images/flags/slovenian.png")
+  &.es
+      background-image: url("../images/flags/spanish.png")
+  &.sv
+      background-image: url("../images/flags/swedish.png")
+  &.th
+      background-image: url("../images/flags/thai.png")
+  &.tr
+      background-image: url("../images/flags/turkish.png")
+  &.uk
+      background-image: url("../images/flags/ukrainian.png")
+  &.vi
+      background-image: url("../images/flags/vietnamese.png")
 
 
