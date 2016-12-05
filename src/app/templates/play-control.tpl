@@ -7,8 +7,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="button dropup" id="player-chooser"></div>
-            <div id="watch-trailer" class="button"><%=i18n.__("Watch Trailer") %></div>
+            <div id="player-chooser" class="play-selector"></div>
+            <div id="watch-trailer"  class="button play-selector"><%=i18n.__("Watch Trailer") %></div>
 
             <div class="movie-quality-container">
                 <% if (torrents["720p"] !== undefined && torrents["1080p"] !== undefined) { %>
