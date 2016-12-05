@@ -1,6 +1,6 @@
 <div class="dropup">
-    <div class="button dropdown-toggle lang-dropdown" data-toggle="dropdown" >
-        <span><%= title %></span>
+    <div class="dropdown-toggle lang-dropdown" data-toggle="dropdown" >
+        <span class="lang-name"><%= title %></span>
         <div class="selected-lang flag-icon flag none" title="<%= App.Localization.nativeName(selected) %>"></div>
         <div class="caret"></div>
     </div>
