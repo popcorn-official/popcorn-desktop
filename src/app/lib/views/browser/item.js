@@ -1,8 +1,6 @@
 (function (App) {
     'use strict';
 
-    var Q = require('q');
-
     var prevX = 0;
     var prevY = 0;
 
@@ -181,7 +179,7 @@
             // the models that already got fetched not too long ago, but we
             // actually use memoize in the providers code so it shouldn't be
             // necesary and we refresh the data anyway…
-            return Q.all(promises).then(function (results) {
+            return Promise.all(promises).then(function (results) {
                 $('.spinner').hide();
 
                 // XXX(xaiki): we merge all results into a single object,
