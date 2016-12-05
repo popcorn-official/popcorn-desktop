@@ -164,7 +164,6 @@
                 if (! p.detail) {
                     return false;
                 }
-
                 return p.detail(id, this.model.attributes);
             }.bind(this));
 
