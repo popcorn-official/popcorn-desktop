@@ -436,9 +436,15 @@
             if (this.stopped) {
                 return;
             }
+
             // set default subtitle language (passed by a view or settings)
             var defaultSubtitle = this.torrentModel.get('defaultSubtitle') || Settings.subtitle_language;
-            this.torrentModel.set('defaultSubtitle', defaultSubtitle);        
+            this.torrentModel.set('defaultSubtitle', defaultSubtitle);   
+
+            // we already have subtitles
+            if (this.torrentModel.get('subtitle')) {
+                return this.subtitleReady = true;
+            }
 
             var subtitleProvider = App.Config.getProviderForType('subtitle');
 
