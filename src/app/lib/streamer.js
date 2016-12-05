@@ -381,7 +381,6 @@
             var total = Object.keys(subtitles).length;
             var defaultSubtitle = this.torrentModel.get('defaultSubtitle');
 
-            console.info(total + ' subtitles found');
             this.torrentModel.set('subtitle', subtitles);
 
             if (defaultSubtitle !== 'none') {

@@ -419,7 +419,6 @@ var handleVideoFile = function (file) {
 
             subtitleProvider.fetch(subdata).then(function (subs) {
                 if (subs && Object.keys(subs).length > 0) {
-                    console.info(Object.keys(subs).length + ' subtitles found');
                     resolve(subs);
                 } else {
                     console.warn('No subtitles returned');

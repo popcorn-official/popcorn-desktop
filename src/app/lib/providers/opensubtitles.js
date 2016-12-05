@@ -29,6 +29,9 @@
         for (var lang in data) {
             data[lang] = data[lang].url;
         }
+
+        console.info(Object.keys(data).length + ' subtitles found');
+
         return Common.sanitize(data);
     };
 
