@@ -185,7 +185,7 @@
                 defaultSubtitle: this.subtitle_selected,
                 title: this.model.get('title'),
                 quality: quality,
-                lang: lang,
+                lang: this.audio_selected,
                 type: 'movie',
                 device: App.Device.Collection.selected,
                 cover: this.model.get('cover')
