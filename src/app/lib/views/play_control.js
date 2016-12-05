@@ -69,7 +69,7 @@
         },
 
         loadComponents: function() {
-            var audios = this.model.get('audios');
+            var audios = this.model.get('langs');
             this.views.audio = new App.View.LangDropdown({
                 model: new App.Model.Lang({
                     type: 'audio',
@@ -153,7 +153,7 @@
         },
 
         switchAudio: function (lang) {
-            var audios = this.model.get('audios');
+            var audios = this.model.get('langs');
 
             if (audios === undefined || audios[lang] === undefined) {
                 lang = 'none';
@@ -161,22 +161,20 @@
 
             this.audio_selected = lang;
 
-            console.info('Audios: ' + this.audio_selected);
+            console.info('Audios: ' + lang);
         },
 
         startStreaming: function () {
-            var providerName = this.model.get('provider');
-            var provider = App.Providers.get(providerName);
+            var providers = this.model.get('providers');
             var quality = this.model.get('quality');
-            var lang = this.model.get('lang');
             var defaultTorrent = this.model.get('torrents')[quality];
 
             var filters =  {
                 quality: quality,
-                lang: lang
+                lang: this.audio_selected
             };
 
-            var torrent = provider
+            var torrent = providers.torrent
                 .resolveStream(defaultTorrent, filters, this.model.attributes);
 
             var torrentStart = new Backbone.Model({
