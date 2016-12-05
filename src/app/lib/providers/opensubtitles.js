@@ -29,17 +29,24 @@
         for (var lang in data) {
             data[lang] = data[lang].url;
         }
-        return {subtitle: Common.sanitize(data)};
+        return Common.sanitize(data);
     };
 
-    OpenSubtitles.prototype.detail = function (id, attrs) {
-        var queryParams = {
-            imdbid: id,
-            extensions: ['srt']
-        };
+    OpenSubtitles.prototype.fetch = function (queryParams) {
+        queryParams.extensions = ['srt'];
 
         return openSRT.search(queryParams)
             .then(formatForButter);
+    };
+
+    OpenSubtitles.prototype.detail = function (id, attrs) {
+        return this.fetch({
+            imdbid: id
+        }).then(function (data) {
+            return {
+                subtitle: data
+            };
+        });
     };
 
     OpenSubtitles.prototype.upload = function (queryParams) {
