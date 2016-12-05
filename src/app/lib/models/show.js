@@ -3,6 +3,11 @@
 
     var Show = App.Model.Movie.extend({
         idAttribute: 'tvdb_id',
+
+        getProviders: function() {
+            return {};
+        },
+
         updateHealth: function () {
             var torrents = this.get('torrents');
 

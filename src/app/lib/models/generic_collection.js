@@ -48,7 +48,7 @@
                         return;
                     }
 
-                    movie.provider = torrentProvider.name;
+                    movie.providers = {torrent: torrentProvider};
 
                     if (metadatas.length && id) {
                         var info = _.findWhere(metadatas, {

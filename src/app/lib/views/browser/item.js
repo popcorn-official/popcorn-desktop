@@ -157,8 +157,7 @@
 
             var realtype = this.model.get('type');
             var itemtype = realtype.replace('bookmarked', '');
-            var modelType = itemtype.charAt(0).toUpperCase() + itemtype.slice(1); // 'Movie', 'Show'
-            var provider = App.Providers.get(this.model.get('provider'));
+            var providers = this.model.get('providers');
 
             // bookmarked movies are cached
             if (realtype === 'bookmarkedmovie') {
@@ -167,19 +166,21 @@
 
             // display the spinner
             $('.spinner').show();
-            return provider.detail(this.model.get('imdb_id'), this.model.attributes).then(function (data) {
+            // XXX(xaiki): here we could optimise a detail call by marking
+            // the models that already got fetched not too long ago, but we
+            // actually use memoize in the providers code so it shouldn't be
+            // necesary and we refresh the data anyway…
+            return providers.torrent.detail(this.model.get('imdb_id'), this.model.attributes).then(function (data) {
                 $('.spinner').hide();
-
-                // inject provider's name
-                data.provider = provider.name;
 
                 // load details
-                App.vent.trigger(itemtype + ':showDetail', new App.Model[modelType](data));
-            }).catch(function (err) {
-                console.error('error showing detail:', err);
-                $('.spinner').hide();
-                $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
-            });
+                App.vent.trigger(itemtype + ':showDetail', this.model.set(data));
+            }.bind(this))
+                .catch(function (err) {
+                    console.error('error showing detail:', err);
+                    $('.spinner').hide();
+                    $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
+                });
         },
 
         toggleWatched: function (e) {
