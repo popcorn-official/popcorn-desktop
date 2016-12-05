@@ -131,7 +131,7 @@
                     <div id="q1080" class="q1080">1080p</div>
                 </div>
                 <div class="sdow-watchnow">
-                    <div class="button dropup" id="player-chooser"></div>
+                    <div id="player-chooser"></div>
                 </div>
             </div>
         </div>
