@@ -157,8 +157,16 @@
 
             var realtype = this.model.get('type');
             var itemtype = realtype.replace('bookmarked', '');
-            var modelType = itemtype.charAt(0).toUpperCase() + itemtype.slice(1); // 'Movie', 'Show'
-            var provider = App.Providers.get(this.model.get('provider'));
+            var providers = this.model.get('providers');
+            var id = this.model.get(this.model.idAttribute);
+
+            var promises = Object.values(providers).map(function (p) {
+                if (! p.detail) {
+                    return false;
+                }
+
+                return p.detail(id, this.model.attributes);
+            }.bind(this));
 
             // bookmarked movies are cached
             if (realtype === 'bookmarkedmovie') {
@@ -167,19 +175,28 @@
 
             // display the spinner
             $('.spinner').show();
-            return provider.detail(this.model.get('imdb_id'), this.model.attributes).then(function (data) {
+            // XXX(xaiki): here we could optimise a detail call by marking
+            // the models that already got fetched not too long ago, but we
+            // actually use memoize in the providers code so it shouldn't be
+            // necesary and we refresh the data anyway…
+            return Promise.all(promises).then(function (results) {
                 $('.spinner').hide();
 
-                // inject provider's name
-                data.provider = provider.name;
+                // XXX(xaiki): we merge all results into a single object,
+                // this allows for much more than sub providers (language,
+                // art, metadata) but is a little more fragile.
+                var data = results.reduce(function (a, c) {
+                    return Object.assign (a, c);
+                }, {});
 
                 // load details
-                App.vent.trigger(itemtype + ':showDetail', new App.Model[modelType](data));
-            }).catch(function (err) {
-                console.error('error showing detail:', err);
-                $('.spinner').hide();
-                $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
-            });
+                App.vent.trigger(itemtype + ':showDetail', this.model.set(data));
+            }.bind(this))
+                .catch(function (err) {
+                    console.error('error showing detail:', err);
+                    $('.spinner').hide();
+                    $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
+                });
         },
 
         toggleWatched: function (e) {

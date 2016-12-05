@@ -155,17 +155,21 @@
         },
 
         renderHealth: function () {
-            var torrent = this.model.get('torrents')[this.model.get('quality')];
-            var health = torrent.health.capitalize();
-            var ratio = torrent.peer > 0 ? torrent.seed / torrent.peer : +torrent.seed;
+            try {
+                var torrent = this.model.get('torrents')[this.model.get('quality')];
+                var health = torrent.health.capitalize();
+                var ratio = torrent.peer > 0 ? torrent.seed / torrent.peer : +torrent.seed;
 
-            $('.health-icon').tooltip({
-                    html: true
-                })
-                .removeClass('Bad Medium Good Excellent')
-                .addClass(health)
-                .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + torrent.seed + ' - ' + i18n.__('Peers:') + ' ' + torrent.peer)
-                .tooltip('fixTitle');
+                $('.health-icon').tooltip({
+                        html: true
+                    })
+                    .removeClass('Bad Medium Good Excellent')
+                    .addClass(health)
+                    .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + torrent.seed + ' - ' + i18n.__('Peers:') + ' ' + torrent.peer)
+                    .tooltip('fixTitle');
+            } catch(e) {
+                console.error('Cannot render health', e); //FIXME
+            }
         },
 
         openIMDb: function () {

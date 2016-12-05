@@ -1,18 +1,13 @@
 (function (App) {
     'use strict';
 
-    var getDataFromProvider = function (torrentProvider, subtitle, metadata, self) {
+    var getDataFromProvider = function (torrentProvider, metadata, self) {
         var deferred = Q.defer();
 
         var torrentsPromise = torrentProvider.fetch(self.filter);
         var idsPromise = torrentsPromise.then(_.bind(torrentProvider.extractIds, torrentProvider));
         var promises = [
             torrentsPromise,
-
-            subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)).catch(function (err) {
-                console.error('Cannot fetch subtitles (%s):', torrentProvider.name, err);
-                return false;
-            }) : false,
 
             metadata ? idsPromise.then(function (ids) {
                 return Q.allSettled(_.map(ids, function (id) {
@@ -25,7 +20,7 @@
         ];
 
         Q.all(promises)
-            .spread(function (torrents, subtitles, metadatas) {
+            .spread(function (torrents, metadatas) {
 
                 // If a new request was started...
                 metadatas = _.map(metadatas, function (m) {
@@ -53,11 +48,7 @@
                         return;
                     }
 
-                    movie.provider = torrentProvider.name;
-
-                    if (subtitles) {
-                        movie.subtitle = subtitles[id];
-                    }
+                    movie.providers = {torrent: torrentProvider};
 
                     if (metadatas.length && id) {
                         var info = _.findWhere(metadatas, {
@@ -121,7 +112,6 @@
                 this.state = 'loading';
                 self.trigger('loading', self);
 
-                var subtitle = this.providers.subtitle;
                 var metadata = this.providers.metadata;
                 var torrents = this.providers.torrents;
 
@@ -135,7 +125,7 @@
                  */
 
                 var torrentPromises = _.map(torrents, function (torrentProvider) {
-                    return getDataFromProvider(torrentProvider, subtitle, metadata, self)
+                    return getDataFromProvider(torrentProvider, metadata, self)
                         .then(function (torrents) {
                             self.add(torrents.results);
                             self.hasMore = true;

@@ -3,13 +3,21 @@
 
     var Movie = Backbone.Model.extend({
         events: {
-            'change:torrents': 'updateHealth',
+            'change:torrents': 'updateHealth'
         },
 
         idAttribute: 'imdb_id',
 
-        initialize: function () {
+        initialize: function (attrs) {
+            this.set('providers', Object.assign(attrs.providers,
+                                                this.getProviders()));
             this.updateHealth();
+        },
+
+        getProviders: function() {
+            return {
+                subtitle: App.Config.getProviderForType('subtitle')
+            };
         },
 
         updateHealth: function () {

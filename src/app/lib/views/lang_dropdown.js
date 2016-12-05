@@ -22,9 +22,7 @@
             if (this.hasNull) {
                 this.values = Object.assign({}, {none: undefined}, this.values);
                 this.model.set('values', this.values);
-            }
-
-            if (!this.selected && this.values) {
+            } else if (!this.selected && this.values) {
                 var values = Object.keys(this.values);
                 if (values.length) {
                     this.selected = values.pop();

@@ -69,13 +69,13 @@
         },
 
         loadComponents: function() {
-            var audios = this.model.get('audios');
+            var audios = this.model.get('langs');
             this.views.audio = new App.View.LangDropdown({
                 model: new App.Model.Lang({
                     type: 'audio',
                     title: i18n.__('Audio Language'),
                     selected: this.model.get('defaultAudio'),
-                    values: audios || {en: undefined},
+                    values: audios || {en: undefined}
                 })
             });
             this.AudioDropdown.show (this.views.audio);
@@ -86,7 +86,7 @@
                     title: i18n.__('Subtitle'),
                     selected: this.model.get('defaultSubtitle'),
                     hasNull: true,
-                    values: this.model.get('subtitle'),
+                    values: this.model.get('subtitle')
                 })
             });
             this.SubDropdown.show (this.views.subs);
@@ -153,7 +153,7 @@
         },
 
         switchAudio: function (lang) {
-            var audios = this.model.get('audios');
+            var audios = this.model.get('langs');
 
             if (audios === undefined || audios[lang] === undefined) {
                 lang = 'none';
@@ -161,22 +161,20 @@
 
             this.audio_selected = lang;
 
-            console.info('Audios: ' + this.audio_selected);
+            console.info('Audios: ' + lang);
         },
 
         startStreaming: function () {
-            var providerName = this.model.get('provider');
-            var provider = App.Providers.get(providerName);
+            var providers = this.model.get('providers');
             var quality = this.model.get('quality');
-            var lang = this.model.get('lang');
             var defaultTorrent = this.model.get('torrents')[quality];
 
             var filters =  {
                 quality: quality,
-                lang: lang
+                lang: this.audio_selected
             };
 
-            var torrent = provider
+            var torrent = providers.torrent
                 .resolveStream(defaultTorrent, filters, this.model.attributes);
 
             var torrentStart = new Backbone.Model({
@@ -187,7 +185,7 @@
                 defaultSubtitle: this.subtitle_selected,
                 title: this.model.get('title'),
                 quality: quality,
-                lang: lang,
+                lang: this.audio_selected,
                 type: 'movie',
                 device: App.Device.Collection.selected,
                 cover: this.model.get('cover')

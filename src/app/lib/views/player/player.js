@@ -882,6 +882,10 @@
         },
 
         adjustVolume: function (i) {
+            if (!this.player) {
+                return;
+            }
+
             var v = this.player.volume();
             this.player.volume(v + i);
             App.vent.trigger('volumechange');

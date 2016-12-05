@@ -34,8 +34,19 @@
 
     OpenSubtitles.prototype.fetch = function (queryParams) {
         queryParams.extensions = ['srt'];
+
         return openSRT.search(queryParams)
             .then(formatForButter);
+    };
+
+    OpenSubtitles.prototype.detail = function (id, attrs) {
+        return this.fetch({
+            imdbid: id
+        }).then(function (data) {
+            return {
+                subtitle: data
+            };
+        });
     };
 
     OpenSubtitles.prototype.upload = function (queryParams) {
