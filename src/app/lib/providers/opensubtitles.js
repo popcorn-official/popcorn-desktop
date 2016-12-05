@@ -29,11 +29,15 @@
         for (var lang in data) {
             data[lang] = data[lang].url;
         }
-        return Common.sanitize(data);
+        return {subtitle: Common.sanitize(data)};
     };
 
-    OpenSubtitles.prototype.fetch = function (queryParams) {
-        queryParams.extensions = ['srt'];
+    OpenSubtitles.prototype.detail = function (id, attrs) {
+        var queryParams = {
+            imdbid: id,
+            extensions: ['srt']
+        };
+
         return openSRT.search(queryParams)
             .then(formatForButter);
     };

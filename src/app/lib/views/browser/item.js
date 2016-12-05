@@ -1,6 +1,8 @@
 (function (App) {
     'use strict';
 
+    var Q = require('q');
+
     var prevX = 0;
     var prevY = 0;
 
@@ -158,6 +160,15 @@
             var realtype = this.model.get('type');
             var itemtype = realtype.replace('bookmarked', '');
             var providers = this.model.get('providers');
+            var id = this.model.get(this.model.idAttribute);
+
+            var promises = Object.values(providers).map(function (p) {
+                if (! p.detail) {
+                    return false;
+                }
+
+                return p.detail(id, this.model.attributes);
+            }.bind(this));
 
             // bookmarked movies are cached
             if (realtype === 'bookmarkedmovie') {
@@ -170,8 +181,15 @@
             // the models that already got fetched not too long ago, but we
             // actually use memoize in the providers code so it shouldn't be
             // necesary and we refresh the data anyway…
-            return providers.torrent.detail(this.model.get('imdb_id'), this.model.attributes).then(function (data) {
+            return Q.all(promises).then(function (results) {
                 $('.spinner').hide();
+
+                // XXX(xaiki): we merge all results into a single object,
+                // this allows for much more than sub providers (language,
+                // art, metadata) but is a little more fragile.
+                var data = results.reduce(function (a, c) {
+                    return Object.assign (a, c);
+                }, {});
 
                 // load details
                 App.vent.trigger(itemtype + ':showDetail', this.model.set(data));
