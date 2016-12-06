@@ -1,22 +1,8 @@
 (function (App) {
     'use strict';
 
-    var Show = Backbone.Model.extend({
-        events: {
-            'change:torrents': 'updateHealth'
-        },
-
+    var Show = App.Model.ContentItem.extend({
         idAttribute: 'tvdb_id',
-
-        initialize: function (attrs) {
-            this.set('providers', Object.assign(attrs.providers,
-                                                this.getProviders()));
-            this.updateHealth();
-        },
-
-        getProviders: function() {
-            return {};
-        },
 
         updateHealth: function () {
             var torrents = this.get('torrents');

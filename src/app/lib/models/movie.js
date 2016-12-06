@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var Movie = Backbone.Model.extend({
+    var ContentItem = Backbone.Model.extend({
         events: {
             'change:torrents': 'updateHealth'
         },
@@ -15,9 +15,7 @@
         },
 
         getProviders: function() {
-            return {
-                subtitle: App.Config.getProviderForType('subtitle')
-            };
+            return {};
         },
 
         updateHealth: function () {
@@ -33,5 +31,14 @@
         }
     });
 
+    var Movie = ContentItem.extend({
+        getProviders: function() {
+            return {
+                subtitle: App.Config.getProviderForType('subtitle')
+            };
+        }
+    });
+
+    App.Model.ContentItem = ContentItem;
     App.Model.Movie = Movie;
 })(window.App);
