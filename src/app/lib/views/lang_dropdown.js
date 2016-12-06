@@ -7,7 +7,6 @@
             selected: '.selected-lang',
         },
         events: {
-            'click .dropdown-title': 'toggleDropdown',
             'click .flag-icon': 'closeDropdown',
         },
 
@@ -51,22 +50,7 @@
             App.vent.trigger(this.type + ':lang', value);
         },
 
-        toggleDropdown: function (e) {
-            var el = $(this.el);
-            if (el.find('.dropdown-container').is('.open')) {
-                this.closeDropdown(e);
-            } else {
-                el.find('.dropdown-container').addClass('open');
-                el.find('.dropdown-arrow').addClass('down');
-            }
-        },
-
         closeDropdown: function (e) {
-            e.preventDefault();
-            var el = $(this.el);
-            el.find('.dropdown-container').removeClass('open');
-            el.find('.dropdown-arrow').removeClass('down');
-
             var value = $(e.currentTarget).attr('data-lang');
 
             if (value) {
