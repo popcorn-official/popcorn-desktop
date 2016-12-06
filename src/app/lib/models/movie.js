@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var Movie = App.ContentItem.extend({
+    var Movie = App.Model.ContentItem.extend({
         getProviders: function() {
             return {
                 subtitle: App.Config.getProviderForType('subtitle')
