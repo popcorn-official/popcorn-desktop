@@ -52,6 +52,15 @@
             }.bind(this)).then(this.waitForBuffer.bind(this)).catch(this.handleErrors.bind(this));
         },
 
+        restart: function () {
+            var torrent = this.webtorrent.torrents[0].magnetURI;
+            this.webtorrent.remove(torrent, function (err) {
+                if (!err) {
+                    this.webtorrent.add(torrent);
+                }
+            }.bind(this));
+        },
+
         // kill the streamer
         stop: function() {
             if (this.webtorrent) {
