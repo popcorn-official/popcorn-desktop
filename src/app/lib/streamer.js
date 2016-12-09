@@ -518,9 +518,9 @@
         },
     };
 
-    var streamer = new WebTorrentStreamer();
+    App.Streamer = new WebTorrentStreamer();
 
-    App.vent.on('stream:start', streamer.start.bind(streamer));
-    App.vent.on('stream:stop', streamer.stop.bind(streamer));
+    App.vent.on('stream:start', App.Streamer.start.bind(App.Streamer));
+    App.vent.on('stream:stop', App.Streamer.stop.bind(App.Streamer));
 
 })(window.App);
