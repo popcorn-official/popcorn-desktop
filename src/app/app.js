@@ -150,7 +150,11 @@ var initTemplates = function () {
 
 var initApp = function () {
     var mainWindow = new App.View.MainWindow();
-    win.show();
+
+    // -m argument to open minimized to tray
+    if (nw.App.fullArgv.indexOf('-m') === -1) {
+        win.show();
+    }
 
     try {
         App.Window.show(mainWindow);
@@ -621,24 +625,34 @@ $(document).on('contextmenu', function(e) {
     e.preventDefault();
 });
 
-// Pass magnet link as last argument to start stream
-var last_arg = nw.App.argv.pop();
+App.vent.on('app:started', function () {
+    var last_arg = nw.App.argv.pop();
+    if (last_arg) {
+        // Pass magnet link as last argument to start stream
+        if (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0, 7) === 'http://' || last_arg.endsWith('.torrent')) {
+            handleTorrent(last_arg);
+        }
 
-if (last_arg && (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0, 7) === 'http://' || last_arg.endsWith('.torrent'))) {
-    App.vent.on('app:started', function () {
-        handleTorrent(last_arg);
-    });
-}
+        // Play local files
+        if (isVideo(last_arg)) {
+            var fileModel = {
+                path: last_arg,
+                name: /([^\\]+)$/.exec(last_arg)[1]
+            };
+            handleVideoFile(fileModel);
+        }
+    }
 
-// Play local files
-if (last_arg && (isVideo(last_arg))) {
-    App.vent.on('app:started', function () {
-        var fileModel = {
-            path: last_arg,
-            name: /([^\\]+)$/.exec(last_arg)[1]
-        };
-        handleVideoFile(fileModel);
-    });
+    // -m argument to open minimized to tray
+    if (nw.App.fullArgv.indexOf('-m') !== -1) {
+        minimizeToTray();
+    }
+});
+
+
+// -f argument to open in fullscreen
+if (nw.App.fullArgv.indexOf('-f') !== -1) {
+    win.enterFullscreen();
 }
 
 nw.App.on('open', function (cmd) {
@@ -673,17 +687,6 @@ App.vent.on('window:focus', function () {
     win.focus();
     win.setAlwaysOnTop(Settings.alwaysOnTop);
 });
-
-// -f argument to open in fullscreen
-if (nw.App.fullArgv.indexOf('-f') !== -1) {
-    win.enterFullscreen();
-}
-// -m argument to open minimized to tray
-if (nw.App.fullArgv.indexOf('-m') !== -1) {
-    App.vent.on('app:started', function () {
-        minimizeToTray();
-    });
-}
 
 // On uncaught exceptions, log to console.
 process.on('uncaughtException', function (err) {

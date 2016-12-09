@@ -831,6 +831,8 @@
 
         onDestroy: function () {
             this.unbindKeyboardShortcuts();
+            App.vent.off('show:watched:' + this.model.id);
+            App.vent.off('show:unwatched:' + this.model.id);
         }
 
     });

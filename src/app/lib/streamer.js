@@ -52,6 +52,15 @@
             }.bind(this)).then(this.waitForBuffer.bind(this)).catch(this.handleErrors.bind(this));
         },
 
+        restart: function () {
+            var torrent = this.webtorrent.torrents[0].magnetURI;
+            this.webtorrent.remove(torrent, function (err) {
+                if (!err) {
+                    this.webtorrent.add(torrent);
+                }
+            }.bind(this));
+        },
+
         // kill the streamer
         stop: function() {
             if (this.webtorrent) {
@@ -509,9 +518,9 @@
         },
     };
 
-    var streamer = new WebTorrentStreamer();
+    App.Streamer = new WebTorrentStreamer();
 
-    App.vent.on('stream:start', streamer.start.bind(streamer));
-    App.vent.on('stream:stop', streamer.stop.bind(streamer));
+    App.vent.on('stream:start', App.Streamer.start.bind(App.Streamer));
+    App.vent.on('stream:stop', App.Streamer.stop.bind(App.Streamer));
 
 })(window.App);
