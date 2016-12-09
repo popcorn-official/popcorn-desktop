@@ -150,7 +150,11 @@ var initTemplates = function () {
 
 var initApp = function () {
     var mainWindow = new App.View.MainWindow();
-    win.show();
+
+    // -m argument to open minimized to tray
+    if (nw.App.fullArgv.indexOf('-m') === -1) {
+        win.show();
+    }
 
     try {
         App.Window.show(mainWindow);
