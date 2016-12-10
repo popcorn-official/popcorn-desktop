@@ -6,11 +6,9 @@
 
         var torrentsPromise = providers.torrent.fetch(collection.filter);
         var idsPromise = torrentsPromise.then(_.bind(providers.torrent.extractIds, providers.torrent));
-        var metadataPromise = providers.metadata ? idsPromise.then(function (ids) {
-            return Q.allSettled(ids.map(id => (
-                providers.metadata.getMetadata(id)
-            )));
-        }).catch(err => {
+        var metadataPromises = providers.metadata ? idsPromise.then(ids => (
+            Common.Promises.allSettled(ids.map(providers.metadata.getMetadata))
+        )).catch(err => {
             console.error('Cannot fetch metadata (%s):', providers.torrent.name, err);
             return false;
         }) : false;
@@ -38,7 +36,7 @@
 
                 return deferred.resolve({
                     torrents: torrents,
-                    metadatas: metadataPromise
+                    metadatas: metadataPromises
                 });
             })
             .catch(function (err) {
@@ -67,7 +65,8 @@
         },
 
         applyMetadatas(metadatas) {
-            metadatas = metadatas.map(m => {
+            return metadatas.map(m => {
+
                 if (!m || !m.value || !m.value.ids) {
                     return null;
                 }
@@ -122,7 +121,8 @@
                             self.trigger('sync', self);
 
                             // apply metadata when it gets in
-                            data.metadatas.then(self.applyMetadatas.bind(self));
+                            data.metadatas
+                                  .then(self.applyMetadatas.bind(self));
                         })
                         .catch(function (err) {
                             console.error('provider error err', err);
