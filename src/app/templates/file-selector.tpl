@@ -19,5 +19,5 @@
        <div class="button store-torrent"></div>
     <% } %>
 
-    <div class="button dropup" id="player-chooser2"></div>
+    <div id="player-chooser2"></div>
 </div>
