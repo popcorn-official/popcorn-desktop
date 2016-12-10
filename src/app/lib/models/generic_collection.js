@@ -115,15 +115,6 @@
                 var metadata = this.providers.metadata;
                 var torrents = this.providers.torrents;
 
-                /* XXX(xaiki): provider hack
-                 *
-                 * we actually do this to 'save' the provider number,
-                 * this is shit, as we can't dynamically switch
-                 * providers, the 'right' way to do it is to have every
-                 * provider declare a unique id, and then lookthem up in
-                 * a hash.
-                 */
-
                 var torrentPromises = _.map(torrents, function (torrentProvider) {
                     return getDataFromProvider(torrentProvider, metadata, self)
                         .then(function (torrents) {
