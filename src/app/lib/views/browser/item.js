@@ -172,21 +172,13 @@
                 return App.vent.trigger('movie:showDetail', this.model);
             }
 
-            function allSettled(promises) {
-                var wrappedPromises = promises.map(
-                    p => Promise.resolve(p)
-                        .then(val => ({ ok: true, value: val }),                                                err => ({ ok: false, reason: err })
-                             ));
-                return Promise.all(wrappedPromises);
-            }
-
             // display the spinner
             $('.spinner').show();
             // XXX(xaiki): here we could optimise a detail call by marking
             // the models that already got fetched not too long ago, but we
             // actually use memoize in the providers code so it shouldn't be
             // necesary and we refresh the data anyway…
-            return allSettled(promises).then(function (results) {
+            return Common.Promises.allSettled(promises).then(function (results) {
                 $('.spinner').hide();
 
                 results = results.reduce(function (a, c) {
