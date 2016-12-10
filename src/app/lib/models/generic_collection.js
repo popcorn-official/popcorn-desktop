@@ -1,45 +1,30 @@
 (function (App) {
     'use strict';
 
-    var getDataFromProvider = function (torrentProvider, metadata, self) {
+    var getDataFromProvider = function (providers, collection) {
         var deferred = Q.defer();
 
-        var torrentsPromise = torrentProvider.fetch(self.filter);
-        var idsPromise = torrentsPromise.then(_.bind(torrentProvider.extractIds, torrentProvider));
-        var promises = [
-            torrentsPromise,
+        var torrentsPromise = providers.torrent.fetch(collection.filter);
+        var idsPromise = torrentsPromise.then(_.bind(providers.torrent.extractIds, providers.torrent));
+        var metadataPromise = providers.metadata ? idsPromise.then(function (ids) {
+            return Q.allSettled(ids.map(id => (
+                providers.metadata.getMetadata(id)
+            )));
+        }).catch(err => {
+            console.error('Cannot fetch metadata (%s):', providers.torrent.name, err);
+            return false;
+        }) : false;
 
-            metadata ? idsPromise.then(function (ids) {
-                return Q.allSettled(_.map(ids, function (id) {
-                    return metadata.getMetadata(id);
-                }));
-            }).catch(function (err) {
-                console.error('Cannot fetch metadata (%s):', torrentProvider.name, err);
-                return false;
-            }) : false
-        ];
-
-        Q.all(promises)
-            .spread(function (torrents, metadatas) {
-
+        torrentsPromise
+            .then(function (torrents) {
                 // If a new request was started...
-                metadatas = _.map(metadatas, function (m) {
-                    if (!m || !m.value || !m.value.ids) {
-                        return {};
-                    }
-
-                    m = m.value;
-                    m.id = m.ids.imdb;
-                    return m;
-                });
-
                 _.each(torrents.results, function (movie) {
-                    var id = movie[self.popid];
+                    var id = movie[collection.popid];
                     /* XXX(xaiki): check if we already have this
                      * torrent if we do merge our torrents with the
                      * ones we already have and update.
                      */
-                    var model = self.get(id);
+                    var model = collection.get(id);
                     if (model) {
                         var ts = model.get('torrents');
                         _.extend(ts, movie.torrents);
@@ -48,37 +33,17 @@
                         return;
                     }
 
-                    movie.providers = {torrent: torrentProvider};
-
-                    if (metadatas.length && id) {
-                        var info = _.findWhere(metadatas, {
-                            id: id
-                        });
-
-                        if (info) {
-                            _.extend(movie, {
-                                synopsis: info.overview,
-                                genres: info.genres,
-                                certification: info.certification,
-                                runtime: info.runtime,
-                                tagline: info.tagline,
-                                title: info.title,
-                                trailer: info.trailer,
-                                year: info.year,
-                                backdrop: info.backdrop,
-                                poster: info.poster
-                            });
-                        } else {
-                            console.log('No extra infos found for %s (%s)', movie.title, id);
-                        }
-                    }
+                    movie.providers = providers;
                 });
 
-                return deferred.resolve(torrents);
+                return deferred.resolve({
+                    torrents: torrents,
+                    metadatas: metadataPromise
+                });
             })
             .catch(function (err) {
-                self.state = 'error';
-                self.trigger('loaded', self, self.state);
+                collection.state = 'error';
+                collection.trigger('loaded', collection, collection.state);
                 console.error('PopCollection.fetch() : torrentPromises mapping', err);
             });
 
@@ -101,6 +66,35 @@
             Backbone.Collection.prototype.initialize.apply(this, arguments);
         },
 
+        applyMetadatas(metadatas) {
+            metadatas = metadatas.map(m => {
+                if (!m || !m.value || !m.value.ids) {
+                    return null;
+                }
+
+                var info = m.value,
+                    id = info.ids.imdb;
+
+                var model = this.findWhere({_id: id});
+                if (!id || !model) {
+                    return null;
+                }
+
+                return model.set({
+                    synopsis: info.overview,
+                    genres: info.genres,
+                    certification: info.certification,
+                    runtime: info.runtime,
+                    tagline: info.tagline,
+                    title: info.title,
+                    trailer: info.trailer,
+                    year: info.year,
+                    backdrop: info.backdrop,
+                    poster: info.poster
+                });
+            });
+        },
+
         fetch: function () {
             try {
                 var self = this;
@@ -116,21 +110,30 @@
                 var torrents = this.providers.torrents;
 
                 var torrentPromises = _.map(torrents, function (torrentProvider) {
-                    return getDataFromProvider(torrentProvider, metadata, self)
-                        .then(function (torrents) {
-                            self.add(torrents.results);
+                    var providers = {
+                        torrent: torrentProvider,
+                        metadata: metadata
+                    };
+
+                    return getDataFromProvider(providers, self)
+                        .then(function (data) {
+                            self.add(data.torrents.results);
                             self.hasMore = true;
                             self.trigger('sync', self);
+
+                            // apply metadata when it gets in
+                            data.metadatas.then(self.applyMetadatas.bind(self));
                         })
                         .catch(function (err) {
                             console.error('provider error err', err);
                         });
                 });
 
-                Q.all(torrentPromises).done(function (torrents) {
+                // we can't use Promise.race because we don't want errors
+                torrentPromises.forEach(p => p.then(torrents => {
                     self.state = 'loaded';
                     self.trigger('loaded', self, self.state);
-                });
+                }));
             } catch (e) {
                 console.error('cached error', e);
             }
