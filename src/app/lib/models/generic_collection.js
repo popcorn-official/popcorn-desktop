@@ -7,7 +7,7 @@
         var torrentsPromise = providers.torrent.fetch(collection.filter);
         var idsPromise = torrentsPromise.then(_.bind(providers.torrent.extractIds, providers.torrent));
         var metadataPromises = providers.metadata ? idsPromise.then(ids => (
-            Common.Promises.allSettled(ids.map(providers.metadata.getMetadata))
+            Common.Promises.allSettled(ids.map(providers.metadata.getMetadata.bind(providers.metadata)))
         )).catch(err => {
             console.error('Cannot fetch metadata (%s):', providers.torrent.name, err);
             return false;
