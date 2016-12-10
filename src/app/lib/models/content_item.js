@@ -15,7 +15,7 @@
             this.updateHealth();
 
             var id = attrs.imdb_id;
-            providers.metadata.getMetadata(id)
+            providers.metadata && providers.metadata.getMetadata(id)
                 .then(this.applyMetadata.bind(this))
                 .catch(e => console.error('error loading metadata', e));
         },
