@@ -37,6 +37,8 @@
             this.loadImage();
             this.setCoverStates();
             this.setTooltips();
+
+            this.model.on('change:poster', this.loadImage.bind(this));
         },
 
         hoverItem: function (e) {

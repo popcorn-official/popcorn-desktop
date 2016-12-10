@@ -9,13 +9,31 @@
         idAttribute: 'imdb_id',
 
         initialize: function (attrs) {
-            this.set('providers', Object.assign(attrs.providers,
-                                                this.getProviders()));
+            var providers = Object.assign(attrs.providers,
+                                                this.getProviders());
+            this.set('providers', providers);
             this.updateHealth();
+
+            var id = attrs.imdb_id;
+            providers.metadata.getMetadata(id)
+                .then(this.applyMetadata.bind(this))
+                .catch(e => console.error('error loading metadata', e));
         },
 
         getProviders: function() {
             return {};
+        },
+
+        applyMetadata: function (info) {
+            if (!info) {
+                return;
+            }
+
+            if (info.overview) {
+                info.synopsis = info.overview;
+            }
+
+            return this.set(info);
         },
 
         updateHealth: function () {

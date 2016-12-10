@@ -5,13 +5,6 @@
         var deferred = Q.defer();
 
         var torrentsPromise = providers.torrent.fetch(collection.filter);
-        var idsPromise = torrentsPromise.then(_.bind(providers.torrent.extractIds, providers.torrent));
-        var metadataPromises = providers.metadata ? idsPromise.then(ids => (
-            Common.Promises.allSettled(ids.map(providers.metadata.getMetadata.bind(providers.metadata)))
-        )).catch(err => {
-            console.error('Cannot fetch metadata (%s):', providers.torrent.name, err);
-            return false;
-        }) : false;
 
         torrentsPromise
             .then(function (torrents) {
@@ -34,10 +27,7 @@
                     movie.providers = providers;
                 });
 
-                return deferred.resolve({
-                    torrents: torrents,
-                    metadatas: metadataPromises
-                });
+                return deferred.resolve(torrents);
             })
             .catch(function (err) {
                 collection.state = 'error';
@@ -64,36 +54,6 @@
             Backbone.Collection.prototype.initialize.apply(this, arguments);
         },
 
-        applyMetadatas(metadatas) {
-            return metadatas.map(m => {
-
-                if (!m || !m.value || !m.value.ids) {
-                    return null;
-                }
-
-                var info = m.value,
-                    id = info.ids.imdb;
-
-                var model = this.findWhere({_id: id});
-                if (!id || !model) {
-                    return null;
-                }
-
-                return model.set({
-                    synopsis: info.overview,
-                    genres: info.genres,
-                    certification: info.certification,
-                    runtime: info.runtime,
-                    tagline: info.tagline,
-                    title: info.title,
-                    trailer: info.trailer,
-                    year: info.year,
-                    backdrop: info.backdrop,
-                    poster: info.poster
-                });
-            });
-        },
-
         fetch: function () {
             try {
                 var self = this;
@@ -115,14 +75,10 @@
                     };
 
                     return getDataFromProvider(providers, self)
-                        .then(function (data) {
-                            self.add(data.torrents.results);
+                        .then(function (torrents) {
+                            self.add(torrents.results);
                             self.hasMore = true;
                             self.trigger('sync', self);
-
-                            // apply metadata when it gets in
-                            data.metadatas
-                                  .then(self.applyMetadatas.bind(self));
                         })
                         .catch(function (err) {
                             console.error('provider error err', err);
