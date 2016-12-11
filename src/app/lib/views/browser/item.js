@@ -17,7 +17,7 @@
         },
 
         ui: {
-            cover: '.cover',
+            covers: '.cover-imgs',
             bookmarkIcon: '.actions-favorites',
             watchedIcon: '.actions-watched'
         },
@@ -122,12 +122,15 @@
         },
 
         loadImage: function () {
-            var noimg = 'images/posterholder.png';
+            var poster = this.model.get('poster');
 
-            var poster = this.model.get('poster') || noimg;
+            if (! poster) {
+                return;
+            }
 
             var setImage = function (img) {
-                this.ui.cover.css('background-image', 'url(' + img + ')').addClass('fadein');
+                this.ui.covers.append(`<img class="cover-overlay" src="${img}"/>`);
+                this.ui.covers.children(-1).addClass('fadein');
             }.bind(this);
 
             var posterCache = new Image();
@@ -145,8 +148,8 @@
                 setImage(poster);
             };
             posterCache.onerror = function (e) {
-                setImage(noimg);
-            };
+                this.ui.covers.empty();
+            }.bind(this);
         },
 
         setTooltips: function () {
