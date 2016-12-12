@@ -128,16 +128,10 @@
                 return;
             }
 
-            var setImage = function (img) {
-                if (!this.ui.covers) {
-                    console.error('ui.covers not found, this should never happen');
-                    return;
-                }
-                this.ui.covers.append(`<img class="cover-overlay" src="${img}"/>`);
-            }.bind(this);
-
             var posterCache = new Image();
             posterCache.src = poster;
+
+            this.ui.covers.append(`<img class="cover-overlay"/>`);
 
             posterCache.onload = function () {
                 if (poster.indexOf('.gif') !== -1) { // freeze gifs
@@ -146,10 +140,12 @@
                     var h = c.height = posterCache.height;
 
                     c.getContext('2d').drawImage(posterCache, 0, 0, w, h);
-                    poster = c.toDataURL();
+                    posterCache.src = c.toDataURL();
                 }
-                setImage(poster);
-            };
+
+                this.ui.covers.children(-1).attr('src', posterCache.src).addClass('fadein');
+            }.bind(this);
+
             posterCache.onerror = function (e) {
                 this.ui.covers.empty();
             }.bind(this);

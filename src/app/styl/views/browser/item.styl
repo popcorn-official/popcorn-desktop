@@ -1,10 +1,3 @@
-@keyframes fadein
-  from
-    opacity: 0
-
-  to
-    opacity: 1
-
 .item
     display: inline-block;
     margin: 10px
@@ -33,17 +26,15 @@
             width 100%
             height 100%
             position absolute
+            transition opacity 1000ms ease-in
             opacity 0
 
-            &.cover-imgs
-              opacity 1
-
-              & img
+            &img
                 position absolute
                 left 0
-                animation-duration 500ms
-                animation-name fadein
-                opacity 1
+
+            &.fadein
+                opacity: 1
 
             &.cover-info-overlay
               padding 88px 0
