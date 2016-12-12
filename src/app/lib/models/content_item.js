@@ -14,7 +14,7 @@
             this.set('providers', providers);
             this.updateHealth();
 
-            !attrs.poster && providers.metadata &&
+            providers.metadata &&
                 providers.metadata.getImages(attrs)
                 .then(this.set.bind(this))
                 .catch(e => console.error('error loading metadata', e));
