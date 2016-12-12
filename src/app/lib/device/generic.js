@@ -29,6 +29,7 @@
             id: 'local',
             type: 'local',
             typeFamily: 'internal',
+            ipFamily: '.*', // a regex to match the ip.family
             name: Settings.projectName
         },
         play: function (streamModel) {
@@ -36,6 +37,35 @@
         },
         getID: function () {
             return this.id;
+        },
+        setIP: function (streamModel) {
+            /* ddaf:
+             * If the device is external we correct src IP to the
+             * best matching IP among all network adapters.
+             * Supports IPv4 and IPv6.
+             */
+            if (this.get('typeFamily') !== 'external') {
+                return streamModel;
+            }
+
+            //console.warn('External Device ', this.selected);
+            var ips = [],
+                ifaces = os.networkInterfaces();
+            for (var dev in ifaces) {
+                ifaces[dev].forEach(details => {
+                    if (!details.internal && details.family.match(this.ipFamily)) {
+                        ips.push(details.address);
+                    }
+                });
+            }
+            var deviceIp = this.selected.get('address');
+            console.log('Device IP: ' + deviceIp);
+            console.log('Available IPs: ' + JSON.stringify(ips));
+            var srcIp = _getClosestIP(ips, deviceIp);
+            console.log('%s picked for external playback', srcIp);
+            var smIp = streamModel.get('src');
+            streamModel.set('src', smIp.replace('127.0.0.1', srcIp));
+            return streamModel;
         }
     });
 
@@ -91,28 +121,7 @@
                 this.selected = this.models[0];
             }
 
-            /* ddaf:
-             * If the device is external we correct src IP to the
-             * best matching IP among all network adapters. Supports IPv4 and IPv6.
-             */
-            if (this.selected.get('typeFamily') === 'external') {
-                //console.warn('External Device ', this.selected);
-                var ips = [],
-                    ifaces = os.networkInterfaces();
-                for (var dev in ifaces) {
-                    ifaces[dev].forEach(function (details) {
-                        if (!details.internal) {
-                            ips.push(details.address);
-                        }
-                    });
-                }
-                var deviceIp = this.selected.get('address');
-                console.log('Device IP: ' + deviceIp);
-                console.log('Available IPs: ' + JSON.stringify(ips));
-                var srcIp = _getClosestIP(ips, deviceIp);
-                console.log('%s picked for external playback', srcIp);
-                streamModel.attributes.src = streamModel.attributes.src.replace('127.0.0.1', srcIp);
-            }
+            streamModel = this.selected.setIP(streamModel);
             return this.selected.play(streamModel);
         },
 
