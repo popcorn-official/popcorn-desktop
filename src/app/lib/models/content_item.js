@@ -14,26 +14,11 @@
             this.set('providers', providers);
             this.updateHealth();
 
-            var id = attrs.imdb_id;
-            providers.metadata && providers.metadata.getMetadata(id)
-                .then(this.applyMetadata.bind(this))
-                .catch(e => console.error('error loading metadata', e));
+            !attrs.poster && providers.metadata && providers.metadata.getImages(attrs).then(this.set.bind(this)).catch(e => console.error('error loading metadata', e));
         },
 
         getProviders: function() {
             return {};
-        },
-
-        applyMetadata: function (info) {
-            if (!info) {
-                return;
-            }
-
-            if (info.overview) {
-                info.synopsis = info.overview;
-            }
-
-            return this.set(info);
         },
 
         updateHealth: function () {
