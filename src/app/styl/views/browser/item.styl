@@ -1,6 +1,9 @@
-.fadein
-  transition opacity 2000ms ease-in!important
-  opacity 1!important
+@keyframes fadein
+  from
+    opacity: 0
+
+  to
+    opacity: 1
 
 .item
     display: inline-block;
@@ -38,6 +41,9 @@
               & img
                 position absolute
                 left 0
+                animation-duration 500ms
+                animation-name fadein
+                opacity 1
 
             &.cover-info-overlay
               padding 88px 0
