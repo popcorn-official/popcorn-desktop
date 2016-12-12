@@ -129,6 +129,10 @@
             }
 
             var setImage = function (img) {
+                if (!this.ui.covers) {
+                    console.error('ui.covers not found, this should never happen');
+                    return;
+                }
                 this.ui.covers.append(`<img class="cover-overlay" src="${img}"/>`);
                 this.ui.covers.children(-1).addClass('fadein');
             }.bind(this);
