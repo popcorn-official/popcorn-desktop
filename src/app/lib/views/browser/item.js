@@ -180,6 +180,9 @@
 
             // display the spinner
             $('.spinner').show();
+            // load details
+            App.vent.trigger(itemtype + ':showDetail', this.model);
+
             // XXX(xaiki): here we could optimise a detail call by marking
             // the models that already got fetched not too long ago, but we
             // actually use memoize in the providers code so it shouldn't be
@@ -201,8 +204,7 @@
                     return Object.assign (a, c);
                 }, {});
 
-                // load details
-                App.vent.trigger(itemtype + ':showDetail', this.model.set(data));
+                this.model.set(data);
             }.bind(this))
                 .catch(function (err) {
                     console.error('error showing detail:', err);
