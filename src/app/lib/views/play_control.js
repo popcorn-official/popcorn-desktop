@@ -17,8 +17,8 @@
             'click .watched-toggle': 'toggleWatched',
         },
         regions: {
-            SubDropdown: '#subs-dropdown',
-            AudioDropdown: '#audio-dropdown',
+            subDropdown: '#subs-dropdown',
+            audioDropdown: '#audio-dropdown',
         },
 
         initialize: function () {
@@ -27,7 +27,7 @@
             App.vent.on('sub:lang',   this.switchSubtitle.bind(this));
             App.vent.on('audio:lang', this.switchAudio.bind(this));
             App.vent.on('update:subtitles', function (subs)  {
-                this.views.subs.updateLangs(subs);
+                this.views.sub.updateLangs(subs);
             }.bind(this));
 
             this.model.on('change:quality', function () {
@@ -40,6 +40,9 @@
             this.setQuality();
             this.loadComponents();
             this.setUiStates();
+
+            this.model.on('change:langs', this.loadAudioDropdown.bind(this));
+            this.model.on('change:subtitle', this.loadSubDropdown.bind(this));
         },
 
         setQuality: function () {
@@ -68,28 +71,34 @@
             }
         },
 
-        loadComponents: function() {
-            var audios = this.model.get('langs');
-            this.views.audio = new App.View.LangDropdown({
-                model: new App.Model.Lang({
-                    type: 'audio',
-                    title: i18n.__('Audio Language'),
-                    selected: this.model.get('defaultAudio'),
-                    values: audios || {en: undefined}
-                })
+        loadDropdown: function (type, attrs) {
+            this.views[type] && this.views[type].destroy();
+            this.views[type] = new App.View.LangDropdown({
+                model: new App.Model.Lang(Object.assign({type:type}, attrs))
             });
-            this.AudioDropdown.show (this.views.audio);
+            this[`${type}Dropdown`].show (this.views[type]);
+        },
 
-            this.views.subs = new App.View.LangDropdown({
-                model: new App.Model.Lang({
-                    type: 'sub',
-                    title: i18n.__('Subtitle'),
-                    selected: this.model.get('defaultSubtitle'),
-                    hasNull: true,
-                    values: this.model.get('subtitle')
-                })
+        loadAudioDropdown: function () {
+            return this.loadDropdown('audio', {
+                title: i18n.__('Audio Language'),
+                selected: this.model.get('defaultAudio'),
+                values: this.model.get('langs') || {en: undefined}
             });
-            this.SubDropdown.show (this.views.subs);
+        },
+
+        loadSubDropdown: function () {
+            return this.loadDropdown('sub', {
+                title: i18n.__('Subtitle'),
+                selected: this.model.get('defaultSubtitle'),
+                hasNull: true,
+                values: this.model.get('subtitle')
+            });
+        },
+
+        loadComponents: function() {
+            this.loadAudioDropdown();
+            this.loadSubDropdown();
 
             // player chooser
             App.Device.Collection.setDevice(Settings.chosenPlayer);
