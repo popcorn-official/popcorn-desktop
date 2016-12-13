@@ -20,6 +20,12 @@
 
         // auto sign-in when database is loaded
         App.vent.on('db:ready', this.reAuthenticate.bind(this));
+
+        // mark as seen/unseen
+        App.vent.on('show:watched', this.onWatched.bind(this));
+        App.vent.on('movie:watched', this.onWatched.bind(this));
+        App.vent.on('show:unwatched', this.onUnWatched.bind(this));
+        App.vent.on('movie:unwatched', this.onUnWatched.bind(this));
     }
 
     TraktTv.prototype = {
@@ -147,6 +153,10 @@
         },
 
         getPlayback: function(type, id) {
+            if (!this.authenticated) {
+                return Promise.resolve();
+            }
+
             // search for saved playback
             return this.client.sync.playback.get({
                 type: type === 'movie' ? 'movies' : 'episodes',
@@ -164,6 +174,10 @@
         },
 
         scrobble: function(action, type, id, progress) {
+            if (!this.authenticated) {
+                return Promise.resolve();
+            }
+
             var post = {progress: progress};
             var item = {ids: {}};
             var idType = type === 'movie' ? 'imdb' : 'tvdb';
@@ -174,9 +188,29 @@
             return this.client.scrobble[action](post);
         },
 
+        wrapHistory: function(call, item) { // history add/remove
+            if (!this.authenticated) {
+                return Promise.resolve();
+            }
+
+            var type = item.episode_id ? 'episodes' : 'movies';
+            var id = item.episode_id ? item.episode_id : item.imdb_id;
+
+            var post = {};
+            var data = {ids: {}};
+            var idType = type === 'movies' ? 'imdb' : 'tvdb';
+
+            data.ids[idType] = id;
+            post[type] = [data];
+
+            win.info('Trakt history - %s %s', call, id);
+
+            return this.client.sync.history[call](post);
+        },
+
         onReady: function(forced) {
             this.authenticated = true;
-            console.info('Trakt: authenticated');
+            win.info('Trakt: authenticated');
 
             var refresh = Settings.traktLastSync + this.cache < Date.now();
             var onStart = Settings.traktSyncOnStart;
@@ -201,39 +235,18 @@
             }
         },
 
-        wrapHistory: function(call, type, id) {
-            // history add/remove
-            var post = {};
-            var item = {ids: {}};
-            var idType = type === 'movies' ? 'imdb' : 'tvdb';
+        onWatched: function (item, channel) {
+            if (channel === 'seen') {
+                this.wrapHistory('add', item);
+            }
+        },
 
-            item.id[idType] = id;
-            post[type] = [item];
-
-            return this.client.sync.history[call](post);
+        onUnWatched: function (item, channel) {
+            if (channel === 'seen') {
+                this.wrapHistory('remove', item);
+            }
         }
     };
-
-    function onWatched(item, channel) {
-        if (channel === 'seen') {
-            var type = item.episode_id ? 'episodes' : 'movies';
-            var id = item.episode_id ? item.episode_id : item.imdb_id;
-            App.Trakt.client.sync.wrapHistory('add', type, id);
-        }
-    }
-
-    function onUnWatched(item, channel) {
-        if (channel === 'seen') {
-            var type = item.episode_id ? 'episodes' : 'movies';
-            var id = item.episode_id ? item.episode_id : item.imdb_id;
-            App.Trakt.client.sync.wrapHistory('remove', type, id);
-        }
-    }
-
-    App.vent.on('show:watched', onWatched);
-    App.vent.on('movie:watched', onWatched);
-    App.vent.on('show:unwatched', onUnWatched);
-    App.vent.on('movie:unwatched', onUnWatched);
 
     App.Providers.Trakttv = TraktTv;
     App.Providers.install(TraktTv);
