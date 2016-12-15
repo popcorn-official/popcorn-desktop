@@ -54,6 +54,9 @@
             var ips = [],
                 ifaces = os.networkInterfaces(),
                 ipFamily = this.get('ipFamily') || Device.prototype.defaults.ipFamily;
+            /* build a list of all local machine IPs
+             * that belong to the desired family
+             */
             for (var dev in ifaces) {
                 ifaces[dev].forEach(details => {
                     if (!details.internal && details.family.match(ipFamily)) {
@@ -62,6 +65,10 @@
                 });
             }
 
+            /* resolve the IPv4 or IPv6 of the target device and then
+             * choose the best-matching local machine IP for our streaming URL,
+             * so that the device can connect to us via the same network.
+             */
             return new Promise(function (resolve, reject) {
                 // XXX(xaiki): we'd need a better way to check what we want
                 var options = ipFamily.match('4') ? {family: 4} :
