@@ -261,15 +261,6 @@
             var self = this;
             this.addloadmore();
 
-            this.AddGhostsToBottomRow();
-            $(window).resize(function () {
-                var addghost;
-                clearTimeout(addghost);
-                addghost = setTimeout(function () {
-                    self.AddGhostsToBottomRow();
-                }, 100);
-            });
-
             if (typeof (this.ui.spinner) === 'object') {
                 this.ui.spinner.hide();
             }
@@ -329,27 +320,6 @@
             case 'Watchlist':
 
                 break;
-            }
-        },
-
-        AddGhostsToBottomRow: function () {
-            $('.ghost').remove();
-            var listWidth = $('.items').width();
-            var itemWidth = $('.items .item').width() + (2 * parseInt($('.items .item').css('margin')));
-            var itemsPerRow = parseInt(listWidth / itemWidth);
-            /* in case we .hide() items at some point:
-            var visibleItems = 0;
-            var hiddenItems = 0;
-            $('.item').each(function () {
-                $(this).is(':visible') ? visibleItems++ : hiddenItems++;
-            });
-            var itemsInLastRow = visibleItems % itemsPerRow;*/
-            NUM_MOVIES_IN_ROW = itemsPerRow;
-            var itemsInLastRow = $('.items .item').length % itemsPerRow;
-            var ghostsToAdd = itemsPerRow - itemsInLastRow;
-            while (ghostsToAdd > 0) {
-                $('.items').append($('<li/>').addClass('item ghost'));
-                ghostsToAdd--;
             }
         },
         onScroll: function () {
