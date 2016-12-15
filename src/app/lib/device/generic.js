@@ -53,7 +53,7 @@
             //console.warn('External Device ', this.selected);
             var ips = [],
                 ifaces = os.networkInterfaces(),
-                ipFamily = this.get('ipFamily');
+                ipFamily = this.get('ipFamily') || Device.prototype.defaults.ipFamily;
             for (var dev in ifaces) {
                 ifaces[dev].forEach(details => {
                     if (!details.internal && details.family.match(ipFamily)) {
@@ -64,8 +64,8 @@
 
             return new Promise((resolve, reject) => {
                 // XXX(xaiki): we'd need a better way to check what we want
-                var options = ipFamily.mach('4') ? {family: 4} :
-                    ipFamily.mach('6') ? {family: 6} :
+                var options = ipFamily.match('4') ? {family: 4} :
+                    ipFamily.match('6') ? {family: 6} :
                     {};
 
                 dns.lookup(this.selected.get('address'), options,
@@ -100,38 +100,20 @@
             App.vent.on('device:seekPercentage', this.seekPercentage);
             App.vent.on('device:status:update', this.updateStatus);
             self = this;
+
+            ['play', 'pause', 'unpause', 'stop',
+             'forward', 'backward',
+             'seek', 'seekTo', 'seekPercentage',
+             'updateStatus'].forEach(cmd => {
+                this[cmd] = function () {
+                    self.selected[cmd].apply(self.selected, arguments);
+                };
+            });
         },
         list: function () {
             _.each(self.models, function (device) {
                 App.vent.trigger('device:add', device);
             });
-        },
-        pause: function () {
-            self.selected.pause();
-        },
-        unpause: function () {
-            self.selected.unpause();
-        },
-        stop: function () {
-            self.selected.stop();
-        },
-        forward: function () {
-            self.selected.forward();
-        },
-        backward: function () {
-            self.selected.backward();
-        },
-        seek: function (seconds) {
-            self.selected.seekBy(seconds);
-        },
-        seekTo: function (newCurrentTime) {
-            self.selected.seekTo(newCurrentTime);
-        },
-        seekPercentage: function (percentage) {
-            self.selected.seekPercentage(percentage);
-        },
-        updateStatus: function () {
-            self.selected.updateStatus();
         },
         startDevice: function (streamModel) {
             if (!this.selected) {
@@ -139,7 +121,7 @@
             }
 
             this.selected.setIP(streamModel)
-                .then(this.selected.play.bind(this));
+                .then(this.play.bind(this));
         },
 
         setDevice: function (deviceID) {
