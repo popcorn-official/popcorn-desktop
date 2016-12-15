@@ -249,7 +249,12 @@
                 this.onLoading();
             }
         },
-
+        allLoaded: function () {
+            return this.collection.providers.torrents
+                .reduce((a, c) => (
+                    a && c.loaded
+                ), true);
+        },
         onLoading: function () {
             $('.status-loadmore').hide();
             $('#loading-more-animi').show();
@@ -263,6 +268,11 @@
 
             if (typeof (this.ui.spinner) === 'object') {
                 this.ui.spinner.hide();
+            }
+
+            if (this.allLoaded()) {
+                $('#loading-more-animi').hide();
+                $('.status-loadmore').show();
             }
 
             $('.filter-bar').on('mousedown', function (e) {
@@ -299,19 +309,18 @@
             case 'movies':
             case 'shows':
             case 'anime':
-                $('#load-more-item').remove();
-                // we add a load more
-                if (this.collection.hasMore && !this.collection.filter.keywords && this.collection.state !== 'error' && this.collection.length !== 0 && this.collection.length >= maxResults) {
-                    $('.items').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
+                if ($('.items').children().last().attr('id') !== 'load-more-item') {
+                    $('#load-more-item').remove();
+                    if (this.collection.hasMore && !this.collection.filter.keywords && this.collection.state !== 'error' && this.collection.length !== 0) {
+                        $('.items').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
 
-                    $('#load-more-item').click(function () {
-                        $('#load-more-item').off('click');
-                        self.collection.fetchMore();
-                    });
-
-                    $('#loading-more-animi').hide();
-                    $('.status-loadmore').show();
+                        $('#load-more-item').click(function () {
+                            $('#load-more-item').off('click');
+                            self.collection.fetchMore();
+                        });
+                    }
                 }
+
                 break;
 
             case 'Favorites':
