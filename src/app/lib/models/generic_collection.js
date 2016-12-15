@@ -68,14 +68,20 @@
                 var metadata = this.providers.metadata;
                 var torrents = this.providers.torrents;
 
-                var torrentPromises = _.map(torrents, function (torrentProvider) {
+                var torrentPromises = torrents.filter(torrentProvider => (
+                    !torrentProvider.loading
+                )).map((torrentProvider) => {
                     var providers = {
                         torrent: torrentProvider,
                         metadata: metadata
                     };
 
+                    torrentProvider.loading = true;
                     return getDataFromProvider(providers, self)
                         .then(function (torrents) {
+                            // set state, can't fail
+                            torrentProvider.loading = false;
+
                             self.add(torrents.results);
                             self.hasMore = true;
                             self.trigger('sync', self);
