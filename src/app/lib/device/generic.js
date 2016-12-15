@@ -62,14 +62,14 @@
                 });
             }
 
-            return new Promise((resolve, reject) => {
+            return new Promise(function (resolve, reject) {
                 // XXX(xaiki): we'd need a better way to check what we want
                 var options = ipFamily.match('4') ? {family: 4} :
                     ipFamily.match('6') ? {family: 6} :
                     {};
 
-                dns.lookup(this.selected.get('address'), options,
-                           (err, deviceIp, family) => {
+                dns.lookup(this.get('address'), options,
+                           function (err, deviceIp, family) {
                     if (err) {
                         return reject(err);
                     }
@@ -81,8 +81,8 @@
                     var smIp = streamModel.get('src');
                     streamModel.set('src', smIp.replace('127.0.0.1', srcIp));
                     return resolve(streamModel);
-                });
-            });
+                }.bind(this));
+            }.bind(this));
         }
     });
 
