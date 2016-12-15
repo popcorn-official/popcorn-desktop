@@ -84,18 +84,16 @@
 
                             self.add(torrents.results);
                             self.hasMore = true;
+
+                            // set state, can't fail
                             self.trigger('sync', self);
+                            self.state = 'loaded';
+                            self.trigger('loaded', self, self.state);
                         })
                         .catch(function (err) {
                             console.error('provider error err', err);
                         });
                 });
-
-                // we can't use Promise.race because we don't want errors
-                torrentPromises.forEach(p => p.then(torrents => {
-                    self.state = 'loaded';
-                    self.trigger('loaded', self, self.state);
-                }));
             } catch (e) {
                 console.error('cached error', e);
             }
