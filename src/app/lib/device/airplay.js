@@ -22,7 +22,7 @@
         defaults: {
             type: 'airplay',
             typeFamily: 'external',
-            ipFamily: 'IPv4'
+            ipFamily: App.Device.IP_FAMILY.IPV4
         },
 
         _makeID: makeID,

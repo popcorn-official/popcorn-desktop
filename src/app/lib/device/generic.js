@@ -5,6 +5,12 @@
     var dns = require('dns'),
         os = require('os');
 
+    var IP_FAMILY_ENUM = {
+        ALL: '.*',
+        IPV4: 'IPv4',
+        IPV6: 'IPv6'
+    };
+
     // Supports both IPv4 and IPv6 comparison
     var _sequentialPartsInCommon = function (ip1, ip2) {
         var separator = (ip1.indexOf('.') > -1) ? '.' : ':';
@@ -71,8 +77,9 @@
              */
             return new Promise(function (resolve, reject) {
                 // XXX(xaiki): we'd need a better way to check what we want
-                var options = ipFamily.match('4') ? {family: 4} :
-                    ipFamily.match('6') ? {family: 6} :
+                var options =
+                    ipFamily === IP_FAMILY_ENUM.IPV4 ? {family: 4} :
+                    ipFamily === IP_FAMILY_ENUM.IPV6 ? {family: 6} :
                     {};
 
                 dns.lookup(this.get('address'), options,
@@ -173,6 +180,7 @@
     App.Device = {
         Generic: Device,
         Collection: collection,
-        ChooserView: createChooserView
+        ChooserView: createChooserView,
+        IP_FAMILY: IP_FAMILY_ENUM
     };
 })(window.App);
