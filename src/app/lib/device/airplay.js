@@ -21,7 +21,8 @@
     var AirPlay = App.Device.Generic.extend({
         defaults: {
             type: 'airplay',
-            typeFamily: 'external'
+            typeFamily: 'external',
+            ipFamily: App.Device.IP_FAMILY.IPV4
         },
 
         _makeID: makeID,
