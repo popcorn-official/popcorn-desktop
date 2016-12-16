@@ -55,48 +55,44 @@
         },
 
         fetch: function () {
-            try {
-                var self = this;
+            var self = this;
 
-                if (this.state === 'loading' && !this.hasMore) {
-                    return;
-                }
-
-                this.state = 'loading';
-                self.trigger('loading', self);
-
-                var metadata = this.providers.metadata;
-                var torrents = this.providers.torrents;
-
-                var torrentPromises = torrents.filter(torrentProvider => (
-                    !torrentProvider.loading
-                )).map((torrentProvider) => {
-                    var providers = {
-                        torrent: torrentProvider,
-                        metadata: metadata
-                    };
-
-                    torrentProvider.loading = true;
-                    return getDataFromProvider(providers, self)
-                        .then(function (torrents) {
-                            // set state, can't fail
-                            torrentProvider.loading = false;
-
-                            self.add(torrents.results);
-                            self.hasMore = true;
-
-                            // set state, can't fail
-                            self.trigger('sync', self);
-                            self.state = 'loaded';
-                            self.trigger('loaded', self, self.state);
-                        })
-                        .catch(function (err) {
-                            console.error('provider error err', err);
-                        });
-                });
-            } catch (e) {
-                console.error('cached error', e);
+            if (this.state === 'loading' && !this.hasMore) {
+                return;
             }
+
+            this.state = 'loading';
+            self.trigger('loading', self);
+
+            var metadata = this.providers.metadata;
+            var torrents = this.providers.torrents;
+
+            var torrentPromises = torrents.filter(torrentProvider => (
+                !torrentProvider.loading
+            )).map((torrentProvider) => {
+                var providers = {
+                    torrent: torrentProvider,
+                    metadata: metadata
+                };
+
+                torrentProvider.loading = true;
+                return getDataFromProvider(providers, self)
+                    .then(function (torrents) {
+                        // set state, can't fail
+                        torrentProvider.loading = false;
+
+                        self.add(torrents.results);
+                        self.hasMore = true;
+
+                        // set state, can't fail
+                        self.trigger('sync', self);
+                        self.state = 'loaded';
+                        self.trigger('loaded', self, self.state);
+                    })
+                    .catch(function (err) {
+                        console.error('provider error err', err);
+                    });
+            });
         },
 
         fetchMore: function () {
