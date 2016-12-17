@@ -37,7 +37,7 @@
             id: 'local',
             type: 'local',
             typeFamily: 'internal',
-            ipFamily: '.*', // a regex to match the ip.family
+            ipFamily: IP_FAMILY_ENUM.ALL,
             name: Settings.projectName
         },
         play: function (streamModel) {
