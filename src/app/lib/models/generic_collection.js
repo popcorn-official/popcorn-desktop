@@ -3,10 +3,8 @@
 
     var getDataFromProvider = function (providers, collection) {
         var deferred = Q.defer();
-
-        var torrentsPromise = providers.torrent.fetch(collection.filter);
-
-        torrentsPromise
+        var filters = Object.assign(collection.filter, {page: providers.torrent.page});
+        providers.torrent.fetch(filters)
             .then(function (torrents) {
                 // If a new request was started...
                 _.each(torrents.results, function (movie) {
@@ -43,12 +41,16 @@
         initialize: function (models, options) {
             this.providers = this.getProviders();
 
+            //XXX(xaiki): this is a bit of hack
+            this.providers.torrents.forEach(t => {
+                t.hasMore = true;
+                t.page = 1;
+            });
+
             options = options || {};
             options.filter = options.filter || new App.Model.Filter();
 
-            this.filter = _.defaults(_.clone(options.filter.attributes), {
-                page: 1
-            });
+            this.filter = _.clone(options.filter.attributes);
             this.hasMore = true;
 
             Backbone.Collection.prototype.initialize.apply(this, arguments);
@@ -68,7 +70,7 @@
             var torrents = this.providers.torrents;
 
             var torrentPromises = torrents.filter(torrentProvider => (
-                !torrentProvider.loading
+                !torrentProvider.loading && torrentProvider.hasMore
             )).map((torrentProvider) => {
                 var providers = {
                     torrent: torrentProvider,
@@ -80,9 +82,13 @@
                     .then(function (torrents) {
                         // set state, can't fail
                         torrentProvider.loading = false;
+                        if (torrents.results.length !== 0) {
+                            torrentProvider.page++;
+                        } else {
+                            torrentProvider.hasMore = false;
+                        }
 
                         self.add(torrents.results);
-                        self.hasMore = true;
 
                         // set state, can't fail
                         self.trigger('sync', self);
@@ -96,7 +102,6 @@
         },
 
         fetchMore: function () {
-            this.filter.page += 1;
             this.fetch();
         }
     });
