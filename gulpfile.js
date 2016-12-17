@@ -5,7 +5,8 @@
  ********/
 const nwVersion = '0.18.6',
     nwFlavor = 'sdk',
-    availablePlatforms = ['linux32', 'linux64', 'win32', 'osx32'],
+    // nwjs for osx32 was discontinued in 0.12.0 (Mar 5, 2015).
+    availablePlatforms = ['linux32', 'linux64', 'win32', 'osx64'],
     releasesDir = 'build';
 
 
@@ -45,12 +46,9 @@ const parsePlatforms = () => {
         }
     }
 
-    // for osx and win, 32-bits works on 64, if needed
+    // for win, 32-bits works on 64, if needed
     if (availablePlatforms.indexOf('win64') === -1 && requestedPlatforms.indexOf('win64') !== -1) {
         validPlatforms.push('win32');
-    }
-    if (availablePlatforms.indexOf('osx64') === -1 && requestedPlatforms.indexOf('osx64') !== -1) {
-        validPlatforms.push('osx32');
     }
 
     // remove duplicates
