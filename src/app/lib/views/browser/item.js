@@ -41,6 +41,10 @@
             this.model.on('change:poster', this.loadImage.bind(this));
         },
 
+        onDestroy: function () {
+            this.model.off('change:poster');
+        },
+
         hoverItem: function (e) {
             if (e.pageX !== prevX || e.pageY !== prevY) {
                 $('.item.selected').removeClass('selected');
