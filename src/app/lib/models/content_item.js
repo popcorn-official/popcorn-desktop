@@ -12,12 +12,14 @@
             var providers = Object.assign(attrs.providers,
                                                 this.getProviders());
             this.set('providers', providers);
-            this.updateHealth();
 
             providers.metadata &&
                 providers.metadata.getImages(attrs)
                 .then(this.set.bind(this))
                 .catch(e => console.error('error loading metadata', e));
+
+            this.updateHealth();
+            this.on('change:torrents', this.updateHealth.bind(this));
         },
 
         getProviders: function() {
