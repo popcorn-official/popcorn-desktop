@@ -9,9 +9,15 @@
         idAttribute: 'imdb_id',
 
         initialize: function (attrs) {
-            this.set('providers', Object.assign(attrs.providers,
-                                                this.getProviders()));
+            var providers = Object.assign(attrs.providers,
+                                                this.getProviders());
+            this.set('providers', providers);
             this.updateHealth();
+
+            providers.metadata &&
+                providers.metadata.getImages(attrs)
+                .then(this.set.bind(this))
+                .catch(e => console.error('error loading metadata', e));
         },
 
         getProviders: function() {
