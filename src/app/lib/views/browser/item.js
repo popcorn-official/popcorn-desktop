@@ -168,10 +168,11 @@
             var realtype = this.model.get('type');
             var itemtype = realtype.replace('bookmarked', '');
             var providers = this.model.get('providers');
+            var torrentProvider = providers.torrent;
             var id = this.model.get(this.model.idAttribute);
 
             var promises = Object.values(providers)
-                .filter(p => (p && p.detail))
+                .filter(p => (p && p.detail && p !== torrentProvider))
                 .map(p => (p.detail(id, this.model.attributes)));
 
             // bookmarked movies are cached
@@ -182,7 +183,14 @@
             // display the spinner
             $('.spinner').show();
             // load details
-            App.vent.trigger(itemtype + ':showDetail', this.model);
+            torrentProvider
+                .detail(id, this.model.attributes)
+                .then(this.model.set.bind(this.model))
+                .then(model => (
+                    App.vent.trigger(itemtype + ':showDetail', model)
+                ))
+                .catch (err => console.error('get torrent detail', err));
+
 
             // XXX(xaiki): here we could optimise a detail call by marking
             // the models that already got fetched not too long ago, but we
