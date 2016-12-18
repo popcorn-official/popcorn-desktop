@@ -170,12 +170,9 @@
             var providers = this.model.get('providers');
             var id = this.model.get(this.model.idAttribute);
 
-            var promises = Object.values(providers).map(function (p) {
-                if (! p.detail) {
-                    return false;
-                }
-                return p.detail(id, this.model.attributes);
-            }.bind(this));
+            var promises = Object.values(providers)
+                .filter(p => (p && p.detail))
+                .map(p => (p.detail(id, this.model.attributes)));
 
             // bookmarked movies are cached
             if (realtype === 'bookmarkedmovie') {
