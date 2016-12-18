@@ -29,6 +29,11 @@
         updateHealth: function () {
             var torrents = this.get('torrents');
 
+            if (!torrents) {
+                console.error('tried to update health, but still no torrents here', this);
+                return false;
+            }
+
             _.each(torrents, function (torrent) {
                 torrent.health = Common.healthMap[Common.calcHealth(torrent)];
             });
