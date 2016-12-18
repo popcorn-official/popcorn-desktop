@@ -199,19 +199,12 @@
             return Common.Promises.allSettled(promises).then(function (results) {
                 $('.spinner').hide();
 
-                results = results.reduce(function (a, c) {
-                    if (c.ok) {
-                        return a.concat(c.value);
-                    }
-                    return a;
-                }, []);
-
                 // XXX(xaiki): we merge all results into a single object,
                 // this allows for much more than sub providers (language,
                 // art, metadata) but is a little more fragile.
-                var data = results.reduce(function (a, c) {
-                    return Object.assign (a, c);
-                }, {});
+                var data = results
+                    .filter(r => (r.ok))
+                    .reduce((a, c) => (Object.assign(a, c.value)), {});
 
                 this.model.set(data);
             }.bind(this))
