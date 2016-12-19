@@ -340,6 +340,7 @@ window.ondragenter = function (e) {
 };
 
 var minimizeToTray = function () {
+
     win.hide();
     win.isTray = true;
 
@@ -678,6 +679,12 @@ nw.App.on('open', function (cmd) {
         } else if (file.endsWith('.torrent')) {
             handleTorrent(file);
         }
+    }
+});
+
+win.on('minimize', function () {
+    if (Settings.minimizeToTray) {
+        minimizeToTray();
     }
 });
 
