@@ -125,8 +125,6 @@
         unbindKeyboardShortcuts: Mousetrap.reset,
 
         onShow: function () {
-            $('.spinner').hide();
-
             bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
 
             if (bookmarked) {
@@ -194,6 +192,7 @@
 
             App.Device.Collection.setDevice(Settings.chosenPlayer);
             App.Device.ChooserView('#player-chooser').render();
+            $('.spinner').hide();
         },
 
         selectNextEpisode: function () {

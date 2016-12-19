@@ -46,7 +46,6 @@
 
         onShow: function () {
             console.log('Show movie detail (' + this.model.get('imdb_id') + ')');
-            $('.spinner').hide();
 
             App.MovieDetailView = this;
 
@@ -55,6 +54,8 @@
             this.loadComponents();
             this.renderHealth();
             this.initKeyboardShortcuts();
+
+            $('.spinner').hide();
         },
 
         loadComponents: function () {
