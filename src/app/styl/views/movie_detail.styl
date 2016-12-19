@@ -93,15 +93,19 @@
                     white-space: nowrap
                     text-overflow: ellipsis
 
-                .dot
-                    margin: 4px 15px 0px 15px
-                    position: relative
-                    display: inline-block
-                    width: 4px
-                    float: left
-                    height: 4px
-                    border-radius: 2px
-                    background-color: #dbdbdd
+                    &::before
+                        content: ""
+                        margin: 4px 15px 0px 15px
+                        position: relative
+                        display: inline-block
+                        width: 4px
+                        float: left
+                        height: 4px
+                        border-radius: 2px
+                        background-color: #dbdbdd
+
+                    &:first-child::before
+                        display: none
 
                 .movie-imdb-link
                     margin-top: -3px
@@ -132,7 +136,6 @@
                     .star-container
                         width: auto
                         float: left
-                        top: -4px
                         position: relative
                         z-index: 2
                         cursor: pointer
@@ -162,8 +165,8 @@
                             width 1em
                             height 1em
                             line-height 1em
-                            margin-top 2px
-                            margin-right: -3px
+                            margin-right -2px
+                            margin-left 2px
 
                 .health-icon
                     position: relative

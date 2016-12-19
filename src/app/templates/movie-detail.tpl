@@ -27,14 +27,10 @@ if (genre) {
 
         <div class="metadatas">
             <div class="metaitem"><%= year %></div>
-            <div class="dot"></div>
             <div class="metaitem"><%= runtime %> min</div>
-            <div class="dot"></div>
             <div class="metaitem"><%= genre.join(" / ") %></div>
-            <div class="dot"></div>
             <div data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Open IMDb page") %>" class="movie-imdb-link"></div>
-            <div class="dot"></div>
-            <div class="rating-container">
+            <div class="metaitem rating-container">
                 <div class="star-container" data-toggle="tooltip" data-placement="right" title="<%= rating %>/10">
                 <% var p_rating = Math.round(rating) / 2; %>
                    <% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
