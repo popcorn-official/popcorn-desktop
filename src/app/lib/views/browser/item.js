@@ -165,13 +165,17 @@
         showDetail: function (e) {
             e.preventDefault();
 
+            // display the spinner
+            $('.spinner').show();
+
             var realtype = this.model.get('type');
             var itemtype = realtype.replace('bookmarked', '');
             var providers = this.model.get('providers');
+            var torrentProvider = providers.torrent;
             var id = this.model.get(this.model.idAttribute);
 
             var promises = Object.values(providers)
-                .filter(p => (p && p.detail))
+                .filter(p => (p && p.detail && p !== torrentProvider))
                 .map(p => (p.detail(id, this.model.attributes)));
 
             // bookmarked movies are cached
@@ -179,31 +183,26 @@
                 return App.vent.trigger('movie:showDetail', this.model);
             }
 
-            // display the spinner
-            $('.spinner').show();
             // load details
-            App.vent.trigger(itemtype + ':showDetail', this.model);
+            torrentProvider
+                .detail(id, this.model.attributes)
+                .then(this.model.set.bind(this.model))
+                .then(model => (
+                    App.vent.trigger(itemtype + ':showDetail', model)
+                ))
+                .catch (err => console.error('get torrent detail', err));
 
             // XXX(xaiki): here we could optimise a detail call by marking
             // the models that already got fetched not too long ago, but we
             // actually use memoize in the providers code so it shouldn't be
             // necesary and we refresh the data anyway…
             return Common.Promises.allSettled(promises).then(function (results) {
-                $('.spinner').hide();
-
-                results = results.reduce(function (a, c) {
-                    if (c.ok) {
-                        return a.concat(c.value);
-                    }
-                    return a;
-                }, []);
-
                 // XXX(xaiki): we merge all results into a single object,
                 // this allows for much more than sub providers (language,
                 // art, metadata) but is a little more fragile.
-                var data = results.reduce(function (a, c) {
-                    return Object.assign (a, c);
-                }, {});
+                var data = results
+                    .filter(r => (r.ok))
+                    .reduce((a, c) => (Object.assign(a, c.value)), {});
 
                 this.model.set(data);
             }.bind(this))

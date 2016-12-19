@@ -24,6 +24,10 @@
         initialize: function () {
             this.views = {};
 
+            if (! this.model.get('langs')) {
+               this.model.set('langs', {en: undefined});
+            }
+
             App.vent.on('sub:lang',   this.switchSubtitle.bind(this));
             App.vent.on('audio:lang', this.switchAudio.bind(this));
             App.vent.on('update:subtitles', function (subs)  {
@@ -83,7 +87,7 @@
             return this.loadDropdown('audio', {
                 title: i18n.__('Audio Language'),
                 selected: this.model.get('defaultAudio'),
-                values: this.model.get('langs') || {en: undefined}
+                values: this.model.get('langs')
             });
         },
 
@@ -280,6 +284,7 @@
             App.vent.off('audio:lang');
             App.vent.off('update:subtitles');
             this.model.off('change:quality');
+            Object.values(this.views).forEach(v => v.destroy());
         }
     });
 

@@ -12,12 +12,14 @@
             var providers = Object.assign(attrs.providers,
                                                 this.getProviders());
             this.set('providers', providers);
-            this.updateHealth();
 
             providers.metadata &&
                 providers.metadata.getImages(attrs)
                 .then(this.set.bind(this))
                 .catch(e => console.error('error loading metadata', e));
+
+            this.updateHealth();
+            this.on('change:torrents', this.updateHealth.bind(this));
         },
 
         getProviders: function() {
@@ -26,6 +28,11 @@
 
         updateHealth: function () {
             var torrents = this.get('torrents');
+
+            if (!torrents) {
+                console.error('tried to update health, but still no torrents here', this);
+                return false;
+            }
 
             _.each(torrents, function (torrent) {
                 torrent.health = Common.healthMap[Common.calcHealth(torrent)];

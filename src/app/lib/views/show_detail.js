@@ -192,6 +192,7 @@
 
             App.Device.Collection.setDevice(Settings.chosenPlayer);
             App.Device.ChooserView('#player-chooser').render();
+            $('.spinner').hide();
         },
 
         selectNextEpisode: function () {

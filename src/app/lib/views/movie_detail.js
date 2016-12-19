@@ -54,6 +54,8 @@
             this.loadComponents();
             this.renderHealth();
             this.initKeyboardShortcuts();
+
+            $('.spinner').hide();
         },
 
         loadComponents: function () {
@@ -124,6 +126,7 @@
         onDestroy: function () {
             App.vent.off('change:quality');
             this.unbindKeyboardShortcuts();
+            Object.values(this.views).forEach(v => v.destroy());
         },
 
         initKeyboardShortcuts: function () {
