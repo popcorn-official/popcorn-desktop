@@ -46,6 +46,7 @@
 
         onShow: function () {
             console.log('Show movie detail (' + this.model.get('imdb_id') + ')');
+            $('.spinner').hide();
 
             App.MovieDetailView = this;
 
@@ -124,6 +125,7 @@
         onDestroy: function () {
             App.vent.off('change:quality');
             this.unbindKeyboardShortcuts();
+            Object.values(this.views).forEach(v => v.destroy());
         },
 
         initKeyboardShortcuts: function () {

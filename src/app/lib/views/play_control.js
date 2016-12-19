@@ -280,6 +280,7 @@
             App.vent.off('audio:lang');
             App.vent.off('update:subtitles');
             this.model.off('change:quality');
+            Object.values(this.views).forEach(v => v.destroy());
         }
     });
 

@@ -165,6 +165,9 @@
         showDetail: function (e) {
             e.preventDefault();
 
+            // display the spinner
+            $('.spinner').show();
+
             var realtype = this.model.get('type');
             var itemtype = realtype.replace('bookmarked', '');
             var providers = this.model.get('providers');
@@ -180,8 +183,6 @@
                 return App.vent.trigger('movie:showDetail', this.model);
             }
 
-            // display the spinner
-            $('.spinner').show();
             // load details
             torrentProvider
                 .detail(id, this.model.attributes)
@@ -191,14 +192,11 @@
                 ))
                 .catch (err => console.error('get torrent detail', err));
 
-
             // XXX(xaiki): here we could optimise a detail call by marking
             // the models that already got fetched not too long ago, but we
             // actually use memoize in the providers code so it shouldn't be
             // necesary and we refresh the data anyway…
             return Common.Promises.allSettled(promises).then(function (results) {
-                $('.spinner').hide();
-
                 // XXX(xaiki): we merge all results into a single object,
                 // this allows for much more than sub providers (language,
                 // art, metadata) but is a little more fragile.
