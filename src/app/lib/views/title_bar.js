@@ -71,12 +71,7 @@
         },
 
         minimize: function () {
-            var that = this.nativeWindow;
-            if (AdvSettings.get('minimizeToTray')) {
-                minimizeToTray();
-            } else {
-                that.minimize();
-            }
+            this.nativeWindow.minimize();
         },
 
         closeWindow: function () {
