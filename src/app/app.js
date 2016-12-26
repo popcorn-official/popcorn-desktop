@@ -100,6 +100,7 @@ App.addInitializer(function (options) {
 
     var width = parseInt(localStorage.width ? localStorage.width : Settings.defaultWidth);
     var height = parseInt(localStorage.height ? localStorage.height : Settings.defaultHeight);
+    var isMaximized = Boolean(parseInt(localStorage.isMaximized));
     var x = parseInt(localStorage.posX ? localStorage.posX : -1);
     var y = parseInt(localStorage.posY ? localStorage.posY : -1);
 
@@ -128,8 +129,13 @@ App.addInitializer(function (options) {
     }
 
     win.zoomLevel = zoom;
-    win.resizeTo(width, height);
-    win.moveTo(x, y);
+
+    if (isMaximized) {
+        win.maximize();
+    } else {
+        win.resizeTo(width, height);
+        win.moveTo(x, y);
+    }
 });
 
 var initTemplates = function () {
@@ -153,7 +159,7 @@ var initApp = function () {
 
     // -m argument to open minimized to tray
     if (nw.App.fullArgv.indexOf('-m') === -1) {
-        win.show();
+        win.show(true);
     }
 
     try {
@@ -212,35 +218,6 @@ var delCache = function () {
     };
     win.close(true);
 };
-
-win.on('resize', function (width, height) {
-    localStorage.width = Math.round(width);
-    localStorage.height = Math.round(height);
-});
-
-win.on('move', function (x, y) {
-    localStorage.posX = Math.round(x);
-    localStorage.posY = Math.round(y);
-});
-
-win.on('enter-fullscreen', function () {
-    App.vent.trigger('window:focus');
-});
-
-// Wipe the tmpFolder when closing the app (this frees up disk space)
-win.on('close', function () {
-    if (App.settings.deleteTmpOnClose) {
-        deleteFolder(App.settings.tmpLocation);
-    }
-    if (fs.existsSync(path.join(data_path, 'logs.txt'))) {
-        fs.unlinkSync(path.join(data_path, 'logs.txt'));
-    }
-    try {
-        delCache();
-    } catch (e) {
-        win.close(true);
-    }
-});
 
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -656,6 +633,58 @@ if (nw.App.fullArgv.indexOf('-f') !== -1) {
     win.enterFullscreen();
 }
 
+// nwjs window events
+win.on('resize', function (width, height) {
+    localStorage.width = Math.round(width);
+    localStorage.height = Math.round(height);
+});
+
+win.on('move', function (x, y) {
+    localStorage.posX = Math.round(x);
+    localStorage.posY = Math.round(y);
+});
+
+win.on('enter-fullscreen', function () {
+    App.vent.trigger('window:focus');
+});
+
+win.on('minimize', function () {
+    if (Settings.minimizeToTray) {
+        minimizeToTray();
+    }
+});
+
+win.on('maximize', function () {
+    localStorage.isMaximized = 1;
+    if (process.platform === 'win32') {
+        $('.os-max').addClass('os-is-max');
+    }
+});
+
+win.on('restore', function () {
+    if (Boolean(parseInt(localStorage.isMaximized))) {
+        localStorage.isMaximized = 0;
+    }
+    if (process.platform === 'win32') {
+        $('.os-max').removeClass('os-is-max');
+    }
+});
+
+// Wipe the tmpFolder when closing the app (this frees up disk space)
+win.on('close', function () {
+    if (App.settings.deleteTmpOnClose) {
+        deleteFolder(App.settings.tmpLocation);
+    }
+    if (fs.existsSync(path.join(data_path, 'logs.txt'))) {
+        fs.unlinkSync(path.join(data_path, 'logs.txt'));
+    }
+    try {
+        delCache();
+    } catch (e) {
+        win.close(true);
+    }
+});
+
 nw.App.on('open', function (cmd) {
     var file;
     if (os.platform() === 'win32') {
@@ -680,19 +709,6 @@ nw.App.on('open', function (cmd) {
             handleTorrent(file);
         }
     }
-});
-
-win.on('minimize', function () {
-    if (Settings.minimizeToTray) {
-        minimizeToTray();
-    }
-});
-
-// When win.focus() doesn't do it's job right, play dirty.
-App.vent.on('window:focus', function () {
-    win.setAlwaysOnTop(true);
-    win.focus();
-    win.setAlwaysOnTop(Settings.alwaysOnTop);
 });
 
 // On uncaught exceptions, log to console.

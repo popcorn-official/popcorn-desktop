@@ -58,14 +58,8 @@
             } else {
                 if (window.screen.availHeight <= this.nativeWindow.height) {
                     this.nativeWindow.restore();
-                    if (process.platform === 'win32') {
-                        $('.os-max').removeClass('os-is-max');
-                    }
                 } else {
                     this.nativeWindow.maximize();
-                    if (process.platform === 'win32') {
-                        $('.os-max').addClass('os-is-max');
-                    }
                 }
             }
         },
@@ -95,6 +89,10 @@
                     'hide': 100
                 }
             });
+
+            if (process.platform === 'win32' && Boolean(parseInt(localStorage.isMaximized))) {
+                $('.os-max').addClass('os-is-max');
+            }
         }
 
     });
