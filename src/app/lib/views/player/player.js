@@ -414,7 +414,8 @@
             this.player.click = 0;
             this.player.tech.off('mousedown'); // stop listening to default ev
             this.player.tech.on('mouseup', this.onClick.bind(this));
-            $('#video_player').dblclick(this.onDbClick.bind(this));
+            this.player.tech.on('touchend', this.onClick.bind(this)); // touchscreen fix
+            this.player.tech.on('dblclick', this.onDbClick.bind(this));
 
             // Force custom controls
             this.player.usingNativeControls(false);
