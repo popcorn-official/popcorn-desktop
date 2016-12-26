@@ -645,7 +645,7 @@ win.on('move', function (x, y) {
 });
 
 win.on('enter-fullscreen', function () {
-    App.vent.trigger('window:focus');
+    win.focus();
 });
 
 win.on('minimize', function () {
