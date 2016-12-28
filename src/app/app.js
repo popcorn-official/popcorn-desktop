@@ -158,9 +158,9 @@ var initApp = function () {
     var mainWindow = new App.View.MainWindow();
 
     // -m argument to open minimized to tray
-    if (nw.App.fullArgv.indexOf('-m') === -1) {
-        win.show(true);
-    }
+    var isStartMinimized = nw.App.fullArgv.indexOf('-m') !== -1;
+
+    win.show(isStartMinimized);
 
     try {
         App.Window.show(mainWindow);
@@ -634,6 +634,11 @@ if (nw.App.fullArgv.indexOf('-f') !== -1) {
 }
 
 // nwjs window events
+win.on('focus', function () { //hack to make it somehow work
+    win.setAlwaysOnTop(true);
+    win.setAlwaysOnTop(Settings.alwaysOnTop);
+});
+
 win.on('resize', function (width, height) {
     localStorage.width = Math.round(width);
     localStorage.height = Math.round(height);
