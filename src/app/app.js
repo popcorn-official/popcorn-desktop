@@ -661,18 +661,15 @@ win.on('minimize', function () {
 
 win.on('maximize', function () {
     localStorage.isMaximized = 1;
-    if (process.platform === 'win32') {
-        $('.os-max').addClass('os-is-max');
-    }
+    $('.os-max').addClass('os-is-max');
 });
 
 win.on('restore', function () {
     if (Boolean(parseInt(localStorage.isMaximized))) {
         localStorage.isMaximized = 0;
     }
-    if (process.platform === 'win32') {
-        $('.os-max').removeClass('os-is-max');
-    }
+
+    $('.os-max').removeClass('os-is-max');
 });
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)

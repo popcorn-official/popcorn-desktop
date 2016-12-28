@@ -90,7 +90,7 @@
                 }
             });
 
-            if (process.platform === 'win32' && Boolean(parseInt(localStorage.isMaximized))) {
+            if (Boolean(parseInt(localStorage.isMaximized))) {
                 $('.os-max').addClass('os-is-max');
             }
         }
