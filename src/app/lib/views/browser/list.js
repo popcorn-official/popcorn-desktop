@@ -263,8 +263,8 @@
         onLoaded: function () {
             App.vent.trigger('list:loaded');
             var self = this;
-            this.addloadmore();
-            this.addghosts();
+
+            this.completerow();
 
             if (typeof (this.ui.spinner) === 'object') {
                 this.ui.spinner.hide();
@@ -298,31 +298,34 @@
             }
         },
 
-        addghosts: function () {
-            $('.ghost').remove();
+        completerow: function () {
+            var elms = this.addloadmore();
+            elms += this.addghosts();
 
-            for (var i = 0; i <= 10; i++) { // add 10 items
-                $('.items').append('<div class="ghost"></div>');
-            }
+            $('.ghost, #load-more-item').remove();
+            $('.items').append(elms);
+
+            this.showloadmore();
+        },
+
+        addghosts: function () {
+            return '<div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div>';
         },
 
         addloadmore: function () {
-            var self = this;
+            return '<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>';
+        },
 
-            // maxResults to hide load-more on providers that return hasMore=true no matter what.
-            var currentPage = Math.ceil(this.collection.length / 50);
-            var maxResults = currentPage * 50;
+        showloadmore: function () {
+            var self = this;
 
             switch (App.currentview) {
             case 'movies':
             case 'shows':
             case 'anime':
                 if ($('.items').children().last().attr('id') !== 'load-more-item') {
-                    $('#load-more-item').remove();
                     if (this.collection.hasMore && !this.collection.filter.keywords && this.collection.state !== 'error' && this.collection.length !== 0) {
-                        $('.items').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
-
-                        $('#load-more-item').click(function () {
+                        $('#load-more-item').css('display', 'inline-block').click(function () {
                             $('#load-more-item').off('click');
                             self.collection.fetchMore();
                         });
