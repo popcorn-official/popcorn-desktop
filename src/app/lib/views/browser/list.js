@@ -262,9 +262,9 @@
 
         onLoaded: function () {
             App.vent.trigger('list:loaded');
-            this.checkEmpty();
             var self = this;
             this.addloadmore();
+            this.addghosts();
 
             if (typeof (this.ui.spinner) === 'object') {
                 this.ui.spinner.hide();
@@ -295,6 +295,14 @@
             // if load more is visible onLoaded, fetch more results
             if (elementInViewport(this.$el, $('#load-more-item'))) {
                 this.collection.fetchMore();
+            }
+        },
+
+        addghosts: function () {
+            $('.ghost').remove();
+
+            for (var i = 0; i <= 10; i++) { // add 10 items
+                $('.items').append('<div class="ghost"></div>');
             }
         },
 
