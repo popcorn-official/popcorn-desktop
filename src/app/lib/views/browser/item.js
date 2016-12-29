@@ -18,6 +18,7 @@
 
         ui: {
             covers: '.cover-imgs',
+            defaultCover: '.cover',
             bookmarkIcon: '.actions-favorites',
             watchedIcon: '.actions-watched'
         },
@@ -135,7 +136,7 @@
             var posterCache = new Image();
             posterCache.src = poster;
 
-            this.ui.covers.append(`<img class="cover-overlay"/>`);
+            this.ui.covers.append(`<div class="cover-overlay"></div>`);
 
             posterCache.onload = function () {
                 posterCache.onload = () => {};
@@ -149,11 +150,14 @@
                     posterCache.src = c.toDataURL();
                 }
 
-                this.ui.covers.children(-1).attr('src', posterCache.src).addClass('fadein');
+                this.ui.covers.children(-1).css('background-image', 'url('+posterCache.src+')').addClass('fadein').delay(600).queue(_ => {
+                    this.ui.defaultCover.addClass('empty'); 
+                });
             }.bind(this);
 
             posterCache.onerror = function (e) {
                 this.ui.covers.empty();
+                this.ui.defaultCover.removeClass('empty');
             }.bind(this);
         },
 
