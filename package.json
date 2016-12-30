@@ -45,7 +45,7 @@
         "async": "2.x.x",
         "bonjour": "^3.5.0",
         "chromecasts": "1.9.0",
-        "defer-request": "0.0.2",
+        "defer-request": "0.0.3",
         "dlnacasts": "0.1.0",
         "i18n": "0.x.x",
         "iconv-lite": "0.x.x",
