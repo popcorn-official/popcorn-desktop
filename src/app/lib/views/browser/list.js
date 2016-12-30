@@ -309,7 +309,7 @@
         },
 
         addghosts: function () {
-            return '<div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div>';
+            return '<div class="ghost"></div>'.repeat(10);
         },
 
         addloadmore: function () {
