@@ -35,7 +35,7 @@
     },
     "chromium-args": "--enable-node-worker",
     "dependencies": {
-        "butter-provider": "git+https://github.com/butterproviders/butter-provider",
+        "butter-provider": "0.6.0",
         "butter-provider-ccc": "git+https://github.com/butterproviders/butter-provider-ccc",
         "butter-provider-youtube": "git+https://github.com/butterproviders/butter-provider-youtube",
         "butter-provider-vodo": "git+https://github.com/butterproviders/butter-provider-vodo",
