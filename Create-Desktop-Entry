@@ -30,10 +30,10 @@ create_desktop_entry() {
 }
 
 printf "Create a desktop entry for Popcorn Time for the current user ? (Y)es/(N)o: "
-read input
+read -n1 input
 
 
-if [ "$input" == "Y" ] || [ "$input" == "y" ]
+if [ "$input" == "Y" ] || [ "$input" == "y" ] || [ "$input" == "" ]
 then
 	case "$(uname)" in
 		Linux)
@@ -42,5 +42,5 @@ then
 			echo "Create a desktop entry is only meant to be used on Linux" ;;
 	esac
 else
-	echo "Just execute ./Create-Desktop-Entry when you are ready to create a desktop entry for Popcorn Time"
+	echo -e "Cancel. /nJust execute ./Create-Desktop-Entry when you are ready to create a desktop entry for Popcorn Time"
 fi
