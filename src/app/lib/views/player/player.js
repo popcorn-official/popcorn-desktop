@@ -36,12 +36,14 @@
             this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
             this.listenTo(this.model, 'change:downloaded', this.updateDownloaded);
 
-            this.inFullscreen = win.isFullscreen;		
-            this.playerWasReady = false;		
+            this.inFullscreen = win.isFullscreen;
+            this.playerWasReady = false;
 
-            this.remaining = false;		
-            this.createdRemaining = false;		
+            this.remaining = false;
+            this.createdRemaining = false;
             this.firstPlay = true;
+
+            this.boundedMouseScroll = this.mouseScroll.bind(this);
         },
 
         isMovie: function () {
@@ -403,7 +405,7 @@
                         customSubtitles: {},
                         progressTips: {}
                     }
-                }).ready(function () {		
+                }).ready(function () {
                     that.playerWasReady = Date.now();
                 });
             }
@@ -779,7 +781,7 @@
                 }
             });
 
-            $('body').bind('mousewheel', this.mouseScroll.bind(this));
+            document.addEventListener('mousewheel', this.boundedMouseScroll);
         },
 
         unbindKeyboardShortcuts: function () {
@@ -850,7 +852,7 @@
             // Change when mousetrap can be extended
             $('body').unbind('keydown');
 
-            $('body').unbind('mousewheel');
+            document.removeEventListener('mousewheel', this.boundedMouseScroll);
         },
 
         toggleMouseDebug: function () {
@@ -953,7 +955,7 @@
         },
 
         onDestroy: function () {
-            if (this.model.get('type') === 'video/youtube') { 
+            if (this.model.get('type') === 'video/youtube') {
                 $('.trailer_mouse_catch').remove(); // Trailer UI Show FIX/HACK
             }
             $('#player_drag').hide();
