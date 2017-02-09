@@ -7,7 +7,8 @@
         openSRT = new OS({
             useragent: Settings.opensubtitles.useragent + ' v' + (Settings.version || 1),
             username: Settings.opensubtitlesUsername,
-            password: Settings.opensubtitlesPassword
+            password: Settings.opensubtitlesPassword,
+            ssl: true
         });
     };
 
