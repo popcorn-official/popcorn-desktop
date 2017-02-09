@@ -18,7 +18,7 @@ Want to report a bug, request a feature, contribute to or translate Butter? Chec
 
 If you're comfortable getting up and running from a `git clone`, this method is for you.
 
-After you clone the GitHub repository, you will need to build a number of assets using grunt.
+After you clone the GitHub repository, you will need to build a number of assets using gulp.
 
 The [master](https://github.com/butterproject/butter-desktop) branch which contains the latest release.
 
