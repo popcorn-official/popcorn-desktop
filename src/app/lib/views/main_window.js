@@ -238,6 +238,10 @@
                         $('.events').css('display', 'block');
                     }
 
+                    if (AdvSettings.get('autoSeed')) {
+                        App.vent.trigger('seed:start');
+                    }
+
                     // set player from settings
                     var players = App.Device.Collection.models;
                     for (var i in players) {
@@ -245,10 +249,6 @@
                             App.Device.Collection.setDevice(AdvSettings.get('chosenPlayer'));
                         }
                     }
-
-                    // Focus the window when the app opens
-                    win.focus();
-
                 });
 
             // Cancel all new windows (Middle clicks / New Tab)
@@ -258,7 +258,6 @@
 
             App.vent.trigger('updatePostersSizeStylesheet');
             App.vent.trigger('main:ready');
-
         },
 
         movieTabShow: function (e) {
