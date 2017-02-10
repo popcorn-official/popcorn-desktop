@@ -40,6 +40,7 @@ SeederTask.prototype = {
         this.torrentFiles = [];
 
         process.send('Seeding stopped');
+        process.kill();
     },
 
     getTorrentFiles: function() {

@@ -10,9 +10,10 @@
         },
 
         stop: function() {
-            this.getWorkerInstance().send({action: 'stop'});
-            this.worker.kill();
-            this.worker = null;
+            if (this.getWorkerInstance()) {
+                this.getWorkerInstance().send({action: 'stop'});
+                this.worker = null;
+            }
         },
 
         append: function(torrent) {
@@ -39,14 +40,6 @@
                 });
 
                 this.worker = child.fork(taskFile, [args], {silent: true, execPath:'node'});
-
-                this.worker.on('disconnect', function(msg) {
-                    win.info('Seeder worker: disconnect');
-                });
-
-                this.worker.on('exit', function(msg) {
-                    win.info('Seeder worker: exit');
-                });
 
                 this.worker.on('message', function(msg) {
                     win.info(msg);
