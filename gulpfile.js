@@ -62,7 +62,7 @@ const parsePlatforms = () => {
 // returns an array of paths with the node_modules to include in builds
 const parseReqDeps = () => {
     return new Promise((resolve, reject) => {
-        exec('npm ls --production=true --parseable=true', (error, stdout, stderr) => {
+        exec('npm ls --production=true --parseable=true', {maxBuffer: 1024 * 500}, (error, stdout, stderr) => {
             if (error || stderr) {
                 reject(error || stderr);
             } else {
