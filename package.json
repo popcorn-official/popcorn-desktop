@@ -73,7 +73,7 @@
         "temp": "0.x.x",
         "webtorrent-health": "1.x.x",
         "trakt.tv": "5.0.0",
-        "trakt.tv-ondeck": "0.x.x",
+        "trakt.tv-ondeck": "5.0.1",
         "trakt.tv-matcher": "1.x.x",
         "trakt.tv-images": "1.x.x",
         "underscore": "1.x.x",
