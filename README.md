@@ -37,6 +37,8 @@ If you encounter trouble with the above method, you can try:
 
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
+If you are on Windows, follow [this guide](https://github.com/Automattic/node-canvas/wiki/Installation---Windows) to properly install `node-canvas`. If you get errors related to `gulp` not being found, check out [this answer](http://stackoverflow.com/a/24042936).
+
 Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-popcorn-time)
 
 <a name="community"></a>
