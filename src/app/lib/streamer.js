@@ -364,7 +364,7 @@
 
             this.stateModel.set('state', state);
 
-            if (state === 'ready' || state === 'playingExternally') {
+            if (state === 'ready' || state === 'playingExternally' || state === 'waitingForSubtitles' ) {
                 App.vent.trigger('stream:ready', this.streamInfo);
                 this.stateModel.destroy();
             } else {
