@@ -160,7 +160,9 @@ var initApp = function () {
     // -m argument to open minimized to tray
     var isStartMinimized = nw.App.fullArgv.indexOf('-m') !== -1;
 
-    win.show(isStartMinimized);
+    if (!isStartMinimized) {
+        win.show();
+    }
 
     try {
         App.Window.show(mainWindow);
