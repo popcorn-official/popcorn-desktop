@@ -60,7 +60,7 @@
     "nedb": "1.8.0",
     "node-captions": "0.4.6",
     "node-webkit-fdialogs": "latest",
-    "opensubtitles-api": "3.3.0",
+    "opensubtitles-api": "4.0.0-rc1",
     "os-name": "2.0.1",
     "popcorn-txt-api": "git+https://github.com/hackhackhack/popcorn-txt-api",
     "q": "2.0.3",
