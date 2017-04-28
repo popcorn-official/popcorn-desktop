@@ -196,10 +196,10 @@ if [ "$rd_dep" = "yes" ]; then
     echo "Successfully setup for Popcorn Time"
 fi
 
-if gulp build; then
+if gulp --harmony build; then
     echo "Popcorn Time built successfully!"
     ./Create-Desktop-Entry
-    echo "Run 'gulp run' from inside the repository to launch the app"
+    echo "Run 'gulp --harmony run' from inside the repository to launch the app"
     echo "Enjoy!"
 else
     echo "Popcorn Time encountered an error and couldn't be built"
