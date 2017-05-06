@@ -172,10 +172,10 @@
             Mousetrap.bind(['enter', 'space'], function (e) {
                 $('#watch-now').click();
             });
-            Mousetrap.bind('q', this.toggleQuality);
+            Mousetrap.bind('q', this.toggleQuality, 'keydown');
             Mousetrap.bind('f', function () {
                 $('.favourites-toggle').click();
-            });
+            }, 'keydown');
         },
 
         unbindKeyboardShortcuts: function () { // There should be a better way to do this

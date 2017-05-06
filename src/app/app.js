@@ -296,11 +296,11 @@ Mousetrap.bind('shift+up shift+up shift+down shift+down shift+left shift+right s
     } else {
         body.addClass('knm');
     }
-});
+}, 'keydown');
 Mousetrap.bindGlobal(['command+ctrl+f', 'ctrl+alt+f'], function (e) {
     e.preventDefault();
     win.toggleFullscreen();
-});
+}, 'keydown');
 Mousetrap.bind('shift+b', function (e) {
     if (!ScreenResolution.SD) {
         if (App.settings.bigPicture) {
@@ -322,7 +322,7 @@ Mousetrap.bind('shift+b', function (e) {
             autoclose: true
         }));
     }
-});
+}, 'keydown');
 
 // Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
 window.ondragenter = function (e) {

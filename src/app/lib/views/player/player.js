@@ -629,35 +629,35 @@
 
             Mousetrap.bind(['f', 'F'], function (e) {
                 that.toggleFullscreen();
-            });
+            }, 'keydown');
 
             Mousetrap.bind('h', function (e) {
                 that.adjustSubtitleOffset(-0.1);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('g', function (e) {
                 that.adjustSubtitleOffset(0.1);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('shift+h', function (e) {
                 that.adjustSubtitleOffset(-1);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('shift+g', function (e) {
                 that.adjustSubtitleOffset(1);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('ctrl+h', function (e) {
                 that.adjustSubtitleOffset(-5);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('ctrl+g', function (e) {
                 that.adjustSubtitleOffset(5);
-            });
+            }, 'keydown');
 
             Mousetrap.bind(['space', 'p'], function (e) {
                 $('.vjs-play-control').click();
-            });
+            }, 'keydown');
 
             Mousetrap.bind('right', function (e) {
                 that.seek(5);
@@ -709,39 +709,39 @@
 
             Mousetrap.bind(['m', 'M'], function (e) {
                 that.toggleMute();
-            });
+            }, 'keydown');
 
             Mousetrap.bind(['u', 'U'], function (e) {
                 that.displayStreamURL();
-            });
+            }, 'keydown');
 
             Mousetrap.bind('j', function (e) {
                 that.adjustPlaybackRate(-0.1, true);
-            });
+            }, 'keydown');
 
             Mousetrap.bind(['k', 'shift+k', 'ctrl+k'], function (e) {
                 that.adjustPlaybackRate(1.0, false);
-            });
+            }, 'keydown');
 
             Mousetrap.bind(['l'], function (e) {
                 that.adjustPlaybackRate(0.1, true);
-            });
+            }, 'keydown');
 
             Mousetrap.bind(['shift+j', 'ctrl+j'], function (e) {
                 that.adjustPlaybackRate(0.5, false);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('shift+l', function (e) {
                 that.adjustPlaybackRate(2.0, false);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('ctrl+l', function (e) {
                 that.adjustPlaybackRate(4.0, false);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('ctrl+d', function (e) {
                 that.toggleMouseDebug();
-            });
+            }, 'keydown');
 
             Mousetrap.bind('0', function (e) {
                 that.scaleWindow(0.5);
