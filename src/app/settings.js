@@ -2,7 +2,6 @@
 var Settings = {
     projectName: 'Butter',
     projectUrl: 'http://butterproject.org',
-    projectGitLab: 'https://gitlab.com/butterproject',
     projectTwitter: 'butterproject',
     projectFacebook: 'ButterProjectOrg',
     projectGooglePlus: 'ButterProject',
