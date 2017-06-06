@@ -5,7 +5,11 @@
         this.client = new Trakt({
             client_id: Settings.trakttv.client_id,
             client_secret: Settings.trakttv.client_secret,
-            plugins: ['ondeck', 'matcher', 'images'],
+            plugins: {
+                ondeck: require('trakt.tv-ondeck'), 
+                matcher: require('trakt.tv-matcher'),
+                images: require('trakt.tv-images')
+            },
             options: {
                 images: {
                     smallerImages: true,
