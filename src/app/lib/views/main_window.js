@@ -511,6 +511,10 @@
 
                         '.item {',
                         'font-size: ' + fontSize + 'em;',
+                        '}',
+
+                        '.ghost {',
+                        'width: ', postersWidth, 'px;',
                         '}'
                     ].join('');
 

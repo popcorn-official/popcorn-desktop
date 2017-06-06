@@ -284,6 +284,8 @@ vjs.TextTrack.prototype.load = function () {
                     .replace(/(- |==|sync).*[\s\S].*[\s\S].*[\s\S].*[\s\S].*\.(com|org|net|edu)/ig, '') // various teams
                     .replace(/[^0-9][\s\S][^0-9\W].*[\s\S].*[\s\S].*opensubtitles.*/ig, ''); // opensubs "contact us" ads
 
+                strings = Common.sanitize(strings); // xss-style attacks
+                strings = strings.replace(/--\&gt\;/g, '-->'); // restore srt format
                 callback(strings);
             };
 

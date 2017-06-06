@@ -1,3 +1,11 @@
+<%
+if(Settings.sourceUrl.match('github.com')){
+    source_icon = 'github_icon'
+} else {
+    source_icon = 'gitlab_icon'
+};
+%>
+
 <div class="about-container">
     <div class="fa fa-times close-icon"></div>
     <div class="overlay-content"></div>
@@ -24,7 +32,7 @@
             <a href='http://twitter.com/<%= Settings.projectTwitter %>' data-toggle="tooltip" data-placement="top" title="twitter.com/<%= Settings.projectTwitter %>" class='links twitter_icon'></span></a>
             <a href='http://www.fb.com/<%= Settings.projectFacebook %>' data-toggle="tooltip" data-placement="top" title="fb.com/<%= Settings.projectFacebook %>" class='links facebook_icon'></span></a>
             <a href='http://plus.google.com/+<%= Settings.projectGooglePlus %>/posts' data-toggle="tooltip" data-placement="top" title="plus.google.com/+<%= Settings.projectGooglePlus %>" class='links google_icon'></span></a>
-            <a href='<%= Settings.projectUrl %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectUrl %>" class='links gitlab_icon'></span></a>
+            <a href='<%= Settings.sourceUrl %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.sourceUrl %>" class='links <%= source_icon %>'></span></a>
             <a href='<%= Settings.projectBlog %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectBlog %>" class='links blog_icon'></span></a>
             <a href='<%= Settings.projectForum %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectForum %>" class='links forum_icon'></span></a>
         </div>
@@ -36,6 +44,6 @@
     </div>
     <div class="changelog-overlay">
         <div class="title"><%=i18n.__("Changelog")%></div>
-        <div class="changelog-text"></div>    
+        <div class="changelog-text"></div>
     </div>
 </div>

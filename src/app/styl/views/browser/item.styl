@@ -20,11 +20,15 @@
         border-radius: $PosterRadius
         box-shadow: $PosterShadow
         cursor: pointer
+        
+        &.empty
+            background-image none
 
         .cover-overlay
-            text-align center
             width 100%
             height 100%
+            background-size cover
+            background-position center
             position absolute
             transition opacity 500ms ease-in
             opacity 0
@@ -163,7 +167,7 @@
     border-radius 4px
     box-shadow $PosterShadow
     cursor pointer
-    display inline-block
+    display none
     margin 10px
     float left
     background-color:$BgColor1
@@ -207,3 +211,8 @@
             background-color:$ButtonBgHover
         &:active
             background-color:$ButtonBgActive
+
+.ghost
+    width 134px
+    height 0
+    margin 10px
