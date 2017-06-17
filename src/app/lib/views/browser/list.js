@@ -498,5 +498,25 @@
         },
     });
 
+    function onMoviesWatched(movie, channel) {
+        if  (channel === 'database') {
+            try {
+                switch (Settings.watchedCovers) {
+                    case 'fade':
+                        $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"] .actions-watched').addClass('selected');
+                        $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]').addClass('watched');
+                        break;
+                    case 'hide':
+                        $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]').remove();
+                        break;
+                }
+                $('.watched-toggle').addClass('selected').text(i18n.__('Seen'));
+                App.MovieDetailView.model.set('watched', true);
+            } catch (e) {}
+        }
+    }
+
+    App.vent.on('movie:watched', onMoviesWatched);
+
     App.View.List = List;
 })(window.App);

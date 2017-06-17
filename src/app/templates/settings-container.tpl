@@ -86,10 +86,18 @@
                 <input class="settings-checkbox" name="coversShowRating" id="cb3" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
                 <label class="settings-label" for="cb3"><%= i18n.__("Show rating over covers") %></label>
             </span>
-
             <span class="advanced">
                 <input class="settings-checkbox" name="alwaysOnTop" id="cb4" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
                 <label class="settings-label" for="cb4"><%= i18n.__("Always On Top") %></label>
+            </span>
+
+            <span class="advanced">
+                <input class="settings-checkbox" name="animeTabDisable" id="animeTabDisable" type="checkbox" <%=(Settings.animeTabDisable ? "checked='checked'":"")%>>
+                <label class="settings-label" for="animeTabDisable"><%= i18n.__("Disable Anime Tab") %></label>
+            </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="indieTabDisable" id="indieTabDisable" type="checkbox" <%=(Settings.indieTabDisable ? "checked='checked'":"")%>>
+                <label class="settings-label" for="indieTabDisable"><%= i18n.__("Disable Indie Tab") %></label>
             </span>
 
             <span class="advanced">
@@ -295,6 +303,7 @@
                 <input class="settings-checkbox" name="playNextEpisodeAuto" id="playNextEpisodeAuto" type="checkbox" <%=(Settings.playNextEpisodeAuto? "checked='checked'":"")%>>
                 <label class="settings-label" for="playNextEpisodeAuto"><%= i18n.__("Play next episode automatically") %></label>
             </span>
+
         </div>
     </section>
 
@@ -331,7 +340,10 @@
                             <i class="fa fa-user-plus">&nbsp;&nbsp;</i>
                             <%= i18n.__("Connect To %s", "Trakt") %>
                         </div>
-                        <div class="trakt-loading-spinner" style="display: none"></div>
+                        <div id="authTraktCode" style="display:none">
+                            <%= i18n.__("Code:")%>
+                            <input type="text" size="20" readonly/>
+                        </div>
                     </span>
                 <% } %>
             </div>
@@ -556,8 +568,12 @@
                 <label class="settings-label" for="cb5"><%= i18n.__("Activate automatic updating") %></label>
             </span>
             <span>
-                <input class="settings-checkbox" name="events" id="cb6" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb6"><%= i18n.__("Celebrate various events") %></label>
+                <input class="settings-checkbox" name="UpdateSeed" id="cb6" type="checkbox" <%=(Settings.UpdateSeed? "checked='checked'":"")%>>
+                <label class="settings-label" for="cb6"><%= i18n.__("Activate Update seeding") %></label>
+            </span>
+            <span>
+                <input class="settings-checkbox" name="events" id="cb7" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
+                <label class="settings-label" for="cb7"><%= i18n.__("Celebrate various events") %></label>
             </span>
             <span>
                 <input class="settings-checkbox" name="minimizeToTray" id="minimizeToTray" type="checkbox" <%=(Settings.minimizeToTray? "checked='checked'":"")%>>

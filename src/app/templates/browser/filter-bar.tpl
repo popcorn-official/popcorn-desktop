@@ -50,7 +50,7 @@
     <li>
         <div class="right search">
             <form>
-                <input id="searchbox" type="text" placeholder="<%= i18n.__("Search") %>">
+                <input id="searchbox" type="text" placeholder="<%= i18n.__("Search") %>" autocomplete="off">
                 <div class="clear fa fa-times"></div>
             </form>
         </div>
