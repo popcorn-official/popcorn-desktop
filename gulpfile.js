@@ -304,42 +304,49 @@ gulp.task('nsis', () => {
 });
 
 gulp.task('build-flatpak', () => {
-    return new Promise((accept, reject) => {
-        flatpak.bundle({
-            id: 'org.butterproject.Desktop',
-            base: 'io.atom.electron.BaseApp',
-            baseFlatpakref: 'https://s3-us-west-2.amazonaws.com/electron-flatpak.endlessm.com/electron-base-app-master.flatpakref',
-            runtime: 'org.freedesktop.Platform',
-            runtimeVersion: '1.4',
-            runtimeFlatpakref: 'https://raw.githubusercontent.com/endlessm/flatpak-bundler/master/refs/freedesktop-runtime-1.4.flatpakref',
-            sdk: 'org.freedesktop.Sdk',
-            files: [
-                [ './dist/linux/butter.desktop', '/share/applications/org.butterproject.Desktop.desktop'],
-                [ './src/app/images/icon.png', '/share/icons/org.butterproject.Desktop.png'],
-                [ releasesDir + '/Butter/linux64', '/share/butter' ]
-            ],
-            symlinks: [
-                [ '/share/butter/Butter', '/bin/Butter' ]
-            ],
-            finishArgs: [
-                '--share=ipc', '--socket=x11',
-                '--socket=pulseaudio',
-                '--filesystem=home',
-                '--share=network',
-                '--device=dri'
-            ]
-        }, { // Build options
-            arch: 'x86_64',
-             bundlePath: 'build/Butter/linux64-flatpak/butter-desktop_x86_64.flatpak',
-             gpgSign: 'CF953E76C24B9018' // Gpg key to sign with
-        }, function (error) {
-            if (error) {
-                reject(error);
-            }
-            console.log('Flatpak built successfully.');
-            accept(true);
+    return Promise.all(nw.options.platforms.map((platform) => {
+        if (platform.match(/osx|win/) !== null) {
+            console.log('flatpak not available on:', platform);
+            return null;
+        }
+
+        return new Promise((accept, reject) => {
+            flatpak.bundle({
+                id: 'org.butterproject.Desktop',
+                base: 'io.atom.electron.BaseApp',
+                baseFlatpakref: 'https://s3-us-west-2.amazonaws.com/electron-flatpak.endlessm.com/electron-base-app-master.flatpakref',
+                runtime: 'org.freedesktop.Platform',
+                runtimeVersion: '1.4',
+                runtimeFlatpakref: 'https://raw.githubusercontent.com/endlessm/flatpak-bundler/master/refs/freedesktop-runtime-1.4.flatpakref',
+                sdk: 'org.freedesktop.Sdk',
+                files: [
+                    [ './dist/linux/butter.desktop', '/share/applications/org.butterproject.Desktop.desktop'],
+                    [ './src/app/images/icon.png', '/share/icons/org.butterproject.Desktop.png'],
+                    [ releasesDir + '/Butter/' + platform, '/share/butter' ]
+                ],
+                symlinks: [
+                    [ '/share/butter/Butter', '/bin/Butter' ]
+                ],
+                finishArgs: [
+                    '--share=ipc', '--socket=x11',
+                    '--socket=pulseaudio',
+                    '--filesystem=home',
+                    '--share=network',
+                    '--device=dri'
+                ]
+            }, { // Build options
+                arch: platform === 'linux64' ? 'x86_64': 'x86_32',
+                 bundlePath: 'build/Butter/' + platform + '-flatpak/butter-desktop_x86_64.flatpak',
+                 gpgSign: 'CF953E76C24B9018' // Gpg key to sign with
+            }, function (error) {
+                if (error) {
+                    reject(error);
+                }
+                console.log('Flatpak built successfully.');
+                accept(true);
+            });
         });
-    });
+    }));
 });
 
 // compile debian packages
