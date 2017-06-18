@@ -506,7 +506,7 @@ gulp.task('test', (callback) => {
 
 gulp.task('flatpak', (callback) => (
     runSequence('build', 'build-flatpak', callback)
-))
+));
 
 //TODO:
 //setexecutable?
