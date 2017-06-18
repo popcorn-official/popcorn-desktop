@@ -1,10 +1,19 @@
+dist: trusty
+sudo: required
+
+services:
+  - docker
+
 language: node_js
 node_js:
 - '4'
 before_install:
 - if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
-- npm install -g gulp-cli
-after_success: gulp build
+- docker pull endlessm/electron-flatpak
+
+after_success:
+  - docker run --privileged -v $PWD:/build:rw endlessm/electron-flatpak /bin/bash -c "cd /build && DEBUG=flatpak-bundler gulp flatpak"
+
 notifications:
   email: false
   irc: chat.freenode.net#butterdev
