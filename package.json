@@ -11,8 +11,8 @@
   },
   "license": "GPL-3.0",
   "main": "src/app/index.html",
-  "version": "0.3.8-5a",
-  "releaseName": "There's nothing on TV",
+  "version": "0.3.9-flatpak0-a",
+  "releaseName": "Pizza for two",
   "scripts": {
     "postinstall": "node_modules/.bin/bower install --config.interactive=false",
     "postupdate": "node_modules/.bin/bower update --config.interactive=false",
