@@ -16,7 +16,7 @@ before_install:
 
 after_success:
 - docker run --privileged -t -v $PWD:/build:rw waltervargas/flatpak-freedesktop-nodejs-electron:1.4
-  /bin/bash -c "cd /build && gpg --batch --import butter-release.gpg && npm i && echo
+  /bin/bash -c "cd /build && npm i && gpg --batch --import butter-release.gpg && echo
   'use-agent' >> ~/.gnupg/gpg.conf && killall gpg-agent && gpg-agent --daemon --allow-preset-passphrase
   && /usr/lib/gnupg2/gpg-preset-passphrase -P `cat butter-release.secret` --preset
   4C4847FF804B487D23EBDA678CA18935FD497D6B && DEBUG=flatpak-bundler ./node_modules/gulp/bin/gulp.js
