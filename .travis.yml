@@ -2,20 +2,29 @@ dist: trusty
 sudo: required
 
 services:
-  - docker
+- docker
 
 language: node_js
 node_js:
 - '4'
+
 before_install:
+- openssl aes-256-cbc -K $encrypted_05d2c4bd84d8_key -iv $encrypted_05d2c4bd84d8_iv
+  -in butter.secrets.tar.enc -out butter.secrets.tar -d
+- tar xvf butter.secrets.tar
 - docker pull waltervargas/flatpak-freedesktop-nodejs-electron:1.4
 
 after_success:
-  - docker run --privileged -v $PWD:/build:rw waltervargas/flatpak-freedesktop-nodejs-electron:1.4 /bin/bash -c "cd /build && npm i && DEBUG=flatpak-bundler ./node_modules/gulp/bin/gulp.js flatpak"
-
+- docker run --privileged -t -v $PWD:/build:rw waltervargas/flatpak-freedesktop-nodejs-electron:1.4
+  /bin/bash -c "cd /build && gpg --batch --import butter-release.gpg && npm i && echo
+  'use-agent' >> ~/.gnupg/gpg.conf && killall gpg-agent && gpg-agent --daemon --allow-preset-passphrase
+  && /usr/lib/gnupg2/gpg-preset-passphrase -P `cat butter-release.secret` --preset
+  4C4847FF804B487D23EBDA678CA18935FD497D6B && DEBUG=flatpak-bundler ./node_modules/gulp/bin/gulp.js
+  flatpak"
 notifications:
   email: false
   irc: chat.freenode.net#butterdev
+
 deploy:
   provider: releases
   api_key:

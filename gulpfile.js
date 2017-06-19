@@ -337,7 +337,7 @@ gulp.task('build-flatpak', () => {
             }, { // Build options
                 arch: platform === 'linux64' ? 'x86_64': 'x86_32',
                  bundlePath: 'build/Butter/' + platform + '-flatpak/butter-desktop_x86_64.flatpak',
-                 gpgSign: 'CF953E76C24B9018' // Gpg key to sign with
+                 gpgSign: '36534BDEC827CE08' // Gpg key to sign with
             }, function (error) {
                 if (error) {
                     reject(error);
