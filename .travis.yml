@@ -8,11 +8,10 @@ language: node_js
 node_js:
 - '4'
 before_install:
-- if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
-- docker pull endlessm/electron-flatpak
+- docker pull waltervargas/flatpak-freedesktop-nodejs-electron:1.4
 
 after_success:
-  - docker run --privileged -v $PWD:/build:rw endlessm/electron-flatpak /bin/bash -c "cd /build && DEBUG=flatpak-bundler gulp flatpak"
+  - docker run --privileged -v $PWD:/build:rw waltervargas/flatpak-freedesktop-nodejs-electron:1.4 /bin/bash -c "cd /build && npm i && DEBUG=flatpak-bundler ./node_modules/gulp/bin/gulp.js flatpak"
 
 notifications:
   email: false
