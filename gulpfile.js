@@ -340,10 +340,10 @@ gulp.task('build-flatpak', () => {
                  gpgSign: '36534BDEC827CE08' // Gpg key to sign with
             }, function (error) {
                 if (error) {
-                    reject(error);
+                    return reject(error);
                 }
                 console.log('Flatpak built successfully.');
-                accept(true);
+                return accept(true);
             });
         });
     }));
