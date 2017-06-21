@@ -1,10 +1,35 @@
+dist: trusty
+sudo: required
+
+services:
+- docker
+
 language: node_js
 node_js:
-  - "4"
-before_install: 
-  - if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
-  - npm install -g gulp-cli
-after_success : gulp build
+- '4'
+
+before_install:
+- openssl aes-256-cbc -K $encrypted_05d2c4bd84d8_key -iv $encrypted_05d2c4bd84d8_iv
+  -in butter.secrets.tar.enc -out butter.secrets.tar -d
+- tar xvf butter.secrets.tar
+- docker pull waltervargas/flatpak-freedesktop-nodejs-electron:1.4
+
+after_success:
+- docker run --privileged -t -v $PWD:/build:rw waltervargas/flatpak-freedesktop-nodejs-electron:1.4
+  /bin/bash -c "cd /build && npm i && gpg --batch --import butter-release.gpg && echo
+  'use-agent' >> ~/.gnupg/gpg.conf && killall gpg-agent && gpg-agent --daemon --allow-preset-passphrase
+  && /usr/lib/gnupg2/gpg-preset-passphrase -P `cat butter-release.secret` --preset
+  4C4847FF804B487D23EBDA678CA18935FD497D6B && DEBUG=flatpak-bundler ./node_modules/gulp/bin/gulp.js
+  flatpak"
 notifications:
   email: false
-  irc: "chat.freenode.net#butterdev"
+  irc: chat.freenode.net#butterdev
+
+deploy:
+  provider: releases
+  api_key:
+    secure: jUNT62KTNLTdqQORNKZl0Vhqb3SX3kZkhj+69mGrpu/nKtP562p8Mb0vMXfEmztU4TUkKSrdnf4cZb+x5RDT1yPaY8FtyWziEniN7aM9z0FnysHM1JbXHm2cjM5p6CafRIXQeAAJ9J6UDwHibk3bC8KRppXyDGV7jFHF3MvmJ8Vopep3f+Wg/KUcHn8ZvkNzr7yki98xeU7QyVCPcYf7Xg3KYzDPBYIENzVXGpeTP0fYp03rOOxj3RCyshToeMvixbdg6gBL6puQ42EmedK8Cpho2H5Iatn/48gr1BVvAifO4B4Tm5eaAWvlMsvHJuP76u2Q2HYI7sUjgK4p4EZiHCSOO3K/AM0tyYOzqbqNdXpzwY0VP9WndNRa8EA+ORUjMrx3jiolYpNgNfc4pe0L4GHBziAIv9z0IRlDzlTKZ+5Bb+YGBmfsqrqlpITO4p0vgjuLyOOSFSwUlHph8tk8uISGh+9LyJ6h5IrK/5rjgAQuEkOiY39dD95vlYbbiMvpjwEoz6LGEJsELed+TkA8mdA948Z/w3AwFd211Sn2Czs0isAoH4oH9AprB03gB0+t/NiVVR66xrVpktOmOPIQD1Hd8dF+PEkC5P0mbpzbz3gLdYc/U1pBj6zYRtsC5rzsU3onS6hK9oLUMrCKojqg+WpMY2I/jiNhLLb/jgDLuVg=
+  file: "./build/Butter/linux64-flatpak/butter-desktop_x86_64.flatpak"
+  on:
+    repo: butterproject/butter-desktop
+    branch: xaiki/flatpak

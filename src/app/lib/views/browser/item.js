@@ -17,8 +17,8 @@
         },
 
         ui: {
-            coverImage: '.cover-image',
-            cover: '.cover',
+            covers: '.cover-imgs',
+            defaultCover: '.cover',
             bookmarkIcon: '.actions-favorites',
             watchedIcon: '.actions-watched'
         },
@@ -38,6 +38,12 @@
             this.loadImage();
             this.setCoverStates();
             this.setTooltips();
+
+            this.model.on('change:poster', this.loadImage.bind(this));
+        },
+
+        onDestroy: function () {
+            this.model.off('change:poster');
         },
 
         hoverItem: function (e) {
@@ -121,36 +127,38 @@
         },
 
         loadImage: function () {
-            var noimg = 'images/posterholder.png';
+            var poster = this.model.get('poster');
 
-            var coverUrl = function () {
-                var images = this.model.get('images') || {};
-                var poster = this.model.get('cover');
-                return images.poster || poster || noimg;
-            }.bind(this)();
+            if (! poster) {
+                return;
+            }
 
-            var setImage = function (img) {
-                this.ui.cover.css('background-image', 'url(' + img + ')').addClass('fadein');
-                this.ui.coverImage.remove();
+            var posterCache = new Image();
+            posterCache.src = poster;
+
+            this.ui.covers.append(`<div class="cover-overlay"></div>`);
+
+            posterCache.onload = function () {
+                posterCache.onload = () => {};
+
+                if (poster.indexOf('.gif') !== -1) { // freeze gifs
+                    var c = document.createElement('canvas');
+                    var w  = c.width = posterCache.width;
+                    var h = c.height = posterCache.height;
+
+                    c.getContext('2d').drawImage(posterCache, 0, 0, w, h);
+                    posterCache.src = c.toDataURL();
+                }
+
+                this.ui.covers.children(-1).css('background-image', 'url('+posterCache.src+')').addClass('fadein').delay(600).queue(_ => {
+                    this.ui.defaultCover.addClass('empty'); 
+                });
             }.bind(this);
 
-            var coverCache = new Image();
-            coverCache.src = coverUrl;
-
-            coverCache.onload = function () {
-                if (coverUrl.indexOf('.gif') !== -1) { // freeze gifs
-                    var c = document.createElement('canvas');
-                    var w  = c.width = coverCache.width;
-                    var h = c.height = coverCache.height;
-
-                    c.getContext('2d').drawImage(coverCache, 0, 0, w, h);
-                    coverUrl = c.toDataURL();
-                }
-                setImage(coverUrl);
-            };
-            coverCache.onerror = function (e) {
-                setImage(noimg);
-            };
+            posterCache.onerror = function (e) {
+                this.ui.covers.empty();
+                this.ui.defaultCover.removeClass('empty');
+            }.bind(this);
         },
 
         setTooltips: function () {
@@ -161,31 +169,52 @@
         showDetail: function (e) {
             e.preventDefault();
 
+            // display the spinner
+            $('.spinner').show();
+
             var realtype = this.model.get('type');
             var itemtype = realtype.replace('bookmarked', '');
-            var modelType = itemtype.charAt(0).toUpperCase() + itemtype.slice(1); // 'Movie', 'Show'
-            var provider = App.Providers.get(this.model.get('provider'));
+            var providers = this.model.get('providers');
+            var torrentProvider = providers.torrent;
+            var id = this.model.get(this.model.idAttribute);
+
+            var promises = Object.values(providers)
+                .filter(p => (p && p.detail && p !== torrentProvider))
+                .map(p => (p.detail(id, this.model.attributes)));
 
             // bookmarked movies are cached
             if (realtype === 'bookmarkedmovie') {
                 return App.vent.trigger('movie:showDetail', this.model);
             }
 
-            // display the spinner
-            $('.spinner').show();
-            provider.detail(this.model.get('imdb_id'), this.model.attributes).then(function (data) {
-                $('.spinner').hide();
+            // load details
+            torrentProvider
+                .detail(id, this.model.attributes)
+                .then(this.model.set.bind(this.model))
+                .then(model => (
+                    App.vent.trigger(itemtype + ':showDetail', model)
+                ))
+                .catch (err => console.error('get torrent detail', err));
 
-                // inject provider's name
-                data.provider = provider.name;
+            // XXX(xaiki): here we could optimise a detail call by marking
+            // the models that already got fetched not too long ago, but we
+            // actually use memoize in the providers code so it shouldn't be
+            // necesary and we refresh the data anyway…
+            return Common.Promises.allSettled(promises).then(function (results) {
+                // XXX(xaiki): we merge all results into a single object,
+                // this allows for much more than sub providers (language,
+                // art, metadata) but is a little more fragile.
+                var data = results
+                    .filter(r => (r.ok))
+                    .reduce((a, c) => (Object.assign(a, c.value)), {});
 
-                // load details
-                App.vent.trigger(itemtype + ':showDetail', new App.Model[modelType](data));
-            }).catch(function (err) {
-                console.error('error showing detail:', err);
-                $('.spinner').hide();
-                $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
-            });
+                this.model.set(data);
+            }.bind(this))
+                .catch(function (err) {
+                    console.error('error showing detail:', err);
+                    $('.spinner').hide();
+                    $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
+                });
         },
 
         toggleWatched: function (e) {

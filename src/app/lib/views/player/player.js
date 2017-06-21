@@ -1,6 +1,9 @@
 (function (App) {
     'use strict';
 
+    var dblclick_delay = 300,
+        notif_displaytime = 3000;
+
     var Player = Backbone.Marionette.ItemView.extend({
         template: '#player-tpl',
         className: 'player',
@@ -33,12 +36,14 @@
             this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
             this.listenTo(this.model, 'change:downloaded', this.updateDownloaded);
 
-            this.inFullscreen = win.isFullscreen;		
-            this.playerWasReady = false;		
+            this.inFullscreen = win.isFullscreen;
+            this.playerWasReady = false;
 
-            this.remaining = false;		
-            this.createdRemaining = false;		
+            this.remaining = false;
+            this.createdRemaining = false;
             this.firstPlay = true;
+
+            this.boundedMouseScroll = this.mouseScroll.bind(this);
         },
 
         isMovie: function () {
@@ -226,7 +231,7 @@
                 if (this.isMovie() === 'episode' && this.next_episode_model) {
                     // autoplay player div
                     var matcher = this.next_episode_model.get('title').split(/\s-\s/i);
-                    $('.playing_next_poster').attr('src', this.model.get('cover'));
+                    $('.playing_next_poster').attr('src', this.model.get('poster'));
                     $('.playing_next_show').text(matcher[0]);
                     $('.playing_next_episode').text(matcher[2]);
                     $('.playing_next_number').text(i18n.__('Season %s', this.next_episode_model.get('season')) + ', ' + i18n.__('Episode %s', this.next_episode_model.get('episode')));
@@ -245,7 +250,7 @@
             // resume position
             if (Settings.lastWatchedTitle === this.model.get('title') && Settings.lastWatchedTime > 0) {
                 var position = Settings.lastWatchedTime;
-                console.info('Resuming position to %d secs', position.toFixed());
+                console.info('Resuming position to %s secs', position.toFixed());
                 this.player.currentTime(position);
             } else if (Settings.traktPlayback) {
                 var type = this.isMovie();
@@ -254,7 +259,7 @@
                     var total = this.video.duration();
                     var position = (position_percent / 100) * total | 0;
                     if (position > 0) {
-                        console.info('Resuming position to %d secs (reported by Trakt)', position.toFixed());
+                        console.info('Resuming position to %s secs (reported by Trakt)', position.toFixed());
                         this.player.currentTime(position);
                     }
                 }.bind(this));
@@ -262,6 +267,21 @@
 
             // alert Trakt
             this.sendToTrakt('start');
+        },
+
+        showPlayIcon: function () {
+            var wasPlaying = this.player.paused();
+            var showIcon = wasPlaying ? 'pause' : 'play';
+            var hideIcon = wasPlaying ? 'play' : 'pause';
+
+            if (this.ui[showIcon].is(':visible')) {
+                return;
+            }
+            this.ui[hideIcon].hide().dequeue();
+            this.ui[showIcon].appendTo('div#video_player');
+            this.ui[showIcon].show().delay(1500).queue(function () {
+                this.ui[showIcon].hide().dequeue();
+            }.bind(this));
         },
 
         onPlayerPlay: function () {
@@ -277,17 +297,16 @@
                 if (this.firstPlay) {
                     if (this.model.get('type') === 'video/youtube') {
                         try {
-                            document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('video-ads')[0].style.display = 'none'; // XXX hide ads hack
+                            document.getElementById('video_player_youtube_api')
+                                .contentWindow.document
+                                .getElementsByClassName('video-ads')[0]
+                                .style.display = 'none'; // XXX hide ads hack
                         } catch (e) {} //no ads
                     }
                     this.firstPlay = false;
                     return;
                 }
-                this.ui.pause.hide().dequeue();
-                this.ui.play.appendTo('div#video_player');
-                this.ui.play.show().delay(1500).queue(function () {
-                    this.ui.play.hide().dequeue();
-                }.bind(this));
+                this.showPlayIcon();
                 App.vent.trigger('player:play');
             }
 
@@ -299,11 +318,7 @@
                 this.wasSeek = true;
             } else {
                 this.wasSeek = false;
-                this.ui.play.hide().dequeue();
-                this.ui.pause.appendTo('div#video_player');
-                this.ui.pause.show().delay(1500).queue(function () {
-                    this.ui.pause.hide().dequeue();
-                }.bind(this));
+                this.showPlayIcon();
                 App.vent.trigger('player:pause');
                 this.sendToTrakt('pause');
             }
@@ -347,13 +362,6 @@
             $('#player_drag').show();
             var that = this;
 
-            // Double Click to toggle Fullscreen
-            $('#video_player').dblclick(function (event) {
-                that.toggleFullscreen();
-                // Stop any mouseup events pausing video
-                event.preventDefault();
-            });
-
             if (this.model.get('auto_play')) {
 
                 this.precachestarted = false;
@@ -376,22 +384,16 @@
                 });
                 this.ui.eyeInfo.hide();
 
-                // XXX Sammuel86 Trailer UI Show FIX/HACK
+                // Trailer UI Show FIX/HACK
                 $('.trailer_mouse_catch')
                     .show().appendTo('div#video_player')
                     .mousemove(function (event) {
                         if (!that.player.userActive()) {
                             that.player.userActive(true);
                         }
-                    })
-                    .click(function (event) {
-                        $('.vjs-play-control').click();
-                        event.preventDefault();
-                    })
-                    .dblclick(function (event) {
-                        that.toggleFullscreen();
-                        event.preventDefault();
-                    });
+                    }).click(function (event) {
+                        this.onClick();
+                    }.bind(this));
 
             } else {
                 this.video = videojs('video_player', {
@@ -403,30 +405,19 @@
                         customSubtitles: {},
                         progressTips: {}
                     }
-                }).ready(function () {		
+                }).ready(function () {
                     that.playerWasReady = Date.now();
                 });
             }
-            this.player = this.video.player();
-            App.PlayerView = this;
 
-            /* The following is a hack to make VideoJS listen to
-             *  mouseup instead of mousedown for pause/play on the
-             *  video element. Stops video pausing/playing when
-             *  dragged. TODO: #fixit!
-             */
-            this.player.tech.off('mousedown');
-            this.player.tech.on('mouseup', function (event) {
-                if (event.target.origEvent) {
-                    if (!event.target.origEvent.originalEvent.defaultPrevented) {
-                        that.player.tech.onClick(event);
-                    }
-                    // clean up after ourselves
-                    delete event.target.origEvent;
-                } else {
-                    that.player.tech.onClick(event);
-                }
-            });
+            this.player = this.video.player();
+
+            // Better handle click/dblclick events for play/pause/fs
+            this.player.click = 0;
+            this.player.tech.off('mousedown'); // stop listening to default ev
+            this.player.tech.on('mouseup', this.onClick.bind(this));
+            this.player.tech.on('touchend', this.onClick.bind(this)); // touchscreen fix
+            this.player.tech.on('dblclick', this.onDbClick.bind(this));
 
             // Force custom controls
             this.player.usingNativeControls(false);
@@ -450,6 +441,8 @@
             this.player.on('play', this.onPlayerPlay.bind(this));
             this.player.on('pause', this.onPlayerPause.bind(this));
             this.player.on('error', this.onPlayerError.bind(this));
+
+            App.PlayerView = this;
 
             this.bindKeyboardShortcuts();
             this.metadataCheck();
@@ -480,6 +473,26 @@
             }, function () {
                 clearInterval(that._ShowUIonHover);
             });
+        },
+
+        onClick: function (e) {
+            if (this.player.click) {
+                return this.player.click = 0;
+            }
+
+            this.player.click++;
+
+            return setTimeout(function () { // wait for double click
+                if (this.player.click) { // if we didn't catch dbclick
+                    $('.vjs-play-control').click();
+                    this.player.click = 0;
+                }
+            }.bind(this), dblclick_delay);
+        },
+
+        onDbClick: function(e) {
+            this.toggleFullscreen();
+            this.player.click = 0;
         },
 
         sendToTrakt: function (method) {
@@ -573,7 +586,8 @@
             // remove wrong metadata
             var title = path.basename(this.model.get('src'));
             this.model.set('imdb_id', false);
-            this.model.set('cover', false);
+            this.model.set('backdrop', false);
+            this.model.set('poster', false);
             this.model.set('title', title);
             this.model.set('season', false);
             this.model.set('episode', false);
@@ -767,7 +781,7 @@
                 }
             });
 
-            document.addEventListener('mousewheel', this.mouseScroll.bind(this));
+            document.addEventListener('mousewheel', this.boundedMouseScroll);
         },
 
         unbindKeyboardShortcuts: function () {
@@ -838,7 +852,7 @@
             // Change when mousetrap can be extended
             $('body').unbind('keydown');
 
-            document.removeEventListener('mousewheel', this.mouseScroll);
+            document.removeEventListener('mousewheel', this.boundedMouseScroll);
         },
 
         toggleMouseDebug: function () {
@@ -871,6 +885,10 @@
         },
 
         adjustVolume: function (i) {
+            if (!this.player) {
+                return;
+            }
+
             var v = this.player.volume();
             this.player.volume(v + i);
             App.vent.trigger('volumechange');
@@ -925,20 +943,20 @@
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, 3000));
+                }, notif_displaytime));
             } else {
                 $(this.player.el()).append('<div class =\'vjs-overlay vjs-overlay-top-left\'>' + message + '</div>');
                 $.data(this, 'overlayTimer', setTimeout(function () {
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, 3000));
+                }, notif_displaytime));
             }
         },
 
         onDestroy: function () {
-            if (this.model.get('type') === 'video/youtube') { // XXX Sammuel86 Trailer UI Show FIX/HACK -START
-                $('.trailer_mouse_catch').remove();
+            if (this.model.get('type') === 'video/youtube') {
+                $('.trailer_mouse_catch').remove(); // Trailer UI Show FIX/HACK
             }
             $('#player_drag').hide();
             $('#header').show();
@@ -949,6 +967,7 @@
                 $('.btn-os.fullscreen').removeClass('active');
             }
             this.unbindKeyboardShortcuts();
+            App.vent.off('customSubtitles:added');
             App.vent.trigger('player:close');
             var vjsPlayer = document.getElementById('video_player');
             if (vjsPlayer) {

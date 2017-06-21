@@ -57,26 +57,15 @@
                 this.nativeWindow.toggleFullscreen();
             } else {
                 if (window.screen.availHeight <= this.nativeWindow.height) {
-                    this.nativeWindow.unmaximize();
-                    if (process.platform === 'win32') {
-                        $('.os-max').removeClass('os-is-max');
-                    }
+                    this.nativeWindow.restore();
                 } else {
                     this.nativeWindow.maximize();
-                    if (process.platform === 'win32') {
-                        $('.os-max').addClass('os-is-max');
-                    }
                 }
             }
         },
 
         minimize: function () {
-            var that = this.nativeWindow;
-            if (AdvSettings.get('minimizeToTray')) {
-                minimizeToTray();
-            } else {
-                that.minimize();
-            }
+            this.nativeWindow.minimize();
         },
 
         closeWindow: function () {
@@ -100,6 +89,10 @@
                     'hide': 100
                 }
             });
+
+            if (Boolean(parseInt(localStorage.isMaximized))) {
+                $('.os-max').addClass('os-is-max');
+            }
         }
 
     });

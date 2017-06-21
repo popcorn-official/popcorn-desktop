@@ -100,6 +100,7 @@ App.addInitializer(function (options) {
 
     var width = parseInt(localStorage.width ? localStorage.width : Settings.defaultWidth);
     var height = parseInt(localStorage.height ? localStorage.height : Settings.defaultHeight);
+    var isMaximized = Boolean(parseInt(localStorage.isMaximized));
     var x = parseInt(localStorage.posX ? localStorage.posX : -1);
     var y = parseInt(localStorage.posY ? localStorage.posY : -1);
 
@@ -128,8 +129,13 @@ App.addInitializer(function (options) {
     }
 
     win.zoomLevel = zoom;
-    win.resizeTo(width, height);
-    win.moveTo(x, y);
+
+    if (isMaximized) {
+        win.maximize();
+    } else {
+        win.resizeTo(width, height);
+        win.moveTo(x, y);
+    }
 });
 
 var initTemplates = function () {
@@ -150,7 +156,13 @@ var initTemplates = function () {
 
 var initApp = function () {
     var mainWindow = new App.View.MainWindow();
-    win.show();
+
+    // -m argument to open minimized to tray
+    var isStartMinimized = nw.App.fullArgv.indexOf('-m') !== -1;
+
+    if (!isStartMinimized) {
+        win.show();
+    }
 
     try {
         App.Window.show(mainWindow);
@@ -208,35 +220,6 @@ var delCache = function () {
     };
     win.close(true);
 };
-
-win.on('resize', function (width, height) {
-    localStorage.width = Math.round(width);
-    localStorage.height = Math.round(height);
-});
-
-win.on('move', function (x, y) {
-    localStorage.posX = Math.round(x);
-    localStorage.posY = Math.round(y);
-});
-
-win.on('enter-fullscreen', function () {
-    App.vent.trigger('window:focus');
-});
-
-// Wipe the tmpFolder when closing the app (this frees up disk space)
-win.on('close', function () {
-    if (App.settings.deleteTmpOnClose) {
-        deleteFolder(App.settings.tmpLocation);
-    }
-    if (fs.existsSync(path.join(data_path, 'logs.txt'))) {
-        fs.unlinkSync(path.join(data_path, 'logs.txt'));
-    }
-    try {
-        delCache();
-    } catch (e) {
-        win.close(true);
-    }
-});
 
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -336,6 +319,7 @@ window.ondragenter = function (e) {
 };
 
 var minimizeToTray = function () {
+
     win.hide();
     win.isTray = true;
 
@@ -419,7 +403,6 @@ var handleVideoFile = function (file) {
 
             subtitleProvider.fetch(subdata).then(function (subs) {
                 if (subs && Object.keys(subs).length > 0) {
-                    console.info(Object.keys(subs).length + ' subtitles found');
                     resolve(subs);
                 } else {
                     console.warn('No subtitles returned');
@@ -622,25 +605,89 @@ $(document).on('contextmenu', function(e) {
     e.preventDefault();
 });
 
-// Pass magnet link as last argument to start stream
-var last_arg = nw.App.argv.pop();
+App.vent.on('app:started', function () {
+    var last_arg = nw.App.argv.pop();
+    if (last_arg) {
+        // Pass magnet link as last argument to start stream
+        if (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0, 7) === 'http://' || last_arg.endsWith('.torrent')) {
+            handleTorrent(last_arg);
+        }
 
-if (last_arg && (last_arg.substring(0, 8) === 'magnet:?' || last_arg.substring(0, 7) === 'http://' || last_arg.endsWith('.torrent'))) {
-    App.vent.on('app:started', function () {
-        handleTorrent(last_arg);
-    });
+        // Play local files
+        if (isVideo(last_arg)) {
+            var fileModel = {
+                path: last_arg,
+                name: /([^\\]+)$/.exec(last_arg)[1]
+            };
+            handleVideoFile(fileModel);
+        }
+    }
+
+    // -m argument to open minimized to tray
+    if (nw.App.fullArgv.indexOf('-m') !== -1) {
+        minimizeToTray();
+    }
+});
+
+
+// -f argument to open in fullscreen
+if (nw.App.fullArgv.indexOf('-f') !== -1) {
+    win.enterFullscreen();
 }
 
-// Play local files
-if (last_arg && (isVideo(last_arg))) {
-    App.vent.on('app:started', function () {
-        var fileModel = {
-            path: last_arg,
-            name: /([^\\]+)$/.exec(last_arg)[1]
-        };
-        handleVideoFile(fileModel);
-    });
-}
+// nwjs window events
+win.on('focus', function () { //hack to make it somehow work
+    win.setAlwaysOnTop(true);
+    win.setAlwaysOnTop(Settings.alwaysOnTop);
+});
+
+win.on('resize', function (width, height) {
+    localStorage.width = Math.round(width);
+    localStorage.height = Math.round(height);
+});
+
+win.on('move', function (x, y) {
+    localStorage.posX = Math.round(x);
+    localStorage.posY = Math.round(y);
+});
+
+win.on('enter-fullscreen', function () {
+    win.focus();
+});
+
+win.on('minimize', function () {
+    if (Settings.minimizeToTray) {
+        minimizeToTray();
+    }
+});
+
+win.on('maximize', function () {
+    localStorage.isMaximized = 1;
+    $('.os-max').addClass('os-is-max');
+});
+
+win.on('restore', function () {
+    if (Boolean(parseInt(localStorage.isMaximized))) {
+        localStorage.isMaximized = 0;
+    }
+
+    $('.os-max').removeClass('os-is-max');
+});
+
+// Wipe the tmpFolder when closing the app (this frees up disk space)
+win.on('close', function () {
+    if (App.settings.deleteTmpOnClose) {
+        deleteFolder(App.settings.tmpLocation);
+    }
+    if (fs.existsSync(path.join(data_path, 'logs.txt'))) {
+        fs.unlinkSync(path.join(data_path, 'logs.txt'));
+    }
+    try {
+        delCache();
+    } catch (e) {
+        win.close(true);
+    }
+});
 
 nw.App.on('open', function (cmd) {
     var file;
@@ -667,24 +714,6 @@ nw.App.on('open', function (cmd) {
         }
     }
 });
-
-// When win.focus() doesn't do it's job right, play dirty.
-App.vent.on('window:focus', function () {
-    win.setAlwaysOnTop(true);
-    win.focus();
-    win.setAlwaysOnTop(Settings.alwaysOnTop);
-});
-
-// -f argument to open in fullscreen
-if (nw.App.fullArgv.indexOf('-f') !== -1) {
-    win.enterFullscreen();
-}
-// -m argument to open minimized to tray
-if (nw.App.fullArgv.indexOf('-m') !== -1) {
-    App.vent.on('app:started', function () {
-        minimizeToTray();
-    });
-}
 
 // On uncaught exceptions, log to console.
 process.on('uncaughtException', function (err) {

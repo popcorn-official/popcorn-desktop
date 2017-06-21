@@ -1,10 +1,9 @@
 <%
     if (typeof rating === 'object') { var rating = rating.percentage /10; }
 %>
-
-<img class="cover-image" src="images/posterholder.png">
 <div class="cover">
-    <div class="cover-overlay">
+    <div class="cover-imgs"></div>
+    <div class="cover-overlay cover-info-overlay">
         <i class="fa fa-heart actions-favorites tooltipped" data-toggle="tooltip" data-placement="auto bottom" data-delay='{ "show": "800", "hide": "100" }'></i>
         <i class="fa fa-eye actions-watched tooltipped" data-toggle="tooltip" data-placement="auto bottom" data-delay='{ "show": "800", "hide": "100" }'></i>
 

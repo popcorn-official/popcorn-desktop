@@ -80,11 +80,6 @@
             App.vent.on('show:unwatched:' + this.model.id,
                 _.bind(this.onUnWatched, this));
 
-            var images = this.model.get('images');
-            if (images && !images.fanart) {
-                images.fanart = images.backdrop;
-            }
-
             App.vent.on('shortcuts:shows', function () {
                 _this.initKeyboardShortcuts();
             });
@@ -140,40 +135,40 @@
 
             $('.star-container-tv,.shmi-imdb,.magnet-icon').tooltip();
 
-            var cbackground = $('.shp-img').attr('data-bgr');
-            var coverCache = new Image();
-            coverCache.src = cbackground;
-            coverCache.onload = function () {
+            var poster = this.model.get('poster');
+            var posterCache = new Image();
+            posterCache.src = poster;
+            posterCache.onload = function () {
                 try {
                     $('.shp-img')
-                        .css('background-image', 'url(' + cbackground + ')')
+                        .css('background-image', 'url(' + poster + ')')
                         .addClass('fadein');
                 } catch (e) {}
-                coverCache = null;
+                posterCache = null;
             };
-            coverCache.onerror = function () {
+            posterCache.onerror = function () {
                 try {
                     $('.shp-img')
                         .css('background-image', 'url("images/posterholder.png")')
                         .addClass('fadein');
                 } catch (e) {}
-                coverCache = null;
+                posterCache = null;
             };
 
-            var background = $('.shc-img').attr('data-bgr');
+            var backdrop = this.model.get('backdrop');
             var bgCache = new Image();
-            bgCache.src = background;
+            bgCache.src = backdrop;
             bgCache.onload = function () {
                 try {
-                    $('.shc-img')
-                        .css('background-image', 'url(' + background + ')')
+                    $('.shb-img')
+                        .css('background-image', 'url(' + backdrop + ')')
                         .addClass('fadein');
                 } catch (e) {}
                 bgCache = null;
             };
             bgCache.onerror = function () {
                 try {
-                    $('.shc-img')
+                    $('.shb-img')
                         .css('background-image', 'url("images/bg-header.jpg")')
                         .addClass('fadein');
                 } catch (e) {}
@@ -197,6 +192,7 @@
 
             App.Device.Collection.setDevice(Settings.chosenPlayer);
             App.Device.ChooserView('#player-chooser').render();
+            $('.spinner').hide();
         },
 
         selectNextEpisode: function () {
@@ -428,7 +424,6 @@
                 _.each(this.model.get('episodes'), function (value) {
                     var epaInfo = {
                         id: parseInt(value.season) * 100 + parseInt(value.episode),
-                        backdrop: that.model.get('images').fanart,
                         defaultSubtitle: Settings.subtitle_language,
                         episode: value.episode,
                         season: value.season,
@@ -445,7 +440,8 @@
                         tvdb_id: that.model.get('tvdb_id'),
                         imdb_id: that.model.get('imdb_id'),
                         device: App.Device.Collection.selected,
-                        cover: that.model.get('images').poster,
+                        poster: that.model.get('poster'),
+                        backdrop: that.model.get('backdrop'),
                         status: that.model.get('status'),
                         type: 'episode'
                     };
@@ -466,7 +462,8 @@
             }
             var torrentStart = new Backbone.Model({
                 torrent: $(e.currentTarget).attr('data-torrent'),
-                backdrop: that.model.get('images').fanart,
+                poster: that.model.get('poster'),
+                backdrop: that.model.get('backdrop'),
                 type: 'episode',
                 tvdb_id: that.model.get('tvdb_id'),
                 imdb_id: that.model.get('imdb_id'),
@@ -479,7 +476,6 @@
                 quality: $(e.currentTarget).attr('data-quality'),
                 defaultSubtitle: Settings.subtitle_language,
                 device: App.Device.Collection.selected,
-                cover: that.model.get('images').poster,
                 episodes: episodes,
                 auto_play: auto_play,
                 auto_id: parseInt(season) * 100 + parseInt(episode),
@@ -836,6 +832,8 @@
 
         onDestroy: function () {
             this.unbindKeyboardShortcuts();
+            App.vent.off('show:watched:' + this.model.id);
+            App.vent.off('show:unwatched:' + this.model.id);
         }
 
     });

@@ -66,7 +66,7 @@ Common.fileSize = function (num) {
         return;
     }
 
-    num = parseInt(num);
+    num = parseInt(num) | 0;
 
     var exponent, unit, units, base;
     var neg = num < 0;
@@ -166,3 +166,13 @@ Common.normalize = (function () {
         return ret.join('').replace(/[^\w,'-]/g, '');
     };
 })();
+
+Common.Promises = {
+    allSettled: function(promises) {
+        var wrappedPromises = promises.map(
+            p => Promise.resolve(p)
+                .then(val => ({ ok: true, value: val }),                                                err => ({ ok: false, reason: err })
+                     ));
+        return Promise.all(wrappedPromises);
+    }
+};

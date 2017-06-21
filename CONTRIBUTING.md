@@ -10,8 +10,7 @@ There are lots and lots of ways to get involved, this document covers:
  * [Suggest enhancements](#feature-requests)
 * [Working on Butter](#working-on-butter)
  * [The guidelines](#the-guidelines)
- * [Submit new code](#submit-new-code)
- * [Translate](#translate)
+ * [Translate](#translations)
 * [Build and debug](#build-and-debug)
  * [Updating with the latest changes](#updating-with-the-latest-changes)
 
@@ -49,7 +48,7 @@ Guidelines for bug reports:
 
 ### Feature Requests
 
-Feature requests are welcome. Before you submit one be sure to have:
+Feature requests are welcome. Before you submit one be sure to:
 
 1. **Use the [Github Issues search](https://github.com/butterproject/butter-desktop/issues?utf8=%E2%9C%93&q=is%3Aissue)** and check the feature hasn't already been requested.
 2. Take a moment to think about whether your idea fits with the scope and aims of the project, or if it might
@@ -62,7 +61,7 @@ likely to be common.
 
 ## Working on Butter
 
-You're welcome to work with us and the community to build the application and take it the new highs!
+You're welcome to work with us and the community to build the application and take it to new highs!
 
 ### The guidelines
 
@@ -72,9 +71,10 @@ Pull requests are awesome. If you're looking to raise a PR for something which d
 * [commit messages](https://github.com/butterproject/butter-desktop/tree/master/docs/Git-Workflow.md#commit-messages)
 * [not breaking the build](https://github.com/butterproject/butter-desktop/tree/master/docs/Git-Workflow.md#check-it-passes-the-tests)
 
-### Translation
+### Translations
 
-For translations please go to: [Transifex](https://www.transifex.com/butterproject/public/)
+Translations are NOT submitted directly through this git repository.
+To sumbit translations, please sign-up in [Transifex](https://www.transifex.com/butterproject/public/)
 
 ## Build and debug
 

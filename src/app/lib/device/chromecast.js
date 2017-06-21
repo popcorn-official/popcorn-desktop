@@ -24,7 +24,7 @@
         play: function (streamModel) {
             var self = this;
             var subtitle = streamModel.get('subFile');
-            var cover = streamModel.get('cover');
+            var poster = streamModel.get('poster');
             var url = streamModel.get('src');
             var attr= streamModel.attributes;
             this.attributes.url = url;
@@ -33,7 +33,7 @@
             if (subtitle) {
                 media = {
                     title: streamModel.get('title').substring(0,50),
-                    images: streamModel.get('cover'),
+                    images: poster,
                     subtitles: ['http:' + url.split(':')[1] + ':9999/subtitle.vtt'],
                     textTrackStyle: {
                         backgroundColor: AdvSettings.get('subtitle_decoration') === 'Opaque Background' ? '#000000FF' : '#00000000', // color of background - see http://dev.w3.org/csswg/css-color/#hex-notation
@@ -51,28 +51,34 @@
                 };
             } else {
                 media = {
-                    images: cover,
+                    images: poster,
                     title: streamModel.get('title').substring(0,50)
                 };
             }
-            console.log('Chromecast: play ' + url + ' on \'' + this.get('name') + '\'');
-            console.log('Chromecast: connecting to ' + this.device.host);
+
+            console.log('Chromecast: play %s on %s', url, this.get('name'));
+            console.log('Chromecast: connecting to %s', this.device.host);
 
             self.device.play(url, media, function (err, status) {
                 if (err) {
-                    console.error('chromecast.play error: ', err);
+                    console.error('Chromecast.play() error: ', err);
                 } else {
-                    console.log('Playing ' + url + ' on ' + self.get('name'));
+                    console.log('Playing %s on %s', url, self.get('name'));
                     self.set('loadedMedia', status.media);
                 }
             });
-          this.device.on('status', function (status) {
+
+            this.device.on('status', function (status) {
                 self._internalStatusUpdated(status);
             });
         },
 
         pause: function () {
             this.get('device').pause(function () {});
+        },
+
+        unpause: function () {
+            this.get('device').resume(function () {});
         },
 
         stop: function () {
@@ -88,40 +94,21 @@
             });
         },
 
-        seek: function (seconds) {
-            console.log('Chromecast: seek %s', seconds);
-            this.get('device').seek(seconds, function (err, status) {
-                if (err) {
-                    console.error('Chromecast.seek:Error', err);
-                }
-            });
+        forward: function () {
+            this.seekRelative(30);
         },
 
-        seekTo: function (newCurrentTime) {
-            console.log('Chromecast: seek to %ss', newCurrentTime);
-            this.get('device').seek(newCurrentTime, function (err, status) {
-                if (err) {
-                    console.error('Chromecast.seekTo:Error', err);
-                }
-            });
+        backward: function () {
+            this.seekRelative(-30);
         },
 
         seekPercentage: function (percentage) {
             console.log('Chromecast: seek percentage %s%', percentage.toFixed(2));
-            var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
-            this.seekTo(newCurrentTime.toFixed());
+            this._seek(this.get('loadedMedia').duration / 100 * percentage);
         },
 
-        forward: function () {
-            this.seek(30);
-        },
-
-        backward: function () {
-            this.seek(-30);
-        },
-
-        unpause: function () {
-            this.get('device').resume(function () {});
+        seekRelative: function (time)  {
+            this._seek(this.get('loadedMedia').currentTime + time);
         },
 
         updateStatus: function () {
@@ -131,6 +118,12 @@
                     return console.error('Chromecast.updateStatus:Error', err);
                 }
                 self._internalStatusUpdated(status);
+            });
+        },
+
+        _seek: function (time) {
+            this.get('device').seek(time, function (err, status) {
+                err ? console.error('Chromecast.seek() error:', err) : console.log('Chromecast, seeked to', time);
             });
         },
 

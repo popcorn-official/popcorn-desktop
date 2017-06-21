@@ -7,7 +7,8 @@
         openSRT = new OS({
             useragent: Settings.opensubtitles.useragent + ' v' + (Settings.version || 1),
             username: Settings.opensubtitlesUsername,
-            password: Settings.opensubtitlesPassword
+            password: Settings.opensubtitlesPassword,
+            ssl: true
         });
     };
 
@@ -29,13 +30,27 @@
         for (var lang in data) {
             data[lang] = data[lang].url;
         }
+
+        console.info(Object.keys(data).length + ' subtitles found');
+
         return Common.sanitize(data);
     };
 
     OpenSubtitles.prototype.fetch = function (queryParams) {
         queryParams.extensions = ['srt'];
+
         return openSRT.search(queryParams)
             .then(formatForButter);
+    };
+
+    OpenSubtitles.prototype.detail = function (id, attrs) {
+        return this.fetch({
+            imdbid: id
+        }).then(function (data) {
+            return {
+                subtitle: data
+            };
+        });
     };
 
     OpenSubtitles.prototype.upload = function (queryParams) {

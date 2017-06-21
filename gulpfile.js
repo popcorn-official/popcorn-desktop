@@ -5,7 +5,8 @@
  ********/
 const nwVersion = '0.18.6',
     nwFlavor = 'sdk',
-    availablePlatforms = ['linux32', 'linux64', 'win32', 'osx32'],
+    // nwjs for osx32 was discontinued in 0.12.0 (Mar 5, 2015).
+    availablePlatforms = ['linux32', 'linux64', 'win32', 'osx64'],
     releasesDir = 'build';
 
 
@@ -13,22 +14,23 @@ const nwVersion = '0.18.6',
  * dependencies *
  ***************/
 const gulp = require('gulp'),
-    glp = require('gulp-load-plugins')(),
-    runSequence = require('run-sequence'),
-    del = require('del'),
+      glp = require('gulp-load-plugins')(),
+      runSequence = require('run-sequence'),
+      del = require('del'),
 
-    nwBuilder = require('nw-builder'),
-    currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
+      nwBuilder = require('nw-builder'),
+      currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
 
-    yargs = require('yargs'),
-    nib = require('nib'),
-    git = require('git-rev'),
+      yargs = require('yargs'),
+      nib = require('nib'),
+      git = require('git-rev'),
 
-    fs = require('fs'),
-    path = require('path'),
-    exec = require('child_process').exec,
-    spawn = require('child_process').spawn,
-    pkJson = require('./package.json');
+      fs = require('fs'),
+      flatpak = require('flatpak-bundler'),
+      path = require('path'),
+      exec = require('child_process').exec,
+      spawn = require('child_process').spawn,
+      pkJson = require('./package.json');
 
 
 /***********
@@ -45,12 +47,9 @@ const parsePlatforms = () => {
         }
     }
 
-    // for osx and win, 32-bits works on 64, if needed
+    // for win, 32-bits works on 64, if needed
     if (availablePlatforms.indexOf('win64') === -1 && requestedPlatforms.indexOf('win64') !== -1) {
         validPlatforms.push('win32');
-    }
-    if (availablePlatforms.indexOf('osx64') === -1 && requestedPlatforms.indexOf('osx64') !== -1) {
-        validPlatforms.push('osx32');
     }
 
     // remove duplicates
@@ -64,7 +63,7 @@ const parsePlatforms = () => {
 // returns an array of paths with the node_modules to include in builds
 const parseReqDeps = () => {
     return new Promise((resolve, reject) => {
-        exec('npm ls --production=true --parseable=true', (error, stdout, stderr) => {
+        exec('npm ls --production=true --parseable=true', {maxBuffer: 1024 * 500}, (error, stdout, stderr) => {
             if (error || stderr) {
                 reject(error || stderr);
             } else {
@@ -304,6 +303,52 @@ gulp.task('nsis', () => {
     })).catch(console.log.bind(console));
 });
 
+gulp.task('build-flatpak', () => {
+    return Promise.all(nw.options.platforms.map((platform) => {
+        if (platform.match(/osx|win/) !== null) {
+            console.log('flatpak not available on:', platform);
+            return null;
+        }
+
+        return new Promise((accept, reject) => {
+            flatpak.bundle({
+                id: 'org.butterproject.Desktop',
+                base: 'io.atom.electron.BaseApp',
+                baseFlatpakref: 'https://s3-us-west-2.amazonaws.com/electron-flatpak.endlessm.com/electron-base-app-master.flatpakref',
+                runtime: 'org.freedesktop.Platform',
+                runtimeVersion: '1.4',
+                runtimeFlatpakref: 'https://raw.githubusercontent.com/endlessm/flatpak-bundler/master/refs/freedesktop-runtime-1.4.flatpakref',
+                sdk: 'org.freedesktop.Sdk',
+                files: [
+                    [ './dist/linux/butter.desktop', '/share/applications/org.butterproject.Desktop.desktop'],
+                    [ './src/app/images/icon.png', '/share/icons/org.butterproject.Desktop.png'],
+                    [ releasesDir + '/Butter/' + platform, '/share/butter' ]
+                ],
+                symlinks: [
+                    [ '/share/butter/Butter', '/bin/Butter' ]
+                ],
+                finishArgs: [
+                    '--share=ipc', '--socket=x11',
+                    '--socket=pulseaudio',
+                    '--filesystem=home',
+                    '--share=network',
+                    '--device=dri'
+                ]
+            }, { // Build options
+                arch: platform === 'linux64' ? 'x86_64': 'x86_32',
+                 bundlePath: 'build/Butter/' + platform + '-flatpak/butter-desktop_x86_64.flatpak',
+                 gpgSign: '36534BDEC827CE08' // Gpg key to sign with
+            }, function (error) {
+                if (error) {
+                    return reject(error);
+                }
+                console.log('Flatpak built successfully.');
+                return accept(true);
+            });
+        });
+    }));
+});
+
 // compile debian packages
 // TODO: https://www.npmjs.com/package/nobin-debian-installer
 gulp.task('deb', () => {
@@ -458,6 +503,10 @@ gulp.task('clean:css',
 gulp.task('test', (callback) => {
     runSequence('jshint', 'injectgit', 'css', callback);
 });
+
+gulp.task('flatpak', (callback) => (
+    runSequence('build', 'build-flatpak', callback)
+));
 
 //TODO:
 //setexecutable?

@@ -26,7 +26,9 @@ var setLanguage = function (preferredLanguage) {
 
 App.Localization.nativeName = function (lang) {
     var codes = App.Localization.langcodes;
-    return codes[lang]?codes[lang].nativeName:lang;
+    // hack, should probably be handled better,
+    // this is used for language selector logic.
+    return codes[lang]?codes[lang].nativeName:'Disable';
 };
 
 App.Localization.detectLocale = function () {

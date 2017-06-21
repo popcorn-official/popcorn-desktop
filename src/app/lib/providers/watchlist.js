@@ -55,7 +55,6 @@
 
     var format = function (items) {
         var itemList = [];
-        var itemList2 = [];
 
         return Promise.all(items.map(function (item) {
             if (item.next_episode) {
@@ -97,19 +96,14 @@
                 }
             }
         })).then(function () {
-            return Promise.all(itemList.map(function (item) {
-                return App.Trakt.client.images.get(item).then(function (imgUrl) {
-                    var newItem = item;
-                    newItem.images = {
-                        poster: imgUrl.poster,
-                        backdrop: imgUrl.background
-                    };
-                    newItem.image = imgUrl.poster;
-                    itemList2.push(newItem);
+            return Promise.all(itemList.map(function (item, idx) {
+                return App.Trakt.client.images.get(item).then(function (imgs) {
+                    itemList[idx].poster = imgs.poster;
+                    itemList[idx].backdrop = imgs.background;
                 });
             }));
         }).then(function () {
-            return itemList2;
+            return itemList;
         });
     };
 
@@ -188,8 +182,27 @@
         return _.pluck(items, 'imdb_id');
     };
 
-    Watchlist.prototype.detail = function (torrent_id, old_data, callback) {
-        return {};
+    Watchlist.prototype.detail = function (id, data) {
+        var formatted = {
+            genre: data.genres,
+            synopsis: data.overview,
+        };
+
+        if (data.type === 'movie') {
+            formatted.torrents = {};
+        } else {
+            formatted.episodes = [{
+                episode: data.episode,
+                season: data.season,
+                title: data.episode_title,
+                tvdb_id: data.episode_id,
+                first_aired: new Date(data.episode_aired) / 1000,
+                date_based: false,
+                torrents: {},
+            }];
+        }
+
+        return Promise.resolve(formatted);
     };
 
     Watchlist.prototype._fetch = function (filters) {

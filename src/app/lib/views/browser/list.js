@@ -249,7 +249,12 @@
                 this.onLoading();
             }
         },
-
+        allLoaded: function () {
+            return this.collection.providers.torrents
+                .reduce((a, c) => (
+                    a && c.loaded
+                ), true);
+        },
         onLoading: function () {
             $('.status-loadmore').hide();
             $('#loading-more-animi').show();
@@ -257,21 +262,17 @@
 
         onLoaded: function () {
             App.vent.trigger('list:loaded');
-            this.checkEmpty();
             var self = this;
-            this.addloadmore();
 
-            this.AddGhostsToBottomRow();
-            $(window).resize(function () {
-                var addghost;
-                clearTimeout(addghost);
-                addghost = setTimeout(function () {
-                    self.AddGhostsToBottomRow();
-                }, 100);
-            });
+            this.completerow();
 
             if (typeof (this.ui.spinner) === 'object') {
                 this.ui.spinner.hide();
+            }
+
+            if (this.allLoaded()) {
+                $('#loading-more-animi').hide();
+                $('.status-loadmore').show();
             }
 
             $('.filter-bar').on('mousedown', function (e) {
@@ -297,30 +298,40 @@
             }
         },
 
-        addloadmore: function () {
-            var self = this;
+        completerow: function () {
+            var elms = this.addloadmore();
+            elms += this.addghosts();
 
-            // maxResults to hide load-more on providers that return hasMore=true no matter what.
-            var currentPage = Math.ceil(this.collection.length / 50);
-            var maxResults = currentPage * 50;
+            $('.ghost, #load-more-item').remove();
+            $('.items').append(elms);
+
+            this.showloadmore();
+        },
+
+        addghosts: function () {
+            return '<div class="ghost"></div>'.repeat(10);
+        },
+
+        addloadmore: function () {
+            return '<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>';
+        },
+
+        showloadmore: function () {
+            var self = this;
 
             switch (App.currentview) {
             case 'movies':
             case 'shows':
             case 'anime':
-                $('#load-more-item').remove();
-                // we add a load more
-                if (this.collection.hasMore && !this.collection.filter.keywords && this.collection.state !== 'error' && this.collection.length !== 0 && this.collection.length >= maxResults) {
-                    $('.items').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
-
-                    $('#load-more-item').click(function () {
-                        $('#load-more-item').off('click');
-                        self.collection.fetchMore();
-                    });
-
-                    $('#loading-more-animi').hide();
-                    $('.status-loadmore').show();
+                if ($('.items').children().last().attr('id') !== 'load-more-item') {
+                    if (this.collection.hasMore && !this.collection.filter.keywords && this.collection.state !== 'error' && this.collection.length !== 0) {
+                        $('#load-more-item').css('display', 'inline-block').click(function () {
+                            $('#load-more-item').off('click');
+                            self.collection.fetchMore();
+                        });
+                    }
                 }
+
                 break;
 
             case 'Favorites':
@@ -329,27 +340,6 @@
             case 'Watchlist':
 
                 break;
-            }
-        },
-
-        AddGhostsToBottomRow: function () {
-            $('.ghost').remove();
-            var listWidth = $('.items').width();
-            var itemWidth = $('.items .item').width() + (2 * parseInt($('.items .item').css('margin')));
-            var itemsPerRow = parseInt(listWidth / itemWidth);
-            /* in case we .hide() items at some point:
-            var visibleItems = 0;
-            var hiddenItems = 0;
-            $('.item').each(function () {
-                $(this).is(':visible') ? visibleItems++ : hiddenItems++;
-            });
-            var itemsInLastRow = visibleItems % itemsPerRow;*/
-            NUM_MOVIES_IN_ROW = itemsPerRow;
-            var itemsInLastRow = $('.items .item').length % itemsPerRow;
-            var ghostsToAdd = itemsPerRow - itemsInLastRow;
-            while (ghostsToAdd > 0) {
-                $('.items').append($('<li/>').addClass('item ghost'));
-                ghostsToAdd--;
             }
         },
         onScroll: function () {

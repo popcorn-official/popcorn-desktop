@@ -52,6 +52,15 @@
             }.bind(this)).then(this.waitForBuffer.bind(this)).catch(this.handleErrors.bind(this));
         },
 
+        restart: function () {
+            var torrent = this.webtorrent.torrents[0].magnetURI;
+            this.webtorrent.remove(torrent, function (err) {
+                if (!err) {
+                    this.webtorrent.add(torrent);
+                }
+            }.bind(this));
+        },
+
         // kill the streamer
         stop: function() {
             if (this.webtorrent) {
@@ -381,7 +390,6 @@
             var total = Object.keys(subtitles).length;
             var defaultSubtitle = this.torrentModel.get('defaultSubtitle');
 
-            console.info(total + ' subtitles found');
             this.torrentModel.set('subtitle', subtitles);
 
             if (defaultSubtitle !== 'none') {
@@ -436,9 +444,15 @@
             if (this.stopped) {
                 return;
             }
+
             // set default subtitle language (passed by a view or settings)
             var defaultSubtitle = this.torrentModel.get('defaultSubtitle') || Settings.subtitle_language;
-            this.torrentModel.set('defaultSubtitle', defaultSubtitle);        
+            this.torrentModel.set('defaultSubtitle', defaultSubtitle);   
+
+            // we already have subtitles
+            if (this.torrentModel.get('subtitle')) {
+                return this.subtitleReady = true;
+            }
 
             var subtitleProvider = App.Config.getProviderForType('subtitle');
 
@@ -504,9 +518,9 @@
         },
     };
 
-    var streamer = new WebTorrentStreamer();
+    App.Streamer = new WebTorrentStreamer();
 
-    App.vent.on('stream:start', streamer.start.bind(streamer));
-    App.vent.on('stream:stop', streamer.stop.bind(streamer));
+    App.vent.on('stream:start', App.Streamer.start.bind(App.Streamer));
+    App.vent.on('stream:stop', App.Streamer.stop.bind(App.Streamer));
 
 })(window.App);

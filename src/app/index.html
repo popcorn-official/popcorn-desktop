@@ -23,6 +23,7 @@
 	<script id="settings-container-tpl" src="templates/settings-container.tpl" type="text/x-template"></script>
 	<script id="header-tpl" src="templates/header.tpl" type="text/x-template"></script>
 	<script id="lang-dropdown-tpl" src="templates/lang-dropdown.tpl" type="text/x-template"></script>
+	<script id="play-control-tpl" src="templates/play-control.tpl" type="text/x-template"></script>
 	<script id="movie-detail-tpl" src="templates/movie-detail.tpl" type="text/x-template"></script>
 	<script id="show-detail-tpl" src="templates/show-detail.tpl" type="text/x-template"></script>
 	<script id="player-tpl" src="templates/player.tpl" type="text/x-template"></script>
@@ -53,9 +54,9 @@
 	<script src="vendor/video.js/dist/video-js/video.dev.js"></script>
 
 	<!-- Other dependencies -->
-	<script src="vendor/videojshooks.js"></script>
-	<script src="vendor/videojsplugins.js"></script>
-	<script src="lib/jquery.plugins.js"></script>
+	<script src="lib/vendor/videojshooks.js"></script>
+	<script src="lib/vendor/videojsplugins.js"></script>
+	<script src="lib/vendor/jquery.plugins.js"></script>
 	<script src="vendor/videojs-youtube/src/youtube.js"></script>
 
 	<!-- App Initialization -->
@@ -81,6 +82,7 @@
 	<!-- Backbone Models -->
 	<script src="lib/models/filter.js"></script>
 	<script src="lib/models/lang.js"></script>
+	<script src="lib/models/content_item.js"></script>
 	<script src="lib/models/movie.js"></script>
   	<script src="lib/models/show.js"></script>
 	<script src="lib/models/generic_collection.js"></script>
@@ -115,6 +117,7 @@
 	<script src="lib/views/lang_dropdown.js"></script>
 	<script src="lib/views/movie_detail.js"></script>
 	<script src="lib/views/show_detail.js"></script>
+	<script src="lib/views/play_control.js"></script>
 
 	<script src="lib/views/settings_container.js"></script>
 	<script src="lib/views/init_modal.js"></script>

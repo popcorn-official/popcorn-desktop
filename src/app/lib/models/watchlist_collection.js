@@ -5,7 +5,9 @@
         model: App.Model.Movie,
         initialize: function () {
             this.hasMore = false;
-            this.providers = {
+        },
+        getProviders: function () {
+            return {
                 torrents: [App.Providers.get('Watchlist')]
             };
         },

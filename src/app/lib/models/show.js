@@ -1,8 +1,9 @@
 (function (App) {
     'use strict';
 
-    var Show = App.Model.Movie.extend({
+    var Show = App.Model.ContentItem.extend({
         idAttribute: 'tvdb_id',
+
         updateHealth: function () {
             var torrents = this.get('torrents');
 

@@ -5,7 +5,11 @@
         this.client = new Trakt({
             client_id: Settings.trakttv.client_id,
             client_secret: Settings.trakttv.client_secret,
-            plugins: ['ondeck', 'matcher', 'images'],
+            plugins: {
+                ondeck: require('trakt.tv-ondeck'), 
+                matcher: require('trakt.tv-matcher'),
+                images: require('trakt.tv-images')
+            },
             options: {
                 images: {
                     smallerImages: true,
@@ -208,21 +212,25 @@
             return this.client.sync.history[call](post);
         },
 
+        getImages: function (attrs) {
+            return this.client.images.get({
+                imdb: attrs.imdb_id,
+                tmdb: attrs.tmdb,
+                tvdb: attrs.tvdb_id,
+                type: attrs.type
+            }).then(function (imgs) {
+                attrs.poster = imgs.poster || attrs.poster;
+                attrs.backdrop = imgs.background || imgs.backgdrop;
+                return attrs;
+            });
+        },
+
         getMetadata: function (id) {
             if (!id) {
                 return Promise.reject();
             }
 
-            var item;
-            return this.client.movies.summary({id: id, extended: 'full'}).then(function (md) {
-                item = md;
-                return this.client.images.get(md);
-            }.bind(this)).then(function (img) {
-                item.images = img;
-                return item;
-            }).catch(function (err) {
-                return item;
-            });
+            return this.client.movies.summary({id: id, extended: 'full'});
         },
 
         onReady: function(forced) {
