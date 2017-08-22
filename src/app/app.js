@@ -253,7 +253,7 @@ function close() {
     } catch (e) {
         win.close(true);
     }
-};
+}
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
 win.on('close', function () {
