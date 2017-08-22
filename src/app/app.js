@@ -240,10 +240,6 @@ win.on('enter-fullscreen', function () {
     App.vent.trigger('window:focus');
 });
 
-// Wipe the tmpFolder when closing the app (this frees up disk space)
-win.on('close', function () {
-    close();
-});
 // Now this function is used via global keys (cmd+q and alt+f4)
 function close() {
     if (App.settings.deleteTmpOnClose) {
@@ -258,6 +254,11 @@ function close() {
         win.close(true);
     }
 };
+
+// Wipe the tmpFolder when closing the app (this frees up disk space)
+win.on('close', function () {
+    close();
+});
 
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
