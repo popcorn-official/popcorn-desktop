@@ -82,4 +82,4 @@ You should have received a copy of the GNU General Public License along with thi
 
 ***
 
-Copyright (c) 2016 Popcorn Time Project - Released under the [GPL v3 license](LICENSE.txt).
+Copyright (c) 2017 Popcorn Time Project - Released under the [GPL v3 license](LICENSE.txt).
