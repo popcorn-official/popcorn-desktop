@@ -240,8 +240,8 @@ win.on('enter-fullscreen', function () {
     App.vent.trigger('window:focus');
 });
 
-// Wipe the tmpFolder when closing the app (this frees up disk space)
-win.on('close', function () {
+// Now this function is used via global keys (cmd+q and alt+f4)
+function close() {
     if (App.settings.deleteTmpOnClose) {
         deleteFolder(App.settings.tmpLocation);
     }
@@ -253,6 +253,11 @@ win.on('close', function () {
     } catch (e) {
         win.close(true);
     }
+}
+
+// Wipe the tmpFolder when closing the app (this frees up disk space)
+win.on('close', function () {
+    close();
 });
 
 String.prototype.capitalize = function () {
@@ -268,6 +273,10 @@ String.prototype.capitalizeEach = function () {
 String.prototype.endsWith = function (suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
+// Correct closing of the window using 'CMD+Q' on macOS
+Mousetrap.bindGlobal(['alt+f4', 'command+q'], function (e) {
+    close();
+});
 // Developer Shortcuts
 Mousetrap.bindGlobal(['shift+f12', 'f12', 'command+0'], function (e) {
     win.showDevTools();
