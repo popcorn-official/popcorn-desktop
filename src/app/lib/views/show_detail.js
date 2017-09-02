@@ -1,9 +1,10 @@
 (function (App) {
     'use strict';
 
-    var torrentHealth = require('torrent-tracker-health');
-    var cancelTorrentHealth = function () {};
-    var torrentHealthRestarted = null;
+    // Torrent Health
+    var torrentHealth = require('webtorrent-health'),
+    cancelTorrentHealth = function () {},
+    torrentHealthRestarted = null;
 
     var _this, bookmarked;
     var ShowDetail = Backbone.Marionette.ItemView.extend({
@@ -81,8 +82,6 @@
                 _.bind(this.onUnWatched, this));
 
             var images = this.model.get('images');
-            images.fanart = App.Trakt.resizeImage(images.fanart);
-            images.poster = App.Trakt.resizeImage(images.poster, 'thumb');
 
             App.vent.on('shortcuts:shows', function () {
                 _this.initKeyboardShortcuts();
@@ -782,13 +781,15 @@
                 cancelled = true;
             };
 
-            if (torrent.substring(0, 8) === 'magnet:?') {
-                // if 'magnet:?' is because api sometimes sends back links, not magnets
+            if (torrent) {
                 torrentHealth(torrent, {
-                    timeout: 1000,
+                    timeout: 2000,
                     blacklist: Settings.trackers.blacklisted,
-                    force: Settings.trackers.forced
-                }).then(function (res) {
+                    trackers: Settings.trackers.forced
+                }, function (err, res) {
+                  if (err) {
+                    win.debug(err);
+                  }
                     if (cancelled) {
                         return;
                     }
@@ -813,7 +814,7 @@
                             .tooltip('fixTitle');
                     }
                 });
-            }
+              }
         },
 
         resetHealth: function () {

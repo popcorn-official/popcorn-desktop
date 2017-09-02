@@ -35,6 +35,10 @@
             'click .triggerUpdate': 'updateDB',
         },
 
+        initialize: function (e) {
+            App.vent.on('filter-bar:render', this.render);
+        },
+
         focus: function (e) {
             e.focus();
         },
