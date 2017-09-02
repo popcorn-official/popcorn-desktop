@@ -460,7 +460,7 @@
                     } else {
                         this.subtitleReady = true;
                     }
-                    console.log("subtitle fetching error. retry: " + subtitle_retry + " out of 4");
+                    console.log('subtitle fetching error. retry: ' + subtitle_retry + ' out of 4');
             }.bind(this));
 
             return;
