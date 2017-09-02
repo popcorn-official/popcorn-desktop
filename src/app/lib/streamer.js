@@ -364,7 +364,7 @@
 
             this.stateModel.set('state', state);
 
-            if (state === 'ready' || state === 'playingExternally' || state === 'waitingForSubtitles' ) {
+            if (state === 'ready' || state === 'playingExternally') {
                 App.vent.trigger('stream:ready', this.streamInfo);
                 this.stateModel.destroy();
             } else {
@@ -382,6 +382,9 @@
             var defaultSubtitle = this.torrentModel.get('defaultSubtitle');
 
             win.info(total + ' subtitles found');
+            // if 0 subtitles found code will not stuck at 'waiting for subtitle'
+            this.subtitleReady = true;
+
             this.torrentModel.set('subtitle', subtitles);
 
             if (defaultSubtitle !== 'none') {
@@ -448,7 +451,17 @@
                 .catch(function (err) {
                     this.subtitleReady = true;
                     win.error('subtitleProvider.fetch()', err);
-                }.bind(this));
+                    // on an error, usually for timeouts, retry subtitle fetching 4 times
+                    var subtitle_retry=0;
+                    subtitle_retry++;
+                    if (subtitle_retry<5) {
+                        this.subtitleReady = false;
+                        this.handleSubtitles();
+                    } else {
+                        this.subtitleReady = true;
+                    }
+                    console.log("subtitle fetching error. retry: " + subtitle_retry + " out of 4");
+            }.bind(this));
 
             return;
         },
