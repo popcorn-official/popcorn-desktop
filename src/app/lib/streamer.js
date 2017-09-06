@@ -451,7 +451,7 @@
                 .catch(function (err) {
                     this.subtitleReady = true;
                     win.error('subtitleProvider.fetch()', err);
-                    if (subtitle_retry === undefined) subtitle_retry=0;
+                    if (subtitle_retry === undefined) { subtitle_retry=0; }
                     subtitle_retry++;
                     if (subtitle_retry<5) {
                         console.log('subtitle fetching error. retry: ' + subtitle_retry + ' of 4');
