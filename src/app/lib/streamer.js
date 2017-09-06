@@ -435,7 +435,7 @@
             }
         },
 
-        handleSubtitles: function () {
+        handleSubtitles: function (subtitle_retry) {
             if (this.stopped) {
                 return;
             }
@@ -451,17 +451,16 @@
                 .catch(function (err) {
                     this.subtitleReady = true;
                     win.error('subtitleProvider.fetch()', err);
-                    // on an error, usually for timeouts, retry subtitle fetching 4 times
-                    var subtitle_retry=0;
+                    if (subtitle_retry === undefined) subtitle_retry=0;
                     subtitle_retry++;
                     if (subtitle_retry<5) {
-                        this.subtitleReady = false;
-                        this.handleSubtitles();
+                        console.log("subtitle fetching error. retry: " + subtitle_retry + " of 4");
+                    	this.subtitleReady = false;
+                    	this.handleSubtitles(subtitle_retry);
                     } else {
-                        this.subtitleReady = true;
+	                   this.subtitleReady = true;
                     }
-                    console.log('subtitle fetching error. retry: ' + subtitle_retry + ' out of 4');
-            }.bind(this));
+                }.bind(this));
 
             return;
         },
