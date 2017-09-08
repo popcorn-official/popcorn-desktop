@@ -39,7 +39,7 @@
                 watched, cached, that = this;
 
             // dirty fix for missing anime covers from hummingbird.me - remove when animeApi return valid cover urls
-            if (img.indexOf('static.hummingbird.me/anime/poster_images') !== -1) { img='https://media.kitsu.io/anime/poster_images/' + imdb + '/small.jpg'; }
+            if (img !== undefined && img.indexOf('static.hummingbird.me/anime/poster_images') !== -1) { img='https://media.kitsu.io/anime/poster_images/' + imdb + '/small.jpg'; }
 
             switch (itemtype) {
             case 'bookmarkedshow':
