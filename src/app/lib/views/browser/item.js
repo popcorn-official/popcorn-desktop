@@ -112,7 +112,7 @@
                 var cover = model.get('cover');
                 if (images && images.poster && images.poster.medium) {
                     return images.poster.medium;
-                } else if (image && image instanceof String) {
+                } else if (image && typeof image === 'string') {
                     return image;
                 } else if (cover) {
                     return cover;
@@ -308,7 +308,6 @@
                 Database.deleteBookmark(this.model.get('imdb_id'))
                     .then(function () {
                         win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
-                        App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
                     })
                     .then(function () {
                         return Database.deleteMovie(that.model.get('imdb_id'));
@@ -379,7 +378,6 @@
                                     .then(function () {
                                         win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
                                         that.model.set('bookmarked', true);
-                                        App.userBookmarks.push(that.model.get('imdb_id'));
                                     });
                             });
                     } else {
@@ -408,7 +406,6 @@
                             })
                             .then(function () {
                                 win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
-                                App.userBookmarks.push(that.model.get('imdb_id'));
                                 that.model.set('bookmarked', true);
                             });
                     }
@@ -421,8 +418,6 @@
                     Database.deleteBookmark(this.model.get('imdb_id'))
                         .then(function () {
                             win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
-
-                            App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
 
                             // we'll make sure we dont have a cached show
                             Database.deleteTVShow(that.model.get('imdb_id'));
@@ -448,7 +443,6 @@
                                     win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
                                     that.ui.bookmarkIcon.addClass('selected');
                                     that.model.set('bookmarked', true);
-                                    App.userBookmarks.push(that.model.get('imdb_id'));
                                 }).catch(function (err) {
                                     win.error('promisifyDb()', err);
                                 });
