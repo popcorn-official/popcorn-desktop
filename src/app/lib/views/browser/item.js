@@ -38,6 +38,9 @@
                 img = (images && typeof images.poster !== 'object') ? images.poster : this.model.get('image'),
                 watched, cached, that = this;
 
+            // dirty fix for missing anime covers from hummingbird.me - remove when animeApi return valid cover urls
+            if (img !== undefined && img.indexOf('static.hummingbird.me/anime/poster_images') !== -1) { img='https://media.kitsu.io/anime/poster_images/' + imdb + '/small.jpg'; }
+
             switch (itemtype) {
             case 'bookmarkedshow':
                 watched = App.watchedShows.indexOf(imdb) !== -1;
@@ -240,6 +243,10 @@
                     .then(function (data) {
                         //console.log(data, Type);
                         data.provider = provider.name;
+
+                         // dirty fix for missing anime covers from hummingbird.me - remove when animeApi return valid cover urls
+                        if (data.images.poster.indexOf('static.hummingbird.me/anime/poster_images') !== -1) { data.images.banner=data.images.fanart=data.images.poster='https://media.kitsu.io/anime/poster_images/' + data.imdb_id + '/small.jpg'; }
+
                         $('.spinner').hide();
                         App.vent.trigger(type + ':showDetail', new App.Model[Type](data));
                     }).catch(function (err) {
