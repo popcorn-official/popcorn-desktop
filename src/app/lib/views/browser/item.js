@@ -245,7 +245,9 @@
                         data.provider = provider.name;
 
                          // dirty fix for missing anime covers from hummingbird.me - remove when animeApi return valid cover urls
-                        if (data.images.poster.indexOf('static.hummingbird.me/anime/poster_images') !== -1) { data.images.banner=data.images.fanart=data.images.poster='https://media.kitsu.io/anime/poster_images/' + data.imdb_id + '/small.jpg'; }
+                        if (data.images !== undefined && data.images.poster !== undefined && data.images.poster.indexOf('static.hummingbird.me/anime/poster_images') !== -1) {
+                            data.images.banner=data.images.fanart=data.images.poster='https://media.kitsu.io/anime/poster_images/' + data.imdb_id + '/small.jpg';
+                        }
 
                         $('.spinner').hide();
                         App.vent.trigger(type + ':showDetail', new App.Model[Type](data));
