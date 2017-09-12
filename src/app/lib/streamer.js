@@ -364,7 +364,7 @@
 
             this.stateModel.set('state', state);
 
-            if (state === 'ready' || state === 'playingExternally' || state === 'waitingForSubtitles' ) {
+            if (state === 'ready' || state === 'playingExternally') {
                 App.vent.trigger('stream:ready', this.streamInfo);
                 this.stateModel.destroy();
             } else {
@@ -382,6 +382,9 @@
             var defaultSubtitle = this.torrentModel.get('defaultSubtitle');
 
             win.info(total + ' subtitles found');
+            // if 0 subtitles found code will not stuck at 'waiting for subtitle'
+            this.subtitleReady = true;
+
             this.torrentModel.set('subtitle', subtitles);
 
             if (defaultSubtitle !== 'none') {
@@ -432,7 +435,7 @@
             }
         },
 
-        handleSubtitles: function () {
+        handleSubtitles: function (subtitle_retry) {
             if (this.stopped) {
                 return;
             }
@@ -448,6 +451,15 @@
                 .catch(function (err) {
                     this.subtitleReady = true;
                     win.error('subtitleProvider.fetch()', err);
+                    if (subtitle_retry === undefined) { subtitle_retry=0; }
+                    subtitle_retry++;
+                    if (subtitle_retry<5) {
+                        console.log('subtitle fetching error. retry: ' + subtitle_retry + ' of 4');
+                    	this.subtitleReady = false;
+                    	this.handleSubtitles(subtitle_retry);
+                    } else {
+	                   this.subtitleReady = true;
+                    }
                 }.bind(this));
 
             return;
