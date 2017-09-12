@@ -262,15 +262,10 @@
                 if (Settings.watchedCovers === 'fade') {
                     this.$el.removeClass('watched');
                 }
-                Database.markMovieAsNotWatched({
-                        imdb_id: this.model.get('imdb_id')
-                    }, true)
-                    .then(function () {
-                        that.model.set('watched', false);
-                        App.vent.trigger('movie:unwatched', {
-                            imdb_id: that.model.get('imdb_id')
-                        }, 'seen');
-                    });
+                that.model.set('watched', false);
+                App.vent.trigger('movie:unwatched', {
+                    imdb_id: that.model.get('imdb_id')
+                }, 'seen');
             } else {
                 this.ui.watchedIcon.addClass('selected');
                 switch (Settings.watchedCovers) {
@@ -281,17 +276,10 @@
                     this.$el.remove();
                     break;
                 }
-                Database.markMovieAsWatched({
-                        imdb_id: this.model.get('imdb_id'),
-                        from_browser: true
-                    }, true)
-                    .then(function () {
-                        that.model.set('watched', true);
-                        App.vent.trigger('movie:watched', {
-                            imdb_id: that.model.get('imdb_id')
-                        }, 'seen');
-                    });
-
+                that.model.set('watched', true);
+                App.vent.trigger('movie:watched', {
+                    imdb_id: that.model.get('imdb_id')
+                }, 'seen');
             }
 
             this.ui.watchedIcon.tooltip({
