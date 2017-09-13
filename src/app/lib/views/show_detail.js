@@ -241,8 +241,6 @@
                             });
                         }
                         if (AdvSettings.get('tv_detail_jump_to') !== 'firstUnwatched') {
-                            lastSeen = episodesSeen[episodesSeen.length - 1];
-
                             if (lastSeen !== episodes[episodes.length - 1]) {
                                 var idx;
                                 _.find(episodes, function (data, dataIdx) {
