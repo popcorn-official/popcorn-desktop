@@ -233,9 +233,14 @@
                         var unseen = episodes.filter(function (item) {
                             return episodesSeen.indexOf(item) === -1;
                         });
+                        // filter unseen to list only current season episodes and above
+                        var lastSeen = episodesSeen[episodesSeen.length - 1];
+                        if (lastSeen>100) {
+                            unseen = unseen.filter(function (item) {
+                                return item>lastSeen;
+                            });
+                        }
                         if (AdvSettings.get('tv_detail_jump_to') !== 'firstUnwatched') {
-                            var lastSeen = episodesSeen[episodesSeen.length - 1];
-
                             if (lastSeen !== episodes[episodes.length - 1]) {
                                 var idx;
                                 _.find(episodes, function (data, dataIdx) {
