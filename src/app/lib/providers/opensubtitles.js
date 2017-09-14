@@ -18,11 +18,6 @@
         name: 'OpenSubtitles'
     };
 
-    OpenSubtitles.prototype.constructor = OpenSubtitles;
-    OpenSubtitles.prototype.config = {
-        name: 'OpenSubtitles'
-    };
-
     var normalizeLangCodes = function (data) {
         Object.keys(data).forEach(function(key,index) {
             // iterating required because of possible multiple subs per language format
