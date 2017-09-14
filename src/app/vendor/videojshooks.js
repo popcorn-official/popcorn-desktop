@@ -301,7 +301,7 @@ vjs.TextTrack.prototype.load = function () {
                     language = Settings.subtitle_language;
                     console.log('SUB charset: using subtitles_language setting (' + language + ') as default');
                 }
-                var langInfo = App.Localization.langcodes[language] || {};
+                var langInfo = App.Localization.langcodes[ (language.indexOf('|')>0 ? language.substr(0,language.indexOf('|')) : language) ] || {};
                 console.log('SUB charset expected:', langInfo.encoding);
                 if (langInfo.encoding !== undefined && langInfo.encoding.indexOf(detectedEncoding) < 0) {
                     // The detected encoding was unexepected to the language, so we'll use the most common
