@@ -177,7 +177,7 @@
                 callback(dataBuff.toString('utf8'));
                 // We do
             } else {
-                var langInfo = App.Localization.langcodes[language] || {};
+                var langInfo = App.Localization.langcodes[ (language.indexOf('|')>0 ? language.substr(0,language.indexOf('|')) : language) ] || {};
                 win.debug('SUB charset expected for \'%s\': ', language, langInfo.encoding);
                 if (langInfo.encoding !== undefined && langInfo.encoding.indexOf(detectedEncoding) < 0) {
                     // The detected encoding was unexepected to the language, so we'll use the most common
