@@ -126,7 +126,9 @@ vjs.TextTrack.prototype.load = function () {
                     if (!error && response.statusCode === 200) {
                         callback(data);
                     } else {
-                        if (retry_cnt === undefined) retry_cnt=0;
+                        if (retry_cnt === undefined) {
+                            retry_cnt=0;
+                        }
                         retry_cnt++;
                         if (retry_cnt<5) {
                             console.log('subtitle url download failed. retry: ' + retry_cnt + ' out of 4');
