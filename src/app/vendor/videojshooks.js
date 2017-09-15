@@ -80,8 +80,8 @@ vjs.Player.prototype.onFullscreenChange = function () {
 // This is a custom way of loading subtitles, since we can't use src (CORS blocks it and we can't disable it)
 // We fetch them when requested, process them and finally throw a parseCues their way
 vjs.TextTrack.prototype.load = function () {
-    // Only load if not loaded yet.
-    if (this.readyState_ === 0) {
+    // Only load if not loaded yet or is error
+    if (this.readyState_ === 0 || this.readyState_ === 3) {
         var this_ = this;
         this.readyState_ = 1;
 
