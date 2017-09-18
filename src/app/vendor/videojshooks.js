@@ -136,11 +136,9 @@ vjs.TextTrack.prototype.load = function () {
                         } else {
                             $('.notification_alert').text(i18n.__('Error downloading subtitle.')).fadeIn('fast').delay(2500).fadeOut('fast');
                             console.warn('Failed to download subtitle!', error, response);
+                            // change readyState to 0 because 3 (error state) will not allow additional retry if user select the same language later
+                            this_.readyState_ = 0;
                         }
-                    }
-                    if (response.statusCode !== 200) {
-                        // change readyState to 0 because 3 (error state) will not allow additional retry if user select the same language later
-                        this_.readyState_ = 0;
                     }
                 });
             }
