@@ -26,7 +26,8 @@
             'click .actions-favorites': 'toggleFavorite',
             'click .actions-watched': 'toggleWatched',
             'click .cover': 'showDetail',
-            'mouseover .cover': 'hoverItem'
+            'mouseover .cover': 'hoverItem',
+            'mouseleave .cover': 'cancelHoverItem'
         },
 
         initialize: function () {
@@ -99,6 +100,14 @@
                 $(this.el).addClass('selected');
                 prevX = e.pageX;
                 prevY = e.pageY;
+            }
+        },
+
+        cancelHoverItem: function (e) {
+            if (e.pageX !== prevX || e.pageY !== prevY) {
+                $('.item.selected').removeClass('selected');
+                prevX = 0;
+                prevY = 0;
             }
         },
 
