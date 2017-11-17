@@ -44,7 +44,7 @@ Full instructions & troubleshooting tips can be found in the [Contributing Guide
 
 Keep track of Popcorn Time development and community activity.
 
-* Follow Popcorn Time on [Twitter] (https://twitter.com/popcorntimetv), [Facebook] (https://www.facebook.com/PopcornTimeDotSh) and [Google+](https://plus.google.com/+popcorntimesh).
+* Follow Popcorn Time on [Twitter](https://twitter.com/popcorntimetv), [Facebook](https://www.facebook.com/PopcornTimeDotSh) and [Google+](https://plus.google.com/+popcorntimesh).
 * Read and subscribe to [The Official Popcorn Time Blog](http://blog.popcorntime.sh).
 * Join in discussions on the [Popcorn Time Forum](https://reddit.com/r/PopCornTime/)
 * Connect with us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime))
