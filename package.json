@@ -16,6 +16,8 @@
   "scripts": {
     "postinstall": "node_modules/.bin/bower install --config.interactive=false && npm run postupdate",
     "postupdate": "node_modules/.bin/bower update --config.interactive=false",
+    "start": "gulp run",
+    "build": "gulp build",
     "test": "gulp test"
   },
   "chromium-args": "--enable-node-worker",
