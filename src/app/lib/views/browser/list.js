@@ -137,17 +137,17 @@
 
             Mousetrap.bind('right', _this.moveRight);
 
-            Mousetrap.bind('f', _this.toggleSelectedFavourite);
+            Mousetrap.bind('f', _this.toggleSelectedFavourite, 'keydown');
 
-            Mousetrap.bind('w', _this.toggleSelectedWatched);
+            Mousetrap.bind('w', _this.toggleSelectedWatched, 'keydown');
 
             Mousetrap.bind(['enter', 'space'], _this.selectItem);
 
-            Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch);
+            Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch, 'keydown');
 
             Mousetrap(document.querySelector('input')).bind(['ctrl+f', 'command+f', 'esc'], function (e, combo) {
                 $('.search input').blur();
-            });
+            }, 'keydown');
 
             Mousetrap.bind(['tab', 'shift+tab'], function (e, combo) {
                 if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0) {
@@ -207,13 +207,13 @@
                 if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0) {
                     $('.favorites').click();
                 }
-            });
+            }, 'keydown');
 
             Mousetrap.bind('i', function () {
                 if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#player').children().length <= 0) {
                     $('.about').click();
                 }
-            });
+            }, 'keydown');
 
         },
 
