@@ -39,6 +39,8 @@
             this.remaining = false;
             this.createdRemaining = false;
             this.firstPlay = true;
+
+            this.boundedMouseScroll = this.mouseScroll.bind(this);
         },
 
         isMovie: function () {
@@ -769,7 +771,7 @@
                 }
             });
 
-            document.addEventListener('mousewheel', this.mouseScroll.bind(this));
+            document.addEventListener('mousewheel', this.boundedMouseScroll);
         },
 
         unbindKeyboardShortcuts: function () {
@@ -840,7 +842,7 @@
             // Change when mousetrap can be extended
             $('body').unbind('keydown');
 
-            document.removeEventListener('mousewheel', this.mouseScroll);
+            document.removeEventListener('mousewheel', this.boundedMouseScroll);
         },
 
         toggleMouseDebug: function () {
