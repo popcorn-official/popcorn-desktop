@@ -232,6 +232,7 @@
             case 'traktPlayback':
             case 'playNextEpisodeAuto':
             case 'automaticUpdating':
+            case 'UpdateSeed':
             case 'events':
             case 'alwaysFullscreen':
             case 'minimizeToTray':

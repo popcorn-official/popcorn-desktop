@@ -168,6 +168,7 @@ Settings.tmpLocation = path.join(os.tmpDir(), Settings.projectName);
 Settings.databaseLocation = path.join(data_path, 'data');
 Settings.deleteTmpOnClose = true;
 Settings.automaticUpdating = true;
+Settings.UpdateSeed = true;
 Settings.events = true;
 Settings.minimizeToTray = false;
 Settings.bigPicture = false;
