@@ -44,6 +44,9 @@
             this.setModels(model);
 
             this.fetchTorrent(this.torrentModel.get('torrent')).then(function (torrent) {
+                if (AdvSettings.get('autoSeed')) {
+                    App.vent.trigger('seed:save', torrent);
+                }
                 this.handleTorrent(torrent);
                 this.watchState();
                 this.handleStreamInfo();
@@ -54,6 +57,10 @@
 
         // kill the streamer
         stop: function() {
+            if (AdvSettings.get('autoSeed')) {
+                App.vent.trigger('seed:append', this.torrentModel.get('torrent'));
+            }
+
             if (this.webtorrent) {
                 // update ratio
                 AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.torrentModel.get('torrent').downloaded);
