@@ -208,6 +208,10 @@
                     type: t
                 };
             }), function (p) {
+                if ((p.name === 'Anime' && Settings.animeTabDisable) || (p.name === 'Indie' && Settings.indieTabDisable)) {
+                    return false;
+                }
+
                 return p.name;
             }), 'order');
         },

@@ -28,16 +28,12 @@ The [master](https://github.com/popcorn-official/popcorn-desktop) branch which c
 
 If you encounter trouble with the above method, you can try:
 
-1. `npm start`
-
-If you encounter trouble with the above method, you can try:
-
 1. `npm install -g bower gulp` (Linux: you may need to run with `sudo`)
 
 2. `npm install`
 3. `bower install`
-4. `gulp css`
-5. `gulp nw:run`
+4. `gulp build`
+5. `gulp run`
 
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
@@ -48,7 +44,7 @@ Full instructions & troubleshooting tips can be found in the [Contributing Guide
 
 Keep track of Popcorn Time development and community activity.
 
-* Follow Popcorn Time on [Twitter] (https://twitter.com/popcorntimetv), [Facebook] (https://www.facebook.com/PopcornTimeDotSh) and [Google+](https://plus.google.com/+popcorntimesh).
+* Follow Popcorn Time on [Twitter](https://twitter.com/popcorntimetv), [Facebook](https://www.facebook.com/PopcornTimeDotSh) and [Google+](https://plus.google.com/+popcorntimesh).
 * Read and subscribe to [The Official Popcorn Time Blog](http://blog.popcorntime.sh).
 * Join in discussions on the [Popcorn Time Forum](https://reddit.com/r/PopCornTime/)
 * Connect with us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime))
@@ -86,4 +82,4 @@ You should have received a copy of the GNU General Public License along with thi
 
 ***
 
-Copyright (c) 2016 Popcorn Time Project - Released under the [GPL v3 license](LICENSE.txt).
+Copyright (c) 2017 Popcorn Time Project - Released under the [GPL v3 license](LICENSE.txt).

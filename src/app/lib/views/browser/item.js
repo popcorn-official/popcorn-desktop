@@ -41,11 +41,11 @@
             switch (itemtype) {
             case 'bookmarkedshow':
                 watched = App.watchedShows.indexOf(imdb) !== -1;
-                this.model.set('image', App.Trakt.resizeImage(img, 'thumb'));
+                this.model.set('image', img);
                 break;
             case 'show':
                 watched = App.watchedShows.indexOf(imdb) !== -1;
-                images.poster = App.Trakt.resizeImage(img, 'thumb');
+                images.poster = img;
                 break;
             case 'bookmarkedmovie':
             case 'movie':
@@ -177,39 +177,24 @@
                 title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from bookmarks') : i18n.__('Add to bookmarks')
             });
 
-            // try to cache cover img
-            this.cacheCover(coverUrl);
-
-            this.ui.coverImage.remove();
-
-        },
-
-        cacheCover: function(coverUrl) {
-
-            var _this = this;
+            var this_ = this;
 
             var coverCache = new Image();
             coverCache.src = coverUrl;
             coverCache.onload = function () {
                 try {
-                    _this.ui.cover.css('background-image', 'url(' + coverUrl + ')').addClass('fadein');
+                    this_.ui.cover.css('background-image', 'url(' + coverUrl + ')').addClass('fadein');
                 } catch (e) {}
                 coverCache = null;
             };
             coverCache.onerror = function () {
-
-                var pattern = /^https:\/\//;
-
-                // if we got an error, try again without https
-                if (pattern.test(coverUrl)) {
-                    return _this.cacheCover(coverUrl.replace(pattern, 'http://'));
-                }
-
                 try {
-                    _this.ui.cover.css('background-image', 'url("images/posterholder.png")').addClass('fadein');
+                    this_.ui.cover.css('background-image', 'url("images/posterholder.png")').addClass('fadein');
                 } catch (e) {}
                 coverCache = null;
             };
+
+            this.ui.coverImage.remove();
 
         },
 
@@ -253,12 +238,12 @@
                 $('.spinner').show();
                 data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
                     .then(function (data) {
-                        console.log(data, Type);
+                        //console.log(data, Type);
                         data.provider = provider.name;
                         $('.spinner').hide();
                         App.vent.trigger(type + ':showDetail', new App.Model[Type](data));
                     }).catch(function (err) {
-                        console.error(err);
+                        win.error(err);
                         $('.spinner').hide();
                         $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                     });

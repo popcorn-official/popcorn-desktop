@@ -871,16 +871,18 @@ App.Localization.langcodes = {
     'zh': {
         name: 'Chinese',
         nativeName: '中文',
-        subtitle: true,
-        encoding: ['GB18030'] /** Seems to work best. Tested: UTF8/UTF16/CP936/GB2312/GB2313/GB18030/Windows936/Big5 **/
     },
     'zh-cn': {
         name: 'Chinese (simplified)',
         nativeName: '简体中文'
+        subtitle: true,
+        encoding: ['GB18030'] /** Seems to work best. Tested: UTF8/UTF16/CP936/GB2312/GB2313/GB18030/Windows936/Big5 **/
     },
     'zh-tw': {
         name: 'Chinese (traditional)',
         nativeName: '正體中文'
+        subtitle: true,
+        encoding: ['UTF8'] /** Seems to work best. Tested: UTF8/UTF16/CP936/GB2312/GB2313/GB18030/Windows936/Big5 **/
     }
 };
 

@@ -124,7 +124,6 @@
             App.vent.on('system:openFileSelector', _.bind(this.showFileSelector, this));
             App.vent.on('system:closeFileSelector', _.bind(this.FileSelector.destroy, this.FileSelector));
 
-            App.vent.on('system:traktAuthenticated', _.bind(this.traktAuthenticated, this));
             App.vent.on('system:tvstAuthenticated', _.bind(this.tvstAuthenticated, this));
 
             // Stream events
@@ -346,14 +345,7 @@
             $('#nav-filters, .search, .items').hide();
             $('.spinner').show();
 
-            function waitForSync() {
-                if (!App.Trakt.syncTrakt.isSyncing()) {
-                    that.Content.show(new App.View.WatchlistBrowser());
-                } else {
-                    setTimeout(waitForSync, 500);
-                }
-            }
-            waitForSync();
+            this.Content.show(new App.View.WatchlistBrowser());
         },
 
         showDisclaimer: function (e) {
@@ -445,21 +437,6 @@
             this.Settings.show(new App.View.Settings({
                 model: settingsModel
             }));
-        },
-
-        traktAuthenticated: function () {
-            win.info('Trakt: authenticated');
-            if (Settings.traktSyncOnStart && (Settings.traktLastSync + 1800000 < new Date().valueOf())) { //only refresh every 30min
-                App.Trakt.sync.lastActivities()
-                    .then(function (activities) { // check if new activities
-                        var lastActivities = activities.movies.watched_at > activities.episodes.watched_at ? activities.movies.watched_at : activities.episodes.watched_at;
-                        if (lastActivities > Settings.traktLastActivities) {
-                            AdvSettings.set('traktLastActivities', lastActivities);
-                            Database.deleteWatched();
-                            App.Trakt.syncTrakt.all();
-                        }
-                    });
-            }
         },
 
         tvstAuthenticated: function () {
