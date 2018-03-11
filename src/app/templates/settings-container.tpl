@@ -572,8 +572,8 @@
                 <label class="settings-label" for="cb6"><%= i18n.__("Activate Update seeding") %></label>
             </span>
             <span>
-                <input class="settings-checkbox" name="events" id="cb8" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb8"><%= i18n.__("Celebrate various events") %></label>
+                <input class="settings-checkbox" name="events" id="cb9" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
+                <label class="settings-label" for="cb9"><%= i18n.__("Celebrate various events") %></label>
             </span>
             <span>
                 <input class="settings-checkbox" name="minimizeToTray" id="minimizeToTray" type="checkbox" <%=(Settings.minimizeToTray? "checked='checked'":"")%>>
