@@ -8,7 +8,7 @@
         'linux': ['min', 'max', 'close']
     };
 
-    var TitleBar = Backbone.Marionette.ItemView.extend({
+    var TitleBar = Marionette.View.extend({
         template: '#header-tpl',
 
         events: {
@@ -22,7 +22,7 @@
             this.nativeWindow = win;
         },
 
-        templateHelpers: {
+        templateContext: {
             getButtons: function () {
                 return ButtonOrder[App.Config.platform];
             },
@@ -93,7 +93,7 @@
             this.$el.find('.btn-os.fullscreen').toggleClass('active');
         },
 
-        onShow: function () {
+        onAttach: function () {
             $('.tooltipped').tooltip({
                 delay: {
                     'show': 800,

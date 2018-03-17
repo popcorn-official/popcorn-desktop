@@ -9,7 +9,7 @@
      *  * Show movie detail
      *  * Start playing a movie
      */
-    var PCTBrowser = Backbone.Marionette.LayoutView.extend({
+    var PCTBrowser = Marionette.View.extend({
         template: '#browser-tpl',
         className: 'main-browser',
         regions: {
@@ -34,7 +34,7 @@
 
         },
 
-        onShow: function () {
+        onAttach: function () {
             if (Settings.rememberFilters) {
                 this.filter.set(this.getSavedFilter());
             }
@@ -43,9 +43,9 @@
                 model: this.filter
             });
 
-            this.FilterBar.show(this.bar);
+            this.showChildView('FilterBar', this.bar);
 
-            this.ItemList.show(new App.View.List({
+            this.showChildView('ItemList', new App.View.List({
                 collection: this.collection
             }));
 
@@ -68,7 +68,7 @@
             App.vent.trigger('show:closeDetail');
             this.collection.fetch();
 
-            this.ItemList.show(new App.View.List({
+            this.showChildView('ItemList', new App.View.List({
                 collection: this.collection
             }));
         },

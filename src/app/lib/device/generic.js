@@ -126,7 +126,7 @@
     var collection = new DeviceCollection(new Device());
     collection.setDevice('local');
 
-    var ChooserView = Backbone.Marionette.ItemView.extend({
+    var ChooserView = Marionette.View.extend({
         template: '#player-chooser-tpl',
         events: {
             'click .playerchoicemenu li a': 'selectPlayer'

@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var Loading = Backbone.Marionette.ItemView.extend({
+    var Loading = Marionette.View.extend({
         template: '#loading-tpl',
         className: 'app-overlay',
         extPlayerStatusUpdater: null,
@@ -80,7 +80,7 @@
             Mousetrap.unbind(['esc', 'backspace']);
         },
 
-        onShow: function () {
+        onAttach: function () {
             $('.filter-bar').hide();
             $('#header').addClass('header-shadow');
 
@@ -281,7 +281,7 @@
             }
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             $('.filter-bar').show();
             $('#header').removeClass('header-shadow');
             Mousetrap.bind('esc', function (e) {

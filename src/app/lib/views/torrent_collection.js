@@ -4,7 +4,7 @@
     var clipboard = nw.Clipboard.get(),
         collection = path.join(data_path + '/TorrentCollection/');
 
-    var TorrentCollection = Backbone.Marionette.ItemView.extend({
+    var TorrentCollection = Marionette.View.extend({
         template: '#torrent-collection-tpl',
         className: 'torrent-collection',
 
@@ -32,7 +32,7 @@
             this.files = fs.readdirSync(collection);
         },
 
-        onShow: function () {
+        onAttach: function () {
             Mousetrap.bind(['esc', 'backspace'], function (e) {
                 $('#filterbar-torrent-collection').click();
             });
@@ -552,7 +552,7 @@
             input.click();
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             Mousetrap.unbind(['esc', 'backspace']);
         },
 

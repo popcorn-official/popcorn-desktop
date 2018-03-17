@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
     var fixer;
-    var InitModal = Backbone.Marionette.ItemView.extend({
+    var InitModal = Marionette.View.extend({
         template: '#initializing-tpl',
         className: 'init-container',
 
@@ -19,7 +19,7 @@
             win.info('Loading DB');
         },
 
-        onShow: function () {
+        onAttach: function () {
             this.model.on('change', this.updateModal.bind(this));
             this.updateModal();
         },
@@ -41,7 +41,7 @@
             }, 7000);
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             clearTimeout(fixer);
         },
 
