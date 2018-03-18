@@ -20,10 +20,12 @@
             coverImage: '.cover-image',
             cover: '.cover',
             bookmarkIcon: '.actions-favorites',
+            hideIcon: '.actions-hides',
             watchedIcon: '.actions-watched'
         },
         events: {
             'click .actions-favorites': 'toggleFavorite',
+            'click .actions-hides': 'toggleHide',
             'click .actions-watched': 'toggleWatched',
             'click .cover': 'showDetail',
             'mouseover .cover': 'hoverItem'
@@ -57,7 +59,7 @@
             this.model.set('bookmarked', bookmarked);
 
             var date = new Date();
-            var today = ('0' + (date.getMonth() + 　1)).slice(-2) + ('0' + (date.getDate())).slice(-2);
+            var today = ('0' + (date.getMonth() + 1)).slice(-2) + ('0' + (date.getDate())).slice(-2);
             if (today === '0401') { //april's fool
                 var title = this.model.get('title');
                 var titleArray = title.split(' ');
@@ -176,6 +178,9 @@
             this.ui.bookmarkIcon.tooltip({
                 title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from bookmarks') : i18n.__('Add to bookmarks')
             });
+            this.ui.hideIcon.tooltip({
+                title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from hide') : i18n.__('Add to hide')
+            });
 
             var this_ = this;
 
@@ -262,10 +267,15 @@
                 if (Settings.watchedCovers === 'fade') {
                     this.$el.removeClass('watched');
                 }
-                that.model.set('watched', false);
-                App.vent.trigger('movie:unwatched', {
-                    imdb_id: that.model.get('imdb_id')
-                }, 'seen');
+                Database.markMovieAsNotWatched({
+                        imdb_id: this.model.get('imdb_id')
+                    }, true)
+                    .then(function () {
+                        that.model.set('watched', false);
+                        App.vent.trigger('movie:unwatched', {
+                            imdb_id: that.model.get('imdb_id')
+                        }, 'seen');
+                    });
             } else {
                 this.ui.watchedIcon.addClass('selected');
                 switch (Settings.watchedCovers) {

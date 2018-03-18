@@ -6,7 +6,7 @@
     cancelTorrentHealth = function () {},
     torrentHealthRestarted = null;
 
-    var _this, bookmarked;
+    var _this, bookmarked,hide;
     var ShowDetail = Backbone.Marionette.ItemView.extend({
         template: '#show-detail-tpl',
         className: 'shows-container-contain',
@@ -17,11 +17,13 @@
             q720p: '#q720',
             q480p: '#q480',
             bookmarkIcon: '.sha-bookmark',
+            hideIcon: '.sha-hide',
             seasonTab: '.sd-seasons'
         },
 
         events: {
             'click .sha-bookmark': 'toggleFavorite',
+            'click .sha-hide': 'toggleHide',
             'click .sha-watched': 'markShowAsWatched',
             'click .watched': 'toggleWatched',
             'click #watch-now': 'startStreaming',
@@ -36,6 +38,7 @@
             'click .q480': 'toggleShowQuality',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .shmi-rating': 'switchRating',
+            'click .watched-toggle': 'toggleWatched',
             'click .health-icon': 'resetHealth'
         },
 
@@ -55,6 +58,24 @@
                 that.model.set('bookmarked', false);
             }
             $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-favorites').click();
+        },
+        
+        toggleHide: function (e) {
+            if (e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            var that = this;
+            if (hide !== true) {
+                hide = true;
+                that.model.set('hide', true);
+                that.ui.hideIcon.addClass('selected').text(i18n.__('Remove from hide'));
+            } else {
+                hide = false;
+                that.ui.hideIcon.removeClass('selected').text(i18n.__('Add to hide'));
+                that.model.set('hide', false);
+            }
+            $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-hides').click();
         },
 
 

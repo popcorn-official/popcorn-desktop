@@ -27,6 +27,10 @@ db.watched = new Datastore({
     filename: path.join(data_path, 'data/watched.db'),
     autoload: true
 });
+db.notwanted = new Datastore({
+    filename: path.join(data_path, 'data/notwanted.db'),
+    autoload: true
+});
 
 function promisifyDatastore(datastore) {
     datastore.insert = Q.denodeify(datastore.insert, datastore);
@@ -39,6 +43,7 @@ promisifyDatastore(db.settings);
 promisifyDatastore(db.tvshows);
 promisifyDatastore(db.movies);
 promisifyDatastore(db.watched);
+promisifyDatastore(db.notwanted);
 
 // Create unique indexes for the various id's for shows and movies
 db.tvshows.ensureIndex({
@@ -56,6 +61,10 @@ db.movies.ensureIndex({
 db.movies.removeIndex('imdb_id');
 db.movies.removeIndex('tmdb_id');
 db.bookmarks.ensureIndex({
+    fieldName: 'imdb_id',
+    unique: true
+});
+db.notwanted.ensureIndex({
     fieldName: 'imdb_id',
     unique: true
 });
@@ -88,6 +97,26 @@ var promisifyDb = function (obj) {
 };
 
 var Database = {
+	toggleItemToNotWanted: function (imdb_id, type) {
+		promisifyDb(db.notwanted.findOne({imdb_id: imdb_id},function (err, doc) {
+			var notwanted='added';
+        	if(doc){
+        		db.notwanted.remove({imdb_id: imdb_id});
+        		notwanted='removed';
+        	} else {
+        		db.notwanted.insert({
+        			imdb_id: imdb_id,
+        			type: type
+        		});
+        	}
+        	Database.getNotWanted()
+        	.then(function (data) {
+        		App.notWanted=extractIds(data);
+        	});
+        	return notwanted;
+        }));
+    },	
+	
     addMovie: function (data) {
         return db.movies.insert(data);
     },
@@ -190,6 +219,10 @@ var Database = {
         return promisifyDb(db.watched.find({
             type: 'movie'
         }));
+    },
+    
+    getNotWanted: function () {
+        return promisifyDb(db.notwanted.find({}));
     },
 
     /*******************************
@@ -325,6 +358,11 @@ var Database = {
             .then(function (data) {
                 App.watchedMovies = extractMovieIds(data);
             });
+        
+        var notwanted = Database.getNotWanted()
+        .then(function (data) {
+        	App.notWanted=extractIds(data);
+        });
 
         var episodes = Database.getAllEpisodesWatched()
             .then(function (data) {

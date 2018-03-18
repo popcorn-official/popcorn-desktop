@@ -12,6 +12,7 @@
         ui: {
             selected_lang: '.selected-lang',
             bookmarkIcon: '.favourites-toggle',
+            hideIcon: '.hide-toggle',
             watchedIcon: '.watched-toggle'
         },
 

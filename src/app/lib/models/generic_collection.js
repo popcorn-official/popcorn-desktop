@@ -21,6 +21,15 @@
         Q.all(promises)
             .spread(function (torrents, subtitles, metadatas) {
 
+            	var results=torrents.results;
+                App.notWanted.forEach(function(doc){
+               	for (var i = results.length - 1; i >= 0; --i) {
+     				  if (results[i].imdb_id === doc) {
+     				    results.splice(i, 1); 
+     				  }
+     				}
+               });
+            	
                 win.debug('post all', torrents, subtitles, metadatas);
 
                 // If a new request was started...
@@ -33,8 +42,8 @@
                     m.id = m.ids.imdb;
                     return m;
                 });
-
-                _.each(torrents.results, function (movie) {
+                
+                _.each(results, function (movie) {
                     var id = movie[self.popid];
                     /* XXX(xaiki): check if we already have this
                      * torrent if we do merge our torrents with the
