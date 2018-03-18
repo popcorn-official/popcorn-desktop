@@ -1,0 +1,30 @@
+environment:
+  matrix:
+    - nodejs_version: STABLE
+      configuration: publish
+    - nodejs_version: LTS
+cache:
+  - node_modules -> package.json
+  - '%APPDATA%\npm-cache'
+
+# Install scripts. (runs after repo cloning)
+install:
+  # install modules
+  - npm install 
+  - npm install -g bower
+  - bower install
+  - npm run gulp -- build-release
+
+# Post-install test scripts.
+test_script:
+  # Output useful info for debugging.
+  - node --version
+  - npm --version
+
+artifacts:
+  - path: build\
+    name: Popcorn-Time
+
+deploy:
+- provider: Environment
+  name: Staging
