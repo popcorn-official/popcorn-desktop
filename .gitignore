@@ -34,3 +34,4 @@ lib-cov
 *.pid
 *.gz
 *.iml
+yarn.lock

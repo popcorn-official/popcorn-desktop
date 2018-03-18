@@ -1,0 +1,26 @@
+environment:
+  matrix:
+    - nodejs_version: STABLE
+cache:
+  - node_modules -> package.json
+
+# Install scripts. (runs after repo cloning)
+install:
+  # install modules
+  - yarn install --ignore-engines
+  - gulp build
+
+# Post-install test scripts.
+test_script:
+  # Output useful info for debugging.
+  - node --version
+  - yarn --version
+  - gulp --version
+
+artifacts:
+  - path: build\
+    name: Popcorn-Time
+
+deploy:
+- provider: Environment
+  name: Staging

@@ -3,9 +3,10 @@
 /********
  * setup *
  ********/
-const nwVersion = '0.18.1',
+const nwVersion = '0.29.1',
     availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'],
-    releasesDir = 'build';
+    releasesDir = 'build',
+    nwFlavor = 'sdk';
 
 
 /***************
@@ -20,6 +21,7 @@ const gulp = require('gulp'),
     currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
 
     yargs = require('yargs'),
+    yarn = require('gulp-yarn'),
     nib = require('nib'),
     git = require('git-rev'),
 
@@ -63,27 +65,14 @@ const parsePlatforms = () => {
 // returns an array of paths with the node_modules to include in builds
 const parseReqDeps = () => {
     return new Promise((resolve, reject) => {
-        exec('npm ls --production=true --parseable=true', (error, stdout, stderr) => {
-            if (error || stderr) {
-                reject(error || stderr);
-            } else {
-                // build array
-                let npmList = stdout.split('\n');
-
-                // remove empty or soon-to-be empty
-                npmList = npmList.filter((line) => {
-                    return line.replace(process.cwd().toString(), '');
-                });
-
-                // format for nw-builder
-                npmList = npmList.map((line) => {
-                    return line.replace(process.cwd(), '.') + '/**';
-                });
-
-                // return
-                resolve(npmList);
-            }
+        var npmList = fs.readdirSync('./node_modules');
+        // format for nw-builder
+        npmList = npmList.map((line) => {
+            return './node_modules/'+line.replace(process.cwd(), '.') + '/**';
         });
+        
+        // return
+        resolve(npmList);
     });
 };
 
@@ -123,7 +112,9 @@ const nw = new nwBuilder({
     zip: false,
     macIcns: './src/app/images/butter.icns',
     version: nwVersion,
-    downloadUrl: 'https://get.popcorntime.sh/repo/nw/',
+    flavor: nwFlavor,
+//    downloadUrl: 'https://get.popcorntime.sh/repo/nw/',
+    downloadUrl: 'https://dl.nwjs.io/',
     platforms: parsePlatforms()
 }).on('log', console.log);
 
@@ -135,7 +126,7 @@ const nw = new nwBuilder({
 gulp.task('run', () => {
     return new Promise((resolve, reject) => {
         let platform = parsePlatforms()[0],
-            bin = path.join('cache', nwVersion, platform);
+            bin = path.join('cache', nwVersion + '-' + nwFlavor, platform);
 
         // path to nw binary
         switch(platform.slice(0,3)) {
@@ -420,12 +411,13 @@ gulp.task('compress', () => {
     })).catch(log);
 });
 
+
 // prevent commiting if conditions aren't met and force beautify (bypass with `git commit -n`)
 gulp.task('pre-commit', ['jshint']);
 
 // check entire sources for potential coding issues (tweak in .jshintrc)
 gulp.task('jshint', () => {
-    return gulp.src(['gulpfile.js', 'src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', 'src/app/*.js'])
+    return gulp.src(['gulpfile.js', 'src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/vendor/*', 'src/app/*.js'])
         .pipe(glp.jshint('.jshintrc'))
         .pipe(glp.jshint.reporter('jshint-stylish'))
         .pipe(glp.jshint.reporter('fail'));
@@ -433,7 +425,7 @@ gulp.task('jshint', () => {
 
 // beautify entire code (tweak in .jsbeautifyrc)
 gulp.task('jsbeautifier', () => {
-    return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', '*.js', '*.json'], {
+    return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/*.js', '*.js', '*.json'], {
             base: './'
         })
         .pipe(glp.jsbeautifier({
@@ -461,6 +453,14 @@ gulp.task('clean:css',
 // travis tests
 gulp.task('test', (callback) => {
     runSequence('jshint', 'injectgit', 'css', callback);
+});
+
+gulp.task('yarn', function() {
+    return gulp.src(['./package.json', './yarn.lock'])
+        .pipe(gulp.dest('./dist'))
+        .pipe(yarn({
+            production: true
+        }));
 });
 
 //TODO:
