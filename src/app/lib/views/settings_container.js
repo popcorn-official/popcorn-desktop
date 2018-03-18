@@ -243,7 +243,6 @@
             case 'opensubtitlesAutoUpload':
             case 'subtitles_bold':
             case 'rememberFilters':
-            case 'autoSeed':
                 value = field.is(':checked');
                 break;
             case 'httpApiUsername':
@@ -294,13 +293,6 @@
 
         syncSetting: function (setting, value) {
             switch (setting) {
-            case 'autoSeed':
-                if (value) {
-                    App.vent.trigger('seed:start');
-                } else {
-                    App.vent.trigger('seed:stop');
-                }
-                break;
             case 'coversShowRating':
                 if (value) {
                     $('.rating').show();
