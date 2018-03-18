@@ -84,24 +84,24 @@
     "webtorrent-health": "1.x.x"
   },
   "devDependencies": {
-    "bower": "^1.7.9",
-    "del": "^2.2.0",
-    "jshint": "^2.9.1",
-    "jshint-stylish": "^2.1.0",
+    "bower": "^1.8.2",
+    "del": "^3.x.x",
+    "jshint": "^2.9.5",
+    "jshint-stylish": "^2.2.1",
     "git-rev": "^0.2.1",
     "gulp": "^3.9.1",
-    "gulp-stylus": "^2.3.1",
-    "gulp-tar": "^1.8.0",
-    "gulp-gzip": "^1.2.0",
+    "gulp-stylus": "^2.7.0",
+    "gulp-tar": "^2.1.0",
+    "gulp-gzip": "^1.4.2",
     "gulp-jshint": "^2.0.0",
     "gulp-jsbeautifier": "^2.0.3",
-    "gulp-filter": "^4.0.0",
-    "gulp-load-plugins": "^1.2.0",
+    "gulp-filter": "^5.1.0",
+    "gulp-load-plugins": "^1.5.0",
     "guppy-pre-commit": "^0.4.0",
-    "nib": "^1.1.0",
-    "nw-builder": "^3.1.2",
-    "run-sequence": "^1.1.5",
-    "stylus": "^0.54.2",
-    "yargs": "^6.4.0"
+    "nib": "^1.1.2",
+    "nw-builder": "^3.5.1",
+    "run-sequence": "^2.2.1",
+    "stylus": "^0.54.5",
+    "yargs": "^11.0.0"
   }
 }
