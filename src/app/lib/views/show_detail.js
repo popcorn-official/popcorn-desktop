@@ -7,7 +7,7 @@
     torrentHealthRestarted = null;
 
     var _this, bookmarked;
-    var ShowDetail = Backbone.Marionette.ItemView.extend({
+    var ShowDetail = Marionette.View.extend({
         template: '#show-detail-tpl',
         className: 'shows-container-contain',
 
@@ -127,7 +127,7 @@
 
         unbindKeyboardShortcuts: Mousetrap.reset,
 
-        onShow: function () {
+        onAttach: function () {
             bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
 
             if (bookmarked) {
@@ -835,7 +835,7 @@
             }
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             this.unbindKeyboardShortcuts();
         }
 

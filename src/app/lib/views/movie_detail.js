@@ -5,7 +5,7 @@
     cancelTorrentHealth = function () {},
     torrentHealthRestarted = null;
 
-    App.View.MovieDetail = Backbone.Marionette.ItemView.extend({
+    App.View.MovieDetail = Marionette.View.extend({
         template: '#movie-detail-tpl',
         className: 'movie-detail',
 
@@ -54,7 +54,7 @@
             this.model.on('change:quality', this.resetHealth(), this);
         },
 
-        onShow: function () {
+        onAttach: function () {
             win.info('Show movie detail (' + this.model.get('imdb_id') + ')');
             var self = this;
             this.handleAnime();
@@ -163,7 +163,7 @@
             $('.dot').css('opacity', 0);
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             this.unbindKeyboardShortcuts();
         },
 

@@ -57,7 +57,9 @@ if (nw.App.fullArgv.indexOf('--reset') !== -1) {
 
 
 // Global App skeleton for backbone
-var App = new Backbone.Marionette.Application();
+var App = new Marionette.Application({
+    region: '.main-window-region'
+});
 _.extend(App, {
     Controller: {},
     View: {},
@@ -67,6 +69,9 @@ _.extend(App, {
     Providers: {},
     Localization: {}
 });
+
+// Create old v2 style vent
+App.vent = Backbone.Radio.channel('v2-vent');
 
 // set database
 App.db = Database;
@@ -79,10 +84,6 @@ fs.readFile('./.git.json', 'utf8', function (err, json) {
     if (!err) {
         App.git = JSON.parse(json);
     }
-});
-
-App.addRegions({
-    Window: '.main-window-region'
 });
 
 // Menu for mac
@@ -100,7 +101,7 @@ if (os.platform() === 'darwin') {
 //Keeps a list of stacked views
 App.ViewStack = [];
 
-App.addInitializer(function (options) {
+App.onBeforeStart = function (options) {
     // this is the 'do things with resolutions and size initializer
     var zoom = 0;
 
@@ -147,7 +148,7 @@ App.addInitializer(function (options) {
     win.zoomLevel = zoom;
     win.resizeTo(width, height);
     win.moveTo(x, y);
-});
+};
 
 var initTemplates = function () {
     // Load in external templates
@@ -170,16 +171,16 @@ var initApp = function () {
     win.show();
 
     try {
-        App.Window.show(mainWindow);
+        App.showView(mainWindow);
     } catch (e) {
         console.error('Couldn\'t start app: ', e, e.stack);
     }
 };
 
-App.addInitializer(function (options) {
+App.onStart = function (options) {
     initTemplates()
         .then(initApp);
-});
+};
 
 var deleteFolder = function (path) {
     rimraf(path, function () {});

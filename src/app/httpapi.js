@@ -149,13 +149,13 @@
                     butterCallback(callback, 'Arguments missing');
                 }
 
-                App.Window.currentView.Content.currentView.ItemList.currentView.selectIndex(index);
+                App.getView().Content.currentView.ItemList.currentView.selectIndex(index);
 
                 butterCallback(callback);
             });
 
             server.expose('getselection', function (args, opt, callback) {
-                var movieView = App.Window.currentView.MovieDetail.currentView;
+                var movieView = App.getView().MovieDetail.currentView;
                 if (movieView === undefined || movieView.model === undefined) {
                     var index = $('.item.selected').index();
                     if (args.length > 0) {
@@ -165,7 +165,7 @@
                             index = 0;
                         }
                     }
-                    var result = App.Window.currentView.Content.currentView.ItemList.currentView.collection.models[index];
+                    var result = App.getView().Content.currentView.ItemList.currentView.collection.models[index];
                     if (result === undefined) {
                         butterCallback(callback, 'Index not found');
                     }
@@ -252,7 +252,7 @@
             });
 
             server.expose('getcurrentlist', function (args, opt, callback) {
-                var collection = App.Window.currentView.Content.currentView.ItemList.currentView.collection;
+                var collection = App.getView().Content.currentView.ItemList.currentView.collection;
                 var result = collection.models;
                 var page = 0;
                 if (args.length > 0) {
@@ -267,7 +267,7 @@
                                     'type': result[0].get('type'),
                                     'list': result,
                                     'page': page,
-                                    'max_page': App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page
+                                    'max_page': App.getView().Content.currentView.ItemList.currentView.collection.filter.page
                                 });
                             } else {
                                 collection.fetchMore();
@@ -280,11 +280,11 @@
                             'type': result[0].get('type'),
                             'list': result,
                             'page': page,
-                            'max_page': App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page
+                            'max_page': App.getView().Content.currentView.ItemList.currentView.collection.filter.page
                         });
                     }
                 } else {
-                    page = App.Window.currentView.Content.currentView.ItemList.currentView.collection.filter.page;
+                    page = App.getView().Content.currentView.ItemList.currentView.collection.filter.page;
                     butterCallback(callback, false, {
                         'type': result[0].get('type'),
                         'list': result,
@@ -391,7 +391,7 @@
                     return;
                 }
 
-                var movieView = App.Window.currentView.MovieDetail.currentView;
+                var movieView = App.getView().MovieDetail.currentView;
                 if (movieView === undefined || movieView.model === undefined || movieView.model.type === 'movie') {
                     butterCallback(callback, 'View not open');
                     return;
