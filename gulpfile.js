@@ -211,7 +211,7 @@ gulp.task('default', () => {
 gulp.task('nwjs', () => {
     return parseReqDeps().then((requiredDeps) => {
         // required files
-        nw.options.files = ['./src/**', '!./src/app/styl/**', './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt', './.git.json'];
+        nw.options.files = ['./src/**', '!./src/app/styl/**', './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt', './.git.json', './src/vendor/**/build/**'];
         // add node_modules
         nw.options.files = nw.options.files.concat(requiredDeps);
         // remove junk files
