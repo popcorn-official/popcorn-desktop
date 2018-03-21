@@ -7,15 +7,15 @@ cache:
 # Install scripts. (runs after repo cloning)
 install:
   # install modules
+  - yarn config set yarn-offline-mirror ./node_modules/
   - yarn install --ignore-engines
-  - gulp build
+  - yarn build
 
 # Post-install test scripts.
 test_script:
   # Output useful info for debugging.
   - node --version
   - yarn --version
-  - gulp --version
 
 artifacts:
   - path: build\

@@ -35,3 +35,4 @@ lib-cov
 *.gz
 *.iml
 yarn.lock
+/dist/

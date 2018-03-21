@@ -199,6 +199,18 @@ gulp.task('default', () => {
 // download and compile nwjs
 gulp.task('nwjs', () => {
     return parseReqDeps().then((requiredDeps) => {
+        gulp.src(['./node_modules/backbone/**/*']).pipe(gulp.dest('./src/app/vendor/backbone/'));
+    	gulp.src(['./node_modules/videojs-youtube/**/*']).pipe(gulp.dest('./src/app/vendor/videojs-youtube/'));
+    	gulp.src(['./node_modules/backbone.wreqr/**/*']).pipe(gulp.dest('./src/app/vendor/backbone.wreqr/'));
+    	gulp.src(['./node_modules/backbone.babysitter/**/*']).pipe(gulp.dest('./src/app/vendor/backbone.babysitter'));
+    	gulp.src(['./node_modules/marionette/**/*']).pipe(gulp.dest('./src/app/vendor/marionette/'));
+    	gulp.src(['./node_modules/jquery/**/*']).pipe(gulp.dest('./src/app/vendor/jquery/'));
+    	gulp.src(['./node_modules/mousetrap/**/*']).pipe(gulp.dest('./src/app/vendor/mousetrap/'));
+    	gulp.src(['./node_modules/font-awesome/**/*']).pipe(gulp.dest('./src/app/vendor/font-awesome/'));
+    	gulp.src(['./node_modules/video.js/**/*']).pipe(gulp.dest('./src/app/vendor/video.js/'));
+    	gulp.src(['./node_modules/bootstrap/**/*']).pipe(gulp.dest('./src/app/vendor/bootstrap/'));
+    	gulp.src(['./node_modules/underscore/**/*']).pipe(gulp.dest('./src/app/vendor/underscore/'));
+    	console.log('Vendors copied');
         // required files
         nw.options.files = ['./src/**', '!./src/app/styl/**', './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt', './.git.json'];
         // add node_modules
@@ -233,6 +245,7 @@ gulp.task('injectgit', () => {
         console.log(error);
         console.log('Injectgit task failed');
     });
+    
 });
 
 // compile styl files
@@ -417,7 +430,7 @@ gulp.task('pre-commit', ['jshint']);
 
 // check entire sources for potential coding issues (tweak in .jshintrc)
 gulp.task('jshint', () => {
-    return gulp.src(['gulpfile.js', 'src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/vendor/*', 'src/app/*.js'])
+    return gulp.src(['gulpfile.js', 'src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/vendor/*.js', 'src/app/*.js'])
         .pipe(glp.jshint('.jshintrc'))
         .pipe(glp.jshint.reporter('jshint-stylish'))
         .pipe(glp.jshint.reporter('fail'));
