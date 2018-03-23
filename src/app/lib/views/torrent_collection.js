@@ -245,42 +245,6 @@
                 });
             };
 
-            var extratorrent = function () {
-                return new Promise(function (resolve) {
-                    var results1 = [];
-                    setTimeout(function () {
-                        resolve(results1);
-                    }, 2500);
-                    var extra = new torrentCollection.ExtraTorrentAPI();
-                    extra.search({
-                        with_words: input.toLocaleLowerCase(),
-                        category: category.toLocaleLowerCase()
-                    }).then(function(data) {
-                        console.debug('ExtraTorrent search: %s results', data.results.length);
-                        data.results.forEach(function (item) {
-                            var itemModel = {
-                              title: item.title,
-                              magnet: item.magnet,
-                              seeds: item.seeds,
-                              peers: item.peers,
-                              size: item.size,
-                              index: index
-                            };
-
-                            if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
-                                return;
-                            }
-                            results1.push(itemModel);
-                            index++;
-                        });
-                        resolve(results1);
-                    }).catch(function (err) {
-                        console.error('extratorrent search:', err);
-                        resolve(results1);
-                    });
-                });
-            };
-
             var removeDupes = function (arr) {
                 var found = [];
                 var unique = [];
@@ -315,7 +279,6 @@
                 rarbg(),
                 leetx(),
                 piratebay(),
-                extratorrent(),
                 cpasbien()
             ]).then(function (results) {
                 var items = sortBySeeds(removeDupes(results));
