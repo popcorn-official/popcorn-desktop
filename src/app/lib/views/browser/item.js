@@ -499,10 +499,12 @@
             var wantedStat;
             
             wantedStat=Database.toggleItemToNotWanted(that.model.get('imdb_id'),this.model.get('type'));
-            if(wantedStat=='added'){
+            if(wantedStat==='added'){
             	that.ui.hideIcon.addClass('selected');
-            }else
+            }
+            else{
             	that.ui.hideIcon.removeClass('selected');
+            }
         }
 
     });

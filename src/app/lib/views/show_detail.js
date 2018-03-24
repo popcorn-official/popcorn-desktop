@@ -5,7 +5,7 @@
     var cancelTorrentHealth = function () {};
     var torrentHealthRestarted = null;
 
-    var _this, bookmarked;
+    var _this, bookmarked, hide;
     var ShowDetail = Backbone.Marionette.ItemView.extend({
         template: '#show-detail-tpl',
         className: 'shows-container-contain',
