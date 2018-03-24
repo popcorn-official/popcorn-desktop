@@ -14,5 +14,6 @@ after_build:
   - move build\Popcorn-Time-0.3.10_win64.tar.gz .
 
 artifacts:
-  - path: Popcorn-Time-0.3.10_win64.tar.gz
+  - path: *.tar.gz
+    name: PopcornTime
 
