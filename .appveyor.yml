@@ -9,7 +9,8 @@ install:
   # install modules
   - yarn config set yarn-offline-mirror ./node_modules/
   - yarn install --ignore-engines
-  - yarn build compress
+  - yarn build 
+  - yarn gulp compress
   - dir build\
 
 # Post-install test scripts.
