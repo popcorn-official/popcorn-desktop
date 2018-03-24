@@ -18,7 +18,5 @@ test_script:
   - node --version
   - yarn --version
 
-artifacts:
-  - path: build\Popcorn-Time-0.3.10_win64.tar.gz
-    name: Popcorn-Time31
+
 
