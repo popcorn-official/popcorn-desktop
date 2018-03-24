@@ -25,7 +25,7 @@ const gulp = require('gulp'),
     nib = require('nib'),
     git = require('git-rev'),
 
-    fs = require('fs'),
+    fs = require('fs-extra'),
     path = require('path'),
     exec = require('child_process').exec,
     spawn = require('child_process').spawn,
@@ -70,7 +70,6 @@ const parseReqDeps = () => {
         npmList = npmList.map((line) => {
             return './node_modules/'+line.replace(process.cwd(), '.') + '/**';
         });
-        
         // return
         resolve(npmList);
     });
@@ -198,21 +197,19 @@ gulp.task('default', () => {
 // download and compile nwjs
 gulp.task('nwjs', () => {
     return parseReqDeps().then((requiredDeps) => {
-        gulp.src(['./node_modules/backbone/**/*']).pipe(gulp.dest('./src/app/vendor/backbone/'));
-    	gulp.src(['./node_modules/videojs-youtube/**/*']).pipe(gulp.dest('./src/app/vendor/videojs-youtube/'));
-    	gulp.src(['./node_modules/backbone.wreqr/**/*']).pipe(gulp.dest('./src/app/vendor/backbone.wreqr/'));
-    	gulp.src(['./node_modules/backbone.babysitter/**/*']).pipe(gulp.dest('./src/app/vendor/backbone.babysitter/'));
-    	gulp.src(['./node_modules/backbone.marionette/**/*']).pipe(gulp.dest('./src/app/vendor/backbone.marionette/'));
-    	gulp.src(['./node_modules/jquery/**/*']).pipe(gulp.dest('./src/app/vendor/jquery/'));
-    	gulp.src(['./node_modules/mousetrap/**/*']).pipe(gulp.dest('./src/app/vendor/mousetrap/'));
-    	gulp.src(['./node_modules/font-awesome/**/*']).pipe(gulp.dest('./src/app/vendor/font-awesome/'));
-    	gulp.src(['./node_modules/video.js/**/*']).pipe(gulp.dest('./src/app/vendor/video.js/'));
-    	gulp.src(['./node_modules/bootstrap/**/*']).pipe(gulp.dest('./src/app/vendor/bootstrap/'));
-    	gulp.src(['./node_modules/underscore/**/*']).pipe(gulp.dest('./src/app/vendor/underscore/'));
+    	fs.copySync('./node_modules/backbone/','./src/app/vendor/backbone/');
+    	fs.copySync('./node_modules/videojs-youtube/','./src/app/vendor/videojs-youtube/');
+    	fs.copySync('./node_modules/backbone.wreqr/','./src/app/vendor/backbone.wreqr/');
+    	fs.copySync('./node_modules/backbone.babysitter/','./src/app/vendor/backbone.babysitter/');
+    	fs.copySync('./node_modules/backbone.marionette/','./src/app/vendor/backbone.marionette/');
+    	fs.copySync('./node_modules/jquery/','./src/app/vendor/jquery/');
+    	fs.copySync('./node_modules/mousetrap/','./src/app/vendor/mousetrap/');
+    	fs.copySync('./node_modules/font-awesome/','./src/app/vendor/font-awesome/');
+    	fs.copySync('./node_modules/video.js/','./src/app/vendor/video.js/');
+    	fs.copySync('./node_modules/bootstrap/','./src/app/vendor/bootstrap/');
+    	fs.copySync('./node_modules/underscore/','./src/app/vendor/underscore/');
     	console.log('Vendors copied');
-    	var vendors = fs.readdirSync('./src/app/vendor');
-        console.log(vendors);
-    	
+        
         // required files
         nw.options.files = ['./src/**', '!./src/app/styl/**', './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt', './.git.json'];
         // add node_modules
