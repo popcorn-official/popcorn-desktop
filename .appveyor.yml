@@ -1,3 +1,7 @@
+skip_commits:
+  files:
+    - .travis.yml
+    
 environment:
   matrix:
     - nodejs_version: STABLE
@@ -23,4 +27,5 @@ deploy:
     secure: wKYGmYxyZoGANT1qraz3HzsUN9tiYx9pvF3KpILJZ/UQtC+EC5XHsnxKNtCjDUhb # your encrypted token from GitHub
   artifact: /.*\.tar.gz/
   on:
+    branch: master
     appveyor_repo_tag: false      
