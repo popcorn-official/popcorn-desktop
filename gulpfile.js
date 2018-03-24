@@ -203,7 +203,7 @@ gulp.task('nwjs', () => {
     	gulp.src(['./node_modules/videojs-youtube/**/*']).pipe(gulp.dest('./src/app/vendor/videojs-youtube/'));
     	gulp.src(['./node_modules/backbone.wreqr/**/*']).pipe(gulp.dest('./src/app/vendor/backbone.wreqr/'));
     	gulp.src(['./node_modules/backbone.babysitter/**/*']).pipe(gulp.dest('./src/app/vendor/backbone.babysitter'));
-    	gulp.src(['./node_modules/marionette/**/*']).pipe(gulp.dest('./src/app/vendor/marionette/'));
+    	gulp.src(['./node_modules/backbone.marionette/**/*']).pipe(gulp.dest('./src/app/vendor/backbone.marionette/'));
     	gulp.src(['./node_modules/jquery/**/*']).pipe(gulp.dest('./src/app/vendor/jquery/'));
     	gulp.src(['./node_modules/mousetrap/**/*']).pipe(gulp.dest('./src/app/vendor/mousetrap/'));
     	gulp.src(['./node_modules/font-awesome/**/*']).pipe(gulp.dest('./src/app/vendor/font-awesome/'));
