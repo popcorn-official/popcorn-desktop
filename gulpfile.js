@@ -372,12 +372,6 @@ gulp.task('deb', () => {
 gulp.task('compress', () => {
     return Promise.all(nw.options.platforms.map((platform) => {
 
-        // don't package win, use nsis
-        if (platform.indexOf('win') !== -1) {
-            console.log('No `compress` task for:', platform);
-            return null;
-        }
-
         return new Promise((resolve, reject) => {
             console.log('Packaging tar for: %s', platform);
 
