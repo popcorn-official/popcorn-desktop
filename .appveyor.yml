@@ -11,12 +11,14 @@ install:
   - yarn install --ignore-engines
   - yarn build 
   - yarn gulp compress
-  - dir build\
+  - move build\Popcorn-Time-0.3.10_win64.tar.gz .
 
 # Post-install test scripts.
 test_script:
   - node --version
   - yarn --version
 
-
+artifacts:
+  - path: Popcorn-Time-0.3.10_win64.tar.gz
+    name: Popcorn-Time31
 
