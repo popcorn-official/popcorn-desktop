@@ -113,7 +113,6 @@ const nw = new nwBuilder({
     macIcns: './src/app/images/butter.icns',
     version: nwVersion,
     flavor: nwFlavor,
-//    downloadUrl: 'https://get.popcorntime.sh/repo/nw/',
     downloadUrl: 'https://dl.nwjs.io/',
     platforms: parsePlatforms()
 }).on('log', console.log);

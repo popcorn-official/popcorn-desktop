@@ -9,7 +9,7 @@ install:
   # install modules
   - yarn config set yarn-offline-mirror ./node_modules/
   - yarn install --ignore-engines
-  - yarn build
+  - yarn build compress
 
 # Post-install test scripts.
 test_script:
@@ -17,7 +17,7 @@ test_script:
   - yarn --version
 
 artifacts:
-  - path: build\
+  - path: build\*.zip
     name: Popcorn-Time
 
 deploy:
