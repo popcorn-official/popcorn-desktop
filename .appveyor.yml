@@ -20,8 +20,5 @@ test_script:
 
 artifacts:
   - path: build\Popcorn-Time-0.3.10_win64.tar.gz
-    name: Popcorn-Time-{version}
+    name: Popcorn-Time31
 
-deploy:
-- provider: Environment
-  name: Staging
