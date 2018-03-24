@@ -4,16 +4,15 @@ environment:
 cache:
   - node_modules -> package.json
 
-before_build:
+build_script:
   - yarn config set yarn-offline-mirror ./node_modules/
   - yarn install --ignore-engines
   - yarn build 
 
 after_build:
   - yarn gulp compress
-  - move build\Popcorn-Time-0.3.10_win64.tar.gz .
 
 artifacts:
-  - path: *.tar.gz
+  - path: build\*.tar.gz
     name: PopcornTime
 
