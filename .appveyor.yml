@@ -4,22 +4,17 @@ environment:
 cache:
   - node_modules -> package.json
 
-# Install scripts. (runs after repo cloning)
-install:
-  # install modules
+build_script:
   - yarn config set yarn-offline-mirror ./node_modules/
   - yarn install --ignore-engines
   - yarn build 
-  - yarn gulp compress
-  - move build\Popcorn-Time-0.3.10_win64.tar.gz .
 
-# Post-install test scripts.
-test_script:
-  - node --version
-  - yarn --version
+after_build:
+  - yarn gulp compress
 
 artifacts:
-  - path: Popcorn-Time-0.3.10_win64.tar.gz
+  - path: build\*.tar.gz
+    name: PopcornTime
 
 deploy:
   description: 'Windows Release'
