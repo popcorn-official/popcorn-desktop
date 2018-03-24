@@ -21,3 +21,11 @@ test_script:
 artifacts:
   - path: Popcorn-Time-0.3.10_win64.tar.gz
 
+deploy:
+  description: 'Windows Release'
+  provider: GitHub
+  auth_token:
+    secure: wKYGmYxyZoGANT1qraz3HzsUN9tiYx9pvF3KpILJZ/UQtC+EC5XHsnxKNtCjDUhb # your encrypted token from GitHub
+  artifact: /.*\.tar.gz/
+  on:
+    appveyor_repo_tag: false      
