@@ -19,8 +19,8 @@ test_script:
   - yarn --version
 
 artifacts:
-  - path: build\*.zip
-    name: Popcorn-Time
+  - path: build\Popcorn-Time-0.3.10_win64.tar.gz
+    name: Popcorn-Time-{version}
 
 deploy:
 - provider: Environment
