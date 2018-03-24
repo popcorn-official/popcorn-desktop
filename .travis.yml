@@ -1,34 +1,25 @@
 language: node_js
-
 node_js:
-  - stable
-
+- stable
 cache:
   yarn: true
   directories:
-    - node_modules
-    
+  - node_modules
 before_install:
-  - pwd 
-  - yarn config set yarn-offline-mirror ./node_modules/
-  - yarn install --ignore-engines
-  - yarn build 
-
+- pwd
+- yarn config set yarn-offline-mirror ./node_modules/
+- yarn install --ignore-engines
+- yarn build
 after_build:
-  - yarn gulp compress
-
-artifacts:
-  - path: build\*.tar.gz
-    name: PopcornTime
+- yarn gulp compress
 
 deploy:
-  description: 'Linux Release'
-  provider: GitHub
-  auth_token:
-    secure: wKYGmYxyZoGANT1qraz3HzsUN9tiYx9pvF3KpILJZ/UQtC+EC5XHsnxKNtCjDUhb # your encrypted token from GitHub
-  artifact: /.*\.tar.gz/
+  provider: releases
+  file: build/Popcorn-Time-0.3.10_linux64.tar.xz
+  skip_cleanup: true
   on:
-    appveyor_repo_tag: false
-
+    tags: false
+  api-key:
+    secure: IxNjbYB5ptBG6yvdTVV5otXxOYUO6L31VRxHAL/3A939MukMM6GUBlr0jcJ2mWzxvhHoo90r3RWT/81qCPH0Mf7oDCWthwuAsX1RtOVC7LinbEeLEX4Lp/To0kC2gn0dBwXSJhakkQZ4alZywRxLzV+TxiF/HYlOLuF+6ZZ5mtv6vNIylxkmaQy/KHV43LYLw7weEHafj3TSpLsKFZw0/Rqw/rKKWCMzMY750HmN0rNb54Hbu9+5zVdNpnfa4ovmdTiB7aOjrr2/Z8LVYdw9+MTipwpYq4Kb2syYjkZiduUshI+ttsyw6T5Hgg0hrAnW3pVZ+HLnxQUw75BnUOoF3rFFEdLA3tGQ1BGf2zRoN10JQae/hBAvagY5Y+55m02IUE1qnOCJ6vrAfMb2a1i4Eu+JUCViMw/ITKEYnGkHWyvZ1uhT3M8WqEUAZWCnNlRz2+UjZD4dXOwQwvYzBG5smDW2H1/Z0XRUJjCGU+G5Gvol4qa7Dsb97d6ezQvtqs//DI80Af0IgQawiBVwMboLlgqUCra6+1WqlwzVk22OznkBR3zJDTqJwNkBrXhzmpy6/y2MiqcsctgMsJHClHHy4CD3PK4LplO1IHs0Ix/QZEN6gBUN3vsJsgZjhUuiPD8p0rsnxeCC8XF7GnhJOnnh6RpzF7ZOs1FjcQ+iEixgMGY=
 notifications:
   email: false

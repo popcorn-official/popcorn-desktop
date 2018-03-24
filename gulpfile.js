@@ -201,7 +201,7 @@ gulp.task('nwjs', () => {
         gulp.src(['./node_modules/backbone/**/*']).pipe(gulp.dest('./src/app/vendor/backbone/'));
     	gulp.src(['./node_modules/videojs-youtube/**/*']).pipe(gulp.dest('./src/app/vendor/videojs-youtube/'));
     	gulp.src(['./node_modules/backbone.wreqr/**/*']).pipe(gulp.dest('./src/app/vendor/backbone.wreqr/'));
-    	gulp.src(['./node_modules/backbone.babysitter/**/*']).pipe(gulp.dest('./src/app/vendor/backbone.babysitter'));
+    	gulp.src(['./node_modules/backbone.babysitter/**/*']).pipe(gulp.dest('./src/app/vendor/backbone.babysitter/'));
     	gulp.src(['./node_modules/backbone.marionette/**/*']).pipe(gulp.dest('./src/app/vendor/backbone.marionette/'));
     	gulp.src(['./node_modules/jquery/**/*']).pipe(gulp.dest('./src/app/vendor/jquery/'));
     	gulp.src(['./node_modules/mousetrap/**/*']).pipe(gulp.dest('./src/app/vendor/mousetrap/'));
@@ -210,13 +210,17 @@ gulp.task('nwjs', () => {
     	gulp.src(['./node_modules/bootstrap/**/*']).pipe(gulp.dest('./src/app/vendor/bootstrap/'));
     	gulp.src(['./node_modules/underscore/**/*']).pipe(gulp.dest('./src/app/vendor/underscore/'));
     	console.log('Vendors copied');
+    	var vendors = fs.readdirSync('./src/app/vendor');
+        console.log(vendors);
+    	
         // required files
         nw.options.files = ['./src/**', '!./src/app/styl/**', './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt', './.git.json'];
         // add node_modules
         nw.options.files = nw.options.files.concat(requiredDeps);
         // remove junk files
-        nw.options.files = nw.options.files.concat(['!./node_modules/**/*.bin', '!./node_modules/**/*.c', '!./node_modules/**/*.h', '!./node_modules/**/Makefile', '!./node_modules/**/*.h', '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**']);
-
+        nw.options.files = nw.options.files.concat(['!./node_modules/**/*.bin', '!./node_modules/**/*.c', '!./node_modules/**/*.h', 
+        	'!./node_modules/**/Makefile', '!./node_modules/**/*.h', '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**']);
+        
         return nw.build();
     }).catch(function (error) {
         console.error(error);
