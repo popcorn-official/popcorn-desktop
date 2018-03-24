@@ -10,6 +10,7 @@ install:
   - yarn config set yarn-offline-mirror ./node_modules/
   - yarn install --ignore-engines
   - yarn build compress
+  - dir build\
 
 # Post-install test scripts.
 test_script:
