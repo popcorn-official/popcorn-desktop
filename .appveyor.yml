@@ -20,5 +20,4 @@ test_script:
 
 artifacts:
   - path: Popcorn-Time-0.3.10_win64.tar.gz
-    name: Popcorn-Time31
 
