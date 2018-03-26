@@ -1,4 +1,8 @@
 branches:
+  except:
+    - development
+    
+branches:
   only:
   - master
 

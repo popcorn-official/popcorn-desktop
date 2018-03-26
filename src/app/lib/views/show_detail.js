@@ -37,6 +37,7 @@
             'click .q480': 'toggleShowQuality',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .shmi-rating': 'switchRating',
+            'click .watched-toggle': 'toggleWatched',
             'click .health-icon': 'resetHealth'
         },
 

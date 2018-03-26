@@ -256,6 +256,8 @@
                 var Type = type.charAt(0).toUpperCase() + type.slice(1);
                 this.model.set('health', false);
                 $('.spinner').show();
+                console.log(this.model.get('imdb_id'));
+                console.log(this.model.attributes);
                 data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
                     .then(function (data) {
                         console.log(data, Type);

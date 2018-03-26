@@ -20,16 +20,6 @@
 
         Q.all(promises)
             .spread(function (torrents, subtitles, metadatas) {
-
-            	var results=torrents.results;
-                App.notWanted.forEach(function(doc){
-               	for (var i = results.length - 1; i >= 0; --i) {
-     				  if (results[i].imdb_id === doc) {
-     				    results.splice(i, 1); 
-     				  }
-     				}
-               });
-            	
                 win.debug('post all', torrents, subtitles, metadatas);
 
                 // If a new request was started...
@@ -42,8 +32,8 @@
                     m.id = m.ids.imdb;
                     return m;
                 });
-                
-                _.each(results, function (movie) {
+
+                _.each(torrents.results, function (movie) {
                     var id = movie[self.popid];
                     /* XXX(xaiki): check if we already have this
                      * torrent if we do merge our torrents with the
@@ -127,7 +117,24 @@
                 var torrentPromises = _.map(torrents, function (torrentProvider) {
                     return getDataFromProvider(torrentProvider, subtitle, metadata, self)
                         .then(function (torrents) {
-                            self.add(torrents.results);
+                            var results = torrents.results;
+                            App.notWanted.forEach(function (doc) {
+                                for (var i = results.length - 1; i >= 0; --i) {
+                                    if (results[i].imdb_id === doc) {
+                                        results.splice(i, 1);
+                                    }
+                                }
+                            });
+                            
+                            /*for (var i = results.length - 1; i >= 0; --i) {
+                                Database.getEpisodesWatched(results[i].tvdb_id).then(function(data){
+                                    
+                                });
+                                if (results[i].imdb_id === doc) {
+                                    results.splice(i, 1);
+                                }
+                            }*/
+                            self.add(results);
                             self.hasMore = true;
                             self.trigger('sync', self);
                         })
