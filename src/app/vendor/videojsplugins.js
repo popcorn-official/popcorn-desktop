@@ -104,7 +104,7 @@ videojs.plugin('customSubtitles', function () {
                 }
             };
 
-            this.fileInput_ = $('<input type="file" accept=".srt, .ssa, .ass, .txt" style="display: none;">');
+            this.fileInput_ = $('<input type="file" accept=".srt, .ssa, .ass, .txt, .smi, .sami" style="display: none;">');
             $(this.el()).append(this.fileInput_);
 
             var that = this;

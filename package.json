@@ -72,6 +72,7 @@
     "sanitizer": "0.x.x",
     "semver": "5.x.x",
     "send": "0.14.x",
+    "subsrt": "^1.0.0",
     "tar": "2.2.1",
     "temp": "0.x.x",
     "trakt.tv": "2.x.x",
