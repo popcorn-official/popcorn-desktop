@@ -140,7 +140,7 @@ vjs.TextTrack.prototype.load = function () {
                 lastBeginTime,
 
                 //input
-                orig = /([^\\]+)$/.exec(file)[1],
+                orig = /([^\\\/]+)$/.exec(file)[1],
                 origPath = file.substr(0, file.indexOf(orig)),
 
                 //output
