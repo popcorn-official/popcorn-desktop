@@ -703,6 +703,18 @@
                     App.vent.trigger('watchlist:list');
                 });
             }, 2000);
+            try {
+                switch (Settings.watchedCovers) {
+                case 'fade':
+                    $('li[data-imdb-id="' + show.imdb_id + '"] .actions-watched').addClass('selected');
+                    $('li[data-imdb-id="' + show.imdb_id + '"]').addClass('watched');
+                    break;
+                case 'hide':
+                    $('li[data-imdb-id="' + show.imdb_id + '"]').remove();
+                    break;
+                }
+                $('.watched-toggle').addClass('selected').text(i18n.__('Seen'));
+            } catch (e) {}
             break;
         case 'seen':
             /* falls through */

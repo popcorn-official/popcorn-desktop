@@ -82,6 +82,7 @@
     "sanitizer": "0.x.x",
     "semver": "^5.5.0",
     "send": "0.14.x",
+    "sync": "^0.2.5",
     "tar": "2.2.1",
     "temp": "0.x.x",
     "torrent-tracker-health": "^1.0.0",

@@ -369,6 +369,7 @@
                             $('.sha-watched').show();
                         }
                     });
+                Database.markEpisodeAsWatched(episode);
             });
         },
 
