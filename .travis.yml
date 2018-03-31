@@ -20,6 +20,7 @@ before_install:
 - yarn build
 after_build:
 - yarn gulp compress
+- find build
 
 deploy:
   provider: releases
