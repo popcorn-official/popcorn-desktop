@@ -10,7 +10,7 @@ cache:
 
 build_script:
   - yarn config set yarn-offline-mirror ./node_modules/
-  - yarn install --ignore-engines
+  - yarn install --ignore-engines --ignore-scripts
   - yarn build 
 
 after_build:
