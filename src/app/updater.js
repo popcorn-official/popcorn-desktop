@@ -1,7 +1,8 @@
 (function (App) {
     'use strict';
 
-    var CHANNELS = ['stable', 'beta', 'nightly'],
+    var client = new WebTorrent(),
+        CHANNELS = ['stable', 'beta', 'nightly'],
         FILENAME = 'package.nw.new',
         VERIFY_PUBKEY = Settings.updateKey;
 
@@ -19,7 +20,7 @@
         var self = this;
 
         this.options = _.defaults(options || {}, {
-            endpoint: AdvSettings.get('updateEndpoint').url + 'update3.json' + '?version=' + App.settings.version + '&nwversion=' + process.versions['node-webkit'],
+            endpoint: AdvSettings.get('updateEndpoint').url + 'updatemagnet.json' + '?version=' + App.settings.version + '&nwversion=' + process.versions['node-webkit'],
             channel: 'beta'
         });
 
@@ -33,11 +34,7 @@
         var self = this;
 
         // Don't update if development or update disabled in Settings
-        if (_.contains(fs.readdirSync('.'), '.git') || !App.settings.automaticUpdating) {
-            win.debug(App.settings.automaticUpdating ? 'Not updating because we are running in a development environment' : 'Automatic updating disabled');
-            defer.resolve(false);
-            return defer.promise;
-        }
+
 
         request(this.options.endpoint, {
             json: true
@@ -77,23 +74,44 @@
                 self.updateData = updateData;
                 return true;
             }
+            if (App.settings.UpdateSeed) {
+              client.add(updateData.updateUrl, { path: os.tmpdir() }, function (torrent) {
+                torrent.on('error', function (err) {
+                    win.debug('ERROR' + err.message);
+                });
+                torrent.on('done', function () {
+                    win.debug('Seeding the Current Update!');
+                });
+              });
 
+            }
             win.debug('Not updating because we are running the latest version');
             return false;
         });
     };
 
-    Updater.prototype.download = function (source, output) {
+    Updater.prototype.download = function (source, outputDir) {
         var defer = Q.defer();
-        var downloadStream = request(source);
-        win.debug('Downloading update... Please allow a few minutes');
-        downloadStream.pipe(fs.createWriteStream(output));
-        downloadStream.on('complete', function () {
-            win.debug('Update downloaded!');
-            defer.resolve(output);
+
+        client.on('error', function (err) {
+          win.debug('ERROR: ' + err.message);
+            defer.reject(err);
         });
+
+        client.add(source, { path: outputDir }, function (torrent) {
+            win.debug('Downloading update... Please allow a few minutes');
+            torrent.on('error', function (err) {
+                win.debug('ERROR' + err.message);
+                defer.reject(err);
+            });
+            torrent.on('done', function () {
+                win.debug('Update downloaded!');
+                defer.resolve(path.join(outputDir, torrent.name));
+            });
+        });
+
         return defer.promise;
-    };
+      };
 
     Updater.prototype.verify = function (source) {
         var defer = Q.defer();
@@ -259,6 +277,15 @@
         return installUnix(downloadPath, outputDir, updateData);
     }
 
+    function alertMessageFailed(errorDesc) {
+        App.vent.trigger('notification:show', new App.Model.Notification({
+            title: i18n.__('Error'),
+            body: errorDesc + '.',
+            type: 'danger',
+            autoclose: true
+        }));
+    }
+
     Updater.prototype.install = function (downloadPath) {
         var os = App.settings.os;
         var promise;
@@ -306,7 +333,10 @@
             return this.download(this.updateData.updateUrl, outputFile)
                 .then(forcedBind(this.verify, this))
                 .then(forcedBind(this.install, this))
-                .then(forcedBind(this.displayNotification, this));
+                .then(forcedBind(this.displayNotification, this))
+                .catch(function(err) {
+                  alertMessageFailed(i18n.__('Something went wrong downloading the update'));
+                });
         } else {
             // Otherwise, check for updates then install if needed!
             var self = this;
@@ -315,7 +345,10 @@
                     return self.download(self.updateData.updateUrl, outputFile)
                         .then(forcedBind(self.verify, self))
                         .then(forcedBind(self.install, self))
-                        .then(forcedBind(self.displayNotification, self));
+                        .then(forcedBind(self.displayNotification, self))
+                        .catch(function(err) {
+                          alertMessageFailed(i18n.__('Something went wrong downloading the update'));
+                        });
                 } else {
                     return false;
                 }

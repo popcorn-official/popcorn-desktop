@@ -18,7 +18,7 @@
             }) : true
         ];
 
-        console.log('pre all', promises);
+        win.debug('pre all', promises);
 
         Q.all(promises)
             .spread(function (torrents, subtitles, metadatas) {
@@ -146,7 +146,7 @@
                  * provider declare a unique id, and then lookthem up in
                  * a hash.
                  */
-                console.log('pre---', subtitle, metadata, torrents);
+                win.debug('pre---', subtitle, metadata, torrents);
 
                 var torrentPromises = _.map(torrents, function (torrentProvider) {
                     return getDataFromProvider(torrentProvider, subtitle, metadata, self)

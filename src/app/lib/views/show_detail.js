@@ -1,9 +1,10 @@
 (function (App) {
     'use strict';
 
-    var torrentHealth = require('torrent-tracker-health');
-    var cancelTorrentHealth = function () {};
-    var torrentHealthRestarted = null;
+    // Torrent Health
+    var torrentHealth = require('webtorrent-health'),
+    cancelTorrentHealth = function () {},
+    torrentHealthRestarted = null;
 
     var _this, bookmarked, hide;
     var ShowDetail = Backbone.Marionette.ItemView.extend({
@@ -102,8 +103,6 @@
                 _.bind(this.onUnWatched, this));
 
             var images = this.model.get('images');
-            images.fanart = App.Trakt.resizeImage(images.fanart);
-            images.poster = App.Trakt.resizeImage(images.poster, 'thumb');
 
             App.vent.on('shortcuts:shows', function () {
                 _this.initKeyboardShortcuts();
@@ -134,17 +133,17 @@
             }
         },
         initKeyboardShortcuts: function () {
-            Mousetrap.bind('q', _this.toggleQuality);
+            Mousetrap.bind('q', _this.toggleQuality, 'keydown');
             Mousetrap.bind('down', _this.nextEpisode);
             Mousetrap.bind('up', _this.previousEpisode);
-            Mousetrap.bind('w', _this.toggleEpisodeWatched);
+            Mousetrap.bind('w', _this.toggleEpisodeWatched, 'keydown');
             Mousetrap.bind(['enter', 'space'], _this.playEpisode);
             Mousetrap.bind(['esc', 'backspace'], _this.closeDetails);
             Mousetrap.bind(['ctrl+up', 'command+up'], _this.previousSeason);
             Mousetrap.bind(['ctrl+down', 'command+down'], _this.nextSeason);
             Mousetrap.bind('f', function () {
                 $('.sha-bookmark').click();
-            });
+            }, 'keydown');
         },
 
         unbindKeyboardShortcuts: Mousetrap.reset,
@@ -804,13 +803,15 @@
                 cancelled = true;
             };
 
-            if (torrent.substring(0, 8) === 'magnet:?') {
-                // if 'magnet:?' is because api sometimes sends back links, not magnets
+            if (torrent) {
                 torrentHealth(torrent, {
-                    timeout: 1000,
+                    timeout: 2000,
                     blacklist: Settings.trackers.blacklisted,
-                    force: Settings.trackers.forced
-                }).then(function (res) {
+                    trackers: Settings.trackers.forced
+                }, function (err, res) {
+                  if (err) {
+                    win.debug(err);
+                  }
                     if (cancelled) {
                         return;
                     }
@@ -835,7 +836,7 @@
                             .tooltip('fixTitle');
                     }
                 });
-            }
+              }
         },
 
         resetHealth: function () {
