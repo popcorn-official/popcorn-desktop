@@ -6,6 +6,8 @@
 
         var torrentsPromise = torrentProvider.fetch(self.filter);
         var idsPromise = torrentsPromise.then(_.bind(torrentProvider.extractIds, torrentProvider));
+        var torResults;
+
         var promises = [
             torrentsPromise,
             subtitle ? idsPromise.then(_.bind(subtitle.fetch, subtitle)) : true,
@@ -16,56 +18,86 @@
             }) : true
         ];
 
-        console.log('pre all', promises);
+        win.debug('pre all', promises);
 
         Q.all(promises)
             .spread(function (torrents, subtitles, metadatas) {
-
                 console.log('post all', torrents, subtitles, metadatas);
+                torResults = torrents.results;
 
-                // If a new request was started...
-                metadatas = _.map(metadatas, function (m) {
-                    if (!m || !m.value || !m.value.ids) {
-                        return {};
-                    }
-
-                    m = m.value;
-                    m.id = m.ids.imdb;
-                    return m;
-                });
-
-                _.each(torrents.results, function (movie) {
-                    var id = movie[self.popid];
-                    /* XXX(xaiki): check if we already have this
-                     * torrent if we do merge our torrents with the
-                     * ones we already have and update.
-                     */
-                    var model = self.get(id);
-                    if (model) {
-                        var ts = model.get('torrents');
-                        _.extend(ts, movie.torrents);
-                        model.set('torrents', ts);
-
-                        return;
-                    }
-                    movie.provider = torrentProvider.name;
-
-                    if (subtitles) {
-                        movie.subtitle = subtitles[id];
-                    }
-
-                    if (metadatas) {
-                        var info = _.findWhere(metadatas, {
-                            id: id
+                Q.allSettled(_.map(torrents.results, function (id) {
+                    if (Settings.watchedCovers === 'hide' && torResults[0].tvdb_id) {
+                        return Database.getEpisodesWatched(id.tvdb_id).then(function (watchedEpisodes) {
+                            return App.Providers.get('TVApi?&apiURL=https://tv-v2.api-fetch.website/,cloudflare+https://tv-v2.api-fetch.website').detail(watchedEpisodes[0].imdb_id, watchedEpisodes[0].imdb_id)
+                                .then(function (show) {
+                                    win.debug(show.title + ' ' + show.episodes.length + ' ' + watchedEpisodes.length);
+                                    if (show.episodes.length <= watchedEpisodes.length) {
+                                        self.watchedShows.push(show);
+                                    }
+                                });
                         });
-
-
                     }
-                });
+                })).then(function (results) {
 
-                return deferred.resolve(torrents);
-            })
-            .catch(function (err) {
+                    App.notWanted.forEach(function (doc) {
+                        for (var i = torResults.length - 1; i >= 0; --i) {
+                            if (torResults[i].imdb_id === doc) {
+                                torResults.splice(i, 1);
+                            }
+                        }
+                    });
+
+                    self.watchedShows.forEach(function (doc) {
+                        for (var i = torResults.length - 1; i >= 0; --i) {
+                            if (torResults[i].imdb_id === doc.imdb_id) {
+                                win.debug('deleted' + torResults[i].title);
+                                torResults.splice(i, 1);
+                            }
+                        }
+                    });
+                    // If a new request was started...
+                    metadatas = _.map(metadatas, function (m) {
+                        if (!m || !m.value || !m.value.ids) {
+                            return {};
+                        }
+
+                        m = m.value;
+                        m.id = m.ids.imdb;
+                        return m;
+                    });
+
+                    _.each(torResults, function (movie) {
+                        var id = movie[self.popid];
+                        /* XXX(xaiki): check if we already have this
+                         * torrent if we do merge our torrents with the
+                         * ones we already have and update.
+                         */
+                        var model = self.get(id);
+                        if (model) {
+                            var ts = model.get('torrents');
+                            _.extend(ts, movie.torrents);
+                            model.set('torrents', ts);
+
+                            return;
+                        }
+                        movie.provider = torrentProvider.name;
+
+                        if (subtitles) {
+                            movie.subtitle = subtitles[id];
+                        }
+
+                        if (metadatas) {
+                            var info = _.findWhere(metadatas, {
+                                id: id
+                            });
+
+
+                        }
+                    });
+
+                    return deferred.resolve(torrents);
+                });
+            }).catch(function (err) {
                 self.state = 'error';
                 self.trigger('loaded', self, self.state);
                 win.error('PopCollection.fetch() : torrentPromises mapping', err);
@@ -78,6 +110,7 @@
         popid: 'imdb_id',
         initialize: function (models, options) {
             this.providers = this.getProviders();
+            this.watchedShows = [];
 
             options = options || {};
             options.filter = options.filter || new App.Model.Filter();
@@ -113,16 +146,18 @@
                  * provider declare a unique id, and then lookthem up in
                  * a hash.
                  */
-                console.log('pre---', subtitle, metadata, torrents);
+                win.debug('pre---', subtitle, metadata, torrents);
 
                 var torrentPromises = _.map(torrents, function (torrentProvider) {
                     return getDataFromProvider(torrentProvider, subtitle, metadata, self)
                         .then(function (torrents) {
-                            self.add(torrents.results);
+                            var results = torrents.results;
+
+
+                            self.add(results);
                             self.hasMore = true;
                             self.trigger('sync', self);
-                        })
-                        .catch(function (err) {
+                        }).catch(function (err) {
                             console.error('provider error err', err);
                         });
                 });

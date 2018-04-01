@@ -86,56 +86,8 @@
             return deferred.promise;
         },
         handlemagnet: function (filePath, torrent) {
-            clearTimeout(safeMagetTID);
-
-            var deferred = Q.defer(),
-                error = false,
-                engine = peerflix(torrent, {
-                    list: true
-                }); // just list files, this won't start the torrent server
-
-            // lets wait max a minute
-            // because engine does not report any error on wrong magnet links
-            /*jshint -W120 */
-            var currentTID = safeMagetTID = setTimeout(function () {
-                engine.destroy();
-                handlers.handleError('TorrentCache.handlemagnet() error: timed out', torrent);
-            }, MAGNET_RESOLVE_TIMEOUT);
-
-
-            var resolve = function () {
-                // maybe somehow new magnet was pasted in while loading this one
-                if (currentTID !== safeMagetTID) {
-                    return;
-                }
-                if (error) {
-                    return handlers.handleError('TorrentCache.handlemagnet() error: ' + error, torrent);
-                }
-                deferred.resolve(filePath);
-            };
-            var destroyEngine = function () {
-                engine.destroy();
-                engine = null;
-            };
-
-            engine.on('ready', function () {
-                var resolvedTorrentPath = engine.path;
-                clearTimeout(currentTID);
-                if (resolvedTorrentPath) {
-                    // copy resolved path to cache so it will be awailable next time
-                    Common.copyFile(resolvedTorrentPath + '.torrent', filePath, function (err) {
-                        if (err) {
-                            error = err;
-                        }
-                        resolve();
-                        destroyEngine();
-                    });
-                } else {
-                    error = 'TorrentCache.handlemagnet() engine returned no file';
-                    destroyEngine();
-                }
-            });
-
+            var deferred = Q.defer();
+            deferred.resolve(torrent);
             return deferred.promise;
         },
         handleSuccess: function (filePath) {

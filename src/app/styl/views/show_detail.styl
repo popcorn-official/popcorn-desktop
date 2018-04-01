@@ -236,6 +236,85 @@
 
                         &:after
                             opacity: 1
+                            
+            .sha-hide
+                float: left
+                cursor: pointer
+                padding-left: 24px
+                color: #FFF
+                position: relative
+                font-family: $MainFont
+                font-smoothing: antialiased
+                font-size: 12px
+                line-height: 17px
+                &:before
+                    content: "\f1f8"
+                    font-family: FontAwesome
+                    position: absolute
+                    font-size: 18px
+                    color: #FFF
+                    top: 0
+                    left: 0
+                    bottom: 0
+                    right: 0
+                    opacity: 1
+                    transition: opacity 0.5s
+
+                &:after
+                    content: "\f1f8"
+                    font-family: FontAwesome
+                    position: absolute
+                    font-size: 18px
+                    color: $ButtonBgActive
+                    top: 0
+                    left: 0
+                    bottom: 0
+                    right: 0
+                    opacity: 0
+                    transition: opacity 0.5s
+
+                &:hover
+                    &:before
+                        opacity: 0
+
+                    &:after
+                        opacity: 1
+
+                &.selected
+                    height: 18px
+                    width: 200px
+                    &:before
+                        content: "\f1f8"
+                        font-family: FontAwesome
+                        position: absolute
+                        font-size: 18px
+                        color: $FavoriteColor
+                        top: 0
+                        left: 0
+                        bottom: 0
+                        right: 0
+                        opacity: 1
+                        transition: opacity 0.5s
+
+                    &:after
+                        content: "\f1f8"
+                        font-family: FontAwesome
+                        position: absolute
+                        font-size: 18px
+                        color: #FFF
+                        top: 0
+                        left: 0
+                        bottom: 0
+                        right: 0
+                        opacity: 0
+                        transition: opacity 0.5s
+
+                    &:hover
+                        &:before
+                            opacity: 0
+
+                        &:after
+                            opacity: 1
 
             .sha-watched
                 float: right

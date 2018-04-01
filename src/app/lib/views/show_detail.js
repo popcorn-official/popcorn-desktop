@@ -1,11 +1,12 @@
 (function (App) {
     'use strict';
 
-    var torrentHealth = require('torrent-tracker-health');
-    var cancelTorrentHealth = function () {};
-    var torrentHealthRestarted = null;
+    // Torrent Health
+    var torrentHealth = require('webtorrent-health'),
+    cancelTorrentHealth = function () {},
+    torrentHealthRestarted = null;
 
-    var _this, bookmarked;
+    var _this, bookmarked, hide;
     var ShowDetail = Backbone.Marionette.ItemView.extend({
         template: '#show-detail-tpl',
         className: 'shows-container-contain',
@@ -16,11 +17,13 @@
             q720p: '#q720',
             q480p: '#q480',
             bookmarkIcon: '.sha-bookmark',
+            hideIcon: '.sha-hide',
             seasonTab: '.sd-seasons'
         },
 
         events: {
             'click .sha-bookmark': 'toggleFavorite',
+            'click .sha-hide': 'toggleHide',
             'click .sha-watched': 'markShowAsWatched',
             'click .watched': 'toggleWatched',
             'click #watch-now': 'startStreaming',
@@ -35,6 +38,7 @@
             'click .q480': 'toggleShowQuality',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .shmi-rating': 'switchRating',
+            'click .watched-toggle': 'toggleWatched',
             'click .health-icon': 'resetHealth'
         },
 
@@ -54,6 +58,24 @@
                 that.model.set('bookmarked', false);
             }
             $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-favorites').click();
+        },
+        
+        toggleHide: function (e) {
+            if (e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            var that = this;
+            if (hide !== true) {
+                hide = true;
+                that.model.set('hide', true);
+                that.ui.hideIcon.addClass('selected').text(i18n.__('Remove from hide'));
+            } else {
+                hide = false;
+                that.ui.hideIcon.removeClass('selected').text(i18n.__('Add to hide'));
+                that.model.set('hide', false);
+            }
+            $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-hides').click();
         },
 
 
@@ -81,8 +103,6 @@
                 _.bind(this.onUnWatched, this));
 
             var images = this.model.get('images');
-            images.fanart = App.Trakt.resizeImage(images.fanart);
-            images.poster = App.Trakt.resizeImage(images.poster, 'thumb');
 
             App.vent.on('shortcuts:shows', function () {
                 _this.initKeyboardShortcuts();
@@ -113,17 +133,17 @@
             }
         },
         initKeyboardShortcuts: function () {
-            Mousetrap.bind('q', _this.toggleQuality);
+            Mousetrap.bind('q', _this.toggleQuality, 'keydown');
             Mousetrap.bind('down', _this.nextEpisode);
             Mousetrap.bind('up', _this.previousEpisode);
-            Mousetrap.bind('w', _this.toggleEpisodeWatched);
+            Mousetrap.bind('w', _this.toggleEpisodeWatched, 'keydown');
             Mousetrap.bind(['enter', 'space'], _this.playEpisode);
             Mousetrap.bind(['esc', 'backspace'], _this.closeDetails);
             Mousetrap.bind(['ctrl+up', 'command+up'], _this.previousSeason);
             Mousetrap.bind(['ctrl+down', 'command+down'], _this.nextSeason);
             Mousetrap.bind('f', function () {
                 $('.sha-bookmark').click();
-            });
+            }, 'keydown');
         },
 
         unbindKeyboardShortcuts: Mousetrap.reset,
@@ -348,6 +368,7 @@
                             $('.sha-watched').show();
                         }
                     });
+                Database.markEpisodeAsWatched(episode);
             });
         },
 
@@ -782,13 +803,15 @@
                 cancelled = true;
             };
 
-            if (torrent.substring(0, 8) === 'magnet:?') {
-                // if 'magnet:?' is because api sometimes sends back links, not magnets
+            if (torrent) {
                 torrentHealth(torrent, {
-                    timeout: 1000,
+                    timeout: 2000,
                     blacklist: Settings.trackers.blacklisted,
-                    force: Settings.trackers.forced
-                }).then(function (res) {
+                    trackers: Settings.trackers.forced
+                }, function (err, res) {
+                  if (err) {
+                    win.debug(err);
+                  }
                     if (cancelled) {
                         return;
                     }
@@ -813,7 +836,7 @@
                             .tooltip('fixTitle');
                     }
                 });
-            }
+              }
         },
 
         resetHealth: function () {

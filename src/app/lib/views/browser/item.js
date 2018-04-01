@@ -20,10 +20,12 @@
             coverImage: '.cover-image',
             cover: '.cover',
             bookmarkIcon: '.actions-favorites',
+            hideIcon: '.actions-hides',
             watchedIcon: '.actions-watched'
         },
         events: {
             'click .actions-favorites': 'toggleFavorite',
+            'click .actions-hides': 'toggleHide',
             'click .actions-watched': 'toggleWatched',
             'click .cover': 'showDetail',
             'mouseover .cover': 'hoverItem'
@@ -41,11 +43,11 @@
             switch (itemtype) {
             case 'bookmarkedshow':
                 watched = App.watchedShows.indexOf(imdb) !== -1;
-                this.model.set('image', App.Trakt.resizeImage(img, 'thumb'));
+                this.model.set('image', img);
                 break;
             case 'show':
                 watched = App.watchedShows.indexOf(imdb) !== -1;
-                images.poster = App.Trakt.resizeImage(img, 'thumb');
+                images.poster = img;
                 break;
             case 'bookmarkedmovie':
             case 'movie':
@@ -57,7 +59,7 @@
             this.model.set('bookmarked', bookmarked);
 
             var date = new Date();
-            var today = ('0' + (date.getMonth() + 　1)).slice(-2) + ('0' + (date.getDate())).slice(-2);
+            var today = ('0' + (date.getMonth() + 1)).slice(-2) + ('0' + (date.getDate())).slice(-2);
             if (today === '0401') { //april's fool
                 var title = this.model.get('title');
                 var titleArray = title.split(' ');
@@ -176,40 +178,28 @@
             this.ui.bookmarkIcon.tooltip({
                 title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from bookmarks') : i18n.__('Add to bookmarks')
             });
+            this.ui.hideIcon.tooltip({
+                title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from hide') : i18n.__('Add to hide')
+            });
 
-            // try to cache cover img
-            this.cacheCover(coverUrl);
-
-            this.ui.coverImage.remove();
-
-        },
-
-        cacheCover: function(coverUrl) {
-
-            var _this = this;
+            var this_ = this;
 
             var coverCache = new Image();
             coverCache.src = coverUrl;
             coverCache.onload = function () {
                 try {
-                    _this.ui.cover.css('background-image', 'url(' + coverUrl + ')').addClass('fadein');
+                    this_.ui.cover.css('background-image', 'url(' + coverUrl + ')').addClass('fadein');
                 } catch (e) {}
                 coverCache = null;
             };
             coverCache.onerror = function () {
-
-                var pattern = /^https:\/\//;
-
-                // if we got an error, try again without https
-                if (pattern.test(coverUrl)) {
-                    return _this.cacheCover(coverUrl.replace(pattern, 'http://'));
-                }
-
                 try {
-                    _this.ui.cover.css('background-image', 'url("images/posterholder.png")').addClass('fadein');
+                    this_.ui.cover.css('background-image', 'url("images/posterholder.png")').addClass('fadein');
                 } catch (e) {}
                 coverCache = null;
             };
+
+            this.ui.coverImage.remove();
 
         },
 
@@ -251,14 +241,16 @@
                 var Type = type.charAt(0).toUpperCase() + type.slice(1);
                 this.model.set('health', false);
                 $('.spinner').show();
+                console.log(this.model.get('imdb_id'));
+                console.log(this.model.attributes);
                 data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
                     .then(function (data) {
-                        console.log(data, Type);
+                        //console.log(data, Type);
                         data.provider = provider.name;
                         $('.spinner').hide();
                         App.vent.trigger(type + ':showDetail', new App.Model[Type](data));
                     }).catch(function (err) {
-                        console.error(err);
+                        win.error(err);
                         $('.spinner').hide();
                         $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                     });
@@ -296,23 +288,17 @@
                     this.$el.remove();
                     break;
                 }
-                Database.markMovieAsWatched({
-                        imdb_id: this.model.get('imdb_id'),
-                        from_browser: true
-                    }, true)
-                    .then(function () {
-                        that.model.set('watched', true);
-                        App.vent.trigger('movie:watched', {
-                            imdb_id: that.model.get('imdb_id')
-                        }, 'seen');
-                    });
-
+                that.model.set('watched', true);
+                App.vent.trigger('movie:watched', {
+                    imdb_id: that.model.get('imdb_id')
+                }, 'seen');
             }
 
             this.ui.watchedIcon.tooltip({
                 title: this.ui.watchedIcon.hasClass('selected') ? i18n.__('Mark as unseen') : i18n.__('Mark as Seen')
             });
         },
+
 
         toggleFavorite: function (e) {
             e.stopPropagation();
@@ -327,7 +313,6 @@
                 Database.deleteBookmark(this.model.get('imdb_id'))
                     .then(function () {
                         win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
-                        App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
                     })
                     .then(function () {
                         return Database.deleteMovie(that.model.get('imdb_id'));
@@ -398,7 +383,6 @@
                                     .then(function () {
                                         win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
                                         that.model.set('bookmarked', true);
-                                        App.userBookmarks.push(that.model.get('imdb_id'));
                                     });
                             });
                     } else {
@@ -427,7 +411,6 @@
                             })
                             .then(function () {
                                 win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
-                                App.userBookmarks.push(that.model.get('imdb_id'));
                                 that.model.set('bookmarked', true);
                             });
                     }
@@ -440,8 +423,6 @@
                     Database.deleteBookmark(this.model.get('imdb_id'))
                         .then(function () {
                             win.info('Bookmark deleted (' + that.model.get('imdb_id') + ')');
-
-                            App.userBookmarks.splice(App.userBookmarks.indexOf(that.model.get('imdb_id')), 1);
 
                             // we'll make sure we dont have a cached show
                             Database.deleteTVShow(that.model.get('imdb_id'));
@@ -467,7 +448,6 @@
                                     win.info('Bookmark added (' + that.model.get('imdb_id') + ')');
                                     that.ui.bookmarkIcon.addClass('selected');
                                     that.model.set('bookmarked', true);
-                                    App.userBookmarks.push(that.model.get('imdb_id'));
                                 }).catch(function (err) {
                                     win.error('promisifyDb()', err);
                                 });
@@ -483,6 +463,23 @@
             this.ui.bookmarkIcon.tooltip({
                 title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from bookmarks') : i18n.__('Add to bookmarks')
             });
+        },
+        
+        toggleHide: function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            var that = this;
+            var provider = App.Providers.get(this.model.get('provider'));
+            var data;
+            var wantedStat;
+            
+            wantedStat=Database.toggleItemToNotWanted(that.model.get('imdb_id'),this.model.get('type'));
+            if(wantedStat==='added'){
+            	that.ui.hideIcon.addClass('selected');
+            }
+            else{
+            	that.ui.hideIcon.removeClass('selected');
+            }
         }
 
     });

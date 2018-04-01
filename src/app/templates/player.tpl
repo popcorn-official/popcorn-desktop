@@ -65,8 +65,9 @@
         });
     }
     subArray.sort(function (sub1, sub2) {
-        return sub1.language > sub2.language;
+        return sub1.languageName.localeCompare(sub2.languageName);
     });
+
     var subtracks = "";
 
     var defaultSub = "none";

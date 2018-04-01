@@ -21,7 +21,7 @@
                 return null;
             }
 
-            console.log('loading local provider', file);
+            win.info('loading local provider', file);
 
             var q = Q.defer();
 
@@ -32,7 +32,7 @@
             script.src = 'lib/providers/' + file;
 
             script.onload = function () {
-                console.log('loaded', file);
+                win.info('loaded', file);
                 q.resolve(file);
             };
 
@@ -58,7 +58,7 @@
         });
 
         return packages.map(function (name) {
-            console.log('loading npm', regex, name);
+            win.info('loading npm', regex, name);
             return loadFromNPM(name, fn);
         });
     }
@@ -104,7 +104,7 @@
             return providers;
         })
         .then(function (providers) {
-            console.log('loaded', providers);
+            win.info('loaded', providers);
         });
 
 })(window.App);
