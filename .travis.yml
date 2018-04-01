@@ -14,13 +14,10 @@ cache:
   directories:
   - node_modules
 before_install:
-- pwd
 - yarn config set yarn-offline-mirror ./node_modules/
 - yarn install --ignore-engines
 - yarn build
-after_build:
 - yarn gulp compress
-- find build
 
 deploy:
   provider: releases
