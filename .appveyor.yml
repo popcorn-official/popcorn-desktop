@@ -5,6 +5,7 @@ skip_commits:
 environment:
   matrix:
     - nodejs_version: STABLE
+    
 cache:
   - node_modules -> package.json
 

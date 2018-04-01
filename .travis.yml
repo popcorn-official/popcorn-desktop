@@ -25,6 +25,7 @@ after_build:
 deploy:
   provider: releases
   file: build/Popcorn-Time-0.3.10_linux64.tar.xz
+  name: Build $(date +'%d.%m.%Y %R')
   skip_cleanup: true
   on:
     repo: ozkanpakdil/popcorn-desktop
