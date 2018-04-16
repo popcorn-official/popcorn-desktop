@@ -503,5 +503,14 @@
 	"Series": "Séries",
 	"Finished": "Finished",
 	"blah": "blah",
-	"thriller,conspiracy,indie": "thriller,conspiracy,indie"
+	"thriller,conspiracy,indie": "thriller,conspiration,indie",
+	"Indie": "Indie",
+	"Disable Anime Tab": "Désactiver l'onglet Anime",
+	"Disable Indie Tab": "Désactiver l'onglet Indie",
+	"Code:": "Code:",
+	"%s stores an encrypted hash of your password in your local database": "%s stocke un hachage crypté de votre mot de passe dans votre base de données locale",
+	"Activate Update seeding": "Activer la mise à jour des seeds",
+	"comedy": "comédie",
+	"science-fiction": "science fiction",
+	"Local": "Local"
 }
