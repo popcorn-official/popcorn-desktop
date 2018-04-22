@@ -8,7 +8,7 @@
         'VLC': {
             type: 'vlc',
             cmd: '/Contents/MacOS/VLC',
-            switches: '--no-video-title-show',
+            switches: '--no-video-title-show --play-and-exit',
             subswitch: '--sub-file=',
             fs: '-f',
             stop: 'vlc://quit',
