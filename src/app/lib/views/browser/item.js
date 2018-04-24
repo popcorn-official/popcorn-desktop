@@ -4,7 +4,7 @@
     var prevX = 0;
     var prevY = 0;
 
-    var Item = Backbone.Marionette.ItemView.extend({
+    var Item = Marionette.View.extend({
         template: '#item-tpl',
 
         tagName: 'li',
@@ -79,7 +79,7 @@
             }
         },
 
-        onShow: function () {
+        onAttach: function () {
             this.ui.coverImage.on('load', _.bind(this.showCover, this));
         },
 
@@ -91,7 +91,7 @@
 
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             this.ui.coverImage.off('load');
         },
 

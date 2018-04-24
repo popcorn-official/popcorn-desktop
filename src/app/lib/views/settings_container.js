@@ -6,7 +6,7 @@
         oldTmpLocation,
         that;
 
-    var SettingsContainer = Backbone.Marionette.ItemView.extend({
+    var SettingsContainer = Marionette.View.extend({
         template: '#settings-container-tpl',
         className: 'settings-container-contain',
 
@@ -45,7 +45,7 @@
             'click #qrcode-close': 'closeModal'
         },
 
-        onShow: function () {
+        onAttach: function () {
             that = this;
             this.render();
 
@@ -117,7 +117,7 @@
             return menu;
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             Mousetrap.bind('backspace', function (e) {
                 App.vent.trigger('show:closeDetail');
                 App.vent.trigger('movie:closeDetail');
@@ -243,7 +243,6 @@
             case 'opensubtitlesAutoUpload':
             case 'subtitles_bold':
             case 'rememberFilters':
-            case 'autoSeed':
                 value = field.is(':checked');
                 break;
             case 'httpApiUsername':
@@ -294,13 +293,6 @@
 
         syncSetting: function (setting, value) {
             switch (setting) {
-            case 'autoSeed':
-                if (value) {
-                    App.vent.trigger('seed:start');
-                } else {
-                    App.vent.trigger('seed:stop');
-                }
-                break;
             case 'coversShowRating':
                 if (value) {
                     $('.rating').show();

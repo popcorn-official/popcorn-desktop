@@ -215,9 +215,8 @@ gulp.task('nwjs', () => {
         // add node_modules
         nw.options.files = nw.options.files.concat(requiredDeps);
         // remove junk files
-        nw.options.files = nw.options.files.concat(['!./node_modules/**/*.bin', '!./node_modules/**/*.c', '!./node_modules/**/*.h', 
-        	'!./node_modules/**/Makefile', '!./node_modules/**/*.h', '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**']);
-        
+        nw.options.files = nw.options.files.concat(['!./node_modules/**/*.bin', '!./node_modules/**/*.c', '!./node_modules/**/*.h', '!./node_modules/**/Makefile', '!./node_modules/**/*.h', '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./*/bin/**', '!./node_modules/**/build/**', '!./**/.*/**']);
+
         return nw.build();
     }).catch(function (error) {
         console.error(error);

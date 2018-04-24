@@ -21,7 +21,7 @@
         return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom) && (elemBottom <= docViewBottom) && (elemTop >= docViewTop));
     }
 
-    var ErrorView = Backbone.Marionette.ItemView.extend({
+    var ErrorView = Marionette.View.extend({
         template: '#movie-error-tpl',
         ui: {
             retryButton: '.retry-button',
@@ -73,7 +73,7 @@
             return !this.collection.length && this.collection.state !== 'loading';
         },
 
-        getEmptyView: function () {
+        emptyView: function () {
             switch (App.currentview) {
             case 'movies':
             case 'shows':
@@ -244,7 +244,7 @@
                 });
         },
 
-        onShow: function () {
+        onAttach: function () {
             if (this.collection.state === 'loading') {
                 this.onLoading();
             }
@@ -257,7 +257,12 @@
 
         onLoaded: function () {
             App.vent.trigger('list:loaded');
-            this.checkEmpty();
+            
+            // Added for v2-style checkEmpty
+            if (this.isEmpty()) {
+                this._showEmptyView();
+            }
+            
             var self = this;
             this.addloadmore();
 

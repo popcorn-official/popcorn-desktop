@@ -514,10 +514,6 @@
                 <input class="settings-checkbox" name="deleteTmpOnClose" id="cb2" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
                 <label class="settings-label" for="cb2"><%= i18n.__("Clear Tmp Folder after closing app?") %></label>
             </span>
-            <span>
-                <input class="settings-checkbox" name="autoSeed" id="cb8" type="checkbox" <%=(Settings.autoSeed? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb8"><%= i18n.__("Continue seeding from Tmp Folder") %></label>
-            </span>
         </div>
     </section>
 

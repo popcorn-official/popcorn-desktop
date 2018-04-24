@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var Player = Backbone.Marionette.ItemView.extend({
+    var Player = Marionette.View.extend({
         template: '#player-tpl',
         className: 'player',
         player: null,
@@ -343,7 +343,7 @@
             }
         },
 
-        onShow: function () {
+        onAttach: function () {
             $('#header').removeClass('header-shadow').hide();
             // Test to make sure we have title
             win.info('Watching:', this.model.get('title'));
@@ -940,7 +940,7 @@
             }
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             if (this.model.get('type') === 'video/youtube') { // XXX Sammuel86 Trailer UI Show FIX/HACK -START
                 $('.trailer_mouse_catch').remove();
             }
