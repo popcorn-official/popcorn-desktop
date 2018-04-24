@@ -6,7 +6,7 @@
     cancelTorrentHealth = function () {},
     torrentHealthRestarted = null;
 
-    var _this, bookmarked;
+    var _this, bookmarked, hide;
     var ShowDetail = Marionette.View.extend({
         template: '#show-detail-tpl',
         className: 'shows-container-contain',

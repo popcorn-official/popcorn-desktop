@@ -201,13 +201,14 @@ gulp.task('nwjs', () => {
     	fs.copySync('./node_modules/videojs-youtube/','./src/app/vendor/videojs-youtube/');
     	fs.copySync('./node_modules/backbone.wreqr/','./src/app/vendor/backbone.wreqr/');
     	fs.copySync('./node_modules/backbone.babysitter/','./src/app/vendor/backbone.babysitter/');
-    	fs.copySync('./node_modules/backbone.marionette/','./src/app/vendor/backbone.marionette/');
+        fs.copySync('./node_modules/backbone.marionette/','./src/app/vendor/backbone.marionette/');
+        fs.copySync('./node_modules/backbone.radio/','./src/app/vendor/backbone.radio/');
     	fs.copySync('./node_modules/jquery/','./src/app/vendor/jquery/');
     	fs.copySync('./node_modules/mousetrap/','./src/app/vendor/mousetrap/');
     	fs.copySync('./node_modules/font-awesome/','./src/app/vendor/font-awesome/');
     	fs.copySync('./node_modules/video.js/','./src/app/vendor/video.js/');
     	fs.copySync('./node_modules/bootstrap/','./src/app/vendor/bootstrap/');
-    	fs.copySync('./node_modules/underscore/','./src/app/vendor/underscore/');
+        fs.copySync('./node_modules/underscore/','./src/app/vendor/underscore/');
     	console.log('Vendors copied');
         
         // required files
