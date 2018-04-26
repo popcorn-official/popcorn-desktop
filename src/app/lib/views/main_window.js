@@ -42,14 +42,14 @@
             
             _.each(_this.getRegions(), function (element, index) {
 
-                element.on('show', function (view) {
+                element.on('before:show', function (region, view) {
                     if (view.className && App.ViewStack[0] !== view.className) {
                         App.ViewStack.push(view.className);
                     }
                     App.vent.trigger('viewstack:push', view.className);
                 });
 
-                element.on('empty', function (view) {
+                element.on('empty', function (region, view) {
                     var viewName = (typeof view !== 'undefined' ? view.className : 'unknown');
                     App.ViewStack.pop();
                     App.vent.trigger('viewstack:pop', viewName);
