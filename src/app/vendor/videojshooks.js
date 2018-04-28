@@ -153,11 +153,10 @@ vjs.TextTrack.prototype.load = function () {
             fs.writeFileSync(path.join(srtPath, srt), ''); //create or delete content;
             console.log('SUB format can be converted:', orig);
 
-            // TODO: Use the subsrt parser to parse ssa and ass. Also make a custom handler to parse txt (see docs)
             if (ext === '.smi' || ext === '.sami') {
                 fs.readFile(file, {encoding: 'utf-8'}, function(err, data) {
                     var subsrt = require('subsrt');
-                    // Remove all <br> tags since it breaks the srt video.js srt parser and wedon't need empty lines in the smi format
+                    // Remove all <br> tags since it breaks the video.js srt parser and we don't need empty lines in the smi format
                     data = data.replace(/<br.*>/g, '');
                     var smiData = subsrt.convert(data, { format: 'srt', eol: '\n' });
                     fs.appendFileSync(path.join(srtPath, srt), smiData, 'utf-8');
@@ -176,7 +175,7 @@ vjs.TextTrack.prototype.load = function () {
                     var encoding = charset.encoding;
                     var line_, parsedBeginTime, parsedEndTime, parsedDialog;
 
-                    // TODO: Since subsrt can also parse SSA, we should use it instead of doing it manually here
+                    // TODO: Replace the .ssa/.ass parsing code by using th subsrt library, like for the smi parsing
                     //parse SSA
                     if (ext === '.ssa' || ext === '.ass') {
                         encoding = 'utf-8';
