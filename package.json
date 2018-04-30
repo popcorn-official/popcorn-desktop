@@ -47,9 +47,15 @@
     "butter-provider": "0.6.0",
     "butter-provider-anime": "1.0.0",
     "butter-provider-movies": "1.0.3",
+<<<<<<< HEAD
     "butter-provider-tvAPI": "git+https://github.com/team-pct/butter-provider-tvapi",
     "butter-provider-vodo": "0.3.1",
     "butter-settings-popcorntime.io": "git+https://github.com/popcorn-official/butter-settings-popcorn.git",
+=======
+    "butter-provider-tvapi": "git+https://github.com/team-pct/butter-provider-tvapi",
+    "butter-provider-vodo": "0.3.1",
+    "butter-settings-popcorntime.io": "git+https://github.com/popcorn-official/butter-settings-popcorn",
+>>>>>>> f381d44885c962a42587c726a24b3092cdc91ab8
     "chromecasts": "1.9.0",
     "defer-request": "0.0.2",
     "dlnacasts": "0.1.0",

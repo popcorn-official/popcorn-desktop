@@ -570,4 +570,5 @@
 	"You should save the content of the old directory, then delete it": "You should save the content of the old directory, then delete it",
 	"Search on %s": "Search on %s",
 	"Continue seeding from Tmp Folder": "Continue seeding from Tmp Folder"
+	"Are you sure you want to clear the entire Torrent Collection ?": "Are you sure you want to clear the entire Torrent Collection ?"
 }
