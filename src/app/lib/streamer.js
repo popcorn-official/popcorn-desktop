@@ -493,7 +493,7 @@
         getWebTorrentInstance: function() {
             if (this.webtorrent === null) {
                 this.webtorrent = new WebTorrent({
-                    maxConns: parseInt(Settings.connectionLimit, 10) || 55,
+                    maxConns: parseInt(Settings.connectionLimit, 10) || 15,
                     tracker: {
                         wrtc: false, // disable webrtc
                         announce: Settings.trackers.forced

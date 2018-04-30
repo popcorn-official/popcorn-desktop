@@ -163,7 +163,7 @@ Settings.opensubtitlesUsername = '';
 Settings.opensubtitlesPassword = '';
 
 // Advanced options
-Settings.connectionLimit = 55;
+Settings.connectionLimit = 15;
 Settings.streamPort = 0; // 0 = Random
 Settings.tmpLocation = path.join(os.tmpDir(), Settings.projectName);
 Settings.databaseLocation = path.join(data_path, 'data');
