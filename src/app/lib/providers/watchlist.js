@@ -1,13 +1,12 @@
-/* globals moment*/
 (function (App) {
     'use strict';
     var memoize = require('memoizee');
     var Watchlist = function () {
-        this.fetch = memoize(this._fetch.bind(this), {
-            maxAge: 300 * 1000, // 5 minute
-            preFetch: 0.5, // recache every 2.5 minute
+        /*this.fetch = memoize(this._fetch , {
+            maxAge: 600 * 1000, // 10 min
+            preFetch: 0.9, // recache every 5 minutes
             primitive: true
-        });
+        });*/
     };
     Watchlist.prototype.constructor = Watchlist;
     Watchlist.prototype.config = {
@@ -201,7 +200,7 @@
         return App.Providers.get('TVApi?&apiURL=https://tv-v2.api-fetch.website/,cloudflare+https://tv-v2.api-fetch.website').detail(torrent_id, torrent_id);
     };
 
-    Watchlist.prototype._fetch = function (filters) {
+    Watchlist.prototype.fetch = function (filters) {
         return new Promise(function (resolve, reject) {
             if (filters && typeof filters !== 'function' && (filters.force || filters.update)) {
                 if (filters.update && localStorage.watchlist_update_shows) {
@@ -221,7 +220,7 @@
                 if (!localStorage.watchlist_cached || parseInt(localStorage.watchlist_fetched_time) + 14400000 < Date.now()) {
                     win.debug('Watchlist - no watchlist cached or cache expired');
                     if (App.Trakt.authenticated) {
-                        return App.Providers.get('Watchlist').fetch();
+                        return App.Providers.get('Watchlist').fetch({ force: true }).then(resolve).catch(reject);
                     } else {
                         reject('Trakt not authenticated');
                     }

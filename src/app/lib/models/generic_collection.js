@@ -25,17 +25,23 @@
                 console.log('post all', torrents, subtitles, metadatas);
                 torResults = torrents.results;
 
+                var willWaitFor = 0;
+
                 Q.allSettled(_.map(torrents.results, function (id) {
-                    if (Settings.watchedCovers === 'hide' && torResults[0].tvdb_id) {
+                    if (Settings.watchedCovers === 'hide' && id.tvdb_id) {
                         return Database.getEpisodesWatched(id.tvdb_id).then(function (watchedEpisodes) {
-                            if (watchedEpisodes.length > 0)
+                            if (watchedEpisodes.length > 0) {
+                                willWaitFor++;
+                                win.debug('waiting for:'+willWaitFor);
                                 return App.Providers.get('TVApi?&apiURL=https://tv-v2.api-fetch.website/,cloudflare+https://tv-v2.api-fetch.website').detail(watchedEpisodes[0].imdb_id, watchedEpisodes[0].imdb_id)
                                     .then(function (show) {
-                                        win.debug(show.title + ' ' + show.episodes.length + ' ' + watchedEpisodes.length);
+                                        willWaitFor--;
+                                        win.debug(show.title + ' ' + show.episodes.length + ' ' + watchedEpisodes.length + ' waiting for:' + willWaitFor);
                                         if (show.episodes.length <= watchedEpisodes.length) {
                                             self.watchedShows.push(show);
                                         }
                                     });
+                            }
                         });
                     }
                 })).then(function (results) {
@@ -125,12 +131,12 @@
         },
 
         fetch: function () {
-            if (this.state === 'loading' && !this.hasMore) {
-                return;
-            }
             try {
                 var self = this;
 
+                if (this.state === 'loading' && !this.hasMore) {
+                    return;
+                }
 
                 this.state = 'loading';
                 self.trigger('loading', self);

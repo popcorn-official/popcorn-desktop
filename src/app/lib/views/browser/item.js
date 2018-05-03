@@ -187,13 +187,15 @@
             var coverCache = new Image();
             coverCache.src = coverUrl;
             coverCache.onload = function () {
-                if(this_.ui.cover != ".cover")
+                if(this_.ui.cover !== '.cover'){
                     this_.ui.cover.css('background-image', 'url(' + coverUrl + ')').addClass('fadein');
+                }
                 coverCache = null;
             };
             coverCache.onerror = function () {
-                if(this_.ui.cover != ".cover")
+                if(this_.ui.cover !== '.cover'){
                     this_.ui.cover.css('background-image', 'url("images/posterholder.png")').addClass('fadein');
+                }
                 coverCache = null;
             };
 
