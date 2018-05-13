@@ -264,13 +264,7 @@
 
             var sortBySeeds = function (items) {
                 return items.sort(function (a, b) {
-                    if (a.seeds > b.seeds) {
-                        return -1;
-                    }
-                    if (a.seeds < b.seeds) {
-                        return 1;
-                    }
-                    return 0;
+                    return b.seeds - a.seeds;
                 });
             };
 
