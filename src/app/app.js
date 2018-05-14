@@ -336,7 +336,6 @@ Mousetrap.bind('shift+b', function (e) {
 
 // Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
 window.ondragenter = function (e) {
-
     $('#drop-mask').show();
     var showDrag = true;
     var timeout = -1;
@@ -602,8 +601,10 @@ window.ondrop = function (e) {
     $('.drop-indicator').hide();
 
     var file = e.dataTransfer.files[0];
+    var ext = path.extname(file.name).toLowerCase();
 
-    if (file != null && (file.name.indexOf('.torrent') !== -1 || file.name.indexOf('.srt') !== -1)) {
+    // TODO: Make a function 'isSubtitleFile' to avoid having many || everywhere
+    if (file != null && ext === '.torrent' || ext === '.srt' || ext === '.smi' || ext === '.sami') {
 
         fs.writeFile(path.join(App.settings.tmpLocation, file.name), fs.readFileSync(file.path), function (err) {
             if (err) {
@@ -613,7 +614,7 @@ window.ondrop = function (e) {
                 if (file.name.indexOf('.torrent') !== -1) {
                     Settings.droppedTorrent = file.name;
                     handleTorrent(path.join(App.settings.tmpLocation, file.name));
-                } else if (file.name.indexOf('.srt') !== -1) {
+                } else if (ext === '.srt' || ext === '.smi' || ext === '.sami') {
                     Settings.droppedSub = file.name;
                     App.vent.trigger('videojs:drop_sub');
                 }
