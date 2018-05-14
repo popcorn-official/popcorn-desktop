@@ -29,9 +29,36 @@
             'click .rating-container': 'switchRating',
             'click .health-icon': 'resetHealth'
         },
+        getTranslatedData: function () {
+        var imdb = this.model.get('imdb_id');
+        var api_key = Settings.tmdb.api_key;
+        var lang = Settings.language;
+        var movie = function () {
+            var tmp = null;
+            $.ajax({
+                url: 'http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key + '&language=' + lang,
+                type: 'get',
+                dataType: 'json',
+                async: false,
+                global: false,
+                success: function (data) {
+                    tmp = data;
+                }
+            });
+            return tmp;
+        }();
+
+        this.model.set('title', movie.title);
+        if (movie.overview)
+            this.model.set('synopsis', movie.overview);
+        if (movie.poster_path)
+            this.model.set('cover', 'http://image.tmdb.org/t/p/w500' + movie.poster_path);
+    },
 
         initialize: function () {
             var _this = this;
+            if (Settings.translateSynopsis)
+                this.getTranslatedData();
 
             //Handle keyboard shortcuts when other views are appended or removed
 
