@@ -86,6 +86,7 @@
     "sync": "^0.2.5",
     "tar": "2.2.1",
     "temp": "0.x.x",
+    "thepiratebay": "^1.4.7",
     "torrent-tracker-health": "^1.0.0",
     "trakt.tv": "2.x.x",
     "trakt.tv-images": "1.x.x",
