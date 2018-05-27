@@ -3,7 +3,7 @@
 /********
  * setup *
  ********/
-const nwVersion = '0.18.6',
+const nwVersion = '0.23.7',
     availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'],
     releasesDir = 'build',
     nwFlavor = 'sdk';
@@ -112,7 +112,7 @@ const nw = new nwBuilder({
     macIcns: './src/app/images/butter.icns',
     version: nwVersion,
     flavor: nwFlavor,
-    downloadUrl: 'https://get.popcorntime.sh/repo/nw/',
+    downloadUrl: 'https://dl.nwjs.io/',
     platforms: parsePlatforms()
 }).on('log', console.log);
 
