@@ -120,5 +120,8 @@
     "run-sequence": "^1.1.5",
     "stylus": "^0.54.2",
     "yargs": "^6.4.0"
+  },
+  "resolutions": {
+    "natives": "1.1.3"
   }
 }
