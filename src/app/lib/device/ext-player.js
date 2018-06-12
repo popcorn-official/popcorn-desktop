@@ -34,6 +34,12 @@
             subswitch: '-sub ',
             fs: '-fs',
         },
+        'IINA': {
+            type: 'mpv',
+            cmd: '/Contents/MacOS/iina-cli',
+            subswitch: '--mpv-sub-file=',
+            fs: '--mpv-fs',
+        },
         'mplayer': {
             type: 'mplayer',
             cmd: 'mplayer',
