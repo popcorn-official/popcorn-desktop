@@ -553,8 +553,8 @@
 	"romance": "romance",
 	"Currently Airing": "Currently Airing",
 	"documentary": "documentary",
-	"Add to hide": "Add to hide",
-	"Remove from hide": "Remove from hide",
+	"Hide this": "Hide this",
+	"Unhide": "Unhide",
 	"history": "history",
 	"Pilot": "Pilot",
 	"Something went wrong downloading the update": "Something went wrong downloading the update",
@@ -573,5 +573,8 @@
 	"Are you sure you want to clear the entire Torrent Collection ?": "Are you sure you want to clear the entire Torrent Collection ?",
 	"superhero": "superhero",
 	"anime": "anime",
-	"Code:": "Code:"
+	"Code:": "Code:",
+	"tv-movie": "tv-movie",
+	"Error reading subtitle timings, file seems corrupted": "Error reading subtitle timings, file seems corrupted",
+	"musical": "musical"
 }

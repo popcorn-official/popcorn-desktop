@@ -3,7 +3,7 @@
     // Torrent Health
     var torrentHealth = require('webtorrent-health'),
     cancelTorrentHealth = function () {},
-    torrentHealthRestarted = null;
+    torrentHealthRestarted = null, hide;
 
     App.View.MovieDetail = Marionette.View.extend({
         template: '#movie-detail-tpl',
@@ -12,7 +12,7 @@
         ui: {
             selected_lang: '.selected-lang',
             bookmarkIcon: '.favourites-toggle',
-            hideIcon: '.hide-toggle',
+            hideIcon: '.sha-hide',
             watchedIcon: '.watched-toggle'
         },
 
@@ -28,7 +28,8 @@
             'mousedown .magnet-link': 'openMagnet',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .rating-container': 'switchRating',
-            'click .health-icon': 'resetHealth'
+            'click .health-icon': 'resetHealth',
+            'click .sha-hide': 'toggleHide',
         },
 
         initialize: function () {
@@ -302,6 +303,29 @@
             }
 
             $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-watched').click();
+        },
+
+        toggleHide: function (e) {
+            if (e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            var that = this;
+            Database.toggleItemToNotWanted(that.model.get('imdb_id'),that.model.get('type')).then(
+                function(wantedStat){
+                    console.log('wantedStat:'+wantedStat);
+                    if (wantedStat === 'added') {
+                        that.ui.hideIcon.addClass('selected').text(i18n.__('Unhide'));
+                        switch (Settings.watchedCovers) {
+                            case 'hide':
+                                $('li[data-imdb-id="' + that.model.get('imdb_id') + '"]').remove();
+                                break;
+                        }
+                    } else {
+                        that.ui.hideIcon.removeClass('selected').text(i18n.__('Hide this'));
+                    }
+                }
+            ).catch(err => console.log(err));
         },
 
         openIMDb: function () {

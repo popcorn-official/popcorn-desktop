@@ -20,12 +20,10 @@
             coverImage: '.cover-image',
             cover: '.cover',
             bookmarkIcon: '.actions-favorites',
-            hideIcon: '.actions-hides',
             watchedIcon: '.actions-watched'
         },
         events: {
             'click .actions-favorites': 'toggleFavorite',
-            'click .actions-hides': 'toggleHide',
             'click .actions-watched': 'toggleWatched',
             'click .cover': 'showDetail',
             'mouseover .cover': 'hoverItem'
@@ -177,9 +175,6 @@
             });
             this.ui.bookmarkIcon.tooltip({
                 title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from bookmarks') : i18n.__('Add to bookmarks')
-            });
-            this.ui.hideIcon.tooltip({
-                title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from hide') : i18n.__('Add to hide')
             });
 
             var this_ = this;
@@ -463,25 +458,7 @@
             this.ui.bookmarkIcon.tooltip({
                 title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from bookmarks') : i18n.__('Add to bookmarks')
             });
-        },
-        
-        toggleHide: function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            var that = this;
-            var provider = App.Providers.get(this.model.get('provider'));
-            var data;
-            var wantedStat;
-            
-            wantedStat=Database.toggleItemToNotWanted(that.model.get('imdb_id'),this.model.get('type'));
-            if(wantedStat==='added'){
-            	that.ui.hideIcon.addClass('selected');
-            }
-            else{
-            	that.ui.hideIcon.removeClass('selected');
-            }
         }
-
     });
 
     App.View.Item = Item;

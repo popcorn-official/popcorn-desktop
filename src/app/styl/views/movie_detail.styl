@@ -639,3 +639,72 @@
                         position: absolute
                         top: -1px
                         width: 10px
+
+            .sha-hide
+                float: left
+                cursor: pointer
+                padding: 5px
+                padding-left: 24px
+                height: 26px
+                color: #FFF
+                position: relative
+                font-family: $MainFont
+                font-smoothing: antialiased
+                font-size: 12px
+                line-height: 17px
+                &:before
+                    content: "\f1f8"
+                    font-family: FontAwesome
+                    position: absolute
+                    font-size: 18px
+                    color: #FFF
+                    left: 0
+                    opacity: 1
+                    transition: opacity 0.5s
+
+                &:after
+                    content: "\f1f8"
+                    font-family: FontAwesome
+                    position: absolute
+                    font-size: 18px
+                    color: $ButtonBgActive
+                    left: 0
+                    opacity: 0
+                    transition: opacity 0.5s
+
+                &:hover
+                    &:before
+                        opacity: 0
+
+                    &:after
+                        opacity: 1
+
+                &.selected
+                    height: 18px
+                    width: 200px
+                    &:before
+                        content: "\f1f8"
+                        font-family: FontAwesome
+                        position: absolute
+                        font-size: 18px
+                        color: $FavoriteColor
+                        left: 0
+                        opacity: 1
+                        transition: opacity 0.5s
+
+                    &:after
+                        content: "\f1f8"
+                        font-family: FontAwesome
+                        position: absolute
+                        font-size: 18px
+                        color: #FFF
+                        left: 0
+                        opacity: 0
+                        transition: opacity 0.5s
+
+                    &:hover
+                        &:before
+                            opacity: 0
+
+                        &:after
+                            opacity: 1

@@ -98,23 +98,20 @@ var promisifyDb = function (obj) {
 
 var Database = {
 	toggleItemToNotWanted: function (imdb_id, type) {
-		promisifyDb(db.notwanted.findOne({imdb_id: imdb_id},function (err, doc) {
-			var notwanted='added';
+		return promisifyDb(db.notwanted.findOne({imdb_id: imdb_id})).then(function (doc) {
         	if(doc){
-        		db.notwanted.remove({imdb_id: imdb_id});
-        		notwanted='removed';
+                $.inArray(imdb_id,App.notWanted);
+                db.notwanted.remove({imdb_id: imdb_id});
+                return 'removed';
         	} else {
+                App.notWanted.push(imdb_id);
         		db.notwanted.insert({
         			imdb_id: imdb_id,
         			type: type
-        		});
+                });
+                return 'added';
         	}
-        	Database.getNotWanted()
-        	.then(function (data) {
-        		App.notWanted=extractIds(data);
-        	});
-        	return notwanted;
-        }));
+        });
     },	
 	
     addMovie: function (data) {

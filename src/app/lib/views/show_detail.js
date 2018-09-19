@@ -73,16 +73,21 @@
                 e.stopPropagation();
             }
             var that = this;
-            if (hide !== true) {
-                hide = true;
-                that.model.set('hide', true);
-                that.ui.hideIcon.addClass('selected').text(i18n.__('Remove from hide'));
-            } else {
-                hide = false;
-                that.ui.hideIcon.removeClass('selected').text(i18n.__('Add to hide'));
-                that.model.set('hide', false);
-            }
-            $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-hides').click();
+            Database.toggleItemToNotWanted(that.model.get('imdb_id'),that.model.get('type')).then(
+                function(wantedStat){
+                    console.log('wantedStat:'+wantedStat);
+                    if (wantedStat === 'added') {
+                        that.ui.hideIcon.addClass('selected').text(i18n.__('Unhide'));
+                        switch (Settings.watchedCovers) {
+                            case 'hide':
+                                $('li[data-imdb-id="' + that.model.get('imdb_id') + '"]').remove();
+                                break;
+                        }
+                    } else {
+                        that.ui.hideIcon.removeClass('selected').text(i18n.__('Hide this'));
+                    }
+                }
+            ).catch(err => console.log(err));
         },
 
 
@@ -854,9 +859,9 @@
                         PirateBay.search(searchTxt)
                             .then(function (results) {
                                 if (results.length > 0) {
-                                    for(var r in results){
+                                    /*for(var r in results){
                                         console.log('after magnet ' + results[r].magnetLink);
-                                    }
+                                    }*/
                                     //$('.startStreaming').attr('data-torrent', results[0].magnetLink);
                                     console.log(results[0]);
                                 }

@@ -45,7 +45,6 @@
                         });
                     }
                 })).then(function (results) {
-
                     App.notWanted.forEach(function (doc) {
                         for (var i = torResults.length - 1; i >= 0; --i) {
                             if (torResults[i].imdb_id === doc) {
