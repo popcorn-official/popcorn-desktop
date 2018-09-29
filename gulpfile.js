@@ -16,7 +16,7 @@ const gulp = require('gulp'),
     glp = require('gulp-load-plugins')(),
     runSequence = require('run-sequence'),
     del = require('del'),
-    download = require("gulp-download2"),
+    download = require('gulp-download2'),
     decompress = require('gulp-decompress'),
     nwBuilder = require('nw-builder'),
     currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
@@ -25,7 +25,7 @@ const gulp = require('gulp'),
     yarn = require('gulp-yarn'),
     nib = require('nib'),
     git = require('git-rev'),
-    url = require("url"),
+    url = require('url'),
 
     fs = require('fs-extra'),
     path = require('path'),
@@ -120,12 +120,12 @@ const nw = new nwBuilder({
 
 var osvar = process.platform;
 
-if (osvar == 'darwin') {
+if (osvar === 'darwin') {
     osvar = 'osx';
-} else if (osvar == 'win32') {
-    osvar = 'win'
+} else if (osvar === 'win32') {
+    osvar = 'win';
 } else {
-    osvar = 'linux'
+    osvar = 'linux';
 }
 var ffmpegurl = 'https://github.com/iteufel/nwjs-ffmpeg-prebuilt/releases/download/' + nwVersion + '/' + nwVersion + '-' + osvar + '-x64.zip';
 
@@ -192,13 +192,8 @@ gulp.task('unzipffmpeg', () => {
     return gulp.src('./cache/ffmpeg/*.{tar,tar.bz2,tar.gz,zip}')
         .pipe(decompress({ strip: 1 }))
         .pipe(gulp.dest(ffpath))
-        .on("error", function (err) {
-            console.log(err);
-            if (exitOnError) {
-                process.exit(1);
-            } else {
-                this.emit('end');
-            }
+        .on('error', function (err) {
+            console.error(err);
         }).on('end', () => {
             console.log('FFmpeg copied to '+ffpath+' folder.');
         });
@@ -210,13 +205,8 @@ gulp.task('unzipffmpegcache', () => {
     return gulp.src('./cache/ffmpeg/*.{tar,tar.bz2,tar.gz,zip}')
         .pipe(decompress({ strip: 1 }))
         .pipe(gulp.dest(bin))
-        .on("error", function (err) {
-            console.log(err);
-            if (exitOnError) {
-                process.exit(1);
-            } else {
-                this.emit('end');
-            }
+        .on('error', function (err) {
+            console.error(err);
         }).on('end', () => {
             console.log('FFmpeg copied to '+bin+' folder.');
         });

@@ -1,3 +1,7 @@
+os:
+  - linux
+  - osx
+
 language: node_js
 node_js:
 - stable
@@ -13,7 +17,7 @@ before_install:
 
 deploy:
   provider: releases
-  file: build/Popcorn-Time-0.3.10_linux64.tar.xz
+  file: build/Popcorn-Time*
   name: Build $(date +'%d.%m.%Y %R')
   skip_cleanup: true
   api-key:
