@@ -18,6 +18,7 @@ const gulp = require('gulp'),
     del = require('del'),
     download = require('gulp-download2'),
     decompress = require('gulp-decompress'),
+    zip = require('gulp-zip'),
     nwBuilder = require('nw-builder'),
     currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
 
@@ -25,7 +26,6 @@ const gulp = require('gulp'),
     yarn = require('gulp-yarn'),
     nib = require('nib'),
     git = require('git-rev'),
-    url = require('url'),
 
     fs = require('fs-extra'),
     path = require('path'),
@@ -405,14 +405,13 @@ gulp.task('deb', () => {
 gulp.task('compress', () => {
     return Promise.all(nw.options.platforms.map((platform) => {
         return new Promise((resolve, reject) => {
-            console.log('Packaging tar for: %s', platform);
+            console.log('Packaging zip for: %s', platform);
             const sources = path.join('build', pkJson.name, platform);
             return gulp.src(sources + '/**')
-                .pipe(glp.tar(pkJson.name + '-' + pkJson.version + '_' + platform + '.tar'))
-                .pipe(glp.gzip())
+                .pipe(zip(pkJson.name + '-' + pkJson.version + '_' + platform + '.zip'))
                 .pipe(gulp.dest(releasesDir))
                 .on('end', () => {
-                    console.log('%s tar packaged in %s', platform, path.join(process.cwd(), releasesDir));
+                    console.log('%s zip packaged in %s', platform, path.join(process.cwd(), releasesDir));
                     resolve();
                 });
         });
