@@ -188,14 +188,14 @@ gulp.task('downloadffmpeg', () => {
 });
 
 gulp.task('unzipffmpeg', () => {
-    let ffpath='./build/'+pkJson.name+'/'+parsePlatforms();
+    let ffpath = './build/' + pkJson.name + '/' + parsePlatforms();
     return gulp.src('./cache/ffmpeg/*.{tar,tar.bz2,tar.gz,zip}')
         .pipe(decompress({ strip: 1 }))
         .pipe(gulp.dest(ffpath))
         .on('error', function (err) {
             console.error(err);
         }).on('end', () => {
-            console.log('FFmpeg copied to '+ffpath+' folder.');
+            console.log('FFmpeg copied to ' + ffpath + ' folder.');
         });
 });
 
@@ -208,13 +208,13 @@ gulp.task('unzipffmpegcache', () => {
         .on('error', function (err) {
             console.error(err);
         }).on('end', () => {
-            console.log('FFmpeg copied to '+bin+' folder.');
+            console.log('FFmpeg copied to ' + bin + ' folder.');
         });
 });
 
 // build app from sources
 gulp.task('build', (callback) => {
-    runSequence('injectgit', 'css','downloadffmpeg', 'nwjs', 'unzipffmpeg', 'unzipffmpegcache', callback);
+    runSequence('injectgit', 'css', 'downloadffmpeg', 'nwjs', 'unzipffmpeg', 'unzipffmpegcache', callback);
 });
 
 // create redistribuable packages
@@ -404,48 +404,17 @@ gulp.task('deb', () => {
 // package in tgz (win) or in xz (unix)
 gulp.task('compress', () => {
     return Promise.all(nw.options.platforms.map((platform) => {
-
         return new Promise((resolve, reject) => {
             console.log('Packaging tar for: %s', platform);
-
             const sources = path.join('build', pkJson.name, platform);
-
-            // compress with gulp on windows
-            if (currentPlatform().indexOf('win') !== -1) {
-
-                return gulp.src(sources + '/**')
-                    .pipe(glp.tar(pkJson.name + '-' + pkJson.version + '_' + platform + '.tar'))
-                    .pipe(glp.gzip())
-                    .pipe(gulp.dest(releasesDir))
-                    .on('end', () => {
-                        console.log('%s tar packaged in %s', platform, path.join(process.cwd(), releasesDir));
-                        resolve();
-                    });
-
-                // compress with tar on unix*
-            } else {
-
-                // using the right directory
-                const platformCwd = platform.indexOf('linux') !== -1 ? '.' : pkJson.name + '.app';
-
-                // list of commands
-                const commands = [
-                    'cd ' + sources,
-                    'tar --exclude-vcs -c ' + platformCwd + ' | $(command -v pxz || command -v xz) -T8 -7 > "' + path.join(process.cwd(), releasesDir, pkJson.name + '-' + pkJson.version + '_' + platform + '.tar.xz') + '"',
-                    'echo "' + platform + ' tar packaged in ' + path.join(process.cwd(), releasesDir) + '" || echo "' + platform + ' failed to package tar"'
-                ].join(' && ');
-
-                exec(commands, (error, stdout, stderr) => {
-                    if (error || stderr) {
-                        console.log(error || stderr);
-                        console.log('%s failed to package tar', platform);
-                        resolve();
-                    } else {
-                        console.log(stdout.replace('\n', ''));
-                        resolve();
-                    }
+            return gulp.src(sources + '/**')
+                .pipe(glp.tar(pkJson.name + '-' + pkJson.version + '_' + platform + '.tar'))
+                .pipe(glp.gzip())
+                .pipe(gulp.dest(releasesDir))
+                .on('end', () => {
+                    console.log('%s tar packaged in %s', platform, path.join(process.cwd(), releasesDir));
+                    resolve();
                 });
-            }
         });
     })).catch(log);
 });
