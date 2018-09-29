@@ -13,7 +13,8 @@ before_install:
 - yarn config set yarn-offline-mirror ./node_modules/
 - yarn install --ignore-engines
 - yarn build
-- yarn gulp compress
+install:
+    - yarn gulp compress
 
 deploy:
   provider: releases
