@@ -25,16 +25,14 @@ The [master](https://github.com/popcorn-official/popcorn-desktop) branch which c
 
 #### Quickstart:
 
-1. `gulp run`
+1. `yarn gulp run`
 
 If you encounter trouble with the above method, you can try:
 
-1. `npm install -g bower gulp` (Linux: you may need to run with `sudo`)
-
-2. `npm install`
-3. `bower install`
-4. `gulp build`
-5. `gulp run`
+1. `yarn config set yarn-offline-mirror ./node_modules/` 
+2. `yarn install --ignore-engines`
+3. `yarn build`
+5. `yarn gulp run`
 
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
