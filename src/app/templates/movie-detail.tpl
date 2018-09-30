@@ -63,6 +63,7 @@ if (genre) {
     <div class="bottom-container">
 
         <div class="favourites-toggle"><%=i18n.__("Add to bookmarks") %></div>
+        <div class="sha-hide"><%=i18n.__("Hide this") %></div>
         <div class="watched-toggle"><%=i18n.__("Not Seen") %></div>
         <br>
 

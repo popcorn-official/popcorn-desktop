@@ -3,7 +3,7 @@
 /********
  * setup *
  ********/
-const nwVersion = '0.18.6',
+const nwVersion = '0.32.4',
     availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'],
     releasesDir = 'build',
     nwFlavor = 'sdk';
@@ -16,15 +16,18 @@ const gulp = require('gulp'),
     glp = require('gulp-load-plugins')(),
     runSequence = require('run-sequence'),
     del = require('del'),
-
+    download = require('gulp-download2'),
+    decompress = require('gulp-decompress'),
+    zip = require('gulp-zip'),
     nwBuilder = require('nw-builder'),
     currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
 
     yargs = require('yargs'),
+    yarn = require('gulp-yarn'),
     nib = require('nib'),
     git = require('git-rev'),
 
-    fs = require('fs'),
+    fs = require('fs-extra'),
     path = require('path'),
     exec = require('child_process').exec,
     spawn = require('child_process').spawn,
@@ -64,27 +67,13 @@ const parsePlatforms = () => {
 // returns an array of paths with the node_modules to include in builds
 const parseReqDeps = () => {
     return new Promise((resolve, reject) => {
-        exec('npm ls --production=true --parseable=true', {maxBuffer: 1024 * 500}, (error, stdout, stderr) => {
-            if (error || stderr) {
-                reject(error || stderr);
-            } else {
-                // build array
-                let npmList = stdout.split('\n');
-
-                // remove empty or soon-to-be empty
-                npmList = npmList.filter((line) => {
-                    return line.replace(process.cwd().toString(), '');
-                });
-
-                // format for nw-builder
-                npmList = npmList.map((line) => {
-                    return line.replace(process.cwd(), '.') + '/**';
-                });
-
-                // return
-                resolve(npmList);
-            }
+        var npmList = fs.readdirSync('./node_modules');
+        // format for nw-builder
+        npmList = npmList.map((line) => {
+            return './node_modules/' + line.replace(process.cwd(), '.') + '/**';
         });
+        // return
+        resolve(npmList);
     });
 };
 
@@ -125,10 +114,20 @@ const nw = new nwBuilder({
     macIcns: './src/app/images/butter.icns',
     version: nwVersion,
     flavor: nwFlavor,
-    downloadUrl: 'https://get.popcorntime.sh/repo/nw/',
+    downloadUrl: 'https://dl.nwjs.io/',
     platforms: parsePlatforms()
 }).on('log', console.log);
 
+var osvar = process.platform;
+
+if (osvar === 'darwin') {
+    osvar = 'osx';
+} else if (osvar === 'win32') {
+    osvar = 'win';
+} else {
+    osvar = 'linux';
+}
+var ffmpegurl = 'https://github.com/iteufel/nwjs-ffmpeg-prebuilt/releases/download/' + nwVersion + '/' + nwVersion + '-' + osvar + '-x64.zip';
 
 /*************
  * gulp tasks *
@@ -140,7 +139,7 @@ gulp.task('run', () => {
             bin = path.join('cache', nwVersion + '-' + nwFlavor, platform);
 
         // path to nw binary
-        switch(platform.slice(0,3)) {
+        switch (platform.slice(0, 3)) {
             case 'osx':
                 bin += '/nwjs.app/Contents/MacOS/nwjs';
                 break;
@@ -179,9 +178,43 @@ gulp.task('run', () => {
     });
 });
 
+// get ffmpeg lib
+gulp.task('downloadffmpeg', () => {
+    var parsed = ffmpegurl.substring(ffmpegurl.lastIndexOf('/'));
+    if (!fs.existsSync('./cache/ffmpeg' + parsed)) {
+        console.log('FFmpeg download starting....');
+        return download(ffmpegurl).pipe(gulp.dest('./cache/ffmpeg/'));
+    }
+});
+
+gulp.task('unzipffmpeg', () => {
+    let ffpath = './build/' + pkJson.name + '/' + parsePlatforms();
+    return gulp.src('./cache/ffmpeg/*.{tar,tar.bz2,tar.gz,zip}')
+        .pipe(decompress({ strip: 1 }))
+        .pipe(gulp.dest(ffpath))
+        .on('error', function (err) {
+            console.error(err);
+        }).on('end', () => {
+            console.log('FFmpeg copied to ' + ffpath + ' folder.');
+        });
+});
+
+// development purpose
+gulp.task('unzipffmpegcache', () => {
+    let platform = parsePlatforms()[0], bin = path.join('cache', nwVersion + '-' + nwFlavor, platform);
+    return gulp.src('./cache/ffmpeg/*.{tar,tar.bz2,tar.gz,zip}')
+        .pipe(decompress({ strip: 1 }))
+        .pipe(gulp.dest(bin))
+        .on('error', function (err) {
+            console.error(err);
+        }).on('end', () => {
+            console.log('FFmpeg copied to ' + bin + ' folder.');
+        });
+});
+
 // build app from sources
 gulp.task('build', (callback) => {
-    runSequence('injectgit', 'css', 'nwjs', callback);
+    runSequence('injectgit', 'css', 'downloadffmpeg', 'nwjs', 'unzipffmpeg', 'unzipffmpegcache', callback);
 });
 
 // create redistribuable packages
@@ -244,6 +277,7 @@ gulp.task('injectgit', () => {
         console.log(error);
         console.log('Injectgit task failed');
     });
+
 });
 
 // compile styl files
@@ -370,64 +404,27 @@ gulp.task('deb', () => {
 // package in tgz (win) or in xz (unix)
 gulp.task('compress', () => {
     return Promise.all(nw.options.platforms.map((platform) => {
-
-        // don't package win, use nsis
-        if (platform.indexOf('win') !== -1) {
-            console.log('No `compress` task for:', platform);
-            return null;
-        }
-
         return new Promise((resolve, reject) => {
-            console.log('Packaging tar for: %s', platform);
-
+            console.log('Packaging zip for: %s', platform);
             const sources = path.join('build', pkJson.name, platform);
-
-            // compress with gulp on windows
-            if (currentPlatform().indexOf('win') !== -1) {
-
-                return gulp.src(sources + '/**')
-                    .pipe(glp.tar(pkJson.name + '-' + pkJson.version + '_' + platform + '.tar'))
-                    .pipe(glp.gzip())
-                    .pipe(gulp.dest(releasesDir))
-                    .on('end', () => {
-                        console.log('%s tar packaged in %s', platform, path.join(process.cwd(), releasesDir));
-                        resolve();
-                    });
-
-                // compress with tar on unix*
-            } else {
-
-                // using the right directory
-                const platformCwd = platform.indexOf('linux') !== -1 ? '.' : pkJson.name + '.app';
-
-                // list of commands
-                const commands = [
-                    'cd ' + sources,
-                    'tar --exclude-vcs -c ' + platformCwd + ' | $(command -v pxz || command -v xz) -T8 -7 > "' + path.join(process.cwd(), releasesDir, pkJson.name + '-' + pkJson.version + '_' + platform + '.tar.xz') + '"',
-                    'echo "' + platform + ' tar packaged in ' + path.join(process.cwd(), releasesDir) + '" || echo "' + platform + ' failed to package tar"'
-                ].join(' && ');
-
-                exec(commands, (error, stdout, stderr) => {
-                    if (error || stderr) {
-                        console.log(error || stderr);
-                        console.log('%s failed to package tar', platform);
-                        resolve();
-                    } else {
-                        console.log(stdout.replace('\n', ''));
-                        resolve();
-                    }
+            return gulp.src(sources + '/**')
+                .pipe(zip(pkJson.name + '-' + pkJson.version + '_' + platform + '.zip'))
+                .pipe(gulp.dest(releasesDir))
+                .on('end', () => {
+                    console.log('%s zip packaged in %s', platform, path.join(process.cwd(), releasesDir));
+                    resolve();
                 });
-            }
         });
     })).catch(log);
 });
+
 
 // prevent commiting if conditions aren't met and force beautify (bypass with `git commit -n`)
 gulp.task('pre-commit', ['jshint']);
 
 // check entire sources for potential coding issues (tweak in .jshintrc)
 gulp.task('jshint', () => {
-    return gulp.src(['gulpfile.js', 'src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', 'src/app/*.js'])
+    return gulp.src(['gulpfile.js', 'src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/vendor/*.js', 'src/app/*.js'])
         .pipe(glp.jshint('.jshintrc'))
         .pipe(glp.jshint.reporter('jshint-stylish'))
         .pipe(glp.jshint.reporter('fail'));
@@ -435,9 +432,9 @@ gulp.task('jshint', () => {
 
 // beautify entire code (tweak in .jsbeautifyrc)
 gulp.task('jsbeautifier', () => {
-    return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', '*.js', '*.json'], {
-            base: './'
-        })
+    return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/*.js', '*.js', '*.json'], {
+        base: './'
+    })
         .pipe(glp.jsbeautifier({
             config: '.jsbeautifyrc'
         }))
@@ -463,6 +460,14 @@ gulp.task('clean:css',
 // travis tests
 gulp.task('test', (callback) => {
     runSequence('jshint', 'injectgit', 'css', callback);
+});
+
+gulp.task('yarn', function () {
+    return gulp.src(['./package.json', './yarn.lock'])
+        .pipe(gulp.dest('./dist'))
+        .pipe(yarn({
+            production: true
+        }));
 });
 
 //TODO:

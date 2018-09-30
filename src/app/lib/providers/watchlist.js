@@ -1,13 +1,12 @@
-/* globals moment*/
 (function (App) {
     'use strict';
     var memoize = require('memoizee');
     var Watchlist = function () {
-        this.fetch = memoize(this._fetch.bind(this), {
-            maxAge: 30 * 1000, // 30sec
-            preFetch: 0.5, // recache every 15sec
+        /*this.fetch = memoize(this._fetch , {
+            maxAge: 600 * 1000, // 10 min
+            preFetch: 0.9, // recache every 5 minutes
             primitive: true
-        });
+        });*/
     };
     Watchlist.prototype.constructor = Watchlist;
     Watchlist.prototype.config = {
@@ -29,22 +28,22 @@
                 }
             }
         })).then(function () {
-            arranged_shows = shows.sort(function(a, b){
-                if(a.episode_aired > b.episode_aired) {
+            arranged_shows = shows.sort(function (a, b) {
+                if (a.episode_aired > b.episode_aired) {
                     return -1;
                 }
-                if(a.episode_aired < b.episode_aired) {
+                if (a.episode_aired < b.episode_aired) {
                     return 1;
                 }
                 return 0;
             });
             //console.log('rearranged shows by air date');//debug
 
-            arranged_movies = movies.sort(function(a, b){
-                if(a.listed_at < b.listed_at) {
+            arranged_movies = movies.sort(function (a, b) {
+                if (a.listed_at < b.listed_at) {
                     return -1;
                 }
-                if(a.listed_at > b.listed_at) {
+                if (a.listed_at > b.listed_at) {
                     return 1;
                 }
                 return 0;
@@ -62,7 +61,7 @@
 
         return Promise.all(items.map(function (item) {
             if (item.next_episode) {
-                if(moment(item.next_episode.first_aired).fromNow().indexOf('in') !== -1) {
+                if (moment(item.next_episode.first_aired).fromNow().indexOf('in') !== -1) {
                     win.debug('"%s" is not released yet, not showing', item.show.title + ' ' + item.next_episode.season + 'x' + item.next_episode.number);
                 } else {
                     var show = item.show;
@@ -85,7 +84,7 @@
                 if (!item.movie) {
                     //console.log('item is not a movie', item); //debug
                 } else {
-                    if(moment(item.movie.released).fromNow().indexOf('in') !== -1) {
+                    if (moment(item.movie.released).fromNow().indexOf('in') !== -1) {
                         win.debug('"%s" is not released yet, not showing', item.movie.title);
                     } else {
                         var movie = item.movie;
@@ -198,10 +197,10 @@
     };
 
     Watchlist.prototype.detail = function (torrent_id, old_data, callback) {
-        return {};
+        return App.Providers.get('TVApi?&apiURL=https://tv-v2.api-fetch.website/,cloudflare+https://tv-v2.api-fetch.website').detail(torrent_id, torrent_id);
     };
 
-    Watchlist.prototype._fetch = function (filters) {
+    Watchlist.prototype.fetch = function (filters) {
         return new Promise(function (resolve, reject) {
             if (filters && typeof filters !== 'function' && (filters.force || filters.update)) {
                 if (filters.update && localStorage.watchlist_update_shows) {
@@ -221,7 +220,7 @@
                 if (!localStorage.watchlist_cached || parseInt(localStorage.watchlist_fetched_time) + 14400000 < Date.now()) {
                     win.debug('Watchlist - no watchlist cached or cache expired');
                     if (App.Trakt.authenticated) {
-                        return App.Providers.get('Watchlist').fetch({force:true}).then(resolve).catch(reject);
+                        return App.Providers.get('Watchlist').fetch({ force: true }).then(resolve).catch(reject);
                     } else {
                         reject('Trakt not authenticated');
                     }
@@ -238,10 +237,10 @@
 
     function onShowWatched(show, channel) {
         if (channel === 'database') {
-            setTimeout(function() {
+            setTimeout(function () {
                 App.Providers.get('Watchlist').fetch({
                     update: show.imdb_id
-                }).then(function() {
+                }).then(function () {
                     if (App.currentview === 'Watchlist') {
                         App.vent.trigger('watchlist:list');
                     }

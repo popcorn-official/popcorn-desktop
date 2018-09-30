@@ -55,7 +55,6 @@ if (nw.App.fullArgv.indexOf('--reset') !== -1) {
 
 }
 
-
 // Global App skeleton for backbone
 var App = new Marionette.Application({
     region: '.main-window-region'

@@ -3,10 +3,17 @@
 
     // Torrent Health
     var torrentHealth = require('webtorrent-health'),
-    cancelTorrentHealth = function () {},
-    torrentHealthRestarted = null;
+        PirateBay = require('thepiratebay'),
+        cancelTorrentHealth = function () { },
+        torrentHealthRestarted = null;
 
-    var _this, bookmarked;
+    var _this, bookmarked, hide;
+
+    //used for piratebay auto search
+    function pad(n) {
+        return (n < 10) ? ('0' + n) : n;
+    }
+
     var ShowDetail = Marionette.View.extend({
         template: '#show-detail-tpl',
         className: 'shows-container-contain',
@@ -17,11 +24,13 @@
             q720p: '#q720',
             q480p: '#q480',
             bookmarkIcon: '.sha-bookmark',
+            hideIcon: '.sha-hide',
             seasonTab: '.sd-seasons'
         },
 
         events: {
             'click .sha-bookmark': 'toggleFavorite',
+            'click .sha-hide': 'toggleHide',
             'click .sha-watched': 'markShowAsWatched',
             'click .watched': 'toggleWatched',
             'click #watch-now': 'startStreaming',
@@ -36,6 +45,7 @@
             'click .q480': 'toggleShowQuality',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .shmi-rating': 'switchRating',
+            'click .watched-toggle': 'toggleWatched',
             'click .health-icon': 'resetHealth'
         },
 
@@ -55,6 +65,29 @@
                 that.model.set('bookmarked', false);
             }
             $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-favorites').click();
+        },
+
+        toggleHide: function (e) {
+            if (e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            var that = this;
+            Database.toggleItemToNotWanted(that.model.get('imdb_id'),that.model.get('type')).then(
+                function(wantedStat){
+                    console.log('wantedStat:'+wantedStat);
+                    if (wantedStat === 'added') {
+                        that.ui.hideIcon.addClass('selected').text(i18n.__('Unhide'));
+                        switch (Settings.watchedCovers) {
+                            case 'hide':
+                                $('li[data-imdb-id="' + that.model.get('imdb_id') + '"]').remove();
+                                break;
+                        }
+                    } else {
+                        that.ui.hideIcon.removeClass('selected').text(i18n.__('Hide this'));
+                    }
+                }
+            ).catch(err => console.log(err));
         },
 
 
@@ -146,7 +179,7 @@
                     $('.shp-img')
                         .css('background-image', 'url(' + cbackground + ')')
                         .addClass('fadein');
-                } catch (e) {}
+                } catch (e) { }
                 coverCache = null;
             };
             coverCache.onerror = function () {
@@ -154,7 +187,7 @@
                     $('.shp-img')
                         .css('background-image', 'url("images/posterholder.png")')
                         .addClass('fadein');
-                } catch (e) {}
+                } catch (e) { }
                 coverCache = null;
             };
 
@@ -166,7 +199,7 @@
                     $('.shc-img')
                         .css('background-image', 'url(' + background + ')')
                         .addClass('fadein');
-                } catch (e) {}
+                } catch (e) { }
                 bgCache = null;
             };
             bgCache.onerror = function () {
@@ -174,7 +207,7 @@
                     $('.shc-img')
                         .css('background-image', 'url("images/bg-header.jpg")')
                         .addClass('fadein');
-                } catch (e) {}
+                } catch (e) { }
                 bgCache = null;
             };
 
@@ -347,6 +380,7 @@
                             $('.sha-watched').show();
                         }
                     });
+                Database.markEpisodeAsWatched(episode);
             });
         },
 
@@ -422,7 +456,7 @@
             var selected_quality = $(e.currentTarget).attr('data-quality');
             var auto_play = false;
 
-            if (AdvSettings.get('playNextEpisodeAuto') && this.model.get('imdb_id').indexOf('mal') === -1) {
+            if (Settings.playNextEpisodeAuto && this.model.get('imdb_id').indexOf('mal') === -1) {
                 _.each(this.model.get('episodes'), function (value) {
                     var epaInfo = {
                         id: parseInt(value.season) * 100 + parseInt(value.episode),
@@ -559,33 +593,33 @@
             }
 
             switch (Settings.shows_default_quality) {
-            case '1080p':
-                if (torrents.q1080) {
-                    quality = '1080p';
-                } else if (torrents.q720) {
-                    quality = '720p';
-                } else if (torrents.q480) {
-                    quality = '480p';
-                }
-                break;
-            case '720p':
-                if (torrents.q720) {
-                    quality = '720p';
-                } else if (torrents.q480) {
-                    quality = '480p';
-                } else if (torrents.q1080) {
-                    quality = '1080p';
-                }
-                break;
-            case '480p':
-                if (torrents.q480) {
-                    quality = '480p';
-                } else if (torrents.q720) {
-                    quality = '720p';
-                } else if (torrents.q1080) {
-                    quality = '1080p';
-                }
-                break;
+                case '1080p':
+                    if (torrents.q1080) {
+                        quality = '1080p';
+                    } else if (torrents.q720) {
+                        quality = '720p';
+                    } else if (torrents.q480) {
+                        quality = '480p';
+                    }
+                    break;
+                case '720p':
+                    if (torrents.q720) {
+                        quality = '720p';
+                    } else if (torrents.q480) {
+                        quality = '480p';
+                    } else if (torrents.q1080) {
+                        quality = '1080p';
+                    }
+                    break;
+                case '480p':
+                    if (torrents.q480) {
+                        quality = '480p';
+                    } else if (torrents.q720) {
+                        quality = '720p';
+                    } else if (torrents.q1080) {
+                        quality = '1080p';
+                    }
+                    break;
             }
 
 
@@ -787,14 +821,29 @@
                     blacklist: Settings.trackers.blacklisted,
                     trackers: Settings.trackers.forced
                 }, function (err, res) {
-                  if (err) {
-                    win.debug(err);
-                  }
+                    if (err) {
+                        win.debug(err);
+                    }
                     if (cancelled) {
                         return;
                     }
                     if (res.seeds === 0 && torrentHealthRestarted < 5) {
                         torrentHealthRestarted++;
+                        /*if(torrentHealthRestarted===4){
+                            var epnum = $('.startStreaming').attr('data-episode');
+                            var sesnum = $('.startStreaming').attr('data-season');
+                            var searchTxt = $('.shm-title').text() + ' S'+pad(sesnum)+'E'+pad(epnum);
+                            console.log(searchTxt);
+                            PirateBay.search(searchTxt)
+                            .then(function(results){
+                                if(results.length>0){
+                                    win.debug('before magnet '+$('.startStreaming').attr('data-torrent'));
+                                    $('.startStreaming').attr('data-torrent',results[0].magnetLink);
+                                    win.debug('after magnet '+$('.startStreaming').attr('data-torrent'));
+                                    //$('.health-icon').click();
+                                }
+                            }).catch(err => console.log(err));
+                        }*/
                         $('.health-icon').click();
                     } else {
                         torrentHealthRestarted = 0;
@@ -802,25 +851,41 @@
                             seed: res.seeds,
                             peer: res.peers
                         });
+                        //pirate bay search
+                        var epnum = $('.startStreaming').attr('data-episode');
+                        var sesnum = $('.startStreaming').attr('data-season');
+                        var searchTxt = $('.shm-title').text() + ' S' + pad(sesnum) + 'E' + pad(epnum);
+                        console.log(searchTxt);
+                        PirateBay.search(searchTxt)
+                            .then(function (results) {
+                                if (results.length > 0) {
+                                    /*for(var r in results){
+                                        console.log('after magnet ' + results[r].magnetLink);
+                                    }*/
+                                    //$('.startStreaming').attr('data-torrent', results[0].magnetLink);
+                                    console.log(results[0]);
+                                }
+                            }).catch(err => console.log(err));
+
                         var health = Common.healthMap[h].capitalize();
                         var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
 
                         $('.health-icon').tooltip({
-                                html: true
-                            })
+                            html: true
+                        })
                             .removeClass('Bad Medium Good Excellent')
                             .addClass(health)
                             .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
                             .tooltip('fixTitle');
                     }
                 });
-              }
+            }
         },
 
         resetHealth: function () {
             $('.health-icon').tooltip({
-                    html: true
-                })
+                html: true
+            })
                 .removeClass('Bad Medium Good Excellent')
                 .attr('data-original-title', i18n.__('Health Unknown'))
                 .tooltip('fixTitle');

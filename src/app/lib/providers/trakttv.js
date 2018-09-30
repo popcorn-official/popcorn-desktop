@@ -215,10 +215,37 @@
             var refresh = Settings.traktLastSync + this.cache < Date.now();
             var onStart = Settings.traktSyncOnStart;
 
-            if (forced) {
-                // sync forced (usually first call or settings button)
-                return this.syncAll(true);
-            }
+    function onShowWatched(show, channel) {
+        win.debug('Mark Episode as watched on channel:', channel);
+        switch (channel) {
+        case 'database':
+            setTimeout(function () {
+                App.Providers.get('Watchlist').fetch({
+                    update: show.imdb_id
+                }).then(function () {
+                    App.vent.trigger('watchlist:list');
+                });
+            }, 2000);
+            try {
+                switch (Settings.watchedCovers) {
+                case 'fade':
+                    $('li[data-imdb-id="' + show.imdb_id + '"] .actions-watched').addClass('selected');
+                    $('li[data-imdb-id="' + show.imdb_id + '"]').addClass('watched');
+                    break;
+                case 'hide':
+                    $('li[data-imdb-id="' + show.imdb_id + '"]').remove();
+                    break;
+                }
+                $('.watched-toggle').addClass('selected').text(i18n.__('Seen'));
+            } catch (e) {}
+            break;
+        case 'seen':
+            /* falls through */
+        default:
+            App.Trakt.sync.addToHistory('episode', show.episode_id);
+            break;
+        }
+    }
 
             if (onStart && refresh) {
                 // cache is old, refresh if something has changed in last_activities

@@ -44,6 +44,7 @@
         </div>
         <div class="sh-actions">
             <div class="sha-bookmark"><%=i18n.__("Add to bookmarks") %></div>
+            <div class="sha-hide"><%=i18n.__("Hide this") %></div>
             <div class="sha-watched"><%=i18n.__("Mark as Seen") %></div>
         </div>
     </section>

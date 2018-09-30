@@ -34,3 +34,5 @@ lib-cov
 *.pid
 *.gz
 *.iml
+/dist/
+package-lock.json

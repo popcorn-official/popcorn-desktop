@@ -497,6 +497,9 @@
         toggleSelectedFavourite: function (e) {
             $('.item.selected .actions-favorites').click();
         },
+        toggleSelectedHide: function (e) {
+            $('.item.selected .actions-hides').click();
+        },
 
         toggleSelectedWatched: function (e) {
             $('.item.selected .actions-watched').click();

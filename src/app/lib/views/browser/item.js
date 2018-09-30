@@ -57,7 +57,7 @@
             this.model.set('bookmarked', bookmarked);
 
             var date = new Date();
-            var today = ('0' + (date.getMonth() + 　1)).slice(-2) + ('0' + (date.getDate())).slice(-2);
+            var today = ('0' + (date.getMonth() + 1)).slice(-2) + ('0' + (date.getDate())).slice(-2);
             if (today === '0401') { //april's fool
                 var title = this.model.get('title');
                 var titleArray = title.split(' ');
@@ -182,15 +182,15 @@
             var coverCache = new Image();
             coverCache.src = coverUrl;
             coverCache.onload = function () {
-                try {
+                if(this_.ui.cover !== '.cover'){
                     this_.ui.cover.css('background-image', 'url(' + coverUrl + ')').addClass('fadein');
-                } catch (e) {}
+                }
                 coverCache = null;
             };
             coverCache.onerror = function () {
-                try {
+                if(this_.ui.cover !== '.cover'){
                     this_.ui.cover.css('background-image', 'url("images/posterholder.png")').addClass('fadein');
-                } catch (e) {}
+                }
                 coverCache = null;
             };
 
@@ -236,6 +236,8 @@
                 var Type = type.charAt(0).toUpperCase() + type.slice(1);
                 this.model.set('health', false);
                 $('.spinner').show();
+                console.log(this.model.get('imdb_id'));
+                console.log(this.model.attributes);
                 data = provider.detail(this.model.get('imdb_id'), this.model.attributes)
                     .then(function (data) {
                         //console.log(data, Type);
@@ -262,10 +264,15 @@
                 if (Settings.watchedCovers === 'fade') {
                     this.$el.removeClass('watched');
                 }
-                that.model.set('watched', false);
-                App.vent.trigger('movie:unwatched', {
-                    imdb_id: that.model.get('imdb_id')
-                }, 'seen');
+                Database.markMovieAsNotWatched({
+                        imdb_id: this.model.get('imdb_id')
+                    }, true)
+                    .then(function () {
+                        that.model.set('watched', false);
+                        App.vent.trigger('movie:unwatched', {
+                            imdb_id: that.model.get('imdb_id')
+                        }, 'seen');
+                    });
             } else {
                 this.ui.watchedIcon.addClass('selected');
                 switch (Settings.watchedCovers) {
@@ -452,7 +459,6 @@
                 title: this.ui.bookmarkIcon.hasClass('selected') ? i18n.__('Remove from bookmarks') : i18n.__('Add to bookmarks')
             });
         }
-
     });
 
     App.View.Item = Item;
