@@ -19,7 +19,8 @@ after_success:
   - ls -ltr ./build/
 deploy:
   provider: releases
-  file: build/Popcorn-Time*
+  file_glob: true
+  file: build/Popcorn-Time*.zip
   name: Build $(date +'%d.%m.%Y %R')
   skip_cleanup: true
   on:
