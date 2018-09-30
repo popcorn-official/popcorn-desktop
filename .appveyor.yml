@@ -18,7 +18,7 @@ after_build:
   - yarn gulp compress
 
 artifacts:
-  - path: build\*.tar.gz
+  - path: build\*.zip
     name: PopcornTime
 
 deploy:
