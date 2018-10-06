@@ -2,6 +2,7 @@
     <% _.each (App.Config.getTabTypes(), function (tab) { %>
     <li class="source <%= tab.type %>TabShow providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.getFiltredProviderNames(tab.type) %>"><%= i18n.__(tab.name) %></li>
     <% }); %>
+    <li id="filterbar-favorites" class="source providerinfo" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Favorites") %>"><%= i18n.__("Favorites") %></li> 
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">
     <% if(typeof type !== 'undefined'){ %>
@@ -72,11 +73,6 @@
     <li style="display:none">
     <% } %>
         <i id="filterbar-watchlist" class="fa fa-inbox watchlist tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Watchlist") %>"></i>
-    </li>
-
-    <!-- Favorites -->
-    <li>
-        <i id="filterbar-favorites" class="fa fa-heart favorites tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Favorites") %>"></i>
     </li>
 
     <!-- Torrent Collection -->
