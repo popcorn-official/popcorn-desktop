@@ -1,6 +1,6 @@
 (function(App) {
     'use strict';
-    var dlnacasts = require('dlnacasts')();
+    var dlnacasts = require('dlnacasts2')();
     var xmlb = require('xmlbuilder');
     var collection = App.Device.Collection;
 
@@ -45,6 +45,8 @@
 
             self.player.play(url_video, media, function(err, status) {
                 if (err) {
+                    alert('Device will not play this video.');
+                    
                     win.error('DLNA.play error: ', err);
                 } else {
                     win.info('Playing ' + url + ' on ' + self.get('name'));
