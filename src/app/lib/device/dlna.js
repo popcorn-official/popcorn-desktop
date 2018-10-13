@@ -46,7 +46,7 @@
             self.player.play(url_video, media, function(err, status) {
                 if (err) {
                     alert('Device will not play this video.');
-                    
+                    App.LoadingView.cancelStreaming();
                     win.error('DLNA.play error: ', err);
                 } else {
                     win.info('Playing ' + url + ' on ' + self.get('name'));
