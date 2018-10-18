@@ -134,8 +134,10 @@
         }
     });
 
-    win.info('Scanning: Local Network for DLNA devices');
-    dlnacasts.update();
+    setInterval(function(){
+        win.info('Scanning: Local Network for DLNA devices');
+        dlnacasts.update();
+    },15000);
 
 
     App.Device.Dlna = Dlna;
