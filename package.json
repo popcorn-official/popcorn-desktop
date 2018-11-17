@@ -48,7 +48,7 @@
     "butter-settings-popcorntime.io": "git+https://github.com/popcorn-official/butter-settings-popcorn",
     "chromecasts": "1.9.0",
     "defer-request": "0.0.2",
-    "dlnacasts": "0.1.0",
+    "dlnacasts2": "0.1.2",
     "gitlab": "1.4.1",
     "i18n": "0.x.x",
     "iconv-lite": "0.x.x",
