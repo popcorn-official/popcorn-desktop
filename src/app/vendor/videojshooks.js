@@ -80,8 +80,8 @@ vjs.Player.prototype.onFullscreenChange = function () {
 // This is a custom way of loading subtitles, since we can't use src (CORS blocks it and we can't disable it)
 // We fetch them when requested, process them and finally throw a parseCues their way
 vjs.TextTrack.prototype.load = function () {
-    // Only load if not loaded yet.
-    if (this.readyState_ === 0) {
+    // Only load if not loaded yet or is error
+    if (this.readyState_ === 0 || this.readyState_ === 3) {
         var this_ = this;
         this.readyState_ = 1;
 
@@ -107,8 +107,7 @@ vjs.TextTrack.prototype.load = function () {
         };
 
         // Fetches a raw subtitle, locally or remotely
-        var get_subtitle = function (subtitle_url, callback) {
-
+        var get_subtitle = function (subtitle_url, callback, retry_cnt) {
             // Fetches Locally
             if (fs.existsSync(path.join(subtitle_url))) {
                 fs.readFile(subtitle_url, function (error, data) {
@@ -127,7 +126,19 @@ vjs.TextTrack.prototype.load = function () {
                     if (!error && response.statusCode === 200) {
                         callback(data);
                     } else {
-                        console.warn('Failed to download subtitle!', error, response);
+                        if (retry_cnt === undefined) {
+                            retry_cnt=0;
+                        }
+                        retry_cnt++;
+                        if (retry_cnt<5) {
+                            console.log('subtitle url download failed. retry: ' + retry_cnt + ' out of 4');
+                            get_subtitle(subtitle_url, callback, retry_cnt);
+                        } else {
+                            $('.notification_alert').text(i18n.__('Error downloading subtitle.')).fadeIn('fast').delay(2500).fadeOut('fast');
+                            console.warn('Failed to download subtitle!', error, response);
+                            // change readyState to 0 because 3 (error state) will not allow additional retry if user select the same language later
+                            this_.readyState_ = 0;
+                        }
                     }
                 });
             }
