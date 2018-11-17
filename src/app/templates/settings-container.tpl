@@ -485,10 +485,6 @@
                 <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
             </span>
             <span>
-                <p><%= i18n.__("DHT Limit") %></p>
-                <input type="text" id="dhtLimit" size="20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
-            </span>
-            <span>
                 <p><%= i18n.__("Port to stream on") %></p>
                 <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
             </span>
@@ -572,8 +568,8 @@
                 <label class="settings-label" for="cb6"><%= i18n.__("Activate Update seeding") %></label>
             </span>
             <span>
-                <input class="settings-checkbox" name="events" id="cb7" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb7"><%= i18n.__("Celebrate various events") %></label>
+                <input class="settings-checkbox" name="events" id="cb9" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
+                <label class="settings-label" for="cb9"><%= i18n.__("Celebrate various events") %></label>
             </span>
             <span>
                 <input class="settings-checkbox" name="minimizeToTray" id="minimizeToTray" type="checkbox" <%=(Settings.minimizeToTray? "checked='checked'":"")%>>

@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    App.View.Notification = Backbone.Marionette.ItemView.extend({
+    App.View.Notification = Marionette.View.extend({
         template: '#notification-tpl',
         className: 'notificationWrapper',
 
@@ -19,7 +19,7 @@
             }
         },
 
-        onShow: function () {
+        onAttach: function () {
             var _this = this;
             // Uniquely identify each button and wire up the callback.
             this.model.get('buttons').forEach(function (button, index) {

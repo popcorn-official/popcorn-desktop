@@ -199,6 +199,7 @@
     // linux
     addPath('/usr/bin');
     addPath('/usr/local/bin');
+    addPath('/snap/bin');
     // darwin
     addPath('/Applications');
     addPath(process.env.HOME + '/Applications');

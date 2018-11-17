@@ -7,7 +7,7 @@
     torrentHealthRestarted = null;
 
     var _this, bookmarked;
-    var ShowDetail = Backbone.Marionette.ItemView.extend({
+    var ShowDetail = Marionette.View.extend({
         template: '#show-detail-tpl',
         className: 'shows-container-contain',
 
@@ -112,22 +112,22 @@
             }
         },
         initKeyboardShortcuts: function () {
-            Mousetrap.bind('q', _this.toggleQuality);
+            Mousetrap.bind('q', _this.toggleQuality, 'keydown');
             Mousetrap.bind('down', _this.nextEpisode);
             Mousetrap.bind('up', _this.previousEpisode);
-            Mousetrap.bind('w', _this.toggleEpisodeWatched);
+            Mousetrap.bind('w', _this.toggleEpisodeWatched, 'keydown');
             Mousetrap.bind(['enter', 'space'], _this.playEpisode);
             Mousetrap.bind(['esc', 'backspace'], _this.closeDetails);
             Mousetrap.bind(['ctrl+up', 'command+up'], _this.previousSeason);
             Mousetrap.bind(['ctrl+down', 'command+down'], _this.nextSeason);
             Mousetrap.bind('f', function () {
                 $('.sha-bookmark').click();
-            });
+            }, 'keydown');
         },
 
         unbindKeyboardShortcuts: Mousetrap.reset,
 
-        onShow: function () {
+        onAttach: function () {
             bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
 
             if (bookmarked) {
@@ -835,7 +835,7 @@
             }
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             this.unbindKeyboardShortcuts();
         }
 

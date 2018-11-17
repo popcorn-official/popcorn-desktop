@@ -85,6 +85,7 @@
 
         // Third party
         "Backbone": true,
+        "Marionette": true,
         "Mousetrap": true,
         "_": true,
         "request": true,

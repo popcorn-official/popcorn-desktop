@@ -434,8 +434,9 @@
                 this.subtitleReady = true;
             }
         },
-
-        handleSubtitles: function (subtitle_retry) {
+     
+      
+        handleSubtitles: function () {
             if (this.stopped) {
                 return;
             }
@@ -520,5 +521,7 @@
 
     App.vent.on('stream:start', streamer.start.bind(streamer));
     App.vent.on('stream:stop', streamer.stop.bind(streamer));
+    App.vent.on('stream:serve_subtitles', streamer.serveSubtitles.bind(streamer));
+    App.vent.on('stream:unserve_subtitles', App.Subtitles.server.stop);
 
 })(window.App);
