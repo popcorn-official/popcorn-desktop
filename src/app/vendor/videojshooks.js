@@ -80,8 +80,8 @@ vjs.Player.prototype.onFullscreenChange = function () {
 // This is a custom way of loading subtitles, since we can't use src (CORS blocks it and we can't disable it)
 // We fetch them when requested, process them and finally throw a parseCues their way
 vjs.TextTrack.prototype.load = function () {
-    // Only load if not loaded yet.
-    if (this.readyState_ === 0) {
+    // Only load if not loaded yet or is error
+    if (this.readyState_ === 0 || this.readyState_ === 3) {
         var this_ = this;
         this.readyState_ = 1;
 
@@ -107,8 +107,7 @@ vjs.TextTrack.prototype.load = function () {
         };
 
         // Fetches a raw subtitle, locally or remotely
-        var get_subtitle = function (subtitle_url, callback) {
-
+        var get_subtitle = function (subtitle_url, callback, retry_cnt) {
             // Fetches Locally
             if (fs.existsSync(path.join(subtitle_url))) {
                 fs.readFile(subtitle_url, function (error, data) {
@@ -127,7 +126,19 @@ vjs.TextTrack.prototype.load = function () {
                     if (!error && response.statusCode === 200) {
                         callback(data);
                     } else {
-                        console.warn('Failed to download subtitle!', error, response);
+                        if (retry_cnt === undefined) {
+                            retry_cnt=0;
+                        }
+                        retry_cnt++;
+                        if (retry_cnt<5) {
+                            console.log('subtitle url download failed. retry: ' + retry_cnt + ' out of 4');
+                            get_subtitle(subtitle_url, callback, retry_cnt);
+                        } else {
+                            $('.notification_alert').text(i18n.__('Error downloading subtitle.')).fadeIn('fast').delay(2500).fadeOut('fast');
+                            console.warn('Failed to download subtitle!', error, response);
+                            // change readyState to 0 because 3 (error state) will not allow additional retry if user select the same language later
+                            this_.readyState_ = 0;
+                        }
                     }
                 });
             }
@@ -140,7 +151,7 @@ vjs.TextTrack.prototype.load = function () {
                 lastBeginTime,
 
                 //input
-                orig = /([^\\]+)$/.exec(file)[1],
+                orig = /([^\\\/]+)$/.exec(file)[1],
                 origPath = file.substr(0, file.indexOf(orig)),
 
                 //output
@@ -153,97 +164,109 @@ vjs.TextTrack.prototype.load = function () {
             fs.writeFileSync(path.join(srtPath, srt), ''); //create or delete content;
             console.log('SUB format can be converted:', orig);
 
-            var rl = readline.createInterface({
-                input: fs.createReadStream(path.join(origPath, orig)),
-                output: process.stdout,
-                terminal: false
-            });
-            rl.on('line', function (line) {
+            if (ext === '.smi' || ext === '.sami') {
+                fs.readFile(file, {encoding: 'utf-8'}, function(err, data) {
+                    var subsrt = require('subsrt');
+                    // Remove all <br> tags since it breaks the video.js srt parser and we don't need empty lines in the smi format
+                    data = data.replace(/<br.*>/g, '');
+                    var smiData = subsrt.convert(data, { format: 'srt', eol: '\n' });
+                    fs.appendFileSync(path.join(srtPath, srt), smiData, 'utf-8');
+                });
+            }
+            else {
+                var rl = readline.createInterface({
+                    input: fs.createReadStream(path.join(origPath, orig)),
+                    output: process.stdout,
+                    terminal: false
+                });
+                rl.on('line', function (line) {
 
-                //detect encoding
-                var charset = charsetDetect.detect(line);
-                var encoding = charset.encoding;
-                var line_, parsedBeginTime, parsedEndTime, parsedDialog;
+                    //detect encoding
+                    var charset = charsetDetect.detect(line);
+                    var encoding = charset.encoding;
+                    var line_, parsedBeginTime, parsedEndTime, parsedDialog;
 
-                //parse SSA
-                if (ext === '.ssa' || ext === '.ass') {
-                    encoding = 'utf-8';
-                    if (line.indexOf('Format:') !== -1) {
-                        var ssaFormat = line.split(',');
+                    // TODO: Replace the .ssa/.ass parsing code by using th subsrt library, like for the smi parsing
+                    //parse SSA
+                    if (ext === '.ssa' || ext === '.ass') {
+                        encoding = 'utf-8';
+                        if (line.indexOf('Format:') !== -1) {
+                            var ssaFormat = line.split(',');
 
-                        for (var i = 0; i < ssaFormat.length; i++) {
-                            switch (ssaFormat[i]) {
-                            case 'Text':
-                            case ' Text':
-                                dialog = i;
-                                break;
-                            case 'Start':
-                            case ' Start':
-                                begin_time = i;
-                                break;
-                            case 'End':
-                            case ' End':
-                                end_time = i;
-                                break;
-                            default:
+                            for (var i = 0; i < ssaFormat.length; i++) {
+                                switch (ssaFormat[i]) {
+                                case 'Text':
+                                case ' Text':
+                                    dialog = i;
+                                    break;
+                                case 'Start':
+                                case ' Start':
+                                    begin_time = i;
+                                    break;
+                                case 'End':
+                                case ' End':
+                                    end_time = i;
+                                    break;
+                                default:
+                                }
                             }
+
+                            if (dialog && begin_time && end_time) {
+                                console.log('SUB formatted in \'ssa\'');
+                            }
+                            return; //we have the elms spots, move on to the next line
                         }
 
-                        if (dialog && begin_time && end_time) {
-                            console.log('SUB formatted in \'ssa\'');
+                        if (line.indexOf('Dialogue:') === -1) { //not a dialog line
+                            return;
                         }
-                        return; //we have the elms spots, move on to the next line
+
+                        line_ = line.split(',');
+
+                        parsedBeginTime = line_[begin_time];
+                        parsedEndTime = line_[end_time];
+                        parsedDialog = line_[dialog];
+                        parsedDialog = parsedDialog.replace('{\\i1}', '<i>').replace('{\\i0}', '</i>'); //italics
+                        parsedDialog = parsedDialog.replace('{\\b1}', '<b>').replace('{\\b0}', '</b>'); //bold
+                        parsedDialog = parsedDialog.replace('\\N', '\n'); //return to line
+                        parsedDialog = parsedDialog.replace(/{.*?}/g, ''); //remove leftovers brackets 
                     }
 
-                    if (line.indexOf('Dialogue:') === -1) { //not a dialog line
-                        return;
+                    //parse TXT
+                    if (ext === '.txt') {
+                        line_ = line.split('}');
+
+                        var formatSeconds = function (seconds) {
+                            var date = new Date(1970, 0, 1);
+                            date.setSeconds(seconds);
+                            return date.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
+                        };
+
+                        parsedBeginTime = formatSeconds(line_[0].replace('{', '') / 25);
+                        parsedEndTime = formatSeconds(line_[1].replace('{', '') / 25);
+                        parsedDialog = line_[2].replace('|', '\n');
                     }
 
-                    line_ = line.split(',');
+                    //SRT needs a number for each subtitle
+                    counter += 1;
 
-                    parsedBeginTime = line_[begin_time];
-                    parsedEndTime = line_[end_time];
-                    parsedDialog = line_[dialog];
-                    parsedDialog = parsedDialog.replace('{\\i1}', '<i>').replace('{\\i0}', '</i>'); //italics
-                    parsedDialog = parsedDialog.replace('{\\b1}', '<b>').replace('{\\b0}', '</b>'); //bold
-                    parsedDialog = parsedDialog.replace('\\N', '\n'); //return to line
-                    parsedDialog = parsedDialog.replace(/{.*?}/g, ''); //remove leftovers brackets 
-                }
+                    //keep only the last lang
+                    if (parsedBeginTime < lastBeginTime) {
+                        counter = 1;
+                        fs.writeFileSync(path.join(srtPath, srt), '');
+                        console.log('SUB contains multiple tracks, keeping only the last');
+                    }
 
-                //parse TXT
-                if (ext === '.txt') {
-                    line_ = line.split('}');
+                    //SRT formatting
+                    var parsedLine =
+                        counter + '\n' +
+                        parsedBeginTime + ' --> ' + parsedEndTime + '\n' +
+                        parsedDialog;
 
-                    var formatSeconds = function (seconds) {
-                        var date = new Date(1970, 0, 1);
-                        date.setSeconds(seconds);
-                        return date.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
-                    };
-
-                    parsedBeginTime = formatSeconds(line_[0].replace('{', '') / 25);
-                    parsedEndTime = formatSeconds(line_[1].replace('{', '') / 25);
-                    parsedDialog = line_[2].replace('|', '\n');
-                }
-
-                //SRT needs a number for each subtitle
-                counter += 1;
-
-                //keep only the last lang
-                if (parsedBeginTime < lastBeginTime) {
-                    counter = 1;
-                    fs.writeFileSync(path.join(srtPath, srt), '');
-                    console.log('SUB contains multiple tracks, keeping only the last');
-                }
-
-                //SRT formatting
-                var parsedLine =
-                    counter + '\n' +
-                    parsedBeginTime + ' --> ' + parsedEndTime + '\n' +
-                    parsedDialog;
-
-                fs.appendFileSync(path.join(srtPath, srt), '\n\n' + parsedLine, encoding);
-                lastBeginTime = parsedBeginTime;
-            });
+                    fs.appendFileSync(path.join(srtPath, srt), '\n\n' + parsedLine, encoding);
+                    lastBeginTime = parsedBeginTime;
+                });
+            }
 
             setTimeout(function () {
                 fs.readFile(path.join(srtPath, srt), function (err, dataBuff) {
@@ -301,7 +324,7 @@ vjs.TextTrack.prototype.load = function () {
                     language = Settings.subtitle_language;
                     console.log('SUB charset: using subtitles_language setting (' + language + ') as default');
                 }
-                var langInfo = App.Localization.langcodes[language] || {};
+                var langInfo = App.Localization.langcodes[ (language.indexOf('|')>0 ? language.substr(0,language.indexOf('|')) : language) ] || {};
                 console.log('SUB charset expected:', langInfo.encoding);
                 if (langInfo.encoding !== undefined && langInfo.encoding.indexOf(detectedEncoding) < 0) {
                     // The detected encoding was unexepected to the language, so we'll use the most common
@@ -342,12 +365,14 @@ vjs.TextTrack.prototype.load = function () {
 
         // Get it, Unzip it, Decode it, Send it
         get_subtitle(this.src_, function (dataBuf) {
-            if (path.extname(this_.src_) === '.zip') {
+            var ext = path.extname(this_.src_);
+
+            if (ext === '.zip') {
                 decompress(dataBuf, function (dataBuf) {
                     decode(dataBuf, this_.language(), vjsBind);
                 });
-            } else if (path.extname(this_.src_) === '.ass' || path.extname(this_.src_) === '.ssa' || path.extname(this_.src_) === '.txt') {
-                convert2srt(this_.src_, path.extname(this_.src_), function (dataBuf) {
+            } else if (ext === '.ass' || ext === '.ssa' || ext === '.txt' || ext === '.smi' || ext === '.sami') {
+                convert2srt(this_.src_, ext, function (dataBuf) {
                     decode(dataBuf, this_.language(), vjsBind);
                 });
             } else {

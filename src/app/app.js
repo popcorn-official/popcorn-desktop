@@ -57,7 +57,9 @@ if (nw.App.fullArgv.indexOf('--reset') !== -1) {
 
 
 // Global App skeleton for backbone
-var App = new Backbone.Marionette.Application();
+var App = new Marionette.Application({
+    region: '.main-window-region'
+});
 _.extend(App, {
     Controller: {},
     View: {},
@@ -67,6 +69,9 @@ _.extend(App, {
     Providers: {},
     Localization: {}
 });
+
+// Create old v2 style vent
+App.vent = Backbone.Radio.channel('v2-vent');
 
 // set database
 App.db = Database;
@@ -79,10 +84,6 @@ fs.readFile('./.git.json', 'utf8', function (err, json) {
     if (!err) {
         App.git = JSON.parse(json);
     }
-});
-
-App.addRegions({
-    Window: '.main-window-region'
 });
 
 // Menu for mac
@@ -100,7 +101,7 @@ if (os.platform() === 'darwin') {
 //Keeps a list of stacked views
 App.ViewStack = [];
 
-App.addInitializer(function (options) {
+App.onBeforeStart = function (options) {
     // this is the 'do things with resolutions and size initializer
     var zoom = 0;
 
@@ -147,7 +148,7 @@ App.addInitializer(function (options) {
     win.zoomLevel = zoom;
     win.resizeTo(width, height);
     win.moveTo(x, y);
-});
+};
 
 var initTemplates = function () {
     // Load in external templates
@@ -170,16 +171,16 @@ var initApp = function () {
     win.show();
 
     try {
-        App.Window.show(mainWindow);
+        App.showView(mainWindow);
     } catch (e) {
         console.error('Couldn\'t start app: ', e, e.stack);
     }
 };
 
-App.addInitializer(function (options) {
+App.onStart = function (options) {
     initTemplates()
         .then(initApp);
-});
+};
 
 var deleteFolder = function (path) {
     rimraf(path, function () {});
@@ -305,11 +306,11 @@ Mousetrap.bind('shift+up shift+up shift+down shift+down shift+left shift+right s
     } else {
         body.addClass('knm');
     }
-});
+}, 'keydown');
 Mousetrap.bindGlobal(['command+ctrl+f', 'ctrl+alt+f'], function (e) {
     e.preventDefault();
     win.toggleFullscreen();
-});
+}, 'keydown');
 Mousetrap.bind('shift+b', function (e) {
     if (!ScreenResolution.SD) {
         if (App.settings.bigPicture) {
@@ -331,11 +332,10 @@ Mousetrap.bind('shift+b', function (e) {
             autoclose: true
         }));
     }
-});
+}, 'keydown');
 
 // Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
 window.ondragenter = function (e) {
-
     $('#drop-mask').show();
     var showDrag = true;
     var timeout = -1;
@@ -601,8 +601,10 @@ window.ondrop = function (e) {
     $('.drop-indicator').hide();
 
     var file = e.dataTransfer.files[0];
+    var ext = path.extname(file.name).toLowerCase();
 
-    if (file != null && (file.name.indexOf('.torrent') !== -1 || file.name.indexOf('.srt') !== -1)) {
+    // TODO: Make a function 'isSubtitleFile' to avoid having many || everywhere
+    if (file != null && ext === '.torrent' || ext === '.srt' || ext === '.smi' || ext === '.sami') {
 
         fs.writeFile(path.join(App.settings.tmpLocation, file.name), fs.readFileSync(file.path), function (err) {
             if (err) {
@@ -612,7 +614,7 @@ window.ondrop = function (e) {
                 if (file.name.indexOf('.torrent') !== -1) {
                     Settings.droppedTorrent = file.name;
                     handleTorrent(path.join(App.settings.tmpLocation, file.name));
-                } else if (file.name.indexOf('.srt') !== -1) {
+                } else if (ext === '.srt' || ext === '.smi' || ext === '.sami') {
                     Settings.droppedSub = file.name;
                     App.vent.trigger('videojs:drop_sub');
                 }

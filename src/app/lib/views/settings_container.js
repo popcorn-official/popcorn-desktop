@@ -6,7 +6,7 @@
         oldTmpLocation,
         that;
 
-    var SettingsContainer = Backbone.Marionette.ItemView.extend({
+    var SettingsContainer = Marionette.View.extend({
         template: '#settings-container-tpl',
         className: 'settings-container-contain',
 
@@ -45,7 +45,7 @@
             'click #qrcode-close': 'closeModal'
         },
 
-        onShow: function () {
+        onAttach: function () {
             that = this;
             this.render();
 
@@ -117,7 +117,7 @@
             return menu;
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             Mousetrap.bind('backspace', function (e) {
                 App.vent.trigger('show:closeDetail');
                 App.vent.trigger('movie:closeDetail');
@@ -232,6 +232,7 @@
             case 'traktPlayback':
             case 'playNextEpisodeAuto':
             case 'automaticUpdating':
+            case 'UpdateSeed':
             case 'events':
             case 'alwaysFullscreen':
             case 'minimizeToTray':
