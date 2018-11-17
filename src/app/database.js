@@ -205,11 +205,11 @@ var Database = {
 
     markMovieAsNotWatched: function (data) {
 
-        App.watchedMovies.splice(App.watchedMovies.indexOf(data.imdb_id), 1);
+        while (App.watchedMovies.indexOf(data.imdb_id) !== -1) { App.watchedMovies.splice(App.watchedMovies.indexOf(data.imdb_id), 1); }
 
         return db.watched.remove({
             movie_id: data.imdb_id.toString()
-        });
+        }, { multi: true });
     },
 
     getMoviesWatched: function () {

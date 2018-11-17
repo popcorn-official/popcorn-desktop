@@ -264,6 +264,7 @@
                 if (Settings.watchedCovers === 'fade') {
                     this.$el.removeClass('watched');
                 }
+
                 Database.markMovieAsNotWatched({
                         imdb_id: this.model.get('imdb_id')
                     }, true)
@@ -273,6 +274,7 @@
                             imdb_id: that.model.get('imdb_id')
                         }, 'seen');
                     });
+
             } else {
                 this.ui.watchedIcon.addClass('selected');
                 switch (Settings.watchedCovers) {
@@ -286,7 +288,7 @@
                 that.model.set('watched', true);
                 App.vent.trigger('movie:watched', {
                     imdb_id: that.model.get('imdb_id')
-                }, 'seen');
+                });
             }
 
             this.ui.watchedIcon.tooltip({
