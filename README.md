@@ -12,7 +12,7 @@ Visit the project's website at <https://popcorntime.sh>.
 
 ## Getting Involved
 
-Want to report a bug, request a feature, contribute to or translate Popcorn Time? Check out our in-depth guide to [Contributing to Popcorn Time](CONTRIBUTING.md#contributing-to-popcorn-time). We need all the help we can get! You can also join our [community](README.md#community) to keep up-to-date and meet other developers.
+Do you want to report a bug, request a feature, contribute to or translate Popcorn Time? Check out our in-depth guide to [Contributing to Popcorn Time](CONTRIBUTING.md#contributing-to-popcorn-time). We need all the help we can get! You can also join our [community](README.md#community) to keep up-to-date and meet other developers.
 
 ## Getting Started
 
