@@ -243,6 +243,8 @@
             case 'opensubtitlesAutoUpload':
             case 'subtitles_bold':
             case 'rememberFilters':
+            case 'animeTabDisable':
+            case 'indieTabDisable':
                 value = field.is(':checked');
                 break;
             case 'httpApiUsername':
@@ -344,6 +346,24 @@
                     App.vent.trigger('torrentCollection:close');
                 }
                 break;
+            case 'animeTabDisable':
+                 if ($('.animeTabShow').css('display') === 'none') {
+                    $('.animeTabShow').css('display', 'block');
+                } else {
+                    $('.animeTabShow').css('display', 'none');
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
+                }
+                break;
+            case 'indieTabDisable':
+                if ($('.indieTabShow').css('display') === 'none') {
+                    $('.indieTabShow').css('display', 'block');
+                } else {
+                    $('.indieTabShow').css('display', 'none');
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
+                }
+                break;                           
             case 'activateRandomize':
             case 'activateWatchlist':
                 App.vent.trigger('movies:list');
