@@ -1,6 +1,6 @@
 # Git Workflow
 
-## Commit Messages
+## Commit Messages
 
 1. The **first line should always be 50 characters or less** and that it should be followed by a blank line.
 
