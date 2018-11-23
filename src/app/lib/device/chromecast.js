@@ -135,25 +135,40 @@
             App.vent.trigger('stream:unserve_subtitles');
         },
 
+        seekTo: function (seconds) {
+            this.get('device').seek(seconds, function (err, status) {
+                if (err) {
+                    win.error('Chromecast.seek error:', err);
+                } else {
+                    win.debug('Chromecast, seeked to', seconds);
+                }
+            });
+        },
+
         seekPercentage: function (percentage) {
-           win.info('Chromecast: seek percentage %s%', percentage.toFixed(2));
-           var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
-           this.get('device').seek(newCurrentTime, function (err, status) {
-               if (err) {
-                   win.error('Chromecast.seek error:', err);
-               } else {
-                   win.debug('Chromecast, seeked to', newCurrentTime);
-               }
-           });
+            win.info('Chromecast: seek percentage %s%', percentage.toFixed(2));
+            var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
+            this.seekTo(newCurrentTime);
        },
 
         forward: function () {
-          console.log(this.get('loadedmedia'));
-            this.get('device').seek(this.get('loadedmedia').currentTime +30);
+            var self = this;
+            this.get('device').status(function (err, status) {
+                if (err) {
+                    return win.info('Chromecast.forward:Error', err);
+                }                
+                self.seekTo(status.currentTime + 30);
+            });
         },
 
         backward: function () {
-            this.get('device').seek(this.get('loadedmedia').currentTime +30);
+            var self = this;
+            this.get('device').status(function (err, status) {
+                if (err) {
+                    return win.info('Chromecast.backward:Error', err);
+                }                
+                self.seekTo(status.currentTime - 30);
+            });
         },
 
         unpause: function () {
