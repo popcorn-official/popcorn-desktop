@@ -27,7 +27,7 @@
             var self = this;
             var media;
             var url_video = url;
-            var url_subtitle = 'http:' + url.split(':')[1] + ':9999/video.srt';
+            var url_subtitle = 'http:' + url.split(':')[1] + ':9999/data.srt';
             var metadata = null;
             var subtitle = streamModel.get('subFile');
             if (subtitle) {

@@ -80,7 +80,7 @@
             this.updateStatsInterval = null;
 
             App.vent.off('subtitle:downloaded');
-
+            App.SubtitlesServer.stop();
             win.info('Streaming cancelled');
         },
 
@@ -416,7 +416,7 @@
                                         autoclose: true
                                     }));
                                 } else {
-                                    App.Subtitles.Server.start(res);
+                                    App.SubtitlesServer.start(res);
                                 }
                             }.bind(this));
                         }
@@ -434,8 +434,27 @@
                 this.subtitleReady = true;
             }
         },
-     
-      
+        // serve subtitles on a local server to make them accessible to remote cast devices
+serveSubtitles: function(localPath) {
+    App.vent.trigger('subtitle:convert', {
+        path: localPath
+    }, function(err, res) {
+        if (err) {
+            win.error('error converting subtitles', err);
+            this.streamInfo.set('subFile', null);
+            App.vent.trigger('notification:show', new App.Model.Notification({
+                title: i18n.__('Error converting subtitle'),
+                body: i18n.__('Try another subtitle or drop one in the player'),
+                showRestart: false,
+                type: 'error',
+                autoclose: true
+            }));
+        } else {
+            App.SubtitlesServer.start(res);
+        }
+    }.bind(this));
+},
+
         handleSubtitles: function () {
             if (this.stopped) {
                 return;
@@ -522,6 +541,6 @@
     App.vent.on('stream:start', streamer.start.bind(streamer));
     App.vent.on('stream:stop', streamer.stop.bind(streamer));
     App.vent.on('stream:serve_subtitles', streamer.serveSubtitles.bind(streamer));
-    App.vent.on('stream:unserve_subtitles', App.Subtitles.server.stop);
+
 
 })(window.App);
