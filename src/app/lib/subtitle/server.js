@@ -84,5 +84,5 @@
             }
         }
     };
-    App.Subtitles.Server = SubtitlesServer;
+    App.SubtitlesServer = SubtitlesServer;
 })(window.App);

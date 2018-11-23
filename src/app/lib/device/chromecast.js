@@ -78,8 +78,8 @@
         },
 
         createMedia: function(streamModel, useLocalSubtitle) {
-            var subtitle = streamModel.get('subFile');
-            var cover = streamModel.get('cover');
+            var subtitle = streamModel.get('defaultSubtitle');
+            var cover = streamModel.get('backdrop');
             var url = streamModel.get('src');
             var attr= streamModel.attributes;
 
@@ -87,9 +87,9 @@
 
             if (subtitle || useLocalSubtitle) {
                 media = {
-                    images: cover,
+                    images: [cover],
                     title: streamModel.get('title').substring(0,50),
-                    subtitles: ['http:' + url.split(':')[1] + ':9999/subtitle.vtt'],
+                    subtitles: ['http:' + url.split(':')[1] + ':9999/data.vtt'],
 
                     textTrackStyle: {
                         backgroundColor: AdvSettings.get('subtitle_decoration') === 'Opaque Background' ? '#000000FF' : '#00000000', // color of background - see http://dev.w3.org/csswg/css-color/#hex-notation
@@ -107,7 +107,7 @@
                 };
             } else {
                 media = {
-                    images: cover,
+                    images: [cover],
                     title: streamModel.get('title').substring(0,50)
                 };
             }
@@ -156,7 +156,7 @@
             this.get('device').status(function (err, status) {
                 if (err) {
                     return win.info('Chromecast.forward:Error', err);
-                }                
+                }
                 self.seekTo(status.currentTime + 30);
             });
         },
@@ -166,7 +166,7 @@
             this.get('device').status(function (err, status) {
                 if (err) {
                     return win.info('Chromecast.backward:Error', err);
-                }                
+                }
                 self.seekTo(status.currentTime - 30);
             });
         },
