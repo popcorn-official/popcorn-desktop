@@ -5,7 +5,11 @@
         this.client = new Trakt({
             client_id: Settings.trakttv.client_id,
             client_secret: Settings.trakttv.client_secret,
-            plugins: ['ondeck', 'matcher', 'images'],
+            plugins: {
+                ondeck: require('trakt.tv-ondeck'),
+                matcher: require('trakt.tv-matcher'),
+                images: require('trakt.tv-images')
+            },
             options: {
                 images: {
                     smallerImages: true,
@@ -50,7 +54,7 @@
                 return true;
             }.bind(this)).catch(function(err) {
                 AdvSettings.set('traktStatus', false);
-                win.error('Trakt: authentication failed', err);
+                console.error('Trakt: authentication failed', err);
                 return err;
             });
         },
@@ -62,7 +66,7 @@
                     AdvSettings.set('traktStatus', auth);
                     this.onReady();
                 }.bind(this)).catch(function(err) {
-                    win.error('Trakt: auto sign-in failed', err);
+                    console.error('Trakt: auto sign-in failed', err);
                     this.disconnect();
                 }.bind(this));
             }
@@ -91,13 +95,13 @@
                             type: 'movie'
                         });
                     } else {
-                        win.warn('Cannot sync a movie (' + movie.title + '), no IMDB id provided by Trakt');
+                        console.warn('Cannot sync a movie (' + movie.title + '), no IMDB id provided by Trakt');
                     }
                 }
-                win.debug('Trakt: marked %s movie(s) as watched', watchedMovies.length);
+                console.info('Trakt: marked %s movie(s) as watched', watchedMovies.length);
                 return Database.markMoviesWatched(watchedMovies);
             }).catch(function(error) {
-                win.warn('Trakt: unable to sync movies', error);
+                console.error('Trakt: unable to sync movies', error);
                 return watchedMovies;
             });
         },
@@ -124,14 +128,14 @@
                             }
                         }
                     } else {
-                        win.warn('Cannot sync a show (' + show.show.title + '), no IMDB/TVDB ids provided by Trakt');
+                        console.warn('Cannot sync a show (' + show.show.title + '), no IMDB/TVDB ids provided by Trakt');
                     }
                 }
 
-                win.debug('Trakt: marked %s episode(s) as watched', watchedEpisodes.length);
+                console.info('Trakt: marked %s episode(s) as watched', watchedEpisodes.length);
                 return Database.markEpisodesWatched(watchedEpisodes);
             }).catch(function(error) {
-                win.warn('Trakt: unable to sync shows', error);
+                console.error('Trakt: unable to sync shows', error);
                 return watchedEpisodes;
             });
         },
@@ -147,7 +151,7 @@
                 AdvSettings.set('traktLastSync', Date.now());
                 return true;
             }).catch(function(error) {
-                win.error('Trakt: sync failed', error);
+                console.error('Trakt: sync failed', error);
                 return error;
             });
         },
@@ -203,14 +207,35 @@
             data.ids[idType] = id;
             post[type] = [data];
 
-            win.info('Trakt history - %s %s', call, id);
+            console.info('Trakt history - %s %s', call, id);
 
             return this.client.sync.history[call](post);
         },
 
+        getImages: function (attrs) {
+            return this.client.images.get({
+                imdb: attrs.imdb_id,
+                tmdb: attrs.tmdb,
+                tvdb: attrs.tvdb_id,
+                type: attrs.type
+            }).then(function (imgs) {
+                attrs.poster = imgs.poster || attrs.poster;
+                attrs.backdrop = imgs.background || imgs.backgdrop;
+                return attrs;
+            });
+        },
+
+        getMetadata: function (id) {
+            if (!id) {
+                return Promise.reject();
+            }
+
+            return this.client.movies.summary({id: id, extended: 'full'});
+        },
+
         onReady: function(forced) {
             this.authenticated = true;
-            win.info('Trakt: authenticated');
+            console.info('Trakt: authenticated');
 
             var refresh = Settings.traktLastSync + this.cache < Date.now();
             var onStart = Settings.traktSyncOnStart;
