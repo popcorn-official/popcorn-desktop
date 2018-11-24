@@ -12,5 +12,9 @@
             </a>
         </li>
         <% }); %>
+
+  <li class="player-list-refresh">
+	<a href="#"><%=i18n.__("Search for DLNA device") %></a>
+  </li>
     </ul>
 </div>

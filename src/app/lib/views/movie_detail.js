@@ -5,6 +5,22 @@
     cancelTorrentHealth = function () {},
     torrentHealthRestarted = null;
 
+    var dlnacasts = require('dlnacasts2')();
+
+    dlnacasts.on('update', function(player) {
+        if (App.Device.Collection.where({
+                id: player.host
+            }).length === 0) {
+            win.info('Found DLNA Device: %s at %s', player.name, player.host);
+            App.Device.Collection.add(new App.Device.Dlna({
+                id: player.host,
+                player: player
+            }));
+
+            App.Device.ChooserView('#player-chooser').render();
+        }
+    });
+
     App.View.MovieDetail = Marionette.View.extend({
         template: '#movie-detail-tpl',
         className: 'movie-detail',
@@ -22,6 +38,7 @@
           'click .movie-imdb-link': 'openIMDb',
           'mousedown .magnet-link': 'openMagnet',
           'click .rating-container': 'switchRating'
+          'click .playerchoicemenu li.player-list-refresh a': 'refreshPlayers',
         },
 
         regions: {
@@ -218,6 +235,10 @@
 
 
 
+        },
+
+        refreshPlayers: function (e) {
+            dlnacasts.update();
 
     });
 })(window.App);
