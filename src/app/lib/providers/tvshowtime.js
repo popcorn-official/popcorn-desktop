@@ -3,8 +3,8 @@
 
     var PT_VERSION = Settings.version,
         API_ENDPOINT = URI('https://api.tvshowtime.com/v1'),
-        API_CLIENT_ID = 'iM2Vxlwr93imH7nwrTEZ',
-        API_CLIENT_SECRET = 'ghmK6ueMJjQLHBwsaao1tw3HUF7JVp_GQTwDwhCn';
+        API_CLIENT_ID = Settings.tvshowtime.client_id,
+        API_CLIENT_SECRET = Settings.tvshowtime.client_secret;
 
     function TVShowTime() {
         App.Providers.CacheProviderV2.call(this, 'tvst');
