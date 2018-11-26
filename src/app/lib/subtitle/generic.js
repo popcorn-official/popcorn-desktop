@@ -20,7 +20,7 @@
             }
         }
     };
-    
+
     var downloadFromUrl = function (data) {
         return new Promise(function (resolve, reject) {
             var vpath = data.path; // video file path
@@ -106,7 +106,7 @@
         },
         download: function (data) {
             if (data.path && data.url) {
-                win.debug('Subtitle download url:', data.url);
+                console.debug('Subtitle download url:', data.url);
                 var fileFolder = path.dirname(data.path);
 
                 try {
@@ -118,12 +118,12 @@
                 downloadFromUrl(data).then(function (spath) {
                     App.vent.trigger('subtitle:downloaded', spath);
                 }).catch(function (error) {
-                    win.error('Subtitle download error:', error);
+                    console.error('Subtitle download error:', error);
                     App.vent.trigger('subtitle:downloaded', null);
                 });
             } else {
                 if (Settings.subtitle_language !== 'none') {
-                    win.info('No subtitles downloaded. None picked or language not available');
+                    console.log('No subtitles downloaded');
                     App.vent.trigger('notification:show', new App.Model.Notification({
                         title: i18n.__('No subtitles found'),
                         body: i18n.__('Try again later or drop a subtitle in the player'),
@@ -171,20 +171,20 @@
 
             var charset = charsetDetect.detect(dataBuff);
             var detectedEncoding = charset.encoding;
-            win.debug('SUB charset detected: ', detectedEncoding);
+            console.debug('SUB charset detected: ', detectedEncoding);
             // Do we need decoding?
             if (detectedEncoding.toLowerCase().replace('-', '') === targetEncodingCharset) {
                 callback(dataBuff.toString('utf8'));
                 // We do
             } else {
-                var langInfo = App.Localization.langcodes[ (language.indexOf('|')>0 ? language.substr(0,language.indexOf('|')) : language) ] || {};
-                win.debug('SUB charset expected for \'%s\': ', language, langInfo.encoding);
+                var langInfo = App.Localization.langcodes[language] || {};
+                console.debug('SUB charset expected for \'%s\': ', language, langInfo.encoding);
                 if (langInfo.encoding !== undefined && langInfo.encoding.indexOf(detectedEncoding) < 0) {
                     // The detected encoding was unexepected to the language, so we'll use the most common
                     // encoding for that language instead.
                     detectedEncoding = langInfo.encoding[0];
                 }
-                win.debug('SUB charset used: ', detectedEncoding);
+                console.debug('SUB charset used: ', detectedEncoding);
                 dataBuff = iconv.encode(iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset);
                 callback(dataBuff.toString('utf8'));
             }
