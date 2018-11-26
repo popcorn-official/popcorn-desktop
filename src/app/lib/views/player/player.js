@@ -228,7 +228,7 @@
                 if (this.isMovie() === 'episode' && this.next_episode_model) {
                     // autoplay player div
                     var matcher = this.next_episode_model.get('title').split(/\s-\s/i);
-                    $('.playing_next_poster').attr('src', this.model.get('cover'));
+                     $('.playing_next_poster').attr('src', this.model.get('poster'));
                     $('.playing_next_show').text(matcher[0]);
                     $('.playing_next_episode').text(matcher[2]);
                     $('.playing_next_number').text(i18n.__('Season %s', this.next_episode_model.get('season')) + ', ' + i18n.__('Episode %s', this.next_episode_model.get('episode')));
@@ -579,6 +579,8 @@
             this.model.set('imdb_id', false);
             this.model.set('cover', false);
             this.model.set('title', title);
+            this.model.set('backdrop', false);
+            this.model.set('poster', false);
             this.model.set('season', false);
             this.model.set('episode', false);
             this.model.set('tvdb_id', false);

@@ -8,17 +8,11 @@
         opacity: 0.4
 
         .cover
-            &.fadein
-                transition: opacity 0s ease
-                opacity: 1
-
         &.selected
             opacity 1
 
-    .cover-image
-        display none
-
     .cover
+        position: relative
         background-image url(../images/posterholder.png)
         background-size: 134px 196px
         width: 134px
@@ -26,22 +20,32 @@
         border-radius: $PosterRadius
         box-shadow: $PosterShadow
         cursor: pointer
-        opacity: 0
-        &.fadein
-            transition: opacity 200ms ease-in
-            opacity: 1
+        
+        &.empty
+            background-image none
 
         .cover-overlay
-            background $PosterHoverOverlay
-            text-align center
-            padding 88px 0
             width 100%
             height 100%
-            border: 2px solid $PosterHoverOverlay
-            border-radius $PosterRadius
-            transition border-color .25s ease
+            background-size cover
+            background-position center
+            position absolute
+            transition opacity 500ms ease-in
             opacity 0
-            position relative
+
+            &img
+                position absolute
+                left 0
+
+            &.fadein
+                opacity: 1
+
+            &.cover-info-overlay
+              padding 88px 0
+              background $PosterHoverOverlay
+              border: 2px solid $PosterHoverOverlay
+              border-radius $PosterRadius
+              transition border-color .25s ease
 
             .actions-favorites
                 float: right
@@ -118,7 +122,6 @@
                     height 1em
                     line-height 1em
                     vertical-align middle
-                    top 1px
 
             .rating-value
                 font-size 1em
@@ -127,7 +130,7 @@
 
     &.selected
         .cover
-            .cover-overlay
+            .cover-info-overlay
                 border 2px solid $PosterHoverBorder
                 transition border-color .50s
                 opacity: 1
@@ -164,7 +167,7 @@
     border-radius 4px
     box-shadow $PosterShadow
     cursor pointer
-    display inline-block
+    display none
     margin 10px
     float left
     background-color:$BgColor1
@@ -208,3 +211,8 @@
             background-color:$ButtonBgHover
         &:active
             background-color:$ButtonBgActive
+
+.ghost
+    width 134px
+    height 0
+    margin 10px
