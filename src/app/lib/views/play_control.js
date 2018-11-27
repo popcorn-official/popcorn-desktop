@@ -44,9 +44,9 @@
             this.setQuality();
             this.loadComponents();
             this.setUiStates();
-            App.vent.on('update:subtitles');
             this.model.on('change:langs', this.loadAudioDropdown.bind(this));
             this.model.on('change:subtitle', this.loadSubDropdown.bind(this));
+            getSubtitles(this.buildSubtitleQuery());
         },
 
         setQuality: function () {
@@ -64,6 +64,29 @@
                 document.getElementsByName('switch')[0].checked = true;
             }
         },
+        buildSubtitleQuery: function () {
+            if (this.stopped) {
+                return;
+            }
+
+            var queryData = {};
+
+            queryData.filename = this.model.get('title');
+
+            if (this.model.get('imdb_id')) {
+                queryData.imdbid = this.model.get('imdb_id');
+            }
+
+            if (this.model.get('season')) {
+                queryData.season = this.model.get('season');
+            }
+
+            if (this.model.get('episode')) {
+                queryData.episode = this.model.get('episode');
+            }
+
+            return queryData;
+        },
 
         hideUnused: function() {
             if (!this.model.get('torrents')) { // no torrents
@@ -76,8 +99,6 @@
         },
 
         loadDropdown: function (type, attrs) {
-            console.log(this);
-            console.log(attrs);
             this.views[type] && this.views[type].destroy();
             this.views[type] = new App.View.LangDropdown({
                 model: new App.Model.Lang(Object.assign({type:type}, attrs))
@@ -158,14 +179,14 @@
         },
 
         switchSubtitle: function (lang) {
-            var subtitles = this.model.get('subtitle');
+            var subtitles = this.model.get('subtitle') || this.views.sub.values;
             if (subtitles === undefined || subtitles[lang] === undefined) {
                 lang = 'none';
             }
-
             this.subtitle_selected = lang;
             console.info('Subtitles: ' + this.subtitle_selected);
         },
+
 
         switchAudio: function (lang) {
             var audios = this.model.get('langs');
