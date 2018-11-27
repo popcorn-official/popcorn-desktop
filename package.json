@@ -32,7 +32,7 @@
     "resizable": true,
     "show": false,
     "position": "center"
-  },
+  }, 
   "dependencies": {
     "TorrentCollection": "^x.x.x",
     "adm-zip": "0.4.7",
