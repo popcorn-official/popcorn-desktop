@@ -47,7 +47,7 @@ var
     torrentCollection = require('TorrentCollection'),
 
     // NodeJS
-    child = require('child_process');
+    child = require('child_process'),
 
     getSubtitles = function (subdata) {
         return Q.Promise(function (resolve, reject) {
@@ -61,7 +61,6 @@ var
                     resolve(subs);
                 } else {
                     win.warn('No subtitles returned');
-                    }
                     reject(new Error('No subtitles returned'));
                 }
             }).catch(function (err) {
