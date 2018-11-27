@@ -84,6 +84,14 @@
             win.info('Streaming cancelled');
         },
 
+        restart: function () {
+            var torrent = this.webtorrent.torrents[0].magnetURI;
+            this.webtorrent.remove(torrent, function (err) {
+                if (!err) {
+                    this.webtorrent.add(torrent);
+                }
+            }.bind(this));
+        },
         handleErrors: function (reason) {
             if (!this.stopped) {
                 win.error(reason);

@@ -144,7 +144,6 @@
         onBeforeDestroy: function () {
           App.vent.off('change:quality');
             this.unbindKeyboardShortcuts();
-            Object.values(this.views).forEach(v => v.destroy());
         },
 
         initKeyboardShortcuts: function () {

@@ -76,12 +76,13 @@
         },
 
         loadDropdown: function (type, attrs) {
+            console.log(this);
+            console.log(attrs);
             this.views[type] && this.views[type].destroy();
             this.views[type] = new App.View.LangDropdown({
                 model: new App.Model.Lang(Object.assign({type:type}, attrs))
             });
             var types = type+'Dropdown';
-            console.log(types);
             this.getRegion(types).show(this.views[type]);
         },
 
@@ -158,7 +159,6 @@
 
         switchSubtitle: function (lang) {
             var subtitles = this.model.get('subtitle');
-            console.log(this.model);
             if (subtitles === undefined || subtitles[lang] === undefined) {
                 lang = 'none';
             }
