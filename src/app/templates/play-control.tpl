@@ -24,7 +24,7 @@
                 <div data-toogle="tooltip" data-placement="top" title="<%= Common.fileSize(torrents['720p'].size) %>" class="q720">720p</div>
                 <% }else if (torrents["1080p"] !== undefined) { %>
                 <div data-toogle="tooltip" data-placement="top" title="<%= Common.fileSize(torrents['1080p'].size) %>" class="q720">1080p</div>
-                <% } else { %>HDRip<% } %>
+                <% } else { %>HDRip<% } %> 
                 <% } %>
             </div>
         </div>

@@ -47,4 +47,24 @@ var
     torrentCollection = require('TorrentCollection'),
 
     // NodeJS
-    child = require('child_process');
+    child = require('child_process'),
+
+    getSubtitles = function (subdata) {
+        return Q.Promise(function (resolve, reject) {
+            win.debug('Subtitles data request:', subdata);
+
+            var subtitleProvider = App.Config.getProviderForType('subtitle');
+
+            subtitleProvider.fetch(subdata).then(function (subs) {
+                if (subs && Object.keys(subs).length > 0) {
+                    App.vent.trigger('update:subtitles', subs);
+                    resolve(subs);
+                } else {
+                    win.warn('No subtitles returned');
+                    reject(new Error('No subtitles returned'));
+                }
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+    };

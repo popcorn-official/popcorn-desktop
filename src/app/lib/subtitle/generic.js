@@ -123,7 +123,7 @@
                 });
             } else {
                 if (Settings.subtitle_language !== 'none') {
-                    console.log('No subtitles downloaded');
+                    console.info('No subtitles downloaded. None picked or language not available');
                     App.vent.trigger('notification:show', new App.Model.Notification({
                         title: i18n.__('No subtitles found'),
                         body: i18n.__('Try again later or drop a subtitle in the player'),

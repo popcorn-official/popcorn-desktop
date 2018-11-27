@@ -257,12 +257,12 @@
 
         onLoaded: function () {
             App.vent.trigger('list:loaded');
-            
+
             // Added for v2-style checkEmpty
             if (this.isEmpty()) {
                 this._showEmptyView();
             }
-            
+
             var self = this;
             this.addloadmore();
 

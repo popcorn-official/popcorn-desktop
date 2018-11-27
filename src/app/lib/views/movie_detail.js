@@ -63,6 +63,7 @@
     this.loadComponents();
     this.renderHealth();
     this.initKeyboardShortcuts();
+
         },
         loadComponents: function () {
                    // play control
@@ -106,9 +107,9 @@
                            setImage[type](null);
                        };
                    };
-
-                   var p = this.model.get('poster') || noimg;
-                   var b = this.model.get('backdrop') || this.model.get('poster') || nobg;
+                   var images = this.model.get('images');
+                   var p = this.model.get('poster') || images.poster || noimg;
+                   var b = this.model.get('backdrop') || images.fanart || this.model.get('poster') || nobg;
 
                    loadImage(p, 'poster');
                    loadImage(b, 'backdrop');
@@ -170,20 +171,6 @@
             $('.star-container').toggleClass('hidden');
             AdvSettings.set('ratingStars', $('.number-container').hasClass('hidden'));
         },
-
-        switchSubtitle: function (lang) {
-            var subtitles = this.model.get('subtitle');
-
-            if (subtitles === undefined || subtitles[lang] === undefined) {
-                lang = 'en';
-            }
-
-            this.subtitle_selected = lang;
-            this.ui.selected_lang.removeClass().addClass('flag toggle selected-lang').addClass(this.subtitle_selected);
-
-            win.info('Subtitles: ' + this.subtitle_selected);
-        },
-
 
         closeDetails: function () {
             App.vent.trigger('movie:closeDetail');

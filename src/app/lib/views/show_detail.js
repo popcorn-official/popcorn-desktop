@@ -1,10 +1,9 @@
 (function (App) {
     'use strict';
 
-    // Torrent Health
-    var torrentHealth = require('webtorrent-health'),
-    cancelTorrentHealth = function () {},
-    torrentHealthRestarted = null;
+    var torrentHealth = require('webtorrent-health');
+    var cancelTorrentHealth = function () {};
+    var torrentHealthRestarted = null;
 
     var _this, bookmarked;
     var ShowDetail = Marionette.View.extend({
@@ -81,8 +80,6 @@
             App.vent.on('show:unwatched:' + this.model.id,
                 _.bind(this.onUnWatched, this));
 
-            var images = this.model.get('images');
-
             App.vent.on('shortcuts:shows', function () {
                 _this.initKeyboardShortcuts();
             });
@@ -112,17 +109,17 @@
             }
         },
         initKeyboardShortcuts: function () {
-            Mousetrap.bind('q', _this.toggleQuality, 'keydown');
+            Mousetrap.bind('q', _this.toggleQuality);
             Mousetrap.bind('down', _this.nextEpisode);
             Mousetrap.bind('up', _this.previousEpisode);
-            Mousetrap.bind('w', _this.toggleEpisodeWatched, 'keydown');
+            Mousetrap.bind('w', _this.toggleEpisodeWatched);
             Mousetrap.bind(['enter', 'space'], _this.playEpisode);
             Mousetrap.bind(['esc', 'backspace'], _this.closeDetails);
             Mousetrap.bind(['ctrl+up', 'command+up'], _this.previousSeason);
             Mousetrap.bind(['ctrl+down', 'command+down'], _this.nextSeason);
             Mousetrap.bind('f', function () {
                 $('.sha-bookmark').click();
-            }, 'keydown');
+            });
         },
 
         unbindKeyboardShortcuts: Mousetrap.reset,
@@ -137,41 +134,47 @@
             }
 
             $('.star-container-tv,.shmi-imdb,.magnet-icon').tooltip();
-
-            var cbackground = $('.shp-img').attr('data-bgr');
-            var coverCache = new Image();
-            coverCache.src = cbackground;
-            coverCache.onload = function () {
+            var images = this.model.get('images');
+            var backdrop = this.model.get('backdrop');
+            var poster = this.model.get('poster');
+            if (!poster)
+            {
+              poster = images.poster;
+              backdrop = images.banner;
+            }
+            var posterCache = new Image();
+            posterCache.src = poster;
+            posterCache.onload = function () {
                 try {
                     $('.shp-img')
-                        .css('background-image', 'url(' + cbackground + ')')
+                        .css('background-image', 'url(' + poster + ')')
                         .addClass('fadein');
                 } catch (e) {}
-                coverCache = null;
+                posterCache = null;
             };
-            coverCache.onerror = function () {
+            posterCache.onerror = function () {
                 try {
                     $('.shp-img')
                         .css('background-image', 'url("images/posterholder.png")')
                         .addClass('fadein');
                 } catch (e) {}
-                coverCache = null;
+                posterCache = null;
             };
 
-            var background = $('.shc-img').attr('data-bgr');
+
             var bgCache = new Image();
-            bgCache.src = background;
+            bgCache.src = backdrop;
             bgCache.onload = function () {
                 try {
-                    $('.shc-img')
-                        .css('background-image', 'url(' + background + ')')
+                    $('.shb-img')
+                        .css('background-image', 'url(' + backdrop + ')')
                         .addClass('fadein');
                 } catch (e) {}
                 bgCache = null;
             };
             bgCache.onerror = function () {
                 try {
-                    $('.shc-img')
+                    $('.shb-img')
                         .css('background-image', 'url("images/bg-header.jpg")')
                         .addClass('fadein');
                 } catch (e) {}
@@ -195,6 +198,7 @@
 
             App.Device.Collection.setDevice(Settings.chosenPlayer);
             App.Device.ChooserView('#player-chooser').render();
+            $('.spinner').hide();
         },
 
         selectNextEpisode: function () {
@@ -426,7 +430,6 @@
                 _.each(this.model.get('episodes'), function (value) {
                     var epaInfo = {
                         id: parseInt(value.season) * 100 + parseInt(value.episode),
-                        backdrop: that.model.get('images').fanart,
                         defaultSubtitle: Settings.subtitle_language,
                         episode: value.episode,
                         season: value.season,
@@ -443,7 +446,8 @@
                         tvdb_id: that.model.get('tvdb_id'),
                         imdb_id: that.model.get('imdb_id'),
                         device: App.Device.Collection.selected,
-                        cover: that.model.get('images').poster,
+                        poster: that.model.get('poster'),
+                        backdrop: that.model.get('backdrop'),
                         status: that.model.get('status'),
                         type: 'episode'
                     };
@@ -464,7 +468,8 @@
             }
             var torrentStart = new Backbone.Model({
                 torrent: $(e.currentTarget).attr('data-torrent'),
-                backdrop: that.model.get('images').fanart,
+                poster: that.model.get('poster'),
+                backdrop: that.model.get('backdrop'),
                 type: 'episode',
                 tvdb_id: that.model.get('tvdb_id'),
                 imdb_id: that.model.get('imdb_id'),
@@ -477,13 +482,12 @@
                 quality: $(e.currentTarget).attr('data-quality'),
                 defaultSubtitle: Settings.subtitle_language,
                 device: App.Device.Collection.selected,
-                cover: that.model.get('images').poster,
                 episodes: episodes,
                 auto_play: auto_play,
                 auto_id: parseInt(season) * 100 + parseInt(episode),
                 auto_play_data: episodes_data
             });
-            win.info('Playing next episode automatically:', AdvSettings.get('playNextEpisodeAuto'));
+            console.log('Playing next episode automatically:', AdvSettings.get('playNextEpisodeAuto'));
             _this.unbindKeyboardShortcuts();
             App.vent.trigger('stream:start', torrentStart);
         },
@@ -775,22 +779,19 @@
             cancelTorrentHealth();
 
             // Use fancy coding to cancel
-            // pending torrent-tracker-health's
+            // pending webtorrent-health's
             var cancelled = false;
             cancelTorrentHealth = function () {
                 cancelled = true;
             };
 
-            if (torrent) {
+            if (torrent.substring(0, 8) === 'magnet:?') {
+                // if 'magnet:?' is because api sometimes sends back links, not magnets
                 torrentHealth(torrent, {
-                    timeout: 2000,
-                    blacklist: Settings.trackers.blacklisted,
+                    timeout: 1000,
                     trackers: Settings.trackers.forced
                 }, function (err, res) {
-                  if (err) {
-                    win.debug(err);
-                  }
-                    if (cancelled) {
+                    if (cancelled || err) {
                         return;
                     }
                     if (res.seeds === 0 && torrentHealthRestarted < 5) {
@@ -814,7 +815,7 @@
                             .tooltip('fixTitle');
                     }
                 });
-              }
+            }
         },
 
         resetHealth: function () {
@@ -837,6 +838,8 @@
 
         onBeforeDestroy: function () {
             this.unbindKeyboardShortcuts();
+            App.vent.off('show:watched:' + this.model.id);
+            App.vent.off('show:unwatched:' + this.model.id);
         }
 
     });

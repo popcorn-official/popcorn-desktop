@@ -45,6 +45,7 @@
         },
 
         setLang: function (value) {
+            console.log(value);
             this.model.set('selected', value);
             this.ui.selected.removeClass().addClass('flag toggle selected-lang').addClass(value);
             App.vent.trigger(this.type + ':lang', value);

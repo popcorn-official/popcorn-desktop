@@ -37,7 +37,7 @@
             'click #disconnect-tvst': 'disconnectTvst',
             'click #authOpensubtitles': 'connectOpensubtitles',
             'click #unauthOpensubtitles': 'disconnectOpensubtitles',
-            'click .reset-tvAPI': 'resetTVShowAPI',
+            'click .reset-tvshow': 'resettvshow',
             'change #tmpLocation': 'updateCacheDirectory',
             'click #syncTrakt': 'syncTrakt',
             'click .qr-code': 'generateQRcode',
@@ -132,7 +132,7 @@
             App.vent.trigger('settings:close');
         },
 
-        resetTVShowAPI: function () {
+        resettvshow: function () {
             var value = [{
                 url: 'https:///',
                 strictSSL: true
@@ -140,16 +140,16 @@
                 url: 'https:///',
                 strictSSL: true
             }];
-            App.settings['tvAPI'] = value;
+            App.settings['tvshow'] = value;
             //save to db
             App.db.writeSetting({
-                key: 'tvAPI',
+                key: 'tvshow',
                 value: value
             }).then(function () {
                 that.ui.success_alert.show().delay(3000).fadeOut(400);
             });
 
-            that.syncSetting('tvAPI', value);
+            that.syncSetting('tvshow', value);
         },
 
         generateQRcode: function () {
@@ -190,7 +190,7 @@
                 apiDataChanged = true;
                 value = parseInt(field.val());
                 break;
-            case 'tvAPI':
+            case 'tvshow':
                 value = field.val();
                 if (value.substr(-1) !== '/') {
                     value += '/';
@@ -375,8 +375,8 @@
                 App.vent.trigger('movies:list');
                 App.vent.trigger('settings:show');
                 break;
-            case 'tvAPI':
-                App.Providers.delete('TVApi');
+            case 'tvshow':
+                App.Providers.delete('tvshow');
                 App.vent.trigger('movies:list');
                 App.vent.trigger('settings:show');
                 break;
