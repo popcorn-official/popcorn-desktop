@@ -1,0 +1,32 @@
+skip_commits:
+  files:
+    - .travis.yml
+
+environment:
+  matrix:
+    - nodejs_version: STABLE
+
+cache:
+  - node_modules -> package.json
+
+build_script:
+  - yarn config set yarn-offline-mirror ./node_modules/
+  - yarn install --ignore-engines --ignore-scripts
+  - yarn build
+
+after_build:
+  - yarn gulp compress
+
+artifacts:
+  - path: build\*.zip
+    name: PopcornTime
+
+deploy:
+  description: 'Windows Release'
+  provider: GitHub
+  auth_token:
+    secure: wKYGmYxyZoGANT1qraz3HzsUN9tiYx9pvF3KpILJZ/UQtC+EC5XHsnxKNtCjDUhb # your encrypted token from GitHub
+  artifact: /build/.*\.zip/
+  on:
+    branch: master
+    appveyor_repo_tag: false      
