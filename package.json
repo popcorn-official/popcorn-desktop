@@ -86,7 +86,7 @@
   },
   "devDependencies": {
     "bower": "^1.8.2",
-    "del": "^3.x.x",
+    "del": "^2.x.x",
     "jshint": "^2.9.5",
     "jshint-stylish": "^2.2.1",
     "git-rev": "^0.2.1",
