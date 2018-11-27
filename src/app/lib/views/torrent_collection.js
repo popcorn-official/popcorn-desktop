@@ -272,8 +272,7 @@
             return Promise.all([
                 rarbg(),
                 leetx(),
-                piratebay(),
-                cpasbien()
+                piratebay()
             ]).then(function (results) {
                 var items = sortBySeeds(removeDupes(results));
                 console.log('search providers: %d results', items.length);

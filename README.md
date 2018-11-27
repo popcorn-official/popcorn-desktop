@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/popcorn-official/popcorn-desktop.svg?branch=master)](https://travis-ci.org/popcorn-official/popcorn-desktop)
 [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-desktop.svg)](https://david-dm.org/popcorn-official/popcorn-desktop)
 [![devDependency Status](https://david-dm.org/popcorn-official/popcorn-desktop/dev-status.svg)](https://david-dm.org/popcorn-official/popcorn-desktop#info=devDependencies)
+[![Build status](https://ci.appveyor.com/api/projects/status/sjq58hpqqj73vhx1?svg=true)](https://ci.appveyor.com/project/ozkanpakdil/popcorn-desktop)
 
 Allow any user to easily watch movies through torrent streaming, without any prerequisites.
 
@@ -12,7 +13,7 @@ Visit the project's website at <https://popcorntime.sh>.
 
 ## Getting Involved
 
-Do you want to report a bug, request a feature, contribute to or translate Popcorn Time? Check out our in-depth guide to [Contributing to Popcorn Time](CONTRIBUTING.md#contributing-to-popcorn-time). We need all the help we can get! You can also join our [community](README.md#community) to keep up-to-date and meet other developers.
+Want to report a bug, request a feature, contribute to or translate Popcorn Time? Check out our in-depth guide to [Contributing to Popcorn Time](CONTRIBUTING.md#contributing-to-popcorn-time). We need all the help we can get! You can also join our [community](README.md#community) to keep up-to-date and meet other developers.
 
 ## Getting Started
 
@@ -24,16 +25,14 @@ The [master](https://github.com/popcorn-official/popcorn-desktop) branch which c
 
 #### Quickstart:
 
-1. `gulp run`
+1. `yarn gulp run`
 
 If you encounter trouble with the above method, you can try:
 
-1. `npm install -g bower gulp` (Linux: you may need to run with `sudo`)
-
-2. `npm install`
-3. `bower install`
-4. `gulp build`
-5. `gulp run`
+1. `yarn config set yarn-offline-mirror ./node_modules/`
+2. `yarn install --ignore-engines`
+3. `yarn build`
+5. `yarn gulp run`
 
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
