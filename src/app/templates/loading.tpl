@@ -1,6 +1,6 @@
 <div class="loading">
-    <div style="background-image:url( <%= backdrop %> )" class="loading-background"></div>
-    <div class="loading-background-overlay"></div>
+  <div class="loading-backdrop"></div>
+  <div class="loading-backdrop-overlay"></div>
 
     <div class="state">
         <div class="title"></div>

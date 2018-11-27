@@ -127,12 +127,14 @@
         },
 
         loadImage: function () {
-            var poster = this.model.get('poster');
-
+          var poster = this.model.get('poster');
+          var images = this.model.get('images');
+          if (images) {
+          var poster = this.model.get('images').poster;
+        }
             if (! poster) {
-                return;
+              return;
             }
-
             var posterCache = new Image();
             posterCache.src = poster;
 
@@ -149,7 +151,6 @@
                     c.getContext('2d').drawImage(posterCache, 0, 0, w, h);
                     posterCache.src = c.toDataURL();
                 }
-
                 this.ui.covers.children(-1).css('background-image', 'url('+posterCache.src+')').addClass('fadein').delay(600).queue(_ => {
                     this.ui.defaultCover.addClass('empty');
                 });

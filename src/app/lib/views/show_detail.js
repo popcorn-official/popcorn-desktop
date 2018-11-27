@@ -134,8 +134,14 @@
             }
 
             $('.star-container-tv,.shmi-imdb,.magnet-icon').tooltip();
-
+            var images = this.model.get('images');
+            var backdrop = this.model.get('backdrop');
             var poster = this.model.get('poster');
+            if (!poster)
+            {
+              poster = images.poster;
+              backdrop = images.banner;
+            }
             var posterCache = new Image();
             posterCache.src = poster;
             posterCache.onload = function () {
@@ -155,7 +161,7 @@
                 posterCache = null;
             };
 
-            var backdrop = this.model.get('backdrop');
+
             var bgCache = new Image();
             bgCache.src = backdrop;
             bgCache.onload = function () {

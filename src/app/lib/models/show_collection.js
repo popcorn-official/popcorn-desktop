@@ -2,7 +2,7 @@
     'use strict';
 
     var ShowCollection = App.Model.Collection.extend({
-        model: App.Model.Show,
+        model: App.Model.Movie,
         popid: 'imdb_id',
         type: 'shows',
         getProviders: function () {
