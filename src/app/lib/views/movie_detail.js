@@ -37,8 +37,8 @@
           'click .close-icon': 'closeDetails',
           'click .movie-imdb-link': 'openIMDb',
           'mousedown .magnet-link': 'openMagnet',
-          'click .rating-container': 'switchRating'
-          'click .playerchoicemenu li.player-list-refresh a': 'refreshPlayers',
+          'click .rating-container': 'switchRating',
+          'click .playerchoicemenu li.player-list-refresh a': 'refreshPlayers'
         },
 
         regions: {
@@ -228,17 +228,12 @@
             } else {
                 nw.Shell.openExternal(magnetLink);
             }
-        }
-
-
-
-
-
 
         },
 
         refreshPlayers: function (e) {
             dlnacasts.update();
+        }
 
     });
 })(window.App);
