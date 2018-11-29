@@ -130,7 +130,7 @@
           var poster = this.model.get('poster');
           var images = this.model.get('images');
           if (images) {
-          var poster = this.model.get('images').poster;
+          poster = this.model.get('images').poster;
         }
             if (! poster) {
               return;

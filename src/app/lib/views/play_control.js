@@ -46,9 +46,27 @@
             this.setUiStates();
             this.model.on('change:langs', this.loadAudioDropdown.bind(this));
             this.model.on('change:subtitle', this.loadSubDropdown.bind(this));
-            getSubtitles(this.buildSubtitleQuery());
+            this.getSubtitles(this.buildSubtitleQuery());
         },
+        getSubtitles: function (subdata) {
+            return Q.Promise(function (resolve, reject) {
+                win.debug('Subtitles data request:', subdata);
 
+                var subtitleProvider = App.Config.getProviderForType('subtitle');
+
+                subtitleProvider.fetch(subdata).then(function (subs) {
+                    if (subs && Object.keys(subs).length > 0) {
+                        App.vent.trigger('update:subtitles', subs);
+                        resolve(subs);
+                    } else {
+                        win.warn('No subtitles returned');
+                        reject(new Error('No subtitles returned'));
+                    }
+                }).catch(function (err) {
+                    reject(err);
+                });
+            });
+        },
         setQuality: function () {
             var torrents = this.model.get('torrents');
             var quality = Settings.movies_default_quality;

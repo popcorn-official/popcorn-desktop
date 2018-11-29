@@ -1,6 +1,6 @@
 (function (App) {
     'use strict';
-
+    var subtitle_retry;
     var WebTorrentStreamer = function () {
         // WebTorrent instance
         this.webtorrent = null;

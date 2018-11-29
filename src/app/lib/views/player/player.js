@@ -105,8 +105,8 @@
             // verify custom subtitles not modified
             if (Settings.opensubtitlesAutoUpload && this.customSubtitles && !this.customSubtitles.modified) {
                 var real_elapsedTime = (Date.now() - this.customSubtitles.added_at) / 1000;
-                var player_elapsedTime = videojs.getPlayer("video_player").currentTime() - this.customSubtitles.timestamp;
-                var perc_elapsedTime = player_elapsedTime / videojs.getPlayer("video_player").duration();
+                var player_elapsedTime = this.player.currentTime() - this.customSubtitles.timestamp;
+                var perc_elapsedTime = player_elapsedTime / this.player.duration();
 
                 // verify was played long enough
                 if (real_elapsedTime >= player_elapsedTime && perc_elapsedTime >= 0.6) {
@@ -148,14 +148,14 @@
             if (type === 'episode') {
                 type = 'show';
             }
-            if (videojs.getPlayer("video_player").currentTime() / videojs.getPlayer("video_player").duration() >= 0.8 && type !== undefined && this.model.get('metadataCheckRequired') !== false) {
+            if (this.player.currentTime() / this.player.duration() >= 0.8 && type !== undefined && this.model.get('metadataCheckRequired') !== false) {
                 App.vent.trigger(type + ':watched', this.model.attributes, 'database');
             }
 
             // remember position
-            if (videojs.getPlayer("video_player").currentTime() / videojs.getPlayer("video_player").duration() < 0.8) {
+            if (this.player.currentTime() / this.player.duration() < 0.8) {
                 AdvSettings.set('lastWatchedTitle', this.model.get('title'));
-                AdvSettings.set('lastWatchedTime', videojs.getPlayer("video_player").currentTime() - 5);
+                AdvSettings.set('lastWatchedTime', this.player.currentTime() - 5);
             } else {
                 AdvSettings.set('lastWatchedTime', false);
             }
@@ -188,7 +188,7 @@
 
         checkAutoPlay: function () {
             if (this.isMovie() === 'episode' && this.next_episode_model) {
-                if ((videojs.getPlayer("video_player").duration() - videojs.getPlayer("video_player").currentTime()) < 60 && videojs.getPlayer("video_player").currentTime() > 30) {
+                if ((this.player.duration() - this.player.currentTime()) < 60 && this.player.currentTime() > 30) {
 
                     if (!this.autoplayisshown) {
 
@@ -206,7 +206,7 @@
                         }
                     }
 
-                    var count = Math.round(videojs.getPlayer("video_player").duration() - videojs.getPlayer("video_player").currentTime());
+                    var count = Math.round(this.player.duration() - this.player.currentTime());
                     $('.playing_next #nextCountdown').text(count);
 
                 } else {
@@ -263,7 +263,7 @@
                 var type = this.isMovie();
                 var id = type === 'movie' ? this.model.get('imdb_id') : this.model.get('episode_id');
                 App.Trakt.getPlayback(type, id).then(function (position_percent) {
-                    var total = videojs.getPlayer("video_player").duration();
+                    var total = this.player.duration();
                     var position = (position_percent / 100) * total | 0;
                     if (position > 0) {
                         win.debug('Resuming position to', position.toFixed(), 'secs (reported by Trakt)');
@@ -386,7 +386,7 @@
                     quality: '720p'
                 } , function onPlayerReady() {
   videojs.log('Your player is ready!');
-  videojs.getPlayer("video_player").poster(null);
+  this.player.poster(null);
   this.on('ended', function() {
     videojs.log('Awww...over so soon?!');
   });
@@ -419,7 +419,7 @@
                 that.customSubtitles = {
                     subPath: subpath,
                     added_at: Date.now(),
-                    timestamp: videojs.getPlayer("video_player").currentTime(),
+                    timestamp: this.player.currentTime(),
                     modified: false
                 };
                 $('#video_player li:contains("' + i18n.__('Disabled') + '")').on('click', function () {
@@ -466,13 +466,13 @@
         },
 
         sendToTrakt: function (method) {
-            if (!videojs.getPlayer("video_player")) {
+            if (!this.player) {
                 return;
             }
 
             var type = this.isMovie();
             var id = type === 'movie' ? this.model.get('imdb_id') : this.model.get('episode_id');
-            var progress = videojs.getPlayer("video_player").currentTime() / videojs.getPlayer("video_player").duration() * 100 | 0;
+            var progress = this.player.currentTime() / this.player.duration() * 100 | 0;
             App.Trakt.scrobble(method, type, id, progress);
         },
 

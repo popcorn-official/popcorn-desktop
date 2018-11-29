@@ -134,6 +134,21 @@ const nw = new nwBuilder({
  * gulp tasks *
  *************/
 // start app in development
+// default is help, because we can!
+gulp.task('default', (done) => {
+    console.log([
+        '\nBasic usage:',
+        ' gulp run\tStart the application in dev mode',
+        ' gulp build\tBuild the application',
+        ' gulp dist\tCreate a redistribuable package',
+        '\nAvailable options:',
+        ' --platforms=<platform>',
+        '\tArguments: ' + availablePlatforms + ',all',
+        '\tExample:   `gulp build --platforms=all`',
+        '\nUse `gulp --tasks` to show the task dependency tree of gulpfile.js\n'
+    ].join('\n'));
+    done();
+  });
 gulp.task('run', () => {
     return new Promise((resolve, reject) => {
         let platform = parsePlatforms()[0],
@@ -177,38 +192,68 @@ gulp.task('run', () => {
             reject(error);
         });
     });
+
 });
 
-// build app from sources
-gulp.task('build', (callback) => {
-    runSequence('injectgit', 'css', 'nwjs', callback);
+// check entire sources for potential coding issues (tweak in .jshintrc)
+gulp.task('jshint', () => {
+    return gulp.src(['gulpfile.js', 'src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', 'src/app/*.js'])
+        .pipe(glp.jshint('.jshintrc'))
+        .pipe(glp.jshint.reporter('jshint-stylish'))
+        .pipe(glp.jshint.reporter('fail'));
 });
 
-// create redistribuable packages
-gulp.task('dist', (callback) => {
-    runSequence('build', 'compress', 'deb', 'nsis', callback);
+// beautify entire code (tweak in .jsbeautifyrc)
+gulp.task('jsbeautifier', () => {
+    return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', '*.js', '*.json'], {
+            base: './'
+        })
+        .pipe(glp.jsbeautifier({
+            config: '.jsbeautifyrc'
+        }))
+        .pipe(glp.jsbeautifier.reporter())
+        .pipe(gulp.dest('./'));
 });
 
-// clean gulp-created files
-gulp.task('clean', ['clean:dist', 'clean:build', 'clean:css']);
+// clean build files (nwjs)
+gulp.task('clean:build',
+    deleteAndLog([path.join(releasesDir, pkJson.name)], 'build files')
+);
 
-// default is help, because we can!
-gulp.task('default', () => {
-    console.log([
-        '\nBasic usage:',
-        ' gulp run\tStart the application in dev mode',
-        ' gulp build\tBuild the application',
-        ' gulp dist\tCreate a redistribuable package',
-        '\nAvailable options:',
-        ' --platforms=<platform>',
-        '\tArguments: ' + availablePlatforms + ',all',
-        '\tExample:   `gulp build --platforms=all`',
-        '\nUse `gulp --tasks` to show the task dependency tree of gulpfile.js\n'
-    ].join('\n'));
+// clean dist files (dist)
+gulp.task('clean:dist',
+    deleteAndLog([path.join(releasesDir, '*.*')], 'distribuables')
+);
+
+// clean compiled css
+gulp.task('clean:css',
+    deleteAndLog(['src/app/themes'], 'css files')
+);
+
+// travis tests
+gulp.task('test', (callback) => {
+    runSequence('jshint', 'injectgit', 'css', callback);
 });
+
+//TODO:
+//setexecutable?
+//bower_clean
+
+//TODO: test and tweak
+/*gulp.task('codesign', () => {
+    exec('sh dist/mac/codesign.sh || echo "Codesign failed, likely caused by not being run on mac, continuing"', (error, stdout, stderr) => {
+        console.log(stdout);
+    });
+});
+gulp.task('createDmg', () => {
+    exec('dist/mac/yoursway-create-dmg/create-dmg --volname "' + pkJson.name + '-' + pkJson.version + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "' + pkJson.name + '" 240 110 ./build/releases/' + pkJson.name + '/mac/' + pkJson.name + '-' + pkJson.version + '-Mac.dmg ./build/releases/' + pkJson.name + '/mac/ || echo "Create dmg failed, likely caused by not being run on mac, continuing"',  (error, stdout, stderr) => {
+        console.log(stdout);
+    });
+});*/
+
 
 // download and compile nwjs
-gulp.task('nwjs', () => {
+gulp.task('nwjs', (done) => {
     return parseReqDeps().then((requiredDeps) => {
         // required files
         nw.options.files = ['./src/**', '!./src/app/styl/**', './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt', './.git.json'];
@@ -216,16 +261,17 @@ gulp.task('nwjs', () => {
         nw.options.files = nw.options.files.concat(requiredDeps);
         // remove junk files
         nw.options.files = nw.options.files.concat(['!./node_modules/**/*.bin', '!./node_modules/**/*.c', '!./node_modules/**/*.h', '!./node_modules/**/Makefile', '!./node_modules/**/*.h', '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./*/bin/**', '!./node_modules/**/build/**', '!./**/.*/**']);
-
+        done();
         return nw.build();
     }).catch(function (error) {
         console.error(error);
     });
+
 });
 
 
 // create .git.json (used in 'About')
-gulp.task('injectgit', () => {
+gulp.task('injectgit', (done) => {
     return Promise.all([promiseCallback(git.branch), promiseCallback(git.long)]).then(gitInfo => (
         new Promise((resolve, reject) => {
             fs.writeFile('.git.json', JSON.stringify({
@@ -240,10 +286,12 @@ gulp.task('injectgit', () => {
     )).then(gitInfo => {
         console.log('Branch:', gitInfo[0]);
         console.log('Commit:', gitInfo[1].substr(0, 8));
+        done();
     }).catch(error => {
         console.log(error);
         console.log('Injectgit task failed');
     });
+
 });
 
 // compile styl files
@@ -259,6 +307,7 @@ gulp.task('css', () => {
         .on('end', () => {
             console.log('Stylus files compiled in %s', path.join(process.cwd(), dest));
         });
+
 });
 
 // compile nsis installer
@@ -424,60 +473,26 @@ gulp.task('compress', () => {
 });
 
 // prevent commiting if conditions aren't met and force beautify (bypass with `git commit -n`)
-gulp.task('pre-commit', ['jshint']);
+gulp.task('pre-commit', gulp.series('jshint', function() {
+    // default task code here
+}));
 
-// check entire sources for potential coding issues (tweak in .jshintrc)
-gulp.task('jshint', () => {
-    return gulp.src(['gulpfile.js', 'src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', 'src/app/*.js'])
-        .pipe(glp.jshint('.jshintrc'))
-        .pipe(glp.jshint.reporter('jshint-stylish'))
-        .pipe(glp.jshint.reporter('fail'));
-});
+// build app from sources
+gulp.task('build', gulp.series('injectgit', 'css', 'nwjs', function(done) {
 
-// beautify entire code (tweak in .jsbeautifyrc)
-gulp.task('jsbeautifier', () => {
-    return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', '*.js', '*.json'], {
-            base: './'
-        })
-        .pipe(glp.jsbeautifier({
-            config: '.jsbeautifyrc'
-        }))
-        .pipe(glp.jsbeautifier.reporter())
-        .pipe(gulp.dest('./'));
-});
+    // default task code here
+    done();
+}));
 
-// clean build files (nwjs)
-gulp.task('clean:build',
-    deleteAndLog([path.join(releasesDir, pkJson.name)], 'build files')
-);
+// create redistribuable packages
+gulp.task('dist', gulp.series('build', 'compress', 'nsis', function(done) {
 
-// clean dist files (dist)
-gulp.task('clean:dist',
-    deleteAndLog([path.join(releasesDir, '*.*')], 'distribuables')
-);
+    // default task code here
+    done();
+}));
+// clean gulp-created files
+gulp.task('clean', gulp.series('clean:dist', 'clean:build', 'clean:css', function(done) {
 
-// clean compiled css
-gulp.task('clean:css',
-    deleteAndLog(['src/app/themes'], 'css files')
-);
-
-// travis tests
-gulp.task('test', (callback) => {
-    runSequence('jshint', 'injectgit', 'css', callback);
-});
-
-//TODO:
-//setexecutable?
-//bower_clean
-
-//TODO: test and tweak
-/*gulp.task('codesign', () => {
-    exec('sh dist/mac/codesign.sh || echo "Codesign failed, likely caused by not being run on mac, continuing"', (error, stdout, stderr) => {
-        console.log(stdout);
-    });
-});
-gulp.task('createDmg', () => {
-    exec('dist/mac/yoursway-create-dmg/create-dmg --volname "' + pkJson.name + '-' + pkJson.version + '" --background ./dist/mac/background.png --window-size 480 540 --icon-size 128 --app-drop-link 240 370 --icon "' + pkJson.name + '" 240 110 ./build/releases/' + pkJson.name + '/mac/' + pkJson.name + '-' + pkJson.version + '-Mac.dmg ./build/releases/' + pkJson.name + '/mac/ || echo "Create dmg failed, likely caused by not being run on mac, continuing"',  (error, stdout, stderr) => {
-        console.log(stdout);
-    });
-});*/
+    // default task code here
+    done();
+}));
