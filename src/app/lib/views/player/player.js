@@ -32,7 +32,7 @@
             this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
             this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
             this.listenTo(this.model, 'change:downloaded', this.updateDownloaded);
-
+            this.listenTo(this.model, 'subtitlesserver:started', this.addTrack);
             this.inFullscreen = win.isFullscreen;
             this.playerWasReady = false;
 
@@ -90,7 +90,17 @@
                 this.createdRemaining = false;
             }
         },
+        addTrack: function () {
+          this.player.addRemoteTextTrack(
+              { default: true,
+                kind: 'subtitles',
+                label : App.Localization.langcodes[this.model.get('defaultSubtitle')].nativeName,
+                src: 'http://127.0.0.1:9999/data.vtt',
+                srclang: this.model.get('defaultSubtitle')
+              });
 
+
+        },
         uploadSubtitles: function () {
             // verify custom subtitles not modified
             if (Settings.opensubtitlesAutoUpload && this.customSubtitles && !this.customSubtitles.modified) {
@@ -388,17 +398,22 @@
                     nativeControlsForTouch: true,
                     trackTimeOffset: 0,
                     plugins: {
-                      smallerSubtitle: {},
-                                            progressTips: {}
+                      smallerSubtitle: {}
                     }
-                }).ready(function () {
-                    that.playerWasReady = Date.now();
-                });
+                } , function onPlayerReady() {
+  videojs.log('Your player is ready!');
+  this.on('ended', function() {
+    videojs.log('Awww...over so soon?!');
+  });
+});
             }
+            this.player = this.video;
 
-            this.player = videojs.getPlayer("video_player");
+
             App.PlayerView = this;
             // Force custom controls
+        this.player.usingNativeControls(false);
+
             // Local subtitle hack
             App.vent.on('customSubtitles:added', function (subpath) {
                 that.customSubtitles = {
