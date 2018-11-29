@@ -278,9 +278,9 @@ gulp.task('nsis', () => {
             const makensis = process.platform === 'win32' ? 'makensis.exe' : 'makensis';
 
             const child = spawn(makensis, [
+                './dist/windows/installer_makensis.nsi',
                 '-DARCH=' + platform,
-                '-DOUTDIR=' + path.join(process.cwd(), releasesDir),
-                'dist/windows/installer_makensis.nsi'
+                '-DOUTDIR=' + path.join(process.cwd(), releasesDir)
             ]);
 
             // display log only on failed build
@@ -296,6 +296,7 @@ gulp.task('nsis', () => {
                     if (nsisLogs.length) {
                         console.log(nsisLogs.join('\n'));
                     }
+                    console.log(nsisLogs);
                     console.log('%s failed to package nsis', platform);
                 }
                 resolve();
