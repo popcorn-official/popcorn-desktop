@@ -33,13 +33,11 @@
     "position": "center"
   },
   "dependencies": {
-    "acorn": "^6.0.0",
     "TorrentCollection": "^x.x.x",
     "adm-zip": "0.4.13",
     "airplayer": "2.0.0",
     "async": "2.6.1",
     "backbone": "^1.3.3",
-    "buble": "git+https://github.com/pemrouz/buble",
     "backbone.babysitter": "^0.1.12",
     "backbone.marionette": "~3.x.x",
     "backbone.radio": "^2.0.0",
@@ -72,7 +70,6 @@
     "node-webkit-fdialogs": "latest",
     "opensubtitles-api": "4.1.0",
     "os-name": "3.0.0",
-    "popper": "^1.x.x",
     "q": "2.0.3",
     "readdirp": "*",
     "request": "2.88.x",
@@ -89,9 +86,8 @@
     "trakt.tv-ondeck": "5.x.x",
     "underscore": "~1.8.3",
     "urijs": "1.19.1",
-    "video.js": "4.11.4",
-    "videojs-youtube": "1.2.10",
-    "vtt.js": "~0.12.1",
+    "video.js": "4.12.5",
+    "videojs-youtube": "1.2.13",
     "webtorrent": "^0.102.4",
     "webtorrent-health": "1.x.x"
   },
