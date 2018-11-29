@@ -88,6 +88,10 @@ Settings.trackers = {
         'demonii'
     ],
     forced: [
+        'udp://tracker.empire-js.us:1337',
+        'wss://tracker.openwebtorrent.com',
+        'wss://tracker.fastcast.nz',
+        'wss://tracker.btorrent.xyz',
         'udp://tracker.leechers-paradise.org:6969/announce',
         'udp://tracker.coppersurfer.tk:6969/announce',
         'udp://glotorrents.pw:6969/announce',
