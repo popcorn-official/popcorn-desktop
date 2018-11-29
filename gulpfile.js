@@ -230,10 +230,7 @@ gulp.task('clean:css',
     deleteAndLog(['src/app/themes'], 'css files')
 );
 
-// travis tests
-gulp.task('test', (callback) => {
-    runSequence('jshint', 'injectgit', 'css', callback);
-});
+
 
 //TODO:
 //setexecutable?
@@ -473,8 +470,9 @@ gulp.task('compress', () => {
 });
 
 // prevent commiting if conditions aren't met and force beautify (bypass with `git commit -n`)
-gulp.task('pre-commit', gulp.series('jshint', function() {
+gulp.task('pre-commit', gulp.series('jshint', function(done) {
     // default task code here
+    done();
 }));
 
 // build app from sources
@@ -492,6 +490,12 @@ gulp.task('dist', gulp.series('build', 'compress', 'nsis', function(done) {
 }));
 // clean gulp-created files
 gulp.task('clean', gulp.series('clean:dist', 'clean:build', 'clean:css', function(done) {
+
+    // default task code here
+    done();
+}));
+// travis tests
+gulp.task('test', gulp.series('jshint', 'injectgit', 'css', function(done) {
 
     // default task code here
     done();
