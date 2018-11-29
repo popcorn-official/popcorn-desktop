@@ -92,10 +92,9 @@
         if(defaultSub == subArray[index].language)
             imDefault = "default";
 
-        subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + (subArray[index].multi_id == '1' ? subArray[index].languageName.substr(0,subArray[index].languageName.indexOf('...')) : subArray[index].languageName.substr(subArray[index].languageName.indexOf('...'),99) ) + '" charset="utf-8" '+ imDefault +' />';
+        subtracks += '<track kind="subtitles" src="" srclang="'+ subArray[index].language +'" label="' + (subArray[index].multi_id == '1' ? subArray[index].languageName.substr(0,subArray[index].languageName.indexOf('...')) : subArray[index].languageName.substr(subArray[index].languageName.indexOf('...'),99) ) + '" charset="utf-8" '+ imDefault +' />';
     }
 %>
-<video id="video_player" width="100%" height="100%" class="video-js vjs-popcorn-skin" controls preload="auto" autoplay >
+<video id="video_player" width="100%" height="100%" class="video-js" controls preload="auto" autoplay >
     <source src="<%= src %>" type="<%= type %>" />
-    <%=subtracks%>
 </video>
