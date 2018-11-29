@@ -1,6 +1,7 @@
 // VideoJS Plugins
-
-videojs.BiggerSubtitleButton = videojs.Button.extend({
+var Button = videojs.getComponent('Button');
+var controlBar;
+videojs.BiggerSubtitleButton = videojs.extend(Button, {
     /** @constructor */
     init: function (player, options) {
         videojs.Button.call(this, player, options);
@@ -27,15 +28,15 @@ var createBiggerSubtitleButton = function () {
 };
 
 var biggerSubtitle;
-videojs.plugin('biggerSubtitle', function () {
+videojs.registerPlugin('biggerSubtitle', function () {
     var options = {
         'el': createBiggerSubtitleButton()
     };
     biggerSubtitle = new videojs.BiggerSubtitleButton(this, options);
-    this.controlBar.el().appendChild(biggerSubtitle.el());
+    controlBar.el().appendChild(biggerSubtitle.el());
 });
 
-videojs.SmallerSubtitleButton = videojs.Button.extend({
+videojs.SmallerSubtitleButton = videojs.extend(Button, {
     /** @constructor */
     init: function (player, options) {
         videojs.Button.call(this, player, options);
@@ -62,27 +63,59 @@ var createSmallerSubtitleButton = function () {
 };
 
 var smallerSubtitle;
-videojs.plugin('smallerSubtitle', function () {
-    var options = {
-        'el': createSmallerSubtitleButton()
-    };
-    smallerSubtitle = new videojs.SmallerSubtitleButton(this, options);
-    this.controlBar.el().appendChild(smallerSubtitle.el());
+videojs.registerPlugin('smallerSubtitle', function() {
+var vsComponent = videojs.getComponent('Button');
+
+// Create the button
+videojs.SampleButton = videojs.extend(vsComponent, {
+    constructor: function() {
+        vsComponent.call(this, videojs, null);
+    }
 });
 
+// Set the text for the button
+videojs.SampleButton.prototype.buttonText = 'Mute Icon';
+
+// These are the defaults for this class.
+videojs.SampleButton.prototype.options_ = {};
+
+// videojs.Button uses this function to build the class name.
+videojs.SampleButton.prototype.buildCSSClass = function() {
+    // Add our className to the returned className
+    return 'vjs_smallersub_button vjs-control' + vsComponent.prototype.buildCSSClass.call(this);
+};
+
+// videojs.Button already sets up the onclick event handler, we just need to overwrite the function
+videojs.SampleButton.prototype.handleClick = function( e ) {
+    // Add specific click actions here.
+    console.log('clicked');
+};
+
+videojs.SampleButton.prototype.createEl = function(type, properties, attributes) {
+    return videojs.createEl('button', {}, {class: 'vjs_smallersub_button vjs-control'});
+};
+
+var pluginFn = function(options) {
+    var SampleButton  = new videojs.SampleButton(this, options);
+    this.addChild(SampleButton);
+
+    return SampleButton;
+};
+
+});
 
 // Custom Subtitles Button/Menu
-videojs.plugin('customSubtitles', function () {
-
+videojs.registerPlugin('customSubtitles', function () {
     // Find subtitlesButton
     var subtitlesButton;
-    this.controlBar.children().forEach(function (el) {
+
+    controlBar.children().forEach(function (el) {
         if (el.name() === 'subtitlesButton') {
             subtitlesButton = el;
         }
     });
 
-    var CustomTrackMenuItem = vjs.TextTrackMenuItem.extend({
+    var CustomTrackMenuItem = videojs.TextTrack.extend({
 
         /*@ Constructor */
         init: function (player, options) {
@@ -104,7 +137,7 @@ videojs.plugin('customSubtitles', function () {
                 }
             };
 
-            this.fileInput_ = $('<input type="file" accept=".srt, .ssa, .ass, .txt, .smi, .sami" style="display: none;">');
+            this.fileInput_ = $('<input type="file" accept=".vtt" style="display: none;">');
             $(this.el()).append(this.fileInput_);
 
             var that = this;
@@ -125,7 +158,7 @@ videojs.plugin('customSubtitles', function () {
                 this.value = null; //reset
             });
 
-            vjs.TextTrackMenuItem.call(this, player, options);
+            videojs.TextTrack.call(this, player, options);
         }
     });
 
@@ -150,7 +183,7 @@ videojs.plugin('customSubtitles', function () {
             src: filePath
         });
         App.vent.trigger('customSubtitles:added', filePath);
-        vjs.TextTrackMenuItem.prototype.onClick.call(this); // redirect to TextTrackMenuItem.onClick
+        videojs.TextTrackMenuItem.prototype.onClick.call(this); // redirect to TextTrackMenuItem.onClick
     };
 
     subtitlesButton.menu.addItem(new CustomTrackMenuItem(this));
@@ -162,7 +195,7 @@ videojs.plugin('customSubtitles', function () {
  * https://github.com/mickey/videojs-progressTips
  * Copyright (c) 2013 Michael Bensoussan; Licensed MIT */
 
-videojs.plugin('progressTips', function (options) {
+videojs.registerPlugin('progressTips', function (options) {
     var init;
     init = function () {
         var player;
