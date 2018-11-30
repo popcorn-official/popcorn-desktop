@@ -270,7 +270,6 @@
 
             $('.notorrents-info,.torrents-info').hide();
             return Promise.all([
-                rarbg(),
                 leetx(),
                 piratebay()
             ]).then(function (results) {
