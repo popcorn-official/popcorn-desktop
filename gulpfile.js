@@ -81,7 +81,7 @@ const parseReqDeps = () => {
                 // return
                 resolve(npmList);
                 if (error || stderr) {
-                  console.log(error || stderr);
+                  console.log(error);
 }
         });
     });
