@@ -265,7 +265,7 @@ gulp.task('createDmg', () => {
 
 
 // download and compile nwjs
-gulp.task('nwjs', (done) => {
+gulp.task('nwjs', () => {
     return parseReqDeps().then((requiredDeps) => {
         // required files
         nw.options.files = ['./src/**', '!./src/app/styl/**', './package.json', './README.md', './CHANGELOG.md', './LICENSE.txt', './.git.json'];
@@ -273,7 +273,7 @@ gulp.task('nwjs', (done) => {
         nw.options.files = nw.options.files.concat(requiredDeps);
         // remove junk files
         nw.options.files = nw.options.files.concat(['!./node_modules/**/*.bin', '!./node_modules/**/*.c', '!./node_modules/**/*.h', '!./node_modules/**/Makefile', '!./node_modules/**/*.h', '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./*/bin/**', '!./node_modules/**/build/**', '!./**/.*/**']);
-        done();
+
         return nw.build();
     }).catch(function (error) {
         console.error(error);
