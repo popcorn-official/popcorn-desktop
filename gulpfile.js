@@ -23,7 +23,7 @@ const gulp = require('gulp'),
     yargs = require('yargs'),
     nib = require('nib'),
     git = require('git-rev'),
-
+    zip = require('gulp-zip'),
     fs = require('fs'),
     path = require('path'),
     exec = require('child_process').exec,
@@ -202,7 +202,22 @@ gulp.task('jshint', () => {
         .pipe(glp.jshint.reporter('jshint-stylish'))
         .pipe(glp.jshint.reporter('fail'));
 });
-
+// zip compress all
+gulp.task('compresszip', () => {
+    return Promise.all(nw.options.platforms.map((platform) => {
+        return new Promise((resolve, reject) => {
+            console.log('Packaging zip for: %s', platform);
+            const sources = path.join('build', pkJson.name, platform);
+            return gulp.src(sources + '/**')
+                .pipe(zip(pkJson.name + '-' + pkJson.version + '_' + platform + '.zip'))
+                .pipe(gulp.dest(releasesDir))
+                .on('end', () => {
+                    console.log('%s zip packaged in %s', platform, path.join(process.cwd(), releasesDir));
+                    resolve();
+                });
+        });
+    })).catch(log);
+});
 // beautify entire code (tweak in .jsbeautifyrc)
 gulp.task('jsbeautifier', () => {
     return gulp.src(['src/app/lib/*.js', 'src/app/lib/**/*.js', 'src/app/*.js', 'src/app/vendor/videojshooks.js', 'src/app/vendor/videojsplugins.js', '*.js', '*.json'], {
@@ -483,7 +498,7 @@ gulp.task('build', gulp.series('injectgit', 'css', 'nwjs', function(done) {
 }));
 
 // create redistribuable packages
-gulp.task('dist', gulp.series('build', 'compress', 'nsis', function(done) {
+gulp.task('dist', gulp.series('build', 'compress','compresszip' ,  'nsis', function(done) {
 
     // default task code here
     done();
