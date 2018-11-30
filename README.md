@@ -1,9 +1,8 @@
 # [Popcorn Time](https://github.com/popcorn-official/popcorn-desktop)
 
-[![Build Status](https://travis-ci.org/popcorn-official/popcorn-desktop.svg?branch=master)](https://travis-ci.org/popcorn-official/popcorn-desktop)
+[![Build Status](https://ci.popcorntime.sh/job/Popcorn-Time-Desktop/badge/icon)](https://ci.popcorntime.sh/job/Popcorn-Time-Desktop/)
 [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-desktop.svg)](https://david-dm.org/popcorn-official/popcorn-desktop)
 [![devDependency Status](https://david-dm.org/popcorn-official/popcorn-desktop/dev-status.svg)](https://david-dm.org/popcorn-official/popcorn-desktop#info=devDependencies)
-[![Build status](https://ci.appveyor.com/api/projects/status/sjq58hpqqj73vhx1?svg=true)](https://ci.appveyor.com/project/ozkanpakdil/popcorn-desktop)
 
 Allow any user to easily watch movies through torrent streaming, without any prerequisites.
 
