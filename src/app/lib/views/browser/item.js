@@ -17,10 +17,11 @@
         },
 
         ui: {
-            covers: '.cover-imgs',
-            defaultCover: '.cover',
-            bookmarkIcon: '.actions-favorites',
-            watchedIcon: '.actions-watched'
+          covers: '.cover-imgs',
+          defaultCover: '.cover',
+          cover: '.cover',
+          bookmarkIcon: '.actions-favorites',
+          watchedIcon: '.actions-watched'
         },
         events: {
             'click .actions-favorites': 'toggleFavorite',
@@ -38,12 +39,6 @@
             this.loadImage();
             this.setCoverStates();
             this.setTooltips();
-
-            this.model.on('change:poster', this.loadImage.bind(this));
-        },
-
-        onBeforeDestroy: function () {
-            this.model.off('change:poster');
         },
 
         hoverItem: function (e) {
@@ -127,39 +122,35 @@
         },
 
         loadImage: function () {
-          var poster = this.model.get('poster');
-          var images = this.model.get('images');
-          if (images) {
-          poster = this.model.get('images').poster;
-        }
-            if (! poster) {
-              return;
+            var noimg = 'images/posterholder.png';
+            var poster = this.model.get('poster') || noimg;
+            if (this.model.get('images') && this.model.get('type') === 'show'){
+              poster = this.model.get('images').poster || noimg;
             }
+
+
+
+            var setImage = function (img) {
+                this.ui.cover.css('background-image', 'url(' + img + ')').addClass('fadein');
+            }.bind(this);
+
             var posterCache = new Image();
             posterCache.src = poster;
 
-            this.ui.covers.append(`<div class="cover-overlay"></div>`);
-
             posterCache.onload = function () {
-                posterCache.onload = () => {};
-
                 if (poster.indexOf('.gif') !== -1) { // freeze gifs
                     var c = document.createElement('canvas');
                     var w  = c.width = posterCache.width;
                     var h = c.height = posterCache.height;
 
                     c.getContext('2d').drawImage(posterCache, 0, 0, w, h);
-                    posterCache.src = c.toDataURL();
+                    poster = c.toDataURL();
                 }
-                this.ui.covers.children(-1).css('background-image', 'url('+posterCache.src+')').addClass('fadein').delay(600).queue(_ => {
-                    this.ui.defaultCover.addClass('empty');
-                });
-            }.bind(this);
-
+                setImage(poster);
+            };
             posterCache.onerror = function (e) {
-                this.ui.covers.empty();
-                this.ui.defaultCover.removeClass('empty');
-            }.bind(this);
+                setImage(noimg);
+            };
         },
 
         setTooltips: function () {
@@ -170,46 +161,59 @@
         showDetail: function (e) {
             e.preventDefault();
 
-            // display the spinner
-            $('.spinner').show();
-
             var realtype = this.model.get('type');
             var itemtype = realtype.replace('bookmarked', '');
             var providers = this.model.get('providers');
-            var torrentProvider = providers.torrent;
             var id = this.model.get(this.model.idAttribute);
 
-            var promises = Object.values(providers)
-                .filter(p => (p && p.detail && p !== torrentProvider))
-                .map(p => (p.detail(id, this.model.attributes)));
+            var promises = Object.values(providers).map(function (p) {
+              if (realtype === 'show') {
+                p = providers.torrent;
+              }
+                if (!p.detail) {
+                    return false;
+                }
+                return p.detail(id, this.model.attributes);
+            }.bind(this));
 
             // bookmarked movies are cached
             if (realtype === 'bookmarkedmovie') {
                 return App.vent.trigger('movie:showDetail', this.model);
             }
 
-            // load details
-            torrentProvider
-                .detail(id, this.model.attributes)
-                .then(this.model.set.bind(this.model))
-                .then(model => (
-                    App.vent.trigger(itemtype + ':showDetail', model)
-                ))
-                .catch (err => console.error('get torrent detail', err));
+            function allSettled(promises) {
+                var wrappedPromises = promises.map(
+                    p => Promise.resolve(p)
+                        .then(val => ({ ok: true, value: val }),                                                err => ({ ok: false, reason: err })
+                             ));
+                return Promise.all(wrappedPromises);
+            }
 
+            // display the spinner
+            $('.spinner').show();
             // XXX(xaiki): here we could optimise a detail call by marking
             // the models that already got fetched not too long ago, but we
             // actually use memoize in the providers code so it shouldn't be
             // necesary and we refresh the data anyway…
-            return Common.Promises.allSettled(promises).then(function (results) {
+            return allSettled(promises).then(function (results) {
+                $('.spinner').hide();
+
+                results = results.reduce(function (a, c) {
+                    if (c.ok) {
+                        return a.concat(c.value);
+                    }
+                    return a;
+                }, []);
+
                 // XXX(xaiki): we merge all results into a single object,
                 // this allows for much more than sub providers (language,
                 // art, metadata) but is a little more fragile.
-                var data = results
-                    .filter(r => (r.ok))
-                    .reduce((a, c) => (Object.assign(a, c.value)), {});
+                var data = results.reduce(function (a, c) {
+                    return Object.assign (a, c);
+                }, {});
 
-                this.model.set(data);
+                // load details
+                App.vent.trigger(itemtype + ':showDetail', this.model.set(data));
             }.bind(this))
                 .catch(function (err) {
                     console.error('error showing detail:', err);

@@ -173,10 +173,9 @@
             App.vent.trigger('preload:stop');
             App.vent.trigger('stream:stop');
 
-            var vjsPlayer = document.getElementById('video_player');
-            if (vjsPlayer) {
-                videojs(vjsPlayer).dispose();
-            }
+
+                this.player.dispose();
+
 
             this.destroy();
         },
@@ -388,13 +387,13 @@
                     ytcontrols: true,
                     quality: '720p'
                 } , function onPlayerReady() {
-  videojs.log('Your player is ready!');
-  this.player.poster(null);
-  this.on('ended', function() {
-    videojs.log('Awww...over so soon?!');
-  });
-});
+                  videojs.log('Your player is ready!');
 
+                  this.on('ended', function() {
+                    videojs.log('Awww...over so soon?!');
+                  });
+                });
+this.video.poster(null);
   this.ui.eyeInfo.hide();
             } else {
                 this.video = videojs('video_player', {
@@ -405,9 +404,10 @@
                       smallerSubtitle: {}
                     }
                 } , function onPlayerReady() {
-  videojs.log('Your player is ready!');
-  this.on('ended', function() {
-    videojs.log('Awww...over so soon?!');
+
+                  videojs.log('Your player is ready!');
+                  this.on('ended', function() {
+
   });
 });
             }
@@ -926,16 +926,9 @@
         },
 
         onBeforeDestroy: function () {
-            if (this.model.get('type') === 'video/youtube') {
-              this.model.set('poster', false);
-            }
 
             this.unbindKeyboardShortcuts();
             App.vent.trigger('player:close');
-            var vjsPlayer = document.getElementById('video_player');
-            if (vjsPlayer) {
-                videojs.getPlayer(vjsPlayer).dispose();
-            }
         }
 
     });

@@ -132,8 +132,9 @@
                 this.checkFreeSpace(streamInfo.get('size'));
                 this.firstUpdate = true;
             }
+
             if (streamInfo.get('backdrop')) {
-                $('.loading-background').css('background-image', 'url(' + streamInfo.get('backdrop') + ')');
+                $('.loading-backdrop').css('background-image', 'url(' + streamInfo.get('backdrop') + ')');
             }
             if (streamInfo.get('title') !== '') {
                 this.ui.title.html(streamInfo.get('title'));
