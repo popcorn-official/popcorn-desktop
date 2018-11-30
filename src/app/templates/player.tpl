@@ -55,46 +55,6 @@
         <div class="auto-next-btn playnownext"><%= i18n.__("Play Now") %></div>
     </div>
 </div>
-<%
-    var subArray = [];
-    var multi_id = "";
-    var langcode2 = "";
-
-    for (var langcode in subtitle) {
-        if (langcode.indexOf('|')>0) {
-            multi_id = langcode.substr(langcode.indexOf('|')+1,99);
-            langcode2 = langcode.substr(0,langcode.indexOf('|'));
-        } else {
-            multi_id = "1";
-            langcode2 = langcode;
-        }
-
-        subArray.push({
-            "language": langcode,
-            "languageName": (App.Localization.langcodes[langcode2] !== undefined ? App.Localization.langcodes[langcode2].nativeName : langcode) + '... ' + multi_id,
-            "multi_id": multi_id,
-            "sub": subtitle[langcode]
-        });
-    }
-    subArray.sort(function (sub1, sub2) {
-        return sub1.languageName.localeCompare(sub2.languageName, undefined, {numeric: true, sensitivity: 'base'});
-    });
-
-    var subtracks = "";
-
-    var defaultSub = "none";
-    if (typeof defaultSubtitle != "undefined") {
-        defaultSub = defaultSubtitle;
-    }
-    for(var index in subArray ) {
-        var imDefault = "";
-
-        if(defaultSub == subArray[index].language)
-            imDefault = "default";
-
-        subtracks += '<track kind="subtitles" src="" srclang="'+ subArray[index].language +'" label="' + (subArray[index].multi_id == '1' ? subArray[index].languageName.substr(0,subArray[index].languageName.indexOf('...')) : subArray[index].languageName.substr(subArray[index].languageName.indexOf('...'),99) ) + '" charset="utf-8" '+ imDefault +' />';
-    }
-%>
 <video id="video_player" width="100%" height="100%" class="video-js" controls preload="auto" autoplay >
     <source src="<%= src %>" type="<%= type %>" />
 </video>

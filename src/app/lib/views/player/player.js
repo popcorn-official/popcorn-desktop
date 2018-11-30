@@ -91,11 +91,14 @@
             }
         },
         addTrack: function () {
+
+
+
           this.player.addRemoteTextTrack(
-              { default: true,
+              { mode: 'showing',
                 kind: 'subtitles',
                 label : App.Localization.langcodes[this.model.get('defaultSubtitle')].nativeName,
-                src: 'http://127.0.0.1:9999/data.vtt',
+                src: 'http://127.0.0.1:9999/subtitle.vtt',
                 srclang: this.model.get('defaultSubtitle')
               });
 
@@ -253,7 +256,7 @@
 
             // set volume
             this.player.volume(Settings.playerVolume);
-
+            App.vent.on('subtitleserver:started', this.addTrack());
             // resume position
             if (Settings.lastWatchedTitle === this.model.get('title') && Settings.lastWatchedTime > 0) {
                 var position = Settings.lastWatchedTime;
@@ -396,6 +399,7 @@
             } else {
                 this.video = videojs('video_player', {
                     nativeControlsForTouch: true,
+                    textTrackSettings: true,
                     trackTimeOffset: 0,
                     plugins: {
                       smallerSubtitle: {}
