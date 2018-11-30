@@ -369,10 +369,18 @@
             if (state === 'ready' && !this.subtitleReady) {
                 state = 'waitingForSubtitles'; // can be played but subs aren't there yet
             }
-
+            this.stateModel.set('state', state);
+            if (state === 'playingExternally' && !this.subtitleReady) {
+                state = 'waitingForSubtitles'; // can be played but subs aren't there yet
+            }
+            this.stateModel.set('state', state);
+            
+            if (state === 'playingExternally' && this.subtitleReady) {
+                state = 'ready'; // can be played
+            }
             this.stateModel.set('state', state);
 
-            if (state === 'ready' || state === 'playingExternally') {
+            if (state === 'ready') {
                 App.vent.trigger('stream:ready', this.streamInfo);
                 this.stateModel.destroy();
             } else {
@@ -390,8 +398,7 @@
             var defaultSubtitle = this.torrentModel.get('defaultSubtitle');
 
             win.info(total + ' subtitles found');
-            // if 0 subtitles found code will not stuck at 'waiting for subtitle'
-            this.subtitleReady = true;
+
 
             this.torrentModel.set('subtitle', subtitles);
 
@@ -404,6 +411,8 @@
                         type: 'warning',
                         autoclose: true
                     }));
+                    // if 0 subtitles found code will not stuck at 'waiting for subtitle'
+                    this.subtitleReady = true;
                 } else {
                     // after downloaded subtitles, we set the srt file to streamInfo
                     App.vent.on('subtitle:downloaded', function(subtitlePath) {
@@ -423,8 +432,12 @@
                                         type: 'error',
                                         autoclose: true
                                     }));
+                                    // if 0 subtitles found code will not stuck at 'waiting for subtitle'
+                                    this.subtitleReady = true;
                                 } else {
                                     App.SubtitlesServer.start(res);
+
+                                    this.subtitleReady = true;
                                 }
                             }.bind(this));
                         }
