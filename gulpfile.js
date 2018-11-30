@@ -203,7 +203,12 @@ gulp.task('jshint', () => {
 });
 // zip compress all
 gulp.task('compresszip', () => {
+
     return Promise.all(nw.options.platforms.map((platform) => {
+      if (platform.match(/osx|linux/) !== null) {
+          console.log('No `nocompresszip` task for', platform);
+          return null;
+      }
         return new Promise((resolve, reject) => {
             console.log('Packaging zip for: %s', platform);
             const sources = path.join('build', pkJson.name, platform);
@@ -282,7 +287,7 @@ gulp.task('nwjs', () => {
 
 
 // create .git.json (used in 'About')
-gulp.task('injectgit', (done) => {
+gulp.task('injectgit', () => {
     return Promise.all([promiseCallback(git.branch), promiseCallback(git.long)]).then(gitInfo => (
         new Promise((resolve, reject) => {
             fs.writeFile('.git.json', JSON.stringify({
@@ -297,7 +302,6 @@ gulp.task('injectgit', (done) => {
     )).then(gitInfo => {
         console.log('Branch:', gitInfo[0]);
         console.log('Commit:', gitInfo[1].substr(0, 8));
-        done();
     }).catch(error => {
         console.log(error);
         console.log('Injectgit task failed');
