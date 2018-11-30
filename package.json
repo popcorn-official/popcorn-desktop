@@ -33,7 +33,7 @@
     "position": "center"
   },
   "dependencies": {
-    "TorrentCollection": "^x.x.x",
+    "torrentcollection2": "0.0.3",
     "adm-zip": "0.4.13",
     "airplayer": "2.0.0",
     "async": "2.6.1",
@@ -48,7 +48,7 @@
     "butter-provider-movies-es6": "*",
     "butter-provider-shows-es6": "*",
     "butter-provider-vodo": "0.3.1",
-    "butter-settings-popcorntime.io": "git+https://github.com/popcorn-official/butter-settings-popcorn",
+    "butter-settings-popcorntime.io": "0.0.1",
     "chromecasts": "1.9.1",
     "defer-request": "0.0.3",
     "dlnacasts2": "0.1.2",
@@ -93,7 +93,7 @@
   },
   "devDependencies": {
     "del": "^3.x.x",
-    "jshint": "^2.9.5",
+    "jshint": "^2.9.6",
     "jshint-stylish": "^2.2.1",
     "git-rev": "^0.2.1",
     "gulp": "^4.0.x",

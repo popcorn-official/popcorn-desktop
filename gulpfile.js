@@ -65,9 +65,6 @@ const parsePlatforms = () => {
 const parseReqDeps = () => {
     return new Promise((resolve, reject) => {
         exec('npm ls --production=true --parseable=true', {maxBuffer: 1024 * 500}, (error, stdout, stderr) => {
-            if (error || stderr) {
-                reject(error || stderr);
-            } else {
                 // build array
                 let npmList = stdout.split('\n');
 
@@ -83,7 +80,9 @@ const parseReqDeps = () => {
 
                 // return
                 resolve(npmList);
-            }
+                if (error || stderr) {
+                  console.log(error || stderr);
+}
         });
     });
 };
