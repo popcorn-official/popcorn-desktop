@@ -78,7 +78,7 @@
         },
 
         createMedia: function(streamModel, useLocalSubtitle) {
-            var subtitle = streamModel.get('defaultSubtitle');
+            var subtitle = streamModel.get('subtitle');
             var cover = streamModel.get('backdrop');
             var url = streamModel.get('src');
             var attr= streamModel.attributes;

@@ -19,7 +19,7 @@
             }
             res.setHeader('Content-Type', 'text/' + ext + ';charset=' + encoding);
             win.debug('SubtitlesServer: served vtt/srt with encoding: ' + encoding);
-            App.vent.trigger('subtitleserver:started', null);
+
         };
 
         if (ext in subtitlePath) {
@@ -37,6 +37,7 @@
 
     function startListening(cb) {
         httpServer = server.listen(PORT);
+
 
     }
 
@@ -78,6 +79,8 @@
             if (!httpServer) {
                 startListening(cb);
             }
+            win.error('fuck');
+            App.vent.trigger('subtitleserver:started', null);
         },
 
         stop: function () {

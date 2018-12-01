@@ -32,10 +32,9 @@
             this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
             this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
             this.listenTo(this.model, 'change:downloaded', this.updateDownloaded);
-            this.listenTo(this.model, 'subtitlesserver:started', this.addTrack);
+
             this.inFullscreen = win.isFullscreen;
             this.playerWasReady = false;
-
             this.remaining = false;
             this.createdRemaining = false;
             this.firstPlay = true;
@@ -91,9 +90,6 @@
             }
         },
         addTrack: function () {
-
-
-
           this.player.addRemoteTextTrack(
               { mode: 'showing',
                 kind: 'subtitles',
@@ -252,10 +248,11 @@
 
         onPlayerReady: function () {
             win.debug('Player - data loaded in %sms', (Date.now() - this.playerWasReady));
-
             // set volume
             this.player.volume(Settings.playerVolume);
-            App.vent.on('subtitleserver:started', this.addTrack());
+            if (this.model.get('subFile')){
+              this.addTrack();
+            }
             // resume position
             if (Settings.lastWatchedTitle === this.model.get('title') && Settings.lastWatchedTime > 0) {
                 var position = Settings.lastWatchedTime;
@@ -306,6 +303,7 @@
             }
 
             this.sendToTrakt('start');
+
         },
 
         onPlayerPause: function () {
@@ -400,15 +398,11 @@ this.video.poster(null);
                     nativeControlsForTouch: true,
                     textTrackSettings: true,
                     trackTimeOffset: 0,
-                    plugins: {
-                      smallerSubtitle: {}
-                    }
+                    plugins: {}
                 } , function onPlayerReady() {
-
+                  that.onPlayerPlay.bind(this);
                   videojs.log('Your player is ready!');
-                  this.on('ended', function() {
 
-  });
 });
             }
             this.player = this.video;
@@ -432,9 +426,7 @@ this.video.poster(null);
             });
 
             this.player.on('ended', this.onPlayerEnded.bind(this));
-            this.player.on('play', this.onPlayerFirstPlay.bind(this));
             this.player.on('loadeddata', this.onPlayerReady.bind(this));
-            this.player.on('play', this.onPlayerPlay.bind(this));
             this.player.on('pause', this.onPlayerPause.bind(this));
             this.player.on('error', this.onPlayerError.bind(this));
 

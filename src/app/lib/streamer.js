@@ -370,17 +370,8 @@
                 state = 'waitingForSubtitles'; // can be played but subs aren't there yet
             }
             this.stateModel.set('state', state);
-            if (state === 'playingExternally' && !this.subtitleReady) {
-                state = 'waitingForSubtitles'; // can be played but subs aren't there yet
-            }
-            this.stateModel.set('state', state);
-            
-            if (state === 'playingExternally' && this.subtitleReady) {
-                state = 'ready'; // can be played
-            }
-            this.stateModel.set('state', state);
 
-            if (state === 'ready') {
+            if (state === 'ready' || state === 'playingExternally' ) {
                 App.vent.trigger('stream:ready', this.streamInfo);
                 this.stateModel.destroy();
             } else {
@@ -436,13 +427,11 @@
                                     this.subtitleReady = true;
                                 } else {
                                     App.SubtitlesServer.start(res);
-
                                     this.subtitleReady = true;
+                                    this.streamInfo.set('subServer', 'http://127.0.0.1/data.vtt');
                                 }
-                            }.bind(this));
+    }.bind(this));
                         }
-
-                        this.subtitleReady = true;
                     }.bind(this));
 
                     // download the subtitle
