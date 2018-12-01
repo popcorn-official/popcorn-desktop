@@ -243,6 +243,7 @@
                 index: fileIndex,
                 path: path.join(torrent.path, torrent.files[fileIndex].path)
             });
+            torrent.announce = Settings.trackers.forced;
         },
 
         // determine if the torrent is already formatted or if we need to use the file selector
@@ -293,7 +294,6 @@
         handleStreamInfo: function () {
             this.streamInfo.set('torrentModel', this.torrentModel);
             this.updateStatsInterval = setInterval(this.streamInfo.updateStats.bind(this.streamInfo), 1000);
-
             this.streamInfo.updateInfos();
             this.torrentModel.on('change', this.streamInfo.updateInfos.bind(this.streamInfo));
         },
@@ -536,18 +536,22 @@ serveSubtitles: function(localPath) {
             if (this.webtorrent === null) {
                 this.webtorrent = new WebTorrent({
                     maxConns: parseInt(Settings.connectionLimit, 10) || 55,
-                    tracker: Settings.trackers.forced,
-                    dht: true
+                    dht: true,
+                    announce: Settings.trackers.forced,
+                    tracker: Settings.trackers.forced
+
                 });
             }
+            console.log(this.webtorrent);
             return this.webtorrent;
         },
     };
 
     var streamer = new WebTorrentStreamer({
         maxConns: parseInt(Settings.connectionLimit, 10) || 55,
-        tracker: Settings.trackers.forced,
-        dht: true
+        dht: true,
+        announce: Settings.trackers.forced,
+        tracker: Settings.trackers.forced
     });
 
     App.vent.on('stream:start', streamer.start.bind(streamer));
