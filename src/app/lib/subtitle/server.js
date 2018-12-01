@@ -79,8 +79,6 @@
             if (!httpServer) {
                 startListening(cb);
             }
-            win.error('fuck');
-            App.vent.trigger('subtitleserver:started', null);
         },
 
         stop: function () {

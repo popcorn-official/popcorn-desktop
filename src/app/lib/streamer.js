@@ -536,17 +536,19 @@ serveSubtitles: function(localPath) {
             if (this.webtorrent === null) {
                 this.webtorrent = new WebTorrent({
                     maxConns: parseInt(Settings.connectionLimit, 10) || 55,
-                    tracker: {
-                        wrtc: false, // disable webrtc
-                        announce: Settings.trackers.forced
-                    }
+                    tracker: Settings.trackers.forced,
+                    dht: true
                 });
             }
             return this.webtorrent;
         },
     };
 
-    var streamer = new WebTorrentStreamer();
+    var streamer = new WebTorrentStreamer({
+        maxConns: parseInt(Settings.connectionLimit, 10) || 55,
+        tracker: Settings.trackers.forced,
+        dht: true
+    });
 
     App.vent.on('stream:start', streamer.start.bind(streamer));
     App.vent.on('stream:stop', streamer.stop.bind(streamer));
