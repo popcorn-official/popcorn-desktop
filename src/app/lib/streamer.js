@@ -108,14 +108,17 @@
                 var uri = torrentInfo.magnet || torrentInfo.url || torrentInfo;
 
                 var torrent = client.add(uri, {
-                    path: App.settings.tmpLocation
+                    path: App.settings.tmpLocation,
+                    maxConns: parseInt(Settings.connectionLimit, 10) || 55,
+                    dht: true,
+                    announce: Settings.trackers.forced,
+                    tracker: Settings.trackers.forced
                 });
 
                 torrent.on('metadata', function () {
                     this.torrentModel.set('torrent', torrent);
                     resolve(torrent);
                 }.bind(this));
-
                 client.on('error', function (error) {
                     win.error('WebTorrent fatal error', error);
                     this.stop();
@@ -243,7 +246,6 @@
                 index: fileIndex,
                 path: path.join(torrent.path, torrent.files[fileIndex].path)
             });
-            torrent.announce = Settings.trackers.forced;
         },
 
         // determine if the torrent is already formatted or if we need to use the file selector
@@ -270,6 +272,8 @@
         createServer: function (port) {
             return new Promise(function (resolve) {
                 var serverPort = parseInt((port || Settings.streamPort), 10);
+
+
                 if (!serverPort) {
                     serverPort = this.generatePortNumber();
                 }
@@ -534,25 +538,13 @@ serveSubtitles: function(localPath) {
         // never duplicate webtorrent
         getWebTorrentInstance: function() {
             if (this.webtorrent === null) {
-                this.webtorrent = new WebTorrent({
-                    maxConns: parseInt(Settings.connectionLimit, 10) || 55,
-                    dht: true,
-                    announce: Settings.trackers.forced,
-                    tracker: Settings.trackers.forced
-
-                });
+                this.webtorrent = new WebTorrent();
             }
-            console.log(this.webtorrent);
             return this.webtorrent;
         },
     };
 
-    var streamer = new WebTorrentStreamer({
-        maxConns: parseInt(Settings.connectionLimit, 10) || 55,
-        dht: true,
-        announce: Settings.trackers.forced,
-        tracker: Settings.trackers.forced
-    });
+    var streamer = new WebTorrentStreamer();
 
     App.vent.on('stream:start', streamer.start.bind(streamer));
     App.vent.on('stream:stop', streamer.stop.bind(streamer));
