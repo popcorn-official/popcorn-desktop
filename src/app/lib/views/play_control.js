@@ -23,7 +23,8 @@
 
         initialize: function () {
             this.views = {};
-
+            var subtitleProvider = App.Config.getProviderForType('subtitle');
+            subtitleProvider.detail(this.model.get('imdb_id'), this.model.get('title'));
             if (! this.model.get('langs')) {
                this.model.set('langs', {en: undefined});
             }
@@ -42,31 +43,14 @@
         onAttach: function () {
             this.hideUnused();
             this.setQuality();
+
             this.loadComponents();
             this.setUiStates();
             this.model.on('change:langs', this.loadAudioDropdown.bind(this));
             this.model.on('change:subtitle', this.loadSubDropdown.bind(this));
-            this.getSubtitles(this.buildSubtitleQuery());
-        },
-        getSubtitles: function (subdata) {
-            return Q.Promise(function (resolve, reject) {
-                win.debug('Subtitles data request:', subdata);
 
-                var subtitleProvider = App.Config.getProviderForType('subtitle');
-
-                subtitleProvider.fetch(subdata).then(function (subs) {
-                    if (subs && Object.keys(subs).length > 0) {
-                        App.vent.trigger('update:subtitles', subs);
-                        resolve(subs);
-                    } else {
-                        win.warn('No subtitles returned');
-                        reject(new Error('No subtitles returned'));
-                    }
-                }).catch(function (err) {
-                    reject(err);
-                });
-            });
         },
+
         setQuality: function () {
             var torrents = this.model.get('torrents');
             var quality = Settings.movies_default_quality;
@@ -81,29 +65,6 @@
             if (Settings.movies_default_quality === '720p' && torrents['720p'] !== undefined && document.getElementsByName('switch')[0] !== undefined) {
                 document.getElementsByName('switch')[0].checked = true;
             }
-        },
-        buildSubtitleQuery: function () {
-            if (this.stopped) {
-                return;
-            }
-
-            var queryData = {};
-
-            queryData.filename = this.model.get('title');
-
-            if (this.model.get('imdb_id')) {
-                queryData.imdbid = this.model.get('imdb_id');
-            }
-
-            if (this.model.get('season')) {
-                queryData.season = this.model.get('season');
-            }
-
-            if (this.model.get('episode')) {
-                queryData.episode = this.model.get('episode');
-            }
-
-            return queryData;
         },
 
         hideUnused: function() {
