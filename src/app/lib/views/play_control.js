@@ -23,8 +23,6 @@
 
         initialize: function () {
             this.views = {};
-            var subtitleProvider = App.Config.getProviderForType('subtitle');
-            subtitleProvider.detail(this.model.get('imdb_id'), this.model.get('title'));
             if (! this.model.get('langs')) {
                this.model.set('langs', {en: undefined});
             }

@@ -47,7 +47,6 @@
         return this.fetch({
             imdbid: id
         }).then(function (data) {
-          App.vent.trigger('update:subtitles', data);
             return {
                 subtitle: data
             };
