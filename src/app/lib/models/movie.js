@@ -1,11 +1,27 @@
 (function (App) {
     'use strict';
 
-    var Movie = App.Model.ContentItem.extend({
-        getProviders: function() {
-            return {
-                subtitle: App.Config.getProviderForType('subtitle')
-            };
+    var Movie = Backbone.Model.extend({
+        events: {
+            'change:torrents': 'updateHealth',
+        },
+
+        idAttribute: 'imdb_id',
+
+        initialize: function () {
+            this.updateHealth();
+        },
+
+        updateHealth: function () {
+            var torrents = this.get('torrents');
+
+            _.each(torrents, function (torrent) {
+                torrent.health = Common.healthMap[Common.calcHealth(torrent)];
+            });
+
+            this.set('torrents', torrents, {
+                silent: true
+            });
         }
     });
 
