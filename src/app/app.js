@@ -79,6 +79,13 @@ App.db = Database;
 // Set settings
 App.advsettings = AdvSettings;
 App.settings = Settings;
+App.WebTorrent = new WebTorrent({
+    path: App.settings.tmpLocation,
+    maxConns: parseInt(Settings.connectionLimit, 10) || 55,
+    dht: true,
+    announce: Settings.trackers.forced,
+    tracker: Settings.trackers.forced
+});
 
 fs.readFile('./.git.json', 'utf8', function (err, json) {
     if (!err) {
@@ -169,6 +176,7 @@ var initTemplates = function () {
 var initApp = function () {
     var mainWindow = new App.View.MainWindow();
     win.show();
+
 
     try {
         App.showView(mainWindow);

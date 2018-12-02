@@ -1,10 +1,10 @@
 (function (App) {
     'use strict';
     var subtitle_retry;
+
     var WebTorrentStreamer = function () {
         // WebTorrent instance
-        this.webtorrent = null;
-
+        this.webtorrent = App.WebTorrent;
         // Torrent Backbone Model
         this.torrentModel = null;
 
@@ -37,7 +37,7 @@
         // wrapper for handling a torrent
         start: function(model) {
             // if webtorrent is created/running, we stop/destroy it
-            if (this.webtorrent) {
+            if (App.WebTorrent.destroyed) {
                 this.stop();
             }
 
@@ -54,11 +54,11 @@
 
         // kill the streamer
         stop: function() {
-            if (this.webtorrent) {
+            if (this.torrentModel) {
                 // update ratio
                 AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.torrentModel.get('torrent').downloaded);
                 AdvSettings.set('totalUploaded', Settings.totalUploaded + this.torrentModel.get('torrent').uploaded);
-                this.webtorrent.destroy();
+                this.webtorrent.remove(this.torrentModel.get('torrent').infoHash);
             }
 
             if (this.video) {
@@ -68,7 +68,6 @@
                 this.video = null;
             }
 
-            this.webtorrent = null;
             this.torrentModel = null;
             this.stateModel = null;
             this.streamInfo = null;
@@ -84,14 +83,6 @@
             win.info('Streaming cancelled');
         },
 
-        restart: function () {
-            var torrent = this.webtorrent.torrents[0].magnetURI;
-            this.webtorrent.remove(torrent, function (err) {
-                if (!err) {
-                    this.webtorrent.add(torrent);
-                }
-            }.bind(this));
-        },
         handleErrors: function (reason) {
             if (!this.stopped) {
                 win.error(reason);
@@ -102,7 +93,8 @@
         fetchTorrent: function(torrentInfo) {
             return new Promise(function (resolve, reject) {
 
-                var client = this.getWebTorrentInstance();
+                var client = App.WebTorrent;
+                console.log(client);
 
                 // handles magnet and hosted torrents
                 var uri = torrentInfo.magnet || torrentInfo.url || torrentInfo;
@@ -114,6 +106,8 @@
                     announce: Settings.trackers.forced,
                     tracker: Settings.trackers.forced
                 });
+
+
 
                 torrent.on('metadata', function () {
                     this.torrentModel.set('torrent', torrent);
@@ -533,16 +527,9 @@ serveSubtitles: function(localPath) {
             var min = 1024, max = 65535;
 
             return Math.floor(Math.random() * (max - min)) + min;
-        },
+        }
 
-        // never duplicate webtorrent
-        getWebTorrentInstance: function() {
-            if (this.webtorrent === null) {
-                this.webtorrent = new WebTorrent();
-            }
-            return this.webtorrent;
-        },
-    };
+      };
 
     var streamer = new WebTorrentStreamer();
 
