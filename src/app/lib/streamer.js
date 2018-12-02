@@ -94,8 +94,6 @@
             return new Promise(function (resolve, reject) {
 
                 var client = App.WebTorrent;
-                console.log(client);
-
                 // handles magnet and hosted torrents
                 var uri = torrentInfo.magnet || torrentInfo.url || torrentInfo;
 

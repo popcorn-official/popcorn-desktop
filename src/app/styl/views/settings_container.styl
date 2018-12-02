@@ -5,7 +5,7 @@
     width calc(100% - 5px)
     position fixed
     scrollable()
-    padding-top: $TitleHeight + 10px 
+    padding-top: $TitleHeight + 10px
     &::-webkit-scrollbar-track
         margin-top: $TitleHeight
 
@@ -16,7 +16,7 @@
         position absolute
         background-color $BgColor1
         -webkit-user-select none
-        padding-bottom 20px     
+        padding-bottom 20px
 
         section
             display: flex
@@ -67,7 +67,7 @@
                         font-size 12px
 
             /* overlay styles, all needed */
-        #qrcode-overlay 
+        #qrcode-overlay
             display none
             position fixed
             top 0
@@ -77,7 +77,7 @@
             background-color rgba(0,0,0,0.5)
             z-index 99998
 
-        #qrcode-modal 
+        #qrcode-modal
             display none
             position fixed
             top 35%
@@ -141,10 +141,10 @@
             .subtitles-font > select,
             .subtitles-decoration > select
                 width 158px
-                
+
             .subtitles-size > select
                 width 67px
-                
+
             .subtitles-custom > .settings-label
                 margin-left 40px
 
@@ -163,7 +163,22 @@
                     margin-left 5px
                     color $ButtonBgActive
                     &:hover{ color: $ButtonBgHover; }
-            
+
+                .trakt-loading-spinner
+                    animation-duration 0.75s
+                    animation-iteration-count infinite
+                    animation-name rotate-forever
+                    animation-timing-function linear
+                    width 15px
+                    height 15px
+                    border 3px solid #2d75df
+                    border-right-color transparent
+                    border-radius 50%
+                    display inline-flex
+                    position absolute
+                    left 0
+                    margin-left 20px
+
                 .syncTrakt
                     margin-bottom: 15px
                     margin-top: -10px
@@ -202,15 +217,15 @@
         #opensubtitles
             .opensubtitles-options
                 color $SettingsText1
-                
+
                 a
                     display inline-block
-            
+
                 .unauthtext
                     margin-left 5px
                     color $ButtonBgActive
                     &:hover{ color: $ButtonBgHover; }
-            
+
                 .loading-spinner
                     animation-duration 0.75s
                     animation-iteration-count infinite
@@ -224,13 +239,13 @@
                     display inline-flex
                     margin-left -27px
                     margin-top -9px
-            
+
                 .invalid-cross
                     width 20px
                     height 20px
                     display inline-flex
                     margin-left -27px
-            
+
                     &:before
                         content "\2573"
                         font-family Arial
@@ -238,14 +253,14 @@
                         font-weight bolder
                         text-shadow 0 0 10px #EE3030
                         color #EE3030
-            
+
                 .valid-tick
                     width 20px
                     height 20px
                     display inline-flex
                     margin-left -27px
                     margin-top -9px
-            
+
                     &:before
                         content "\2714"
                         font-family Arial
@@ -255,7 +270,7 @@
                         color #4EEE30
                         position relative
                         top 2px
-                        
+
                 #authOpensubtitles
                     margin-top: -8px;
 
@@ -263,12 +278,12 @@
             #overallRatio
                 pointer-events: none
                 -webkit-user-select: none
-                
+
                 i
                     padding-left: 4px
                     padding-right: 8px
 
-            .reset-tvshow
+            .reset-tvAPI
                 font-size: 13px
                 color: $SettingsText2
                 transition: all .5s;
@@ -276,6 +291,23 @@
                     cursor: pointer;
                     color: $ButtonBgActive;
                     transition: all .5s;
+            .reset-MovieApi
+                font-size: 13px
+                color: $SettingsText2
+                transition: all .5s;
+                &:hover
+                    cursor: pointer;
+                    color: $ButtonBgActive;
+                    transition: all .5s;
+            .reset-AnimeApi
+                font-size: 13px
+                color: $SettingsText2
+                transition: all .5s;
+                &:hover
+                    cursor: pointer;
+                    color: $ButtonBgActive;
+                    transition: all .5s;
+
 
         #cache
             .open-tmp-folder
@@ -423,7 +455,7 @@
         font-size 13px
         cursor text
         outline 0 !important
-		
+
         &#fakedatabaseLocation
             pointer-events: none
             -webkit-user-select: none;
@@ -435,7 +467,7 @@
     input[type='color']
         -webkit-appearance: none
         width 67px
-    input[type='color']::-webkit-color-swatch 
+    input[type='color']::-webkit-color-swatch
         margin: 3px -9px 3px -3px;
 
     input[type='number']::-webkit-inner-spin-button
@@ -487,7 +519,7 @@
             left: -21px;
             opacity: 0;
             transition: opacity .1s ease-in-out;
-            
+
 
     .settings-container-check-settings
         width 14px

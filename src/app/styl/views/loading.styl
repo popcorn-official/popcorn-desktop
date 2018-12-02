@@ -12,7 +12,7 @@
     padding-top $TitleHeight
     -webkit-backface-visibility hidden
 
-    .loading-backdrop
+    .loading-background
         position: absolute
         width: 100%
         height: 100%
@@ -22,7 +22,7 @@
         background-size cover
         -webkit-filter: blur(15px) brightness(0.7)
 
-    .loading-backdrop-overlay
+    .loading-background-overlay
         width 100%
         height 100%
         position absolute
@@ -61,22 +61,15 @@
             position relative
             margin-bottom 10px
             margin-top 10px
-            width 100%
             background-color #bababa
             border-radius 13px
-            overflow hidden
+            //padding 3px
 
             & > div
                 background-color $ButtonBgActive
-                margin-left -100%
-                width 100%
                 height 5px
                 border-radius 13px
                 left 0px
-                animation-name bounce_bar
-                animation-duration 3s
-                animation-iteration-count infinite
-                animation-timing-function linear
 
         .playing-progressbar
             position relative
@@ -189,9 +182,3 @@
             font-family "fontawesome"
             font-size 16px
             padding-right 8px
-
-@keyframes bounce_bar
-    0%
-        margin-left:-100%;
-    100%
-        margin-left:100%;

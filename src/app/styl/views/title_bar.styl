@@ -106,43 +106,44 @@
 
     .btn-set.win32
         background-size: auto auto
-        top: 1px
-        right: 1px
+        top: 6px
+        right: 3px
         .btn-os
             float: left
-            margin: 0
-            background-color: transparent
+            margin: 0 2px 0 0
+            background: #000
             -webkit-border-radius: 0px
             border-radius: 0px
             border: 0
             color: transparent
             display: inline-block
             font-size: 10px
-            height: 30px
+            height: 16px
             padding: 0
             text-align: center
-            width: 45px
+            width: 20px
             cursor: pointer
-            background-image: url("../images/icons/topbar_sprite_win.png")
-            background-size: cover
+            background: url("../images/icons/topbar_sprite_win.png")
             -webkit-filter $PngLogo
             &.os-close
-                background-position -92px 0px
+                background-position -40px 0px
             &.os-max
-                background-position -46px 0px
+                background-position -20px 0px
                 &.os-is-max
-                    background-position 92px 0px
+                    background-position -120px 0px
             &.os-min
                 background-position 0px 0px
             &.os-close:hover
-                background-position 138px 0px
+                background-position -100px 0px
                 -webkit-filter brightness(1)
             &.os-max:hover
-                background-position 184px 0px
+                background-position -80px 0px
+                -webkit-filter brightness(1)
                 &.os-is-max:hover
-                    background-position 46px 0px
+                    background-position -140px 0px
             &.os-min:hover
-                background-position -138px 0px
+                background-position -60px 0px
+                -webkit-filter brightness(1)
 
 
     .btn-set.darwin
