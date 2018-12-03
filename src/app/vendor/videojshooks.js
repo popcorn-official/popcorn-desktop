@@ -153,39 +153,13 @@ ErrorDisplay.prototype.update = function () {
             App.PlayerView.toggleFullscreen();
             event.preventDefault();
         });
-        if (this.player().error().message === 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.' || this.player().error().message === 'The video could not be loaded, either because the server or network failed or because the format is not supported.') {
+        if (this.player().error().message === 'The media playback was aborted due to a corruption problem or because the video used features your browser did not support.' || this.player().error().message === 'The media could not be loaded, either because the server or network failed or because the format is not supported.') {
             this.contentEl_.innerHTML = i18n.__('The video playback encountered an issue. Please try an external player like %s to view this content.', suggestedExternal());
         } else {
             this.contentEl_.innerHTML = this.localize(this.player().error().message);
         }
     }
 };
-
-
-/**
- * The custom progressbar we create. Updated in player.js
- *
- * @constructor
- */
-var LoadProgressBar = videojs.extend(Component, {
-    init: function (player, options) {
-        Component.call(this, player, options);
-        this.on(player, 'progress', this.update);
-    }
-});
-
-LoadProgressBar.prototype.createEl = function () {
-    return videojs.dom.createEl.call(this, 'div', {
-        className: 'vjs-load-progress',
-        innerHTML: '<span class="vjs-control-text"><span>' + this.localize('Loaded') + '</span>: 0%</span>'
-    });
-};
-
-LoadProgressBar.prototype.update = function () {
-    return;
-};
-
-videojs.registerComponent('LoadProgressBar', LoadProgressBar);
 
 
 // This is a custom way of loading subtitles, since we can't use src (CORS blocks it and we can't disable it)
@@ -236,8 +210,8 @@ TextTrack.prototype.load = function (src, tt) {
             if (win.isFullscreen) {
                 $('.vjs-text-track').css('font-size', '140%');
             }
-            $('.vjs-subtitles').css('color', Settings.subtitle_color);
-            $('.vjs-subtitles').css('font-family', Settings.subtitle_font);
+            $('.vjs-captions').css('color', Settings.subtitle_color);
+            $('.vjs-captions').css('font-family', Settings.subtitle_font);
             if (Settings.subtitle_decoration === 'None') {
                 $('.vjs-text-track').css('text-shadow', 'none');
             } else if (Settings.subtitle_decoration === 'Opaque Background') {
@@ -531,7 +505,6 @@ var TextTrackMenuItem = videojs.extend(MenuItem, {
 });
 
 TextTrackMenuItem.prototype.onClick = function () {
-      console.log(this);
     MenuItem.prototype.onClick.call(this);
     this.player_.showTextTrack(this.track.id_, this.track.kind());
 };

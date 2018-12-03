@@ -416,8 +416,7 @@
                     plugins: {
                         biggerSubtitle: {},
                         smallerSubtitle: {},
-                        customSubtitles: {},
-                        progressTips: {}
+                        customSubtitles: {}
                     }
                 }).ready(function () {
                     that.playerWasReady = Date.now();
