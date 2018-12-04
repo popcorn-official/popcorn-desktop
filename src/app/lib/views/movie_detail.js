@@ -195,8 +195,7 @@
         },
 
         openMagnet: function (e) {
-            var provider = this.model.get('provider'),
-                torrent = this.model.get('torrents')[this.model.get('quality')],
+                var torrent = this.model.get('torrents')[this.model.get('quality')],
                 magnetLink;
 
             if (torrent.magnet) { // Movies
