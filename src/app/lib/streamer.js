@@ -109,14 +109,22 @@
                 this.torrent.on('upload', function () {
                      this.streamInfo.updateStats(this.torrent);
                 }.bind(this));
-                this.torrent.on('error', function () {
-                     this.torrent.remove(this.torrent.infoHash);
-                     this.torrent.add(this.torrent.infoHash);
-                }.bind(this));
+
                 App.WebTorrent.on('error', function (error) {
                     win.error('WebTorrent fatal error', error);
                     this.stop();
                     reject(error);
+                }.bind(this));
+                this.torrent.on('error', function (error) {
+                     if (this.torrent.infoHash) {
+                     this.torrent.remove(this.torrent.infoHash);
+                     this.torrent.add(this.torrent.infoHash);
+                   } else {
+                     win.error('Torrent fatal error', error);
+                     this.stop();
+                     reject(error);
+                   }
+
                 }.bind(this));
 
             }.bind(this));
