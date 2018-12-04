@@ -131,7 +131,7 @@
                             var provider = App.Providers.get(data.provider);
                             return provider.detail(data.imdb_id, data);
                         } else {
-                            data.image = data.images.poster;
+                            data.poster = data.images.poster;
                             deferred.resolve(data);
                             return null;
                         }

@@ -163,7 +163,7 @@
 
             var realtype = this.model.get('type');
             var itemtype = realtype.replace('bookmarked', '');
-            var providers = this.model.get('providers');
+            var providers = this.model.get('providers') || [App.Providers.get(this.model.get('provider'))];
             var id = this.model.get(this.model.idAttribute);
 
             var promises = Object.values(providers).map(function (p) {
