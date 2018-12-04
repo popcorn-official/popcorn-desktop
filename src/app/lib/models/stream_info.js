@@ -19,34 +19,49 @@
                 imdb_id: torrentModel.get('imdb_id'),
                 episode_id: torrentModel.get('episode_id'),
                 episode: torrentModel.get('episode'),
-                season: torrentModel.get('season')
+                season: torrentModel.get('season'),
+                pieces: 0,
+                downloaded: null,
+                active_peers: null,
+                total_peers: null,
+                uploadSpeed: null,
+                downloadSpeed: null,
+                downloadedFormatted: 0,
+                downloadedPercent: 0,
+                time_left: undefined,
+
             });
         },
 
-        updateStats: function () {
-            var torrentModel = this.get('torrentModel'),
-                torrent = torrentModel.get('torrent');
-
+        updateStats: function (torrent) {
+            var torrentModel = this.get('torrentModel');
+            var upload_speed;
+            var download_speed;
             var converted_speed = 0;
             var converted_downloaded = 0;
+            var final_download_speed;
+            var final_downloaded_percent;
+            var final_upload_speed;
 
-            var upload_speed = torrent.uploadSpeed; // upload speed
-            var final_upload_speed = Common.fileSize(0) + '/s';
+            if (upload_speed !== torrent.uploadSpeed) {
+            upload_speed = torrent.uploadSpeed; // upload speed
+            final_upload_speed = Common.fileSize(0) + '/s';
             if (!isNaN(upload_speed) && upload_speed !== 0) {
                 final_upload_speed = Common.fileSize(upload_speed) + '/s';
             }
-
-            var download_speed = torrent.downloadSpeed; // download speed
-            var final_download_speed = Common.fileSize(0) + '/s';
+          }
+            if (upload_speed !== torrent.downloadSpeed) {
+            download_speed = torrent.downloadSpeed; // download speed
+            final_download_speed = Common.fileSize(0) + '/s';
             if (!isNaN(download_speed) && download_speed !== 0) {
                 final_download_speed = Common.fileSize(download_speed) + '/s';
             }
-
+          }
             var downloaded = torrent.files[torrentModel.get('video_file').index].downloaded || 0; // downloaded
 
 
             var final_downloaded = Common.fileSize(0);
-            var final_downloaded_percent = 0;
+            final_downloaded_percent = 0;
             if (downloaded !== 0) {
                 final_downloaded = Common.fileSize(downloaded);
                 final_downloaded_percent = 100 / this.get('size') * downloaded;
@@ -62,12 +77,16 @@
             } else if (!isFinite(downloadTimeLeft)) { // infinite
                 downloadTimeLeft = undefined;
             }
+            if (this.numPeers !== torrent.numPeers)
+            {
+              this.numPeers = torrent.numPeers;
+            }
 
             this.set({
                 pieces: 0,
                 downloaded: downloaded,
-                active_peers: torrent.numPeers,
-                total_peers: torrent.numPeers,
+                active_peers: this.numPeers,
+                total_peers: this.numPeers,
                 uploadSpeed: final_upload_speed,
                 downloadSpeed: final_download_speed,
                 downloadedFormatted: final_downloaded,

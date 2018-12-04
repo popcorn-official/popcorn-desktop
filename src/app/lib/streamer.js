@@ -104,10 +104,10 @@
                     resolve(this.torrent);
                 }.bind(this));
                 this.torrent.on('download', function () {
-                     this.streamInfo.updateStats();
+                     this.streamInfo.updateStats(this.torrent);
                 }.bind(this));
                 this.torrent.on('upload', function () {
-                     this.streamInfo.updateStats();
+                     this.streamInfo.updateStats(this.torrent);
                 }.bind(this));
                 App.WebTorrent.on('error', function (error) {
                     win.error('WebTorrent fatal error', error);
@@ -431,6 +431,10 @@
                                 }
     }.bind(this));
                         }
+                        else {
+                            this.subtitleReady = true;
+                        }
+
                     }.bind(this));
 
                     // download the subtitle
