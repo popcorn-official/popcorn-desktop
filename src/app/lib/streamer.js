@@ -4,7 +4,7 @@
 
     var WebTorrentStreamer = function () {
         // WebTorrent instance
-        this.webtorrent = App.WebTorrent;
+        this.torrent = null;
         // Torrent Backbone Model
         this.torrentModel = null;
 
@@ -14,10 +14,6 @@
         // Stream Info Backbone Model, which keeps showing ratio/download/upload info.
         // See models/stream_info.js
         this.streamInfo = null;
-
-        // Interval controller for StreamInfo view, which keeps showing ratio/download/upload info.
-        // See models/stream_info.js
-        this.updateStatsInterval = null;
 
         // video dummy element
         this.video = null;
@@ -54,11 +50,11 @@
 
         // kill the streamer
         stop: function() {
-            if (this.torrentModel) {
+            if (this.torrent) {
                 // update ratio
-                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.torrentModel.get('torrent').downloaded);
-                AdvSettings.set('totalUploaded', Settings.totalUploaded + this.torrentModel.get('torrent').uploaded);
-                this.webtorrent.remove(this.torrentModel.get('torrent').infoHash);
+                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.downloaded);
+                AdvSettings.set('totalUploaded', Settings.totalUploaded + this.uploaded);
+                this.torrent.destroy();
             }
 
             if (this.video) {
@@ -75,9 +71,6 @@
             this.canPlay = false;
             this.stopped = true;
 
-            clearInterval(this.updateStatsInterval);
-            this.updateStatsInterval = null;
-
             App.vent.off('subtitle:downloaded');
             App.SubtitlesServer.stop();
             win.info('Streaming cancelled');
@@ -93,11 +86,10 @@
         fetchTorrent: function(torrentInfo) {
             return new Promise(function (resolve, reject) {
 
-                var client = App.WebTorrent;
                 // handles magnet and hosted torrents
                 var uri = torrentInfo.magnet || torrentInfo.url || torrentInfo;
 
-                var torrent = client.add(uri, {
+                this.torrent = App.WebTorrent.add(uri, {
                     path: App.settings.tmpLocation,
                     maxConns: parseInt(Settings.connectionLimit, 10) || 55,
                     dht: true,
@@ -107,11 +99,17 @@
 
 
 
-                torrent.on('metadata', function () {
-                    this.torrentModel.set('torrent', torrent);
-                    resolve(torrent);
+                this.torrent.on('metadata', function () {
+                    this.torrentModel.set('torrent', this.torrent);
+                    resolve(this.torrent);
                 }.bind(this));
-                client.on('error', function (error) {
+                this.torrent.on('download', function () {
+                     this.streamInfo.updateStats();
+                }.bind(this));
+                this.torrent.on('upload', function () {
+                     this.streamInfo.updateStats();
+                }.bind(this));
+                App.WebTorrent.on('error', function (error) {
                     win.error('WebTorrent fatal error', error);
                     this.stop();
                     reject(error);
@@ -289,7 +287,7 @@
 
         handleStreamInfo: function () {
             this.streamInfo.set('torrentModel', this.torrentModel);
-            this.updateStatsInterval = setInterval(this.streamInfo.updateStats.bind(this.streamInfo), 1000);
+
             this.streamInfo.updateInfos();
             this.torrentModel.on('change', this.streamInfo.updateInfos.bind(this.streamInfo));
         },
@@ -334,15 +332,20 @@
                 show_controls: false,
                 streamInfo: this.streamInfo
             });
-
             App.vent.trigger('stream:started', this.stateModel);
         },
 
         watchState: function () {
-            if (!this.webtorrent) {
-                return;
+          if (this.stopped) {
+              return;
             }
-
+            if (!this.torrent) {
+              return;
+            }
+            if (!this.torrentModel) {
+              this.stopped = true;
+              return;
+            }
             var torrentModel = this.torrentModel.get('torrent');
             var player = this.streamInfo.get('device');
 

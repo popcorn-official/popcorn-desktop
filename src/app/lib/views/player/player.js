@@ -173,9 +173,9 @@
             App.vent.trigger('preload:stop');
             App.vent.trigger('stream:stop');
 
-            var vjsPlayer = videojs.getPlayer('video_player');
+            var vjsPlayer = document.getElementById('video_player');
             if (vjsPlayer) {
-                vjsPlayer.dispose();
+                videojs.getPlayer('video_player').dispose();
             }
 
             this.destroy();
@@ -977,11 +977,12 @@
             this.unbindKeyboardShortcuts();
             App.vent.off('customSubtitles:added');
             App.vent.trigger('player:close');
-            var vjsPlayer = videojs.getPlayer('video_player');
+            var vjsPlayer = document.getElementById('video_player');
+
             if (vjsPlayer) {
-                videojs(vjsPlayer).dispose();
+                videojs.getPlayer('video_player').dispose();
             }
-        }
+          }
 
     });
     App.View.Player = Player;
