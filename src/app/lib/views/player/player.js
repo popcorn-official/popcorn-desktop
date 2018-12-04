@@ -31,10 +31,11 @@
         },
 
         initialize: function () {
-            this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
-            this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
-            this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
-            this.listenTo(this.model, 'change:downloaded', this.updateDownloaded);
+            var torrentModel = this.model.get('torrentModel');
+            this.listenTo(torrentModel, 'change:downloadSpeed', this.updateDownloadSpeed);
+            this.listenTo(torrentModel, 'change:uploadSpeed', this.updateUploadSpeed);
+            this.listenTo(torrentModel, 'change:active_peers', this.updateActivePeers);
+            this.listenTo(torrentModel, 'change:downloaded', this.updateDownloaded);
 
             this.inFullscreen = win.isFullscreen;
             this.playerWasReady = false;
@@ -572,11 +573,11 @@
 
             if (timeLeft === undefined) {
                 return i18n.__('Unknown time remaining');
-            } else if (timeLeft > 3600) {
-                return i18n.__('%s hour(s) remaining', Math.round(timeLeft / 3600));
-            } else if (timeLeft > 60) {
-                return i18n.__('%s minute(s) remaining', Math.round(timeLeft / 60));
-            } else if (timeLeft <= 60) {
+            } else if (timeLeft > 3600000) {
+                return i18n.__('%s hour(s) remaining', Math.round(timeLeft / 3600000));
+            } else if (timeLeft > 60000) {
+                return i18n.__('%s minute(s) remaining', Math.round(timeLeft / 60000));
+            } else if (timeLeft <= 60000) {
                 return i18n.__('%s second(s) remaining', timeLeft);
             }
         },

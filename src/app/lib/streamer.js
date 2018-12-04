@@ -104,17 +104,26 @@
                     resolve(this.torrent);
                 }.bind(this));
                 this.torrent.on('download', function () {
-                     this.streamInfo.updateStats(this.torrent);
-                }.bind(this));
-                this.torrent.on('upload', function () {
-                     this.streamInfo.updateStats(this.torrent);
+
+                this.torrentModel.set('downloadSpeed', Common.fileSize(this.torrent.downloadSpeed) + '/s');
+                this.torrentModel.set('downloaded', Math.round(this.torrent.downloaded).toFixed(2));
+                this.torrentModel.set('downloadedFormatted', Common.fileSize(this.torrent.downloaded));
+                this.torrentModel.set('active_peers', this.torrent.numPeers);
+                this.torrentModel.set('downloadedPercent', (this.torrent.progress * 100) || 0);
+                this.torrentModel.set('active_peers', this.torrent.numPeers);
+                this.torrentModel.set('total_peers', this.torrent.numPeers);
+                this.torrentModel.set('time_left', (this.torrent.timeRemaining));
                 }.bind(this));
 
-                App.WebTorrent.on('error', function (error) {
-                    win.error('WebTorrent fatal error', error);
-                    this.stop();
-                    reject(error);
+
+
+                this.torrent.on('upload', function () {
+                    this.torrentModel.set('uploadSpeed', Common.fileSize(this.torrent.uploadSpeed)  + '/s');
+                    this.torrentModel.set('active_peers', this.torrent.numPeers);
+                    this.torrentModel.set('total_peers', this.torrent.numPeers);
                 }.bind(this));
+
+
                 this.torrent.on('error', function (error) {
                      if (this.torrent.infoHash) {
                      this.torrent.remove(this.torrent.infoHash);
@@ -126,6 +135,16 @@
                    }
 
                 }.bind(this));
+
+
+
+                App.WebTorrent.on('error', function (error) {
+                    win.error('WebTorrent fatal error', error);
+                    this.stop();
+                    reject(error);
+                }.bind(this));
+
+
 
             }.bind(this));
         },

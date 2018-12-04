@@ -21,77 +21,15 @@
                 episode: torrentModel.get('episode'),
                 season: torrentModel.get('season'),
                 pieces: 0,
-                downloaded: null,
-                active_peers: null,
-                total_peers: null,
-                uploadSpeed: null,
-                downloadSpeed: null,
-                downloadedFormatted: 0,
-                downloadedPercent: 0,
-                time_left: undefined,
+                downloaded: torrentModel.get('downloaded'),
+                active_peers: torrentModel.get('active_peers'),
+                total_peers: torrentModel.get('total_peers'),
+                uploadSpeed: torrentModel.get('uploadSpeed'),
+                downloadSpeed: torrentModel.get('downloadSpeed'),
+                downloadedFormatted: torrentModel.get('downloadedFormatted') || 0,
+                downloadedPercent: torrentModel.get('downloadedPercent') || 0,
+                time_left: torrentModel.get('time_left'),
 
-            });
-        },
-
-        updateStats: function (torrent) {
-            var torrentModel = this.get('torrentModel');
-            var upload_speed;
-            var download_speed;
-            var converted_speed = 0;
-            var converted_downloaded = 0;
-            var final_download_speed;
-            var final_downloaded_percent;
-            var final_upload_speed;
-
-            if (upload_speed !== torrent.uploadSpeed) {
-            upload_speed = torrent.uploadSpeed; // upload speed
-            final_upload_speed = Common.fileSize(0) + '/s';
-            if (!isNaN(upload_speed) && upload_speed !== 0) {
-                final_upload_speed = Common.fileSize(upload_speed) + '/s';
-            }
-          }
-            if (upload_speed !== torrent.downloadSpeed) {
-            download_speed = torrent.downloadSpeed; // download speed
-            final_download_speed = Common.fileSize(0) + '/s';
-            if (!isNaN(download_speed) && download_speed !== 0) {
-                final_download_speed = Common.fileSize(download_speed) + '/s';
-            }
-          }
-            var downloaded = torrent.files[torrentModel.get('video_file').index].downloaded || 0; // downloaded
-
-
-            var final_downloaded = Common.fileSize(0);
-            final_downloaded_percent = 0;
-            if (downloaded !== 0) {
-                final_downloaded = Common.fileSize(downloaded);
-                final_downloaded_percent = 100 / this.get('size') * downloaded;
-            }
-
-            if (final_downloaded_percent >= 100) {
-                final_downloaded_percent = 100;
-            }
-
-            var downloadTimeLeft = Math.round((this.get('size') - downloaded) / torrent.downloadSpeed); // time to wait before download complete
-            if (isNaN(downloadTimeLeft) || downloadTimeLeft < 0) {
-                downloadTimeLeft = 0;
-            } else if (!isFinite(downloadTimeLeft)) { // infinite
-                downloadTimeLeft = undefined;
-            }
-            if (this.numPeers !== torrent.numPeers)
-            {
-              this.numPeers = torrent.numPeers;
-            }
-
-            this.set({
-                pieces: 0,
-                downloaded: downloaded,
-                active_peers: this.numPeers,
-                total_peers: this.numPeers,
-                uploadSpeed: final_upload_speed,
-                downloadSpeed: final_download_speed,
-                downloadedFormatted: final_downloaded,
-                downloadedPercent: (final_downloaded_percent || 0),
-                time_left: downloadTimeLeft,
             });
         }
     });
