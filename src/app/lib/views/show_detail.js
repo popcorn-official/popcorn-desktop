@@ -134,13 +134,17 @@
             }
 
             $('.star-container-tv,.shmi-imdb,.magnet-icon').tooltip();
+            var noimg = 'images/posterholder.png';
+            var nobg = 'images/bg-header.jpg';
             var images = this.model.get('images');
             var backdrop = this.model.get('backdrop');
             var poster = this.model.get('poster');
             if (!poster)
             {
-              poster = images.poster;
-              backdrop = images.banner;
+              poster = images.poster || noimg;
+            }
+            if (!backdrop) {
+              backdrop = images.banner || nobg;
             }
             var posterCache = new Image();
             posterCache.src = poster;
@@ -447,7 +451,7 @@
                         imdb_id: that.model.get('imdb_id'),
                         device: App.Device.Collection.selected,
                         poster: that.model.get('poster'),
-                        backdrop: images.banner,
+                        backdrop: that.model.get('backdrop') || images.banner,
                         status: that.model.get('status'),
                         type: 'episode'
                     };
@@ -469,7 +473,7 @@
             var torrentStart = new Backbone.Model({
                 torrent: $(e.currentTarget).attr('data-torrent'),
                 poster: that.model.get('poster'),
-                backdrop: images.banner,
+                backdrop: that.model.get('backdrop') || images.banner,
                 type: 'episode',
                 tvdb_id: that.model.get('tvdb_id'),
                 imdb_id: that.model.get('imdb_id'),
