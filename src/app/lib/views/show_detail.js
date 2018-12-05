@@ -139,9 +139,12 @@
             var images = this.model.get('images');
             var backdrop = this.model.get('backdrop');
             var poster = this.model.get('poster');
-            if (!poster)
+            if (!poster && images)
             {
               poster = images.poster || noimg;
+            }
+            else {
+              poster = noimg;
             }
             if (!backdrop) {
               backdrop = images.banner || nobg;
@@ -416,7 +419,7 @@
 
             title += ' - ' + i18n.__('Season %s', season) + ', ' + i18n.__('Episode %s', episode) + ' - ' + name;
             var epInfo = {
-                type: 'tvshow',
+                type: 'show',
                 imdbid: imdbid,
                 tvdbid: that.model.get('tvdb_id'),
                 episode_id: episode_id,
@@ -440,7 +443,7 @@
                         title: that.model.get('title') + ' - ' + i18n.__('Season %s', value.season) + ', ' + i18n.__('Episode %s', value.episode) + ' - ' + value.title,
                         torrents: value.torrents,
                         extract_subtitle: {
-                            type: 'tvshow',
+                            type: 'show',
                             imdbid: that.model.get('imdb_id'),
                             tvdbid: value.tvdb_id.toString(),
                             season: value.season,

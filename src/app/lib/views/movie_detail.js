@@ -108,9 +108,8 @@
                        };
                    };
                    var images = this.model.get('images');
-                   var p = this.model.get('poster') || images.poster || noimg;
-                   var b = this.model.get('backdrop') || images.fanart || this.model.get('poster') || nobg;
-
+                   var p = this.model.get('image') || images.poster || this.model.get('poster') ||  noimg;
+                   var b = images.fanart || this.model.get('backdrop') ||  this.model.get('poster') || nobg;
                    loadImage(p, 'poster');
                    loadImage(b, 'backdrop');
                },
