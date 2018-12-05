@@ -131,7 +131,9 @@
 
 
             var setImage = function (img) {
+                if (this.ui.cover.css) {
                 this.ui.cover.css('background-image', 'url(' + img + ')').addClass('fadein');
+                }
             }.bind(this);
 
             var posterCache = new Image();

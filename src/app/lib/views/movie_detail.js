@@ -176,18 +176,49 @@
             App.vent.trigger('movie:closeDetail');
         },
 
-        renderHealth: function () {
-            var torrent = this.model.get('torrents')[this.model.get('quality')];
-            var health = torrent.health.capitalize();
-            var ratio = torrent.peer > 0 ? torrent.seed / torrent.peer : +torrent.seed;
+        renderHealth: function (e) {
+          var torrent = this.model.get('torrents')[this.model.get('quality')];
 
-            $('.health-icon').tooltip({
-                    html: true
-                })
-                .removeClass('Bad Medium Good Excellent')
-                .addClass(health)
-                .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + torrent.seed + ' - ' + i18n.__('Peers:') + ' ' + torrent.peer)
-                .tooltip('fixTitle');
+            cancelTorrentHealth();
+
+            // Use fancy coding to cancel
+            // pending webtorrent-health's
+            var cancelled = false;
+            cancelTorrentHealth = function () {
+                cancelled = true;
+            };
+
+            if (torrent.url.substring(0, 8) === 'magnet:?') {
+                // if 'magnet:?' is because api sometimes sends back links, not magnets
+                torrentHealth(torrent.url, {
+                    timeout: 1000,
+                    trackers: Settings.trackers.forced
+                }, function (err, res) {
+                    if (cancelled || err) {
+                        return;
+                    }
+                    if (res.seeds === 0 && torrentHealthRestarted < 5) {
+                        torrentHealthRestarted++;
+                        $('.health-icon').click();
+                    } else {
+                        torrentHealthRestarted = 0;
+                        var h = Common.calcHealth({
+                            seed: res.seeds,
+                            peer: res.peers
+                        });
+                        var health = Common.healthMap[h].capitalize();
+                        var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
+
+                        $('.health-icon').tooltip({
+                                html: true
+                            })
+                            .removeClass('Bad Medium Good Excellent')
+                            .addClass(health)
+                            .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
+                            .tooltip('fixTitle');
+                    }
+                });
+            }
         },
 
         openIMDb: function () {

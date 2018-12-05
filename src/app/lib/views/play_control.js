@@ -281,7 +281,7 @@
             }
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             App.vent.off('sub:lang');
             App.vent.off('audio:lang');
             App.vent.off('update:subtitles');
