@@ -205,7 +205,7 @@ gulp.task('jshint', () => {
 gulp.task('compresszip', () => {
 
     return Promise.all(nw.options.platforms.map((platform) => {
-      if (platform.match(/osx|linux/) !== null) {
+      if (platform.match(/linux/) !== null) {
           console.log('No `nocompresszip` task for', platform);
           return null;
       }
@@ -501,7 +501,7 @@ gulp.task('build', gulp.series('injectgit', 'css', 'nwjs', function(done) {
 }));
 
 // create redistribuable packages
-gulp.task('dist', gulp.series('build', 'compress','compresszip' ,  'nsis', function(done) {
+gulp.task('dist', gulp.series('build', 'compress','compresszip' , 'deb',  'nsis', function(done) {
 
     // default task code here
     done();
