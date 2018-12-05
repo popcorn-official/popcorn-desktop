@@ -43,7 +43,7 @@
     "backbone.radio": "^2.0.0",
     "backbone.wreqr": "^1.4.0",
     "bootstrap": "~3.3.7",
-    "butter-provider": "butterproviders/butter-provider",
+    "butter-provider": "0.11.0",
     "butter-provider-anime": "1.0.0",
     "butter-provider-movies-es6": "*",
     "butter-provider-shows-es6": "*",
