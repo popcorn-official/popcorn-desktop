@@ -211,7 +211,10 @@ gulp.task('compresszip', () => {
       }
         return new Promise((resolve, reject) => {
             console.log('Packaging zip for: %s', platform);
-            const sources = path.join('build', pkJson.name, platform);
+            var sources = path.join('build', pkJson.name, platform);
+            if (platform.match(/osx64/) !== null) {
+            sources = path.join('build', pkJson.name, platform, '/**.app');
+            }
             return gulp.src(sources + '/**')
                 .pipe(zip(pkJson.name + '-' + pkJson.version + '_' + platform + '.zip'))
                 .pipe(gulp.dest(releasesDir))
