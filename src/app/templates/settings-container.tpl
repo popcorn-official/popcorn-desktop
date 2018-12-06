@@ -528,7 +528,7 @@
             </span>
             <div class="btns advanced database">
               <div class="btn-settings database">
-                <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
+                <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open File to Import") %>"></i>
                 <input type="file" id="importdatabase" accept=".zip" style="display:none" value="default"  nwworkingdir> </div>
               <div class="btn-settings database import-database">
                                     <i class="fa fa-level-down">&nbsp;&nbsp;</i>
@@ -536,7 +536,7 @@
 
                       </div>
                         <div class="btn-settings database">
-                        <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
+                        <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Browse Directoy to save to") %>"></i>
                           <input type="file" id="exportdatabase" style="display:none" value="default" nwdirectory></div>
                 <div class="btn-settings database export-database">
                     <i class="fa fa-level-up">&nbsp;&nbsp;</i>
