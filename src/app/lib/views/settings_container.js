@@ -589,11 +589,18 @@
         },
 
         exportDatabase: function (e) {
+
             var zip = new AdmZip();
             var btn = $(e.currentTarget);
             var databaseFiles = fs.readdirSync(App.settings['databaseLocation']);
             var fileinput = document.querySelector('input[id=exportdatabase]');
             var path = fileinput.value;
+            if (path === '')
+            {
+              that.alertMessageFailed(i18n.__('Invalid Folder Selected'));
+              win.warn('Failed to Export Database');
+              return;
+            }
             databaseFiles.forEach(function (entry) {
                 zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
             });

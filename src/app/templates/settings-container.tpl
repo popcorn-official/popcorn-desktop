@@ -524,16 +524,20 @@
                 <p><%= i18n.__("Database Directory") %></p>
                 <input type="text" placeholder="<%= i18n.__("Database Directory") %>" id="fakedatabaseLocation" value="<%= Settings.databaseLocation %>" readonly="readonly" size="65" />
                 <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
-                <input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwsaveas nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
+                <input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
             </span>
             <div class="btns advanced database">
-              <div><input type="file" id="importdatabase" accept=".zip" class="btn-settings database" value="default"  nwworkingdir="<%= Settings.databaseLocation %>"> </div>
+              <div class="btn-settings database">
+                <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
+                <input type="file" id="importdatabase" accept=".zip" style="display:none" value="default"  nwworkingdir> </div>
               <div class="btn-settings database import-database">
                                     <i class="fa fa-level-down">&nbsp;&nbsp;</i>
                                     <%= i18n.__("Import Database") %>
 
                       </div>
-                        <div>  <input type="file" id="exportdatabase" class="btn-settings database" value="default" nwdirectory></div>
+                        <div class="btn-settings database">
+                        <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
+                          <input type="file" id="exportdatabase" style="display:none" value="default" nwdirectory></div>
                 <div class="btn-settings database export-database">
                     <i class="fa fa-level-up">&nbsp;&nbsp;</i>
                     <%= i18n.__("Export Database") %>
