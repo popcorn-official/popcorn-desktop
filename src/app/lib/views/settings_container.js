@@ -1,7 +1,6 @@
 (function (App) {
     'use strict';
     var clipboard = nw.Clipboard.get(),
-        fdialogs = require('node-webkit-fdialogs'),
         waitComplete,
         oldTmpLocation,
         that;
@@ -363,7 +362,7 @@
                     App.vent.trigger('movies:list');
                     App.vent.trigger('settings:show');
                 }
-                break;                           
+                break;
             case 'activateRandomize':
             case 'activateWatchlist':
                 App.vent.trigger('movies:list');
@@ -593,17 +592,12 @@
             var zip = new AdmZip();
             var btn = $(e.currentTarget);
             var databaseFiles = fs.readdirSync(App.settings['databaseLocation']);
-
+            var fileinput = document.querySelector('input[id=exportdatabase]');
+            var path = fileinput.value;
             databaseFiles.forEach(function (entry) {
                 zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
             });
-
-            // https://github.com/exos/node-webkit-fdialogs/issues/9
-            var exportDialog = new fdialogs.FDialog({
-                type: 'save',
-                window: nw.Window.get().window
-            });
-            exportDialog.saveFile(zip.toBuffer(), function (err, path) {
+            fs.writeFile(path + '/database.zip' ,zip.toBuffer(), function (err) {
                 that.alertMessageWait(i18n.__('Exporting Database...'));
                 win.info('Database exported to:', path);
                 that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
@@ -612,22 +606,31 @@
         },
 
         importDatabase: function () {
-          // https://github.com/exos/node-webkit-fdialogs/issues/9
-          var importDialog = new fdialogs.FDialog({
-              type: 'open',
-              window: nw.Window.get().window
-          });
-          importDialog.readFile(function (err, content, path) {
-                that.alertMessageWait(i18n.__('Importing Database...'));
-                try {
-                    var zip = new AdmZip(content);
-                    zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
-                    that.alertMessageSuccess(true);
-                } catch (err) {
-                    that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
-                    win.warn('Failed to Import Database');
-                }
-            });
+
+          var fileinput = document.querySelector('input[id=importdatabase]');
+          var path = fileinput.value;
+          if (path === '')
+          {
+            that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
+            win.warn('Failed to Import Database');
+            return;
+          }
+          fs.readFile(path, function(err, content) {
+              that.alertMessageWait(i18n.__('Importing Database...'));
+              try {
+                console.log(content);
+                var zip = new AdmZip(content);
+                zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
+                that.alertMessageSuccess(true);
+              }
+              catch (err) {
+                console.log(err);
+                that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
+                win.warn('Failed to Import Database');
+              }
+});
+
+
         },
 
         updateCacheDirectory: function (e) {

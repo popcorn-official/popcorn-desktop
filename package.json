@@ -67,7 +67,6 @@
     "mv": "2.x.x",
     "nedb": "1.8.0",
     "node-captions": "0.4.6",
-    "node-webkit-fdialogs": "latest",
     "opensubtitles-api": "4.1.0",
     "os-name": "3.0.0",
     "q": "2.0.3",
