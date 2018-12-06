@@ -123,12 +123,13 @@
 
         loadImage: function () {
             var noimg = 'images/posterholder.png';
-            var poster = this.model.get('poster') || noimg;
-            if (this.model.get('images') && this.model.get('type') === 'show'){
-              poster = this.model.get('images').poster || noimg;
+            var poster = this.model.get('image');
+            if (!poster && this.model.get('images')){
+            poster = this.model.get('images').poster;
             }
-
-
+            else {
+            poster = this.model.get('poster') || noimg;
+            }
 
             var setImage = function (img) {
                 if (this.ui.cover.css) {
