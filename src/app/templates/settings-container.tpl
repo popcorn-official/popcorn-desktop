@@ -526,24 +526,18 @@
                 <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
                 <input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
             </span>
-            <div class="btns advanced database">
+            <div class="btns advanced database import-database">
               <div class="btn-settings database">
-                <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open File to Import") %>"></i>
-                <input type="file" id="importdatabase" accept=".zip" style="display:none" value="default"  nwworkingdir> </div>
-              <div class="btn-settings database import-database">
-                                    <i class="fa fa-level-down">&nbsp;&nbsp;</i>
-                                    <%= i18n.__("Import Database") %>
+                <label class="import-database" for="importdatabase"  title="<%= i18n.__("Open File to Import") %>"><%= i18n.__("Import Database") %></label>
+                <i class="fa fa-level-down">&nbsp;&nbsp;</i>
+                <input type="file" id="importdatabase"  accept=".zip" style="display:none">
+              </div>
+              <div class="btn-settings database export-database">
+                <label class="export-database" for="exportdatabase" title="<%= i18n.__("Browse Directoy to save to") %>" ><%= i18n.__("Export Database") %></label>
+                <i class="fa fa-level-up">&nbsp;&nbsp;</i>
+                <input type="file" id="exportdatabase" style="display:none" nwdirectory>
+                        </div>
 
-                      </div>
-                        <div class="btn-settings database">
-                        <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Browse Directoy to save to") %>"></i>
-                          <input type="file" id="exportdatabase" style="display:none" value="default" nwdirectory></div>
-                <div class="btn-settings database export-database">
-                    <i class="fa fa-level-up">&nbsp;&nbsp;</i>
-                    <%= i18n.__("Export Database") %>
-
-
-                </div>
             </div>
         </div>
     </section>

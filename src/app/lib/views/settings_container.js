@@ -594,13 +594,11 @@
             var btn = $(e.currentTarget);
             var databaseFiles = fs.readdirSync(App.settings['databaseLocation']);
             var fileinput = document.querySelector('input[id=exportdatabase]');
-            var path = fileinput.value;
-            if (path === '')
+
+            $('#exportdatabase').on('change', function ()
             {
-              that.alertMessageFailed(i18n.__('Invalid Folder Selected'));
-              win.warn('Failed to Export Database');
-              return;
-            }
+            var path = fileinput.value;
+                          try {
             databaseFiles.forEach(function (entry) {
                 zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
             });
@@ -608,6 +606,11 @@
                 that.alertMessageWait(i18n.__('Exporting Database...'));
                 win.info('Database exported to:', path);
                 that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
+
+            });
+          } catch (err) {
+            console.log(err);
+          }
             });
 
         },
@@ -615,17 +618,14 @@
         importDatabase: function () {
 
           var fileinput = document.querySelector('input[id=importdatabase]');
-          var path = fileinput.value;
-          if (path === '')
+
+
+          $('#importdatabase').on('change', function ()
           {
-            that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
-            win.warn('Failed to Import Database');
-            return;
-          }
+          var path = fileinput.value;
           fs.readFile(path, function(err, content) {
               that.alertMessageWait(i18n.__('Importing Database...'));
               try {
-                console.log(content);
                 var zip = new AdmZip(content);
                 zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
                 that.alertMessageSuccess(true);
@@ -636,7 +636,7 @@
                 win.warn('Failed to Import Database');
               }
 });
-
+});
 
         },
 
