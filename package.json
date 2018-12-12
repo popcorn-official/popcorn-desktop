@@ -18,7 +18,7 @@
     "build": "gulp build",
     "test": "gulp test"
   },
-  "chromium-args": "--enable-node-worker",
+  "chromium-args": "--remote-debugging-port=9222 --enable-node-worker",
   "engines": {
     "yarn": ">= 1.0.0"
   },
@@ -87,7 +87,7 @@
     "urijs": "1.19.1",
     "video.js": "7.x.x",
     "videojs-youtube": "2.6.0",
-    "webtorrent": "^0.102.4",
+    "webtorrent": "^0.103.0",
     "webtorrent-health": "1.x.x"
   },
   "devDependencies": {
