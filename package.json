@@ -69,7 +69,7 @@
     "node-captions": "0.4.6",
     "opensubtitles-api": "5.0.0",
     "os-name": "3.0.0",
-    "q": "1.5.1",
+    "q": "2.0.3",
     "readdirp": "*",
     "request": "2.88.x",
     "rimraf": "2.x.x",
