@@ -304,15 +304,17 @@ gulp.task('nwjs', () => {
 });
 
 // get ffmpeg lib
-gulp.task('downloadffmpeg', () => {
+gulp.task('downloadffmpeg', done => {
     var parsed = ffmpegurl.substring(ffmpegurl.lastIndexOf('/'));
-        console.log('FFmpeg download starting....');
-        return download(ffmpegurl).pipe(gulp.dest('./cache/ffmpeg/')).on('error', function (err) {
-                    console.error(err);
-                }).on('end', () => {
-                    console.log('FFmpeg Downloaded to cache folder.');
-                });
-
+        if(!fs.existsSync('./cache/ffmpeg/')){
+            console.log('FFmpeg download starting....');
+            return download(ffmpegurl).pipe(gulp.dest('./cache/ffmpeg/')).on('error', function (err) {
+                console.error(err);
+            }).on('end', () => {
+                console.log('FFmpeg Downloaded to cache folder.');
+            });
+        }
+        done();
 });
 
 gulp.task('unzipffmpeg', () => {
