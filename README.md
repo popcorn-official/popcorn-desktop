@@ -3,6 +3,12 @@
 [![Build Status](https://ci.popcorntime.sh/job/Popcorn-Time-Desktop/badge/icon)](https://ci.popcorntime.sh/job/Popcorn-Time-Desktop/)
 [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-desktop.svg)](https://david-dm.org/popcorn-official/popcorn-desktop)
 [![devDependency Status](https://david-dm.org/popcorn-official/popcorn-desktop/dev-status.svg)](https://david-dm.org/popcorn-official/popcorn-desktop#info=devDependencies)
+[![Twitter](https://img.shields.io/badge/twitter-@Popcorn%20Time-3299EC.svg?style=flat)](https://twitter.com/popcorntimetv)
+[![Reddit](https://img.shields.io/badge/discussion-reddit-red.svg?style=flat)](https://reddit.com/r/popcorntime)
+[![Forum](https://img.shields.io/badge/Forum-Discourse-blue.svg?style=flat)](https://discuss.popcorntime.sh)
+[![Facebook](https://img.shields.io/badge/facebook-Popcorn%20Time-354F88.svg?style=flat)](https://www.facebook.com/PopcornTimedotsh)
+
+
 
 Allow any user to easily watch movies through torrent streaming, without any prerequisites.
 
