@@ -5,13 +5,13 @@ you get started quickly and easily.
 
 There are lots and lots of ways to get involved, this document covers:
 
-* [raising issues](#report-a-bug)
-    * [bug reports](#bug-reports)
-    * [feature requests](#feature-requests)
-    * [change requests](#change-requests)
-* [working on Popcorn Time core](#working-on-popcorn-time-core)
-    * [submitting pull requests](#submitting-pull-requests)
-* [translation](#translation)
+* [Raising issues](#report-a-bug)
+    * [Bug reports](#bug-reports)
+    * [Feature requests](#feature-requests)
+    * [Change requests](#change-requests)
+* [Working on Popcorn Time core](#working-on-popcorn-time-core)
+    * [Submitting pull requests](#submitting-pull-requests)
+* [Translation](#translation)
 
 
 ## Report a bug
@@ -92,7 +92,7 @@ likely to be common.
 Change requests cover both architectural and functional changes to how Popcorn Time works. If you have an idea for a
 new or different dependency, a refactor, or an improvement to a feature, etc  - please be sure to:
 
-1. **Use the GitHub search** and check someone else didn't get there first
+1. **Use the GitHub search** and check someone else didn't get there first.
 2. Take a moment to think about the best way to make a case for, and explain what you're thinking. Are you sure
 this shouldn't really be a [bug report](#bug-reports) or a [feature request](#feature-requests)? Is it really one
 idea or is it many? What's the context? What problem are you solving? Why is what you are suggesting better than
