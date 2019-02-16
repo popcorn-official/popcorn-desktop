@@ -189,8 +189,10 @@
                 lang: this.audio_selected
             };
 
-            var torrent = providers.torrent
-                .resolveStream(defaultTorrent, filters, this.model.attributes);
+            var torrent = providers.torrent.resolveStream
+                ? providers.torrent.resolveStream(
+                    defaultTorrent, filters, this.model.attributes)
+                : defaultTorrent;
 
             var torrentStart = new Backbone.Model({
                 imdb_id: this.model.get('imdb_id'),
