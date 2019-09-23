@@ -185,6 +185,10 @@
                 data = {};
 
             switch (field.attr('name')) {
+                case 'apiserver':
+                    apiDataChanged = true;
+                    value = field.val();
+                    break;
                 case 'httpApiPort':
                     apiDataChanged = true;
                     value = parseInt(field.val());

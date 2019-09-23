@@ -6,6 +6,14 @@
 
   App.Providers.Generic = require("butter-provider");
 
+  function updateProviderUrl (url) {
+    for (let provider in cache) {
+      if (cache[provider] && cache[provider].apiURL) {
+        cache[provider].apiURL = [url,`cloudflare+${url}`];
+      }
+    }
+  }
+
   function delProvider(name) {
     if (cache[name]) {
       win.info("Delete provider cache", name);
@@ -87,6 +95,7 @@
   App.Providers.get = getProvider;
   App.Providers.delete = delProvider;
   App.Providers.install = installProvider;
+  App.Providers.updateUrl = updateProviderUrl;
 
   App.Providers.getFromRegistry = getProviderFromRegistry;
 })(window.App);
