@@ -2,7 +2,7 @@
     'use strict';
     var clipboard = nw.Clipboard.get();
 
-    App.View.FilterBar = Backbone.Marionette.ItemView.extend({
+    App.View.FilterBar = Marionette.View.extend({
         className: 'filter-bar',
         ui: {
             searchForm: '.search form',
@@ -134,7 +134,7 @@
 
             return menu;
         },
-        onShow: function () {
+        onAttach: function () {
 
             var activetab;
 

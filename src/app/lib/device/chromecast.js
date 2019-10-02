@@ -19,22 +19,77 @@
             this.attributes.id = this._makeID(this.device.name);
             this.attributes.name = this.device.name;
             this.attributes.address = this.device.host;
+            this.updatingSubtitles = false;
         },
 
         play: function (streamModel) {
             var self = this;
-            var subtitle = streamModel.get('subFile');
-            var cover = streamModel.get('cover');
+
+            var url = streamModel.get('src');
+            this.attributes.url = url;
+            const media = this.createMedia(streamModel);
+
+            win.info('Chromecast: play ' + url + ' on \'' + this.get('name') + '\'');
+            win.info('Chromecast: connecting to ' + this.device.host);
+
+            self.device.play(url, media, function (err, status) {
+                if (err) {
+                    win.error('chromecast.play error: ', err);
+                } else {
+                    win.info('Playing ' + url + ' on ' + self.get('name'));
+                    self.set('loadedMedia', status.media);
+                }
+            });
+            this.device.on('status', function (status) {
+                // If we got interrupted because we are updating subtitles, we don't want to close the streamer
+                // There's currently no way to reload a media with the castv2 library without interrupting the current media
+                if (status.idleReason === 'INTERRUPTED' && self.updatingSubtitles) {
+                    self.updatingSubtitles = false;
+                } else {
+                    self._internalStatusUpdated(status);
+                }
+            });
+
+            App.vent.on('videojs:drop_sub', function() {
+                self.updatingSubtitles = true;
+                var subname = Settings.droppedSub;
+                var subpath = path.join(App.settings.tmpLocation, subname);
+                win.info('Subtitles dropped on chromecast:', subpath);
+
+                App.vent.trigger('stream:serve_subtitles', subpath);
+
+                self.device.status(function (err, status) {
+                    const media = self.createMedia(streamModel, true);
+
+                    // After updating the subtitles, we come back to where we were before, minus a small buffer to make sure
+                    // we didn't miss anything while switching the subtitles
+                    media.seek = status.currentTime - 5.0;
+
+                    self.device.play(url, media, function (err, status) {
+                        if (err) {
+                            win.error('chromecast.play error: ', err);
+                        } else {
+                            win.info('Playing ' + url + ' on ' + self.get('name'));
+                            self.set('loadedMedia', status.media);
+                        }
+                    });
+                });
+            });
+        },
+
+        createMedia: function(streamModel, useLocalSubtitle) {
+            var subtitle = streamModel.get('subtitle');
+            var cover = streamModel.get('backdrop');
             var url = streamModel.get('src');
             var attr= streamModel.attributes;
-            this.attributes.url = url;
-            var media;
 
-            if (subtitle) {
+            let media = {};
+
+            if (subtitle || useLocalSubtitle) {
                 media = {
+                    images: [cover],
                     title: streamModel.get('title').substring(0,50),
-                    images: streamModel.get('cover'),
-                    subtitles: ['http:' + url.split(':')[1] + ':9999/subtitle.vtt'],
+                    subtitles: ['http:' + url.split(':')[1] + ':9999/data.vtt'],
 
                     textTrackStyle: {
                         backgroundColor: AdvSettings.get('subtitle_decoration') === 'Opaque Background' ? '#000000FF' : '#00000000', // color of background - see http://dev.w3.org/csswg/css-color/#hex-notation
@@ -52,24 +107,12 @@
                 };
             } else {
                 media = {
-                    images: cover,
+                    images: [cover],
                     title: streamModel.get('title').substring(0,50)
                 };
             }
-            win.info('Chromecast: play ' + url + ' on \'' + this.get('name') + '\'');
-            win.info('Chromecast: connecting to ' + this.device.host);
 
-  				self.device.play(url, media, function (err, status) {
-  					if (err) {
-  						win.error('chromecast.play error: ', err);
-  					} else {
-  						win.info('Playing ' + url + ' on ' + self.get('name'));
-  						self.set('loadedMedia', status.media);
-  					}
-  				});
-  this.device.on('status', function (status) {
-                self._internalStatusUpdated(status);
-            });
+            return media;
         },
 
         pause: function () {
@@ -78,6 +121,7 @@
 
         stop: function () {
             win.info('Closing Chromecast Casting');
+            App.vent.off('videojs:drop_sub');
             App.vent.trigger('stream:stop');
             App.vent.trigger('player:close');
             App.vent.trigger('torrentcache:stop');
@@ -87,27 +131,44 @@
                 device.removeAllListeners();
                 win.info('Chromecast: stopped. Listeners removed!');
             });
+
+            App.vent.trigger('stream:unserve_subtitles');
+        },
+
+        seekTo: function (seconds) {
+            this.get('device').seek(seconds, function (err, status) {
+                if (err) {
+                    win.error('Chromecast.seek error:', err);
+                } else {
+                    win.debug('Chromecast, seeked to', seconds);
+                }
+            });
         },
 
         seekPercentage: function (percentage) {
-           win.info('Chromecast: seek percentage %s%', percentage.toFixed(2));
-           var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
-           this.get('device').seek(newCurrentTime, function (err, status) {
-               if (err) {
-                   win.error('Chromecast.seek error:', err);
-               } else {
-                   win.debug('Chromecast, seeked to', newCurrentTime);
-               }
-           });
+            win.info('Chromecast: seek percentage %s%', percentage.toFixed(2));
+            var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
+            this.seekTo(newCurrentTime);
        },
 
         forward: function () {
-          console.log(this.get('loadedmedia'));
-            this.get('device').seek(this.get('loadedmedia').currentTime +30);
+            var self = this;
+            this.get('device').status(function (err, status) {
+                if (err) {
+                    return win.info('Chromecast.forward:Error', err);
+                }
+                self.seekTo(status.currentTime + 30);
+            });
         },
 
         backward: function () {
-            this.get('device').seek(this.get('loadedmedia').currentTime +30);
+            var self = this;
+            this.get('device').status(function (err, status) {
+                if (err) {
+                    return win.info('Chromecast.backward:Error', err);
+                }
+                self.seekTo(status.currentTime - 30);
+            });
         },
 
         unpause: function () {

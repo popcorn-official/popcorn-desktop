@@ -38,7 +38,6 @@
                 }
                 return 0;
             });
-            //console.log('rearranged shows by air date');//debug
 
             arranged_movies = movies.sort(function(a, b){
                 if(a.listed_at < b.listed_at) {
@@ -49,7 +48,6 @@
                 }
                 return 0;
             });
-            //console.log('rearranged movies by watchlist addition date');//debug
 
             return arranged_shows.concat(movies);
         });
@@ -57,13 +55,11 @@
 
     var format = function (items) {
         var itemList = [];
-        var itemList2 = [];
-        //console.log('format'); //debug
 
         return Promise.all(items.map(function (item) {
             if (item.next_episode) {
                 if(moment(item.next_episode.first_aired).fromNow().indexOf('in') !== -1) {
-                    win.debug('"%s" is not released yet, not showing', item.show.title + ' ' + item.next_episode.season + 'x' + item.next_episode.number);
+                    console.log('"%s" is not released yet, not showing', item.show.title + ' ' + item.next_episode.season + 'x' + item.next_episode.number);
                 } else {
                     var show = item.show;
                     show.type = 'show';
@@ -82,11 +78,9 @@
                     itemList.push(show);
                 }
             } else {
-                if (!item.movie) {
-                    //console.log('item is not a movie', item); //debug
-                } else {
+                if (item.movie) {
                     if(moment(item.movie.released).fromNow().indexOf('in') !== -1) {
-                        win.debug('"%s" is not released yet, not showing', item.movie.title);
+                        console.log('"%s" is not released yet, not showing', item.movie.title);
                     } else {
                         var movie = item.movie;
                         movie.type = 'movie';
@@ -102,19 +96,14 @@
                 }
             }
         })).then(function () {
-            return Promise.all(itemList.map(function (item) {
-                return App.Trakt.client.images.get(item).then(function (imgUrl) {
-                    var newItem = item;
-                    newItem.images = {
-                        poster: imgUrl.poster,
-                        backdrop: imgUrl.background
-                    };
-                    newItem.image = imgUrl.poster;
-                    itemList2.push(newItem);
+            return Promise.all(itemList.map(function (item, idx) {
+                return App.Trakt.client.images.get(item).then(function (imgs) {
+                    itemList[idx].poster = imgs.poster;
+                    itemList[idx].backdrop = imgs.background;
                 });
             }));
         }).then(function () {
-            return itemList2;
+            return itemList;
         });
     };
 
@@ -127,7 +116,6 @@
         var watchlist = [];
 
         return App.Trakt.client.ondeck.getAll().then(function (tv) {
-            //console.log('shows fetched'); //debug
             // store update data
             localStorage.watchlist_update_shows = JSON.stringify(tv);
 
@@ -139,8 +127,6 @@
                 type: 'movies'
             });
         }).then(function (movies) {
-            //console.log('movies fetched'); //debug
-
             // store update data
             localStorage.watchlist_update_movies = JSON.stringify(movies);
 
@@ -171,7 +157,6 @@
         var watchlist = [];
 
         return App.Trakt.client.ondeck.updateOne(update_data, id).then(function (tv) {
-            //console.log('shows updated'); //debug
             // store update data
             localStorage.watchlist_update_shows = JSON.stringify(tv);
 
@@ -197,36 +182,55 @@
         return _.pluck(items, 'imdb_id');
     };
 
-    Watchlist.prototype.detail = function (torrent_id, old_data, callback) {
-        return {};
+    Watchlist.prototype.detail = function (id, data) {
+        var formatted = {
+            genre: data.genres,
+            synopsis: data.overview,
+        };
+
+        if (data.type === 'movie') {
+            formatted.torrents = {};
+        } else {
+            formatted.episodes = [{
+                episode: data.episode,
+                season: data.season,
+                title: data.episode_title,
+                tvdb_id: data.episode_id,
+                first_aired: new Date(data.episode_aired) / 1000,
+                date_based: false,
+                torrents: {},
+            }];
+        }
+
+        return Promise.resolve(formatted);
     };
 
     Watchlist.prototype._fetch = function (filters) {
         return new Promise(function (resolve, reject) {
             if (filters && typeof filters !== 'function' && (filters.force || filters.update)) {
                 if (filters.update && localStorage.watchlist_update_shows) {
-                    win.debug('Watchlist - update one item');
+                    console.log('Watchlist - update one item');
                     return update(filters.update).then(resolve).catch(reject);
                 } else {
                     if (filters.force) {
-                        win.debug('Watchlist - force reload');
+                        console.log('Watchlist - force reload');
                         return load().then(resolve).catch(reject);
                     } else {
-                        win.debug('Watchlist - this should not be called', filters);
+                        console.log('Watchlist - this should not be called', filters);
                         reject('SHOULDNT BE CALLED');
                     }
                 }
             } else {
                 // cache is 4 hours
                 if (!localStorage.watchlist_cached || parseInt(localStorage.watchlist_fetched_time) + 14400000 < Date.now()) {
-                    win.debug('Watchlist - no watchlist cached or cache expired');
+                    console.log('Watchlist - no watchlist cached or cache expired');
                     if (App.Trakt.authenticated) {
                         return App.Providers.get('Watchlist').fetch({force:true}).then(resolve).catch(reject);
                     } else {
                         reject('Trakt not authenticated');
                     }
                 } else {
-                    win.debug('Watchlist - return cached');
+                    console.log('Watchlist - return cached');
                     resolve({
                         results: JSON.parse(localStorage.watchlist_cached),
                         hasMore: false

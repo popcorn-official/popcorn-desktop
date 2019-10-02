@@ -55,35 +55,6 @@
         <div class="auto-next-btn playnownext"><%= i18n.__("Play Now") %></div>
     </div>
 </div>
-<%
-    var subArray = [];
-    for (var langcode in subtitle) {
-        subArray.push({
-            "language": langcode,
-            "languageName": (App.Localization.langcodes[langcode] !== undefined ? App.Localization.langcodes[langcode].nativeName : langcode),
-            "sub": subtitle[langcode]
-        });
-    }
-    subArray.sort(function (sub1, sub2) {
-        return sub1.languageName.localeCompare(sub2.languageName);
-    });
-
-    var subtracks = "";
-
-    var defaultSub = "none";
-    if (typeof defaultSubtitle != "undefined") {
-        defaultSub = defaultSubtitle;
-    }
-    for(var index in subArray ) {
-        var imDefault = "";
-
-        if(defaultSub == subArray[index].language)
-            imDefault = "default";
-
-        subtracks += '<track kind="subtitles" src="' + subArray[index].sub + '" srclang="'+ subArray[index].language +'" label="' + subArray[index].languageName + '" charset="utf-8" '+ imDefault +' />';
-    }
-%>
-<video id="video_player" width="100%" height="100%" class="video-js vjs-popcorn-skin" controls preload="auto" autoplay >
+<video id="video_player" width="100%" height="100%" class="video-js" controls preload="auto" autoplay >
     <source src="<%= src %>" type="<%= type %>" />
-    <%=subtracks%>
 </video>

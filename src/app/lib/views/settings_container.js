@@ -1,12 +1,11 @@
 (function (App) {
     'use strict';
     var clipboard = nw.Clipboard.get(),
-        fdialogs = require('node-webkit-fdialogs'),
         waitComplete,
         oldTmpLocation,
         that;
 
-    var SettingsContainer = Backbone.Marionette.ItemView.extend({
+    var SettingsContainer = Marionette.View.extend({
         template: '#settings-container-tpl',
         className: 'settings-container-contain',
 
@@ -37,7 +36,7 @@
             'click #disconnect-tvst': 'disconnectTvst',
             'click #authOpensubtitles': 'connectOpensubtitles',
             'click #unauthOpensubtitles': 'disconnectOpensubtitles',
-            'click .reset-tvAPI': 'resetTVShowAPI',
+            'click .reset-tvshow': 'resettvshow',
             'change #tmpLocation': 'updateCacheDirectory',
             'click #syncTrakt': 'syncTrakt',
             'click .qr-code': 'generateQRcode',
@@ -45,7 +44,7 @@
             'click #qrcode-close': 'closeModal'
         },
 
-        onShow: function () {
+        onAttach: function () {
             that = this;
             this.render();
 
@@ -117,7 +116,7 @@
             return menu;
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             Mousetrap.bind('backspace', function (e) {
                 App.vent.trigger('show:closeDetail');
                 App.vent.trigger('movie:closeDetail');
@@ -132,7 +131,7 @@
             App.vent.trigger('settings:close');
         },
 
-        resetTVShowAPI: function () {
+        resettvshow: function () {
             var value = [{
                 url: 'https:///',
                 strictSSL: true
@@ -140,16 +139,16 @@
                 url: 'https:///',
                 strictSSL: true
             }];
-            App.settings['tvAPI'] = value;
+            App.settings['tvshow'] = value;
             //save to db
             App.db.writeSetting({
-                key: 'tvAPI',
+                key: 'tvshow',
                 value: value
             }).then(function () {
                 that.ui.success_alert.show().delay(3000).fadeOut(400);
             });
 
-            that.syncSetting('tvAPI', value);
+            that.syncSetting('tvshow', value);
         },
 
         generateQRcode: function () {
@@ -190,7 +189,7 @@
                 apiDataChanged = true;
                 value = parseInt(field.val());
                 break;
-            case 'tvAPI':
+            case 'tvshow':
                 value = field.val();
                 if (value.substr(-1) !== '/') {
                     value += '/';
@@ -232,6 +231,7 @@
             case 'traktPlayback':
             case 'playNextEpisodeAuto':
             case 'automaticUpdating':
+            case 'UpdateSeed':
             case 'events':
             case 'alwaysFullscreen':
             case 'minimizeToTray':
@@ -242,6 +242,8 @@
             case 'opensubtitlesAutoUpload':
             case 'subtitles_bold':
             case 'rememberFilters':
+            case 'animeTabDisable':
+            case 'indieTabDisable':
                 value = field.is(':checked');
                 break;
             case 'httpApiUsername':
@@ -343,6 +345,24 @@
                     App.vent.trigger('torrentCollection:close');
                 }
                 break;
+            case 'animeTabDisable':
+                 if ($('.animeTabShow').css('display') === 'none') {
+                    $('.animeTabShow').css('display', 'block');
+                } else {
+                    $('.animeTabShow').css('display', 'none');
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
+                }
+                break;
+            case 'indieTabDisable':
+                if ($('.indieTabShow').css('display') === 'none') {
+                    $('.indieTabShow').css('display', 'block');
+                } else {
+                    $('.indieTabShow').css('display', 'none');
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
+                }
+                break;
             case 'activateRandomize':
             case 'activateWatchlist':
                 App.vent.trigger('movies:list');
@@ -354,8 +374,8 @@
                 App.vent.trigger('movies:list');
                 App.vent.trigger('settings:show');
                 break;
-            case 'tvAPI':
-                App.Providers.delete('TVApi');
+            case 'tvshow':
+                App.Providers.delete('tvshow');
                 App.vent.trigger('movies:list');
                 App.vent.trigger('settings:show');
                 break;
@@ -569,44 +589,55 @@
         },
 
         exportDatabase: function (e) {
+
             var zip = new AdmZip();
             var btn = $(e.currentTarget);
             var databaseFiles = fs.readdirSync(App.settings['databaseLocation']);
+            var fileinput = document.querySelector('input[id=exportdatabase]');
 
+            $('#exportdatabase').on('change', function ()
+            {
+            var path = fileinput.value;
+                          try {
             databaseFiles.forEach(function (entry) {
                 zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
             });
-
-            // https://github.com/exos/node-webkit-fdialogs/issues/9
-            var exportDialog = new fdialogs.FDialog({
-                type: 'save',
-                window: nw.Window.get().window
-            });
-            exportDialog.saveFile(zip.toBuffer(), function (err, path) {
+            fs.writeFile(path + '/database.zip' ,zip.toBuffer(), function (err) {
                 that.alertMessageWait(i18n.__('Exporting Database...'));
                 win.info('Database exported to:', path);
                 that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
+
+            });
+          } catch (err) {
+            console.log(err);
+          }
             });
 
         },
 
         importDatabase: function () {
-          // https://github.com/exos/node-webkit-fdialogs/issues/9
-          var importDialog = new fdialogs.FDialog({
-              type: 'open',
-              window: nw.Window.get().window
-          });
-          importDialog.readFile(function (err, content, path) {
-                that.alertMessageWait(i18n.__('Importing Database...'));
-                try {
-                    var zip = new AdmZip(content);
-                    zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
-                    that.alertMessageSuccess(true);
-                } catch (err) {
-                    that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
-                    win.warn('Failed to Import Database');
-                }
-            });
+
+          var fileinput = document.querySelector('input[id=importdatabase]');
+
+
+          $('#importdatabase').on('change', function ()
+          {
+          var path = fileinput.value;
+          fs.readFile(path, function(err, content) {
+              that.alertMessageWait(i18n.__('Importing Database...'));
+              try {
+                var zip = new AdmZip(content);
+                zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
+                that.alertMessageSuccess(true);
+              }
+              catch (err) {
+                console.log(err);
+                that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
+                win.warn('Failed to Import Database');
+              }
+});
+});
+
         },
 
         updateCacheDirectory: function (e) {

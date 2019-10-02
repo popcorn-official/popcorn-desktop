@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var client = new WebTorrent(),
+    var client = App.WebTorrent,
         CHANNELS = ['stable', 'beta', 'nightly'],
         FILENAME = 'package.nw.new',
         VERIFY_PUBKEY = Settings.updateKey;

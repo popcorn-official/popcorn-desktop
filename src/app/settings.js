@@ -88,13 +88,18 @@ Settings.trackers = {
         'demonii'
     ],
     forced: [
+        'udp://tracker.leechers-paradise.org:6969/announce',
         'udp://tracker.coppersurfer.tk:6969/announce',
         'udp://glotorrents.pw:6969/announce',
         'udp://exodus.desync.com:6969/announce',
         'udp://tracker.opentrackr.org:1337/announce',
         'udp://9.rarbg.com:2710/announce',
         'udp://tracker.openbittorrent.com:80',
-        'udp://tracker.publicbt.com:80/announce'
+        'udp://tracker.publicbt.com:80/announce',
+        'udp://tracker.empire-js.us:1337',
+        'wss://tracker.openwebtorrent.com',
+        'wss://tracker.fastcast.nz',
+        'wss://tracker.btorrent.xyz'
     ]
 };
 
@@ -168,6 +173,7 @@ Settings.tmpLocation = path.join(os.tmpDir(), Settings.projectName);
 Settings.databaseLocation = path.join(data_path, 'data');
 Settings.deleteTmpOnClose = true;
 Settings.automaticUpdating = true;
+Settings.UpdateSeed = true;
 Settings.events = true;
 Settings.minimizeToTray = false;
 Settings.bigPicture = false;

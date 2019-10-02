@@ -4,7 +4,7 @@
     var that,
         formatMagnet;
 
-    var FileSelector = Backbone.Marionette.ItemView.extend({
+    var FileSelector = Marionette.View.extend({
         template: '#file-selector-tpl',
         className: 'file-selector',
 
@@ -36,7 +36,7 @@
             this.bitsnoopRequest(this.model.get('torrent').infoHash);
         },
 
-        onShow: function () {
+        onAttach: function () {
             this.isTorrentStored();
 
             Mousetrap.bind(['esc', 'backspace'], function (e) {
@@ -176,7 +176,7 @@
             App.vent.trigger('system:closeFileSelector');
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             Settings.droppedTorrent = false;
             Settings.droppedMagnet = false;
             Settings.droppedStoredMagnet = false;

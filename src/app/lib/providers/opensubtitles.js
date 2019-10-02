@@ -5,7 +5,6 @@
 
     var OpenSubtitles = function () {
         openSRT = new OS({
-            
             useragent: 'Popcorn Time NodeJS',
             username: Settings.opensubtitlesUsername,
             password: Settings.opensubtitlesPassword,
@@ -31,13 +30,28 @@
         for (var lang in data) {
             data[lang] = data[lang].url;
         }
+
+        console.info(Object.keys(data).length + ' subtitles found');
+
         return Common.sanitize(data);
     };
 
     OpenSubtitles.prototype.fetch = function (queryParams) {
         queryParams.extensions = ['srt'];
+
         return openSRT.search(queryParams)
             .then(formatForButter);
+    };
+
+    OpenSubtitles.prototype.detail = function (id, attrs) {
+        return this.fetch({
+            imdbid: id
+        }).then(function (data) {
+          App.vent.trigger('update:subtitles', data);
+            return {
+                subtitle: data
+            };
+        });
     };
 
     OpenSubtitles.prototype.upload = function (queryParams) {

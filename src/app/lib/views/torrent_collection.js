@@ -4,7 +4,7 @@
     var clipboard = nw.Clipboard.get(),
         collection = path.join(data_path + '/TorrentCollection/');
 
-    var TorrentCollection = Backbone.Marionette.ItemView.extend({
+    var TorrentCollection = Marionette.View.extend({
         template: '#torrent-collection-tpl',
         className: 'torrent-collection',
 
@@ -32,7 +32,7 @@
             this.files = fs.readdirSync(collection);
         },
 
-        onShow: function () {
+        onAttach: function () {
             Mousetrap.bind(['esc', 'backspace'], function (e) {
                 $('#filterbar-torrent-collection').click();
             });
@@ -166,7 +166,7 @@
                     var results = [];
                     setTimeout(function () {
                         resolve(results);
-                    }, 2500);
+                    }, 5000);
                     var tpb = torrentCollection.tpb;
                     tpb.search(input.toLocaleLowerCase(), {
                         category: 0,
@@ -208,7 +208,7 @@
                     var results1 = [];
                     setTimeout(function () {
                         resolve(results1);
-                    }, 2500);
+                    }, 5000);
                     var rbg = torrentCollection.rbg;
                     rbg.search({
                         query: input.toLocaleLowerCase(),
@@ -245,42 +245,6 @@
                 });
             };
 
-            var extratorrent = function () {
-                return new Promise(function (resolve) {
-                    var results1 = [];
-                    setTimeout(function () {
-                        resolve(results1);
-                    }, 2500);
-                    var extra = new torrentCollection.ExtraTorrentAPI();
-                    extra.search({
-                        with_words: input.toLocaleLowerCase(),
-                        category: category.toLocaleLowerCase()
-                    }).then(function(data) {
-                        console.debug('ExtraTorrent search: %s results', data.results.length);
-                        data.results.forEach(function (item) {
-                            var itemModel = {
-                              title: item.title,
-                              magnet: item.magnet,
-                              seeds: item.seeds,
-                              peers: item.peers,
-                              size: item.size,
-                              index: index
-                            };
-
-                            if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
-                                return;
-                            }
-                            results1.push(itemModel);
-                            index++;
-                        });
-                        resolve(results1);
-                    }).catch(function (err) {
-                        console.error('extratorrent search:', err);
-                        resolve(results1);
-                    });
-                });
-            };
-
             var removeDupes = function (arr) {
                 var found = [];
                 var unique = [];
@@ -300,23 +264,14 @@
 
             var sortBySeeds = function (items) {
                 return items.sort(function (a, b) {
-                    if (a.seeds > b.seeds) {
-                        return -1;
-                    }
-                    if (a.seeds < b.seeds) {
-                        return 1;
-                    }
-                    return 0;
+                    return b.seeds - a.seeds;
                 });
             };
 
             $('.notorrents-info,.torrents-info').hide();
             return Promise.all([
-                rarbg(),
                 leetx(),
-                piratebay(),
-                extratorrent(),
-                cpasbien()
+                piratebay()
             ]).then(function (results) {
                 var items = sortBySeeds(removeDupes(results));
                 console.log('search providers: %d results', items.length);
@@ -417,7 +372,7 @@
         },
 
         openFileSelector: function (e) {
-            var _file = $(e.currentTarget).context.innerText,
+            var _file = e.currentTarget.innerText,
                 file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
             if (_file.indexOf('.torrent') !== -1) {
@@ -462,7 +417,7 @@
             e.preventDefault();
             e.stopPropagation();
 
-            var _file = $(e.currentTarget.parentNode).context.innerText,
+            var _file = e.currentTarget.parentNode.innerText,
                 file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
             fs.unlinkSync(collection + file);
@@ -478,7 +433,7 @@
             e.preventDefault();
             e.stopPropagation();
 
-            var _file = $(e.currentTarget.parentNode).context.innerText,
+            var _file = e.currentTarget.parentNode.innerText,
                 file = _file.substring(0, _file.length - 2), // avoid ENOENT
                 isTorrent = false;
 
@@ -523,9 +478,12 @@
         },
 
         clearCollection: function () {
-            deleteFolder(collection);
-            console.debug('Torrent Collection: delete all', collection);
-            App.vent.trigger('torrentCollection:show');
+            var btn = confirm(i18n.__('Are you sure you want to clear the entire Torrent Collection ?'));
+            if (btn === true) {
+                deleteFolder(collection);
+                console.debug('Torrent Collection: delete all', collection);
+                App.vent.trigger('torrentCollection:show');
+            }
         },
 
         openCollection: function () {
@@ -552,7 +510,7 @@
             input.click();
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             Mousetrap.unbind(['esc', 'backspace']);
         },
 

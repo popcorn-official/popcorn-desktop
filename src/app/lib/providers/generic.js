@@ -42,7 +42,7 @@
             return cache;
         }
 
-        var config = App.Providers.Generic.prototype.parseArgs(name);
+        var config = App.Providers.Generic.parseArgs(name);
 
         if (cache[name]) {
             win.info('Returning cached provider', name);
@@ -61,7 +61,7 @@
         }
 
         win.info('Spawning new provider', name, config);
-        var p = cache[name] = new provider(config.args);
+        var p = cache[name] = new provider(config);
 
         //HACK(xaiki): set the provider name in the returned object.
         p.name = name;

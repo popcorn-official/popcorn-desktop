@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var Loading = Backbone.Marionette.ItemView.extend({
+    var Loading = Marionette.View.extend({
         template: '#loading-tpl',
         className: 'app-overlay',
         extPlayerStatusUpdater: null,
@@ -80,7 +80,7 @@
             Mousetrap.unbind(['esc', 'backspace']);
         },
 
-        onShow: function () {
+        onAttach: function () {
             $('.filter-bar').hide();
             $('#header').addClass('header-shadow');
 
@@ -132,8 +132,9 @@
                 this.checkFreeSpace(streamInfo.get('size'));
                 this.firstUpdate = true;
             }
+
             if (streamInfo.get('backdrop')) {
-                $('.loading-background').css('background-image', 'url(' + streamInfo.get('backdrop') + ')');
+                $('.loading-backdrop').css('background-image', 'url(' + streamInfo.get('backdrop') + ')');
             }
             if (streamInfo.get('title') !== '') {
                 this.ui.title.html(streamInfo.get('title'));
@@ -281,7 +282,7 @@
             }
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             $('.filter-bar').show();
             $('#header').removeClass('header-shadow');
             Mousetrap.bind('esc', function (e) {

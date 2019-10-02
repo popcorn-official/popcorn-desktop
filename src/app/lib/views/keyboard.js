@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var Keyboard = Backbone.Marionette.ItemView.extend({
+    var Keyboard = Marionette.View.extend({
         template: '#keyboard-tpl',
         className: 'keyboard',
 
@@ -10,14 +10,14 @@
         },
 
 
-        onShow: function () {
+        onAttach: function () {
             $('.search input').blur();
             Mousetrap.bind('esc', function (e) {
                 App.vent.trigger('keyboard:close');
             });
         },
 
-        onDestroy: function () {},
+        onBeforeDestroy: function () {},
 
         closeKeyboard: function () {
             App.vent.trigger('keyboard:close');

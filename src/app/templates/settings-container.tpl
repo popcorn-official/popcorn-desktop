@@ -471,22 +471,18 @@
     <section id="connection" class="advanced">
         <div class="title"><%= i18n.__("Connection") %></div>
         <div class="content">
-            <% if(Settings.tvAPI) { %>
+            <% if(Settings.tvshow) { %>
             <span>
                 <p><%= i18n.__("TV Show API Endpoint") %></p>
-                    <input id="tvAPI" type="text" size="50" name="tvAPI" value="<%=Settings.tvAPI[0].url%>">
-                    <% if (Settings.tvAPI.length <= 1) { %>
-                    &nbsp;&nbsp;<i class="reset-tvAPI fa fa-undo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__('Reset to Default Settings') %>"></i>
+                    <input id="tvshow" type="text" size="50" name="tvshow" value="<%=Settings.tvshow[0].url%>">
+                    <% if (Settings.tvshow.length <= 1) { %>
+                    &nbsp;&nbsp;<i class="reset-tvshow fa fa-undo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__('Reset to Default Settings') %>"></i>
                     <% } %>
             </span>
             <% } %>
             <span>
                 <p><%= i18n.__("Connection Limit") %></p>
                 <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
-            </span>
-            <span>
-                <p><%= i18n.__("DHT Limit") %></p>
-                <input type="text" id="dhtLimit" size="20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
             </span>
             <span>
                 <p><%= i18n.__("Port to stream on") %></p>
@@ -530,15 +526,18 @@
                 <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
                 <input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
             </span>
-            <div class="btns advanced database">
-                <div class="btn-settings database import-database">
-                    <i class="fa fa-level-down">&nbsp;&nbsp;</i>
-                    <%= i18n.__("Import Database") %>
-                </div>
-                <div class="btn-settings database export-database">
-                    <i class="fa fa-level-up">&nbsp;&nbsp;</i>
-                    <%= i18n.__("Export Database") %>
-                </div>
+            <div class="btns advanced database import-database">
+              <div class="btn-settings database">
+                <label class="import-database" for="importdatabase"  title="<%= i18n.__("Open File to Import") %>"><%= i18n.__("Import Database") %></label>
+                <i class="fa fa-level-down">&nbsp;&nbsp;</i>
+                <input type="file" id="importdatabase"  accept=".zip" style="display:none">
+              </div>
+              <div class="btn-settings database export-database">
+                <label class="export-database" for="exportdatabase" title="<%= i18n.__("Browse Directoy to save to") %>" ><%= i18n.__("Export Database") %></label>
+                <i class="fa fa-level-up">&nbsp;&nbsp;</i>
+                <input type="file" id="exportdatabase" style="display:none" nwdirectory>
+                        </div>
+
             </div>
         </div>
     </section>
@@ -572,8 +571,8 @@
                 <label class="settings-label" for="cb6"><%= i18n.__("Activate Update seeding") %></label>
             </span>
             <span>
-                <input class="settings-checkbox" name="events" id="cb7" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb7"><%= i18n.__("Celebrate various events") %></label>
+                <input class="settings-checkbox" name="events" id="cb9" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
+                <label class="settings-label" for="cb9"><%= i18n.__("Celebrate various events") %></label>
             </span>
             <span>
                 <input class="settings-checkbox" name="minimizeToTray" id="minimizeToTray" type="checkbox" <%=(Settings.minimizeToTray? "checked='checked'":"")%>>

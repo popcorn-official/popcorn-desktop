@@ -2,7 +2,7 @@
     'use strict';
     var dyks;
 
-    var Help = Backbone.Marionette.ItemView.extend({
+    var Help = Marionette.View.extend({
         template: '#help-tpl',
         className: 'help',
 
@@ -27,7 +27,7 @@
             ];
         },
 
-        onShow: function () {
+        onAttach: function () {
             $('.search input').blur();
             Mousetrap.bind('esc', function (e) {
                 App.vent.trigger('help:close');
@@ -40,7 +40,7 @@
             App.vent.trigger('issue:new');
         },
 
-        onDestroy: function () {},
+        onBeforeDestroy: function () {},
 
         closeHelp: function () {
             App.vent.trigger('help:close');

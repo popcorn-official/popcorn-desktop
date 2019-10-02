@@ -34,6 +34,12 @@
             subswitch: '-sub ',
             fs: '-fs',
         },
+        'IINA': {
+            type: 'mpv',
+            cmd: '/Contents/MacOS/iina-cli',
+            subswitch: '--mpv-sub-file=',
+            fs: '--mpv-fs',
+        },
         'mplayer': {
             type: 'mplayer',
             cmd: 'mplayer',
@@ -199,6 +205,7 @@
     // linux
     addPath('/usr/bin');
     addPath('/usr/local/bin');
+    addPath('/snap/bin');
     // darwin
     addPath('/Applications');
     addPath(process.env.HOME + '/Applications');

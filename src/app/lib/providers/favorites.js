@@ -122,7 +122,7 @@
                         data.imdb = data.imdb_id;
                         // Fallback for old bookmarks without provider in database or marked as Eztv
                         if (typeof (data.provider) === 'undefined' || data.provider === 'Eztv') {
-                            data.provider = 'TVApi';
+                            data.provider = 'tvshow';
                         }
                         // This is an old boxart, fetch the latest boxart
                         if (/slurm.trakt.us/.test(data.images.poster)) {
@@ -131,7 +131,7 @@
                             var provider = App.Providers.get(data.provider);
                             return provider.detail(data.imdb_id, data);
                         } else {
-                            data.image = data.images.poster;
+                            data.poster = data.images.poster;
                             deferred.resolve(data);
                             return null;
                         }

@@ -1,8 +1,14 @@
 # [Popcorn Time](https://github.com/popcorn-official/popcorn-desktop)
 
-[![Build Status](https://travis-ci.org/popcorn-official/popcorn-desktop.svg?branch=master)](https://travis-ci.org/popcorn-official/popcorn-desktop)
+[![Build Status](https://ci.popcorntime.sh/job/Popcorn-Time-Desktop/badge/icon)](https://ci.popcorntime.sh/job/Popcorn-Time-Desktop/)
 [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-desktop.svg)](https://david-dm.org/popcorn-official/popcorn-desktop)
 [![devDependency Status](https://david-dm.org/popcorn-official/popcorn-desktop/dev-status.svg)](https://david-dm.org/popcorn-official/popcorn-desktop#info=devDependencies)
+[![Twitter](https://img.shields.io/badge/twitter-@Popcorn%20Time-3299EC.svg?style=flat)](https://twitter.com/popcorntimetv)
+[![Reddit](https://img.shields.io/badge/discussion-reddit-red.svg?style=flat)](https://reddit.com/r/popcorntime)
+[![Forum](https://img.shields.io/badge/Forum-Discourse-blue.svg?style=flat)](https://discuss.popcorntime.sh)
+[![Facebook](https://img.shields.io/badge/facebook-Popcorn%20Time-354F88.svg?style=flat)](https://www.facebook.com/PopcornTimedotsh)
+
+
 
 Allow any user to easily watch movies through torrent streaming, without any prerequisites.
 
@@ -24,30 +30,27 @@ The [master](https://github.com/popcorn-official/popcorn-desktop) branch which c
 
 #### Quickstart:
 
-1. `gulp run`
+1. `yarn gulp run`
 
 If you encounter trouble with the above method, you can try:
 
-1. `npm install -g bower gulp` (Linux: you may need to run with `sudo`)
-
-2. `npm install`
-3. `bower install`
-4. `gulp build`
-5. `gulp run`
+1. `yarn config set yarn-offline-mirror ./node_modules/`
+2. `yarn install --ignore-engines`
+3. `yarn build`
+5. `yarn gulp run`
 
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
-Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-popcorn-time)
+Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-popcorn-time).
 
 <a name="community"></a>
 ## Community
 
 Keep track of Popcorn Time development and community activity.
 
-* Follow Popcorn Time on [Twitter] (https://twitter.com/popcorntimetv), [Facebook] (https://www.facebook.com/PopcornTimeDotSh) and [Google+](https://plus.google.com/+popcorntimesh).
-* Read and subscribe to [The Official Popcorn Time Blog](http://blog.popcorntime.sh).
-* Join in discussions on the [Popcorn Time Forum](https://reddit.com/r/PopCornTime/)
-* Connect with us on IRC at `#popcorntime` on freenode ([web access](http://webchat.freenode.net/?channels=popcorntime))
+* Follow Popcorn Time on [Twitter](https://twitter.com/popcorntimetv), [Facebook](https://www.facebook.com/PopcornTimeDotSh) and [Google+](https://plus.google.com/+popcorntimesh).
+* Read and subscribe to [The Official Popcorn Time Blog](http://blog.popcorntime.sh/).
+* Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.sh/).
 
 ## Screenshots
 ![Popcorn Time](https://cloud.githubusercontent.com/assets/8317250/10714437/b1e1dc8c-7b32-11e5-9c25-d9fbd5b2f3bd.png)
@@ -78,8 +81,8 @@ This program is free software: you can redistribute it and/or modify it under th
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with this program.  If not, see http://www.gnu.org/licenses/ .
+You should have received a copy of the GNU General Public License along with this program.  If not, see http://www.gnu.org/licenses/.
 
 ***
 
-Copyright (c) 2017 Popcorn Time Project - Released under the [GPL v3 license](LICENSE.txt).
+Copyright © 2019 Popcorn Time Project - Released under the [GPL v3 license](LICENSE.txt).
