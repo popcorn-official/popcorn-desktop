@@ -7,7 +7,7 @@ var Settings = {
     projectGooglePlus: 'ButterProject',
     projectBlog: 'http://blog.butterproject.org/',
     projectForum: 'https://www.reddit.com/r/ButterProject',
-
+    githubUrl: 'https://github.com/popcorn-official/popcorn-desktop',
     statusUrl: 'https://status.butterproject.org',
     changelogUrl: 'https://github.com/butterproject/butter-desktop/commits/master',
     issuesUrl: 'https://github.com/butterproject/butter-desktop/issues',

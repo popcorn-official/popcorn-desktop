@@ -31,6 +31,7 @@
             <a href='<%= Settings.projectUrl %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectUrl %>" class='links gitlab_icon'></span></a>
             <a href='<%= Settings.projectBlog %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectBlog %>" class='links blog_icon'></span></a>
             <a href='<%= Settings.projectForum %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectForum %>" class='links forum_icon'></span></a>
+            <a href='<%= Settings.githubUrl %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.githubUrl %>" class='links github_icon'></span></a>
         </div>
 
         <div class="last-line">
