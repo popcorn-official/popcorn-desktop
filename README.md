@@ -24,20 +24,13 @@ Want to report a bug, request a feature, contribute to or translate Popcorn Time
 
 If you're comfortable getting up and running from a `git clone`, this method is for you.
 
-If you clone the GitHub repository, you will need to build a number of assets using grunt.
-
-The [master](https://github.com/popcorn-official/popcorn-desktop) branch which contains the latest release.
+The [master](https://github.com/popcorn-official/popcorn-desktop) branch contains the latest release.
 
 #### Quickstart:
 
-1. `yarn gulp run`
-
-If you encounter trouble with the above method, you can try:
-
-1. `yarn config set yarn-offline-mirror ./node_modules/`
-2. `yarn install --ignore-engines`
-3. `yarn build`
-5. `yarn gulp run`
+1. `npm install`
+2. `gulp build`
+3. `gulp run`
 
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
