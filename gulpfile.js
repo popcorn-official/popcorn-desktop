@@ -318,14 +318,18 @@ gulp.task('downloadffmpeg', done => {
 });
 
 gulp.task('unzipffmpeg', () => {
+    var ffpath;
+
     if (parsePlatforms()[0] === 'osx64'){
       // Need to check Correct folder on every Nw.js Upgrade as long as we use nwjs Binary directly
-      var ffpath = './build/' + pkJson.name + '/' + parsePlatforms() + '/' + pkJson.name + '.app/Contents/Versions/69.0.3497.100';
+      ffpath = './build/' + pkJson.name + '/' + parsePlatforms() + '/' + pkJson.name + '.app/Contents/Versions/69.0.3497.100';
     } else {
-      var ffpath = './build/' + pkJson.name + '/' + parsePlatforms();
+      ffpath = './build/' + pkJson.name + '/' + parsePlatforms();
     }
-    if (parsePlatforms()[0].indexOf('win') === -1)
+
+    if (parsePlatforms()[0].indexOf('win') === -1) {
         ffpath = ffpath + '/lib';
+    }
     return gulp.src('./cache/ffmpeg/*.{tar,tar.bz2,tar.gz,zip}')
         .pipe(decompress({ strip: 1 }))
         .pipe(gulp.dest(ffpath))
@@ -338,15 +342,17 @@ gulp.task('unzipffmpeg', () => {
 
 // development purpose
 gulp.task('unzipffmpegcache', () => {
-  if (parsePlatforms()[0] === 'osx64'){
+    var platform = parsePlatforms()[0], 
+        bin;
+
+  if (platform === 'osx64') {
     // Need to check Correct folder on every Nw.js Upgrade as long as we use nwjs Binary directly
-    var platform = parsePlatforms()[0];
-    var bin = path.join('cache', nwVersion + '-' + nwFlavor, platform, pkJson.name + '.app/Contents/Versions/69.0.3497.100' );
+    bin = path.join('cache', nwVersion + '-' + nwFlavor, platform, pkJson.name + '.app/Contents/Versions/69.0.3497.100' );
   } else {
-    var platform = parsePlatforms()[0];
-    var bin = path.join('cache', nwVersion + '-' + nwFlavor, platform);
-    if (platform.indexOf('win') === -1)
+    bin = path.join('cache', nwVersion + '-' + nwFlavor, platform);
+    if (platform.indexOf('win') === -1) {
         bin = bin + '/lib';
+    }
   }
     return gulp.src('./cache/ffmpeg/*.{tar,tar.bz2,tar.gz,zip}')
         .pipe(decompress({ strip: 1 }))
