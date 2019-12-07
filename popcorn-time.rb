@@ -3,6 +3,7 @@ cask 'popcorn-time' do
   sha256 '62002814ddac7587e447d0f8e7db5d7359ccca77893b79223f7b1f5c7d8992bf'
 
   url "https://mirror03.popcorntime.sh/repo/build/Popcorn-Time-#{version}-Mac.zip"
+  appcast 'https://github.com/popcorn-official/popcorn-desktop/releases.atom'
   name 'Popcorn Time'
   homepage 'https://popcorntime.sh/'
 
