@@ -319,7 +319,12 @@
                 // if no fileIndex set, get the largest
                 fileIndex = 0;
                 for (var i in torrent.files) {
-                    if (fileSize < torrent.files[i].length) {
+                    if (this.torrentModel.get('file_name')) {
+                        if (torrent.files[i].path === this.torrentModel.get('file_name')) {
+                            fileSize = torrent.files[i].length;
+                            fileIndex = i;
+                        }
+                    } else if (fileSize < torrent.files[i].length) {
                         fileSize = torrent.files[i].length;
                         fileIndex = i;
                     }
