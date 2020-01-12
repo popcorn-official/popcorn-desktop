@@ -20,7 +20,7 @@ Visit the project's website at <https://popcorntime.sh>.
 
 #### macOS:
 
-Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://github.com/Homebrew/homebrew-cask#homebrew-cask))_ with `brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/Casks/popcorn-time.rb`, or `brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/Casks/popcorn-time-beta.rb` for the latest [stable] beta build.
+Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://github.com/Homebrew/homebrew-cask#homebrew-cask))_ with `brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/casks/popcorn-time.rb`, or `brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/casks/popcorn-time-beta.rb` for the latest [stable] beta build.
 
 ## Getting Involved
 
