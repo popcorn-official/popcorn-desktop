@@ -33,6 +33,7 @@
         initialize: function () {
             this.setModelStates();
             this.isAprilFools();
+            this.localizeTexts();
         },
 
         onAttach: function () {
@@ -46,6 +47,29 @@
                     'hide': 100
                 }
             });
+        },
+
+        localizeTexts: function () {
+            var title = this.model.get('title');
+            var locale = this.model.get('locale');
+
+            let title1 = title;
+            let title2;
+            if (locale && locale.title) {
+                if (Settings.translateTitle === 'translated-origin') {
+                    title1 = locale.title;
+                    title2 = title;
+                }
+                if (Settings.translateTitle === 'origin-translated') {
+                    title2 = locale.title;
+                }
+                if (Settings.translateTitle === 'translated') {
+                    title1 = locale.title;
+                }
+            }
+
+            this.model.set('title1', title1);
+            this.model.set('title2', title2);
         },
 
         hoverItem: function (e) {
@@ -164,6 +188,13 @@
                 !this.model.get('trailer') && movie && movie.videos && movie.videos.results && movie.videos.results[0] ? this.model.set('trailer', 'http://www.youtube.com/watch?v=' + movie.videos.results[0].key) : null;
                 (!this.model.get('backdrop') || this.model.get('backdrop') === 'images/posterholder.png') && movie && movie.backdrop_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.backdrop_path) : ((!this.model.get('backdrop') || this.model.get('backdrop') === 'images/posterholder.png') && movie && movie.poster_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.poster_path) : null);
                 this.model.set('getmetarunned', true);
+            }
+
+            if (Settings.translatePosters) {
+                var locale = this.model.get('locale');
+                if (locale && locale.poster) {
+                    poster = locale.poster;
+                }
             }
 
             var setImage = function (img) {

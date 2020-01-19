@@ -1,10 +1,10 @@
 <%
 if(typeof health === "undefined"){ health = false; };
-if(typeof synopsis === "undefined"){ synopsis = "Synopsis not available."; }; 
+if(typeof synopsis === "undefined"){ synopsis = "Synopsis not available."; };
 if(typeof runtime === "undefined"){ runtime = "N/A"; };
 if (genre) {
     for(var i = 0; i < genre.length; i++) {
-        genre[i] = i18n.__(genre[i].capitalizeEach()).toLowerCase(); 
+        genre[i] = i18n.__(genre[i].capitalizeEach()).toLowerCase();
     }
 } else {
     var genre = [undefined];
@@ -23,7 +23,7 @@ if (genre) {
 <section class="content-box">
 
     <div class="meta-container">
-        <div class="title"><%= title %></div>
+        <div class="title"><%= displayTitle %></div>
 
         <div class="metadatas">
             <div class="metaitem"><%= year %></div>
@@ -57,7 +57,7 @@ if (genre) {
 
         </div>
 
-        <div class="overview"><%= synopsis %></div>
+        <div class="overview"><%= displaySynopsis %></div>
     </div>
 
     <div id="play-control"></div>
