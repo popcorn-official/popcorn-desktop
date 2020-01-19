@@ -205,6 +205,39 @@
         </div>
     </section>
 
+    <section id="localisation">
+        <div class="title"><%= i18n.__("Localisation") %></div>
+        <div class="content">
+            <span>
+                <div class="dropdown translateTitle">
+                    <p><%= i18n.__("Title translation") %></p>
+                    <select name="translateTitle">
+                        <option <%=(Settings.translateTitle == "translated-origin"? "selected='selected'":"") %> value="translated-origin"><%= i18n.__("Translated - Original") %></option>
+                        <option <%=(Settings.translateTitle == "origin-translated"? "selected='selected'":"") %> value="origin-translated"><%= i18n.__("Original -Translated") %></option>
+                        <option <%=(Settings.translateTitle == "translated"? "selected='selected'":"") %> value="translated"><%= i18n.__("Translated only") %></option>
+                        <option <%=(Settings.translateTitle == "origin"? "selected='selected'":"") %> value="origin"><%= i18n.__("Original only") %></option>
+                    </select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </span>
+
+            <span>
+                <input class="settings-checkbox" name="translateSynopsis" id="translateSynopsis" type="checkbox" <%=(Settings.translateSynopsis? "checked='checked'":"")%>>
+                <label class="settings-label" for="translateSynopsis"><%= i18n.__("Translate Synopsis") %></label>
+            </span>
+
+            <span>
+                <input class="settings-checkbox" name="translatePosters" id="translatePosters" type="checkbox" <%=(Settings.translatePosters? "checked='checked'":"")%>>
+                <label class="settings-label" for="translatePosters"><%= i18n.__("Translate Posters") %></label>
+            </span>
+
+            <span>
+                <input class="settings-checkbox" name="translateEpisodes" id="translateEpisodes" type="checkbox" <%=(Settings.translateEpisodes? "checked='checked'":"")%>>
+                <label class="settings-label" for="translateEpisodes"><%= i18n.__("Translate Episodes") %></label>
+            </span>
+        </div>
+    </section>
+
     <section id="subtitles">
         <div class="title"><%= i18n.__("Subtitles") %></div>
         <div class="content">
