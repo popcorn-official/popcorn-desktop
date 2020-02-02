@@ -35,7 +35,7 @@
             fs.readdir(App.settings.tmpLocation, (err, files) => {
                 files.forEach(file => {
                     if (/^[a-f0-9]{40}$/i.test(file) && fs.existsSync(App.settings.tmpLocation + '/TorrentCache/' + file)) {
-                        fs.readFile(App.settings.tmpLocation + '/TorrentCache/' + file, "utf8", (err, data) => {
+                        fs.readFile(App.settings.tmpLocation + '/TorrentCache/' + file, 'utf8', (err, data) => {
                             this.torrent = App.WebTorrent.add(data, {
                                 path: App.settings.tmpLocation + '/' + file,
                                 maxConns: parseInt(Settings.connectionLimit, 10) || 55,
@@ -109,7 +109,7 @@
                 var uri = torrentInfo.magnet || torrentInfo.url || torrentInfo;
                 const parseTorrent = require('parse-torrent');
                 var infoHash = '';
-                try { infoHash = parseTorrent(uri).infoHash } catch (err) {}
+                try { infoHash = parseTorrent(uri).infoHash; } catch (err) {}
 
                 for(const t of App.WebTorrent.torrents) {
                     if (t.infoHash === infoHash) {
