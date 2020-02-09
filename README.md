@@ -1,11 +1,11 @@
 # [Popcorn Time](https://github.com/popcorn-official/popcorn-desktop)
 
-[![Build Status](https://ci.popcorntime.sh/job/Popcorn-Time-Desktop/badge/icon)](https://ci.popcorntime.sh/job/Popcorn-Time-Desktop/)
+[![Build Status](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/badge/icon)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/)
 [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-desktop.svg)](https://david-dm.org/popcorn-official/popcorn-desktop)
 [![devDependency Status](https://david-dm.org/popcorn-official/popcorn-desktop/dev-status.svg)](https://david-dm.org/popcorn-official/popcorn-desktop#info=devDependencies)
 [![Twitter](https://img.shields.io/badge/twitter-@Popcorn%20Time-3299EC.svg?style=flat)](https://twitter.com/popcorntimetv)
 [![Reddit](https://img.shields.io/badge/discussion-reddit-red.svg?style=flat)](https://reddit.com/r/popcorntime)
-[![Forum](https://img.shields.io/badge/Forum-Discourse-blue.svg?style=flat)](https://discuss.popcorntime.sh)
+[![Forum](https://img.shields.io/badge/Forum-Discourse-blue.svg?style=flat)](https://discuss.popcorntime.app)
 [![Facebook](https://img.shields.io/badge/facebook-Popcorn%20Time-354F88.svg?style=flat)](https://www.facebook.com/PopcornTimedotsh)
 
 
@@ -54,9 +54,9 @@ Full instructions & troubleshooting tips can be found in the [Contributing Guide
 
 Keep track of Popcorn Time development and community activity.
 
-* Follow Popcorn Time on [Twitter](https://twitter.com/popcorntimetv), [Facebook](https://www.facebook.com/PopcornTimeDotSh) and [Google+](https://plus.google.com/+popcorntimesh).
-* Read and subscribe to [The Official Popcorn Time Blog](http://blog.popcorntime.sh/).
-* Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.sh/).
+* Follow Popcorn Time on [Twitter](https://twitter.com/popcorntimetv) and [Facebook](https://www.facebook.com/PopcornTimeDotSh).
+* Read and subscribe to [The Official Popcorn Time Blog](http://blog.popcorntime.app/).
+* Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.app/).
 
 ## Screenshots
 ![Popcorn Time](https://cloud.githubusercontent.com/assets/8317250/10714437/b1e1dc8c-7b32-11e5-9c25-d9fbd5b2f3bd.png)
