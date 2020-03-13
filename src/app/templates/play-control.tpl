@@ -7,16 +7,9 @@
             </div>
         </div>
         <div class="row">
-            <div id="player-chooser" class="play-selector"></div>
-            <div id="watch-trailer"  class="button play-selector"><%=i18n.__("Watch Trailer") %></div>
-
-            <div class="movie-quality-container">
-                <div class="sdow-quality">
-                    <div id="q720" class="q720">720p</div>
-                    <div id="q1080" class="q1080">1080p</div>
-                    <div id="q2160" class="q2160">4K</div>
-                </div>
-            </div>
+            <div id="player-chooser"   class="play-selector"></div>
+            <div id="watch-trailer"    class="button play-selector"><%=i18n.__("Watch Trailer") %></div>
+            <div id="quality-selector" class="quality-selector"></div>
         </div>
     </div>
     <div class="flex-right dropdowns-container">

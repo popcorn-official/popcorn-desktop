@@ -12,9 +12,6 @@
 
         ui: {
             startStreaming: '#watch-now',
-            q1080p: '#q1080',
-            q720p: '#q720',
-            q480p: '#q480',
             bookmarkIcon: '.sha-bookmark',
             seasonTab: '.sd-seasons'
         },
@@ -30,12 +27,13 @@
             'click .shmi-imdb': 'openIMDb',
             'mousedown .magnet-icon': 'openMagnet',
             'dblclick .tab-episode': 'dblclickEpisode',
-            'click .q1080': 'toggleShowQuality',
-            'click .q720': 'toggleShowQuality',
-            'click .q480': 'toggleShowQuality',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .shmi-rating': 'switchRating',
             'click .health-icon': 'resetHealth'
+        },
+
+        regions: {
+            qualitySelector: '#quality-selector',
         },
 
         toggleFavorite: function (e) {
@@ -133,6 +131,7 @@
                 this.ui.bookmarkIcon.removeClass('selected');
             }
 
+            this.getRegion('qualitySelector').empty();
             $('.star-container-tv,.shmi-imdb,.magnet-icon').tooltip();
             var noimg = 'images/posterholder.png';
             var nobg = 'images/bg-header.jpg';
@@ -543,131 +542,51 @@
                 return;
             }
             var tvdbid = $elem.attr('data-id');
-            var torrents = {};
-            var quality;
-            torrents.q480 = $('.template-' + tvdbid + ' .q480').text();
-            torrents.q720 = $('.template-' + tvdbid + ' .q720').text();
-            torrents.q1080 = $('.template-' + tvdbid + ' .q1080').text();
-            this.ui.q1080p.removeClass('active');
-            this.ui.q720p.removeClass('active');
-            this.ui.q480p.removeClass('active');
+            var season = $elem.attr('data-season');
+            var episode = $elem.attr('data-episode');
+            var episodesTorrents = _this.model.get('torrents');
+            var selectedEpisode = episodesTorrents[season][episode];
+            _this.model.set('selectedEpisode', selectedEpisode);
+            var qualitySelector = new App.View.QualitySelector({
+                model: new Backbone.Model({
+                    torrents: selectedEpisode.torrents,
+                    selectCallback: _this.selectTorrent,
+                    required: ['480p', '720p', '1080p'],
+                    defaultQualityKey: 'shows_default_quality',
+                }),
+            });
+            _this.getRegion('qualitySelector').show(qualitySelector);
 
-
-            if (!torrents.q480) {
-                this.ui.q480p.addClass('disabled');
-            } else {
-                this.ui.q480p.removeClass('disabled');
-            }
-            if (!torrents.q720) {
-                this.ui.q720p.addClass('disabled');
-            } else {
-                this.ui.q720p.removeClass('disabled');
-            }
-            if (!torrents.q1080) {
-                this.ui.q1080p.addClass('disabled');
-            } else {
-                this.ui.q1080p.removeClass('disabled');
-            }
-
-            switch (Settings.shows_default_quality) {
-            case '1080p':
-                if (torrents.q1080) {
-                    quality = '1080p';
-                } else if (torrents.q720) {
-                    quality = '720p';
-                } else if (torrents.q480) {
-                    quality = '480p';
-                }
-                break;
-            case '720p':
-                if (torrents.q720) {
-                    quality = '720p';
-                } else if (torrents.q480) {
-                    quality = '480p';
-                } else if (torrents.q1080) {
-                    quality = '1080p';
-                }
-                break;
-            case '480p':
-                if (torrents.q480) {
-                    quality = '480p';
-                } else if (torrents.q720) {
-                    quality = '720p';
-                } else if (torrents.q1080) {
-                    quality = '1080p';
-                }
-                break;
-            }
-
-
-            // Select quality
-            if (quality === '1080p') {
-                torrents.def = torrents.q1080;
-                torrents.quality = '1080p';
-                this.ui.q1080p.addClass('active');
-            } else if (quality === '720p') {
-                torrents.def = torrents.q720;
-                torrents.quality = '720p';
-                this.ui.q720p.addClass('active');
-            } else {
-                torrents.def = torrents.q480;
-                torrents.quality = '480p';
-                this.ui.q480p.addClass('active');
-            }
-
+            var first_aired = selectedEpisode.first_aired ? moment.unix(selectedEpisode.first_aired).locale(Settings.language).format('LLLL') : '';
 
             $('.tab-episode.active').removeClass('active');
             $elem.addClass('active');
-            $('.sdoi-number').text(i18n.__('Season %s', $('.template-' + tvdbid + ' .season').html()) + ', ' + i18n.__('Episode %s', $('.template-' + tvdbid + ' .episode').html()));
-            $('.sdoi-title').text($('.template-' + tvdbid + ' .title').text());
-            $('.sdoi-date').text(i18n.__('Aired Date') + ': ' + $('.template-' + tvdbid + ' .date').html());
-            $('.sdoi-synopsis').text($('.template-' + tvdbid + ' .overview').text());
+            $('.sdoi-number').text(i18n.__('Season %s', selectedEpisode.season) + ', ' + i18n.__('Episode %s', selectedEpisode.episode));
+            $('.sdoi-title').text(selectedEpisode.title);
+            $('.sdoi-date').text(i18n.__('Aired Date') + ': ' + first_aired);
+            $('.sdoi-synopsis').text(selectedEpisode.overview);
 
             //pull the scroll always to top
             $('.sdoi-synopsis').scrollTop(0);
 
-            $('.startStreaming').attr('data-torrent', torrents.def);
-            $('.startStreaming').attr('data-quality', torrents.quality);
             $('.startStreaming').attr('data-episodeid', tvdbid);
 
             // set var for player
-            $('.startStreaming').attr('data-episode', $('.template-' + tvdbid + ' .episode').html());
-            $('.startStreaming').attr('data-season', $('.template-' + tvdbid + ' .season').html());
-            $('.startStreaming').attr('data-title', $('.template-' + tvdbid + ' .title').html());
+            $('.startStreaming').attr('data-episode', selectedEpisode.episode);
+            $('.startStreaming').attr('data-season', selectedEpisode.season);
+            $('.startStreaming').attr('data-title', selectedEpisode.title);
 
-            _this.resetHealth();
-
-            this.ui.startStreaming.show();
+            _this.ui.startStreaming.show();
         },
-        toggleShowQuality: function (e) {
-            if ($(e.currentTarget).hasClass('disabled')) {
-                return;
-            }
-            var quality = $(e.currentTarget);
+        selectTorrent: function(torrent, key) {
+            $('.startStreaming').attr('data-torrent', torrent.url);
+            $('.startStreaming').attr('data-quality', key);
 
-            this.ui.q1080p.removeClass('active');
-            this.ui.q720p.removeClass('active');
-            this.ui.q480p.removeClass('active');
-            $(e.currentTarget).addClass('active');
-
-            var tvdbid = $('.startStreaming').attr('data-episodeid'),
-                torrent = $('.template-' + tvdbid + ' .' + quality.attr('id')).text();
-            $('.startStreaming').attr('data-torrent', torrent);
-            $('.startStreaming').attr('data-quality', quality.text());
-            AdvSettings.set('shows_default_quality', quality.text());
             _this.resetHealth();
         },
 
         toggleQuality: function (e) {
-            var qualitySelector = _this.ui.q480p.parent();
-            var eligible = qualitySelector.children(':not(.active):not(.disabled)');
-            if (!eligible.length) {
-                return;
-            }
-            var nextEligible = qualitySelector.children('.active ~ :not(.disabled)');
-            _this.toggleShowQuality({
-                currentTarget: (nextEligible.length ? nextEligible : eligible).first()
-            });
+            _this.getRegion('qualitySelector').currentView.selectNext();
         },
 
         nextEpisode: function (e) {
