@@ -5,6 +5,7 @@
     cancelTorrentHealth = function() {},
     torrentHealthRestarted = null;
 
+  var _this;
   App.View.MovieDetail = Marionette.View.extend({
     template: "#movie-detail-tpl",
     className: "movie-detail",
@@ -35,7 +36,7 @@
     },
 
     initialize: function() {
-      var _this = this;
+      _this = this;
       this.views = {};
       //Handle keyboard shortcuts when other views are appended or removed
 
@@ -219,6 +220,10 @@
       App.vent.off("change:quality");
       this.unbindKeyboardShortcuts();
       Object.values(this.views).forEach(v => v.destroy());
+    },
+
+    toggleQuality: function () {
+      _this.getRegion('PlayControl').currentView.toggleQuality();
     },
 
     initKeyboardShortcuts: function() {
