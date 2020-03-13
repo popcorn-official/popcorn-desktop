@@ -290,7 +290,7 @@
             torrent.deselect(0, torrent.pieces.length - 1, false); // Remove default selection (whole torrent)
             for (var f in torrent.files) { // Add selection
                 var file = torrent.files[f];
-                if (f === parseInt(fileIndex)) {
+                if (parseInt(f) === parseInt(fileIndex)) {
                     file.select();
                 } else {
                     file.deselect();
