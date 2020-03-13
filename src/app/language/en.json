@@ -571,6 +571,7 @@
 	"Subtitle": "Subtitle",
 	"Code:": "Code:",
 	"Error reading subtitle timings, file seems corrupted": "Error reading subtitle timings, file seems corrupted",
+	"Connection Not Secured": "Connection Not Secured",
 	"Open File to Import": "Open File to Import",
 	"Browse Directoy to save to": "Browse Directoy to save to"
 }

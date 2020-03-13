@@ -55,6 +55,6 @@
         <div class="auto-next-btn playnownext"><%= i18n.__("Play Now") %></div>
     </div>
 </div>
-<video id="video_player" width="100%" height="100%" class="video-js" controls preload="auto" autoplay >
+<video id="video_player" width="100%" height="100%" class="vjs-popcorn video-js" controls preload="auto" autoplay >
     <source src="<%= src %>" type="<%= type %>" />
 </video>

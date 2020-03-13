@@ -2,7 +2,7 @@
     <% _.each (App.Config.getTabTypes(), function (tab) { %>
     <li class="source <%= tab.type %>TabShow providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.getFiltredProviderNames(tab.type) %>"><%= i18n.__(tab.name) %></li>
     <% }); %>
-    <li id="filterbar-favorites" class="source providerinfo" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Favorites") %>"><%= i18n.__("Favorites") %></li> 
+    <li id="filterbar-favorites" class="source providerinfo" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Favorites") %>"><%= i18n.__("Favorites") %></li>
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">
     <% if(typeof type !== 'undefined'){ %>
@@ -48,6 +48,11 @@
     <%}%>
 </ul>
 <ul class="nav nav-hor right">
+    <!-- VPN -->
+    <li>
+        <i id="filterbar-vpn" class="fa fa-unlock vpn-disconnected tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Connection Not Secured") %>"></i>
+    </li>
+
     <li>
         <div class="right search">
             <form>
@@ -55,15 +60,6 @@
                 <div class="clear fa fa-times"></div>
             </form>
         </div>
-    </li>
-
-    <!-- Randomize -->
-    <% if (Settings.activateRandomize) { %>
-    <li style="display:block">
-    <% } else { %>
-    <li style="display:none">
-    <% } %>
-        <i id="filterbar-random" class="fa fa-random tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Randomize") %>"></i>
     </li>
 
     <!-- Watchlist -->

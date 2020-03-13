@@ -1,3 +1,10 @@
+.vpn-connected
+    color: #38A169 !important
+
+.vpn-disconnected
+    color: #E53E3E !important
+    animation: blinker 1s linear infinite
+
 .filter-bar
     z-index: 10
     width: 100%
@@ -71,7 +78,7 @@
                 &:hover
                     color darken($FavoriteColor, 10)
                     transition all .5s
-                    
+
             &.watchlist
                 color: $FilterBarActive
 
@@ -81,6 +88,9 @@
             &.about
                 color: $FilterBarIconHover
 
+            &.vpn
+                color: $FilterBarIconHover
+
     .clear
         display: none
 
@@ -88,7 +98,8 @@
         form
             &:before
                 content: '\f002'
-                font-family: FontAwesome
+                font-family: "Font Awesome 5 Free"
+                font-weight: 900
                 font-style: normal
                 transition color 0.5s
                 color: $FilterBarIcon

@@ -19,7 +19,7 @@
                     <span class="dot"></span>
                 <div class="shmi-genre"><%= genres.length > 0 && genres[0] !== undefined ? i18n.__(genres[0]) : i18n.__("N/A") %></div>
                     <span class="dot"></span>
-                <div class="shmi-imdb" data-toggle="tooltip" data-placement="top" title="<%=i18n.__('Open IMDb page') %>"></div>
+                <div class="shmi-imdb" data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Open IMDb page") %>"></div>
                     <span class="dot"></span>
                 <div class="shmi-rating">
                     <% p_rating = Math.round(rating.percentage) / 20;%>
@@ -67,8 +67,24 @@
                 <% _.each(torrents, function(value, season) { %>
                 <div class="tab-episodes season-<%=season %>">
                     <ul>
-                        <% _.each(value, function(episodeData, episode) { %>
-                        <li class="tab-episode" data-id="<%=episodeData.tvdb_id %>" data-season="<%=episodeData.season %>" data-episode="<%=episodeData.episode %>">
+                        <% _.each(value, function(episodeData, episode) {
+                        var first_aired = '',
+                        q1080 = '',
+                        q720 = '',
+                        q480 = '';
+                        if (episodeData.first_aired !== undefined) {
+                            first_aired = moment.unix(episodeData.first_aired).locale(Settings.language).format("LLLL");
+                        }
+                        if(episodeData.torrents["480p"]) {
+                            q480 = episodeData.torrents["480p"].url;
+                        }
+                        if(episodeData.torrents["720p"]) {
+                            q720 = episodeData.torrents["720p"].url;
+                        }
+                        if(episodeData.torrents["1080p"]) {
+                            q1080 = episodeData.torrents["1080p"].url;
+                        } %>
+                        <li class="tab-episode" data-id="<%=episodeData.tvdb_id %>">
                             <a href="#" class="episodeData">
                                 <span><%=episodeData.episode %></span>
                                 <div><%=episodeData.title %></div>
@@ -76,6 +92,18 @@
 
                             <i id="watched-<%=episodeData.season%>-<%=episodeData.episode%>" class="fa fa-eye watched"></i>
 
+
+                            <!-- hidden template so we can save a DB query -->
+                            <div class="template-<%=episodeData.tvdb_id %>" style="display:none">
+                                <span class="title"><%=episodeData.title %></span>
+                                <span class="date"><%=first_aired %></span>
+                                <span class="season"><%=episodeData.season %></span>
+                                <span class="episode"><%=episodeData.episode %></span>
+                                <span class="overview"><%=episodeData.overview %></span>
+                                <span class="q480"><%=q480 %></span>
+                                <span class="q720"><%=q720 %></span>
+                                <span class="q1080"><%=q1080 %></span>
+                            </div>
                         </li>
                         <% }); %>
                     </ul>
@@ -97,7 +125,11 @@
                 <div class="sdoi-synopsis"></div>
             </div>
             <div class="sdo-watch">
-                <div id="quality-selector"></div>
+                <div class="sdow-quality">
+                    <div id="q480" class="q480">480p</div>
+                    <div id="q720" class="q720">720p</div>
+                    <div id="q1080" class="q1080">1080p</div>
+                </div>
                 <div class="sdow-watchnow">
                     <div id="player-chooser"></div>
                 </div>

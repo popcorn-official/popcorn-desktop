@@ -250,7 +250,8 @@
 
                 &:before
                     content: "\f004"
-                    font-family: FontAwesome
+                    font-family: "Font Awesome 5 Free"
+                    font-weight: 900
                     position: absolute
                     font-size: 18px
                     color: #FFF
@@ -260,7 +261,8 @@
 
                 &:after
                     content: "\f004"
-                    font-family: FontAwesome
+                    font-family: "Font Awesome 5 Free"
+                    font-weight: 900
                     position: absolute
                     font-size: 18px
                     color: $ButtonBgActive
@@ -281,7 +283,8 @@
 
                     &:before
                         content: "\f004"
-                        font-family: FontAwesome
+                        font-family: "Font Awesome 5 Free"
+                        font-weight: 900
                         position: absolute
                         font-size: 18px
                         color: $FavoriteColor
@@ -291,7 +294,8 @@
 
                     &:after
                         content: "\f004"
-                        font-family: FontAwesome
+                        font-family: "Font Awesome 5 Free"
+                        font-weight: 900
                         position: absolute
                         font-size: 18px
                         color: #FFF
@@ -321,7 +325,8 @@
 
                 &:before
                     content: "\f070"
-                    font-family: FontAwesome
+                    font-family: "Font Awesome 5 Free"
+                    font-weight: 900
                     position: absolute
                     font-size: 18px
                     color: #FFF
@@ -331,7 +336,8 @@
 
                 &:after
                     content: "\f00c"
-                    font-family: FontAwesome
+                    font-family: "Font Awesome 5 Free"
+                    font-weight: 900
                     position: absolute
                     font-size: 20px
                     color: #299000
@@ -352,7 +358,8 @@
 
                     &:before
                         content: "\f00c"
-                        font-family: FontAwesome
+                        font-family: "Font Awesome 5 Free"
+                        font-weight: 900
                         position: absolute
                         font-size: 20px
                         color: #299000
@@ -362,7 +369,8 @@
 
                     &:after
                         content: "\f070"
-                        font-family: FontAwesome
+                        font-family: "Font Awesome 5 Free"
+                        font-weight: 900
                         position: absolute
                         font-size: 18px
                         color: #FFF
@@ -392,13 +400,16 @@
                         left: 0
                         position: absolute
 
-            .quality-selector
-                position: relative
+            .movie-quality-container
+                margin-top: 10px
                 float: left
-                .sdow-quality
-                    line-height: normal;
-                    padding: 4px;
+                position: relative
+                height: 15px
+                width: 95px
+                left: 3%
+                line-height: 1
 
+                .sdow-quality
                     div
                         cursor: pointer
                         float: left
@@ -408,28 +419,6 @@
                         color: $ShowText1
                         transition: all .2s ease-in
                         padding: 4px
-                        margin-right: 6px
-
-                    .disabled
-                        opacity: .3
-                        cursor: default
-
-                    .active
-                        cursor: pointer
-                        opacity: 1
-                        color: $QualitySelectorText
-                        background: $QualitySelectorBg
-                        border-radius: 10px
-                        font-family: $MainFontBold
-
-            .movie-quality-container
-                margin-top: 10px
-                float: left
-                position: relative
-                height: 15px
-                width: 95px
-                left: 3%
-                line-height: 1
 
                 .tooltip
                     width: 85px
@@ -450,6 +439,27 @@
                     font-weight: normal
                     left: 58px
                     position: absolute
+
+                .q2160
+                    font-family: $MainFontBold
+                    font-smoothing: antialiased
+                    font-size: 11px
+                    color: #fff
+                    font-weight: normal
+                    left: 116px
+                    position: absolute
+
+                .disabled
+                    opacity: .3
+                    cursor: default
+
+                .active
+                    cursor: pointer
+                    opacity: 1
+                    color: $QualitySelectorText
+                    background: $QualitySelectorBg
+                    border-radius: 10px
+                    font-family: $MainFontBold
 
                 .switch
                     background: transparent
