@@ -266,36 +266,19 @@
 
         that.getRegion("InitModal").empty();
 
-        var lastOpen = Settings.startScreen === "Last Open" ? true : false;
+        var openScreen = Settings.startScreen === "Last Open" ? Settings.lastTab : Settings.startScreen;
 
-        if (
-          Settings.startScreen === "Watchlist" ||
-          (lastOpen && Settings.lastTab === "Watchlist")
-        ) {
-          that.showWatchlist();
-        } else if (
-          Settings.startScreen === "Favorites" ||
-          (lastOpen && Settings.lastTab === "Favorites")
-        ) {
-          that.showFavorites();
-        } else if (
-          Settings.startScreen === "Torrent-collection" ||
-          (lastOpen && Settings.lastTab === "Torrent-collection")
-        ) {
-          that.movieTabShow(); //needed because Torrentcollection isnt a real collection
-          that.showTorrentCollection();
-        } else if (
-          Settings.startScreen === "TV Series" ||
-          (lastOpen && Settings.lastTab === "TV Series")
-        ) {
-          that.tvshowTabShow();
-        } else if (
-          Settings.startScreen === "Anime" ||
-          (lastOpen && Settings.lastTab === "Anime")
-        ) {
-          that.animeTabShow();
-        } else {
-          that.movieTabShow();
+        switch (openScreen) {
+          case "Watchlist": that.showWatchlist(); break;
+          case "Favorites": that.showFavorites(); break;
+          case "TV Series": that.tvshowTabShow(); break;
+          case "Anime": that.animeTabShow(); break;
+          case "Torrent-collection":
+            that.movieTabShow(); //needed because Torrentcollection isnt a real collection
+            that.showTorrentCollection();
+            break;
+          default:
+            that.movieTabShow();
         }
 
         // do we celebrate events?
