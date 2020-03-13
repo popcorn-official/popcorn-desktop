@@ -3,7 +3,7 @@
 /********
  * setup *
  ********/
-const nwVersion = '0.33.4',
+const nwVersion = '0.44.5',
     availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'],
     releasesDir = 'build',
     nwFlavor = 'sdk';
@@ -16,8 +16,6 @@ const gulp = require('gulp'),
     glp = require('gulp-load-plugins')(),
     runSequence = require('run-sequence'),
     del = require('del'),
-    download = require('gulp-download2'),
-    decompress = require('gulp-decompress'),
     nwBuilder = require('nw-builder'),
     currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
     yargs = require('yargs'),
@@ -124,25 +122,11 @@ const nw = new nwBuilder({
     macIcns: './src/app/images/butter.icns',
     version: nwVersion,
     flavor: nwFlavor,
-    //downloadUrl: 'https://get.popcorntime.sh/repo/nw/',
+    manifestUrl: "https://popcorntime.app/version.json",
+    downloadUrl: 'https://get.popcorntime.app/repo/nw/',
     platforms: parsePlatforms()
 }).on('log', console.log);
 
-
-var osvar = parsePlatforms()[0];
-if (osvar === 'osx64') {
-    var osvar = 'osx-x64.zip';
-} else if (osvar === 'win32') {
-    osvar = 'win-ia32.zip';
-} else if (osvar === 'win64') {
-    osvar = 'win-x64.zip';
-} else if (osvar === 'linux64') {
-    osvar = 'linux-x64.zip';
-} else if (osvar === 'linux32') {
-    osvar = 'linux-ia32.zip';
-}
-//console.log(osvar);
-const ffmpegurl = 'https://github.com/iteufel/nwjs-ffmpeg-prebuilt/releases/download/' + nwVersion + '/' + nwVersion + '-' + osvar;
 
 /*************
  * gulp tasks *
@@ -301,67 +285,6 @@ gulp.task('nwjs', () => {
         console.error(error);
     });
 
-});
-
-// get ffmpeg lib
-gulp.task('downloadffmpeg', done => {
-    var parsed = ffmpegurl.substring(ffmpegurl.lastIndexOf('/'));
-        if(!fs.existsSync('./cache/ffmpeg/')){
-            console.log('FFmpeg download starting....');
-            return download(ffmpegurl).pipe(gulp.dest('./cache/ffmpeg/')).on('error', function (err) {
-                console.error(err);
-            }).on('end', () => {
-                console.log('FFmpeg Downloaded to cache folder.');
-            });
-        }
-        done();
-});
-
-gulp.task('unzipffmpeg', () => {
-    var ffpath;
-
-    if (parsePlatforms()[0] === 'osx64'){
-      // Need to check Correct folder on every Nw.js Upgrade as long as we use nwjs Binary directly
-      ffpath = './build/' + pkJson.name + '/' + parsePlatforms() + '/' + pkJson.name + '.app/Contents/Versions/69.0.3497.100';
-    } else {
-      ffpath = './build/' + pkJson.name + '/' + parsePlatforms();
-    }
-
-    if (parsePlatforms()[0].indexOf('win') === -1) {
-        ffpath = ffpath + '/lib';
-    }
-    return gulp.src('./cache/ffmpeg/*.{tar,tar.bz2,tar.gz,zip}')
-        .pipe(decompress({ strip: 1 }))
-        .pipe(gulp.dest(ffpath))
-        .on('error', function (err) {
-            console.error(err);
-        }).on('end', () => {
-            console.log('FFmpeg copied to ' + ffpath + ' folder.');
-        });
-});
-
-// development purpose
-gulp.task('unzipffmpegcache', () => {
-    var platform = parsePlatforms()[0], 
-        bin;
-
-  if (platform === 'osx64') {
-    // Need to check Correct folder on every Nw.js Upgrade as long as we use nwjs Binary directly
-    bin = path.join('cache', nwVersion + '-' + nwFlavor, platform, pkJson.name + '.app/Contents/Versions/69.0.3497.100' );
-  } else {
-    bin = path.join('cache', nwVersion + '-' + nwFlavor, platform);
-    if (platform.indexOf('win') === -1) {
-        bin = bin + '/lib';
-    }
-  }
-    return gulp.src('./cache/ffmpeg/*.{tar,tar.bz2,tar.gz,zip}')
-        .pipe(decompress({ strip: 1 }))
-        .pipe(gulp.dest(bin))
-        .on('error', function (err) {
-            console.error(err);
-        }).on('end', () => {
-            console.log('FFmpeg copied to ' + bin + ' folder.');
-        });
 });
 
 // create .git.json (used in 'About')
@@ -572,7 +495,7 @@ gulp.task('pre-commit', gulp.series('jshint', function(done) {
 }));
 
 // build app from sources
-gulp.task('build', gulp.series('injectgit', 'css', 'downloadffmpeg', 'nwjs', 'unzipffmpeg', 'unzipffmpegcache', function(done) {
+gulp.task('build', gulp.series('injectgit', 'css', 'nwjs', function(done) {
 
     // default task code here
     done();

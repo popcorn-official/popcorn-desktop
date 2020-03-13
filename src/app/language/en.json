@@ -570,5 +570,7 @@
 	"Audio Language": "Audio Language",
 	"Subtitle": "Subtitle",
 	"Code:": "Code:",
-	"Error reading subtitle timings, file seems corrupted": "Error reading subtitle timings, file seems corrupted"
+	"Error reading subtitle timings, file seems corrupted": "Error reading subtitle timings, file seems corrupted",
+	"Open File to Import": "Open File to Import",
+	"Browse Directoy to save to": "Browse Directoy to save to"
 }
