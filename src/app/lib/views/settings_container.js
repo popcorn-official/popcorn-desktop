@@ -223,6 +223,7 @@
                 break;
             case 'moviesShowQuality':
             case 'deleteTmpOnClose':
+            case 'continueSeedingOnStart':
             case 'coversShowRating':
             case 'translateSynopsis':
             case 'showAdvancedSettings':

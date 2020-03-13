@@ -175,6 +175,7 @@ Settings.streamPort = 0; // 0 = Random
 Settings.tmpLocation = path.join(os.tmpDir(), Settings.projectName);
 Settings.databaseLocation = path.join(data_path, "data");
 Settings.deleteTmpOnClose = true;
+Settings.continueSeedingOnStart = true;
 Settings.automaticUpdating = true;
 Settings.UpdateSeed = true;
 Settings.events = true;
