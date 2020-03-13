@@ -96,8 +96,6 @@
     "jshint-stylish": "^2.2.1",
     "git-rev": "^0.2.1",
     "gulp": "^4.0.x",
-    "gulp-download2": "1.0.2",
-    "gulp-decompress": "2.0.2",
     "gulp-stylus": "^2.7.0",
     "gulp-tar": "^2.1.0",
     "gulp-gzip": "^1.4.2",
