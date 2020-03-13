@@ -31,7 +31,10 @@ AnimeApi.prototype.config = {
 function formatFetch(animes) {
   var results = _.map(animes, function(anime) {
     return {
-      images: anime.images,
+      images: { 
+        poster: 'https://media.kitsu.io/anime/poster_images/' + anime._id + '/large.jpg',
+        fanart: 'https://media.kitsu.io/anime/cover_images/' + anime._id + '/original.jpg',
+      },
       mal_id: anime._id,
       haru_id: anime._id,
       tvdb_id: "mal-" + anime._id,
