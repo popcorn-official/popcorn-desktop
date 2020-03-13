@@ -1,6 +1,7 @@
 (function (App){
     'use strict';
 
+    var _this;
     App.View.PlayControl = Marionette.View.extend({
         template: '#play-control-tpl',
         ui: {
@@ -10,8 +11,6 @@
         events: {
             'click #watch-now': 'startStreaming',
             'click #watch-trailer': 'playTrailer',
-            'click #switch-hd-on': 'enableHD',
-            'click #switch-hd-off': 'disableHD',
             'click .favourites-toggle': 'toggleFavourite',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .watched-toggle': 'toggleWatched',
@@ -19,9 +18,11 @@
         regions: {
             subDropdown: '#subs-dropdown',
             audioDropdown: '#audio-dropdown',
+            qualitySelector: '#quality-selector',
         },
 
         initialize: function () {
+            _this = this;
             this.views = {};
             var subtitleProvider = App.Config.getProviderForType('subtitle');
             subtitleProvider.detail(this.model.get('imdb_id'), this.model.get('title'));
@@ -42,7 +43,6 @@
 
         onAttach: function () {
             this.hideUnused();
-            this.setQuality();
 
             this.loadComponents();
             this.setUiStates();
@@ -51,20 +51,8 @@
 
         },
 
-        setQuality: function () {
-            var torrents = this.model.get('torrents');
-            var quality = Settings.movies_default_quality;
-            ['1080p', '720p', '480p', 'HDRip'].forEach(function (q) {
-                if (torrents[q] !== undefined) {
-                    quality = q;
-                }
-            });
-
-            this.model.set('quality', quality);
-
-            if (Settings.movies_default_quality === '720p' && torrents['720p'] !== undefined && document.getElementsByName('switch')[0] !== undefined) {
-                document.getElementsByName('switch')[0].checked = true;
-            }
+        setQuality: function (torrent, key) {
+            _this.model.set('quality', key);
         },
 
         hideUnused: function() {
@@ -103,9 +91,22 @@
             });
         },
 
+        loadQualitySelector: function () {
+            var qualitySelector = new App.View.QualitySelector({
+                model: new Backbone.Model({
+                    torrents: this.model.get('torrents'),
+                    selectCallback: this.setQuality,
+                    required: [],
+                    defaultQualityKey: 'movies_default_quality',
+                }),
+            });
+            this.getRegion('qualitySelector').show(qualitySelector);
+        },
+
         loadComponents: function() {
             this.loadAudioDropdown();
             this.loadSubDropdown();
+            this.loadQualitySelector();
 
             // player chooser
             App.Device.Collection.setDevice(Settings.chosenPlayer);
@@ -189,7 +190,7 @@
                 lang: this.audio_selected
             };
 
-            var torrent = providers.torrent.resolveStream ? 
+            var torrent = providers.torrent.resolveStream ?
             providers.torrent.resolveStream(defaultTorrent, filters, this.model.attributes)
             : defaultTorrent;
 
@@ -225,29 +226,6 @@
             App.Device.Collection.setDevice(tmpPlayer);
         },
 
-        enableHD: function () {
-            var torrents = this.model.get('torrents');
-
-            if (torrents['1080p'] !== undefined) {
-                torrents = this.model.get('torrents');
-                this.model.set('quality', '1080p');
-                console.debug('HD Enabled', this.model.get('quality'));
-                AdvSettings.set('movies_default_quality', '1080p');
-            }
-        },
-
-        disableHD: function () {
-            var torrents = this.model.get('torrents');
-
-            if (torrents['720p'] !== undefined) {
-                torrents = this.model.get('torrents');
-                this.model.set('quality', '720p');
-                console.debug('HD Disabled', this.model.get('quality'));
-                AdvSettings.set('movies_default_quality', '720p');
-            }
-        },
-
-
         toggleFavourite: function (e) {
             $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-favorites').click();
             this.ui.bookmarkIcon.toggleClass('selected');
@@ -262,17 +240,8 @@
             this.setTooltips();
         },
 
-        toggleQuality: function (e) {
-            if ($('#switch-hd-off').is(':checked')) {
-                $('#switch-hd-on').trigger('click');
-            } else {
-                $('#switch-hd-off').trigger('click');
-            }
-
-            if (e.type) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
+        toggleQuality: function () {
+            _this.getRegion('qualitySelector').currentView.selectNext();
         },
 
         selectPlayer: function (e) {

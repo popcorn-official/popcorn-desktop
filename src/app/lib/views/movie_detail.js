@@ -5,6 +5,7 @@
     cancelTorrentHealth = function () {},
     torrentHealthRestarted = null;
 
+    var _this;
     App.View.MovieDetail = Marionette.View.extend({
         template: '#movie-detail-tpl',
         className: 'movie-detail',
@@ -30,7 +31,7 @@
 
 
         initialize: function () {
-            var _this = this;
+            _this = this;
             this.views = {};
             //Handle keyboard shortcuts when other views are appended or removed
 
@@ -147,6 +148,10 @@
             Object.values(this.views).forEach(v => v.destroy());
         },
 
+        toggleQuality: function () {
+            _this.getRegion('PlayControl').currentView.toggleQuality();
+        },
+
         initKeyboardShortcuts: function () {
             Mousetrap.bind(['esc', 'backspace'], this.closeDetails);
             Mousetrap.bind(['enter', 'space'], function (e) {
@@ -241,12 +246,5 @@
                 nw.Shell.openExternal(magnetLink);
             }
         }
-
-
-
-
-
-
-
     });
 })(window.App);
