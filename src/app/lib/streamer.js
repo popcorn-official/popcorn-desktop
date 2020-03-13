@@ -609,6 +609,8 @@ serveSubtitles: function(localPath) {
     App.vent.on('stream:stop', streamer.stop.bind(streamer));
     App.vent.on('stream:serve_subtitles', streamer.serveSubtitles.bind(streamer));
 
-    streamer.initExistTorrents();
+    if (Settings.continueSeedingOnStart) {
+        streamer.initExistTorrents();
+    }
 
 })(window.App);

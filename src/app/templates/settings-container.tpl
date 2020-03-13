@@ -514,6 +514,10 @@
                 <input class="settings-checkbox" name="deleteTmpOnClose" id="cb2" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
                 <label class="settings-label" for="cb2"><%= i18n.__("Clear Tmp Folder after closing app?") %></label>
             </span>
+            <span>
+                <input class="settings-checkbox" name="continueSeedingOnStart" id="cb8" type="checkbox" <%=(Settings.continueSeedingOnStart? "checked='checked'":"")%>>
+                <label class="settings-label" for="cb8"><%= i18n.__("Continue seeding torrents after restart app?") %></label>
+            </span>
         </div>
     </section>
 
