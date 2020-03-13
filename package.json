@@ -39,7 +39,7 @@
   ],
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.12.1",
-    "@vpnht/sdk": "^1.0.8",
+    "@vpnht/sdk": "^1.0.9",
     "adm-zip": "0.4.13",
     "airplayer": "2.0.0",
     "async": "2.6.1",

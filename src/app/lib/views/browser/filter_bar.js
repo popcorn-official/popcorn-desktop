@@ -37,6 +37,18 @@
     initialize: function(e) {
       App.vent.on("filter-bar:render", this.render);
 
+      if (VPNht.isInstalled()) {
+        VPNht.isConnected().then(isConnected => {
+          if (isConnected) {
+            $("#filterbar-vpn")
+              .addClass("vpn-connected")
+              .addClass("fa-lock")
+              .removeClass("vpn-disconnected")
+              .removeClass("fa-unlock");
+          }
+        });
+      }
+
       App.vent.on("vpn:connected", function() {
         $("#filterbar-vpn")
           .addClass("vpn-connected")
