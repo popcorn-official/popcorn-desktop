@@ -69,7 +69,10 @@ function formatDetail(anime) {
     synopsis: anime.synopsis,
     network: [], //FIXME
     rating: anime.rating,
-    images: anime.images,
+    images: { 
+        poster: 'https://media.kitsu.io/anime/poster_images/' + anime._id + '/large.jpg',
+        fanart: 'https://media.kitsu.io/anime/cover_images/' + anime._id + '/original.jpg',
+      },
     backdrop: anime.images.fanart,
     poster: anime.images.poster,
     year: anime.year,
