@@ -326,13 +326,14 @@
                     episode: edata[2],
                     from_browser: true
                 };
-
                 Database.checkEpisodeWatched(value)
                     .then(function (watched) {
                         if (watched) {
                             App.vent.trigger('show:unwatched', value, 'seen');
+                            _this.markWatched(value, false);
                         } else {
                             App.vent.trigger('show:watched', value, 'seen');
+                            _this.markWatched(value, true);
                         }
                     });
             }, 100);

@@ -12,6 +12,13 @@
     padding-top $TitleHeight
     -webkit-backface-visibility hidden
 
+    #userISP
+        text-decoration: underline
+
+    .vpn
+        margin-top 20px
+        margin-bottom 20px
+
     .loading-backdrop
         position: absolute
         width: 100%
@@ -101,6 +108,40 @@
             i
                 cursor pointer
                 margin-right 20px
+
+        #cancel-button-vpn
+            width 140px!important
+            position inherit!important
+
+        .vpn
+            .heading
+                font-size: 30px
+                margin-bottom: 10px
+            .subheading
+                font-size: 15px
+                margin-bottom: 10px
+                line-height: 20px
+            .flex-map
+                display: flex
+                align-items: center
+                margin-top: 20px
+                margin-bottom: 20px
+                .details
+                    padding-left: 20px
+                    .group
+                        margin-bottom: 15px;
+                        display: flex
+                        text-align: left;
+                        .fixed-width
+                            width: 140px
+
+
+            .map
+                width: 300px
+                img
+                    border: 10px solid #bbb;
+                    width: 100%
+
         .cancel-button
             bottom 20px
             z-index 2
@@ -119,7 +160,6 @@
             background-clip padding-box
             background-color $ButtonBg
             -webkit-backface-visibility hidden
-            transition all .5s
 
             &:hover
                 background: $ButtonBgHover
