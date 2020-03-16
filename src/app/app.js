@@ -1,6 +1,6 @@
 // Special Debug Console Calls!
 win.log = console.log.bind(console);
-win.debug = function() {
+win.debug = function () {
   var params = Array.prototype.slice.call(arguments, 1);
   params.unshift(
     "%c[%cDEBUG%c] %c" + arguments[0],
@@ -11,12 +11,12 @@ win.debug = function() {
   );
   console.debug.apply(console, params);
 };
-win.info = function() {
+win.info = function () {
   var params = Array.prototype.slice.call(arguments, 1);
   params.unshift("[%cINFO%c] " + arguments[0], "color: blue;", "color: black;");
   console.info.apply(console, params);
 };
-win.warn = function() {
+win.warn = function () {
   var params = Array.prototype.slice.call(arguments, 1);
   params.unshift(
     "[%cWARNING%c] " + arguments[0],
@@ -25,7 +25,7 @@ win.warn = function() {
   );
   console.warn.apply(console, params);
 };
-win.error = function() {
+win.error = function () {
   var params = Array.prototype.slice.call(arguments, 1);
   params.unshift(
     "%c[%cERROR%c] " + arguments[0],
@@ -43,27 +43,27 @@ win.error = function() {
 if (nw.App.fullArgv.indexOf("--reset") !== -1) {
   localStorage.clear();
 
-  fs.unlinkSync(path.join(data_path, "data/watched.db"), function(err) {
+  fs.unlinkSync(path.join(data_path, "data/watched.db"), function (err) {
     if (err) {
       throw err;
     }
   });
-  fs.unlinkSync(path.join(data_path, "data/movies.db"), function(err) {
+  fs.unlinkSync(path.join(data_path, "data/movies.db"), function (err) {
     if (err) {
       throw err;
     }
   });
-  fs.unlinkSync(path.join(data_path, "data/bookmarks.db"), function(err) {
+  fs.unlinkSync(path.join(data_path, "data/bookmarks.db"), function (err) {
     if (err) {
       throw err;
     }
   });
-  fs.unlinkSync(path.join(data_path, "data/shows.db"), function(err) {
+  fs.unlinkSync(path.join(data_path, "data/shows.db"), function (err) {
     if (err) {
       throw err;
     }
   });
-  fs.unlinkSync(path.join(data_path, "data/settings.db"), function(err) {
+  fs.unlinkSync(path.join(data_path, "data/settings.db"), function (err) {
     if (err) {
       throw err;
     }
@@ -95,7 +95,7 @@ App.advsettings = AdvSettings;
 App.settings = Settings;
 App.WebTorrent = new WebTorrent();
 
-fs.readFile("./.git.json", "utf8", function(err, json) {
+fs.readFile("./.git.json", "utf8", function (err, json) {
   if (!err) {
     App.git = JSON.parse(json);
   }
@@ -116,7 +116,7 @@ if (os.platform() === "darwin") {
 //Keeps a list of stacked views
 App.ViewStack = [];
 
-App.onBeforeStart = function(options) {
+App.onBeforeStart = function (options) {
   // this is the 'do things with resolutions and size initializer
   var zoom = 0;
 
@@ -169,13 +169,13 @@ App.onBeforeStart = function(options) {
   win.moveTo(x, y);
 };
 
-var initTemplates = function() {
+var initTemplates = function () {
   // Load in external templates
   var ts = [];
 
-  _.each(document.querySelectorAll('[type="text/x-template"]'), function(el) {
+  _.each(document.querySelectorAll('[type="text/x-template"]'), function (el) {
     var d = Q.defer();
-    $.get(el.src, function(res) {
+    $.get(el.src, function (res) {
       el.innerHTML = res;
       d.resolve(true);
     });
@@ -185,7 +185,7 @@ var initTemplates = function() {
   return Q.all(ts);
 };
 
-var initApp = function() {
+var initApp = function () {
   var mainWindow = new App.View.MainWindow();
   win.show();
 
@@ -196,15 +196,19 @@ var initApp = function() {
   }
 };
 
-App.onStart = function(options) {
+App.onStart = function (options) {
   initTemplates().then(initApp);
 };
 
-var deleteFolder = function(path) {
-  rimraf(path, function() {});
+var deleteFolder = function (path) {
+  try {
+    rimraf(path, function () { });
+  } catch (error) {
+    console.log(error)
+  }
 };
 
-var deleteCookies = function() {
+var deleteCookies = function () {
   function removeCookie(cookie) {
     var lurl =
       "http" + (cookie.secure ? "s" : "") + "://" + cookie.domain + cookie.path;
@@ -213,7 +217,7 @@ var deleteCookies = function() {
         url: lurl,
         name: cookie.name
       },
-      function(result) {
+      function (result) {
         if (result) {
           if (!result.name) {
             result = result[0];
@@ -226,7 +230,7 @@ var deleteCookies = function() {
     );
   }
 
-  win.cookies.getAll({}, function(cookies) {
+  win.cookies.getAll({}, function (cookies) {
     if (cookies.length > 0) {
       win.debug("Removing " + cookies.length + " cookies...");
       for (var i = 0; i < cookies.length; i++) {
@@ -236,31 +240,22 @@ var deleteCookies = function() {
   });
 };
 
-var delCache = function() {
-  var reqDB = window.indexedDB.webkitGetDatabaseNames();
-  reqDB.onsuccess = function(db) {
-    if (db.timeStamp && new Date().valueOf() - db.timeStamp > 259200000) {
-      // 3 days old
-      window.indexedDB.deleteDatabase("cache");
-      win.close(true);
-    } else {
-      win.close(true);
-    }
-  };
+var delCache = function () {
+  window.indexedDB.deleteDatabase("cache");
   win.close(true);
 };
 
-win.on("resize", function(width, height) {
+win.on("resize", function (width, height) {
   localStorage.width = Math.round(width);
   localStorage.height = Math.round(height);
 });
 
-win.on("move", function(x, y) {
+win.on("move", function (x, y) {
   localStorage.posX = Math.round(x);
   localStorage.posY = Math.round(y);
 });
 
-win.on("enter-fullscreen", function() {
+win.on("enter-fullscreen", function () {
   App.vent.trigger("window:focus");
 });
 
@@ -280,50 +275,50 @@ function close() {
 }
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
-win.on("close", function() {
+win.on("close", function () {
   close();
 });
 
-String.prototype.capitalize = function() {
+String.prototype.capitalize = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-String.prototype.capitalizeEach = function() {
-  return this.replace(/\w*/g, function(txt) {
+String.prototype.capitalizeEach = function () {
+  return this.replace(/\w*/g, function (txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 };
 
-String.prototype.endsWith = function(suffix) {
+String.prototype.endsWith = function (suffix) {
   return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 // Correct closing of the window using 'CMD+Q' on macOS
-Mousetrap.bindGlobal(["alt+f4", "command+q"], function(e) {
+Mousetrap.bindGlobal(["alt+f4", "command+q"], function (e) {
   close();
 });
 // Developer Shortcuts
-Mousetrap.bindGlobal(["shift+f12", "f12", "command+0"], function(e) {
+Mousetrap.bindGlobal(["shift+f12", "f12", "command+0"], function (e) {
   win.showDevTools();
 });
-Mousetrap.bindGlobal(["shift+f10", "f10", "command+9"], function(e) {
+Mousetrap.bindGlobal(["shift+f10", "f10", "command+9"], function (e) {
   win.debug("Opening: " + App.settings.tmpLocation);
   nw.Shell.openItem(App.settings.tmpLocation);
 });
-Mousetrap.bind("mod+,", function(e) {
+Mousetrap.bind("mod+,", function (e) {
   App.vent.trigger("about:close");
   App.vent.trigger("settings:show");
 });
-Mousetrap.bindGlobal("f11", function(e) {
+Mousetrap.bindGlobal("f11", function (e) {
   Settings.deleteTmpOnClose = false;
   App.vent.trigger("restartButter");
 });
-Mousetrap.bind(["?", "/", "'"], function(e) {
+Mousetrap.bind(["?", "/", "'"], function (e) {
   e.preventDefault();
   App.vent.trigger("keyboard:toggle");
 });
 Mousetrap.bind(
   "shift+up shift+up shift+down shift+down shift+left shift+right shift+left shift+right shift+b shift+a",
-  function() {
+  function () {
     var body = $("body");
 
     if (body.hasClass("knm")) {
@@ -336,7 +331,7 @@ Mousetrap.bind(
 );
 Mousetrap.bindGlobal(
   ["command+ctrl+f", "ctrl+alt+f"],
-  function(e) {
+  function (e) {
     e.preventDefault();
     win.toggleFullscreen();
   },
@@ -344,7 +339,7 @@ Mousetrap.bindGlobal(
 );
 Mousetrap.bind(
   "shift+b",
-  function(e) {
+  function (e) {
     if (!ScreenResolution.SD) {
       if (App.settings.bigPicture) {
         win.zoomLevel = Settings.noBigPicture || 0;
@@ -375,22 +370,22 @@ Mousetrap.bind(
 );
 
 // Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
-window.ondragenter = function(e) {
+window.ondragenter = function (e) {
   $("#drop-mask").show();
   var showDrag = true;
   var timeout = -1;
-  $("#drop-mask").on("dragenter", function(e) {
+  $("#drop-mask").on("dragenter", function (e) {
     $(".drop-indicator").show();
     win.debug("Drag init");
   });
-  $("#drop-mask").on("dragover", function(e) {
+  $("#drop-mask").on("dragover", function (e) {
     var showDrag = true;
   });
 
-  $("#drop-mask").on("dragleave", function(e) {
+  $("#drop-mask").on("dragleave", function (e) {
     var showDrag = false;
     clearTimeout(timeout);
-    timeout = setTimeout(function() {
+    timeout = setTimeout(function () {
       if (!showDrag) {
         win.debug("Drag aborted");
         $(".drop-indicator").hide();
@@ -400,7 +395,7 @@ window.ondragenter = function(e) {
   });
 };
 
-var minimizeToTray = function() {
+var minimizeToTray = function () {
   win.hide();
   win.isTray = true;
 
@@ -409,7 +404,7 @@ var minimizeToTray = function() {
     icon: "src/app/images/icon.png"
   });
 
-  var openFromTray = function() {
+  var openFromTray = function () {
     win.show();
     tray.remove();
     win.isTray = false;
@@ -422,7 +417,7 @@ var minimizeToTray = function() {
     new nw.MenuItem({
       type: "normal",
       label: i18n.__("Restore"),
-      click: function() {
+      click: function () {
         openFromTray();
       }
     })
@@ -431,7 +426,7 @@ var minimizeToTray = function() {
     new nw.MenuItem({
       type: "normal",
       label: i18n.__("Close"),
-      click: function() {
+      click: function () {
         win.close();
       }
     })
@@ -439,16 +434,16 @@ var minimizeToTray = function() {
 
   tray.menu = menu;
 
-  tray.on("click", function() {
+  tray.on("click", function () {
     openFromTray();
   });
 
-  nw.App.on("open", function(cmd) {
+  nw.App.on("open", function (cmd) {
     openFromTray();
   });
 };
 
-var isVideo = function(file) {
+var isVideo = function (file) {
   var ext = path.extname(file).toLowerCase();
   switch (ext) {
     case ".mp4":
@@ -462,11 +457,11 @@ var isVideo = function(file) {
   }
 };
 
-var handleVideoFile = function(file) {
+var handleVideoFile = function (file) {
   $(".spinner").show();
 
   // look for local subtitles
-  var checkSubs = function() {
+  var checkSubs = function () {
     var _ext = path.extname(file.name);
     var toFind = file.path.replace(_ext, ".srt");
 
@@ -480,15 +475,15 @@ var handleVideoFile = function(file) {
   };
 
   // get subtitles from provider
-  var getSubtitles = function(subdata) {
-    return Q.Promise(function(resolve, reject) {
+  var getSubtitles = function (subdata) {
+    return Q.Promise(function (resolve, reject) {
       win.debug("Subtitles data request:", subdata);
 
       var subtitleProvider = App.Config.getProviderForType("subtitle");
 
       subtitleProvider
         .fetch(subdata)
-        .then(function(subs) {
+        .then(function (subs) {
           if (subs && Object.keys(subs).length > 0) {
             win.info(Object.keys(subs).length + " subtitles found");
             resolve(subs);
@@ -511,7 +506,7 @@ var handleVideoFile = function(file) {
             reject(new Error("No subtitles returned"));
           }
         })
-        .catch(function(err) {
+        .catch(function (err) {
           reject(err);
         });
     });
@@ -520,9 +515,9 @@ var handleVideoFile = function(file) {
   // close the player if needed
   try {
     App.PlayerView.closePlayer();
-  } catch (err) {}
+  } catch (err) { }
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     // init our objects
     var playObj = {
       src: "file://" + path.join(file.path),
@@ -537,8 +532,8 @@ var handleVideoFile = function(file) {
       .match({
         path: file.path
       })
-      .then(function(res) {
-        return App.Trakt.client.images.get(res[res.type]).then(function(img) {
+      .then(function (res) {
+        return App.Trakt.client.images.get(res[res.type]).then(function (img) {
           switch (res.quality) {
             case "SD":
               res.quality = "480p";
@@ -595,7 +590,7 @@ var handleVideoFile = function(file) {
           return getSubtitles(sub_data);
         });
       })
-      .then(function(subtitles) {
+      .then(function (subtitles) {
         var localsub = checkSubs();
         if (localsub !== null) {
           subtitles = jQuery.extend({}, subtitles, localsub);
@@ -609,7 +604,7 @@ var handleVideoFile = function(file) {
         }
         resolve(playObj);
       })
-      .catch(function(err) {
+      .catch(function (err) {
         win.warn("trakt.matcher.match error:", err);
         var localsub = checkSubs();
         if (localsub !== null) {
@@ -627,7 +622,7 @@ var handleVideoFile = function(file) {
 
         resolve(playObj);
       });
-  }).then(function(play) {
+  }).then(function (play) {
     $(".spinner").hide();
 
     var localVideo = new Backbone.Model(play); // streamer model
@@ -647,7 +642,7 @@ var handleVideoFile = function(file) {
   });
 };
 
-var handleTorrent = function(torrent) {
+var handleTorrent = function (torrent) {
   try {
     App.PlayerView.closePlayer();
   } catch (err) {
@@ -656,7 +651,7 @@ var handleTorrent = function(torrent) {
   App.Config.getProviderForType("torrentCache").resolve(torrent);
 };
 
-window.ondrop = function(e) {
+window.ondrop = function (e) {
   e.preventDefault();
   $("#drop-mask").hide();
   console.debug("Drag completed");
@@ -675,7 +670,7 @@ window.ondrop = function(e) {
     fs.writeFile(
       path.join(App.settings.tmpLocation, file.name),
       fs.readFileSync(file.path),
-      function(err) {
+      function (err) {
         if (err) {
           App.PlayerView.closePlayer();
           window.alert(i18n.__("Error Loading File") + ": " + err);
@@ -702,7 +697,7 @@ window.ondrop = function(e) {
 };
 
 // Paste Magnet Link to start stream
-$(document).on("paste", function(e) {
+$(document).on("paste", function (e) {
   if (e.target.nodeName === "INPUT" || e.target.nodeName === "TEXTAREA") {
     return;
   }
@@ -716,7 +711,7 @@ $(document).on("paste", function(e) {
 });
 
 // nwjs sdk flavor has an invasive context menu
-$(document).on("contextmenu", function(e) {
+$(document).on("contextmenu", function (e) {
   e.preventDefault();
 });
 
@@ -729,14 +724,14 @@ if (
     last_arg.substring(0, 7) === "http://" ||
     last_arg.endsWith(".torrent"))
 ) {
-  App.vent.on("app:started", function() {
+  App.vent.on("app:started", function () {
     handleTorrent(last_arg);
   });
 }
 
 // Play local files
 if (last_arg && isVideo(last_arg)) {
-  App.vent.on("app:started", function() {
+  App.vent.on("app:started", function () {
     var fileModel = {
       path: last_arg,
       name: /([^\\]+)$/.exec(last_arg)[1]
@@ -792,12 +787,12 @@ const checkVPNStatus = () => {
   }
 };
 
-App.vent.on("app:started", function() {
+App.vent.on("app:started", function () {
   subscribeEvents();
   checkVPNStatus();
 });
 
-App.vent.on("vpn:open", function() {
+App.vent.on("vpn:open", function () {
   try {
     const appInstalled = VPNht.isInstalled();
     if (!appInstalled) {
@@ -811,7 +806,7 @@ App.vent.on("vpn:open", function() {
   }
 });
 
-App.vent.on("vpn:install", function() {
+App.vent.on("vpn:install", function () {
   try {
     const appInstalled = VPNht.isInstalled();
     if (!appInstalled) {
@@ -844,7 +839,7 @@ App.vent.on("vpn:install", function() {
   }
 });
 
-nw.App.on("open", function(cmd) {
+nw.App.on("open", function (cmd) {
   var file;
   if (os.platform() === "win32") {
     file = cmd.split('"');
@@ -871,7 +866,7 @@ nw.App.on("open", function(cmd) {
 });
 
 // When win.focus() doesn't do it's job right, play dirty.
-App.vent.on("window:focus", function() {
+App.vent.on("window:focus", function () {
   win.setAlwaysOnTop(true);
   win.focus();
   win.setAlwaysOnTop(Settings.alwaysOnTop);
@@ -883,13 +878,13 @@ if (nw.App.fullArgv.indexOf("-f") !== -1) {
 }
 // -m argument to open minimized to tray
 if (nw.App.fullArgv.indexOf("-m") !== -1) {
-  App.vent.on("app:started", function() {
+  App.vent.on("app:started", function () {
     minimizeToTray();
   });
 }
 
 // On uncaught exceptions, log to console.
-process.on("uncaughtException", function(err) {
+process.on("uncaughtException", function (err) {
   try {
     if (err.message.indexOf("[sprintf]") !== -1) {
       var currentLocale =
@@ -903,6 +898,6 @@ process.on("uncaughtException", function(err) {
         .delay(4000)
         .fadeOut(400);
     }
-  } catch (e) {}
+  } catch (e) { }
   win.error(err, err.stack);
 });

@@ -38,7 +38,7 @@
                         fs.readFile(App.settings.tmpLocation + '/TorrentCache/' + file, 'utf8', (err, data) => {
                             this.torrent = App.WebTorrent.add(data, {
                                 path: App.settings.tmpLocation + '/' + file,
-                                maxConns: parseInt(Settings.connectionLimit, 10) || 55,
+                                maxConns: 5,
                                 dht: true,
                                 announce: Settings.trackers.forced,
                                 tracker: Settings.trackers.forced

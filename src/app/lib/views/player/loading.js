@@ -46,6 +46,7 @@
 
     events: {
       "click #cancel-button": "cancelStreaming",
+      "click #cancel-button-regular": "cancelStreaming",
       "click #cancel-button-vpn": "cancelStreamingVPN",
       "click .pause": "pauseStreaming",
       "click .stop": "stopStreaming",
@@ -101,8 +102,8 @@
             console.log("can't extract user data, using default loader");
           } else {
             this.ui.cancel_button.css("visibility", "hidden");
-            this.ui.vpn.css("visibility", "visible");
-            this.ui.state.css("top", "calc(50% - 380px)");
+            this.ui.vpn.css("display", "block");
+            this.ui.state.css("top", "200px");
             this.ui.userIp.text(data.ip);
             this.ui.userCity.text(data.advanced.city);
             this.ui.userCountry.text(data.advanced.countryName);
@@ -159,7 +160,7 @@
         this.ui.stateTextDownload.hide();
         this.ui.progressbar.hide();
         if (streamInfo && streamInfo.get("device")) {
-          this.ui.vpn.css("visibility", "hidden");
+          this.ui.vpn.css("display", "none");
           this.ui.cancel_button.css("visibility", "hidden");
           this.ui.controls.css("visibility", "visible");
           this.ui.playingbarBox.css("visibility", "visible");
@@ -276,7 +277,7 @@
 
     cancelStreamingVPN: function() {
       this.cancelStreaming();
-      App.vent.trigger("vpn:show");
+      App.vent.trigger("vpn:open");
     },
 
     pauseStreaming: function() {

@@ -48,10 +48,12 @@
     <%}%>
 </ul>
 <ul class="nav nav-hor right">
+    <% if (Settings.vpnEnabled) { %>
     <!-- VPN -->
     <li>
         <i id="filterbar-vpn" class="fa fa-unlock vpn-disconnected tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Connection Not Secured") %>"></i>
     </li>
+    <%}%>
 
     <li>
         <div class="right search">

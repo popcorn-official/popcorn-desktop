@@ -185,87 +185,88 @@
                 data = {};
 
             switch (field.attr('name')) {
-            case 'httpApiPort':
-                apiDataChanged = true;
-                value = parseInt(field.val());
-                break;
-            case 'tvshow':
-                value = field.val();
-                if (value.substr(-1) !== '/') {
-                    value += '/';
-                }
-                if (value.substr(0, 8) !== 'https://' && value.substr(0, 7) !== 'http://') {
-                    value = 'http://' + value;
-                }
-                value = [{
-                    url: value,
-                    strictSSL: value.substr(0, 8) === 'https://'
-                }];
-                break;
-            case 'subtitle_size':
-            case 'tv_detail_jump_to':
-            case 'subtitle_language':
-            case 'subtitle_decoration':
-            case 'movies_quality':
-            case 'subtitle_font':
-            case 'start_screen':
-                if ($('option:selected', field).val() === 'Last Open') {
-                    AdvSettings.set('lastTab', App.currentview);
-                }
+                case 'httpApiPort':
+                    apiDataChanged = true;
+                    value = parseInt(field.val());
+                    break;
+                case 'tvshow':
+                    value = field.val();
+                    if (value.substr(-1) !== '/') {
+                        value += '/';
+                    }
+                    if (value.substr(0, 8) !== 'https://' && value.substr(0, 7) !== 'http://') {
+                        value = 'http://' + value;
+                    }
+                    value = [{
+                        url: value,
+                        strictSSL: value.substr(0, 8) === 'https://'
+                    }];
+                    break;
+                case 'subtitle_size':
+                case 'tv_detail_jump_to':
+                case 'subtitle_language':
+                case 'subtitle_decoration':
+                case 'movies_quality':
+                case 'subtitle_font':
+                case 'start_screen':
+                    if ($('option:selected', field).val() === 'Last Open') {
+                        AdvSettings.set('lastTab', App.currentview);
+                    }
                 /* falls through */
-            case 'watchedCovers':
-            case 'theme':
-                value = $('option:selected', field).val();
-                break;
-            case 'language':
-                value = $('option:selected', field).val();
-                i18n.setLocale(value);
-                break;
-            case 'moviesShowQuality':
-            case 'deleteTmpOnClose':
-            case 'continueSeedingOnStart':
-            case 'coversShowRating':
-            case 'translateSynopsis':
-            case 'showAdvancedSettings':
-            case 'alwaysOnTop':
-            case 'traktSyncOnStart':
-            case 'traktPlayback':
-            case 'playNextEpisodeAuto':
-            case 'automaticUpdating':
-            case 'UpdateSeed':
-            case 'events':
-            case 'alwaysFullscreen':
-            case 'minimizeToTray':
-            case 'bigPicture':
-            case 'activateTorrentCollection':
-            case 'activateWatchlist':
-            case 'activateRandomize':
-            case 'opensubtitlesAutoUpload':
-            case 'subtitles_bold':
-            case 'rememberFilters':
-            case 'animeTabDisable':
-            case 'indieTabDisable':
-                value = field.is(':checked');
-                break;
-            case 'httpApiUsername':
-            case 'httpApiPassword':
-                apiDataChanged = true;
-                value = field.val();
-                break;
-            case 'connectionLimit':
-            case 'streamPort':
-            case 'subtitle_color':
-                value = field.val();
-                break;
-            case 'tmpLocation':
-                tmpLocationChanged = true;
-                value = path.join(field.val(), Settings.projectName);
-                break;
-            case 'opensubtitlesUsername':
-            case 'opensubtitlesPassword':
-                return;
-            default:
-                win.warn('Setting not defined: ' + field.attr('name'));
+                case 'watchedCovers':
+                case 'theme':
+                    value = $('option:selected', field).val();
+                    break;
+                case 'language':
+                    value = $('option:selected', field).val();
+                    i18n.setLocale(value);
+                    break;
+                case 'moviesShowQuality':
+                case 'deleteTmpOnClose':
+                case 'continueSeedingOnStart':
+                case 'vpnEnabled':
+                case 'coversShowRating':
+                case 'translateSynopsis':
+                case 'showAdvancedSettings':
+                case 'alwaysOnTop':
+                case 'traktSyncOnStart':
+                case 'traktPlayback':
+                case 'playNextEpisodeAuto':
+                case 'automaticUpdating':
+                case 'UpdateSeed':
+                case 'events':
+                case 'alwaysFullscreen':
+                case 'minimizeToTray':
+                case 'bigPicture':
+                case 'activateTorrentCollection':
+                case 'activateWatchlist':
+                case 'activateRandomize':
+                case 'opensubtitlesAutoUpload':
+                case 'subtitles_bold':
+                case 'rememberFilters':
+                case 'animeTabDisable':
+                case 'indieTabDisable':
+                    value = field.is(':checked');
+                    break;
+                case 'httpApiUsername':
+                case 'httpApiPassword':
+                    apiDataChanged = true;
+                    value = field.val();
+                    break;
+                case 'connectionLimit':
+                case 'streamPort':
+                case 'subtitle_color':
+                    value = field.val();
+                    break;
+                case 'tmpLocation':
+                    tmpLocationChanged = true;
+                    value = path.join(field.val(), Settings.projectName);
+                    break;
+                case 'opensubtitlesUsername':
+                case 'opensubtitlesPassword':
+                    return;
+                default:
+                    win.warn('Setting not defined: ' + field.attr('name'));
             }
             win.info('Setting changed: ' + field.attr('name') + ' - ' + value);
 
@@ -295,115 +296,115 @@
 
         syncSetting: function (setting, value) {
             switch (setting) {
-            case 'coversShowRating':
-                if (value) {
-                    $('.rating').show();
-                } else {
-                    $('.rating').hide();
-                }
-                break;
-            case 'moviesShowQuality':
-                if (value) {
-                    $('.quality').show();
-                } else {
-                    $('.quality').hide();
-                }
-                break;
-            case 'showAdvancedSettings':
-                if (value) {
-                    $('.advanced').css('display', 'flex');
-                } else {
-                    $('.advanced').css('display', 'none');
-                }
-                break;
-            case 'language':
-            case 'watchedCovers':
-                App.vent.trigger('movies:list');
-                App.vent.trigger('settings:show');
-                break;
-            case 'alwaysOnTop':
-                win.setAlwaysOnTop(value);
-                break;
-            case 'theme':
-                $('link#theme').attr('href', 'themes/' + value + '.css');
-                App.vent.trigger('updatePostersSizeStylesheet');
-                break;
-            case 'start_screen':
-                AdvSettings.set('startScreen', value);
-                break;
-            case 'events':
-                if ($('.events').css('display') === 'none') {
-                    $('.events').css('display', 'block');
-                } else {
-                    $('.events').css('display', 'none');
-                }
-                break;
-            case 'activateTorrentCollection':
-                if ($('#torrent_col').css('display') === 'none') {
-                    $('#torrent_col').css('display', 'block');
-                } else {
-                    $('#torrent_col').css('display', 'none');
-                    App.vent.trigger('torrentCollection:close');
-                }
-                break;
-            case 'animeTabDisable':
-                 if ($('.animeTabShow').css('display') === 'none') {
-                    $('.animeTabShow').css('display', 'block');
-                } else {
-                    $('.animeTabShow').css('display', 'none');
-                    App.vent.trigger('movies:list');
-                    App.vent.trigger('settings:show');
-                }
-                break;
-            case 'indieTabDisable':
-                if ($('.indieTabShow').css('display') === 'none') {
-                    $('.indieTabShow').css('display', 'block');
-                } else {
-                    $('.indieTabShow').css('display', 'none');
-                    App.vent.trigger('movies:list');
-                    App.vent.trigger('settings:show');
-                }
-                break;
-            case 'activateRandomize':
-            case 'activateWatchlist':
-                App.vent.trigger('movies:list');
-                App.vent.trigger('settings:show');
-                break;
-            case 'movies_quality':
-            case 'translateSynopsis':
-                App.Providers.delete('Yts');
-                App.vent.trigger('movies:list');
-                App.vent.trigger('settings:show');
-                break;
-            case 'tvshow':
-                App.Providers.delete('tvshow');
-                App.vent.trigger('movies:list');
-                App.vent.trigger('settings:show');
-                break;
-            case 'bigPicture':
-                if (!ScreenResolution.SD) {
-                    if (App.settings.bigPicture) {
-                        win.maximize();
-                        AdvSettings.set('noBigPicture', win.zoomLevel);
-                        var zoom = ScreenResolution.HD ? 2 : 3;
-                        win.zoomLevel = zoom;
+                case 'coversShowRating':
+                    if (value) {
+                        $('.rating').show();
                     } else {
-                        win.zoomLevel = AdvSettings.get('noBigPicture') || 0;
+                        $('.rating').hide();
                     }
-                } else {
-                    AdvSettings.set('bigPicture', false);
-                    win.info('Setting changed: bigPicture - true');
-                    $('input#bigPicture.settings-checkbox').attr('checked', false);
-                    App.vent.trigger('notification:show', new App.Model.Notification({
-                        title: i18n.__('Big Picture Mode'),
-                        body: i18n.__('Big Picture Mode is unavailable on your current screen resolution'),
-                        showRestart: false,
-                        type: 'error',
-                        autoclose: true
-                    }));
-                }
-                break;
-            default:
+                    break;
+                case 'moviesShowQuality':
+                    if (value) {
+                        $('.quality').show();
+                    } else {
+                        $('.quality').hide();
+                    }
+                    break;
+                case 'showAdvancedSettings':
+                    if (value) {
+                        $('.advanced').css('display', 'flex');
+                    } else {
+                        $('.advanced').css('display', 'none');
+                    }
+                    break;
+                case 'language':
+                case 'watchedCovers':
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
+                    break;
+                case 'alwaysOnTop':
+                    win.setAlwaysOnTop(value);
+                    break;
+                case 'theme':
+                    $('link#theme').attr('href', 'themes/' + value + '.css');
+                    App.vent.trigger('updatePostersSizeStylesheet');
+                    break;
+                case 'start_screen':
+                    AdvSettings.set('startScreen', value);
+                    break;
+                case 'events':
+                    if ($('.events').css('display') === 'none') {
+                        $('.events').css('display', 'block');
+                    } else {
+                        $('.events').css('display', 'none');
+                    }
+                    break;
+                case 'activateTorrentCollection':
+                    if ($('#torrent_col').css('display') === 'none') {
+                        $('#torrent_col').css('display', 'block');
+                    } else {
+                        $('#torrent_col').css('display', 'none');
+                        App.vent.trigger('torrentCollection:close');
+                    }
+                    break;
+                case 'animeTabDisable':
+                    if ($('.animeTabShow').css('display') === 'none') {
+                        $('.animeTabShow').css('display', 'block');
+                    } else {
+                        $('.animeTabShow').css('display', 'none');
+                        App.vent.trigger('movies:list');
+                        App.vent.trigger('settings:show');
+                    }
+                    break;
+                case 'indieTabDisable':
+                    if ($('.indieTabShow').css('display') === 'none') {
+                        $('.indieTabShow').css('display', 'block');
+                    } else {
+                        $('.indieTabShow').css('display', 'none');
+                        App.vent.trigger('movies:list');
+                        App.vent.trigger('settings:show');
+                    }
+                    break;
+                case 'activateRandomize':
+                case 'activateWatchlist':
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
+                    break;
+                case 'movies_quality':
+                case 'translateSynopsis':
+                    App.Providers.delete('Yts');
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
+                    break;
+                case 'tvshow':
+                    App.Providers.delete('tvshow');
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
+                    break;
+                case 'bigPicture':
+                    if (!ScreenResolution.SD) {
+                        if (App.settings.bigPicture) {
+                            win.maximize();
+                            AdvSettings.set('noBigPicture', win.zoomLevel);
+                            var zoom = ScreenResolution.HD ? 2 : 3;
+                            win.zoomLevel = zoom;
+                        } else {
+                            win.zoomLevel = AdvSettings.get('noBigPicture') || 0;
+                        }
+                    } else {
+                        AdvSettings.set('bigPicture', false);
+                        win.info('Setting changed: bigPicture - true');
+                        $('input#bigPicture.settings-checkbox').attr('checked', false);
+                        App.vent.trigger('notification:show', new App.Model.Notification({
+                            title: i18n.__('Big Picture Mode'),
+                            body: i18n.__('Big Picture Mode is unavailable on your current screen resolution'),
+                            showRestart: false,
+                            type: 'error',
+                            autoclose: true
+                        }));
+                    }
+                    break;
+                default:
             }
         },
 
@@ -596,48 +597,46 @@
             var databaseFiles = fs.readdirSync(App.settings['databaseLocation']);
             var fileinput = document.querySelector('input[id=exportdatabase]');
 
-            $('#exportdatabase').on('change', function ()
-            {
-            var path = fileinput.value;
-                          try {
-            databaseFiles.forEach(function (entry) {
-                zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
-            });
-            fs.writeFile(path + '/database.zip' ,zip.toBuffer(), function (err) {
-                that.alertMessageWait(i18n.__('Exporting Database...'));
-                win.info('Database exported to:', path);
-                that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
+            $('#exportdatabase').on('change', function () {
+                var path = fileinput.value;
+                try {
+                    databaseFiles.forEach(function (entry) {
+                        zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
+                    });
+                    fs.writeFile(path + '/database.zip', zip.toBuffer(), function (err) {
+                        that.alertMessageWait(i18n.__('Exporting Database...'));
+                        win.info('Database exported to:', path);
+                        that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
 
-            });
-          } catch (err) {
-            console.log(err);
-          }
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
             });
 
         },
 
         importDatabase: function () {
 
-          var fileinput = document.querySelector('input[id=importdatabase]');
+            var fileinput = document.querySelector('input[id=importdatabase]');
 
 
-          $('#importdatabase').on('change', function ()
-          {
-          var path = fileinput.value;
-          fs.readFile(path, function(err, content) {
-              that.alertMessageWait(i18n.__('Importing Database...'));
-              try {
-                var zip = new AdmZip(content);
-                zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
-                that.alertMessageSuccess(true);
-              }
-              catch (err) {
-                console.log(err);
-                that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
-                win.warn('Failed to Import Database');
-              }
-});
-});
+            $('#importdatabase').on('change', function () {
+                var path = fileinput.value;
+                fs.readFile(path, function (err, content) {
+                    that.alertMessageWait(i18n.__('Importing Database...'));
+                    try {
+                        var zip = new AdmZip(content);
+                        zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
+                        that.alertMessageSuccess(true);
+                    }
+                    catch (err) {
+                        console.log(err);
+                        that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
+                        win.warn('Failed to Import Database');
+                    }
+                });
+            });
 
         },
 

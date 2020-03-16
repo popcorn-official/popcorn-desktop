@@ -12,6 +12,9 @@
     padding-top $TitleHeight
     -webkit-backface-visibility hidden
 
+    #vpn-contents
+        display: none
+
     #userISP
         text-decoration: underline
 
@@ -36,20 +39,21 @@
         opacity 0.65
         background-color #000
 
+    .state-flex
+        height: 100%
+        display: flex
+        align-items: center
+        justify-content: center
+
     .state
         color #fff
         font-family $MainFont
         -webkit-font-smoothing antialiased
         text-align center
-        width 40%
-        height 350px
+        width 500px
+        height 400px
         z-index 11
-        margin auto
-        left 0
-        right 0
         -webkit-backface-visibility hidden
-        position: relative
-        top: calc(50% - 180px)
 
         .title
             font-family $MainFontBold
@@ -113,9 +117,14 @@
             width 140px!important
             position inherit!important
 
+        #cancel-button-regular
+            margin-top: 10px
+            font-size: 10px
+            cursor: pointer
+
         .vpn
             .heading
-                font-size: 30px
+                font-size: 25px
                 margin-bottom: 10px
             .subheading
                 font-size: 15px
@@ -143,15 +152,11 @@
                     width: 100%
 
         .cancel-button
-            bottom 20px
             z-index 2
-            position absolute
             cursor pointer
             width 120px
             height 35px
             margin auto
-            left 0
-            right 0
             -moz-border-radius 3px
             -webkit-border-radius 3px
             border-radius 3px
