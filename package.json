@@ -11,8 +11,8 @@
   },
   "license": "GPL-3.0",
   "main": "src/app/index.html",
-  "version": "0.3.10",
-  "releaseName": "Popcorn is Love",
+  "version": "0.4.0",
+  "releaseName": "Love in the Time of Corona",
   "scripts": {
     "start": "gulp run",
     "build": "gulp build",
