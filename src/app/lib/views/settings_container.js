@@ -317,6 +317,7 @@
                         $('.advanced').css('display', 'none');
                     }
                     break;
+                case 'vpnEnabled':
                 case 'language':
                 case 'watchedCovers':
                     App.vent.trigger('movies:list');
