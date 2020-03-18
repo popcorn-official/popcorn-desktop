@@ -187,6 +187,7 @@
 
     hideUnused: function() {
       var id = this.model.get("imdb_id");
+      win.info("hideunused (" + this.model.get("imdb_id") + ")");
 
       if (!this.model.get("torrents")) {
         // no torrents
@@ -198,8 +199,8 @@
         $(".rating-container").hide();
       }
 
-      if (!id || (id && ["mal", "ccc"].indexOf(id) === -1)) {
-        // if anime
+      if (!id) {
+        // no id
         $(".movie-imdb-link").hide();
       }
     },
