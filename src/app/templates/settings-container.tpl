@@ -83,12 +83,12 @@
                 <label class="settings-label" for="translateSynopsis"><%= i18n.__("Translate Synopsis") %></label>
             </span>
             <span class="advanced">
-                <input class="settings-checkbox" name="coversShowRating" id="cb3" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb3"><%= i18n.__("Show rating over covers") %></label>
+                <input class="settings-checkbox" name="coversShowRating" id="coversShowRating" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
+                <label class="settings-label" for="coversShowRating"><%= i18n.__("Show rating over covers") %></label>
             </span>
             <span class="advanced">
-                <input class="settings-checkbox" name="alwaysOnTop" id="cb4" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb4"><%= i18n.__("Always On Top") %></label>
+                <input class="settings-checkbox" name="alwaysOnTop" id="alwaysOnTop" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
+                <label class="settings-label" for="alwaysOnTop"><%= i18n.__("Always On Top") %></label>
             </span>
 
             <span class="advanced">
@@ -101,8 +101,8 @@
             </span>
 
             <span class="advanced">
-                <input class="settings-checkbox" name="rememberFilters" id="cb7" type="checkbox" <%=(Settings.rememberFilters? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb7"><%= i18n.__("Remember Filters") %></label>
+                <input class="settings-checkbox" name="rememberFilters" id="rememberFilters" type="checkbox" <%=(Settings.rememberFilters? "checked='checked'":"")%>>
+                <label class="settings-label" for="rememberFilters"><%= i18n.__("Remember Filters") %></label>
             </span>
 
             <span class="advanced">
@@ -287,8 +287,8 @@
                 </div>
             </span>
             <span>
-                <input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
+                <input class="settings-checkbox" name="moviesShowQuality" id="moviesShowQuality" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
+                <label class="settings-label" for="moviesShowQuality"><%= i18n.__("Show movie quality on list") %></label>
             </span>
         </div>
     </section>
@@ -499,8 +499,8 @@
                 <input type="text" size="20" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;<em><%= Common.fileSize(Settings.totalDownloaded) %><i class="fa fa-arrow-circle-down"></i><%= Common.fileSize(Settings.totalUploaded) %><i class="fa fa-arrow-circle-up"></i></em>
             </span>
             <span>
-                <input class="settings-checkbox" name="vpnEnabled" id="cb10" type="checkbox" <%=(Settings.vpnEnabled? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb10"><%= i18n.__("Enable VPN") %></label>
+                <input class="settings-checkbox" name="vpnEnabled" id="vpnEnabled" type="checkbox" <%=(Settings.vpnEnabled? "checked='checked'":"")%>>
+                <label class="settings-label" for="vpnEnabled"><%= i18n.__("Enable VPN") %></label>
             </span>
 
         </div>
@@ -516,12 +516,12 @@
                 <input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
             </span>
             <span>
-                <input class="settings-checkbox" name="deleteTmpOnClose" id="cb2" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb2"><%= i18n.__("Clear Tmp Folder after closing app?") %></label>
+                <input class="settings-checkbox" name="deleteTmpOnClose" id="deleteTmpOnClose" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
+                <label class="settings-label" for="deleteTmpOnClose"><%= i18n.__("Clear Tmp Folder after closing app?") %></label>
             </span>
             <span>
-                <input class="settings-checkbox" name="continueSeedingOnStart" id="cb8" type="checkbox" <%=(Settings.continueSeedingOnStart? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb8"><%= i18n.__("Continue seeding torrents after restart app?") %></label>
+                <input class="settings-checkbox" name="continueSeedingOnStart" id="continueSeedingOnStart" type="checkbox" <%=(Settings.continueSeedingOnStart? "checked='checked'":"")%>>
+                <label class="settings-label" for="continueSeedingOnStart"><%= i18n.__("Continue seeding torrents after restart app?") %></label>
             </span>
         </div>
     </section>
@@ -572,16 +572,16 @@
                 </div>
             </span>
             <span>
-                <input class="settings-checkbox" name="automaticUpdating" id="cb5" type="checkbox" <%=(Settings.automaticUpdating? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb5"><%= i18n.__("Activate automatic updating") %></label>
+                <input class="settings-checkbox" name="automaticUpdating" id="automaticUpdating" type="checkbox" <%=(Settings.automaticUpdating? "checked='checked'":"")%>>
+                <label class="settings-label" for="automaticUpdating"><%= i18n.__("Activate automatic updating") %></label>
             </span>
             <span>
-                <input class="settings-checkbox" name="UpdateSeed" id="cb6" type="checkbox" <%=(Settings.UpdateSeed? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb6"><%= i18n.__("Activate Update seeding") %></label>
+                <input class="settings-checkbox" name="UpdateSeed" id="UpdateSeed" type="checkbox" <%=(Settings.UpdateSeed? "checked='checked'":"")%>>
+                <label class="settings-label" for="UpdateSeed"><%= i18n.__("Activate Update seeding") %></label>
             </span>
             <span>
-                <input class="settings-checkbox" name="events" id="cb9" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb9"><%= i18n.__("Celebrate various events") %></label>
+                <input class="settings-checkbox" name="events" id="events" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
+                <label class="settings-label" for="events"><%= i18n.__("Celebrate various events") %></label>
             </span>
             <span>
                 <input class="settings-checkbox" name="minimizeToTray" id="minimizeToTray" type="checkbox" <%=(Settings.minimizeToTray? "checked='checked'":"")%>>
