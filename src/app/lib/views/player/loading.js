@@ -76,6 +76,8 @@
         }
       });
 
+      if (Settings.vpnEnabled) {
+
       if (!VPNht.isInstalled()) {
         that.showVPNLoader();
       } else {
@@ -84,6 +86,8 @@
             that.showVPNLoader();
           }
         });
+      }
+
       }
 
       win.info("Loading torrent");
