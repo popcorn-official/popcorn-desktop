@@ -105,7 +105,7 @@ Settings.trackers = {
 };
 
 // API Servers
-Settings.apiserver = '';
+Settings.apiServer = '';
 
 // User interface
 Settings.language = "";

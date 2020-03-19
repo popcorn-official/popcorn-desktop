@@ -180,13 +180,14 @@
         saveSetting: function (e) {
             var value = false,
                 apiDataChanged = false,
+                apiServerChanged = false,
                 tmpLocationChanged = false,
                 field = $(e.currentTarget),
                 data = {};
 
             switch (field.attr('name')) {
-                case 'apiserver':
-                    apiDataChanged = true;
+                case 'apiServer':
+                    apiServerChanged = true;
                     value = field.val();
                     break;
                 case 'httpApiPort':
@@ -282,6 +283,10 @@
 
             // update active session
             App.settings[field.attr('name')] = value;
+
+            if (apiServerChanged && value) {
+                App.Providers.updateUrl(value);
+            }
 
             if (apiDataChanged) {
                 App.vent.trigger('initHttpApi');

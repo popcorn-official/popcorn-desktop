@@ -19,8 +19,8 @@
         <div class="content">
             <span>
                 <div class="opensubtitles-options">
-                    <p><%= i18n.__("API Server") %></p>
-                    <input type="text" size="50" id="apiserver" name="apiserver" value="<%= Settings.apiserver %>">
+                    <p><%= i18n.__("Custom API Server") %></p>
+                    <input type="text" size="50" id="apiServer" name="apiServer" value="<%= Settings.apiServer %>">
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
                     <div class="invalid-cross" style="display: none"></div>
