@@ -1,9 +1,6 @@
 (function (App) {
     'use strict';
 
-    var dblclick_delay = 300,
-        notif_displaytime = 3000;
-
     var Player = Marionette.View.extend({
         template: '#player-tpl',
         className: 'player',
@@ -15,8 +12,8 @@
             uploadSpeed: '.upload_speed_player',
             activePeers: '.active_peers_player',
             downloaded: '.downloaded_player',
-            pause: '.fa-pause',
-            play: '.fa-play'
+            pause: 'fas .fa-pause',
+            play: 'fas .fa-play'
         },
 
         events: {
@@ -31,11 +28,10 @@
         },
 
         initialize: function () {
-            var torrentModel = this.model.get('torrentModel');
-            this.listenTo(torrentModel, 'change:downloadSpeed', this.updateDownloadSpeed);
-            this.listenTo(torrentModel, 'change:uploadSpeed', this.updateUploadSpeed);
-            this.listenTo(torrentModel, 'change:active_peers', this.updateActivePeers);
-            this.listenTo(torrentModel, 'change:downloaded', this.updateDownloaded);
+            this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
+            this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
+            this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
+            this.listenTo(this.model, 'change:downloaded', this.updateDownloaded);
 
             this.inFullscreen = win.isFullscreen;
             this.playerWasReady = false;
@@ -94,23 +90,13 @@
                 this.createdRemaining = false;
             }
         },
-        addTrack: function () {
-          this.player.addRemoteTextTrack(
-              { mode: 'showing',
-                kind: 'subtitles',
-                label : App.Localization.langcodes[this.model.get('defaultSubtitle')].nativeName,
-                src: 'http://127.0.0.1:9999/subtitle.vtt',
-                srclang: this.model.get('defaultSubtitle')
-              });
 
-
-        },
         uploadSubtitles: function () {
             // verify custom subtitles not modified
             if (Settings.opensubtitlesAutoUpload && this.customSubtitles && !this.customSubtitles.modified) {
                 var real_elapsedTime = (Date.now() - this.customSubtitles.added_at) / 1000;
-                var player_elapsedTime = this.player.currentTime() - this.customSubtitles.timestamp;
-                var perc_elapsedTime = player_elapsedTime / this.player.duration();
+                var player_elapsedTime = this.video.currentTime() - this.customSubtitles.timestamp;
+                var perc_elapsedTime = player_elapsedTime / this.video.duration();
 
                 // verify was played long enough
                 if (real_elapsedTime >= player_elapsedTime && perc_elapsedTime >= 0.6) {
@@ -120,24 +106,24 @@
                         imdbid: this.model.get('imdb_id')
                     };
 
-                    console.log('OpenSubtitles - Uploading subtitles', upload);
+                    win.debug('OpenSubtitles - Uploading subtitles', upload);
 
                     var subtitleProvider = App.Config.getProviderForType('subtitle');
                     subtitleProvider.upload(upload).then(function (data) {
                         if (data.alreadyindb) {
-                            console.log('OpenSubtitles - Already in DB', data);
+                            win.debug('OpenSubtitles - Already in DB', data);
                             return;
                         }
-                        console.info('OpenSubtitles - Subtitles successfully uploaded');
+                        win.debug('OpenSubtitles - Subtitles successfully uploaded', data);
                     }).catch(function (err) {
-                        console.warn('OpenSubtitles: could not upload subtitles', err);
+                        win.warn('OpenSubtitles: could not upload subtitles', err);
                     });
                 }
             }
         },
 
         closePlayer: function () {
-            console.info('Player closed');
+            win.info('Player closed');
             if (this._AutoPlayCheckTimer) {
                 clearInterval(this._AutoPlayCheckTimer);
             }
@@ -152,14 +138,14 @@
             if (type === 'episode') {
                 type = 'show';
             }
-            if (this.player.currentTime() / this.player.duration() >= 0.8 && type !== undefined && this.model.get('metadataCheckRequired') !== false) {
+            if (this.video.currentTime() / this.video.duration() >= 0.8 && type !== undefined && this.model.get('metadataCheckRequired') !== false) {
                 App.vent.trigger(type + ':watched', this.model.attributes, 'database');
             }
 
             // remember position
-            if (this.player.currentTime() / this.player.duration() < 0.8) {
+            if (this.video.currentTime() / this.video.duration() < 0.8) {
                 AdvSettings.set('lastWatchedTitle', this.model.get('title'));
-                AdvSettings.set('lastWatchedTime', this.player.currentTime() - 5);
+                AdvSettings.set('lastWatchedTime', this.video.currentTime() - 5);
             } else {
                 AdvSettings.set('lastWatchedTime', false);
             }
@@ -176,7 +162,7 @@
 
             var vjsPlayer = document.getElementById('video_player');
             if (vjsPlayer) {
-                videojs.getPlayer('video_player').dispose();
+                videojs(vjsPlayer).dispose();
             }
 
             this.destroy();
@@ -192,7 +178,7 @@
 
         checkAutoPlay: function () {
             if (this.isMovie() === 'episode' && this.next_episode_model) {
-                if ((this.player.duration() - this.player.currentTime()) < 60 && this.player.currentTime() > 30) {
+                if ((this.video.duration() - this.video.currentTime()) < 60 && this.video.currentTime() > 30) {
 
                     if (!this.autoplayisshown) {
 
@@ -201,7 +187,7 @@
                             this.precachestarted = true;
                         }
 
-                        console.log('Showing Auto Play message');
+                        win.info('Showing Auto Play message');
                         this.autoplayisshown = true;
                         $('.playing_next').show();
                         $('.playing_next').appendTo('div#video_player');
@@ -210,13 +196,13 @@
                         }
                     }
 
-                    var count = Math.round(this.player.duration() - this.player.currentTime());
+                    var count = Math.round(this.video.duration() - this.video.currentTime());
                     $('.playing_next #nextCountdown').text(count);
 
                 } else {
 
                     if (this.autoplayisshown) {
-                        console.log('Hiding Auto Play message');
+                        win.info('Hiding Auto Play message');
                         $('.playing_next').hide();
                         $('.playing_next #nextCountdown').text('');
                         this.autoplayisshown = false;
@@ -242,7 +228,7 @@
                 if (this.isMovie() === 'episode' && this.next_episode_model) {
                     // autoplay player div
                     var matcher = this.next_episode_model.get('title').split(/\s-\s/i);
-                    $('.playing_next_poster').attr('src', this.model.get('poster'));
+                    $('.playing_next_poster').attr('src', this.model.get('cover'));
                     $('.playing_next_show').text(matcher[0]);
                     $('.playing_next_episode').text(matcher[2]);
                     $('.playing_next_number').text(i18n.__('Season %s', this.next_episode_model.get('season')) + ', ' + i18n.__('Episode %s', this.next_episode_model.get('episode')));
@@ -253,26 +239,24 @@
         },
 
         onPlayerReady: function () {
-            console.log('Player - data loaded in %sms', (Date.now() - this.playerWasReady));
-            if (this.model.get('subFile')){
-    this.addTrack();
-  }
+            win.debug('Player - data loaded in %sms', (Date.now() - this.playerWasReady));
+
             // set volume
             this.player.volume(Settings.playerVolume);
 
             // resume position
             if (Settings.lastWatchedTitle === this.model.get('title') && Settings.lastWatchedTime > 0) {
                 var position = Settings.lastWatchedTime;
-                console.info('Resuming position to %s secs', position.toFixed());
+                win.debug('Resuming position to', position.toFixed(), 'secs');
                 this.player.currentTime(position);
             } else if (Settings.traktPlayback) {
                 var type = this.isMovie();
                 var id = type === 'movie' ? this.model.get('imdb_id') : this.model.get('episode_id');
                 App.Trakt.getPlayback(type, id).then(function (position_percent) {
-                    var total = this.player.duration();
+                    var total = this.video.duration();
                     var position = (position_percent / 100) * total | 0;
                     if (position > 0) {
-                        console.info('Resuming position to %s secs (reported by Trakt)', position.toFixed());
+                        win.debug('Resuming position to', position.toFixed(), 'secs (reported by Trakt)');
                         this.player.currentTime(position);
                     }
                 }.bind(this));
@@ -282,24 +266,10 @@
             this.sendToTrakt('start');
         },
 
-        showPlayIcon: function () {
-            var wasPlaying = this.player.paused();
-            var showIcon = wasPlaying ? 'pause' : 'play';
-            var hideIcon = wasPlaying ? 'play' : 'pause';
-
-            if (this.ui[showIcon].is(':visible')) {
-                return;
-            }
-            this.ui[hideIcon].hide().dequeue();
-            this.ui[showIcon].appendTo('div#video_player');
-            this.ui[showIcon].show().delay(1500).queue(function () {
-                this.ui[showIcon].hide().dequeue();
-            }.bind(this));
-        },
-
         onPlayerPlay: function () {
             // Trigger a resize so the subtitles are adjusted
             $(window).trigger('resize');
+
             if (this.wasSeek) {
                 if (this.model.get('auto_play')) {
                     this.checkAutoPlay();
@@ -309,16 +279,17 @@
                 if (this.firstPlay) {
                     if (this.model.get('type') === 'video/youtube') {
                         try {
-                            document.getElementById('video_player_youtube_api')
-                                .contentWindow.document
-                                .getElementsByClassName('video-ads')[0]
-                                .style.display = 'none'; // XXX hide ads hack
+                            document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('video-ads')[0].style.display = 'none'; // XXX hide ads hack
                         } catch (e) {} //no ads
                     }
                     this.firstPlay = false;
                     return;
                 }
-                this.showPlayIcon();
+                this.ui.pause.hide().dequeue();
+                this.ui.play.appendTo('div#video_player');
+                this.ui.play.show().delay(1500).queue(function () {
+                    this.ui.play.hide().dequeue();
+                }.bind(this));
                 App.vent.trigger('player:play');
             }
 
@@ -330,7 +301,11 @@
                 this.wasSeek = true;
             } else {
                 this.wasSeek = false;
-                this.showPlayIcon();
+                this.ui.play.hide().dequeue();
+                this.ui.pause.appendTo('div#video_player');
+                this.ui.pause.show().delay(1500).queue(function () {
+                    this.ui.pause.hide().dequeue();
+                }.bind(this));
                 App.vent.trigger('player:pause');
                 this.sendToTrakt('pause');
             }
@@ -344,7 +319,7 @@
                     App.vent.trigger('player:close');
                 }, 2000);
             }
-            console.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
+            win.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
         },
 
         metadataCheck: function () {
@@ -370,9 +345,18 @@
 
         onAttach: function () {
             $('#header').removeClass('header-shadow').hide();
+            // Test to make sure we have title
+            win.info('Watching:', this.model.get('title'));
             $('.filter-bar').show();
             $('#player_drag').show();
             var that = this;
+
+            // Double Click to toggle Fullscreen
+            $('#video_player').dblclick(function (event) {
+                that.toggleFullscreen();
+                // Stop any mouseup events pausing video
+                event.preventDefault();
+            });
 
             if (this.model.get('auto_play')) {
 
@@ -396,39 +380,59 @@
                 });
                 this.ui.eyeInfo.hide();
 
-                // Trailer UI Show FIX/HACK
+                // XXX Sammuel86 Trailer UI Show FIX/HACK
                 $('.trailer_mouse_catch')
                     .show().appendTo('div#video_player')
                     .mousemove(function (event) {
                         if (!that.player.userActive()) {
                             that.player.userActive(true);
                         }
-                    }).click(function (event) {
-                        this.onClick();
-                    }.bind(this));
+                    })
+                    .click(function (event) {
+                        $('.vjs-play-control').click();
+                        event.preventDefault();
+                    })
+                    .dblclick(function (event) {
+                        that.toggleFullscreen();
+                        event.preventDefault();
+                    });
 
             } else {
                 this.video = videojs('video_player', {
                     nativeControlsForTouch: false,
                     trackTimeOffset: 0,
-                    html5: {
-                        nativeTextTracks: false
-                    },
                     plugins: {
                         biggerSubtitle: {},
                         smallerSubtitle: {},
-                        customSubtitles: {}
+                        customSubtitles: {},
+                        progressTips: {}
                     }
                 }).ready(function () {
                     that.playerWasReady = Date.now();
                 });
             }
+            this.player = this.video.player();
+            App.PlayerView = this;
 
-            this.player = videojs.getPlayer('video_player');
+            /* The following is a hack to make VideoJS listen to
+             *  mouseup instead of mousedown for pause/play on the
+             *  video element. Stops video pausing/playing when
+             *  dragged. TODO: #fixit!
+             */
+            this.player.tech.off('mousedown');
+            this.player.tech.on('mouseup', function (event) {
+                if (event.target.origEvent) {
+                    if (!event.target.origEvent.originalEvent.defaultPrevented) {
+                        that.player.tech.onClick(event);
+                    }
+                    // clean up after ourselves
+                    delete event.target.origEvent;
+                } else {
+                    that.player.tech.onClick(event);
+                }
+            });
 
-            // Better handle click/dblclick events for play/pause/fs
-            this.player.click = 0;
-
+            // Force custom controls
             this.player.usingNativeControls(false);
 
             // Local subtitle hack
@@ -450,8 +454,6 @@
             this.player.on('play', this.onPlayerPlay.bind(this));
             this.player.on('pause', this.onPlayerPause.bind(this));
             this.player.on('error', this.onPlayerError.bind(this));
-
-            App.PlayerView = this;
 
             this.bindKeyboardShortcuts();
             this.metadataCheck();
@@ -484,34 +486,14 @@
             });
         },
 
-        onClick: function (e) {
-            if (this.player.click) {
-                return this.player.click = 0;
-            }
-
-            this.player.click++;
-
-            return setTimeout(function () { // wait for double click
-                if (this.player.click) { // if we didn't catch dbclick
-                    $('.vjs-play-control').click();
-                    this.player.click = 0;
-                }
-            }.bind(this), dblclick_delay);
-        },
-
-        onDbClick: function(e) {
-            this.toggleFullscreen();
-            this.player.click = 0;
-        },
-
         sendToTrakt: function (method) {
-            if (!this.player) {
+            if (!this.video) {
                 return;
             }
 
             var type = this.isMovie();
             var id = type === 'movie' ? this.model.get('imdb_id') : this.model.get('episode_id');
-            var progress = this.player.currentTime() / this.player.duration() * 100 | 0;
+            var progress = this.video.currentTime() / this.video.duration() * 100 | 0;
             App.Trakt.scrobble(method, type, id, progress);
         },
 
@@ -525,7 +507,7 @@
             }
         },
         playNextNot: function () {
-            console.log('Hiding Auto Play message');
+            win.info('Hiding Auto Play message');
             $('.playing_next').hide();
             $('.playing_next #nextCountdown').text('');
             this.autoplayisshown ? false : true;
@@ -573,11 +555,11 @@
 
             if (timeLeft === undefined) {
                 return i18n.__('Unknown time remaining');
-            } else if (timeLeft > 3600000) {
-                return i18n.__('%s hour(s) remaining', Math.round(timeLeft / 3600000));
-            } else if (timeLeft > 60000) {
-                return i18n.__('%s minute(s) remaining', Math.round(timeLeft / 60000));
-            } else if (timeLeft <= 60000) {
+            } else if (timeLeft > 3600) {
+                return i18n.__('%s hour(s) remaining', Math.round(timeLeft / 3600));
+            } else if (timeLeft > 60) {
+                return i18n.__('%s minute(s) remaining', Math.round(timeLeft / 60));
+            } else if (timeLeft <= 60) {
                 return i18n.__('%s second(s) remaining', timeLeft);
             }
         },
@@ -595,8 +577,7 @@
             // remove wrong metadata
             var title = path.basename(this.model.get('src'));
             this.model.set('imdb_id', false);
-            this.model.set('backdrop', false);
-            this.model.set('poster', false);
+            this.model.set('cover', false);
             this.model.set('title', title);
             this.model.set('season', false);
             this.model.set('episode', false);
@@ -650,35 +631,35 @@
 
             Mousetrap.bind(['f', 'F'], function (e) {
                 that.toggleFullscreen();
-            });
+            }, 'keydown');
 
             Mousetrap.bind('h', function (e) {
                 that.adjustSubtitleOffset(-0.1);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('g', function (e) {
                 that.adjustSubtitleOffset(0.1);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('shift+h', function (e) {
                 that.adjustSubtitleOffset(-1);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('shift+g', function (e) {
                 that.adjustSubtitleOffset(1);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('ctrl+h', function (e) {
                 that.adjustSubtitleOffset(-5);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('ctrl+g', function (e) {
                 that.adjustSubtitleOffset(5);
-            });
+            }, 'keydown');
 
             Mousetrap.bind(['space', 'p'], function (e) {
                 $('.vjs-play-control').click();
-            });
+            }, 'keydown');
 
             Mousetrap.bind('right', function (e) {
                 that.seek(5);
@@ -730,39 +711,39 @@
 
             Mousetrap.bind(['m', 'M'], function (e) {
                 that.toggleMute();
-            });
+            }, 'keydown');
 
             Mousetrap.bind(['u', 'U'], function (e) {
                 that.displayStreamURL();
-            });
+            }, 'keydown');
 
             Mousetrap.bind('j', function (e) {
                 that.adjustPlaybackRate(-0.1, true);
-            });
+            }, 'keydown');
 
             Mousetrap.bind(['k', 'shift+k', 'ctrl+k'], function (e) {
                 that.adjustPlaybackRate(1.0, false);
-            });
+            }, 'keydown');
 
             Mousetrap.bind(['l'], function (e) {
                 that.adjustPlaybackRate(0.1, true);
-            });
+            }, 'keydown');
 
             Mousetrap.bind(['shift+j', 'ctrl+j'], function (e) {
                 that.adjustPlaybackRate(0.5, false);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('shift+l', function (e) {
                 that.adjustPlaybackRate(2.0, false);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('ctrl+l', function (e) {
                 that.adjustPlaybackRate(4.0, false);
-            });
+            }, 'keydown');
 
             Mousetrap.bind('ctrl+d', function (e) {
                 that.toggleMouseDebug();
-            });
+            }, 'keydown');
 
             Mousetrap.bind('0', function (e) {
                 that.scaleWindow(0.5);
@@ -894,10 +875,6 @@
         },
 
         adjustVolume: function (i) {
-            if (!this.player) {
-                return;
-            }
-
             var v = this.player.volume();
             this.player.volume(v + i);
             App.vent.trigger('volumechange');
@@ -952,20 +929,20 @@
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, notif_displaytime));
+                }, 3000));
             } else {
                 $(this.player.el()).append('<div class =\'vjs-overlay vjs-overlay-top-left\'>' + message + '</div>');
                 $.data(this, 'overlayTimer', setTimeout(function () {
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, notif_displaytime));
+                }, 3000));
             }
         },
 
         onBeforeDestroy: function () {
-            if (this.model.get('type') === 'video/youtube') {
-                $('.trailer_mouse_catch').remove(); // Trailer UI Show FIX/HACK
+            if (this.model.get('type') === 'video/youtube') { // XXX Sammuel86 Trailer UI Show FIX/HACK -START
+                $('.trailer_mouse_catch').remove();
             }
             $('#player_drag').hide();
             $('#header').show();
@@ -976,14 +953,12 @@
                 $('.btn-os.fullscreen').removeClass('active');
             }
             this.unbindKeyboardShortcuts();
-            App.vent.off('customSubtitles:added');
             App.vent.trigger('player:close');
             var vjsPlayer = document.getElementById('video_player');
-
             if (vjsPlayer) {
-                videojs.getPlayer('video_player').dispose();
+                videojs(vjsPlayer).dispose();
             }
-          }
+        }
 
     });
     App.View.Player = Player;
