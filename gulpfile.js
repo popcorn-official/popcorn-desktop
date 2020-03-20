@@ -624,7 +624,7 @@ gulp.task('prepareUpdater', () => {
 
         let sources = path.join('build', pkJson.name, platform);
         if (platform === 'osx64') {
-          sources = path.join(sources, 'Popcorn-Time.app');
+          sources = path.join(sources, pkJson.name + '.app');
         }
 
         // list of commands
