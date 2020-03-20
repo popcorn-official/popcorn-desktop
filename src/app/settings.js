@@ -149,6 +149,7 @@ Settings.subtitle_decoration = "Outline";
 Settings.subtitle_font = "Arial";
 
 // More options
+Settings.httpApiEnabled = false;
 Settings.httpApiPort = 8008;
 Settings.httpApiUsername = "butter";
 Settings.httpApiPassword = "butter";

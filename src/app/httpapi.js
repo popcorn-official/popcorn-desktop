@@ -753,6 +753,12 @@
     }
 
     App.vent.on('initHttpApi', function () {
+        if (!Settings.httpApiEnabled) {
+            if (httpServer) {
+                closeServer(() => {});
+            }
+            return;
+        }
         win.info('Initializing HTTP API server');
         initServer().then(function () {
             server.enableAuth(Settings.httpApiUsername, Settings.httpApiPassword);

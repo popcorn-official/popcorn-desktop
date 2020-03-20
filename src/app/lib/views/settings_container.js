@@ -248,6 +248,10 @@
                 case 'indieTabDisable':
                     value = field.is(':checked');
                     break;
+                case 'httpApiEnabled':
+                    apiDataChanged = true;
+                    value = field.is(':checked');
+                    break;
                 case 'httpApiUsername':
                 case 'httpApiPassword':
                     apiDataChanged = true;

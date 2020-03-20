@@ -436,6 +436,10 @@
         <div class="title"><%= i18n.__("Remote Control") %></div>
         <div class="content">
             <span>
+                <input class="settings-checkbox" name="httpApiEnabled" id="httpApiEnabled" type="checkbox" <%=(Settings.httpApiEnabled ? "checked='checked'":"")%>>
+                <label class="settings-label" for="httpApiEnabled"><%= i18n.__("Enable remote control") %></label>
+            </span>
+            <span>
                 <p><%= i18n.__("Local IP Address") %></p>
                 <input type="text" id="settingsIpAddr" value="<%= Settings.ipAddress %>" readonly="readonly" size="20" />
             </span>
