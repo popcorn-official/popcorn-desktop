@@ -6,9 +6,9 @@
         <% if(quality) { %>
         <span class="quality-info-player"><%= quality %></span>
         <% } %>
-        <span class="fa fa-times close-info-player"></span>
+        <span class="fas fa-times close-info-player"></span>
         <div class="download-info-player">
-            <i class="fa fas-eye eye-info-player"></i>
+            <i class="fas fa-eye eye-info-player"></i>
             <div class="details-info-player">
                 <div class="arrow-up"></div>
                 <span class="speed-info-player"><%= i18n.__("Download") %>:&nbsp;</span><span class="download_speed_player value"><%= Common.fileSize(0) %>/s</span><br>
