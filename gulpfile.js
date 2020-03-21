@@ -126,7 +126,7 @@ const deleteAndLog = (path, what) => () =>
 
 // clean for dist
 gulp.task('cleanForDist', (done) => {
-  del([path.join(releasesDir, 'Popcorn-Time')]).then((paths) => {
+  del([path.join(releasesDir, pkJson.name)]).then((paths) => {
     paths.length
       ? console.log('Deleted: \n', paths.join('\n'))
       : console.log('Nothing to delete');
@@ -624,7 +624,7 @@ gulp.task('prepareUpdater', () => {
 
         let sources = path.join('build', pkJson.name, platform);
         if (platform === 'osx64') {
-          sources = path.join(sources, 'Popcorn-Time.app');
+          sources = path.join(sources, pkJson.name + '.app');
         }
 
         // list of commands
