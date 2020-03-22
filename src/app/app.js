@@ -207,11 +207,12 @@ App.onStart = function (options) {
 };
 
 var deleteFolder = function (path) {
-  try {
-    rimraf(path, function () { });
-  } catch (error) {
-    console.log(error)
-  }
+
+  rimraf(path, function (err) {
+      if (err) {
+          console.log(err);
+      }
+  });
 };
 
 var deleteCookies = function () {
