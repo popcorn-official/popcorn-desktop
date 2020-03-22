@@ -7,6 +7,7 @@ cask 'popcorn-time' do
   name 'Popcorn Time'
   homepage 'https://popcorntime.sh/'
 
+  auto_updates true
   conflicts_with cask: 'popcorn-time-beta'
 
   app 'Popcorn-Time.app'
