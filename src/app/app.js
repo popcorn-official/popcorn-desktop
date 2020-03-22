@@ -664,7 +664,7 @@ window.ondrop = function (e) {
   $(".drop-indicator").hide();
 
   var file = e.dataTransfer.files[0];
-  var ext = path.extname(file.name).toLowerCase();
+  var ext = path.extname((file || {}).name || "").toLowerCase();
 
   // TODO: Make a function 'isSubtitleFile' to avoid having many || everywhere
   if (
