@@ -93,7 +93,13 @@ App.db = Database;
 // Set settings
 App.advsettings = AdvSettings;
 App.settings = Settings;
-App.WebTorrent = new WebTorrent();
+App.WebTorrent = new WebTorrent({
+  maxConns: parseInt(Settings.connectionLimit, 10) || 55,
+  tracker: {
+     announce: Settings.trackers.forced
+  },
+  dht: true
+});
 
 fs.readFile("./.git.json", "utf8", function (err, json) {
   if (!err) {

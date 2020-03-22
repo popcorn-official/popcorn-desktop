@@ -14,7 +14,9 @@
         // Stream Info Backbone Model, which keeps showing ratio/download/upload info.
         // See models/stream_info.js
         this.streamInfo = null;
-
+        // Interval controller for StreamInfo view, which keeps showing ratio/download/upload info.
+        // See models/stream_info.js
+        this.updateStatsInterval = null;
         // video dummy element
         this.video = null;
 
@@ -23,6 +25,7 @@
 
         // Boolean to indicate if the video file is ready
         this.canPlay = false;
+
 
         // Boolean to indicate if the process was interrupted
         this.stopped = true;
@@ -73,7 +76,7 @@
                 // update ratio
                 AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.downloaded);
                 AdvSettings.set('totalUploaded', Settings.totalUploaded + this.uploaded);
-                this.torrent.pause();
+                this.torrent.destroy();
             }
 
             if (this.video) {
@@ -89,6 +92,8 @@
             this.subtitleReady = false;
             this.canPlay = false;
             this.stopped = true;
+            clearInterval(this.updateStatsInterval);
+            this.updateStatsInterval = null;
 
             App.vent.off('subtitle:downloaded');
             App.SubtitlesServer.stop();
@@ -124,10 +129,7 @@
 
                 this.torrent = App.WebTorrent.add(uri, {
                     path: App.settings.tmpLocation + '/' + infoHash,
-                    maxConns: parseInt(Settings.connectionLimit, 10) || 55,
-                    dht: true,
-                    announce: Settings.trackers.forced,
-                    tracker: Settings.trackers.forced
+                    announce: Settings.trackers.forced
                 });
                 const fs = require('fs');
                 fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash, uri);
@@ -354,7 +356,7 @@
 
         handleStreamInfo: function () {
             this.streamInfo.set('torrentModel', this.torrentModel);
-
+            this.updateStatsInterval = setInterval(this.streamInfo.updateStats.bind(this.streamInfo), 1000);
             this.streamInfo.updateInfos();
             this.torrentModel.on('change', this.streamInfo.updateInfos.bind(this.streamInfo));
         },

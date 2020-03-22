@@ -63,7 +63,10 @@
             </form>
         </div>
     </li>
-
+    <!-- Favorites -->
+    <li>
+        <i id="filterbar-favorites" class="fa fa-heart favorites tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Favorites") %>"></i>
+    </li>
     <!-- Watchlist -->
     <% if (Settings.activateWatchlist) { %>
     <li style="display:block">

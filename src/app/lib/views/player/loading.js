@@ -10,7 +10,12 @@
       state: ".state",
       stateTextDownload: ".text_download",
       progressTextDownload: ".value_download",
-
+      stateTextStreamUrl: '.text_streamurl',
+      stateTextFilename: '.text_filename',
+      stateTextSize: '.text_size',
+      stateTextRemaining: '.text_remaining',
+      stateTextDownloadedFormatted: '.text_downloadedformatted',
+      progressTextDownload: '.value_download',
       stateTextPeers: ".text_peers",
       progressTextPeers: ".value_peers",
 
@@ -53,7 +58,16 @@
       "click .play": "resumeStreaming",
       "click .forward": "forwardStreaming",
       "click .backward": "backwardStreaming",
-      "click .playing-progressbar": "seekStreaming"
+      'click .minimize-icon': 'minDetails',
+      'click .maximize-icon': 'minDetails',
+      'click .maximize-icong': 'minDetails',
+      'click .show-pcontrols': 'showpcontrols',
+      'mousedown .title': 'titletoclip',
+      'mousedown .text_filename': 'filenametoclip',
+      'mousedown .text_streamurl': 'streamurltoclip',
+      'click .playing-progressbar': 'seekStreaming',
+      'mouseover .text_filename': 'filenameovrflsh',
+      'mouseout .text_filename': 'filenameovrflhd'
     },
 
     initialize: function() {
@@ -132,7 +146,31 @@
     unbindKeyboardShortcuts: function() {
       Mousetrap.unbind(["esc", "backspace"]);
     },
-
+    minDetails: function () {
+   if ($('.minimize-icon').css('visibility') == 'visible') {
+      $('.loading').css('height', '0px');
+      $('.loading').css('width', '0px');
+      $('.loading').css('float', 'right');
+      $('.loading-background').css('visibility', 'hidden');
+      $('.minimize-icon').css('visibility', 'hidden');
+      if (ddone === 'false') {
+         $('.maximize-icon').css('visibility', 'visible');
+      } else {
+         $('.maximize-icong').css('visibility', 'visible');
+      };
+      $('.filter-bar').show();
+   } else if (($('.maximize-icon').css('visibility') == 'visible') || ($('.maximize-icong').css('visibility') == 'visible')) {
+      $('.loading').css('height', '100%');
+      $('.loading').css('width', '100%');
+      $('.loading').css('float', '');
+      $('.loading-background').css('visibility', 'visible');
+      $('.maximize-icon').css('visibility', 'hidden');
+      $('.maximize-icong').css('visibility', 'hidden');
+      $('.minimize-icon').css('visibility', 'visible');
+      $('.filter-bar').hide();
+   } else {
+   }
+},
     onAttach: function() {
       $(".filter-bar").hide();
       $("#header").addClass("header-shadow");
@@ -149,7 +187,10 @@
       win.info("Loading torrent:", state);
 
       this.ui.stateTextDownload.text(i18n.__(state));
-
+      this.ui.stateTextStreamUrl.text(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress));
+      this.ui.stateTextFilename.text(streamInfo.get('filename'));
+      this.ui.stateTextSize.text(Common.fileSize(streamInfo.get('size')));
+      this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
       this.listenTo(this.model.get("streamInfo"), "change", this.onInfosUpdate);
 
       if (state === "downloading") {
@@ -213,30 +254,55 @@
       }
     },
 
-    onProgressUpdate: function() {
-      var streamInfo = this.model.get("streamInfo");
+    onProgressUpdate: function () {
+    var streamInfo = this.model.get('streamInfo');
 
-      var downloaded = streamInfo.get("downloaded") / (1024 * 1024);
-      this.ui.progressTextDownload.text(downloaded.toFixed(2) + " Mb");
+    var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
+    this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
 
-      this.ui.progressTextPeers.text(streamInfo.get("active_peers"));
-      this.ui.progressTextSeeds.text(streamInfo.get("total_peers"));
-      this.ui.bufferPercent.text(
-        streamInfo.get("downloadedPercent").toFixed() + "%"
-      );
+    if (streamInfo.get('downloaded') < streamInfo.get('size')) {
+        this.ui.stateTextDownload.text(i18n.__('Downloading'));
+        this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
+        this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
+        this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
+        this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
+        this.ui.stateTextRemaining.text(this.remainingTime());
+    } else {
+        this.ui.stateTextDownload.text(i18n.__('Downloaded'));
+        this.ui.stateTextDownloadedFormatted.hide();
+        this.ui.progressTextPeers.hide();
+        this.ui.progressTextSeeds.hide();
+        this.ui.downloadSpeed.hide();
+        this.ui.stateTextRemaining.hide();
+        $('#rbreak1,#rbreak2,#rbreak3').hide();
+        $('#rdownl').hide();
+        $('#ractpr').hide();
+        if (ddone === 'false') {
+            ddone = 'true';
+            $('.cancel-button').css('background-color', '#27ae60');
+            $('.cancel-button').css('left', '-45px');
+            if (Settings.activateLoCtrl === false) {
+                $('.open-button').css('visibility', 'visible').css('display', 'block');
+            } else if (Settings.activateLoCtrl === true) {
+                $('.open-button').css('visibility', 'visible').css('display', 'none');
+            }
+            if ($('.maximize-icon').css('visibility') == 'visible') {
+                $('.maximize-icong').css('visibility', 'visible');
+                $('.maximize-icon').css('visibility', 'hidden');
+            };
+            this.listenTo(this.model.get('streamInfo'), 'change:uploadSpeed', this.onProgressUpdate);
+        };
+    }
 
-      this.ui.downloadSpeed.text(streamInfo.get("downloadSpeed"));
-      this.ui.uploadSpeed.text(streamInfo.get("uploadSpeed"));
+    this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
+    this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
 
-      this.ui.loadingInfos.show();
+    this.ui.loadingInfos.show();
 
-      if (this.model.get("state") === "playingExternally") {
-        this.ui.bufferPercent.text(
-          streamInfo.get("downloadedPercent").toFixed() + "%"
-        );
-        this.ui.stateTextDownload.text(i18n.__("Downloaded")).show();
-      }
-    },
+    if (this.model.get('state') === 'playingExternally') {
+        this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
+    }
+},
 
     onDeviceStatus: function(status) {
       if (status.media !== undefined && status.media.duration !== undefined) {
@@ -284,6 +350,76 @@
       App.vent.trigger("vpn:open");
     },
 
+    showpcontrols: function (e) {
+          if (Settings.activateLoCtrl === false) {
+              AdvSettings.set('activateLoCtrl', true);
+              $('.show-pcontrols').removeClass('fa-angle-down').addClass('fa-angle-up').tooltip('hide').attr("data-original-title", "Hide playback controls");
+              this.ui.cancel_button.css('display', 'none');
+              $('.open-button').css('display', 'none');
+              this.ui.controls.css('display', 'block');
+              this.ui.playingbarBox.css('display', 'block');
+          } else if (Settings.activateLoCtrl === true) {
+              AdvSettings.set('activateLoCtrl', false);
+              $('.show-pcontrols').removeClass('fa-angle-up').addClass('fa-angle-down').tooltip('hide').attr("data-original-title", "Show playback controls");
+              this.ui.cancel_button.css('display', 'block');
+              $('.open-button').css('display', 'block');
+              this.ui.controls.css('display', 'none');
+              this.ui.playingbarBox.css('display', 'none');
+          }
+      },
+
+      tempf: function (e) {
+          nw.Shell.openExternal(Settings.tmpLocation);
+      },
+
+      filenameovrflsh: function () {
+          $(".text_filename").css('overflow', "visible");
+      },
+
+      filenameovrflhd: function () {
+          $(".text_filename").css('overflow', "hidden");
+      },
+      remainingTime: function () {
+    var streamInfo = this.model.get('streamInfo');
+    var timeLeft = streamInfo.get('time_left');
+
+    if (timeLeft === undefined) {
+        return i18n.__('Unknown time remaining');
+    } else if (timeLeft > 3600) {
+        return i18n.__('%s hour(s) remaining', Math.round(timeLeft / 3600));
+    } else if (timeLeft > 60) {
+        return i18n.__('%s minute(s) remaining', Math.round(timeLeft / 60));
+    } else if (timeLeft <= 60) {
+        return i18n.__('%s second(s) remaining', timeLeft);
+    }
+},
+
+titletoclip: function (e) {
+    if ((e.button === 2) && ($('.minimize-icon').css('visibility') == 'visible')) {
+        var streamInfo = this.model.get('streamInfo');
+        var clipboard = nw.Clipboard.get();
+        clipboard.set(streamInfo.get('title'), 'text');
+        $('.notification_alert').text(i18n.__('The title was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+    };
+},
+
+filenametoclip: function (e) {
+    if ((e.button === 2) && ($('.minimize-icon').css('visibility') == 'visible')) {
+        var streamInfo = this.model.get('streamInfo');
+        var clipboard = nw.Clipboard.get();
+        clipboard.set(streamInfo.get('filename'), 'text');
+        $('.notification_alert').text(i18n.__('The filename was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+    };
+},
+
+streamurltoclip: function (e) {
+    if ((e.button === 2) && ($('.minimize-icon').css('visibility') == 'visible')) {
+        var streamInfo = this.model.get('streamInfo');
+        var clipboard = nw.Clipboard.get();
+        clipboard.set(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress), 'text');
+        $('.notification_alert').text(i18n.__('The stream url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+    };
+},
     pauseStreaming: function() {
       App.vent.trigger("device:pause");
       $(".pause")
