@@ -12,7 +12,7 @@
 
 Allow any user to easily watch movies through torrent streaming, without any prerequisites.
 
-Visit the project's website at <https://popcorntime.sh>.
+Visit the project's website at <https://popcorntime.app>.
 
 ***
 
