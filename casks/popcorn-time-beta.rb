@@ -1,13 +1,14 @@
 cask 'popcorn-time-beta' do
-  version '0.3.10,374'
-  sha256 '1afaf5e39e2c0a0602e853a50c0139b9f6ecd8682f0a7f59d0c78976c9ce0b19'
+  version '0.4.1,398'
+  sha256 '8e8eb36e439dd051bb491f55dc20657c770532965c1c75f89f2391f49fb8292f'
 
-  ci = 'https://ci.popcorntime.sh/view/All/job/Popcorn-Time-Desktop'
-  url "#{ci}/lastStableBuild/artifact/build/Popcorn-Time-#{version.before_comma}_osx64.tar.xz"
+  ci = 'https://ci.popcorntime.app/job/Popcorn-Time-Desktop'
+  url "#{ci}/lastStableBuild/artifact/build/Popcorn-Time-#{version.before_comma}_osx64.zip"
   appcast ci, configuration: "Last stable build (##{version.after_comma})"
   name 'Popcorn Time'
-  homepage 'https://popcorntime.sh/'
+  homepage 'https://popcorntime.app/'
 
+  auto_updates true
   conflicts_with cask: 'popcorn-time'
 
   app 'Popcorn-Time.app'
