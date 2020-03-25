@@ -7329,7 +7329,7 @@ webtorrent-health@1.x.x:
     bittorrent-tracker "^9.1.0"
     parse-torrent "^5.8.2"
 
-webtorrent@^0.107.6:
+webtorrent@^0.107.16:
   version "0.107.17"
   resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-0.107.17.tgz#26e8cd71aab0d62adc0b33850953aeed4570011d"
   integrity sha512-Oe7d3+jpmPRDAc645PccIJPYa2w3n3BEiMU7J/Q76QSPF3SDUK8jO7keUCC2qk4ckcbdkb98bYK6/uK7M8vsRA==
