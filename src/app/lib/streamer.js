@@ -132,7 +132,7 @@
                     announce: Settings.trackers.forced
                 });
                 const fs = require('fs');
-                fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash, uri);
+                fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + this.torrent.infoHash, uri);
 
                 this.torrent.on('metadata', function () {
                     this.torrentModel.set('torrent', this.torrent);
