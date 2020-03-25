@@ -580,7 +580,8 @@
 
         moveTmpLocation: function (location) {
             if (!fs.existsSync(location)) {
-                fs.mkdir(location);
+                fs.mkdirSync(location);
+                fs.mkdirSync(location + '/TorrentCache')
             }
             if (App.settings['deleteTmpOnClose']) {
                 deleteFolder(oldTmpLocation);
