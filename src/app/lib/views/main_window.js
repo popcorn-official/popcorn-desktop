@@ -221,7 +221,13 @@
         if (!fs.existsSync(Settings.tmpLocation)) {
           fs.mkdir(Settings.tmpLocation, function(err) {
             if (!err || err.errno === "-4075") {
-              //success
+              // Success. Create TorrentCache inside.
+              const torrent_cache_dir = path.join(Settings.tmpLocation, 'TorrentCache');
+              if (!fs.existsSync(torrent_cache_dir)) {
+                fs.mkdir(torrent_cache_dir, function(err) {
+                  if (err && err.errno !== "-4075") { console.log("error creating TorrentCache dir", err); }
+                });
+              }
             } else {
               Settings.tmpLocation = path.join(
                 os.tmpDir(),

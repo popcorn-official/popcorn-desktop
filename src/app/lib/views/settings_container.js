@@ -581,7 +581,10 @@
         moveTmpLocation: function (location) {
             if (!fs.existsSync(location)) {
                 fs.mkdirSync(location);
-                fs.mkdirSync(location + '/TorrentCache')
+            }
+            const torrent_cache_dir = path.join(location, 'TorrentCache');
+            if (!fs.existsSync(torrent_cache_dir)) {
+                fs.mkdirSync(torrent_cache_dir);
             }
             if (App.settings['deleteTmpOnClose']) {
                 deleteFolder(oldTmpLocation);

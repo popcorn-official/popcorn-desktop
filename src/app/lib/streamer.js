@@ -35,12 +35,13 @@
 
         initExistTorrents: function() {
             const fs = require('fs');
+            const torrent_cache_dir = App.settings.tmpLocation + path.sep + 'TorrentCache' + path.sep;
             fs.readdir(App.settings.tmpLocation, (err, files) => {
                 files.forEach(file => {
-                    if (/^[a-f0-9]{40}$/i.test(file) && fs.existsSync(App.settings.tmpLocation + '/TorrentCache/' + file)) {
-                        fs.readFile(App.settings.tmpLocation + '/TorrentCache/' + file, 'utf8', (err, data) => {
+                    if (/^[a-f0-9]{40}$/i.test(file) && fs.existsSync(torrent_cache_dir + file)) {
+                        fs.readFile(torrent_cache_dir + file, 'utf8', (err, data) => {
                             this.torrent = App.WebTorrent.add(data, {
-                                path: App.settings.tmpLocation + '/' + file,
+                                path: path.join(App.settings.tmpLocation, file),
                                 maxConns: 5,
                                 dht: true,
                                 announce: Settings.trackers.forced,
@@ -128,11 +129,11 @@
                 }
 
                 this.torrent = App.WebTorrent.add(uri, {
-                    path: App.settings.tmpLocation + '/' + infoHash,
+                    path: path.join(App.settings.tmpLocation, infoHash),
                     announce: Settings.trackers.forced
                 });
                 const fs = require('fs');
-                fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + this.torrent.infoHash, uri);
+                fs.writeFileSync(App.settings.tmpLocation + path.sep + 'TorrentCache' + path.sep + this.torrent.infoHash, uri);
 
                 this.torrent.on('metadata', function () {
                     this.torrentModel.set('torrent', this.torrent);
