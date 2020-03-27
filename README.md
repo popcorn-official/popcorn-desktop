@@ -41,14 +41,14 @@ The [master](https://github.com/popcorn-official/popcorn-desktop) branch which c
 
 #### Quickstart:
 
-1. `yarn gulp run`
+1. `yarn start`
 
 If you encounter trouble with the above method, you can try:
 
 1. `yarn config set yarn-offline-mirror ./node_modules/`
 2. `yarn install --ignore-engines`
 3. `yarn build`
-5. `yarn gulp run`
+5. `yarn start`
 
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
