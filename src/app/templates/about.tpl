@@ -13,7 +13,7 @@
         </div>
 
         <div class="title-issue">
-            <a><%= i18n.__("Report an issue") %></a>
+            <a href="<%= Settings.issuesUrl %>" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Report an issue") %>" class="links" ><%= i18n.__("Report an issue") %></a>
         </div>
 
         <div class="text-about">
