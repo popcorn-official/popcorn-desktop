@@ -35,8 +35,6 @@ Want to report a bug, request a feature, contribute to or translate Popcorn Time
 
 If you're comfortable getting up and running from a `git clone`, this method is for you.
 
-If you clone the GitHub repository, you will need to build a number of assets using grunt.
-
 The [master](https://github.com/popcorn-official/popcorn-desktop) branch which contains the latest release.
 
 #### Quickstart:
