@@ -16,6 +16,7 @@
   "scripts": {
     "start": "gulp run",
     "build": "gulp build",
+    "clean": "gulp clean",
     "test": "gulp test"
   },
   "chromium-args": "--remote-debugging-port=9222 --enable-node-worker",
