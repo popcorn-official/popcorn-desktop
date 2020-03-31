@@ -117,7 +117,7 @@ If you're not completely clear on how to submit / update / *do* Pull Requests, p
 
 ### Translation
 
-For translations please go to: [Transifex](https://www.transifex.com/butterproject/public/)
+For translations please go to: [Transifex](https://www.transifex.com/popcorn-time/public/)
 
 
 ## Working on Popcorn Time Core
