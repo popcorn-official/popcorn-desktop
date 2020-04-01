@@ -410,7 +410,6 @@
       App.vent.trigger("about:close");
       App.vent.trigger("torrentCollection:close");
       App.vent.trigger("seedbox:close");
-      App.vent.trigger("seedbox:close");
       App.vent.trigger("anime:list", []);
       this.setactive("Anime");
     },
