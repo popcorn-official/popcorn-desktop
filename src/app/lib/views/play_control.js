@@ -11,6 +11,7 @@
     events: {
       "click #watch-now": "startStreaming",
       "click #watch-trailer": "playTrailer",
+      "click #download-torrent": "downloadTorrent",
       "click .favourites-toggle": "toggleFavourite",
       "click .playerchoicemenu li a": "selectPlayer",
       "click .watched-toggle": "toggleWatched"
@@ -191,6 +192,28 @@
       this.audio_selected = lang;
 
       console.info("Audios: " + lang);
+    },
+
+    downloadTorrent: function() {
+      var providers = this.model.get("providers");
+      var quality = this.model.get("quality");
+      var defaultTorrent = this.model.get("torrents")[quality];
+
+      var filters = {
+        quality: quality,
+        lang: this.audio_selected
+      };
+
+      var torrent = providers.torrent.resolveStream
+        ? providers.torrent.resolveStream(
+            defaultTorrent,
+            filters,
+            this.model.attributes
+          )
+        : defaultTorrent;
+
+      App.vent.trigger("stream:download", torrent);
+      App.vent.trigger("seedbox:show");
     },
 
     startStreaming: function() {

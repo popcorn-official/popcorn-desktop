@@ -34,22 +34,41 @@
     WebTorrentStreamer.prototype = {
 
         initExistTorrents: function() {
-            const fs = require('fs');
-            fs.readdir(App.settings.tmpLocation, (err, files) => {
-                files.forEach(file => {
-                    if (/^[a-f0-9]{40}$/i.test(file) && fs.existsSync(App.settings.tmpLocation + '/TorrentCache/' + file)) {
-                        fs.readFile(App.settings.tmpLocation + '/TorrentCache/' + file, 'utf8', (err, data) => {
-                            this.torrent = App.WebTorrent.add(data, {
-                                path: App.settings.tmpLocation + '/' + file,
-                                maxConns: 5,
-                                dht: true,
-                                announce: Settings.trackers.forced,
-                                tracker: Settings.trackers.forced
-                            });
-                        });
-                    }
+          if (!Settings.continueSeedingOnStart) {
+            return;
+          }
+
+          fs.readdir(App.settings.tmpLocation + '/TorrentCache/', (err, files) => {
+            if (err) {
+              win.error('Read exist torrents failed:', err.name, err.code);
+              return;
+            }
+
+            async.eachLimit(files, 1, function (file, cb) {
+              if (/^[a-f0-9]{40}$/i.test(file)) {
+                fs.readFile(App.settings.tmpLocation + '/TorrentCache/' + file, 'utf8', (err, data) => {
+                  if (err) {
+                    win.error('Read exist torrent failed:', file, err.name, err.code);
+                    return cb();
+                  }
+
+                  App.WebTorrent.add(data, {
+                      path      : App.settings.tmpLocation + '/' + file,
+                      maxConns  : 5,
+                      dht       : true,
+                      announce  : Settings.trackers.forced,
+                      tracker   : Settings.trackers.forced
+                  }, (torrent) => {
+                    return cb();
+                  });
                 });
+              }
+            }, function(err) {
+              if (err) {
+                win.error('Load exist torrents failed:', err.name, err.code);
+              }
             });
+          });
         },
 
         // wrapper for handling a torrent
@@ -63,11 +82,32 @@
 
             this.fetchTorrent(this.torrentModel.get('torrent')).then(function (torrent) {
                 this.handleTorrent(torrent);
-                this.watchState();
                 this.handleStreamInfo();
-
+                this.watchState();
                 return this.createServer();
             }.bind(this)).then(this.waitForBuffer.bind(this)).catch(this.handleErrors.bind(this));
+        },
+
+        download: function(torrent) {
+            // if webtorrent is created/running, we stop/destroy it
+            if (App.WebTorrent.destroyed) {
+                this.stop();
+            }
+
+            // handles magnet and hosted torrents
+            var uri = torrent.magnet || torrent.url || torrent;
+            const parseTorrent = require('parse-torrent');
+            var infoHash = '';
+            try { infoHash = parseTorrent(uri).infoHash; } catch (err) {}
+            App.WebTorrent.add(uri, {
+              path      : App.settings.tmpLocation + '/' + infoHash,
+              maxConns  : 5,
+              dht       : true,
+              announce  : Settings.trackers.forced,
+              tracker   : Settings.trackers.forced
+            });
+
+            fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash, uri);
         },
 
         // kill the streamer
@@ -76,7 +116,15 @@
                 // update ratio
                 AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.downloaded);
                 AdvSettings.set('totalUploaded', Settings.totalUploaded + this.uploaded);
-                this.torrent.destroy();
+                this.torrent.pause();
+                // complete fause torrent, stop download data
+                for (const id in this.torrent._peers) {
+                  this.torrent.removePeer(id);
+                }
+
+                this.torrent._xsRequests.forEach(req => {
+                  req.abort();
+                });
             }
 
             if (this.video) {
@@ -86,6 +134,7 @@
                 this.video = null;
             }
 
+            this.torrent = null;
             this.torrentModel = null;
             this.stateModel = null;
             this.streamInfo = null;
@@ -121,23 +170,25 @@
                         this.torrent = t;
                         this.torrent.resume();
                         this.torrentModel.set('torrent', this.torrent);
-                        App.WebTorrent.emit('torrent', this.torrent);
                         resolve(this.torrent);
-                        return;
                     }
                 }
 
-                this.torrent = App.WebTorrent.add(uri, {
-                    path: App.settings.tmpLocation + '/' + infoHash,
-                    announce: Settings.trackers.forced
-                });
+                if (!this.torrent) {
+                  this.torrent = App.WebTorrent.add(uri, {
+                      path: App.settings.tmpLocation + '/' + infoHash,
+                      announce: Settings.trackers.forced
+                  });
+                }
+
                 const fs = require('fs');
-                fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + this.torrent.infoHash, uri);
+                fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash, uri);
 
                 this.torrent.on('metadata', function () {
                     this.torrentModel.set('torrent', this.torrent);
                     resolve(this.torrent);
                 }.bind(this));
+
                 this.torrent.on('download', function () {
                     if (this.torrentModel) {
                         this.torrentModel.set('downloadSpeed', Common.fileSize(this.torrent.downloadSpeed) + '/s');
@@ -151,8 +202,6 @@
                     }
                 }.bind(this));
 
-
-
                 this.torrent.on('upload', function () {
                     if (this.torrentModel) {
                         this.torrentModel.set('uploadSpeed', Common.fileSize(this.torrent.uploadSpeed) + '/s');
@@ -160,7 +209,6 @@
                         this.torrentModel.set('total_peers', this.torrent.numPeers);
                     }
                 }.bind(this));
-
 
                 this.torrent.on('error', function (error) {
                      if (this.torrent.infoHash) {
@@ -174,16 +222,11 @@
 
                 }.bind(this));
 
-
-
                 App.WebTorrent.on('error', function (error) {
                     win.error('WebTorrent fatal error', error);
                     this.stop();
                     reject(error);
                 }.bind(this));
-
-
-
             }.bind(this));
         },
 
@@ -359,6 +402,7 @@
             this.updateStatsInterval = setInterval(this.streamInfo.updateStats.bind(this.streamInfo), 1000);
             this.streamInfo.updateInfos();
             this.torrentModel.on('change', this.streamInfo.updateInfos.bind(this.streamInfo));
+            return App.vent.trigger('stream:started', this.stateModel);
         },
 
         // dummy element to fire stream:start
@@ -401,7 +445,6 @@
                 show_controls: false,
                 streamInfo: this.streamInfo
             });
-            App.vent.trigger('stream:started', this.stateModel);
         },
 
         watchState: function () {
@@ -498,7 +541,7 @@
                                     this.subtitleReady = true;
                                     this.streamInfo.set('subServer', 'http://127.0.0.1/data.vtt');
                                 }
-    }.bind(this));
+                            }.bind(this));
                         }
                         else {
                             this.subtitleReady = true;
@@ -516,26 +559,27 @@
                 this.subtitleReady = true;
             }
         },
+
         // serve subtitles on a local server to make them accessible to remote cast devices
-serveSubtitles: function(localPath) {
-    App.vent.trigger('subtitle:convert', {
-        path: localPath
-    }, function(err, res) {
-        if (err) {
-            win.error('error converting subtitles', err);
-            this.streamInfo.set('subFile', null);
-            App.vent.trigger('notification:show', new App.Model.Notification({
-                title: i18n.__('Error converting subtitle'),
-                body: i18n.__('Try another subtitle or drop one in the player'),
-                showRestart: false,
-                type: 'error',
-                autoclose: true
-            }));
-        } else {
-            App.SubtitlesServer.start(res);
-        }
-    }.bind(this));
-},
+        serveSubtitles: function(localPath) {
+            App.vent.trigger('subtitle:convert', {
+                path: localPath
+            }, function(err, res) {
+                if (err) {
+                    win.error('error converting subtitles', err);
+                    this.streamInfo.set('subFile', null);
+                    App.vent.trigger('notification:show', new App.Model.Notification({
+                        title: i18n.__('Error converting subtitle'),
+                        body: i18n.__('Try another subtitle or drop one in the player'),
+                        showRestart: false,
+                        type: 'error',
+                        autoclose: true
+                    }));
+                } else {
+                    App.SubtitlesServer.start(res);
+                }
+            }.bind(this));
+        },
 
         handleSubtitles: function () {
             if (this.stopped) {
@@ -607,12 +651,9 @@ serveSubtitles: function(localPath) {
 
     var streamer = new WebTorrentStreamer();
 
+    App.vent.on('stream:loadExistTorrents', streamer.initExistTorrents.bind(streamer));
     App.vent.on('stream:start', streamer.start.bind(streamer));
     App.vent.on('stream:stop', streamer.stop.bind(streamer));
+    App.vent.on('stream:download', streamer.download.bind(streamer));
     App.vent.on('stream:serve_subtitles', streamer.serveSubtitles.bind(streamer));
-
-    if (Settings.continueSeedingOnStart) {
-        streamer.initExistTorrents();
-    }
-
 })(window.App);

@@ -104,6 +104,7 @@
 
       }
 
+      this.ddone = 'false';
       win.info("Loading torrent");
 
       this.listenTo(this.model, "change:state", this.onStateUpdate);
@@ -187,7 +188,6 @@
       win.info("Loading torrent:", state);
 
       this.ui.stateTextDownload.text(i18n.__(state));
-      this.ui.stateTextStreamUrl.text(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress));
       this.ui.stateTextFilename.text(streamInfo.get('filename'));
       this.ui.stateTextSize.text(Common.fileSize(streamInfo.get('size')));
       this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
@@ -277,8 +277,8 @@
         $('#rbreak1,#rbreak2,#rbreak3').hide();
         $('#rdownl').hide();
         $('#ractpr').hide();
-        if (ddone === 'false') {
-            ddone = 'true';
+        if (this.ddone === 'false') {
+            this.ddone = 'true';
             $('.cancel-button').css('background-color', '#27ae60');
             $('.cancel-button').css('left', '-45px');
             if (Settings.activateLoCtrl === false) {
@@ -291,7 +291,7 @@
                 $('.maximize-icon').css('visibility', 'hidden');
             };
             this.listenTo(this.model.get('streamInfo'), 'change:uploadSpeed', this.onProgressUpdate);
-        };
+        }
     }
 
     this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
@@ -400,7 +400,7 @@ titletoclip: function (e) {
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('title'), 'text');
         $('.notification_alert').text(i18n.__('The title was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-    };
+    }
 },
 
 filenametoclip: function (e) {
@@ -409,7 +409,7 @@ filenametoclip: function (e) {
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('filename'), 'text');
         $('.notification_alert').text(i18n.__('The filename was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-    };
+    }
 },
 
 streamurltoclip: function (e) {
@@ -418,7 +418,7 @@ streamurltoclip: function (e) {
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress), 'text');
         $('.notification_alert').text(i18n.__('The stream url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-    };
+    }
 },
     pauseStreaming: function() {
       App.vent.trigger("device:pause");

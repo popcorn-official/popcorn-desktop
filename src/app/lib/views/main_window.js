@@ -23,7 +23,8 @@
       Help: "#help-container",
       TorrentCollection: "#torrent-collection-container",
       Issue: "#issue-container",
-      Notification: "#notification"
+      Notification: "#notification",
+      Seedbox: "#seedbox-container"
     },
 
     ui: {
@@ -130,6 +131,20 @@
         _.bind(
           this.getRegion("TorrentCollection").empty,
           this.getRegion("TorrentCollection")
+        )
+      );
+
+      // Seedbox collection
+      App.vent.on(
+        "seedbox:show",
+        _.bind(this.showSeedbox, this)
+      );
+
+      App.vent.on(
+        "seedbox:close",
+        _.bind(
+          this.getRegion("Seedbox").empty,
+          this.getRegion("Seedbox")
         )
       );
 
@@ -277,6 +292,9 @@
             that.movieTabShow(); //needed because Torrentcollection isnt a real collection
             that.showTorrentCollection();
             break;
+          case "Seedbox":
+            that.showSeedbox();
+            break;
           default:
             that.movieTabShow();
         }
@@ -401,6 +419,10 @@
 
     showTorrentCollection: function(e) {
       this.showChildView("TorrentCollection", new App.View.TorrentCollection());
+    },
+
+    showSeedbox: function(e) {
+      this.showChildView("Seedbox", new App.View.Seedbox());
     },
 
     showKeyboard: function(e) {
