@@ -106,6 +106,10 @@
           $(".right .search").hide();
           $("#filterbar-torrent-collection").addClass("active");
           break;
+        case "Seedbox":
+          $(".right .search").hide();
+          $("#filterbar-seedbox").addClass("active");
+          break;
       }
 
       if (Settings.rememberFilters) {
@@ -186,6 +190,10 @@
             break;
           case "Torrent-collection":
             App.currentview = "Torrent-collection";
+            App.previousview = "movies";
+            break;
+          case "Seedbox":
+            App.currentview = "Seedbox";
             App.previousview = "movies";
             break;
           default:
