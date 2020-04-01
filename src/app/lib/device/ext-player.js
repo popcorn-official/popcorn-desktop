@@ -221,11 +221,12 @@
         folderName = path.resolve(folderName);
         win.info('Scanning: ' + folderName);
         var appIndex = -1;
-        var fileStream = readdirp(folderName, {
+        var fileStream = readdirp({
+            root: folderName,
             depth: 3
         });
         fileStream.on('data', function (d) {
-            var app = d.basename.replace('.app', '').replace('.exe', '').toLowerCase();
+            var app = d.name.replace('.app', '').replace('.exe', '').toLowerCase();
             var match = _.filter(players, function (v, k) {
                 return k.toLowerCase() === app;
             });
