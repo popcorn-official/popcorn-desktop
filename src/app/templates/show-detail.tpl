@@ -75,6 +75,7 @@
                             </a>
 
                             <i id="watched-<%=episodeData.season%>-<%=episodeData.episode%>" class="fa fa-eye watched"></i>
+                            <i id="download-torrent" class="fa fa-download watched"></i>
                         </li>
                         <% }); %>
                     </ul>

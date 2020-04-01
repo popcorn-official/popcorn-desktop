@@ -61,26 +61,6 @@
             </div>
           </div>
         </div>
-        <div class="seedbox-watch">
-          <div class="sdow-watchnow">
-            <div id="player-chooser">
-              <div class="button dropup">
-                <div id="watch-now" class="left startStreaming" data-torrent="" data-episodeid="6215283" data-episode="1" data-season="1" data-quality="720p" data-title="Burnt Food">Watch Now</div>
-                <div class="dropdown-toggle left playerchoice" data-toggle="dropdown">
-                  <img class="imgplayerchoice" src="images/icons/local-icon.png">
-                  <span class="caret"></span>
-                </div>
-                <ul class="dropdown-menu playerchoicemenu" role="menu">
-                  <li id="player-local">
-                    <a href="#" class="active"> Popcorn Time
-                      <img class="playerchoiceicon" src="images/icons/local-icon.png">
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
