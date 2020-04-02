@@ -75,7 +75,6 @@
                             </a>
 
                             <i id="watched-<%=episodeData.season%>-<%=episodeData.episode%>" class="fa fa-eye watched"></i>
-                            <i id="download-torrent" class="fa fa-download watched"></i>
                         </li>
                         <% }); %>
                     </ul>
@@ -101,6 +100,7 @@
                 <div class="sdow-watchnow">
                     <div id="player-chooser"></div>
                 </div>
+                <div id="download-torrent" class="button play-selector"><%=i18n.__("Download") %></div>
             </div>
         </div>
     </section>
