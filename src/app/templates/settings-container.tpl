@@ -527,6 +527,10 @@
                 <input class="settings-checkbox" name="continueSeedingOnStart" id="continueSeedingOnStart" type="checkbox" <%=(Settings.continueSeedingOnStart? "checked='checked'":"")%>>
                 <label class="settings-label" for="continueSeedingOnStart"><%= i18n.__("Continue seeding torrents after restart app?") %></label>
             </span>
+            <span>
+                <p><%= i18n.__("Maximum number of active torrents") %></p>
+                <input id="maxActiveTorrents" type="number" name="maxActiveTorrents" value="<%=Settings.maxActiveTorrents%>"/>
+            </span>
         </div>
     </section>
 

@@ -260,6 +260,7 @@
                 case 'connectionLimit':
                 case 'streamPort':
                 case 'subtitle_color':
+                case 'maxActiveTorrents':
                     value = field.val();
                     break;
                 case 'tmpLocation':
