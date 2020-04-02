@@ -208,11 +208,7 @@ App.onStart = function (options) {
 
 var deleteFolder = function (path) {
 
-  rimraf(path, function (err) {
-      if (err) {
-          console.log(err);
-      }
-  });
+  rimraf.sync(path);
 };
 
 var deleteCookies = function () {

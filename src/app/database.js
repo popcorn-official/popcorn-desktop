@@ -411,10 +411,7 @@ var Database = {
 
                 App.vent.trigger('initHttpApi');
                 App.vent.trigger('db:ready');
-
-                if (Settings.continueSeedingOnStart) {
-                  App.vent.trigger('stream:loadExistTorrents');
-                }
+                App.vent.trigger('stream:loadExistTorrents');
 
                 /*return AdvSettings.checkApiEndpoints([
                     Settings.updateEndpoint
