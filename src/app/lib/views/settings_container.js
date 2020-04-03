@@ -260,6 +260,7 @@
                 case 'connectionLimit':
                 case 'streamPort':
                 case 'subtitle_color':
+                case 'maxActiveTorrents':
                     value = field.val();
                     break;
                 case 'tmpLocation':
@@ -350,6 +351,7 @@
                     } else {
                         $('#torrent_col').css('display', 'none');
                         App.vent.trigger('torrentCollection:close');
+                        App.vent.trigger('seedbox:close');
                     }
                     break;
                 case 'animeTabDisable':
@@ -581,7 +583,7 @@
         moveTmpLocation: function (location) {
             if (!fs.existsSync(location)) {
                 fs.mkdirSync(location);
-                fs.mkdirSync(location + '/TorrentCache')
+                fs.mkdirSync(location + '/TorrentCache');
             }
             if (App.settings['deleteTmpOnClose']) {
                 deleteFolder(oldTmpLocation);

@@ -100,6 +100,7 @@
                 <div class="sdow-watchnow">
                     <div id="player-chooser"></div>
                 </div>
+                <div id="download-torrent" class="button play-selector"><%=i18n.__("Download") %></div>
             </div>
         </div>
     </section>

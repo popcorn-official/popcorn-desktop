@@ -21,6 +21,7 @@
             'click .sha-watched': 'markShowAsWatched',
             'click .watched': 'toggleWatched',
             'click #watch-now': 'startStreaming',
+            "click #download-torrent": "downloadTorrent",
             'click .close-icon': 'closeDetails',
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
@@ -499,6 +500,12 @@
             App.vent.trigger('stream:start', torrentStart);
         },
 
+        downloadTorrent: function(e) {
+          var torrent = $(e.currentTarget).attr('data-torrent');
+          App.vent.trigger("stream:download", torrent);
+          App.vent.trigger("seedbox:show");
+        },
+
         closeDetails: function (e) {
             App.vent.trigger('show:closeDetail');
         },
@@ -581,6 +588,7 @@
         },
         selectTorrent: function(torrent, key) {
             $('.startStreaming').attr('data-torrent', torrent.url);
+            $('#download-torrent').attr('data-torrent', torrent.url);
             $('.startStreaming').attr('data-quality', key);
 
             _this.resetHealth();

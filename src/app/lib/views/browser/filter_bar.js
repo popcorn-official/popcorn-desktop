@@ -31,7 +31,8 @@
       "click #filterbar-favorites": "showFavorites",
       "click #filterbar-watchlist": "showWatchlist",
       "click #filterbar-torrent-collection": "showTorrentCollection",
-      "click .triggerUpdate": "updateDB"
+      "click .triggerUpdate": "updateDB",
+      "click #filterbar-seedbox": "showSeedbox"
     },
 
     initialize: function(e) {
@@ -104,6 +105,10 @@
         case "Torrent-collection":
           $(".right .search").hide();
           $("#filterbar-torrent-collection").addClass("active");
+          break;
+        case "Seedbox":
+          $(".right .search").hide();
+          $("#filterbar-seedbox").addClass("active");
           break;
       }
 
@@ -187,6 +192,10 @@
             App.currentview = "Torrent-collection";
             App.previousview = "movies";
             break;
+          case "Seedbox":
+            App.currentview = "Seedbox";
+            App.previousview = "movies";
+            break;
           default:
             App.currentview = "movies";
         }
@@ -238,6 +247,7 @@
     search: function(e) {
       App.vent.trigger("about:close");
       App.vent.trigger("torrentCollection:close");
+      App.vent.trigger("seedbox:close");
       App.vent.trigger("movie:closeDetail");
       e.preventDefault();
       var searchvalue = this.ui.searchInput.val();
@@ -265,6 +275,7 @@
 
       App.vent.trigger("about:close");
       App.vent.trigger("torrentCollection:close");
+      App.vent.trigger("seedbox:close");
       App.vent.trigger("movie:closeDetail");
 
       e.preventDefault();
@@ -284,6 +295,7 @@
     sortBy: function(e) {
       App.vent.trigger("about:close");
       App.vent.trigger("torrentCollection:close");
+      App.vent.trigger("seedbox:close");
       this.$(".sorters .active").removeClass("active");
       $(e.target).addClass("active");
 
@@ -309,6 +321,7 @@
     changeType: function(e) {
       App.vent.trigger("about:close");
       App.vent.trigger("torrentCollection:close");
+      App.vent.trigger("seedbox:close");
       this.$(".types .active").removeClass("active");
       $(e.target).addClass("active");
 
@@ -356,6 +369,7 @@
         App.previousview = App.currentview;
         App.currentview = "Torrent-collection";
         App.vent.trigger("about:close");
+        App.vent.trigger("seedbox:close");
         App.vent.trigger("torrentCollection:show");
         this.setactive("Torrent-collection");
       } else {
@@ -365,11 +379,27 @@
       }
     },
 
+    showSeedbox: function(e) {
+      e.preventDefault();
+      if (App.currentview !== "Seedbox") {
+        App.previousview = App.currentview;
+        App.currentview = "Seedbox";
+        App.vent.trigger("about:close");
+        App.vent.trigger("seedbox:show");
+        this.setactive("Seedbox");
+      } else {
+        App.currentview = App.previousview;
+        App.vent.trigger("seedbox:close");
+        this.setactive(App.currentview);
+      }
+    },
+
     tvshowTabShow: function(e) {
       e.preventDefault();
       App.currentview = "shows";
       App.vent.trigger("about:close");
       App.vent.trigger("torrentCollection:close");
+      App.vent.trigger("seedbox:close");
       App.vent.trigger("shows:list", []);
       this.setactive("TV Series");
     },
@@ -379,6 +409,7 @@
       App.currentview = "anime";
       App.vent.trigger("about:close");
       App.vent.trigger("torrentCollection:close");
+      App.vent.trigger("seedbox:close");
       App.vent.trigger("anime:list", []);
       this.setactive("Anime");
     },
@@ -388,6 +419,7 @@
       App.currentview = "movies";
       App.vent.trigger("about:close");
       App.vent.trigger("torrentCollection:close");
+      App.vent.trigger("seedbox:close");
       App.vent.trigger("movies:list", []);
       this.setactive("Movies");
     },
@@ -400,6 +432,7 @@
         App.currentview = "Favorites";
         App.vent.trigger("about:close");
         App.vent.trigger("torrentCollection:close");
+        App.vent.trigger("seedbox:close");
         App.vent.trigger("favorites:list", []);
         this.setactive("Favorites");
       } else {
@@ -413,6 +446,7 @@
         } else {
           App.vent.trigger("about:close");
           App.vent.trigger("torrentCollection:close");
+          App.vent.trigger("seedbox:close");
           App.vent.trigger("favorites:list", []);
           this.setactive("Favorites");
         }
@@ -427,6 +461,7 @@
         App.currentview = "Watchlist";
         App.vent.trigger("about:close");
         App.vent.trigger("torrentCollection:close");
+        App.vent.trigger("seedbox:close");
         App.vent.trigger("watchlist:list", []);
         this.setactive("Watchlist");
       } else {
@@ -440,6 +475,7 @@
         } else {
           App.vent.trigger("about:close");
           App.vent.trigger("torrentCollection:close");
+          App.vent.trigger("seedbox:close");
           App.vent.trigger("watchlist:list", []);
           this.setactive("Watchlist");
         }

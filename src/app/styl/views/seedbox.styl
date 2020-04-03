@@ -1,0 +1,427 @@
+.seedbox-container
+    height 100%
+    width 100%
+    position fixed
+    background-color $BgColor1
+    -webkit-user-select none
+    opacity 1
+
+    .margintop
+        height 100px
+
+    .content
+        margin 0 auto
+        height calc(100% - 140px)
+        color $TextError
+        font-weight 100
+        font-family $AlternateFont
+        font-size 17px
+
+        .seedbox-details
+          width: 100vw
+          z-index: 1
+          background: $ShowBgColor1
+          height: 100%
+          display: flex
+          flex-direction: row
+          padding-left: 20px /* left-pad */
+
+          .seedbox-types ul, .seedbox-torrents ul
+              height: calc(100vh - 340px)
+              cursor: pointer
+              direction: rtl
+              scrollable()
+
+              li
+                  padding: 0px 15px
+                  margin: 1px 0px 1px 1px
+                  float: left
+                  width: calc(100% - 7px)
+
+                  .watched
+                      padding 9px 0
+                      color: $ShowWatchedIcon_false
+                      transition color .5s
+
+                      &:hover
+                          color: $ShowWatchedIcon_hover
+
+                      &.true
+                          color: $ShowWatchedIcon_true
+
+              li:nth-child(odd)
+                  background-color $ShowBgColor2
+
+              li:hover
+                  background $EpisodeSelectorHover
+
+              li.active
+                  background-color $EpisodeSelectorBg
+                  position relative
+
+                  &:after
+                      content ""
+                      position absolute
+                      top 0px
+                      right -12px
+                      width 0
+                      height 0
+                      border-color $ShowBgColor1 $ShowBgColor1 $ShowBgColor1 $EpisodeSelectorBg
+                      border-style solid
+                      border-width 16px 6px 17px 6px
+
+              a
+                  text-decoration: none
+                  font-size: 15px
+                  line-height: 34px
+                  font-weight: normal
+                  float: left
+                  flex-direction: row
+                  direction: ltr
+
+                  span
+                      float: left
+                      margin: 0px 15px 0px 5px
+
+                  div
+                      float: left
+                      white-space: nowrap
+                      border-left: 1px solid $ShowBgColor1
+                      padding-left: 30px
+                      max-width: calc(60vw - 265px)
+                      text-align: left
+                      overflow: hidden
+                      text-overflow: ellipsis
+
+          .seedbox-types, .seedbox-torrents
+              .seedbox-types-title, .seedbox-torrent-title
+                  font-size: 24px
+                  overflow: hidden
+                  text-overflow: ellipsis
+                  white-space: nowrap
+                  margin-bottom: 15px
+                  margin-top: 2px
+                  color: $ShowText1
+
+          .seedbox-types
+              min-width: 165px
+              max-width: 165px
+              flex-shrink: 1
+              flex-grow: 1
+              padding: 10px
+
+              .seedbox-types-list ul a
+                  color: $SaisonListText
+                  font-family: $AlternateFont
+                  white-space: nowrap
+
+          .seedbox-torrents
+              flex-grow: 2
+              padding: 10px
+
+              .seedbox-torrent-list ul li a
+                  color: $EpisodeListText
+                  font-family: $MainFont
+
+              .seedbox-torrent-list ul li.active a
+                  color: $EpisodeSelectorText
+
+              .notorrents-info
+                  display block
+                  height 5%
+
+                  .notorrents-frame
+                      border 6px dashed $TextError
+                      margin 0 auto
+                      width 250px
+                      height 250px
+                      border-radius 25px
+                      color $TextError
+                      text-align center
+                      transition all .3s
+
+                      &:hover
+                          color $ButtonBgHover
+                          border-color $ButtonBgHover
+                      &:active
+                          color $ButtonBgActive
+                          border-color $ButtonBgActive
+
+                      .notorrents-icon
+                          font-size 140px
+                          padding-top 20px
+
+                      .notorrents-message
+                          margin-top 10px
+                          font-family $MainFontBold
+                          font-size 20px
+
+          .seedbox-overview
+              background: $ShowBgColor2
+              flex-grow: 1
+              flex-shrink: 0
+              width: 35vw
+              min-width: 350px
+              padding: 10px 30px 10px 18px /* right pad */
+              margin-top: 28px
+
+              .seedbox-infos
+                  .seedbox-infos-title
+                      overflow: hidden
+                      white-space: nowrap
+                      text-overflow: ellipsis
+                      font-size: 24px
+                      font-weight: bold
+                      margin-top: 2px
+                      margin-bottom: 6px
+                      color: $ShowText1
+
+                  .seedbox-infos-links
+                      position: absolute
+                      right: 42px
+                      margin-top: -6px
+
+                      &>div
+                          padding: 5px 2px
+                          cursor: pointer
+                          position: relative
+
+                      .health-icon
+                          font-size: 14px
+                          color: #737577
+                          transition: all .3s ease-in
+
+                          &.Bad
+                              color: #d53f3f
+                          &.Medium
+                              color: #ece523
+                          &.Good
+                              color: #a3e147
+                          &.Excellent
+                              color: #2ad942
+
+                      .magnet-icon
+                          font-size: 13px
+                          color: #DDD
+
+                          &:hover
+                              color: #FFF
+                              transition: all .5s
+
+                  .seedbox-infos-aired
+                      font-size: 14px
+                      line-height: 20px
+                      margin-bottom: 10px
+                      color: $ShowText2
+
+                      .seedbox-infos-date
+                          overflow: hidden
+                          white-space: nowrap
+                          text-overflow: ellipsis
+
+                  .seedbox-infos-synopsis
+                      color: $ShowText1
+                      font-size: 13px
+                      line-height: 18px
+                      text-align: justify
+                      margin-top: 10px
+                      padding: 2px 15px 5px 0
+                      height: calc(100vh - 335px)
+                      scrollable()
+
+                      ul
+                          li.file-item,
+                          li.result-item
+                              border-bottom 1px solid rgba(255, 255, 255, 0.06)
+                              background $FileSelectorBg
+                              text-align left
+                              cursor pointer
+                              color $FileSelectorText
+                              height 46px
+                              padding-left 40px
+                              padding-top 14px
+                              padding-right 50px
+
+                              a
+                                  color $FileSelectorText
+                                  text-decoration blink
+                                  width 100%
+                                  display block
+                                  transition all 0.3s
+                                  overflow hidden
+                                  white-space nowrap
+                                  text-overflow ellipsis
+
+                                  &:hover
+                                      color $ButtonBgHover
+                                  &:active
+                                      color $ButtonBgActive
+
+                              .item-delete,
+                              .item-rename
+                                  position relative
+                                  color: $TextError
+                                  transition all 0.3s
+                                  cursor pointer
+                                  left calc(100% + 25px)
+                                  top -15px
+
+                                  &:hover
+                                      color $ButtonBgHover
+
+                              .item-rename
+                                  left calc(100% - 15px)
+
+                              .item-icon
+                                  position relative
+                                  font-family "Font Awesome 5 Free"
+                                  font-weight: 900
+                                  font-style normal
+                                  font-size 15px
+                                  height 15px
+                                  width 15px
+                                  color $FileSelectorText
+                                  opacity 0.7
+                                  left -25px
+                                  margin-top -16px
+
+                                  &.torrent-icon:before
+                                      content: '\f016'
+                                  &.magnet-icon:before
+                                      content: '\f076'
+
+                                  &.magnet-icon:hover
+                                      cursor pointer
+                                      opacity 1
+
+                              .online-size
+                                  position relative
+                                  color: $TextError
+                                  font-style normal
+                                  font-size .9em
+                                  left calc(100% - 35px)
+                                  top -15px
+
+                          li.result-item a
+                              width calc(100% - 50px)
+
+              .seedbox-watch
+                  height: 60px
+                  padding: 10px 0
+
+                  .sdow-quality
+                      margin-top: 20px
+                      float: left
+
+                      div
+                          cursor: pointer
+                          float: left
+                          font-family: $MainFont;
+                          -webkit-font-smoothing: antialiased;
+                          font-size: 11px
+                          color: $ShowText1
+                          transition: all .2s ease-in
+                          padding: 4px
+                          margin-right: 6px
+
+                      .disabled
+                          opacity: .3
+                          cursor: default
+
+                      .active
+                          cursor: pointer
+                          opacity: 1
+                          color: $QualitySelectorText
+                          background: $QualitySelectorBg
+                          border-radius: 10px
+                          font-family: $MainFontBold
+
+                  .sdow-watchnow
+                      margin-top: 6px
+                      float: right
+
+          /* ugly rule to bypass restrictions */
+          .seedbox-types[style*="display: none"] + .seedbox-torrents ul a div
+              max-width: calc(60vw - 100px)
+
+        // Progress container
+        .progress-wrapper {
+            position: relative;
+            padding-top: 1.5rem;
+        }
+
+
+        // General styles
+        .progress {
+            height: 8px;
+            margin-bottom: $spacer;
+            overflow: hidden;
+            border-radius: .2rem !default;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+
+            .sr-only {
+                width: auto;
+                height: 20px;
+                margin: 0 0 0 30px;
+                left: 0;
+                clip: auto;
+                line-height: 20px;
+                font-size: 13px;
+            }
+        }
+
+
+        // Size variations
+        .progress-sm {
+            height: 5px;
+        }
+
+        .progress-xs {
+            height: 3px;
+        }
+
+        // Progress inner elements
+        .progress-heading {
+            font-size: 14px;
+            font-weight: 500;
+            margin: 0 0 2px;
+            padding: 0;
+        }
+
+        .progress-bar {
+            box-shadow: none;
+            border-radius: 0;
+            height: 8px;
+            background-color: #fb6340 !important;
+            background-image: linear-gradient(to bottom, #fb6340 100%, #fb6340 100%) !important;
+        }
+
+        .progress-info {
+            margin-bottom: .5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .progress-label {
+            span {
+                display: inline-block;
+                color: #5e72e4;
+                font-size: .625rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                background: rgba(#5e72e4, .1);
+                padding: .25rem 1rem;
+                border-radius: 30px;
+            }
+        }
+
+        .progress-percentage {
+            text-align: right;
+            span {
+                display: inline-block;
+                color: #e9ecef !default;
+                font-size: .875rem;
+                font-weight: 600;
+            }
+        }
