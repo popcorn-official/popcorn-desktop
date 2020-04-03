@@ -228,13 +228,13 @@
 
     if (data.type === "movie") {
       return Database.getMovie(data.imdb_id).then(details => {
-        return Object.assign(data, details);
+        return Object.assign({}, data, details);
       });
     }
 
     var tvShowProvider = App.Config.getProviderForType("tvshow");
     return tvShowProvider[0].detail(data.imdb_id, data).then(details => {
-      return Object.assign(data, details);
+      return Object.assign({}, data, details);
     });
   };
 
