@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var About = Backbone.Marionette.ItemView.extend({
+    var About = Marionette.View.extend({
         template: '#about-tpl',
         className: 'about',
 
@@ -11,11 +11,10 @@
 
         events: {
             'click .close-icon': 'closeAbout',
-            'click #changelog': 'showChangelog',
-            'click .title-issue': 'reportIssue'
+            'click #changelog': 'showChangelog'
         },
 
-        onShow: function () {
+        onAttach: function () {
             $('.filter-bar').hide();
             $('#header').addClass('header-shadow');
 
@@ -27,7 +26,7 @@
             $('#movie-detail').hide();
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             Mousetrap.unbind(['esc', 'backspace']);
             $('.filter-bar').show();
             $('#header').removeClass('header-shadow');
@@ -51,10 +50,6 @@
                     nw.Shell.openExternal(Settings.changelogUrl);
                 }
             });
-        },
-
-        reportIssue: function () {
-            App.vent.trigger('issue:new');
         },
 
         closeChangelog: function () {

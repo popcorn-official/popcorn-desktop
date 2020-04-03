@@ -12,7 +12,17 @@
     padding-top $TitleHeight
     -webkit-backface-visibility hidden
 
-    .loading-background
+    #vpn-contents
+        display: none
+
+    #userISP
+        text-decoration: underline
+
+    .vpn
+        margin-top 20px
+        margin-bottom 20px
+
+    .loading-backdrop
         position: absolute
         width: 100%
         height: 100%
@@ -22,27 +32,28 @@
         background-size cover
         -webkit-filter: blur(15px) brightness(0.7)
 
-    .loading-background-overlay
+    .loading-backdrop-overlay
         width 100%
         height 100%
         position absolute
         opacity 0.65
         background-color #000
 
+    .state-flex
+        height: 100%
+        display: flex
+        align-items: center
+        justify-content: center
+
     .state
         color #fff
         font-family $MainFont
         -webkit-font-smoothing antialiased
         text-align center
-        width 40%
-        height 350px
+        width 500px
+        height 400px
         z-index 11
-        margin auto
-        left 0
-        right 0
         -webkit-backface-visibility hidden
-        position: relative
-        top: calc(50% - 180px)
 
         .title
             font-family $MainFontBold
@@ -61,15 +72,22 @@
             position relative
             margin-bottom 10px
             margin-top 10px
+            width 100%
             background-color #bababa
             border-radius 13px
-            //padding 3px
+            overflow hidden
 
             & > div
                 background-color $ButtonBgActive
+                margin-left -100%
+                width 100%
                 height 5px
                 border-radius 13px
                 left 0px
+                animation-name bounce_bar
+                animation-duration 3s
+                animation-iteration-count infinite
+                animation-timing-function linear
 
         .playing-progressbar
             position relative
@@ -94,16 +112,51 @@
             i
                 cursor pointer
                 margin-right 20px
+
+        #cancel-button-vpn
+            width 140px!important
+            position inherit!important
+
+        #cancel-button-regular
+            margin-top: 10px
+            font-size: 10px
+            cursor: pointer
+
+        .vpn
+            .heading
+                font-size: 25px
+                margin-bottom: 10px
+            .subheading
+                font-size: 15px
+                margin-bottom: 10px
+                line-height: 20px
+            .flex-map
+                display: flex
+                align-items: center
+                margin-top: 20px
+                margin-bottom: 20px
+                .details
+                    padding-left: 20px
+                    .group
+                        margin-bottom: 15px;
+                        display: flex
+                        text-align: left;
+                        .fixed-width
+                            width: 140px
+
+
+            .map
+                width: 300px
+                img
+                    border: 10px solid #bbb;
+                    width: 100%
+
         .cancel-button
-            bottom 20px
             z-index 2
-            position absolute
             cursor pointer
             width 120px
             height 35px
             margin auto
-            left 0
-            right 0
             -moz-border-radius 3px
             -webkit-border-radius 3px
             border-radius 3px
@@ -112,7 +165,6 @@
             background-clip padding-box
             background-color $ButtonBg
             -webkit-backface-visibility hidden
-            transition all .5s
 
             &:hover
                 background: $ButtonBgHover
@@ -179,6 +231,13 @@
         &:before
             content '\f071'
             color #FFFF00
-            font-family "fontawesome"
+            font-family "Font Awesome 5 Free"
+            font-weight: 900
             font-size 16px
             padding-right 8px
+
+@keyframes bounce_bar
+    0%
+        margin-left:-100%;
+    100%
+        margin-left:100%;

@@ -1,229 +1,309 @@
 /* globals moment*/
-(function (App) {
-    'use strict';
-    var memoize = require('memoizee');
-    var Watchlist = function () {
-        this.fetch = memoize(this._fetch.bind(this), {
-            maxAge: 30 * 1000, // 30sec
-            preFetch: 0.5, // recache every 15sec
-            primitive: true
-        });
-    };
-    Watchlist.prototype.constructor = Watchlist;
-    Watchlist.prototype.config = {
-        name: 'Watchlist'
-    };
+(function(App) {
+  "use strict";
+  var memoize = require("memoizee");
+  var Watchlist = function() {
+    this.fetch = memoize(this._fetch.bind(this), {
+      maxAge: 30 * 1000, // 30sec
+      preFetch: 0.5, // recache every 15sec
+      primitive: true
+    });
+  };
+  Watchlist.prototype.constructor = Watchlist;
+  Watchlist.prototype.config = {
+    name: "Watchlist"
+  };
 
-    var rearrange = function (items) {
-        var movies = [],
-            arranged_movies,
-            shows = [],
-            arranged_shows;
+  var rearrange = function(items) {
+    var movies = [],
+      arranged_movies,
+      shows = [],
+      arranged_shows;
 
-        return Promise.all(items.map(function (item) {
-            if (item) {
-                if (item.first_aired) {
-                    shows.push(item);
-                } else {
-                    movies.push(item);
-                }
-            }
-        })).then(function () {
-            arranged_shows = shows.sort(function(a, b){
-                if(a.episode_aired > b.episode_aired) {
-                    return -1;
-                }
-                if(a.episode_aired < b.episode_aired) {
-                    return 1;
-                }
-                return 0;
-            });
-            console.log('rearranged shows by air date');//debug
+    return Promise.all(
+      items.map(function(item) {
+        if (item) {
+          if (item.first_aired) {
+            shows.push(item);
+          } else {
+            movies.push(item);
+          }
+        }
+      })
+    ).then(function() {
+      arranged_shows = shows.sort(function(a, b) {
+        if (a.episode_aired > b.episode_aired) {
+          return -1;
+        }
+        if (a.episode_aired < b.episode_aired) {
+          return 1;
+        }
+        return 0;
+      });
 
-            arranged_movies = movies.sort(function(a, b){
-                if(a.listed_at < b.listed_at) {
-                    return -1;
-                }
-                if(a.listed_at > b.listed_at) {
-                    return 1;
-                }
-                return 0;
-            });
-            console.log('rearranged movies by watchlist addition date');//debug
-            
-            return arranged_shows.concat(movies);
-        });
-    };
+      arranged_movies = movies.sort(function(a, b) {
+        if (a.listed_at < b.listed_at) {
+          return -1;
+        }
+        if (a.listed_at > b.listed_at) {
+          return 1;
+        }
+        return 0;
+      });
 
-    var format = function (items) {
-        var itemList = [];
-        console.log('format'); //debug
+      return arranged_shows.concat(arranged_movies);
+    });
+  };
 
-        return Promise.all(items.map(function (item) {
-            if (item.next_episode) {
-                if(moment(item.next_episode.first_aired).fromNow().indexOf('in') !== -1) {
-                    console.warn('"%s" is not released yet, not showing', item.show.title + ' ' + item.next_episode.season + 'x' + item.next_episode.number);
-                } else {
-                    var show = item.show;
-                    show.type = 'show';
-                    show.episode = item.next_episode.number;
-                    show.season = item.next_episode.season;
-                    show.episode_title = item.next_episode.title;
-                    show.episode_id = item.next_episode.ids.tvdb;
-                    show.episode_aired = item.next_episode.first_aired;
-                    show.imdb_id = item.show.ids.imdb;
-                    show.tvdb_id = item.show.ids.tvdb;
-                    show.image = item.show.images.poster.thumb;
-                    show.rating = item.show.rating;
-                    show.title = item.show.title;
-                    show.trailer = item.show.trailer;
+  var format = function(items) {
+    var itemList = [];
 
-                    itemList.push(show);
-                }
+    return Promise.all(
+      items.map(function(item) {
+        if (item.next_episode) {
+          if (
+            moment(item.next_episode.first_aired)
+              .fromNow()
+              .indexOf("in") !== -1
+          ) {
+            console.log(
+              '"%s" is not released yet, not showing',
+              item.show.title +
+                " " +
+                item.next_episode.season +
+                "x" +
+                item.next_episode.number
+            );
+          } else {
+            var show = item.show;
+            show.type = "show";
+            show.episode = item.next_episode.number;
+            show.season = item.next_episode.season;
+            show.episode_title = item.next_episode.title;
+            show.episode_id = item.next_episode.ids.tvdb;
+            show.episode_aired = item.next_episode.first_aired;
+            show.imdb_id = item.show.ids.imdb;
+            show.tvdb_id = item.show.ids.tvdb;
+            show.rating = item.show.rating;
+            show.title = item.show.title;
+            show.trailer = item.show.trailer;
+            show.unseen = item.unseen;
+
+            itemList.push(show);
+          }
+        } else {
+          if (item.movie) {
+            if (
+              moment(item.movie.released)
+                .fromNow()
+                .indexOf("in") !== -1
+            ) {
+              console.log(
+                '"%s" is not released yet, not showing',
+                item.movie.title
+              );
             } else {
-                if (!item.movie) {
-                    console.log('item is not a movie', item); //debug
-                } else {
-                    if(moment(item.movie.released).fromNow().indexOf('in') !== -1) {
-                        console.warn('"%s" is not released yet, not showing', item.movie.title);
-                    } else {
-                        var movie = item.movie;
-                        movie.type = 'movie';
-                        movie.listed_at = item.listed_at;
-                        movie.imdb_id = item.movie.ids.imdb;
-                        movie.rating = item.movie.rating;
-                        movie.title = item.movie.title;
-                        movie.trailer = item.movie.trailer;
-                        movie.year = item.movie.year;
-                        movie.image = item.movie.images.poster.thumb;
+              var movie = item.movie;
+              movie.type = "movie";
+              movie.listed_at = item.listed_at;
+              movie.imdb_id = item.movie.ids.imdb;
+              movie.rating = item.movie.rating;
+              movie.title = item.movie.title;
+              movie.trailer = item.movie.trailer;
+              movie.year = item.movie.year;
 
-                        itemList.push(movie);
-                    }
-                }
+              itemList.push(movie);
             }
-        })).then(function () {
-            return itemList;
-        });
-    };
-
-    var load = function () {
-        delete localStorage.watchlist_fetched_time;
-        delete localStorage.watchlist_cached;
-        delete localStorage.watchlist_update_shows;
-        delete localStorage.watchlist_update_movies;
-
-        var watchlist = [];
-
-        return trakt.ondeck.getAll().then(function (tv) {
-            console.log('shows fetched'); //debug
-            // store update data
-            localStorage.watchlist_update_shows = JSON.stringify(tv);
-
-            // add tv show to watchlist
-            watchlist = watchlist.concat(tv.shows);
-
-            return trakt.sync.watchlist.get({
-                extended: 'full,images',
-                type: 'movies'
+          }
+        }
+      })
+    )
+      .then(function() {
+        return Promise.all(
+          itemList.map(function(item, idx) {
+            return App.Trakt.client.images.get(item).then(function(imgs) {
+              itemList[idx].poster = imgs.poster;
+              itemList[idx].backdrop = imgs.background;
+              console.log(itemList[idx]);
             });
-        }).then(function (movies) {
-            console.log('movies fetched'); //debug
+          })
+        );
+      })
+      .then(function() {
+        return itemList;
+      });
+  };
 
-            // store update data
-            localStorage.watchlist_update_movies = JSON.stringify(movies);
+  var load = function() {
+    delete localStorage.watchlist_fetched_time;
+    delete localStorage.watchlist_cached;
+    delete localStorage.watchlist_update_shows;
+    delete localStorage.watchlist_update_movies;
 
-            // add movies to watchlist
-            watchlist = watchlist.concat(movies);
+    var watchlist = [];
 
-            return format(watchlist);
-        }).then(rearrange).then(function (items) {
-            // store fetched timestamp
-            localStorage.watchlist_fetched_time = Date.now();
+    return App.Trakt.client.ondeck
+      .getAll()
+      .then(function(tv) {
+        // store update data
+        localStorage.watchlist_update_shows = JSON.stringify(tv);
 
-            // cache watchlist
-            localStorage.watchlist_cached = JSON.stringify(items);
+        // add tv show to watchlist
+        watchlist = watchlist.concat(tv.shows);
 
-            return {
-                results: items,
-                hasMore: false
-            };
+        return App.Trakt.client.sync.watchlist.get({
+          extended: "full",
+          type: "movies"
         });
+      })
+      .then(function(movies) {
+        // store update data
+        localStorage.watchlist_update_movies = JSON.stringify(movies);
+
+        // add movies to watchlist
+        watchlist = watchlist.concat(movies);
+
+        return format(watchlist);
+      })
+      .then(rearrange)
+      .then(function(items) {
+        // store fetched timestamp
+        localStorage.watchlist_fetched_time = Date.now();
+
+        // cache watchlist
+        localStorage.watchlist_cached = JSON.stringify(items);
+
+        return {
+          results: items,
+          hasMore: false
+        };
+      });
+  };
+
+  var update = function(id) {
+    var update_data = JSON.parse(localStorage.watchlist_update_shows);
+    delete localStorage.watchlist_fetched_time;
+    delete localStorage.watchlist_cached;
+    delete localStorage.watchlist_update_shows;
+
+    var watchlist = [];
+
+    return App.Trakt.client.ondeck
+      .updateOne(update_data, id)
+      .then(function(tv) {
+        // store update data
+        localStorage.watchlist_update_shows = JSON.stringify(tv);
+
+        // add tv show & movies to watchlist
+        watchlist = JSON.parse(localStorage.watchlist_update_movies).concat(
+          tv.shows
+        );
+
+        return format(watchlist);
+      })
+      .then(rearrange)
+      .then(function(items) {
+        // store fetched timestamp
+        localStorage.watchlist_fetched_time = Date.now();
+
+        // cache watchlist
+        localStorage.watchlist_cached = JSON.stringify(items);
+
+        return {
+          results: items,
+          hasMore: false
+        };
+      });
+  };
+
+  Watchlist.prototype.extractIds = function(items) {
+    return _.pluck(items, "imdb_id");
+  };
+
+  Watchlist.prototype.detail = function(id, data) {
+    var formatted = {
+      genre: data.genres,
+      synopsis: data.overview
     };
 
-    var update = function (id) {
-        var update_data = JSON.parse(localStorage.watchlist_update_shows);
-        delete localStorage.watchlist_fetched_time;
-        delete localStorage.watchlist_cached;
-        delete localStorage.watchlist_update_shows;
+    if (data.type === "movie") {
+      return Database.getMovie(data.imdb_id).then(details => {
+        return Object.assign(data, details);
+      });
+    }
 
-        var watchlist = [];
-        
-        return trakt.ondeck.updateOne(update_data, id).then(function (tv) {
-            console.log('shows updated'); //debug
-            // store update data
-            localStorage.watchlist_update_shows = JSON.stringify(tv);
+    var tvShowProvider = App.Config.getProviderForType("tvshow");
+    return tvShowProvider[0].detail(data.imdb_id, data).then(details => {
+      return Object.assign(data, details);
+    });
+  };
 
-            // add tv show & movies to watchlist
-            watchlist = JSON.parse(localStorage.watchlist_update_movies).concat(tv.shows);
+  Watchlist.prototype._fetch = function(filters) {
+    return new Promise(function(resolve, reject) {
+      if (
+        filters &&
+        typeof filters !== "function" &&
+        (filters.force || filters.update)
+      ) {
+        if (filters.update && localStorage.watchlist_update_shows) {
+          console.log("Watchlist - update one item");
+          return update(filters.update)
+            .then(resolve)
+            .catch(reject);
+        } else {
+          if (filters.force) {
+            console.log("Watchlist - force reload");
+            return load()
+              .then(resolve)
+              .catch(reject);
+          } else {
+            console.log("Watchlist - this should not be called", filters);
+            reject("SHOULDNT BE CALLED");
+          }
+        }
+      } else {
+        // cache is 4 hours
+        if (
+          !localStorage.watchlist_cached ||
+          parseInt(localStorage.watchlist_fetched_time) + 14400000 < Date.now()
+        ) {
+          console.log("Watchlist - no watchlist cached or cache expired");
+          if (App.Trakt.authenticated) {
+            return App.Providers.get("Watchlist")
+              .fetch({ force: true })
+              .then(resolve)
+              .catch(reject);
+          } else {
+            reject("Trakt not authenticated");
+          }
+        } else {
+          console.log("Watchlist - return cached");
+          resolve({
+            results: JSON.parse(localStorage.watchlist_cached),
+            hasMore: false
+          });
+        }
+      }
+    });
+  };
 
-            return format(watchlist);
-        }).then(rearrange).then(function (items) {
-            // store fetched timestamp
-            localStorage.watchlist_fetched_time = Date.now();
+  function onShowWatched(show, channel) {
+    if (channel === "database") {
+      setTimeout(function() {
+        App.Providers.get("Watchlist")
+          .fetch({
+            update: show.imdb_id
+          })
+          .then(function() {
+            if (App.currentview === "Watchlist") {
+              App.vent.trigger("watchlist:list");
+            }
+          });
+      }, 3000);
+    }
+  }
 
-            // cache watchlist
-            localStorage.watchlist_cached = JSON.stringify(items);
+  App.vent.on("show:watched", onShowWatched);
 
-            return {
-                results: items,
-                hasMore: false
-            };
-        });
-    };
-
-    Watchlist.prototype.extractIds = function (items) {
-        return _.pluck(items, 'imdb_id');
-    };
-
-    Watchlist.prototype.detail = function (torrent_id, old_data, callback) {
-        return {};
-    };
-
-    Watchlist.prototype._fetch = function (filters) {
-        return new Promise(function (resolve, reject) {
-            if (filters && typeof filters !== 'function' && (filters.force || filters.update)) {
-                if (filters.update && localStorage.watchlist_update_shows) {
-                    console.debug('Watchlist - update one item');
-                    return update(filters.update).then(resolve).catch(reject);
-                } else {
-                    if (filters.force) {
-                        console.debug('Watchlist - force reload');
-                        return load().then(resolve).catch(reject);
-                    } else {
-                        console.debug('Watchlist - this should not be called', filters);
-                        reject('SHOULDNT BE CALLED');
-                    }
-                }
-            } else {
-                // cache is 4 hours
-                if (!localStorage.watchlist_cached || parseInt(localStorage.watchlist_fetched_time) + 14400000 < Date.now()) {
-                    console.debug('Watchlist - no watchlist cached or cache expired');
-                    if (App.Trakt.authenticated) {
-                        return App.Providers.get('Watchlist').fetch({force:true}).then(resolve).catch(reject);
-                    } else {
-                        reject('Trakt not authenticated');
-                    }
-                } else {
-                    console.debug('Watchlist - return cached');
-                    resolve({
-                        results: JSON.parse(localStorage.watchlist_cached),
-                        hasMore: false
-                    });
-                }
-            }  
-        });
-    };
-
-    App.Providers.install(Watchlist);
-
+  App.Providers.install(Watchlist);
 })(window.App);

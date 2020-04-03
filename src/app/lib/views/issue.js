@@ -5,7 +5,7 @@
         BT_url = Settings.issuesUrl, //Url of 'issues' of the above project
         token;
 
-    var Issue = Backbone.Marionette.ItemView.extend({
+    var Issue = Marionette.View.extend({
         template: '#issue-tpl',
         className: 'issue',
 
@@ -24,7 +24,7 @@
             'click .login-issue': 'login'
         },
 
-        onShow: function () {
+        onAttach: function () {
             if (AdvSettings.get('gitlabPassword') && AdvSettings.get('gitlabMail')) {
                 $('#issue-email').val(AdvSettings.get('gitlabMail')),
                     $('#issue-pw').val(AdvSettings.get('gitlabPassword'));
@@ -255,7 +255,7 @@
             $('#issue-search').show();
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             Mousetrap.unbind(['esc', 'backspace']);
         },
 

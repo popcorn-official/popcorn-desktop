@@ -83,18 +83,26 @@
                 <label class="settings-label" for="translateSynopsis"><%= i18n.__("Translate Synopsis") %></label>
             </span>
             <span class="advanced">
-                <input class="settings-checkbox" name="coversShowRating" id="cb3" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb3"><%= i18n.__("Show rating over covers") %></label>
+                <input class="settings-checkbox" name="coversShowRating" id="coversShowRating" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
+                <label class="settings-label" for="coversShowRating"><%= i18n.__("Show rating over covers") %></label>
+            </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="alwaysOnTop" id="alwaysOnTop" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
+                <label class="settings-label" for="alwaysOnTop"><%= i18n.__("Always On Top") %></label>
             </span>
 
             <span class="advanced">
-                <input class="settings-checkbox" name="alwaysOnTop" id="cb4" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb4"><%= i18n.__("Always On Top") %></label>
+                <input class="settings-checkbox" name="animeTabDisable" id="animeTabDisable" type="checkbox" <%=(Settings.animeTabDisable ? "checked='checked'":"")%>>
+                <label class="settings-label" for="animeTabDisable"><%= i18n.__("Disable Anime Tab") %></label>
+            </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="indieTabDisable" id="indieTabDisable" type="checkbox" <%=(Settings.indieTabDisable ? "checked='checked'":"")%>>
+                <label class="settings-label" for="indieTabDisable"><%= i18n.__("Disable Indie Tab") %></label>
             </span>
 
             <span class="advanced">
-                <input class="settings-checkbox" name="rememberFilters" id="cb7" type="checkbox" <%=(Settings.rememberFilters? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb7"><%= i18n.__("Remember Filters") %></label>
+                <input class="settings-checkbox" name="rememberFilters" id="rememberFilters" type="checkbox" <%=(Settings.rememberFilters? "checked='checked'":"")%>>
+                <label class="settings-label" for="rememberFilters"><%= i18n.__("Remember Filters") %></label>
             </span>
 
             <span class="advanced">
@@ -279,8 +287,8 @@
                 </div>
             </span>
             <span>
-                <input class="settings-checkbox" name="moviesShowQuality" id="cb1" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb1"><%= i18n.__("Show movie quality on list") %></label>
+                <input class="settings-checkbox" name="moviesShowQuality" id="moviesShowQuality" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
+                <label class="settings-label" for="moviesShowQuality"><%= i18n.__("Show movie quality on list") %></label>
             </span>
         </div>
     </section>
@@ -295,6 +303,7 @@
                 <input class="settings-checkbox" name="playNextEpisodeAuto" id="playNextEpisodeAuto" type="checkbox" <%=(Settings.playNextEpisodeAuto? "checked='checked'":"")%>>
                 <label class="settings-label" for="playNextEpisodeAuto"><%= i18n.__("Play next episode automatically") %></label>
             </span>
+
         </div>
     </section>
 
@@ -331,7 +340,10 @@
                             <i class="fa fa-user-plus">&nbsp;&nbsp;</i>
                             <%= i18n.__("Connect To %s", "Trakt") %>
                         </div>
-                        <div class="trakt-loading-spinner" style="display: none"></div>
+                        <div id="authTraktCode" style="display:none">
+                            <%= i18n.__("Code:")%>
+                            <input type="text" size="20" readonly/>
+                        </div>
                     </span>
                 <% } %>
             </div>
@@ -424,6 +436,10 @@
         <div class="title"><%= i18n.__("Remote Control") %></div>
         <div class="content">
             <span>
+                <input class="settings-checkbox" name="httpApiEnabled" id="httpApiEnabled" type="checkbox" <%=(Settings.httpApiEnabled ? "checked='checked'":"")%>>
+                <label class="settings-label" for="httpApiEnabled"><%= i18n.__("Enable remote control") %></label>
+            </span>
+            <span>
                 <p><%= i18n.__("Local IP Address") %></p>
                 <input type="text" id="settingsIpAddr" value="<%= Settings.ipAddress %>" readonly="readonly" size="20" />
             </span>
@@ -459,22 +475,18 @@
     <section id="connection" class="advanced">
         <div class="title"><%= i18n.__("Connection") %></div>
         <div class="content">
-            <% if(Settings.tvAPI) { %>
+            <% if(Settings.tvshow) { %>
             <span>
                 <p><%= i18n.__("TV Show API Endpoint") %></p>
-                    <input id="tvAPI" type="text" size="50" name="tvAPI" value="<%=Settings.tvAPI[0].url%>">
-                    <% if (Settings.tvAPI.length <= 1) { %>
-                    &nbsp;&nbsp;<i class="reset-tvAPI fa fa-undo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__('Reset to Default Settings') %>"></i>
+                    <input id="tvshow" type="text" size="50" name="tvshow" value="<%=Settings.tvshow[0].url%>">
+                    <% if (Settings.tvshow.length <= 1) { %>
+                    &nbsp;&nbsp;<i class="reset-tvshow fa fa-undo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__('Reset to Default Settings') %>"></i>
                     <% } %>
             </span>
             <% } %>
             <span>
                 <p><%= i18n.__("Connection Limit") %></p>
                 <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
-            </span>
-            <span>
-                <p><%= i18n.__("DHT Limit") %></p>
-                <input type="text" id="dhtLimit" size="20" name="dhtLimit" value="<%=Settings.dhtLimit%>"/>
             </span>
             <span>
                 <p><%= i18n.__("Port to stream on") %></p>
@@ -490,6 +502,11 @@
                 %>
                 <input type="text" size="20" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;<em><%= Common.fileSize(Settings.totalDownloaded) %><i class="fa fa-arrow-circle-down"></i><%= Common.fileSize(Settings.totalUploaded) %><i class="fa fa-arrow-circle-up"></i></em>
             </span>
+            <span>
+                <input class="settings-checkbox" name="vpnEnabled" id="vpnEnabled" type="checkbox" <%=(Settings.vpnEnabled? "checked='checked'":"")%>>
+                <label class="settings-label" for="vpnEnabled"><%= i18n.__("Enable VPN") %></label>
+            </span>
+
         </div>
     </section>
 
@@ -503,8 +520,16 @@
                 <input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
             </span>
             <span>
-                <input class="settings-checkbox" name="deleteTmpOnClose" id="cb2" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb2"><%= i18n.__("Clear Tmp Folder after closing app?") %></label>
+                <input class="settings-checkbox" name="deleteTmpOnClose" id="deleteTmpOnClose" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
+                <label class="settings-label" for="deleteTmpOnClose"><%= i18n.__("Clear Tmp Folder after closing app?") %></label>
+            </span>
+            <span>
+                <input class="settings-checkbox" name="continueSeedingOnStart" id="continueSeedingOnStart" type="checkbox" <%=(Settings.continueSeedingOnStart? "checked='checked'":"")%>>
+                <label class="settings-label" for="continueSeedingOnStart"><%= i18n.__("Continue seeding torrents after restart app?") %></label>
+            </span>
+            <span>
+                <p><%= i18n.__("Maximum number of active torrents") %></p>
+                <input id="maxActiveTorrents" type="number" name="maxActiveTorrents" value="<%=Settings.maxActiveTorrents%>"/>
             </span>
         </div>
     </section>
@@ -518,15 +543,18 @@
                 <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
                 <input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
             </span>
-            <div class="btns advanced database">
-                <div class="btn-settings database import-database">
-                    <i class="fa fa-level-down">&nbsp;&nbsp;</i>
-                    <%= i18n.__("Import Database") %>
-                </div>
-                <div class="btn-settings database export-database">
-                    <i class="fa fa-level-up">&nbsp;&nbsp;</i>
-                    <%= i18n.__("Export Database") %>
-                </div>
+            <div class="btns advanced database import-database">
+              <div class="btn-settings database">
+                <label class="import-database" for="importdatabase"  title="<%= i18n.__("Open File to Import") %>"><%= i18n.__("Import Database") %></label>
+                <i class="fa fa-level-down">&nbsp;&nbsp;</i>
+                <input type="file" id="importdatabase"  accept=".zip" style="display:none">
+              </div>
+              <div class="btn-settings database export-database">
+                <label class="export-database" for="exportdatabase" title="<%= i18n.__("Browse Directoy to save to") %>" ><%= i18n.__("Export Database") %></label>
+                <i class="fa fa-level-up">&nbsp;&nbsp;</i>
+                <input type="file" id="exportdatabase" style="display:none" nwdirectory>
+                        </div>
+
             </div>
         </div>
     </section>
@@ -552,12 +580,16 @@
                 </div>
             </span>
             <span>
-                <input class="settings-checkbox" name="automaticUpdating" id="cb5" type="checkbox" <%=(Settings.automaticUpdating? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb5"><%= i18n.__("Activate automatic updating") %></label>
+                <input class="settings-checkbox" name="automaticUpdating" id="automaticUpdating" type="checkbox" <%=(Settings.automaticUpdating? "checked='checked'":"")%>>
+                <label class="settings-label" for="automaticUpdating"><%= i18n.__("Activate automatic updating") %></label>
             </span>
             <span>
-                <input class="settings-checkbox" name="events" id="cb6" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
-                <label class="settings-label" for="cb6"><%= i18n.__("Celebrate various events") %></label>
+                <input class="settings-checkbox" name="UpdateSeed" id="UpdateSeed" type="checkbox" <%=(Settings.UpdateSeed? "checked='checked'":"")%>>
+                <label class="settings-label" for="UpdateSeed"><%= i18n.__("Activate Update seeding") %></label>
+            </span>
+            <span>
+                <input class="settings-checkbox" name="events" id="events" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
+                <label class="settings-label" for="events"><%= i18n.__("Celebrate various events") %></label>
             </span>
             <span>
                 <input class="settings-checkbox" name="minimizeToTray" id="minimizeToTray" type="checkbox" <%=(Settings.minimizeToTray? "checked='checked'":"")%>>

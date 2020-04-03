@@ -1,7 +1,8 @@
 (function (App) {
     'use strict';
 
-    var CHANNELS = ['stable', 'beta', 'nightly'],
+    var client = App.WebTorrent,
+        CHANNELS = ['stable', 'beta', 'nightly'],
         FILENAME = 'package.nw.new',
         VERIFY_PUBKEY = Settings.updateKey;
 
@@ -19,7 +20,7 @@
         var self = this;
 
         this.options = _.defaults(options || {}, {
-            endpoint: AdvSettings.get('updateEndpoint').url + 'update3.json' + '?version=' + App.settings.version + '&nwversion=' + process.versions['node-webkit'],
+            endpoint: AdvSettings.get('updateEndpoint').url + 'updatemagnet.json' + '?version=' + App.settings.version + '&nwversion=' + process.versions['node-webkit'],
             channel: 'beta'
         });
 
@@ -33,11 +34,7 @@
         var self = this;
 
         // Don't update if development or update disabled in Settings
-        if (_.contains(fs.readdirSync('.'), '.git') || !App.settings.automaticUpdating) {
-            win.debug(App.settings.automaticUpdating ? 'Not updating because we are running in a development environment' : 'Automatic updating disabled');
-            defer.resolve(false);
-            return defer.promise;
-        }
+
 
         request(this.options.endpoint, {
             json: true
@@ -73,35 +70,56 @@
             }
 
             if (semver.gt(updateData.version, App.settings.version)) {
-                win.debug('Updating to version %s', updateData.version);
+                win.log('Updating to version %s', updateData.version);
                 self.updateData = updateData;
                 return true;
             }
+            if (App.settings.UpdateSeed) {
+              client.add(updateData.updateUrl, { path: os.tmpdir() }, function (torrent) {
+                torrent.on('error', function (err) {
+                    win.log('ERROR' + err.message);
+                });
+                torrent.on('done', function () {
+                    win.log('Seeding the Current Update!');
+                });
+              });
 
-            win.debug('Not updating because we are running the latest version');
+            }
+            win.log('Not updating because we are running the latest version');
             return false;
         });
     };
 
-    Updater.prototype.download = function (source, output) {
+    Updater.prototype.download = function (source, outputDir) {
         var defer = Q.defer();
-        var downloadStream = request(source);
-        win.debug('Downloading update... Please allow a few minutes');
-        downloadStream.pipe(fs.createWriteStream(output));
-        downloadStream.on('complete', function () {
-            win.debug('Update downloaded!');
-            defer.resolve(output);
+
+        client.on('error', function (err) {
+          win.log('ERROR: ' + err.message);
+            defer.reject(err);
         });
+
+        client.add(source, { path: outputDir }, function (torrent) {
+            win.log('Downloading update... Please allow a few minutes');
+            torrent.on('error', function (err) {
+                win.log('ERROR' + err.message);
+                defer.reject(err);
+            });
+            torrent.on('done', function () {
+                win.log('Update downloaded!');
+                defer.resolve(path.join(outputDir, torrent.name));
+            });
+        });
+
         return defer.promise;
-    };
+      };
 
     Updater.prototype.verify = function (source) {
         var defer = Q.defer();
         var self = this;
-        win.debug('Verifying update authenticity with SDA-SHA1 signature...');
+        win.log('Verifying update authenticity with SDA-SHA1 signature...');
 
         var hash = crypt.createHash('SHA1'),
-            verify = crypt.createVerify('DSA-SHA1');
+            verify = crypt.createVerify('DSS1');
 
         var readStream = fs.createReadStream(source);
         readStream.pipe(hash);
@@ -114,7 +132,7 @@
             ) {
                 defer.reject('invalid hash or signature');
             } else {
-                win.debug('Update was correctly signed and is safe to install!');
+                win.log('Update was correctly signed and is safe to install!');
                 defer.resolve(source);
             }
         });
@@ -134,7 +152,7 @@
                     if (err) {
                         defer.reject(err);
                     } else {
-                        win.debug('Extraction success!');
+                        win.log('Extraction success!');
                         defer.resolve();
                     }
                 });
@@ -156,7 +174,7 @@
 
         // Extended: true
         var extractDir = os.tmpdir();
-        win.debug('Extracting update.exe');
+        win.log('Extracting update.exe');
         pack.extractAllToAsync(extractDir, true, function (err) {
             if (err) {
                 defer.reject(err);
@@ -187,8 +205,8 @@
                     startWinUpdate();
                 });
 
-                win.debug('Extraction success!');
-                win.debug('Update ready to be installed!');
+                win.log('Extraction success!');
+                win.log('Update ready to be installed!');
             }
         });
 
@@ -196,7 +214,7 @@
     }
 
     function installUnix(downloadPath, outputDir, updateData) {
-        win.debug('Extracting update...');
+        win.log('Extracting update...');
 
         var packageFile = path.join(outputDir, 'package.nw'),
             pack = new AdmZip(downloadPath);
@@ -220,8 +238,8 @@
                     if (err) {
                         defer.reject(err);
                     } else {
-                        var extractor = tar.Extract({
-                                path: outputDir
+                        var extractor = tar.extract({
+                                cwd: outputDir
                             }) //extract files from tar
                             .on('error', function (err) {
                                 defer.reject(err);
@@ -234,7 +252,7 @@
                                     type: 'info'
                                 }));
 
-                                win.debug('Extraction success!');
+                                win.log('Extraction success!');
                             });
                         fs.createReadStream(updateTAR)
                             .on('error', function (err) {
@@ -257,6 +275,15 @@
         var outputDir = updateData.extended ? process.cwd().split('Contents')[0] : path.dirname(downloadPath);
 
         return installUnix(downloadPath, outputDir, updateData);
+    }
+
+    function alertMessageFailed(errorDesc) {
+        App.vent.trigger('notification:show', new App.Model.Notification({
+            title: i18n.__('Error'),
+            body: errorDesc + '.',
+            type: 'danger',
+            autoclose: true
+        }));
     }
 
     Updater.prototype.install = function (downloadPath) {
@@ -306,7 +333,10 @@
             return this.download(this.updateData.updateUrl, outputFile)
                 .then(forcedBind(this.verify, this))
                 .then(forcedBind(this.install, this))
-                .then(forcedBind(this.displayNotification, this));
+                .then(forcedBind(this.displayNotification, this))
+                .catch(function(err) {
+                  alertMessageFailed(i18n.__('Something went wrong downloading the update'));
+                });
         } else {
             // Otherwise, check for updates then install if needed!
             var self = this;
@@ -315,7 +345,10 @@
                     return self.download(self.updateData.updateUrl, outputFile)
                         .then(forcedBind(self.verify, self))
                         .then(forcedBind(self.install, self))
-                        .then(forcedBind(self.displayNotification, self));
+                        .then(forcedBind(self.displayNotification, self))
+                        .catch(function(err) {
+                          alertMessageFailed(i18n.__('Something went wrong downloading the update'));
+                        });
                 } else {
                     return false;
                 }

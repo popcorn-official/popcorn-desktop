@@ -1,0 +1,240 @@
+.vpn-container
+    z-index 1
+    height 100%
+    width 100%
+    position fixed
+    background-color $BgColor1
+    -webkit-user-select none
+    opacity 1
+    background-image url('../images/bg-header.jpg')
+    background-size cover
+    background-position 50% 50%
+
+    input[type="text"], input[type="password"]
+        width: 60%
+        font-size: 20px
+        text-align left
+        text-align-last left
+        padding-left: 10px;
+        margin: 10px;
+        height 30px
+        border 0 !important
+        line-height 15px
+        background-color $InputBoxBg
+        resize none
+        color $InputBoxText
+        font-family $Font, $AlternateFont
+        cursor text
+        outline 0 !important
+
+    .margintop
+        height calc(20% - 20px)
+
+    .create-account
+        margin-top 2em
+
+    .hidden
+        display: none
+
+    .account_alert
+        margin-top: 15px
+        margin-bottom: 15px
+
+        .account_alert_message
+            padding: 10px
+            border-radius: $ButtonRadius
+            background-color: #f44336
+            color: $ButtonText
+
+    .install-vpn
+        margin-top 3em
+
+    .already-customer
+        font-size: 13px
+        cursor: pointer
+        color: #fff
+
+    .signup-button, .select-plan-button
+        margin-top: 20px
+
+    .spinner
+        width: 30px;
+        height: 30px;
+
+    .green
+        color:#8ce196 !important
+        font-weight: bold
+
+    .select-plan-container
+        margin: 0 auto
+        width: 380px
+        padding:35px
+        text-align:center
+
+    .select-plan-container-top
+        display: flex
+        justify-content: center
+        align-items: center
+
+        span
+            margin: 0 35px
+            font-size: 14pt
+            padding-top: 15px
+            display: inline
+            color: #fff
+
+    .switch-input
+        visibility: hidden
+
+    .switch-input + label
+        display: block
+        position: relative
+        cursor: pointer
+        outline: none
+        user-select: none
+
+    .switch-container
+         width: 90px
+
+    .switch-flat + label
+        padding: 2px
+        width: 80px
+        height: 35px
+        background-color: #dddddd
+        border-radius: 60px
+        transition: background 0.4s
+
+    .switch-flat + label:before,
+    .switch-flat + label:after
+        display: block
+        position: absolute
+        content: ""
+
+    .switch-flat + label:before
+        top: 2px;
+        left: 2px;
+        bottom: 2px;
+        right: 2px;
+        background-color: #fff;
+        border-radius: 60px;
+        transition: background 0.4s;
+
+
+    .switch-flat + label:after
+        top: 4px
+        left: 4px
+        bottom: 4px
+        width: 35px
+        background-color: #dddddd
+        border-radius: 52px
+        transition: margin 0.4s, background 0.4s
+
+
+    .switch-flat:checked + label
+        background-color: #8ce196
+
+    .switch-flat:checked + label:after
+        margin-left: 41px
+        background-color: #8ce196
+
+    .price
+        font-size: 40px;
+        line-height: 50px;
+        font-family: Arial;
+        font-weight: bold;
+        color: #fff;
+        margin: 0;
+        margin-top: 30px;
+        margin-bottom: 0px;
+
+    .period
+        display: block
+        font-size: 13pt;
+        color: #fefefe;
+
+    .selectPlanButton
+        width: 90%;
+        cursor: pointer
+        margin-top: 40px;
+        margin-bottom: 5px;
+        padding: 18px;
+        background-color: #fff;
+        color: #8ce196;
+        border-radius: 50px;
+        border: 3px solid #8ce196;
+        cursor: pointer;
+        font-size: 16pt;
+        transition: all 0.5s;
+
+    .selectPlanButton:hover
+        color: white;
+        background-color: #8ce196;
+
+    .payment-buttons
+        display: flex
+        margin-top: 30px
+        align-items: center;
+        justify-content: center;
+
+        .button
+            height: 70px;
+            line-height: 90px;
+
+    .grey
+        color: #888 !important
+
+    .button
+        font-size: 30px
+        border-radius: $ButtonRadius
+        background-clip: padding-box
+        background-color: $ButtonBg
+        padding: 0 15px
+        transition: background-color 0.5s
+        color: $ButtonText
+        font-family: $MainFont
+        font-smoothing: antialiased
+        text-align: center
+        line-height: 64px
+        &:hover
+            cursor: pointer;
+            color: $ButtonBgActive;
+            transition: all .5s;
+
+    .icon-title
+        opacity 0.9
+        margin 80px auto 25px auto
+        height 110px
+        max-height 110px
+        display block
+
+    .overlay-content
+        height 100%
+        width 100%
+        position absolute
+        background rgba(0, 0, 0, 0.4)
+        z-index -1
+
+    .content
+        margin 0 auto
+        width 80%
+        height 60%
+        color #fff
+        font-weight 100
+        font-family $AlternateFont
+        font-size 17px
+        text-align center
+
+        .title-big
+            font-size 2.4em
+            margin-bottom 1.5em
+
+        .text-vpn
+            line-height 1.2em
+            text-align: justify
+            text-align-last: center
+            margin 0 auto
+            max-width 42em
+            font-size 1em
+
+            br
+                line-height 2

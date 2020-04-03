@@ -15,7 +15,7 @@ else
 fi
 cwd="$builddir/tmp-deb-$arch"
 read -n 9 revision <<< ` git log -1 --pretty=oneline`
-package_name=${name}_${version}-${revision}_${real_arch}
+package_name=${name}_${version}-${real_arch}
 
 ### RESET
 rm -rf $cwd

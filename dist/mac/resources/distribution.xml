@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="1">
+    <title>Popcorn Time</title>
+    <organization>app.popcorntime</organization>
+    <domains enable_localSystem="true"/>
+    <options customize="never" require-scripts="true" rootVolumeOnly="true"/>
+    <background file="diagram.tiff" alignment="bottomleft" scaling="none"/>
+    <welcome file="welcome.html" mime-type="text/html"/>
+    <license file="license.txt"/>
+    <pkg-ref id="app.popcorntime.pkg.PopcornTime" version="0.0.0"
+        auth="root">Build.pkg</pkg-ref>
+    <choices-outline>
+        <line choice="app.popcorntime.pkg.PopcornTime"/>
+    </choices-outline>
+    <choice
+        id="app.popcorntime.pkg.PopcornTime"
+        visible="true"
+        title="Popcorn Time"
+        description="Popcorn Time"
+        start_selected="true">
+      <pkg-ref id="app.popcorntime.pkg.PopcornTime"/>
+    </choice>
+</installer-gui-script>

@@ -19,6 +19,7 @@
             }
             res.setHeader('Content-Type', 'text/' + ext + ';charset=' + encoding);
             win.debug('SubtitlesServer: served vtt/srt with encoding: ' + encoding);
+
         };
 
         if (ext in subtitlePath) {
@@ -36,6 +37,8 @@
 
     function startListening(cb) {
         httpServer = server.listen(PORT);
+
+
     }
 
     function stopServer(cb) {
@@ -84,5 +87,5 @@
             }
         }
     };
-    App.Subtitles.Server = SubtitlesServer;
+    App.SubtitlesServer = SubtitlesServer;
 })(window.App);

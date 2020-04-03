@@ -12,9 +12,8 @@ vjs.Player.prototype.debugMouse_ = false;
 vjs.Player.prototype.reportUserActivity = function (event) {
     /** DEBUG MOUSE CTRL+D **/
     if (this.debugMouse_) {
-        win.debug('');
-        win.debug('Event fired at: ' + vjs.formatTime(this.player_.currentTime(), this.player_.duration()));
-        win.debug(event);
+        console.log('Event fired at: ' + vjs.formatTime(this.player_.currentTime(), this.player_.duration()));
+        console.log(event);
     }
     if (event !== undefined && event.type === 'mousemove') {
         if (event.webkitMovementX === 0 && event.webkitMovementY === 0) {
@@ -116,7 +115,7 @@ vjs.TextTrack.prototype.load = function () {
                     if (!error) {
                         callback(data);
                     } else {
-                        win.warn('Failed to read subtitle!', error);
+                        console.warn('Failed to read subtitle!', error);
                     }
                 });
                 // Fetches Remotely
@@ -128,7 +127,7 @@ vjs.TextTrack.prototype.load = function () {
                     if (!error && response.statusCode === 200) {
                         callback(data);
                     } else {
-                        win.warn('Failed to download subtitle!', error, response);
+                        console.warn('Failed to download subtitle!', error, response);
                     }
                 });
             }
@@ -152,7 +151,7 @@ vjs.TextTrack.prototype.load = function () {
                 dialog, begin_time, end_time;
 
             fs.writeFileSync(path.join(srtPath, srt), ''); //create or delete content;
-            win.debug('SUB format can be converted:', orig);
+            console.log('SUB format can be converted:', orig);
 
             var rl = readline.createInterface({
                 input: fs.createReadStream(path.join(origPath, orig)),
@@ -191,7 +190,7 @@ vjs.TextTrack.prototype.load = function () {
                         }
 
                         if (dialog && begin_time && end_time) {
-                            win.debug('SUB formatted in \'ssa\'');
+                            console.log('SUB formatted in \'ssa\'');
                         }
                         return; //we have the elms spots, move on to the next line
                     }
@@ -233,7 +232,7 @@ vjs.TextTrack.prototype.load = function () {
                 if (parsedBeginTime < lastBeginTime) {
                     counter = 1;
                     fs.writeFileSync(path.join(srtPath, srt), '');
-                    win.debug('SUB contains multiple tracks, keeping only the last');
+                    console.log('SUB contains multiple tracks, keeping only the last');
                 }
 
                 //SRT formatting
@@ -249,10 +248,10 @@ vjs.TextTrack.prototype.load = function () {
             setTimeout(function () {
                 fs.readFile(path.join(srtPath, srt), function (err, dataBuff) {
                     if (!err) {
-                        win.debug('SUB transcoded to SRT:', srt);
+                        console.log('SUB transcoded to SRT:', srt);
                         callback(dataBuff);
                     } else {
-                        win.warn('SUB transcoding failed', err);
+                        console.warn('SUB transcoding failed', err);
                     }
                 });
             }, 2000);
@@ -271,7 +270,7 @@ vjs.TextTrack.prototype.load = function () {
                     }
                 });
             } catch (error) {
-                win.warn('Failed to decompress subtitle!', error);
+                console.warn('Failed to decompress subtitle!', error);
             }
         };
 
@@ -285,12 +284,14 @@ vjs.TextTrack.prototype.load = function () {
                     .replace(/(- |==|sync).*[\s\S].*[\s\S].*[\s\S].*[\s\S].*\.(com|org|net|edu)/ig, '') // various teams
                     .replace(/[^0-9][\s\S][^0-9\W].*[\s\S].*[\s\S].*opensubtitles.*/ig, ''); // opensubs "contact us" ads
 
+                strings = Common.sanitize(strings); // xss-style attacks
+                strings = strings.replace(/--\&gt\;/g, '-->'); // restore srt format
                 callback(strings);
             };
 
             var charset = charsetDetect.detect(dataBuff);
             var detectedEncoding = charset.encoding;
-            win.debug('SUB charset detected: ' + detectedEncoding);
+            console.log('SUB charset detected: ' + detectedEncoding);
             // Do we need decoding?
             if (detectedEncoding && detectedEncoding.toLowerCase().replace('-', '') === targetEncodingCharset) {
                 parse(dataBuff.toString('utf-8'));
@@ -298,10 +299,10 @@ vjs.TextTrack.prototype.load = function () {
             } else {
                 if (!language && Settings.subtitle_language !== 'none') {
                     language = Settings.subtitle_language;
-                    win.debug('SUB charset: using subtitles_language setting (' + language + ') as default');
+                    console.log('SUB charset: using subtitles_language setting (' + language + ') as default');
                 }
                 var langInfo = App.Localization.langcodes[language] || {};
-                win.debug('SUB charset expected:', langInfo.encoding);
+                console.log('SUB charset expected:', langInfo.encoding);
                 if (langInfo.encoding !== undefined && langInfo.encoding.indexOf(detectedEncoding) < 0) {
                     // The detected encoding was unexepected to the language, so we'll use the most common
                     // encoding for that language instead.
@@ -309,11 +310,11 @@ vjs.TextTrack.prototype.load = function () {
                     dataBuff = iconv.encode(iconv.decode(dataBuff, detectedEncoding), targetEncodingCharset);
                 } else {
                     // fallback to utf8
-                    win.debug('SUB charset: fallback to utf-8');
+                    console.log('SUB charset: fallback to utf-8');
                     dataBuff = iconv.decode(dataBuff, detectedEncoding);
                     detectedEncoding = 'UTF-8';
                 }
-                win.debug('SUB charset used:', detectedEncoding);
+                console.log('SUB charset used:', detectedEncoding);
                 parse(dataBuff.toString('utf-8'));
             }
         };
@@ -322,7 +323,7 @@ vjs.TextTrack.prototype.load = function () {
             try {
                 this_.parseCues(data);
             } catch (e) {
-                win.error('Error reading subtitles timing, file seems corrupted', e);
+                console.error('Error reading subtitles timing, file seems corrupted', e);
                 subsParams();
                 App.vent.trigger('notification:show', new App.Model.Notification({
                     title: i18n.__('Error reading subtitle timings, file seems corrupted'),
@@ -335,7 +336,7 @@ vjs.TextTrack.prototype.load = function () {
         };
 
         this.on('loaded', function () {
-            win.info('Subtitles loaded!');
+            console.log('Subtitles loaded!');
             subsParams();
         });
 

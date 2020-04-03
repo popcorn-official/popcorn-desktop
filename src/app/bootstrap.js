@@ -1,110 +1,132 @@
-(function (App) {
-    'use strict';
-    App.start();
+(function(App) {
+  "use strict";
+  App.start();
 
-    /* load all the things ! */
-    var Q = require('q');
-    var fs = require('fs');
+  /* load all the things ! */
+  var Q = require("q");
+  var fs = require("fs");
 
-    function loadLocalProviders() {
-        var appPath = '';
-        var providerPath = './src/app/lib/providers/';
+  function loadLocalProviders() {
+    var appPath = "";
+    var providerPath = "./src/app/lib/providers/";
 
-        var files = fs.readdirSync(providerPath);
+    var files = fs.readdirSync(providerPath);
 
-        return files.map(function (file) {
-            if (!file.match(/\.js$/)) {
-                return null;
-            }
+    return files
+      .map(function(file) {
+        if (!file.match(/\.js$/)) {
+          return null;
+        }
 
-            if (file.match(/generic.js$/)) {
-                return null;
-            }
+        if (file.match(/generic.js$/)) {
+          return null;
+        }
 
-            console.log('loading local provider', file);
+        win.info("loading local provider", file);
 
-            var q = Q.defer();
+        var q = Q.defer();
 
-            var head = document.getElementsByTagName('head')[0];
-            var script = document.createElement('script');
+        var head = document.getElementsByTagName("head")[0];
+        var script = document.createElement("script");
 
-            script.type = 'text/javascript';
-            script.src = 'lib/providers/' + file;
+        script.type = "text/javascript";
+        script.src = "lib/providers/" + file;
 
-            script.onload = function () {
-                console.log('loaded', file);
-                q.resolve(file);
-            };
+        script.onload = function() {
+          win.info("loaded", file);
+          q.resolve(file);
+        };
 
-            head.appendChild(script);
+        head.appendChild(script);
 
-            return q.promise;
-        }).filter(function (q) {
-            return q;
-        });
-    }
+        return q.promise;
+      })
+      .filter(function(q) {
+        return q;
+      });
+  }
 
-    function loadFromNPM(name, fn) {
-        var P = require(name);
+  function loadProvidersJSON(fn) {
+    App.Npm = require("../../package.json");
 
-        return Q(fn(P));
-    }
+    return App.Npm.providers.map(function(providerPath) {
+      win.info("loading npm", providerPath);
+      return loadFromNPM(`./${providerPath}`, fn);
+    });
+  }
 
-    function loadFromPackageJSON(regex, fn) {
-        App.Npm = require('../../package.json');
+  function loadFromNPM(name, fn) {
+    var P = require(name);
+    return Q(fn(P));
+  }
 
-        var packages = Object.keys(App.Npm.dependencies).filter(function (p) {
-            return p.match(regex);
-        });
+  function loadFromPackageJSON(regex, fn) {
+    App.Npm = require("../../package.json");
 
-        return packages.map(function (name) {
-            console.log('loading npm', regex, name);
-            return loadFromNPM(name, fn);
-        });
-    }
+    var packages = Object.keys(App.Npm.dependencies).filter(function(p) {
+      return p.match(regex);
+    });
 
-    function loadNpmProviders() {
-        return loadFromPackageJSON(/butter-provider-/, App.Providers.install);
-    }
+    return packages.map(function(name) {
+      win.info("loading npm", regex, name);
+      return loadFromNPM(name, fn);
+    });
+  }
 
-    function loadNpmSettings() {
-        return Q.all(loadFromPackageJSON(/butter-settings-/, function (settings) {
-            Settings = _.extend(Settings, settings);
-        }));
-    }
+  function loadNpmProviders() {
+    return loadProvidersJSON(App.Providers.install);
+  }
 
-    function loadProviders() {
-        return Q.all(loadLocalProviders().concat(loadNpmProviders()));
-    }
+  function loadLegacyNpmProviders() {
+    return loadFromPackageJSON(/butter-provider-/, App.Providers.install);
+  }
 
-    App.bootstrapPromise = loadNpmSettings()
-        .then(loadProviders)
-        .then(function (values) {
-            return _.filter(_.keys(Settings.providers).map(function (type) {
-                return {
-                    provider: App.Config.getProviderForType(type),
-                    type: type
-                };
-            }), function (p) {
-                return p.provider;
-            });
-        })
-        .then(function (providers) {
-            App.TabTypes = {};
+  function loadNpmSettings() {
+    return Q.all(
+      loadFromPackageJSON(/butter-settings-/, function(settings) {
+        Settings = _.extend(Settings, settings);
+      })
+    );
+  }
 
-            _.each(providers, function (provider) {
-                var p = Settings.providers[provider.type];
-                if (!p.name) {
-                    return;
-                }
+  function loadProviders() {
+    return Q.all(
+      loadLocalProviders()
+        .concat(loadNpmProviders())
+        .concat(loadLegacyNpmProviders())
+    );
+  }
 
-                App.TabTypes[provider.type] = p.name;
-            });
+  App.bootstrapPromise = loadNpmSettings()
+    .then(loadProviders)
+    .then(function(values) {
+      return _.filter(
+        _.keys(Settings.providers).map(function(type) {
+          return {
+            provider: App.Config.getProviderForType(type),
+            type: type
+          };
+        }),
+        function(p) {
+          return p.provider;
+        }
+      );
+    })
+    .then(function(providers) {
+      App.TabTypes = {};
 
-            return providers;
-        })
-        .then(function (providers) {
-            console.log('loaded', providers);
-        });
+      _.each(providers, function(provider) {
+        var p = Settings.providers[provider.type];
+        if (!p.name) {
+          return;
+        }
 
+        App.TabTypes[provider.type] = p.name;
+      });
+
+      return providers;
+    })
+    .then(function(providers) {
+      win.info("loaded", providers);
+    });
 })(window.App);

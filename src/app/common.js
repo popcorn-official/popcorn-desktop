@@ -113,308 +113,6 @@ Common.fileSize = function (num) {
     return (neg ? '-' : '') + num + ' ' + unit;
 };
 
-Common.matchTorrent = function (file, torrent) {
-    var defer = Q.defer();
-    var data = {};
-
-    var checkTraktSearch = function (trakt, filename) {
-        return Q.Promise(function (resolve, reject) {
-            var traktObj = trakt
-                .match(/[\w+\s+]+/ig)[0]
-                .split(' ');
-            traktObj.forEach(function (word) {
-                if (word.length >= 4) {
-                    var regxp = new RegExp(word.slice(0, 3), 'ig');
-                    if (filename.replace(/\W/ig, '').match(regxp) === null) {
-                        return reject(new Error('Trakt search result did not match the filename'));
-                    }
-                }
-            });
-            resolve();
-        });
-    };
-
-    var searchMovie = function (title) {
-        return Q.Promise(function (resolve, reject) {
-
-            // find a matching movie
-            App.Trakt.search(title, 'movie')
-                .then(function (summary) {
-
-                    if (!summary || summary.length === 0) {
-                        reject(new Error('Unable to fetch data from Trakt.tv'));
-                    } else {
-                        checkTraktSearch(summary[0].movie.title, data.filename)
-                            .then(function () {
-                                data.movie = {};
-                                data.type = 'movie';
-                                data.movie.year = summary[0].movie.year;
-                                data.movie.image = summary[0].movie.images.fanart.medium;
-                                data.movie.poster = summary[0].movie.images.poster.thumb;
-                                data.movie.imdbid = summary[0].movie.ids.imdb;
-                                data.movie.title = summary[0].movie.title;
-                                resolve(data);
-                            })
-                            .catch(function (err) {
-                                data.error = err.message;
-                                resolve(data);
-                            });
-                    }
-
-                })
-                .catch(function (err) {
-                    reject(new Error('An error occured while trying to get subtitles'));
-                });
-        });
-    };
-
-    var searchEpisode = function (title, season, episode) {
-        return Q.Promise(function (resolve, reject) {
-            if (!title || !season || !episode) {
-                return reject(new Error('Title, season and episode need to be passed'));
-            }
-
-            // find a matching show
-            App.Trakt.shows.summary(title)
-                .then(function (summary) {
-
-                    if (!summary || summary.length === 0) {
-                        return reject(new Error('Unable to fetch data from Trakt.tv'));
-                    } else {
-                        data.show = {};
-                        data.show.poster = summary.images.poster.thumb;
-
-                        // find the corresponding episode
-                        App.Trakt.episodes.summary(title, season, episode)
-                            .then(function (episodeSummary) {
-
-                                if (!episodeSummary) {
-                                    return reject(new Error('Unable to fetch data from Trakt.tv'));
-                                } else {
-                                    data.show.episode = {};
-                                    data.type = 'episode';
-                                    data.year = episodeSummary.first_aired.split('-')[0];
-                                    data.show.episode.image = episodeSummary.images.screenshot.full;
-                                    data.show.imdbid = summary.ids.imdb;
-                                    data.show.episode.season = episodeSummary.season.toString();
-                                    data.show.episode.episode = episodeSummary.number.toString();
-                                    data.show.episode.tvdbid = episodeSummary.ids.tvdb;
-                                    data.show.tvdbid = summary.ids.tvdb;
-                                    data.show.title = summary.title;
-                                    data.show.episode.title = episodeSummary.title;
-
-                                    resolve(data);
-                                }
-
-                            }).catch(function (err) {
-                                reject(new Error('Error while looking for metadata to get subtitles'));
-                            });
-                    }
-
-                })
-                .catch(function (err) {
-                    reject(new Error('Error while looking for metadata to get subtitles'));
-                });
-        });
-    };
-
-    var injectTorrent = function (file, torrent) {
-        return Q.Promise(function (resolve, reject) {
-            if (!torrent) {
-                resolve(file);
-            }
-            var torrentparsed;
-            var to_re = torrent.match(/.*?(complete.series|complete.season|s\d+|season|\[|hdtv|\W\s)/i);
-
-            if (to_re === null || to_re[0] === '') {
-                torrentparsed = torrent;
-            } else {
-                torrentparsed = to_re[0].replace(to_re[1], '');
-            }
-
-            var torrent_regx = new RegExp(torrentparsed.split(/\W/)[0], 'ig');
-            var torrent_match = file.match(torrent_regx);
-
-            if (torrent_match === null) {
-                file = torrentparsed + ' ' + file;
-            }
-
-            resolve(file);
-        });
-    };
-
-    var formatTitle = function (title) {
-        return Q.Promise(function (resolve, reject) {
-            var formatted = {};
-
-            // regex match
-            var se_re = title.match(/(.*)S(\d\d)E(\d\d)/i); // regex try (ex: title.s01e01)
-            if (se_re !== null) {
-                formatted.episode = se_re[3];
-                formatted.season = se_re[2];
-                formatted.title = se_re[1];
-            } else {
-                se_re = title.match(/(.*)(\d\d\d\d)+\W/i); // try another regex (ex: title.0101)
-                if (se_re !== null) {
-                    formatted.episode = se_re[2].substr(2, 4);
-                    formatted.season = se_re[2].substr(0, 2);
-                    formatted.title = se_re[1];
-                } else {
-                    se_re = title.match(/(.*)(\d\d\d)+\W/i); // try yet another (ex: title.101)
-                    if (se_re !== null) {
-                        formatted.episode = se_re[2].substr(1, 2);
-                        formatted.season = se_re[2].substr(0, 1);
-                        formatted.title = se_re[1];
-                    } else {
-                        se_re = title.replace(/\[|\]|\(|\)/, '').match(/.*?0*(\d+)?[xE]0*(\d+)/i); // try a last one (ex: 101, or 1x01)
-                        if (se_re !== null) {
-                            formatted.episode = se_re[2];
-                            formatted.season = se_re[1];
-                            formatted.title = se_re[0].replace(/0*(\d+)?[xE]0*(\d+)/i, '');
-                        } else {
-                            // nothing worked :(
-                        }
-                    }
-                }
-            }
-
-            // format
-            formatted.title = formatted.title || title.replace(/\..+$/, ''); // remove extension;
-            formatted.title = $.trim(formatted.title.replace(/[\.]/g, ' '))
-                .replace(/^\[.*\]/, '') // starts with brackets
-                .replace(/[^\w ]+/g, '') // remove brackets
-                .replace(/ +/g, '-') // has multiple spaces
-                .replace(/_/g, '-') // has '_'
-                .replace(/\-$/, '') // ends with '-'
-                .replace(/\s.$/, '') // ends with ' '
-                .replace(/^\./, '') // starts with '.'
-                .replace(/^\-/, '') // starts with '-'
-                .toLowerCase(); // lowercase
-
-            // just in case
-            if (!formatted.title || formatted.title.length === 0) {
-                formatted.title = title;
-            }
-
-            // return :)
-            resolve(formatted);
-        });
-    };
-
-    var injectQuality = function (title) {
-        // 480p
-        if (title.match(/480[pix]/i)) {
-            return '480p';
-        }
-        // 720p
-        if (title.match(/720[pix]/i) && !title.match(/dvdrip|dvd\Wrip/i)) {
-            return '720p';
-        }
-        // 1080p
-        if (title.match(/1080[pix]/i)) {
-            return '1080p';
-        }
-
-        // not found, trying harder
-        if (title.match(/DSR|DVDRIP|DVD\WRIP/i)) {
-            return '480p';
-        }
-        if (title.match(/hdtv/i) && !title.match(/720[pix]/i)) {
-            return '480p';
-        }
-        return false;
-    };
-
-    var checkApostrophy = function (obj) {
-        var title = obj.title;
-        var matcher = obj.title.match(/\w{2}s-/gi);
-        if (matcher !== null) {
-            obj.alt_titles = {};
-            obj.alt_titles[0] = obj.title;
-            delete obj.title;
-            for (var i = 0; i < matcher.length; i++) {
-                obj.alt_titles[i + 1] = title.replace(matcher[i], matcher[i].substring(0, 2) + '-s-');
-            }
-        }
-        return obj;
-    };
-
-    // function starts here
-    if (!file && !torrent) {
-
-        // reject on missing input
-        defer.reject(new Error('File name is required'));
-
-    } else {
-
-        // inject torrent title if not in filename
-        injectTorrent(file, torrent)
-            .then(function (parsed) {
-                data.filename = file;
-
-                var quality = injectQuality(file);
-                if (quality) {
-                    data.quality = quality;
-                }
-
-                formatTitle(parsed)
-                    .then(checkApostrophy)
-                    .then(function (obj) {
-                        if (obj.title) {
-                            searchEpisode(obj.title, obj.season, obj.episode)
-                                .then(function (result) {
-                                    result.filename = data.filename;
-                                    defer.resolve(result);
-                                })
-                                .catch(function (error) {
-                                    searchMovie(obj.title)
-                                        .then(function (result) {
-                                            result.filename = data.filename;
-                                            defer.resolve(result);
-                                        })
-                                        .catch(function (error) {
-                                            data.error = error.message;
-                                            defer.resolve(data);
-                                        });
-                                });
-                        } else {
-                            for (var i = 0; i < Object.keys(obj.alt_titles).length; i++) {
-                                var title = obj.alt_titles[i];
-                                searchEpisode(title, obj.season, obj.episode)
-                                    .then(function (result) {
-                                        result.filename = data.filename;
-                                        defer.resolve(result);
-                                    })
-                                    .catch(function (error) {
-                                        searchMovie(title)
-                                            .then(function (result) {
-                                                result.filename = data.filename;
-                                                defer.resolve(result);
-                                            })
-                                            .catch(function (error) {
-                                                if (i === Object.keys(obj.alt_titles).length + 1) {
-                                                    data.error = error.message;
-                                                    defer.resolve(data);
-                                                }
-                                            });
-                                    });
-                            }
-                        }
-                    })
-                    .catch(function (error) {
-                        data.error = error.message;
-                        defer.resolve(data);
-                    });
-            })
-            .catch(function (error) {
-                data.error = error.message;
-                defer.resolve(data);
-            });
-    }
-
-    return defer.promise;
-};
-
 Common.sanitize = function (input) {
     function sanitizeString(string) {
         return require('sanitizer').sanitize(string);
@@ -441,4 +139,37 @@ Common.sanitize = function (input) {
     }
 
     return output;
+};
+
+Common.normalize = (function () {
+    var from = 'ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç';
+    var to =   'AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc';
+    var mapping = {};
+
+    for (var i = 0, j = from.length; i < j; i++) {
+        mapping[from.charAt(i)] = to.charAt(i);
+    }
+
+    return function (str) {
+        var ret = [];
+        for (var i = 0, j = str.length; i < j; i++) {
+            var c = str.charAt(i);
+            if (mapping.hasOwnProperty(str.charAt(i))) {
+                ret.push(mapping[c]);
+            } else {
+                ret.push(c);
+            }
+        }
+        return ret.join('').replace(/[^\w,'-]/g, '');
+    };
+})();
+
+Common.Promises = {
+    allSettled: function(promises) {
+        var wrappedPromises = promises.map(
+            p => Promise.resolve(p)
+                .then(val => ({ ok: true, value: val }),                                                err => ({ ok: false, reason: err })
+                     ));
+        return Promise.all(wrappedPromises);
+    }
 };

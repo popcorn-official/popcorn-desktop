@@ -78,12 +78,14 @@
         "request": true,
         "querystring": true,
         "URI": true,
-        "peerflix": true,
         "child": true,
-        "trakt": true,
+        "WebTorrent": true,
+        "torrentCollection": true,
+        "Trakt": true,
 
         // Third party
         "Backbone": true,
+        "Marionette": true,
         "Mousetrap": true,
         "_": true,
         "request": true,

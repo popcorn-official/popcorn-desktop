@@ -11,8 +11,8 @@
         /*height: 25vh TODO: responsive header (especially poster)*/
         min-height: 215px
 
-        .sh-cover
-            .shc-img
+        .sh-backdrop
+            .shb-img
                 position: absolute
                 min-height: 215px
                 width: 100vw
@@ -38,7 +38,7 @@
                 width 134px
                 height 197px
                 box-shadow 0px 0px 10px
-                background-size 134px
+                background-size contain
                 background-position center
                 background-repeat no-repeat
                 border-radius 4px
@@ -124,8 +124,9 @@
                             width 1em
                             height 1em
                             line-height 1em
-                            margin-top 2px
-                            margin-right: -3px
+                            margin-top: -1px;
+                            margin-left: 3px;
+                            margin-right: -1px;
 
                 span.dot
                     margin 4.5px 15px 0 15px
@@ -170,7 +171,8 @@
                 line-height: 17px
                 &:before
                     content: "\f004"
-                    font-family: FontAwesome
+                    font-family: "Font Awesome 5 Free"
+                    font-weight: 900
                     position: absolute
                     font-size: 18px
                     color: #FFF
@@ -183,7 +185,8 @@
 
                 &:after
                     content: "\f004"
-                    font-family: FontAwesome
+                    font-family: "Font Awesome 5 Free"
+                    font-weight: 900
                     position: absolute
                     font-size: 18px
                     color: $ButtonBgActive
@@ -206,7 +209,8 @@
                     width: 200px
                     &:before
                         content: "\f004"
-                        font-family: FontAwesome
+                        font-family: "Font Awesome 5 Free"
+                        font-weight: 900
                         position: absolute
                         font-size: 18px
                         color: $FavoriteColor
@@ -219,7 +223,8 @@
 
                     &:after
                         content: "\f004"
-                        font-family: FontAwesome
+                        font-family: "Font Awesome 5 Free"
+                        font-weight: 900
                         position: absolute
                         font-size: 18px
                         color: #FFF
@@ -252,7 +257,8 @@
 
                 &:before
                     content: "\f070"
-                    font-family: FontAwesome
+                    font-family: "Font Awesome 5 Free"
+                    font-weight: 900
                     position: absolute
                     font-size: 18px
                     color: #FFF
@@ -262,7 +268,8 @@
 
                 &:after
                     content: "\f00c"
-                    font-family: FontAwesome
+                    font-family: "Font Awesome 5 Free"
+                    font-weight: 900
                     position: absolute
                     font-size: 20px
                     color: #299000
@@ -461,8 +468,14 @@
                 height: 60px
                 padding: 10px 0
 
+                .play-selector
+                    color: $ShowText1
+                    position: relative
+                    float: right
+                    margin-top: 6px
+
                 .sdow-quality
-                    margin-top: 24px
+                    margin-top: 20px
                     float: left
 
                     div
@@ -473,12 +486,8 @@
                         font-size: 11px
                         color: $ShowText1
                         transition: all .2s ease-in
-
-                    .q720
-                        margin-left: 6px
-
-                    .q1080
-                        margin-left: 6px
+                        padding: 4px
+                        margin-right: 6px
 
                     .disabled
                         opacity: .3
@@ -487,33 +496,14 @@
                     .active
                         cursor: pointer
                         opacity: 1
-                        color: $QualitySelector
+                        color: $QualitySelectorText
+                        background: $QualitySelectorBg
+                        border-radius: 10px
                         font-family: $MainFontBold
 
                 .sdow-watchnow
                     margin-top: 6px
                     float: right
-                    cursor: pointer
-                    padding: 0 15px
-                    height: 35px
-                    font-size: 12px
-                    border-radius: $ButtonRadius
-                    background-clip: padding-box
-                    background-color: $ButtonBg
-                    transition: background-color .5s
-                    font-family: $ButtonFont
-                    font-smoothing: antialiased
-                    text-align: center
-                    line-height: 34px
-                    color: $ButtonText
-
-                    &:hover
-                        background-color: $ButtonBgHover
-                        text-decoration: none
-
-                    &:active
-                        box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-                        background: $ButtonBgActive
 
         /* ugly rule to bypass restrictions */
         .sd-seasons[style*="display: none"] + .sd-episodes ul a div

@@ -1,10 +1,10 @@
 (function (App) {
     'use strict';
 
-    var _this,
+    var that,
         formatMagnet;
 
-    var FileSelector = Backbone.Marionette.ItemView.extend({
+    var FileSelector = Marionette.View.extend({
         template: '#file-selector-tpl',
         className: 'file-selector',
 
@@ -16,7 +16,7 @@
         },
 
         initialize: function () {
-            _this = this;
+            that = this;
 
             formatMagnet = function (link) {
                 // format magnet with Display Name
@@ -36,11 +36,11 @@
             this.bitsnoopRequest(this.model.get('torrent').infoHash);
         },
 
-        onShow: function () {
+        onAttach: function () {
             this.isTorrentStored();
 
             Mousetrap.bind(['esc', 'backspace'], function (e) {
-                _this.closeSelector(e);
+                that.closeSelector(e);
             });
 
             App.Device.Collection.setDevice(Settings.chosenPlayer);
@@ -71,20 +71,16 @@
         },
 
         startStreaming: function (e) {
-            var torrent = _this.model.get('torrent');
+            var torrent = that.model.get('torrent');
             var file = parseInt($(e.currentTarget).attr('data-file'));
             var actualIndex = parseInt($(e.currentTarget).attr('data-index'));
-            torrent.name = torrent.files[file].name;
 
             var torrentStart = new Backbone.Model({
-                torrent: torrent,
+                torrent: torrent.magnetURI,
                 torrent_read: true,
                 file_index: actualIndex,
                 device: App.Device.Collection.selected
             });
-            try {
-                App.MovieDetailView.closeDetails();
-            } catch (e) {}
             App.vent.trigger('stream:start', torrentStart);
             App.vent.trigger('system:closeFileSelector');
         },
@@ -161,31 +157,26 @@
             }
             this.isTorrentStored(); // trigger button change
 
-            if (App.currentview === 'Torrent-collection') {
+            if (App.currentview === 'Torrent Collection') {
                 App.vent.trigger('torrentCollection:show'); // refresh collection
             }
         },
 
         selectPlayer: function (e) {
             var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
-            _this.model.set('device', player);
+            that.model.set('device', player);
             if (!player.match(/[0-9]+.[0-9]+.[0-9]+.[0-9]/ig)) {
                 AdvSettings.set('chosenPlayer', player);
             }
         },
 
         closeSelector: function (e) {
-            Mousetrap.bind('backspace', function (e) {
-                App.vent.trigger('show:closeDetail');
-                App.vent.trigger('movie:closeDetail');
-            });
             $('.filter-bar').show();
             $('#header').removeClass('header-shadow');
-            $('#movie-detail').show();
             App.vent.trigger('system:closeFileSelector');
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             Settings.droppedTorrent = false;
             Settings.droppedMagnet = false;
             Settings.droppedStoredMagnet = false;

@@ -27,6 +27,7 @@
         -webkit-filter: blur(15px) brightness(0.7)
         background-repeat: no-repeat
         background-size: cover
+
         &.fadein
             transition: opacity .3s ease-in;
             opacity: 1
@@ -57,9 +58,13 @@
         margin-top: 8vh
         width: 65vw
         padding-right: 4vw
+        display: flex
+        justify-content: space-between
+        flex-direction: column
 
         .meta-container
             height: calc(100% - 70px)
+            flex: 2
 
             .title
                 color: #FFF
@@ -88,24 +93,29 @@
                     white-space: nowrap
                     text-overflow: ellipsis
 
-                .dot
-                    margin: 4px 15px 0px 15px
-                    position: relative
-                    display: inline-block
-                    width: 4px
-                    float: left
-                    height: 4px
-                    border-radius: 2px
-                    background-color: #dbdbdd
+                    &::before
+                        content: ""
+                        margin: 4px 15px 0px 15px
+                        position: relative
+                        display: inline-block
+                        width: 4px
+                        float: left
+                        height: 4px
+                        border-radius: 2px
+                        background-color: #dbdbdd
+
+                    &:first-child::before
+                        display: none
 
                 .movie-imdb-link
                     margin-top: -3px
-                    width: 27px
+                    padding-top: 3px
+                    width: 59px
                     float: left
                     height: 16px
                     position: relative
                     cursor: pointer
-                    background: url(../images/icons/imdb.png) no-repeat
+                    background: url(../images/icons/imdb.png) right top no-repeat
 
 
                 .rating-container
@@ -127,7 +137,6 @@
                     .star-container
                         width: auto
                         float: left
-                        top: -4px
                         position: relative
                         z-index: 2
                         cursor: pointer
@@ -157,8 +166,8 @@
                             width 1em
                             height 1em
                             line-height 1em
-                            margin-top 2px
-                            margin-right: -3px
+                            margin-right -2px
+                            margin-left 2px
 
                 .health-icon
                     position: relative
@@ -206,9 +215,24 @@
                 backface-visibility: hidden
                 scrollable();
 
-        .bottom-container
+        .play-control
+            display: flex
+            flex-direction: row
+            justify-content: space-between
+            white-space: nowrap
+
             height: 70px
             line-height: 35px
+            margin: 10px
+
+            .setup-container
+              display: flex
+              flex-direction: row
+              justify-content: space-between
+
+            .toggles-container
+              display: flex
+              flex: 2
 
             .favourites-toggle
                 cursor: pointer
@@ -227,7 +251,8 @@
 
                 &:before
                     content: "\f004"
-                    font-family: FontAwesome
+                    font-family: "Font Awesome 5 Free"
+                    font-weight: 900
                     position: absolute
                     font-size: 18px
                     color: #FFF
@@ -237,7 +262,8 @@
 
                 &:after
                     content: "\f004"
-                    font-family: FontAwesome
+                    font-family: "Font Awesome 5 Free"
+                    font-weight: 900
                     position: absolute
                     font-size: 18px
                     color: $ButtonBgActive
@@ -258,7 +284,8 @@
 
                     &:before
                         content: "\f004"
-                        font-family: FontAwesome
+                        font-family: "Font Awesome 5 Free"
+                        font-weight: 900
                         position: absolute
                         font-size: 18px
                         color: $FavoriteColor
@@ -268,7 +295,8 @@
 
                     &:after
                         content: "\f004"
-                        font-family: FontAwesome
+                        font-family: "Font Awesome 5 Free"
+                        font-weight: 900
                         position: absolute
                         font-size: 18px
                         color: #FFF
@@ -298,7 +326,8 @@
 
                 &:before
                     content: "\f070"
-                    font-family: FontAwesome
+                    font-family: "Font Awesome 5 Free"
+                    font-weight: 900
                     position: absolute
                     font-size: 18px
                     color: #FFF
@@ -308,7 +337,8 @@
 
                 &:after
                     content: "\f00c"
-                    font-family: FontAwesome
+                    font-family: "Font Awesome 5 Free"
+                    font-weight: 900
                     position: absolute
                     font-size: 20px
                     color: #299000
@@ -324,12 +354,10 @@
 
 
                 &.selected
-                    height: 18px
-                    position: relative
-
                     &:before
                         content: "\f00c"
-                        font-family: FontAwesome
+                        font-family: "Font Awesome 5 Free"
+                        font-weight: 900
                         position: absolute
                         font-size: 20px
                         color: #299000
@@ -339,7 +367,8 @@
 
                     &:after
                         content: "\f070"
-                        font-family: FontAwesome
+                        font-family: "Font Awesome 5 Free"
+                        font-weight: 900
                         position: absolute
                         font-size: 18px
                         color: #FFF
@@ -353,180 +382,9 @@
                         &:after
                             opacity: 1
 
-            .sub-dropdown
+            .play-selector
                 position: relative
-                height: 26px
-                width: auto
-                float: right
-                margin-right: 2%
-                color: #FFF
-                font-family: $MainFont
-                font-smoothing: antialiased
-                font-size: 12px
-                line-height: 17px
-                cursor pointer
-                padding: 5px
-                padding-right: 13px
-                &.open
-                    background-color: rgba($ButtonBgActive,0.6);
-                    border-radius: 5px 5px 0 0;
-
-                .sub-dropdown-arrow
-                    width: 0
-                    height: 0
-                    border-left: 4px solid transparent
-                    border-right: 4px solid transparent
-                    top: 10px
-                    position: absolute
-                    float: left
-                    right: 5px
-                    border-top: 5px solid #c4c6c8
-                    border-bottom: none
-                    &.down
-                        border-bottom: 5px solid #c4c6c8
-                        border-top: none
-
-            .flag-container
-                position: absolute
-                margin-right: 5.2%
-                margin-top: 26px
-                z-index: 3
-                width: auto
-                max-width: 330px
-                max-height: 72px
-                right: 0
-                overflow-x: hidden
-                overflow-y: hidden
-                display: none
-                height: auto
-                background: rgba(20, 24, 26, 0.6)
-
-                .flag
-                    height: 16px;
-
-
-            .flag
-                margin: 3px
-                background-image: url("../images/flags/none.png")
-                background-size: 24px 24px
-                background-position: center
-                position: relative
-                float: right
-                cursor: pointer
-                width: 24px
-                height: 22px
-                &.NA
-                    background-image: url("../images/flags/none.png")
-                &.toggle
-                    top: -6px
-                    border-radius: 0
-                    background-color: transparent
-                &.ar
-                    background-image: url("../images/flags/arabic.png")
-                &.hy
-                    background-image: url("../images/flags/armenian.png")
-                &.eu
-                    background-image: url("../images/flags/basque.png")
-                &.bn
-                    background-image: url("../images/flags/bengali.png")
-                &.bs
-                    background-image: url("../images/flags/bosnian.png")
-                &.pt-br
-                    background-image: url("../images/flags/brazilian.png")
-                &.bg
-                    background-image: url("../images/flags/bulgarian.png")
-                &.zh
-                    background-image: url("../images/flags/chinese.png")
-                &.hr
-                    background-image: url("../images/flags/croatian.png")
-                &.cs
-                    background-image: url("../images/flags/czech.png")
-                &.da
-                    background-image: url("../images/flags/danish.png")
-                &.nl
-                    background-image: url("../images/flags/dutch.png")
-                &.en
-                    background-image: url("../images/flags/english.png")
-                &.et
-                    background-image: url("../images/flags/estonian.png")
-                &.fa
-                    background-image: url("../images/flags/farsi.png")
-                &.fi
-                    background-image: url("../images/flags/finnish.png")
-                &.fr
-                    background-image: url("../images/flags/french.png")
-                &.de
-                    background-image: url("../images/flags/german.png")
-                &.el
-                    background-image: url("../images/flags/greek.png")
-                &.he
-                    background-image: url("../images/flags/hebrew.png")
-                &.hu
-                    background-image: url("../images/flags/hungarian.png")
-                &.it
-                    background-image: url("../images/flags/italian.png")
-                &.id
-                    background-image: url("../images/flags/indonesian.png")
-                &.lv
-                    background-image: url("../images/flags/latvian.png")
-                &.lt
-                    background-image: url("../images/flags/lithuanian.png")
-                &.mt
-                    background-image: url("../images/flags/maltese.png")
-                &.no
-                    background-image: url("../images/flags/norwegian.png")
-                &.pl
-                    background-image: url("../images/flags/polish.png")
-                &.pt
-                    background-image: url("../images/flags/portuguese.png")
-                &.ro
-                    background-image: url("../images/flags/romanian.png")
-                &.ru
-                    background-image: url("../images/flags/russian.png")
-                &.sr
-                    background-image: url("../images/flags/serbian.png")
-                &.sk
-                    background-image: url("../images/flags/slovak.png")
-                &.sl
-                    background-image: url("../images/flags/slovenian.png")
-                &.es
-                    background-image: url("../images/flags/spanish.png")
-                &.sv
-                    background-image: url("../images/flags/swedish.png")
-                &.th
-                    background-image: url("../images/flags/thai.png")
-                &.tr
-                    background-image: url("../images/flags/turkish.png")
-                &.uk
-                    background-image: url("../images/flags/ukrainian.png")
-                &.vi
-                    background-image: url("../images/flags/vietnamese.png")
-
-            .button
-                position: relative
-                cursor: pointer
                 float: left
-                height: 35px
-                margin-right: 15px
-                border-radius: $ButtonRadius
-                background-clip: padding-box
-                background-color: $ButtonBg
-                padding: 0 15px
-                transition: background-color 0.5s
-                color: $ButtonText
-                font-family: $MainFont
-                font-smoothing: antialiased
-                text-align: center
-                font-size: 12px
-                line-height: 34px
-
-                &:hover
-                    background: $ButtonBgHover
-                    text-decoration: none
-
-                &:active
-                    box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-                    background: $ButtonBgActive
 
                 .startStreaming
                     margin-left: 12px
@@ -540,6 +398,37 @@
                         left: 0
                         position: absolute
 
+            .quality-selector
+                position: relative
+                float: left
+                .sdow-quality
+                    line-height: normal;
+                    padding: 4px;
+
+                    div
+                        cursor: pointer
+                        float: left
+                        font-family: $MainFont;
+                        -webkit-font-smoothing: antialiased;
+                        font-size: 11px
+                        color: $ShowText1
+                        transition: all .2s ease-in
+                        padding: 4px
+                        margin-right: 6px
+
+                    .disabled
+                        opacity: .3
+                        cursor: default
+
+                    .active
+                        cursor: pointer
+                        opacity: 1
+                        color: $QualitySelectorText
+                        background: $QualitySelectorBg
+                        border-radius: 10px
+                        font-family: $MainFontBold
+
+
             .movie-quality-container
                 margin-top: 10px
                 float: left
@@ -548,6 +437,17 @@
                 width: 95px
                 left: 3%
                 line-height: 1
+
+                .sdow-quality
+                    div
+                        cursor: pointer
+                        float: left
+                        font-family: $MainFont;
+                        -webkit-font-smoothing: antialiased;
+                        font-size: 11px
+                        color: $ShowText1
+                        transition: all .2s ease-in
+                        padding: 4px
 
                 .tooltip
                     width: 85px
@@ -568,6 +468,27 @@
                     font-weight: normal
                     left: 58px
                     position: absolute
+
+                .q2160
+                    font-family: $MainFontBold
+                    font-smoothing: antialiased
+                    font-size: 11px
+                    color: #fff
+                    font-weight: normal
+                    left: 116px
+                    position: absolute
+
+                .disabled
+                    opacity: .3
+                    cursor: default
+
+                .active
+                    cursor: pointer
+                    opacity: 1
+                    color: $QualitySelectorText
+                    background: $QualitySelectorBg
+                    border-radius: 10px
+                    font-family: $MainFontBold
 
                 .switch
                     background: transparent

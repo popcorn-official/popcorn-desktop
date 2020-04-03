@@ -5,13 +5,13 @@ you get started quickly and easily.
 
 There are lots and lots of ways to get involved, this document covers:
 
-* [raising issues](#report-a-bug)
-    * [bug reports](#bug-reports)
-    * [feature requests](#feature-requests)
-    * [change requests](#change-requests)
-* [working on Popcorn Time core](#working-on-popcorn-time-core)
-    * [submitting pull requests](#submitting-pull-requests)
-* [translation](#translation)
+* [Raising issues](#report-a-bug)
+    * [Bug reports](#bug-reports)
+    * [Feature requests](#feature-requests)
+    * [Change requests](#change-requests)
+* [Working on Popcorn Time core](#working-on-popcorn-time-core)
+    * [Submitting pull requests](#submitting-pull-requests)
+* [Translation](#translation)
 
 
 ## Report a bug
@@ -92,7 +92,7 @@ likely to be common.
 Change requests cover both architectural and functional changes to how Popcorn Time works. If you have an idea for a
 new or different dependency, a refactor, or an improvement to a feature, etc  - please be sure to:
 
-1. **Use the GitHub search** and check someone else didn't get there first
+1. **Use the GitHub search** and check someone else didn't get there first.
 2. Take a moment to think about the best way to make a case for, and explain what you're thinking. Are you sure
 this shouldn't really be a [bug report](#bug-reports) or a [feature request](#feature-requests)? Is it really one
 idea or is it many? What's the context? What problem are you solving? Why is what you are suggesting better than
@@ -104,10 +104,10 @@ what's already there? Does it fit with the Roadmap?
 Pull requests are awesome. If you're looking to raise a PR for something which doesn't have an open issue, please think carefully about [raising an issue](#report-a-bug) which your PR can close, especially if you're fixing a bug. This makes it more likely that there will be enough information available for your PR to be properly tested and merged. To make sure your PR is accepted as quickly as possible, you should be sure to have read
 all the guidelines on:
 
-* [code standards](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Code-Standards.md)
-* [commit messages](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Git-Workflow.md#commit-messages)
-* [cleaning-up history](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Git-Workflow.md#clean-up-history)
-* [not breaking the build](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Git-Workflow.md#check-it-passes-the-tests)
+* [Code standards](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Code-Standards.md)
+* [Commit messages](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Git-Workflow.md#commit-messages)
+* [Cleaning-up history](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Git-Workflow.md#clean-up-history)
+* [Not breaking the build](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Git-Workflow.md#check-it-passes-the-tests)
 
 ##### Need Help?
 
@@ -117,7 +117,7 @@ If you're not completely clear on how to submit / update / *do* Pull Requests, p
 
 ### Translation
 
-For translations please go to: [Transifex](https://www.transifex.com/butterproject/public/)
+For translations please go to: [Transifex](https://www.transifex.com/popcorn-time/public/)
 
 
 ## Working on Popcorn Time Core
@@ -133,7 +133,7 @@ For translations please go to: [Transifex](https://www.transifex.com/butterproje
 1. cd into the project folder
 1. Run `npm install -g grunt-cli bower` - to make it possible to run grunt commands
 
-[complete documentation](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Build-Debug.md).
+[Complete documentation](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Build-Debug.md)
 
 ### Updating with the latest changes
 

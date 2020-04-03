@@ -1,12 +1,11 @@
 (function (App) {
     'use strict';
     var clipboard = nw.Clipboard.get(),
-        fdialogs = require('node-webkit-fdialogs'),
         waitComplete,
         oldTmpLocation,
         that;
 
-    var SettingsContainer = Backbone.Marionette.ItemView.extend({
+    var SettingsContainer = Marionette.View.extend({
         template: '#settings-container-tpl',
         className: 'settings-container-contain',
 
@@ -37,7 +36,7 @@
             'click #disconnect-tvst': 'disconnectTvst',
             'click #authOpensubtitles': 'connectOpensubtitles',
             'click #unauthOpensubtitles': 'disconnectOpensubtitles',
-            'click .reset-tvAPI': 'resetTVShowAPI',
+            'click .reset-tvshow': 'resettvshow',
             'change #tmpLocation': 'updateCacheDirectory',
             'click #syncTrakt': 'syncTrakt',
             'click .qr-code': 'generateQRcode',
@@ -45,7 +44,7 @@
             'click #qrcode-close': 'closeModal'
         },
 
-        onShow: function () {
+        onAttach: function () {
             that = this;
             this.render();
 
@@ -64,6 +63,12 @@
             Mousetrap.bind('backspace', function (e) {
                 App.vent.trigger('settings:close');
             });
+
+            // connect opensubs on enter
+            var osMousetrap = new Mousetrap(document.getElementById('opensubtitlesPassword'));
+            osMousetrap.bind('enter', function (e) {
+                this.connectOpensubtitles();
+            }.bind(this));
         },
 
         onRender: function () {
@@ -111,7 +116,7 @@
             return menu;
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             Mousetrap.bind('backspace', function (e) {
                 App.vent.trigger('show:closeDetail');
                 App.vent.trigger('movie:closeDetail');
@@ -126,7 +131,7 @@
             App.vent.trigger('settings:close');
         },
 
-        resetTVShowAPI: function () {
+        resettvshow: function () {
             var value = [{
                 url: 'https:///',
                 strictSSL: true
@@ -134,16 +139,16 @@
                 url: 'https:///',
                 strictSSL: true
             }];
-            App.settings['tvAPI'] = value;
+            App.settings['tvshow'] = value;
             //save to db
             App.db.writeSetting({
-                key: 'tvAPI',
+                key: 'tvshow',
                 value: value
             }).then(function () {
                 that.ui.success_alert.show().delay(3000).fadeOut(400);
             });
 
-            that.syncSetting('tvAPI', value);
+            that.syncSetting('tvshow', value);
         },
 
         generateQRcode: function () {
@@ -180,84 +185,93 @@
                 data = {};
 
             switch (field.attr('name')) {
-            case 'httpApiPort':
-                apiDataChanged = true;
-                value = parseInt(field.val());
-                break;
-            case 'tvAPI':
-                value = field.val();
-                if (value.substr(-1) !== '/') {
-                    value += '/';
-                }
-                if (value.substr(0, 8) !== 'https://' && value.substr(0, 7) !== 'http://') {
-                    value = 'http://' + value;
-                }
-                value = [{
-                    url: value,
-                    strictSSL: value.substr(0, 8) === 'https://'
-                }];
-                break;
-            case 'subtitle_size':
-            case 'tv_detail_jump_to':
-            case 'subtitle_language':
-            case 'subtitle_decoration':
-            case 'movies_quality':
-            case 'subtitle_font':
-            case 'start_screen':
-                if ($('option:selected', field).val() === 'Last Open') {
-                    AdvSettings.set('lastTab', App.currentview);
-                }
+                case 'httpApiPort':
+                    apiDataChanged = true;
+                    value = parseInt(field.val());
+                    break;
+                case 'tvshow':
+                    value = field.val();
+                    if (value.substr(-1) !== '/') {
+                        value += '/';
+                    }
+                    if (value.substr(0, 8) !== 'https://' && value.substr(0, 7) !== 'http://') {
+                        value = 'http://' + value;
+                    }
+                    value = [{
+                        url: value,
+                        strictSSL: value.substr(0, 8) === 'https://'
+                    }];
+                    break;
+                case 'subtitle_size':
+                case 'tv_detail_jump_to':
+                case 'subtitle_language':
+                case 'subtitle_decoration':
+                case 'movies_quality':
+                case 'subtitle_font':
+                case 'start_screen':
+                    if ($('option:selected', field).val() === 'Last Open') {
+                        AdvSettings.set('lastTab', App.currentview);
+                    }
                 /* falls through */
-            case 'watchedCovers':
-            case 'theme':
-                value = $('option:selected', field).val();
-                break;
-            case 'language':
-                value = $('option:selected', field).val();
-                i18n.setLocale(value);
-                break;
-            case 'moviesShowQuality':
-            case 'deleteTmpOnClose':
-            case 'coversShowRating':
-            case 'translateSynopsis':
-            case 'showAdvancedSettings':
-            case 'alwaysOnTop':
-            case 'traktSyncOnStart':
-            case 'traktPlayback':
-            case 'playNextEpisodeAuto':
-            case 'automaticUpdating':
-            case 'events':
-            case 'alwaysFullscreen':
-            case 'minimizeToTray':
-            case 'bigPicture':
-            case 'activateTorrentCollection':
-            case 'activateWatchlist':
-            case 'activateRandomize':
-            case 'opensubtitlesAutoUpload':
-            case 'subtitles_bold':
-            case 'rememberFilters':
-                value = field.is(':checked');
-                break;
-            case 'httpApiUsername':
-            case 'httpApiPassword':
-                apiDataChanged = true;
-                value = field.val();
-                break;
-            case 'connectionLimit':
-            case 'dhtLimit':
-            case 'streamPort':
-            case 'subtitle_color':
-                value = field.val();
-                break;
-            case 'tmpLocation':
-                tmpLocationChanged = true;
-                value = path.join(field.val(), Settings.projectName);
-                break;
-            case 'opensubtitlesUsername':
-            case 'opensubtitlesPassword':
-                return;
-            default:
-                win.warn('Setting not defined: ' + field.attr('name'));
+                case 'watchedCovers':
+                case 'theme':
+                    value = $('option:selected', field).val();
+                    break;
+                case 'language':
+                    value = $('option:selected', field).val();
+                    i18n.setLocale(value);
+                    break;
+                case 'moviesShowQuality':
+                case 'deleteTmpOnClose':
+                case 'continueSeedingOnStart':
+                case 'vpnEnabled':
+                case 'coversShowRating':
+                case 'translateSynopsis':
+                case 'showAdvancedSettings':
+                case 'alwaysOnTop':
+                case 'traktSyncOnStart':
+                case 'traktPlayback':
+                case 'playNextEpisodeAuto':
+                case 'automaticUpdating':
+                case 'UpdateSeed':
+                case 'events':
+                case 'alwaysFullscreen':
+                case 'minimizeToTray':
+                case 'bigPicture':
+                case 'activateTorrentCollection':
+                case 'activateWatchlist':
+                case 'activateRandomize':
+                case 'opensubtitlesAutoUpload':
+                case 'subtitles_bold':
+                case 'rememberFilters':
+                case 'animeTabDisable':
+                case 'indieTabDisable':
+                    value = field.is(':checked');
+                    break;
+                case 'httpApiEnabled':
+                    apiDataChanged = true;
+                    value = field.is(':checked');
+                    break;
+                case 'httpApiUsername':
+                case 'httpApiPassword':
+                    apiDataChanged = true;
+                    value = field.val();
+                    break;
+                case 'connectionLimit':
+                case 'streamPort':
+                case 'subtitle_color':
+                case 'maxActiveTorrents':
+                    value = field.val();
+                    break;
+                case 'tmpLocation':
+                    tmpLocationChanged = true;
+                    value = path.join(field.val(), Settings.projectName);
+                    break;
+                case 'opensubtitlesUsername':
+                case 'opensubtitlesPassword':
+                    return;
+                default:
+                    win.warn('Setting not defined: ' + field.attr('name'));
             }
             win.info('Setting changed: ' + field.attr('name') + ' - ' + value);
 
@@ -287,154 +301,133 @@
 
         syncSetting: function (setting, value) {
             switch (setting) {
-            case 'coversShowRating':
-                if (value) {
-                    $('.rating').show();
-                } else {
-                    $('.rating').hide();
-                }
-                break;
-            case 'moviesShowQuality':
-                if (value) {
-                    $('.quality').show();
-                } else {
-                    $('.quality').hide();
-                }
-                break;
-            case 'showAdvancedSettings':
-                if (value) {
-                    $('.advanced').css('display', 'flex');
-                } else {
-                    $('.advanced').css('display', 'none');
-                }
-                break;
-            case 'language':
-            case 'watchedCovers':
-                App.vent.trigger('movies:list');
-                App.vent.trigger('settings:show');
-                break;
-            case 'alwaysOnTop':
-                win.setAlwaysOnTop(value);
-                break;
-            case 'theme':
-                $('link#theme').attr('href', 'themes/' + value + '.css');
-                App.vent.trigger('updatePostersSizeStylesheet');
-                break;
-            case 'start_screen':
-                AdvSettings.set('startScreen', value);
-                break;
-            case 'events':
-                if ($('.events').css('display') === 'none') {
-                    $('.events').css('display', 'block');
-                } else {
-                    $('.events').css('display', 'none');
-                }
-                break;
-            case 'activateTorrentCollection':
-                if ($('#torrent_col').css('display') === 'none') {
-                    $('#torrent_col').css('display', 'block');
-                } else {
-                    $('#torrent_col').css('display', 'none');
-                    App.vent.trigger('torrentCollection:close');
-                }
-                break;
-            case 'activateRandomize':
-            case 'activateWatchlist':
-                App.vent.trigger('movies:list');
-                App.vent.trigger('settings:show');
-                break;
-            case 'movies_quality':
-            case 'translateSynopsis':
-                App.Providers.delete('Yts');
-                App.vent.trigger('movies:list');
-                App.vent.trigger('settings:show');
-                break;
-            case 'tvAPI':
-                App.Providers.delete('TVApi');
-                App.vent.trigger('movies:list');
-                App.vent.trigger('settings:show');
-                break;
-            case 'bigPicture':
-                if (!ScreenResolution.SD) {
-                    if (App.settings.bigPicture) {
-                        win.maximize();
-                        AdvSettings.set('noBigPicture', win.zoomLevel);
-                        var zoom = ScreenResolution.HD ? 2 : 3;
-                        win.zoomLevel = zoom;
+                case 'coversShowRating':
+                    if (value) {
+                        $('.rating').show();
                     } else {
-                        win.zoomLevel = AdvSettings.get('noBigPicture') || 0;
+                        $('.rating').hide();
                     }
-                } else {
-                    AdvSettings.set('bigPicture', false);
-                    win.info('Setting changed: bigPicture - true');
-                    $('input#bigPicture.settings-checkbox').attr('checked', false);
-                    App.vent.trigger('notification:show', new App.Model.Notification({
-                        title: i18n.__('Big Picture Mode'),
-                        body: i18n.__('Big Picture Mode is unavailable on your current screen resolution'),
-                        showRestart: false,
-                        type: 'error',
-                        autoclose: true
-                    }));
-                }
-                break;
-            default:
+                    break;
+                case 'moviesShowQuality':
+                    if (value) {
+                        $('.quality').show();
+                    } else {
+                        $('.quality').hide();
+                    }
+                    break;
+                case 'showAdvancedSettings':
+                    if (value) {
+                        $('.advanced').css('display', 'flex');
+                    } else {
+                        $('.advanced').css('display', 'none');
+                    }
+                    break;
+                case 'vpnEnabled':
+                case 'language':
+                case 'watchedCovers':
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
+                    break;
+                case 'alwaysOnTop':
+                    win.setAlwaysOnTop(value);
+                    break;
+                case 'theme':
+                    $('link#theme').attr('href', 'themes/' + value + '.css');
+                    App.vent.trigger('updatePostersSizeStylesheet');
+                    break;
+                case 'start_screen':
+                    AdvSettings.set('startScreen', value);
+                    break;
+                case 'events':
+                    if ($('.events').css('display') === 'none') {
+                        $('.events').css('display', 'block');
+                    } else {
+                        $('.events').css('display', 'none');
+                    }
+                    break;
+                case 'activateTorrentCollection':
+                    if ($('#torrent_col').css('display') === 'none') {
+                        $('#torrent_col').css('display', 'block');
+                    } else {
+                        $('#torrent_col').css('display', 'none');
+                        App.vent.trigger('torrentCollection:close');
+                        App.vent.trigger('seedbox:close');
+                    }
+                    break;
+                case 'animeTabDisable':
+                    if ($('.animeTabShow').css('display') === 'none') {
+                        $('.animeTabShow').css('display', 'block');
+                    } else {
+                        $('.animeTabShow').css('display', 'none');
+                        App.vent.trigger('movies:list');
+                        App.vent.trigger('settings:show');
+                    }
+                    break;
+                case 'indieTabDisable':
+                    if ($('.indieTabShow').css('display') === 'none') {
+                        $('.indieTabShow').css('display', 'block');
+                    } else {
+                        $('.indieTabShow').css('display', 'none');
+                        App.vent.trigger('movies:list');
+                        App.vent.trigger('settings:show');
+                    }
+                    break;
+                case 'activateRandomize':
+                case 'activateWatchlist':
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
+                    break;
+                case 'movies_quality':
+                case 'translateSynopsis':
+                    App.Providers.delete('Yts');
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
+                    break;
+                case 'tvshow':
+                    App.Providers.delete('tvshow');
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
+                    break;
+                case 'bigPicture':
+                    if (!ScreenResolution.SD) {
+                        if (App.settings.bigPicture) {
+                            win.maximize();
+                            AdvSettings.set('noBigPicture', win.zoomLevel);
+                            var zoom = ScreenResolution.HD ? 2 : 3;
+                            win.zoomLevel = zoom;
+                        } else {
+                            win.zoomLevel = AdvSettings.get('noBigPicture') || 0;
+                        }
+                    } else {
+                        AdvSettings.set('bigPicture', false);
+                        win.info('Setting changed: bigPicture - true');
+                        $('input#bigPicture.settings-checkbox').attr('checked', false);
+                        App.vent.trigger('notification:show', new App.Model.Notification({
+                            title: i18n.__('Big Picture Mode'),
+                            body: i18n.__('Big Picture Mode is unavailable on your current screen resolution'),
+                            showRestart: false,
+                            type: 'error',
+                            autoclose: true
+                        }));
+                    }
+                    break;
+                default:
             }
         },
 
         connectTrakt: function (e) {
-            if (AdvSettings.get('traktTokenRefresh') !== '') {
-                return;
+            if (!Settings.traktStatus) {
+                $('#authTrakt').hide();
+                $('#authTraktCode').show();
+
+                App.Trakt.authenticate().then(this.render).catch(this.render);
             }
-
-            $('#authTrakt > i').css('visibility', 'hidden');
-            $('.trakt-loading-spinner').show();
-
-            // $('#authTrakt').hide();
-            // $('#authTraktCode').show();
-
-            App.Trakt.oauth.authenticate()
-                .then(function (valid) {
-                    if (valid) {
-                        $('.trakt-loading-spinner').hide();
-                        that.render();
-                    } else {
-                        $('.trakt-loading-spinner').hide();
-                        $('#authTrakt > i').css('visibility', 'visible');
-                    }
-                }).catch(function (err) {
-                    win.debug('Trakt', err);
-                    $('#authTrakt > i').css('visibility', 'visible');
-                    $('.trakt-loading-spinner').hide();
-                });
         },
 
         disconnectTrakt: function (e) {
-            App.settings['traktToken'] = '';
-            App.settings['traktTokenRefresh'] = '';
-            App.settings['traktTokenTTL'] = '';
-            App.Trakt.authenticated = false;
-
-            App.db.writeSetting({
-                key: 'traktToken',
-                value: ''
-            }).then(function () {
-                return App.db.writeSetting({
-                    key: 'traktTokenRefresh',
-                    value: ''
-                });
-            }).then(function () {
-                return App.db.writeSetting({
-                    key: 'traktTokenTTL',
-                    value: ''
-                });
-            }).then(function () {
-                that.ui.success_alert.show().delay(3000).fadeOut(400);
-            });
-
-            _.defer(function () {
-                App.Trakt = App.Providers.get('Trakttv');
-                that.render();
-            });
+            App.Trakt.disconnect();
+            this.ui.success_alert.show().delay(3000).fadeOut(400);
+            this.render();
         },
 
         connectWithTvst: function () {
@@ -443,29 +436,12 @@
             $('#connect-with-tvst > i').css('visibility', 'hidden');
             $('.tvst-loading-spinner').show();
 
-
+            App.vent.on('system:tvstAuthenticated', function () {
+                $('.tvst-loading-spinner').hide();
+                self.render();
+            });
             App.TVShowTime.authenticate(function (activateUri) {
-                nw.App.addOriginAccessWhitelistEntry(activateUri, 'app', 'host', true);
-                nw.Window.open(activateUri, {
-                    position: 'center',
-                    focus: true,
-                    title: 'TVShow Time',
-                    icon: 'src/app/images/icon.png',
-                    resizable: false,
-                    width: 600,
-                    height: 600
-                }, function(loginWindow) {
-                  App.vent.on('system:tvstAuthenticated', function () {
-                      loginWindow.close();
-                      $('.tvst-loading-spinner').hide();
-                      self.render();
-                  });
-
-                  loginWindow.on('closed', function () {
-                      $('.tvst-loading-spinner').hide();
-                      $('#connect-with-tvst > i').css('visibility', 'visible');
-                  });
-                }).focus();
+                nw.Shell.openExternal(activateUri);
             });
         },
 
@@ -487,7 +463,7 @@
             if (usn !== '' && pw !== '') {
                 $('.opensubtitles-options .loading-spinner').show();
                 var OpenSubtitles = new OS({
-                    useragent: 'Popcorn Time NodeJS', //TODO: register UA 'Butter v' + (Settings.version || 1),
+                    useragent: Settings.opensubtitles.useragent + ' v' + (Settings.version || 1),
                     username: usn,
                     password: Common.md5(pw)
                 });
@@ -606,7 +582,8 @@
 
         moveTmpLocation: function (location) {
             if (!fs.existsSync(location)) {
-                fs.mkdir(location);
+                fs.mkdirSync(location);
+                fs.mkdirSync(location + '/TorrentCache');
             }
             if (App.settings['deleteTmpOnClose']) {
                 deleteFolder(oldTmpLocation);
@@ -622,45 +599,53 @@
         },
 
         exportDatabase: function (e) {
+
             var zip = new AdmZip();
             var btn = $(e.currentTarget);
             var databaseFiles = fs.readdirSync(App.settings['databaseLocation']);
+            var fileinput = document.querySelector('input[id=exportdatabase]');
 
-            databaseFiles.forEach(function (entry) {
-                zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
+            $('#exportdatabase').on('change', function () {
+                var path = fileinput.value;
+                try {
+                    databaseFiles.forEach(function (entry) {
+                        zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
+                    });
+                    fs.writeFile(path + '/database.zip', zip.toBuffer(), function (err) {
+                        that.alertMessageWait(i18n.__('Exporting Database...'));
+                        win.info('Database exported to:', path);
+                        that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
+
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
             });
 
-            // https://github.com/exos/node-webkit-fdialogs/issues/9
-            var exportDialog = new fdialogs.FDialog({
-                type: 'save',
-                window: nw.Window.get().window
-            });
-
-            exportDialog.saveFile(zip.toBuffer(), function (err, path) {
-                that.alertMessageWait(i18n.__('Exporting Database...'));
-                win.info('Database exported to:', path);
-                that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
-            });
         },
 
         importDatabase: function () {
-            // https://github.com/exos/node-webkit-fdialogs/issues/9
-            var importDialog = new fdialogs.FDialog({
-                type: 'open',
-                window: nw.Window.get().window
+
+            var fileinput = document.querySelector('input[id=importdatabase]');
+
+
+            $('#importdatabase').on('change', function () {
+                var path = fileinput.value;
+                fs.readFile(path, function (err, content) {
+                    that.alertMessageWait(i18n.__('Importing Database...'));
+                    try {
+                        var zip = new AdmZip(content);
+                        zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
+                        that.alertMessageSuccess(true);
+                    }
+                    catch (err) {
+                        console.log(err);
+                        that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
+                        win.warn('Failed to Import Database');
+                    }
+                });
             });
 
-            importDialog.readFile(function (err, content, path) {
-                that.alertMessageWait(i18n.__('Importing Database...'));
-                try {
-                    var zip = new AdmZip(content);
-                    zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
-                    that.alertMessageSuccess(true);
-                } catch (err) {
-                    that.alertMessageFailed(i18n.__('Invalid PCT Database File Selected'));
-                    win.warn('Failed to Import Database');
-                }
-            });
         },
 
         updateCacheDirectory: function (e) {
@@ -722,10 +707,7 @@
 
             Database.deleteWatched(); // Reset before sync
 
-            App.Trakt.syncTrakt.all()
-                .then(function () {
-                    App.Providers.get('Watchlist').fetch({force:true});
-                })
+            App.Trakt.syncAll(true)
                 .then(function () {
                     $('#syncTrakt')
                         .text(i18n.__('Done'))
@@ -741,7 +723,7 @@
                         });
                 })
                 .catch(function (err) {
-                    win.error('App.Trakt.syncTrakt.all()', err);
+                    win.error('App.Trakt.syncAll()', err);
                     $('#syncTrakt')
                         .text(i18n.__('Error'))
                         .removeClass('disabled')

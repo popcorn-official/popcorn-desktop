@@ -2,6 +2,7 @@
     <% _.each (App.Config.getTabTypes(), function (tab) { %>
     <li class="source <%= tab.type %>TabShow providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.getFiltredProviderNames(tab.type) %>"><%= i18n.__(tab.name) %></li>
     <% }); %>
+    <li id="filterbar-favorites" class="source providerinfo" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Favorites") %>"><%= i18n.__("Favorites") %></li>
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">
     <% if(typeof type !== 'undefined'){ %>
@@ -47,24 +48,25 @@
     <%}%>
 </ul>
 <ul class="nav nav-hor right">
+    <% if (Settings.vpnEnabled) { %>
+    <!-- VPN -->
+    <li>
+        <i id="filterbar-vpn" class="fa fa-unlock vpn-disconnected tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Connection Not Secured") %>"></i>
+    </li>
+    <%}%>
+
     <li>
         <div class="right search">
             <form>
-                <input id="searchbox" type="text" placeholder="<%= i18n.__("Search") %>">
+                <input id="searchbox" type="text" placeholder="<%= i18n.__("Search") %>" autocomplete="off">
                 <div class="clear fa fa-times"></div>
             </form>
         </div>
     </li>
-
-    <!-- Randomize -->
-    <% if (Settings.activateRandomize) { %>
-    <li style="display:block">
-    <% } else { %>
-    <li style="display:none">
-    <% } %>
-        <i id="filterbar-random" class="fa fa-random tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Randomize") %>"></i>
+    <!-- Favorites -->
+    <li>
+        <i id="filterbar-favorites" class="fa fa-heart favorites tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Favorites") %>"></i>
     </li>
-
     <!-- Watchlist -->
     <% if (Settings.activateWatchlist) { %>
     <li style="display:block">
@@ -72,11 +74,6 @@
     <li style="display:none">
     <% } %>
         <i id="filterbar-watchlist" class="fa fa-inbox watchlist tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Watchlist") %>"></i>
-    </li>
-
-    <!-- Favorites -->
-    <li>
-        <i id="filterbar-favorites" class="fa fa-heart favorites tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Favorites") %>"></i>
     </li>
 
     <!-- Torrent Collection -->
@@ -91,6 +88,11 @@
     <!-- About -->
     <li>
         <i id="filterbar-about" class="fa fa-info-circle about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("About") %>"></i>
+    </li>
+
+    <!-- Seedbox -->
+    <li>
+        <i id="filterbar-seedbox" class="fa fa-download about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Seedbox") %>"></i>
     </li>
 
     <!-- Settings -->

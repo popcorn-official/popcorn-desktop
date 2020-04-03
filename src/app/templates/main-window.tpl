@@ -5,6 +5,7 @@
 <div id="changelog-container"></div>
 <div id="disclaimer-container"></div>
 <div id="about-container"></div>
+<div id="vpn-container"></div>
 <div id="help-container"></div>
 <div id="issue-container"></div>
 <div id="keyboard-container"></div>
@@ -13,6 +14,7 @@
 <div id="movie-detail"></div>
 <div id="file-selector-container"></div>
 <div id="torrent-collection-container"></div>
+<div id="seedbox-container"></div>
 <div id="drop-mask"></div>
 <div class="drop-indicator top"></div>
 <div class="drop-indicator right"></div>
