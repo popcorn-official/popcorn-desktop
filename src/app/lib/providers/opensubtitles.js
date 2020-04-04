@@ -4,12 +4,7 @@
         openSRT;
 
     var OpenSubtitles = function () {
-        openSRT = new OS({
-            useragent: 'Popcorn Time NodeJS',
-            username: Settings.opensubtitlesUsername,
-            password: Settings.opensubtitlesPassword,
-            ssl: true
-        });
+
     };
 
     OpenSubtitles.prototype.constructor = OpenSubtitles;
@@ -37,6 +32,11 @@
     };
 
     OpenSubtitles.prototype.fetch = function (queryParams) {
+      openSRT = new OS({
+          useragent: 'Popcorn Time NodeJS',
+          username: AdvSettings.get('opensubtitlesUsername'),
+          password: AdvSettings.get('opensubtitlesPassword')
+      });
         queryParams.extensions = ['srt'];
 
         return openSRT.search(queryParams)
@@ -55,6 +55,11 @@
     };
 
     OpenSubtitles.prototype.upload = function (queryParams) {
+      openSRT = new OS({
+          useragent: 'Popcorn Time NodeJS',
+          username: AdvSettings.get('opensubtitlesUsername'),
+          password: AdvSettings.get('opensubtitlesPassword')
+      });
         return openSRT.upload(queryParams);
     };
 
