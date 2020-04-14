@@ -409,8 +409,8 @@ var Database = {
                     window.__isNewInstall = true;
                 }
 
-                if (Settings.apiServer) {
-                  App.Providers.updateUrl(Settings.apiServer);
+                if (Settings.apiServer || Settings.proxyServer) {
+                  App.Providers.updateConnection(Settings.apiServer, Settings.proxyServer);
                 }
 
                 App.vent.trigger('initHttpApi');

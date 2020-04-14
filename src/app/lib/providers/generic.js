@@ -6,10 +6,11 @@
 
   App.Providers.Generic = require("butter-provider");
 
-  function updateProviderUrl (url) {
+  function updateProviderConnection (server, proxy) {
     for (let provider in cache) {
       if (cache[provider] && cache[provider].apiURL) {
-        cache[provider].apiURL = [url,`cloudflare+${url}`];
+        cache[provider].apiURL = [server];
+        cache[provider].proxy = proxy;
       }
     }
   }
@@ -95,7 +96,7 @@
   App.Providers.get = getProvider;
   App.Providers.delete = delProvider;
   App.Providers.install = installProvider;
-  App.Providers.updateUrl = updateProviderUrl;
+  App.Providers.updateConnection = updateProviderConnection;
 
   App.Providers.getFromRegistry = getProviderFromRegistry;
 })(window.App);

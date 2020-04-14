@@ -187,6 +187,7 @@
 
             switch (field.attr('name')) {
                 case 'apiServer':
+                case 'proxyServer':
                     apiServerChanged = true;
                     value = field.val();
                     break;
@@ -284,8 +285,9 @@
             // update active session
             App.settings[field.attr('name')] = value;
 
-            if (apiServerChanged && value) {
-                App.Providers.updateUrl(value);
+            if (apiServerChanged) {
+                console.log(App.settings['apiServer'], App.settings['proxyServer']);
+                App.Providers.updateConnection(App.settings['apiServer'], App.settings['proxyServer']);
             }
 
             if (apiDataChanged) {

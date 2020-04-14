@@ -1,6 +1,7 @@
 var assign = Object.assign || require("es6-object-assign").assign;
 var memoize = require("memoizee");
 var _ = require("lodash");
+const socksProxyAgent = require( 'socks-proxy-agent' );
 
 var processArgs = function(config, args) {
   var newArgs = {};
@@ -51,6 +52,7 @@ var Provider = function(args) {
 
   this.memfetch = memoize(this.fetch.bind(this), memopts);
   this.fetch = this._fetch.bind(this);
+  this.proxy = '';
 
   this.detail = memoize(
     this.detail.bind(this),
@@ -121,6 +123,30 @@ Provider.prototype._fetch = function(filters) {
 Provider.prototype.toString = function(arg) {
   return JSON.stringify(this);
 };
+
+Provider.prototype.buildRequest = function(options, url) {
+  const match = url.match(/^cloudflare\+(.*):\/\/(.*)/);
+  if (match) {
+    options = Object.assign(options, {
+      uri: `${match[1]}://cloudflare.com/`,
+      headers: {
+        Host: match[2],
+      }
+    });
+  }
+  options = Object.assign(options, {
+    headers: {
+      "User-Agent":
+          "Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/4.4.0"
+    }
+  });
+
+  if (this.proxy) {
+    options.agent = socksProxyAgent('socks://' + this.proxy);
+  }
+
+  return options;
+}
 
 Provider.prototype.parseArgs = function(name) {
   var tokenize = name.split("?");

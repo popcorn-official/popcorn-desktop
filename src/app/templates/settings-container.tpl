@@ -15,12 +15,23 @@
     </section>
 
     <section id="apiserver" class="advanced">
-        <div class="title">Servers</div>
+        <div class="title"><%= i18n.__("Server") %></div>
         <div class="content">
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Custom API Server") %></p>
-                    <input type="text" size="50" id="apiServer" name="apiServer" value="<%= Settings.apiServer %>">
+                    <input type="text" size="100" id="apiServer" name="apiServer" value="<%= Settings.apiServer %>"
+                           placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <div class="loading-spinner" style="display: none"></div>
+                    <div class="valid-tick" style="display: none"></div>
+                    <div class="invalid-cross" style="display: none"></div>
+                </div>
+            </span>
+            <span>
+                <div class="opensubtitles-options">
+                    <p><%= i18n.__("Proxy Server") %></p>
+                    <input type="text" size="50" id="proxyServer" name="proxyServer" value="<%= Settings.proxyServer %>"
+                           placeholder="host:port (127.0.0.1:9050 or 127.0.0.1:4447)">
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
                     <div class="invalid-cross" style="display: none"></div>
