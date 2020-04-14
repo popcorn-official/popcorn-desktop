@@ -83,6 +83,7 @@
     "sanitizer": "0.x.x",
     "semver": "5.x.x",
     "send": "0.16.x",
+    "socks-proxy-agent": "^5.0.0",
     "subsrt": "^1.0.0",
     "tar": "4.4.8",
     "temp": "0.x.x",

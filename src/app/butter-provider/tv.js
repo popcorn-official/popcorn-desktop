@@ -26,23 +26,8 @@ class TVApi extends Generic {
     }
   }
 
-  _processCloudFlareHack(options, url) {
-    const match = url.match(/^cloudflare\+(.*):\/\/(.*)/);
-    if (match) {
-      options = Object.assign(options, {
-        uri: `${match[1]}://cloudflare.com/`,
-        headers: {
-          Host: match[2],
-          "User-Agent":
-            "Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/3.8.0"
-        }
-      });
-    }
-    return options;
-  }
-
   _get(index, url, qs) {
-    const req = this._processCloudFlareHack(
+    const req = this.buildRequest(
       {
         url,
         json: true,
