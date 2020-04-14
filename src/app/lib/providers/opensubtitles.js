@@ -33,7 +33,7 @@
 
     OpenSubtitles.prototype.fetch = function (queryParams) {
       openSRT = new OS({
-          useragent: 'Popcorn Time NodeJS',
+          useragent: 'Butter V1',
           username: AdvSettings.get('opensubtitlesUsername'),
           password: AdvSettings.get('opensubtitlesPassword')
       });
@@ -56,7 +56,7 @@
 
     OpenSubtitles.prototype.upload = function (queryParams) {
       openSRT = new OS({
-          useragent: 'Popcorn Time NodeJS',
+          useragent: 'Butter V1',
           username: AdvSettings.get('opensubtitlesUsername'),
           password: AdvSettings.get('opensubtitlesPassword')
       });
