@@ -1,6 +1,6 @@
 cask 'popcorn-time' do
-  version '0.4.1'
-  sha256 'a43ab9de2d09fbd6c7ce4b7171ea6c3561840a57e36481c7408a2e0e6542e9f5'
+  version '0.4.4'
+  sha256 '02bcf7fe9f5a9bc38bd01c7d9107fb138bf49857c182691cd9439fa7a4e9859b'
 
   url "https://get.popcorntime.app/build/Popcorn-Time-#{version}.pkg"
   appcast 'https://github.com/popcorn-official/popcorn-desktop/releases.atom'
