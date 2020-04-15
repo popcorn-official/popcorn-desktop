@@ -1,6 +1,6 @@
 cask 'popcorn-time-beta' do
-  version '0.4.1,398'
-  sha256 '8e8eb36e439dd051bb491f55dc20657c770532965c1c75f89f2391f49fb8292f'
+  version '0.4.3,410'
+  sha256 '842d3eab8b4eca619f922ac3b7a9a699fe94fa33df38a86b312582e787b3c8ae'
 
   ci = 'https://ci.popcorntime.app/job/Popcorn-Time-Desktop'
   url "#{ci}/lastStableBuild/artifact/build/Popcorn-Time-#{version.before_comma}_osx64.zip"
