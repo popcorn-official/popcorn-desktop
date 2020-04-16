@@ -1,11 +1,11 @@
 (function(App) {
-  "use strict";
+  'use strict';
 
   var self;
 
   // Supports both IPv4 and IPv6 comparison
   var _sequentialPartsInCommon = function(ip1, ip2) {
-    var separator = ip1.indexOf(".") > -1 ? "." : ":";
+    var separator = ip1.indexOf('.') > -1 ? '.' : ':';
     var ip2Parts = ip2.split(separator),
       partsCount = 0;
     ip1.split(separator).every(function(ip1Part, idx) {
@@ -26,13 +26,13 @@
 
   var Device = Backbone.Model.extend({
     defaults: {
-      id: "local",
-      type: "local",
-      typeFamily: "internal",
-      name: "Popcorn Time"
+      id: 'local',
+      type: 'local',
+      typeFamily: 'internal',
+      name: 'Popcorn Time'
     },
     play: function(streamModel) {
-      App.vent.trigger("stream:local", streamModel);
+      App.vent.trigger('stream:local', streamModel);
     },
     getID: function() {
       return this.id;
@@ -40,23 +40,23 @@
   });
 
   var DeviceCollection = Backbone.Collection.extend({
-    selected: "local",
+    selected: 'local',
     initialize: function() {
-      App.vent.on("device:list", this.list);
-      App.vent.on("device:pause", this.pause);
-      App.vent.on("device:unpause", this.unpause);
-      App.vent.on("device:stop", this.stop);
-      App.vent.on("device:forward", this.forward);
-      App.vent.on("device:backward", this.backward);
-      App.vent.on("device:seek", this.seek);
-      App.vent.on("device:seekTo", this.seekTo);
-      App.vent.on("device:seekPercentage", this.seekPercentage);
-      App.vent.on("device:status:update", this.updateStatus);
+      App.vent.on('device:list', this.list);
+      App.vent.on('device:pause', this.pause);
+      App.vent.on('device:unpause', this.unpause);
+      App.vent.on('device:stop', this.stop);
+      App.vent.on('device:forward', this.forward);
+      App.vent.on('device:backward', this.backward);
+      App.vent.on('device:seek', this.seek);
+      App.vent.on('device:seekTo', this.seekTo);
+      App.vent.on('device:seekPercentage', this.seekPercentage);
+      App.vent.on('device:status:update', this.updateStatus);
       self = this;
     },
     list: function() {
       _.each(self.models, function(device) {
-        App.vent.trigger("device:add", device);
+        App.vent.trigger('device:add', device);
       });
     },
     pause: function() {
@@ -95,7 +95,7 @@
        * If the device is external we correct src IP to the
        * best matching IP among all network adapters. Supports IPv4 and IPv6.
        */
-      if (this.selected.get("typeFamily") === "external") {
+      if (this.selected.get('typeFamily') === 'external') {
         //console.warn('External Device ', this.selected);
         var ips = [],
           ifaces = os.networkInterfaces();
@@ -106,13 +106,13 @@
             }
           });
         }
-        var deviceIp = this.selected.get("address");
-        win.info("Device IP: " + deviceIp);
-        win.info("Available IPs: " + JSON.stringify(ips));
+        var deviceIp = this.selected.get('address');
+        win.info('Device IP: ' + deviceIp);
+        win.info('Available IPs: ' + JSON.stringify(ips));
         var srcIp = _getClosestIP(ips, deviceIp);
-        win.info("%s picked for external playback", srcIp);
+        win.info('%s picked for external playback', srcIp);
         streamModel.attributes.src = streamModel.attributes.src.replace(
-          "127.0.0.1",
+          '127.0.0.1',
           srcIp
         );
       }
@@ -127,16 +127,16 @@
   });
 
   var collection = new DeviceCollection(new Device());
-  collection.setDevice("local");
+  collection.setDevice('local');
 
   var ChooserView = Marionette.View.extend({
-    template: "#player-chooser-tpl",
+    template: '#player-chooser-tpl',
     events: {
-      "click .playerchoicemenu li a": "selectPlayer"
+      'click .playerchoicemenu li a': 'selectPlayer'
     },
     onRender: function() {
-      var id = this.collection.selected.get("id").replace("'", "\\'");
-      var el = $(".playerchoicemenu li#player-" + id + " a");
+      var id = this.collection.selected.get('id').replace('\'', '\\\'');
+      var el = $('.playerchoicemenu li#player-' + id + ' a');
       this._selectPlayer(el);
     },
     selectPlayer: function(e) {
@@ -144,13 +144,13 @@
     },
     _selectPlayer: function(el) {
       var player = el
-        .parent("li")
-        .attr("id")
-        .replace("player-", "");
+        .parent('li')
+        .attr('id')
+        .replace('player-', '');
       collection.setDevice(player);
-      $(".playerchoicemenu li a.active").removeClass("active");
-      el.addClass("active");
-      $(".imgplayerchoice").attr("src", el.children("img").attr("src"));
+      $('.playerchoicemenu li a.active').removeClass('active');
+      el.addClass('active');
+      $('.imgplayerchoice').attr('src', el.children('img').attr('src'));
     }
   });
 

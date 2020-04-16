@@ -1,52 +1,52 @@
 (function(App) {
-  "use strict";
+  'use strict';
 
   var _this;
   App.View.PlayControl = Marionette.View.extend({
-    template: "#play-control-tpl",
+    template: '#play-control-tpl',
     ui: {
-      bookmarkIcon: ".favourites-toggle",
-      watchedIcon: ".watched-toggle"
+      bookmarkIcon: '.favourites-toggle',
+      watchedIcon: '.watched-toggle'
     },
     events: {
-      "click #watch-now": "startStreaming",
-      "click #watch-trailer": "playTrailer",
-      "click #download-torrent": "downloadTorrent",
-      "click .favourites-toggle": "toggleFavourite",
-      "click .playerchoicemenu li a": "selectPlayer",
-      "click .watched-toggle": "toggleWatched"
+      'click #watch-now': 'startStreaming',
+      'click #watch-trailer': 'playTrailer',
+      'click #download-torrent': 'downloadTorrent',
+      'click .favourites-toggle': 'toggleFavourite',
+      'click .playerchoicemenu li a': 'selectPlayer',
+      'click .watched-toggle': 'toggleWatched'
     },
     regions: {
-      subDropdown: "#subs-dropdown",
-      audioDropdown: "#audio-dropdown",
+      subDropdown: '#subs-dropdown',
+      audioDropdown: '#audio-dropdown',
       qualitySelector: '#quality-selector',
     },
 
     initialize: function() {
       _this = this;
       this.views = {};
-      var subtitleProvider = App.Config.getProviderForType("subtitle");
+      var subtitleProvider = App.Config.getProviderForType('subtitle');
       subtitleProvider.detail(
-        this.model.get("imdb_id"),
-        this.model.get("title")
+        this.model.get('imdb_id'),
+        this.model.get('title')
       );
-      if (!this.model.get("langs")) {
-        this.model.set("langs", { en: undefined });
+      if (!this.model.get('langs')) {
+        this.model.set('langs', { en: undefined });
       }
 
-      App.vent.on("sub:lang", this.switchSubtitle.bind(this));
-      App.vent.on("audio:lang", this.switchAudio.bind(this));
+      App.vent.on('sub:lang', this.switchSubtitle.bind(this));
+      App.vent.on('audio:lang', this.switchAudio.bind(this));
       App.vent.on(
-        "update:subtitles",
+        'update:subtitles',
         function(subs) {
           this.views.sub.updateLangs(subs);
         }.bind(this)
       );
 
       this.model.on(
-        "change:quality",
+        'change:quality',
         function() {
-          App.vent.trigger("change:quality", this.model.get("quality"));
+          App.vent.trigger('change:quality', this.model.get('quality'));
         }.bind(this)
       );
     },
@@ -56,8 +56,8 @@
 
       this.loadComponents();
       this.setUiStates();
-      this.model.on("change:langs", this.loadAudioDropdown.bind(this));
-      this.model.on("change:subtitle", this.loadSubDropdown.bind(this));
+      this.model.on('change:langs', this.loadAudioDropdown.bind(this));
+      this.model.on('change:subtitle', this.loadSubDropdown.bind(this));
     },
 
     setQuality: function(torrent, key) {
@@ -65,13 +65,13 @@
     },
 
     hideUnused: function() {
-      if (!this.model.get("torrents")) {
+      if (!this.model.get('torrents')) {
         // no torrents
-        $("#player-chooser, #audio-dropdown, #subs-dropdown").hide();
+        $('#player-chooser, #audio-dropdown, #subs-dropdown').hide();
       }
 
-      if (!this.model.get("trailer")) {
-        $("#watch-trailer").hide();
+      if (!this.model.get('trailer')) {
+        $('#watch-trailer').hide();
       }
     },
 
@@ -80,24 +80,24 @@
       this.views[type] = new App.View.LangDropdown({
         model: new App.Model.Lang(Object.assign({ type: type }, attrs))
       });
-      var types = type + "Dropdown";
+      var types = type + 'Dropdown';
       this.getRegion(types).show(this.views[type]);
     },
 
     loadAudioDropdown: function() {
-      return this.loadDropdown("audio", {
-        title: i18n.__("Audio Language"),
-        selected: this.model.get("defaultAudio"),
-        values: this.model.get("langs")
+      return this.loadDropdown('audio', {
+        title: i18n.__('Audio Language'),
+        selected: this.model.get('defaultAudio'),
+        values: this.model.get('langs')
       });
     },
 
     loadSubDropdown: function() {
-      return this.loadDropdown("sub", {
-        title: i18n.__("Subtitle"),
-        selected: this.model.get("defaultSubtitle"),
+      return this.loadDropdown('sub', {
+        title: i18n.__('Subtitle'),
+        selected: this.model.get('defaultSubtitle'),
         hasNull: true,
-        values: this.model.get("subtitle")
+        values: this.model.get('subtitle')
       });
     },
 
@@ -120,27 +120,27 @@
 
       // player chooser
       App.Device.Collection.setDevice(Settings.chosenPlayer);
-      App.Device.ChooserView("#player-chooser").render();
+      App.Device.ChooserView('#player-chooser').render();
     },
 
     setUiStates: function() {
-      $(".star-container,.movie-imdb-link,.q720,input,.magnet-link").tooltip({
+      $('.star-container,.movie-imdb-link,.q720,input,.magnet-link').tooltip({
         html: true
       });
 
       // Bookmarked / not bookmarked
-      if (this.model.get("bookmarked")) {
-        this.ui.bookmarkIcon.addClass("selected");
+      if (this.model.get('bookmarked')) {
+        this.ui.bookmarkIcon.addClass('selected');
       }
 
       // Seen / Unseen
-      if (this.model.get("watched")) {
-        this.ui.watchedIcon.addClass("selected");
+      if (this.model.get('watched')) {
+        this.ui.watchedIcon.addClass('selected');
       }
       // display stars or number
       if (!Settings.ratingStars) {
-        $(".star-container").addClass("hidden");
-        $(".number-container").removeClass("hidden");
+        $('.star-container').addClass('hidden');
+        $('.number-container').removeClass('hidden');
       }
 
       // switch to default subtitle
@@ -151,9 +151,9 @@
 
     setTooltips: function() {
       // watched state
-      var watched = this.model.get("watched");
-      var textWatched = watched ? "Seen" : "Not Seen";
-      var textWatchedHover = watched ? "Mark as unseen" : "Mark as Seen";
+      var watched = this.model.get('watched');
+      var textWatched = watched ? 'Seen' : 'Not Seen';
+      var textWatchedHover = watched ? 'Mark as unseen' : 'Mark as Seen';
       this.ui.watchedIcon.text(i18n.__(textWatched));
 
       this.ui.watchedIcon.hover(
@@ -166,38 +166,38 @@
       );
 
       // favorite state
-      var bookmarked = this.model.get("bookmarked");
+      var bookmarked = this.model.get('bookmarked');
       var textBookmarked = bookmarked
-        ? "Remove from bookmarks"
-        : "Add to bookmarks";
+        ? 'Remove from bookmarks'
+        : 'Add to bookmarks';
       this.ui.bookmarkIcon.text(i18n.__(textBookmarked));
     },
 
     switchSubtitle: function(lang) {
-      var subtitles = this.model.get("subtitle") || this.views.sub.values;
+      var subtitles = this.model.get('subtitle') || this.views.sub.values;
       if (subtitles === undefined || subtitles[lang] === undefined) {
-        lang = "none";
+        lang = 'none';
       }
       this.subtitle_selected = lang;
-      console.info("Subtitles: " + this.subtitle_selected);
+      console.info('Subtitles: ' + this.subtitle_selected);
     },
 
     switchAudio: function(lang) {
-      var audios = this.model.get("langs");
+      var audios = this.model.get('langs');
 
       if (audios === undefined || audios[lang] === undefined) {
-        lang = "none";
+        lang = 'none';
       }
 
       this.audio_selected = lang;
 
-      console.info("Audios: " + lang);
+      console.info('Audios: ' + lang);
     },
 
     downloadTorrent: function() {
-      var providers = this.model.get("providers");
-      var quality = this.model.get("quality");
-      var defaultTorrent = this.model.get("torrents")[quality];
+      var providers = this.model.get('providers');
+      var quality = this.model.get('quality');
+      var defaultTorrent = this.model.get('torrents')[quality];
 
       var filters = {
         quality: quality,
@@ -212,14 +212,14 @@
           )
         : defaultTorrent;
 
-      App.vent.trigger("stream:download", torrent);
-      App.vent.trigger("seedbox:show");
+      App.vent.trigger('stream:download', torrent);
+      App.vent.trigger('seedbox:show');
     },
 
     startStreaming: function() {
-      var providers = this.model.get("providers");
-      var quality = this.model.get("quality");
-      var defaultTorrent = this.model.get("torrents")[quality];
+      var providers = this.model.get('providers');
+      var quality = this.model.get('quality');
+      var defaultTorrent = this.model.get('torrents')[quality];
 
       var filters = {
         quality: quality,
@@ -235,53 +235,53 @@
         : defaultTorrent;
 
       var torrentStart = new Backbone.Model({
-        imdb_id: this.model.get("imdb_id"),
+        imdb_id: this.model.get('imdb_id'),
         torrent: torrent,
-        backdrop: this.model.get("backdrop"),
-        subtitle: this.model.get("subtitle"),
+        backdrop: this.model.get('backdrop'),
+        subtitle: this.model.get('subtitle'),
         defaultSubtitle: this.subtitle_selected,
-        title: this.model.get("title"),
+        title: this.model.get('title'),
         quality: quality,
         lang: this.audio_selected,
-        type: "movie",
+        type: 'movie',
         device: App.Device.Collection.selected,
-        cover: this.model.get("cover")
+        cover: this.model.get('cover')
       });
 
-      App.vent.trigger("stream:start", torrentStart);
+      App.vent.trigger('stream:start', torrentStart);
     },
 
     playTrailer: function() {
       var trailer = new Backbone.Model({
-        src: this.model.get("trailer"),
-        type: "video/youtube",
+        src: this.model.get('trailer'),
+        type: 'video/youtube',
         subtitle: null,
         quality: false,
-        title: this.model.get("title")
+        title: this.model.get('title')
       });
       var tmpPlayer = App.Device.Collection.selected.attributes.id;
-      App.Device.Collection.setDevice("local");
-      App.vent.trigger("stream:ready", trailer);
+      App.Device.Collection.setDevice('local');
+      App.vent.trigger('stream:ready', trailer);
       App.Device.Collection.setDevice(tmpPlayer);
     },
 
     toggleFavourite: function(e) {
       $(
         'li[data-imdb-id="' +
-          this.model.get("imdb_id") +
+          this.model.get('imdb_id') +
           '"] .actions-favorites'
       ).click();
-      this.ui.bookmarkIcon.toggleClass("selected");
-      this.model.set("bookmarked", !this.model.get("bookmarked"));
+      this.ui.bookmarkIcon.toggleClass('selected');
+      this.model.set('bookmarked', !this.model.get('bookmarked'));
       this.setTooltips();
     },
 
     toggleWatched: function(e) {
       $(
-        'li[data-imdb-id="' + this.model.get("imdb_id") + '"] .actions-watched'
+        'li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-watched'
       ).click();
-      this.ui.watchedIcon.toggleClass("selected");
-      this.model.set("watched", !this.model.get("watched"));
+      this.ui.watchedIcon.toggleClass('selected');
+      this.model.set('watched', !this.model.get('watched'));
       this.setTooltips();
     },
 
@@ -291,20 +291,20 @@
 
     selectPlayer: function(e) {
       var player = $(e.currentTarget)
-        .parent("li")
-        .attr("id")
-        .replace("player-", "");
-      this.model.set("device", player);
+        .parent('li')
+        .attr('id')
+        .replace('player-', '');
+      this.model.set('device', player);
       if (!player.match(/[0-9]+.[0-9]+.[0-9]+.[0-9]/gi)) {
-        AdvSettings.set("chosenPlayer", player);
+        AdvSettings.set('chosenPlayer', player);
       }
     },
 
     onBeforeDestroy: function() {
-      App.vent.off("sub:lang");
-      App.vent.off("audio:lang");
-      App.vent.off("update:subtitles");
-      this.model.off("change:quality");
+      App.vent.off('sub:lang');
+      App.vent.off('audio:lang');
+      App.vent.off('update:subtitles');
+      this.model.off('change:quality');
       Object.values(this.views).forEach(v => v.destroy());
     }
   });

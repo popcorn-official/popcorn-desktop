@@ -1,14 +1,14 @@
 (function(App) {
-  "use strict";
+  'use strict';
   App.start();
 
   /* load all the things ! */
-  var Q = require("q");
-  var fs = require("fs");
+  var Q = require('q');
+  var fs = require('fs');
 
   function loadLocalProviders() {
-    var appPath = "";
-    var providerPath = "./src/app/lib/providers/";
+    var appPath = '';
+    var providerPath = './src/app/lib/providers/';
 
     var files = fs.readdirSync(providerPath);
 
@@ -22,18 +22,18 @@
           return null;
         }
 
-        win.info("loading local provider", file);
+        win.info('loading local provider', file);
 
         var q = Q.defer();
 
-        var head = document.getElementsByTagName("head")[0];
-        var script = document.createElement("script");
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
 
-        script.type = "text/javascript";
-        script.src = "lib/providers/" + file;
+        script.type = 'text/javascript';
+        script.src = 'lib/providers/' + file;
 
         script.onload = function() {
-          win.info("loaded", file);
+          win.info('loaded', file);
           q.resolve(file);
         };
 
@@ -47,10 +47,10 @@
   }
 
   function loadProvidersJSON(fn) {
-    App.Npm = require("../../package.json");
+    App.Npm = require('../../package.json');
 
     return App.Npm.providers.map(function(providerPath) {
-      win.info("loading npm", providerPath);
+      win.info('loading npm', providerPath);
       return loadFromNPM(`./${providerPath}`, fn);
     });
   }
@@ -61,14 +61,14 @@
   }
 
   function loadFromPackageJSON(regex, fn) {
-    App.Npm = require("../../package.json");
+    App.Npm = require('../../package.json');
 
     var packages = Object.keys(App.Npm.dependencies).filter(function(p) {
       return p.match(regex);
     });
 
     return packages.map(function(name) {
-      win.info("loading npm", regex, name);
+      win.info('loading npm', regex, name);
       return loadFromNPM(name, fn);
     });
   }
@@ -127,6 +127,6 @@
       return providers;
     })
     .then(function(providers) {
-      win.info("loaded", providers);
+      win.info('loaded', providers);
     });
 })(window.App);
