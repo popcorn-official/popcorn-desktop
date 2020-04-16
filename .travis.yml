@@ -24,6 +24,7 @@ deploy:
   name: Build $(date +'%d.%m.%Y %R')
   skip_cleanup: true
   on:
+    repo: popcorn-official/popcorn-desktop
     branch: development
     tags: false
   api-key:
