@@ -237,10 +237,10 @@
       $('.genres li')
         .find('[data-value="' + genre + '"]')
         .addClass('active');
-      $(".sorters li")
+      $('.sorters li')
         .find('[data-value="' + sorter + '"]')
         .addClass('active');
-      $(".types li")
+      $('.types li')
         .find('[data-value="' + type + '"]')
         .addClass('active');
     },
