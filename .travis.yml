@@ -14,7 +14,7 @@ before_install:
   - yarn install --ignore-engines
   - yarn build
 install:
-  - yarn gulp compress
+  - yarn gulp prepareUpdater
 after_success:
   - ls -ltr ./build/
 deploy:
