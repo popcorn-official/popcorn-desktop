@@ -15,7 +15,6 @@
       stateTextSize: '.text_size',
       stateTextRemaining: '.text_remaining',
       stateTextDownloadedFormatted: '.text_downloadedformatted',
-      progressTextDownload: '.value_download',
       stateTextPeers: '.text_peers',
       progressTextPeers: '.value_peers',
 
@@ -148,19 +147,19 @@
       Mousetrap.unbind(['esc', 'backspace']);
     },
     minDetails: function () {
-   if ($('.minimize-icon').css('visibility') == 'visible') {
+   if ($('.minimize-icon').css('visibility') === 'visible') {
       $('.loading').css('height', '0px');
       $('.loading').css('width', '0px');
       $('.loading').css('float', 'right');
       $('.loading-background').css('visibility', 'hidden');
       $('.minimize-icon').css('visibility', 'hidden');
-      if (ddone === 'false') {
+      if (this.ddone === 'false') {
          $('.maximize-icon').css('visibility', 'visible');
       } else {
          $('.maximize-icong').css('visibility', 'visible');
-      };
+      }
       $('.filter-bar').show();
-   } else if (($('.maximize-icon').css('visibility') == 'visible') || ($('.maximize-icong').css('visibility') == 'visible')) {
+   } else if (($('.maximize-icon').css('visibility') === 'visible') || ($('.maximize-icong').css('visibility') === 'visible')) {
       $('.loading').css('height', '100%');
       $('.loading').css('width', '100%');
       $('.loading').css('float', '');
@@ -286,10 +285,10 @@
             } else if (Settings.activateLoCtrl === true) {
                 $('.open-button').css('visibility', 'visible').css('display', 'none');
             }
-            if ($('.maximize-icon').css('visibility') == 'visible') {
+            if ($('.maximize-icon').css('visibility') === 'visible') {
                 $('.maximize-icong').css('visibility', 'visible');
                 $('.maximize-icon').css('visibility', 'hidden');
-            };
+            }
             this.listenTo(this.model.get('streamInfo'), 'change:uploadSpeed', this.onProgressUpdate);
         }
     }
@@ -395,7 +394,7 @@
 },
 
 titletoclip: function (e) {
-    if ((e.button === 2) && ($('.minimize-icon').css('visibility') == 'visible')) {
+    if ((e.button === 2) && ($('.minimize-icon').css('visibility') === 'visible')) {
         var streamInfo = this.model.get('streamInfo');
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('title'), 'text');
@@ -404,7 +403,7 @@ titletoclip: function (e) {
 },
 
 filenametoclip: function (e) {
-    if ((e.button === 2) && ($('.minimize-icon').css('visibility') == 'visible')) {
+    if ((e.button === 2) && ($('.minimize-icon').css('visibility') === 'visible')) {
         var streamInfo = this.model.get('streamInfo');
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('filename'), 'text');
@@ -413,7 +412,7 @@ filenametoclip: function (e) {
 },
 
 streamurltoclip: function (e) {
-    if ((e.button === 2) && ($('.minimize-icon').css('visibility') == 'visible')) {
+    if ((e.button === 2) && ($('.minimize-icon').css('visibility') === 'visible')) {
         var streamInfo = this.model.get('streamInfo');
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress), 'text');
