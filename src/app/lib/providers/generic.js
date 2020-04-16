@@ -6,6 +6,15 @@
 
   App.Providers.Generic = require("butter-provider");
 
+  function updateProviderConnection (server, proxy) {
+    for (let provider in cache) {
+      if (cache[provider] && cache[provider].apiURL) {
+        cache[provider].apiURL = [server];
+        cache[provider].proxy = proxy;
+      }
+    }
+  }
+
   function delProvider(name) {
     if (cache[name]) {
       win.info("Delete provider cache", name);
@@ -87,6 +96,7 @@
   App.Providers.get = getProvider;
   App.Providers.delete = delProvider;
   App.Providers.install = installProvider;
+  App.Providers.updateConnection = updateProviderConnection;
 
   App.Providers.getFromRegistry = getProviderFromRegistry;
 })(window.App);

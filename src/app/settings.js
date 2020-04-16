@@ -104,6 +104,10 @@ Settings.trackers = {
   ]
 };
 
+// API Servers
+Settings.apiServer = '';
+Settings.proxyServer = '';
+
 // User interface
 Settings.language = "";
 Settings.translateSynopsis = true;
