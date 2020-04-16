@@ -135,7 +135,7 @@
               lastUpdated = Date.now();
             });
 
-            let className = "tab-torrent";
+            let className = 'tab-torrent';
             if ($('.tab-torrent.active').length <= 0) {
               className += ' active';
             }

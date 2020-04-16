@@ -1,63 +1,62 @@
 (function(App) {
-  "use strict";
+  'use strict';
 
   var Loading = Marionette.View.extend({
-    template: "#loading-tpl",
-    className: "app-overlay",
+    template: '#loading-tpl',
+    className: 'app-overlay',
     extPlayerStatusUpdater: null,
 
     ui: {
-      state: ".state",
-      stateTextDownload: ".text_download",
-      progressTextDownload: ".value_download",
+      state: '.state',
+      stateTextDownload: '.text_download',
+      progressTextDownload: '.value_download',
       stateTextStreamUrl: '.text_streamurl',
       stateTextFilename: '.text_filename',
       stateTextSize: '.text_size',
       stateTextRemaining: '.text_remaining',
       stateTextDownloadedFormatted: '.text_downloadedformatted',
-      progressTextDownload: '.value_download',
-      stateTextPeers: ".text_peers",
-      progressTextPeers: ".value_peers",
+      stateTextPeers: '.text_peers',
+      progressTextPeers: '.value_peers',
 
-      stateTextSeeds: ".text_seeds",
-      progressTextSeeds: ".value_seeds",
+      stateTextSeeds: '.text_seeds',
+      progressTextSeeds: '.value_seeds',
 
-      seedStatus: ".seed_status",
-      bufferPercent: ".buffer_percent",
-      loadingInfos: ".loading-info",
+      seedStatus: '.seed_status',
+      bufferPercent: '.buffer_percent',
+      loadingInfos: '.loading-info',
 
-      downloadSpeed: ".download_speed",
-      uploadSpeed: ".upload_speed",
-      progressbar: "#loadingbar-contents",
+      downloadSpeed: '.download_speed',
+      uploadSpeed: '.upload_speed',
+      progressbar: '#loadingbar-contents',
 
-      title: ".title",
-      player: ".player-name",
-      streaming: ".external-play",
-      controls: ".player-controls",
-      cancel_button: "#cancel-button",
-      cancel_button_vpn: "#cancel-button-vpn",
+      title: '.title',
+      player: '.player-name',
+      streaming: '.external-play',
+      controls: '.player-controls',
+      cancel_button: '#cancel-button',
+      cancel_button_vpn: '#cancel-button-vpn',
 
-      playingbarBox: ".playing-progressbar",
-      playingbar: "#playingbar-contents",
+      playingbarBox: '.playing-progressbar',
+      playingbar: '#playingbar-contents',
 
-      vpn: "#vpn-contents",
-      userIp: "#userIp",
-      userCity: "#userCity",
-      userCountry: "#userCountry",
-      userZIP: "#userZIP",
-      userISP: "#userISP",
-      map: "#map"
+      vpn: '#vpn-contents',
+      userIp: '#userIp',
+      userCity: '#userCity',
+      userCountry: '#userCountry',
+      userZIP: '#userZIP',
+      userISP: '#userISP',
+      map: '#map'
     },
 
     events: {
-      "click #cancel-button": "cancelStreaming",
-      "click #cancel-button-regular": "cancelStreaming",
-      "click #cancel-button-vpn": "cancelStreamingVPN",
-      "click .pause": "pauseStreaming",
-      "click .stop": "stopStreaming",
-      "click .play": "resumeStreaming",
-      "click .forward": "forwardStreaming",
-      "click .backward": "backwardStreaming",
+      'click #cancel-button': 'cancelStreaming',
+      'click #cancel-button-regular': 'cancelStreaming',
+      'click #cancel-button-vpn': 'cancelStreamingVPN',
+      'click .pause': 'pauseStreaming',
+      'click .stop': 'stopStreaming',
+      'click .play': 'resumeStreaming',
+      'click .forward': 'forwardStreaming',
+      'click .backward': 'backwardStreaming',
       'click .minimize-icon': 'minDetails',
       'click .maximize-icon': 'minDetails',
       'click .maximize-icong': 'minDetails',
@@ -73,18 +72,18 @@
     initialize: function() {
       var that = this;
 
-      App.vent.trigger("settings:close");
-      App.vent.trigger("about:close");
+      App.vent.trigger('settings:close');
+      App.vent.trigger('about:close');
 
       //If a child was removed from above this view
-      App.vent.on("viewstack:pop", function() {
+      App.vent.on('viewstack:pop', function() {
         if (_.last(App.ViewStack) === that.className) {
           that.initKeyboardShortcuts();
         }
       });
 
       //If a child was added above this view
-      App.vent.on("viewstack:push", function() {
+      App.vent.on('viewstack:push', function() {
         if (_.last(App.ViewStack) !== that.className) {
           that.unbindKeyboardShortcuts();
         }
@@ -105,31 +104,31 @@
       }
 
       this.ddone = 'false';
-      win.info("Loading torrent");
+      win.info('Loading torrent');
 
-      this.listenTo(this.model, "change:state", this.onStateUpdate);
+      this.listenTo(this.model, 'change:state', this.onStateUpdate);
     },
 
     showVPNLoader: function() {
       request(
         {
-          url: "https://myip.ht/status",
+          url: 'https://myip.ht/status',
           json: true
         },
         (err, _, data) => {
           if (err || !data || data.error) {
-            console.log("can't extract user data, using default loader");
+            console.log('can\'t extract user data, using default loader');
           } else {
-            this.ui.cancel_button.css("visibility", "hidden");
-            this.ui.vpn.css("display", "block");
-            this.ui.state.css("top", "200px");
+            this.ui.cancel_button.css('visibility', 'hidden');
+            this.ui.vpn.css('display', 'block');
+            this.ui.state.css('top', '200px');
             this.ui.userIp.text(data.ip);
             this.ui.userCity.text(data.advanced.city);
             this.ui.userCountry.text(data.advanced.countryName);
             this.ui.userZIP.text(data.advanced.postalCode);
             this.ui.userISP.text(data.isp);
             this.ui.map.attr(
-              "src",
+              'src',
               `https://maps.google.com/maps/api/staticmap?center=${data.advanced.latitude},${data.advanced.longitude}&zoom=14&sensor=false&size=640x403&key=AIzaSyDEReWNL61EYlVTTT6isiYn1EqRZTtd4bk`
             );
           }
@@ -139,28 +138,28 @@
 
     initKeyboardShortcuts: function() {
       var that = this;
-      Mousetrap.bind(["esc", "backspace"], function(e) {
+      Mousetrap.bind(['esc', 'backspace'], function(e) {
         that.cancelStreaming();
       });
     },
 
     unbindKeyboardShortcuts: function() {
-      Mousetrap.unbind(["esc", "backspace"]);
+      Mousetrap.unbind(['esc', 'backspace']);
     },
     minDetails: function () {
-   if ($('.minimize-icon').css('visibility') == 'visible') {
+   if ($('.minimize-icon').css('visibility') === 'visible') {
       $('.loading').css('height', '0px');
       $('.loading').css('width', '0px');
       $('.loading').css('float', 'right');
       $('.loading-background').css('visibility', 'hidden');
       $('.minimize-icon').css('visibility', 'hidden');
-      if (ddone === 'false') {
+      if (this.ddone === 'false') {
          $('.maximize-icon').css('visibility', 'visible');
       } else {
          $('.maximize-icong').css('visibility', 'visible');
-      };
+      }
       $('.filter-bar').show();
-   } else if (($('.maximize-icon').css('visibility') == 'visible') || ($('.maximize-icong').css('visibility') == 'visible')) {
+   } else if (($('.maximize-icon').css('visibility') === 'visible') || ($('.maximize-icong').css('visibility') === 'visible')) {
       $('.loading').css('height', '100%');
       $('.loading').css('width', '100%');
       $('.loading').css('float', '');
@@ -173,8 +172,8 @@
    }
 },
     onAttach: function() {
-      $(".filter-bar").hide();
-      $("#header").addClass("header-shadow");
+      $('.filter-bar').hide();
+      $('#header').addClass('header-shadow');
 
       App.LoadingView = this;
 
@@ -183,74 +182,74 @@
 
     onStateUpdate: function() {
       var self = this;
-      var state = this.model.get("state");
-      var streamInfo = this.model.get("streamInfo");
-      win.info("Loading torrent:", state);
+      var state = this.model.get('state');
+      var streamInfo = this.model.get('streamInfo');
+      win.info('Loading torrent:', state);
 
       this.ui.stateTextDownload.text(i18n.__(state));
       this.ui.stateTextFilename.text(streamInfo.get('filename'));
       this.ui.stateTextSize.text(Common.fileSize(streamInfo.get('size')));
       this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
-      this.listenTo(this.model.get("streamInfo"), "change", this.onInfosUpdate);
+      this.listenTo(this.model.get('streamInfo'), 'change', this.onInfosUpdate);
 
-      if (state === "downloading") {
+      if (state === 'downloading') {
         this.listenTo(
-          this.model.get("streamInfo"),
-          "change:downloaded",
+          this.model.get('streamInfo'),
+          'change:downloaded',
           this.onProgressUpdate
         );
       }
 
-      if (state === "playingExternally") {
+      if (state === 'playingExternally') {
         this.ui.stateTextDownload.hide();
         this.ui.progressbar.hide();
-        if (streamInfo && streamInfo.get("device")) {
-          this.ui.vpn.css("display", "none");
-          this.ui.cancel_button.css("visibility", "hidden");
-          this.ui.controls.css("visibility", "visible");
-          this.ui.playingbarBox.css("visibility", "visible");
-          this.ui.playingbar.css("width", "0%");
+        if (streamInfo && streamInfo.get('device')) {
+          this.ui.vpn.css('display', 'none');
+          this.ui.cancel_button.css('visibility', 'hidden');
+          this.ui.controls.css('visibility', 'visible');
+          this.ui.playingbarBox.css('visibility', 'visible');
+          this.ui.playingbar.css('width', '0%');
 
           // Update gui on status update.
           // uses listenTo so event is unsubscribed automatically when loading view closes.
-          this.listenTo(App.vent, "device:status", this.onDeviceStatus);
+          this.listenTo(App.vent, 'device:status', this.onDeviceStatus);
         }
         // The 'downloading' state is not always sent, eg when playing canceling and replaying
         // Start listening here instead when playing externally
         this.listenTo(
-          this.model.get("streamInfo"),
-          "change:downloaded",
+          this.model.get('streamInfo'),
+          'change:downloaded',
           this.onProgressUpdate
         );
       }
     },
 
     onInfosUpdate: function() {
-      var streamInfo = this.model.get("streamInfo");
+      var streamInfo = this.model.get('streamInfo');
 
-      this.ui.seedStatus.css("visibility", "visible");
+      this.ui.seedStatus.css('visibility', 'visible');
 
-      if (streamInfo.get("size") && !this.firstUpdate) {
+      if (streamInfo.get('size') && !this.firstUpdate) {
         this.ui.loadingInfos.hide();
-        this.checkFreeSpace(streamInfo.get("size"));
+        this.checkFreeSpace(streamInfo.get('size'));
         this.firstUpdate = true;
       }
 
-      if (streamInfo.get("backdrop")) {
-        $(".loading-backdrop").css(
-          "background-image",
-          "url(" + streamInfo.get("backdrop") + ")"
+      if (streamInfo.get('backdrop')) {
+        $('.loading-backdrop').css(
+          'background-image',
+          'url(' + streamInfo.get('backdrop') + ')'
         );
       }
-      if (streamInfo.get("title") !== "") {
-        this.ui.title.html(streamInfo.get("title"));
+      if (streamInfo.get('title') !== '') {
+        this.ui.title.html(streamInfo.get('title'));
       }
       if (
-        streamInfo.get("player") &&
-        streamInfo.get("player").get("type") !== "local"
+        streamInfo.get('player') &&
+        streamInfo.get('player').get('type') !== 'local'
       ) {
-        this.ui.player.text(streamInfo.get("player").get("name"));
-        this.ui.streaming.css("visibility", "visible");
+        this.ui.player.text(streamInfo.get('player').get('name'));
+        this.ui.streaming.css('visibility', 'visible');
       }
     },
 
@@ -286,10 +285,10 @@
             } else if (Settings.activateLoCtrl === true) {
                 $('.open-button').css('visibility', 'visible').css('display', 'none');
             }
-            if ($('.maximize-icon').css('visibility') == 'visible') {
+            if ($('.maximize-icon').css('visibility') === 'visible') {
                 $('.maximize-icong').css('visibility', 'visible');
                 $('.maximize-icon').css('visibility', 'hidden');
-            };
+            }
             this.listenTo(this.model.get('streamInfo'), 'change:uploadSpeed', this.onProgressUpdate);
         }
     }
@@ -308,22 +307,22 @@
       if (status.media !== undefined && status.media.duration !== undefined) {
         // Update playingbar width
         var playedPercent = (status.currentTime / status.media.duration) * 100;
-        this.ui.playingbar.css("width", playedPercent.toFixed(1) + "%");
+        this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
         win.debug(
-          "ExternalStream: %s: %ss / %ss (%s%)",
+          'ExternalStream: %s: %ss / %ss (%s%)',
           status.playerState,
           status.currentTime.toFixed(1),
           status.media.duration.toFixed(),
           playedPercent.toFixed(1)
         );
       }
-      if (!this.extPlayerStatusUpdater && status.playerState === "PLAYING") {
+      if (!this.extPlayerStatusUpdater && status.playerState === 'PLAYING') {
         // First PLAYING state. Start requesting device status update every 5 sec
         this.extPlayerStatusUpdater = setInterval(function() {
-          App.vent.trigger("device:status:update");
+          App.vent.trigger('device:status:update');
         }, 5000);
       }
-      if (this.extPlayerStatusUpdater && status.playerState === "IDLE") {
+      if (this.extPlayerStatusUpdater && status.playerState === 'IDLE') {
         // Media started streaming and is now finished playing
         this.cancelStreaming();
       }
@@ -331,36 +330,36 @@
 
     cancelStreaming: function() {
       // call stop if we play externally
-      if (this.model.get("state") === "playingExternally") {
+      if (this.model.get('state') === 'playingExternally') {
         if (this.extPlayerStatusUpdater) {
           clearInterval(this.extPlayerStatusUpdater);
         }
-        win.info("Stopping external device");
-        App.vent.trigger("device:stop");
+        win.info('Stopping external device');
+        App.vent.trigger('device:stop');
       }
 
-      win.info("Closing loading view");
-      App.vent.trigger("stream:stop");
-      App.vent.trigger("player:close");
-      App.vent.trigger("torrentcache:stop");
+      win.info('Closing loading view');
+      App.vent.trigger('stream:stop');
+      App.vent.trigger('player:close');
+      App.vent.trigger('torrentcache:stop');
     },
 
     cancelStreamingVPN: function() {
       this.cancelStreaming();
-      App.vent.trigger("vpn:open");
+      App.vent.trigger('vpn:open');
     },
 
     showpcontrols: function (e) {
           if (Settings.activateLoCtrl === false) {
               AdvSettings.set('activateLoCtrl', true);
-              $('.show-pcontrols').removeClass('fa-angle-down').addClass('fa-angle-up').tooltip('hide').attr("data-original-title", "Hide playback controls");
+              $('.show-pcontrols').removeClass('fa-angle-down').addClass('fa-angle-up').tooltip('hide').attr('data-original-title', 'Hide playback controls');
               this.ui.cancel_button.css('display', 'none');
               $('.open-button').css('display', 'none');
               this.ui.controls.css('display', 'block');
               this.ui.playingbarBox.css('display', 'block');
           } else if (Settings.activateLoCtrl === true) {
               AdvSettings.set('activateLoCtrl', false);
-              $('.show-pcontrols').removeClass('fa-angle-up').addClass('fa-angle-down').tooltip('hide').attr("data-original-title", "Show playback controls");
+              $('.show-pcontrols').removeClass('fa-angle-up').addClass('fa-angle-down').tooltip('hide').attr('data-original-title', 'Show playback controls');
               this.ui.cancel_button.css('display', 'block');
               $('.open-button').css('display', 'block');
               this.ui.controls.css('display', 'none');
@@ -373,11 +372,11 @@
       },
 
       filenameovrflsh: function () {
-          $(".text_filename").css('overflow', "visible");
+          $('.text_filename').css('overflow', 'visible');
       },
 
       filenameovrflhd: function () {
-          $(".text_filename").css('overflow', "hidden");
+          $('.text_filename').css('overflow', 'hidden');
       },
       remainingTime: function () {
     var streamInfo = this.model.get('streamInfo');
@@ -395,7 +394,7 @@
 },
 
 titletoclip: function (e) {
-    if ((e.button === 2) && ($('.minimize-icon').css('visibility') == 'visible')) {
+    if ((e.button === 2) && ($('.minimize-icon').css('visibility') === 'visible')) {
         var streamInfo = this.model.get('streamInfo');
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('title'), 'text');
@@ -404,7 +403,7 @@ titletoclip: function (e) {
 },
 
 filenametoclip: function (e) {
-    if ((e.button === 2) && ($('.minimize-icon').css('visibility') == 'visible')) {
+    if ((e.button === 2) && ($('.minimize-icon').css('visibility') === 'visible')) {
         var streamInfo = this.model.get('streamInfo');
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('filename'), 'text');
@@ -413,7 +412,7 @@ filenametoclip: function (e) {
 },
 
 streamurltoclip: function (e) {
-    if ((e.button === 2) && ($('.minimize-icon').css('visibility') == 'visible')) {
+    if ((e.button === 2) && ($('.minimize-icon').css('visibility') === 'visible')) {
         var streamInfo = this.model.get('streamInfo');
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress), 'text');
@@ -421,22 +420,22 @@ streamurltoclip: function (e) {
     }
 },
     pauseStreaming: function() {
-      App.vent.trigger("device:pause");
-      $(".pause")
-        .removeClass("fa-pause")
-        .removeClass("pause")
-        .addClass("fa-play")
-        .addClass("play");
+      App.vent.trigger('device:pause');
+      $('.pause')
+        .removeClass('fa-pause')
+        .removeClass('pause')
+        .addClass('fa-play')
+        .addClass('play');
     },
 
     resumeStreaming: function() {
-      win.debug("Play triggered");
-      App.vent.trigger("device:unpause");
-      $(".play")
-        .removeClass("fa-play")
-        .removeClass("play")
-        .addClass("fa-pause")
-        .addClass("pause");
+      win.debug('Play triggered');
+      App.vent.trigger('device:unpause');
+      $('.play')
+        .removeClass('fa-play')
+        .removeClass('play')
+        .addClass('fa-pause')
+        .addClass('pause');
     },
 
     stopStreaming: function() {
@@ -444,19 +443,19 @@ streamurltoclip: function (e) {
     },
 
     forwardStreaming: function() {
-      win.debug("Forward triggered");
-      App.vent.trigger("device:forward");
+      win.debug('Forward triggered');
+      App.vent.trigger('device:forward');
     },
 
     backwardStreaming: function() {
-      win.debug("Backward triggered");
-      App.vent.trigger("device:backward");
+      win.debug('Backward triggered');
+      App.vent.trigger('device:backward');
     },
 
     seekStreaming: function(e) {
       var percentClicked = (e.offsetX / e.currentTarget.clientWidth) * 100;
-      win.debug("Seek (%s%) triggered", percentClicked.toFixed(2));
-      App.vent.trigger("device:seekPercentage", percentClicked);
+      win.debug('Seek (%s%) triggered', percentClicked.toFixed(2));
+      App.vent.trigger('device:seekPercentage', percentClicked);
     },
 
     checkFreeSpace: function(size) {
@@ -470,52 +469,52 @@ streamurltoclip: function (e) {
 
       var cmd;
 
-      if (process.platform === "win32") {
+      if (process.platform === 'win32') {
         var drive = Settings.tmpLocation.substr(0, 2);
 
-        cmd = "dir /-C " + drive;
+        cmd = 'dir /-C ' + drive;
 
         child.exec(cmd, function(error, stdout, stderr) {
           if (error) {
             return;
           }
-          var stdoutParse = stdout.split("\n");
+          var stdoutParse = stdout.split('\n');
           stdoutParse =
-            stdoutParse[stdoutParse.length - 1] !== ""
+            stdoutParse[stdoutParse.length - 1] !== ''
               ? stdoutParse[stdoutParse.length - 1]
               : stdoutParse[stdoutParse.length - 2];
           var regx = stdoutParse.match(/(\d+)/g);
           if (regx !== null) {
             var freespace = regx[regx.length - 1] / (1024 * 1024 * 1024);
             if (freespace < minspace) {
-              $("#player .warning-nospace").css("display", "block");
+              $('#player .warning-nospace').css('display', 'block');
             }
           }
         });
       } else {
         var path = Settings.tmpLocation;
 
-        cmd = 'df -Pk "' + path + "\" | awk 'NR==2 {print $4}'";
+        cmd = 'df -Pk "' + path + '" | awk \'NR==2 {print $4}\'';
 
         child.exec(cmd, function(error, stdout, stderr) {
           if (error) {
             return;
           }
 
-          var freespace = stdout.replace(/\D/g, "") / (1024 * 1024);
+          var freespace = stdout.replace(/\D/g, '') / (1024 * 1024);
           if (freespace < minspace) {
-            $("#player .warning-nospace").css("display", "block");
+            $('#player .warning-nospace').css('display', 'block');
           }
         });
       }
     },
 
     onBeforeDestroy: function() {
-      $(".filter-bar").show();
-      $("#header").removeClass("header-shadow");
-      Mousetrap.bind("esc", function(e) {
-        App.vent.trigger("show:closeDetail");
-        App.vent.trigger("movie:closeDetail");
+      $('.filter-bar').show();
+      $('#header').removeClass('header-shadow');
+      Mousetrap.bind('esc', function(e) {
+        App.vent.trigger('show:closeDetail');
+        App.vent.trigger('movie:closeDetail');
       });
     }
   });

@@ -479,7 +479,7 @@
                     password: Common.md5(pw),
                     ssl: true
                 });
-                function delay(ms) {
+                const delay = function(ms) {
                   return new Promise(resolve => setTimeout(resolve, ms));
                 };
                 OpenSubtitles.login()
