@@ -46,6 +46,11 @@
       });
   }
 
+  function loadFromNPM(name, fn) {
+    var P = require(name);
+    return Q(fn(P));
+  }
+
   function loadProvidersJSON(fn) {
     App.Npm = require('../../package.json');
 
@@ -53,11 +58,6 @@
       win.info('loading npm', providerPath);
       return loadFromNPM(`./${providerPath}`, fn);
     });
-  }
-
-  function loadFromNPM(name, fn) {
-    var P = require(name);
-    return Q(fn(P));
   }
 
   function loadFromPackageJSON(regex, fn) {
