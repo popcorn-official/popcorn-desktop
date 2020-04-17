@@ -327,7 +327,7 @@
 
     openIMDb: function() {
       nw.Shell.openExternal(
-        'http://www.imdb.com/title/' + this.model.get('imdb_id')
+        'https://www.imdb.com/title/' + this.model.get('imdb_id')
       );
     },
 

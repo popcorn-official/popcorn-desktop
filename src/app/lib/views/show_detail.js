@@ -296,7 +296,7 @@
         },
 
         openIMDb: function () {
-            nw.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
+            nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id'));
         },
 
         openMagnet: function (e) {
