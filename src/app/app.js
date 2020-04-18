@@ -208,7 +208,12 @@ App.onStart = function (options) {
 
 var deleteFolder = function (path) {
 
-  rimraf.sync(path);
+  try {
+    rimraf.sync(path);
+  } catch(e) {
+    win.error('Error when attempting to delete cache');
+    console.log(e);
+  }
 };
 
 var deleteCookies = function () {
