@@ -207,12 +207,22 @@ App.onStart = function (options) {
 };
 
 var deleteFolder = function (path) {
+  if (typeof path !== 'string') {
+    return;
+  }
 
-  try {
-    rimraf.sync(path);
-  } catch(e) {
-    win.error('Error when attempting to delete cache');
-    console.log(e);
+  var files = [];
+  if (fs.existsSync(path)) {
+    files = fs.readdirSync(path);
+    files.forEach(function (file, index) {
+      var curPath = path + '\/' + file;
+      if (fs.lstatSync(curPath).isDirectory()) {
+        deleteFolder(curPath);
+      } else {
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
   }
 };
 
