@@ -47,7 +47,7 @@ var Settings = {
     api_key: '80A769280C71D83B'
   },
   tmdb: {
-    api_key: '1a83b1ecd56e3ac0e509b553b68c77a9'
+    api_key: 'ac92176abc89a80e6f5df9510e326601'
   }
 };
 
