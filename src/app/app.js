@@ -279,17 +279,19 @@ win.on('enter-fullscreen', function () {
 
 // Now this function is used via global keys (cmd+q and alt+f4)
 function close() {
-  if (App.settings.deleteTmpOnClose) {
-    deleteFolder(App.settings.tmpLocation);
-  }
-  if (fs.existsSync(path.join(data_path, 'logs.txt'))) {
-    fs.unlinkSync(path.join(data_path, 'logs.txt'));
-  }
-  try {
-    delCache();
-  } catch (e) {
-    win.close(true);
-  }
+  App.WebTorrent.destroy(function () {
+    if (App.settings.deleteTmpOnClose) {
+      deleteFolder(App.settings.tmpLocation);
+    }
+    if (fs.existsSync(path.join(data_path, 'logs.txt'))) {
+      fs.unlinkSync(path.join(data_path, 'logs.txt'));
+    }
+    try {
+      delCache();
+    } catch (e) {
+      win.close(true);
+    }
+  });
 }
 
 // Wipe the tmpFolder when closing the app (this frees up disk space)
