@@ -53,7 +53,7 @@
     "butter-provider": "0.11.0",
     "butter-sanitize": "^0.1.1",
     "butter-settings-popcorntime.io": "0.0.4",
-    "chromecasts": "1.9.1",
+    "chromecast-api ": "0.3.3",
     "defer-request": "0.0.3",
     "dlnacasts2": "0.1.2",
     "es6-object-assign": "^1.0.1",
