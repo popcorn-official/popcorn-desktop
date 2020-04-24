@@ -1133,8 +1133,7 @@ chrome-net@^3.3.2, chrome-net@^3.3.3:
   dependencies:
     inherits "^2.0.1"
 
-"chromecast-api @0.3.3":
-  name chromecast-api
+chromecast-api@0.3.3:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/chromecast-api/-/chromecast-api-0.3.3.tgz#bc16bf7fbdc3f0401372d80df21c7f920f694eff"
   integrity sha512-5khMTPbcm4XAI9tC9+AmBekc+JsyUvtWvYuJtHJtmj2psx0LaGoXYDgCm3veoBvoZ9hr8y0z9zbceymd49uutw==
