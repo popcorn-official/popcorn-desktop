@@ -209,7 +209,12 @@
     },
 
     onAttach: function() {
-      this.showChildView('Header', new App.View.TitleBar());
+      if (os.platform() === 'win32') {
+        this.showChildView('Header', new App.View.WindowsTitleBar());
+      } else {
+        this.showChildView('Header', new App.View.TitleBar());
+      }
+
       // Set the app title (for Windows mostly)
       win.title = App.Config.title;
 
