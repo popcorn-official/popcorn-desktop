@@ -271,7 +271,7 @@
                     break;
                 case 'tmpLocation':
                     tmpLocationChanged = true;
-                    value = path.join(field.val(), "Popcorn-Time");
+                    value = path.join(field.val(), 'Popcorn-Time');
                     break;
                 case 'opensubtitlesUsername':
                 case 'opensubtitlesPassword':

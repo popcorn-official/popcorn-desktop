@@ -207,7 +207,7 @@
 win.info('Scanning: Local Network for Chromecast devices');
 client.update();
 client.on('device', function (player) {
-  if (player.host.includes(".local")){
+  if (player.host.includes('.local')){
     return;
   }
     win.info('Found Chromecast Device Device: %s at %s', player.friendlyName, player.host);

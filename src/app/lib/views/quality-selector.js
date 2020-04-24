@@ -23,7 +23,7 @@
             }
             for (let key of keys) {
                 // TODO: it exist in episodes - need know why
-                if (key == 0) {
+                if (key === '0') {
                     continue;
                 }
                 sortedTorrents[key] = torrents[key];
