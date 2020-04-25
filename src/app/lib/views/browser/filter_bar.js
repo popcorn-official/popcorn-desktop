@@ -28,6 +28,7 @@
       'click .movieTabShow': 'movieTabShow',
       'click .tvshowTabShow': 'tvshowTabShow',
       'click .animeTabShow': 'animeTabShow',
+      'click #filterbar-favorites': 'showFavorites',
       'click #filterbar-watchlist': 'showWatchlist',
       'click #filterbar-torrent-collection': 'showTorrentCollection',
       'click .triggerUpdate': 'updateDB',
@@ -425,6 +426,35 @@
       App.vent.trigger('seedbox:close');
       App.vent.trigger('movies:list', []);
       this.setActive('Movies');
+    },
+
+    showFavorites: function(e) {
+      e.preventDefault();
+
+      if (App.currentview !== 'Favorites') {
+        App.previousview = App.currentview;
+        App.currentview = 'Favorites';
+        App.vent.trigger('about:close');
+        App.vent.trigger('torrentCollection:close');
+        App.vent.trigger('seedbox:close');
+        App.vent.trigger('favorites:list', []);
+        this.setactive('Favorites');
+      } else {
+        if (
+          $('#movie-detail').html().length === 0 &&
+          $('#about-container').html().length === 0
+        ) {
+          App.currentview = App.previousview;
+          App.vent.trigger(App.previousview.toLowerCase() + ':list', []);
+          this.setactive(App.currentview);
+        } else {
+          App.vent.trigger('about:close');
+          App.vent.trigger('torrentCollection:close');
+          App.vent.trigger('seedbox:close');
+          App.vent.trigger('favorites:list', []);
+          this.setactive('Favorites');
+        }
+      }
     },
 
     showWatchlist: function(e) {
