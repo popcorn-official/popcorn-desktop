@@ -438,7 +438,7 @@
         App.vent.trigger('torrentCollection:close');
         App.vent.trigger('seedbox:close');
         App.vent.trigger('favorites:list', []);
-        this.setactive('Favorites');
+        this.setActive('Favorites');
       } else {
         if (
           $('#movie-detail').html().length === 0 &&
@@ -452,7 +452,7 @@
           App.vent.trigger('torrentCollection:close');
           App.vent.trigger('seedbox:close');
           App.vent.trigger('favorites:list', []);
-          this.setactive('Favorites');
+          this.setActive('Favorites');
         }
       }
     },
