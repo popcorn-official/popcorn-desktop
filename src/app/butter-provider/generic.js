@@ -1,23 +1,23 @@
-var assign = Object.assign || require("es6-object-assign").assign;
-var memoize = require("memoizee");
-var _ = require("lodash");
+var assign = Object.assign || require('es6-object-assign').assign;
+var memoize = require('memoizee');
+var _ = require('lodash');
 const socksProxyAgent = require( 'socks-proxy-agent' );
 
 var processArgs = function(config, args) {
   var newArgs = {};
   Object.keys(config.args).map(function(k) {
     if (!args || !args[k]) {
-      console.error("value", k, "was not provided");
+      console.error('value', k, 'was not provided');
       return;
     }
 
-    console.log("processing", k);
+    console.log('processing', k);
     switch (config.args[k]) {
       case Provider.ArgType.NUMBER:
         newArgs[k] = Number(args[k]);
         break;
       case Provider.ArgType.ARRAY:
-        newArgs[k] = args[k].split(",");
+        newArgs[k] = args[k].split(',');
         break;
       case Provider.ArgType.OBJECT:
         newArgs[k] = JSON.Parse(args[k]);
@@ -63,25 +63,24 @@ var Provider = function(args) {
 };
 
 Provider.ArgType = {
-  ARRAY: "BUTTER_PROVIDER_ARG_TYPE_ARRAY",
-  OBJECT: "BUTTER_PROVIDER_ARG_TYPE_OBJECT",
-  STRING: "BUTTER_PROVIDER_ARG_TYPE_STRING",
-  BOOLEAN: "BUTTER_PROVIDER_ARG_TYPE_BOOLEAN",
-  NUMBER: "BUTTER_PROVIDER_ARG_TYPE_NUMBER"
+  ARRAY: 'BUTTER_PROVIDER_ARG_TYPE_ARRAY',
+  OBJECT: 'BUTTER_PROVIDER_ARG_TYPE_OBJECT',
+  STRING: 'BUTTER_PROVIDER_ARG_TYPE_STRING',
+  BOOLEAN: 'BUTTER_PROVIDER_ARG_TYPE_BOOLEAN',
+  NUMBER: 'BUTTER_PROVIDER_ARG_TYPE_NUMBER'
 };
 
 Provider.TabType = {
-  MOVIE: "movie",
-  TVSHOW: "tvshow",
-  ANIME: "anime"
+  MOVIE: 'movie',
+  TVSHOW: 'tvshow',
+  ANIME: 'anime'
 };
 
 function warnDefault(fn, support) {
-  console.warn("you are using the default " + fn + " implementation,");
-  if (support)
-    console.warn(
-      "you will probably want to use your own to support:" + support + "."
-    );
+  console.warn(`you are using the default ${fn} implementation,`);
+  if (support) {
+    console.warn(`you will probably want to use your own to support:${support}.`);
+  }
 }
 
 function randomArray(a) {
@@ -89,13 +88,13 @@ function randomArray(a) {
 }
 
 Provider.prototype.resolveStream = function(src, config, data) {
-  warnDefault("resolveStream", "multiple languages");
+  warnDefault('resolveStream', 'multiple languages');
   return src;
 };
 
 Provider.prototype.random = function() {
-  console.log("WTDGD");
-  warnDefault("random", "faster random");
+  console.log('WTDGD');
+  warnDefault('random', 'faster random');
   return this.fetch
     .bind(this)()
     .then(function(data) {
@@ -104,7 +103,7 @@ Provider.prototype.random = function() {
 };
 
 Provider.prototype.extractIds = function(items) {
-  warnDefault("extractIds");
+  warnDefault('extractIds');
   return _.map(items.results, this.config.uniqueId);
 };
 
@@ -136,8 +135,8 @@ Provider.prototype.buildRequest = function(options, url) {
   }
   options = Object.assign(options, {
     headers: {
-      "User-Agent":
-          "Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/4.4.0"
+      'User-Agent':
+          'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/4.4.0'
     }
   });
 
@@ -146,16 +145,16 @@ Provider.prototype.buildRequest = function(options, url) {
   }
 
   return options;
-}
+};
 
 Provider.prototype.parseArgs = function(name) {
-  var tokenize = name.split("?");
+  var tokenize = name.split('?');
 
   // XXX:reimplement querystring.parse to not escape
   var args = {};
   tokenize[1] &&
-    tokenize[1].split("&").map(function(v) {
-      var m = v.split("=");
+    tokenize[1].split('&').map(function(v) {
+      var m = v.split('=');
       args[m[0]] = m[1];
     });
 
