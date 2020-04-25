@@ -148,13 +148,16 @@
       var email = $('#vpnEmail').val(),
         password = $('#vpnPassword').val();
 
-      $('#createAccountSpinner').removeClass('hidden');
-      $('#createAccountIcon').addClass('hidden');
+      var spinner = $('#createAccountSpinner');
+      var icon = $('#createAccountIcon');
+
+      spinner.removeClass('hidden');
+      icon.addClass('hidden');
 
       if (email !== '' && password !== '') {
         VPNht.signup({ email, password }).then(signup => {
-          $('#createAccountSpinner').addClass('hidden');
-          $('#createAccountIcon').removeClass('hidden');
+          spinner.addClass('hidden');
+          icon.removeClass('hidden');
 
           if (signup.error) {
             $('.account_alert_message').text(signup.error.message);
@@ -177,8 +180,8 @@
           }
         });
       } else {
-        $('#createAccountSpinner').addClass('hidden');
-        $('#createAccountIcon').removeClass('hidden');
+        spinner.addClass('hidden');
+        icon.removeClass('hidden');
 
         $('.account_alert_message').text('Invalid email or password');
         $('.account_alert').removeClass('hidden');

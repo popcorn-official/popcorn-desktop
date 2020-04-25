@@ -251,9 +251,10 @@
     },
 
     switchRating: function() {
-      $('.number-container').toggleClass('hidden');
+      var numberContainer = $('.number-container');
+      numberContainer.toggleClass('hidden');
       $('.star-container').toggleClass('hidden');
-      AdvSettings.set('ratingStars', $('.number-container').hasClass('hidden'));
+      AdvSettings.set('ratingStars', numberContainer.hasClass('hidden'));
     },
 
     closeDetails: function() {

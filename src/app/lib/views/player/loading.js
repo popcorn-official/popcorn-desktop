@@ -147,26 +147,31 @@
       Mousetrap.unbind(['esc', 'backspace']);
     },
     minDetails: function () {
-   if ($('.minimize-icon').css('visibility') === 'visible') {
-      $('.loading').css('height', '0px');
-      $('.loading').css('width', '0px');
-      $('.loading').css('float', 'right');
-      $('.loading-background').css('visibility', 'hidden');
-      $('.minimize-icon').css('visibility', 'hidden');
+      var loading = $('.loading');
+      var loadingBackground = $('.loading-background');
+      var minimizeIcon = $('.minimize-icon');
+      var maximizeIcon = $('.maximize-icon');
+
+   if (minimizeIcon.css('visibility') === 'visible') {
+      loading.css('height', '0px');
+      loading.css('width', '0px');
+      loading.css('float', 'right');
+      loadingBackground.css('visibility', 'hidden');
+      minimizeIcon.css('visibility', 'hidden');
       if (this.ddone === 'false') {
-         $('.maximize-icon').css('visibility', 'visible');
+         maximizeIcon.css('visibility', 'visible');
       } else {
-         $('.maximize-icong').css('visibility', 'visible');
+         maximizeIcon.css('visibility', 'visible');
       }
       $('.filter-bar').show();
-   } else if (($('.maximize-icon').css('visibility') === 'visible') || ($('.maximize-icong').css('visibility') === 'visible')) {
-      $('.loading').css('height', '100%');
-      $('.loading').css('width', '100%');
-      $('.loading').css('float', '');
-      $('.loading-background').css('visibility', 'visible');
-      $('.maximize-icon').css('visibility', 'hidden');
-      $('.maximize-icong').css('visibility', 'hidden');
-      $('.minimize-icon').css('visibility', 'visible');
+   } else if ((maximizeIcon.css('visibility') === 'visible') || (maximizeIcon.css('visibility') === 'visible')) {
+      loading.css('height', '100%');
+      loading.css('width', '100%');
+      loading.css('float', '');
+      loadingBackground.css('visibility', 'visible');
+      maximizeIcon.css('visibility', 'hidden');
+      maximizeIcon.css('visibility', 'hidden');
+      minimizeIcon.css('visibility', 'visible');
       $('.filter-bar').hide();
    } else {
    }
@@ -277,17 +282,20 @@
         $('#rdownl').hide();
         $('#ractpr').hide();
         if (this.ddone === 'false') {
+            var cancelButton = $('.cancel-button');
+            var maximizeIcon = $('.maximize-icon');
+
             this.ddone = 'true';
-            $('.cancel-button').css('background-color', '#27ae60');
-            $('.cancel-button').css('left', '-45px');
+            cancelButton.css('background-color', '#27ae60');
+            cancelButton.css('left', '-45px');
             if (Settings.activateLoCtrl === false) {
                 $('.open-button').css('visibility', 'visible').css('display', 'block');
             } else if (Settings.activateLoCtrl === true) {
                 $('.open-button').css('visibility', 'visible').css('display', 'none');
             }
-            if ($('.maximize-icon').css('visibility') === 'visible') {
-                $('.maximize-icong').css('visibility', 'visible');
-                $('.maximize-icon').css('visibility', 'hidden');
+            if (maximizeIcon.css('visibility') === 'visible') {
+                maximizeIcon.css('visibility', 'visible');
+                maximizeIcon.css('visibility', 'hidden');
             }
             this.listenTo(this.model.get('streamInfo'), 'change:uploadSpeed', this.onProgressUpdate);
         }

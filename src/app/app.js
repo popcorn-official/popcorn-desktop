@@ -391,18 +391,19 @@ Mousetrap.bind(
 
 // Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
 window.ondragenter = function (e) {
-  $('#drop-mask').show();
+  var mask = $('#drop-mask');
   var showDrag = true;
   var timeout = -1;
-  $('#drop-mask').on('dragenter', function (e) {
+  mask.show();
+  mask.on('dragenter', function (e) {
     $('.drop-indicator').show();
     win.debug('Drag init');
   });
-  $('#drop-mask').on('dragover', function (e) {
+  mask.on('dragover', function (e) {
     var showDrag = true;
   });
 
-  $('#drop-mask').on('dragleave', function (e) {
+  mask.on('dragleave', function (e) {
     var showDrag = false;
     clearTimeout(timeout);
     timeout = setTimeout(function () {

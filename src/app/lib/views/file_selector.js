@@ -93,8 +93,9 @@
                 $('.store-torrent').hide();
                 return false;
             } else if (Settings.droppedMagnet && Settings.droppedMagnet.indexOf('\&dn=') === -1) {
-                $('.store-torrent').text(i18n.__('Cannot be stored'));
-                $('.store-torrent').addClass('disabled').prop('disabled', true);
+                var storeTorrent = $('.store-torrent');
+                storeTorrent.text(i18n.__('Cannot be stored'));
+                storeTorrent.addClass('disabled').prop('disabled', true);
                 win.warn('Magnet lacks Display Name, unable to store it');
                 return false;
             }

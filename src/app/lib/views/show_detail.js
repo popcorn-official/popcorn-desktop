@@ -431,7 +431,7 @@
 
             var episodes = [];
             var episodes_data = [];
-            var selected_quality = $(e.currentTarget).attr('data-quality');
+            //var selected_quality = $(e.currentTarget).attr('data-quality');
             var auto_play = false;
             var images = this.model.get('images');
             if (AdvSettings.get('playNextEpisodeAuto') && this.model.get('imdb_id').indexOf('mal') === -1) {
@@ -566,30 +566,33 @@
             _this.getRegion('qualitySelector').show(qualitySelector);
 
             var first_aired = selectedEpisode.first_aired ? moment.unix(selectedEpisode.first_aired).locale(Settings.language).format('LLLL') : '';
+            var synopsis = $('.sdoi-synopsis');
+            var startStreaming = $('.startStreaming');
 
             $('.tab-episode.active').removeClass('active');
             $elem.addClass('active');
             $('.sdoi-number').text(i18n.__('Season %s', selectedEpisode.season) + ', ' + i18n.__('Episode %s', selectedEpisode.episode));
             $('.sdoi-title').text(selectedEpisode.title);
             $('.sdoi-date').text(i18n.__('Aired Date') + ': ' + first_aired);
-            $('.sdoi-synopsis').text(selectedEpisode.overview);
+            synopsis.text(selectedEpisode.overview);
 
             //pull the scroll always to top
-            $('.sdoi-synopsis').scrollTop(0);
+            synopsis.scrollTop(0);
 
-            $('.startStreaming').attr('data-episodeid', tvdbid);
+            startStreaming.attr('data-episodeid', tvdbid);
 
             // set var for player
-            $('.startStreaming').attr('data-episode', selectedEpisode.episode);
-            $('.startStreaming').attr('data-season', selectedEpisode.season);
-            $('.startStreaming').attr('data-title', selectedEpisode.title);
+            startStreaming.attr('data-episode', selectedEpisode.episode);
+            startStreaming.attr('data-season', selectedEpisode.season);
+            startStreaming.attr('data-title', selectedEpisode.title);
 
             _this.ui.startStreaming.show();
         },
         selectTorrent: function(torrent, key) {
-            $('.startStreaming').attr('data-torrent', torrent.url);
+            var startStreaming = $('.startStreaming');
+            startStreaming.attr('data-torrent', torrent.url);
+            startStreaming.attr('data-quality', key);
             $('#download-torrent').attr('data-torrent', torrent.url);
-            $('.startStreaming').attr('data-quality', key);
 
             _this.resetHealth();
         },
@@ -599,11 +602,12 @@
         },
 
         nextEpisode: function (e) {
+            var tabEpisode = $('.tab-episode:visible');
             var index = $('.tab-episode.active').index();
-            if (index === $('.tab-episode:visible').length - 1) {
+            if (index === tabEpisode.length - 1) {
                 return;
             }
-            var $nextEpisode = $('.tab-episode:visible').eq(++index);
+            var $nextEpisode = tabEpisode.eq(++index);
             _this.selectEpisode($nextEpisode);
             if (!_this.isElementVisible($nextEpisode[0])) {
                 $nextEpisode[0].scrollIntoView(false);
@@ -635,11 +639,12 @@
         },
 
         nextSeason: function (e) {
+            var tabSeason = $('.tab-season');
             var index = $('.tab-season.active').index();
-            if (index === $('.tab-season').length - 1) {
+            if (index === tabSeason.length - 1) {
                 return;
             }
-            var $nextSeason = $('.tab-season').eq(++index);
+            var $nextSeason = tabSeason.eq(++index);
             _this.selectSeason($nextSeason);
             if (!_this.isElementVisible($nextSeason[0])) {
                 $nextSeason[0].scrollIntoView(false);
