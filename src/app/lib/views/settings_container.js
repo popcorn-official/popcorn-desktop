@@ -350,35 +350,39 @@
                     AdvSettings.set('startScreen', value);
                     break;
                 case 'events':
-                    if ($('.events').css('display') === 'none') {
-                        $('.events').css('display', 'block');
+                    var events = $('.events');
+                    if (events.css('display') === 'none') {
+                        events.css('display', 'block');
                     } else {
-                        $('.events').css('display', 'none');
+                        events.css('display', 'none');
                     }
                     break;
                 case 'activateTorrentCollection':
-                    if ($('#torrent_col').css('display') === 'none') {
-                        $('#torrent_col').css('display', 'block');
+                    var torrentCol = $('#torrent_col');
+                    if (torrentCol.css('display') === 'none') {
+                        torrentCol.css('display', 'block');
                     } else {
-                        $('#torrent_col').css('display', 'none');
+                        torrentCol.css('display', 'none');
                         App.vent.trigger('torrentCollection:close');
                         App.vent.trigger('seedbox:close');
                     }
                     break;
                 case 'animeTabDisable':
-                    if ($('.animeTabShow').css('display') === 'none') {
-                        $('.animeTabShow').css('display', 'block');
+                    var animeTab = $('.animeTabShow');
+                    if (animeTab.css('display') === 'none') {
+                        animeTab.css('display', 'block');
                     } else {
-                        $('.animeTabShow').css('display', 'none');
+                        animeTab.css('display', 'none');
                         App.vent.trigger('movies:list');
                         App.vent.trigger('settings:show');
                     }
                     break;
                 case 'indieTabDisable':
-                    if ($('.indieTabShow').css('display') === 'none') {
-                        $('.indieTabShow').css('display', 'block');
+                    var indieTab = $('.indieTabShow');
+                    if (indieTab.css('display') === 'none') {
+                        indieTab.css('display', 'block');
                     } else {
-                        $('.indieTabShow').css('display', 'none');
+                        indieTab.css('display', 'none');
                         App.vent.trigger('movies:list');
                         App.vent.trigger('settings:show');
                     }
@@ -469,10 +473,13 @@
                 pw = $('#opensubtitlesPassword').val(),
                 OS = require('opensubtitles-api');
 
-            $('.opensubtitles-options .invalid-cross').hide();
+            var cross =  $('.opensubtitles-options .invalid-cross');
+            var spinner = $('.opensubtitles-options .loading-spinner');
+
+            cross.hide();
 
             if (usn !== '' && pw !== '') {
-                $('.opensubtitles-options .loading-spinner').show();
+                spinner.show();
                 var OpenSubtitles = new OS({
                     useragent: Settings.opensubtitles.useragent + ' v' + (Settings.version || 1),
                     username: usn,
@@ -488,7 +495,7 @@
                             AdvSettings.set('opensubtitlesUsername', usn);
                             AdvSettings.set('opensubtitlesPassword', Common.md5(pw));
                             AdvSettings.set('opensubtitlesAuthenticated', true);
-                            $('.opensubtitles-options .loading-spinner').hide();
+                            spinner.hide();
                             $('.opensubtitles-options .valid-tick').show();
                             win.info('Setting changed: opensubtitlesAuthenticated - true');
                             return new Promise(resolve => setTimeout(resolve, 1000));
@@ -499,11 +506,11 @@
                         self.render();
                     }).catch(function (err) {
                         win.error('OpenSubtitles.login()', err);
-                        $('.opensubtitles-options .loading-spinner').hide();
-                        $('.opensubtitles-options .invalid-cross').show();
+                        spinner.hide();
+                    cross.show();
                     });
             } else {
-                $('.opensubtitles-options .invalid-cross').show();
+                cross.show();
             }
 
         },
@@ -729,11 +736,12 @@
                         .addClass('ok')
                         .delay(3000)
                         .queue(function () {
-                            $('#syncTrakt')
+                            var syncTrakt = $('#syncTrakt');
+                            syncTrakt
                                 .removeClass('ok')
                                 .prop('disabled', false);
                             document.getElementById('syncTrakt').innerHTML = oldHTML;
-                            $('#syncTrakt').dequeue();
+                            syncTrakt.dequeue();
                         });
                 })
                 .catch(function (err) {
@@ -744,11 +752,12 @@
                         .addClass('warning')
                         .delay(3000)
                         .queue(function () {
-                            $('#syncTrakt')
+                            var syncTrakt = $('#syncTrakt');
+                            syncTrakt
                                 .removeClass('warning')
                                 .prop('disabled', false);
                             document.getElementById('syncTrakt').innerHTML = oldHTML;
-                            $('#syncTrakt').dequeue();
+                            syncTrakt.dequeue();
                         });
                 });
         },

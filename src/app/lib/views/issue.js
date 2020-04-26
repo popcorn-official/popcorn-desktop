@@ -232,14 +232,15 @@
         },
 
         searchIssue: function () {
-            $('.search-issue').removeClass('fa-search').addClass('fa-spinner fa-spin');
+            var searchIssue = $('.search-issue');
+            searchIssue.removeClass('fa-search').addClass('fa-spinner fa-spin');
             document.getElementById('issue-results').innerHTML = ''; //clear
 
             var keyword = $('#issue-search-field').val().replace(/\W/g, ' ').replace(/\s\s+/g, ' ');
 
             if (!keyword) {
                 $('.notification_alert').show().text(i18n.__('Fields cannot be empty')).delay(2500).fadeOut(400);
-                $('.search-issue').removeClass('fa-spinner fa-spin').addClass('fa-search');
+                searchIssue.removeClass('fa-spinner fa-spin').addClass('fa-search');
                 return;
             }
             this.searchGitLab(keyword);

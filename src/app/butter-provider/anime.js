@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 
-var _ = require("lodash");
-var Generic = require("./generic");
-var inherits = require("util").inherits;
-var Q = require("q");
-var querystring = require("querystring");
-var request = require("request");
-var sanitize = require("butter-sanitize");
+var _ = require('lodash');
+var Generic = require('./generic');
+var inherits = require('util').inherits;
+var Q = require('q');
+var querystring = require('querystring');
+var request = require('request');
+var sanitize = require('butter-sanitize');
 
 var AnimeApi = function(args) {
   var that = this;
@@ -14,18 +14,18 @@ var AnimeApi = function(args) {
   AnimeApi.super_.call(this);
 
   if (args.apiURL) {
-    this.apiURL = args.apiURL.split(",");
+    this.apiURL = args.apiURL.split(',');
   }
 };
 
 inherits(AnimeApi, Generic);
 
 AnimeApi.prototype.config = {
-  name: "AnimeApi",
-  uniqueId: "mal_id",
-  tabName: "Animes",
-  type: "anime",
-  metadata: "trakttv:anime-metadata"
+  name: 'AnimeApi',
+  uniqueId: 'mal_id',
+  tabName: 'Animes',
+  type: 'anime',
+  metadata: 'trakttv:anime-metadata'
 };
 
 function formatFetch(animes) {
@@ -37,7 +37,7 @@ function formatFetch(animes) {
       },
       mal_id: anime._id,
       haru_id: anime._id,
-      tvdb_id: "mal-" + anime._id,
+      tvdb_id: 'mal-' + anime._id,
       imdb_id: anime._id,
       slug: anime.slug,
       title: anime.title,
@@ -55,12 +55,12 @@ function formatDetail(anime) {
   var result = {
     mal_id: anime._id,
     haru_id: anime._id,
-    tvdb_id: "mal-" + anime._id,
+    tvdb_id: 'mal-' + anime._id,
     imdb_id: anime._id,
     slug: anime.slug,
     title: anime.title,
     item_data: anime.type,
-    country: "Japan",
+    country: 'Japan',
     genre: anime.genres,
     genres: anime.genres,
     num_seasons: 1,
@@ -79,7 +79,7 @@ function formatDetail(anime) {
     type: anime.type
   };
 
-  if (anime.type === "show") {
+  if (anime.type === 'show') {
     result = _.extend(result, { episodes: anime.episodes });
   } else {
     // ret = _.extend(ret, {
@@ -98,11 +98,11 @@ function processCloudFlareHack(options, url) {
   var match = url.match(/^cloudflare\+(.*):\/\/(.*)/);
   if (match) {
     req = _.extend(req, {
-      uri: match[1] + "://cloudflare.com/",
+      uri: match[1] + '://cloudflare.com/',
       headers: {
         Host: match[2],
-        "User-Agent":
-          "Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/3.8.0"
+        'User-Agent':
+          'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/3.8.0'
       }
     });
   }
@@ -118,18 +118,18 @@ function get(index, url, that) {
   };
 
   var req = processCloudFlareHack(options, that.apiURL[index]);
-  console.info("Request to AnimeApi", req.url);
+  console.info('Request to AnimeApi', req.url);
   request(req, function(err, res, data) {
     if (err || res.statusCode >= 400) {
-      console.warn("AnimeAPI endpoint '%s' failed.", that.apiURL[index]);
+      console.warn(`AnimeAPI endpoint ${that.apiURL[index]} failed.`);
       if (index + 1 >= that.apiURL.length) {
-        return deferred.reject(err || "Status Code is above 400");
+        return deferred.reject(err || 'Status Code is above 400');
       } else {
         return get(index + 1, url, that);
       }
     } else if (!data || data.error) {
-      err = data ? data.status_message : "No data returned";
-      console.error("API error:", err);
+      err = data ? data.status_message : 'No data returned';
+      console.error('API error:', err);
       return deferred.reject(err);
     } else {
       return deferred.resolve(data);
@@ -140,18 +140,18 @@ function get(index, url, that) {
 }
 
 AnimeApi.prototype.extractIds = function(items) {
-  return _.map(items.results, "mal_id");
+  return _.map(items.results, 'mal_id');
 };
 
 AnimeApi.prototype.fetch = function(filters) {
   var that = this;
 
   var params = {};
-  params.sort = "seeds";
-  params.limit = "50";
+  params.sort = 'seeds';
+  params.limit = '50';
 
   if (filters.keywords) {
-    params.keywords = filters.keywords.replace(/\s/g, "% ");
+    params.keywords = filters.keywords.replace(/\s/g, '% ');
   }
 
   if (filters.genre) {
@@ -162,17 +162,17 @@ AnimeApi.prototype.fetch = function(filters) {
     params.order = filters.order;
   }
 
-  if (filters.sorter && filters.sorter !== "popularity") {
+  if (filters.sorter && filters.sorter !== 'popularity') {
     params.sort = filters.sorter;
   }
 
   var index = 0;
   var url =
     that.apiURL[index] +
-    "animes/" +
+    'animes/' +
     filters.page +
-    "?" +
-    querystring.stringify(params).replace(/%25%20/g, "%20");
+    '?' +
+    querystring.stringify(params).replace(/%25%20/g, '%20');
   return get(index, url, that).then(formatFetch);
 };
 
@@ -180,7 +180,7 @@ AnimeApi.prototype.detail = function(torrent_id, old_data, debug) {
   var that = this;
 
   var index = 0;
-  var url = that.apiURL[index] + "anime/" + torrent_id;
+  var url = that.apiURL[index] + 'anime/' + torrent_id;
   return get(index, url, that).then(formatDetail);
 };
 

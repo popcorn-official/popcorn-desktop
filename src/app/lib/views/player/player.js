@@ -181,6 +181,7 @@
                 if ((this.video.duration() - this.video.currentTime()) < 60 && this.video.currentTime() > 30) {
 
                     if (!this.autoplayisshown) {
+                        var playingNext = $('.playing_next');
 
                         if (!this.precachestarted) {
                             App.vent.trigger('preload:start', this.next_episode_model);
@@ -189,8 +190,8 @@
 
                         win.info('Showing Auto Play message');
                         this.autoplayisshown = true;
-                        $('.playing_next').show();
-                        $('.playing_next').appendTo('div#video_player');
+                        playingNext.show();
+                        playingNext.appendTo('div#video_player');
                         if (!this.player.userActive()) {
                             this.player.userActive(true);
                         }
@@ -319,7 +320,9 @@
                     App.vent.trigger('player:close');
                 }, 2000);
             }
-            win.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
+            var videoPlayer = $('#video_player');
+
+            win.error('video.js error code: ' + videoPlayer.get(0).player.error().code, videoPlayer.get(0).player.error());
         },
 
         metadataCheck: function () {
@@ -333,10 +336,11 @@
                 } else {
                     $('.verifmeta_episode').text(this.model.get('year'));
                 }
+                var verifyMetadata = $('.verify-metadata');
 
                 // display it
-                $('.verify-metadata').show();
-                $('.verify-metadata').appendTo('div#video_player');
+                verifyMetadata.show();
+                verifyMetadata.appendTo('div#video_player');
                 if (!this.player.userActive()) {
                     this.player.userActive(true);
                 }
@@ -510,7 +514,7 @@
             win.info('Hiding Auto Play message');
             $('.playing_next').hide();
             $('.playing_next #nextCountdown').text('');
-            this.autoplayisshown ? false : true;
+            !this.autoplayisshown;
 
             this.model.set('auto_play', false);
         },
@@ -922,8 +926,10 @@
         },
 
         displayOverlayMsg: function (message) {
-            if ($('.vjs-overlay').length > 0) {
-                $('.vjs-overlay').text(message);
+            var vjsOverlay = $('.vjs-overlay');
+
+            if (vjsOverlay.length > 0) {
+                vjsOverlay.text(message);
                 clearTimeout($.data(this, 'overlayTimer'));
                 $.data(this, 'overlayTimer', setTimeout(function () {
                     $('.vjs-overlay').fadeOut('normal', function () {

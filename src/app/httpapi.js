@@ -670,9 +670,10 @@
             });
 
             server.expose('getstreamurl', function (args, opt, callback) {
+                var video = $('#video_player video');
                 if (App.PlayerView !== undefined && !App.PlayerView.isDestroyed) {
                     butterCallback(callback, false, {
-                        streamUrl: $('#video_player video') === undefined ? '' : $('#video_player video').attr('src')
+                        streamUrl: video === undefined ? '' : video.attr('src')
                     });
                     return;
                 }
@@ -680,6 +681,7 @@
             });
 
             server.expose('getplaying', function (args, opt, callback) {
+                var video = $('#video_player video');
                 var view = App.PlayerView;
                 var playing = false;
                 if (view !== undefined && !view.isDestroyed) {
@@ -694,7 +696,7 @@
                         volume: view.player.volume(),
                         currentTime: App.PlayerView.player.currentTime(),
                         duration: App.PlayerView.player.duration(),
-                        streamUrl: $('#video_player video') === undefined ? '' : $('#video_player video').attr('src'),
+                        streamUrl: video === undefined ? '' : video.attr('src'),
                         selectedSubtitle: '',
                         isFullscreen: win.isFullscreen
                     };

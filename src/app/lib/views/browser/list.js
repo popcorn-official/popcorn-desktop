@@ -340,9 +340,12 @@
         },
 
         AddGhostsToBottomRow: function () {
+            var items = $('.items');
+            var item = $('.items .item');
+
             $('.ghost').remove();
-            var listWidth = $('.items').width();
-            var itemWidth = $('.items .item').width() + (2 * parseInt($('.items .item').css('margin')));
+            var listWidth = items.width();
+            var itemWidth = item.width() + (2 * parseInt(item.css('margin')));
             var itemsPerRow = parseInt(listWidth / itemWidth);
             /* in case we .hide() items at some point:
             var visibleItems = 0;
@@ -352,7 +355,7 @@
             });
             var itemsInLastRow = visibleItems % itemsPerRow;*/
             NUM_MOVIES_IN_ROW = itemsPerRow;
-            var itemsInLastRow = $('.items .item').length % itemsPerRow;
+            var itemsInLastRow = item.length % itemsPerRow;
             var ghostsToAdd = itemsPerRow - itemsInLastRow;
             while (ghostsToAdd > 0) {
                 $('.items').append($('<li/>').addClass('item ghost'));
@@ -422,13 +425,16 @@
         },
 
         selectIndex: function (index) {
-            if ($('.items .item').eq(index).length === 0 || $('.items .item').eq(index).children().length === 0) {
+            var item = $('.items .item');
+            var itemSelected = $('.item.selected');
+
+            if (item.eq(index).length === 0 || item.eq(index).children().length === 0) {
                 return;
             }
-            $('.item.selected').removeClass('selected');
-            $('.items .item').eq(index).addClass('selected');
+            itemSelected.removeClass('selected');
+            item.eq(index).addClass('selected');
 
-            var $movieEl = $('.item.selected')[0];
+            var $movieEl = itemSelected[0];
             if (!elementInViewport(this.$el, $movieEl)) {
                 $movieEl.scrollIntoView(false);
                 this.onScroll();
@@ -508,13 +514,15 @@
     function onMoviesWatched(movie, channel) {
         if  (channel === 'database') {
             try {
+                var el = $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]');
+
                 switch (Settings.watchedCovers) {
                     case 'fade':
                         $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"] .actions-watched').addClass('selected');
-                        $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]').addClass('watched');
+                        el.addClass('watched');
                         break;
                     case 'hide':
-                        $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]').remove();
+                        el.remove();
                         break;
                 }
                 $('.watched-toggle').addClass('selected').text(i18n.__('Seen'));
