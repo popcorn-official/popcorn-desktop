@@ -8,6 +8,82 @@ const nwVersion = '0.44.5',
   releasesDir = 'build',
   nwFlavor = 'sdk';
 
+const sourceFiles = [
+  // Global variables
+  'src/app/global.js',
+  // Other dependencies
+  'src/app/vendor/*.js',
+  'src/app/lib/jquery.plugins.js',
+  // App Initialization
+  'src/app/database.js',
+  'src/app/settings.js',
+  'src/app/common.js',
+  'src/app/app.js',
+  'src/app/lib/config.js',
+  'src/app/updater.js',
+  'src/app/httpapi.js',
+  'src/app/language.js',
+  'src/app/lib/device/generic.js',
+  'src/app/lib/device/airplay.js',
+  'src/app/lib/device/dlna.js',
+  'src/app/lib/device/chromecast.js',
+  'src/app/lib/device/ext-player.js',
+  'src/app/lib/subtitle/generic.js',
+  'src/app/lib/subtitle/server.js',
+  'src/app/lib/streamer.js',
+  // Backbone Model
+  'src/app/lib/models/filter.js',
+  'src/app/lib/models/lang.js',
+  'src/app/lib/models/movie.js',
+  'src/app/lib/models/show.js',
+  'src/app/lib/models/generic_collection.js',
+  'src/app/lib/models/movie_collection.js',
+  'src/app/lib/models/stream_info.js',
+  'src/app/lib/models/show_collection.js',
+  'src/app/lib/models/anime_collection.js',
+  'src/app/lib/models/favorite_collection.js',
+  'src/app/lib/models/watchlist_collection.js',
+  'src/app/lib/models/notification.js',
+  // Data Sources
+  'src/app/lib/cache.js',
+  'src/app/lib/cachev2.js',
+  'src/app/lib/providers/generic.js',
+  // Backbone Views and Controllers
+  'src/app/lib/views/title_bar.js',
+  'src/app/lib/views/windows_title_bar.js',
+  'src/app/lib/views/main_window.js',
+  'src/app/lib/views/movie_detail.js',
+  'src/app/lib/views/show_detail.js',
+  'src/app/lib/views/play_control.js',
+  'src/app/lib/views/quality-selector.js',
+  'src/app/lib/views/lang_dropdown.js',
+  'src/app/lib/views/settings_container.js',
+  'src/app/lib/views/init_modal.js',
+  'src/app/lib/views/disclaimer.js',
+  'src/app/lib/views/about.js',
+  'src/app/lib/views/vpn.js',
+  'src/app/lib/views/torrent_collection.js',
+  'src/app/lib/views/file_selector.js',
+  'src/app/lib/views/help.js',
+  'src/app/lib/views/keyboard.js',
+  'src/app/lib/views/notification.js',
+  'src/app/lib/views/player/loading.js',
+  'src/app/lib/views/player/player.js',
+
+  'src/app/lib/views/browser/generic_browser.js',
+  'src/app/lib/views/browser/movie_browser.js',
+  'src/app/lib/views/browser/filter_bar.js',
+  'src/app/lib/views/browser/item.js',
+  'src/app/lib/views/browser/list.js',
+  'src/app/lib/views/browser/show_browser.js',
+  'src/app/lib/views/browser/anime_browser.js',
+  'src/app/lib/views/browser/favorite_browser.js',
+  'src/app/lib/views/browser/watchlist_browser.js',
+
+  'src/app/lib/views/seedbox.js',
+  'src/app/bootstrap.js'
+];
+
 /***************
  * dependencies *
  ***************/
@@ -25,7 +101,15 @@ const gulp = require('gulp'),
   path = require('path'),
   exec = require('child_process').exec,
   spawn = require('child_process').spawn,
-  pkJson = require('./package.json');
+  pkJson = require('./package.json'),
+  minify = require('gulp-minify'),
+  concat = require('gulp-concat'),
+  inject = require('gulp-inject'),
+  mode = require('gulp-mode')({
+    modes: ['production', 'development'],
+    default: 'development',
+    verbose: false
+  });
 
 /***********
  *  custom  *
@@ -150,6 +234,48 @@ const nw = new nwBuilder({
 /*************
  * gulp tasks *
  *************/
+gulp.task('clean-js', (done) => {
+  del(['src/app/js/*.js'], {force: true}).then(() => done());
+});
+
+gulp.task('concat-js', (done) => {
+  gulp.src(sourceFiles)
+    .pipe(concat('app-script.js'))
+    .pipe(gulp.dest('src/app/js/'))
+    .on('finish', function() {
+      done();
+    });
+});
+
+gulp.task('minify-js', (done) => {
+  gulp.src('src/app/js/*.js')
+    .pipe(minify())
+    .pipe(gulp.dest('src/app/js/'))
+    .on('finish', function() {
+      done();
+    });
+});
+
+gulp.task('inject', function () {
+  var src;
+  if (mode.production()) {
+    src = gulp.src('src/app/js/*-min.js', {read: false});
+  } else {
+    src = gulp.src('src/app/js/!(*-min.js)', {read: false});
+  }
+
+  return gulp.src('src/app/model/index.html')
+    .pipe(inject(src), {relative: true})
+    .pipe(gulp.dest('src/app'));
+});
+
+gulp.task('compress',
+  gulp.series('clean-js', 'concat-js', 'minify-js', 'inject', function(done) {
+    // default task code here
+    done();
+  })
+);
+
 // start app in development
 // default is help, because we can!
 gulp.task('default', (done) => {
@@ -169,53 +295,57 @@ gulp.task('default', (done) => {
   );
   done();
 });
-gulp.task('run', () => {
-  return new Promise((resolve, reject) => {
-    let platform = parsePlatforms()[0],
-      bin = path.join('cache', nwVersion + '-' + nwFlavor, platform);
 
-    // path to nw binary
-    switch (platform.slice(0, 3)) {
-      case 'osx':
-        bin += '/nwjs.app/Contents/MacOS/nwjs';
-        break;
-      case 'lin':
-        bin += '/nw';
-        break;
-      case 'win':
-        bin += '/nw.exe';
-        break;
-      default:
-        reject(new Error('Unsupported %s platform', platform));
-    }
+gulp.task(
+  'run',
+  gulp.series('compress', () => {
+    return new Promise((resolve, reject) => {
+      let platform = parsePlatforms()[0],
+        bin = path.join('cache', nwVersion + '-' + nwFlavor, platform);
 
-    console.log('Running %s from cache', platform);
-
-    // spawn cached binary with package.json, toggle dev flag
-    const child = spawn(bin, ['.', '--development']);
-
-    // nwjs console speaks to stderr
-    child.stderr.on('data', (buf) => {
-      console.log(buf.toString());
-    });
-
-    child.on('close', (exitCode) => {
-      console.log('%s exited with code %d', pkJson.name, exitCode);
-      resolve();
-    });
-
-    child.on('error', (error) => {
-      // nw binary most probably missing
-      if (error.code === 'ENOENT') {
-        console.log(
-          '%s is not available in cache. Try running `gulp build` beforehand',
-          platform
-        );
+      // path to nw binary
+      switch (platform.slice(0, 3)) {
+        case 'osx':
+          bin += '/nwjs.app/Contents/MacOS/nwjs';
+          break;
+        case 'lin':
+          bin += '/nw';
+          break;
+        case 'win':
+          bin += '/nw.exe';
+          break;
+        default:
+          reject(new Error('Unsupported %s platform', platform));
       }
-      reject(error);
+
+      console.log('Running %s from cache', platform);
+
+      // spawn cached binary with package.json, toggle dev flag
+      const child = spawn(bin, ['.', '--development']);
+
+      // nwjs console speaks to stderr
+      child.stderr.on('data', (buf) => {
+        console.log(buf.toString());
+      });
+
+      child.on('close', (exitCode) => {
+        console.log('%s exited with code %d', pkJson.name, exitCode);
+        resolve();
+      });
+
+      child.on('error', (error) => {
+        // nw binary most probably missing
+        if (error.code === 'ENOENT') {
+          console.log(
+            '%s is not available in cache. Try running `gulp build` beforehand',
+            platform
+          );
+        }
+        reject(error);
+      });
     });
-  });
-});
+  }
+));
 
 // check entire sources for potential coding issues (tweak in .jshintrc)
 gulp.task('jshint', () => {
@@ -434,7 +564,9 @@ gulp.task('nwjs', () => {
         '!./**/example*/**',
         '!./**/demo*/**',
         '!./*/bin/**',
-        '!./**/.*/**'
+        '!./**/.*/**',
+        '!./src/app/!{js,butter-provider}/*.js',
+        '!./src/app/*.js'
       ]);
 
       return nw.build();
@@ -713,7 +845,7 @@ gulp.task(
 // build app from sources
 gulp.task(
   'build',
-  gulp.series('injectgit', 'css', 'nwjs', function(done) {
+  gulp.series('compress', 'injectgit', 'css', 'nwjs', function(done) {
     // default task code here
     done();
   })

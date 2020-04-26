@@ -1,7 +1,8 @@
 'use strict';
 
 var _ = require('lodash');
-var Generic = require('./generic');
+var path = require('path');
+var Generic = require(path.resolve( __dirname, './generic.js'));
 var inherits = require('util').inherits;
 var Q = require('q');
 var querystring = require('querystring');
