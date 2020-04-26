@@ -1,9 +1,10 @@
 'use strict';
 
-const Generic = require('./generic');
-const request = require('request');
-const sanitize = require('butter-sanitize');
-const TVDB = require('node-tvdb');
+var path = require('path');
+var Generic = require(path.resolve( __dirname, './generic.js'));
+var request = require('request');
+var sanitize = require('butter-sanitize');
+var TVDB = require('node-tvdb');
 
 class TVApi extends Generic {
   constructor(args) {

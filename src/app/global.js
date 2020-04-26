@@ -39,4 +39,5 @@ var _ = require('underscore'),
   // VPN
   VPNht = require('@vpnht/sdk'),
   // NodeJS
-  child = require('child_process');
+  child = require('child_process'),
+  module = require('module');

@@ -1,8 +1,8 @@
 'use strict';
-
-const Generic = require('./generic');
-const request = require('request');
-const sanitize = require('butter-sanitize');
+var path = require('path');
+var Generic = require(path.resolve( __dirname, './generic.js'));
+var request = require('request');
+var sanitize = require('butter-sanitize');
 
 class MovieApi extends Generic {
   constructor(args) {
