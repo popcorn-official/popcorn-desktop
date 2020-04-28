@@ -225,7 +225,7 @@ var Database = {
             })
 
         .then(function () {
-            App.vent.trigger('show:watched:' + data.tvdb_id, data);
+            App.vent.trigger('show:watched:' + data.imdb_id, data);
         });
 
     },
