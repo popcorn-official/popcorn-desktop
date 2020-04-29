@@ -139,12 +139,11 @@
             var images = this.model.get('images');
             var backdrop = this.model.get('backdrop');
             var poster = this.model.get('poster');
-            if (!poster && images)
-            {
-              poster = images.poster || noimg;
+            if (!poster && images && images.poster){
+                poster = this.model.get('images').poster;
             }
             else {
-              poster = noimg;
+                poster = this.model.get('poster') || noimg;
             }
             if (!backdrop) {
               backdrop = images.banner || nobg;
