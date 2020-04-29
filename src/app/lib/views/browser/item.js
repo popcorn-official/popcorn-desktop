@@ -124,10 +124,9 @@
         loadImage: function () {
             var noimg = 'images/posterholder.png';
             var poster = this.model.get('image');
-            if (!poster && this.model.get('images')){
+            if (!poster && this.model.get('images') && this.model.get('images').poster){
             poster = this.model.get('images').poster;
-            }
-            else {
+            } else {
             poster = this.model.get('poster') || noimg;
             }
 
