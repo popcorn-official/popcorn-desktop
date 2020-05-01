@@ -198,18 +198,11 @@ Settings.totalDownloaded = 0;
 Settings.totalUploaded = 0;
 
 Settings.updateEndpoint = {
-  url: 'https://butterproject.org/',
-  index: 0,
-  proxies: [
-    {
-      url: 'https://butterproject.org/',
-      fingerprint: ''
-    },
-    {
-      url: 'https://butterproject.github.io/',
-      fingerprint: ''
-    }
-  ]
+    url: 'https://popcorntime.app/',
+    index: 0,
+    proxies: [{
+        url: 'https://popcorntime.app/'
+    }]
 };
 
 // App Settings
