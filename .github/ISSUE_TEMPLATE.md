@@ -7,6 +7,9 @@ Popcorn Time Version:
 Download date:
 <!-- When did you install Popcorn Time? -->
 
+Download url (optional):
+<!-- Since there are pre-release builds and it's difficult to track if download is a release or just random build from jenkins. -->
+
 #### Expected Behaviour
 <!-- What did you think the app was going to do? -->
 ...
@@ -21,3 +24,6 @@ Download date:
 1. ...
 2. ...
 3. ...
+
+#### Screenshot of error from developer console (optional)
+<!-- Screenshot helps with finding why stuff breaks -->
