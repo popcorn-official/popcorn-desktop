@@ -144,7 +144,7 @@ Settings.moviesShowQuality = false;
 Settings.movies_quality = 'all';
 
 // Subtitles
-Settings.subtitle_language = 'none';
+Settings.subtitle_language = 'en';
 Settings.subtitle_size = '28px';
 Settings.subtitle_color = '#ffffff';
 Settings.subtitle_decoration = 'Outline';
@@ -179,9 +179,9 @@ Settings.tmpLocation = path.join(os.tmpdir(), Settings.projectName);
 Settings.databaseLocation = path.join(data_path, 'data');
 Settings.deleteTmpOnClose = true;
 Settings.continueSeedingOnStart = false;
-Settings.vpnEnabled = true;
+Settings.vpnEnabled = false;
 Settings.maxActiveTorrents = 5;
-Settings.automaticUpdating = true;
+Settings.automaticUpdating = false;
 Settings.UpdateSeed = false;
 Settings.events = true;
 Settings.minimizeToTray = false;

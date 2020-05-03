@@ -36,12 +36,13 @@
 
       App.vent.on('sub:lang', this.switchSubtitle.bind(this));
       App.vent.on('audio:lang', this.switchAudio.bind(this));
-      App.vent.on(
-        'update:subtitles',
-        function(subs) {
-          this.views.sub.updateLangs(subs);
-        }.bind(this)
-      );
+      App.vent.on('update:subtitles', function(subs) {
+        console.log('update:subtitles');
+        this.views.sub.updateLangs(subs);
+        // Switch to default subtitle when subtitles are actually updated.
+        var lang = this.subtitle_selected || Settings.subtitle_language;
+        this.views.sub.setLang(lang);
+      }.bind(this));
 
       this.model.on(
         'change:quality',
@@ -95,7 +96,7 @@
     loadSubDropdown: function() {
       return this.loadDropdown('sub', {
         title: i18n.__('Subtitle'),
-        selected: this.model.get('defaultSubtitle'),
+        selected: this.subtitle_selected || this.model.get('defaultSubtitle'),
         hasNull: true,
         values: this.model.get('subtitle')
       });
@@ -142,9 +143,6 @@
         $('.star-container').addClass('hidden');
         $('.number-container').removeClass('hidden');
       }
-
-      // switch to default subtitle
-      this.switchSubtitle(Settings.subtitle_language);
 
       this.setTooltips();
     },
@@ -195,28 +193,18 @@
     },
 
     downloadTorrent: function() {
-      var providers = this.model.get('providers');
-      var quality = this.model.get('quality');
-      var defaultTorrent = this.model.get('torrents')[quality];
+      var torrentModel = this.createModel();
 
-      var filters = {
-        quality: quality,
-        lang: this.audio_selected
-      };
-
-      var torrent = providers.torrent.resolveStream
-        ? providers.torrent.resolveStream(
-            defaultTorrent,
-            filters,
-            this.model.attributes
-          )
-        : defaultTorrent;
-
-      App.vent.trigger('stream:download', torrent);
-      App.vent.trigger('seedbox:show');
+      App.vent.trigger('stream:download', torrentModel);
     },
 
     startStreaming: function() {
+      var torrentModel = this.createModel();
+
+      App.vent.trigger('stream:start', torrentModel);
+    },
+
+    createModel: function(){
       var providers = this.model.get('providers');
       var quality = this.model.get('quality');
       var defaultTorrent = this.model.get('torrents')[quality];
@@ -227,16 +215,17 @@
       };
 
       var torrent = providers.torrent.resolveStream
-        ? providers.torrent.resolveStream(
-            defaultTorrent,
-            filters,
-            this.model.attributes
+          ? providers.torrent.resolveStream(
+              defaultTorrent,
+              filters,
+              this.model.attributes
           )
-        : defaultTorrent;
+          : defaultTorrent;
 
-      var torrentStart = new Backbone.Model({
+      var model = new Backbone.Model({
         imdb_id: this.model.get('imdb_id'),
         torrent: torrent,
+        year: this.model.get('year'),
         backdrop: this.model.get('backdrop'),
         subtitle: this.model.get('subtitle'),
         defaultSubtitle: this.subtitle_selected,
@@ -248,7 +237,7 @@
         cover: this.model.get('cover')
       });
 
-      App.vent.trigger('stream:start', torrentStart);
+      return model;
     },
 
     playTrailer: function() {
