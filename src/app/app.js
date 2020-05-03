@@ -279,6 +279,8 @@ win.on('enter-fullscreen', function () {
 
 // Now this function is used via global keys (cmd+q and alt+f4)
 function close() {
+  $('.spinner').show();
+
   App.WebTorrent.destroy(function () {
     if (App.settings.deleteTmpOnClose) {
       deleteFolder(App.settings.tmpLocation);
