@@ -62,7 +62,7 @@ Common.copyFile = function (source, target, cb) {
 };
 
 Common.fileSize = function (num) {
-    if (isNaN(num)) {
+    if (isNaN(num) || num === null) {
         return;
     }
 
