@@ -92,7 +92,7 @@
                 <div class="dropdown start-screen">
                     <p><%= i18n.__("Start Screen") %></p>
                         <%
-                            var arr_screens = ["Movies","TV Series","Anime","Indie","Favorites", "Watchlist", "Last Open"];
+                            var arr_screens = ["Movies","TV Series","Anime","Favorites", "Watchlist", "Last Open"];
 
                             var selct_start_screen = "";
                             for(var key in arr_screens) {
@@ -120,10 +120,6 @@
             <span class="advanced">
                 <input class="settings-checkbox" name="animeTabDisable" id="animeTabDisable" type="checkbox" <%=(Settings.animeTabDisable ? "checked='checked'":"")%>>
                 <label class="settings-label" for="animeTabDisable"><%= i18n.__("Disable Anime Tab") %></label>
-            </span>
-            <span class="advanced">
-                <input class="settings-checkbox" name="indieTabDisable" id="indieTabDisable" type="checkbox" <%=(Settings.indieTabDisable ? "checked='checked'":"")%>>
-                <label class="settings-label" for="indieTabDisable"><%= i18n.__("Disable Indie Tab") %></label>
             </span>
 
             <span class="advanced">
