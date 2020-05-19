@@ -451,5 +451,21 @@
 	"Enable VPN": "Enable VPN",
 	"Popularity": "Popularity",
 	"Last Added": "Last Added",
-	"Seedbox": "Seedbox"
+	"Seedbox": "Seedbox",
+	"Home And Garden": "Home And Garden",
+	"Slice Of Life": "Slice Of Life",
+	"Currently Airing": "Currently Airing",
+	"Health Bad": "Health Bad",
+	"No Favorites found...": "No Favorites found...",
+	"No Watchlist found...": "No Watchlist found...",
+	"science-fiction": "science-fiction",
+	"comedy": "comedy",
+	"Health Excellent": "Health Excellent",
+	"Download or Watch a movie": "Download or Watch a movie",
+	"TV is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.": "TV is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.",
+	"Server": "Server",
+	"Custom API Server": "Custom API Server",
+	"Proxy Server": "Proxy Server",
+	"Enable remote control": "Enable remote control",
+	"Maximum number of active torrents": "Maximum number of active torrents"
 }
