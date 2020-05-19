@@ -7,7 +7,7 @@
         <div class="content">
             <span>
                 <i class="fa fa-keyboard-o keyboard tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Keyboard Shortcuts") %>"></i>
-                <i class="fa fa-question-circle help tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Help Section") %>"></i>
+                <!--<i class="fa fa-question-circle help tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Help Section") %>"></i>-->
                 <input id="show-advanced-settings" class="settings-checkbox" name="showAdvancedSettings" type="checkbox" <%=(Settings.showAdvancedSettings? "checked":"")%>>
                 <label class="settings-label" for="show-advanced-settings"><%= i18n.__("Show advanced settings") %></label>
             </span>
@@ -20,7 +20,7 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Custom API Server") %></p>
-                    <input type="text" size="100" id="apiServer" name="apiServer" value="<%= Settings.apiServer %>"
+                    <input type="text" size="50" id="apiServer" name="apiServer" value="<%= Settings.apiServer %>"
                            placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
@@ -333,7 +333,7 @@
         </div>
     </section>
 
-    <% if(App.Trakt) { %>
+    <!--<% if(App.Trakt) { %>
     <section id="trakt-tv">
         <div class="title">Trakt.tv</div>
         <div class="content">
@@ -399,7 +399,7 @@
 			</div>
 		</div>
 	</section>
-    <% } %>
+    <% } %>-->
 
     <section id="opensubtitles">
         <div class="title">OpenSubtitles</div>
@@ -429,7 +429,7 @@
                         </div>
                     </span>
 					<span>
-						<em><%= i18n.__("%s stores an encrypted hash of your password in your local database", Settings.projectName) %></em>
+						<em><%= i18n.__("%s stores an encrypted hash of your password in your local database", 'BackSlash TV') %></em>
 					</span>
                 <% } %>
                 <span class="advanced">

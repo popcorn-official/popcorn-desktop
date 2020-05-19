@@ -1,6 +1,6 @@
 /** Default settings **/
 var Settings = {
-  projectName: 'Popcorn-Time',
+  projectName: 'BackSlash TV',
   projectUrl: 'http://butterproject.org',
   projectTwitter: 'butterproject',
   projectFacebook: 'ButterProjectOrg',
