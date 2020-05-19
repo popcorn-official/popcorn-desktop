@@ -1,9 +1,9 @@
 {
-  "name": "Popcorn-Time",
-  "companyName": "Popcorn Time",
+  "name": "backslash-tv",
+  "companyName": "BackSlash Linux",
   "installIcon": "./src/app/images/popcorntime.ico",
   "unInstallIcon": "./src/app/images/butter_uninstall.ico",
-  "homepage": "http://popcorntime.sh/",
+  "homepage": "https://www.backslashlinux.com",
   "bugs": "https://github.com/popcorn-official/popcorn-desktop/issues",
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
     "yarn": ">= 1.0.0"
   },
   "window": {
-    "title": "Popcorn Time",
+    "title": "BackSlash TV",
     "icon": "src/app/images/icon.png",
     "frame": false,
     "min_width": 960,
