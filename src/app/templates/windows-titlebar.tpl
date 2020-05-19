@@ -1,7 +1,7 @@
 <div class="windows-titlebar">
   <img class="icon" src="/src/app/images/icon.png" alt="icon">
 
-  <h1 class="windows-titlebar-title"><%= Settings.projectName %></h1>
+  <h1 class="windows-titlebar-title">BackSlash TV</h1>
 
   <div class="events img-" style="display: block;"></div>
 
