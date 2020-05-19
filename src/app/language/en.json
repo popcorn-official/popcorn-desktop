@@ -467,5 +467,12 @@
 	"Custom API Server": "Custom API Server",
 	"Proxy Server": "Proxy Server",
 	"Enable remote control": "Enable remote control",
-	"Maximum number of active torrents": "Maximum number of active torrents"
+	"Maximum number of active torrents": "Maximum number of active torrents",
+	"The %s project was forked from the Popcorn Time project that started in February 2014 and has already had 150 people that contributed more than 3000 times to it's development in August 2014.": "The %s project was forked from the Popcorn Time project that started in February 2014 and has already had 150 people that contributed more than 3000 times to it's development in August 2014.",
+	"If you're experiencing connection drop issues, try to reduce the DHT Limit in settings.": "If you're experiencing connection drop issues, try to reduce the DHT Limit in settings.",
+	"If you search \"1998\", you can see all the movies or TV series that came out that year.": "If you search \"1998\", you can see all the movies or TV series that came out that year.",
+	"Clicking twice on a \"Sort By\" filter reverses the order of the list.": "Clicking twice on a \"Sort By\" filter reverses the order of the list.",
+	"You can create an account on our <a class=\"links\" href=\"%s\">GitHub</a> repository, and click on \"Issues\".": "You can create an account on our <a class=\"links\" href=\"%s\">GitHub</a> repository, and click on \"Issues\".",
+	"Log in into your GitLab account": "Log in into your GitLab account",
+	"Initializing BackSlash TV. Please Wait...": "Initializing BackSlash TV. Please Wait..."
 }
