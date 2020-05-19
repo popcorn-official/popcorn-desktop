@@ -11,7 +11,7 @@
             <div class="text_download"><%= i18n.__(state) %></div>
 
             <!-- vpn -->
-            <div id="vpn-contents" class="vpn">
+            <!--<div id="vpn-contents" class="vpn">
                 <div class="heading">Anyone can know where you’re from</div>
                 <div class="subheading">
                     <p>Hide your IP with a VPN to block unwanted exposure and data leaks.</p>
@@ -49,7 +49,7 @@
                       <div class="cancel-button-text"><%= i18n.__("Cancel") %></div>
                 </div>
 
-            </div>
+            </div> -->
 
             <div class="seed_status" style="visibility:hidden">
                 <!-- loading bar -->

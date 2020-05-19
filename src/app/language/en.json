@@ -474,5 +474,11 @@
 	"Clicking twice on a \"Sort By\" filter reverses the order of the list.": "Clicking twice on a \"Sort By\" filter reverses the order of the list.",
 	"You can create an account on our <a class=\"links\" href=\"%s\">GitHub</a> repository, and click on \"Issues\".": "You can create an account on our <a class=\"links\" href=\"%s\">GitHub</a> repository, and click on \"Issues\".",
 	"Log in into your GitLab account": "Log in into your GitLab account",
-	"Initializing BackSlash TV. Please Wait...": "Initializing BackSlash TV. Please Wait..."
+	"Initializing BackSlash TV. Please Wait...": "Initializing BackSlash TV. Please Wait...",
+	"adventure": "adventure",
+	"fantasy": "fantasy",
+	"Stream Url": "Stream Url",
+	"Right click to copy": "Right click to copy",
+	"Show playback controls": "Show playback controls",
+	"Downloading": "Downloading"
 }
