@@ -20,7 +20,7 @@ after_success:
 deploy:
   provider: releases
   file_glob: true
-  file: build/Popcorn-Time*.zip
+  file: build/BackSlash-TV*.zip
   name: Build $(date +'%d.%m.%Y %R')
   skip_cleanup: true
   on:

@@ -1,4 +1,4 @@
-# Contributing to Popcorn Time
+# Contributing to BackSlash TV
 
 So you're interested in giving us a hand? That's awesome! We've put together some brief guidelines that should help
 you get started quickly and easily.
@@ -9,14 +9,14 @@ There are lots and lots of ways to get involved, this document covers:
     * [Bug reports](#bug-reports)
     * [Feature requests](#feature-requests)
     * [Change requests](#change-requests)
-* [Working on Popcorn Time core](#working-on-popcorn-time-core)
+* [Working on BackSlash TV core](#working-on-backslash-tv-core)
     * [Submitting pull requests](#submitting-pull-requests)
 * [Translation](#translation)
 
 
 ## Report a bug
 
-If you're about to raise an issue because think you've found a problem with Popcorn Time, or you'd like to make a request for a new feature in the codebase, or any other reason… please read this first.
+If you're about to raise an issue because think you've found a problem with BackSlash TV, or you'd like to make a request for a new feature in the codebase, or any other reason… please read this first.
 
 The GitHub issue tracker is the preferred channel for [bug reports](#bug-reports),
 [feature requests](#feature-requests), [change requests](#change-requests) and [submitting pull
@@ -67,8 +67,8 @@ Any other information you want to share that is relevant to the issue being repo
 
 ### Technical details:
 
-* Popcorn Time Version: stable 0.3.7
-* Downloaded from: popcorntime.sh
+* BackSlash TV Version: stable 0.1.0
+* Downloaded from: Github
 * Connection: 10mbs
 * OS: MAC OSX
 ```
@@ -77,19 +77,17 @@ Any other information you want to share that is relevant to the issue being repo
 
 Feature requests are welcome. Before you submit one be sure to have:
 
-1. Read the [Roadmap](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/RoadMap.md) and
-[Planned Features](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Planned-Features.md) listing, **use the Github Issues search** and check the feature hasn't already been requested.
-2. Take a moment to think about whether your idea fits with the scope and aims of the project, or if it might
+1. Take a moment to think about whether your idea fits with the scope and aims of the project, or if it might
 better fit being an app/plugin.
-3. Remember, it's up to *you* to make a strong case to convince the project's leaders of the merits of this
+2. Remember, it's up to *you* to make a strong case to convince the project's leaders of the merits of this
 feature. Please provide as much detail and context as possible, this means explaining the use case and why it is
 likely to be common.
-4. Clearly indicate whether this is a feature request for Core, or for packages.
+3. Clearly indicate whether this is a feature request for Core, or for packages.
 
 
 ### Change Requests
 
-Change requests cover both architectural and functional changes to how Popcorn Time works. If you have an idea for a
+Change requests cover both architectural and functional changes to how BackSlash TV works. If you have an idea for a
 new or different dependency, a refactor, or an improvement to a feature, etc  - please be sure to:
 
 1. **Use the GitHub search** and check someone else didn't get there first.
@@ -112,7 +110,7 @@ all the guidelines on:
 ##### Need Help?
 
 If you're not completely clear on how to submit / update / *do* Pull Requests, please check out our in depth
-[Git Workflow guide](https://github.com/popcorn-official/popcorn-desktop/blob/master/docs/Git-Workflow.md#git-workflow) for Popcorn Time.
+[Git Workflow guide](https://github.com/popcorn-official/popcorn-desktop/blob/master/docs/Git-Workflow.md#git-workflow) for BackSlash TV.
 
 
 ### Translation
@@ -120,7 +118,7 @@ If you're not completely clear on how to submit / update / *do* Pull Requests, p
 For translations please go to: [Transifex](https://www.transifex.com/popcorn-time/public/)
 
 
-## Working on Popcorn Time Core
+## Working on BackSlash TV Core
 
 **Pre-requisites:**
 
@@ -143,7 +141,7 @@ Pulling down the latest changes from master will often require more than just a 
 
 ## Contributor License Agreement
 
-By contributing your code to Popcorn Time you grant the Popcorn Time Project a non-exclusive, irrevocable, worldwide,
+By contributing your code to BackSlash TV you grant the BackSlash TV Project a non-exclusive, irrevocable, worldwide,
 royalty-free, sublicenseable, transferable license under all of Your relevant intellectual property rights
 (including copyright, patent, and any other rights), to use, copy, prepare derivative works of, distribute and
 publicly perform and display the Contributions on any licensing terms, including without limitation:
@@ -160,7 +158,7 @@ claims, or has the right to claim, any right in any invention or patent related 
 represent that You are not legally obligated, whether by entering into an agreement or otherwise, in any way that
 conflicts with the terms of this license.
 
-The Popcorn Time Project acknowledges that, except as explicitly described in this Agreement, any Contribution which
+The BackSlash TV Project acknowledges that, except as explicitly described in this Agreement, any Contribution which
 you provide is on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED,
 INCLUDING, WITHOUT LIMITATION, ANY WARRANTIES OR CONDITIONS OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS
 FOR A PARTICULAR PURPOSE.

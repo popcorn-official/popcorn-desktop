@@ -347,7 +347,6 @@ Section
     ;Add the files
     File "..\..\package.json"
     File "..\..\build\${APP_NAME}\${ARCH}\${APP_LAUNCHER}"
-    File "..\..\CHANGELOG.md"
     File /nonfatal "..\..\.git.json"
 
     ;Set output path to InstallDir

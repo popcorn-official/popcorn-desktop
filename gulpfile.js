@@ -415,7 +415,6 @@ gulp.task('nwjs', () => {
         '!./src/app/styl/**',
         './package.json',
         './README.md',
-        './CHANGELOG.md',
         './LICENSE.txt',
         './.git.json'
       ];
