@@ -132,10 +132,10 @@
                     }, 5000);
                     var leet = torrentCollection.leet;
                     leet.search({query:input.toLocaleLowerCase()}).then(function (data) {
-                        console.debug('1337x search: %s results', data.length);
+                        console.debug('1337x search: %s results', data.torrents.length);
                         var indx = 1, totl = data.length;
-                        data.forEach(function (item) {
-                            leet.info(item.href).then(function (ldata) {
+                        data.torrents.forEach(function (item) {
+                            leet.info('https://1337x.to' + item.href).then(function (ldata) {
                                 var itemModel = {
                                     title: ldata.title,
                                     magnet: ldata.download.magnet,
