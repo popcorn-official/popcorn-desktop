@@ -1700,10 +1700,10 @@ detect-libc@^1.0.2:
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
   integrity sha1-+hN8S9aY7fVc1c0CrFWfkaTEups=
 
-dlnacasts2@0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/dlnacasts2/-/dlnacasts2-0.1.2.tgz#86c63d929788eedd83f20c34955716a02d2fcd6e"
-  integrity sha512-myJA3FYSE/NQNUPd/8TOzYIJYda9tBloXyxfF8l7iRJXoyNF5pksodx+rbsPlWBLRQEyE5nI5/kN6cx78HLg0Q==
+dlnacasts2@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/dlnacasts2/-/dlnacasts2-0.2.0.tgz#cdef0881d764d2c0d36bd4f912c2f6c191f0303e"
+  integrity sha512-Je9+AnqJy4ecw8L5IdajueeTuAIYzXHl8lKNWFs3wIbVEZ9Jq0WyxiqHuVw/Xe0dKOHtJlgmkuZKfZc/W/oujw==
   dependencies:
     debug "^2.1.3"
     mime "^1.3.4"
@@ -1711,7 +1711,7 @@ dlnacasts2@0.1.2:
     run-parallel "^1.1.6"
     simple-get "^2.1.0"
     thunky "^0.1.0"
-    upnp-mediarenderer-client "^1.2.2"
+    upnp-mediarenderer-client "^1.4.0"
     xml2js "^0.4.8"
 
 dns-equal@^1.0.0:
@@ -7100,10 +7100,10 @@ upnp-device-client@^1.0.0:
     elementtree "~0.1.6"
     network-address "^1.0.0"
 
-upnp-mediarenderer-client@^1.2.2:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/upnp-mediarenderer-client/-/upnp-mediarenderer-client-1.2.4.tgz#0c63a51802082b6b03b596c475cc64fc1e0877c8"
-  integrity sha1-DGOlGAIIK2sDtZbEdcxk/B4Id8g=
+upnp-mediarenderer-client@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/upnp-mediarenderer-client/-/upnp-mediarenderer-client-1.4.0.tgz#06788675c00223d90f605f7971587ab8f3c6783b"
+  integrity sha512-F+C3Yceoz0j3ZWEchz5tpaOEqkbpObRUmeuPGc9+2u2YvC1CDbXGQ6mjbM10MDhnUJ0tTWYTufpj6xsWctnULw==
   dependencies:
     debug "^2.1.3"
     elementtree "^0.1.6"
