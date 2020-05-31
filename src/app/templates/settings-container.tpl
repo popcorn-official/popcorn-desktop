@@ -363,7 +363,7 @@
                     </span>
                     <span>
                         <div class="btn-settings syncTrakt" id="authTrakt">
-                            <i class="fa fa-user-plus">&nbsp;&nbsp;</i>
+                            <i class="fa fa-user">&nbsp;&nbsp;</i>
                             <%= i18n.__("Connect To %s", "Trakt") %>
                         </div>
                         <div id="authTraktCode" style="display:none">
@@ -390,7 +390,7 @@
 				<% } else { %>
                     <span>
                         <div class="btn-settings" id="connect-with-tvst">
-                            <i class="fa fa-user-plus">&nbsp;&nbsp;</i>
+                            <i class="fa fa-user">&nbsp;&nbsp;</i>
                             <%= i18n.__("Connect To %s", "TVShow Time") %>
                         </div>
                         <div class="tvst-loading-spinner" style="display: none"></div>
@@ -422,14 +422,17 @@
 						<p><%= i18n.__("Password") %></p>
 						<input type="password" size="50" id="opensubtitlesPassword" name="opensubtitlesPassword">
 					</span>
-                    <span>
-                        <div class="btn-settings" id="authOpensubtitles">
-                            <i class="fa fa-user-plus">&nbsp;&nbsp;</i>
+                    <div class="btns database">
+                        <div class="btn-settings database" id="authOpensubtitles">
+                            <i class="fa fa-user">&nbsp;&nbsp;</i>
                             <%= i18n.__("Connect To %s", "OpenSubtitles") %>
                         </div>
-                    </span>
+                        <a class="btn-settings database links" href="https://www.opensubtitles.org/newuser" role="button">
+                            <i class="fa fa-user-plus">&nbsp;&nbsp;</i><%= i18n.__("Create account") %>
+                        </a>
+                    </div>                    
 					<span>
-						<em><%= i18n.__("%s stores an encrypted hash of your password in your local database", Settings.projectName) %></em>
+						<em><%= i18n.__("* %s stores an encrypted hash of your password in your local database", Settings.projectName) %></em>
 					</span>
                 <% } %>
                 <span class="advanced">
