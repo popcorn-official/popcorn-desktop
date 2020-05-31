@@ -477,7 +477,7 @@
                 }
             }
 
-            if (state === 'ready' && !this.subtitleReady) {
+            if ((state === 'ready' || state === 'playingExternally') && !this.subtitleReady) {
                 state = 'waitingForSubtitles'; // can be played but subs aren't there yet
             }
             this.stateModel.set('state', state);
@@ -534,17 +534,12 @@
                                         type: 'error',
                                         autoclose: true
                                     }));
-                                    // if 0 subtitles found code will not stuck at 'waiting for subtitle'
-                                    this.subtitleReady = true;
                                 } else {
                                     App.SubtitlesServer.start(res);
                                     this.subtitleReady = true;
                                     this.streamInfo.set('subServer', 'http://127.0.0.1/data.vtt');
                                 }
                             }.bind(this));
-                        }
-                        else {
-                            this.subtitleReady = true;
                         }
 
                     }.bind(this));
