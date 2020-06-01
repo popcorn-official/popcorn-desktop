@@ -81,57 +81,21 @@
             $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
 
             var index = 0;
-
-            var cpasbien = function () {
-                return new Promise(function (resolve) {
-                    var results = [];
-                    setTimeout(function () {
-                        resolve(results);
-                    }, 5000);
-                    var cpb = new torrentCollection.Cpb();
-
-                    var scope = category.toLocaleLowerCase();
-                    if (scope === 'tv' || scope === 'anime') {
-                        scope = 'tvshow';
-                    }
-
-                    cpb.Search(input.toLocaleLowerCase(), {
-                        scope: scope,
-                        language: 'FR'
-                    }).then(function (data) {
-                        console.debug('cpasbien search: %s results', data.items.length);
-                        data.items.forEach(function (item) {
-                            var itemModel = {
-                                title: item.title,
-                                magnet: item.torrent,
-                                seeds: item.seeds,
-                                peers: item.leechs,
-                                size: item.size,
-                                index: index
-                            };
-
-                            if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
-                                return;
-                            }
-                            results.push(itemModel);
-                            index++;
-                        });
-                        resolve(results);
-                    }).catch(function (err) {
-                        console.error('cpasbien search:', err);
-                        resolve(results);
-                    });
-                });
-            };
+            console.warn(category);
 
             var leetx = function () {
                 return new Promise(function (resolve) {
                     var results = [];
                     setTimeout(function () {
                         resolve(results);
-                    }, 5000);
+                    }, 6000);
                     var leet = torrentCollection.leet;
-                    leet.search({query:input.toLocaleLowerCase()}).then(function (data) {
+                    leet.search({
+                        query: input.toLocaleLowerCase(),
+                        category: category,
+                        orderBy: 'seeders',
+                        sortBy: 'desc',
+                    }).then(function (data) {
                         console.debug('1337x search: %s results', data.torrents.length);
                         var indx = 1, totl = data.length;
                         data.torrents.forEach(function (item) {
@@ -161,15 +125,57 @@
                 });
             };
 
+            var omgtorrent = function () {
+                return new Promise(function (resolve) {
+                    var results = [];
+                    setTimeout(function () {
+                        resolve(results);
+                    }, 6000);
+                    var omg = torrentCollection.omg;
+                    omg.search({
+                        query: input.toLocaleLowerCase(),
+                        type: category.toLocaleLowerCase() === 'movies' ? 'films' : 'series',
+                        order: 'seeders',
+                        orderBy: 'desc',
+                    }).then(function (data) {
+                        console.debug('OMG search: %s results', data.torrents.length);
+                        var indx = 1, totl = data.length;
+                        data.torrents.forEach(function (item) {
+                            omg.info(item.href).then(function (ldata) {
+                                var itemModel = {
+                                    title: ldata.title,
+                                    magnet: ldata.download.magnet,
+                                    seeds: ldata.seeders,
+                                    peers: ldata.leechers,
+                                    size: ldata.size,
+                                    index: index
+                                };
+                                indx++;
+                                if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
+                                    return;
+                                }
+                                results.push(itemModel);
+                                index++;
+                            }).catch(function (err) {
+                                throw 'OMG info failed';
+                            });
+                        });
+                    }).catch(function (err) {
+                        console.error('OMG search:', err);
+                        resolve(results);
+                    });
+                });
+            };
+
             var piratebay = function () {
                 return new Promise(function (resolve) {
                     var results = [];
                     setTimeout(function () {
                         resolve(results);
-                    }, 5000);
+                    }, 6000);
                     var tpb = torrentCollection.tpb;
                     tpb.search(input.toLocaleLowerCase(), {
-                        category: 0,
+                        category: 'video',
                         page : 0,
                         orderBy: 'seeds',
                         sortBy: 'desc'
@@ -208,11 +214,11 @@
                     var results1 = [];
                     setTimeout(function () {
                         resolve(results1);
-                    }, 5000);
+                    }, 6000);
                     var rbg = torrentCollection.rbg;
                     rbg.search({
                         query: input.toLocaleLowerCase(),
-                        category: category.toLocaleLowerCase(),
+                        category: category.toLocaleLowerCase() === 'movies' ? 'movies' : 'tv',
                         sort: 'seeders',
                         verified: false
                     }).then(function (results) {
@@ -271,7 +277,9 @@
             $('.notorrents-info,.torrents-info').hide();
             return Promise.all([
                 leetx(),
-                piratebay()
+                omgtorrent(),
+                rarbg(),
+                piratebay(),
             ]).then(function (results) {
                 var items = sortBySeeds(removeDupes(results));
                 console.log('search providers: %d results', items.length);
