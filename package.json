@@ -55,7 +55,7 @@
     "butter-settings-popcorntime.io": "0.0.4",
     "chromecast-api": "0.3.3",
     "defer-request": "0.0.3",
-    "dlnacasts2": "0.1.2",
+    "dlnacasts2": "0.2.0",
     "es6-object-assign": "^1.0.1",
     "gitlab": "1.4.1",
     "i18n": "0.x.x",

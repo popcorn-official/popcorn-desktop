@@ -40,6 +40,7 @@
                     title: Common.normalize(streamModel.get('title'))
                 };
             }
+            media.dlnaFeatures = 'DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01100000000000000000000000000000';
             win.info('DLNA: play ' + url + ' on \'' + this.get('name') + '\'');
             win.info('DLNA: connecting to ' + this.player.host);
 
