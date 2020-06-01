@@ -446,7 +446,7 @@
         ) {
           App.currentview = App.previousview;
           App.vent.trigger(App.previousview.toLowerCase() + ':list', []);
-          this.setactive(App.currentview);
+          this.setActive(App.currentview);
         } else {
           App.vent.trigger('about:close');
           App.vent.trigger('torrentCollection:close');
