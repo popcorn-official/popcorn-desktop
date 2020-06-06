@@ -362,7 +362,7 @@
                         torrentCol.css('display', 'block');
                     } else {
                         torrentCol.css('display', 'none');
-                        App.vent.trigger('torrentCollection:close');
+                        App.vent.trigger('torrent-collection:close');
                         App.vent.trigger('seedbox:close');
                     }
                     break;

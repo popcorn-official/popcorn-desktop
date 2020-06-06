@@ -175,7 +175,7 @@
                         }
                     }
 
-                    App.vent.trigger('torrentCollection:close');
+                    App.vent.trigger('torrent-collection:close');
                     App.vent.trigger('seedbox:close');
                     App.vent.trigger(App.currentview + ':list', []);
                     $('.filter-bar').find('.active').removeClass('active');
@@ -197,7 +197,7 @@
                         break;
                     }
 
-                    App.vent.trigger('torrentCollection:close');
+                    App.vent.trigger('torrent-collection:close');
                     App.vent.trigger('seedbox:close');
                     App.vent.trigger(App.currentview + ':list', []);
                     $('.filter-bar').find('.active').removeClass('active');

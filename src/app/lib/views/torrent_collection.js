@@ -574,7 +574,7 @@
         },
 
         closeTorrentCollection: function () {
-            App.vent.trigger('torrentCollection:close');
+            App.vent.trigger('torrent-collection:close');
         }
 
     });

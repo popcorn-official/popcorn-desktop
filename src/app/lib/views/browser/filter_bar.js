@@ -84,7 +84,7 @@
         .find('.active')
         .removeClass('active');
       switch (set) {
-        case 'TV Series':
+        case 'Shows':
         case 'shows':
           $('.source.tvshowTabShow').addClass('active');
           break;
@@ -250,7 +250,7 @@
     },
     search: function(e) {
       App.vent.trigger('about:close');
-      App.vent.trigger('torrentCollection:close');
+      App.vent.trigger('torrent-collection:close');
       App.vent.trigger('seedbox:close');
       App.vent.trigger('movie:closeDetail');
       e.preventDefault();
@@ -278,7 +278,7 @@
       this.ui.searchInput.focus();
 
       App.vent.trigger('about:close');
-      App.vent.trigger('torrentCollection:close');
+      App.vent.trigger('torrent-collection:close');
       App.vent.trigger('seedbox:close');
       App.vent.trigger('movie:closeDetail');
 
@@ -298,7 +298,7 @@
 
     sortBy: function(e) {
       App.vent.trigger('about:close');
-      App.vent.trigger('torrentCollection:close');
+      App.vent.trigger('torrent-collection:close');
       App.vent.trigger('seedbox:close');
       this.$('.sorters .active').removeClass('active');
       $(e.target).addClass('active');
@@ -324,7 +324,7 @@
 
     changeType: function(e) {
       App.vent.trigger('about:close');
-      App.vent.trigger('torrentCollection:close');
+      App.vent.trigger('torrent-collection:close');
       App.vent.trigger('seedbox:close');
       this.$('.types .active').removeClass('active');
       $(e.target).addClass('active');
@@ -367,124 +367,46 @@
     },
 
     showTorrentCollection: function(e) {
-      e.preventDefault();
-
-      if (App.currentview !== 'Torrent-collection') {
-        App.previousview = App.currentview;
-        App.currentview = 'Torrent-collection';
-        App.vent.trigger('about:close');
-        App.vent.trigger('seedbox:close');
-        App.vent.trigger('torrentCollection:show');
-        this.setActive('Torrent-collection');
-      } else {
-        App.currentview = App.previousview;
-        App.vent.trigger('torrentCollection:close');
-        this.setActive(App.currentview);
-      }
+      this.toggleTab(e, 'Torrent-collection');
     },
 
     showSeedbox: function(e) {
-      e.preventDefault();
-      if (App.currentview !== 'Seedbox') {
-        App.previousview = App.currentview;
-        App.currentview = 'Seedbox';
-        App.vent.trigger('about:close');
-        App.vent.trigger('seedbox:show');
-        this.setActive('Seedbox');
-      } else {
-        App.currentview = App.previousview;
-        App.vent.trigger('seedbox:close');
-        this.setActive(App.currentview);
-      }
+      this.toggleTab(e, 'Seedbox');
     },
 
     tvshowTabShow: function(e) {
-      e.preventDefault();
-      App.currentview = 'shows';
-      App.vent.trigger('about:close');
-      App.vent.trigger('torrentCollection:close');
-      App.vent.trigger('seedbox:close');
-      App.vent.trigger('shows:list', []);
-      this.setActive('TV Series');
+      this.toggleTab(e, 'Shows');
     },
 
     animeTabShow: function(e) {
-      e.preventDefault();
-      App.currentview = 'anime';
-      App.vent.trigger('about:close');
-      App.vent.trigger('torrentCollection:close');
-      App.vent.trigger('seedbox:close');
-      App.vent.trigger('anime:list', []);
-      this.setActive('Anime');
+      this.toggleTab(e, 'Anime');
     },
     movieTabShow: function(e) {
-      e.preventDefault();
-
-      App.currentview = 'movies';
-      App.vent.trigger('about:close');
-      App.vent.trigger('torrentCollection:close');
-      App.vent.trigger('seedbox:close');
-      App.vent.trigger('movies:list', []);
-      this.setActive('Movies');
+      this.toggleTab(e, 'Movies');
     },
 
     showFavorites: function(e) {
-      e.preventDefault();
-
-      if (App.currentview !== 'Favorites') {
-        App.previousview = App.currentview;
-        App.currentview = 'Favorites';
-        App.vent.trigger('about:close');
-        App.vent.trigger('torrentCollection:close');
-        App.vent.trigger('seedbox:close');
-        App.vent.trigger('favorites:list', []);
-        this.setActive('Favorites');
-      } else {
-        if (
-          $('#movie-detail').html().length === 0 &&
-          $('#about-container').html().length === 0
-        ) {
-          App.currentview = App.previousview;
-          App.vent.trigger(App.previousview.toLowerCase() + ':list', []);
-          this.setActive(App.currentview);
-        } else {
-          App.vent.trigger('about:close');
-          App.vent.trigger('torrentCollection:close');
-          App.vent.trigger('seedbox:close');
-          App.vent.trigger('favorites:list', []);
-          this.setActive('Favorites');
-        }
-      }
+      this.toggleTab(e, 'Favorites');
     },
 
     showWatchlist: function(e) {
+      this.toggleTab(e, 'Watchlist');
+    },
+
+    toggleTab: function(e, tabName) {
       e.preventDefault();
 
-      if (App.currentview !== 'Watchlist') {
+      if (App.currentview !== tabName) {
         App.previousview = App.currentview;
-        App.currentview = 'Watchlist';
+        App.currentview = tabName;
+
         App.vent.trigger('about:close');
-        App.vent.trigger('torrentCollection:close');
+        App.vent.trigger('torrent-collection:close');
         App.vent.trigger('seedbox:close');
-        App.vent.trigger('watchlist:list', []);
-        this.setActive('Watchlist');
-      } else {
-        if (
-          $('#movie-detail').html().length === 0 &&
-          $('#about-container').html().length === 0
-        ) {
-          App.currentview = App.previousview;
-          App.vent.trigger(App.previousview.toLowerCase() + ':list', []);
-          this.setActive(App.currentview);
-        } else {
-          App.vent.trigger('about:close');
-          App.vent.trigger('torrentCollection:close');
-          App.vent.trigger('seedbox:close');
-          App.vent.trigger('watchlist:list', []);
-          this.setActive('Watchlist');
-        }
+        App.vent.trigger(tabName.toLowerCase().replace(/\s/g, '') + ':list', []);
+
+        this.setActive(tabName);
       }
-      return false;
     },
 
     updateDB: function(e) {

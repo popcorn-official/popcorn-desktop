@@ -159,7 +159,7 @@
             this.isTorrentStored(); // trigger button change
 
             if (App.currentview === 'Torrent Collection') {
-                App.vent.trigger('torrentCollection:show'); // refresh collection
+                App.vent.trigger('torrent-collection:list'); // refresh collection
             }
         },
 

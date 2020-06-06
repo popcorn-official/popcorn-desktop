@@ -213,7 +213,7 @@
         : defaultTorrent;
 
       App.vent.trigger('stream:download', torrent);
-      App.vent.trigger('seedbox:show');
+      App.vent.trigger('seedbox:list');
     },
 
     startStreaming: function() {

@@ -123,11 +123,11 @@
 
       // Torrent collection
       App.vent.on(
-        'torrentCollection:show',
+        'torrent-collection:list',
         _.bind(this.showTorrentCollection, this)
       );
       App.vent.on(
-        'torrentCollection:close',
+        'torrent-collection:close',
         _.bind(
           this.getRegion('TorrentCollection').empty,
           this.getRegion('TorrentCollection')
@@ -136,7 +136,7 @@
 
       // Seedbox collection
       App.vent.on(
-        'seedbox:show',
+        'seedbox:list',
         _.bind(this.showSeedbox, this)
       );
 
@@ -297,7 +297,7 @@
         switch (openScreen) {
           case 'Watchlist': that.showWatchlist(); break;
           case 'Favorites': that.showFavorites(); break;
-          case 'TV Series': that.tvshowTabShow(); break;
+          case 'Shows': that.tvshowTabShow(); break;
           case 'Anime': that.animeTabShow(); break;
           case 'Torrent-collection':
             that.movieTabShow(); //needed because Torrentcollection isnt a real collection

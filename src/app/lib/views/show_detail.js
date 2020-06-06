@@ -506,7 +506,7 @@
         downloadTorrent: function(e) {
           var torrent = $(e.currentTarget).attr('data-torrent');
           App.vent.trigger('stream:download', torrent);
-          App.vent.trigger('seedbox:show');
+          App.vent.trigger('seedbox:list');
         },
 
         closeDetails: function (e) {
