@@ -6,6 +6,14 @@
     <div class="cover-overlay cover-info-overlay">
         <i class="fa fa-heart actions-favorites tooltipped" data-toggle="tooltip" data-placement="auto bottom" data-delay='{ "show": "800", "hide": "100" }'></i>
         <i class="fa fa-eye actions-watched tooltipped" data-toggle="tooltip" data-placement="auto bottom" data-delay='{ "show": "800", "hide": "100" }'></i>
+        <%
+          const torrentsInfo = Object.keys(torrents).map(quality => `[${quality}] ${torrents?.[quality]?.seed} `)
+        %>
+        <div class="qualitys">
+        <% _.each(torrentsInfo, function(info) { %>
+            <div class="qualityInfo"><span><%= info %></span><span class="seedEmoji">🔺</span></div>
+                <% }); %>
+        </div>
 
         <% if(typeof rating !== 'undefined'){
         var p_rating = Math.round(rating) / 2;  %>
