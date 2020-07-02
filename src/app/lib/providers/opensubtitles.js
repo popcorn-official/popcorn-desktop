@@ -13,14 +13,40 @@
     };
 
     var normalizeLangCodes = function (data) {
-        if ('pb' in data) {
-            data['pt-br'] = data['pb'];
-            delete data['pb'];
-        }
+        Object.keys(data).forEach(function(key,index) {
+            if (key === 'pb' || key.indexOf('pb|') === 0) {
+                data[key.replace('pb','pt-br')] = data[key];
+                delete data[key];
+            }
+        });
         return data;
     };
 
-    var formatForButter = function (data) {
+    var formatForButter = function (data_obj) {
+        var data = {};
+        var multi_id = 0;
+        var multi_langcode = '';
+        var multi_urls = {};
+
+        // formating subtitle object data to pre-multiple subtitle format
+        for (const[langcode,value] of Object.entries(data_obj)) {
+            multi_id = 1;
+            multi_urls = {};
+            value.forEach(function(subtitle) {
+                // filtering out already existing urls
+                if ( !(subtitle.url in multi_urls) ) {
+                    multi_langcode = langcode;
+                    if (multi_id > 1) {
+                        // first subtitle without multi-subtitle format because of defaultSubtitle from settings
+                        multi_langcode += '|' + multi_id.toString();
+                    }
+                    data[multi_langcode] = subtitle;
+                    multi_urls[subtitle.url] = '';
+                    multi_id++;
+                }
+            });
+        }
+
         data = normalizeLangCodes(data);
         for (var lang in data) {
             data[lang] = data[lang].url;
@@ -32,13 +58,13 @@
     };
 
     OpenSubtitles.prototype.fetch = function (queryParams) {
-      openSRT = new OS({
-          useragent: 'Popcorn Time NodeJS',
-          username: AdvSettings.get('opensubtitlesUsername'),
-          password: AdvSettings.get('opensubtitlesPassword')
-      });
+        openSRT = new OS({
+            useragent: 'Popcorn Time NodeJS',
+            username: AdvSettings.get('opensubtitlesUsername'),
+            password: AdvSettings.get('opensubtitlesPassword')
+        });
         queryParams.extensions = ['srt'];
-
+        queryParams.limit = 'all';
         return openSRT.search(queryParams)
             .then(formatForButter);
     };
@@ -47,7 +73,7 @@
         return this.fetch({
             imdbid: id
         }).then(function (data) {
-          App.vent.trigger('update:subtitles', data);
+            App.vent.trigger('update:subtitles', data);
             return {
                 subtitle: data
             };
@@ -55,11 +81,11 @@
     };
 
     OpenSubtitles.prototype.upload = function (queryParams) {
-      openSRT = new OS({
-          useragent: 'Popcorn Time NodeJS',
-          username: AdvSettings.get('opensubtitlesUsername'),
-          password: AdvSettings.get('opensubtitlesPassword')
-      });
+        openSRT = new OS({
+            useragent: 'Popcorn Time NodeJS',
+            username: AdvSettings.get('opensubtitlesUsername'),
+            password: AdvSettings.get('opensubtitlesPassword')
+        });
         return openSRT.upload(queryParams);
     };
 
