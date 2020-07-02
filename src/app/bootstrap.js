@@ -52,7 +52,7 @@
   }
 
   function loadProvidersJSON(fn) {
-    App.Npm = require('../../package.json');
+    App.Npm = nw.App.manifest;
 
     return App.Npm.providers.map(function(providerPath) {
       win.info('loading npm', providerPath);
@@ -61,7 +61,7 @@
   }
 
   function loadFromPackageJSON(regex, fn) {
-    App.Npm = require('../../package.json');
+    App.Npm = nw.App.manifest;
 
     var packages = Object.keys(App.Npm.dependencies).filter(function(p) {
       return p.match(regex);
