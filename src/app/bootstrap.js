@@ -5,6 +5,7 @@
   /* load all the things ! */
   var Q = require('q');
   var fs = require('fs');
+  var path = require('path');
 
   function loadLocalProviders() {
     var appPath = '';
@@ -56,7 +57,7 @@
 
     return App.Npm.providers.map(function(providerPath) {
       win.info('loading npm', providerPath);
-      return loadFromNPM(`./${providerPath}`, fn);
+      return loadFromNPM(path.join(nw.App.startPath, '/src/app/', providerPath), fn);
     });
   }
 
