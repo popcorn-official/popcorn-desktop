@@ -57,7 +57,7 @@
 
     return App.Npm.providers.map(function(providerPath) {
       win.info('loading npm', providerPath);
-      return loadFromNPM(path.join(nw.App.startPath, '/src/app/', providerPath), fn);
+      return loadFromNPM(path.join(nw.App.startPath, 'src', 'app', providerPath), fn);
     });
   }
 
