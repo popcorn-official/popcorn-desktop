@@ -2,8 +2,7 @@
   'use strict';
   // Torrent Health
   var torrentHealth = require('webtorrent-health'),
-    cancelTorrentHealth = function() {},
-    torrentHealthRestarted = null;
+    healthButton;
 
   var _this;
   App.View.MovieDetail = Marionette.View.extend({
@@ -38,6 +37,9 @@
     initialize: function() {
       _this = this;
       this.views = {};
+
+      healthButton = new Common.HealthButton('.health-icon', this.retrieveTorrentHealth.bind(this));
+
       //Handle keyboard shortcuts when other views are appended or removed
 
       //If a child was removed from above this view
@@ -56,7 +58,7 @@
 
       App.vent.on('shortcuts:movies', _this.initKeyboardShortcuts);
 
-      App.vent.on('change:quality', this.renderHealth, this);
+      App.vent.on('change:quality', healthButton.render, this);
     },
 
     toggleShowQuality: function(e) {
@@ -77,6 +79,7 @@
     },
 
     refreshUiQuality: function() {
+      win.debug('quality changed');
       const quality = this.model.get('quality');
       const torrents = this.model.get('torrents');
 
@@ -109,19 +112,21 @@
         $('.q1080').removeClass('active');
       }
 
-      this.renderHealth();
+      win.debug('about to render health button');
+      healthButton.render();
     },
 
     onAttach: function() {
       win.info('Show movie detail (' + this.model.get('imdb_id') + ')');
+      console.log('cat');
 
       App.MovieDetailView = this;
 
       this.hideUnused();
       this.loadImages();
       this.loadComponents();
-      this.renderHealth();
       this.initKeyboardShortcuts();
+      healthButton.render();
 
       this.refreshUiQuality();
     },
@@ -261,69 +266,9 @@
       App.vent.trigger('movie:closeDetail');
     },
 
-    renderHealth: function(e) {
-      var torrent = this.model.get('torrents')[this.model.get('quality')];
-
-      cancelTorrentHealth();
-
-      // Use fancy coding to cancel
-      // pending webtorrent-health's
-      var cancelled = false;
-      cancelTorrentHealth = function() {
-        cancelled = true;
-      };
-
-      if (torrent.url.substring(0, 8) === 'magnet:?') {
-        // if 'magnet:?' is because api sometimes sends back links, not magnets
-        torrentHealth(
-          torrent.url,
-          {
-            timeout: 1000,
-            trackers: Settings.trackers.forced
-          },
-          function(err, res) {
-            if (cancelled || err) {
-              return;
-            }
-            if (res.seeds === 0 && torrentHealthRestarted < 5) {
-              torrentHealthRestarted++;
-              $('.health-icon').click();
-            } else {
-              torrentHealthRestarted = 0;
-              var h = Common.calcHealth({
-                seed: res.seeds,
-                peer: res.peers
-              });
-              var health = Common.healthMap[h].capitalize();
-              var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
-
-              $('.health-icon')
-                .tooltip({
-                  html: true
-                })
-                .removeClass('Bad Medium Good Excellent')
-                .addClass(health)
-                .attr(
-                  'data-original-title',
-                  i18n.__('Health ' + health) +
-                    ' - ' +
-                    i18n.__('Ratio:') +
-                    ' ' +
-                    ratio.toFixed(2) +
-                    ' <br> ' +
-                    i18n.__('Seeds:') +
-                    ' ' +
-                    res.seeds +
-                    ' - ' +
-                    i18n.__('Peers:') +
-                    ' ' +
-                    res.peers
-                )
-                .tooltip('fixTitle');
-            }
-          }
-        );
-      }
+    retrieveTorrentHealth: function(cb) {
+      const torrent = this.model.get('torrents')[this.model.get('quality')];
+      Common.retrieveTorrentHealth(torrent, cb);
     },
 
     openIMDb: function() {

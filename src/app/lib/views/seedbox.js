@@ -1,147 +1,141 @@
 (function (App) {
-    'use strict';
+	'use strict';
 
-    var clipboard = nw.Clipboard.get(),
-        torrentsDir = path.join(App.settings.tmpLocation + '/TorrentCache/');
+	var clipboard = nw.Clipboard.get(),
+		torrentsDir = path.join(App.settings.tmpLocation + '/TorrentCache/');
 
-    var formatBytes = function (bytes, decimals) {
-       if(bytes === 0) {
-         return '0 Bytes';
-       }
+	var formatBytes = function (bytes, decimals) {
+		if (bytes === 0) {
+			return '0 Bytes';
+		}
 
-       let k = 1024,
-           dm = decimals || 2,
-           sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-           i = Math.floor(Math.log(bytes) / Math.log(k));
-       return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-    };
+		let k = 1024,
+			dm = decimals || 2,
+			sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+			i = Math.floor(Math.log(bytes) / Math.log(k));
+		return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+	};
 
-    var Seedbox = Marionette.View.extend({
-        template: '#seedbox-tpl',
-        className: 'seedbox',
+	var Seedbox = Marionette.View.extend({
+		template: '#seedbox-tpl',
+		className: 'seedbox',
 
-        events: {
-            'mousedown .file-item': 'openFileSelector',
-            'mousedown .result-item': 'onlineOpen',
-            'mousedown .item-delete': 'deleteItem',
-            'mousedown .item-rename': 'renameItem',
-            'mousedown .magnet-icon': 'openMagnet',
-            'mousedown .pause-torrent': 'pauseTorrent',
-            'mousedown .resume-torrent': 'resumeTorrent',
-            'mousedown .trash-torrent': 'removeTorrent',
-            'click .tab-torrent': 'clickTorrent',
-        },
+		events: {
+			'mousedown .file-item': 'openFileSelector',
+			'mousedown .result-item': 'onlineOpen',
+			'mousedown .item-delete': 'deleteItem',
+			'mousedown .item-rename': 'renameItem',
+			'mousedown .magnet-icon': 'openMagnet',
+			'mousedown .pause-torrent': 'pauseTorrent',
+			'mousedown .resume-torrent': 'resumeTorrent',
+			'mousedown .trash-torrent': 'removeTorrent',
+			'click .tab-torrent': 'clickTorrent',
+		},
 
-        initialize: function () {
-            if (!fs.existsSync(torrentsDir)) {
-                fs.mkdirSync(torrentsDir);
-                console.debug('Seedbox: data directory created');
-            }
+		initialize: function () {
+			if (!fs.existsSync(torrentsDir)) {
+				fs.mkdirSync(torrentsDir);
+				console.debug('Seedbox: data directory created');
+			}
 
-            App.WebTorrent.on('torrent', (torrent) => {
-              this.onNewTorrents(torrent);
-            });
+			App.WebTorrent.on('torrent', (torrent) => {
+				this.onAddTorrent(torrent);
+			});
 
-            App.WebTorrent.torrents.forEach((torrent) => {
-              this.onNewTorrents(torrent);
-            });
+			App.WebTorrent.torrents.forEach((torrent) => {
+				this.onAddTorrent(torrent);
+			});
 
-            setInterval(() => {
-              this.selectTorrent($('.tab-torrent.active'));
-            }, 1000);
-        },
+			setInterval(() => {
+				this.updateTorrentView($('.tab-torrent.active'));
+			}, 1000);
+		},
 
-        onAttach: function () {
-            Mousetrap.bind(['esc', 'backspace'], function (e) {
-                $('#filterbar-seedbox').click();
-            });
+		onAttach: function () {
+			Mousetrap.bind(['esc', 'backspace'], function (e) {
+				$('#filterbar-seedbox').click();
+			});
 
-            this.render();
-        },
+			this.render();
+		},
 
-        onRender: function () {
-            $('#online-input').focus();
-            this.$('.tooltipped').tooltip({
-                delay: {
-                    'show': 800,
-                    'hide': 100
-                }
-            });
-        },
+		onRender: function () {
+			$('#online-input').focus();
+			this.$('.tooltipped').tooltip({
+				delay: {
+					'show': 800,
+					'hide': 100
+				}
+			});
+		},
 
-        context_Menu: function (cutLabel, copyLabel, pasteLabel) {
-            var menu = new nw.Menu(),
+		context_Menu: function (cutLabel, copyLabel, pasteLabel) {
+			var menu = new nw.Menu(),
 
-                cut = new nw.MenuItem({
-                    label: cutLabel || 'Cut',
-                    click: function () {
-                        document.execCommand('cut');
-                    }
-                }),
+				cut = new nw.MenuItem({
+					label: cutLabel || 'Cut',
+					click: function () {
+						document.execCommand('cut');
+					}
+				}),
 
-                copy = new nw.MenuItem({
-                    label: copyLabel || 'Copy',
-                    click: function () {
-                        document.execCommand('copy');
-                    }
-                }),
+				copy = new nw.MenuItem({
+					label: copyLabel || 'Copy',
+					click: function () {
+						document.execCommand('copy');
+					}
+				}),
 
-                paste = new nw.MenuItem({
-                    label: pasteLabel || 'Paste',
-                    click: function () {
-                        var text = clipboard.get('text');
-                        $('#online-input').val(text);
-                    }
-                });
+				paste = new nw.MenuItem({
+					label: pasteLabel || 'Paste',
+					click: function () {
+						var text = clipboard.get('text');
+						$('#online-input').val(text);
+					}
+				});
 
-            menu.append(cut);
-            menu.append(copy);
-            menu.append(paste);
+			menu.append(cut);
+			menu.append(copy);
+			menu.append(paste);
 
-            return menu;
-        },
+			return menu;
+		},
 
-        onNewTorrents: function (torrent) {
-          setTimeout(() => {
-            $('.notorrents-info').hide();
-            if ($(`#${torrent.infoHash}`).length || !torrent.name) {
-              return;
-            }
+		onAddTorrent: function (torrent) {
+			torrent.once('ready', () => {
+				$('.notorrents-info').hide();
+				if ($(`#${torrent.infoHash}`).length || !torrent.name) {
+					return;
+				}
 
-            let activing = App.WebTorrent.torrents.filter(item => !item.paused).length;
-            if (!torrent.paused && activing >= Settings.maxActiveTorrents) {
-              this.pauseTorrent(null, torrent.infoHash);
-              torrent.paused = true;
-            }
+				const activeTorrentCount = App.WebTorrent.torrents.filter(item => !item.paused).length;
+				if (!torrent.paused && activeTorrentCount >= Settings.maxActiveTorrents) {
+					this.pauseTorrent(null, torrent.infoHash);
+					torrent.paused = true;
+				}
 
-            let lastUpdated = Date.now();
-            torrent.on('download', function (bytes) {
-              if (Date.now() - lastUpdated <= 1000) {
-                return;
-              }
+				let metricsLastUpdated = Date.now();
+				const timeBetweenMetricsUpdatesInMs = 1000;
+				const updateMetrics = () => {
+					if (Date.now() - metricsLastUpdated <= timeBetweenMetricsUpdatesInMs) {
+						return;
+					}
 
-              $(`#download-${torrent.infoHash}`).text(' ' + formatBytes(torrent.downloadSpeed) + '/s');
-              $(`#upload-${torrent.infoHash}`).text(' ' + formatBytes(torrent.uploadSpeed) + '/s');
-              lastUpdated = Date.now();
-            });
+					$(`#download-${torrent.infoHash}`).text(' ' + formatBytes(torrent.downloadSpeed) + '/s');
+					$(`#upload-${torrent.infoHash}`).text(' ' + formatBytes(torrent.uploadSpeed) + '/s');
+					metricsLastUpdated = Date.now();
+				};
 
-            torrent.on('upload', function (bytes) {
-              if (Date.now() - lastUpdated <= 1000) {
-                return;
-              }
+				torrent.on('download', updateMetrics);
+				torrent.on('upload', updateMetrics);
 
-              $(`#download-${torrent.infoHash}`).text(' ' + formatBytes(torrent.downloadSpeed) + '/s');
-              $(`#upload-${torrent.infoHash}`).text(' ' + formatBytes(torrent.uploadSpeed) + '/s');
-              lastUpdated = Date.now();
-            });
+				let className = 'tab-torrent';
+				if ($('.tab-torrent.active').length <= 0) {
+					className += ' active';
+				}
 
-            let className = 'tab-torrent';
-            if ($('.tab-torrent.active').length <= 0) {
-              className += ' active';
-            }
-
-            $('.seedbox-torrent-list>ul.file-list').append(
-              `<li class="${className}" id="${torrent.infoHash}" data-season="1" data-episode="10">
+				$('.seedbox-torrent-list>ul.file-list').append(
+					`<li class="${className}" id="${torrent.infoHash}" data-season="1" data-episode="10">
                 <a href="#" class="episodeData">
                     <span>1</span>
                     <div>${torrent.name}</div>
@@ -153,106 +147,124 @@
                 <i class="fa fa-upload watched" id="upload-${torrent.infoHash}"> 0 Kb/s</i>
                 <i class="fa fa-download watched" id="download-${torrent.infoHash}"> 0 Kb/s</i>
               </li>`
-            );
+				);
 
-            $('.seedbox-overview').show();
-          }, 500 + Math.floor(Math.random() * Math.floor(500)));
-        },
+				$('.seedbox-overview').show();
 
-        pauseTorrent: (e, id) => {
-          let hash = id || e.currentTarget.parentNode.getAttribute('id');
-          App.WebTorrent.torrents.forEach(torrent => {
-            if (torrent.infoHash === hash) {
-              torrent.pause();
-              // complete fause torrent, stop download data
-              for (const id in torrent._peers) {
-                torrent.removePeer(id);
-              }
+				this.updateHealth(torrent);
+			});
+		},
 
-              torrent._xsRequests.forEach(req => {
-                req.abort();
-              });
+		pauseTorrent: (e, id) => {
+			let hash = id || e.currentTarget.parentNode.getAttribute('id');
+			App.WebTorrent.torrents.forEach(torrent => {
+				if (torrent.infoHash === hash) {
+					torrent.pause();
+					// completely pause this torrent, stop download data
+					for (const id in torrent._peers) {
+						if (torrent._peers.hasOwnProperty(id)) {
+							torrent.removePeer(id);
+						}
+					}
 
-              $(`#resume-${torrent.infoHash}`).hide();
-              $(`#play-${torrent.infoHash}`).show();
-            }
-          });
-        },
+					torrent._xsRequests.forEach(req => {
+						req.abort();
+					});
 
-        resumeTorrent: (e, id) => {
-          let hash = id || e.currentTarget.parentNode.getAttribute('id');
-          App.WebTorrent.torrents.forEach(torrent => {
-            if (torrent.infoHash === hash) {
-              torrent.resume();
-              $(`#resume-${torrent.infoHash}`).show();
-              $(`#play-${torrent.infoHash}`).hide();
-            }
-          });
-        },
+					$(`#resume-${torrent.infoHash}`).hide();
+					$(`#play-${torrent.infoHash}`).show();
+				}
+			});
+		},
 
-        removeTorrent: (e) => {
-          let hash = e.currentTarget.parentNode.getAttribute('id');
-          App.WebTorrent.torrents.forEach(torrent => {
-            if (torrent.infoHash === hash) {
-              torrent.destroy(() => {
-                fs.unlinkSync(path.join(torrentsDir, torrent.infoHash));
-                rimraf(path.join(App.settings.tmpLocation, torrent.infoHash), () => {});
-              });
+		resumeTorrent: (e, id) => {
+			let hash = id || e.currentTarget.parentNode.getAttribute('id');
+			App.WebTorrent.torrents.forEach(torrent => {
+				if (torrent.infoHash === hash) {
+					torrent.resume();
+					$(`#resume-${torrent.infoHash}`).show();
+					$(`#play-${torrent.infoHash}`).hide();
+				}
+			});
+		},
 
-              $(`#${torrent.infoHash}`).remove();
-              if ($('.tab-torrent').length <= 0) {
-                $('.notorrents-info').show();
-                $('.seedbox-overview').hide();
-              }
-            }
-          });
-        },
+		removeTorrent: (e) => {
+			let hash = e.currentTarget.parentNode.getAttribute('id');
+			App.WebTorrent.torrents.forEach(torrent => {
+				if (torrent.infoHash === hash) {
+					torrent.destroy(() => {
+						fs.unlinkSync(path.join(torrentsDir, torrent.infoHash));
+						rimraf(path.join(App.settings.tmpLocation, torrent.infoHash), () => {
+						});
+					});
 
-        clickTorrent: function (e) {
-            if (e.type) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
+					$(`#${torrent.infoHash}`).remove();
+					if ($('.tab-torrent').length <= 0) {
+						$('.notorrents-info').show();
+						$('.seedbox-overview').hide();
+					}
+				}
+			});
+		},
 
-            $('.tab-torrent.active').removeClass('active');
-            $(e.currentTarget).addClass('active');
-            this.selectTorrent($(e.currentTarget));
-        },
+		clickTorrent: function (e) {
+			if (e.type) {
+				e.preventDefault();
+				e.stopPropagation();
+			}
 
-        selectTorrent: function ($elem) {
-            if ($elem.length === 0) {
-                return;
-            }
+			$('.tab-torrent.active').removeClass('active');
+			$(e.currentTarget).addClass('active');
+			this.updateTorrentView($(e.currentTarget), true /*wasJustSelected*/);
+		},
 
-            let infoHash = $elem.attr('id');
-            let stats = fs.statSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash);
-            let torrent = App.WebTorrent.get(infoHash);
-            $('.seedbox-infos-title').text(torrent.name);
-            $('.seedbox-downloaded').text(' ' + formatBytes(torrent.downloaded));
-            $('.seedbox-uploaded').text(' ' + formatBytes(torrent.uploaded));
-            $('.seedbox-infos-date').text(stats.ctime);
-            $('.torrents-info>ul.file-list').empty();
-            $('.progress-bar').css('width', (torrent.progress * 100).toFixed(2) + '%');
-            $('.progress-percentage>span').text((torrent.progress * 100).toFixed(2) + '%');
-            for (let file of torrent.files) {
-              $('.torrents-info>ul.file-list').append(
-                `<li class="file-item">
-                    <a>${file.name}</a>
-                    <i class="fa fa-folder-open item-delete tooltipped" data-toggle="tooltip" data-placement="left" title=""></i>
-                </li>`
-              );
-            }
-        },
 
-        onBeforeDestroy: function () {
-            Mousetrap.unbind(['esc', 'backspace']);
-        },
+		updateHealth: function(torrent) {
+			console.log(torrent);
+			const healthButton = new Common.HealthButton('.health-icon', cb => Common.retrieveTorrentHealth(torrent, cb));
+			healthButton.render();
+		},
 
-        closeTorrentCollection: function () {
-            App.vent.trigger('seedbox:close');
-        }
+		updateTorrentView: function ($elem, wasJustSelected = false) {
+			if ($elem.length === 0) {
+				return;
+			}
 
-    });
+			const infoHash = $elem.attr('id');
+			const stats = fs.statSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash);
+			const torrent = App.WebTorrent.get(infoHash);
 
-    App.View.Seedbox = Seedbox;
+			if (wasJustSelected) {
+				console.log('torrent was just selected');
+				this.updateHealth(torrent);
+			}
+
+			$('.seedbox-infos-title').text(torrent.name);
+			$('.seedbox-downloaded').text(' ' + formatBytes(torrent.downloaded));
+			$('.seedbox-uploaded').text(' ' + formatBytes(torrent.uploaded));
+			$('.seedbox-infos-date').text(stats.ctime);
+			$('.torrents-info > ul.file-list').empty();
+			$('.progress-bar').css('width', (torrent.progress * 100).toFixed(2) + '%');
+			$('.progress-percentage>span').text((torrent.progress * 100).toFixed(2) + '%');
+
+			for (const file of torrent.files) {
+				$('.torrents-info>ul.file-list').append(
+					`<li class="file-item">
+							<a>${file.name}</a>
+							<i class="fa fa-folder-open item-delete tooltipped" data-toggle="tooltip" data-placement="left" title=""></i>
+					</li>`
+				);
+			}
+		},
+
+		onBeforeDestroy: function () {
+			Mousetrap.unbind(['esc', 'backspace']);
+		},
+
+		closeTorrentCollection: function () {
+			App.vent.trigger('seedbox:close');
+		}
+	});
+
+	App.View.Seedbox = Seedbox;
 })(window.App);
