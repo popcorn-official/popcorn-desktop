@@ -220,7 +220,6 @@
 
 
 		updateHealth: function(torrent) {
-			console.log(torrent);
 			const healthButton = new Common.HealthButton('.health-icon', cb => Common.retrieveTorrentHealth(torrent, cb));
 			healthButton.render();
 		},
@@ -235,7 +234,6 @@
 			const torrent = App.WebTorrent.get(infoHash);
 
 			if (wasJustSelected) {
-				console.log('torrent was just selected');
 				this.updateHealth(torrent);
 			}
 

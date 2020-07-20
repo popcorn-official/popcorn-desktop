@@ -118,7 +118,6 @@
 
     onAttach: function() {
       win.info('Show movie detail (' + this.model.get('imdb_id') + ')');
-      console.log('cat');
 
       App.MovieDetailView = this;
 

@@ -99,8 +99,6 @@ Common.HealthButton = function (selector, retrieveHealthCallback) {
 	};
 
 	this.render = () => {
-		console.log('Rendering health button');
-
 		// because this is an object, we can keep a ref to it while
 		// allowing other callers to modify it outside of the current
 		// scope. this lets us know if anyone outside wants this
@@ -109,15 +107,13 @@ Common.HealthButton = function (selector, retrieveHealthCallback) {
 		this.cancelPendingRenders();
 		pendingRender = cancellationLock;
 
-		console.log('retrieving health');
 		retrieveHealthCallback((err, res) => {
-			console.log('got health, is cancelled: ' + cancellationLock.isCancelled, ', err: ' + err);
 			if (err || cancellationLock.isCancelled) {
 				return;
 			}
 
 			const {seeds, peers} = res;
-			console.log('updating with', res);
+			win.debug('torrent health:', res);
 
 			if (seeds === 0 && zeroSeedCheckCount < maxChecksWhenNoSeeds) {
 				zeroSeedCheckCount++;
@@ -127,8 +123,6 @@ Common.HealthButton = function (selector, retrieveHealthCallback) {
 				const healthValue = Common.calcHealth({seed: seeds, peer: peers});
 				const healthString = Common.healthMap[healthValue].capitalize();
 				const ratio = res.ratio || Common.calcRatio(seeds, peers);
-
-				console.log('health:', healthString);
 
 				const tooltipPieces = [
 					i18n.__(`Health ${healthString}`)
@@ -145,9 +139,6 @@ Common.HealthButton = function (selector, retrieveHealthCallback) {
 				if (!isNaN(peers)) {
 					tooltipPieces.push(`${i18n.__('Peers:')} ${peers}`);
 				}
-
-				console.log(tooltipPieces);
-				console.log('icon:', getIcon());
 
 				getIcon()
 					.tooltip({
