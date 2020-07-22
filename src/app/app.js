@@ -206,23 +206,23 @@ App.onStart = function (options) {
   initTemplates().then(initApp);
 };
 
-var deleteFolder = function (folderPath) {
-  if (typeof folderPath !== 'string') {
+var deleteFolder = function (path) {
+  if (typeof path !== 'string') {
     return;
   }
 
   var files = [];
-  if (fs.existsSync(folderPath)) {
-    files = fs.readdirSync(folderPath);
-    files.forEach(function (file) {
-      var curPath = path.join(folderPath, file);
+  if (fs.existsSync(path)) {
+    files = fs.readdirSync(path);
+    files.forEach(function (file, index) {
+      var curPath = path + '\/' + file;
       if (fs.lstatSync(curPath).isDirectory()) {
         deleteFolder(curPath);
       } else {
         fs.unlinkSync(curPath);
       }
     });
-    fs.rmdirSync(folderPath);
+    fs.rmdirSync(path);
   }
 };
 
@@ -258,16 +258,9 @@ var deleteCookies = function () {
   });
 };
 
-var deleteCache = function () {
+var delCache = function () {
   window.indexedDB.deleteDatabase('cache');
   win.close(true);
-};
-
-var deleteLogs = function() {
-  var dataPath = path.join(data_path, 'logs.txt');
-  if (fs.existsSync(dataPath)) {
-    fs.unlinkSync(dataPath);
-  }
 };
 
 win.on('resize', function (width, height) {
@@ -288,56 +281,18 @@ win.on('enter-fullscreen', function () {
 function close() {
   $('.spinner').show();
 
-  // If the WebTorrent is destroyed, that means the user has already clicked the close button.
-  // Try to let the WebTorrent destroy from that closure. Even if it fails, the window will close.
-  if (App.WebTorrent.destroyed) {
-    return;
-  }
-
-  // For some reason, WebTorrent does not have a standard way of passing back errors from destroy()
-  // some errors are thrown from the method, some are sent in the callback, and it seems that there
-  // is a possibility for some to be emitted. In order to ensure that we always close the client,
-  // these are all aggregated into a single callback.
-  var destroyWebTorrentAndPerformCleanup = function (cb) {
-    var onError;
-    var cleanup = function () {
-      App.WebTorrent.removeListener('error', onError);
-    };
-    // js hint doesn't allow us to use cleanup before it is defined,
-    // even though we know it will be when this function is called.
-    onError = function (err) {
-      cleanup();
-      cb(err);
-    };
+  App.WebTorrent.destroy(function () {
+    if (App.settings.deleteTmpOnClose) {
+      deleteFolder(App.settings.tmpLocation);
+    }
+    if (fs.existsSync(path.join(data_path, 'logs.txt'))) {
+      fs.unlinkSync(path.join(data_path, 'logs.txt'));
+    }
     try {
-      App.WebTorrent.once('error', onError);
-      App.WebTorrent.destroy(function (err) {
-        try {
-          if (err) {
-            return onError(err);
-          }
-          if (App.settings.deleteTmpOnClose) {
-            deleteFolder(App.settings.tmpLocation);
-          }
-          deleteLogs();
-          deleteCache();
-        } catch (err) {
-          return onError(err);
-        }
-        cb(null);
-      });
-    } catch (err) {
-      onError(err);
+      delCache();
+    } catch (e) {
+      win.close(true);
     }
-  };
-
-  destroyWebTorrentAndPerformCleanup(function(err) {
-    if (err) {
-      win.error(err);
-    }
-    // we always want to close the window if the user has asked for it to be closed.
-    // regardless of whether any error is present, win.close should be called
-    win.close(true);
   });
 }
 

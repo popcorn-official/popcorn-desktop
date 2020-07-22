@@ -4,7 +4,6 @@
     var torrentHealth = require('webtorrent-health');
     var cancelTorrentHealth = function () {};
     var torrentHealthRestarted = null;
-    let healthButton;
 
     var _this, bookmarked;
     var ShowDetail = Marionette.View.extend({
@@ -31,7 +30,7 @@
             'dblclick .tab-episode': 'dblclickEpisode',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .shmi-rating': 'switchRating',
-            'click .health-icon': 'resetTorrentHealth'
+            'click .health-icon': 'resetHealth'
         },
 
         regions: {
@@ -60,9 +59,6 @@
         initialize: function () {
             _this = this;
             this.renameUntitled();
-
-            healthButton = new Common.HealthButton('.health-icon', this.retrieveTorrentHealth.bind(this));
-
             //Handle keyboard shortcuts when other views are appended or removed
 
             //If a child was removed from above this view
@@ -591,14 +587,13 @@
 
             _this.ui.startStreaming.show();
         },
-
         selectTorrent: function(torrent, key) {
             var startStreaming = $('.startStreaming');
             startStreaming.attr('data-torrent', torrent.url);
             startStreaming.attr('data-quality', key);
             $('#download-torrent').attr('data-torrent', torrent.url);
 
-            _this.resetTorrentHealth();
+            _this.resetHealth();
         },
 
         toggleQuality: function (e) {
@@ -717,14 +712,59 @@
             );
         },
 
-        retrieveTorrentHealth: function(cb) {
-            const torrentURL = $('.startStreaming').attr('data-torrent');
-            return Common.retrieveTorrentHealth(torrentURL, cb);
+        getTorrentHealth: function (e) {
+            var torrent = $('.startStreaming').attr('data-torrent');
+
+            cancelTorrentHealth();
+
+            // Use fancy coding to cancel
+            // pending webtorrent-health's
+            var cancelled = false;
+            cancelTorrentHealth = function () {
+                cancelled = true;
+            };
+
+            if (torrent.substring(0, 8) === 'magnet:?') {
+                // if 'magnet:?' is because api sometimes sends back links, not magnets
+                torrentHealth(torrent, {
+                    timeout: 1000,
+                    trackers: Settings.trackers.forced
+                }, function (err, res) {
+                    if (cancelled || err) {
+                        return;
+                    }
+                    if (res.seeds === 0 && torrentHealthRestarted < 5) {
+                        torrentHealthRestarted++;
+                        $('.health-icon').click();
+                    } else {
+                        torrentHealthRestarted = 0;
+                        var h = Common.calcHealth({
+                            seed: res.seeds,
+                            peer: res.peers
+                        });
+                        var health = Common.healthMap[h].capitalize();
+                        var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
+
+                        $('.health-icon').tooltip({
+                                html: true
+                            })
+                            .removeClass('Bad Medium Good Excellent')
+                            .addClass(health)
+                            .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
+                            .tooltip('fixTitle');
+                    }
+                });
+            }
         },
 
-        resetTorrentHealth: function () {
-            healthButton.reset();
-            healthButton.render();
+        resetHealth: function () {
+            $('.health-icon').tooltip({
+                    html: true
+                })
+                .removeClass('Bad Medium Good Excellent')
+                .attr('data-original-title', i18n.__('Health Unknown'))
+                .tooltip('fixTitle');
+            this.getTorrentHealth();
         },
 
         selectPlayer: function (e) {
