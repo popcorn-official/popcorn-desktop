@@ -274,16 +274,16 @@
       if (curSynopsis.vstatus === false) {
         if (curSynopsis.cast !== '') {
           $('.overview').html(curSynopsis.crew + curSynopsis.cast + curSynopsis.old);
-          $('.show-cast').attr('title', 'Hide cast').tooltip('hide').tooltip('fixTitle');
+          $('.show-cast').attr('title', i18n.__('Hide cast')).tooltip('hide').tooltip('fixTitle');
           $('.overview *').tooltip({html: true, container: 'body', placement: 'bottom', delay: {show: 200, hide: 0}, template: '<div class="tooltip" style="opacity:1"><div class="tooltip-inner" style="background-color:rgba(0,0,0,0);width:118px"></div></div>'});
           curSynopsis.vstatus = true;
         } else {
-          $('.show-cast').css({cursor: 'default', opacity: 0.4}).attr('title', 'Cast not available').tooltip('hide').tooltip('fixTitle');
+          $('.show-cast').css({cursor: 'default', opacity: 0.4}).attr('title', i18n.__('Cast not available')).tooltip('hide').tooltip('fixTitle');
           curSynopsis.vstatus = 'not available';
         }
       } else if (curSynopsis.vstatus === true) {
         $('.overview').html(curSynopsis.old);
-        $('.show-cast').attr('title', 'Show cast').tooltip('hide').tooltip('fixTitle');
+        $('.show-cast').attr('title', i18n.__('Show cast')).tooltip('hide').tooltip('fixTitle');
         curSynopsis.vstatus = false;
       }
     },
