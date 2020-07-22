@@ -183,6 +183,13 @@
       App.LoadingView = this;
 
       this.initKeyboardShortcuts();
+      $('.minimize-icon,#maxic,.open-button,.title,.text_filename,.text_streamurl,.show-pcontrols').tooltip({
+          html: true,
+          delay: {
+              'show': 800,
+              'hide': 0
+          }
+      });
     },
 
     onStateUpdate: function() {
@@ -192,6 +199,7 @@
       win.info('Loading torrent:', state);
 
       this.ui.stateTextDownload.text(i18n.__(state));
+      this.ui.stateTextStreamUrl.text(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress));
       this.ui.stateTextFilename.text(streamInfo.get('filename'));
       this.ui.stateTextSize.text(Common.fileSize(streamInfo.get('size')));
       this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
@@ -206,13 +214,15 @@
       }
 
       if (state === 'playingExternally') {
-        this.ui.stateTextDownload.hide();
         this.ui.progressbar.hide();
         if (streamInfo && streamInfo.get('device')) {
-          this.ui.vpn.css('display', 'none');
-          this.ui.cancel_button.css('visibility', 'hidden');
-          this.ui.controls.css('visibility', 'visible');
-          this.ui.playingbarBox.css('visibility', 'visible');
+          if (Settings.activateLoCtrl === true) {
+            $('.show-pcontrols').removeClass('fa-angle-down').addClass('fa-angle-up').attr("data-original-title", "Hide playback controls");
+            this.ui.vpn.css('display', 'none');
+            this.ui.cancel_button.css('display', 'none');
+            this.ui.controls.css('display', 'block');
+            this.ui.playingbarBox.css('display', 'block');
+          }
           this.ui.playingbar.css('width', '0%');
 
           // Update gui on status update.
@@ -402,7 +412,7 @@
 },
 
 titletoclip: function (e) {
-    if ((e.button === 2) && ($('.minimize-icon').css('visibility') === 'visible')) {
+    if (e.button === 2) {
         var streamInfo = this.model.get('streamInfo');
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('title'), 'text');
@@ -411,7 +421,7 @@ titletoclip: function (e) {
 },
 
 filenametoclip: function (e) {
-    if ((e.button === 2) && ($('.minimize-icon').css('visibility') === 'visible')) {
+    if (e.button === 2) {
         var streamInfo = this.model.get('streamInfo');
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('filename'), 'text');
@@ -420,7 +430,7 @@ filenametoclip: function (e) {
 },
 
 streamurltoclip: function (e) {
-    if ((e.button === 2) && ($('.minimize-icon').css('visibility') === 'visible')) {
+    if (e.button === 2) {
         var streamInfo = this.model.get('streamInfo');
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress), 'text');
