@@ -160,7 +160,6 @@
                 }
             }
             if (getPlayerFilenameSwitch(this.get('id')) !== '') {
-                // The video file is the biggest file in the torrent
                 var videoFile = streamModel.attributes.torrentModel.get('video_file');
                 cmd += videoFile ? (getPlayerFilenameSwitch(this.get('id')) + '"' + videoFile.name + '" ') : '';
             }
