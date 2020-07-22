@@ -11,10 +11,16 @@
             <i class="fas fa-eye eye-info-player"></i>
             <div class="details-info-player">
                 <div class="arrow-up"></div>
-                <span class="speed-info-player"><%= i18n.__("Download") %>:&nbsp;</span><span class="download_speed_player value"><%= Common.fileSize(0) %>/s</span><br>
+                <div style="text-align:center;"><br><span class="speed-info-player" id="sstatel" style="font-size:170%;"><%= i18n.__("Downloading") %></span></div><br>
+                <div id="dwnloading" style="text-align:center;"><span style="width:100%;" class="downloaded_player value">0</span></div><br>
+                <span class="speed-info-player" id="dloaddd"><%= i18n.__("Download") %>:&nbsp;</span><span class="download_speed_player value"><%= Common.fileSize(0) %>/s</span><br>
                 <span class="speed-info-player"><%= i18n.__("Upload") %>:&nbsp;</span><span class="upload_speed_player value"><%= Common.fileSize(0) %>/s</span><br>
-                <span class="speed-info-player"><%= i18n.__("Active Peers") %>:&nbsp;</span><span class="active_peers_player value">0</span><br>
-                <span class="speed-info-player"><%= i18n.__("Downloaded") %>:&nbsp;</span><span class="downloaded_player value">0</span>
+                <span class="speed-info-player" id="apeersss"><%= i18n.__("Active Peers") %>:&nbsp;</span><span class="active_peers_player value">0<br></span>
+                <% if(type !== 'video/youtube') { %>
+                <% var filename; %>
+                <span class="filename_player value" style="text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= i18n.__("Filename") %>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%= filename %></span><br>
+                <span class="speed-info-player"><%= i18n.__("Stream Url") %>:&nbsp;</span><span class="stream_url_player value" style="text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= src.replace('127.0.0.1', Settings.ipAddress) %></span><br><br>
+                <% } %>
             </div>
         </div>
     </div>
