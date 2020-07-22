@@ -4,7 +4,7 @@
 
     <div class="state-flex">
         <div class="state">
-            <div class="title"></div>
+            <div class="title tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></div>
             <div class="external-play" style="visibility:hidden"><%= i18n.__("Streaming to") %> <span class="player-name"></span></div>
 
             <!-- download -->
@@ -67,6 +67,8 @@
                     <span class="upload_speed value"><%= Common.fileSize(0) %>/s</span><br>
                     <span class="loading-info-text" id="ractpr"><%= i18n.__("Active Peers") %>:&nbsp;</span>
                     <span class="value_peers value">0</span><span id="rbreak3" style="line-height:13px;"><br></span>
+                    <span class="loading-info-text"><%= i18n.__("Filename") %>:&nbsp;</span>
+                    <span class="text_filename value tooltipped" style="white-space:nowrap;width:270px;overflow:hidden;text-overflow:ellipsis;" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></span><br>
                     <span class="loading-info-text"><%= i18n.__("Stream Url") %>:&nbsp;</span>
                     <span class="text_streamurl value tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></span><br>
                     <div class="fa fa-angle-down show-pcontrols tooltipped" style="float:right;cursor:pointer;opacity:0.5;" "data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Show playback controls") %>"></div>
@@ -80,17 +82,6 @@
                         <div id="playingbar-contents"></div>
                     </div>
                 </div>
-            </div>
-
-            <div class="player-controls" style="visibility:hidden">
-                <i class="fa fa-backward backward"></i>
-                <i class="fa fa-pause pause"></i>
-                <i class="fa fa-stop stop"></i>
-                <i class="fa fa-forward forward"></i>
-            </div>
-
-            <div class="playing-progressbar" style="visibility:hidden">
-                <div id="playingbar-contents"></div>
             </div>
 
             <div id="cancel-button" class="cancel-button">
