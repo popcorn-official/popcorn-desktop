@@ -16,7 +16,7 @@
                 <div class="dropdown-arrow"></div>
             </div>
             <form id="online-form">
-                <input id="online-input" autocomplete="off" size="30" type="text" name="keyword" placeholder="<%= i18n.__('Search for torrent') %>">
+                <input id="online-input" autocomplete="off" size="34" type="text" name="keyword" placeholder="<%= i18n.__('Search for torrent') %>">
                 <i class="fa fa-search online-search"></i>
             </form>
         </div>
