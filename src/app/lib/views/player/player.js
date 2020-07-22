@@ -24,6 +24,7 @@
             'click .verifmetaFALSE': 'wrongMetadata',
             'click .vjs-subtitles-button': 'toggleSubtitles',
             'click .vjs-text-track': 'moveSubtitles',
+            'mousedown .eye-info-player': 'filenametoclip',
             'click .vjs-play-control': 'togglePlay'
         },
 
@@ -69,18 +70,20 @@
 
         updateDownloaded: function () {
             if (this.model.get('downloadedPercent').toFixed(0) < 100) {
-                this.ui.downloaded.html(this.model.get('downloadedFormatted') + ' (' + this.model.get('downloadedPercent').toFixed(0) + '%)');
+                this.ui.downloaded.html(this.model.get('downloadedPercent').toFixed(0) + '%&nbsp;&nbsp;&nbsp;(' + this.model.get('downloadedFormatted') + ' / ' + Common.fileSize(this.model.get('size')) + ')');
                 $('.vjs-load-progress').css('width', this.model.get('downloadedPercent').toFixed(0) + '%');
                 this.remaining = true;
 
                 if (!this.createdRemaining) { //we create it
                     this.createdRemaining = true;
-                    $('.details-info-player').append('<br><span class="remaining">' + this.remainingTime() + '</span>');
+                    $('.details-info-player #dwnloading').append('<br><span class="remaining">' + this.remainingTime() + '</span>');
                 } else { //we just update
                     $('.remaining').html(this.remainingTime());
                 }
             } else {
-                this.ui.downloaded.text(i18n.__('Done'));
+                $('.details-info-player #sstatel').text(i18n.__('Downloaded'));
+                this.ui.downloaded.html(this.model.get('downloadedPercent').toFixed(0) + '%&nbsp;&nbsp;&nbsp;(' + Common.fileSize(this.model.get('size')) + ')<br>');
+                $('.details-info-player #dloaddd, .download_speed_player, .details-info-player #apeersss, .active_peers_player').hide();
                 $('.vjs-load-progress').css('width', '100%');
                 this.remaining = false;
             }
@@ -221,6 +224,10 @@
 
                 // XXX hide watermark
                 try {
+                    document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('ytp-chrome-top ytp-show-cards-title')[0].style.opacity = 0;
+                    document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('ytp-gradient-top')[0].style.opacity = 0;
+                    setTimeout(function() { document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('ytp-watermark yt-uix-sessionlink')[0].style.opacity = 0; }, 3000);
+                    document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('ytp-pause-overlay')[0].style.opacity = 0;
                     document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('html5-watermark')[0].style.opacity = 0;
                 } catch (e) {}
             }
@@ -237,6 +244,17 @@
 
                 this._AutoPlayCheckTimer = setInterval(this.checkAutoPlay, 10 * 100 * 1); // every 1 sec
             }
+        },
+
+        filenametoclip: function (e) {
+            var clipboard = nw.Clipboard.get();
+            if (e.button === 0) {
+                clipboard.set(this.model.get('filename'), 'text');
+                $('.notification_alert').text(i18n.__('The filename was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+            } else if (e.button === 2) {
+                clipboard.set(this.model.get('src').replace('127.0.0.1', Settings.ipAddress), 'text');
+                $('.notification_alert').text(i18n.__('The stream url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+            };
         },
 
         onPlayerReady: function () {
@@ -383,6 +401,7 @@
                     this.addClass('vjs-has-started');
                 });
                 this.ui.eyeInfo.hide();
+                $('.player-title').text(this.model.get('title') + ' - Trailer');
 
                 // XXX Sammuel86 Trailer UI Show FIX/HACK
                 $('.trailer_mouse_catch')
