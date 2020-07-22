@@ -2,7 +2,8 @@
   'use strict';
   // Torrent Health
   var torrentHealth = require('webtorrent-health'),
-    healthButton;
+    healthButton,
+    curSynopsis;
 
   var _this;
   App.View.MovieDetail = Marionette.View.extend({
@@ -25,6 +26,8 @@
       'click .movie-imdb-link': 'openIMDb',
       'mousedown .magnet-link': 'openMagnet',
       'click .rating-container': 'switchRating',
+      'click .show-cast': 'showCast',
+      'click .showall-cast': 'showallCast',
       'click .q2160': 'toggleShowQuality',
       'click .q1080': 'toggleShowQuality',
       'click .q720': 'toggleShowQuality'
@@ -41,6 +44,12 @@
       healthButton = new Common.HealthButton('.health-icon', this.retrieveTorrentHealth.bind(this));
 
       //Handle keyboard shortcuts when other views are appended or removed
+
+      curSynopsis = {old: '', crew: '', cast: '', allcast: '', vstatus: null};
+
+      if (!this.model.get('synopsis') || !this.model.get('rating') || this.model.get('rating') == '0' || this.model.get('rating') == '0.0' || !this.model.get('runtime') || this.model.get('runtime') == '0' || !this.model.get('trailer') || !this.model.get('cover') || this.model.get('cover') == 'images/posterholder.png' || !this.model.get('backdrop') || this.model.get('backdrop') == 'images/posterholder.png' || (Settings.translateSynopsis && Settings.language != 'en')) {
+        this.getMetaData();
+      }
 
       //If a child was removed from above this view
       App.vent.on('viewstack:pop', function() {
@@ -128,6 +137,10 @@
       healthButton.render();
 
       this.refreshUiQuality();
+
+      if (curSynopsis.vstatus !== null && curSynopsis.cast == '') {
+        this.showCast();
+      }
     },
     loadComponents: function() {
       // play control
@@ -221,7 +234,67 @@
       $('.dot').css('opacity', 0);
     },
 
+    getMetaData: function () {
+      curSynopsis.vstatus = false;
+      var imdb = this.model.get('imdb_id'),
+      api_key = Settings.tmdb.api_key,
+      lang = Settings.language,
+      movie = function () {
+        var tmp = null;
+        $.ajax({
+          url: 'http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key + '&language=' + lang + '&append_to_response=videos,credits',
+          type: 'get',
+          dataType: 'json',
+          async: false,
+          global: false,
+          success: function (data) {
+            tmp = data;
+          }
+        });
+        return tmp;
+      }();
+      (!this.model.get('synopsis') || (Settings.translateSynopsis && Settings.language != 'en')) && movie && movie.overview ? this.model.set('synopsis', movie.overview) : null;
+      (!this.model.get('rating') || this.model.get('rating') == '0' || this.model.get('rating') == '0.0') && movie && movie.vote_average ? this.model.set('rating', movie.vote_average) : null;
+      (!this.model.get('runtime') || this.model.get('runtime') == '0') && movie && movie.runtime ? this.model.set('runtime', movie.runtime) : null;
+      !this.model.get('trailer') && movie && movie.videos && movie.videos.results && movie.videos.results[0] ? this.model.set('trailer', 'http://www.youtube.com/watch?v=' + movie.videos.results[0].key) : null;
+      (!this.model.get('cover') || this.model.get('cover') == 'images/posterholder.png') && movie && movie.poster_path ? this.model.set('cover', 'http://image.tmdb.org/t/p/w500' + movie.poster_path) : null;
+      (!this.model.get('backdrop') || this.model.get('backdrop') == 'images/posterholder.png') && movie && movie.backdrop_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.backdrop_path) : ((!this.model.get('backdrop') || this.model.get('backdrop') == 'images/posterholder.png') && movie && movie.poster_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.poster_path) : null);
+      if (movie && movie.credits && movie.credits.cast && movie.credits.crew && (movie.credits.cast[0] || movie.credits.crew[0])) {
+        curSynopsis.old = this.model.get('synopsis');
+        curSynopsis.crew = movie.credits.crew.filter(function (el) {return el.job == 'Director'}).map(function (el) {return '<span>' + el.job + '&nbsp;-&nbsp;</span><span' + (el.profile_path ? ' data-toggle="tooltip" title="<img src=' + "'https://image.tmdb.org/t/p/w154" + el.profile_path + "'" + ' class=' + "'toolcimg'" + '/>" ' : ' ') + 'class="cname" onclick="nw.Shell.openExternal(' + "'https://yts.mx/browse-movies/" + el.name.replace(/\'/g, ' ').replace(/\ /g, '+') + "'" + ')" oncontextmenu="nw.Shell.openExternal(' + "'https://www.imdb.com/find?s=nm&q=" + el.name.replace(/\'/g, ' ').replace(/\ /g, '+') + "'" + ')">' + el.name.replace(/\ /g, '&nbsp;') + '</span>'}).join('&nbsp;&nbsp; ') + '<p class="sline">&nbsp;</p>';
+        curSynopsis.allcast = movie.credits.cast.map(function (el) {return '<span' + (el.profile_path ? ' data-toggle="tooltip" title="<img src=' + "'https://image.tmdb.org/t/p/w154" + el.profile_path + "'" + ' class=' + "'toolcimg'" + '/>" ' : ' ') + 'class="cname" onclick="nw.Shell.openExternal(' + "'https://yts.mx/browse-movies/" + el.name.replace(/\'/g, ' ').replace(/\ /g, '+') + "'" + ')" oncontextmenu="nw.Shell.openExternal(' + "'https://www.imdb.com/find?s=nm&q=" + el.name.replace(/\'/g, ' ').replace(/\ /g, '+') + "'" + ')">' + el.name.replace(/\ /g, '&nbsp;') + '</span><span>&nbsp;-&nbsp;' + el.character.replace(/\ /g, '&nbsp;') + '</span>'}).join('&nbsp;&nbsp; ') + '<p>&nbsp;</p>';
+        curSynopsis.cast = movie.credits.cast.slice(0,10).map(function (el) {return '<span' + (el.profile_path ? ' data-toggle="tooltip" title="<img src=' + "'https://image.tmdb.org/t/p/w154" + el.profile_path + "'" + ' class=' + "'toolcimg'" + '/>" ' : ' ') + 'class="cname" onclick="nw.Shell.openExternal(' + "'https://yts.mx/browse-movies/" + el.name.replace(/\'/g, ' ').replace(/\ /g, '+') + "'" + ')" oncontextmenu="nw.Shell.openExternal(' + "'https://www.imdb.com/find?s=nm&q=" + el.name.replace(/\'/g, ' ').replace(/\ /g, '+') + "'" + ')">' + el.name.replace(/\ /g, '&nbsp;') + '</span><span>&nbsp;-&nbsp;' + el.character.replace(/\ /g, '&nbsp;') + '</span>'}).join('&nbsp;&nbsp; ') + (movie.credits.cast.length > 10 ? '&nbsp;&nbsp;&nbsp;<span class="showall-cast">more...</span>' : '') + '<p>&nbsp;</p>';
+      }
+    },
+
+    showCast: function () {
+      if (curSynopsis.vstatus == null) {
+        this.getMetaData();
+      }
+      if (curSynopsis.vstatus === false) {
+        if (curSynopsis.cast !== '') {
+          $('.overview').html(curSynopsis.crew + curSynopsis.cast + curSynopsis.old);
+          $('.show-cast').attr('title', 'Hide cast').tooltip('hide').tooltip('fixTitle');
+          $('.overview *').tooltip({html: true, container: 'body', placement: 'bottom', delay: {show: 200, hide: 0}, template: '<div class="tooltip" style="opacity:1"><div class="tooltip-inner" style="background-color:rgba(0,0,0,0);width:118px"></div></div>'});
+          curSynopsis.vstatus = true;
+        } else {
+          $('.show-cast').css({cursor: 'default', opacity: 0.4}).attr('title', 'Cast not available').tooltip('hide').tooltip('fixTitle');
+          curSynopsis.vstatus = 'not available';
+        }
+      } else if (curSynopsis.vstatus === true) {
+        $('.overview').html(curSynopsis.old);
+        $('.show-cast').attr('title', 'Show cast').tooltip('hide').tooltip('fixTitle');
+        curSynopsis.vstatus = false;
+      }
+    },
+
+    showallCast: function () {
+      $('.overview').html(curSynopsis.crew + curSynopsis.allcast + curSynopsis.old);
+      $('.overview *').tooltip({html: true, container: 'body', placement: 'bottom', delay: {show: 200, hide: 0}, template: '<div class="tooltip" style="opacity:1"><div class="tooltip-inner" style="background-color:rgba(0,0,0,0);width:118px"></div></div>'});
+    },
+
     onBeforeDestroy: function() {
+      $('[data-toggle="tooltip"]').tooltip('hide');
       App.vent.off('change:quality');
       this.unbindKeyboardShortcuts();
       Object.values(this.views).forEach(v => v.destroy());
@@ -282,10 +355,10 @@
 
       if (torrent.magnet) {
         // Movies
-        magnetLink = torrent.magnet;
+        magnetLink = torrent.magnet.replace(/\&amp;/g, '&');
       } else {
         // Anime
-        magnetLink = torrent.url;
+        magnetLink = torrent.url.replace(/\&amp;/g, '&');
       }
       if (e.button === 2) {
         //if right click on magnet link
