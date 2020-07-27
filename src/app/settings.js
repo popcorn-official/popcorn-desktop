@@ -91,23 +91,23 @@ Settings.providers = {
 Settings.trackers = {
   blacklisted: ['demonii'],
   forced: [
-    'udp://glotorrents.pw:6969/announce',
-    'udp://tracker.opentrackr.org:1337/announce',
-    'udp://torrent.gresille.org:80/announce',
-    'udp://tracker.openbittorrent.com:1337/announce',
-    'udp://tracker.coppersurfer.tk:6969/announce',
-    'udp://tracker.leechers-paradise.org:6969/announce',
-    'udp://p4p.arenabg.ch:1337/announce',
-    'udp://p4p.arenabg.com:1337/announce',
-    'udp://tracker.internetwarriors.net:1337/announce',
-    'udp://9.rarbg.to:2710/announce',
-    'udp://9.rarbg.me:2710/announce',
-    'udp://exodus.desync.com:6969/announce',
-    'udp://tracker.cyberia.is:6969/announce',
-    'udp://tracker.torrent.eu.org:451/announce',
-    'udp://tracker.open-internet.nl:6969/announce',
-    'wss://tracker.openwebtorrent.com/announce',
-    'wss://tracker.btorrent.xyz/announce'
+    'udp://glotorrents.pw:6969',
+    'udp://tracker.opentrackr.org:1337',
+    'udp://torrent.gresille.org:80',
+    'udp://tracker.openbittorrent.com:1337',
+    'udp://tracker.coppersurfer.tk:6969',
+    'udp://tracker.leechers-paradise.org:6969',
+    'udp://p4p.arenabg.ch:1337',
+    'udp://p4p.arenabg.com:1337',
+    'udp://tracker.internetwarriors.net:1337',
+    'udp://9.rarbg.to:2710',
+    'udp://9.rarbg.me:2710',
+    'udp://exodus.desync.com:6969',
+    'udp://tracker.cyberia.is:6969',
+    'udp://tracker.torrent.eu.org:451',
+    'udp://tracker.open-internet.nl:6969',
+    'wss://tracker.openwebtorrent.com',
+    'wss://tracker.btorrent.xyz'
   ]
 };
 
