@@ -124,7 +124,7 @@
     },
 
     setUiStates: function() {
-      $('.star-container,.movie-imdb-link,.q720,input,.magnet-link').tooltip({
+      $('.star-container,.movie-imdb-link,.q720,input,.magnet-link,.show-cast').tooltip({
         html: true
       });
 

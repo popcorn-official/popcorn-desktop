@@ -12,7 +12,8 @@
             subswitch: '--sub-file=',
             fs: '-f',
             stop: 'vlc://quit',
-            pause: 'vlc://pause'
+            pause: 'vlc://pause',
+            filenameswitch: '--meta-title='
         },
         'Fleex player': {
             type: 'fleex-player',
@@ -159,10 +160,7 @@
                 }
             }
             if (getPlayerFilenameSwitch(this.get('id')) !== '') {
-                // The video file is the biggest file in the torrent
-                var videoFile = _.sortBy(streamModel.attributes.torrent.info.files, function (file) {
-                    return -file.length;
-                })[0];
+                var videoFile = streamModel.attributes.torrentModel.get('video_file');
                 cmd += videoFile ? (getPlayerFilenameSwitch(this.get('id')) + '"' + videoFile.name + '" ') : '';
             }
             cmd += getPlayerUrlSwitch(this.get('id')) + url;

@@ -246,7 +246,6 @@
                 case 'bigPicture':
                 case 'activateTorrentCollection':
                 case 'activateWatchlist':
-                case 'activateRandomize':
                 case 'opensubtitlesAutoUpload':
                 case 'subtitles_bold':
                 case 'rememberFilters':
@@ -387,7 +386,6 @@
                         App.vent.trigger('settings:show');
                     }
                     break;
-                case 'activateRandomize':
                 case 'activateWatchlist':
                     App.vent.trigger('movies:list');
                     App.vent.trigger('settings:show');

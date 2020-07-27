@@ -3,14 +3,14 @@
   top: 0
   left: 0
   width: 100%
-  height: 32px
+  height: 24px
   display: flex
   align-items: center
   background-color $BgColor1
   border-top: 1px solid #000
   font-size: 12px
   color: $Text1
-  font-family: $Font
+  font-family: $MainFont
 }
 
 .windows-titlebar .events {
@@ -21,17 +21,22 @@
 }
 
 .icon {
-  height 16px
-  width  16px
-  margin-left 10px
+  height 20px
+  width  20px
+  margin-left auto
+  margin-top 5px
 }
 
 .windows-titlebar-title {
   top: initial !important
   padding-left: 12px !important
-  font-size: inherit !important
+  padding-top: 5px
+  font-size: 14px !important
   color: inherit !important
   text-shadow: black 0 0 0
+  width: auto
+  margin-right: -94px
+  opacity: 0.97
 }
 
 .window-controls {
@@ -43,17 +48,25 @@
 
 .window-control {
   padding: 0
-  height: 31px
-  width: 46px
+  height: 24px
+  width: 30px
   cursor: initial !important
+  opacity: 0.97
 }
 
 .window-close:hover {
+  opacity: 1
   background-color: rgba(232, 17, 35, .9) !important
+}
+
+.window-minimize,
+.window-maximize {
+  opacity: 0.87
 }
 
 .window-minimize:hover,
 .window-maximize:hover {
+  opacity: 1
   background-color: #3a3939 !important
 }
 

@@ -94,13 +94,20 @@ Settings.trackers = {
     'udp://glotorrents.pw:6969/announce',
     'udp://tracker.opentrackr.org:1337/announce',
     'udp://torrent.gresille.org:80/announce',
-    'udp://tracker.openbittorrent.com:80',
-    'udp://tracker.coppersurfer.tk:6969',
-    'udp://tracker.leechers-paradise.org:6969',
-    'udp://p4p.arenabg.ch:1337',
-    'udp://tracker.internetwarriors.net:1337',
-    'wss://tracker.openwebtorrent.com',
-    'wss://tracker.btorrent.xyz'
+    'udp://tracker.openbittorrent.com:1337/announce',
+    'udp://tracker.coppersurfer.tk:6969/announce',
+    'udp://tracker.leechers-paradise.org:6969/announce',
+    'udp://p4p.arenabg.ch:1337/announce',
+    'udp://p4p.arenabg.com:1337/announce',
+    'udp://tracker.internetwarriors.net:1337/announce',
+    'udp://9.rarbg.to:2710/announce',
+    'udp://9.rarbg.me:2710/announce',
+    'udp://exodus.desync.com:6969/announce',
+    'udp://tracker.cyberia.is:6969/announce',
+    'udp://tracker.torrent.eu.org:451/announce',
+    'udp://tracker.open-internet.nl:6969/announce',
+    'wss://tracker.openwebtorrent.com/announce',
+    'wss://tracker.btorrent.xyz/announce'
   ]
 };
 
@@ -126,6 +133,7 @@ Settings.postersJump = [134, 154, 174, 194, 214, 234, 254, 274, 294];
 //Playback
 Settings.alwaysFullscreen = false;
 Settings.playNextEpisodeAuto = true;
+Settings.activateLoCtrl = false;
 Settings.chosenPlayer = 'local';
 
 // Advanced UI
@@ -188,9 +196,8 @@ Settings.minimizeToTray = false;
 Settings.bigPicture = false;
 
 // Features
-Settings.activateTorrentCollection = false;
+Settings.activateTorrentCollection = true;
 Settings.activateWatchlist = true;
-Settings.activateRandomize = true;
 Settings.onlineSearchEngine = 'ExtraTorrent';
 
 // Ratio

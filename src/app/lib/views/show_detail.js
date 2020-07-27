@@ -303,7 +303,7 @@
         },
 
         openMagnet: function (e) {
-            var torrentUrl = $('.startStreaming').attr('data-torrent');
+            var torrentUrl = $('.startStreaming').attr('data-torrent').replace(/\&amp;/g, '&');
             if (e.button === 2) { //if right click on magnet link
                 var clipboard = nw.Clipboard.get();
                 clipboard.set(torrentUrl, 'text'); //copy link to clipboard
