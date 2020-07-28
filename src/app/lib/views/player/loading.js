@@ -218,14 +218,15 @@
       if (state === 'playingExternally') {
         this.ui.progressbar.hide();
         if (streamInfo && streamInfo.get('device')) {
+          this.ui.vpn.css('display', 'none');
+          this.ui.playingbar.css('width', '0%');
+          this.ui.cancel_button.css('visibility', 'visible');
           if (Settings.activateLoCtrl === true) {
             $('.show-pcontrols').removeClass('fa-angle-down').addClass('fa-angle-up').attr("data-original-title", i18n.__('Hide playback controls'));
-            this.ui.vpn.css('display', 'none');
             this.ui.cancel_button.css('display', 'none');
             this.ui.controls.css('display', 'block');
             this.ui.playingbarBox.css('display', 'block');
           }
-          this.ui.playingbar.css('width', '0%');
 
           // Update gui on status update.
           // uses listenTo so event is unsubscribed automatically when loading view closes.
