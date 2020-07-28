@@ -19,7 +19,7 @@
                 <% if(type !== 'video/youtube') { %>
                 <% var filename; %>
                 <span class="filename_player value" style="text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= i18n.__("Filename") %>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%= filename %></span><br>
-                <span class="speed-info-player"><%= i18n.__("Stream Url") %>:&nbsp;</span><span class="stream_url_player value" style="text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= src.replace('127.0.0.1', Settings.ipAddress) %></span><br><br>
+                <span class="speed-info-player"><%= i18n.__("Stream Url") %>:&nbsp;</span><% if(src && Settings.ipAddress) { %><span class="stream_url_player value" style="text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= src.replace('127.0.0.1', Settings.ipAddress) %></span><% } %><br><br>
                 <% } %>
             </div>
         </div>
