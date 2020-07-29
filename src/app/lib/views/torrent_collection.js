@@ -25,7 +25,7 @@
             'change #enablethepiratebay': 'togglethepiratebay',
             'change #enable1337x': 'toggle1337x',
             'change #enablerarbg': 'togglerarbg',
-            'change #enableomgtorrents': 'toggleomgtorrents'
+            'change #enableomgtorrent': 'toggleomgtorrent'
         },
 
         initialize: function () {
@@ -75,8 +75,8 @@
             $('#online-input').focus();
         },
 
-        toggleomgtorrents: function () {
-            AdvSettings.set('enableomgtorrents', !Settings.enableomgtorrents);
+        toggleomgtorrent: function () {
+            AdvSettings.set('enableomgtorrent', !Settings.enableomgtorrent);
             $('#online-input').focus();
         },
 
@@ -242,7 +242,7 @@
             };
 
             var omgtorrent = function () {
-                if (Settings.enableomgtorrents) {
+                if (Settings.enableomgtorrent) {
                     return new Promise(function (resolve) {
                         var results = [];
                         setTimeout(function () {
