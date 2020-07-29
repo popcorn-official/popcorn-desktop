@@ -62,18 +62,22 @@
 
         togglethepiratebay: function () {
             AdvSettings.set('enablethepiratebay', !Settings.enablethepiratebay);
+            $('#online-input').focus();
         },
 
         toggle1337x: function () {
             AdvSettings.set('enable1337x', !Settings.enable1337x);
+            $('#online-input').focus();
         },
 
         togglerarbg: function () {
             AdvSettings.set('enablerarbg', !Settings.enablerarbg);
+            $('#online-input').focus();
         },
 
         toggleomgtorrents: function () {
             AdvSettings.set('enableomgtorrents', !Settings.enableomgtorrents);
+            $('#online-input').focus();
         },
 
         onlineSearch: function (e, retry) {
@@ -99,6 +103,8 @@
             $('.onlinesearch-info>ul.file-list').html('');
 
             $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
+
+            $('#online-input').blur();
 
             var index = 0;
             console.warn(category);
