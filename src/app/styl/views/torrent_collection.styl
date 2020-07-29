@@ -27,11 +27,12 @@
             
             .search_in
                 margin 12px 0px 24px -96px
-                opacity 0.3
-                transition opacity .1s ease-in
+                opacity 0.8
+                display none
+                position absolute
 
                 &:hover
-                    opacity 0.9
+                    display block
 
                 span
                     color $InputBoxText
@@ -88,6 +89,9 @@
                 cursor text
                 outline 0 !important
                 height 30px
+                &:focus
+                    & ~ .search_in
+                        display block
 
             .online-search
                 margin-left 5px
@@ -172,7 +176,7 @@
         .onlinesearch-info
             display none
             margin 0 auto
-            height calc(100% - 54px)
+            height calc(100% - 30px)
             color $Text1
             font-family $AlternateFont
             font-size 17px
@@ -186,7 +190,7 @@
                 color $TextError
                 cursor pointer
                 right 7%
-                top 116px
+                top 92px
                 transition color .3s
 
                 &:hover
