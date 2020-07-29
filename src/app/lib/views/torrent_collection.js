@@ -21,7 +21,11 @@
             'click .online-search': 'onlineSearch',
             'submit #online-form': 'onlineSearch',
             'click .online-back': 'onlineClose',
-            'contextmenu #online-input': 'rightclick_search'
+            'contextmenu #online-input': 'rightclick_search',
+            'change #enable1337x': 'toggle1337x',
+            'change #enableomgtorrents': 'toggleomgtorrents',
+            'change #enablethepiratebay': 'togglethepiratebay',
+            'change #enablerarbg': 'togglerarbg',
         },
 
         initialize: function () {
@@ -56,6 +60,38 @@
             });
         },
 
+        toggle1337x: function () {
+            if (Settings.enable1337x) {
+                AdvSettings.set('enable1337x', false);
+            } else {
+                AdvSettings.set('enable1337x', true);
+            }
+        },
+
+        toggleomgtorrents: function () {
+            if (Settings.enableomgtorrents) {
+                AdvSettings.set('enableomgtorrents', false);
+            } else {
+                AdvSettings.set('enableomgtorrents', true);
+            }
+        },
+
+        togglethepiratebay: function () {
+            if (Settings.enablethepiratebay) {
+                AdvSettings.set('enablethepiratebay', false);
+            } else {
+                AdvSettings.set('enablethepiratebay', true);
+            }
+        },
+
+        togglerarbg: function () {
+            if (Settings.enablerarbg) {
+                AdvSettings.set('enablerarbg', false);
+            } else {
+                AdvSettings.set('enablerarbg', true);
+            }
+        },
+
         onlineSearch: function (e, retry) {
             if (e) {
                 e.preventDefault();
@@ -84,171 +120,179 @@
             console.warn(category);
 
             var leetx = function () {
-                return new Promise(function (resolve) {
-                    var results = [];
-                    setTimeout(function () {
-                        resolve(results);
-                    }, 6000);
-                    var leet = torrentCollection.leet;
-                    leet.search({
-                        query: input.toLocaleLowerCase(),
-                        category: category,
-                        orderBy: 'seeders',
-                        sortBy: 'desc',
-                    }).then(function (data) {
-                        console.debug('1337x search: %s results', data.torrents.length);
-                        var indx = 1, totl = data.length;
-                        data.torrents.forEach(function (item) {
-                            leet.info('https://1337x.to' + item.href).then(function (ldata) {
-                                var itemModel = {
-                                    title: ldata.title,
-                                    magnet: ldata.download.magnet,
-                                    seeds: ldata.seeders,
-                                    peers: ldata.leechers,
-                                    size: ldata.size,
-                                    index: index
-                                };
-                                indx++;
-                                if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
-                                    return;
-                                }
-                                results.push(itemModel);
-                                index++;
-                            }).catch(function (err) {
-                                throw 'nope';
+                if (Settings.enable1337x) {
+                    return new Promise(function (resolve) {
+                        var results = [];
+                        setTimeout(function () {
+                            resolve(results);
+                        }, 6000);
+                        var leet = torrentCollection.leet;
+                        leet.search({
+                            query: input.toLocaleLowerCase(),
+                            category: category,
+                            orderBy: 'seeders',
+                            sortBy: 'desc',
+                        }).then(function (data) {
+                            console.debug('1337x search: %s results', data.torrents.length);
+                            var indx = 1, totl = data.length;
+                            data.torrents.forEach(function (item) {
+                                leet.info('https://1337x.to' + item.href).then(function (ldata) {
+                                    var itemModel = {
+                                        title: ldata.title,
+                                        magnet: ldata.download.magnet,
+                                        seeds: ldata.seeders,
+                                        peers: ldata.leechers,
+                                        size: ldata.size,
+                                        index: index
+                                    };
+                                    indx++;
+                                    if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
+                                        return;
+                                    }
+                                    results.push(itemModel);
+                                    index++;
+                                }).catch(function (err) {
+                                    throw 'nope';
+                                });
                             });
+                        }).catch(function (err) {
+                            console.error('1337x search:', err);
+                            resolve(results);
                         });
-                    }).catch(function (err) {
-                        console.error('1337x search:', err);
-                        resolve(results);
                     });
-                });
+                }
             };
 
             var omgtorrent = function () {
-                return new Promise(function (resolve) {
-                    var results = [];
-                    setTimeout(function () {
-                        resolve(results);
-                    }, 6000);
-                    var omg = torrentCollection.omg;
-                    omg.search({
-                        query: input.toLocaleLowerCase(),
-                        type: category.toLocaleLowerCase() === 'movies' ? 'films' : 'series',
-                        order: 'seeders',
-                        orderBy: 'desc',
-                    }).then(function (data) {
-                        console.debug('OMG search: %s results', data.torrents.length);
-                        var indx = 1, totl = data.length;
-                        data.torrents.forEach(function (item) {
-                            omg.info(item.href).then(function (ldata) {
+                if (Settings.enableomgtorrents) {
+                    return new Promise(function (resolve) {
+                        var results = [];
+                        setTimeout(function () {
+                            resolve(results);
+                        }, 6000);
+                        var omg = torrentCollection.omg;
+                        omg.search({
+                            query: input.toLocaleLowerCase(),
+                            type: category.toLocaleLowerCase() === 'movies' ? 'films' : 'series',
+                            order: 'seeders',
+                            orderBy: 'desc',
+                        }).then(function (data) {
+                            console.debug('OMG search: %s results', data.torrents.length);
+                            var indx = 1, totl = data.length;
+                            data.torrents.forEach(function (item) {
+                                omg.info(item.href).then(function (ldata) {
+                                    var itemModel = {
+                                        title: ldata.title,
+                                        magnet: ldata.download.magnet,
+                                        seeds: ldata.seeders,
+                                        peers: ldata.leechers,
+                                        size: ldata.size,
+                                        index: index
+                                    };
+                                    indx++;
+                                    if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
+                                        return;
+                                    }
+                                    results.push(itemModel);
+                                    index++;
+                                }).catch(function (err) {
+                                    throw 'OMG info failed';
+                                });
+                            });
+                        }).catch(function (err) {
+                            console.error('OMG search:', err);
+                            resolve(results);
+                        });
+                    });
+                }
+            };
+
+            var piratebay = function () {
+                if (Settings.enablethepiratebay) {
+                    return new Promise(function (resolve) {
+                        var results = [];
+                        setTimeout(function () {
+                            resolve(results);
+                        }, 6000);
+                        var tpb = torrentCollection.tpb;
+                        tpb.search(input.toLocaleLowerCase(), {
+                            category: 'video',
+                            page : 0,
+                            orderBy: 'seeds',
+                            sortBy: 'desc'
+                        }).then(function (data) {
+                            console.debug('TPB search: %s results', data.length);
+                            data.forEach(function (item) {
+                                if (!item.category) {
+                                    return;
+                                }
+
                                 var itemModel = {
-                                    title: ldata.title,
-                                    magnet: ldata.download.magnet,
-                                    seeds: ldata.seeders,
-                                    peers: ldata.leechers,
-                                    size: ldata.size,
+                                    title: item.name,
+                                    magnet: item.magnetLink,
+                                    seeds: item.seeders,
+                                    peers: item.leechers,
+                                    size: item.size,
                                     index: index
                                 };
-                                indx++;
-                                if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
+
+                                if (item.name.match(/trailer/i) !== null && item.name.match(/trailer/i) === null) {
                                     return;
                                 }
                                 results.push(itemModel);
                                 index++;
-                            }).catch(function (err) {
-                                throw 'OMG info failed';
                             });
+                            resolve(results);
+                        }).catch(function (err) {
+                            console.error('tpb search:', err);
+                            resolve(results);
                         });
-                    }).catch(function (err) {
-                        console.error('OMG search:', err);
-                        resolve(results);
                     });
-                });
-            };
-
-            var piratebay = function () {
-                return new Promise(function (resolve) {
-                    var results = [];
-                    setTimeout(function () {
-                        resolve(results);
-                    }, 6000);
-                    var tpb = torrentCollection.tpb;
-                    tpb.search(input.toLocaleLowerCase(), {
-                        category: 'video',
-                        page : 0,
-                        orderBy: 'seeds',
-                        sortBy: 'desc'
-                    }).then(function (data) {
-                        console.debug('TPB search: %s results', data.length);
-                        data.forEach(function (item) {
-                            if (!item.category) {
-                                return;
-                            }
-
-                            var itemModel = {
-                                title: item.name,
-                                magnet: item.magnetLink,
-                                seeds: item.seeders,
-                                peers: item.leechers,
-                                size: item.size,
-                                index: index
-                            };
-
-                            if (item.name.match(/trailer/i) !== null && item.name.match(/trailer/i) === null) {
-                                return;
-                            }
-                            results.push(itemModel);
-                            index++;
-                        });
-                        resolve(results);
-                    }).catch(function (err) {
-                        console.error('tpb search:', err);
-                        resolve(results);
-                    });
-                });
+                }
             };
 
             var rarbg = function (retry) {
-                return new Promise(function (resolve) {
-                    var results1 = [];
-                    setTimeout(function () {
-                        resolve(results1);
-                    }, 6000);
-                    var rbg = torrentCollection.rbg;
-                    rbg.search({
-                        query: input.toLocaleLowerCase(),
-                        category: category.toLocaleLowerCase() === 'movies' ? 'movies' : 'tv',
-                        sort: 'seeders',
-                        verified: false
-                    }).then(function (results) {
-                        console.debug('rarbg search: %s results', results.length);
-                        results.forEach(function (item) {
-                            var itemModel = {
-                                title: item.title,
-                                magnet: item.download,
-                                seeds: item.seeders,
-                                peers: item.leechers,
-                                size: Common.fileSize(parseInt(item.size)),
-                                index: index
-                            };
-
-                            if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
-                                return;
-                            }
-                            results1.push(itemModel);
-                            index++;
-                        });
-                        resolve(results1);
-                    }).catch(function (err) {
-                        console.error('rarbg search:', err);
-                        if (!retry) {
-                            return resolve(rarbg(true));
-                        } else {
+                if (Settings.enablerarbg) {
+                    return new Promise(function (resolve) {
+                        var results1 = [];
+                        setTimeout(function () {
                             resolve(results1);
-                        }
+                        }, 6000);
+                        var rbg = torrentCollection.rbg;
+                        rbg.search({
+                            query: input.toLocaleLowerCase(),
+                            category: category.toLocaleLowerCase() === 'movies' ? 'movies' : 'tv',
+                            sort: 'seeders',
+                            verified: false
+                        }).then(function (results) {
+                            console.debug('rarbg search: %s results', results.length);
+                            results.forEach(function (item) {
+                                var itemModel = {
+                                    title: item.title,
+                                    magnet: item.download,
+                                    seeds: item.seeders,
+                                    peers: item.leechers,
+                                    size: Common.fileSize(parseInt(item.size)),
+                                    index: index
+                                };
+
+                                if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
+                                    return;
+                                }
+                                results1.push(itemModel);
+                                index++;
+                            });
+                            resolve(results1);
+                        }).catch(function (err) {
+                            console.error('rarbg search:', err);
+                            if (!retry) {
+                                return resolve(rarbg(true));
+                            } else {
+                                resolve(results1);
+                            }
+                        });
                     });
-                });
+                }
             };
 
             var removeDupes = function (arr) {
