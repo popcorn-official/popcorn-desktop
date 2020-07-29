@@ -32,8 +32,8 @@
                         <label for="enablerarbg"><%= i18n.__("RARBG") %></label>
                     </span>
                     <span>
-                        <input class="sengine-checkbox" name="enableomgtorrents" id="enableomgtorrents" type="checkbox" <%=(Settings.enableomgtorrents? "checked='checked'":"")%>>
-                        <label for="enableomgtorrents"><%= i18n.__("OMGTorrents") %></label>
+                        <input class="sengine-checkbox" name="enableomgtorrent" id="enableomgtorrent" type="checkbox" <%=(Settings.enableomgtorrent? "checked='checked'":"")%>>
+                        <label for="enableomgtorrent"><%= i18n.__("OMGTorrent") %></label>
                     </span>
                 </div>
             </form>
