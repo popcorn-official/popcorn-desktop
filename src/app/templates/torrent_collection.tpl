@@ -18,25 +18,25 @@
             <form id="online-form">
                 <input id="online-input" autocomplete="off" size="34" type="text" name="keyword" placeholder="<%= i18n.__('Search for torrent') %>">
                 <i class="fa fa-search online-search"></i>
+                <div class="search_in">
+                    <span>
+                        <input class="sengine-checkbox" name="enablethepiratebay" id="enablethepiratebay" type="checkbox" <%=(Settings.enablethepiratebay? "checked='checked'":"")%>>
+                        <label for="enablethepiratebay"><%= i18n.__("ThePirateBay") %></label>
+                    </span>
+                    <span>
+                        <input class="sengine-checkbox" name="enable1337x" id="enable1337x" type="checkbox" <%=(Settings.enable1337x? "checked='checked'":"")%>>
+                        <label for="enable1337x"><%= i18n.__("1337x") %></label>
+                    </span>
+                    <span>
+                        <input class="sengine-checkbox" name="enablerarbg" id="enablerarbg" type="checkbox" <%=(Settings.enablerarbg? "checked='checked'":"")%>>
+                        <label for="enablerarbg"><%= i18n.__("RARBG") %></label>
+                    </span>
+                    <span>
+                        <input class="sengine-checkbox" name="enableomgtorrents" id="enableomgtorrents" type="checkbox" <%=(Settings.enableomgtorrents? "checked='checked'":"")%>>
+                        <label for="enableomgtorrents"><%= i18n.__("OMGTorrents") %></label>
+                    </span>
+                </div>
             </form>
-            <div class="search_in">
-                <span>
-                    <input class="sengine-checkbox" name="enablethepiratebay" id="enablethepiratebay" type="checkbox" <%=(Settings.enablethepiratebay? "checked='checked'":"")%>>
-                    <label for="enablethepiratebay"><%= i18n.__("ThePirateBay") %></label>
-                </span>
-                <span>
-                    <input class="sengine-checkbox" name="enable1337x" id="enable1337x" type="checkbox" <%=(Settings.enable1337x? "checked='checked'":"")%>>
-                    <label for="enable1337x"><%= i18n.__("1337x") %></label>
-                </span>
-                <span>
-                    <input class="sengine-checkbox" name="enablerarbg" id="enablerarbg" type="checkbox" <%=(Settings.enablerarbg? "checked='checked'":"")%>>
-                    <label for="enablerarbg"><%= i18n.__("RARBG") %></label>
-                </span>
-                <span>
-                    <input class="sengine-checkbox" name="enableomgtorrents" id="enableomgtorrents" type="checkbox" <%=(Settings.enableomgtorrents? "checked='checked'":"")%>>
-                    <label for="enableomgtorrents"><%= i18n.__("OMGTorrents") %></label>
-                </span>
-            </div>
         </div>
 
         <div class="notorrents-info">
