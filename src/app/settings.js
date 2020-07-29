@@ -202,7 +202,7 @@ Settings.onlineSearchEngine = 'ExtraTorrent';
 Settings.enablethepiratebay = true;
 Settings.enable1337x = true;
 Settings.enablerarbg = true;
-Settings.enableomgtorrents = true;
+Settings.enableomgtorrent = true;
 
 // Ratio
 Settings.totalDownloaded = 0;
