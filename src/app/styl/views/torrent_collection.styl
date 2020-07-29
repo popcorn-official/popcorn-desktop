@@ -26,10 +26,9 @@
             margin 0 auto
             
             .search_in
-                background-color $BgColor1
-                margin 3px 0px 15px -96px
+                background-color $InputBoxBg
+                margin 0px 0px 15px -88px
                 padding 9px 0px 9px 0px
-                opacity 0.8
                 display none
                 position absolute
 
@@ -42,8 +41,13 @@
                     font-size 12px
                     float left
                     height 12px
-                    padding 0px 10px 10px 10px
+                    padding 0px 8px 10px 8px
                     vertical-align top
+                    opacity 0.8
+                    transition opacity .1s ease-in
+
+                    &:hover
+                        opacity 1
 
                     .sengine-checkbox
                         height 12px
