@@ -21,8 +21,8 @@
                 <i class="fa fa-caret-down togglesengines"></i>
                 <div class="search_in">
                     <span>
-                        <input class="sengine-checkbox" name="enabletThepiratebaySearch" id="enabletThepiratebaySearch" type="checkbox" <%=(Settings.enabletThepiratebaySearch? "checked='checked'":"")%>>
-                        <label for="enabletThepiratebaySearch"><%= i18n.__("ThePirateBay") %></label>
+                        <input class="sengine-checkbox" name="enableThepiratebaySearch" id="enableThepiratebaySearch" type="checkbox" <%=(Settings.enableThepiratebaySearch? "checked='checked'":"")%>>
+                        <label for="enableThepiratebaySearch"><%= i18n.__("ThePirateBay") %></label>
                     </span>
                     <span>
                         <input class="sengine-checkbox" name="enable1337xSearch" id="enable1337xSearch" type="checkbox" <%=(Settings.enable1337xSearch? "checked='checked'":"")%>>
