@@ -34,9 +34,6 @@
                 height 30px
                 width 352px
 
-                &:hover
-                    display block
-
                 span
                     color $InputBoxText
                     font-family $Font, $AlternateFont
@@ -98,12 +95,16 @@
                 cursor text
                 outline 0 !important
                 height 30px
-                &:focus
-                    & ~ .search_in
-                        display block
 
             .online-search
                 margin-left 5px
+                cursor pointer
+                transition color .3s
+
+                &:hover
+                    color: $ButtonBgHover
+
+            .togglesengines
                 cursor pointer
                 transition color .3s
 
