@@ -22,6 +22,7 @@
             'submit #online-form': 'onlineSearch',
             'click .online-back': 'onlineClose',
             'contextmenu #online-input': 'rightclick_search',
+            'click .togglesengines': 'togglesengines',
             'change #enablethepiratebay': 'togglethepiratebay',
             'change #enable1337x': 'toggle1337x',
             'change #enablerarbg': 'togglerarbg',
@@ -60,24 +61,30 @@
             });
         },
 
+        togglesengines: function () {
+            if(!$('.search_in').is(':visible')) {
+                $('.togglesengines').removeClass('fa-caret-down').addClass('fa-caret-up');
+                $('.search_in').css('display', 'block');
+            } else {
+                $('.togglesengines').removeClass('fa-caret-up').addClass('fa-caret-down');
+                $('.search_in').css('display', 'none');
+            }
+        },
+
         togglethepiratebay: function () {
             AdvSettings.set('enablethepiratebay', !Settings.enablethepiratebay);
-            $('#online-input').focus();
         },
 
         toggle1337x: function () {
             AdvSettings.set('enable1337x', !Settings.enable1337x);
-            $('#online-input').focus();
         },
 
         togglerarbg: function () {
             AdvSettings.set('enablerarbg', !Settings.enablerarbg);
-            $('#online-input').focus();
         },
 
         toggleomgtorrent: function () {
             AdvSettings.set('enableomgtorrent', !Settings.enableomgtorrent);
-            $('#online-input').focus();
         },
 
         onlineSearch: function (e, retry) {
@@ -103,8 +110,6 @@
             $('.onlinesearch-info>ul.file-list').html('');
 
             $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
-
-            $('#online-input').blur();
 
             var index = 0;
             console.warn(category);
