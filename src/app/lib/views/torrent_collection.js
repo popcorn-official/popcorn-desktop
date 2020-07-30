@@ -115,6 +115,7 @@
             $('.onlinesearch-info>ul.file-list').html('');
 
             $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
+            $('.togglesengines').css('visibility', 'hidden');
 
             var index = 0;
             console.warn(category);
@@ -332,6 +333,7 @@
                     that.onlineAddItem(item);
                 })).then(function () {
                     $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
+                    $('.togglesengines').css('visibility', 'visible');
                     $('.onlinesearch-info').show();
 
                     if (items.length === 0) {
