@@ -24,6 +24,40 @@
             padding-left 140px
             width 460px
             margin 0 auto
+            
+            .search_in
+                background-color $InputBoxBg
+                margin 0px 0px 15px -88px
+                padding 9px 0px 9px 0px
+                display none
+                position absolute
+                height 30px
+                width 352px
+
+                span
+                    color $InputBoxText
+                    font-family $Font, $AlternateFont
+                    font-size 12px
+                    float left
+                    height 12px
+                    padding 0px 8px 10px 9px
+                    vertical-align top
+                    opacity 0.75
+                    margin-top 1px
+                    transition opacity .1s ease-in
+
+                    &:hover
+                        opacity 1
+
+                    .sengine-checkbox
+                        height 12px
+                        display inline-block
+                        cursor pointer
+                        vertical-align top
+                        margin-top 0px
+
+                    label
+                        cursor pointer
 
             .engine-selector
                 position absolute
@@ -70,10 +104,20 @@
                 &:hover
                     color: $ButtonBgHover
 
+            .togglesengines
+                cursor pointer
+                transition color .3s
+
+                &:hover
+                    color: $ButtonBgHover
+
             .dropdown
                 position absolute
                 margin-top 9px
                 margin-left -88px
+                border-bottom 3px solid $BgColor1
+                border-right 3px solid $BgColor1
+                z-index 1000
 
                 select
                     position relative
