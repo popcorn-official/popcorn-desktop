@@ -23,10 +23,10 @@
             'click .online-back': 'onlineClose',
             'contextmenu #online-input': 'rightclick_search',
             'click .togglesengines': 'togglesengines',
-            'change #enablethepiratebay': 'togglethepiratebay',
-            'change #enable1337x': 'toggle1337x',
-            'change #enablerarbg': 'togglerarbg',
-            'change #enableomgtorrent': 'toggleomgtorrent'
+            'change #enableThepiratebaySearch': 'toggleThepiratebay',
+            'change #enable1337xSearch': 'toggle1337x',
+            'change #enableRarbgSearch': 'toggleRarbg',
+            'change #enableOmgtorrentSearch': 'toggleOmgtorrent'
         },
 
         initialize: function () {
@@ -71,20 +71,20 @@
             }
         },
 
-        togglethepiratebay: function () {
-            AdvSettings.set('enablethepiratebay', !Settings.enablethepiratebay);
+        toggleThepiratebay: function () {
+            AdvSettings.set('enableThepiratebaySearch', !Settings.enableThepiratebaySearch);
         },
 
         toggle1337x: function () {
-            AdvSettings.set('enable1337x', !Settings.enable1337x);
+            AdvSettings.set('enable1337xSearch', !Settings.enable1337xSearch);
         },
 
-        togglerarbg: function () {
-            AdvSettings.set('enablerarbg', !Settings.enablerarbg);
+        toggleRarbg: function () {
+            AdvSettings.set('enableRarbgSearch', !Settings.enableRarbgSearch);
         },
 
-        toggleomgtorrent: function () {
-            AdvSettings.set('enableomgtorrent', !Settings.enableomgtorrent);
+        toggleOmgtorrent: function () {
+            AdvSettings.set('enableOmgtorrentSearch', !Settings.enableOmgtorrentSearch);
         },
 
         onlineSearch: function (e, retry) {
@@ -121,7 +121,7 @@
             console.warn(category);
 
             var piratebay = function () {
-                if (Settings.enablethepiratebay) {
+                if (Settings.enableThepiratebaySearch) {
                     return new Promise(function (resolve) {
                         var results = [];
                         setTimeout(function () {
@@ -165,7 +165,7 @@
             };
 
             var leetx = function () {
-                if (Settings.enable1337x) {
+                if (Settings.enable1337xSearch) {
                     return new Promise(function (resolve) {
                         var results = [];
                         setTimeout(function () {
@@ -209,7 +209,7 @@
             };
 
             var rarbg = function (retry) {
-                if (Settings.enablerarbg) {
+                if (Settings.enableRarbgSearch) {
                     return new Promise(function (resolve) {
                         var results1 = [];
                         setTimeout(function () {
@@ -253,7 +253,7 @@
             };
 
             var omgtorrent = function () {
-                if (Settings.enableomgtorrent) {
+                if (Settings.enableOmgtorrentSearch) {
                     return new Promise(function (resolve) {
                         var results = [];
                         setTimeout(function () {
