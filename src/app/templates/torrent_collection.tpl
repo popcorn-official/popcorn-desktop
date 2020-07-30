@@ -18,6 +18,7 @@
             <form id="online-form">
                 <input id="online-input" autocomplete="off" size="34" type="text" name="keyword" placeholder="<%= i18n.__('Search for torrent') %>">
                 <i class="fa fa-search online-search"></i>
+                <i class="fa fa-caret-down togglesengines"></i>
                 <div class="search_in">
                     <span>
                         <input class="sengine-checkbox" name="enablethepiratebay" id="enablethepiratebay" type="checkbox" <%=(Settings.enablethepiratebay? "checked='checked'":"")%>>
