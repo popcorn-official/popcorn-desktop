@@ -1,5 +1,3 @@
-<header id="header"></header>
-<div class="dragzone" style="width: 86%; height: 32px; z-index: 11;" id="player_drag"></div>
 <div class="notification_alert" style="display:none"></div>
 <div id="notification"></div>
 <div id="changelog-container"></div>

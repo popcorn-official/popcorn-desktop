@@ -370,7 +370,6 @@
             // Test to make sure we have title
             win.info('Watching:', this.model.get('title'));
             $('.filter-bar').show();
-            $('#player_drag').show();
             var that = this;
 
             // Double Click to toggle Fullscreen
@@ -969,7 +968,6 @@
             if (this.model.get('type') === 'video/youtube') { // XXX Sammuel86 Trailer UI Show FIX/HACK -START
                 $('.trailer_mouse_catch').remove();
             }
-            $('#player_drag').hide();
             $('#header').show();
             if (!this.dontTouchFS && !this.inFullscreen && win.isFullscreen) {
                 win.leaveFullscreen();
