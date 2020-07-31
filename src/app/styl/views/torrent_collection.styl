@@ -42,7 +42,7 @@
                     height 12px
                     padding 0px 8px 10px 8px
                     vertical-align top
-                    opacity 0.75
+                    opacity 0.85
                     margin-top 1px
                     transition opacity .1s ease-in
 
@@ -69,8 +69,13 @@
                         vertical-align middle
                         cursor pointer
                         color $SettingsText1
+                        opacity 0.5
+
+                        &:hover
+                            opacity 1
 
                     &.sengine-checkbox:checked+label
+                        opacity 1
                         &:after
                             opacity 1
 
