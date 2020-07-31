@@ -48,8 +48,8 @@
         </div>
 
         <div class="torrents-info">
-            <i class="collection-open fa fa-database tooltipped" data-toggle="tooltip" data-placement="right" title="<%= i18n.__("Open Torrent Collection Folder") %>" style="font-size:50px;opacity:0.07;left:80px;top:122px;text-align:left;position:absolute;z-index:-1;cursor:pointer;" onmouseover="this.style.opacity=0.5" onmouseout="this.style.opacity=0.07"></i>
-            <i style="font-size:36px;font-family:Open Sans Bold;font-style:normal;opacity:0.07;left:134px;top:134px;text-align:left;position:absolute;z-index:-1;"><%=i18n.__("Saved Torrents") %></i>
+            <i class="collection-open fa fa-database tooltipped" data-toggle="tooltip" data-placement="right" title="<%= i18n.__("Open Torrent Collection Folder") %>" id="savedtorrentslabel"></i>
+            <i id="savedtorrentslabeltext"><%=i18n.__("Saved Torrents") %></i>
             <ul class="file-list">
                 <% _.each(fs.readdirSync(data_path + '/TorrentCollection/'), function(file, index) { %>
                     <li class="file-item" data-index="<%=file.index%>" data-file="<%=index%>">
@@ -69,8 +69,8 @@
         </div>
 
         <div class="onlinesearch-info">
-            <i class="fa fa-search" style="font-size:48px;opacity:0.07;left:80px;top:126px;text-align:left;position:absolute;z-index:-1;"></i>
-            <i style="font-size:36px;font-family:Open Sans Bold;font-style:normal;opacity:0.07;left:134px;top:134px;text-align:left;position:absolute;z-index:-1;"><%=i18n.__("Search Results") %></i>
+            <i class="fa fa-search" id="searchresultslabel"></i>
+            <i id="searchresultslabeltext"><%=i18n.__("Search Results") %></i>
             <i class="fa fa-arrow-circle-left online-back"></i>
             <ul class="file-list">
             </ul>
