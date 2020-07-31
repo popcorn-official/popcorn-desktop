@@ -65,7 +65,7 @@
             if($('.search_in').is(':visible')) {
                 $('.togglesengines').removeClass('fa-caret-up').addClass('fa-caret-down');
                 $('.search_in').css('display', 'none');
-                $('.search_in').css('height', '10px');
+                $('.search_in').css('height', '20px');
                 $('.search_in').css('padding', '0px 0px 9px 2px');
             } else {
                 $('.togglesengines').removeClass('fa-caret-down').addClass('fa-caret-up');
@@ -114,7 +114,7 @@
             if($('.search_in').is(':visible')) {
                 $('.togglesengines').removeClass('fa-caret-up').addClass('fa-caret-down');
                 $('.search_in').css('display', 'none');
-                $('.search_in').css('height', '10px');
+                $('.search_in').css('height', '20px');
                 $('.search_in').css('padding', '0px 0px 9px 2px');
             }
 
