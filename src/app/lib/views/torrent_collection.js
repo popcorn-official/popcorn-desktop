@@ -2,7 +2,8 @@
     'use strict';
 
     var clipboard = nw.Clipboard.get(),
-        collection = path.join(data_path + '/TorrentCollection/');
+        collection = path.join(data_path + '/TorrentCollection/'),
+        hidetooltps;
 
     var TorrentCollection = Marionette.View.extend({
         template: '#torrent-collection-tpl',
@@ -52,6 +53,8 @@
                 $('.collection-actions').css('display', 'block');
                 $('.torrents-info').css('display', 'block');
             }
+
+            clearTimeout(hidetooltps);
 
             this.$('.tooltipped').tooltip({
                 delay: {
@@ -116,6 +119,8 @@
 
             $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
             $('.togglesengines').css('visibility', 'hidden');
+
+            clearTimeout(hidetooltps);
 
             var index = 0;
             console.warn(category);
@@ -332,7 +337,11 @@
             ]).then(function (results) {
                 var items = sortBySeeds(removeDupes(results));
                 console.log('search providers: %d results', items.length);
-                $('.online-search').attr('title', items.length + ' results').tooltip('fixTitle');
+                $('.online-search').attr('title', items.length + ' results').tooltip('fixTitle').tooltip('show');
+
+                hidetooltps = setTimeout(function() {
+                    $('.tooltip').tooltip('hide');
+                }, 2000);
 
                 return Promise.all(items.map(function (item) {
                     that.onlineAddItem(item);
