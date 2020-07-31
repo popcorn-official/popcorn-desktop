@@ -40,13 +40,13 @@
     initialize: function() {
       _this = this;
       this.views = {};
+      //Handle keyboard shortcuts when other views are appended or removed
 
       healthButton = new Common.HealthButton('.health-icon', this.retrieveTorrentHealth.bind(this));
 
-      //Handle keyboard shortcuts when other views are appended or removed
-
       curSynopsis = {old: '', crew: '', cast: '', allcast: '', vstatus: null};
 
+      //Check for missing metadata or if Translate Synopsis is enabled and the language set to something other than English and if one, or multiple are true run the corresponding function to fetch them
       if (!this.model.get('synopsis') || !this.model.get('rating') || this.model.get('rating') == '0' || this.model.get('rating') == '0.0' || !this.model.get('runtime') || this.model.get('runtime') == '0' || !this.model.get('trailer') || !this.model.get('poster') || this.model.get('poster') == 'images/posterholder.png' || !this.model.get('backdrop') || this.model.get('backdrop') == 'images/posterholder.png' || (Settings.translateSynopsis && Settings.language != 'en')) {
         this.getMetaData();
       }
