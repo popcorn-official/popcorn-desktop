@@ -49,15 +49,54 @@
                     &:hover
                         opacity 1
 
-                    .sengine-checkbox
+                input[type=checkbox]
+                    &.sengine-checkbox
+                        position absolute
+                        overflow hidden
+                        clip rect(0 0 0 0)
+                        height 1px
+                        width 1px
+                        margin -1px
+                        padding 0
+                        border 0
+
+                    &.sengine-checkbox+label
                         height 12px
                         display inline-block
+                        line-height 12px
+                        font-size 12px
+                        font-family $MainFont
+                        vertical-align middle
                         cursor pointer
-                        vertical-align top
-                        margin 0px -1px 0px 0px
+                        color $SettingsText1
 
-                    label
-                        cursor pointer
+                    &.sengine-checkbox:checked+label
+                        &:after
+                            opacity 1
+
+                .label
+                    &:before
+                        content '\f0c8'
+                        font-family "Font Awesome 5 Free"
+                        font-weight 900
+                        font-size 12px
+                        padding-right 5px
+                        margin-left -1px
+                        float left
+                        position relative
+                        color $CheckboxBg
+                    &:after
+                        content '\f00c'
+                        font-family "Font Awesome 5 Free"
+                        font-weight 900
+                        font-size 10px
+                        margin-right -14px
+                        color $CheckboxCheck
+                        position relative
+                        float left
+                        left -15px
+                        opacity 0
+                        transition opacity .1s ease-in-out
 
             .engine-selector
                 position absolute
