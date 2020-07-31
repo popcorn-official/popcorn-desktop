@@ -65,13 +65,9 @@
             if($('.search_in').is(':visible')) {
                 $('.togglesengines').removeClass('fa-caret-up').addClass('fa-caret-down');
                 $('.search_in').css('display', 'none');
-                $('.search_in').css('height', '20px');
-                $('.search_in').css('padding', '0px 0px 9px 2px');
             } else {
                 $('.togglesengines').removeClass('fa-caret-down').addClass('fa-caret-up');
                 $('.search_in').css('display', 'block');
-                $('.search_in').css('height', '30px');
-                $('.search_in').css('padding', '9px 0px 9px 2px');
             }
         },
 
@@ -114,8 +110,6 @@
             if($('.search_in').is(':visible')) {
                 $('.togglesengines').removeClass('fa-caret-up').addClass('fa-caret-down');
                 $('.search_in').css('display', 'none');
-                $('.search_in').css('height', '20px');
-                $('.search_in').css('padding', '0px 0px 9px 2px');
             }
 
             $('.onlinesearch-info>ul.file-list').html('');
