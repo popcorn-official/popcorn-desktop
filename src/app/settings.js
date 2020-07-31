@@ -199,6 +199,10 @@ Settings.bigPicture = false;
 Settings.activateTorrentCollection = true;
 Settings.activateWatchlist = true;
 Settings.onlineSearchEngine = 'ExtraTorrent';
+Settings.enableThepiratebaySearch = true;
+Settings.enable1337xSearch = true;
+Settings.enableRarbgSearch = true;
+Settings.enableOmgtorrentSearch = true;
 
 // Ratio
 Settings.totalDownloaded = 0;
