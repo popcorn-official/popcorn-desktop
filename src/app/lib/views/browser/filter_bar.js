@@ -206,19 +206,6 @@
         this.setActive(App.currentview);
       }
 
-      this.$('.tooltipped').tooltip({
-        delay: {
-          show: 800,
-          hide: 100
-        }
-      });
-      this.$('.providerinfo').tooltip({
-        delay: {
-          show: 50,
-          hide: 50
-        }
-      });
-
       if (Settings.rememberFilters) {
         try {
           this.fixFilter();
