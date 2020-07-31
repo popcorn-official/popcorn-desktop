@@ -135,6 +135,7 @@
                             sortBy: 'desc'
                         }).then(function (data) {
                             console.debug('TPB search: %s results', data.length);
+                            $('#enableThepiratebaySearchL').attr('title', data.length + ' results').tooltip('fixTitle');
                             data.forEach(function (item) {
                                 if (!item.category) {
                                     return;
@@ -179,6 +180,7 @@
                             sortBy: 'desc',
                         }).then(function (data) {
                             console.debug('1337x search: %s results', data.torrents.length);
+                            $('#enable1337xSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle');
                             var indx = 1, totl = data.length;
                             data.torrents.forEach(function (item) {
                                 leet.info('https://1337x.to' + item.href).then(function (ldata) {
@@ -223,6 +225,7 @@
                             verified: false
                         }).then(function (results) {
                             console.debug('rarbg search: %s results', results.length);
+                            $('#enableRarbgSearchL').attr('title', results.length + ' results').tooltip('fixTitle');
                             results.forEach(function (item) {
                                 var itemModel = {
                                     title: item.title,
@@ -267,6 +270,7 @@
                             orderBy: 'desc',
                         }).then(function (data) {
                             console.debug('OMG search: %s results', data.torrents.length);
+                            $('#enableOmgtorrentSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle');
                             var indx = 1, totl = data.length;
                             data.torrents.forEach(function (item) {
                                 omg.info(item.href).then(function (ldata) {
@@ -328,6 +332,7 @@
             ]).then(function (results) {
                 var items = sortBySeeds(removeDupes(results));
                 console.log('search providers: %d results', items.length);
+                $('.online-search').attr('title', items.length + ' results').tooltip('fixTitle');
 
                 return Promise.all(items.map(function (item) {
                     that.onlineAddItem(item);
