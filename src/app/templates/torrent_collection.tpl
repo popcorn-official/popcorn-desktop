@@ -69,7 +69,7 @@
         </div>
 
         <div class="onlinesearch-info">
-            <i class="fa fa-search" style="font-size:50px;opacity:0.07;left:80px;top:122px;text-align:left;position:absolute;z-index:-1;"></i>
+            <i class="fa fa-search" style="font-size:48px;opacity:0.07;left:80px;top:126px;text-align:left;position:absolute;z-index:-1;"></i>
             <i style="font-size:36px;font-family:Open Sans Bold;font-style:normal;opacity:0.07;left:134px;top:134px;text-align:left;position:absolute;z-index:-1;"><%=i18n.__("Search Results") %></i>
             <i class="fa fa-arrow-circle-left online-back"></i>
             <ul class="file-list">
