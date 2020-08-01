@@ -48,7 +48,7 @@
         </div>
 
         <div class="torrents-info">
-            <i class="collection-open fa fa-database tooltipped" data-toggle="tooltip" data-placement="right" title="<%= i18n.__("Open Torrent Collection Folder") %>" id="savedtorrentslabel"></i>
+            <i class="fa fa-database" id="savedtorrentslabel"></i>
             <i id="savedtorrentslabeltext"><%=i18n.__("Saved Torrents") %></i>
             <ul class="file-list">
                 <% _.each(fs.readdirSync(data_path + '/TorrentCollection/'), function(file, index) { %>
