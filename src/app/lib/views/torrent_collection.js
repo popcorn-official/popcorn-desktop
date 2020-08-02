@@ -138,13 +138,12 @@
                             orderBy: 'seeds',
                             sortBy: 'desc'
                         }).then(function (data) {
-                            console.debug('TPB search: %s results', data.length);
+                            console.debug('ThePirateBay search: %s results', data.length);
                             $('#enableThepiratebaySearchL').attr('title', data.length + ' results').tooltip('fixTitle');
                             data.forEach(function (item) {
                                 if (!item.category) {
                                     return;
                                 }
-
                                 var itemModel = {
                                     title: item.name,
                                     magnet: item.magnetLink,
@@ -153,7 +152,6 @@
                                     size: item.size,
                                     index: index
                                 };
-
                                 if (item.name.match(/trailer/i) !== null && item.name.match(/trailer/i) === null) {
                                     return;
                                 }
@@ -162,7 +160,7 @@
                             });
                             resolve(results);
                         }).catch(function (err) {
-                            console.error('tpb search:', err);
+                            console.error('ThePirateBay search:', err);
                             resolve(results);
                         });
                     });
@@ -181,11 +179,10 @@
                             query: input.toLocaleLowerCase(),
                             category: category,
                             orderBy: 'seeders',
-                            sortBy: 'desc',
+                            sortBy: 'desc'
                         }).then(function (data) {
                             console.debug('1337x search: %s results', data.torrents.length);
                             $('#enable1337xSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle');
-                            var indx = 1;
                             data.torrents.forEach(function (item) {
                                 leet.info('https://1337x.to' + item.href).then(function (ldata) {
                                     var itemModel = {
@@ -196,7 +193,6 @@
                                         size: ldata.size,
                                         index: index
                                     };
-                                    indx++;
                                     if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
                                         return;
                                     }
@@ -214,12 +210,12 @@
                 }
             };
 
-            var rarbg = function (retry) {
+            var rarbg = function () {
                 if (Settings.enableRarbgSearch) {
                     return new Promise(function (resolve) {
-                        var results1 = [];
+                        var results = [];
                         setTimeout(function () {
-                            resolve(results1);
+                            resolve(results);
                         }, 6000);
                         var rbg = torrentCollection.rbg;
                         rbg.search({
@@ -227,10 +223,10 @@
                             category: category.toLocaleLowerCase() === 'movies' ? 'movies' : 'tv',
                             sort: 'seeders',
                             verified: false
-                        }).then(function (results) {
-                            console.debug('rarbg search: %s results', results.length);
-                            $('#enableRarbgSearchL').attr('title', results.length + ' results').tooltip('fixTitle');
-                            results.forEach(function (item) {
+                        }).then(function (data) {
+                            console.debug('RARBG search: %s results', data.length);
+                            $('#enableRarbgSearchL').attr('title', data.length + ' results').tooltip('fixTitle');
+                            data.forEach(function (item) {
                                 var itemModel = {
                                     title: item.title,
                                     magnet: item.download,
@@ -239,21 +235,15 @@
                                     size: Common.fileSize(parseInt(item.size)),
                                     index: index
                                 };
-
                                 if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
                                     return;
                                 }
-                                results1.push(itemModel);
+                                results.push(itemModel);
                                 index++;
                             });
-                            resolve(results1);
                         }).catch(function (err) {
-                            console.error('rarbg search:', err);
-                            if (!retry) {
-                                return resolve(rarbg(true));
-                            } else {
-                                resolve(results1);
-                            }
+                            console.error('RARBG search:', err);
+                            resolve(results);
                         });
                     });
                 }
@@ -271,11 +261,10 @@
                             query: input.toLocaleLowerCase(),
                             type: category.toLocaleLowerCase() === 'movies' ? 'films' : 'series',
                             order: 'seeders',
-                            orderBy: 'desc',
+                            orderBy: 'desc'
                         }).then(function (data) {
-                            console.debug('OMG search: %s results', data.torrents.length);
+                            console.debug('OMGTorrent search: %s results', data.torrents.length);
                             $('#enableOmgtorrentSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle');
-                            var indx = 1;
                             data.torrents.forEach(function (item) {
                                 omg.info(item.href).then(function (ldata) {
                                     var itemModel = {
@@ -286,18 +275,17 @@
                                         size: ldata.size,
                                         index: index
                                     };
-                                    indx++;
                                     if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
                                         return;
                                     }
                                     results.push(itemModel);
                                     index++;
                                 }).catch(function (err) {
-                                    throw 'OMG info failed';
+                                    throw 'nope';
                                 });
                             });
                         }).catch(function (err) {
-                            console.error('OMG search:', err);
+                            console.error('OMGTorrent search:', err);
                             resolve(results);
                         });
                     });
@@ -335,7 +323,7 @@
                 omgtorrent(),
             ]).then(function (results) {
                 var items = sortBySeeds(removeDupes(results));
-                console.log('search providers: %d results', items.length);
+                console.log('Search Providers: %d results', items.length);
                 $('.online-search').attr('title', items.length + ' results').tooltip('fixTitle').tooltip('show');
 
                 hidetooltps = setTimeout(function() {
