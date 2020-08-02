@@ -187,7 +187,7 @@
                         }).then(function (data) {
                             console.debug('1337x search: %s results', data.torrents.length);
                             $('#enable1337xSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle');
-                            var indx = 1, totl = data.length;
+                            var indx = 1;
                             data.torrents.forEach(function (item) {
                                 leet.info('https://1337x.to' + item.href).then(function (ldata) {
                                     var itemModel = {
@@ -277,7 +277,7 @@
                         }).then(function (data) {
                             console.debug('OMG search: %s results', data.torrents.length);
                             $('#enableOmgtorrentSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle');
-                            var indx = 1, totl = data.length;
+                            var indx = 1;
                             data.torrents.forEach(function (item) {
                                 omg.info(item.href).then(function (ldata) {
                                     var itemModel = {
