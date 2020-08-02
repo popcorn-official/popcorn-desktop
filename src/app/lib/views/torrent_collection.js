@@ -114,17 +114,15 @@
                 $('.togglesengines').removeClass('fa-caret-up').addClass('fa-caret-down');
                 $('.search_in').css('display', 'none');
             }
-
-            $('.onlinesearch-info>ul.file-list').html('');
-
-            $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
             $('.togglesengines').css('visibility', 'hidden');
+            $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
             $('.online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableOmgtorrentSearchL').attr('title', '0 results').tooltip('fixTitle');
+            $('.onlinesearch-info').hide();
+            $('.onlinesearch-info>ul.file-list').html('');
 
             clearTimeout(hidetooltps);
 
             var index = 0;
-            console.warn(category);
 
             var piratebay = function () {
                 if (Settings.enableThepiratebaySearch) {
