@@ -119,6 +119,7 @@
 
             $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
             $('.togglesengines').css('visibility', 'hidden');
+            $('.online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableOmgtorrentSearchL').attr('title', '0 results').tooltip('fixTitle');
 
             clearTimeout(hidetooltps);
 
