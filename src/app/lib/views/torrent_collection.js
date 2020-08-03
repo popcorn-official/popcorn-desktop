@@ -18,7 +18,7 @@
             'click .collection-paste': 'pasteItem',
             'click .collection-import': 'importItem',
             'click .collection-open': 'openCollection',
-            'click .notorrents-frame': 'importItem',
+            'mousedown .notorrents-frame': 'notorrentsClick',
             'click .online-search': 'onlineSearch',
             'submit #online-form': 'onlineSearch',
             'click .online-back': 'onlineClose',
@@ -559,6 +559,14 @@
         openCollection: function () {
             console.debug('Opening: ' + collection);
             nw.Shell.openItem(collection);
+        },
+
+        notorrentsClick: function (e) {
+            if (e.button === 0) {
+                this.importItem();
+            } else if (e.button === 2) {
+                this.pasteItem();
+            }
         },
 
         onBeforeDestroy: function () {
