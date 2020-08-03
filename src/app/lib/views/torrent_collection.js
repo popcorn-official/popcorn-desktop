@@ -15,9 +15,9 @@
             'mousedown .item-delete': 'deleteItem',
             'mousedown .item-rename': 'renameItem',
             'mousedown .magnet-icon': 'openMagnet',
-            'click .collection-delete': 'clearCollection',
-            'click .collection-open': 'openCollection',
+            'click .collection-paste': 'pasteItem',
             'click .collection-import': 'importItem',
+            'click .collection-open': 'openCollection',
             'click .notorrents-frame': 'importItem',
             'click .online-search': 'onlineSearch',
             'submit #online-form': 'onlineSearch',
@@ -532,18 +532,9 @@
             }
         },
 
-        clearCollection: function () {
-            var btn = confirm(i18n.__('Are you sure you want to clear the entire Torrent Collection ?'));
-            if (btn === true) {
-                deleteFolder(collection);
-                console.debug('Torrent Collection: delete all', collection);
-                App.vent.trigger('torrentCollection:show');
-            }
-        },
-
-        openCollection: function () {
-            console.debug('Opening: ' + collection);
-            nw.Shell.openItem(collection);
+        pasteItem: function () {
+            var data = clipboard.get('text');
+            handleTorrent(data, 'text');
         },
 
         importItem: function () {
@@ -563,6 +554,11 @@
             }, false);
 
             input.click();
+        },
+
+        openCollection: function () {
+            console.debug('Opening: ' + collection);
+            nw.Shell.openItem(collection);
         },
 
         onBeforeDestroy: function () {
