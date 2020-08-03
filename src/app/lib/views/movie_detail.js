@@ -43,13 +43,14 @@
 
       healthButton = new Common.HealthButton('.health-icon', this.retrieveTorrentHealth.bind(this));
 
-      //Handle keyboard shortcuts when other views are appended or removed
-
       curSynopsis = {old: '', crew: '', cast: '', allcast: '', vstatus: null};
 
-      if (!this.model.get('synopsis') || !this.model.get('rating') || this.model.get('rating') == '0' || this.model.get('rating') == '0.0' || !this.model.get('runtime') || this.model.get('runtime') == '0' || !this.model.get('trailer') || !this.model.get('cover') || this.model.get('cover') == 'images/posterholder.png' || !this.model.get('backdrop') || this.model.get('backdrop') == 'images/posterholder.png' || (Settings.translateSynopsis && Settings.language != 'en')) {
+      //Check for missing metadata or if Translate Synopsis is enabled and the language set to something other than English and if one, or multiple are true run the corresponding function to try and fetch them
+      if (!this.model.get('synopsis') || !this.model.get('rating') || this.model.get('rating') == '0' || this.model.get('rating') == '0.0' || !this.model.get('runtime') || this.model.get('runtime') == '0' || !this.model.get('trailer') || !this.model.get('poster') || this.model.get('poster') == 'images/posterholder.png' || !this.model.get('backdrop') || this.model.get('backdrop') == 'images/posterholder.png' || (Settings.translateSynopsis && Settings.language != 'en')) {
         this.getMetaData();
       }
+      
+      //Handle keyboard shortcuts when other views are appended or removed
 
       //If a child was removed from above this view
       App.vent.on('viewstack:pop', function() {
@@ -257,7 +258,7 @@
       (!this.model.get('rating') || this.model.get('rating') == '0' || this.model.get('rating') == '0.0') && movie && movie.vote_average ? this.model.set('rating', movie.vote_average) : null;
       (!this.model.get('runtime') || this.model.get('runtime') == '0') && movie && movie.runtime ? this.model.set('runtime', movie.runtime) : null;
       !this.model.get('trailer') && movie && movie.videos && movie.videos.results && movie.videos.results[0] ? this.model.set('trailer', 'http://www.youtube.com/watch?v=' + movie.videos.results[0].key) : null;
-      (!this.model.get('cover') || this.model.get('cover') == 'images/posterholder.png') && movie && movie.poster_path ? this.model.set('cover', 'http://image.tmdb.org/t/p/w500' + movie.poster_path) : null;
+      (!this.model.get('poster') || this.model.get('poster') == 'images/posterholder.png') && movie && movie.poster_path ? this.model.set('poster', 'http://image.tmdb.org/t/p/w500' + movie.poster_path) : null;
       (!this.model.get('backdrop') || this.model.get('backdrop') == 'images/posterholder.png') && movie && movie.backdrop_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.backdrop_path) : ((!this.model.get('backdrop') || this.model.get('backdrop') == 'images/posterholder.png') && movie && movie.poster_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.poster_path) : null);
       if (movie && movie.credits && movie.credits.cast && movie.credits.crew && (movie.credits.cast[0] || movie.credits.crew[0])) {
         curSynopsis.old = this.model.get('synopsis');
