@@ -17,7 +17,26 @@
             </div>
             <form id="online-form">
                 <input id="online-input" autocomplete="off" size="34" type="text" name="keyword" placeholder="<%= i18n.__('Search for torrent') %>">
-                <i class="fa fa-search online-search"></i>
+                <i class="fa fa-search online-search tooltipped" data-placement="bottom" data-toogle="tooltip"></i>
+                <i class="fa fa-caret-down togglesengines"></i>
+                <div class="search_in">
+                    <span>
+                        <input class="sengine-checkbox" name="enableThepiratebaySearch" id="enableThepiratebaySearch" type="checkbox" <%=(Settings.enableThepiratebaySearch? "checked='checked'":"")%>>
+                        <label id="enableThepiratebaySearchL" for="enableThepiratebaySearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("ThePirateBay") %></label>
+                    </span>
+                    <span>
+                        <input class="sengine-checkbox" name="enable1337xSearch" id="enable1337xSearch" type="checkbox" <%=(Settings.enable1337xSearch? "checked='checked'":"")%>>
+                        <label id="enable1337xSearchL" for="enable1337xSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("1337x") %></label>
+                    </span>
+                    <span>
+                        <input class="sengine-checkbox" name="enableRarbgSearch" id="enableRarbgSearch" type="checkbox" <%=(Settings.enableRarbgSearch? "checked='checked'":"")%>>
+                        <label id="enableRarbgSearchL" for="enableRarbgSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("RARBG") %></label>
+                    </span>
+                    <span>
+                        <input class="sengine-checkbox" name="enableOmgtorrentSearch" id="enableOmgtorrentSearch" type="checkbox" <%=(Settings.enableOmgtorrentSearch? "checked='checked'":"")%>>
+                        <label id="enableOmgtorrentSearchL" for="enableOmgtorrentSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("OMGTorrent") %></label>
+                    </span>
+                </div>
             </form>
         </div>
 
@@ -29,6 +48,8 @@
         </div>
 
         <div class="torrents-info">
+            <i class="fa fa-database" id="savedtorrentslabel"></i>
+            <i id="savedtorrentslabeltext"><%=i18n.__("Saved Torrents") %></i>
             <ul class="file-list">
                 <% _.each(fs.readdirSync(data_path + '/TorrentCollection/'), function(file, index) { %>
                     <li class="file-item" data-index="<%=file.index%>" data-file="<%=index%>">
@@ -48,6 +69,8 @@
         </div>
 
         <div class="onlinesearch-info">
+            <i class="fa fa-search" id="searchresultslabel"></i>
+            <i id="searchresultslabeltext"><%=i18n.__("Search Results") %></i>
             <i class="fa fa-arrow-circle-left online-back"></i>
             <ul class="file-list">
             </ul>
