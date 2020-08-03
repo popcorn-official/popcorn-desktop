@@ -77,10 +77,10 @@
         </div>
 
         <div class="collection-actions">
-            <div class="collection-delete fa fa-ban tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Flush entire collection") %>"></div>
-            <div class="collection-open fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Open Collection Directory") %>"></div>
-            <div class="collection-import fa fa-level-down tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Import a Torrent") %>"></div>
+            <div class="collection-paste fa fa-paste tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Paste a Magnet link") %>"></div>
+            <div class="collection-import fa fa-level-down tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Import a Torrent file") %>"></div>
             <input class="collection-import-hidden" style="display:none" type="file" accept=".torrent"/>
+            <div class="collection-open fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Open Collection Directory") %>"></div>
         </div>
     </div>
 </div>
