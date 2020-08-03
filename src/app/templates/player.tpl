@@ -77,7 +77,7 @@
         });
     }
     subArray.sort(function (sub1, sub2) {
-        return sub1.languageName.localeCompare(sub2.languageName);
+        return sub1.languageName.localeCompare(sub2.languageName, undefined, {numeric: true, sensitivity: 'base'});
     });
 
     var subtracks = "";
