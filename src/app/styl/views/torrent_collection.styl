@@ -363,7 +363,15 @@
             position absolute
             color $TextError
 
-            .collection-delete
+            .collection-paste
+                position fixed
+                right 85px
+                bottom 16px
+                transition all 0.3s
+                cursor pointer
+                &:hover
+                    color $ButtonBgHover
+            .collection-open
                 position fixed
                 right 25px
                 bottom 15px
@@ -371,17 +379,9 @@
                 cursor pointer
                 &:hover
                     color $ButtonBgHover
-            .collection-open
-                position fixed
-                right 50px
-                bottom 15px
-                transition all 0.3s
-                cursor pointer
-                &:hover
-                    color $ButtonBgHover
             .collection-import
                 position fixed
-                right 80px
+                right 60px
                 bottom 15px
                 transition all 0.3s
                 cursor pointer
