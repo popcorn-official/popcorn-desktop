@@ -64,9 +64,15 @@
 <%
     var subArray = [];
     for (var langcode in subtitle) {
+        var langcodeName = langcode;
+        var sequence = "";
+        if(langcode.indexOf('|')!==-1){
+            sequence = " "+langcode.substr(langcode.indexOf('|')+1);
+            langcodeName = langcode.substr(0,langcode.indexOf('|'));
+        }
         subArray.push({
             "language": langcode,
-            "languageName": (App.Localization.langcodes[langcode] !== undefined ? App.Localization.langcodes[langcode].nativeName : langcode),
+            "languageName": (App.Localization.langcodes[langcodeName] !== undefined ? App.Localization.langcodes[langcodeName].nativeName+sequence : langcodeName),
             "sub": subtitle[langcode]
         });
     }

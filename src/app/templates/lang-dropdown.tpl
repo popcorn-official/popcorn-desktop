@@ -7,6 +7,7 @@
     <div class="dropdown-menu" role="menu">
         <div class="flag-container">
             <% for(var lang in values){ %>
+            <%   if(lang.indexOf('|')!==-1) continue; %>
             <div class="flag-icon flag <%= lang %>" data-lang="<%= lang %>" title="<%= App.Localization.nativeName(lang) %>"></div>
             <% } %>
         </div>
