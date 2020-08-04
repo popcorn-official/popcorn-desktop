@@ -387,20 +387,18 @@
       this.toggleTab(e, 'Watchlist');
     },
 
-    toggleTab: function(e, tabName) {
+    toggleTab: function (e, tabName) {
       e.preventDefault();
 
-      if (App.currentview !== tabName) {
-        App.previousview = App.currentview;
-        App.currentview = tabName;
+      App.previousview = App.currentview;
+      App.currentview = tabName;
 
-        App.vent.trigger('about:close');
-        App.vent.trigger('torrent-collection:close');
-        App.vent.trigger('seedbox:close');
-        App.vent.trigger(tabName.toLowerCase().replace(/\s/g, '') + ':list', []);
+      App.vent.trigger('about:close');
+      App.vent.trigger('torrent-collection:close');
+      App.vent.trigger('seedbox:close');
+      App.vent.trigger(tabName.toLowerCase().replace(/\s/g, '') + ':list', []);
 
-        this.setActive(tabName);
-      }
+      this.setActive(tabName);
     },
 
     updateDB: function(e) {

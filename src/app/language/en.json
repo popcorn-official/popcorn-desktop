@@ -468,5 +468,21 @@
 	"comedy": "comedy",
 	"adventure": "adventure",
 	"music": "music",
-	"western": "western"
+	"western": "western",
+	"Server": "Server",
+	"Custom API Server": "Custom API Server",
+	"Proxy Server": "Proxy Server",
+	"Create account": "Create account",
+	"* %s stores an encrypted hash of your password in your local database": "* %s stores an encrypted hash of your password in your local database",
+	"Enable remote control": "Enable remote control",
+	"Maximum number of active torrents": "Maximum number of active torrents",
+	"ThePirateBay": "ThePirateBay",
+	"1337x": "1337x",
+	"RARBG": "RARBG",
+	"OMGTorrent": "OMGTorrent",
+	"Saved Torrents": "Saved Torrents",
+	"Search Results": "Search Results",
+	"Paste a Magnet link": "Paste a Magnet link",
+	"Import a Torrent file": "Import a Torrent file",
+	"Filename": "Filename"
 }
