@@ -152,7 +152,7 @@ TVApi.prototype.config = {
   name: 'TVApi',
   uniqueId: 'tvdb_id',
   tabName: 'TV Shows',
-  type: 'tvshow',
+  type: 'show',
   metadata: 'trakttv:show-metadata'
 };
 
