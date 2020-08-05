@@ -534,6 +534,7 @@
                                         type: 'error',
                                         autoclose: true
                                     }));
+                                    this.subtitleReady = true;
                                 } else {
                                     App.SubtitlesServer.start(res);
                                     this.subtitleReady = true;
