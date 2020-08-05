@@ -166,8 +166,8 @@
                             $('.source.animeTabShow').addClass('active');
                             break;
                         case 'anime':
-                            App.currentview = 'favorites';
-                            App.vent.trigger(App.currentview + ':list', []);
+                            App.currentview = 'Favorites';
+                            App.vent.trigger('favorites:list', []);
                             $('#filterbar-favorites').addClass('active');
                             break;
                         default:
@@ -178,11 +178,11 @@
                     } else if (combo === 'shift+tab') {
                         switch (App.currentview) {
                         case 'movies':
-                            App.currentview = 'favorites';
-                            App.vent.trigger(App.currentview + ':list', []);
+                            App.currentview = 'Favorites';
+                            App.vent.trigger('favorites:list', []);
                             $('#filterbar-favorites').addClass('active');
                             break;
-                        case 'favorites':
+                        case 'Favorites':
                             App.currentview = 'anime';
                             App.vent.trigger(App.currentview + ':list', []);
                             $('.source.animeTabShow').addClass('active');
@@ -222,8 +222,8 @@
                         $('.source.animeTabShow').addClass('active');
                         break;
                     case 'ctrl+4':
-                        App.currentview = 'favorites';
-                        App.vent.trigger(App.currentview + ':list', []);
+                        App.currentview = 'Favorites';
+                        App.vent.trigger('favorites:list', []);
                         $('#filterbar-favorites').addClass('active');
                         break;
                     }
