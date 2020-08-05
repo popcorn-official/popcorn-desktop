@@ -368,7 +368,6 @@
 
     showTorrentCollection: function(e) {
       e.preventDefault();
-
       if (App.currentview !== 'Torrent-collection') {
         App.previousview = App.currentview;
         App.currentview = 'Torrent-collection';
@@ -417,9 +416,9 @@
       App.vent.trigger('anime:list', []);
       this.setActive('Anime');
     },
+    
     movieTabShow: function(e) {
       e.preventDefault();
-
       App.currentview = 'movies';
       App.vent.trigger('about:close');
       App.vent.trigger('torrentCollection:close');
@@ -441,7 +440,6 @@
 
     showWatchlist: function(e) {
       e.preventDefault();
-
       if (App.currentview !== 'Watchlist') {
         App.previousview = App.currentview;
         App.currentview = 'Watchlist';
