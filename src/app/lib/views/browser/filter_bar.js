@@ -416,7 +416,7 @@
       App.vent.trigger('anime:list', []);
       this.setActive('Anime');
     },
-    
+
     movieTabShow: function(e) {
       e.preventDefault();
       App.currentview = 'movies';
