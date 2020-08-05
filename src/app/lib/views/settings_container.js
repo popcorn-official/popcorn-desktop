@@ -250,7 +250,6 @@
                 case 'subtitles_bold':
                 case 'rememberFilters':
                 case 'animeTabDisable':
-                case 'indieTabDisable':
                     value = field.is(':checked');
                     break;
                 case 'httpApiEnabled':
@@ -372,16 +371,6 @@
                         animeTab.css('display', 'block');
                     } else {
                         animeTab.css('display', 'none');
-                        App.vent.trigger('movies:list');
-                        App.vent.trigger('settings:show');
-                    }
-                    break;
-                case 'indieTabDisable':
-                    var indieTab = $('.indieTabShow');
-                    if (indieTab.css('display') === 'none') {
-                        indieTab.css('display', 'block');
-                    } else {
-                        indieTab.css('display', 'none');
                         App.vent.trigger('movies:list');
                         App.vent.trigger('settings:show');
                     }
