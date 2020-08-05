@@ -430,31 +430,13 @@
 
     showFavorites: function(e) {
       e.preventDefault();
-
-      if (App.currentview !== 'Favorites') {
-        App.previousview = App.currentview;
-        App.currentview = 'Favorites';
-        App.vent.trigger('about:close');
-        App.vent.trigger('torrentCollection:close');
-        App.vent.trigger('seedbox:close');
-        App.vent.trigger('favorites:list', []);
-        this.setActive('Favorites');
-      } else {
-        if (
-          $('#movie-detail').html().length === 0 &&
-          $('#about-container').html().length === 0
-        ) {
-          App.currentview = App.previousview;
-          App.vent.trigger(App.previousview.toLowerCase() + ':list', []);
-          this.setActive(App.currentview);
-        } else {
-          App.vent.trigger('about:close');
-          App.vent.trigger('torrentCollection:close');
-          App.vent.trigger('seedbox:close');
-          App.vent.trigger('favorites:list', []);
-          this.setActive('Favorites');
-        }
-      }
+      App.previousview = App.currentview;
+      App.currentview = 'Favorites';
+      App.vent.trigger('about:close');
+      App.vent.trigger('torrentCollection:close');
+      App.vent.trigger('seedbox:close');
+      App.vent.trigger('favorites:list', []);
+      this.setActive('Favorites');
     },
 
     showWatchlist: function(e) {
