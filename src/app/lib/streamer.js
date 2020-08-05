@@ -540,6 +540,8 @@
                                     this.streamInfo.set('subServer', 'http://127.0.0.1/data.vtt');
                                 }
                             }.bind(this));
+                        } else {
+                            this.subtitleReady = true;
                         }
 
                     }.bind(this));
