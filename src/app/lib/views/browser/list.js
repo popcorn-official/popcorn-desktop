@@ -161,10 +161,17 @@
                             $('.source.tvshowTabShow').addClass('active');
                             break;
                         case 'shows':
-                            App.currentview = 'anime';
-                            App.vent.trigger(App.currentview + ':list', []);
-                            $('.source.animeTabShow').addClass('active');
-                            break;
+                            if (!Settings.animeTabDisable) {
+                                App.currentview = 'anime';
+                                App.vent.trigger(App.currentview + ':list', []);
+                                $('.source.animeTabShow').addClass('active');
+                                break;
+                            } else {
+                                App.currentview = 'Favorites';
+                                App.vent.trigger('favorites:list', []);
+                                $('#filterbar-favorites').addClass('active');
+                                break;
+                            }
                         case 'anime':
                             App.currentview = 'Favorites';
                             App.vent.trigger('favorites:list', []);
@@ -183,10 +190,17 @@
                             $('#filterbar-favorites').addClass('active');
                             break;
                         case 'Favorites':
-                            App.currentview = 'anime';
-                            App.vent.trigger(App.currentview + ':list', []);
-                            $('.source.animeTabShow').addClass('active');
-                            break;
+                            if (!Settings.animeTabDisable) {
+                                App.currentview = 'anime';
+                                App.vent.trigger(App.currentview + ':list', []);
+                                $('.source.animeTabShow').addClass('active');
+                                break;
+                            } else {
+                                App.currentview = 'shows';
+                                App.vent.trigger(App.currentview + ':list', []);
+                                $('.source.tvshowTabShow').addClass('active');
+                                break;	
+                            }
                         case 'anime':
                             App.currentview = 'shows';
                             App.vent.trigger(App.currentview + ':list', []);
@@ -217,15 +231,24 @@
                         $('.source.tvshowTabShow').addClass('active');
                         break;
                     case 'ctrl+3':
-                        App.currentview = 'anime';
-                        App.vent.trigger(App.currentview + ':list', []);
-                        $('.source.animeTabShow').addClass('active');
-                        break;
+                        if (!Settings.animeTabDisable) {
+                            App.currentview = 'anime';
+                            App.vent.trigger(App.currentview + ':list', []);
+                            $('.source.animeTabShow').addClass('active');
+                            break;
+                        } else {
+                            App.currentview = 'Favorites';
+                            App.vent.trigger('favorites:list', []);
+                            $('#filterbar-favorites').addClass('active');
+                            break;
+                        }
                     case 'ctrl+4':
-                        App.currentview = 'Favorites';
-                        App.vent.trigger('favorites:list', []);
-                        $('#filterbar-favorites').addClass('active');
-                        break;
+                        if (!Settings.animeTabDisable) {
+                            App.currentview = 'Favorites';
+                            App.vent.trigger('favorites:list', []);
+                            $('#filterbar-favorites').addClass('active');
+                            break;
+                        }
                     }
                 }
             });
