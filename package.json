@@ -57,6 +57,7 @@
     "defer-request": "0.0.3",
     "dlnacasts2": "0.2.0",
     "es6-object-assign": "^1.0.1",
+    "flag-icon-css": "^3.5.0",
     "gitlab": "1.4.1",
     "i18n": "0.x.x",
     "iconv-lite": "0.x.x",
