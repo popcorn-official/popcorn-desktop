@@ -213,7 +213,11 @@
         : defaultTorrent;
 
       App.vent.trigger('stream:download', torrent);
+      App.previousview = App.currentview;
+      App.currentview = 'Seedbox';
       App.vent.trigger('seedbox:show');
+      $('.filter-bar').find('.active').removeClass('active');
+      $('#filterbar-seedbox').addClass('active');
     },
 
     startStreaming: function() {
