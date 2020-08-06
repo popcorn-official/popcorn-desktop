@@ -27,9 +27,9 @@
 			'mousedown .item-delete': 'deleteItem',
 			'mousedown .item-rename': 'renameItem',
 			'mousedown .magnet-icon': 'openMagnet',
-			'mousedown .pause-torrent': 'pauseTorrent',
-			'mousedown .resume-torrent': 'resumeTorrent',
-			'mousedown .trash-torrent': 'removeTorrent',
+			'mousedown .pause-torrent': 'onPauseTorrentClicked',
+			'mousedown .resume-torrent': 'onResumeTorrentClicked',
+			'mousedown .trash-torrent': 'onRemoveTorrentClicked',
 			'click .tab-torrent': 'clickTorrent',
 		},
 
@@ -46,6 +46,9 @@
 			});
 
 			this.render();
+
+			// because this is after this.render(), we know the UI
+			// has been rendered before this is called.
 			this.addTorrentHooks();
 		},
 
@@ -109,18 +112,56 @@
 			}, 1000);
 		},
 
-		onAddTorrent: function (torrent) {
-			const onTorrentReady = () => {
-				$('.notorrents-info').hide();
-				if ($(`#${torrent.infoHash}`).length || !torrent.name) {
-					return;
-				}
+		isTorrentInList: torrent => Boolean(document.getElementById(torrent.infoHash)),
 
-				const activeTorrentCount = App.WebTorrent.torrents.filter(item => !item.paused).length;
-				if (!torrent.paused && activeTorrentCount >= Settings.maxActiveTorrents) {
-					this.pauseTorrent(null, torrent.infoHash);
-					torrent.paused = true;
-				}
+		addTorrentToList(torrent) {
+			// we have at least 1 torrent, so we can hide the view that says there are none
+			$('.notorrents-info').hide();
+
+			let className = 'tab-torrent';
+			if ($('.tab-torrent.active').length <= 0) {
+				className += ' active';
+			}
+
+			$('.seedbox-torrent-list > ul.file-list').append(
+				`<li class="${className}" id="${torrent.infoHash}" data-season="" data-episode="">
+                <a href="#" class="episodeData">
+                    <span>1</span>
+                    <div id="title-${torrent.infoHash}">${torrent.name || i18n.__('Unknown torrent')}</div>
+                </a>
+
+                <i class="fa fa-trash-alt watched trash-torrent" id="trash-${torrent.infoHash}"></i>
+                <i class="fa fa-play watched resume-torrent" id="play-${torrent.infoHash}" style="display: ${torrent.paused ? '' : 'none'};"></i>
+                <i class="fa fa-pause-circle watched pause-torrent" id="resume-${torrent.infoHash}" style="display: ${torrent.paused ? 'none' : ''};"></i>
+                <i class="fa fa-upload watched" id="upload-${torrent.infoHash}"> 0 Kb/s</i>
+                <i class="fa fa-download watched" id="download-${torrent.infoHash}"> 0 Kb/s</i>
+              </li>`
+			);
+
+			// show the new list in case it wasn't being shown before
+			$('.seedbox-overview').show();
+		},
+
+		getTorrentListItem(torrent) {
+			return $(`.tab-torrent#${torrent.infoHash}`);
+		},
+
+		onAddTorrent: function (torrent) {
+			if (this.isTorrentInList(torrent)) {
+				return;
+			}
+
+		    this.addTorrentToList(torrent);
+
+			const activeTorrentCount = App.WebTorrent.torrents.filter(item => !item.paused).length;
+			if (!torrent.paused && activeTorrentCount >= Settings.maxActiveTorrents) {
+				this.pauseTorrent(torrent);
+				torrent.paused = true;
+			}
+
+			const onTorrentReady = () => {
+				// We may have set the name to "Unknown torrent" but we have the name now that it's ready
+				document.getElementById(`title-${torrent.infoHash}`).innerText = torrent.name;
 
 				let metricsLastUpdated = Date.now();
 				const timeBetweenMetricsUpdatesInMs = 1000;
@@ -137,28 +178,7 @@
 				torrent.on('download', updateMetrics);
 				torrent.on('upload', updateMetrics);
 
-				let className = 'tab-torrent';
-				if ($('.tab-torrent.active').length <= 0) {
-					className += ' active';
-				}
-
-				$('.seedbox-torrent-list > ul.file-list').append(
-					`<li class="${className}" id="${torrent.infoHash}" data-season="1" data-episode="10">
-                <a href="#" class="episodeData">
-                    <span>1</span>
-                    <div>${torrent.name}</div>
-                </a>
-
-                <i class="fa fa-trash-alt watched trash-torrent" id="trash-${torrent.infoHash}"></i>
-                <i class="fa fa-play watched resume-torrent" id="play-${torrent.infoHash}" style="display: ${torrent.paused ? '' : 'none'};"></i>
-                <i class="fa fa-pause-circle watched pause-torrent" id="resume-${torrent.infoHash}" style="display: ${torrent.paused ? 'none' : ''};"></i>
-                <i class="fa fa-upload watched" id="upload-${torrent.infoHash}"> 0 Kb/s</i>
-                <i class="fa fa-download watched" id="download-${torrent.infoHash}"> 0 Kb/s</i>
-              </li>`
-				);
-
-				$('.seedbox-overview').show();
-
+				// initialize this health button
 				this.updateHealth(torrent);
 			};
 
@@ -167,58 +187,69 @@
 			} else {
 				torrent.on('ready', onTorrentReady);
 			}
+
+			torrent.on('error', (e) => {
+				win.error(e);
+				torrent.paused = true;
+				this.getTorrentListItem(torrent)
+					.addClass('error');
+			});
 		},
 
-		pauseTorrent: (e, id) => {
-			let hash = id || e.currentTarget.parentNode.getAttribute('id');
-			App.WebTorrent.torrents.forEach(torrent => {
-				if (torrent.infoHash === hash) {
-					torrent.pause();
-					// completely pause this torrent, stop download data
-					for (const id in torrent._peers) {
-						if (torrent._peers.hasOwnProperty(id)) {
-							torrent.removePeer(id);
-						}
-					}
+		getTorrentFromEvent(e, id = null) {
+			const hash = id || e.currentTarget.parentNode.getAttribute('id');
+			return App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
+		},
 
-					torrent._xsRequests.forEach(req => {
-						req.abort();
+		pauseTorrent(torrent) {
+			torrent.pause();
+
+			// completely pause this torrent, stop download data (pause only stops new connections)
+			for (const id in torrent._peers) {
+				if (torrent._peers.hasOwnProperty(id)) {
+					torrent.removePeer(id);
+				}
+			}
+
+			torrent._xsRequests.forEach(req => {
+				req.abort();
+			});
+
+			$(`#resume-${torrent.infoHash}`).hide();
+			$(`#play-${torrent.infoHash}`).show();
+		},
+
+		onPauseTorrentClicked(e, id) {
+			const torrent = this.getTorrentFromEvent(e, id);
+			if (torrent) {
+				this.pauseTorrent(torrent);
+			}
+		},
+
+		onResumeTorrentClicked(e, id) {
+			const torrent = this.getTorrentFromEvent(e, id);
+			if (torrent) {
+				torrent.resume();
+				$(`#resume-${torrent.infoHash}`).show();
+				$(`#play-${torrent.infoHash}`).hide();
+			}
+		},
+
+		onRemoveTorrentClicked(e) {
+		    const torrent = this.getTorrentFromEvent(e);
+		    if (torrent) {
+				torrent.destroy(() => {
+					fs.unlinkSync(path.join(torrentsDir, torrent.infoHash));
+					rimraf(path.join(App.settings.tmpLocation, torrent.infoHash), () => {
 					});
+				});
 
-					$(`#resume-${torrent.infoHash}`).hide();
-					$(`#play-${torrent.infoHash}`).show();
+				$(`#${torrent.infoHash}`).remove();
+				if ($('.tab-torrent').length <= 0) {
+					$('.notorrents-info').show();
+					$('.seedbox-overview').hide();
 				}
-			});
-		},
-
-		resumeTorrent: (e, id) => {
-			let hash = id || e.currentTarget.parentNode.getAttribute('id');
-			App.WebTorrent.torrents.forEach(torrent => {
-				if (torrent.infoHash === hash) {
-					torrent.resume();
-					$(`#resume-${torrent.infoHash}`).show();
-					$(`#play-${torrent.infoHash}`).hide();
-				}
-			});
-		},
-
-		removeTorrent: (e) => {
-			let hash = e.currentTarget.parentNode.getAttribute('id');
-			App.WebTorrent.torrents.forEach(torrent => {
-				if (torrent.infoHash === hash) {
-					torrent.destroy(() => {
-						fs.unlinkSync(path.join(torrentsDir, torrent.infoHash));
-						rimraf(path.join(App.settings.tmpLocation, torrent.infoHash), () => {
-						});
-					});
-
-					$(`#${torrent.infoHash}`).remove();
-					if ($('.tab-torrent').length <= 0) {
-						$('.notorrents-info').show();
-						$('.seedbox-overview').hide();
-					}
-				}
-			});
+			}
 		},
 
 		clickTorrent: function (e) {
