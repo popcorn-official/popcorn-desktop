@@ -110,8 +110,9 @@
 		},
 
 		onAddTorrent: function (torrent) {
+			$('.notorrents-info').hide();
+			$('.seedbox-overview').show();
 			const onTorrentReady = () => {
-				$('.notorrents-info').hide();
 				if ($(`#${torrent.infoHash}`).length || !torrent.name) {
 					return;
 				}
@@ -156,8 +157,6 @@
                 <i class="fa fa-download watched" id="download-${torrent.infoHash}"> 0 Kb/s</i>
               </li>`
 				);
-
-				$('.seedbox-overview').show();
 
 				this.updateHealth(torrent);
 			};
