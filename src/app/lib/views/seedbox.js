@@ -127,7 +127,7 @@
 				`<li class="${className}" id="${torrent.infoHash}" data-season="" data-episode="">
                 <a href="#" class="episodeData">
                     <span>1</span>
-                    <div id="title-${torrent.infoHash}">${torrent.name || i18n.__('Unknown torrent')}</div>
+                    <div id="title-${torrent.infoHash}">${App.plugins.mediaName.getMediaName(torrent)}</div>
                 </a>
 
                 <i class="fa fa-trash-alt watched trash-torrent" id="trash-${torrent.infoHash}"></i>
@@ -282,16 +282,18 @@
 				this.updateHealth(torrent);
 			}
 
+			const $fileList = $('.torrents-info > ul.file-list');
+
+			$fileList.empty();
 			$('.seedbox-infos-title').text(torrent.name);
 			$('.seedbox-downloaded').text(' ' + formatBytes(torrent.downloaded));
 			$('.seedbox-uploaded').text(' ' + formatBytes(torrent.uploaded));
 			$('.seedbox-infos-date').text(stats.ctime);
-			$('.torrents-info > ul.file-list').empty();
 			$('.progress-bar').css('width', (torrent.progress * 100).toFixed(2) + '%');
 			$('.progress-percentage>span').text((torrent.progress * 100).toFixed(2) + '%');
 
 			for (const file of torrent.files) {
-				$('.torrents-info>ul.file-list').append(
+				$fileList.append(
 					`<li class="file-item">
 							<a>${file.name}</a>
 							<i class="fa fa-folder-open item-delete tooltipped" data-toggle="tooltip" data-placement="left" title=""></i>

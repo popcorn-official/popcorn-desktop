@@ -88,17 +88,22 @@
             }.bind(this)).then(this.waitForBuffer.bind(this)).catch(this.handleErrors.bind(this));
         },
 
-        download: function(torrent) {
+        download: function(torrent, mediaName = '') {
             // if webtorrent is created/running, we stop/destroy it
             if (App.WebTorrent.destroyed) {
                 this.stop();
             }
 
             // handles magnet and hosted torrents
-            var uri = torrent.magnet || torrent.url || torrent;
+            const uri = Common.getTorrentUri(torrent);
             const parseTorrent = require('parse-torrent');
             var infoHash = '';
             try { infoHash = parseTorrent(uri).infoHash; } catch (err) {}
+
+            if (mediaName) {
+                App.plugins.mediaName.setMediaName(infoHash, mediaName);
+            }
+
             App.WebTorrent.add(uri, {
               path      : App.settings.tmpLocation + '/' + infoHash,
               maxConns  : 5,
