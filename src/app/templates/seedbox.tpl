@@ -5,10 +5,7 @@
       <div class="seedbox-torrents">
         <div class="seedbox-torrent-title"></div>
         <div class="notorrents-info">
-            <div class="notorrents-frame">
-                <i class="fa fa-download notorrents-icon"></i>
-                <p class="notorrents-message"><%= i18n.__("Download or Watch a movie")%></p>
-            </div>
+          <span><%= i18n.__('Download list is empty...') %></span>
         </div>
         <div class="seedbox-torrent-list">
           <ul class="file-list">

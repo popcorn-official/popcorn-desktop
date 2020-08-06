@@ -48,7 +48,7 @@
 
     types_anime: ['All', 'Movies', 'TV', 'OVA', 'ONA'],
 
-    types_fav: ['All', 'Movies', 'TV', 'Anime'],
+    types_fav: ['All', 'Movies', 'Series', 'Anime'],
 
     genres_anime: [
       'All',

@@ -504,9 +504,13 @@
         },
 
         downloadTorrent: function(e) {
-          var torrent = $(e.currentTarget).attr('data-torrent');
-          App.vent.trigger('stream:download', torrent);
+          const torrent = $(e.currentTarget).attr('data-torrent');
+          App.vent.trigger('stream:download', torrent, this.model.get('title') /*mediaName*/);
+          App.previousview = App.currentview;
+          App.currentview = 'Seedbox';
           App.vent.trigger('seedbox:show');
+          $('.filter-bar').find('.active').removeClass('active');
+          $('#filterbar-seedbox').addClass('active');
         },
 
         closeDetails: function (e) {

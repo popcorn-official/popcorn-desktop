@@ -126,9 +126,22 @@
               .seedbox-torrent-list ul li.active a
                   color: $EpisodeSelectorText
 
+              .seedbox-torrent-list ul li.error
+                  background: $NotificationError
+
               .notorrents-info
                   display block
-                  height 5%
+                  height 100%
+                  width 100%
+
+                  span
+                      left 0px
+                      top 246px
+                      width 100%
+                      font-family $MainFont
+                      font-size 24px
+                      text-align center
+                      position absolute
 
                   .notorrents-frame
                       border 6px dashed $TextError

@@ -101,6 +101,8 @@ App.WebTorrent = new WebTorrent({
   dht: true
 });
 
+App.plugins = {};
+
 fs.readFile('./.git.json', 'utf8', function (err, json) {
   if (!err) {
     App.git = JSON.parse(json);
@@ -282,6 +284,19 @@ win.on('move', function (x, y) {
 
 win.on('enter-fullscreen', function () {
   App.vent.trigger('window:focus');
+  win.setResizable(false);
+});
+
+win.on('leave-fullscreen', function () {
+  win.setResizable(true);
+});
+
+win.on('maximize', function () {
+  win.setResizable(false);
+});
+
+win.on('restore', function () {
+  win.setResizable(true);
 });
 
 // Now this function is used via global keys (cmd+q and alt+f4)
