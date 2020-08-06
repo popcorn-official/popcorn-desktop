@@ -369,7 +369,11 @@
     showTorrentCollection: function(e) {
       e.preventDefault();
       if (App.currentview !== 'Torrent-collection') {
-        App.previousview = App.currentview;
+        if (App.currentview !== 'Seedbox') {
+          App.previousview = App.currentview;
+        } else {
+          App.previousview = 'Movies';
+        }
         App.currentview = 'Torrent-collection';
         App.vent.trigger('about:close');
         App.vent.trigger('seedbox:close');
@@ -385,9 +389,14 @@
     showSeedbox: function(e) {
       e.preventDefault();
       if (App.currentview !== 'Seedbox') {
-        App.previousview = App.currentview;
+        if (App.currentview !== 'Torrent-collection') {
+          App.previousview = App.currentview;
+        } else {
+          App.previousview = 'Movies';
+        }
         App.currentview = 'Seedbox';
         App.vent.trigger('about:close');
+        App.vent.trigger('torrentCollection:close');
         App.vent.trigger('seedbox:show');
         this.setActive('Seedbox');
       } else {
