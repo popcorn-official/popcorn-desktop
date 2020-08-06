@@ -369,10 +369,13 @@
     showTorrentCollection: function(e) {
       e.preventDefault();
       if (App.currentview !== 'Torrent-collection') {
+        if (App.currentview === 'Seedbox') {
+          App.currentview = App.previousview;
+          App.vent.trigger('seedbox:close');
+        }
         App.previousview = App.currentview;
         App.currentview = 'Torrent-collection';
         App.vent.trigger('about:close');
-        App.vent.trigger('seedbox:close');
         App.vent.trigger('torrentCollection:show');
         this.setActive('Torrent-collection');
       } else {
@@ -385,6 +388,10 @@
     showSeedbox: function(e) {
       e.preventDefault();
       if (App.currentview !== 'Seedbox') {
+        if (App.currentview === 'Torrent-collection') {
+          App.currentview = App.previousview;
+          App.vent.trigger('torrentCollection:close');
+        }
         App.previousview = App.currentview;
         App.currentview = 'Seedbox';
         App.vent.trigger('about:close');
