@@ -2,7 +2,8 @@
 	'use strict';
 
 	var clipboard = nw.Clipboard.get(),
-		torrentsDir = path.join(App.settings.tmpLocation + '/TorrentCache/');
+		torrentsDir = path.join(App.settings.tmpLocation + '/TorrentCache/'),
+		updateInterval;
 
 	var formatBytes = function (bytes, decimals) {
 		if (bytes === 0) {
@@ -37,18 +38,6 @@
 				fs.mkdirSync(torrentsDir);
 				console.debug('Seedbox: data directory created');
 			}
-
-			App.WebTorrent.on('torrent', (torrent) => {
-				this.onAddTorrent(torrent);
-			});
-
-			App.WebTorrent.torrents.forEach((torrent) => {
-				this.onAddTorrent(torrent);
-			});
-
-			setInterval(() => {
-				this.updateTorrentView($('.tab-torrent.active'));
-			}, 1000);
 		},
 
 		onAttach: function () {
@@ -57,6 +46,7 @@
 			});
 
 			this.render();
+			this.addTorrentHooks();
 		},
 
 		onRender: function () {
@@ -101,8 +91,26 @@
 			return menu;
 		},
 
+		addTorrentHooks() {
+			// torrent view logic requires the ui to be rendered, so we can't
+			// put any of this in initialize -- rendering will not always be
+			// complete by the time initialize is called.
+
+			App.WebTorrent.on('torrent', (torrent) => {
+				this.onAddTorrent(torrent);
+			});
+
+			App.WebTorrent.torrents.forEach((torrent) => {
+				this.onAddTorrent(torrent);
+			});
+
+			updateInterval = setInterval(() => {
+				this.updateActiveTorrentView($('.tab-torrent.active'));
+			}, 1000);
+		},
+
 		onAddTorrent: function (torrent) {
-			torrent.once('ready', () => {
+			const onTorrentReady = () => {
 				$('.notorrents-info').hide();
 				if ($(`#${torrent.infoHash}`).length || !torrent.name) {
 					return;
@@ -134,7 +142,7 @@
 					className += ' active';
 				}
 
-				$('.seedbox-torrent-list>ul.file-list').append(
+				$('.seedbox-torrent-list > ul.file-list').append(
 					`<li class="${className}" id="${torrent.infoHash}" data-season="1" data-episode="10">
                 <a href="#" class="episodeData">
                     <span>1</span>
@@ -152,7 +160,13 @@
 				$('.seedbox-overview').show();
 
 				this.updateHealth(torrent);
-			});
+			};
+
+			if (torrent.ready) {
+				onTorrentReady();
+			} else {
+				torrent.on('ready', onTorrentReady);
+			}
 		},
 
 		pauseTorrent: (e, id) => {
@@ -215,7 +229,7 @@
 
 			$('.tab-torrent.active').removeClass('active');
 			$(e.currentTarget).addClass('active');
-			this.updateTorrentView($(e.currentTarget), true /*wasJustSelected*/);
+			this.updateActiveTorrentView($(e.currentTarget), true /*wasJustSelected*/);
 		},
 
 
@@ -224,7 +238,7 @@
 			healthButton.render();
 		},
 
-		updateTorrentView: function ($elem, wasJustSelected = false) {
+		updateActiveTorrentView: function ($elem, wasJustSelected = false) {
 			if ($elem.length === 0) {
 				return;
 			}
@@ -256,6 +270,7 @@
 		},
 
 		onBeforeDestroy: function () {
+			clearInterval(updateInterval);
 			Mousetrap.unbind(['esc', 'backspace']);
 		},
 
