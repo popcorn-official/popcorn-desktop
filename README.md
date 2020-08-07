@@ -27,21 +27,21 @@ tap repo, "https://github.com/#{repo}.git"
 cask 'popcorn-time'
 ~~~
 
-#### Linux - Debian/Ubuntu based distros (tested on ubuntu 18.04):  
+#### Linux - Debian/Ubuntu based distros (tested on ubuntu 18.04):
 
-* Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working) :  
+* Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working) :
 `sudo apt update && sudo apt install unzip libcanberra-gtk-module libgconf-2-4 libatomic1`
-* Create popcorn-time folder in /opt/ :  
+* Create popcorn-time folder in /opt/ :
 `sudo mkdir /opt/popcorn-time`
-* Download Popcorn Time archive :  
+* Download Popcorn Time archive :
 `wget https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.4-linux64.zip`
-* Extract the zip in /opt/popcorn-time :  
+* Extract the zip in /opt/popcorn-time :
 `sudo unzip Popcorn-Time-0.4.4-linux64.zip -d /opt/popcorn-time`
-* Create symlink of Popcorn-Time in /usr/bin :  
+* Create symlink of Popcorn-Time in /usr/bin :
 `sudo ln -sf /opt/popcorn-time/Popcorn-Time /usr/bin/popcorn-time`
-* Create .desktop file (so the launcher) :  
+* Create .desktop file (so the launcher) :
 `sudo nano /usr/share/applications/popcorntime.desktop`
-* and copy paste the following text in the editor and save  
+* and copy paste the following text in the editor and save
 
 ```desktop
 [Desktop Entry]
@@ -79,6 +79,26 @@ If you encounter trouble with the above method, you can try:
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
 Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-popcorn-time).
+
+
+#### Building redistribuable packages/installers:
+
+1. `yarn config set yarn-offline-mirror ./node_modules/`
+2. `yarn install --ignore-engines`
+2. `yarn dist --platforms=<platform>`
+
+`<platform>` can be one or more of the folowing values (separated by a comma `,`):
+
+- `win64`
+- `win32`
+- `linux64`
+- `linux32`
+- `osx64`
+- `all`
+
+
+Redistribuable packages are saved into `/build` subfolder.
+
 
 <a name="community"></a>
 ## Community
