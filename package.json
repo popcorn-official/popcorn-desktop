@@ -14,9 +14,11 @@
   "version": "0.4.4",
   "releaseName": "Love in the Time of Corona",
   "scripts": {
-    "start": "gulp run",
     "build": "gulp build",
     "clean": "gulp clean",
+    "css": "gulp css",
+    "dist": "gulp dist",
+    "start": "gulp run",
     "test": "gulp test"
   },
   "chromium-args": "--remote-debugging-port=9222 --enable-node-worker",

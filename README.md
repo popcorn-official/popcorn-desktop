@@ -27,7 +27,7 @@ tap repo, "https://github.com/#{repo}.git"
 cask 'popcorn-time'
 ~~~
 
-#### Linux - Debian/Ubuntu based distros (tested on ubuntu 18.04):  
+#### Linux - Debian/Ubuntu based distros (tested on ubuntu 18.04):
 
 * Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working) :  
 `sudo apt update && sudo apt install unzip libcanberra-gtk-module libgconf-2-4 libatomic1`
@@ -69,7 +69,7 @@ The [master](https://github.com/popcorn-official/popcorn-desktop) branch which c
 
 1. `yarn start`
 
-If you encounter trouble with the above method, you can try:
+If you encounter trouble with the above method, you can try:  
 
 1. `yarn config set yarn-offline-mirror ./node_modules/`
 2. `yarn install --ignore-engines`
@@ -79,6 +79,26 @@ If you encounter trouble with the above method, you can try:
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
 Full instructions & troubleshooting tips can be found in the [Contributing Guide](CONTRIBUTING.md#contributing-to-popcorn-time).
+
+
+#### Building redistribuable packages/installers:
+
+1. `yarn config set yarn-offline-mirror ./node_modules/`
+2. `yarn install --ignore-engines`
+2. `yarn dist --platforms=<platform>`
+
+`<platform>` can be one or more of the folowing values (separated by a comma `,`):
+
+- `win64`
+- `win32`
+- `linux64`
+- `linux32`
+- `osx64`
+- `all`
+
+
+Redistribuable packages are saved into `build/` subfolder.
+
 
 <a name="community"></a>
 ## Community

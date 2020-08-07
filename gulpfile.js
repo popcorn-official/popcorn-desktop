@@ -162,7 +162,8 @@ gulp.task('default', (done) => {
       '\nAvailable options:',
       ' --platforms=<platform>',
       '\tArguments: ' + availablePlatforms + ',all',
-      '\tExample:   `gulp build --platforms=all`',
+      '\tExample 1:   `gulp dist --platforms=all`',
+      '\tExample 2:   `gulp dist --platforms=win64,linux64`',
       '\nUse `gulp --tasks` to show the task dependency tree of gulpfile.js\n'
     ].join('\n')
   );
