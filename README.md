@@ -97,7 +97,7 @@ Full instructions & troubleshooting tips can be found in the [Contributing Guide
 - `all`
 
 
-Redistribuable packages are saved into `/build` subfolder.
+Redistribuable packages are saved into `build/` subfolder.
 
 
 <a name="community"></a>
