@@ -39,6 +39,13 @@
             this.loadImage();
             this.setCoverStates();
             this.setTooltips();
+
+            this.$('.tooltipped').tooltip({
+                delay: {
+                    'show': 800,
+                    'hide': 100
+                }
+            });
         },
 
         hoverItem: function (e) {
