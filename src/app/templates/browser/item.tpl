@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<p class="title" title="<%= title %>"><%= title %></p>
+<p class="title tooltipped" <% if(title.length > 20){ %> title="<%= title %>" data-toggle="tooltip" data-placement="auto bottom" <% } %> ><%= title %></p>
 <p class="year">
     <% if (typeof year !== 'undefined') {%>
         <%= year %>
