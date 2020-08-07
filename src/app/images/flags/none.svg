@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="flag-icon-css-ar" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="0 0 640 480" style="enable-background:new 0 0 640 480;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#D4D4D4;}
+	.st1{fill:#F6B40E;stroke:#85340A;stroke-width:1.4;}
+	.st2{fill:#85340A;}
+	.st3{fill:#F9F9F9;}
+</style>
+<path class="st0" d="M0,0h640v480H0V0z"/>
+<path id="h" class="st1" d="M0,0"/>
+<g transform="matrix(-1 0 0 1 640.2 0)">
+	<path id="e" class="st2" d="M640.2,0"/>
+</g>
+<path class="st2" d="M0,0"/>
+<path class="st2" d="M0,0"/>
+<path id="e_1_" class="st2" d="M0,0"/>
+<g transform="translate(-18.4)">
+	<path id="h_1_" class="st2" d="M-18.4,0"/>
+</g>
+<polygon class="st3" points="421.3,168.6 391.9,139.2 320.5,210.6 249.1,139.2 219.7,168.6 291.1,240 219.7,311.4 249.1,340.8 
+	320.5,269.4 391.9,340.8 421.3,311.4 349.9,240 "/>
+</svg>
