@@ -295,3 +295,5 @@ Common.Promises = {
 		return Promise.all(wrappedPromises);
 	}
 };
+
+Common.getTorrentUri = torrent => torrent.magnet || torrent.url || torrent;
