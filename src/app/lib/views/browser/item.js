@@ -40,7 +40,7 @@
             this.setCoverStates();
             this.setTooltips();
 
-            this.$('.tooltipped').tooltip({
+            $('.tooltipped').tooltip({
                 delay: {
                     'show': 800,
                     'hide': 100
