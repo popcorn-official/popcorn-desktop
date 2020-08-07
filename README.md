@@ -29,19 +29,19 @@ cask 'popcorn-time'
 
 #### Linux - Debian/Ubuntu based distros (tested on ubuntu 18.04):
 
-* Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working) :
+* Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working) :  
 `sudo apt update && sudo apt install unzip libcanberra-gtk-module libgconf-2-4 libatomic1`
-* Create popcorn-time folder in /opt/ :
+* Create popcorn-time folder in /opt/ :  
 `sudo mkdir /opt/popcorn-time`
-* Download Popcorn Time archive :
+* Download Popcorn Time archive :  
 `wget https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.4-linux64.zip`
-* Extract the zip in /opt/popcorn-time :
+* Extract the zip in /opt/popcorn-time :  
 `sudo unzip Popcorn-Time-0.4.4-linux64.zip -d /opt/popcorn-time`
-* Create symlink of Popcorn-Time in /usr/bin :
+* Create symlink of Popcorn-Time in /usr/bin :  
 `sudo ln -sf /opt/popcorn-time/Popcorn-Time /usr/bin/popcorn-time`
-* Create .desktop file (so the launcher) :
+* Create .desktop file (so the launcher) :  
 `sudo nano /usr/share/applications/popcorntime.desktop`
-* and copy paste the following text in the editor and save
+* and copy paste the following text in the editor and save  
 
 ```desktop
 [Desktop Entry]
@@ -69,7 +69,7 @@ The [master](https://github.com/popcorn-official/popcorn-desktop) branch which c
 
 1. `yarn start`
 
-If you encounter trouble with the above method, you can try:
+If you encounter trouble with the above method, you can try:  
 
 1. `yarn config set yarn-offline-mirror ./node_modules/`
 2. `yarn install --ignore-engines`
