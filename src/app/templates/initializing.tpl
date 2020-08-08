@@ -1,5 +1,5 @@
 <img class="icon-begin" src="/src/app/images/icon.png">
-<img class="init-icon-title" src="/src/app/images/butter-logo.svg">
+<img class="init-icon-title" src="/src/app/images/popcorn-time-logo.svg">
 <div class="init-geek-line">
     <%= i18n.__("Made with") %> <span style="color:#e74c3c;">&#10084;</span> <%= i18n.__("by a bunch of geeks from All Around The World") %>
 </div>
