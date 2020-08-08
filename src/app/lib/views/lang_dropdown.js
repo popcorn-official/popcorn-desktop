@@ -42,6 +42,13 @@
             this.model.set('values', newLangs);
             this.values = newLangs;
             this.render();
+
+            $('.tooltipped').tooltip({
+                delay: {
+                    'show': 800,
+                    'hide': 100
+                }
+            });
         },
 
         setLang: function (value) {
