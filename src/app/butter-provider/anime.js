@@ -31,10 +31,8 @@ AnimeApi.prototype.config = {
 function formatFetch(animes) {
   var results = _.map(animes, function(anime) {
     return {
-      images: { 
-        poster: 'https://media.kitsu.io/anime/poster_images/' + anime._id + '/large.jpg',
-        fanart: 'https://media.kitsu.io/anime/cover_images/' + anime._id + '/original.jpg',
-      },
+      poster: 'https://media.kitsu.io/anime/poster_images/' + anime._id + '/large.jpg',
+      backdrop: 'https://media.kitsu.io/anime/cover_images/' + anime._id + '/original.jpg',
       mal_id: anime._id,
       haru_id: anime._id,
       tvdb_id: 'mal-' + anime._id,
@@ -69,12 +67,8 @@ function formatDetail(anime) {
     synopsis: anime.synopsis,
     network: [], //FIXME
     rating: anime.rating,
-    images: { 
-        poster: 'https://media.kitsu.io/anime/poster_images/' + anime._id + '/large.jpg',
-        fanart: 'https://media.kitsu.io/anime/cover_images/' + anime._id + '/original.jpg',
-      },
-    backdrop: anime.images.fanart,
-    poster: anime.images.poster,
+    poster: 'https://media.kitsu.io/anime/poster_images/' + anime._id + '/large.jpg',
+    backdrop: 'https://media.kitsu.io/anime/cover_images/' + anime._id + '/original.jpg',
     year: anime.year,
     type: anime.type
   };
