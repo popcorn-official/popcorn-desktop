@@ -1,8 +1,8 @@
 <ul class="nav nav-hor left">
     <% _.each (App.Config.getTabTypes(), function (tab) { %>
-    <li class="source <%= tab.type %>TabShow providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.getFiltredProviderNames(tab.type) %>"><%= i18n.__(tab.name) %></li>
+    <li class="source <%= tab.type %>TabShow"><%= i18n.__(tab.name) %></li>
     <% }); %>
-    <li id="filterbar-favorites" class="source providerinfo" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Favorites") %>"><%= i18n.__("Favorites") %></li>
+    <li id="filterbar-favorites" class="source"><%= i18n.__("Favorites") %></li>
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">
     <% if(typeof type !== 'undefined'){ %>

@@ -212,12 +212,6 @@
           hide: 100
         }
       });
-      this.$('.providerinfo').tooltip({
-        delay: {
-          show: 50,
-          hide: 50
-        }
-      });
 
       if (Settings.rememberFilters) {
         try {
