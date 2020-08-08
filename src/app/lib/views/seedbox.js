@@ -161,7 +161,9 @@
 
 			const onTorrentReady = () => {
 				// We may have set the name to "Unknown torrent" but we have the name now that it's ready
-				document.getElementById(`title-${torrent.infoHash}`).innerText = torrent.name;
+				if (document.getElementById(`title-${torrent.infoHash}`)) {
+					document.getElementById(`title-${torrent.infoHash}`).innerText = torrent.name;
+				}
 
 				let metricsLastUpdated = Date.now();
 				const timeBetweenMetricsUpdatesInMs = 1000;
