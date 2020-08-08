@@ -2,7 +2,7 @@
     <div class="fa fa-times close-icon"></div>
     <div class="overlay-content"></div>
     <div class="margintop"></div>
-    <img class="icon-title" src="/src/app/images/butter-logo.svg">
+    <img class="icon-title" src="/src/app/images/popcorn-time-logo.svg">
     <div class="content">
 
         <div class="title-version">
@@ -12,15 +12,15 @@
             <% } %>
         </div>
 
-        <div class="title-issue">
-            <a href="<%= Settings.issuesUrl %>" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Report an issue") %>" class="links" ><%= i18n.__("Report an issue") %></a>
-        </div>
-
         <div class="text-about">
             <div class="full-text">
                 <%= i18n.__("%s is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.", Settings.projectName) %><br/>
                 <%= i18n.__("We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.") %>
             </div>
+        </div>
+
+        <div class="title-issue">
+            <a href="<%= Settings.issuesUrl %>" class="links">[ <%= i18n.__("Report an issue") %> ]</a>
         </div>
 
         <div class="icons_social">
