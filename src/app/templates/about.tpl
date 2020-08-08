@@ -20,7 +20,7 @@
         </div>
 
         <div class="title-issue">
-            <a href="<%= Settings.issuesUrl %>" class="links"><%= i18n.__("Report an issue") %></a>
+            <a href="<%= Settings.issuesUrl %>" class="links">[ <%= i18n.__("Report an issue") %> ]</a>
         </div>
 
         <div class="icons_social">
