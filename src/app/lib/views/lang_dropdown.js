@@ -43,6 +43,10 @@
             this.values = newLangs;
             this.render();
 
+            if ((Settings.subtitle_language !== 'none') && (Settings.subtitle_language in newLangs)) {
+                this.setLang(Settings.subtitle_language);
+            }
+
             $('.tooltipped').tooltip({
                 delay: {
                     'show': 800,
