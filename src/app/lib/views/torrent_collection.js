@@ -220,7 +220,7 @@
                         var rbg = torrentCollection.rbg;
                         rbg.search({
                             query: input.toLocaleLowerCase(),
-                            category: category.toLocaleLowerCase() === 'movies' ? 'movies' : 'tv',
+                            category: category.toLocaleLowerCase(),
                             sort: 'seeders',
                             verified: false
                         }).then(function (data) {

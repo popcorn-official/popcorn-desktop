@@ -8,7 +8,7 @@
         <div class="flag-container">
             <% for(var lang in values){ %>
             <%   if(lang.indexOf('|')!==-1) continue; %>
-            <div class="flag-icon flag <%= lang %>" data-lang="<%= lang %>" title="<%= App.Localization.nativeName(lang) %>"></div>
+            <div class="flag-icon flag <%= lang %> tooltipped" data-toggle="tooltip" data-placement="top" data-lang="<%= lang %>" title="<%= App.Localization.nativeName(lang) %>"></div>
             <% } %>
         </div>
     </div>
