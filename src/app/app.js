@@ -130,15 +130,6 @@ App.onBeforeStart = function (options) {
 
   var screen = window.screen;
 
-  if (ScreenResolution.QuadHD) {
-    zoom = 2;
-  }
-  /*
-	if (ScreenResolution.UltraHD) {
-		zoom = 4;
-	}
-	*/
-
   var width = parseInt(
     localStorage.width ? localStorage.width : Settings.defaultWidth
   );
