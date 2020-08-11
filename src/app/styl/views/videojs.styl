@@ -4,6 +4,11 @@
         position: relative;
         cursor: pointer;
         background-color: rgba(255,255,255,0.2);
+        &:hover {
+            & > .vjs-slider-handle {
+                opacity: 1;
+            }
+        }
     }
     .vjs-slider-handle {
         position: absolute;
@@ -180,6 +185,12 @@
         &:hover {
             top: 4px;
             height: 8px;
+            & > .vjs-volume-level {
+                height: 8px;
+            }
+            & > .vjs-volume-handle:before {
+                line-height: 15px;
+            }
         }
     }
     .vjs-volume-menu-button {
