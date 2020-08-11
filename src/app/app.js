@@ -419,37 +419,6 @@ Mousetrap.bindGlobal(
   },
   'keydown'
 );
-Mousetrap.bind(
-  'shift+b',
-  function (e) {
-    if (!ScreenResolution.SD) {
-      if (App.settings.bigPicture) {
-        win.zoomLevel = Settings.noBigPicture || 0;
-        AdvSettings.set('bigPicture', false);
-      } else {
-        win.maximize();
-        AdvSettings.set('noBigPicture', win.zoomLevel);
-        AdvSettings.set('bigPicture', true);
-        var zoom = ScreenResolution.HD ? 2 : 3;
-        win.zoomLevel = zoom;
-      }
-    } else {
-      App.vent.trigger(
-        'notification:show',
-        new App.Model.Notification({
-          title: i18n.__('Big Picture Mode'),
-          body: i18n.__(
-            'Big Picture Mode is unavailable on your current screen resolution'
-          ),
-          showRestart: false,
-          type: 'error',
-          autoclose: true
-        })
-      );
-    }
-  },
-  'keydown'
-);
 
 // Drag n' Drop Torrent Onto PT Window to start playing (ALPHA)
 window.ondragenter = function (e) {
