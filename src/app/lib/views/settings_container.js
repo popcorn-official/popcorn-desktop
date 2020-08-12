@@ -279,8 +279,8 @@
                     var nvalue = field.val().replace(/[^0-9]/gi, '');
                     if (nvalue === '') {
                         nvalue = AdvSettings.get('bigPicture');
-                    } else if (nvalue < 50) {
-                        nvalue = 50;
+                    } else if (nvalue < 25) {
+                        nvalue = 25;
                     } else if (nvalue > 400) {
                         nvalue = 400;
                     }
