@@ -632,7 +632,7 @@
             </span>
             <span>
                 <p><%= i18n.__("UI Scaling") %></p>
-                <input id="bigPicture" type="text" size="4" name="bigPicture" value="<%=Settings.bigPicture%>%"/>&nbsp;&nbsp;<em><%= i18n.__("(50% - 400%)") %></em>
+                <input id="bigPicture" type="text" size="4" name="bigPicture" value="<%=Settings.bigPicture%>%"/>&nbsp;&nbsp;<em><%= i18n.__("(25% - 400%)") %></em>
             </span>
         </div>
     </section>
