@@ -3,18 +3,26 @@
     .vjs-slider {
         position: relative;
         cursor: pointer;
-        background-color: #bababa;
+        background-color: rgba(255,255,255,0.2);
+        &:hover {
+            & > .vjs-slider-handle {
+                opacity: 1;
+            }
+        }
     }
     .vjs-slider-handle {
         position: absolute;
-        top: -3px;
-        width: 11px;
-        height: 11px;
+        top: -6px;
+        width: 14px;
+        height: 14px;
+        opacity: 0;
+        transition: all .5s ease, opacity .1s !important;
+        margin-left: -8px;
         &:before {
-            color: white;
+            color: $PlayerColor;
             content: '\25CF';
-            font-size: 22px;
-            line-height: 9px;
+            font-size: 46px;
+            line-height: 14px;
         }
     }
 
@@ -23,12 +31,12 @@
         position: absolute;
         bottom: 0;
         left: 0;
-        background-color: rgba(23, 24, 27, 0.75);
+        background-color: linear-gradient(transparent, rgba(0,0,0,0.7));
     }
 
     .vjs-control-bar {
         right: 0;
-        height: 40px;
+        height: 60px;
         width: 100%;
     }
 
@@ -104,11 +112,11 @@
         width: 1px;
     }
     .vjs-play-control {
-        top: 13px;
+        top: 24px;
         cursor: pointer;
-        width: 12px;
-        height: 14px;
-        margin-left: 16px;
+        width: 14px;
+        height: 16px;
+        margin-left: 20px;
         &:hover {
             transition: all .5s;
             -webkit-filter: brightness(0.70);
@@ -122,8 +130,8 @@
             content: "\f04b";
             color: white;
             font-family: "Font Awesome 5 Free";
-            font-size: 12px;
-            line-height: 15px;
+            font-size: 14px;
+            line-height: 17px;
             font-weight: 900;
         }
     }
@@ -163,16 +171,27 @@
         }
     }
     .vjs-volume-control {
-        top: 17px;
+        top: 24px;
         width: 54px;
         float: right;
         margin-right: 0px;
     }
     .vjs-volume-bar {
-        height: 5px;
+        top: 5px;
+        height: 6px;
         width: 54px;
         margin-right: 0px;
         border-radius: 3px / 2px;
+        &:hover {
+            top: 4px;
+            height: 8px;
+            & > .vjs-volume-level {
+                height: 8px;
+            }
+            & > .vjs-volume-handle:before {
+                line-height: 15px;
+            }
+        }
     }
     .vjs-volume-menu-button {
         .vjs-menu-content {
@@ -183,33 +202,37 @@
         position: absolute;
         top: 0;
         left: 0;
-        height: 5px;
+        height: 6px;
         background-color: $PlayerColor;
         border-radius: 3px / 2px;
         border-radius: 3px / 2px;
         background-clip: padding;
         background-clip: padding-box;
-        background-clip: padding-box;
     }
     .vjs-volume-handle {
         &:before {
-            color: white;
+            color: $PlayerColor;
             content: '\25CF';
-            font-size: 22px;
-            line-height: 9px;
+            font-size: 46px;
+            line-height: 14px;
         }
     }
     .vjs-progress-control {
         position: absolute;
-        top: 17px;
+        top: 29px;
         width: auto;
         height: 6px;
         border-radius: 3px / 2px;
         border-radius: 3px / 2px;
         background-clip: padding-box;
         background-clip: padding-box;
-        left: 180px;
-        right: 230px;
+        left: 190px;
+        right: 250px;
+        transition: all .1s !important;
+        &:hover {
+            height: 8px;
+            top: 28px;
+        }
     }
     &:hover {
         .vjs-progress-control {
@@ -244,7 +267,7 @@
         transition: width 2s;
         animation: progress 2.8s linear infinite;
         background-repeat: repeat-x;
-        background-color: $PlayerColor;
+        background-color: white;
         opacity: 0.4;
     }
     .vjs-seek-handle {
@@ -259,8 +282,8 @@
         position: relative;
         color: #fff;
         font-family: "Open Sans", sans-serif;
-        font-size: 14px;
-        top: 13px;
+        font-size: 16px;
+        top: 24px;
     }
     .vjs-current-time {
         position: relative;
@@ -277,13 +300,13 @@
     }
     .vjs-fullscreen-control {
         position: relative;
-        top: 12px;
-        margin-right: 15px;
-        margin-left: 15px;
+        top: 23px;
+        margin-right: 17px;
+        margin-left: 17px;
         cursor: pointer;
         float: right;
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
         &:hover {
             transition: all .5s;
             -webkit-filter: brightness(0.70);
@@ -294,10 +317,10 @@
         &:before {
             content: "\f065";
             text-shadow: none !important;
-            font-size: 16px;
+            font-size: 18px;
             font-family: "Font Awesome 5 Free";
-            height: 16px;
-            width: 16px;
+            height: 18px;
+            width: 18px;
             color: white;
             font-weight: 900;
         }
@@ -367,9 +390,9 @@
         position: relative;
         float: right;
         cursor: pointer;
-        margin-right: 12px;
-        height: 16px;
-        width: 17px;
+        margin-right: 14px;
+        height: 18px;
+        width: 19px;
         .vjs-menu {
             .vjs-menu-content {
                 display: block;
@@ -450,9 +473,9 @@
             position: relative;
             float: right;
             cursor: pointer;
-            margin-right: 12px;
-            height: 11px;
-            width: 12px;
+            margin-right: 14px;
+            height: 13px;
+            width: 14px;
             &:hover {
                 transition: all .5s;
                 -webkit-filter: brightness(0.70);
@@ -461,10 +484,10 @@
                 }
             }
             &:before {
-                height: 11px;
-                width: 12px;
-                font-size: 12px;
-                line-height: 14px;
+                height: 13px;
+                width: 14px;
+                font-size: 14px;
+                line-height: 16px;
                 content: "A";
                 color: #fff;
             }
@@ -476,9 +499,9 @@
             position: relative;
             float: right;
             cursor: pointer;
-            margin-right: 12px;
-            height: 11px;
-            width: 12px;
+            margin-right: 14px;
+            height: 13px;
+            width: 14px;
             &:hover {
                 transition: all .5s;
                 -webkit-filter: brightness(0.70);
@@ -487,10 +510,10 @@
                 }
             }
             &:before {
-                height: 11px;
-                width: 12px;
-                font-size: 16px;
-                line-height: 12px;
+                height: 13px;
+                width: 14px;
+                font-size: 18px;
+                line-height: 14px;
                 content: "A";
                 color: #fff;
             }
@@ -532,12 +555,12 @@
 
 .vjs-popcorn-skin .vjs-mute-control,
 .vjs-popcorn-skin .vjs-volume-menu-button {
-    top: 12px;
+    top: 25px;
     cursor: pointer;
     float: right;
-    height: 14px;
-    width: 20px;
-    margin-right: 10px;
+    height: 16px;
+    width: 22px;
+    margin-right: 11px;
 }
 
 .vjs-popcorn-skin .vjs-mute-control:before,
@@ -591,11 +614,12 @@
     position: relative;
     color: #fff;
     font-family: "Open Sans", sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     position: relative;
     float: left;
-    margin-left: 3px;
+    margin-left: 4px;
     margin-right: 3px;
+    top: 8px;
 }
 
 .vjs-popcorn-skin:hover .vjs-big-play-button,
