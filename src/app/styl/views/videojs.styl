@@ -5,8 +5,8 @@
         cursor: pointer;
         background-color: rgba(255,255,255,0.2);
         &:hover {
-            & > .vjs-slider-handle {
-                opacity: 1;
+            & > .vjs-slider-handle:before {
+                color: $PlayerColor;
             }
         }
     }
@@ -15,14 +15,13 @@
         top: -6px;
         width: 14px;
         height: 14px;
-        opacity: 0;
-        transition: all .5s ease, opacity .1s !important;
         margin-left: -8px;
         &:before {
-            color: $PlayerColor;
+            color: rgba(255,255,255,0);
             content: '\25CF';
             font-size: 46px;
             line-height: 14px;
+            transition: all .1s !important;
         }
     }
 
@@ -189,7 +188,7 @@
                 height: 8px;
             }
             & > .vjs-volume-handle:before {
-                line-height: 15px;
+                font-size: 25px;
             }
         }
     }
@@ -213,8 +212,9 @@
         &:before {
             color: $PlayerColor;
             content: '\25CF';
-            font-size: 46px;
-            line-height: 14px;
+            font-size: 14px;
+            line-height: 17px;
+            margin-left: 10px;
         }
     }
     .vjs-progress-control {
