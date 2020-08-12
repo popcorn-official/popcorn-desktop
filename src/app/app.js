@@ -130,15 +130,6 @@ App.onBeforeStart = function (options) {
 
   var screen = window.screen;
 
-  if (ScreenResolution.QuadHD) {
-    zoom = 2;
-  }
-  /*
-	if (ScreenResolution.UltraHD) {
-		zoom = 4;
-	}
-	*/
-
   var width = parseInt(
     localStorage.width ? localStorage.width : Settings.defaultWidth
   );
@@ -416,37 +407,6 @@ Mousetrap.bindGlobal(
   function (e) {
     e.preventDefault();
     win.toggleFullscreen();
-  },
-  'keydown'
-);
-Mousetrap.bind(
-  'shift+b',
-  function (e) {
-    if (!ScreenResolution.SD) {
-      if (App.settings.bigPicture) {
-        win.zoomLevel = Settings.noBigPicture || 0;
-        AdvSettings.set('bigPicture', false);
-      } else {
-        win.maximize();
-        AdvSettings.set('noBigPicture', win.zoomLevel);
-        AdvSettings.set('bigPicture', true);
-        var zoom = ScreenResolution.HD ? 2 : 3;
-        win.zoomLevel = zoom;
-      }
-    } else {
-      App.vent.trigger(
-        'notification:show',
-        new App.Model.Notification({
-          title: i18n.__('Big Picture Mode'),
-          body: i18n.__(
-            'Big Picture Mode is unavailable on your current screen resolution'
-          ),
-          showRestart: false,
-          type: 'error',
-          autoclose: true
-        })
-      );
-    }
   },
   'keydown'
 );
