@@ -254,6 +254,7 @@
                 case 'minimizeToTray':
                 case 'activateTorrentCollection':
                 case 'activateWatchlist':
+                case 'activateTempf':
                 case 'opensubtitlesAutoUpload':
                 case 'subtitles_bold':
                 case 'rememberFilters':
@@ -397,6 +398,7 @@
                     }
                     break;
                 case 'activateWatchlist':
+                case 'activateTempf':
                     App.vent.trigger('movies:list');
                     App.vent.trigger('settings:show');
                     break;
