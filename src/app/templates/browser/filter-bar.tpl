@@ -86,6 +86,15 @@
         <i id="filterbar-seedbox" class="fa fa-download about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Seedbox") %>"></i>
     </li>
 
+    <!-- Cache Folder -->
+    <% if (Settings.activateTempf) { %>
+    <li style="display:block">
+    <% } else { %>
+    <li style="display:none">
+    <% } %>
+        <i id="filterbar-tempf" class="fa fa-folder-open about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"></i>
+    </li>
+
     <!-- About -->
     <li>
         <i id="filterbar-about" class="fa fa-info-circle about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("About") %>"></i>
