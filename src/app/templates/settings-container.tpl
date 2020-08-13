@@ -450,6 +450,10 @@
                 <input class="settings-checkbox" name="activateWatchlist" id="activateWatchlist" type="checkbox" <%=(Settings.activateWatchlist? "checked='checked'":"")%>>
                 <label class="settings-label" for="activateWatchlist"><%= i18n.__("Watchlist") %></label>
             </span>
+            <span>
+                <input class="settings-checkbox" name="activateTempf" id="activateTempf" type="checkbox" <%=(Settings.activateTempf? "checked='checked'":"")%>>
+                <label class="settings-label" for="activateTempf"><%= i18n.__("Cache Folder Button") %></label>
+            </span>
         </div>
     </section>
 
