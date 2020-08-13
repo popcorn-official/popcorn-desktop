@@ -199,6 +199,7 @@ Settings.bigPicture = 100;
 // Features
 Settings.activateTorrentCollection = true;
 Settings.activateWatchlist = true;
+Settings.activateTempf = true;
 Settings.onlineSearchEngine = 'ExtraTorrent';
 Settings.enableThepiratebaySearch = true;
 Settings.enable1337xSearch = true;
