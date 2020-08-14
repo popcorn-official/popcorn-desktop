@@ -450,6 +450,10 @@
                 <input class="settings-checkbox" name="activateWatchlist" id="activateWatchlist" type="checkbox" <%=(Settings.activateWatchlist? "checked='checked'":"")%>>
                 <label class="settings-label" for="activateWatchlist"><%= i18n.__("Watchlist") %></label>
             </span>
+            <span>
+                <input class="settings-checkbox" name="activateTempf" id="activateTempf" type="checkbox" <%=(Settings.activateTempf? "checked='checked'":"")%>>
+                <label class="settings-label" for="activateTempf"><%= i18n.__("Cache Folder Button") %></label>
+            </span>
         </div>
     </section>
 
@@ -617,8 +621,22 @@
                 <label class="settings-label" for="minimizeToTray"><%= i18n.__("Minimize to Tray") %></label>
             </span>
             <span>
-                <input class="settings-checkbox" name="bigPicture" id="bigPicture" type="checkbox" <%=(Settings.bigPicture? "checked='checked'":"")%>>
-                <label class="settings-label" for="bigPicture"><%= i18n.__("Big Picture Mode") %></label>
+                <div class="dropdown poster_size">
+                   <p><%= i18n.__("Poster Size") %></p>
+                        <%
+                            var pos_type = {"134": "100%", "154": "113%", "174": "125%", "194": "138%", "214": "150%", "234": "163%", "254": "175%", "274": "188%", "294": "200%"};
+                            var pos_sizes = "";
+                            for(var key in pos_type) {
+                                pos_sizes += "<option "+(Settings.postersWidth == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(pos_type[key])+"</option>";
+                            }
+                        %>
+                    <select name="poster_size"><%=pos_sizes%></select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </span>
+            <span>
+                <p><%= i18n.__("UI Scaling") %></p>
+                <input id="bigPicture" type="text" size="4" name="bigPicture" value="<%=Settings.bigPicture%>%"/>&nbsp;&nbsp;<em><%= i18n.__("(25% - 400%)") %></em>
             </span>
         </div>
     </section>

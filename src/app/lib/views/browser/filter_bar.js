@@ -23,6 +23,7 @@
       'click .genres .dropdown-menu a': 'changeGenre',
       'click .types .dropdown-menu a': 'changeType',
       'click #filterbar-settings': 'settings',
+      'click #filterbar-tempf': 'tempf',
       'click #filterbar-about': 'about',
       'click #filterbar-vpn': 'vpn',
       'click .movieTabShow': 'movieTabShow',
@@ -350,6 +351,10 @@
     settings: function(e) {
       App.vent.trigger('about:close');
       App.vent.trigger('settings:show');
+    },
+
+    tempf: function (e) {
+      nw.Shell.openExternal(Settings.tmpLocation);
     },
 
     about: function(e) {

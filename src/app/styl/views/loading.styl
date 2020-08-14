@@ -185,6 +185,41 @@
                 top 12px
                 font-size 12px
 
+        .open-button
+            visibility hidden
+            z-index 2
+            cursor pointer
+            width 35px
+            height 35px
+            margin -35px auto auto 297px
+            -moz-border-radius 3px
+            -webkit-border-radius 3px
+            border-radius 3px
+            -moz-background-clip padding
+            -webkit-background-clip padding-box
+            background-clip padding-box
+            background-color #27ae60
+            -webkit-backface-visibility hidden
+            transition all .5s
+
+            &:hover
+                background: #27ae60
+                text-decoration: none
+
+            &:active
+                box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
+                background: #27ae60
+
+            .open-button-text
+                -webkit-backface-visibility hidden
+                position relative
+                color #fff
+                font-family $MainFont, $Font, $AlternateFont
+                -webkit-font-smoothing antialiased
+                text-align center
+                top 12px
+                font-size 12px
+
         .loading-info
             width auto
             height auto

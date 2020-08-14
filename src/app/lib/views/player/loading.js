@@ -1,6 +1,7 @@
 (function(App) {
   'use strict';
 
+  var ddone = 'false';
   var Loading = Marionette.View.extend({
     template: '#loading-tpl',
     className: 'app-overlay',
@@ -52,6 +53,7 @@
       'click #cancel-button': 'cancelStreaming',
       'click #cancel-button-regular': 'cancelStreaming',
       'click #cancel-button-vpn': 'cancelStreamingVPN',
+      'click .open-button': 'tempf',
       'click .pause': 'pauseStreaming',
       'click .stop': 'stopStreaming',
       'click .play': 'resumeStreaming',
@@ -107,6 +109,7 @@
       win.info('Loading torrent');
 
       this.listenTo(this.model, 'change:state', this.onStateUpdate);
+      ddone = 'false';
     },
 
     showVPNLoader: function() {
@@ -300,7 +303,7 @@
 
             this.ddone = 'true';
             cancelButton.css('background-color', '#27ae60');
-            cancelButton.css('left', '-45px');
+            cancelButton.css('margin-left', '168px');
             if (Settings.activateLoCtrl === false) {
                 $('.open-button').css('visibility', 'visible').css('display', 'block');
             } else if (Settings.activateLoCtrl === true) {

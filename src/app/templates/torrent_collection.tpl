@@ -42,7 +42,7 @@
 
         <div class="notorrents-info">
             <div class="notorrents-frame">
-                <i class="fa fa-download notorrents-icon"></i>
+                <i class="fas fa-paste notorrents-icon"></i>
                 <p class="notorrents-message"><%= i18n.__("Drop Magnet or .torrent")%></p>
             </div>
         </div>

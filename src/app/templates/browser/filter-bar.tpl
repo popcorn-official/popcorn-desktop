@@ -78,12 +78,21 @@
     <% } else { %>
     <li id="torrent_col" style="display:none">
     <% } %>
-        <i id="filterbar-torrent-collection" class="fa fa-folder-open torrent-collection tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Torrent Collection") %>"></i>
+        <i id="filterbar-torrent-collection" class="fa fa-list-ul torrent-collection tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Torrent Collection") %>"></i>
     </li>
 
     <!-- Seedbox -->
     <li>
         <i id="filterbar-seedbox" class="fa fa-download about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Seedbox") %>"></i>
+    </li>
+
+    <!-- Cache Folder -->
+    <% if (Settings.activateTempf) { %>
+    <li style="display:block">
+    <% } else { %>
+    <li style="display:none">
+    <% } %>
+        <i id="filterbar-tempf" class="fa fa-folder-open about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"></i>
     </li>
 
     <!-- About -->
