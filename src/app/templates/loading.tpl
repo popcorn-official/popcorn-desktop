@@ -87,7 +87,9 @@
             <div id="cancel-button" class="cancel-button">
                 <div class="cancel-button-text"><%= i18n.__("Cancel") %></div>
             </div>
-
+            <div class="open-button tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>">
+                <div class="open-button-text"><i class="fa fa-folder-open"></i></div>
+            </div>
         </div>
     </div>
     <div class="warning-nospace">
