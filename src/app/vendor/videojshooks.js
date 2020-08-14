@@ -86,27 +86,24 @@ vjs.TextTrack.prototype.load = function () {
         this.readyState_ = 1;
 
         var subsParams = function () {
-            var subtitles = $('.vjs-subtitles');
-            var vjsTextTrack = $('.vjs-text-track');
-
-            vjsTextTrack.css('display', 'inline-block').drags();
-            vjsTextTrack.css('font-size', Settings.subtitle_size);
+            $('#video_player .vjs-text-track').css('display', 'inline-block').drags();
+            $('#video_player .vjs-text-track-display').css('font-size', Settings.subtitle_size);
             if (win.isFullscreen) {
-                vjsTextTrack.css('font-size', '140%');
+                $('.vjs-text-track').css('font-size', '140%');
             }
-            subtitles.css('color', Settings.subtitle_color);
-            subtitles.css('font-family', Settings.subtitle_font);
+            $('.vjs-subtitles').css('color', Settings.subtitle_color);
+            $('.vjs-subtitles').css('font-family', Settings.subtitle_font);
             if (Settings.subtitle_decoration === 'None') {
-                vjsTextTrack.css('text-shadow', 'none');
+                $('.vjs-text-track').css('text-shadow', 'none');
             } else if (Settings.subtitle_decoration === 'Opaque Background') {
-                vjsTextTrack.css('background', '#000');
+                $('.vjs-text-track').css('background', '#000');
             } else if (Settings.subtitle_decoration === 'See-through Background') {
-                vjsTextTrack.css('background', 'rgba(0,0,0,.5)');
+                $('.vjs-text-track').css('background', 'rgba(0,0,0,.5)');
             }
             if (Settings.subtitles_bold) {
-                vjsTextTrack.css('font-weight', 'bold');
+                $('.vjs-text-track').css('font-weight', 'bold');
             }
-            vjsTextTrack.css('z-index', 'auto').css('position', 'relative').css('top', AdvSettings.get('playerSubPosition'));
+            $('.vjs-text-track').css('z-index', 'auto').css('position', 'relative').css('top', AdvSettings.get('playerSubPosition'));
         };
 
         // Fetches a raw subtitle, locally or remotely
@@ -461,7 +458,51 @@ var suggestedExternal = function () {
     } catch (e) {}
     return link;
 };
+vjs.ErrorDisplay.prototype.update = function () {
+    if (this.player().error()) {
+        $('.vjs-error-display').dblclick(function (event) {
+            App.PlayerView.toggleFullscreen();
+            event.preventDefault();
+        });
+        if (this.player().error().message === 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.' || this.player().error().message === 'The video could not be loaded, either because the server or network failed or because the format is not supported.') {
+            this.contentEl_.innerHTML = i18n.__('The video playback encountered an issue. Please try an external player like %s to view this content.', suggestedExternal());
+        } else {
+            this.contentEl_.innerHTML = this.localize(this.player().error().message);
+        }
+    }
+};
 
+/**
+ * The custom progressbar we create. Updated in player.js
+ *
+ * @constructor
+ */
+vjs.LoadProgressBar = vjs.Component.extend({
+    init: function (player, options) {
+        vjs.Component.call(this, player, options);
+        this.on(player, 'progress', this.update);
+    }
+});
+vjs.LoadProgressBar.prototype.createEl = function () {
+    return vjs.Component.prototype.createEl.call(this, 'div', {
+        className: 'vjs-load-progress',
+        innerHTML: '<span class="vjs-control-text"><span>Loaded</span>: 0%</span>'
+    });
+};
+vjs.LoadProgressBar.prototype.update = function () {
+    return;
+};
+
+//Display our own error
+var suggestedExternal = function () {
+    var link = '<a href="http://www.videolan.org/vlc/" class="links">VLC</a>';
+    try {
+        App.Device.Collection.models.forEach(function (player) {
+            link = (player.id === 'VLC') ? player.id : link;
+        });
+    } catch (e) {}
+    return link;
+};
 vjs.ErrorDisplay.prototype.update = function () {
     if (this.player().error()) {
         if (this.player().error().message === 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.') {
