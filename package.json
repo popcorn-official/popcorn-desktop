@@ -41,7 +41,7 @@
     "butter-provider/tv.js"
   ],
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.12.1",
+    "@fortawesome/fontawesome-free": "^5.14.0",
     "@vpnht/sdk": "^1.0.10",
     "adm-zip": "0.4.13",
     "airplayer": "2.0.0",
