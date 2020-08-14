@@ -63,7 +63,7 @@
     "gitlab": "1.4.1",
     "i18n": "0.x.x",
     "iconv-lite": "0.x.x",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.1",
     "jschardet": "1.6.0",
     "json-rpc2": "1.x.x",
     "lodash": "^4.17.15",
