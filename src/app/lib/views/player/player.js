@@ -304,10 +304,10 @@
                     this.firstPlay = false;
                     return;
                 }
-                this.ui.pause.hide().dequeue();
+                this.ui.pause.hide().dequeue().css('transform', 'scale(1)');
                 this.ui.play.appendTo('div#video_player');
-                this.ui.play.show().delay(1200).queue(function () {
-                    this.ui.play.fadeOut('normal').dequeue();
+                this.ui.play.fadeIn(10).css('transform', 'scale(1.5)').delay(190).queue(function () {
+                    this.ui.play.fadeOut(700).dequeue();
                 }.bind(this));
                 App.vent.trigger('player:play');
             }
@@ -320,10 +320,10 @@
                 this.wasSeek = true;
             } else {
                 this.wasSeek = false;
-                this.ui.play.hide().dequeue();
+                this.ui.play.hide().dequeue().css('transform', 'scale(1)');
                 this.ui.pause.appendTo('div#video_player');
-                this.ui.pause.show().delay(1200).queue(function () {
-                    this.ui.pause.fadeOut('normal').dequeue();
+                this.ui.pause.fadeIn(10).css('transform', 'scale(1.5)').delay(190).queue(function () {
+                    this.ui.pause.fadeOut(700).dequeue();
                 }.bind(this));
                 App.vent.trigger('player:pause');
                 this.sendToTrakt('pause');
