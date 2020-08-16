@@ -86,11 +86,12 @@ vjs.TextTrack.prototype.load = function () {
         this.readyState_ = 1;
 
         var subsParams = function () {
-            var subtitles = $('.vjs-subtitles');
-            var vjsTextTrack = $('.vjs-text-track');
+            var subtitles = $('.vjs-subtitles'),
+                vjsTextTrack = $('.vjs-text-track'),
+                vjsTextTrackDsp = $('.vjs-text-track-display');
 
             vjsTextTrack.css('display', 'inline-block').drags();
-            vjsTextTrack.css('font-size', Settings.subtitle_size);
+            vjsTextTrackDsp.css('font-size', Settings.subtitle_size);
             if (win.isFullscreen) {
                 vjsTextTrack.css('font-size', '140%');
             }
