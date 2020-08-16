@@ -931,6 +931,7 @@
             if (this.customSubtitles) {
                 this.customSubtitles.modified = true;
             }
+            $('.vjs-overlay').css('opacity', '1');
         },
 
         adjustPlaybackRate: function (rate, delta) {
@@ -943,6 +944,7 @@
                     this.displayOverlayMsg(i18n.__('Playback rate') + ': ' + parseFloat(nRate.toFixed(1)) + 'x');
                 }
             }
+            $('.vjs-overlay').css('opacity', '1');
         },
 
         displayOverlayMsg: function (message) {
