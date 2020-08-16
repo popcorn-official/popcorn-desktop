@@ -48,12 +48,15 @@
     }
     .state-info-player {
         position: absolute
-        right: 60px
-        top: 80px
+        width: 100%
+        margin: auto
+        text-align: center
+        top: 45%
         font-size 50px
-        color: rgba(255,255,255,.9)
+        color: rgba(255,255,255,.3)
         z-index: 23
         display: none
+        transition: all .4s ease-out
     }
     .eye-info-player {
         position: absolute
@@ -74,12 +77,12 @@
     .details-info-player {
         display: none
         width: auto
-        background: rgba(31,31,31,0.74)
-        padding: 10px
+        background: rgba(31,31,31,0.7)
+        padding: 12px 20px
         top: 32px
         position: absolute
         right: 45px
-        border-radius: 2px
+        border-radius: 5px
 
         span {
             position relative
@@ -108,7 +111,7 @@
         height: 0
         border-left: 6px solid rgba(0,0,0,0)
         border-right: 6px solid rgba(0,0,0,0)
-        border-bottom: 6px solid rgba(31,31,31,0.74)
+        border-bottom: 6px solid rgba(31,31,31,0.7)
         top: -6px
         right: 15px
         position: absolute
@@ -407,7 +410,7 @@
 
 .player-header-background {
     position: absolute
-    background: linear-gradient(rgba(0,0,0,0.7), transparent) !important
+    background: linear-gradient(rgba(0,0,0,0.7), transparent 95%, transparent) !important
     width: 100% !important
     height: 75px !important
     z-index: 3
@@ -417,16 +420,18 @@
 .vjs-overlay,
 .vjs-overlay.vjs-overlay-top-left {
     position: absolute
-    width: 33%
-    font-size: 14px
-    background-color: transparent
+    width: auto
+    font-size: 16px
+    background-color: rgba(0,0,0,0.24)
     color: #fff
     font-family: "Open Sans Semibold"
     font-smoothing: antialiased
-    padding: 10px
+    padding: 14px
     border-radius: 3px
-    top: 65px
-    left: 5px
+    top: 80px
+    right: 30px
+    text-align: right
+    opacity: 0
 }
 
 .vjs-overlay {
