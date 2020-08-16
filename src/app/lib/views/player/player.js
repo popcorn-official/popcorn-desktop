@@ -12,8 +12,8 @@
             uploadSpeed: '.upload_speed_player',
             activePeers: '.active_peers_player',
             downloaded: '.downloaded_player',
-            pause: 'fas .fa-pause',
-            play: 'fas .fa-play'
+            pause: '.fa-pause',
+            play: '.fa-play'
         },
 
         events: {
