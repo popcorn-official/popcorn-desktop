@@ -901,6 +901,7 @@
             var v = this.player.volume();
             this.player.volume(v + i);
             App.vent.trigger('volumechange');
+            $('.vjs-overlay').css('opacity', '1');
         },
 
         toggleMute: function () {
