@@ -947,8 +947,6 @@
         displayOverlayMsg: function (message) {
             var vjsOverlay = $('.vjs-overlay');
 
-            vjsOverlay.css('visibility', 'visible');
-
             if (vjsOverlay.length > 0) {
                 vjsOverlay.text(message);
                 clearTimeout($.data(this, 'overlayTimer'));
