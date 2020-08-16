@@ -306,8 +306,8 @@
                 }
                 this.ui.pause.hide().dequeue().css('transform', 'scale(1)');
                 this.ui.play.appendTo('div#video_player');
-                this.ui.play.fadeIn(10).css('transform', 'scale(1.5)').delay(190).queue(function () {
-                    this.ui.play.fadeOut(700).dequeue();
+                this.ui.play.show().delay(10).queue(function () {
+                    this.ui.play.css('transform', 'scale(2)').fadeOut(400).dequeue();
                 }.bind(this));
                 App.vent.trigger('player:play');
             }
@@ -322,8 +322,8 @@
                 this.wasSeek = false;
                 this.ui.play.hide().dequeue().css('transform', 'scale(1)');
                 this.ui.pause.appendTo('div#video_player');
-                this.ui.pause.fadeIn(10).css('transform', 'scale(1.5)').delay(190).queue(function () {
-                    this.ui.pause.fadeOut(700).dequeue();
+                this.ui.pause.show().delay(10).queue(function () {
+                    this.ui.pause.css('transform', 'scale(2)').fadeOut(400).dequeue();
                 }.bind(this));
                 App.vent.trigger('player:pause');
                 this.sendToTrakt('pause');
@@ -374,7 +374,7 @@
             var that = this;
 
             // Double Click to toggle Fullscreen
-            $('#video_player').dblclick(function (event) {
+            $('#video_player, .state-info-player').dblclick(function (event) {
                 that.toggleFullscreen();
                 // Stop any mouseup events pausing video
                 event.preventDefault();
