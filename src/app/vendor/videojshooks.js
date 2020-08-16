@@ -86,11 +86,12 @@ vjs.TextTrack.prototype.load = function () {
         this.readyState_ = 1;
 
         var subsParams = function () {
-            var subtitles = $('.vjs-subtitles');
-            var vjsTextTrack = $('.vjs-text-track');
+            var subtitles = $('.vjs-subtitles'),
+                vjsTextTrack = $('.vjs-text-track'),
+                vjsTextTrackDsp = $('.vjs-text-track-display');
 
             vjsTextTrack.css('display', 'inline-block').drags();
-            vjsTextTrack.css('font-size', Settings.subtitle_size);
+            vjsTextTrackDsp.css('font-size', Settings.subtitle_size);
             if (win.isFullscreen) {
                 vjsTextTrack.css('font-size', '140%');
             }
@@ -438,6 +439,9 @@ vjs.Player.prototype.volume = function (percentAsDecimal) {
         this.cache_.volume = vol;
         this.techCall('setVolume', vol);
         vjs.setLocalStorage('volume', vol);
+        if ($('.vjs-overlay')) {
+            $('.vjs-overlay').css('opacity', '1');
+        }
 
         //let's save this bad boy
         AdvSettings.set('playerVolume', vol.toFixed(1));
