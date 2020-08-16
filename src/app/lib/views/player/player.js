@@ -12,8 +12,8 @@
             uploadSpeed: '.upload_speed_player',
             activePeers: '.active_peers_player',
             downloaded: '.downloaded_player',
-            pause: 'fas .fa-pause',
-            play: 'fas .fa-play'
+            pause: '.fa-pause',
+            play: '.fa-play'
         },
 
         events: {
@@ -304,10 +304,10 @@
                     this.firstPlay = false;
                     return;
                 }
-                this.ui.pause.hide().dequeue();
+                this.ui.pause.hide().dequeue().css('transform', 'scale(1)');
                 this.ui.play.appendTo('div#video_player');
-                this.ui.play.show().delay(1500).queue(function () {
-                    this.ui.play.hide().dequeue();
+                this.ui.play.fadeIn(10).css('transform', 'scale(1.5)').delay(190).queue(function () {
+                    this.ui.play.fadeOut(700).dequeue();
                 }.bind(this));
                 App.vent.trigger('player:play');
             }
@@ -320,10 +320,10 @@
                 this.wasSeek = true;
             } else {
                 this.wasSeek = false;
-                this.ui.play.hide().dequeue();
+                this.ui.play.hide().dequeue().css('transform', 'scale(1)');
                 this.ui.pause.appendTo('div#video_player');
-                this.ui.pause.show().delay(1500).queue(function () {
-                    this.ui.pause.hide().dequeue();
+                this.ui.pause.fadeIn(10).css('transform', 'scale(1.5)').delay(190).queue(function () {
+                    this.ui.pause.fadeOut(700).dequeue();
                 }.bind(this));
                 App.vent.trigger('player:pause');
                 this.sendToTrakt('pause');
@@ -901,6 +901,7 @@
             var v = this.player.volume();
             this.player.volume(v + i);
             App.vent.trigger('volumechange');
+            $('.vjs-overlay').css('opacity', '1');
         },
 
         toggleMute: function () {
@@ -954,14 +955,14 @@
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, 3000));
+                }, 1200));
             } else {
                 $(this.player.el()).append('<div class =\'vjs-overlay vjs-overlay-top-left\'>' + message + '</div>');
                 $.data(this, 'overlayTimer', setTimeout(function () {
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, 3000));
+                }, 1200));
             }
         },
 
