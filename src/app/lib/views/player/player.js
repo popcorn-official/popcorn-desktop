@@ -306,7 +306,7 @@
                 }
                 this.ui.pause.hide().dequeue().css('transform', 'scale(1)');
                 this.ui.play.appendTo('div#video_player');
-                this.ui.play.show().delay(10).queue(function () {
+                this.ui.play.show().delay(50).queue(function () {
                     this.ui.play.css('transform', 'scale(2)').fadeOut(400).dequeue();
                 }.bind(this));
                 App.vent.trigger('player:play');
@@ -322,7 +322,7 @@
                 this.wasSeek = false;
                 this.ui.play.hide().dequeue().css('transform', 'scale(1)');
                 this.ui.pause.appendTo('div#video_player');
-                this.ui.pause.show().delay(10).queue(function () {
+                this.ui.pause.show().delay(50).queue(function () {
                     this.ui.pause.css('transform', 'scale(2)').fadeOut(400).dequeue();
                 }.bind(this));
                 App.vent.trigger('player:pause');
