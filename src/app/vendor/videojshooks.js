@@ -439,6 +439,9 @@ vjs.Player.prototype.volume = function (percentAsDecimal) {
         this.cache_.volume = vol;
         this.techCall('setVolume', vol);
         vjs.setLocalStorage('volume', vol);
+        if ($('.vjs-overlay')) {
+            $('.vjs-overlay').css('opacity', '1');
+        }
 
         //let's save this bad boy
         AdvSettings.set('playerVolume', vol.toFixed(1));
