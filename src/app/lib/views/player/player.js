@@ -12,8 +12,8 @@
             uploadSpeed: '.upload_speed_player',
             activePeers: '.active_peers_player',
             downloaded: '.downloaded_player',
-            pause: 'fas .fa-pause',
-            play: 'fas .fa-play'
+            pause: '.fa-pause',
+            play: '.fa-play'
         },
 
         events: {
@@ -304,10 +304,10 @@
                     this.firstPlay = false;
                     return;
                 }
-                this.ui.pause.hide().dequeue();
+                this.ui.pause.hide().dequeue().css('transform', 'scale(1)');
                 this.ui.play.appendTo('div#video_player');
-                this.ui.play.show().delay(1500).queue(function () {
-                    this.ui.play.hide().dequeue();
+                this.ui.play.show().delay(50).queue(function () {
+                    this.ui.play.css('transform', 'scale(1.8)').fadeOut(400).dequeue();
                 }.bind(this));
                 App.vent.trigger('player:play');
             }
@@ -320,10 +320,10 @@
                 this.wasSeek = true;
             } else {
                 this.wasSeek = false;
-                this.ui.play.hide().dequeue();
+                this.ui.play.hide().dequeue().css('transform', 'scale(1)');
                 this.ui.pause.appendTo('div#video_player');
-                this.ui.pause.show().delay(1500).queue(function () {
-                    this.ui.pause.hide().dequeue();
+                this.ui.pause.show().delay(50).queue(function () {
+                    this.ui.pause.css('transform', 'scale(1.8)').fadeOut(400).dequeue();
                 }.bind(this));
                 App.vent.trigger('player:pause');
                 this.sendToTrakt('pause');
@@ -374,7 +374,7 @@
             var that = this;
 
             // Double Click to toggle Fullscreen
-            $('#video_player').dblclick(function (event) {
+            $('#video_player, .state-info-player').dblclick(function (event) {
                 that.toggleFullscreen();
                 // Stop any mouseup events pausing video
                 event.preventDefault();
@@ -901,6 +901,7 @@
             var v = this.player.volume();
             this.player.volume(v + i);
             App.vent.trigger('volumechange');
+            $('.vjs-overlay').css('opacity', '1');
         },
 
         toggleMute: function () {
@@ -930,6 +931,7 @@
             if (this.customSubtitles) {
                 this.customSubtitles.modified = true;
             }
+            $('.vjs-overlay').css('opacity', '1');
         },
 
         adjustPlaybackRate: function (rate, delta) {
@@ -942,6 +944,7 @@
                     this.displayOverlayMsg(i18n.__('Playback rate') + ': ' + parseFloat(nRate.toFixed(1)) + 'x');
                 }
             }
+            $('.vjs-overlay').css('opacity', '1');
         },
 
         displayOverlayMsg: function (message) {
@@ -954,14 +957,14 @@
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, 3000));
+                }, 1200));
             } else {
                 $(this.player.el()).append('<div class =\'vjs-overlay vjs-overlay-top-left\'>' + message + '</div>');
                 $.data(this, 'overlayTimer', setTimeout(function () {
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, 3000));
+                }, 1200));
             }
         },
 
