@@ -107,9 +107,7 @@
 
       this.ddone = 'false';
       win.info('Loading torrent');
-
       this.listenTo(this.model, 'change:state', this.onStateUpdate);
-      ddone = 'false';
     },
 
     showVPNLoader: function() {
@@ -149,36 +147,36 @@
     unbindKeyboardShortcuts: function() {
       Mousetrap.unbind(['esc', 'backspace']);
     },
+
     minDetails: function () {
       var loading = $('.loading');
       var loadingBackground = $('.loading-background');
       var minimizeIcon = $('.minimize-icon');
       var maximizeIcon = $('.maximize-icon');
-
-   if (minimizeIcon.css('visibility') === 'visible') {
-      loading.css('height', '0px');
-      loading.css('width', '0px');
-      loading.css('float', 'right');
-      loadingBackground.css('visibility', 'hidden');
-      minimizeIcon.css('visibility', 'hidden');
-      if (this.ddone === 'false') {
-         maximizeIcon.css('visibility', 'visible');
-      } else {
-         maximizeIcon.css('visibility', 'visible');
+      if (minimizeIcon.css('visibility') === 'visible') {
+        loading.css('height', '0px');
+        loading.css('width', '0px');
+        loading.css('float', 'right');
+        loadingBackground.css('visibility', 'hidden');
+        minimizeIcon.css('visibility', 'hidden');
+        if (this.ddone === 'false') {
+          maximizeIcon.css('visibility', 'visible');
+        } else {
+          maximizeIcon.css('visibility', 'visible');
+        }
+        $('.filter-bar').show();
+      } else if ((maximizeIcon.css('visibility') === 'visible') || (maximizeIcon.css('visibility') === 'visible')) {
+        loading.css('height', '100%');
+        loading.css('width', '100%');
+        loading.css('float', '');
+        loadingBackground.css('visibility', 'visible');
+        maximizeIcon.css('visibility', 'hidden');
+        maximizeIcon.css('visibility', 'hidden');
+        minimizeIcon.css('visibility', 'visible');
+        $('.filter-bar').hide();
       }
-      $('.filter-bar').show();
-   } else if ((maximizeIcon.css('visibility') === 'visible') || (maximizeIcon.css('visibility') === 'visible')) {
-      loading.css('height', '100%');
-      loading.css('width', '100%');
-      loading.css('float', '');
-      loadingBackground.css('visibility', 'visible');
-      maximizeIcon.css('visibility', 'hidden');
-      maximizeIcon.css('visibility', 'hidden');
-      minimizeIcon.css('visibility', 'visible');
-      $('.filter-bar').hide();
-   } else {
-   }
-},
+    },
+
     onAttach: function() {
       $('.filter-bar').hide();
       $('#header').addClass('header-shadow');
@@ -265,29 +263,26 @@
       if (streamInfo.get('title') !== '') {
         this.ui.title.html(streamInfo.get('title'));
       }
-      if (
-        streamInfo.get('player') &&
-        streamInfo.get('player').get('type') !== 'local'
-      ) {
+      if (streamInfo.get('player') && streamInfo.get('player').get('type') !== 'local') {
         this.ui.player.text(streamInfo.get('player').get('name'));
         this.ui.streaming.css('visibility', 'visible');
       }
     },
 
     onProgressUpdate: function () {
-    var streamInfo = this.model.get('streamInfo');
+      var streamInfo = this.model.get('streamInfo');
 
-    var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
-    this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
+      var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
+      this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
 
-    if (streamInfo.get('downloaded') < streamInfo.get('size')) {
+      if (streamInfo.get('downloaded') < streamInfo.get('size')) {
         this.ui.stateTextDownload.text(i18n.__('Downloading'));
         this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
         this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
         this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
         this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
         this.ui.stateTextRemaining.text(this.remainingTime());
-    } else {
+      } else {
         this.ui.stateTextDownload.text(i18n.__('Downloaded'));
         this.ui.stateTextDownloadedFormatted.hide();
         this.ui.progressTextPeers.hide();
@@ -298,34 +293,34 @@
         $('#rdownl').hide();
         $('#ractpr').hide();
         if (this.ddone === 'false') {
-            var cancelButton = $('.cancel-button');
-            var maximizeIcon = $('.maximize-icon');
+          var cancelButton = $('.cancel-button');
+          var maximizeIcon = $('.maximize-icon');
 
-            this.ddone = 'true';
-            cancelButton.css('background-color', '#27ae60');
-            cancelButton.css('margin-left', '168px');
-            if (Settings.activateLoCtrl === false) {
-                $('.open-button').css('visibility', 'visible').css('display', 'block');
-            } else if (Settings.activateLoCtrl === true) {
-                $('.open-button').css('visibility', 'visible').css('display', 'none');
-            }
-            if (maximizeIcon.css('visibility') === 'visible') {
-                maximizeIcon.css('visibility', 'visible');
-                maximizeIcon.css('visibility', 'hidden');
-            }
-            this.listenTo(this.model.get('streamInfo'), 'change:uploadSpeed', this.onProgressUpdate);
+          this.ddone = 'true';
+          cancelButton.css('background-color', '#27ae60');
+          cancelButton.css('margin-left', '168px');
+          if (Settings.activateLoCtrl === false) {
+            $('.open-button').css('visibility', 'visible').css('display', 'block');
+          } else if (Settings.activateLoCtrl === true) {
+            $('.open-button').css('visibility', 'visible').css('display', 'none');
+          }
+          if (maximizeIcon.css('visibility') === 'visible') {
+            maximizeIcon.css('visibility', 'visible');
+            maximizeIcon.css('visibility', 'hidden');
+          }
+          this.listenTo(this.model.get('streamInfo'), 'change:uploadSpeed', this.onProgressUpdate);
         }
-    }
+      }
 
-    this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
-    this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
+      this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
+      this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
 
-    this.ui.loadingInfos.show();
+      this.ui.loadingInfos.show();
 
-    if (this.model.get('state') === 'playingExternally') {
+      if (this.model.get('state') === 'playingExternally') {
         this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
-    }
-},
+      }
+    },
 
     onDeviceStatus: function(status) {
       if (status.media !== undefined && status.media.duration !== undefined) {
@@ -374,75 +369,77 @@
     },
 
     showpcontrols: function (e) {
-          if (Settings.activateLoCtrl === false) {
-              AdvSettings.set('activateLoCtrl', true);
-              $('.show-pcontrols').removeClass('fa-angle-down').addClass('fa-angle-up').tooltip('hide').attr('data-original-title', i18n.__('Hide playback controls'));
-              this.ui.cancel_button.css('display', 'none');
-              $('.open-button').css('display', 'none');
-              this.ui.controls.css('display', 'block');
-              this.ui.playingbarBox.css('display', 'block');
-          } else if (Settings.activateLoCtrl === true) {
-              AdvSettings.set('activateLoCtrl', false);
-              $('.show-pcontrols').removeClass('fa-angle-up').addClass('fa-angle-down').tooltip('hide').attr('data-original-title', i18n.__('Show playback controls'));
-              this.ui.cancel_button.css('display', 'block');
-              $('.open-button').css('display', 'block');
-              this.ui.controls.css('display', 'none');
-              this.ui.playingbarBox.css('display', 'none');
-          }
-      },
+      if (Settings.activateLoCtrl === false) {
+        AdvSettings.set('activateLoCtrl', true);
+        $('.show-pcontrols').removeClass('fa-angle-down').addClass('fa-angle-up').tooltip('hide').attr('data-original-title', i18n.__('Hide playback controls'));
+        this.ui.cancel_button.css('display', 'none');
+        $('.open-button').css('display', 'none');
+        this.ui.controls.css('display', 'block');
+        this.ui.playingbarBox.css('display', 'block');
+      } else if (Settings.activateLoCtrl === true) {
+        AdvSettings.set('activateLoCtrl', false);
+        $('.show-pcontrols').removeClass('fa-angle-up').addClass('fa-angle-down').tooltip('hide').attr('data-original-title', i18n.__('Show playback controls'));
+        this.ui.cancel_button.css('display', 'block');
+        $('.open-button').css('display', 'block');
+        this.ui.controls.css('display', 'none');
+        this.ui.playingbarBox.css('display', 'none');
+      }
+    },
 
-      tempf: function (e) {
-          nw.Shell.openExternal(Settings.tmpLocation);
-      },
+    tempf: function (e) {
+      nw.Shell.openExternal(Settings.tmpLocation);
+    },
 
-      filenameovrflsh: function () {
-          $('.text_filename').css('overflow', 'visible');
-      },
+    filenameovrflsh: function () {
+      $('.text_filename').css('overflow', 'visible');
+    },
 
-      filenameovrflhd: function () {
-          $('.text_filename').css('overflow', 'hidden');
-      },
-      remainingTime: function () {
-    var streamInfo = this.model.get('streamInfo');
-    var timeLeft = streamInfo.get('time_left');
+    filenameovrflhd: function () {
+      $('.text_filename').css('overflow', 'hidden');
+    },
 
-    if (timeLeft === undefined) {
+    remainingTime: function () {
+      var streamInfo = this.model.get('streamInfo');
+      var timeLeft = streamInfo.get('time_left');
+
+      if (timeLeft === undefined) {
         return i18n.__('Unknown time remaining');
-    } else if (timeLeft > 3600) {
+      } else if (timeLeft > 3600) {
         return i18n.__('%s hour(s) remaining', Math.round(timeLeft / 3600));
-    } else if (timeLeft > 60) {
+      } else if (timeLeft > 60) {
         return i18n.__('%s minute(s) remaining', Math.round(timeLeft / 60));
-    } else if (timeLeft <= 60) {
+      } else if (timeLeft <= 60) {
         return i18n.__('%s second(s) remaining', timeLeft);
-    }
-},
+      }
+    },
 
-titletoclip: function (e) {
-    if (e.button === 2) {
+    titletoclip: function (e) {
+      if (e.button === 2) {
         var streamInfo = this.model.get('streamInfo');
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('title'), 'text');
         $('.notification_alert').text(i18n.__('The title was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-    }
-},
+      }
+    },
 
-filenametoclip: function (e) {
-    if (e.button === 2) {
+    filenametoclip: function (e) {
+      if (e.button === 2) {
         var streamInfo = this.model.get('streamInfo');
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('filename'), 'text');
         $('.notification_alert').text(i18n.__('The filename was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-    }
-},
+      }
+    },
 
-streamurltoclip: function (e) {
-    if (e.button === 2) {
+    streamurltoclip: function (e) {
+      if (e.button === 2) {
         var streamInfo = this.model.get('streamInfo');
         var clipboard = nw.Clipboard.get();
         clipboard.set(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress), 'text');
         $('.notification_alert').text(i18n.__('The stream url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-    }
-},
+      }
+    },
+
     pauseStreaming: function() {
       App.vent.trigger('device:pause');
       $('.pause')
@@ -541,7 +538,7 @@ streamurltoclip: function (e) {
         App.vent.trigger('movie:closeDetail');
       });
     }
-  });
 
+  });
   App.View.Loading = Loading;
 })(window.App);
