@@ -218,6 +218,7 @@
       App.vent.trigger('seedbox:show');
       $('.filter-bar').find('.active').removeClass('active');
       $('#filterbar-seedbox').addClass('active');
+      $('#nav-filters').hide();
     },
 
     startStreaming: function() {
