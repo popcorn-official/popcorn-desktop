@@ -349,7 +349,7 @@
                     </span>
                     <span class="advanced">
                         <div class="btn-settings syncTrakt" id="syncTrakt">
-                            <i class="fa fa-refresh">&nbsp;&nbsp;</i>
+                            <i class="fa fa-sync">&nbsp;&nbsp;</i>
                             <%= i18n.__("Sync With Trakt") %>
                         </div>
                     </span>
@@ -541,7 +541,7 @@
             <span>
                 <p><%= i18n.__("Cache Directory") %></p>
                 <input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="65" />
-                <i class="open-tmp-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Cache Directory") %>"></i>
+                <i class="open-tmp-folder fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Cache Directory") %>"></i>
                 <input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
             </span>
             <span>
@@ -565,18 +565,18 @@
             <span>
                 <p><%= i18n.__("Database Directory") %></p>
                 <input type="text" placeholder="<%= i18n.__("Database Directory") %>" id="fakedatabaseLocation" value="<%= Settings.databaseLocation %>" readonly="readonly" size="65" />
-                <i class="open-database-folder fa fa-folder-open-o tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
+                <i class="open-database-folder fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
                 <input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
             </span>
             <div class="btns advanced database import-database">
               <div class="btn-settings database">
                 <label class="import-database" for="importdatabase"  title="<%= i18n.__("Open File to Import") %>"><%= i18n.__("Import Database") %></label>
-                <i class="fa fa-level-down">&nbsp;&nbsp;</i>
+                <i class="fa fa-level-down-alt">&nbsp;&nbsp;</i>
                 <input type="file" id="importdatabase"  accept=".zip" style="display:none">
               </div>
               <div class="btn-settings database export-database">
                 <label class="export-database" for="exportdatabase" title="<%= i18n.__("Browse Directoy to save to") %>" ><%= i18n.__("Export Database") %></label>
-                <i class="fa fa-level-up">&nbsp;&nbsp;</i>
+                <i class="fa fa-level-up-alt">&nbsp;&nbsp;</i>
                 <input type="file" id="exportdatabase" style="display:none" nwdirectory>
                         </div>
 
