@@ -1,7 +1,6 @@
 (function(App) {
     'use strict';
     var dlnacasts = require('dlnacasts2')();
-    var xmlb = require('xmlbuilder');
     var collection = App.Device.Collection;
 
 
