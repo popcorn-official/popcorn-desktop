@@ -37,7 +37,7 @@
                         <td><%= i18n.__("Switch to previous tab") %></td>
                     </tr>
                     <tr>
-                        <td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">1</span><%= i18n.__("through") %></span><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">3</span></td>
+                        <td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">1</span><%= i18n.__("through") %></span><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key">4</span></td>
                         <td><%= i18n.__("Switch to corresponding tab") %></td>
                     </tr>
                     <tr>
