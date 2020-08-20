@@ -130,7 +130,7 @@
                     <div id="title-${torrent.infoHash}">${App.plugins.mediaName.getMediaName(torrent)}</div>
                 </a>
 
-                <i class="fa fa-trash-alt watched trash-torrent" id="trash-${torrent.infoHash}"></i>
+                <i class="fa fa-trash watched trash-torrent" id="trash-${torrent.infoHash}"></i>
                 <i class="fa fa-play watched resume-torrent" id="play-${torrent.infoHash}" style="display: ${torrent.paused ? '' : 'none'};"></i>
                 <i class="fa fa-pause-circle watched pause-torrent" id="resume-${torrent.infoHash}" style="display: ${torrent.paused ? 'none' : ''};"></i>
                 <i class="fa fa-upload watched" id="upload-${torrent.infoHash}"> 0 Kb/s</i>
