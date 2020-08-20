@@ -276,7 +276,7 @@
         if (curSynopsis.cast !== '') {
           $('.overview').html(curSynopsis.crew + curSynopsis.cast + curSynopsis.old);
           $('.show-cast').attr('title', i18n.__('Hide cast')).tooltip('hide').tooltip('fixTitle');
-          $('.overview *').tooltip({html: true, container: 'body', placement: 'bottom', delay: {show: 200, hide: 0}, template: '<div class="tooltip" style="opacity:1"><div class="tooltip-inner" style="background-color:rgba(0,0,0,0);width:118px"></div></div>'});
+          $('.overview *').tooltip({html: true, sanitize: false, container: 'body', placement: 'bottom', delay: {show: 200, hide: 0}, template: '<div class="tooltip" style="opacity:1"><div class="tooltip-inner" style="background-color:rgba(0,0,0,0);width:118px"></div></div>'});
           curSynopsis.vstatus = true;
         } else {
           $('.show-cast').css({cursor: 'default', opacity: 0.4}).attr('title', i18n.__('Cast not available')).tooltip('hide').tooltip('fixTitle');
@@ -291,7 +291,7 @@
 
     showallCast: function () {
       $('.overview').html(curSynopsis.crew + curSynopsis.allcast + curSynopsis.old);
-      $('.overview *').tooltip({html: true, container: 'body', placement: 'bottom', delay: {show: 200, hide: 0}, template: '<div class="tooltip" style="opacity:1"><div class="tooltip-inner" style="background-color:rgba(0,0,0,0);width:118px"></div></div>'});
+      $('.overview *').tooltip({html: true, sanitize: false, container: 'body', placement: 'bottom', delay: {show: 200, hide: 0}, template: '<div class="tooltip" style="opacity:1"><div class="tooltip-inner" style="background-color:rgba(0,0,0,0);width:118px"></div></div>'});
     },
 
     onBeforeDestroy: function() {
