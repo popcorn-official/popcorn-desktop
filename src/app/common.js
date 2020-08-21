@@ -129,7 +129,7 @@ Common.HealthButton = function (selector, retrieveHealthCallback) {
 				];
 
 				if (!isNaN(ratio)) {
-					tooltipPieces.push(`${i18n.__('Ratio:')} ${ratio.toFixed(2)}`);
+					tooltipPieces.push(` - ${i18n.__('Ratio:')} ${ratio.toFixed(2)}<br/>`);
 				}
 
 				if (!isNaN(seeds)) {
@@ -137,7 +137,7 @@ Common.HealthButton = function (selector, retrieveHealthCallback) {
 				}
 
 				if (!isNaN(peers)) {
-					tooltipPieces.push(`${i18n.__('Peers:')} ${peers}`);
+					tooltipPieces.push(` - ${i18n.__('Peers:')} ${peers}`);
 				}
 
 				getIcon()
@@ -146,7 +146,7 @@ Common.HealthButton = function (selector, retrieveHealthCallback) {
 					})
 					.removeClass('None Bad Medium Good Excellent')
 					.addClass(healthString)
-					.attr('data-original-title', tooltipPieces.join('<br/>'))
+					.attr('data-original-title', tooltipPieces.join(''))
 					.tooltip('fixTitle');
 			}
 		});
