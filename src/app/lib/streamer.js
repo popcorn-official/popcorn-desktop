@@ -105,7 +105,7 @@
             }
 
             App.WebTorrent.add(uri, {
-              path      : App.settings.tmpLocation + '/' + infoHash,
+              path      : App.settings.tmpLocation,
               maxConns  : 5,
               dht       : true,
               announce  : Settings.trackers.forced,
@@ -181,7 +181,7 @@
 
                 if (!this.torrent) {
                   this.torrent = App.WebTorrent.add(uri, {
-                      path: App.settings.tmpLocation + '/' + infoHash,
+                      path: App.settings.tmpLocation,
                       announce: Settings.trackers.forced
                   });
                 }
