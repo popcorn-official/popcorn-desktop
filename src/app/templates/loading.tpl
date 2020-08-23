@@ -1,5 +1,5 @@
 <div class="loading">
-  <div class="loading-backdrop"></div>
+  <div class="loading-backdrop" <% try { %> style="background-image:url( <%= backdrop %> )" <% }catch(err) {} %>></div>
   <div class="loading-backdrop-overlay"></div>
 
     <div class="state-flex">

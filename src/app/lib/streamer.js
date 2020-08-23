@@ -407,7 +407,6 @@
             this.updateStatsInterval = setInterval(this.streamInfo.updateStats.bind(this.streamInfo), 1000);
             this.streamInfo.updateInfos();
             this.torrentModel.on('change', this.streamInfo.updateInfos.bind(this.streamInfo));
-            return App.vent.trigger('stream:started', this.stateModel);
         },
 
         // dummy element to fire stream:start
@@ -450,6 +449,7 @@
                 show_controls: false,
                 streamInfo: this.streamInfo
             });
+            App.vent.trigger('stream:started', this.stateModel);
         },
 
         watchState: function () {
