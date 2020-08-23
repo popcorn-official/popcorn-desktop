@@ -53,7 +53,7 @@
                   }
 
                   App.WebTorrent.add(data, {
-                      path      : App.settings.tmpLocation + '/' + file,
+                      path      : App.settings.tmpLocation,
                       maxConns  : 5,
                       dht       : true,
                       announce  : Settings.trackers.forced,
