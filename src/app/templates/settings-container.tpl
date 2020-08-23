@@ -420,6 +420,10 @@
                 <label class="settings-label" for="activateTorrentCollection"><%= i18n.__("Torrent Collection") %></label>
             </span>
             <span>
+                <input class="settings-checkbox" name="activateSeedbox" id="activateSeedbox" type="checkbox" <%=(Settings.activateSeedbox? "checked='checked'":"")%>>
+                <label class="settings-label" for="activateSeedbox"><%= i18n.__("Seedbox") %></label>
+            </span>
+            <span>
                 <input class="settings-checkbox" name="activateTempf" id="activateTempf" type="checkbox" <%=(Settings.activateTempf? "checked='checked'":"")%>>
                 <label class="settings-label" for="activateTempf"><%= i18n.__("Cache Folder Button") %></label>
             </span>
