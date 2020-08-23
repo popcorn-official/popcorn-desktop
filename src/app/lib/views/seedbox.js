@@ -242,7 +242,7 @@
 		    if (torrent) {
 				torrent.destroy(() => {
 					fs.unlinkSync(path.join(torrentsDir, torrent.infoHash));
-					rimraf(path.join(App.settings.tmpLocation, torrent.infoHash), () => {
+					rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {
 					});
 				});
 
