@@ -253,6 +253,7 @@
                 case 'alwaysFullscreen':
                 case 'minimizeToTray':
                 case 'activateTorrentCollection':
+                case 'activateSeedbox':
                 case 'activateWatchlist':
                 case 'activateTempf':
                 case 'opensubtitlesAutoUpload':
@@ -399,6 +400,7 @@
                     break;
                 case 'activateWatchlist':
                 case 'activateTempf':
+                case 'activateSeedbox':
                     App.vent.trigger('movies:list');
                     App.vent.trigger('settings:show');
                     break;
