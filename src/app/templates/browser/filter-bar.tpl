@@ -82,7 +82,11 @@
     </li>
 
     <!-- Seedbox -->
-    <li>
+    <% if (Settings.activateSeedbox) { %>
+    <li style="display:block">
+    <% } else { %>
+    <li style="display:none">
+    <% } %>
         <i id="filterbar-seedbox" class="fa fa-download about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Seedbox") %>"></i>
     </li>
 
