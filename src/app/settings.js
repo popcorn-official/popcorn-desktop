@@ -200,6 +200,7 @@ Settings.bigPicture = 100;
 Settings.activateTorrentCollection = true;
 Settings.activateWatchlist = true;
 Settings.activateTempf = true;
+Settings.activateSeedbox = true;
 Settings.onlineSearchEngine = 'ExtraTorrent';
 Settings.enableThepiratebaySearch = true;
 Settings.enable1337xSearch = true;
