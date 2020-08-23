@@ -412,12 +412,12 @@
         <div class="title"><%= i18n.__("Features") %></div>
         <div class="content">
             <span>
-                <input class="settings-checkbox" name="activateTorrentCollection" id="activateTorrentCollection" type="checkbox" <%=(Settings.activateTorrentCollection? "checked='checked'":"")%>>
-                <label class="settings-label" for="activateTorrentCollection"><%= i18n.__("Torrent Collection") %></label>
-            </span>
-            <span>
                 <input class="settings-checkbox" name="activateWatchlist" id="activateWatchlist" type="checkbox" <%=(Settings.activateWatchlist? "checked='checked'":"")%>>
                 <label class="settings-label" for="activateWatchlist"><%= i18n.__("Watchlist") %></label>
+            </span>
+            <span>
+                <input class="settings-checkbox" name="activateTorrentCollection" id="activateTorrentCollection" type="checkbox" <%=(Settings.activateTorrentCollection? "checked='checked'":"")%>>
+                <label class="settings-label" for="activateTorrentCollection"><%= i18n.__("Torrent Collection") %></label>
             </span>
             <span>
                 <input class="settings-checkbox" name="activateTempf" id="activateTempf" type="checkbox" <%=(Settings.activateTempf? "checked='checked'":"")%>>
