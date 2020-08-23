@@ -387,12 +387,7 @@
     },
 
     tempf: function (e) {
-      try { var infoHash = this.model.attributes.streamInfo.attributes.torrentModel.attributes.torrent.infoHash; } catch (err) {}
-      if (infoHash) {
-        nw.Shell.openExternal(Settings.tmpLocation + '/' + infoHash);
-      } else {
-        nw.Shell.openExternal(Settings.tmpLocation);
-      }
+      nw.Shell.openExternal(Settings.tmpLocation);
     },
 
     filenameovrflsh: function () {
