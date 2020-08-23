@@ -73,6 +73,7 @@
     },
     setActive: function(set) {
       var rightSearch = $('.right .search');
+      var navFilters = $('#nav-filters');
       var filterbarRandom = $('#filterbar-random');
 
       if (Settings.startScreen === 'Last Open') {
@@ -80,6 +81,7 @@
       }
 
       rightSearch.show();
+      navFilters.show();
       filterbarRandom.hide();
       $('.filter-bar')
         .find('.active')
@@ -109,10 +111,12 @@
           break;
         case 'Torrent-collection':
           rightSearch.hide();
+          navFilters.hide();
           $('#filterbar-torrent-collection').addClass('active');
           break;
         case 'Seedbox':
           rightSearch.hide();
+          navFilters.hide();
           $('#filterbar-seedbox').addClass('active');
           break;
       }
