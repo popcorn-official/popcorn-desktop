@@ -1,5 +1,5 @@
 <div class="loading">
-  <div class="loading-backdrop"></div>
+  <div class="loading-backdrop" style="background-image:url( <%= backdrop %> )"></div>
   <div class="loading-backdrop-overlay"></div>
 
     <div class="state-flex">
