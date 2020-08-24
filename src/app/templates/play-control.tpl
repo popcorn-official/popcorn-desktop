@@ -9,7 +9,9 @@
         <div class="row">
             <div id="player-chooser"   class="play-selector"></div>
             <div id="watch-trailer"    class="button play-selector"><%=i18n.__("Watch Trailer") %></div>
+            <% if (Settings.activateSeedbox) { %>
             <div id="download-torrent"    class="button play-selector"><%=i18n.__("Download") %></div>
+            <% } %>
             <div id="quality-selector" class="quality-selector"></div>
         </div>
     </div>

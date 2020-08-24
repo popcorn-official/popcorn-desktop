@@ -260,6 +260,10 @@
                 <input class="settings-checkbox" name="subtitles_bold" id="subsbold" type="checkbox" <%=(Settings.subtitles_bold? "checked='checked'":"")%>>
                 <label class="settings-label" for="subsbold"><%= i18n.__("Bold") %></label>
             </span>
+            <span>
+                <input class="settings-checkbox" name="multipleExtSubtitles" id="multipleExtSubtitles" type="checkbox" <%=(Settings.multipleExtSubtitles? "checked='checked'":"")%>>
+                <label class="settings-label" for="multipleExtSubtitles"><%= i18n.__("Show all available subtitles for the default subtitle language in the flag dropdown menu") %></label>
+            </span>
         </div>
     </section>
 
@@ -420,6 +424,10 @@
                 <label class="settings-label" for="activateTorrentCollection"><%= i18n.__("Torrent Collection") %></label>
             </span>
             <span>
+                <input class="settings-checkbox" name="activateSeedbox" id="activateSeedbox" type="checkbox" <%=(Settings.activateSeedbox? "checked='checked'":"")%>>
+                <label class="settings-label" for="activateSeedbox"><%= i18n.__("Seedbox") %></label>
+            </span>
+            <span>
                 <input class="settings-checkbox" name="activateTempf" id="activateTempf" type="checkbox" <%=(Settings.activateTempf? "checked='checked'":"")%>>
                 <label class="settings-label" for="activateTempf"><%= i18n.__("Cache Folder Button") %></label>
             </span>
@@ -544,10 +552,12 @@
                 <input class="settings-checkbox" name="continueSeedingOnStart" id="continueSeedingOnStart" type="checkbox" <%=(Settings.continueSeedingOnStart? "checked='checked'":"")%>>
                 <label class="settings-label" for="continueSeedingOnStart"><%= i18n.__("Continue seeding torrents after restart app?") %></label>
             </span>
+            <% if (Settings.activateSeedbox) { %>
             <span>
                 <p><%= i18n.__("Maximum number of active torrents") %></p>
                 <input id="maxActiveTorrents" type="number" name="maxActiveTorrents" value="<%=Settings.maxActiveTorrents%>"/>
             </span>
+            <% } %>
         </div>
     </section>
 

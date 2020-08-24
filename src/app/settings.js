@@ -158,6 +158,7 @@ Settings.subtitle_size = '38px';
 Settings.subtitle_color = '#ffffff';
 Settings.subtitle_decoration = 'Outline';
 Settings.subtitle_font = 'Arial';
+Settings.multipleExtSubtitles = false;
 
 // More options
 Settings.httpApiEnabled = false;
@@ -200,6 +201,7 @@ Settings.bigPicture = 100;
 Settings.activateTorrentCollection = true;
 Settings.activateWatchlist = true;
 Settings.activateTempf = true;
+Settings.activateSeedbox = true;
 Settings.onlineSearchEngine = 'ExtraTorrent';
 Settings.enableThepiratebaySearch = true;
 Settings.enable1337xSearch = true;

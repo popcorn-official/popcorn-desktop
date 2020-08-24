@@ -29,7 +29,7 @@
             var vname = path.basename(vpath).substring(0, path.basename(vpath).lastIndexOf(vext)); // video file name
             var folder = path.dirname(vpath); // cwd
             var furl = data.url; // subtitle url
-            var fpath = path.join(folder, vname + '.' + streamInfo.get("defaultSubtitle")); // subtitle local path, no extension
+            var fpath = path.join(folder, vname + '.' + streamInfo.get("defaultSubtitle").substr(0,2)); // subtitle local path, no extension
 
             request.get(furl).on('response', function (response) {
                 var rtype = (response.headers['content-type'] || '').split(';')[0].trim(); // response type

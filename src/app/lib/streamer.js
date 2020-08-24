@@ -121,15 +121,20 @@
                 // update ratio
                 AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.downloaded);
                 AdvSettings.set('totalUploaded', Settings.totalUploaded + this.uploaded);
-                this.torrent.pause();
-                // complete fause torrent, stop download data
-                for (const id in this.torrent._peers) {
-                  this.torrent.removePeer(id);
-                }
 
-                this.torrent._xsRequests.forEach(req => {
-                  req.abort();
-                });
+                if (Settings.activateSeedbox) {
+                    this.torrent.pause();
+                    // complete fause torrent, stop download data
+                    for (const id in this.torrent._peers) {
+                      this.torrent.removePeer(id);
+                    }
+
+                    this.torrent._xsRequests.forEach(req => {
+                      req.abort();
+                    });
+                } else {
+                    this.torrent.destroy();
+                }
             }
 
             if (this.video) {
