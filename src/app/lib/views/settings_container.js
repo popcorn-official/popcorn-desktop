@@ -258,6 +258,7 @@
                 case 'activateTempf':
                 case 'opensubtitlesAutoUpload':
                 case 'subtitles_bold':
+                case 'multipleExtSubtitles':
                 case 'rememberFilters':
                 case 'animeTabDisable':
                     value = field.is(':checked');
@@ -401,6 +402,7 @@
                 case 'activateWatchlist':
                 case 'activateTempf':
                 case 'activateSeedbox':
+                case 'multipleExtSubtitles':
                     App.vent.trigger('movies:list');
                     App.vent.trigger('settings:show');
                     break;
