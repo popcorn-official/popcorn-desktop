@@ -13,7 +13,7 @@
                     <% if(lang.indexOf('|')!==-1) continue; %>
                 <% } %>
                 <% if(lang !== 'none') { %>
-                    <div class="flag-icon flag <%= lang.substr(0,2) %> tooltipped" data-toggle="tooltip" data-placement="top" data-lang="<%= lang %>" title="<%= App.Localization.nativeName(lang.substr(0,2)) + ' ' + lang.substr(3,1) %>"></div>
+                    <div class="flag-icon flag <%= lang.substr(0,2) %> tooltipped" data-toggle="tooltip" data-placement="top" data-lang="<%= lang %>" title="<%= App.Localization.nativeName(lang.substr(0,2)) + ' ' + lang.substr(3) %>"></div>
                 <% } else { %>
                     <div class="flag-icon flag <%= lang %> tooltipped" data-toggle="tooltip" data-placement="top" data-lang="<%= lang %>" title="<%= App.Localization.nativeName(lang) %>"></div>
                 <% } %>
