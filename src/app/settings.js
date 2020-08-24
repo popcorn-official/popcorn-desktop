@@ -158,6 +158,7 @@ Settings.subtitle_size = '38px';
 Settings.subtitle_color = '#ffffff';
 Settings.subtitle_decoration = 'Outline';
 Settings.subtitle_font = 'Arial';
+Settings.multipleExtSubtitles = false;
 
 // More options
 Settings.httpApiEnabled = false;
