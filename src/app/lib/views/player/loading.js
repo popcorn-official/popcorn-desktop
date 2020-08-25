@@ -200,12 +200,14 @@
       win.info('Loading torrent:', state);
 
       this.ui.stateTextDownload.text(i18n.__(state));
-      if (streamInfo.get('src') && Settings.ipAddress) {
-        this.ui.stateTextStreamUrl.text(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress));
+      if (streamInfo) {
+        if (streamInfo.get('src') && Settings.ipAddress) {
+          this.ui.stateTextStreamUrl.text(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress));
+        }
+        this.ui.stateTextFilename.text(streamInfo.get('filename'));
+        this.ui.stateTextSize.text(Common.fileSize(streamInfo.get('size')));
+        this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
       }
-      this.ui.stateTextFilename.text(streamInfo.get('filename'));
-      this.ui.stateTextSize.text(Common.fileSize(streamInfo.get('size')));
-      this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
       this.listenTo(this.model.get('streamInfo'), 'change', this.onInfosUpdate);
 
       if (state === 'downloading') {
