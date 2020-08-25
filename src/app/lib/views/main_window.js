@@ -511,7 +511,7 @@
 
     showFileSelector: function(fileModel) {
       App.vent.trigger('about:close');
-      App.vent.trigger('stream:stop');
+      App.vent.trigger('stream:destroy');
       App.vent.trigger('player:close');
       this.showChildView(
         'FileSelector',
