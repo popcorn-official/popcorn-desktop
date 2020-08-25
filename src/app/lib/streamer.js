@@ -264,10 +264,10 @@
                 tvdb: metadatas.type === 'movie' ? false : metadatas.show.ids.tvdb,
                 tmdb: metadatas.type === 'movie' ? metadatas.movie.ids.tmdb : false
             }).then(function (img) {
-                try {
+                if (this.torrentModel) {
                     this.torrentModel.set('backdrop', img.background);
                     this.torrentModel.set('poster', img.poster);
-                } catch(err) {}
+                }
             }.bind(this));
         },
 
@@ -310,13 +310,17 @@
                         throw 'trakt.matcher.match failed';
                 }
 
-                this.torrentModel.set(props);
+                if (this.torrentModel) {
+                    this.torrentModel.set(props);
+                }
                 this.lookForImages(metadatas);
                 this.handleSubtitles();
 
             }.bind(this)).catch(function(err) {
                 win.error('An error occured while trying to get metadata', err);
-                try { this.torrentModel.set('title', fileName); } catch(err) {}
+                if (this.torrentModel) {
+                    this.torrentModel.set('title', fileName);
+                }
                 this.handleSubtitles();
             }.bind(this));
         },
@@ -513,8 +517,9 @@
 
             win.info(total + ' subtitles found');
 
-
-            this.torrentModel.set('subtitle', subtitles);
+            if (this.torrentModel) {
+                this.torrentModel.set('subtitle', subtitles);
+            }
 
             if (defaultSubtitle !== 'none') {
                 if (total === 0) {
