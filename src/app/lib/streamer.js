@@ -159,6 +159,37 @@
             win.info('Streaming cancelled');
         },
 
+        stopFS: function() {
+            if (this.torrent) {
+                // update ratio
+                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.downloaded);
+                AdvSettings.set('totalUploaded', Settings.totalUploaded + this.uploaded);
+
+                this.torrent.destroy();
+            }
+
+            if (this.video) {
+                this.video.pause();
+                this.video.src = '';
+                this.video.load();
+                this.video = null;
+            }
+
+            this.torrent = null;
+            this.torrentModel = null;
+            this.stateModel = null;
+            this.streamInfo = null;
+            this.subtitleReady = false;
+            this.canPlay = false;
+            this.stopped = true;
+            clearInterval(this.updateStatsInterval);
+            this.updateStatsInterval = null;
+
+            App.vent.off('subtitle:downloaded');
+            App.SubtitlesServer.stop();
+            win.info('Streaming cancelled');
+        },
+
         handleErrors: function (reason) {
             if (!this.stopped) {
                 win.error(reason);
@@ -264,8 +295,10 @@
                 tvdb: metadatas.type === 'movie' ? false : metadatas.show.ids.tvdb,
                 tmdb: metadatas.type === 'movie' ? metadatas.movie.ids.tmdb : false
             }).then(function (img) {
-                this.torrentModel.set('backdrop', img.background);
-                this.torrentModel.set('poster', img.poster);
+                if (this.torrentModel) {
+                    this.torrentModel.set('backdrop', img.background);
+                    this.torrentModel.set('poster', img.poster);
+                }
             }.bind(this));
         },
 
@@ -308,13 +341,17 @@
                         throw 'trakt.matcher.match failed';
                 }
 
-                this.torrentModel.set(props);
+                if (this.torrentModel) {
+                    this.torrentModel.set(props);
+                }
                 this.lookForImages(metadatas);
                 this.handleSubtitles();
 
             }.bind(this)).catch(function(err) {
                 win.error('An error occured while trying to get metadata', err);
-                this.torrentModel.set('title', fileName);
+                if (this.torrentModel) {
+                    this.torrentModel.set('title', fileName);
+                }
                 this.handleSubtitles();
             }.bind(this));
         },
@@ -511,8 +548,9 @@
 
             win.info(total + ' subtitles found');
 
-
-            this.torrentModel.set('subtitle', subtitles);
+            if (this.torrentModel) {
+                this.torrentModel.set('subtitle', subtitles);
+            }
 
             if (defaultSubtitle !== 'none') {
                 if (total === 0) {
@@ -661,6 +699,7 @@
     App.vent.on('stream:loadExistTorrents', streamer.initExistTorrents.bind(streamer));
     App.vent.on('stream:start', streamer.start.bind(streamer));
     App.vent.on('stream:stop', streamer.stop.bind(streamer));
+    App.vent.on('stream:stopFS', streamer.stopFS.bind(streamer));
     App.vent.on('stream:download', streamer.download.bind(streamer));
     App.vent.on('stream:serve_subtitles', streamer.serveSubtitles.bind(streamer));
 })(window.App);
