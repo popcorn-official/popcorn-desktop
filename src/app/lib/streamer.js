@@ -75,7 +75,7 @@
         start: function(model) {
             // if webtorrent is created/running, we stop/destroy it
             if (App.WebTorrent.destroyed) {
-                this.destroy();
+                this.stop();
             }
 
             this.setModels(model);
@@ -91,7 +91,7 @@
         download: function(torrent, mediaName = '') {
             // if webtorrent is created/running, we stop/destroy it
             if (App.WebTorrent.destroyed) {
-                this.destroy();
+                this.stop();
             }
 
             // handles magnet and hosted torrents
@@ -159,7 +159,7 @@
             win.info('Streaming cancelled');
         },
 
-        destroy: function() {
+        stopFS: function() {
             if (this.torrent) {
                 // update ratio
                 AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.downloaded);
@@ -699,7 +699,7 @@
     App.vent.on('stream:loadExistTorrents', streamer.initExistTorrents.bind(streamer));
     App.vent.on('stream:start', streamer.start.bind(streamer));
     App.vent.on('stream:stop', streamer.stop.bind(streamer));
-    App.vent.on('stream:destroy', streamer.destroy.bind(streamer));
+    App.vent.on('stream:stopFS', streamer.stopFS.bind(streamer));
     App.vent.on('stream:download', streamer.download.bind(streamer));
     App.vent.on('stream:serve_subtitles', streamer.serveSubtitles.bind(streamer));
 })(window.App);
