@@ -241,7 +241,7 @@
 		    const torrent = this.getTorrentFromEvent(e);
 		    if (torrent) {
 				torrent.destroy(() => {
-					fs.unlinkSync(path.join(torrentsDir, torrent.infoHash));
+					try { fs.unlinkSync(path.join(torrentsDir, torrent.infoHash)); } catch(err) {}
 					rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {
 					});
 				});
@@ -277,7 +277,7 @@
 			}
 
 			const infoHash = $elem.attr('id');
-			const stats = fs.statSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash);
+			try { const stats = fs.statSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash); } catch(err) {}
 			const torrent = App.WebTorrent.get(infoHash);
 
 			if (wasJustSelected) {
@@ -290,7 +290,7 @@
 			$('.seedbox-infos-title').text(torrent.name);
 			$('.seedbox-downloaded').text(' ' + formatBytes(torrent.downloaded));
 			$('.seedbox-uploaded').text(' ' + formatBytes(torrent.uploaded));
-			$('.seedbox-infos-date').text(stats.ctime);
+			try { $('.seedbox-infos-date').text(stats.ctime); } catch(err) {}
 			$('.progress-bar').css('width', (torrent.progress * 100).toFixed(2) + '%');
 			$('.progress-percentage>span').text((torrent.progress * 100).toFixed(2) + '%');
 
