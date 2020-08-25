@@ -310,6 +310,10 @@
 
             var fileName = this.torrentModel.get('video_file').name;
 
+            if (this.torrentModel) {
+                this.torrentModel.set('title', fileName); 
+            }
+
             App.Trakt.client.matcher.match({
                 filename: fileName,
                 torrent: torrent.name
@@ -348,12 +352,12 @@
                 this.handleSubtitles();
 
             }.bind(this)).catch(function(err) {
-                win.error('An error occured while trying to get metadata', err);
                 if (this.torrentModel) {
                     this.torrentModel.set('title', fileName);
                 }
                 this.handleSubtitles();
             }.bind(this));
+            setTimeout(() => { if (!this.subtitleReady) { this.handleSubtitles(); }}, 20000);
         },
 
         // set video file name & index
@@ -653,6 +657,7 @@
                     }
                 }.bind(this));
 
+            setTimeout(() => { if (!this.subtitleReady) { this.subtitleReady = true; }}, 20000);
             return;
         },
 
