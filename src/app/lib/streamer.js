@@ -75,7 +75,7 @@
         start: function(model) {
             // if webtorrent is created/running, we stop/destroy it
             if (App.WebTorrent.destroyed) {
-                this.torrent.destroy();
+                this.destroy();
             }
 
             this.setModels(model);
@@ -91,7 +91,7 @@
         download: function(torrent, mediaName = '') {
             // if webtorrent is created/running, we stop/destroy it
             if (App.WebTorrent.destroyed) {
-                this.torrent.destroy();
+                this.destroy();
             }
 
             // handles magnet and hosted torrents
@@ -135,6 +135,37 @@
                 } else {
                     this.torrent.destroy();
                 }
+            }
+
+            if (this.video) {
+                this.video.pause();
+                this.video.src = '';
+                this.video.load();
+                this.video = null;
+            }
+
+            this.torrent = null;
+            this.torrentModel = null;
+            this.stateModel = null;
+            this.streamInfo = null;
+            this.subtitleReady = false;
+            this.canPlay = false;
+            this.stopped = true;
+            clearInterval(this.updateStatsInterval);
+            this.updateStatsInterval = null;
+
+            App.vent.off('subtitle:downloaded');
+            App.SubtitlesServer.stop();
+            win.info('Streaming cancelled');
+        },
+
+        destroy: function() {
+            if (this.torrent) {
+                // update ratio
+                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.downloaded);
+                AdvSettings.set('totalUploaded', Settings.totalUploaded + this.uploaded);
+
+                this.torrent.destroy();
             }
 
             if (this.video) {
@@ -668,6 +699,7 @@
     App.vent.on('stream:loadExistTorrents', streamer.initExistTorrents.bind(streamer));
     App.vent.on('stream:start', streamer.start.bind(streamer));
     App.vent.on('stream:stop', streamer.stop.bind(streamer));
+    App.vent.on('stream:destroy', streamer.destroy.bind(streamer));
     App.vent.on('stream:download', streamer.download.bind(streamer));
     App.vent.on('stream:serve_subtitles', streamer.serveSubtitles.bind(streamer));
 })(window.App);
