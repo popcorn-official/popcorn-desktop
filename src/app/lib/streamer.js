@@ -75,7 +75,7 @@
         start: function(model) {
             // if webtorrent is created/running, we stop/destroy it
             if (App.WebTorrent.destroyed) {
-                this.stop();
+                this.torrent.destroy();
             }
 
             this.setModels(model);
@@ -91,7 +91,7 @@
         download: function(torrent, mediaName = '') {
             // if webtorrent is created/running, we stop/destroy it
             if (App.WebTorrent.destroyed) {
-                this.stop();
+                this.torrent.destroy();
             }
 
             // handles magnet and hosted torrents
