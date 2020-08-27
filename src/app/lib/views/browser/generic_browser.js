@@ -52,14 +52,14 @@
             if (!isNaN(startupTime)) {
                 win.debug('Butter %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)); // started in database.js;
                 startupTime = 'none';
-                if ((AdvSettings.get('bigPicture') == null) || (AdvSettings.get('bigPicture') == false)) {
+                if (!parseInt(AdvSettings.get('bigPicture'))) {
                     AdvSettings.set('bigPicture', 100);
                 }
-                if ((!AdvSettings.get('disclaimerAccepted')) && (ScreenResolution.QuadHD)) {
+                if (!AdvSettings.get('disclaimerAccepted') && ScreenResolution.QuadHD) {
                     AdvSettings.set('bigPicture', 140);
                     win.zoomLevel = Math.log(1.4) / Math.log(1.2);
                 }
-                if (AdvSettings.get('bigPicture') != 100) {
+                if (AdvSettings.get('bigPicture') != 100 && parseInt(AdvSettings.get('bigPicture'))) {
                     win.zoomLevel = Math.log(AdvSettings.get('bigPicture')/100) / Math.log(1.2);
                 }
                 App.vent.trigger('app:started');
