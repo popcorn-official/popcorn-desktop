@@ -191,15 +191,36 @@
                     win.close(true);
                 };
 
+                var backupDB = function () {
+                    var zip = new AdmZip();
+                    var databaseFiles = fs.readdirSync(App.settings['databaseLocation']);
+                    var fileinput = document.querySelector('input[id=exportdatabase]');
+
+                    $('#exportdatabase').on('change', function () {
+                        var path = fileinput.value;
+                        try {
+                            databaseFiles.forEach(function (entry) {
+                                zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
+                            });
+                            fs.writeFile(path + '/database.zip', zip.toBuffer(), function (err) {
+                                this.alertMessageWait(i18n.__('Exporting Database...'));
+                                win.info('Database exported to:', path);
+                            });
+                        } catch (err) {
+                            console.log(err);
+                        }
+                    });
+                };
+
                 App.vent.trigger('notification:show', new App.Model.Notification({
                     title: 'Update ' + (updateData.version || 'Hotfix') + ' Installed',
-                    body: (updateData.description || 'Auto update'),
+                    body: (updateData.description + '<p style="font-size:75%;opacity:0.75">* Remember to Export your Database before updating if you would like to be able to restore your Favorites, marked as watched and settings</font>' || 'Auto update'),
                     showRestart: false,
                     type: 'info',
-                    buttons: [{
-                        title: 'Update Now',
-                        action: startWinUpdate
-                    }]
+                    buttons: [
+                        { title: '<label class="export-database" for="exportdatabase">Export Database</label>' + '<input type="file" id="exportdatabase" style="display:none" nwdirectory="">', action: backupDB },
+                        { title: 'Update Now', action: startWinUpdate }
+                    ]
                 }));
                 win.on('close', function () {
                     startWinUpdate();
