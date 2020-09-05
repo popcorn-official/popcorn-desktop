@@ -490,7 +490,7 @@
 	"Proxy Server": "Proxy Server",
 	"comedy": "comedy",
 	"musical": "musical",
-	"Remember to Export your Database before updating if you would like to be able to restore your Favorites, marked as watched and settings": "Remember to Export your Database before updating if you would like to be able to restore your Favorites, marked as watched and settings",
+	"Remember to Export your Database before updating in case its needed to restore your Favorites, marked as watched or settings": "Remember to Export your Database before updating in case its needed to restore your Favorites, marked as watched or settings",
 	"Update Now": "Update Now",
 	"Database Exported": "Database Exported"
 }
