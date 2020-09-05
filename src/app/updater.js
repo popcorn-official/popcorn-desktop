@@ -214,7 +214,7 @@
 
                 App.vent.trigger('notification:show', new App.Model.Notification({
                     title: 'Update ' + (updateData.version || 'Hotfix') + ' Installed',
-                    body: (updateData.description + '<p style="font-size:75%;opacity:0.75">* ' + i18n.__('Remember to Export your Database before updating if you would like to be able to restore your Favorites, marked as watched and settings') + '</font>' || 'Auto update'),
+                    body: (updateData.description + '<p style="font-size:75%;opacity:0.75">* ' + i18n.__('Remember to Export your Database before updating in case its necessary to restore your Favorites, marked as watched or settings') + '</font>' || 'Auto update'),
                     showRestart: false,
                     type: 'info',
                     buttons: [
