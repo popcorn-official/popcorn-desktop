@@ -203,8 +203,8 @@
                                 zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
                             });
                             fs.writeFile(path + '/database.zip', zip.toBuffer(), function (err) {
-                                this.alertMessageWait(i18n.__('Exporting Database...'));
                                 win.info('Database exported to:', path);
+                                document.getElementsByClassName('export-database')[0].innerHTML = i18n.__('Database Exported');
                             });
                         } catch (err) {
                             console.log(err);
