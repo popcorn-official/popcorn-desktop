@@ -67,7 +67,7 @@
                         font-size 12px
 
             /* overlay styles, all needed */
-        #qrcode-overlay
+        .modal-overlay
             display none
             position fixed
             top 0
@@ -77,7 +77,7 @@
             background-color rgba(0,0,0,0.5)
             z-index 99998
 
-        #qrcode-modal
+        .modal-content
             display none
             position fixed
             top 35%
@@ -88,7 +88,7 @@
             border 1px solid #000
             padding 30px 10px 0px
             z-index 99999 /* 1px higher than the overlay layer */
-            #qrcode-close
+            .modal-close
                 color #000
                 cursor pointer
                 position absolute

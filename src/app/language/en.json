@@ -491,5 +491,13 @@
 	"comedy": "comedy",
 	"musical": "musical",
 	"Remember to Export your Database before updating if you would like to be able to restore your Favorites, marked as watched and settings": "Remember to Export your Database before updating if you would like to be able to restore your Favorites, marked as watched and settings",
-	"Update Now": "Update Now"
+	"Update Now": "Update Now",
+	"Create account": "Create account",
+	"* %s stores an encrypted hash of your password in your local database": "* %s stores an encrypted hash of your password in your local database",
+	"Maximum number of active torrents": "Maximum number of active torrents",
+	"Import": "Import",
+	"Browse Directory to save to": "Browse Directory to save to",
+	"Home And Garden": "Home And Garden",
+	"No shows found...": "No shows found...",
+	"Health Bad": "Health Bad"
 }

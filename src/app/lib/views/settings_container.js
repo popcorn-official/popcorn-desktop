@@ -40,8 +40,9 @@
             'change #tmpLocation': 'updateCacheDirectory',
             'click #syncTrakt': 'syncTrakt',
             'click .qr-code': 'generateQRcode',
-            'click #qrcode-overlay': 'closeModal',
-            'click #qrcode-close': 'closeModal'
+            'click .import-db': 'openModal',
+            'click .modal-overlay': 'closeModal',
+            'click .modal-close': 'closeModal'
         },
 
         onAttach: function () {
@@ -165,8 +166,26 @@
             $('#qrcode-modal, #qrcode-overlay').fadeIn(500);
         },
 
-        closeModal: function () {
-            $('#qrcode-modal, #qrcode-overlay').fadeOut(500);
+
+        openModal: function (e) {
+            console.log("e=", e);
+            var el = $(e.currentTarget);
+            console.log("el=", el);
+
+            if (el[0].classList.contains('import-db')) {
+                $('#importdb-modal, #importdb-overlay').fadeIn(500);
+            }
+        },        
+
+        closeModal: function (e) {
+            var el = $(e.currentTarget);
+
+            //console.log("el=", el.attr('id'));
+            if (el.attr('id').startsWith('qrcode-')) {
+                $('#qrcode-modal, #qrcode-overlay').fadeOut(500);
+            } else if (el.attr('id').startsWith('importdb-')) {
+                $('#importdb-modal, #importdb-overlay').fadeOut(500);
+            }
         },
 
         showHelp: function () {

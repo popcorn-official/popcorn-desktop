@@ -463,9 +463,9 @@
                     <%= i18n.__("Generate Pairing QR code") %>
                 </div>
             </div>
-            <div id="qrcode-overlay"></div>
-            <div id="qrcode-modal">
-                <span class="fa-stack fa-1x" id="qrcode-close">
+            <div id="qrcode-overlay" class="modal-overlay"></div>
+            <div id="qrcode-modal" class="modal-content">
+                <span class="modal-close fa-stack fa-1x" id="qrcode-close">
                     <i class="fa fa-circle-thin fa-stack-2x" style="margin-top: -2px;"></i>
                     <i class="fa fa-times fa-stack-1x" style="margin-top: -2px;"></i>
                 </span>
@@ -571,13 +571,21 @@
                 <input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
             </span>
             <div class="btns advanced database import-database">
-                <div class="btn-settings database">
-                    <label class="import-database" for="importdatabase"  title="<%= i18n.__("Open File to Import") %>"><%= i18n.__("Import Database") %></label>
+                <!-- Button trigger modal -->
+                <div class="btn-settings database import-db">
+                    <label class="import-database" title="<%= i18n.__("Open File to Import") %>"><%= i18n.__("Import Database") %></label>
                     <i class="fa fa-level-down-alt">&nbsp;&nbsp;</i>
-                    <input type="file" id="importdatabase"  accept=".zip" style="display:none">
-                </div>
+                </div><!-- / btn -->
+                <div id="importdb-overlay" class="modal-overlay"></div>
+                <div id="importdb-modal" class="modal-content">
+                    <span class="modal-close fa-stack fa-1x" id="importdb-close">
+                        <i class="fa fa-circle-thin fa-stack-2x" style="margin-top: -2px;"></i>
+                        <i class="fa fa-times fa-stack-1x" style="margin-top: -2px;"></i>
+                    </span>
+                    <p>Please select what you want to import ?</p>
+                </div><!-- /.modal -->
                 <div class="btn-settings database export-database">
-                    <label class="export-database" for="exportdatabase" title="<%= i18n.__("Browse Directoy to save to") %>" ><%= i18n.__("Export Database") %></label>
+                    <label class="export-database" for="exportdatabase" title="<%= i18n.__("Browse Directory to save to") %>" ><%= i18n.__("Export Database") %></label>
                     <i class="fa fa-level-up-alt">&nbsp;&nbsp;</i>
                     <input type="file" id="exportdatabase" style="display:none" nwdirectory>
                 </div>
