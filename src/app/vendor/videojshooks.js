@@ -280,7 +280,7 @@ vjs.TextTrack.prototype.load = function () {
 
         // Handles charset encoding
         var decode = function (dataBuff, language, callback) {
-            if(language.indexOf('|')!==-1){
+            if(language && language.indexOf('|')!==-1){
                 language = language.substr(0,language.indexOf('|'));
             }
 
