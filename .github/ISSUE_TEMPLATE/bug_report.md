@@ -1,3 +1,12 @@
+---
+name: Bug report
+about: Create a report to help us improve
+title: ''
+labels: ''
+assignees: ''
+
+---
+
 Operating System Version:
 <!-- OS X 10.11? Windows 10? Linux?-->
 
@@ -25,5 +34,5 @@ Download url (optional):
 2. ...
 3. ...
 
-#### Screenshot of error from developer console (optional)
+#### Screenshot of error from developer console (F12 key (win & linux) or ⌘+⌥+i (macOS), then 'console' tab) (optional)
 <!-- Screenshot helps with finding why stuff breaks -->
