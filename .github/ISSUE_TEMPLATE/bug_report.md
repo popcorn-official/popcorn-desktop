@@ -7,6 +7,13 @@ assignees: ''
 
 ---
 
+<!--
+If you are asking a question rather than filing a bug, try one of these instead:
+- Reddit /r/PopCornTime's FAQs (https://www.reddit.com/r/PopCornTime/wiki/faq)
+- Reddit /r/PopCornTime (https://www.reddit.com/r/PopCornTime/)
+- PopCornTime Forum (https://discuss.popcorntime.app/)
+-->
+
 Operating System Version:
 <!-- OS X 10.11? Windows 10? Linux?-->
 
@@ -34,5 +41,5 @@ Download url (optional):
 2. ...
 3. ...
 
-#### Screenshot of error from developer console (F12 key (win & linux) or ⌘+⌥+i (macOS), then 'console' tab) (optional)
+#### Screenshot(s) of issue or error(s) logs of developer console (F12 or ⌘+⌥+i , then 'console' tab) (optional)
 <!-- Screenshot helps with finding why stuff breaks -->
