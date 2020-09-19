@@ -487,8 +487,6 @@
     backFromDetail: function(e) {
       // if (last view is movie detail or show-container (tv details)) and if mouse's back/down button clicked
       if ((App.ViewStack.slice(-1)[0] === "movie-detail" || App.ViewStack.slice(-1)[0] === "shows-container-contain" ) && e.button === 3) {
-        console.log(App.currentview);
-        console.log(App.ViewStack);
         _this.getRegion('MovieDetail').empty();
         App.vent.trigger('shortcuts:list');
       }
