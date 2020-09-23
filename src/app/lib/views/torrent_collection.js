@@ -71,9 +71,7 @@
             if($('.search_in').is(':visible')) {
                 $('.togglesengines').removeClass('fa-caret-up').addClass('fa-caret-down');
                 $('.search_in').css('display', 'none');
-                if (Settings.toggleSengines) {
-                    AdvSettings.set('toggleSengines', false);
-                }
+                AdvSettings.set('toggleSengines', false);
             } else {
                 $('.togglesengines').removeClass('fa-caret-down').addClass('fa-caret-up');
                 $('.search_in').css('display', 'block');
