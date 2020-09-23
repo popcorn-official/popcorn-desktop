@@ -35,7 +35,7 @@
       dragover: 'preventDefault',
       drop: 'preventDefault',
       dragstart: 'preventDefault',
-      auxclick: 'backFromDetail',
+      auxclick: 'backToPreviousView',
       'click .links': 'links'
     },
 
@@ -483,12 +483,11 @@
       App.vent.trigger('shortcuts:list');
     },
 
-    // This simply close Movie/Show detail view when back(down) button of mouse is used (so like in browsers, it get back)
-    backFromDetail: function(e) {
-      // if (last view is movie detail or show-container (tv details)) and if mouse's back/down button clicked
-      if ((App.ViewStack.slice(-1)[0] === "movie-detail" || App.ViewStack.slice(-1)[0] === "shows-container-contain" ) && e.button === 3) {
-        _this.getRegion('MovieDetail').empty();
-        App.vent.trigger('shortcuts:list');
+    // This simply close Movie/Show details and some other views (about) when mouse's back(down) button is used (so kinda like in browsers, it get back)
+    backToPreviousView: function(e) {
+      // if (App.ViewStack is different of torrent loading or player and mouse's back/down button clicked
+      if (e.button === 3 && !App.ViewStack.includes('app-overlay')) {
+        Mousetrap.trigger('esc');
       }
     },    
 
