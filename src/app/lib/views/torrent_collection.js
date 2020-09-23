@@ -53,6 +53,9 @@
                 $('.collection-actions').css('display', 'block');
                 $('.torrents-info').css('display', 'block');
             }
+            if (Settings.toggleSengines) {
+                this.togglesengines();
+            }
 
             clearTimeout(hidetooltps);
 
@@ -68,9 +71,11 @@
             if($('.search_in').is(':visible')) {
                 $('.togglesengines').removeClass('fa-caret-up').addClass('fa-caret-down');
                 $('.search_in').css('display', 'none');
+                AdvSettings.set('toggleSengines', false);
             } else {
                 $('.togglesengines').removeClass('fa-caret-down').addClass('fa-caret-up');
                 $('.search_in').css('display', 'block');
+                AdvSettings.set('toggleSengines', true);
             }
         },
 
@@ -110,10 +115,6 @@
                 return;
             }
 
-            if($('.search_in').is(':visible')) {
-                $('.togglesengines').removeClass('fa-caret-up').addClass('fa-caret-down');
-                $('.search_in').css('display', 'none');
-            }
             $('.togglesengines').css('visibility', 'hidden');
             $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
             $('.online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableOmgtorrentSearchL').attr('title', '0 results').tooltip('fixTitle');
