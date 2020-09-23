@@ -203,6 +203,7 @@ Settings.activateWatchlist = true;
 Settings.activateTempf = true;
 Settings.activateSeedbox = true;
 Settings.onlineSearchEngine = 'ExtraTorrent';
+Settings.toggleSengines = false;
 Settings.enableThepiratebaySearch = true;
 Settings.enable1337xSearch = true;
 Settings.enableRarbgSearch = true;
