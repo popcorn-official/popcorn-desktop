@@ -2,7 +2,7 @@
 	'use strict';
 
 	var clipboard = nw.Clipboard.get(),
-		torrentsDir = path.join(App.settings.tmpLocation + '/TorrentCache/'),
+		torrentsDir = path.join(Settings.tmpLocation + '/TorrentCache/'),
 		updateInterval;
 
 	var formatBytes = function (bytes, decimals) {
@@ -242,7 +242,7 @@
 		    if (torrent) {
 				torrent.destroy(() => {
 					try { fs.unlinkSync(path.join(torrentsDir, torrent.infoHash)); } catch(err) {}
-					rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {
+					rimraf(path.join(Settings.tmpLocation, torrent.name), () => {
 					});
 				});
 
@@ -277,7 +277,7 @@
 			}
 
 			const infoHash = $elem.attr('id');
-			try { const stats = fs.statSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash); } catch(err) {}
+			try { const stats = fs.statSync(Settings.tmpLocation + '/TorrentCache/' + infoHash); } catch(err) {}
 			const torrent = App.WebTorrent.get(infoHash);
 
 			if (wasJustSelected) {
