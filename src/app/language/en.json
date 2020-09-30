@@ -499,5 +499,19 @@
 	"Browse Directory to save to": "Browse Directory to save to",
 	"Home And Garden": "Home And Garden",
 	"No shows found...": "No shows found...",
-	"Health Bad": "Health Bad"
+	"Health Bad": "Health Bad",
+	"Slice Of Life": "Slice Of Life",
+	"No Watchlist found...": "No Watchlist found...",
+	"ThePirateBay": "ThePirateBay",
+	"1337x": "1337x",
+	"RARBG": "RARBG",
+	"OMGTorrent": "OMGTorrent",
+	"Saved Torrents": "Saved Torrents",
+	"Search Results": "Search Results",
+	"Paste a Magnet link": "Paste a Magnet link",
+	"Import a Torrent file": "Import a Torrent file",
+	"Select data types to import": "Select data types to import",
+	"Please select which data types you want to import ?": "Please select which data types you want to import ?",
+	"Watched items": "Watched items",
+	"Bookmarked items": "Bookmarked items"
 }
