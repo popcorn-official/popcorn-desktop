@@ -80,13 +80,15 @@
         .modal-content
             display none
             position fixed
+            width 400px
             top 35%
-            left 40%
-            background-color #fff
+            left 50%
+            margin-left -200px
+            background-color $BgColor2
             -webkit-border-radius 5px
             border-radius 5px
-            border 1px solid #000
-            padding 30px 10px 0px
+            border 1px solid BgColor2
+            padding 20px 10px 15px
             z-index 99999 /* 1px higher than the overlay layer */
             .modal-close
                 color #000
@@ -102,7 +104,9 @@
 
 
             #qrcode
-                margin-bottom 10px
+                margin 0 90px 10px
+                background-color #fff
+                border-radius 5px
 
         #title
             .title
