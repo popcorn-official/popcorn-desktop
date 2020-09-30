@@ -34,6 +34,7 @@
 		},
 
 		initialize: function () {
+			torrentsDir = path.join(App.settings.tmpLocation + '/TorrentCache/');
 			if (!fs.existsSync(torrentsDir)) {
 				fs.mkdirSync(torrentsDir);
 				console.debug('Seedbox: data directory created');
