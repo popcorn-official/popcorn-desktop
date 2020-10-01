@@ -30,6 +30,9 @@
             'click .open-database-folder': 'openDatabaseFolder',
             'click .export-database': 'exportDatabase',
             'click #importdatabase': 'importDatabase',
+            'change #import-watched, #import-bookmarks, #import-settings': 'checkImportSettings',
+            'click .import-db': 'openModal',
+            'click .modal-overlay, .modal-close': 'closeModal',
             'click #authTrakt': 'connectTrakt',
             'click #unauthTrakt': 'disconnectTrakt',
             'click #connect-with-tvst': 'connectWithTvst',
@@ -39,10 +42,7 @@
             'click .reset-tvshow': 'resettvshow',
             'change #tmpLocation': 'updateCacheDirectory',
             'click #syncTrakt': 'syncTrakt',
-            'click .qr-code': 'generateQRcode',
-            'click .import-db': 'openModal',
-            'click .modal-overlay': 'closeModal',
-            'click .modal-close': 'closeModal'
+            'click .qr-code': 'generateQRcode'
         },
 
         onAttach: function () {
@@ -639,10 +639,10 @@
             var zip = new AdmZip();
             var btn = $(e.currentTarget);
             var databaseFiles = fs.readdirSync(App.settings['databaseLocation']);
-            var fileinput = document.querySelector('input[id=exportdatabase]');
+            var fileinput = $('input[id=exportdatabase]');
 
-            $('#exportdatabase').on('change', function () {
-                var path = fileinput.value;
+            fileinput.on('change', function () {
+                var path = fileinput.val();
                 try {
                     databaseFiles.forEach(function (entry) {
                         zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
@@ -656,17 +656,19 @@
                 } catch (err) {
                     console.log(err);
                 }
+                // reset fileinput so it detect change even if we select same folder again
+                fileinput.val('');
             });
 
         },
 
         importDatabase: function (e) {
 
-            var fileinput = document.querySelector('input[id=importdatabase]');
-            var importTypes = document.querySelectorAll('#importdb-modal input[type="checkbox"]:checked');
+            var fileinput = $('input[id=importdatabase]');
+            var importTypes = $('#importdb-modal input[type=checkbox]:checked');
 
-            $('#importdatabase').on('change', function () {
-                var path = fileinput.value;
+            fileinput.on('change', function () {
+                var path = fileinput.val();
                 fs.readFile(path, function (err, content) {
                     that.alertMessageWait(i18n.__('Importing Database...'));
                     try {
@@ -689,6 +691,7 @@
                             }
                         }
                         that.closeModal(e);
+                        win.info('Database imported from %s', path);
                         that.alertMessageSuccess(true);
                     }
                     catch (err) {
@@ -696,10 +699,26 @@
                         that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
                         win.warn('Failed to Import Database');
                     }
+                    // reset fileinput so it detect change even if we select same folder again
+                    fileinput.val('');
                 });
             });
 
         },
+
+        checkImportSettings: function () {
+            var importBtn = $('input[id=importdatabase]');
+            var importTypes = $('#importdb-modal input[type=checkbox]:checked');
+            if (importTypes.length === 0) {
+                importBtn.attr('disabled','disabled');
+                importBtn.parent().addClass('disabled');
+            }
+            else{
+                importBtn.removeAttr('disabled');
+                importBtn.parent().removeClass('disabled');
+            }
+        },
+
 
         updateCacheDirectory: function (e) {
             var field = $('#tmpLocation');

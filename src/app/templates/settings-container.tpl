@@ -597,7 +597,7 @@
                         <input class="settings-checkbox" name="import-settings" id="import-settings" type="checkbox" checked='checked'>
                         <label class="settings-label" for="import-settings"><%= i18n.__("Settings") %></label>
                     </span>
-                    <div class="btn-settings database">
+                    <div class="btn-settings btn-block database">
                         <label class="import-database" for="importdatabase"  title="<%= i18n.__("Open File to Import") %>"><%= i18n.__("Import Database") %></label>
                         <i class="fa fa-level-down-alt">&nbsp;&nbsp;</i>
                         <input type="file" id="importdatabase"  accept=".zip" style="display:none">

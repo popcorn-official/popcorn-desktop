@@ -513,5 +513,6 @@
 	"Select data types to import": "Select data types to import",
 	"Please select which data types you want to import ?": "Please select which data types you want to import ?",
 	"Watched items": "Watched items",
-	"Bookmarked items": "Bookmarked items"
+	"Bookmarked items": "Bookmarked items",
+	"Select at least one data type": "Select at least one data type"
 }
