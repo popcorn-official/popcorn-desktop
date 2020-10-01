@@ -399,6 +399,7 @@ vjs.TextTrackMenuItem.prototype.onClick = function () {
 
 vjs.TextTrackMenuItem.prototype.update = function () {
     this.selected(this.track.mode() === 2);
+    $('.vjs-text-track').css('display', 'inline-block');
 };
 
 vjs.Player.prototype.onLoadStart = function () {
