@@ -41,5 +41,5 @@ Download url (optional):
 2. ...
 3. ...
 
-#### Screenshot(s) of issue or error(s) logs of developer console (F12 or ⌘+⌥+i , then 'console' tab) (optional)
+#### Screenshot(s) of issue or error(s) logs of developer console (Windows/Linux: F12, MacOS: ⌘ + 0 ... then 'console' tab) (recommended)
 <!-- Screenshot helps with finding why stuff breaks -->
