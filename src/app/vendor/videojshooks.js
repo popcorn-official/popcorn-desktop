@@ -395,6 +395,7 @@ vjs.TextTrackMenuItem = vjs.MenuItem.extend({
 vjs.TextTrackMenuItem.prototype.onClick = function () {
     vjs.MenuItem.prototype.onClick.call(this);
     this.player_.showTextTrack(this.track.id_, this.track.kind());
+    $('.vjs-text-track').css('display', 'inline-block');
 };
 
 vjs.TextTrackMenuItem.prototype.update = function () {
