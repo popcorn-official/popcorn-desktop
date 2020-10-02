@@ -67,7 +67,7 @@
                         font-size 12px
 
             /* overlay styles, all needed */
-        #qrcode-overlay
+        .modal-overlay
             display none
             position fixed
             top 0
@@ -77,18 +77,20 @@
             background-color rgba(0,0,0,0.5)
             z-index 99998
 
-        #qrcode-modal
+        .modal-content
             display none
             position fixed
+            width 360px
             top 35%
-            left 40%
-            background-color #fff
+            left 50%
+            margin-left -180px
+            background-color $BgColor2
             -webkit-border-radius 5px
             border-radius 5px
-            border 1px solid #000
-            padding 30px 10px 0px
+            border 1px solid BgColor2
+            padding 20px 20px 15px
             z-index 99999 /* 1px higher than the overlay layer */
-            #qrcode-close
+            .modal-close
                 color #000
                 cursor pointer
                 position absolute
@@ -102,7 +104,9 @@
 
 
             #qrcode
-                margin-bottom 10px
+                margin 0 59px 3px
+                background-color #fff
+                border-radius 5px
 
         #title
             .title
@@ -320,6 +324,8 @@
             line-height 34px
             cursor pointer
             transition background-color .5s
+            &> label
+                cursor pointer
             &.database
                 margin-top: 0
             &:hover
