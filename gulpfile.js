@@ -682,7 +682,7 @@ gulp.task('prepareUpdater:win', () => {
               process.cwd(),
               releasesDir,
               pkJson.name + '-' + pkJson.version + '-' + platform + '-Setup.exe'
-            )
+            ), { allowEmpty: true }
           )
           .pipe(gulpRename('update.exe'))
           .pipe(gulp.dest(path.join(process.cwd(), releasesDir)))
