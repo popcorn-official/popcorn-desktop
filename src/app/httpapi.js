@@ -639,6 +639,11 @@
                 butterCallback(callback);
             });
 
+            server.expose('togglesubtitles', function (args, opt, callback) {
+                Mousetrap.trigger('v');
+                butterCallback(callback);
+            });
+
             server.expose('togglefullscreen', function (args, opt, callback) {
                 Mousetrap.trigger('f');
                 butterCallback(callback, false, {
