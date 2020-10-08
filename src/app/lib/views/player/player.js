@@ -5,6 +5,7 @@
         template: '#player-tpl',
         className: 'player',
         player: null,
+        prevSub: null,
 
         ui: {
             eyeInfo: '.eye-info-player',
@@ -507,6 +508,15 @@
             }, function () {
                 clearInterval(that._ShowUIonHover);
             });
+            for(let i = 0; i < $('.vjs-menu-item').length; i++) {
+                let curSub = $('.vjs-menu-item')[i];
+                if (!curSub.innerHTML.includes(i18n.__('Disabled'))) {
+                    curSub.onclick = function() {
+                        that.prevSub = this;
+                    }
+                }
+            }
+            this.prevSub = this.model.get('subtitle') !== 'none' || Settings.subtitle_language === 'none' ? $('.vjs-selected')[0] : $('.vjs-menu-item:contains("' + App.Localization.langcodes[Settings.subtitle_language].nativeName +'")')[0];
         },
 
         sendToTrakt: function (method) {
@@ -651,6 +661,10 @@
             Mousetrap.bind('backspace', function (e) {
                 that.closePlayer();
             });
+
+            Mousetrap.bind(['v', 'V'], function (e) {
+                that.subtitlesOnOff();
+            }, 'keydown');
 
             Mousetrap.bind(['f', 'F'], function (e) {
                 that.toggleFullscreen();
@@ -803,6 +817,8 @@
 
             Mousetrap.unbind('backspace');
 
+            Mousetrap.unbind(['v', 'V']);
+
             Mousetrap.unbind(['f', 'F']);
 
             Mousetrap.unbind('h');
@@ -906,6 +922,12 @@
 
         toggleMute: function () {
             this.player.muted(!this.player.muted());
+        },
+
+        subtitlesOnOff: function () {
+            $('.vjs-selected')[0].innerHTML.includes(i18n.__('Disabled')) ? this.prevSub.click() : $('.vjs-menu-item')[0].click();
+            this.displayOverlayMsg(i18n.__('Subtitles') + ': ' + i18n.__($(".vjs-selected")[0].innerHTML));
+            $('.vjs-overlay').css('opacity', '1');
         },
 
         toggleFullscreen: function () {
