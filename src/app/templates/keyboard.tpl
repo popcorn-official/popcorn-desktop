@@ -201,6 +201,10 @@
                         <td><%= i18n.__("Toggle Mute") %></td>
                     </tr>
                     <tr>
+                        <td><span class="key">v</span></td>
+                        <td><%= i18n.__("Toggle Subtitles") %></td>
+                    </tr>
+                    <tr>
                         <td><span class="key">h</span></td>
                         <td><%= i18n.__("Offset Subtitles by") %> +0.1s</td>
                     </tr>
