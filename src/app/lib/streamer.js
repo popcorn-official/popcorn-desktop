@@ -119,8 +119,8 @@
         stop: function() {
             if (this.torrent) {
                 // update ratio
-                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.downloaded);
-                AdvSettings.set('totalUploaded', Settings.totalUploaded + this.uploaded);
+                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.torrent.downloaded);
+                AdvSettings.set('totalUploaded', Settings.totalUploaded + this.torrent.uploaded);
 
                 if (Settings.activateSeedbox) {
                     this.torrent.pause();
@@ -162,8 +162,8 @@
         stopFS: function() {
             if (this.torrent) {
                 // update ratio
-                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.downloaded);
-                AdvSettings.set('totalUploaded', Settings.totalUploaded + this.uploaded);
+                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.torrent.downloaded);
+                AdvSettings.set('totalUploaded', Settings.totalUploaded + this.torrent.uploaded);
 
                 this.torrent.destroy();
             }
