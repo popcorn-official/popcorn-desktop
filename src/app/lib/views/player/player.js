@@ -934,11 +934,14 @@
             var curVideo = $('#video_player_html5_api');
             if (curVideo[0]) {
                 var multPer = ((curVideo[0].videoWidth / curVideo[0].videoHeight) / (screen.width / screen.height))*100;
-                if (curVideo.css('width') > $('#video_player').css('width')) {
-                    curVideo.css({'width': '100%', 'margin-left': '0'});
+                if (curVideo.css('width') > $('#video_player').css('width') || curVideo.css('height') > $('#video_player').css('height')) {
+                    curVideo.css({'width': '100%', 'height': '100%', 'left': '0', 'top': '0'});
                     this.displayOverlayMsg(i18n.__('Original'));
                 } else if (multPer > 100) {
-                    curVideo.css({'width': multPer + '%', 'margin-left': (100-multPer)/2 + '%'});
+                    curVideo.css({'width': multPer + '%', 'left': (100-multPer)/2 + '%'});
+                    this.displayOverlayMsg(i18n.__('Fit screen'));
+                } else if (multPer < 100) {
+                    curVideo.css({'height': 10000/multPer + '%', 'top': (100-10000/multPer)/2 + '%'});
                     this.displayOverlayMsg(i18n.__('Fit screen'));
                 } else {
                     this.displayOverlayMsg(i18n.__('Video already fits screen'));
