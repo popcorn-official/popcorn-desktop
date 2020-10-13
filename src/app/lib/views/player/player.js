@@ -940,7 +940,7 @@
                 } else if (multPer > 100) {
                     curVideo.css({'width': multPer + '%', 'margin-left': (100-multPer)/2 + '%'});
                     this.displayOverlayMsg(i18n.__('Fit screen'));
-                } else if (multPer <= 100) {
+                } else {
                     this.displayOverlayMsg(i18n.__('Video already fits screen'));
                 }
                 $('.vjs-overlay').css('opacity', '1');
