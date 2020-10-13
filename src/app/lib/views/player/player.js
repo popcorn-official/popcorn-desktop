@@ -938,10 +938,10 @@
                     curVideo.css({'width': '100%', 'height': '100%', 'left': '0', 'top': '0'});
                     this.displayOverlayMsg(i18n.__('Original'));
                 } else if (multPer > 100) {
-                    curVideo.css({'width': multPer + '%', 'left': (100-multPer)/2 + '%'});
+                    curVideo.css({'width': multPer + '%', 'left': 50-multPer/2 + '%'});
                     this.displayOverlayMsg(i18n.__('Fit screen'));
                 } else if (multPer < 100) {
-                    curVideo.css({'height': 10000/multPer + '%', 'top': (100-10000/multPer)/2 + '%'});
+                    curVideo.css({'height': 10000/multPer + '%', 'top': 50-5000/multPer + '%'});
                     this.displayOverlayMsg(i18n.__('Fit screen'));
                 } else {
                     this.displayOverlayMsg(i18n.__('Video already fits screen'));
