@@ -1,8 +1,9 @@
 (function (App) {
     'use strict';
 
-    var PT_VERSION = Settings.version,
-        API_ENDPOINT = URI('https://api.tvtime.com/v1'),
+    var inherits = require('util').inherits;
+
+    var API_ENDPOINT = URI('https://api.tvtime.com/v1'),
         API_CLIENT_ID = Settings.tvshowtime.client_id,
         API_CLIENT_SECRET = Settings.tvshowtime.client_secret;
 
