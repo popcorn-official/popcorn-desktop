@@ -210,10 +210,15 @@
     },
 
     onAttach: function() {
-      if (os.platform() === 'win32') {
-        this.showChildView('Header', new App.View.WindowsTitleBar());
+      if (pkJson.window.frame) {
+        $('#header').remove();
+        $('#' + this.id).addClass('default-frame');
       } else {
-        this.showChildView('Header', new App.View.TitleBar());
+        if (os.platform() === 'win32') {
+          this.showChildView('Header', new App.View.WindowsTitleBar());
+        } else {
+          this.showChildView('Header', new App.View.TitleBar());
+        }
       }
 
       // Set the app title (for Windows mostly)

@@ -116,6 +116,7 @@ Settings.proxyServer = '';
 
 // User interface
 Settings.language = '';
+Settings.defaultOsWindowFrame = false;
 Settings.translateSynopsis = true;
 Settings.coversShowRating = true;
 Settings.watchedCovers = 'fade';

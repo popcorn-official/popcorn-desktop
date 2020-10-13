@@ -81,6 +81,10 @@
                     <div class="dropdown-arrow"></div>
                 </div>
             </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="defaultOsWindowFrame" id="defaultOsWindowFrame" type="checkbox" <%=(Settings.defaultOsWindowFrame? "checked='checked'":"")%>>
+                <label class="settings-label" for="defaultOsWindowFrame"><%= i18n.__("Default frame") %></label>
+            </span>
             <span>
                 <p><%= i18n.__("Tabs") %></p>
                 &nbsp;&nbsp;
