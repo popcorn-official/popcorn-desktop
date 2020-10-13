@@ -639,6 +639,11 @@
                 butterCallback(callback);
             });
 
+            server.expose('togglecroptofit', function (args, opt, callback) {
+                Mousetrap.trigger('c');
+                butterCallback(callback);
+            });
+
             server.expose('togglesubtitles', function (args, opt, callback) {
                 Mousetrap.trigger('v');
                 butterCallback(callback);
