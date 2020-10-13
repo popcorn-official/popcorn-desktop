@@ -52,18 +52,14 @@
   }
 
   function loadProvidersJSON(fn) {
-    App.Npm = require('../../package.json');
-
-    return App.Npm.providers.map(function(providerPath) {
+    return pkJson.providers.map(function(providerPath) {
       win.info('loading npm', providerPath);
       return loadFromNPM(`./${providerPath}`, fn);
     });
   }
 
   function loadFromPackageJSON(regex, fn) {
-    App.Npm = require('../../package.json');
-
-    var packages = Object.keys(App.Npm.dependencies).filter(function(p) {
+    var packages = Object.keys(pkJson.dependencies).filter(function(p) {
       return p.match(regex);
     });
 

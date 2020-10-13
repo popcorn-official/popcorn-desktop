@@ -1,7 +1,8 @@
 (function (App) {
   'use strict';
   var WindowsTitleBar = Marionette.View.extend({
-    template: '#win-header-tpl',
+    // Dirty way of getting proper value before app database initializes
+    template: pkJson.window.frame ? false : '#win-header-tpl',
 
     events: {
       'click .window-minimize': 'minimize',
@@ -10,6 +11,10 @@
     },
 
     initialize: function () {
+      if (Settings.defaultOsWindowFrame) {
+        return;
+      }
+
       this.nativeWindow = win;
 
       this.nativeWindow.on('maximize', function () {

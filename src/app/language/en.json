@@ -520,5 +520,9 @@
 	"Toggle Crop to Fit screen": "Toggle Crop to Fit screen",
 	"Original": "Original",
 	"Fit screen": "Fit screen",
-	"Video already fits screen": "Video already fits screen"
+	"Video already fits screen": "Video already fits screen",
+	"Default frame": "Default frame",
+	"Create account": "Create account",
+	"* %s stores an encrypted hash of your password in your local database": "* %s stores an encrypted hash of your password in your local database",
+	"Browse Directory to save to": "Browse Directory to save to"
 }

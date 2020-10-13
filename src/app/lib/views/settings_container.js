@@ -261,6 +261,7 @@
                 case 'continueSeedingOnStart':
                 case 'vpnEnabled':
                 case 'coversShowRating':
+                case 'defaultOsWindowFrame':
                 case 'translateSynopsis':
                 case 'showAdvancedSettings':
                 case 'alwaysOnTop':
@@ -431,6 +432,15 @@
                     App.vent.trigger('settings:show');
                     break;
                 case 'movies_quality':
+                case 'defaultOsWindowFrame':
+                    let packageJson = jsonFileEditor(`package.json`);
+
+                    packageJson.get('window').frame = value;
+
+                    packageJson.save();
+
+                    this.alertMessageSuccess(true);
+                    break;
                 case 'translateSynopsis':
                     App.Providers.delete('Yts');
                     App.vent.trigger('movies:list');

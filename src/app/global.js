@@ -13,6 +13,7 @@ var _ = require('underscore'),
   path = require('path'),
   mkdirp = require('mkdirp'),
   rimraf = require('rimraf'),
+  jsonFileEditor = require('edit-json-file'),
   // Compression
   tar = require('tar'),
   AdmZip = require('adm-zip'),
@@ -39,4 +40,6 @@ var _ = require('underscore'),
   // VPN
   VPNht = require('@vpnht/sdk'),
   // NodeJS
-  child = require('child_process');
+  child = require('child_process'),
+  // package.json
+  pkJson = require('package.json');

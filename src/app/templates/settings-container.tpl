@@ -73,6 +73,10 @@
                     <div class="dropdown-arrow"></div>
                 </div>
             </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="defaultOsWindowFrame" id="defaultOsWindowFrame" type="checkbox" <%=(Settings.defaultOsWindowFrame? "checked='checked'":"")%>>
+                <label class="settings-label" for="defaultOsWindowFrame"><%= i18n.__("Default frame") %></label>
+            </span>
             <span>
                 <input class="settings-checkbox" name="translateSynopsis" id="translateSynopsis" type="checkbox" <%=(Settings.translateSynopsis? "checked='checked'":"")%>>
                 <label class="settings-label" for="translateSynopsis"><%= i18n.__("Translate Synopsis") %></label>
