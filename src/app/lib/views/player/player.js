@@ -934,7 +934,7 @@
             var curVideo = $('#video_player_html5_api');
             if (curVideo[0]) {
                 var multPer = ((curVideo[0].videoWidth / curVideo[0].videoHeight) / (screen.width / screen.height))*100;
-                if (curVideo.css('width') > $('#video_player').css('width') || curVideo.css('height') > $('#video_player').css('height')) {
+                if (curVideo.width() > $('#video_player').width() || curVideo.height() > $('#video_player').height()) {
                     curVideo.css({'width': '100%', 'height': '100%', 'left': '0', 'top': '0'});
                     this.displayOverlayMsg(i18n.__('Original'));
                 } else if (multPer > 100) {
