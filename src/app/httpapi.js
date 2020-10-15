@@ -143,29 +143,31 @@
 
             server.expose('setselection', function (args, opt, callback) {
                 var index = 0;
+                args = Object.values(args);
                 if (args.length > 0) {
                     index = parseFloat(args[0]);
                 } else {
                     butterCallback(callback, 'Arguments missing');
                 }
 
-                App.getView().Content.currentView.ItemList.currentView.selectIndex(index);
+                App.getView().getRegion('Content').currentView.getRegion('ItemList').currentView.selectIndex(index);
 
                 butterCallback(callback);
             });
 
             server.expose('getselection', function (args, opt, callback) {
-                var movieView = App.getView().MovieDetail.currentView;
+                var movieView = App.getView().getRegion('MovieDetail').currentView;
                 if (movieView === undefined || movieView.model === undefined) {
                     var index = $('.item.selected').index();
+                    args = Object.values(args);
                     if (args.length > 0) {
-                        index = parseFloat(args[0]);
+                        index = parseInt(args[0]);
                     } else {
                         if (index === -1) {
                             index = 0;
                         }
                     }
-                    var result = App.getView().Content.currentView.ItemList.currentView.collection.models[index];
+                    var result = App.getView().getRegion('Content').currentView.getRegion('ItemList').currentView.collection.models[index];
                     if (result === undefined) {
                         butterCallback(callback, 'Index not found');
                     }
@@ -252,9 +254,10 @@
             });
 
             server.expose('getcurrentlist', function (args, opt, callback) {
-                var collection = App.getView().Content.currentView.ItemList.currentView.collection;
+                var collection = App.getView().getRegion('Content').currentView.getRegion('ItemList').currentView.collection;
                 var result = collection.models;
                 var page = 0;
+                var args = Object.values(args);
                 if (args.length > 0) {
                     page = parseInt(args[0]);
                     var size = page * 50;
@@ -267,7 +270,7 @@
                                     'type': result[0].get('type'),
                                     'list': result,
                                     'page': page,
-                                    'max_page': App.getView().Content.currentView.ItemList.currentView.collection.filter.page
+                                    'max_page': App.getView().getRegion('Content').currentView.getRegion('ItemList').currentView.collection.filter.page
                                 });
                             } else {
                                 collection.fetchMore();
@@ -280,11 +283,11 @@
                             'type': result[0].get('type'),
                             'list': result,
                             'page': page,
-                            'max_page': App.getView().Content.currentView.ItemList.currentView.collection.filter.page
+                            'max_page': App.getView().getRegion('Content').currentView.getRegion('ItemList').currentView.collection.filter.page
                         });
                     }
                 } else {
-                    page = App.getView().Content.currentView.ItemList.currentView.collection.filter.page;
+                    page = App.getView().getRegion('Content').currentView.getRegion('ItemList').currentView.collection.filter.page;
                     butterCallback(callback, false, {
                         'type': result[0].get('type'),
                         'list': result,
@@ -317,6 +320,7 @@
             });
 
             server.expose('setplayer', function (args, opt, callback) {
+                args = Object.values(args);
                 if (args.length > 0) {
                     var el = $('.playerchoicemenu li#player-' + args[0] + ' a');
                     if (el.length > 0) {
@@ -386,12 +390,13 @@
             });
 
             server.expose('selectepisode', function (args, opt, callback) {
+                args = Object.values(args);
                 if (args.length <= 0) {
                     butterCallback(callback, 'Arguments missing');
                     return;
                 }
 
-                var movieView = App.getView().MovieDetail.currentView;
+                var movieView = App.getView().getRegion('MovieDetail').currentView;
                 if (movieView === undefined || movieView.model === undefined || movieView.model.type === 'movie') {
                     butterCallback(callback, 'View not open');
                     return;
@@ -407,7 +412,7 @@
             });
 
             server.expose('getsubtitles', function (args, opt, callback) {
-                if (App.ViewStack[App.ViewStack.length - 1] === 'player') {
+                if (App.ViewStack[App.ViewStack.length - 1] === 'app-overlay') {
                     butterCallback(callback, false, {
                         'subtitles': _.keys(App.PlayerView.model.get('subtitle'))
                     });
@@ -419,13 +424,14 @@
             });
 
             server.expose('setsubtitle', function (args, opt, callback) {
+                args = Object.values(args);
                 if (args.length <= 0) {
                     butterCallback(callback, 'Arguments missing');
                     return;
                 }
 
                 var lang = args[0];
-                if (App.ViewStack[App.ViewStack.length - 1] === 'player') {
+                if (App.ViewStack[App.ViewStack.length - 1] === 'app-overlay') {
                     if (lang === 'no-subs') {
                         $('.vjs-menu-item')[0].click();
                     } else {
@@ -479,15 +485,24 @@
 
             server.expose('getsorters', function (args, opt, callback) {
                 switch (App.currentview) {
+                case 'movies':
+                    butterCallback(callback, false, {
+                        'sorters': App.Config.sorters
+                    });
+                    break;
                 case 'shows':
-                case 'anime':
                     butterCallback(callback, false, {
                         'sorters': App.Config.sorters_tv
                     });
                     break;
-                case 'movies':
+                case 'anime':
                     butterCallback(callback, false, {
-                        'sorters': App.Config.sorters
+                        'sorters': App.Config.sorters_anime
+                    });
+                    break;
+                case 'Favorites':
+                    butterCallback(callback, false, {
+                        'sorters': App.Config.sorters_fav
                     });
                     break;
                 default:
@@ -505,6 +520,11 @@
                         'types': App.Config.types_anime
                     });
                     break;
+                case 'Favorites':
+                    butterCallback(callback, false, {
+                        'types': App.Config.types_fav
+                    });
+                    break;
                 default:
                     butterCallback(callback, false, {
                         'types': []
@@ -514,6 +534,7 @@
             });
 
             server.expose('filtergenre', function (args, opt, callback) {
+                args = Object.values(args);
                 if (args.length <= 0) {
                     butterCallback(callback, 'Arguments missing');
                     return;
@@ -527,6 +548,7 @@
             });
 
             server.expose('filtersorter', function (args, opt, callback) {
+                args = Object.values(args);
                 if (args.length <= 0) {
                     butterCallback(callback, 'Arguments missing');
                     return;
@@ -540,6 +562,7 @@
             });
 
             server.expose('filtertype', function (args, opt, callback) {
+                args = Object.values(args);
                 if (args.length <= 0) {
                     butterCallback(callback, 'Arguments missing');
                     return;
@@ -553,6 +576,7 @@
             });
 
             server.expose('filtersearch', function (args, opt, callback) {
+                args = Object.values(args)
                 if (args.length <= 0) {
                     butterCallback(callback, 'Arguments missing');
                     return;
@@ -583,7 +607,7 @@
             server.expose('getloading', function (args, opt, callback) {
                 var view = App.LoadingView;
                 var loading = false;
-                if (view !== undefined && !view.isDestroyed) {
+                if (view !== undefined && !view.isDestroyed()) {
                     var streamInfo = view.model.get('streamInfo');
 
                     var result = {
@@ -610,6 +634,7 @@
                 var volume = 1;
                 var view = App.PlayerView;
                 if (view !== undefined && view.player !== undefined) {
+                    args = Object.values(args);
                     if (args.length > 0) {
                         volume = parseFloat(args[0]);
                         if (volume > 0) {
@@ -652,6 +677,7 @@
             });
 
             server.expose('seek', function (args, opt, callback) {
+                args = Object.values(args);
                 if (args.length <= 0) {
                     butterCallback(callback, 'Arguments missing');
                     return;
@@ -666,6 +692,7 @@
             });
 
             server.expose('subtitleoffset', function (args, opt, callback) {
+                args = Object.values(args);
                 if (args.length <= 0) {
                     butterCallback(callback, 'Arguments missing');
                     return;
@@ -676,7 +703,7 @@
 
             server.expose('getstreamurl', function (args, opt, callback) {
                 var video = $('#video_player video');
-                if (App.PlayerView !== undefined && !App.PlayerView.isDestroyed) {
+                if (App.PlayerView !== undefined && !App.PlayerView.isDestroyed()) {
                     butterCallback(callback, false, {
                         streamUrl: video === undefined ? '' : video.attr('src')
                     });
@@ -689,7 +716,7 @@
                 var video = $('#video_player video');
                 var view = App.PlayerView;
                 var playing = false;
-                if (view !== undefined && !view.isDestroyed) {
+                if (view !== undefined && !view.isDestroyed()) {
                     var result = {
                         playing: !view.player.paused(),
                         title: view.model.get('title'),
