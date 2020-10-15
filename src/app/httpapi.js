@@ -441,6 +441,9 @@
                             if (track.language() === lang) {
                                 // Disable the previous active track and enable the new one.
                                 App.PlayerView.player.showTextTrack(track.id(), track.kind());
+                                // Force subtitle background to inline-block, 
+                                // else it take the full width when reloading a previously loaded sub
+                                $('.vjs-text-track').css('display', 'inline-block');
                                 break;
                             }
                         }
