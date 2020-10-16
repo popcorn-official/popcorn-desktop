@@ -201,6 +201,10 @@
                         <td><%= i18n.__("Toggle Mute") %></td>
                     </tr>
                     <tr>
+                        <td><span class="key">c</span></td>
+                        <td><%= i18n.__("Toggle Crop to Fit screen") %></td>
+                    </tr>
+                    <tr>
                         <td><span class="key">v</span></td>
                         <td><%= i18n.__("Toggle Subtitles") %></td>
                     </tr>

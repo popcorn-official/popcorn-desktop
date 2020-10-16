@@ -516,5 +516,9 @@
 	"Maximum number of active torrents": "Maximum number of active torrents",
 	"reality": "reality",
 	"Currently Airing": "Currently Airing",
-	"Toggle Subtitles": "Toggle Subtitles"
+	"Toggle Subtitles": "Toggle Subtitles",
+	"Toggle Crop to Fit screen": "Toggle Crop to Fit screen",
+	"Original": "Original",
+	"Fit screen": "Fit screen",
+	"Video already fits screen": "Video already fits screen"
 }

@@ -193,6 +193,10 @@ var initApp = function () {
   } catch (e) {
     console.error('Couldn\'t start app: ', e, e.stack);
   }
+
+  if (localStorage.maximized === 'true') {
+    win.maximize();
+  }
 };
 
 App.onStart = function (options) {
@@ -284,10 +288,12 @@ win.on('leave-fullscreen', function () {
 
 win.on('maximize', function () {
   win.setResizable(false);
+  localStorage.maximized = true;
 });
 
 win.on('restore', function () {
   win.setResizable(true);
+  localStorage.maximized = false;
 });
 
 // Now this function is used via global keys (cmd+q and alt+f4)

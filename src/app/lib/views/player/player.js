@@ -662,6 +662,10 @@
                 that.closePlayer();
             });
 
+            Mousetrap.bind(['c', 'C'], function (e) {
+                that.toggleCrop();
+            }, 'keydown');
+
             Mousetrap.bind(['v', 'V'], function (e) {
                 that.subtitlesOnOff();
             }, 'keydown');
@@ -817,6 +821,8 @@
 
             Mousetrap.unbind('backspace');
 
+            Mousetrap.unbind(['c', 'C']);
+
             Mousetrap.unbind(['v', 'V']);
 
             Mousetrap.unbind(['f', 'F']);
@@ -922,6 +928,26 @@
 
         toggleMute: function () {
             this.player.muted(!this.player.muted());
+        },
+
+        toggleCrop: function () {
+            var curVideo = $('#video_player_html5_api');
+            if (curVideo[0]) {
+                var multPer = ((curVideo[0].videoWidth / curVideo[0].videoHeight) / (screen.width / screen.height))*100;
+                if (curVideo.width() > $('#video_player').width() || curVideo.height() > $('#video_player').height()) {
+                    curVideo.css({'width': '100%', 'height': '100%', 'left': '0', 'top': '0'});
+                    this.displayOverlayMsg(i18n.__('Original'));
+                } else if (multPer > 100) {
+                    curVideo.css({'width': multPer + '%', 'left': 50-multPer/2 + '%'});
+                    this.displayOverlayMsg(i18n.__('Fit screen'));
+                } else if (multPer < 100) {
+                    curVideo.css({'height': 10000/multPer + '%', 'top': 50-5000/multPer + '%'});
+                    this.displayOverlayMsg(i18n.__('Fit screen'));
+                } else {
+                    this.displayOverlayMsg(i18n.__('Video already fits screen'));
+                }
+                $('.vjs-overlay').css('opacity', '1');
+            }
         },
 
         subtitlesOnOff: function () {
