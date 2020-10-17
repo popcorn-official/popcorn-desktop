@@ -132,13 +132,17 @@
             ///// LIST ITEM ////
             ////////////////////
             server.expose('togglefavourite', function (args, opt, callback) {
-                Mousetrap.trigger('f');
-                butterCallback(callback);
+                if (!App.ViewStack.includes('app-overlay')) {
+                    Mousetrap.trigger('f'), 'keydown';
+                    butterCallback(callback);
+                }
             });
-
+            
             server.expose('togglewatched', function (args, opt, callback) {
-                Mousetrap.trigger('w');
-                butterCallback(callback);
+                if (!App.ViewStack.includes('app-overlay')) {
+                    Mousetrap.trigger('w', 'keydown');
+                    butterCallback(callback);
+                }
             });
 
             server.expose('setselection', function (args, opt, callback) {
@@ -307,7 +311,7 @@
             ////// DETAILS /////
             ////////////////////
             server.expose('togglequality', function (args, opt, callback) {
-                Mousetrap.trigger('q');
+                Mousetrap.trigger('q', keydown);
                 butterCallback(callback);
             });
 
@@ -412,7 +416,7 @@
             });
 
             server.expose('getsubtitles', function (args, opt, callback) {
-                if (App.ViewStack[App.ViewStack.length - 1] === 'app-overlay') {
+                if (App.ViewStack.includes('app-overlay')) {
                     butterCallback(callback, false, {
                         'subtitles': _.keys(App.PlayerView.model.get('subtitle'))
                     });
@@ -431,7 +435,7 @@
                 }
 
                 var lang = args[0];
-                if (App.ViewStack[App.ViewStack.length - 1] === 'app-overlay') {
+                if (App.ViewStack.includes('app-overlay')) {
                     if (lang === 'no-subs') {
                         $('.vjs-menu-item')[0].click();
                     } else {
@@ -658,13 +662,19 @@
             });
 
             server.expose('toggleplaying', function (args, opt, callback) {
-                Mousetrap.trigger('space');
+                if (!App.ViewStack.includes('app-overlay')) {
+                    Mousetrap.trigger('space'); // binding on movie/show_detail view
+                } else if (App.ViewStack.includes('app-overlay')) {
+                    Mousetrap.trigger('space', 'keydown'); // binding on player view
+                }
                 butterCallback(callback);
             });
 
             server.expose('togglemute', function (args, opt, callback) {
-                Mousetrap.trigger('m');
-                butterCallback(callback);
+                if (App.ViewStack.includes('app-overlay')) {
+                    Mousetrap.trigger('m', 'keydown');
+                    butterCallback(callback);
+                }
             });
 
             server.expose('togglecroptofit', function (args, opt, callback) {
@@ -678,10 +688,12 @@
             });
 
             server.expose('togglefullscreen', function (args, opt, callback) {
-                Mousetrap.trigger('f');
-                butterCallback(callback, false, {
-                    'fullscreen': win.isFullscreen
-                });
+                if (App.ViewStack.includes('app-overlay')) {
+                    Mousetrap.trigger('f', 'keydown');
+                    butterCallback(callback, false, {
+                        'fullscreen': win.isFullscreen
+                    });
+                }
             });
 
             server.expose('seek', function (args, opt, callback) {
