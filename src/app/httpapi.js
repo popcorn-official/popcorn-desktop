@@ -311,7 +311,7 @@
             ////// DETAILS /////
             ////////////////////
             server.expose('togglequality', function (args, opt, callback) {
-                Mousetrap.trigger('q', keydown);
+                Mousetrap.trigger('q', 'keydown');
                 butterCallback(callback);
             });
 
