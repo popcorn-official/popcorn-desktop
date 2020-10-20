@@ -133,11 +133,11 @@
             ////////////////////
             server.expose('togglefavourite', function (args, opt, callback) {
                 if (!App.ViewStack.includes('app-overlay')) {
-                    Mousetrap.trigger('f'), 'keydown';
+                    Mousetrap.trigger('f', 'keydown');
                     butterCallback(callback);
                 }
             });
-            
+
             server.expose('togglewatched', function (args, opt, callback) {
                 if (!App.ViewStack.includes('app-overlay')) {
                     Mousetrap.trigger('w', 'keydown');
@@ -445,7 +445,7 @@
                             if (track.language() === lang) {
                                 // Disable the previous active track and enable the new one.
                                 App.PlayerView.player.showTextTrack(track.id(), track.kind());
-                                // Force subtitle background to inline-block, 
+                                // Force subtitle background to inline-block,
                                 // else it take the full width when reloading a previously loaded sub
                                 $('.vjs-text-track').css('display', 'inline-block');
                                 break;
