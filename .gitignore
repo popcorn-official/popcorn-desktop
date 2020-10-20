@@ -24,6 +24,7 @@ lib-cov
 *.swp
 *.sublime-*
 .vscode/
+*.code-workspace
 *.bat
 *.db
 *.seed
