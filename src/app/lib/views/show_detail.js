@@ -46,12 +46,12 @@
             var that = this;
             if (bookmarked !== true) {
                 bookmarked = true;
-                that.model.set('bookmarked', true);
+                that.model.set('bookmarked', false);
                 that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
             } else {
                 bookmarked = false;
                 that.ui.bookmarkIcon.removeClass('selected').text(i18n.__('Add to bookmarks'));
-                that.model.set('bookmarked', false);
+                that.model.set('bookmarked', true);
             }
             $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-favorites').click();
         },
