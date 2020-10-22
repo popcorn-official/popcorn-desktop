@@ -79,7 +79,7 @@
 
       //If a child was removed from above this view
       App.vent.on('viewstack:pop', function() {
-        if (_.last(App.ViewStack) === that.className) {
+        if (_.last(App.ViewStack) === that.className && _.last(App.ViewStack) !== 'notificationWrapper') {
           that.initKeyboardShortcuts();
         }
       });
