@@ -261,7 +261,7 @@
 
             Mousetrap.bind('i', function () {
                 if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#player').children().length <= 0) {
-                    $('.about').click();
+                    $('#filterbar-about').click();
                 }
             }, 'keydown');
 
