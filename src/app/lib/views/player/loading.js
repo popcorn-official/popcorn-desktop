@@ -86,7 +86,7 @@
 
       //If a child was added above this view
       App.vent.on('viewstack:push', function() {
-        if (_.last(App.ViewStack) !== that.className) {
+        if (_.last(App.ViewStack) !== that.className && _.last(App.ViewStack) !== 'notificationWrapper') {
           that.unbindKeyboardShortcuts();
         }
       });
