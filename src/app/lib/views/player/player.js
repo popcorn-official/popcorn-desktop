@@ -1,6 +1,7 @@
 (function (App) {
     'use strict';
 
+    var _this;
     var Player = Marionette.View.extend({
         template: '#player-tpl',
         className: 'player',
@@ -30,6 +31,7 @@
         },
 
         initialize: function () {
+            _this = this;
             this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
             this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
             this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
@@ -43,6 +45,13 @@
             this.firstPlay = true;
 
             this.boundedMouseScroll = this.mouseScroll.bind(this);
+
+            //If a child was removed from above this view
+            App.vent.on('viewstack:pop', function() {
+              if (_.last(App.ViewStack) === 'app-overlay') {
+                _this.bindKeyboardShortcuts();
+              }
+            });
         },
 
         isMovie: function () {
