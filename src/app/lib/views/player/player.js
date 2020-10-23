@@ -1,6 +1,7 @@
 (function (App) {
     'use strict';
 
+    var _this;
     var Player = Marionette.View.extend({
         template: '#player-tpl',
         className: 'player',
@@ -30,6 +31,7 @@
         },
 
         initialize: function () {
+            _this = this;
             this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
             this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
             this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
@@ -43,6 +45,13 @@
             this.firstPlay = true;
 
             this.boundedMouseScroll = this.mouseScroll.bind(this);
+
+            //If a child was removed from above this view
+            App.vent.on('viewstack:pop', function() {
+              if (_.last(App.ViewStack) === 'app-overlay') {
+                _this.bindKeyboardShortcuts();
+              }
+            });
         },
 
         isMovie: function () {
@@ -754,10 +763,6 @@
                 that.toggleMute();
             }, 'keydown');
 
-            Mousetrap.bind(['u', 'U'], function (e) {
-                that.displayStreamURL();
-            }, 'keydown');
-
             Mousetrap.bind('j', function (e) {
                 that.adjustPlaybackRate(-0.1, true);
             }, 'keydown');
@@ -867,8 +872,6 @@
 
             Mousetrap.unbind(['m', 'M']);
 
-            Mousetrap.unbind(['u', 'U']);
-
             Mousetrap.unbind(['j', 'shift+j', 'ctrl+j']);
 
             Mousetrap.unbind(['k', 'shift+k', 'ctrl+k']);
@@ -964,12 +967,6 @@
 
         moveSubtitles: function (e) {
             AdvSettings.set('playerSubPosition', $('.vjs-text-track').css('top'));
-        },
-
-        displayStreamURL: function () {
-            var clipboard = nw.Clipboard.get();
-            clipboard.set($('#video_player video').attr('src'), 'text');
-            this.displayOverlayMsg(i18n.__('URL of this stream was copied to the clipboard'));
         },
 
         adjustSubtitleOffset: function (s) {
