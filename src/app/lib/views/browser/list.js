@@ -255,7 +255,7 @@
 
             Mousetrap.bind(['`', 'b'], function () {
                 if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0) {
-                    $('.favorites').click();
+                    $('#filterbar-favorites').click();
                 }
             }, 'keydown');
 
