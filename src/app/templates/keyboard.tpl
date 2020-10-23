@@ -257,10 +257,6 @@
                         <td><%= i18n.__('Set playback rate to %s', '4x') %></td>
                     </tr>
                     <tr>
-                        <td><span class="key">u</span></td>
-                        <td><%= i18n.__("Show Stream URL") %></td>
-                    </tr>
-                    <tr>
                         <td><span class="key">1</span></td>
                         <td><%= i18n.__("Set player window to video resolution") %></td>
                     </tr>
