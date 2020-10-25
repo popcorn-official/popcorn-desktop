@@ -170,25 +170,35 @@
         }
     }
     .vjs-volume-control {
-        top: 24px;
+        top: 29px;
         width: 54px;
         float: right;
         margin-right: 0px;
+        overflow: hidden;
+        height: 6px;
+        border-radius: 3px/2px;
+        &:hover {
+            top: 28px;
+            height: 8px;
+            & > .vjs-volume-bar {
+                height: 8px;
+            }
+        }
     }
     .vjs-volume-bar {
-        top: 5px;
+        top: 0px;
+        left: -7px;
         height: 6px;
-        width: 54px;
+        width: 69px;
         margin-right: 0px;
         border-radius: 3px / 2px;
         &:hover {
-            top: 4px;
-            height: 8px;
             & > .vjs-volume-level {
                 height: 8px;
             }
             & > .vjs-volume-handle:before {
-                font-size: 25px;
+                font-size: 14px;
+                color: rgba(0, 0, 0, 0);
             }
         }
     }
@@ -210,7 +220,7 @@
     }
     .vjs-volume-handle {
         &:before {
-            color: $PlayerColor;
+            color: rgba(0, 0, 0, 0);
             content: '\25CF';
             font-size: 14px;
             line-height: 17px;
