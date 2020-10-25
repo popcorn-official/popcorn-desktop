@@ -926,9 +926,9 @@
             var v = this.player.volume();
             this.player.volume((v + i).toFixed(1));
             var v2 = this.player.volume();
-            if (v - v2 > 0.105) {
+            if (v - v2 > 0.105 && v - v2 < 0.205) {
                 this.player.volume((v2 + 0.1).toFixed(1));
-            } else if (v - v2 < -0.105) {
+            } else if (v - v2 < -0.105 && v - v2 > -0.205) {
                 this.player.volume((v2 - 0.1).toFixed(1));
             }
             App.vent.trigger('volumechange');
