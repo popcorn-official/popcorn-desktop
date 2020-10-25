@@ -924,7 +924,7 @@
 
         adjustVolume: function (i) {
             var v = this.player.volume();
-            this.player.volume(v + i);
+            this.player.volume((v + i).toFixed(1));
             App.vent.trigger('volumechange');
             $('.vjs-overlay').css('opacity', '1');
         },
