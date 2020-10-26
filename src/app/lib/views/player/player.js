@@ -932,7 +932,6 @@
                 this.player.volume((v2 - 0.1).toFixed(1));
             }
             App.vent.trigger('volumechange');
-            $('.vjs-overlay').css('opacity', '1');
         },
 
         toggleMute: function () {
