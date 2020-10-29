@@ -54,6 +54,13 @@
             subswitch: '--sub-file=',
             fs: '--fs'
         },
+        'mpvnet': {
+            type: 'mpvnet',
+            switches: '--no-terminal',
+            subswitch: '--sub-files=',
+            fs: '-fs',
+            filenameswitch: '--force-media-title='
+        },
         'MPC-HC': {
             type: 'mpc-hc',
             switches: '',
