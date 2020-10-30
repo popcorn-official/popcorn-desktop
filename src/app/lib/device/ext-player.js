@@ -36,7 +36,7 @@
             fs: '-fs',
         },
         'IINA': {
-            type: 'mpv',
+            type: 'iina',
             cmd: '/Contents/MacOS/iina-cli',
             subswitch: '--mpv-sub-file=',
             fs: '--mpv-fs',
