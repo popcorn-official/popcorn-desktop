@@ -137,6 +137,7 @@
 
         closePlayer: function () {
             win.info('Player closed');
+            $('head > title').text('Popcorn-Time');
             if (this._AutoPlayCheckTimer) {
                 clearInterval(this._AutoPlayCheckTimer);
             }
@@ -443,6 +444,7 @@
                 }).ready(function () {
                     that.playerWasReady = Date.now();
                 });
+                $('head > title').text(this.model.get('title') + ' - Popcorn-Time' );
             }
             this.player = this.video.player();
             App.PlayerView = this;
