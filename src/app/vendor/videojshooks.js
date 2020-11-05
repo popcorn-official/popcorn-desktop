@@ -292,6 +292,14 @@ vjs.TextTrack.prototype.load = function () {
                     .replace(/(- |==|sync).*[\s\S].*[\s\S].*[\s\S].*[\s\S].*\.(com|org|net|edu)/ig, '') // various teams
                     .replace(/[^0-9][\s\S][^0-9\W].*[\s\S].*[\s\S].*opensubtitles.*/ig, ''); // opensubs "contact us" ads
 
+                // clean two following subtitle indexes for one timing, example:
+                // 3
+                // 2
+                // 00:00:59,142 --> 00:01:01,144
+                // N'Y COMPTE PAS
+                //
+                strings = strings.replace(/^(\d{1,5}\r*\n)(\d{1,5}\r*\n)((\d\d:){2}\d\d,\d{3}\s-->\s(\d\d:){2}\d\d,\d{3}\r*\n)/gm, '$1$3');
+
                 strings = Common.sanitize(strings); // xss-style attacks
                 strings = strings.replace(/--\&gt\;/g, '-->'); // restore srt format
                 callback(strings);
