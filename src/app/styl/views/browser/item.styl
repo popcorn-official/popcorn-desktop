@@ -30,9 +30,8 @@
             background-size cover
             background-position center
             position absolute
-            transition opacity 500ms ease-in
             opacity 0
-            will-change opacity
+            display none
 
             &img
                 position absolute
@@ -44,9 +43,8 @@
             &.cover-info-overlay
               padding 88px 0
               background $PosterHoverOverlay
-              border: 2px solid $PosterHoverOverlay
+              border: 2px solid $PosterHoverOverlayOpq
               border-radius $PosterRadius
-              transition border-color .25s ease
 
             .actions-favorites
                 float: right
@@ -90,7 +88,6 @@
                 height auto
                 left 0
                 margin 0
-                overflow hidden
                 padding: 10px 5px 5px
                 position absolute
                 right 0
@@ -132,6 +129,9 @@
                 float right
 
     &.selected
+        > .cover .cover-overlay
+            display block
+
         .cover
             .cover-info-overlay
                 border 2px solid $PosterHoverBorder
