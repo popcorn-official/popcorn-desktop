@@ -480,9 +480,14 @@
             itemSelected.removeClass('selected');
             item.eq(index).addClass('selected');
 
-            var $movieEl = itemSelected[0];
+            var $movieEl = item[index];
             if (!elementInViewport(this.$el, $movieEl)) {
-                $movieEl.scrollIntoView(false);
+                if (itemSelected.index() > index) {
+                    $movieEl.scrollIntoView(true);
+                    document.getElementsByClassName('list')[0].scrollTop -= 75;
+                } else if (itemSelected.index() < index) {
+                    $movieEl.scrollIntoView(false);
+                }
                 this.onScroll();
             }
         },
