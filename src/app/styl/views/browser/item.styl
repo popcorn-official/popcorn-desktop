@@ -131,6 +131,7 @@
     &.selected
         > .cover .cover-overlay
             display block
+            animation: fadeBd 0.5s ease
 
         .cover
             .cover-info-overlay
@@ -160,6 +161,11 @@
 
         &.quality
             display: none
+
+@keyframes fadeBd {
+    from { border-color: $PosterHoverOverlayOpq; }
+    to { border-color: $PosterHoverBorder; }
+}
 
 .load-more
     position relative
