@@ -125,6 +125,12 @@
             _this.initKeyboardShortcuts();
 
             _this.initPosterResizeKeys();
+
+            App.vent.on('viewstack:pop', function() {
+                if (_.last(App.ViewStack) === 'init-container') {
+                    _this.initKeyboardShortcuts();
+                }
+            });
         },
 
         initKeyboardShortcuts: function () {
@@ -263,12 +269,6 @@
                     $('#filterbar-about').click();
                 }
             }, 'keydown');
-
-            App.vent.on('viewstack:pop', function() {
-                if (_.last(App.ViewStack) === 'init-container') {
-                    _this.initKeyboardShortcuts();
-                }
-            });
         },
 
         initPosterResizeKeys: function () {
