@@ -22,7 +22,6 @@
       Keyboard: '#keyboard-container',
       Help: '#help-container',
       TorrentCollection: '#torrent-collection-container',
-      Issue: '#issue-container',
       Notification: '#notification',
       Seedbox: '#seedbox-container'
     },
@@ -107,13 +106,6 @@
         _.bind(this.getRegion('Help').empty, this.getRegion('Help'))
       );
       App.vent.on('help:toggle', _.bind(this.toggleHelp, this));
-
-      // Issue
-      App.vent.on('issue:new', _.bind(this.showIssue, this));
-      App.vent.on(
-        'issue:close',
-        _.bind(this.getRegion('Issue').empty, this.getRegion('Issue'))
-      );
 
       // Movies
       App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
@@ -465,10 +457,6 @@
       } else {
         this.showHelp();
       }
-    },
-
-    showIssue: function(e) {
-      this.showChildView('Issue', new App.View.Issue());
     },
 
     preventDefault: function(e) {
