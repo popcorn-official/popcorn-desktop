@@ -132,9 +132,34 @@
             var noimg = 'images/posterholder.png';
             var poster = this.model.get('image');
             if (!poster && this.model.get('images') && this.model.get('images').poster){
-            poster = this.model.get('images').poster;
+                poster = this.model.get('images').poster;
+            } else if (this.model.get('poster')) {
+                poster = this.model.get('poster');
             } else {
-            poster = this.model.get('poster') || noimg;
+                var imdb = this.model.get('imdb_id'),
+                api_key = Settings.tmdb.api_key,
+                movie = function () {
+                    var tmp = null;
+                    $.ajax({
+                        url: 'http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key + '&append_to_response=videos',
+                        type: 'get',
+                        dataType: 'json',
+                        async: false,
+                        global: false,
+                        success: function (data) {
+                            tmp = data;
+                        }
+                    });
+                    return tmp;
+                }();
+                poster = movie && movie.poster_path ? 'http://image.tmdb.org/t/p/w500' + movie.poster_path : noimg;
+                this.model.set('poster', poster);
+                !this.model.get('synopsis') && movie && movie.overview ? this.model.set('synopsis', movie.overview) : null;
+                (!this.model.get('rating') || this.model.get('rating') == '0' || this.model.get('rating') == '0.0') && movie && movie.vote_average ? this.model.set('rating', movie.vote_average) : null;
+                (!this.model.get('runtime') || this.model.get('runtime') == '0') && movie && movie.runtime ? this.model.set('runtime', movie.runtime) : null;
+                !this.model.get('trailer') && movie && movie.videos && movie.videos.results && movie.videos.results[0] ? this.model.set('trailer', 'http://www.youtube.com/watch?v=' + movie.videos.results[0].key) : null;
+                (!this.model.get('backdrop') || this.model.get('backdrop') == 'images/posterholder.png') && movie && movie.backdrop_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.backdrop_path) : ((!this.model.get('backdrop') || this.model.get('backdrop') == 'images/posterholder.png') && movie && movie.poster_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.poster_path) : null);
+                this.model.set('getmetarunned', true);
             }
 
             var setImage = function (img) {
