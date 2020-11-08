@@ -127,7 +127,7 @@
             _this.initPosterResizeKeys();
 
             App.vent.on('viewstack:pop', function() {
-                if (_.last(App.ViewStack) === 'init-container') {
+                if (_.last(App.ViewStack) === 'init-container' || _.last(App.ViewStack) === 'main-browser') {
                     _this.initKeyboardShortcuts();
                 }
             });
