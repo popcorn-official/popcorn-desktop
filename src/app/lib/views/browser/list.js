@@ -393,7 +393,7 @@
 
         AddGhostsToBottomRow: function () {
             var items = $('.items');
-            var item = $('.items .item');
+            var item = $('.items .item:not(.ghost)');
 
             $('.ghost').remove();
             var listWidth = items.width();
