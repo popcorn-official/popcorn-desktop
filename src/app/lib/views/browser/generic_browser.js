@@ -24,6 +24,10 @@
         initialize: function () {
             this.filter = new App.Model.Filter(this.filters);
 
+            if (Settings.rememberFilters) {
+                this.filter.set(this.getSavedFilter());
+            }
+
             this.collection = new this.collectionModel([], {
                 filter: this.filter
             });
@@ -35,10 +39,6 @@
         },
 
         onAttach: function () {
-            if (Settings.rememberFilters) {
-                this.filter.set(this.getSavedFilter());
-            }
-
             this.bar = new App.View.FilterBar({
                 model: this.filter
             });
