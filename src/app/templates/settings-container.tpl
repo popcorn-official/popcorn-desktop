@@ -63,10 +63,23 @@
                 <div class="dropdown start-screen">
                     <p><%= i18n.__("Start Screen") %></p>
                         <%
-                            var arr_screens = ["Movies","TV Series","Anime","Favorites","Watchlist","Last Open"];
+                            var arr_screens = [];
+                            arr_screens.push("Movies");
+                            arr_screens.push("TV Series");
+                            if (!Settings.animeTabDisable) {
+                                arr_screens.push("Anime");
+                            }
+                            arr_screens.push("Favorites");
+                            if (Settings.activateWatchlist) {
+                                arr_screens.push("Watchlist");
+                            }
+                            if (Settings.activateTorrentCollection) {
+                                arr_screens.push("Torrent-collection");
+                            }
+                            arr_screens.push("Last Open");
                             var selct_start_screen = "";
                             for(var key in arr_screens) {
-                                selct_start_screen += "<option "+(Settings.start_screen == arr_screens[key]? "selected='selected'":"")+" value='"+arr_screens[key]+"'>"+i18n.__(arr_screens[key])+"</option>";
+                                selct_start_screen += "<option "+(Settings.start_screen == arr_screens[key]? "selected='selected'":"")+" value='"+arr_screens[key]+"'>"+i18n.__(arr_screens[key].replace("Torrent-collection", "Torrent Collection"))+"</option>";
                             }
                         %>
                     <select name="start_screen"><%=selct_start_screen%></select>
