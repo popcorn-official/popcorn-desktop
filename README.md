@@ -18,30 +18,58 @@ Visit the project's website at <https://popcorntime.app>.
 
 ## Install
 
-#### MacOS:
+### Windows:
+Downloads:
+* **latest release**: check [Releases page](https://github.com/popcorn-official/popcorn-desktop/releases).
+* Or **latest dev build (for testers)**: check [Latest successful build on CI website](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastSuccessfulBuild/)
 
-Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://github.com/Homebrew/homebrew-cask#homebrew-cask))_ with `brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/casks/popcorn-time.rb`, or `brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/casks/popcorn-time-beta.rb` for the latest [stable] beta build. Also, if you keep a [_Brewfile_](https://github.com/Homebrew/homebrew-bundle#usage), you can add something like this:
+
+### MacOS:
+
+Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://github.com/Homebrew/homebrew-cask#homebrew-cask)):_
+
+* **Latest release**:
+`brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/casks/popcorn-time.rb`
+* Or **latest dev build (for testers)**:
+`brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/casks/popcorn-time-beta.rb`
+
+Also, if you keep a [_Brewfile_](https://github.com/Homebrew/homebrew-bundle#usage), you can add something like this:
 ~~~ rb
 repo = 'popcorn-official/popcorn-desktop'
 tap repo, "https://github.com/#{repo}.git"
 cask 'popcorn-time'
 ~~~
 
-#### Linux - Debian/Ubuntu based distros (tested on ubuntu 18.04):
+### Linux - Debian/Ubuntu based distros:
+#### Via .deb package:
+_**Firstly, be aware** in some cases, missings dependencies packages (libatomic1, libgconf-2-4, libcanberra-gtk-module) were reported to be required for the app to works.
+ **If the app don't start for you too**, in this case, **try `sudo apt update && sudo apt install libatomic1 libgconf-2-4 libcanberra-gtk-module`** to be sure your system have the required dependencies._
 
-* Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working) :  
-`sudo apt update && sudo apt install unzip libcanberra-gtk-module libgconf-2-4 libatomic1`
-* Create popcorn-time folder in /opt/ :  
+ Download and install:
+  * **latest release**: check [Releases page](https://github.com/popcorn-official/popcorn-desktop/releases).
+  * Or **latest dev build (for testers)**: check [Latest successful build on CI website](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastSuccessfulBuild/)
+
+ #### Via archive and command line (tested on ubuntu 18.04 and 20.04):
+1. Download Popcorn Time archive :
+    * For **latest release**:
+    `wget -c https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.4-linux64.zip`
+    &nbsp;
+    _if eventually you get issue with popcorntime.app website you can try to download from the github repo
+    `wget -c https://github.com/popcorn-official/popcorn-desktop/releases/download/v0.4.4/Popcorn-Time-0.4.4-linux64.zip`_
+
+    * Or for **latest dev build (for testers)**:
+    `wget -c https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastSuccessfulBuild/artifact/build/Popcorn-Time-0.4.4_linux64.zip -O Popcorn-Time-0.4.4-linux64.zip`
+2. Create popcorn-time folder in /opt/ :
 `sudo mkdir /opt/popcorn-time`
-* Download Popcorn Time archive :  
-`wget https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.4-linux64.zip`
-* Extract the zip in /opt/popcorn-time :  
+3. Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working) :
+`sudo apt update && sudo apt install unzip libcanberra-gtk-module libgconf-2-4 libatomic1`
+4. Extract the zip in /opt/popcorn-time :
 `sudo unzip Popcorn-Time-0.4.4-linux64.zip -d /opt/popcorn-time`
-* Create symlink of Popcorn-Time in /usr/bin :  
+5. Create symlink of Popcorn-Time in /usr/bin :
 `sudo ln -sf /opt/popcorn-time/Popcorn-Time /usr/bin/popcorn-time`
-* Create .desktop file (so the launcher) :  
+6. Create .desktop file (so the launcher) :
 `sudo nano /usr/share/applications/popcorntime.desktop`
-* and copy paste the following text in the editor and save  
+7. and copy paste the following text in the editor and save
 
 ```desktop
 [Desktop Entry]
@@ -63,13 +91,14 @@ Want to report a bug, request a feature, contribute to or translate Popcorn Time
 
 If you're comfortable getting up and running from a `git clone`, this method is for you.
 
-The [master](https://github.com/popcorn-official/popcorn-desktop) branch which contains the latest release.
+The [development](https://github.com/popcorn-official/popcorn-desktop/tree/development) branch contains the latest changes.
+The [master](https://github.com/popcorn-official/popcorn-desktop/tree/master) branch contains the latest release.
 
 #### Quickstart:
 
 1. `yarn start`
 
-If you encounter trouble with the above method, you can try:  
+If you encounter trouble with the above method, you can try:
 
 1. `yarn config set yarn-offline-mirror ./node_modules/`
 2. `yarn install --ignore-engines`
@@ -88,13 +117,7 @@ Full instructions & troubleshooting tips can be found in the [Contributing Guide
 2. `yarn dist --platforms=<platform>`
 
 `<platform>` can be one or more of the folowing values (separated by a comma `,`):
-
-- `win64`
-- `win32`
-- `linux64`
-- `linux32`
-- `osx64`
-- `all`
+* `win64`, `win32`, `linux64`, `linux32`, `osx64`, `all`
 
 
 Redistribuable packages are saved into `build/` subfolder.
@@ -155,4 +178,4 @@ You should have received a copy of the GNU General Public License along with thi
 
 ***
 
-Copyright © 2019 Popcorn Time Project - Released under the [GPL v3 license](LICENSE.txt).
+Copyright © 2020 Popcorn Time Project - Released under the [GPL v3 license](LICENSE.txt).
