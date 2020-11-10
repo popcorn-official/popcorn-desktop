@@ -439,6 +439,7 @@
                     }
                     break;
                 case 'activateSeedbox':
+                    App.vent.trigger('seedbox:close');
                     App.vent.trigger('movies:list');
                     App.vent.trigger('settings:show');
                     if (AdvSettings.get('startScreen') === 'Seedbox') { 
