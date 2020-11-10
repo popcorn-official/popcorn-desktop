@@ -76,6 +76,9 @@
                             if (Settings.activateTorrentCollection) {
                                 arr_screens.push("Torrent-collection");
                             }
+                            if (Settings.activateSeedbox) {
+                                arr_screens.push("Seedbox");
+                            }
                             arr_screens.push("Last Open");
                             var selct_start_screen = "";
                             for(var key in arr_screens) {
