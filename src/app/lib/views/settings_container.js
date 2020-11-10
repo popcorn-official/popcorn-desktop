@@ -430,9 +430,9 @@
                     }
                     break;
                 case 'activateWatchlist':
-                   if (AdvSettings.get('startScreen') === 'Watchlist') { 
+                    if (AdvSettings.get('startScreen') === 'Watchlist') { 
                         $('select[name=start_screen]').change();
-                   }
+                    }
                 case 'activateTempf':
                 case 'activateSeedbox':
                 case 'multipleExtSubtitles':
