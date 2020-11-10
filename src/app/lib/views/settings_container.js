@@ -412,6 +412,9 @@
                         App.vent.trigger('torrentCollection:close');
                         App.vent.trigger('seedbox:close');
                     }
+                    if (AdvSettings.get('startScreen') === 'Torrent-collection') { 
+                        $('select[name=start_screen]').change();
+                    }
                     break;
                 case 'animeTabDisable':
                     var animeTab = $('.animeTabShow');
@@ -422,8 +425,14 @@
                         App.vent.trigger('movies:list');
                         App.vent.trigger('settings:show');
                     }
+                    if (AdvSettings.get('startScreen') === 'Anime') { 
+                        $('select[name=start_screen]').change();
+                    }
                     break;
                 case 'activateWatchlist':
+                    if (AdvSettings.get('startScreen') === 'Watchlist') { 
+                        $('select[name=start_screen]').change();
+                    }
                 case 'activateTempf':
                 case 'activateSeedbox':
                 case 'multipleExtSubtitles':
