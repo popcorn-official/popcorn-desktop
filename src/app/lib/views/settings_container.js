@@ -438,8 +438,14 @@
                         $('select[name=start_screen]').change();
                     }
                     break;
-                case 'activateTempf':
                 case 'activateSeedbox':
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
+                    if (AdvSettings.get('startScreen') === 'Seedbox') { 
+                        $('select[name=start_screen]').change();
+                    }
+                    break;
+                case 'activateTempf':
                 case 'multipleExtSubtitles':
                     App.vent.trigger('movies:list');
                     App.vent.trigger('settings:show');

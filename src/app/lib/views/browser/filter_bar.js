@@ -76,7 +76,7 @@
       var navFilters = $('#nav-filters');
       var filterbarRandom = $('#filterbar-random');
 
-      if (Settings.startScreen === 'Last Open' && App.currentview !== 'Seedbox') {
+      if (Settings.startScreen === 'Last Open') {
         AdvSettings.set('lastTab', set);
       }
 

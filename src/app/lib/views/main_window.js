@@ -305,6 +305,7 @@
             that.showTorrentCollection();
             break;
           case 'Seedbox':
+            that.movieTabShow(); //needed because Seedbox isnt a real collection
             that.showSeedbox();
             break;
           default:
