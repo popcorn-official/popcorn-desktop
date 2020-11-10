@@ -1,7 +1,12 @@
 # [Popcorn Time](https://github.com/popcorn-official/popcorn-desktop)
 
-[![Build Status](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/badge/icon)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/) [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-desktop.svg)](https://david-dm.org/popcorn-official/popcorn-desktop) [![devDependency Status](https://david-dm.org/popcorn-official/popcorn-desktop/dev-status.svg)](https://david-dm.org/popcorn-official/popcorn-desktop#info=devDependencies)
-[![Twitter](https://img.shields.io/badge/twitter-@Popcorn%20Time-3299EC.svg?style=flat)](https://twitter.com/popcorntimetv) [![Reddit](https://img.shields.io/badge/discussion-reddit-red.svg?style=flat)](https://reddit.com/r/popcorntime) [![Forum](https://img.shields.io/badge/Forum-Discourse-blue.svg?style=flat)](https://discuss.popcorntime.app) [![Facebook](https://img.shields.io/badge/facebook-Popcorn%20Time-354F88.svg?style=flat)](https://www.facebook.com/PopcornTimedotsh) 
+[![Build Status](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/badge/icon)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/)
+[![Dependency Status](https://david-dm.org/popcorn-official/popcorn-desktop.svg)](https://david-dm.org/popcorn-official/popcorn-desktop)
+[![devDependency Status](https://david-dm.org/popcorn-official/popcorn-desktop/dev-status.svg)](https://david-dm.org/popcorn-official/popcorn-desktop#info=devDependencies)  
+[![Twitter](https://img.shields.io/badge/twitter-@Popcorn%20Time-3299EC.svg?style=flat)](https://twitter.com/popcorntimetv)
+[![Reddit](https://img.shields.io/badge/discussion-reddit-red.svg?style=flat)](https://reddit.com/r/popcorntime)
+[![Forum](https://img.shields.io/badge/Forum-Discourse-blue.svg?style=flat)](https://discuss.popcorntime.app)
+[![Facebook](https://img.shields.io/badge/facebook-Popcorn%20Time-354F88.svg?style=flat)](https://www.facebook.com/PopcornTimedotsh) 
 
 
 Allow any user to easily watch movies through torrent streaming, without any prerequisites.
@@ -22,9 +27,9 @@ Downloads:
 
 Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://github.com/Homebrew/homebrew-cask#homebrew-cask)):_
 
-* **Latest release**:
+* **Latest release**:  
 `brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/casks/popcorn-time.rb`
-* Or **latest dev build (for testers)**:
+* Or **latest dev build (for testers)**:  
 `brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/casks/popcorn-time-beta.rb`
 
 Also, if you keep a [_Brewfile_](https://github.com/Homebrew/homebrew-bundle#usage), you can add something like this:
@@ -36,7 +41,7 @@ cask 'popcorn-time'
 
 ### Linux - Debian/Ubuntu based distros:
 #### Via .deb package:
-_**Firstly, be aware** in some cases, missings dependencies packages (libatomic1, libgconf-2-4, libcanberra-gtk-module) were reported to be required for the app to works.
+_**Firstly, be aware** in some cases, missings dependencies packages (libatomic1, libgconf-2-4, libcanberra-gtk-module) were reported to be required for the app to works.  
  **If the app don't start for you too**, in this case, **try `sudo apt update && sudo apt install libatomic1 libgconf-2-4 libcanberra-gtk-module`** to be sure your system have the required dependencies._
 
  Download and install:
@@ -44,26 +49,26 @@ _**Firstly, be aware** in some cases, missings dependencies packages (libatomic1
   * Or **latest dev build (for testers)**: check [Latest successful build on CI website](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastSuccessfulBuild/)
 
  #### Via archive and command line (tested on ubuntu 18.04 and 20.04):
-1. Download Popcorn Time archive :
-    * For **latest release**:
-    `wget -c https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.4-linux64.zip`
-    &nbsp;
-    _if eventually you get issue with popcorntime.app website you can try to download from the github repo
+1. Download Popcorn Time archive :  
+    * For **latest release**:  
+    `wget -c https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.4-linux64.zip`  
+    &nbsp;  
+    _if eventually you get issue with popcorntime.app website you can try to download from the github repo  
     `wget -c https://github.com/popcorn-official/popcorn-desktop/releases/download/v0.4.4/Popcorn-Time-0.4.4-linux64.zip`_
 
-    * Or for **latest dev build (for testers)**:
+    * Or for **latest dev build (for testers)**:  
     `wget -c https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastSuccessfulBuild/artifact/build/Popcorn-Time-0.4.4_linux64.zip -O Popcorn-Time-0.4.4-linux64.zip`
-2. Create popcorn-time folder in /opt/ :
-`sudo mkdir /opt/popcorn-time`
-3. Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working) :
-`sudo apt update && sudo apt install unzip libcanberra-gtk-module libgconf-2-4 libatomic1`
-4. Extract the zip in /opt/popcorn-time :
-`sudo unzip Popcorn-Time-0.4.4-linux64.zip -d /opt/popcorn-time`
-5. Create symlink of Popcorn-Time in /usr/bin :
-`sudo ln -sf /opt/popcorn-time/Popcorn-Time /usr/bin/popcorn-time`
-6. Create .desktop file (so the launcher) :
-`sudo nano /usr/share/applications/popcorntime.desktop`
-7. and copy paste the following text in the editor and save
+2. Create popcorn-time folder in /opt/ :  
+`sudo mkdir /opt/popcorn-time`  
+3. Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working) :  
+`sudo apt update && sudo apt install unzip libcanberra-gtk-module libgconf-2-4 libatomic1`  
+4. Extract the zip in /opt/popcorn-time :  
+`sudo unzip Popcorn-Time-0.4.4-linux64.zip -d /opt/popcorn-time`  
+5. Create symlink of Popcorn-Time in /usr/bin :  
+`sudo ln -sf /opt/popcorn-time/Popcorn-Time /usr/bin/popcorn-time`  
+6. Create .desktop file (so the launcher) :  
+`sudo nano /usr/share/applications/popcorntime.desktop`  
+7. and copy paste the following text in the editor and save  
 
 ```desktop
 [Desktop Entry]
@@ -79,9 +84,9 @@ Categories = Application;
 
 ## Getting Involved
 
-Want to report a bug, request a feature, contribute to or translate Popcorn Time? 
-Check out our in-depth guide to [Contributing to Popcorn Time](CONTRIBUTING.md#contributing-to-popcorn-time). We need all the help we can get! 
-You can also join our [community](README.md#community) to keep up-to-date and meet other developers.
+Want to report a bug, request a feature, contribute to or translate Popcorn Time?  
+Check out our in-depth guide to [Contributing to Popcorn Time](CONTRIBUTING.md#contributing-to-popcorn-time). We need all the help we can get!  
+You can also join our [community](README.md#community) to keep up-to-date and meet other developers.  
 
 ## Getting Started
 
@@ -99,7 +104,7 @@ If you encounter trouble with the above method, you can try:
 1. `yarn config set yarn-offline-mirror ./node_modules/`
 2. `yarn install --ignore-engines`
 3. `yarn build`
-5. `yarn start`
+4. `yarn start`
 
 Optionally, you may simply run `./make_popcorn.sh` if you are on a linux or mac based operating system.
 
@@ -110,7 +115,7 @@ Full instructions & troubleshooting tips can be found in the [Contributing Guide
 
 1. `yarn config set yarn-offline-mirror ./node_modules/`
 2. `yarn install --ignore-engines`
-2. `yarn dist --platforms=<platform>`
+3. `yarn dist --platforms=<platform>`
 
 `<platform>` can be one or more of the folowing values (separated by a comma `,`):
 * `win64`, `win32`, `linux64`, `linux32`, `osx64`, `all`
