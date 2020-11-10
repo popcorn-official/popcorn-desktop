@@ -1,18 +1,12 @@
 # [Popcorn Time](https://github.com/popcorn-official/popcorn-desktop)
 
-[![Build Status](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/badge/icon)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/)
-[![Dependency Status](https://david-dm.org/popcorn-official/popcorn-desktop.svg)](https://david-dm.org/popcorn-official/popcorn-desktop)
-[![devDependency Status](https://david-dm.org/popcorn-official/popcorn-desktop/dev-status.svg)](https://david-dm.org/popcorn-official/popcorn-desktop#info=devDependencies)
-[![Twitter](https://img.shields.io/badge/twitter-@Popcorn%20Time-3299EC.svg?style=flat)](https://twitter.com/popcorntimetv)
-[![Reddit](https://img.shields.io/badge/discussion-reddit-red.svg?style=flat)](https://reddit.com/r/popcorntime)
-[![Forum](https://img.shields.io/badge/Forum-Discourse-blue.svg?style=flat)](https://discuss.popcorntime.app)
-[![Facebook](https://img.shields.io/badge/facebook-Popcorn%20Time-354F88.svg?style=flat)](https://www.facebook.com/PopcornTimedotsh)
-
+[![Build Status](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/badge/icon)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/) [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-desktop.svg)](https://david-dm.org/popcorn-official/popcorn-desktop) [![devDependency Status](https://david-dm.org/popcorn-official/popcorn-desktop/dev-status.svg)](https://david-dm.org/popcorn-official/popcorn-desktop#info=devDependencies)
+[![Twitter](https://img.shields.io/badge/twitter-@Popcorn%20Time-3299EC.svg?style=flat)](https://twitter.com/popcorntimetv) [![Reddit](https://img.shields.io/badge/discussion-reddit-red.svg?style=flat)](https://reddit.com/r/popcorntime) [![Forum](https://img.shields.io/badge/Forum-Discourse-blue.svg?style=flat)](https://discuss.popcorntime.app) [![Facebook](https://img.shields.io/badge/facebook-Popcorn%20Time-354F88.svg?style=flat)](https://www.facebook.com/PopcornTimedotsh) 
 
 
 Allow any user to easily watch movies through torrent streaming, without any prerequisites.
 
-Visit the project's website at <https://popcorntime.app>.
+Visit the project's website at https://popcorntime.app.
 
 ***
 
@@ -20,7 +14,7 @@ Visit the project's website at <https://popcorntime.app>.
 
 ### Windows:
 Downloads:
-* **latest release**: check [Releases page](https://github.com/popcorn-official/popcorn-desktop/releases).
+* **latest release**: check [popcorntime.app](https://popcorntime.app/#get-app) or [Repo releases page](https://github.com/popcorn-official/popcorn-desktop/releases).
 * Or **latest dev build (for testers)**: check [Latest successful build on CI website](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastSuccessfulBuild/)
 
 
@@ -85,13 +79,15 @@ Categories = Application;
 
 ## Getting Involved
 
-Want to report a bug, request a feature, contribute to or translate Popcorn Time? Check out our in-depth guide to [Contributing to Popcorn Time](CONTRIBUTING.md#contributing-to-popcorn-time). We need all the help we can get! You can also join our [community](README.md#community) to keep up-to-date and meet other developers.
+Want to report a bug, request a feature, contribute to or translate Popcorn Time? 
+Check out our in-depth guide to [Contributing to Popcorn Time](CONTRIBUTING.md#contributing-to-popcorn-time). We need all the help we can get! 
+You can also join our [community](README.md#community) to keep up-to-date and meet other developers.
 
 ## Getting Started
 
 If you're comfortable getting up and running from a `git clone`, this method is for you.
 
-The [development](https://github.com/popcorn-official/popcorn-desktop/tree/development) branch contains the latest changes.
+The [development](https://github.com/popcorn-official/popcorn-desktop/tree/development) branch contains the latest changes.  
 The [master](https://github.com/popcorn-official/popcorn-desktop/tree/master) branch contains the latest release.
 
 #### Quickstart:
