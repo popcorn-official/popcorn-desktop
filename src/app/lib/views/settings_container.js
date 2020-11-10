@@ -412,6 +412,8 @@
                         App.vent.trigger('torrentCollection:close');
                         App.vent.trigger('seedbox:close');
                     }
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
                     if (AdvSettings.get('startScreen') === 'Torrent-collection') { 
                         $('select[name=start_screen]').change();
                     }
@@ -430,9 +432,12 @@
                     }
                     break;
                 case 'activateWatchlist':
+                    App.vent.trigger('movies:list');
+                    App.vent.trigger('settings:show');
                     if (AdvSettings.get('startScreen') === 'Watchlist') { 
                         $('select[name=start_screen]').change();
                     }
+                    break;
                 case 'activateTempf':
                 case 'activateSeedbox':
                 case 'multipleExtSubtitles':
