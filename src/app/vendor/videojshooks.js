@@ -65,7 +65,8 @@ vjs.Player.prototype.listenForUserActivity = function () {
     });
 };
 
-vjs.Player.prototype.onFullscreenChange = function () {
+vjs.Player.prototype.onFullscreenChange = function (e) {
+    e.stopPropagation();
     if (this.isFullscreen()) {
         this.addClass('vjs-fullscreen');
         $('.vjs-text-track').css('font-size', '140%');
