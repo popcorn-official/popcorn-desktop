@@ -24,12 +24,12 @@
         </div>
 
         <div class="icons_social">
-            <a href="<%= Settings.projectUrl %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.projectUrl %>" class='links site_icon'></span></a>
-            <a href='http://twitter.com/<%= Settings.projectTwitter %>' data-toggle="tooltip" data-placement="top" title="twitter.com/<%= Settings.projectTwitter %>" class='links twitter_icon'></span></a>
-            <a href='http://www.fb.com/<%= Settings.projectFacebook %>' data-toggle="tooltip" data-placement="top" title="fb.com/<%= Settings.projectFacebook %>" class='links facebook_icon'></span></a>
-            <a href='<%= Settings.sourceUrl %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.sourceUrl %>" class='links github_icon'></span></a>
-            <a href='<%= Settings.projectBlog %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectBlog %>" class='links blog_icon'></span></a>
-            <a href='<%= Settings.projectForum %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectForum %>" class='links forum_icon'></span></a>
+            <a href="<%= Settings.projectUrl %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.projectUrl %>" class='links site_icon'></a>
+            <a href='<%= Settings.sourceUrl %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.sourceUrl %>" class='links github_icon'></a>
+            <a href='https://twitter.com/<%= Settings.projectTwitter %>' data-toggle="tooltip" data-placement="top" title="https://twitter.com/<%= Settings.projectTwitter %>" class='links twitter_icon'></a>
+            <a href='<%= Settings.projectBlog %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectBlog %>" class='links blog_icon'></a>
+            <a href='<%= Settings.projectSubreddit %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectSubreddit %>" class='links reddit_icon'></a>
+            <a href='<%= Settings.projectForum2 %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectForum2 %>" class='links forum_icon'></a>
         </div>
 
         <div class="last-line">

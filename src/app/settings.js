@@ -1,19 +1,17 @@
 /** Default settings **/
 var Settings = {
   projectName: 'Popcorn-Time',
-  projectUrl: 'http://butterproject.org',
-  projectTwitter: 'butterproject',
-  projectFacebook: 'ButterProjectOrg',
-  projectGooglePlus: 'ButterProject',
-  projectBlog: 'http://blog.butterproject.org/',
-  projectForum: 'https://www.reddit.com/r/ButterProject',
+  projectUrl: 'https://popcorntime.app/',
+  projectTwitter: 'r_popcorntime',
+  projectBlog: 'https://blog.popcorntime.app/',
+  projectSubreddit: 'https://www.reddit.com/r/PopCornTime/',
+  projectForum2: 'https://discuss.popcorntime.app/',
 
-  statusUrl: 'https://status.butterproject.org',
-  changelogUrl:
-    'https://github.com/butterproject/butter-desktop/commits/master',
-  issuesUrl: 'https://github.com/butterproject/butter-desktop/issues',
-  sourceUrl: 'https://github.com/butterproject/butter-desktop/',
-  commitUrl: 'https://github.com/butterproject/butter-desktop/commit',
+  statusUrl: 'https://status.popcorntime.app/',
+  changelogUrl: 'https://github.com/popcorn-official/popcorn-desktop/commits/development',
+  issuesUrl: 'https://github.com/popcorn-official/popcorn-desktop/issues',
+  sourceUrl: 'https://github.com/popcorn-official/popcorn-desktop/',
+  commitUrl: 'https://github.com/popcorn-official/popcorn-desktop/commit',
   updateKey:
     '-----BEGIN PUBLIC KEY-----\n' +
     'MIIBtjCCASsGByqGSM44BAEwggEeAoGBAPNM5SX+yR8MJNrX9uCQIiy0t3IsyNHs\n' +
