@@ -3,10 +3,9 @@
 [![Build Status](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/badge/icon)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/)
 [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-desktop.svg)](https://david-dm.org/popcorn-official/popcorn-desktop)
 [![devDependency Status](https://david-dm.org/popcorn-official/popcorn-desktop/dev-status.svg)](https://david-dm.org/popcorn-official/popcorn-desktop#info=devDependencies)  
-[![Twitter](https://img.shields.io/badge/twitter-@Popcorn%20Time-3299EC.svg?style=flat)](https://twitter.com/popcorntimetv)
+[![Twitter](https://img.shields.io/badge/twitter-@r_PopcornTime-3299EC.svg?style=flat)](https://twitter.com/r_popcorntime)
 [![Reddit](https://img.shields.io/badge/discussion-reddit-red.svg?style=flat)](https://reddit.com/r/popcorntime)
-[![Forum](https://img.shields.io/badge/Forum-Discourse-blue.svg?style=flat)](https://discuss.popcorntime.app)
-[![Facebook](https://img.shields.io/badge/facebook-Popcorn%20Time-354F88.svg?style=flat)](https://www.facebook.com/PopcornTimedotsh) 
+[![Forum](https://img.shields.io/badge/Forum-Discourse-blue.svg?style=flat)](https://discuss.popcorntime.app) 
 
 
 Allow any user to easily watch movies through torrent streaming, without any prerequisites.
@@ -129,7 +128,7 @@ Redistribuable packages are saved into `build/` subfolder.
 
 Keep track of Popcorn Time development and community activity.
 
-* Follow Popcorn Time on [Twitter](https://twitter.com/popcorntimetv) and [Facebook](https://www.facebook.com/PopcornTimeDotSh).
+* Follow Popcorn Time on [Twitter](https://twitter.com/r_popcorntime) and [Reddit](https://reddit.com/r/popcorntime).
 * Read and subscribe to [The Official Popcorn Time Blog](http://blog.popcorntime.app/).
 * Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.app/).
 
