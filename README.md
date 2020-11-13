@@ -4,7 +4,7 @@
 [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-desktop.svg)](https://david-dm.org/popcorn-official/popcorn-desktop)
 [![devDependency Status](https://david-dm.org/popcorn-official/popcorn-desktop/dev-status.svg)](https://david-dm.org/popcorn-official/popcorn-desktop#info=devDependencies)  
 [![Twitter](https://img.shields.io/badge/twitter-@r_PopcornTime-3299EC.svg?style=flat)](https://twitter.com/r_popcorntime)
-[![Reddit](https://img.shields.io/badge/discussion-reddit-red.svg?style=flat)](https://reddit.com/r/popcorntime)
+[![Reddit](https://img.shields.io/badge/discussion-reddit-red.svg?style=flat)](https://www.reddit.com/r/PopcornTime)
 [![Forum](https://img.shields.io/badge/Forum-Discourse-blue.svg?style=flat)](https://discuss.popcorntime.app) 
 
 
@@ -129,8 +129,8 @@ Redistribuable packages are saved into `build/` subfolder.
 Keep track of Popcorn Time development and community activity.
 
 * Follow Popcorn Time on [Twitter](https://twitter.com/r_popcorntime).
-* Read and subscribe to [The Official Popcorn Time Blog](http://blog.popcorntime.app/).
-* Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.app/) and [r/PopCornTime](https://reddit.com/r/popcorntime).
+* Read and subscribe to [The Official Popcorn Time Blog](https://blog.popcorntime.app/).
+* Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.app) and [r/PopCornTime](https://www.reddit.com/r/PopcornTime).
 
 ## Screenshots
 ![Popcorn Time](https://cloud.githubusercontent.com/assets/8317250/10714437/b1e1dc8c-7b32-11e5-9c25-d9fbd5b2f3bd.png)
