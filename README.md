@@ -130,7 +130,7 @@ Keep track of Popcorn Time development and community activity.
 
 * Follow Popcorn Time on [Twitter](https://twitter.com/r_popcorntime).
 * Read and subscribe to [The Official Popcorn Time Blog](http://blog.popcorntime.app/).
-* Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.app/) and [Reddit](https://reddit.com/r/popcorntime).
+* Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.app/) and [r/PopCornTime](https://reddit.com/r/popcorntime).
 
 ## Screenshots
 ![Popcorn Time](https://cloud.githubusercontent.com/assets/8317250/10714437/b1e1dc8c-7b32-11e5-9c25-d9fbd5b2f3bd.png)
