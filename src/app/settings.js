@@ -3,10 +3,10 @@ var Settings = {
   projectName: 'Popcorn-Time',
   projectUrl: 'http://butterproject.org',
   projectTwitter: 'butterproject',
-  projectFacebook: 'ButterProjectOrg',
   projectGooglePlus: 'ButterProject',
   projectBlog: 'http://blog.butterproject.org/',
-  projectForum: 'https://www.reddit.com/r/ButterProject',
+  projectSubreddit: 'https://www.reddit.com/r/ButterProject',
+  projectForum: 'https://discuss.popcorntime.app/',
 
   statusUrl: 'https://status.butterproject.org',
   changelogUrl:
