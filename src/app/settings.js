@@ -1,14 +1,15 @@
 /** Default settings **/
 var Settings = {
-  projectName: 'Popcorn-Time',
-  projectUrl: 'https://popcorntime.app/',
-  projectTwitter: 'r_popcorntime',
+  projectName: 'Popcorn Time',
+  projectUrl: 'https://popcorntime.app',
+  projectTwitter: 'popcorntimetv',
+  projectTwitter2: 'r_popcorntime',
   projectBlog: 'https://blog.popcorntime.app/',
-  projectSubreddit: 'https://www.reddit.com/r/PopCornTime/',
-  projectForum2: 'https://discuss.popcorntime.app/',
+  projectForum: 'https://www.reddit.com/r/PopcornTime',
+  projectForum2: 'https://discuss.popcorntime.app',
 
-  statusUrl: 'https://status.popcorntime.app/',
-  changelogUrl: 'https://github.com/popcorn-official/popcorn-desktop/commits/development',
+  statusUrl: 'http://status.popcorntime.app',
+  changelogUrl: 'https://github.com/popcorn-official/popcorn-desktop/commits/master',
   issuesUrl: 'https://github.com/popcorn-official/popcorn-desktop/issues',
   sourceUrl: 'https://github.com/popcorn-official/popcorn-desktop/',
   commitUrl: 'https://github.com/popcorn-official/popcorn-desktop/commit',
