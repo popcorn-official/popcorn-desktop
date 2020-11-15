@@ -65,7 +65,7 @@
     "jquery": "^3.5.1",
     "jschardet": "1.6.0",
     "json-rpc2": "1.x.x",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "memoizee": "0.x.x",
     "mkdirp": "*",
     "moment": ">=2.22.2",
