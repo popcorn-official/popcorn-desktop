@@ -3,9 +3,9 @@
 [![Build Status](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/badge/icon)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/)
 [![Dependency Status](https://david-dm.org/popcorn-official/popcorn-desktop.svg)](https://david-dm.org/popcorn-official/popcorn-desktop)
 [![devDependency Status](https://david-dm.org/popcorn-official/popcorn-desktop/dev-status.svg)](https://david-dm.org/popcorn-official/popcorn-desktop#info=devDependencies)  
-[![Twitter](https://img.shields.io/badge/twitter-@r_PopcornTime-3299EC.svg?style=flat)](https://twitter.com/r_popcorntime)
-[![Reddit](https://img.shields.io/badge/discussion-reddit-red.svg?style=flat)](https://www.reddit.com/r/PopcornTime)
-[![Forum](https://img.shields.io/badge/Forum-Discourse-blue.svg?style=flat)](https://discuss.popcorntime.app) 
+[![Twitter](https://img.shields.io/twitter/follow/r_popcorntime?color=3299EC&label=twitter&style=flat)](https://twitter.com/r_popcorntime)
+[![Reddit](https://img.shields.io/reddit/subreddit-subscribers/PopCornTime?color=red&label=reddit&style=flat)](https://www.reddit.com/r/PopCornTime)
+[![Forum](https://img.shields.io/discourse/posts?color=blue&label=forum&server=https%3A%2F%2Fdiscuss.popcorntime.app&style=flat)](https://discuss.popcorntime.app) 
 
 
 Allow any user to easily watch movies through torrent streaming, without any prerequisites.
