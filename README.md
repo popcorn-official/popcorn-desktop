@@ -1,9 +1,11 @@
 # [Popcorn Time](https://github.com/popcorn-official/popcorn-desktop)
 
-[![Latest Release](https://img.shields.io/github/v/release/popcorn-official/popcorn-desktop?color=brightgreen&label=latest%20release)![](https://img.shields.io/github/release-date/popcorn-official/popcorn-desktop?label=)](https://github.com/popcorn-official/popcorn-desktop/releases/latest)
+[![Latest Release](https://img.shields.io/github/v/release/popcorn-official/popcorn-desktop?color=brightgreen&label=latest%20release)](https://github.com/popcorn-official/popcorn-desktop/releases/latest)
+[![Latest Release Date](https://img.shields.io/github/release-date/popcorn-official/popcorn-desktop?label=)](https://github.com/popcorn-official/popcorn-desktop/releases/latest)
 [![Commits Since Latest Release](https://img.shields.io/github/commits-since/popcorn-official/popcorn-desktop/latest?label=commits%20since)](https://github.com/popcorn-official/popcorn-desktop/compare/master...development)
 [![Latest Commit](https://img.shields.io/github/last-commit/popcorn-official/popcorn-desktop?label=latest%20commit)](https://github.com/popcorn-official/popcorn-desktop/commit/development)
-[![Latest Build Status](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/badge/icon?subject=latest%20build)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/)  
+[![Latest Build](https://img.shields.io/badge/dynamic/json?label=latest%20build&color=brightgreen&query=displayName&url=https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastBuild/api/json)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/)
+[![Latest Build Status](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.popcorntime.app%2Fjob%2FPopcorn-Time-Desktop%2F&label=)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/)  
 [![popcorntime.app Status](https://img.shields.io/website?down_color=red&down_message=offline&label=popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fpopcorntime.app)](https://popcorntime.app)
 [![ci.popcorntime.app Status](https://img.shields.io/website?down_color=red&down_message=offline&label=ci.popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fci.popcorntime.app)](https://ci.popcorntime.app)
 [![Twitter](https://img.shields.io/twitter/follow/r_popcorntime?color=3299EC&label=twitter&style=flat)](https://twitter.com/r_popcorntime)
