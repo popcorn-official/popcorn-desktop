@@ -8,7 +8,14 @@
 [![ci.popcorntime.app Status](https://img.shields.io/website?down_color=red&down_message=offline&label=ci.popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fci.popcorntime.app)](https://ci.popcorntime.app)
 [![Twitter](https://img.shields.io/twitter/follow/r_popcorntime?color=3299EC&label=twitter&style=flat)](https://twitter.com/r_popcorntime)
 [![Reddit](https://img.shields.io/reddit/subreddit-subscribers/PopCornTime?color=red&label=reddit&style=flat)](https://www.reddit.com/r/PopCornTime)
-[![Forum](https://img.shields.io/discourse/posts?color=blue&label=forum&server=https%3A%2F%2Fdiscuss.popcorntime.app&style=flat)](https://discuss.popcorntime.app) 
+[![Forum](https://img.shields.io/discourse/posts?color=blue&label=forum&server=https%3A%2F%2Fdiscuss.popcorntime.app&style=flat)](https://discuss.popcorntime.app)  
+
+[![Previous Releases](https://img.shields.io/badge/-previous%20releases-lightgrey)](https://github.com/popcorn-official/popcorn-desktop/releases)
+[![v0.4.3](https://img.shields.io/badge/-v0.4.3-lightgrey)](https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.3)
+[![v0.4.2](https://img.shields.io/badge/-v0.4.2-lightgrey)](https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.2)
+[![v0.4.1](https://img.shields.io/badge/-v0.4.1-lightgrey)](https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.1)
+[![v0.4.0](https://img.shields.io/badge/-v0.4.0-lightgrey)](https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.0)
+[![v0.3.10](https://img.shields.io/badge/-v0.3.10-lightgrey)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/200/)  
 
 Allow any user to easily watch movies through torrent streaming, without any prerequisites.
 
@@ -130,7 +137,6 @@ Keep track of Popcorn Time development and community activity.
 
 ## Screenshots
 ![Popcorn Time](https://cloud.githubusercontent.com/assets/8317250/10714437/b1e1dc8c-7b32-11e5-9c25-d9fbd5b2f3bd.png)
-![Debugging Popcorn Time](https://cloud.githubusercontent.com/assets/8317250/10714430/add70234-7b32-11e5-9be7-1de539d865ba.png)
 
 
 ## Versioning
@@ -146,17 +152,6 @@ Constructed with the following guidelines:
 * A new *minor* release indicates a normal change that maintains backward compatibility.
 * A new *patch* release indicates a bugfix or small change which does not affect compatibility.
 * A new *build* release indicates this is a pre-release of the version.
-
-
-## Archive Links for older installations
-#### v0.3.10
-* [Popcorn-Time-0.3.10-win32-Setup.exe](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/200/artifact/build/Popcorn-Time-0.3.10-win32-Setup.exe)  58.90 MB
-* [Popcorn-Time-0.3.10-win64-Setup.exe](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/200/artifact/build/Popcorn-Time-0.3.10-win64-Setup.exe)  67.67 MB
-* [Popcorn-Time-0.3.10_linux32.tar.xz](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/200/artifact/build/Popcorn-Time-0.3.10_linux32.tar.xz)  63.10 MB
-* [Popcorn-Time-0.3.10_linux64.tar.xz](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/200/artifact/build/Popcorn-Time-0.3.10_linux64.tar.xz)  60.48 MB
-* [Popcorn-Time-0.3.10_osx64.tar.xz](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/200/artifact/build/Popcorn-Time-0.3.10_osx64.tar.xz)  50.43 MB
-* [popcorn-time_0.3.10-28112f678_amd64.deb](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/200/artifact/build/popcorn-time_0.3.10-28112f678_amd64.deb)  61.60 MB
-* [popcorn-time_0.3.10-28112f678_i386.deb](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/200/artifact/build/popcorn-time_0.3.10-28112f678_i386.deb)  65.17 MB
 
 
 ***
