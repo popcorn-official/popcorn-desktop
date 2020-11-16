@@ -51,12 +51,12 @@ Download and install:
 
 Via archive and command line (tested on ubuntu 18.04 and 20.04):
   1. Download Popcorn Time archive:  
-  * For the **latest release**:  
-  `wget -c https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.4-linux64.zip`  
+      * For the **latest release**:  
+      `wget -c https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.4-linux64.zip`  
   _if eventually you get issue with popcorntime.app website you can try to download from the github repo  
   `wget -c https://github.com/popcorn-official/popcorn-desktop/releases/download/v0.4.4/Popcorn-Time-0.4.4-linux64.zip`_
-  * Or for the **latest dev build (for testers)**:  
-  `wget -c https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastSuccessfulBuild/artifact/build/Popcorn-Time-0.4.4_linux64.zip -O Popcorn-Time-0.4.4-linux64.zip`
+      * Or for the **latest dev build (for testers)**:  
+      `wget -c https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastSuccessfulBuild/artifact/build/Popcorn-Time-0.4.4_linux64.zip -O Popcorn-Time-0.4.4-linux64.zip`
   2. Create popcorn-time folder in /opt/:  
   `sudo mkdir /opt/popcorn-time`  
   3. Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working):  
