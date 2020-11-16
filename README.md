@@ -1,4 +1,4 @@
-# [Popcorn Time](https://github.com/popcorn-official/popcorn-desktop)
+# [![](https://avatars2.githubusercontent.com/u/7267937?s=40)](https://github.com/popcorn-official/popcorn-desktop)&nbsp;[Popcorn Time](https://github.com/popcorn-official/popcorn-desktop)
 
 [![Latest Release](https://img.shields.io/github/v/release/popcorn-official/popcorn-desktop?color=brightgreen&label=latest%20release)](https://github.com/popcorn-official/popcorn-desktop/releases/latest)
 [![Latest Release Date](https://img.shields.io/github/release-date/popcorn-official/popcorn-desktop?label=)](https://github.com/popcorn-official/popcorn-desktop/releases/latest)
