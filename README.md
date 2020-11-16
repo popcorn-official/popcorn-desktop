@@ -1,27 +1,34 @@
-# [![](https://avatars2.githubusercontent.com/u/7267937?s=40)](https://github.com/popcorn-official/popcorn-desktop)&nbsp;[Popcorn Time](https://github.com/popcorn-official/popcorn-desktop)
+<h1 align="center">
+  <br>
+  <a href="https://popcorntime.app"><img src="https://avatars2.githubusercontent.com/u/7267937?s=200" alt="Popcorn Time" width="200"></a>
+  <br>
+  Popcorn Time
+  <br>
+  <br>
+</h1>
 
-[![Latest Release](https://img.shields.io/github/v/release/popcorn-official/popcorn-desktop?color=brightgreen&label=latest%20release)](https://github.com/popcorn-official/popcorn-desktop/releases/latest)
-[![Latest Release Date](https://img.shields.io/github/release-date/popcorn-official/popcorn-desktop?label=)](https://github.com/popcorn-official/popcorn-desktop/releases/latest)
-[![Commits Since Latest Release](https://img.shields.io/github/commits-since/popcorn-official/popcorn-desktop/latest?label=commits%20since)](https://github.com/popcorn-official/popcorn-desktop/compare/master...development)
-[![Latest Commit](https://img.shields.io/github/last-commit/popcorn-official/popcorn-desktop?label=latest%20commit)](https://github.com/popcorn-official/popcorn-desktop/commit/development)
-[![Latest Build](https://img.shields.io/badge/dynamic/json?label=latest%20build&color=brightgreen&query=displayName&url=https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastBuild/api/json)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/)
-[![Latest Build Status](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.popcorntime.app%2Fjob%2FPopcorn-Time-Desktop%2F&label=)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/)  
-[![popcorntime.app Status](https://img.shields.io/website?down_color=red&down_message=offline&label=popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fpopcorntime.app)](https://popcorntime.app)
-[![ci.popcorntime.app Status](https://img.shields.io/website?down_color=red&down_message=offline&label=ci.popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fci.popcorntime.app)](https://ci.popcorntime.app)
-[![Twitter](https://img.shields.io/twitter/follow/r_popcorntime?color=3299EC&label=twitter&style=flat)](https://twitter.com/r_popcorntime)
-[![Reddit](https://img.shields.io/reddit/subreddit-subscribers/PopCornTime?color=red&label=reddit&style=flat)](https://www.reddit.com/r/PopCornTime)
-[![Forum](https://img.shields.io/discourse/posts?color=blue&label=forum&server=https%3A%2F%2Fdiscuss.popcorntime.app&style=flat)](https://discuss.popcorntime.app)  
+<h4 align="center">A multi-platform, free software BitTorrent client that includes an integrated media player.</h4>
 
-[![Previous Releases](https://img.shields.io/badge/-previous%20releases-lightgrey)](https://github.com/popcorn-official/popcorn-desktop/releases)
-[![v0.4.3](https://img.shields.io/badge/-v0.4.3-lightgrey)](https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.3)
-[![v0.4.2](https://img.shields.io/badge/-v0.4.2-lightgrey)](https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.2)
-[![v0.4.1](https://img.shields.io/badge/-v0.4.1-lightgrey)](https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.1)
-[![v0.4.0](https://img.shields.io/badge/-v0.4.0-lightgrey)](https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.0)
-[![v0.3.10](https://img.shields.io/badge/-v0.3.10-lightgrey)](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/200/)  
+<p align="center">
+  <a href="https://github.com/popcorn-official/popcorn-desktop/releases/latest"><img src="https://img.shields.io/github/v/release/popcorn-official/popcorn-desktop?color=brightgreen&label=latest%20release"></a>
+  <a href="https://github.com/popcorn-official/popcorn-desktop/releases/latest"><img src="https://img.shields.io/github/release-date/popcorn-official/popcorn-desktop?label="></a>
+  <a href="https://github.com/popcorn-official/popcorn-desktop/compare/master...development"><img src="https://img.shields.io/github/commits-since/popcorn-official/popcorn-desktop/latest?label=commits%20since"></a>
+  <a href="https://github.com/popcorn-official/popcorn-desktop/commit/development"><img src="https://img.shields.io/github/last-commit/popcorn-official/popcorn-desktop?label=latest%20commit"></a>
+  <a href="https://ci.popcorntime.app/job/Popcorn-Time-Desktop/"><img src="https://img.shields.io/badge/dynamic/json?label=latest%20build&color=brightgreen&query=displayName&url=https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastBuild/api/json"></a>
+  <a href="https://ci.popcorntime.app/job/Popcorn-Time-Desktop/"><img src="https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.popcorntime.app%2Fjob%2FPopcorn-Time-Desktop%2F&label="></a><br>
+  <a href="https://popcorntime.app"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fpopcorntime.app"></a>
+  <a href="https://ci.popcorntime.app"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=ci.popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fci.popcorntime.app"></a>
+  <a href="https://twitter.com/r_popcorntime"><img src="https://img.shields.io/twitter/follow/r_popcorntime?color=3299EC&label=twitter&style=flat"></a>
+  <a href="https://www.reddit.com/r/PopCornTime"><img src="https://img.shields.io/reddit/subreddit-subscribers/PopCornTime?color=red&label=reddit&style=flat"></a>
+  <a href="https://discuss.popcorntime.app"><img src="https://img.shields.io/discourse/posts?color=blue&label=forum&server=https%3A%2F%2Fdiscuss.popcorntime.app&style=flat"></a><br>
+  <a href="https://github.com/popcorn-official/popcorn-desktop/releases"><img src="https://img.shields.io/badge/-previous%20releases-lightgrey"></a>
+  <a href="https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.3"><img src="https://img.shields.io/badge/-v0.4.3-lightgrey"></a>
+  <a href="https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.2"><img src="https://img.shields.io/badge/-v0.4.2-lightgrey"></a>
+  <a href="https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.1"><img src="https://img.shields.io/badge/-v0.4.1-lightgrey"></a>
+  <a href="https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.0"><img src="https://img.shields.io/badge/-v0.4.0-lightgrey"></a>
+  <a href="https://ci.popcorntime.app/job/Popcorn-Time-Desktop/200/"><img src="https://img.shields.io/badge/-v0.3.10-lightgrey"></a>
 
-Allow any user to easily watch movies through torrent streaming, without any prerequisites.
-
-Visit the project's website at https://popcorntime.app.
+<h4 align="center">Visit the project's website at <a href="https://popcorntime.app">popcorntime.app</a></h4>
 
 ***
 
