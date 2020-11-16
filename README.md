@@ -87,12 +87,6 @@ Via archive and command line (tested on ubuntu 18.04 and 20.04):
   ```
 
 
-## Getting Involved
-Want to report a bug, request a feature, contribute to or translate Popcorn Time?  
-Check out our in-depth guide to [Contributing to Popcorn Time](CONTRIBUTING.md#contributing-to-popcorn-time). We need all the help we can get!  
-You can also join our [community](README.md#community) to keep up-to-date and meet other developers.  
-
-
 ## Getting Started
 
 If you're comfortable getting up and running from a `git clone`, this method is for you.
@@ -125,6 +119,12 @@ Full instructions & troubleshooting tips can be found in the [Contributing Guide
 * `win64`, `win32`, `linux64`, `linux32`, `osx64`, `all`
 
 Redistribuable packages are saved into `build/` subfolder.
+
+
+## Getting Involved
+Want to report a bug, request a feature, contribute to or translate Popcorn Time?  
+Check out our in-depth guide to [Contributing to Popcorn Time](CONTRIBUTING.md#contributing-to-popcorn-time). We need all the help we can get!  
+You can also join our [community](README.md#community) to keep up-to-date and meet other developers.  
 
 
 <a name="community"></a>
