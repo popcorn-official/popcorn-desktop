@@ -265,8 +265,8 @@
       if (streamInfo.get('title') !== '') {
         this.ui.title.html(streamInfo.get('title'));
       }
-      if (streamInfo.get('player') && streamInfo.get('player').get('type') !== 'local') {
-        this.ui.player.text(streamInfo.get('player').get('name'));
+      if (streamInfo.get('device') && streamInfo.get('device').get('type') !== 'local') {
+        this.ui.player.text(streamInfo.get('device').get('name'));
         this.ui.streaming.css('visibility', 'visible');
       }
     },
