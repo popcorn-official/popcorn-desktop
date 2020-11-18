@@ -132,7 +132,7 @@
       }
     },
     rightclick_search: function(e) {
-      e.stopPropagation();
+      e.preventDefault();
       var search_menu = new this.context_Menu(
         i18n.__('Cut'),
         i18n.__('Copy'),
