@@ -56,7 +56,7 @@ App.Localization.filterSubtitle = function (langs) {
     return filteredLang;
 };
 
-App.Localization.allTranslations = ['en', 'ar', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'el', 'es', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'it', 'ko', 'lt', 'mk', 'ms', 'nb', 'nl', 'nn', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tr', 'uk', 'zh-cn', 'zh-tw'];
+App.Localization.allTranslations = ['en', 'ar', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'el', 'es', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'it', 'ka', 'ko', 'lt', 'mk', 'ms', 'nb', 'nl', 'nn', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tr', 'uk', 'zh-cn', 'zh-tw'];
 
 App.Localization.langcodes = {
     'aa': {
@@ -408,7 +408,9 @@ App.Localization.langcodes = {
     },
     'ka': {
         name: 'Georgian',
-        nativeName: 'ქართული'
+        nativeName: 'ქართული',
+        subtitle: true,
+        encoding: ['iso-8859-2'] /** NEED TEST **/
     },
     'kg': {
         name: 'Kongo',
