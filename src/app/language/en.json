@@ -445,7 +445,7 @@
 	"Error reading subtitle timings, file seems corrupted": "Error reading subtitle timings, file seems corrupted",
 	"Connection Not Secured": "Connection Not Secured",
 	"Open File to Import": "Open File to Import",
-	"Browse Directoy to save to": "Browse Directoy to save to",
+	"Browse Directory to save to": "Browse Directory to save to",
 	"Cancel and use VPN": "Cancel and use VPN",
 	"Continue seeding torrents after restart app?": "Continue seeding torrents after restart app?",
 	"Enable VPN": "Enable VPN",
@@ -520,5 +520,13 @@
 	"Toggle Crop to Fit screen": "Toggle Crop to Fit screen",
 	"Original": "Original",
 	"Fit screen": "Fit screen",
-	"Video already fits screen": "Video already fits screen"
+	"Video already fits screen": "Video already fits screen",
+	"The title was copied to the clipboard": "The title was copied to the clipboard",
+	"The filename was copied to the clipboard": "The filename was copied to the clipboard",
+	"The stream url was copied to the clipboard": "The stream url was copied to the clipboard",
+	"Create account": "Create account",
+	"* %s stores an encrypted hash of your password in your local database": "* %s stores an encrypted hash of your password in your local database",
+	"Device can't play the video": "Device can't play the video",
+	"Your device might not support the video format/codecs.<br/>Try other resolution quality or casting with VLC": "Your device might not support the video format/codecs.<br/>Try other resolution quality or casting with VLC",
+	"Hide cast": "Hide cast"
 }
