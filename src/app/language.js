@@ -207,6 +207,10 @@ App.Localization.langcodes = {
         name: 'Divehi',
         nativeName: 'ދިވެހި'
     },
+    'ea': {
+        name: 'Spanish (EU)',
+        nativeName: 'Español (EU)'
+    },
     'ee': {
         name: 'Ewe',
         nativeName: 'Eʋegbe'
@@ -722,6 +726,10 @@ App.Localization.langcodes = {
         name: 'Somali',
         nativeName: 'Soomaaliga'
     },
+    'sp': {
+        name: 'Spanish (LA)',
+        nativeName: 'Español (LA)'
+    },
     'sq': {
         name: 'Albanian',
         nativeName: 'Shqip'
@@ -870,6 +878,10 @@ App.Localization.langcodes = {
         name: 'Zhuang',
         nativeName: 'Saɯ cueŋƅ'
     },
+    'ze': {
+        name: 'Chinese (bilingual)',
+        nativeName: '中文 (bilingual)',
+    },
     'zh': {
         name: 'Chinese',
         nativeName: '中文',
@@ -881,6 +893,12 @@ App.Localization.langcodes = {
         encoding: ['GB18030'] /** Seems to work best. Tested: UTF8/UTF16/CP936/GB2312/GB2313/GB18030/Windows936/Big5 **/
     },
     'zh-tw': {
+        name: 'Chinese (traditional)',
+        nativeName: '正體中文',
+        subtitle: true,
+        encoding: ['UTF8'] /** Seems to work best. Tested: UTF8/UTF16/CP936/GB2312/GB2313/GB18030/Windows936/Big5 **/
+    },
+    'zt': {
         name: 'Chinese (traditional)',
         nativeName: '正體中文',
         subtitle: true,
