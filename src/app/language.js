@@ -901,8 +901,6 @@ App.Localization.langcodes = {
     'zt': {
         name: 'Chinese (traditional)',
         nativeName: '正體中文',
-        subtitle: true,
-        encoding: ['UTF8'] /** Seems to work best. Tested: UTF8/UTF16/CP936/GB2312/GB2313/GB18030/Windows936/Big5 **/
     }
 };
 
