@@ -143,7 +143,9 @@ Settings.hideSeasons = true;
 Settings.startScreen = 'Movies';
 Settings.lastTab = '';
 Settings.rememberFilters = false;
-Settings.animeTabDisable = false;
+Settings.moviesTabEnable = true;
+Settings.seriesTabEnable = true;
+Settings.animeTabEnable = true;
 
 // Quality
 Settings.shows_default_quality = '720p';
