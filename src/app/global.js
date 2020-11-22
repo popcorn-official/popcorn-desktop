@@ -42,4 +42,4 @@ var _ = require('underscore'),
   // NodeJS
   child = require('child_process'),
   // package.json
-  pkJson = require('package.json');
+  pkJson = nw.App.manifest;

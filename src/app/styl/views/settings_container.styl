@@ -8,6 +8,7 @@
     padding-top: $TitleHeight + 10px
     &::-webkit-scrollbar-track
         margin-top: $TitleHeight
+        margin-bottom 5px
 
     .settings-container
         z-index 1
@@ -540,3 +541,8 @@
             display: none
     .advanced
         display: none
+
+.default-frame
+    .settings-container-contain
+        &::-webkit-scrollbar-track
+            margin-top: $FilterBarHeight
