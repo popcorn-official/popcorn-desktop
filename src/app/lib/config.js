@@ -179,7 +179,9 @@
           }),
           function(p) {
             if (
-              (p.name === 'Anime' && Settings.animeTabDisable) ||
+              (p.name === 'Movies' && !Settings.moviesTabEnable) ||
+              (p.name === 'Series' && !Settings.seriesTabEnable) ||
+              (p.name === 'Anime' && !Settings.animeTabEnable) ||
               p.name === 'Indie'
             ) {
               return false;

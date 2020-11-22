@@ -2,6 +2,7 @@
     'use strict';
 
     var NUM_MOVIES_IN_ROW = 7;
+    var filterBarElem;
     var _this;
 
     function elementInViewport(container, element) {
@@ -121,6 +122,14 @@
             this.listenTo(this.collection, 'loading', this.onLoading);
             this.listenTo(this.collection, 'loaded', this.onLoaded);
 
+            filterBarElem = _.pluck(App.Config.getTabTypes(), 'name');
+            filterBarElem = filterBarElem.map(v => v.toLowerCase());
+            for (var i = 0; i < filterBarElem.length; i++) {
+                if (filterBarElem[i] === "series") {
+                    filterBarElem[i] = "shows";
+                }
+            }
+            filterBarElem.push('Favorites');
 
             _this.initKeyboardShortcuts();
 
@@ -156,104 +165,52 @@
 
             Mousetrap.bind(['tab', 'shift+tab'], function (e, combo) {
                 if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0) {
+                    var filterBarPos = filterBarElem.indexOf(App.currentview);
                     App.vent.trigger('torrentCollection:close');
                     App.vent.trigger('seedbox:close');
+                    $('.filter-bar').find('.active').removeClass('active');
                     if (combo === 'tab') {
-                        switch (App.currentview) {
-                        case 'movies':
-                            App.currentview = 'shows';
-                            App.vent.trigger(App.currentview + ':list', []);
-                            $('.source.tvshowTabShow').addClass('active');
-                            break;
-                        case 'shows':
-                            if (!Settings.animeTabDisable) {
-                                App.currentview = 'anime';
-                                App.vent.trigger(App.currentview + ':list', []);
-                                $('.source.animeTabShow').addClass('active');
-                                break;
-                            } else {
-                                App.currentview = 'Favorites';
-                                App.vent.trigger('favorites:list', []);
-                                $('#filterbar-favorites').addClass('active');
-                                break;
-                            }
-                        case 'anime':
-                            App.currentview = 'Favorites';
-                            App.vent.trigger('favorites:list', []);
-                            $('#filterbar-favorites').addClass('active');
-                            break;
-                        default:
-                            App.currentview = 'movies';
-                            App.vent.trigger(App.currentview + ':list', []);
-                            $('.source.movieTabShow').addClass('active');
+                        if (filterBarPos >= ($(filterBarElem).toArray().length - 1)) {
+                            filterBarPos = 0;
+                        } else {
+                            ++filterBarPos;
                         }
                     } else if (combo === 'shift+tab') {
-                        switch (App.currentview) {
-                        case 'movies':
-                            App.currentview = 'Favorites';
-                            App.vent.trigger('favorites:list', []);
-                            $('#filterbar-favorites').addClass('active');
-                            break;
-                        case 'Favorites':
-                            if (!Settings.animeTabDisable) {
-                                App.currentview = 'anime';
-                                App.vent.trigger(App.currentview + ':list', []);
-                                $('.source.animeTabShow').addClass('active');
-                                break;
-                            } else {
-                                App.currentview = 'shows';
-                                App.vent.trigger(App.currentview + ':list', []);
-                                $('.source.tvshowTabShow').addClass('active');
-                                break;	
-                            }
-                        case 'anime':
-                            App.currentview = 'shows';
-                            App.vent.trigger(App.currentview + ':list', []);
-                            $('.source.tvshowTabShow').addClass('active');
-                            break;
-                        default:
-                            App.currentview = 'movies';
-                            App.vent.trigger(App.currentview + ':list', []);
-                            $('.source.movieTabShow').addClass('active');
+                        if (filterBarPos <= 0) {
+                            filterBarPos = ($(filterBarElem).toArray().length - 1);
+                        } else {
+                            --filterBarPos;
                         }
+                    }
+                    App.currentview = filterBarElem[filterBarPos];
+                    App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
+                    if (App.currentview == 'movies') {
+                        $('.source.movieTabShow').addClass('active')
+                    } else if (App.currentview == 'shows') {
+                            $('.source.tvshowTabShow').addClass('active')
+                    } else if (App.currentview == 'Favorites') {
+                            $('#filterbar-favorites').addClass('active')
+                    } else {
+                            $('.source.' + App.currentview + 'TabShow').addClass('active');
                     }
                 }
             });
 
             Mousetrap.bind(['ctrl+1', 'ctrl+2', 'ctrl+3', 'ctrl+4'], function (e, combo) {
-                if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0) {
+                if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0 && combo.charAt(5) <= $(filterBarElem).toArray().length && App.currentview !== filterBarElem[combo.charAt(5) - 1]) {
                     App.vent.trigger('torrentCollection:close');
                     App.vent.trigger('seedbox:close');
-                    switch (combo) {
-                    case 'ctrl+1':
-                        App.currentview = 'movies';
-                        App.vent.trigger(App.currentview + ':list', []);
-                        $('.source.movieTabShow').addClass('active');
-                        break;
-                    case 'ctrl+2':
-                        App.currentview = 'shows';
-                        App.vent.trigger(App.currentview + ':list', []);
-                        $('.source.tvshowTabShow').addClass('active');
-                        break;
-                    case 'ctrl+3':
-                        if (!Settings.animeTabDisable) {
-                            App.currentview = 'anime';
-                            App.vent.trigger(App.currentview + ':list', []);
-                            $('.source.animeTabShow').addClass('active');
-                            break;
-                        } else {
-                            App.currentview = 'Favorites';
-                            App.vent.trigger('favorites:list', []);
-                            $('#filterbar-favorites').addClass('active');
-                            break;
-                        }
-                    case 'ctrl+4':
-                        if (!Settings.animeTabDisable) {
-                            App.currentview = 'Favorites';
-                            App.vent.trigger('favorites:list', []);
-                            $('#filterbar-favorites').addClass('active');
-                            break;
-                        }
+                    $('.filter-bar').find('.active').removeClass('active');
+                    App.currentview = filterBarElem[combo.charAt(5) - 1];
+                    App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
+                    if (App.currentview == 'movies') {
+                        $('.source.movieTabShow').addClass('active')
+                    } else if (App.currentview == 'shows') {
+                        $('.source.tvshowTabShow').addClass('active')
+                    } else if (App.currentview == 'Favorites') {
+                        $('#filterbar-favorites').addClass('active')
+                    } else {
+                        $('.source.' + App.currentview + 'TabShow').addClass('active');
                     }
                 }
             });

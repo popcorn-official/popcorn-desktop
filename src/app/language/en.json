@@ -431,8 +431,6 @@
 	"movie": "movie",
 	"Something went wrong downloading the update": "Something went wrong downloading the update",
 	"Activate Update seeding": "Activate Update seeding",
-	"Disable Anime Tab": "Disable Anime Tab",
-	"Disable Indie Tab": "Disable Indie Tab",
 	"Error converting subtitle": "Error converting subtitle",
 	"No subtitles found": "No subtitles found",
 	"Try again later or drop a subtitle in the player": "Try again later or drop a subtitle in the player",
@@ -528,5 +526,6 @@
 	"* %s stores an encrypted hash of your password in your local database": "* %s stores an encrypted hash of your password in your local database",
 	"Device can't play the video": "Device can't play the video",
 	"Your device might not support the video format/codecs.<br/>Try other resolution quality or casting with VLC": "Your device might not support the video format/codecs.<br/>Try other resolution quality or casting with VLC",
-	"Hide cast": "Hide cast"
+	"Hide cast": "Hide cast",
+	"Tabs": "Tabs"
 }

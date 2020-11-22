@@ -280,7 +280,9 @@
                 case 'subtitles_bold':
                 case 'multipleExtSubtitles':
                 case 'rememberFilters':
-                case 'animeTabDisable':
+                case 'moviesTabEnable':
+                case 'seriesTabEnable':
+                case 'animeTabEnable':
                     value = field.is(':checked');
                     break;
                 case 'httpApiEnabled':
@@ -382,7 +384,8 @@
                 case 'vpnEnabled':
                 case 'language':
                 case 'watchedCovers':
-                    App.vent.trigger('movies:list');
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
                 case 'alwaysOnTop':
@@ -404,35 +407,41 @@
                     }
                     break;
                 case 'activateTorrentCollection':
-                    var torrentCol = $('#torrent_col');
-                    if (torrentCol.css('display') === 'none') {
-                        torrentCol.css('display', 'block');
-                    } else {
-                        torrentCol.css('display', 'none');
-                        App.vent.trigger('torrentCollection:close');
-                        App.vent.trigger('seedbox:close');
-                    }
-                    App.vent.trigger('movies:list');
+                    App.vent.trigger('torrentCollection:close');
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     if (AdvSettings.get('startScreen') === 'Torrent-collection') { 
                         $('select[name=start_screen]').change();
                     }
                     break;
-                case 'animeTabDisable':
-                    var animeTab = $('.animeTabShow');
-                    if (animeTab.css('display') === 'none') {
-                        animeTab.css('display', 'block');
-                    } else {
-                        animeTab.css('display', 'none');
-                        App.vent.trigger('movies:list');
-                        App.vent.trigger('settings:show');
+                case 'moviesTabEnable':
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if (AdvSettings.get('startScreen') === 'Movies') { 
+                        $('select[name=start_screen]').change();
                     }
+                    break;
+                case 'seriesTabEnable':
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if (AdvSettings.get('startScreen') === 'TV Series') { 
+                        $('select[name=start_screen]').change();
+                    }
+                    break;
+                case 'animeTabEnable':
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
                     if (AdvSettings.get('startScreen') === 'Anime') { 
                         $('select[name=start_screen]').change();
                     }
                     break;
                 case 'activateWatchlist':
-                    App.vent.trigger('movies:list');
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     if (AdvSettings.get('startScreen') === 'Watchlist') { 
                         $('select[name=start_screen]').change();
@@ -440,7 +449,8 @@
                     break;
                 case 'activateSeedbox':
                     App.vent.trigger('seedbox:close');
-                    App.vent.trigger('movies:list');
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     if (AdvSettings.get('startScreen') === 'Seedbox') { 
                         $('select[name=start_screen]').change();
@@ -448,18 +458,21 @@
                     break;
                 case 'activateTempf':
                 case 'multipleExtSubtitles':
-                    App.vent.trigger('movies:list');
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
                 case 'movies_quality':
                 case 'translateSynopsis':
                     App.Providers.delete('Yts');
-                    App.vent.trigger('movies:list');
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
                 case 'tvshow':
                     App.Providers.delete('tvshow');
-                    App.vent.trigger('movies:list');
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
                 default:

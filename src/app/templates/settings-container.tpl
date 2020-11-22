@@ -64,21 +64,13 @@
                     <p><%= i18n.__("Start Screen") %></p>
                         <%
                             var arr_screens = [];
-                            arr_screens.push("Movies");
-                            arr_screens.push("TV Series");
-                            if (!Settings.animeTabDisable) {
-                                arr_screens.push("Anime");
-                            }
+                            Settings.moviesTabEnable ? arr_screens.push("Movies") : null;
+                            Settings.seriesTabEnable ? arr_screens.push("TV Series") : null;
+                            Settings.animeTabEnable ? arr_screens.push("Anime") : null;
                             arr_screens.push("Favorites");
-                            if (Settings.activateWatchlist) {
-                                arr_screens.push("Watchlist");
-                            }
-                            if (Settings.activateTorrentCollection) {
-                                arr_screens.push("Torrent-collection");
-                            }
-                            if (Settings.activateSeedbox) {
-                                arr_screens.push("Seedbox");
-                            }
+                            Settings.activateWatchlist ? arr_screens.push("Watchlist") : null;
+                            Settings.activateTorrentCollection ? arr_screens.push("Torrent-collection") : null;
+                            Settings.activateSeedbox ? arr_screens.push("Seedbox") : null;
                             arr_screens.push("Last Open");
                             var selct_start_screen = "";
                             for(var key in arr_screens) {
@@ -88,6 +80,18 @@
                     <select name="start_screen"><%=selct_start_screen%></select>
                     <div class="dropdown-arrow"></div>
                 </div>
+            </span>
+            <span>
+                <p><%= i18n.__("Tabs") %></p>
+                &nbsp;&nbsp;
+                <input class="settings-checkbox" name="moviesTabEnable" id="moviesTabEnable" type="checkbox" <%=(Settings.moviesTabEnable? "checked='checked'":"")%>>
+                <label class="settings-label" for="moviesTabEnable"><%= i18n.__("Movies") %></label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input class="settings-checkbox" name="seriesTabEnable" id="seriesTabEnable" type="checkbox" <%=(Settings.seriesTabEnable? "checked='checked'":"")%>>
+                <label class="settings-label" for="seriesTabEnable"><%= i18n.__("Series") %></label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input class="settings-checkbox" name="animeTabEnable" id="animeTabEnable" type="checkbox" <%=(Settings.animeTabEnable? "checked='checked'":"")%>>
+                <label class="settings-label" for="animeTabEnable"><%= i18n.__("Anime") %></label>
             </span>
             <span>
                 <input class="settings-checkbox" name="translateSynopsis" id="translateSynopsis" type="checkbox" <%=(Settings.translateSynopsis? "checked='checked'":"")%>>
@@ -100,10 +104,6 @@
             <span class="advanced">
                 <input class="settings-checkbox" name="alwaysOnTop" id="alwaysOnTop" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
                 <label class="settings-label" for="alwaysOnTop"><%= i18n.__("Always On Top") %></label>
-            </span>
-            <span class="advanced">
-                <input class="settings-checkbox" name="animeTabDisable" id="animeTabDisable" type="checkbox" <%=(Settings.animeTabDisable ? "checked='checked'":"")%>>
-                <label class="settings-label" for="animeTabDisable"><%= i18n.__("Disable Anime Tab") %></label>
             </span>
             <span class="advanced">
                 <input class="settings-checkbox" name="rememberFilters" id="rememberFilters" type="checkbox" <%=(Settings.rememberFilters? "checked='checked'":"")%>>
