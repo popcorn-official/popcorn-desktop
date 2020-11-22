@@ -11,7 +11,7 @@
     },
 
     initialize: function () {
-      if (Settings.defaultOsWindowFrame) {
+      if (Settings.nativeWindowFrame) {
         return;
       }
 

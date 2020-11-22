@@ -81,10 +81,6 @@
                     <div class="dropdown-arrow"></div>
                 </div>
             </span>
-            <span class="advanced">
-                <input class="settings-checkbox" name="defaultOsWindowFrame" id="defaultOsWindowFrame" type="checkbox" <%=(Settings.defaultOsWindowFrame? "checked='checked'":"")%>>
-                <label class="settings-label" for="defaultOsWindowFrame"><%= i18n.__("Default frame") %></label>
-            </span>
             <span>
                 <p><%= i18n.__("Tabs") %></p>
                 &nbsp;&nbsp;
@@ -104,6 +100,10 @@
             <span class="advanced">
                 <input class="settings-checkbox" name="coversShowRating" id="coversShowRating" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
                 <label class="settings-label" for="coversShowRating"><%= i18n.__("Show rating over covers") %></label>
+            </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="nativeWindowFrame" id="nativeWindowFrame" type="checkbox" <%=(Settings.defaultOsWindowFrame? "checked='checked'":"")%>>
+                <label class="settings-label" for="nativeWindowFrame"><%= i18n.__("Default frame") %></label>
             </span>
             <span class="advanced">
                 <input class="settings-checkbox" name="alwaysOnTop" id="alwaysOnTop" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>

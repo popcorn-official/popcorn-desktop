@@ -261,7 +261,7 @@
                 case 'continueSeedingOnStart':
                 case 'vpnEnabled':
                 case 'coversShowRating':
-                case 'defaultOsWindowFrame':
+                case 'nativeWindowFrame':
                 case 'translateSynopsis':
                 case 'showAdvancedSettings':
                 case 'alwaysOnTop':
@@ -460,11 +460,9 @@
                     App.vent.trigger('settings:show');
                     break;
                 case 'movies_quality':
-                case 'defaultOsWindowFrame':
+                case 'nativeWindowFrame':
                     let packageJson = jsonFileEditor(`package.json`);
-
                     packageJson.get('window').frame = value;
-
                     packageJson.save();
 
                     this.alertMessageSuccess(true);
