@@ -102,7 +102,7 @@
                 <label class="settings-label" for="coversShowRating"><%= i18n.__("Show rating over covers") %></label>
             </span>
             <span class="advanced">
-                <input class="settings-checkbox" name="nativeWindowFrame" id="nativeWindowFrame" type="checkbox" <%=(Settings.defaultOsWindowFrame? "checked='checked'":"")%>>
+                <input class="settings-checkbox" name="nativeWindowFrame" id="nativeWindowFrame" type="checkbox" <%=(Settings.nativeWindowFrame? "checked='checked'":"")%>>
                 <label class="settings-label" for="nativeWindowFrame"><%= i18n.__("Default frame") %></label>
             </span>
             <span class="advanced">
