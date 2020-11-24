@@ -359,7 +359,7 @@
         },
 
         syncSetting: function (setting, value) {
-            let scrollPos = $('.settings-container-contain').scrollTop();
+            let scrollPos = that.$el.scrollTop();
             switch (setting) {
                 case 'coversShowRating':
                     if (value) {
@@ -471,8 +471,8 @@
                     break;
                 default:
             }
-            if ($('.settings-container-contain').scrollTop() !== scrollPos) {
-                $('.settings-container-contain').scrollTop(scrollPos);
+            if (that.$el.scrollTop() !== scrollPos) {
+                that.$el.scrollTop(scrollPos);
             }
         },
 
