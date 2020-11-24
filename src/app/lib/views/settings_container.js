@@ -359,6 +359,7 @@
         },
 
         syncSetting: function (setting, value) {
+            let scrollPos = $('.settings-container-contain').scrollTop();
             switch (setting) {
                 case 'coversShowRating':
                     if (value) {
@@ -384,7 +385,6 @@
                 case 'vpnEnabled':
                 case 'language':
                 case 'watchedCovers':
-                    App.vent.trigger('favorites:list');
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
@@ -408,7 +408,6 @@
                     break;
                 case 'activateTorrentCollection':
                     App.vent.trigger('torrentCollection:close');
-                    App.vent.trigger('favorites:list');
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     if (AdvSettings.get('startScreen') === 'Torrent-collection') { 
@@ -440,7 +439,6 @@
                     }
                     break;
                 case 'activateWatchlist':
-                    App.vent.trigger('favorites:list');
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     if (AdvSettings.get('startScreen') === 'Watchlist') { 
@@ -449,7 +447,6 @@
                     break;
                 case 'activateSeedbox':
                     App.vent.trigger('seedbox:close');
-                    App.vent.trigger('favorites:list');
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     if (AdvSettings.get('startScreen') === 'Seedbox') { 
@@ -458,24 +455,24 @@
                     break;
                 case 'activateTempf':
                 case 'multipleExtSubtitles':
-                    App.vent.trigger('favorites:list');
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
                 case 'movies_quality':
                 case 'translateSynopsis':
                     App.Providers.delete('Yts');
-                    App.vent.trigger('favorites:list');
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
                 case 'tvshow':
                     App.Providers.delete('tvshow');
-                    App.vent.trigger('favorites:list');
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
                 default:
+            }
+            if ($('.settings-container-contain').scrollTop() !== scrollPos) {
+                $('.settings-container-contain').scrollTop(scrollPos);
             }
         },
 
