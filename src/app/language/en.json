@@ -527,5 +527,16 @@
 	"Device can't play the video": "Device can't play the video",
 	"Your device might not support the video format/codecs.<br/>Try other resolution quality or casting with VLC": "Your device might not support the video format/codecs.<br/>Try other resolution quality or casting with VLC",
 	"Hide cast": "Hide cast",
-	"Tabs": "Tabs"
+	"Tabs": "Tabs",
+	"No movies found...": "No movies found...",
+	"music": "music",
+	"mystery": "mystery",
+	"horror": "horror",
+	"romance": "romance",
+	"anime": "anime",
+	"history": "history",
+	"holiday": "holiday",
+	"western": "western",
+	"documentary": "documentary",
+	"short": "short"
 }
