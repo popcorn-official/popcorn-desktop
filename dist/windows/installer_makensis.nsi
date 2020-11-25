@@ -439,7 +439,7 @@ Section "uninstall"
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     Delete "$DESKTOP\${APP_NAME}.lnk"
 
-    MessageBox MB_YESNO|MB_ICONQUESTION "$(removeDataFolder)" IDYES NoUninstallData
+    MessageBox MB_YESNO|MB_ICONQUESTION "$(removeDataFolder)" IDYES YesUninstallData
         CreateDirectory "$INSTDIR"
         CreateDirectory "$INSTDIR\User Data"
         CreateDirectory "$INSTDIR\TorrentCollection"
