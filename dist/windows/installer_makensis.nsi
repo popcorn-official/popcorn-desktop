@@ -364,16 +364,16 @@ Section
     ;Save DB
     CreateDirectory "$TEMP\app_DT"
     CreateDirectory "$TEMP\app_TC"
-    CopyFiles "$INSTDIR\data\*.*" "$TEMP\app_DT"
+    CopyFiles "$INSTDIR\User Data\*.*" "$TEMP\app_DT"
     CopyFiles "$INSTDIR\TorrentCollection\*.*" "$TEMP\app_TC"
 
     ;Delete existing install
     RMDir /r "$INSTDIR"
 
     CreateDirectory "$INSTDIR"
-    CreateDirectory "$INSTDIR\data"
+    CreateDirectory "$INSTDIR\User Data"
     CreateDirectory "$INSTDIR\TorrentCollection"
-    CopyFiles "$TEMP\app_DT\*.*" "$INSTDIR\data"
+    CopyFiles "$TEMP\app_DT\*.*" "$INSTDIR\User Data"
     CopyFiles "$TEMP\app_TC\*.*" "$INSTDIR\TorrentCollection"
     RMDir /r "$TEMP\app_DT"
     RMDir /r "$TEMP\app_TC"
