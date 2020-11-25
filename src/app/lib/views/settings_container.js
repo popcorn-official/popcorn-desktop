@@ -315,7 +315,10 @@
                     break;
                 case 'tmpLocation':
                     tmpLocationChanged = true;
-                    value = path.join(field.val(), 'Popcorn-Time');
+                    value = field.val();
+                    if (!value.endsWith(Settings.projectName)) {
+                        value = path.join(value, Settings.projectName);
+                    }
                     break;
                 case 'opensubtitlesUsername':
                 case 'opensubtitlesPassword':
