@@ -116,6 +116,7 @@ Settings.proxyServer = '';
 
 // User interface
 Settings.language = '';
+Settings.nativeWindowFrame = nw.App.manifest.window.frame;
 Settings.translateSynopsis = true;
 Settings.coversShowRating = true;
 Settings.watchedCovers = 'fade';

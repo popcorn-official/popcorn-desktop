@@ -7,7 +7,7 @@
 
     &::-webkit-scrollbar-track
         margin-top: $HeaderHeight
-    
+        margin-bottom 5px
 
     .items_show
         padding-top: $HeaderHeight
@@ -93,8 +93,17 @@
         background: rgba(0, 0, 0, 0.5) center center no-repeat;
         pointer-events: all;
         z-index: 1;
-        
 
         .loading-container
             margin: 180px auto 0px
             opacity: .8;
+.default-frame
+    .list
+        &::-webkit-scrollbar-track
+            margin-top $FilterBarHeight
+    .items_show
+        &::-webkit-scrollbar-track
+            margin-top $FilterBarHeight
+    .items_movie
+        &::-webkit-scrollbar-track
+            margin-top $FilterBarHeight

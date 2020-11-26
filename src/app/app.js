@@ -279,20 +279,28 @@ win.on('move', function (x, y) {
 
 win.on('enter-fullscreen', function () {
   App.vent.trigger('window:focus');
-  win.setResizable(false);
+  if (!Settings.nativeWindowFrame) {
+    win.setResizable(false);
+  }
 });
 
 win.on('leave-fullscreen', function () {
-  win.setResizable(true);
+  if (!Settings.nativeWindowFrame) {
+    win.setResizable(true);
+  }
 });
 
 win.on('maximize', function () {
-  win.setResizable(false);
+  if (!Settings.nativeWindowFrame) {
+    win.setResizable(false);
+  }
   localStorage.maximized = true;
 });
 
 win.on('restore', function () {
-  win.setResizable(true);
+  if (!Settings.nativeWindowFrame) {
+    win.setResizable(true);
+  }
   localStorage.maximized = false;
 });
 
