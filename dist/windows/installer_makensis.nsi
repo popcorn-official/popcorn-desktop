@@ -364,7 +364,7 @@ Section
     ;Save DB
     CreateDirectory "$TEMP\app_DT"
     CreateDirectory "$TEMP\app_TC"
-    CopyFiles "$INSTDIR\User Data\*.*" "$TEMP\app_DT"
+    CopyFiles "$INSTDIR\User Data\Default\data\*.*" "$TEMP\app_DT"
     CopyFiles "$INSTDIR\TorrentCollection\*.*" "$TEMP\app_TC"
 
     ;Delete existing install
@@ -372,8 +372,10 @@ Section
 
     CreateDirectory "$INSTDIR"
     CreateDirectory "$INSTDIR\User Data"
+    CreateDirectory "$INSTDIR\User Data\Default"
+    CreateDirectory "$INSTDIR\User Data\Default\data"
     CreateDirectory "$INSTDIR\TorrentCollection"
-    CopyFiles "$TEMP\app_DT\*.*" "$INSTDIR\User Data"
+    CopyFiles "$TEMP\app_DT\*.*" "$INSTDIR\User Data\Default\data"
     CopyFiles "$TEMP\app_TC\*.*" "$INSTDIR\TorrentCollection"
     RMDir /r "$TEMP\app_DT"
     RMDir /r "$TEMP\app_TC"
@@ -433,7 +435,7 @@ Section "uninstall"
     Call un.isRunning
     CreateDirectory "$TEMP\app_DT"
     CreateDirectory "$TEMP\app_TC"
-    CopyFiles "$INSTDIR\User Data\*.*" "$TEMP\app_DT"
+    CopyFiles "$INSTDIR\User Data\Default\data\*.*" "$TEMP\app_DT"
     CopyFiles "$INSTDIR\TorrentCollection\*.*" "$TEMP\app_TC"
     RMDir /r "$INSTDIR"
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
@@ -442,8 +444,10 @@ Section "uninstall"
     MessageBox MB_YESNO|MB_ICONQUESTION "$(removeDataFolder)" IDYES YesUninstallData
         CreateDirectory "$INSTDIR"
         CreateDirectory "$INSTDIR\User Data"
+        CreateDirectory "$INSTDIR\User Data\Default"
+        CreateDirectory "$INSTDIR\User Data\Default\data"
         CreateDirectory "$INSTDIR\TorrentCollection"
-        CopyFiles "$TEMP\app_DT\*.*" "$INSTDIR\User Data"
+        CopyFiles "$TEMP\app_DT\*.*" "$INSTDIR\User Data\Default\data"
         CopyFiles "$TEMP\app_TC\*.*" "$INSTDIR\TorrentCollection"
     YesUninstallData:
         RMDir /r "$TEMP\app_DT"
