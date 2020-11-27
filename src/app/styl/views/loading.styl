@@ -230,10 +230,20 @@
 
                 &.loading-info-text
                     float left
-                    padding-right 30px
+                    padding-right 32px
                 &.value
                     float right
                     text-align right
+
+            .text_filename
+                max-width 255px
+                padding-right 2px
+                overflow hidden
+                white-space nowrap
+                text-overflow ellipsis
+
+                &:hover
+                    overflow visible
 
             .buffer_percent
                 text-align center
