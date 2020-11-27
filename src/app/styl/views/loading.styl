@@ -189,8 +189,9 @@
         .open-button
             float right
             cursor pointer
-            transition opacity .3s
-            opacity 0.3
+            transition opacity .2s
+            opacity 0.4
+            z-index 10
 
             &:hover
                 opacity 1
@@ -244,6 +245,15 @@
 
                 &:hover
                     overflow visible
+
+            .show-pcontrols
+                float right
+                cursor pointer
+                transition opacity .2s
+                opacity 0.4
+
+                &:hover
+                    opacity 1
 
             .buffer_percent
                 text-align center
