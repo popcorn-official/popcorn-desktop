@@ -186,29 +186,16 @@
                 font-size 12px
 
         .open-button
-            visibility hidden
-            z-index 2
+            float right
             cursor pointer
-            width 35px
-            height 35px
-            margin -35px auto auto 297px
-            -moz-border-radius 3px
-            -webkit-border-radius 3px
-            border-radius 3px
-            -moz-background-clip padding
-            -webkit-background-clip padding-box
-            background-clip padding-box
-            background-color #27ae60
-            -webkit-backface-visibility hidden
-            transition all .5s
+            transition opacity .3s
+            opacity 0.3
 
             &:hover
-                background: #27ae60
-                text-decoration: none
+                opacity 1
 
             &:active
-                box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-                background: #27ae60
+                opacity 1
 
             .open-button-text
                 -webkit-backface-visibility hidden
