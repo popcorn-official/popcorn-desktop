@@ -59,8 +59,7 @@
 
                 <!-- downloading info -->
                 <div class="loading-info">
-                    <span class="buffer_percent"></span>&nbsp;&nbsp;&nbsp;<span class="text">(</span><span class="text_downloadedformatted"><%= Common.fileSize(0) %></span><span class="text_size"><%= Common.fileSize(0) %></span><span class="text">)</span>
-                    <span class="open-button tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"><i class="fa fa-folder-open"></i></span><br>
+                    <span class="buffer_percent"></span>&nbsp;&nbsp;&nbsp;<span class="text">(</span><span class="text_downloadedformatted"><%= Common.fileSize(0) %></span><span class="text_size"><%= Common.fileSize(0) %></span><span class="text">)</span><br>
                     <span class="text_remaining"></span><span id="rbreak1" style="line-height:13px;"><br></span><br>
                     <span class="loading-info-text" id="rdownl"><%= i18n.__("Download") %>:&nbsp;</span>
                     <span class="download_speed value"><%= Common.fileSize(0) %>/s</span><span id="rbreak2" style="line-height:13px;"><br></span>
@@ -69,7 +68,8 @@
                     <span class="loading-info-text" id="ractpr"><%= i18n.__("Active Peers") %>:&nbsp;</span>
                     <span class="value_peers value">0</span><span id="rbreak3" style="line-height:13px;"><br></span>
                     <span class="loading-info-text"><%= i18n.__("Filename") %>:&nbsp;</span>
-                    <span class="text_filename value tooltipped" style="white-space:nowrap;width:270px;overflow:hidden;text-overflow:ellipsis;" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></span><br>
+                    <span class="text_filename value tooltipped" style="white-space:nowrap;width:257px;padding-left:5px;overflow:hidden;text-overflow:ellipsis;" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></span>
+                    <span class="open-button tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"><i class="fa fa-folder-open"></i></span><br>
                     <span class="loading-info-text"><%= i18n.__("Stream Url") %>:&nbsp;</span>
                     <span class="text_streamurl value tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></span><br>
                     <div class="fa fa-angle-down show-pcontrols tooltipped" style="float:right;cursor:pointer;opacity:0.5;" "data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Show playback controls") %>"></div>
