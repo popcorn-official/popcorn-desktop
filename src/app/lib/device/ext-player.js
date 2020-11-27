@@ -98,6 +98,12 @@
             switches: '',
             subswitch: '--set-subtitle ',
             fs: '--action window/enter-fs'
+        },
+        'BSPlayer': {
+            type: 'bsplayer',
+            switches: '',
+            subswitch: '',
+            fs: '-fs'
         }
     };
 
@@ -143,11 +149,13 @@
 
         play: function (streamModel) {
             // "" So it behaves when spaces in path
+            var cmd = '', cmdPath = '', cmdSwitch = '', cmdSub = '', cmdFs = '', cmdFilename = '', cmdUrl = '';
             var url = streamModel.attributes.src;
-            var cmd = path.normalize('"' + this.get('path') + '" ') + getPlayerSwitches(this.get('id')) + ' ';
+            cmdPath += path.normalize('"' + this.get('path') + '" ');
+            cmdSwitch += getPlayerSwitches(this.get('id')) + ' ';
+
             var subtitle = streamModel.attributes.subFile || '';
             if (subtitle !== '') {
-
                 if (this.get('id') === 'MPlayer OSX Extended') {
                     //detect charset
                     var dataBuff = fs.readFileSync(subtitle);
@@ -155,22 +163,28 @@
                     var detectedEncoding = charsetDetect.detect(dataBuff).encoding;
                     win.debug('Subtitles charset detected: %s', detectedEncoding);
                     if (detectedEncoding.toLowerCase() === 'utf-8') {
-                        cmd += '-utf8 ';
+                        cmdSub += '-utf8 ';
                     }
                 }
-                cmd += getPlayerSubSwitch(this.get('id')) + '"' + subtitle + '" ';
+                cmdSub += getPlayerSubSwitch(this.get('id')) + '"' + subtitle + '" ';
             }
             if (getPlayerFS(this.get('id')) !== '') {
                 // Start player fullscreen if available and asked
                 if (Settings.alwaysFullscreen) {
-                    cmd += getPlayerFS(this.get('id')) + ' ';
+                    cmdFs += getPlayerFS(this.get('id')) + ' ';
                 }
             }
             if (getPlayerFilenameSwitch(this.get('id')) !== '') {
                 var videoFile = streamModel.attributes.torrentModel.get('video_file');
-                cmd += videoFile ? (getPlayerFilenameSwitch(this.get('id')) + '"' + videoFile.name + '" ') : '';
+                cmdFilename += videoFile ? (getPlayerFilenameSwitch(this.get('id')) + '"' + videoFile.name + '" ') : '';
             }
-            cmd += getPlayerUrlSwitch(this.get('id')) + url;
+            cmdUrl += getPlayerUrlSwitch(this.get('id')) + url;
+            // BSPlayer need to receive arguments in specific order (1st: url, 2nd: sub, ...)
+            if (this.get('id') === 'BSPlayer') {
+                cmd += cmdPath + '"' + cmdUrl + '" ' + cmdSub + cmdFs + cmdSwitch;
+            } else {
+                cmd += cmdPath + cmdSwitch + cmdSub + cmdFs + cmdFilename + cmdUrl;
+            }
             win.info('Launching External Player: ' + cmd);
             child.exec(cmd, function (error, stdout, stderr) {
                 if (streamModel.attributes.device.id === 'Bomi') {
