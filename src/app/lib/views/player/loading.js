@@ -63,9 +63,7 @@
       'mousedown .title': 'titletoclip',
       'mousedown .text_filename': 'filenametoclip',
       'mousedown .text_streamurl': 'streamurltoclip',
-      'click .playing-progressbar': 'seekStreaming',
-      'mouseover .text_filename': 'filenameovrflsh',
-      'mouseout .text_filename': 'filenameovrflhd'
+      'click .playing-progressbar': 'seekStreaming'
     },
 
     initialize: function() {
@@ -357,14 +355,6 @@
 
     tempf: function (e) {
       nw.Shell.openExternal(Settings.tmpLocation);
-    },
-
-    filenameovrflsh: function () {
-      $('.text_filename').css('overflow', 'visible');
-    },
-
-    filenameovrflhd: function () {
-      $('.text_filename').css('overflow', 'hidden');
     },
 
     remainingTime: function () {
