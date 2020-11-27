@@ -59,9 +59,6 @@
       'click .play': 'resumeStreaming',
       'click .forward': 'forwardStreaming',
       'click .backward': 'backwardStreaming',
-      'click .minimize-icon': 'minDetails',
-      'click .maximize-icon': 'minDetails',
-      'click .maximize-icong': 'minDetails',
       'click .show-pcontrols': 'showpcontrols',
       'mousedown .title': 'titletoclip',
       'mousedown .text_filename': 'filenametoclip',
@@ -148,35 +145,6 @@
       Mousetrap.unbind(['esc', 'backspace']);
     },
 
-    minDetails: function () {
-      var loading = $('.loading');
-      var loadingBackground = $('.loading-background');
-      var minimizeIcon = $('.minimize-icon');
-      var maximizeIcon = $('.maximize-icon');
-      if (minimizeIcon.css('visibility') === 'visible') {
-        loading.css('height', '0px');
-        loading.css('width', '0px');
-        loading.css('float', 'right');
-        loadingBackground.css('visibility', 'hidden');
-        minimizeIcon.css('visibility', 'hidden');
-        if (this.ddone === 'false') {
-          maximizeIcon.css('visibility', 'visible');
-        } else {
-          maximizeIcon.css('visibility', 'visible');
-        }
-        $('.filter-bar').show();
-      } else if ((maximizeIcon.css('visibility') === 'visible') || (maximizeIcon.css('visibility') === 'visible')) {
-        loading.css('height', '100%');
-        loading.css('width', '100%');
-        loading.css('float', '');
-        loadingBackground.css('visibility', 'visible');
-        maximizeIcon.css('visibility', 'hidden');
-        maximizeIcon.css('visibility', 'hidden');
-        minimizeIcon.css('visibility', 'visible');
-        $('.filter-bar').hide();
-      }
-    },
-
     onAttach: function() {
       $('.filter-bar').hide();
       $('#header').addClass('header-shadow');
@@ -184,7 +152,7 @@
       App.LoadingView = this;
 
       this.initKeyboardShortcuts();
-      $('.minimize-icon,#maxic,.open-button,.title,.text_filename,.text_streamurl,.show-pcontrols').tooltip({
+      $('.open-button,.title,.text_filename,.text_streamurl,.show-pcontrols').tooltip({
           html: true,
           delay: {
               'show': 800,
@@ -296,20 +264,9 @@
         $('#ractpr').hide();
         if (this.ddone === 'false') {
           var cancelButton = $('.cancel-button');
-          var maximizeIcon = $('.maximize-icon');
 
           this.ddone = 'true';
           cancelButton.css('background-color', '#27ae60');
-          cancelButton.css('margin-left', '168px');
-          if (Settings.activateLoCtrl === false) {
-            $('.open-button').css('visibility', 'visible').css('display', 'block');
-          } else if (Settings.activateLoCtrl === true) {
-            $('.open-button').css('visibility', 'visible').css('display', 'none');
-          }
-          if (maximizeIcon.css('visibility') === 'visible') {
-            maximizeIcon.css('visibility', 'visible');
-            maximizeIcon.css('visibility', 'hidden');
-          }
           this.listenTo(this.model.get('streamInfo'), 'change:uploadSpeed', this.onProgressUpdate);
         }
       }
@@ -387,14 +344,12 @@
         AdvSettings.set('activateLoCtrl', true);
         $('.show-pcontrols').removeClass('fa-angle-down').addClass('fa-angle-up').tooltip('hide').attr('data-original-title', i18n.__('Hide playback controls'));
         this.ui.cancel_button.css('display', 'none');
-        $('.open-button').css('display', 'none');
         this.ui.controls.css('display', 'block');
         this.ui.playingbarBox.css('display', 'block');
       } else if (Settings.activateLoCtrl === true) {
         AdvSettings.set('activateLoCtrl', false);
         $('.show-pcontrols').removeClass('fa-angle-up').addClass('fa-angle-down').tooltip('hide').attr('data-original-title', i18n.__('Show playback controls'));
         this.ui.cancel_button.css('display', 'block');
-        $('.open-button').css('display', 'block');
         this.ui.controls.css('display', 'none');
         this.ui.playingbarBox.css('display', 'none');
       }
