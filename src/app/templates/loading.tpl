@@ -68,11 +68,11 @@
                     <span class="loading-info-text" id="ractpr"><%= i18n.__("Active Peers") %>:&nbsp;</span>
                     <span class="value_peers value">0</span><span id="rbreak3" style="line-height:13px;"><br></span>
                     <span class="loading-info-text"><%= i18n.__("Filename") %>:&nbsp;</span>
-                    <span class="text_filename value tooltipped" style="white-space:nowrap;max-width:257px;padding-left:5px;overflow:hidden;text-overflow:ellipsis;" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></span>
-                    <span class="open-button tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"><i class="fa fa-folder-open"></i></span><br>
+                    <span class="open-button tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"><i class="fa fa-folder-open"></i></span>
+                    <span class="text_filename value tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></span><br>
                     <span class="loading-info-text"><%= i18n.__("Stream Url") %>:&nbsp;</span>
                     <span class="text_streamurl value tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></span><br>
-                    <div class="fa fa-angle-down show-pcontrols tooltipped" style="float:right;cursor:pointer;opacity:0.5;" "data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Show playback controls") %>"></div>
+                    <div class="fa fa-angle-down show-pcontrols tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Show playback controls") %>"></div>
                     <div class="player-controls" style="display:none;">
                         <i class="fa fa-backward backward"></i>
                         <i class="fa fa-pause pause"></i>
