@@ -59,7 +59,8 @@
 
                 <!-- downloading info -->
                 <div class="loading-info">
-                    <span class="buffer_percent"></span>&nbsp;&nbsp;&nbsp;<span class="text">(</span><span class="text_downloadedformatted"><%= Common.fileSize(0) %></span><span class="text_size"><%= Common.fileSize(0) %></span><span class="text">)</span><br>
+                    <span class="buffer_percent"></span>&nbsp;&nbsp;&nbsp;<span class="text">(</span><span class="text_downloadedformatted"><%= Common.fileSize(0) %></span><span class="text_size"><%= Common.fileSize(0) %></span><span class="text">)</span>
+                    <span class="open-button tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"><i class="fa fa-folder-open"></i></span><br>
                     <span class="text_remaining"></span><span id="rbreak1" style="line-height:13px;"><br></span><br>
                     <span class="loading-info-text" id="rdownl"><%= i18n.__("Download") %>:&nbsp;</span>
                     <span class="download_speed value"><%= Common.fileSize(0) %>/s</span><span id="rbreak2" style="line-height:13px;"><br></span>
@@ -86,9 +87,6 @@
 
             <div id="cancel-button" class="cancel-button">
                 <div class="cancel-button-text"><%= i18n.__("Cancel") %></div>
-            </div>
-            <div class="open-button tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>">
-                <div class="open-button-text"><i class="fa fa-folder-open"></i></div>
             </div>
         </div>
     </div>
