@@ -358,7 +358,7 @@
     },
 
     tempf: function (e) {
-      nw.Shell.openExternal(Settings.tmpLocation);
+      App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.tmpLocation) : nw.Shell.openItem(Settings.tmpLocation);
     },
 
     about: function(e) {
