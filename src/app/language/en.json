@@ -539,5 +539,8 @@
 	"western": "western",
 	"documentary": "documentary",
 	"short": "short",
-	"Native window frame": "Native window frame"
+	"Native window frame": "Native window frame",
+	"Open Cache Folder": "Open Cache Folder",
+	"Restart Popcorn Time": "Restart Popcorn Time",
+	"Developer Tools": "Developer Tools"
 }
