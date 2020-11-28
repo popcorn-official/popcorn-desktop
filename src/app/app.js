@@ -387,8 +387,7 @@ Mousetrap.bindGlobal(['alt+f4', 'command+q'], function (e) {
 Mousetrap.bindGlobal(['shift+f12', 'f12', 'command+0'], function (e) {
   win.showDevTools();
 });
-Mousetrap.bindGlobal(['shift+f10', 'f10', 'command+9'], function (e) {
-  win.debug('Opening: ' + App.settings.tmpLocation);
+Mousetrap.bindGlobal(['shift+f10', 'f10', 'command+9', 't'], function (e) {
   App.settings.os === 'windows' ? nw.Shell.openExternal(App.settings.tmpLocation) : nw.Shell.openItem(App.settings.tmpLocation);
 });
 Mousetrap.bind('mod+,', function (e) {
