@@ -25,7 +25,7 @@
                         <td><%= i18n.__("Open Favorites") %></td>
                     </tr>
                     <tr>
-                        <td><span class="key delete">F10</span></td>
+                        <td><span class="key delete">F10</span>/<span class="key">T</span></td>
                         <td><%= i18n.__("Open Cache Folder") %></td>
                     </tr>
                     <tr>
