@@ -393,7 +393,7 @@
 
         onWatched: function (value, channel) {
             this.markWatched(value, true);
-            this.nextEpisode();
+            this.nextNotSeenEpisode();
         },
 
         onUnWatched: function (value, channel) {
@@ -625,7 +625,26 @@
                 e.preventDefault();
                 e.stopPropagation();
             }
+        },
 
+        nextNotSeenEpisode: function (e) {
+            var tabEpisode = $('.tab-episode:visible');
+            var index = $('.tab-episode.active').index();
+            if (index === tabEpisode.length - 1) {
+                return;
+            }
+            var $nextEpisode = tabEpisode.eq(++index);
+            _this.selectEpisode($nextEpisode);
+            if ($nextEpisode.children().eq(1).hasClass('watched true')) {
+                this.nextNotSeenEpisode();
+            }
+            if (!_this.isElementVisible($nextEpisode[0])) {
+                $nextEpisode[0].scrollIntoView(false);
+            }
+            if (e.type) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         },
 
         previousEpisode: function (e) {
