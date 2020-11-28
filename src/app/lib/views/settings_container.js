@@ -177,7 +177,7 @@
             if (el[0].classList.contains('import-db')) {
                 $('#importdb-modal, #importdb-overlay').fadeIn(500);
             }
-        },        
+        },
 
         closeModal: function (e) {
             var el = $(e.currentTarget);
@@ -414,7 +414,7 @@
                     App.vent.trigger('torrentCollection:close');
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
-                    if (AdvSettings.get('startScreen') === 'Torrent-collection') { 
+                    if (AdvSettings.get('startScreen') === 'Torrent-collection') {
                         $('select[name=start_screen]').change();
                     }
                     break;
@@ -422,7 +422,7 @@
                     App.vent.trigger('favorites:list');
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
-                    if (AdvSettings.get('startScreen') === 'Movies') { 
+                    if (AdvSettings.get('startScreen') === 'Movies') {
                         $('select[name=start_screen]').change();
                     }
                     break;
@@ -430,7 +430,7 @@
                     App.vent.trigger('favorites:list');
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
-                    if (AdvSettings.get('startScreen') === 'TV Series') { 
+                    if (AdvSettings.get('startScreen') === 'TV Series') {
                         $('select[name=start_screen]').change();
                     }
                     break;
@@ -438,14 +438,14 @@
                     App.vent.trigger('favorites:list');
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
-                    if (AdvSettings.get('startScreen') === 'Anime') { 
+                    if (AdvSettings.get('startScreen') === 'Anime') {
                         $('select[name=start_screen]').change();
                     }
                     break;
                 case 'activateWatchlist':
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
-                    if (AdvSettings.get('startScreen') === 'Watchlist') { 
+                    if (AdvSettings.get('startScreen') === 'Watchlist') {
                         $('select[name=start_screen]').change();
                     }
                     break;
@@ -453,7 +453,7 @@
                     App.vent.trigger('seedbox:close');
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
-                    if (AdvSettings.get('startScreen') === 'Seedbox') { 
+                    if (AdvSettings.get('startScreen') === 'Seedbox') {
                         $('select[name=start_screen]').change();
                     }
                     break;
@@ -655,7 +655,7 @@
 
         openTmpFolder: function () {
             win.debug('Opening: ' + App.settings['tmpLocation']);
-            nw.Shell.openItem(App.settings['tmpLocation']);
+            App.settings.os === 'windows' ? nw.Shell.openExternal(App.settings['tmpLocation']) : nw.Shell.openItem(App.settings['tmpLocation']);
         },
 
         moveTmpLocation: function (location) {
@@ -667,13 +667,13 @@
                 deleteFolder(oldTmpLocation);
             } else {
                 $('.notification_alert').show().text(i18n.__('You should save the content of the old directory, then delete it')).delay(5000).fadeOut(400);
-                nw.Shell.openItem(oldTmpLocation);
+                App.settings.os === 'windows' ? nw.Shell.openExternal(oldTmpLocation) : nw.Shell.openItem(oldTmpLocation);
             }
         },
 
         openDatabaseFolder: function () {
             win.debug('Opening: ' + App.settings['databaseLocation']);
-            nw.Shell.openItem(App.settings['databaseLocation']);
+            App.settings.os === 'windows' ? nw.Shell.openExternal(App.settings['databaseLocation']) : nw.Shell.openItem(App.settings['databaseLocation']);
         },
 
         exportDatabase: function (e) {
