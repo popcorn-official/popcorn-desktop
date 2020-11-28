@@ -561,7 +561,7 @@
 
         openCollection: function () {
             console.debug('Opening: ' + collection);
-            nw.Shell.openItem(collection);
+            App.settings.os === 'windows' ? nw.Shell.openExternal(collection) : nw.Shell.openItem(collection);
         },
 
         notorrentsClick: function (e) {
