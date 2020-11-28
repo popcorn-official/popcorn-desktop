@@ -25,7 +25,7 @@
                         <td><%= i18n.__("Open Favorites") %></td>
                     </tr>
                     <tr>
-                        <td><span class="key control">F10</span></td>
+                        <td><span class="key delete">F10</span></td>
                         <td><%= i18n.__("Open Cache Folder") %></td>
                     </tr>
                     <tr>
@@ -73,11 +73,11 @@
                         <td><%= i18n.__("Search") %></td>
                     </tr>
                     <tr>
-                        <td><span class="key control">F11</span></td>
+                        <td><span class="key delete">F11</span></td>
                         <td><%= i18n.__("Restart Popcorn Time") %></td>
                     </tr>
                     <tr>
-                        <td><span class="key control">F12</span></td>
+                        <td><span class="key delete">F12</span></td>
                         <td><%= i18n.__("Developer Tools") %></td>
                     </tr>
                 </tbody>
