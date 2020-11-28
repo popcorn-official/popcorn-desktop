@@ -393,8 +393,7 @@
 
         onWatched: function (value, channel) {
             this.markWatched(value, true);
-
-            this.selectNextEpisode();
+            this.nextEpisode();
         },
 
         onUnWatched: function (value, channel) {
