@@ -316,7 +316,7 @@
             var date = new Date();
             var today = ('0' + (date.getMonth() + 1)).slice(-2) + ('0' + (date.getDate())).slice(-2);
             if ((today === '1231' || today === '0101') || (today >= '1218' || today <= '0103') || (today >= '1027' && today <= '1103') || (today === '0220') || (today === '0214') || (today === '0317') || (today === '0401')) {
-              $('.icon').css('opacity', '0');
+              $('.windows-titlebar .icon').css('opacity', '0');
             }
           }
         }
