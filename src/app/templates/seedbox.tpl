@@ -12,7 +12,7 @@
           </ul>
         </div>
       </div>
-      <div class="seedbox-overview" style="display: none;">
+      <div class="seedbox-overview">
         <div class="seedbox-infos">
           <b><div class="seedbox-infos-title"></div></b>
           <div class="seedbox-infos-links">
@@ -54,7 +54,7 @@
               </div>
             </div>
             <div class="progress">
-              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
           </div>
         </div>
