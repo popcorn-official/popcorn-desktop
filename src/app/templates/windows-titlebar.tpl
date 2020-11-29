@@ -3,7 +3,7 @@
 
   <h1 class="windows-titlebar-title"><%= Settings.projectName %></h1>
 
-  <div class="events img-"></div>
+  <div class="events img-<%= events() %>"></div>
 
   <div class="window-controls">
     <button class="window-control window-minimize">
