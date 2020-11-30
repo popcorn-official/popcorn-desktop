@@ -406,8 +406,14 @@
                     var events = $('.events');
                     if (events.css('display') === 'none') {
                         events.css('display', 'block');
+                        if (os.platform() === 'win32' && $('.windows-titlebar .events').css('background-repeat') === 'no-repeat') {
+                            $('.windows-titlebar .icon').css('opacity', '0');
+                        }
                     } else {
                         events.css('display', 'none');
+                        if (os.platform() === 'win32' && $('.windows-titlebar .events').css('background-repeat') === 'no-repeat') {
+                            $('.windows-titlebar .icon').css('opacity', '1');
+                        }
                     }
                     break;
                 case 'activateTorrentCollection':
