@@ -185,6 +185,7 @@
       }
 
       if (state === 'playingExternally') {
+        this.ui.stateTextDownload.text(i18n.__('Downloading'));
         this.ui.progressbar.hide();
         if (streamInfo && streamInfo.get('device')) {
           this.ui.vpn.css('display', 'none');
