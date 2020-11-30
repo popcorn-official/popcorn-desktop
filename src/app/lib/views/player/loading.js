@@ -185,8 +185,12 @@
       }
 
       if (state === 'playingExternally') {
+        if (streamInfo.get('device') && streamInfo.get('device').get('type') !== 'local') {
+          this.ui.player.text(streamInfo.get('device').get('name'));
+          this.ui.streaming.css('visibility', 'visible');
+        }
         this.ui.stateTextDownload.text(i18n.__('Downloading'));
-        this.ui.progressbar.hide();
+        this.ui.progressbar.parent().css('visibility', 'hidden');
         if (streamInfo && streamInfo.get('device')) {
           this.ui.vpn.css('display', 'none');
           this.ui.playingbar.css('width', '0%');
@@ -231,10 +235,6 @@
       }
       if (streamInfo.get('title') !== '') {
         this.ui.title.html(streamInfo.get('title'));
-      }
-      if (streamInfo.get('device') && streamInfo.get('device').get('type') !== 'local') {
-        this.ui.player.text(streamInfo.get('device').get('name'));
-        this.ui.streaming.css('visibility', 'visible');
       }
     },
 
