@@ -20,10 +20,10 @@
 
     .vpn
         margin-top 20px
-        margin-bottom 20px
 
     .seed_status
         visibility hidden
+        margin-top 20px
 
     .loading-backdrop
         position: absolute
@@ -70,18 +70,17 @@
         .external-play
             font-size 14px
             font-style: italic
-            padding-bottom 40px
+            padding-bottom 6px
             visibility hidden
 
         .loading-progressbar
             position relative
-            margin-bottom 7px
-            margin-top 8px
+            margin-bottom 29px
             width 100%
-            top -58px
             background-color #bababa
             border-radius 13px
             overflow hidden
+            visibility hidden
 
             & > div
                 background-color $ButtonBgActive
@@ -127,11 +126,15 @@
         #cancel-button-vpn
             width 140px!important
             position inherit!important
+            display inline-block
+            margin-left 5px
 
         #cancel-button-regular
             margin-top: 10px
             font-size: 10px
             cursor: pointer
+            display inline-block
+            margin-right 5px
 
         .vpn
             .heading

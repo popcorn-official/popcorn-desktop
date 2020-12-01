@@ -7,6 +7,11 @@
             <div class="title tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></div>
             <div class="external-play"><%= i18n.__("Streaming to") %> <span class="player-name"></span></div>
 
+            <!-- loading bar -->
+            <div class="loading-progressbar" style="vibibility: hidden">
+                <div id="loadingbar-contents" style="vibibility: hidden"></div>
+            </div>
+
             <!-- download -->
             <div class="text_download"><%= i18n.__(state) %></div>
 
@@ -41,22 +46,17 @@
                     </div>
                 </div>
 
-                <div id="cancel-button-vpn" class="cancel-button">
-                    <div class="cancel-button-text"><%= i18n.__("Cancel and use VPN") %></div>
-                </div>
-
                 <div id="cancel-button-regular" class="cancel-button">
                       <div class="cancel-button-text"><%= i18n.__("Cancel") %></div>
+                </div>
+
+                <div id="cancel-button-vpn" class="cancel-button">
+                    <div class="cancel-button-text"><%= i18n.__("Cancel and use VPN") %></div>
                 </div>
 
             </div>
 
             <div class="seed_status">
-                <!-- loading bar -->
-                <div class="loading-progressbar">
-                    <div id="loadingbar-contents"></div>
-                </div>
-
                 <!-- downloading info -->
                 <div class="loading-info">
                     <span class="buffer_percent"></span>&nbsp;&nbsp;&nbsp;<span class="text">(</span><span class="text_downloadedformatted"><%= Common.fileSize(0) %></span><span class="text_size"><%= Common.fileSize(0) %></span><span class="text">)</span><br>

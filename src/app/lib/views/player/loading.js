@@ -123,10 +123,9 @@
             this.ui.userCountry.text(data.advanced.countryName);
             this.ui.userZIP.text(data.advanced.postalCode);
             this.ui.userISP.text(data.isp);
-            this.ui.map.attr(
-              'src',
-              `https://maps.google.com/maps/api/staticmap?center=${data.advanced.latitude},${data.advanced.longitude}&zoom=14&sensor=false&size=640x403&key=AIzaSyDEReWNL61EYlVTTT6isiYn1EqRZTtd4bk`
-            );
+        /** NEEDS A NEW API KEY, REMOVE FONTAWESOME WHEN FIXED  **/
+        //  this.ui.map.attr('src', `https://maps.google.com/maps/api/staticmap?center=${data.advanced.latitude},${data.advanced.longitude}&zoom=14&sensor=false&size=640x403&key=AIzaSyDEReWNL61EYlVTTT6isiYn1EqRZTtd4bk`);
+            this.ui.map.parent().html('<i class="fas fa-lock" style="opacity:0.2;font-size:600%"></i>');
           }
         }
       );
@@ -157,6 +156,7 @@
               'hide': 0
           }
       });
+      this.ui.title.html('&nbsp;');
     },
 
     onStateUpdate: function() {
@@ -222,7 +222,7 @@
       this.ui.seedStatus.css('visibility', 'visible');
 
       if (streamInfo.get('size') && !this.firstUpdate) {
-        this.ui.loadingInfos.hide();
+        this.ui.progressbar.parent().css('visibility', 'visible');
         this.checkFreeSpace(streamInfo.get('size'));
         this.firstUpdate = true;
       }
