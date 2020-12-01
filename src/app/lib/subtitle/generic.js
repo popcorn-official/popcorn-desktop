@@ -23,13 +23,13 @@
 
     var downloadFromUrl = function (data) {
         return new Promise(function (resolve, reject) {
-            var streamInfo = App.LoadingView.model.get("streamInfo");
+            var streamInfo = App.LoadingView.model.get('streamInfo');
             var vpath = data.path; // video file path
             var vext = path.extname(vpath); // video extension
             var vname = path.basename(vpath).substring(0, path.basename(vpath).lastIndexOf(vext)); // video file name
             var folder = path.dirname(vpath); // cwd
             var furl = data.url; // subtitle url
-            var fpath = path.join(folder, vname + '.' + streamInfo.get("defaultSubtitle").substr(0,2)); // subtitle local path, no extension
+            var fpath = path.join(folder, vname + '.' + streamInfo.get('defaultSubtitle').substr(0,2)); // subtitle local path, no extension
 
             request.get(furl).on('response', function (response) {
                 var rtype = (response.headers['content-type'] || '').split(';')[0].trim(); // response type
@@ -146,7 +146,7 @@
                         if (err) {
                             return cb(err, null);
                         }
-                
+
                         // Save vtt as UTF-8 encoded, so that foreign subs will be shown correctly on ext. devices.
                         fs.writeFile(vttPath, captions.vtt.generate(captions.srt.toJSON(vttData)), 'utf8', function (err) {
                             if (err) {
