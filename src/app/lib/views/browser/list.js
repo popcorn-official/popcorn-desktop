@@ -125,8 +125,8 @@
             filterBarElem = _.pluck(App.Config.getTabTypes(), 'name');
             filterBarElem = filterBarElem.map(v => v.toLowerCase());
             for (var i = 0; i < filterBarElem.length; i++) {
-                if (filterBarElem[i] === "series") {
-                    filterBarElem[i] = "shows";
+                if (filterBarElem[i] === 'series') {
+                    filterBarElem[i] = 'shows';
                 }
             }
             filterBarElem.push('Favorites');

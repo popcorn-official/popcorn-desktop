@@ -725,16 +725,16 @@
                         for (const el of importTypes) {
                             switch (el.id) {
                                 case 'import-bookmarks':
-                                    zip.extractEntryTo("bookmarks.db", targetFolder, /*maintainEntryPath*/ false, /*overwrite*/ true);
+                                    zip.extractEntryTo('bookmarks.db', targetFolder, /*maintainEntryPath*/ false, /*overwrite*/ true);
                                     // movies.db and shows.db are required for favourites tab view
-                                    zip.extractEntryTo("movies.db", targetFolder, false, true);
-                                    zip.extractEntryTo("shows.db", targetFolder, false, true);
+                                    zip.extractEntryTo('movies.db', targetFolder, false, true);
+                                    zip.extractEntryTo('shows.db', targetFolder, false, true);
                                 break;
                                 case 'import-settings':
-                                    zip.extractEntryTo("settings.db", targetFolder, false, true);
+                                    zip.extractEntryTo('settings.db', targetFolder, false, true);
                                 break;
                                 case 'import-watched':
-                                    zip.extractEntryTo("watched.db", targetFolder, false, true);
+                                    zip.extractEntryTo('watched.db', targetFolder, false, true);
                                 break;
                             }
                         }
