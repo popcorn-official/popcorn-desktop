@@ -41,11 +41,22 @@
                     break;
                 case 'Watchlist':
                     this.ui.retryButton.css('visibility', 'visible');
-                    this.ui.retryButton.css('margin-left', 'calc(50% - 100px)');
+                    this.ui.retryButton.css('margin-left', 'calc(50% - 125px)');
+                    break;
+                default:
+                }
+            } else if (this.no_result) {
+                switch (App.currentview) {
+                case 'movies':
+                case 'shows':
+                case 'anime':
+                    this.ui.onlineSearch.css('visibility', 'visible');
+                    this.ui.onlineSearch.css('margin-left', 'calc(50% - 125px)');
                     break;
                 default:
                 }
             }
+
         }
     });
 
@@ -85,6 +96,7 @@
                     });
                 } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
+                        no_result: true,
                         error: i18n.__('No ' + App.currentview + ' found...')
                     });
                 }
@@ -98,6 +110,7 @@
                     });
                 } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
+                        no_result: true,
                         error: i18n.__('No ' + App.currentview + ' found...')
                     });
                 }
