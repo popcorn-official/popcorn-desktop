@@ -4,6 +4,6 @@
         <div class="button-text"><i class="fa fa-sync">&nbsp;&nbsp;</i><%= i18n.__("Retry") %></div>
     </div>
     <div class="button online-search">
-        <div class="button-text"><i class="fa fa-search">&nbsp;&nbsp;</i><%= i18n.__("Search on %s", Settings.onlineSearchEngine || "Strike") %></div>
+        <div class="button-text"><i class="fa fa-search">&nbsp;&nbsp;</i><%= i18n.__("Search on %s", "Torrent Collection") %></div>
     </div>
 </div>
