@@ -42,4 +42,6 @@ var _ = require('underscore'),
   // NodeJS
   child = require('child_process'),
   // package.json
-  pkJson = nw.App.manifest;
+  pkJson = nw.App.manifest,
+  // search_string,
+  search_string = '';

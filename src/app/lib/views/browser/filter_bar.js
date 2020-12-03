@@ -254,6 +254,7 @@
       App.vent.trigger('movie:closeDetail');
       e.preventDefault();
       var searchvalue = this.ui.searchInput.val().replace(/[^a-zA-Z0-9]/g,' ');
+      search_string = searchvalue;
       this.model.set({
         keywords: this.ui.searchInput.val().replace(/[^a-zA-Z0-9]/g,' '),
         genre: ''
