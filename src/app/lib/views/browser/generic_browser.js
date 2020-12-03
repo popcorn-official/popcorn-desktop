@@ -97,12 +97,9 @@
             default:
             }
 
-            if (!Settings.activateTorrentCollection) {
-                AdvSettings.set('activateTorrentCollection', true);
-                $('#torrent_col').css('display', 'block');
-            }
-
-            $('#filterbar-torrent-collection').click();
+            App.vent.trigger('torrentCollection:show');
+            $('.torrent-collection-container #online-input').val(search_string);
+            $('.torrent-collection-container .online-search').click();
         },
 
         focusSearch: function (e) {
