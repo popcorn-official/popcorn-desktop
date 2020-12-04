@@ -24,7 +24,6 @@
 
       seedStatus: '.seed_status',
       bufferPercent: '.buffer_percent',
-      loadingInfos: '.loading-info',
 
       downloadSpeed: '.download_speed',
       uploadSpeed: '.upload_speed',
@@ -256,29 +255,21 @@
         this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
         this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
         this.ui.stateTextRemaining.text(this.remainingTime());
-      } else {
+      } else if (this.ddone === 'false') {
         this.ui.stateTextDownload.text(i18n.__('Downloaded'));
         this.ui.stateTextDownloadedFormatted.hide();
         this.ui.progressTextPeers.hide();
         this.ui.progressTextSeeds.hide();
         this.ui.downloadSpeed.hide();
         this.ui.stateTextRemaining.hide();
-        $('#rbreak1,#rbreak2,#rbreak3').hide();
-        $('#rdownl').hide();
-        $('#ractpr').hide();
-        if (this.ddone === 'false') {
-          var cancelButton = $('.cancel-button');
-
-          this.ddone = 'true';
-          cancelButton.css('background-color', '#27ae60');
-          this.listenTo(this.model.get('streamInfo'), 'change:uploadSpeed', this.onProgressUpdate);
-        }
+        $('#rbreak1,#rbreak2,#rbreak3,#rdownl,#ractpr').hide();
+        $('.cancel-button').css('background-color', '#27ae60');
+        this.listenTo(this.model.get('streamInfo'), 'change:uploadSpeed', this.onProgressUpdate);
+        this.ddone = 'true';
       }
 
       this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
       this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
-
-      this.ui.loadingInfos.show();
 
       if (this.model.get('state') === 'playingExternally') {
         this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
