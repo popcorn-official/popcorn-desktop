@@ -8,8 +8,8 @@
             <div class="external-play"><%= i18n.__("Streaming to") %> <span class="player-name"></span></div>
 
             <!-- loading bar -->
-            <div class="loading-progressbar" style="vibibility: hidden">
-                <div id="loadingbar-contents" style="vibibility: hidden"></div>
+            <div class="loading-progressbar">
+                <div id="loadingbar-contents"></div>
             </div>
 
             <!-- download -->
