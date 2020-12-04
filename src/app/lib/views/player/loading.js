@@ -157,6 +157,7 @@
           }
       });
       this.ui.title.html('&nbsp;');
+      this.ui.stateTextDownloadedFormatted.hide();
     },
 
     onStateUpdate: function() {
@@ -235,6 +236,10 @@
       }
       if (streamInfo.get('title') !== '') {
         this.ui.title.html(streamInfo.get('title'));
+      }
+      if (this.ui.stateTextDownloadedFormatted.is(':hidden') && streamInfo.get('downloaded')) {
+        this.ui.stateTextDownloadedFormatted.show();
+        this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
       }
     },
 
