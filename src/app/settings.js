@@ -5,7 +5,7 @@ var Settings = {
   projectTwitter: 'popcorntimetv',
   projectTwitter2: 'r_popcorntime',
   projectBlog: 'https://blog.popcorntime.app/',
-  projectForum: 'https://www.reddit.com/r/PopcornTime',
+  projectForum: 'https://www.reddit.com/r/PopcornTimeApp',
   projectForum2: 'https://discuss.popcorntime.app',
 
   statusUrl: 'http://status.popcorntime.app',
