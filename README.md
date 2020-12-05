@@ -19,7 +19,7 @@
   <a href="https://popcorntime.app"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fpopcorntime.app"></a>
   <a href="https://ci.popcorntime.app"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=ci.popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fci.popcorntime.app"></a>
   <a href="https://twitter.com/r_popcorntime"><img src="https://img.shields.io/twitter/follow/r_popcorntime?color=3299EC&label=twitter&style=flat"></a>
-  <a href="https://www.reddit.com/r/PopCornTime"><img src="https://img.shields.io/reddit/subreddit-subscribers/PopCornTime?color=red&label=reddit&style=flat"></a>
+  <a href="https://www.reddit.com/r/PopCornTimeApp"><img src="https://img.shields.io/reddit/subreddit-subscribers/PopCornTimeApp?color=red&label=reddit&style=flat"></a>
   <a href="https://discuss.popcorntime.app"><img src="https://img.shields.io/discourse/posts?color=blue&label=forum&server=https%3A%2F%2Fdiscuss.popcorntime.app&style=flat"></a><br>
   <a href="https://github.com/popcorn-official/popcorn-desktop/releases"><img src="https://img.shields.io/badge/-previous%20releases-lightgrey"></a>
   <a href="https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.3"><img src="https://img.shields.io/badge/-v0.4.3-lightgrey"></a>
@@ -141,7 +141,7 @@ You can also join our [community](README.md#community) to keep up-to-date and me
 Keep track of Popcorn Time development and community activity.
   * Follow Popcorn Time on [Twitter](https://twitter.com/r_popcorntime).
   * Read and subscribe to [The Official Popcorn Time Blog](https://blog.popcorntime.app/).
-  * Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.app) and [r/PopCornTime](https://www.reddit.com/r/PopcornTime).
+  * Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.app) and [r/PopCornTimeApp](https://www.reddit.com/r/PopcornTimeApp).
 
 
 ## Screenshots
