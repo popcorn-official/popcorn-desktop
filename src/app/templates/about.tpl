@@ -33,7 +33,7 @@
         </div>
 
         <div class="last-line">
-            <%= i18n.__("Made with") %> <span style="color:#e74c3c;">&#10084;</span> <%= i18n.__("by a bunch of geeks from All Around The World") %>
+            <%= i18n.__("Made with") %> <span class="heart">&#10084;</span> <%= i18n.__("by a bunch of geeks from All Around The World") %>
         </div>
 
     </div>
