@@ -28,7 +28,7 @@
             <a href='<%= Settings.sourceUrl %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.sourceUrl %>" class='links github_icon'></a>
             <a href='https://twitter.com/<%= Settings.projectTwitter2 %>' data-toggle="tooltip" data-placement="top" title="https://twitter.com/<%= Settings.projectTwitter2 %>" class='links twitter_icon'></a>
             <a href='<%= Settings.projectBlog %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectBlog %>" class='links blog_icon'></a>
-            <a href='<%= Settings.projectForum %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectForum %>" class='links reddit_icon'></a>
+            <a href='<%= Settings.projectForum3 %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectForum3 %>" class='links reddit_icon'></a>
             <a href='<%= Settings.projectForum2 %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectForum2 %>" class='links forum_icon'></a>
         </div>
 
