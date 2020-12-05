@@ -5,8 +5,9 @@ var Settings = {
   projectTwitter: 'popcorntimetv',
   projectTwitter2: 'r_popcorntime',
   projectBlog: 'https://blog.popcorntime.app/',
-  projectForum: 'https://www.reddit.com/r/PopcornTimeApp',
+  projectForum: 'https://www.reddit.com/r/PopcornTime',
   projectForum2: 'https://discuss.popcorntime.app',
+  projectForum3: 'https://www.reddit.com/r/PopcornTimeApp',
 
   statusUrl: 'http://status.popcorntime.app',
   changelogUrl: 'https://github.com/popcorn-official/popcorn-desktop/commits/master',
