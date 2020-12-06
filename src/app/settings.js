@@ -93,7 +93,7 @@ Settings.trackers = {
   forced: [
     'udp://glotorrents.pw:6969',
     'udp://tracker.opentrackr.org:1337',
-    'udp://torrent.gresille.org:80',
+    'udp://tracker.tiny-vps.com:6969',
     'udp://tracker.openbittorrent.com:1337',
     'udp://tracker.coppersurfer.tk:6969',
     'udp://tracker.leechers-paradise.org:6969',
