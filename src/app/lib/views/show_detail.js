@@ -97,6 +97,7 @@
             this.model.set('torrents', torrents);
             this.model.set('seasonCount', Object.keys(torrents).length);
         },
+
         renameUntitled: function () {
             var episodes = this.model.get('episodes');
             for (var i = 0; i < episodes.length; i++) {
@@ -111,6 +112,7 @@
                 }
             }
         },
+
         initKeyboardShortcuts: function () {
             Mousetrap.bind('q', _this.toggleQuality);
             Mousetrap.bind('down', _this.nextEpisode);
@@ -125,7 +127,17 @@
             });
         },
 
-        unbindKeyboardShortcuts: Mousetrap.reset,
+        unbindKeyboardShortcuts: function () {
+            Mousetrap.unbind('q');
+            Mousetrap.unbind('down');
+            Mousetrap.unbind('up');
+            Mousetrap.unbind('w');
+            Mousetrap.unbind(['enter', 'space']);
+            Mousetrap.unbind(['esc', 'backspace']);
+            Mousetrap.unbind(['ctrl+up', 'command+up']);
+            Mousetrap.unbind(['ctrl+down', 'command+down']);
+            Mousetrap.unbind('f');
+        },
 
         onAttach: function () {
             bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
