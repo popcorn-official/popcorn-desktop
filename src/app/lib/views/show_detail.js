@@ -31,7 +31,7 @@
             'dblclick .tab-episode': 'dblclickEpisode',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .shmi-rating': 'switchRating',
-            'click .health-icon': 'resetTorrentHealth'
+            'click .health-icon': 'refreshTorrentHealth'
         },
 
         regions: {
@@ -739,14 +739,18 @@
         },
 
         resetTorrentHealth: function () {
-            if ($('.tooltip').is(':visible')) {
-                $('.health-icon').tooltip('hide');
-                setTimeout(function () {
-                    $('.health-icon').tooltip('fixTitle').tooltip('show');
-                }, 1100);
-            }
             healthButton.reset();
             healthButton.render();
+        },
+
+        refreshTorrentHealth: function () {
+            healthButton.reset();
+            healthButton.render();
+            setTimeout(function () {
+                if ($('.tooltip').is(':visible')) {
+                    $('.health-icon').tooltip('fixTitle').tooltip('show');
+                }
+            }, 1100);
         },
 
         selectPlayer: function (e) {
