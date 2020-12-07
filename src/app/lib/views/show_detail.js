@@ -727,6 +727,7 @@
         },
 
         resetTorrentHealth: function () {
+            $('.health-icon').tooltip('hide');
             healthButton.reset();
             healthButton.render();
         },
