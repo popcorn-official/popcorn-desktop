@@ -31,7 +31,7 @@
             'dblclick .tab-episode': 'dblclickEpisode',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .shmi-rating': 'switchRating',
-            'click .health-icon': 'resetTorrentHealth'
+            'click .health-icon': 'refreshTorrentHealth'
         },
 
         regions: {
@@ -739,6 +739,11 @@
         },
 
         resetTorrentHealth: function () {
+            healthButton.reset();
+            healthButton.render();
+        },
+
+        refreshTorrentHealth: function () {
             healthButton.reset();
             healthButton.render();
             setTimeout(function () {
