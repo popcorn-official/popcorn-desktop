@@ -739,14 +739,13 @@
         },
 
         resetTorrentHealth: function () {
-            if ($('.tooltip').is(':visible')) {
-                $('.health-icon').tooltip('hide');
-                setTimeout(function () {
-                    $('.health-icon').tooltip('fixTitle').tooltip('show');
-                }, 1100);
-            }
             healthButton.reset();
             healthButton.render();
+            setTimeout(function () {
+                if ($('.tooltip').is(':visible')) {
+                    $('.health-icon').tooltip('fixTitle').tooltip('show');
+                }
+            }, 1100);
         },
 
         selectPlayer: function (e) {
