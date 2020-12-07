@@ -30,7 +30,8 @@
       'click .showall-cast': 'showallCast',
       'click .q2160': 'toggleShowQuality',
       'click .q1080': 'toggleShowQuality',
-      'click .q720': 'toggleShowQuality'
+      'click .q720': 'toggleShowQuality',
+      'click .health-icon': 'resetTorrentHealth'
     },
 
     regions: {
@@ -342,6 +343,15 @@
     retrieveTorrentHealth: function(cb) {
       const torrent = this.model.get('torrents')[this.model.get('quality')];
       Common.retrieveTorrentHealth(torrent, cb);
+    },
+
+    resetTorrentHealth: function () {
+      $('.health-icon').tooltip('hide');
+      setTimeout(function () {
+        $('.health-icon').tooltip('fixTitle').tooltip('show');
+      }, 1100);
+      healthButton.reset();
+      healthButton.render();
     },
 
     openIMDb: function() {
