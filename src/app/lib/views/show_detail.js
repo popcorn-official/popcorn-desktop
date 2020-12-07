@@ -747,7 +747,7 @@
             healthButton.reset();
             healthButton.render();
             setTimeout(function () {
-                if ($('.tooltip').is(':visible')) {
+                if ($('.health-icon ~ .tooltip').is(':visible')) {
                     $('.health-icon').tooltip('fixTitle').tooltip('show');
                 }
             }, 1100);
