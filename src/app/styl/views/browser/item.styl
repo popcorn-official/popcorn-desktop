@@ -173,29 +173,25 @@
     width 134px
     height 196px
     border-radius 4px
+    border 2px solid rgba(0, 0, 0, 0)
     box-shadow $PosterShadow
     cursor pointer
     display inline-block
     margin 10px
     float left
-    background-color:$BgColor1
-    -webkit-transition: background-color 100ms linear, opacity 100ms linear, filter 100ms linear;
+    background-color $BgColor1
+    -webkit-transition border 400ms ease
     opacity 0.6
     filter brightness(120%)
 
     &:hover
-        background-color $ButtonBg
+        border 2px solid $PosterHoverBorder
         opacity 1
         filter none
 
         > .status-loadmore,
         > .status-searchmore
-            opacity 1
-            color $ButtonText
-
-        > .status-searchmore #searchtor #searchtor_mag,
-        > .status-searchmore #searchtor #searchtor_mag
-            -webkit-text-stroke: 2px $ButtonBg
+            opacity 0.97
 
     > .loading-container
         display none
@@ -222,7 +218,7 @@
         padding-top: 10px;
         border-radius: 2px;
         font-family: $MainFont, $AlternateFont;
-        -webkit-transition: opacity 100ms linear, color 100ms linear;
+        -webkit-transition: opacity 100ms linear;
         opacity 0.25
         text-align center
         top: 50%
