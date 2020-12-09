@@ -100,7 +100,6 @@
 
             App.vent.trigger('torrentCollection:show');
             $('.torrent-collection-container #online-input').val(this.collection.filter.keywords);
-            $('.torrent-collection-container .online-search').click();
         },
 
         focusSearch: function (e) {
