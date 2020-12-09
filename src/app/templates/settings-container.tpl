@@ -114,6 +114,10 @@
                 <label class="settings-label" for="rememberFilters"><%= i18n.__("Remember Filters") %></label>
             </span>
             <span class="advanced">
+                <input class="settings-checkbox" name="torColSearchMore" id="torColSearchMore" type="checkbox" <%=(Settings.torColSearchMore? "checked='checked'":"")%>>
+                <label class="settings-label" for="torColSearchMore"><%= i18n.__("Show 'Search on Torrent Collection' in search") %></label>
+            </span>
+            <span class="advanced">
                 <div class="dropdown watchedCovers">
                     <p><%= i18n.__("Watched Items") %></p>
                         <%
