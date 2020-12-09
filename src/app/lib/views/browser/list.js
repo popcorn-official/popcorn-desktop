@@ -351,7 +351,7 @@
                     $('.status-loadmore').show();
                 }
                 if (this.collection.hasMore && this.collection.filter.keywords && this.collection.state !== 'error' && this.collection.length !== 0 && this.collection.length < maxResults) {
-                    $('.items').append('<div id="search-more-item" class="search-more"><span class="status-searchmore"><span class="fa-stack" id="searchtor"><i class="fa fa-globe-americas fa-stack-2x" id="searchtor_globe"></i><i class="fa fa-search fa-stack-2x" id="searchtor_mag"></i></span><br>' + i18n.__("Search in %s", "Torrent Collection") + '</span></div>');
+                    $('.items').append('<div id="search-more-item" class="search-more"><span class="status-searchmore"><span class="fa-stack" id="searchtor"><i class="fa fa-globe-americas fa-stack-2x" id="searchtor_globe"></i><i class="fa fa-search fa-stack-2x" id="searchtor_mag"></i></span><br>' + i18n.__("Search on %s", "Torrent Collection") + '</span></div>');
                     $('.status-searchmore').show();
                 }
                 break;
