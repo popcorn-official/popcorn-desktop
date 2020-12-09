@@ -180,18 +180,14 @@
     margin 10px
     float left
     background-color $BgColor1
-    opacity 0.6
-    filter brightness(120%)
+    opacity 1
 
     &:hover
         border 2px solid $PosterHoverBorder
-        opacity 1
-        filter none
         -webkit-transition border 400ms ease
 
-        > .status-loadmore,
-        > .status-searchmore
-            opacity 0.2
+        > #overlay
+            display block
 
     > .loading-container
         display none
@@ -218,7 +214,7 @@
         padding-top: 10px;
         border-radius: 2px;
         font-family: $MainFont, $AlternateFont;
-        opacity 0.5
+        opacity 0.3
         text-align center
         top: 50%
         left: 50%
@@ -237,6 +233,14 @@
                 top: -5px
                 padding-left: 15px
                 -webkit-text-stroke: 2px $BgColor1
+
+    #overlay
+        background $PosterHoverOverlay
+        height 100%
+        width 100%
+        position absolute
+        opacity 0.8
+        display none
 
 .ghost
     width 134px
