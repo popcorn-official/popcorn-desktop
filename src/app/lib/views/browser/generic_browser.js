@@ -18,7 +18,8 @@
         },
         events: {
             'click .retry-button': 'onFilterChange',
-            'click .online-search': 'onlineSearch'
+            'click .online-search': 'onlineSearch',
+            'click #search-more-item': 'onlineSearch'
         },
 
         initialize: function () {
@@ -98,7 +99,7 @@
             }
 
             App.vent.trigger('torrentCollection:show');
-            $('.torrent-collection-container #online-input').val(search_string);
+            $('.torrent-collection-container #online-input').val(this.collection.filter.keywords);
             $('.torrent-collection-container .online-search').click();
         },
 

@@ -45,7 +45,7 @@
                     break;
                 default:
                 }
-            } else if (this.no_result) {
+            } else if (this.show_online_search) {
                 switch (App.currentview) {
                 case 'movies':
                 case 'shows':
@@ -96,7 +96,7 @@
                     });
                 } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
-                        no_result: true,
+                        show_online_search: this.collection.filter.keywords ? true : false,
                         error: i18n.__('No ' + App.currentview + ' found...')
                     });
                 }
@@ -110,7 +110,6 @@
                     });
                 } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
-                        no_result: true,
                         error: i18n.__('No ' + App.currentview + ' found...')
                     });
                 }
@@ -338,6 +337,7 @@
             case 'shows':
             case 'anime':
                 $('#load-more-item').remove();
+                $('#search-more-item').remove();
                 // we add a load more
                 if (this.collection.hasMore && !this.collection.filter.keywords && this.collection.state !== 'error' && this.collection.length !== 0 && this.collection.length >= maxResults) {
                     $('.items').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
@@ -349,6 +349,10 @@
 
                     $('#loading-more-animi').hide();
                     $('.status-loadmore').show();
+                }
+                if (this.collection.hasMore && this.collection.filter.keywords && this.collection.state !== 'error' && this.collection.length !== 0 && this.collection.length < maxResults) {
+                    $('.items').append('<div id="search-more-item" class="search-more"><span class="status-searchmore"><span class="fa-stack fa-3x"><i class="fa fa-globe-americas fa-stack-1x"></i><i class="fa fa-search fa-stack-2x"></i></span>' + i18n.__("Search on %s", "Torrent Collection") + '</span></div>');
+                    $('.status-searchmore').show();
                 }
                 break;
 
