@@ -193,6 +193,10 @@
             opacity 1
             color $ButtonText
 
+        > .status-searchmore #searchtor #searchtor_mag,
+        > .status-searchmore #searchtor #searchtor_mag
+            -webkit-text-stroke: 2px $ButtonBg
+
     > .loading-container
         display none
         margin 0
@@ -219,12 +223,25 @@
         border-radius: 2px;
         font-family: $MainFont, $AlternateFont;
         -webkit-transition: opacity 100ms linear, color 100ms linear;
-        opacity 0.5
+        opacity 0.25
         text-align center
         top: 50%
         left: 50%
         width: 90%
         -webkit-transform translate(-50%, -50%)
+
+        #searchtor
+            height: 2.8em
+            padding: 5px 0 48px
+            font-size: 1.4em
+
+            #searchtor_globe
+                padding-right: 10px
+
+            #searchtor_mag
+                top: -5px
+                padding-left: 15px
+                -webkit-text-stroke: 2px $BgColor1
 
 .ghost
     width 134px
