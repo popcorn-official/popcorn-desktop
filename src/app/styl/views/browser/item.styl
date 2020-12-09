@@ -165,7 +165,8 @@
     to { border-color: $PosterHoverBorder; }
 }
 
-.load-more
+.load-more,
+.search-more
     position relative
     background-size cover
     background-position center center
@@ -187,7 +188,8 @@
         opacity 1
         filter none
 
-        > .status-loadmore
+        > .status-loadmore,
+        > .status-searchmore
             opacity 1
             color $ButtonText
 
@@ -208,7 +210,8 @@
         .ball1
             margin -15px
 
-    .status-loadmore
+    .status-loadmore,
+    .status-searchmore
         position: absolute;
         color: $Text1;
         padding-bottom: 10px;

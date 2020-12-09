@@ -18,7 +18,8 @@
         },
         events: {
             'click .retry-button': 'onFilterChange',
-            'click .online-search': 'onlineSearch'
+            'click .online-search': 'onlineSearch',
+            'click #search-more-item': 'onlineSearch'
         },
 
         initialize: function () {
