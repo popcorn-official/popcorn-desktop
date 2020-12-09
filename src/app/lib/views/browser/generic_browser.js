@@ -19,7 +19,9 @@
         events: {
             'click .retry-button': 'onFilterChange',
             'click .online-search': 'onlineSearch',
-            'click #search-more-item': 'onlineSearch'
+            'click #search-more-item': 'onlineSearch',
+            'mouseover #search-more-item': 'onlineSearchHov',
+            'mouseover #load-more-item': 'onlineSearchHov'
         },
 
         initialize: function () {
@@ -100,6 +102,10 @@
 
             App.vent.trigger('torrentCollection:show');
             $('.torrent-collection-container #online-input').val(this.collection.filter.keywords);
+        },
+
+        onlineSearchHov: function () {
+            $('.item.selected').removeClass('selected');
         },
 
         focusSearch: function (e) {
