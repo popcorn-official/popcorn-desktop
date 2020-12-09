@@ -261,6 +261,7 @@
                 case 'continueSeedingOnStart':
                 case 'vpnEnabled':
                 case 'coversShowRating':
+                case 'torColSearchMore':
                 case 'nativeWindowFrame':
                 case 'translateSynopsis':
                 case 'showAdvancedSettings':
@@ -465,6 +466,7 @@
                     break;
                 case 'activateTempf':
                 case 'multipleExtSubtitles':
+                case 'torColSearchMore':
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
