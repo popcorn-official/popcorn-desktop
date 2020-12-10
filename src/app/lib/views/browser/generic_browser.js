@@ -100,7 +100,7 @@
             default:
             }
 
-            App.vent.trigger('torrentCollection:show');
+            $('#filterbar-torrent-collection').click();
             $('.torrent-collection-container #online-input').val(this.collection.filter.keywords);
         },
 
