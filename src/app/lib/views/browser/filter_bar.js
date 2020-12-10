@@ -223,6 +223,10 @@
           this.fixFilter();
         } catch (e) {}
       }
+
+      if (!this.previousSort) {
+        this.previousSort = $('.sorters .active').data('value') || $('.sorters .value').data('value');
+      }
     },
 
     focusSearch: function() {
@@ -305,19 +309,26 @@
       var sorter = $(e.target).attr('data-value');
 
       if (this.previousSort === sorter) {
-        this.model.set('order', this.model.get('order') * -1);
+        this.model.set({
+          order: this.model.get('order') * -1,
+          keyword: '',
+          sorter: sorter
+        });
       } else if (this.previousSort !== sorter && sorter === 'title') {
-        this.model.set('order', this.model.get('order') * -1);
+        this.model.set({
+          order: 1,
+          keyword: '',
+          sorter: sorter
+        });
       } else {
-        this.model.set('order', -1);
+        this.model.set({
+          order: -1,
+          keyword: '',
+          sorter: sorter
+        });
       }
 
       this.ui.sorterValue.text(i18n.__(sorter.capitalizeEach()));
-
-      this.model.set({
-        keyword: '',
-        sorter: sorter
-      });
       this.previousSort = sorter;
     },
 
