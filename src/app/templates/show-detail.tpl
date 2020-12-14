@@ -71,7 +71,11 @@
                         <li class="tab-episode" data-id="<%=episodeData.tvdb_id %>" data-season="<%=episodeData.season %>" data-episode="<%=episodeData.episode %>">
                             <a href="#" class="episodeData">
                                 <span><%=episodeData.episode %></span>
+                                <% if (Settings.activateSeedbox) { %>
+                                <div style="max-width:calc(60vw - 395px)"><%=episodeData.title %></div>
+                                <% } else { %>
                                 <div><%=episodeData.title %></div>
+                                <% } %>
                             </a>
 
                             <i id="watched-<%=episodeData.season%>-<%=episodeData.episode%>" class="fa fa-eye watched"></i>
@@ -82,7 +86,11 @@
                 <% }); %>
             </div>
         </div>
+        <% if (Settings.activateSeedbox) { %>
+        <div class="sd-overview" style="min-width:480px">
+        <% } else { %>
         <div class="sd-overview">
+        <% } %>
             <div class="sdo-infos">
                 <div class="sdoi-title"></div>
                 <div class="sdoi-links">
