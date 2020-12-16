@@ -475,7 +475,9 @@
                     let packageJson = jsonFileEditor(`package.json`);
                     packageJson.get('window').frame = value;
                     packageJson.save();
-
+                    this.alertMessageSuccess(true);
+                    break;
+                case 'apiServer':
                     this.alertMessageSuccess(true);
                     break;
                 case 'translateSynopsis':
