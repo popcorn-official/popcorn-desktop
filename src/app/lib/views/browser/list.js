@@ -36,8 +36,13 @@
                 case 'movies':
                 case 'shows':
                 case 'anime':
-                    this.ui.onlineSearch.css('visibility', 'visible');
-                    this.ui.retryButton.css('visibility', 'visible');
+                    if (Settings.torColSearchMore) {
+                        this.ui.onlineSearch.css('visibility', 'visible');
+                        this.ui.retryButton.css('visibility', 'visible');
+                    } else {
+                        this.ui.retryButton.css('visibility', 'visible');
+                        this.ui.retryButton.css('margin-left', 'calc(50% - 125px)');
+                    }
                     break;
                 case 'Watchlist':
                     this.ui.retryButton.css('visibility', 'visible');
