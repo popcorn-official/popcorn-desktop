@@ -15,7 +15,8 @@
   <a href="https://github.com/popcorn-official/popcorn-desktop/compare/master...development"><img src="https://img.shields.io/github/commits-since/popcorn-official/popcorn-desktop/latest?label=commits%20since"></a>
   <a href="https://github.com/popcorn-official/popcorn-desktop/commit/development"><img src="https://img.shields.io/github/last-commit/popcorn-official/popcorn-desktop?label=latest%20commit"></a>
   <a href="https://ci.popcorntime.app/job/Popcorn-Time-Desktop/"><img src="https://img.shields.io/badge/dynamic/json?label=latest%20build&color=brightgreen&query=displayName&url=https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastBuild/api/json"></a>
-  <a href="https://ci.popcorntime.app/job/Popcorn-Time-Desktop/"><img src="https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.popcorntime.app%2Fjob%2FPopcorn-Time-Desktop%2F&label="></a><br>
+  <a href="https://ci.popcorntime.app/job/Popcorn-Time-Desktop/"><img src="https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.popcorntime.app%2Fjob%2FPopcorn-Time-Desktop%2F&label="></a>
+  <a href="https://david-dm.org/popcorn-official/popcorn-desktop"><img src="https://img.shields.io/david/popcorn-official/popcorn-desktop?label=deps"></a><br>
   <a href="https://popcorntime.app"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fpopcorntime.app"></a>
   <a href="https://ci.popcorntime.app"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=ci.popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fci.popcorntime.app"></a>
   <a href="https://twitter.com/PopcorntimeappR"><img src="https://img.shields.io/twitter/follow/PopcorntimeappR?color=3299EC&label=twitter&style=flat"></a>
