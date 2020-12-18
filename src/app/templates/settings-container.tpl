@@ -136,6 +136,23 @@
                 </div>
             </span>
             <span class="advanced">
+                <div class="dropdown tv_detail_jump_to">
+                    <p><%= i18n.__("Series detail opens to") %></p>
+                        <%
+                            var tv_detail_jump_to = {
+                                "next": "Next episode",
+                                "firstUnwatched": "First unwatched episode"
+                            };
+                            var selected_tv_detail_jump = "";
+                            for(var key in tv_detail_jump_to) {
+                                selected_tv_detail_jump += "<option "+(Settings.tv_detail_jump_to == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(tv_detail_jump_to[key])+"</option>";
+                            }
+                        %>
+                    <select name="tv_detail_jump_to"><%=selected_tv_detail_jump%></select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </span>
+            <span class="advanced">
                 <div class="dropdown poster_size">
                    <p><%= i18n.__("Poster Size") %></p>
                         <%
@@ -286,7 +303,7 @@
             </span>
             <span>
                 <input class="settings-checkbox" name="multipleExtSubtitles" id="multipleExtSubtitles" type="checkbox" <%=(Settings.multipleExtSubtitles? "checked='checked'":"")%>>
-                <label class="settings-label" for="multipleExtSubtitles"><%= i18n.__("Show all available subtitles for the default subtitle language in the flag dropdown menu") %></label>
+                <label class="settings-label" for="multipleExtSubtitles"><%= i18n.__("Show all available subtitles for default language in flag menu") %></label>
             </span>
         </div>
     </section>
@@ -608,8 +625,8 @@
             <div class="btns advanced database import-database">
                 <!-- Button trigger modal -->
                 <div class="btn-settings database import-db">
-                    <label class="import-database" title="<%= i18n.__("Select data types to import") %>"><%= i18n.__("Import Database") %></label>
-                    <i class="fa fa-level-down-alt">&nbsp;&nbsp;</i>
+                    <label class="import-database" title="<%= i18n.__("Select data types to import") %>"><%= i18n.__("Import Database") %>&nbsp;</label>
+                    <i class="fa fa-level-down-alt">&nbsp;</i>
                 </div><!-- / btn -->
                 <div id="importdb-overlay" class="modal-overlay"></div>
                 <div id="importdb-modal" class="modal-content">
@@ -633,14 +650,14 @@
                         <label class="settings-label" for="import-settings"><%= i18n.__("Settings") %></label>
                     </span>
                     <div class="btn-settings btn-block database">
-                        <label class="import-database" for="importdatabase"  title="<%= i18n.__("Open File to Import") %>"><%= i18n.__("Import Database") %></label>
-                        <i class="fa fa-level-down-alt">&nbsp;&nbsp;</i>
-                        <input type="file" id="importdatabase"  accept=".zip" style="display:none">
+                        <label class="import-database" for="importdatabase"  title="<%= i18n.__("Open File to Import") %>"><%= i18n.__("Import Database") %>&nbsp;</label>
+                        <i class="fa fa-level-down-alt">&nbsp;</i>
+                        <input type="file" id="importdatabase" accept=".zip" style="display:none">
                     </div>
                 </div><!-- /.modal -->
                 <div class="btn-settings database export-database">
-                    <label class="export-database" for="exportdatabase" title="<%= i18n.__("Browse Directory to save to") %>" ><%= i18n.__("Export Database") %></label>
-                    <i class="fa fa-level-up-alt">&nbsp;&nbsp;</i>
+                    <label class="export-database" for="exportdatabase" title="<%= i18n.__("Browse Directory to save to") %>" ><%= i18n.__("Export Database") %>&nbsp;</label>
+                    <i class="fa fa-level-up-alt">&nbsp;</i>
                     <input type="file" id="exportdatabase" style="display:none" nwdirectory>
                 </div>
             </div>
@@ -650,23 +667,6 @@
     <section id="miscellaneous" class="advanced">
         <div class="title"><%= i18n.__("Miscellaneous") %></div>
         <div class="content">
-            <span >
-                <div class="dropdown tv_detail_jump_to">
-                    <p><%= i18n.__("When Opening TV Series Detail Jump To") %></p>
-                        <%
-                            var tv_detail_jump_to = {
-                                "firstUnwatched": "First Unwatched Episode",
-                                "next": "Next Episode In Series"
-                            };
-                            var selected_tv_detail_jump = "";
-                            for(var key in tv_detail_jump_to) {
-                                selected_tv_detail_jump += "<option "+(Settings.tv_detail_jump_to == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(tv_detail_jump_to[key])+"</option>";
-                            }
-                        %>
-                    <select name="tv_detail_jump_to"><%=selected_tv_detail_jump%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
             <span>
                 <input class="settings-checkbox" name="automaticUpdating" id="automaticUpdating" type="checkbox" <%=(Settings.automaticUpdating? "checked='checked'":"")%>>
                 <label class="settings-label" for="automaticUpdating"><%= i18n.__("Activate automatic updating") %></label>
@@ -687,10 +687,10 @@
     </section>
 
     <div class="btns">
-        <div class="btn-settings flush-bookmarks"><%= i18n.__("Flush bookmarks database") %></div>
-        <div class="btn-settings flush-subtitles"><%= i18n.__("Flush subtitles cache") %></div>
-        <div class="btn-settings flush-databases"><%= i18n.__("Flush all databases") %></div>
-        <div class="btn-settings default-settings"><%= i18n.__("Reset to Default Settings") %></div>
+        <div class="btn-settings flush-bookmarks"><i class="fa fa-trash">&nbsp;&nbsp;</i><%= i18n.__("Flush bookmarks database") %></div>
+        <div class="btn-settings flush-subtitles"><i class="fa fa-trash">&nbsp;&nbsp;</i><%= i18n.__("Flush subtitles cache") %></div>
+        <div class="btn-settings flush-databases"><i class="fa fa-trash">&nbsp;&nbsp;</i><%= i18n.__("Flush all databases") %></div>
+        <div class="btn-settings default-settings"><i class="fa fa-cog">&nbsp;&nbsp;</i><%= i18n.__("Reset to Default Settings") %></div>
     </div>
 
 </div>
