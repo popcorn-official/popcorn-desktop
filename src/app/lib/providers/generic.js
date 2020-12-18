@@ -9,8 +9,11 @@
   function updateProviderConnection (server, proxy) {
     for (let provider in cache) {
       if (cache[provider] && cache[provider].apiURL) {
-        cache[provider].apiURL = [server];
         cache[provider].proxy = proxy;
+        if ((cache[provider].name.includes('Movie') && !Settings.customApiMovies) || (cache[provider].name.includes('TV') && !Settings.customApiSeries) || (cache[provider].name.includes('Anime') && !Settings.customApiAnime)) {
+          return;
+        }
+        cache[provider].apiURL = [server];
       }
     }
   }
