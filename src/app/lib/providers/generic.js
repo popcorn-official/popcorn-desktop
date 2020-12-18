@@ -10,10 +10,9 @@
     for (let provider in cache) {
       if (cache[provider] && cache[provider].apiURL) {
         cache[provider].proxy = proxy;
-        if ((cache[provider].name.includes('Movie') && !Settings.customApiMovies) || (cache[provider].name.includes('TV') && !Settings.customApiSeries) || (cache[provider].name.includes('Anime') && !Settings.customApiAnime)) {
-          return;
+        if (!((cache[provider].name.includes('Movie') && !Settings.customApiMovies) || (cache[provider].name.includes('TV') && !Settings.customApiSeries) || (cache[provider].name.includes('Anime') && !Settings.customApiAnime))) {
+          cache[provider].apiURL = [server];
         }
-        cache[provider].apiURL = [server];
       }
     }
   }
