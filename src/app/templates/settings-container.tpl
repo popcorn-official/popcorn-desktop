@@ -516,7 +516,7 @@
     </section>
 
     <section id="apiserver" class="advanced">
-        <div class="title"><%= i18n.__("Server") %></div>
+        <div class="title"><%= i18n.__("API Server") %></div>
         <div class="content">
             <span>
                 <div class="opensubtitles-options">
@@ -545,6 +545,12 @@
                     <div class="invalid-cross" style="display: none"></div>
                 </div>
             </span>
+        </div>
+    </section>
+
+    <section id="proxyserver" class="advanced">
+        <div class="title"><%= i18n.__("Proxy Server") %></div>
+        <div class="content">
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Proxy Server") %></p>
