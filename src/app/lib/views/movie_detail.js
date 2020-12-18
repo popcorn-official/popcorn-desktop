@@ -352,7 +352,7 @@
         if ($('.health-icon ~ .tooltip').is(':visible')) {
           $('.health-icon').tooltip('fixTitle').tooltip('show');
         }
-      }, 1100);
+      }, 2100);
     },
 
     openIMDb: function() {
