@@ -6,14 +6,12 @@
 
   App.Providers.Generic = require('butter-provider');
 
-  function updateProviderConnection (server, proxy) {
+  function updateProviderConnection (moviesServer, seriesServer, animeServer, proxy) {
+    moviesServer ? cache[Object.keys(App.Providers._cache)[0]].apiURL = [moviesServer] : null;
+    seriesServer ? cache[Object.keys(App.Providers._cache)[1]].apiURL = [seriesServer] : null;
+    animeServer ? cache[Object.keys(App.Providers._cache)[2]].apiURL = [animeServer] : null;
     for (let provider in cache) {
-      if (cache[provider] && cache[provider].apiURL) {
-        cache[provider].proxy = proxy;
-        if (!((cache[provider].name.includes('Movie') && !Settings.customApiMovies) || (cache[provider].name.includes('TV') && !Settings.customApiSeries) || (cache[provider].name.includes('Anime') && !Settings.customApiAnime))) {
-          cache[provider].apiURL = [server];
-        }
-      }
+      cache[provider].proxy = proxy;
     }
   }
 
