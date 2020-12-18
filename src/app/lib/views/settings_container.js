@@ -285,6 +285,9 @@
                 case 'moviesTabEnable':
                 case 'seriesTabEnable':
                 case 'animeTabEnable':
+                case 'customApiMovies':
+                case 'customApiSeries':
+                case 'customApiAnime':
                     value = field.is(':checked');
                     break;
                 case 'httpApiEnabled':
@@ -478,6 +481,9 @@
                     this.alertMessageSuccess(true);
                     break;
                 case 'apiServer':
+                case 'customApiMovies':
+                case 'customApiSeries':
+                case 'customApiAnime':
                     this.alertMessageSuccess(true);
                     break;
                 case 'translateSynopsis':
