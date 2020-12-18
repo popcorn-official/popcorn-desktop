@@ -504,10 +504,21 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Custom API Server") %></p>
-                    <input type="text" size="100" id="apiServer" name="apiServer" value="<%= Settings.apiServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <input type="text" size="50" id="apiServer" name="apiServer" value="<%= Settings.apiServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
                     <div class="invalid-cross" style="display: none"></div>
+                    <div style="display:inline-block;<%=(Settings.apiServer === ''? 'opacity:0.4"':'"')%>>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<em><%= i18n.__("for") %></em>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="settings-checkbox" name="customApiMovies" id="customApiMovies" type="checkbox" <%=(Settings.customApiMovies? "checked='checked'":"")%> <%=(Settings.apiServer === ''? "disabled='disabled'":"")%>>
+                        <label class="settings-label" for="customApiMovies"><em><%= i18n.__("Movies") %></em></label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="settings-checkbox" name="customApiSeries" id="customApiSeries" type="checkbox" <%=(Settings.customApiSeries? "checked='checked'":"")%> <%=(Settings.apiServer === ''? "disabled='disabled'":"")%>>
+                        <label class="settings-label" for="customApiSeries"><em><%= i18n.__("Series") %></em></label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="settings-checkbox" name="customApiAnime" id="customApiAnime" type="checkbox" <%=(Settings.customApiAnime? "checked='checked'":"")%> <%=(Settings.apiServer === ''? "disabled='disabled'":"")%>>
+                        <label class="settings-label" for="customApiAnime"><em><%= i18n.__("Anime") %></em></label>
+                    </div>
                 </div>
             </span>
             <span>

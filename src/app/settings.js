@@ -114,6 +114,9 @@ Settings.trackers = {
 // API Servers
 Settings.apiServer = '';
 Settings.proxyServer = '';
+Settings.customApiMovies = true;
+Settings.customApiSeries = true;
+Settings.customApiAnime = true;
 
 // User interface
 Settings.language = '';
