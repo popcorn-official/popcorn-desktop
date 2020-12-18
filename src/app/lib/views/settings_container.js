@@ -206,7 +206,9 @@
                 data = {};
 
             switch (field.attr('name')) {
-                case 'apiServer':
+                case 'customMoviesServer':
+                case 'customSeriesServer':
+                case 'customAnimeServer':
                 case 'proxyServer':
                     apiServerChanged = true;
                     value = field.val();
@@ -285,9 +287,6 @@
                 case 'moviesTabEnable':
                 case 'seriesTabEnable':
                 case 'animeTabEnable':
-                case 'customApiMovies':
-                case 'customApiSeries':
-                case 'customApiAnime':
                     value = field.is(':checked');
                     break;
                 case 'httpApiEnabled':
@@ -342,8 +341,7 @@
             App.settings[field.attr('name')] = value;
 
             if (apiServerChanged) {
-                console.log(App.settings['apiServer'], App.settings['proxyServer']);
-                App.Providers.updateConnection(App.settings['apiServer'], App.settings['proxyServer']);
+                App.Providers.updateConnection(App.settings['customMoviesServer'], App.settings['customSeriesServer'], App.settings['customAnimeServer'], App.settings['proxyServer']);
             }
 
             if (apiDataChanged) {
@@ -480,10 +478,9 @@
                     packageJson.save();
                     this.alertMessageSuccess(true);
                     break;
-                case 'apiServer':
-                case 'customApiMovies':
-                case 'customApiSeries':
-                case 'customApiAnime':
+                case 'customMoviesServer':
+                case 'customSeriesServer':
+                case 'customAnimeServer':
                     this.alertMessageSuccess(true);
                     break;
                 case 'translateSynopsis':

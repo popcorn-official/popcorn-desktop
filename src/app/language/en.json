@@ -547,5 +547,7 @@
 	"No anime found...": "No anime found...",
 	"Search in %s": "Search in %s",
 	"Show 'Search on Torrent Collection' in search": "Show 'Search on Torrent Collection' in search",
-	"for": "for"
+	"Custom Movies Server": "Custom Movies Server",
+	"Custom Series Server": "Custom Series Server",
+	"Custom Anime Server": "Custom Anime Server"
 }

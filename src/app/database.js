@@ -409,8 +409,8 @@ var Database = {
                     window.__isNewInstall = true;
                 }
 
-                if (Settings.apiServer || Settings.proxyServer) {
-                  App.Providers.updateConnection(Settings.apiServer, Settings.proxyServer);
+                if (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer || Settings.proxyServer) {
+                  App.Providers.updateConnection(Settings.customMoviesServer, Settings.customSeriesServer, Settings.customAnimeServer, Settings.proxyServer);
                 }
 
                 App.vent.trigger('initHttpApi');
