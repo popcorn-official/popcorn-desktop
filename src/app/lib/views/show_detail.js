@@ -31,7 +31,8 @@
             'dblclick .tab-episode': 'dblclickEpisode',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .shmi-rating': 'switchRating',
-            'click .health-icon': 'refreshTorrentHealth'
+            'click .health-icon': 'refreshTorrentHealth',
+            'mousedown .sh-poster': 'clickPoster'
         },
 
         regions: {
@@ -731,6 +732,16 @@
             return (
                 (eap = efp(rect.left, rect.top)) === el || el[contains](eap) === has || (eap = efp(rect.right, rect.top)) === el || el[contains](eap) === has || (eap = efp(rect.right, rect.bottom)) === el || el[contains](eap) === has || (eap = efp(rect.left, rect.bottom)) === el || el[contains](eap) === has
             );
+        },
+
+        clickPoster: function(e) {
+            if (e.button === 0) {
+                $('.sh-poster').toggleClass('active');
+            } else if (e.button === 2) {
+                var clipboard = nw.Clipboard.get();
+                clipboard.set($('.shp-img')[0].style.backgroundImage.slice(4, -1).replace(/"/g, ""), 'text');
+                $('.notification_alert').text(i18n.__('The image url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+            }
         },
 
         retrieveTorrentHealth: function(cb) {
