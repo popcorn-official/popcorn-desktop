@@ -31,7 +31,8 @@
       'click .q2160': 'toggleShowQuality',
       'click .q1080': 'toggleShowQuality',
       'click .q720': 'toggleShowQuality',
-      'click .health-icon': 'resetTorrentHealth'
+      'click .health-icon': 'resetTorrentHealth',
+      'mousedown .mcover-image': 'clickPoster'
     },
 
     regions: {
@@ -293,6 +294,14 @@
     showallCast: function () {
       $('.overview').html(curSynopsis.crew + curSynopsis.allcast + curSynopsis.old);
       $('.overview *').tooltip({html: true, sanitize: false, container: 'body', placement: 'bottom', delay: {show: 200, hide: 0}, template: '<div class="tooltip" style="opacity:1"><div class="tooltip-inner" style="background-color:rgba(0,0,0,0);width:118px"></div></div>'});
+    },
+
+    clickPoster: function(e) {
+      if (e.button === 2) {
+        var clipboard = nw.Clipboard.get();
+        clipboard.set($('.mcover-image')[0].src, 'text');
+        $('.notification_alert').text(i18n.__('The image url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+      }
     },
 
     onBeforeDestroy: function() {

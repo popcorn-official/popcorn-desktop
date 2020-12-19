@@ -30,6 +30,7 @@
             float: left
             width: 198px
             height: 100%
+            cursor: pointer
 
             .shp-img
                 position relative
@@ -47,6 +48,14 @@
                 &.fadein
                     transition: opacity .3s ease-in;
                     opacity: 1
+
+        .sh-poster.active
+            zoom: 350%
+            position: absolute
+            z-index: 20
+
+            + .sh-metadata, ~ .sh-actions
+                left: 198px
 
         .sh-metadata
             float: left
