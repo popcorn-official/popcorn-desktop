@@ -84,6 +84,7 @@
                 this.handleTorrent(torrent);
                 this.handleStreamInfo();
                 this.watchState();
+                this.saveCoverToFile();
                 return this.createServer();
             }.bind(this)).then(this.waitForBuffer.bind(this)).catch(this.handleErrors.bind(this));
         },
@@ -538,6 +539,17 @@
                 this.stateModel.destroy();
             } else {
                 _.delay(this.watchState.bind(this), 100);
+            }
+        },
+
+        saveCoverToFile: function () {
+            if (this.torrentModel && this.torrentModel.get('type') === 'movie' && this.torrentModel.get('cover') && this.torrentModel.get('torrent').name) {
+                const request = require('request');
+                let url = this.torrentModel.get('cover');
+                request({ url, encoding: null }, (err, resp, buffer) => {
+                    if (err || buffer.length < 1000) return;
+                    fs.writeFileSync(path.join(App.settings.tmpLocation, this.torrentModel.get('torrent').name) + '/cover.jpg', buffer);
+                });
             }
         },
 
