@@ -12,7 +12,8 @@
             'click .close-icon': 'closeSelector',
             'click .file-item': 'startStreaming',
             'click .store-torrent': 'storeTorrent',
-            'click .playerchoicemenu li a': 'selectPlayer'
+            'click .playerchoicemenu li a': 'selectPlayer',
+            'mousedown .playerchoice': 'showPlayerList'
         },
 
         initialize: function () {
@@ -50,6 +51,7 @@
             if (!$.trim($('.file-selector-container .file-list').html()).length) {
                 $('.file-selector-container .file-list').html('<li style="margin-top: 30px">' + i18n.__('No results found') + '</li>');
             }
+            $('.playerchoice').tooltip({html: true, delay: {show: 800, hide: 100}});
         },
 
         bitsnoopRequest: function (hash) {
@@ -168,6 +170,16 @@
             that.model.set('device', player);
             if (!player.match(/[0-9]+.[0-9]+.[0-9]+.[0-9]/ig)) {
                 AdvSettings.set('chosenPlayer', player);
+            }
+        },
+
+        showPlayerList: function(e) {
+            if (e.button === 2) {
+                App.vent.trigger('notification:show', new App.Model.Notification({
+                    title: '',
+                    body: i18n.__('Popcorn Time currently supports') + '<br>VLC, Fleex player, MPlayer, MPlayerX, MPlayer OSX Ext., IINA, mpv, mpv.net, MPC-HC, MPC-BE, SMPlayer, Bomi & BSPlayer.<br><br>' + i18n.__('There is also support for Chromecast, AirPlay & DLNA devices.'),e,
+                    type: 'success'
+                }));
             }
         },
 
