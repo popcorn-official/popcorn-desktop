@@ -1,6 +1,6 @@
 <div class="button dropup" >
     <div id="watch-now" class="left startStreaming" data-torrent="" data-episodeid="" data-episode="" data-season=""><%=i18n.__("Watch Now") %></div>
-    <div class="dropdown-toggle left playerchoice tooltipped" data-toggle="dropdown" data-placement="bottom" title='<%=i18n.__("Right click for supported players") %>'>
+    <div class="dropdown-toggle left playerchoice tooltipped" data-toggle="dropdown" data-placement="bottom" title="<%=i18n.__("Right click for supported players") %>">
         <img class="imgplayerchoice" src="images/icons/local-icon.png"/>
         <span class="caret"></span>
     </div>
