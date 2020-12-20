@@ -33,7 +33,7 @@
             'click .shmi-rating': 'switchRating',
             'click .health-icon': 'refreshTorrentHealth',
             'mousedown .sh-poster': 'clickPoster',
-            'mousedown .playerchoice': 'showPlayerList'
+            'click .playerchoicehelp': 'showPlayerList'
         },
 
         regions: {
@@ -223,7 +223,6 @@
             App.Device.Collection.setDevice(Settings.chosenPlayer);
             App.Device.ChooserView('#player-chooser').render();
             $('.spinner').hide();
-            $('.playerchoice').tooltip({html: true, delay: {show: 1800, hide: 100}});
         },
 
         selectNextEpisode: function () {
@@ -775,13 +774,11 @@
         },
 
         showPlayerList: function(e) {
-            if (e.button === 2) {
-                App.vent.trigger('notification:show', new App.Model.Notification({
-                    title: '',
-                    body: i18n.__('Popcorn Time currently supports') + '<span class="smline"></span>' + 'VLC, Fleex player, MPlayer, MPlayerX, MPlayer OSX Ext., IINA, Bomi,<br>mpv, mpv.net, MPC-HC, MPC-BE, SMPlayer, PotPlayer & BSPlayer' + '.<span class="mmline"></span>' + i18n.__('There is also support for Chromecast, AirPlay & DLNA devices.'),
-                    type: 'success'
-                }));
-            }
+            App.vent.trigger('notification:show', new App.Model.Notification({
+                title: '',
+                body: i18n.__('Popcorn Time currently supports') + '<span class="smline"></span>' + 'VLC, Fleex player, MPlayer, MPlayerX, MPlayer OSX Ext., IINA, Bomi,<br>mpv, mpv.net, MPC-HC, MPC-BE, SMPlayer, PotPlayer & BSPlayer' + '.<span class="mmline"></span>' + i18n.__('There is also support for Chromecast, AirPlay & DLNA devices.'),
+                type: 'success'
+            }));
         },
 
         onBeforeDestroy: function () {
