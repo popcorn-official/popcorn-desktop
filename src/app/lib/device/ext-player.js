@@ -104,6 +104,11 @@
             switches: '',
             subswitch: '',
             fs: '-fs'
+        },
+        'PotPlayerMini64': {
+            type: 'potplayer',
+            switches: '',
+            subswitch: '/sub='
         }
     };
 
