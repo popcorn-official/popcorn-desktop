@@ -51,7 +51,7 @@
             if (!$.trim($('.file-selector-container .file-list').html()).length) {
                 $('.file-selector-container .file-list').html('<li style="margin-top: 30px">' + i18n.__('No results found') + '</li>');
             }
-            $('.playerchoice').tooltip({html: true, delay: {show: 800, hide: 100}});
+            $('.playerchoice').tooltip({html: true, delay: {show: 1800, hide: 100}});
         },
 
         bitsnoopRequest: function (hash) {
