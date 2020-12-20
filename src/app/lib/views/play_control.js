@@ -129,7 +129,7 @@
         html: true
       });
 
-      $('.playerchoice').tooltip({html: true, delay: {show: 800, hide: 100}});
+      $('.playerchoice').tooltip({html: true, delay: {show: 1800, hide: 100}});
 
       // Bookmarked / not bookmarked
       if (this.model.get('bookmarked')) {
