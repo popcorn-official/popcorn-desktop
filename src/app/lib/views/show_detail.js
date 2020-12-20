@@ -223,7 +223,7 @@
             App.Device.Collection.setDevice(Settings.chosenPlayer);
             App.Device.ChooserView('#player-chooser').render();
             $('.spinner').hide();
-            $('.playerchoice').tooltip({html: true, delay: {show: 800, hide: 100}});
+            $('.playerchoice').tooltip({html: true, delay: {show: 1800, hide: 100}});
         },
 
         selectNextEpisode: function () {
