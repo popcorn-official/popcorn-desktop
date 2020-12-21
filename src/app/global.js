@@ -43,3 +43,5 @@ var _ = require('underscore'),
   child = require('child_process'),
   // package.json
   pkJson = nw.App.manifest;
+  // supported external players list
+  extPlayerlst = '';

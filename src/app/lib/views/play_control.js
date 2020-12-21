@@ -309,7 +309,7 @@
     showPlayerList: function(e) {
       App.vent.trigger('notification:show', new App.Model.Notification({
         title: '',
-        body: i18n.__('Popcorn Time currently supports') + '<span class="smline"></span>' + 'VLC, Fleex player, MPlayer, MPlayerX, MPlayer OSX Ext., IINA, Bomi,<br>mpv, mpv.net, MPC-HC, MPC-BE, SMPlayer, PotPlayer & BSPlayer' + '.<span class="mmline"></span>' + i18n.__('There is also support for Chromecast, AirPlay & DLNA devices.'),
+        body: i18n.__('Popcorn Time currently supports') + '<div class="splayerlist">' + extPlayerlst + '.</div><br>' + i18n.__('There is also support for Chromecast, AirPlay & DLNA devices.'),
         type: 'success'
       }));
     },
