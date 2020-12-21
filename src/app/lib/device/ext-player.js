@@ -20,6 +20,13 @@
             cmd: '/Contents/MacOS/Fleex player',
             filenameswitch: '-file-name '
         },
+        'mplayer': {
+            type: 'mplayer',
+            cmd: 'mplayer',
+            switches: '--really-quiet',
+            subswitch: '-sub ',
+            fs: '-fs',
+        },
         'MPlayerX': {
             type: 'mplayer',
             cmd: '/Contents/MacOS/MPlayerX',
@@ -41,12 +48,11 @@
             subswitch: '--mpv-sub-file=',
             fs: '--mpv-fs',
         },
-        'mplayer': {
-            type: 'mplayer',
-            cmd: 'mplayer',
-            switches: '--really-quiet',
-            subswitch: '-sub ',
-            fs: '-fs',
+        'Bomi': {
+            type: 'bomi',
+            switches: '',
+            subswitch: '--set-subtitle ',
+            fs: '--action window/enter-fs'
         },
         'mpv': {
             type: 'mpv',
@@ -93,12 +99,6 @@
             stop: 'smplayer -send-action quit',
             pause: 'smplayer -send-action pause'
         },
-        'Bomi': {
-            type: 'bomi',
-            switches: '',
-            subswitch: '--set-subtitle ',
-            fs: '--action window/enter-fs'
-        },
         'BSPlayer': {
             type: 'bsplayer',
             switches: '',
@@ -111,6 +111,8 @@
             subswitch: '/sub='
         }
     };
+
+    extPlayerlst = Object.getOwnPropertyNames(players).toString().replace(/,/g, ', ').replace("Extended", "Ext.").replace("MPC-HC64, ", "").replace("MPC-BE64, ", "").replace("PotPlayerMini64", "PotPlayer").replace("mpvnet", "mpv.net").replace("mplayer", "MPlayer").replace(/,([^,]*)$/, ' & $1');
 
     function getPlayerName(loc) {
         return path.basename(loc).replace(path.extname(loc), '');
