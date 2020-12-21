@@ -59,6 +59,7 @@
                         this.ui.onlineSearch.css('visibility', 'visible');
                         this.ui.onlineSearch.css('margin-left', 'calc(50% - 125px)');
                     }
+                    break;
                 default:
                 }
             }
