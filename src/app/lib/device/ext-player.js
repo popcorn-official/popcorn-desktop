@@ -20,7 +20,7 @@
             cmd: '/Contents/MacOS/Fleex player',
             filenameswitch: '-file-name '
         },
-        'mplayer': {
+        'MPlayer': {
             type: 'mplayer',
             cmd: 'mplayer',
             switches: '--really-quiet',
@@ -112,7 +112,7 @@
         }
     };
 
-    extPlayerlst = Object.getOwnPropertyNames(players).join(', ').replace(/MPC-HC64, |MPC-BE64, |Mini64/gi, '').replace('Extended', 'Ext.').replace('mpvnet', 'mpv.net').replace('mplayer', 'MPlayer').replace(/,([^,]*)$/, ' & $1');
+    extPlayerlst = Object.getOwnPropertyNames(players).join(', ').replace(/MPC-HC64, |MPC-BE64, |Mini64/gi, '').replace('Extended', 'Ext.').replace('mpvnet', 'mpv.net').replace(/,([^,]*)$/, ' & $1');
 
     function getPlayerName(loc) {
         return path.basename(loc).replace(path.extname(loc), '');
