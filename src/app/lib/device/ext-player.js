@@ -112,7 +112,7 @@
         }
     };
 
-    extPlayerlst = Object.getOwnPropertyNames(players).toString().replace(/,/g, ', ').replace("Extended", "Ext.").replace("MPC-HC64, ", "").replace("MPC-BE64, ", "").replace("PotPlayerMini64", "PotPlayer").replace("mpvnet", "mpv.net").replace("mplayer", "MPlayer").replace(/,([^,]*)$/, ' & $1');
+    extPlayerlst = Object.getOwnPropertyNames(players).join(', ').replace(/MPC-HC64, |MPC-BE64, |Mini64/gi, '').replace('Extended', 'Ext.').replace('mpvnet', 'mpv.net').replace('mplayer', 'MPlayer').replace(/,([^,]*)$/, ' & $1');
 
     function getPlayerName(loc) {
         return path.basename(loc).replace(path.extname(loc), '');
