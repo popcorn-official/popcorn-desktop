@@ -55,9 +55,10 @@
                 case 'movies':
                 case 'shows':
                 case 'anime':
-                    this.ui.onlineSearch.css('visibility', 'visible');
-                    this.ui.onlineSearch.css('margin-left', 'calc(50% - 125px)');
-                    break;
+                    if (Settings.torColSearchMore) {
+                        this.ui.onlineSearch.css('visibility', 'visible');
+                        this.ui.onlineSearch.css('margin-left', 'calc(50% - 125px)');
+                    }
                 default:
                 }
             }
@@ -344,7 +345,7 @@
                 $('#load-more-item').remove();
                 $('#search-more-item').remove();
                 // we add a load more
-                if (this.collection.hasMore && !this.collection.filter.keywords && this.collection.state !== 'error' && this.collection.length !== 0 && this.collection.length >= maxResults) {
+                if (this.collection.hasMore && this.collection.state !== 'error' && this.collection.length !== 0 && this.collection.length >= maxResults) {
                     $('.items').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div><span id="overlay"></span></div>');
 
                     $('#load-more-item').click(function () {
