@@ -5,7 +5,7 @@
         <span class="caret"></span>
     </div>
     <ul class="dropdown-menu playerchoicemenu" role="menu">
-        <span class="fa fa-question-circle playerchoicehelp"<% if (items.length < 2) { %> style="top:-18px;right:6px"<% } %>></span>
+        <span class="fa fa-question-circle playerchoicehelp"></span>
         <% _.each(items, function(item){ %>
         <li id ="player-<%= item.id %>">
             <a href="#"> <%= item.name %>
