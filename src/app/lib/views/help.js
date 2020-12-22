@@ -8,7 +8,8 @@
 
         events: {
             'click .close-icon': 'closeHelp',
-            'click #in-app-reporter': 'reportIssue'
+            'click #in-app-reporter': 'reportIssue',
+            'click .did-you-know': 'randomizeDyk'
         },
 
         initialize: function () {
@@ -32,6 +33,10 @@
             Mousetrap.bind('esc', function (e) {
                 App.vent.trigger('help:close');
             });
+            this.randomizeDyk();
+        },
+
+        randomizeDyk: function () {
             var dyk = dyks[_.random(dyks.length - 1)];
             $('.randomized-dyk').html(dyk);
         },
