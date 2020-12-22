@@ -10,6 +10,7 @@
             <% if(App.git) { %>
                 - <small><i><%= App.git.branch %> (<a class="links" href="<%= Settings.commitUrl %>/<%= App.git.commit %>"><%= App.git.commit.slice(0,8) %></a>)</i></small>
             <% } %>
+            <small>&nbsp;&nbsp;&nbsp;<a href="<%= Settings.issuesUrl %>" class="links"><i class="fa fa-exclamation-circle"></i> <%= i18n.__("Report an issue") %></a></small>
         </div>
 
         <div class="text-about">
@@ -17,10 +18,6 @@
                 <%= i18n.__("%s is the result of many developers and designers putting a bunch of APIs together to make the experience of watching torrent movies as simple as possible.", Settings.projectName) %><br/>
                 <%= i18n.__("We are an open source project. We are from all over the world. We love our movies. And boy, do we love popcorn.") %>
             </div>
-        </div>
-
-        <div class="title-issue">
-            <a href="<%= Settings.issuesUrl %>" class="links">[ <%= i18n.__("Report an issue") %> ]</a>
         </div>
 
         <div class="icons_social">
