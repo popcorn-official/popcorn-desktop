@@ -4,10 +4,10 @@
     <div class="content">
         <h1><%= i18n.__("Help Section") %></h1>
         <hr>
-        <div class="did-you-know">
+        <center><div class="did-you-know">
             <span class="title-dyk"><i class="fa fa-question-circle icon-dyk"></i><%= i18n.__("Did you know?") %></span>
             <span class="randomized-dyk"></span>
-        </div>
+        </div></center>
 
         <div class="help-outer">
             <h2 class="top"><%= i18n.__("What does %s offer?", Settings.projectName ) %></h2>
