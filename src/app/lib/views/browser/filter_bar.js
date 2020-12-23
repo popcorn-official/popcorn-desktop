@@ -121,15 +121,9 @@
           break;
       }
 
-      if (Settings.rememberFilters) {
-        try {
-          this.fixFilter();
-        } catch (e) {}
-      } else {
-        $('.sorters .dropdown-menu:first-child a').addClass('active');
-        $('.genres .dropdown-menu:first-child a').addClass('active');
-        $('.types .dropdown-menu:first-child a').addClass('active');
-      }
+      try {
+        this.fixFilter();
+      } catch (e) {}
     },
     rightclick_search: function(e) {
       e.preventDefault();
@@ -217,12 +211,6 @@
           hide: 100
         }
       });
-
-      if (Settings.rememberFilters) {
-        try {
-          this.fixFilter();
-        } catch (e) {}
-      }
 
       if (!this.previousSort) {
         this.previousSort = $('.sorters .active').data('value') || $('.sorters .value').data('value');
