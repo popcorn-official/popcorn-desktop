@@ -139,6 +139,7 @@
             .pct-theme > select,
             .start-screen > select,
             .watchedCovers > select,
+            .defaultFilters > select,
             .tv_detail_jump_to > select
                 width 158px
 
@@ -299,6 +300,20 @@
                     cursor: pointer;
                     color: $ButtonBgActive;
                     transition: all .5s;
+
+        .set-current-filter,
+        .reset-current-filter
+            font-size: 13px
+            margin-left: 10px
+            transition: all 0.5s
+            cursor: pointer
+            &:hover
+                color: $ButtonBgActive
+
+        .reset-current-filter.disabled
+            color: inherit
+            opacity: 0.3
+            cursor: default
 
         .btns
             padding-top 10px
