@@ -27,7 +27,7 @@
         initialize: function () {
             this.filter = new App.Model.Filter(this.filters);
 
-            if (Settings.rememberFilters) {
+            if (Settings.defaultFilters === 'custom' || Settings.defaultFilters === 'remember') {
                 this.filter.set(this.getSavedFilter());
             }
 
@@ -74,7 +74,9 @@
             }
         },
         onFilterChange: function () {
-            this.saveFilter();
+            if (Settings.defaultFilters === 'remember' || curSetDefaultFilters) {
+                this.saveFilter();
+            }
 
             this.collection = new this.collectionModel([], {
                 filter: this.filter
