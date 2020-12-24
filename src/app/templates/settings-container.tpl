@@ -110,12 +110,28 @@
                 <label class="settings-label" for="alwaysOnTop"><%= i18n.__("Always On Top") %></label>
             </span>
             <span class="advanced">
-                <input class="settings-checkbox" name="rememberFilters" id="rememberFilters" type="checkbox" <%=(Settings.rememberFilters? "checked='checked'":"")%>>
-                <label class="settings-label" for="rememberFilters"><%= i18n.__("Remember Filters") %></label>
-            </span>
-            <span class="advanced">
                 <input class="settings-checkbox" name="torColSearchMore" id="torColSearchMore" type="checkbox" <%=(Settings.torColSearchMore? "checked='checked'":"")%>>
                 <label class="settings-label" for="torColSearchMore"><%= i18n.__("Show 'Search on Torrent Collection' in search") %></label>
+            </span>
+            <span class="advanced">
+                <div class="dropdown defaultFilters">
+                    <p><%= i18n.__("Default Filters") %></p>
+                        <%
+                            var filter_type = {
+                                "default": "Default",
+                                "custom": "Custom",
+                                "remember": "Remember"
+                            };
+                            var select_default_filter = "";
+                            for(var key in filter_type) {
+                                select_default_filter += "<option "+(Settings.defaultFilters == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(filter_type[key])+"</option>";
+                            }
+                        %>
+                    <select name="defaultFilters"><%=select_default_filter%></select>
+                    <div class="dropdown-arrow"></div>&nbsp;
+                    <% if (Settings.defaultFilters === 'custom') { %>&nbsp;<i class="set-current-filter fa fa-pen tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Set Filters") %>"></i><% } %>
+                    <% if (Settings.defaultFilters === 'custom' || Settings.defaultFilters === 'remember') { %><i class="reset-current-filter fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Reset Filters") %>"></i><i style="padding-right:80px">&nbsp;</i><% } %>
+                </div>
             </span>
             <span class="advanced">
                 <div class="dropdown watchedCovers">
