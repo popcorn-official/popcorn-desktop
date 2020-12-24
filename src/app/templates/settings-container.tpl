@@ -102,6 +102,10 @@
                 <label class="settings-label" for="coversShowRating"><%= i18n.__("Show rating over covers") %></label>
             </span>
             <span class="advanced">
+                <input class="settings-checkbox" name="moviesShowQuality" id="moviesShowQuality" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
+                <label class="settings-label" for="moviesShowQuality"><%= i18n.__("Show movie quality on list") %></label>
+            </span>
+            <span class="advanced">
                 <input class="settings-checkbox" name="nativeWindowFrame" id="nativeWindowFrame" type="checkbox" <%=(Settings.nativeWindowFrame? "checked='checked'":"")%>>
                 <label class="settings-label" for="nativeWindowFrame"><%= i18n.__("Native window frame") %></label>
             </span>
@@ -184,7 +188,7 @@
             </span>
             <span class="advanced">
                 <p><%= i18n.__("UI Scaling") %></p>
-                <input id="bigPicture" type="text" size="4" name="bigPicture" value="<%=Settings.bigPicture%>%"/>&nbsp;&nbsp;<em><%= i18n.__("(25% - 400%)") %></em>
+                <input id="bigPicture" type="text" size="5" name="bigPicture" value="<%=Settings.bigPicture%>%"/>&nbsp;&nbsp;<em><%= i18n.__("(25% - 400%)") %></em>
             </span>
         </div>
     </section>
@@ -320,27 +324,6 @@
             <span>
                 <input class="settings-checkbox" name="multipleExtSubtitles" id="multipleExtSubtitles" type="checkbox" <%=(Settings.multipleExtSubtitles? "checked='checked'":"")%>>
                 <label class="settings-label" for="multipleExtSubtitles"><%= i18n.__("Show all available subtitles for default language in flag menu") %></label>
-            </span>
-        </div>
-    </section>
-
-    <section id="quality" class="advanced">
-        <div class="title"><%= i18n.__("Quality") %></div>
-        <div class="content">
-            <span>
-                <div class="dropdown movies-quality">
-                    <p><%= i18n.__("Only list movies in") %></p>
-                    <select name="movies_quality">
-                        <option <%=(Settings.movies_quality == "all"? "selected='selected'":"") %> value="all"><%= i18n.__("All") %></option>
-                        <option <%=(Settings.movies_quality == "1080p"? "selected='selected'":"") %> value="1080p">1080p</option>
-                        <option <%=(Settings.movies_quality == "720p"? "selected='selected'":"") %> value="720p">720p</option>
-                    </select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
-            <span>
-                <input class="settings-checkbox" name="moviesShowQuality" id="moviesShowQuality" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
-                <label class="settings-label" for="moviesShowQuality"><%= i18n.__("Show movie quality on list") %></label>
             </span>
         </div>
     </section>
@@ -508,11 +491,11 @@
             </span>
             <span>
                 <p><%= i18n.__("HTTP API Username") %></p>
-                <input id="httpApiUsername" type="text" size="50" name="httpApiUsername" value="<%=Settings.httpApiUsername%>">
+                <input id="httpApiUsername" type="text" name="httpApiUsername" value="<%=Settings.httpApiUsername%>">
             </span>
             <span>
                 <p><%= i18n.__("HTTP API Password") %></p>
-                <input id="httpApiPassword" type="text" size="50" name="httpApiPassword" value="<%=Settings.httpApiPassword%>">
+                <input id="httpApiPassword" type="text" name="httpApiPassword" value="<%=Settings.httpApiPassword%>">
             </span>
             <div class="btns advanced database">
                 <div class="btn-settings database qr-code">
@@ -564,21 +547,6 @@
         </div>
     </section>
 
-    <section id="proxyserver" class="advanced">
-        <div class="title"><%= i18n.__("Proxy Server") %></div>
-        <div class="content">
-            <span>
-                <div class="opensubtitles-options">
-                    <p><%= i18n.__("Proxy Server") %></p>
-                    <input type="text" size="50" id="proxyServer" name="proxyServer" value="<%= Settings.proxyServer %>" placeholder="host:port (127.0.0.1:9050 or 127.0.0.1:4447)">
-                    <div class="loading-spinner" style="display: none"></div>
-                    <div class="valid-tick" style="display: none"></div>
-                    <div class="invalid-cross" style="display: none"></div>
-                </div>
-            </span>
-        </div>
-    </section>
-
     <section id="connection" class="advanced">
         <div class="title"><%= i18n.__("Connection") %></div>
         <div class="content">
@@ -599,6 +567,12 @@
                 <p><%= i18n.__("Port to stream on") %></p>
                 <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
             </span>
+            <% if (Settings.activateSeedbox) { %>
+            <span>
+                <p><%= i18n.__("Active torrents limit") %></p>
+                <input id="maxActiveTorrents" type="number" name="maxActiveTorrents" value="<%=Settings.maxActiveTorrents%>"/>
+            </span>
+            <% } %>
             <span id="overallRatio">
                 <p><%= i18n.__("Overall Ratio") %></p>
                 <% var overallRatio = function () {
@@ -609,15 +583,30 @@
                 %>
                 <input type="text" size="20" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;<em><%= Common.fileSize(Settings.totalDownloaded) %><i class="fa fa-arrow-circle-down"></i><%= Common.fileSize(Settings.totalUploaded) %><i class="fa fa-arrow-circle-up"></i></em>
             </span>
+            <% if (Settings.activateSeedbox) { %>
+            <span>
+                <input class="settings-checkbox" name="continueSeedingOnStart" id="continueSeedingOnStart" type="checkbox" <%=(Settings.continueSeedingOnStart? "checked='checked'":"")%>>
+                <label class="settings-label" for="continueSeedingOnStart"><%= i18n.__("Resume seeding after restarting the app?") %></label>
+            </span>
+            <% } %>
             <span>
                 <input class="settings-checkbox" name="vpnEnabled" id="vpnEnabled" type="checkbox" <%=(Settings.vpnEnabled? "checked='checked'":"")%>>
                 <label class="settings-label" for="vpnEnabled"><%= i18n.__("Enable VPN") %></label>
+            </span>
+            <span>
+                <div class="opensubtitles-options">
+                    <p><%= i18n.__("Proxy Server") %></p>
+                    <input type="text" size="50" id="proxyServer" name="proxyServer" value="<%= Settings.proxyServer %>" placeholder="host:port (127.0.0.1:9050 or 127.0.0.1:4447)">
+                    <div class="loading-spinner" style="display: none"></div>
+                    <div class="valid-tick" style="display: none"></div>
+                    <div class="invalid-cross" style="display: none"></div>
+                </div>
             </span>
         </div>
     </section>
 
     <section id="cache" class="advanced">
-        <div class="title"><%= i18n.__("Cache Directory") %></div>
+        <div class="title"><%= i18n.__("Cache") %></div>
         <div class="content">
             <span>
                 <p><%= i18n.__("Cache Directory") %></p>
@@ -627,18 +616,8 @@
             </span>
             <span>
                 <input class="settings-checkbox" name="deleteTmpOnClose" id="deleteTmpOnClose" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
-                <label class="settings-label" for="deleteTmpOnClose"><%= i18n.__("Clear Tmp Folder after closing app?") %></label>
+                <label class="settings-label" for="deleteTmpOnClose"><%= i18n.__("Clear Cache Folder after closing the app?") %></label>
             </span>
-            <span>
-                <input class="settings-checkbox" name="continueSeedingOnStart" id="continueSeedingOnStart" type="checkbox" <%=(Settings.continueSeedingOnStart? "checked='checked'":"")%>>
-                <label class="settings-label" for="continueSeedingOnStart"><%= i18n.__("Continue seeding torrents after restart app?") %></label>
-            </span>
-            <% if (Settings.activateSeedbox) { %>
-            <span>
-                <p><%= i18n.__("Maximum number of active torrents") %></p>
-                <input id="maxActiveTorrents" type="number" name="maxActiveTorrents" value="<%=Settings.maxActiveTorrents%>"/>
-            </span>
-            <% } %>
         </div>
     </section>
 
