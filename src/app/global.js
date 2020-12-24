@@ -44,4 +44,6 @@ var _ = require('underscore'),
   // package.json
   pkJson = nw.App.manifest,
   // supported external players list
-  extPlayerlst = '';
+  extPlayerlst = '',
+  // setting default filters status
+  curSetDefaultFilters = false;
