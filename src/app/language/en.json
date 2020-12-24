@@ -79,7 +79,7 @@
 	"Port to stream on": "Port to stream on",
 	"0 = Random": "0 = Random",
 	"Cache Directory": "Cache Directory",
-	"Clear Tmp Folder after closing app?": "Clear Tmp Folder after closing app?",
+	"Clear Cache Folder after closing the app?": "Clear Cache Folder after closing the app?",
 	"Database": "Database",
 	"Database Directory": "Database Directory",
 	"Import Database": "Import Database",
@@ -445,7 +445,7 @@
 	"Open File to Import": "Open File to Import",
 	"Browse Directory to save to": "Browse Directory to save to",
 	"Cancel and use VPN": "Cancel and use VPN",
-	"Continue seeding torrents after restart app?": "Continue seeding torrents after restart app?",
+	"Resume seeding after restarting the app?": "Resume seeding after restarting the app?",
 	"Enable VPN": "Enable VPN",
 	"Popularity": "Popularity",
 	"Last Added": "Last Added",
@@ -511,7 +511,7 @@
 	"Watched items": "Watched items",
 	"Bookmarked items": "Bookmarked items",
 	"Download list is empty...": "Download list is empty...",
-	"Maximum number of active torrents": "Maximum number of active torrents",
+	"Active torrents limit": "Active torrents limit",
 	"reality": "reality",
 	"Currently Airing": "Currently Airing",
 	"Toggle Subtitles": "Toggle Subtitles",
@@ -565,5 +565,6 @@
 	"Setting Filters...": "Setting Filters...",
 	"Default": "Default",
 	"Custom": "Custom",
-	"Remember": "Remember"
+	"Remember": "Remember",
+	"Cache": "Cache"
 }
