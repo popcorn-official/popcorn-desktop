@@ -240,7 +240,6 @@
                 case 'tv_detail_jump_to':
                 case 'subtitle_language':
                 case 'subtitle_decoration':
-                case 'movies_quality':
                 case 'subtitle_font':
                 case 'start_screen':
                     if ($('option:selected', field).val() === 'Last Open') {
@@ -478,7 +477,6 @@
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
-                case 'movies_quality':
                 case 'nativeWindowFrame':
                     let packageJson = jsonFileEditor(`package.json`);
                     packageJson.get('window').frame = value;
