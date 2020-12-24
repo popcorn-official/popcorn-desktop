@@ -42,7 +42,9 @@
             'click .reset-tvshow': 'resettvshow',
             'change #tmpLocation': 'updateCacheDirectory',
             'click #syncTrakt': 'syncTrakt',
-            'click .qr-code': 'generateQRcode'
+            'click .qr-code': 'generateQRcode',
+            'click .set-current-filter': 'saveFilter',
+            'click .reset-current-filter': 'resetFilter'
         },
 
         onAttach: function () {
@@ -70,6 +72,10 @@
             osMousetrap.bind('enter', function (e) {
                 this.connectOpensubtitles();
             }.bind(this));
+
+            if (!Settings.filters) {
+                $('.reset-current-filter').addClass('disabled').attr('data-original-title', '');
+            }
         },
 
         onRender: function () {
@@ -242,6 +248,7 @@
                     }
                 /* falls through */
                 case 'watchedCovers':
+                case 'defaultFilters':
                 case 'theme':
                     value = $('option:selected', field).val();
                     break;
@@ -283,7 +290,6 @@
                 case 'opensubtitlesAutoUpload':
                 case 'subtitles_bold':
                 case 'multipleExtSubtitles':
-                case 'rememberFilters':
                 case 'moviesTabEnable':
                 case 'seriesTabEnable':
                 case 'animeTabEnable':
@@ -391,6 +397,7 @@
                 case 'vpnEnabled':
                 case 'language':
                 case 'watchedCovers':
+                case 'defaultFilters':
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
@@ -497,6 +504,40 @@
             }
             if (that.$el.scrollTop() !== scrollPos) {
                 that.$el.scrollTop(scrollPos);
+            }
+        },
+
+        saveFilter: function () {
+            curSetDefaultFilters = true;
+            $('.nav-hor.left li:first').click();
+            var ddone = function () {
+                curSetDefaultFilters = false;
+                App.vent.trigger('notification:close');
+                that.alertMessageSuccess(false, false, '', i18n.__('Your Default Filters have been changed'));
+            };
+            App.vent.trigger('notification:show', new App.Model.Notification({
+                title: i18n.__('Setting Filters...'),
+                body: i18n.__('Set any number of the <i>Genre</i>, <i>Sort by</i> and <i>Type</i> filters and press \'Done\' to save your preferences.') + '<br>' + i18n.__('(*You can set multiple Filters and tabs at the same time and of course any additional ones later') + '<br>' + i18n.__('as well as overwrite or reset your preferences)'),
+                showClose: false,
+                showRestart: false,
+                type: 'info',
+                buttons: [{ title: '<label class="export-database" for="exportdatabase">' + i18n.__('Done') + '</label>', action: ddone }]
+            }));
+        },
+
+        resetFilter: function () {
+            if (!$('.reset-current-filter').hasClass('disabled')) {
+                let scrollPos = that.$el.scrollTop();
+                AdvSettings.set('filters', '');
+                setTimeout(function(){
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if (that.$el.scrollTop() !== scrollPos) {
+                        that.$el.scrollTop(scrollPos);
+                    }
+                }, 100);
+                that.alertMessageSuccess(false, false, '', i18n.__('Your Default Filters have been reset'));
             }
         },
 
