@@ -554,7 +554,7 @@
 	"Popcorn Time currently supports": "Popcorn Time currently supports",
 	"There is also support for Chromecast, AirPlay & DLNA devices.": "There is also support for Chromecast, AirPlay & DLNA devices.",
 	"Right click for supported players": "Right click for supported players",
-	"Set any number of the Genre, Sort by and Type filters and press 'Done' to save your preferences.": "Set any number of the Genre, Sort by and Type filters and press 'Done' to save your preferences.",
+	"Set any number of the <i>Genre</i>, <i>Sort by</i> and <i>Type</i> filters and press 'Done' to save your preferences.": "Set any number of the <i>Genre</i>, <i>Sort by</i> and <i>Type</i> filters and press 'Done' to save your preferences.",
 	"(*You can set multiple Filters and tabs at the same time and of course any additional ones later": "(*You can set multiple Filters and tabs at the same time and of course any additional ones later",
 	"as well as overwrite or reset your preferences)": "as well as overwrite or reset your preferences)",
 	"Default Filters": "Default Filters",
@@ -562,5 +562,8 @@
 	"Reset Filters": "Reset Filters",
 	"Your Default Filters have been changed": "Your Default Filters have been changed",
 	"Your Default Filters have been reset": "Your Default Filters have been reset",
-	"Setting Filters...": "Setting Filters..."
+	"Setting Filters...": "Setting Filters...",
+	"Default": "Default",
+	"Custom": "Custom",
+	"Remember": "Remember"
 }
