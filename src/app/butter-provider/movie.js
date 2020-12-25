@@ -94,7 +94,7 @@ class MovieApi extends Generic {
     };
 
     if (filters.keywords) {
-      params.keywords = filters.keywords.replace(/\s/g, '% ');
+      params.keywords = filters.keywords.replace(/\s/g, '% ').replace(/[^a-zA-Z0-9]/g,' ');
     }
     if (filters.genre) {
       params.genre = filters.genre;
