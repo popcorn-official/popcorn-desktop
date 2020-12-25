@@ -245,9 +245,9 @@
       App.vent.trigger('seedbox:close');
       App.vent.trigger('movie:closeDetail');
       e.preventDefault();
-      var searchvalue = this.ui.searchInput.val().replace(/[^a-zA-Z0-9]/g,' ');
+      var searchvalue = this.ui.searchInput.val();
       this.model.set({
-        keywords: this.ui.searchInput.val().replace(/[^a-zA-Z0-9]/g,' '),
+        keywords: this.ui.searchInput.val(),
         genre: ''
       });
 
