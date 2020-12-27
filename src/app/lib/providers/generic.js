@@ -7,7 +7,7 @@
   App.Providers.Generic = require('butter-provider');
 
   function updateProviderConnection (moviesServer, seriesServer, animeServer, proxy) {
-    moviesServer && (moviesServer.includes('http://yts') || moviesServer.includes('https://yts')) ? cache[Object.keys(App.Providers._cache)[0]] = App.Providers.get('YTSApi') : null;
+    moviesServer && moviesServer.includes('://yts.') ? cache[Object.keys(App.Providers._cache)[0]] = App.Providers.get('YTSApi') : null;
     moviesServer ? cache[Object.keys(App.Providers._cache)[0]].apiURL = [moviesServer] : null;
     seriesServer ? cache[Object.keys(App.Providers._cache)[1]].apiURL = [seriesServer] : null;
     animeServer ? cache[Object.keys(App.Providers._cache)[2]].apiURL = [animeServer] : null;
