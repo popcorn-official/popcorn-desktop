@@ -39,7 +39,8 @@
   "providers": [
     "butter-provider/movie.js",
     "butter-provider/anime.js",
-    "butter-provider/tv.js"
+    "butter-provider/tv.js",
+    "butter-provider/yts.js"
   ],
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
