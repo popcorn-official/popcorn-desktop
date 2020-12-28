@@ -50,6 +50,8 @@
 
     types_fav: ['All', 'Movies', 'Series', 'Anime'],
 
+    types_yts: ['All', '720p', '1080p', '2160p', '3D'],
+
     genres_anime: [
       'All',
       'Action',
