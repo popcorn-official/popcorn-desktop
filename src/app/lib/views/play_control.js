@@ -15,7 +15,9 @@
       'click .favourites-toggle': 'toggleFavourite',
       'click .playerchoicemenu li a': 'selectPlayer',
       'click .playerchoicehelp': 'showPlayerList',
-      'click .watched-toggle': 'toggleWatched'
+      'click .watched-toggle': 'toggleWatched',
+      'click #subs-dropdown': 'hideTooltips',
+      'click #audio-dropdown': 'hideTooltips'
     },
     regions: {
       subDropdown: '#subs-dropdown',
@@ -174,24 +176,27 @@
       this.ui.bookmarkIcon.text(i18n.__(textBookmarked));
     },
 
+    hideTooltips: function () {
+      $('#subs-dropdown .flag.toggle, #audio-dropdown .flag.toggle').tooltip('hide');
+    },
+
     switchSubtitle: function(lang) {
       var subtitles = this.model.get('subtitle') || this.views.sub.values;
       if (subtitles === undefined || subtitles[lang] === undefined) {
         lang = 'none';
       }
       this.subtitle_selected = lang;
+      $('#subs-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang)).tooltip({delay: {show: 800, hide: 100}}).tooltip('fixTitle');
       console.info('Subtitles: ' + this.subtitle_selected);
     },
 
     switchAudio: function(lang) {
       var audios = this.model.get('langs');
-
       if (audios === undefined || audios[lang] === undefined) {
         lang = 'none';
       }
-
       this.audio_selected = lang;
-
+      $('#audio-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang)).tooltip({delay: {show: 800, hide: 100}}).tooltip('fixTitle');
       console.info('Audios: ' + lang);
     },
 
