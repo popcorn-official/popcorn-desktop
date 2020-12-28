@@ -95,6 +95,10 @@
         case 'movies':
           filterbarRandom.show();
           $('.source.movieTabShow').addClass('active');
+          if ($('.types a')[0]) {
+            var tempTypeTxt = $('.types a')['0'].firstChild.textContent.replace(i18n.__('Type'), i18n.__('Quality'));
+            $('.types a')['0'].firstChild.textContent = tempTypeTxt;
+          }
           break;
         case 'Anime':
         case 'anime':
