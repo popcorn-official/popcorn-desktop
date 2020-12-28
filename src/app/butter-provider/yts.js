@@ -107,11 +107,10 @@ class YTSApi extends Generic {
     }
     if (filters.keywords) {
       params.query_term = filters.keywords.replace(/\s|'|:\./g, 'temp0123').replace(/[^a-zA-Z0-9]/g,'').replace(/temp0123/g, '% ');
-      params.query_term.includes('720p') ? (params.query_term = params.query_term.replace(/720p/g, ''), params.quality = '720p') : null;
-      params.query_term.includes('1080p') ? (params.query_term = params.query_term.replace(/1080p/g, ''), params.quality = '1080p') : null;
-      params.query_term.includes('2160p') ? (params.query_term = params.query_term.replace(/2160p/g, ''), params.quality = '2160p') : null;
-      params.query_term.includes('3D') ? (params.query_term = params.query_term.replace(/3D/g, ''), params.quality = '3D') : null;
       params.query_term.charAt(0) === '%' ? params.query_term = params.query_term.substring(1) : null;
+    }
+    if (filters.type && filters.type !== 'All') {
+      params.quality = filters.type;
     }
     if (filters.genre && filters.genre !== 'All') {
       params.genre = filters.genre;
