@@ -216,16 +216,16 @@
                 case 'customSeriesServer':
                 case 'customAnimeServer':
                     apiServerChanged = true;
-                    if (field.val().slice(-1) !== '/') {
-                        value = field.val().replace(/\s+/g, '') + '/';
-                        field.val(value)
-                    } else {
-                        value = field.val().replace(/\s+/g, '');
+                    value = field.val().replace(/\s+/g, '');
+                    if (value.slice(-1) !== '/') {
+                        value = value + '/';
                     }
+                    field.val(value);
                     break;
                 case 'proxyServer':
                     apiServerChanged = true;
                     value = field.val().replace(/\s+/g, '');
+                    field.val(value);
                     break;
                 case 'httpApiPort':
                     apiDataChanged = true;
