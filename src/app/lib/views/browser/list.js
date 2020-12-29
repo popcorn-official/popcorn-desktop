@@ -108,11 +108,12 @@
                         var errorURL = App.Config.getProviderForType('anime')[0].apiURL[0];
                         break;
                     default:
-                        var errorURL;
+                        var errorURL = '';
                     }
+                    var dspURL = errorURL.slice(-1) === '/' ? errorURL.replace(/http:\/\/|https:\/\//g, '').slice(0, -1) : errorURL.replace(/http:\/\/|https:\/\//g, '');
                     return ErrorView.extend({
                         retry: true,
-                        error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', '<a class="links" href="' + errorURL + '">' + errorURL + '</a>')
+                        error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', '<a class="links" href="' + errorURL + '">' + dspURL + '</a>')
                     });
                 } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
