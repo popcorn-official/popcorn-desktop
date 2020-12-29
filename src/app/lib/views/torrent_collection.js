@@ -417,8 +417,7 @@
                 paste = new nw.MenuItem({
                     label: pasteLabel || 'Paste',
                     click: function () {
-                        var text = clipboard.get('text');
-                        $('#online-input').val(text);
+                        document.execCommand('paste');
                     }
                 });
 
