@@ -30,7 +30,6 @@
             .catch(function (err) {
                 collection.state = 'error';
                 collection.trigger('loaded', collection, collection.state);
-                console.error('PopCollection.fetch() : torrentPromises mapping', err);
             });
 
         return deferred.promise;
