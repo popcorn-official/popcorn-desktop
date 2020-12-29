@@ -97,9 +97,22 @@
             case 'shows':
             case 'anime':
                 if (this.collection.state === 'error') {
+                    switch (App.currentview) {
+                    case 'movies':
+                        var errorURL = App.Config.getProviderForType('movie')[0].apiURL[0];
+                        break;
+                    case 'shows':
+                        var errorURL = App.Config.getProviderForType('tvshow')[0].apiURL[0];
+                        break;
+                    case 'anime':
+                        var errorURL = App.Config.getProviderForType('anime')[0].apiURL[0];
+                        break;
+                    default:
+                        var errorURL;
+                    }
                     return ErrorView.extend({
                         retry: true,
-                        error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', '<a class="links" href="' + Settings.statusUrl + '">' + Settings.statusUrl + '</a>')
+                        error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', '<a class="links" href="' + errorURL + '">' + errorURL + '</a>')
                     });
                 } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
