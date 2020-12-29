@@ -156,8 +156,7 @@
         paste = new nw.MenuItem({
           label: pasteLabel || 'Paste',
           click: function() {
-            var text = clipboard.get('text');
-            $('#searchbox').val(text);
+            document.execCommand('paste');
           }
         });
 
