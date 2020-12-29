@@ -215,9 +215,17 @@
                 case 'customMoviesServer':
                 case 'customSeriesServer':
                 case 'customAnimeServer':
+                    apiServerChanged = true;
+                    if (field.val().slice(-1) !== '/') {
+                        value = field.val().replace(/\s+/g, '') + '/';
+                        field.val(value)
+                    } else {
+                        value = field.val().replace(/\s+/g, '');
+                    }
+                    break;
                 case 'proxyServer':
                     apiServerChanged = true;
-                    value = field.val();
+                    value = field.val().replace(/\s+/g, '');
                     break;
                 case 'httpApiPort':
                     apiDataChanged = true;
@@ -318,7 +326,7 @@
                     } else if (nvalue > 400) {
                         nvalue = 400;
                     }
-                    field.val(nvalue + '%')
+                    field.val(nvalue + '%');
                     value = nvalue;
                     win.zoomLevel = Math.log(value/100) / Math.log(1.2);
                     break;
