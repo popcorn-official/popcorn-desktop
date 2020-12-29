@@ -63,37 +63,6 @@
 			});
 		},
 
-		context_Menu: function (cutLabel, copyLabel, pasteLabel) {
-			var menu = new nw.Menu(),
-
-				cut = new nw.MenuItem({
-					label: cutLabel || 'Cut',
-					click: function () {
-						document.execCommand('cut');
-					}
-				}),
-
-				copy = new nw.MenuItem({
-					label: copyLabel || 'Copy',
-					click: function () {
-						document.execCommand('copy');
-					}
-				}),
-
-				paste = new nw.MenuItem({
-					label: pasteLabel || 'Paste',
-					click: function () {
-						document.execCommand('paste');
-					}
-				});
-
-			menu.append(cut);
-			menu.append(copy);
-			menu.append(paste);
-
-			return menu;
-		},
-
 		addTorrentHooks() {
 			// torrent view logic requires the ui to be rendered, so we can't
 			// put any of this in initialize -- rendering will not always be
