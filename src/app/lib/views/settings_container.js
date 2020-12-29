@@ -216,7 +216,7 @@
                 case 'customAnimeServer':
                     apiServerChanged = true;
                     value = field.val().replace(/\s+/g, '');
-                    if (value.slice(-1) !== '/') {
+                    if (value && value.slice(-1) !== '/') {
                         value = value + '/';
                     }
                     field.val(value);
