@@ -520,7 +520,11 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Custom Movies Server") %></p>
-                    <input type="text" size="50" id="customMoviesServer" name="customMoviesServer" value="<%= Settings.customMoviesServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <input type="text" size="50" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <datalist id="moviesServers">
+                        <option value="<%= Settings.customServers[0] %>">
+                        <option value="<%= Settings.customServers[1] %>">
+                    </datalist>
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
                     <div class="invalid-cross" style="display: none"></div>
@@ -529,7 +533,10 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Custom Series Server") %></p>
-                    <input type="text" size="50" id="customSeriesServer" name="customSeriesServer" value="<%= Settings.customSeriesServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <input type="text" size="50" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <datalist id="seriesServers">
+                        <option value="<%= Settings.customServers[1] %>">
+                    </datalist>
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
                     <div class="invalid-cross" style="display: none"></div>
@@ -538,7 +545,9 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Custom Anime Server") %></p>
-                    <input type="text" size="50" id="customAnimeServer" name="customAnimeServer" value="<%= Settings.customAnimeServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <input type="text" size="50" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <datalist id="animeServers">
+                    </datalist>
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
                     <div class="invalid-cross" style="display: none"></div>
