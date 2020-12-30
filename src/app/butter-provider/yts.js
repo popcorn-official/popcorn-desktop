@@ -106,7 +106,7 @@ class YTSApi extends Generic {
       params.page = filters.page;
     }
     if (filters.keywords) {
-      params.query_term = filters.keywords.replace(/\s|'|:\./g, 'temp0123').replace(/[^a-zA-Z0-9]/g,'').replace(/temp0123/g, '% ');
+      params.query_term = filters.keywords.replace(/\s|-|'|:\./g, 'temp0123').replace(/[^a-zA-Z0-9]/g,'').replace(/temp0123/g, '% ');
       params.query_term.charAt(0) === '%' ? params.query_term = params.query_term.substring(1) : null;
     }
     if (filters.type && filters.type !== 'All') {
