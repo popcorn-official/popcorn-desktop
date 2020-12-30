@@ -68,7 +68,7 @@ class TVApi extends Generic {
     };
 
     if (filters.keywords) {
-      params.keywords = filters.keywords.replace(/\s/g, '% ').replace(/[^a-zA-Z0-9]/g,' ');
+      params.keywords = filters.keywords.replace(/[^a-zA-Z0-9]|\s/g, '% ');
     }
     if (filters.genre) {
       params.genre = filters.genre;

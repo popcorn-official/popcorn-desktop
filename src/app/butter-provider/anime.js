@@ -135,7 +135,7 @@ AnimeApi.prototype.fetch = function(filters) {
   params.limit = '50';
 
   if (filters.keywords) {
-    params.keywords = filters.keywords.replace(/\s/g, '% ').replace(/[^a-zA-Z0-9]/g,' ');
+    params.keywords = filters.keywords.replace(/[^a-zA-Z0-9]|\s/g, '% ');
   }
 
   if (filters.genre) {
