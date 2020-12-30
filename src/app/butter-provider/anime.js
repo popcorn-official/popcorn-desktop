@@ -135,7 +135,7 @@ AnimeApi.prototype.fetch = function(filters) {
   params.limit = '50';
 
   if (filters.keywords) {
-    params.keywords = filters.keywords.replace(/[^a-zA-Z0-9]|\s/g, '% ');
+    params.keywords = this.apiURL[0].includes('popcorn-ru') ? filters.keywords.replace(/\s/g, '% ') : filters.keywords.replace(/[^a-zA-Z0-9]|\s/g, '% ');
   }
 
   if (filters.genre) {
