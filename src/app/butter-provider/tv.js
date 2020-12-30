@@ -68,7 +68,7 @@ class TVApi extends Generic {
     };
 
     if (filters.keywords) {
-      params.keywords = this.apiURL[0].includes('popcorn-ru') ? filters.keywords.replace(/\s/g, '% ') : filters.keywords.replace(/[^a-zA-Z0-9]|\s/g, '% ');
+      params.keywords = this.apiURL[0].includes('popcorn-ru') ? filters.keywords.trim().replace(/\s/g, '% ') : filters.keywords.trim().replace(/[^a-zA-Z0-9]|\s/g, '% ');
     }
     if (filters.genre) {
       params.genre = filters.genre;
