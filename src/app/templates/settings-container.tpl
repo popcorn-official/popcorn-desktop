@@ -522,9 +522,11 @@
                     <p><%= i18n.__("Custom Movies Server") %></p>
                     <input type="text" size="50" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
                     <datalist id="moviesServers">
-                        <% for (var i = 0; i < Settings.customServers.movie.length; ++i) { %>
+                        <% if (Settings.customServers && Settings.customServers.movie) {
+                            for (var i = 0; i < Settings.customServers.movie.length; ++i) {
+                        %>
                         <option value="<%= Settings.customServers.movie[i] %>">
-                        <% } %>
+                        <% }} %>
                     </datalist>
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
@@ -536,9 +538,11 @@
                     <p><%= i18n.__("Custom Series Server") %></p>
                     <input type="text" size="50" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
                     <datalist id="seriesServers">
-                        <% for (var i = 0; i < Settings.customServers.tvshow.length; ++i) { %>
+                        <% if (Settings.customServers && Settings.customServers.tvshow) {
+                            for (var i = 0; i < Settings.customServers.tvshow.length; ++i) {
+                        %>
                         <option value="<%= Settings.customServers.tvshow[i] %>">
-                        <% } %>
+                        <% }} %>
                     </datalist>
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
@@ -550,9 +554,11 @@
                     <p><%= i18n.__("Custom Anime Server") %></p>
                     <input type="text" size="50" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
                     <datalist id="animeServers">
-                        <% for (var i = 0; i < Settings.customServers.anime.length; ++i) { %>
+                        <% if (Settings.customServers && Settings.customServers.anime) {
+                            for (var i = 0; i < Settings.customServers.anime.length; ++i) {
+                        %>
                         <option value="<%= Settings.customServers.anime[i] %>">
-                        <% } %>
+                        <% }} %>
                     </datalist>
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
