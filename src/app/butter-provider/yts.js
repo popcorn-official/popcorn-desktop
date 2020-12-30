@@ -48,7 +48,7 @@ class YTSApi extends Generic {
               };
               return torrents;
             }, {}),
-            langs: {[movie.language]: {}}
+            langs: {[movie.language.replace('cn', 'zh-cn')]: {}}
           });
         }
       });
