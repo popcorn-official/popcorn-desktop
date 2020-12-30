@@ -8,7 +8,6 @@ var Settings = {
   projectForum: 'https://www.reddit.com/r/PopcornTime',
   projectForum2: 'https://discuss.popcorntime.app',
   projectForum3: 'https://www.reddit.com/r/PopcornTimeApp',
-
   statusUrl: 'http://status.popcorntime.app',
   changelogUrl: 'https://github.com/popcorn-official/popcorn-desktop/commits/master',
   issuesUrl: 'https://github.com/popcorn-official/popcorn-desktop/issues',
@@ -27,6 +26,7 @@ var Settings = {
     'GOm3OxA3zKXG4cjy6TyEKajYlT45Q+tgt1L1HuGAJjWFRSA0PP9ctC6nH+2N3HmW\n' +
     'RTcms0CPio56gg==\n' +
     '-----END PUBLIC KEY-----\n',
+  customServers: [],
   opensubtitles: {
     useragent: 'Butter'
   },
