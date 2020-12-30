@@ -27,9 +27,12 @@ var Settings = {
     'RTcms0CPio56gg==\n' +
     '-----END PUBLIC KEY-----\n',
   customServers: {
-    movie : [],
-    tvshow: [],
-    anime: []
+    movie : [
+    ],
+    tvshow: [
+    ],
+    anime: [
+    ]
   },
   opensubtitles: {
     useragent: 'Butter'
