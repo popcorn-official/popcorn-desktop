@@ -52,6 +52,8 @@
 
     types_yts: ['All', '720p', '1080p', '2160p', '3D'],
 
+    ratings_yts: ['All', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+
     genres_anime: [
       'All',
       'Action',

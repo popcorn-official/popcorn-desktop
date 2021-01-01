@@ -4,6 +4,17 @@ const Generic = require('./generic');
 const request = require('request');
 const sanitize = require('butter-sanitize');
 
+const ytsTrackers = [
+  'udp://open.demonii.com:1337/announce',
+  'udp://tracker.openbittorrent.com:80',
+  'udp://tracker.coppersurfer.tk:6969',
+  'udp://glotorrents.pw:6969/announce',
+  'udp://tracker.opentrackr.org:1337/announce',
+  'udp://torrent.gresille.org:80/announce',
+  'udp://p4p.arenabg.com:1337',
+  'udp://tracker.leechers-paradise.org:6969',
+].map(t => `&tr=${t}`).join('');
+
 class YTSApi extends Generic {
   constructor(args) {
     super(args);
@@ -40,7 +51,7 @@ class YTSApi extends Generic {
             torrents: movie.torrents.reduceRight(function (torrents, torrent) {
               torrents[torrent.quality] = {
                 url: torrent.url,
-                magnet: 'magnet:?xt=urn:btih:' + torrent.hash + '&tr=udp://glotorrents.pw:6969&tr=udp://tracker.opentrackr.org:1337&tr=udp://tracker.tiny-vps.com:6969&tr=udp://tracker.openbittorrent.com:1337&tr=udp://tracker.coppersurfer.tk:6969&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://p4p.arenabg.ch:1337&tr=udp://p4p.arenabg.com:1337&tr=udp://tracker.internetwarriors.net:1337&tr=udp://9.rarbg.to:2710&tr=udp://9.rarbg.me:2710&tr=udp://exodus.desync.com:6969&tr=udp://tracker.cyberia.is:6969&tr=udp://tracker.torrent.eu.org:451&tr=udp://tracker.open-internet.nl:6969',
+                magnet: `magnet:?xt=urn:btih:${torrent.hash}${ytsTrackers}`,
                 size: torrent.size_bytes,
                 filesize: torrent.size,
                 seed: torrent.seeds,
@@ -120,13 +131,18 @@ class YTSApi extends Generic {
     if (filters.sorter && filters.sorter !== 'last added') {
       switch (filters.sorter) {
       case 'popularity':
-      case 'trending':
         params.sort_by = 'download_count';
+        break;
+      case 'trending':
+        params.sort_by = 'peers';
         break;
       default:
         params.sort_by = filters.sorter;
       }
     }
+
+    const rating = filters.rating === 'All' ? '0' : filters.rating;
+    params.minimum_rating = rating || '0';
 
     const index = 0;
     const url = `${this.apiURL[index]}`;

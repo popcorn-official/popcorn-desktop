@@ -19,6 +19,19 @@
             </ul>
         </li>
 
+    <% }if(typeof rating !== 'undefined'){ %>
+        <li class="dropdown filter ratings">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <%= i18n.__("Rating") %>
+                    <span data-value="<%= rating %>" class="value"><%= i18n.__(rating.capitalizeEach()) %></span>
+                    <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <% _.each(ratings, function(rating) { %>
+                    <li><a href="#" data-value="<%= rating %>"><%= i18n.__(rating.capitalizeEach()) %></a></li>
+                <% }); %>
+            </ul>
+        </li>
     <% }if(typeof genre !== 'undefined'){ %>
         <li class="dropdown filter genres">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">

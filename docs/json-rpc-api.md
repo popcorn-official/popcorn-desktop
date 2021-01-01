@@ -103,6 +103,9 @@ Here are the currently supported procedures, the arguments they require, and the
 `filtertype([string type])`
  * Set the filter for the given type.
 
+ `filterrating([string type])`
+ * Set the filter for the given minimum rating.
+
 `filtersearch([string term])`
  * Set the filter search for the given term.
 

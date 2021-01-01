@@ -1,6 +1,5 @@
 (function(App) {
   'use strict';
-  var clipboard = nw.Clipboard.get();
 
   App.View.FilterBar = Marionette.View.extend({
     className: 'filter-bar',
@@ -11,7 +10,8 @@
       searchClear: '.search .clear',
       sorterValue: '.sorters .value',
       typeValue: '.types .value',
-      genreValue: '.genres  .value'
+      genreValue: '.genres .value',
+      ratingValue: '.ratings .value'
     },
     events: {
       'hover  @ui.searchInput': 'focus',
@@ -22,6 +22,7 @@
       'click .sorters .dropdown-menu a': 'sortBy',
       'click .genres .dropdown-menu a': 'changeGenre',
       'click .types .dropdown-menu a': 'changeType',
+      'click .ratings .dropdown-menu a': 'changeRating',
       'click #filterbar-settings': 'settings',
       'click #filterbar-tempf': 'tempf',
       'click #filterbar-about': 'about',
@@ -227,10 +228,12 @@
       $('.genres .active').removeClass('active');
       $('.sorters .active').removeClass('active');
       $('.types .active').removeClass('active');
+      $('.ratings .active').removeClass('active');
 
       var genre = $('.genres .value').data('value');
       var sorter = $('.sorters .value').data('value');
       var type = $('.types .value').data('value');
+      var rating = $('.ratings .value').data('value');
 
       $('.genres li')
         .find('[data-value="' + genre + '"]')
@@ -240,6 +243,9 @@
         .addClass('active');
       $('.types li')
         .find('[data-value="' + type + '"]')
+        .addClass('active');
+      $('.types li')
+        .find('[data-value="' + rating + '"]')
         .addClass('active');
     },
     search: function(e) {
@@ -351,6 +357,21 @@
       this.model.set({
         keyword: '',
         genre: genre
+      });
+    },
+
+    changeRating: function(e) {
+      App.vent.trigger('about:close');
+      this.$('.ratings .active').removeClass('active');
+      $(e.target).addClass('active');
+
+      var rating = $(e.target).attr('data-value');
+
+      this.ui.ratingValue.text(i18n.__(rating.capitalizeEach()));
+
+      this.model.set({
+        keyword: '',
+        rating
       });
     },
 

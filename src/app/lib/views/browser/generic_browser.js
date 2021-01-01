@@ -139,13 +139,13 @@
 
         saveFilter: function () {
             var filters = AdvSettings.get('filters') || {};
-            filters[this.currentView()] = this.filter.pick('sorter', 'genre', 'type', 'order');
+            filters[this.currentView()] = this.filter.pick('sorter', 'genre', 'type', 'order', 'rating');
             AdvSettings.set('filters', filters);
         },
 
         getSavedFilter: function () {
             var filters = AdvSettings.get('filters') || {};
-            return filters[this.currentView()] || this.filter.pick('sorter', 'genre', 'type', 'order');
+            return filters[this.currentView()] || this.filter.pick('sorter', 'genre', 'type', 'order', 'rating');
         }
     });
 

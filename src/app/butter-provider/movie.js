@@ -105,6 +105,9 @@ class MovieApi extends Generic {
     if (filters.sorter && filters.sorter !== 'popularity') {
       params.sort = filters.sorter;
     }
+    if (filters.rating) {
+      params.rating = filters.rating;
+    }
 
     const index = 0;
     const url = `${this.apiURL[index]}movies/${filters.page}`;
