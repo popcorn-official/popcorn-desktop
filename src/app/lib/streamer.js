@@ -372,7 +372,7 @@
                 fileIndex = 0;
                 for (var i in torrent.files) {
                     if (this.torrentModel.get('file_name')) {
-                        if (torrent.files[i].path === this.torrentModel.get('file_name')) {
+                        if (torrent.files[i].path.endsWith(this.torrentModel.get('file_name'))) {
                             fileSize = torrent.files[i].length;
                             fileIndex = i;
                         }
