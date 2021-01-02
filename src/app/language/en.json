@@ -565,5 +565,6 @@
 	"Default": "Default",
 	"Custom": "Custom",
 	"Remember": "Remember",
-	"Cache": "Cache"
+	"Cache": "Cache",
+	"Unknown": "Unknown"
 }
