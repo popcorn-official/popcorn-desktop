@@ -171,7 +171,13 @@
           this.ui.stateTextStreamUrl.text(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress));
         }
         this.ui.stateTextFilename.text(streamInfo.get('filename'));
-        this.ui.stateTextSize.text(Common.fileSize(streamInfo.get('size')));
+        if (streamInfo.get('size') !== 0) {
+          this.ui.stateTextSize.text(Common.fileSize(streamInfo.get('size')));
+        } else {
+          this.ui.bufferPercent.css('display', 'none');
+          this.ui.stateTextSize.text(i18n.__('Unknown'));
+          this.ui.stateTextSize.next().html(')&nbsp&nbsp;&nbsp;');
+        }
         this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
       }
       this.listenTo(this.model.get('streamInfo'), 'change', this.onInfosUpdate);
@@ -248,7 +254,7 @@
       var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
       this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
 
-      if (streamInfo.get('downloaded') < streamInfo.get('size')) {
+      if (streamInfo.get('downloaded') < streamInfo.get('size') || streamInfo.get('size') === 0) {
         this.ui.stateTextDownload.text(i18n.__('Downloading'));
         this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
         this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
@@ -358,7 +364,7 @@
       var streamInfo = this.model.get('streamInfo');
       var timeLeft = streamInfo.get('time_left');
 
-      if (timeLeft === undefined) {
+      if (timeLeft === undefined || streamInfo.get('size') === 0) {
         return i18n.__('Unknown time remaining');
       } else if (timeLeft > 3600) {
         return i18n.__('%s hour(s) remaining', Math.round(timeLeft / 3600));
