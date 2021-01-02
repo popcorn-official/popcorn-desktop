@@ -44,9 +44,11 @@ Download and install:
 ### MacOS:
 Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://github.com/Homebrew/homebrew-cask#homebrew-cask)):_
   * **Latest release**:  
-  `brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/casks/popcorn-time.rb`
+  `brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git`  
+  `brew install --cask popcorn-time`  
   * Or **latest dev build (for testers)**:  
-  `brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/casks/popcorn-time-beta.rb`
+  `brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git`  
+  `brew install --cask popcorn-time-beta`  
 
 Also, if you keep a [_Brewfile_](https://github.com/Homebrew/homebrew-bundle#usage), you can add something like this:
   ~~~ rb
