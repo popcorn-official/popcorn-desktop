@@ -79,8 +79,12 @@
         },
 
         updateDownloaded: function () {
-            if (this.model.get('downloadedPercent').toFixed(0) < 100) {
-                this.ui.downloaded.html(this.model.get('downloadedPercent').toFixed(0) + '%&nbsp;&nbsp;&nbsp;(' + this.model.get('downloadedFormatted') + ' / ' + Common.fileSize(this.model.get('size')) + ')');
+            if (this.model.get('downloadedPercent').toFixed(0) < 100 || this.model.get('size') === 0) {
+                if (this.model.get('size') !== 0) {
+                    this.ui.downloaded.html(this.model.get('downloadedPercent').toFixed(0) + '%&nbsp;&nbsp;&nbsp;(' + this.model.get('downloadedFormatted') + ' / ' + Common.fileSize(this.model.get('size')) + ')');
+                } else {
+                    this.ui.downloaded.html('(' + this.model.get('downloadedFormatted') + ' / ' + i18n.__('Unknown') + ')');
+                }
                 $('.vjs-load-progress').css('width', this.model.get('downloadedPercent').toFixed(0) + '%');
                 this.remaining = true;
 
@@ -598,7 +602,7 @@
         remainingTime: function () {
             var timeLeft = this.model.get('time_left');
 
-            if (timeLeft === undefined) {
+            if (timeLeft === undefined || this.model.get('size') === 0) {
                 return i18n.__('Unknown time remaining');
             } else if (timeLeft > 3600) {
                 return i18n.__('%s hour(s) remaining', Math.round(timeLeft / 3600));
