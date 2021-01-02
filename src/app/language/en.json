@@ -1,13 +1,4 @@
 {
-	"1": "1",
-	"2": "2",
-	"3": "3",
-	"4": "4",
-	"5": "5",
-	"6": "6",
-	"7": "7",
-	"8": "8",
-	"9": "9",
 	"External Player": "External Player",
 	"Made with": "Made with",
 	"by a bunch of geeks from All Around The World": "by a bunch of geeks from All Around The World",
@@ -573,10 +564,5 @@
 	"Setting Filters...": "Setting Filters...",
 	"Default": "Default",
 	"Custom": "Custom",
-	"Remember": "Remember",
-	"Cache": "Cache",
-	"720p": "720p",
-	"1080p": "1080p",
-	"2160p": "2160p",
-	"3D": "3D"
+	"Remember": "Remember"
 }

@@ -104,6 +104,7 @@ Here are the currently supported procedures, the arguments they require, and the
  * Set the filter for the given type.
 
  `filterrating([string type])`
+ * /!\ Caution /!\ - Only works if client movie api is set to use YTS api
  * Set the filter for the given minimum rating.
 
 `filtersearch([string term])`

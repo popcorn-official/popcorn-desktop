@@ -15,6 +15,18 @@ const ytsTrackers = [
   'udp://tracker.leechers-paradise.org:6969',
 ].map(t => `&tr=${t}`).join('');
 
+const ratingsMap = {
+  '1+': '1',
+  '2+': '2',
+  '3+': '3',
+  '4+': '4',
+  '5+': '5',
+  '6+': '6',
+  '7+': '7',
+  '8+': '8',
+  '9+': '9',
+};
+
 class YTSApi extends Generic {
   constructor(args) {
     super(args);
@@ -141,8 +153,11 @@ class YTSApi extends Generic {
       }
     }
 
-    const rating = filters.rating === 'All' ? '0' : filters.rating;
-    params.minimum_rating = rating || '0';
+    const rating = filters.rating ? ratingsMap[filters.rating] : null;
+
+    if (rating) {
+        params.minimum_rating = rating;
+    }
 
     const index = 0;
     const url = `${this.apiURL[index]}`;
