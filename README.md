@@ -45,10 +45,10 @@ Download and install:
 Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://github.com/Homebrew/homebrew-cask#homebrew-cask)):_
   * **Latest release**:  
   `brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git`  
-  `brew install --cask popcorn-time`  
+  `brew install --cask popcorn-time`
   * Or **latest dev build (for testers)**:  
   `brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git`  
-  `brew install --cask popcorn-time-beta`  
+  `brew install --cask popcorn-time-beta`
 
 Also, if you keep a [_Brewfile_](https://github.com/Homebrew/homebrew-bundle#usage), you can add something like this:
   ~~~ rb
