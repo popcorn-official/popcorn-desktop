@@ -48,7 +48,7 @@ Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://git
   * Or **latest dev build (for testers)**:  
   `brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/casks/popcorn-time-beta.rb`
   * **Update from zip file**:
-  Unpack the content of the zip file. This should leave you with a file called `update.tar`. Unpacking the .tar file you should get you a folder called `Content`. Navigate to your `Appplication` folder, right click on Popcotn-Time and press `show package content`. Replace te `Content` folder in the app with the content folder from the `update.zip` file.
+  Unpack the content of the zip file. This should leave you with a file called `update.tar`. Unpacking the .tar file you should get you a folder called `Content`. Navigate to your `Appplication` folder, right click on Popcotn-Time and press `Show Package Content`. Replace te `Content` folder in the app with the content folder from the `update.zip` file.
   * **Troubleshoot**:
   If you are running little snitch, try disabling the network monitor. Start downloading a movie and check that the artwork is dowloaded. If the artwork is downloaded the movie should start downloading in a minute or so.
 
