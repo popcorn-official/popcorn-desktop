@@ -17,7 +17,7 @@
                     <span class="dot"></span>
                 <div class="shmi-status"><%= status !== undefined ? i18n.__(status.capitalizeEach()) : i18n.__("N/A") %></div>
                     <span class="dot"></span>
-                <div class="shmi-genre"><%= genres.length > 0 && genres[0] !== undefined ? i18n.__(genres[0]) : i18n.__("N/A") %></div>
+                <div class="shmi-genre"><%= genres.length > 0 && genres[0] !== undefined ? i18n.__(genres[0].capitalizeEach()).toLowerCase() : i18n.__("N/A") %></div>
                     <span class="dot"></span>
                 <div class="shmi-imdb" data-toggle="tooltip" data-placement="top" title="<%=i18n.__('Open IMDb page') %>"></div>
                     <span class="dot"></span>
