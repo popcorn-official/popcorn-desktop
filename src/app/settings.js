@@ -113,6 +113,7 @@ Settings.postersMaxFontSize = 1.3;
 Settings.postersSizeRatio = 196 / 134;
 Settings.postersWidth = Settings.postersMinWidth;
 Settings.postersJump = [134, 154, 174, 194, 214, 234, 254, 274, 294];
+Settings.bigPicture = 100;
 
 //Playback
 Settings.alwaysFullscreen = false;
@@ -180,14 +181,12 @@ Settings.automaticUpdating = true;
 Settings.UpdateSeed = false;
 Settings.events = true;
 Settings.minimizeToTray = false;
-Settings.bigPicture = 100;
 
 // Features
 Settings.activateTorrentCollection = true;
 Settings.activateWatchlist = true;
 Settings.activateTempf = true;
 Settings.activateSeedbox = true;
-Settings.onlineSearchEngine = 'ExtraTorrent';
 Settings.toggleSengines = false;
 Settings.enableThepiratebaySearch = true;
 Settings.enable1337xSearch = true;
