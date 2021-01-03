@@ -4,7 +4,7 @@ if(typeof synopsis === "undefined"){ synopsis = "Synopsis not available."; };
 if(typeof runtime === "undefined"){ runtime = "N/A"; };
 if (genre) {
     for(var i = 0; i < genre.length; i++) {
-        genre[i] = i18n.__(genre[i]); 
+        genre[i] = i18n.__(genre[i].capitalizeEach()).toLowerCase(); 
     }
 } else {
     var genre = [undefined];

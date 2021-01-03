@@ -44,9 +44,11 @@ Download and install:
 ### MacOS:
 Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://github.com/Homebrew/homebrew-cask#homebrew-cask)):_
   * **Latest release**:  
-  `brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/casks/popcorn-time.rb`
+  `brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git`  
+  `brew install --cask popcorn-time`
   * Or **latest dev build (for testers)**:  
-  `brew cask install https://raw.githubusercontent.com/popcorn-official/popcorn-desktop/development/casks/popcorn-time-beta.rb`
+  `brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git`  
+  `brew install --cask popcorn-time-beta`
   * **Update from zip file**:
   Unpack the content of the zip file. This should leave you with a file called `update.tar`. Unpacking the .tar file you should get you a folder called `Content`. Navigate to your `Appplication` folder, right click on Popcotn-Time and press `Show Package Content`. Replace te `Content` folder in the app with the content folder from the `update.zip` file.
   * **Troubleshoot**:
