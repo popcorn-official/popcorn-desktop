@@ -365,9 +365,10 @@
       this.$('.ratings .active').removeClass('active');
       $(e.target).addClass('active');
 
-      var rating = $(e.target).attr('data-value');
+      const rating = $(e.target).attr('data-value');
+      const ratingLabel = rating === 'All' ? rating : `${rating}+`
 
-      this.ui.ratingValue.text(i18n.__(rating.capitalizeEach()));
+      this.ui.ratingValue.text(i18n.__(ratingLabel.capitalizeEach()));
 
       this.model.set({
         keyword: '',

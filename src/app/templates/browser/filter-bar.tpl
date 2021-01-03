@@ -28,7 +28,11 @@
             </a>
             <ul class="dropdown-menu">
                 <% _.each(ratings, function(rating) { %>
-                    <li><a href="#" data-value="<%= rating %>"><%= i18n.__(rating.capitalizeEach()) %></a></li>
+                    <li>
+                        <a href="#" data-value="<%= rating %>">
+                            <%= i18n.__(rating.capitalizeEach()) %><% if (rating !== 'All') { %>+<% } %>
+                        </a>
+                    </li>
                 <% }); %>
             </ul>
         </li>
