@@ -23,7 +23,6 @@
             'contextmenu input': 'rightclick_field',
             'click .flush-bookmarks': 'flushBookmarks',
             'click .flush-databases': 'flushAllDatabase',
-            'click .flush-subtitles': 'flushAllSubtitles',
             'click #faketmpLocation': 'showCacheDirectoryDialog',
             'click .default-settings': 'resetSettings',
             'click .open-tmp-folder': 'openTmpFolder',
@@ -683,24 +682,6 @@
                 .then(function () {
                     deleteCookies();
                     that.alertMessageSuccess(true);
-                });
-        },
-
-        flushAllSubtitles: function (e) {
-            var btn = $(e.currentTarget);
-
-            if (!this.areYouSure(btn, i18n.__('Flushing...'))) {
-                return;
-            }
-
-            this.alertMessageWait(i18n.__('We are flushing your subtitle cache'));
-
-            var cache = new App.Cache('subtitle');
-            cache.flushTable()
-                .then(function () {
-
-                    that.alertMessageSuccess(false, btn, i18n.__('Flush subtitles cache'), i18n.__('Subtitle cache deleted'));
-
                 });
         },
 
