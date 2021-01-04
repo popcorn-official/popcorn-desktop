@@ -2,7 +2,6 @@
     'use strict';
     var rpc = require('json-rpc2');
     var server;
-    var lang;
     var httpServer;
 
     function butterCallback(callback, err, result) {
@@ -576,6 +575,20 @@
                 }
 
                 $('.types .dropdown-menu a').filter(function () {
+                    return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
+                }).click();
+
+                butterCallback(callback);
+            });
+
+            server.expose('filterrating', function (args, opt, callback) {
+                args = Object.values(args);
+                if (args.length <= 0) {
+                    butterCallback(callback, 'Arguments missing');
+                    return;
+                }
+
+                $('.ratings .dropdown-menu a').filter(function () {
                     return $(this).attr('data-value').toLowerCase() === args[0].toLowerCase();
                 }).click();
 

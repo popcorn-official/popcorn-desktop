@@ -1,6 +1,5 @@
 (function(App) {
   'use strict';
-  var fs = require('fs');
   var cache = (App.Providers._cache = {});
   var registry = (App.Providers._registry = {});
 
@@ -13,7 +12,8 @@
         filters: {
           genres: App.Config.genres,
           sorters: App.Config.sorters,
-          types: App.Config.types_yts
+          types: App.Config.types_yts,
+          ratings: App.Config.ratings_yts
         }
       });
       App.View.MovieBrowser = MovieBrowser;
