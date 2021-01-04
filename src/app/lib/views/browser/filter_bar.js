@@ -244,7 +244,7 @@
       $('.types li')
         .find('[data-value="' + type + '"]')
         .addClass('active');
-      $('.types li')
+      $('.ratings li')
         .find('[data-value="' + rating + '"]')
         .addClass('active');
     },
