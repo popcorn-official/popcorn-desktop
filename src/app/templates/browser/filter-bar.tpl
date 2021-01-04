@@ -23,16 +23,12 @@
         <li class="dropdown filter ratings">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <%= i18n.__("Rating") %>
-                    <span data-value="<%= rating %>" class="value"><%= i18n.__(rating.capitalizeEach()) %></span>
+                    <span data-value="<%= rating %>" class="value"><%= i18n.__(rating.capitalizeEach()) %><% if (rating !== 'All') { %>+<% } %></span>
                     <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
                 <% _.each(ratings, function(rating) { %>
-                    <li>
-                        <a href="#" data-value="<%= rating %>">
-                            <%= i18n.__(rating.capitalizeEach()) %><% if (rating !== 'All') { %>+<% } %>
-                        </a>
-                    </li>
+                    <li><a href="#" data-value="<%= rating %>"><%= i18n.__(rating.capitalizeEach()) %><% if (rating !== 'All') { %>+<% } %></a></li>
                 <% }); %>
             </ul>
         </li>

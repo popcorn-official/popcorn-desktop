@@ -372,7 +372,7 @@
 
       this.model.set({
         keyword: '',
-        rating
+        rating: rating
       });
     },
 
