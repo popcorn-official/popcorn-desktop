@@ -49,15 +49,16 @@ Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://git
   * Or **latest dev build (for testers)**:  
   `brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git`  
   `brew install --cask popcorn-time-beta`
-  * **Update from zip file**:
-  Unpack the contents of the zip file. This should leave you with a file named `update.tar`. Unpacking the .tar file should get you a folder named `Content`. Navigate to your `Application` folder, right click on Popcorn Time and press `Show Package Content` then replace the `Content` folder there with the `Content` folder from the `update.zip` file.
-
+  
 Also, if you keep a [_Brewfile_](https://github.com/Homebrew/homebrew-bundle#usage), you can add something like this:
   ~~~ rb
   repo = 'popcorn-official/popcorn-desktop'
   tap repo, "https://github.com/#{repo}.git"
   cask 'popcorn-time'
   ~~~
+
+Update from _zip_ file:  
+  * Unpack the contents of the zip file. This should leave you with a file named `update.tar`. Unpacking the .tar file should get you a folder named `Content`. Navigate to your `Application` folder, right click on Popcorn Time and press `Show Package Content` then replace the `Content` folder there with the `Content` folder from the `update.zip` file.
 
 
 ### Linux - Debian/Ubuntu based distros:
