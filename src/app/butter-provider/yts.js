@@ -5,14 +5,21 @@ const request = require('request');
 const sanitize = require('butter-sanitize');
 
 const ytsTrackers = [
-  'udp://open.demonii.com:1337/announce',
-  'udp://tracker.openbittorrent.com:80',
+  'udp://glotorrents.pw:6969',
+  'udp://tracker.opentrackr.org:1337',
+  'udp://tracker.tiny-vps.com:6969',
+  'udp://tracker.openbittorrent.com:1337',
   'udp://tracker.coppersurfer.tk:6969',
-  'udp://glotorrents.pw:6969/announce',
-  'udp://tracker.opentrackr.org:1337/announce',
-  'udp://torrent.gresille.org:80/announce',
-  'udp://p4p.arenabg.com:1337',
   'udp://tracker.leechers-paradise.org:6969',
+  'udp://p4p.arenabg.ch:1337',
+  'udp://p4p.arenabg.com:1337',
+  'udp://tracker.internetwarriors.net:1337',
+  'udp://9.rarbg.to:2710',
+  'udp://9.rarbg.me:2710',
+  'udp://exodus.desync.com:6969',
+  'udp://tracker.cyberia.is:6969',
+  'udp://tracker.torrent.eu.org:451',
+  'udp://tracker.open-internet.nl:6969',
 ].map(t => `&tr=${t}`).join('');
 
 class YTSApi extends Generic {
@@ -131,18 +138,15 @@ class YTSApi extends Generic {
     if (filters.sorter && filters.sorter !== 'last added') {
       switch (filters.sorter) {
       case 'popularity':
-        params.sort_by = 'download_count';
-        break;
       case 'trending':
-        params.sort_by = 'peers';
+        params.sort_by = 'download_count';
         break;
       default:
         params.sort_by = filters.sorter;
       }
     }
-
     if (filters.rating && filters.rating !== 'All') {
-        params.minimum_rating = filters.rating;
+      params.minimum_rating = filters.rating;
     }
 
     const index = 0;
