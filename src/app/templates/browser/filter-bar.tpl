@@ -5,7 +5,7 @@
     <li id="filterbar-favorites" class="source"><%= i18n.__("Favorites") %></li>
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">
-    <% if(typeof type !== 'undefined'){ %>
+    <% if(typeof type !== 'undefined' && types.length !== 0){ %>
         <li class="dropdown filter types">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <%= i18n.__("Type") %>
@@ -19,7 +19,7 @@
             </ul>
         </li>
 
-    <% }if(typeof rating !== 'undefined'){ %>
+    <% }if(typeof rating !== 'undefined' && ratings.length !== 0){ %>
         <li class="dropdown filter ratings">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <%= i18n.__("Rating") %>
@@ -32,7 +32,7 @@
                 <% }); %>
             </ul>
         </li>
-    <% }if(typeof genre !== 'undefined'){ %>
+    <% }if(typeof genre !== 'undefined' && genres.length !== 0){ %>
         <li class="dropdown filter genres">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <%= i18n.__("Genre") %>
@@ -45,7 +45,7 @@
                 <% }); %>
             </ul>
         </li>
-    <%} if(typeof sorter !== 'undefined'){ %>
+    <%} if(typeof sorter !== 'undefined' && sorters.length !== 0){ %>
         <li class="dropdown filter sorters">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <%= i18n.__("Sort by") %>
