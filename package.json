@@ -21,7 +21,7 @@
     "start": "gulp run",
     "test": "gulp test"
   },
-  "chromium-args": "--remote-debugging-port=9222 --enable-node-worker",
+  "chromium-args": "--enable-node-worker",
   "engines": {
     "yarn": ">= 1.0.0"
   },
