@@ -14,11 +14,43 @@
 
     return files
       .map(function(file) {
-        if (!file.match(/\.js$/)) {
+        if (!file.match(/\.js$/) || file.match(/generic.js$/) || file.match(/tvshowtime.js$/)) {
           return null;
         }
 
-        if (file.match(/generic.js$/)) {
+        win.info('loading local provider', file);
+
+        var q = Q.defer();
+
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+
+        script.type = 'text/javascript';
+        script.src = 'lib/providers/' + file;
+
+        script.onload = function() {
+          win.info('loaded', file);
+          q.resolve(file);
+        };
+
+        head.appendChild(script);
+
+        return q.promise;
+      })
+      .filter(function(q) {
+        return q;
+      });
+  }
+
+  function loadLocalProvidersDelayed() {
+    var appPath = '';
+    var providerPath = './src/app/lib/providers/';
+
+    var files = fs.readdirSync(providerPath);
+
+    return files
+      .map(function(file) {
+        if (!file.match(/tvshowtime.js$/)) {
           return null;
         }
 
@@ -88,6 +120,12 @@
   function loadProviders() {
     return Q.all(
       loadLocalProviders()
+    );
+  }
+
+  function loadProvidersDelayed() {
+    return Q.all(
+      loadLocalProvidersDelayed()
         .concat(loadNpmProviders())
         .concat(loadLegacyNpmProviders())
     );
@@ -95,6 +133,7 @@
 
   App.bootstrapPromise = loadNpmSettings()
     .then(loadProviders)
+    .then(loadProvidersDelayed)
     .then(function(values) {
       return _.filter(
         _.keys(Settings.providers).map(function(type) {
