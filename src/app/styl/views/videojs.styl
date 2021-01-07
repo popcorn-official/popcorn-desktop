@@ -229,19 +229,22 @@
     }
     .vjs-progress-control {
         position: absolute;
-        top: 29px;
+        top: 19px;
         width: auto;
-        height: 6px;
+        height: 18px;
         border-radius: 3px / 2px;
         border-radius: 3px / 2px;
         background-clip: padding-box;
         background-clip: padding-box;
         left: 190px;
         right: 250px;
+        padding-top: 10px;
+        padding-bottom: 2px;
+        cursor: pointer;
         transition: all .1s !important;
         &:hover {
-            height: 8px;
-            top: 28px;
+            height: 20px;
+            top: 18px;
         }
     }
     &:hover {
@@ -834,11 +837,11 @@ body {
 #vjs-tip {
     visibility: hidden;
     display: block;
-    opacity: .8;
     padding: 5px;
     font-size: 11px;
     position: absolute;
     z-index: 100000;
+    pointer-events: none;
 }
 
 #vjs-tip-arrow {
@@ -850,14 +853,17 @@ body {
     position: absolute;
     width: 9px;
     height: 5px;
+    opacity: 0;
 }
 
 #vjs-tip-inner {
     border-radius: 3px;
     border-radius: 3px;
     padding: 5px 8px 4px;
-    background-color: rgba(0,0,0,0.9);
+    background-color: rgba(0,0,0,0);
     color: #fff;
     max-width: 200px;
     text-align: center;
+    font-size: 150%;
+    font-weight: 500;
 }
