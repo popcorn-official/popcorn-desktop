@@ -221,7 +221,7 @@
                         <td><%= i18n.__("Toggle Subtitles") %></td>
                     </tr>
                     <tr>
-                        <td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="key"><i class="fas fa-mouse"></i></span></td>
+                        <td><span class="key control"><%= i18n.__("ctrl") %></span>+<span class="mouse fas fa-mouse"></span></td>
                         <td><%= i18n.__("Change Subtitles Position") %></td>
                     </tr>
                     <tr>
