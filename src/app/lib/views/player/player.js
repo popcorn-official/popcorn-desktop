@@ -698,6 +698,14 @@
                 that.adjustSubtitleOffset(0.1);
             }, 'keydown');
 
+            Mousetrap.bind('ctrl', function (e) {
+                $('.vjs-text-track').css('pointer-events', 'auto');
+            }, 'keydown');
+
+            Mousetrap.bind('ctrl', function (e) {
+                $('.vjs-text-track').css('pointer-events', 'none');
+            }, 'keyup');
+
             Mousetrap.bind('shift+h', function (e) {
                 that.adjustSubtitleOffset(-1);
             }, 'keydown');
@@ -842,6 +850,8 @@
             Mousetrap.unbind('h');
 
             Mousetrap.unbind('g');
+
+            Mousetrap.unbind('ctrl');
 
             Mousetrap.unbind('shift+h');
 
