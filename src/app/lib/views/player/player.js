@@ -699,7 +699,9 @@
             }, 'keydown');
 
             Mousetrap.bind('ctrl', function (e) {
-                $('.vjs-text-track').css('pointer-events', 'auto');
+                if (!e.repeat) {
+                    $('.vjs-text-track').css('pointer-events', 'auto');
+                }
             }, 'keydown');
 
             Mousetrap.bind('ctrl', function (e) {
