@@ -196,7 +196,11 @@
         lang = 'none';
       }
       this.audio_selected = lang;
-      $('#audio-dropdown .flag.toggle').attr('title', App.Localization.name(lang)).tooltip({delay: {show: 800, hide: 100}}).tooltip('fixTitle');
+      if (lang === 'en') {
+          $('#audio-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang)).tooltip({delay: {show: 800, hide: 100}}).tooltip('fixTitle');
+      } else {
+          $('#audio-dropdown .flag.toggle').attr({'title': App.Localization.nativeName(lang) + '<br>(' + App.Localization.name(lang).replace(/\(|\)/g, '') + ')', 'data-html': true}).tooltip({delay: {show: 800, hide: 100}}).tooltip('fixTitle');
+      }
       console.info('Audios: ' + lang);
     },
 
