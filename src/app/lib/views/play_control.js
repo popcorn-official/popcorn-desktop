@@ -196,7 +196,7 @@
         lang = 'none';
       }
       this.audio_selected = lang;
-      $('#audio-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang)).tooltip({delay: {show: 800, hide: 100}}).tooltip('fixTitle');
+      $('#audio-dropdown .flag.toggle').attr('title', App.Localization.name(lang)).tooltip({delay: {show: 800, hide: 100}}).tooltip('fixTitle');
       console.info('Audios: ' + lang);
     },
 
