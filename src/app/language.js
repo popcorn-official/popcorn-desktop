@@ -28,6 +28,11 @@ App.Localization.nativeName = function (lang) {
   return codes[lang]?codes[lang].nativeName:lang;
 };
 
+App.Localization.name = function (lang) {
+  var codes = App.Localization.langcodes;
+  return codes[lang]?codes[lang].name:lang;
+};
+
 App.Localization.detectLocale = function () {
     // The full OS language (with localization, like 'en-uk')
     var pureLanguage = navigator.language.toLowerCase();
