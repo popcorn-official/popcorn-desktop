@@ -101,19 +101,19 @@
             var infoHash = '';
             try { infoHash = parseTorrent(uri).infoHash; } catch (err) {}
 
-            if (mediaName) {
-                App.plugins.mediaName.setMediaName(infoHash, mediaName);
+            if (!fs.existsSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash)) {
+                if (mediaName) {
+                    App.plugins.mediaName.setMediaName(infoHash, mediaName);
+                }
+                App.WebTorrent.add(uri, {
+                    path      : App.settings.tmpLocation,
+                    maxConns  : 5,
+                    dht       : true,
+                    announce  : Settings.trackers.forced,
+                    tracker   : Settings.trackers.forced
+                });
+                fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash, uri);
             }
-
-            App.WebTorrent.add(uri, {
-              path      : App.settings.tmpLocation,
-              maxConns  : 5,
-              dht       : true,
-              announce  : Settings.trackers.forced,
-              tracker   : Settings.trackers.forced
-            });
-
-            fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash, uri);
         },
 
         // kill the streamer
@@ -667,10 +667,10 @@
                     subtitle_retry++;
                     if (subtitle_retry<5) {
                         console.log('subtitle fetching error. retry: ' + subtitle_retry + ' of 4');
-                    	this.subtitleReady = false;
-                    	this.handleSubtitles(subtitle_retry);
+                        this.subtitleReady = false;
+                        this.handleSubtitles(subtitle_retry);
                     } else {
-	                   this.subtitleReady = true;
+                        this.subtitleReady = true;
                     }
                 }.bind(this));
 
