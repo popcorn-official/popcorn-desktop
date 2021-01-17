@@ -413,7 +413,7 @@
                     ytcontrols: false,
                     quality: '720p'
                 }).ready(function () {
-                    that.player.volume(Settings.playerVolume);
+                    that.player ? that.player.volume(Settings.playerVolume) : null;
                     this.addClass('vjs-has-started');
                 });
                 this.ui.eyeInfo.hide();
