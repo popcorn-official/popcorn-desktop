@@ -241,7 +241,7 @@
                 try {
                     document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('ytp-chrome-top ytp-show-cards-title')[0].style.opacity = 0;
                     document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('ytp-gradient-top')[0].style.opacity = 0;
-                    setTimeout(function() { document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('ytp-watermark yt-uix-sessionlink')[0].style.opacity = 0; }, 3000);
+                    setTimeout(function() { try { document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('ytp-watermark yt-uix-sessionlink')[0].style.opacity = 0; } catch (e) {}}, 3000);
                     document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('ytp-pause-overlay')[0].style.opacity = 0;
                     document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('html5-watermark')[0].style.opacity = 0;
                 } catch (e) {}
@@ -354,8 +354,6 @@
                 }, 2000);
             }
             var videoPlayer = $('#video_player');
-
-            win.error('video.js error code: ' + videoPlayer.get(0).player.error().code, videoPlayer.get(0).player.error());
         },
 
         metadataCheck: function () {
@@ -413,7 +411,7 @@
                     ytcontrols: false,
                     quality: '720p'
                 }).ready(function () {
-                    that.player ? that.player.volume(Settings.playerVolume) : null;
+                    that.player && that.player.cache_ && that.player.cache_.volume ? that.player.volume(Settings.playerVolume) : null;
                     this.addClass('vjs-has-started');
                 });
                 this.ui.eyeInfo.hide();
