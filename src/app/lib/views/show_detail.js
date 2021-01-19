@@ -223,6 +223,11 @@
             App.Device.Collection.setDevice(Settings.chosenPlayer);
             App.Device.ChooserView('#player-chooser').render();
             $('.spinner').hide();
+
+            if ($('.loading .maximize-icon').is(':visible')) {
+                $('.sdow-watchnow, #download-torrent').addClass('disabled');
+                $('#watch-now').prop('disabled', true);
+            }
         },
 
         selectNextEpisode: function () {
