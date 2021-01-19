@@ -1,11 +1,11 @@
 (function(App) {
   'use strict';
 
-  var ddone = 'false';
   var Loading = Marionette.View.extend({
     template: '#loading-tpl',
     className: 'app-overlay',
     extPlayerStatusUpdater: null,
+    ddone: false,
 
     ui: {
       state: '.state',
@@ -18,27 +18,23 @@
       stateTextDownloadedFormatted: '.text_downloadedformatted',
       stateTextPeers: '.text_peers',
       progressTextPeers: '.value_peers',
-
       stateTextSeeds: '.text_seeds',
       progressTextSeeds: '.value_seeds',
-
       seedStatus: '.seed_status',
       bufferPercent: '.buffer_percent',
-
       downloadSpeed: '.download_speed',
       uploadSpeed: '.upload_speed',
       progressbar: '#loadingbar-contents',
-
       title: '.title',
       player: '.player-name',
       streaming: '.external-play',
       controls: '.player-controls',
       cancel_button: '#cancel-button',
       cancel_button_vpn: '#cancel-button-vpn',
-
       playingbarBox: '.playing-progressbar',
       playingbar: '#playingbar-contents',
-
+      minimizeIcon: '.minimize-icon',
+      maximizeIcon: '.maximize-icon',
       vpn: '#vpn-contents',
       userIp: '#userIp',
       userCity: '#userCity',
@@ -58,6 +54,8 @@
       'click .play': 'resumeStreaming',
       'click .forward': 'forwardStreaming',
       'click .backward': 'backwardStreaming',
+      'click .minimize-icon': 'minDetails',
+      'click .maximize-icon': 'minDetails',
       'click .show-pcontrols': 'showpcontrols',
       'mousedown .title': 'titletoclip',
       'mousedown .text_filename': 'filenametoclip',
@@ -71,10 +69,20 @@
       App.vent.trigger('settings:close');
       App.vent.trigger('about:close');
 
+      $('.button:not(#download-torrent), .show-details .sdow-watchnow, .show-details #download-torrent, .file-item, .result-item').addClass('disabled');
+      $('#watch-now, #watch-trailer, .playerchoice, .file-item, .result-item').prop('disabled', true);
+
       //If a child was removed from above this view
       App.vent.on('viewstack:pop', function() {
         if (_.last(App.ViewStack) === that.className) {
-          that.initKeyboardShortcuts();
+          if ($('.loading .minimize-icon').is(':visible')) {
+            that.initKeyboardShortcuts();
+          } else {
+            Mousetrap.bind(['esc', 'backspace'], function(e) {
+              App.vent.trigger('show:closeDetail');
+              App.vent.trigger('movie:closeDetail');
+            });
+          }
         }
       });
 
@@ -86,20 +94,17 @@
       });
 
       if (Settings.vpnEnabled) {
-
-      if (!VPNht.isInstalled()) {
-        that.showVPNLoader();
-      } else {
-        VPNht.isConnected().then(isConnected => {
-          if (!isConnected) {
-            that.showVPNLoader();
-          }
-        });
+        if (!VPNht.isInstalled()) {
+          that.showVPNLoader();
+        } else {
+          VPNht.isConnected().then(isConnected => {
+            if (!isConnected) {
+              that.showVPNLoader();
+            }
+          });
+        }
       }
 
-      }
-
-      this.ddone = 'false';
       win.info('Loading torrent');
       this.listenTo(this.model, 'change:state', this.onStateUpdate);
     },
@@ -132,6 +137,9 @@
 
     initKeyboardShortcuts: function() {
       var that = this;
+      Mousetrap.bind('ctrl+v', function (e) {
+        e.preventDefault();
+      });
       Mousetrap.bind(['esc', 'backspace'], function(e) {
         that.cancelStreaming();
       });
@@ -141,6 +149,25 @@
       Mousetrap.unbind(['esc', 'backspace']);
     },
 
+    minDetails: function () {
+      if (this.ui.minimizeIcon.is(':visible')) {
+        $('.loading').css({'height': '0', 'width': '0'});
+        this.ui.minimizeIcon.hide();
+        this.ui.maximizeIcon.show();
+        $('.filter-bar').show();
+        Mousetrap.bind(['esc', 'backspace'], function(e) {
+          App.vent.trigger('show:closeDetail');
+          App.vent.trigger('movie:closeDetail');
+        });
+      } else {
+        $('.loading').removeAttr('style');
+        this.ui.maximizeIcon.hide();
+        this.ui.minimizeIcon.show();
+        $('.filter-bar').hide();
+        this.initKeyboardShortcuts();
+      }
+    },
+
     onAttach: function() {
       $('.filter-bar').hide();
       $('#header').addClass('header-shadow');
@@ -148,12 +175,12 @@
       App.LoadingView = this;
 
       this.initKeyboardShortcuts();
-      $('.open-button,.title,.text_filename,.text_streamurl,.show-pcontrols').tooltip({
-          html: true,
-          delay: {
-              'show': 800,
-              'hide': 0
-          }
+      $('.minimize-icon,#maxic,.open-button,.title,.text_filename,.text_streamurl,.show-pcontrols').tooltip({
+        html: true,
+        delay: {
+          'show': 800,
+          'hide': 0
+        }
       });
       this.ui.title.html('&nbsp;');
       this.ui.stateTextDownloadedFormatted.hide();
@@ -261,17 +288,18 @@
         this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
         this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
         this.ui.stateTextRemaining.text(this.remainingTime());
-      } else if (this.ddone === 'false') {
+      } else if (!this.ddone) {
         this.ui.stateTextDownload.text(i18n.__('Downloaded'));
         this.ui.stateTextDownloadedFormatted.hide();
         this.ui.progressTextPeers.hide();
         this.ui.progressTextSeeds.hide();
         this.ui.downloadSpeed.hide();
         this.ui.stateTextRemaining.hide();
-        $('#rbreak1,#rbreak2,#rbreak3,#rdownl,#ractpr').hide();
+        $('#rbreak1,#rbreak2,#rbreak3,#rdownl,#ractpr,#maxdl,#maxdllb').hide();
         $('.cancel-button').css('background-color', '#27ae60');
+        this.ui.maximizeIcon.addClass('done');
         this.listenTo(this.model.get('streamInfo'), 'change:uploadSpeed', this.onProgressUpdate);
-        this.ddone = 'true';
+        this.ddone = true;
       }
 
       this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
@@ -495,9 +523,12 @@
     onBeforeDestroy: function() {
       $('.filter-bar').show();
       $('#header').removeClass('header-shadow');
-      Mousetrap.bind('esc', function(e) {
+      $('.button, #watch-now, .show-details .sdow-watchnow, .playerchoice, .file-item, .result-item, .trash-torrent').removeClass('disabled').removeProp('disabled');
+      Mousetrap.bind(['esc', 'backspace'], function(e) {
         App.vent.trigger('show:closeDetail');
         App.vent.trigger('movie:closeDetail');
+      });
+      Mousetrap.bind('ctrl+v', function (e) {
       });
     }
 
