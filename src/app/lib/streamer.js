@@ -127,12 +127,14 @@
                     this.torrent.pause();
                     // complete fause torrent, stop download data
                     for (const id in this.torrent._peers) {
-                      this.torrent.removePeer(id);
+                        this.torrent.removePeer(id);
                     }
 
-                    this.torrent._xsRequests.forEach(req => {
-                      req.abort();
-                    });
+                    if (this.torrent._xsRequests) {
+                        this.torrent._xsRequests.forEach(req => {
+                            req.abort();
+                        });
+                    }
                 } else {
                     this.torrent.destroy();
                 }
