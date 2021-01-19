@@ -54,7 +54,7 @@
 
 			if ($('.loading .maximize-icon').is(':visible')) {
 				App.WebTorrent.torrents.forEach(function(torrent) {
-					torrent._servers[0] ? $('#trash-'+torrent.infoHash).addClass('disabled') : null;
+					torrent._servers[0] && !torrent.paused ? $('#trash-'+torrent.infoHash).addClass('disabled') : null;
 				});
 			}
 		},
