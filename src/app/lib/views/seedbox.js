@@ -51,6 +51,12 @@
 			// because this is after this.render(), we know the UI
 			// has been rendered before this is called.
 			this.addTorrentHooks();
+
+			if ($('.loading .maximize-icon').is(':visible')) {
+				App.WebTorrent.torrents.forEach(function(torrent) {
+					torrent._servers[0] ? $('#trash-'+torrent.infoHash).addClass('disabled') : null;
+				});
+			}
 		},
 
 		onRender: function () {

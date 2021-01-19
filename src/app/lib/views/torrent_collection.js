@@ -10,8 +10,8 @@
         className: 'torrent-collection',
 
         events: {
-            'mousedown .file-item': 'openFileSelector',
-            'mousedown .result-item': 'onlineOpen',
+            'click .file-item': 'openFileSelector',
+            'click .result-item': 'onlineOpen',
             'mousedown .item-delete': 'deleteItem',
             'mousedown .item-rename': 'renameItem',
             'mousedown .magnet-icon': 'openMagnet',
@@ -55,6 +55,9 @@
             }
             if (Settings.toggleSengines) {
                 this.togglesengines();
+            }
+            if ($('.loading .maximize-icon').is(':visible')) {
+                $('.file-item').addClass('disabled').prop('disabled', true);
             }
 
             clearTimeout(hidetooltps);
@@ -376,6 +379,9 @@
                     ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
                     $('.result-item[data-index=' + item.index + '] i').attr('data-original-title', i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers);
                 });
+            }
+            if ($('.loading .maximize-icon').is(':visible')) {
+                $('.result-item').addClass('disabled').prop('disabled', true);
             }
         },
 

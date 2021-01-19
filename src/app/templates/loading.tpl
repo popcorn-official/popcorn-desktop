@@ -1,6 +1,15 @@
 <div class="loading">
   <div class="loading-backdrop" <% try { %> style="background-image:url( <%= backdrop %> )" <% }catch(err) {} %>></div>
   <div class="loading-backdrop-overlay"></div>
+  <div class="fa fa-angle-down minimize-icon tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Minimize") %>"></div>
+  <div class="maximize-icon">
+      <span class="buffer_percent"></span>
+      <span class="fa fa-play"></span>
+      <span class="title"></span>
+      <span id="maxdllb">@ </span>
+      <span class="download_speed value" id="maxdl"></span>
+      <span class="fa fa-angle-up tooltipped" id="maxic" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Restore") %>"></span>
+  </div>
 
     <div class="state-flex">
         <div class="state">
