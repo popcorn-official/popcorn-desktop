@@ -42,8 +42,7 @@
         final_download_speed = Common.fileSize(download_speed) + '/s';
     }
 
-    var downloaded = torrent.files[torrentModel.get('video_file').index].downloaded || 0; // downloaded
-
+    var downloaded = torrent.files[torrentModel.get('video_file').index] ? torrent.files[torrentModel.get('video_file').index].downloaded || 0 : 0; // downloaded
 
     var final_downloaded = Common.fileSize(0);
     var final_downloaded_percent = 0;
