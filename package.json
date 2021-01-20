@@ -80,7 +80,7 @@
     "opensubtitles-api": "5.0.0",
     "q": "2.0.3",
     "querystring": "^0.2.0",
-    "readdirp": "*",
+    "readdirp": "2.x.x",
     "request": "2.88.x",
     "rimraf": "2.x.x",
     "sanitizer": "0.x.x",
