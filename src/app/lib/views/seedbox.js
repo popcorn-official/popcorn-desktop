@@ -251,6 +251,13 @@
 				return;
 			}
 
+			App.WebTorrent.torrents.forEach(function(torrent) {
+				if (torrent.paused && $(`#resume-${torrent.infoHash}`).is(":visible")) {
+					$(`#resume-${torrent.infoHash}`).hide();
+					$(`#play-${torrent.infoHash}`).show();
+				}
+			});
+
 			const infoHash = $elem.attr('id');
 			try { const stats = fs.statSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash); } catch(err) {}
 			const torrent = App.WebTorrent.get(infoHash);
