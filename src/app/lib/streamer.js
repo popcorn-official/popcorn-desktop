@@ -101,19 +101,21 @@
             var infoHash = '';
             try { infoHash = parseTorrent(uri).infoHash; } catch (err) {}
 
-            if (!fs.existsSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash)) {
-                if (mediaName) {
-                    App.plugins.mediaName.setMediaName(infoHash, mediaName);
-                }
-                App.WebTorrent.add(uri, {
-                    path      : App.settings.tmpLocation,
-                    maxConns  : 5,
-                    dht       : true,
-                    announce  : Settings.trackers.forced,
-                    tracker   : Settings.trackers.forced
-                });
-                fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash, uri);
+            if (this.torrent && this.torrent.infoHash === infoHash) {
+                return;
             }
+
+            if (mediaName) {
+                App.plugins.mediaName.setMediaName(infoHash, mediaName);
+            }
+            App.WebTorrent.add(uri, {
+                path      : App.settings.tmpLocation,
+                maxConns  : 5,
+                dht       : true,
+                announce  : Settings.trackers.forced,
+                tracker   : Settings.trackers.forced
+            });
+            fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash, uri);
         },
 
         // kill the streamer
@@ -255,15 +257,14 @@
                 }.bind(this));
 
                 this.torrent.on('error', function (error) {
-                     if (this.torrent.infoHash) {
-                     this.torrent.remove(this.torrent.infoHash);
-                     this.torrent.add(this.torrent.infoHash);
-                   } else {
-                     win.error('Torrent fatal error', error);
-                     this.stop();
-                     reject(error);
-                   }
-
+                    if (this.torrent.infoHash) {
+                        this.torrent.remove(this.torrent.infoHash);
+                        this.torrent.add(this.torrent.infoHash);
+                    } else {
+                        win.error('Torrent fatal error', error);
+                        this.stop();
+                        reject(error);
+                    }
                 }.bind(this));
 
                 App.WebTorrent.on('error', function (error) {
