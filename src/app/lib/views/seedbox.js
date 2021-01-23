@@ -82,7 +82,7 @@
 			});
 
 			updateInterval = setInterval(() => {
-				this.updateActiveTorrentView($('.tab-torrent.active'));
+				this.updateView($('.tab-torrent.active'));
 			}, 1000);
 		},
 
@@ -221,7 +221,7 @@
 
 			$('.tab-torrent.active').removeClass('active');
 			$(e.currentTarget).addClass('active');
-			this.updateActiveTorrentView($(e.currentTarget), true /*wasJustSelected*/);
+			this.updateView($(e.currentTarget), true /*wasJustSelected*/);
 		},
 
 
@@ -230,7 +230,7 @@
 			healthButton.render();
 		},
 
-		updateActiveTorrentView: function ($elem, wasJustSelected = false) {
+		updateView: function ($elem, wasJustSelected = false) {
 			if (!wasJustSelected) {
 				App.WebTorrent.torrents.forEach(function(torrent) {
 					$(`#download-${torrent.infoHash}`).text(' ' + formatBytes(torrent.downloadSpeed) + '/s');
