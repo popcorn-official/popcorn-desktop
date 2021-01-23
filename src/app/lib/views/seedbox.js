@@ -1,8 +1,7 @@
 (function (App) {
 	'use strict';
 
-	var clipboard = nw.Clipboard.get(),
-		torrentsDir = path.join(App.settings.tmpLocation + '/TorrentCache/'),
+	var torrentsDir = path.join(App.settings.tmpLocation + '/TorrentCache/'),
 		updateInterval;
 
 	var formatBytes = function (bytes, decimals) {
@@ -126,7 +125,7 @@
 				return;
 			}
 
-		    this.addTorrentToList(torrent);
+			this.addTorrentToList(torrent);
 
 			const activeTorrentCount = App.WebTorrent.torrents.filter(item => !item.paused).length;
 			if (!torrent.paused && activeTorrentCount >= Settings.maxActiveTorrents) {
@@ -139,21 +138,6 @@
 				if (document.getElementById(`title-${torrent.infoHash}`)) {
 					document.getElementById(`title-${torrent.infoHash}`).innerText = torrent.name;
 				}
-
-				let metricsLastUpdated = Date.now();
-				const timeBetweenMetricsUpdatesInMs = 1000;
-				const updateMetrics = () => {
-					if (Date.now() - metricsLastUpdated <= timeBetweenMetricsUpdatesInMs) {
-						return;
-					}
-
-					$(`#download-${torrent.infoHash}`).text(' ' + formatBytes(torrent.downloadSpeed) + '/s');
-					$(`#upload-${torrent.infoHash}`).text(' ' + formatBytes(torrent.uploadSpeed) + '/s');
-					metricsLastUpdated = Date.now();
-				};
-
-				torrent.on('download', updateMetrics);
-				torrent.on('upload', updateMetrics);
 
 				// initialize this health button
 				this.updateHealth(torrent);
@@ -247,16 +231,20 @@
 		},
 
 		updateActiveTorrentView: function ($elem, wasJustSelected = false) {
+			if (!wasJustSelected) {
+				App.WebTorrent.torrents.forEach(function(torrent) {
+					$(`#download-${torrent.infoHash}`).text(' ' + formatBytes(torrent.downloadSpeed) + '/s');
+					$(`#upload-${torrent.infoHash}`).text(' ' + formatBytes(torrent.uploadSpeed) + '/s');
+					if (torrent.paused && $(`#resume-${torrent.infoHash}`).is(':visible')) {
+						$(`#resume-${torrent.infoHash}`).hide();
+						$(`#play-${torrent.infoHash}`).show();
+					}
+				});
+			}
+
 			if ($elem.length === 0) {
 				return;
 			}
-
-			App.WebTorrent.torrents.forEach(function(torrent) {
-				if (torrent.paused && $(`#resume-${torrent.infoHash}`).is(":visible")) {
-					$(`#resume-${torrent.infoHash}`).hide();
-					$(`#play-${torrent.infoHash}`).show();
-				}
-			});
 
 			const infoHash = $elem.attr('id');
 			try { const stats = fs.statSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash); } catch(err) {}
