@@ -139,6 +139,8 @@
 					document.getElementById(`title-${torrent.infoHash}`).innerText = torrent.name;
 				}
 
+				this.updateView($('.tab-torrent.active'), true);
+
 				// initialize this health button
 				this.updateHealth(torrent);
 			};
@@ -252,30 +254,29 @@
 
 			if (wasJustSelected) {
 				this.updateHealth(torrent);
+				$('.seedbox-infos-title').text(torrent.name);
+				const $fileList = $('.torrents-info > ul.file-list');
+				$fileList.empty();
+				for (const file of torrent.files) {
+					$fileList.append(
+						`<li class="file-item">
+								<a>${file.name}</a>
+								<i class="fa fa-folder-open item-delete tooltipped" data-toggle="tooltip" data-placement="left" title=""></i>
+						</li>`
+					);
+				}
 			}
 
-			const $fileList = $('.torrents-info > ul.file-list');
-
-			$fileList.empty();
-			$('.seedbox-infos-title').text(torrent.name);
 			$('.seedbox-downloaded').text(' ' + formatBytes(torrent.downloaded));
 			$('.seedbox-uploaded').text(' ' + formatBytes(torrent.uploaded));
 			try { $('.seedbox-infos-date').text(stats.ctime); } catch(err) {}
 			$('.progress-bar').css('width', (torrent.progress * 100).toFixed(2) + '%');
 			$('.progress-percentage>span').text((torrent.progress * 100).toFixed(2) + '%');
-
-			for (const file of torrent.files) {
-				$fileList.append(
-					`<li class="file-item">
-							<a>${file.name}</a>
-							<i class="fa fa-folder-open item-delete tooltipped" data-toggle="tooltip" data-placement="left" title=""></i>
-					</li>`
-				);
-			}
 		},
 
 		onBeforeDestroy: function () {
 			clearInterval(updateInterval);
+			App.WebTorrent.removeAllListeners('torrent');
 			Mousetrap.unbind(['esc', 'backspace']);
 		},
 
