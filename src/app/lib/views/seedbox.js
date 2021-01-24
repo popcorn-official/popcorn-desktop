@@ -199,8 +199,8 @@
 		},
 
 		onRemoveTorrentClicked(e) {
-		    const torrent = this.getTorrentFromEvent(e);
-		    if (torrent) {
+			const torrent = this.getTorrentFromEvent(e);
+			if (torrent) {
 				torrent.destroy(() => {
 					try { fs.unlinkSync(path.join(torrentsDir, torrent.infoHash)); } catch(err) {}
 					rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {
@@ -213,6 +213,10 @@
 					$('.seedbox-overview').hide();
 				}
 			}
+			if (!$('.tab-torrent').hasClass('active')) {
+				$('.tab-torrent').first().addClass('active');
+			}
+			this.updateView($('.tab-torrent.active'), true);
 		},
 
 		clickTorrent: function (e) {
