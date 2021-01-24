@@ -254,7 +254,6 @@
 
 			if (wasJustSelected) {
 				this.updateHealth(torrent);
-				$('.seedbox-infos-title').text(torrent.name);
 				const $fileList = $('.torrents-info > ul.file-list');
 				$fileList.empty();
 				for (const file of torrent.files) {
@@ -267,6 +266,7 @@
 				}
 			}
 
+			torrent.name ? $('.seedbox-infos-title').text(torrent.name) : $('.seedbox-infos-title').text($('#title-' + torrent.infoHash).text());
 			$('.seedbox-downloaded').text(' ' + formatBytes(torrent.downloaded));
 			$('.seedbox-uploaded').text(' ' + formatBytes(torrent.uploaded));
 			try { $('.seedbox-infos-date').text(stats.ctime); } catch(err) {}
