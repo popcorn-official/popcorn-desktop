@@ -270,7 +270,7 @@
 				}
 			}
 
-			torrent.name ? $('.seedbox-infos-title').text(torrent.name) : $('.seedbox-infos-title').text($('#title-' + torrent.infoHash).text());
+			torrent.name ? $('.seedbox-infos-title').text(torrent.name) : $('.seedbox-infos-title').text(i18n.__('connecting'));
 			$('.seedbox-downloaded').text(' ' + formatBytes(torrent.downloaded));
 			$('.seedbox-uploaded').text(' ' + formatBytes(torrent.uploaded));
 			try { $('.seedbox-infos-date').text(stats.ctime); } catch(err) {}
