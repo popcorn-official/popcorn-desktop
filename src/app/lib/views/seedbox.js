@@ -140,9 +140,6 @@
 				}
 
 				this.updateView($('.tab-torrent.active'), true);
-
-				// initialize this health button
-				this.updateHealth(torrent);
 			};
 
 			if (torrent.ready) {
