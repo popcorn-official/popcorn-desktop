@@ -16,8 +16,8 @@
                 <div class="seedbox-infos">
                     <b><div class="seedbox-infos-title"></div></b>
                     <div class="seedbox-infos-links">
-                        <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__('Magnet link') %>" class="fa fa-magnet magnet-icon"></div>
-                        <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__('Health Unknown') %>" class="fa fa-circle health-icon None"></div>
+                        <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__('Magnet link') %>" class="fa fa-magnet magnet-icon tooltipped"></div>
+                        <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__('Health Unknown') %>" class="fa fa-circle health-icon None tooltipped"></div>
                     </div>
                     <div class="seedbox-infos-aired">
                         <i class="fa fa-upload watched seedbox-uploaded"></i>
