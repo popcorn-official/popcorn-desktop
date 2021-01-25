@@ -46,9 +46,6 @@
 			});
 
 			this.render();
-
-			// because this is after this.render(), we know the UI
-			// has been rendered before this is called.
 			this.addTorrentHooks();
 
 			if ($('.loading .maximize-icon').is(':visible')) {
@@ -69,10 +66,6 @@
 		},
 
 		addTorrentHooks() {
-			// torrent view logic requires the ui to be rendered, so we can't
-			// put any of this in initialize -- rendering will not always be
-			// complete by the time initialize is called.
-
 			App.WebTorrent.on('torrent', (torrent) => {
 				this.onAddTorrent(torrent);
 			});
@@ -89,7 +82,6 @@
 		isTorrentInList: torrent => Boolean(document.getElementById(torrent.infoHash)),
 
 		addTorrentToList(torrent) {
-			// we have at least 1 torrent, so we can hide the view that says there are none
 			$('.notorrents-info').hide();
 
 			let className = 'tab-torrent';
@@ -100,7 +92,7 @@
 			$('.seedbox-torrent-list > ul.file-list').append(
 				`<li class="${className}" id="${torrent.infoHash}" data-season="" data-episode="">
                 <a href="#" class="episodeData">
-                    <span>1</span>
+                    <span>&nbsp;</span>
                     <div id="title-${torrent.infoHash}">${App.plugins.mediaName.getMediaName(torrent)}</div>
                 </a>
 
@@ -112,7 +104,10 @@
               </li>`
 			);
 
-			// show the new list in case it wasn't being shown before
+			$('.episodeData > span').each(function (i, el) { 
+				$(el).text(++i);
+			});
+
 			$('.seedbox-overview').show();
 		},
 
@@ -203,16 +198,21 @@
 					rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {
 					});
 				});
-
 				$(`#${torrent.infoHash}`).remove();
 				if ($('.tab-torrent').length <= 0) {
 					$('.notorrents-info').show();
 					$('.seedbox-overview').hide();
 				}
 			}
+
 			if (!$('.tab-torrent').hasClass('active')) {
 				$('.tab-torrent').first().addClass('active');
 			}
+
+			$('.episodeData > span').each(function (i, el) { 
+				$(el).text(++i);
+			});
+
 			this.updateView($('.tab-torrent.active'), true);
 		},
 
