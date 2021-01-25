@@ -28,7 +28,6 @@
 
           .seedbox-types ul, .seedbox-torrents ul
               height: calc(100vh - 340px)
-              cursor: pointer
               direction: rtl
               scrollable()
 
@@ -37,6 +36,7 @@
                   margin: 1px 0px 1px 1px
                   float: left
                   width: calc(100% - 7px)
+                  cursor: pointer
 
                   .watched
                       padding 9px 0
@@ -255,7 +255,6 @@
                               border-bottom 1px solid rgba(255, 255, 255, 0.06)
                               background $FileSelectorBg
                               text-align left
-                              cursor pointer
                               color $FileSelectorText
                               height 46px
                               padding-left 20px
@@ -271,11 +270,6 @@
                                   overflow hidden
                                   white-space nowrap
                                   text-overflow ellipsis
-
-                                  &:hover
-                                      color $ButtonBgHover
-                                  &:active
-                                      color $ButtonBgActive
 
                               .item-delete,
                               .item-rename
