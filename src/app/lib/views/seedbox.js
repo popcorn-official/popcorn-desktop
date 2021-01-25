@@ -30,6 +30,7 @@
 			'mousedown .resume-torrent': 'onResumeTorrentClicked',
 			'mousedown .trash-torrent': 'onRemoveTorrentClicked',
 			'click .tab-torrent': 'clickTorrent',
+			'click .file-item > i': 'tempf'
 		},
 
 		initialize: function () {
@@ -227,6 +228,9 @@
 			this.updateView($(e.currentTarget), true /*wasJustSelected*/);
 		},
 
+		tempf: function (e) {
+			App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.tmpLocation) : nw.Shell.openItem(Settings.tmpLocation);
+		},
 
 		updateHealth: function(torrent) {
 			const healthButton = new Common.HealthButton('.health-icon', cb => Common.retrieveTorrentHealth(torrent, cb));
