@@ -59,9 +59,10 @@
 		onRender: function () {
 			$('#online-input').focus();
 			this.$('.tooltipped').tooltip({
+				html: true,
 				delay: {
 					'show': 800,
-					'hide': 0
+					'hide': 100
 				}
 			});
 		},
