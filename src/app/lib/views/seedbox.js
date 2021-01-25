@@ -104,7 +104,7 @@
               </li>`
 			);
 
-			$('.episodeData > span').each(function (i, el) { 
+			$('.seedbox .episodeData > span').each(function (i, el) { 
 				$(el).text(++i);
 			});
 
@@ -209,7 +209,7 @@
 				$('.tab-torrent').first().addClass('active');
 			}
 
-			$('.episodeData > span').each(function (i, el) { 
+			$('.seedbox .episodeData > span').each(function (i, el) { 
 				$(el).text(++i);
 			});
 
