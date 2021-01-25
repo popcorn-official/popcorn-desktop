@@ -30,7 +30,7 @@
 			'mousedown .resume-torrent': 'onResumeTorrentClicked',
 			'mousedown .trash-torrent': 'onRemoveTorrentClicked',
 			'click .tab-torrent': 'clickTorrent',
-			'click .file-item > i': 'tempf'
+			'click .file-item': 'tempf'
 		},
 
 		initialize: function () {
