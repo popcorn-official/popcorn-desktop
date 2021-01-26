@@ -172,8 +172,10 @@ Settings.opensubtitlesPassword = '';
 Settings.connectionLimit = 55;
 Settings.streamPort = 0; // 0 = Random
 Settings.tmpLocation = path.join(os.tmpdir(), Settings.projectName);
+Settings.downloadsLocation = path.join(os.tmpdir(), Settings.projectName);
 Settings.databaseLocation = path.join(data_path, 'data');
 Settings.deleteTmpOnClose = true;
+Settings.separateDownloadsDir = false;
 Settings.continueSeedingOnStart = false;
 Settings.vpnEnabled = true;
 Settings.maxActiveTorrents = 5;
