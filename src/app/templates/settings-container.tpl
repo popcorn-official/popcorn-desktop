@@ -639,6 +639,18 @@
                 <input class="settings-checkbox" name="deleteTmpOnClose" id="deleteTmpOnClose" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
                 <label class="settings-label" for="deleteTmpOnClose"><%= i18n.__("Clear Cache Folder after closing the app?") %></label>
             </span>
+            <span>
+                <input class="settings-checkbox" name="separateDownloadsDir" id="separateDownloadsDir" type="checkbox" <%=(Settings.separateDownloadsDir? "checked='checked'":"")%>>
+                <label class="settings-label" for="separateDownloadsDir"><%= i18n.__("Use separate directory for Downloads") %></label>
+            </span>
+            <% if (Settings.separateDownloadsDir) { %>
+            <span>
+                <p><%= i18n.__("Downloads Directory") %></p>
+                <input type="text" placeholder="<%= i18n.__("Downloads Directory") %>" id="fakedownloadsLocation" value="<%= Settings.downloadsLocation %>" readonly="readonly" size="65" />
+                <i class="open-downloads-folder fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Downloads Directory") %>"></i>
+                <input type="file" name="downloadsLocation" id="downloadsLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.downloadsLocation %>" />
+            </span>
+            <% } %>
         </div>
     </section>
 
