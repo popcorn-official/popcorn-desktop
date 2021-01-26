@@ -537,5 +537,8 @@
 	"Cache": "Cache",
 	"Unknown": "Unknown",
 	"Change Subtitles Position": "Change Subtitles Position",
-	"Minimize": "Minimize"
+	"Minimize": "Minimize",
+	"Use separate directory for Downloads": "Use separate directory for Downloads",
+	"Downloads Directory": "Downloads Directory",
+	"Open Downloads Directory": "Open Downloads Directory"
 }
