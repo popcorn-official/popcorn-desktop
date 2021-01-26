@@ -344,7 +344,7 @@
                         value = path.join(value, Settings.projectName);
                     }
                     break;
-                case 'DownloadsLocation':
+                case 'downloadsLocation':
                     downloadsLocationChanged = true;
                     value = field.val();
                     break;
