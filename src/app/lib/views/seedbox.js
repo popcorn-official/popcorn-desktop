@@ -57,7 +57,6 @@
 		},
 
 		onRender: function () {
-			$('#online-input').focus();
 			this.$('.tooltipped').tooltip({
 				html: true,
 				delay: {
@@ -98,9 +97,9 @@
                     <div id="title-${torrent.infoHash}">${App.plugins.mediaName.getMediaName(torrent)}</div>
                 </a>
 
-                <i class="fa fa-trash watched trash-torrent" id="trash-${torrent.infoHash}"></i>
-                <i class="fa fa-play watched resume-torrent" id="play-${torrent.infoHash}" style="display: ${torrent.paused ? '' : 'none'};"></i>
-                <i class="fa fa-pause-circle watched pause-torrent" id="resume-${torrent.infoHash}" style="display: ${torrent.paused ? 'none' : ''};"></i>
+                <i class="fa fa-trash watched trash-torrent tooltipped" id="trash-${torrent.infoHash}" title="Remove" data-toggle="tooltip" data-placement="left"></i>
+                <i class="fa fa-play watched resume-torrent tooltipped" id="play-${torrent.infoHash}"  title="Resume" data-toggle="tooltip" data-placement="left" style="display: ${torrent.paused ? '' : 'none'};"></i>
+                <i class="fa fa-pause-circle watched pause-torrent tooltipped" id="resume-${torrent.infoHash}"  title="Pause" data-toggle="tooltip" data-placement="left" style="display: ${torrent.paused ? 'none' : ''};"></i>
                 <i class="fa fa-upload watched" id="upload-${torrent.infoHash}"> 0 Kb/s</i>
                 <i class="fa fa-download watched" id="download-${torrent.infoHash}"> 0 Kb/s</i>
               </li>`
@@ -111,6 +110,7 @@
 			});
 
 			$('.seedbox-overview').show();
+			this.onRender();
 		},
 
 		getTorrentListItem(torrent) {
@@ -197,8 +197,6 @@
 			if (torrent) {
 				torrent.destroy(() => {
 					try { fs.unlinkSync(path.join(torrentsDir, torrent.infoHash)); } catch(err) {}
-					rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {
-					});
 				});
 				$(`#${torrent.infoHash}`).remove();
 				if ($('.tab-torrent').length <= 0) {
@@ -230,7 +228,13 @@
 		},
 
 		tempf: function (e) {
-			App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.tmpLocation) : nw.Shell.openItem(Settings.tmpLocation);
+			const hash = $('.tab-torrent.active')[0].getAttribute('id');
+			const torrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
+			if (App.settings.separateDownloadsDir && !torrent._servers[0]) {
+				App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.downloadsLocation) : nw.Shell.openItem(Settings.downloadsLocation);
+			} else {
+				App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.tmpLocation) : nw.Shell.openItem(Settings.tmpLocation);
+			}
 		},
 
 		updateHealth: function(torrent) {

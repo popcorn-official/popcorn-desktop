@@ -3,6 +3,7 @@
     var clipboard = nw.Clipboard.get(),
         waitComplete,
         oldTmpLocation,
+        oldDownloadsLocation,
         that;
 
     var SettingsContainer = Marionette.View.extend({
@@ -12,7 +13,9 @@
         ui: {
             success_alert: '.success_alert',
             fakeTempDir: '#faketmpLocation',
-            tempDir: '#tmpLocation'
+            fakeDownloadsDir: '#fakedownloadsLocation',
+            tempDir: '#tmpLocation',
+            downloadsDir: '#downloadsLocation'
         },
 
         events: {
@@ -24,8 +27,10 @@
             'click .flush-bookmarks': 'flushBookmarks',
             'click .flush-databases': 'flushAllDatabase',
             'click #faketmpLocation': 'showCacheDirectoryDialog',
+            'click #fakedownloadsLocation': 'showDownloadsDirectoryDialog',
             'click .default-settings': 'resetSettings',
             'click .open-tmp-folder': 'openTmpFolder',
+            'click .open-downloads-folder': 'openDownloadsFolder',
             'click .open-database-folder': 'openDatabaseFolder',
             'click .export-database': 'exportDatabase',
             'click #importdatabase': 'importDatabase',
@@ -40,6 +45,7 @@
             'click #unauthOpensubtitles': 'disconnectOpensubtitles',
             'click .reset-tvshow': 'resettvshow',
             'change #tmpLocation': 'updateCacheDirectory',
+            'change #downloadsLocation': 'updateDownloadsDirectory',
             'click #syncTrakt': 'syncTrakt',
             'click .qr-code': 'generateQRcode',
             'click .set-current-filter': 'saveFilter',
@@ -82,6 +88,7 @@
                 $('.advanced').css('display', 'flex');
             }
             oldTmpLocation = $('#faketmpLocation').val();
+            oldDownloadsLocation = $('#fakedownloadsLocation').val();
         },
 
         rightclick_field: function (e) {
@@ -206,6 +213,7 @@
                 apiDataChanged = false,
                 apiServerChanged = false,
                 tmpLocationChanged = false,
+                downloadsLocationChanged = false,
                 field = $(e.currentTarget),
                 data = {};
 
@@ -272,6 +280,7 @@
                     break;
                 case 'moviesShowQuality':
                 case 'deleteTmpOnClose':
+                case 'separateDownloadsDir':
                 case 'continueSeedingOnStart':
                 case 'vpnEnabled':
                 case 'coversShowRating':
@@ -335,6 +344,10 @@
                         value = path.join(value, Settings.projectName);
                     }
                     break;
+                case 'downloadsLocation':
+                    downloadsLocationChanged = true;
+                    value = field.val();
+                    break;
                 case 'opensubtitlesUsername':
                 case 'opensubtitlesPassword':
                 case 'import-watched':
@@ -362,6 +375,11 @@
             // move tmp folder safely
             if (tmpLocationChanged) {
                 that.moveTmpLocation(value);
+            }
+
+            // move downloads folder safely
+            if (downloadsLocationChanged) {
+                that.moveDownloadsLocation(value);
             }
 
             //save to db
@@ -477,6 +495,7 @@
                         $('select[name=start_screen]').change();
                     }
                     break;
+                case 'separateDownloadsDir':
                 case 'activateTempf':
                 case 'multipleExtSubtitles':
                 case 'torColSearchMore':
@@ -693,9 +712,18 @@
             this.ui.tempDir.click();
         },
 
+        showDownloadsDirectoryDialog: function () {
+            this.ui.downloadsDir.click();
+        },
+
         openTmpFolder: function () {
             win.debug('Opening: ' + App.settings['tmpLocation']);
             App.settings.os === 'windows' ? nw.Shell.openExternal(App.settings['tmpLocation']) : nw.Shell.openItem(App.settings['tmpLocation']);
+        },
+
+        openDownloadsFolder: function () {
+            win.debug('Opening: ' + App.settings['downloadsLocation']);
+            App.settings.os === 'windows' ? nw.Shell.openExternal(App.settings['downloadsLocation']) : nw.Shell.openItem(App.settings['downloadsLocation']);
         },
 
         moveTmpLocation: function (location) {
@@ -708,6 +736,12 @@
             } else {
                 $('.notification_alert').show().text(i18n.__('You should save the content of the old directory, then delete it')).delay(5000).fadeOut(400);
                 App.settings.os === 'windows' ? nw.Shell.openExternal(oldTmpLocation) : nw.Shell.openItem(oldTmpLocation);
+            }
+        },
+
+        moveDownloadsLocation: function (location) {
+            if (!fs.existsSync(location)) {
+                fs.mkdirSync(location);
             }
         },
 
@@ -805,6 +839,12 @@
         updateCacheDirectory: function (e) {
             var field = $('#tmpLocation');
             this.ui.fakeTempDir.val = field.val();
+            this.render();
+        },
+
+        updateDownloadsDirectory: function (e) {
+            var field = $('#downloadsLocation');
+            this.ui.fakeDownloadsDir.val = field.val();
             this.render();
         },
 
