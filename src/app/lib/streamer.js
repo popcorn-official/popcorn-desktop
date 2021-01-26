@@ -109,7 +109,7 @@
                 App.plugins.mediaName.setMediaName(infoHash, mediaName);
             }
             App.WebTorrent.add(uri, {
-                path      : App.settings.tmpLocation,
+                path      : App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation,
                 maxConns  : 5,
                 dht       : true,
                 announce  : Settings.trackers.forced,
