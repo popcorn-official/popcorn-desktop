@@ -580,6 +580,12 @@
                     <% } %>
             </span>
             <% } %>
+            <% if (Settings.activateSeedbox) { %>
+            <span>
+                <p><%= i18n.__("Active Torrents Limit") %></p>
+                <input id="maxActiveTorrents" type="number" name="maxActiveTorrents" value="<%=Settings.maxActiveTorrents%>"/>
+            </span>
+            <% } %>
             <span>
                 <p><%= i18n.__("Connection Limit") %></p>
                 <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
@@ -588,12 +594,6 @@
                 <p><%= i18n.__("Port to stream on") %></p>
                 <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
             </span>
-            <% if (Settings.activateSeedbox) { %>
-            <span>
-                <p><%= i18n.__("Active torrents limit") %></p>
-                <input id="maxActiveTorrents" type="number" name="maxActiveTorrents" value="<%=Settings.maxActiveTorrents%>"/>
-            </span>
-            <% } %>
             <span id="overallRatio">
                 <p><%= i18n.__("Overall Ratio") %></p>
                 <% var overallRatio = function () {
@@ -604,12 +604,6 @@
                 %>
                 <input type="text" size="20" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;<em><%= Common.fileSize(Settings.totalDownloaded) %><i class="fa fa-arrow-circle-down"></i><%= Common.fileSize(Settings.totalUploaded) %><i class="fa fa-arrow-circle-up"></i></em>
             </span>
-            <% if (Settings.activateSeedbox) { %>
-            <span>
-                <input class="settings-checkbox" name="continueSeedingOnStart" id="continueSeedingOnStart" type="checkbox" <%=(Settings.continueSeedingOnStart? "checked='checked'":"")%>>
-                <label class="settings-label" for="continueSeedingOnStart"><%= i18n.__("Resume seeding after restarting the app?") %></label>
-            </span>
-            <% } %>
             <span>
                 <input class="settings-checkbox" name="vpnEnabled" id="vpnEnabled" type="checkbox" <%=(Settings.vpnEnabled? "checked='checked'":"")%>>
                 <label class="settings-label" for="vpnEnabled"><%= i18n.__("Enable VPN") %></label>
@@ -639,11 +633,13 @@
                 <input class="settings-checkbox" name="deleteTmpOnClose" id="deleteTmpOnClose" type="checkbox" <%=(Settings.deleteTmpOnClose? "checked='checked'":"")%>>
                 <label class="settings-label" for="deleteTmpOnClose"><%= i18n.__("Clear Cache Folder after closing the app?") %></label>
             </span>
+            <% if (Settings.activateSeedbox) { %>
             <span>
                 <input class="settings-checkbox" name="separateDownloadsDir" id="separateDownloadsDir" type="checkbox" <%=(Settings.separateDownloadsDir? "checked='checked'":"")%>>
                 <label class="settings-label" for="separateDownloadsDir"><%= i18n.__("Use separate directory for Downloads") %></label>
             </span>
-            <% if (Settings.separateDownloadsDir) { %>
+            <% } %>
+            <% if (Settings.activateSeedbox && Settings.separateDownloadsDir) { %>
             <span>
                 <p><%= i18n.__("Downloads Directory") %></p>
                 <input type="text" placeholder="<%= i18n.__("Downloads Directory") %>" id="fakedownloadsLocation" value="<%= Settings.downloadsLocation %>" readonly="readonly" size="65" />
