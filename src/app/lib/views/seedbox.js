@@ -26,6 +26,7 @@
 			'mousedown .item-delete': 'deleteItem',
 			'mousedown .item-rename': 'renameItem',
 			'mousedown .magnet-icon': 'openMagnet',
+			'mousedown .health-icon': 'healthClicked',
 			'mousedown .pause-torrent': 'onPauseTorrentClicked',
 			'mousedown .resume-torrent': 'onResumeTorrentClicked',
 			'mousedown .trash-torrent': 'onRemoveTorrentClicked',
@@ -227,7 +228,7 @@
 			this.updateView($(e.currentTarget), true /*wasJustSelected*/);
 		},
 
-		tempf: function (e) {
+		tempf: function () {
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const torrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
 			if (App.settings.separateDownloadsDir && !torrent._servers[0]) {
@@ -237,9 +238,42 @@
 			}
 		},
 
+		openMagnet: function (e) {
+			const hash = $('.tab-torrent.active')[0].getAttribute('id');
+			const torrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
+			var magnetLink;
+			if (torrent.magnetURI) {
+				magnetLink = torrent.magnetURI.replace(/\&amp;/g, '&');
+			}
+			if (e.button === 2) {
+				//if right click on magnet link
+				var clipboard = nw.Clipboard.get();
+				clipboard.set(magnetLink, 'text'); //copy link to clipboard
+				$('.notification_alert')
+				.text(i18n.__('The magnet link was copied to the clipboard'))
+				.fadeIn('fast')
+				.delay(2500)
+				.fadeOut('fast');
+			} else {
+				nw.Shell.openExternal(magnetLink);
+			}
+		},
+
+		healthClicked: function () {
+			const hash = $('.tab-torrent.active')[0].getAttribute('id');
+			const torrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
+			this.updateHealth(torrent);
+		},
+
 		updateHealth: function(torrent) {
 			const healthButton = new Common.HealthButton('.health-icon', cb => Common.retrieveTorrentHealth(torrent, cb));
+			healthButton.reset();
 			healthButton.render();
+			setTimeout(function () {
+				if ($('.health-icon ~ .tooltip').is(':visible')) {
+					$('.health-icon').tooltip('fixTitle').tooltip('show');
+				}
+			}, 2100);
 		},
 
 		updateView: function ($elem, wasJustSelected = false) {
