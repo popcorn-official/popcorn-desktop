@@ -34,10 +34,6 @@
     WebTorrentStreamer.prototype = {
 
         initExistTorrents: function() {
-          if (!Settings.continueSeedingOnStart) {
-            return;
-          }
-
           fs.readdir(App.settings.tmpLocation + '/TorrentCache/', (err, files) => {
             if (err) {
               win.error('Read exist torrents failed:', err.name, err.code);
