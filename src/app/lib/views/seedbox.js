@@ -241,21 +241,19 @@
 		openMagnet: function (e) {
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const torrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
-			var magnetLink;
 			if (torrent.magnetURI) {
-				magnetLink = torrent.magnetURI.replace(/\&amp;/g, '&');
-			}
-			if (e.button === 2) {
-				//if right click on magnet link
-				var clipboard = nw.Clipboard.get();
-				clipboard.set(magnetLink, 'text'); //copy link to clipboard
-				$('.notification_alert')
-				.text(i18n.__('The magnet link was copied to the clipboard'))
-				.fadeIn('fast')
-				.delay(2500)
-				.fadeOut('fast');
-			} else {
-				nw.Shell.openExternal(magnetLink);
+				var magnetLink = torrent.magnetURI.replace(/\&amp;/g, '&');
+				if (e.button === 2) {
+					var clipboard = nw.Clipboard.get();
+					clipboard.set(magnetLink, 'text'); //copy link to clipboard
+					$('.notification_alert')
+					.text(i18n.__('The magnet link was copied to the clipboard'))
+					.fadeIn('fast')
+					.delay(2500)
+					.fadeOut('fast');
+				} else {
+					nw.Shell.openExternal(magnetLink);
+				}
 			}
 		},
 
