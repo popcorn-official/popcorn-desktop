@@ -268,8 +268,8 @@
 			healthButton.reset();
 			healthButton.render();
 			setTimeout(function () {
-				if ($('.health-icon ~ .tooltip').is(':visible')) {
-					$('.health-icon').tooltip('fixTitle').tooltip('show');
+				if ($('.seedbox .health-icon ~ .tooltip').is(':visible')) {
+					$('.seedbox .health-icon').tooltip('fixTitle').tooltip('show');
 				}
 			}, 2100);
 		},
