@@ -313,6 +313,7 @@
 			$('.seedbox-uploaded').text(' ' + formatBytes(torrent.uploaded));
 			try { $('.seedbox-infos-date').text(stats.ctime); } catch(err) {}
 			$('.progress-bar').css('width', (torrent.progress * 100).toFixed(2) + '%');
+			torrent.progress >= 1 && !$('.progress-bar').hasClass('done') ? $('.progress-bar').addClass('done') : (torrent.progress < 1 && $('.progress-bar').hasClass('done') ? $('.progress-bar').removeClass('done') : null);
 			$('.progress-percentage>span').text((torrent.progress * 100).toFixed(2) + '%');
 		},
 
