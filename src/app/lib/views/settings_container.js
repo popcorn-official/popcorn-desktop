@@ -496,6 +496,7 @@
                     }
                     break;
                 case 'separateDownloadsDir':
+                case 'deleteTmpOnClose':
                 case 'activateTempf':
                 case 'multipleExtSubtitles':
                 case 'torColSearchMore':
