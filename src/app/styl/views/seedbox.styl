@@ -370,6 +370,7 @@
         // General styles
         .progress {
             height: 8px;
+            background: $FileSelectorBg;
             margin-bottom: $spacer;
             overflow: hidden;
             border-radius: .2rem !default;
@@ -409,8 +410,13 @@
             border-radius: 0;
             height: 8px;
             width: 0%;
-            background-color: #fb6340 !important;
-            background-image: linear-gradient(to bottom, #fb6340 100%, #fb6340 100%) !important;
+            background-color: #fb6340;
+            background-image: linear-gradient(to bottom, #fb6340 100%, #fb6340 100%);
+
+            &.done {
+                background-color: #27ae60;
+                background-image: linear-gradient(to bottom, #27ae60 100%, #27ae60 100%);
+            }
         }
 
         .progress-info {
@@ -423,11 +429,11 @@
         .progress-label {
             span {
                 display: inline-block;
-                color: #5e72e4;
-                font-size: .625rem;
+                color: $ShowText2;
+                font-size: .65rem;
                 font-weight: 600;
                 text-transform: uppercase;
-                background: rgba(#5e72e4, .1);
+                background: $FileSelectorBg;
                 padding: .25rem 1rem;
                 border-radius: 30px;
             }
@@ -435,6 +441,7 @@
 
         .progress-percentage {
             text-align: right;
+            color: $ShowText2;
             span {
                 display: inline-block;
                 color: #e9ecef !default;
