@@ -281,6 +281,7 @@
                 case 'moviesShowQuality':
                 case 'deleteTmpOnClose':
                 case 'separateDownloadsDir':
+                case 'continueSeedingOnStart':
                 case 'vpnEnabled':
                 case 'coversShowRating':
                 case 'torColSearchMore':
