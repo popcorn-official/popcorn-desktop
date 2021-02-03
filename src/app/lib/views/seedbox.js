@@ -298,7 +298,6 @@
 				this.updateHealth(torrent);
 				const $fileList = $('.torrents-info > ul.file-list');
 				$fileList.empty();
-
 				try {
 					torrent.files.sort(function(a, b){
 						if (a.name < b.name) { return -1; }
@@ -306,7 +305,6 @@
 						return 0;
 					});
 				} catch (err) {};
-
 				for (const file of torrent.files) {
 					$fileList.append(
 						`<li class="file-item">
