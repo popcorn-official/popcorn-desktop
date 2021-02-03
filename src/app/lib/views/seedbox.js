@@ -4,6 +4,8 @@
 	var torrentsDir = path.join(App.settings.tmpLocation + '/TorrentCache/'),
 		updateInterval;
 
+	const supported = ['.mp4', '.m4v', '.avi', '.mov', '.mkv', '.wmv'];
+
 	var formatBytes = function (bytes, decimals) {
 		if (bytes === 0) {
 			return '0 Bytes';
@@ -298,13 +300,17 @@
 				this.updateHealth(torrent);
 				const $fileList = $('.torrents-info > ul.file-list');
 				$fileList.empty();
+				try {
+					torrent.files.sort(function(a, b){
+						if (a.name < b.name) { return -1; }
+						if (a.name > b.name) { return 1; }
+						return 0;
+					});
+				} catch (err) {};
 				for (const file of torrent.files) {
-					$fileList.append(
-						`<li class="file-item">
-								<a>${file.name}</a>
-								<i class="fa fa-folder-open item-delete tooltipped" data-toggle="tooltip" data-placement="left" title=""></i>
-						</li>`
-					);
+					if (supported.indexOf(path.extname(file.name).toLowerCase()) !== -1) {
+						$fileList.append(`<li class="file-item"><a>${file.name}</a><i class="fa fa-folder-open item-delete tooltipped"></i></li>`);
+					}
 				}
 			}
 
