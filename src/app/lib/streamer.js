@@ -279,6 +279,14 @@
         openFileSelector: function (torrent) {
             var supported = ['.mp4', '.m4v', '.avi', '.mov', '.mkv', '.wmv'];
 
+            try {
+                torrent.files.sort(function(a, b){
+                    if (a.name < b.name) { return -1; }
+                    if (a.name > b.name) { return 1; }
+                    return 0;
+                });
+            } catch (err) {};
+
             // hide non-video files from selection and set index
             for (var f in torrent.files) {
                 torrent.files[f].index = f;
@@ -368,6 +376,14 @@
         selectFile: function (torrent) {
             var fileIndex = parseInt(this.torrentModel.get('file_index'));
             var fileSize = 0;
+
+            try {
+                torrent.files.sort(function(a, b){
+                    if (a.name < b.name) { return -1; }
+                    if (a.name > b.name) { return 1; }
+                    return 0;
+                });
+            } catch (err) {};
 
             // set fileSize
             if (!fileIndex && parseInt(fileIndex) !== 0) {
