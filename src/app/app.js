@@ -465,6 +465,9 @@ var minimizeToTray = function () {
 
   var openFromTray = function () {
     win.show();
+    if (localStorage.maximized === 'true') {
+      win.maximize();
+    }
     tray.remove();
     win.isTray = false;
   };
