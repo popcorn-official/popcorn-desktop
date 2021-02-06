@@ -538,7 +538,8 @@
 	"Unknown": "Unknown",
 	"Change Subtitles Position": "Change Subtitles Position",
 	"Minimize": "Minimize",
-	"Use separate directory for Downloads": "Use separate directory for Downloads",
+	"Separate directory for Downloads": "Separate directory for Downloads",
+	"* Using a separate directory for Downloads will prevent the sharing of cache between the Watch Now and Download functions": "* Using a separate directory for Downloads will prevent the sharing of cache between the Watch Now and Download functions",
 	"Downloads Directory": "Downloads Directory",
 	"Open Downloads Directory": "Open Downloads Directory"
 }
