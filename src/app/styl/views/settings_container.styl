@@ -67,6 +67,18 @@
                         color $SettingsText2
                         font-size 12px
 
+                    #downloadsDir
+                        &:hover > em
+                            opacity 1
+
+                        em
+                            cursor default
+                            opacity 0
+                            transition opacity 200ms ease
+
+                            &:hover
+                                opacity 0
+
             /* overlay styles, all needed */
         .modal-overlay
             display none
