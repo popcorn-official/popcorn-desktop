@@ -642,7 +642,8 @@
             <% if (Settings.activateSeedbox) { %>
             <span>
                 <input class="settings-checkbox" name="separateDownloadsDir" id="separateDownloadsDir" type="checkbox" <%=(Settings.separateDownloadsDir? "checked='checked'":"")%>>
-                <label class="settings-label" for="separateDownloadsDir"><%= i18n.__("Separate directory for Downloads") %></label>
+                <label class="settings-label" for="separateDownloadsDir" id="downloadsDir"><%= i18n.__("Separate directory for Downloads") %>&nbsp;&nbsp;&nbsp;
+                <em><i class="fas fa-exclamation-circle">&nbsp;&nbsp;</i><%= i18n.__("Enabling will prevent the sharing of cache between the Watch Now and Download functions") %></em></label>
             </span>
             <% } %>
             <% if (Settings.activateSeedbox && Settings.separateDownloadsDir) { %>
@@ -651,9 +652,6 @@
                 <input type="text" placeholder="<%= i18n.__("Downloads Directory") %>" id="fakedownloadsLocation" value="<%= Settings.downloadsLocation %>" readonly="readonly" size="65" />
                 <i class="open-downloads-folder fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Downloads Directory") %>"></i>
                 <input type="file" name="downloadsLocation" id="downloadsLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.downloadsLocation %>" />
-            </span>
-            <span>
-                <em><%= i18n.__("* Using a separate directory for Downloads will prevent the sharing of cache between the Watch Now and Download functions") %></em>
             </span>
             <% } %>
         </div>
