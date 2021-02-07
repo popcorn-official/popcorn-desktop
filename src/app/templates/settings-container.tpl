@@ -180,7 +180,7 @@
             </span>
             <span class="advanced">
                 <p><%= i18n.__("UI Scaling") %></p>
-                <input id="bigPicture" type="text" size="5" name="bigPicture" value="<%=Settings.bigPicture%>%"/>&nbsp;&nbsp;<em><%= i18n.__("25% - 400%") %></em>
+                <input id="bigPicture" type="text" size="5" name="bigPicture" value="<%=Settings.bigPicture%>%"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("25% - 400%") %></em>
             </span>
             <span class="advanced">
                 <input class="settings-checkbox" name="nativeWindowFrame" id="nativeWindowFrame" type="checkbox" <%=(Settings.nativeWindowFrame? "checked='checked'":"")%>>
@@ -596,7 +596,7 @@
             </span>
             <span>
                 <p><%= i18n.__("Port to stream on") %></p>
-                <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
+                <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
             </span>
             <span id="overallRatio">
                 <p><%= i18n.__("Overall Ratio") %></p>
@@ -606,7 +606,7 @@
                     return ratio;
                    }
                 %>
-                <input type="text" size="20" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;<em><%= Common.fileSize(Settings.totalDownloaded) %><i class="fa fa-arrow-circle-down"></i><%= Common.fileSize(Settings.totalUploaded) %><i class="fa fa-arrow-circle-up"></i></em>
+                <input type="text" size="20" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;&nbsp;<em><%= Common.fileSize(Settings.totalDownloaded) %><i class="fa fa-arrow-circle-down"></i><%= Common.fileSize(Settings.totalUploaded) %><i class="fa fa-arrow-circle-up"></i></em>
             </span>
             <% if (Settings.activateSeedbox && (!Settings.deleteTmpOnClose || Settings.separateDownloadsDir)) { %>
             <span>
