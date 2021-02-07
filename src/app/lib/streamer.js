@@ -69,6 +69,42 @@
               }
             });
           });
+
+          if (!App.settings.separateDownloadsDir) {
+            return;
+          }
+
+          fs.readdir(App.settings.downloadsLocation + '/TorrentCache/', (err, files) => {
+            if (err) {
+              win.error('Read exist torrents failed:', err.name, err.code);
+              return;
+            }
+
+            async.eachLimit(files, 1, function (file, cb) {
+              if (/^[a-f0-9]{40}$/i.test(file)) {
+                fs.readFile(App.settings.downloadsLocation + '/TorrentCache/' + file, 'utf8', (err, data) => {
+                  if (err) {
+                    win.error('Read exist torrent failed:', file, err.name, err.code);
+                    return cb();
+                  }
+
+                  App.WebTorrent.add(data, {
+                      path      : App.settings.downloadsLocation,
+                      maxConns  : 5,
+                      dht       : true,
+                      announce  : Settings.trackers.forced,
+                      tracker   : Settings.trackers.forced
+                  }, (torrent) => {
+                    return cb();
+                  });
+                });
+              }
+            }, function(err) {
+              if (err) {
+                win.error('Load exist torrents failed:', err.name, err.code);
+              }
+            });
+          });
         },
 
         // wrapper for handling a torrent
@@ -115,7 +151,7 @@
                 announce  : Settings.trackers.forced,
                 tracker   : Settings.trackers.forced
             });
-            fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash, uri);
+            fs.writeFileSync((App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation) + '/TorrentCache/' + infoHash, uri);
         },
 
         // kill the streamer
