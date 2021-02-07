@@ -256,6 +256,28 @@
           });
         }
 
+        if (AdvSettings.get('separateDownloadsDir')) {
+          if (!fs.existsSync(Settings.downloadsLocation)) {
+            fs.mkdir(Settings.downloadsLocation, function(err) {
+              if (!err || err.errno === '-4075') {
+                //success
+              } else {
+                Settings.downloadsLocation = path.join(
+                  os.tmpDir(),
+                  Settings.projectName
+                );
+                fs.mkdir(Settings.downloadsLocation);
+              }
+            });
+          }
+          const torrent_cache_dir2 = path.join(Settings.downloadsLocation, 'TorrentCache');
+          if (!fs.existsSync(torrent_cache_dir2)) {
+            fs.mkdir(torrent_cache_dir2, function (err) {
+              if (err && err.errno !== '-4075') { console.log('error creating Downloads TorrentCache dir', err); }
+            });
+          }
+        }
+
         status.set({
           status: i18n.__('Set System Theme'),
           done: 0.3

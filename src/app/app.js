@@ -339,6 +339,9 @@ function close() {
           if (App.settings.deleteTmpOnClose) {
             deleteFolder(App.settings.tmpLocation);
           }
+          if (App.settings.separateDownloadsDir && !App.settings.continueSeedingOnStart) {
+            deleteFolder(App.settings.downloadsLocation + '/TorrentCache/');
+          }
           deleteLogs();
           deleteCache();
         } catch (err) {
