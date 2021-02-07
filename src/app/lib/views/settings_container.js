@@ -496,6 +496,12 @@
                     }
                     break;
                 case 'separateDownloadsDir':
+                    if (value) {
+                        const torrent_cache_dir2 = path.join(Settings.downloadsLocation, 'TorrentCache');
+                        if (!fs.existsSync(torrent_cache_dir2)) {
+                            fs.mkdir(torrent_cache_dir2, function (err) {});
+                        }
+                    }
                 case 'deleteTmpOnClose':
                 case 'activateTempf':
                 case 'multipleExtSubtitles':
@@ -743,6 +749,10 @@
         moveDownloadsLocation: function (location) {
             if (!fs.existsSync(location)) {
                 fs.mkdirSync(location);
+            }
+            const torrent_cache_dir2 = path.join(location, 'TorrentCache');
+            if (!fs.existsSync(torrent_cache_dir2)) {
+                fs.mkdir(torrent_cache_dir2, function (err) {});
             }
         },
 
