@@ -106,18 +106,6 @@
                 <label class="settings-label" for="moviesShowQuality"><%= i18n.__("Show movie quality on list") %></label>
             </span>
             <span class="advanced">
-                <input class="settings-checkbox" name="nativeWindowFrame" id="nativeWindowFrame" type="checkbox" <%=(Settings.nativeWindowFrame? "checked='checked'":"")%>>
-                <label class="settings-label" for="nativeWindowFrame"><%= i18n.__("Native window frame") %></label>
-            </span>
-            <span class="advanced">
-                <input class="settings-checkbox" name="alwaysOnTop" id="alwaysOnTop" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
-                <label class="settings-label" for="alwaysOnTop"><%= i18n.__("Always On Top") %></label>
-            </span>
-            <span class="advanced">
-                <input class="settings-checkbox" name="minimizeToTray" id="minimizeToTray" type="checkbox" <%=(Settings.minimizeToTray? "checked='checked'":"")%>>
-                <label class="settings-label" for="minimizeToTray"><%= i18n.__("Minimize to Tray") %></label>
-            </span>
-            <span class="advanced">
                 <input class="settings-checkbox" name="torColSearchMore" id="torColSearchMore" type="checkbox" <%=(Settings.torColSearchMore? "checked='checked'":"")%>>
                 <label class="settings-label" for="torColSearchMore"><%= i18n.__("Show 'Search on Torrent Collection' in search") %></label>
             </span>
@@ -193,6 +181,18 @@
             <span class="advanced">
                 <p><%= i18n.__("UI Scaling") %></p>
                 <input id="bigPicture" type="text" size="5" name="bigPicture" value="<%=Settings.bigPicture%>%"/>&nbsp;&nbsp;<em><%= i18n.__("(25% - 400%)") %></em>
+            </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="nativeWindowFrame" id="nativeWindowFrame" type="checkbox" <%=(Settings.nativeWindowFrame? "checked='checked'":"")%>>
+                <label class="settings-label" for="nativeWindowFrame"><%= i18n.__("Native window frame") %></label>
+            </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="alwaysOnTop" id="alwaysOnTop" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
+                <label class="settings-label" for="alwaysOnTop"><%= i18n.__("Always On Top") %></label>
+            </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="minimizeToTray" id="minimizeToTray" type="checkbox" <%=(Settings.minimizeToTray? "checked='checked'":"")%>>
+                <label class="settings-label" for="minimizeToTray"><%= i18n.__("Minimize to Tray") %></label>
             </span>
         </div>
     </section>
