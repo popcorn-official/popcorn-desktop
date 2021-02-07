@@ -2,6 +2,7 @@
 	'use strict';
 
 	var torrentsDir = path.join(App.settings.tmpLocation + '/TorrentCache/'),
+		torrentsDir2 = path.join(App.settings.downloadsLocation + '/TorrentCache/'),
 		updateInterval;
 
 	const supported = ['.mp4', '.m4v', '.avi', '.mov', '.mkv', '.wmv'];
@@ -38,9 +39,12 @@
 
 		initialize: function () {
 			torrentsDir = path.join(App.settings.tmpLocation + '/TorrentCache/');
+			torrentsDir2 = path.join(App.settings.downloadsLocation + '/TorrentCache/');
 			if (!fs.existsSync(torrentsDir)) {
 				fs.mkdirSync(torrentsDir);
-				console.debug('Seedbox: data directory created');
+			}
+			if (App.settings.separateDownloadsDir && !fs.existsSync(torrentsDir2)) {
+				fs.mkdirSync(torrentsDir2);
 			}
 		},
 
@@ -199,7 +203,9 @@
 			const torrent = this.getTorrentFromEvent(e);
 			if (torrent) {
 				torrent.destroy(() => {
-					try { fs.unlinkSync(path.join(torrentsDir, torrent.infoHash)); } catch(err) {}
+					try { fs.unlinkSync(path.join(torrentsDir, torrent.infoHash)); } catch(err) {
+						try { fs.unlinkSync(path.join(torrentsDir2, torrent.infoHash)); } catch(err) {}
+					}
 				});
 				$(`#${torrent.infoHash}`).remove();
 				if ($('.tab-torrent').length <= 0) {
@@ -293,7 +299,9 @@
 			}
 
 			const infoHash = $elem.attr('id');
-			try { const stats = fs.statSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash); } catch(err) {}
+			try { const stats = fs.statSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash); } catch(err) {
+				try { const stats = fs.statSync(App.settings.downloadsLocation + '/TorrentCache/' + infoHash); } catch(err) {}
+			}
 			const torrent = App.WebTorrent.get(infoHash);
 
 			if (wasJustSelected) {
