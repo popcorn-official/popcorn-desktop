@@ -86,7 +86,6 @@ Settings.trackers = {
     'udp://exodus.desync.com:6969',
     'udp://tracker.cyberia.is:6969',
     'udp://tracker.torrent.eu.org:451',
-    'udp://tracker.open-internet.nl:6969',
     'wss://tracker.openwebtorrent.com',
     'wss://tracker.btorrent.xyz'
   ]
