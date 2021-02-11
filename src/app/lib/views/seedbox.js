@@ -58,7 +58,7 @@
 
 			if ($('.loading .maximize-icon').is(':visible')) {
 				let currentHash;
-				try { currentHash = App.LoadingView.model.get('streamInfo').get('torrentModel').get('torrent').infoHash; } catch(err) {};
+				try { currentHash = App.LoadingView.model.attributes.streamInfo.attributes.torrentModel.attributes.torrent.infoHash; } catch(err) {};
 				currentHash && $('#trash-'+currentHash)[0] ? $('#trash-'+currentHash).addClass('disabled') : null;
 			}
 		},
