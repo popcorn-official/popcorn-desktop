@@ -32,6 +32,7 @@
             height: 100%
             z-index: 20
             position: relative
+            pointer-events: none
             transition: transform 0.05s ease-out
 
             .shp-img
@@ -47,6 +48,7 @@
                 border-radius 4px
                 opacity 0
                 background-color $ShowBgColor1
+                pointer-events auto
                 cursor pointer
                 &.fadein
                     transition: opacity .3s ease-in;
