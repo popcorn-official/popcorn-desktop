@@ -30,7 +30,9 @@
             float: left
             width: 198px
             height: 100%
-            cursor: pointer
+            z-index: 20
+            position: relative
+            transition: transform 0.05s ease-out
 
             .shp-img
                 position relative
@@ -45,19 +47,16 @@
                 border-radius 4px
                 opacity 0
                 background-color $ShowBgColor1
+                cursor pointer
                 &.fadein
                     transition: opacity .3s ease-in;
                     opacity: 1
 
         .sh-poster.active
-            zoom: 350%
-            position: absolute
-            z-index: 20
-            left: -19px
-            top: 20px
-
-            + .sh-metadata, ~ .sh-actions
-                left: 198px
+            transform: scale(3.5)
+            left: 180px
+            top: 260px
+            transition: transform 0.12s ease-out
 
         .sh-metadata
             float: left

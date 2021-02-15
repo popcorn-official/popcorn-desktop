@@ -32,7 +32,7 @@
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .shmi-rating': 'switchRating',
             'click .health-icon': 'refreshTorrentHealth',
-            'mousedown .sh-poster': 'clickPoster',
+            'mousedown .shp-img': 'clickPoster',
             'click .playerchoicehelp': 'showPlayerList'
         },
 
