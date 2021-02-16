@@ -164,6 +164,10 @@
                 overflow: hidden
                 scrollable()
 
+        .sh-metadata.active
+            filter: blur(4px)
+            pointer-events: none
+
         .sh-actions
             float: left
             position: relative
@@ -295,6 +299,9 @@
                     &:after
                         opacity: 1
 
+        .sh-actions.active
+            filter: blur(4px)
+            pointer-events: none
 
     .show-details
         width: 100vw
@@ -530,3 +537,7 @@
         /* ugly rule to bypass restrictions */
         .sd-seasons[style*="display: none"] + .sd-episodes ul a div
             max-width: calc(60vw - 100px)
+
+    .show-details.active
+        filter: brightness(50%) blur(4px)
+        pointer-events: none

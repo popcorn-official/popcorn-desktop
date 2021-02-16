@@ -745,7 +745,7 @@
 
         clickPoster: function(e) {
             if (e.button === 0) {
-                $('.sh-poster').toggleClass('active');
+                $('.sh-poster, .show-details, .sh-metadata, .sh-actions').toggleClass('active');
             } else if (e.button === 2) {
                 var clipboard = nw.Clipboard.get();
                 clipboard.set($('.shp-img')[0].style.backgroundImage.slice(4, -1).replace(/"/g, ""), 'text');
