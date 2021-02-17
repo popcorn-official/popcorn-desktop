@@ -240,7 +240,6 @@
             this.ui.stateTextDownload.text(i18n.__('Downloading'));
             this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
             this.ui.stateTextRemaining.text(this.remainingTime());
-            this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
             this.ui.progressTextDownload.text((streamInfo.get('downloaded') / (1024 * 1024)).toFixed(2) + ' Mb');
             this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
             this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
@@ -253,9 +252,9 @@
             $('#rbreak1,#rbreak2,#rbreak3,#rdownl,#ractpr,#maxdl,#maxdllb').hide();
             $('.cancel-button').css('background-color', '#27ae60');
             this.ui.maximizeIcon.addClass('done');
-            this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
             this.ddone = true;
           }
+          this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
         } else {
           this.ui.stateTextDownload.text(i18n.__('Downloaded'));
         }
