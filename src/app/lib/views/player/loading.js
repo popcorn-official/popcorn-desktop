@@ -54,9 +54,9 @@
       'click .minimize-icon': 'minDetails',
       'click .maximize-icon': 'minDetails',
       'click .show-pcontrols': 'showpcontrols',
-      'mousedown .title': 'titletoclip',
-      'mousedown .text_filename': 'filenametoclip',
-      'mousedown .text_streamurl': 'streamurltoclip',
+      'mousedown .title': 'copytoclip',
+      'mousedown .text_filename': 'copytoclip',
+      'mousedown .text_streamurl': 'copytoclip',
       'click .playing-progressbar': 'seekStreaming'
     },
 
@@ -349,30 +349,11 @@
       }
     },
 
-    titletoclip: function (e) {
+    copytoclip: function (e) {
       if (e.button === 2) {
-        var streamInfo = this.model.get('streamInfo');
         var clipboard = nw.Clipboard.get();
-        clipboard.set(streamInfo.get('title'), 'text');
-        $('.notification_alert').text(i18n.__('The title was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-      }
-    },
-
-    filenametoclip: function (e) {
-      if (e.button === 2) {
-        var streamInfo = this.model.get('streamInfo');
-        var clipboard = nw.Clipboard.get();
-        clipboard.set(streamInfo.get('filename'), 'text');
-        $('.notification_alert').text(i18n.__('The filename was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-      }
-    },
-
-    streamurltoclip: function (e) {
-      if (e.button === 2) {
-        var streamInfo = this.model.get('streamInfo');
-        var clipboard = nw.Clipboard.get();
-        clipboard.set(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress), 'text');
-        $('.notification_alert').text(i18n.__('The stream url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+        clipboard.set(e.target.textContent, 'text');
+        $('.notification_alert').text(i18n.__('Copied to clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
       }
     },
 
