@@ -5,7 +5,6 @@
     template: '#loading-tpl',
     className: 'app-overlay',
     extPlayerStatusUpdater: null,
-    ddone: false,
 
     ui: {
       state: '.state',
@@ -16,9 +15,7 @@
       stateTextSize: '.text_size',
       stateTextRemaining: '.text_remaining',
       stateTextDownloadedFormatted: '.text_downloadedformatted',
-      stateTextPeers: '.text_peers',
       progressTextPeers: '.value_peers',
-      stateTextSeeds: '.text_seeds',
       progressTextSeeds: '.value_seeds',
       seedStatus: '.seed_status',
       bufferPercent: '.buffer_percent',
