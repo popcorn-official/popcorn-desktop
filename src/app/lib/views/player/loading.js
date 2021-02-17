@@ -273,6 +273,10 @@
         this.ui.stateTextDownloadedFormatted.show();
         this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
       }
+      this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
+      this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
+      this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
+      this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
     },
 
     onProgressUpdate: function () {
@@ -284,9 +288,6 @@
       if (streamInfo.get('downloaded') < streamInfo.get('size') || streamInfo.get('size') === 0) {
         this.ui.stateTextDownload.text(i18n.__('Downloading'));
         this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
-        this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
-        this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
-        this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
         this.ui.stateTextRemaining.text(this.remainingTime());
       } else if (!this.ddone) {
         this.ui.stateTextDownload.text(i18n.__('Downloaded'));
@@ -301,13 +302,7 @@
         this.listenTo(this.model.get('streamInfo'), 'change:uploadSpeed', this.onProgressUpdate);
         this.ddone = true;
       }
-
       this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
-      this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
-
-      if (this.model.get('state') === 'playingExternally') {
-        this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
-      }
     },
 
     onDeviceStatus: function(status) {
