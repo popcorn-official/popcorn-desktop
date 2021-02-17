@@ -65,13 +65,10 @@
 
     initialize: function() {
       var that = this;
-
       App.vent.trigger('settings:close');
       App.vent.trigger('about:close');
-
       $('.button:not(#download-torrent), .show-details .sdow-watchnow, .show-details #download-torrent, .file-item, .result-item').addClass('disabled');
       $('#watch-now, #watch-trailer, .playerchoice, .file-item, .result-item').prop('disabled', true);
-
       //If a child was removed from above this view
       App.vent.on('viewstack:pop', function() {
         if (_.last(App.ViewStack) === that.className) {
@@ -85,14 +82,12 @@
           }
         }
       });
-
       //If a child was added above this view
       App.vent.on('viewstack:push', function() {
         if (_.last(App.ViewStack) !== that.className && _.last(App.ViewStack) !== 'notificationWrapper') {
           that.unbindKeyboardShortcuts();
         }
       });
-
       if (Settings.vpnEnabled) {
         if (!VPNht.isInstalled()) {
           that.showVPNLoader();
@@ -104,7 +99,6 @@
           });
         }
       }
-
       win.info('Loading torrent');
       this.listenTo(this.model, 'change:state', this.onStateUpdate);
     },
@@ -127,8 +121,6 @@
             this.ui.userCountry.text(data.advanced.countryName);
             this.ui.userZIP.text(data.advanced.postalCode);
             this.ui.userISP.text(data.isp);
-        /** NEEDS A NEW API KEY, REMOVE FONTAWESOME WHEN FIXED  **/
-        //  this.ui.map.attr('src', `https://maps.google.com/maps/api/staticmap?center=${data.advanced.latitude},${data.advanced.longitude}&zoom=14&sensor=false&size=640x403&key=AIzaSyDEReWNL61EYlVTTT6isiYn1EqRZTtd4bk`);
             this.ui.map.parent().html('<i class="fas fa-lock" style="opacity:0.2;font-size:600%"></i>');
           }
         }
@@ -171,9 +163,7 @@
     onAttach: function() {
       $('.filter-bar').hide();
       $('#header').addClass('header-shadow');
-
       App.LoadingView = this;
-
       this.initKeyboardShortcuts();
       $('.minimize-icon,#maxic,.open-button,.title,.text_filename,.text_streamurl,.show-pcontrols').tooltip({
         html: true,
@@ -191,7 +181,6 @@
       var state = this.model.get('state');
       var streamInfo = this.model.get('streamInfo');
       win.info('Loading torrent:', state);
-
       this.ui.stateTextDownload.text(i18n.__(state));
       if (streamInfo) {
         if (streamInfo.get('src') && Settings.ipAddress) {
@@ -208,7 +197,6 @@
         this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
       }
       this.listenTo(this.model.get('streamInfo'), 'change', this.onInfosUpdate);
-
       if (state === 'playingExternally') {
         if (streamInfo.get('device') && streamInfo.get('device').get('type') !== 'local') {
           this.ui.player.text(streamInfo.get('device').get('name'));
@@ -226,9 +214,7 @@
             this.ui.controls.css('display', 'block');
             this.ui.playingbarBox.css('display', 'block');
           }
-
-          // Update gui on status update.
-          // uses listenTo so event is unsubscribed automatically when loading view closes.
+          // Update gui on status update. uses listenTo so event is unsubscribed automatically when loading view closes.
           this.listenTo(App.vent, 'device:status', this.onDeviceStatus);
         }
       }
@@ -281,7 +267,6 @@
 
     onDeviceStatus: function(status) {
       if (status.media !== undefined && status.media.duration !== undefined) {
-        // Update playingbar width
         var playedPercent = (status.currentTime / status.media.duration) * 100;
         this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
         win.debug(
@@ -317,7 +302,6 @@
     },
 
     cancelStreaming: function() {
-      // call stop if we play externally
       if (this.model.get('state') === 'playingExternally') {
         if (this.extPlayerStatusUpdater) {
           clearInterval(this.extPlayerStatusUpdater);
@@ -325,7 +309,6 @@
         win.info('Stopping external device');
         App.vent.trigger('device:stop');
       }
-
       win.info('Closing loading view');
       App.vent.trigger('stream:stop');
       App.vent.trigger('player:close');
@@ -360,7 +343,6 @@
     remainingTime: function () {
       var streamInfo = this.model.get('streamInfo');
       var timeLeft = streamInfo.get('time_left');
-
       if (timeLeft === undefined || streamInfo.get('size') === 0) {
         return i18n.__('Unknown time remaining');
       } else if (timeLeft > 3600) {
@@ -401,21 +383,13 @@
 
     pauseStreaming: function() {
       App.vent.trigger('device:pause');
-      $('.pause')
-        .removeClass('fa-pause')
-        .removeClass('pause')
-        .addClass('fa-play')
-        .addClass('play');
+      $('.pause').removeClass('fa-pause').removeClass('pause').addClass('fa-play').addClass('play');
     },
 
     resumeStreaming: function() {
       win.debug('Play triggered');
       App.vent.trigger('device:unpause');
-      $('.play')
-        .removeClass('fa-play')
-        .removeClass('play')
-        .addClass('fa-pause')
-        .addClass('pause');
+      $('.play').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
     },
 
     stopStreaming: function() {
@@ -446,23 +420,16 @@
       var reserved = (size * 20) / 100;
       reserved = reserved > 0.25 ? 0.25 : reserved;
       var minspace = size + reserved;
-
       var cmd;
-
       if (process.platform === 'win32') {
         var drive = Settings.tmpLocation.substr(0, 2);
-
         cmd = 'dir /-C ' + drive;
-
         child.exec(cmd, function(error, stdout, stderr) {
           if (error) {
             return;
           }
           var stdoutParse = stdout.split('\n');
-          stdoutParse =
-            stdoutParse[stdoutParse.length - 1] !== ''
-              ? stdoutParse[stdoutParse.length - 1]
-              : stdoutParse[stdoutParse.length - 2];
+          stdoutParse = stdoutParse[stdoutParse.length - 1] !== '' ? stdoutParse[stdoutParse.length - 1] : stdoutParse[stdoutParse.length - 2];
           var regx = stdoutParse.match(/(\d+)/g);
           if (regx !== null) {
             var freespace = regx[regx.length - 1] / (1024 * 1024 * 1024);
@@ -473,14 +440,11 @@
         });
       } else {
         var path = Settings.tmpLocation;
-
         cmd = 'df -Pk "' + path + '" | awk \'NR==2 {print $4}\'';
-
         child.exec(cmd, function(error, stdout, stderr) {
           if (error) {
             return;
           }
-
           var freespace = stdout.replace(/\D/g, '') / (1024 * 1024);
           if (freespace < minspace) {
             $('#player .warning-nospace').css('display', 'block');
