@@ -236,17 +236,15 @@
 
     onInfosUpdate: function() {
       var streamInfo = this.model.get('streamInfo');
-      this.ui.seedStatus.css('visibility', 'visible');
-      if (streamInfo.get('size') && !this.firstUpdate) {
+      if (!this.firstUpdate && streamInfo.get('size')) {
+        this.ui.seedStatus.css('visibility', 'visible');
         this.ui.progressbar.parent().css('visibility', 'visible');
+        this.ui.stateTextDownloadedFormatted.show();
         this.checkFreeSpace(streamInfo.get('size'));
         this.firstUpdate = true;
       }
       if (streamInfo.get('backdrop')) {
-        $('.loading-backdrop').css(
-          'background-image',
-          'url(' + streamInfo.get('backdrop') + ')'
-        );
+        $('.loading-backdrop').css('background-image', 'url(' + streamInfo.get('backdrop') + ')');
       }
       if (streamInfo.get('title') !== '') {
         this.ui.title.html(streamInfo.get('title'));
@@ -254,19 +252,15 @@
       if (streamInfo.get('downloaded')) {
         this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
         this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
-        this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
-        this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
         if (!this.ddone) {
-          if (this.ui.stateTextDownloadedFormatted.is(':hidden')) {
-            this.ui.stateTextDownloadedFormatted.show();
-          }
           if (streamInfo.get('downloaded') < streamInfo.get('size') || streamInfo.get('size') === 0) {
             this.ui.stateTextDownload.text(i18n.__('Downloading'));
             this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
             this.ui.stateTextRemaining.text(this.remainingTime());
             this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
-            var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
-            this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
+            this.ui.progressTextDownload.text((streamInfo.get('downloaded') / (1024 * 1024)).toFixed(2) + ' Mb');
+            this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
+            this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
           } else {
             this.ui.stateTextDownloadedFormatted.hide();
             this.ui.progressTextPeers.hide();
