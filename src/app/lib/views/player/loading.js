@@ -209,14 +209,6 @@
       }
       this.listenTo(this.model.get('streamInfo'), 'change', this.onInfosUpdate);
 
-      if (state === 'downloading') {
-        this.listenTo(
-          this.model.get('streamInfo'),
-          'change:downloaded',
-          this.onProgressUpdate
-        );
-      }
-
       if (state === 'playingExternally') {
         if (streamInfo.get('device') && streamInfo.get('device').get('type') !== 'local') {
           this.ui.player.text(streamInfo.get('device').get('name'));
@@ -239,27 +231,17 @@
           // uses listenTo so event is unsubscribed automatically when loading view closes.
           this.listenTo(App.vent, 'device:status', this.onDeviceStatus);
         }
-        // The 'downloading' state is not always sent, eg when playing canceling and replaying
-        // Start listening here instead when playing externally
-        this.listenTo(
-          this.model.get('streamInfo'),
-          'change:downloaded',
-          this.onProgressUpdate
-        );
       }
     },
 
     onInfosUpdate: function() {
       var streamInfo = this.model.get('streamInfo');
-
       this.ui.seedStatus.css('visibility', 'visible');
-
       if (streamInfo.get('size') && !this.firstUpdate) {
         this.ui.progressbar.parent().css('visibility', 'visible');
         this.checkFreeSpace(streamInfo.get('size'));
         this.firstUpdate = true;
       }
-
       if (streamInfo.get('backdrop')) {
         $('.loading-backdrop').css(
           'background-image',
@@ -269,40 +251,38 @@
       if (streamInfo.get('title') !== '') {
         this.ui.title.html(streamInfo.get('title'));
       }
-      if (this.ui.stateTextDownloadedFormatted.is(':hidden') && streamInfo.get('downloaded')) {
-        this.ui.stateTextDownloadedFormatted.show();
-        this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
+      if (streamInfo.get('downloaded')) {
+        this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
+        this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
+        this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
+        this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
+        if (!this.ddone) {
+          if (this.ui.stateTextDownloadedFormatted.is(':hidden')) {
+            this.ui.stateTextDownloadedFormatted.show();
+          }
+          if (streamInfo.get('downloaded') < streamInfo.get('size') || streamInfo.get('size') === 0) {
+            this.ui.stateTextDownload.text(i18n.__('Downloading'));
+            this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
+            this.ui.stateTextRemaining.text(this.remainingTime());
+            this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
+            var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
+            this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
+          } else {
+            this.ui.stateTextDownloadedFormatted.hide();
+            this.ui.progressTextPeers.hide();
+            this.ui.progressTextSeeds.hide();
+            this.ui.downloadSpeed.hide();
+            this.ui.stateTextRemaining.hide();
+            $('#rbreak1,#rbreak2,#rbreak3,#rdownl,#ractpr,#maxdl,#maxdllb').hide();
+            $('.cancel-button').css('background-color', '#27ae60');
+            this.ui.maximizeIcon.addClass('done');
+            this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
+            this.ddone = true;
+          }
+        } else {
+          this.ui.stateTextDownload.text(i18n.__('Downloaded'));
+        }
       }
-      this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
-      this.ui.uploadSpeed.text(streamInfo.get('uploadSpeed'));
-      this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
-      this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
-    },
-
-    onProgressUpdate: function () {
-      var streamInfo = this.model.get('streamInfo');
-
-      var downloaded = streamInfo.get('downloaded') / (1024 * 1024);
-      this.ui.progressTextDownload.text(downloaded.toFixed(2) + ' Mb');
-
-      if (streamInfo.get('downloaded') < streamInfo.get('size') || streamInfo.get('size') === 0) {
-        this.ui.stateTextDownload.text(i18n.__('Downloading'));
-        this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
-        this.ui.stateTextRemaining.text(this.remainingTime());
-      } else if (!this.ddone) {
-        this.ui.stateTextDownload.text(i18n.__('Downloaded'));
-        this.ui.stateTextDownloadedFormatted.hide();
-        this.ui.progressTextPeers.hide();
-        this.ui.progressTextSeeds.hide();
-        this.ui.downloadSpeed.hide();
-        this.ui.stateTextRemaining.hide();
-        $('#rbreak1,#rbreak2,#rbreak3,#rdownl,#ractpr,#maxdl,#maxdllb').hide();
-        $('.cancel-button').css('background-color', '#27ae60');
-        this.ui.maximizeIcon.addClass('done');
-        this.listenTo(this.model.get('streamInfo'), 'change:uploadSpeed', this.onProgressUpdate);
-        this.ddone = true;
-      }
-      this.ui.bufferPercent.text(streamInfo.get('downloadedPercent').toFixed() + '%');
     },
 
     onDeviceStatus: function(status) {
