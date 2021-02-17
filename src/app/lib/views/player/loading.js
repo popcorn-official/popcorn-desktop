@@ -66,7 +66,7 @@
       App.vent.trigger('about:close');
       $('.button:not(#download-torrent), .show-details .sdow-watchnow, .show-details #download-torrent, .file-item, .result-item').addClass('disabled');
       $('#watch-now, #watch-trailer, .playerchoice, .file-item, .result-item').prop('disabled', true);
-      //If a child was removed from above this view
+      // If a child was removed from above this view
       App.vent.on('viewstack:pop', function() {
         if (_.last(App.ViewStack) === that.className) {
           if ($('.loading .minimize-icon').is(':visible')) {
@@ -79,7 +79,7 @@
           }
         }
       });
-      //If a child was added above this view
+      // If a child was added above this view
       App.vent.on('viewstack:push', function() {
         if (_.last(App.ViewStack) !== that.className && _.last(App.ViewStack) !== 'notificationWrapper') {
           that.unbindKeyboardShortcuts();
@@ -211,7 +211,7 @@
             this.ui.controls.css('display', 'block');
             this.ui.playingbarBox.css('display', 'block');
           }
-          // Update gui on status update. uses listenTo so event is unsubscribed automatically when loading view closes.
+          // Update gui on status update, uses listenTo so event is unsubscribed automatically when loading view closes
           this.listenTo(App.vent, 'device:status', this.onDeviceStatus);
         }
       }
@@ -275,13 +275,13 @@
         );
       }
       if (!this.extPlayerStatusUpdater && status.playerState === 'PLAYING') {
-        // First PLAYING state. Start requesting device status update every 5 sec
+        // First PLAYING state, start requesting device status update every 5 sec
         this.extPlayerStatusUpdater = setInterval(function() {
           App.vent.trigger('device:status:update');
         }, 5000);
       }
       if (this.extPlayerStatusUpdater && status.playerState === 'IDLE') {
-        // If media encountered error. Most likely unsupported codecs with chromecast.
+        // If media encountered error, most likely unsupported codecs with chromecast
         if (status.idleReason === 'ERROR') {
           win.error('Device can\'t play the video');
           win.debug('Status: ', status)
@@ -293,7 +293,6 @@
             autoclose: true
           }));
         }
-        // Media started streaming and is now finished playing
         this.cancelStreaming();
       }
     },
