@@ -219,7 +219,7 @@
 
     onInfosUpdate: function() {
       var streamInfo = this.model.get('streamInfo');
-      if (!this.firstUpdate && streamInfo.get('size')) {
+      if (!this.firstUpdate && (streamInfo.get('size') || streamInfo.get('size') === 0)) {
         this.ui.seedStatus.css('visibility', 'visible');
         this.ui.progressbar.parent().css('visibility', 'visible');
         this.ui.stateTextDownloadedFormatted.show();
