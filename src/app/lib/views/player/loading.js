@@ -16,7 +16,6 @@
       stateTextRemaining: '.text_remaining',
       stateTextDownloadedFormatted: '.text_downloadedformatted',
       progressTextPeers: '.value_peers',
-      progressTextSeeds: '.value_seeds',
       seedStatus: '.seed_status',
       bufferPercent: '.buffer_percent',
       downloadSpeed: '.download_speed',
@@ -242,11 +241,9 @@
             this.ui.stateTextRemaining.text(this.remainingTime());
             this.ui.progressTextDownload.text((streamInfo.get('downloaded') / (1024 * 1024)).toFixed(2) + ' Mb');
             this.ui.progressTextPeers.text(streamInfo.get('active_peers'));
-            this.ui.progressTextSeeds.text(streamInfo.get('total_peers'));
           } else {
             this.ui.stateTextDownloadedFormatted.hide();
             this.ui.progressTextPeers.hide();
-            this.ui.progressTextSeeds.hide();
             this.ui.downloadSpeed.hide();
             this.ui.stateTextRemaining.hide();
             $('#rbreak1,#rbreak2,#rbreak3,#rdownl,#ractpr,#maxdl,#maxdllb').hide();
