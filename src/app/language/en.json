@@ -497,6 +497,8 @@
 	"Fit screen": "Fit screen",
 	"Video already fits screen": "Video already fits screen",
 	"Copied to clipboard": "Copied to clipboard",
+	"The filename was copied to the clipboard": "The filename was copied to the clipboard",
+	"The stream url was copied to the clipboard": "The stream url was copied to the clipboard",
 	"Create account": "Create account",
 	"* %s stores an encrypted hash of your password in your local database": "* %s stores an encrypted hash of your password in your local database",
 	"Device can't play the video": "Device can't play the video",
