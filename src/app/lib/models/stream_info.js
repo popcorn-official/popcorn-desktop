@@ -66,7 +66,6 @@
         pieces: 0,
         downloaded: downloaded,
         active_peers: torrent.numPeers,
-        total_peers: torrent.numPeers,
         uploadSpeed: final_upload_speed,
         downloadSpeed: final_download_speed,
         downloadedFormatted: final_downloaded,

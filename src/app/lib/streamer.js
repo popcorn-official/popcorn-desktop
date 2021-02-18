@@ -279,7 +279,6 @@
                         this.torrentModel.set('active_peers', this.torrent.numPeers);
                         this.torrentModel.set('downloadedPercent', (this.torrent.progress * 100) || 0);
                         this.torrentModel.set('active_peers', this.torrent.numPeers);
-                        this.torrentModel.set('total_peers', this.torrent.numPeers);
                         this.torrentModel.set('time_left', (this.torrent.timeRemaining));
                     }
                 }.bind(this));
@@ -288,7 +287,6 @@
                     if (this.torrentModel) {
                         this.torrentModel.set('uploadSpeed', Common.fileSize(this.torrent.uploadSpeed) + '/s');
                         this.torrentModel.set('active_peers', this.torrent.numPeers);
-                        this.torrentModel.set('total_peers', this.torrent.numPeers);
                     }
                 }.bind(this));
 
