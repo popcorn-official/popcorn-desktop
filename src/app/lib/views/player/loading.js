@@ -179,10 +179,9 @@
       win.info('Loading torrent:', state);
       this.ui.stateTextDownload.text(i18n.__(state));
       if (streamInfo) {
-        if (streamInfo.get('src') && Settings.ipAddress) {
-          this.ui.stateTextStreamUrl.text(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress));
+        if (streamInfo.get('downloaded')) {
+          this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
         }
-        this.ui.stateTextFilename.text(streamInfo.get('filename'));
         if (streamInfo.get('size') !== 0) {
           this.ui.stateTextSize.text(Common.fileSize(streamInfo.get('size')));
         } else {
@@ -190,7 +189,10 @@
           this.ui.stateTextSize.text(i18n.__('Unknown'));
           this.ui.stateTextSize.next().html(')&nbsp&nbsp;&nbsp;');
         }
-        this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
+        this.ui.stateTextFilename.text(streamInfo.get('filename'));
+        if (streamInfo.get('src') && Settings.ipAddress) {
+          this.ui.stateTextStreamUrl.text(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress));
+        }
       }
       this.listenTo(this.model.get('streamInfo'), 'change', this.onInfosUpdate);
       if (state === 'playingExternally') {
@@ -222,6 +224,9 @@
         this.ui.seedStatus.css('visibility', 'visible');
         this.ui.progressbar.parent().css('visibility', 'visible');
         this.ui.stateTextDownloadedFormatted.show();
+        if (streamInfo.get('src') && Settings.ipAddress) {
+          this.ui.stateTextStreamUrl.text(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress));
+        }
         this.checkFreeSpace(streamInfo.get('size'));
         this.firstUpdate = true;
       }
