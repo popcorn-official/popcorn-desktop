@@ -14,7 +14,7 @@
             'click .result-item': 'onlineOpen',
             'mousedown .item-delete': 'deleteItem',
             'mousedown .item-rename': 'renameItem',
-            'mousedown .magnet-icon': 'openMagnet',
+            'click .magnet-icon': 'openMagnet',
             'click .collection-paste': 'pasteItem',
             'click .collection-import': 'importItem',
             'click .collection-open': 'openCollection',
@@ -456,7 +456,7 @@
 
             var magnetLink;
 
-            if (e.currentTarget.parentNode.className === 'file-item') {
+            if (e.currentTarget.parentNode.className.indexOf('file-item') !== -1) {
                 // stored
                 var _file = e.currentTarget.parentNode.innerText,
                     file = _file.substring(0, _file.length - 2); // avoid ENOENT
