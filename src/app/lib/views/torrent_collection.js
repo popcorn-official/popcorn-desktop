@@ -145,7 +145,7 @@
                             sortBy: 'desc'
                         }).then(function (data) {
                             console.debug('ThePirateBay search: %s results', data.length);
-                            $('#enableThepiratebaySearchL').attr('title', data.length + ' results').tooltip('fixTitle');
+                            $('#enableThepiratebaySearchL').attr('title', data.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.forEach(function (item) {
                                 if (!item.category) {
                                     return;
@@ -188,7 +188,7 @@
                             sortBy: 'desc'
                         }).then(function (data) {
                             console.debug('1337x search: %s results', data.torrents.length);
-                            $('#enable1337xSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle');
+                            $('#enable1337xSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.torrents.forEach(function (item) {
                                 leet.info('https://1337x.to' + item.href).then(function (ldata) {
                                     var itemModel = {
@@ -231,7 +231,7 @@
                             verified: false
                         }).then(function (data) {
                             console.debug('RARBG search: %s results', data.length);
-                            $('#enableRarbgSearchL').attr('title', data.length + ' results').tooltip('fixTitle');
+                            $('#enableRarbgSearchL').attr('title', data.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.forEach(function (item) {
                                 var itemModel = {
                                     title: item.title,
@@ -270,7 +270,7 @@
                             orderBy: 'desc'
                         }).then(function (data) {
                             console.debug('OMGTorrent search: %s results', data.torrents.length);
-                            $('#enableOmgtorrentSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle');
+                            $('#enableOmgtorrentSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.torrents.forEach(function (item) {
                                 omg.info(item.href).then(function (ldata) {
                                     var itemModel = {
