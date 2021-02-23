@@ -541,5 +541,9 @@
 	"Separate directory for Downloads": "Separate directory for Downloads",
 	"Enabling will prevent the sharing of cache between the Watch Now and Download functions": "Enabling will prevent the sharing of cache between the Watch Now and Download functions",
 	"Downloads Directory": "Downloads Directory",
-	"Open Downloads Directory": "Open Downloads Directory"
+	"Open Downloads Directory": "Open Downloads Directory",
+	"Delete related cache files ?": "Delete related cache files ?",
+	"Yes": "Yes",
+	"No": "No",
+	"Cache files deleted": "Cache files deleted"
 }

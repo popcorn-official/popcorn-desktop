@@ -204,8 +204,34 @@
 			if (torrent) {
 				torrent.destroy(() => {
 					try { fs.unlinkSync(path.join(torrentsDir, torrent.infoHash)); } catch(err) {
-						try { fs.unlinkSync(path.join(torrentsDir2, torrent.infoHash)); } catch(err) {}
+						if (App.settings.separateDownloadsDir) {
+							try { fs.unlinkSync(path.join(torrentsDir2, torrent.infoHash)); } catch(err) {}
+						}
 					}
+					var delCache = function () {
+						App.vent.trigger('notification:close');
+						rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {});
+						if (App.settings.separateDownloadsDir) {
+							rimraf(path.join(App.settings.downloadsLocation, torrent.name), () => {});
+						}
+						App.vent.trigger('notification:show', new App.Model.Notification({
+							title: i18n.__('Success'),
+							body: i18n.__('Cache files deleted'),
+							showClose: false,
+							autoclose: 2000,
+							type: 'success'
+						}));
+					};
+					var keepCache = function () {
+						App.vent.trigger('notification:close');
+					};
+					App.vent.trigger('notification:show', new App.Model.Notification({
+						title: '',
+						body: '<div style="padding: 5px 0">' + i18n.__('Delete related cache files ?') + '</div>',
+						showClose: false,
+						type: 'info',
+						buttons: [{ title: '<label class="export-database" for="exportdatabase">' + i18n.__('Yes') + '</label>', action: delCache }, { title: '<label class="export-database" for="exportdatabase">' + i18n.__('No') + '</label>', action: keepCache }]
+					}));
 				});
 				$(`#${torrent.infoHash}`).remove();
 				if ($('.tab-torrent').length <= 0) {
