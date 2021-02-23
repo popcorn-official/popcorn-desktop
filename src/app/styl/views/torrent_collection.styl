@@ -293,11 +293,7 @@
                     color $FileSelectorText
                     height 46px
                     padding-left 40px
-                    padding-top 14px
                     padding-right 50px
-
-                    &:hover > a
-                        color $ButtonBgHover
 
                     &.disabled
                         cursor not-allowed
@@ -307,6 +303,7 @@
                         color $FileSelectorText
                         text-decoration blink
                         width 100%
+                        padding 14px 0
                         display block
                         transition all 0.3s
                         overflow hidden
@@ -325,7 +322,7 @@
                         transition all 0.3s
                         cursor pointer
                         left calc(100% + 22px)
-                        top -15px
+                        top -45px
 
                         &:hover
                             color $ButtonBgHover
@@ -344,7 +341,7 @@
                         color $FileSelectorText
                         opacity 0.7
                         left -25px
-                        margin-top -16px
+                        top -30px
 
                         &.torrent-icon:before
                             content: '\f016'
@@ -361,7 +358,7 @@
                         font-style normal
                         font-size .9em
                         left calc(100% - 35px)
-                        top -15px
+                        top -45px
 
                 li.result-item a
                     width calc(100% - 50px)
