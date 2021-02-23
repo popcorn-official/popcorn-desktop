@@ -57,7 +57,7 @@
                 this.togglesengines();
             }
             if ($('.loading .maximize-icon').is(':visible')) {
-                $('.file-item').addClass('disabled').prop('disabled', true);
+                $('.file-item, .collection-actions').addClass('disabled').prop('disabled', true);
             }
 
             clearTimeout(hidetooltps);
@@ -381,7 +381,7 @@
                 });
             }
             if ($('.loading .maximize-icon').is(':visible')) {
-                $('.result-item').addClass('disabled').prop('disabled', true);
+                $('.result-item, .collection-actions').addClass('disabled').prop('disabled', true);
             }
         },
 
