@@ -63,7 +63,7 @@
       var that = this;
       App.vent.trigger('settings:close');
       App.vent.trigger('about:close');
-      $('.button:not(#download-torrent), .show-details .sdow-watchnow, .show-details #download-torrent, .file-item, .result-item').addClass('disabled');
+      $('.button:not(#download-torrent), .show-details .sdow-watchnow, .show-details #download-torrent, .file-item, .result-item, .collection-actions').addClass('disabled');
       $('#watch-now, #watch-trailer, .playerchoice, .file-item, .result-item').prop('disabled', true);
       // If a child was removed from above this view
       App.vent.on('viewstack:pop', function() {
@@ -434,7 +434,7 @@
     onBeforeDestroy: function() {
       $('.filter-bar').show();
       $('#header').removeClass('header-shadow');
-      $('.button, #watch-now, .show-details .sdow-watchnow, .playerchoice, .file-item, .result-item, .trash-torrent').removeClass('disabled').removeProp('disabled');
+      $('.button, #watch-now, .show-details .sdow-watchnow, .playerchoice, .file-item, .result-item, .trash-torrent, .collection-actions').removeClass('disabled').removeProp('disabled');
       Mousetrap.bind(['esc', 'backspace'], function(e) {
         App.vent.trigger('show:closeDetail');
         App.vent.trigger('movie:closeDetail');
