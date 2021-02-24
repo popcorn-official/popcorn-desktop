@@ -33,6 +33,7 @@
 			'mousedown .pause-torrent': 'onPauseTorrentClicked',
 			'mousedown .resume-torrent': 'onResumeTorrentClicked',
 			'mousedown .trash-torrent': 'onRemoveTorrentClicked',
+			'mousedown .close-icon' : 'closeTorrentCollection',
 			'click .tab-torrent': 'clickTorrent',
 			'click .file-item': 'tempf'
 		},
@@ -49,9 +50,7 @@
 		},
 
 		onAttach: function () {
-			Mousetrap.bind(['esc', 'backspace'], function (e) {
-				$('#filterbar-seedbox').click();
-			});
+			Mousetrap.bind(['esc', 'backspace'], this.closeTorrentCollection);
 
 			this.render();
 			this.addTorrentHooks();
@@ -344,7 +343,7 @@
 		},
 
 		closeTorrentCollection: function () {
-			App.vent.trigger('seedbox:close');
+			$('#filterbar-seedbox').click();
 		}
 	});
 

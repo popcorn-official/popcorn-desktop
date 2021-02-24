@@ -1,6 +1,7 @@
 <div class="seedbox-container">
     <div class="margintop"></div>
     <div class="content">
+        <div class="fa fa-times close-icon"></div>
         <div class="seedbox-details">
             <div class="seedbox-torrents">
                 <div class="seedbox-torrent-title"></div>
