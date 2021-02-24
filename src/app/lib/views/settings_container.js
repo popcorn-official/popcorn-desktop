@@ -263,6 +263,7 @@
                 case 'watchedCovers':
                 case 'defaultFilters':
                 case 'theme':
+                case 'delSeedboxCache':
                     value = $('option:selected', field).val();
                     break;
                 case 'poster_size':

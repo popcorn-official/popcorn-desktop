@@ -645,6 +645,20 @@
             </span>
             <% if (Settings.activateSeedbox) { %>
             <span>
+                <div class="dropdown del-seedbox-cache">
+                    <p><%= i18n.__("Delete related cache when removing from Seedbox") %>&nbsp;&nbsp;</p>
+                        <%
+                            var arr_del_cache = ['always', 'never', 'ask'];
+                            var selct_del_cache = "";
+                            for(var key in arr_del_cache) {
+                                selct_del_cache += "<option "+(Settings.delSeedboxCache == arr_del_cache[key]? "selected='selected'":"")+" value='"+arr_del_cache[key]+"'>"+i18n.__(arr_del_cache[key].replace("ask", "ask every time").capitalizeEach())+"</option>";
+                            }
+                        %>
+                    <select name="delSeedboxCache"><%=selct_del_cache%></select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </span>
+            <span>
                 <input class="settings-checkbox" name="separateDownloadsDir" id="separateDownloadsDir" type="checkbox" <%=(Settings.separateDownloadsDir? "checked='checked'":"")%>>
                 <label class="settings-label" for="separateDownloadsDir" id="downloadsDir"><%= i18n.__("Separate directory for Downloads") %>
                 <em><i class="fas fa-exclamation-circle">&nbsp;&nbsp;</i><%= i18n.__("Enabling will prevent the sharing of cache between the Watch Now and Download functions") %></em></label>

@@ -542,8 +542,12 @@
 	"Enabling will prevent the sharing of cache between the Watch Now and Download functions": "Enabling will prevent the sharing of cache between the Watch Now and Download functions",
 	"Downloads Directory": "Downloads Directory",
 	"Open Downloads Directory": "Open Downloads Directory",
-	"Delete related cache files ?": "Delete related cache files ?",
+	"Delete related cache ?": "Delete related cache ?",
 	"Yes": "Yes",
 	"No": "No",
-	"Cache files deleted": "Cache files deleted"
+	"Cache files deleted": "Cache files deleted",
+	"Delete related cache when removing from Seedbox": "Delete related cache when removing from Seedbox",
+	"Always": "Always",
+	"Never": "Never",
+	"Ask Every Time": "Ask Every Time"
 }

@@ -292,31 +292,35 @@
             .reset-tvAPI
                 font-size: 13px
                 color: $SettingsText2
-                transition: all .5s;
+                transition: all .5s
                 &:hover
-                    cursor: pointer;
-                    color: $ButtonBgActive;
-                    transition: all .5s;
+                    cursor: pointer
+                    color: $ButtonBgActive
+                    transition: all .5s
 
         #cache
             .open-tmp-folder,
             .open-downloads-folder
                 font-size: 16px
-                margin-left: 10px;
-                transition: all .5s;
+                margin-left: 10px
+                transition: all .5s
                 &:hover
-                    cursor: pointer;
-                    color: $ButtonBgActive;
-                    transition: all .5s;
+                    cursor: pointer
+                    color: $ButtonBgActive
+                    transition: all .5s
+
+            .del-seedbox-cache > select
+                width: 158px
+
         #database
             .open-database-folder
                 font-size: 16px
-                margin-left: 10px;
-                transition: all .5s;
+                margin-left: 10px
+                transition: all .5s
                 &:hover
-                    cursor: pointer;
-                    color: $ButtonBgActive;
-                    transition: all .5s;
+                    cursor: pointer
+                    color: $ButtonBgActive
+                    transition: all .5s
 
         .set-current-filter,
         .reset-current-filter
@@ -464,17 +468,17 @@
 
         &#fakedatabaseLocation
             pointer-events: none
-            -webkit-user-select: none;
+            -webkit-user-select: none
 
         &#fakedatabaseLocation,&#settingsIpAddr
             pointer-events: none
-            -webkit-user-select: none;
+            -webkit-user-select: none
 
     input[type='color']
         -webkit-appearance: none
         width 62px
     input[type='color']::-webkit-color-swatch
-        margin: 3px -9px 3px -3px;
+        margin: 3px -9px 3px -3px
 
     input[type='number']::-webkit-inner-spin-button
         -webkit-appearance: none
@@ -482,52 +486,51 @@
 
     input[type=checkbox]
         &.settings-checkbox
-            position: absolute;
-            overflow: hidden;
-            clip: rect(0 0 0 0);
-            height:1px;
-            width:1px;
-            margin:-1px;
-            padding:0;
-            border:0;
+            position: absolute
+            overflow: hidden
+            clip: rect(0 0 0 0)
+            height:1px
+            width:1px
+            margin:-1px
+            padding:0
+            border:0
 
         &.settings-checkbox+label.settings-label
-            height:15px;
-            display:inline-block;
-            line-height:15px;
-            font-size:13px;
-            font-family: $Font, $AlternateFont;
-            vertical-align:middle;
-            cursor:pointer;
+            height:15px
+            display:inline-block
+            line-height:15px
+            font-size:13px
+            font-family: $Font, $AlternateFont
+            vertical-align:middle
+            cursor:pointer
             color:$SettingsText1
 
         &.settings-checkbox:checked+label.settings-label
             &:after
-                opacity: 1;
+                opacity: 1
 
     .settings-label
         &:before
-            content: '\f0c8';
+            content: '\f0c8'
             font-family: "Font Awesome 5 Free"
             font-weight: 900
-            font-size: 18px;
-            padding-right: 8px;
+            font-size: 18px
+            padding-right: 8px
             float: left
-            position: relative;
-            color: $CheckboxBg;
+            position: relative
+            color: $CheckboxBg
         &:after
-            content: '\f00c';
+            content: '\f00c'
             font-family: "Font Awesome 5 Free"
             font-weight: 900
-            font-size: 12px;
-            margin-right: -14px;
-            color: $CheckboxCheck;
-            position: relative;
-            float: left;
-            left: -21px;
-            opacity: 0;
-            transition: opacity .1s ease-in-out;
-
+            font-size: 12px
+            margin-right: -14px
+            color: $CheckboxCheck
+            position: relative
+            float: left
+            left: -21px
+            opacity: 0
+            transition: opacity .1s ease-in-out
 
     .settings-container-check-settings
         width 14px
