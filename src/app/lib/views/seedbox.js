@@ -208,30 +208,32 @@
 							try { fs.unlinkSync(path.join(torrentsDir2, torrent.infoHash)); } catch(err) {}
 						}
 					}
-					var delCache = function () {
-						App.vent.trigger('notification:close');
+					if (App.settings.delSeedboxCache === 'always') {
 						rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {});
 						if (App.settings.separateDownloadsDir) {
 							rimraf(path.join(App.settings.downloadsLocation, torrent.name), () => {});
 						}
+						$('.notification_alert').text(i18n.__('Cache files deleted')).fadeIn('fast').delay(2000).fadeOut('fast');
+					} else if (App.settings.delSeedboxCache === 'ask') {
+						var delCache = function () {
+							App.vent.trigger('notification:close');
+							rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {});
+							if (App.settings.separateDownloadsDir) {
+								rimraf(path.join(App.settings.downloadsLocation, torrent.name), () => {});
+							}
+							$('.notification_alert').text(i18n.__('Cache files deleted')).fadeIn('fast').delay(2000).fadeOut('fast');
+						};
+						var keepCache = function () {
+							App.vent.trigger('notification:close');
+						};
 						App.vent.trigger('notification:show', new App.Model.Notification({
-							title: i18n.__('Success'),
-							body: i18n.__('Cache files deleted'),
+							title: '',
+							body: '<div style="padding: 5px 0">' + i18n.__('Delete related cache ?') + '</div>',
 							showClose: false,
-							autoclose: 2000,
-							type: 'success'
+							type: 'info',
+							buttons: [{ title: '<label class="export-database" for="exportdatabase">' + i18n.__('Yes') + '</label>', action: delCache }, { title: '<label class="export-database" for="exportdatabase">' + i18n.__('No') + '</label>', action: keepCache }]
 						}));
-					};
-					var keepCache = function () {
-						App.vent.trigger('notification:close');
-					};
-					App.vent.trigger('notification:show', new App.Model.Notification({
-						title: '',
-						body: '<div style="padding: 5px 0">' + i18n.__('Delete related cache files ?') + '</div>',
-						showClose: false,
-						type: 'info',
-						buttons: [{ title: '<label class="export-database" for="exportdatabase">' + i18n.__('Yes') + '</label>', action: delCache }, { title: '<label class="export-database" for="exportdatabase">' + i18n.__('No') + '</label>', action: keepCache }]
-					}));
+					}
 				});
 				$(`#${torrent.infoHash}`).remove();
 				if ($('.tab-torrent').length <= 0) {
