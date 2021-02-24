@@ -88,11 +88,9 @@
                       margin: 0px 15px 0px 5px
 
                   div
-                      float: left
                       white-space: nowrap
                       border-left: 1px solid $ShowBgColor1
                       padding-left: 30px
-                      max-width: calc(60vw - 265px)
                       text-align: left
                       overflow: hidden
                       text-overflow: ellipsis
@@ -124,9 +122,13 @@
               padding: 10px
               width: calc(65vw - 20px)
 
+              .seedbox-torrent-list ul
+                  white-space: nowrap
+
               .seedbox-torrent-list ul li a
                   color: $EpisodeListText
                   font-family: $MainFont
+                  max-width: calc(100% - 265px)
 
               .seedbox-torrent-list ul li.active a
                   color: $EpisodeSelectorText
