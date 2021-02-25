@@ -316,6 +316,7 @@
             height: calc(100vh - 340px)
             cursor: pointer
             direction: rtl
+            white-space: nowrap
             scrollable()
 
             li
@@ -370,11 +371,9 @@
                     margin: 0px 15px 0px 5px
 
                 div
-                    float: left
                     white-space: nowrap
                     border-left: 1px solid $ShowBgColor1
                     padding-left: 30px
-                    max-width: calc(60vw - 290px)
                     text-align: left
                     overflow: hidden
                     text-overflow: ellipsis
@@ -408,6 +407,8 @@
             .sde-list ul li a
                 color: $EpisodeListText
                 font-family: $MainFont
+                min-width: 70px
+                max-width: calc(60vw - 290px)
 
             .sde-list ul li.active a
                 color: $EpisodeSelectorText
