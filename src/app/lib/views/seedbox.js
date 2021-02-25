@@ -202,30 +202,25 @@
 		onRemoveTorrentClicked(e) {
 			const torrent = this.getTorrentFromEvent(e);
 			if (torrent) {
-				torrent.destroy(() => {
-					try { fs.unlinkSync(path.join(torrentsDir, torrent.infoHash)); } catch(err) {
-						if (App.settings.separateDownloadsDir) {
-							try { fs.unlinkSync(path.join(torrentsDir2, torrent.infoHash)); } catch(err) {}
-						}
+				if (App.settings.delSeedboxCache === 'always') {
+					rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {});
+					if (App.settings.separateDownloadsDir) {
+						rimraf(path.join(App.settings.downloadsLocation, torrent.name), () => {});
 					}
-					if (App.settings.delSeedboxCache === 'always') {
+					$('.notification_alert').text(i18n.__('Cache files deleted')).fadeIn('fast').delay(1500).fadeOut('fast');
+				} else if (App.settings.delSeedboxCache === 'ask') {
+					var delCache = function () {
+						App.vent.trigger('notification:close');
 						rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {});
 						if (App.settings.separateDownloadsDir) {
 							rimraf(path.join(App.settings.downloadsLocation, torrent.name), () => {});
 						}
-						$('.notification_alert').text(i18n.__('Cache files deleted')).fadeIn('fast').delay(2000).fadeOut('fast');
-					} else if (App.settings.delSeedboxCache === 'ask') {
-						var delCache = function () {
-							App.vent.trigger('notification:close');
-							rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {});
-							if (App.settings.separateDownloadsDir) {
-								rimraf(path.join(App.settings.downloadsLocation, torrent.name), () => {});
-							}
-							$('.notification_alert').text(i18n.__('Cache files deleted')).fadeIn('fast').delay(2000).fadeOut('fast');
-						};
-						var keepCache = function () {
-							App.vent.trigger('notification:close');
-						};
+						$('.notification_alert').text(i18n.__('Cache files deleted')).fadeIn('fast').delay(1500).fadeOut('fast');
+					};
+					var keepCache = function () {
+						App.vent.trigger('notification:close');
+					};
+					setTimeout(function(){
 						App.vent.trigger('notification:show', new App.Model.Notification({
 							title: '',
 							body: '<div style="padding: 5px 0">' + i18n.__('Delete related cache ?') + '</div>',
@@ -233,6 +228,13 @@
 							type: 'info',
 							buttons: [{ title: '<label class="export-database" for="exportdatabase">' + i18n.__('Yes') + '</label>', action: delCache }, { title: '<label class="export-database" for="exportdatabase">' + i18n.__('No') + '</label>', action: keepCache }]
 						}));
+					}, 300);
+				}
+				torrent.destroy(() => {
+					try { fs.unlinkSync(path.join(torrentsDir, torrent.infoHash)); } catch(err) {
+						if (App.settings.separateDownloadsDir) {
+							try { fs.unlinkSync(path.join(torrentsDir2, torrent.infoHash)); } catch(err) {}
+						}
 					}
 				});
 				$(`#${torrent.infoHash}`).remove();
