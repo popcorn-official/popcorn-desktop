@@ -319,7 +319,7 @@
                     if (a.name > b.name) { return 1; }
                     return 0;
                 });
-            } catch (err) {};
+            } catch (err) {}
 
             // hide non-video files from selection and set index
             for (var f in torrent.files) {
@@ -417,7 +417,7 @@
                     if (a.name > b.name) { return 1; }
                     return 0;
                 });
-            } catch (err) {};
+            } catch (err) {}
 
             // set fileSize
             if (!fileIndex && parseInt(fileIndex) !== 0) {
@@ -605,7 +605,9 @@
                 const request = require('request');
                 let url = this.torrentModel.get('cover');
                 request({ url, encoding: null }, (err, resp, buffer) => {
-                    if (err || buffer.length < 1000) return;
+                    if (err || buffer.length < 1000) {
+                        return;
+                    }
                     fs.writeFileSync(path.join(App.settings.tmpLocation, this.torrentModel.get('torrent').name) + '/cover.jpg', buffer);
                 });
             }

@@ -56,7 +56,7 @@
                 win.debug('Butter %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)); // started in database.js;
                 startupTime = 'none';
                 if (parseInt(AdvSettings.get('bigPicture'))) {
-                    if (AdvSettings.get('bigPicture') != 100) {
+                    if (AdvSettings.get('bigPicture') !== 100) {
                         win.zoomLevel = Math.log(AdvSettings.get('bigPicture')/100) / Math.log(1.2);
                     } else if (!AdvSettings.get('disclaimerAccepted') && ScreenResolution.QuadHD) {
                         AdvSettings.set('bigPicture', 140);

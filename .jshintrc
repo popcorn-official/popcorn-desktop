@@ -82,6 +82,10 @@
         "WebTorrent": true,
         "torrentCollection": true,
         "Trakt": true,
+        "pkJson": true,
+        "curSetDefaultFilters": true,
+        "extPlayerlst": true,
+        "jsonFileEditor": true,
 
         // Third party
         "Backbone": true,

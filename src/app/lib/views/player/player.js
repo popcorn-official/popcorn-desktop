@@ -269,7 +269,7 @@
             } else if (e.button === 2) {
                 clipboard.set(this.model.get('src').replace('127.0.0.1', Settings.ipAddress), 'text');
                 $('.notification_alert').text(i18n.__('The stream url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-            };
+            }
         },
 
         onPlayerReady: function () {
@@ -527,7 +527,7 @@
                 if (!curSub.innerHTML.includes(i18n.__('Disabled'))) {
                     curSub.onclick = function() {
                         that.prevSub = this;
-                    }
+                    };
                 }
             }
             this.prevSub = this.model.get('defaultSubtitle') === 'none' && Settings.subtitle_language !== 'none' ? $('.vjs-menu-item:contains("' + App.Localization.langcodes[Settings.subtitle_language].nativeName +'")')[0] || $('.vjs-selected')[0] : $('.vjs-selected')[0];
@@ -977,7 +977,7 @@
 
         subtitlesOnOff: function () {
             $('.vjs-selected')[0].innerHTML.includes(i18n.__('Disabled')) ? this.prevSub.click() : $('.vjs-menu-item')[0].click();
-            this.displayOverlayMsg(i18n.__('Subtitles') + ': ' + i18n.__($(".vjs-selected")[0].innerHTML));
+            this.displayOverlayMsg(i18n.__('Subtitles') + ': ' + i18n.__($('.vjs-selected')[0].innerHTML));
             $('.vjs-overlay').css('opacity', '1');
         },
 

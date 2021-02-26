@@ -748,7 +748,7 @@
                 $('.sh-poster, .show-details, .sh-metadata, .sh-actions').toggleClass('active');
             } else if (e.button === 2) {
                 var clipboard = nw.Clipboard.get();
-                clipboard.set($('.shp-img')[0].style.backgroundImage.slice(4, -1).replace(/"/g, ""), 'text');
+                clipboard.set($('.shp-img')[0].style.backgroundImage.slice(4, -1).replace(/"/g, ''), 'text');
                 $('.notification_alert').text(i18n.__('The image url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
             }
         },

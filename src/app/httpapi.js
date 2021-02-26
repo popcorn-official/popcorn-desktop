@@ -260,7 +260,7 @@
                 var collection = App.getView().getRegion('Content').currentView.getRegion('ItemList').currentView.collection;
                 var result = collection.models;
                 var page = 0;
-                var args = Object.values(args);
+                args = Object.values(args);
                 if (args.length > 0) {
                     page = parseInt(args[0]);
                     var size = page * 50;
@@ -596,7 +596,7 @@
             });
 
             server.expose('filtersearch', function (args, opt, callback) {
-                args = Object.values(args)
+                args = Object.values(args);
                 if (args.length <= 0) {
                     butterCallback(callback, 'Arguments missing');
                     return;

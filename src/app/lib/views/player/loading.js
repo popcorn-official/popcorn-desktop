@@ -285,7 +285,7 @@
         // If media encountered error, most likely unsupported codecs with chromecast
         if (status.idleReason === 'ERROR') {
           win.error('Device can\'t play the video');
-          win.debug('Status: ', status)
+          win.debug('Status: ', status);
           App.vent.trigger('notification:show', new App.Model.Notification({
             title: i18n.__('Device can\'t play the video'),
             body: i18n.__('Your device might not support the video format/codecs.<br/>Try other resolution quality or casting with VLC'),
