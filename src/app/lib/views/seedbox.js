@@ -3,6 +3,7 @@
 
 	var torrentsDir = path.join(App.settings.tmpLocation + '/TorrentCache/'),
 		torrentsDir2 = path.join(App.settings.downloadsLocation + '/TorrentCache/'),
+		toDel = [],
 		updateInterval;
 
 	const supported = ['.mp4', '.m4v', '.avi', '.mov', '.mkv', '.wmv'];
@@ -209,21 +210,27 @@
 					}
 					$('.notification_alert').text(i18n.__('Cache files deleted')).fadeIn('fast').delay(1500).fadeOut('fast');
 				} else if (App.settings.delSeedboxCache === 'ask') {
+					toDel.push(torrent.name);
 					var delCache = function () {
 						App.vent.trigger('notification:close');
-						rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {});
-						if (App.settings.separateDownloadsDir) {
-							rimraf(path.join(App.settings.downloadsLocation, torrent.name), () => {});
+						let tempDel = toDel;
+						toDel = [];
+						for (var i = 0; i < tempDel.length; i++) {
+							rimraf(path.join(App.settings.tmpLocation, tempDel[i]), () => {});
+							if (App.settings.separateDownloadsDir) {
+								rimraf(path.join(App.settings.downloadsLocation, tempDel[i]), () => {});
+							}
 						}
 						$('.notification_alert').text(i18n.__('Cache files deleted')).fadeIn('fast').delay(1500).fadeOut('fast');
 					};
 					var keepCache = function () {
 						App.vent.trigger('notification:close');
+						toDel = [];
 					};
 					setTimeout(function(){
 						App.vent.trigger('notification:show', new App.Model.Notification({
 							title: '',
-							body: '<div style="padding: 5px 0">' + i18n.__('Delete related cache ?') + '</div>',
+							body: '<div style="padding: 5px 0">' + i18n.__('Delete related cache ?') + (toDel.length > 1 ? '&nbsp;&nbsp;(' + toDel.length + ')':'') + '</div>',
 							showClose: false,
 							type: 'info',
 							buttons: [{ title: '<label class="export-database" for="exportdatabase">' + i18n.__('Yes') + '</label>', action: delCache }, { title: '<label class="export-database" for="exportdatabase">' + i18n.__('No') + '</label>', action: keepCache }]
