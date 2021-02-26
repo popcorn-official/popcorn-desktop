@@ -204,24 +204,27 @@
 			const torrent = this.getTorrentFromEvent(e);
 			if (torrent) {
 				if (App.settings.delSeedboxCache === 'always') {
-					rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {});
-					if (App.settings.separateDownloadsDir) {
-						rimraf(path.join(App.settings.downloadsLocation, torrent.name), () => {});
-					}
+					try {
+						rimraf(path.join(App.settings.tmpLocation, torrent.name), () => {});
+						if (App.settings.separateDownloadsDir) {
+							rimraf(path.join(App.settings.downloadsLocation, torrent.name), () => {});
+						}
+					} catch(err) {}
 					$('.notification_alert').text(i18n.__('Cache files deleted')).fadeIn('fast').delay(1500).fadeOut('fast');
 				} else if (App.settings.delSeedboxCache === 'ask') {
 					toDel.push(torrent.name);
 					var delCache = function () {
 						App.vent.trigger('notification:close');
-						let tempDel = toDel;
-						toDel = [];
-						for (var i = 0; i < tempDel.length; i++) {
-							rimraf(path.join(App.settings.tmpLocation, tempDel[i]), () => {});
-							if (App.settings.separateDownloadsDir) {
-								rimraf(path.join(App.settings.downloadsLocation, tempDel[i]), () => {});
-							}
+						for (var i = 0; i < toDel.length; i++) {
+							try {
+								rimraf(path.join(App.settings.tmpLocation, toDel[i]), () => {});
+								if (App.settings.separateDownloadsDir) {
+									rimraf(path.join(App.settings.downloadsLocation, toDel[i]), () => {});
+								}
+							} catch(err) {}
 						}
 						$('.notification_alert').text(i18n.__('Cache files deleted')).fadeIn('fast').delay(1500).fadeOut('fast');
+						toDel = [];
 					};
 					var keepCache = function () {
 						App.vent.trigger('notification:close');
