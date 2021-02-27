@@ -542,7 +542,7 @@
 
         pasteItem: function () {
             var data = clipboard.get('text');
-            handleTorrent(data, 'text');
+            window.handleTorrent(data, 'text');
         },
 
         importItem: function () {

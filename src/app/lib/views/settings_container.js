@@ -195,7 +195,7 @@
 
             if (el.attr('id').startsWith('qrcode-')) {
                 $('#qrcode-modal, #qrcode-overlay').fadeOut(500);
-            } else if (el.attr('id').startsWith('importdb-') || el.attr('id') == 'importdatabase') {
+            } else if (el.attr('id').startsWith('importdb-') || el.attr('id') === 'importdatabase') {
                 $('#importdb-modal, #importdb-overlay').fadeOut(500);
             }
         },
@@ -503,6 +503,7 @@
                             fs.mkdir(torrent_cache_dir2, function (err) {});
                         }
                     }
+                    break;
                 case 'deleteTmpOnClose':
                 case 'activateTempf':
                 case 'multipleExtSubtitles':

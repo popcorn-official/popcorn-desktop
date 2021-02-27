@@ -97,18 +97,19 @@
             case 'shows':
             case 'anime':
                 if (this.collection.state === 'error') {
+                    var errorURL;
                     switch (App.currentview) {
                     case 'movies':
-                        var errorURL = App.Config.getProviderForType('movie')[0].apiURL[0];
+                        errorURL = App.Config.getProviderForType('movie')[0].apiURL[0];
                         break;
                     case 'shows':
-                        var errorURL = App.Config.getProviderForType('tvshow')[0].apiURL[0];
+                        errorURL = App.Config.getProviderForType('tvshow')[0].apiURL[0];
                         break;
                     case 'anime':
-                        var errorURL = App.Config.getProviderForType('anime')[0].apiURL[0];
+                        errorURL = App.Config.getProviderForType('anime')[0].apiURL[0];
                         break;
                     default:
-                        var errorURL = '';
+                        errorURL = '';
                     }
                     var dspURL = errorURL.slice(-1) === '/' ? errorURL.replace(/http:\/\/|https:\/\//g, '').slice(0, -1) : errorURL.replace(/http:\/\/|https:\/\//g, '');
                     return ErrorView.extend({
@@ -217,12 +218,12 @@
                     }
                     App.currentview = filterBarElem[filterBarPos];
                     App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
-                    if (App.currentview == 'movies') {
-                        $('.source.movieTabShow').addClass('active')
-                    } else if (App.currentview == 'shows') {
-                            $('.source.tvshowTabShow').addClass('active')
-                    } else if (App.currentview == 'Favorites') {
-                            $('#filterbar-favorites').addClass('active')
+                    if (App.currentview === 'movies') {
+                        $('.source.movieTabShow').addClass('active');
+                    } else if (App.currentview === 'shows') {
+                            $('.source.tvshowTabShow').addClass('active');
+                    } else if (App.currentview === 'Favorites') {
+                            $('#filterbar-favorites').addClass('active');
                     } else {
                             $('.source.' + App.currentview + 'TabShow').addClass('active');
                     }
@@ -236,12 +237,12 @@
                     $('.filter-bar').find('.active').removeClass('active');
                     App.currentview = filterBarElem[combo.charAt(5) - 1];
                     App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
-                    if (App.currentview == 'movies') {
-                        $('.source.movieTabShow').addClass('active')
-                    } else if (App.currentview == 'shows') {
-                        $('.source.tvshowTabShow').addClass('active')
-                    } else if (App.currentview == 'Favorites') {
-                        $('#filterbar-favorites').addClass('active')
+                    if (App.currentview === 'movies') {
+                        $('.source.movieTabShow').addClass('active');
+                    } else if (App.currentview === 'shows') {
+                        $('.source.tvshowTabShow').addClass('active');
+                    } else if (App.currentview === 'Favorites') {
+                        $('#filterbar-favorites').addClass('active');
                     } else {
                         $('.source.' + App.currentview + 'TabShow').addClass('active');
                     }
@@ -372,7 +373,7 @@
                     $('.status-loadmore').show();
                 }
                 if (Settings.torColSearchMore && this.collection.hasMore && this.collection.filter.keywords && this.collection.state !== 'error' && this.collection.length !== 0 && this.collection.length < maxResults) {
-                    $('.items').append('<div id="search-more-item" class="search-more"><span class="status-searchmore"><span class="fa-stack" id="searchtor"><i class="fa fa-globe-americas fa-stack-2x" id="searchtor_globe"></i><i class="fa fa-search fa-stack-2x" id="searchtor_mag"></i></span><br>' + i18n.__("Search on %s", "Torrent Collection") + '</span><span id="overlay"></span></div>');
+                    $('.items').append('<div id="search-more-item" class="search-more"><span class="status-searchmore"><span class="fa-stack" id="searchtor"><i class="fa fa-globe-americas fa-stack-2x" id="searchtor_globe"></i><i class="fa fa-search fa-stack-2x" id="searchtor_mag"></i></span><br>' + i18n.__('Search on %s', 'Torrent Collection') + '</span><span id="overlay"></span></div>');
                     $('.status-searchmore').show();
                 }
                 break;

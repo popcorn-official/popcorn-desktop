@@ -59,7 +59,7 @@
 
 			if ($('.loading .maximize-icon').is(':visible')) {
 				let currentHash;
-				try { currentHash = App.LoadingView.model.attributes.streamInfo.attributes.torrentModel.attributes.torrent.infoHash; } catch(err) {};
+				try { currentHash = App.LoadingView.model.attributes.streamInfo.attributes.torrentModel.attributes.torrent.infoHash; } catch(err) {}
 				currentHash && $('#trash-'+currentHash)[0] ? $('#trash-'+currentHash).addClass('disabled') : null;
 			}
 		},
@@ -339,8 +339,9 @@
 			}
 
 			const infoHash = $elem.attr('id');
-			try { const stats = fs.statSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash); } catch(err) {
-				try { const stats = fs.statSync(App.settings.downloadsLocation + '/TorrentCache/' + infoHash); } catch(err) {}
+			var stats;
+			try { stats = fs.statSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash); } catch(err) {
+				try { stats = fs.statSync(App.settings.downloadsLocation + '/TorrentCache/' + infoHash); } catch(err) {}
 			}
 			const torrent = App.WebTorrent.get(infoHash);
 
@@ -354,7 +355,7 @@
 						if (a.name > b.name) { return 1; }
 						return 0;
 					});
-				} catch (err) {};
+				} catch (err) {}
 				for (const file of torrent.files) {
 					if (supported.indexOf(path.extname(file.name).toLowerCase()) !== -1) {
 						$fileList.append(`<li class="file-item"><a>${file.name}</a><i class="fa fa-folder-open item-delete tooltipped"></i></li>`);
@@ -365,7 +366,9 @@
 			torrent.name ? $('.seedbox-infos-title').text(torrent.name) : $('.seedbox-infos-title').text(i18n.__('connecting'));
 			$('.seedbox-downloaded').text(' ' + formatBytes(torrent.downloaded));
 			$('.seedbox-uploaded').text(' ' + formatBytes(torrent.uploaded));
-			try { $('.seedbox-infos-date').text(stats.ctime); } catch(err) {}
+			if(stats) {
+				try { $('.seedbox-infos-date').text(stats.ctime); } catch(err) {}
+			}
 			$('.progress-bar').css('width', (torrent.progress * 100).toFixed(2) + '%');
 			$('.progress-percentage>span').text((torrent.progress * 100).toFixed(2) + '%');
 			if (torrent.progress >= 1) {

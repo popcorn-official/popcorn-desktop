@@ -366,7 +366,7 @@
       $(e.target).addClass('active');
 
       const rating = $(e.target).attr('data-value');
-      const ratingLabel = rating === 'All' ? rating : `${rating}+`
+      const ratingLabel = rating === 'All' ? rating : `${rating}+`;
 
       this.ui.ratingValue.text(i18n.__(ratingLabel.capitalizeEach()));
 
