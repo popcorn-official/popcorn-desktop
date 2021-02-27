@@ -503,6 +503,7 @@
                             fs.mkdir(torrent_cache_dir2, function (err) {});
                         }
                     }
+                    /* falls through */
                 case 'deleteTmpOnClose':
                 case 'activateTempf':
                 case 'multipleExtSubtitles':
