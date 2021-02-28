@@ -170,10 +170,18 @@
 			torrent.pause();
 
 			// completely pause this torrent, stop download data (pause only stops new connections)
+			const removedPeers = [];
 			for (const id in torrent._peers) {
 				if (torrent._peers.hasOwnProperty(id)) {
+					// collect peers, need to do this before calling removePeer!
+					removedPeers.push(torrent._peers[id].addr);
+
 					torrent.removePeer(id);
 				}
+			}
+			if(removedPeers.length > 0) {
+				// store removed peers, so we can re-add them when resuming
+				torrent.pctRemovedPeers = removedPeers;
 			}
 
 			torrent._xsRequests.forEach(req => {
@@ -197,6 +205,13 @@
 				torrent.resume();
 				$(`#resume-${torrent.infoHash}`).show();
 				$(`#play-${torrent.infoHash}`).hide();
+				if(torrent.pctRemovedPeers) {
+					const peers = torrent.pctRemovedPeers;
+					torrent.pctRemovedPeers = undefined;
+					for (let peer of peers) {
+						torrent.addPeer(peer);
+					}
+				}
 			}
 		},
 
