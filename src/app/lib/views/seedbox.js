@@ -210,7 +210,7 @@
 							rimraf(path.join(App.settings.downloadsLocation, torrent.name), () => {});
 						}
 					} catch(err) {}
-					$('.notification_alert').text(i18n.__('Cache files deleted')).fadeIn('fast').delay(1500).fadeOut('fast');
+					$('.notification_alert').stop().text(i18n.__('Cache files deleted')).fadeIn('fast').delay(1500).fadeOut('fast');
 				} else if (App.settings.delSeedboxCache === 'ask') {
 					toDel.push(torrent.name);
 					var delCache = function () {
@@ -223,7 +223,7 @@
 								}
 							} catch(err) {}
 						}
-						$('.notification_alert').text(i18n.__('Cache files deleted')).fadeIn('fast').delay(1500).fadeOut('fast');
+						$('.notification_alert').stop().text(i18n.__('Cache files deleted')).fadeIn('fast').delay(1500).fadeOut('fast');
 						toDel = [];
 					};
 					var keepCache = function () {
