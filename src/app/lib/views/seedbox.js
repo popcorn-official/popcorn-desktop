@@ -133,7 +133,7 @@
 			this.addTorrentToList(torrent);
 
 			const activeTorrentCount = App.WebTorrent.torrents.filter(item => !item.paused).length;
-			if (!torrent.paused && activeTorrentCount >= Settings.maxActiveTorrents) {
+			if (!torrent.paused && activeTorrentCount > Settings.maxActiveTorrents) {
 				this.pauseTorrent(torrent);
 				torrent.paused = true;
 			}
