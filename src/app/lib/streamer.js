@@ -54,7 +54,7 @@
 
                   App.WebTorrent.add(data, {
                       path      : App.settings.tmpLocation,
-                      maxConns  : 5,
+                      maxConns  : 10,
                       dht       : true,
                       announce  : Settings.trackers.forced,
                       tracker   : Settings.trackers.forced
@@ -90,7 +90,7 @@
 
                   App.WebTorrent.add(data, {
                       path      : App.settings.downloadsLocation,
-                      maxConns  : 5,
+                      maxConns  : 10,
                       dht       : true,
                       announce  : Settings.trackers.forced,
                       tracker   : Settings.trackers.forced
@@ -146,7 +146,7 @@
             }
             App.WebTorrent.add(uri, {
                 path      : App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation,
-                maxConns  : 5,
+                maxConns  : 10,
                 dht       : true,
                 announce  : Settings.trackers.forced,
                 tracker   : Settings.trackers.forced
