@@ -549,5 +549,5 @@
 	"Delete related cache when removing from Seedbox": "Delete related cache when removing from Seedbox",
 	"Always": "Always",
 	"Never": "Never",
-	"Ask every time": "Ask every time"
+	"Ask me every time": "Ask me every time"
 }
