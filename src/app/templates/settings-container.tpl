@@ -651,7 +651,7 @@
                             var arr_del_cache = ['always', 'never', 'ask'];
                             var selct_del_cache = "";
                             for(var key in arr_del_cache) {
-                                selct_del_cache += "<option "+(Settings.delSeedboxCache == arr_del_cache[key]? "selected='selected'":"")+" value='"+arr_del_cache[key]+"'>"+i18n.__(arr_del_cache[key].replace("ask", "ask every time").capitalizeEach())+"</option>";
+                                selct_del_cache += "<option "+(Settings.delSeedboxCache == arr_del_cache[key]? "selected='selected'":"")+" value='"+arr_del_cache[key]+"'>"+i18n.__(arr_del_cache[key].capitalizeEach().replace("Ask", "Ask every time"))+"</option>";
                             }
                         %>
                     <select name="delSeedboxCache"><%=selct_del_cache%></select>
